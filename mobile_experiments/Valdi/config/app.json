@@ -1,0 +1,9 @@
+{
+  "name": "Valdi Hello World",
+  "displayName": "Hello Valdi",
+  "version": "0.1.0",
+  "description": "A simple hello world app built with Valdi",
+  "platform": "ios",
+  "minSdkVersion": "13.0",
+  "targetSdkVersion": "17.0"
+}
