@@ -34,6 +34,19 @@
   3. Create flexible boilerplates that can adapt
   4. Keep experimental code separate from production-ready code
   5. Always include setup instructions and next steps in README
+  6. When documentation is unavailable, create comprehensive handoff documents:
+     - Task lists with clear priorities
+     - Understanding documents explaining research strategy
+     - Documentation placeholders for discovered information
+     - Next steps documents with actionable items
+  7. For agent handoffs, create:
+     - HANDOFF.md with quick start guide
+     - TASKS.md with detailed task breakdown
+     - UNDERSTANDING.md with context and research strategy
+     - NEXT_STEPS.md with prioritized action items
+  8. Document search attempts and results, even if unsuccessful
+  9. Clearly mark placeholder code vs. actual framework code
+  10. Set realistic expectations about framework availability
 
 ## Best Practices
 - Use semantic versioning for packages
