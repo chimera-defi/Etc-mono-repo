@@ -2,7 +2,7 @@
 
 ## Quick Start for Next Agent
 
-**Location**: `/workspace/mobile experiments/Valdi/`
+**Location**: `/workspace/mobile_experiments/Valdi/`
 
 **Current Status**: Boilerplate created with placeholder code. Ready for discovery and implementation.
 
