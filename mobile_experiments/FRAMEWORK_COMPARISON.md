@@ -6,7 +6,7 @@ This document compares various frameworks that enable building cross-platform na
 
 | Framework | Language | Platform Support | Performance | Learning Curve | Maturity | Notes |
 |-----------|----------|------------------|------------|----------------|----------|-------|
-| **Valdi** | Unknown | iOS (likely) | Unknown | Unknown | Very New | Snapchat's new framework |
+| **Valdi** | TypeScript | iOS, Android, macOS | Very High | Moderate | Beta (8 yrs prod) | Snapchat's cross-platform framework |
 | **React Native** | JavaScript/TypeScript | iOS, Android, Web | High | Moderate | Mature | Facebook/Meta |
 | **Flutter** | Dart | iOS, Android, Web, Desktop | Very High | Moderate | Mature | Google |
 | **SwiftUI** | Swift | iOS, macOS, watchOS, tvOS | Very High | Easy (for Swift devs) | Mature | Apple |
@@ -20,18 +20,24 @@ This document compares various frameworks that enable building cross-platform na
 ## Detailed Framework Information
 
 ### 1. Valdi (Snapchat)
-- **Status**: Very new, documentation not yet publicly available
-- **Platform**: iOS (likely)
-- **Language**: Unknown (possibly Swift or JavaScript)
+- **Status**: Beta (but used in production at Snap for 8 years!)
+- **Platform**: iOS, Android, macOS (cross-platform)
+- **Language**: TypeScript/TSX (user code), C++ (core)
 - **Pros**: 
-  - New framework from major tech company
-  - Potentially optimized for Snapchat's use cases
+  - True native performance (compiles to native views, no bridges)
+  - Cross-platform (iOS, Android, macOS)
+  - Used in production at Snap for 8 years
+  - Instant hot reload
+  - Full VSCode debugging support
+  - Automatic view recycling for performance
+  - TypeScript with type safety
 - **Cons**: 
-  - No public documentation yet
-  - Unknown capabilities and limitations
-  - Very early stage
-- **Use Case**: Experimental exploration, Snapchat ecosystem apps
-- **Resources**: TBD (when documentation becomes available)
+  - Beta status (tools/docs need battle testing)
+  - Smaller community than React Native/Flutter
+  - Different syntax from React (class-based, lowercase tags)
+  - Requires macOS/Xcode for iOS development
+- **Use Case**: Cross-platform apps needing native performance, Snapchat ecosystem
+- **Resources**: https://github.com/Snapchat/Valdi
 
 ### 2. React Native
 - **Status**: Mature, widely adopted
