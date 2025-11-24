@@ -2,11 +2,11 @@
   "name": "valdi-hello-world",
   "version": "0.1.0",
   "description": "Hello World app using Valdi framework from Snapchat",
-  "main": "src/App.valdi",
+  "main": "src/App.tsx",
   "scripts": {
     "start": "valdi start",
     "build": "valdi build",
-    "ios": "valdi run-ios",
+    "ios": "valdi install ios && valdi hotreload",
     "test": "valdi test"
   },
   "keywords": [
@@ -18,7 +18,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@snapchat/valdi": "^0.1.0"
+    "@snap/valdi": "*"
   },
   "devDependencies": {}
 }
