@@ -2,7 +2,7 @@
 
 ## Project Structure
 - All AI-generated artifacts and temporary files should be placed in `.cursor/artifacts/`
-- Keep experimental projects organized in their respective folders (e.g., `mobile experiments/Valdi/`)
+- Keep experimental projects organized in their respective folders (e.g., `mobile_experiments/Valdi/`)
 - Maintain clean separation between source code and generated content
 
 ## Code Organization

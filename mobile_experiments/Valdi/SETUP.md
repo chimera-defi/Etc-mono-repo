@@ -31,7 +31,7 @@ valdi --version
 ### 3. Install Project Dependencies
 
 ```bash
-cd "mobile experiments/Valdi"
+cd "mobile_experiments/Valdi"
 npm install
 # or
 pod install  # if using CocoaPods

@@ -6,7 +6,7 @@ This repository contains experimental mobile app projects and frameworks.
 
 ```
 .
-├── mobile experiments/    # Experimental mobile projects
+├── mobile_experiments/    # Experimental mobile projects
 │   └── Valdi/            # Valdi framework experiments
 ├── .cursor/              # Cursor AI artifacts (generated files)
 │   └── artifacts/        # Temporary AI-generated files
@@ -18,7 +18,12 @@ This repository contains experimental mobile app projects and frameworks.
 ### Valdi
 A hello world app exploring Valdi, Snapchat's new mobile app framework for iOS.
 
-See [mobile experiments/Valdi/README.md](mobile%20experiments/Valdi/README.md) for details.
+See [mobile_experiments/Valdi/README.md](mobile_experiments/Valdi/README.md) for details.
+
+### Framework Comparison
+A comprehensive comparison of cross-platform native app frameworks including Valdi, React Native, Flutter, SwiftUI, and more.
+
+See [mobile_experiments/FRAMEWORK_COMPARISON.md](mobile_experiments/FRAMEWORK_COMPARISON.md) for the full comparison.
 
 ## Development Guidelines
 
@@ -29,4 +34,4 @@ See [mobile experiments/Valdi/README.md](mobile%20experiments/Valdi/README.md) f
 
 ## Getting Started
 
-Each project in `mobile experiments/` has its own README with specific setup instructions.
+Each project in `mobile_experiments/` has its own README with specific setup instructions.
