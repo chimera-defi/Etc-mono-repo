@@ -1,0 +1,23 @@
+// HelloWorld Component
+// A simple component demonstrating Valdi component structure
+
+import { View, Text } from '@snapchat/valdi';
+
+export default function HelloWorld({ message = "Hello, Valdi!" }) {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.message}>{message}</Text>
+    </View>
+  );
+}
+
+const styles = {
+  container: {
+    padding: 20,
+    alignItems: 'center',
+  },
+  message: {
+    fontSize: 24,
+    color: '#333333',
+  },
+};
