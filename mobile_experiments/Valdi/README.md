@@ -31,3 +31,4 @@ The hello world app demonstrates basic Valdi functionality and serves as a found
 
 - [Valdi Documentation](https://valdi.dev) (when available)
 - Snapchat Developer Resources
+- [Framework Comparison](../FRAMEWORK_COMPARISON.md) - Compare Valdi with other cross-platform frameworks
