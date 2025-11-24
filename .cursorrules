@@ -1,0 +1,43 @@
+# Cursor Rules for Mobile Experiments Repository
+
+## Project Structure
+- All AI-generated artifacts and temporary files should be placed in `.cursor/artifacts/`
+- Keep experimental projects organized in their respective folders (e.g., `mobile experiments/Valdi/`)
+- Maintain clean separation between source code and generated content
+
+## Code Organization
+- Follow platform-specific conventions (iOS/Swift, React Native, etc.)
+- Keep experimental code well-documented with clear comments
+- Use consistent naming conventions within each project
+
+## File Management
+- Never litter the root directory with generated files
+- Place all temporary or generated artifacts in `.cursor/artifacts/`
+- Keep README files updated with project status and setup instructions
+
+## AI Assistant Guidelines
+- When generating code, prefer creating new files over modifying existing ones unless explicitly requested
+- Always check for existing similar implementations before creating new ones
+- Document assumptions and limitations in code comments
+- When unsure about framework specifics, create a flexible structure that can be adapted
+
+## Valdi Framework Notes
+- Valdi is a new mobile app framework from Snapchat for iOS development
+- Structure should be flexible to accommodate actual Valdi API once documentation is available
+- Current boilerplate uses React-like syntax as a placeholder - adjust based on actual Valdi API
+- Keep iOS-specific considerations in mind (Swift, Objective-C, or JavaScript bridge)
+
+## Meta Learnings
+- When working with new/experimental frameworks:
+  1. Start with minimal viable structure
+  2. Document assumptions clearly
+  3. Create flexible boilerplates that can adapt
+  4. Keep experimental code separate from production-ready code
+  5. Always include setup instructions and next steps in README
+
+## Best Practices
+- Use semantic versioning for packages
+- Include proper .gitignore files for each project type
+- Maintain clear separation between different experiments
+- Document tooling requirements and setup steps
+- Keep dependencies minimal for experimental projects
