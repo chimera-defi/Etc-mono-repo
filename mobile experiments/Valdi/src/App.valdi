@@ -1,0 +1,34 @@
+// Valdi Hello World App
+// Basic app entry point
+
+import Valdi from '@snapchat/valdi';
+
+// Main App Component
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Hello, Valdi!</Text>
+      <Text style={styles.subtitle}>Welcome to your first Valdi app</Text>
+    </View>
+  );
+}
+
+// Styles
+const styles = {
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#000000',
+    marginBottom: 16,
+  },
+  subtitle: {
+    fontSize: 18,
+    color: '#666666',
+  },
+};
