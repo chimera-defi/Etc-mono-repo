@@ -1,0 +1,19 @@
+# React Native / Node
+node_modules/
+.npm/
+.yarn/
+.expo/
+dist/
+build/
+android/
+ios/
+web-build/
+Pods/
+*.xcworkspace
+*.xcuserstate
+*.log
+package-lock.json
+yarn.lock
+app/.watchmanconfig
+app/.expo/
+app/.expo-shared/
