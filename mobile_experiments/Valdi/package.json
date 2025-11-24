@@ -1,24 +1,24 @@
 {
-  "name": "valdi-hello-world",
-  "version": "0.1.0",
-  "description": "Hello World app using Valdi framework from Snapchat",
-  "main": "src/App.tsx",
-  "scripts": {
-    "start": "valdi start",
-    "build": "valdi build",
-    "ios": "valdi install ios && valdi hotreload",
-    "test": "valdi test"
-  },
-  "keywords": [
-    "valdi",
-    "snapchat",
-    "ios",
-    "mobile"
-  ],
-  "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "@snap/valdi": "*"
-  },
-  "devDependencies": {}
-}
+    "name": "hello_world",
+    "version": "1.0.0",
+    "description": "Valdi Helloworld app",
+    "license": "ISC",
+    "devDependencies": {
+      "@snap/eslint-plugin-valdi": "1.0.2",
+      "@types/eslint": "^9.6.1",
+      "@types/jasmine": "^5.1.7",
+      "@typescript-eslint/eslint-plugin": "^6.21.0",
+      "@typescript-eslint/parser": "^6.21.0",
+      "@typescript-eslint/utils": "^6.21.0",
+      "eslint": "^8.27.0",
+      "eslint-config-prettier": "^8.5.0",
+      "eslint-plugin-import": "^2.26.0",
+      "eslint-plugin-prettier": "^4.2.1",
+      "eslint-plugin-rxjs": "^5.0.2",
+      "eslint-plugin-unused-imports": "^3.2.0",
+      "jasmine": "^5.6.0",
+      "ts-node": "^10.9.2",
+      "typescript": "5.3.3"
+    }
+  }
+  

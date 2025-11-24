@@ -1,0 +1,37 @@
+{
+    "extends": "../../bazel-snapchat_valdi/external/valdi/modules/_configs/base.tsconfig.json",
+    "compilerOptions": {
+        "paths": {
+            "snapchat_valdi/*": [
+                "./*",
+                "../../bazel-out/darwin_arm64-fastbuild/bin/modules/snapchat_valdi/.valdi_build/projectsync/generated_ts/snapchat_valdi/*"
+            ],
+            "jasmine/*": [
+                "../../bazel-snapchat_valdi/external/valdi/src/valdi_modules/src/valdi/jasmine/*"
+            ],
+            "coreutils/*": [
+                "../../bazel-snapchat_valdi/external/valdi/src/valdi_modules/src/valdi/coreutils/*"
+            ],
+            "source_map/*": [
+                "../../bazel-snapchat_valdi/external/valdi/src/valdi_modules/src/valdi/source_map/*"
+            ],
+            "valdi_tsx/*": [
+                "../../bazel-snapchat_valdi/external/valdi/src/valdi_modules/src/valdi/valdi_tsx/*"
+            ],
+            "valdi_core/*": [
+                "../../bazel-snapchat_valdi/external/valdi/src/valdi_modules/src/valdi/valdi_core/*"
+            ],
+            "tslib": [
+                "../../bazel-snapchat_valdi/external/valdi/src/valdi_modules/src/valdi/valdi_core/src/tslib"
+            ]
+        },
+        "types": [
+            "../../bazel-snapchat_valdi/external/valdi/modules/types/Long",
+            "../../bazel-snapchat_valdi/external/valdi/modules/types/globals"
+        ],
+        "rootDirs": [
+            "..",
+            "../../bazel-out/darwin_arm64-fastbuild/bin/modules/snapchat_valdi/.valdi_build/projectsync/generated_ts"
+        ]
+    }
+}
