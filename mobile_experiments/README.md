@@ -10,21 +10,29 @@ This folder contains experiments with different mobile app frameworks to evaluat
 
 ## Current Status
 
-| Framework | Status | Code | Structure | Documentation |
-|-----------|--------|------|-----------|---------------|
-| **Valdi** | ✅ Complete | ✅ | ✅ | ✅ |
-| **Flutter** | ⚠️ Needs Scaffolding | ✅ | ❌ | ✅ |
-| **React Native** | 📋 Planning | ❌ | ❌ | ✅ |
+| Framework | Status | Code | Structure | Tests | Documentation |
+|-----------|--------|------|-----------|-------|---------------|
+| **Valdi** | ✅ Complete | ✅ | ✅ | ⚠️ Needs verification | ✅ |
+| **Flutter** | ✅ Complete | ✅ | ✅ | ✅ 3 tests passing | ✅ |
+| **React Native** | ✅ Complete | ✅ | ✅ | ✅ 3 tests passing | ✅ |
 
-See [REVIEW.md](./REVIEW.md) for detailed status and findings.
+### Quick Comparison
+
+| Aspect | Valdi | Flutter | React Native |
+|--------|-------|---------|--------------|
+| Language | TypeScript | Dart | TypeScript |
+| Hello World | ✅ | ✅ | ✅ |
+| Tests | ⚠️ Pending | ✅ Passing | ✅ Passing |
+| Linting | ⚠️ Pending | ✅ Clean | ✅ Clean |
+| iOS Ready | ⚠️ Needs verification | ✅ | ✅ |
+| Android Ready | ⚠️ Needs verification | ✅ | ✅ |
 
 ## Key Documents
 
 - **[REVIEW.md](./REVIEW.md)** - Initial comprehensive review of all experiments
-- **[DEEP_REVIEW.md](./DEEP_REVIEW.md)** - Multi-path deep analysis with self-assessment and critical issues
-- **[REVIEW_SUMMARY.md](./REVIEW_SUMMARY.md)** - Quick summary and action items
 - **[SUCCESS_FRAMEWORK.md](./SUCCESS_FRAMEWORK.md)** - Framework for measuring and comparing framework success
 - **[FRAMEWORK_COMPARISON.md](./FRAMEWORK_COMPARISON.md)** - Comparison matrix of mobile frameworks
+- **[WEB_TO_MOBILE_GUIDE.md](./WEB_TO_MOBILE_GUIDE.md)** - Guide for web developers transitioning to mobile
 
 ## Success Measurement
 
@@ -38,17 +46,51 @@ We use a structured approach to measure framework success across five dimensions
 
 See [SUCCESS_FRAMEWORK.md](./SUCCESS_FRAMEWORK.md) for detailed metrics and measurement methodology.
 
+## Hello World Apps
+
+Each framework implements a parity Hello World app with:
+
+- **Greeting headline** - "Hello from Valdi Labs" / "[Framework] says hi!"
+- **Interactive toggle** - Button that shows/hides details
+- **Animations** - Fade/scale transitions
+- **Theme support** - Light/dark mode detection
+- **Material-inspired design** - Modern UI with proper spacing
+
+### Running the Apps
+
+#### Flutter
+```bash
+cd Flutter/app
+flutter pub get
+flutter run
+```
+
+#### React Native
+```bash
+cd ReactNative/app/ValdiParity
+npm install
+npm start
+# In another terminal:
+npm run android  # or npm run ios
+```
+
+#### Valdi
+```bash
+cd Valdi
+# Follow SETUP.md for Valdi CLI installation
+valdi dev_setup
+valdi run ios  # or android/macos
+```
+
 ## Next Steps
 
-1. ✅ Complete review of experiments
-2. ✅ Create success measurement framework
-3. ✅ Deep multi-path review with self-assessment
-4. ⚠️ **CRITICAL**: Fix Valdi project structure (doesn't match framework requirements)
-5. ⏭️ Scaffold Flutter project structure
-6. ⏭️ Verify Valdi import paths against actual installation
+1. ✅ ~~Complete review of experiments~~
+2. ✅ ~~Create success measurement framework~~
+3. ✅ ~~Build Flutter Hello World~~
+4. ✅ ~~Build React Native Hello World~~
+5. ⏭️ Run all apps on physical devices for benchmarks
+6. ⏭️ Implement Phase 2 features (navigation, lists, API calls)
 7. ⏭️ Begin baseline measurements per SUCCESS_FRAMEWORK.md
-
-**⚠️ Important**: See [DEEP_REVIEW.md](./DEEP_REVIEW.md) for critical structural issues discovered.
 
 ## Framework-Specific Documentation
 
@@ -68,3 +110,9 @@ When adding new experiments or updating existing ones:
 2. Update [REVIEW.md](./REVIEW.md) with findings
 3. Record measurements in [SUCCESS_FRAMEWORK.md](./SUCCESS_FRAMEWORK.md)
 4. Keep [FRAMEWORK_COMPARISON.md](./FRAMEWORK_COMPARISON.md) updated
+5. Ensure tests pass and linting is clean
+
+---
+
+**Last Updated**: 2024-12-19  
+**Status**: Phase 1 (Hello World) complete for Flutter and React Native

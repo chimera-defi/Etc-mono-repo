@@ -30,6 +30,22 @@
 - Official repo: https://github.com/Snapchat/Valdi (13k+ stars, active development)
 - Always verify project structure matches Valdi requirements before proceeding
 
+## Flutter Framework Notes
+- Use `flutter create --org com.yourorg --project-name app_name` to scaffold proper project structure
+- Always run `flutter pub get` after creating project or modifying pubspec.yaml
+- Verify with `flutter analyze` before considering code complete
+- Run `flutter test` to ensure widget tests pass
+- Project structure must include: `pubspec.yaml`, `lib/`, `test/`, `android/`, `ios/` directories
+- Default test file references `MyApp` - update when changing main app class name
+
+## React Native Framework Notes
+- Use `npx @react-native-community/cli init AppName --template @react-native-community/template` for TypeScript setup
+- Verify with `npm run lint` and `npx tsc --noEmit` before considering code complete
+- Run `npm test` to ensure Jest tests pass
+- iOS requires macOS with Xcode and `pod install` in the ios/ directory
+- Android requires Android Studio, SDK, and emulator setup
+- Default test uses snapshot testing - update snapshots when UI changes: `npm test -- --updateSnapshot`
+
 ## Meta Learnings
 - When working with new/experimental frameworks:
   1. Start with minimal viable structure
@@ -62,6 +78,18 @@
   18. **Documentation consistency** - check for outdated references, contradictory info, missing updates across all docs
   19. **Never trust without verification** - verify claims against actual framework requirements, even if documentation says it's correct
   20. **Think about runability** - code that looks correct but can't run is worse than no code
+
+- Framework comparison best practices:
+  21. **Scaffold before coding** - always use the framework's CLI to create proper project structure first, then add custom code; having code without scaffolding means nothing runs
+  22. **Update test files with custom code** - default test files reference default class names (e.g., `MyApp`); always update tests when customizing the app
+  23. **Parity implementation** - when comparing frameworks, implement identical features (same greeting, same interactions, same animations) for meaningful comparison
+  24. **Multi-tool verification** - run ALL verification tools before declaring complete: linting (`flutter analyze`, `npm run lint`), type checking (`tsc --noEmit`), and tests (`flutter test`, `npm test`)
+  25. **Documentation reflects reality** - update READMEs to reflect actual state (complete, tests passing) not planned state (planning only)
+  26. **Headless environment awareness** - in CI/headless environments, verify code quality (lint, types, tests) even if you can't run simulators/emulators
+  27. **Status tables are powerful** - use markdown tables to show at-a-glance status of multiple components across frameworks
+  28. **Quick start commands** - every README should have copy-paste-able commands to get the app running
+  29. **Version pinning** - document exact framework versions used (e.g., "Flutter 3.24.5", "React Native 0.82.1") for reproducibility
+  30. **Comparison notes** - include explicit "vs. OtherFramework" sections to highlight differences for decision-making
 
 ## Best Practices
 - Use semantic versioning for packages
