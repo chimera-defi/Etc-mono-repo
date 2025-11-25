@@ -10,6 +10,7 @@ This workspace collects AI constraint toolkits we can evaluate while prototyping
 | Guardrails AI | `guardrails-ai/guardrails` | `RAIL` definition files plus validators, re-asking, and security filters on top of any LLM backend | Customer-facing bots that must stay within compliance, safety, or formatting rails |
 | Microsoft Guidance | `microsoft/guidance` | Token-level control via templating, regex/JSON schema constraints, and streaming function calls | Fine-grained orchestration for multi-step generations or structured tool use |
 | Outlines | `normal-computing/outlines` | Grammars and finite-state machines to guarantee outputs that satisfy EBNF/JSON schema | Rapid prototyping of structured data generation or code that must compile |
+| B-MAD Method | `bmad-code-org/BMAD-METHOD` | Development methodology framework with specialized agents and structured workflows that enforce process constraints | When you need a complete AI-driven development lifecycle from planning to implementation, not just output validation |
 
 If we identify more candidates, follow the same folder template and append them to the table above.
 
