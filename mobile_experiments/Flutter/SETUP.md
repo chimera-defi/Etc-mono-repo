@@ -14,11 +14,15 @@ These steps summarize the official installation flow (see `DOCUMENTATION.md` for
 brew install --cask flutter
 # Linux manual install
 cd ~/development
+# Check latest stable version at https://docs.flutter.dev/get-started/install/linux
+# Example (update version as needed):
 curl -LO https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.0-stable.tar.xz
 tar xf flutter_linux_3.24.0-stable.tar.xz
 export PATH="$PATH:$HOME/development/flutter/bin"
 ```
 Add the exported PATH to your shell rc file.
+
+**Note**: After installation, verify version with `flutter --version` and update `UNDERSTANDING.md` with the actual version used.
 
 ## 3. Run Doctor & Accept Licenses
 ```bash
@@ -39,11 +43,20 @@ Resolve all ✗ items before continuing.
 ## 6. Seed Project
 Inside `mobile_experiments/Flutter/app/`:
 ```bash
+# Option A: Create subdirectory (recommended)
 flutter create hello_flutter
+# Copy existing code into the new project
+cp lib/main.dart hello_flutter/lib/main.dart
 cd hello_flutter
+
+# Option B: Scaffold in place
+# flutter create .
+# (may require moving existing lib/ folder)
+
 flutter run
 ```
-Use `HELLO_WORLD_PLAN.md` to customize the generated app.
+
+**Note**: `app/lib/main.dart` already contains a complete Hello World implementation. Integrate it into the scaffolded project rather than starting from scratch. See `HELLO_WORLD_PLAN.md` for details.
 
 ## 7. Helpful Commands
 - `flutter pub get` – fetch dependencies.
