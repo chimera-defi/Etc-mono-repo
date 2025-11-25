@@ -21,79 +21,47 @@
 
 ### Phase 1: Web Application Setup
 
-#### Task 1.1: Choose Web Framework
-- [ ] **Decision**: Choose web framework (vanilla JS, React, Vue, or Angular)
-  - **Options**:
-    - Vanilla JS: Simplest, easiest to understand Capacitor workflow
-    - React: Most popular, large ecosystem, familiar to many
-    - Vue: Lightweight, simple, good performance
-    - Angular: Enterprise-friendly, TypeScript-first
-  - **Recommendation**: Start with vanilla JS for simplicity, or React if team prefers
-  - **Documentation**: Note choice and reasoning in `DOCUMENTATION.md`
+#### Task 1.1: Create React Web Application ✅ DECISION MADE
+- [ ] **Use React with Vite** (decision already made)
+- [ ] Run: `npm create vite@latest app -- --template react`
+- [ ] Navigate to app: `cd app`
+- [ ] Install dependencies: `npm install`
+- [ ] Install Capacitor plugins: `npm install @capacitor/camera @capacitor/geolocation`
+- [ ] Verify `app/` directory structure created correctly
 
-#### Task 1.2: Create Web Application Structure
-- [ ] Create `app/` directory structure
-  - [ ] Set up source files (`src/` or root)
-  - [ ] Create `public/` for static assets (if needed)
-  - [ ] Set up build configuration
-  - [ ] Create `package.json` with dependencies
-- [ ] **For vanilla JS**:
-  - [ ] Create `index.html`
-  - [ ] Create `main.js` (or `main.ts` for TypeScript)
-  - [ ] Create `styles.css`
-  - [ ] Set up simple build process (or use as-is)
-- [ ] **For React**:
-  - [ ] Use `create-react-app` or Vite: `npm create vite@latest app -- --template react`
-  - [ ] Or manually set up React with build tools
-  - [ ] Create basic `App.jsx` component
-- [ ] **For Vue**:
-  - [ ] Use Vue CLI or Vite: `npm create vite@latest app -- --template vue`
-  - [ ] Create basic `App.vue` component
-- [ ] **For Angular**:
-  - [ ] Use Angular CLI: `ng new app`
-  - [ ] Create basic component
+#### Task 1.2: Implement Hello World with Capacitor Features ✅ CODE PROVIDED
+- [ ] Replace `app/src/App.jsx` with code from `HANDOFF.md` Step 5
+- [ ] Replace `app/src/App.css` with styles from `HANDOFF.md` Step 5
+- [ ] Verify `app/index.html` has correct viewport meta tag
+- [ ] Test in browser: `cd app && npm run dev`
+- [ ] Verify Camera and Geolocation buttons appear (they won't work in browser, that's OK)
 
-#### Task 1.3: Implement Hello World
-- [ ] Create basic "Hello, Capacitor!" display
-- [ ] Add simple styling
-- [ ] Ensure app builds successfully
-- [ ] Test in browser to verify web app works
-- [ ] Document build process in `SETUP.md`
-
-**Example Structure**:
-```
-app/
-├── index.html          # Entry point
-├── main.js            # Main JavaScript
-├── styles.css         # Styles
-├── package.json       # Dependencies
-└── [build output]     # dist/ or build/ folder
-```
+#### Task 1.3: Build Web Application
+- [ ] Build React app: `cd app && npm run build`
+- [ ] Verify `app/dist/` directory created with built files
+- [ ] Check that build completed without errors
+- [ ] Note: Camera/Geolocation won't work in browser - that's expected, they need native runtime
 
 ### Phase 2: Capacitor Integration
 
-#### Task 2.1: Install Capacitor
-- [ ] Install Capacitor CLI and core:
-  ```bash
-  npm install @capacitor/core @capacitor/cli
-  ```
+#### Task 2.1: Install Capacitor ✅ EXACT COMMANDS PROVIDED
+- [ ] From Capacitor root: `npm install @capacitor/core @capacitor/cli`
 - [ ] Verify installation: `npx cap --version`
-- [ ] Document installation steps in `SETUP.md`
+- [ ] Should show version number (e.g., 5.x.x or 6.x.x)
 
-#### Task 2.2: Initialize Capacitor
+#### Task 2.2: Initialize Capacitor ✅ EXACT VALUES PROVIDED
 - [ ] Run `npx cap init` from Capacitor root directory
-- [ ] Configure when prompted:
-  - [ ] App name: `CapacitorHelloWorld` (or chosen name)
-  - [ ] App ID: `com.example.capacitorhelloworld` (or chosen ID)
-  - [ ] Web dir: `app/dist` (or wherever build output is)
-- [ ] Verify `capacitor.config.json` created correctly
-- [ ] Review and adjust configuration if needed
+- [ ] When prompted, enter EXACTLY:
+  - [ ] App name: `CapacitorHelloWorld`
+  - [ ] App ID: `com.example.capacitorhelloworld`
+  - [ ] Web dir: `app/dist`
+- [ ] Verify `capacitor.config.json` created with correct values
+- [ ] File should exist at root: `Capacitor/capacitor.config.json`
 
-#### Task 2.3: Configure Build Output
-- [ ] Ensure web app builds to correct directory
-- [ ] Update `capacitor.config.json` if build directory differs
-- [ ] Test build process
-- [ ] Verify `webDir` path is correct
+#### Task 2.3: Verify Configuration
+- [ ] Check `capacitor.config.json` matches expected structure
+- [ ] Verify `webDir` is `app/dist` (matches Vite build output)
+- [ ] Ensure `appId` and `appName` are correct
 
 **Example `capacitor.config.json`**:
 ```json
@@ -171,49 +139,28 @@ app/
 
 ### Phase 5: Native Plugin Integration
 
-#### Task 5.1: Install Camera Plugin
-- [ ] Install plugin: `npm install @capacitor/camera`
-- [ ] Run `npx cap sync`
-- [ ] Add camera button to web app
-- [ ] Implement camera functionality:
-  ```javascript
-  import { Camera } from '@capacitor/camera';
-  
-  const takePhoto = async () => {
-    const image = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: false,
-      resultType: 'base64'
-    });
-    // Handle image
-  };
-  ```
-- [ ] Test on iOS simulator/device
-- [ ] Test on Android emulator/device
-- [ ] Document camera plugin usage
+#### Task 5.1: Verify Camera Plugin Integration ✅ ALREADY IN CODE
+- [ ] Camera plugin already installed in Task 1.1
+- [ ] Camera functionality already implemented in `App.jsx` (from HANDOFF.md)
+- [ ] After syncing, test Camera button on iOS simulator
+- [ ] Test Camera button on Android emulator
+- [ ] Note: Simulators may have limited camera access - test on real device if possible
+- [ ] Document any issues or observations
 
-#### Task 5.2: Install Geolocation Plugin (Optional)
-- [ ] Install plugin: `npm install @capacitor/geolocation`
-- [ ] Run `npx cap sync`
-- [ ] Add geolocation button to web app
-- [ ] Implement geolocation functionality:
-  ```javascript
-  import { Geolocation } from '@capacitor/geolocation';
-  
-  const getLocation = async () => {
-    const position = await Geolocation.getCurrentPosition();
-    // Handle position
-  };
-  ```
-- [ ] Test on devices (simulators may have limited location data)
-- [ ] Document geolocation plugin usage
+#### Task 5.2: Verify Geolocation Plugin Integration ✅ ALREADY IN CODE
+- [ ] Geolocation plugin already installed in Task 1.1
+- [ ] Geolocation functionality already implemented in `App.jsx` (from HANDOFF.md)
+- [ ] After syncing, test Geolocation button on iOS simulator
+- [ ] Test Geolocation button on Android emulator
+- [ ] Note: Simulators may have limited location data - test on real device if possible
+- [ ] Document any issues or observations
 
-#### Task 5.3: Install Device Info Plugin (Optional)
-- [ ] Install plugin: `npm install @capacitor/device`
-- [ ] Run `npx cap sync`
-- [ ] Display device information in app
-- [ ] Test on iOS and Android
-- [ ] Document device plugin usage
+#### Task 5.3: Test Plugin Functionality
+- [ ] Build web app: `cd app && npm run build`
+- [ ] Sync to native: `cd .. && npx cap sync`
+- [ ] Open iOS: `npx cap open ios` → Run → Test Camera → Test Geolocation
+- [ ] Open Android: `npx cap open android` → Run → Test Camera → Test Geolocation
+- [ ] Document results: What works, what doesn't, any errors
 
 ### Phase 6: Documentation & Comparison
 
@@ -271,16 +218,22 @@ app/
 
 ## Notes for Next Agent
 
-### Recommended Approach
-1. Start with **vanilla JavaScript** for simplest understanding
-2. Get basic Hello World working first
-3. Then add one native plugin (Camera) to demonstrate capabilities
-4. Document everything as you go
+### ✅ All Decisions Made - Just Follow Instructions
+1. **Web Framework**: React with Vite ✅
+2. **Build Tool**: Vite (comes with React template) ✅
+3. **Plugins**: Camera + Geolocation (both implemented in provided code) ✅
+4. **App Name**: CapacitorHelloWorld ✅
+5. **App ID**: com.example.capacitorhelloworld ✅
 
-### Key Decisions Needed
-1. **Web Framework**: Vanilla JS, React, Vue, or Angular?
-2. **Build Tool**: Vite, Webpack, or framework default?
-3. **Plugins to Demo**: Camera (required), Geolocation (optional), Device (optional)
+### Follow This Exact Order
+1. Create React app (Task 1.1)
+2. Implement code from HANDOFF.md (Task 1.2)
+3. Build web app (Task 1.3)
+4. Install Capacitor (Task 2.1)
+5. Initialize Capacitor (Task 2.2)
+6. Add platforms (Task 3.1-3.3)
+7. Test on simulators (Task 4.1-4.2)
+8. Verify plugins work (Task 5.1-5.3)
 
 ### Files That Will Be Created
 1. `app/` - Web application directory
