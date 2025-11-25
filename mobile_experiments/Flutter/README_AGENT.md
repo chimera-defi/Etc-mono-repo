@@ -5,8 +5,9 @@ Spin up a Flutter "Hello World" experience that demonstrates our baseline expect
 
 ## Success Criteria
 - Flutter SDK installed and validated with `flutter doctor`.
-- Fresh project scaffolded under `app/` (use `flutter create hello_flutter`).
-- `lib/main.dart` renders branded copy so we can distinguish this app from the stock template.
+- Flutter project structure scaffolded under `app/` (use `flutter create hello_flutter` or `flutter create .`).
+- ✅ **Code exists**: `app/lib/main.dart` already implements Hello World with branded copy (matches `HELLO_WORLD_PLAN.md`).
+- Existing code integrated into scaffolded project structure.
 - Build & run instructions captured for both iOS simulator and Android emulator (or real devices).
 - Any blockers, environment issues, or doc discoveries logged in `DOCUMENTATION.md` & `NEXT_STEPS.md`.
 
