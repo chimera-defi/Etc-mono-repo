@@ -20,7 +20,9 @@ See [REVIEW.md](./REVIEW.md) for detailed status and findings.
 
 ## Key Documents
 
-- **[REVIEW.md](./REVIEW.md)** - Comprehensive review of all experiments
+- **[REVIEW.md](./REVIEW.md)** - Initial comprehensive review of all experiments
+- **[DEEP_REVIEW.md](./DEEP_REVIEW.md)** - Multi-path deep analysis with self-assessment and critical issues
+- **[REVIEW_SUMMARY.md](./REVIEW_SUMMARY.md)** - Quick summary and action items
 - **[SUCCESS_FRAMEWORK.md](./SUCCESS_FRAMEWORK.md)** - Framework for measuring and comparing framework success
 - **[FRAMEWORK_COMPARISON.md](./FRAMEWORK_COMPARISON.md)** - Comparison matrix of mobile frameworks
 
@@ -40,9 +42,13 @@ See [SUCCESS_FRAMEWORK.md](./SUCCESS_FRAMEWORK.md) for detailed metrics and meas
 
 1. ✅ Complete review of experiments
 2. ✅ Create success measurement framework
-3. ⏭️ Scaffold Flutter project structure
-4. ⏭️ Verify Valdi code against actual framework
-5. ⏭️ Begin baseline measurements per SUCCESS_FRAMEWORK.md
+3. ✅ Deep multi-path review with self-assessment
+4. ⚠️ **CRITICAL**: Fix Valdi project structure (doesn't match framework requirements)
+5. ⏭️ Scaffold Flutter project structure
+6. ⏭️ Verify Valdi import paths against actual installation
+7. ⏭️ Begin baseline measurements per SUCCESS_FRAMEWORK.md
+
+**⚠️ Important**: See [DEEP_REVIEW.md](./DEEP_REVIEW.md) for critical structural issues discovered.
 
 ## Framework-Specific Documentation
 
