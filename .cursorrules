@@ -22,10 +22,13 @@
 - When unsure about framework specifics, create a flexible structure that can be adapted
 
 ## Valdi Framework Notes
-- Valdi is a new mobile app framework from Snapchat for iOS development
-- Structure should be flexible to accommodate actual Valdi API once documentation is available
-- Current boilerplate uses React-like syntax as a placeholder - adjust based on actual Valdi API
-- Keep iOS-specific considerations in mind (Swift, Objective-C, or JavaScript bridge)
+- Valdi is Snapchat's cross-platform framework (iOS, Android, macOS) - NOT iOS-only
+- Uses TypeScript/TSX with class-based components, lowercase tags (`<view>`, `<label>`), `onRender()` method
+- Project structure requirements: `modules/my_app/src/` structure with `platforms/` folders and `WORKSPACE` file
+- Import path: `valdi_core/src/Component` (verify against actual installation)
+- CLI: `npm install -g @snap/valdi`, then `valdi dev_setup`, `valdi bootstrap`, `valdi install ios/android/macos`
+- Official repo: https://github.com/Snapchat/Valdi (13k+ stars, active development)
+- Always verify project structure matches Valdi requirements before proceeding
 
 ## Meta Learnings
 - When working with new/experimental frameworks:
@@ -47,6 +50,18 @@
   8. Document search attempts and results, even if unsuccessful
   9. Clearly mark placeholder code vs. actual framework code
   10. Set realistic expectations about framework availability
+
+- Review and verification best practices:
+  11. **Always verify project structure** against framework requirements - don't assume structure is correct just because code syntax looks right
+  12. **Cross-reference documentation** - check for inconsistencies between different docs, and verify docs match actual project state
+  13. **Verify import paths** - don't trust import statements without verifying they match actual framework installation
+  14. **Conceptual execution** - mentally walk through setup/run steps to identify blockers before they're discovered
+  15. **Multi-path analysis** - consider perspectives: developer (can I use this?), PM (risks?), reviewer (correctness?), user (does it work?), maintainer (maintainability?)
+  16. **Structural verification checklist** - always verify: project structure matches requirements, import paths are correct, all components are used, required files exist
+  17. **Dead code detection** - check if all code is actually used; unused code creates confusion
+  18. **Documentation consistency** - check for outdated references, contradictory info, missing updates across all docs
+  19. **Never trust without verification** - verify claims against actual framework requirements, even if documentation says it's correct
+  20. **Think about runability** - code that looks correct but can't run is worse than no code
 
 ## Best Practices
 - Use semantic versioning for packages
