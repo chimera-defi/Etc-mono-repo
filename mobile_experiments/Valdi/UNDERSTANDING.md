@@ -3,171 +3,157 @@
 ## Project Context
 
 ### Goal
-Explore Valdi, Snapchat's new mobile app framework for iOS, to assess its ease of use and capabilities for building iOS applications.
+Explore Valdi, Snapchat's cross-platform mobile app framework, to assess its ease of use and capabilities for building iOS, Android, and macOS applications.
 
 ### Current State
-We have a basic boilerplate structure with placeholder code that mimics React-like syntax. The actual Valdi API and syntax are unknown and need to be discovered.
+✅ **Documentation found and code updated!** We have a basic boilerplate structure with code using actual Valdi syntax. The framework is ready for installation and testing.
 
-## What We Know
+## What We Know ✅
 
 ### Framework Identity
 - **Name**: Valdi
 - **Developer**: Snapchat
-- **Platform**: iOS (mobile)
-- **Status**: New/experimental framework
+- **Platform**: Cross-platform (iOS, Android, macOS)
+- **Status**: Beta (but used in production at Snap for 8 years!)
+- **Language**: TypeScript/TSX (user code), C++ (core engine)
+- **GitHub**: https://github.com/Snapchat/Valdi (13k+ stars)
 
 ### Current Project Structure
 ```
 Valdi/
 ├── src/
-│   ├── App.valdi           # Main entry point (placeholder code)
+│   ├── App.tsx             # Main entry point (✅ real Valdi syntax)
 │   └── components/
-│       └── HelloWorld.valdi # Component example (placeholder)
+│       └── HelloWorld.tsx   # Component example (✅ real Valdi syntax)
 ├── config/
 │   └── app.json           # App configuration
-├── package.json           # Dependencies (may be incorrect)
+├── package.json           # Dependencies (✅ updated with @snap/valdi)
 ├── README.md              # Project documentation
-└── SETUP.md               # Setup guide (speculative)
+└── SETUP.md               # Setup guide (✅ updated)
 ```
 
-### Current Code Assumptions (Likely Incorrect)
-1. **Syntax**: React-like JSX syntax (placeholder)
-2. **Language**: JavaScript/TypeScript (based on file extension)
-3. **Styling**: CSS-in-JS style objects
-4. **Imports**: ES6 module syntax
-5. **Build System**: npm/node.js based
+### Verified Valdi Syntax ✅
+1. **Component Model**: Class-based components with `onRender()` method
+2. **Language**: TypeScript/TSX
+3. **Tags**: Lowercase (`<view>`, `<label>`) - not React's `<View>`, `<Text>`
+4. **Text Content**: Uses `value` prop (not children)
+5. **Imports**: `valdi_core/src/Component`
+6. **Build System**: npm/node.js based (`valdi` CLI)
+7. **File Extension**: `.tsx` (not `.valdi`)
 
-## What We Need to Discover
+## What We Need to Discover ⚠️
 
 ### Critical Information Needed
 
-#### 1. Framework Architecture
-- [ ] What programming language does Valdi use?
-  - JavaScript/TypeScript?
-  - Swift?
-  - A hybrid approach?
-- [ ] What's the component model?
-  - Class-based components?
-  - Function-based components?
-  - Declarative UI?
-- [ ] How does Valdi compile/build?
-  - Native compilation?
-  - JavaScript runtime?
-  - Bridge to native iOS?
+#### 1. Framework Architecture ✅ **MOSTLY KNOWN**
+- ✅ Programming language: TypeScript/TSX
+- ✅ Component model: Class-based with `onRender()`
+- ✅ Build: Native compilation (C++ core)
+- ⚠️ Need to verify: Compilation process, runtime behavior
 
-#### 2. Development Workflow
-- [ ] How do you install Valdi?
-  - npm package?
-  - Swift Package Manager?
-  - CocoaPods?
-  - Direct download?
-- [ ] What tools are needed?
-  - CLI tools?
-  - Xcode integration?
-  - Build scripts?
-- [ ] How do you run/develop?
-  - Hot reload?
-  - Simulator support?
-  - Device deployment?
+#### 2. Development Workflow ✅ **KNOWN**
+- ✅ Installation: `npm install -g @snap/valdi`
+- ✅ CLI tools: `valdi dev_setup`, `valdi bootstrap`, `valdi hotreload`
+- ⚠️ Need to test: Actual installation and CLI availability
+- ⚠️ Need to verify: Hot reload functionality
 
-#### 3. API & Syntax
-- [ ] Component creation syntax
-- [ ] Styling approach
-- [ ] State management
-- [ ] Navigation system
-- [ ] Platform APIs access
+#### 3. API & Syntax ✅ **BASIC SYNTAX KNOWN**
+- ✅ Component creation: Class-based with `onRender()`
+- ✅ Styling: Inline props (backgroundColor, padding, etc.)
+- ⚠️ Need to explore: State management, navigation, platform APIs
 
-#### 4. Framework Capabilities
-- [ ] Performance characteristics
-- [ ] Native module support
-- [ ] Third-party library integration
-- [ ] Development experience
-- [ ] Learning curve
+#### 4. Framework Capabilities ⚠️ **NEEDS TESTING**
+- ⚠️ Performance characteristics: Needs benchmarking
+- ⚠️ Native module support: Needs exploration
+- ⚠️ Third-party library integration: Needs testing
+- ⚠️ Development experience: Needs hands-on evaluation
+- ⚠️ Learning curve: Needs assessment
 
-## Research Strategy
+## Research Strategy ✅ **COMPLETED**
 
-### Step 1: Official Sources
-1. **Snapchat Developer Portal**
-   - URL: https://developers.snap.com
-   - Look for Valdi documentation section
-   - Check for getting started guides
-   - Find API reference
+### Step 1: Official Sources ✅ **FOUND**
+1. ✅ **GitHub Repository**
+   - Found: https://github.com/Snapchat/Valdi
+   - 13,009+ stars, 436+ forks
+   - Full documentation available
+   - Example projects available
 
-2. **GitHub**
-   - Search: `snapchat/valdi`
-   - Check for official repositories
-   - Look for examples or sample projects
+2. ✅ **Package Manager**
+   - npm: `@snap/valdi`
+   - Installation: `npm install -g @snap/valdi`
 
-3. **Package Managers**
-   - npm: `npm search valdi` or `npm search @snapchat/valdi`
-   - Swift Package Manager: Search for Valdi
-   - CocoaPods: Check podspec files
+3. ✅ **Documentation**
+   - GitHub README and docs folder
+   - Installation guide available
+   - API examples in repository
 
-### Step 2: Community & Announcements
-1. **Blog Posts**
-   - Snapchat engineering blog
-   - Tech news sites
-   - Developer community posts
+### Step 2: Code Analysis ✅ **COMPLETED**
+1. ✅ **Syntax Analysis**
+   - Reviewed GitHub examples
+   - Extracted component patterns
+   - Identified API structure
 
-2. **Social Media**
-   - Twitter/X announcements
-   - Developer forums
-   - Reddit discussions
+2. ✅ **Code Updates**
+   - Updated App.tsx with real syntax
+   - Updated HelloWorld.tsx with real syntax
+   - Fixed imports and structure
 
-### Step 3: Reverse Engineering (If Needed)
-1. **Sample Projects**
-   - Look for example apps
-   - Analyze code structure
-   - Extract patterns
+### Step 3: Next Phase ⚠️ **PENDING**
+1. ⚠️ **Installation Testing**
+   - Test CLI installation
+   - Verify dev_setup process
+   - Test bootstrap command
 
-2. **Documentation Scraping**
-   - Save any found documentation
-   - Extract code examples
-   - Document API patterns
+2. ⚠️ **Hands-On Exploration**
+   - Run hello world app
+   - Test hot reload
+   - Explore API capabilities
 
-## Expected Challenges
+## Expected Challenges ⚠️
 
-### Challenge 1: Limited Documentation
-- **Issue**: Valdi may be very new with minimal public documentation
+### Challenge 1: CLI Package Availability
+- **Issue**: `@snap/valdi` npm package may not be published yet
 - **Solution**: 
-  - Check for beta/early access programs
-  - Look for conference talks or presentations
-  - Contact Snapchat developer relations
+  - Check npm registry: `npm view @snap/valdi`
+  - Check GitHub for alternative installation methods
+  - Look for setup scripts in repository
 
-### Challenge 2: API Mismatch
-- **Issue**: Current placeholder code won't match real API
+### Challenge 2: macOS Requirement
+- **Issue**: iOS development requires macOS/Xcode
 - **Solution**:
-  - Be prepared to rewrite components
-  - Start with minimal working example
-  - Iterate based on discovered patterns
+  - Test on macOS if available
+  - Consider Android testing if iOS unavailable
+  - Document platform requirements
 
-### Challenge 3: Installation Issues
-- **Issue**: Installation method unknown
+### Challenge 3: Beta API Changes
+- **Issue**: Framework is in beta, APIs may change
 - **Solution**:
-  - Try multiple approaches (npm, SPM, CocoaPods)
-  - Check system requirements
-  - Verify development environment setup
+  - Pin to specific version if possible
+  - Document any API changes encountered
+  - Update code as needed
 
 ## Success Metrics
 
 ### Technical Success
-- ✅ Hello world app runs on iOS simulator
-- ✅ Code uses actual Valdi API
-- ✅ Basic component system understood
-- ✅ Build process works reliably
+- ✅ Code uses actual Valdi API ✅ **COMPLETE**
+- ✅ Basic component system understood ✅ **COMPLETE**
+- ⚠️ Hello world app runs on iOS simulator ⚠️ **PENDING TESTING**
+- ⚠️ Build process works reliably ⚠️ **PENDING TESTING**
 
 ### Learning Success
-- ✅ Framework capabilities documented
-- ✅ Ease of use assessment completed
-- ✅ Comparison to alternatives noted
-- ✅ Recommendations for future use provided
+- ⚠️ Framework capabilities documented ⚠️ **PARTIAL** (needs hands-on testing)
+- ⚠️ Ease of use assessment completed ⚠️ **PENDING TESTING**
+- ✅ Comparison to alternatives noted ✅ **COMPLETE**
+- ⚠️ Recommendations for future use provided ⚠️ **PENDING ASSESSMENT**
 
 ## Next Steps Priority
 
-1. **Immediate**: Find official Valdi documentation
-2. **Short-term**: Update code to use real API
-3. **Medium-term**: Get hello world running
-4. **Long-term**: Explore framework capabilities
+1. ✅ **COMPLETE**: Find official Valdi documentation
+2. ✅ **COMPLETE**: Update code to use real API
+3. ⚠️ **HIGH PRIORITY**: Install Valdi CLI and test installation
+4. ⚠️ **HIGH PRIORITY**: Get hello world running
+5. ⚠️ **MEDIUM PRIORITY**: Explore framework capabilities
+6. ⚠️ **MEDIUM PRIORITY**: Document developer experience
 
 ## Questions to Answer
 
@@ -184,21 +170,39 @@ Valdi/
 3. Is Valdi suitable for production use?
 4. What are the framework's limitations?
 
-## Resources to Check
+## Resources ✅
 
-- [ ] https://developers.snap.com
-- [ ] https://github.com/snapchat
-- [ ] npm registry for @snapchat packages
-- [ ] Swift Package Index
-- [ ] CocoaPods specs
-- [ ] Apple Developer Forums
-- [ ] iOS development communities
+- ✅ **GitHub**: https://github.com/Snapchat/Valdi (found!)
+- ✅ **Installation**: `npm install -g @snap/valdi`
+- ✅ **CLI Commands**: `valdi dev_setup`, `valdi bootstrap`, `valdi hotreload`
+- ✅ **Discord**: https://discord.gg/uJyNEeYX2U (Valdi community)
+- ✅ **Documentation**: See `DOCUMENTATION.md` for curated docs
 
 ## Notes Section
 
-*Add findings and discoveries here as you research*
+### Key Discoveries
+- ✅ Valdi is cross-platform (iOS, Android, macOS), not iOS-only
+- ✅ Uses TypeScript/TSX, not Swift
+- ✅ Class-based components with `onRender()` method
+- ✅ Lowercase tags (`<view>`, `<label>`) - different from React
+- ✅ Used in production at Snap for 8 years (beta status but battle-tested)
+- ✅ Full VSCode debugging support
+- ✅ Instant hot reload
+
+### Code Patterns Discovered
+```typescript
+import { Component } from 'valdi_core/src/Component';
+
+class App extends Component {
+  onRender() {
+    <view backgroundColor='white' padding={30}>
+      <label color='black' fontSize={32} value='Hello, Valdi!' />
+    </view>;
+  }
+}
+```
 
 ---
 
-**Last Updated**: Initial creation
-**Status**: Awaiting discovery phase
+**Last Updated**: 2024-11-24 (after documentation discovery)
+**Status**: ✅ Documentation found, code updated. Ready for installation/testing.
