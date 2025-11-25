@@ -18,66 +18,70 @@
 
 ## What Needs to Be Done
 
-⏭️ **Create web application** (React, Vue, Angular, or vanilla JS)
+⏭️ **Create React web application** (using Vite)
 ⏭️ **Install and configure Capacitor**
 ⏭️ **Add iOS and Android platforms**
 ⏭️ **Build and run Hello World app**
-⏭️ **Demonstrate native plugin integration**
+⏭️ **Demonstrate Camera and Geolocation plugins**
 ⏭️ **Document findings and comparisons**
 
-## Quick Start Guide
+## ✅ DECISIONS MADE (Follow These Exactly)
 
-### Step 1: Choose Web Framework
+### Web Framework: **React with Vite**
+- **Why**: Most popular, realistic for production use, aligns with ReactNative experiment
+- **Command**: `npm create vite@latest app -- --template react`
 
-**Option A: Vanilla JavaScript** (Simplest)
-- Create basic HTML/CSS/JS app
-- Easiest to understand Capacitor workflow
-- Minimal dependencies
+### App Configuration
+- **App Name**: `CapacitorHelloWorld`
+- **App ID**: `com.example.capacitorhelloworld`
+- **Web Dir**: `app/dist` (Vite's default build output)
 
-**Option B: React** (Most Popular)
-- Create React app with `create-react-app` or Vite
-- Familiar to many developers
-- Good ecosystem
+### Plugins to Implement
+1. **Camera** (required) - Take photos
+2. **Geolocation** (bonus) - Get device location
 
-**Option C: Vue** (Lightweight)
-- Create Vue app with Vue CLI or Vite
-- Simple and performant
-- Good alternative to React
+## Quick Start Guide (Follow Step-by-Step)
 
-**Recommendation**: Start with **Option A** (vanilla JS) for simplicity, or **Option B** (React) if team prefers React.
-
-### Step 2: Install Capacitor
+### Step 1: Create React Web App
 
 ```bash
-cd mobile_experiments/Capacitor
+cd /workspace/mobile_experiments/Capacitor
 
-# Install Capacitor CLI
-npm install @capacitor/core @capacitor/cli
+# Create React app with Vite
+npm create vite@latest app -- --template react
 
-# Initialize Capacitor
-npx cap init
-
-# When prompted:
-# - App name: CapacitorHelloWorld (or your choice)
-# - App ID: com.example.capacitorhelloworld (or your choice)
-# - Web dir: ../app/dist (or wherever your built web app is)
-```
-
-### Step 3: Build Web App
-
-```bash
-# Navigate to web app directory
+# Navigate to app directory
 cd app
 
-# Install dependencies (if using a framework)
+# Install dependencies
 npm install
 
-# Build the web app
+# Install Capacitor plugins we'll use
+npm install @capacitor/camera @capacitor/geolocation
+
+# Build the app (creates dist/ folder)
 npm run build
-# OR for vanilla JS, just ensure files are in dist/ or build/ folder
 ```
 
-### Step 4: Add Native Platforms
+### Step 2: Install and Initialize Capacitor
+
+```bash
+# From Capacitor root directory (not app/)
+cd /workspace/mobile_experiments/Capacitor
+
+# Install Capacitor CLI and core
+npm install @capacitor/core @capacitor/cli
+
+# Initialize Capacitor (use exact values below)
+npx cap init
+
+# When prompted, enter EXACTLY:
+# - App name: CapacitorHelloWorld
+# - App ID: com.example.capacitorhelloworld
+# - Web dir: app/dist
+```
+
+### Step 3: Add Native Platforms
 
 ```bash
 # From Capacitor root directory
@@ -89,139 +93,252 @@ npx cap add ios
 # Add Android platform
 npx cap add android
 
-# Sync web app to native projects
+# Sync web app to native projects (this copies dist/ to native projects)
 npx cap sync
 ```
 
-### Step 5: Run on Simulators
+**Important**: The `npx cap sync` command will:
+- Copy your built web app from `app/dist/` to native projects
+- Install any Capacitor plugins you've added
+- Update native dependencies
+
+### Step 4: Run on Simulators
 
 ```bash
 # iOS
 npx cap open ios
-# Then run from Xcode
+# Then in Xcode: Select iPhone simulator → Click Run (▶️)
 
 # Android
 npx cap open android
-# Then run from Android Studio
+# Then in Android Studio: Select emulator → Click Run (▶️)
 ```
 
-## Example App Structure
+## Required Code Implementation
 
-### Minimal Hello World (Vanilla JS)
+### Step 5: Update React App with Capacitor Features
 
-```
-app/
-├── index.html
-├── main.js
-└── styles.css
-```
+You need to modify the React app to demonstrate Capacitor capabilities. Here's exactly what to implement:
 
-**index.html**:
-```html
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Capacitor Hello World</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Hello, Capacitor!</h1>
-        <p>This is a web app wrapped in a native container.</p>
-        <button id="cameraBtn">Open Camera</button>
-    </div>
-    <script src="main.js"></script>
-</body>
-</html>
-```
-
-**main.js** (with native plugin example):
-```javascript
-import { Camera } from '@capacitor/camera';
-
-document.getElementById('cameraBtn').addEventListener('click', async () => {
-    try {
-        const image = await Camera.getPhoto({
-            quality: 90,
-            allowEditing: false,
-            resultType: 'base64'
-        });
-        console.log('Photo taken:', image);
-        alert('Photo captured!');
-    } catch (error) {
-        console.error('Camera error:', error);
-    }
-});
-```
-
-### React Hello World Example
+#### File: `app/src/App.jsx` (Replace entire file)
 
 ```jsx
-// App.jsx
-import React from 'react';
+import { useState } from 'react';
 import { Camera } from '@capacitor/camera';
+import { Geolocation } from '@capacitor/geolocation';
 import './App.css';
 
 function App() {
-    const takePicture = async () => {
-        try {
-            const image = await Camera.getPhoto({
-                quality: 90,
-                allowEditing: false,
-                resultType: 'base64'
-            });
-            console.log('Photo:', image);
-            alert('Photo captured!');
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
+  const [photo, setPhoto] = useState(null);
+  const [location, setLocation] = useState(null);
 
-    return (
-        <div className="App">
-            <h1>Hello, Capacitor!</h1>
-            <p>React app wrapped in Capacitor</p>
-            <button onClick={takePicture}>Open Camera</button>
+  const takePicture = async () => {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: 'dataUrl'
+      });
+      setPhoto(image.dataUrl);
+    } catch (error) {
+      console.error('Camera error:', error);
+      alert('Camera not available or permission denied');
+    }
+  };
+
+  const getLocation = async () => {
+    try {
+      const position = await Geolocation.getCurrentPosition();
+      setLocation({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      });
+    } catch (error) {
+      console.error('Geolocation error:', error);
+      alert('Location not available or permission denied');
+    }
+  };
+
+  return (
+    <div className="App">
+      <header className="App-header">
+        <h1>Hello, Capacitor!</h1>
+        <p>React app wrapped in a native container</p>
+        
+        <div className="features">
+          <div className="feature">
+            <h2>Camera Plugin</h2>
+            <button onClick={takePicture}>Take Photo</button>
+            {photo && (
+              <img src={photo} alt="Captured" style={{ maxWidth: '100%', marginTop: '10px' }} />
+            )}
+          </div>
+
+          <div className="feature">
+            <h2>Geolocation Plugin</h2>
+            <button onClick={getLocation}>Get Location</button>
+            {location && (
+              <div style={{ marginTop: '10px' }}>
+                <p>Latitude: {location.latitude.toFixed(6)}</p>
+                <p>Longitude: {location.longitude.toFixed(6)}</p>
+              </div>
+            )}
+          </div>
         </div>
-    );
+      </header>
+    </div>
+  );
 }
 
 export default App;
 ```
 
-## Key Files to Create
+#### File: `app/src/App.css` (Replace entire file)
 
-1. **Web App** (`app/` directory)
-   - Source files (HTML, JS, CSS, or framework files)
-   - Build configuration
-   - `package.json` with dependencies
+```css
+.App {
+  text-align: center;
+  padding: 20px;
+}
 
-2. **Capacitor Config** (`capacitor.config.json`)
-   ```json
-   {
-     "appId": "com.example.capacitorhelloworld",
-     "appName": "CapacitorHelloWorld",
-     "webDir": "app/dist",
-     "bundledWebRuntime": false
-   }
-   ```
+.App-header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+  border-radius: 8px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+}
 
-3. **Capacitor Dependencies** (`package.json` at root)
-   ```json
-   {
-     "dependencies": {
-       "@capacitor/core": "^latest",
-       "@capacitor/ios": "^latest",
-       "@capacitor/android": "^latest",
-       "@capacitor/camera": "^latest"
-     },
-     "devDependencies": {
-       "@capacitor/cli": "^latest"
-     }
-   }
-   ```
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 30px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.feature {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.feature h2 {
+  margin-top: 0;
+  font-size: 1.5em;
+}
+
+.feature button {
+  background-color: #61dafb;
+  color: #282c34;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.feature button:hover {
+  background-color: #4fa8c5;
+}
+
+.feature button:active {
+  transform: scale(0.98);
+}
+```
+
+#### File: `app/index.html` (Update viewport meta tag)
+
+Make sure the viewport meta tag is correct for mobile:
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+```
+
+### Step 6: Rebuild and Sync After Code Changes
+
+After making code changes:
+
+```bash
+# 1. Build the React app
+cd app
+npm run build
+
+# 2. Sync to native projects
+cd ..
+npx cap sync
+
+# 3. Open and run in native IDE
+npx cap open ios    # or npx cap open android
+```
+
+## Expected File Structure After Setup
+
+```
+Capacitor/
+├── app/                          # React web app (created by Vite)
+│   ├── src/
+│   │   ├── App.jsx              # Main component (YOU UPDATE THIS)
+│   │   ├── App.css              # Styles (YOU UPDATE THIS)
+│   │   ├── main.jsx             # Entry point
+│   │   └── index.css
+│   ├── index.html
+│   ├── package.json             # React dependencies + Capacitor plugins
+│   └── dist/                    # Build output (created by npm run build)
+├── ios/                          # iOS native project (generated)
+├── android/                      # Android native project (generated)
+├── capacitor.config.json         # Capacitor config (generated)
+└── package.json                 # Capacitor CLI dependencies
+```
+
+## Key Configuration Files
+
+### `capacitor.config.json` (Auto-generated, verify it matches)
+
+```json
+{
+  "appId": "com.example.capacitorhelloworld",
+  "appName": "CapacitorHelloWorld",
+  "webDir": "app/dist",
+  "bundledWebRuntime": false
+}
+```
+
+### `app/package.json` (Should include these dependencies)
+
+```json
+{
+  "dependencies": {
+    "react": "^18.x.x",
+    "react-dom": "^18.x.x",
+    "@capacitor/camera": "^latest",
+    "@capacitor/geolocation": "^latest"
+  }
+}
+```
+
+### Root `package.json` (Capacitor dependencies)
+
+```json
+{
+  "dependencies": {
+    "@capacitor/core": "^latest",
+    "@capacitor/ios": "^latest",
+    "@capacitor/android": "^latest"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^latest"
+  }
+}
+```
 
 ## Native Plugin Examples
 
@@ -312,23 +429,20 @@ const getDeviceInfo = async () => {
 - **Android Setup**: https://capacitorjs.com/docs/android
 - **GitHub**: https://github.com/ionic-team/capacitor
 
-## Next Agent Checklist
+## Next Agent Checklist (Follow in Order)
 
-- [ ] Read `TASKS.md` for detailed task breakdown
-- [ ] Read `UNDERSTANDING.md` for research context
-- [ ] Choose web framework (vanilla JS, React, Vue, etc.)
-- [ ] Create web app in `app/` directory
-- [ ] Install Capacitor CLI and dependencies
-- [ ] Initialize Capacitor: `npx cap init`
-- [ ] Build web app
-- [ ] Add iOS platform: `npx cap add ios`
-- [ ] Add Android platform: `npx cap add android`
-- [ ] Sync: `npx cap sync`
-- [ ] Test on iOS simulator
-- [ ] Test on Android emulator
-- [ ] Add native plugin example (Camera, Geolocation, etc.)
-- [ ] Document findings in `DOCUMENTATION.md`
-- [ ] Update comparison notes
+- [ ] **Step 1**: Create React app: `npm create vite@latest app -- --template react`
+- [ ] **Step 2**: `cd app && npm install && npm install @capacitor/camera @capacitor/geolocation`
+- [ ] **Step 3**: Update `app/src/App.jsx` with code from Step 5 above
+- [ ] **Step 4**: Update `app/src/App.css` with styles from Step 5 above
+- [ ] **Step 5**: Build: `cd app && npm run build`
+- [ ] **Step 6**: Install Capacitor: `cd .. && npm install @capacitor/core @capacitor/cli`
+- [ ] **Step 7**: Initialize: `npx cap init` (use exact values: CapacitorHelloWorld, com.example.capacitorhelloworld, app/dist)
+- [ ] **Step 8**: Add platforms: `npm install @capacitor/ios @capacitor/android && npx cap add ios && npx cap add android`
+- [ ] **Step 9**: Sync: `npx cap sync`
+- [ ] **Step 10**: Test iOS: `npx cap open ios` → Run in Xcode
+- [ ] **Step 11**: Test Android: `npx cap open android` → Run in Android Studio
+- [ ] **Step 12**: Document any issues or findings in `DOCUMENTATION.md`
 
 ---
 

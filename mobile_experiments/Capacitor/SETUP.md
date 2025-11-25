@@ -35,41 +35,22 @@
 
 ## Project Setup
 
-### Step 1: Create Web Application
+### Step 1: Create React Web Application ✅ DECISION MADE
 
-Choose one of the following approaches:
+**Use React with Vite** (decision already made):
 
-#### Option A: Vanilla JavaScript (Simplest)
 ```bash
-mkdir -p app
-cd app
-npm init -y
-# Create index.html, main.js, styles.css manually
-```
-
-#### Option B: React (Popular)
-```bash
-# Using Vite (recommended)
+# From Capacitor root directory
 npm create vite@latest app -- --template react
+
+# Navigate to app directory
 cd app
+
+# Install dependencies
 npm install
 
-# OR using Create React App
-npx create-react-app app
-cd app
-```
-
-#### Option C: Vue (Lightweight)
-```bash
-npm create vite@latest app -- --template vue
-cd app
-npm install
-```
-
-#### Option D: Angular (Enterprise)
-```bash
-ng new app
-cd app
+# Install Capacitor plugins we'll use
+npm install @capacitor/camera @capacitor/geolocation
 ```
 
 ### Step 2: Install Capacitor
@@ -84,23 +65,23 @@ npm install @capacitor/core @capacitor/cli
 npx cap --version
 ```
 
-### Step 3: Initialize Capacitor
+### Step 3: Initialize Capacitor ✅ EXACT VALUES PROVIDED
 
 ```bash
-# From Capacitor project root
+# From Capacitor project root (not app/)
 npx cap init
 ```
 
-When prompted:
-- **App name**: `CapacitorHelloWorld` (or your choice)
-- **App ID**: `com.example.capacitorhelloworld` (use reverse domain notation)
-- **Web dir**: `app/dist` (or `app/build` depending on your build tool)
+**When prompted, enter EXACTLY:**
+- **App name**: `CapacitorHelloWorld`
+- **App ID**: `com.example.capacitorhelloworld`
+- **Web dir**: `app/dist`
 
-This creates `capacitor.config.json`.
+This creates `capacitor.config.json` with these exact values.
 
-### Step 4: Configure Capacitor
+### Step 4: Verify Capacitor Configuration ✅ VALUES SET
 
-Edit `capacitor.config.json`:
+The `capacitor.config.json` should already have correct values from Step 3. Verify it matches:
 
 ```json
 {
@@ -111,12 +92,7 @@ Edit `capacitor.config.json`:
 }
 ```
 
-**Important**: Ensure `webDir` matches your web app's build output directory:
-- Vite: `dist`
-- Create React App: `build`
-- Vue CLI: `dist`
-- Angular: `dist`
-- Custom: Your build output folder
+**Note**: `webDir` is `app/dist` because Vite builds to `dist/` directory.
 
 ### Step 5: Build Web Application
 
