@@ -23,44 +23,37 @@ Set up a Capacitor "Hello World" experience that demonstrates wrapping a web app
 
 ## Project Structure to Create
 
-### Phase 1: Web Application
-```
-app/
-├── src/
-│   ├── index.html          # Entry HTML file
-│   ├── main.js            # Main JavaScript (or main.tsx for React)
-│   └── styles.css         # Styles
-├── public/                # Static assets
-└── package.json           # Web app dependencies
-```
-
-### Phase 2: Capacitor Integration
+### Final Structure (After Setup)
 ```
 Capacitor/
-├── capacitor.config.json  # Capacitor configuration
-├── package.json           # Capacitor dependencies
-└── [ios/ and android/ will be generated]
+├── app/                    # React app (created by Vite)
+│   ├── src/
+│   │   ├── App.jsx        # Main component (YOU UPDATE THIS)
+│   │   ├── App.css        # Styles (YOU UPDATE THIS)
+│   │   └── main.jsx       # Entry point
+│   ├── dist/              # Build output (created by npm run build)
+│   └── package.json       # React + Capacitor plugin dependencies
+├── ios/                    # iOS native project (generated)
+├── android/                # Android native project (generated)
+├── capacitor.config.json   # Capacitor config (generated)
+└── package.json           # Capacitor CLI dependencies
 ```
 
-## Example App Ideas
+## ✅ Decisions Made - Follow Exactly
 
-### Option 1: Simple Hello World
-- Basic HTML/CSS/JS app
-- Shows "Hello, Capacitor!" message
-- Demonstrates basic Capacitor setup
+### Web Framework: React with Vite
+- **Why**: Most popular, realistic, aligns with ReactNative experiment
+- **Command**: `npm create vite@latest app -- --template react`
 
-### Option 2: React Hello World
-- React app with simple component
-- Shows React + Capacitor integration
-- Demonstrates modern web framework usage
+### App Implementation
+- **Hello World** + **Camera Plugin** + **Geolocation Plugin**
+- All code provided in `HANDOFF.md` Step 5
+- Just copy/paste the provided `App.jsx` and `App.css`
 
-### Option 3: Feature Demo App
-- Hello World + native feature demo
-- Camera access example
-- Geolocation example
-- Shows Capacitor plugin system
-
-**Recommendation**: Start with Option 1 or 2, then add features from Option 3.
+### Configuration Values
+- **App Name**: `CapacitorHelloWorld`
+- **App ID**: `com.example.capacitorhelloworld`
+- **Web Dir**: `app/dist`
 
 ## Key Files to Reference
 
