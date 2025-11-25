@@ -24,7 +24,7 @@ Curated references from https://reactnative.dev and supporting tooling docs. Upd
   - `npx react-native run-ios --simulator "iPhone 15"`
   - `npx react-native run-android`
 - **Dev Menu** – `Cmd+D` (iOS simulator) / `Cmd+M` (Android emulator) for enabling Fast Refresh, remote JS debugging, and performance overlays.
-- **Flipper** – https://fbflipper.com/ integrates with RN for logs, network, layout inspection.
+- **Debugging Tools** – React Native DevTools (built-in) for debugging. Note: Flipper was deprecated by Meta; verify current recommended debugging tools when setting up.
 
 ## Testing & Quality
 - **Jest** – included by default. Run `npm test` / `yarn test`. Snapshot testing recommended for simple components.

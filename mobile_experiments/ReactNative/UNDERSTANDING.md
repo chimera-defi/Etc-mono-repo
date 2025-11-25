@@ -11,9 +11,10 @@
 - **Tooling Requirements**: Impact of multiple package managers, Cocoapods, Gradle caches, etc.
 
 ## Assumptions
-- Targeting React Native 0.74+ with TypeScript template.
+- Targeting React Native 0.74+ (verify latest stable version when scaffolding - check `npx react-native --version`).
+- TypeScript template will be used: `--template react-native-template-typescript`.
 - macOS host available for iOS builds; Linux-only path will focus on Android.
-- Expo is out-of-scope for now; we want bare React Native for parity with native modules.
+- Expo is out-of-scope for now; we want bare React Native CLI for parity with native modules and comparison to Valdi/Flutter.
 
 ## Research Plan
 1. Review the official docs: Getting Started, Environment Setup, CLI usage, Metro bundler basics.
