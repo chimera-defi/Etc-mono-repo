@@ -1,6 +1,6 @@
 # React Native Experiment – Handoff Brief
 
-_Last updated: $(date +%Y-%m-%d)_
+_Last updated: 2024-12-XX (update when making changes)_
 
 ## Snapshot
 - 📁 Documentation skeleton ready; no project created yet (per request).
