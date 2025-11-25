@@ -12,9 +12,10 @@
 - **Project structure**: `lib/` for Dart source, `pubspec.yaml` for deps/assets, platform folders (`ios/`, `android/`) for native integration.
 
 ## Assumptions
-- We will target Flutter 3.22+ with Dart 3.
+- We will target Flutter 3.22+ with Dart 3 (verify actual version after installation with `flutter --version`).
 - Linux host is available for CLI work; iOS builds may require macOS CI or a teammate’s Mac.
 - Minimal plugin usage for the first milestone (keep dependencies to `flutter` + `cupertino_icons`).
+- **Note**: Update this document with the actual Flutter/Dart versions after installation for future reference.
 
 ## Research Plan
 1. Read the official "Get started" and "Write your first Flutter app" docs (links captured in `DOCUMENTATION.md`).

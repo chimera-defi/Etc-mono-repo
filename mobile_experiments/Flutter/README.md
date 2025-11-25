@@ -19,11 +19,13 @@ This folder tracks our next cross-platform experiment after Valdi. Based on the 
 - `DOCUMENTATION.md` – curated notes from the official Flutter docs that the next agent will need.
 - `TASKS.md` / `NEXT_STEPS.md` – prioritized backlog for continuing the experiment.
 - `HANDOFF.md` / `README_AGENT.md` – quickstart instructions for the next agent.
-- `app/lib/main.dart` – placeholder for the future Flutter entry point.
+- `app/lib/main.dart` – **Hello World implementation exists** (see below for project structure note).
 
 ## Status
 
 - ✅ Framework chosen (Flutter) and documentation scaffolded.
-- ⏳ Awaiting environment provisioning and actual project creation via `flutter create`.
+- ✅ Hello World code implemented in `app/lib/main.dart` (matches `HELLO_WORLD_PLAN.md`).
+- ⚠️ **Note**: Code exists but Flutter project structure (`pubspec.yaml`, `android/`, `ios/` folders) not yet scaffolded via `flutter create`.
+- ⏳ Awaiting environment provisioning and project scaffolding to make this a runnable Flutter app.
 
 Refer to `HANDOFF.md` for an actionable checklist when you pick this up next.
