@@ -1,10 +1,12 @@
 # Valdi Hello World App
 
-This is a basic boilerplate for experimenting with Valdi, Snapchat's new mobile app framework for iOS.
+This is a basic boilerplate for experimenting with Valdi, Snapchat's cross-platform mobile app framework.
 
 ## Getting Started
 
-Valdi is a new framework from Snapchat for building iOS applications. This project serves as a starting point for exploring Valdi's capabilities.
+Valdi is Snapchat's cross-platform framework for building iOS, Android, and macOS applications. This project serves as a starting point for exploring Valdi's capabilities.
+
+**Status**: ✅ Code updated with real Valdi syntax. Ready for installation and testing.
 
 ## Project Structure
 
@@ -29,6 +31,15 @@ The hello world app demonstrates basic Valdi functionality and serves as a found
 
 ## Resources
 
-- [Valdi Documentation](https://valdi.dev) (when available)
-- Snapchat Developer Resources
+- **GitHub**: https://github.com/Snapchat/Valdi
+- **Installation**: `npm install -g @snap/valdi`
+- **CLI Commands**: `valdi dev_setup`, `valdi bootstrap`, `valdi hotreload`
 - [Framework Comparison](../FRAMEWORK_COMPARISON.md) - Compare Valdi with other cross-platform frameworks
+
+## Important Notes
+
+- ✅ Code uses **actual Valdi syntax** (verified against GitHub repo)
+- ✅ Files use `.tsx` extension (not `.valdi`)
+- ✅ Class-based components with `onRender()` method
+- ✅ Lowercase tags: `<view>`, `<label>` (not React's `<View>`, `<Text>`)
+- ⚠️ Installation and testing pending - see `HANDOFF.md` for next steps

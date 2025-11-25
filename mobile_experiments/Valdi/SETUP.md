@@ -50,9 +50,9 @@ valdi run-ios
 ```
 Valdi/
 ├── src/
-│   ├── App.valdi           # Main app entry point
+│   ├── App.tsx             # Main app entry point (✅ uses real Valdi syntax)
 │   └── components/         # Reusable components
-│       └── HelloWorld.valdi
+│       └── HelloWorld.tsx  # Component example (✅ uses real Valdi syntax)
 ├── assets/                 # Images, fonts, etc.
 ├── config/
 │   └── app.json           # App configuration
@@ -62,10 +62,12 @@ Valdi/
 
 ## Next Steps
 
-1. Review Valdi documentation (when available)
-2. Modify `src/App.valdi` to experiment with Valdi features
-3. Add new components in `src/components/`
-4. Explore Valdi's component system and APIs
+1. ✅ Valdi documentation found: https://github.com/Snapchat/Valdi
+2. ✅ Code updated with real Valdi syntax (`App.tsx`, `HelloWorld.tsx`)
+3. ⚠️ Install Valdi CLI: `npm install -g @snap/valdi`
+4. ⚠️ Run `valdi dev_setup` and `valdi bootstrap`
+5. ⚠️ Test app: `valdi hotreload`
+6. Explore Valdi's component system and APIs
 
 ## Troubleshooting
 
