@@ -34,13 +34,16 @@ Follow the interactive prompts to fix missing dependencies. Save a redacted copy
 - Accept license: `sudo xcodebuild -license`.
 - Install pods after project creation: `cd app/ValdiParity/ios && pod install`.
 
-## 6. Seed Project (later)
-Once tooling is green:
+## 6. Seed Project (when ready)
+Once tooling is green and you're ready to scaffold:
 ```bash
 cd mobile_experiments/ReactNative/app
 npx react-native init ValdiParity --template react-native-template-typescript
 ```
-Do **not** commit the generated code yet if it violates the "no code" constraint; stash locally until instructed otherwise.
+
+**Note**: Check the React Native version that gets installed: `npx react-native --version`. Update `UNDERSTANDING.md` with the actual version used for future reference.
+
+**Important**: Follow project guidelines regarding when code can be committed. If there's a "planning only" constraint, stash the generated project locally until explicitly allowed.
 
 ## 7. Helpful Commands (reference only)
 - `npx react-native run-ios --simulator "iPhone 15"`
