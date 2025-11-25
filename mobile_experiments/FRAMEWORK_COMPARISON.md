@@ -255,5 +255,21 @@ Once Valdi documentation becomes available, compare it against these frameworks 
 
 ---
 
-**Last Updated**: Initial creation
-**Next Update**: When Valdi documentation becomes available
+## Related Documents
+
+- **[REVIEW.md](./REVIEW.md)** - Comprehensive review of mobile experiments folder
+- **[SUCCESS_FRAMEWORK.md](./SUCCESS_FRAMEWORK.md)** - Detailed success measurement framework for comparing frameworks
+
+## Success Measurement
+
+See [SUCCESS_FRAMEWORK.md](./SUCCESS_FRAMEWORK.md) for a comprehensive framework to measure and compare framework success across:
+- Developer Experience (25%)
+- Performance (25%)
+- Code Quality & Maintainability (20%)
+- Ecosystem & Community (15%)
+- Platform Support & Features (15%)
+
+---
+
+**Last Updated**: 2024-12-19  
+**Next Update**: After completing baseline measurements per SUCCESS_FRAMEWORK.md
