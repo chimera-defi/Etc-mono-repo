@@ -257,8 +257,8 @@ Once Valdi documentation becomes available, compare it against these frameworks 
 
 ## Related Documents
 
-- **[REVIEW.md](./REVIEW.md)** - Comprehensive review of mobile experiments folder
 - **[SUCCESS_FRAMEWORK.md](./SUCCESS_FRAMEWORK.md)** - Detailed success measurement framework for comparing frameworks
+- **[AI_COMPARISON.md](./AI_COMPARISON.md)** - AI-focused framework comparison with scoring
 
 ## Success Measurement
 

@@ -39,7 +39,6 @@ This folder contains experiments with different mobile app frameworks to evaluat
 - **[TLDR_SUMMARY.md](./TLDR_SUMMARY.md)** - One-page decision guide
 - **[SUCCESS_FRAMEWORK.md](./SUCCESS_FRAMEWORK.md)** - Framework for measuring and comparing framework success
 - **[FRAMEWORK_COMPARISON.md](./FRAMEWORK_COMPARISON.md)** - Comparison matrix of mobile frameworks
-- **[REVIEW.md](./REVIEW.md)** - Initial comprehensive review of all experiments
 
 ## Success Measurement
 
@@ -140,10 +139,9 @@ Each framework folder contains:
 
 When adding new experiments or updating existing ones:
 1. Follow the established documentation structure
-2. Update [REVIEW.md](./REVIEW.md) with findings
-3. Record measurements in [SUCCESS_FRAMEWORK.md](./SUCCESS_FRAMEWORK.md)
-4. Keep [FRAMEWORK_COMPARISON.md](./FRAMEWORK_COMPARISON.md) updated
-5. Ensure tests pass and linting is clean
+2. Record measurements in [SUCCESS_FRAMEWORK.md](./SUCCESS_FRAMEWORK.md)
+3. Keep [FRAMEWORK_COMPARISON.md](./FRAMEWORK_COMPARISON.md) updated
+4. Ensure tests pass and linting is clean
 
 ---
 
