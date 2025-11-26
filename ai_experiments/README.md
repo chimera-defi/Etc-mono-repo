@@ -1,6 +1,6 @@
-# AI Experiment Tracks
+# AI Spec-Driven Development Tools
 
-This workspace collects AI constraint toolkits we can evaluate while prototyping agentic apps. Each toolkit folder contains a hand-off packet (`README`, `UNDERSTANDING`, `TASKS`, `NEXT_STEPS`, `HANDOFF`) so another agent can immediately continue the investigation.
+This workspace evaluates tools that enable **spec-driven development** to guide AI agents. We focus on tools where specifications (Markdown, structured docs, methodologies) drive AI behavior during development.
 
 ## 🚀 Quick Start
 
@@ -9,26 +9,32 @@ This workspace collects AI constraint toolkits we can evaluate while prototyping
 3. **Implementation plan**: Check [IMPLEMENTATION_FRAMEWORK.md](./IMPLEMENTATION_FRAMEWORK.md) for the unified demo approach
 4. **Task tracking**: See [IMPLEMENTATION_TASKS.md](./IMPLEMENTATION_TASKS.md) for all implementation tasks
 
-## 🎯 Comparison Approach
+## 🎯 What We're Looking For
 
-We're building the **same demo application** (Travel Planning Assistant) with each tool to enable fair comparison across:
-- Implementation effort & developer experience
-- Constraint effectiveness & validation
-- Performance (latency, tokens, retries)
-- Production readiness
+Tools that:
+- Use **specifications** (Markdown, structured docs) to guide AI behavior
+- Enable **spec-first development** workflows
+- Help AI agents follow defined methodologies and constraints
+- Work with **Cursor + Claude Opus 4.5** as the underlying AI
 
-## Current Shortlist
+## ✅ Active Tools
 
-| Toolkit | Repo | Constraint Strategy | Category | Recommended Use Case |
-| --- | --- | --- | --- | --- |
-| Spec Kit | `github/spec-kit` | Spec-first workflow that compiles Markdown specs into JSON schemas and guard policies | Runtime Validation | Auditable policy compliance |
-| Guardrails AI | `guardrails-ai/guardrails` | `RAIL` definition files plus validators, re-asking, and security filters | Runtime Validation | Customer-facing compliance |
-| Microsoft Guidance | `microsoft/guidance` | Token-level control via templating, regex/JSON schema constraints | Token-Level | Multi-step orchestration |
-| Outlines | `normal-computing/outlines` | Grammars and finite-state machines to guarantee outputs | Token-Level | Structured data generation |
-| B-MAD Method | `bmad-code-org/BMAD-METHOD` | Development methodology framework with specialized agents | Workflow | AI-driven development lifecycle |
-| **Beckett** | ❓ Unknown | ❓ TBD | ❓ TBD | ❓ Needs clarification |
+| Toolkit | Repo | Approach | Best For |
+| --- | --- | --- | --- |
+| **Spec Kit** | `github/spec-kit` | Markdown specs → JSON Schema + guard policies | Auditable, deterministic AI responses |
+| **B-MAD Method** | `bmad-code-org/BMAD-METHOD` | Structured methodology with PRDs, architecture, workflows | Full AI-driven development lifecycle |
 
-If we identify more candidates, follow the same folder template and append them to the table above.
+## ❌ Removed Tools (Not Spec-Driven)
+
+These tools were evaluated but removed because they focus on **runtime validation** or **token-level constraints** rather than spec-driven development:
+
+| Tool | Why Removed |
+|------|-------------|
+| Guardrails AI | Runtime validation layer, not development guidance |
+| Microsoft Guidance | Token-level templating, not spec-driven methodology |
+| Outlines | Grammar constraints for valid outputs, not development specs |
+
+> **Note**: These are good tools for their purposes, but don't fit our focus on spec-driven development guidance.
 
 ## 📁 Folder Layout
 
@@ -43,26 +49,39 @@ ai_experiments/
 │   ├── test_prompts.json       # Unified test prompts
 │   └── expected_schemas.json   # Expected response schema
 ├── benchmarks/                  # Cross-tool benchmarking
-│   ├── run_benchmarks.py       # Benchmark runner
-│   └── results/                # Benchmark results
-└── <toolkit>/                   # Per-toolkit folders
-    ├── README.md               # Overview + integration notes
-    ├── UNDERSTANDING.md        # Research context & assumptions
-    ├── TASKS.md                # Actionable backlog
-    ├── NEXT_STEPS.md           # Prioritized near-term plan
-    ├── HANDOFF.md              # Quick-start for the next agent
-    └── demo/                   # Implementation (when built)
+│   └── run_benchmarks.ts       # Benchmark runner (TypeScript)
+├── spec_kit/                    # Spec Kit implementation
+│   ├── README.md
+│   └── demo/                   # TypeScript demo
+└── bmad/                        # B-MAD Method implementation
+    ├── README.md
+    └── demo/                   # TypeScript demo
 ```
-
-Each document favors brevity and clear action items so agents can pick up work without re-reading the entire repository.
 
 ## 📊 Implementation Status
 
 | Tool | Documentation | Demo Implementation |
 |------|---------------|---------------------|
-| Spec Kit | ✅ Complete | ⬜ Not Started |
-| Guardrails AI | ✅ Complete | ⬜ Not Started |
-| Microsoft Guidance | ✅ Complete | ⬜ Not Started |
-| Outlines | ✅ Complete | ⬜ Not Started |
-| B-MAD Method | ✅ Complete | ⬜ Not Started |
-| Beckett | ❓ Unknown | ❓ Unknown |
+| Spec Kit | ✅ Complete | ✅ Complete |
+| B-MAD Method | ✅ Complete | ✅ Complete |
+
+### Quick Start
+
+```bash
+# Spec Kit Demo
+cd ai_experiments/spec_kit/demo && npm install
+npx tsx src/index.ts prompt "Build a todo app"
+
+# B-MAD Demo
+cd ai_experiments/bmad/demo && npm install
+npx tsx src/index.ts prompt "Build a todo app"
+```
+
+See [COMPARISON_REPORT.md](./COMPARISON_REPORT.md) for detailed findings.
+
+## 🛠️ Technical Stack
+
+- **Language**: TypeScript/JavaScript (all implementations)
+- **Runtime**: Node.js
+- **AI Provider**: Cursor + Claude Opus 4.5
+- **Demo Type**: Minimal viable demos first
