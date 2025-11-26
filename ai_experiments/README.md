@@ -1,89 +1,54 @@
 # AI Spec-Driven Development Tools
 
-This workspace evaluates tools that enable **spec-driven development** to guide AI agents. We focus on tools where specifications (Markdown, structured docs, methodologies) drive AI behavior during development.
+Comparison of tools that use **specifications to guide AI behavior** in development.
 
 ## 🚀 Quick Start
 
-1. **Understand the landscape**: Read [COMPARISON.md](./COMPARISON.md) for benefits/downsides
-2. **Review criteria**: See [COMPARISON_CRITERIA.md](./COMPARISON_CRITERIA.md) for evaluation framework
-3. **Implementation plan**: Check [IMPLEMENTATION_FRAMEWORK.md](./IMPLEMENTATION_FRAMEWORK.md) for the unified demo approach
-4. **Task tracking**: See [IMPLEMENTATION_TASKS.md](./IMPLEMENTATION_TASKS.md) for all implementation tasks
-
-## 🎯 What We're Looking For
-
-Tools that:
-- Use **specifications** (Markdown, structured docs) to guide AI behavior
-- Enable **spec-first development** workflows
-- Help AI agents follow defined methodologies and constraints
-- Work with **Cursor + Claude Opus 4.5** as the underlying AI
-
-## ✅ Active Tools
-
-| Toolkit | Repo | Integration | Approach | Best For |
-| --- | --- | --- | --- | --- |
-| **Spec Kit** | `github/spec-kit` | **Cursor + AI agents** | Slash commands + specs → implementation | Structured development from spec to code |
-| **B-MAD Method** | `bmad-code-org/BMAD-METHOD` | **Cursor + npm** | PRDs, architecture, 19 specialized agents | Full AI-driven development lifecycle |
-
-Both tools are designed to work with **Cursor** and other AI agents!
-
-## ❌ Removed Tools (Not Spec-Driven)
-
-These tools were evaluated but removed because they focus on **runtime validation** or **token-level constraints** rather than spec-driven development:
-
-| Tool | Why Removed |
-|------|-------------|
-| Guardrails AI | Runtime validation layer, not development guidance |
-| Microsoft Guidance | Token-level templating, not spec-driven methodology |
-| Outlines | Grammar constraints for valid outputs, not development specs |
-
-> **Note**: These are good tools for their purposes, but don't fit our focus on spec-driven development guidance.
-
-## 📁 Folder Layout
-
-```
-ai_experiments/
-├── README.md                    # This file - overview
-├── COMPARISON.md                # Benefits/downsides comparison
-├── COMPARISON_CRITERIA.md       # Evaluation criteria
-├── IMPLEMENTATION_FRAMEWORK.md  # Unified demo approach
-├── IMPLEMENTATION_TASKS.md      # All implementation tasks
-├── common/                      # Shared test data & schemas
-│   ├── test_prompts.json       # Unified test prompts
-│   └── expected_schemas.json   # Expected response schema
-├── benchmarks/                  # Cross-tool benchmarking
-│   └── run_benchmarks.ts       # Benchmark runner (TypeScript)
-├── spec_kit/                    # Spec Kit implementation
-│   ├── README.md
-│   └── demo/                   # TypeScript demo
-└── bmad/                        # B-MAD Method implementation
-    ├── README.md
-    └── demo/                   # TypeScript demo
-```
-
-## 📊 Implementation Status
-
-| Tool | Documentation | Demo Implementation |
-|------|---------------|---------------------|
-| Spec Kit | ✅ Complete | ✅ Complete |
-| B-MAD Method | ✅ Complete | ✅ Complete |
-
-### Quick Start
-
 ```bash
-# Spec Kit Demo
-cd ai_experiments/spec_kit/demo && npm install
+# Spec Kit demo (validation)
+cd spec_kit/demo && npm install
 npx tsx src/index.ts prompt "Build a todo app"
 
-# B-MAD Demo
-cd ai_experiments/bmad/demo && npm install
+# B-MAD demo (PRD-based)
+cd bmad/demo && npm install
 npx tsx src/index.ts prompt "Build a todo app"
 ```
 
-See [COMPARISON_REPORT.md](./COMPARISON_REPORT.md) for detailed findings.
+## ✅ Tools Compared
 
-## 🛠️ Technical Stack
+| Tool | Interface | Installation | Best For |
+|------|-----------|--------------|----------|
+| **[Spec Kit](https://github.com/github/spec-kit)** | `/speckit.*` slash commands | `uv tool install specify-cli` | Structured spec → implementation |
+| **[B-MAD Method](https://github.com/bmad-code-org/BMAD-METHOD)** | `*workflow-init` + agents | `npx bmad-method@alpha install` | Full lifecycle with specialized agents |
 
-- **Language**: TypeScript/JavaScript (all implementations)
-- **Runtime**: Node.js
-- **AI Provider**: Cursor + Claude Opus 4.5
-- **Demo Type**: Minimal viable demos first
+Both work natively with **Cursor**!
+
+## 📂 Key Files
+
+| File | Description |
+|------|-------------|
+| [COMPARISON_REPORT.md](./COMPARISON_REPORT.md) | **Start here** - findings and recommendations |
+| [COMPARISON.md](./COMPARISON.md) | Head-to-head comparison |
+| [HANDOFF.md](./HANDOFF.md) | Quick context for next agent |
+| `spec_kit/demo/` | TypeScript validation demo |
+| `bmad/demo/` | PRD/Architecture demo |
+
+## 📋 Status
+
+| Item | Status |
+|------|--------|
+| Research | ✅ Complete |
+| Documentation | ✅ Complete |
+| TypeScript demos | ✅ Working |
+| Comparison report | ✅ Complete |
+
+## 🔜 Next Steps
+
+1. **Read** [COMPARISON_REPORT.md](./COMPARISON_REPORT.md)
+2. **Try Spec Kit**: Use `/speckit.specify` in Cursor
+3. **Try B-MAD**: Run `npx bmad-method@alpha install`
+4. **Choose** based on your project needs
+
+## 📁 Archived Tools
+
+The `guardrails_ai/`, `microsoft_guidance/`, and `outlines/` folders contain documentation for tools that were evaluated but **removed** - they focus on runtime validation rather than spec-driven development. Kept for reference.

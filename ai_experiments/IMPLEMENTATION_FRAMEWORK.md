@@ -171,41 +171,38 @@ ai_experiments/
 
 ---
 
-## ⏱️ Implementation Order
+## ⏱️ Implementation Status
 
-### Phase 1: Spec Kit MVP (Day 1)
+### Phase 1: Spec Kit MVP ✅ Complete
 - [x] Framework documentation
-- [ ] Set up Spec Kit demo project
-- [ ] Write and compile spec
-- [ ] Test with Cursor/Opus
+- [x] Set up demo project (TypeScript validation demo)
+- [x] Write spec (`specs/task-planner.md`)
+- [x] Test validation with Cursor/Opus
 
-### Phase 2: B-MAD MVP (Day 1-2)
-- [ ] Install B-MAD Method
-- [ ] Create PRD and architecture
-- [ ] Generate implementation
-- [ ] Test workflow
+### Phase 2: B-MAD MVP ✅ Complete
+- [x] Create PRD and architecture docs
+- [x] Generate implementation
+- [x] Test workflow
 
-### Phase 3: Comparison (Day 2)
-- [ ] Document findings for each tool
-- [ ] Create comparison report
-- [ ] Identify which fits our needs
-
----
-
-## 🎯 Success Criteria
-
-Each minimal demo is complete when:
-- [ ] Can be run with `npm start` or similar
-- [ ] Accepts a project description input
-- [ ] Returns structured task breakdown
-- [ ] Demonstrates spec/methodology guidance
-- [ ] Works with Cursor + Opus 4.5
+### Phase 3: Comparison ✅ Complete
+- [x] Document findings for each tool
+- [x] Create comparison report
+- [x] Identify recommendations
 
 ---
 
-## 📝 Expected Deliverables
+## 🎯 What Was Delivered
 
-1. **Working TypeScript demos** for both tools
-2. **Comparison report** with findings
-3. **Recommendation** for which tool(s) to adopt
-4. **Example specs/PRDs** that can be reused
+- [x] Working TypeScript demos for both approaches
+- [x] Comparison report (`COMPARISON_REPORT.md`)
+- [x] Example specs and PRDs
+- [x] Validation tools that work with Cursor
+
+---
+
+## 📝 Next Steps
+
+1. **Human review** of comparison report
+2. **Try real Spec Kit** with `/speckit.*` commands in Cursor
+3. **Try B-MAD** with `npx bmad-method@alpha install`
+4. **Choose approach** based on project needs

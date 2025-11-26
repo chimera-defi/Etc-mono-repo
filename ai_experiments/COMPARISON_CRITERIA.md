@@ -74,9 +74,9 @@ A spec-driven development tool:
 ### Tool comparison:
 | Aspect | Spec Kit | B-MAD Method |
 |--------|----------|--------------|
-| Cursor support | Generic (any IDE) | Explicit Cursor support |
-| Opus 4.5 | Via API calls | Via agent interactions |
-| Workflow | Compile → validate | Load agent → follow workflow |
+| Cursor support | ✅ Native (slash commands) | ✅ Native (agent workflows) |
+| Opus 4.5 | Via Cursor AI | Via Cursor AI |
+| Workflow | `/speckit.specify` → `/speckit.implement` | `*workflow-init` → agent phases |
 
 ---
 
@@ -96,9 +96,9 @@ A spec-driven development tool:
 ### Tool comparison:
 | Aspect | Spec Kit | B-MAD Method |
 |--------|----------|--------------|
-| Primary language | TypeScript | TypeScript/JavaScript |
-| npm package | `@github/spec-kit` | `bmad-method` |
-| Type quality | TBD | TBD |
+| Primary language | Python (CLI) + AI agents | TypeScript/JavaScript |
+| Installation | `uv tool install specify-cli` | `npm install bmad-method` |
+| Cursor interface | Slash commands (`/speckit.*`) | Agent workflows |
 
 ---
 
