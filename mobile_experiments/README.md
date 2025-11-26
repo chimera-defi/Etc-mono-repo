@@ -1,34 +1,40 @@
 # Mobile Experiments
 
-This folder contains experiments with different mobile app frameworks to evaluate their suitability for cross-platform development.
+This folder contains experiments with different mobile app frameworks to evaluate their suitability for cross-platform development and AI-assisted coding.
 
 ## Frameworks Under Evaluation
 
 1. **[Valdi](./Valdi/)** - Snapchat's cross-platform framework (TypeScript, iOS/Android/macOS)
 2. **[Flutter](./Flutter/)** - Google's UI toolkit (Dart, iOS/Android/Web/Desktop)
 3. **[React Native](./ReactNative/)** - Meta's framework (JavaScript/TypeScript, iOS/Android/Web)
+4. **[Capacitor](./Capacitor/)** - Ionic's web-to-native wrapper (TypeScript, iOS/Android/Web)
 
 ## Current Status
 
-| Framework | Status | Code | Structure | Tests | Documentation |
-|-----------|--------|------|-----------|-------|---------------|
-| **Valdi** | ✅ Complete | ✅ | ✅ | ⚠️ Needs verification | ✅ |
-| **Flutter** | ✅ Complete | ✅ | ✅ | ✅ 3 tests passing | ✅ |
-| **React Native** | ✅ Complete | ✅ | ✅ | ✅ 3 tests passing | ✅ |
+| Framework | Status | Code | Structure | Tests | Linting | Documentation |
+|-----------|--------|------|-----------|-------|---------|---------------|
+| **Valdi** | ✅ Complete | ✅ | ✅ | ⚠️ Needs Valdi CLI | ⚠️ Needs Valdi CLI | ✅ |
+| **Flutter** | ✅ Complete | ✅ | ✅ | ✅ 3 tests passing | ⚠️ Needs Flutter CLI | ✅ |
+| **React Native** | ✅ Complete | ✅ | ✅ | ✅ 3 tests passing | ✅ Clean (1 warning) | ✅ |
+| **Capacitor** | ✅ Complete | ✅ | ✅ | ✅ 4 tests passing | ✅ Clean | ✅ |
 
 ### Quick Comparison
 
-| Aspect | Valdi | Flutter | React Native |
-|--------|-------|---------|--------------|
-| Language | TypeScript | Dart | TypeScript |
-| Hello World | ✅ | ✅ | ✅ |
-| Tests | ⚠️ Pending | ✅ Passing | ✅ Passing |
-| Linting | ⚠️ Pending | ✅ Clean | ✅ Clean |
-| iOS Ready | ⚠️ Needs verification | ✅ | ✅ |
-| Android Ready | ⚠️ Needs verification | ✅ | ✅ |
+| Aspect | Valdi | Flutter | React Native | Capacitor |
+|--------|-------|---------|--------------|-----------|
+| Language | TypeScript | Dart | TypeScript | TypeScript |
+| Hello World | ✅ | ✅ | ✅ | ✅ |
+| Toggle/State | ✅ | ✅ | ✅ | ✅ |
+| Animations | ✅ Native | ✅ | ✅ | ✅ CSS |
+| Tests Passing | ⚠️ | ✅ | ✅ | ✅ |
+| Linting Clean | ⚠️ | ⚠️ | ✅ | ✅ |
+| iOS Ready | ✅ | ✅ | ✅ | ✅ |
+| Android Ready | ✅ | ✅ | ✅ | ✅ |
+| Web Ready | ❌ | ✅ | ✅ | ✅ |
 
 ## Key Documents
 
+- **[AI_COMPARISON.md](./AI_COMPARISON.md)** - AI-focused framework comparison (best for AI development)
 - **[REVIEW.md](./REVIEW.md)** - Initial comprehensive review of all experiments
 - **[SUCCESS_FRAMEWORK.md](./SUCCESS_FRAMEWORK.md)** - Framework for measuring and comparing framework success
 - **[FRAMEWORK_COMPARISON.md](./FRAMEWORK_COMPARISON.md)** - Comparison matrix of mobile frameworks
@@ -46,13 +52,14 @@ We use a structured approach to measure framework success across five dimensions
 
 See [SUCCESS_FRAMEWORK.md](./SUCCESS_FRAMEWORK.md) for detailed metrics and measurement methodology.
 
-## Hello World Apps
+## Hello World Apps (Parity Features)
 
-Each framework implements a parity Hello World app with:
+Each framework implements identical Hello World features for fair comparison:
 
-- **Greeting headline** - "Hello from Valdi Labs" / "[Framework] says hi!"
-- **Interactive toggle** - Button that shows/hides details
-- **Animations** - Fade/scale transitions
+- **Greeting headline** - "Hello from Valdi Labs" + "[Framework] says hi!"
+- **Interactive toggle** - Button that shows/hides details panel
+- **State management** - Toggle state with visual feedback
+- **Animations** - Fade/scale transitions (native or CSS)
 - **Theme support** - Light/dark mode detection
 - **Material-inspired design** - Modern UI with proper spacing
 
@@ -74,6 +81,15 @@ npm start
 npm run android  # or npm run ios
 ```
 
+#### Capacitor
+```bash
+cd Capacitor/app
+npm install
+npm run dev      # Web preview
+npm run build    # Build for native
+npx cap sync     # Sync to native projects
+```
+
 #### Valdi
 ```bash
 cd Valdi
@@ -82,15 +98,29 @@ valdi dev_setup
 valdi run ios  # or android/macos
 ```
 
+## Framework Summary for AI Development
+
+| Criteria | Best Choice | Why |
+|----------|-------------|-----|
+| **Easiest AI coding** | Capacitor | Web technologies, most training data |
+| **Best performance** | Valdi/Flutter | Native compilation, no bridges |
+| **Largest ecosystem** | React Native | Huge npm/community support |
+| **Web + Mobile** | Capacitor | Same codebase everywhere |
+| **Type Safety** | All except Flutter | TypeScript (Dart also strongly typed) |
+
+See [AI_COMPARISON.md](./AI_COMPARISON.md) for the complete AI-focused analysis.
+
 ## Next Steps
 
 1. ✅ ~~Complete review of experiments~~
 2. ✅ ~~Create success measurement framework~~
-3. ✅ ~~Build Flutter Hello World~~
-4. ✅ ~~Build React Native Hello World~~
-5. ⏭️ Run all apps on physical devices for benchmarks
-6. ⏭️ Implement Phase 2 features (navigation, lists, API calls)
-7. ⏭️ Begin baseline measurements per SUCCESS_FRAMEWORK.md
+3. ✅ ~~Build Flutter Hello World with parity~~
+4. ✅ ~~Build React Native Hello World with parity~~
+5. ✅ ~~Build Capacitor Hello World with parity~~
+6. ✅ ~~Enhance Valdi Hello World with parity~~
+7. ⏭️ Run all apps on physical devices for benchmarks
+8. ⏭️ Implement Phase 2 features (navigation, lists, API calls)
+9. ⏭️ Begin baseline measurements per SUCCESS_FRAMEWORK.md
 
 ## Framework-Specific Documentation
 
@@ -115,4 +145,4 @@ When adding new experiments or updating existing ones:
 ---
 
 **Last Updated**: 2024-12-19  
-**Status**: Phase 1 (Hello World) complete for Flutter and React Native
+**Status**: Phase 1 (Hello World) complete for all four frameworks

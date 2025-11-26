@@ -1,0 +1,250 @@
+/**
+ * Capacitor Hello World Styles
+ * Material 3 inspired design with CSS animations
+ */
+
+/* CSS Variables for theming */
+:root {
+  --transition-speed: 300ms;
+}
+
+.app.light {
+  --primary: #8A2BE2;
+  --primary-container: #E9DDFF;
+  --on-primary-container: #21005D;
+  --secondary: #625B71;
+  --secondary-container: #E8DEF8;
+  --on-secondary-container: #1D192B;
+  --surface: #FFFBFE;
+  --surface-variant: #E7E0EC;
+  --on-surface: #1C1B1F;
+  --on-surface-variant: #49454F;
+  --outline: #79747E;
+}
+
+.app.dark {
+  --primary: #D0BCFF;
+  --primary-container: #4F378B;
+  --on-primary-container: #EADDFF;
+  --secondary: #CCC2DC;
+  --secondary-container: #4A4458;
+  --on-secondary-container: #E8DEF8;
+  --surface: #1C1B1F;
+  --surface-variant: #49454F;
+  --on-surface: #E6E1E5;
+  --on-surface-variant: #CAC4D0;
+  --outline: #938F99;
+}
+
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app {
+  min-height: 100vh;
+  background-color: var(--surface);
+  color: var(--on-surface);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* App Bar */
+.app-bar {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--outline);
+  text-align: center;
+}
+
+.app-bar-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--on-surface);
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  position: relative;
+}
+
+/* Hero Icon */
+.hero-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: var(--primary-container);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.hero-emoji {
+  font-size: 40px;
+}
+
+/* Typography */
+.title {
+  font-size: 26px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 12px;
+  color: var(--on-surface);
+}
+
+.subtitle {
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 32px;
+  line-height: 1.5;
+  color: var(--on-surface-variant);
+  max-width: 300px;
+}
+
+/* Content Card */
+.content-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 2px solid transparent;
+  background-color: var(--surface-variant);
+  margin-bottom: 32px;
+  transition: all var(--transition-speed) ease;
+}
+
+.content-card.active {
+  background-color: var(--secondary-container);
+  border-color: var(--secondary);
+}
+
+.content-card.animating {
+  opacity: 0.5;
+  transform: scale(0.98);
+}
+
+/* Prompt Content */
+.prompt-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.prompt-icon {
+  font-size: 20px;
+}
+
+.prompt-text {
+  font-size: 15px;
+  color: var(--on-surface-variant);
+}
+
+/* Details Content */
+.details-content {
+  animation: fadeIn var(--transition-speed) ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.details-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.details-icon {
+  font-size: 18px;
+}
+
+.details-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--on-secondary-container);
+}
+
+.details-list p {
+  font-size: 14px;
+  padding: 4px 0;
+  padding-left: 26px;
+  color: var(--on-secondary-container);
+}
+
+/* Toggle Button */
+.toggle-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 24px;
+  border: none;
+  background-color: var(--primary);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 150ms ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.toggle-button:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-button:active {
+  transform: scale(0.95);
+}
+
+.button-icon {
+  font-size: 18px;
+}
+
+.button-text {
+  color: white;
+}
+
+/* Framework Badge */
+.badge {
+  position: absolute;
+  bottom: 20px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background-color: var(--surface-variant);
+}
+
+.badge-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--on-surface-variant);
+}
+
+/* Safe area support for native apps */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .app-bar {
+    padding-top: calc(16px + env(safe-area-inset-top));
+  }
+  
+  .badge {
+    bottom: calc(20px + env(safe-area-inset-bottom));
+  }
+}
