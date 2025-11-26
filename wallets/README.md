@@ -4,7 +4,8 @@ This folder contains research on WalletConnect-compatible wallets, comparing des
 
 ## Contents
 
-- **walletconnect-wallet-research.md** - Comprehensive research document comparing 10+ wallets including MetaMask, Rabby, Coinbase Wallet, Trust Wallet, Rainbow, Block Wallet, Wigwam, Safe, Argent, and OKX Wallet.
+- **WALLET_COMPARISON_UNIFIED.md** ⭐ - **NEW: Unified comparison with all 10 wallets × all 30+ metrics in one place**, executive summary, strategic recommendations, and links to other wallet comparison websites.
+- **walletconnect-wallet-research.md** - Detailed research document with methodology, wallet-by-wallet analysis, and technical deep-dives.
 
 ## Source
 
