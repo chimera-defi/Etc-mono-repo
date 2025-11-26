@@ -19,10 +19,12 @@ Tools that:
 
 ## ✅ Active Tools
 
-| Toolkit | Repo | Approach | Best For |
-| --- | --- | --- | --- |
-| **Spec Kit** | `github/spec-kit` | Markdown specs → JSON Schema + guard policies | Auditable, deterministic AI responses |
-| **B-MAD Method** | `bmad-code-org/BMAD-METHOD` | Structured methodology with PRDs, architecture, workflows | Full AI-driven development lifecycle |
+| Toolkit | Repo | Language | Approach | Best For |
+| --- | --- | --- | --- | --- |
+| **Spec Kit** | `github/spec-kit` | **Python** | Markdown specs → executable specifications | Auditable, deterministic AI responses |
+| **B-MAD Method** | `bmad-code-org/BMAD-METHOD` | **TypeScript** | Structured methodology with PRDs, workflows | Full AI-driven development lifecycle |
+
+> ⚠️ **Note on Spec Kit**: The real GitHub Spec Kit is Python-based. Our demo (`spec_kit/demo/`) is a custom TypeScript implementation demonstrating spec-driven concepts for Cursor/Opus integration.
 
 ## ❌ Removed Tools (Not Spec-Driven)
 
