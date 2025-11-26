@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Task Planner Response Schema",
+  "description": "Expected output schema for the Task Planner demo",
+  "version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "project_summary": {
+      "type": "string",
+      "description": "Brief summary of the project",
+      "maxLength": 500
+    },
+    "tasks": {
+      "type": "array",
+      "description": "List of tasks to complete the project",
+      "minItems": 1,
+      "maxItems": 10,
+      "items": {
+        "$ref": "#/definitions/Task"
+      }
+    },
+    "total_estimated_hours": {
+      "type": "number",
+      "description": "Sum of all task estimated hours",
+      "minimum": 0
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "generated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "tool": {
+          "type": "string",
+          "enum": ["spec_kit", "bmad", "none"]
+        }
+      }
+    }
+  },
+  "required": ["project_summary", "tasks"],
+  "definitions": {
+    "Task": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique task identifier",
+          "pattern": "^TASK-[0-9]+$"
+        },
+        "title": {
+          "type": "string",
+          "description": "Short task title",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed task description",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "priority": {
+          "type": "string",
+          "description": "Task priority level",
+          "enum": ["high", "medium", "low"]
+        },
+        "estimated_hours": {
+          "type": "number",
+          "description": "Estimated hours to complete",
+          "minimum": 0.5,
+          "maximum": 40
+        },
+        "dependencies": {
+          "type": "array",
+          "description": "IDs of tasks this depends on",
+          "items": {
+            "type": "string",
+            "pattern": "^TASK-[0-9]+$"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "description": "Optional tags for categorization",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": ["title", "description", "priority", "estimated_hours"],
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

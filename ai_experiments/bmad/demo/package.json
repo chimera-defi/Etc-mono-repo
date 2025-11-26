@@ -1,0 +1,23 @@
+{
+  "name": "bmad-demo",
+  "version": "1.0.0",
+  "description": "Minimal viable demo of B-MAD Method for spec-driven development",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": ["bmad", "ai", "spec-driven", "methodology"],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "tsx": "^4.6.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
