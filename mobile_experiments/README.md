@@ -102,11 +102,13 @@ valdi run ios  # or android/macos
 
 | Criteria | Best Choice | Why |
 |----------|-------------|-----|
-| **Easiest AI coding** | Capacitor | Web technologies, most training data |
-| **Best performance** | Valdi/Flutter | Native compilation, no bridges |
+| **Web + Mobile same code** | Capacitor | Only option that runs in browser |
+| **Native performance + AI** | React Native | Best balance of AI support + native |
+| **Best raw performance** | Valdi/Flutter | Native compilation, no bridges |
 | **Largest ecosystem** | React Native | Huge npm/community support |
-| **Web + Mobile** | Capacitor | Same codebase everywhere |
-| **Type Safety** | All except Flutter | TypeScript (Dart also strongly typed) |
+| **Type Safety** | All four | TypeScript or Dart |
+
+**Note**: Capacitor and React Native are **both excellent** for AI-assisted development. Both use TypeScript + JSX. Pick based on your use case (web deployment vs native performance).
 
 See [AI_COMPARISON.md](./AI_COMPARISON.md) for the complete AI-focused analysis.
 
