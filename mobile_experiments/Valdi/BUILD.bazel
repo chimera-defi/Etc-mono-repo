@@ -1,0 +1,19 @@
+load("@valdi//bzl/valdi:valdi_application.bzl", "valdi_application")
+load("@valdi//bzl/valdi:valdi_exported_library.bzl", "valdi_exported_library")
+
+valdi_application(
+    name = "snapchat_valdi_app",
+    ios_bundle_id = "com.website.snapchat_valdi",
+    ios_families = ["iphone"],
+    root_component_path = "App@snapchat_valdi/src/App",
+    title = "snapchat_valdi",
+    version = "1.0.0",
+    deps = ["//modules/snapchat_valdi"],
+)
+
+valdi_exported_library(
+    name = "snapchat_valdi_export",
+    ios_bundle_id = "com.website.snapchat_valdi.lib",
+    ios_bundle_name = "SnapchatValdi",
+    deps = ["//modules/snapchat_valdi"],
+)

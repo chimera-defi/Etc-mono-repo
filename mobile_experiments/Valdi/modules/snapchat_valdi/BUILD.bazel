@@ -1,0 +1,21 @@
+load("@valdi//bzl/valdi:valdi_module.bzl", "valdi_module")
+
+valdi_module(
+    name = "snapchat_valdi",
+    srcs = glob([
+        "src/**/*.ts",
+        "src/**/*.tsx",
+    ]),
+    res = glob([
+        "res/**/*.jpeg",
+        "res/**/*.jpg",
+        "res/**/*.png",
+        "res/**/*.svg",
+        "res/**/*.webp",
+    ]),
+    visibility = ["//visibility:public"],
+    deps = [
+        "@valdi//src/valdi_modules/src/valdi/valdi_core",
+        "@valdi//src/valdi_modules/src/valdi/valdi_tsx",
+    ],
+)
