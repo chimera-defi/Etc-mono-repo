@@ -4,8 +4,25 @@ This folder contains research on WalletConnect-compatible wallets, comparing des
 
 ## Contents
 
-- **WALLET_COMPARISON_UNIFIED.md** ⭐ - **NEW: Unified comparison with all 10 wallets × all 30+ metrics in one place**, executive summary, strategic recommendations, and links to other wallet comparison websites.
-- **walletconnect-wallet-research.md** - Detailed research document with methodology, wallet-by-wallet analysis, and technical deep-dives.
+- **WALLET_COMPARISON_UNIFIED.md** ⭐ - **RECOMMENDED: Developer-focused comparison of 16 wallets** with:
+  - All wallets × all metrics in unified tables
+  - Developer Experience (DX) scoring and rankings
+  - Why MetaMask betrayed developers (and what to use instead)
+  - Migration guide from MetaMask to better alternatives
+  - Links to other wallet comparison websites
+  
+- **walletconnect-wallet-research.md** - Original research document with methodology and technical deep-dives.
+
+## Quick Recommendations for Developers
+
+| Use Case | Wallet | Why |
+|----------|--------|-----|
+| **Development/Testing** | Rabby | Transaction simulation, risk checks, batch tx |
+| **Local Development** | Frame | Native desktop app, hardware wallet support |
+| **Production** | Coinbase Wallet | Stable API, Account Abstraction, enterprise backing |
+| **Enterprise/Multi-sig** | Safe | Full EIP-4337, team workflows |
+| **Maximum Stability** | Block Wallet | Only 1.7 releases/month |
+| **Avoid** | MetaMask | 8 releases/month, 2,496 open issues, constant breakages |
 
 ## Source
 
