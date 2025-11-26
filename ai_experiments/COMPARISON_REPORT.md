@@ -1,24 +1,33 @@
 # Spec-Driven Development Tools - Comparison Report
 
 **Date**: November 2024  
-**Tools Compared**: Spec Kit, B-MAD Method  
+**Tools Compared**: Spec Kit concepts (TypeScript demo), B-MAD Method  
 **Stack**: TypeScript, Node.js, Cursor + Claude Opus 4.5
+
+---
+
+## ⚠️ Important Clarification
+
+**Spec Kit** (github/spec-kit) is a **Python-based** toolkit. Our demo (`spec_kit/demo/`) is a **custom TypeScript implementation** that demonstrates spec-driven development concepts for Cursor/Opus integration. It is NOT a wrapper around the real Spec Kit.
+
+**B-MAD Method** is a real npm package (`bmad-method`) that is TypeScript/JavaScript-based and works as documented.
 
 ---
 
 ## Executive Summary
 
-Both **Spec Kit** and **B-MAD Method** enable spec-driven development to guide AI behavior, but they serve different purposes:
+Both approaches enable spec-driven development to guide AI behavior, but they serve different purposes:
 
-| Aspect | Spec Kit | B-MAD Method |
-|--------|----------|--------------|
+| Aspect | Spec-Driven Demo | B-MAD Method |
+|--------|------------------|--------------|
 | **Best For** | Single AI call contracts | Full development lifecycle |
 | **Spec Format** | Single Markdown spec | PRD + Architecture docs |
 | **Enforcement** | Runtime validation | Workflow guidance |
 | **Complexity** | Low | Medium-High |
 | **Time to Value** | Fast (~2 hours) | Moderate (~3-4 hours) |
+| **Real Package?** | Custom demo (inspired by Spec Kit) | Yes (`bmad-method` on npm) |
 
-**Recommendation**: Use **Spec Kit** for quick, focused AI output validation. Use **B-MAD Method** for comprehensive development projects. **Consider using both together** for best results.
+**Recommendation**: Use the **spec-driven demo concepts** for quick TypeScript output validation. Use **B-MAD Method** for comprehensive development projects. For Python projects, consider the **real GitHub Spec Kit**.
 
 ---
 
