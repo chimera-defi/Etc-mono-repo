@@ -1,73 +1,117 @@
 # Spec Kit (github/spec-kit)
 
-> ⚠️ **IMPORTANT CLARIFICATION**: The demo in this folder (`demo/`) is a **custom TypeScript implementation** that demonstrates the *concept* of spec-driven development. It is NOT a wrapper around the actual GitHub Spec Kit, which is Python-based. See the "Demo vs Real Spec Kit" section below.
+GitHub's open-source toolkit for **Spec-Driven Development** - a methodology where specifications become executable, directly generating working implementations.
 
-## Overview
+## 🎯 What is Spec Kit?
 
-Spec Kit is GitHub's experimental toolkit for Spec-Driven Development. It allows you to focus on product scenarios and predictable outcomes using specifications that guide AI behavior.
+Spec Kit is a **development methodology** that works with AI agents (including **Cursor**, Claude Code, Copilot, and more). It provides:
 
-**Key concept**: Specifications become executable, directly guiding AI implementations rather than just documenting them.
+1. **Slash commands** for AI agents (`/speckit.specify`, `/speckit.plan`, etc.)
+2. **A CLI tool** (`specify`) for project initialization
+3. **A structured workflow** from specification to implementation
 
-## Real Spec Kit (Python)
+### Core Philosophy
 
-The actual GitHub Spec Kit is **Python-based**:
+- **Intent-driven development**: Specifications define the "what" before the "how"
+- **Multi-step refinement**: Not one-shot code generation, but structured phases
+- **AI agent integration**: Works with Cursor, Claude Code, Copilot, and many others
+
+## 🚀 Quick Start
+
+### 1. Install the CLI
 
 ```bash
-# Install the real Spec Kit CLI
+# Persistent installation (recommended)
 uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
 
-# Use the CLI
-specify init <PROJECT_NAME>
-specify check
+# Or one-time usage
+uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME>
 ```
 
-### Key Links (Real Spec Kit)
-- **Repo**: https://github.com/github/spec-kit
-- **Docs**: https://github.github.io/spec-kit/
-- **Language**: Python (uses `uv` package manager)
-- **CLI**: `specify` (not `speckit`)
+### 2. Initialize Project
 
-## Demo vs Real Spec Kit
+```bash
+specify init my-project
+```
 
-| Aspect | Real Spec Kit | Our Demo |
-|--------|---------------|----------|
-| **Language** | Python | TypeScript |
-| **Installation** | `uv tool install specify-cli` | `npm install` |
-| **Purpose** | Full spec-driven development toolkit | Conceptual demonstration |
-| **CLI** | `specify` | `npx tsx src/index.ts` |
-| **Status** | Official GitHub project | Custom implementation |
+### 3. Use Slash Commands in Cursor
 
-### Why the TypeScript Demo?
+Launch Cursor in your project directory and use the commands:
 
-We created a TypeScript demo because:
-1. **TypeScript preference**: User requested TypeScript for all implementations
-2. **Cursor integration**: Designed for Cursor + Opus 4.5 workflow
-3. **Conceptual value**: Demonstrates spec-driven principles regardless of implementation
+```
+/speckit.constitution   # Create project principles
+/speckit.specify        # Describe what you want to build
+/speckit.plan           # Create technical implementation plan
+/speckit.tasks          # Break down into actionable tasks
+/speckit.implement      # Execute implementation
+```
 
-The demo shows **how spec-driven development works** conceptually:
-- Write specs in Markdown
-- Use specs to guide AI prompts
-- Validate AI outputs against spec constraints
+## 📋 Workflow Overview
 
-## What Spec-Driven Development Offers
+| Step | Command | Purpose |
+|------|---------|---------|
+| 1 | `/speckit.constitution` | Establish project principles and guidelines |
+| 2 | `/speckit.specify` | Describe WHAT you want (not HOW) |
+| 3 | `/speckit.plan` | Define tech stack and architecture |
+| 4 | `/speckit.tasks` | Create actionable task list |
+| 5 | `/speckit.implement` | Build according to the plan |
 
-- **Spec-first workflow**: Human intent as source of truth
-- **Validation**: Responses checked against spec constraints
-- **Traceability**: Every output tied to a spec version
-- **Tool-agnostic**: Concepts work with any LLM provider
+## 🤖 Supported AI Agents
 
-## Using the Demo
+| Agent | Support |
+|-------|---------|
+| **Cursor** | ✅ |
+| Claude Code | ✅ |
+| GitHub Copilot | ✅ |
+| Windsurf | ✅ |
+| Gemini CLI | ✅ |
+| And more... | ✅ |
+
+## 📂 Our Demo
+
+The `demo/` folder contains a **TypeScript implementation** demonstrating spec-driven concepts:
+
+- `specs/task-planner.md` - A specification document
+- `src/validator.ts` - Validation against spec constraints
+- `src/index.ts` - CLI for testing spec-driven prompts
+
+This demo shows the **validation** aspect of spec-driven development - ensuring AI outputs conform to specifications.
+
+### Using the Demo
 
 ```bash
 cd demo
 npm install
-npx tsx src/index.ts help
+
+# Generate a spec-driven prompt
+npx tsx src/index.ts prompt "Build a todo app"
+
+# Validate an AI response
+npx tsx src/index.ts validate response.json
+
+# View the specification
+npx tsx src/index.ts spec
 ```
 
-See `demo/README.md` for detailed usage.
+## 🔗 Key Links
 
-## Recommendations
+- **Repository**: https://github.com/github/spec-kit
+- **Documentation**: https://github.github.io/spec-kit/
+- **Video Overview**: https://www.youtube.com/watch?v=a9eR1xsfvHg
 
-1. **For Python projects**: Use the real GitHub Spec Kit
-2. **For TypeScript projects**: Our demo provides a starting point for spec-driven concepts
-3. **Consider both**: Real Spec Kit for full features, our demo for TypeScript integration
+## 💡 When to Use
+
+| Scenario | Use Spec Kit |
+|----------|--------------|
+| New project ("greenfield") | ✅ Full workflow |
+| Adding features | ✅ `/speckit.specify` → `/speckit.implement` |
+| Validating AI outputs | ✅ Spec-based validation |
+| Enterprise/compliance | ✅ Constitution + structured specs |
+
+## 📚 Development Phases
+
+| Phase | Focus |
+|-------|-------|
+| **0-to-1 (Greenfield)** | Generate from scratch with full spec workflow |
+| **Creative Exploration** | Parallel implementations, different stacks |
+| **Iterative Enhancement** | Add features, modernize legacy systems |
