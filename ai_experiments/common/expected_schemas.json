@@ -1,0 +1,267 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Travel Assistant Response Schema",
+  "description": "Unified schema for travel planning responses across all AI constraint tools",
+  "version": "1.0.0",
+  "definitions": {
+    "Traveler": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["adult", "child", "infant"]
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "age": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 120
+        },
+        "special_requirements": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": ["type"]
+    },
+    "Destination": {
+      "type": "object",
+      "properties": {
+        "city": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "country": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "arrival_date": {
+          "type": "string",
+          "format": "date",
+          "description": "ISO 8601 date format (YYYY-MM-DD)"
+        },
+        "departure_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "nights": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 365
+        }
+      },
+      "required": ["city", "country"]
+    },
+    "Accommodation": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["hotel", "hostel", "airbnb", "resort", "villa", "camping"]
+        },
+        "name": {
+          "type": "string"
+        },
+        "rating": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "price_per_night": {
+          "type": "number",
+          "minimum": 0
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        }
+      },
+      "required": ["type"]
+    },
+    "Activity": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "duration_hours": {
+          "type": "number",
+          "minimum": 0.5,
+          "maximum": 24
+        },
+        "cost": {
+          "type": "number",
+          "minimum": 0
+        },
+        "category": {
+          "type": "string",
+          "enum": ["sightseeing", "adventure", "cultural", "relaxation", "food", "shopping", "nature", "entertainment"]
+        },
+        "family_friendly": {
+          "type": "boolean"
+        }
+      },
+      "required": ["name"]
+    },
+    "Budget": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "default": "USD"
+        },
+        "breakdown": {
+          "type": "object",
+          "properties": {
+            "flights": {"type": "number", "minimum": 0},
+            "accommodation": {"type": "number", "minimum": 0},
+            "activities": {"type": "number", "minimum": 0},
+            "food": {"type": "number", "minimum": 0},
+            "transportation": {"type": "number", "minimum": 0},
+            "miscellaneous": {"type": "number", "minimum": 0}
+          }
+        }
+      },
+      "required": ["total", "currency"]
+    }
+  },
+  "type": "object",
+  "properties": {
+    "trip_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for the trip plan"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "confirmed", "needs_clarification", "error"],
+      "description": "Current status of the trip plan"
+    },
+    "summary": {
+      "type": "string",
+      "maxLength": 500,
+      "description": "Brief summary of the trip"
+    },
+    "travelers": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/Traveler"},
+      "minItems": 1,
+      "maxItems": 20
+    },
+    "destinations": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/Destination"},
+      "minItems": 1,
+      "maxItems": 20
+    },
+    "accommodations": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/Accommodation"}
+    },
+    "activities": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/Activity"}
+    },
+    "budget": {
+      "$ref": "#/definitions/Budget"
+    },
+    "travel_dates": {
+      "type": "object",
+      "properties": {
+        "start_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "total_days": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 365
+        },
+        "flexibility": {
+          "type": "string",
+          "enum": ["fixed", "flexible_dates", "flexible_duration"]
+        }
+      },
+      "required": ["start_date", "end_date"]
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Additional notes or recommendations"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {"type": "string", "enum": ["visa", "health", "safety", "budget", "weather", "other"]},
+          "message": {"type": "string"}
+        },
+        "required": ["type", "message"]
+      }
+    },
+    "clarification_needed": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "field": {"type": "string"},
+          "question": {"type": "string"}
+        },
+        "required": ["field", "question"]
+      },
+      "description": "Questions to ask user for missing/unclear information"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "generated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "model": {
+          "type": "string"
+        },
+        "constraint_tool": {
+          "type": "string",
+          "enum": ["spec_kit", "guardrails_ai", "microsoft_guidance", "outlines", "bmad", "none"]
+        },
+        "validation_passed": {
+          "type": "boolean"
+        },
+        "retries": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  },
+  "required": ["status", "summary", "destinations", "budget"],
+  "additionalProperties": false
+}
