@@ -1,35 +1,16 @@
-# Flutter App Workspace
+# hello_flutter
 
-**Current State**: This directory contains `lib/main.dart` with a complete Hello World implementation that matches `HELLO_WORLD_PLAN.md`.
+A new Flutter project.
 
-**Next Steps**: This code needs to be integrated into a proper Flutter project structure. Choose one approach:
+## Getting Started
 
-## Option A: Create subdirectory (Recommended)
-```bash
-cd app/
-flutter create hello_flutter
-# Copy existing code into the new project
-cp lib/main.dart hello_flutter/lib/main.dart
-```
+This project is a starting point for a Flutter application.
 
-## Option B: Scaffold in place
-```bash
-cd app/
-flutter create .
-# Move existing lib/ if needed, then restore main.dart
-```
+A few resources to get you started if this is your first Flutter project:
 
-## Expected Final Structure
-```
-app/
-└── hello_flutter/  (or just app/ if using Option B)
-    ├── lib/
-    │   └── main.dart  ✅ (already implemented)
-    ├── test/
-    │   └── widget_test.dart
-    ├── ios/
-    ├── android/
-    └── pubspec.yaml
-```
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-**Note**: The code in `lib/main.dart` is ready to use - it just needs a proper Flutter project structure around it.
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
