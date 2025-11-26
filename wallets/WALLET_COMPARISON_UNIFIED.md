@@ -7,108 +7,35 @@
 
 ---
 
-## Quick Reference
+## Complete Wallet Comparison (All 16 Wallets)
 
-| Wallet | DX Recommendation | Why |
-|--------|-------------------|-----|
-| **Rabby** | 🟢 Use for development | Only wallet with transaction simulation + risk checks |
-| **Coinbase Wallet** | 🟢 Use for production | Stable API, Account Abstraction, good docs |
-| **Block Wallet** | 🟢 Use for stability | Lowest release frequency (~1.7/month) |
-| **Safe** | 🟢 Use for enterprise | Multi-sig, EIP-4337, web app only |
-| **Trust Wallet** | 🟡 Good backup | Wide adoption, multi-chain |
-| **MetaMask** | 🔴 Avoid as primary | ~8 releases/month, 2,496 open issues |
+| Wallet | Stars | Issues | Ratio | Rel/mo | Stability | Browser Ext | Mobile | Tx Sim | EIP-4337 | Open Source | Best For | Rec |
+|--------|-------|--------|-------|--------|-----------|-------------|--------|--------|----------|-------------|----------|-----|
+| **MetaMask** | 12,948 | 2,496 | 19.3% | ~8 | ⭐⭐ | ✅ | ✅ | ❌ | ⚠️ | ✅ | Compatibility | 🔴 |
+| **Rabby** | 1,724 | 107 | 6.2% | ~5.7 | ⭐⭐⭐⭐ | ✅ | ✅ | ✅ | ❌ | ✅ | Development | 🟢 |
+| **Coinbase** | 1,692 | 44 | 2.6% | - | ⭐⭐⭐⭐ | ✅ | ✅ | ❌ | ✅ | ⚠️ | Production | 🟢 |
+| **Trust** | 3,346 | 69 | 2.1% | - | ⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ⚠️ | Multi-chain | 🟡 |
+| **Rainbow** | 4,237 | 11 | 0.3% | ~4.3 | ⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ✅ | NFT/Ethereum | 🟡 |
+| **Block** | 96 | 45 | 46.9%* | ~1.7 | ⭐⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ✅ | Max stability | 🟢 |
+| **Wigwam** | 83 | 7 | 8.4% | ~2 | ⭐⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ✅ | Stability | 🟢 |
+| **Safe** | - | - | - | - | ⭐⭐⭐⭐ | ❌ | ✅ | ❌ | ✅ | ✅ | Enterprise | 🟢 |
+| **Argent** | 641 | 93 | 14.5% | - | ⭐⭐⭐⭐ | ⚠️† | ✅ | ❌ | ✅ | ✅ | Starknet/AA | 🟡 |
+| **OKX** | - | - | - | - | ⭐⭐⭐⭐ | ✅ | ✅ | ❌ | ⚠️ | ⚠️ | EIP-7702 | 🟡 |
+| **Frame** | 930‡ | 180‡ | 19.4%‡ | ~1‡ | ⭐⭐⭐⭐ | ❌ | ❌ | ✅‡ | ❌ | ✅ | Desktop dev | 🟢 |
+| **Phantom** | - | - | - | - | ⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ❌ | Solana-first | 🟡 |
+| **Zerion** | - | - | - | - | ⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ❌ | Portfolio | ⚪ |
+| **1inch** | - | - | - | - | ⭐⭐⭐ | ❌ | ✅ | ❌ | ❌ | ❌ | DeFi | ⚪ |
+| **Brave** | 2,400+‡ | - | - | - | ⭐⭐⭐⭐ | ⚠️§ | ✅ | ❌ | ❌ | ✅ | Brave users | 🟡 |
+| **Enkrypt** | 180‡ | 30‡ | 16.7%‡ | ~1.3‡ | ⭐⭐⭐⭐ | ✅ | ❌ | ❌ | ❌ | ✅ | Polkadot | 🟡 |
 
----
+**Legend:**
+- 🟢 Recommended | 🟡 Situational | 🔴 Avoid | ⚪ Not for dev
+- \* Block's high ratio due to small community (96 stars)
+- † Argent desktop extension is Starknet-only
+- ‡ Limited verification (not from original research)
+- § Brave Wallet is built into Brave browser
 
-## The MetaMask Problem
-
-MetaMask's high release frequency and issue count make it unsuitable as a primary development wallet:
-
-| Metric | MetaMask | Best Alternative |
-|--------|----------|------------------|
-| Releases/month | **~8** | Block Wallet: ~1.7 |
-| Open issues | **2,496** | Rainbow: 11 |
-| Issue/star ratio | **19.3%** | Rainbow: 0.3% |
-
----
-
-## Master Comparison Table
-
-### Verified Data (GitHub API, November 2024)
-
-| Wallet | Stars | Issues | Ratio | Releases/mo | Stability | Best For |
-|--------|-------|--------|-------|-------------|-----------|----------|
-| **MetaMask** | 12,948 | 2,496 | 19.3% | ~8 | ⭐⭐ | Compatibility only |
-| **Rabby** | 1,724 | 107 | 6.2% | ~5.7 | ⭐⭐⭐⭐ | Development |
-| **Coinbase** | 1,692 | 44 | 2.6% | - | ⭐⭐⭐⭐ | Production |
-| **Trust** | 3,346 | 69 | 2.1% | - | ⭐⭐⭐ | Multi-chain |
-| **Rainbow** | 4,237 | 11 | 0.3% | ~4.3 | ⭐⭐⭐ | NFT/Ethereum |
-| **Block** | 96 | 45 | 46.9%* | ~1.7 | ⭐⭐⭐⭐ | Max stability |
-| **Wigwam** | 83 | 7 | 8.4% | ~2 | ⭐⭐⭐⭐ | Stability |
-| **Argent** | 641 | 93 | 14.5% | - | ⭐⭐⭐⭐ | Starknet/AA |
-| **Safe** | - | - | - | - | ⭐⭐⭐⭐ | Enterprise |
-| **OKX** | - | - | - | - | ⭐⭐⭐⭐ | EIP-7702 |
-
-*Block Wallet's high ratio is due to small community (96 stars); absolute issues (45) are manageable.
-
-### Additional Wallets (Limited Verification)
-
-| Wallet | Type | Open Source | Notes |
-|--------|------|-------------|-------|
-| **Frame** | Desktop app | ✅ [floating/frame](https://github.com/floating/frame) | Developer-focused, hardware wallet support |
-| **1inch** | Mobile only | ❌ Private | DeFi-focused, not for development |
-| **Zerion** | Browser ext | ❌ Private | Portfolio focus |
-| **Phantom** | Browser ext | ❌ Private | Solana-first, EVM secondary |
-| **Brave** | Built-in | ✅ brave-core | Requires Brave browser |
-| **Enkrypt** | Browser ext | ✅ [enkryptcom/enKrypt](https://github.com/enkryptcom/enKrypt) | Multi-chain (Polkadot) |
-
----
-
-## Developer Features Comparison
-
-| Feature | Rabby | Safe | Coinbase | MetaMask | Others |
-|---------|-------|------|----------|----------|--------|
-| **Transaction Simulation** | ✅ | ❌ | ❌ | ❌ | ❌ |
-| **Pre-tx Risk Checks** | ✅ | ❌ | ❌ | ❌ | ❌ |
-| **Batch Transactions** | ✅ | ✅ | ❌ | ❌ | Argent |
-| **Multi-chain Tx View** | ✅ | ❌ | ❌ | ❌ | ❌ |
-| **Custom RPC** | ✅ | ✅ | ✅ | ✅ | Most |
-| **Testnet Support** | ✅ | ✅ | ✅ | ✅ | Most |
-| **EIP-4337 (AA)** | ❌ | ✅ | ✅ | ⚠️ | Argent |
-| **Open Source** | ✅ | ✅ | ⚠️ | ✅ | Varies |
-
-**Key Insight:** Rabby is the only wallet with transaction simulation and pre-transaction risk checks—critical for catching bugs before mainnet.
-
----
-
-## Account Abstraction Support
-
-| Wallet | EIP-4337 | Smart Contract Wallet | EIP-7702 | Notes |
-|--------|----------|----------------------|----------|-------|
-| **Coinbase** | ✅ Full | ⚠️ Partial | ❌ | Best browser extension for AA |
-| **Safe** | ✅ Full | ✅ Full | ❌ | Web app only, multi-sig |
-| **Argent** | ✅ Full | ✅ Full | ❌ | Desktop is Starknet-only |
-| **OKX** | ⚠️ Partial | ✅ | ✅ | Only EIP-7702 support |
-| **MetaMask** | ⚠️ Partial | ❌ | ❌ | Via Snaps only |
-| **Others** | ❌ | ❌ | ❌ | - |
-
----
-
-## Platform Support
-
-| Wallet | Browser Extension | Mobile | Desktop App | Web App |
-|--------|-------------------|--------|-------------|---------|
-| MetaMask | ✅ | ✅ | ❌ | ❌ |
-| Rabby | ✅ | ✅ | ❌ | ❌ |
-| Coinbase | ✅ | ✅ | ❌ | ❌ |
-| Trust | ✅ | ✅ | ❌ | ❌ |
-| Rainbow | ✅ | ✅ | ❌ | ❌ |
-| Block | ✅ | ✅ | ❌ | ❌ |
-| Wigwam | ✅ | ✅ | ❌ | ❌ |
-| Safe | ❌ | ✅ | ❌ | ✅ |
-| Argent | ⚠️ Starknet | ✅ | ❌ | ❌ |
-| OKX | ✅ | ✅ | ❌ | ❌ |
-| Frame | ❌ | ❌ | ✅ | ❌ |
+**Columns:** Stars = GitHub stars | Issues = Open issues | Ratio = Issue/Star % | Rel/mo = Releases per month | Tx Sim = Transaction simulation | EIP-4337 = Account Abstraction
 
 ---
 
