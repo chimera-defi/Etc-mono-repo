@@ -1,4 +1,6 @@
-# Spec Kit Demo - Task Planner
+# Spec-Driven Development Demo - Task Planner
+
+> ⚠️ **Note**: This is a **custom TypeScript implementation** demonstrating spec-driven development concepts. It is NOT a wrapper around the real GitHub Spec Kit (which is Python-based). See `../README.md` for details.
 
 A minimal viable demo of **spec-driven development** using a task planning assistant.
 

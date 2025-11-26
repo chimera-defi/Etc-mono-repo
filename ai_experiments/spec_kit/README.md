@@ -1,27 +1,73 @@
 # Spec Kit (github/spec-kit)
 
+> ⚠️ **IMPORTANT CLARIFICATION**: The demo in this folder (`demo/`) is a **custom TypeScript implementation** that demonstrates the *concept* of spec-driven development. It is NOT a wrapper around the actual GitHub Spec Kit, which is Python-based. See the "Demo vs Real Spec Kit" section below.
+
 ## Overview
-Spec Kit is GitHub's experimental toolkit for turning natural-language specs into enforceable contracts for LLM-powered features. You describe the desired behavior in Markdown (inputs, outputs, rules, evaluation criteria), then the CLI compiles that spec into machine-readable JSON Schema and guard policies that wrap a model call. At runtime Spec Kit can automatically re-prompt, block, or flag responses that fail validation, giving us deterministic surfaces over otherwise stochastic models.
 
-## Why It Helps Constrain AI
-- **Spec-first workflow** keeps human intent as the source of truth and keeps prompts in sync with tests.
-- **Generated validators** (JSON Schema + custom checks) provide hard guarantees about structure, ranges, and enumerations.
-- **Traceability**: every model response is checked against a spec version, producing auditable artifacts for compliance.
-- **Tool-agnostic**: works with OpenAI, Anthropic, Azure, or any model reachable via an adapter.
+Spec Kit is GitHub's experimental toolkit for Spec-Driven Development. It allows you to focus on product scenarios and predictable outcomes using specifications that guide AI behavior.
 
-## Integration Sketch
-1. Install the CLI (`npm install -g @github/spec-kit` or use `npx`).
-2. Create a spec (`specs/<feature>.md`) covering intents, inputs, outputs, and rubrics.
-3. Run `speckit build specs/<feature>.md --out builds/<feature>.json` to compile guards & sample prompts.
-4. Import the generated runner in our app server, wrap the target LLM call, and execute `validate()` on every response.
-5. Feed failures back into prompt iteration until the validator passes consistently.
+**Key concept**: Specifications become executable, directly guiding AI implementations rather than just documenting them.
 
-## Limitations & Risks
-- TypeScript-first tooling; Python SDK is still immature.
-- Specs beyond a few hundred lines become hard to maintain—split large workflows into composable specs.
-- Runtime validation adds latency (~50-150 ms) and requires access to the compiled artifacts.
+## Real Spec Kit (Python)
 
-## Key Links
-- Repo: https://github.com/github/spec-kit
-- Docs: https://githubnext.com/projects/spec-kit
-- Example walkthrough: `examples/help-bot/spec.md` inside the repo.
+The actual GitHub Spec Kit is **Python-based**:
+
+```bash
+# Install the real Spec Kit CLI
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+
+# Use the CLI
+specify init <PROJECT_NAME>
+specify check
+```
+
+### Key Links (Real Spec Kit)
+- **Repo**: https://github.com/github/spec-kit
+- **Docs**: https://github.github.io/spec-kit/
+- **Language**: Python (uses `uv` package manager)
+- **CLI**: `specify` (not `speckit`)
+
+## Demo vs Real Spec Kit
+
+| Aspect | Real Spec Kit | Our Demo |
+|--------|---------------|----------|
+| **Language** | Python | TypeScript |
+| **Installation** | `uv tool install specify-cli` | `npm install` |
+| **Purpose** | Full spec-driven development toolkit | Conceptual demonstration |
+| **CLI** | `specify` | `npx tsx src/index.ts` |
+| **Status** | Official GitHub project | Custom implementation |
+
+### Why the TypeScript Demo?
+
+We created a TypeScript demo because:
+1. **TypeScript preference**: User requested TypeScript for all implementations
+2. **Cursor integration**: Designed for Cursor + Opus 4.5 workflow
+3. **Conceptual value**: Demonstrates spec-driven principles regardless of implementation
+
+The demo shows **how spec-driven development works** conceptually:
+- Write specs in Markdown
+- Use specs to guide AI prompts
+- Validate AI outputs against spec constraints
+
+## What Spec-Driven Development Offers
+
+- **Spec-first workflow**: Human intent as source of truth
+- **Validation**: Responses checked against spec constraints
+- **Traceability**: Every output tied to a spec version
+- **Tool-agnostic**: Concepts work with any LLM provider
+
+## Using the Demo
+
+```bash
+cd demo
+npm install
+npx tsx src/index.ts help
+```
+
+See `demo/README.md` for detailed usage.
+
+## Recommendations
+
+1. **For Python projects**: Use the real GitHub Spec Kit
+2. **For TypeScript projects**: Our demo provides a starting point for spec-driven concepts
+3. **Consider both**: Real Spec Kit for full features, our demo for TypeScript integration
