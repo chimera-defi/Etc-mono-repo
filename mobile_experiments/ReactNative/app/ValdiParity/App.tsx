@@ -143,13 +143,10 @@ function HelloScreen({ colors }: HelloScreenProps): React.JSX.Element {
         <Animated.View
           style={[
             styles.contentCard,
-            {
-              backgroundColor: showDetails
-                ? colors.secondaryContainer
-                : colors.surfaceVariant,
-              borderColor: showDetails ? colors.secondary : 'transparent',
-              opacity: fadeAnim,
-            },
+            showDetails
+              ? [styles.contentCardActive, {backgroundColor: colors.secondaryContainer, borderColor: colors.secondary}]
+              : [styles.contentCardInactive, {backgroundColor: colors.surfaceVariant}],
+            {opacity: fadeAnim},
           ]}>
           {showDetails ? (
             <DetailsContent colors={colors} />
@@ -278,6 +275,12 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 2,
     marginBottom: 32,
+  },
+  contentCardActive: {
+    // Active state styles (colors applied inline due to theme)
+  },
+  contentCardInactive: {
+    borderColor: 'transparent',
   },
   promptRow: {
     flexDirection: 'row',
