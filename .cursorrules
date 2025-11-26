@@ -91,6 +91,27 @@
   29. **Version pinning** - document exact framework versions used (e.g., "Flutter 3.24.5", "React Native 0.82.1") for reproducibility
   30. **Comparison notes** - include explicit "vs. OtherFramework" sections to highlight differences for decision-making
 
+- External tool verification:
+  31. **Verify packages exist before referencing** - always check `npm view <package>` or the actual package registry before claiming a package exists; don't trust documentation claims
+  32. **Check installation methods** - tools may use different package managers (npm, pip, uv, cargo); verify the ACTUAL installation command from the source
+  33. **Distinguish CLI vs AI agent integrations** - some tools (like Spec Kit) are primarily used via AI agent commands (slash commands) not just CLI; understand the primary interface
+  34. **Don't propagate errors** - pre-existing documentation may contain hallucinations; verify claims independently before building on them
+  35. **Test claims with actual commands** - if docs say `npm install X`, try it; if it 404s, the docs are wrong
+  36. **GitHub repo ≠ npm package** - a GitHub repo existing doesn't mean an npm package exists; verify both independently
+
+- Spec-driven development notes:
+  37. **Spec Kit** (github/spec-kit) uses slash commands (`/speckit.specify`, `/speckit.plan`) in AI agents like Cursor; CLI (`specify`) is Python-based via `uv tool install`
+  38. **B-MAD Method** (bmad-method on npm) uses agent personas and `*workflow-init`; TypeScript/JavaScript based
+  39. **Both work with Cursor** - these are complementary tools for spec-driven AI development
+  40. **Spec-driven workflow**: specification → plan → tasks → implementation; specs become executable, not just documentation
+
+## AI Experiments Folder Notes
+- Location: `/workspace/ai_experiments/`
+- Contains comparison of spec-driven development tools (Spec Kit, B-MAD Method)
+- Demos are in `spec_kit/demo/` and `bmad/demo/` - both TypeScript
+- Run with `npx tsx src/index.ts` commands
+- Archived tools (Guardrails, Guidance, Outlines) are in separate folders - not spec-driven, kept for reference
+
 ## Best Practices
 - Use semantic versioning for packages
 - Include proper .gitignore files for each project type
