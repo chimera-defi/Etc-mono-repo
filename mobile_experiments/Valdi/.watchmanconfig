@@ -1,0 +1,8 @@
+{
+    "root_files": [".watchmanconfig"],
+    "ignore_dirs": [
+        "bazel-out",
+        "bazel-bin",
+        "bazel-testlogs"
+    ]
+}
