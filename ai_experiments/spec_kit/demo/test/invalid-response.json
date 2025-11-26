@@ -1,0 +1,20 @@
+{
+  "project_summary": "A todo app",
+  "tasks": [
+    {
+      "id": "task-1",
+      "title": "Do something",
+      "description": "Make it work",
+      "priority": "urgent",
+      "estimated_hours": 100
+    },
+    {
+      "id": "TASK-1",
+      "title": "",
+      "description": "Duplicate ID and empty title",
+      "priority": "high",
+      "estimated_hours": 0.1
+    }
+  ],
+  "total_estimated_hours": -5
+}

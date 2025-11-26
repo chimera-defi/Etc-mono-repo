@@ -1,257 +1,248 @@
-# Comparison Criteria for AI Constraint Tools
+# Comparison Criteria for Spec-Driven Development Tools
 
-This document outlines the key criteria to evaluate when selecting an AI constraint/validation tool for your use case.
+This document outlines the key criteria for evaluating tools that enable **spec-driven development** to guide AI agents.
 
-## 1. Constraint Enforcement Mechanism
+## What Makes a Tool "Spec-Driven"?
 
-**What to evaluate:**
-- Does the tool validate outputs after generation (post-hoc)?
-- Does it enforce constraints during generation (token-level)?
-- Does it structure the development process itself (workflow-level)?
+A spec-driven development tool:
+1. Uses **human-readable specifications** as the source of truth
+2. **Guides AI behavior** based on those specifications
+3. Provides **structure and constraints** for AI outputs
+4. Enables **iterative refinement** of specs
+5. Integrates with **development workflows**
 
-**Why it matters:**
-- Post-hoc validation catches errors but wastes tokens on invalid outputs
-- Token-level enforcement prevents invalid outputs but may slow generation
-- Process-level constraints guide development but don't validate runtime outputs
+---
 
-**Tools comparison:**
-- Post-hoc: Spec Kit, Guardrails AI
-- Token-level: Outlines, Microsoft Guidance
-- Process-level: B-MAD Method
+## 1. Specification Approach
 
-## 2. Language & Runtime Support
+### What to evaluate:
+- How are specs written? (Markdown, YAML, code, structured docs)
+- How readable are specs to humans?
+- Can specs be version-controlled effectively?
+- How modular/composable are specs?
 
-**What to evaluate:**
-- Primary language (Python, TypeScript/JavaScript, etc.)
-- Secondary language support
-- Runtime requirements (Node.js version, Python version)
-- Edge runtime compatibility
+### Why it matters:
+- Readable specs = maintainable system
+- Version control = traceability and collaboration
+- Modularity = reusable components
 
-**Why it matters:**
-- Determines integration complexity
-- Affects deployment options
-- May require additional infrastructure
+### Tool comparison:
+| Aspect | Spec Kit | B-MAD Method |
+|--------|----------|--------------|
+| Format | Markdown | PRDs, Architecture docs, Workflows |
+| Readability | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| Version-friendly | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| Modularity | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
 
-**Tools comparison:**
-- Python-first: Guardrails, Guidance, Outlines
-- TypeScript-first: Spec Kit, B-MAD
-- Multi-language: Varies by tool
+---
 
-## 3. Integration Complexity
+## 2. AI Guidance Mechanism
 
-**What to evaluate:**
-- Installation steps
-- Configuration requirements
-- Learning curve
-- Setup time
+### What to evaluate:
+- How does the tool guide AI behavior?
+- Is guidance enforced or suggestive?
+- Can the AI deviate from specs?
+- How are violations handled?
 
-**Why it matters:**
-- Faster time-to-value
-- Lower maintenance burden
-- Easier team adoption
+### Why it matters:
+- Enforcement level determines reliability
+- Handling violations affects developer experience
+- Balance between rigidity and flexibility
 
-**Tools comparison:**
-- Low: Outlines (simple API), Guidance (templates)
-- Medium: Spec Kit (spec files), Guardrails (RAIL files)
-- High: B-MAD (methodology adoption)
+### Tool comparison:
+| Aspect | Spec Kit | B-MAD Method |
+|--------|----------|--------------|
+| Mechanism | Compiled validators + re-prompting | Agent workflows + methodology |
+| Enforcement | Hard (validation) | Soft (guidance) |
+| Deviation handling | Re-ask loop | Agent redirection |
 
-## 4. Performance & Latency
+---
 
-**What to evaluate:**
-- Overhead per request
-- Impact on response time
-- Scalability characteristics
-- Token efficiency
+## 3. Integration with Cursor/IDE
 
-**Why it matters:**
-- User experience (especially for real-time applications)
-- Cost implications
-- Infrastructure requirements
+### What to evaluate:
+- Does it work naturally in Cursor?
+- How well does it integrate with Claude Opus 4.5?
+- Is the workflow intuitive?
+- Are there IDE-specific features?
 
-**Tools comparison:**
-- Minimal overhead: Outlines, Guidance (<50ms)
-- Moderate overhead: Spec Kit (50-150ms)
-- Significant overhead: Guardrails (150-300ms+ with re-asks)
+### Why it matters:
+- We use Cursor + Opus 4.5 as our AI stack
+- Seamless integration = better developer experience
+- IDE features can enhance productivity
 
-## 5. Maturity & Production Readiness
+### Tool comparison:
+| Aspect | Spec Kit | B-MAD Method |
+|--------|----------|--------------|
+| Cursor support | Generic (any IDE) | Explicit Cursor support |
+| Opus 4.5 | Via API calls | Via agent interactions |
+| Workflow | Compile → validate | Load agent → follow workflow |
 
-**What to evaluate:**
-- Version stability (alpha, beta, stable)
-- Community size and activity
-- Production usage examples
-- Maintenance status
-- Breaking change frequency
+---
 
-**Why it matters:**
-- Risk assessment
-- Long-term viability
-- Support availability
+## 4. TypeScript/JavaScript Support
 
-**Tools comparison:**
-- Production-ready: Guardrails, Guidance
-- Stable: Spec Kit, Outlines
-- Alpha/Beta: B-MAD v6 (v4 stable)
+### What to evaluate:
+- Is TypeScript the primary language?
+- Quality of TypeScript types
+- npm package availability
+- Documentation for TS developers
 
-## 6. Use Case Alignment
+### Why it matters:
+- We're standardizing on TypeScript
+- Good types = better DX and fewer bugs
+- npm ecosystem compatibility
 
-**What to evaluate:**
-- Does it solve your specific problem?
-- Fit for your domain (compliance, structured data, workflows, etc.)
-- Complementary vs. competing tools
+### Tool comparison:
+| Aspect | Spec Kit | B-MAD Method |
+|--------|----------|--------------|
+| Primary language | TypeScript | TypeScript/JavaScript |
+| npm package | `@github/spec-kit` | `bmad-method` |
+| Type quality | TBD | TBD |
 
-**Why it matters:**
-- Ensures the tool actually addresses your needs
-- Avoids over-engineering
-- Identifies potential tool combinations
+---
 
-**Tools comparison:**
-- Output validation: Spec Kit, Guardrails, Outlines, Guidance
-- Development workflow: B-MAD
-- Structured data: Outlines, Guidance
-- Compliance: Spec Kit, Guardrails
+## 5. Learning Curve
 
-## 7. Customization & Extensibility
-
-**What to evaluate:**
-- Ability to create custom validators
-- Plugin/extension system
-- API flexibility
-- Domain-specific customization
-
-**Why it matters:**
-- Adapts to unique requirements
-- Future-proofing
-- Team-specific needs
-
-**Tools comparison:**
-- High: Guardrails (custom validators), B-MAD (custom agents/workflows)
-- Medium: Spec Kit (custom validators), Guidance (custom templates)
-- Lower: Outlines (grammar-based)
-
-## 8. LLM Provider Compatibility
-
-**What to evaluate:**
-- Supported providers (OpenAI, Anthropic, Azure, local models, etc.)
-- Provider-specific features
-- Migration ease between providers
-
-**Why it matters:**
-- Flexibility in provider choice
-- Vendor lock-in risk
-- Multi-provider strategies
-
-**Tools comparison:**
-- Broad support: Spec Kit, Guardrails, Outlines, Guidance
-- Limited: B-MAD (IDE-focused)
-
-## 9. Developer Experience
-
-**What to evaluate:**
+### What to evaluate:
+- Time from zero to first working example
 - Documentation quality
 - Example availability
-- Error messages and debugging
-- IDE integration
 - Community support
 
-**Why it matters:**
-- Faster development
-- Easier troubleshooting
-- Team productivity
+### Why it matters:
+- Lower learning curve = faster adoption
+- Good docs = self-serve troubleshooting
+- Community = long-term viability
 
-**Tools comparison:**
-- Strong docs: Guardrails, Guidance
-- Good docs: Spec Kit, Outlines
-- Growing docs: B-MAD
+### Tool comparison:
+| Aspect | Spec Kit | B-MAD Method |
+|--------|----------|--------------|
+| Time to hello world | ~1 hour | ~1-2 hours |
+| Documentation | GitHub Next docs | GitHub repo + Discord |
+| Examples | Repo examples | YouTube + Discord |
 
-## 10. Cost & Resource Requirements
+---
 
-**What to evaluate:**
-- Token usage impact
-- Infrastructure needs
-- Licensing costs
-- Maintenance overhead
+## 6. Customization & Extensibility
 
-**Why it matters:**
-- Budget planning
-- ROI calculation
-- Scalability costs
+### What to evaluate:
+- Can you create custom validators/agents?
+- How flexible is the spec format?
+- Can you extend for domain-specific needs?
 
-**Tools comparison:**
-- Token efficient: B-MAD (document sharding), Outlines
-- Moderate: Guidance, Spec Kit
-- Variable: Guardrails (depends on re-asks)
+### Why it matters:
+- Real projects have unique requirements
+- Extensibility = future-proofing
+- Customization = better fit
 
-## 11. Security & Compliance
+### Tool comparison:
+| Aspect | Spec Kit | B-MAD Method |
+|--------|----------|--------------|
+| Custom validators | Yes | Via B-MAD Builder |
+| Custom workflows | Limited | Extensive |
+| Domain adaptation | Via spec language | Via custom agents |
 
-**What to evaluate:**
-- Built-in security features
-- Compliance capabilities (audit trails, logging)
-- Data handling and privacy
-- Custom security validators
+---
 
-**Why it matters:**
-- Regulatory requirements
-- Risk mitigation
-- Trust and safety
+## 7. Maturity & Production Readiness
 
-**Tools comparison:**
-- Strong: Guardrails (built-in filters), Spec Kit (audit trails)
-- Moderate: Others
-- Process-focused: B-MAD
+### What to evaluate:
+- Version stability (alpha, beta, stable)
+- Production usage examples
+- Breaking change frequency
+- Maintenance activity
 
-## 12. Scalability & Architecture
+### Why it matters:
+- Production use requires stability
+- Active maintenance = bugs get fixed
+- Stability = less churn
 
-**What to evaluate:**
-- Horizontal scaling support
-- Microservice compatibility
-- Sidecar pattern support
-- Distributed system integration
+### Tool comparison:
+| Aspect | Spec Kit | B-MAD Method |
+|--------|----------|--------------|
+| Version | Experimental | v4 stable, v6 alpha |
+| Production usage | GitHub internal | Community projects |
+| Maintenance | Active | Active |
 
-**Why it matters:**
-- Production architecture
-- Growth planning
-- System design flexibility
+---
 
-**Tools comparison:**
-- Microservice-friendly: Guardrails (can run as sidecar)
-- Service-integrated: Spec Kit, Guidance, Outlines
-- IDE-integrated: B-MAD
+## 8. Output Quality
+
+### What to evaluate:
+- Does AI follow specs accurately?
+- Are outputs consistent?
+- How are edge cases handled?
+
+### Why it matters:
+- This is the whole point
+- Consistency = reliability
+- Edge case handling = robustness
+
+### Evaluation method:
+- Run same test prompts through both tools
+- Compare output structure and content
+- Document failure modes
+
+---
 
 ## Evaluation Checklist
 
-Use this checklist when evaluating tools:
+Use this when testing each tool:
 
-- [ ] Constraint mechanism matches your needs (runtime/process/token-level)
-- [ ] Language support aligns with your stack
-- [ ] Integration complexity is acceptable
-- [ ] Performance meets latency requirements
-- [ ] Tool is mature enough for your risk tolerance
-- [ ] Use case alignment is clear
-- [ ] Customization capabilities meet requirements
-- [ ] Provider compatibility matches your LLM choices
-- [ ] Developer experience is positive
-- [ ] Cost/resource requirements are acceptable
-- [ ] Security/compliance features are adequate
-- [ ] Scalability matches your architecture
+### Setup
+- [ ] Installed successfully
+- [ ] Created first spec/PRD
+- [ ] Got first AI response guided by spec
+- [ ] Documented time taken
+
+### Spec Quality
+- [ ] Spec is readable by humans
+- [ ] Spec captures requirements accurately
+- [ ] Spec can be version-controlled
+- [ ] Modifications are straightforward
+
+### AI Guidance
+- [ ] AI follows spec on happy path
+- [ ] AI handles constraint violations
+- [ ] AI provides useful error messages
+- [ ] Outputs are consistent across runs
+
+### Developer Experience
+- [ ] Workflow feels natural in Cursor
+- [ ] Documentation was sufficient
+- [ ] Debugging was manageable
+- [ ] Would use again for real project
+
+---
 
 ## Decision Framework
 
-1. **Identify primary use case**: Output validation, structured generation, workflow enforcement, or combination?
-2. **Assess constraints**: Language, performance, maturity requirements
-3. **Shortlist tools**: Filter by primary use case and constraints
-4. **Evaluate top candidates**: Use comparison criteria above
-5. **Consider combinations**: Some tools complement each other (e.g., B-MAD + Guardrails)
-6. **Prototype**: Build small proof-of-concept with top 2-3 candidates
-7. **Measure**: Compare performance, developer experience, and outcomes
-8. **Decide**: Select tool(s) based on prototype results
+1. **Identify primary use case**
+   - Single AI call constraints → **Spec Kit**
+   - Full development workflow → **B-MAD Method**
+   - Both → Consider using together
+
+2. **Assess your team**
+   - Prefer explicit contracts → **Spec Kit**
+   - Prefer methodology guidance → **B-MAD Method**
+
+3. **Consider project scope**
+   - Small feature → **Spec Kit**
+   - Full product → **B-MAD Method**
+   - Enterprise system → **Both**
+
+4. **Prototype both**
+   - Build minimal demos (this is what we're doing)
+   - Compare actual experience
+   - Make informed decision
+
+---
 
 ## Notes
 
-- **Tool Combinations**: Many tools can be used together. For example:
-  - B-MAD Method for development workflow + Guardrails for runtime validation
-  - Outlines for structured generation + Spec Kit for compliance auditing
-  - Guidance for orchestration + Guardrails for safety filters
+- **Complementary Use**: These tools can work together. B-MAD for development workflow, Spec Kit for specific output contracts.
 
-- **Evolution**: The AI constraint tooling space is rapidly evolving. Re-evaluate periodically as tools mature and new options emerge.
+- **Evolution**: Both tools are actively developed. Re-evaluate as they mature.
 
-- **Team Context**: Consider your team's expertise, preferences, and existing infrastructure when making decisions.
+- **Context Matters**: The "best" tool depends on your specific needs, team, and project.
