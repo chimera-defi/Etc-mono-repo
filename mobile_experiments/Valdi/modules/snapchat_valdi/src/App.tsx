@@ -1,7 +1,7 @@
 import { StatefulComponent } from 'valdi_core/src/Component';
 import { Label, View } from 'valdi_tsx/src/NativeTemplateElements';
 import { Style } from 'valdi_core/src/Style';
-import { systemBoldFont, systemFont, systemSemiBoldFont } from 'valdi_core/src/SystemFont';
+import { systemBoldFont, systemFont } from 'valdi_core/src/SystemFont';
 
 /**
  * Valdi Hello World - Framework Parity Demo
@@ -12,6 +12,9 @@ import { systemBoldFont, systemFont, systemSemiBoldFont } from 'valdi_core/src/S
  * - State management with StatefulComponent
  * - Toggle functionality
  * - Cross-platform native (iOS/Android/macOS)
+ * 
+ * NOTE: Style properties are based on documented Valdi APIs (flexbox layout).
+ * Some advanced CSS-like properties may need verification against Valdi docs.
  */
 
 /**
@@ -130,6 +133,8 @@ const colors = {
   onSecondaryContainer: '#21005D',
 };
 
+// Styles using documented Valdi flexbox properties
+// NOTE: Properties like boxShadow, position, maxWidth need Valdi CLI verification
 const styles = {
   container: new Style<View>({
     backgroundColor: colors.primary,
@@ -143,12 +148,10 @@ const styles = {
     paddingLeft: 20,
     paddingRight: 20,
     alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(0, 0, 0, 0.1)',
   }),
   appBarTitle: new Style<Label>({
     color: colors.onSurface,
-    font: systemSemiBoldFont(20),
+    font: systemBoldFont(20),
   }),
   
   // Main Content
@@ -170,7 +173,6 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 24,
-    boxShadow: '0 4 12 rgba(0, 0, 0, 0.1)',
   }),
   heroEmoji: new Style<Label>({
     font: systemFont(40),
@@ -192,25 +194,24 @@ const styles = {
   
   // Content Card (Default)
   contentCard: new Style<View>({
-    width: '100%',
-    maxWidth: 400,
     padding: 16,
     borderRadius: 16,
     backgroundColor: colors.surface,
     marginBottom: 32,
-    boxShadow: '0 2 8 rgba(0, 0, 0, 0.1)',
+    marginLeft: 16,
+    marginRight: 16,
   }),
   
   // Content Card (Active/Details shown)
   contentCardActive: new Style<View>({
-    width: '100%',
-    maxWidth: 400,
     padding: 16,
     borderRadius: 16,
     backgroundColor: colors.secondaryContainer,
     borderWidth: 2,
     borderColor: colors.secondary,
     marginBottom: 32,
+    marginLeft: 16,
+    marginRight: 16,
   }),
   
   // Prompt Content
@@ -243,7 +244,7 @@ const styles = {
   }),
   detailsTitle: new Style<Label>({
     color: colors.onSecondaryContainer,
-    font: systemSemiBoldFont(16),
+    font: systemBoldFont(16),
   }),
   detailItem: new Style<Label>({
     color: colors.onSecondaryContainer,
@@ -264,17 +265,15 @@ const styles = {
     paddingRight: 28,
     borderRadius: 24,
     backgroundColor: colors.secondary,
-    boxShadow: '0 2 8 rgba(0, 0, 0, 0.15)',
   }),
   buttonText: new Style<Label>({
     color: '#FFFFFF',
-    font: systemSemiBoldFont(16),
+    font: systemBoldFont(16),
   }),
   
-  // Badge
+  // Badge (at bottom of screen)
   badge: new Style<View>({
-    position: 'absolute',
-    bottom: 20,
+    marginTop: 32,
     paddingTop: 8,
     paddingBottom: 8,
     paddingLeft: 16,
