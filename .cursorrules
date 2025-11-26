@@ -69,3 +69,20 @@
 - Maintain clear separation between different experiments
 - Document tooling requirements and setup steps
 - Keep dependencies minimal for experimental projects
+
+## DeFi/Financial Project Specific (Meta Learnings)
+- **Financial precision**: Use `Decimal` for all financial calculations, never `float`
+- **Risk documentation**: Always include prominent risk warnings for projects involving real money
+- **Simulation first**: For financial strategies, provide safe simulation environment before production code
+- **Progressive deployment**: Document testnet → small mainnet → scale approach
+- **Security by default**: Include `.env` in `.gitignore`, provide `.env.example` instead
+- **Separate custom from imported**: Keep your code separate from cloned/imported SDK code
+- **Test without dependencies**: Provide simulation/mock environment that runs without installing heavy dependencies
+
+## Documentation for Complex Projects (Meta Learnings)
+- **Layered documentation**: Provide multiple entry points (Quick start, Deep dive, Reference)
+- **Visual summaries**: Include ASCII art or formatted summaries for quick understanding
+- **Decision trees**: For deployment projects, provide decision trees for go/no-go decisions
+- **Success criteria**: Define clear success metrics before deployment
+- **External resource linking**: Link to official docs, communities, and support channels
+- **Incremental complexity**: Start simple (simulation), then add complexity (testnet, mainnet)
