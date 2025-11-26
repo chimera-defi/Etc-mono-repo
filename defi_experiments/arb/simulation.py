@@ -5,7 +5,6 @@ This script simulates various market conditions to test arbitrage profitability
 without requiring real blockchain interactions or funds.
 """
 
-import asyncio
 from decimal import Decimal
 from typing import Dict, List, Tuple
 from dataclasses import dataclass
