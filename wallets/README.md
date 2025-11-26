@@ -1,79 +1,36 @@
 # Wallet Research
 
-This folder contains research on WalletConnect-compatible wallets, comparing desktop browser extensions and mobile apps to identify stable MetaMask alternatives.
+Developer-focused comparison of WalletConnect-compatible wallets to find stable MetaMask alternatives.
 
-## Contents
-
-- **WALLET_COMPARISON_UNIFIED.md** ⭐ - **RECOMMENDED: Developer-focused comparison of 16 wallets** with:
-  - All wallets × all metrics in unified tables
-  - Developer Experience (DX) scoring and rankings
-  - Why MetaMask betrayed developers (and what to use instead)
-  - Migration guide from MetaMask to better alternatives
-  - Links to other wallet comparison websites
-  
-- **walletconnect-wallet-research.md** - Original research document with methodology and technical deep-dives.
-
-## Quick Recommendations for Developers
+## Quick Recommendations
 
 | Use Case | Wallet | Why |
 |----------|--------|-----|
-| **Development/Testing** | Rabby | Transaction simulation, risk checks, batch tx |
-| **Local Development** | Frame | Native desktop app, hardware wallet support |
-| **Production** | Coinbase Wallet | Stable API, Account Abstraction, enterprise backing |
-| **Enterprise/Multi-sig** | Safe | Full EIP-4337, team workflows |
-| **Maximum Stability** | Block Wallet | Only 1.7 releases/month |
-| **Avoid** | MetaMask | 8 releases/month, 2,496 open issues, constant breakages |
+| Development | **Rabby** | Transaction simulation, risk checks |
+| Production | **Coinbase Wallet** | Stable API, Account Abstraction |
+| Max Stability | **Block Wallet** | Only 1.7 releases/month |
+| Enterprise | **Safe** | Multi-sig, EIP-4337 |
+| Avoid | MetaMask | 8 releases/month, 2,496 open issues |
+
+## Documents
+
+| File | Description |
+|------|-------------|
+| [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md) | Unified comparison of 10+ wallets with verified GitHub metrics |
+| [walletconnect-wallet-research.md](./walletconnect-wallet-research.md) | Original detailed research with methodology |
+
+## Key Metrics (Verified November 2024)
+
+| Wallet | Issues | Ratio | Releases/mo | Recommendation |
+|--------|--------|-------|-------------|----------------|
+| MetaMask | 2,496 | 19.3% | ~8 | 🔴 Avoid |
+| Rabby | 107 | 6.2% | ~5.7 | 🟢 Development |
+| Coinbase | 44 | 2.6% | - | 🟢 Production |
+| Block | 45 | 46.9%* | ~1.7 | 🟢 Stability |
+| Rainbow | 11 | 0.3% | ~4.3 | 🟡 NFT focus |
+
+*Small community (96 stars), absolute count is fine.
 
 ## Source
 
-This research was extracted from PR #62 of the [chimera-defi/ethglobal-argentina-25](https://github.com/chimera-defi/ethglobal-argentina-25) repository.
-
-**PR Details:**
-- **Title:** Research desktop and mobile wallets for MetaMask alternative
-- **PR Number:** #62
-- **Branch:** `cursor/research-desktop-and-mobile-wallets-for-metamask-alternative-composer-1-3c37`
-- **Commit SHA:** `8097b109f655d3728ebb8e62c340a8793098a6d3`
-- **Original Path:** `Wallet_Comparisons/walletconnect-wallet-research.md`
-
-## Research Overview
-
-**Research Date:** November 2024  
-**Purpose:** Find stable MetaMask alternatives with both desktop browser extensions and mobile apps, specifically for developer use  
-**Methodology:** Data verified via GitHub REST API, release frequency analysis, and code quality metrics
-
-### Key Findings
-
-- **Most Stable Wallets:** Block Wallet (~1.7 releases/month) and Wigwam (~2 releases/month)
-- **Best Developer Features:** Rabby (transaction simulation, risk checks, batch transactions)
-- **Best Balance:** Coinbase Wallet (stability + full Account Abstraction support)
-- **Best Code Quality:** Rainbow (0.3% issue/star ratio), Trust Wallet (2.1%), Coinbase Wallet (2.6%)
-
-### Top Recommendations
-
-1. **Rabby** ⭐⭐⭐⭐ - Best developer features, transaction simulation, browser extension
-2. **Coinbase Wallet** ⭐⭐⭐⭐ - Best balance of stability and features, full EIP-4337 support
-3. **Block Wallet / Wigwam** ⭐⭐⭐⭐ - Most stable (lowest release frequency)
-4. **Safe / Argent** ⭐⭐⭐⭐⭐ - Best for Account Abstraction (but limitations: Safe is web app only, Argent desktop is Starknet-only)
-
-## Wallets Analyzed
-
-- MetaMask
-- Rabby
-- Coinbase Wallet
-- Trust Wallet
-- Rainbow
-- Block Wallet
-- Wigwam
-- Safe (Gnosis Safe)
-- Argent
-- OKX Wallet
-
-## Research Topics Covered
-
-- Stability metrics & code quality analysis
-- Release frequency analysis
-- Browser extension availability
-- Account Abstraction & Advanced EIPs (EIP-4337, EIP-7702, EIP-5792, EIP-3074)
-- Clear Signing & Safety Features (EIP-7730, EIP-712, EIP-191)
-- Developer-focused features
-- Detailed wallet-by-wallet analysis
+Research from PR #62 of [chimera-defi/ethglobal-argentina-25](https://github.com/chimera-defi/ethglobal-argentina-25). Data verified via GitHub REST API.
