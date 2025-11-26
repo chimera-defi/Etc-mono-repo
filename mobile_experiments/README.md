@@ -34,11 +34,12 @@ This folder contains experiments with different mobile app frameworks to evaluat
 
 ## Key Documents
 
-- **[AI_COMPARISON.md](./AI_COMPARISON.md)** - AI-focused framework comparison (best for AI development)
-- **[REVIEW.md](./REVIEW.md)** - Initial comprehensive review of all experiments
+- **[AUDIT_SUMMARY.md](./AUDIT_SUMMARY.md)** - Quick summary for human auditors (start here)
+- **[AI_COMPARISON.md](./AI_COMPARISON.md)** - AI-focused framework comparison with scoring
+- **[TLDR_SUMMARY.md](./TLDR_SUMMARY.md)** - One-page decision guide
 - **[SUCCESS_FRAMEWORK.md](./SUCCESS_FRAMEWORK.md)** - Framework for measuring and comparing framework success
 - **[FRAMEWORK_COMPARISON.md](./FRAMEWORK_COMPARISON.md)** - Comparison matrix of mobile frameworks
-- **[WEB_TO_MOBILE_GUIDE.md](./WEB_TO_MOBILE_GUIDE.md)** - Guide for web developers transitioning to mobile
+- **[REVIEW.md](./REVIEW.md)** - Initial comprehensive review of all experiments
 
 ## Success Measurement
 
