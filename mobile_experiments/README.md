@@ -1,149 +1,54 @@
 # Mobile Experiments
 
-This folder contains experiments with different mobile app frameworks to evaluate their suitability for cross-platform development and AI-assisted coding.
+Comparison of cross-platform mobile frameworks for AI-assisted development.
 
-## Frameworks Under Evaluation
+## Frameworks
 
-1. **[Valdi](./Valdi/)** - Snapchat's cross-platform framework (TypeScript, iOS/Android/macOS)
-2. **[Flutter](./Flutter/)** - Google's UI toolkit (Dart, iOS/Android/Web/Desktop)
-3. **[React Native](./ReactNative/)** - Meta's framework (JavaScript/TypeScript, iOS/Android/Web)
-4. **[Capacitor](./Capacitor/)** - Ionic's web-to-native wrapper (TypeScript, iOS/Android/Web)
+| Framework | Language | Status | Tests | Quick Start |
+|-----------|----------|--------|-------|-------------|
+| [Capacitor](./Capacitor/) | TypeScript | ✅ Complete | ✅ 4/4 | `cd Capacitor/app && npm run dev` |
+| [React Native](./ReactNative/) | TypeScript | ✅ Complete | ✅ 3/3 | `cd ReactNative/app/ValdiParity && npm start` |
+| [Flutter](./Flutter/) | Dart | ✅ Complete | ✅ 3/3 | `cd Flutter/app && flutter run` |
+| [Valdi](./Valdi/) | TypeScript | ⚠️ Needs CLI | — | `valdi hotreload` |
 
-## Current Status
+## AI Development Scores
 
-| Framework | Status | Code | Structure | Tests | Linting | Documentation |
-|-----------|--------|------|-----------|-------|---------|---------------|
-| **Valdi** | ✅ Complete | ✅ | ✅ | ⚠️ Needs Valdi CLI | ⚠️ Needs Valdi CLI | ✅ |
-| **Flutter** | ✅ Complete | ✅ | ✅ | ✅ 3 tests passing | ⚠️ Needs Flutter CLI | ✅ |
-| **React Native** | ✅ Complete | ✅ | ✅ | ✅ 3 tests passing | ✅ Clean | ✅ |
-| **Capacitor** | ✅ Complete | ✅ | ✅ | ✅ 4 tests passing | ✅ Clean | ✅ |
+| Framework | Score | Best For |
+|-----------|-------|----------|
+| **Capacitor** | 4.9/5 | Web devs, browser + mobile |
+| **React Native** | 4.25/5 | Native perf + large ecosystem |
+| **Flutter** | 4.05/5 | Best raw performance |
+| **Valdi** | 2.95/5 | Snapchat ecosystem |
 
-### Quick Comparison
+## Quick Decision Guide
 
-| Aspect | Valdi | Flutter | React Native | Capacitor |
-|--------|-------|---------|--------------|-----------|
-| Language | TypeScript | Dart | TypeScript | TypeScript |
-| Hello World | ✅ | ✅ | ✅ | ✅ |
-| Toggle/State | ✅ | ✅ | ✅ | ✅ |
-| Animations | ✅ Native | ✅ | ✅ | ✅ CSS |
-| Tests Passing | ⚠️ | ✅ | ✅ | ✅ |
-| Linting Clean | ⚠️ | ⚠️ | ✅ | ✅ |
-| iOS Ready | ✅ | ✅ | ✅ | ✅ |
-| Android Ready | ✅ | ✅ | ✅ | ✅ |
-| Web Ready | ❌ | ✅ | ✅ | ✅ |
+```
+Have existing web app?
+  → YES: Capacitor (wrap it)
+  → NO: Continue
 
-## Key Documents
+Need same code in browser?
+  → YES: Capacitor
+  → NO: Continue
 
-- **[AUDIT_SUMMARY.md](./AUDIT_SUMMARY.md)** - Quick summary for human auditors (start here)
-- **[AI_COMPARISON.md](./AI_COMPARISON.md)** - AI-focused framework comparison with scoring
-- **[TLDR_SUMMARY.md](./TLDR_SUMMARY.md)** - One-page decision guide
-- **[SUCCESS_FRAMEWORK.md](./SUCCESS_FRAMEWORK.md)** - Framework for measuring and comparing framework success
-- **[FRAMEWORK_COMPARISON.md](./FRAMEWORK_COMPARISON.md)** - Comparison matrix of mobile frameworks
-
-## Success Measurement
-
-We use a structured approach to measure framework success across five dimensions:
-
-1. **Developer Experience (25%)** - Setup time, hot reload, build time, documentation
-2. **Performance (25%)** - Launch time, frame rate, memory usage, app size
-3. **Code Quality (20%)** - Type safety, reusability, testability, maintainability
-4. **Ecosystem (15%)** - Package availability, community size, documentation quality
-5. **Platform Support (15%)** - Platform coverage, native API access, feature parity
-
-See [SUCCESS_FRAMEWORK.md](./SUCCESS_FRAMEWORK.md) for detailed metrics and measurement methodology.
-
-## Hello World Apps (Parity Features)
-
-Each framework implements identical Hello World features for fair comparison:
-
-- **Greeting headline** - "Hello from Valdi Labs" + "[Framework] says hi!"
-- **Interactive toggle** - Button that shows/hides details panel
-- **State management** - Toggle state with visual feedback
-- **Animations** - Fade/scale transitions (native or CSS)
-- **Theme support** - Light/dark mode detection
-- **Material-inspired design** - Modern UI with proper spacing
-
-### Running the Apps
-
-#### Flutter
-```bash
-cd Flutter/app
-flutter pub get
-flutter run
+Need native 60fps performance?
+  → YES: Flutter
+  → NO: React Native or Capacitor
 ```
 
-#### React Native
-```bash
-cd ReactNative/app/ValdiParity
-npm install
-npm start
-# In another terminal:
-npm run android  # or npm run ios
-```
-
-#### Capacitor
-```bash
-cd Capacitor/app
-npm install
-npm run dev      # Web preview
-npm run build    # Build for native
-npx cap sync     # Sync to native projects
-```
-
-#### Valdi
-```bash
-cd Valdi
-# Follow SETUP.md for Valdi CLI installation
-valdi dev_setup
-valdi run ios  # or android/macos
-```
-
-## Framework Summary for AI Development
-
-| Criteria | Best Choice | Why |
-|----------|-------------|-----|
-| **Web + Mobile same code** | Capacitor | Only option that runs in browser |
-| **Native performance + AI** | React Native | Best balance of AI support + native |
-| **Best raw performance** | Valdi/Flutter | Native compilation, no bridges |
-| **Largest ecosystem** | React Native | Huge npm/community support |
-| **Type Safety** | All four | TypeScript or Dart |
-
-**Note**: Capacitor and React Native are **both excellent** for AI-assisted development. Both use TypeScript + JSX. Pick based on your use case (web deployment vs native performance).
-
-See [AI_COMPARISON.md](./AI_COMPARISON.md) for the complete AI-focused analysis.
-
-## Next Steps
-
-1. ✅ ~~Complete review of experiments~~
-2. ✅ ~~Create success measurement framework~~
-3. ✅ ~~Build Flutter Hello World with parity~~
-4. ✅ ~~Build React Native Hello World with parity~~
-5. ✅ ~~Build Capacitor Hello World with parity~~
-6. ✅ ~~Enhance Valdi Hello World with parity~~
-7. ⏭️ Run all apps on physical devices for benchmarks
-8. ⏭️ Implement Phase 2 features (navigation, lists, API calls)
-9. ⏭️ Begin baseline measurements per SUCCESS_FRAMEWORK.md
-
-## Framework-Specific Documentation
+## Project Structure
 
 Each framework folder contains:
-- `README.md` - Overview and status
-- `SETUP.md` - Installation and environment setup
-- `DOCUMENTATION.md` - Framework-specific notes
-- `HANDOFF.md` - Quick start for next developer
-- `TASKS.md` - Task breakdown
-- `NEXT_STEPS.md` - Prioritized action items
-- `UNDERSTANDING.md` - Research context and strategy
+- `README.md` - Setup and usage
+- `app/` - The actual application code
 
-## Contributing
+## Detailed Analysis
 
-When adding new experiments or updating existing ones:
-1. Follow the established documentation structure
-2. Record measurements in [SUCCESS_FRAMEWORK.md](./SUCCESS_FRAMEWORK.md)
-3. Keep [FRAMEWORK_COMPARISON.md](./FRAMEWORK_COMPARISON.md) updated
-4. Ensure tests pass and linting is clean
+See `.artifacts/` folder for detailed comparison documents:
+- `AI_COMPARISON.md` - Detailed AI scoring methodology
+- `FRAMEWORK_COMPARISON.md` - Full framework comparison matrix
+- `SUCCESS_FRAMEWORK.md` - Measurement methodology
 
 ---
 
-**Last Updated**: 2024-12-19  
-**Status**: Phase 1 (Hello World) complete for all four frameworks
+**Status**: Phase 1 (Hello World) complete for all frameworks
