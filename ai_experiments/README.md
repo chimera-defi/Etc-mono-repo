@@ -1,29 +1,54 @@
-# AI Experiment Tracks
+# AI Spec-Driven Development Tools
 
-This workspace collects AI constraint toolkits we can evaluate while prototyping agentic apps. Each toolkit folder contains a hand-off packet (`README`, `UNDERSTANDING`, `TASKS`, `NEXT_STEPS`, `HANDOFF`) so another agent can immediately continue the investigation.
+Comparison of tools that use **specifications to guide AI behavior** in development.
 
-## Current Shortlist
+## 🚀 Quick Start
 
-| Toolkit | Repo | Constraint Strategy | Recommended Use Case |
-| --- | --- | --- | --- |
-| Spec Kit | `github/spec-kit` | Spec-first workflow that compiles Markdown specs into JSON schemas and guard policies enforced at runtime | When we need deterministic, auditable responses (checklists, workflows, policy compliance) |
-| Guardrails AI | `guardrails-ai/guardrails` | `RAIL` definition files plus validators, re-asking, and security filters on top of any LLM backend | Customer-facing bots that must stay within compliance, safety, or formatting rails |
-| Microsoft Guidance | `microsoft/guidance` | Token-level control via templating, regex/JSON schema constraints, and streaming function calls | Fine-grained orchestration for multi-step generations or structured tool use |
-| Outlines | `normal-computing/outlines` | Grammars and finite-state machines to guarantee outputs that satisfy EBNF/JSON schema | Rapid prototyping of structured data generation or code that must compile |
-| B-MAD Method | `bmad-code-org/BMAD-METHOD` | Development methodology framework with specialized agents and structured workflows that enforce process constraints | When you need a complete AI-driven development lifecycle from planning to implementation, not just output validation |
+```bash
+# Spec Kit demo (validation)
+cd spec_kit/demo && npm install
+npx tsx src/index.ts prompt "Build a todo app"
 
-If we identify more candidates, follow the same folder template and append them to the table above.
-
-## Folder Layout
-
-```
-ai_experiments/
-  └─ <toolkit>/
-       README.md          # overview + integration notes
-       UNDERSTANDING.md   # research context & assumptions
-       TASKS.md           # actionable backlog
-       NEXT_STEPS.md      # prioritized near-term plan
-       HANDOFF.md         # quick-start for the next agent
+# B-MAD demo (PRD-based)
+cd bmad/demo && npm install
+npx tsx src/index.ts prompt "Build a todo app"
 ```
 
-Each document favors brevity and clear action items so agents can pick up work without re-reading the entire repository.
+## ✅ Tools Compared
+
+| Tool | Interface | Installation | Best For |
+|------|-----------|--------------|----------|
+| **[Spec Kit](https://github.com/github/spec-kit)** | `/speckit.*` slash commands | `uv tool install specify-cli` | Structured spec → implementation |
+| **[B-MAD Method](https://github.com/bmad-code-org/BMAD-METHOD)** | `*workflow-init` + agents | `npx bmad-method@alpha install` | Full lifecycle with specialized agents |
+
+Both work natively with **Cursor**!
+
+## 📂 Key Files
+
+| File | Description |
+|------|-------------|
+| [COMPARISON_REPORT.md](./COMPARISON_REPORT.md) | **Start here** - findings and recommendations |
+| [COMPARISON.md](./COMPARISON.md) | Head-to-head comparison |
+| [HANDOFF.md](./HANDOFF.md) | Quick context for next agent |
+| `spec_kit/demo/` | TypeScript validation demo |
+| `bmad/demo/` | PRD/Architecture demo |
+
+## 📋 Status
+
+| Item | Status |
+|------|--------|
+| Research | ✅ Complete |
+| Documentation | ✅ Complete |
+| TypeScript demos | ✅ Working |
+| Comparison report | ✅ Complete |
+
+## 🔜 Next Steps
+
+1. **Read** [COMPARISON_REPORT.md](./COMPARISON_REPORT.md)
+2. **Try Spec Kit**: Use `/speckit.specify` in Cursor
+3. **Try B-MAD**: Run `npx bmad-method@alpha install`
+4. **Choose** based on your project needs
+
+## 📁 Archived Tools
+
+The `guardrails_ai/`, `microsoft_guidance/`, and `outlines/` folders contain documentation for tools that were evaluated but **removed** - they focus on runtime validation rather than spec-driven development. Kept for reference.

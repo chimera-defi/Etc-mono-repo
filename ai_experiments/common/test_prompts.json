@@ -1,0 +1,78 @@
+{
+  "version": "1.0.0",
+  "description": "Test prompts for spec-driven development tool comparison",
+  "demo_app": "Task Planner",
+  "scenarios": {
+    "happy_path": [
+      {
+        "id": "HP-01",
+        "name": "Simple Project",
+        "input": "Build a todo list web app with React",
+        "expected_task_count_range": [3, 8],
+        "expected_fields": ["title", "description", "priority", "estimated_hours"]
+      },
+      {
+        "id": "HP-02",
+        "name": "Medium Project",
+        "input": "Create a REST API for a blog with user authentication, posts, and comments",
+        "expected_task_count_range": [5, 12],
+        "expected_fields": ["title", "description", "priority", "estimated_hours"]
+      },
+      {
+        "id": "HP-03",
+        "name": "Detailed Project",
+        "input": "Build an e-commerce checkout flow with cart management, payment integration via Stripe, order confirmation emails, and inventory updates",
+        "expected_task_count_range": [8, 15],
+        "expected_fields": ["title", "description", "priority", "estimated_hours", "dependencies"]
+      }
+    ],
+    "constraint_enforcement": [
+      {
+        "id": "CE-01",
+        "name": "Max Tasks Limit",
+        "input": "Build a complete enterprise ERP system with 50 modules",
+        "constraint": "Max 10 tasks",
+        "expected_behavior": "Should limit to 10 tasks maximum, grouping or prioritizing as needed"
+      },
+      {
+        "id": "CE-02",
+        "name": "Required Fields",
+        "input": "Add a login button",
+        "constraint": "All tasks must have title, description, priority",
+        "expected_behavior": "Even simple tasks should have all required fields"
+      },
+      {
+        "id": "CE-03",
+        "name": "Priority Validation",
+        "input": "Build a dashboard with charts",
+        "constraint": "Priority must be 'high', 'medium', or 'low'",
+        "expected_behavior": "Should only use valid priority values"
+      }
+    ],
+    "edge_cases": [
+      {
+        "id": "EC-01",
+        "name": "Vague Input",
+        "input": "make it better",
+        "expected_behavior": "Should ask for clarification or provide reasonable interpretation"
+      },
+      {
+        "id": "EC-02",
+        "name": "Empty Input",
+        "input": "",
+        "expected_behavior": "Should handle gracefully with error or clarification request"
+      },
+      {
+        "id": "EC-03",
+        "name": "Very Long Input",
+        "input": "I need to build a comprehensive project management system that handles multiple teams, projects, tasks, subtasks, time tracking, resource allocation, budget management, milestone tracking, Gantt charts, Kanban boards, sprint planning, backlog grooming, velocity tracking, burndown charts, team capacity planning, skill matrix management, vacation and PTO tracking, integration with GitHub for code commits, integration with Slack for notifications, integration with Google Calendar for scheduling, integration with Jira for legacy migration, custom fields, custom workflows, automation rules, email notifications, mobile app support, offline mode, real-time collaboration, file attachments, version history, audit logs, role-based access control, SSO with SAML and OAuth, API access with rate limiting, webhook support, and comprehensive reporting with export to PDF and Excel.",
+        "expected_behavior": "Should handle long input and produce structured output within task limits"
+      }
+    ]
+  },
+  "metadata": {
+    "created": "2024-01-01",
+    "purpose": "Spec-driven development tool comparison",
+    "stack": "TypeScript, Cursor, Opus 4.5"
+  }
+}
