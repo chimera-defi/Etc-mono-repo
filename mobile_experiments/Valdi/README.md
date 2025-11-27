@@ -1,34 +1,106 @@
-# Valdi Hello World App
+# Valdi Experiment
 
-This is a basic boilerplate for experimenting with Valdi, Snapchat's new mobile app framework for iOS.
+Snapchat's cross-platform UI framework - TypeScript compiled to native views.
 
-## Getting Started
+## Status: ⚠️ Code Complete (CLI Required)
 
-Valdi is a new framework from Snapchat for building iOS applications. This project serves as a starting point for exploring Valdi's capabilities.
+| Check | Status |
+|-------|--------|
+| Code | ✅ Complete |
+| Tests | ⚠️ Requires Valdi CLI |
+| Linting | ⚠️ Requires Valdi CLI |
+| Build | ⚠️ Requires Valdi CLI |
+
+## Quick Start
+
+```bash
+# Install Valdi CLI
+npm install -g @snap/valdi
+
+# Setup dependencies
+valdi dev_setup
+
+# Build and run
+valdi build android  # or ios/macos
+valdi hotreload      # Development mode
+```
+
+## Features
+
+- Native performance (no JS bridge)
+- Cross-platform (iOS, Android, macOS)
+- TypeScript with class-based components
+- Hot reload on all platforms
+- 8 years production use at Snap
 
 ## Project Structure
 
 ```
 Valdi/
-├── src/              # Source code
-├── assets/           # Images, fonts, etc.
-├── config/           # Configuration files
-└── README.md         # This file
+├── modules/snapchat_valdi/src/
+│   └── App.tsx           # Main application
+├── BUILD.bazel           # Build rules
+├── WORKSPACE             # Bazel workspace
+└── package.json          # Dependencies
 ```
 
-## Hello World App
+## Valdi Syntax
 
-The hello world app demonstrates basic Valdi functionality and serves as a foundation for further experimentation.
+```typescript
+import { Component } from 'valdi_core/src/Component';
 
-## Next Steps
+class HelloWorld extends Component {
+  onRender() {
+    <view backgroundColor='#FFFC00' padding={30}>
+      <label color='black' value='Hello, Valdi!' />
+    </view>;
+  }
+}
+```
 
-1. Install Valdi SDK/tools (when available)
-2. Set up development environment
-3. Build and run the hello world app
-4. Explore Valdi's features and capabilities
+### Key Differences from React
+- **Class-based**: Extends `Component`
+- **`onRender()` method**: Not `render()` or function
+- **Lowercase tags**: `<view>`, `<label>`, `<image>`
+- **No JSX return**: Write JSX directly in `onRender()`
+- **`value` prop**: For text (not children)
+
+## Setup Requirements
+
+- **macOS** (required for iOS)
+- **Xcode** (for iOS/macOS)
+- **Android Studio** (for Android)
+- **Node.js** (for CLI)
+
+## Common Elements
+
+| Element | Purpose |
+|---------|---------|
+| `<view>` | Container |
+| `<label>` | Text (use `value` prop) |
+| `<image>` | Image |
+| `<scroll>` | Scrollable |
+
+## Comparison Notes
+
+| vs React Native | Valdi |
+|-----------------|-------|
+| Bridge | None (native) |
+| Components | Class-based |
+| Platform | iOS/Android/macOS |
+
+| vs Flutter | Valdi |
+|------------|-------|
+| Language | TypeScript (vs Dart) |
+| Ecosystem | Smaller |
+| Performance | Both native |
 
 ## Resources
 
-- [Valdi Documentation](https://valdi.dev) (when available)
-- Snapchat Developer Resources
-- [Framework Comparison](../FRAMEWORK_COMPARISON.md) - Compare Valdi with other cross-platform frameworks
+- https://github.com/Snapchat/Valdi
+- https://github.com/Snapchat/Valdi/blob/main/docs/README.md
+- https://discord.gg/uJyNEeYX2U (Community)
+
+## AGENTS.md
+
+See `AGENTS.md` for AI assistant guidance specific to Valdi development.
