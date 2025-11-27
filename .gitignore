@@ -17,3 +17,19 @@ Thumbs.db
 # Environment
 .env
 .env.local
+
+# Mobile development
+node_modules/
+*.apk
+*.aab
+*.ipa
+*.dSYM.zip
+*.dSYM
+DerivedData/
+.gradle/
+build/
+dist/
+.dart_tool/
+.pub-cache/
+Pods/
+*.xcuserstate

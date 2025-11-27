@@ -1,10 +1,8 @@
 # Capacitor Experiment
 
-This project explores **Capacitor**, the modern successor to PhoneGap/Cordova, for converting web applications into native mobile apps.
+Ionic's web-to-native wrapper - wrap any web app into native iOS/Android apps.
 
-## Status
-
-✅ **Complete** - Hello World app with parity features implemented and tested.
+## Status: ✅ Complete
 
 | Check | Status |
 |-------|--------|
@@ -12,15 +10,6 @@ This project explores **Capacitor**, the modern successor to PhoneGap/Cordova, f
 | Tests | ✅ 4 passing |
 | Linting | ✅ Clean |
 | Build | ✅ Working |
-| Documentation | ✅ Complete |
-
-## Overview
-
-Capacitor allows you to:
-- Wrap existing web apps (React, Vue, Angular, vanilla JS) into native iOS/Android apps
-- Access native device features (camera, GPS, notifications, etc.) via JavaScript APIs
-- Deploy a single codebase to iOS, Android, and Web
-- Maintain 100% code reuse from your web application
 
 ## Quick Start
 
@@ -33,48 +22,44 @@ npm run lint     # Run linter
 npm run build    # Build for production
 ```
 
-## Features Implemented (Parity with Other Frameworks)
+## Features
 
-- ✅ Material-inspired UI design
-- ✅ Toggle button with state management
-- ✅ Show/hide details panel
-- ✅ CSS animations and transitions
-- ✅ Dark/light mode detection
-- ✅ Framework badge
-- ✅ Full test coverage (4 tests)
-- ✅ TypeScript support
-- ✅ Clean linting
+- Material-inspired UI design
+- Toggle button with state management
+- CSS animations and transitions
+- Dark/light mode detection
+- Full TypeScript support
 
 ## Project Structure
 
 ```
-Capacitor/
-├── app/                    # Vite + React TypeScript app
-│   ├── src/
-│   │   ├── App.tsx        # Main application component
-│   │   ├── App.css        # Styles with CSS variables
-│   │   ├── App.test.tsx   # Test suite
-│   │   └── setupTests.ts  # Test configuration
-│   ├── index.html         # Entry point with mobile viewport
-│   ├── package.json       # Dependencies and scripts
-│   ├── vitest.config.ts   # Test configuration
-│   └── tsconfig.json      # TypeScript configuration
-├── README.md              # This file
-├── IMPLEMENTATION_GUIDE.md # Step-by-step native setup
-├── HANDOFF.md             # Quick start guide
-└── ... other docs
+app/
+├── src/
+│   ├── App.tsx          # Main component
+│   ├── App.css          # Styles
+│   ├── App.test.tsx     # Tests
+│   └── setupTests.ts    # Test config
+├── index.html           # Entry point
+├── package.json         # Dependencies
+├── vitest.config.ts     # Test config
+└── tsconfig.json        # TypeScript config
 ```
+
+## Setup Requirements
+
+- **Node.js** v14+
+- **iOS**: macOS with Xcode
+- **Android**: Android Studio with SDK
 
 ## Deploying to Native
 
-To deploy to iOS/Android, follow `IMPLEMENTATION_GUIDE.md`:
-
 ```bash
-# Install Capacitor platform packages
+# Install Capacitor
+npm install @capacitor/core @capacitor/cli
 npm install @capacitor/ios @capacitor/android
 
-# Build web app
-npm run build
+# Build web app first
+cd app && npm run build && cd ..
 
 # Initialize Capacitor
 npx cap init CapacitorHelloWorld com.example.capacitorhelloworld --web-dir app/dist
@@ -89,31 +74,49 @@ npx cap open ios      # Opens Xcode
 npx cap open android  # Opens Android Studio
 ```
 
-## Why Capacitor for AI Development?
+## Development Workflow
 
-Capacitor scored **highest (4.9/5)** in our AI-focused comparison because:
+1. **Develop**: `cd app && npm run dev` (browser)
+2. **Build**: `npm run build`
+3. **Sync**: `npx cap sync`
+4. **Run**: Open in Xcode/Android Studio
 
-1. **Standard Web Technologies**: React + TypeScript = maximum AI training data
-2. **Instant Iteration**: Vite HMR provides sub-second hot reload
-3. **Familiar Tooling**: ESLint, Vitest, Chrome DevTools all work perfectly
-4. **AI Code Quality**: Generated code works without modification most of the time
+## Native Plugins
 
-See `../AI_COMPARISON.md` for the full analysis.
+```javascript
+// Camera
+import { Camera } from '@capacitor/camera';
+const image = await Camera.getPhoto({ quality: 90, resultType: 'base64' });
+
+// Geolocation
+import { Geolocation } from '@capacitor/geolocation';
+const pos = await Geolocation.getCurrentPosition();
+```
+
+## Comparison Notes
+
+| vs React Native | Capacitor |
+|-----------------|-----------|
+| Code Reuse | 100% web code |
+| Performance | WebView (vs native) |
+| Learning | Easy for web devs |
+
+| vs Flutter | Capacitor |
+|------------|-----------|
+| Language | JS/TS (vs Dart) |
+| Performance | WebView (vs native) |
+| Web Deploy | Same code runs in browser |
+
+## Why Capacitor?
+
+- ✅ Existing web apps → mobile instantly
+- ✅ Web developer expertise
+- ✅ Shared web/mobile codebase
+- ✅ Browser DevTools debugging
+- ⚠️ WebView performance overhead
 
 ## Resources
 
-- **Official Docs**: https://capacitorjs.com/docs
-- **GitHub**: https://github.com/ionic-team/capacitor
-- **Plugins**: https://capacitorjs.com/docs/plugins
-
-## Related Projects
-
-- `../ReactNative/` - React Native experiment
-- `../Flutter/` - Flutter experiment
-- `../Valdi/` - Valdi experiment
-- `../AI_COMPARISON.md` - Framework comparison for AI development
-
----
-
-**Last Updated**: 2024-12-19  
-**Status**: Complete (Phase 1)
+- https://capacitorjs.com/docs
+- https://capacitorjs.com/docs/plugins
+- https://github.com/ionic-team/capacitor
