@@ -91,6 +91,15 @@
   29. **Version pinning** - document exact framework versions used (e.g., "Flutter 3.24.5", "React Native 0.82.1") for reproducibility
   30. **Comparison notes** - include explicit "vs. OtherFramework" sections to highlight differences for decision-making
 
+- Document editing best practices:
+  31. **Add columns, don't remove rows** - when adding new data to tables, add columns to existing tables rather than creating separate tables or removing existing structure
+  32. **Never consolidate by deletion** - when asked to consolidate or make concise, ADD to existing structure rather than replacing/deleting valuable content
+  33. **Preserve context sections** - sections like "Recommendations by Use Case", "Integration Advice", and "Data Sources" have value even if they seem verbose
+  34. **Check git diff before major rewrites** - if making significant changes, verify what will be lost before overwriting
+  35. **Concise ≠ shorter** - "concise" means removing redundancy, not removing information; a well-organized long document beats a short incomplete one
+  36. **Table columns over separate tables** - integrate related data into one table with extra columns rather than creating multiple tables that fragment information
+  37. **Verify data sources inline** - when adding data, include source links directly in the table legend or footnotes, not in separate sections that might get deleted
+
 ## Best Practices
 - Use semantic versioning for packages
 - Include proper .gitignore files for each project type
