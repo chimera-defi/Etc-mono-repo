@@ -55,6 +55,65 @@ Several previously recommended wallets have **stopped active development**:
 
 ---
 
+## Chain Support & Custom RPCs
+
+### Quick Comparison
+
+| Wallet | Built-in Chains | Custom RPC | Custom Chains | EVM Focus |
+|--------|-----------------|------------|---------------|-----------|
+| **MetaMask** | 10+ | ✅ Before requests | ✅ Unlimited | EVM only |
+| **Rabby** | 94 | ✅ After initial | ✅ Yes | EVM only |
+| **Trust Wallet** | 163 | ✅ Yes | ✅ Yes | Multi-chain |
+| **Rainbow** | 15+ | ⚠️ Limited | ❌ No | EVM (curated) |
+| **Safe** | 30+ | ✅ Before requests | ❌ Deploy-limited | EVM only |
+| **Enkrypt** | 75+ | ✅ Yes | ✅ Yes | EVM + Polkadot |
+| **Brave** | 10+ | ✅ Yes | ✅ Yes | EVM only |
+| **Coinbase** | 20+ | ⚠️ Limited | ⚠️ Limited | EVM only |
+| **Frame** | Any | ✅ Yes | ✅ Yes | EVM only |
+| **Phantom** | 4 | ❌ No | ❌ No | Solana-first |
+| **OKX** | 100+ | ✅ Yes | ✅ Yes | Multi-chain |
+
+**Legend:**
+- ✅ Full support | ⚠️ Limited/partial | ❌ Not supported
+
+### Chain Support Details
+
+#### Actively Maintained Wallets
+
+| Wallet | Major L1s | L2s/Rollups | Testnets | Notes |
+|--------|-----------|-------------|----------|-------|
+| **MetaMask** | ETH, BSC, Polygon, Avalanche | Arbitrum, Optimism, Base, zkSync | ✅ All | Add any EVM chain via Settings |
+| **Rabby** | ETH, BSC, Polygon, Avalanche, + 90 more | All major L2s | ✅ Yes | [94 chains](https://api.rabby.io/v1/chain/list) built-in |
+| **Trust Wallet** | 60+ including BTC, ETH, Solana | All major L2s | ✅ Yes | [163 chains](https://github.com/trustwallet/wallet-core/blob/master/registry.json) in registry |
+| **Rainbow** | ETH | Optimism, Arbitrum, Base, Polygon, Zora | ⚠️ Limited | Curated chains only (~15) |
+| **Safe** | ETH, BSC, Polygon, Gnosis, Avalanche | Arbitrum, Optimism, Base + more | ⚠️ Some | Only where Safe is deployed (~30 chains) |
+| **Enkrypt** | ETH, BSC, Polkadot ecosystem | All major EVM L2s | ✅ Yes | 75+ EVM + Substrate chains |
+| **Brave** | ETH, BSC, Polygon, Avalanche | Arbitrum, Optimism | ✅ Yes | MetaMask-compatible chain adding |
+
+#### Inactive/Slow Wallets (Not Recommended)
+
+| Wallet | Status | Chain Support at Abandonment |
+|--------|--------|------------------------------|
+| **Block Wallet** | ❌ Inactive | ~20 EVM chains |
+| **Frame** | ❌ Inactive | Any EVM via custom RPC |
+| **Argent-X** | ❌ Inactive | Starknet + Ethereum mainnet |
+| **Wigwam** | ⚠️ Slow | EVM chains with custom RPC |
+
+### Custom RPC Configuration
+
+| Wallet | When Can You Set Custom RPC? | Data Source |
+|--------|------------------------------|-------------|
+| **MetaMask** | Before any requests to default endpoints | [WalletBeat](https://walletbeat.fyi) |
+| **Rabby** | After initial requests to default endpoints | [WalletBeat](https://walletbeat.fyi) |
+| **Safe** | Before any requests to default endpoints | [WalletBeat](https://walletbeat.fyi) |
+| **Frame** | After initial requests (when active) | [WalletBeat](https://walletbeat.fyi) |
+| **Trust Wallet** | In-app network settings | Documentation |
+| **Enkrypt** | In-app network settings | Documentation |
+
+> **Privacy Note:** MetaMask and Safe allow setting custom RPCs *before* any requests are made to default endpoints, which is better for privacy. Rabby sends initial requests to default endpoints before allowing custom RPC configuration.
+
+---
+
 ## Recommendations by Use Case (Updated Nov 2025)
 
 ### For Development
@@ -89,11 +148,27 @@ Several previously recommended wallets have **stopped active development**:
 
 | Resource | URL | Focus |
 |----------|-----|-------|
+| **WalletBeat** | [walletbeat.fyi](https://walletbeat.fyi) | **Technical features, RPC config, ENS support, security** |
 | Ethereum.org | [ethereum.org/wallets/find-wallet](https://ethereum.org/en/wallets/find-wallet/) | Consumer features |
 | WalletConnect | [explorer.walletconnect.com](https://explorer.walletconnect.com/) | Wallet registry |
 | CoinGecko | [coingecko.com/en/wallets](https://www.coingecko.com/en/wallets) | User reviews |
+| ChainList | [chainlist.org](https://chainlist.org) | RPC endpoints by chain |
 
-**Gap:** No existing resource tracks release frequency, code quality, or developer experience. This document fills that gap.
+### WalletBeat (Recommended)
+
+[WalletBeat](https://walletbeat.fyi) ([GitHub](https://github.com/walletbeat/walletbeat)) is an open-source wallet comparison project that tracks:
+
+- **Chain Configurability** — Custom RPC timing, custom chain support
+- **ENS Support** — Mainnet, subdomains, offchain, L2s, custom domains
+- **Security Features** — Transaction scanning, hardware wallet support, MPC, multisig
+- **Account Types** — EOA, EIP-4337, Safe accounts
+- **Licensing** — Open source vs proprietary
+
+**Wallets Covered:** MetaMask, Rabby, Rainbow, Safe, Frame, Phantom, Zerion, and more.
+
+> **Note:** WalletBeat is maintained by [Fluidkey](https://fluidkey.com) and accepts PRs for wallet data updates.
+
+**Gap:** This document adds release frequency, code quality metrics, and activity status that WalletBeat doesn't track.
 
 ---
 
@@ -123,10 +198,12 @@ Each wallet has quirks. Test your dApp with at least 3 wallets before production
 
 | Question | Answer |
 |----------|--------|
-| Best for development? | **Rabby** (transaction simulation, active) |
-| Best for production? | **Trust Wallet** or **Rainbow** (both actively maintained) |
-| Most stable (active)? | **Enkrypt** (5.1% issue ratio) or **Rainbow** (0.3% ratio) |
-| Best for AA? | **Safe** (web, active) |
+| Best for development? | **Rabby** (transaction simulation, 94 chains, active) |
+| Best for production? | **Trust Wallet** (163 chains) or **Rainbow** (curated chains) |
+| Most chains? | **Trust Wallet** (163) > **OKX** (100+) > **Rabby** (94) > **Enkrypt** (75+) |
+| Best custom RPC? | **MetaMask** or **Safe** (set RPC before any requests) |
+| Best for AA? | **Safe** (web, active, 30+ chains) |
+| Best multi-ecosystem? | **Trust Wallet** (EVM + BTC + Solana) or **Enkrypt** (EVM + Polkadot) |
 | Avoid? | **Block Wallet** ❌, **Frame** ❌, **Argent-X** ❌ (all inactive) |
 
 ### ⚠️ Previously Recommended, Now Inactive
@@ -170,4 +247,4 @@ Each wallet has quirks. Test your dApp with at least 3 wallets before production
 
 ---
 
-*Last updated: November 28, 2025. Activity status verified via GitHub API. Verify current capabilities before implementation.*
+*Last updated: November 28, 2025. Activity status, chain counts, and custom RPC data verified via GitHub API and WalletBeat. Verify current capabilities before implementation.*
