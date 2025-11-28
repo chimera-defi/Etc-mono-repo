@@ -23,28 +23,38 @@ Several previously recommended wallets have **stopped active development**:
 
 ## Complete Wallet Comparison (All 16 Wallets)
 
-| Wallet | GitHub | Last Commit | Active | Chains | RPC | Stars | Issues | Ratio | Rec |
-|--------|--------|-------------|--------|--------|-----|-------|--------|-------|-----|
-| **MetaMask** | [MetaMask/metamask-extension](https://github.com/MetaMask/metamask-extension) | Nov 27, 2025 | ✅ | Any | ✅ | 12,949 | 2,509 | 19.4% | 🔴 |
-| **Rabby** | [RabbyHub/Rabby](https://github.com/RabbyHub/Rabby) | Nov 21, 2025 | ✅ | 94 | ✅ | 1,726 | 120 | 7.0% | 🟢 |
-| **Coinbase** | [coinbase/coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | Jul 11, 2025 | ⚠️ | 20+ | ⚠️ | 1,695 | 44 | 2.6% | 🟡 |
-| **Trust** | [trustwallet/wallet-core](https://github.com/trustwallet/wallet-core) | Nov 27, 2025 | ✅ | 163 | ✅ | 3,354 | 69 | 2.1% | 🟢 |
-| **Rainbow** | [rainbow-me/rainbow](https://github.com/rainbow-me/rainbow) | Nov 26, 2025 | ✅ | 15+ | ⚠️ | 4,238 | 13 | 0.3% | 🟢 |
-| **Block** | [block-wallet/extension](https://github.com/block-wallet/extension) | Nov 27, 2024 | ❌ | ~20 | ✅ | 96 | 45 | 46.9% | 🔴 |
-| **Wigwam** | [wigwamapp/wigwam](https://github.com/wigwamapp/wigwam) | Sep 11, 2025 | ⚠️ | Any | ✅ | 83 | 7 | 8.4% | 🟡 |
-| **Safe** | [safe-global/safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | Nov 27, 2025 | ✅ | 30+ | ✅ | 524 | 114 | 21.8% | 🟢 |
-| **Argent** | [argentlabs/argent-x](https://github.com/argentlabs/argent-x) | Mar 14, 2025 | ❌ | 2 | ❌ | 641 | 93 | 14.5% | 🔴 |
-| **OKX** | Private repo | - | ? | 100+ | ✅ | - | - | - | 🟡 |
-| **Frame** | [floating/frame](https://github.com/floating/frame) | Feb 01, 2025 | ❌ | Any | ✅ | 1,160 | 95 | 8.2% | 🔴 |
-| **Phantom** | Private repo | - | ? | 5 | ❌ | - | - | - | 🟡 |
-| **Zerion** | Private repo | - | ? | ? | ? | - | - | - | ⚪ |
-| **1inch** | Private repo | - | ? | ? | ? | - | - | - | ⚪ |
-| **Brave** | [brave/brave-browser](https://github.com/brave/brave-browser) | Nov 28, 2025 | ✅ | 10+ | ✅ | 20,764 | 9,997 | 48.1% | 🟢 |
-| **Enkrypt** | [enkryptcom/enKrypt](https://github.com/enkryptcom/enKrypt) | Nov 27, 2025 | ✅ | 75+ | ✅ | 411 | 21 | 5.1% | 🟢 |
+| Wallet | GitHub | Last Commit | Active | Chains | RPC | Stars | Issues | Ratio | Rel/mo | Stability | Browser Ext | Mobile | Tx Sim | EIP-4337 | Open Source | Best For | Rec |
+|--------|--------|-------------|--------|--------|-----|-------|--------|-------|--------|-----------|-------------|--------|--------|----------|-------------|----------|-----|
+| **MetaMask** | [metamask-extension](https://github.com/MetaMask/metamask-extension) | Nov 27, 2025 | ✅ | Any | ✅ | 12,949 | 2,509 | 19.4% | ~8 | ⭐⭐ | ✅ | ✅ | ❌ | ⚠️ | ✅ | Compatibility | 🔴 |
+| **Rabby** | [Rabby](https://github.com/RabbyHub/Rabby) | Nov 21, 2025 | ✅ | 94 | ✅ | 1,726 | 120 | 7.0% | ~5.7 | ⭐⭐⭐⭐ | ✅ | ✅ | ✅ | ❌ | ✅ | Development | 🟢 |
+| **Coinbase** | [coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | Jul 11, 2025 | ⚠️ | 20+ | ⚠️ | 1,695 | 44 | 2.6% | - | ⭐⭐⭐⭐ | ✅ | ✅ | ❌ | ✅ | ⚠️ | Production | 🟡 |
+| **Trust** | [wallet-core](https://github.com/trustwallet/wallet-core) | Nov 27, 2025 | ✅ | 163 | ✅ | 3,354 | 69 | 2.1% | - | ⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ⚠️ | Multi-chain | 🟢 |
+| **Rainbow** | [rainbow](https://github.com/rainbow-me/rainbow) | Nov 26, 2025 | ✅ | 15+ | ⚠️ | 4,238 | 13 | 0.3% | ~4.3 | ⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ✅ | NFT/Ethereum | 🟢 |
+| **Block** | [extension](https://github.com/block-wallet/extension) | Nov 27, 2024 | ❌ | ~20 | ✅ | 96 | 45 | 46.9%* | ~1.7 | ⭐⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ✅ | ~~Max stability~~ | 🔴 |
+| **Wigwam** | [wigwam](https://github.com/wigwamapp/wigwam) | Sep 11, 2025 | ⚠️ | Any | ✅ | 83 | 7 | 8.4% | ~2 | ⭐⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ✅ | Stability | 🟡 |
+| **Safe** | [safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | Nov 27, 2025 | ✅ | 30+ | ✅ | 524 | 114 | 21.8% | - | ⭐⭐⭐⭐ | ❌ | ✅ | ❌ | ✅ | ✅ | Enterprise | 🟢 |
+| **Argent** | [argent-x](https://github.com/argentlabs/argent-x) | Mar 14, 2025 | ❌ | 2 | ❌ | 641 | 93 | 14.5% | - | ⭐⭐⭐⭐ | ⚠️† | ✅ | ❌ | ✅ | ✅ | ~~Starknet/AA~~ | 🔴 |
+| **OKX** | Private | - | ? | 100+ | ✅ | - | - | - | - | ⭐⭐⭐⭐ | ✅ | ✅ | ❌ | ⚠️ | ⚠️ | EIP-7702 | 🟡 |
+| **Frame** | [frame](https://github.com/floating/frame) | Feb 01, 2025 | ❌ | Any | ✅ | 1,160 | 95 | 8.2% | ~1‡ | ⭐⭐⭐⭐ | ❌ | ❌ | ✅‡ | ❌ | ✅ | ~~Desktop dev~~ | 🔴 |
+| **Phantom** | Private | - | ? | 5 | ❌ | - | - | - | - | ⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ❌ | Solana-first | 🟡 |
+| **Zerion** | Private | - | ? | ? | ? | - | - | - | - | ⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ❌ | Portfolio | ⚪ |
+| **1inch** | Private | - | ? | ? | ? | - | - | - | - | ⭐⭐⭐ | ❌ | ✅ | ❌ | ❌ | ❌ | DeFi | ⚪ |
+| **Brave** | [brave-browser](https://github.com/brave/brave-browser) | Nov 28, 2025 | ✅ | 10+ | ✅ | 20,764 | 9,997 | 48.1% | - | ⭐⭐⭐⭐ | ⚠️§ | ✅ | ❌ | ❌ | ✅ | Brave users | 🟢 |
+| **Enkrypt** | [enKrypt](https://github.com/enkryptcom/enKrypt) | Nov 27, 2025 | ✅ | 75+ | ✅ | 411 | 21 | 5.1% | ~1.3‡ | ⭐⭐⭐⭐ | ✅ | ❌ | ❌ | ❌ | ✅ | Polkadot | 🟢 |
 
-**Activity Legend:** ✅ Active (last 30 days) | ⚠️ Slow (1-4 months) | ❌ Inactive (4+ months) | ? Unknown  
-**Recommendation:** 🟢 Recommended | 🟡 Situational | 🔴 Avoid | ⚪ Not for dev  
-**Chains:** Built-in count ([Rabby API](https://api.rabby.io/v1/chain/list), [Trust registry](https://github.com/trustwallet/wallet-core/blob/master/registry.json)) | **RPC:** Custom RPC support (✅ Full | ⚠️ Limited | ❌ None)
+**Legend:**
+- 🟢 Recommended | 🟡 Situational | 🔴 Avoid | ⚪ Not for dev
+- \* Block's high ratio due to small community (96 stars)
+- † Argent desktop extension is Starknet-only
+- ‡ Limited verification (not from original research)
+- § Brave Wallet is built into Brave browser
+- ~~Strikethrough~~ = was recommended, now inactive
+
+**Activity Legend:** ✅ Active (last 30 days) | ⚠️ Slow (1-4 months) | ❌ Inactive (4+ months) | ? Unknown
+
+**Columns:** 
+- Stars/Issues/Ratio = GitHub metrics | Rel/mo = Releases per month | Tx Sim = Transaction simulation | EIP-4337 = Account Abstraction
+- **NEW:** Chains = Built-in chain count ([Rabby API](https://api.rabby.io/v1/chain/list), [Trust registry](https://github.com/trustwallet/wallet-core/blob/master/registry.json)) | RPC = Custom RPC support
 
 ---
 
@@ -52,22 +62,22 @@ Several previously recommended wallets have **stopped active development**:
 
 ### For Development
 1. **Rabby** — Transaction simulation catches bugs before mainnet ✅ Active
-2. ~~**Frame** — Native desktop app~~ ❌ INACTIVE since Feb 2025
+2. ~~**Frame** — Native desktop app, hardware wallet testing~~ ❌ INACTIVE since Feb 2025
 
 ### For Production
 1. **Trust Wallet** — Wide user adoption, very active development ✅ Active
 2. **Rainbow** — Excellent issue management (0.3% ratio) ✅ Active
-3. ~~**Coinbase Wallet**~~ ⚠️ SDK not updated since Jul 2025
+3. ~~**Coinbase Wallet** — Stable API, enterprise backing~~ ⚠️ SDK not updated since Jul 2025
 
 ### For Maximum Stability (Active Projects Only)
 1. **Enkrypt** — Low issue ratio (5.1%), active development ✅ Active
 2. **Rainbow** — Lowest issue ratio (0.3%), very active ✅ Active
-3. ~~**Block Wallet**~~ ❌ ABANDONED - no commits since Nov 2024
-4. ~~**Wigwam**~~ ⚠️ Slow development since Sep 2025
+3. ~~**Block Wallet** — 1.7 releases/month (lowest)~~ ❌ ABANDONED - no commits since Nov 2024
+4. ~~**Wigwam** — 2 releases/month, good code quality~~ ⚠️ Slow development since Sep 2025
 
 ### For Account Abstraction
 1. **Safe** — Web app, multi-sig, enterprise ✅ Active
-2. ~~**Coinbase Wallet**~~ ⚠️ SDK development has slowed
+2. ~~**Coinbase Wallet** — Browser extension with EIP-4337~~ ⚠️ SDK development has slowed
 
 ### For Compatibility Testing
 1. **MetaMask** — Still the most widely supported (use last) ✅ Active
@@ -89,7 +99,7 @@ Several previously recommended wallets have **stopped active development**:
 | CoinGecko | [coingecko.com/en/wallets](https://www.coingecko.com/en/wallets) | User reviews |
 | ChainList | [chainlist.org](https://chainlist.org) | RPC endpoints by chain |
 
-> **WalletBeat** tracks chain configurability, custom RPC timing, ENS support, security features, and licensing. This document adds activity status and code quality metrics.
+**Gap:** No existing resource tracks release frequency, code quality, or developer experience. This document fills that gap. WalletBeat adds RPC timing and ENS support data.
 
 ---
 
@@ -142,11 +152,13 @@ Each wallet has quirks. Test your dApp with at least 3 wallets before production
 **Original Data (November 2024):**
 - Stars, issues, issue/star ratios
 - Release frequency (3-month window: Aug-Nov 2024)
+- Stability ratings, platform support, feature matrix
 
 **Activity Status Update (November 28, 2025):**
 - Last commit dates verified via GitHub REST API
 - Stars and issue counts refreshed
 - Chain counts from wallet APIs and registries
+- Custom RPC data from WalletBeat
 
 **GitHub Repositories (with activity status):**
 
