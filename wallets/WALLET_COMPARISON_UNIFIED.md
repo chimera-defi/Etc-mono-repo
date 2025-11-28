@@ -2,22 +2,7 @@
 
 > **TL;DR:** Use **Rabby** for development (transaction simulation), **Safe** or **Trust Wallet** for production (active development + stable), and **MetaMask** only for compatibility testing.
 
-**Data Source:** GitHub REST API, November 2024 (activity status updated November 2025)  
-**Purpose:** Find stable MetaMask alternatives for developers
-
----
-
-## ⚠️ Activity Status Alert (November 2025)
-
-Several previously recommended wallets have **stopped active development**:
-
-| Wallet | Last Commit | Status | Note |
-|--------|-------------|--------|------|
-| **Block Wallet** | Nov 2024 | ❌ INACTIVE | 1 year without commits |
-| **Frame** | Feb 2025 | ❌ INACTIVE | 10 months without commits |
-| **Argent-X** | Mar 2025 | ❌ INACTIVE | 8 months without commits |
-| **Coinbase SDK** | Jul 2025 | ⚠️ SLOW | 4 months without commits |
-| **Wigwam** | Sep 2025 | ⚠️ SLOW | 2+ months without commits |
+**Data Source:** GitHub REST API, November 2024 (activity updated November 28, 2025)
 
 ---
 
@@ -50,11 +35,23 @@ Several previously recommended wallets have **stopped active development**:
 - § Brave Wallet is built into Brave browser
 - ~~Strikethrough~~ = was recommended, now inactive
 
-**Activity Legend:** ✅ Active (last 30 days) | ⚠️ Slow (1-4 months) | ❌ Inactive (4+ months) | ? Unknown
+**Activity:** ✅ Active (last 30 days) | ⚠️ Slow (1-4 months) | ❌ Inactive (4+ months) | ? Unknown
 
-**Columns:** 
-- Stars/Issues/Ratio = GitHub metrics | Rel/mo = Releases per month | Tx Sim = Transaction simulation | EIP-4337 = Account Abstraction
-- **NEW:** Chains = Built-in chain count ([Rabby API](https://api.rabby.io/v1/chain/list), [Trust registry](https://github.com/trustwallet/wallet-core/blob/master/registry.json)) | RPC = Custom RPC support
+**Columns:** Stars/Issues/Ratio = GitHub metrics | Rel/mo = Releases per month | Tx Sim = Transaction simulation | EIP-4337 = Account Abstraction | Chains = Built-in count ([Rabby](https://api.rabby.io/v1/chain/list), [Trust](https://github.com/trustwallet/wallet-core/blob/master/registry.json)) | RPC = Custom RPC support
+
+---
+
+## ⚠️ Activity Status Alert (November 2025)
+
+Several previously recommended wallets have **stopped active development**:
+
+| Wallet | Last Commit | Status | Note |
+|--------|-------------|--------|------|
+| **Block Wallet** | Nov 2024 | ❌ INACTIVE | 1 year without commits |
+| **Frame** | Feb 2025 | ❌ INACTIVE | 10 months without commits |
+| **Argent-X** | Mar 2025 | ❌ INACTIVE | 8 months without commits |
+| **Coinbase SDK** | Jul 2025 | ⚠️ SLOW | 4 months without commits |
+| **Wigwam** | Sep 2025 | ⚠️ SLOW | 2+ months without commits |
 
 ---
 
@@ -86,6 +83,28 @@ Several previously recommended wallets have **stopped active development**:
 1. **Trust Wallet** — 163 chains, EVM + BTC + Solana ✅ Active
 2. **Enkrypt** — 75+ chains, EVM + Polkadot ✅ Active
 3. **Brave Wallet** — Built into Brave browser ✅ Active
+
+---
+
+## Summary
+
+| Question | Answer |
+|----------|--------|
+| Best for development? | **Rabby** (transaction simulation, 94 chains, active) |
+| Best for production? | **Trust Wallet** (163 chains) or **Rainbow** (curated chains) |
+| Most chains? | **Trust Wallet** (163) > **OKX** (100+) > **Rabby** (94) > **Enkrypt** (75+) |
+| Best custom RPC? | **MetaMask** or **Safe** (set RPC before any requests) |
+| Best for AA? | **Safe** (web, active, 30+ chains) |
+| Best multi-ecosystem? | **Trust Wallet** (EVM + BTC + Solana) or **Enkrypt** (EVM + Polkadot) |
+| Avoid? | **Block Wallet** ❌, **Frame** ❌, **Argent-X** ❌ (all inactive) |
+
+### ⚠️ Previously Recommended, Now Inactive
+| Wallet | Status | Alternative |
+|--------|--------|-------------|
+| Block Wallet | ❌ No commits since Nov 2024 | Rainbow, Enkrypt |
+| Frame | ❌ No commits since Feb 2025 | Rabby |
+| Argent-X | ❌ No commits since Mar 2025 | Safe |
+| Coinbase SDK | ⚠️ Slow (Jul 2025) | Trust Wallet |
 
 ---
 
@@ -122,28 +141,6 @@ Abstract wallet dependencies so you're not locked to any single wallet.
 ### Test With Multiple Wallets
 
 Each wallet has quirks. Test your dApp with at least 3 wallets before production.
-
----
-
-## Summary (Updated Nov 2025)
-
-| Question | Answer |
-|----------|--------|
-| Best for development? | **Rabby** (transaction simulation, 94 chains, active) |
-| Best for production? | **Trust Wallet** (163 chains) or **Rainbow** (curated chains) |
-| Most chains? | **Trust Wallet** (163) > **OKX** (100+) > **Rabby** (94) > **Enkrypt** (75+) |
-| Best custom RPC? | **MetaMask** or **Safe** (set RPC before any requests) |
-| Best for AA? | **Safe** (web, active, 30+ chains) |
-| Best multi-ecosystem? | **Trust Wallet** (EVM + BTC + Solana) or **Enkrypt** (EVM + Polkadot) |
-| Avoid? | **Block Wallet** ❌, **Frame** ❌, **Argent-X** ❌ (all inactive) |
-
-### ⚠️ Previously Recommended, Now Inactive
-| Wallet | Status | Alternative |
-|--------|--------|-------------|
-| Block Wallet | ❌ No commits since Nov 2024 | Rainbow, Enkrypt |
-| Frame | ❌ No commits since Feb 2025 | Rabby |
-| Argent-X | ❌ No commits since Mar 2025 | Safe |
-| Coinbase SDK | ⚠️ Slow (Jul 2025) | Trust Wallet |
 
 ---
 
