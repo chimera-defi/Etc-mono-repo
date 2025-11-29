@@ -2,11 +2,11 @@
 
 > **TL;DR:** Use **Rabby** for development (transaction simulation), **Safe** or **Trust Wallet** for production (active development + stable), and **MetaMask** only for compatibility testing.
 
-**Data Source:** GitHub REST API, November 2024 (activity updated November 28, 2025)
+**Data Source:** GitHub REST API, November 2024 (activity updated November 29, 2025)
 
 ---
 
-## Complete Wallet Comparison (All 16 Wallets)
+## Complete Wallet Comparison (All 19 EVM Wallets)
 
 | Wallet | GitHub | Last Commit | Active | Chains | RPC | Stars | Issues | Ratio | Rel/mo | Stability | Browser Ext | Mobile | Tx Sim | EIP-4337 | Open Source | Best For | Alt | Rec |
 |--------|--------|-------------|--------|--------|-----|-------|--------|-------|--------|-----------|-------------|--------|--------|----------|-------------|----------|-----|-----|
@@ -15,7 +15,10 @@
 | **Coinbase** | [coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | Jul 11, 2025 | ⚠️ | 20+ | ⚠️ | 1,695 | 44 | 2.6% | - | ⭐⭐⭐⭐ | ✅ | ✅ | ❌ | ✅ | ⚠️ | Production | Trust | 🟡 |
 | **Trust** | [wallet-core](https://github.com/trustwallet/wallet-core) | Nov 27, 2025 | ✅ | 163 | ✅ | 3,354 | 69 | 2.1% | - | ⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ⚠️ | Multi-chain | - | 🟢 |
 | **Rainbow** | [rainbow](https://github.com/rainbow-me/rainbow) | Nov 26, 2025 | ✅ | 15+ | ⚠️ | 4,238 | 13 | 0.3% | ~4.3 | ⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ✅ | NFT/Ethereum | - | 🟢 |
-| **Block** | [extension](https://github.com/block-wallet/extension) | Nov 27, 2024 | ❌ | ~20 | ✅ | 96 | 45 | 46.9%* | ~1.7 | ⭐⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ✅ | ~~Max stability~~ | Rainbow, Enkrypt | 🔴 |
+| **Taho** | [extension](https://github.com/tahowallet/extension) | Oct 30, 2025 | ⚠️ | EVM | ✅ | 3,179 | 338 | 10.6% | - | ⭐⭐⭐ | ✅ | ❌ | ❌ | ❌ | ✅ | Community | Rainbow | 🟡 |
+| **MEW** | [MyEtherWallet](https://github.com/MyEtherWallet/MyEtherWallet) | Nov 27, 2025 | ✅ | ETH/EVM | ✅ | 1,560 | 47 | 3.0% | - | ⭐⭐⭐⭐ | ❌* | ✅ | ❌ | ❌ | ✅ | Ethereum | - | 🟢 |
+| **Ambire** | [wallet](https://github.com/AmbireTech/wallet) | Aug 12, 2025 | ⚠️ | EVM | ✅ | 213 | 2 | 0.9% | - | ⭐⭐⭐⭐ | ✅ | ✅ | ❌ | ✅ | ✅ | Smart wallet | Safe | 🟡 |
+| **Block** | [extension](https://github.com/block-wallet/extension) | Nov 27, 2024 | ❌ | ~20 | ✅ | 96 | 45 | 46.9% | ~1.7 | ⭐⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ✅ | ~~Max stability~~ | Rainbow | 🔴 |
 | **Wigwam** | [wigwam](https://github.com/wigwamapp/wigwam) | Sep 11, 2025 | ⚠️ | Any | ✅ | 83 | 7 | 8.4% | ~2 | ⭐⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ✅ | Stability | - | 🟡 |
 | **Safe** | [safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | Nov 27, 2025 | ✅ | 30+ | ✅ | 524 | 114 | 21.8% | - | ⭐⭐⭐⭐ | ❌ | ✅ | ❌ | ✅ | ✅ | Enterprise | - | 🟢 |
 | **Argent** | [argent-x](https://github.com/argentlabs/argent-x) | Mar 14, 2025 | ❌ | 2 | ❌ | 641 | 93 | 14.5% | - | ⭐⭐⭐⭐ | ⚠️† | ✅ | ❌ | ✅ | ✅ | ~~Starknet/AA~~ | Safe | 🔴 |
@@ -25,11 +28,11 @@
 | **Zerion** | Private | - | ? | ? | ? | - | - | - | - | ⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ❌ | Portfolio | - | ⚪ |
 | **1inch** | Private | - | ? | ? | ? | - | - | - | - | ⭐⭐⭐ | ❌ | ✅ | ❌ | ❌ | ❌ | DeFi | - | ⚪ |
 | **Brave** | [brave-browser](https://github.com/brave/brave-browser) | Nov 28, 2025 | ✅ | 10+ | ✅ | 20,764 | 9,997 | 48.1% | - | ⭐⭐⭐⭐ | ⚠️§ | ✅ | ❌ | ❌ | ✅ | Brave users | - | 🟢 |
-| **Enkrypt** | [enKrypt](https://github.com/enkryptcom/enKrypt) | Nov 27, 2025 | ✅ | 75+ | ✅ | 411 | 21 | 5.1% | ~1.3‡ | ⭐⭐⭐⭐ | ✅ | ❌ | ❌ | ❌ | ✅ | Polkadot | - | 🟢 |
+| **Enkrypt** | [enKrypt](https://github.com/enkryptcom/enKrypt) | Nov 27, 2025 | ✅ | 75+ | ✅ | 411 | 21 | 5.1% | ~1.3‡ | ⭐⭐⭐⭐ | ✅ | ❌ | ❌ | ❌ | ✅ | Multi-chain | - | 🟢 |
 
 **Legend:**
 - 🟢 Recommended | 🟡 Situational | 🔴 Avoid | ⚪ Not for dev
-- \* Block's high ratio due to small community (96 stars)
+- \* MEW is web app + mobile, no browser extension
 - † Argent desktop extension is Starknet-only
 - ‡ Limited verification (not from original research)
 - § Brave Wallet is built into Brave browser
@@ -65,10 +68,13 @@
 ### For Compatibility Testing
 1. **MetaMask** — Still the most widely supported (use last) ✅ Active
 
-### For Multi-Chain
-1. **Trust Wallet** — 163 chains, EVM + BTC + Solana ✅ Active
-2. **Enkrypt** — 75+ chains, EVM + Polkadot ✅ Active
+### For Multi-Chain EVM
+1. **Trust Wallet** — 163 chains ✅ Active
+2. **Enkrypt** — 75+ EVM chains ✅ Active
 3. **Brave Wallet** — Built into Brave browser ✅ Active
+
+### For Classic Ethereum
+1. **MEW (MyEtherWallet)** — Web + mobile, 3.0% issue ratio, active ✅ Active
 
 ---
 
@@ -76,12 +82,14 @@
 
 | Question | Answer |
 |----------|--------|
-| Best for development? | **Rabby** (transaction simulation, 94 chains, active) |
+| Best for development? | **Rabby** (transaction simulation, 94 EVM chains, active) |
 | Best for production? | **Trust Wallet** (163 chains) or **Rainbow** (curated chains) |
-| Most chains? | **Trust Wallet** (163) > **OKX** (100+) > **Rabby** (94) > **Enkrypt** (75+) |
+| Most EVM chains? | **Trust Wallet** (163) > **OKX** (100+) > **Rabby** (94) > **Enkrypt** (75+) |
 | Best custom RPC? | **MetaMask** or **Safe** (set RPC before any requests) |
-| Best for AA? | **Safe** (web, active, 30+ chains) |
-| Best multi-ecosystem? | **Trust Wallet** (EVM + BTC + Solana) or **Enkrypt** (EVM + Polkadot) |
+| Best for AA? | **Safe** (web, active, 30+ chains) or **Ambire** (smart wallet) |
+| Best multi-chain EVM? | **Trust Wallet** or **Enkrypt** (both 75+ EVM chains) |
+| Best classic Ethereum? | **MEW** (MyEtherWallet) - web + mobile, active, excellent code quality |
+| Best community-owned? | **Taho** (formerly Tally Ho) - 3,179 stars, open source |
 | Avoid? | **Block Wallet** ❌, **Frame** ❌, **Argent-X** ❌ (all inactive) |
 
 ### ⚠️ Previously Recommended, Now Inactive
@@ -152,6 +160,9 @@ Each wallet has quirks. Test your dApp with at least 3 wallets before production
 | [coinbase/coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | Jul 11, 2025 | ⚠️ Slow |
 | [trustwallet/wallet-core](https://github.com/trustwallet/wallet-core) | Nov 27, 2025 | ✅ Active |
 | [rainbow-me/rainbow](https://github.com/rainbow-me/rainbow) | Nov 26, 2025 | ✅ Active |
+| [tahowallet/extension](https://github.com/tahowallet/extension) | Oct 30, 2025 | ⚠️ Slow |
+| [MyEtherWallet/MyEtherWallet](https://github.com/MyEtherWallet/MyEtherWallet) | Nov 27, 2025 | ✅ Active |
+| [AmbireTech/wallet](https://github.com/AmbireTech/wallet) | Aug 12, 2025 | ⚠️ Slow |
 | [block-wallet/extension](https://github.com/block-wallet/extension) | Nov 27, 2024 | ❌ Inactive |
 | [wigwamapp/wigwam](https://github.com/wigwamapp/wigwam) | Sep 11, 2025 | ⚠️ Slow |
 | [safe-global/safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | Nov 27, 2025 | ✅ Active |
@@ -174,8 +185,10 @@ Several previously recommended wallets have **stopped active development**. See 
 | **Frame** | Feb 2025 | ❌ INACTIVE | 10 months without commits |
 | **Argent-X** | Mar 2025 | ❌ INACTIVE | 8 months without commits |
 | **Coinbase SDK** | Jul 2025 | ⚠️ SLOW | 4 months without commits |
+| **Ambire** | Aug 2025 | ⚠️ SLOW | 3+ months without commits |
 | **Wigwam** | Sep 2025 | ⚠️ SLOW | 2+ months without commits |
+| **Taho** | Oct 2025 | ⚠️ SLOW | 1 month without commits |
 
 ---
 
-*Last updated: November 28, 2025. Activity status, chain counts, and custom RPC data verified via GitHub API and WalletBeat. Verify current capabilities before implementation.*
+*Last updated: November 29, 2025. Activity status, chain counts, and custom RPC data verified via GitHub API and WalletBeat. Added 3 new EVM wallets: Taho, MEW, and Ambire. Verify current capabilities before implementation.*
