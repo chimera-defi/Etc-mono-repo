@@ -4,7 +4,7 @@ Developer-focused comparison of crypto wallets to find stable MetaMask alternati
 
 ## 📊 Main Comparison Table
 
-**→ [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Single source of truth with 18 columns:
+**→ [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Single source of truth with 19 EVM wallets and 18 columns:
 
 | Column | Description |
 |--------|-------------|
@@ -44,6 +44,9 @@ Several previously recommended wallets have **stopped active development**:
 | Production | **Rainbow** | 15+ | ⚠️ | ✅ Active |
 | Enterprise | **Safe** | 30+ | ✅ | ✅ Active |
 | Multi-chain | **Enkrypt** | 75+ | ✅ | ✅ Active |
+| Ethereum | **MEW** | ETH/EVM | ✅ | ✅ Active |
+| Smart Wallet | **Ambire** | EVM | ✅ | ⚠️ Slow |
+| Community | **Taho** | EVM | ✅ | ⚠️ Slow |
 | Avoid | ~~Block Wallet~~ | - | - | ❌ Inactive |
 | Avoid | ~~Frame~~ | - | - | ❌ Inactive |
 
@@ -66,8 +69,9 @@ Several previously recommended wallets have **stopped active development**:
 ## Data Sources
 
 - Original data: GitHub REST API (November 2024)
-- Activity status: GitHub REST API (November 28, 2025)
+- Activity status: GitHub REST API (November 29, 2025)
 - Chain counts: [Rabby API](https://api.rabby.io/v1/chain/list), [Trust registry](https://github.com/trustwallet/wallet-core/blob/master/registry.json)
 - Custom RPC data: [WalletBeat](https://github.com/walletbeat/walletbeat)
+- Additional wallets discovered: WalletBeat registry, GitHub search
 
 See [PR #62](https://github.com/chimera-defi/ethglobal-argentina-25/pull/62) for original methodology.
