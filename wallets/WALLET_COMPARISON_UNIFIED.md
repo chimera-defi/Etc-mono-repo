@@ -84,6 +84,14 @@
 | Best multi-ecosystem? | **Trust Wallet** (EVM + BTC + Solana) or **Enkrypt** (EVM + Polkadot) |
 | Avoid? | **Block Wallet** ❌, **Frame** ❌, **Argent-X** ❌ (all inactive) |
 
+### ⚠️ Previously Recommended, Now Inactive
+| Wallet | Status | Alternative |
+|--------|--------|-------------|
+| Block Wallet | ❌ No commits since Nov 2024 | Rainbow, Enkrypt |
+| Frame | ❌ No commits since Feb 2025 | Rabby |
+| Argent-X | ❌ No commits since Mar 2025 | Safe |
+| Coinbase SDK | ⚠️ Slow (Jul 2025) | Trust Wallet |
+
 ---
 
 ## Other Wallet Comparison Resources
@@ -134,6 +142,23 @@ Each wallet has quirks. Test your dApp with at least 3 wallets before production
 - Stars and issue counts refreshed
 - Chain counts from wallet APIs and registries
 - Custom RPC data from WalletBeat
+
+**GitHub Repositories (with activity status):**
+
+| Repository | Last Commit | Status |
+|------------|-------------|--------|
+| [MetaMask/metamask-extension](https://github.com/MetaMask/metamask-extension) | Nov 27, 2025 | ✅ Active |
+| [RabbyHub/Rabby](https://github.com/RabbyHub/Rabby) | Nov 21, 2025 | ✅ Active |
+| [coinbase/coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | Jul 11, 2025 | ⚠️ Slow |
+| [trustwallet/wallet-core](https://github.com/trustwallet/wallet-core) | Nov 27, 2025 | ✅ Active |
+| [rainbow-me/rainbow](https://github.com/rainbow-me/rainbow) | Nov 26, 2025 | ✅ Active |
+| [block-wallet/extension](https://github.com/block-wallet/extension) | Nov 27, 2024 | ❌ Inactive |
+| [wigwamapp/wigwam](https://github.com/wigwamapp/wigwam) | Sep 11, 2025 | ⚠️ Slow |
+| [safe-global/safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | Nov 27, 2025 | ✅ Active |
+| [argentlabs/argent-x](https://github.com/argentlabs/argent-x) | Mar 14, 2025 | ❌ Inactive |
+| [floating/frame](https://github.com/floating/frame) | Feb 01, 2025 | ❌ Inactive |
+| [brave/brave-browser](https://github.com/brave/brave-browser) | Nov 28, 2025 | ✅ Active |
+| [enkryptcom/enKrypt](https://github.com/enkryptcom/enKrypt) | Nov 27, 2025 | ✅ Active |
 
 **Not Verified (private repos):** OKX, 1inch, Zerion, Phantom
 
