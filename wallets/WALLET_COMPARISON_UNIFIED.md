@@ -2,11 +2,11 @@
 
 > **TL;DR:** Use **Rabby** for development (transaction simulation), **Safe** or **Trust Wallet** for production (active development + stable), and **MetaMask** only for compatibility testing.
 
-**Data Source:** GitHub REST API, November 2024 (activity updated November 28, 2025)
+**Data Source:** GitHub REST API, November 2024 (activity updated November 29, 2025)
 
 ---
 
-## Complete Wallet Comparison (All 16 Wallets)
+## Complete Wallet Comparison (All 22 Wallets)
 
 | Wallet | GitHub | Last Commit | Active | Chains | RPC | Stars | Issues | Ratio | Rel/mo | Stability | Browser Ext | Mobile | Tx Sim | EIP-4337 | Open Source | Best For | Alt | Rec |
 |--------|--------|-------------|--------|--------|-----|-------|--------|-------|--------|-----------|-------------|--------|--------|----------|-------------|----------|-----|-----|
@@ -15,6 +15,12 @@
 | **Coinbase** | [coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | Jul 11, 2025 | ⚠️ | 20+ | ⚠️ | 1,695 | 44 | 2.6% | - | ⭐⭐⭐⭐ | ✅ | ✅ | ❌ | ✅ | ⚠️ | Production | Trust | 🟡 |
 | **Trust** | [wallet-core](https://github.com/trustwallet/wallet-core) | Nov 27, 2025 | ✅ | 163 | ✅ | 3,354 | 69 | 2.1% | - | ⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ⚠️ | Multi-chain | - | 🟢 |
 | **Rainbow** | [rainbow](https://github.com/rainbow-me/rainbow) | Nov 26, 2025 | ✅ | 15+ | ⚠️ | 4,238 | 13 | 0.3% | ~4.3 | ⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ✅ | NFT/Ethereum | - | 🟢 |
+| **Taho** | [extension](https://github.com/tahowallet/extension) | Oct 30, 2025 | ⚠️ | EVM | ✅ | 3,179 | 338 | 10.6% | - | ⭐⭐⭐ | ✅ | ❌ | ❌ | ❌ | ✅ | Community | Rainbow | 🟡 |
+| **MEW** | [MyEtherWallet](https://github.com/MyEtherWallet/MyEtherWallet) | Nov 27, 2025 | ✅ | ETH/EVM | ✅ | 1,560 | 47 | 3.0% | - | ⭐⭐⭐⭐ | ❌∥ | ✅ | ❌ | ❌ | ✅ | Ethereum | - | 🟢 |
+| **Keplr** | [keplr-wallet](https://github.com/chainapsis/keplr-wallet) | Nov 28, 2025 | ✅ | 60+¶ | ✅ | 818 | 196 | 24.0% | - | ⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ✅ | Cosmos | - | 🟢 |
+| **Polkadot.js** | [extension](https://github.com/polkadot-js/extension) | Nov 26, 2025 | ✅ | DOT# | ✅ | 1,004 | 46 | 4.6% | - | ⭐⭐⭐⭐ | ✅ | ❌ | ❌ | ❌ | ✅ | Polkadot | - | 🟢 |
+| **Talisman** | [talisman](https://github.com/TalismanSociety/talisman) | Nov 28, 2025 | ✅ | DOT+EVM | ✅ | 74 | 70 | 94.6%* | - | ⭐⭐⭐ | ✅ | ❌ | ❌ | ❌ | ✅ | Multi-ecosystem | - | 🟢 |
+| **Ambire** | [wallet](https://github.com/AmbireTech/wallet) | Aug 12, 2025 | ⚠️ | EVM | ✅ | 213 | 2 | 0.9% | - | ⭐⭐⭐⭐ | ✅ | ✅ | ❌ | ✅ | ✅ | Smart wallet | Safe | 🟡 |
 | **Block** | [extension](https://github.com/block-wallet/extension) | Nov 27, 2024 | ❌ | ~20 | ✅ | 96 | 45 | 46.9%* | ~1.7 | ⭐⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ✅ | ~~Max stability~~ | Rainbow, Enkrypt | 🔴 |
 | **Wigwam** | [wigwam](https://github.com/wigwamapp/wigwam) | Sep 11, 2025 | ⚠️ | Any | ✅ | 83 | 7 | 8.4% | ~2 | ⭐⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ✅ | Stability | - | 🟡 |
 | **Safe** | [safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | Nov 27, 2025 | ✅ | 30+ | ✅ | 524 | 114 | 21.8% | - | ⭐⭐⭐⭐ | ❌ | ✅ | ❌ | ✅ | ✅ | Enterprise | - | 🟢 |
@@ -29,10 +35,13 @@
 
 **Legend:**
 - 🟢 Recommended | 🟡 Situational | 🔴 Avoid | ⚪ Not for dev
-- \* Block's high ratio due to small community (96 stars)
+- \* High ratio due to small community
 - † Argent desktop extension is Starknet-only
 - ‡ Limited verification (not from original research)
 - § Brave Wallet is built into Brave browser
+- ∥ MEW is web app + mobile, no browser extension
+- ¶ Keplr supports 60+ Cosmos ecosystem chains
+- \# Polkadot.js supports Polkadot/Substrate chains only
 - ~~Strikethrough~~ = was recommended, now inactive
 
 **Activity:** ✅ Active (last 30 days) | ⚠️ Slow (1-4 months) | ❌ Inactive (4+ months) | ? Unknown
@@ -70,6 +79,17 @@
 2. **Enkrypt** — 75+ chains, EVM + Polkadot ✅ Active
 3. **Brave Wallet** — Built into Brave browser ✅ Active
 
+### For Cosmos Ecosystem
+1. **Keplr** — 60+ Cosmos chains, browser extension + mobile ✅ Active
+
+### For Polkadot Ecosystem
+1. **Polkadot.js** — Official Polkadot extension, excellent stability ✅ Active
+2. **Talisman** — Multi-chain (Polkadot + EVM) ✅ Active
+3. **Enkrypt** — EVM + Polkadot support ✅ Active
+
+### For Classic Ethereum
+1. **MEW (MyEtherWallet)** — Web + mobile, 3.0% issue ratio, active ✅ Active
+
 ---
 
 ## Summary
@@ -78,10 +98,13 @@
 |----------|--------|
 | Best for development? | **Rabby** (transaction simulation, 94 chains, active) |
 | Best for production? | **Trust Wallet** (163 chains) or **Rainbow** (curated chains) |
-| Most chains? | **Trust Wallet** (163) > **OKX** (100+) > **Rabby** (94) > **Enkrypt** (75+) |
+| Most chains? | **Trust Wallet** (163) > **OKX** (100+) > **Rabby** (94) > **Enkrypt** (75+) > **Keplr** (60+ Cosmos) |
 | Best custom RPC? | **MetaMask** or **Safe** (set RPC before any requests) |
-| Best for AA? | **Safe** (web, active, 30+ chains) |
-| Best multi-ecosystem? | **Trust Wallet** (EVM + BTC + Solana) or **Enkrypt** (EVM + Polkadot) |
+| Best for AA? | **Safe** (web, active, 30+ chains) or **Ambire** (smart wallet) |
+| Best multi-ecosystem? | **Trust Wallet** (EVM + BTC + Solana), **Talisman** (Polkadot + EVM), or **Enkrypt** (EVM + Polkadot) |
+| Best for Cosmos? | **Keplr** (60+ Cosmos chains, active, browser + mobile) |
+| Best for Polkadot? | **Polkadot.js** (official), **Talisman** (multi-chain), or **Enkrypt** |
+| Best classic Ethereum? | **MEW** (MyEtherWallet) - web + mobile, active, excellent code quality |
 | Avoid? | **Block Wallet** ❌, **Frame** ❌, **Argent-X** ❌ (all inactive) |
 
 ### ⚠️ Previously Recommended, Now Inactive
@@ -152,6 +175,12 @@ Each wallet has quirks. Test your dApp with at least 3 wallets before production
 | [coinbase/coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | Jul 11, 2025 | ⚠️ Slow |
 | [trustwallet/wallet-core](https://github.com/trustwallet/wallet-core) | Nov 27, 2025 | ✅ Active |
 | [rainbow-me/rainbow](https://github.com/rainbow-me/rainbow) | Nov 26, 2025 | ✅ Active |
+| [tahowallet/extension](https://github.com/tahowallet/extension) | Oct 30, 2025 | ⚠️ Slow |
+| [MyEtherWallet/MyEtherWallet](https://github.com/MyEtherWallet/MyEtherWallet) | Nov 27, 2025 | ✅ Active |
+| [chainapsis/keplr-wallet](https://github.com/chainapsis/keplr-wallet) | Nov 28, 2025 | ✅ Active |
+| [polkadot-js/extension](https://github.com/polkadot-js/extension) | Nov 26, 2025 | ✅ Active |
+| [TalismanSociety/talisman](https://github.com/TalismanSociety/talisman) | Nov 28, 2025 | ✅ Active |
+| [AmbireTech/wallet](https://github.com/AmbireTech/wallet) | Aug 12, 2025 | ⚠️ Slow |
 | [block-wallet/extension](https://github.com/block-wallet/extension) | Nov 27, 2024 | ❌ Inactive |
 | [wigwamapp/wigwam](https://github.com/wigwamapp/wigwam) | Sep 11, 2025 | ⚠️ Slow |
 | [safe-global/safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | Nov 27, 2025 | ✅ Active |
@@ -174,8 +203,10 @@ Several previously recommended wallets have **stopped active development**. See 
 | **Frame** | Feb 2025 | ❌ INACTIVE | 10 months without commits |
 | **Argent-X** | Mar 2025 | ❌ INACTIVE | 8 months without commits |
 | **Coinbase SDK** | Jul 2025 | ⚠️ SLOW | 4 months without commits |
+| **Ambire** | Aug 2025 | ⚠️ SLOW | 3+ months without commits |
 | **Wigwam** | Sep 2025 | ⚠️ SLOW | 2+ months without commits |
+| **Taho** | Oct 2025 | ⚠️ SLOW | 1 month without commits |
 
 ---
 
-*Last updated: November 28, 2025. Activity status, chain counts, and custom RPC data verified via GitHub API and WalletBeat. Verify current capabilities before implementation.*
+*Last updated: November 29, 2025. Activity status, chain counts, and custom RPC data verified via GitHub API and WalletBeat. Added 6 new wallets: Taho, MEW, Keplr, Polkadot.js, Talisman, and Ambire. Verify current capabilities before implementation.*
