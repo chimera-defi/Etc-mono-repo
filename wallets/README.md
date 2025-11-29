@@ -4,7 +4,7 @@ Developer-focused comparison of crypto wallets to find stable MetaMask alternati
 
 ## 📊 Main Comparison Table
 
-**→ [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Single source of truth with 22 wallets and 18 columns:
+**→ [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Single source of truth with 19 EVM wallets and 18 columns:
 
 | Column | Description |
 |--------|-------------|
@@ -44,10 +44,9 @@ Several previously recommended wallets have **stopped active development**:
 | Production | **Rainbow** | 15+ | ⚠️ | ✅ Active |
 | Enterprise | **Safe** | 30+ | ✅ | ✅ Active |
 | Multi-chain | **Enkrypt** | 75+ | ✅ | ✅ Active |
-| Cosmos | **Keplr** | 60+ | ✅ | ✅ Active |
-| Polkadot | **Polkadot.js** | DOT | ✅ | ✅ Active |
-| Multi-ecosystem | **Talisman** | DOT+EVM | ✅ | ✅ Active |
 | Ethereum | **MEW** | ETH/EVM | ✅ | ✅ Active |
+| Smart Wallet | **Ambire** | EVM | ✅ | ⚠️ Slow |
+| Community | **Taho** | EVM | ✅ | ⚠️ Slow |
 | Avoid | ~~Block Wallet~~ | - | - | ❌ Inactive |
 | Avoid | ~~Frame~~ | - | - | ❌ Inactive |
 
