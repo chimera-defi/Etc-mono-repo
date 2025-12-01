@@ -14,11 +14,17 @@ Developer-focused comparison of crypto wallets to find stable MetaMask alternati
 | **Devices** | 📱 Mobile / 🌐 Browser / 💻 Desktop | WalletBeat |
 | **Testnets** | Custom chain / testnet support | WalletBeat |
 | **License** | ✅ FOSS / ⚠️ Source-Avail / ❌ Proprietary | GitHub + WalletBeat |
+| **Audits** | ✅ Recent (2023+) / ⚠️ Old/Issues / ? Unknown | WalletBeat |
 | **Account Type** | EOA / Safe / 4337 / 7702 | WalletBeat |
 | **HW Wallets** | Hardware wallet support | WalletBeat |
 | EIP-4337 | Account abstraction support | WalletBeat |
 | Best For | Use case | Analysis |
 | Rec | 🟢/🟡/🔴 recommendation | Analysis |
+
+### New Sections Added (Dec 2025)
+- 🧭 **Decision Flowchart** — Visual guide to choose the right wallet
+- 🔒 **Security Audits** — Audit history with links to reports
+- ⚡ **Known Quirks & Gotchas** — Developer pain points per wallet
 
 ---
 
@@ -34,22 +40,23 @@ Several previously recommended wallets have **stopped active development**:
 
 ## Quick Recommendations
 
-| Use Case | Wallet | Devices | Account Type | HW Wallets | License | Status |
-|----------|--------|---------|--------------|------------|---------|--------|
-| Development | **Rabby** | 📱🌐💻 | EOA+Safe | ✅ Ledger/Trezor | ✅ MIT | ✅ Active |
-| Production | **Trust Wallet** | 📱🌐 | EOA | ✅ Multiple | ⚠️ Apache-2 | ✅ Active |
-| Production | **Rainbow** | 📱🌐 | EOA | ✅ Ledger/Trezor | ✅ GPL-3 | ✅ Active |
-| Enterprise | **Safe** | 📱🌐 | Safe+4337 | ✅ Ledger/Trezor | ✅ GPL-3 | ✅ Active |
-| Multi-chain | **Enkrypt** | 🌐 | EOA | ✅ Multiple | ✅ MIT | ✅ Active |
-| Ethereum | **MEW** | 📱🔗 | EOA | ✅ Multiple | ✅ MIT | ✅ Active |
-| Smart Wallet | **Ambire** | 🌐 | 7702+4337 | ✅ Ledger/Trezor | ✅ GPL-3 | ⚠️ Slow |
-| Payments | **Daimo** | 📱 | 4337 only | ❌ | ✅ GPL-3 | ✅ Active |
-| Community | **Taho** | 🌐 | EOA | ✅ Multiple | ✅ GPL-3 | ⚠️ Slow |
-| Avoid | ~~Block Wallet~~ | - | - | - | - | ❌ Inactive |
-| Avoid | ~~Frame~~ | - | - | - | - | ❌ Inactive |
+| Use Case | Wallet | Devices | Account Type | HW Wallets | License | Audits | Status |
+|----------|--------|---------|--------------|------------|---------|--------|--------|
+| Development | **Rabby** | 📱🌐💻 | EOA+Safe | ✅ Ledger/Trezor | ✅ MIT | ⚠️ Mobile | ✅ Active |
+| Production | **Trust Wallet** | 📱🌐 | EOA | ✅ Multiple | ⚠️ Apache-2 | ? | ✅ Active |
+| Production | **Rainbow** | 📱🌐 | EOA | ✅ Ledger/Trezor | ✅ GPL-3 | ? | ✅ Active |
+| Enterprise | **Safe** | 📱🌐 | Safe+4337 | ✅ Ledger/Trezor | ✅ GPL-3 | ✅ Certora | ✅ Active |
+| Multi-chain | **Enkrypt** | 🌐 | EOA | ✅ Multiple | ✅ MIT | ? | ✅ Active |
+| Ethereum | **MEW** | 📱🔗 | EOA | ✅ Multiple | ✅ MIT | ? | ✅ Active |
+| Smart Wallet | **Ambire** | 🌐 | 7702+4337 | ✅ Ledger/Trezor | ✅ GPL-3 | ✅ 2025 | ⚠️ Slow |
+| Payments | **Daimo** | 📱 | 4337 only | ❌ | ✅ GPL-3 | ✅ 2023 | ✅ Active |
+| Community | **Taho** | 🌐 | EOA | ✅ Multiple | ✅ GPL-3 | ? | ⚠️ Slow |
+| Avoid | ~~Block Wallet~~ | - | - | - | - | - | ❌ Inactive |
+| Avoid | ~~Frame~~ | - | - | - | - | - | ❌ Inactive |
 
 **Devices:** 📱 Mobile | 🌐 Browser Extension | 💻 Desktop | 🔗 Web App
 **Account Types:** EOA = Standard | Safe = Multi-sig | 4337 = Smart Account | 7702 = Upgraded EOA
+**Audits:** ✅ Recent (2023+) | ⚠️ Issues/Old | ? Unknown
 
 ---
 
@@ -73,6 +80,10 @@ Several previously recommended wallets have **stopped active development**:
 - Activity status: GitHub REST API (November 29, 2025)
 - Chain counts: [Rabby API](https://api.rabby.io/v1/chain/list), [Trust registry](https://github.com/trustwallet/wallet-core/blob/master/registry.json)
 - **License, devices, testnets:** [WalletBeat](https://walletbeat.fyi) (December 2025)
+- **Security audits:** WalletBeat + wallet GitHub repos (December 2025)
 - Additional wallets discovered: WalletBeat registry, GitHub search
 
 See [PR #62](https://github.com/chimera-defi/ethglobal-argentina-25/pull/62) for original methodology.
+
+---
+*Last updated: December 1, 2025*
