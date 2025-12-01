@@ -6,13 +6,19 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import App from './App';
 
+// Mock matchMedia for dark mode detection
 beforeEach(() => {
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
     value: vi.fn().mockImplementation(query => ({
-      matches: false, media: query, onchange: null,
-      addListener: vi.fn(), removeListener: vi.fn(),
-      addEventListener: vi.fn(), removeEventListener: vi.fn(), dispatchEvent: vi.fn(),
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
     })),
   });
 });
@@ -31,11 +37,19 @@ describe('App', () => {
 
   it('toggles details when button is clicked', async () => {
     render(<App />);
+
     const button = screen.getByRole('button');
-    expect(button).toHaveTextContent('Show');
+    expect(button).toHaveTextContent('Show details');
+
     fireEvent.click(button);
-    await waitFor(() => expect(button).toHaveTextContent('Hide'), { timeout: 500 });
-    await waitFor(() => expect(screen.getByText('State toggled!')).toBeInTheDocument(), { timeout: 500 });
+
+    await waitFor(() => {
+      expect(button).toHaveTextContent('Hide details');
+    }, { timeout: 500 });
+
+    await waitFor(() => {
+      expect(screen.getByText('State toggled!')).toBeInTheDocument();
+    }, { timeout: 500 });
   });
 
   it('displays the framework badge', () => {
