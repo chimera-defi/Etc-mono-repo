@@ -8,39 +8,42 @@
 
 ## Complete Wallet Comparison (All 19 EVM Wallets)
 
-| Wallet | GitHub | Last Commit | Active | Chains | RPC | Stars | Issues | Ratio | Stability | Devices | Testnets | License | Tx Sim | EIP-4337 | Best For | Rec |
-|--------|--------|-------------|--------|--------|-----|-------|--------|-------|-----------|---------|----------|---------|--------|----------|----------|-----|
-| **MetaMask** | [metamask-extension](https://github.com/MetaMask/metamask-extension) | Nov 27, 2025 | ✅ | Any | ✅ | 12,949 | 2,509 | 19.4% | ⭐⭐ | 📱🌐 | ✅ | ⚠️ Src-Avail | ❌ | ⚠️ | Compatibility | 🔴 |
-| **Rabby** | [Rabby](https://github.com/RabbyHub/Rabby) | Nov 21, 2025 | ✅ | 94 | ✅ | 1,726 | 120 | 7.0% | ⭐⭐⭐⭐ | 📱🌐💻 | ✅ | ✅ MIT/⚠️ | ✅ | ❌ | Development | 🟢 |
-| **Coinbase** | [coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | Jul 11, 2025 | ⚠️ | 20+ | ⚠️ | 1,695 | 44 | 2.6% | ⭐⭐⭐⭐ | 📱🌐 | ✅ | ⚠️ Partial | ❌ | ✅ | Production | 🟡 |
-| **Trust** | [wallet-core](https://github.com/trustwallet/wallet-core) | Nov 27, 2025 | ✅ | 163 | ✅ | 3,354 | 69 | 2.1% | ⭐⭐⭐ | 📱🌐 | ✅ | ⚠️ Partial | ❌ | ❌ | Multi-chain | 🟢 |
-| **Rainbow** | [rainbow](https://github.com/rainbow-me/rainbow) | Nov 26, 2025 | ✅ | 15+ | ⚠️ | 4,238 | 13 | 0.3% | ⭐⭐⭐ | 📱🌐 | ✅ | ✅ GPL-3 | ❌ | ❌ | NFT/Ethereum | 🟢 |
-| **Taho** | [extension](https://github.com/tahowallet/extension) | Oct 30, 2025 | ⚠️ | EVM | ✅ | 3,179 | 338 | 10.6% | ⭐⭐⭐ | 🌐 | ✅ | ✅ GPL-3 | ❌ | ❌ | Community | 🟡 |
-| **MEW** | [MyEtherWallet](https://github.com/MyEtherWallet/MyEtherWallet) | Nov 27, 2025 | ✅ | ETH/EVM | ✅ | 1,560 | 47 | 3.0% | ⭐⭐⭐⭐ | 📱🔗 | ✅ | ✅ MIT | ❌ | ❌ | Ethereum | 🟢 |
-| **Ambire** | [wallet](https://github.com/AmbireTech/wallet) | Aug 12, 2025 | ⚠️ | EVM | ✅ | 213 | 2 | 0.9% | ⭐⭐⭐⭐ | 📱🌐 | ✅ | ✅ GPL-3 | ❌ | ✅ | Smart wallet | 🟡 |
-| **Block** | [extension](https://github.com/block-wallet/extension) | Nov 27, 2024 | ❌ | ~20 | ✅ | 96 | 45 | 46.9% | ⭐⭐⭐⭐ | 📱🌐 | ✅ | ✅ MIT | ❌ | ❌ | ~~Stability~~ | 🔴 |
-| **Wigwam** | [wigwam](https://github.com/wigwamapp/wigwam) | Sep 11, 2025 | ⚠️ | Any | ✅ | 83 | 7 | 8.4% | ⭐⭐⭐⭐ | 📱🌐 | ✅ | ✅ MIT | ❌ | ❌ | Stability | 🟡 |
-| **Safe** | [safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | Nov 27, 2025 | ✅ | 30+ | ✅ | 524 | 114 | 21.8% | ⭐⭐⭐⭐ | 📱🌐 | ✅ | ✅ GPL-3 | ❌ | ✅ | Enterprise | 🟢 |
-| **Argent** | [argent-x](https://github.com/argentlabs/argent-x) | Mar 14, 2025 | ❌ | 2 | ❌ | 641 | 93 | 14.5% | ⭐⭐⭐⭐ | 📱🌐† | ✅ | ✅ GPL-3 | ❌ | ✅ | ~~Starknet~~ | 🔴 |
-| **OKX** | Private | - | ? | 100+ | ✅ | - | - | - | ⭐⭐⭐⭐ | 📱🌐 | ✅ | ❌ Proprietary | ❌ | ⚠️ | EIP-7702 | 🟡 |
-| **Frame** | [frame](https://github.com/floating/frame) | Feb 01, 2025 | ❌ | Any | ✅ | 1,160 | 95 | 8.2% | ⭐⭐⭐⭐ | 💻 | ✅ | ✅ GPL-3 | ✅ | ❌ | ~~Desktop~~ | 🔴 |
-| **Phantom** | Private | - | ? | 5 | ❌ | - | - | - | ⭐⭐⭐ | 📱🌐 | ❌ | ❌ Proprietary | ❌ | ❌ | Solana-first | 🟡 |
-| **Zerion** | Private | - | ? | ? | ? | - | - | - | ⭐⭐⭐ | 📱🌐 | ? | ❌ Proprietary | ❌ | ❌ | Portfolio | ⚪ |
-| **1inch** | Private | - | ? | ? | ? | - | - | - | ⭐⭐⭐ | 📱 | ? | ❌ Proprietary | ❌ | ❌ | DeFi | ⚪ |
-| **Brave** | [brave-browser](https://github.com/brave/brave-browser) | Nov 28, 2025 | ✅ | 10+ | ✅ | 20,764 | 9,997 | 48.1% | ⭐⭐⭐⭐ | 📱🌐§ | ✅ | ✅ MPL-2 | ❌ | ❌ | Brave users | 🟢 |
-| **Enkrypt** | [enKrypt](https://github.com/enkryptcom/enKrypt) | Nov 27, 2025 | ✅ | 75+ | ✅ | 411 | 21 | 5.1% | ⭐⭐⭐⭐ | 🌐 | ✅ | ✅ MIT | ❌ | ❌ | Multi-chain | 🟢 |
+| Wallet | GitHub | Active | Chains | Devices | Testnets | License | Account Type | HW Wallets | EIP-4337 | Best For | Rec |
+|--------|--------|--------|--------|---------|----------|---------|--------------|------------|----------|----------|-----|
+| **MetaMask** | [metamask-extension](https://github.com/MetaMask/metamask-extension) | ✅ | Any | 📱🌐 | ✅ | ⚠️ Src-Avail | EOA+7702 | ✅ Ledger/Trezor/Keystone/GridPlus | ⚠️ | Compatibility | 🔴 |
+| **Rabby** | [Rabby](https://github.com/RabbyHub/Rabby) | ✅ | 94 | 📱🌐💻 | ✅ | ✅ MIT | EOA+Safe | ✅ Ledger/Trezor/Keystone/GridPlus | ❌ | Development | 🟢 |
+| **Coinbase** | [coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | ⚠️ | 20+ | 📱🌐 | ✅ | ⚠️ Partial | EOA+4337 | ✅ Ledger/Trezor | ✅ | Production | 🟡 |
+| **Trust** | [wallet-core](https://github.com/trustwallet/wallet-core) | ✅ | 163 | 📱🌐 | ✅ | ⚠️ Apache-2 | EOA | ✅ Multiple | ❌ | Multi-chain | 🟢 |
+| **Rainbow** | [rainbow](https://github.com/rainbow-me/rainbow) | ✅ | 15+ | 📱🌐 | ✅ | ✅ GPL-3 | EOA | ✅ Ledger/Trezor | ❌ | NFT/Ethereum | 🟢 |
+| **Safe** | [safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | ✅ | 30+ | 📱🌐 | ✅ | ✅ GPL-3 | Safe+4337 | ✅ Ledger/Trezor/Keystone | ✅ | Enterprise | 🟢 |
+| **Ambire** | [extension](https://github.com/AmbireTech/extension) | ⚠️ | EVM | 🌐 | ✅ | ✅ GPL-3 | 7702+4337 | ✅ Ledger/Trezor/GridPlus | ✅ | Smart wallet | 🟡 |
+| **MEW** | [MyEtherWallet](https://github.com/MyEtherWallet/MyEtherWallet) | ✅ | ETH | 📱🔗 | ✅ | ✅ MIT | EOA | ✅ Multiple | ❌ | Ethereum | 🟢 |
+| **Taho** | [extension](https://github.com/tahowallet/extension) | ⚠️ | EVM | 🌐 | ✅ | ✅ GPL-3 | EOA | ✅ Multiple | ❌ | Community | 🟡 |
+| **Frame** | [frame](https://github.com/floating/frame) | ❌ | Any | 💻 | ✅ | ✅ GPL-3 | EOA | ✅ Ledger/Trezor/Keystone/GridPlus | ❌ | ~~Desktop~~ | 🔴 |
+| **Brave** | [brave-browser](https://github.com/brave/brave-browser) | ✅ | 10+ | 📱🌐§ | ✅ | ✅ MPL-2 | EOA | ✅ Multiple | ❌ | Brave users | 🟢 |
+| **Enkrypt** | [enKrypt](https://github.com/enkryptcom/enKrypt) | ✅ | 75+ | 🌐 | ✅ | ✅ MIT | EOA | ✅ Multiple | ❌ | Multi-chain | 🟢 |
+| **imToken** | [token-core](https://github.com/consenlabs/token-core-monorepo) | ✅ | 50+ | 📱 | ✅ | ⚠️ Apache-2 | EOA | ✅ Keystone/imKey | ❌ | Multi-chain | 🟢 |
+| **Daimo** | [daimo](https://github.com/daimo-eth/daimo) | ✅ | Base | 📱 | ❌ | ✅ GPL-3 | 4337 only | ❌ | ✅ | Payments | 🟢 |
+| **Phantom** | Private | ? | 5 | 📱🌐 | ❌ | ❌ Proprietary | EOA | ✅ Ledger only | ❌ | Solana-first | 🟡 |
+| **Zerion** | Private | ? | 20+ | 📱🌐 | ? | ❌ Proprietary | EOA | ✅ Ledger+WC | ❌ | Portfolio | ⚪ |
+| **OKX** | Private | ? | 100+ | 📱🌐 | ✅ | ❌ Proprietary | EOA | ✅ Multiple | ⚠️ | EIP-7702 | 🟡 |
+| **Argent** | [argent-x](https://github.com/argentlabs/argent-x) | ❌ | 2 | 📱🌐† | ✅ | ✅ GPL-3 | 4337 | ✅ Multiple | ✅ | ~~Starknet~~ | 🔴 |
+| **Block** | [extension](https://github.com/block-wallet/extension) | ❌ | ~20 | 📱🌐 | ✅ | ✅ MIT | EOA | ✅ Multiple | ❌ | ~~Stability~~ | 🔴 |
+| **Wigwam** | [wigwam](https://github.com/wigwamapp/wigwam) | ⚠️ | Any | 📱🌐 | ✅ | ✅ MIT | EOA | ✅ Multiple | ❌ | Stability | 🟡 |
+| **1inch** | Private | ? | ? | 📱 | ? | ❌ Proprietary | EOA | ? | ❌ | DeFi | ⚪ |
 
 **Legend:**
 - 🟢 Recommended | 🟡 Situational | 🔴 Avoid | ⚪ Not for dev
 - **Devices:** 📱 Mobile | 🌐 Browser Extension | 💻 Desktop | 🔗 Web App
 - **License:** ✅ FOSS (MIT, GPL, MPL) | ⚠️ Source-Available/Partial | ❌ Proprietary
+- **Account Type:** EOA = Standard | Safe = Multi-sig | 4337 = Smart Account | 7702 = Upgraded EOA
 - † Argent desktop extension is Starknet-only
 - § Brave Wallet is built into Brave browser
 - ~~Strikethrough~~ = was recommended, now inactive
 
 **Activity:** ✅ Active (last 30 days) | ⚠️ Slow (1-4 months) | ❌ Inactive (4+ months) | ? Unknown
 
-**Columns:** Chains = Built-in chain count | RPC = Custom RPC support | Testnets = Custom chains/testnet support | Tx Sim = Transaction simulation | EIP-4337 = Account Abstraction
+**Data Sources:** GitHub REST API (verified Nov 2025), [WalletBeat](https://walletbeat.fyi) (Dec 2025)
 
 ---
 
@@ -102,29 +105,119 @@
 
 ---
 
-## Detailed License Information (from WalletBeat)
+## Account Type Support (from WalletBeat)
 
-| Wallet | Browser Ext License | Mobile License | Core License | FOSS Status |
-|--------|---------------------|----------------|--------------|-------------|
-| **MetaMask** | Proprietary src-avail | Proprietary src-avail | MIT | ⚠️ Partial |
-| **Rabby** | MIT | Unlicensed (visible) | Unlicensed | ⚠️ Mixed |
-| **Rainbow** | GPL-3.0 | GPL-3.0 | - | ✅ FOSS |
-| **Safe** | GPL-3.0 | GPL-3.0 | - | ✅ FOSS |
-| **Phantom** | Proprietary | Proprietary | - | ❌ Closed |
-| **Frame** | GPL-3.0 | N/A | - | ✅ FOSS |
-| **Ambire** | GPL-3.0 | GPL-3.0 | - | ✅ FOSS |
-| **Argent** | GPL-3.0 | GPL-3.0 | - | ✅ FOSS |
-| **Brave** | MPL-2.0 | MPL-2.0 | - | ✅ FOSS |
-| **Enkrypt** | MIT | N/A | - | ✅ FOSS |
-| **Trust** | Apache-2.0 (core) | - | Apache-2.0 | ⚠️ Partial |
-| **MEW** | MIT | MIT | - | ✅ FOSS |
-| **Coinbase** | Partial | Partial | MIT | ⚠️ Partial |
-| **OKX** | Proprietary | Proprietary | - | ❌ Closed |
-| **Zerion** | Proprietary | Proprietary | - | ❌ Closed |
-| **1inch** | Proprietary | Proprietary | - | ❌ Closed |
+| Wallet | Default | EOA | Safe | EIP-4337 | EIP-7702 | MPC | Notes |
+|--------|---------|-----|------|----------|----------|-----|-------|
+| **MetaMask** | EOA | ✅ | ❌ | ❌ | ✅ | ❌ | First major wallet with EIP-7702 |
+| **Rabby** | EOA | ✅ | ✅ | ❌ | ❌ | ❌ | Can connect to existing Safes |
+| **Safe** | Safe | ❌ | ✅ | ✅ | ❌ | ❌ | Native multi-sig wallet |
+| **Coinbase** | EOA | ✅ | ❌ | ✅ | ❌ | ❌ | Smart wallet option |
+| **Rainbow** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Standard EOA |
+| **Ambire** | 7702 | ✅ | ❌ | ✅ | ✅ | ❌ | Hybrid AA + EIP-7702 |
+| **Phantom** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Multi-chain EOA |
+| **Zerion** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Standard EOA |
+| **Frame** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Standard EOA |
+| **Daimo** | 4337 | ❌ | ❌ | ✅ | ❌ | ❌ | Pure smart account |
+| **imToken** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Standard EOA |
+
+**Account Types:**
+- **EOA:** Externally Owned Account (private key)
+- **Safe:** Multi-signature smart contract wallet
+- **EIP-4337:** Account Abstraction (smart contract wallets with bundlers)
+- **EIP-7702:** EOA that can temporarily act as a smart contract
+- **MPC:** Multi-Party Computation (sharded key)
+
+---
+
+## Hardware Wallet Support (from WalletBeat)
+
+| Wallet | Ledger | Trezor | Keystone | GridPlus | Other |
+|--------|--------|--------|----------|----------|-------|
+| **MetaMask** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | KeepKey, OneKey |
+| **Rabby** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ✅ Others |
+| **Safe** | ✅ WebUSB | ✅ WebUSB | ✅ WalletConnect | ✅ WalletConnect | - |
+| **Rainbow** | ✅ WebUSB+BT | ✅ WebUSB | - | - | - |
+| **Coinbase** | ✅ | ✅ | - | - | - |
+| **Frame** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ✅ Others |
+| **Ambire** | ✅ WebUSB | ✅ WebUSB | ❌ | ✅ WebUSB | - |
+| **Zerion** | ✅ WebUSB | ✅ WC only | ✅ WC only | ✅ WC only | - |
+| **Phantom** | ✅ WebUSB | ❌ | ❌ | ❌ | - |
+| **imToken** | ❌ | ❌ | ✅ QR | ❌ | imKey (BT) |
+
+**Connection Types:** WebUSB, Bluetooth (BT), QR code, WalletConnect (WC)
+
+---
+
+## ENS & Address Resolution (from WalletBeat)
+
+| Wallet | Mainnet ENS | Subdomains | Offchain | L2 ENS | Custom Domains |
+|--------|-------------|------------|----------|--------|----------------|
+| **MetaMask** | ✅ | ? | ? | ? | ? |
+| **Rabby** | ⚠️ Import only | ? | ❌ | ❌ | ❌ |
+| **Safe** | ? | ? | ? | ? | ? |
+| **Rainbow** | ? | ? | ? | ? | ? |
+| **Coinbase** | ✅ | ? | ? | ? | ✅ (cb.id) |
+| **Ambire** | ✅ | ? | ❌ | ❌ | ? |
+| **imToken** | ✅ | ? | ? | ? | ? |
+| **Daimo** | ✅ | ? | ❌ | ❌ | ❌ |
+| **Phantom** | ? | ? | ? | ? | ? |
+
+**ENS Features:**
+- **Mainnet ENS:** Send to user.eth addresses
+- **Subdomains:** Send to hot.user.eth
+- **Offchain:** ENS with offchain resolvers
+- **L2 ENS:** ENS resolution on L2s (e.g., Optimism)
+- **Custom Domains:** Custom ENS domains (e.g., user.cb.id)
+
+---
+
+## Browser Integration (from WalletBeat)
+
+| Wallet | EIP-1193 | EIP-2700 | EIP-6963 | WalletConnect | In-App Browser |
+|--------|----------|----------|----------|---------------|----------------|
+| **MetaMask** | ✅ | ✅ | ✅ | ✅ | ✅ (mobile) |
+| **Rabby** | ✅ | ✅ | ✅ | ✅ | ❌ |
+| **Safe** | ? | ? | ? | ✅ | ❌ |
+| **Rainbow** | ? | ? | ? | ✅ | ✅ |
+| **Coinbase** | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Ambire** | ✅ | ✅ | ✅ | ? | ❌ |
+| **imToken** | N/A | N/A | N/A | ✅ | ✅ |
+| **Daimo** | N/A | N/A | N/A | ✅ | ❌ |
+| **Phantom** | ✅ | ? | ? | ✅ | ✅ |
+| **Zerion** | ? | ? | ? | ✅ | ✅ |
+
+**EIPs:**
+- **EIP-1193:** Standard Ethereum Provider API (`window.ethereum`)
+- **EIP-2700:** Provider event system (`.on()`, `.removeListener()`)
+- **EIP-6963:** Multi-wallet discovery ([test at eip6963.org](https://eip6963.org))
+
+---
+
+## Detailed License Information (from WalletBeat + GitHub Verification)
+
+| Wallet | Browser Ext License | Mobile License | Core License | FOSS Status | Verified |
+|--------|---------------------|----------------|--------------|-------------|----------|
+| **MetaMask** | Custom (src-avail) | Custom (src-avail) | MIT | ⚠️ Partial | ✅ GitHub |
+| **Rabby** | MIT (with brand) | Unlicensed (visible) | Unlicensed | ⚠️ Mixed | ✅ GitHub |
+| **Rainbow** | GPL-3.0 | GPL-3.0 | - | ✅ FOSS | ✅ GitHub |
+| **Safe** | GPL-3.0 | GPL-3.0 | - | ✅ FOSS | ✅ GitHub |
+| **Trust** | - | - | Apache-2.0 | ⚠️ Partial | ✅ GitHub |
+| **Phantom** | Proprietary | Proprietary | - | ❌ Closed | WalletBeat |
+| **Frame** | GPL-3.0 | N/A | - | ✅ FOSS | WalletBeat |
+| **Ambire** | GPL-3.0 | - | - | ✅ FOSS | WalletBeat |
+| **Argent** | GPL-3.0 | GPL-3.0 | - | ✅ FOSS | WalletBeat |
+| **Brave** | MPL-2.0 | MPL-2.0 | - | ✅ FOSS | ✅ GitHub |
+| **Enkrypt** | MIT | N/A | - | ✅ FOSS | ✅ GitHub |
+| **MEW** | MIT | MIT | - | ✅ FOSS | WalletBeat |
+| **Coinbase** | Partial | Partial | MIT | ⚠️ Partial | WalletBeat |
+| **OKX** | Proprietary | Proprietary | - | ❌ Closed | WalletBeat |
+| **Zerion** | Proprietary | Proprietary | - | ❌ Closed | WalletBeat |
+| **imToken** | N/A | Proprietary | Apache-2.0 | ⚠️ Partial | WalletBeat |
+| **Daimo** | N/A | GPL-3.0 | - | ✅ FOSS | WalletBeat |
 
 **License Types:**
-- **FOSS:** MIT, GPL-3.0, Apache-2.0, MPL-2.0, BSD-3-Clause
+- **FOSS:** MIT, GPL-3.0, Apache-2.0, MPL-2.0, BSD-3-Clause (OSI approved)
 - **Future FOSS:** BUSL-1.1 (converts to open source after time period)
 - **Source-Available:** Code visible but not OSI-approved license
 - **Proprietary:** Closed source, no public code
