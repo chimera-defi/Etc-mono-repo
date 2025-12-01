@@ -6,20 +6,20 @@
     <!-- Navigation Header -->
     <header class="fixed top-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-sm border-b border-gray-800">
       <nav class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-        <router-link 
-          to="/" 
+        <router-link
+          to="/"
           class="text-xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent"
         >
           {{ siteTitle }}
         </router-link>
         <div class="flex items-center gap-6">
-          <router-link 
-            to="/" 
+          <router-link
+            to="/"
             class="text-gray-300 hover:text-emerald-400 transition-colors"
           >
             Home
           </router-link>
-          <a 
+          <a
             v-if="githubUrl"
             :href="githubUrl"
             target="_blank"
@@ -41,16 +41,17 @@
     <footer class="bg-gray-900 border-t border-gray-800 py-8 px-4">
       <div class="max-w-6xl mx-auto text-center text-gray-400 text-sm">
         <p class="mb-2">
-          Built with 
-          <a 
-            href="https://github.com/SharedStake/SharedStake-ui" 
-            target="_blank" 
+          Built with
+          <span class="text-emerald-400">markdown-web</span>
+          — extracted from
+          <a
+            href="https://github.com/SharedStake/SharedStake-ui"
+            target="_blank"
             rel="noopener noreferrer"
             class="text-emerald-400 hover:text-emerald-300"
           >
-            markdown-to-web
+            SharedStake UI
           </a>
-          — extracted from SharedStake UI
         </p>
         <p>
           Data sources: GitHub API, Wallet documentation, WalletBeat
@@ -61,7 +62,7 @@
 </template>
 
 <script>
-import { siteConfig } from '@/config.js';
+import { siteConfig } from './config.js';
 
 export default {
   name: 'App',
@@ -75,7 +76,6 @@ export default {
 </script>
 
 <style>
-/* Global app styles */
 .app-container {
   min-height: 100vh;
   display: flex;

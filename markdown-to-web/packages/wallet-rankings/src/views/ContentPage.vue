@@ -1,7 +1,7 @@
 <template>
-  <div class="ContentPage min-h-screen bg-gray-900 text-white">
+  <div class="content-page min-h-screen bg-gray-900 text-white">
     <ContentStyles />
-    
+
     <!-- Loading State -->
     <div
       v-if="loading"
@@ -27,7 +27,7 @@
         <p class="text-gray-400 mb-8">
           The page you're looking for doesn't exist.
         </p>
-        <router-link 
+        <router-link
           to="/"
           class="bg-emerald-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-emerald-600 transition-colors"
         >
@@ -45,22 +45,22 @@
             :items="breadcrumbItems"
             class="mb-6"
           />
-          
+
           <div class="mb-6 md:mb-8">
             <div class="flex items-center gap-2 mb-3 md:mb-4 flex-wrap">
-              <span 
-                v-for="tag in page.tags" 
+              <span
+                v-for="tag in page.tags"
                 :key="tag"
                 class="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-sm font-medium"
               >
                 {{ formatTag(tag) }}
               </span>
             </div>
-            
+
             <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 leading-tight">
               {{ page.title }}
             </h1>
-            
+
             <div class="flex items-center gap-4 text-sm md:text-base text-gray-400">
               <span>By {{ page.author }}</span>
               <span>•</span>
@@ -85,7 +85,7 @@
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
               <div class="flex items-center gap-4">
                 <span class="text-gray-400 font-medium">Share:</span>
-                <a 
+                <a
                   :href="twitterShareUrl"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -102,7 +102,7 @@
                 </a>
               </div>
 
-              <router-link 
+              <router-link
                 to="/"
                 class="inline-flex items-center gap-2 text-emerald-400 hover:text-emerald-300 transition-colors font-medium"
               >
@@ -133,8 +133,8 @@
               Related
             </h3>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <router-link 
-                v-for="relatedPage in relatedPages" 
+              <router-link
+                v-for="relatedPage in relatedPages"
                 :key="relatedPage.id"
                 :to="`/${relatedPage.slug}`"
               >
@@ -152,13 +152,18 @@
 </template>
 
 <script>
-import ContentStyles from './ContentStyles.vue';
-import Breadcrumb from '@/components/Common/Breadcrumb.vue';
-import ContentCard from './ContentCard.vue';
-import { useContent } from '@/composables/useContent.js';
-import { useStructuredData } from '@/composables/useStructuredData.js';
-import { generateTwitterShareUrl } from '@/utils/contentUtils.js';
-import { siteConfig } from '@/config.js';
+import {
+  ContentStyles,
+  Breadcrumb,
+  ContentCard,
+  useContent,
+  useStructuredData,
+  formatDate,
+  formatTag,
+  generateTwitterShareUrl
+} from 'markdown-web';
+import { contentLoader } from '../content/loader.js';
+import { siteConfig } from '../config.js';
 
 export default {
   name: 'ContentPage',
@@ -168,14 +173,14 @@ export default {
     ContentCard
   },
   data() {
-    const contentUtils = useContent();
-    const structuredDataUtils = useStructuredData(siteConfig);
-    
+    const content = useContent(contentLoader);
+    const structuredData = useStructuredData(siteConfig);
+
     return {
       page: null,
       loading: true,
-      ...contentUtils,
-      ...structuredDataUtils
+      ...content,
+      ...structuredData
     };
   },
   computed: {
@@ -199,27 +204,23 @@ export default {
     }
   },
   beforeUnmount() {
-    // Clean up schemas when component is destroyed
     this.cleanupPageSchemas();
   },
   methods: {
+    formatDate,
+    formatTag,
     async handleLoadPage(slug) {
       this.loading = true;
       this.page = null;
-      
-      // Remove existing schemas
+
       this.cleanupPageSchemas();
-      
-      // Load page using the utility function
+
       const loadedPage = await this.loadPage(slug);
       this.page = loadedPage;
       this.loading = false;
-      
+
       if (loadedPage) {
-        // Set page title
         this.setPageMeta(`${loadedPage.title} - ${siteConfig.title}`, loadedPage.meta?.description);
-        
-        // Generate and inject structured data
         this.injectPageSchemas(loadedPage, window.location.href);
       }
     }

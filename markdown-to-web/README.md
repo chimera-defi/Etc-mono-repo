@@ -1,147 +1,67 @@
 # Markdown to Web
 
-A Vue 3 + Vite static site generator that converts Markdown files into beautiful, responsive websites. Extracted from [SharedStake UI](https://github.com/SharedStake/SharedStake-ui).
+A monorepo containing a reusable Markdown-to-Website library and example implementations.
 
-## Features
+## Structure
 
-- 📝 **Markdown to HTML** - GitHub-flavored markdown with custom styling
-- 🎨 **Beautiful Tables** - Optimized for data-heavy comparison content
-- 🔍 **SEO Ready** - Structured data, Open Graph, and meta tags
-- 📱 **Responsive** - Mobile-first design with Tailwind CSS
-- ⚡ **Fast** - Vite-powered development and optimized builds
-- 🏷️ **Tag Filtering** - Filter content by tags
-- 🔗 **Related Content** - Automatic related content suggestions
+```
+markdown-to-web/
+├── packages/
+│   ├── markdown-web/      # Reusable library
+│   │   ├── src/
+│   │   │   ├── components/  # Vue components
+│   │   │   ├── composables/ # Vue composables
+│   │   │   ├── utils/       # Utility functions
+│   │   │   └── styles/      # CSS styles
+│   │   └── package.json
+│   │
+│   └── wallet-rankings/   # Example app using the library
+│       ├── src/
+│       │   └── content/     # Markdown content
+│       └── package.json
+│
+└── package.json           # Workspace root
+```
 
 ## Quick Start
 
 ```bash
-# Install dependencies
+# Install all dependencies
 npm install
 
-# Start development server
+# Run the wallet-rankings app in development
 npm run dev
 
 # Build for production
 npm run build
 
-# Preview production build
+# Preview the build
 npm run preview
 ```
 
-## Adding Content
+## Using markdown-web in Your Own Project
 
-1. Create a Markdown file in `src/content/`:
-
-```markdown
----
-id: "my-article"
-slug: "my-article"
-title: "My Article Title"
-excerpt: "Brief description of the article"
-author: "Your Name"
-publishDate: "2025-01-01"
-tags: ["tag1", "tag2"]
-featured: false
-meta:
-  description: "SEO description"
-  keywords: "keyword1, keyword2"
----
-
-# My Article
-
-Content goes here...
+1. Install the library:
+```bash
+npm install markdown-web
+# or copy the package to your workspace
 ```
 
-2. The content will automatically appear on the homepage and be accessible at `/my-article`.
-
-## Configuration
-
-Edit `src/config.js` to customize:
-
+2. Import components and utilities:
 ```javascript
-export const siteConfig = {
-  title: 'Your Site Title',
-  description: 'Your site description',
-  about: 'About section text',
-  organizationName: 'Your Organization',
-  siteUrl: 'https://yoursite.com',
-  logoUrl: '/logo.png',
-  twitter: '@yourhandle',
-  github: 'https://github.com/your/repo'
-};
+import { 
+  MarkdownContent,
+  HomePage,
+  ContentPage,
+  useContent,
+  parseMarkdown 
+} from 'markdown-web';
 ```
 
-## Project Structure
+3. Add your content in `src/content/*.md` with frontmatter.
 
-```
-markdown-to-web/
-├── src/
-│   ├── assets/
-│   │   └── styles/
-│   │       └── main.css          # Tailwind CSS + custom styles
-│   ├── components/
-│   │   ├── Blog/
-│   │   │   ├── ContentCard.vue   # Content card component
-│   │   │   ├── ContentPage.vue   # Individual page view
-│   │   │   ├── ContentStyles.vue # Markdown styling
-│   │   │   └── HomePage.vue      # Homepage listing
-│   │   └── Common/
-│   │       └── Breadcrumb.vue    # Breadcrumb navigation
-│   ├── composables/
-│   │   ├── useContent.js         # Content management
-│   │   └── useStructuredData.js  # SEO structured data
-│   ├── content/                  # Your markdown files
-│   │   └── *.md
-│   ├── data/
-│   │   └── index.js              # Content loader
-│   ├── router/
-│   │   └── index.js              # Vue Router config
-│   ├── utils/
-│   │   ├── contentUtils.js       # Utility functions
-│   │   └── markdown.js           # Markdown parser
-│   ├── App.vue                   # Root component
-│   ├── config.js                 # Site configuration
-│   └── main.js                   # App entry point
-├── public/                       # Static assets
-├── index.html
-├── package.json
-├── tailwind.config.js
-├── postcss.config.js
-└── vite.config.js
-```
-
-## Frontmatter Fields
-
-| Field | Required | Description |
-|-------|----------|-------------|
-| `id` | Yes | Unique identifier |
-| `slug` | Yes | URL slug |
-| `title` | Yes | Page title |
-| `excerpt` | Yes | Brief description |
-| `author` | Yes | Author name |
-| `publishDate` | Yes | ISO date string |
-| `tags` | No | Array of tags |
-| `featured` | No | Show in featured section |
-| `meta.description` | No | SEO description |
-| `meta.keywords` | No | SEO keywords |
-
-## Customization
-
-### Styling
-
-The markdown content uses `md-*` CSS classes defined in `ContentStyles.vue`. Customize colors by editing the CSS variables in `main.css` or the Tailwind classes in the components.
-
-### Theme Colors
-
-Default theme uses emerald/cyan gradients. Change in:
-- `tailwind.config.js` - brand colors
-- `main.css` - CSS variables
-- Component files - gradient classes
+See `packages/wallet-rankings/` for a complete example.
 
 ## Credits
 
-Extracted and adapted from [SharedStake UI](https://github.com/SharedStake/SharedStake-ui) blog system.
-
-## License
-
-MIT
+Extracted from [SharedStake UI](https://github.com/SharedStake/SharedStake-ui).

@@ -4,13 +4,13 @@
 
 /* Custom CSS Variables */
 :root {
-  --color-primary: #10b981;
-  --color-primary-light: #34d399;
-  --color-secondary: #06b6d4;
-  --color-background: #111827;
-  --color-surface: #1f2937;
-  --color-text: #f3f4f6;
-  --color-text-muted: #9ca3af;
+  --md-color-primary: #10b981;
+  --md-color-primary-light: #34d399;
+  --md-color-bg: #111827;
+  --md-color-surface: #1f2937;
+  --md-color-text: #f3f4f6;
+  --md-color-text-muted: #9ca3af;
+  --md-color-border: #374151;
 }
 
 /* Base styles */
@@ -59,31 +59,6 @@ a {
 /* Button base */
 button {
   @apply transition-all duration-200;
-}
-
-/* Prose adjustments for dark mode */
-.prose {
-  @apply text-gray-300;
-}
-
-.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-  @apply text-white;
-}
-
-.prose a {
-  @apply text-emerald-400 hover:text-emerald-300;
-}
-
-.prose strong {
-  @apply text-white;
-}
-
-.prose code {
-  @apply text-emerald-400 bg-gray-800 px-1 py-0.5 rounded;
-}
-
-.prose pre {
-  @apply bg-gray-800 border border-gray-700;
 }
 
 /* Animations */
