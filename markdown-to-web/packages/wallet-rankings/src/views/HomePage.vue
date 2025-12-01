@@ -1,5 +1,5 @@
 <template>
-  <div class="HomePage min-h-screen bg-gray-900 text-white">
+  <div class="home-page min-h-screen bg-gray-900 text-white">
     <!-- Hero Section -->
     <div class="relative pt-32 pb-12 md:pt-36 md:pb-20 px-4 text-center">
       <div class="max-w-4xl mx-auto">
@@ -26,8 +26,8 @@
           Featured
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
-          <ContentCard 
-            v-for="item in featuredContent" 
+          <ContentCard
+            v-for="item in featuredContent"
             :key="item.id"
             :content="item"
             variant="featured"
@@ -45,27 +45,27 @@
             <h2 class="text-2xl md:text-3xl font-bold mb-6 md:mb-8">
               All Content
             </h2>
-            
+
             <!-- Filter Tabs -->
             <div class="flex flex-wrap gap-2 mb-6 md:mb-8">
-              <button 
+              <button
                 :class="[
                   'px-3 py-2 md:px-4 rounded-full text-xs md:text-sm font-semibold transition-colors',
-                  selectedTag === null 
-                    ? 'bg-emerald-500 text-white' 
+                  selectedTag === null
+                    ? 'bg-emerald-500 text-white'
                     : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                 ]"
                 @click="selectedTag = null"
               >
                 All
               </button>
-              <button 
-                v-for="tag in allTags" 
+              <button
+                v-for="tag in allTags"
                 :key="tag"
                 :class="[
                   'px-3 py-2 md:px-4 rounded-full text-xs md:text-sm font-semibold transition-colors',
-                  selectedTag === tag 
-                    ? 'bg-emerald-500 text-white' 
+                  selectedTag === tag
+                    ? 'bg-emerald-500 text-white'
                     : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                 ]"
                 @click="selectedTag = tag"
@@ -76,8 +76,8 @@
 
             <!-- Content List -->
             <div class="space-y-4 md:space-y-6">
-              <ContentCard 
-                v-for="item in filteredContent" 
+              <ContentCard
+                v-for="item in filteredContent"
                 :key="item.id"
                 :content="item"
                 variant="list"
@@ -104,13 +104,13 @@
               <p class="text-gray-300 mb-4 md:mb-6 text-sm md:text-base">
                 {{ siteAbout }}
               </p>
-              
+
               <h4 class="text-base md:text-lg font-semibold mb-3 md:mb-4">
                 Popular Tags
               </h4>
               <div class="flex flex-wrap gap-2">
-                <span 
-                  v-for="tag in allTags.slice(0, 8)" 
+                <span
+                  v-for="tag in allTags.slice(0, 8)"
                   :key="tag"
                   class="bg-gray-700 hover:bg-emerald-500 text-gray-300 hover:text-white px-2 py-1 md:px-3 rounded-full text-xs md:text-sm cursor-pointer transition-colors"
                   @click="selectedTag = tag"
@@ -127,10 +127,9 @@
 </template>
 
 <script>
-import Breadcrumb from '@/components/Common/Breadcrumb.vue';
-import ContentCard from './ContentCard.vue';
-import { useContent } from '@/composables/useContent.js';
-import { siteConfig } from '@/config.js';
+import { Breadcrumb, ContentCard, useContent, formatTag } from 'markdown-web';
+import { contentLoader } from '../content/loader.js';
+import { siteConfig } from '../config.js';
 
 export default {
   name: 'HomePage',
@@ -139,13 +138,13 @@ export default {
     ContentCard
   },
   data() {
-    const contentUtils = useContent();
+    const content = useContent(contentLoader);
     return {
       selectedTag: null,
       siteTitle: siteConfig.title,
       siteDescription: siteConfig.description,
       siteAbout: siteConfig.about,
-      ...contentUtils
+      ...content
     };
   },
   computed: {
@@ -163,17 +162,10 @@ export default {
     }
   },
   mounted() {
-    this.setPageMeta(
-      this.siteTitle,
-      this.siteDescription
-    );
+    this.setPageMeta(this.siteTitle, this.siteDescription);
+  },
+  methods: {
+    formatTag
   }
 };
 </script>
-
-<style scoped>
-/* Smooth scrolling for anchor links */
-html {
-  scroll-behavior: smooth;
-}
-</style>
