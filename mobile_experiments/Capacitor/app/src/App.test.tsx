@@ -32,31 +32,28 @@ describe('App', () => {
 
   it('shows the initial prompt', () => {
     render(<App />);
-    expect(screen.getByText('Tap the button to see framework details.')).toBeInTheDocument();
+    expect(screen.getByText('Tap button to see details')).toBeInTheDocument();
   });
 
   it('toggles details when button is clicked', async () => {
     render(<App />);
-    
-    // Find and click the button
-    const button = screen.getByText('Show details');
-    expect(button).toBeInTheDocument();
-    
+
+    const button = screen.getByRole('button');
+    expect(button).toHaveTextContent('Show details');
+
     fireEvent.click(button);
-    
-    // Wait for animation and state change
+
     await waitFor(() => {
-      expect(screen.getByText('Hide details')).toBeInTheDocument();
+      expect(button).toHaveTextContent('Hide details');
     }, { timeout: 500 });
-    
-    // Check details content is shown
+
     await waitFor(() => {
-      expect(screen.getByText('State toggled successfully!')).toBeInTheDocument();
+      expect(screen.getByText('State toggled!')).toBeInTheDocument();
     }, { timeout: 500 });
   });
 
   it('displays the framework badge', () => {
     render(<App />);
-    expect(screen.getByText('💻 Built with Capacitor + Vite')).toBeInTheDocument();
+    expect(screen.getByText('Capacitor + Vite')).toBeInTheDocument();
   });
 });
