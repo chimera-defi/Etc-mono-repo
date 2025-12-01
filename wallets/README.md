@@ -6,22 +6,19 @@ Developer-focused comparison of crypto wallets to find stable MetaMask alternati
 
 **→ [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Single source of truth with 19 EVM wallets
 
-| Column | Description |
-|--------|-------------|
-| GitHub | Repository link |
-| Last Commit | Most recent commit date |
-| Active | ✅/⚠️/❌ activity status |
-| Chains | Built-in chain count |
-| RPC | Custom RPC support |
-| Stars/Issues/Ratio | GitHub metrics |
-| Stability | ⭐ rating |
-| **Devices** | 📱 Mobile / 🌐 Browser / 💻 Desktop |
-| **Testnets** | Custom chain / testnet support |
-| **License** | ✅ FOSS / ⚠️ Source-Avail / ❌ Proprietary |
-| Tx Sim | Transaction simulation |
-| EIP-4337 | Account abstraction |
-| Best For | Use case |
-| Rec | 🟢/🟡/🔴 recommendation |
+| Column | Description | Source |
+|--------|-------------|--------|
+| GitHub | Repository link | GitHub |
+| Active | ✅/⚠️/❌ activity status | GitHub |
+| Chains | Built-in chain count | WalletBeat |
+| **Devices** | 📱 Mobile / 🌐 Browser / 💻 Desktop | WalletBeat |
+| **Testnets** | Custom chain / testnet support | WalletBeat |
+| **License** | ✅ FOSS / ⚠️ Source-Avail / ❌ Proprietary | GitHub + WalletBeat |
+| **Account Type** | EOA / Safe / 4337 / 7702 | WalletBeat |
+| **HW Wallets** | Hardware wallet support | WalletBeat |
+| EIP-4337 | Account abstraction support | WalletBeat |
+| Best For | Use case | Analysis |
+| Rec | 🟢/🟡/🔴 recommendation | Analysis |
 
 ---
 
@@ -37,20 +34,22 @@ Several previously recommended wallets have **stopped active development**:
 
 ## Quick Recommendations
 
-| Use Case | Wallet | Devices | Testnets | License | Status |
-|----------|--------|---------|----------|---------|--------|
-| Development | **Rabby** | 📱🌐💻 | ✅ | ✅ MIT | ✅ Active |
-| Production | **Trust Wallet** | 📱🌐 | ✅ | ⚠️ Partial | ✅ Active |
-| Production | **Rainbow** | 📱🌐 | ✅ | ✅ GPL-3 | ✅ Active |
-| Enterprise | **Safe** | 📱🌐 | ✅ | ✅ GPL-3 | ✅ Active |
-| Multi-chain | **Enkrypt** | 🌐 | ✅ | ✅ MIT | ✅ Active |
-| Ethereum | **MEW** | 📱🔗 | ✅ | ✅ MIT | ✅ Active |
-| Smart Wallet | **Ambire** | 📱🌐 | ✅ | ✅ GPL-3 | ⚠️ Slow |
-| Community | **Taho** | 🌐 | ✅ | ✅ GPL-3 | ⚠️ Slow |
-| Avoid | ~~Block Wallet~~ | - | - | - | ❌ Inactive |
-| Avoid | ~~Frame~~ | - | - | - | ❌ Inactive |
+| Use Case | Wallet | Devices | Account Type | HW Wallets | License | Status |
+|----------|--------|---------|--------------|------------|---------|--------|
+| Development | **Rabby** | 📱🌐💻 | EOA+Safe | ✅ Ledger/Trezor | ✅ MIT | ✅ Active |
+| Production | **Trust Wallet** | 📱🌐 | EOA | ✅ Multiple | ⚠️ Apache-2 | ✅ Active |
+| Production | **Rainbow** | 📱🌐 | EOA | ✅ Ledger/Trezor | ✅ GPL-3 | ✅ Active |
+| Enterprise | **Safe** | 📱🌐 | Safe+4337 | ✅ Ledger/Trezor | ✅ GPL-3 | ✅ Active |
+| Multi-chain | **Enkrypt** | 🌐 | EOA | ✅ Multiple | ✅ MIT | ✅ Active |
+| Ethereum | **MEW** | 📱🔗 | EOA | ✅ Multiple | ✅ MIT | ✅ Active |
+| Smart Wallet | **Ambire** | 🌐 | 7702+4337 | ✅ Ledger/Trezor | ✅ GPL-3 | ⚠️ Slow |
+| Payments | **Daimo** | 📱 | 4337 only | ❌ | ✅ GPL-3 | ✅ Active |
+| Community | **Taho** | 🌐 | EOA | ✅ Multiple | ✅ GPL-3 | ⚠️ Slow |
+| Avoid | ~~Block Wallet~~ | - | - | - | - | ❌ Inactive |
+| Avoid | ~~Frame~~ | - | - | - | - | ❌ Inactive |
 
 **Devices:** 📱 Mobile | 🌐 Browser Extension | 💻 Desktop | 🔗 Web App
+**Account Types:** EOA = Standard | Safe = Multi-sig | 4337 = Smart Account | 7702 = Upgraded EOA
 
 ---
 
