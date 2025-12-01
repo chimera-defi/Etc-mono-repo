@@ -2,6 +2,22 @@
 
 Comparison of cross-platform mobile frameworks for AI-assisted development.
 
+## 🆕 Agent App Research
+
+**[AgentApp/](./AgentApp/)** - Research for building a native mobile AI coding agent app.
+
+| Document | Description |
+|----------|-------------|
+| [README.md](./AgentApp/README.md) | Project overview and quick summary |
+| [CURSOR_API_RESEARCH.md](./AgentApp/CURSOR_API_RESEARCH.md) | Cursor API availability analysis |
+| [ALTERNATIVES_ANALYSIS.md](./AgentApp/ALTERNATIVES_ANALYSIS.md) | Survey of AI coding agents with APIs |
+| [MOBILE_ARCHITECTURE.md](./AgentApp/MOBILE_ARCHITECTURE.md) | Proposed mobile app architecture |
+| [FRAMEWORK_RECOMMENDATION.md](./AgentApp/FRAMEWORK_RECOMMENDATION.md) | Framework selection guide |
+
+**Key Finding**: Cursor has no public API. Build custom agent using Claude API + Flutter/React Native.
+
+---
+
 ## Frameworks
 
 | Framework | Language | Status | Tests | Quick Start |
