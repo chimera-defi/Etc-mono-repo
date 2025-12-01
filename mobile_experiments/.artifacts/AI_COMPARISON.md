@@ -1,7 +1,7 @@
 # AI-Focused Mobile Framework Comparison
 
 **Purpose**: Objective comparison of mobile frameworks for AI-assisted development  
-**Last Updated**: 2024-12-19 (Revised)  
+**Last Updated**: 2025-12-01 (Ecosystem data verified via APIs)  
 **Frameworks**: Valdi, Flutter, React Native, Capacitor
 
 ---
@@ -100,9 +100,27 @@ All three TypeScript-based frameworks use similar syntax:
 | Framework | Score | Reasoning |
 |-----------|-------|-----------|
 | **React Native** | ⭐⭐⭐⭐⭐ (5/5) | 500k+ npm packages, huge ecosystem |
-| **Capacitor** | ⭐⭐⭐⭐⭐ (5/5) | All npm packages + Capacitor plugins |
+| **Capacitor** | ⭐⭐⭐⭐ (4/5) | All npm packages + Capacitor plugins |
 | **Flutter** | ⭐⭐⭐⭐ (4/5) | 40k+ pub.dev packages |
 | **Valdi** | ⭐⭐ (2/5) | Limited to internal libraries |
+
+#### Verified Ecosystem Metrics (December 2025)
+
+| Metric | React Native | Capacitor | Flutter | Source |
+|--------|--------------|-----------|---------|--------|
+| **npm Downloads/month** | 18.8M | 3.7M | — | npmjs.org |
+| **GitHub Stars** | 124,644 | 14,418 | 174,090 | GitHub API |
+| **GitHub Forks** | 24,989 | 1,124 | 29,614 | GitHub API |
+| **StackOverflow Questions** | 139,433 | 2,369 | 181,988 | SO API |
+| **Expo (RN wrapper) Downloads** | 10.5M | — | — | npmjs.org |
+
+**Key Ratios (React Native vs Capacitor)**:
+- npm downloads: **5.1x larger**
+- GitHub stars: **8.6x larger**
+- GitHub forks: **22x larger**
+- StackOverflow questions: **58x larger**
+
+This data suggests React Native has substantially more representation in AI training corpora.
 
 ---
 
@@ -110,12 +128,44 @@ All three TypeScript-based frameworks use similar syntax:
 
 | Framework | Data (30%) | Quality (25%) | Debug (15%) | Types (10%) | Speed (10%) | Ecosystem (10%) | **Total** |
 |-----------|------------|---------------|-------------|-------------|-------------|-----------------|-----------|
-| **Capacitor** | 1.50 | 1.25 | 0.75 | 0.40 | 0.50 | 0.50 | **4.90** |
+| **Capacitor** | 1.50 | 1.25 | 0.75 | 0.40 | 0.50 | 0.40 | **4.80** |
 | **React Native** | 1.35 | 1.00 | 0.60 | 0.40 | 0.40 | 0.50 | **4.25** |
 | **Flutter** | 1.05 | 1.00 | 0.60 | 0.50 | 0.50 | 0.40 | **4.05** |
 | **Valdi** | 0.75 | 0.75 | 0.45 | 0.40 | 0.40 | 0.20 | **2.95** |
 
-**Note**: The gap between Capacitor (4.90) and React Native (4.25) is smaller than originally suggested. Both are excellent choices for AI-assisted development.
+**Note**: The gap between Capacitor (4.80) and React Native (4.25) is smaller than originally suggested. Both are excellent choices for AI-assisted development.
+
+---
+
+## Updated Analysis (December 2025)
+
+### Reconsidering the Scores
+
+Based on verified ecosystem data, we should acknowledge:
+
+**Arguments FOR React Native over Capacitor:**
+1. **58x more StackOverflow questions** → AI can find answers to more edge cases
+2. **5x more npm downloads** → more battle-tested in production
+3. **Native performance** → smooth 60fps animations without workarounds
+4. **Expo ecosystem** → 10.5M downloads/month adds even more tooling
+
+**Arguments FOR Capacitor:**
+1. **HTML elements** → truly universal across web + native
+2. **Simpler debugging** → browser DevTools work perfectly
+3. **Smaller footprint** → 109 LOC vs 350 LOC for same features
+4. **Web deployment** → same code runs in browser without changes
+
+### Revised Recommendation
+
+The original scoring favored Capacitor for its web-native HTML elements. However, the **58x StackOverflow advantage** for React Native is significant for AI-assisted development because:
+
+- AI models learn debugging from Q&A pairs
+- More forum discussions = more training examples
+- Complex error resolution is better documented
+
+**Updated guidance:**
+- **Capacitor** → Best if you want web deployment or have a web background
+- **React Native** → Best if you prioritize ecosystem depth and native performance
 
 ---
 
@@ -129,6 +179,22 @@ All three TypeScript-based frameworks use similar syntax:
 | **Native features** | Via plugins | Direct native modules |
 | **Web deployment** | Same code runs in browser | Requires React Native Web |
 | **Debugging** | Browser DevTools | React DevTools + native |
+
+### Performance Deep Dive
+
+| Metric | Capacitor | React Native | Notes |
+|--------|-----------|--------------|-------|
+| **Rendering** | WebView DOM | Native Views | RN uses platform UI components |
+| **JS Execution** | V8 (Chrome) | Hermes engine | Hermes optimized for mobile |
+| **Animation** | CSS/requestAnimationFrame | Native driver | RN can bypass JS thread |
+| **Scroll perf** | Can jank on complex lists | Native recycling | RN uses native FlatList |
+| **Touch latency** | ~16-32ms (DOM event loop) | ~8-16ms (native) | RN closer to native feel |
+| **Cold start** | +100-200ms (WebView init) | Fast | RN bundles to native |
+
+**Key insight**: For most apps, both are "fast enough." But for:
+- **Games/AR**: Capacitor struggles, React Native better (Flutter best)
+- **60fps animations**: React Native's native driver is crucial
+- **Heavy lists (1000+ items)**: React Native FlatList handles virtualization natively
 
 **When to pick Capacitor**:
 - You have an existing web app
