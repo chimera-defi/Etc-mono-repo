@@ -14,17 +14,23 @@ Developer-focused comparison of crypto wallets to find stable MetaMask alternati
 | **Devices** | 📱 Mobile / 🌐 Browser / 💻 Desktop | WalletBeat |
 | **Testnets** | Custom chain / testnet support | WalletBeat |
 | **License** | ✅ FOSS / ⚠️ Source-Avail / ❌ Proprietary | GitHub + WalletBeat |
-| **Audits** | ✅ Recent (2023+) / ⚠️ Old/Issues / ? Unknown | WalletBeat |
+| **Audits** | ✅ Recent (2023+) / ⚠️ Old/Issues / ❓ Unknown | WalletBeat + GitHub |
+| **Funding** | 🟢 Sustainable / 🟡 VC / 🔴 Donations | Research |
+| **Tx Sim** | ✅ Built-in / ⚠️ Plugin / ❌ None | WalletBeat |
+| **Scam** | ✅ Alerts / ⚠️ Basic / ❌ None | WalletBeat |
 | **Account Type** | EOA / Safe / 4337 / 7702 | WalletBeat |
 | **HW Wallets** | Hardware wallet support | WalletBeat |
 | EIP-4337 | Account abstraction support | WalletBeat |
 | Best For | Use case | Analysis |
 | Rec | 🟢/🟡/🔴 recommendation | Analysis |
 
-### New Sections Added (Dec 2025)
+### Sections in Document (Dec 2025)
 - 🧭 **Decision Flowchart** — Visual guide to choose the right wallet
 - 🔒 **Security Audits** — Audit history with links to reports
 - ⚡ **Known Quirks & Gotchas** — Developer pain points per wallet
+- 🛡️ **Security Features** — Transaction simulation & scam protection
+- 💰 **Monetization** — Business models & funding sources
+- 🔐 **Privacy** — Data collection & RPC defaults
 
 ---
 
@@ -40,29 +46,30 @@ Several previously recommended wallets have **stopped active development**:
 
 ## Quick Recommendations
 
-| Use Case | Wallet | Devices | Account Type | HW Wallets | License | Audits | Status |
-|----------|--------|---------|--------------|------------|---------|--------|--------|
-| Development | **Rabby** | 📱🌐💻 | EOA+Safe | ✅ Ledger/Trezor | ✅ MIT | ⚠️ Mobile | ✅ Active |
-| Production | **Trust Wallet** | 📱🌐 | EOA | ✅ Multiple | ⚠️ Apache-2 | ? | ✅ Active |
-| Production | **Rainbow** | 📱🌐 | EOA | ✅ Ledger/Trezor | ✅ GPL-3 | ? | ✅ Active |
-| Enterprise | **Safe** | 📱🌐 | Safe+4337 | ✅ Ledger/Trezor | ✅ GPL-3 | ✅ Certora | ✅ Active |
-| Multi-chain | **Enkrypt** | 🌐 | EOA | ✅ Multiple | ✅ MIT | ? | ✅ Active |
-| Ethereum | **MEW** | 📱🔗 | EOA | ✅ Multiple | ✅ MIT | ? | ✅ Active |
-| Smart Wallet | **Ambire** | 🌐 | 7702+4337 | ✅ Ledger/Trezor | ✅ GPL-3 | ✅ 2025 | ⚠️ Slow |
-| Payments | **Daimo** | 📱 | 4337 only | ❌ | ✅ GPL-3 | ✅ 2023 | ✅ Active |
-| Community | **Taho** | 🌐 | EOA | ✅ Multiple | ✅ GPL-3 | ? | ⚠️ Slow |
-| Avoid | ~~Block Wallet~~ | - | - | - | - | - | ❌ Inactive |
-| Avoid | ~~Frame~~ | - | - | - | - | - | ❌ Inactive |
+| Use Case | Wallet | Devices | Tx Sim | Scam | Funding | License | Status |
+|----------|--------|---------|--------|------|---------|---------|--------|
+| Development | **Rabby** | 📱🌐💻 | ✅ | ✅ | 🟢 DeBank | ✅ MIT | ✅ Active |
+| Production | **Trust Wallet** | 📱🌐 | ❌ | ⚠️ | 🟢 Binance | ⚠️ Apache-2 | ✅ Active |
+| Production | **Rainbow** | 📱🌐 | ❌ | ⚠️ | 🟡 VC | ✅ GPL-3 | ✅ Active |
+| Enterprise | **Safe** | 📱🌐 | ✅ | ✅ | 🟢 Grants | ✅ GPL-3 | ✅ Active |
+| Multi-chain | **Enkrypt** | 🌐 | ❌ | ⚠️ | 🟢 MEW | ✅ MIT | ✅ Active |
+| Ethereum | **MEW** | 📱🔗 | ❌ | ⚠️ | 🟢 Self | ✅ MIT | ✅ Active |
+| Smart Wallet | **Ambire** | 🌐 | ✅ | ✅ | 🟡 VC | ✅ GPL-3 | ⚠️ Slow |
+| Payments | **Daimo** | 📱 | ❌ | ⚠️ | 🟡 VC | ✅ GPL-3 | ✅ Active |
+| Community | **Taho** | 🌐 | ❌ | ⚠️ | 🔴 Grants | ✅ GPL-3 | ⚠️ Slow |
+| Avoid | ~~Block Wallet~~ | - | - | - | 🔴 Unknown | - | ❌ Inactive |
+| Avoid | ~~Frame~~ | - | - | - | 🔴 Donate | - | ❌ Inactive |
 
 **Devices:** 📱 Mobile | 🌐 Browser Extension | 💻 Desktop | 🔗 Web App
-**Account Types:** EOA = Standard | Safe = Multi-sig | 4337 = Smart Account | 7702 = Upgraded EOA
-**Audits:** ✅ Recent (2023+) | ⚠️ Issues/Old | ? Unknown
+**Funding:** 🟢 Sustainable | 🟡 VC-dependent | 🔴 Donation-based
+**Security:** Tx Sim = Transaction simulation | Scam = Scam/phishing alerts
 
 ---
 
 ## Documents
 
-- **[WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Complete 18-column comparison table (single source of truth)
+- **[WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Complete 16-column comparison table (single source of truth)
+- **[index.html](./index.html)** — Interactive web version with filtering and sorting
 - [walletconnect-wallet-research.md](./walletconnect-wallet-research.md) — Original detailed research
 
 ## External Resources
@@ -84,6 +91,26 @@ Several previously recommended wallets have **stopped active development**:
 - Additional wallets discovered: WalletBeat registry, GitHub search
 
 See [PR #62](https://github.com/chimera-defi/ethglobal-argentina-25/pull/62) for original methodology.
+
+## Automation
+
+### Refresh Script
+
+```bash
+cd wallets/scripts
+./refresh-github-data.sh          # Text output
+./refresh-github-data.sh --json   # JSON output  
+./refresh-github-data.sh --markdown  # Markdown table
+```
+
+See [scripts/README.md](./scripts/README.md) for full documentation.
+
+### GitHub Actions
+
+A workflow runs every Monday to refresh activity data:
+- `.github/workflows/refresh-wallet-data.yml`
+- Creates a PR with updated status
+- Can be triggered manually
 
 ---
 *Last updated: December 1, 2025*
