@@ -20,6 +20,48 @@ Comparison of cross-platform mobile frameworks for AI-assisted development.
 | **Flutter** | 4.05/5 | Best raw performance |
 | **Valdi** | 2.95/5 | Snapchat ecosystem |
 
+### Ecosystem Size (Verified Dec 2025)
+
+| Metric | React Native | Capacitor | Flutter | RN vs Cap |
+|--------|--------------|-----------|---------|-----------|
+| **npm Downloads/mo** | 18.8M | 3.7M | — | **5.1x** |
+| **GitHub Stars** | 124.6k | 14.4k | 174k | **8.6x** |
+| **GitHub Forks** | 25k | 1.1k | 29.6k | **22x** |
+| **StackOverflow Qs** | 139,433 | 2,369 | 181,988 | **58x** |
+
+### AI Training Data Implications
+
+The **58x difference in StackOverflow questions** is critical for AI code generation:
+- More Q&A pairs = better AI debugging suggestions
+- More code examples = fewer hallucinations  
+- Larger forum presence = faster community fixes in training data
+
+### Performance Characteristics
+
+| Aspect | Capacitor | React Native | Flutter |
+|--------|-----------|--------------|---------|
+| **Runtime** | WebView | Native components | Native rendering |
+| **60fps animations** | Harder | ✅ Native driver | ✅ Best |
+| **App size (hello world)** | ~5MB | ~15-25MB | ~15-20MB |
+| **JS bundle (gzip)** | 61KB | ~500KB | — |
+| **Cold start** | Moderate | Fast | Fast |
+
+### Test Harness Results (Dec 2025)
+
+| Framework | Tests | Lint | Type-check | Status |
+|-----------|-------|------|------------|--------|
+| Capacitor | ✅ 4/4 | ✅ Clean | ✅ Pass | Verified |
+| React Native | ✅ 3/3 | ✅ Clean | ✅ Pass | Verified |
+| Flutter | ✅ 3/3 | — | — | Needs CLI |
+
+### Code Verbosity (Identical Features)
+
+| Framework | Lines of Code | Notes |
+|-----------|---------------|-------|
+| **Capacitor** | 109 | Uses CSS for styling |
+| **Flutter** | 300 | Widget tree verbose |
+| **React Native** | 350 | StyleSheet objects |
+
 ## Quick Decision Guide
 
 ```
@@ -32,9 +74,26 @@ Need same code in browser?
   → NO: Continue
 
 Need native 60fps performance?
-  → YES: Flutter
-  → NO: React Native or Capacitor
+  → YES: Flutter or React Native
+  → NO: Continue
+
+Prioritize AI assistance + large ecosystem?
+  → YES: React Native (58x more StackOverflow data)
+  → NO: Capacitor (simpler, fewer LOC)
 ```
+
+### Updated Recommendation (Dec 2025)
+
+Based on verified ecosystem metrics, **React Native's larger ecosystem** (5x npm downloads, 58x StackOverflow questions) provides significant advantages for AI-assisted development:
+
+1. **More training data** → AI handles edge cases better
+2. **Native performance** → 60fps animations with native driver
+3. **Expo ecosystem** → 10M+ downloads/month for rapid prototyping
+
+**Capacitor remains best for:**
+- Web-first apps that need mobile deployment
+- Teams with strong web/HTML backgrounds
+- Projects requiring browser + native from same codebase
 
 ## Project Structure
 
