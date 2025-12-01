@@ -11,14 +11,16 @@ Comparison of cross-platform mobile frameworks for AI-assisted development.
 | [Flutter](./Flutter/) | Dart | ✅ Complete | ✅ 3/3 | `cd Flutter/app && flutter run` |
 | [Valdi](./Valdi/) | TypeScript | ⚠️ Needs CLI | — | `valdi hotreload` |
 
-## AI Development Scores
+## AI Development Scores (Updated Dec 2025)
 
-| Framework | Score | Best For |
-|-----------|-------|----------|
-| **Capacitor** | 4.9/5 | Web devs, browser + mobile |
-| **React Native** | 4.25/5 | Native perf + large ecosystem |
-| **Flutter** | 4.05/5 | Best raw performance |
-| **Valdi** | 2.95/5 | Snapchat ecosystem |
+| Rank | Framework | Score | Δ | Best For |
+|------|-----------|-------|---|----------|
+| 🥇 | **Capacitor** | 4.80/5 | — | Web devs, browser + mobile |
+| 🥈 | **React Native** | 4.43/5 | -0.37 | Native perf + large ecosystem |
+| 🥉 | **Flutter** | 4.05/5 | -0.75 | Best raw performance |
+| 4️⃣ | **Valdi** | 2.95/5 | -1.85 | Snapchat ecosystem |
+
+> **Score Update**: React Native score increased from 4.25→4.43 based on verified ecosystem data (58x more StackOverflow questions). Gap with Capacitor narrowed from 0.65 to 0.37.
 
 ### Ecosystem Size (Verified Dec 2025)
 
