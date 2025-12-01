@@ -4,7 +4,7 @@ Developer-focused comparison of crypto wallets to find stable MetaMask alternati
 
 ## 📊 Main Comparison Table
 
-**→ [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Single source of truth with 19 EVM wallets and 18 columns:
+**→ [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Single source of truth with 19 EVM wallets
 
 | Column | Description |
 |--------|-------------|
@@ -14,12 +14,12 @@ Developer-focused comparison of crypto wallets to find stable MetaMask alternati
 | Chains | Built-in chain count |
 | RPC | Custom RPC support |
 | Stars/Issues/Ratio | GitHub metrics |
-| Rel/mo | Releases per month |
 | Stability | ⭐ rating |
-| Browser Ext/Mobile | Platform support |
+| **Devices** | 📱 Mobile / 🌐 Browser / 💻 Desktop |
+| **Testnets** | Custom chain / testnet support |
+| **License** | ✅ FOSS / ⚠️ Source-Avail / ❌ Proprietary |
 | Tx Sim | Transaction simulation |
 | EIP-4337 | Account abstraction |
-| Open Source | License status |
 | Best For | Use case |
 | Rec | 🟢/🟡/🔴 recommendation |
 
@@ -37,18 +37,20 @@ Several previously recommended wallets have **stopped active development**:
 
 ## Quick Recommendations
 
-| Use Case | Wallet | Chains | Custom RPC | Status |
-|----------|--------|--------|------------|--------|
-| Development | **Rabby** | 94 | ✅ | ✅ Active |
-| Production | **Trust Wallet** | 163 | ✅ | ✅ Active |
-| Production | **Rainbow** | 15+ | ⚠️ | ✅ Active |
-| Enterprise | **Safe** | 30+ | ✅ | ✅ Active |
-| Multi-chain | **Enkrypt** | 75+ | ✅ | ✅ Active |
-| Ethereum | **MEW** | ETH/EVM | ✅ | ✅ Active |
-| Smart Wallet | **Ambire** | EVM | ✅ | ⚠️ Slow |
-| Community | **Taho** | EVM | ✅ | ⚠️ Slow |
-| Avoid | ~~Block Wallet~~ | - | - | ❌ Inactive |
-| Avoid | ~~Frame~~ | - | - | ❌ Inactive |
+| Use Case | Wallet | Devices | Testnets | License | Status |
+|----------|--------|---------|----------|---------|--------|
+| Development | **Rabby** | 📱🌐💻 | ✅ | ✅ MIT | ✅ Active |
+| Production | **Trust Wallet** | 📱🌐 | ✅ | ⚠️ Partial | ✅ Active |
+| Production | **Rainbow** | 📱🌐 | ✅ | ✅ GPL-3 | ✅ Active |
+| Enterprise | **Safe** | 📱🌐 | ✅ | ✅ GPL-3 | ✅ Active |
+| Multi-chain | **Enkrypt** | 🌐 | ✅ | ✅ MIT | ✅ Active |
+| Ethereum | **MEW** | 📱🔗 | ✅ | ✅ MIT | ✅ Active |
+| Smart Wallet | **Ambire** | 📱🌐 | ✅ | ✅ GPL-3 | ⚠️ Slow |
+| Community | **Taho** | 🌐 | ✅ | ✅ GPL-3 | ⚠️ Slow |
+| Avoid | ~~Block Wallet~~ | - | - | - | ❌ Inactive |
+| Avoid | ~~Frame~~ | - | - | - | ❌ Inactive |
+
+**Devices:** 📱 Mobile | 🌐 Browser Extension | 💻 Desktop | 🔗 Web App
 
 ---
 
@@ -71,7 +73,7 @@ Several previously recommended wallets have **stopped active development**:
 - Original data: GitHub REST API (November 2024)
 - Activity status: GitHub REST API (November 29, 2025)
 - Chain counts: [Rabby API](https://api.rabby.io/v1/chain/list), [Trust registry](https://github.com/trustwallet/wallet-core/blob/master/registry.json)
-- Custom RPC data: [WalletBeat](https://github.com/walletbeat/walletbeat)
+- **License, devices, testnets:** [WalletBeat](https://walletbeat.fyi) (December 2025)
 - Additional wallets discovered: WalletBeat registry, GitHub search
 
 See [PR #62](https://github.com/chimera-defi/ethglobal-argentina-25/pull/62) for original methodology.
