@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom CSS Variables */
+:root {
+  --color-primary: #10b981;
+  --color-primary-light: #34d399;
+  --color-secondary: #06b6d4;
+  --color-background: #111827;
+  --color-surface: #1f2937;
+  --color-text: #f3f4f6;
+  --color-text-muted: #9ca3af;
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-gray-900 text-gray-100 antialiased;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500;
+}
+
+/* Selection */
+::selection {
+  @apply bg-emerald-500/30 text-white;
+}
+
+/* Focus styles */
+:focus-visible {
+  @apply outline-2 outline-offset-2 outline-emerald-500;
+}
+
+/* Link transitions */
+a {
+  @apply transition-colors duration-200;
+}
+
+/* Button base */
+button {
+  @apply transition-all duration-200;
+}
+
+/* Prose adjustments for dark mode */
+.prose {
+  @apply text-gray-300;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+  @apply text-white;
+}
+
+.prose a {
+  @apply text-emerald-400 hover:text-emerald-300;
+}
+
+.prose strong {
+  @apply text-white;
+}
+
+.prose code {
+  @apply text-emerald-400 bg-gray-800 px-1 py-0.5 rounded;
+}
+
+.prose pre {
+  @apply bg-gray-800 border border-gray-700;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Table improvements for large tables */
+.md-table-wrapper {
+  max-width: 100%;
+}
+
+.md-table {
+  font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+  .md-table {
+    font-size: 0.75rem;
+  }
+  
+  .md-table-header,
+  .md-table-cell {
+    padding: 0.5rem;
+    white-space: nowrap;
+  }
+}
