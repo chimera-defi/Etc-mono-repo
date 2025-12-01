@@ -37,39 +37,43 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y jq
       
-      - name: Run refresh script
+      - name: Create data directory
+        run: mkdir -p wallets/data
+      
+      - name: Run refresh script (Markdown)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cd wallets/scripts
-          ./refresh-github-data.sh --markdown > ../ACTIVITY_STATUS.md
+          chmod +x wallets/scripts/refresh-github-data.sh
+          wallets/scripts/refresh-github-data.sh --markdown > wallets/ACTIVITY_STATUS.md
           echo "Generated activity status report"
       
-      - name: Generate JSON data
+      - name: Run refresh script (JSON)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cd wallets/scripts
-          ./refresh-github-data.sh --json > ../data/activity.json
+          wallets/scripts/refresh-github-data.sh --json > wallets/data/activity.json
           echo "Generated JSON data file"
       
       - name: Check for changes
         id: check_changes
         run: |
-          if git diff --quiet wallets/; then
+          git add wallets/
+          if git diff --cached --quiet; then
             echo "changes=false" >> $GITHUB_OUTPUT
             echo "No changes detected"
           else
             echo "changes=true" >> $GITHUB_OUTPUT
-            echo "Changes detected"
+            echo "Changes detected:"
+            git diff --cached --stat
           fi
       
       - name: Create Pull Request
         if: steps.check_changes.outputs.changes == 'true' && github.event.inputs.dry_run != 'true'
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "chore: refresh wallet activity data"
+          commit-message: "chore(wallets): refresh activity data"
           title: "[Auto] Refresh Wallet Activity Data"
           body: |
             ## Automated Wallet Data Refresh
@@ -86,7 +90,7 @@ jobs:
             - [ ] Update main comparison table if needed
             
             ---
-            *Generated automatically by GitHub Actions*
+            *Generated automatically by GitHub Actions on ${{ github.event.repository.updated_at }}*
           branch: auto/refresh-wallet-data
           delete-branch: true
           labels: |
@@ -94,7 +98,12 @@ jobs:
             data-refresh
       
       - name: Summary
+        if: always()
         run: |
           echo "## Wallet Activity Refresh Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          cat wallets/ACTIVITY_STATUS.md >> $GITHUB_STEP_SUMMARY
+          if [ -f wallets/ACTIVITY_STATUS.md ]; then
+            cat wallets/ACTIVITY_STATUS.md >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ No activity status file generated" >> $GITHUB_STEP_SUMMARY
+          fi
