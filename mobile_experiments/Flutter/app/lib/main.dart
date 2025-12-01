@@ -1,67 +1,64 @@
+/// Flutter Hello World - Framework Parity Demo
+/// Features: Material design, state toggle, animations, dark mode
+
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const ValdiFlutterApp());
+  runApp(const App());
 }
 
-/// Main application widget demonstrating Flutter framework parity
-/// with Valdi experiments for comparison purposes.
-class ValdiFlutterApp extends StatelessWidget {
-  const ValdiFlutterApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Valdi x Flutter Demo',
+      title: 'Hello World',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF8A2BE2), // BlueViolet
-          brightness: Brightness.light,
-        ),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF6750A4)),
         useMaterial3: true,
       ),
       darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF8A2BE2),
+          seedColor: const Color(0xFF6750A4),
           brightness: Brightness.dark,
         ),
         useMaterial3: true,
       ),
-      themeMode: ThemeMode.system,
-      home: const HelloScreen(),
+      home: const HomeScreen(),
     );
   }
 }
 
-/// Main screen demonstrating:
-/// - Material 3 design
-/// - State management (toggle)
-/// - Animations (AnimatedSwitcher)
-/// - Hot reload compatibility
-class HelloScreen extends StatefulWidget {
-  const HelloScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<HelloScreen> createState() => _HelloScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HelloScreenState extends State<HelloScreen>
+class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   bool _showDetails = false;
-  late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
+  late final AnimationController _controller;
+  late final Animation<double> _scaleAnimation;
+
+  static const _details = [
+    '✓ Hot reload',
+    '✓ Type safety',
+    '✓ Animations',
+    '✓ Cross-platform',
+  ];
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 100),
       vsync: this,
     );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _scaleAnimation = Tween(begin: 1.0, end: 0.95).animate(_controller);
   }
 
   @override
@@ -78,223 +75,144 @@ class _HelloScreenState extends State<HelloScreen>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+    final colors = theme.colorScheme;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Hello from Valdi Labs'),
         centerTitle: true,
-        elevation: 0,
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              theme.colorScheme.surface,
-              theme.colorScheme.surface.withOpacity(0.8),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Hero Icon
+              Container(
+                width: 72,
+                height: 72,
+                decoration: BoxDecoration(
+                  color: colors.primaryContainer,
+                  shape: BoxShape.circle,
+                ),
+                child: const Center(
+                  child: Text('📱', style: TextStyle(fontSize: 36)),
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // Title
+              Text(
+                'Flutter says hi! 👋',
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+
+              // Subtitle
+              Text(
+                'Exploring cross-platform framework parity.',
+                style: TextStyle(color: colors.onSurfaceVariant),
+              ),
+              const SizedBox(height: 24),
+
+              // Content Card
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 150),
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: _showDetails
+                      ? colors.secondaryContainer
+                      : colors.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: _showDetails ? colors.secondary : Colors.transparent,
+                    width: 2,
+                  ),
+                ),
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 150),
+                  child: _showDetails
+                      ? _buildDetailsContent(colors)
+                      : _buildPromptContent(colors),
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // Toggle Button
+              ScaleTransition(
+                scale: _scaleAnimation,
+                child: FilledButton(
+                  onPressed: _toggle,
+                  child: Text(
+                    _showDetails ? '👁️ Hide details' : '👁️ Show details',
+                  ),
+                ),
+              ),
+              const SizedBox(height: 48),
+
+              // Framework Badge
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: colors.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Text(
+                  'Flutter 3.24',
+                  style: TextStyle(fontSize: 12, color: colors.onSurfaceVariant),
+                ),
+              ),
             ],
-          ),
-        ),
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Hero icon
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primaryContainer,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.flutter_dash,
-                    size: 48,
-                    color: theme.colorScheme.onPrimaryContainer,
-                  ),
-                ),
-                const SizedBox(height: 24),
-                
-                // Main title
-                Text(
-                  'Flutter says hi! 👋',
-                  style: theme.textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: theme.colorScheme.onSurface,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 12),
-                
-                // Subtitle
-                Text(
-                  'Exploring framework parity with our Valdi experiment.',
-                  style: theme.textTheme.bodyLarge?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 32),
-                
-                // Animated content area
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: _showDetails
-                        ? theme.colorScheme.secondaryContainer
-                        : theme.colorScheme.surfaceContainerHighest,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: _showDetails
-                          ? theme.colorScheme.secondary
-                          : Colors.transparent,
-                      width: 2,
-                    ),
-                  ),
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 300),
-                    transitionBuilder: (child, animation) {
-                      return FadeTransition(
-                        opacity: animation,
-                        child: SlideTransition(
-                          position: Tween<Offset>(
-                            begin: const Offset(0, 0.1),
-                            end: Offset.zero,
-                          ).animate(animation),
-                          child: child,
-                        ),
-                      );
-                    },
-                    child: _showDetails
-                        ? _buildDetailsCard(theme)
-                        : _buildPromptCard(theme),
-                  ),
-                ),
-                const SizedBox(height: 32),
-                
-                // Interactive button
-                ScaleTransition(
-                  scale: _scaleAnimation,
-                  child: FilledButton.icon(
-                    onPressed: _toggle,
-                    icon: Icon(
-                      _showDetails ? Icons.visibility_off : Icons.visibility,
-                    ),
-                    label: Text(
-                      _showDetails ? 'Hide details' : 'Show details',
-                    ),
-                    style: FilledButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
-                    ),
-                  ),
-                ),
-                
-                const SizedBox(height: 48),
-                
-                // Framework badge
-                _buildFrameworkBadge(theme),
-              ],
-            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildPromptCard(ThemeData theme) {
+  Widget _buildPromptContent(ColorScheme colors) {
     return Row(
       key: const ValueKey('prompt'),
-      mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(
-          Icons.touch_app,
-          color: theme.colorScheme.onSurfaceVariant,
-        ),
-        const SizedBox(width: 12),
-        Flexible(
-          child: Text(
-            'Tap the button to see framework details.',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
-          ),
+        const Text('👆 ', style: TextStyle(fontSize: 18)),
+        Text(
+          'Tap button to see details',
+          style: TextStyle(color: colors.onSurfaceVariant),
         ),
       ],
     );
   }
 
-  Widget _buildDetailsCard(ThemeData theme) {
+  Widget _buildDetailsContent(ColorScheme colors) {
     return Column(
       key: const ValueKey('details'),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            Icon(
-              Icons.check_circle,
-              color: theme.colorScheme.secondary,
-            ),
-            const SizedBox(width: 8),
+            const Text('✅ ', style: TextStyle(fontSize: 18)),
             Text(
-              'State toggled successfully!',
-              style: theme.textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: theme.colorScheme.onSecondaryContainer,
+              'State toggled!',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: colors.onSecondaryContainer,
               ),
             ),
           ],
         ),
-        const SizedBox(height: 12),
-        _buildDetailRow(theme, '✓', 'Hot reload friendly'),
-        _buildDetailRow(theme, '✓', 'Material 3 design'),
-        _buildDetailRow(theme, '✓', 'Animation support'),
-        _buildDetailRow(theme, '✓', 'Cross-platform ready'),
-      ],
-    );
-  }
-
-  Widget _buildDetailRow(ThemeData theme, String icon, String text) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Text(
-        '$icon $text',
-        style: theme.textTheme.bodyMedium?.copyWith(
-          color: theme.colorScheme.onSecondaryContainer,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFrameworkBadge(ThemeData theme) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            Icons.code,
-            size: 16,
-            color: theme.colorScheme.primary,
-          ),
-          const SizedBox(width: 8),
-          Text(
-            'Built with Flutter 3.24',
-            style: theme.textTheme.labelMedium?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
+        const SizedBox(height: 8),
+        for (final item in _details)
+          Padding(
+            padding: const EdgeInsets.only(left: 26, top: 4),
+            child: Text(
+              item,
+              style: TextStyle(color: colors.onSecondaryContainer),
             ),
           ),
-        ],
-      ),
+      ],
     );
   }
 }
