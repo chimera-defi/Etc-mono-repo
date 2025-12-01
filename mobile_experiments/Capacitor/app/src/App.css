@@ -1,69 +1,190 @@
 /**
  * Capacitor Hello World - Framework Parity Styles
+ * Material 3 inspired theming
  */
 
+/* Theme Colors */
 .app.light {
-  --primary: #6750A4; --secondary: #625B71; --surface: #FFFBFE; --surface-variant: #E7E0EC;
-  --secondary-container: #E8DEF8; --on-surface: #1C1B1F; --on-surface-variant: #49454F;
-  --on-secondary-container: #1D192B; --primary-container: #EADDFF; --outline: #79747E;
+  --primary: #6750A4;
+  --secondary: #625B71;
+  --surface: #FFFBFE;
+  --surface-variant: #E7E0EC;
+  --secondary-container: #E8DEF8;
+  --on-surface: #1C1B1F;
+  --on-surface-variant: #49454F;
+  --on-secondary-container: #1D192B;
+  --primary-container: #EADDFF;
+  --outline: #79747E;
 }
+
 .app.dark {
-  --primary: #D0BCFF; --secondary: #CCC2DC; --surface: #1C1B1F; --surface-variant: #49454F;
-  --secondary-container: #4A4458; --on-surface: #E6E1E5; --on-surface-variant: #CAC4D0;
-  --on-secondary-container: #E8DEF8; --primary-container: #4F378B; --outline: #938F99;
+  --primary: #D0BCFF;
+  --secondary: #CCC2DC;
+  --surface: #1C1B1F;
+  --surface-variant: #49454F;
+  --secondary-container: #4A4458;
+  --on-surface: #E6E1E5;
+  --on-surface-variant: #CAC4D0;
+  --on-secondary-container: #E8DEF8;
+  --primary-container: #4F378B;
+  --outline: #938F99;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+/* App Container */
 .app {
-  min-height: 100vh; display: flex; flex-direction: column;
-  background: var(--surface); color: var(--on-surface);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  color: var(--on-surface);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.app-bar { padding: 16px; border-bottom: 1px solid var(--outline); text-align: center; }
-.app-bar-title { font-size: 18px; font-weight: 600; }
+/* App Bar */
+.app-bar {
+  padding: 16px;
+  border-bottom: 1px solid var(--outline);
+  text-align: center;
+}
 
+.app-bar-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Main Content */
 .content {
-  flex: 1; display: flex; flex-direction: column; align-items: center;
-  justify-content: center; padding: 24px; position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  position: relative;
 }
 
+/* Hero Icon */
 .hero-icon {
-  width: 72px; height: 72px; border-radius: 36px; background: var(--primary-container);
-  display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+  width: 72px;
+  height: 72px;
+  border-radius: 36px;
+  background: var(--primary-container);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
 }
-.hero-emoji { font-size: 36px; }
 
-.title { font-size: 24px; font-weight: bold; margin-bottom: 8px; }
-.subtitle { font-size: 15px; color: var(--on-surface-variant); margin-bottom: 24px; text-align: center; }
+.hero-emoji {
+  font-size: 36px;
+}
 
+/* Typography */
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: var(--on-surface-variant);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* Content Card */
 .card {
-  width: 100%; max-width: 360px; padding: 16px; border-radius: 12px;
-  background: var(--surface-variant); border: 2px solid transparent;
-  margin-bottom: 24px; transition: all 150ms ease;
+  width: 100%;
+  max-width: 360px;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--surface-variant);
+  border: 2px solid transparent;
+  margin-bottom: 24px;
+  transition: all 150ms ease;
 }
-.card.active { background: var(--secondary-container); border-color: var(--secondary); }
-.card.animating { opacity: 0.5; transform: scale(0.98); }
 
-.row { display: flex; align-items: center; }
-.icon { font-size: 18px; margin-right: 8px; }
-.card-title { font-size: 15px; font-weight: 600; color: var(--on-secondary-container); }
-.prompt { font-size: 14px; color: var(--on-surface-variant); }
-.details p { font-size: 14px; margin: 4px 0 0 26px; color: var(--on-secondary-container); }
+.card.active {
+  background: var(--secondary-container);
+  border-color: var(--secondary);
+}
 
+.card.animating {
+  opacity: 0.5;
+  transform: scale(0.98);
+}
+
+/* Card Content */
+.row {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  font-size: 18px;
+  margin-right: 8px;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--on-secondary-container);
+}
+
+.prompt {
+  font-size: 14px;
+  color: var(--on-surface-variant);
+}
+
+.detail-item {
+  font-size: 14px;
+  margin: 4px 0 0 26px;
+  color: var(--on-secondary-container);
+}
+
+/* Toggle Button */
 .toggle-btn {
-  padding: 12px 24px; border-radius: 20px; border: none; background: var(--primary);
-  color: white; font-size: 15px; font-weight: 600; cursor: pointer; transition: transform 100ms;
+  padding: 12px 24px;
+  border-radius: 20px;
+  border: none;
+  background: var(--primary);
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 100ms;
 }
-.toggle-btn:active { transform: scale(0.95); }
 
+.toggle-btn:active {
+  transform: scale(0.95);
+}
+
+/* Framework Badge */
 .badge {
-  position: absolute; bottom: 16px; padding: 6px 12px; border-radius: 16px;
-  background: var(--surface-variant); font-size: 12px; color: var(--on-surface-variant);
+  position: absolute;
+  bottom: 16px;
+  padding: 6px 12px;
+  border-radius: 16px;
+  background: var(--surface-variant);
+  font-size: 12px;
+  color: var(--on-surface-variant);
 }
 
+/* Safe Area Support */
 @supports (padding-top: env(safe-area-inset-top)) {
-  .app-bar { padding-top: calc(16px + env(safe-area-inset-top)); }
-  .badge { bottom: calc(16px + env(safe-area-inset-bottom)); }
+  .app-bar {
+    padding-top: calc(16px + env(safe-area-inset-top));
+  }
+
+  .badge {
+    bottom: calc(16px + env(safe-area-inset-bottom));
+  }
 }
