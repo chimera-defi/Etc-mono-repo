@@ -60,11 +60,11 @@ The **58x difference in StackOverflow questions** is critical for AI code genera
 
 | Framework | Code | Styles | **Total** | Notes |
 |-----------|------|--------|-----------|-------|
-| **React Native** | 99 | — | **99** | Single file, inline styles |
-| **Flutter** | 101 | — | **101** | Single file, inline styles |
-| **Capacitor** | 56 | 69 | **125** | Separate CSS file |
+| **Capacitor** | 92 | 190 | **282** | TSX + separate CSS |
+| **Flutter** | 218 | — | **218** | Dart with inline styles |
+| **React Native** | 264 | — | **264** | TSX with StyleSheet |
 
-All three now implement identical features with similar code size (~100-125 lines).
+**Analysis**: Capacitor splits code/styles into two files. Flutter and React Native are single-file solutions. All use similar patterns: component structure, state hooks, theme colors, and animations.
 
 ## Quick Decision Guide
 
