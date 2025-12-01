@@ -1,72 +1,66 @@
 /**
- * Capacitor Hello World Styles
- * Material 3 inspired design with CSS animations
+ * Capacitor Hello World - Framework Parity Styles
+ * Material 3 inspired theming
  */
 
-/* CSS Variables for theming */
-:root {
-  --transition-speed: 300ms;
-}
-
+/* Theme Colors */
 .app.light {
-  --primary: #8A2BE2;
-  --primary-container: #E9DDFF;
-  --on-primary-container: #21005D;
+  --primary: #6750A4;
   --secondary: #625B71;
-  --secondary-container: #E8DEF8;
-  --on-secondary-container: #1D192B;
   --surface: #FFFBFE;
   --surface-variant: #E7E0EC;
+  --secondary-container: #E8DEF8;
   --on-surface: #1C1B1F;
   --on-surface-variant: #49454F;
+  --on-secondary-container: #1D192B;
+  --primary-container: #EADDFF;
   --outline: #79747E;
 }
 
 .app.dark {
   --primary: #D0BCFF;
-  --primary-container: #4F378B;
-  --on-primary-container: #EADDFF;
   --secondary: #CCC2DC;
-  --secondary-container: #4A4458;
-  --on-secondary-container: #E8DEF8;
   --surface: #1C1B1F;
   --surface-variant: #49454F;
+  --secondary-container: #4A4458;
   --on-surface: #E6E1E5;
   --on-surface-variant: #CAC4D0;
+  --on-secondary-container: #E8DEF8;
+  --primary-container: #4F378B;
   --outline: #938F99;
 }
 
-/* Reset and base styles */
+/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* App Container */
 .app {
   min-height: 100vh;
-  background-color: var(--surface);
-  color: var(--on-surface);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
   display: flex;
   flex-direction: column;
+  background: var(--surface);
+  color: var(--on-surface);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* App Bar */
 .app-bar {
-  padding: 16px 20px;
+  padding: 16px;
   border-bottom: 1px solid var(--outline);
   text-align: center;
 }
 
 .app-bar-title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
-  color: var(--on-surface);
 }
 
 /* Main Content */
-.main-content {
+.content {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -78,173 +72,119 @@
 
 /* Hero Icon */
 .hero-icon {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background-color: var(--primary-container);
+  width: 72px;
+  height: 72px;
+  border-radius: 36px;
+  background: var(--primary-container);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 24px;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+  margin-bottom: 20px;
 }
 
 .hero-emoji {
-  font-size: 40px;
+  font-size: 36px;
 }
 
 /* Typography */
 .title {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: bold;
-  text-align: center;
-  margin-bottom: 12px;
-  color: var(--on-surface);
+  margin-bottom: 8px;
 }
 
 .subtitle {
-  font-size: 16px;
-  text-align: center;
-  margin-bottom: 32px;
-  line-height: 1.5;
+  font-size: 15px;
   color: var(--on-surface-variant);
-  max-width: 300px;
+  margin-bottom: 24px;
+  text-align: center;
 }
 
 /* Content Card */
-.content-card {
+.card {
   width: 100%;
-  max-width: 400px;
+  max-width: 360px;
   padding: 16px;
-  border-radius: 16px;
+  border-radius: 12px;
+  background: var(--surface-variant);
   border: 2px solid transparent;
-  background-color: var(--surface-variant);
-  margin-bottom: 32px;
-  transition: all var(--transition-speed) ease;
+  margin-bottom: 24px;
+  transition: all 150ms ease;
 }
 
-.content-card.active {
-  background-color: var(--secondary-container);
+.card.active {
+  background: var(--secondary-container);
   border-color: var(--secondary);
 }
 
-.content-card.animating {
+.card.animating {
   opacity: 0.5;
   transform: scale(0.98);
 }
 
-/* Prompt Content */
-.prompt-content {
+/* Card Content */
+.row {
   display: flex;
   align-items: center;
-  gap: 12px;
 }
 
-.prompt-icon {
-  font-size: 20px;
-}
-
-.prompt-text {
-  font-size: 15px;
-  color: var(--on-surface-variant);
-}
-
-/* Details Content */
-.details-content {
-  animation: fadeIn var(--transition-speed) ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.details-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.details-icon {
+.icon {
   font-size: 18px;
+  margin-right: 8px;
 }
 
-.details-title {
-  font-size: 16px;
+.card-title {
+  font-size: 15px;
   font-weight: 600;
   color: var(--on-secondary-container);
 }
 
-.details-list p {
+.prompt {
   font-size: 14px;
-  padding: 4px 0;
-  padding-left: 26px;
+  color: var(--on-surface-variant);
+}
+
+.detail-item {
+  font-size: 14px;
+  margin: 4px 0 0 26px;
   color: var(--on-secondary-container);
 }
 
 /* Toggle Button */
-.toggle-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 14px 28px;
-  border-radius: 24px;
+.toggle-btn {
+  padding: 12px 24px;
+  border-radius: 20px;
   border: none;
-  background-color: var(--primary);
+  background: var(--primary);
   color: white;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 150ms ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 100ms;
 }
 
-.toggle-button:hover {
-  transform: scale(1.02);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.toggle-button:active {
+.toggle-btn:active {
   transform: scale(0.95);
-}
-
-.button-icon {
-  font-size: 18px;
-}
-
-.button-text {
-  color: white;
 }
 
 /* Framework Badge */
 .badge {
   position: absolute;
-  bottom: 20px;
-  padding: 8px 16px;
-  border-radius: 20px;
-  background-color: var(--surface-variant);
-}
-
-.badge-text {
+  bottom: 16px;
+  padding: 6px 12px;
+  border-radius: 16px;
+  background: var(--surface-variant);
   font-size: 12px;
-  font-weight: 500;
   color: var(--on-surface-variant);
 }
 
-/* Safe area support for native apps */
+/* Safe Area Support */
 @supports (padding-top: env(safe-area-inset-top)) {
   .app-bar {
     padding-top: calc(16px + env(safe-area-inset-top));
   }
-  
+
   .badge {
-    bottom: calc(20px + env(safe-area-inset-bottom));
+    bottom: calc(16px + env(safe-area-inset-bottom));
   }
 }
