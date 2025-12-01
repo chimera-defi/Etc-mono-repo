@@ -19,6 +19,8 @@ Create a mobile app with feature parity to Cursor Agents / Background Agents tha
 | [ALTERNATIVES_ANALYSIS.md](./ALTERNATIVES_ANALYSIS.md) | Survey of alternative AI coding agents with APIs |
 | [MOBILE_ARCHITECTURE.md](./MOBILE_ARCHITECTURE.md) | Proposed mobile app architecture |
 | [FRAMEWORK_RECOMMENDATION.md](./FRAMEWORK_RECOMMENDATION.md) | Framework selection for the agent app |
+| [CLAUDE_API_CAPABILITIES.md](./CLAUDE_API_CAPABILITIES.md) | Deep dive into Claude API for agent development |
+| [COMPETITIVE_ANALYSIS.md](./COMPETITIVE_ANALYSIS.md) | Market analysis of existing mobile coding apps |
 
 ## Quick Summary
 
@@ -36,15 +38,47 @@ Create a mobile app with feature parity to Cursor Agents / Background Agents tha
 3. **MCP (Model Context Protocol)** - New standard for AI tool integrations
 4. **Several open-source agents** with APIs exist as alternatives
 
-## Recommended Path
+## Recommended Stack (Updated Dec 2025)
 
-Build a custom AI coding agent mobile app using:
-1. **Claude API** (Anthropic) for the AI backbone
-2. **MCP Protocol** for tool integrations
-3. **Flutter or React Native** for native mobile performance
-4. **Open source tooling** from Kilo Code / LibreChat ecosystems
+Based on verified ecosystem data:
+
+| Component | Recommendation | Rationale |
+|-----------|----------------|-----------|
+| **Mobile Framework** | React Native + Expo ⭐ | 58x more SO Q&A, 18.8M npm downloads/mo |
+| **AI Backend** | Claude API (Anthropic) | Same model as Cursor, full tool use support |
+| **Tool Protocol** | MCP (Model Context Protocol) | Industry standard, future-proof |
+| **State Management** | Zustand + React Query | Battle-tested, TypeScript-first |
+
+### Why React Native over Flutter?
+
+| Factor | React Native | Flutter |
+|--------|--------------|---------|
+| **StackOverflow Q&A** | 139,433 | 181,988 |
+| **npm Downloads/mo** | 18.8M | — |
+| **Language** | TypeScript (same as backend) | Dart (different) |
+| **AI Training Data** | Massive (TypeScript/React) | Smaller (Dart) |
+| **Expo Ecosystem** | 10.5M downloads/mo | — |
+
+> **Note**: Flutter remains excellent for peak graphics performance. See [FRAMEWORK_RECOMMENDATION.md](./FRAMEWORK_RECOMMENDATION.md) for full analysis.
+
+## Quick Start
+
+```bash
+# Create new Expo project
+npx create-expo-app@latest AgentApp --template tabs
+cd AgentApp
+
+# Install key dependencies
+npx expo install react-native-reanimated react-native-gesture-handler
+npm install @tanstack/react-query zustand axios
+npm install react-syntax-highlighter react-native-markdown-display
+
+# Start development
+npx expo start
+```
 
 ---
 
 **Status**: Research Phase  
-**Last Updated**: December 2024
+**Last Updated**: December 2025  
+**Recommendation Changed**: Flutter → React Native (based on ecosystem data)
