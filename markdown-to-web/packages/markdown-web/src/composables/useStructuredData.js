@@ -1,5 +1,5 @@
 // Composable for managing structured data (JSON-LD)
-import { extractSection } from '@/utils/contentUtils.js';
+import { extractSection } from '../utils/contentUtils.js';
 
 // Schema generators
 const createOrganization = (name = 'Markdown to Web', url = '', logoUrl = '') => ({
@@ -24,7 +24,6 @@ const parseFAQQuestions = (faqContent) => {
     const trimmedLine = line.trim();
     
     if (trimmedLine.match(/^#{2,3}\s+(.+)/)) {
-      // Save previous question
       if (currentQuestion && currentAnswer.length > 0) {
         questions.push({
           "@type": "Question",
@@ -36,7 +35,6 @@ const parseFAQQuestions = (faqContent) => {
         });
       }
       
-      // Start new question
       currentQuestion = trimmedLine.replace(/^#{2,3}\s+/, '').replace(/\?$/, '');
       currentAnswer = [];
     } else if (currentQuestion && trimmedLine && !trimmedLine.startsWith('#')) {
@@ -44,7 +42,6 @@ const parseFAQQuestions = (faqContent) => {
     }
   }
   
-  // Add last question
   if (currentQuestion && currentAnswer.length > 0) {
     questions.push({
       "@type": "Question",
@@ -66,7 +63,6 @@ export function useStructuredData(config = {}) {
     logoUrl = ''
   } = config;
   
-  // Schema management
   const schemaCache = new Map();
   
   const generateArticleSchema = (page, currentUrl) => {
@@ -124,17 +120,12 @@ export function useStructuredData(config = {}) {
     };
   };
   
-  // Schema injection with caching
   const injectSchema = (schema, id) => {
     if (!schema) return;
     
-    // Remove existing schema
     removeSchema(id);
-    
-    // Cache schema
     schemaCache.set(id, schema);
     
-    // Inject new schema
     const script = document.createElement('script');
     script.type = 'application/ld+json';
     script.id = id;
@@ -150,15 +141,12 @@ export function useStructuredData(config = {}) {
     }
   };
   
-  // Batch operations
   const injectPageSchemas = (page, currentUrl) => {
     if (!page) return;
     
-    // Article schema
     const articleSchema = generateArticleSchema(page, currentUrl);
     if (articleSchema) injectSchema(articleSchema, 'article-schema');
     
-    // FAQ schema if present
     const faqContent = extractSection(page.rawContent, '^##\\s+.*[Ff][Aa][Qq].*$');
     if (faqContent) {
       const faqSchema = generateFAQSchema(faqContent);

@@ -1,4 +1,4 @@
-// Content utilities for markdown-to-web
+// Content utilities for markdown-web
 
 /**
  * Format date string to readable format
@@ -6,6 +6,7 @@
  * @returns {string} Formatted date
  */
 export const formatDate = (dateString) => {
+  if (!dateString) return '';
   const date = new Date(dateString);
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
@@ -20,6 +21,7 @@ export const formatDate = (dateString) => {
  * @returns {string} Formatted tag (e.g., "Liquid Staking")
  */
 export const formatTag = (tag) => {
+  if (!tag) return '';
   return tag.split('-').map(word => 
     word.charAt(0).toUpperCase() + word.slice(1)
   ).join(' ');

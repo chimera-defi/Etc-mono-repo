@@ -1,30 +1,30 @@
 <template>
-  <nav 
-    aria-label="Breadcrumb" 
+  <nav
+    aria-label="Breadcrumb"
     class="breadcrumb"
   >
     <ol class="breadcrumb-list">
-      <li 
-        v-for="(item, index) in items" 
-        :key="index" 
+      <li
+        v-for="(item, index) in items"
+        :key="index"
         class="breadcrumb-item"
       >
-        <router-link 
+        <router-link
           v-if="index < items.length - 1"
-          :to="item.url" 
+          :to="item.url"
           class="breadcrumb-link"
         >
           {{ item.name }}
         </router-link>
-        <span 
-          v-else 
+        <span
+          v-else
           class="breadcrumb-current"
           aria-current="page"
         >
           {{ item.name }}
         </span>
-        <span 
-          v-if="index < items.length - 1" 
+        <span
+          v-if="index < items.length - 1"
           class="breadcrumb-separator"
           aria-hidden="true"
         >
@@ -70,21 +70,21 @@ export default {
 }
 
 .breadcrumb-link {
-  color: var(--color-primary, #10b981);
+  color: var(--md-color-primary, #10b981);
   text-decoration: none;
   transition: color 0.2s;
 }
 
 .breadcrumb-link:hover {
-  color: var(--color-primary-light, #34d399);
+  color: var(--md-color-primary-light, #34d399);
   text-decoration: underline;
 }
 
 .breadcrumb-current {
-  color: var(--color-text-muted, #9ca3af);
+  color: var(--md-color-text-muted, #9ca3af);
 }
 
 .breadcrumb-separator {
-  color: var(--color-text-muted, #6b7280);
+  color: var(--md-color-text-muted, #6b7280);
 }
 </style>

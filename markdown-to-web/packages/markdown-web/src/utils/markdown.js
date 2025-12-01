@@ -160,7 +160,6 @@ export function parseMarkdown(markdown) {
     return marked(markdown, { renderer });
   } catch (error) {
     console.error('Error parsing markdown:', error);
-    // Return escaped content as fallback
     return `<pre>${escapeHtml(markdown)}</pre>`;
   }
 }

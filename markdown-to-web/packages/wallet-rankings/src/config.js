@@ -1,4 +1,4 @@
-// Site configuration for markdown-to-web
+// Site configuration for wallet-rankings
 export const siteConfig = {
   // Site identity
   title: 'Wallet Rankings',
@@ -11,8 +11,8 @@ export const siteConfig = {
   logoUrl: '',
   
   // Theme colors
-  primaryColor: '#10b981', // emerald-500
-  secondaryColor: '#06b6d4', // cyan-500
+  primaryColor: '#10b981',
+  secondaryColor: '#06b6d4',
   
   // Social links
   twitter: '',
