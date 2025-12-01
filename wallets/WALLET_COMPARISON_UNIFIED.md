@@ -8,34 +8,35 @@
 
 ## Complete Wallet Comparison (All 19 EVM Wallets)
 
-| Wallet | GitHub | Active | Chains | Devices | Testnets | License | Account Type | HW Wallets | EIP-4337 | Best For | Rec |
-|--------|--------|--------|--------|---------|----------|---------|--------------|------------|----------|----------|-----|
-| **MetaMask** | [metamask-extension](https://github.com/MetaMask/metamask-extension) | ✅ | Any | 📱🌐 | ✅ | ⚠️ Src-Avail | EOA+7702 | ✅ Ledger/Trezor/Keystone/GridPlus | ⚠️ | Compatibility | 🔴 |
-| **Rabby** | [Rabby](https://github.com/RabbyHub/Rabby) | ✅ | 94 | 📱🌐💻 | ✅ | ✅ MIT | EOA+Safe | ✅ Ledger/Trezor/Keystone/GridPlus | ❌ | Development | 🟢 |
-| **Coinbase** | [coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | ⚠️ | 20+ | 📱🌐 | ✅ | ⚠️ Partial | EOA+4337 | ✅ Ledger/Trezor | ✅ | Production | 🟡 |
-| **Trust** | [wallet-core](https://github.com/trustwallet/wallet-core) | ✅ | 163 | 📱🌐 | ✅ | ⚠️ Apache-2 | EOA | ✅ Multiple | ❌ | Multi-chain | 🟢 |
-| **Rainbow** | [rainbow](https://github.com/rainbow-me/rainbow) | ✅ | 15+ | 📱🌐 | ✅ | ✅ GPL-3 | EOA | ✅ Ledger/Trezor | ❌ | NFT/Ethereum | 🟢 |
-| **Safe** | [safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | ✅ | 30+ | 📱🌐 | ✅ | ✅ GPL-3 | Safe+4337 | ✅ Ledger/Trezor/Keystone | ✅ | Enterprise | 🟢 |
-| **Ambire** | [extension](https://github.com/AmbireTech/extension) | ⚠️ | EVM | 🌐 | ✅ | ✅ GPL-3 | 7702+4337 | ✅ Ledger/Trezor/GridPlus | ✅ | Smart wallet | 🟡 |
-| **MEW** | [MyEtherWallet](https://github.com/MyEtherWallet/MyEtherWallet) | ✅ | ETH | 📱🔗 | ✅ | ✅ MIT | EOA | ✅ Multiple | ❌ | Ethereum | 🟢 |
-| **Taho** | [extension](https://github.com/tahowallet/extension) | ⚠️ | EVM | 🌐 | ✅ | ✅ GPL-3 | EOA | ✅ Multiple | ❌ | Community | 🟡 |
-| **Frame** | [frame](https://github.com/floating/frame) | ❌ | Any | 💻 | ✅ | ✅ GPL-3 | EOA | ✅ Ledger/Trezor/Keystone/GridPlus | ❌ | ~~Desktop~~ | 🔴 |
-| **Brave** | [brave-browser](https://github.com/brave/brave-browser) | ✅ | 10+ | 📱🌐§ | ✅ | ✅ MPL-2 | EOA | ✅ Multiple | ❌ | Brave users | 🟢 |
-| **Enkrypt** | [enKrypt](https://github.com/enkryptcom/enKrypt) | ✅ | 75+ | 🌐 | ✅ | ✅ MIT | EOA | ✅ Multiple | ❌ | Multi-chain | 🟢 |
-| **imToken** | [token-core](https://github.com/consenlabs/token-core-monorepo) | ✅ | 50+ | 📱 | ✅ | ⚠️ Apache-2 | EOA | ✅ Keystone/imKey | ❌ | Multi-chain | 🟢 |
-| **Daimo** | [daimo](https://github.com/daimo-eth/daimo) | ✅ | Base | 📱 | ❌ | ✅ GPL-3 | 4337 only | ❌ | ✅ | Payments | 🟢 |
-| **Phantom** | Private | ? | 5 | 📱🌐 | ❌ | ❌ Proprietary | EOA | ✅ Ledger only | ❌ | Solana-first | 🟡 |
-| **Zerion** | Private | ? | 20+ | 📱🌐 | ? | ❌ Proprietary | EOA | ✅ Ledger+WC | ❌ | Portfolio | ⚪ |
-| **OKX** | Private | ? | 100+ | 📱🌐 | ✅ | ❌ Proprietary | EOA | ✅ Multiple | ⚠️ | EIP-7702 | 🟡 |
-| **Argent** | [argent-x](https://github.com/argentlabs/argent-x) | ❌ | 2 | 📱🌐† | ✅ | ✅ GPL-3 | 4337 | ✅ Multiple | ✅ | ~~Starknet~~ | 🔴 |
-| **Block** | [extension](https://github.com/block-wallet/extension) | ❌ | ~20 | 📱🌐 | ✅ | ✅ MIT | EOA | ✅ Multiple | ❌ | ~~Stability~~ | 🔴 |
-| **Wigwam** | [wigwam](https://github.com/wigwamapp/wigwam) | ⚠️ | Any | 📱🌐 | ✅ | ✅ MIT | EOA | ✅ Multiple | ❌ | Stability | 🟡 |
-| **1inch** | Private | ? | ? | 📱 | ? | ❌ Proprietary | EOA | ? | ❌ | DeFi | ⚪ |
+| Wallet | GitHub | Active | Chains | Devices | Testnets | License | Audits | Account Type | HW Wallets | EIP-4337 | Best For | Rec |
+|--------|--------|--------|--------|---------|----------|---------|--------|--------------|------------|----------|----------|-----|
+| **MetaMask** | [metamask-extension](https://github.com/MetaMask/metamask-extension) | ✅ | Any | 📱🌐 | ✅ | ⚠️ Src-Avail | ✅ 2025 | EOA+7702 | ✅ Ledger/Trezor/Keystone/GridPlus | ⚠️ | Compatibility | 🔴 |
+| **Rabby** | [Rabby](https://github.com/RabbyHub/Rabby) | ✅ | 94 | 📱🌐💻 | ✅ | ✅ MIT | ⚠️ Mobile | EOA+Safe | ✅ Ledger/Trezor/Keystone/GridPlus | ❌ | Development | 🟢 |
+| **Coinbase** | [coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | ⚠️ | 20+ | 📱🌐 | ✅ | ⚠️ Partial | ? | EOA+4337 | ✅ Ledger/Trezor | ✅ | Production | 🟡 |
+| **Trust** | [wallet-core](https://github.com/trustwallet/wallet-core) | ✅ | 163 | 📱🌐 | ✅ | ⚠️ Apache-2 | ? | EOA | ✅ Multiple | ❌ | Multi-chain | 🟢 |
+| **Rainbow** | [rainbow](https://github.com/rainbow-me/rainbow) | ✅ | 15+ | 📱🌐 | ✅ | ✅ GPL-3 | ? | EOA | ✅ Ledger/Trezor | ❌ | NFT/Ethereum | 🟢 |
+| **Safe** | [safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | ✅ | 30+ | 📱🌐 | ✅ | ✅ GPL-3 | ✅ Certora | Safe+4337 | ✅ Ledger/Trezor/Keystone | ✅ | Enterprise | 🟢 |
+| **Ambire** | [extension](https://github.com/AmbireTech/extension) | ⚠️ | EVM | 🌐 | ✅ | ✅ GPL-3 | ✅ 2025 | 7702+4337 | ✅ Ledger/Trezor/GridPlus | ✅ | Smart wallet | 🟡 |
+| **MEW** | [MyEtherWallet](https://github.com/MyEtherWallet/MyEtherWallet) | ✅ | ETH | 📱🔗 | ✅ | ✅ MIT | ? | EOA | ✅ Multiple | ❌ | Ethereum | 🟢 |
+| **Taho** | [extension](https://github.com/tahowallet/extension) | ⚠️ | EVM | 🌐 | ✅ | ✅ GPL-3 | ? | EOA | ✅ Multiple | ❌ | Community | 🟡 |
+| **Frame** | [frame](https://github.com/floating/frame) | ❌ | Any | 💻 | ✅ | ✅ GPL-3 | ? | EOA | ✅ Ledger/Trezor/Keystone/GridPlus | ❌ | ~~Desktop~~ | 🔴 |
+| **Brave** | [brave-browser](https://github.com/brave/brave-browser) | ✅ | 10+ | 📱🌐§ | ✅ | ✅ MPL-2 | ? | EOA | ✅ Multiple | ❌ | Brave users | 🟢 |
+| **Enkrypt** | [enKrypt](https://github.com/enkryptcom/enKrypt) | ✅ | 75+ | 🌐 | ✅ | ✅ MIT | ? | EOA | ✅ Multiple | ❌ | Multi-chain | 🟢 |
+| **imToken** | [token-core](https://github.com/consenlabs/token-core-monorepo) | ✅ | 50+ | 📱 | ✅ | ⚠️ Apache-2 | ⚠️ 2018 | EOA | ✅ Keystone/imKey | ❌ | Multi-chain | 🟢 |
+| **Daimo** | [daimo](https://github.com/daimo-eth/daimo) | ✅ | Base | 📱 | ❌ | ✅ GPL-3 | ✅ 2023 | 4337 only | ❌ | ✅ | Payments | 🟢 |
+| **Phantom** | Private | ? | 5 | 📱🌐 | ❌ | ❌ Proprietary | ? | EOA | ✅ Ledger only | ❌ | Solana-first | 🟡 |
+| **Zerion** | Private | ? | 20+ | 📱🌐 | ? | ❌ Proprietary | ? | EOA | ✅ Ledger+WC | ❌ | Portfolio | ⚪ |
+| **OKX** | Private | ? | 100+ | 📱🌐 | ✅ | ❌ Proprietary | ? | EOA | ✅ Multiple | ⚠️ | EIP-7702 | 🟡 |
+| **Argent** | [argent-x](https://github.com/argentlabs/argent-x) | ❌ | 2 | 📱🌐† | ✅ | ✅ GPL-3 | ? | 4337 | ✅ Multiple | ✅ | ~~Starknet~~ | 🔴 |
+| **Block** | [extension](https://github.com/block-wallet/extension) | ❌ | ~20 | 📱🌐 | ✅ | ✅ MIT | ? | EOA | ✅ Multiple | ❌ | ~~Stability~~ | 🔴 |
+| **Wigwam** | [wigwam](https://github.com/wigwamapp/wigwam) | ⚠️ | Any | 📱🌐 | ✅ | ✅ MIT | ? | EOA | ✅ Multiple | ❌ | Stability | 🟡 |
+| **1inch** | Private | ? | ? | 📱 | ? | ❌ Proprietary | ? | EOA | ? | ❌ | DeFi | ⚪ |
 
 **Legend:**
 - 🟢 Recommended | 🟡 Situational | 🔴 Avoid | ⚪ Not for dev
 - **Devices:** 📱 Mobile | 🌐 Browser Extension | 💻 Desktop | 🔗 Web App
 - **License:** ✅ FOSS (MIT, GPL, MPL) | ⚠️ Source-Available/Partial | ❌ Proprietary
+- **Audits:** ✅ Recent audit (2023+) | ⚠️ Old/Issues | ? Unknown/Not public
 - **Account Type:** EOA = Standard | Safe = Multi-sig | 4337 = Smart Account | 7702 = Upgraded EOA
 - † Argent desktop extension is Starknet-only
 - § Brave Wallet is built into Brave browser
@@ -102,6 +103,124 @@
 | Frame | ❌ No commits since Feb 2025 | Rabby |
 | Argent-X | ❌ No commits since Mar 2025 | Safe |
 | Coinbase SDK | ⚠️ Slow (Jul 2025) | Trust Wallet |
+
+---
+
+## 🧭 Which Wallet Should I Use?
+
+```
+START HERE
+    │
+    ▼
+┌─────────────────────────────────┐
+│ Building a dApp / Development?  │
+└─────────────────────────────────┘
+    │ YES                    │ NO
+    ▼                        ▼
+  RABBY ────────────► Need multi-sig / enterprise?
+  (tx simulation)           │
+                     YES ◄──┴──► NO
+                      │           │
+                      ▼           ▼
+                    SAFE    Need Account Abstraction?
+                 (multi-sig)      │
+                           YES ◄──┴──► NO
+                            │           │
+                            ▼           ▼
+                      ┌─────────┐   Need 100+ chains?
+                      │ AMBIRE  │       │
+                      │ (7702)  │ YES ◄─┴──► NO
+                      │   or    │  │          │
+                      │  SAFE   │  ▼          ▼
+                      │ (4337)  │ TRUST    Simple & 
+                      └─────────┘ WALLET   reliable?
+                                           │
+                                    YES ◄──┴──► NO
+                                     │          │
+                                     ▼          ▼
+                                  RAINBOW    Privacy
+                                  (simple)   focused?
+                                              │
+                                       YES ◄──┴──► NO
+                                        │          │
+                                        ▼          ▼
+                                      TAHO     ENKRYPT
+                                   (community) (multi-chain)
+```
+
+### Quick Decision Guide
+
+| Your Need | Best Choice | Why |
+|-----------|-------------|-----|
+| **dApp Development** | Rabby | Transaction simulation catches bugs before mainnet |
+| **Enterprise / Treasury** | Safe | Multi-sig, audited, battle-tested |
+| **EIP-7702 / Cutting Edge** | Ambire or MetaMask | First movers on account upgrades |
+| **Simple & Reliable** | Rainbow | Excellent code quality (0.3% issue ratio) |
+| **Maximum Chains** | Trust Wallet | 163 chains supported |
+| **Privacy Focused** | Taho | Community-owned, open source |
+| **Stablecoin Payments** | Daimo | Pure EIP-4337, low fees on Base |
+| **Just Works™** | Enkrypt | Low issue ratio, actively maintained |
+| **Compatibility Testing** | MetaMask | Most widely supported (test last) |
+
+---
+
+## 🔒 Security Audits (from WalletBeat)
+
+| Wallet | Last Audit | Auditor(s) | Unpatched Flaws | Audit Reports |
+|--------|------------|------------|-----------------|---------------|
+| **Rabby** | Dec 2024 | SlowMist, Least Authority | All fixed | [Extension](https://github.com/RabbyHub/Rabby/tree/develop/audits) |
+| **Rabby Mobile** | Oct 2024 | Cure53, Least Authority, SlowMist | ⚠️ 8 medium/high | [Mobile](https://github.com/RabbyHub/rabby-mobile/tree/develop/audits) |
+| **Safe** | May 2025 | Ackee, Certora | None found | [Safe Audits](https://github.com/safe-fndn/safe-smart-account/tree/main/docs) |
+| **MetaMask** | Apr 2025 | Diligence, Cure53, Cyfrin | All fixed | [Delegator](https://assets.ctfassets.net/clixtyxoaeas/21m4LE3WLYbgWjc33aDcp2/8252073e115688b1dc1500a9c2d33fe4/metamask-delegator-framework-audit-2024-10.pdf) |
+| **Ambire** | Feb 2025 | Hunter Security, Pashov | None found | [Audits](https://github.com/AmbireTech/ambire-common/tree/main/audits) |
+| **Daimo** | Oct 2023 | Veridise | All fixed | [Audit](https://github.com/daimo-eth/daimo/tree/master/audits) |
+| **imToken** | May 2018 | Cure53 | All fixed | [Report](https://cure53.de/pentest-report_imtoken.pdf) |
+| **Rainbow** | ? | ? | ? | Not public |
+| **Trust** | ? | ? | ? | Not public |
+| **Coinbase** | ? | ? | ? | Not public |
+| **Phantom** | ? | ? | ? | Proprietary |
+| **Zerion** | ? | ? | ? | Proprietary |
+
+**Audit Quality Notes:**
+- ✅ **Rabby Extension**: 6 audits (2021-2024), all issues fixed
+- ⚠️ **Rabby Mobile**: Recent Cure53 audit found high-severity issues (mnemonic/password recovery via process dump) - NOT YET FIXED
+- ✅ **Safe**: Formally verified by Certora, excellent audit history
+- ✅ **MetaMask**: Delegation framework well-audited
+- ⚠️ **imToken**: Last audit was 2018 - very old
+
+---
+
+## ⚡ Known Quirks & Gotchas
+
+Every wallet has quirks that can cause developer headaches. Know them before you integrate:
+
+| Wallet | Quirk | Impact | Workaround |
+|--------|-------|--------|------------|
+| **MetaMask** | ~8 releases/month, frequent breaking changes | High maintenance burden | Pin versions, test after updates |
+| **MetaMask** | 19.4% issue/star ratio (highest) | Many open bugs | Check GitHub issues before debugging |
+| **Rabby** | ENS only works for importing addresses, not sending | Can't send to .eth directly | Use resolved address |
+| **Rabby** | Mobile app has unpatched security issues | Security risk on mobile | Use browser extension instead |
+| **Safe** | No browser extension, web app only | Extra click for users | Use WalletConnect |
+| **Safe** | Transactions require gas from signers | UX friction | Use paymaster/relayer |
+| **Rainbow** | Limited custom RPC support | Can't use private RPC easily | Use default RPCs |
+| **Coinbase** | SDK development slowed (Jul 2025) | May have stale bugs | Consider alternatives |
+| **Phantom** | No testnet support | Can't test with Phantom | Use different wallet for testing |
+| **Phantom** | Solana-first, EVM secondary | EVM features may lag | Verify EVM support |
+| **Daimo** | Base chain only | Limited chain support | Only for Base L2 apps |
+| **Daimo** | No hardware wallet support | Less secure for large amounts | Use for small payments only |
+| **imToken** | Mobile only, no browser extension | Desktop users need WalletConnect | Provide mobile-first UX |
+| **Ambire** | Browser extension only (no mobile yet) | Mobile users excluded | Wait for mobile release |
+| **Trust Wallet** | Core is Apache-2.0 but app is partial | Can't fully audit app | Trust Binance's implementation |
+| **Brave** | Built into Brave browser only | Non-Brave users excluded | Detect and suggest alternatives |
+| **Enkrypt** | Browser extension only | No mobile support | Suggest mobile alternatives |
+
+### Common Integration Pitfalls
+
+1. **Don't assume MetaMask behavior is standard** — Other wallets may handle edge cases differently
+2. **Test transaction simulation** — Only Rabby and Frame have this; don't rely on it everywhere
+3. **EIP-6963 adoption is incomplete** — Always fall back to `window.ethereum`
+4. **Mobile ≠ Desktop** — Same wallet can behave differently across platforms
+5. **Hardware wallet connection varies** — WebUSB vs Bluetooth vs QR vs WalletConnect
 
 ---
 
@@ -297,6 +416,7 @@ Each wallet has quirks. Test your dApp with at least 3 wallets before production
 - Security features (audits, scam alerts, hardware wallet support)
 - Connection methods (EIP-1193, EIP-6963, WalletConnect)
 - Account types (EOA, EIP-4337, Safe)
+- Security audit history and links to reports
 
 **GitHub Repositories (with activity status):**
 
@@ -338,4 +458,4 @@ Several previously recommended wallets have **stopped active development**. See 
 
 ---
 
-*Last updated: December 1, 2025. Added license, device, and testnet data from [WalletBeat](https://walletbeat.fyi). Activity status, chain counts verified via GitHub API. Verify current capabilities before implementation.*
+*Last updated: December 1, 2025. Added decision flowchart, security audits, and known quirks sections. Added Audits column to main table. Data from [WalletBeat](https://walletbeat.fyi) and GitHub. Verify current capabilities before implementation.*
