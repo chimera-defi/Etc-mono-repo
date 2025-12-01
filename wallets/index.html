@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVM Wallet Comparison for Developers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-green: #3fb950;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --accent-blue: #58a6ff;
+            --accent-purple: #a371f7;
+            --border-color: #30363d;
+            --header-bg: linear-gradient(135deg, #1a1f2e 0%, #0d1117 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            background: var(--header-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+
+        header .container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .tldr {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--accent-blue);
+            padding: 1rem 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1rem 0;
+        }
+
+        .tldr strong {
+            color: var(--accent-blue);
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            min-width: 150px;
+        }
+
+        .filter-group select:focus,
+        .filter-group input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .search-box input {
+            width: 100%;
+        }
+
+        /* Stats */
+        .stats {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            background: var(--bg-secondary);
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .stat-value {
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        /* Table */
+        .table-container {
+            overflow-x: auto;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: var(--bg-tertiary);
+            padding: 1rem 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-bottom: 2px solid var(--border-color);
+            white-space: nowrap;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s;
+        }
+
+        th:hover {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        th.sorted-asc::after {
+            content: ' ↑';
+            color: var(--accent-blue);
+        }
+
+        th.sorted-desc::after {
+            content: ' ↓';
+            color: var(--accent-blue);
+        }
+
+        td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        tr:hover {
+            background: rgba(56, 139, 253, 0.05);
+        }
+
+        tr.inactive {
+            opacity: 0.6;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .badge-green { background: rgba(63, 185, 80, 0.2); color: var(--accent-green); }
+        .badge-yellow { background: rgba(210, 153, 34, 0.2); color: var(--accent-yellow); }
+        .badge-red { background: rgba(248, 81, 73, 0.2); color: var(--accent-red); }
+        .badge-blue { background: rgba(88, 166, 255, 0.2); color: var(--accent-blue); }
+        .badge-gray { background: rgba(110, 118, 129, 0.2); color: var(--text-secondary); }
+
+        .wallet-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .wallet-name a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        .wallet-name a:hover {
+            text-decoration: underline;
+        }
+
+        .devices {
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .rec-green { color: var(--accent-green); }
+        .rec-yellow { color: var(--accent-yellow); }
+        .rec-red { color: var(--accent-red); }
+        .rec-gray { color: var(--text-muted); }
+
+        /* Legend */
+        .legend {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .legend h3 {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 3rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        footer a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+            
+            .filter-group select,
+            .filter-group input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🔐 EVM Wallet Comparison</h1>
+            <p class="subtitle">Developer-focused comparison of 19 EVM wallets</p>
+            <div class="tldr">
+                <strong>TL;DR:</strong> Use <strong>Rabby</strong> for development (tx simulation), 
+                <strong>Safe</strong> or <strong>Trust Wallet</strong> for production, 
+                and <strong>MetaMask</strong> only for compatibility testing.
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="filters">
+            <div class="filter-group search-box">
+                <label for="search">Search</label>
+                <input type="text" id="search" placeholder="Search wallets...">
+            </div>
+            <div class="filter-group">
+                <label for="filter-status">Status</label>
+                <select id="filter-status">
+                    <option value="">All</option>
+                    <option value="active">✅ Active</option>
+                    <option value="slow">⚠️ Slow</option>
+                    <option value="inactive">❌ Inactive</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filter-license">License</label>
+                <select id="filter-license">
+                    <option value="">All</option>
+                    <option value="foss">✅ FOSS</option>
+                    <option value="partial">⚠️ Partial</option>
+                    <option value="proprietary">❌ Proprietary</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filter-txsim">Tx Simulation</label>
+                <select id="filter-txsim">
+                    <option value="">All</option>
+                    <option value="yes">✅ Built-in</option>
+                    <option value="partial">⚠️ Plugin</option>
+                    <option value="no">❌ None</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filter-funding">Funding</label>
+                <select id="filter-funding">
+                    <option value="">All</option>
+                    <option value="sustainable">🟢 Sustainable</option>
+                    <option value="vc">🟡 VC</option>
+                    <option value="risky">🔴 Risky</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filter-rec">Recommendation</label>
+                <select id="filter-rec">
+                    <option value="">All</option>
+                    <option value="recommended">🟢 Recommended</option>
+                    <option value="situational">🟡 Situational</option>
+                    <option value="avoid">🔴 Avoid</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat">Showing: <span class="stat-value" id="stat-showing">0</span> wallets</div>
+            <div class="stat">Active: <span class="stat-value" id="stat-active">0</span></div>
+            <div class="stat">FOSS: <span class="stat-value" id="stat-foss">0</span></div>
+            <div class="stat">With Tx Sim: <span class="stat-value" id="stat-txsim">0</span></div>
+        </div>
+
+        <div class="table-container">
+            <table id="wallet-table">
+                <thead>
+                    <tr>
+                        <th data-sort="name">Wallet</th>
+                        <th data-sort="active">Active</th>
+                        <th data-sort="chains">Chains</th>
+                        <th data-sort="devices">Devices</th>
+                        <th data-sort="license">License</th>
+                        <th data-sort="audits">Audits</th>
+                        <th data-sort="funding">Funding</th>
+                        <th data-sort="txsim">Tx Sim</th>
+                        <th data-sort="scam">Scam</th>
+                        <th data-sort="account">Account</th>
+                        <th data-sort="hw">HW Wallets</th>
+                        <th data-sort="eip4337">4337</th>
+                        <th data-sort="bestfor">Best For</th>
+                        <th data-sort="rec">Rec</th>
+                    </tr>
+                </thead>
+                <tbody id="wallet-body">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="legend">
+            <h3>Legend</h3>
+            <div class="legend-grid">
+                <div class="legend-item"><span class="badge badge-green">🟢</span> Recommended</div>
+                <div class="legend-item"><span class="badge badge-yellow">🟡</span> Situational</div>
+                <div class="legend-item"><span class="badge badge-red">🔴</span> Avoid</div>
+                <div class="legend-item"><span class="badge badge-gray">⚪</span> Not for dev</div>
+                <div class="legend-item">📱 Mobile</div>
+                <div class="legend-item">🌐 Browser Extension</div>
+                <div class="legend-item">💻 Desktop</div>
+                <div class="legend-item">🔗 Web App</div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Data from <a href="https://github.com/walletbeat/walletbeat" target="_blank">WalletBeat</a> and GitHub API • 
+            <a href="./WALLET_COMPARISON_UNIFIED.md">View Markdown Version</a> • 
+            Last updated: December 2025</p>
+        </div>
+    </footer>
+
+    <script>
+        // Wallet data embedded as JSON
+        const wallets = [
+            { name: "MetaMask", github: "MetaMask/metamask-extension", active: "active", chains: "Any", devices: "📱🌐", testnets: true, license: "partial", audits: "✅ 2025", funding: "sustainable", fundingNote: "Consensys", txsim: "partial", scam: "partial", account: "EOA+7702", hw: "✅ Ledger/Trezor/Keystone/GridPlus", eip4337: "partial", bestFor: "Compatibility", rec: "avoid" },
+            { name: "Rabby", github: "RabbyHub/Rabby", active: "active", chains: "94", devices: "📱🌐💻", testnets: true, license: "foss", audits: "⚠️ Mobile", funding: "sustainable", fundingNote: "DeBank", txsim: "yes", scam: "yes", account: "EOA+Safe", hw: "✅ Ledger/Trezor/Keystone/GridPlus", eip4337: "no", bestFor: "Development", rec: "recommended" },
+            { name: "Coinbase", github: "coinbase/coinbase-wallet-sdk", active: "slow", chains: "20+", devices: "📱🌐", testnets: true, license: "partial", audits: "❓ Private", funding: "sustainable", fundingNote: "Coinbase", txsim: "yes", scam: "yes", account: "EOA+4337", hw: "✅ Ledger/Trezor", eip4337: "yes", bestFor: "Production", rec: "situational" },
+            { name: "Trust", github: "trustwallet/wallet-core", active: "active", chains: "163", devices: "📱🌐", testnets: true, license: "partial", audits: "✅ 2023", funding: "sustainable", fundingNote: "Binance", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "no", bestFor: "Multi-chain", rec: "recommended" },
+            { name: "Rainbow", github: "rainbow-me/rainbow", active: "active", chains: "15+", devices: "📱🌐", testnets: true, license: "foss", audits: "❓ None", funding: "vc", fundingNote: "VC", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Ledger/Trezor", eip4337: "no", bestFor: "NFT/Ethereum", rec: "recommended" },
+            { name: "Safe", github: "safe-global/safe-wallet-monorepo", active: "active", chains: "30+", devices: "📱🌐", testnets: true, license: "foss", audits: "✅ Certora", funding: "sustainable", fundingNote: "Grants", txsim: "yes", scam: "yes", account: "Safe+4337", hw: "✅ Ledger/Trezor/Keystone", eip4337: "yes", bestFor: "Enterprise", rec: "recommended" },
+            { name: "Ambire", github: "AmbireTech/extension", active: "slow", chains: "EVM", devices: "🌐", testnets: true, license: "foss", audits: "✅ 2025", funding: "vc", fundingNote: "VC", txsim: "yes", scam: "yes", account: "7702+4337", hw: "✅ Ledger/Trezor/GridPlus", eip4337: "yes", bestFor: "Smart wallet", rec: "situational" },
+            { name: "MEW", github: "MyEtherWallet/MyEtherWallet", active: "active", chains: "ETH", devices: "📱🔗", testnets: true, license: "foss", audits: "❓ None", funding: "sustainable", fundingNote: "Self", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "no", bestFor: "Ethereum", rec: "recommended" },
+            { name: "Taho", github: "tahowallet/extension", active: "slow", chains: "EVM", devices: "🌐", testnets: true, license: "foss", audits: "❓ None", funding: "risky", fundingNote: "Grants", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "no", bestFor: "Community", rec: "situational" },
+            { name: "Frame", github: "floating/frame", active: "inactive", chains: "Any", devices: "💻", testnets: true, license: "foss", audits: "❓ None", funding: "risky", fundingNote: "Donate", txsim: "yes", scam: "partial", account: "EOA", hw: "✅ Ledger/Trezor/Keystone/GridPlus", eip4337: "no", bestFor: "Desktop", rec: "avoid" },
+            { name: "Brave", github: "brave/brave-browser", active: "active", chains: "10+", devices: "📱🌐", testnets: true, license: "foss", audits: "🐛 H1", funding: "sustainable", fundingNote: "Brave", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "no", bestFor: "Brave users", rec: "recommended" },
+            { name: "Enkrypt", github: "enkryptcom/enKrypt", active: "active", chains: "75+", devices: "🌐", testnets: true, license: "foss", audits: "❓ None", funding: "sustainable", fundingNote: "MEW", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "no", bestFor: "Multi-chain", rec: "recommended" },
+            { name: "imToken", github: "consenlabs/token-core-monorepo", active: "active", chains: "50+", devices: "📱", testnets: true, license: "partial", audits: "⚠️ 2018", funding: "vc", fundingNote: "VC", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Keystone/imKey", eip4337: "no", bestFor: "Multi-chain", rec: "recommended" },
+            { name: "Daimo", github: "daimo-eth/daimo", active: "active", chains: "Base", devices: "📱", testnets: false, license: "foss", audits: "✅ 2023", funding: "vc", fundingNote: "VC", txsim: "no", scam: "partial", account: "4337 only", hw: "❌", eip4337: "yes", bestFor: "Payments", rec: "recommended" },
+            { name: "Phantom", github: null, active: "private", chains: "5", devices: "📱🌐", testnets: false, license: "proprietary", audits: "❓ Private", funding: "sustainable", fundingNote: "VC $109M", txsim: "yes", scam: "yes", account: "EOA", hw: "✅ Ledger only", eip4337: "no", bestFor: "Solana-first", rec: "situational" },
+            { name: "Zerion", github: null, active: "private", chains: "20+", devices: "📱🌐", testnets: true, license: "proprietary", audits: "❓ Private", funding: "vc", fundingNote: "VC", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Ledger+WC", eip4337: "no", bestFor: "Portfolio", rec: "not-for-dev" },
+            { name: "OKX", github: null, active: "private", chains: "100+", devices: "📱🌐", testnets: true, license: "proprietary", audits: "❓ Private", funding: "sustainable", fundingNote: "OKX", txsim: "partial", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "partial", bestFor: "EIP-7702", rec: "situational" },
+            { name: "Argent", github: "argentlabs/argent-x", active: "inactive", chains: "2", devices: "📱🌐", testnets: true, license: "foss", audits: "❓ None", funding: "risky", fundingNote: "VC", txsim: "no", scam: "partial", account: "4337", hw: "✅ Multiple", eip4337: "yes", bestFor: "Starknet", rec: "avoid" },
+            { name: "Block", github: "block-wallet/extension", active: "inactive", chains: "~20", devices: "📱🌐", testnets: true, license: "foss", audits: "❓ None", funding: "risky", fundingNote: "Unknown", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "no", bestFor: "Stability", rec: "avoid" },
+            { name: "Wigwam", github: "wigwamapp/wigwam", active: "slow", chains: "Any", devices: "📱🌐", testnets: true, license: "foss", audits: "❓ None", funding: "risky", fundingNote: "Unknown", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "no", bestFor: "Stability", rec: "situational" },
+            { name: "1inch", github: null, active: "private", chains: "12", devices: "📱", testnets: true, license: "proprietary", audits: "❓ Private", funding: "sustainable", fundingNote: "Token", txsim: "no", scam: "partial", account: "EOA", hw: "❌", eip4337: "no", bestFor: "DeFi", rec: "not-for-dev" }
+        ];
+
+        // Render functions
+        function getStatusBadge(status) {
+            const map = {
+                'active': '<span class="badge badge-green">✅ Active</span>',
+                'slow': '<span class="badge badge-yellow">⚠️ Slow</span>',
+                'inactive': '<span class="badge badge-red">❌ Inactive</span>',
+                'private': '<span class="badge badge-gray">🔒 Private</span>'
+            };
+            return map[status] || status;
+        }
+
+        function getLicenseBadge(license) {
+            const map = {
+                'foss': '<span class="badge badge-green">✅ FOSS</span>',
+                'partial': '<span class="badge badge-yellow">⚠️ Partial</span>',
+                'proprietary': '<span class="badge badge-red">❌ Proprietary</span>'
+            };
+            return map[license] || license;
+        }
+
+        function getFundingBadge(funding, note) {
+            const map = {
+                'sustainable': `<span class="badge badge-green">🟢 ${note}</span>`,
+                'vc': `<span class="badge badge-yellow">🟡 ${note}</span>`,
+                'risky': `<span class="badge badge-red">🔴 ${note}</span>`
+            };
+            return map[funding] || note;
+        }
+
+        function getYesNoBadge(value) {
+            const map = {
+                'yes': '<span class="badge badge-green">✅</span>',
+                'partial': '<span class="badge badge-yellow">⚠️</span>',
+                'no': '<span class="badge badge-gray">❌</span>'
+            };
+            return map[value] || value;
+        }
+
+        function getRecBadge(rec) {
+            const map = {
+                'recommended': '<span class="rec-green">🟢</span>',
+                'situational': '<span class="rec-yellow">🟡</span>',
+                'avoid': '<span class="rec-red">🔴</span>',
+                'not-for-dev': '<span class="rec-gray">⚪</span>'
+            };
+            return map[rec] || rec;
+        }
+
+        function renderTable(filteredWallets) {
+            const tbody = document.getElementById('wallet-body');
+            tbody.innerHTML = filteredWallets.map(w => `
+                <tr class="${w.active === 'inactive' ? 'inactive' : ''}">
+                    <td class="wallet-name">
+                        ${w.github ? `<a href="https://github.com/${w.github}" target="_blank">${w.name}</a>` : w.name}
+                    </td>
+                    <td>${getStatusBadge(w.active)}</td>
+                    <td>${w.chains}</td>
+                    <td class="devices">${w.devices}</td>
+                    <td>${getLicenseBadge(w.license)}</td>
+                    <td>${w.audits}</td>
+                    <td>${getFundingBadge(w.funding, w.fundingNote)}</td>
+                    <td>${getYesNoBadge(w.txsim)}</td>
+                    <td>${getYesNoBadge(w.scam)}</td>
+                    <td><span class="badge badge-blue">${w.account}</span></td>
+                    <td>${w.hw}</td>
+                    <td>${getYesNoBadge(w.eip4337)}</td>
+                    <td>${w.bestFor}</td>
+                    <td>${getRecBadge(w.rec)}</td>
+                </tr>
+            `).join('');
+
+            // Update stats
+            document.getElementById('stat-showing').textContent = filteredWallets.length;
+            document.getElementById('stat-active').textContent = filteredWallets.filter(w => w.active === 'active').length;
+            document.getElementById('stat-foss').textContent = filteredWallets.filter(w => w.license === 'foss').length;
+            document.getElementById('stat-txsim').textContent = filteredWallets.filter(w => w.txsim === 'yes').length;
+        }
+
+        function filterWallets() {
+            const search = document.getElementById('search').value.toLowerCase();
+            const status = document.getElementById('filter-status').value;
+            const license = document.getElementById('filter-license').value;
+            const txsim = document.getElementById('filter-txsim').value;
+            const funding = document.getElementById('filter-funding').value;
+            const rec = document.getElementById('filter-rec').value;
+
+            let filtered = wallets.filter(w => {
+                if (search && !w.name.toLowerCase().includes(search) && !w.bestFor.toLowerCase().includes(search)) return false;
+                if (status && w.active !== status) return false;
+                if (license && w.license !== license) return false;
+                if (txsim && w.txsim !== txsim) return false;
+                if (funding && w.funding !== funding) return false;
+                if (rec && w.rec !== rec) return false;
+                return true;
+            });
+
+            renderTable(filtered);
+        }
+
+        // Sorting
+        let currentSort = { field: null, desc: false };
+
+        function sortWallets(field) {
+            if (currentSort.field === field) {
+                currentSort.desc = !currentSort.desc;
+            } else {
+                currentSort.field = field;
+                currentSort.desc = false;
+            }
+
+            // Update header classes
+            document.querySelectorAll('th').forEach(th => {
+                th.classList.remove('sorted-asc', 'sorted-desc');
+            });
+            const th = document.querySelector(`th[data-sort="${field}"]`);
+            th.classList.add(currentSort.desc ? 'sorted-desc' : 'sorted-asc');
+
+            filterWallets();
+        }
+
+        // Event listeners
+        document.getElementById('search').addEventListener('input', filterWallets);
+        document.getElementById('filter-status').addEventListener('change', filterWallets);
+        document.getElementById('filter-license').addEventListener('change', filterWallets);
+        document.getElementById('filter-txsim').addEventListener('change', filterWallets);
+        document.getElementById('filter-funding').addEventListener('change', filterWallets);
+        document.getElementById('filter-rec').addEventListener('change', filterWallets);
+
+        document.querySelectorAll('th[data-sort]').forEach(th => {
+            th.addEventListener('click', () => sortWallets(th.dataset.sort));
+        });
+
+        // Initial render
+        renderTable(wallets);
+    </script>
+</body>
+</html>

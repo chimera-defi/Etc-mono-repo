@@ -1,0 +1,100 @@
+# Wallet Data Refresh Workflow
+#
+# This workflow automatically refreshes wallet activity data from GitHub
+# and creates a PR with the updated information.
+#
+# Schedule: Every Monday at 9:00 AM UTC
+# Manual: Can also be triggered manually via workflow_dispatch
+
+name: Refresh Wallet Data
+
+on:
+  schedule:
+    # Run every Monday at 9:00 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (do not create PR)'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+      
+      - name: Run refresh script
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd wallets/scripts
+          ./refresh-github-data.sh --markdown > ../ACTIVITY_STATUS.md
+          echo "Generated activity status report"
+      
+      - name: Generate JSON data
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd wallets/scripts
+          ./refresh-github-data.sh --json > ../data/activity.json
+          echo "Generated JSON data file"
+      
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --quiet wallets/; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "No changes detected"
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "Changes detected"
+          fi
+      
+      - name: Create Pull Request
+        if: steps.check_changes.outputs.changes == 'true' && github.event.inputs.dry_run != 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: refresh wallet activity data"
+          title: "[Auto] Refresh Wallet Activity Data"
+          body: |
+            ## Automated Wallet Data Refresh
+            
+            This PR updates the wallet activity status based on the latest GitHub data.
+            
+            ### Changes
+            - Updated `ACTIVITY_STATUS.md` with current commit dates
+            - Updated `data/activity.json` with machine-readable data
+            
+            ### Review Checklist
+            - [ ] Verify activity statuses are accurate
+            - [ ] Check for any newly inactive wallets
+            - [ ] Update main comparison table if needed
+            
+            ---
+            *Generated automatically by GitHub Actions*
+          branch: auto/refresh-wallet-data
+          delete-branch: true
+          labels: |
+            automated
+            data-refresh
+      
+      - name: Summary
+        run: |
+          echo "## Wallet Activity Refresh Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          cat wallets/ACTIVITY_STATUS.md >> $GITHUB_STEP_SUMMARY
