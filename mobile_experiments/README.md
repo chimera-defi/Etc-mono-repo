@@ -58,11 +58,11 @@ The **58x difference in StackOverflow questions** is critical for AI code genera
 
 ### Code Verbosity (Identical Features)
 
-| Framework | Lines of Code | Notes |
-|-----------|---------------|-------|
-| **Capacitor** | 109 | Uses CSS for styling |
-| **Flutter** | 300 | Widget tree verbose |
-| **React Native** | 350 | StyleSheet objects |
+| Framework | Code | Styles | **Total** | Notes |
+|-----------|------|--------|-----------|-------|
+| **React Native** | 163 | — | **163** | Most concise after refactor |
+| **Flutter** | 300 | — | **300** | Widget tree inline styles |
+| **Capacitor** | 109 | 250 | **359** | Separate CSS file |
 
 ## Quick Decision Guide
 
