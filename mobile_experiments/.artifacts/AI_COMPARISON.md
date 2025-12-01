@@ -183,7 +183,7 @@ Based on verified ecosystem data, we should acknowledge:
 **Arguments FOR Capacitor:**
 1. **HTML elements** → truly universal across web + native
 2. **Simpler debugging** → browser DevTools work perfectly
-3. **Familiar patterns** → standard React + CSS (109 TSX + 250 CSS = 359 total)
+3. **Familiar patterns** → standard React + CSS (56 TSX + 69 CSS = 125 total)
 4. **Web deployment** → same code runs in browser without changes
 
 ### Revised Recommendation
