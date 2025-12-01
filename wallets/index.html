@@ -393,6 +393,7 @@
                 <thead>
                     <tr>
                         <th data-sort="name">Wallet</th>
+                        <th data-sort="score">Score</th>
                         <th data-sort="active">Active</th>
                         <th data-sort="chains">Chains</th>
                         <th data-sort="devices">Devices</th>
@@ -437,29 +438,29 @@
     </footer>
 
     <script>
-        // Wallet data embedded as JSON
+        // Wallet data embedded as JSON (sorted by score descending)
         const wallets = [
-            { name: "MetaMask", github: "MetaMask/metamask-extension", active: "active", chains: "Any", devices: "📱🌐", testnets: true, license: "partial", audits: "✅ 2025", funding: "sustainable", fundingNote: "Consensys", txsim: "partial", scam: "partial", account: "EOA+7702", hw: "✅ Ledger/Trezor/Keystone/GridPlus", eip4337: "partial", bestFor: "Compatibility", rec: "avoid" },
-            { name: "Rabby", github: "RabbyHub/Rabby", active: "active", chains: "94", devices: "📱🌐💻", testnets: true, license: "foss", audits: "⚠️ Mobile", funding: "sustainable", fundingNote: "DeBank", txsim: "yes", scam: "yes", account: "EOA+Safe", hw: "✅ Ledger/Trezor/Keystone/GridPlus", eip4337: "no", bestFor: "Development", rec: "recommended" },
-            { name: "Coinbase", github: "coinbase/coinbase-wallet-sdk", active: "slow", chains: "20+", devices: "📱🌐", testnets: true, license: "partial", audits: "❓ Private", funding: "sustainable", fundingNote: "Coinbase", txsim: "yes", scam: "yes", account: "EOA+4337", hw: "✅ Ledger/Trezor", eip4337: "yes", bestFor: "Production", rec: "situational" },
-            { name: "Trust", github: "trustwallet/wallet-core", active: "active", chains: "163", devices: "📱🌐", testnets: true, license: "partial", audits: "✅ 2023", funding: "sustainable", fundingNote: "Binance", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "no", bestFor: "Multi-chain", rec: "recommended" },
-            { name: "Rainbow", github: "rainbow-me/rainbow", active: "active", chains: "15+", devices: "📱🌐", testnets: true, license: "foss", audits: "❓ None", funding: "vc", fundingNote: "VC", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Ledger/Trezor", eip4337: "no", bestFor: "NFT/Ethereum", rec: "recommended" },
-            { name: "Safe", github: "safe-global/safe-wallet-monorepo", active: "active", chains: "30+", devices: "📱🌐", testnets: true, license: "foss", audits: "✅ Certora", funding: "sustainable", fundingNote: "Grants", txsim: "yes", scam: "yes", account: "Safe+4337", hw: "✅ Ledger/Trezor/Keystone", eip4337: "yes", bestFor: "Enterprise", rec: "recommended" },
-            { name: "Ambire", github: "AmbireTech/extension", active: "slow", chains: "EVM", devices: "🌐", testnets: true, license: "foss", audits: "✅ 2025", funding: "vc", fundingNote: "VC", txsim: "yes", scam: "yes", account: "7702+4337", hw: "✅ Ledger/Trezor/GridPlus", eip4337: "yes", bestFor: "Smart wallet", rec: "situational" },
-            { name: "MEW", github: "MyEtherWallet/MyEtherWallet", active: "active", chains: "ETH", devices: "📱🔗", testnets: true, license: "foss", audits: "❓ None", funding: "sustainable", fundingNote: "Self", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "no", bestFor: "Ethereum", rec: "recommended" },
-            { name: "Taho", github: "tahowallet/extension", active: "slow", chains: "EVM", devices: "🌐", testnets: true, license: "foss", audits: "❓ None", funding: "risky", fundingNote: "Grants", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "no", bestFor: "Community", rec: "situational" },
-            { name: "Frame", github: "floating/frame", active: "inactive", chains: "Any", devices: "💻", testnets: true, license: "foss", audits: "❓ None", funding: "risky", fundingNote: "Donate", txsim: "yes", scam: "partial", account: "EOA", hw: "✅ Ledger/Trezor/Keystone/GridPlus", eip4337: "no", bestFor: "Desktop", rec: "avoid" },
-            { name: "Brave", github: "brave/brave-browser", active: "active", chains: "10+", devices: "📱🌐", testnets: true, license: "foss", audits: "🐛 H1", funding: "sustainable", fundingNote: "Brave", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "no", bestFor: "Brave users", rec: "recommended" },
-            { name: "Enkrypt", github: "enkryptcom/enKrypt", active: "active", chains: "75+", devices: "🌐", testnets: true, license: "foss", audits: "❓ None", funding: "sustainable", fundingNote: "MEW", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "no", bestFor: "Multi-chain", rec: "recommended" },
-            { name: "imToken", github: "consenlabs/token-core-monorepo", active: "active", chains: "50+", devices: "📱", testnets: true, license: "partial", audits: "⚠️ 2018", funding: "vc", fundingNote: "VC", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Keystone/imKey", eip4337: "no", bestFor: "Multi-chain", rec: "recommended" },
-            { name: "Daimo", github: "daimo-eth/daimo", active: "active", chains: "Base", devices: "📱", testnets: false, license: "foss", audits: "✅ 2023", funding: "vc", fundingNote: "VC", txsim: "no", scam: "partial", account: "4337 only", hw: "❌", eip4337: "yes", bestFor: "Payments", rec: "recommended" },
-            { name: "Phantom", github: null, active: "private", chains: "5", devices: "📱🌐", testnets: false, license: "proprietary", audits: "❓ Private", funding: "sustainable", fundingNote: "VC $109M", txsim: "yes", scam: "yes", account: "EOA", hw: "✅ Ledger only", eip4337: "no", bestFor: "Solana-first", rec: "situational" },
-            { name: "Zerion", github: null, active: "private", chains: "20+", devices: "📱🌐", testnets: true, license: "proprietary", audits: "❓ Private", funding: "vc", fundingNote: "VC", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Ledger+WC", eip4337: "no", bestFor: "Portfolio", rec: "not-for-dev" },
-            { name: "OKX", github: null, active: "private", chains: "100+", devices: "📱🌐", testnets: true, license: "proprietary", audits: "❓ Private", funding: "sustainable", fundingNote: "OKX", txsim: "partial", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "partial", bestFor: "EIP-7702", rec: "situational" },
-            { name: "Argent", github: "argentlabs/argent-x", active: "inactive", chains: "2", devices: "📱🌐", testnets: true, license: "foss", audits: "❓ None", funding: "risky", fundingNote: "VC", txsim: "no", scam: "partial", account: "4337", hw: "✅ Multiple", eip4337: "yes", bestFor: "Starknet", rec: "avoid" },
-            { name: "Block", github: "block-wallet/extension", active: "inactive", chains: "~20", devices: "📱🌐", testnets: true, license: "foss", audits: "❓ None", funding: "risky", fundingNote: "Unknown", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "no", bestFor: "Stability", rec: "avoid" },
-            { name: "Wigwam", github: "wigwamapp/wigwam", active: "slow", chains: "Any", devices: "📱🌐", testnets: true, license: "foss", audits: "❓ None", funding: "risky", fundingNote: "Unknown", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "no", bestFor: "Stability", rec: "situational" },
-            { name: "1inch", github: null, active: "private", chains: "12", devices: "📱", testnets: true, license: "proprietary", audits: "❓ Private", funding: "sustainable", fundingNote: "Token", txsim: "no", scam: "partial", account: "EOA", hw: "❌", eip4337: "no", bestFor: "DeFi", rec: "not-for-dev" }
+            { name: "Safe", score: 100, github: "safe-global/safe-wallet-monorepo", active: "active", chains: "30+", devices: "📱🌐", testnets: true, license: "foss", audits: "✅ Certora", funding: "sustainable", fundingNote: "Grants", txsim: "yes", scam: "yes", account: "Safe+4337", hw: "✅ Ledger/Trezor/Keystone", eip4337: "yes", bestFor: "Enterprise", rec: "recommended" },
+            { name: "Rabby", score: 88, github: "RabbyHub/Rabby", active: "active", chains: "94", devices: "📱🌐💻", testnets: true, license: "foss", audits: "⚠️ Mobile", funding: "sustainable", fundingNote: "DeBank", txsim: "yes", scam: "yes", account: "EOA+Safe", hw: "✅ Ledger/Trezor/Keystone/GridPlus", eip4337: "no", bestFor: "Development", rec: "recommended" },
+            { name: "Ambire", score: 85, github: "AmbireTech/extension", active: "slow", chains: "EVM", devices: "🌐", testnets: true, license: "foss", audits: "✅ 2025", funding: "vc", fundingNote: "VC", txsim: "yes", scam: "yes", account: "7702+4337", hw: "✅ Ledger/Trezor/GridPlus", eip4337: "yes", bestFor: "Smart wallet", rec: "recommended" },
+            { name: "MetaMask", score: 81, github: "MetaMask/metamask-extension", active: "active", chains: "Any", devices: "📱🌐", testnets: true, license: "partial", audits: "✅ 2025", funding: "sustainable", fundingNote: "Consensys", txsim: "partial", scam: "partial", account: "EOA+7702", hw: "✅ Ledger/Trezor/Keystone/GridPlus", eip4337: "partial", bestFor: "Compatibility", rec: "situational" },
+            { name: "Brave", score: 75, github: "brave/brave-browser", active: "active", chains: "10+", devices: "📱🌐", testnets: true, license: "foss", audits: "🐛 H1", funding: "sustainable", fundingNote: "Brave", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "no", bestFor: "Brave users", rec: "recommended" },
+            { name: "Trust", score: 73, github: "trustwallet/wallet-core", active: "active", chains: "163", devices: "📱🌐", testnets: true, license: "partial", audits: "✅ 2023", funding: "sustainable", fundingNote: "Binance", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "no", bestFor: "Multi-chain", rec: "recommended" },
+            { name: "Coinbase", score: 73, github: "coinbase/coinbase-wallet-sdk", active: "slow", chains: "20+", devices: "📱🌐", testnets: true, license: "partial", audits: "❓ Private", funding: "sustainable", fundingNote: "Coinbase", txsim: "yes", scam: "yes", account: "EOA+4337", hw: "✅ Ledger/Trezor", eip4337: "yes", bestFor: "Production", rec: "situational" },
+            { name: "Daimo", score: 70, github: "daimo-eth/daimo", active: "active", chains: "Base", devices: "📱", testnets: false, license: "foss", audits: "✅ 2023", funding: "vc", fundingNote: "VC", txsim: "no", scam: "partial", account: "4337 only", hw: "❌", eip4337: "yes", bestFor: "Payments", rec: "recommended" },
+            { name: "MEW", score: 65, github: "MyEtherWallet/MyEtherWallet", active: "active", chains: "ETH", devices: "📱🔗", testnets: true, license: "foss", audits: "❓ None", funding: "sustainable", fundingNote: "Self", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "no", bestFor: "Ethereum", rec: "recommended" },
+            { name: "Enkrypt", score: 65, github: "enkryptcom/enKrypt", active: "active", chains: "75+", devices: "🌐", testnets: true, license: "foss", audits: "❓ None", funding: "sustainable", fundingNote: "MEW", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "no", bestFor: "Multi-chain", rec: "recommended" },
+            { name: "imToken", score: 61, github: "consenlabs/token-core-monorepo", active: "active", chains: "50+", devices: "📱", testnets: true, license: "partial", audits: "⚠️ 2018", funding: "vc", fundingNote: "VC", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Keystone/imKey", eip4337: "no", bestFor: "Multi-chain", rec: "situational" },
+            { name: "Rainbow", score: 60, github: "rainbow-me/rainbow", active: "active", chains: "15+", devices: "📱🌐", testnets: true, license: "foss", audits: "❓ None", funding: "vc", fundingNote: "VC", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Ledger/Trezor", eip4337: "no", bestFor: "NFT/Ethereum", rec: "situational" },
+            { name: "Phantom", score: 50, github: null, active: "private", chains: "5", devices: "📱🌐", testnets: false, license: "proprietary", audits: "❓ Private", funding: "sustainable", fundingNote: "VC $109M", txsim: "yes", scam: "yes", account: "EOA", hw: "✅ Ledger only", eip4337: "no", bestFor: "Solana-first", rec: "situational" },
+            { name: "OKX", score: 48, github: null, active: "private", chains: "100+", devices: "📱🌐", testnets: true, license: "proprietary", audits: "❓ Private", funding: "sustainable", fundingNote: "OKX", txsim: "partial", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "partial", bestFor: "EIP-7702", rec: "situational" },
+            { name: "Taho", score: 40, github: "tahowallet/extension", active: "slow", chains: "EVM", devices: "🌐", testnets: true, license: "foss", audits: "❓ None", funding: "risky", fundingNote: "Grants", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "no", bestFor: "Community", rec: "situational" },
+            { name: "Frame", score: 40, github: "floating/frame", active: "inactive", chains: "Any", devices: "💻", testnets: true, license: "foss", audits: "❓ None", funding: "risky", fundingNote: "Donate", txsim: "yes", scam: "partial", account: "EOA", hw: "✅ Ledger/Trezor/Keystone/GridPlus", eip4337: "no", bestFor: "Desktop", rec: "avoid" },
+            { name: "Wigwam", score: 40, github: "wigwamapp/wigwam", active: "slow", chains: "Any", devices: "📱🌐", testnets: true, license: "foss", audits: "❓ None", funding: "risky", fundingNote: "Unknown", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "no", bestFor: "Stability", rec: "situational" },
+            { name: "Zerion", score: 35, github: null, active: "private", chains: "20+", devices: "📱🌐", testnets: true, license: "proprietary", audits: "❓ Private", funding: "vc", fundingNote: "VC", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Ledger+WC", eip4337: "no", bestFor: "Portfolio", rec: "not-for-dev" },
+            { name: "1inch", score: 35, github: null, active: "private", chains: "12", devices: "📱", testnets: true, license: "proprietary", audits: "❓ Private", funding: "sustainable", fundingNote: "Token", txsim: "no", scam: "partial", account: "EOA", hw: "❌", eip4337: "no", bestFor: "DeFi", rec: "not-for-dev" },
+            { name: "Argent", score: 35, github: "argentlabs/argent-x", active: "inactive", chains: "2", devices: "📱🌐", testnets: true, license: "foss", audits: "❓ None", funding: "risky", fundingNote: "VC", txsim: "no", scam: "partial", account: "4337", hw: "✅ Multiple", eip4337: "yes", bestFor: "Starknet", rec: "avoid" },
+            { name: "Block", score: 30, github: "block-wallet/extension", active: "inactive", chains: "~20", devices: "📱🌐", testnets: true, license: "foss", audits: "❓ None", funding: "risky", fundingNote: "Unknown", txsim: "no", scam: "partial", account: "EOA", hw: "✅ Multiple", eip4337: "no", bestFor: "Stability", rec: "avoid" }
         ];
 
         // Render functions
@@ -510,6 +511,12 @@
             return map[rec] || rec;
         }
 
+        function getScoreBadge(score) {
+            if (score >= 80) return `<span class="badge badge-green">${score}</span>`;
+            if (score >= 60) return `<span class="badge badge-yellow">${score}</span>`;
+            return `<span class="badge badge-red">${score}</span>`;
+        }
+
         function renderTable(filteredWallets) {
             const tbody = document.getElementById('wallet-body');
             tbody.innerHTML = filteredWallets.map(w => `
@@ -517,6 +524,7 @@
                     <td class="wallet-name">
                         ${w.github ? `<a href="https://github.com/${w.github}" target="_blank">${w.name}</a>` : w.name}
                     </td>
+                    <td>${getScoreBadge(w.score)}</td>
                     <td>${getStatusBadge(w.active)}</td>
                     <td>${w.chains}</td>
                     <td class="devices">${w.devices}</td>
