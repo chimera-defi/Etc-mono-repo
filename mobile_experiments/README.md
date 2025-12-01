@@ -14,7 +14,7 @@ Comparison of cross-platform mobile frameworks for AI-assisted development.
 | [MOBILE_ARCHITECTURE.md](./AgentApp/MOBILE_ARCHITECTURE.md) | Proposed mobile app architecture |
 | [FRAMEWORK_RECOMMENDATION.md](./AgentApp/FRAMEWORK_RECOMMENDATION.md) | Framework selection guide |
 
-**Key Finding**: Cursor has no public API. Build custom agent using Claude API + Flutter/React Native.
+**Key Finding**: Cursor has no public API. Build custom agent using **Claude API + React Native** (recommendation updated based on 58x StackOverflow advantage).
 
 ---
 
