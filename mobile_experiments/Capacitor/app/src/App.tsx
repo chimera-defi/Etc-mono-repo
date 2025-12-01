@@ -1,109 +1,56 @@
 /**
  * Capacitor Hello World - Framework Parity Demo
- * 
- * Demonstrates framework parity with Flutter, React Native, and Valdi experiments.
- * Features:
- * - Clean Material-inspired design
- * - State management with hooks
- * - CSS animations
- * - Dark/Light mode support
- * - Cross-platform ready (iOS/Android/Web)
+ * Features: Material design, state toggle, animations, dark mode
  */
 
 import { useState, useEffect } from 'react';
 import './App.css';
 
-// Detect dark mode preference
 const useDarkMode = () => {
-  const getInitialMode = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const [isDark, setIsDark] = useState(getInitialMode);
-  
+  const [isDark, setIsDark] = useState(() => window.matchMedia('(prefers-color-scheme: dark)').matches);
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
     const handler = (e: MediaQueryListEvent) => setIsDark(e.matches);
-    mediaQuery.addEventListener('change', handler);
-    return () => mediaQuery.removeEventListener('change', handler);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
   }, []);
-  
   return isDark;
 };
 
-function App() {
+export default function App() {
   const [showDetails, setShowDetails] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const isDarkMode = useDarkMode();
+  const [animating, setAnimating] = useState(false);
+  const isDark = useDarkMode();
 
-  const handleToggle = () => {
-    setIsAnimating(true);
-    setTimeout(() => {
-      setShowDetails(!showDetails);
-      setIsAnimating(false);
-    }, 150);
+  const toggle = () => {
+    setAnimating(true);
+    setTimeout(() => { setShowDetails(s => !s); setAnimating(false); }, 150);
   };
 
   return (
-    <div className={`app ${isDarkMode ? 'dark' : 'light'}`}>
-      {/* App Bar */}
+    <div className={`app ${isDark ? 'dark' : 'light'}`}>
       <header className="app-bar">
         <h1 className="app-bar-title">Hello from Valdi Labs</h1>
       </header>
-
-      {/* Main Content */}
-      <main className="main-content">
-        {/* Hero Icon */}
-        <div className="hero-icon">
-          <span className="hero-emoji">⚡</span>
-        </div>
-
-        {/* Title */}
+      <main className="content">
+        <div className="hero-icon"><span className="hero-emoji">📱</span></div>
         <h2 className="title">Capacitor says hi! 👋</h2>
-
-        {/* Subtitle */}
-        <p className="subtitle">
-          Exploring framework parity with our Valdi experiment.
-        </p>
-
-        {/* Animated Content Card */}
-        <div 
-          className={`content-card ${showDetails ? 'active' : ''} ${isAnimating ? 'animating' : ''}`}
-        >
+        <p className="subtitle">Exploring cross-platform framework parity.</p>
+        <div className={`card ${showDetails ? 'active' : ''} ${animating ? 'animating' : ''}`}>
           {showDetails ? (
-            <div className="details-content">
-              <div className="details-header">
-                <span className="details-icon">✅</span>
-                <span className="details-title">State toggled successfully!</span>
-              </div>
-              <div className="details-list">
-                <p>✓ Hot Module Replacement</p>
-                <p>✓ TypeScript support</p>
-                <p>✓ CSS animations</p>
-                <p>✓ Web + native ready</p>
-              </div>
+            <div className="details">
+              <div className="row"><span className="icon">✅</span><span className="card-title">State toggled!</span></div>
+              <p>✓ Hot reload</p><p>✓ Type safety</p><p>✓ Animations</p><p>✓ Cross-platform</p>
             </div>
           ) : (
-            <div className="prompt-content">
-              <span className="prompt-icon">👆</span>
-              <span className="prompt-text">Tap the button to see framework details.</span>
-            </div>
+            <div className="row"><span className="icon">👆</span><span className="prompt">Tap button to see details</span></div>
           )}
         </div>
-
-        {/* Toggle Button */}
-        <button 
-          className="toggle-button"
-          onClick={handleToggle}
-        >
-          <span className="button-icon">{showDetails ? '👁️‍🗨️' : '👁️'}</span>
-          <span className="button-text">{showDetails ? 'Hide details' : 'Show details'}</span>
+        <button className="toggle-btn" onClick={toggle}>
+          {showDetails ? '👁️ Hide' : '👁️ Show'} details
         </button>
-
-        {/* Framework Badge */}
-        <div className="badge">
-          <span className="badge-text">💻 Built with Capacitor + Vite</span>
-        </div>
+        <div className="badge">Capacitor + Vite</div>
       </main>
     </div>
   );
 }
-
-export default App;

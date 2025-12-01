@@ -60,9 +60,11 @@ The **58x difference in StackOverflow questions** is critical for AI code genera
 
 | Framework | Code | Styles | **Total** | Notes |
 |-----------|------|--------|-----------|-------|
-| **React Native** | 163 | — | **163** | Most concise after refactor |
-| **Flutter** | 300 | — | **300** | Widget tree inline styles |
-| **Capacitor** | 109 | 250 | **359** | Separate CSS file |
+| **React Native** | 99 | — | **99** | Single file, inline styles |
+| **Flutter** | 101 | — | **101** | Single file, inline styles |
+| **Capacitor** | 56 | 69 | **125** | Separate CSS file |
+
+All three now implement identical features with similar code size (~100-125 lines).
 
 ## Quick Decision Guide
 
