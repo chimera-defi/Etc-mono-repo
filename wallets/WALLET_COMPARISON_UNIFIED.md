@@ -8,31 +8,32 @@
 
 ## Complete Wallet Comparison (All 19 EVM Wallets)
 
-| Wallet | GitHub | Active | Chains | Devices | Testnets | License | Audits | Funding | Tx Sim | Scam | Account Type | HW Wallets | EIP-4337 | Best For | Rec |
-|--------|--------|--------|--------|---------|----------|---------|--------|---------|--------|------|--------------|------------|----------|----------|-----|
-| **MetaMask** | [metamask-extension](https://github.com/MetaMask/metamask-extension) | ✅ | Any | 📱🌐 | ✅ | ⚠️ Src-Avail | ✅ 2025 | 🟢 Consensys | ⚠️ | ⚠️ | EOA+7702 | ✅ Ledger/Trezor/Keystone/GridPlus | ⚠️ | Compatibility | 🔴 |
-| **Rabby** | [Rabby](https://github.com/RabbyHub/Rabby) | ✅ | 94 | 📱🌐💻 | ✅ | ✅ MIT | ⚠️ Mobile | 🟢 DeBank | ✅ | ✅ | EOA+Safe | ✅ Ledger/Trezor/Keystone/GridPlus | ❌ | Development | 🟢 |
-| **Coinbase** | [coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | ⚠️ | 20+ | 📱🌐 | ✅ | ⚠️ Partial | ❓ Private | 🟢 Coinbase | ✅ | ✅ | EOA+4337 | ✅ Ledger/Trezor | ✅ | Production | 🟡 |
-| **Trust** | [wallet-core](https://github.com/trustwallet/wallet-core) | ✅ | 163 | 📱🌐 | ✅ | ⚠️ Apache-2 | ✅ 2023 | 🟢 Binance | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | Multi-chain | 🟢 |
-| **Rainbow** | [rainbow](https://github.com/rainbow-me/rainbow) | ✅ | 15+ | 📱🌐 | ✅ | ✅ GPL-3 | ❓ None | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Ledger/Trezor | ❌ | NFT/Ethereum | 🟢 |
-| **Safe** | [safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | ✅ | 30+ | 📱🌐 | ✅ | ✅ GPL-3 | ✅ Certora | 🟢 Grants | ✅ | ✅ | Safe+4337 | ✅ Ledger/Trezor/Keystone | ✅ | Enterprise | 🟢 |
-| **Ambire** | [extension](https://github.com/AmbireTech/extension) | ⚠️ | EVM | 🌐 | ✅ | ✅ GPL-3 | ✅ 2025 | 🟡 VC | ✅ | ✅ | 7702+4337 | ✅ Ledger/Trezor/GridPlus | ✅ | Smart wallet | 🟡 |
-| **MEW** | [MyEtherWallet](https://github.com/MyEtherWallet/MyEtherWallet) | ✅ | ETH | 📱🔗 | ✅ | ✅ MIT | ❓ None | 🟢 Self | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | Ethereum | 🟢 |
-| **Taho** | [extension](https://github.com/tahowallet/extension) | ⚠️ | EVM | 🌐 | ✅ | ✅ GPL-3 | ❓ None | 🔴 Grants | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | Community | 🟡 |
-| **Frame** | [frame](https://github.com/floating/frame) | ❌ | Any | 💻 | ✅ | ✅ GPL-3 | ❓ None | 🔴 Donate | ✅ | ⚠️ | EOA | ✅ Ledger/Trezor/Keystone/GridPlus | ❌ | ~~Desktop~~ | 🔴 |
-| **Brave** | [brave-browser](https://github.com/brave/brave-browser) | ✅ | 10+ | 📱🌐§ | ✅ | ✅ MPL-2 | 🐛 H1 | 🟢 Brave | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | Brave users | 🟢 |
-| **Enkrypt** | [enKrypt](https://github.com/enkryptcom/enKrypt) | ✅ | 75+ | 🌐 | ✅ | ✅ MIT | ❓ None | 🟢 MEW | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | Multi-chain | 🟢 |
-| **imToken** | [token-core](https://github.com/consenlabs/token-core-monorepo) | ✅ | 50+ | 📱 | ✅ | ⚠️ Apache-2 | ⚠️ 2018 | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Keystone/imKey | ❌ | Multi-chain | 🟢 |
-| **Daimo** | [daimo](https://github.com/daimo-eth/daimo) | ✅ | Base | 📱 | ❌ | ✅ GPL-3 | ✅ 2023 | 🟡 VC | ❌ | ⚠️ | 4337 only | ❌ | ✅ | Payments | 🟢 |
-| **Phantom** | Private | 🔒 | 5 | 📱🌐 | ❌ | ❌ Proprietary | ❓ Private | 🟢 VC $109M | ✅ | ✅ | EOA | ✅ Ledger only | ❌ | Solana-first | 🟡 |
-| **Zerion** | Private | 🔒 | 20+ | 📱🌐 | ✅ | ❌ Proprietary | ❓ Private | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Ledger+WC | ❌ | Portfolio | ⚪ |
-| **OKX** | Private | 🔒 | 100+ | 📱🌐 | ✅ | ❌ Proprietary | ❓ Private | 🟢 OKX | ⚠️ | ⚠️ | EOA | ✅ Multiple | ⚠️ | EIP-7702 | 🟡 |
-| **Argent** | [argent-x](https://github.com/argentlabs/argent-x) | ❌ | 2 | 📱🌐† | ✅ | ✅ GPL-3 | ❓ None | 🔴 VC | ❌ | ⚠️ | 4337 | ✅ Multiple | ✅ | ~~Starknet~~ | 🔴 |
-| **Block** | [extension](https://github.com/block-wallet/extension) | ❌ | ~20 | 📱🌐 | ✅ | ✅ MIT | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | ~~Stability~~ | 🔴 |
-| **Wigwam** | [wigwam](https://github.com/wigwamapp/wigwam) | ⚠️ | Any | 📱🌐 | ✅ | ✅ MIT | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | Stability | 🟡 |
-| **1inch** | Private | 🔒 | 12 | 📱 | ✅ | ❌ Proprietary | ❓ Private | 🟢 Token | ❌ | ⚠️ | EOA | ❌ | ❌ | DeFi | ⚪ |
+| Wallet | Score | GitHub | Active | Chains | Devices | Testnets | License | Audits | Funding | Tx Sim | Scam | Account Type | HW Wallets | EIP-4337 | Best For | Rec |
+|--------|-------|--------|--------|--------|---------|----------|---------|--------|---------|--------|------|--------------|------------|----------|----------|-----|
+| **Safe** | 100 | [safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | ✅ | 30+ | 📱🌐 | ✅ | ✅ GPL-3 | ✅ Certora | 🟢 Grants | ✅ | ✅ | Safe+4337 | ✅ Ledger/Trezor/Keystone | ✅ | Enterprise | 🟢 |
+| **Rabby** | 88 | [Rabby](https://github.com/RabbyHub/Rabby) | ✅ | 94 | 📱🌐💻 | ✅ | ✅ MIT | ⚠️ Mobile | 🟢 DeBank | ✅ | ✅ | EOA+Safe | ✅ Ledger/Trezor/Keystone/GridPlus | ❌ | Development | 🟢 |
+| **Ambire** | 85 | [extension](https://github.com/AmbireTech/extension) | ⚠️ | EVM | 🌐 | ✅ | ✅ GPL-3 | ✅ 2025 | 🟡 VC | ✅ | ✅ | 7702+4337 | ✅ Ledger/Trezor/GridPlus | ✅ | Smart wallet | 🟢 |
+| **MetaMask** | 81 | [metamask-extension](https://github.com/MetaMask/metamask-extension) | ✅ | Any | 📱🌐 | ✅ | ⚠️ Src-Avail | ✅ 2025 | 🟢 Consensys | ⚠️ | ⚠️ | EOA+7702 | ✅ Ledger/Trezor/Keystone/GridPlus | ⚠️ | Compatibility | 🟡 |
+| **Brave** | 75 | [brave-browser](https://github.com/brave/brave-browser) | ✅ | 10+ | 📱🌐§ | ✅ | ✅ MPL-2 | 🐛 H1 | 🟢 Brave | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | Brave users | 🟢 |
+| **Trust** | 73 | [wallet-core](https://github.com/trustwallet/wallet-core) | ✅ | 163 | 📱🌐 | ✅ | ⚠️ Apache-2 | ✅ 2023 | 🟢 Binance | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | Multi-chain | 🟢 |
+| **Coinbase** | 73 | [coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | ⚠️ | 20+ | 📱🌐 | ✅ | ⚠️ Partial | ❓ Private | 🟢 Coinbase | ✅ | ✅ | EOA+4337 | ✅ Ledger/Trezor | ✅ | Production | 🟡 |
+| **Daimo** | 70 | [daimo](https://github.com/daimo-eth/daimo) | ✅ | Base | 📱 | ❌ | ✅ GPL-3 | ✅ 2023 | 🟡 VC | ❌ | ⚠️ | 4337 only | ❌ | ✅ | Payments | 🟢 |
+| **MEW** | 65 | [MyEtherWallet](https://github.com/MyEtherWallet/MyEtherWallet) | ✅ | ETH | 📱🔗 | ✅ | ✅ MIT | ❓ None | 🟢 Self | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | Ethereum | 🟢 |
+| **Enkrypt** | 65 | [enKrypt](https://github.com/enkryptcom/enKrypt) | ✅ | 75+ | 🌐 | ✅ | ✅ MIT | ❓ None | 🟢 MEW | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | Multi-chain | 🟢 |
+| **imToken** | 61 | [token-core](https://github.com/consenlabs/token-core-monorepo) | ✅ | 50+ | 📱 | ✅ | ⚠️ Apache-2 | ⚠️ 2018 | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Keystone/imKey | ❌ | Multi-chain | 🟡 |
+| **Rainbow** | 60 | [rainbow](https://github.com/rainbow-me/rainbow) | ✅ | 15+ | 📱🌐 | ✅ | ✅ GPL-3 | ❓ None | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Ledger/Trezor | ❌ | NFT/Ethereum | 🟡 |
+| **Phantom** | 50 | Private | 🔒 | 5 | 📱🌐 | ❌ | ❌ Proprietary | ❓ Private | 🟢 VC $109M | ✅ | ✅ | EOA | ✅ Ledger only | ❌ | Solana-first | 🟡 |
+| **OKX** | 48 | Private | 🔒 | 100+ | 📱🌐 | ✅ | ❌ Proprietary | ❓ Private | 🟢 OKX | ⚠️ | ⚠️ | EOA | ✅ Multiple | ⚠️ | EIP-7702 | 🟡 |
+| **Taho** | 40 | [extension](https://github.com/tahowallet/extension) | ⚠️ | EVM | 🌐 | ✅ | ✅ GPL-3 | ❓ None | 🔴 Grants | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | Community | 🟡 |
+| **Frame** | 40 | [frame](https://github.com/floating/frame) | ❌ | Any | 💻 | ✅ | ✅ GPL-3 | ❓ None | 🔴 Donate | ✅ | ⚠️ | EOA | ✅ Ledger/Trezor/Keystone/GridPlus | ❌ | ~~Desktop~~ | 🔴 |
+| **Wigwam** | 40 | [wigwam](https://github.com/wigwamapp/wigwam) | ⚠️ | Any | 📱🌐 | ✅ | ✅ MIT | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | Stability | 🟡 |
+| **Zerion** | 35 | Private | 🔒 | 20+ | 📱🌐 | ✅ | ❌ Proprietary | ❓ Private | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Ledger+WC | ❌ | Portfolio | ⚪ |
+| **1inch** | 35 | Private | 🔒 | 12 | 📱 | ✅ | ❌ Proprietary | ❓ Private | 🟢 Token | ❌ | ⚠️ | EOA | ❌ | ❌ | DeFi | ⚪ |
+| **Argent** | 35 | [argent-x](https://github.com/argentlabs/argent-x) | ❌ | 2 | 📱🌐† | ✅ | ✅ GPL-3 | ❓ None | 🔴 VC | ❌ | ⚠️ | 4337 | ✅ Multiple | ✅ | ~~Starknet~~ | 🔴 |
+| **Block** | 30 | [extension](https://github.com/block-wallet/extension) | ❌ | ~20 | 📱🌐 | ✅ | ✅ MIT | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | ~~Stability~~ | 🔴 |
 
 **Legend:**
+- **Score:** 0-100 weighted score (see [Scoring Methodology](#-wallet-scores-weighted-metrics))
 - 🟢 Recommended | 🟡 Situational | 🔴 Avoid | ⚪ Not for dev
 - **Devices:** 📱 Mobile | 🌐 Browser Extension | 💻 Desktop | 🔗 Web App
 - **License:** ✅ FOSS (MIT, GPL, MPL) | ⚠️ Source-Available/Partial | ❌ Proprietary
@@ -81,6 +82,48 @@
 
 ### For Classic Ethereum
 1. **MEW (MyEtherWallet)** — Web + mobile, 3.0% issue ratio, active ✅ Active
+
+---
+
+## 📊 Wallet Scores (Weighted Metrics)
+
+Transparent scoring based on objective criteria from this document:
+
+| Wallet | Score | Activity | License | Audits | Funding | Security | Notes |
+|--------|-------|----------|---------|--------|---------|----------|-------|
+| **Safe** | 🥇 100 | 20/20 | 15/15 | 15/15 | 15/15 | 35/35 | Best enterprise |
+| **Rabby** | 🥈 88 | 20/20 | 15/15 | 8/15 | 15/15 | 30/35 | Best for dev |
+| **Ambire** | 🥉 85 | 10/20 | 15/15 | 15/15 | 10/15 | 35/35 | Best smart wallet |
+| **MetaMask** | 81 | 20/20 | 8/15 | 15/15 | 15/15 | 23/35 | Compatibility |
+| **Brave** | 75 | 20/20 | 15/15 | 10/15 | 15/15 | 15/35 | Brave users |
+| **Trust** | 73 | 20/20 | 8/15 | 15/15 | 15/15 | 15/35 | Multi-chain |
+| **Coinbase** | 73 | 10/20 | 8/15 | 5/15 | 15/15 | 35/35 | AA + enterprise |
+| **Daimo** | 70 | 20/20 | 15/15 | 15/15 | 10/15 | 10/35 | Payments |
+| **MEW** | 65 | 20/20 | 15/15 | 0/15 | 15/15 | 15/35 | Classic ETH |
+| **Enkrypt** | 65 | 20/20 | 15/15 | 0/15 | 15/15 | 15/35 | Multi-chain |
+| **imToken** | 61 | 20/20 | 8/15 | 8/15 | 10/15 | 15/35 | Asia multi-chain |
+| **Rainbow** | 60 | 20/20 | 15/15 | 0/15 | 10/15 | 15/35 | NFT/Ethereum |
+| **Phantom** | 50 | 5/20 | 0/15 | 5/15 | 15/15 | 25/35 | Solana-first |
+| **OKX** | 48 | 5/20 | 0/15 | 5/15 | 15/15 | 23/35 | Exchange wallet |
+| **Frame** | 40 | 0/20 | 15/15 | 0/15 | 0/15 | 25/35 | ❌ Inactive |
+| **Taho** | 40 | 10/20 | 15/15 | 0/15 | 0/15 | 15/35 | Community |
+| **Wigwam** | 40 | 10/20 | 15/15 | 0/15 | 0/15 | 15/35 | ⚠️ Slow dev |
+| **Zerion** | 35 | 5/20 | 0/15 | 5/15 | 10/15 | 15/35 | Portfolio |
+| **1inch** | 35 | 5/20 | 0/15 | 5/15 | 15/15 | 10/35 | DeFi only |
+| **Argent** | 35 | 0/20 | 15/15 | 0/15 | 0/15 | 20/35 | ❌ Inactive |
+| **Block** | 30 | 0/20 | 15/15 | 0/15 | 0/15 | 15/35 | ❌ Abandoned |
+
+**Scoring Methodology (100 points total):**
+- **Activity (20 pts):** ✅ Active = 20 | ⚠️ Slow = 10 | 🔒 Private = 5 | ❌ Inactive = 0
+- **License (15 pts):** ✅ FOSS = 15 | ⚠️ Partial = 8 | ❌ Proprietary = 0
+- **Audits (15 pts):** ✅ Recent = 15 | 🐛 Bug bounty = 10 | ⚠️ Old = 8 | ❓ None = 0 | ❓ Private = 5
+- **Funding (15 pts):** 🟢 Sustainable = 15 | 🟡 VC = 10 | 🔴 Risky = 0
+- **Security (35 pts):** Tx Sim (10) + Scam Alerts (10) + HW Wallets (5) + EIP-4337 (5) + Testnets (5)
+
+**Score Interpretation:**
+- 🟢 **80+:** Strong recommendation for developers
+- 🟡 **60-79:** Good for specific use cases
+- 🔴 **<60:** Caution advised (inactive, proprietary, or limited features)
 
 ---
 
@@ -608,4 +651,61 @@ Several previously recommended wallets have **stopped active development**. See 
 
 ---
 
-*Last updated: December 1, 2025. Added: Funding, Tx Sim, Scam columns; Security Features, Privacy, Monetization sections; decision flowchart; automated refresh script; interactive web version. Data from [WalletBeat](https://walletbeat.fyi) and GitHub. Verify current capabilities before implementation.*
+## 📝 Changelog
+
+Track significant changes to wallet statuses and recommendations:
+
+| Date | Wallet | Change | Details |
+|------|--------|--------|---------|
+| Dec 2025 | **All** | Added Score column | 0-100 weighted scoring system |
+| Dec 2025 | **All** | Added Funding column | Business model sustainability ratings |
+| Dec 2025 | **All** | Added Tx Sim, Scam columns | Security feature tracking |
+| Dec 2025 | **Trust** | Updated Audits | Confirmed Sep 2023 audit in GitHub repo |
+| Nov 2025 | **Coinbase SDK** | Status → ⚠️ Slow | No commits since Jul 2025 |
+| Nov 2025 | **Taho** | Status → ⚠️ Slow | No commits since Oct 2025 |
+| Nov 2025 | **Block Wallet** | Status → ❌ Inactive | No commits since Nov 2024 (1 year) |
+| Nov 2025 | **Frame** | Status → ❌ Inactive | No commits since Feb 2025 |
+| Nov 2025 | **Argent-X** | Status → ❌ Inactive | No commits since Mar 2025 |
+| Nov 2024 | **Initial** | Document created | Original 18-wallet comparison |
+
+**How to read:**
+- **Status changes:** When a wallet's activity status changes (Active → Slow → Inactive)
+- **Recommendation changes:** When we change our recommendation (🟢 → 🟡 → 🔴)
+- **Data updates:** When significant data corrections are made
+
+---
+
+## 🆕 Contributing: Add a New Wallet
+
+To add a new wallet to this comparison, open a PR with:
+
+1. **Main table row** with all 17 columns
+2. **Verification** of at least: GitHub repo, last commit, license, chains
+3. **Source links** for any claims made
+
+### Required Data Template
+
+```markdown
+| **WalletName** | XX | [repo](url) | ✅/⚠️/❌ | N | 📱🌐 | ✅/❌ | ✅/⚠️/❌ | ✅/⚠️/❓ | 🟢/🟡/🔴 | ✅/⚠️/❌ | ✅/⚠️ | EOA/4337 | ✅/❌ | ✅/⚠️/❌ | Use case | 🟢/🟡/🔴 |
+```
+
+### Verification Checklist
+
+- [ ] GitHub repo exists and is accessible
+- [ ] Last commit date checked (for activity status)
+- [ ] License file verified in repo
+- [ ] Chain count verified from official docs
+- [ ] Device support confirmed (mobile, browser, desktop)
+- [ ] At least one data source linked
+
+### Data Sources
+
+Prefer in this order:
+1. **GitHub repo** - License, activity, code quality
+2. **Official docs** - Features, chain support
+3. **WalletBeat** - Technical features, security
+4. **Wallet website** - Marketing claims (verify independently)
+
+---
+
+*Last updated: December 1, 2025. Added: Score column, Changelog, Contribution guide; Funding, Tx Sim, Scam columns; Security Features, Privacy, Monetization sections; decision flowchart; automated refresh script; interactive web version. Data from [WalletBeat](https://walletbeat.fyi) and GitHub. Verify current capabilities before implementation.*

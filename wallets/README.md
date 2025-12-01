@@ -4,10 +4,11 @@ Developer-focused comparison of crypto wallets to find stable MetaMask alternati
 
 ## 📊 Main Comparison Table
 
-**→ [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Single source of truth with 19 EVM wallets
+**→ [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Single source of truth with 21 EVM wallets
 
 | Column | Description | Source |
 |--------|-------------|--------|
+| **Score** | 0-100 weighted score | Calculated |
 | GitHub | Repository link | GitHub |
 | Active | ✅/⚠️/❌ activity status | GitHub |
 | Chains | Built-in chain count | WalletBeat |
@@ -25,12 +26,15 @@ Developer-focused comparison of crypto wallets to find stable MetaMask alternati
 | Rec | 🟢/🟡/🔴 recommendation | Analysis |
 
 ### Sections in Document (Dec 2025)
+- 📊 **Wallet Scores** — Weighted 0-100 scoring with methodology
 - 🧭 **Decision Flowchart** — Visual guide to choose the right wallet
 - 🔒 **Security Audits** — Audit history with links to reports
 - ⚡ **Known Quirks & Gotchas** — Developer pain points per wallet
 - 🛡️ **Security Features** — Transaction simulation & scam protection
 - 💰 **Monetization** — Business models & funding sources
 - 🔐 **Privacy** — Data collection & RPC defaults
+- 📝 **Changelog** — Track changes to wallet statuses
+- 🆕 **Contributing** — How to add new wallets
 
 ---
 
@@ -68,7 +72,8 @@ Several previously recommended wallets have **stopped active development**:
 
 ## Documents
 
-- **[WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Complete 16-column comparison table (single source of truth)
+- **[WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Complete 17-column comparison table (single source of truth)
+- **[CONTRIBUTING.md](./CONTRIBUTING.md)** — How to add new wallets to the comparison
 - **[index.html](./index.html)** — Interactive web version with filtering and sorting
 - [walletconnect-wallet-research.md](./walletconnect-wallet-research.md) — Original detailed research
 
