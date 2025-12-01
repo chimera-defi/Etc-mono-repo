@@ -47,6 +47,60 @@ The **58x difference in StackOverflow questions** is critical for AI code genera
 | **App size (hello world)** | ~5MB | ~15-25MB | ~15-20MB |
 | **JS bundle (gzip)** | 61KB | ~500KB | — |
 | **Cold start** | Moderate | Fast | Fast |
+| **Dev server startup** | 120ms ✅ | ~3-5s | ~2-3s |
+| **Production build** | 1.8s ✅ | ~60-90s | ~30-60s |
+
+### Developer Tooling (Verified Dec 2025)
+
+| Tool Category | React Native | Capacitor | Flutter |
+|---------------|--------------|-----------|---------|
+| **Debugger** | Flipper (251k/mo), React DevTools (526k/mo) | Browser DevTools | Dart DevTools |
+| **Profiler** | Reactotron (15.4k ⭐) | Chrome Performance | Flutter Inspector |
+| **Linting** | eslint-plugin-react-native (5.3M/mo) | Standard ESLint | dart analyze |
+| **Hot Reload** | Fast Refresh | Vite HMR (instant) | Stateful Hot Reload |
+| **CLI Tools** | @react-native-community/cli (7.4M/mo) | @capacitor/cli (3.7M/mo) | flutter CLI |
+
+### Animation & Gesture Libraries
+
+| Library | Downloads/mo | Notes |
+|---------|--------------|-------|
+| react-native-reanimated | 8.8M | 60fps native animations |
+| react-native-gesture-handler | 10.6M | Native touch handling |
+| react-native-web | 8M | Web platform support |
+
+### AI-Specific Tooling
+
+| Framework | AI Tools | Notes |
+|-----------|----------|-------|
+| **React Native** | react-native-copilot (36k/mo) | Guided user tours |
+| **React Native** | Expo AI integrations | AI-powered dev workflows |
+| **All TypeScript** | GitHub Copilot | Best support for TS/TSX |
+| **Flutter** | Gemini integration | Google AI services |
+
+**AI Development Advantage**: TypeScript frameworks (React Native, Capacitor) have better AI code completion due to type hints. React Native's larger codebase means more training examples for AI models.
+
+### Unique Framework Strengths
+
+| Framework | Unique Advantage | Use Case |
+|-----------|------------------|----------|
+| **React Native** | NativeWind (1.8M/mo) - Tailwind for RN | Familiar web styling |
+| **React Native** | Expo EAS Build - cloud builds | CI/CD without local setup |
+| **React Native** | New Architecture (Fabric) | Improved performance |
+| **Capacitor** | Same code runs in browser | Progressive Web Apps |
+| **Capacitor** | Instant dev reload (120ms) | Fastest iteration |
+| **Capacitor** | Smallest bundle (61KB gzip) | Performance-constrained |
+| **Flutter** | Impeller renderer | Best graphics performance |
+| **Flutter** | Widget Inspector | Visual debugging |
+| **Flutter** | Dart null safety | Compile-time safety |
+
+### Enterprise Considerations
+
+| Factor | React Native | Capacitor | Flutter |
+|--------|--------------|-----------|---------|
+| **Talent Pool** | Largest (JS devs) | Large (web devs) | Growing (Dart) |
+| **Corporate Backing** | Meta | Ionic/Capacitor | Google |
+| **Fortune 500 Usage** | Facebook, Instagram, Shopify | Progressive apps | Google Pay, BMW |
+| **Long-term Support** | 10+ years | 5+ years | 6+ years |
 
 ### Test Harness Results (Dec 2025)
 
@@ -73,31 +127,37 @@ Have existing web app?
   → YES: Capacitor (wrap it)
   → NO: Continue
 
-Need same code in browser?
+Need same code in browser (PWA)?
   → YES: Capacitor
   → NO: Continue
 
-Need native 60fps performance?
-  → YES: Flutter or React Native
+Need 60fps animations or complex gestures?
+  → YES: Flutter (best) or React Native (good)
   → NO: Continue
 
-Prioritize AI assistance + large ecosystem?
-  → YES: React Native (58x more StackOverflow data)
-  → NO: Capacitor (simpler, fewer LOC)
+Fastest dev iteration?
+  → YES: Capacitor (120ms reload, 1.8s build)
+  → NO: Continue
+
+Largest ecosystem + AI assistance?
+  → YES: React Native (58x more SO data, 10M+ gesture library)
+  → NO: Continue
+
+Best graphics/gaming performance?
+  → YES: Flutter (Impeller renderer)
+  → NO: Any framework works
 ```
 
-### Updated Recommendation (Dec 2025)
+### Framework Selection Summary
 
-Based on verified ecosystem metrics, **React Native's larger ecosystem** (5x npm downloads, 58x StackOverflow questions) provides significant advantages for AI-assisted development:
-
-1. **More training data** → AI handles edge cases better
-2. **Native performance** → 60fps animations with native driver
-3. **Expo ecosystem** → 10M+ downloads/month for rapid prototyping
-
-**Capacitor remains best for:**
-- Web-first apps that need mobile deployment
-- Teams with strong web/HTML backgrounds
-- Projects requiring browser + native from same codebase
+| Priority | Best Choice | Why |
+|----------|-------------|-----|
+| **AI-assisted dev** | React Native | 58x more StackOverflow, largest npm ecosystem |
+| **Web + Mobile** | Capacitor | Same code runs in browser |
+| **Raw performance** | Flutter | Impeller renderer, 60fps guaranteed |
+| **Fastest iteration** | Capacitor | 120ms dev reload, 1.8s build |
+| **Largest talent pool** | React Native | JavaScript developers |
+| **Smallest bundle** | Capacitor | 61KB gzip vs 500KB+ |
 
 ## Project Structure
 
