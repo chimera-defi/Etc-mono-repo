@@ -1,6 +1,6 @@
 # Crypto Wallet Comparison for Developers
 
-> **TL;DR:** Use **Rabby** for development (transaction simulation), **Safe** or **Trust Wallet** for production (active development + stable), and **MetaMask** only for compatibility testing.
+> **TL;DR:** Use **Rabby** for development (best tx simulation + browser extension), **Trust Wallet** or **Rainbow** for production testing, and **MetaMask** for compatibility testing. Avoid web-only wallets (Safe, Sequence) for daily dev work — they require WalletConnect.
 
 **Data Sources:** GitHub REST API (Nov 2024, activity Nov 2025), [WalletBeat](https://walletbeat.fyi) (Dec 2025)
 
@@ -10,21 +10,21 @@
 
 | Wallet | Score | GitHub | Active | Chains | Devices | Testnets | License | Audits | Funding | Tx Sim | Scam | Account Type | HW Wallets | EIP-4337 | Best For | Rec |
 |--------|-------|--------|--------|--------|---------|----------|---------|--------|---------|--------|------|--------------|------------|----------|----------|-----|
-| **Safe** | 100 | [safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | ✅ | 30+ | 📱🌐 | ✅ | ✅ GPL-3 | ✅ Certora | 🟢 Grants | ✅ | ✅ | Safe+4337 | ✅ Ledger/Trezor/Keystone | ✅ | Enterprise | 🟢 |
 | **Rabby** | 88 | [Rabby](https://github.com/RabbyHub/Rabby) | ✅ | 94 | 📱🌐💻 | ✅ | ✅ MIT | ⚠️ Mobile | 🟢 DeBank | ✅ | ✅ | EOA+Safe | ✅ Ledger/Trezor/Keystone/GridPlus | ❌ | Development | 🟢 |
-| **Ambire** | 85 | [extension](https://github.com/AmbireTech/extension) | ⚠️ | EVM | 🌐 | ✅ | ✅ GPL-3 | ✅ 2025 | 🟡 VC | ✅ | ✅ | 7702+4337 | ✅ Ledger/Trezor/GridPlus | ✅ | Smart wallet | 🟢 |
-| **MetaMask** | 81 | [metamask-extension](https://github.com/MetaMask/metamask-extension) | ✅ | Any | 📱🌐 | ✅ | ⚠️ Src-Avail | ✅ 2025 | 🟢 Consensys | ⚠️ | ⚠️ | EOA+7702 | ✅ Ledger/Trezor/Keystone/GridPlus | ⚠️ | Compatibility | 🟡 |
-| **Ledger Live** | 80 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ✅ | 50+ | 📱💻 | ✅ | ✅ MIT | ✅ Ledger | 🟢 Ledger | ❌ | ⚠️ | EOA | ✅ Ledger‡ | ❌ | Hardware users | 🟢 |
-| **Sequence** | 80 | [sequence.js](https://github.com/0xsequence/sequence.js) | ✅ | EVM | 🌐🔗 | ✅ | ✅ Apache-2 | ✅ 2024 | 🟡 VC | ⚠️ | ⚠️ | 4337 | ❌ | ✅ | Gaming/Embedded | 🟢 |
+| **MetaMask** | 78 | [metamask-extension](https://github.com/MetaMask/metamask-extension) | ✅ | Any | 📱🌐 | ✅ | ⚠️ Src-Avail | ✅ 2025 | 🟢 Consensys | ⚠️ | ⚠️ | EOA+7702 | ✅ Ledger/Trezor/Keystone/GridPlus | ⚠️ | Compatibility | 🟢 |
 | **Brave** | 75 | [brave-browser](https://github.com/brave/brave-browser) | ✅ | 10+ | 📱🌐§ | ✅ | ✅ MPL-2 | 🐛 H1 | 🟢 Brave | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | Brave users | 🟢 |
 | **Trust** | 73 | [wallet-core](https://github.com/trustwallet/wallet-core) | ✅ | 163 | 📱🌐 | ✅ | ⚠️ Apache-2 | ✅ 2023 | 🟢 Binance | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | Multi-chain | 🟢 |
-| **Coinbase** | 73 | [coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | ⚠️ | 20+ | 📱🌐 | ✅ | ⚠️ Partial | ❓ Private | 🟢 Coinbase | ✅ | ✅ | EOA+4337 | ✅ Ledger/Trezor | ✅ | Production | 🟡 |
-| **Daimo** | 70 | [daimo](https://github.com/daimo-eth/daimo) | ✅ | Base | 📱 | ❌ | ✅ GPL-3 | ✅ 2023 | 🟡 VC | ❌ | ⚠️ | 4337 only | ❌ | ✅ | Payments | 🟢 |
+| **Rainbow** | 70 | [rainbow](https://github.com/rainbow-me/rainbow) | ✅ | 15+ | 📱🌐 | ✅ | ✅ GPL-3 | ❓ None | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Ledger/Trezor | ❌ | NFT/Ethereum | 🟢 |
+| **Ledger Live** | 68 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ✅ | 50+ | 📱💻 | ✅ | ✅ MIT | ✅ Ledger | 🟢 Ledger | ❌ | ⚠️ | EOA | ✅ Ledger‡ | ❌ | Hardware users | 🟢 |
+| **Safe** | 65 | [safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | ✅ | 30+ | 🔗† | ✅ | ✅ GPL-3 | ✅ Certora | 🟢 Grants | ✅ | ✅ | Safe+4337 | ✅ Ledger/Trezor/Keystone | ✅ | Treasury/DAO | 🟡 |
 | **MEW** | 65 | [MyEtherWallet](https://github.com/MyEtherWallet/MyEtherWallet) | ✅ | ETH | 📱🔗 | ✅ | ✅ MIT | ❓ None | 🟢 Self | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | Ethereum | 🟢 |
 | **Enkrypt** | 65 | [enKrypt](https://github.com/enkryptcom/enKrypt) | ✅ | 75+ | 🌐 | ✅ | ✅ MIT | ❓ None | 🟢 MEW | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | Multi-chain | 🟢 |
-| **imToken** | 61 | [token-core](https://github.com/consenlabs/token-core-monorepo) | ✅ | 50+ | 📱 | ✅ | ⚠️ Apache-2 | ⚠️ 2018 | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Keystone/imKey | ❌ | Multi-chain | 🟡 |
-| **Rainbow** | 60 | [rainbow](https://github.com/rainbow-me/rainbow) | ✅ | 15+ | 📱🌐 | ✅ | ✅ GPL-3 | ❓ None | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Ledger/Trezor | ❌ | NFT/Ethereum | 🟡 |
-| **Uniswap** | 60 | [interface](https://github.com/Uniswap/interface) | ✅ | 10+ | 📱🔗 | ✅ | ✅ GPL-3 | ❓ None | 🟢 Uniswap | ❌ | ⚠️ | EOA | ❌ | ❌ | DeFi/Swaps | 🟡 |
+| **Coinbase** | 63 | [coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | ⚠️ | 20+ | 📱🌐 | ✅ | ⚠️ Partial | ❓ Private | 🟢 Coinbase | ✅ | ✅ | EOA+4337 | ✅ Ledger/Trezor | ✅ | Production | 🟡 |
+| **Sequence** | 62 | [sequence.js](https://github.com/0xsequence/sequence.js) | ✅ | EVM | 🔗 | ✅ | ✅ Apache-2 | ✅ 2024 | 🟡 VC | ⚠️ | ⚠️ | 4337 | ❌ | ✅ | Gaming/Embedded | 🟡 |
+| **Ambire** | 60 | [extension](https://github.com/AmbireTech/extension) | ✅ | EVM | 🌐 | ✅ | ✅ GPL-3 | ✅ 2025 | 🟡 VC | ✅ | ✅ | 7702+4337 | ✅ Ledger/Trezor/GridPlus | ✅ | Smart wallet | 🟡 |
+| **Daimo** | 58 | [daimo](https://github.com/daimo-eth/daimo) | ✅ | Base | 📱 | ❌ | ✅ GPL-3 | ✅ 2023 | 🟡 VC | ❌ | ⚠️ | 4337 only | ❌ | ✅ | Payments | 🟡 |
+| **imToken** | 55 | [token-core](https://github.com/consenlabs/token-core-monorepo) | ❌ | 50+ | 📱 | ✅ | ⚠️ Apache-2 | ⚠️ 2018 | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Keystone/imKey | ❌ | Multi-chain | 🟡 |
+| **Uniswap** | 55 | [interface](https://github.com/Uniswap/interface) | ✅ | 10+ | 📱🔗 | ✅ | ✅ GPL-3 | ❓ None | 🟢 Uniswap | ❌ | ⚠️ | EOA | ❌ | ❌ | DeFi/Swaps | 🟡 |
 | **Phantom** | 50 | Private | 🔒 | 5 | 📱🌐 | ❌ | ❌ Proprietary | ❓ Private | 🟢 VC $109M | ✅ | ✅ | EOA | ✅ Ledger only | ❌ | Solana-first | 🟡 |
 | **OKX** | 48 | Private | 🔒 | 100+ | 📱🌐 | ✅ | ❌ Proprietary | ❓ Private | 🟢 OKX | ⚠️ | ⚠️ | EOA | ✅ Multiple | ⚠️ | EIP-7702 | 🟡 |
 | **Taho** | 40 | [extension](https://github.com/tahowallet/extension) | ⚠️ | EVM | 🌐 | ✅ | ✅ GPL-3 | ❓ None | 🔴 Grants | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | Community | 🟡 |
@@ -32,7 +32,7 @@
 | **Wigwam** | 40 | [wigwam](https://github.com/wigwamapp/wigwam) | ⚠️ | Any | 📱🌐 | ✅ | ✅ MIT | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | Stability | 🟡 |
 | **Zerion** | 35 | Private | 🔒 | 20+ | 📱🌐 | ✅ | ❌ Proprietary | ❓ Private | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Ledger+WC | ❌ | Portfolio | ⚪ |
 | **1inch** | 35 | Private | 🔒 | 12 | 📱 | ✅ | ❌ Proprietary | ❓ Private | 🟢 Token | ❌ | ⚠️ | EOA | ❌ | ❌ | DeFi | ⚪ |
-| **Argent** | 35 | [argent-x](https://github.com/argentlabs/argent-x) | ❌ | 2 | 📱🌐† | ✅ | ✅ GPL-3 | ❓ None | 🔴 VC | ❌ | ⚠️ | 4337 | ✅ Multiple | ✅ | ~~Starknet~~ | 🔴 |
+| **Argent** | 35 | [argent-x](https://github.com/argentlabs/argent-x) | ❌ | 2 | 📱🌐⁂ | ✅ | ✅ GPL-3 | ❓ None | 🔴 VC | ❌ | ⚠️ | 4337 | ✅ Multiple | ✅ | ~~Starknet~~ | 🔴 |
 | **Block** | 30 | [extension](https://github.com/block-wallet/extension) | ❌ | ~20 | 📱🌐 | ✅ | ✅ MIT | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | ~~Stability~~ | 🔴 |
 
 **Legend:**
@@ -46,10 +46,13 @@
 - **Scam:** ✅ Built-in scam/phishing alerts | ⚠️ Basic warnings | ❌ None
 - **Account Type:** EOA = Standard | Safe = Multi-sig | 4337 = Smart Account | 7702 = Upgraded EOA
 - **Activity:** ✅ Active (last 30 days) | ⚠️ Slow (1-4 months) | ❌ Inactive (4+ months) | 🔒 Private repo
-- † Argent desktop extension is Starknet-only
+- † Safe is web app only (no browser extension) — requires WalletConnect to connect to dApps
 - § Brave Wallet is built into Brave browser
 - ‡ Ledger Live is the companion app for Ledger hardware wallets
+- ⁂ Argent desktop extension is Starknet-only
 - ~~Strikethrough~~ = was recommended, now inactive
+
+**⚠️ For Development Testing:** Use wallets with browser extensions (🌐) like Rabby, MetaMask, or Brave. Web apps (🔗) like Safe require WalletConnect and are harder to test with.
 
 **Data Sources:** GitHub REST API (verified Nov 2025), [WalletBeat](https://walletbeat.fyi) (Dec 2025)
 
@@ -93,30 +96,30 @@
 
 Transparent scoring based on objective criteria from this document:
 
-| Wallet | Score | Activity | License | Audits | Funding | Security | Notes |
-|--------|-------|----------|---------|--------|---------|----------|-------|
-| **Safe** | 🥇 100 | 20/20 | 15/15 | 15/15 | 15/15 | 35/35 | Best enterprise |
-| **Rabby** | 🥈 88 | 20/20 | 15/15 | 8/15 | 15/15 | 30/35 | Best for dev |
-| **Ambire** | 🥉 85 | 10/20 | 15/15 | 15/15 | 10/15 | 35/35 | Best smart wallet |
-| **MetaMask** | 81 | 20/20 | 8/15 | 15/15 | 15/15 | 23/35 | Compatibility |
-| **Ledger Live** | 80 | 20/20 | 15/15 | 15/15 | 15/15 | 15/35 | Hardware users |
-| **Sequence** | 80 | 20/20 | 15/15 | 15/15 | 10/15 | 20/35 | Gaming/Embedded |
-| **Brave** | 75 | 20/20 | 15/15 | 10/15 | 15/15 | 15/35 | Brave users |
-| **Trust** | 73 | 20/20 | 8/15 | 15/15 | 15/15 | 15/35 | Multi-chain |
-| **Coinbase** | 73 | 10/20 | 8/15 | 5/15 | 15/15 | 35/35 | AA + enterprise |
-| **Daimo** | 70 | 20/20 | 15/15 | 15/15 | 10/15 | 10/35 | Payments |
-| **MEW** | 65 | 20/20 | 15/15 | 0/15 | 15/15 | 15/35 | Classic ETH |
-| **Enkrypt** | 65 | 20/20 | 15/15 | 0/15 | 15/15 | 15/35 | Multi-chain |
-| **imToken** | 61 | 20/20 | 8/15 | 8/15 | 10/15 | 15/35 | Asia multi-chain |
-| **Rainbow** | 60 | 20/20 | 15/15 | 0/15 | 10/15 | 15/35 | NFT/Ethereum |
-| **Uniswap** | 60 | 20/20 | 15/15 | 0/15 | 15/15 | 10/35 | DeFi/Swaps |
-| **Phantom** | 50 | 5/20 | 0/15 | 5/15 | 15/15 | 25/35 | Solana-first |
-| **OKX** | 48 | 5/20 | 0/15 | 5/15 | 15/15 | 23/35 | Exchange wallet |
+| Wallet | Score | Activity | License | Audits | Funding | Usability | Notes |
+|--------|-------|----------|---------|--------|---------|-----------|-------|
+| **Rabby** | 🥇 88 | 20/20 | 15/15 | 8/15 | 15/15 | 30/35 | Best for dev — browser ext + tx sim |
+| **MetaMask** | 🥈 78 | 20/20 | 8/15 | 15/15 | 15/15 | 20/35 | Most compatible — huge ecosystem |
+| **Brave** | 🥉 75 | 20/20 | 15/15 | 10/15 | 15/15 | 15/35 | Built into browser |
+| **Trust** | 73 | 20/20 | 8/15 | 15/15 | 15/15 | 15/35 | Most chains (163) |
+| **Rainbow** | 70 | 20/20 | 15/15 | 0/15 | 10/15 | 25/35 | Great mobile UX |
+| **Ledger Live** | 68 | 20/20 | 15/15 | 15/15 | 15/15 | 3/35 | Hardware only — no browser ext |
+| **Safe** | 65 | 20/20 | 15/15 | 15/15 | 15/15 | 0/35 | ⚠️ Web app only — for treasuries |
+| **MEW** | 65 | 20/20 | 15/15 | 0/15 | 15/15 | 15/35 | Classic Ethereum |
+| **Enkrypt** | 65 | 20/20 | 15/15 | 0/15 | 15/15 | 15/35 | 75+ chains |
+| **Coinbase** | 63 | 10/20 | 8/15 | 5/15 | 15/15 | 25/35 | ⚠️ SDK dev slowed |
+| **Sequence** | 62 | 20/20 | 15/15 | 15/15 | 10/15 | 2/35 | Embedded wallet SDK |
+| **Ambire** | 60 | 20/20 | 15/15 | 15/15 | 10/15 | 0/35 | Smart wallet, browser ext |
+| **Daimo** | 58 | 20/20 | 15/15 | 15/15 | 10/15 | -2/35 | Base only, no testnets |
+| **imToken** | 55 | 0/20 | 8/15 | 8/15 | 10/15 | 9/35 | ❌ Inactive (180 days) |
+| **Uniswap** | 55 | 20/20 | 15/15 | 0/15 | 15/15 | 5/35 | Mobile + web only |
+| **Phantom** | 50 | 5/20 | 0/15 | 5/15 | 15/15 | 25/35 | Solana-first, no testnets |
+| **OKX** | 48 | 5/20 | 0/15 | 5/15 | 15/15 | 23/35 | Proprietary |
+| **Taho** | 40 | 10/20 | 15/15 | 0/15 | 0/15 | 15/35 | ⚠️ Slow dev |
 | **Frame** | 40 | 0/20 | 15/15 | 0/15 | 0/15 | 25/35 | ❌ Inactive |
-| **Taho** | 40 | 10/20 | 15/15 | 0/15 | 0/15 | 15/35 | Community |
 | **Wigwam** | 40 | 10/20 | 15/15 | 0/15 | 0/15 | 15/35 | ⚠️ Slow dev |
-| **Zerion** | 35 | 5/20 | 0/15 | 5/15 | 10/15 | 15/35 | Portfolio |
-| **1inch** | 35 | 5/20 | 0/15 | 5/15 | 15/15 | 10/35 | DeFi only |
+| **Zerion** | 35 | 5/20 | 0/15 | 5/15 | 10/15 | 15/35 | Proprietary |
+| **1inch** | 35 | 5/20 | 0/15 | 5/15 | 15/15 | 10/35 | Mobile only |
 | **Argent** | 35 | 0/20 | 15/15 | 0/15 | 0/15 | 20/35 | ❌ Inactive |
 | **Block** | 30 | 0/20 | 15/15 | 0/15 | 0/15 | 15/35 | ❌ Abandoned |
 
@@ -125,12 +128,15 @@ Transparent scoring based on objective criteria from this document:
 - **License (15 pts):** ✅ FOSS = 15 | ⚠️ Partial = 8 | ❌ Proprietary = 0
 - **Audits (15 pts):** ✅ Recent = 15 | 🐛 Bug bounty = 10 | ⚠️ Old = 8 | ❓ None = 0 | ❓ Private = 5
 - **Funding (15 pts):** 🟢 Sustainable = 15 | 🟡 VC = 10 | 🔴 Risky = 0
-- **Security (35 pts):** Tx Sim (10) + Scam Alerts (10) + HW Wallets (5) + EIP-4337 (5) + Testnets (5)
+- **Usability (35 pts):** Browser ext (15) + Tx Sim (10) + Testnets (5) + Multi-chain (5)
+  - Browser extension wallets get +15 (essential for dApp testing)
+  - Web-only wallets (Safe, Sequence) get 0 (require WalletConnect)
+  - Mobile-only wallets get reduced score
 
 **Score Interpretation:**
-- 🟢 **80+:** Strong recommendation for developers
-- 🟡 **60-79:** Good for specific use cases
-- 🔴 **<60:** Caution advised (inactive, proprietary, or limited features)
+- 🟢 **75+:** Recommended for development
+- 🟡 **55-74:** Good for specific use cases
+- 🔴 **<55:** Caution advised (inactive, proprietary, or limited)
 
 ---
 
@@ -784,6 +790,10 @@ Track significant changes to wallet statuses and recommendations:
 
 | Date | Wallet | Change | Details |
 |------|--------|--------|---------|
+| Dec 2025 | **Safe** | Score 100→65, Rec 🟢→🟡 | Web app only, not for daily dev testing |
+| Dec 2025 | **MetaMask** | Score 81→78, Rec 🟡→🟢 | Most compatible for testing |
+| Dec 2025 | **imToken** | Status ✅→❌ | No commits for 180 days |
+| Dec 2025 | **Scoring** | Revised methodology | Added "Usability" weight for browser extensions |
 | Dec 2025 | **All** | Added EIP Support Matrix | EIP-712, EIP-2612, EIP-4337, EIP-5792, EIP-7702 |
 | Dec 2025 | **All** | Added Gas Estimation section | Transaction preview quality comparison |
 | Dec 2025 | **All** | Added Mobile Deep-linking | Universal links, custom schemes |
