@@ -96,22 +96,21 @@ This data fundamentally changes the framework recommendation:
 ```json
 {
   "dependencies": {
-    "react-native": "^0.76.0",
-    "expo": "~52.0.0",
+    "react-native": "^0.82.0",
+    "expo": "~54.0.0",
     
     "// Networking": "",
     "@tanstack/react-query": "^5.0.0",
-    "axios": "^1.6.0",
+    "axios": "^1.7.0",
     
     "// UI & Code Display": "",
     "react-native-reanimated": "^3.16.0",
     "react-native-gesture-handler": "^2.20.0",
-    "react-syntax-highlighter": "^15.6.0",
+    "react-native-syntax-highlighter": "^2.1.0",
     "react-native-markdown-display": "^7.0.0",
     
     "// State Management": "",
-    "zustand": "^5.0.0",
-    "jotai": "^2.10.0",
+    "zustand": "^5.0.9",
     
     "// Navigation": "",
     "@react-navigation/native": "^7.0.0",
@@ -122,8 +121,7 @@ This data fundamentally changes the framework recommendation:
     "expo-secure-store": "~14.0.0",
     
     "// Utilities": "",
-    "date-fns": "^4.1.0",
-    "uuid": "^11.0.0"
+    "date-fns": "^4.1.0"
   }
 }
 ```
@@ -314,8 +312,8 @@ export function useClaudeStream(apiKey: string) {
 ```typescript
 import React from 'react';
 import { ScrollView, Text, View, StyleSheet } from 'react-native';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import SyntaxHighlighter from 'react-native-syntax-highlighter';
+import { atomOneDark } from 'react-native-syntax-highlighter/styles/hljs';
 
 interface CodeViewerProps {
   code: string;
@@ -464,7 +462,7 @@ cd AgentApp
 # Install key dependencies
 npx expo install react-native-reanimated react-native-gesture-handler
 npm install @tanstack/react-query zustand axios
-npm install react-syntax-highlighter react-native-markdown-display
+npm install react-native-syntax-highlighter react-native-markdown-display
 
 # Start development
 npx expo start
