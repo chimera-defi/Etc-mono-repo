@@ -39,6 +39,9 @@ REPOS=(
     "argentlabs/argent-x"
     "block-wallet/extension"
     "wigwamapp/wigwam"
+    "LedgerHQ/ledger-live"
+    "0xsequence/sequence.js"
+    "Uniswap/interface"
 )
 
 WALLET_NAMES=(
@@ -59,6 +62,9 @@ WALLET_NAMES=(
     "Argent"
     "Block Wallet"
     "Wigwam"
+    "Ledger Live"
+    "Sequence"
+    "Uniswap"
 )
 
 # Set up authentication header if token is available
