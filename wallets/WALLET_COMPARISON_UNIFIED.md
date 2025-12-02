@@ -6,7 +6,7 @@
 
 ---
 
-## Complete Wallet Comparison (All 19 EVM Wallets)
+## Complete Wallet Comparison (All 24 EVM Wallets)
 
 | Wallet | Score | GitHub | Active | Chains | Devices | Testnets | License | Audits | Funding | Tx Sim | Scam | Account Type | HW Wallets | EIP-4337 | Best For | Rec |
 |--------|-------|--------|--------|--------|---------|----------|---------|--------|---------|--------|------|--------------|------------|----------|----------|-----|
@@ -14,6 +14,8 @@
 | **Rabby** | 88 | [Rabby](https://github.com/RabbyHub/Rabby) | ✅ | 94 | 📱🌐💻 | ✅ | ✅ MIT | ⚠️ Mobile | 🟢 DeBank | ✅ | ✅ | EOA+Safe | ✅ Ledger/Trezor/Keystone/GridPlus | ❌ | Development | 🟢 |
 | **Ambire** | 85 | [extension](https://github.com/AmbireTech/extension) | ⚠️ | EVM | 🌐 | ✅ | ✅ GPL-3 | ✅ 2025 | 🟡 VC | ✅ | ✅ | 7702+4337 | ✅ Ledger/Trezor/GridPlus | ✅ | Smart wallet | 🟢 |
 | **MetaMask** | 81 | [metamask-extension](https://github.com/MetaMask/metamask-extension) | ✅ | Any | 📱🌐 | ✅ | ⚠️ Src-Avail | ✅ 2025 | 🟢 Consensys | ⚠️ | ⚠️ | EOA+7702 | ✅ Ledger/Trezor/Keystone/GridPlus | ⚠️ | Compatibility | 🟡 |
+| **Ledger Live** | 80 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ✅ | 50+ | 📱💻 | ✅ | ✅ MIT | ✅ Ledger | 🟢 Ledger | ❌ | ⚠️ | EOA | ✅ Ledger‡ | ❌ | Hardware users | 🟢 |
+| **Sequence** | 80 | [sequence.js](https://github.com/0xsequence/sequence.js) | ✅ | EVM | 🌐🔗 | ✅ | ✅ Apache-2 | ✅ 2024 | 🟡 VC | ⚠️ | ⚠️ | 4337 | ❌ | ✅ | Gaming/Embedded | 🟢 |
 | **Brave** | 75 | [brave-browser](https://github.com/brave/brave-browser) | ✅ | 10+ | 📱🌐§ | ✅ | ✅ MPL-2 | 🐛 H1 | 🟢 Brave | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | Brave users | 🟢 |
 | **Trust** | 73 | [wallet-core](https://github.com/trustwallet/wallet-core) | ✅ | 163 | 📱🌐 | ✅ | ⚠️ Apache-2 | ✅ 2023 | 🟢 Binance | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | Multi-chain | 🟢 |
 | **Coinbase** | 73 | [coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | ⚠️ | 20+ | 📱🌐 | ✅ | ⚠️ Partial | ❓ Private | 🟢 Coinbase | ✅ | ✅ | EOA+4337 | ✅ Ledger/Trezor | ✅ | Production | 🟡 |
@@ -22,6 +24,7 @@
 | **Enkrypt** | 65 | [enKrypt](https://github.com/enkryptcom/enKrypt) | ✅ | 75+ | 🌐 | ✅ | ✅ MIT | ❓ None | 🟢 MEW | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | Multi-chain | 🟢 |
 | **imToken** | 61 | [token-core](https://github.com/consenlabs/token-core-monorepo) | ✅ | 50+ | 📱 | ✅ | ⚠️ Apache-2 | ⚠️ 2018 | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Keystone/imKey | ❌ | Multi-chain | 🟡 |
 | **Rainbow** | 60 | [rainbow](https://github.com/rainbow-me/rainbow) | ✅ | 15+ | 📱🌐 | ✅ | ✅ GPL-3 | ❓ None | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Ledger/Trezor | ❌ | NFT/Ethereum | 🟡 |
+| **Uniswap** | 60 | [interface](https://github.com/Uniswap/interface) | ✅ | 10+ | 📱🔗 | ✅ | ✅ GPL-3 | ❓ None | 🟢 Uniswap | ❌ | ⚠️ | EOA | ❌ | ❌ | DeFi/Swaps | 🟡 |
 | **Phantom** | 50 | Private | 🔒 | 5 | 📱🌐 | ❌ | ❌ Proprietary | ❓ Private | 🟢 VC $109M | ✅ | ✅ | EOA | ✅ Ledger only | ❌ | Solana-first | 🟡 |
 | **OKX** | 48 | Private | 🔒 | 100+ | 📱🌐 | ✅ | ❌ Proprietary | ❓ Private | 🟢 OKX | ⚠️ | ⚠️ | EOA | ✅ Multiple | ⚠️ | EIP-7702 | 🟡 |
 | **Taho** | 40 | [extension](https://github.com/tahowallet/extension) | ⚠️ | EVM | 🌐 | ✅ | ✅ GPL-3 | ❓ None | 🔴 Grants | ❌ | ⚠️ | EOA | ✅ Multiple | ❌ | Community | 🟡 |
@@ -45,6 +48,7 @@
 - **Activity:** ✅ Active (last 30 days) | ⚠️ Slow (1-4 months) | ❌ Inactive (4+ months) | 🔒 Private repo
 - † Argent desktop extension is Starknet-only
 - § Brave Wallet is built into Brave browser
+- ‡ Ledger Live is the companion app for Ledger hardware wallets
 - ~~Strikethrough~~ = was recommended, now inactive
 
 **Data Sources:** GitHub REST API (verified Nov 2025), [WalletBeat](https://walletbeat.fyi) (Dec 2025)
@@ -95,6 +99,8 @@ Transparent scoring based on objective criteria from this document:
 | **Rabby** | 🥈 88 | 20/20 | 15/15 | 8/15 | 15/15 | 30/35 | Best for dev |
 | **Ambire** | 🥉 85 | 10/20 | 15/15 | 15/15 | 10/15 | 35/35 | Best smart wallet |
 | **MetaMask** | 81 | 20/20 | 8/15 | 15/15 | 15/15 | 23/35 | Compatibility |
+| **Ledger Live** | 80 | 20/20 | 15/15 | 15/15 | 15/15 | 15/35 | Hardware users |
+| **Sequence** | 80 | 20/20 | 15/15 | 15/15 | 10/15 | 20/35 | Gaming/Embedded |
 | **Brave** | 75 | 20/20 | 15/15 | 10/15 | 15/15 | 15/35 | Brave users |
 | **Trust** | 73 | 20/20 | 8/15 | 15/15 | 15/15 | 15/35 | Multi-chain |
 | **Coinbase** | 73 | 10/20 | 8/15 | 5/15 | 15/15 | 35/35 | AA + enterprise |
@@ -103,6 +109,7 @@ Transparent scoring based on objective criteria from this document:
 | **Enkrypt** | 65 | 20/20 | 15/15 | 0/15 | 15/15 | 15/35 | Multi-chain |
 | **imToken** | 61 | 20/20 | 8/15 | 8/15 | 10/15 | 15/35 | Asia multi-chain |
 | **Rainbow** | 60 | 20/20 | 15/15 | 0/15 | 10/15 | 15/35 | NFT/Ethereum |
+| **Uniswap** | 60 | 20/20 | 15/15 | 0/15 | 15/15 | 10/35 | DeFi/Swaps |
 | **Phantom** | 50 | 5/20 | 0/15 | 5/15 | 15/15 | 25/35 | Solana-first |
 | **OKX** | 48 | 5/20 | 0/15 | 5/15 | 15/15 | 23/35 | Exchange wallet |
 | **Frame** | 40 | 0/20 | 15/15 | 0/15 | 0/15 | 25/35 | ❌ Inactive |
@@ -350,30 +357,150 @@ Every wallet has quirks that can cause developer headaches. Know them before you
 
 ## Browser Integration (from WalletBeat)
 
-| Wallet | EIP-1193 | EIP-2700 | EIP-6963 | WalletConnect | In-App Browser |
-|--------|----------|----------|----------|---------------|----------------|
-| **MetaMask** | ✅ | ✅ | ✅ | ✅ | ✅ (mobile) |
-| **Rabby** | ✅ | ✅ | ✅ | ✅ | ❌ |
-| **Safe** | N/A | N/A | N/A | ✅ | ❌ |
-| **Rainbow** | ✅ | ✅ | ✅ | ✅ | ✅ (mobile) |
-| **Coinbase** | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Trust** | ✅ | ✅ | ✅ | ✅ | ✅ (mobile) |
-| **Ambire** | ✅ | ✅ | ✅ | ✅ | ❌ |
-| **Brave** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **Enkrypt** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **MEW** | N/A | N/A | N/A | ✅ | ✅ (mobile) |
-| **imToken** | N/A | N/A | N/A | ✅ | ✅ |
-| **Daimo** | N/A | N/A | N/A | ✅ | ❌ |
-| **Phantom** | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Zerion** | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Frame** | ✅ | ✅ | ❌ | ❌ | ❌ |
-| **Taho** | ✅ | ✅ | ✅ | ❌ | ❌ |
+| Wallet | EIP-1193 | EIP-2700 | EIP-6963 | WC v1 | WC v2 | In-App Browser |
+|--------|----------|----------|----------|-------|-------|----------------|
+| **MetaMask** | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ (mobile) |
+| **Rabby** | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
+| **Safe** | N/A | N/A | N/A | ❌ | ✅ | ❌ |
+| **Rainbow** | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ (mobile) |
+| **Coinbase** | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
+| **Trust** | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ (mobile) |
+| **Ambire** | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
+| **Brave** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
+| **Ledger Live** | N/A | N/A | N/A | ❌ | ✅ | ❌ |
+| **Sequence** | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
+| **Uniswap** | N/A | N/A | N/A | ❌ | ✅ | ✅ |
+| **Enkrypt** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
+| **MEW** | N/A | N/A | N/A | ❌ | ✅ | ✅ (mobile) |
+| **imToken** | N/A | N/A | N/A | ❌ | ✅ | ✅ |
+| **Daimo** | N/A | N/A | N/A | ❌ | ✅ | ❌ |
+| **Phantom** | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
+| **Zerion** | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
+| **Frame** | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **Taho** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
 
-**EIPs:**
+**Legend:**
 - **EIP-1193:** Standard Ethereum Provider API (`window.ethereum`)
 - **EIP-2700:** Provider event system (`.on()`, `.removeListener()`)
 - **EIP-6963:** Multi-wallet discovery ([test at eip6963.org](https://eip6963.org))
+- **WC v1:** WalletConnect v1 (deprecated June 2023)
+- **WC v2:** WalletConnect v2 (current standard)
 - **N/A:** Mobile-only or web-app wallets don't inject into browser
+
+---
+
+## 📋 EIP Support Matrix
+
+Detailed EIP support for developers building dApps:
+
+| Wallet | EIP-712 | EIP-2612 | EIP-4337 | EIP-5792 | EIP-7702 | Typed Data |
+|--------|---------|----------|----------|----------|----------|------------|
+| **MetaMask** | ✅ | ✅ | ⚠️ Snap | ❌ | ✅ | ✅ v4 |
+| **Rabby** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
+| **Safe** | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ v4 |
+| **Rainbow** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
+| **Coinbase** | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ v4 |
+| **Trust** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
+| **Ambire** | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ v4 |
+| **Brave** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
+| **Ledger Live** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
+| **Sequence** | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ v4 |
+| **Uniswap** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
+| **Enkrypt** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
+| **MEW** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
+| **Phantom** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
+| **Daimo** | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ v4 |
+| **Frame** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
+
+**EIP Definitions:**
+- **EIP-712:** Typed structured data hashing and signing (common for permits, orders)
+- **EIP-2612:** Permit extension for ERC-20 (gasless approvals)
+- **EIP-4337:** Account Abstraction (smart contract wallets, paymasters)
+- **EIP-5792:** Wallet Call API (batch transactions, atomic operations)
+- **EIP-7702:** Set EOA account code (upgrade EOA to smart account temporarily)
+- **Typed Data:** eth_signTypedData version support (v4 is current standard)
+
+**Developer Notes:**
+- All modern wallets support EIP-712 — use it for permits and orders
+- EIP-2612 (permit) is widely supported — prefer gasless approvals
+- EIP-4337 requires bundler infrastructure — only relevant for smart wallets
+- EIP-5792 is new (2024) — Coinbase and Sequence are early adopters
+- EIP-7702 is cutting edge — MetaMask and Ambire are first movers
+
+---
+
+## ⛽ Gas Estimation & Transaction Preview
+
+How accurately do wallets estimate gas and preview transaction effects?
+
+| Wallet | Gas Accuracy | Asset Changes | Approval Preview | Revoke UI | Simulation Source |
+|--------|--------------|---------------|------------------|-----------|-------------------|
+| **Rabby** | ✅ Excellent | ✅ Full | ✅ Warnings | ✅ Yes | Built-in + DeBank |
+| **Safe** | ✅ Excellent | ✅ Full | ✅ Warnings | ✅ Yes | Tenderly |
+| **Ambire** | ✅ Excellent | ✅ Full | ✅ Warnings | ✅ Yes | Built-in |
+| **Coinbase** | ✅ Good | ✅ Full | ✅ Warnings | ✅ Yes | Built-in |
+| **Phantom** | ✅ Good | ✅ Full | ✅ Warnings | ✅ Yes | Built-in |
+| **MetaMask** | ⚠️ Variable | ⚠️ Snaps only | ⚠️ Basic | ❌ No | eth_estimateGas |
+| **Frame** | ✅ Good | ✅ Full | ⚠️ Basic | ❌ No | Built-in |
+| **Trust** | ⚠️ Basic | ❌ None | ⚠️ Basic | ❌ External | eth_estimateGas |
+| **Rainbow** | ⚠️ Basic | ❌ None | ⚠️ Basic | ❌ External | eth_estimateGas |
+| **Ledger Live** | ⚠️ Basic | ❌ None | ⚠️ Basic | ❌ No | eth_estimateGas |
+| **Others** | ⚠️ Basic | ❌ None | ⚠️ Basic | ❌ External | eth_estimateGas |
+
+**Recommendations:**
+- For development: Use **Rabby** or **Safe** — catch issues before mainnet
+- For security-critical txs: Prefer wallets with full asset change preview
+- For approvals: Only Rabby, Safe, Ambire show clear unlimited approval warnings
+
+---
+
+## 📱 Mobile Deep-linking & Integration
+
+For dApps with mobile support, deep-linking is critical for seamless UX:
+
+| Wallet | Universal Links | Custom Scheme | WC Mobile Link | App Links (Android) |
+|--------|-----------------|---------------|----------------|---------------------|
+| **MetaMask** | ✅ metamask.app.link | ✅ metamask:// | ✅ Yes | ✅ Yes |
+| **Coinbase** | ✅ go.cb-w.com | ✅ cbwallet:// | ✅ Yes | ✅ Yes |
+| **Trust** | ✅ link.trustwallet.com | ✅ trust:// | ✅ Yes | ✅ Yes |
+| **Rainbow** | ✅ rnbwapp.com | ✅ rainbow:// | ✅ Yes | ✅ Yes |
+| **Phantom** | ✅ phantom.app | ✅ phantom:// | ✅ Yes | ✅ Yes |
+| **Uniswap** | ✅ uniswap.org | ✅ uniswap:// | ✅ Yes | ✅ Yes |
+| **Safe** | ⚠️ Web only | ❌ N/A | ✅ Yes | ❌ N/A |
+| **Rabby** | ⚠️ Limited | ⚠️ Desktop | ✅ Yes | ⚠️ Limited |
+| **Ledger Live** | ✅ ledger.com | ✅ ledgerlive:// | ✅ Yes | ✅ Yes |
+| **Zerion** | ✅ zerion.io | ✅ zerion:// | ✅ Yes | ✅ Yes |
+| **imToken** | ✅ imtoken.io | ✅ imtokenv2:// | ✅ Yes | ✅ Yes |
+
+**Deep-linking Best Practices:**
+1. Always provide WalletConnect as fallback
+2. Use Universal Links over custom schemes (more reliable)
+3. Test on both iOS and Android
+4. Handle "wallet not installed" gracefully
+
+---
+
+## 🚀 Developer Experience Benchmarks
+
+Qualitative assessment based on common developer tasks:
+
+| Wallet | Docs Quality | SDK/API | Error Messages | Testnet UX | Community |
+|--------|--------------|---------|----------------|------------|-----------|
+| **MetaMask** | ⚠️ Fragmented | ✅ Excellent | ⚠️ Generic | ✅ Good | ✅ Large |
+| **Coinbase** | ✅ Good | ✅ Excellent | ✅ Clear | ✅ Good | ✅ Good |
+| **Safe** | ✅ Excellent | ✅ Excellent | ✅ Clear | ✅ Good | ✅ Active |
+| **Rabby** | ⚠️ Minimal | ⚠️ Limited | ✅ Clear | ✅ Good | ⚠️ Small |
+| **Rainbow** | ✅ Good | ✅ Good | ✅ Clear | ✅ Good | ⚠️ Small |
+| **Sequence** | ✅ Excellent | ✅ Excellent | ✅ Clear | ✅ Good | ✅ Active |
+| **Trust** | ⚠️ Basic | ⚠️ Limited | ⚠️ Generic | ✅ Good | ⚠️ Small |
+| **Ledger Live** | ✅ Good | ✅ Good | ✅ Clear | ⚠️ Limited | ✅ Active |
+| **Phantom** | ✅ Good | ✅ Good | ✅ Clear | ❌ None | ✅ Active |
+
+**Best for Developers:**
+1. **Safe** — Best documentation, SDK, and AA support
+2. **Coinbase** — Excellent SDK with clear error handling
+3. **Sequence** — Purpose-built for game/app developers
+4. **MetaMask** — Widest ecosystem but fragmented docs
 
 ---
 
@@ -657,6 +784,14 @@ Track significant changes to wallet statuses and recommendations:
 
 | Date | Wallet | Change | Details |
 |------|--------|--------|---------|
+| Dec 2025 | **All** | Added EIP Support Matrix | EIP-712, EIP-2612, EIP-4337, EIP-5792, EIP-7702 |
+| Dec 2025 | **All** | Added Gas Estimation section | Transaction preview quality comparison |
+| Dec 2025 | **All** | Added Mobile Deep-linking | Universal links, custom schemes |
+| Dec 2025 | **All** | Added WC v2 column | WalletConnect v2 support (v1 deprecated) |
+| Dec 2025 | **All** | Added Developer Experience | Docs, SDKs, error messages quality |
+| Dec 2025 | **Ledger Live** | Added | Hardware wallet companion (score 80) |
+| Dec 2025 | **Sequence** | Added | Smart contract wallet for gaming (score 80) |
+| Dec 2025 | **Uniswap** | Added | DeFi-focused mobile wallet (score 60) |
 | Dec 2025 | **All** | Added Score column | 0-100 weighted scoring system |
 | Dec 2025 | **All** | Added Funding column | Business model sustainability ratings |
 | Dec 2025 | **All** | Added Tx Sim, Scam columns | Security feature tracking |
@@ -708,4 +843,4 @@ Prefer in this order:
 
 ---
 
-*Last updated: December 1, 2025. Added: Score column, Changelog, Contribution guide; Funding, Tx Sim, Scam columns; Security Features, Privacy, Monetization sections; decision flowchart; automated refresh script; interactive web version. Data from [WalletBeat](https://walletbeat.fyi) and GitHub. Verify current capabilities before implementation.*
+*Last updated: December 2, 2025. Added: 3 new wallets (Ledger Live, Sequence, Uniswap); EIP Support Matrix; WalletConnect v2 column; Gas Estimation comparison; Mobile Deep-linking; Developer Experience benchmarks; Integration Testing Suite. Data from [WalletBeat](https://walletbeat.fyi) and GitHub. Verify current capabilities before implementation.*
