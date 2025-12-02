@@ -4,7 +4,7 @@ Developer-focused comparison of crypto wallets to find stable MetaMask alternati
 
 ## 📊 Main Comparison Table
 
-**→ [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Single source of truth with 21 EVM wallets
+**→ [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Single source of truth with 24 EVM wallets
 
 | Column | Description | Source |
 |--------|-------------|--------|
@@ -30,6 +30,10 @@ Developer-focused comparison of crypto wallets to find stable MetaMask alternati
 - 🧭 **Decision Flowchart** — Visual guide to choose the right wallet
 - 🔒 **Security Audits** — Audit history with links to reports
 - ⚡ **Known Quirks & Gotchas** — Developer pain points per wallet
+- 📋 **EIP Support Matrix** — EIP-712, EIP-2612, EIP-4337, EIP-5792, EIP-7702
+- ⛽ **Gas Estimation** — Transaction preview quality by wallet
+- 📱 **Mobile Deep-linking** — Universal links, custom schemes
+- 🚀 **Developer Experience** — Docs, SDKs, error messages
 - 🛡️ **Security Features** — Transaction simulation & scam protection
 - 💰 **Monetization** — Business models & funding sources
 - 🔐 **Privacy** — Data collection & RPC defaults
@@ -75,6 +79,7 @@ Several previously recommended wallets have **stopped active development**:
 - **[WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Complete 17-column comparison table (single source of truth)
 - **[CONTRIBUTING.md](./CONTRIBUTING.md)** — How to add new wallets to the comparison
 - **[index.html](./index.html)** — Interactive web version with filtering and sorting
+- **[tests/](./tests/)** — Integration testing suite for wallet compatibility
 - [walletconnect-wallet-research.md](./walletconnect-wallet-research.md) — Original detailed research
 
 ## External Resources
