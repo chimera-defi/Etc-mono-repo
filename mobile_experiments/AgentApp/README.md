@@ -21,6 +21,7 @@ Create a mobile app with feature parity to Cursor Agents / Background Agents tha
 | [FRAMEWORK_RECOMMENDATION.md](./FRAMEWORK_RECOMMENDATION.md) | Framework selection for the agent app |
 | [CLAUDE_API_CAPABILITIES.md](./CLAUDE_API_CAPABILITIES.md) | Deep dive into Claude API for agent development |
 | [COMPETITIVE_ANALYSIS.md](./COMPETITIVE_ANALYSIS.md) | Market analysis of existing mobile coding apps |
+| [ERRATA.md](./ERRATA.md) | Corrections and verification notes |
 
 ## Quick Summary
 
@@ -71,7 +72,7 @@ cd AgentApp
 # Install key dependencies
 npx expo install react-native-reanimated react-native-gesture-handler
 npm install @tanstack/react-query zustand axios
-npm install react-syntax-highlighter react-native-markdown-display
+npm install react-native-syntax-highlighter react-native-markdown-display
 
 # Start development
 npx expo start
