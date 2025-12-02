@@ -1,0 +1,34 @@
+# Foundry
+foundry-project/out/
+foundry-project/cache/
+foundry-project/broadcast/
+
+# Hardhat
+hardhat-project/node_modules/
+hardhat-project/artifacts/
+hardhat-project/cache/
+hardhat-project/typechain-types/
+hardhat-project/coverage/
+hardhat-project/coverage.json
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Test artifacts
+*.lcov

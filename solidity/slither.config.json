@@ -1,0 +1,18 @@
+{
+  "filter_paths": [
+    "node_modules",
+    "lib",
+    "test",
+    "@openzeppelin"
+  ],
+  "exclude_dependencies": true,
+  "exclude_optimization": false,
+  "exclude_informational": false,
+  "exclude_low": false,
+  "exclude_medium": false,
+  "exclude_high": false,
+  "fail_on": "high",
+  "show_ignored_findings": false,
+  "compile_force_framework": "hardhat",
+  "print_console": true
+}
