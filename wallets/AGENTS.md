@@ -145,6 +145,16 @@ The original goal was to find STABLE alternatives. Key stability indicators:
 2. **Values within bounds:** No column can exceed its maximum (e.g., Security can't be 7/5)
 3. **Cross-document consistency:** Main table, breakdown table, and index.html must all match
 4. **No artifacts:** Check root folder for stray generated files
+5. **No data loss on restructure:** When adding/moving columns, verify ALL original columns are preserved (check git diff)
+
+### Data Columns That Must Be Preserved
+The main table must include at minimum:
+- **Chains** — Built-in chain count (94, 163, 20+, Any, EVM, etc.)
+- **Rel/Mo** — Releases per month (stability indicator)
+- **RPC** — Custom RPC support
+- **GitHub** — Repository link
+- **Testnets** — Custom chain support
+- **Audits** — Audit status and year
 
 ---
 
