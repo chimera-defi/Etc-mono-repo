@@ -755,7 +755,7 @@ Each wallet has quirks. Test your dApp with at least 3 wallets before production
 | [rainbow-me/rainbow](https://github.com/rainbow-me/rainbow) | Nov 26, 2025 | ✅ Active |
 | [tahowallet/extension](https://github.com/tahowallet/extension) | Oct 30, 2025 | ⚠️ Slow |
 | [MyEtherWallet/MyEtherWallet](https://github.com/MyEtherWallet/MyEtherWallet) | Nov 27, 2025 | ✅ Active |
-| [AmbireTech/wallet](https://github.com/AmbireTech/wallet) | Aug 12, 2025 | ⚠️ Slow |
+| [AmbireTech/extension](https://github.com/AmbireTech/extension) | Aug 12, 2025 | ⚠️ Slow |
 | [block-wallet/extension](https://github.com/block-wallet/extension) | Nov 27, 2024 | ❌ Inactive |
 | [wigwamapp/wigwam](https://github.com/wigwamapp/wigwam) | Sep 11, 2025 | ⚠️ Slow |
 | [safe-global/safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | Nov 27, 2025 | ✅ Active |
@@ -799,9 +799,9 @@ Track significant changes to wallet statuses and recommendations:
 | Dec 2025 | **All** | Added Mobile Deep-linking | Universal links, custom schemes |
 | Dec 2025 | **All** | Added WC v2 column | WalletConnect v2 support (v1 deprecated) |
 | Dec 2025 | **All** | Added Developer Experience | Docs, SDKs, error messages quality |
-| Dec 2025 | **Ledger Live** | Added | Hardware wallet companion (score 80) |
-| Dec 2025 | **Sequence** | Added | Smart contract wallet for gaming (score 80) |
-| Dec 2025 | **Uniswap** | Added | DeFi-focused mobile wallet (score 60) |
+| Dec 2025 | **Ledger Live** | Added | Hardware wallet companion (score 68) |
+| Dec 2025 | **Sequence** | Added | Smart contract wallet for gaming (score 62) |
+| Dec 2025 | **Uniswap** | Added | DeFi-focused mobile wallet (score 55) |
 | Dec 2025 | **All** | Added Score column | 0-100 weighted scoring system |
 | Dec 2025 | **All** | Added Funding column | Business model sustainability ratings |
 | Dec 2025 | **All** | Added Tx Sim, Scam columns | Security feature tracking |
@@ -853,4 +853,4 @@ Prefer in this order:
 
 ---
 
-*Last updated: December 2, 2025. Added: 3 new wallets (Ledger Live, Sequence, Uniswap); EIP Support Matrix; WalletConnect v2 column; Gas Estimation comparison; Mobile Deep-linking; Developer Experience benchmarks; Integration Testing Suite. Data from [WalletBeat](https://walletbeat.fyi) and GitHub. Verify current capabilities before implementation.*
+*Last updated: December 3, 2025. Added: 3 new wallets (Ledger Live, Sequence, Uniswap); EIP Support Matrix; WalletConnect v2 column; Gas Estimation comparison; Mobile Deep-linking; Developer Experience benchmarks; Integration Testing Suite. Data from [WalletBeat](https://walletbeat.fyi) and GitHub. Verify current capabilities before implementation.*
