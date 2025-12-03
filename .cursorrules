@@ -109,6 +109,7 @@
   43. **Release frequency as stability proxy** - for developer tools, lower release frequency often = more stability (inverse of typical "more updates = better")
   44. **Private repos ≠ unknown** - mark proprietary/private wallets appropriately; unknown release frequency (?) is different from inactive (❌)
   45. **Activity status decays** - what was active 6 months ago may be abandoned now; always verify with fresh data
+  46. **No data loss on restructure** - when restructuring tables (adding columns, reorganizing), ALWAYS verify ALL original columns are preserved; use git diff to compare
 
 ## Best Practices
 - Use semantic versioning for packages
