@@ -116,29 +116,29 @@ Scores prioritize what matters for developers: platform coverage, stability, and
 | Wallet | Score | Core | Stability | DevExp | Activity | FOSS | Security | Notes |
 |--------|-------|------|-----------|--------|----------|------|----------|-------|
 | **Rabby** | 🥇 92 | 25/25 | 14/20 | 23/25 | 15/15 | 10/10 | 5/5 | Best dev wallet — tx sim + stable |
-| **Trust** | 🥈 85 | 25/25 | 17/20 | 13/25 | 15/15 | 8/10 | 7/5 | Most stable major wallet |
+| **Trust** | 🥈 85 | 25/25 | 17/20 | 15/25 | 15/15 | 8/10 | 5/5 | Most stable major wallet |
 | **Rainbow** | 🥉 82 | 25/25 | 16/20 | 11/25 | 15/15 | 10/10 | 5/5 | Great code quality (0.3% issues) |
 | **Brave** | 78 | 25/25 | 18/20 | 10/25 | 15/15 | 10/10 | 0/5 | Built into browser, very stable |
 | **Coinbase** | 75 | 25/25 | 18/20 | 17/25 | 8/15 | 5/10 | 2/5 | AA support, SDK dev slowed |
 | **MetaMask** | 68 | 25/25 | 8/20 | 15/25 | 15/15 | 5/10 | 0/5 | ⚠️ ~8 rel/mo = high churn |
-| **Phantom** | 65 | 25/25 | 12/20 | 13/25 | 5/15 | 0/10 | 10/5 | No testnets, proprietary |
+| **Phantom** | 65 | 25/25 | 15/20 | 15/25 | 5/15 | 0/10 | 5/5 | No testnets, proprietary |
 | **OKX** | 62 | 25/25 | 12/20 | 15/25 | 5/15 | 0/10 | 5/5 | Proprietary but feature-rich |
-| **Safe** | 58 | 0/25 | 17/20 | 21/25 | 15/15 | 10/10 | 10/5 | ❌ No browser ext — web only |
+| **Safe** | 58 | 0/25 | 15/20 | 18/25 | 15/15 | 5/10 | 5/5 | ❌ No browser ext — web only |
 | **Enkrypt** | 55 | 0/25 | 18/20 | 12/25 | 15/15 | 10/10 | 0/5 | ❌ No mobile app |
-| **Ambire** | 55 | 0/25 | 18/20 | 17/25 | 8/15 | 10/10 | 7/5 | ❌ No mobile app |
-| **Wigwam** | 52 | 25/25 | 18/20 | 9/25 | 8/15 | 10/10 | 0/5 | Slow dev, unknown funding |
+| **Ambire** | 55 | 0/25 | 18/20 | 17/25 | 8/15 | 10/10 | 2/5 | ❌ No mobile app |
+| **Wigwam** | 52 | 25/25 | 12/20 | 5/25 | 5/15 | 5/10 | 0/5 | Slow dev, unknown funding |
 | **Ledger Live** | 50 | 0/25 | 16/20 | 9/25 | 15/15 | 10/10 | 0/5 | ❌ No browser extension |
 | **MEW** | 50 | 0/25 | 17/20 | 8/25 | 15/15 | 10/10 | 0/5 | ❌ No browser extension |
-| **Sequence** | 48 | 0/25 | 17/20 | 11/25 | 15/15 | 10/10 | 10/5 | ❌ Web SDK only |
+| **Sequence** | 48 | 0/25 | 15/20 | 8/25 | 15/15 | 5/10 | 5/5 | ❌ Web SDK only |
 | **Daimo** | 45 | 0/25 | 18/20 | 2/25 | 15/15 | 10/10 | 0/5 | ❌ Mobile only, no testnets |
-| **Zerion** | 45 | 25/25 | 12/20 | 8/25 | 5/15 | 0/10 | 5/5 | Proprietary, not for dev |
-| **Uniswap** | 42 | 0/25 | 15/20 | 7/25 | 15/15 | 10/10 | 0/5 | ❌ No browser extension |
-| **Taho** | 40 | 0/25 | 19/20 | 6/25 | 8/15 | 10/10 | 0/5 | ❌ No mobile, risky funding |
+| **Zerion** | 45 | 25/25 | 12/20 | 3/25 | 5/15 | 0/10 | 0/5 | Proprietary, not for dev |
+| **Uniswap** | 42 | 0/25 | 15/20 | 2/25 | 15/15 | 10/10 | 0/5 | ❌ No browser extension |
+| **Taho** | 40 | 0/25 | 17/20 | 3/25 | 5/15 | 10/10 | 5/5 | ❌ No mobile, risky funding |
 | **imToken** | 38 | 0/25 | 19/20 | 9/25 | 0/15 | 8/10 | 2/5 | ❌ Inactive, mobile only |
-| **1inch** | 35 | 0/25 | 12/20 | 3/25 | 5/15 | 0/10 | 5/5 | ❌ Mobile only, proprietary |
-| **Frame** | 32 | 0/25 | 19/20 | 13/25 | 0/15 | 10/10 | 0/5 | ❌ Inactive, desktop only |
-| **Argent** | 30 | 0/25 | 19/20 | 6/25 | 0/15 | 10/10 | 0/5 | ❌ Inactive, Starknet desktop |
-| **Block** | 25 | 25/25 | 18/20 | 7/25 | 0/15 | 10/10 | 0/5 | ❌ Abandoned (1 year) |
+| **1inch** | 35 | 0/25 | 15/20 | 10/25 | 5/15 | 0/10 | 5/5 | ❌ Mobile only, proprietary |
+| **Frame** | 32 | 0/25 | 12/20 | 10/25 | 0/15 | 10/10 | 0/5 | ❌ Inactive, desktop only |
+| **Argent** | 30 | 0/25 | 15/20 | 0/25 | 0/15 | 10/10 | 5/5 | ❌ Inactive, Starknet desktop |
+| **Block** | 25 | 25/25 | 0/20 | 0/25 | 0/15 | 0/10 | 0/5 | ❌ Abandoned (1+ year) |
 
 **Scoring Methodology (100 points total):**
 

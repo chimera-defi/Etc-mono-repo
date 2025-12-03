@@ -128,7 +128,7 @@ cd scripts
 
 If a wallet's status changes, update:
 1. Main table `Active` column
-2. Recalculate score (Activity is 20 pts)
+2. Recalculate score (Activity is 15 pts)
 3. Add changelog entry
 
 ### Audit Updates
@@ -181,11 +181,12 @@ Use this template for your PR:
 - [x] Score calculated: XX/100
 
 ### Score Breakdown
-- Activity: XX/20
-- License: XX/15
-- Audits: XX/15
-- Funding: XX/15
-- Security: XX/35
+- Core (mobile + ext): XX/25
+- Stability (rel/mo): XX/20
+- DevExp (tx sim, testnets, RPC): XX/25
+- Activity: XX/15
+- FOSS: XX/10
+- Security: XX/5
 - **Total: XX/100**
 
 ### Changes

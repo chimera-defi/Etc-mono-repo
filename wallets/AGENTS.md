@@ -38,7 +38,9 @@ This document provides guidance for AI coding assistants working on the wallet c
 
 ### Wallets That Meet Core Criteria (Mobile + Browser Extension)
 These should be prioritized in recommendations:
-- Rabby, Trust, Rainbow, Brave, Coinbase, Phantom, OKX, Wigwam, Zerion
+- Rabby, Trust, Rainbow, Brave, Coinbase, MetaMask, Phantom, OKX, Wigwam, Zerion, Block*
+
+(*Block meets criteria but is abandoned)
 
 ### Wallets That DON'T Meet Core Criteria
 These are useful for specific purposes but should be clearly marked:
@@ -137,6 +139,12 @@ The original goal was to find STABLE alternatives. Key stability indicators:
 2. **Don't under-penalize missing core criteria** (mobile + extension is REQUIRED)
 3. **Stability != Stagnation:** Low release frequency with active commits is ideal
 4. **Open source != Better for devs:** Proprietary wallets can still be good dev tools
+
+### Multi-Pass Review Checklist
+1. **Math verification:** Breakdown values MUST sum to stated total score
+2. **Values within bounds:** No column can exceed its maximum (e.g., Security can't be 7/5)
+3. **Cross-document consistency:** Main table, breakdown table, and index.html must all match
+4. **No artifacts:** Check root folder for stray generated files
 
 ---
 
