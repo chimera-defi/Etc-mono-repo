@@ -100,6 +100,16 @@
   36. **Table columns over separate tables** - integrate related data into one table with extra columns rather than creating multiple tables that fragment information
   37. **Verify data sources inline** - when adding data, include source links directly in the table legend or footnotes, not in separate sections that might get deleted
 
+- Wallet comparison best practices:
+  38. **Single unified table** - resist the urge to create multiple comparison tables; keep all data in one comprehensive table
+  39. **Core criteria enforcement** - when comparing products/tools, define core criteria (e.g., "must have mobile + browser") and heavily penalize items that don't meet them
+  40. **Scoring math must verify** - breakdown values MUST actually sum to the stated total score; verify with arithmetic
+  41. **Values within bounds** - ensure no column exceeds its defined maximum (e.g., Security can't show 7/5)
+  42. **Cross-document consistency** - when data exists in multiple places (main table, breakdown table, HTML), all must match
+  43. **Release frequency as stability proxy** - for developer tools, lower release frequency often = more stability (inverse of typical "more updates = better")
+  44. **Private repos ≠ unknown** - mark proprietary/private wallets appropriately; unknown release frequency (?) is different from inactive (❌)
+  45. **Activity status decays** - what was active 6 months ago may be abandoned now; always verify with fresh data
+
 ## Best Practices
 - Use semantic versioning for packages
 - Include proper .gitignore files for each project type
