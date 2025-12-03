@@ -69,12 +69,12 @@ Funding (15 pts):
   🟡 VC-funded = 10
   🔴 Donations/grants/unknown = 0
 
-Security (35 pts):
+Usability (35 pts):
+  Browser Extension: +15 (essential for dApp testing, 0 for web-only/mobile-only)
   Tx Simulation: ✅=10, ⚠️=5, ❌=0
-  Scam Alerts: ✅=10, ⚠️=5, ❌=0
-  HW Wallets: ✅=5, ❌=0
-  EIP-4337: ✅=5, ⚠️=3, ❌=0
   Testnets: ✅=5, ❌=0
+  Multi-chain: ✅=5, ❌=0
+  Note: Total = 15+10+5+5 = 35
 ```
 
 ### Step 3: Add to Main Table
