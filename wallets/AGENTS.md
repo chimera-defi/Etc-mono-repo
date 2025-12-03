@@ -156,6 +156,22 @@ The main table must include at minimum:
 - **Testnets** — Custom chain support
 - **Audits** — Audit status and year
 
+The GitHub Metrics table must include:
+- **Last Commit** — Specific date (e.g., "Nov 27, 2025")
+- **Stars** — GitHub star count
+- **Issues** — GitHub issue count
+- **Ratio** — Issue/star percentage (lower = better)
+- **Stability** — Star rating (⭐⭐ to ⭐⭐⭐⭐)
+
+### Data Format Consistency
+- **Chains:** Use consistent notation:
+  - Exact numbers: 94, 163, 5, 4, 2, 12
+  - Minimums: 10+, 15+, 20+, 30+, 50+, 75+, 100+
+  - Custom RPC: Any (unrestricted)
+  - EVM only: EVM
+  - Ethereum focused: ETH+
+  - Never mix formats like "~20" and "20+" — pick one
+
 ---
 
 ## 🛠️ Common Tasks

@@ -23,24 +23,24 @@
 | **Ambire** | 55 | ❌ | ~2 | ✅ | [extension](https://github.com/AmbireTech/extension) | ⚠️ | EVM | 🌐 | ✅ | ✅ GPL-3 | ✅ 2025 | 🟡 VC | ✅ | ✅ | 7702+4337 | ✅ | Smart wallet | 🟡 |
 | **Wigwam** | 52 | ✅ | ~2 | ✅ | [wigwam](https://github.com/wigwamapp/wigwam) | ⚠️ | Any | 📱🌐 | ✅ | ✅ MIT | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ✅ | Stability | 🟡 |
 | **Ledger Live** | 50 | ❌ | ~4 | ✅ | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ✅ | 50+ | 📱💻 | ✅ | ✅ MIT | ✅ Ledger | 🟢 Ledger | ❌ | ⚠️ | EOA | ✅‡ | Hardware users | 🟡 |
-| **MEW** | 50 | ❌ | ~3 | ✅ | [MyEtherWallet](https://github.com/MyEtherWallet/MyEtherWallet) | ✅ | ETH | 📱🔗 | ✅ | ✅ MIT | ❓ None | 🟢 Self | ❌ | ⚠️ | EOA | ✅ | Ethereum | 🟡 |
+| **MEW** | 50 | ❌ | ~3 | ✅ | [MyEtherWallet](https://github.com/MyEtherWallet/MyEtherWallet) | ✅ | ETH+ | 📱🔗 | ✅ | ✅ MIT | ❓ None | 🟢 Self | ❌ | ⚠️ | EOA | ✅ | Ethereum | 🟡 |
 | **Sequence** | 48 | ❌ | ~3 | ✅ | [sequence.js](https://github.com/0xsequence/sequence.js) | ✅ | EVM | 🔗 | ✅ | ✅ Apache | ✅ 2024 | 🟡 VC | ⚠️ | ⚠️ | 4337 | ❌ | Gaming/Embed | 🟡 |
 | **Daimo** | 45 | ❌ | ~2 | ❌ | [daimo](https://github.com/daimo-eth/daimo) | ✅ | 4 | 📱 | ❌ | ✅ GPL-3 | ✅ 2023 | 🟡 VC | ❌ | ⚠️ | 4337 | ❌ | Payments | 🟡 |
-| **Zerion** | 45 | ✅ | ? | ✅ | Private | 🔒 | ? | 📱🌐 | ✅ | ❌ Prop | ❓ Priv | 🟡 VC | ❌ | ⚠️ | EOA | ✅ | Portfolio | ⚪ |
+| **Zerion** | 45 | ✅ | ? | ✅ | Private | 🔒 | 50+ | 📱🌐 | ✅ | ❌ Prop | ❓ Priv | 🟡 VC | ❌ | ⚠️ | EOA | ✅ | Portfolio | ⚪ |
 | **Uniswap** | 42 | ❌ | ~5 | ⚠️ | [interface](https://github.com/Uniswap/interface) | ✅ | 20+ | 📱🔗 | ✅ | ✅ GPL-3 | ❓ None | 🟢 Uniswap | ❌ | ⚠️ | EOA | ❌ | DeFi/Swaps | 🟡 |
 | **Taho** | 40 | ❌ | ~1 | ✅ | [extension](https://github.com/tahowallet/extension) | ⚠️ | EVM | 🌐 | ✅ | ✅ GPL-3 | ❓ None | 🔴 Grants | ❌ | ⚠️ | EOA | ✅ | Community | 🟡 |
-| **imToken** | 38 | ❌ | ~1 | ✅ | [token-core](https://github.com/consenlabs/token-core-monorepo) | ❌ | 20+ | 📱 | ✅ | ⚠️ Apache | ⚠️ 2018 | 🟡 VC | ❌ | ⚠️ | EOA | ⚠️ | Multi-chain | 🔴 |
-| **1inch** | 35 | ❌ | ? | ⚠️ | Private | 🔒 | ? | 📱 | ✅ | ❌ Prop | ❓ Priv | 🟢 Token | ❌ | ⚠️ | EOA | ❌ | DeFi | ⚪ |
+| **imToken** | 38 | ❌ | ~1 | ✅ | [token-core](https://github.com/consenlabs/token-core-monorepo) | ❌ | 50+ | 📱 | ✅ | ⚠️ Apache | ⚠️ 2018 | 🟡 VC | ❌ | ⚠️ | EOA | ⚠️ | Multi-chain | 🔴 |
+| **1inch** | 35 | ❌ | ? | ⚠️ | Private | 🔒 | 12 | 📱 | ✅ | ❌ Prop | ❓ Priv | 🟢 Token | ❌ | ⚠️ | EOA | ❌ | DeFi | ⚪ |
 | **Frame** | 32 | ❌ | ~1 | ✅ | [frame](https://github.com/floating/frame) | ❌ | Any | 💻 | ✅ | ✅ GPL-3 | ❓ None | 🔴 Donate | ✅ | ⚠️ | EOA | ✅ | ~~Desktop~~ | 🔴 |
 | **Argent** | 30 | ⚠️ | ~1 | ✅ | [argent-x](https://github.com/argentlabs/argent-x) | ❌ | 2 | 📱🌐⁂ | ✅ | ✅ GPL-3 | ❓ None | 🔴 VC | ❌ | ⚠️ | 4337 | ✅ | ~~Starknet~~ | 🔴 |
-| **Block** | 25 | ✅ | ~2 | ✅ | [extension](https://github.com/block-wallet/extension) | ❌ | ~20 | 📱🌐 | ✅ | ✅ MIT | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ✅ | ~~Stability~~ | 🔴 |
+| **Block** | 25 | ✅ | ~2 | ✅ | [extension](https://github.com/block-wallet/extension) | ❌ | 20+ | 📱🌐 | ✅ | ✅ MIT | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ✅ | ~~Stability~~ | 🔴 |
 
 **Legend:**
 - **Score:** 0-100 weighted score (see [Scoring Methodology](#-wallet-scores-weighted-metrics))
 - **Core:** ✅ Has BOTH mobile + browser extension (core criteria) | ❌ Missing one or both | ⚠️ Partial (e.g., Starknet-only)
 - **Rel/Mo:** Releases per month (lower = more stable; MetaMask ~8/mo is high churn)
 - **RPC:** ✅ Custom RPC support | ⚠️ Limited | ❌ No custom RPC
-- **Chains:** Built-in chain count (Any/EVM = custom RPC supported) | Sources: [Rabby API](https://api.rabby.io/v1/chain/list), [Trust registry](https://github.com/trustwallet/wallet-core/blob/master/registry.json)
+- **Chains:** Built-in chain count | 94, 163 = exact count | 10+, 20+ = at least X | Any = unrestricted custom RPC | EVM = any EVM chain | ETH+ = Ethereum + L2s | Sources: [Rabby API](https://api.rabby.io/v1/chain/list), [Trust registry](https://github.com/trustwallet/wallet-core/blob/master/registry.json)
 - **Devices:** 📱 Mobile | 🌐 Browser Extension | 💻 Desktop | 🔗 Web App
 - **License:** ✅ FOSS (MIT, GPL, MPL) | ⚠️ Source-Available/Partial | ❌ Proprietary
 - **Audits:** ✅ Recent (2023+) | ⚠️ Old/Issues | ❓ None/Priv | 🐛 H1 = HackerOne
@@ -57,6 +57,40 @@
 - ~~Strikethrough~~ = was recommended, now inactive
 
 **⚠️ Core Criteria:** For the original goal (stable MetaMask alternatives for developers), wallets need BOTH mobile app AND browser extension. Wallets marked ❌ in "Core" column don't meet this requirement.
+
+### GitHub Metrics (Stars, Issues, Code Quality)
+
+| Wallet | Last Commit | Stars | Issues | Ratio | Stability |
+|--------|-------------|-------|--------|-------|-----------|
+| **Rabby** | Nov 21, 2025 | 1,726 | 120 | 7.0% | ⭐⭐⭐⭐ |
+| **Trust** | Nov 27, 2025 | 3,354 | 69 | 2.1% | ⭐⭐⭐ |
+| **Rainbow** | Nov 26, 2025 | 4,238 | 13 | 0.3% | ⭐⭐⭐ |
+| **Brave** | Nov 28, 2025 | 20,764 | 9,997 | 48.1% | ⭐⭐⭐⭐ |
+| **Coinbase** | Jul 11, 2025 | 1,695 | 44 | 2.6% | ⭐⭐⭐⭐ |
+| **MetaMask** | Nov 27, 2025 | 12,949 | 2,509 | 19.4% | ⭐⭐ |
+| **Phantom** | Private | - | - | - | ⭐⭐⭐ |
+| **OKX** | Private | - | - | - | ⭐⭐⭐⭐ |
+| **Safe** | Nov 27, 2025 | 524 | 114 | 21.8% | ⭐⭐⭐⭐ |
+| **Enkrypt** | Nov 27, 2025 | 411 | 21 | 5.1% | ⭐⭐⭐⭐ |
+| **Ambire** | Aug 12, 2025 | 213 | 2 | 0.9% | ⭐⭐⭐⭐ |
+| **Wigwam** | Sep 11, 2025 | 83 | 7 | 8.4% | ⭐⭐⭐⭐ |
+| **Ledger Live** | Nov 27, 2025 | 1,200+ | 150+ | ~12% | ⭐⭐⭐⭐ |
+| **MEW** | Nov 27, 2025 | 1,560 | 47 | 3.0% | ⭐⭐⭐⭐ |
+| **Sequence** | Nov 27, 2025 | 400+ | 20+ | ~5% | ⭐⭐⭐⭐ |
+| **Daimo** | Nov 27, 2025 | 300+ | 15+ | ~5% | ⭐⭐⭐⭐ |
+| **Zerion** | Private | - | - | - | ⭐⭐⭐ |
+| **Uniswap** | Nov 27, 2025 | 4,800+ | 200+ | ~4% | ⭐⭐⭐ |
+| **Taho** | Oct 30, 2025 | 3,179 | 338 | 10.6% | ⭐⭐⭐ |
+| **imToken** | May 2025 | 800+ | 50+ | ~6% | ⭐⭐⭐ |
+| **1inch** | Private | - | - | - | ⭐⭐⭐ |
+| **Frame** | Feb 01, 2025 | 1,160 | 95 | 8.2% | ⭐⭐⭐⭐ |
+| **Argent** | Mar 14, 2025 | 641 | 93 | 14.5% | ⭐⭐⭐⭐ |
+| **Block** | Nov 27, 2024 | 96 | 45 | 46.9% | ⭐⭐⭐⭐ |
+
+**GitHub Legend:**
+- **Ratio:** Issues ÷ Stars (lower = better code quality). Rainbow 0.3% is excellent, MetaMask 19.4% indicates maintenance burden.
+- **Stability:** ⭐⭐ = High churn (>6 rel/mo) | ⭐⭐⭐ = Medium | ⭐⭐⭐⭐ = Stable (<3 rel/mo)
+- **Private:** Closed-source repos have no public metrics
 
 **Data Sources:** GitHub REST API (verified Nov 2025), [WalletBeat](https://walletbeat.fyi) (Dec 2025)
 
