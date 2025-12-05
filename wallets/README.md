@@ -48,7 +48,7 @@ Developer-focused comparison of crypto wallets to find stable MetaMask alternati
 |----------|--------|-------|-----|
 | Best Overall | **Trezor Safe 5** | 92 | Fully open source, Secure Element, touch screen |
 | Air-Gapped | **Keystone 3 Pro** | 90 | QR-only, never connects to computer |
-| Best Value | **Trezor Safe 3** | 85 | $79, Secure Element, fully open source |
+| Best Value | **Trezor Safe 3** | 90 | $79, Secure Element, fully open source |
 | Bitcoin Only | **ColdCard Mk4** | 87 | Dual SE, duress PIN, maximum BTC security |
 | Swiss Quality | **BitBox02** | 88 | Open source, reproducible builds |
 | ⚠️ Avoid | **Ledger** | 63-65 | Ledger Recover can extract seed phrases |

@@ -33,9 +33,9 @@ In May 2023, Ledger announced "Ledger Recover" — an optional firmware update t
 | **BitBox02** | 88 | ❌ | ✅ Full | ✅ ATECC | Touch Edge | 1500+ | $149 | USB-C | ⚠️ BTC Ed | 🟢 |
 | **ColdCard Mk4** | 87 | ✅ Full | ✅ Full | ✅ Dual SE | Mono LCD | BTC | $157 | MicroSD | ✅ | 🟢 |
 | **Foundation Passport** | 86 | ✅ Full | ✅ Full | ✅ SE | Color LCD | BTC | $259 | MicroSD/QR | ✅ | 🟢 |
-| **Trezor Safe 3** | 85 | ❌ | ✅ Full | ✅ EAL6+ | Mono OLED | 9000+ | $79 | USB-C | ❌ | 🟢 |
+| **Trezor Safe 3** | 90 | ❌ | ✅ Full | ✅ EAL6+ | Mono OLED | 9000+ | $79 | USB-C | ❌ | 🟢 |
 | **NGRAVE ZERO** | 84 | ✅ Full | ⚠️ Partial | ✅ EAL7 | Touch Color | 1000+ | $398 | QR | ❌ | 🟢 |
-| **GridPlus Lattice1** | 82 | ❌ | ✅ Full | ✅ SE | 5" Touch | 1000+ | $397 | WiFi/USB | ❌ | 🟢 |
+| **GridPlus Lattice1** | 72 | ❌ | ⚠️ SDK only | ✅ SE | 5" Touch | 1000+ | $397 | WiFi/USB | ❌ | 🟡 |
 | **OneKey Pro** | 80 | ❌ | ✅ Full | ✅ SE | Touch Color | 70+ | $199 | USB/BT | ❌ | 🟢 |
 | **Ellipal Titan 2.0** | 75 | ✅ Full | ❌ Closed | ❌ None | Touch Color | 10000+ | $169 | QR | ❌ | 🟡 |
 | **SafePal S1** | 72 | ✅ Full | ⚠️ Partial | ✅ SE | LCD | 100+ | $49 | QR | ❌ | 🟡 |
@@ -75,7 +75,7 @@ In May 2023, Ledger announced "Ledger Recover" — an optional firmware update t
 | **Foundation Passport** | ✅ SE | ✅ MicroSD/QR | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **Trezor Safe 3** | ✅ Optiga Trust M (EAL6+) | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
 | **NGRAVE ZERO** | ✅ STM32 + SE (EAL7) | ✅ QR | ⚠️ | ❌ | ✅ | ❌ | ❌ | ✅ |
-| **GridPlus Lattice1** | ✅ SE | ❌ WiFi | ✅ | ❌ | ✅ | ✅ | ❌ | ✅ |
+| **GridPlus Lattice1** | ✅ SE | ❌ WiFi | ⚠️ SDK | ❌ | ✅ | ✅ | ❌ | ✅ |
 | **OneKey Pro** | ✅ SE | ❌ | ✅ | ⚠️ | ✅ | ❌ | ❌ | ✅ |
 | **Ellipal Titan** | ❌ MCU only | ✅ QR | ❌ | ❌ | ✅ | ❌ | ❌ | ✅ |
 | **SafePal S1** | ✅ SE | ✅ QR | ⚠️ | ❌ | ✅ | ❌ | ❌ | ✅ |
@@ -122,9 +122,9 @@ Hardware wallet scoring prioritizes what matters for cold storage security:
 | **BitBox02** | 26/30 | 25/25 | 15/15 | 12/15 | 8/10 | 2/5 | **88** |
 | **ColdCard Mk4** | 30/30 | 25/25 | 15/15 | 8/15 | 8/10 | 1/5 | **87** |
 | **Foundation Passport** | 29/30 | 25/25 | 15/15 | 9/15 | 7/10 | 1/5 | **86** |
-| **Trezor Safe 3** | 26/30 | 25/25 | 15/15 | 10/15 | 9/10 | 0/5 | **85** |
+| **Trezor Safe 3** | 26/30 | 25/25 | 15/15 | 10/15 | 9/10 | 5/5 | **90** |
 | **NGRAVE ZERO** | 28/30 | 15/25 | 15/15 | 14/15 | 7/10 | 5/5 | **84** |
-| **GridPlus Lattice1** | 23/30 | 25/25 | 12/15 | 13/15 | 6/10 | 3/5 | **82** |
+| **GridPlus Lattice1** | 23/30 | 15/25 | 12/15 | 13/15 | 6/10 | 3/5 | **72** |
 | **OneKey Pro** | 24/30 | 25/25 | 13/15 | 13/15 | 3/10 | 2/5 | **80** |
 | **Ellipal Titan** | 22/30 | 5/25 | 15/15 | 14/15 | 5/10 | 4/5 | **75** |
 | **SafePal S1** | 24/30 | 12/25 | 14/15 | 11/15 | 6/10 | 5/5 | **72** |
@@ -175,7 +175,7 @@ Hardware wallet scoring prioritizes what matters for cold storage security:
 
 | Rank | Wallet | Score | Price | Why |
 |------|--------|-------|-------|-----|
-| 🥇 | **Trezor Safe 3** | 85 | $79 | Secure Element + full open source at budget price |
+| 🥇 | **Trezor Safe 3** | 90 | $79 | Secure Element + full open source at budget price |
 | 🥈 | **SafePal S1** | 72 | $49 | Air-gapped via QR, good for beginners |
 | 🥉 | **Tangem** | 68 | $55 | NFC cards, ultra-portable, 3-card backup system |
 
@@ -316,7 +316,7 @@ Hardware wallet scoring prioritizes what matters for cold storage security:
 
 **Best For:** Users who want simplicity + full transparency
 
-**GitHub:** [digitalbitbox/bitbox02-firmware](https://github.com/digitalbitbox/bitbox02-firmware) — ⭐ 600+ | Active
+**GitHub:** [BitBoxSwiss/bitbox02-firmware](https://github.com/BitBoxSwiss/bitbox02-firmware) — ⭐ 330 | Active
 
 ---
 
@@ -392,7 +392,7 @@ Hardware wallet scoring prioritizes what matters for cold storage security:
 
 **Best For:** Bitcoin holders who want premium open source hardware
 
-**GitHub:** [Foundation-Devices/passport2](https://github.com/Foundation-Devices/passport2) — ⭐ 300+ | Active
+**GitHub:** [Foundation-Devices/passport2](https://github.com/Foundation-Devices/passport2) — ⭐ 76 | Active
 
 ---
 
@@ -432,7 +432,7 @@ Hardware wallet scoring prioritizes what matters for cold storage security:
 
 ---
 
-### GridPlus Lattice1 (Score: 82)
+### GridPlus Lattice1 (Score: 72)
 
 **Enterprise-grade with unique SafeCards**
 
@@ -441,7 +441,7 @@ Hardware wallet scoring prioritizes what matters for cold storage security:
 | **Price** | $397 USD |
 | **Secure Element** | ✅ SE in SafeCards |
 | **Air-Gap** | ❌ WiFi/USB connection |
-| **Open Source** | ✅ Fully open |
+| **Open Source** | ⚠️ SDK only (firmware is proprietary) |
 | **Display** | 5" color touch screen |
 | **Connectivity** | WiFi, USB, SafeCards |
 | **Chains** | 1,000+ cryptocurrencies |
@@ -464,7 +464,7 @@ Hardware wallet scoring prioritizes what matters for cold storage security:
 
 **Best For:** Power users, home office setup, multiple wallets via SafeCards
 
-**GitHub:** [GridPlus/lattice-firmware](https://github.com/GridPlus/lattice-firmware) — ⭐ 100+ | Active
+**GitHub:** Firmware is proprietary; SDK at [GridPlus/gridplus-sdk](https://github.com/GridPlus/gridplus-sdk) — ⭐ 48 | Active
 
 ---
 
@@ -499,7 +499,7 @@ Hardware wallet scoring prioritizes what matters for cold storage security:
 
 **Best For:** Users who want Trezor security with modern UX
 
-**GitHub:** [OneKeyHQ/firmware](https://github.com/OneKeyHQ/firmware) — ⭐ 700+ | Active
+**GitHub:** [OneKeyHQ/firmware-pro](https://github.com/OneKeyHQ/firmware-pro) — ⭐ 17 | Active
 
 ---
 
@@ -667,6 +667,43 @@ If you're migrating from Ledger to another hardware wallet:
 
 ---
 
+## ✅ Data Verification Status
+
+This document underwent multi-pass review on December 2025. Here's the verification status:
+
+### Verified via GitHub API (Dec 2025)
+| Wallet | Repo | Stars | Last Updated | Status |
+|--------|------|-------|--------------|--------|
+| Trezor | trezor/trezor-firmware | 1,626 | Dec 5, 2025 | ✅ Active |
+| Keystone | KeystoneHQ/keystone3-firmware | 188 | Dec 3, 2025 | ✅ Active |
+| BitBox02 | BitBoxSwiss/bitbox02-firmware | 330 | Dec 4, 2025 | ✅ Active |
+| ColdCard | Coldcard/firmware | 689 | Nov 27, 2025 | ✅ Active |
+| Foundation | Foundation-Devices/passport2 | 76 | Dec 4, 2025 | ✅ Active |
+| OneKey | OneKeyHQ/firmware-pro | 17 | Dec 3, 2025 | ✅ Active |
+| KeepKey | keepkey/keepkey-firmware | 162 | Aug 20, 2025 | ⚠️ Slow |
+
+### Verified: All Items Are Hardware Wallets
+All 18 wallets listed are confirmed physical hardware devices for cryptocurrency cold storage. None are software wallets.
+
+### Corrections Made During Review
+1. **GridPlus Lattice1**: Corrected from "Open Source ✅ Full" to "⚠️ SDK only" — firmware is proprietary
+2. **BitBox02**: Fixed GitHub org from `digitalbitbox` to `BitBoxSwiss`
+3. **Star counts**: Updated to actual verified counts (several were over-estimated)
+4. **Trezor Safe 3**: Fixed scoring inconsistency (chains column)
+
+### Not Independently Verified
+- Exact current retail prices (change frequently)
+- Some technical specs (taken from official marketing)
+- Security audit reports (links provided but not validated)
+- NGRAVE, Ellipal, SafePal, SecuX, Tangem, Arculus, BC Vault — no public GitHub repos to verify
+
+### Data Confidence Levels
+- **High confidence:** Trezor, Ledger, ColdCard, BitBox02 (established, well-documented)
+- **Medium confidence:** Keystone, Foundation, OneKey, GridPlus (verified repos, newer companies)
+- **Lower confidence:** Ellipal, SafePal, SecuX, Tangem, Arculus, BC Vault (closed source, marketing-based data)
+
+---
+
 ## 📝 Changelog
 
 | Date | Change | Details |
@@ -674,6 +711,7 @@ If you're migrating from Ledger to another hardware wallet:
 | Dec 2025 | Document created | Initial hardware wallet comparison |
 | Dec 2025 | Scoring methodology | Security-first weighting with Ledger penalty |
 | Dec 2025 | 15+ wallets added | Comprehensive market coverage |
+| Dec 2025 | Multi-pass review | Corrected GridPlus open source status, fixed GitHub links/stars |
 
 ---
 
@@ -708,7 +746,7 @@ To add a new hardware wallet or update existing data:
 ### Official Sources
 - [Trezor](https://trezor.io/) — [GitHub](https://github.com/trezor)
 - [Keystone](https://keyst.one/) — [GitHub](https://github.com/KeystoneHQ)
-- [BitBox02](https://shiftcrypto.ch/bitbox02/) — [GitHub](https://github.com/digitalbitbox)
+- [BitBox02](https://bitbox.swiss/bitbox02/) — [GitHub](https://github.com/BitBoxSwiss)
 - [ColdCard](https://coldcard.com/) — [GitHub](https://github.com/Coldcard)
 - [Foundation Passport](https://foundationdevices.com/) — [GitHub](https://github.com/Foundation-Devices)
 - [NGRAVE](https://www.ngrave.io/)
