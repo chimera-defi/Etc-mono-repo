@@ -1,416 +1,361 @@
-# Build vs Buy: Do We Really Need These Services?
+# Build vs Buy Analysis
 
-Critical analysis of what we actually need vs what third parties provide.
+## What Do These Services Actually Provide?
 
----
+### Trigger.dev Breakdown
 
-## What Does Each Service Actually Give Us?
+| Feature | Do We Need It? | DIY Difficulty |
+|---------|----------------|----------------|
+| Job queuing | ✅ Yes | Easy (Redis/BullMQ or even in-memory) |
+| Retries with backoff | ✅ Yes | Easy (simple loop) |
+| Long-running tasks | ✅ Yes | Easy (just run the process) |
+| Real-time updates | ✅ Yes | Medium (WebSocket) |
+| Dashboard UI | ⚠️ Nice to have | Medium |
+| Multi-tenant isolation | ❌ Not for MVP | N/A |
+| Distributed workers | ❌ Overkill for MVP | N/A |
 
-### Trigger.dev - What It Provides
+**Verdict**: We're paying for features we don't need. The core is just "run a task, report progress."
 
-| Feature | Do We Need It? | Can We Build It? |
-|---------|----------------|------------------|
-| Job queuing | ✅ Yes | ✅ Easy (Redis/BullMQ or just Postgres) |
-| Retries on failure | ✅ Yes | ✅ Easy (simple retry loop) |
-| Long-running tasks | ✅ Yes | ✅ Easy (our own process) |
-| Real-time updates | ✅ Yes | ✅ Easy (WebSocket) |
-| Dashboard UI | ⚠️ Nice to have | ⚠️ Takes time |
-| Distributed workers | ⚠️ Maybe later | ⚠️ More complex |
+### Supabase Breakdown
 
-**Verdict**: Trigger.dev is convenient but **not essential**. A simple queue + worker is sufficient.
+| Feature | Do We Need It? | DIY Difficulty |
+|---------|----------------|----------------|
+| PostgreSQL | ⚠️ Maybe | SQLite works fine |
+| Auth (OAuth) | ✅ Yes | Medium (passport.js, lucia) |
+| Realtime (WebSocket) | ✅ Yes | Easy (ws, socket.io) |
+| Row-level security | ❌ Overkill | N/A |
+| Edge functions | ❌ Don't need | N/A |
+| Storage | ⚠️ Maybe | Filesystem or S3 |
 
-### Supabase - What It Provides
-
-| Feature | Do We Need It? | Can We Build It? |
-|---------|----------------|------------------|
-| PostgreSQL | ✅ Yes | ✅ SQLite is simpler |
-| Auth (OAuth) | ✅ Yes | ⚠️ OAuth libraries exist |
-| Realtime WebSocket | ✅ Yes | ✅ Easy (ws library) |
-| Storage | ⚠️ Maybe | ✅ Local filesystem / S3 |
-| Edge Functions | ❌ No | N/A |
-| Row-level security | ❌ No | N/A |
-
-**Verdict**: Supabase bundles things nicely but **we don't need most of it**.
+**Verdict**: We're paying for a lot of PostgreSQL features we don't need.
 
 ---
 
-## What Do We ACTUALLY Need?
+## The Minimal Architecture
 
-### Minimal Requirements
+### What We Actually Need
 
-| Requirement | Simplest Solution |
+1. **Task execution** - Run Claude API calls + tools
+2. **State persistence** - Remember tasks, messages
+3. **Real-time updates** - Push progress to mobile
+4. **Auth** - Know who's who
+5. **Code access** - Clone repos, push changes
+
+### Can SQLite Handle This?
+
+| Requirement | SQLite Capability |
 |-------------|-------------------|
-| Store task history | SQLite file |
-| Store user sessions | SQLite or JWT |
-| Queue tasks | In-memory queue or SQLite table |
-| Real-time updates | WebSocket server |
-| Run agent code | Docker container |
-| Clone repos | `git clone` |
-| Call Claude API | HTTP requests |
+| Task storage | ✅ Perfect |
+| Message history | ✅ Perfect |
+| User accounts | ✅ Perfect |
+| Concurrent writes | ⚠️ Limited (WAL mode helps) |
+| Distributed access | ❌ No (single file) |
 
-### The Minimal Architecture
+**SQLite works if**: Single server handles all tasks (no distributed workers).
+
+---
+
+## Minimal DIY Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    SINGLE SERVER                             │
+│                     SINGLE SERVER                            │
+│                  (Fly.io or any VPS)                         │
 │                                                              │
-│  ┌────────────────────────────────────────────────────────┐ │
-│  │  Node.js / Python Server                                │ │
-│  │                                                         │ │
-│  │  • WebSocket endpoint (mobile connects here)            │ │
-│  │  • REST API (auth, task management)                     │ │
-│  │  • Task queue (in-memory or SQLite-backed)              │ │
-│  │  • Agent orchestrator (spawns Docker containers)        │ │
-│  │                                                         │ │
-│  └────────────────────────────────────────────────────────┘ │
-│                           │                                  │
-│                           ▼                                  │
-│  ┌────────────────────────────────────────────────────────┐ │
-│  │  SQLite Database                                        │ │
-│  │                                                         │ │
-│  │  • users (id, github_token, created_at)                 │ │
-│  │  • tasks (id, user_id, status, repo_url, created_at)    │ │
-│  │  • messages (id, task_id, role, content, created_at)    │ │
-│  │                                                         │ │
-│  └────────────────────────────────────────────────────────┘ │
-│                           │                                  │
-│                           ▼                                  │
-│  ┌────────────────────────────────────────────────────────┐ │
-│  │  Docker (for sandboxed agent execution)                 │ │
-│  │                                                         │ │
-│  │  Container per task:                                    │ │
-│  │  • Clone repo                                           │ │
-│  │  • Run agent loop (Claude API + tools)                  │ │
-│  │  • Push changes                                         │ │
-│  │  • Exit when done                                       │ │
-│  │                                                         │ │
-│  └────────────────────────────────────────────────────────┘ │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │                 Node.js/Bun Server                   │    │
+│  │                                                      │    │
+│  │  ┌──────────────┐  ┌──────────────┐                 │    │
+│  │  │  HTTP API    │  │  WebSocket   │                 │    │
+│  │  │  /api/tasks  │  │  /ws         │                 │    │
+│  │  └──────────────┘  └──────────────┘                 │    │
+│  │                                                      │    │
+│  │  ┌──────────────┐  ┌──────────────┐                 │    │
+│  │  │ Task Runner  │  │  Claude API  │                 │    │
+│  │  │ (in-process) │  │  Client      │                 │    │
+│  │  └──────────────┘  └──────────────┘                 │    │
+│  │                                                      │    │
+│  │  ┌──────────────────────────────────────────────┐   │    │
+│  │  │              SQLite Database                  │   │    │
+│  │  │  • users     • tasks    • messages            │   │    │
+│  │  └──────────────────────────────────────────────┘   │    │
+│  │                                                      │    │
+│  │  ┌──────────────────────────────────────────────┐   │    │
+│  │  │              Filesystem                       │   │    │
+│  │  │  • /workspaces/{task_id}/  (cloned repos)    │   │    │
+│  │  └──────────────────────────────────────────────┘   │    │
+│  │                                                      │    │
+│  └─────────────────────────────────────────────────────┘    │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**That's it.** One server, SQLite, Docker.
+### Tech Stack
 
----
+| Component | Technology | Why |
+|-----------|------------|-----|
+| Runtime | **Bun** or Node.js | Fast, simple |
+| HTTP Framework | **Hono** or Express | Lightweight |
+| WebSocket | **ws** (native) | No dependencies |
+| Database | **SQLite** (better-sqlite3) | Zero config |
+| ORM | **Drizzle** | Type-safe, lightweight |
+| Auth | **Lucia** or DIY JWT | Simple |
+| Git | **simple-git** | npm package |
 
-## Self-Hosted Stack Comparison
+### What This Eliminates
 
-| Component | Managed Services | Self-Hosted |
-|-----------|------------------|-------------|
-| **Compute** | Fly.io ($20/mo) | Single VPS ($5-20/mo) |
-| **Database** | Supabase/Neon ($25/mo) | SQLite ($0) |
-| **Queue** | Trigger.dev ($30/mo) | BullMQ or SQLite ($0) |
-| **Cache** | Upstash ($10/mo) | In-memory or SQLite ($0) |
-| **Auth** | Supabase Auth | Simple JWT + GitHub OAuth |
-| **WebSocket** | Supabase Realtime | ws library ($0) |
-| **Total** | ~$85/mo minimum | **$5-20/mo** (just the VPS) |
-
----
-
-## What We Lose By Self-Hosting
-
-| Feature | Impact | Mitigation |
-|---------|--------|------------|
-| Auto-scaling | ⚠️ Medium | Vertical scaling, or add workers later |
-| Managed backups | ⚠️ Medium | Simple cron + S3 backup |
-| Dashboard UI | 🟢 Low | Build simple admin page later |
-| Multi-region | 🟢 Low | Not needed for MVP |
-| 99.9% SLA | 🟢 Low | VPS providers are reliable enough |
-
----
-
-## Proposed Self-Hosted Architecture
-
-### Single VPS Setup
-
-```
-VPS (e.g., Hetzner €4/mo, DigitalOcean $6/mo)
-│
-├── /app
-│   ├── server.ts          # Main server (Express/Fastify)
-│   ├── websocket.ts       # WebSocket handler
-│   ├── queue.ts           # Simple task queue
-│   ├── agent.ts           # Agent orchestrator
-│   └── db.ts              # SQLite wrapper
-│
-├── /data
-│   └── agent.db           # SQLite database
-│
-└── Docker
-    └── agent-worker        # Container image for agent execution
-```
-
-### Server Components
-
-```typescript
-// server.ts - Main server (~200 lines)
-import Fastify from 'fastify';
-import { WebSocketServer } from 'ws';
-import Database from 'better-sqlite3';
-
-const app = Fastify();
-const wss = new WebSocketServer({ server: app.server });
-const db = new Database('./data/agent.db');
-
-// Initialize database
-db.exec(`
-  CREATE TABLE IF NOT EXISTS users (
-    id TEXT PRIMARY KEY,
-    github_token TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-  );
-  
-  CREATE TABLE IF NOT EXISTS tasks (
-    id TEXT PRIMARY KEY,
-    user_id TEXT,
-    repo_url TEXT,
-    prompt TEXT,
-    status TEXT DEFAULT 'pending',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id)
-  );
-  
-  CREATE TABLE IF NOT EXISTS messages (
-    id TEXT PRIMARY KEY,
-    task_id TEXT,
-    role TEXT,
-    content TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (task_id) REFERENCES tasks(id)
-  );
-`);
-
-// WebSocket connections
-const connections = new Map<string, WebSocket>();
-
-wss.on('connection', (ws, req) => {
-  const userId = authenticateWebSocket(req);
-  connections.set(userId, ws);
-  
-  ws.on('message', async (data) => {
-    const { type, payload } = JSON.parse(data.toString());
-    
-    if (type === 'start_task') {
-      const taskId = await startTask(userId, payload);
-      ws.send(JSON.stringify({ type: 'task_started', taskId }));
-    }
-  });
-});
-
-// Start a task - spawn Docker container
-async function startTask(userId: string, { repoUrl, prompt }) {
-  const taskId = crypto.randomUUID();
-  
-  db.prepare(`
-    INSERT INTO tasks (id, user_id, repo_url, prompt, status)
-    VALUES (?, ?, ?, ?, 'running')
-  `).run(taskId, userId, repoUrl, prompt);
-  
-  // Spawn Docker container
-  spawnAgent(taskId, repoUrl, prompt, (update) => {
-    // Send updates to connected client
-    const ws = connections.get(userId);
-    if (ws) ws.send(JSON.stringify(update));
-  });
-  
-  return taskId;
-}
-```
-
-### Agent Worker (Docker Container)
-
-```typescript
-// agent-worker/main.ts - Runs inside container (~300 lines)
-import Anthropic from '@anthropic-ai/sdk';
-import { execSync } from 'child_process';
-import * as fs from 'fs';
-
-const client = new Anthropic();
-const { TASK_ID, REPO_URL, PROMPT, CALLBACK_URL } = process.env;
-
-// Clone repo
-execSync(`git clone ${REPO_URL} /workspace`);
-process.chdir('/workspace');
-
-// Define tools
-const tools = [
-  {
-    name: 'read_file',
-    description: 'Read file contents',
-    input_schema: {
-      type: 'object',
-      properties: { path: { type: 'string' } },
-      required: ['path']
-    }
-  },
-  {
-    name: 'write_file',
-    description: 'Write to file',
-    input_schema: {
-      type: 'object',
-      properties: { 
-        path: { type: 'string' },
-        content: { type: 'string' }
-      },
-      required: ['path', 'content']
-    }
-  },
-  {
-    name: 'run_command',
-    description: 'Run shell command',
-    input_schema: {
-      type: 'object',
-      properties: { command: { type: 'string' } },
-      required: ['command']
-    }
-  }
-];
-
-// Execute tool
-function executeTool(name: string, input: any): string {
-  switch (name) {
-    case 'read_file':
-      return fs.readFileSync(input.path, 'utf-8');
-    case 'write_file':
-      fs.writeFileSync(input.path, input.content);
-      return 'File written successfully';
-    case 'run_command':
-      return execSync(input.command, { encoding: 'utf-8', timeout: 30000 });
-    default:
-      throw new Error(`Unknown tool: ${name}`);
-  }
-}
-
-// Agent loop
-async function runAgent() {
-  const messages = [{ role: 'user', content: PROMPT }];
-  
-  while (true) {
-    const response = await client.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 8192,
-      tools,
-      messages
-    });
-    
-    // Send update to server
-    await fetch(CALLBACK_URL, {
-      method: 'POST',
-      body: JSON.stringify({ taskId: TASK_ID, response })
-    });
-    
-    // Check if done
-    if (response.stop_reason === 'end_turn') {
-      break;
-    }
-    
-    // Execute tool calls
-    if (response.stop_reason === 'tool_use') {
-      const toolResults = [];
-      
-      for (const block of response.content) {
-        if (block.type === 'tool_use') {
-          const result = executeTool(block.name, block.input);
-          toolResults.push({
-            type: 'tool_result',
-            tool_use_id: block.id,
-            content: result
-          });
-        }
-      }
-      
-      messages.push({ role: 'assistant', content: response.content });
-      messages.push({ role: 'user', content: toolResults });
-    }
-  }
-  
-  // Push changes if any
-  execSync('git add -A && git commit -m "Agent changes" && git push || true');
-}
-
-runAgent().catch(console.error);
-```
+| Third Party | Replaced By |
+|-------------|-------------|
+| Trigger.dev | In-process task runner |
+| Supabase Postgres | SQLite file |
+| Supabase Realtime | Native WebSocket |
+| Supabase Auth | Lucia or JWT |
+| Upstash Redis | In-memory Map + SQLite |
+| Cloudflare R2 | Local filesystem |
 
 ---
 
 ## Cost Comparison
 
-| Scenario | Managed Stack | Self-Hosted |
-|----------|---------------|-------------|
-| **MVP (10 users)** | $85/mo | $5/mo |
-| **Growth (100 users)** | $200/mo | $20/mo |
-| **Scale (1000 users)** | $500+/mo | $50-100/mo |
+### Third-Party Stack (Trigger.dev + Supabase)
+
+| Service | Free Tier | Paid |
+|---------|-----------|------|
+| Trigger.dev | 10k runs/mo | $50/mo |
+| Supabase | 500MB, 50k MAU | $25/mo |
+| Fly.io (still need compute) | 3 VMs | ~$10/mo |
+| **Total** | Free for MVP | **~$85/mo** |
+
+### DIY Stack (Single Server)
+
+| Service | Free Tier | Paid |
+|---------|-----------|------|
+| Fly.io (1 VM) | Included | $5-15/mo |
+| Domain | — | $12/yr |
+| **Total** | Free for MVP | **~$15/mo** |
 
 ---
 
-## Recommendation
+## Trade-offs
 
-### For MVP: Self-Hosted
+### DIY Advantages
 
-```
-Single VPS ($5-20/mo)
-├── Fastify/Express server
-├── WebSocket for real-time
-├── SQLite for persistence
-├── Docker for agent sandboxing
-└── Simple GitHub OAuth
-```
+| Advantage | Impact |
+|-----------|--------|
+| **Simpler** | One server, one codebase |
+| **Cheaper** | $15/mo vs $85/mo |
+| **No vendor lock-in** | Move anywhere |
+| **Full control** | Debug everything |
+| **Faster iteration** | No waiting for third-party features |
 
-**Total services to manage: 1 (your VPS)**
+### DIY Disadvantages
 
-### Scale Later If Needed
-
-When/if you need to scale:
-1. Move SQLite → Postgres (same queries work)
-2. Add Redis for pub/sub (if multiple servers)
-3. Add worker nodes (if CPU-bound)
-4. Consider managed services only when pain is real
-
----
-
-## What Changes in Phase 2 Decisions?
-
-| # | Decision | Original | Revised |
-|---|----------|----------|---------|
-| 6 | Compute Provider | Fly.io | **Single VPS** (Hetzner/DO) |
-| 7 | Container Orchestration | Fly Machines API | **Docker on same VPS** |
-| 8 | Networking | WebSocket Hub | **WebSocket on same server** |
-| 9 | Persistence | Upstash + Neon + R2 | **SQLite + local filesystem** |
+| Disadvantage | Mitigation |
+|--------------|------------|
+| **Single point of failure** | Fly.io has auto-restart |
+| **No auto-scaling** | Upgrade VM or add workers later |
+| **Build auth yourself** | Lucia is simple |
+| **No fancy dashboard** | Build simple admin page |
+| **Concurrent task limit** | One task at a time, or simple queue |
 
 ---
 
-## Final Architecture (Self-Hosted)
+## Scalability Path
 
+Start simple, scale when needed:
+
+### Phase 1: Single Server MVP
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                         VPS ($5-20/mo)                       │
-│                                                              │
-│   ┌─────────────────────────────────────────────────────┐   │
-│   │                  Main Server                         │   │
-│   │                                                      │   │
-│   │  [Mobile App] ◄──WebSocket──► [Server Process]      │   │
-│   │                                     │                │   │
-│   │                                     ▼                │   │
-│   │                              [Task Queue]            │   │
-│   │                              (in-memory)             │   │
-│   │                                     │                │   │
-│   │                                     ▼                │   │
-│   │                           [Docker Daemon]            │   │
-│   │                                     │                │   │
-│   │              ┌──────────────────────┼────────┐       │   │
-│   │              ▼                      ▼        ▼       │   │
-│   │         [Worker 1]            [Worker 2]   [...]     │   │
-│   │         (Task A)              (Task B)               │   │
-│   │                                                      │   │
-│   └─────────────────────────────────────────────────────┘   │
-│                              │                               │
-│                              ▼                               │
-│   ┌─────────────────────────────────────────────────────┐   │
-│   │                    SQLite                            │   │
-│   │  users | tasks | messages                            │   │
-│   └─────────────────────────────────────────────────────┘   │
-│                                                              │
-└─────────────────────────────────────────────────────────────┘
+1 Fly.io VM → SQLite → handles ~10-50 concurrent users
 ```
 
-**Your call**: Does this simpler self-hosted approach make more sense?
+### Phase 2: Add Workers (if needed)
+```
+1 Coordinator → N Workers (Fly Machines)
+SQLite → PostgreSQL (when concurrent writes matter)
+```
+
+### Phase 3: Full Scale (if needed)
+```
+Multiple regions, load balancing, Redis, etc.
+(Only if you have thousands of users)
+```
+
+---
+
+## Recommended DIY Stack
+
+### Server
+
+```typescript
+// server.ts (Bun + Hono + WebSocket)
+import { Hono } from 'hono';
+import { serve } from 'bun';
+import { Database } from 'bun:sqlite';
+
+const app = new Hono();
+const db = new Database('agent.db');
+
+// Simple task queue (in-memory)
+const taskQueue: Map<string, Task> = new Map();
+const wsClients: Map<string, WebSocket> = new Map();
+
+// REST API
+app.post('/api/tasks', async (c) => {
+  const { repoUrl, prompt } = await c.req.json();
+  const taskId = crypto.randomUUID();
+  
+  // Save to SQLite
+  db.run('INSERT INTO tasks (id, repo_url, prompt, status) VALUES (?, ?, ?, ?)', 
+    [taskId, repoUrl, prompt, 'pending']);
+  
+  // Start task in background
+  runTask(taskId, repoUrl, prompt);
+  
+  return c.json({ taskId });
+});
+
+// WebSocket for real-time updates
+Bun.serve({
+  port: 3000,
+  fetch: app.fetch,
+  websocket: {
+    open(ws) {
+      const userId = ws.data.userId;
+      wsClients.set(userId, ws);
+    },
+    close(ws) {
+      wsClients.delete(ws.data.userId);
+    },
+  },
+});
+```
+
+### Database Schema
+
+```sql
+-- schema.sql
+CREATE TABLE users (
+  id TEXT PRIMARY KEY,
+  github_id TEXT UNIQUE,
+  github_token TEXT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE tasks (
+  id TEXT PRIMARY KEY,
+  user_id TEXT REFERENCES users(id),
+  repo_url TEXT,
+  prompt TEXT,
+  status TEXT DEFAULT 'pending',
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  completed_at DATETIME
+);
+
+CREATE TABLE messages (
+  id TEXT PRIMARY KEY,
+  task_id TEXT REFERENCES tasks(id),
+  role TEXT, -- 'user', 'assistant', 'tool'
+  content TEXT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE tool_calls (
+  id TEXT PRIMARY KEY,
+  task_id TEXT REFERENCES tasks(id),
+  tool_name TEXT,
+  input TEXT,
+  output TEXT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### Task Runner
+
+```typescript
+// taskRunner.ts
+async function runTask(taskId: string, repoUrl: string, prompt: string) {
+  const workDir = `/tmp/workspaces/${taskId}`;
+  
+  // Clone repo
+  await $`git clone --depth 1 ${repoUrl} ${workDir}`;
+  broadcast(taskId, { type: 'status', status: 'cloned' });
+  
+  // Run agent loop
+  const messages = [{ role: 'user', content: prompt }];
+  
+  while (true) {
+    const response = await claude.messages.create({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 8192,
+      tools: TOOLS,
+      messages,
+    });
+    
+    // Stream to client
+    broadcast(taskId, { type: 'message', content: response });
+    
+    // Check for tool calls
+    const toolUse = response.content.find(c => c.type === 'tool_use');
+    if (!toolUse) break; // Done
+    
+    // Execute tool
+    const result = await executeTool(toolUse, workDir);
+    messages.push({ role: 'tool', content: result });
+    
+    broadcast(taskId, { type: 'tool_result', result });
+  }
+  
+  // Push changes
+  await $`cd ${workDir} && git push`;
+  broadcast(taskId, { type: 'complete' });
+  
+  // Cleanup
+  await $`rm -rf ${workDir}`;
+}
+```
+
+---
+
+## Final Recommendation
+
+### For MVP: DIY Single Server
+
+| Component | Choice |
+|-----------|--------|
+| **Hosting** | Fly.io (1 VM, $5-15/mo) |
+| **Runtime** | Bun |
+| **Framework** | Hono |
+| **Database** | SQLite |
+| **WebSocket** | Native Bun WebSocket |
+| **Auth** | GitHub OAuth (manual) |
+| **Git** | simple-git or shell |
+
+### What You Get
+
+- ✅ Full control
+- ✅ ~$15/mo hosting
+- ✅ No vendor lock-in
+- ✅ Simple codebase (~500-1000 lines)
+- ✅ Easy to debug
+- ✅ Can scale later if needed
+
+### What You Give Up
+
+- ❌ No auto-scaling (upgrade VM manually)
+- ❌ No fancy dashboards (build your own)
+- ❌ Build auth yourself (but Lucia is simple)
+- ❌ Single point of failure (Fly auto-restarts)
+
+---
+
+## Conclusion
+
+**Yes, SQLite + single server is enough for MVP.**
+
+Third-party services like Trigger.dev and Supabase are great, but they solve problems we don't have yet:
+- Distributed workers (we have one server)
+- Multi-tenant isolation (we trust our users for now)
+- Complex auth rules (we just need GitHub OAuth)
+
+Start simple. Add complexity when you actually need it.
