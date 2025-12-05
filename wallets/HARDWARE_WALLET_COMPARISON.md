@@ -428,7 +428,7 @@ Hardware wallet scoring prioritizes what matters for cold storage security:
 
 **Best For:** Bitcoin holders who want premium open source hardware
 
-**GitHub:** [Foundation-Devices/passport2](https://github.com/Foundation-Devices/passport2) — ⭐ 76 | Active
+**GitHub:** [Foundation-Devices/passport2](https://github.com/Foundation-Devices/passport2) — ⭐ 76 | ⚠️ Slow (44 days)
 
 ---
 
@@ -786,9 +786,9 @@ This document underwent multi-pass review on December 2025. Here's the verificat
 | Keystone | KeystoneHQ/keystone3-firmware | 188 | Dec 3, 2025 | ✅ Active |
 | BitBox02 | BitBoxSwiss/bitbox02-firmware | 330 | Dec 4, 2025 | ✅ Active |
 | ColdCard | Coldcard/firmware | 689 | Nov 27, 2025 | ✅ Active |
-| Foundation | Foundation-Devices/passport2 | 76 | Dec 4, 2025 | ✅ Active |
+| Foundation | Foundation-Devices/passport2 | 76 | Oct 22, 2025 | ⚠️ Slow |
 | OneKey | OneKeyHQ/firmware-pro | 17 | Dec 3, 2025 | ✅ Active |
-| KeepKey | keepkey/keepkey-firmware | 162 | Aug 20, 2025 | ⚠️ Slow |
+| KeepKey | keepkey/keepkey-firmware | 162 | Feb 11, 2025 | ❌ Inactive |
 
 ### Verified: All Items Are Hardware Wallets
 All 18 wallets listed are confirmed physical hardware devices for cryptocurrency cold storage. None are software wallets.

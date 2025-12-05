@@ -29,8 +29,6 @@ REPOS=(
     "Foundation-Devices/passport2"
     "OneKeyHQ/firmware-pro"
     "keepkey/keepkey-firmware"
-    "ArcticWallet/ArcticWallet"
-    "AirGap-it/airgap-vault"
 )
 
 WALLET_NAMES=(
@@ -41,8 +39,6 @@ WALLET_NAMES=(
     "Foundation Passport"
     "OneKey"
     "KeepKey"
-    "Arctic (Arculus)"
-    "AirGap Vault"
 )
 
 # Note: These wallets have NO public firmware repos (closed source):
