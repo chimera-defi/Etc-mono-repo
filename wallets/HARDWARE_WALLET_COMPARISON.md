@@ -8,40 +8,42 @@
 
 ## Complete Hardware Wallet Comparison (19 Wallets)
 
-| Wallet | Score | Air-Gap | Open Source | Secure Elem | Display | Chains | Price | Conn | BTC-Only | Activity | Rec |
-|--------|-------|---------|-------------|-------------|---------|--------|-------|------|----------|----------|-----|
-| **Trezor Safe 5** | 94 | ❌ | ✅ Full | ✅ EAL6+ | Touch Color | 9000+ | $169 | USB-C | ❌ | ✅ Active | 🟢 |
-| **Keystone 3 Pro** | 91 | ✅ Full | ✅ Full | ✅ 3× SE | Touch Color | 5500+ | $149 | QR | ❌ | ✅ Active | 🟢 |
-| **ColdCard Mk4** | 91 | ✅ Full | ✅ Full | ✅ Dual SE | Mono LCD | BTC | $157 | MicroSD | ✅ | ✅ Active | 🟢 |
-| **Trezor Safe 3** | 91 | ❌ | ✅ Full | ✅ EAL6+ | Mono OLED | 9000+ | $79 | USB-C | ❌ | ✅ Active | 🟢 |
-| **BitBox02** | 88 | ❌ | ✅ Full | ✅ ATECC | Touch Edge | 1500+ | $149 | USB-C | ⚠️ BTC Ed | ✅ Active | 🟢 |
-| **Foundation Passport** | 81 | ✅ Full | ✅ Full | ✅ SE | Color LCD | BTC | $259 | MicroSD/QR | ✅ | ⚠️ Slow | 🟢 |
-| **OneKey Pro** | 77 | ❌ | ✅ Full | ✅ SE | Touch Color | 70+ | $199 | USB/BT | ❌ | ✅ Active | 🟢 |
-| **NGRAVE ZERO** | 72 | ✅ Full | ⚠️ Partial | ✅ EAL7 | Touch Color | 1000+ | $398 | QR | ❌ | 🔒 Private | 🟡 |
-| **SafePal S1** | 62 | ✅ Full | ⚠️ Partial | ✅ SE | LCD | 100+ | $49 | QR | ❌ | 🔒 Private | 🟡 |
-| **GridPlus Lattice1** | 59 | ❌ | ⚠️ SDK only | ✅ SE | 5" Touch | 1000+ | $397 | WiFi/USB | ❌ | 🔒 Private | 🟡 |
-| **Ledger Stax** | 57 | ❌ | ⚠️ Partial | ✅ CC EAL5+ | E-Ink Touch | 5500+ | $279 | USB/BT | ❌ | 🔒 Private | 🟡 |
-| **Ledger Nano X** | 56 | ❌ | ⚠️ Partial | ✅ CC EAL5+ | Mono OLED | 5500+ | $149 | USB/BT | ❌ | 🔒 Private | 🟡 |
-| **Ledger Nano S Plus** | 55 | ❌ | ⚠️ Partial | ✅ CC EAL5+ | Mono OLED | 5500+ | $79 | USB | ❌ | 🔒 Private | 🟡 |
-| **Tangem Wallet** | 53 | ❌ | ⚠️ Partial | ✅ EAL6+ | None | 6000+ | $55 | NFC | ❌ | 🔒 Private | 🟡 |
-| **Ellipal Titan 2.0** | 48 | ✅ Full | ❌ Closed | ❌ None | Touch Color | 10000+ | $169 | QR | ❌ | 🔒 Private | 🔴 |
-| **SecuX V20** | 47 | ❌ | ❌ Closed | ✅ SE | Touch Color | 1000+ | $139 | USB/BT | ❌ | 🔒 Private | 🔴 |
-| **Arculus** | 42 | ❌ | ❌ Closed | ✅ CC EAL6+ | None | 50+ | $99 | NFC | ❌ | 🔒 Private | 🔴 |
-| ~~**KeepKey**~~ | 39 | ❌ | ✅ Full | ❌ None | OLED | 40+ | $49 | USB | ❌ | ❌ Inactive | 🔴 |
-| **BC Vault** | 33 | ❌ | ❌ Closed | ❌ None | OLED | 2000+ | $139 | USB | ❌ | 🔒 Private | 🔴 |
+| Wallet | Score | Air-Gap | Open Source | Secure Elem | Display | Networks | Price | Conn | BTC-Only | Activity | Rec |
+|--------|-------|---------|-------------|-------------|---------|----------|-------|------|----------|----------|-----|
+| **Trezor Safe 5** | 94 | ❌ | ✅ Full | ✅ Optiga | Touch Color | Multi | ~$169 | USB-C | ❌ | ✅ Active | 🟢 |
+| **Keystone 3 Pro** | 91 | ✅ Full | ✅ Full | ✅ 3× SE | Touch Color | Multi | ~$149 | QR | ❌ | ✅ Active | 🟢 |
+| **ColdCard Mk4** | 91 | ✅ Full | ✅ Full | ✅ Dual SE | Mono LCD | BTC | ~$150 | MicroSD | ✅ | ✅ Active | 🟢 |
+| **Trezor Safe 3** | 91 | ❌ | ✅ Full | ✅ Optiga | Mono OLED | Multi | ~$79 | USB-C | ❌ | ✅ Active | 🟢 |
+| **BitBox02** | 88 | ❌ | ✅ Full | ✅ ATECC | Touch Edge | Multi | ~$150 | USB-C | ⚠️ Ed | ✅ Active | 🟢 |
+| **Foundation Passport** | 81 | ✅ Full | ✅ Full | ✅ ATECC | Color LCD | BTC | ~$259 | MicroSD/QR | ✅ | ⚠️ Slow | 🟢 |
+| **OneKey Pro** | 77 | ❌ | ✅ Full | ✅ SE | Touch Color | Multi | ~$199 | USB/BT | ❌ | ✅ Active | 🟢 |
+| **NGRAVE ZERO** | 72 | ✅ Full | ⚠️ Partial | ✅ SE | Touch Color | Multi | ~$400 | QR | ❌ | 🔒 Private | 🟡 |
+| **SafePal S1** | 62 | ✅ Full | ⚠️ Partial | ✅ SE | LCD | Multi | ~$50 | QR | ❌ | 🔒 Private | 🟡 |
+| **GridPlus Lattice1** | 59 | ❌ | ⚠️ SDK only | ✅ SE | 5" Touch | Multi | ~$400 | WiFi/USB | ❌ | 🔒 Private | 🟡 |
+| **Ledger Stax** | 57 | ❌ | ⚠️ Partial | ✅ SE | E-Ink Touch | Multi | ~$280 | USB/BT | ❌ | 🔒 Private | 🟡 |
+| **Ledger Nano X** | 56 | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | Multi | ~$150 | USB/BT | ❌ | 🔒 Private | 🟡 |
+| **Ledger Nano S+** | 55 | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | Multi | ~$80 | USB | ❌ | 🔒 Private | 🟡 |
+| **Tangem Wallet** | 53 | ❌ | ⚠️ Partial | ✅ SE | None | Multi | ~$55 | NFC | ❌ | 🔒 Private | 🟡 |
+| **Ellipal Titan 2.0** | 48 | ✅ Full | ❌ Closed | ❌ None | Touch Color | Multi | ~$170 | QR | ❌ | 🔒 Private | 🔴 |
+| **SecuX V20** | 47 | ❌ | ❌ Closed | ✅ SE | Touch Color | Multi | ~$140 | USB/BT | ❌ | 🔒 Private | 🔴 |
+| **Arculus** | 42 | ❌ | ❌ Closed | ✅ SE | None | Multi | ~$100 | NFC | ❌ | 🔒 Private | 🔴 |
+| ~~**KeepKey**~~ | 39 | ❌ | ✅ Full | ❌ None | OLED | Multi | ~$50 | USB | ❌ | ❌ Inactive | 🔴 |
+| **BC Vault** | 33 | ❌ | ❌ Closed | ❌ None | OLED | Multi | ~$140 | USB | ❌ | 🔒 Private | 🔴 |
 
 **Legend:**
 - **Score:** 0-100 weighted score (see [Scoring Methodology](#-scoring-methodology))
 - **Air-Gap:** ✅ Fully air-gapped (no USB/BT during signing) | ❌ Requires physical connection
 - **Open Source:** ✅ Full (firmware + bootloader) | ⚠️ Partial (some components) | ❌ Closed source
-- **Secure Elem:** ✅ Has Secure Element chip | ❌ MCU only | Certification level if known
+- **Secure Elem:** ✅ Has SE chip with type (Optiga, ATECC, etc.) | ❌ MCU only
 - **Display:** Screen type and capabilities
+- **Networks:** BTC = Bitcoin only | Multi = Multiple blockchain networks (verify specific chains on official sites)
 - **Activity:** ✅ Active (≤30 days) | ⚠️ Slow (1-4 mo) | 🔒 Private | ❌ Inactive (>4 mo)
-- **Chains:** Approximate number of supported cryptocurrencies
-- **Price:** USD, approximate retail price
+- **Price:** Approximate USD, verify on official site before purchase
 - **Conn:** USB, Bluetooth (BT), QR codes, NFC, MicroSD, WiFi
-- **BTC-Only:** ✅ Bitcoin-only device | ⚠️ Has BTC-only edition | ❌ Multi-chain
-- **Rec:** 🟢 Recommended | 🟡 Situational | 🔴 Avoid/Concerns
+- **BTC-Only:** ✅ Bitcoin-only device | ⚠️ Ed = Has BTC-only edition | ❌ Multi-chain
+- **Rec:** 🟢 Recommended (75+) | 🟡 Situational (50-74) | 🔴 Avoid (<50)
+
+> ⚠️ **Data Accuracy Note:** Prices, supported networks, and features change. Always verify on official manufacturer websites before purchasing. This table provides general guidance, not exact specifications.
 
 ### GitHub Metrics (Firmware Repositories)
 
@@ -181,7 +183,7 @@ UX & ECOSYSTEM (10 pts)
   Color LCD with buttons: +3
   Mono OLED/LCD: +2
   No screen (NFC card): +0
-  Multi-chain (1000+): +3
+  Multi-chain (many networks): +3
   Multi-chain (100+): +2
   BTC-only: +1 (appropriate for use case)
   Major software wallet integrations: +2
@@ -256,7 +258,7 @@ UX & ECOSYSTEM (10 pts)
 
 | Rank | Wallet | Score | Why |
 |------|--------|-------|-----|
-| 🥇 | **Trezor Safe 5** | 94 | Fully open source, Secure Element, touch screen, 9000+ coins, very active development |
+| 🥇 | **Trezor Safe 5** | 94 | Fully open source, Secure Element, touch screen, multi-chain, very active development |
 | 🥈 | **Keystone 3 Pro** | 91 | Air-gapped, QR codes, triple SE, active development |
 | 🥉 | **Trezor Safe 3** | 91 | Best value, full open source, active development |
 
@@ -316,7 +318,7 @@ UX & ECOSYSTEM (10 pts)
 | **Open Source** | ✅ Fully open (firmware + bootloader) |
 | **Display** | 1.54" color touch screen (240×240) |
 | **Connectivity** | USB-C |
-| **Chains** | 9,000+ cryptocurrencies |
+| **Chains** | Multi-chain (BTC, ETH, and many others — verify on trezor.io) |
 | **Multisig** | ✅ Native support |
 | **Passphrase** | ✅ On-device entry |
 | **Shamir Backup** | ✅ SLIP-0039 support |
@@ -506,7 +508,7 @@ UX & ECOSYSTEM (10 pts)
 | **Open Source** | ⚠️ Partial (some components) |
 | **Display** | 4" color touch screen |
 | **Connectivity** | QR codes only (camera) |
-| **Chains** | 1,000+ cryptocurrencies |
+| **Chains** | Multi-chain (verify on official site) |
 | **Biometric** | ✅ Fingerprint sensor |
 | **Light Key Gen** | ✅ Uses ambient light for entropy |
 | **Company** | NGRAVE (Belgium, est. 2018) |
@@ -542,7 +544,7 @@ UX & ECOSYSTEM (10 pts)
 | **Open Source** | ⚠️ SDK only (firmware is proprietary) |
 | **Display** | 5" color touch screen |
 | **Connectivity** | WiFi, USB, SafeCards |
-| **Chains** | 1,000+ cryptocurrencies |
+| **Chains** | Multi-chain (verify on official site) |
 | **SafeCards** | ✅ Removable secure elements |
 | **Multisig** | ✅ Native support |
 | **Company** | GridPlus (USA, est. 2017) |
@@ -578,7 +580,7 @@ UX & ECOSYSTEM (10 pts)
 | **Open Source** | ✅ Fully open |
 | **Display** | 3.5" color touch screen |
 | **Connectivity** | USB-C, Bluetooth |
-| **Chains** | 70+ blockchains |
+| **Chains** | Multi-chain (verify on onekey.so) |
 | **Fingerprint** | ✅ Biometric unlock |
 | **Company** | OneKey (est. 2020) |
 

@@ -281,6 +281,16 @@ cd scripts
 5. **Firmware repos differ from app repos:** Ledger Live is open source, but Ledger firmware is not
 6. **Release frequency means different things:** HW wallets intentionally release less often (2-4/year is normal)
 
+### Data Accuracy Anti-Hallucination Rules (Dec 2025)
+
+7. **Chains ≠ tokens:** "9000+ chains" is WRONG — that's tokens/assets. Actual blockchain networks supported is typically 10-50. Use "Multi" or "BTC" not fake specific numbers
+8. **When uncertain, be vague:** "Multi-chain" is honest; "5500+ chains" is a hallucination
+9. **Approximate prices with ~:** Prices change; use "~$150" and add "verify on official site" 
+10. **Don't invent certifications:** EAL5+/6+/7 are specific certifications. Use chip names (ATECC, Optiga) when unsure of cert level
+11. **Line-by-line verification:** Before finalizing, check EVERY cell: "do I actually know this?"
+12. **Marketing claims ≠ facts:** Manufacturers inflate numbers. Be skeptical and conservative
+13. **Add disclaimers:** Every data table should note that users must verify on official sites
+
 ---
 
 *Last updated: December 5, 2025*
