@@ -1,314 +1,306 @@
-# Build vs Buy Analysis: Do We Really Need Third-Party Services?
+# Build vs Buy: Honest Analysis
 
-## The Core Question
-
-What's the **minimum viable infrastructure** for a mobile-triggered AI coding agent?
+The question: Do we really need Trigger.dev, Supabase, and all these services? Or can we build something simpler ourselves?
 
 ---
 
-## What We Actually Need
+## What Do These Services Actually Provide?
 
-Let's strip it down to essentials:
+### Trigger.dev provides:
 
-| Need | Description | Really Required? |
-|------|-------------|------------------|
-| Run Claude API | Call Anthropic's API | ✅ Yes |
-| Execute code | Run shell commands, read/write files | ✅ Yes |
-| Clone repos | Git clone from GitHub | ✅ Yes |
-| Store task history | Remember past tasks | ✅ Yes |
-| Real-time updates | Show progress to mobile | ✅ Yes |
-| Authentication | Know who the user is | ✅ Yes |
+| Feature | Do We Need It? | DIY Difficulty |
+|---------|----------------|----------------|
+| Job queuing | ✅ Yes | Easy (Redis/PostgreSQL) |
+| Retries with backoff | ✅ Yes | Easy (few lines of code) |
+| Long-running tasks | ✅ Yes | Medium (need process management) |
+| Real-time progress | ✅ Yes | Easy (WebSocket) |
+| Dashboard UI | ⚠️ Nice to have | Medium |
+| Distributed workers | ⚠️ Maybe later | Hard |
 
-That's it. Everything else is optimization.
+**Verdict**: We can build the core ourselves. Trigger.dev is convenience, not necessity.
+
+### Supabase provides:
+
+| Feature | Do We Need It? | DIY Difficulty |
+|---------|----------------|----------------|
+| PostgreSQL | ✅ Yes | Easy (or use SQLite) |
+| Auth (OAuth) | ✅ Yes | Medium (but libraries exist) |
+| Realtime WebSocket | ✅ Yes | Easy |
+| Row-level security | ❌ Overkill for MVP | N/A |
+| Edge functions | ❌ No | N/A |
+| Storage | ⚠️ Maybe | Easy (filesystem or S3) |
+
+**Verdict**: We can replace with SQLite + simple auth + our own WebSocket.
 
 ---
 
-## Option D: Minimal Self-Hosted (Single VPS)
+## The Minimal Architecture
 
-### Architecture
+What's the absolute minimum we need?
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    SINGLE VPS ($5-20/mo)                     │
+│                    SINGLE SERVER                             │
 │                                                              │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │  Node.js / Python Server                             │    │
-│  │                                                      │    │
-│  │  • WebSocket endpoint (mobile connects here)         │    │
-│  │  • REST API (task submission)                        │    │
-│  │  • Agent orchestration loop                          │    │
-│  │  • Claude API calls                                  │    │
-│  │  • Git operations                                    │    │
-│  │  • Shell execution (sandboxed)                       │    │
-│  └─────────────────────────────────────────────────────┘    │
-│                          │                                   │
-│                          ▼                                   │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │  SQLite Database                                     │    │
-│  │                                                      │    │
-│  │  • users (id, github_token, settings)                │    │
-│  │  • tasks (id, user_id, status, created_at)           │    │
-│  │  • messages (id, task_id, role, content)             │    │
-│  │  • tool_calls (id, task_id, tool, input, output)     │    │
-│  └─────────────────────────────────────────────────────┘    │
-│                                                              │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │  Local Filesystem                                    │    │
-│  │                                                      │    │
-│  │  /workspace/{user_id}/{repo_name}/  ← cloned repos   │    │
-│  │  /logs/{task_id}.log                ← task logs      │    │
-│  └─────────────────────────────────────────────────────┘    │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │  Coordinator Process (Node.js/Python)                 │   │
+│  │                                                       │   │
+│  │  • WebSocket server (for mobile)                      │   │
+│  │  • REST API (for auth, task creation)                 │   │
+│  │  • Task queue (in-memory or SQLite)                   │   │
+│  │  • Worker spawner (Docker)                            │   │
+│  └──────────────────────────────────────────────────────┘   │
+│                           │                                  │
+│                           ▼                                  │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │  SQLite Database                                      │   │
+│  │                                                       │   │
+│  │  • users (id, email, github_token)                    │   │
+│  │  • tasks (id, user_id, status, repo, created_at)      │   │
+│  │  • messages (id, task_id, role, content)              │   │
+│  └──────────────────────────────────────────────────────┘   │
+│                           │                                  │
+│                           ▼                                  │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │  Docker Workers (spawned per task)                    │   │
+│  │                                                       │   │
+│  │  • Clone repo                                         │   │
+│  │  • Run Claude agent                                   │   │
+│  │  • Execute tools (file ops, shell, git)               │   │
+│  │  • Push changes                                       │   │
+│  │  • Self-terminate                                     │   │
+│  └──────────────────────────────────────────────────────┘   │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### What This Gives Us
+**This is ONE server with:**
+- 1 process (coordinator)
+- 1 file (SQLite database)
+- N Docker containers (workers, ephemeral)
 
-| Feature | How It Works |
-|---------|--------------|
-| **Real-time updates** | WebSocket from server to mobile |
-| **Task persistence** | SQLite database |
-| **Code execution** | Direct shell access (sandboxed with Docker) |
-| **Git operations** | `git` CLI on the server |
-| **Authentication** | GitHub OAuth → store token in SQLite |
+---
 
-### What We DON'T Need Third Parties For
-
-| Trigger.dev Feature | Our Alternative |
-|---------------------|-----------------|
-| Job queuing | Simple in-memory queue or SQLite table |
-| Retries | Try/catch + retry loop |
-| Long-running tasks | Just... run them (no 15min limit) |
-| Real-time updates | WebSocket (built-in to Node/Python) |
-
-| Supabase Feature | Our Alternative |
-|------------------|-----------------|
-| PostgreSQL | SQLite (simpler, no network) |
-| Realtime | WebSocket (we control it) |
-| Auth | GitHub OAuth (one provider is enough) |
-| Storage | Local filesystem |
+## Comparison: Managed vs DIY
 
 ### Cost Comparison
 
-| Approach | Monthly Cost | Notes |
-|----------|--------------|-------|
-| **Single VPS** | $5-20/mo | DigitalOcean, Hetzner, Fly.io |
-| Trigger.dev + Supabase | $0-50/mo | Free tiers, then jumps |
-| Fly.io stack | $10-30/mo | Multiple services |
+| Approach | Monthly Cost (MVP) | Monthly Cost (1000 users) |
+|----------|-------------------|---------------------------|
+| **Managed (Trigger + Supabase)** | $0-50 (free tiers) | $200-500 |
+| **Single VPS + SQLite** | $5-20 | $50-200 |
+| **Self-hosted everything** | $5-20 | $50-200 |
+
+### Complexity Comparison
+
+| Aspect | Managed Services | DIY Single Server |
+|--------|------------------|-------------------|
+| Initial setup | ✅ Fast (hours) | ⚠️ Medium (days) |
+| Maintenance | ✅ They handle it | ⚠️ You handle it |
+| Debugging | ⚠️ Black box | ✅ Full visibility |
+| Customization | ❌ Limited | ✅ Full control |
+| Vendor lock-in | ❌ Yes | ✅ None |
+| Learning curve | ⚠️ Their APIs | ✅ Standard tech |
+
+### Scaling Comparison
+
+| Scale | Managed | DIY |
+|-------|---------|-----|
+| 1-100 users | ✅ Easy | ✅ Easy |
+| 100-1000 users | ✅ Easy | ⚠️ Need to optimize |
+| 1000+ users | ✅ Easy | ❌ Need to re-architect |
 
 ---
 
-## Trade-offs Analysis
+## What We Actually Need to Build (DIY Approach)
 
-### Single VPS Advantages
+### Core Components
 
-| Advantage | Why It Matters |
-|-----------|----------------|
-| **Simplicity** | One thing to deploy, monitor, debug |
-| **Cost** | Flat $5-20/mo regardless of usage |
-| **Control** | We own everything, no vendor lock-in |
-| **Latency** | No network hops between services |
-| **Privacy** | All data stays on our server |
+| Component | Technology | Lines of Code (Est.) |
+|-----------|------------|---------------------|
+| WebSocket server | `ws` or `socket.io` | ~100 |
+| REST API | Express/Fastify | ~200 |
+| Auth (GitHub OAuth) | Passport.js | ~100 |
+| Task queue | Bull/BullMQ or custom | ~150 |
+| Worker spawner | Dockerode | ~200 |
+| Database schema | SQLite + Drizzle/Prisma | ~100 |
+| Worker agent | Claude API + tools | ~500 |
+| **Total** | | **~1350 lines** |
 
-### Single VPS Disadvantages
+This is very doable. Not a massive undertaking.
 
-| Disadvantage | Mitigation |
-|--------------|------------|
-| **Scaling** | Start with one VPS, scale later if needed |
-| **Reliability** | Daily backups of SQLite, health checks |
-| **Security** | Docker sandboxing for code execution |
-| **Concurrent users** | One agent per user at a time (acceptable for MVP) |
-
----
-
-## Minimal Tech Stack
-
-### Server (Python - fewer dependencies)
-
-```python
-# main.py - The entire backend
-from fastapi import FastAPI, WebSocket
-from anthropic import Anthropic
-import sqlite3
-import subprocess
-import os
-
-app = FastAPI()
-client = Anthropic()
-
-# SQLite setup
-def get_db():
-    conn = sqlite3.connect('agent.db')
-    conn.row_factory = sqlite3.Row
-    return conn
-
-# WebSocket for real-time updates
-@app.websocket("/ws/{user_id}")
-async def websocket_endpoint(websocket: WebSocket, user_id: str):
-    await websocket.accept()
-    # Handle messages...
-
-# Start a task
-@app.post("/tasks")
-async def create_task(repo_url: str, prompt: str, user_id: str):
-    # Clone repo, run agent, return task_id
-    pass
-
-# Agent loop
-async def run_agent(task_id: str, repo_path: str, prompt: str, ws: WebSocket):
-    messages = [{"role": "user", "content": prompt}]
-    
-    while True:
-        response = client.messages.create(
-            model="claude-sonnet-4-20250514",
-            max_tokens=8192,
-            tools=TOOLS,
-            messages=messages
-        )
-        
-        # Stream to WebSocket
-        await ws.send_json({"type": "message", "content": response.content})
-        
-        # Handle tool calls
-        if response.stop_reason == "tool_use":
-            for block in response.content:
-                if block.type == "tool_use":
-                    result = execute_tool(block.name, block.input, repo_path)
-                    messages.append({"role": "assistant", "content": response.content})
-                    messages.append({"role": "user", "content": [{"type": "tool_result", ...}]})
-        else:
-            break  # Done
-
-# Tool execution (sandboxed)
-def execute_tool(name: str, input: dict, repo_path: str) -> str:
-    if name == "read_file":
-        with open(os.path.join(repo_path, input["path"])) as f:
-            return f.read()
-    elif name == "write_file":
-        with open(os.path.join(repo_path, input["path"]), "w") as f:
-            f.write(input["content"])
-        return "OK"
-    elif name == "run_command":
-        result = subprocess.run(
-            input["command"],
-            shell=True,
-            cwd=repo_path,
-            capture_output=True,
-            timeout=60
-        )
-        return result.stdout.decode()
-```
-
-### Database Schema (SQLite)
+### SQLite Schema (Simple)
 
 ```sql
--- schema.sql
+-- users table
 CREATE TABLE users (
-    id TEXT PRIMARY KEY,
-    github_token TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  id TEXT PRIMARY KEY,
+  email TEXT UNIQUE,
+  github_token TEXT,  -- encrypted
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
+-- tasks table
 CREATE TABLE tasks (
-    id TEXT PRIMARY KEY,
-    user_id TEXT REFERENCES users(id),
-    repo_url TEXT,
-    prompt TEXT,
-    status TEXT DEFAULT 'pending',  -- pending, running, completed, failed
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    completed_at TIMESTAMP
+  id TEXT PRIMARY KEY,
+  user_id TEXT REFERENCES users(id),
+  status TEXT DEFAULT 'pending',  -- pending, running, completed, failed
+  repo_url TEXT,
+  prompt TEXT,
+  result TEXT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  completed_at DATETIME
 );
 
+-- messages table (conversation history)
 CREATE TABLE messages (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    task_id TEXT REFERENCES tasks(id),
-    role TEXT,  -- user, assistant
-    content TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE tool_calls (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    task_id TEXT REFERENCES tasks(id),
-    tool_name TEXT,
-    input TEXT,
-    output TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  id TEXT PRIMARY KEY,
+  task_id TEXT REFERENCES tasks(id),
+  role TEXT,  -- user, assistant, tool_call, tool_result
+  content TEXT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 ```
 
----
-
-## When Would We Need More?
-
-| Scenario | Solution |
-|----------|----------|
-| >10 concurrent users | Add more VPS or move to Fly.io Machines |
-| Need GPU | Use Modal or Replicate for those specific tasks |
-| Team collaboration | Add PostgreSQL for multi-server state |
-| 99.9% uptime SLA | Add redundancy, managed database |
-
-**But for MVP?** Single VPS is plenty.
+That's it. Three tables.
 
 ---
 
-## Revised Recommendation
+## Revised Architecture Options
 
-### Start Here: Minimal VPS
-
-| Component | Choice | Cost |
-|-----------|--------|------|
-| Server | **Hetzner VPS** (or DigitalOcean, Fly.io) | $5-20/mo |
-| Database | **SQLite** | $0 |
-| Storage | **Local filesystem** | $0 |
-| Queue | **In-memory** (upgrade to Redis later if needed) | $0 |
-
-### The 100-Line Backend
-
-The entire backend can be:
-- ~100 lines of Python (FastAPI + Anthropic SDK)
-- SQLite for persistence
-- WebSocket for real-time
-- Docker for sandboxing shell commands
-
-### Migration Path
+### Option 1: Minimal DIY (Recommended for MVP)
 
 ```
-MVP (Now)                    Scale (Later)
-─────────────────────────────────────────────
-Single VPS                →  Multiple VPS / Fly Machines
-SQLite                    →  PostgreSQL / Supabase
-In-memory queue           →  Redis / Trigger.dev
-Local filesystem          →  S3 / R2
-Docker sandbox            →  Firecracker / gVisor
+┌─────────────┐         ┌─────────────────────────────────┐
+│ Mobile App  │◄───────►│  Single VPS ($5-20/mo)          │
+└─────────────┘  WS/HTTP│                                 │
+                        │  • Node.js coordinator          │
+                        │  • SQLite database              │
+                        │  • Docker for workers           │
+                        │  • Let's Encrypt SSL            │
+                        └─────────────────────────────────┘
 ```
 
+**Providers**: DigitalOcean, Hetzner, Vultr, Linode
+**Cost**: $5-20/month
+**Complexity**: Low
+**Control**: Maximum
+
+### Option 2: Minimal + Managed Database
+
+```
+┌─────────────┐         ┌─────────────────────────────────┐
+│ Mobile App  │◄───────►│  Single VPS                     │
+└─────────────┘         │  • Node.js coordinator          │
+                        │  • Docker for workers           │
+                        └───────────────┬─────────────────┘
+                                        │
+                        ┌───────────────▼─────────────────┐
+                        │  Turso (SQLite edge)            │
+                        │  or Supabase (if you want)      │
+                        └─────────────────────────────────┘
+```
+
+**Why Turso?**: SQLite over HTTP, embedded replicas, $0 free tier
+**Cost**: $5-20/month + $0-29 for DB
+**Complexity**: Low
+**Control**: High
+
+### Option 3: Scale-Ready (When Needed)
+
+```
+┌─────────────┐         ┌─────────────────────────────────┐
+│ Mobile App  │◄───────►│  Fly.io Coordinator             │
+└─────────────┘         └───────────────┬─────────────────┘
+                                        │
+                        ┌───────────────▼─────────────────┐
+                        │  Fly.io Workers (Machines API)  │
+                        └───────────────┬─────────────────┘
+                                        │
+                        ┌───────────────▼─────────────────┐
+                        │  Turso / LiteFS (distributed)   │
+                        └─────────────────────────────────┘
+```
+
+**When to use**: When you outgrow single server
+**Cost**: Variable based on usage
+**Complexity**: Medium
+
 ---
 
-## Final Comparison
+## My Revised Recommendation
 
-| Approach | Complexity | Cost | Time to MVP | Scalability |
-|----------|------------|------|-------------|-------------|
-| **Single VPS + SQLite** | ⭐ Lowest | $5-20/mo | 1-2 weeks | 10-50 users |
-| Fly.io + Upstash + Neon | ⭐⭐⭐ Medium | $10-30/mo | 2-3 weeks | 100+ users |
-| Trigger.dev + Supabase | ⭐⭐ Low-Medium | $0-50/mo | 1-2 weeks | 100+ users |
+### Start with Option 1: Single VPS + SQLite
+
+**Why?**
+
+1. **Simplest possible architecture** - one server, one database file
+2. **Full control** - no vendor lock-in, no black boxes
+3. **Cheapest** - $5-20/month for everything
+4. **Easy to understand** - no distributed systems complexity
+5. **Easy to migrate** - if you outgrow it, you know exactly what to move
+
+**The stack:**
+
+| Component | Choice | Why |
+|-----------|--------|-----|
+| Server | Hetzner/DigitalOcean VPS | Cheap, reliable |
+| Runtime | Node.js or Python | Your preference |
+| Database | SQLite (via better-sqlite3) | Zero config, fast, reliable |
+| Queue | BullMQ + Redis (or in-process) | Simple job queue |
+| WebSocket | ws or socket.io | Real-time updates |
+| Auth | GitHub OAuth (Passport.js) | Users already have GitHub |
+| Workers | Docker containers | Sandboxed, isolated |
+| SSL | Caddy or Let's Encrypt | Free, automatic |
+
+**When to upgrade:**
+- If you need >50 concurrent workers → Add more VPS or move to Fly.io
+- If SQLite becomes bottleneck → Move to Turso or Postgres
+- If you need multi-region → Move to distributed architecture
 
 ---
 
-## My Updated Recommendation
+## What We DON'T Need (For MVP)
 
-**Start with Single VPS + SQLite**:
+| Thing | Why Not Needed |
+|-------|----------------|
+| Kubernetes | Overkill for <1000 users |
+| Microservices | Monolith is fine |
+| Redis cluster | SQLite is fast enough |
+| Multiple regions | Latency is fine for MVP |
+| Fancy job queue | Simple loop works |
+| Managed databases | SQLite file is simpler |
+| Auth services | GitHub OAuth is 100 lines |
 
-1. **Simplest possible architecture**
-2. **Cheapest** ($5/mo)
-3. **No vendor lock-in**
-4. **Full control**
-5. **Can migrate later** if needed
+---
 
-The third-party services (Trigger.dev, Supabase) are great, but they solve problems we don't have yet. We can always add them later when we hit their value proposition.
+## Implementation Effort
+
+| Phase | Time | Deliverable |
+|-------|------|-------------|
+| 1. Basic server | 1-2 days | WebSocket + REST API + SQLite |
+| 2. Auth | 0.5 day | GitHub OAuth login |
+| 3. Worker spawner | 1-2 days | Docker container management |
+| 4. Agent logic | 2-3 days | Claude API + tools |
+| 5. Mobile app | 3-5 days | React Native UI |
+| **Total** | **~2 weeks** | Working MVP |
+
+---
+
+## Summary
+
+| Question | Answer |
+|----------|--------|
+| Do we need Trigger.dev? | **No** - we can build the queue ourselves |
+| Do we need Supabase? | **No** - SQLite + simple auth is enough |
+| Do we need distributed systems? | **No** - single server handles MVP |
+| What's the simplest approach? | **Single VPS + SQLite + Docker** |
 
 ---
 
 **Your call**: 
-- Minimal (Single VPS + SQLite)
-- Or still prefer managed services?
+
+1. **Option 1: Single VPS + SQLite** (simplest, my recommendation)
+2. **Option 2: VPS + Turso** (if you want managed SQLite)
+3. **Option 3: Keep managed services** (if speed to market is critical)
+
