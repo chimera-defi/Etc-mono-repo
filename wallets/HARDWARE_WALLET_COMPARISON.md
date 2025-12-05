@@ -24,29 +24,29 @@ In May 2023, Ledger announced "Ledger Recover" — an optional firmware update t
 
 ---
 
-## Complete Hardware Wallet Comparison (15+ Wallets)
+## Complete Hardware Wallet Comparison (19 Wallets)
 
-| Wallet | Score | Air-Gap | Open Source | Secure Elem | Display | Chains | Price | Conn | BTC-Only | Rec |
-|--------|-------|---------|-------------|-------------|---------|--------|-------|------|----------|-----|
-| **Trezor Safe 5** | 92 | ❌ | ✅ Full | ✅ EAL6+ | Touch Color | 9000+ | $169 | USB-C | ❌ | 🟢 |
-| **Keystone 3 Pro** | 90 | ✅ Full | ✅ Full | ✅ 3× SE | Touch Color | 5500+ | $149 | QR | ❌ | 🟢 |
-| **BitBox02** | 88 | ❌ | ✅ Full | ✅ ATECC | Touch Edge | 1500+ | $149 | USB-C | ⚠️ BTC Ed | 🟢 |
-| **ColdCard Mk4** | 87 | ✅ Full | ✅ Full | ✅ Dual SE | Mono LCD | BTC | $157 | MicroSD | ✅ | 🟢 |
-| **Foundation Passport** | 86 | ✅ Full | ✅ Full | ✅ SE | Color LCD | BTC | $259 | MicroSD/QR | ✅ | 🟢 |
-| **Trezor Safe 3** | 90 | ❌ | ✅ Full | ✅ EAL6+ | Mono OLED | 9000+ | $79 | USB-C | ❌ | 🟢 |
-| **NGRAVE ZERO** | 84 | ✅ Full | ⚠️ Partial | ✅ EAL7 | Touch Color | 1000+ | $398 | QR | ❌ | 🟢 |
-| **GridPlus Lattice1** | 72 | ❌ | ⚠️ SDK only | ✅ SE | 5" Touch | 1000+ | $397 | WiFi/USB | ❌ | 🟡 |
-| **OneKey Pro** | 80 | ❌ | ✅ Full | ✅ SE | Touch Color | 70+ | $199 | USB/BT | ❌ | 🟢 |
-| **Ellipal Titan 2.0** | 65 | ✅ Full | ❌ Closed | ❌ None | Touch Color | 10000+ | $169 | QR | ❌ | 🟡 |
-| **SafePal S1** | 72 | ✅ Full | ⚠️ Partial | ✅ SE | LCD | 100+ | $49 | QR | ❌ | 🟡 |
-| **SecuX V20** | 60 | ❌ | ❌ Closed | ✅ SE | Touch Color | 1000+ | $139 | USB/BT | ❌ | 🟡 |
-| **Tangem Wallet** | 63 | ❌ | ⚠️ Partial | ✅ EAL6+ | None | 6000+ | $55 | NFC | ❌ | 🟡 |
-| **Ledger Nano X** | 65 | ❌ | ⚠️ Partial | ✅ CC EAL5+ | Mono OLED | 5500+ | $149 | USB/BT | ❌ | 🔴 |
-| **Ledger Nano S Plus** | 64 | ❌ | ⚠️ Partial | ✅ CC EAL5+ | Mono OLED | 5500+ | $79 | USB | ❌ | 🔴 |
-| **Ledger Stax** | 63 | ❌ | ⚠️ Partial | ✅ CC EAL5+ | E-Ink Touch | 5500+ | $279 | USB/BT | ❌ | 🔴 |
-| ~~**KeepKey**~~ | 47 | ❌ | ✅ Full | ❌ None | OLED | 40+ | $49 | USB | ❌ | 🔴 |
-| **Arculus** | 52 | ❌ | ❌ Closed | ✅ CC EAL6+ | None | 50+ | $99 | NFC | ❌ | 🔴 |
-| **BC Vault** | 45 | ❌ | ❌ Closed | ❌ None | OLED | 2000+ | $139 | USB | ❌ | 🔴 |
+| Wallet | Score | Air-Gap | Open Source | Secure Elem | Display | Chains | Price | Conn | BTC-Only | Activity | Rec |
+|--------|-------|---------|-------------|-------------|---------|--------|-------|------|----------|----------|-----|
+| **Trezor Safe 5** | 94 | ❌ | ✅ Full | ✅ EAL6+ | Touch Color | 9000+ | $169 | USB-C | ❌ | ✅ Active | 🟢 |
+| **Keystone 3 Pro** | 91 | ✅ Full | ✅ Full | ✅ 3× SE | Touch Color | 5500+ | $149 | QR | ❌ | ✅ Active | 🟢 |
+| **ColdCard Mk4** | 91 | ✅ Full | ✅ Full | ✅ Dual SE | Mono LCD | BTC | $157 | MicroSD | ✅ | ✅ Active | 🟢 |
+| **Trezor Safe 3** | 91 | ❌ | ✅ Full | ✅ EAL6+ | Mono OLED | 9000+ | $79 | USB-C | ❌ | ✅ Active | 🟢 |
+| **BitBox02** | 88 | ❌ | ✅ Full | ✅ ATECC | Touch Edge | 1500+ | $149 | USB-C | ⚠️ BTC Ed | ✅ Active | 🟢 |
+| **Foundation Passport** | 81 | ✅ Full | ✅ Full | ✅ SE | Color LCD | BTC | $259 | MicroSD/QR | ✅ | ⚠️ Slow | 🟢 |
+| **OneKey Pro** | 77 | ❌ | ✅ Full | ✅ SE | Touch Color | 70+ | $199 | USB/BT | ❌ | ✅ Active | 🟢 |
+| **NGRAVE ZERO** | 72 | ✅ Full | ⚠️ Partial | ✅ EAL7 | Touch Color | 1000+ | $398 | QR | ❌ | 🔒 Private | 🟡 |
+| **SafePal S1** | 62 | ✅ Full | ⚠️ Partial | ✅ SE | LCD | 100+ | $49 | QR | ❌ | 🔒 Private | 🟡 |
+| **GridPlus Lattice1** | 59 | ❌ | ⚠️ SDK only | ✅ SE | 5" Touch | 1000+ | $397 | WiFi/USB | ❌ | 🔒 Private | 🟡 |
+| **Ledger Stax** | 57 | ❌ | ⚠️ Partial | ✅ CC EAL5+ | E-Ink Touch | 5500+ | $279 | USB/BT | ❌ | 🔒 Private | 🟡 |
+| **Ledger Nano X** | 56 | ❌ | ⚠️ Partial | ✅ CC EAL5+ | Mono OLED | 5500+ | $149 | USB/BT | ❌ | 🔒 Private | 🟡 |
+| **Ledger Nano S Plus** | 55 | ❌ | ⚠️ Partial | ✅ CC EAL5+ | Mono OLED | 5500+ | $79 | USB | ❌ | 🔒 Private | 🟡 |
+| **Tangem Wallet** | 53 | ❌ | ⚠️ Partial | ✅ EAL6+ | None | 6000+ | $55 | NFC | ❌ | 🔒 Private | 🟡 |
+| **Ellipal Titan 2.0** | 48 | ✅ Full | ❌ Closed | ❌ None | Touch Color | 10000+ | $169 | QR | ❌ | 🔒 Private | 🔴 |
+| **SecuX V20** | 47 | ❌ | ❌ Closed | ✅ SE | Touch Color | 1000+ | $139 | USB/BT | ❌ | 🔒 Private | 🔴 |
+| **Arculus** | 42 | ❌ | ❌ Closed | ✅ CC EAL6+ | None | 50+ | $99 | NFC | ❌ | 🔒 Private | 🔴 |
+| ~~**KeepKey**~~ | 39 | ❌ | ✅ Full | ❌ None | OLED | 40+ | $49 | USB | ❌ | ❌ Inactive | 🔴 |
+| **BC Vault** | 33 | ❌ | ❌ Closed | ❌ None | OLED | 2000+ | $139 | USB | ❌ | 🔒 Private | 🔴 |
 
 **Legend:**
 - **Score:** 0-100 weighted score (see [Scoring Methodology](#-scoring-methodology))
@@ -54,6 +54,7 @@ In May 2023, Ledger announced "Ledger Recover" — an optional firmware update t
 - **Open Source:** ✅ Full (firmware + bootloader) | ⚠️ Partial (some components) | ❌ Closed source
 - **Secure Elem:** ✅ Has Secure Element chip | ❌ MCU only | Certification level if known
 - **Display:** Screen type and capabilities
+- **Activity:** ✅ Active (≤30 days) | ⚠️ Slow (1-4 mo) | 🔒 Private | ❌ Inactive (>4 mo)
 - **Chains:** Approximate number of supported cryptocurrencies
 - **Price:** USD, approximate retail price
 - **Conn:** USB, Bluetooth (BT), QR codes, NFC, MicroSD, WiFi
@@ -138,44 +139,123 @@ Unlike software wallets where frequent updates can indicate instability, hardwar
 
 ## 📊 Scoring Methodology
 
-Hardware wallet scoring prioritizes what matters for cold storage security:
+Hardware wallet scoring uses a comprehensive methodology consistent with our [Software Wallet Comparison](./WALLET_COMPARISON_UNIFIED.md), adapted for cold storage priorities:
 
-| Category | Weight | Description |
-|----------|--------|-------------|
-| **Security Architecture** | 30% | Secure Element, air-gap, key isolation |
-| **Open Source / Transparency** | 25% | Firmware, bootloader, reproducible builds |
-| **Privacy & Trust Model** | 15% | No KYC, no cloud features, no seed extraction capability |
-| **UX & Features** | 15% | Display, connectivity, companion app quality |
-| **Track Record** | 10% | Company reputation, security incidents, longevity |
-| **Chain Support** | 5% | Number of supported cryptocurrencies |
+| Category | Weight | Description | Data Sources |
+|----------|--------|-------------|--------------|
+| **Security Architecture** | 25 pts | Secure Element certification, air-gap, physical tamper | Specs, certs |
+| **Transparency** | 20 pts | Open source firmware, reproducible builds, code quality | GitHub repos |
+| **Privacy & Trust** | 15 pts | No cloud recovery, no seed extraction, no KYC | Firmware analysis |
+| **Development Activity** | 15 pts | GitHub activity, issue resolution, community support | GitHub API |
+| **Company & Track Record** | 15 pts | Funding stability, longevity, security incidents | Research |
+| **UX & Ecosystem** | 10 pts | Display, chains supported, software integrations | Testing |
+
+### Scoring Criteria Detail
+
+```
+SECURITY ARCHITECTURE (25 pts)
+  Secure Element present: +8
+  SE certification EAL6+: +4 (EAL5+: +2, EAL7: +6)
+  Air-gap capable (QR/MicroSD only): +8
+  Dual/Triple SE: +3
+  Physical tamper protection: +2
+  No SE, MCU only: -5 penalty
+  
+TRANSPARENCY (20 pts)
+  ✅ Full open source (firmware + bootloader): 20
+  ⚠️ Partial (app open, firmware closed): 10-12
+  ⚠️ SDK only (no firmware): 5-8
+  ❌ Closed source: 0-5
+  Reproducible builds: +3 bonus
+  Code quality (low issue ratio <15%): +2 bonus
+  High issue ratio (>50%): -2 penalty
+
+PRIVACY & TRUST (15 pts)
+  No seed extraction capability: 15
+  Optional cloud recovery (Ledger Recover): 5 (major penalty)
+  Mandatory cloud features: 0
+  No KYC required: +0 (baseline expectation)
+  KYC for purchase: -3 penalty
+
+DEVELOPMENT ACTIVITY (15 pts) — GitHub Status
+  ✅ Active (commits ≤30 days): 15
+  ⚠️ Slow (1-4 months): 8
+  🔒 Private/closed repo: 5
+  ❌ Inactive (>4 months): 0
+  Note: Low update frequency is GOOD for HW (unlike software)
+  
+COMPANY & TRACK RECORD (15 pts)
+  🟢 Self-funded & profitable: 12-15
+  🟡 VC-funded, stable: 8-10
+  🔴 Unknown funding: 3-5
+  🔴 Abandoned/pivoted: 0
+  5+ years operation: +3
+  3-5 years: +2
+  <2 years: +0
+  Major security breach: -5 penalty
+  
+UX & ECOSYSTEM (10 pts)
+  Touch color screen: +4
+  Color LCD with buttons: +3
+  Mono OLED/LCD: +2
+  No screen (NFC card): +0
+  Multi-chain (1000+): +3
+  Multi-chain (100+): +2
+  BTC-only: +1 (appropriate for use case)
+  Major software wallet integrations: +2
+  Limited ecosystem: +0
+```
 
 ### Detailed Scoring Breakdown
 
-| Wallet | Security (30) | Open Source (25) | Privacy (15) | UX (15) | Track Record (10) | Chains (5) | Total |
-|--------|--------------|------------------|--------------|---------|-------------------|------------|-------|
-| **Trezor Safe 5** | 27/30 | 25/25 | 15/15 | 14/15 | 9/10 | 2/5 | **92** |
-| **Keystone 3 Pro** | 29/30 | 25/25 | 15/15 | 13/15 | 6/10 | 2/5 | **90** |
-| **BitBox02** | 26/30 | 25/25 | 15/15 | 12/15 | 8/10 | 2/5 | **88** |
-| **ColdCard Mk4** | 30/30 | 25/25 | 15/15 | 8/15 | 8/10 | 1/5 | **87** |
-| **Foundation Passport** | 29/30 | 25/25 | 15/15 | 9/15 | 7/10 | 1/5 | **86** |
-| **Trezor Safe 3** | 26/30 | 25/25 | 15/15 | 10/15 | 9/10 | 5/5 | **90** |
-| **NGRAVE ZERO** | 28/30 | 15/25 | 15/15 | 14/15 | 7/10 | 5/5 | **84** |
-| **GridPlus Lattice1** | 23/30 | 15/25 | 12/15 | 13/15 | 6/10 | 3/5 | **72** |
-| **OneKey Pro** | 24/30 | 25/25 | 13/15 | 13/15 | 3/10 | 2/5 | **80** |
-| **Ellipal Titan** | 22/30 | 5/25 | 15/15 | 14/15 | 5/10 | 4/5 | **65** |
-| **SafePal S1** | 24/30 | 12/25 | 14/15 | 11/15 | 6/10 | 5/5 | **72** |
-| **SecuX V20** | 22/30 | 5/25 | 13/15 | 13/15 | 5/10 | 2/5 | **60** |
-| **Tangem** | 22/30 | 10/25 | 10/15 | 12/15 | 5/10 | 4/5 | **63** |
-| **Ledger Nano X** | 24/30 | 12/25 | 5/15 | 12/15 | 8/10 | 4/5 | **65** |
-| **Ledger Nano S+** | 24/30 | 12/25 | 5/15 | 10/15 | 8/10 | 5/5 | **64** |
-| **Ledger Stax** | 24/30 | 12/25 | 5/15 | 10/15 | 8/10 | 4/5 | **63** |
-| ~~**KeepKey**~~ | 12/30 | 25/25 | 10/15 | 0/15 | 0/10 | 0/5 | **47** |
-| **Arculus** | 20/30 | 5/25 | 8/15 | 10/15 | 4/10 | 5/5 | **52** |
-| **BC Vault** | 10/30 | 5/25 | 10/15 | 10/15 | 5/10 | 5/5 | **45** |
+| Wallet | Security (25) | Transparency (20) | Privacy (15) | Activity (15) | Company (15) | UX (10) | Total |
+|--------|---------------|-------------------|--------------|---------------|--------------|---------|-------|
+| **Trezor Safe 5** | 22/25 | 20/20 | 15/15 | 15/15 | 14/15 | 8/10 | **94** |
+| **Keystone 3 Pro** | 25/25 | 20/20 | 15/15 | 15/15 | 8/15 | 8/10 | **91** |
+| **Trezor Safe 3** | 22/25 | 20/20 | 15/15 | 15/15 | 14/15 | 5/10 | **91** |
+| **BitBox02** | 20/25 | 20/20 | 15/15 | 15/15 | 12/15 | 6/10 | **88** |
+| **ColdCard Mk4** | 25/25 | 20/20 | 15/15 | 15/15 | 12/15 | 4/10 | **91** |
+| **Foundation Passport** | 23/25 | 20/20 | 15/15 | 8/15 | 10/15 | 5/10 | **81** |
+| **NGRAVE ZERO** | 24/25 | 10/20 | 15/15 | 5/15 | 10/15 | 8/10 | **72** |
+| **OneKey Pro** | 18/25 | 18/20 | 13/15 | 15/15 | 6/15 | 7/10 | **77** |
+| **GridPlus Lattice1** | 18/25 | 8/20 | 12/15 | 5/15 | 8/15 | 8/10 | **59** |
+| **SafePal S1** | 20/25 | 10/20 | 14/15 | 5/15 | 8/15 | 5/10 | **62** |
+| **Ellipal Titan 2.0** | 16/25 | 0/20 | 15/15 | 5/15 | 5/15 | 7/10 | **48** |
+| **SecuX V20** | 18/25 | 0/20 | 13/15 | 5/15 | 5/15 | 6/10 | **47** |
+| **Tangem Wallet** | 18/25 | 8/20 | 10/15 | 5/15 | 8/15 | 4/10 | **53** |
+| **Ledger Nano X** | 20/25 | 10/20 | 5/15 | 5/15 | 10/15 | 6/10 | **56** |
+| **Ledger Nano S+** | 20/25 | 10/20 | 5/15 | 5/15 | 10/15 | 5/10 | **55** |
+| **Ledger Stax** | 20/25 | 10/20 | 5/15 | 5/15 | 10/15 | 7/10 | **57** |
+| ~~**KeepKey**~~ | 8/25 | 18/20 | 10/15 | 0/15 | 0/15 | 3/10 | **39** |
+| **Arculus** | 18/25 | 0/20 | 8/15 | 5/15 | 8/15 | 3/10 | **42** |
+| **BC Vault** | 8/25 | 0/20 | 10/15 | 5/15 | 5/15 | 5/10 | **33** |
+
+### Score Changes Explained
+
+**Scores adjusted based on new factors:**
+
+| Wallet | Old | New | Change | Reason |
+|--------|-----|-----|--------|--------|
+| Trezor Safe 5 | 92 | 94 | +2 | Active GitHub, excellent company track record |
+| ColdCard Mk4 | 87 | 91 | +4 | Excellent GitHub metrics (0.9% issue ratio), air-gap bonus |
+| Trezor Safe 3 | 90 | 91 | +1 | Active development, strong company |
+| Keystone 3 Pro | 90 | 91 | +1 | Very active development |
+| Foundation Passport | 86 | 81 | -5 | ⚠️ Slow GitHub activity (44 days) penalized |
+| NGRAVE ZERO | 84 | 72 | -12 | Closed source firmware, no public repo |
+| OneKey Pro | 80 | 77 | -3 | High issue ratio (82.4%), young company |
+| GridPlus Lattice1 | 72 | 59 | -13 | SDK-only (no firmware), no public activity |
+| Ellipal Titan | 65 | 48 | -17 | Closed source, unknown funding, no SE |
+| SecuX V20 | 60 | 47 | -13 | Closed source, unknown funding |
+| Ledger (all) | 63-65 | 55-57 | -8 | Ledger Recover privacy penalty, closed SE firmware |
+| KeepKey | 47 | 39 | -8 | ❌ Inactive (296 days), abandoned company |
+| BC Vault | 45 | 33 | -12 | No SE, closed source, unconventional backup |
+
+**Key insight:** Wallets with closed-source firmware and/or inactive GitHub repos now score significantly lower, matching how we penalize inactive software wallets.
 
 **Why Ledger Scores Low:**
 - **Privacy (5/15):** Ledger Recover capability exists in firmware — even if "optional," the attack surface exists
-- **Open Source (12/25):** Secure Element firmware is proprietary; only companion app is open source
+- **Transparency (10/20):** Secure Element firmware is proprietary; only companion app is open source
+- **Activity (5/15):** Firmware repo is private, can't verify development activity
 - **Trust Model:** Requires trusting Ledger to not activate recovery without consent
 
 ---
@@ -186,42 +266,42 @@ Hardware wallet scoring prioritizes what matters for cold storage security:
 
 | Rank | Wallet | Score | Why |
 |------|--------|-------|-----|
-| 🥇 | **ColdCard Mk4** | 87 | Dual Secure Element, fully air-gapped, duress PIN, BTC maximalist standard |
-| 🥈 | **Foundation Passport** | 86 | Open source, beautiful design, air-gapped, excellent UX for BTC-only |
-| 🥉 | **BitBox02 BTC-Only** | 88 | Swiss quality, fully open source, simplified attack surface |
+| 🥇 | **ColdCard Mk4** | 91 | Dual Secure Element, fully air-gapped, duress PIN, BTC maximalist standard, excellent GitHub metrics |
+| 🥈 | **BitBox02 BTC-Only** | 88 | Swiss quality, fully open source, active development, simplified attack surface |
+| 🥉 | **Foundation Passport** | 81 | Open source, beautiful design, air-gapped, excellent UX (⚠️ slower updates) |
 
 ### For Multi-Chain Security
 
 | Rank | Wallet | Score | Why |
 |------|--------|-------|-----|
-| 🥇 | **Trezor Safe 5** | 92 | Fully open source, Secure Element, touch screen, 9000+ coins |
-| 🥈 | **Keystone 3 Pro** | 90 | Air-gapped, QR codes, multiple Secure Elements, great UX |
-| 🥉 | **BitBox02** | 88 | Fully open source, reproducible builds, Swiss quality |
+| 🥇 | **Trezor Safe 5** | 94 | Fully open source, Secure Element, touch screen, 9000+ coins, very active development |
+| 🥈 | **Keystone 3 Pro** | 91 | Air-gapped, QR codes, triple SE, active development |
+| 🥉 | **Trezor Safe 3** | 91 | Best value, full open source, active development |
 
 ### For Air-Gapped Security
 
 | Rank | Wallet | Score | Why |
 |------|--------|-------|-----|
-| 🥇 | **Keystone 3 Pro** | 90 | QR-only, never connects to computer, excellent screen |
-| 🥈 | **ColdCard Mk4** | 87 | MicroSD air-gap, no wireless, BTC-only |
-| 🥉 | **Foundation Passport** | 86 | MicroSD + QR, camera for signing, BTC-only |
-| 4 | **NGRAVE ZERO** | 84 | QR-only, EAL7 certification, premium build |
+| 🥇 | **Keystone 3 Pro** | 91 | QR-only, never connects to computer, excellent screen, active development |
+| 🥈 | **ColdCard Mk4** | 91 | MicroSD air-gap, no wireless, BTC-only, 0.9% issue ratio |
+| 🥉 | **Foundation Passport** | 81 | MicroSD + QR, camera for signing, open source |
+| 4 | **NGRAVE ZERO** | 72 | QR-only, EAL7 certification (⚠️ not fully open source) |
 
 ### For Best Value (Under $100)
 
 | Rank | Wallet | Score | Price | Why |
 |------|--------|-------|-------|-----|
-| 🥇 | **Trezor Safe 3** | 90 | $79 | Secure Element + full open source at budget price |
-| 🥈 | **SafePal S1** | 72 | $49 | Air-gapped via QR, good for beginners |
-| 🥉 | **Tangem** | 68 | $55 | NFC cards, ultra-portable, 3-card backup system |
+| 🥇 | **Trezor Safe 3** | 91 | $79 | Secure Element + full open source + active development |
+| 🥈 | **SafePal S1** | 62 | $49 | Air-gapped via QR (⚠️ partial open source, private repo) |
+| 🥉 | **Tangem** | 53 | $55 | NFC cards, ultra-portable (⚠️ no screen, private repo) |
 
 ### For Beginners
 
 | Rank | Wallet | Score | Why |
 |------|--------|-------|-----|
-| 🥇 | **Trezor Safe 5** | 92 | Intuitive touch screen, excellent companion app, good docs |
-| 🥈 | **BitBox02** | 88 | Simple setup, touch gestures, minimalist design |
-| 🥉 | **OneKey Pro** | 80 | MetaMask-like UX, color touch screen |
+| 🥇 | **Trezor Safe 5** | 94 | Intuitive touch screen, excellent companion app, good docs, active community |
+| 🥈 | **BitBox02** | 88 | Simple setup, touch gestures, minimalist design, active development |
+| 🥉 | **OneKey Pro** | 77 | MetaMask-like UX, color touch screen (⚠️ high issue ratio, young company) |
 
 ### For Integration with Software Wallets
 
@@ -242,7 +322,7 @@ Hardware wallet scoring prioritizes what matters for cold storage security:
 
 ## 📋 Detailed Wallet Profiles
 
-### 🥇 Trezor Safe 5 (Score: 92)
+### 🥇 Trezor Safe 5 (Score: 94)
 
 **The most trusted name in hardware wallets, now with Secure Element**
 
@@ -281,7 +361,7 @@ Hardware wallet scoring prioritizes what matters for cold storage security:
 
 ---
 
-### 🥈 Keystone 3 Pro (Score: 90)
+### 🥈 Keystone 3 Pro (Score: 91)
 
 **Air-gapped security with premium UX**
 
@@ -356,7 +436,7 @@ Hardware wallet scoring prioritizes what matters for cold storage security:
 
 ---
 
-### ColdCard Mk4 (Score: 87)
+### ColdCard Mk4 (Score: 91)
 
 **The Bitcoin maximalist gold standard**
 
@@ -394,7 +474,7 @@ Hardware wallet scoring prioritizes what matters for cold storage security:
 
 ---
 
-### Foundation Passport (Score: 86)
+### Foundation Passport (Score: 81)
 
 **Open source, beautiful, Bitcoin-focused**
 
@@ -432,7 +512,7 @@ Hardware wallet scoring prioritizes what matters for cold storage security:
 
 ---
 
-### NGRAVE ZERO (Score: 84)
+### NGRAVE ZERO (Score: 72)
 
 **EAL7 certified, fully air-gapped**
 
@@ -468,7 +548,7 @@ Hardware wallet scoring prioritizes what matters for cold storage security:
 
 ---
 
-### GridPlus Lattice1 (Score: 72)
+### GridPlus Lattice1 (Score: 59)
 
 **Enterprise-grade with unique SafeCards**
 
@@ -504,7 +584,7 @@ Hardware wallet scoring prioritizes what matters for cold storage security:
 
 ---
 
-### OneKey Pro (Score: 80)
+### OneKey Pro (Score: 77)
 
 **Trezor-compatible with MetaMask UX**
 
@@ -582,15 +662,27 @@ Hardware wallet scoring prioritizes what matters for cold storage security:
 
 ---
 
-## ⚠️ Wallets to Avoid
+## ⚠️ Wallets to Avoid (Score <50)
 
 | Wallet | Score | Reason |
 |--------|-------|--------|
-| **Ledger** | 63-65 | Ledger Recover capability, proprietary SE firmware |
-| **KeepKey** | 47 | ❌ INACTIVE (no commits 10 months), no Secure Element, ShapeShift pivoted away |
-| **Arculus** | 52 | Closed source, NFC-only (limited compatibility), no passphrase |
-| **BC Vault** | 45 | Closed source, unconventional backup, no SE, limited ecosystem |
-| **SafePal Pro** | - | Company has concerning partnerships (Binance), closed components |
+| **Ellipal Titan 2.0** | 48 | ❌ Closed source, no Secure Element, unknown funding |
+| **SecuX V20** | 47 | ❌ Closed source, unknown funding, no public development |
+| **Arculus** | 42 | ❌ Closed source, NFC-only (limited compatibility), no passphrase |
+| **KeepKey** | 39 | ❌ INACTIVE (no commits 10 months), no Secure Element, company abandoned |
+| **BC Vault** | 33 | ❌ Closed source, unconventional backup, no SE, limited ecosystem |
+
+### Situational Use Only (Score 50-74)
+
+These wallets have significant limitations but may work for specific use cases:
+
+| Wallet | Score | Limitation | When to Consider |
+|--------|-------|------------|------------------|
+| **NGRAVE ZERO** | 72 | Not fully open source, private repo | If you trust NGRAVE's audits and want EAL7 |
+| **SafePal S1** | 62 | Partial open source, Binance Labs funding | Budget air-gapped option |
+| **GridPlus Lattice1** | 59 | SDK-only (no firmware), WiFi connectivity | Home desk device with large screen |
+| **Ledger** | 55-57 | Ledger Recover capability, closed SE firmware | Only with passphrase (25th word) enabled |
+| **Tangem** | 53 | No screen, NFC-only, partial open source | Ultra-portable backup cards |
 
 ---
 

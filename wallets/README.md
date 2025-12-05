@@ -46,14 +46,15 @@ Developer-focused comparison of crypto wallets to find stable MetaMask alternati
 
 | Use Case | Wallet | Score | Why |
 |----------|--------|-------|-----|
-| Best Overall | **Trezor Safe 5** | 92 | Fully open source, Secure Element, touch screen |
-| Air-Gapped | **Keystone 3 Pro** | 90 | QR-only, never connects to computer |
-| Best Value | **Trezor Safe 3** | 90 | $79, Secure Element, fully open source |
-| Bitcoin Only | **ColdCard Mk4** | 87 | Dual SE, duress PIN, maximum BTC security |
-| Swiss Quality | **BitBox02** | 88 | Open source, reproducible builds |
-| ⚠️ Avoid | **Ledger** | 63-65 | Ledger Recover can extract seed phrases |
+| Best Overall | **Trezor Safe 5** | 94 | Fully open source, Secure Element, active development |
+| Air-Gapped | **Keystone 3 Pro** | 91 | QR-only, never connects to computer, triple SE |
+| Bitcoin Only | **ColdCard Mk4** | 91 | Dual SE, duress PIN, 0.9% issue ratio |
+| Best Value | **Trezor Safe 3** | 91 | $79, Secure Element, fully open source |
+| Swiss Quality | **BitBox02** | 88 | Open source, reproducible builds, active dev |
+| ⚠️ Caution | **Ledger** | 55-57 | Ledger Recover, closed firmware (use passphrase) |
+| 🔴 Avoid | **KeepKey** | 39 | Abandoned (no commits 10 months) |
 
-**Legend:** 🟢 Private keys never leave device | 🔴 Ledger Recover violates cold storage principles
+**Legend:** 🟢 Active development + open source | 🟡 Closed/private repo | 🔴 Inactive/abandoned
 
 ---
 

@@ -578,26 +578,27 @@
         ];
 
         // Hardware wallet data (sorted by score descending)
+        // Scoring includes: Security (25), Transparency (20), Privacy (15), Activity (15), Company (15), UX (10)
         const hardwareWallets = [
-            { name: "Trezor Safe 5", score: 92, airgap: false, opensource: "full", se: "EAL6+", display: "Touch Color", chains: "9000+", price: "$169", conn: "USB-C", btconly: false, github: "trezor/trezor-firmware", rec: "recommended" },
-            { name: "Keystone 3 Pro", score: 90, airgap: true, opensource: "full", se: "3× SE", display: "Touch Color", chains: "5500+", price: "$149", conn: "QR", btconly: false, github: "KeystoneHQ/keystone3-firmware", rec: "recommended" },
-            { name: "Trezor Safe 3", score: 90, airgap: false, opensource: "full", se: "EAL6+", display: "Mono OLED", chains: "9000+", price: "$79", conn: "USB-C", btconly: false, github: "trezor/trezor-firmware", rec: "recommended" },
-            { name: "BitBox02", score: 88, airgap: false, opensource: "full", se: "ATECC", display: "Touch Edge", chains: "1500+", price: "$149", conn: "USB-C", btconly: "edition", github: "BitBoxSwiss/bitbox02-firmware", rec: "recommended" },
-            { name: "ColdCard Mk4", score: 87, airgap: true, opensource: "full", se: "Dual SE", display: "Mono LCD", chains: "BTC", price: "$157", conn: "MicroSD", btconly: true, github: "Coldcard/firmware", rec: "recommended" },
-            { name: "Foundation Passport", score: 86, airgap: true, opensource: "full", se: "SE", display: "Color LCD", chains: "BTC", price: "$259", conn: "MicroSD/QR", btconly: true, github: "Foundation-Devices/passport2", rec: "recommended" },
-            { name: "NGRAVE ZERO", score: 84, airgap: true, opensource: "partial", se: "EAL7", display: "Touch Color", chains: "1000+", price: "$398", conn: "QR", btconly: false, github: null, rec: "recommended" },
-            { name: "OneKey Pro", score: 80, airgap: false, opensource: "full", se: "SE", display: "Touch Color", chains: "70+", price: "$199", conn: "USB/BT", btconly: false, github: "OneKeyHQ/firmware-pro", rec: "recommended" },
-            { name: "GridPlus Lattice1", score: 72, airgap: false, opensource: "partial", se: "SE", display: "5\" Touch", chains: "1000+", price: "$397", conn: "WiFi/USB", btconly: false, github: null, rec: "situational" },
-            { name: "SafePal S1", score: 72, airgap: true, opensource: "partial", se: "SE", display: "LCD", chains: "100+", price: "$49", conn: "QR", btconly: false, github: null, rec: "situational" },
-            { name: "Ledger Nano X", score: 65, airgap: false, opensource: "partial", se: "CC EAL5+", display: "Mono OLED", chains: "5500+", price: "$149", conn: "USB/BT", btconly: false, github: null, rec: "avoid", note: "Ledger Recover" },
-            { name: "Ellipal Titan 2.0", score: 65, airgap: true, opensource: "closed", se: "None", display: "Touch Color", chains: "10000+", price: "$169", conn: "QR", btconly: false, github: null, rec: "situational" },
-            { name: "Ledger Nano S Plus", score: 64, airgap: false, opensource: "partial", se: "CC EAL5+", display: "Mono OLED", chains: "5500+", price: "$79", conn: "USB", btconly: false, github: null, rec: "avoid", note: "Ledger Recover" },
-            { name: "Tangem Wallet", score: 63, airgap: false, opensource: "partial", se: "EAL6+", display: "None", chains: "6000+", price: "$55", conn: "NFC", btconly: false, github: null, rec: "situational" },
-            { name: "Ledger Stax", score: 63, airgap: false, opensource: "partial", se: "CC EAL5+", display: "E-Ink Touch", chains: "5500+", price: "$279", conn: "USB/BT", btconly: false, github: null, rec: "avoid", note: "Ledger Recover" },
-            { name: "SecuX V20", score: 60, airgap: false, opensource: "closed", se: "SE", display: "Touch Color", chains: "1000+", price: "$139", conn: "USB/BT", btconly: false, github: null, rec: "situational" },
-            { name: "Arculus", score: 52, airgap: false, opensource: "closed", se: "CC EAL6+", display: "None", chains: "50+", price: "$99", conn: "NFC", btconly: false, github: null, rec: "avoid" },
-            { name: "KeepKey", score: 47, airgap: false, opensource: "full", se: "None", display: "OLED", chains: "40+", price: "$49", conn: "USB", btconly: false, github: "keepkey/keepkey-firmware", rec: "avoid", note: "Inactive 10mo" },
-            { name: "BC Vault", score: 45, airgap: false, opensource: "closed", se: "None", display: "OLED", chains: "2000+", price: "$139", conn: "USB", btconly: false, github: null, rec: "avoid" }
+            { name: "Trezor Safe 5", score: 94, airgap: false, opensource: "full", se: "EAL6+", display: "Touch Color", chains: "9000+", price: "$169", conn: "USB-C", btconly: false, github: "trezor/trezor-firmware", activity: "active", rec: "recommended" },
+            { name: "Keystone 3 Pro", score: 91, airgap: true, opensource: "full", se: "3× SE", display: "Touch Color", chains: "5500+", price: "$149", conn: "QR", btconly: false, github: "KeystoneHQ/keystone3-firmware", activity: "active", rec: "recommended" },
+            { name: "ColdCard Mk4", score: 91, airgap: true, opensource: "full", se: "Dual SE", display: "Mono LCD", chains: "BTC", price: "$157", conn: "MicroSD", btconly: true, github: "Coldcard/firmware", activity: "active", rec: "recommended" },
+            { name: "Trezor Safe 3", score: 91, airgap: false, opensource: "full", se: "EAL6+", display: "Mono OLED", chains: "9000+", price: "$79", conn: "USB-C", btconly: false, github: "trezor/trezor-firmware", activity: "active", rec: "recommended" },
+            { name: "BitBox02", score: 88, airgap: false, opensource: "full", se: "ATECC", display: "Touch Edge", chains: "1500+", price: "$149", conn: "USB-C", btconly: "edition", github: "BitBoxSwiss/bitbox02-firmware", activity: "active", rec: "recommended" },
+            { name: "Foundation Passport", score: 81, airgap: true, opensource: "full", se: "SE", display: "Color LCD", chains: "BTC", price: "$259", conn: "MicroSD/QR", btconly: true, github: "Foundation-Devices/passport2", activity: "slow", rec: "recommended" },
+            { name: "OneKey Pro", score: 77, airgap: false, opensource: "full", se: "SE", display: "Touch Color", chains: "70+", price: "$199", conn: "USB/BT", btconly: false, github: "OneKeyHQ/firmware-pro", activity: "active", rec: "recommended" },
+            { name: "NGRAVE ZERO", score: 72, airgap: true, opensource: "partial", se: "EAL7", display: "Touch Color", chains: "1000+", price: "$398", conn: "QR", btconly: false, github: null, activity: "private", rec: "situational" },
+            { name: "SafePal S1", score: 62, airgap: true, opensource: "partial", se: "SE", display: "LCD", chains: "100+", price: "$49", conn: "QR", btconly: false, github: null, activity: "private", rec: "situational" },
+            { name: "GridPlus Lattice1", score: 59, airgap: false, opensource: "partial", se: "SE", display: "5\" Touch", chains: "1000+", price: "$397", conn: "WiFi/USB", btconly: false, github: null, activity: "private", rec: "situational" },
+            { name: "Ledger Stax", score: 57, airgap: false, opensource: "partial", se: "CC EAL5+", display: "E-Ink Touch", chains: "5500+", price: "$279", conn: "USB/BT", btconly: false, github: null, activity: "private", rec: "situational", note: "Ledger Recover" },
+            { name: "Ledger Nano X", score: 56, airgap: false, opensource: "partial", se: "CC EAL5+", display: "Mono OLED", chains: "5500+", price: "$149", conn: "USB/BT", btconly: false, github: null, activity: "private", rec: "situational", note: "Ledger Recover" },
+            { name: "Ledger Nano S Plus", score: 55, airgap: false, opensource: "partial", se: "CC EAL5+", display: "Mono OLED", chains: "5500+", price: "$79", conn: "USB", btconly: false, github: null, activity: "private", rec: "situational", note: "Ledger Recover" },
+            { name: "Tangem Wallet", score: 53, airgap: false, opensource: "partial", se: "EAL6+", display: "None", chains: "6000+", price: "$55", conn: "NFC", btconly: false, github: null, activity: "private", rec: "situational" },
+            { name: "Ellipal Titan 2.0", score: 48, airgap: true, opensource: "closed", se: "None", display: "Touch Color", chains: "10000+", price: "$169", conn: "QR", btconly: false, github: null, activity: "private", rec: "avoid" },
+            { name: "SecuX V20", score: 47, airgap: false, opensource: "closed", se: "SE", display: "Touch Color", chains: "1000+", price: "$139", conn: "USB/BT", btconly: false, github: null, activity: "private", rec: "avoid" },
+            { name: "Arculus", score: 42, airgap: false, opensource: "closed", se: "CC EAL6+", display: "None", chains: "50+", price: "$99", conn: "NFC", btconly: false, github: null, activity: "private", rec: "avoid" },
+            { name: "KeepKey", score: 39, airgap: false, opensource: "full", se: "None", display: "OLED", chains: "40+", price: "$49", conn: "USB", btconly: false, github: "keepkey/keepkey-firmware", activity: "inactive", rec: "avoid", note: "Inactive 10mo" },
+            { name: "BC Vault", score: 33, airgap: false, opensource: "closed", se: "None", display: "OLED", chains: "2000+", price: "$139", conn: "USB", btconly: false, github: null, activity: "private", rec: "avoid" }
         ];
 
         // Tab switching

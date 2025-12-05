@@ -146,49 +146,72 @@ Before adding a hardware wallet, verify:
 
 ### Hardware Wallet Scoring
 
-Use this formula (100 points total) — prioritizes security and transparency:
+Use this formula (100 points total) — prioritizes security, transparency, and activity:
 
 ```
-SECURITY ARCHITECTURE (30 pts)
-  Secure Element: ✅=15, ❌=5
-  Air-Gap capable: ✅=10, ❌=0
-  Dual/Triple SE: +5
+SECURITY ARCHITECTURE (25 pts)
+  Secure Element present: +8
+  SE certification (EAL6+: +4, EAL5+: +2, EAL7: +6)
+  Air-gap capable (QR/MicroSD only): +8
+  Dual/Triple SE: +3
+  Physical tamper protection: +2
+  No SE, MCU only: -5 penalty
+  
+TRANSPARENCY (20 pts)
+  ✅ Full open source (firmware + bootloader): 20
+  ⚠️ Partial (app open, firmware closed): 10-12
+  ⚠️ SDK only (no firmware): 5-8
+  ❌ Closed source: 0-5
+  Reproducible builds: +3 bonus
+  Code quality (low issue ratio <15%): +2 bonus
+  High issue ratio (>50%): -2 penalty
 
-OPEN SOURCE / TRANSPARENCY (25 pts)
-  ✅ Full (firmware + bootloader) = 25
-  ⚠️ Partial (some components) = 10-15
-  ❌ Closed source = 5
+PRIVACY & TRUST (15 pts)
+  No seed extraction capability: 15
+  Optional cloud recovery (Ledger Recover): 5 (major penalty)
+  Mandatory cloud features: 0
+  KYC required for purchase: -3 penalty
 
-PRIVACY & TRUST MODEL (15 pts)
-  No cloud/recovery features = 15
-  Optional recovery (like Ledger) = 5
-  Mandatory cloud features = 0
+DEVELOPMENT ACTIVITY (15 pts) — GitHub status
+  ✅ Active (commits ≤30 days): 15
+  ⚠️ Slow (1-4 months): 8
+  🔒 Private/closed repo: 5
+  ❌ Inactive (>4 months): 0
+  
+COMPANY & TRACK RECORD (15 pts)
+  🟢 Self-funded & profitable: 12-15
+  🟡 VC-funded, stable: 8-10
+  🔴 Unknown funding: 3-5
+  🔴 Abandoned/pivoted: 0
+  5+ years operation: +3
+  3-5 years: +2
+  Major security breach: -5 penalty
 
-UX & FEATURES (15 pts)
-  Touch color screen = 15
-  OLED/LCD with buttons = 10
-  No screen (NFC cards) = 5
-
-TRACK RECORD (10 pts)
-  5+ years, no major incidents = 10
-  3-5 years, good reputation = 7
-  1-3 years = 5
-  <1 year or incidents = 0-3
-
-CHAIN SUPPORT (5 pts)
-  Multi-chain (1000+) = 5
-  Multi-chain (100+) = 4
-  Limited chains = 2
-  Bitcoin-only = 1-2
+UX & ECOSYSTEM (10 pts)
+  Touch color screen: +4
+  Color LCD with buttons: +3
+  Mono OLED/LCD: +2
+  No screen (NFC card): +0
+  Multi-chain (1000+): +3
+  Multi-chain (100+): +2
+  BTC-only: +1
+  Major software wallet integrations: +2
 ```
+
+**Score Interpretation:**
+- 🟢 **75+:** Recommended — meets all criteria, active development
+- 🟡 **50-74:** Situational — has limitations (closed source, inactive, etc.)
+- 🔴 **<50:** Avoid — significant issues (abandoned, no SE, closed source)
 
 ### Step 2: Add to Main Table
 
 Add your row to `HARDWARE_WALLET_COMPARISON.md` in score order:
 
 ```markdown
-| **WalletName** | XX | ✅/❌ | ✅/⚠️/❌ | ✅/❌ SE Type | Display | Chains | $XXX | Conn | ❌ | 🟢/🟡/🔴 |
+| **WalletName** | XX | ✅/❌ | ✅/⚠️/❌ | ✅/❌ SE Type | Display | Chains | $XXX | Conn | ❌ | ✅/⚠️/❌ | 🟢/🟡/🔴 |
 ```
+
+Note: The new Activity column tracks GitHub/development status.
 
 ### Step 3: Update Other Sections
 

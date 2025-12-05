@@ -227,14 +227,21 @@ This is the fundamental principle that Ledger violated with Ledger Recover. All 
 
 ### Hardware Wallet Scoring Priorities
 
-Unlike software wallets, hardware wallet scoring prioritizes:
+Hardware wallet scoring mirrors software wallet approach, adapted for cold storage:
 
-1. **Security Architecture (30%):** Secure Element, air-gap capability, key isolation
-2. **Open Source/Transparency (25%):** Can the firmware be audited? Reproducible builds?
-3. **Privacy & Trust Model (15%):** No cloud features, no seed extraction capability
-4. **UX & Features (15%):** Display quality, ease of use
-5. **Track Record (10%):** Company history, security incidents
-6. **Chain Support (5%):** Less important for cold storage
+1. **Security Architecture (25 pts):** Secure Element certification, air-gap, physical tamper
+2. **Transparency (20 pts):** Open source firmware, reproducible builds, code quality (issue ratio)
+3. **Privacy & Trust (15 pts):** No seed extraction capability, no cloud features
+4. **Development Activity (15 pts):** GitHub activity status — matches software wallet "Activity" category
+5. **Company & Track Record (15 pts):** Funding stability, longevity, security incidents
+6. **UX & Ecosystem (10 pts):** Display, chains, software integrations
+
+**Key difference from software wallets:** Low update frequency is GOOD for hardware wallets (security-focused), unlike software wallets where frequent updates may indicate instability.
+
+**Score thresholds:**
+- 🟢 **75+:** Recommended — meets all criteria, active development
+- 🟡 **50-74:** Situational — has limitations (closed source, private repo, etc.)
+- 🔴 **<50:** Avoid — significant issues (abandoned, no SE, fully closed)
 
 ### Hardware-Specific Verification
 
