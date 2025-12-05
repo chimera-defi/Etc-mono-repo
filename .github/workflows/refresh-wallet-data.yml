@@ -40,20 +40,35 @@ jobs:
       - name: Create data directory
         run: mkdir -p wallets/data
       
-      - name: Run refresh script (Markdown)
+      - name: Run refresh script - Software Wallets (Markdown)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           chmod +x wallets/scripts/refresh-github-data.sh
           wallets/scripts/refresh-github-data.sh --markdown > wallets/ACTIVITY_STATUS.md
-          echo "Generated activity status report"
+          echo "Generated software wallet activity status report"
       
-      - name: Run refresh script (JSON)
+      - name: Run refresh script - Software Wallets (JSON)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           wallets/scripts/refresh-github-data.sh --json > wallets/data/activity.json
-          echo "Generated JSON data file"
+          echo "Generated software wallet JSON data file"
+      
+      - name: Run refresh script - Hardware Wallets (Markdown)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x wallets/scripts/refresh-hardware-wallet-data.sh
+          wallets/scripts/refresh-hardware-wallet-data.sh --markdown > wallets/HARDWARE_ACTIVITY_STATUS.md
+          echo "Generated hardware wallet activity status report"
+      
+      - name: Run refresh script - Hardware Wallets (JSON)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          wallets/scripts/refresh-hardware-wallet-data.sh --json > wallets/data/hardware-activity.json
+          echo "Generated hardware wallet JSON data file"
       
       - name: Check for changes
         id: check_changes
@@ -81,13 +96,20 @@ jobs:
             This PR updates the wallet activity status based on the latest GitHub data.
             
             ### Changes
+            
+            **Software Wallets:**
             - Updated `ACTIVITY_STATUS.md` with current commit dates
             - Updated `data/activity.json` with machine-readable data
+            
+            **Hardware Wallets:**
+            - Updated `HARDWARE_ACTIVITY_STATUS.md` with firmware repo activity
+            - Updated `data/hardware-activity.json` with machine-readable data
             
             ### Review Checklist
             - [ ] Verify activity statuses are accurate
             - [ ] Check for any newly inactive wallets
-            - [ ] Update main comparison table if needed
+            - [ ] Update WALLET_COMPARISON_UNIFIED.md if needed
+            - [ ] Update HARDWARE_WALLET_COMPARISON.md if needed
             
             ---
             *Generated automatically by GitHub Actions on ${{ github.event.repository.updated_at }}*
@@ -102,8 +124,16 @@ jobs:
         run: |
           echo "## Wallet Activity Refresh Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Software Wallets" >> $GITHUB_STEP_SUMMARY
           if [ -f wallets/ACTIVITY_STATUS.md ]; then
             cat wallets/ACTIVITY_STATUS.md >> $GITHUB_STEP_SUMMARY
           else
-            echo "⚠️ No activity status file generated" >> $GITHUB_STEP_SUMMARY
+            echo "⚠️ No software wallet activity file generated" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Hardware Wallets" >> $GITHUB_STEP_SUMMARY
+          if [ -f wallets/HARDWARE_ACTIVITY_STATUS.md ]; then
+            cat wallets/HARDWARE_ACTIVITY_STATUS.md >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ No hardware wallet activity file generated" >> $GITHUB_STEP_SUMMARY
           fi

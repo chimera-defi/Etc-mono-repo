@@ -213,4 +213,67 @@ When recalculating scores:
 
 ---
 
-*Last updated: December 3, 2025*
+## 🔐 Hardware Wallet Guidelines
+
+### Purpose
+
+**HARDWARE_WALLET_COMPARISON.md** compares cold storage hardware wallets, with a focus on finding Ledger alternatives after the Ledger Recover controversy.
+
+### Core Principle
+
+> **Private keys should NEVER leave the device under ANY circumstances.**
+
+This is the fundamental principle that Ledger violated with Ledger Recover. All scoring and recommendations should prioritize wallets that maintain this principle.
+
+### Hardware Wallet Scoring Priorities
+
+Unlike software wallets, hardware wallet scoring prioritizes:
+
+1. **Security Architecture (30%):** Secure Element, air-gap capability, key isolation
+2. **Open Source/Transparency (25%):** Can the firmware be audited? Reproducible builds?
+3. **Privacy & Trust Model (15%):** No cloud features, no seed extraction capability
+4. **UX & Features (15%):** Display quality, ease of use
+5. **Track Record (10%):** Company history, security incidents
+6. **Chain Support (5%):** Less important for cold storage
+
+### Hardware-Specific Verification
+
+1. **Open Source Claims:** Verify firmware repo exists AND is the actual firmware (not just SDK)
+   - ✅ Correct: `trezor/trezor-firmware` (actual firmware)
+   - ❌ Wrong: `GridPlus/gridplus-sdk` (SDK only, not firmware)
+
+2. **Secure Element:** Verify from official specs, not marketing
+   - Look for specific chip names: ATECC608, Optiga Trust M, STM32
+   - Check for EAL certification levels (EAL5+, EAL6+, EAL7)
+
+3. **Air-Gap:** Device must NEVER connect during transaction signing
+   - ✅ True air-gap: QR codes, MicroSD only
+   - ❌ Not air-gapped: USB required for signing, Bluetooth during tx
+
+### Hardware Wallet Red Flags
+
+1. **Ledger Recover-style features:** Any firmware that CAN extract seeds is a trust violation
+2. **Closed source firmware:** Can't verify security claims
+3. **No Secure Element:** MCU-only devices have lower physical security
+4. **Abandoned development:** Check firmware repo for recent commits
+5. **Unknown company:** Research funding, location, team
+
+### Refresh Hardware Data
+
+```bash
+cd scripts
+./refresh-hardware-wallet-data.sh --markdown
+```
+
+### Hardware Wallet Meta-Learnings (Dec 2025)
+
+1. **"Open source" claims need verification:** GridPlus claimed open source but firmware is proprietary
+2. **Star counts can be misleading:** Small projects (OneKey 17 stars) may still be active
+3. **Inactive = high risk:** KeepKey with 296 days no commits is effectively abandoned
+4. **Scoring math matters:** Always verify component scores sum to stated total
+5. **Firmware repos differ from app repos:** Ledger Live is open source, but Ledger firmware is not
+6. **Release frequency means different things:** HW wallets intentionally release less often (2-4/year is normal)
+
+---
+
+*Last updated: December 5, 2025*

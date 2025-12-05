@@ -84,6 +84,18 @@ In May 2023, Ledger announced "Ledger Recover" — an optional firmware update t
 
 **Closed Source (no public firmware repos):** Ledger, NGRAVE, Ellipal, SafePal, SecuX, Tangem, BC Vault, GridPlus
 
+**Firmware Release Patterns:**
+Unlike software wallets where frequent updates can indicate instability, hardware wallet firmware updates are intentionally infrequent for security. Most manufacturers release 2-4 firmware updates per year. This is by design — each update requires extensive security review and user action to install.
+
+| Wallet | Recent Releases (2025) | Pattern |
+|--------|------------------------|---------|
+| Keystone | 5 releases | ~1/month (active development) |
+| BitBox02 | 3-4 releases | ~1/quarter (stable) |
+| Foundation Passport | 2 releases | ~1/quarter (stable) |
+| OneKey | 3 releases | ~1/quarter (stable) |
+| Trezor | Via Trezor Suite | App-managed updates |
+| ColdCard | Via tags | Manual firmware downloads |
+
 ---
 
 ## 🔒 Security Deep Dive

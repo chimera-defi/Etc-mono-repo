@@ -4,13 +4,18 @@ Thank you for helping keep this wallet comparison accurate and up-to-date!
 
 ## Quick Links
 
+### Software Wallets (EVM)
 - **Main comparison:** [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)
 - **Interactive version:** [index.html](./index.html)
 - **Refresh script:** [scripts/refresh-github-data.sh](./scripts/refresh-github-data.sh)
 
+### Hardware Wallets (Cold Storage)
+- **Hardware comparison:** [HARDWARE_WALLET_COMPARISON.md](./HARDWARE_WALLET_COMPARISON.md)
+- **Refresh script:** [scripts/refresh-hardware-wallet-data.sh](./scripts/refresh-hardware-wallet-data.sh)
+
 ---
 
-## Adding a New Wallet
+## Adding a New Software Wallet
 
 ### Prerequisites
 
@@ -115,21 +120,118 @@ Add an entry to the Changelog section:
 
 ---
 
+## Adding a New Hardware Wallet
+
+### Prerequisites
+
+Before adding a hardware wallet, verify:
+
+1. ✅ It's an actual hardware device (not software/mobile wallet)
+2. ✅ It's commercially available (not crowdfunding/prototype)
+3. ✅ It stores private keys on device (true cold storage)
+
+### Step 1: Gather Required Data
+
+| Column | How to Verify |
+|--------|---------------|
+| **Score** | Calculate using [hardware scoring methodology](#hardware-wallet-scoring) |
+| **Air-Gap** | Check if device requires USB/BT connection during signing |
+| **Open Source** | Find firmware repo on GitHub; verify it's actual firmware, not just SDK |
+| **Secure Element** | Check official specs for SE chip (e.g., ATECC608, Optiga) |
+| **Display** | Screen type, size, touch capability |
+| **Chains** | Count from official supported assets list |
+| **Price** | Check official store (not Amazon/resellers) |
+| **Connectivity** | USB, Bluetooth, QR, NFC, MicroSD, WiFi |
+| **Company** | Research company background, funding, location |
+
+### Hardware Wallet Scoring
+
+Use this formula (100 points total) — prioritizes security and transparency:
+
+```
+SECURITY ARCHITECTURE (30 pts)
+  Secure Element: ✅=15, ❌=5
+  Air-Gap capable: ✅=10, ❌=0
+  Dual/Triple SE: +5
+
+OPEN SOURCE / TRANSPARENCY (25 pts)
+  ✅ Full (firmware + bootloader) = 25
+  ⚠️ Partial (some components) = 10-15
+  ❌ Closed source = 5
+
+PRIVACY & TRUST MODEL (15 pts)
+  No cloud/recovery features = 15
+  Optional recovery (like Ledger) = 5
+  Mandatory cloud features = 0
+
+UX & FEATURES (15 pts)
+  Touch color screen = 15
+  OLED/LCD with buttons = 10
+  No screen (NFC cards) = 5
+
+TRACK RECORD (10 pts)
+  5+ years, no major incidents = 10
+  3-5 years, good reputation = 7
+  1-3 years = 5
+  <1 year or incidents = 0-3
+
+CHAIN SUPPORT (5 pts)
+  Multi-chain (1000+) = 5
+  Multi-chain (100+) = 4
+  Limited chains = 2
+  Bitcoin-only = 1-2
+```
+
+### Step 2: Add to Main Table
+
+Add your row to `HARDWARE_WALLET_COMPARISON.md` in score order:
+
+```markdown
+| **WalletName** | XX | ✅/❌ | ✅/⚠️/❌ | ✅/❌ SE Type | Display | Chains | $XXX | Conn | ❌ | 🟢/🟡/🔴 |
+```
+
+### Step 3: Update Other Sections
+
+If applicable, also update:
+
+- [ ] **Scoring breakdown table**
+- [ ] **GitHub Metrics table** (if open source)
+- [ ] **Security Features table**
+- [ ] **Funding section**
+- [ ] **Known Quirks section**
+- [ ] **Software integration tables**
+- [ ] **Changelog**
+
+### Step 4: Run Verification
+
+```bash
+cd scripts
+./refresh-hardware-wallet-data.sh --markdown
+```
+
+---
+
 ## Updating Existing Data
 
 ### Activity Status Updates
 
-Run the refresh script to check current status:
-
+**For Software Wallets:**
 ```bash
 cd scripts
-./refresh-github-data.sh
+./refresh-github-data.sh --markdown
+```
+
+**For Hardware Wallets:**
+```bash
+cd scripts
+./refresh-hardware-wallet-data.sh --markdown
 ```
 
 If a wallet's status changes, update:
-1. Main table `Active` column
-2. Recalculate score (Activity is 15 pts)
-3. Add changelog entry
+1. Main table `Active` column (or strikethrough if abandoned)
+2. GitHub Metrics table
+3. Recalculate score if needed
+4. Add changelog entry
 
 ### Audit Updates
 

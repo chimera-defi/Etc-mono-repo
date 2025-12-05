@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EVM Wallet Comparison for Developers</title>
+    <title>Wallet Comparison for Developers</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -132,6 +132,45 @@
 
         .search-box input {
             width: 100%;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .tab-button {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .tab-button:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+        
+        .tab-button.active {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
         }
 
         /* Stats */
@@ -320,16 +359,28 @@
         <div class="container">
             <h1>🔐 EVM Wallet Comparison</h1>
             <p class="subtitle">Developer-focused comparison of 24 EVM wallets</p>
-            <div class="tldr">
+            <div class="tldr" id="software-tldr">
                 <strong>TL;DR:</strong> Use <strong>Rabby</strong> (92) for development (tx simulation + stable), 
                 <strong>Trust</strong> (85) or <strong>Rainbow</strong> (82) for production. 
                 Use <strong>MetaMask</strong> (68) last for compatibility — ~8 releases/month is too much churn.
                 Only wallets with ✅ in "Core" have both mobile + browser extension.
             </div>
+            <div class="tldr" id="hardware-tldr" style="display: none;">
+                <strong>TL;DR:</strong> Use <strong>Trezor Safe 5</strong> (92) for best security + UX, 
+                <strong>Keystone 3 Pro</strong> (90) for air-gapped security, or <strong>BitBox02</strong> (88) for simplicity.
+                <strong>Ledger</strong> (65) is penalized due to the Ledger Recover feature that compromises cold storage principles.
+            </div>
+            
+            <div class="tabs">
+                <button class="tab-button active" id="tab-software" onclick="switchTab('software')">📱 Software Wallets (24)</button>
+                <button class="tab-button" id="tab-hardware" onclick="switchTab('hardware')">🔐 Hardware Wallets (18)</button>
+            </div>
         </div>
     </header>
 
     <main class="container">
+        <!-- Software Wallets Tab Content -->
+        <div class="tab-content active" id="software-content">
         <div class="filters">
             <div class="filter-group search-box">
                 <label for="search">Search</label>
@@ -438,12 +489,60 @@
                 <div class="legend-item"><span class="badge badge-yellow">🟡</span> Situational</div>
             </div>
         </div>
+        </div><!-- End Software Wallets Tab -->
+
+        <!-- Hardware Wallets Tab Content -->
+        <div class="tab-content" id="hardware-content">
+            <div class="stats">
+                <div class="stat">Showing: <span class="stat-value" id="hw-stat-showing">18</span></div>
+                <div class="stat">Open Source: <span class="stat-value" id="hw-stat-foss">9</span></div>
+                <div class="stat">Air-Gapped: <span class="stat-value" id="hw-stat-airgap">7</span></div>
+                <div class="stat">Secure Element: <span class="stat-value" id="hw-stat-se">14</span></div>
+            </div>
+
+            <div class="table-container">
+                <table id="hw-wallet-table">
+                    <thead>
+                        <tr>
+                            <th>Wallet</th>
+                            <th>Score</th>
+                            <th>Air-Gap</th>
+                            <th>Open Source</th>
+                            <th>Secure Element</th>
+                            <th>Display</th>
+                            <th>Chains</th>
+                            <th>Price</th>
+                            <th>Connection</th>
+                            <th>BTC Only</th>
+                            <th>Rec</th>
+                        </tr>
+                    </thead>
+                    <tbody id="hw-wallet-body">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="legend">
+                <h3>Hardware Wallet Legend</h3>
+                <div class="legend-grid">
+                    <div class="legend-item"><span class="badge badge-green">✅ Air-Gap</span> Fully air-gapped (QR/MicroSD only)</div>
+                    <div class="legend-item"><span class="badge badge-red">❌ Air-Gap</span> Requires USB/BT connection</div>
+                    <div class="legend-item"><strong>Open Source</strong> ✅ Full = firmware auditable</div>
+                    <div class="legend-item"><strong>SE</strong> Secure Element chip present</div>
+                    <div class="legend-item"><strong>Conn</strong> USB-C, QR, NFC, MicroSD, WiFi, BT</div>
+                    <div class="legend-item"><span class="badge badge-green">🟢</span> Recommended</div>
+                    <div class="legend-item"><span class="badge badge-yellow">🟡</span> Situational</div>
+                    <div class="legend-item"><span class="badge badge-red">🔴</span> Avoid (Ledger Recover, inactive, etc.)</div>
+                </div>
+            </div>
+        </div><!-- End Hardware Wallets Tab -->
     </main>
 
     <footer>
         <div class="container">
             <p>Data from <a href="https://github.com/walletbeat/walletbeat" target="_blank">WalletBeat</a> and GitHub API • 
-            <a href="./WALLET_COMPARISON_UNIFIED.md">View Markdown Version</a> • 
+            <a href="./WALLET_COMPARISON_UNIFIED.md">Software Wallets (MD)</a> • 
+            <a href="./HARDWARE_WALLET_COMPARISON.md">Hardware Wallets (MD)</a> • 
             Last updated: December 2025</p>
         </div>
     </footer>
@@ -477,6 +576,39 @@
             { name: "Argent", score: 30, core: "partial", relPerMonth: 1, rpc: "yes", chains: "2", github: "argentlabs/argent-x", active: "inactive", devices: "📱🌐⁂", testnets: true, license: "foss", audits: "❓ None", funding: "risky", fundingNote: "VC", txsim: "no", scam: "partial", account: "4337", hw: "✅", bestFor: "~~Starknet~~", rec: "avoid" },
             { name: "Block", score: 25, core: true, relPerMonth: 2, rpc: "yes", chains: "20+", github: "block-wallet/extension", active: "inactive", devices: "📱🌐", testnets: true, license: "foss", audits: "❓ None", funding: "risky", fundingNote: "Unknown", txsim: "no", scam: "partial", account: "EOA", hw: "✅", bestFor: "~~Stability~~", rec: "avoid" }
         ];
+
+        // Hardware wallet data (sorted by score descending)
+        const hardwareWallets = [
+            { name: "Trezor Safe 5", score: 92, airgap: false, opensource: "full", se: "EAL6+", display: "Touch Color", chains: "9000+", price: "$169", conn: "USB-C", btconly: false, github: "trezor/trezor-firmware", rec: "recommended" },
+            { name: "Keystone 3 Pro", score: 90, airgap: true, opensource: "full", se: "3× SE", display: "Touch Color", chains: "5500+", price: "$149", conn: "QR", btconly: false, github: "KeystoneHQ/keystone3-firmware", rec: "recommended" },
+            { name: "Trezor Safe 3", score: 90, airgap: false, opensource: "full", se: "EAL6+", display: "Mono OLED", chains: "9000+", price: "$79", conn: "USB-C", btconly: false, github: "trezor/trezor-firmware", rec: "recommended" },
+            { name: "BitBox02", score: 88, airgap: false, opensource: "full", se: "ATECC", display: "Touch Edge", chains: "1500+", price: "$149", conn: "USB-C", btconly: "edition", github: "BitBoxSwiss/bitbox02-firmware", rec: "recommended" },
+            { name: "ColdCard Mk4", score: 87, airgap: true, opensource: "full", se: "Dual SE", display: "Mono LCD", chains: "BTC", price: "$157", conn: "MicroSD", btconly: true, github: "Coldcard/firmware", rec: "recommended" },
+            { name: "Foundation Passport", score: 86, airgap: true, opensource: "full", se: "SE", display: "Color LCD", chains: "BTC", price: "$259", conn: "MicroSD/QR", btconly: true, github: "Foundation-Devices/passport2", rec: "recommended" },
+            { name: "NGRAVE ZERO", score: 84, airgap: true, opensource: "partial", se: "EAL7", display: "Touch Color", chains: "1000+", price: "$398", conn: "QR", btconly: false, github: null, rec: "recommended" },
+            { name: "OneKey Pro", score: 80, airgap: false, opensource: "full", se: "SE", display: "Touch Color", chains: "70+", price: "$199", conn: "USB/BT", btconly: false, github: "OneKeyHQ/firmware-pro", rec: "recommended" },
+            { name: "GridPlus Lattice1", score: 72, airgap: false, opensource: "partial", se: "SE", display: "5\" Touch", chains: "1000+", price: "$397", conn: "WiFi/USB", btconly: false, github: null, rec: "situational" },
+            { name: "SafePal S1", score: 72, airgap: true, opensource: "partial", se: "SE", display: "LCD", chains: "100+", price: "$49", conn: "QR", btconly: false, github: null, rec: "situational" },
+            { name: "Ledger Nano X", score: 65, airgap: false, opensource: "partial", se: "CC EAL5+", display: "Mono OLED", chains: "5500+", price: "$149", conn: "USB/BT", btconly: false, github: null, rec: "avoid", note: "Ledger Recover" },
+            { name: "Ellipal Titan 2.0", score: 65, airgap: true, opensource: "closed", se: "None", display: "Touch Color", chains: "10000+", price: "$169", conn: "QR", btconly: false, github: null, rec: "situational" },
+            { name: "Ledger Nano S Plus", score: 64, airgap: false, opensource: "partial", se: "CC EAL5+", display: "Mono OLED", chains: "5500+", price: "$79", conn: "USB", btconly: false, github: null, rec: "avoid", note: "Ledger Recover" },
+            { name: "Tangem Wallet", score: 63, airgap: false, opensource: "partial", se: "EAL6+", display: "None", chains: "6000+", price: "$55", conn: "NFC", btconly: false, github: null, rec: "situational" },
+            { name: "Ledger Stax", score: 63, airgap: false, opensource: "partial", se: "CC EAL5+", display: "E-Ink Touch", chains: "5500+", price: "$279", conn: "USB/BT", btconly: false, github: null, rec: "avoid", note: "Ledger Recover" },
+            { name: "SecuX V20", score: 60, airgap: false, opensource: "closed", se: "SE", display: "Touch Color", chains: "1000+", price: "$139", conn: "USB/BT", btconly: false, github: null, rec: "situational" },
+            { name: "Arculus", score: 52, airgap: false, opensource: "closed", se: "CC EAL6+", display: "None", chains: "50+", price: "$99", conn: "NFC", btconly: false, github: null, rec: "avoid" },
+            { name: "KeepKey", score: 47, airgap: false, opensource: "full", se: "None", display: "OLED", chains: "40+", price: "$49", conn: "USB", btconly: false, github: "keepkey/keepkey-firmware", rec: "avoid", note: "Inactive 10mo" },
+            { name: "BC Vault", score: 45, airgap: false, opensource: "closed", se: "None", display: "OLED", chains: "2000+", price: "$139", conn: "USB", btconly: false, github: null, rec: "avoid" }
+        ];
+
+        // Tab switching
+        function switchTab(tab) {
+            document.getElementById('software-content').classList.toggle('active', tab === 'software');
+            document.getElementById('hardware-content').classList.toggle('active', tab === 'hardware');
+            document.getElementById('software-tldr').style.display = tab === 'software' ? 'block' : 'none';
+            document.getElementById('hardware-tldr').style.display = tab === 'hardware' ? 'block' : 'none';
+            document.getElementById('tab-software').classList.toggle('active', tab === 'software');
+            document.getElementById('tab-hardware').classList.toggle('active', tab === 'hardware');
+        }
 
         // Render functions
         function getStatusBadge(status) {
@@ -579,6 +711,39 @@
             document.getElementById('stat-txsim').textContent = filteredWallets.filter(w => w.txsim === 'yes').length;
         }
 
+        // Render hardware wallets table
+        function renderHardwareTable() {
+            const tbody = document.getElementById('hw-wallet-body');
+            tbody.innerHTML = hardwareWallets.map(w => `
+                <tr class="${w.rec === 'avoid' ? 'inactive' : ''}">
+                    <td class="wallet-name">
+                        ${w.github ? `<a href="https://github.com/${w.github}" target="_blank">${w.name}</a>` : w.name}
+                        ${w.note ? `<span style="color: var(--accent-red); font-size: 0.8em;"> (${w.note})</span>` : ''}
+                    </td>
+                    <td>${getScoreBadge(w.score)}</td>
+                    <td>${w.airgap ? '<span class="badge badge-green">✅</span>' : '<span class="badge badge-gray">❌</span>'}</td>
+                    <td>${w.opensource === 'full' ? '<span class="badge badge-green">✅ Full</span>' : 
+                         w.opensource === 'partial' ? '<span class="badge badge-yellow">⚠️ Partial</span>' : 
+                         '<span class="badge badge-red">❌ Closed</span>'}</td>
+                    <td>${w.se !== 'None' ? `<span class="badge badge-green">✅ ${w.se}</span>` : '<span class="badge badge-red">❌</span>'}</td>
+                    <td>${w.display}</td>
+                    <td>${w.chains}</td>
+                    <td>${w.price}</td>
+                    <td>${w.conn}</td>
+                    <td>${w.btconly === true ? '<span class="badge badge-blue">✅ BTC</span>' : 
+                         w.btconly === 'edition' ? '<span class="badge badge-yellow">⚠️ Ed</span>' : 
+                         '<span class="badge badge-gray">❌</span>'}</td>
+                    <td>${getRecBadge(w.rec)}</td>
+                </tr>
+            `).join('');
+            
+            // Update stats
+            document.getElementById('hw-stat-showing').textContent = hardwareWallets.length;
+            document.getElementById('hw-stat-foss').textContent = hardwareWallets.filter(w => w.opensource === 'full').length;
+            document.getElementById('hw-stat-airgap').textContent = hardwareWallets.filter(w => w.airgap).length;
+            document.getElementById('hw-stat-se').textContent = hardwareWallets.filter(w => w.se !== 'None').length;
+        }
+
         function filterWallets() {
             const search = document.getElementById('search').value.toLowerCase();
             const status = document.getElementById('filter-status').value;
@@ -639,6 +804,7 @@
 
         // Initial render
         renderTable(wallets);
+        renderHardwareTable();
     </script>
 </body>
 </html>
