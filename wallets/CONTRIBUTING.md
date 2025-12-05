@@ -43,38 +43,44 @@ Before adding a wallet, verify:
 
 ### Step 2: Calculate Score
 
-Use this formula (100 points total):
+Use this formula (100 points total) — prioritizes core criteria and stability:
 
 ```
-Activity (20 pts):
-  ✅ Active (last 30 days) = 20
-  ⚠️ Slow (1-4 months) = 10
-  🔒 Private repo = 5
-  ❌ Inactive (4+ months) = 0
+CORE CRITERIA (25 pts) — MOST IMPORTANT
+  ✅ Both mobile + browser extension = 25
+  ⚠️ Partial (e.g., Starknet-only desktop) = 12
+  ❌ Missing mobile OR extension = 0
 
-License (15 pts):
-  ✅ FOSS (MIT, GPL, MPL, Apache) = 15
-  ⚠️ Partial/Source-available = 8
+STABILITY (20 pts) — Lower release frequency = better
+  <3 releases/month = 20 (ideal)
+  3-5 releases/month = 15
+  6-8 releases/month = 10
+  >8 releases/month = 5 (MetaMask territory)
+  Unknown (private) = 12
+  Inactive = 20 (stable but no updates)
+
+DEVELOPER EXPERIENCE (25 pts)
+  Tx Simulation: ✅=10, ⚠️=5, ❌=0
+  Testnet support: ✅=5, ❌=0
+  Custom RPC: ✅=5, ⚠️=3, ❌=0
+  Multi-chain: ✅=5, ❌=0
+
+ACTIVITY (15 pts)
+  ✅ Active (≤30 days) = 15
+  ⚠️ Slow (1-4 months) = 8
+  🔒 Private repo = 5
+  ❌ Inactive (>4 months) = 0
+
+OPEN SOURCE (10 pts)
+  ✅ FOSS (MIT, GPL, MPL, Apache) = 10
+  ⚠️ Source-available/partial = 5
   ❌ Proprietary = 0
 
-Audits (15 pts):
-  ✅ Recent audit (2023+) = 15
-  🐛 Bug bounty program = 10
-  ⚠️ Old audit (pre-2023) = 8
-  ❓ No public audit = 0
-  ❓ Private/proprietary = 5
-
-Funding (15 pts):
-  🟢 Sustainable (exchange/company backing) = 15
-  🟡 VC-funded = 10
-  🔴 Donations/grants/unknown = 0
-
-Security (35 pts):
-  Tx Simulation: ✅=10, ⚠️=5, ❌=0
-  Scam Alerts: ✅=10, ⚠️=5, ❌=0
-  HW Wallets: ✅=5, ❌=0
-  EIP-4337: ✅=5, ⚠️=3, ❌=0
-  Testnets: ✅=5, ❌=0
+SECURITY (5 pts)
+  ✅ Recent audit (2023+) = 5
+  🐛 Bug bounty = 3
+  ⚠️ Old audit = 2
+  ❓ None/Private = 0
 ```
 
 ### Step 3: Add to Main Table
@@ -122,7 +128,7 @@ cd scripts
 
 If a wallet's status changes, update:
 1. Main table `Active` column
-2. Recalculate score (Activity is 20 pts)
+2. Recalculate score (Activity is 15 pts)
 3. Add changelog entry
 
 ### Audit Updates
@@ -175,11 +181,12 @@ Use this template for your PR:
 - [x] Score calculated: XX/100
 
 ### Score Breakdown
-- Activity: XX/20
-- License: XX/15
-- Audits: XX/15
-- Funding: XX/15
-- Security: XX/35
+- Core (mobile + ext): XX/25
+- Stability (rel/mo): XX/20
+- DevExp (tx sim, testnets, RPC): XX/25
+- Activity: XX/15
+- FOSS: XX/10
+- Security: XX/5
 - **Total: XX/100**
 
 ### Changes
