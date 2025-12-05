@@ -123,4 +123,4 @@ A workflow runs every Monday to refresh activity data:
 - Can be triggered manually
 
 ---
-*Last updated: December 1, 2025*
+*Last updated: December 3, 2025*
