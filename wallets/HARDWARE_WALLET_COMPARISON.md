@@ -1,26 +1,8 @@
 # Hardware Wallet Comparison (Cold Storage Alternatives to Ledger)
 
-> **TL;DR:** Use **Trezor Safe 5** (92) for best security + UX balance, **Keystone 3 Pro** (90) for air-gapped security, or **BitBox02** (88) for simplicity. **Ledger** (65) is penalized due to the controversial Ledger Recover feature that fundamentally compromises cold storage principles. Only wallets that keep private keys 100% offline score highest.
+> **TL;DR:** Use **Trezor Safe 5** (94) for best security + UX, **ColdCard Mk4** (91) for Bitcoin maximalists, **Keystone 3 Pro** (91) for air-gapped security, or **Trezor Safe 3** (91) for best value at $79. **Ledger** (55-57) is penalized for Ledger Recover. See [Why Look Beyond Ledger?](#-why-look-beyond-ledger) for details.
 
-**Last Updated:** December 2025  
-**Data Sources:** Official websites, GitHub (where available), security audit reports, community reviews
-
----
-
-## Why Look Beyond Ledger?
-
-In May 2023, Ledger announced "Ledger Recover" — an optional firmware update that enables sharding your seed phrase and storing encrypted fragments with third-party custodians (Ledger, Coincover, EscrowTech). This fundamentally violates the core principle of hardware wallets:
-
-> **🔴 Core Violation:** Private keys should NEVER leave the device under ANY circumstances.
-
-**The Ledger Recover Controversy:**
-- 🔴 Firmware can extract and transmit seed phrase fragments
-- 🔴 Requires ID verification (KYC) — links identity to wallet
-- 🔴 Creates attack vectors (social engineering, government subpoenas, data breaches)
-- 🔴 Even if "optional," the capability exists in firmware
-- 🔴 Trust model shifts from "trustless" to "trust Ledger + partners"
-
-**This comparison helps you find hardware wallets that maintain the original promise:** Your keys never leave the device.
+**Last Updated:** December 2025 | [Scoring Methodology](#-scoring-methodology) | [GitHub Activity Data](#github-metrics-firmware-repositories)
 
 ---
 
@@ -683,6 +665,23 @@ These wallets have significant limitations but may work for specific use cases:
 | **GridPlus Lattice1** | 59 | SDK-only (no firmware), WiFi connectivity | Home desk device with large screen |
 | **Ledger** | 55-57 | Ledger Recover capability, closed SE firmware | Only with passphrase (25th word) enabled |
 | **Tangem** | 53 | No screen, NFC-only, partial open source | Ultra-portable backup cards |
+
+---
+
+## ❓ Why Look Beyond Ledger?
+
+In May 2023, Ledger announced "Ledger Recover" — an optional firmware update that enables sharding your seed phrase and storing encrypted fragments with third-party custodians (Ledger, Coincover, EscrowTech). This fundamentally violates the core principle of hardware wallets:
+
+> **🔴 Core Violation:** Private keys should NEVER leave the device under ANY circumstances.
+
+**The Ledger Recover Controversy:**
+- 🔴 Firmware can extract and transmit seed phrase fragments
+- 🔴 Requires ID verification (KYC) — links identity to wallet
+- 🔴 Creates attack vectors (social engineering, government subpoenas, data breaches)
+- 🔴 Even if "optional," the capability exists in firmware
+- 🔴 Trust model shifts from "trustless" to "trust Ledger + partners"
+
+**This comparison helps you find hardware wallets that maintain the original promise:** Your keys never leave the device.
 
 ---
 
