@@ -3,6 +3,7 @@ name: Delete Merged Branch
 on:
   pull_request:
     types: [closed]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -12,6 +13,42 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
       - name: Delete branch
         run: |
           git push origin --delete ${{ github.event.pull_request.head.ref }}
+
+  cleanup-old-merged:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Fetch all branches
+        run: git fetch --all --prune
+      
+      - name: Delete old merged branches
+        run: |
+          # Get merged branches (excluding main/master and protected branches)
+          MERGED=$(git branch -r --merged origin/main | \
+            grep -v "origin/main" | \
+            grep -v "origin/master" | \
+            grep -v "origin/HEAD" | \
+            sed 's|origin/||' | \
+            xargs)
+          
+          if [ -z "$MERGED" ]; then
+            echo "No old merged branches to delete"
+          else
+            echo "Deleting merged branches: $MERGED"
+            for branch in $MERGED; do
+              git push origin --delete "$branch" || true
+            done
+          fi
