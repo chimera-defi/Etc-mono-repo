@@ -37,16 +37,16 @@ In May 2023, Ledger announced "Ledger Recover" — an optional firmware update t
 | **NGRAVE ZERO** | 84 | ✅ Full | ⚠️ Partial | ✅ EAL7 | Touch Color | 1000+ | $398 | QR | ❌ | 🟢 |
 | **GridPlus Lattice1** | 72 | ❌ | ⚠️ SDK only | ✅ SE | 5" Touch | 1000+ | $397 | WiFi/USB | ❌ | 🟡 |
 | **OneKey Pro** | 80 | ❌ | ✅ Full | ✅ SE | Touch Color | 70+ | $199 | USB/BT | ❌ | 🟢 |
-| **Ellipal Titan 2.0** | 75 | ✅ Full | ❌ Closed | ❌ None | Touch Color | 10000+ | $169 | QR | ❌ | 🟡 |
+| **Ellipal Titan 2.0** | 65 | ✅ Full | ❌ Closed | ❌ None | Touch Color | 10000+ | $169 | QR | ❌ | 🟡 |
 | **SafePal S1** | 72 | ✅ Full | ⚠️ Partial | ✅ SE | LCD | 100+ | $49 | QR | ❌ | 🟡 |
-| **SecuX V20** | 70 | ❌ | ❌ Closed | ✅ SE | Touch Color | 1000+ | $139 | USB/BT | ❌ | 🟡 |
-| **Tangem Wallet** | 68 | ❌ | ⚠️ Partial | ✅ EAL6+ | None | 6000+ | $55 | NFC | ❌ | 🟡 |
+| **SecuX V20** | 60 | ❌ | ❌ Closed | ✅ SE | Touch Color | 1000+ | $139 | USB/BT | ❌ | 🟡 |
+| **Tangem Wallet** | 63 | ❌ | ⚠️ Partial | ✅ EAL6+ | None | 6000+ | $55 | NFC | ❌ | 🟡 |
 | **Ledger Nano X** | 65 | ❌ | ⚠️ Partial | ✅ CC EAL5+ | Mono OLED | 5500+ | $149 | USB/BT | ❌ | 🔴 |
 | **Ledger Nano S Plus** | 64 | ❌ | ⚠️ Partial | ✅ CC EAL5+ | Mono OLED | 5500+ | $79 | USB | ❌ | 🔴 |
 | **Ledger Stax** | 63 | ❌ | ⚠️ Partial | ✅ CC EAL5+ | E-Ink Touch | 5500+ | $279 | USB/BT | ❌ | 🔴 |
-| **KeepKey** | 55 | ❌ | ✅ Full | ❌ None | OLED | 40+ | $49 | USB | ❌ | 🔴 |
+| ~~**KeepKey**~~ | 47 | ❌ | ✅ Full | ❌ None | OLED | 40+ | $49 | USB | ❌ | 🔴 |
 | **Arculus** | 52 | ❌ | ❌ Closed | ✅ CC EAL6+ | None | 50+ | $99 | NFC | ❌ | 🔴 |
-| **BC Vault** | 50 | ❌ | ❌ Closed | ❌ None | OLED | 2000+ | $139 | USB | ❌ | 🔴 |
+| **BC Vault** | 45 | ❌ | ❌ Closed | ❌ None | OLED | 2000+ | $139 | USB | ❌ | 🔴 |
 
 **Legend:**
 - **Score:** 0-100 weighted score (see [Scoring Methodology](#-scoring-methodology))
@@ -59,6 +59,30 @@ In May 2023, Ledger announced "Ledger Recover" — an optional firmware update t
 - **Conn:** USB, Bluetooth (BT), QR codes, NFC, MicroSD, WiFi
 - **BTC-Only:** ✅ Bitcoin-only device | ⚠️ Has BTC-only edition | ❌ Multi-chain
 - **Rec:** 🟢 Recommended | 🟡 Situational | 🔴 Avoid/Concerns
+
+### GitHub Metrics (Firmware Repositories)
+
+**Generated:** December 5, 2025 via `scripts/refresh-hardware-wallet-data.sh`
+
+| Wallet | Repository | Last Commit | Stars | Issues | Ratio | Status |
+|--------|------------|-------------|-------|--------|-------|--------|
+| **Trezor** | [trezor/trezor-firmware](https://github.com/trezor/trezor-firmware) | Dec 5, 2025 | 1,626 | 545 | 33.5% | ✅ Active |
+| **Keystone** | [KeystoneHQ/keystone3-firmware](https://github.com/KeystoneHQ/keystone3-firmware) | Dec 2, 2025 | 188 | 77 | 41.0% | ✅ Active |
+| **BitBox02** | [BitBoxSwiss/bitbox02-firmware](https://github.com/BitBoxSwiss/bitbox02-firmware) | Dec 4, 2025 | 330 | 49 | 14.8% | ✅ Active |
+| **ColdCard** | [Coldcard/firmware](https://github.com/Coldcard/firmware) | Nov 27, 2025 | 689 | 6 | 0.9% | ✅ Active |
+| **Foundation Passport** | [Foundation-Devices/passport2](https://github.com/Foundation-Devices/passport2) | Oct 22, 2025 | 76 | 8 | 10.5% | ⚠️ Slow |
+| **OneKey** | [OneKeyHQ/firmware-pro](https://github.com/OneKeyHQ/firmware-pro) | Dec 3, 2025 | 17 | 14 | 82.4% | ✅ Active |
+| **KeepKey** | [keepkey/keepkey-firmware](https://github.com/keepkey/keepkey-firmware) | Feb 11, 2025 | 162 | 15 | 9.3% | ❌ Inactive |
+
+**Code Quality Notes:**
+- ✅ **ColdCard (0.9%):** Excellent code quality — minimal issues relative to community size
+- ✅ **BitBox02 (14.8%):** Good code quality
+- ⚠️ **Trezor (33.5%):** Higher ratio reflects large feature set and user base
+- ⚠️ **Keystone (41.0%):** Moderate — newer project with active development
+- 🔴 **OneKey (82.4%):** High ratio — many open issues relative to stars
+- 🔴 **KeepKey:** No commits for 296 days — effectively abandoned
+
+**Closed Source (no public firmware repos):** Ledger, NGRAVE, Ellipal, SafePal, SecuX, Tangem, BC Vault, GridPlus
 
 ---
 
@@ -126,16 +150,16 @@ Hardware wallet scoring prioritizes what matters for cold storage security:
 | **NGRAVE ZERO** | 28/30 | 15/25 | 15/15 | 14/15 | 7/10 | 5/5 | **84** |
 | **GridPlus Lattice1** | 23/30 | 15/25 | 12/15 | 13/15 | 6/10 | 3/5 | **72** |
 | **OneKey Pro** | 24/30 | 25/25 | 13/15 | 13/15 | 3/10 | 2/5 | **80** |
-| **Ellipal Titan** | 22/30 | 5/25 | 15/15 | 14/15 | 5/10 | 4/5 | **75** |
+| **Ellipal Titan** | 22/30 | 5/25 | 15/15 | 14/15 | 5/10 | 4/5 | **65** |
 | **SafePal S1** | 24/30 | 12/25 | 14/15 | 11/15 | 6/10 | 5/5 | **72** |
-| **SecuX V20** | 22/30 | 5/25 | 13/15 | 13/15 | 5/10 | 2/5 | **70** |
-| **Tangem** | 22/30 | 10/25 | 10/15 | 12/15 | 5/10 | 4/5 | **68** |
+| **SecuX V20** | 22/30 | 5/25 | 13/15 | 13/15 | 5/10 | 2/5 | **60** |
+| **Tangem** | 22/30 | 10/25 | 10/15 | 12/15 | 5/10 | 4/5 | **63** |
 | **Ledger Nano X** | 24/30 | 12/25 | 5/15 | 12/15 | 8/10 | 4/5 | **65** |
 | **Ledger Nano S+** | 24/30 | 12/25 | 5/15 | 10/15 | 8/10 | 5/5 | **64** |
 | **Ledger Stax** | 24/30 | 12/25 | 5/15 | 10/15 | 8/10 | 4/5 | **63** |
-| **KeepKey** | 12/30 | 25/25 | 10/15 | 8/15 | 0/10 | 0/5 | **55** |
+| ~~**KeepKey**~~ | 12/30 | 25/25 | 10/15 | 0/15 | 0/10 | 0/5 | **47** |
 | **Arculus** | 20/30 | 5/25 | 8/15 | 10/15 | 4/10 | 5/5 | **52** |
-| **BC Vault** | 10/30 | 5/25 | 10/15 | 10/15 | 5/10 | 10/5 | **50** |
+| **BC Vault** | 10/30 | 5/25 | 10/15 | 10/15 | 5/10 | 5/5 | **45** |
 
 **Why Ledger Scores Low:**
 - **Privacy (5/15):** Ledger Recover capability exists in firmware — even if "optional," the attack surface exists
@@ -551,9 +575,9 @@ Hardware wallet scoring prioritizes what matters for cold storage security:
 | Wallet | Score | Reason |
 |--------|-------|--------|
 | **Ledger** | 63-65 | Ledger Recover capability, proprietary SE firmware |
-| **KeepKey** | 55 | No Secure Element, ShapeShift pivoted away, minimal development |
+| **KeepKey** | 47 | ❌ INACTIVE (no commits 10 months), no Secure Element, ShapeShift pivoted away |
 | **Arculus** | 52 | Closed source, NFC-only (limited compatibility), no passphrase |
-| **BC Vault** | 50 | Closed source, unconventional backup, no SE, limited ecosystem |
+| **BC Vault** | 45 | Closed source, unconventional backup, no SE, limited ecosystem |
 | **SafePal Pro** | - | Company has concerning partnerships (Binance), closed components |
 
 ---
@@ -586,6 +610,78 @@ If you're migrating from Ledger to another hardware wallet:
 | Nano X | Keystone 3 Pro | Air-gapped upgrade |
 | BTC holdings | ColdCard Mk4 | Maximum BTC security |
 | Multi-chain | BitBox02 | Swiss quality, open source |
+
+---
+
+## 💰 Funding & Company Background
+
+Understanding who makes hardware wallets helps assess long-term viability:
+
+| Wallet | Company | Location | Founded | Funding | Risk |
+|--------|---------|----------|---------|---------|------|
+| **Trezor** | SatoshiLabs | Czech Republic | 2013 | 🟢 Self-funded (profitable) | Low |
+| **Ledger** | Ledger SAS | France | 2014 | 🟢 VC ($380M+) | Low* |
+| **Keystone** | Keystone (formerly Cobo) | Hong Kong | 2018 | 🟡 VC | Medium |
+| **BitBox02** | Shift Crypto | Switzerland | 2015 | 🟢 Self-funded | Low |
+| **ColdCard** | Coinkite | Canada | 2012 | 🟢 Self-funded | Low |
+| **Foundation** | Foundation Devices | USA | 2020 | 🟡 VC (Seed) | Medium |
+| **NGRAVE** | NGRAVE | Belgium | 2018 | 🟡 VC | Medium |
+| **GridPlus** | GridPlus | USA | 2017 | 🟡 VC | Medium |
+| **OneKey** | OneKey | Hong Kong/China | 2020 | 🟡 VC | Medium |
+| **Ellipal** | Ellipal Ltd | Hong Kong | 2018 | 🔴 Unknown | Higher |
+| **SafePal** | SafePal | Singapore | 2018 | 🟡 Binance Labs | Medium |
+| **SecuX** | SecuX Technology | Taiwan | 2018 | 🔴 Unknown | Higher |
+| **Tangem** | Tangem AG | Switzerland | 2017 | 🟡 VC | Medium |
+| **KeepKey** | ~~ShapeShift~~ | USA | 2015 | 🔴 Abandoned | ❌ High |
+| **Arculus** | CompoSecure | USA | 2021 | 🟢 Public company | Low |
+| **BC Vault** | Real Security | Slovenia | 2018 | 🔴 Unknown | Higher |
+
+**Legend:**
+- 🟢 **Low risk:** Self-funded/profitable, or large VC backing with proven track record
+- 🟡 **Medium risk:** VC-funded but smaller, or uncertain long-term model
+- 🔴 **Higher risk:** Unknown funding, abandoned, or concerning patterns
+
+*Ledger has low financial risk but high trust risk due to Ledger Recover
+
+---
+
+## ⚡ Known Quirks & Gotchas
+
+Every hardware wallet has quirks. Know them before you buy:
+
+| Wallet | Quirk | Impact | Workaround |
+|--------|-------|--------|------------|
+| **Trezor** | No Secure Element in older models (One/T) | Lower physical security | Buy Safe 3/5 with SE |
+| **Trezor** | PIN entry on computer (older models) | Keylogger risk | Use Safe 5 with on-device entry |
+| **Ledger** | Ledger Recover can extract seed | Trust violation | Use passphrase (25th word) |
+| **Ledger** | 2020 data breach | Phishing/physical threats | Use PO box for shipping |
+| **Keystone** | Larger form factor | Less portable | Use for home/office only |
+| **Keystone** | QR signing slower than USB | UX friction | Accept trade-off for air-gap |
+| **BitBox02** | Touch slider learning curve | Initial confusion | Watch tutorial videos |
+| **ColdCard** | Steep learning curve | Intimidating for beginners | Read full manual |
+| **ColdCard** | No altcoin support | Can't use for ETH/etc | Separate wallet for altcoins |
+| **Passport** | Higher price point | Budget concern | Consider for BTC-only use |
+| **Passport** | Larger form factor | Less portable | AAA batteries are replaceable |
+| **NGRAVE** | Very expensive ($398) | Cost barrier | Consider alternatives |
+| **NGRAVE** | Not fully open source | Can't verify firmware | Trust NGRAVE's audits |
+| **GridPlus** | WiFi connectivity | Security concern for some | Can use USB-only mode |
+| **GridPlus** | Very large, not portable | Home use only | Designed as desk device |
+| **OneKey** | Based in China/HK | Regulatory concerns | Consider jurisdiction risks |
+| **Ellipal** | No Secure Element | Relies on air-gap alone | May be less secure |
+| **SafePal** | Binance-backed | Centralization concern | Personal preference |
+| **Tangem** | No screen | Can't verify on device | Trust phone app display |
+| **Tangem** | NFC-only | Requires NFC phone | Check phone compatibility |
+| **KeepKey** | ABANDONED - no updates 10mo | Security risk | DO NOT BUY - migrate away |
+
+### Common Hardware Wallet Pitfalls
+
+1. **Don't trust the box** — Verify device integrity before first use
+2. **Write down seed on paper** — Never digitally (no photos, no cloud)
+3. **Test recovery before loading funds** — Verify backup works
+4. **Buy direct from manufacturer** — Avoid Amazon/eBay tampering risk
+5. **Update firmware carefully** — Read release notes, wait for community feedback
+6. **Use passphrase for high-value** — Creates hidden wallet even if seed is compromised
+7. **Don't reuse seeds** — Each wallet should have unique seed
 
 ---
 
@@ -712,6 +808,11 @@ All 18 wallets listed are confirmed physical hardware devices for cryptocurrency
 | Dec 2025 | Scoring methodology | Security-first weighting with Ledger penalty |
 | Dec 2025 | 15+ wallets added | Comprehensive market coverage |
 | Dec 2025 | Multi-pass review | Corrected GridPlus open source status, fixed GitHub links/stars |
+| Dec 2025 | Added GitHub Metrics | Live data from refresh script, stars/issues/ratio |
+| Dec 2025 | KeepKey marked INACTIVE | No commits for 296 days — effectively abandoned |
+| Dec 2025 | Score math fixed | Corrected Ellipal (65), SecuX (60), Tangem (63), BC Vault (45) |
+| Dec 2025 | Added Funding section | Company background with 🟢/🟡/🔴 risk ratings |
+| Dec 2025 | Added Quirks section | Known issues and workarounds for each wallet |
 
 ---
 
