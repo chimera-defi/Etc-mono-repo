@@ -8,39 +8,38 @@
 
 ## Complete Hardware Wallet Comparison (19 Wallets)
 
-| Wallet | Score | Air-Gap | Open Source | Secure Elem | Display | Networks | Price | Conn | BTC-Only | Activity | Rec |
-|--------|-------|---------|-------------|-------------|---------|----------|-------|------|----------|----------|-----|
-| **Trezor Safe 5** | 94 | ❌ | ✅ Full | ✅ Optiga | Touch Color | Multi | ~$169 | USB-C | ❌ | ✅ Active | 🟢 |
-| **Keystone 3 Pro** | 91 | ✅ Full | ✅ Full | ✅ 3× SE | Touch Color | Multi | ~$149 | QR | ❌ | ✅ Active | 🟢 |
-| **ColdCard Mk4** | 91 | ✅ Full | ✅ Full | ✅ Dual SE | Mono LCD | BTC | ~$150 | MicroSD | ✅ | ✅ Active | 🟢 |
-| **Trezor Safe 3** | 91 | ❌ | ✅ Full | ✅ Optiga | Mono OLED | Multi | ~$79 | USB-C | ❌ | ✅ Active | 🟢 |
-| **BitBox02** | 88 | ❌ | ✅ Full | ✅ ATECC | Touch Edge | Multi | ~$150 | USB-C | ⚠️ Ed | ✅ Active | 🟢 |
-| **Foundation Passport** | 81 | ✅ Full | ✅ Full | ✅ ATECC | Color LCD | BTC | ~$259 | MicroSD/QR | ✅ | ⚠️ Slow | 🟢 |
-| **OneKey Pro** | 77 | ❌ | ✅ Full | ✅ SE | Touch Color | Multi | ~$199 | USB/BT | ❌ | ✅ Active | 🟢 |
-| **NGRAVE ZERO** | 72 | ✅ Full | ⚠️ Partial | ✅ SE | Touch Color | Multi | ~$400 | QR | ❌ | 🔒 Private | 🟡 |
-| **SafePal S1** | 62 | ✅ Full | ⚠️ Partial | ✅ SE | LCD | Multi | ~$50 | QR | ❌ | 🔒 Private | 🟡 |
-| **GridPlus Lattice1** | 59 | ❌ | ⚠️ SDK only | ✅ SE | 5" Touch | Multi | ~$400 | WiFi/USB | ❌ | 🔒 Private | 🟡 |
-| **Ledger Stax** | 57 | ❌ | ⚠️ Partial | ✅ SE | E-Ink Touch | Multi | ~$280 | USB/BT | ❌ | 🔒 Private | 🟡 |
-| **Ledger Nano X** | 56 | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | Multi | ~$150 | USB/BT | ❌ | 🔒 Private | 🟡 |
-| **Ledger Nano S+** | 55 | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | Multi | ~$80 | USB | ❌ | 🔒 Private | 🟡 |
-| **Tangem Wallet** | 53 | ❌ | ⚠️ Partial | ✅ SE | None | Multi | ~$55 | NFC | ❌ | 🔒 Private | 🟡 |
-| **Ellipal Titan 2.0** | 48 | ✅ Full | ❌ Closed | ❌ None | Touch Color | Multi | ~$170 | QR | ❌ | 🔒 Private | 🔴 |
-| **SecuX V20** | 47 | ❌ | ❌ Closed | ✅ SE | Touch Color | Multi | ~$140 | USB/BT | ❌ | 🔒 Private | 🔴 |
-| **Arculus** | 42 | ❌ | ❌ Closed | ✅ SE | None | Multi | ~$100 | NFC | ❌ | 🔒 Private | 🔴 |
-| ~~**KeepKey**~~ | 39 | ❌ | ✅ Full | ❌ None | OLED | Multi | ~$50 | USB | ❌ | ❌ Inactive | 🔴 |
-| **BC Vault** | 33 | ❌ | ❌ Closed | ❌ None | OLED | Multi | ~$140 | USB | ❌ | 🔒 Private | 🔴 |
+| Wallet | Score | GitHub | Air-Gap | Open Source | Secure Elem | Display | Price | Conn | Activity | Rec |
+|--------|-------|--------|---------|-------------|-------------|---------|-------|------|----------|-----|
+| [**Trezor Safe 5**](https://trezor.io/) | 94 | [trezor-firmware](https://github.com/trezor/trezor-firmware) | ❌ | ✅ Full | ✅ Optiga | Touch Color | ~$169 | USB-C | ✅ Active | 🟢 |
+| [**Keystone 3 Pro**](https://keyst.one/) | 91 | [keystone3-firmware](https://github.com/KeystoneHQ/keystone3-firmware) | ✅ Full | ✅ Full | ✅ 3× SE | Touch Color | ~$149 | QR | ✅ Active | 🟢 |
+| [**ColdCard Mk4**](https://coldcard.com/) | 91 | [firmware](https://github.com/Coldcard/firmware) | ✅ Full | ✅ Full | ✅ Dual SE | Mono LCD | ~$150 | MicroSD | ✅ Active | 🟢 |
+| [**Trezor Safe 3**](https://trezor.io/) | 91 | [trezor-firmware](https://github.com/trezor/trezor-firmware) | ❌ | ✅ Full | ✅ Optiga | Mono OLED | ~$79 | USB-C | ✅ Active | 🟢 |
+| [**BitBox02**](https://bitbox.swiss/) | 88 | [bitbox02-firmware](https://github.com/BitBoxSwiss/bitbox02-firmware) | ❌ | ✅ Full | ✅ ATECC | Touch Edge | ~$150 | USB-C | ✅ Active | 🟢 |
+| [**Foundation Passport**](https://foundationdevices.com/) | 81 | [passport2](https://github.com/Foundation-Devices/passport2) | ✅ Full | ✅ Full | ✅ ATECC | Color LCD | ~$259 | MicroSD/QR | ⚠️ Slow | 🟢 |
+| [**OneKey Pro**](https://onekey.so/) | 77 | [firmware-pro](https://github.com/OneKeyHQ/firmware-pro) | ❌ | ✅ Full | ✅ SE | Touch Color | ~$199 | USB/BT | ✅ Active | 🟢 |
+| [**NGRAVE ZERO**](https://www.ngrave.io/) | 72 | Private | ✅ Full | ⚠️ Partial | ✅ SE | Touch Color | ~$400 | QR | 🔒 Private | 🟡 |
+| [**SafePal S1**](https://www.safepal.com/) | 62 | Private | ✅ Full | ⚠️ Partial | ✅ SE | LCD | ~$50 | QR | 🔒 Private | 🟡 |
+| [**GridPlus Lattice1**](https://gridplus.io/) | 59 | [SDK only](https://github.com/GridPlus/gridplus-sdk) | ❌ | ⚠️ SDK only | ✅ SE | 5" Touch | ~$400 | WiFi/USB | 🔒 Private | 🟡 |
+| [**Ledger Stax**](https://www.ledger.com/) | 57 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | E-Ink Touch | ~$280 | USB/BT | 🔒 Private | 🟡 |
+| [**Ledger Nano X**](https://www.ledger.com/) | 56 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$150 | USB/BT | 🔒 Private | 🟡 |
+| [**Ledger Nano S+**](https://www.ledger.com/) | 55 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$80 | USB | 🔒 Private | 🟡 |
+| [**Tangem Wallet**](https://tangem.com/) | 53 | Private | ❌ | ⚠️ Partial | ✅ SE | None | ~$55 | NFC | 🔒 Private | 🟡 |
+| [**Ellipal Titan 2.0**](https://www.ellipal.com/) | 48 | Private | ✅ Full | ❌ Closed | ❌ None | Touch Color | ~$170 | QR | 🔒 Private | 🔴 |
+| [**SecuX V20**](https://secuxtech.com/) | 47 | Private | ❌ | ❌ Closed | ✅ SE | Touch Color | ~$140 | USB/BT | 🔒 Private | 🔴 |
+| [**Arculus**](https://www.getarculus.com/) | 42 | Private | ❌ | ❌ Closed | ✅ SE | None | ~$100 | NFC | 🔒 Private | 🔴 |
+| ~~[**KeepKey**](https://shapeshift.com/keepkey)~~ | 39 | [keepkey-firmware](https://github.com/keepkey/keepkey-firmware) | ❌ | ✅ Full | ❌ None | OLED | ~$50 | USB | ❌ Inactive | 🔴 |
+| [**BC Vault**](https://bc-vault.com/) | 33 | Private | ❌ | ❌ Closed | ❌ None | OLED | ~$140 | USB | 🔒 Private | 🔴 |
 
 **Legend:**
+- **Wallet:** Links to official site | ~~Strikethrough~~ = abandoned
 - **Score:** 0-100 weighted score (see [Scoring Methodology](#-scoring-methodology))
-- **Air-Gap:** ✅ Fully air-gapped (no USB/BT during signing) | ❌ Requires physical connection
-- **Open Source:** ✅ Full (firmware + bootloader) | ⚠️ Partial (some components) | ❌ Closed source
-- **Secure Elem:** ✅ Has SE chip with type (Optiga, ATECC, etc.) | ❌ MCU only
-- **Display:** Screen type and capabilities
-- **Networks:** BTC = Bitcoin only | Multi = Multiple blockchain networks (verify specific chains on official sites)
-- **Activity:** ✅ Active (≤30 days) | ⚠️ Slow (1-4 mo) | 🔒 Private | ❌ Inactive (>4 mo)
-- **Price:** Approximate USD, verify on official site before purchase
-- **Conn:** USB, Bluetooth (BT), QR codes, NFC, MicroSD, WiFi
-- **BTC-Only:** ✅ Bitcoin-only device | ⚠️ Ed = Has BTC-only edition | ❌ Multi-chain
+- **GitHub:** Firmware repo link | "Private" = closed source
+- **Air-Gap:** ✅ Full = QR/MicroSD only | ❌ = USB/BT connection required
+- **Open Source:** ✅ Full (firmware + bootloader) | ⚠️ Partial | ❌ Closed
+- **Secure Elem:** ✅ Has SE with type (Optiga, ATECC, etc.) | ❌ MCU only
+- **Display:** Screen type | **Price:** ~USD (verify on official site)
+- **Conn:** USB, Bluetooth (BT), QR, NFC, MicroSD, WiFi
+- **Activity:** ✅ Active (≤30 days) | ⚠️ Slow (1-4 mo) | 🔒 Private | ❌ Inactive
 - **Rec:** 🟢 Recommended (75+) | 🟡 Situational (50-74) | 🔴 Avoid (<50)
 
 > ⚠️ **Data Accuracy Note:** Prices, supported networks, and features change. Always verify on official manufacturer websites before purchasing. This table provides general guidance, not exact specifications.
