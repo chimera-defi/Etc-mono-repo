@@ -4,6 +4,11 @@
 
 **Data Sources:** GitHub REST API (Nov 2024, activity Nov 2025), [WalletBeat](https://walletbeat.fyi) (Dec 2025)
 
+## 🔗 Related Documents
+
+- **[Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON.md)** — Cold storage devices (Trezor, Ledger, Keystone, BitBox02, etc.)
+- **[Wallet Research README](./README.md)** — Overview of all wallet comparison documents
+
 ---
 
 ## Complete Wallet Comparison (All 24 EVM Wallets)
@@ -419,20 +424,30 @@ Every wallet has quirks that can cause developer headaches. Know them before you
 
 ## Hardware Wallet Support (from WalletBeat)
 
-| Wallet | Ledger | Trezor | Keystone | GridPlus | Other |
-|--------|--------|--------|----------|----------|-------|
-| **MetaMask** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | KeepKey, OneKey |
-| **Rabby** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ✅ Others |
-| **Safe** | ✅ WebUSB | ✅ WebUSB | ✅ WalletConnect | ✅ WalletConnect | - |
-| **Rainbow** | ✅ WebUSB+BT | ✅ WebUSB | - | - | - |
-| **Coinbase** | ✅ | ✅ | - | - | - |
-| **Frame** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ✅ Others |
-| **Ambire** | ✅ WebUSB | ✅ WebUSB | ❌ | ✅ WebUSB | - |
-| **Zerion** | ✅ WebUSB | ✅ WC only | ✅ WC only | ✅ WC only | - |
-| **Phantom** | ✅ WebUSB | ❌ | ❌ | ❌ | - |
-| **imToken** | ❌ | ❌ | ✅ QR | ❌ | imKey (BT) |
+| Wallet | Ledger | Trezor | Keystone | BitBox02 | ColdCard | Foundation | OneKey | GridPlus | Other |
+|--------|--------|--------|----------|----------|----------|------------|--------|----------|-------|
+| **MetaMask** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ❌ | ❌ | ✅ WebUSB | ✅ WebUSB | KeepKey |
+| **Rabby** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ❌ | ❌ | ✅ WebUSB | ✅ WebUSB | ✅ Others |
+| **Safe** | ✅ WebUSB | ✅ WebUSB | ✅ WalletConnect | ✅ WebUSB | ❌ | ❌ | ✅ WalletConnect | ✅ WalletConnect | - |
+| **Rainbow** | ✅ WebUSB+BT | ✅ WebUSB | - | ✅ WebUSB | ❌ | ❌ | ✅ WebUSB | - | - |
+| **Coinbase** | ✅ | ✅ | - | ✅ | ❌ | ❌ | ✅ | - | - |
+| **Frame** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ❌ | ❌ | ✅ WebUSB | ✅ WebUSB | ✅ Others |
+| **Ambire** | ✅ WebUSB | ✅ WebUSB | ❌ | ✅ WebUSB | ❌ | ❌ | ✅ WebUSB | ✅ WebUSB | - |
+| **Zerion** | ✅ WebUSB | ✅ WC only | ✅ WC only | ✅ WC only | ❌ | ❌ | ✅ WC only | ✅ WC only | - |
+| **Phantom** | ✅ WebUSB | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | - |
+| **imToken** | ❌ | ❌ | ✅ QR | ❌ | ❌ | ❌ | ❌ | ❌ | imKey (BT) |
+| **Trust** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ❌ | ❌ | ✅ WebUSB | ✅ WebUSB | - |
+| **Brave** | ✅ WebUSB | ✅ WebUSB | ❌ | ✅ WebUSB | ❌ | ❌ | ✅ WebUSB | ✅ WebUSB | - |
+| **Enkrypt** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ❌ | ❌ | ✅ WebUSB | ✅ WebUSB | - |
+| **MEW** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ❌ | ❌ | ✅ WebUSB | ✅ WebUSB | - |
+| **Taho** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ❌ | ❌ | ✅ WebUSB | ✅ WebUSB | - |
+| **Ledger Live** | ✅ Native | ✅ WebUSB | ❌ | ✅ WebUSB | ❌ | ❌ | ✅ WebUSB | ✅ WebUSB | - |
 
-**Connection Types:** WebUSB, Bluetooth (BT), QR code, WalletConnect (WC)
+**Connection Types:** WebUSB, Bluetooth (BT), QR code, WalletConnect (WC)  
+**Notes:** 
+- **ColdCard** and **Foundation Passport** are Bitcoin-only hardware wallets, so they only work with Bitcoin-focused software wallets (Sparrow, Electrum) and don't support EVM wallets
+- **BitBox02** and **OneKey Pro** support multi-chain and work with most major EVM wallets via WebUSB
+- See [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON.md) for detailed hardware wallet information
 
 ---
 
@@ -907,7 +922,7 @@ Track significant changes to wallet statuses and recommendations:
 | Dec 2025 | **All** | Added Mobile Deep-linking | Universal links, custom schemes |
 | Dec 2025 | **All** | Added WC v2 column | WalletConnect v2 support (v1 deprecated) |
 | Dec 2025 | **All** | Added Developer Experience | Docs, SDKs, error messages quality |
-| Dec 2025 | **Ledger Live** | Added | Hardware wallet companion (score 68) |
+| Dec 2025 | **Ledger Live** | Added | Hardware wallet companion (score 50) |
 | Dec 2025 | **Sequence** | Added | Smart contract wallet for gaming (score 62) |
 | Dec 2025 | **Uniswap** | Added | DeFi-focused mobile wallet (score 55) |
 | Dec 2025 | **All** | Added Score column | 0-100 weighted scoring system |

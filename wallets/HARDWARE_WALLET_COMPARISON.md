@@ -4,6 +4,11 @@
 
 **Last Updated:** December 2025 | [Scoring Methodology](#-scoring-methodology) | [GitHub Activity Data](#github-metrics-firmware-repositories)
 
+## 🔗 Related Documents
+
+- **[Software Wallet Comparison](./WALLET_COMPARISON_UNIFIED.md)** — Hot wallets & browser extensions (Rabby, MetaMask, Trust Wallet, etc.)
+- **[Wallet Research README](./README.md)** — Overview of all wallet comparison documents
+
 ---
 
 ## Complete Hardware Wallet Comparison (19 Wallets)
