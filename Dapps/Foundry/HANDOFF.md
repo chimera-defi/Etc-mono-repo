@@ -116,7 +116,14 @@ When complete, compare against Hardhat implementation:
 - [forge-std Cheatcodes](https://book.getfoundry.sh/cheatcodes/)
 - [OpenZeppelin Contracts](https://docs.openzeppelin.com/contracts)
 
+## Caveats for Implementing Agent
+
+1. **Verify remapping path** - The `@openzeppelin/contracts/` path may need adjustment after `forge install`
+2. **Template code is untested** - Contract templates are starting points, not verified
+3. **32 tasks total** - Plan for 2-4 hours of work
+4. **Measure actual benchmarks** - Don't trust claims about speed; measure compile/test times
+
 ---
 
 **Priority**: Complete P0 tasks first, then P1 tasks.
-**Time Estimate**: 1-2 hours for full implementation.
+**Time Estimate**: 2-4 hours for full implementation with testing.

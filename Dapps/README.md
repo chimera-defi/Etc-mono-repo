@@ -41,7 +41,7 @@ Already comfortable with JavaScript/TypeScript?
   → NO: Continue
 
 Need fastest possible test execution?
-  → YES: Foundry (10-100x faster)
+  → YES: Foundry (faster due to Rust)
   → NO: Continue
 
 Want to write tests in Solidity?
@@ -102,6 +102,18 @@ See `.artifacts/` folder for detailed comparison documents:
 | 5. Compare | ⏳ | ⏳ | Performance benchmarks |
 
 **Status Legend**: ✅ Complete | ⏳ Pending | 🚧 In Progress
+
+---
+
+---
+
+## Caveats & Honest Notes
+
+1. **No benchmarks yet** - Speed claims (Foundry faster) are commonly cited but not measured here
+2. **StackOverflow/plugin counts** - Estimated, not verified
+3. **Contract templates** - Provided as starting points, verify they compile
+4. **Time estimates** - 2-4 hours per framework is realistic for thorough implementation
+5. **Remapping paths** - Verify after `forge install`, paths may vary
 
 ---
 

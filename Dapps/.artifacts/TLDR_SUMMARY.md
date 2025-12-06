@@ -30,7 +30,7 @@
 
 | | Foundry | Hardhat |
 |---------|---------|---------|
-| **Test Speed** | ⚡ 10-100x faster | Standard |
+| **Test Speed** | ⚡ Faster (Rust) | Standard (Node.js) |
 | **Test Language** | Solidity | JavaScript/TypeScript |
 | **Fuzzing** | ✅ Built-in | ❌ External |
 | **Plugins** | ~50+ | ~300+ |
@@ -83,11 +83,11 @@ Default for new projects:
 - **Hardhat**: Write tests in JS/TS → Think like the frontend
 
 ### Speed Matters
-Foundry tests run 10-100x faster:
-- Foundry: 1000 tests in ~5 seconds
-- Hardhat: 1000 tests in ~60 seconds
+Foundry is commonly reported to be significantly faster due to Rust vs Node.js:
+- Exact speedup varies by project size and complexity
+- **Actual benchmarks will be measured during implementation**
 
-This compounds in CI/CD and developer productivity.
+Speed differences compound in CI/CD and developer productivity.
 
 ### Fuzzing Built-in
 ```solidity

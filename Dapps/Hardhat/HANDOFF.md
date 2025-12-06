@@ -146,7 +146,15 @@ When complete, compare against Foundry implementation:
 - [OpenZeppelin Contracts](https://docs.openzeppelin.com/contracts)
 - [Chai Assertions](https://www.chaijs.com/api/bdd/)
 
+## Caveats for Implementing Agent
+
+1. **Verify hardhat-toolbox includes everything** - May need additional plugin installs
+2. **Template code is untested** - Contract/test templates are starting points, not verified
+3. **31 tasks total** - Plan for 2-4 hours of work
+4. **Gas reporter currency** - Requires CoinMarketCap API key for USD; use raw gas for comparison
+5. **Measure actual benchmarks** - Record compile/test times for comparison
+
 ---
 
 **Priority**: Complete P0 tasks first, then P1 tasks.
-**Time Estimate**: 1-2 hours for full implementation.
+**Time Estimate**: 2-4 hours for full implementation with testing.

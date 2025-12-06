@@ -43,12 +43,14 @@ const config: HardhatUserConfig = {
   },
   gasReporter: {
     enabled: process.env.REPORT_GAS !== undefined,
-    currency: "USD",
+    // currency: "USD",  // Requires COINMARKETCAP_API_KEY env var
   },
 };
 
 export default config;
 ```
+
+> **Note**: To show gas costs in USD, you need a CoinMarketCap API key. For comparison purposes, raw gas units are sufficient.
 
 ---
 
@@ -234,5 +236,5 @@ Before marking complete:
 
 ---
 
-**Estimated Time**: 1-2 hours
+**Estimated Time**: 2-4 hours (including thorough testing and documentation)
 **Dependencies**: Node.js 18+, npm

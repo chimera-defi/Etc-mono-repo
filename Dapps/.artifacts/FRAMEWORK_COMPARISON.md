@@ -19,7 +19,7 @@ This document provides a detailed comparison of Foundry (Forge) and Hardhat for 
 | **Project Init** | `forge init` | `npx hardhat init` | Both scaffold complete projects |
 | **Config Format** | `foundry.toml` | `hardhat.config.ts/js` | Hardhat config is more flexible (code) |
 | **IDE Support** | Good (VSCode + solidity ext) | Excellent (many plugins) | Hardhat has better TypeScript integration |
-| **Hot Reload** | ❌ | ✅ (with plugins) | Hardhat has watch mode plugins |
+| **Watch Mode** | ✅ `forge build --watch` | ✅ (with plugins) | Both support file watching |
 
 ### Testing
 
@@ -93,10 +93,12 @@ This document provides a detailed comparison of Foundry (Forge) and Hardhat for 
 | Factor | Foundry | Hardhat | Notes |
 |--------|---------|---------|-------|
 | **Training Data Size** | Smaller (newer) | Larger | More Hardhat examples exist |
-| **StackOverflow Qs** | ~2,000 | ~15,000 | **Hardhat** |
-| **GitHub Repos** | Growing | More | **Hardhat** |
-| **AI Code Gen Quality** | Good | Very Good | More Hardhat patterns |
+| **StackOverflow Qs** | Fewer | More | Hardhat has been around longer (verify actual counts) |
+| **GitHub Repos** | Growing | More | Hardhat has more existing projects |
+| **AI Code Gen Quality** | Good | Very Good | More Hardhat patterns in training data |
 | **Documentation** | Excellent (The Book) | Excellent | Tie |
+
+> **Note**: Exact StackOverflow/GitHub counts not verified. Hardhat's longer history (2019 vs 2021) means more training data exists.
 
 ### Code Example Comparison
 
@@ -145,16 +147,16 @@ describe("Token", function () {
 });
 ```
 
-## Performance Benchmarks (Expected)
+## Performance Benchmarks (To Be Measured)
 
-| Metric | Foundry | Hardhat | Difference |
-|--------|---------|---------|------------|
-| **Compile (100 contracts)** | ~2s | ~10s | 5x faster |
-| **Test Suite (1000 tests)** | ~5s | ~60s | 12x faster |
-| **Fork Test** | ~1s setup | ~5s setup | 5x faster |
-| **Coverage Report** | ~10s | ~30s | 3x faster |
+| Metric | Foundry | Hardhat | Notes |
+|--------|---------|---------|-------|
+| **Compile Time** | TBD | TBD | Measure with identical contracts |
+| **Test Execution** | TBD | TBD | Measure with identical test suites |
+| **Fork Test Setup** | TBD | TBD | Measure mainnet fork initialization |
+| **Coverage Report** | TBD | TBD | Measure full coverage generation |
 
-> **Note**: Actual benchmarks will be measured after implementation.
+> **⚠️ IMPORTANT**: No benchmark data exists yet. Claims that Foundry is "10-100x faster" are commonly cited but vary greatly depending on project size and test complexity. **Measure actual performance during implementation.**
 
 ## Recommendations by Use Case
 

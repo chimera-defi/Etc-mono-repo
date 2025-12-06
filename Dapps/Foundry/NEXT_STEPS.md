@@ -22,9 +22,11 @@ forge init --no-commit
 ```bash
 forge install OpenZeppelin/openzeppelin-contracts --no-commit
 
-# Create remappings
-echo '@openzeppelin/=lib/openzeppelin-contracts/' > remappings.txt
+# Create remappings (verify path after installation)
+echo '@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/' > remappings.txt
 ```
+
+> **Note**: Verify the actual path structure after `forge install`. The remapping path depends on how OpenZeppelin organizes their repo.
 
 ### Step 4: Configure foundry.toml
 ```toml
@@ -154,5 +156,5 @@ Before marking complete:
 
 ---
 
-**Estimated Time**: 1-2 hours
+**Estimated Time**: 2-4 hours (including thorough testing and documentation)
 **Dependencies**: Foundry toolchain installed
