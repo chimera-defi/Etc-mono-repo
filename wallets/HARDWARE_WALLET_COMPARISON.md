@@ -11,6 +11,37 @@
 
 ---
 
+## 📖 How to Use This Guide
+
+This guide helps you choose a **hardware wallet** (cold storage) for securing crypto assets. Here's how to navigate it:
+
+### Quick Start
+1. **Check the TL;DR** at the top for immediate recommendations
+2. **Review the main comparison table** (below) for all 19 hardware wallets
+3. **Check the Quick Recommendations** section for your use case
+4. **Review Security Deep Dive** for technical details
+
+### Understanding the Tables
+- **Score (0-100):** Weighted score prioritizing security, transparency, and trust
+- **Air-Gap (✅/❌):** ✅ = Never connects to computer (QR/MicroSD only) | ❌ = USB/BT connection required
+- **Open Source (✅/⚠️/❌):** ✅ Full = Firmware + bootloader open | ⚠️ Partial = App only | ❌ Closed
+- **Rec (🟢/🟡/🔴):** 🟢 Recommended (75+) | 🟡 Situational (50-74) | 🔴 Avoid (<50)
+
+### Key Sections
+- **[Complete Comparison](#complete-hardware-wallet-comparison-19-wallets)** — Full table with all hardware wallets
+- **[Quick Recommendations](#-quick-recommendations)** — Best wallets for specific use cases
+- **[Security Deep Dive](#-security-deep-dive)** — Detailed security features comparison
+- **[Software Wallet Integration](#software-wallet-integration)** — Which software wallets work with which hardware wallets
+- **[Why Look Beyond Ledger?](#-why-look-beyond-ledger)** — Security concerns with Ledger devices
+
+### Who This Is For
+- **Users** looking for secure cold storage
+- **Developers** needing hardware wallet integration
+- **Anyone** concerned about Ledger Recover security model
+- **Bitcoin maximalists** seeking BTC-only solutions
+
+---
+
 ## Complete Hardware Wallet Comparison (19 Wallets)
 
 | Wallet | Score | GitHub | Air-Gap | Open Source | Secure Elem | Display | Price | Conn | Activity | Rec |
@@ -239,6 +270,29 @@ UX & ECOSYSTEM (10 pts)
 | BitBox02 | ✅ | ✅ | ✅ | ✅ |
 | ColdCard | ❌ | ❌ | ✅ | ✅ |
 | Ledger | ✅ | ✅ | ✅ | ✅ |
+
+## 🎯 Best Software + Hardware Combinations
+
+Pairing a hardware wallet with a software wallet gives you the best of both worlds: convenience for daily use and security for signing.
+
+| Use Case | Software Wallet | Hardware Wallet | Why |
+|----------|----------------|-----------------|-----|
+| **Daily Development** | Rabby | Trezor Safe 3/5 | Tx simulation + hardware security, both open source |
+| **Multi-chain Production** | Trust Wallet | Keystone 3 Pro | 163 chains + air-gapped (QR-only, never connects) |
+| **Enterprise Treasury** | Safe | Trezor Safe 5 | Multi-sig + open source hardware, maximum security |
+| **Bitcoin Maximalist** | Sparrow/Electrum | ColdCard Mk4 | BTC-only, dual SE, duress PIN, air-gapped |
+| **Best Value** | Rabby | Trezor Safe 3 | Excellent dev features + $79 hardware wallet |
+| **Air-Gapped Security** | Trust Wallet | Keystone 3 Pro | Never connects to computer, QR signing only |
+| **Swiss Quality** | Rabby | BitBox02 | Open source, reproducible builds, excellent code quality |
+| **Compatibility Testing** | MetaMask | Any (Ledger/Trezor) | Widest hardware support for testing |
+
+**Connection Methods:**
+- **WebUSB:** Direct browser connection (Trezor, Ledger, BitBox02, OneKey) — most convenient
+- **QR Code:** Air-gapped signing (Keystone, Foundation Passport) — maximum security
+- **MicroSD:** Air-gapped signing (ColdCard, Foundation Passport) — Bitcoin-focused
+- **WalletConnect:** Mobile app connection (Safe, some others) — mobile-first
+
+See [Software Wallet Comparison](./WALLET_COMPARISON_UNIFIED.md) for full software wallet details and the [Hardware Wallet Support](./WALLET_COMPARISON_UNIFIED.md#hardware-wallet-support-from-walletbeat) section for compatibility matrix.
 
 ---
 

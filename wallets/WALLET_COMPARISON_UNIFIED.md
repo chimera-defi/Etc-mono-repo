@@ -11,6 +11,37 @@
 
 ---
 
+## 📖 How to Use This Guide
+
+This guide helps **developers** choose crypto wallets for building and testing dApps. Here's how to navigate it:
+
+### Quick Start
+1. **Check the TL;DR** at the top for immediate recommendations
+2. **Review the main comparison table** (below) for all 24 wallets
+3. **Use the decision flowchart** to find the right wallet for your use case
+4. **Check hardware wallet support** if you need cold storage integration
+
+### Understanding the Tables
+- **Score (0-100):** Weighted score prioritizing stability, developer experience, and platform coverage
+- **Core (✅/❌):** ✅ = Has BOTH mobile app AND browser extension (core criteria for developers)
+- **Rel/Mo:** Releases per month (lower = more stable; MetaMask ~8/mo is high churn)
+- **Rec (🟢/🟡/🔴):** 🟢 Recommended | 🟡 Situational | 🔴 Avoid
+
+### Key Sections
+- **[Complete Comparison](#complete-wallet-comparison-all-24-evm-wallets)** — Full table with all wallets
+- **[Recommendations by Use Case](#-recommendations-by-use-case-updated-dec-2025)** — Best wallets for specific needs
+- **[Best Combinations](#-best-software--hardware-combinations)** — Recommended software + hardware pairings
+- **[Migration Guide](#-migration-guide)** — How to move between wallets
+- **[Hardware Wallet Support](#hardware-wallet-support-from-walletbeat)** — Which hardware wallets work with which software wallets
+
+### Who This Is For
+- **dApp developers** building on Ethereum/EVM chains
+- **Developers** looking for stable MetaMask alternatives
+- **Teams** evaluating wallets for production use
+- **Anyone** needing both mobile + browser extension support
+
+---
+
 ## Complete Wallet Comparison (All 24 EVM Wallets)
 
 | Wallet | Score | Core | Rel/Mo | RPC | GitHub | Active | Chains | Devices | Testnets | License | Audits | Funding | Tx Sim | Scam | Account | HW | Best For | Rec |
@@ -268,6 +299,122 @@ MetaMask scores 68 (🟡 Situational) despite being the industry standard:
 | Frame | ❌ No commits since Feb 2025 | Rabby |
 | Argent-X | ❌ No commits since Mar 2025 | Safe |
 | Coinbase SDK | ⚠️ Slow (Jul 2025) | Trust Wallet |
+
+---
+
+## 🎯 Best Software + Hardware Combinations
+
+For maximum security, pair a software wallet with a hardware wallet. Here are recommended combinations:
+
+| Use Case | Software Wallet | Hardware Wallet | Why |
+|----------|----------------|-----------------|-----|
+| **Daily Development** | Rabby | Trezor Safe 3/5 | Tx simulation + hardware security, both open source |
+| **Multi-chain Production** | Trust Wallet | Keystone 3 Pro | 163 chains + air-gapped security (QR-only) |
+| **Enterprise Treasury** | Safe | Trezor Safe 5 | Multi-sig + open source hardware, maximum security |
+| **Bitcoin Maximalist** | Any Bitcoin wallet | ColdCard Mk4 | BTC-only, dual SE, duress PIN |
+| **Best Value** | Rabby | Trezor Safe 3 | Excellent dev features + $79 hardware wallet |
+| **Air-Gapped Security** | Trust Wallet | Keystone 3 Pro | Never connects to computer, QR signing only |
+| **Compatibility Testing** | MetaMask | Any (Ledger/Trezor) | Widest hardware support for testing |
+
+**Connection Methods:**
+- **WebUSB:** Direct browser connection (Ledger, Trezor, BitBox02, OneKey)
+- **QR Code:** Air-gapped signing (Keystone, Foundation Passport)
+- **WalletConnect:** Mobile app connection (Safe, some others)
+
+See [Hardware Wallet Support](#hardware-wallet-support-from-walletbeat) for full compatibility matrix.
+
+---
+
+## 🔄 Migration Guide
+
+How to move between wallets safely:
+
+### MetaMask → Rabby (Recommended for Developers)
+
+**Why migrate:** Rabby has transaction simulation, better stability (~6 vs ~8 rel/mo), and catches bugs before mainnet.
+
+**Steps:**
+1. **Export accounts from MetaMask:**
+   - Settings → Security & Privacy → Show Secret Recovery Phrase
+   - ⚠️ **Security:** Only do this on a secure, offline device
+   - Write down your seed phrase (if you don't have it)
+
+2. **Import into Rabby:**
+   - Install Rabby browser extension
+   - Choose "Import Wallet" → "Import from Seed Phrase"
+   - Enter your MetaMask seed phrase
+   - Set a new password
+
+3. **Verify:**
+   - Check that all accounts appear correctly
+   - Test with a small transaction on testnet first
+   - Update any dApp integrations to use Rabby
+
+4. **Clean up:**
+   - After verifying everything works, consider removing MetaMask (or keep for compatibility testing)
+
+**⚠️ Security Note:** Both wallets will have access to the same accounts. If you want separate accounts, generate a fresh seed in Rabby instead.
+
+### Ledger → Trezor (Hardware Wallet Migration)
+
+**Why migrate:** Trezor is fully open source, no seed extraction capability (unlike Ledger Recover).
+
+**⚠️ CRITICAL:** Generate a **fresh seed** on Trezor. Do NOT import your Ledger seed phrase.
+
+**Steps:**
+1. **Set up Trezor with new seed:**
+   - Purchase Trezor Safe 3 ($79) or Safe 5 ($169)
+   - Follow setup wizard to generate new seed phrase
+   - Write down seed phrase securely (never digital)
+
+2. **Transfer assets:**
+   - Send all assets from Ledger addresses to new Trezor addresses
+   - Start with small test amounts
+   - Verify each transfer before sending larger amounts
+
+3. **Update software wallet connections:**
+   - Disconnect Ledger from MetaMask/Rabby/etc.
+   - Connect Trezor to your software wallets
+   - Verify addresses match
+
+4. **Verify and decommission:**
+   - Double-check all assets transferred
+   - Test signing transactions
+   - Only then consider Ledger decommissioned
+
+**Best Practice:** Keep Ledger as backup for 30 days before fully decommissioning.
+
+### Software → Hardware (Adding Cold Storage)
+
+**Use case:** You have a software wallet and want to add hardware security.
+
+**Steps:**
+1. **Purchase hardware wallet** (see [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON.md))
+2. **Set up hardware wallet** with fresh seed
+3. **Create new accounts** on hardware wallet
+4. **Transfer assets** from software wallet to hardware wallet addresses
+5. **Connect hardware wallet** to software wallet (e.g., Rabby + Trezor)
+6. **Use software wallet** for daily transactions, hardware wallet for signing
+
+**Recommended setup:** Rabby (software) + Trezor Safe 3 (hardware) for daily use.
+
+### Multi-Wallet Setup Strategy
+
+**Best practice:** Use multiple wallets for different purposes:
+
+| Purpose | Wallet | Why |
+|---------|--------|-----|
+| **Daily Development** | Rabby | Tx simulation, fast iteration |
+| **Production Testing** | Trust Wallet | Stable, wide adoption |
+| **Compatibility Testing** | MetaMask | Most widely supported |
+| **Cold Storage** | Trezor Safe 3 | Hardware security for large amounts |
+| **Enterprise/Treasury** | Safe + Trezor | Multi-sig + hardware signing |
+
+**Security Tips:**
+- Never reuse seed phrases across wallets
+- Use hardware wallet for any significant amounts
+- Keep software wallets for daily use only
+- Test migrations on testnets first
 
 ---
 
