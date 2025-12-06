@@ -1,0 +1,2 @@
+# This file ensures the app directory is tracked by git
+# Delete this file after initializing the Foundry project with `forge init`
