@@ -2,9 +2,11 @@
 
 Developer-focused comparison of crypto wallets to find stable MetaMask alternatives.
 
-## 📊 Main Comparison Table
+## 📊 Main Comparison Tables
 
-**→ [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Single source of truth with 24 EVM wallets
+**→ [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Software wallets (24 EVM wallets)
+
+**→ [HARDWARE_WALLET_COMPARISON.md](./HARDWARE_WALLET_COMPARISON.md)** — Hardware cold storage wallets (15+ devices)
 
 | Column | Description | Source |
 |--------|-------------|--------|
@@ -39,6 +41,20 @@ Developer-focused comparison of crypto wallets to find stable MetaMask alternati
 - 🔐 **Privacy** — Data collection & RPC defaults
 - 📝 **Changelog** — Track changes to wallet statuses
 - 🆕 **Contributing** — How to add new wallets
+
+### Hardware Wallet Quick Picks (Cold Storage)
+
+| Use Case | Wallet | Score | Why |
+|----------|--------|-------|-----|
+| Best Overall | **Trezor Safe 5** | 94 | Fully open source, Secure Element, active development |
+| Air-Gapped | **Keystone 3 Pro** | 91 | QR-only, never connects to computer, triple SE |
+| Bitcoin Only | **ColdCard Mk4** | 91 | Dual SE, duress PIN, 0.9% issue ratio |
+| Best Value | **Trezor Safe 3** | 91 | $79, Secure Element, fully open source |
+| Swiss Quality | **BitBox02** | 88 | Open source, reproducible builds, active dev |
+| ⚠️ Caution | **Ledger** | 55-57 | Ledger Recover, closed firmware (use passphrase) |
+| 🔴 Avoid | **KeepKey** | 39 | Abandoned (no commits 10 months) |
+
+**Legend:** 🟢 Active development + open source | 🟡 Closed/private repo | 🔴 Inactive/abandoned
 
 ---
 
@@ -76,7 +92,8 @@ Several previously recommended wallets have **stopped active development**:
 
 ## Documents
 
-- **[WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Complete 17-column comparison table (single source of truth)
+- **[WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Software wallet comparison (24 EVM wallets)
+- **[HARDWARE_WALLET_COMPARISON.md](./HARDWARE_WALLET_COMPARISON.md)** — Hardware wallet comparison (15+ cold storage devices)
 - **[CONTRIBUTING.md](./CONTRIBUTING.md)** — How to add new wallets to the comparison
 - **[index.html](./index.html)** — Interactive web version with filtering and sorting
 - **[tests/](./tests/)** — Integration testing suite for wallet compatibility
