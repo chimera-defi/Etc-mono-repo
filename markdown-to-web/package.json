@@ -1,0 +1,13 @@
+{
+  "name": "markdown-to-web-workspace",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w wallet-rankings",
+    "build": "npm run build -w wallet-rankings",
+    "preview": "npm run preview -w wallet-rankings",
+    "lint": "npm run lint -w markdown-web && npm run lint -w wallet-rankings"
+  }
+}
