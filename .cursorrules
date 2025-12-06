@@ -111,6 +111,16 @@
   45. **Activity status decays** - what was active 6 months ago may be abandoned now; always verify with fresh data
   46. **No data loss on restructure** - when restructuring tables (adding columns, reorganizing), ALWAYS verify ALL original columns are preserved; use git diff to compare
 
+- Data accuracy and anti-hallucination practices:
+  47. **Chains ≠ tokens/assets** - "chains" means blockchain NETWORKS (Bitcoin, Ethereum, Solana = 3 chains), NOT total tokens/coins; a wallet supporting Ethereum + all ERC-20 tokens is still 1 chain with many tokens
+  48. **Use categories when uncertain** - instead of hallucinating specific numbers like "9000+", use categories: "BTC" (Bitcoin only), "Multi" (multiple networks), or "verify on official site"
+  49. **Approximate prices with ~** - prices change; use "~$150" not "$149" unless you just verified it; add "verify on official site" notes
+  50. **Don't invent certifications** - EAL5+, EAL6+, EAL7 are specific Common Criteria certifications; don't claim them without verification; use chip names (ATECC, Optiga, ST33) when known
+  51. **Add data accuracy disclaimers** - any comparison table should include a note that data changes and users should verify on official sites before purchasing
+  52. **When uncertain, be vague not specific** - "Multi-chain" is honest; "5500+ chains" is a hallucination; being vague is better than being specifically wrong
+  53. **Line-by-line verification** - before finalizing any data table, go through EVERY cell and ask "do I actually know this, or am I guessing?"
+  54. **Distinguish marketing claims from facts** - manufacturers often inflate numbers (counting all tokens as "supported coins"); be skeptical and conservative
+
 ## Best Practices
 - Use semantic versioning for packages
 - Include proper .gitignore files for each project type

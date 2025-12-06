@@ -213,4 +213,84 @@ When recalculating scores:
 
 ---
 
-*Last updated: December 3, 2025*
+## 🔐 Hardware Wallet Guidelines
+
+### Purpose
+
+**HARDWARE_WALLET_COMPARISON.md** compares cold storage hardware wallets, with a focus on finding Ledger alternatives after the Ledger Recover controversy.
+
+### Core Principle
+
+> **Private keys should NEVER leave the device under ANY circumstances.**
+
+This is the fundamental principle that Ledger violated with Ledger Recover. All scoring and recommendations should prioritize wallets that maintain this principle.
+
+### Hardware Wallet Scoring Priorities
+
+Hardware wallet scoring mirrors software wallet approach, adapted for cold storage:
+
+1. **Security Architecture (25 pts):** Secure Element certification, air-gap, physical tamper
+2. **Transparency (20 pts):** Open source firmware, reproducible builds, code quality (issue ratio)
+3. **Privacy & Trust (15 pts):** No seed extraction capability, no cloud features
+4. **Development Activity (15 pts):** GitHub activity status — matches software wallet "Activity" category
+5. **Company & Track Record (15 pts):** Funding stability, longevity, security incidents
+6. **UX & Ecosystem (10 pts):** Display, chains, software integrations
+
+**Key difference from software wallets:** Low update frequency is GOOD for hardware wallets (security-focused), unlike software wallets where frequent updates may indicate instability.
+
+**Score thresholds:**
+- 🟢 **75+:** Recommended — meets all criteria, active development
+- 🟡 **50-74:** Situational — has limitations (closed source, private repo, etc.)
+- 🔴 **<50:** Avoid — significant issues (abandoned, no SE, fully closed)
+
+### Hardware-Specific Verification
+
+1. **Open Source Claims:** Verify firmware repo exists AND is the actual firmware (not just SDK)
+   - ✅ Correct: `trezor/trezor-firmware` (actual firmware)
+   - ❌ Wrong: `GridPlus/gridplus-sdk` (SDK only, not firmware)
+
+2. **Secure Element:** Verify from official specs, not marketing
+   - Look for specific chip names: ATECC608, Optiga Trust M, STM32
+   - Check for EAL certification levels (EAL5+, EAL6+, EAL7)
+
+3. **Air-Gap:** Device must NEVER connect during transaction signing
+   - ✅ True air-gap: QR codes, MicroSD only
+   - ❌ Not air-gapped: USB required for signing, Bluetooth during tx
+
+### Hardware Wallet Red Flags
+
+1. **Ledger Recover-style features:** Any firmware that CAN extract seeds is a trust violation
+2. **Closed source firmware:** Can't verify security claims
+3. **No Secure Element:** MCU-only devices have lower physical security
+4. **Abandoned development:** Check firmware repo for recent commits
+5. **Unknown company:** Research funding, location, team
+
+### Refresh Hardware Data
+
+```bash
+cd scripts
+./refresh-hardware-wallet-data.sh --markdown
+```
+
+### Hardware Wallet Meta-Learnings (Dec 2025)
+
+1. **"Open source" claims need verification:** GridPlus claimed open source but firmware is proprietary
+2. **Star counts can be misleading:** Small projects (OneKey 17 stars) may still be active
+3. **Inactive = high risk:** KeepKey with 296 days no commits is effectively abandoned
+4. **Scoring math matters:** Always verify component scores sum to stated total
+5. **Firmware repos differ from app repos:** Ledger Live is open source, but Ledger firmware is not
+6. **Release frequency means different things:** HW wallets intentionally release less often (2-4/year is normal)
+
+### Data Accuracy Anti-Hallucination Rules (Dec 2025)
+
+7. **Chains ≠ tokens:** "9000+ chains" is WRONG — that's tokens/assets. Actual blockchain networks supported is typically 10-50. Use "Multi" or "BTC" not fake specific numbers
+8. **When uncertain, be vague:** "Multi-chain" is honest; "5500+ chains" is a hallucination
+9. **Approximate prices with ~:** Prices change; use "~$150" and add "verify on official site" 
+10. **Don't invent certifications:** EAL5+/6+/7 are specific certifications. Use chip names (ATECC, Optiga) when unsure of cert level
+11. **Line-by-line verification:** Before finalizing, check EVERY cell: "do I actually know this?"
+12. **Marketing claims ≠ facts:** Manufacturers inflate numbers. Be skeptical and conservative
+13. **Add disclaimers:** Every data table should note that users must verify on official sites
+
+---
+
+*Last updated: December 5, 2025*
