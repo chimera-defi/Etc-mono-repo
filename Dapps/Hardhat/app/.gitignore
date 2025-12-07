@@ -1,0 +1,20 @@
+# Hardhat
+/artifacts/
+/cache/
+/typechain-types/
+/coverage/
+coverage.json
+
+# Dependencies
+/node_modules/
+
+# Environment
+.env
+
+# IDE
+.idea/
+.vscode/
+
+# Ignition
+/ignition/deployments/localhost/
+/ignition/deployments/hardhat/
