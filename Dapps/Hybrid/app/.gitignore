@@ -1,0 +1,39 @@
+# Foundry
+/out/
+/cache/
+
+# Hardhat
+/artifacts/
+/cache_hardhat/
+/typechain-types/
+/coverage/
+coverage.json
+
+# Dependencies
+/node_modules/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+/dist/
+*.log
+
+# Ignition deployment artifacts (keep for production, ignore for dev)
+/ignition/deployments/localhost/
+/ignition/deployments/hardhat/
+
+# Gas snapshots (optional - uncomment to track)
+# .gas-snapshot
