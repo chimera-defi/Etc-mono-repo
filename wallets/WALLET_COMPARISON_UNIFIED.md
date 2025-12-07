@@ -11,13 +11,13 @@
 | Wallet | Score | Core | Rel/Mo | RPC | GitHub | Active | Chains | Devices | Testnets | License | Audits | Funding | Tx Sim | Scam | Account | HW | Best For | Rec |
 |--------|-------|------|--------|-----|--------|--------|--------|---------|----------|---------|--------|---------|--------|------|---------|-----|----------|-----|
 | **Rabby** | 92 | ✅ | ~6 | ✅ | [Rabby](https://github.com/RabbyHub/Rabby) | ✅ | 94 | 📱🌐💻 | ✅ | ✅ MIT | ⚠️ Mob | 🟢 DeBank | ✅ | ✅ | EOA+Safe | ✅ | Development | 🟢 |
-| **Trust** | 85 | ✅ | ~3 | ✅ | [wallet-core](https://github.com/trustwallet/wallet-core) | ✅ | 163 | 📱🌐 | ✅ | ⚠️ Apache | ✅ 2023 | 🟢 Binance | ❌ | ⚠️ | EOA | ✅ | Multi-chain | 🟢 |
+| **Trust** | 85 | ✅ | ~3 | ✅ | [wallet-core](https://github.com/trustwallet/wallet-core) | ✅ | 163 | 📱🌐 | ✅ | ⚠️ Apache | ✅ 2023 | 🟢 Binance | ❌ | ⚠️ | EOA+7702 | ✅ | Multi-chain | 🟢 |
 | **Rainbow** | 82 | ✅ | ~4 | ⚠️ | [rainbow](https://github.com/rainbow-me/rainbow) | ✅ | 15+ | 📱🌐 | ✅ | ✅ GPL-3 | ❓ None | 🟡 VC | ❌ | ⚠️ | EOA | ✅ | NFT/Ethereum | 🟢 |
 | **Brave** | 78 | ✅ | ~2 | ✅ | [brave-browser](https://github.com/brave/brave-browser) | ✅ | 10+ | 📱🌐§ | ✅ | ✅ MPL-2 | 🐛 H1 | 🟢 Brave | ❌ | ⚠️ | EOA | ✅ | Brave users | 🟢 |
 | **Coinbase** | 75 | ✅ | ~2 | ✅ | [coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | ⚠️ | 20+ | 📱🌐 | ✅ | ⚠️ Partial | ❓ Priv | 🟢 Coinbase | ✅ | ✅ | EOA+4337 | ✅ | AA/Production | 🟢 |
 | **MetaMask** | 68 | ✅ | ~8 | ✅ | [metamask-extension](https://github.com/MetaMask/metamask-extension) | ✅ | Any | 📱🌐 | ✅ | ⚠️ Src-Avail | ✅ 2025 | 🟢 Consensys | ⚠️ | ⚠️ | EOA+7702 | ✅ | Compatibility | 🟡 |
 | **Phantom** | 65 | ✅ | ? | ✅ | Private | 🔒 | 5 | 📱🌐 | ❌ | ❌ Prop | ❓ Priv | 🟢 VC $109M | ✅ | ✅ | EOA | ⚠️ | Solana-first | 🟡 |
-| **OKX** | 62 | ✅ | ? | ✅ | Private | 🔒 | 100+ | 📱🌐 | ✅ | ❌ Prop | ❓ Priv | 🟢 OKX | ⚠️ | ⚠️ | EOA | ✅ | EIP-7702 | 🟡 |
+| **OKX** | 62 | ✅ | ? | ✅ | Private | 🔒 | 100+ | 📱🌐 | ✅ | ❌ Prop | ❓ Priv | 🟢 OKX | ⚠️ | ⚠️ | EOA+7702 | ✅ | EIP-7702 | 🟡 |
 | **Safe** | 58 | ❌ | ~3 | ✅ | [safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | ✅ | 30+ | 🔗† | ✅ | ✅ GPL-3 | ✅ Certora | 🟢 Grants | ✅ | ✅ | Safe+4337 | ✅ | Treasury/DAO | 🟡 |
 | **Enkrypt** | 55 | ❌ | ~2 | ✅ | [enKrypt](https://github.com/enkryptcom/enKrypt) | ✅ | 75+ | 🌐 | ✅ | ✅ MIT | ❓ None | 🟢 MEW | ❌ | ⚠️ | EOA | ✅ | Multi-chain ext | 🟡 |
 | **Ambire** | 55 | ❌ | ~2 | ✅ | [extension](https://github.com/AmbireTech/extension) | ⚠️ | EVM | 🌐 | ✅ | ✅ GPL-3 | ✅ 2025 | 🟡 VC | ✅ | ✅ | 7702+4337 | ✅ | Smart wallet | 🟡 |
@@ -115,9 +115,11 @@
 2. **Trust Wallet** (85) — ~3 rel/mo, very stable
 3. **Coinbase** (75) — ~2 rel/mo, stable API
 
-#### For Account Abstraction (with both platforms)
-1. **Coinbase** (75) — EIP-4337 in browser extension
-2. **OKX** (62) — EIP-7702 support, proprietary
+#### For Account Abstraction / EIP-7702 (with both platforms)
+1. **Trust** (85) — EIP-7702 support, most chains (163)
+2. **Coinbase** (75) — EIP-4337 in browser extension
+3. **OKX** (62) — EIP-7702 support, proprietary
+4. **MetaMask** (68) — EIP-7702 support, but high churn
 
 #### For Compatibility Testing (Use Last)
 1. **MetaMask** (68) — Most widely supported, but ~8 rel/mo = test last
@@ -314,7 +316,7 @@ START HERE
 |-----------|-------------|-----|
 | **dApp Development** | Rabby | Transaction simulation catches bugs before mainnet |
 | **Enterprise / Treasury** | Safe | Multi-sig, audited, battle-tested |
-| **EIP-7702 / Cutting Edge** | Ambire or MetaMask | First movers on account upgrades |
+| **EIP-7702 / Cutting Edge** | MetaMask, Ambire, Trust, OKX | [4 wallets support 7702](https://github.com/fireblocks-labs/awesome-eip-7702#wallets-support-updates) |
 | **Simple & Reliable** | Rainbow | Excellent code quality (0.3% issue ratio) |
 | **Maximum Chains** | Trust Wallet | 163 chains supported |
 | **Privacy Focused** | Taho | Community-owned, open source |
@@ -398,10 +400,12 @@ Every wallet has quirks that can cause developer headaches. Know them before you
 |--------|---------|-----|------|----------|----------|-----|-------|
 | **MetaMask** | EOA | ✅ | ❌ | ❌ | ✅ | ❌ | First major wallet with EIP-7702 |
 | **Rabby** | EOA | ✅ | ✅ | ❌ | ❌ | ❌ | Can connect to existing Safes |
+| **Trust** | EOA | ✅ | ❌ | ❌ | ✅ | ❌ | [7702 support added](https://beincrypto.com/trust-wallet-ethereum-eip7702-support/) |
 | **Safe** | Safe | ❌ | ✅ | ✅ | ❌ | ❌ | Native multi-sig wallet |
 | **Coinbase** | EOA | ✅ | ❌ | ✅ | ❌ | ❌ | Smart wallet option |
 | **Rainbow** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Standard EOA |
-| **Ambire** | 7702 | ✅ | ❌ | ✅ | ✅ | ❌ | Hybrid AA + EIP-7702 |
+| **Ambire** | 7702 | ✅ | ❌ | ✅ | ✅ | ❌ | [Hybrid AA + EIP-7702](https://blog.ambire.com/eip-7702-wallet/) |
+| **OKX** | EOA | ✅ | ❌ | ❌ | ✅ | ❌ | [7702 wallet-core](https://web3.okx.com/help/okx-wallet-to-support-eip-7702) |
 | **Phantom** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Multi-chain EOA |
 | **Zerion** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Standard EOA |
 | **Frame** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Standard EOA |
@@ -508,7 +512,7 @@ Detailed EIP support for developers building dApps:
 | **Safe** | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ v4 |
 | **Rainbow** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
 | **Coinbase** | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ v4 |
-| **Trust** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
+| **Trust** | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ v4 |
 | **Ambire** | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ v4 |
 | **Brave** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
 | **Ledger Live** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
@@ -519,6 +523,9 @@ Detailed EIP support for developers building dApps:
 | **Phantom** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
 | **Daimo** | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ v4 |
 | **Frame** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
+| **OKX** | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ v4 |
+| **Zerion** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
+| **Taho** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
 
 **EIP Definitions:**
 - **EIP-712:** Typed structured data hashing and signing (common for permits, orders)
@@ -533,7 +540,50 @@ Detailed EIP support for developers building dApps:
 - EIP-2612 (permit) is widely supported — prefer gasless approvals
 - EIP-4337 requires bundler infrastructure — only relevant for smart wallets
 - EIP-5792 is new (2024) — Coinbase and Sequence are early adopters
-- EIP-7702 is cutting edge — MetaMask and Ambire are first movers
+- EIP-7702 is cutting edge — MetaMask, Ambire, Trust, and OKX support it ([source](https://github.com/fireblocks-labs/awesome-eip-7702#wallets-support-updates))
+
+---
+
+## 🔧 EIP-7702 Wallet Support (Pectra Upgrade)
+
+EIP-7702 allows EOAs (Externally Owned Accounts) to temporarily delegate to smart contract code, enabling features like batching, gas sponsorship, and session keys without converting to a full smart contract wallet.
+
+### Wallets with EIP-7702 Support
+
+| Wallet | Status | Default | Source |
+|--------|--------|---------|--------|
+| **MetaMask** | ✅ Live | EOA | [MetaMask Smart Accounts](https://metamask.io/news/metamask-feature-update-smart-accounts) |
+| **Trust Wallet** | ✅ Live | EOA | [BeInCrypto Report](https://beincrypto.com/trust-wallet-ethereum-eip7702-support/) |
+| **Ambire** | ✅ Live | 7702 | [Ambire Blog](https://blog.ambire.com/eip-7702-wallet/) |
+| **OKX** | ✅ Live | EOA | [OKX Help Center](https://web3.okx.com/help/okx-wallet-to-support-eip-7702) |
+| Safe | 🔬 POC | Safe | [safe-eip7702](https://github.com/5afe/safe-eip7702) (experimental) |
+
+### What EIP-7702 Enables
+
+- **Batching:** Multiple operations in one atomic transaction (e.g., approve + swap)
+- **Gas Sponsorship:** Account X pays gas for account Y's transactions
+- **Session Keys:** Delegate limited permissions to sub-keys (e.g., spend limits)
+- **Privilege De-escalation:** Grant apps limited access without full account control
+
+### Developer Resources
+
+- [EIP-7702 Specification](https://eips.ethereum.org/EIPS/eip-7702)
+- [Awesome EIP-7702](https://github.com/fireblocks-labs/awesome-eip-7702) — Curated list of tools, guides, and implementations
+- [7702 Checker](https://7702checker.azfuller.com/) — Check chain support for EIP-7702
+- [MetaMask Delegation Framework](https://github.com/MetaMask/delegation-framework) — Reference implementation
+- [Viem EIP-7702 Support](https://viem.sh/experimental/eip7702) — TypeScript library support
+
+**Note:** EIP-7702 was activated in Ethereum's Pectra upgrade. Check [7702 Beat](https://swiss-knife.xyz/7702beat) for current chain and wallet adoption status.
+
+### Wallets to Watch for Future 7702 Support
+
+| Wallet | Status | Evidence |
+|--------|--------|----------|
+| **Uniswap** | 🔬 Contract deployed | [Calibur](https://github.com/Uniswap/calibur) v1.0.0 on mainnet, audited by OpenZeppelin & Cantina |
+| **Bitget** | 📡 On 7702 Beat | Listed on [swiss-knife.xyz/7702beat](https://swiss-knife.xyz/7702beat), no official announcement |
+| **Coinbase** | ⏳ Expected | Has EIP-4337; 7702 likely coming |
+
+*Wallets are only added to the "Supported" table when verified by [awesome-eip-7702](https://github.com/fireblocks-labs/awesome-eip-7702) or official announcement.*
 
 ---
 
@@ -915,6 +965,9 @@ Track significant changes to wallet statuses and recommendations:
 | Dec 2025 | **All** | Added Tx Sim, Scam columns | Security feature tracking |
 | Dec 2025 | **Trust** | Updated Audits | Confirmed Sep 2023 audit in GitHub repo |
 | Nov 2025 | **Coinbase SDK** | Status → ⚠️ Slow | No commits since Jul 2025 |
+| Dec 2025 | **Trust** | EIP-7702 support added | Account: EOA → EOA+7702 ([source](https://beincrypto.com/trust-wallet-ethereum-eip7702-support/)) |
+| Dec 2025 | **OKX** | EIP-7702 verified | Account: EOA → EOA+7702, added to EIP matrix ([source](https://web3.okx.com/help/okx-wallet-to-support-eip-7702)) |
+| Dec 2025 | **All** | EIP-7702 section added | Dedicated section with Pectra upgrade info and dev resources |
 | Nov 2025 | **Taho** | Status → ⚠️ Slow | No commits since Oct 2025 |
 | Nov 2025 | **Block Wallet** | Status → ❌ Inactive | No commits since Nov 2024 (1 year) |
 | Nov 2025 | **Frame** | Status → ❌ Inactive | No commits since Feb 2025 |
@@ -961,4 +1014,4 @@ Prefer in this order:
 
 ---
 
-*Last updated: December 3, 2025. Revised scoring to prioritize core criteria (mobile + browser extension) and stability (release frequency). Added Core, Rel/Mo, RPC columns. MetaMask demoted to 68 due to ~8 releases/month churn. Trust (85), Rainbow (82) promoted as stable alternatives. Data from [WalletBeat](https://walletbeat.fyi) and GitHub.*
+*Last updated: December 7, 2025. Added EIP-7702 wallet support tracking: MetaMask, Ambire, Trust, OKX now support 7702. Added dedicated EIP-7702 section with sources and "wallets to watch" table. Revised scoring to prioritize core criteria (mobile + browser extension) and stability (release frequency). Data from [WalletBeat](https://walletbeat.fyi), [awesome-eip-7702](https://github.com/fireblocks-labs/awesome-eip-7702), [7702 Beat](https://swiss-knife.xyz/7702beat), and GitHub.*
