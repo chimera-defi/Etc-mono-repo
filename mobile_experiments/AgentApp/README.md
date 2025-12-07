@@ -15,13 +15,14 @@ Create a mobile app with feature parity to Cursor Agents / Background Agents tha
 
 | Document | Description |
 |----------|-------------|
+| [FINAL_ARCHITECTURE.md](./FINAL_ARCHITECTURE.md) | ⭐ **Final architecture and implementation plan** |
+| [ARCHITECTURE_DECISIONS.md](./ARCHITECTURE_DECISIONS.md) | All 15 architecture decisions |
+| [INFRASTRUCTURE_COMPARISON.md](./INFRASTRUCTURE_COMPARISON.md) | Compute & database options compared |
+| [BUILD_VS_BUY_ANALYSIS.md](./BUILD_VS_BUY_ANALYSIS.md) | Self-hosted vs managed services |
 | [CURSOR_API_RESEARCH.md](./CURSOR_API_RESEARCH.md) | Analysis of Cursor's API availability |
 | [ALTERNATIVES_ANALYSIS.md](./ALTERNATIVES_ANALYSIS.md) | Survey of alternative AI coding agents with APIs |
-| [MOBILE_ARCHITECTURE.md](./MOBILE_ARCHITECTURE.md) | Proposed mobile app architecture |
-| [FRAMEWORK_RECOMMENDATION.md](./FRAMEWORK_RECOMMENDATION.md) | Framework selection for the agent app |
 | [CLAUDE_API_CAPABILITIES.md](./CLAUDE_API_CAPABILITIES.md) | Deep dive into Claude API for agent development |
-| [COMPETITIVE_ANALYSIS.md](./COMPETITIVE_ANALYSIS.md) | Market analysis of existing mobile coding apps |
-| [ERRATA.md](./ERRATA.md) | Corrections and verification notes |
+| [FRAMEWORK_RECOMMENDATION.md](./FRAMEWORK_RECOMMENDATION.md) | Mobile framework selection (React Native) |
 
 ## Quick Summary
 

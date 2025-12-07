@@ -24,30 +24,32 @@ Before designing the architecture, we need to reason through these key decisions
 | 4 | **Tool Execution** | **Docker** (container sandbox) | ✅ Confirmed |
 | 5 | **State Management** | **Redis + PostgreSQL** | ✅ Confirmed |
 
-### Phase 2: Infrastructure Decisions ⏳ IN PROGRESS
+### Phase 2: Infrastructure Decisions ✅ COMPLETE
 
-| # | Decision | Options | Status |
-|---|----------|---------|--------|
-| 6 | **Compute Provider** | AWS/GCP/Fly.io/Railway/Modal | ⏳ Pending |
-| 7 | **Container Orchestration** | How to manage ephemeral workers | ⏳ Pending |
-| 8 | **Networking** | How does mobile connect to ephemeral server? | ⏳ Pending |
-| 9 | **Persistence Layer** | What survives server shutdown? | ⏳ Pending |
+| # | Decision | Choice | Status |
+|---|----------|--------|--------|
+| 6 | **Compute Provider** | **Single VPS** (Hetzner/DigitalOcean ~$6/mo) | ✅ Confirmed |
+| 7 | **Container Orchestration** | **Docker SDK** (dockerode) - spawn containers directly | ✅ Confirmed |
+| 8 | **Networking** | **WebSocket** on same server | ✅ Confirmed |
+| 9 | **Persistence Layer** | **SQLite** + local filesystem | ✅ Confirmed |
 
-### Phase 3: User Experience Decisions
+**Approach**: Minimal self-hosted (can upgrade to managed services later)
 
-| # | Decision | Options | Status |
-|---|----------|---------|--------|
-| 10 | **Authentication** | OAuth/API keys/Magic links | ⏳ Pending |
-| 11 | **Real-time Updates** | WebSocket/SSE/Polling | ⏳ Pending |
-| 12 | **Offline Handling** | What happens when mobile disconnects? | ⏳ Pending |
+### Phase 3: User Experience Decisions ✅ COMPLETE
 
-### Phase 4: Security & Cost Decisions
+| # | Decision | Choice | Status |
+|---|----------|--------|--------|
+| 10 | **Authentication** | **JWT + GitHub OAuth** (simple, familiar) | ✅ Confirmed |
+| 11 | **Real-time Updates** | **WebSocket** (native, bidirectional) | ✅ Confirmed |
+| 12 | **Offline Handling** | **Queue locally, sync on reconnect** | ✅ Confirmed |
 
-| # | Decision | Options | Status |
-|---|----------|---------|--------|
-| 13 | **Sandboxing** | How isolated is code execution? | ⏳ Pending |
-| 14 | **API Key Management** | User's key vs Platform key | ⏳ Pending |
-| 15 | **Cost Model** | Per-task/Subscription/BYOK | ⏳ Pending |
+### Phase 4: Security & Cost Decisions ✅ COMPLETE
+
+| # | Decision | Choice | Status |
+|---|----------|--------|--------|
+| 13 | **Sandboxing** | **Docker containers** (isolated per task) | ✅ Confirmed |
+| 14 | **API Key Management** | **BYOK** (user provides Claude API key) | ✅ Confirmed |
+| 15 | **Cost Model** | **Self-hosted** (~$6/mo VPS) + user's Claude costs | ✅ Confirmed |
 
 ---
 
