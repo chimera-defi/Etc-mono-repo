@@ -6,7 +6,7 @@ Developer-focused comparison of crypto wallets to find stable MetaMask alternati
 
 **→ [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Software wallets (24 EVM wallets)
 
-**→ [HARDWARE_WALLET_COMPARISON.md](./HARDWARE_WALLET_COMPARISON.md)** — Hardware cold storage wallets (15+ devices)
+**→ [HARDWARE_WALLET_COMPARISON.md](./HARDWARE_WALLET_COMPARISON.md)** — Hardware cold storage wallets (19 devices)
 
 | Column | Description | Source |
 |--------|-------------|--------|
@@ -75,7 +75,7 @@ Several previously recommended wallets have **stopped active development**:
 | Development | **Rabby** | 📱🌐💻 | ✅ | ✅ | 🟢 DeBank | ✅ MIT | ✅ Active |
 | Production | **Trust Wallet** | 📱🌐 | ❌ | ⚠️ | 🟢 Binance | ⚠️ Apache-2 | ✅ Active |
 | Production | **Rainbow** | 📱🌐 | ❌ | ⚠️ | 🟡 VC | ✅ GPL-3 | ✅ Active |
-| Enterprise | **Safe** | 📱🌐 | ✅ | ✅ | 🟢 Grants | ✅ GPL-3 | ✅ Active |
+| Enterprise | **Safe** | 🔗 | ✅ | ✅ | 🟢 Grants | ✅ GPL-3 | ✅ Active |
 | Multi-chain | **Enkrypt** | 🌐 | ❌ | ⚠️ | 🟢 MEW | ✅ MIT | ✅ Active |
 | Ethereum | **MEW** | 📱🔗 | ❌ | ⚠️ | 🟢 Self | ✅ MIT | ✅ Active |
 | Smart Wallet | **Ambire** | 🌐 | ✅ | ✅ | 🟡 VC | ✅ GPL-3 | ⚠️ Slow |
@@ -93,7 +93,7 @@ Several previously recommended wallets have **stopped active development**:
 ## Documents
 
 - **[WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Software wallet comparison (24 EVM wallets)
-- **[HARDWARE_WALLET_COMPARISON.md](./HARDWARE_WALLET_COMPARISON.md)** — Hardware wallet comparison (15+ cold storage devices)
+- **[HARDWARE_WALLET_COMPARISON.md](./HARDWARE_WALLET_COMPARISON.md)** — Hardware wallet comparison (19 cold storage devices)
 - **[CONTRIBUTING.md](./CONTRIBUTING.md)** — How to add new wallets to the comparison
 - **[index.html](./index.html)** — Interactive web version with filtering and sorting
 - **[tests/](./tests/)** — Integration testing suite for wallet compatibility
@@ -140,4 +140,4 @@ A workflow runs every Monday to refresh activity data:
 - Can be triggered manually
 
 ---
-*Last updated: December 3, 2025*
+*Last updated: December 6, 2025*

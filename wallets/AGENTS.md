@@ -281,6 +281,18 @@ cd scripts
 5. **Firmware repos differ from app repos:** Ledger Live is open source, but Ledger firmware is not
 6. **Release frequency means different things:** HW wallets intentionally release less often (2-4/year is normal)
 
+### Hardware Wallet Table Columns (Dec 2025)
+
+The hardware wallet main table must include:
+- **Chains:** BTC = Bitcoin only | Multi = Multiple networks
+- **App:** Companion app name (Suite, Live, Sparrow, Vault, etc.)
+- **Conn:** Connection type (USB-C, QR, NFC, MicroSD, WiFi, BT)
+
+Supporting sections added:
+- **Network Support:** Detailed BTC/ETH/SOL/Multi-chain breakdown
+- **Companion Apps:** App quality ratings and platforms
+- **Software Wallet Integration:** Which software wallets work with which hardware
+
 ### Data Accuracy Anti-Hallucination Rules (Dec 2025)
 
 7. **Chains ≠ tokens:** "9000+ chains" is WRONG — that's tokens/assets. Actual blockchain networks supported is typically 10-50. Use "Multi" or "BTC" not fake specific numbers
@@ -293,4 +305,4 @@ cd scripts
 
 ---
 
-*Last updated: December 5, 2025*
+*Last updated: December 6, 2025*
