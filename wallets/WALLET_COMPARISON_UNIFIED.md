@@ -573,7 +573,17 @@ EIP-7702 allows EOAs (Externally Owned Accounts) to temporarily delegate to smar
 - [MetaMask Delegation Framework](https://github.com/MetaMask/delegation-framework) — Reference implementation
 - [Viem EIP-7702 Support](https://viem.sh/experimental/eip7702) — TypeScript library support
 
-**Note:** EIP-7702 was activated in Ethereum's Pectra upgrade. Check [7702 Beat](https://swiss-knife.xyz/7702beat) for current chain support status.
+**Note:** EIP-7702 was activated in Ethereum's Pectra upgrade. Check [7702 Beat](https://swiss-knife.xyz/7702beat) for current chain and wallet adoption status.
+
+### Wallets to Watch for Future 7702 Support
+
+| Wallet | Status | Evidence |
+|--------|--------|----------|
+| **Uniswap** | 🔬 Contract deployed | [Calibur](https://github.com/Uniswap/calibur) v1.0.0 on mainnet, audited by OpenZeppelin & Cantina |
+| **Bitget** | 📡 On 7702 Beat | Listed on [swiss-knife.xyz/7702beat](https://swiss-knife.xyz/7702beat), no official announcement |
+| **Coinbase** | ⏳ Expected | Has EIP-4337; 7702 likely coming |
+
+*Wallets are only added to the "Supported" table when verified by [awesome-eip-7702](https://github.com/fireblocks-labs/awesome-eip-7702) or official announcement.*
 
 ---
 
@@ -1004,4 +1014,4 @@ Prefer in this order:
 
 ---
 
-*Last updated: December 7, 2025. Added EIP-7702 wallet support tracking: MetaMask, Ambire, Trust, OKX now support 7702. Added dedicated EIP-7702 section with sources. Revised scoring to prioritize core criteria (mobile + browser extension) and stability (release frequency). Data from [WalletBeat](https://walletbeat.fyi), [awesome-eip-7702](https://github.com/fireblocks-labs/awesome-eip-7702), and GitHub.*
+*Last updated: December 7, 2025. Added EIP-7702 wallet support tracking: MetaMask, Ambire, Trust, OKX now support 7702. Added dedicated EIP-7702 section with sources and "wallets to watch" table. Revised scoring to prioritize core criteria (mobile + browser extension) and stability (release frequency). Data from [WalletBeat](https://walletbeat.fyi), [awesome-eip-7702](https://github.com/fireblocks-labs/awesome-eip-7702), [7702 Beat](https://swiss-knife.xyz/7702beat), and GitHub.*
