@@ -292,6 +292,18 @@ Supporting sections added:
 - **Network Support:** Detailed BTC/ETH/SOL/Multi-chain breakdown
 - **Companion Apps:** App quality ratings and platforms
 - **Software Wallet Integration:** Which software wallets work with which hardware
+- **Security Audits:** Audit history and links to reports
+- **Where to Buy:** Official purchase links with fraud warnings
+
+### Document Structure Best Practices (Dec 2025)
+
+1. **Table of Contents:** Long documents should have a TOC at the top with anchor links
+2. **Quick Start section:** New readers need a summary of key recommendations upfront
+3. **What's New section:** Highlight recent changes for returning readers
+4. **Cross-references:** Link between related documents (software ↔ hardware wallets)
+5. **Changelog discipline:** Log all significant changes with dates
+6. **Purchase links:** For hardware wallets, always include official store links with fraud warnings
+7. **Audit information:** Include audit history and links where available
 
 ### Data Accuracy Anti-Hallucination Rules (Dec 2025)
 

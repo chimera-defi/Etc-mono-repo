@@ -4,6 +4,49 @@
 
 **Data Sources:** GitHub REST API (Nov 2024, activity Nov 2025), [WalletBeat](https://walletbeat.fyi) (Dec 2025)
 
+### 🆕 What's New (December 2025)
+- Added [Quick Start](#-quick-start) section for new readers
+- Added [Hardware Wallet Recommendations](#-hardware-wallet-recommendations) cross-reference
+- Added [Table of Contents](#-table-of-contents) for easier navigation
+- See [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON.md) for cold storage devices
+
+---
+
+## 📑 Table of Contents
+
+- [Complete Comparison Table](#complete-wallet-comparison-all-24-evm-wallets) — All 24 wallets at a glance
+- [GitHub Metrics](#github-metrics-stars-issues-code-quality) — Activity and code quality
+- [Recommendations by Use Case](#recommendations-by-use-case-updated-dec-2025) — Best picks by scenario
+- [Scoring Methodology](#-wallet-scores-developer-focused-methodology) — How we calculate scores
+- [Summary](#summary) — Quick answers to common questions
+- [Which Wallet Should I Use?](#-which-wallet-should-i-use) — Decision flowchart
+- [Security Audits](#-security-audits-from-walletbeat--github) — Audit history and reports
+- [Known Quirks & Gotchas](#-known-quirks--gotchas) — Developer pain points
+- [Account Type Support](#account-type-support-from-walletbeat) — EOA, Safe, EIP-4337
+- [Hardware Wallet Support](#hardware-wallet-support-from-walletbeat) — Ledger, Trezor, Keystone
+- [EIP Support Matrix](#-eip-support-matrix) — EIP-712, EIP-4337, EIP-7702
+- [Privacy & Data Collection](#-privacy--data-collection) — RPC defaults and analytics
+- [Changelog](#-changelog) — Track changes to recommendations
+
+**Related:** [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON.md) | [Contributing](./CONTRIBUTING.md) | [README](./README.md)
+
+---
+
+## 🚀 Quick Start
+
+**New here?** Start with these questions:
+
+| Question | Answer |
+|----------|--------|
+| **I'm building a dApp** | Use **Rabby** — best tx simulation for catching bugs |
+| **I need maximum stability** | Use **Trust Wallet** (~3 releases/month) or **Brave** (~2/month) |
+| **I need multi-chain support** | Use **Trust** (163 chains) or **Enkrypt** (75+ chains) |
+| **I need account abstraction** | Use **Coinbase** (EIP-4337) or **Ambire** (EIP-7702) |
+| **I'm testing for production** | Test with **Rabby** first, then **MetaMask** last for compatibility |
+| **I need a hardware wallet too** | See [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON.md) |
+
+**Core Criteria:** This document was created to find stable alternatives to MetaMask that have **BOTH mobile app AND browser extension**. Wallets marked ❌ in the "Core" column don't meet this requirement.
+
 ---
 
 ## Complete Wallet Comparison (All 24 EVM Wallets)
@@ -907,6 +950,9 @@ Track significant changes to wallet statuses and recommendations:
 
 | Date | Wallet | Change | Details |
 |------|--------|--------|---------|
+| Dec 6, 2025 | **All** | Added Quick Start section | New readers can find recommendations quickly |
+| Dec 6, 2025 | **All** | Added Table of Contents | Easier navigation in long document |
+| Dec 6, 2025 | **All** | Added HW wallet cross-reference | Pairing recommendations for software + hardware |
 | Dec 2025 | **All** | Major scoring revision | Added Core, Rel/Mo, RPC columns; prioritize mobile+extension |
 | Dec 2025 | **MetaMask** | Score 78→68 | ~8 rel/mo penalized in stability scoring |
 | Dec 2025 | **Trust** | Score 73→85 | Promoted for stability (~3 rel/mo) + core criteria |
