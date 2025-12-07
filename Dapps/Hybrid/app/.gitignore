@@ -1,6 +1,7 @@
 # Foundry
 /out/
 /cache/
+/lib/
 
 # Hardhat
 /artifacts/
