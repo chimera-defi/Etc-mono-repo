@@ -1,47 +1,67 @@
-# Mobile Experiments Repository
+# Experiments
 
-This repository contains experimental mobile app projects and frameworks.
+Research and prototyping workspace for technology evaluation.
+
+## Projects
+
+| Area | Description | Status |
+|------|-------------|--------|
+| [**mobile_experiments/**](./mobile_experiments/) | Cross-platform mobile frameworks (Capacitor, React Native, Flutter, Valdi) | ✅ Complete |
+| [**ai_experiments/**](./ai_experiments/) | AI constraint toolkits (Spec Kit, Guardrails AI, Guidance, Outlines, B-MAD) | 📋 Research |
+| [**wallets/**](./wallets/) | Crypto wallet comparison (24 software + 15 hardware wallets) | ✅ Active |
+| [**markdown-to-web/**](./markdown-to-web/) | Reusable Markdown-to-Website Vue library | ✅ Complete |
+| [**apps/**](./apps/) | Applications using markdown-web | ✅ Complete |
+
+## Quick Links
+
+### Mobile Frameworks (Dec 2025)
+| Framework | Score | Best For |
+|-----------|-------|----------|
+| **Capacitor** | 4.80/5 | Web devs, browser + mobile |
+| **React Native** | 4.43/5 | Native perf + large ecosystem |
+| **Flutter** | 4.05/5 | Best raw performance |
+
+### Wallet Recommendations
+| Use Case | Wallet | Devices |
+|----------|--------|---------|
+| Development | **Rabby** | 📱🌐💻 |
+| Production | **Trust Wallet** | 📱🌐 |
+| Enterprise | **Safe** | 📱🌐 |
+| Hardware | **Trezor Safe 5** | Cold storage |
+
+### AI Toolkits
+| Toolkit | Use Case |
+|---------|----------|
+| **Spec Kit** | Deterministic, auditable responses |
+| **Guardrails AI** | Compliance & safety rails |
+| **Microsoft Guidance** | Token-level control |
+| **Outlines** | Structured data via grammars |
+| **B-MAD** | AI development lifecycle |
+
+## Development
+
+```bash
+# Mobile experiments
+cd mobile_experiments/Capacitor/app && npm run dev
+
+# Wallet site
+cd apps/wallet-site && npm install && npm run dev
+
+# Refresh wallet data
+cd wallets/scripts && ./refresh-github-data.sh
+```
 
 ## Structure
 
 ```
 .
-├── mobile_experiments/    # Experimental mobile projects
-│   └── Valdi/            # Valdi framework experiments
-├── .cursor/              # Cursor AI artifacts (generated files)
-│   └── artifacts/        # Temporary AI-generated files
-└── .cursorrules          # Cursor AI configuration and rules
+├── mobile_experiments/   # Mobile framework comparison
+├── ai_experiments/       # AI constraint toolkit research
+├── wallets/              # Crypto wallet comparison
+├── markdown-to-web/      # Vue markdown library
+├── apps/                 # Applications
+├── .github/              # CI workflows
+└── .cursorrules          # AI assistant guidelines
 ```
 
-## Projects
-
-### Valdi
-A hello world app exploring Valdi, Snapchat's new mobile app framework for iOS.
-
-See [mobile_experiments/Valdi/README.md](mobile_experiments/Valdi/README.md) for details.
-
-### Capacitor
-Exploring Capacitor, the modern successor to PhoneGap/Cordova, for wrapping web applications into native iOS and Android apps.
-
-See [mobile_experiments/Capacitor/README.md](mobile_experiments/Capacitor/README.md) for details.
-
-### Framework Comparison
-A comprehensive comparison of cross-platform native app frameworks including Valdi, React Native, Flutter, SwiftUI, Capacitor, and more.
-
-See [mobile_experiments/FRAMEWORK_COMPARISON.md](mobile_experiments/FRAMEWORK_COMPARISON.md) for the full comparison.
-
-### Web-to-Mobile Guide
-A guide to modern solutions for converting web applications into mobile apps.
-
-See [mobile_experiments/WEB_TO_MOBILE_GUIDE.md](mobile_experiments/WEB_TO_MOBILE_GUIDE.md) for details.
-
-## Development Guidelines
-
-- All AI-generated artifacts go in `.cursor/artifacts/`
-- Keep experimental projects organized in their respective folders
-- Follow platform-specific conventions
-- Document setup and requirements in each project's README
-
-## Getting Started
-
-Each project in `mobile_experiments/` has its own README with specific setup instructions.
+Each directory contains detailed README with setup instructions.
