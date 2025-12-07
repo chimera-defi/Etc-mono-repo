@@ -434,6 +434,21 @@ Every wallet has quirks that can cause developer headaches. Know them before you
 
 **Connection Types:** WebUSB, Bluetooth (BT), QR code, WalletConnect (WC)
 
+### 🔐 Hardware Wallet Recommendations
+
+For cold storage, see **[HARDWARE_WALLET_COMPARISON.md](./HARDWARE_WALLET_COMPARISON.md)** for detailed comparison of 19 devices.
+
+| Use Case | Hardware Wallet | Best Software Wallet | Why |
+|----------|-----------------|---------------------|-----|
+| **Development** | Trezor Safe 5 | Rabby | Both open source, tx simulation |
+| **Multi-chain DeFi** | Keystone 3 Pro | Rabby, MetaMask | QR air-gap + wide software support |
+| **Bitcoin Only** | ColdCard Mk4 | Sparrow | Maximum BTC security, PSBT support |
+| **Enterprise** | Trezor + Safe | Safe | Multi-sig with hardware signers |
+| **Budget** | Trezor Safe 3 | Trust Wallet | ~$79 HW + free software |
+| **Air-gapped** | Keystone 3 Pro | MetaMask, Rabby | QR-only signing |
+
+**Key Insight:** Pair open-source hardware (Trezor, Keystone, BitBox02) with open-source software (Rabby, Rainbow) for maximum transparency.
+
 ---
 
 ## ENS & Address Resolution (from WalletBeat)
@@ -961,4 +976,4 @@ Prefer in this order:
 
 ---
 
-*Last updated: December 3, 2025. Revised scoring to prioritize core criteria (mobile + browser extension) and stability (release frequency). Added Core, Rel/Mo, RPC columns. MetaMask demoted to 68 due to ~8 releases/month churn. Trust (85), Rainbow (82) promoted as stable alternatives. Data from [WalletBeat](https://walletbeat.fyi) and GitHub.*
+*Last updated: December 6, 2025. Revised scoring to prioritize core criteria (mobile + browser extension) and stability (release frequency). Added Core, Rel/Mo, RPC columns. MetaMask demoted to 68 due to ~8 releases/month churn. Trust (85), Rainbow (82) promoted as stable alternatives. Added hardware wallet cross-reference. Data from [WalletBeat](https://walletbeat.fyi) and GitHub.*

@@ -8,37 +8,39 @@
 
 ## Complete Hardware Wallet Comparison (19 Wallets)
 
-| Wallet | Score | GitHub | Air-Gap | Open Source | Secure Elem | Display | Price | Conn | Activity | Rec |
-|--------|-------|--------|---------|-------------|-------------|---------|-------|------|----------|-----|
-| [**Trezor Safe 5**](https://trezor.io/) | 94 | [trezor-firmware](https://github.com/trezor/trezor-firmware) | ❌ | ✅ Full | ✅ Optiga | Touch Color | ~$169 | USB-C | ✅ Active | 🟢 |
-| [**Keystone 3 Pro**](https://keyst.one/) | 91 | [keystone3-firmware](https://github.com/KeystoneHQ/keystone3-firmware) | ✅ Full | ✅ Full | ✅ 3× SE | Touch Color | ~$149 | QR | ✅ Active | 🟢 |
-| [**ColdCard Mk4**](https://coldcard.com/) | 91 | [firmware](https://github.com/Coldcard/firmware) | ✅ Full | ✅ Full | ✅ Dual SE | Mono LCD | ~$150 | MicroSD | ✅ Active | 🟢 |
-| [**Trezor Safe 3**](https://trezor.io/) | 91 | [trezor-firmware](https://github.com/trezor/trezor-firmware) | ❌ | ✅ Full | ✅ Optiga | Mono OLED | ~$79 | USB-C | ✅ Active | 🟢 |
-| [**BitBox02**](https://bitbox.swiss/) | 88 | [bitbox02-firmware](https://github.com/BitBoxSwiss/bitbox02-firmware) | ❌ | ✅ Full | ✅ ATECC | Touch Edge | ~$150 | USB-C | ✅ Active | 🟢 |
-| [**Foundation Passport**](https://foundationdevices.com/) | 81 | [passport2](https://github.com/Foundation-Devices/passport2) | ✅ Full | ✅ Full | ✅ ATECC | Color LCD | ~$259 | MicroSD/QR | ⚠️ Slow | 🟢 |
-| [**OneKey Pro**](https://onekey.so/) | 77 | [firmware-pro](https://github.com/OneKeyHQ/firmware-pro) | ❌ | ✅ Full | ✅ SE | Touch Color | ~$199 | USB/BT | ✅ Active | 🟢 |
-| [**NGRAVE ZERO**](https://www.ngrave.io/) | 72 | Private | ✅ Full | ⚠️ Partial | ✅ SE | Touch Color | ~$400 | QR | 🔒 Private | 🟡 |
-| [**SafePal S1**](https://www.safepal.com/) | 62 | Private | ✅ Full | ⚠️ Partial | ✅ SE | LCD | ~$50 | QR | 🔒 Private | 🟡 |
-| [**GridPlus Lattice1**](https://gridplus.io/) | 59 | [SDK only](https://github.com/GridPlus/gridplus-sdk) | ❌ | ⚠️ SDK only | ✅ SE | 5" Touch | ~$400 | WiFi/USB | 🔒 Private | 🟡 |
-| [**Ledger Stax**](https://www.ledger.com/) | 57 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | E-Ink Touch | ~$280 | USB/BT | 🔒 Private | 🟡 |
-| [**Ledger Nano X**](https://www.ledger.com/) | 56 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$150 | USB/BT | 🔒 Private | 🟡 |
-| [**Ledger Nano S+**](https://www.ledger.com/) | 55 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$80 | USB | 🔒 Private | 🟡 |
-| [**Tangem Wallet**](https://tangem.com/) | 53 | Private | ❌ | ⚠️ Partial | ✅ SE | None | ~$55 | NFC | 🔒 Private | 🟡 |
-| [**Ellipal Titan 2.0**](https://www.ellipal.com/) | 48 | Private | ✅ Full | ❌ Closed | ❌ None | Touch Color | ~$170 | QR | 🔒 Private | 🔴 |
-| [**SecuX V20**](https://secuxtech.com/) | 47 | Private | ❌ | ❌ Closed | ✅ SE | Touch Color | ~$140 | USB/BT | 🔒 Private | 🔴 |
-| [**Arculus**](https://www.getarculus.com/) | 42 | Private | ❌ | ❌ Closed | ✅ SE | None | ~$100 | NFC | 🔒 Private | 🔴 |
-| ~~[**KeepKey**](https://shapeshift.com/keepkey)~~ | 39 | [keepkey-firmware](https://github.com/keepkey/keepkey-firmware) | ❌ | ✅ Full | ❌ None | OLED | ~$50 | USB | ❌ Inactive | 🔴 |
-| [**BC Vault**](https://bc-vault.com/) | 33 | Private | ❌ | ❌ Closed | ❌ None | OLED | ~$140 | USB | 🔒 Private | 🔴 |
+| Wallet | Score | GitHub | Chains | Air-Gap | Open Source | Secure Elem | Display | Price | Conn | App | Activity | Rec |
+|--------|-------|--------|--------|---------|-------------|-------------|---------|-------|------|-----|----------|-----|
+| [**Trezor Safe 5**](https://trezor.io/) | 94 | [trezor-firmware](https://github.com/trezor/trezor-firmware) | Multi | ❌ | ✅ Full | ✅ Optiga | Touch Color | ~$169 | USB-C | Suite | ✅ Active | 🟢 |
+| [**Keystone 3 Pro**](https://keyst.one/) | 91 | [keystone3-firmware](https://github.com/KeystoneHQ/keystone3-firmware) | Multi | ✅ Full | ✅ Full | ✅ 3× SE | Touch Color | ~$149 | QR | Vault | ✅ Active | 🟢 |
+| [**ColdCard Mk4**](https://coldcard.com/) | 91 | [firmware](https://github.com/Coldcard/firmware) | BTC | ✅ Full | ✅ Full | ✅ Dual SE | Mono LCD | ~$150 | MicroSD | Sparrow | ✅ Active | 🟢 |
+| [**Trezor Safe 3**](https://trezor.io/) | 91 | [trezor-firmware](https://github.com/trezor/trezor-firmware) | Multi | ❌ | ✅ Full | ✅ Optiga | Mono OLED | ~$79 | USB-C | Suite | ✅ Active | 🟢 |
+| [**BitBox02**](https://bitbox.swiss/) | 88 | [bitbox02-firmware](https://github.com/BitBoxSwiss/bitbox02-firmware) | Multi | ❌ | ✅ Full | ✅ ATECC | Touch Edge | ~$150 | USB-C | BitBox | ✅ Active | 🟢 |
+| [**Foundation Passport**](https://foundationdevices.com/) | 81 | [passport2](https://github.com/Foundation-Devices/passport2) | BTC | ✅ Full | ✅ Full | ✅ ATECC | Color LCD | ~$259 | MicroSD/QR | Envoy | ⚠️ Slow | 🟢 |
+| [**OneKey Pro**](https://onekey.so/) | 77 | [firmware-pro](https://github.com/OneKeyHQ/firmware-pro) | Multi | ❌ | ✅ Full | ✅ SE | Touch Color | ~$199 | USB/BT | OneKey | ✅ Active | 🟢 |
+| [**NGRAVE ZERO**](https://www.ngrave.io/) | 72 | Private | Multi | ✅ Full | ⚠️ Partial | ✅ SE | Touch Color | ~$400 | QR | LIQUID | 🔒 Private | 🟡 |
+| [**SafePal S1**](https://www.safepal.com/) | 62 | Private | Multi | ✅ Full | ⚠️ Partial | ✅ SE | LCD | ~$50 | QR | SafePal | 🔒 Private | 🟡 |
+| [**GridPlus Lattice1**](https://gridplus.io/) | 59 | [SDK only](https://github.com/GridPlus/gridplus-sdk) | Multi | ❌ | ⚠️ SDK only | ✅ SE | 5" Touch | ~$400 | WiFi/USB | Frame | 🔒 Private | 🟡 |
+| [**Ledger Stax**](https://www.ledger.com/) | 57 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | Multi | ❌ | ⚠️ Partial | ✅ SE | E-Ink Touch | ~$280 | USB/BT | Live | 🔒 Private | 🟡 |
+| [**Ledger Nano X**](https://www.ledger.com/) | 56 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | Multi | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$150 | USB/BT | Live | 🔒 Private | 🟡 |
+| [**Ledger Nano S+**](https://www.ledger.com/) | 55 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | Multi | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$80 | USB | Live | 🔒 Private | 🟡 |
+| [**Tangem Wallet**](https://tangem.com/) | 53 | Private | Multi | ❌ | ⚠️ Partial | ✅ SE | None | ~$55 | NFC | Tangem | 🔒 Private | 🟡 |
+| [**Ellipal Titan 2.0**](https://www.ellipal.com/) | 48 | Private | Multi | ✅ Full | ❌ Closed | ❌ None | Touch Color | ~$170 | QR | Ellipal | 🔒 Private | 🔴 |
+| [**SecuX V20**](https://secuxtech.com/) | 47 | Private | Multi | ❌ | ❌ Closed | ✅ SE | Touch Color | ~$140 | USB/BT | SecuX | 🔒 Private | 🔴 |
+| [**Arculus**](https://www.getarculus.com/) | 42 | Private | Multi | ❌ | ❌ Closed | ✅ SE | None | ~$100 | NFC | Arculus | 🔒 Private | 🔴 |
+| ~~[**KeepKey**](https://shapeshift.com/keepkey)~~ | 39 | [keepkey-firmware](https://github.com/keepkey/keepkey-firmware) | Multi | ❌ | ✅ Full | ❌ None | OLED | ~$50 | USB | ShapeShift | ❌ Inactive | 🔴 |
+| [**BC Vault**](https://bc-vault.com/) | 33 | Private | Multi | ❌ | ❌ Closed | ❌ None | OLED | ~$140 | USB | BCVault | 🔒 Private | 🔴 |
 
 **Legend:**
 - **Wallet:** Links to official site | ~~Strikethrough~~ = abandoned
 - **Score:** 0-100 weighted score (see [Scoring Methodology](#-scoring-methodology))
 - **GitHub:** Firmware repo link | "Private" = closed source
+- **Chains:** BTC = Bitcoin only | Multi = Multiple networks (ETH, SOL, etc.)
 - **Air-Gap:** ✅ Full = QR/MicroSD only | ❌ = USB/BT connection required
 - **Open Source:** ✅ Full (firmware + bootloader) | ⚠️ Partial | ❌ Closed
 - **Secure Elem:** ✅ Has SE with type (Optiga, ATECC, etc.) | ❌ MCU only
 - **Display:** Screen type | **Price:** ~USD (verify on official site)
 - **Conn:** USB, Bluetooth (BT), QR, NFC, MicroSD, WiFi
+- **App:** Companion software (Suite, Live, Sparrow, etc.)
 - **Activity:** ✅ Active (≤30 days) | ⚠️ Slow (1-4 mo) | 🔒 Private | ❌ Inactive
 - **Rec:** 🟢 Recommended (75+) | 🟡 Situational (50-74) | 🔴 Avoid (<50)
 
@@ -79,6 +81,31 @@ Unlike software wallets where frequent updates can indicate instability, hardwar
 | OneKey | 3 releases | ~1/quarter (stable) |
 | Trezor | Via Trezor Suite | App-managed updates |
 | ColdCard | Via tags | Manual firmware downloads |
+
+---
+
+## 🔗 Network Support
+
+| Wallet | BTC | ETH | SOL | Multi-chain | Native Staking | Notes |
+|--------|-----|-----|-----|-------------|----------------|-------|
+| **Trezor Safe 5** | ✅ | ✅ | ❌ | ✅ 1000+ tokens | ❌ | Wide EVM support |
+| **Trezor Safe 3** | ✅ | ✅ | ❌ | ✅ 1000+ tokens | ❌ | Same as Safe 5 |
+| **Keystone 3 Pro** | ✅ | ✅ | ✅ | ✅ Multi-chain | ❌ | BTC, ETH, SOL, Cosmos |
+| **ColdCard Mk4** | ✅ | ❌ | ❌ | ❌ BTC only | ❌ | Bitcoin maximalist |
+| **BitBox02 Multi** | ✅ | ✅ | ❌ | ✅ EVM chains | ❌ | Also BTC-only edition |
+| **Foundation Passport** | ✅ | ❌ | ❌ | ❌ BTC only | ❌ | Bitcoin maximalist |
+| **OneKey Pro** | ✅ | ✅ | ✅ | ✅ Multi-chain | ❌ | Wide support |
+| **Ledger Nano X** | ✅ | ✅ | ✅ | ✅ 5500+ tokens | ✅ ETH, SOL | Most chains |
+| **Ledger Stax** | ✅ | ✅ | ✅ | ✅ 5500+ tokens | ✅ ETH, SOL | Same as Nano X |
+| **NGRAVE ZERO** | ✅ | ✅ | ❌ | ✅ Multi-chain | ❌ | Via LIQUID app |
+| **SafePal S1** | ✅ | ✅ | ✅ | ✅ Multi-chain | ❌ | DeFi-focused |
+| **GridPlus Lattice1** | ✅ | ✅ | ❌ | ✅ EVM chains | ❌ | ETH ecosystem |
+
+**Network Support Notes:**
+- **BTC only (ColdCard, Foundation):** Best for Bitcoin maximalists, simpler attack surface
+- **Multi-chain:** Support varies; "5500+ tokens" counts all tokens, not distinct chains
+- **Staking:** Native staking in companion app (not all chains)
+- **EVM chains:** Ethereum + L2s (Arbitrum, Optimism, Base, Polygon, etc.)
 
 ---
 
@@ -227,13 +254,45 @@ UX & ECOSYSTEM (10 pts)
 
 ### Software Wallet Integration
 
-| Wallet | MetaMask | Rabby | Sparrow | Electrum |
-|--------|----------|-------|---------|----------|
-| Trezor | ✅ | ✅ | ✅ | ✅ |
-| Keystone | ✅ QR | ✅ QR | ✅ | ❌ |
-| BitBox02 | ✅ | ✅ | ✅ | ✅ |
-| ColdCard | ❌ | ❌ | ✅ | ✅ |
-| Ledger | ✅ | ✅ | ✅ | ✅ |
+| Wallet | MetaMask | Rabby | Sparrow | Electrum | Rainbow | Safe |
+|--------|----------|-------|---------|----------|---------|------|
+| Trezor | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Keystone | ✅ QR | ✅ QR | ✅ | ❌ | ❌ | ✅ QR |
+| BitBox02 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| ColdCard | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ |
+| Ledger | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Foundation | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ |
+| OneKey | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
+
+**Integration Notes:**
+- **QR-based (Keystone, Foundation):** Work with any wallet supporting animated QR codes
+- **USB-based (Trezor, Ledger, BitBox02):** Require WebUSB support in browser
+- **BTC-only (ColdCard, Foundation):** Sparrow/Electrum recommended for advanced features
+
+---
+
+## 📱 Companion Apps
+
+Each hardware wallet has a companion app for managing assets. Quality varies significantly:
+
+| Wallet | App Name | Platforms | Quality | Open Source | Notes |
+|--------|----------|-----------|---------|-------------|-------|
+| **Trezor** | Trezor Suite | Desktop, Web | ✅ Excellent | ✅ Yes | Best-in-class UX, full-featured |
+| **Ledger** | Ledger Live | Desktop, Mobile | ✅ Good | ✅ Yes | Feature-rich, occasional bugs |
+| **BitBox02** | BitBox App | Desktop | ✅ Excellent | ✅ Yes | Clean, focused, Swiss quality |
+| **Keystone** | Keystone Vault | Mobile | ✅ Good | ⚠️ Partial | QR-based, works with MM/Rabby |
+| **ColdCard** | None (Sparrow) | Desktop | ✅ Excellent | ✅ Yes | Use Sparrow or Electrum |
+| **Foundation** | Envoy | Mobile | ✅ Good | ✅ Yes | Bitcoin-focused, clean UI |
+| **OneKey** | OneKey App | Desktop, Mobile | ⚠️ Okay | ✅ Yes | Multi-chain, newer |
+| **NGRAVE** | LIQUID | Mobile | ⚠️ Okay | ❌ No | Proprietary |
+| **SafePal** | SafePal App | Mobile | ⚠️ Okay | ❌ No | DeFi integration |
+
+**Companion App Quality Factors:**
+- ✅ **Excellent:** Stable, full-featured, good UX, actively maintained
+- ⚠️ **Okay:** Functional but has quirks, less polish
+- ❌ **Poor:** Buggy, missing features, or abandoned
+
+**BTC-Only Recommendation:** Skip proprietary apps. Use [Sparrow Wallet](https://sparrowwallet.com/) — open source, supports ColdCard/Passport/Trezor/Ledger.
 
 ---
 
@@ -289,4 +348,4 @@ UX & ECOSYSTEM (10 pts)
 
 ---
 
-*Last updated: December 2025. Always verify current specifications on official sites before purchase.*
+*Last updated: December 6, 2025. Always verify current specifications on official sites before purchase.*
