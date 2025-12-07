@@ -1,100 +1,81 @@
-# Hardhat Smart Contract Project
-
-This folder contains a Hardhat-based smart contract project for comparison with Foundry.
-
-## Status: ⏳ Pending Implementation
-
-## Overview
-
-Hardhat is the most popular Ethereum development environment. It's a flexible, extensible, and task-based framework built on Node.js.
-
-### Key Features
-- TypeScript-first development
-- Hardhat Network (local blockchain)
-- Extensive plugin ecosystem
-- Hardhat Ignition (deployment framework)
-- Excellent debugging with stack traces
+# Hardhat Implementation
 
 ## Quick Start
 
 ```bash
-# Navigate to app folder
 cd app
-
-# Install dependencies
-npm install
-
-# Compile contracts
-npx hardhat compile
-
-# Run tests
-npx hardhat test
-
-# Run tests with gas report
-REPORT_GAS=true npx hardhat test
-
-# Start local node
-npx hardhat node
-
-# Deploy
-npx hardhat ignition deploy ./ignition/modules/Deploy.ts
+npx hardhat init  # Select: TypeScript project
+npm install @openzeppelin/contracts
 ```
 
-## Project Structure
+## Tasks
 
+### 1. Contracts (in `contracts/`)
+- [ ] `Token.sol` - ERC-20, Ownable, mint/burn
+- [ ] `NFT.sol` - ERC-721, Ownable, tokenURI
+
+### 2. Tests (in `test/`)
+- [ ] `Token.ts` - deploy, transfer, mint, burn, access control
+- [ ] `NFT.ts` - mint, transfer, tokenURI
+
+### 3. Deployment
+- [ ] `ignition/modules/Deploy.ts`
+
+### 4. Metrics
+- [ ] `time npx hardhat compile` → record
+- [ ] `time npx hardhat test` → record
+- [ ] `REPORT_GAS=true npx hardhat test` → save output
+- [ ] `npx hardhat coverage` → record %
+
+## Contract Templates
+
+Same as Foundry - use identical `Token.sol` and `NFT.sol`.
+
+## Test Template
+
+```typescript
+// test/Token.ts
+import { expect } from "chai";
+import { ethers } from "hardhat";
+import { loadFixture } from "@nomicfoundation/hardhat-toolbox/network-helpers";
+
+describe("Token", function () {
+  async function deployFixture() {
+    const [owner, addr1] = await ethers.getSigners();
+    const Token = await ethers.getContractFactory("Token");
+    const token = await Token.deploy("Test", "TST", ethers.parseEther("1000000"));
+    return { token, owner, addr1 };
+  }
+
+  it("Should deploy with correct supply", async function () {
+    const { token, owner } = await loadFixture(deployFixture);
+    expect(await token.balanceOf(owner.address)).to.equal(ethers.parseEther("1000000"));
+  });
+
+  it("Should transfer tokens", async function () {
+    const { token, addr1 } = await loadFixture(deployFixture);
+    await token.transfer(addr1.address, 100);
+    expect(await token.balanceOf(addr1.address)).to.equal(100);
+  });
+});
 ```
-app/
-├── contracts/           # Smart contracts
-│   ├── Token.sol        # ERC-20 Token
-│   └── NFT.sol          # ERC-721 NFT
-├── test/                # TypeScript tests
-│   ├── Token.ts
-│   └── NFT.ts
-├── ignition/            # Deployment modules
-│   └── modules/
-│       └── Deploy.ts
-├── hardhat.config.ts    # Configuration
-├── package.json
-└── tsconfig.json
+
+## Ignition Template
+
+```typescript
+// ignition/modules/Deploy.ts
+import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
+
+export default buildModule("Deploy", (m) => {
+  const token = m.contract("Token", ["MyToken", "MTK", 1_000_000n * 10n ** 18n]);
+  const nft = m.contract("NFT", ["MyNFT", "MNFT", "https://api.example.com/"]);
+  return { token, nft };
+});
 ```
 
-## Key Commands
+## Verification
 
-| Command | Description |
-|---------|-------------|
-| `npx hardhat compile` | Compile contracts |
-| `npx hardhat test` | Run tests |
-| `npx hardhat test --grep "transfer"` | Run specific tests |
-| `npx hardhat coverage` | Generate coverage |
-| `npx hardhat node` | Start local node |
-| `npx hardhat console` | Interactive console |
-| `npx hardhat clean` | Clear cache and artifacts |
-
-## Implementation Goals
-
-- [ ] Initialize Hardhat project with TypeScript
-- [ ] Implement ERC-20 Token with minting
-- [ ] Implement ERC-721 NFT with metadata
-- [ ] Write comprehensive unit tests (Mocha/Chai)
-- [ ] Create Hardhat Ignition deployment module
-- [ ] Configure plugins (gas reporter, coverage)
-- [ ] Document gas usage
-
-## Plugins Used
-
-- `@nomicfoundation/hardhat-toolbox` - Core functionality
-- `@nomicfoundation/hardhat-ignition` - Deployment
-- `@nomicfoundation/hardhat-verify` - Etherscan verification
-- `hardhat-gas-reporter` - Gas usage reporting
-- `solidity-coverage` - Test coverage
-
-## Resources
-
-- [Hardhat Documentation](https://hardhat.org/docs)
-- [Hardhat Tutorial](https://hardhat.org/tutorial)
-- [Hardhat Ignition](https://hardhat.org/ignition)
-- [OpenZeppelin Contracts](https://docs.openzeppelin.com/contracts)
-
----
-
-See `TASKS.md` for detailed implementation tasks.
+```bash
+npx hardhat compile  # compiles
+npx hardhat test     # all pass
+```
