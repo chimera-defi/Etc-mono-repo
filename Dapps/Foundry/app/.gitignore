@@ -1,0 +1,15 @@
+# Foundry
+/out/
+/cache/
+/broadcast/*/31337/
+/broadcast/**/dry-run/
+
+# Dependencies - run `forge install` to restore
+/lib/
+
+# Environment
+.env
+
+# IDE
+.idea/
+.vscode/

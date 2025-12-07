@@ -1,0 +1,40 @@
+# Foundry Configuration for Hybrid Project
+# Foundry handles: Testing, Fuzzing, Gas Snapshots
+
+[profile.default]
+# Use 'contracts/' as source (shared with Hardhat)
+src = "contracts"
+out = "out"
+libs = ["lib", "node_modules"]
+test = "test/foundry"
+script = "script"
+
+# Solidity settings
+solc = "0.8.24"
+optimizer = true
+optimizer_runs = 200
+via_ir = false
+
+# Testing
+fuzz = { runs = 256, seed = "0x1" }
+invariant = { runs = 256, depth = 15 }
+
+# Formatter
+fmt = { line_length = 100, tab_width = 4, bracket_spacing = true }
+
+# Gas reporting
+gas_reports = ["Token", "NFT"]
+
+[profile.ci]
+fuzz = { runs = 1000 }
+verbosity = 2
+
+[profile.lite]
+fuzz = { runs = 32 }
+optimizer = false
+
+# Remappings for both Foundry libs and npm packages
+remappings = [
+    "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+    "forge-std/=lib/forge-std/src/",
+]

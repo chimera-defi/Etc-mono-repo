@@ -1,0 +1,21 @@
+{
+  "name": "hybrid-foundry-hardhat",
+  "version": "1.0.0",
+  "description": "Hybrid Foundry + Hardhat template",
+  "license": "MIT",
+  "scripts": {
+    "build": "forge build && hardhat compile",
+    "test": "forge test",
+    "test:hardhat": "hardhat test",
+    "coverage": "forge coverage",
+    "deploy:local": "hardhat ignition deploy ignition/modules/Deploy.ts --network localhost",
+    "clean": "forge clean && hardhat clean"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^6.0.0",
+    "@openzeppelin/contracts": "^5.0.0",
+    "@types/node": "^20.0.0",
+    "hardhat": "^2.26.0",
+    "typescript": "^5.0.0"
+  }
+}

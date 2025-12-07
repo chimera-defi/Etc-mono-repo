@@ -1,0 +1,109 @@
+name: Dapps CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Dapps/**'
+      - '.github/workflows/dapps-ci.yml'
+  pull_request:
+    paths:
+      - 'Dapps/**'
+      - '.github/workflows/dapps-ci.yml'
+
+jobs:
+  foundry-tests:
+    name: Foundry Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Dapps/Foundry/app
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: stable
+
+      - name: Install dependencies
+        run: forge install --no-git foundry-rs/forge-std OpenZeppelin/openzeppelin-contracts
+
+      - name: Build
+        run: forge build
+
+      - name: Run tests
+        run: forge test -vvv
+
+      - name: Run coverage
+        run: forge coverage --report summary
+
+  hardhat-tests:
+    name: Hardhat Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Dapps/Hardhat/app
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: Dapps/Hardhat/app/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Compile
+        run: npx hardhat compile
+
+      - name: Run tests
+        run: npx hardhat test
+
+  hybrid-tests:
+    name: Hybrid Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Dapps/Hybrid/app
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: stable
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: Dapps/Hybrid/app/package-lock.json
+
+      - name: Install Foundry dependencies
+        run: forge install --no-git foundry-rs/forge-std OpenZeppelin/openzeppelin-contracts
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Build (Foundry)
+        run: forge build
+
+      - name: Build (Hardhat)
+        run: npx hardhat compile
+
+      - name: Run Foundry tests
+        run: forge test -vvv
+
+      - name: Run Hardhat tests
+        run: npx hardhat test
+
+      - name: Run Foundry coverage
+        run: forge coverage --report summary
