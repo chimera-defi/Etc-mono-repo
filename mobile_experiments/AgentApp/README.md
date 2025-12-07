@@ -1,160 +1,140 @@
 # Agent App
 
-A native, high-performance mobile app for AI Coding Agents.
+Native mobile app for AI coding agents. Self-hosted, privacy-focused alternative to Cursor Agents.
 
-## Goal
+## Status
 
-Create a mobile app with feature parity to Cursor Agents / Background Agents:
-- 📱 Native performance (60fps, smooth interactions)
-- ⚡ Real-time agent task monitoring
-- 📝 Code viewing and diff display
-- 🔀 Git operations and PR management
-- 🍎🤖 Cross-platform (iOS & Android)
-
----
-
-## Current Status: Ready for Implementation
-
-| Phase | Status | Document |
-|-------|--------|----------|
-| ✅ Research | Complete | See Research Documents below |
-| ✅ Architecture Decisions | Complete | [ARCHITECTURE_DECISIONS.md](./ARCHITECTURE_DECISIONS.md) |
-| ✅ System Design | Complete | [FINAL_ARCHITECTURE.md](./FINAL_ARCHITECTURE.md) |
-| ✅ Detailed Design | Complete | [DETAILED_DESIGN.md](./DETAILED_DESIGN.md) |
-| ✅ Mobile App Design | Complete | [MOBILE_APP_DESIGN.md](./MOBILE_APP_DESIGN.md) |
-| ✅ Agent Worker Design | Complete | [AGENT_WORKER_DESIGN.md](./AGENT_WORKER_DESIGN.md) |
-| ✅ Task Breakdown | Complete | [TASKS.md](./TASKS.md) |
-| ⏳ **Open Questions** | **19 pending** | [OPEN_QUESTIONS.md](./OPEN_QUESTIONS.md) |
-| ⬜ Implementation | Not started | — |
+| Phase | Status |
+|-------|--------|
+| Research | ✅ Complete |
+| Architecture | ✅ Complete |
+| Design | ✅ Complete |
+| Open Questions | ⏳ 19 pending decisions |
+| Implementation | ⬜ Not started |
 
 ---
 
-## Key Documents
+## Documents (Numbered)
 
-### 📋 Implementation Guides (Start Here)
+### 📚 1. Research
 
-| Document | Description |
-|----------|-------------|
-| [**OPEN_QUESTIONS.md**](./OPEN_QUESTIONS.md) | ❓ **19 decisions needed before coding** |
-| [**TASKS.md**](./TASKS.md) | 📝 132 tasks across 8 epics (~27 days) |
-| [**FINAL_ARCHITECTURE.md**](./FINAL_ARCHITECTURE.md) | 🏗️ System architecture diagram + tech stack |
+| # | Document | Summary |
+|---|----------|---------|
+| 1.1 | [CURSOR_API_RESEARCH](./CURSOR_API_RESEARCH.md) | Cursor has no public API |
+| 1.2 | [ALTERNATIVES_ANALYSIS](./ALTERNATIVES_ANALYSIS.md) | Claude API is best option |
+| 1.3 | [CLAUDE_API_CAPABILITIES](./CLAUDE_API_CAPABILITIES.md) | Tool use, streaming, models |
+| 1.4 | [FRAMEWORK_RECOMMENDATION](./FRAMEWORK_RECOMMENDATION.md) | React Native + Expo chosen |
+| 1.5 | [COMPETITIVE_ANALYSIS](./COMPETITIVE_ANALYSIS.md) | Market gap analysis |
+| 1.6 | [INFRASTRUCTURE_COMPARISON](./INFRASTRUCTURE_COMPARISON.md) | Platform options (verified data) |
 
-### 🎨 Design Documents
+### 🏗️ 2. Architecture
 
-| Document | Description |
-|----------|-------------|
-| [MOBILE_APP_DESIGN.md](./MOBILE_APP_DESIGN.md) | 📱 Screens, UX, performance, offline support |
-| [AGENT_WORKER_DESIGN.md](./AGENT_WORKER_DESIGN.md) | 🤖 AI agent loop, tools, Claude integration |
-| [DETAILED_DESIGN.md](./DETAILED_DESIGN.md) | 🔧 Components, data models, API contracts |
+| # | Document | Summary |
+|---|----------|---------|
+| 2.1 | [ARCHITECTURE_DECISIONS](./ARCHITECTURE_DECISIONS.md) | All 15 decisions made |
+| 2.2 | [FINAL_ARCHITECTURE](./FINAL_ARCHITECTURE.md) | System diagram + tech stack |
 
-### 🔬 Research Documents
+### 🎨 3. Design
 
-| Document | Description |
-|----------|-------------|
-| [CURSOR_API_RESEARCH.md](./CURSOR_API_RESEARCH.md) | Cursor API availability (none) |
-| [ALTERNATIVES_ANALYSIS.md](./ALTERNATIVES_ANALYSIS.md) | Alternative AI agents compared |
-| [CLAUDE_API_CAPABILITIES.md](./CLAUDE_API_CAPABILITIES.md) | Claude API deep dive |
-| [FRAMEWORK_RECOMMENDATION.md](./FRAMEWORK_RECOMMENDATION.md) | Why React Native |
-| [INFRASTRUCTURE_COMPARISON.md](./INFRASTRUCTURE_COMPARISON.md) | Compute/DB options |
-| [BUILD_VS_BUY_ANALYSIS.md](./BUILD_VS_BUY_ANALYSIS.md) | Self-hosted vs managed |
+| # | Document | Summary |
+|---|----------|---------|
+| 3.1 | [DETAILED_DESIGN](./DETAILED_DESIGN.md) | Components, APIs, data models |
+| 3.2 | [MOBILE_APP_DESIGN](./MOBILE_APP_DESIGN.md) | Screens, UX, performance |
+| 3.3 | [AGENT_WORKER_DESIGN](./AGENT_WORKER_DESIGN.md) | AI agent loop, tools |
+
+### 📋 4. Implementation
+
+| # | Document | Summary |
+|---|----------|---------|
+| 4.1 | [OPEN_QUESTIONS](./OPEN_QUESTIONS.md) | **19 decisions needed** |
+| 4.2 | [TASKS](./TASKS.md) | 132 tasks, 8 epics |
+
+### 📝 5. Meta
+
+| # | Document | Summary |
+|---|----------|---------|
+| 5.1 | [ERRATA](./ERRATA.md) | Corrections made |
 
 ---
 
-## Architecture Summary
+## Quick Summary
+
+### What We're Building
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                    MOBILE APP                           │
-│                 (React Native + Expo)                   │
-│  • Login, Projects, Chat, History, Settings screens    │
-│  • WebSocket for real-time updates                     │
-│  • Offline queue for reliability                       │
-└─────────────────────┬───────────────────────────────────┘
-                      │ WSS
-                      ▼
-┌─────────────────────────────────────────────────────────┐
-│                 COORDINATOR SERVER                      │
-│                    (Bun + Hono)                         │
-│  • REST API + WebSocket server                         │
-│  • SQLite database                                     │
-│  • Docker container spawner                            │
-└─────────────────────┬───────────────────────────────────┘
-                      │ Docker
-                      ▼
-┌─────────────────────────────────────────────────────────┐
-│                  WORKER CONTAINER                       │
-│  • Claude API client                                   │
-│  • Tools: read_file, write_file, run_command, etc.    │
-│  • Git: clone, commit, push, create PR                │
-└─────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────┐
+│             MOBILE APP (React Native)           │
+│   Login → Projects → Chat → View Results        │
+└──────────────────────┬──────────────────────────┘
+                       │ WebSocket
+                       ▼
+┌─────────────────────────────────────────────────┐
+│           COORDINATOR SERVER (Bun + Hono)       │
+│   REST API + WebSocket + SQLite + Docker        │
+└──────────────────────┬──────────────────────────┘
+                       │ Docker
+                       ▼
+┌─────────────────────────────────────────────────┐
+│              WORKER CONTAINER                   │
+│   Claude API + Tools + Git Operations           │
+└─────────────────────────────────────────────────┘
 ```
 
----
+### Tech Stack
 
-## Tech Stack
-
-| Component | Technology |
-|-----------|------------|
-| Mobile | React Native + Expo 54 |
-| State | Zustand + React Query |
+| Layer | Technology |
+|-------|------------|
+| Mobile | React Native + Expo |
 | Server | Bun + Hono |
 | Database | SQLite |
-| Containers | Docker + dockerode |
-| AI | Claude API (Anthropic) |
+| Containers | Docker |
+| AI | Claude API (user's key) |
 | Auth | GitHub OAuth + JWT |
 
----
+### Cost
 
-## Estimated Timeline
-
-| Phase | Days | What |
-|-------|------|------|
-| Server Setup | 2 | Bun, Hono, SQLite, health checks |
-| Authentication | 2.5 | GitHub OAuth, JWT, API key encryption |
-| Task Management | 3 | CRUD, queue, status tracking |
-| Docker Integration | 4 | Spawner, lifecycle, cleanup |
-| Agent Worker | 5 | Claude client, tools, git operations |
-| Real-time | 2 | WebSocket server + broadcasting |
-| Mobile App | 6 | All screens, offline support |
-| Testing | 2.5 | Unit, integration, E2E |
-| **Total** | **~27 days** | (Can be reduced with parallel work) |
-
-**Critical path MVP**: ~14-18 days
-
----
-
-## Cost Estimate
-
-| Item | Monthly Cost |
-|------|-------------|
-| VPS (Hetzner CX22) | $4-6 |
-| Domain | ~$1 |
-| **Server Total** | **~$6/mo** |
+| Item | Cost |
+|------|------|
+| VPS (Hetzner) | ~$6/mo |
 | Claude API | User pays (BYOK) |
+
+### Timeline
+
+| Phase | Days |
+|-------|------|
+| Backend (Server + Docker + Agent) | 8-10 |
+| Mobile App | 5-6 |
+| Testing | 2-3 |
+| **Total** | **~14-18 days** |
 
 ---
 
 ## Next Steps
 
-1. **Answer open questions** → [OPEN_QUESTIONS.md](./OPEN_QUESTIONS.md)
-   - 19 decisions needed (or say "use all recommendations")
-   
-2. **Begin implementation** → [TASKS.md](./TASKS.md)
-   - Start with Epic 1 (Server Setup)
-   - Can parallelize Mobile App work
+### Option A: Answer Questions Individually
+
+Review [OPEN_QUESTIONS.md](./OPEN_QUESTIONS.md) and provide decisions for all 19 items.
+
+### Option B: Use All Recommendations
+
+Say **"Use all recommendations"** to accept defaults and start implementation.
 
 ---
 
-## Quick Answer Option
+## Key Decisions Made
 
-If you want to proceed quickly:
-
-> **"Use all recommendations and start implementation"**
-
-This will:
-- Accept all 19 recommended decisions
-- Begin scaffolding the project
+| Decision | Choice |
+|----------|--------|
+| Framework | React Native + Expo |
+| Backend | Bun + Hono (self-hosted) |
+| Database | SQLite |
+| Workers | Docker containers |
+| AI | Claude API (BYOK) |
+| Auth | GitHub OAuth |
+| Real-time | WebSocket |
 
 ---
 
+**Files**: 15 documents  
+**Deleted**: 8 duplicate files  
 **Last Updated**: December 2025
