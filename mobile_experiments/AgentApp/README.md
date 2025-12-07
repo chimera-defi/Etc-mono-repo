@@ -15,7 +15,8 @@ Create a mobile app with feature parity to Cursor Agents / Background Agents tha
 
 | Document | Description |
 |----------|-------------|
-| [FINAL_ARCHITECTURE.md](./FINAL_ARCHITECTURE.md) | ⭐ **Final architecture and implementation plan** |
+| [DETAILED_DESIGN.md](./DETAILED_DESIGN.md) | 🔥 **NEW: Components, wiring, stories, tasks, risks** |
+| [FINAL_ARCHITECTURE.md](./FINAL_ARCHITECTURE.md) | ⭐ Final architecture and implementation plan |
 | [ARCHITECTURE_DECISIONS.md](./ARCHITECTURE_DECISIONS.md) | All 15 architecture decisions |
 | [INFRASTRUCTURE_COMPARISON.md](./INFRASTRUCTURE_COMPARISON.md) | Compute & database options compared |
 | [BUILD_VS_BUY_ANALYSIS.md](./BUILD_VS_BUY_ANALYSIS.md) | Self-hosted vs managed services |
@@ -81,6 +82,22 @@ npx expo start
 
 ---
 
-**Status**: Research Phase  
+## Open Questions (Need Decisions Before Implementation)
+
+| # | Question | Options | Current Recommendation |
+|---|----------|---------|------------------------|
+| Q1 | Task timeout duration? | 10min / 30min / 1hr | 30 minutes |
+| Q2 | Concurrent tasks per user? | 1 / 3 / unlimited | 1 (start simple) |
+| Q3 | Max repository size? | 100MB / 500MB / 1GB | 500MB (shallow clone) |
+| Q4 | Git branch strategy? | Always new / Default / User choice | Always new: `agent/task-{id}` |
+| Q5 | PR creation? | Always / On success / Optional | Always create PR |
+| Q6 | Conversation history? | Fresh / Include last N / Full memory | Fresh each task |
+| Q7 | Error recovery? | Discard / Keep partial / Ask user | Keep partial changes |
+
+> See [DETAILED_DESIGN.md](./DETAILED_DESIGN.md) for full analysis of each option.
+
+---
+
+**Status**: Detailed Design Phase  
 **Last Updated**: December 2025  
-**Recommendation Changed**: Flutter → React Native (based on ecosystem data)
+**Next Step**: Resolve open questions, then begin implementation
