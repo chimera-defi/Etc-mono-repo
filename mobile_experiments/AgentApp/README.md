@@ -1,104 +1,160 @@
-# Agent App Research
+# Agent App
 
-Research project for building a native, high-performance mobile app for AI Coding Agents.
+A native, high-performance mobile app for AI Coding Agents.
 
 ## Goal
 
-Create a mobile app with feature parity to Cursor Agents / Background Agents that offers:
-- Native performance (60fps, smooth interactions)
-- Real-time agent task monitoring
-- Code viewing and editing
-- Git operations and PR management
-- Cross-platform (iOS & Android)
+Create a mobile app with feature parity to Cursor Agents / Background Agents:
+- 📱 Native performance (60fps, smooth interactions)
+- ⚡ Real-time agent task monitoring
+- 📝 Code viewing and diff display
+- 🔀 Git operations and PR management
+- 🍎🤖 Cross-platform (iOS & Android)
 
-## Research Documents
+---
+
+## Current Status: Ready for Implementation
+
+| Phase | Status | Document |
+|-------|--------|----------|
+| ✅ Research | Complete | See Research Documents below |
+| ✅ Architecture Decisions | Complete | [ARCHITECTURE_DECISIONS.md](./ARCHITECTURE_DECISIONS.md) |
+| ✅ System Design | Complete | [FINAL_ARCHITECTURE.md](./FINAL_ARCHITECTURE.md) |
+| ✅ Detailed Design | Complete | [DETAILED_DESIGN.md](./DETAILED_DESIGN.md) |
+| ✅ Mobile App Design | Complete | [MOBILE_APP_DESIGN.md](./MOBILE_APP_DESIGN.md) |
+| ✅ Agent Worker Design | Complete | [AGENT_WORKER_DESIGN.md](./AGENT_WORKER_DESIGN.md) |
+| ✅ Task Breakdown | Complete | [TASKS.md](./TASKS.md) |
+| ⏳ **Open Questions** | **19 pending** | [OPEN_QUESTIONS.md](./OPEN_QUESTIONS.md) |
+| ⬜ Implementation | Not started | — |
+
+---
+
+## Key Documents
+
+### 📋 Implementation Guides (Start Here)
 
 | Document | Description |
 |----------|-------------|
-| [MOBILE_APP_DESIGN.md](./MOBILE_APP_DESIGN.md) | 📱 **Mobile-first design: screens, UX, performance** |
-| [DETAILED_DESIGN.md](./DETAILED_DESIGN.md) | 🔧 Components, wiring, stories, tasks, risks |
-| [FINAL_ARCHITECTURE.md](./FINAL_ARCHITECTURE.md) | ⭐ Final architecture and implementation plan |
-| [ARCHITECTURE_DECISIONS.md](./ARCHITECTURE_DECISIONS.md) | All 15 architecture decisions |
-| [INFRASTRUCTURE_COMPARISON.md](./INFRASTRUCTURE_COMPARISON.md) | Compute & database options compared |
-| [BUILD_VS_BUY_ANALYSIS.md](./BUILD_VS_BUY_ANALYSIS.md) | Self-hosted vs managed services |
-| [CURSOR_API_RESEARCH.md](./CURSOR_API_RESEARCH.md) | Analysis of Cursor's API availability |
-| [ALTERNATIVES_ANALYSIS.md](./ALTERNATIVES_ANALYSIS.md) | Survey of alternative AI coding agents with APIs |
-| [CLAUDE_API_CAPABILITIES.md](./CLAUDE_API_CAPABILITIES.md) | Deep dive into Claude API for agent development |
-| [FRAMEWORK_RECOMMENDATION.md](./FRAMEWORK_RECOMMENDATION.md) | Mobile framework selection (React Native) |
+| [**OPEN_QUESTIONS.md**](./OPEN_QUESTIONS.md) | ❓ **19 decisions needed before coding** |
+| [**TASKS.md**](./TASKS.md) | 📝 132 tasks across 8 epics (~27 days) |
+| [**FINAL_ARCHITECTURE.md**](./FINAL_ARCHITECTURE.md) | 🏗️ System architecture diagram + tech stack |
 
-## Quick Summary
+### 🎨 Design Documents
 
-| Option | Feasibility | API Access | Notes |
-|--------|-------------|------------|-------|
-| **Cursor Direct** | ❌ Low | No public API | Proprietary, no documented API |
-| **Claude API Direct** | ✅ High | Full API | Build custom agent using Anthropic API |
-| **Open Source Agents** | ✅ High | Open source | Kilo Code, LibreChat, etc. |
-| **Hybrid Approach** | ✅ Recommended | Mix | Claude API + Open source tooling |
+| Document | Description |
+|----------|-------------|
+| [MOBILE_APP_DESIGN.md](./MOBILE_APP_DESIGN.md) | 📱 Screens, UX, performance, offline support |
+| [AGENT_WORKER_DESIGN.md](./AGENT_WORKER_DESIGN.md) | 🤖 AI agent loop, tools, Claude integration |
+| [DETAILED_DESIGN.md](./DETAILED_DESIGN.md) | 🔧 Components, data models, API contracts |
 
-## Key Findings
+### 🔬 Research Documents
 
-1. **Cursor does NOT have a public API** - No documented way to integrate
-2. **Claude API is fully available** - Can build equivalent agent functionality
-3. **MCP (Model Context Protocol)** - New standard for AI tool integrations
-4. **Several open-source agents** with APIs exist as alternatives
+| Document | Description |
+|----------|-------------|
+| [CURSOR_API_RESEARCH.md](./CURSOR_API_RESEARCH.md) | Cursor API availability (none) |
+| [ALTERNATIVES_ANALYSIS.md](./ALTERNATIVES_ANALYSIS.md) | Alternative AI agents compared |
+| [CLAUDE_API_CAPABILITIES.md](./CLAUDE_API_CAPABILITIES.md) | Claude API deep dive |
+| [FRAMEWORK_RECOMMENDATION.md](./FRAMEWORK_RECOMMENDATION.md) | Why React Native |
+| [INFRASTRUCTURE_COMPARISON.md](./INFRASTRUCTURE_COMPARISON.md) | Compute/DB options |
+| [BUILD_VS_BUY_ANALYSIS.md](./BUILD_VS_BUY_ANALYSIS.md) | Self-hosted vs managed |
 
-## Recommended Stack (Updated Dec 2025)
+---
 
-Based on verified ecosystem data:
+## Architecture Summary
 
-| Component | Recommendation | Rationale |
-|-----------|----------------|-----------|
-| **Mobile Framework** | React Native + Expo ⭐ | 58x more SO Q&A, 18.8M npm downloads/mo |
-| **AI Backend** | Claude API (Anthropic) | Same model as Cursor, full tool use support |
-| **Tool Protocol** | MCP (Model Context Protocol) | Industry standard, future-proof |
-| **State Management** | Zustand + React Query | Battle-tested, TypeScript-first |
-
-### Why React Native over Flutter?
-
-| Factor | React Native | Flutter |
-|--------|--------------|---------|
-| **StackOverflow Q&A** | 139,433 | 181,988 |
-| **npm Downloads/mo** | 18.8M | — |
-| **Language** | TypeScript (same as backend) | Dart (different) |
-| **AI Training Data** | Massive (TypeScript/React) | Smaller (Dart) |
-| **Expo Ecosystem** | 10.5M downloads/mo | — |
-
-> **Note**: Flutter remains excellent for peak graphics performance. See [FRAMEWORK_RECOMMENDATION.md](./FRAMEWORK_RECOMMENDATION.md) for full analysis.
-
-## Quick Start
-
-```bash
-# Create new Expo project
-npx create-expo-app@latest AgentApp --template tabs
-cd AgentApp
-
-# Install key dependencies
-npx expo install react-native-reanimated react-native-gesture-handler
-npm install @tanstack/react-query zustand axios
-npm install react-native-syntax-highlighter react-native-markdown-display
-
-# Start development
-npx expo start
+```
+┌─────────────────────────────────────────────────────────┐
+│                    MOBILE APP                           │
+│                 (React Native + Expo)                   │
+│  • Login, Projects, Chat, History, Settings screens    │
+│  • WebSocket for real-time updates                     │
+│  • Offline queue for reliability                       │
+└─────────────────────┬───────────────────────────────────┘
+                      │ WSS
+                      ▼
+┌─────────────────────────────────────────────────────────┐
+│                 COORDINATOR SERVER                      │
+│                    (Bun + Hono)                         │
+│  • REST API + WebSocket server                         │
+│  • SQLite database                                     │
+│  • Docker container spawner                            │
+└─────────────────────┬───────────────────────────────────┘
+                      │ Docker
+                      ▼
+┌─────────────────────────────────────────────────────────┐
+│                  WORKER CONTAINER                       │
+│  • Claude API client                                   │
+│  • Tools: read_file, write_file, run_command, etc.    │
+│  • Git: clone, commit, push, create PR                │
+└─────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Open Questions (Need Decisions Before Implementation)
+## Tech Stack
 
-| # | Question | Options | Current Recommendation |
-|---|----------|---------|------------------------|
-| Q1 | Task timeout duration? | 10min / 30min / 1hr | 30 minutes |
-| Q2 | Concurrent tasks per user? | 1 / 3 / unlimited | 1 (start simple) |
-| Q3 | Max repository size? | 100MB / 500MB / 1GB | 500MB (shallow clone) |
-| Q4 | Git branch strategy? | Always new / Default / User choice | Always new: `agent/task-{id}` |
-| Q5 | PR creation? | Always / On success / Optional | Always create PR |
-| Q6 | Conversation history? | Fresh / Include last N / Full memory | Fresh each task |
-| Q7 | Error recovery? | Discard / Keep partial / Ask user | Keep partial changes |
-
-> See [DETAILED_DESIGN.md](./DETAILED_DESIGN.md) for full analysis of each option.
+| Component | Technology |
+|-----------|------------|
+| Mobile | React Native + Expo 54 |
+| State | Zustand + React Query |
+| Server | Bun + Hono |
+| Database | SQLite |
+| Containers | Docker + dockerode |
+| AI | Claude API (Anthropic) |
+| Auth | GitHub OAuth + JWT |
 
 ---
 
-**Status**: Detailed Design Phase  
-**Last Updated**: December 2025  
-**Next Step**: Resolve open questions, then begin implementation
+## Estimated Timeline
+
+| Phase | Days | What |
+|-------|------|------|
+| Server Setup | 2 | Bun, Hono, SQLite, health checks |
+| Authentication | 2.5 | GitHub OAuth, JWT, API key encryption |
+| Task Management | 3 | CRUD, queue, status tracking |
+| Docker Integration | 4 | Spawner, lifecycle, cleanup |
+| Agent Worker | 5 | Claude client, tools, git operations |
+| Real-time | 2 | WebSocket server + broadcasting |
+| Mobile App | 6 | All screens, offline support |
+| Testing | 2.5 | Unit, integration, E2E |
+| **Total** | **~27 days** | (Can be reduced with parallel work) |
+
+**Critical path MVP**: ~14-18 days
+
+---
+
+## Cost Estimate
+
+| Item | Monthly Cost |
+|------|-------------|
+| VPS (Hetzner CX22) | $4-6 |
+| Domain | ~$1 |
+| **Server Total** | **~$6/mo** |
+| Claude API | User pays (BYOK) |
+
+---
+
+## Next Steps
+
+1. **Answer open questions** → [OPEN_QUESTIONS.md](./OPEN_QUESTIONS.md)
+   - 19 decisions needed (or say "use all recommendations")
+   
+2. **Begin implementation** → [TASKS.md](./TASKS.md)
+   - Start with Epic 1 (Server Setup)
+   - Can parallelize Mobile App work
+
+---
+
+## Quick Answer Option
+
+If you want to proceed quickly:
+
+> **"Use all recommendations and start implementation"**
+
+This will:
+- Accept all 19 recommended decisions
+- Begin scaffolding the project
+
+---
+
+**Last Updated**: December 2025
