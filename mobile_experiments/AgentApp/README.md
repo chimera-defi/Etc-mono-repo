@@ -15,7 +15,8 @@ Create a mobile app with feature parity to Cursor Agents / Background Agents tha
 
 | Document | Description |
 |----------|-------------|
-| [DETAILED_DESIGN.md](./DETAILED_DESIGN.md) | 🔥 **NEW: Components, wiring, stories, tasks, risks** |
+| [MOBILE_APP_DESIGN.md](./MOBILE_APP_DESIGN.md) | 📱 **Mobile-first design: screens, UX, performance** |
+| [DETAILED_DESIGN.md](./DETAILED_DESIGN.md) | 🔧 Components, wiring, stories, tasks, risks |
 | [FINAL_ARCHITECTURE.md](./FINAL_ARCHITECTURE.md) | ⭐ Final architecture and implementation plan |
 | [ARCHITECTURE_DECISIONS.md](./ARCHITECTURE_DECISIONS.md) | All 15 architecture decisions |
 | [INFRASTRUCTURE_COMPARISON.md](./INFRASTRUCTURE_COMPARISON.md) | Compute & database options compared |
