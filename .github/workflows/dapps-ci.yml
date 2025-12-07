@@ -11,9 +11,6 @@ on:
       - 'Dapps/**'
       - '.github/workflows/dapps-ci.yml'
 
-env:
-  FOUNDRY_PROFILE: ci
-
 jobs:
   foundry-tests:
     name: Foundry Tests
@@ -24,8 +21,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: recursive
 
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
@@ -79,8 +74,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: recursive
 
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
