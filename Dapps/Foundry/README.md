@@ -8,6 +8,7 @@ All contracts, tests, and deployment scripts implemented and passing.
 
 ```bash
 cd app
+forge install --no-git  # Install dependencies (first time)
 forge test              # Run all tests (21 passing)
 forge test -vvv         # Verbose output
 forge test --gas-report # With gas metrics

@@ -6,8 +6,9 @@ Combines **Foundry** (testing) + **Hardhat** (deployment) in one project.
 
 ```bash
 cd app
-forge install && npm install   # Install deps
-forge test                     # Run tests (23 passing)
+forge install --no-git   # Install Foundry deps
+npm install              # Install Hardhat deps
+forge test               # Run tests (23 passing)
 ```
 
 ## Why Hybrid?

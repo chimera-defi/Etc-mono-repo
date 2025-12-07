@@ -53,6 +53,7 @@ Both frameworks implement identical:
 ### Foundry
 ```bash
 cd Foundry/app
+forge install --no-git  # Install deps (first time)
 forge test              # Run tests
 forge test --gas-report # With gas report
 forge coverage          # Coverage report

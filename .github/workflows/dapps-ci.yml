@@ -33,11 +33,7 @@ jobs:
           version: stable
 
       - name: Install dependencies
-        run: |
-          mkdir -p lib
-          cd lib
-          git clone --depth 1 https://github.com/foundry-rs/forge-std.git
-          git clone --depth 1 https://github.com/OpenZeppelin/openzeppelin-contracts.git
+        run: forge install --no-git foundry-rs/forge-std OpenZeppelin/openzeppelin-contracts
 
       - name: Build
         run: forge build
@@ -99,11 +95,7 @@ jobs:
           cache-dependency-path: Dapps/Hybrid/app/package-lock.json
 
       - name: Install Foundry dependencies
-        run: |
-          mkdir -p lib
-          cd lib
-          git clone --depth 1 https://github.com/foundry-rs/forge-std.git
-          git clone --depth 1 https://github.com/OpenZeppelin/openzeppelin-contracts.git
+        run: forge install --no-git foundry-rs/forge-std OpenZeppelin/openzeppelin-contracts
 
       - name: Install npm dependencies
         run: npm ci
