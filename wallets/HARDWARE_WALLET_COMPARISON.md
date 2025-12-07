@@ -2,7 +2,31 @@
 
 > **TL;DR:** Use **Trezor Safe 5** (94) for best security + UX, **ColdCard Mk4** (91) for Bitcoin maximalists, **Keystone 3 Pro** (91) for air-gapped security, or **Trezor Safe 3** (91) for best value at $79. **Ledger** (55-57) is penalized for Ledger Recover. See [Why Look Beyond Ledger?](#-why-look-beyond-ledger) for details.
 
-**Last Updated:** December 2025 | [Scoring Methodology](#-scoring-methodology) | [GitHub Activity Data](#github-metrics-firmware-repositories)
+**Last Updated:** December 6, 2025 | [Scoring Methodology](#-scoring-methodology) | [GitHub Activity Data](#github-metrics-firmware-repositories)
+
+### 🆕 What's New (December 2025)
+- Added **Chains** column (BTC vs Multi-chain) and **App** column (companion software)
+- Added [Network Support](#-network-support) table with BTC/ETH/SOL breakdown
+- Added [Security Audits](#-security-audits) section with links to audit reports
+- Added [Companion Apps](#-companion-apps) quality ratings
+- Added [Where to Buy](#-where-to-buy) with official purchase links
+- Expanded [Software Wallet Integration](#software-wallet-integration) table
+
+---
+
+## 📑 Table of Contents
+
+- [Complete Comparison Table](#complete-hardware-wallet-comparison-19-wallets) — All 19 wallets at a glance
+- [GitHub Metrics](#github-metrics-firmware-repositories) — Activity status and code quality
+- [Network Support](#-network-support) — BTC, ETH, SOL compatibility
+- [Security Deep Dive](#-security-deep-dive) — Secure Element, air-gap, features
+- [Security Audits](#-security-audits) — Audit history and reports
+- [Scoring Methodology](#-scoring-methodology) — How we calculate scores
+- [Quick Recommendations](#-quick-recommendations) — Best picks by use case
+- [Companion Apps](#-companion-apps) — Software quality comparison
+- [Wallets to Avoid](#%EF%B8%8F-wallets-to-avoid-or-use-with-caution) — Red flags and issues
+- [Why Look Beyond Ledger?](#-why-look-beyond-ledger) — Ledger Recover controversy
+- [Where to Buy](#-where-to-buy) — Official purchase links
 
 ---
 
@@ -144,6 +168,33 @@ Unlike software wallets where frequent updates can indicate instability, hardwar
 - **Multisig:** Native support for multi-signature setups
 - **Duress PIN:** Decoy wallet that appears when entered under duress
 - **Anti-Tamper:** Physical tamper-evident features (seals, mesh, self-destruct)
+
+---
+
+## 🛡️ Security Audits
+
+Hardware wallet security audits are less common than software wallet audits, but several manufacturers have undergone third-party review:
+
+| Wallet | Last Audit | Auditor(s) | Scope | Report |
+|--------|------------|------------|-------|--------|
+| **Trezor** | Ongoing | Community | Firmware, bootloader | [GitHub](https://github.com/trezor/trezor-firmware/tree/main/docs/misc) |
+| **Ledger** | 2019 | ANSSI (France) | Secure Element | [Certification](https://www.ledger.com/ledger-nano-s-eal5-certified) |
+| **BitBox02** | 2020 | Consulcesi, Census | Firmware | [Report](https://shiftcrypto.ch/bitbox02/security/) |
+| **ColdCard** | Community | Community review | Firmware | [Docs](https://coldcard.com/docs/security) |
+| **Keystone** | 2023 | SlowMist | Firmware, QR | [Report](https://github.com/KeystoneHQ/keystone3-firmware/tree/main/docs/audit) |
+| **Foundation** | 2023 | Foundation Devices | Firmware | [Docs](https://docs.foundation.devices/security) |
+| **GridPlus** | Unknown | Unknown | Unknown | Not public |
+| **NGRAVE** | Unknown | Unknown | Claims EAL7 | Not public |
+| **SafePal** | Unknown | Unknown | Unknown | Not public |
+| **Ellipal** | Unknown | Unknown | Unknown | Not public |
+
+**Audit Notes:**
+- ✅ **Trezor, ColdCard, BitBox02:** Open source = community-auditable (the best kind of audit)
+- ✅ **Keystone:** SlowMist audit available on GitHub
+- ⚠️ **Ledger:** ANSSI certified the SE chip, but firmware is closed source and cannot be audited
+- ❌ **Closed source wallets:** Cannot be independently verified; must trust manufacturer claims
+
+**Key Insight:** Open source firmware is more valuable than a one-time audit. Trezor, ColdCard, BitBox02, and Keystone can be continuously reviewed by the community, while closed-source wallets require trust.
 
 ---
 
@@ -337,15 +388,47 @@ Each hardware wallet has a companion app for managing assets. Quality varies sig
 
 ---
 
+## 🛒 Where to Buy
+
+> ⚠️ **CRITICAL:** Only buy from official manufacturer websites or authorized resellers. Never buy used hardware wallets or from Amazon/eBay — tampered devices can steal your funds.
+
+| Wallet | Official Store | Price | Ships From | Notes |
+|--------|----------------|-------|------------|-------|
+| [**Trezor Safe 5**](https://trezor.io/trezor-safe-5) | trezor.io | ~$169 | Czech Republic | Free shipping >$150 |
+| [**Trezor Safe 3**](https://trezor.io/trezor-safe-3) | trezor.io | ~$79 | Czech Republic | Best value |
+| [**Keystone 3 Pro**](https://shop.keyst.one/) | shop.keyst.one | ~$149 | Hong Kong | QR air-gapped |
+| [**ColdCard Mk4**](https://store.coinkite.com/store/coldcard) | store.coinkite.com | ~$150 | Canada | BTC only |
+| [**BitBox02**](https://shiftcrypto.shop/) | shiftcrypto.shop | ~$150 | Switzerland | Multi or BTC-only edition |
+| [**Foundation Passport**](https://foundationdevices.com/passport/) | foundationdevices.com | ~$259 | USA | Premium BTC device |
+| [**OneKey Pro**](https://onekey.so/products/onekey-pro) | onekey.so | ~$199 | China | Multi-chain |
+| [**Ledger Nano X**](https://shop.ledger.com/pages/ledger-nano-x) | shop.ledger.com | ~$150 | France | ⚠️ Ledger Recover |
+| [**Ledger Nano S+**](https://shop.ledger.com/pages/ledger-nano-s-plus) | shop.ledger.com | ~$80 | France | ⚠️ Ledger Recover |
+| [**NGRAVE ZERO**](https://www.ngrave.io/) | ngrave.io | ~$400 | Belgium | Premium air-gapped |
+| [**SafePal S1**](https://store.safepal.com/safepal-s1-hardware-wallet.html) | store.safepal.com | ~$50 | China | Budget option |
+| [**Tangem**](https://tangem.com/en/pricing/) | tangem.com | ~$55 | Switzerland | NFC card wallet |
+
+**Authorized Resellers (Verified):**
+- [BTC Sessions Store](https://store.btcsessions.ca/) — Canada, ships Trezor/ColdCard
+- [Coinkite](https://coinkite.com/) — Official ColdCard manufacturer
+- [Blockstream Store](https://store.blockstream.com/) — Jade hardware wallet
+
+**Avoid:**
+- ❌ Amazon, eBay, AliExpress — risk of tampered devices
+- ❌ "Discount" or "refurbished" hardware wallets
+- ❌ Any wallet that arrives with seed phrase pre-generated
+
+---
+
 ## Resources
 
-- [Trezor](https://trezor.io/) — [GitHub](https://github.com/trezor)
-- [Keystone](https://keyst.one/) — [GitHub](https://github.com/KeystoneHQ)
-- [BitBox02](https://bitbox.swiss/) — [GitHub](https://github.com/BitBoxSwiss)
-- [ColdCard](https://coldcard.com/) — [GitHub](https://github.com/Coldcard)
-- [Foundation Passport](https://foundationdevices.com/) — [GitHub](https://github.com/Foundation-Devices)
+- [Trezor](https://trezor.io/) — [GitHub](https://github.com/trezor) — [Wiki](https://trezor.io/learn)
+- [Keystone](https://keyst.one/) — [GitHub](https://github.com/KeystoneHQ) — [Docs](https://keyst.one/resources)
+- [BitBox02](https://bitbox.swiss/) — [GitHub](https://github.com/BitBoxSwiss) — [Guides](https://bitbox.swiss/guides/)
+- [ColdCard](https://coldcard.com/) — [GitHub](https://github.com/Coldcard) — [Docs](https://coldcard.com/docs/)
+- [Foundation Passport](https://foundationdevices.com/) — [GitHub](https://github.com/Foundation-Devices) — [Docs](https://docs.foundation.devices/)
+- [Sparrow Wallet](https://sparrowwallet.com/) — Best BTC software wallet for hardware wallet users
 - [WalletScrutiny](https://walletscrutiny.com/) — Open source verification
 
 ---
 
-*Last updated: December 6, 2025. Always verify current specifications on official sites before purchase.*
+*Last updated: December 6, 2025. Always verify current specifications and prices on official manufacturer sites before purchase.*

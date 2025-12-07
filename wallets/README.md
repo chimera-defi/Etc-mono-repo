@@ -2,11 +2,27 @@
 
 Developer-focused comparison of crypto wallets to find stable MetaMask alternatives.
 
+---
+
+## 🚀 Quick Start
+
+| I need... | Use this |
+|-----------|----------|
+| **Best development wallet** | [Rabby](https://rabby.io) (92) — tx simulation + stability |
+| **Most stable wallet** | [Trust Wallet](https://trustwallet.com) (85) — ~3 releases/month |
+| **Best hardware wallet** | [Trezor Safe 5](https://trezor.io) (94) — fully open source |
+| **Best budget hardware** | [Trezor Safe 3](https://trezor.io) (91) — $79, open source |
+| **Air-gapped hardware** | [Keystone 3 Pro](https://keyst.one) (91) — QR-only, never connects |
+| **Full comparison** | See tables below ↓ |
+
+---
+
 ## 📊 Main Comparison Tables
 
-**→ [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Software wallets (24 EVM wallets)
-
-**→ [HARDWARE_WALLET_COMPARISON.md](./HARDWARE_WALLET_COMPARISON.md)** — Hardware cold storage wallets (19 devices)
+| Document | What's Inside | Wallets |
+|----------|---------------|---------|
+| **[WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** | Software wallets for dApp development | 24 EVM wallets |
+| **[HARDWARE_WALLET_COMPARISON.md](./HARDWARE_WALLET_COMPARISON.md)** | Cold storage hardware wallets | 19 devices |
 
 | Column | Description | Source |
 |--------|-------------|--------|
