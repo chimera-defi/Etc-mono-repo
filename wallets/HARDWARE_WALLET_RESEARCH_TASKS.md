@@ -237,21 +237,23 @@ After research, here's what I recommend adding:
 
 ## ✅ Action Items
 
-### Immediate
-1. [ ] Reach out to friend for more details on "OpenBuild"
-2. [ ] Add Blockstream Jade to comparison table
-3. [ ] Create "DIY/Self-Build" section for SeedSigner, Specter DIY
+### Completed (December 8, 2025)
+1. [x] ~~Add Blockstream Jade to comparison table~~ ✅
+2. [x] ~~Create "DIY/Self-Build" section for SeedSigner, Specter DIY, Krux~~ ✅
+3. [x] ~~Score Blockstream Jade using existing methodology~~ ✅ (Score: 81)
+4. [x] ~~Score SeedSigner (note: no SE, but air-gapped)~~ ✅ (Score: 65)
+5. [x] ~~Score Specter DIY~~ ✅ (Score: 72)
+6. [x] ~~Score Krux~~ ✅ (Score: 67)
 
-### Short-term
-4. [ ] Score Blockstream Jade using existing methodology
-5. [ ] Score SeedSigner (note: no SE, but air-gapped)
-6. [ ] Update AGENTS.md with DIY wallet guidelines
+### Still Pending
+- [ ] Reach out to friend for more details on "OpenBuild" (user action required)
+- [ ] Update AGENTS.md with DIY wallet guidelines (optional)
 
 ### Long-term
-7. [ ] Monitor Portal (TwentyTwo) for public release
-8. [ ] Review Satochip for smartcard category
-9. [ ] Consider "Form Factor" column (device vs card vs DIY)
+- [ ] Monitor Portal (TwentyTwo) for public release
+- [ ] Review Satochip for smartcard category
+- [ ] Consider "Form Factor" column (device vs card vs DIY)
 
 ---
 
-*This document should be updated as research progresses.*
+*Last updated: December 8, 2025 — All new wallets integrated into HARDWARE_WALLET_COMPARISON.md*
