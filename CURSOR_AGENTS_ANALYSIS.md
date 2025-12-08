@@ -138,10 +138,16 @@ The site supports multiple languages:
 
 ## Mobile App Connection
 
-The code reveals there's an **iOS companion app** that can:
-- Start agents remotely
-- Register for push notifications
-- View agent progress
+### ⚠️ Correction
+The code contains an `IOS_APP` source enum, but **no public Cursor iOS app exists** in the App Store. This could indicate:
+- An internal/beta feature
+- Future-proofing for a planned app
+- An employee-only companion app
+
+The API is *prepared* for mobile clients with:
+- Push notification registration endpoint
+- Source enum supporting `IOS_APP` and `WEBSITE`
+- But no publicly available iOS app was found
 
 ## Business Model Indicators
 
