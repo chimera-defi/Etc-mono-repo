@@ -51,6 +51,7 @@
 - **ENS/Naming:** ✅ Full = Mainnet ENS + subdomains | ✅ Basic = Mainnet ENS only | ⚠️ Import only = Can import but not send to .eth | ✅ Full+cb.id = Full ENS + custom domains | ❌ None = No ENS or naming system support
 - **Active:** ✅ Active (≤30 days) | ⚠️ Slow (1-4 mo) | ❌ Inactive (4+ mo) | 🔒 Private
 - **Rec:** 🟢 Recommended | 🟡 Situational | 🔴 Avoid | ⚪ Not for dev
+- **Tracked EIPs:** EIP-712 (Typed Data), EIP-2612 (Permit), EIP-4337 (Account Abstraction), EIP-5792 (Wallet Call API), EIP-7702 (Set EOA Code) — see [EIP Support Matrix](#-eip-support-matrix)
 - † Safe is web app only — requires WalletConnect
 - § Brave Wallet is built into Brave browser
 - ‡ Ledger Live is hardware wallet companion
@@ -508,11 +509,11 @@ Detailed EIP support for developers building dApps:
 
 | Wallet | EIP-712 | EIP-2612 | EIP-4337 | EIP-5792 | EIP-7702 | Typed Data |
 |--------|---------|----------|----------|----------|----------|------------|
-| **MetaMask** | ✅ | ✅ | ⚠️ Snap | ❌ | ✅ | ✅ v4 |
+| **MetaMask** | ✅ | ✅ | ⚠️ Snap | ⚠️ Partial | ✅ | ✅ v4 |
 | **Rabby** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
-| **Safe** | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ v4 |
+| **Safe** | ✅ | ✅ | ✅ | ⚠️ Partial | ❌ | ✅ v4 |
 | **Rainbow** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
-| **Coinbase** | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ v4 |
+| **Coinbase** | ✅ | ✅ | ✅ | ⚠️ Partial | ❌ | ✅ v4 |
 | **Trust** | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ v4 |
 | **Ambire** | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ v4 |
 | **Brave** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
@@ -524,23 +525,37 @@ Detailed EIP support for developers building dApps:
 | **Phantom** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
 | **Daimo** | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ v4 |
 | **Frame** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
-| **OKX** | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ v4 |
+| **OKX** | ✅ | ✅ | ❌ | ⚠️ Partial | ✅ | ✅ v4 |
 | **Zerion** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
 | **Taho** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
+| **Argent** | ✅ | ✅ | ✅ | ⚠️ Partial | ❌ | ✅ v4 |
 
 **EIP Definitions:**
 - **EIP-712:** Typed structured data hashing and signing (common for permits, orders)
 - **EIP-2612:** Permit extension for ERC-20 (gasless approvals)
 - **EIP-4337:** Account Abstraction (smart contract wallets, paymasters)
-- **EIP-5792:** Wallet Call API (batch transactions, atomic operations)
+- **EIP-5792:** Wallet Call API (`wallet_sendCalls` method for batch transactions, atomic operations)
 - **EIP-7702:** Set EOA account code (upgrade EOA to smart account temporarily)
 - **Typed Data:** eth_signTypedData version support (v4 is current standard)
+
+**EIP Support Status:**
+- ✅ **Full Support:** Wallet implements the complete EIP specification
+- ⚠️ **Partial Support:** Wallet has limited or experimental implementation (see details below)
+- ❌ **No Support:** Wallet does not implement this EIP
+
+**EIP-5792 Partial Support Details:**
+- **MetaMask:** Experimental/limited support — may require specific configurations or extensions
+- **Coinbase:** Partial implementation — supports `wallet_sendCalls` but may have limitations
+- **OKX:** Partial implementation — supports batch transactions via EIP-5792 methods
+- **Safe:** Partial support — smart contract wallets can batch, but EIP-5792 API may be limited
+- **Argent:** Partial support — smart contract wallet batching available, EIP-5792 API support varies
+- **Sequence:** ✅ Full support — native implementation of EIP-5792 `wallet_sendCalls` API
 
 **Developer Notes:**
 - All modern wallets support EIP-712 — use it for permits and orders
 - EIP-2612 (permit) is widely supported — prefer gasless approvals
 - EIP-4337 requires bundler infrastructure — only relevant for smart wallets
-- EIP-5792 is new (2024) — Coinbase and Sequence are early adopters
+- EIP-5792 is new (2024) — Sequence has full support; MetaMask, Coinbase, OKX, Safe, and Argent have partial support. Standardizes `wallet_sendCalls` for atomic batch transactions.
 - EIP-7702 is cutting edge — MetaMask, Ambire, Trust, and OKX support it ([source](https://github.com/fireblocks-labs/awesome-eip-7702#wallets-support-updates))
 
 ---
