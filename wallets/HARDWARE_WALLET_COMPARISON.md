@@ -1,12 +1,12 @@
 # Hardware Wallet Comparison (Cold Storage Alternatives to Ledger)
 
-> **TL;DR:** Use **Trezor Safe 5** (94) for best security + UX, **ColdCard Mk4** (91) for Bitcoin maximalists, **Keystone 3 Pro** (91) for air-gapped security, or **Trezor Safe 3** (91) for best value at $79. **Ledger** (55-57) is penalized for Ledger Recover. See [Why Look Beyond Ledger?](#-why-look-beyond-ledger) for details.
+> **TL;DR:** Use **Trezor Safe 5** (94) for best security + UX, **ColdCard Mk4** (91) for Bitcoin maximalists, **Keystone 3 Pro** (91) for air-gapped security, or **Trezor Safe 3** (91) for best value at $79. **Blockstream Jade** (81) is a great budget option. For DIY enthusiasts: **Specter DIY** (72) or **SeedSigner** (65). **Ledger** (55-57) is penalized for Ledger Recover. See [Why Look Beyond Ledger?](#-why-look-beyond-ledger) for details.
 
 **Last Updated:** December 2025 | [Scoring Methodology](#-scoring-methodology) | [GitHub Activity Data](#github-metrics-firmware-repositories)
 
 ---
 
-## Complete Hardware Wallet Comparison (19 Wallets)
+## Complete Hardware Wallet Comparison (23 Wallets)
 
 | Wallet | Score | GitHub | Air-Gap | Open Source | Secure Elem | Display | Price | Conn | Activity | Rec |
 |--------|-------|--------|---------|-------------|-------------|---------|-------|------|----------|-----|
@@ -15,9 +15,13 @@
 | [**ColdCard Mk4**](https://coldcard.com/) | 91 | [firmware](https://github.com/Coldcard/firmware) | ✅ Full | ✅ Full | ✅ Dual SE | Mono LCD | ~$150 | MicroSD | ✅ Active | 🟢 |
 | [**Trezor Safe 3**](https://trezor.io/) | 91 | [trezor-firmware](https://github.com/trezor/trezor-firmware) | ❌ | ✅ Full | ✅ Optiga | Mono OLED | ~$79 | USB-C | ✅ Active | 🟢 |
 | [**BitBox02**](https://bitbox.swiss/) | 88 | [bitbox02-firmware](https://github.com/BitBoxSwiss/bitbox02-firmware) | ❌ | ✅ Full | ✅ ATECC | Touch Edge | ~$150 | USB-C | ✅ Active | 🟢 |
+| [**Blockstream Jade**](https://blockstream.com/jade/) | 81 | [Jade](https://github.com/Blockstream/Jade) | ❌ | ✅ Full | ✅ SE | Color LCD | ~$65 | USB/BT | ✅ Active | 🟢 |
 | [**Foundation Passport**](https://foundationdevices.com/) | 81 | [passport2](https://github.com/Foundation-Devices/passport2) | ✅ Full | ✅ Full | ✅ ATECC | Color LCD | ~$259 | MicroSD/QR | ⚠️ Slow | 🟢 |
 | [**OneKey Pro**](https://onekey.so/) | 77 | [firmware-pro](https://github.com/OneKeyHQ/firmware-pro) | ❌ | ✅ Full | ✅ SE | Touch Color | ~$199 | USB/BT | ✅ Active | 🟢 |
 | [**NGRAVE ZERO**](https://www.ngrave.io/) | 72 | Private | ✅ Full | ⚠️ Partial | ✅ SE | Touch Color | ~$400 | QR | 🔒 Private | 🟡 |
+| [**Specter DIY**](https://specter.solutions/hardware/) | 72 | [specter-diy](https://github.com/cryptoadvance/specter-diy) | ✅ Full | ✅ Full | ❌ None | LCD | ~$50-150* | QR | ✅ Active | 🟡 |
+| [**Krux**](https://selfcustody.github.io/krux/) | 67 | [krux](https://github.com/selfcustody/krux) | ✅ Full | ✅ Full | ❌ None | LCD | ~$30-100* | QR | ✅ Active | 🟡 |
+| [**SeedSigner**](https://seedsigner.com/) | 65 | [seedsigner](https://github.com/SeedSigner/seedsigner) | ✅ Full | ✅ Full | ❌ None | LCD | ~$50-100* | QR | ⚠️ Slow | 🟡 |
 | [**SafePal S1**](https://www.safepal.com/) | 62 | Private | ✅ Full | ⚠️ Partial | ✅ SE | LCD | ~$50 | QR | 🔒 Private | 🟡 |
 | [**GridPlus Lattice1**](https://gridplus.io/) | 59 | [SDK only](https://github.com/GridPlus/gridplus-sdk) | ❌ | ⚠️ SDK only | ✅ SE | 5" Touch | ~$400 | WiFi/USB | 🔒 Private | 🟡 |
 | [**Ledger Stax**](https://www.ledger.com/) | 57 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | E-Ink Touch | ~$280 | USB/BT | 🔒 Private | 🟡 |
@@ -29,6 +33,8 @@
 | [**Arculus**](https://www.getarculus.com/) | 42 | Private | ❌ | ❌ Closed | ✅ SE | None | ~$100 | NFC | 🔒 Private | 🔴 |
 | ~~[**KeepKey**](https://shapeshift.com/keepkey)~~ | 39 | [keepkey-firmware](https://github.com/keepkey/keepkey-firmware) | ❌ | ✅ Full | ❌ None | OLED | ~$50 | USB | ❌ Inactive | 🔴 |
 | [**BC Vault**](https://bc-vault.com/) | 33 | Private | ❌ | ❌ Closed | ❌ None | OLED | ~$140 | USB | 🔒 Private | 🔴 |
+
+*\* DIY wallets — price varies based on components purchased; requires self-assembly*
 
 **Legend:**
 - **Wallet:** Links to official site | ~~Strikethrough~~ = abandoned
@@ -46,11 +52,15 @@
 
 ### GitHub Metrics (Firmware Repositories)
 
-**Generated:** December 5, 2025 via `scripts/refresh-hardware-wallet-data.sh`
+**Generated:** December 8, 2025 via `scripts/refresh-hardware-wallet-data.sh`
 
 | Wallet | Repository | Last Commit | Stars | Issues | Ratio | Status |
 |--------|------------|-------------|-------|--------|-------|--------|
 | **Trezor** | [trezor/trezor-firmware](https://github.com/trezor/trezor-firmware) | Dec 5, 2025 | 1,626 | 545 | 33.5% | ✅ Active |
+| **Blockstream Jade** | [Blockstream/Jade](https://github.com/Blockstream/Jade) | Dec 8, 2025 | 438 | 88 | 20.1% | ✅ Active |
+| **SeedSigner** | [SeedSigner/seedsigner](https://github.com/SeedSigner/seedsigner) | Oct 23, 2025 | 965 | 217 | 22.5% | ⚠️ Slow |
+| **Specter DIY** | [cryptoadvance/specter-diy](https://github.com/cryptoadvance/specter-diy) | Dec 4, 2025 | 531 | 79 | 14.9% | ✅ Active |
+| **Krux** | [selfcustody/krux](https://github.com/selfcustody/krux) | Dec 4, 2025 | 291 | 48 | 16.5% | ✅ Active |
 | **Keystone** | [KeystoneHQ/keystone3-firmware](https://github.com/KeystoneHQ/keystone3-firmware) | Dec 2, 2025 | 188 | 77 | 41.0% | ✅ Active |
 | **BitBox02** | [BitBoxSwiss/bitbox02-firmware](https://github.com/BitBoxSwiss/bitbox02-firmware) | Dec 4, 2025 | 330 | 49 | 14.8% | ✅ Active |
 | **ColdCard** | [Coldcard/firmware](https://github.com/Coldcard/firmware) | Nov 27, 2025 | 689 | 6 | 0.9% | ✅ Active |
@@ -61,6 +71,10 @@
 **Code Quality Notes:**
 - ✅ **ColdCard (0.9%):** Excellent code quality — minimal issues relative to community size
 - ✅ **BitBox02 (14.8%):** Good code quality
+- ✅ **Specter DIY (14.9%):** Good code quality for DIY project
+- ✅ **Krux (16.5%):** Good code quality
+- ✅ **Blockstream Jade (20.1%):** Good code quality, active development
+- ⚠️ **SeedSigner (22.5%):** Moderate — large community, many feature requests
 - ⚠️ **Trezor (33.5%):** Higher ratio reflects large feature set and user base
 - ⚠️ **Keystone (41.0%):** Moderate — newer project with active development
 - 🔴 **OneKey (82.4%):** High ratio — many open issues relative to stars
@@ -74,9 +88,13 @@ Unlike software wallets where frequent updates can indicate instability, hardwar
 | Wallet | Recent Releases (2025) | Pattern |
 |--------|------------------------|---------|
 | Keystone | 5 releases | ~1/month (active development) |
+| Krux | 4 releases | ~1/quarter (active) |
 | BitBox02 | 3-4 releases | ~1/quarter (stable) |
 | Foundation Passport | 2 releases | ~1/quarter (stable) |
+| SeedSigner | 2 releases | ~2/year (stable) |
+| Specter DIY | 1 release | ~1/year (stable mature project) |
 | OneKey | 3 releases | ~1/quarter (stable) |
+| Blockstream Jade | Via tags | Continuous development |
 | Trezor | Via Trezor Suite | App-managed updates |
 | ColdCard | Via tags | Manual firmware downloads |
 
@@ -92,9 +110,13 @@ Unlike software wallets where frequent updates can indicate instability, hardwar
 | **Keystone 3 Pro** | ✅ 3× SE (EAL5+) | ✅ QR | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
 | **BitBox02** | ✅ ATECC608 | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
 | **ColdCard Mk4** | ✅ Dual SE | ✅ MicroSD | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Blockstream Jade** | ✅ SE | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
 | **Foundation Passport** | ✅ SE | ✅ MicroSD/QR | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **Trezor Safe 3** | ✅ Optiga Trust M (EAL6+) | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
 | **NGRAVE ZERO** | ✅ STM32 + SE (EAL7) | ✅ QR | ⚠️ | ❌ | ✅ | ❌ | ❌ | ✅ |
+| **Specter DIY** | ❌ MCU only | ✅ QR | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ DIY |
+| **Krux** | ❌ MCU only | ✅ QR | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ DIY |
+| **SeedSigner** | ❌ MCU only | ✅ QR | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ DIY |
 | **GridPlus Lattice1** | ✅ SE | ❌ WiFi | ⚠️ SDK | ❌ | ✅ | ✅ | ❌ | ✅ |
 | **OneKey Pro** | ✅ SE | ❌ | ✅ | ⚠️ | ✅ | ❌ | ❌ | ✅ |
 | **Ellipal Titan** | ❌ MCU only | ✅ QR | ❌ | ❌ | ✅ | ❌ | ❌ | ✅ |
@@ -196,22 +218,28 @@ UX & ECOSYSTEM (10 pts)
 | **Trezor Safe 5** | 22/25 | 20/20 | 15/15 | 15/15 | 14/15 | 8/10 | **94** |
 | **Keystone 3 Pro** | 25/25 | 20/20 | 15/15 | 15/15 | 8/15 | 8/10 | **91** |
 | **Trezor Safe 3** | 22/25 | 20/20 | 15/15 | 15/15 | 14/15 | 5/10 | **91** |
-| **BitBox02** | 20/25 | 20/20 | 15/15 | 15/15 | 12/15 | 6/10 | **88** |
 | **ColdCard Mk4** | 25/25 | 20/20 | 15/15 | 15/15 | 12/15 | 4/10 | **91** |
+| **BitBox02** | 20/25 | 20/20 | 15/15 | 15/15 | 12/15 | 6/10 | **88** |
+| **Blockstream Jade** | 16/25 | 18/20 | 15/15 | 15/15 | 12/15 | 5/10 | **81** |
 | **Foundation Passport** | 23/25 | 20/20 | 15/15 | 8/15 | 10/15 | 5/10 | **81** |
-| **NGRAVE ZERO** | 24/25 | 10/20 | 15/15 | 5/15 | 10/15 | 8/10 | **72** |
 | **OneKey Pro** | 18/25 | 18/20 | 13/15 | 15/15 | 6/15 | 7/10 | **77** |
-| **GridPlus Lattice1** | 18/25 | 8/20 | 12/15 | 5/15 | 8/15 | 8/10 | **59** |
+| **NGRAVE ZERO** | 24/25 | 10/20 | 15/15 | 5/15 | 10/15 | 8/10 | **72** |
+| **Specter DIY** ⚙️ | 13/25 | 20/20 | 15/15 | 15/15 | 6/15 | 3/10 | **72** |
+| **Krux** ⚙️ | 13/25 | 18/20 | 15/15 | 15/15 | 4/15 | 2/10 | **67** |
+| **SeedSigner** ⚙️ | 13/25 | 18/20 | 15/15 | 8/15 | 7/15 | 4/10 | **65** |
 | **SafePal S1** | 20/25 | 10/20 | 14/15 | 5/15 | 8/15 | 5/10 | **62** |
-| **Ellipal Titan 2.0** | 16/25 | 0/20 | 15/15 | 5/15 | 5/15 | 7/10 | **48** |
-| **SecuX V20** | 18/25 | 0/20 | 13/15 | 5/15 | 5/15 | 6/10 | **47** |
-| **Tangem Wallet** | 18/25 | 8/20 | 10/15 | 5/15 | 8/15 | 4/10 | **53** |
+| **GridPlus Lattice1** | 18/25 | 8/20 | 12/15 | 5/15 | 8/15 | 8/10 | **59** |
+| **Ledger Stax** | 20/25 | 10/20 | 5/15 | 5/15 | 10/15 | 7/10 | **57** |
 | **Ledger Nano X** | 20/25 | 10/20 | 5/15 | 5/15 | 10/15 | 6/10 | **56** |
 | **Ledger Nano S+** | 20/25 | 10/20 | 5/15 | 5/15 | 10/15 | 5/10 | **55** |
-| **Ledger Stax** | 20/25 | 10/20 | 5/15 | 5/15 | 10/15 | 7/10 | **57** |
-| ~~**KeepKey**~~ | 8/25 | 18/20 | 10/15 | 0/15 | 0/15 | 3/10 | **39** |
+| **Tangem Wallet** | 18/25 | 8/20 | 10/15 | 5/15 | 8/15 | 4/10 | **53** |
+| **Ellipal Titan 2.0** | 16/25 | 0/20 | 15/15 | 5/15 | 5/15 | 7/10 | **48** |
+| **SecuX V20** | 18/25 | 0/20 | 13/15 | 5/15 | 5/15 | 6/10 | **47** |
 | **Arculus** | 18/25 | 0/20 | 8/15 | 5/15 | 8/15 | 3/10 | **42** |
+| ~~**KeepKey**~~ | 8/25 | 18/20 | 10/15 | 0/15 | 0/15 | 3/10 | **39** |
 | **BC Vault** | 8/25 | 0/20 | 10/15 | 5/15 | 5/15 | 5/10 | **33** |
+
+*⚙️ = DIY/Self-build wallet — requires assembly, no Secure Element but fully air-gapped via QR codes*
 
 ---
 
@@ -220,20 +248,39 @@ UX & ECOSYSTEM (10 pts)
 | Use Case | Top Pick | Score | Runner-Up | Budget Option |
 |----------|----------|-------|-----------|---------------|
 | **Best Overall** | Trezor Safe 5 | 94 | Keystone 3 Pro (91) | Trezor Safe 3 (~$79) |
-| **Bitcoin Only** | ColdCard Mk4 | 91 | Foundation Passport (81) | — |
+| **Bitcoin Only** | ColdCard Mk4 | 91 | Foundation Passport (81) | Blockstream Jade (~$65) |
 | **Air-Gapped** | Keystone 3 Pro | 91 | ColdCard Mk4 (91) | SafePal S1 (~$50) |
-| **Best Value** | Trezor Safe 3 | 91 | SafePal S1 (62) | Tangem (~$55) |
-| **Beginners** | Trezor Safe 5 | 94 | BitBox02 (88) | Trezor Safe 3 (~$79) |
+| **Best Value** | Trezor Safe 3 | 91 | Blockstream Jade (81) | Tangem (~$55) |
+| **Beginners** | Trezor Safe 5 | 94 | BitBox02 (88) | Blockstream Jade (~$65) |
+| **DIY/Self-Build** | Specter DIY | 72 | SeedSigner (65) | Krux (~$30-100) |
+
+### DIY Signing Devices
+
+For technically-inclined users who want maximum transparency and control:
+
+| Device | What You Need | Difficulty | Best For |
+|--------|---------------|------------|----------|
+| **Specter DIY** | ESP32 board + camera + display | Medium | Multi-chain, experienced users |
+| **SeedSigner** | Raspberry Pi Zero + camera + display | Easy-Medium | Bitcoin maximalists, popular community |
+| **Krux** | M5StickV or similar | Easy | Beginners to DIY, cheapest option |
+
+**DIY Trade-offs:**
+- ✅ **Pros:** Fully open source, air-gapped, no supply chain trust, educational, cheap
+- ❌ **Cons:** No Secure Element (lower physical security), requires assembly, no manufacturer warranty
 
 ### Software Wallet Integration
 
-| Wallet | MetaMask | Rabby | Sparrow | Electrum |
-|--------|----------|-------|---------|----------|
-| Trezor | ✅ | ✅ | ✅ | ✅ |
-| Keystone | ✅ QR | ✅ QR | ✅ | ❌ |
-| BitBox02 | ✅ | ✅ | ✅ | ✅ |
-| ColdCard | ❌ | ❌ | ✅ | ✅ |
-| Ledger | ✅ | ✅ | ✅ | ✅ |
+| Wallet | MetaMask | Rabby | Sparrow | Electrum | Specter Desktop |
+|--------|----------|-------|---------|----------|-----------------|
+| Trezor | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Keystone | ✅ QR | ✅ QR | ✅ | ❌ | ✅ |
+| BitBox02 | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Blockstream Jade | ❌ | ❌ | ✅ | ✅ | ✅ |
+| ColdCard | ❌ | ❌ | ✅ | ✅ | ✅ |
+| Specter DIY | ❌ | ❌ | ✅ | ❌ | ✅ |
+| SeedSigner | ❌ | ❌ | ✅ | ❌ | ✅ |
+| Krux | ❌ | ❌ | ✅ | ❌ | ✅ |
+| Ledger | ✅ | ✅ | ✅ | ✅ | ✅ |
 
 ---
 
@@ -251,6 +298,25 @@ UX & ECOSYSTEM (10 pts)
 | **SafePal S1** | 62 | ⚠️ Binance-backed, partial open source |
 | **GridPlus** | 59 | ⚠️ SDK-only, WiFi connectivity |
 | **Tangem** | 53 | ⚠️ No screen, NFC-only |
+
+### DIY Wallets — Know the Trade-offs
+
+| Wallet | Score | Consideration |
+|--------|-------|---------------|
+| **Specter DIY** | 72 | ⚠️ No SE — rely on air-gap for security |
+| **Krux** | 67 | ⚠️ No SE — community project, small team |
+| **SeedSigner** | 65 | ⚠️ No SE, slower updates — but large community |
+
+**DIY wallets are excellent for:**
+- Users who understand the security model (air-gap compensates for no SE)
+- Bitcoin-focused users who want maximum transparency
+- Educational purposes / learning about wallet security
+- Backup signing devices
+
+**DIY wallets are NOT recommended for:**
+- Users who need physical tamper protection
+- High-value holdings without additional security measures
+- Users uncomfortable with self-assembly
 
 ---
 
@@ -280,13 +346,23 @@ UX & ECOSYSTEM (10 pts)
 
 ## Resources
 
+### Manufactured Wallets
 - [Trezor](https://trezor.io/) — [GitHub](https://github.com/trezor)
 - [Keystone](https://keyst.one/) — [GitHub](https://github.com/KeystoneHQ)
 - [BitBox02](https://bitbox.swiss/) — [GitHub](https://github.com/BitBoxSwiss)
+- [Blockstream Jade](https://blockstream.com/jade/) — [GitHub](https://github.com/Blockstream/Jade)
 - [ColdCard](https://coldcard.com/) — [GitHub](https://github.com/Coldcard)
 - [Foundation Passport](https://foundationdevices.com/) — [GitHub](https://github.com/Foundation-Devices)
+
+### DIY Signing Devices
+- [SeedSigner](https://seedsigner.com/) — [GitHub](https://github.com/SeedSigner/seedsigner) — Raspberry Pi-based
+- [Specter DIY](https://specter.solutions/hardware/) — [GitHub](https://github.com/cryptoadvance/specter-diy) — ESP32-based
+- [Krux](https://selfcustody.github.io/krux/) — [GitHub](https://github.com/selfcustody/krux) — M5StickV/similar
+
+### Verification & Research
 - [WalletScrutiny](https://walletscrutiny.com/) — Open source verification
+- [Bitcoin Wiki - Hardware Wallets](https://en.bitcoin.it/wiki/Hardware_wallet)
 
 ---
 
-*Last updated: December 2025. Always verify current specifications on official sites before purchase.*
+*Last updated: December 8, 2025. Always verify current specifications on official sites before purchase.*
