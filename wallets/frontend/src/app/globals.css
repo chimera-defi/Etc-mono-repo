@@ -1,0 +1,194 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Markdown content styles */
+.prose-wallet {
+  @apply max-w-none;
+}
+
+.prose-wallet h1 {
+  @apply text-3xl font-bold mb-4 mt-8 text-foreground;
+}
+
+.prose-wallet h2 {
+  @apply text-2xl font-semibold mb-3 mt-6 text-foreground;
+}
+
+.prose-wallet h3 {
+  @apply text-xl font-semibold mb-2 mt-4 text-foreground;
+}
+
+.prose-wallet h4 {
+  @apply text-lg font-semibold mb-2 mt-3 text-foreground;
+}
+
+.prose-wallet p {
+  @apply mb-4 leading-relaxed;
+}
+
+.prose-wallet a {
+  @apply text-primary hover:underline;
+}
+
+.prose-wallet ul {
+  @apply list-disc list-inside mb-4 space-y-1;
+}
+
+.prose-wallet ol {
+  @apply list-decimal list-inside mb-4 space-y-1;
+}
+
+.prose-wallet li {
+  @apply leading-relaxed;
+}
+
+.prose-wallet code {
+  @apply bg-muted px-1.5 py-0.5 rounded text-sm font-mono;
+}
+
+.prose-wallet pre {
+  @apply bg-muted p-4 rounded-lg overflow-x-auto mb-4;
+}
+
+.prose-wallet pre code {
+  @apply bg-transparent p-0;
+}
+
+.prose-wallet blockquote {
+  @apply border-l-4 border-primary pl-4 italic text-muted-foreground my-4;
+}
+
+.prose-wallet hr {
+  @apply my-8 border-border;
+}
+
+.prose-wallet strong {
+  @apply font-semibold;
+}
+
+/* Table styles for wallet comparisons */
+.prose-wallet table {
+  @apply w-full border-collapse mb-6 text-sm;
+}
+
+.prose-wallet thead {
+  @apply bg-muted;
+}
+
+.prose-wallet th {
+  @apply px-3 py-2 text-left font-semibold border-b border-border whitespace-nowrap;
+}
+
+.prose-wallet td {
+  @apply px-3 py-2 border-b border-border;
+}
+
+.prose-wallet tbody tr:hover {
+  @apply bg-muted/50;
+}
+
+/* Make tables horizontally scrollable on mobile */
+.table-wrapper {
+  @apply overflow-x-auto -mx-4 px-4;
+}
+
+/* Status indicators */
+.prose-wallet td:has(✅),
+.prose-wallet td:has(🟢) {
+  @apply text-green-600 dark:text-green-400;
+}
+
+.prose-wallet td:has(❌),
+.prose-wallet td:has(🔴) {
+  @apply text-red-600 dark:text-red-400;
+}
+
+.prose-wallet td:has(⚠️),
+.prose-wallet td:has(🟡) {
+  @apply text-yellow-600 dark:text-yellow-400;
+}
+
+/* Table of contents styles */
+.toc-link {
+  @apply block py-1 text-sm text-muted-foreground hover:text-foreground transition-colors;
+}
+
+.toc-link.level-2 {
+  @apply pl-0 font-medium;
+}
+
+.toc-link.level-3 {
+  @apply pl-4;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Target highlight */
+:target {
+  @apply scroll-mt-20;
+}
+
+:target::before {
+  content: '';
+  @apply block h-20 -mt-20 invisible pointer-events-none;
+}
