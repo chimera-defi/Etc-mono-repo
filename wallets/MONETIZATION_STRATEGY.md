@@ -100,56 +100,53 @@
 
 ### 🥈 Tier 2: Medium-Value, Moderate Friction
 
-#### 4. **Premium Features / Pro Subscription**
-**Revenue Potential:** $5-20/month per user  
-**Implementation:**
-- **Free:** Basic comparison table, standard filters
-- **Pro ($9/month or $90/year):**
-  - Export data to CSV/JSON
-  - Advanced filtering (custom score ranges, multiple criteria)
-  - Historical data (track wallet scores over time)
-  - Email alerts (wallet status changes, new wallets)
-  - API access (1,000 requests/month)
-  - Ad-free experience
-  - Priority support
+#### 4. **Premium Features / Pro Subscription** ⭐ REVISED
+**Revenue Potential:** $500-2,000/month  
+**Pricing:** $9/month or $90/year (2 months free)
+
+**Value Proposition (REVISED):**
+- **Historical tracking:** See how wallet scores changed over time (KEY DIFFERENTIATOR - unique value)
+- **Export capabilities:** CSV/JSON for reports/presentations
+- **Email alerts:** Get notified when wallets change status
+- **Advanced filtering:** Custom score ranges, multiple criteria
+- **API access:** 1,000 requests/month (entry-level)
+- **Ad-free experience:** Cleaner UI, faster loading
+- **Priority support:** Faster responses, feature request priority
 
 **Why It Works:**
-- Developers value productivity tools
-- Recurring revenue
-- Low churn if value is clear
-- Can start with free tier to build audience
+- **Historical tracking is unique:** No competitor offers this
+- **High value for teams:** Export data for reports, share with team
+- **Recurring revenue:** Monthly subscriptions
+- **Low churn:** Email alerts keep users engaged
 
 **Best Practices:**
-- Offer annual discount (2 months free)
-- Clear value proposition on pricing page
-- Free trial (7-14 days)
-- Show usage stats to demonstrate value
+- Offer 7-day free trial (no credit card required)
+- Clear value proposition (focus on historical tracking)
+- Show upgrade prompts on export/alerts (free users)
+- Regular email alerts (keep users engaged)
 
 **Estimated Revenue:** $500-2,000/month (50-200 Pro subscribers)
 
+**See [PRO_SUBSCRIPTION_SPEC.md](./PRO_SUBSCRIPTION_SPEC.md) for detailed specification.**
+
 ---
 
-#### 5. **Job Board / Developer Marketplace**
-**Revenue Potential:** $100-500 per listing  
-**Implementation:**
-- Wallet companies post developer job openings
-- Charge per 30-day listing
-- Categories: Frontend, Backend, Security, Mobile, etc.
-- Filter by wallet company, location, remote
+#### 5. **Job Board / Developer Marketplace** ⚠️ DEFERRED
+**Revenue Potential:** $500-2,000/month  
+**Status:** Defer to Phase 2 (Month 6+)
 
-**Why It Works:**
-- Natural fit (developers researching wallets)
-- Wallet companies need talent
-- High-value for employers
-- Low maintenance (self-serve platform)
+**Why Defer:**
+- **Chicken-and-egg problem:** Need traffic first
+- **Developers don't come for jobs:** They come for wallet research
+- **Competitive market:** Many job boards exist
+- **Low priority:** Focus on core monetization first
 
-**Best Practices:**
-- Moderate listings (ensure quality)
-- Allow featured listings (premium placement)
-- Provide analytics to employers
-- Keep job board separate from comparison content
+**When to Revisit:**
+- When monthly traffic reaches 10K+ visitors
+- When wallet companies start asking about job postings
+- When core monetization is stable
 
-**Estimated Revenue:** $500-2,000/month (5-20 job listings)
+**Estimated Revenue:** $500-2,000/month (5-20 job listings) - **if/when implemented**
 
 ---
 
@@ -278,27 +275,23 @@
 
 ---
 
-#### 11. **Wallet Certification Program**
-**Revenue Potential:** $1,000-5,000 per certification  
-**Implementation:**
-- Offer "WalletRadar Certified" badge
-- Wallets pay for detailed security audit
-- Annual certification renewal
-- Badge displayed on wallet's site
+#### 11. **Wallet Certification Program** ❌ NOT RECOMMENDED
+**Status:** Skip this strategy
 
-**Why It Works:**
-- Wallets want credibility
-- Premium service offering
-- Recurring revenue (annual renewals)
-- Builds WalletRadar brand
+**Why NOT:**
+- **WalletRadar isn't a security firm:** Wallets already get audits from real audit firms
+- **Overreaching:** Damages credibility, seen as "pay for certification"
+- **Competitive disadvantage:** Can't compete with real audit firms (Trail of Bits, etc.)
+- **Trust risk:** Might be seen as selling credibility
 
-**Best Practices:**
-- Maintain high standards
-- Transparent certification criteria
-- Regular re-certification
-- Public certification database
+**Alternative: Custom Research Reports**
+Instead of certification, offer:
+- **Custom research reports:** $2,000-5,000 per report
+- **Private wallet evaluations:** For enterprises choosing wallets
+- **Integration consulting:** Help companies integrate wallets
+- **Security analysis:** Partner with real audit firms (referral, not certification)
 
-**Estimated Revenue:** $5,000-25,000/year (5-10 certifications)
+**Focus on what WalletRadar does well:** Comparison and analysis, not security certification.
 
 ---
 
@@ -350,19 +343,20 @@
 
 ### Phase 3: Scale (Month 6-12)
 1. ✅ Expand API features (webhooks, custom fields)
-2. ✅ Launch job board
+2. ⚠️ Revisit job board (if traffic is high enough)
 3. ✅ Offer sponsored content
 4. ✅ Build white-label offering
+5. ✅ Custom research/consulting services
 
 **Target Revenue:** $5,000-15,000/month
 
 ---
 
 ### Phase 4: Enterprise (Year 2+)
-1. ✅ Custom research/consulting
-2. ✅ Certification program
-3. ✅ Strategic partnerships
-4. ✅ Expand to other crypto tool comparisons
+1. ✅ Custom research/consulting (expanded)
+2. ✅ Strategic partnerships
+3. ✅ Expand to other crypto tool comparisons
+4. ✅ White-label solutions (full offering)
 
 **Target Revenue:** $15,000-50,000/month
 
