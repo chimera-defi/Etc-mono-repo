@@ -1,0 +1,26 @@
+version: 1
+applications:
+  - appRoot: wallets/frontend
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - npm install
+            - echo "node-linker=hoisted" > .npmrc
+            - npm install next
+        build:
+          commands:
+            - npm run build
+      artifacts:
+        baseDirectory: .next
+        files:
+          - '**/*'
+          - '../node_modules/**/*'
+          - '../package.json'
+          - '../package-lock.json'
+          - '../next.config.js'
+          - '../public/**/*'
+      cache:
+        paths:
+          - 'node_modules/**/*'
+          - '.next/cache/**/*'
