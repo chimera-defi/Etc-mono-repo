@@ -119,7 +119,7 @@ export function Footer() {
               Twitter
             </a>
             <a
-              href="https://github.com"
+              href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
