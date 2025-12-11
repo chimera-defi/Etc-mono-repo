@@ -151,7 +151,7 @@ export default function HomePage() {
         <h2 className="text-2xl font-bold mb-8">Data Sources</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <a
-            href="https://github.com"
+            href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets"
             target="_blank"
             rel="noopener noreferrer"
             className="p-4 rounded-lg border border-border hover:border-primary/50 transition-colors"
