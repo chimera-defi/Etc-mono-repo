@@ -62,33 +62,57 @@ export function getMarkdownFiles(): string[] {
 export function getAllDocuments(): MarkdownDocument[] {
   const files = getMarkdownFiles();
   
+  // Log for debugging in build environments
+  if (process.env.NODE_ENV === 'production' || process.env.VERCEL || process.env.AWS_AMPLIFY) {
+    console.log('[markdown] CONTENT_DIR:', CONTENT_DIR);
+    console.log('[markdown] Files to process:', files);
+    try {
+      const dirContents = fs.readdirSync(CONTENT_DIR);
+      console.log('[markdown] Directory contents:', dirContents.filter(f => f.endsWith('.md')));
+    } catch (error) {
+      console.error('[markdown] Error reading CONTENT_DIR:', error);
+    }
+  }
+  
   const documents = files
     .map((filename) => {
       const filePath = path.join(CONTENT_DIR, filename);
       
       if (!fs.existsSync(filePath)) {
+        if (process.env.NODE_ENV === 'production' || process.env.VERCEL || process.env.AWS_AMPLIFY) {
+          console.warn(`[markdown] File not found: ${filePath}`);
+        }
         return null;
       }
       
-      const fileContent = fs.readFileSync(filePath, 'utf-8');
-      const { content } = matter(fileContent);
-      
-      const config = DOCUMENT_CONFIG[filename];
-      const slug = filename.replace('.md', '').toLowerCase().replace(/_/g, '-');
-      
-      // Extract last updated from content if present
-      const lastUpdatedMatch = content.match(/Last [Uu]pdated:?\s*([^\n\|]+)/);
-      const lastUpdated = lastUpdatedMatch ? lastUpdatedMatch[1].trim() : undefined;
-      
-      return {
-        slug,
-        content,
-        lastUpdated,
-        ...config,
-      } as MarkdownDocument;
+      try {
+        const fileContent = fs.readFileSync(filePath, 'utf-8');
+        const { content } = matter(fileContent);
+        
+        const config = DOCUMENT_CONFIG[filename];
+        const slug = filename.replace('.md', '').toLowerCase().replace(/_/g, '-');
+        
+        // Extract last updated from content if present
+        const lastUpdatedMatch = content.match(/Last [Uu]pdated:?\s*([^\n\|]+)/);
+        const lastUpdated = lastUpdatedMatch ? lastUpdatedMatch[1].trim() : undefined;
+        
+        return {
+          slug,
+          content,
+          lastUpdated,
+          ...config,
+        } as MarkdownDocument;
+      } catch (error) {
+        console.error(`[markdown] Error reading file ${filePath}:`, error);
+        return null;
+      }
     })
     .filter((doc): doc is MarkdownDocument => doc !== null)
     .sort((a, b) => a.order - b.order);
+  
+  if (process.env.NODE_ENV === 'production' || process.env.VERCEL || process.env.AWS_AMPLIFY) {
+    console.log(`[markdown] Successfully loaded ${documents.length} documents`);
+  }
   
   return documents;
 }
