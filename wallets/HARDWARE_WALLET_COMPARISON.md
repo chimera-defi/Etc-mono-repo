@@ -4,6 +4,23 @@
 
 **Last Updated:** December 2025 | [Scoring Methodology](#-scoring-methodology) | [GitHub Activity Data](#github-metrics-firmware-repositories)
 
+**Related:** See [Software Wallet Comparison](./WALLET_COMPARISON_UNIFIED.md) for EVM wallet recommendations and integration details.
+
+---
+
+## Table of Contents
+
+- [Complete Hardware Wallet Comparison](#complete-hardware-wallet-comparison-23-wallets)
+- [Quick Recommendations](#-quick-recommendations)
+- [GitHub Metrics](#github-metrics-firmware-repositories)
+- [Security Deep Dive](#-security-deep-dive)
+- [Scoring Methodology](#-scoring-methodology)
+- [Wallets to Avoid or Use with Caution](#-wallets-to-avoid-or-use-with-caution)
+- [Why Look Beyond Ledger?](#-why-look-beyond-ledger)
+- [Ledger Migration](#-ledger-migration)
+- [Resources](#resources)
+- [Changelog](#-changelog)
+
 ---
 
 ## Complete Hardware Wallet Comparison (23 Wallets)
@@ -36,17 +53,12 @@
 
 *\* DIY wallets — price varies based on components purchased; requires self-assembly*
 
-**Legend:**
-- **Wallet:** Links to official site | ~~Strikethrough~~ = abandoned
-- **Score:** 0-100 weighted score (see [Scoring Methodology](#-scoring-methodology))
-- **GitHub:** Firmware repo link | "Private" = closed source
-- **Air-Gap:** ✅ Full = QR/MicroSD only | ❌ = USB/BT connection required
-- **Open Source:** ✅ Full (firmware + bootloader) | ⚠️ Partial | ❌ Closed
-- **Secure Elem:** ✅ Has SE with type (Optiga, ATECC, etc.) | ❌ MCU only
-- **Display:** Screen type | **Price:** ~USD (verify on official site)
-- **Conn:** USB, Bluetooth (BT), QR, NFC, MicroSD, WiFi
-- **Activity:** ✅ Active (≤30 days) | ⚠️ Slow (1-4 mo) | 🔒 Private | ❌ Inactive
+**Quick Reference:**
+- **Score:** 0-100 (see [Scoring Methodology](#-scoring-methodology)) | **Air-Gap:** ✅ QR/MicroSD only | **Open Source:** ✅ Full / ⚠️ Partial / ❌ Closed
+- **Secure Elem:** ✅ Has SE | ❌ MCU only | **Activity:** ✅ Active / ⚠️ Slow / ❌ Inactive / 🔒 Private
 - **Rec:** 🟢 Recommended (75+) | 🟡 Situational (50-74) | 🔴 Avoid (<50)
+
+**Detailed Legend:** See [Column Definitions](#column-definitions) below.
 
 > ⚠️ **Data Accuracy Note:** Prices, supported networks, and features change. Always verify on official manufacturer websites before purchasing. This table provides general guidance, not exact specifications.
 
@@ -100,6 +112,75 @@ Unlike software wallets where frequent updates can indicate instability, hardwar
 
 ---
 
+## Column Definitions
+
+Complete explanations for all table columns:
+
+| Column | Values | Meaning |
+|--------|--------|---------|
+| **Score** | 0-100 | Weighted score prioritizing security, transparency, privacy, activity, company track record, and UX. See [Scoring Methodology](#-scoring-methodology) |
+| **GitHub** | Link or "Private" | Firmware repository link | "Private" = closed source firmware |
+| **Air-Gap** | ✅ Full / ❌ | ✅ Full = QR/MicroSD only (never connects to computer during signing) | ❌ = USB/BT connection required |
+| **Open Source** | ✅ Full / ⚠️ Partial / ❌ Closed | ✅ Full = Firmware + bootloader open source | ⚠️ Partial = App open, firmware closed | ❌ Closed = No open source code |
+| **Secure Elem** | ✅ Type / ❌ None | ✅ = Has Secure Element chip (Optiga, ATECC, STM32, etc.) | ❌ = MCU only (no hardware security chip) |
+| **Display** | Type | Screen type: Touch Color, Mono OLED, Color LCD, LCD, E-Ink Touch, None (NFC card) |
+| **Price** | ~$XXX | Approximate USD price (verify on official site). *DIY wallets = component cost varies |
+| **Conn** | USB, BT, QR, NFC, MicroSD, WiFi | Connection methods: USB-C, USB, Bluetooth (BT), QR codes, NFC, MicroSD card, WiFi |
+| **Activity** | ✅ / ⚠️ / ❌ / 🔒 | ✅ = Active (≤30 days since last commit) | ⚠️ = Slow (1-4 months) | ❌ = Inactive (4+ months) | 🔒 = Private repo |
+| **Rec** | 🟢 / 🟡 / 🔴 | 🟢 = Recommended (score 75+) | 🟡 = Situational (score 50-74) | 🔴 = Avoid (score <50 or inactive) |
+
+**Special Notes:**
+- ~~Strikethrough~~ = Abandoned/inactive wallet
+- *DIY wallets = Requires self-assembly, price varies based on components
+
+---
+
+## 🏆 Quick Recommendations
+
+**Quick Answers:** Best overall? **Trezor Safe 5** (94). Air-gapped? **Keystone 3 Pro** (91). Bitcoin-only? **ColdCard Mk4** (91). Best value? **Trezor Safe 3** (91) at $79. Budget option? **Blockstream Jade** (81) at ~$65. See [full comparison table](#complete-hardware-wallet-comparison-23-wallets) for all 23 wallets.
+
+**Jump to:** [Comparison Table](#complete-hardware-wallet-comparison-23-wallets) | [Scoring Methodology](#-scoring-methodology) | [Security Deep Dive](#-security-deep-dive) | [Why Look Beyond Ledger?](#-why-look-beyond-ledger)
+
+### Top Picks by Use Case
+
+| Use Case | Top Pick | Score | Runner-Up | Budget Option |
+|----------|----------|-------|-----------|---------------|
+| **Best Overall** | Trezor Safe 5 | 94 | Keystone 3 Pro (91) | Trezor Safe 3 (~$79) |
+| **Bitcoin Only** | ColdCard Mk4 | 91 | Foundation Passport (81) | Blockstream Jade (~$65) |
+| **Air-Gapped** | Keystone 3 Pro | 91 | ColdCard Mk4 (91) | SafePal S1 (~$50) |
+| **Best Value** | Trezor Safe 3 | 91 | Blockstream Jade (81) | Tangem (~$55) |
+| **Beginners** | Trezor Safe 5 | 94 | BitBox02 (88) | Blockstream Jade (~$65) |
+| **DIY/Self-Build** | Specter DIY | 72 | SeedSigner (65) | Krux (~$30-100) |
+
+### DIY Signing Devices
+
+For technically-inclined users who want maximum transparency and control:
+
+| Device | What You Need | Difficulty | Best For |
+|--------|---------------|------------|----------|
+| **Specter DIY** | ESP32 board + camera + display | Medium | Multi-chain, experienced users |
+| **SeedSigner** | Raspberry Pi Zero + camera + display | Easy-Medium | Bitcoin maximalists, popular community |
+| **Krux** | M5StickV or similar | Easy | Beginners to DIY, cheapest option |
+
+**DIY Trade-offs:**
+- ✅ **Pros:** Fully open source, air-gapped, no supply chain trust, educational, cheap
+- ❌ **Cons:** No Secure Element (lower physical security), requires assembly, no manufacturer warranty
+
+### ⚠️ Wallets to Avoid or Use with Caution
+
+| Wallet | Score | Issue |
+|--------|-------|-------|
+| **Ledger** (all models) | 55-57 | ⚠️ Ledger Recover capability — use with passphrase only |
+| **Ellipal Titan** | 48 | Closed source, no Secure Element |
+| **SecuX V20** | 47 | Closed source, unknown funding |
+| **Arculus** | 42 | Closed source, NFC-only, no passphrase |
+| **KeepKey** | 39 | ❌ ABANDONED (10 months no updates) |
+| **BC Vault** | 33 | Closed source, no SE, unconventional backup |
+
+**See also:** [Why Look Beyond Ledger?](#-why-look-beyond-ledger) for details on Ledger Recover concerns.
+
+---
+
 ## 🔒 Security Deep Dive
 
 ### Security Features Comparison
@@ -143,6 +224,8 @@ Unlike software wallets where frequent updates can indicate instability, hardwar
 ---
 
 ## 📊 Scoring Methodology
+
+**Quick Reference:** Score = Security (25) + Transparency (20) + Privacy (15) + Activity (15) + Company (15) + UX (10) = 100 total
 
 Hardware wallet scoring uses a comprehensive methodology consistent with our [Software Wallet Comparison](./WALLET_COMPARISON_UNIFIED.md), adapted for cold storage priorities:
 
@@ -240,83 +323,6 @@ UX & ECOSYSTEM (10 pts)
 | **BC Vault** | 8/25 | 0/20 | 10/15 | 5/15 | 5/15 | 5/10 | **33** |
 
 *⚙️ = DIY/Self-build wallet — requires assembly, no Secure Element but fully air-gapped via QR codes*
-
----
-
-## 🏆 Quick Recommendations
-
-| Use Case | Top Pick | Score | Runner-Up | Budget Option |
-|----------|----------|-------|-----------|---------------|
-| **Best Overall** | Trezor Safe 5 | 94 | Keystone 3 Pro (91) | Trezor Safe 3 (~$79) |
-| **Bitcoin Only** | ColdCard Mk4 | 91 | Foundation Passport (81) | Blockstream Jade (~$65) |
-| **Air-Gapped** | Keystone 3 Pro | 91 | ColdCard Mk4 (91) | SafePal S1 (~$50) |
-| **Best Value** | Trezor Safe 3 | 91 | Blockstream Jade (81) | Tangem (~$55) |
-| **Beginners** | Trezor Safe 5 | 94 | BitBox02 (88) | Blockstream Jade (~$65) |
-| **DIY/Self-Build** | Specter DIY | 72 | SeedSigner (65) | Krux (~$30-100) |
-
-### DIY Signing Devices
-
-For technically-inclined users who want maximum transparency and control:
-
-| Device | What You Need | Difficulty | Best For |
-|--------|---------------|------------|----------|
-| **Specter DIY** | ESP32 board + camera + display | Medium | Multi-chain, experienced users |
-| **SeedSigner** | Raspberry Pi Zero + camera + display | Easy-Medium | Bitcoin maximalists, popular community |
-| **Krux** | M5StickV or similar | Easy | Beginners to DIY, cheapest option |
-
-**DIY Trade-offs:**
-- ✅ **Pros:** Fully open source, air-gapped, no supply chain trust, educational, cheap
-- ❌ **Cons:** No Secure Element (lower physical security), requires assembly, no manufacturer warranty
-
-### Software Wallet Integration
-
-| Wallet | MetaMask | Rabby | Sparrow | Electrum | Specter Desktop |
-|--------|----------|-------|---------|----------|-----------------|
-| Trezor | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Keystone | ✅ QR | ✅ QR | ✅ | ❌ | ✅ |
-| BitBox02 | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Blockstream Jade | ❌ | ❌ | ✅ | ✅ | ✅ |
-| ColdCard | ❌ | ❌ | ✅ | ✅ | ✅ |
-| Specter DIY | ❌ | ❌ | ✅ | ❌ | ✅ |
-| SeedSigner | ❌ | ❌ | ✅ | ❌ | ✅ |
-| Krux | ❌ | ❌ | ✅ | ❌ | ✅ |
-| Ledger | ✅ | ✅ | ✅ | ✅ | ✅ |
-
----
-
-## ⚠️ Wallets to Avoid or Use with Caution
-
-| Wallet | Score | Issue |
-|--------|-------|-------|
-| **Ellipal Titan** | 48 | Closed source, no Secure Element |
-| **SecuX V20** | 47 | Closed source, unknown funding |
-| **Arculus** | 42 | Closed source, NFC-only, no passphrase |
-| **KeepKey** | 39 | ❌ ABANDONED (10 months no updates) |
-| **BC Vault** | 33 | Closed source, no SE, unconventional backup |
-| **Ledger** | 55-57 | ⚠️ Ledger Recover capability — use with passphrase only |
-| **NGRAVE ZERO** | 72 | ⚠️ Expensive, not fully open source |
-| **SafePal S1** | 62 | ⚠️ Binance-backed, partial open source |
-| **GridPlus** | 59 | ⚠️ SDK-only, WiFi connectivity |
-| **Tangem** | 53 | ⚠️ No screen, NFC-only |
-
-### DIY Wallets — Know the Trade-offs
-
-| Wallet | Score | Consideration |
-|--------|-------|---------------|
-| **Specter DIY** | 72 | ⚠️ No SE — rely on air-gap for security |
-| **Krux** | 67 | ⚠️ No SE — community project, small team |
-| **SeedSigner** | 65 | ⚠️ No SE, slower updates — but large community |
-
-**DIY wallets are excellent for:**
-- Users who understand the security model (air-gap compensates for no SE)
-- Bitcoin-focused users who want maximum transparency
-- Educational purposes / learning about wallet security
-- Backup signing devices
-
-**DIY wallets are NOT recommended for:**
-- Users who need physical tamper protection
-- High-value holdings without additional security measures
-- Users uncomfortable with self-assembly
 
 ---
 

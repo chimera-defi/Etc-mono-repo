@@ -4,6 +4,34 @@
 
 **Data Sources:** GitHub REST API (Nov 2024, activity Nov 2025), [WalletBeat](https://walletbeat.fyi) (Dec 2025)
 
+**Related:** See [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON.md) for cold storage recommendations.
+
+---
+
+## Table of Contents
+
+- [Complete Wallet Comparison](#complete-wallet-comparison-all-24-evm-wallets)
+- [Quick Recommendations](#-quick-recommendations)
+- [GitHub Metrics](#github-metrics-stars-issues-code-quality)
+- [Scoring Methodology](#-wallet-scores-developer-focused-methodology)
+- [Security Audits](#-security-audits-from-walletbeat--github)
+- [Known Quirks & Gotchas](#-known-quirks--gotchas)
+- [Account Type Support](#account-type-support-from-walletbeat)
+- [Hardware Wallet Support](#hardware-wallet-support-from-walletbeat)
+- [ENS & Address Resolution](#ens--address-resolution-from-walletbeat)
+- [Browser Integration](#browser-integration-from-walletbeat)
+- [EIP Support Matrix](#-eip-support-matrix)
+- [EIP-7702 Wallet Support](#-eip-7702-wallet-support-pectra-upgrade)
+- [Gas Estimation & Transaction Preview](#-gas-estimation--transaction-preview)
+- [Mobile Deep-linking & Integration](#-mobile-deep-linking--integration)
+- [Developer Experience Benchmarks](#-developer-experience-benchmarks)
+- [Monetization & Business Model](#-monetization--business-model)
+- [Security Features](#-security-features-tx-simulation--scam-protection)
+- [Privacy & Data Collection](#-privacy--data-collection)
+- [Data Sources & Verification](#data-sources--verification)
+- [Changelog](#-changelog)
+- [Contributing](#-contributing-add-a-new-wallet)
+
 ---
 
 ## Complete Wallet Comparison (All 24 EVM Wallets)
@@ -35,30 +63,15 @@
 | **Argent** | 30 | ⚠️ | ~1 | ✅ | [argent-x](https://github.com/argentlabs/argent-x) | ❌ | 2 | 📱🌐⁂ | ✅ | ✅ GPL-3 | ❓ None | 🔴 VC | ❌ | ⚠️ | 4337 | ❌ None | ✅ | ~~Starknet~~ | 🔴 |
 | **Block** | 25 | ✅ | ~2 | ✅ | [extension](https://github.com/block-wallet/extension) | ❌ | 20+ | 📱🌐 | ✅ | ✅ MIT | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ❌ None | ✅ | ~~Stability~~ | 🔴 |
 
-**Legend:**
-- **Score:** 0-100 weighted score (see [Scoring Methodology](#-wallet-scores-weighted-metrics))
-- **Core:** ✅ Has BOTH mobile + browser extension (core criteria) | ❌ Missing one or both | ⚠️ Partial (e.g., Starknet-only)
-- **Rel/Mo:** Releases per month (lower = more stable; MetaMask ~8/mo is high churn)
-- **RPC:** ✅ Custom RPC support | ⚠️ Limited | ❌ No custom RPC
-- **Chains:** Built-in chain count | 94, 163 = exact count | 10+, 20+ = at least X | Any = unrestricted custom RPC | EVM = any EVM chain | ETH+ = Ethereum + L2s | Sources: [Rabby API](https://api.rabby.io/v1/chain/list), [Trust registry](https://github.com/trustwallet/wallet-core/blob/master/registry.json)
+**Quick Reference:**
+- **Score:** 0-100 (see [Scoring Methodology](#-wallet-scores-weighted-methodology)) | **Core:** ✅ Both mobile+ext | **Rel/Mo:** Releases/month (lower = stable)
 - **Devices:** 📱 Mobile | 🌐 Browser Extension | 💻 Desktop | 🔗 Web App
-- **License:** ✅ FOSS (MIT, GPL, MPL) | ⚠️ Source-Available/Partial | ❌ Proprietary
-- **Audits:** ✅ Recent (2023+) | ⚠️ Old/Issues | ❓ None/Priv | 🐛 H1 = HackerOne
-- **Funding:** 🟢 Sustainable | 🟡 VC-dependent | 🔴 Risky/Unknown
-- **Tx Sim:** ✅ Built-in | ⚠️ Plugin/limited | ❌ None
-- **Scam:** ✅ Built-in alerts | ⚠️ Basic | ❌ None
-- **Account:** EOA = Standard | Safe = Multi-sig | 4337 = Smart Account | 7702 = Upgraded EOA
-- **ENS/Naming:** ✅ Full = Mainnet ENS + subdomains | ✅ Basic = Mainnet ENS only | ⚠️ Import only = Can import but not send to .eth | ✅ Full+cb.id = Full ENS + custom domains | ❌ None = No ENS or naming system support
-- **Active:** ✅ Active (≤30 days) | ⚠️ Slow (1-4 mo) | ❌ Inactive (4+ mo) | 🔒 Private
+- **Status:** ✅ Active | ⚠️ Slow | ❌ Inactive | 🔒 Private
 - **Rec:** 🟢 Recommended | 🟡 Situational | 🔴 Avoid | ⚪ Not for dev
-- **Tracked EIPs:** EIP-712 (Typed Data), EIP-2612 (Permit), EIP-4337 (Account Abstraction), EIP-5792 (Wallet Call API), EIP-7702 (Set EOA Code) — see [EIP Support Matrix](#-eip-support-matrix)
-- † Safe is web app only — requires WalletConnect
-- § Brave Wallet is built into Brave browser
-- ‡ Ledger Live is hardware wallet companion
-- ⁂ Argent desktop extension is Starknet-only
-- ~~Strikethrough~~ = was recommended, now inactive
 
-**⚠️ Core Criteria:** For the original goal (stable MetaMask alternatives for developers), wallets need BOTH mobile app AND browser extension. Wallets marked ❌ in "Core" column don't meet this requirement.
+**Detailed Legend:** See [Column Definitions](#column-definitions) below for complete explanations.
+
+**⚠️ Core Criteria:** Wallets need BOTH mobile app AND browser extension. Wallets marked ❌ in "Core" column don't meet this requirement.
 
 ### GitHub Metrics (Stars, Issues, Code Quality)
 
@@ -98,57 +111,81 @@
 
 ---
 
-## Recommendations by Use Case (Updated Dec 2025)
+## 🎯 Quick Recommendations
 
-### ✅ Wallets That Meet Core Criteria (Mobile + Browser Extension)
+**Quick Answers:** Best for development? **Rabby** (92). Most stable? **Trust** (85). Best code quality? **Rainbow** (82). Why not MetaMask? **MetaMask** (68) has ~8 rel/mo = too much churn. See [full comparison table](#complete-wallet-comparison-all-24-evm-wallets) for all 24 wallets.
 
-#### For Development (Daily Driver)
-1. **Rabby** (92) — Best tx simulation, catches bugs before mainnet
-2. **Trust Wallet** (85) — Most stable (~3 rel/mo), wide adoption
-3. **Rainbow** (82) — Excellent code quality (0.3% issue ratio)
+**Jump to:** [Comparison Table](#complete-wallet-comparison-all-24-evm-wallets) | [Scoring Methodology](#-wallet-scores-weighted-methodology) | [Features Matrix](#wallet-features-matrix) | [EIP Support](#-eip-support-matrix) | [Developer Experience](#-developer-experience-benchmarks)
 
-#### For Production Testing
-1. **Trust Wallet** (85) — Wide user adoption, 163 chains
-2. **Rainbow** (82) — Great mobile UX, curated chains
-3. **Coinbase** (75) — AA support, enterprise backing ⚠️ SDK dev slowed
+### ✅ Top Picks (Meet Core Criteria: Mobile + Browser Extension)
 
-#### For Maximum Stability
-1. **Brave** (78) — ~2 rel/mo, built into browser
-2. **Trust Wallet** (85) — ~3 rel/mo, very stable
-3. **Coinbase** (75) — ~2 rel/mo, stable API
+| Rank | Wallet | Score | Best For |
+|------|--------|-------|----------|
+| 🥇 | **Rabby** | 92 | Development — tx simulation, catches bugs before mainnet |
+| 🥈 | **Trust** | 85 | Production — most stable (~3 rel/mo), 163 chains, wide adoption |
+| 🥉 | **Rainbow** | 82 | Production — best code quality (0.3% issue ratio), curated chains |
+| 4 | **Brave** | 78 | Maximum stability — ~2 rel/mo, built into browser |
+| 5 | **Coinbase** | 75 | Account Abstraction — EIP-4337 support ⚠️ SDK dev slowed |
 
-#### For Account Abstraction / EIP-7702 (with both platforms)
-1. **Trust** (85) — EIP-7702 support, most chains (163)
-2. **Coinbase** (75) — EIP-4337 in browser extension
-3. **OKX** (62) — EIP-7702 support, proprietary
-4. **MetaMask** (68) — EIP-7702 support, but high churn
+### Use Case Recommendations
 
-#### For Compatibility Testing (Use Last)
-1. **MetaMask** (68) — Most widely supported, but ~8 rel/mo = test last
+**For Development (Daily Driver):**
+- **Rabby** (92) — Best tx simulation, both platforms, active
+- **Trust** (85) — Most stable (~3 rel/mo), wide adoption
+- **Rainbow** (82) — Excellent code quality (0.3% issue ratio)
+
+**For Production Testing:**
+- **Trust** (85) — Wide user adoption, 163 chains
+- **Rainbow** (82) — Great mobile UX, curated chains
+- **Coinbase** (75) — AA support, enterprise backing ⚠️ SDK dev slowed
+
+**For Maximum Stability:**
+- **Brave** (78) — ~2 rel/mo, built into browser
+- **Trust** (85) — ~3 rel/mo, very stable
+- **Coinbase** (75) — ~2 rel/mo, stable API
+
+**For Account Abstraction / EIP-7702:**
+- **Trust** (85) — EIP-7702 support, most chains (163)
+- **Coinbase** (75) — EIP-4337 in browser extension
+- **OKX** (62) — EIP-7702 support, proprietary
+- **MetaMask** (68) — EIP-7702 support, but high churn
+
+**For Compatibility Testing (Use Last):**
+- **MetaMask** (68) — Most widely supported, but ~8 rel/mo = test last
 
 ### ⚠️ Good Wallets That DON'T Meet Core Criteria
 
-#### Browser Extension Only (No Mobile)
+**Browser Extension Only (No Mobile):**
 - **Enkrypt** (55) — 75+ chains, great for multi-chain testing
 - **Ambire** (55) — Smart wallet with tx simulation
 - **Taho** (40) — Community-owned, open source ⚠️ slow dev
 
-#### Mobile/Web Only (No Browser Extension)
+**Mobile/Web Only (No Browser Extension):**
 - **Safe** (58) — Enterprise multi-sig, requires WalletConnect
 - **Ledger Live** (50) — Hardware wallet users
 - **MEW** (50) — Classic Ethereum, web + mobile
 
-#### Avoid ❌
+**Avoid ❌ (Inactive/Abandoned):**
 - **Block Wallet** — Abandoned (no commits since Nov 2024)
 - **Frame** — Inactive (no commits since Feb 2025)
 - **Argent** — Inactive, Starknet-only desktop
 - **imToken** — Inactive (180+ days)
+
+### ⚠️ MetaMask: Why It's Ranked Lower
+
+MetaMask scores 68 (🟡 Situational) despite being the industry standard:
+- **~8 releases/month** — highest churn of any wallet
+- **19.3% issue/star ratio** — indicates maintenance challenges
+- **Frequent breaking changes** — requires constant testing
+- **Use for:** Compatibility testing only (test with MetaMask last)
 
 ---
 
 ## 📊 Wallet Scores (Developer-Focused Methodology)
 
 **Original Goal:** Find stable MetaMask alternatives with BOTH mobile + browser extension for developer use.
+
+**Quick Reference:** Score = Core (25) + Stability (20) + DevExp (25) + Activity (15) + FOSS (10) + Security (5) = 100 total
 
 Scores prioritize what matters for developers: platform coverage, stability, and developer experience.
 
@@ -227,38 +264,6 @@ SECURITY (5 pts)
 **Key Insight:** MetaMask scores 68 despite being the industry standard because of its ~8 releases/month (high churn). Wallets like Trust (85) and Rainbow (82) offer better stability while meeting all core criteria.
 
 ---
-
-## Summary
-
-| Question | Answer |
-|----------|--------|
-| **Best for development?** | **Rabby** (92) — tx simulation + both platforms + stable |
-| **Most stable with both platforms?** | **Trust Wallet** (85) — ~3 rel/mo, 163 chains, active |
-| **Best code quality?** | **Rainbow** (82) — 0.3% issue ratio, excellent maintenance |
-| **Why not MetaMask?** | **MetaMask** (68) — ~8 rel/mo is too much churn for stability |
-| **Best with AA support?** | **Coinbase** (75) — EIP-4337, both platforms |
-| **Best for enterprise?** | **Safe** (58) — multi-sig, but ❌ no browser ext |
-| **Most chains?** | **Trust** (163) > **OKX** (100+) > **Rabby** (94) |
-| **Best custom RPC?** | All top wallets support custom RPC ✅ |
-| **Avoid?** | **Block** ❌, **Frame** ❌, **Argent** ❌, **imToken** ❌ (inactive) |
-
-### 🎯 Top Picks for Developers (Meet Core Criteria)
-
-| Rank | Wallet | Score | Why |
-|------|--------|-------|-----|
-| 🥇 | **Rabby** | 92 | Best tx simulation, both platforms, active |
-| 🥈 | **Trust** | 85 | Most stable (~3/mo), most chains (163) |
-| 🥉 | **Rainbow** | 82 | Best code quality, curated chains |
-| 4 | **Brave** | 78 | Built into browser, very stable (~2/mo) |
-| 5 | **Coinbase** | 75 | AA support, good SDK (dev slowed) |
-
-### ⚠️ MetaMask: Why It's Ranked Lower
-
-MetaMask scores 68 (🟡 Situational) despite being the industry standard:
-- **~8 releases/month** — highest churn of any wallet
-- **19.3% issue/star ratio** — indicates maintenance challenges
-- **Frequent breaking changes** — requires constant testing
-- **Use for:** Compatibility testing only (test with MetaMask last)
 
 ### ⚠️ Previously Recommended, Now Inactive
 | Wallet | Status | Alternative |
@@ -421,7 +426,46 @@ Every wallet has quirks that can cause developer headaches. Know them before you
 
 ---
 
-## Account Type Support (from WalletBeat)
+## Column Definitions
+
+Complete explanations for all table columns:
+
+| Column | Values | Meaning |
+|--------|--------|---------|
+| **Score** | 0-100 | Weighted score prioritizing core criteria, stability, and developer experience. See [Scoring Methodology](#-wallet-scores-weighted-methodology) |
+| **Core** | ✅ / ⚠️ / ❌ | ✅ = Has BOTH mobile + browser extension (core criteria) | ⚠️ = Partial (e.g., Starknet-only desktop) | ❌ = Missing one or both |
+| **Rel/Mo** | Number or ? | Releases per month (lower = more stable; MetaMask ~8/mo is high churn) | ? = Unknown (private repo) |
+| **RPC** | ✅ / ⚠️ / ❌ | ✅ = Custom RPC support | ⚠️ = Limited | ❌ = No custom RPC |
+| **Chains** | Number, 10+, Any, EVM, ETH+ | Built-in chain count. Exact numbers (94, 163) = verified count. 10+, 20+ = at least X. Any = unrestricted custom RPC. EVM = any EVM chain. ETH+ = Ethereum + L2s. Sources: [Rabby API](https://api.rabby.io/v1/chain/list), [Trust registry](https://github.com/trustwallet/wallet-core/blob/master/registry.json) |
+| **Devices** | 📱🌐💻🔗 | 📱 = Mobile | 🌐 = Browser Extension | 💻 = Desktop | 🔗 = Web App |
+| **Testnets** | ✅ / ❌ | ✅ = Custom chain/testnet support | ❌ = No testnet support |
+| **License** | ✅ / ⚠️ / ❌ | ✅ = FOSS (MIT, GPL, MPL, Apache) | ⚠️ = Source-Available/Partial | ❌ = Proprietary |
+| **Audits** | ✅ / ⚠️ / ❓ / 🐛 | ✅ = Recent (2023+) | ⚠️ = Old/Issues | ❓ = None/Private | 🐛 = HackerOne bug bounty |
+| **Funding** | 🟢 / 🟡 / 🔴 | 🟢 = Sustainable | 🟡 = VC-dependent | 🔴 = Risky/Unknown |
+| **Tx Sim** | ✅ / ⚠️ / ❌ | ✅ = Built-in transaction simulation | ⚠️ = Plugin/limited | ❌ = None |
+| **Scam** | ✅ / ⚠️ / ❌ | ✅ = Built-in scam/phishing alerts | ⚠️ = Basic protection | ❌ = None |
+| **Account** | EOA, Safe, 4337, 7702, combinations | EOA = Standard Externally Owned Account | Safe = Multi-sig | 4337 = Smart Account (EIP-4337) | 7702 = Upgraded EOA (EIP-7702) |
+| **ENS/Naming** | ✅ Full / ✅ Basic / ⚠️ / ❌ | ✅ Full = Mainnet ENS + subdomains | ✅ Basic = Mainnet ENS only | ⚠️ Import only = Can import but not send to .eth | ✅ Full+cb.id = Full ENS + custom domains | ❌ = No ENS support |
+| **HW** | ✅ / ⚠️ / ❌ | ✅ = Hardware wallet support (Ledger/Trezor) | ⚠️ = Limited support | ❌ = No hardware wallet support |
+| **Active** | ✅ / ⚠️ / ❌ / 🔒 | ✅ = Active (≤30 days since last commit) | ⚠️ = Slow (1-4 months) | ❌ = Inactive (4+ months) | 🔒 = Private repo |
+| **Rec** | 🟢 / 🟡 / 🔴 / ⚪ | 🟢 = Recommended (score 75+) | 🟡 = Situational (score 50-74) | 🔴 = Avoid (score <50 or inactive) | ⚪ = Not for developers |
+
+**Special Notes:**
+- † Safe is web app only — requires WalletConnect
+- § Brave Wallet is built into Brave browser
+- ‡ Ledger Live is hardware wallet companion
+- ⁂ Argent desktop extension is Starknet-only
+- ~~Strikethrough~~ = was recommended, now inactive
+
+**Tracked EIPs:** EIP-712 (Typed Data), EIP-2612 (Permit), EIP-4337 (Account Abstraction), EIP-5792 (Wallet Call API), EIP-7702 (Set EOA Code) — see [EIP Support Matrix](#-eip-support-matrix)
+
+---
+
+## Wallet Features Matrix
+
+Comprehensive feature comparison across account types, hardware wallet support, ENS, and browser integration.
+
+### Account Type Support
 
 | Wallet | Default | EOA | Safe | EIP-4337 | EIP-7702 | MPC | Notes |
 |--------|---------|-----|------|----------|----------|-----|-------|
@@ -432,99 +476,125 @@ Every wallet has quirks that can cause developer headaches. Know them before you
 | **Coinbase** | EOA | ✅ | ❌ | ✅ | ❌ | ❌ | Smart wallet option |
 | **Rainbow** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Standard EOA |
 | **Ambire** | 7702 | ✅ | ❌ | ✅ | ✅ | ❌ | [Hybrid AA + EIP-7702](https://blog.ambire.com/eip-7702-wallet/) |
-| **OKX** | EOA | ✅ | ❌ | ❌ | ✅ | ❌ | [7702 wallet-core](https://web3.okx.com/help/okx-wallet-to-support-eip-7702) |
-| **Phantom** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Multi-chain EOA |
-| **Zerion** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Standard EOA |
-| **Frame** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Standard EOA |
-| **Daimo** | 4337 | ❌ | ❌ | ✅ | ❌ | ❌ | Pure smart account |
+| **OKX** | EOA | ✅ | ❌ | ❌ | ✅ | ❌ | [7702 support](https://web3.okx.com/help/okx-wallet-to-support-eip-7702) |
+| **Sequence** | 4337 | ❌ | ❌ | ✅ | ❌ | ❌ | Native smart wallet |
+| **Daimo** | 4337 | ❌ | ❌ | ✅ | ❌ | ❌ | Payments-focused |
+| **Phantom** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Solana-first |
+| **Enkrypt** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Standard EOA |
+| **MEW** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Classic Ethereum |
+| **Brave** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Standard EOA |
+| **Ledger Live** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Hardware companion |
+| **Uniswap** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | DeFi-focused |
+| **Taho** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Community wallet |
+| **Zerion** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Portfolio tracker |
+| **Wigwam** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | EVM-focused |
+| **Argent** | 4337 | ❌ | ❌ | ✅ | ❌ | ❌ | Starknet-focused |
+| **Frame** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Desktop-only |
+| **1inch** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Mobile-only |
 | **imToken** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Standard EOA |
+| **Block** | EOA | ✅ | ❌ | ❌ | ❌ | ❌ | Standard EOA |
 
-**Account Types:**
-- **EOA:** Externally Owned Account (private key)
-- **Safe:** Multi-signature smart contract wallet
-- **EIP-4337:** Account Abstraction (smart contract wallets with bundlers)
-- **EIP-7702:** EOA that can temporarily act as a smart contract
-- **MPC:** Multi-Party Computation (sharded key)
+**Account Types:** EOA = Standard Externally Owned Account | Safe = Multi-sig | 4337 = Smart Account (EIP-4337) | 7702 = Upgraded EOA (EIP-7702) | MPC = Multi-Party Computation
 
----
+#### Hardware Wallet Support
 
-## Hardware Wallet Support (from WalletBeat)
+See [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON.md) for detailed hardware wallet analysis and recommendations.
 
-| Wallet | Ledger | Trezor | Keystone | GridPlus | Other |
-|--------|--------|--------|----------|----------|-------|
-| **MetaMask** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | KeepKey, OneKey |
-| **Rabby** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ✅ Others |
-| **Safe** | ✅ WebUSB | ✅ WebUSB | ✅ WalletConnect | ✅ WalletConnect | - |
-| **Rainbow** | ✅ WebUSB+BT | ✅ WebUSB | - | - | - |
-| **Coinbase** | ✅ | ✅ | - | - | - |
-| **Frame** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ✅ Others |
-| **Ambire** | ✅ WebUSB | ✅ WebUSB | ❌ | ✅ WebUSB | - |
-| **Zerion** | ✅ WebUSB | ✅ WC only | ✅ WC only | ✅ WC only | - |
-| **Phantom** | ✅ WebUSB | ❌ | ❌ | ❌ | - |
-| **imToken** | ❌ | ❌ | ✅ QR | ❌ | imKey (BT) |
+| Wallet | Ledger | Trezor | Keystone | GridPlus | Other | Notes |
+|--------|--------|--------|----------|----------|-------|-------|
+| **MetaMask** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | KeepKey, OneKey | Best HW wallet integration |
+| **Rabby** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ✅ Others | Good HW wallet support |
+| **Trust** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ✅ Others | Wide HW wallet support |
+| **Rainbow** | ✅ WebUSB+BT | ✅ WebUSB | - | - | - | Good HW wallet support |
+| **Coinbase** | ✅ | ✅ | - | - | - | Full HW wallet support |
+| **Safe** | ✅ WebUSB | ✅ WebUSB | ✅ WalletConnect | ✅ WalletConnect | - | Multi-sig + HW wallets |
+| **Enkrypt** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ✅ Others | Excellent HW wallet support |
+| **Ambire** | ✅ WebUSB | ✅ WebUSB | ❌ | ✅ WebUSB | - | Good HW wallet support |
+| **Brave** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ✅ Others | Built-in HW wallet support |
+| **Ledger Live** | ✅ | ❌ | ❌ | ❌ | ❌ | Ledger-only (companion app) |
+| **MEW** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ✅ Others | Classic HW wallet support |
+| **Phantom** | ✅ WebUSB | ❌ | ❌ | ❌ | - | Solana-first, EVM secondary |
+| **OKX** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ✅ Others | Good HW wallet support |
+| **Sequence** | ❌ | ❌ | ❌ | ❌ | ❌ | Web SDK only, no HW wallets |
+| **Daimo** | ❌ | ❌ | ❌ | ❌ | ❌ | Mobile-only, no HW wallets |
+| **Uniswap** | ❌ | ❌ | ❌ | ❌ | ❌ | DeFi-focused, no HW wallets |
+| **Taho** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ✅ Others | Good HW wallet support |
+| **Zerion** | ✅ WebUSB | ✅ WC only | ✅ WC only | ✅ WC only | - | Portfolio + HW wallets |
+| **Wigwam** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ✅ Others | Good HW wallet support |
+| **Argent** | ✅ WebUSB | ✅ WebUSB | ✅ WalletConnect | ✅ WalletConnect | - | HW wallet support |
+| **Frame** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ✅ Others | Desktop HW wallet support |
+| **1inch** | ❌ | ❌ | ❌ | ❌ | ❌ | Mobile-only, no HW wallets |
+| **imToken** | ❌ | ❌ | ✅ QR | ❌ | imKey (BT) | Mobile-only, limited HW support |
+| **Block** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ✅ Others | Good HW wallet support |
 
-**Connection Types:** WebUSB, Bluetooth (BT), QR code, WalletConnect (WC)
+**Connection Types:** WebUSB, Bluetooth (BT), QR code, WalletConnect (WC). See [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON.md) for hardware wallet recommendations.
 
----
+### ENS & Address Resolution
 
-## ENS & Address Resolution (from WalletBeat)
+| Wallet | Mainnet ENS | Subdomains | Offchain | L2 ENS | Custom Domains | Notes |
+|--------|-------------|------------|----------|--------|----------------|-------|
+| **MetaMask** | ✅ | ✅ | ✅ | ❌ | ❌ | Full ENS support |
+| **Coinbase** | ✅ | ✅ | ✅ | ❌ | ✅ (cb.id) | Full ENS + cb.id domains |
+| **Rainbow** | ✅ | ✅ | ❌ | ❌ | ❌ | Full ENS support |
+| **Safe** | ✅ | ✅ | ❌ | ❌ | ❌ | Full ENS support |
+| **MEW** | ✅ | ✅ | ❌ | ❌ | ❌ | Full ENS support |
+| **Trust** | ✅ | ❌ | ❌ | ❌ | ❌ | Basic ENS (mainnet only) |
+| **Rabby** | ⚠️ Import only | ❌ | ❌ | ❌ | ❌ | Import only (can't send to .eth) |
+| **Enkrypt** | ✅ | ❌ | ❌ | ❌ | ❌ | Basic ENS (mainnet only) |
+| **Ambire** | ✅ | ❌ | ❌ | ❌ | ❌ | Basic ENS (mainnet only) |
+| **Daimo** | ✅ | ❌ | ❌ | ❌ | ❌ | Basic ENS (mainnet only) |
+| **Zerion** | ✅ | ❌ | ❌ | ❌ | ❌ | Basic ENS (mainnet only) |
+| **imToken** | ✅ | ❌ | ❌ | ❌ | ❌ | Basic ENS (mainnet only) |
+| **Phantom** | ❌ | ❌ | ❌ | ❌ | ❌ | No ENS support |
+| **OKX** | ❌ | ❌ | ❌ | ❌ | ❌ | No ENS support |
+| **Sequence** | ❌ | ❌ | ❌ | ❌ | ❌ | No ENS support |
+| **Uniswap** | ❌ | ❌ | ❌ | ❌ | ❌ | No ENS support |
+| **Taho** | ❌ | ❌ | ❌ | ❌ | ❌ | No ENS support |
+| **Wigwam** | ❌ | ❌ | ❌ | ❌ | ❌ | No ENS support |
+| **Argent** | ❌ | ❌ | ❌ | ❌ | ❌ | No ENS support |
+| **Frame** | ❌ | ❌ | ❌ | ❌ | ❌ | No ENS support |
+| **Brave** | ❌ | ❌ | ❌ | ❌ | ❌ | No ENS support |
+| **Ledger Live** | ❌ | ❌ | ❌ | ❌ | ❌ | No ENS support |
+| **1inch** | ❌ | ❌ | ❌ | ❌ | ❌ | No ENS support |
+| **Block** | ❌ | ❌ | ❌ | ❌ | ❌ | No ENS support |
 
-| Wallet | Mainnet ENS | Subdomains | Offchain | L2 ENS | Custom Domains |
-|--------|-------------|------------|----------|--------|----------------|
-| **MetaMask** | ✅ | ✅ | ✅ | ❌ | ❌ |
-| **Rabby** | ⚠️ Import only | ❌ | ❌ | ❌ | ❌ |
-| **Safe** | ✅ | ✅ | ❌ | ❌ | ❌ |
-| **Rainbow** | ✅ | ✅ | ❌ | ❌ | ❌ |
-| **Coinbase** | ✅ | ✅ | ✅ | ❌ | ✅ (cb.id) |
-| **Trust** | ✅ | ❌ | ❌ | ❌ | ❌ |
-| **Ambire** | ✅ | ❌ | ❌ | ❌ | ❌ |
-| **MEW** | ✅ | ✅ | ❌ | ❌ | ❌ |
-| **imToken** | ✅ | ❌ | ❌ | ❌ | ❌ |
-| **Daimo** | ✅ | ❌ | ❌ | ❌ | ❌ |
-| **Phantom** | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Zerion** | ✅ | ❌ | ❌ | ❌ | ❌ |
-| **Enkrypt** | ✅ | ❌ | ❌ | ❌ | ❌ |
+**ENS Support Levels:** ✅ Full = Mainnet + subdomains + offchain + L2s | ✅ Basic = Mainnet ENS only | ⚠️ Import only = Can import but not send to .eth | ❌ = No ENS support
 
-**ENS Features:**
-- **Mainnet ENS:** Send to user.eth addresses
-- **Subdomains:** Send to hot.user.eth
-- **Offchain:** ENS with offchain resolvers (CCIP-read)
-- **L2 ENS:** ENS resolution on L2s (e.g., Optimism)
-- **Custom Domains:** Custom ENS domains (e.g., user.cb.id)
+### Browser Integration
 
----
+| Wallet | EIP-1193 | EIP-2700 | EIP-6963 | WC v2 | In-App Browser | Notes |
+|--------|----------|----------|----------|-------|----------------|-------|
+| **MetaMask** | ✅ | ✅ | ✅ | ✅ | ✅ (mobile) | Standard wallet injection |
+| **Rabby** | ✅ | ✅ | ✅ | ✅ | ❌ | Standard wallet injection |
+| **Trust** | ✅ | ✅ | ✅ | ✅ | ✅ (mobile) | Standard wallet injection |
+| **Rainbow** | ✅ | ✅ | ✅ | ✅ | ✅ (mobile) | Standard wallet injection |
+| **Coinbase** | ✅ | ✅ | ✅ | ✅ | ✅ | Standard wallet injection |
+| **Brave** | ✅ | ✅ | ✅ | ❌ | ❌ | Built into browser |
+| **Enkrypt** | ✅ | ✅ | ✅ | ❌ | ❌ | Browser extension only |
+| **Ambire** | ✅ | ✅ | ✅ | ✅ | ❌ | Browser extension only |
+| **Phantom** | ✅ | ✅ | ✅ | ✅ | ✅ | Standard wallet injection |
+| **OKX** | ✅ | ✅ | ✅ | ✅ | ✅ | Standard wallet injection |
+| **Sequence** | ✅ | ✅ | ✅ | ✅ | ❌ | Web SDK only |
+| **Taho** | ✅ | ✅ | ✅ | ❌ | ❌ | Browser extension only |
+| **Zerion** | ✅ | ✅ | ✅ | ✅ | ✅ | Standard wallet injection |
+| **Wigwam** | ✅ | ✅ | ✅ | ✅ | ✅ | Standard wallet injection |
+| **Frame** | ✅ | ✅ | ❌ | ❌ | ❌ | Desktop-only |
+| **Block** | ✅ | ✅ | ✅ | ✅ | ✅ | Standard wallet injection |
+| **Safe** | N/A | N/A | N/A | ✅ | ❌ | Web app only (WalletConnect) |
+| **Ledger Live** | N/A | N/A | N/A | ✅ | ❌ | Mobile/desktop app (WalletConnect) |
+| **MEW** | N/A | N/A | N/A | ✅ | ✅ (mobile) | Web + mobile (WalletConnect) |
+| **Uniswap** | N/A | N/A | N/A | ✅ | ✅ | Web + mobile (WalletConnect) |
+| **Daimo** | N/A | N/A | N/A | ✅ | ❌ | Mobile-only (WalletConnect) |
+| **1inch** | N/A | N/A | N/A | ✅ | ✅ | Mobile-only (WalletConnect) |
+| **imToken** | N/A | N/A | N/A | ✅ | ✅ | Mobile-only (WalletConnect) |
+| **Argent** | N/A | N/A | N/A | ✅ | ✅ | Mobile + Starknet desktop (WalletConnect) |
 
-## Browser Integration (from WalletBeat)
-
-| Wallet | EIP-1193 | EIP-2700 | EIP-6963 | WC v1 | WC v2 | In-App Browser |
-|--------|----------|----------|----------|-------|-------|----------------|
-| **MetaMask** | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ (mobile) |
-| **Rabby** | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
-| **Safe** | N/A | N/A | N/A | ❌ | ✅ | ❌ |
-| **Rainbow** | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ (mobile) |
-| **Coinbase** | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
-| **Trust** | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ (mobile) |
-| **Ambire** | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
-| **Brave** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
-| **Ledger Live** | N/A | N/A | N/A | ❌ | ✅ | ❌ |
-| **Sequence** | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
-| **Uniswap** | N/A | N/A | N/A | ❌ | ✅ | ✅ |
-| **Enkrypt** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
-| **MEW** | N/A | N/A | N/A | ❌ | ✅ | ✅ (mobile) |
-| **imToken** | N/A | N/A | N/A | ❌ | ✅ | ✅ |
-| **Daimo** | N/A | N/A | N/A | ❌ | ✅ | ❌ |
-| **Phantom** | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
-| **Zerion** | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
-| **Frame** | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| **Taho** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
-
-**Legend:**
-- **EIP-1193:** Standard Ethereum Provider API (`window.ethereum`)
-- **EIP-2700:** Provider event system (`.on()`, `.removeListener()`)
-- **EIP-6963:** Multi-wallet discovery ([test at eip6963.org](https://eip6963.org))
-- **WC v1:** WalletConnect v1 (deprecated June 2023)
-- **WC v2:** WalletConnect v2 (current standard)
-- **N/A:** Mobile-only or web-app wallets don't inject into browser
+**Browser Integration Standards:**
+- **EIP-1193:** Provider API (`window.ethereum`) — standard wallet injection
+- **EIP-2700:** Provider Events (`accountsChanged`, `chainChanged`) — event handling
+- **EIP-6963:** Multi-Wallet Discovery — modern standard for detecting multiple wallets
+- **WC v2:** WalletConnect v2 (current standard; v1 deprecated June 2023)
+- **N/A:** Mobile-only or web-app wallets don't inject into browser (use WalletConnect instead)
 
 ---
 
@@ -902,13 +972,18 @@ WalletBeat tracks detailed technical information not found elsewhere:
 
 ## Integration Advice
 
+**Quick Tips:**
+- Use wallet abstraction libraries (wagmi, viem) to avoid locking to one wallet
+- Prioritize: Developer-friendly (Rabby, Safe) → Stable & active (Rainbow, Enkrypt, Trust) → MetaMask (compatibility only)
+- Test with multiple wallets — each has quirks
+
 ### Use Wallet Abstraction
 
 ```bash
 npm install wagmi viem
 ```
 
-Abstract wallet dependencies so you're not locked to any single wallet.
+Abstract wallet dependencies so you're not locked to any single wallet. See [Integration Best Practices](#integration-best-practices) for detailed guidance.
 
 ### Prioritize Wallets in This Order
 
