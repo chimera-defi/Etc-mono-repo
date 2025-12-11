@@ -10,16 +10,18 @@ applications:
             - npm install next
         build:
           commands:
-            - npm run build
+            - npm run build --production --ignore-workspaces --legacy-peer-deps
       artifacts:
         baseDirectory: .next
         files:
-          - '**/*'
+          - '.next/**/*'
           - '../node_modules/**/*'
-          - '../package.json'
-          - '../package-lock.json'
-          - '../next.config.js'
-          - '../public/**/*'
+          - '../../**/**/node_modules/**/*'
+          - 'node_modules/**/*'
+          - 'package.json'
+          - 'package-lock.json'
+          - 'next.config.js'
+          - 'public/**/*'
       cache:
         paths:
           - 'node_modules/**/*'
