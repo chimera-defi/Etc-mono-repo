@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
-import { ArrowLeft, Clock, BookOpen, ExternalLink } from 'lucide-react';
+import { ArrowLeft, Clock, BookOpen, ExternalLink, FileText, Table } from 'lucide-react';
 import Link from 'next/link';
-import { getAllDocuments, getDocumentBySlug, getDocumentSlugs, extractTableOfContents } from '@/lib/markdown';
+import { getAllDocuments, getDocumentBySlug, getDocumentSlugs, extractTableOfContents, getRelatedDocument } from '@/lib/markdown';
 import { EnhancedMarkdownRenderer } from '@/components/EnhancedMarkdownRenderer';
 import { TableOfContents } from '@/components/TableOfContents';
 
@@ -42,6 +42,15 @@ export default function DocumentPage({ params }: PageProps) {
 
   const toc = extractTableOfContents(document.content);
   const filteredToc = toc.filter(item => item.level <= 2);
+  
+  // Check if this is a table or details page and get the related one
+  const isTablePage = document.slug.includes('-table');
+  const isDetailsPage = document.slug.includes('-details');
+  const relatedDoc = isTablePage 
+    ? getRelatedDocument(document.slug, 'details')
+    : isDetailsPage 
+    ? getRelatedDocument(document.slug, 'table')
+    : null;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -55,6 +64,43 @@ export default function DocumentPage({ params }: PageProps) {
           Back to Home
         </Link>
       </nav>
+      
+      {/* Navigation between table and details */}
+      {relatedDoc && (
+        <div className="mb-6 p-4 rounded-lg border border-border bg-muted/50">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              {isTablePage ? (
+                <>
+                  <Table className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">Viewing comparison table</span>
+                </>
+              ) : (
+                <>
+                  <FileText className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">Viewing full documentation</span>
+                </>
+              )}
+            </div>
+            <Link
+              href={`/docs/${relatedDoc.slug}`}
+              className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+            >
+              {isTablePage ? (
+                <>
+                  <FileText className="h-4 w-4" />
+                  View Full Documentation
+                </>
+              ) : (
+                <>
+                  <Table className="h-4 w-4" />
+                  View Comparison Table
+                </>
+              )}
+            </Link>
+          </div>
+        </div>
+      )}
 
       <div className="lg:grid lg:grid-cols-[1fr_250px] lg:gap-8">
         {/* Main Content */}
@@ -135,8 +181,24 @@ export default function DocumentPage({ params }: PageProps) {
 
 function RelatedDocuments({ currentSlug }: { currentSlug: string }) {
   const documents = getAllDocuments();
+  
+  // Exclude the related table/details page since we show navigation banner
+  const isTablePage = currentSlug.includes('-table');
+  const isDetailsPage = currentSlug.includes('-details');
+  const relatedDoc = isTablePage 
+    ? getRelatedDocument(currentSlug, 'details')
+    : isDetailsPage 
+    ? getRelatedDocument(currentSlug, 'table')
+    : null;
+  
   const related = documents
-    .filter((doc) => doc.slug !== currentSlug)
+    .filter((doc) => {
+      // Exclude current document
+      if (doc.slug === currentSlug) return false;
+      // Exclude related table/details page (shown in banner)
+      if (relatedDoc && doc.slug === relatedDoc.slug) return false;
+      return true;
+    })
     .slice(0, 3);
 
   return (

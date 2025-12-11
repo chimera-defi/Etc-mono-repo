@@ -17,15 +17,27 @@ export interface MarkdownDocument {
 
 // Define the markdown files we want to process and their metadata
 const DOCUMENT_CONFIG: Record<string, Omit<MarkdownDocument, 'slug' | 'content'>> = {
-  'WALLET_COMPARISON_UNIFIED.md': {
+  'WALLET_COMPARISON_UNIFIED_TABLE.md': {
     title: 'Software Wallet Comparison',
     description: 'Developer-focused comparison of 24 EVM wallets with scoring, security audits, and recommendations',
     category: 'comparison',
     order: 1,
   },
-  'HARDWARE_WALLET_COMPARISON.md': {
+  'WALLET_COMPARISON_UNIFIED_DETAILS.md': {
+    title: 'Software Wallet Comparison - Details',
+    description: 'Full documentation with recommendations, methodology, security audits, and more',
+    category: 'comparison',
+    order: 1,
+  },
+  'HARDWARE_WALLET_COMPARISON_TABLE.md': {
     title: 'Hardware Wallet Comparison',
     description: 'Cold storage comparison of 23 hardware wallets with security features and GitHub metrics',
+    category: 'comparison',
+    order: 2,
+  },
+  'HARDWARE_WALLET_COMPARISON_DETAILS.md': {
+    title: 'Hardware Wallet Comparison - Details',
+    description: 'Full documentation with recommendations, methodology, security deep dive, and more',
     category: 'comparison',
     order: 2,
   },
@@ -98,6 +110,25 @@ export function getDocumentBySlug(slug: string): MarkdownDocument | null {
   return documents.find((doc) => doc.slug === slug) || null;
 }
 
+// Helper to get related document (table/details)
+export function getRelatedDocument(slug: string, type: 'table' | 'details'): MarkdownDocument | null {
+  const documents = getAllDocuments();
+  
+  // Map slugs to their related documents
+  const relatedMap: Record<string, { table: string; details: string }> = {
+    'wallet-comparison-unified-table': { table: 'wallet-comparison-unified-table', details: 'wallet-comparison-unified-details' },
+    'wallet-comparison-unified-details': { table: 'wallet-comparison-unified-table', details: 'wallet-comparison-unified-details' },
+    'hardware-wallet-comparison-table': { table: 'hardware-wallet-comparison-table', details: 'hardware-wallet-comparison-details' },
+    'hardware-wallet-comparison-details': { table: 'hardware-wallet-comparison-table', details: 'hardware-wallet-comparison-details' },
+  };
+  
+  const related = relatedMap[slug];
+  if (!related) return null;
+  
+  const targetSlug = type === 'table' ? related.table : related.details;
+  return documents.find((doc) => doc.slug === targetSlug) || null;
+}
+
 export function getDocumentSlugs(): string[] {
   return getAllDocuments().map((doc) => doc.slug);
 }
@@ -130,8 +161,8 @@ export function getWalletStats(documents: MarkdownDocument[]): {
   hardwareWallets: number;
   lastUpdated: string;
 } {
-  const softwareDoc = documents.find(d => d.slug === 'wallet-comparison-unified');
-  const hardwareDoc = documents.find(d => d.slug === 'hardware-wallet-comparison');
+  const softwareDoc = documents.find(d => d.slug === 'wallet-comparison-unified-table' || d.slug === 'wallet-comparison-unified-details');
+  const hardwareDoc = documents.find(d => d.slug === 'hardware-wallet-comparison-table' || d.slug === 'hardware-wallet-comparison-details');
   
   // Count wallets from tables (rough estimate from content)
   const softwareCount = softwareDoc?.content.match(/\|\s+\*\*[^|]+\*\*\s+\|/g)?.length || 24;
