@@ -393,6 +393,31 @@ Every wallet has quirks that can cause developer headaches. Know them before you
 3. **EIP-6963 adoption is incomplete** — Always fall back to `window.ethereum`
 4. **Mobile ≠ Desktop** — Same wallet can behave differently across platforms
 5. **Hardware wallet connection varies** — WebUSB vs Bluetooth vs QR vs WalletConnect
+6. **Desktop-Mobile Sync** — Most wallets don't automatically sync between desktop and mobile. Users can import the same seed phrase on both platforms to access the same accounts, but transactions and state don't sync in real-time.
+
+### Integration Best Practices
+
+1. **Use EIP-6963** for wallet detection (modern standard, but always fall back to `window.ethereum`)
+2. **Use EIP-712 for message signing** — Enables human-readable display (foundational for clear signing)
+3. **Consider EIP-7730 for enhanced clear signing** — Provides formatting metadata for better display (especially important for hardware wallets like Ledger)
+4. **Support multiple wallets** — Don't lock users into one wallet
+5. **Test with multiple wallets** — Each has quirks and edge cases
+6. **Handle errors gracefully** — Wallet errors vary significantly between implementations
+7. **Provide clear error messages** — Help users debug connection issues
+8. **Test on both desktop and mobile** — User experiences differ across platforms
+9. **Monitor wallet updates** — Breaking changes happen, especially with high-release-frequency wallets
+10. **Use TypeScript** — Catch integration issues early with type checking
+11. **Document wallet-specific quirks** — Save time for future maintenance
+12. **Consider wallet abstraction libraries** — wagmi, ethers.js, viem reduce dependency on specific wallets
+
+### Stability Maintenance
+
+1. **Pin wallet versions** in development (if possible)
+2. **Monitor release notes** for breaking changes
+3. **Test after wallet updates** before deploying to production
+4. **Have fallback wallets** — Don't depend on a single wallet
+5. **Track wallet issues** — Monitor GitHub, Discord, and community forums
+6. **Consider wallet abstraction** — Reduces dependency on specific wallet implementations
 
 ---
 
@@ -531,12 +556,20 @@ Detailed EIP support for developers building dApps:
 | **Argent** | ✅ | ✅ | ✅ | ⚠️ Partial | ❌ | ✅ v4 |
 
 **EIP Definitions:**
-- **EIP-712:** Typed structured data hashing and signing (common for permits, orders)
+- **EIP-712:** Typed structured data hashing and signing (common for permits, orders) — Foundational standard for human-readable message signing
 - **EIP-2612:** Permit extension for ERC-20 (gasless approvals)
 - **EIP-4337:** Account Abstraction (smart contract wallets, paymasters)
 - **EIP-5792:** Wallet Call API (`wallet_sendCalls` method for batch transactions, atomic operations)
 - **EIP-7702:** Set EOA account code (upgrade EOA to smart account temporarily)
+- **EIP-7730:** Structured Data Clear Signing Format — Proposed by Ledger, currently Draft status. Standardizes JSON format for clear-signing smart contract calls and typed messages. Designed for hardware wallets with limited screen space. **Wallet support status unknown** — too new for widespread adoption (as of Dec 2025)
 - **Typed Data:** eth_signTypedData version support (v4 is current standard)
+
+**Clear Signing & Safety Features:**
+- **Clear Signing** refers to wallets displaying structured data in human-readable format when users sign messages or transactions, rather than showing opaque hexadecimal strings
+- **EIP-712** is the foundational standard that enables human-readable message signing — all modern wallets support it
+- **EIP-7730** builds on EIP-712 by adding formatting metadata for better display (especially important for hardware wallets like Ledger)
+- **Enhanced clear signing:** Rabby offers enhanced domain verification and address highlighting (via EIP-712)
+- **Safety features:** All wallets include phishing protection; Rabby adds transaction simulation and risk checks
 
 **EIP Support Status:**
 - ✅ **Full Support:** Wallet implements the complete EIP specification
