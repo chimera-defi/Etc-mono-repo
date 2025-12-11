@@ -109,7 +109,7 @@ The original goal was to find STABLE alternatives. Key stability indicators:
 2. Update the scoring breakdown table (if score changes)
 3. Update index.html wallet data array
 4. Update relevant sections (Security Audits, Hardware Support, etc.)
-5. Add changelog entry
+5. Add changelog entry to [CHANGELOG.md](./CHANGELOG.md)
 
 ### Avoid Data Fragmentation
 - Don't create separate "top wallets" or "recommended wallets" tables
@@ -193,7 +193,7 @@ When recalculating scores:
 2. Verify activity status (run refresh script)
 3. Update both main table AND scoring breakdown table
 4. Update index.html data array
-5. Add changelog entry
+5. Add changelog entry to [CHANGELOG.md](./CHANGELOG.md)
 
 ---
 
