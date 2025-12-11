@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Wallet, Github, ExternalLink, Mail } from 'lucide-react';
+import { Wallet, Github, ExternalLink, Mail, Twitter } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -108,6 +108,15 @@ export function Footer() {
             >
               <Mail className="h-4 w-4" />
               Contact Us
+            </a>
+            <a
+              href="https://x.com/chimeradefi"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
+            >
+              <Twitter className="h-4 w-4" />
+              Twitter
             </a>
             <a
               href="https://github.com"
