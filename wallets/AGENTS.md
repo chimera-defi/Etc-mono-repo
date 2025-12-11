@@ -26,10 +26,8 @@ This document provides guidance for AI coding assistants working on the wallet c
 - Keep all data in one comprehensive table, use filtering/sorting in the HTML version
 
 ### Supporting Documents
-- `walletconnect-wallet-research.md` — Original detailed research (reference only)
 - `README.md` — Quick reference and links
 - `CONTRIBUTING.md` — How to add new wallets
-- `index.html` — Interactive web version
 - `scripts/` — Automation for data refresh
 
 ---
@@ -108,9 +106,8 @@ The original goal was to find STABLE alternatives. Key stability indicators:
 ### When Updating the Main Table
 1. Update the main table row
 2. Update the scoring breakdown table (if score changes)
-3. Update index.html wallet data array
-4. Update relevant sections (Security Audits, Hardware Support, etc.)
-5. Add changelog entry
+3. Update relevant sections (Security Audits, Hardware Support, etc.)
+4. Add changelog entry to [CHANGELOG.md](./CHANGELOG.md)
 
 ### Avoid Data Fragmentation
 - Don't create separate "top wallets" or "recommended wallets" tables
@@ -143,7 +140,7 @@ The original goal was to find STABLE alternatives. Key stability indicators:
 ### Multi-Pass Review Checklist
 1. **Math verification:** Breakdown values MUST sum to stated total score
 2. **Values within bounds:** No column can exceed its maximum (e.g., Security can't be 7/5)
-3. **Cross-document consistency:** Main table, breakdown table, and index.html must all match
+3. **Cross-document consistency:** Main table and breakdown table must match
 4. **No artifacts:** Check root folder for stray generated files
 5. **No data loss on restructure:** When adding/moving columns, verify ALL original columns are preserved (check git diff)
 
@@ -193,8 +190,7 @@ When recalculating scores:
 1. Check if wallet still meets core criteria (mobile + extension)
 2. Verify activity status (run refresh script)
 3. Update both main table AND scoring breakdown table
-4. Update index.html data array
-5. Add changelog entry
+4. Add changelog entry to [CHANGELOG.md](./CHANGELOG.md)
 
 ---
 
