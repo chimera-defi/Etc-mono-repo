@@ -365,4 +365,10 @@ For technically-inclined users who want maximum transparency and control:
 
 ---
 
+## 📝 Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md) for a complete history of changes to hardware wallet statuses, recommendations, and documentation structure.
+
+---
+
 *Last updated: December 8, 2025. Always verify current specifications on official sites before purchase.*

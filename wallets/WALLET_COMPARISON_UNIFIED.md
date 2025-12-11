@@ -987,49 +987,7 @@ Several previously recommended wallets have **stopped active development**. See 
 
 ## 📝 Changelog
 
-Track significant changes to wallet statuses and recommendations:
-
-| Date | Wallet | Change | Details |
-|------|--------|--------|---------|
-| Dec 2025 | **Documentation** | Structure cleanup | Removed artifact files (walletconnect-wallet-research.md, HARDWARE_WALLET_RESEARCH_TASKS.md, PR_INFO.md); consolidated into unified docs |
-| Dec 2025 | **Documentation** | Developer guidance added | Added EIP-7730 (Clear Signing) documentation, Integration Best Practices (12 practices), Stability Maintenance section |
-| Dec 2025 | **Documentation** | Developer guidance added | Added Desktop-Mobile Sync note, Clear Signing & Safety Features section |
-| Dec 2025 | **All** | Major scoring revision | Added Core, Rel/Mo, RPC columns; prioritize mobile+extension |
-| Dec 2025 | **MetaMask** | Score 78→68 | ~8 rel/mo penalized in stability scoring |
-| Dec 2025 | **Trust** | Score 73→85 | Promoted for stability (~3 rel/mo) + core criteria |
-| Dec 2025 | **Rainbow** | Score 70→82 | Promoted for code quality + core criteria |
-| Dec 2025 | **Safe** | Score 65→58 | Penalized: no browser extension (core criteria) |
-| Dec 2025 | **Enkrypt** | Score 65→55 | Penalized: no mobile app (core criteria) |
-| Dec 2025 | **Safe** | Score 100→65, Rec 🟢→🟡 | Web app only, not for daily dev testing |
-| Dec 2025 | **MetaMask** | Score 81→78, Rec 🟡→🟢 | Most compatible for testing |
-| Dec 2025 | **imToken** | Status ✅→❌ | No commits for 180 days |
-| Dec 2025 | **Scoring** | Revised methodology | Added "Usability" weight for browser extensions |
-| Dec 2025 | **All** | Added EIP Support Matrix | EIP-712, EIP-2612, EIP-4337, EIP-5792, EIP-7702 |
-| Dec 2025 | **All** | Added Gas Estimation section | Transaction preview quality comparison |
-| Dec 2025 | **All** | Added Mobile Deep-linking | Universal links, custom schemes |
-| Dec 2025 | **All** | Added WC v2 column | WalletConnect v2 support (v1 deprecated) |
-| Dec 2025 | **All** | Added Developer Experience | Docs, SDKs, error messages quality |
-| Dec 2025 | **Ledger Live** | Added | Hardware wallet companion (score 68) |
-| Dec 2025 | **Sequence** | Added | Smart contract wallet for gaming (score 62) |
-| Dec 2025 | **Uniswap** | Added | DeFi-focused mobile wallet (score 55) |
-| Dec 2025 | **All** | Added Score column | 0-100 weighted scoring system |
-| Dec 2025 | **All** | Added Funding column | Business model sustainability ratings |
-| Dec 2025 | **All** | Added Tx Sim, Scam columns | Security feature tracking |
-| Dec 2025 | **Trust** | Updated Audits | Confirmed Sep 2023 audit in GitHub repo |
-| Nov 2025 | **Coinbase SDK** | Status → ⚠️ Slow | No commits since Jul 2025 |
-| Dec 2025 | **Trust** | EIP-7702 support added | Account: EOA → EOA+7702 ([source](https://beincrypto.com/trust-wallet-ethereum-eip7702-support/)) |
-| Dec 2025 | **OKX** | EIP-7702 verified | Account: EOA → EOA+7702, added to EIP matrix ([source](https://web3.okx.com/help/okx-wallet-to-support-eip-7702)) |
-| Dec 2025 | **All** | EIP-7702 section added | Dedicated section with Pectra upgrade info and dev resources |
-| Nov 2025 | **Taho** | Status → ⚠️ Slow | No commits since Oct 2025 |
-| Nov 2025 | **Block Wallet** | Status → ❌ Inactive | No commits since Nov 2024 (1 year) |
-| Nov 2025 | **Frame** | Status → ❌ Inactive | No commits since Feb 2025 |
-| Nov 2025 | **Argent-X** | Status → ❌ Inactive | No commits since Mar 2025 |
-| Nov 2024 | **Initial** | Document created | Original 18-wallet comparison |
-
-**How to read:**
-- **Status changes:** When a wallet's activity status changes (Active → Slow → Inactive)
-- **Recommendation changes:** When we change our recommendation (🟢 → 🟡 → 🔴)
-- **Data updates:** When significant data corrections are made
+See [CHANGELOG.md](./CHANGELOG.md) for a complete history of changes to wallet statuses, recommendations, and documentation structure.
 
 ---
 
