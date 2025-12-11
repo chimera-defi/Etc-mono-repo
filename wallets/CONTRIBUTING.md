@@ -6,7 +6,6 @@ Thank you for helping keep this wallet comparison accurate and up-to-date!
 
 ### Software Wallets (EVM)
 - **Main comparison:** [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)
-- **Interactive version:** [index.html](./index.html)
 - **Refresh script:** [scripts/refresh-github-data.sh](./scripts/refresh-github-data.sh)
 
 ### Hardware Wallets (Cold Storage)
@@ -108,11 +107,10 @@ If applicable, also update:
 - [ ] **Browser Integration table**
 - [ ] **Monetization table**
 - [ ] **Privacy & Data Collection table**
-- [ ] **index.html** (add to wallets array)
 
 ### Step 5: Add to Changelog
 
-Add an entry to the Changelog section:
+Add an entry to [CHANGELOG.md](./CHANGELOG.md) in the appropriate section (Software Wallets or Hardware Wallets):
 
 ```markdown
 | Dec 2025 | **WalletName** | Added | New wallet with score XX |
@@ -223,7 +221,7 @@ If applicable, also update:
 - [ ] **Funding section**
 - [ ] **Known Quirks section**
 - [ ] **Software integration tables**
-- [ ] **Changelog**
+- [ ] **Changelog** — Add entry to [CHANGELOG.md](./CHANGELOG.md)
 
 ### Step 4: Run Verification
 
@@ -254,7 +252,7 @@ If a wallet's status changes, update:
 1. Main table `Active` column (or strikethrough if abandoned)
 2. GitHub Metrics table
 3. Recalculate score if needed
-4. Add changelog entry
+4. Add changelog entry to [CHANGELOG.md](./CHANGELOG.md)
 
 ### Audit Updates
 
@@ -262,7 +260,7 @@ When a wallet publishes a new audit:
 1. Update `Audits` column in main table
 2. Update Security Audits section
 3. Recalculate score if applicable
-4. Add changelog entry
+4. Add changelog entry to [CHANGELOG.md](./CHANGELOG.md)
 
 ---
 
@@ -317,7 +315,7 @@ Use this template for your PR:
 ### Changes
 - Added row to main comparison table
 - Added to [list other sections updated]
-- Updated changelog
+- Updated [CHANGELOG.md](./CHANGELOG.md)
 ```
 
 ---

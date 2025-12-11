@@ -6,7 +6,7 @@ Developer-focused comparison of crypto wallets to find stable MetaMask alternati
 
 **→ [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Software wallets (24 EVM wallets)
 
-**→ [HARDWARE_WALLET_COMPARISON.md](./HARDWARE_WALLET_COMPARISON.md)** — Hardware cold storage wallets (15+ devices)
+**→ [HARDWARE_WALLET_COMPARISON.md](./HARDWARE_WALLET_COMPARISON.md)** — Hardware cold storage wallets (23 devices)
 
 | Column | Description | Source |
 |--------|-------------|--------|
@@ -39,7 +39,7 @@ Developer-focused comparison of crypto wallets to find stable MetaMask alternati
 - 🛡️ **Security Features** — Transaction simulation & scam protection
 - 💰 **Monetization** — Business models & funding sources
 - 🔐 **Privacy** — Data collection & RPC defaults
-- 📝 **Changelog** — Track changes to wallet statuses
+- 📝 **Changelog** — [CHANGELOG.md](./CHANGELOG.md) — Track changes to wallet statuses
 - 🆕 **Contributing** — How to add new wallets
 
 ### Hardware Wallet Quick Picks (Cold Storage)
@@ -93,11 +93,10 @@ Several previously recommended wallets have **stopped active development**:
 ## Documents
 
 - **[WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Software wallet comparison (24 EVM wallets)
-- **[HARDWARE_WALLET_COMPARISON.md](./HARDWARE_WALLET_COMPARISON.md)** — Hardware wallet comparison (15+ cold storage devices)
+- **[HARDWARE_WALLET_COMPARISON.md](./HARDWARE_WALLET_COMPARISON.md)** — Hardware wallet comparison (23 cold storage devices)
+- **[CHANGELOG.md](./CHANGELOG.md)** — Complete history of changes to wallet statuses and documentation
 - **[CONTRIBUTING.md](./CONTRIBUTING.md)** — How to add new wallets to the comparison
-- **[index.html](./index.html)** — Interactive web version with filtering and sorting
 - **[tests/](./tests/)** — Integration testing suite for wallet compatibility
-- [walletconnect-wallet-research.md](./walletconnect-wallet-research.md) — Original detailed research
 
 ## External Resources
 
