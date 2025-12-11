@@ -450,7 +450,7 @@ See [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON_TABLE.md) for deta
 | **imToken** | ❌ | ❌ | ✅ QR | ❌ | imKey (BT) | Mobile-only, limited HW support |
 | **Block** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ✅ Others | Good HW wallet support |
 
-**Connection Types:** WebUSB, Bluetooth (BT), QR code, WalletConnect (WC). See [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON.md) for hardware wallet recommendations.
+**Connection Types:** WebUSB, Bluetooth (BT), QR code, WalletConnect (WC). See [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON_TABLE.md) for hardware wallet recommendations.
 
 ### ENS & Address Resolution
 
