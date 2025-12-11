@@ -1,0 +1,58 @@
+name: Wallets Frontend CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'wallets/frontend/**'
+      - 'wallets/*.md'
+      - 'amplify.yml'
+      - '.github/workflows/wallets-frontend-ci.yml'
+  pull_request:
+    paths:
+      - 'wallets/frontend/**'
+      - 'wallets/*.md'
+      - 'amplify.yml'
+      - '.github/workflows/wallets-frontend-ci.yml'
+
+jobs:
+  build:
+    name: Build & Lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: wallets/frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: wallets/frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - name: Build Summary
+        if: success()
+        run: |
+          echo "## ✅ Wallets Frontend Build Successful" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "The Next.js application built successfully." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Amplify Preview" >> $GITHUB_STEP_SUMMARY
+          echo "If Amplify PR previews are enabled, check the PR comments for the preview URL." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "If no preview URL appears, ensure:" >> $GITHUB_STEP_SUMMARY
+          echo "1. PR previews are enabled in AWS Amplify Console" >> $GITHUB_STEP_SUMMARY
+          echo "2. Branch patterns include \`cursor/*\` or all branches" >> $GITHUB_STEP_SUMMARY
+          echo "3. The Amplify app is connected to this repository" >> $GITHUB_STEP_SUMMARY
