@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Wallet, Github, ExternalLink } from 'lucide-react';
+import { Wallet, Github, ExternalLink, Mail } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -85,6 +85,14 @@ export function Footer() {
                   ChainList <ExternalLink className="h-3 w-3" />
                 </a>
               </li>
+              <li>
+                <a 
+                  href="mailto:chimera_deFi@protonmail.com"
+                  className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1"
+                >
+                  Contact Us <Mail className="h-3 w-3" />
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -93,15 +101,24 @@ export function Footer() {
           <p className="text-sm text-muted-foreground">
             Data from GitHub API, WalletBeat, and community research.
           </p>
-          <a
-            href="https://github.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
-          >
-            <Github className="h-4 w-4" />
-            View on GitHub
-          </a>
+          <div className="flex items-center gap-6">
+            <a
+              href="mailto:chimera_deFi@protonmail.com"
+              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
+            >
+              <Mail className="h-4 w-4" />
+              Contact Us
+            </a>
+            <a
+              href="https://github.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
+            >
+              <Github className="h-4 w-4" />
+              View on GitHub
+            </a>
+          </div>
         </div>
       </div>
     </footer>
