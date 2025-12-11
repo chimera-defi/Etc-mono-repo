@@ -28,14 +28,14 @@ export default function HomePage() {
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
-                href="/docs/wallet-comparison-unified"
+                href="/docs/wallet-comparison-unified-table"
                 className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors"
               >
                 Software Wallets
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                href="/docs/hardware-wallet-comparison"
+                href="/docs/hardware-wallet-comparison-table"
                 className="inline-flex items-center gap-2 border border-border px-6 py-3 rounded-lg font-medium hover:bg-muted transition-colors"
               >
                 Hardware Wallets

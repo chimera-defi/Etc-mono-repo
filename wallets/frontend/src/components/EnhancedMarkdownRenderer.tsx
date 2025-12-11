@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
@@ -152,9 +153,34 @@ function MarkdownContent({ content, className }: { content: string; className?: 
           ),
           a: ({ href, children, ...props }) => {
             const isExternal = href?.startsWith('http');
+            
+            // Transform relative .md links to Next.js routes
+            let transformedHref = href;
+            if (href && !isExternal && href.includes('.md')) {
+              // Extract filename and anchor hash from relative path
+              // e.g., ./WALLET_COMPARISON_UNIFIED_DETAILS.md#section or WALLET_COMPARISON_UNIFIED_DETAILS.md#section
+              const [pathPart, hashPart] = href.split('#');
+              const filename = pathPart.replace(/^\.\//, '').replace(/^.*\//, '');
+              
+              if (filename && filename.endsWith('.md')) {
+                // Convert filename to slug format (same as markdown.ts)
+                const slug = filename.replace('.md', '').toLowerCase().replace(/_/g, '-');
+                transformedHref = `/docs/${slug}${hashPart ? `#${hashPart}` : ''}`;
+              }
+            }
+            
+            // Use Next.js Link for internal routes, regular <a> for external
+            if (transformedHref && !isExternal && transformedHref.startsWith('/')) {
+              return (
+                <Link href={transformedHref} {...props}>
+                  {children}
+                </Link>
+              );
+            }
+            
             return (
               <a
-                href={href}
+                href={transformedHref}
                 target={isExternal ? '_blank' : undefined}
                 rel={isExternal ? 'noopener noreferrer' : undefined}
                 {...props}

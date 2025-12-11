@@ -8,8 +8,8 @@ import { cn } from '@/lib/utils';
 
 const navItems = [
   { href: '/', label: 'Home' },
-  { href: '/docs/wallet-comparison-unified', label: 'Software Wallets' },
-  { href: '/docs/hardware-wallet-comparison', label: 'Hardware Wallets' },
+  { href: '/docs/wallet-comparison-unified-table', label: 'Software Wallets' },
+  { href: '/docs/hardware-wallet-comparison-table', label: 'Hardware Wallets' },
   { href: '/docs/readme', label: 'Overview' },
 ];
 
