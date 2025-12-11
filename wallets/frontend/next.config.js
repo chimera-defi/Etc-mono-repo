@@ -1,12 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
   reactStrictMode: true,
   swcMinify: true,
   
-  // Enable static export for markdown content
+  // Enable trailing slashes for clean URLs
   trailingSlash: true,
   
+  // Webpack configuration for node modules
   webpack: (config) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,
