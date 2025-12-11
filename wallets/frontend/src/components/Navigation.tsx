@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { Menu, X, Wallet, Github } from 'lucide-react';
+import { Menu, X, Wallet, Github, Twitter } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
@@ -44,10 +44,20 @@ export function Navigation() {
               </Link>
             ))}
             <a
+              href="https://x.com/chimeradefi"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Twitter"
+            >
+              <Twitter className="h-5 w-5" />
+            </a>
+            <a
               href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="GitHub"
             >
               <Github className="h-5 w-5" />
             </a>
