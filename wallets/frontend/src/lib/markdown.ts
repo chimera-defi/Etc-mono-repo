@@ -65,6 +65,12 @@ const DOCUMENT_CONFIG: Record<string, Omit<MarkdownDocument, 'slug' | 'content'>
     category: 'research',
     order: 4,
   },
+  'CHANGELOG.md': {
+    title: 'Changelog',
+    description: 'Track significant changes to wallet statuses, recommendations, and documentation structure',
+    category: 'guide',
+    order: 6,
+  },
 };
 
 export function getMarkdownFiles(): string[] {
