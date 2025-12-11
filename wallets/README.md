@@ -96,7 +96,6 @@ Several previously recommended wallets have **stopped active development**:
 - **[HARDWARE_WALLET_COMPARISON.md](./HARDWARE_WALLET_COMPARISON.md)** — Hardware wallet comparison (23 cold storage devices)
 - **[CHANGELOG.md](./CHANGELOG.md)** — Complete history of changes to wallet statuses and documentation
 - **[CONTRIBUTING.md](./CONTRIBUTING.md)** — How to add new wallets to the comparison
-- **[index.html](./index.html)** — Interactive web version with filtering and sorting
 - **[tests/](./tests/)** — Integration testing suite for wallet compatibility
 
 ## External Resources

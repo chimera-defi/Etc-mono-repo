@@ -6,7 +6,6 @@ Thank you for helping keep this wallet comparison accurate and up-to-date!
 
 ### Software Wallets (EVM)
 - **Main comparison:** [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)
-- **Interactive version:** [index.html](./index.html)
 - **Refresh script:** [scripts/refresh-github-data.sh](./scripts/refresh-github-data.sh)
 
 ### Hardware Wallets (Cold Storage)
@@ -108,7 +107,6 @@ If applicable, also update:
 - [ ] **Browser Integration table**
 - [ ] **Monetization table**
 - [ ] **Privacy & Data Collection table**
-- [ ] **index.html** (add to wallets array)
 
 ### Step 5: Add to Changelog
 
