@@ -6,17 +6,13 @@ applications:
         preBuild:
           commands:
             - npm install
-            - echo "node-linker=hoisted" > .npmrc
-            - npm install next
         build:
           commands:
-            - npm run build --production --ignore-workspaces --legacy-peer-deps
+            - npm run build
       artifacts:
         baseDirectory: .next
         files:
           - '.next/**/*'
-          - '../node_modules/**/*'
-          - '../../**/**/node_modules/**/*'
           - 'node_modules/**/*'
           - 'package.json'
           - 'package-lock.json'
