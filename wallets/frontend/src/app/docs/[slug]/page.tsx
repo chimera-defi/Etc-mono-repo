@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft, Clock, BookOpen, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { getAllDocuments, getDocumentBySlug, getDocumentSlugs, extractTableOfContents } from '@/lib/markdown';
-import { MarkdownRenderer } from '@/components/MarkdownRenderer';
+import { EnhancedMarkdownRenderer } from '@/components/EnhancedMarkdownRenderer';
 import { TableOfContents } from '@/components/TableOfContents';
 
 interface PageProps {
@@ -77,7 +77,10 @@ export default function DocumentPage({ params }: PageProps) {
           </header>
 
           {/* Content */}
-          <MarkdownRenderer content={document.content} />
+          <EnhancedMarkdownRenderer 
+            content={document.content} 
+            showExpandableSections={document.category === 'comparison'}
+          />
 
           {/* Footer Navigation */}
           <footer className="mt-12 pt-8 border-t border-border">
