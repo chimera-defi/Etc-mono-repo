@@ -14,6 +14,7 @@
 
 - [Complete Wallet Comparison](./WALLET_COMPARISON_UNIFIED_TABLE.md#complete-wallet-comparison-all-24-evm-wallets) (Table View)
 - [Quick Recommendations](#-quick-recommendations)
+- [GitHub Metrics](#github-metrics-stars-issues-code-quality)
 - [Scoring Methodology](#-wallet-scores-developer-focused-methodology)
 - [Security Audits](#-security-audits-from-walletbeat--github)
 - [Known Quirks & Gotchas](#-known-quirks--gotchas)
@@ -101,6 +102,44 @@ MetaMask scores 68 (🟡 Situational) despite being the industry standard:
 - **19.3% issue/star ratio** — indicates maintenance challenges
 - **Frequent breaking changes** — requires constant testing
 - **Use for:** Compatibility testing only (test with MetaMask last)
+
+---
+
+### GitHub Metrics (Stars, Issues, Code Quality)
+
+| Wallet | Last Commit | Stars | Issues | Ratio | Stability |
+|--------|-------------|-------|--------|-------|-----------|
+| **Rabby** | Nov 21, 2025 | 1,726 | 120 | 7.0% | ⭐⭐⭐⭐ |
+| **Trust** | Nov 27, 2025 | 3,354 | 69 | 2.1% | ⭐⭐⭐ |
+| **Rainbow** | Nov 26, 2025 | 4,238 | 13 | 0.3% | ⭐⭐⭐ |
+| **Brave** | Nov 28, 2025 | 20,764 | 9,997 | 48.1% | ⭐⭐⭐⭐ |
+| **Coinbase** | Jul 11, 2025 | 1,695 | 44 | 2.6% | ⭐⭐⭐⭐ |
+| **MetaMask** | Nov 27, 2025 | 12,949 | 2,509 | 19.4% | ⭐⭐ |
+| **Phantom** | Private | - | - | - | ⭐⭐⭐ |
+| **OKX** | Private | - | - | - | ⭐⭐⭐⭐ |
+| **Safe** | Nov 27, 2025 | 524 | 114 | 21.8% | ⭐⭐⭐⭐ |
+| **Enkrypt** | Nov 27, 2025 | 411 | 21 | 5.1% | ⭐⭐⭐⭐ |
+| **Ambire** | Aug 12, 2025 | 213 | 2 | 0.9% | ⭐⭐⭐⭐ |
+| **Wigwam** | Sep 11, 2025 | 83 | 7 | 8.4% | ⭐⭐⭐⭐ |
+| **Ledger Live** | Nov 27, 2025 | 1,200+ | 150+ | ~12% | ⭐⭐⭐⭐ |
+| **MEW** | Nov 27, 2025 | 1,560 | 47 | 3.0% | ⭐⭐⭐⭐ |
+| **Sequence** | Nov 27, 2025 | 400+ | 20+ | ~5% | ⭐⭐⭐⭐ |
+| **Daimo** | Nov 27, 2025 | 300+ | 15+ | ~5% | ⭐⭐⭐⭐ |
+| **Zerion** | Private | - | - | - | ⭐⭐⭐ |
+| **Uniswap** | Nov 27, 2025 | 4,800+ | 200+ | ~4% | ⭐⭐⭐ |
+| **Taho** | Oct 30, 2025 | 3,179 | 338 | 10.6% | ⭐⭐⭐ |
+| **imToken** | May 2025 | 800+ | 50+ | ~6% | ⭐⭐⭐ |
+| **1inch** | Private | - | - | - | ⭐⭐⭐ |
+| **Frame** | Feb 01, 2025 | 1,160 | 95 | 8.2% | ⭐⭐⭐⭐ |
+| **Argent** | Mar 14, 2025 | 641 | 93 | 14.5% | ⭐⭐⭐⭐ |
+| **Block** | Nov 27, 2024 | 96 | 45 | 46.9% | ⭐⭐⭐⭐ |
+
+**GitHub Legend:**
+- **Ratio:** Issues ÷ Stars (lower = better code quality). Rainbow 0.3% is excellent, MetaMask 19.4% indicates maintenance burden.
+- **Stability:** ⭐⭐ = High churn (>6 rel/mo) | ⭐⭐⭐ = Medium | ⭐⭐⭐⭐ = Stable (<3 rel/mo)
+- **Private:** Closed-source repos have no public metrics
+
+**Data Sources:** GitHub REST API (verified Nov 2025), [WalletBeat](https://walletbeat.fyi) (Dec 2025)
 
 ---
 

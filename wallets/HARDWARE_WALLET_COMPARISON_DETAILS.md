@@ -14,6 +14,7 @@
 
 - [Complete Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON_TABLE.md#complete-hardware-wallet-comparison-23-wallets) (Table View)
 - [Quick Recommendations](#-quick-recommendations)
+- [GitHub Metrics](#github-metrics-firmware-repositories)
 - [Security Deep Dive](#-security-deep-dive)
 - [Scoring Methodology](#-scoring-methodology)
 - [Wallets to Avoid or Use with Caution](#-wallets-to-avoid-or-use-with-caution)
@@ -44,6 +45,56 @@ Complete explanations for all table columns:
 **Special Notes:**
 - ~~Strikethrough~~ = Abandoned/inactive wallet
 - *DIY wallets = Requires self-assembly, price varies based on components
+
+---
+
+### GitHub Metrics (Firmware Repositories)
+
+**Generated:** December 8, 2025 via `scripts/refresh-hardware-wallet-data.sh`
+
+| Wallet | Repository | Last Commit | Stars | Issues | Ratio | Status |
+|--------|------------|-------------|-------|--------|-------|--------|
+| **Trezor** | [trezor/trezor-firmware](https://github.com/trezor/trezor-firmware) | Dec 5, 2025 | 1,626 | 545 | 33.5% | ✅ Active |
+| **Blockstream Jade** | [Blockstream/Jade](https://github.com/Blockstream/Jade) | Dec 8, 2025 | 438 | 88 | 20.1% | ✅ Active |
+| **SeedSigner** | [SeedSigner/seedsigner](https://github.com/SeedSigner/seedsigner) | Oct 23, 2025 | 965 | 217 | 22.5% | ⚠️ Slow |
+| **Specter DIY** | [cryptoadvance/specter-diy](https://github.com/cryptoadvance/specter-diy) | Dec 4, 2025 | 531 | 79 | 14.9% | ✅ Active |
+| **Krux** | [selfcustody/krux](https://github.com/selfcustody/krux) | Dec 4, 2025 | 291 | 48 | 16.5% | ✅ Active |
+| **Keystone** | [KeystoneHQ/keystone3-firmware](https://github.com/KeystoneHQ/keystone3-firmware) | Dec 2, 2025 | 188 | 77 | 41.0% | ✅ Active |
+| **BitBox02** | [BitBoxSwiss/bitbox02-firmware](https://github.com/BitBoxSwiss/bitbox02-firmware) | Dec 4, 2025 | 330 | 49 | 14.8% | ✅ Active |
+| **ColdCard** | [Coldcard/firmware](https://github.com/Coldcard/firmware) | Nov 27, 2025 | 689 | 6 | 0.9% | ✅ Active |
+| **Foundation Passport** | [Foundation-Devices/passport2](https://github.com/Foundation-Devices/passport2) | Oct 22, 2025 | 76 | 8 | 10.5% | ⚠️ Slow |
+| **OneKey** | [OneKeyHQ/firmware-pro](https://github.com/OneKeyHQ/firmware-pro) | Dec 3, 2025 | 17 | 14 | 82.4% | ✅ Active |
+| **KeepKey** | [keepkey/keepkey-firmware](https://github.com/keepkey/keepkey-firmware) | Feb 11, 2025 | 162 | 15 | 9.3% | ❌ Inactive |
+
+**Code Quality Notes:**
+- ✅ **ColdCard (0.9%):** Excellent code quality — minimal issues relative to community size
+- ✅ **BitBox02 (14.8%):** Good code quality
+- ✅ **Specter DIY (14.9%):** Good code quality for DIY project
+- ✅ **Krux (16.5%):** Good code quality
+- ✅ **Blockstream Jade (20.1%):** Good code quality, active development
+- ⚠️ **SeedSigner (22.5%):** Moderate — large community, many feature requests
+- ⚠️ **Trezor (33.5%):** Higher ratio reflects large feature set and user base
+- ⚠️ **Keystone (41.0%):** Moderate — newer project with active development
+- 🔴 **OneKey (82.4%):** High ratio — many open issues relative to stars
+- 🔴 **KeepKey:** No commits for 296 days — effectively abandoned
+
+**Closed Source (no public firmware repos):** Ledger, NGRAVE, Ellipal, SafePal, SecuX, Tangem, BC Vault, GridPlus
+
+**Firmware Release Patterns:**
+Unlike software wallets where frequent updates can indicate instability, hardware wallet firmware updates are intentionally infrequent for security. Most manufacturers release 2-4 firmware updates per year. This is by design — each update requires extensive security review and user action to install.
+
+| Wallet | Recent Releases (2025) | Pattern |
+|--------|------------------------|---------|
+| Keystone | 5 releases | ~1/month (active development) |
+| Krux | 4 releases | ~1/quarter (active) |
+| BitBox02 | 3-4 releases | ~1/quarter (stable) |
+| Foundation Passport | 2 releases | ~1/quarter (stable) |
+| SeedSigner | 2 releases | ~2/year (stable) |
+| Specter DIY | 1 release | ~1/year (stable mature project) |
+| OneKey | 3 releases | ~1/quarter (stable) |
+| Blockstream Jade | Via tags | Continuous development |
+| Trezor | Via Trezor Suite | App-managed updates |
+| ColdCard | Via tags | Manual firmware downloads |
 
 ---
 
