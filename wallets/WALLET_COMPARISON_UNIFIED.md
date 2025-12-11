@@ -991,6 +991,9 @@ Track significant changes to wallet statuses and recommendations:
 
 | Date | Wallet | Change | Details |
 |------|--------|--------|---------|
+| Dec 2025 | **Documentation** | Structure cleanup | Removed artifact files (walletconnect-wallet-research.md, HARDWARE_WALLET_RESEARCH_TASKS.md, PR_INFO.md); consolidated into unified docs |
+| Dec 2025 | **Documentation** | Developer guidance added | Added EIP-7730 (Clear Signing) documentation, Integration Best Practices (12 practices), Stability Maintenance section |
+| Dec 2025 | **Documentation** | Developer guidance added | Added Desktop-Mobile Sync note, Clear Signing & Safety Features section |
 | Dec 2025 | **All** | Major scoring revision | Added Core, Rel/Mo, RPC columns; prioritize mobile+extension |
 | Dec 2025 | **MetaMask** | Score 78→68 | ~8 rel/mo penalized in stability scoring |
 | Dec 2025 | **Trust** | Score 73→85 | Promoted for stability (~3 rel/mo) + core criteria |
