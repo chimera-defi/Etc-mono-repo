@@ -1,5 +1,7 @@
 # Website Name Options for Wallet Comparison
 
+**✅ SELECTED:** **WalletRadar** (walletradar.org)
+
 ## Content Summary
 This is a **developer-focused crypto wallet comparison** tool featuring:
 - Comprehensive scoring system (0-100 weighted metrics)
