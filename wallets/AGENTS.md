@@ -26,7 +26,6 @@ This document provides guidance for AI coding assistants working on the wallet c
 - Keep all data in one comprehensive table, use filtering/sorting in the HTML version
 
 ### Supporting Documents
-- `walletconnect-wallet-research.md` — Original detailed research (reference only)
 - `README.md` — Quick reference and links
 - `CONTRIBUTING.md` — How to add new wallets
 - `index.html` — Interactive web version
