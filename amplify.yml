@@ -5,23 +5,15 @@ applications:
       phases:
         preBuild:
           commands:
-            - npm install
-            - echo "node-linker=hoisted" > .npmrc
-            - npm install next
+            - npm ci
         build:
           commands:
-            - npm run build --production --ignore-workspaces --legacy-peer-deps
+            - npm run build
       artifacts:
-        baseDirectory: .next
+        # Static export generates files in 'out' directory
+        baseDirectory: out
         files:
-          - '.next/**/*'
-          - '../node_modules/**/*'
-          - '../../**/**/node_modules/**/*'
-          - 'node_modules/**/*'
-          - 'package.json'
-          - 'package-lock.json'
-          - 'next.config.js'
-          - 'public/**/*'
+          - '**/*'
       cache:
         paths:
           - 'node_modules/**/*'
