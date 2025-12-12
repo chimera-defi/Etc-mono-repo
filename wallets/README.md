@@ -8,6 +8,8 @@ Developer-focused comparison of crypto wallets to find stable MetaMask alternati
 
 **→ [HARDWARE_WALLET_COMPARISON.md](./HARDWARE_WALLET_COMPARISON.md)** — Hardware cold storage wallets (23 devices)
 
+**→ [CRYPTO_CREDIT_CARD_COMPARISON.md](./CRYPTO_CREDIT_CARD_COMPARISON.md)** — Crypto-backed credit/debit cards (12+ cards)
+
 | Column | Description | Source |
 |--------|-------------|--------|
 | **Score** | 0-100 weighted score | Calculated |
@@ -94,6 +96,10 @@ Several previously recommended wallets have **stopped active development**:
 
 - **[WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Software wallet comparison (24 EVM wallets)
 - **[HARDWARE_WALLET_COMPARISON.md](./HARDWARE_WALLET_COMPARISON.md)** — Hardware wallet comparison (23 cold storage devices)
+- **[CRYPTO_CREDIT_CARD_COMPARISON.md](./CRYPTO_CREDIT_CARD_COMPARISON.md)** — Crypto credit card comparison (12+ cards)
+  - **[CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md](./CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md)** — Quick comparison table
+  - **[CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md)** — Detailed card reviews and analysis
+  - **[CRYPTO_CREDIT_CARD_RESEARCH_NOTES.md](./CRYPTO_CREDIT_CARD_RESEARCH_NOTES.md)** — Research notes and findings
 - **[CHANGELOG.md](./CHANGELOG.md)** — Complete history of changes to wallet statuses and documentation
 - **[CONTRIBUTING.md](./CONTRIBUTING.md)** — How to add new wallets to the comparison
 - **[tests/](./tests/)** — Integration testing suite for wallet compatibility
