@@ -10,7 +10,7 @@ export function Footer() {
           <div className="md:col-span-1">
             <Link href="/" className="flex items-center space-x-2 mb-4">
               <Wallet className="h-6 w-6 text-primary" />
-              <span className="font-bold text-lg">Wallet Compare</span>
+              <span className="font-bold text-lg">Wallet Radar</span>
             </Link>
             <p className="text-sm text-muted-foreground">
               Developer-focused crypto wallet research and comparison.
