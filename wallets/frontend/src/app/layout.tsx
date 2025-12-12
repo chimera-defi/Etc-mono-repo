@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ['latin'] });
 const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-L6ZV569CMN';
 
 export const metadata: Metadata = {
-  title: 'Wallet Comparison - Developer-Focused Crypto Wallet Research',
+  title: 'Wallet Radar - Developer-Focused Crypto Wallet Research',
   description: 'Comprehensive comparison of software and hardware crypto wallets for developers. Find stable MetaMask alternatives with scoring, security audits, and recommendations.',
   keywords: ['crypto wallet', 'MetaMask alternative', 'hardware wallet', 'Rabby', 'Trezor', 'wallet comparison', 'EVM wallet'],
 };
