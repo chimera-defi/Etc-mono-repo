@@ -2,25 +2,84 @@
 
 High-level ideas and concepts for future exploration and implementation.
 
-## OAuth-Based Automated Provider Setup
+## LOT: Linked OAuth Tooling (Priority Concept)
 
-**Problem**: Manual setup of third-party services (Google Analytics, authentication providers, etc.) requires copying API keys, configuring environment variables, and updating multiple files—a tedious, error-prone process.
+> **Status**: Research & Design Phase  
+> **Details**: [lot-oauth-setup/RESEARCH.md](./lot-oauth-setup/RESEARCH.md) | [Implementation Plan](./lot-oauth-setup/IMPLEMENTATION_PLAN.md)
 
-**Solution**: Integrate OAuth flow directly into AI coding assistants (Claude, Cursor, etc.) to enable one-click provider setup. When a developer requests integration with a service, the AI presents an OAuth popup/modal. After authentication, the AI automatically:
-- Fetches API keys and credentials via OAuth
-- Configures environment variables
-- Updates configuration files
-- Sets up necessary SDKs and dependencies
-- Provides verification steps
+### The Problem
 
-**Implementation Notes**:
-- Extend AI assistant plugins/extensions to support OAuth flows
-- Store credentials securely (encrypted, environment-specific)
-- Support multiple providers (Google, GitHub, AWS, etc.)
-- Generate boilerplate code with credentials pre-configured
-- Fallback to manual setup if OAuth unavailable
+Manual setup of third-party services (Google Analytics, Stripe, Supabase, etc.) requires:
+1. Navigating to provider dashboard → Creating project
+2. Generating credentials → Copying API keys
+3. Configuring environment → Creating `.env` files
+4. Installing dependencies → Updating `package.json`
+5. Writing boilerplate → Initializing SDK
+6. Verifying setup → Testing connection
 
-**Benefits**: Reduces setup time from minutes to seconds, eliminates copy-paste errors, improves developer experience.
+**Time cost**: 10-30 minutes per integration  
+**Error rate**: High (wrong env var names, missing scopes, version mismatches)
+
+### The Solution: LOT
+
+**LOT (Linked OAuth Tooling)** is an MCP server + IDE extension that automates the entire integration process:
+
+```
+Developer: "Set up Stripe for my Next.js project"
+→ LOT handles OAuth popup
+→ User authorizes
+→ LOT fetches API keys (publishable, secret, webhook)
+→ LOT creates .env.local with correct variable names
+→ LOT installs stripe package
+→ LOT generates lib/stripe.ts, webhook handler, StripeProvider
+→ LOT provides verification checklist
+```
+
+**From OAuth consent to committed code in 30 seconds.**
+
+### Key Differentiator
+
+Unlike existing MCP servers (Composio, MCP Gateway) that focus on **runtime API access**, LOT focuses on **setup-time automation**:
+
+| Feature | Composio/Rube | MCP Gateway | LOT |
+|---------|--------------|-------------|-----|
+| OAuth handling | ✅ | ✅ | ✅ |
+| Runtime API calling | ✅ | ✅ | ❌ |
+| Config extraction | ❌ | ❌ | ✅ |
+| Code generation | ❌ | ❌ | ✅ |
+| Project detection | ❌ | ❌ | ✅ |
+| Env var setup | ❌ | ❌ | ✅ |
+| Dependency install | ❌ | ❌ | ✅ |
+
+### Research Findings
+
+**Existing MCP Landscape** (as of Dec 2024):
+- **MCP Gateway Registry** (343★) - Enterprise OAuth gateway, overlaps on auth flow
+- **Composio Rube** (297★) - 500+ app integrations, runtime focus
+- **golf-mcp** (803★) - Production MCP framework with auth
+- **jetski** (190★) - Zero-config auth for MCP
+
+None of these solve the **setup automation** problem that LOT targets.
+
+### Priority Providers
+
+| Provider | Complexity | Setup Time Saved |
+|----------|------------|------------------|
+| Google Analytics | Medium | 15 min |
+| Stripe | High | 30 min |
+| Supabase | Medium | 20 min |
+| Auth0/Clerk | High | 25 min |
+| Sentry | Low | 10 min |
+| SendGrid/Resend | Low | 10 min |
+
+### Implementation Approach
+
+**Recommended**: MCP Server + IDE Extension (Cursor/VS Code)
+- MCP Server handles OAuth flows and provider APIs
+- IDE Extension handles UI (OAuth popup, file confirmations)
+- Secure token storage via OS keychain
+
+See [detailed implementation plan](./lot-oauth-setup/IMPLEMENTATION_PLAN.md) for 16-week roadmap.
 
 ---
 
