@@ -7,7 +7,7 @@ import { Footer } from '@/components/Footer';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Wallet Comparison - Developer-Focused Crypto Wallet Research',
+  title: 'Wallet Radar - Developer-Focused Crypto Wallet Research',
   description: 'Comprehensive comparison of software and hardware crypto wallets for developers. Find stable MetaMask alternatives with scoring, security audits, and recommendations.',
   keywords: ['crypto wallet', 'MetaMask alternative', 'hardware wallet', 'Rabby', 'Trezor', 'wallet comparison', 'EVM wallet'],
 };
