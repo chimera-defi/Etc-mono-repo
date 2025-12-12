@@ -1,0 +1,13 @@
+# robots.txt for Wallet Radar
+User-agent: *
+Allow: /
+
+# Disallow admin or private paths
+Disallow: /api/
+Disallow: /_next/
+
+# Sitemap location
+Sitemap: https://walletradar.org/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1
