@@ -4,7 +4,7 @@ import Script from 'next/script';
 import { ArrowLeft, Clock, BookOpen, ExternalLink, FileText, Table } from 'lucide-react';
 import Link from 'next/link';
 import { getAllDocuments, getDocumentBySlug, getDocumentSlugs, extractTableOfContents, getRelatedDocument } from '@/lib/markdown';
-import { calculateReadingTime, formatReadingTime, optimizeMetaDescription } from '@/lib/seo';
+import { calculateReadingTime, formatReadingTime, optimizeMetaDescription, generateKeywords } from '@/lib/seo';
 import { EnhancedMarkdownRenderer } from '@/components/EnhancedMarkdownRenderer';
 import { TableOfContents } from '@/components/TableOfContents';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -37,18 +37,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     `Comprehensive ${document.category} guide for crypto wallet comparison. ${document.title.includes('Comparison') ? 'Compare wallets with detailed scoring, security audits, and developer experience metrics.' : 'Expert insights and analysis for developers.'}`;
   const enhancedDescription = optimizeMetaDescription(rawDescription);
 
+  // Generate dynamic keywords based on content
+  const dynamicKeywords = generateKeywords(document.title, document.category, document.content);
+
   return {
     title: document.title,
     description: enhancedDescription,
-    keywords: [
-      'crypto wallet',
-      'wallet comparison',
-      document.category === 'comparison' ? 'wallet review' : 'wallet guide',
-      document.title.toLowerCase().includes('hardware') ? 'hardware wallet' : 'software wallet',
-      'EVM wallet',
-      'blockchain wallet',
-      'developer wallet',
-    ],
+    keywords: dynamicKeywords,
     openGraph: {
       title: document.title,
       description: enhancedDescription,
