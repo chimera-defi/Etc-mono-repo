@@ -24,7 +24,7 @@ export function Navigation() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
             <Wallet className="h-6 w-6 text-primary" />
-            <span className="font-bold text-xl">Wallet Compare</span>
+            <span className="font-bold text-xl">Wallet Radar</span>
           </Link>
 
           {/* Desktop Navigation */}
