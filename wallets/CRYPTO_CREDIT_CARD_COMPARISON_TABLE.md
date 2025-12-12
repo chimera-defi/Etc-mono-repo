@@ -20,10 +20,11 @@
 | **Fold Card** | Debit | Up to 5% | $0 | 0% | BTC | None | Fold | ✅ Active | Bitcoin rewards | Bitcoin rewards only |
 | **Mode Card** | Debit | Up to 10% | $0 | 0% | BTC | None | Mode | ✅ Active | Bitcoin rewards | Bitcoin rewards |
 | **Shakepay Card** | Debit | 1-2% | $0 | 0% | BTC | None | Shakepay | ✅ Active | Canada | Canada only |
+| **Uphold Card** | Debit | 1-4% | $0 | 0% | XRP, BTC, ETH, others | None | Uphold | ✅ Active | Multi-crypto | Debit card, multiple crypto rewards |
+| **CoinJar Card** | Debit | 1% | $0 | 0% | BTC | None | CoinJar | ✅ Active | Australia | Australia only, Bitcoin rewards |
+| **CryptoSpend Card** | Debit | 1% | $0 | 0% | BTC, ETH, others | None | CryptoSpend | ✅ Active | Australia | Australia only |
 | **EtherFi** | TBD | TBD | TBD | TBD | ETH | TBD | EtherFi | 🔄 Research | TBD | *Researching* |
 | **Reap** | TBD | TBD | TBD | TBD | TBD | TBD | Reap | 🔄 Research | TBD | *Researching* |
-| **Peanuts** | TBD | TBD | TBD | TBD | TBD | TBD | Peanuts | 🔄 Research | TBD | *Researching* |
-| **Noses** | TBD | TBD | TBD | TBD | TBD | TBD | Noses | 🔄 Research | TBD | *Researching* |
 | **BlockFi Rewards** | Credit | 1.5% | $0 | 0% | BTC | None | BlockFi | ❌ Discontinued | - | Bankruptcy 2022 |
 | **MCO Card** | Credit | 1-5% | $0 | 0% | MCO | $0-$50k+ | Crypto.com | ❌ Discontinued | - | Replaced by CRO card |
 
@@ -179,13 +180,35 @@
 - **Status:** 🔄 Researching
 - **Notes:** Need to verify card details and availability
 
-#### Peanuts
-- **Status:** 🔄 Researching
-- **Notes:** Need to verify card details and availability
+#### Uphold Card
+- **Type:** Debit card
+- **Cash Back:** 1-4% (varies by card tier)
+- **Rewards:** XRP, BTC, ETH, and other supported cryptocurrencies
+- **Annual Fee:** $0
+- **Foreign Transaction Fee:** 0%
+- **Staking Required:** None
+- **Availability:** US, UK, EU (varies by region)
+- **Notes:** Multi-crypto rewards, debit card
 
-#### Noses
-- **Status:** 🔄 Researching
-- **Notes:** May need clarification on exact card name/brand
+#### CoinJar Card
+- **Type:** Debit card
+- **Cash Back:** 1% (in Bitcoin)
+- **Rewards:** BTC only
+- **Annual Fee:** $0
+- **Foreign Transaction Fee:** 0%
+- **Staking Required:** None
+- **Availability:** Australia only
+- **Notes:** Australia only, Bitcoin rewards
+
+#### CryptoSpend Card
+- **Type:** Debit card
+- **Cash Back:** 1% (in crypto)
+- **Rewards:** BTC, ETH, and other supported cryptocurrencies
+- **Annual Fee:** $0
+- **Foreign Transaction Fee:** 0%
+- **Staking Required:** None
+- **Availability:** Australia only
+- **Notes:** Australia only, multi-crypto rewards
 
 ---
 
@@ -218,13 +241,15 @@
 
 ### Geographic Availability
 - **US Only:** Coinbase, Gemini, BitPay, Fold, Mode
+- **US, UK, EU:** Uphold (varies by region)
 - **EU/UK:** Nexo, Plutus, Swissborg
 - **Global:** Crypto.com, Binance, Wirex (varies by region)
 - **Canada:** Shakepay
+- **Australia:** CoinJar, CryptoSpend
 
 ### Card Types
 - **Credit Cards:** Gemini, Nexo (crypto-backed)
-- **Debit Cards:** Most crypto cards (Coinbase, Crypto.com, Binance, etc.)
+- **Debit Cards:** Most crypto cards (Coinbase, Crypto.com, Binance, Wirex, Uphold, etc.)
 - **Prepaid:** BitPay
 
 ---

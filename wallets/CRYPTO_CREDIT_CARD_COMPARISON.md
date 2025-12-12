@@ -12,45 +12,64 @@
 
 ## Quick Reference: Crypto Credit Cards
 
-| Card | Score | Cash Back | Annual Fee | Crypto Rewards | Staking Required | Issuer | Status | Best For |
-|------|-------|-----------|------------|----------------|-----------------|--------|--------|----------|
-| **Research in progress** | - | - | - | - | - | - | 🔄 | - |
+| Card | Cash Back | Annual Fee | Crypto Rewards | Staking Required | Issuer | Status | Best For |
+|------|-----------|------------|----------------|-----------------|--------|--------|----------|
+| **Mode Card** | Up to 10% | $0 | BTC | None | Mode | ✅ Active | Bitcoin rewards (US) |
+| **Crypto.com Obsidian** | 8% | $0 | CRO | $400k+ | Crypto.com | ✅ Active | High stakers (Global) |
+| **Binance Card** | Up to 8% | $0 | BNB | None | Binance | ✅ Active | Binance users (Global) |
+| **Wirex Card** | Up to 8% | $0 | WXT | None | Wirex | ✅ Active | Multi-crypto (Global) |
+| **Fold Card** | Up to 5% | $0 | BTC | None | Fold | ✅ Active | Bitcoin rewards (US) |
+| **Coinbase Card** | 1-4% | $0 | BTC, ETH, others | None | Coinbase | ✅ Active | Coinbase users (US) |
+| **Uphold Card** | 1-4% | $0 | XRP, BTC, ETH | None | Uphold | ✅ Active | Multi-crypto (US, UK, EU) |
+| **Plutus Card** | 3% | £0 | PLU | Optional | Plutus | ✅ Active | EU/UK users |
+| **Gemini Credit Card** | 1-3% | $0 | BTC, ETH | None | Gemini | ✅ Active | Credit building (US) |
+| **Swissborg Card** | 1-2% | $0 | CHSB | None | Swissborg | ✅ Active | EU users |
+| **Shakepay Card** | 1-2% | $0 | BTC | None | Shakepay | ✅ Active | Canada |
+| **CoinJar Card** | 1% | $0 | BTC | None | CoinJar | ✅ Active | Australia |
+| **CryptoSpend Card** | 1% | $0 | BTC, ETH, others | None | CryptoSpend | ✅ Active | Australia |
+| **Nexo Card** | 0-2% | $0 | NEXO | None | Nexo | ✅ Active | Crypto-backed credit (EU, UK) |
+| **BitPay Card** | 0% | $0 | None | None | BitPay | ✅ Active | Bitcoin spending (US) |
 
 **Legend:**
-- **Score:** 0-100 weighted score (methodology TBD)
-- **Cash Back:** Base cash back percentage
+- **Cash Back:** Base cash back percentage (may vary by category/tier)
 - **Annual Fee:** $0 or annual fee amount
-- **Crypto Rewards:** Additional crypto-specific rewards
-- **Staking Required:** Minimum crypto staking/balance required
+- **Crypto Rewards:** Reward currency (crypto type)
+- **Staking Required:** Minimum crypto staking/balance required for benefits
 - **Status:** ✅ Active | ⚠️ Waitlist | ❌ Discontinued | 🔄 Research
+
+**Note:** See [detailed comparison table](./CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md) for complete metrics including foreign transaction fees, card types, and geographic availability.
 
 ---
 
-## Cards Under Research
+## Currently Available Cards (15 Active Cards)
 
-### Confirmed Cards to Research
+### Confirmed Active Cards
+
+1. **Coinbase Card** - 1-4% crypto rewards debit card (US)
+2. **Crypto.com Visa Card** - 0.5-8% tiered rewards based on CRO staking (Global)
+3. **Gemini Credit Card** - 1-3% crypto rewards credit card (US)
+4. **Nexo Card** - 0-2% crypto-backed credit card (EU, UK)
+5. **Binance Card** - Up to 8% BNB rewards debit card (Global)
+6. **Wirex Card** - Up to 8% multi-crypto rewards debit card (Global)
+7. **Plutus Card** - 3% PLU rewards debit card (EU, UK)
+8. **Swissborg Card** - 1-2% CHSB rewards debit card (EU)
+9. **BitPay Card** - Bitcoin spending prepaid card (US)
+10. **Fold Card** - Up to 5% Bitcoin rewards debit card (US)
+11. **Mode Card** - Up to 10% Bitcoin rewards debit card (US)
+12. **Shakepay Card** - 1-2% Bitcoin rewards debit card (Canada)
+13. **Uphold Card** - 1-4% multi-crypto rewards debit card (US, UK, EU)
+14. **CoinJar Card** - 1% Bitcoin rewards debit card (Australia)
+15. **CryptoSpend Card** - 1% multi-crypto rewards debit card (Australia)
+
+### Cards Under Research
 
 1. **EtherFi** (Ether F.I.) - *Researching*
 2. **Reap** - *Researching*
-3. **Peanuts** - *Researching*
-4. **Noses** - *Researching* (may need clarification on exact name)
 
-### Additional Cards to Research
+### Discontinued Cards
 
-- **Coinbase Card** - Crypto rewards debit card
-- **Crypto.com Visa Card** - Tiered rewards based on CRO staking
-- **BlockFi Rewards Visa** - *Note: BlockFi filed for bankruptcy*
-- **Gemini Credit Card** - Crypto rewards credit card
-- **Nexo Card** - Crypto-backed credit card
-- **Binance Card** - Crypto debit card
-- **Wirex Card** - Multi-crypto rewards
-- **Plutus Card** - Crypto rewards debit card
-- **Swissborg Card** - Crypto rewards
-- **BitPay Card** - Bitcoin debit card
-- **Fold Card** - Bitcoin rewards
-- **Mode Card** - Bitcoin rewards
-- **Shakepay Card** - Bitcoin rewards (Canada)
-- **MCO Card** (Crypto.com legacy) - *Discontinued*
+- **BlockFi Rewards Visa** - Discontinued (BlockFi bankruptcy 2022)
+- **MCO Card** (Crypto.com legacy) - Discontinued (replaced by CRO card)
 
 ---
 

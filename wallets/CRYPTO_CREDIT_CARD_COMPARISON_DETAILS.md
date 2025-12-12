@@ -54,11 +54,14 @@
 - **Crypto.com Visa** - Prepaid debit card with tiered rewards
 - **Binance Card** - Debit card with BNB rewards
 - **Wirex Card** - Multi-crypto debit card
+- **Uphold Card** - Multi-crypto debit card (US, UK, EU)
 - **Plutus Card** - EU/UK debit card
 - **Swissborg Card** - EU debit card
 - **Fold Card** - Bitcoin rewards debit card
 - **Mode Card** - Bitcoin rewards debit card
 - **Shakepay Card** - Canada Bitcoin rewards card
+- **CoinJar Card** - Australia Bitcoin rewards card
+- **CryptoSpend Card** - Australia multi-crypto rewards card
 
 #### Prepaid Cards
 - **BitPay Card** - Bitcoin prepaid card
@@ -75,6 +78,8 @@
 - Coinbase Card (BTC, ETH, others)
 - Gemini Card (BTC or ETH choice)
 - Wirex Card (WXT)
+- Uphold Card (XRP, BTC, ETH, others)
+- CryptoSpend Card (BTC, ETH, others)
 
 #### Token-Specific Rewards
 - Crypto.com Visa (CRO)
@@ -530,6 +535,113 @@ The BitPay Card is a prepaid debit card that allows spending Bitcoin, available 
 
 ---
 
+### Uphold Card
+
+**Overview:**
+The Uphold Card is a debit card that offers crypto rewards, available in US, UK, and EU regions.
+
+**Key Features:**
+- Multi-crypto rewards (XRP, BTC, ETH, others)
+- Tiered rewards (1-4%)
+- Global availability (varies by region)
+- Debit card
+
+**Rewards Structure:**
+- Base: 1% cash back
+- Higher tiers: Up to 4% cash back
+- Rewards paid in XRP, BTC, ETH, or other supported cryptos
+
+**Fees:**
+- Annual Fee: $0
+- Foreign Transaction Fee: 0%
+
+**Requirements:**
+- Uphold account
+- US, UK, or EU residency (varies)
+- KYC verification
+
+**Best For:**
+- Multi-crypto users
+- XRP holders
+- Global users (where available)
+
+**Limitations:**
+- Availability varies by region
+- Requires Uphold account
+- Debit card (no credit building)
+
+---
+
+### CoinJar Card
+
+**Overview:**
+The CoinJar Card is a Bitcoin rewards debit card available in Australia.
+
+**Key Features:**
+- Bitcoin-only rewards
+- Australia-only availability
+- Debit card
+
+**Rewards Structure:**
+- 1% cash back in Bitcoin
+- Rewards paid in BTC
+
+**Fees:**
+- Annual Fee: $0
+- Foreign Transaction Fee: 0%
+
+**Requirements:**
+- Australia residency
+- CoinJar account
+- KYC verification
+
+**Best For:**
+- Australian residents
+- Bitcoin-focused users
+- Debit card users
+
+**Limitations:**
+- Australia only
+- Bitcoin rewards only
+- Debit card (no credit building)
+
+---
+
+### CryptoSpend Card
+
+**Overview:**
+The CryptoSpend Card is a multi-crypto rewards debit card available in Australia.
+
+**Key Features:**
+- Multi-crypto rewards
+- Australia-only availability
+- Debit card
+
+**Rewards Structure:**
+- 1% cash back in crypto
+- Rewards paid in BTC, ETH, or other supported cryptocurrencies
+
+**Fees:**
+- Annual Fee: $0
+- Foreign Transaction Fee: 0%
+
+**Requirements:**
+- Australia residency
+- CryptoSpend account
+- KYC verification
+
+**Best For:**
+- Australian residents
+- Multi-crypto users
+- Debit card users
+
+**Limitations:**
+- Australia only
+- Requires CryptoSpend account
+- Debit card (no credit building)
+
+---
+
 ## Cards Under Research
 
 ### EtherFi (Ether F.I.)
@@ -565,35 +677,6 @@ The BitPay Card is a prepaid debit card that allows spending Bitcoin, available 
 
 ---
 
-### Peanuts
-
-**Status:** 🔄 Researching
-
-**Notes:**
-- Need to verify Peanuts card details and availability
-- May be a crypto rewards card or related product
-- *Research ongoing*
-
-**Action Items:**
-- Search for official Peanuts card website
-- Verify card type, rewards, and fees
-- Confirm geographic availability
-
----
-
-### Noses
-
-**Status:** 🔄 Researching
-
-**Notes:**
-- May need clarification on exact card name/brand
-- Could be a typo or alternative name
-- *Research ongoing*
-
-**Action Items:**
-- Verify exact card name
-- Search for related crypto card products
-- Confirm if this refers to a specific card or platform
 
 ---
 
@@ -616,12 +699,15 @@ The BitPay Card is a prepaid debit card that allows spending Bitcoin, available 
 
 1. **Plutus Card** - 3%
 2. **Coinbase Card** - 1% (up to 4% with subscription)
-3. **Gemini Card** - 1% (up to 3% categories)
-4. **Crypto.com Midnight Blue** - 0.5%
-5. **Fold Card** - 1% base (up to 5% categories)
-6. **Mode Card** - Variable (up to 10%)
-7. **Shakepay Card** - 1-2%
-8. **Swissborg Card** - 1-2%
+3. **Uphold Card** - 1% (up to 4% with higher tiers)
+4. **Gemini Card** - 1% (up to 3% categories)
+5. **Crypto.com Midnight Blue** - 0.5%
+6. **Fold Card** - 1% base (up to 5% categories)
+7. **Mode Card** - Variable (up to 10%)
+8. **Shakepay Card** - 1-2%
+9. **Swissborg Card** - 1-2%
+10. **CoinJar Card** - 1%
+11. **CryptoSpend Card** - 1%
 
 ---
 
@@ -778,6 +864,11 @@ The BitPay Card is a prepaid debit card that allows spending Bitcoin, available 
 - **Crypto.com Visa** - Tiered rewards (Global)
 - **Binance Card** - BNB rewards (Global)
 - **Wirex Card** - Multi-crypto (Global)
+- **Uphold Card** - Multi-crypto (US, UK, EU)
+
+### Best for Australia
+- **CoinJar Card** - 1% Bitcoin rewards
+- **CryptoSpend Card** - 1% multi-crypto rewards
 
 ---
 

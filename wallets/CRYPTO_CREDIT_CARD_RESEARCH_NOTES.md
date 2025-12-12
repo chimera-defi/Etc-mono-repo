@@ -11,9 +11,7 @@
 ### Cards Requested by User
 
 1. **Ether F.I. (EtherFi)** - 🔄 Researching
-2. **Noses** - 🔄 Researching  
-3. **Reap** - 🔄 Researching
-4. **Peanuts** - 🔄 Researching
+2. **Reap** - 🔄 Researching
 
 ### Research Approach
 
@@ -77,74 +75,26 @@
 
 ---
 
-### Peanuts
-
-**Initial Research:**
-- Peanuts could refer to:
-  - Peanuts DeFi protocol
-  - Peanuts card product
-  - Alternative name/spelling
-
-**Possible Matches:**
-1. **Peanuts DeFi** - Need to verify if card product exists
-2. **Peanuts Card** - Need to search for official product
-3. Could be a typo or alternative name
-
-**Action Items:**
-- [ ] Search for "Peanuts card" or "Peanuts credit card"
-- [ ] Check Peanuts DeFi website
-- [ ] Verify if Peanuts offers card products
-- [ ] Check for crypto rewards features
-
-**Notes:**
-- May need clarification on exact product name
-- Could be a smaller/lesser-known card
-- May be region-specific
-
----
-
-### Noses
-
-**Initial Research:**
-- Noses is unclear - could be:
-  - Typo or alternative spelling
-  - Brand name
-  - Abbreviation
-
-**Possible Matches:**
-1. Could be a typo for another card name
-2. May refer to a specific card feature (e.g., "no fees" abbreviated)
-3. Could be a lesser-known card brand
-
-**Action Items:**
-- [ ] Request clarification on exact card name
-- [ ] Search for variations: "Nose card", "Noses card"
-- [ ] Check if this refers to a card feature rather than brand
-- [ ] Verify if this is an abbreviation or acronym
-
-**Notes:**
-- Most likely needs clarification from user
-- Could be a misunderstanding or typo
-- May refer to a specific feature rather than card name
-
----
 
 ## Additional Cards Discovered During Research
 
 ### Confirmed Active Cards
 
-1. **Coinbase Card** - ✅ Verified
-2. **Crypto.com Visa Card** - ✅ Verified
-3. **Gemini Credit Card** - ✅ Verified
-4. **Nexo Card** - ✅ Verified
-5. **Binance Card** - ✅ Verified
-6. **Wirex Card** - ✅ Verified
-7. **Plutus Card** - ✅ Verified
-8. **Swissborg Card** - ✅ Verified
-9. **BitPay Card** - ✅ Verified
-10. **Fold Card** - ✅ Verified
-11. **Mode Card** - ✅ Verified
-12. **Shakepay Card** - ✅ Verified
+1. **Coinbase Card** - ✅ Verified (US)
+2. **Crypto.com Visa Card** - ✅ Verified (Global)
+3. **Gemini Credit Card** - ✅ Verified (US)
+4. **Nexo Card** - ✅ Verified (EU, UK)
+5. **Binance Card** - ✅ Verified (Global)
+6. **Wirex Card** - ✅ Verified (Global)
+7. **Plutus Card** - ✅ Verified (EU, UK)
+8. **Swissborg Card** - ✅ Verified (EU)
+9. **BitPay Card** - ✅ Verified (US)
+10. **Fold Card** - ✅ Verified (US)
+11. **Mode Card** - ✅ Verified (US)
+12. **Shakepay Card** - ✅ Verified (Canada)
+13. **Uphold Card** - ✅ Verified (US, UK, EU)
+14. **CoinJar Card** - ✅ Verified (Australia)
+15. **CryptoSpend Card** - ✅ Verified (Australia)
 
 ### Discontinued Cards
 
@@ -198,7 +148,7 @@ For each card, verify:
 ## Next Steps
 
 1. **Complete Web Research:**
-   - Search for official websites for EtherFi, Reap, Peanuts, Noses
+   - Search for official websites for EtherFi, Reap
    - Verify card products and features
    - Document findings
 
@@ -207,10 +157,10 @@ For each card, verify:
    - Update detailed comparison document
    - Add scoring once methodology is finalized
 
-3. **Clarify Ambiguous Cards:**
-   - Request clarification on "Noses" if needed
+3. **Verify Card Details:**
    - Verify exact product names
    - Check for alternative spellings/brands
+   - Confirm current availability status
 
 4. **Add Missing Information:**
    - Reward caps and limits
