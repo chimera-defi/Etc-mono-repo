@@ -3,8 +3,11 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
+import { GoogleAnalytics } from '@/components/GoogleAnalytics';
 
 const inter = Inter({ subsets: ['latin'] });
+
+const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-L6ZV569CMN';
 
 export const metadata: Metadata = {
   title: 'Wallet Comparison - Developer-Focused Crypto Wallet Research',
@@ -27,6 +30,7 @@ export default function RootLayout({
           </main>
           <Footer />
         </div>
+        {gaMeasurementId && <GoogleAnalytics measurementId={gaMeasurementId} />}
       </body>
     </html>
   );

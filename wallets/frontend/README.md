@@ -17,6 +17,10 @@ A developer-focused crypto wallet comparison website generated from Markdown fil
 # Install dependencies
 npm install
 
+# Set up environment variables (optional - defaults to configured GA ID)
+cp .env.example .env.local
+# Edit .env.local with your Google Analytics Measurement ID if needed
+
 # Run development server
 npm run dev
 
@@ -45,7 +49,8 @@ frontend/
 │   │   ├── MarkdownRenderer.tsx  # Markdown to HTML
 │   │   ├── TableOfContents.tsx   # TOC sidebar
 │   │   ├── WalletCard.tsx   # Document card
-│   │   └── StatsCard.tsx    # Statistics display
+│   │   ├── StatsCard.tsx    # Statistics display
+│   │   └── GoogleAnalytics.tsx  # Google Analytics tracking
 │   └── lib/
 │       ├── markdown.ts      # Markdown processing utilities
 │       └── utils.ts         # Utility functions
@@ -138,6 +143,18 @@ Markdown styling is in `src/app/globals.css` under `.prose-wallet` classes.
 ### Navigation
 
 Update `navItems` in `src/components/Navigation.tsx` to change the header menu.
+
+## Analytics
+
+Google Analytics 4 (GA4) is integrated for website tracking. The measurement ID is configured via environment variable:
+
+- **Environment Variable**: `NEXT_PUBLIC_GA_MEASUREMENT_ID`
+- **Default**: `G-L6ZV569CMN` (configured in code)
+- **Location**: Set in `.env.local` file (see `.env.example`)
+
+The analytics script loads asynchronously and only runs on the client side, ensuring it doesn't impact server-side rendering or static export builds.
+
+**Note**: For GDPR compliance, you may want to add a cookie consent banner for EU users. See [ANALYTICS_OPTIONS.md](./ANALYTICS_OPTIONS.md) for more details.
 
 ## License
 
