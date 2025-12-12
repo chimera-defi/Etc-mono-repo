@@ -154,7 +154,7 @@ Google Analytics 4 (GA4) is integrated for website tracking. The measurement ID 
 
 The analytics script loads asynchronously and only runs on the client side, ensuring it doesn't impact server-side rendering or static export builds.
 
-**Note**: For GDPR compliance, you may want to add a cookie consent banner for EU users. See [ANALYTICS_OPTIONS.md](./ANALYTICS_OPTIONS.md) for more details.
+**Note**: For GDPR compliance, you may want to add a cookie consent banner for EU users.
 
 ## License
 
