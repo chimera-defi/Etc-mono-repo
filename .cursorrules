@@ -121,6 +121,15 @@
   53. **Line-by-line verification** - before finalizing any data table, go through EVERY cell and ask "do I actually know this, or am I guessing?"
   54. **Distinguish marketing claims from facts** - manufacturers often inflate numbers (counting all tokens as "supported coins"); be skeptical and conservative
 
+- Web analytics and third-party integrations:
+  55. **Move decision artifacts to .cursor/artifacts/** - when creating comparison/decision documents (like analytics options), place them in `.cursor/artifacts/` not the project root; keep only essential implementation docs in the project
+  56. **Static export compatibility** - for Next.js with `output: 'export'`, use client-side only implementations; avoid SSR-only packages like `@next/third-parties` which may not work with static exports
+  57. **Environment variable fallbacks** - provide sensible defaults for analytics/config IDs in code, but allow override via env vars; document in `.env.example`
+  58. **Client-side only components** - analytics scripts should be in `'use client'` components with `useEffect` hooks; check `typeof window !== 'undefined'` before accessing browser APIs
+  59. **Clean up unused dependencies** - after implementation, remove any packages that were installed but not used (e.g., if you try `@next/third-parties` but use custom implementation instead)
+  60. **Update references when moving files** - when moving artifacts to `.cursor/artifacts/`, search for and update all references in README/docs to avoid broken links
+  61. **Verify build after cleanup** - always run `npm run build`, `npm run type-check`, and `npm run lint` after removing dependencies or moving files to ensure nothing breaks
+
 ## Best Practices
 - Use semantic versioning for packages
 - Include proper .gitignore files for each project type
