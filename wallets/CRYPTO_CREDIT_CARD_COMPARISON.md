@@ -12,26 +12,28 @@
 
 ## Quick Reference: Crypto Credit Cards
 
-| Card | Cash Back | Annual Fee | Crypto Rewards | Business | Website | Status | Best For |
-|------|-----------|------------|----------------|----------|---------|--------|----------|
-| **Mode Card** | Up to 10% | $0 | BTC | ❌ | [modeapp.com](https://modeapp.com) | ✅ Active | Bitcoin rewards (US) |
-| **Crypto.com Obsidian** | 8% | $0 | CRO | ✅ | [crypto.com/cards](https://crypto.com/cards) | ✅ Active | High stakers (Global) |
-| **Binance Card** | Up to 8% | $0 | BNB | ✅ | [binance.com/en/cards](https://www.binance.com/en/cards) | ✅ Active | Binance users (Global) |
-| **Wirex Card** | Up to 8% | $0 | WXT | ✅ | [wirexapp.com/card](https://wirexapp.com/card) | ✅ Active | Multi-crypto (Global) |
-| **Fold Card** | Up to 5% | $0 | BTC | ❌ | [foldapp.com](https://foldapp.com) | ✅ Active | Bitcoin rewards (US) |
-| **Coinbase Card** | 1-4% | $0 | BTC, ETH, others | ❌ | [coinbase.com/card](https://www.coinbase.com/card) | ✅ Active | Coinbase users (US) |
-| **Uphold Card** | 1-4% | $0 | XRP, BTC, ETH | ✅ | [uphold.com/card](https://uphold.com/card) | ✅ Active | Multi-crypto (US, UK, EU) |
-| **Plutus Card** | 3% | £0 | PLU | ❌ | [plutus.it](https://plutus.it) | ✅ Active | EU/UK users |
-| **Gemini Credit Card** | 1-3% | $0 | BTC, ETH | ❌ | [gemini.com/credit-card](https://www.gemini.com/credit-card) | ✅ Active | Credit building (US) |
-| **Swissborg Card** | 1-2% | $0 | CHSB | ❌ | [swissborg.com/card](https://swissborg.com/card) | ⚠️ Verify | EU users |
-| **Shakepay Card** | Up to 1.5% | $0 | BTC | ❌ | [shakepay.com/card](https://shakepay.com/card) | ✅ Active | Canada |
-| **CoinJar Card** | 1% | $0 | BTC | ❌ | [coinjar.com/card](https://www.coinjar.com/card) | ⚠️ Verify | Australia |
-| **CryptoSpend Card** | 1% | $0 | BTC, ETH, others | ❌ | [cryptospend.com.au](https://cryptospend.com.au) | ✅ Active | Australia |
-| **Nexo Card** | Up to 2% | $0 | NEXO | ✅ | [nexo.com/card](https://nexo.com/card) | ✅ Active | Crypto-backed credit (EU, UK) |
-| **BitPay Card** | 0% | $0 | None | ✅ | [bitpay.com/card](https://bitpay.com/card) | ✅ Active | Bitcoin spending (US) |
-| **Reap** | 0% | $0 | Stablecoins | ✅ | [reap.global](https://reap.global) | ✅ Active | Business corporate cards |
+| Card | Score | Cash Back | Annual Fee | Crypto Rewards | Business | Website | Status | Best For |
+|------|-------|-----------|------------|----------------|----------|---------|--------|----------|
+| **Mode Card** | 90 🟢 | Up to 10% | $0 | BTC | ❌ | [modeapp.com](https://modeapp.com) | ✅ Active | Bitcoin rewards (US) |
+| **Plutus Card** | 88 🟢 | 3-9% | £0 | PLU | ❌ | [plutus.it](https://plutus.it) | ✅ Active | EU/UK users |
+| **Coinbase Card** | 85 🟢 | 1-4% | $0 | BTC, ETH, others | ❌ | [coinbase.com/card](https://www.coinbase.com/card) | ✅ Active | Coinbase users (US) |
+| **Nexo Card** | 84 🟢 | Up to 2% | $0 | NEXO | ✅ | [nexo.com/card](https://nexo.com/card) | ✅ Active | Crypto-backed credit (EU, UK) |
+| **Binance Card** | 82 🟢 | Up to 8% | $0 | BNB | ✅ | [binance.com/en/cards](https://www.binance.com/en/cards) | ✅ Active | Binance users (Global) |
+| **Wirex Card** | 80 🟢 | Up to 8% | $0 | WXT | ✅ | [wirexapp.com/card](https://wirexapp.com/card) | ✅ Active | Multi-crypto (Global) |
+| **Fold Card** | 78 🟢 | Up to 5% | $0 | BTC | ❌ | [foldapp.com](https://foldapp.com) | ✅ Active | Bitcoin rewards (US) |
+| **Gemini Credit Card** | 75 🟢 | 1-3% | $0 | BTC, ETH | ❌ | [gemini.com/credit-card](https://www.gemini.com/credit-card) | ✅ Active | Credit building (US) |
+| **Shakepay Card** | 72 🟡 | Up to 1.5% | $0 | BTC | ❌ | [shakepay.com/card](https://shakepay.com/card) | ✅ Active | Canada |
+| **Uphold Card** | 70 🟡 | 1-4% | $0 | XRP, BTC, ETH | ✅ | [uphold.com/card](https://uphold.com/card) | ⚠️ Verify | Multi-crypto (US, UK, EU) |
+| **Crypto.com Visa** | 59 🟡 | 0.5-8% | $0 | CRO | ✅ | [crypto.com/cards](https://crypto.com/cards) | ✅ Active | CRO holders (Global) ⚠️ -20 pts UX penalty |
+| **CryptoSpend Card** | 62 🟡 | 1% | $0 | BTC, ETH, others | ❌ | [cryptospend.com.au](https://cryptospend.com.au) | ✅ Active | Australia |
+| **CoinJar Card** | 60 🟡 | 1% | $0 | BTC | ❌ | [coinjar.com/card](https://www.coinjar.com/card) | ⚠️ Verify | Australia |
+| **Swissborg Card** | 58 🟡 | 1-2% | $0 | CHSB | ❌ | [swissborg.com/card](https://swissborg.com/card) | ⚠️ Verify | EU users |
+| **Reap** | 55 🟡 | 0% | $0 | Stablecoins | ✅ | [reap.global](https://reap.global) | ✅ Active | Business corporate cards |
+| **BitPay Card** | 52 🟡 | 0% | $0 | None | ✅ | [bitpay.com/card](https://bitpay.com/card) | ✅ Active | Bitcoin spending (US) |
+| **EtherFi Cash** | 50 🟡 | Cashback | TBD | ETH, BTC, Stablecoins | ✅ | [ether.fi/cash](https://ether.fi/cash) | ✅ Active | DeFi users |
 
 **Legend:**
+- **Score:** 0-100 weighted score (🟢 75+ Highly Recommended | 🟡 50-74 Good Option | 🔴 <50 Consider Alternatives)
 - **Cash Back:** Base cash back percentage (may vary by category/tier)
 - **Annual Fee:** $0 or annual fee amount
 - **Crypto Rewards:** Reward currency (crypto type)
@@ -39,7 +41,9 @@
 - **Website:** Official card website link
 - **Status:** ✅ Active | ⚠️ Waitlist | ❌ Discontinued | 🔄 Research
 
-**Note:** See [detailed comparison table](./CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md) for complete metrics including foreign transaction fees, card types, staking requirements, and geographic availability.
+**Note:** See [detailed comparison table](./CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md) for complete metrics including foreign transaction fees, card types, staking requirements, and geographic availability. See [scoring breakdown](./CRYPTO_CREDIT_CARD_SCORING.md) for detailed score calculations.
+
+**⚠️ Scoring Note:** Scores include "Human Suggestions" adjustments. **Crypto.com Visa receives -20 points** due to poor user experiences, customer service issues, and staking lock-up periods. See [Human Suggestions Scoring](./CRYPTO_CREDIT_CARD_SCORING.md#human-suggestions-scoring) for details.
 
 **⚠️ Verification Status:** Some cards have been verified through website scraping (December 2025), while others require manual verification due to website access issues or Cloudflare protection. See [VERIFICATION_NOTES.md](./VERIFICATION_NOTES.md) for detailed verification status.
 

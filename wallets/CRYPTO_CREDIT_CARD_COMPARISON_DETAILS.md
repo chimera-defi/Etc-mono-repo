@@ -23,21 +23,43 @@
 
 ## Scoring Methodology
 
-*Methodology to be developed - similar to wallet comparison scoring*
+**Quick Reference:** Score = Cash Back (30) + Fees (20) + Crypto Rewards (15) + Availability (10) + Staking Req (10) + Card Type (10) + Trust (5) + Human Suggestions (-20 to +5) = 100 total
 
-**Proposed Categories:**
-- Cash Back Rate (0-30 pts)
-- Fees (0-20 pts) - Lower fees = higher score
-- Crypto Rewards (0-15 pts)
-- Availability (0-10 pts)
-- Staking Requirements (0-10 pts) - Lower requirements = higher score
-- Card Type (0-10 pts) - Credit vs. Debit preference
-- Trust & Security (0-5 pts)
+Scores prioritize what matters for users: cash back rates, low fees, accessibility, and user experience.
+
+### Scoring Criteria (100 points total)
+
+| Category | Points | Calculation |
+|----------|--------|-------------|
+| **Cash Back Rate** | 0-30 | Based on maximum cash back percentage: 10%+ = 30, 8-9% = 27, 5-7% = 24, 3-4% = 18, 1-2% = 12, 0% = 0 |
+| **Fees** | 0-20 | $0 annual + 0% foreign = 20, $0 annual + low foreign = 15, $0 annual + high foreign = 10, Annual fee = 5-0 |
+| **Crypto Rewards** | 0-15 | Multi-crypto choice = 15, Bitcoin/ETH = 12, Single token = 8, None = 0 |
+| **Availability** | 0-10 | Global = 10, Multi-region = 8, Single region = 5, Limited = 3 |
+| **Staking Requirements** | 0-10 | None = 10, Optional = 8, Low ($0-$1k) = 6, Medium ($1k-$10k) = 4, High ($10k+) = 2, Very High ($100k+) = 0 |
+| **Card Type** | 0-10 | Credit card = 10, Debit card = 8, Prepaid = 5, Business-only = 6 |
+| **Trust & Security** | 0-5 | Established company + verified = 5, Established = 4, Newer = 3, Unverified = 2 |
+| **Human Suggestions** | -20 to +5 | User experience adjustments (see [Human Suggestions](#human-suggestions-scoring) section) |
 
 **Score Thresholds:**
 - 🟢 **75+:** Highly Recommended
 - 🟡 **50-74:** Good Option
 - 🔴 **<50:** Consider Alternatives
+
+### Human Suggestions Scoring
+
+This section accounts for real-world user experiences, company reputation, and practical considerations that may not be reflected in objective metrics.
+
+**Penalties (-20 to 0 points):**
+- **Crypto.com Visa: -20 points** - Poor user experiences, customer service issues, staking lock-up periods, and company reputation concerns
+- **Cards with 404 errors: -5 points** - Swissborg, Uphold, CoinJar (unclear if still active)
+- **Cards requiring verification: -3 points** - Unverified business support or rates
+
+**Bonuses (+1 to +5 points):**
+- **Verified cards: +2 points** - Cards with verified information (Plutus, Nexo, Shakepay, Reap)
+- **No staking required: +2 points** - Cards without staking requirements
+- **Excellent user experience: +1 point** - Cards with strong user satisfaction
+
+**Note:** Human Suggestions scores are applied as adjustments to the base score (0-100), resulting in final scores that may go below 0 or above 100.
 
 ---
 
