@@ -729,13 +729,15 @@ The CryptoSpend Card is a multi-crypto rewards debit card available in Australia
 **Overview:**
 Reap is a business-focused payment platform that provides payment solutions for businesses. The website is protected by Cloudflare and requires JavaScript, so automated verification is not possible. Manual verification required for all details.
 
-**⚠️ Verification Required:**
-- **Website Access:** Protected by Cloudflare - visit [reap.global](https://reap.global) directly in browser
+**⚠️ Verification Required - Cloudflare Protected:**
+- **Website Access:** Entire website protected by Cloudflare - visit [reap.global](https://reap.global) directly in browser with JavaScript enabled
+- **All Pages Protected:** Homepage, /about, /help, /docs, /blog, /contact, /features, /solutions, /api, /privacy, /terms, /pricing all require Cloudflare challenge
 - **Card Products:** Need to verify if physical/virtual cards are offered
 - **Crypto Features:** Need to verify crypto payment processing capabilities
 - **Rewards:** Need to verify if rewards program exists
-- **Fees:** Need to verify fee structure from website
+- **Fees:** Need to verify fee structure from website (check pricing page when accessible)
 - **Availability:** Need to verify geographic regions served
+- **Footer Links:** Check footer for additional documentation links that may contain product information
 
 **Key Features (Unverified - Needs Confirmation):**
 - Business payment solutions platform

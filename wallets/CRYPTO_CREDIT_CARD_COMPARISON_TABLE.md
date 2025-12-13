@@ -209,15 +209,15 @@
 #### Reap
 - **Type:** Business payment platform
 - **Website:** [reap.global](https://reap.global)
-- **Status:** ✅ Active
-- **Business Support:** ✅ Yes (Business-focused platform)
-- **Cash Back:** ⚠️ Verify on website (website requires JavaScript/Cloudflare protection)
-- **Annual Fee:** ⚠️ Verify on website
-- **Foreign Transaction Fee:** ⚠️ Verify on website
-- **Crypto Rewards:** ⚠️ Verify crypto payment features on website
-- **Staking Required:** None (likely)
-- **Availability:** ⚠️ Verify specific regions on website
-- **Notes:** Business payment solutions platform. Website protected by Cloudflare - manual verification required for card product details, rewards structure, fees, and crypto payment features. Please visit [reap.global](https://reap.global) directly to verify current offerings.
+- **Status:** ✅ Active (⚠️ Website protected by Cloudflare)
+- **Business Support:** ✅ Yes (Business-focused platform - needs verification)
+- **Cash Back:** ⚠️ **Manual verification required** - Website fully protected by Cloudflare
+- **Annual Fee:** ⚠️ **Manual verification required** - Website fully protected by Cloudflare
+- **Foreign Transaction Fee:** ⚠️ **Manual verification required** - Website fully protected by Cloudflare
+- **Crypto Rewards:** ⚠️ **Manual verification required** - Verify crypto payment features
+- **Staking Required:** None (likely - needs verification)
+- **Availability:** ⚠️ **Manual verification required** - Verify specific regions
+- **Notes:** Business payment solutions platform. **Entire website is protected by Cloudflare** - all pages require JavaScript and manual browser access. Automated verification impossible. All product details, fees, card offerings, and crypto features need manual verification by visiting [reap.global](https://reap.global) directly in a browser. See [VERIFICATION_NOTES.md](./VERIFICATION_NOTES.md) for detailed verification checklist.
 
 #### Uphold Card
 - **Type:** Debit card

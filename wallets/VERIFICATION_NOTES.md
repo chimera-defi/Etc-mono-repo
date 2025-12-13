@@ -12,23 +12,51 @@ This document tracks verification status and potential inaccuracies in the crypt
 
 **Website:** [reap.global](https://reap.global)
 
-**Status:** ⚠️ **Manual verification required**
+**Status:** ⚠️ **Manual verification required - Cloudflare protected**
 
-**Reason:** Website is protected by Cloudflare and requires JavaScript to load content. Automated scraping cannot access the actual content.
+**Reason:** Entire website is protected by Cloudflare and requires JavaScript to load content. All pages tested (homepage, /about, /help, /docs, /blog, /contact, /features, /solutions, /api, /privacy, /terms, /pricing, /sitemap.xml) return Cloudflare challenge pages. Automated scraping cannot access any actual content.
+
+**Pages Attempted (All Protected):**
+- https://reap.global
+- https://reap.global/about
+- https://reap.global/help
+- https://reap.global/docs
+- https://reap.global/blog
+- https://reap.global/contact
+- https://reap.global/features
+- https://reap.global/solutions
+- https://reap.global/api
+- https://reap.global/privacy
+- https://reap.global/terms
+- https://reap.global/pricing
+- https://reap.global/sitemap.xml
+- https://docs.reap.global (does not exist)
+- https://help.reap.global (does not exist)
+
+**Only Accessible:**
+- https://reap.global/robots.txt - Shows sitemap exists but sitemap itself is protected
 
 **Action Required:**
-1. Visit [reap.global](https://reap.global) directly in a browser
-2. Verify if Reap offers a physical/virtual card product
-3. Check for crypto payment processing features
-4. Verify fee structure (annual fees, transaction fees)
-5. Check for rewards program (if applicable)
-6. Verify geographic availability
-7. Confirm business account requirements
+1. Visit [reap.global](https://reap.global) directly in a web browser with JavaScript enabled
+2. Check footer links for additional documentation pages
+3. Verify if Reap offers a physical/virtual card product
+4. Check for crypto payment processing features
+5. Verify fee structure (annual fees, transaction fees, processing fees)
+6. Check for rewards program (if applicable)
+7. Verify geographic availability
+8. Confirm business account requirements and features
+9. Review terms of service and privacy policy (when accessible)
+10. Check pricing page for fee details
 
-**Current Information (Unverified):**
-- Type: Business payment platform
+**Current Information (Unverified - Based on Assumptions):**
+- Type: Business payment platform (needs verification)
 - Business Support: ✅ Yes (assumed - needs verification)
-- All other details: Need manual verification
+- Website exists and is active (confirmed)
+- All product details: Need manual verification
+- All fee information: Need manual verification
+- Crypto features: Need manual verification
+
+**Note:** Without access to the actual website content, all information about Reap is unverified. The platform appears to be business-focused based on the domain and context, but specific features, fees, and card products cannot be confirmed without manual browser access.
 
 ---
 
