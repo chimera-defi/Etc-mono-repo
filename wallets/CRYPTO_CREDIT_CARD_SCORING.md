@@ -206,7 +206,7 @@
 | Human Suggestions | **-20** | **Poor user experiences, customer service issues, staking lock-up periods, company reputation concerns** |
 | **Final Score** | **59** | 🟡 Good Option (but with significant concerns) |
 
-**Note:** Score reflects maximum potential (Obsidian tier at 8% cashback). Base tier (Midnight Blue at 0.5%) would score significantly lower (~46). The -20 point penalty applies regardless of tier due to company-wide user experience issues.
+**Note:** Score reflects maximum potential (Obsidian tier at 8% cashback). Base tier (Midnight Blue at 0.5%) would score significantly lower (~46). The -20 point penalty applies regardless of tier due to company-wide user experience issues. This penalty ensures Crypto.com receives at least a 20-point reduction as requested.
 
 **Note:** Crypto.com receives a -20 point penalty due to:
 - Poor customer service experiences
@@ -215,7 +215,7 @@
 - User frustration with tier system
 - Difficulty accessing customer support
 
-**Score Calculation Note:** The score of 63 reflects the maximum potential (Obsidian tier at 8% cashback with $400k+ stake). The base tier (Midnight Blue at 0.5% with no stake) would score approximately 46 points. The -20 point penalty applies to all tiers due to company-wide user experience issues.
+**Score Calculation Note:** The final score of 59 reflects the maximum potential (Obsidian tier at 8% cashback with $400k+ stake) minus the -20 point penalty. The base tier (Midnight Blue at 0.5% with no stake) would score approximately 46 points after the penalty. The -20 point penalty applies to all tiers due to company-wide user experience issues, ensuring Crypto.com receives at least a 20-point reduction as requested.
 
 ---
 

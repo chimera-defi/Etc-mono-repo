@@ -1,6 +1,6 @@
 # Crypto-Backed Credit Card Comparison
 
-> **TL;DR:** Research in progress. This document compares crypto-backed credit cards, including cash back rates, fees, rewards, and eligibility requirements.
+> **TL;DR:** Core research complete with scoring system. This document compares crypto-backed credit cards, including cash back rates, fees, rewards, and eligibility requirements. Scores include Human Suggestions adjustments.
 
 **Data Sources:** Official card websites, terms of service, public announcements (as of December 2025)
 
@@ -125,13 +125,14 @@
 ## Business Account Support
 
 **Cards with Business Account Support:**
-- ✅ **Crypto.com Visa** - [crypto.com/cards](https://crypto.com/cards)
-- ✅ **Nexo Card** - [nexo.com/card](https://nexo.com/card)
-- ✅ **Binance Card** - [binance.com/en/cards](https://www.binance.com/en/cards)
-- ✅ **Wirex Card** - [wirexapp.com/card](https://wirexapp.com/card)
-- ✅ **BitPay Card** - [bitpay.com/card](https://bitpay.com/card)
-- ✅ **Uphold Card** - [uphold.com/card](https://uphold.com/card)
-- ✅ **Reap** - [reap.global](https://reap.global) - Business-focused platform
+- ✅ **Nexo Card** - Score: 84 🟢 - [nexo.com/card](https://nexo.com/card) - Business accounts available
+- ✅ **Reap** - Score: 55 🟡 - [reap.global](https://reap.global) - Business-focused platform (business accounts only)
+- ✅ **EtherFi Cash** - Score: 50 🟡 - [ether.fi/cash](https://ether.fi/cash) - Corporate cards available
+- ✅ **Crypto.com Visa** - Score: 59 🟡 - [crypto.com/cards](https://crypto.com/cards) - Business accounts available (⚠️ UX penalty)
+- ⚠️ **Binance Card** - Score: 82 🟢 - [binance.com/en/cards](https://www.binance.com/en/cards) - Verify business account availability
+- ⚠️ **Wirex Card** - Score: 80 🟢 - [wirexapp.com/card](https://wirexapp.com/card) - Verify business account availability
+- ⚠️ **BitPay Card** - Score: 52 🟡 - [bitpay.com/card](https://bitpay.com/card) - Verify business account availability
+- ⚠️ **Uphold Card** - Score: 70 🟡 - [uphold.com/card](https://uphold.com/card) - Verify business account availability (404 error)
 
 **Cards with Personal Only:**
 - ❌ Coinbase Card, Gemini Credit Card, Plutus Card, Swissborg Card, Fold Card, Mode Card, Shakepay Card, CoinJar Card, CryptoSpend Card
@@ -149,4 +150,4 @@
 
 ---
 
-*This document is a work in progress. Research is ongoing.*
+*Last updated: December 2025 - Core research complete. Scoring system implemented with Human Suggestions adjustments. Some cards marked ⚠️ Verify require additional verification.*

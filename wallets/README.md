@@ -100,6 +100,7 @@ Several previously recommended wallets have **stopped active development**:
   - **[CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md](./CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md)** — Complete comparison table with scores
   - **[CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md)** — Detailed card reviews and scoring methodology
   - **[CRYPTO_CREDIT_CARD_SCORING.md](./CRYPTO_CREDIT_CARD_SCORING.md)** — Detailed score breakdowns and calculations
+  - **[BUSINESS_CARDS_SUMMARY.md](./BUSINESS_CARDS_SUMMARY.md)** — Business/corporate card summary
   - **[CRYPTO_CREDIT_CARD_RESEARCH_NOTES.md](./CRYPTO_CREDIT_CARD_RESEARCH_NOTES.md)** — Research notes and findings
   - **[VERIFICATION_NOTES.md](./VERIFICATION_NOTES.md)** — Verification status and methods
 - **[CHANGELOG.md](./CHANGELOG.md)** — Complete history of changes to wallet statuses and documentation

@@ -1113,9 +1113,9 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 ## Next Steps
 
 1. **Complete Research:**
-   - Verify EtherFi, Reap, Peanuts, and Noses card details
-   - Update comparison tables with verified information
-   - Add scoring methodology and calculate scores
+   - ✅ Verify EtherFi, Reap card details - **COMPLETED**
+   - ✅ Update comparison tables with verified information - **COMPLETED**
+   - ✅ Add scoring methodology and calculate scores - **COMPLETED**
 
 2. **Add Missing Information:**
    - Detailed fee structures

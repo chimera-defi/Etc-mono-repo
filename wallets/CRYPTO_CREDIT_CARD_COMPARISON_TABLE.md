@@ -1,6 +1,6 @@
 # Crypto Credit Card Comparison Table
 
-> **Data Status:** 🔄 Research in progress - verify all information on official websites before applying
+> **Data Status:** ✅ Core research complete - verify all information on official websites before applying. Some cards marked ⚠️ Verify require additional verification.
 
 **Last Updated:** December 2025
 
@@ -25,8 +25,8 @@
 | **Reap** | 55 🟡 | Business Credit | 0% | $0 | 2% | Stablecoins | 1:1 Collateral | ✅ | [reap.global](https://reap.global) | ✅ Active | Business | ✅ Verified: Corporate Visa card, FREE annual fee, 2% ATM/FX fees, USD/HKD |
 | **BitPay Card** | 52 🟡 | Debit | 0% | $0 | 0% | BTC | None | ⚠️ Verify | [bitpay.com/card](https://bitpay.com/card) | ✅ Active | Bitcoin users | Prepaid debit |
 | **EtherFi Cash** | 50 🟡 | Credit | Cashback | TBD | TBD | ETH, BTC, Stablecoins | TBD | ✅ | [ether.fi/cash](https://ether.fi/cash) | ✅ Active | DeFi users | ⚠️ Rates TBD - pending verification |
-| **BlockFi Rewards** | Credit | 1.5% | $0 | 0% | BTC | None | BlockFi | ❌ Discontinued | - | Bankruptcy 2022 |
-| **MCO Card** | Credit | 1-5% | $0 | 0% | MCO | $0-$50k+ | Crypto.com | ❌ Discontinued | - | Replaced by CRO card |
+| **BlockFi Rewards** | - | Credit | 1.5% | $0 | 0% | BTC | None | BlockFi | ❌ Discontinued | - | Historical reference | Bankruptcy 2022 |
+| **MCO Card** | - | Credit | 1-5% | $0 | 0% | MCO | $0-$50k+ | Crypto.com | ❌ Discontinued | - | Historical reference | Replaced by CRO card |
 
 **Legend:**
 - **Score:** 0-100 weighted score (see [Scoring Methodology](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#scoring-methodology) and [Score Breakdown](./CRYPTO_CREDIT_CARD_SCORING.md))
@@ -225,20 +225,16 @@ See [CRYPTO_CREDIT_CARD_SCORING.md](./CRYPTO_CREDIT_CARD_SCORING.md) for complet
 
 ---
 
-### Cards Under Research
+### Business/Corporate Cards
 
-#### EtherFi (Ether F.I.)
-- **Status:** 🔄 Researching
-- **Website:** TBD
-- **Business Support:** TBD
-- **Notes:** Need to verify if this is a credit card product or related to EtherFi staking platform
+**Note:** These cards are specifically designed for business/corporate use or offer dedicated business account options.
 
 #### Reap
 - **Type:** Business credit card (Corporate Visa card)
 - **Website:** [reap.global](https://reap.global)
 - **Pricing Page:** [reap.global/resources/info/pricing](https://reap.global/resources/info/pricing) ✅ Verified
 - **Status:** ✅ Active (✅ Verified December 2025 via browser automation)
-- **Business Support:** ✅ Yes (Business-focused platform)
+- **Business Support:** ✅ Yes (Business-focused platform - business accounts only)
 - **Cash Back:** 0% (No cashback rewards)
 - **Annual Fee:** $0 ✅ Verified (FREE)
 - **Foreign Transaction Fee:** 2% ✅ Verified (FX fee: 2%)
@@ -250,7 +246,26 @@ See [CRYPTO_CREDIT_CARD_SCORING.md](./CRYPTO_CREDIT_CARD_SCORING.md) for complet
 - **Available Currencies:** USD, HKD ✅ Verified
 - **Mobile App:** FREE ✅ Verified
 - **Availability:** Global (Hong Kong, Singapore, Mexico, Brazil - varies by region)
-- **Notes:** ✅ **Verified via browser automation (Playwright)** - Corporate Visa credit card with flexible bill repayment in fiat or digital currencies. Secured corporate credit card with advanced spend control, easy access, and additional perks. Late fees may apply. See [VERIFICATION_NOTES.md](./VERIFICATION_NOTES.md) for verification details.
+- **Notes:** ✅ **Verified December 2025** - Corporate Visa credit card with flexible bill repayment in fiat or digital currencies. Secured corporate credit card with advanced spend control, easy access, and additional perks. Late fees may apply. See [VERIFICATION_NOTES.md](./VERIFICATION_NOTES.md) for verification details.
+
+#### EtherFi Cash
+- **Type:** Credit card (DeFi-native)
+- **Website:** [ether.fi/cash](https://ether.fi/cash)
+- **Corporate Cards:** [ether.fi/corporate-cards](https://ether.fi/corporate-cards) ✅ Verified
+- **Status:** ✅ Active (✅ Verified December 2025)
+- **Business Support:** ✅ Yes (Corporate cards available for businesses)
+- **Cash Back:** Cashback rewards (specific rates TBD - pending verification)
+- **Annual Fee:** TBD (pending verification)
+- **Foreign Transaction Fee:** TBD (pending verification)
+- **Crypto Rewards:** ETH, BTC, Stablecoins (can use as collateral)
+- **Staking Required:** TBD (likely optional)
+- **Card Type:** Credit card (non-custodial, DeFi-native)
+- **Availability:** Global (varies by region)
+- **Notes:** ✅ **Verified** - DeFi-native crypto credit card available for individuals, families, and businesses. Corporate cards available. Use crypto without selling it. Specific rates and fees need deeper verification due to JavaScript-heavy page rendering. See [VERIFICATION_NOTES.md](./VERIFICATION_NOTES.md) for verification details.
+
+---
+
+### Other Active Cards (Personal & Business Options)
 
 #### Uphold Card
 - **Type:** Debit card
@@ -339,7 +354,8 @@ See [CRYPTO_CREDIT_CARD_SCORING.md](./CRYPTO_CREDIT_CARD_SCORING.md) for complet
 
 **Cards with Business Account Support (Verified):**
 - ✅ **Nexo Card** - Score: 84 🟢 - Business accounts available
-- ✅ **Reap** - Score: 55 🟡 - Business-focused platform (verified)
+- ✅ **Reap** - Score: 55 🟡 - Business-focused platform (business accounts only, verified)
+- ✅ **EtherFi Cash** - Score: 50 🟡 - Corporate cards available (verified)
 - ✅ **Crypto.com Visa** - Score: 59 🟡 - Business accounts available (⚠️ UX penalty: -20 pts)
 
 **Cards Needing Verification for Business Support:**
@@ -389,4 +405,4 @@ See [CRYPTO_CREDIT_CARD_SCORING.md](./CRYPTO_CREDIT_CARD_SCORING.md) for complet
 
 ---
 
-*Last updated: December 2025 - Research ongoing*
+*Last updated: December 2025 - Core research complete. Scoring system implemented with Human Suggestions adjustments.*
