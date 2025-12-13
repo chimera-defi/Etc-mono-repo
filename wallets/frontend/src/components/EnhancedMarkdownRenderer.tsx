@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -8,6 +8,7 @@ import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
 import { cn } from '@/lib/utils';
 import { CollapsibleSection } from './CollapsibleSection';
+import { Search, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { 
   Trophy, 
   Calculator, 
@@ -139,77 +140,310 @@ function parseMarkdownSections(content: string): { primary: string; sections: { 
   return { primary: primaryContent.trim(), sections };
 }
 
-function MarkdownContent({ content, className }: { content: string; className?: string }) {
+// Searchable Table Component for comparison tables
+interface TableRow {
+  cells: string[];
+  rawCells: string[];
+}
+
+interface ParsedTable {
+  headers: string[];
+  rows: TableRow[];
+}
+
+function parseMarkdownTable(tableContent: string): ParsedTable | null {
+  const lines = tableContent.trim().split('\n').filter(line => line.trim());
+  if (lines.length < 3) return null; // Need header, separator, and at least one row
+
+  // Parse header
+  const headerLine = lines[0];
+  const headers = headerLine
+    .split('|')
+    .map(cell => cell.trim())
+    .filter(cell => cell.length > 0);
+
+  // Skip separator line (index 1)
+  // Parse rows
+  const rows: TableRow[] = [];
+  for (let i = 2; i < lines.length; i++) {
+    const line = lines[i];
+    if (!line.includes('|')) continue;
+    
+    const rawCells = line.split('|').slice(1, -1); // Remove first and last empty splits
+    const cells = rawCells.map(cell => {
+      // Strip markdown formatting for search but keep raw for display
+      return cell
+        .replace(/\*\*([^*]+)\*\*/g, '$1') // Bold
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Links
+        .replace(/~~([^~]+)~~/g, '$1') // Strikethrough
+        .replace(/`([^`]+)`/g, '$1') // Code
+        .trim();
+    });
+    
+    if (cells.length > 0) {
+      rows.push({ cells, rawCells: rawCells.map(c => c.trim()) });
+    }
+  }
+
+  return headers.length > 0 && rows.length > 0 ? { headers, rows } : null;
+}
+
+function SearchableTable({ tableContent, title }: { tableContent: string; title?: string }) {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortColumn, setSortColumn] = useState<number | null>(null);
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+
+  const parsedTable = useMemo(() => parseMarkdownTable(tableContent), [tableContent]);
+
+  const filteredRows = useMemo(() => {
+    if (!parsedTable) return [];
+    if (!searchQuery.trim()) return parsedTable.rows;
+    
+    const query = searchQuery.toLowerCase();
+    return parsedTable.rows.filter(row => 
+      row.cells.some(cell => cell.toLowerCase().includes(query))
+    );
+  }, [parsedTable, searchQuery]);
+
+  const sortedRows = useMemo(() => {
+    if (sortColumn === null) return filteredRows;
+    
+    return [...filteredRows].sort((a, b) => {
+      const aVal = a.cells[sortColumn] || '';
+      const bVal = b.cells[sortColumn] || '';
+      
+      // Try numeric sort first (for scores, etc.)
+      const aNum = parseFloat(aVal.replace(/[^0-9.-]/g, ''));
+      const bNum = parseFloat(bVal.replace(/[^0-9.-]/g, ''));
+      
+      if (!isNaN(aNum) && !isNaN(bNum)) {
+        return sortDirection === 'asc' ? aNum - bNum : bNum - aNum;
+      }
+      
+      // Fall back to string sort
+      const comparison = aVal.localeCompare(bVal);
+      return sortDirection === 'asc' ? comparison : -comparison;
+    });
+  }, [filteredRows, sortColumn, sortDirection]);
+
+  const handleSort = (columnIndex: number) => {
+    if (sortColumn === columnIndex) {
+      setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortColumn(columnIndex);
+      setSortDirection('desc'); // Default to descending for scores
+    }
+  };
+
+  const handleClear = () => {
+    setSearchQuery('');
+    setSortColumn(null);
+  };
+
+  if (!parsedTable) {
+    // Fallback to regular markdown rendering
+    return (
+      <div className="prose-wallet">
+        <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+          {tableContent}
+        </ReactMarkdown>
+      </div>
+    );
+  }
+
+  const hasFilters = searchQuery.trim() || sortColumn !== null;
+  const totalCount = parsedTable.rows.length;
+  const filteredCount = sortedRows.length;
+
+  return (
+    <div className="searchable-table mb-8">
+      {/* Search Controls */}
+      <div className="flex flex-col sm:flex-row gap-3 mb-4 p-4 bg-muted/50 rounded-lg border border-border">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <input
+            type="search"
+            placeholder={`Search ${title || 'wallets'}... (name, score, features)`}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-10 py-2 text-sm border border-border rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            aria-label="Search table"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              aria-label="Clear search"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          )}
+        </div>
+        
+        {hasFilters && (
+          <button
+            onClick={handleClear}
+            className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground border border-border rounded-md hover:bg-muted transition-colors whitespace-nowrap"
+          >
+            Clear Filters
+          </button>
+        )}
+      </div>
+
+      {/* Results Count */}
+      {hasFilters && (
+        <p className="text-sm text-muted-foreground mb-3">
+          Showing {filteredCount} of {totalCount} {title || 'items'}
+          {searchQuery && <> matching &quot;{searchQuery}&quot;</>}
+          {sortColumn !== null && <> • Sorted by {parsedTable.headers[sortColumn]} ({sortDirection})</>}
+        </p>
+      )}
+
+      {/* Table */}
+      <div className="table-wrapper overflow-x-auto -mx-4 px-4">
+        <table className="w-full border-collapse text-sm">
+          <thead className="bg-muted">
+            <tr>
+              {parsedTable.headers.map((header, index) => (
+                <th
+                  key={index}
+                  onClick={() => handleSort(index)}
+                  className="px-3 py-2 text-left font-semibold border-b border-border whitespace-nowrap cursor-pointer hover:bg-muted/80 transition-colors select-none"
+                  title={`Sort by ${header}`}
+                >
+                  <div className="flex items-center gap-1">
+                    <span>{header}</span>
+                    {sortColumn === index ? (
+                      <span className="text-primary">
+                        {sortDirection === 'asc' ? (
+                          <ChevronUp className="h-3 w-3" />
+                        ) : (
+                          <ChevronDown className="h-3 w-3" />
+                        )}
+                      </span>
+                    ) : (
+                      <span className="text-muted-foreground/50 opacity-0 group-hover:opacity-100">
+                        <ChevronDown className="h-3 w-3" />
+                      </span>
+                    )}
+                  </div>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {sortedRows.length === 0 ? (
+              <tr>
+                <td 
+                  colSpan={parsedTable.headers.length} 
+                  className="px-3 py-8 text-center text-muted-foreground"
+                >
+                  No results match &quot;{searchQuery}&quot;. Try a different search term.
+                </td>
+              </tr>
+            ) : (
+              sortedRows.map((row, rowIndex) => (
+                <tr key={rowIndex} className="border-b border-border hover:bg-muted/50">
+                  {row.rawCells.map((cell, cellIndex) => (
+                    <td key={cellIndex} className="px-3 py-2">
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        rehypePlugins={[rehypeRaw]}
+                        components={{
+                          p: ({ children }) => <>{children}</>,
+                          a: ({ href, children }) => (
+                            <a 
+                              href={href} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-primary hover:underline"
+                            >
+                              {children}
+                            </a>
+                          ),
+                        }}
+                      >
+                        {cell}
+                      </ReactMarkdown>
+                    </td>
+                  ))}
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+function MarkdownContent({ content, className, enableTableSearch = false }: { content: string; className?: string; enableTableSearch?: boolean }) {
+  // If table search is enabled, extract and render tables separately
+  const { contentWithoutMainTable, mainTable, tableTitle } = useMemo(() => {
+    if (!enableTableSearch) {
+      return { contentWithoutMainTable: content, mainTable: null, tableTitle: null };
+    }
+
+    // Look for the main comparison table (usually after "Complete ... Comparison" heading)
+    const tablePatterns = [
+      /^(#{1,3}\s+Complete[^\n]*Comparison[^\n]*Table[^\n]*)\n+((?:\|[^\n]+\n)+)/im,
+      /^(#{1,3}\s+Complete[^\n]*Hardware[^\n]*Wallet[^\n]*)\n+((?:\|[^\n]+\n)+)/im,
+      /^(#{1,3}\s+[^\n]*Comparison[^\n]*)\n+((?:\|[^\n]+\n)+)/im,
+    ];
+
+    for (const pattern of tablePatterns) {
+      const match = content.match(pattern);
+      if (match) {
+        const heading = match[1];
+        const table = match[2];
+        // Check if this is a substantial table (more than 5 rows)
+        const rowCount = (table.match(/^\|/gm) || []).length;
+        if (rowCount > 5) {
+          const title = heading.replace(/^#{1,3}\s+/, '').trim();
+          // Keep heading but remove table from content
+          const contentWithoutTable = content.replace(match[2], '<!-- TABLE_PLACEHOLDER -->');
+          return { 
+            contentWithoutMainTable: contentWithoutTable, 
+            mainTable: table.trim(),
+            tableTitle: title.includes('Hardware') ? 'hardware wallets' : 'wallets'
+          };
+        }
+      }
+    }
+
+    return { contentWithoutMainTable: content, mainTable: null, tableTitle: null };
+  }, [content, enableTableSearch]);
+
+  // Render with table placeholder replacement
+  if (mainTable) {
+    const parts = contentWithoutMainTable.split('<!-- TABLE_PLACEHOLDER -->');
+    
+    return (
+      <div className={cn('prose-wallet', className)}>
+        {parts.map((part, index) => (
+          <div key={index}>
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeRaw, rehypeSlug]}
+              components={markdownComponents}
+            >
+              {part}
+            </ReactMarkdown>
+            {index === 0 && mainTable && (
+              <SearchableTable tableContent={mainTable} title={tableTitle || undefined} />
+            )}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className={cn('prose-wallet', className)}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw, rehypeSlug]}
-        components={{
-          // Lazy load images with proper attributes
-          img: ({ src, alt, ...props }) => (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={src}
-              alt={alt || 'Image'}
-              loading="lazy"
-              decoding="async"
-              className="max-w-full h-auto rounded-lg"
-              {...props}
-            />
-          ),
-          table: ({ children, ...props }) => (
-            <div className="table-wrapper">
-              <table {...props}>{children}</table>
-            </div>
-          ),
-          a: ({ href, children, ...props }) => {
-            const isExternal = href?.startsWith('http');
-            
-            // Transform relative .md links to Next.js routes
-            let transformedHref = href;
-            if (href && !isExternal && href.includes('.md')) {
-              // Extract filename and anchor hash from relative path
-              // e.g., ./WALLET_COMPARISON_UNIFIED_DETAILS.md#section or WALLET_COMPARISON_UNIFIED_DETAILS.md#section
-              const [pathPart, hashPart] = href.split('#');
-              const filename = pathPart.replace(/^\.\//, '').replace(/^.*\//, '');
-              
-              if (filename && filename.endsWith('.md')) {
-                // Convert filename to slug format (same as markdown.ts)
-                const slug = filename.replace('.md', '').toLowerCase().replace(/_/g, '-');
-                transformedHref = `/docs/${slug}${hashPart ? `#${hashPart}` : ''}`;
-              }
-            }
-            
-            // Use Next.js Link for internal routes, regular <a> for external
-            if (transformedHref && !isExternal && transformedHref.startsWith('/')) {
-              return (
-                <Link href={transformedHref} {...props}>
-                  {children}
-                </Link>
-              );
-            }
-            
-            return (
-              <a
-                href={transformedHref}
-                target={isExternal ? '_blank' : undefined}
-                rel={isExternal ? 'noopener noreferrer' : undefined}
-                {...props}
-              >
-                {children}
-              </a>
-            );
-          },
-          pre: ({ children, ...props }) => (
-            <pre {...props} className="relative group">
-              {children}
-            </pre>
-          ),
-          del: ({ children }) => (
-            <del className="text-muted-foreground">{children}</del>
-          ),
-        }}
+        components={markdownComponents}
       >
         {content}
       </ReactMarkdown>
@@ -217,23 +451,94 @@ function MarkdownContent({ content, className }: { content: string; className?: 
   );
 }
 
+// Shared markdown components factory
+// Using 'any' types to match react-markdown's flexible component typing
+function getMarkdownComponents() {
+  return {
+    // Lazy load images with proper attributes
+    img: ({ src, alt, ...props }: { src?: string; alt?: string }) => (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={src}
+        alt={alt || 'Image'}
+        loading="lazy"
+        decoding="async"
+        className="max-w-full h-auto rounded-lg"
+        {...props}
+      />
+    ),
+    table: ({ children }: { children?: React.ReactNode }) => (
+      <div className="table-wrapper">
+        <table>{children}</table>
+      </div>
+    ),
+    a: ({ href, children }: { href?: string; children?: React.ReactNode }) => {
+      const isExternal = href?.startsWith('http');
+      
+      // Transform relative .md links to Next.js routes
+      let transformedHref = href;
+      if (href && !isExternal && href.includes('.md')) {
+        const [pathPart, hashPart] = href.split('#');
+        const filename = pathPart.replace(/^\.\//, '').replace(/^.*\//, '');
+        
+        if (filename && filename.endsWith('.md')) {
+          const slug = filename.replace('.md', '').toLowerCase().replace(/_/g, '-');
+          transformedHref = `/docs/${slug}${hashPart ? `#${hashPart}` : ''}`;
+        }
+      }
+      
+      if (transformedHref && !isExternal && transformedHref.startsWith('/')) {
+        return (
+          <Link href={transformedHref}>
+            {children}
+          </Link>
+        );
+      }
+      
+      return (
+        <a
+          href={transformedHref}
+          target={isExternal ? '_blank' : undefined}
+          rel={isExternal ? 'noopener noreferrer' : undefined}
+        >
+          {children}
+        </a>
+      );
+    },
+    pre: ({ children }: { children?: React.ReactNode }) => (
+      <pre className="relative group">
+        {children}
+      </pre>
+    ),
+    del: ({ children }: { children?: React.ReactNode }) => (
+      <del className="text-muted-foreground">{children}</del>
+    ),
+  };
+}
+
+const markdownComponents = getMarkdownComponents();
+
 export function EnhancedMarkdownRenderer({ 
   content, 
   className,
   showExpandableSections = true 
 }: EnhancedMarkdownRendererProps) {
   const [showAll, setShowAll] = useState(false);
+
+  // Detect if this is a comparison page (enable table search)
+  const isComparisonPage = content.includes('Complete') && 
+    (content.includes('Comparison') || content.includes('Hardware Wallet'));
   
   if (!showExpandableSections) {
-    return <MarkdownContent content={content} className={className} />;
+    return <MarkdownContent content={content} className={className} enableTableSearch={isComparisonPage} />;
   }
 
   const { primary, sections } = parseMarkdownSections(content);
   
   return (
     <div className={className}>
-      {/* Primary Content (tables, summary, etc.) */}
-      <MarkdownContent content={primary} />
+      {/* Primary Content (tables, summary, etc.) - with searchable tables */}
+      <MarkdownContent content={primary} enableTableSearch={isComparisonPage} />
       
       {/* Expandable Sections */}
       {sections.length > 0 && (
