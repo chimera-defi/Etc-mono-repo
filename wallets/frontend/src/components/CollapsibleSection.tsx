@@ -47,30 +47,3 @@ export function CollapsibleSection({
   );
 }
 
-interface CollapsibleGroupProps {
-  sections: {
-    id: string;
-    title: string;
-    content: React.ReactNode;
-    icon?: React.ReactNode;
-    defaultOpen?: boolean;
-  }[];
-  className?: string;
-}
-
-export function CollapsibleGroup({ sections, className }: CollapsibleGroupProps) {
-  return (
-    <div className={cn('space-y-4', className)}>
-      {sections.map((section) => (
-        <CollapsibleSection
-          key={section.id}
-          title={section.title}
-          icon={section.icon}
-          defaultOpen={section.defaultOpen}
-        >
-          {section.content}
-        </CollapsibleSection>
-      ))}
-    </div>
-  );
-}
