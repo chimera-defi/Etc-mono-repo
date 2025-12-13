@@ -144,17 +144,77 @@ Markdown styling is in `src/app/globals.css` under `.prose-wallet` classes.
 
 Update `navItems` in `src/components/Navigation.tsx` to change the header menu.
 
-## Analytics
+## Analytics & Privacy
 
-Google Analytics 4 (GA4) is integrated for website tracking. The measurement ID is configured via environment variable:
+### Google Analytics 4
+
+Google Analytics 4 (GA4) is integrated for website tracking with GDPR-compliant consent management:
 
 - **Environment Variable**: `NEXT_PUBLIC_GA_MEASUREMENT_ID`
 - **Default**: `G-L6ZV569CMN` (configured in code)
 - **Location**: Set in `.env.local` file (see `.env.example`)
 
-The analytics script loads asynchronously and only runs on the client side, ensuring it doesn't impact server-side rendering or static export builds.
+### Cookie Consent (GDPR)
 
-**Note**: For GDPR compliance, you may want to add a cookie consent banner for EU users.
+A cookie consent banner is included that:
+- Shows on first visit after a 1-second delay
+- Remembers user choice in localStorage
+- Defaults to analytics being **denied** until consent is given
+- Supports "Accept All" and "Reject Non-Essential" options
+- Uses Google's Consent Mode v2 for compliant tracking
+
+The consent preference is stored in `localStorage` under `wallet-radar-cookie-consent`.
+
+## SEO Features
+
+### Implemented SEO
+
+| Feature | Status | Notes |
+|---------|--------|-------|
+| Meta tags | ✅ | Title, description, keywords |
+| Open Graph | ✅ | Full OG tags for social sharing |
+| Twitter Cards | ✅ | Summary large image cards |
+| Structured Data | ✅ | Organization, WebSite, FAQPage, Article, BreadcrumbList, HowTo, ItemList |
+| Sitemap | ✅ | Dynamic generation via `sitemap.ts` |
+| robots.txt | ✅ | Proper crawl directives |
+| Canonical URLs | ✅ | Trailing slashes enabled |
+| Dynamic Keywords | ✅ | Content-based keyword generation |
+| Reading Time | ✅ | Calculated from content |
+| Preconnect Hints | ✅ | Google Analytics domains |
+| Lazy Loading | ✅ | Images in markdown content |
+| Search/Filter | ✅ | Client-side doc filtering |
+
+### SEO Utilities
+
+The `src/lib/seo.ts` file provides utilities:
+
+```typescript
+// Calculate reading time
+calculateReadingTime(content: string): number
+
+// Format reading time for display
+formatReadingTime(minutes: number): string
+
+// Optimize meta descriptions (150-160 chars)
+optimizeMetaDescription(text: string): string
+
+// Generate dynamic keywords
+generateKeywords(title: string, category: string, content: string): string[]
+
+// Extract wallet names for structured data
+extractWalletNames(content: string): string[]
+
+// Generate OG image URL (extensible for dynamic generation)
+getOgImageUrl(title: string, category: string, baseUrl: string): string
+```
+
+### Future SEO Enhancements
+
+For server deployments (non-static export), you can enable:
+
+1. **Dynamic OG Images**: Use `@vercel/og` in an API route
+2. **Server-Side Search**: Add a real search endpoint for SearchAction schema
+3. **Incremental Static Regeneration**: For more frequent content updates
 
 ## License
 

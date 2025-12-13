@@ -5,6 +5,7 @@ import './globals.css';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { GoogleAnalytics } from '@/components/GoogleAnalytics';
+import { CookieConsent } from '@/components/CookieConsent';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -117,19 +118,18 @@ export default function RootLayout({
     name: siteName,
     url: baseUrl,
     description: defaultDescription,
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: `${baseUrl}/docs?q={search_term_string}`,
-      },
-      'query-input': 'required name=search_term_string',
-    },
   };
 
   return (
     <html lang="en" className="scroll-smooth">
       <head>
+        {/* Preconnect for performance */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        
+        {/* PWA and icons */}
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
@@ -159,6 +159,7 @@ export default function RootLayout({
           <Footer />
         </div>
         {gaMeasurementId && <GoogleAnalytics measurementId={gaMeasurementId} />}
+        <CookieConsent />
       </body>
     </html>
   );
