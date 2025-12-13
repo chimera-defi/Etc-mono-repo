@@ -130,6 +130,11 @@
   60. **Update references when moving files** - when moving artifacts to `.cursor/artifacts/`, search for and update all references in README/docs to avoid broken links
   61. **Verify build after cleanup** - always run `npm run build`, `npm run type-check`, and `npm run lint` after removing dependencies or moving files to ensure nothing breaks
 
+- Web scraping and data verification:
+  62. **Use browser automation for Cloudflare-protected sites** - when encountering Cloudflare protection (showing "Just a moment..." pages), use browser automation tools like Playwright or Puppeteer instead of asking users to manually fetch information. Install with `npm install playwright` and `npx playwright install chromium`, then use headless mode with appropriate wait times (30+ seconds) for Cloudflare challenges to complete. Never ask users to manually scrape sites - use available tools to do it yourself.
+  63. **Try multiple scraping approaches** - if curl fails, try: 1) Better user agents and headers, 2) Browser automation (Playwright/Puppeteer), 3) Python requests with BeautifulSoup, 4) Wait longer for JavaScript-heavy pages. Always attempt automated solutions before requesting manual help.
+  64. **Document verification methods** - when verifying information via browser automation or other tools, document the method used (e.g., "Verified via Playwright browser automation") and the date in verification notes. This helps future verification efforts understand what worked.
+
 ## Best Practices
 - Use semantic versioning for packages
 - Include proper .gitignore files for each project type
