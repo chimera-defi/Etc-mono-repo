@@ -5,6 +5,7 @@ import './globals.css';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { GoogleAnalytics } from '@/components/GoogleAnalytics';
+import { CookieConsent } from '@/components/CookieConsent';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -158,6 +159,7 @@ export default function RootLayout({
           <Footer />
         </div>
         {gaMeasurementId && <GoogleAnalytics measurementId={gaMeasurementId} />}
+        <CookieConsent />
       </body>
     </html>
   );

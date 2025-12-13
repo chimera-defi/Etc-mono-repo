@@ -395,6 +395,7 @@ export default function DocumentPage({ params }: PageProps) {
 
 function RelatedDocuments({ currentSlug }: { currentSlug: string }) {
   const documents = getAllDocuments();
+  const currentDoc = documents.find(d => d.slug === currentSlug);
   
   // Exclude the related table/details page since we show navigation banner
   const isTablePage = currentSlug.includes('-table');
@@ -405,15 +406,61 @@ function RelatedDocuments({ currentSlug }: { currentSlug: string }) {
     ? getRelatedDocument(currentSlug, 'table')
     : null;
   
-  const related = documents
-    .filter((doc) => {
+  // Smart related document selection
+  const getRelatedDocs = () => {
+    const candidates = documents.filter((doc) => {
       // Exclude current document
       if (doc.slug === currentSlug) return false;
       // Exclude related table/details page (shown in banner)
       if (relatedDoc && doc.slug === relatedDoc.slug) return false;
       return true;
-    })
-    .slice(0, 3);
+    });
+
+    // Score documents by relevance
+    const scored = candidates.map(doc => {
+      let score = 0;
+      
+      // Same category = high relevance
+      if (currentDoc && doc.category === currentDoc.category) {
+        score += 10;
+      }
+      
+      // Hardware/software matching
+      const currentIsHardware = currentSlug.includes('hardware');
+      const docIsHardware = doc.slug.includes('hardware');
+      if (currentIsHardware === docIsHardware) {
+        score += 5;
+      }
+      
+      // Comparison pages should link to guides and vice versa
+      if (currentDoc?.category === 'comparison' && doc.category === 'guide') {
+        score += 3;
+      }
+      if (currentDoc?.category === 'guide' && doc.category === 'comparison') {
+        score += 3;
+      }
+      
+      // Research pages are always relevant
+      if (doc.category === 'research') {
+        score += 2;
+      }
+      
+      // Boost by order (lower order = more important)
+      score += Math.max(0, 5 - doc.order);
+      
+      return { doc, score };
+    });
+
+    // Sort by score descending, then by order
+    scored.sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return a.doc.order - b.doc.order;
+    });
+
+    return scored.slice(0, 5).map(s => s.doc);
+  };
+
+  const related = getRelatedDocs();
 
   return (
     <ul className="space-y-2">
@@ -421,9 +468,12 @@ function RelatedDocuments({ currentSlug }: { currentSlug: string }) {
         <li key={doc.slug}>
           <Link
             href={`/docs/${doc.slug}`}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors block"
           >
-            {doc.title}
+            <span className="line-clamp-2">{doc.title}</span>
+            <span className="text-xs text-muted-foreground/70 capitalize">
+              {doc.category}
+            </span>
           </Link>
         </li>
       ))}

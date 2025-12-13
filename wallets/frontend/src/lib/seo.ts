@@ -154,3 +154,61 @@ export function extractWalletNames(content: string): string[] {
     .map(match => match.replace(/\|\s+\*\*|\*\*\s+\|/g, '').trim())
     .filter(name => name.length > 0 && name.length < 50);
 }
+
+/**
+ * Generate OG image URL for a document
+ * 
+ * This function generates a URL for Open Graph images. For static exports,
+ * it returns the default OG image. For server deployments, it can be 
+ * extended to use dynamic OG image generation via @vercel/og or similar.
+ * 
+ * @param title - The page title
+ * @param category - The document category
+ * @param baseUrl - The base URL of the site
+ * @returns The OG image URL
+ */
+export function getOgImageUrl(
+  title: string,
+  category: string,
+  baseUrl: string
+): string {
+  // For static export, return the default OG image
+  // In a server environment, this could be extended to use dynamic generation:
+  // return `${baseUrl}/api/og?title=${encodeURIComponent(title)}&category=${category}`;
+  
+  return `${baseUrl}/og-image.png`;
+}
+
+/**
+ * Generate structured data for a wallet comparison page
+ */
+export function generateComparisonSchema(
+  title: string,
+  description: string,
+  url: string,
+  walletNames: string[],
+  lastUpdated?: string
+): object {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: title,
+    description: description,
+    url: url,
+    numberOfItems: walletNames.length,
+    dateModified: lastUpdated ? new Date(lastUpdated).toISOString() : new Date().toISOString(),
+    itemListElement: walletNames.slice(0, 20).map((name, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': name.toLowerCase().includes('trezor') || 
+                 name.toLowerCase().includes('ledger') ||
+                 name.toLowerCase().includes('keystone')
+          ? 'Product'
+          : 'SoftwareApplication',
+        name: name,
+        description: `Featured in ${title}`,
+      },
+    })),
+  };
+}

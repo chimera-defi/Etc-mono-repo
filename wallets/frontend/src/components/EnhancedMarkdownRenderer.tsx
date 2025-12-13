@@ -146,6 +146,18 @@ function MarkdownContent({ content, className }: { content: string; className?: 
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw, rehypeSlug]}
         components={{
+          // Lazy load images with proper attributes
+          img: ({ src, alt, ...props }) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={src}
+              alt={alt || 'Image'}
+              loading="lazy"
+              decoding="async"
+              className="max-w-full h-auto rounded-lg"
+              {...props}
+            />
+          ),
           table: ({ children, ...props }) => (
             <div className="table-wrapper">
               <table {...props}>{children}</table>
