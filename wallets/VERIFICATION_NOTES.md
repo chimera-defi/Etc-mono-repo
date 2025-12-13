@@ -50,10 +50,11 @@ The following cards' websites exist but initial scraping didn't find specific ra
 
 **Status:** ⚠️ **Manual verification required - Cloudflare protected**
 
-**Reason:** Entire website is protected by Cloudflare and requires JavaScript to load content. All pages tested (homepage, /about, /help, /docs, /blog, /contact, /features, /solutions, /api, /privacy, /terms, /pricing, /sitemap.xml) return Cloudflare challenge pages. Automated scraping cannot access any actual content.
+**Reason:** Entire website is protected by Cloudflare and requires JavaScript to load content. All pages tested return Cloudflare challenge pages. Automated scraping cannot access any actual content.
 
-**Pages Attempted (All Protected):**
-- https://reap.global
+**Key Pages Identified (All Protected):**
+- https://reap.global (homepage)
+- **https://reap.global/resources/info/pricing** ⭐ **Pricing page identified** (user-provided URL)
 - https://reap.global/about
 - https://reap.global/help
 - https://reap.global/docs
@@ -68,6 +69,8 @@ The following cards' websites exist but initial scraping didn't find specific ra
 - https://reap.global/sitemap.xml
 - https://docs.reap.global (does not exist)
 - https://help.reap.global (does not exist)
+
+**Pricing Page:** The pricing page at https://reap.global/resources/info/pricing exists but is Cloudflare-protected. This page likely contains fee structure information that needs manual verification.
 
 **Only Accessible:**
 - https://reap.global/robots.txt - Shows sitemap exists but sitemap itself is protected

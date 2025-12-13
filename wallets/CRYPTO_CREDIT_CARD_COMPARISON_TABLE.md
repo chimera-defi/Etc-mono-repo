@@ -213,15 +213,16 @@
 #### Reap
 - **Type:** Business payment platform
 - **Website:** [reap.global](https://reap.global)
+- **Pricing Page:** [reap.global/resources/info/pricing](https://reap.global/resources/info/pricing) ⭐
 - **Status:** ✅ Active (⚠️ Website protected by Cloudflare)
 - **Business Support:** ✅ Yes (Business-focused platform - needs verification)
-- **Cash Back:** ⚠️ **Manual verification required** - Website fully protected by Cloudflare
-- **Annual Fee:** ⚠️ **Manual verification required** - Website fully protected by Cloudflare
-- **Foreign Transaction Fee:** ⚠️ **Manual verification required** - Website fully protected by Cloudflare
+- **Cash Back:** ⚠️ **Manual verification required** - Check pricing page
+- **Annual Fee:** ⚠️ **Manual verification required** - Check pricing page
+- **Foreign Transaction Fee:** ⚠️ **Manual verification required** - Check pricing page
 - **Crypto Rewards:** ⚠️ **Manual verification required** - Verify crypto payment features
 - **Staking Required:** None (likely - needs verification)
 - **Availability:** ⚠️ **Manual verification required** - Verify specific regions
-- **Notes:** Business payment solutions platform. **Entire website is protected by Cloudflare** - all pages require JavaScript and manual browser access. Automated verification impossible. All product details, fees, card offerings, and crypto features need manual verification by visiting [reap.global](https://reap.global) directly in a browser. See [VERIFICATION_NOTES.md](./VERIFICATION_NOTES.md) for detailed verification checklist.
+- **Notes:** Business payment solutions platform. **Entire website is protected by Cloudflare** - all pages require JavaScript and manual browser access. Automated verification impossible. Pricing information available at [reap.global/resources/info/pricing](https://reap.global/resources/info/pricing) but requires manual browser access. All product details, fees, card offerings, and crypto features need manual verification. See [VERIFICATION_NOTES.md](./VERIFICATION_NOTES.md) for detailed verification checklist.
 
 #### Uphold Card
 - **Type:** Debit card
