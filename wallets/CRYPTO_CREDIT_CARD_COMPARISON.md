@@ -29,7 +29,7 @@
 | **CryptoSpend Card** | 1% | $0 | BTC, ETH, others | ❌ | [cryptospend.com.au](https://cryptospend.com.au) | ✅ Active | Australia |
 | **Nexo Card** | 0-2% | $0 | NEXO | ✅ | [nexo.com/card](https://nexo.com/card) | ✅ Active | Crypto-backed credit (EU, UK) |
 | **BitPay Card** | 0% | $0 | None | ✅ | [bitpay.com/card](https://bitpay.com/card) | ✅ Active | Bitcoin spending (US) |
-| **Reap** | TBD | TBD | TBD | ✅ | [reapglobal.com](https://reapglobal.com) | ✅ Active | Business payments |
+| **Reap** | TBD | TBD | TBD | ✅ | [reap.global](https://reap.global) | ✅ Active | Business payments |
 
 **Legend:**
 - **Cash Back:** Base cash back percentage (may vary by category/tier)
@@ -66,7 +66,7 @@
 ### Cards Under Research
 
 1. **EtherFi** (Ether F.I.) - *Researching* (website TBD)
-2. **Reap** - ✅ Active - [reapglobal.com](https://reapglobal.com) - Business-focused payment platform
+2. **Reap** - ✅ Active - [reap.global](https://reap.global) - Business-focused payment platform
 
 ### Discontinued Cards
 
@@ -125,7 +125,7 @@
 - ✅ **Wirex Card** - [wirexapp.com/card](https://wirexapp.com/card)
 - ✅ **BitPay Card** - [bitpay.com/card](https://bitpay.com/card)
 - ✅ **Uphold Card** - [uphold.com/card](https://uphold.com/card)
-- ✅ **Reap** - [reapglobal.com](https://reapglobal.com) - Business-focused platform
+- ✅ **Reap** - [reap.global](https://reap.global) - Business-focused platform
 
 **Cards with Personal Only:**
 - ❌ Coinbase Card, Gemini Credit Card, Plutus Card, Swissborg Card, Fold Card, Mode Card, Shakepay Card, CoinJar Card, CryptoSpend Card

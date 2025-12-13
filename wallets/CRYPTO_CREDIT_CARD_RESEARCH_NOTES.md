@@ -51,27 +51,38 @@
 
 ### Reap
 
-**Initial Research:**
-- Reap could refer to:
-  - Reap (reap.finance) - DeFi protocol
-  - Reap payment platform
-  - Reap card product
+**Website:** [reap.global](https://reap.global)
 
-**Possible Matches:**
-1. **Reap Finance** - DeFi protocol (unlikely to have card)
-2. **Reap Payment Platform** - Business payment solutions
-3. **Reap Card** - Need to verify if this exists
+**Status:** ✅ Active
+
+**Initial Research:**
+- Reap is a business-focused payment platform
+- Website: reap.global
+- Provides payment solutions for businesses
+- May offer crypto payment processing capabilities
+
+**Findings:**
+- **Type:** Business payment platform
+- **Business Support:** ✅ Yes (Business-focused platform)
+- **Card Products:** Need to verify if Reap offers physical/virtual card products
+- **Crypto Features:** Need to verify crypto payment processing features
+- **Rewards:** TBD - Need to verify if card products include rewards structure
+- **Fees:** TBD - Need to verify fee structure from website
+- **Availability:** Global (verify specific regions)
 
 **Action Items:**
-- [ ] Search for "Reap card" or "Reap credit card"
-- [ ] Check Reap payment platform website
-- [ ] Verify if Reap offers consumer credit/debit cards
-- [ ] Check for crypto rewards or crypto-backed features
+- [x] Verify correct website: reap.global
+- [ ] Research card product offerings (if any)
+- [ ] Verify crypto payment processing features
+- [ ] Check fee structure and pricing
+- [ ] Verify geographic availability
+- [ ] Check for rewards program (if applicable)
 
 **Notes:**
-- Reap may be a payment processor rather than card issuer
-- Could be a business-focused card
-- Need clarification on exact product
+- Business-focused payment platform
+- May focus on payment processing infrastructure rather than consumer card products
+- Need to verify specific card product details from official website
+- Crypto payment features need verification
 
 ---
 

@@ -722,19 +722,50 @@ The CryptoSpend Card is a multi-crypto rewards debit card available in Australia
 
 ### Reap
 
-**Website:** [reapglobal.com](https://reapglobal.com)
+**Website:** [reap.global](https://reap.global)
 
 **Status:** ✅ Active
 
 **Overview:**
-Reap is a business-focused payment platform that provides payment solutions for businesses. Need to verify specific card product details and crypto features.
+Reap is a business-focused payment platform that provides payment solutions for businesses, including crypto payment processing capabilities. The platform offers business payment infrastructure and may include card products or crypto payment features.
+
+**Key Features:**
+- Business payment solutions platform
+- Crypto payment processing (verify specific features)
+- Global payment infrastructure
+- Business-focused services
+
+**Rewards Structure:**
+- TBD - Need to verify if Reap offers card products with rewards
+- May focus on payment processing rather than consumer rewards
+
+**Fees:**
+- Annual Fee: TBD (verify on website)
+- Foreign Transaction Fee: TBD (verify on website)
+- Processing fees: TBD (verify on website)
+
+**Requirements:**
+- Business account required
+- KYC/verification required
+- Geographic availability: TBD (verify on website)
 
 **Business Support:** ✅ Yes (Business-focused platform)
 
+**Best For:**
+- Businesses needing crypto payment processing
+- Companies looking for business payment solutions
+- Organizations requiring crypto payment infrastructure
+
+**Limitations:**
+- Business accounts only (not for personal use)
+- Need to verify specific card product availability
+- Need to verify crypto rewards structure (if applicable)
+
 **Notes:**
 - Business payment solutions platform
-- Need to verify card product details and crypto rewards features
-- May offer crypto payment processing or card products
+- Website: [reap.global](https://reap.global)
+- Need to verify specific card product details, rewards structure, and fees from official website
+- May offer crypto payment processing rather than traditional card rewards
 
 ---
 
@@ -921,9 +952,9 @@ Reap is a business-focused payment platform that provides payment solutions for 
 - **Notes:** Uphold Business accounts available
 
 **Reap**
-- **Website:** [reapglobal.com](https://reapglobal.com)
+- **Website:** [reap.global](https://reap.global)
 - **Business Support:** ✅ Yes (Business-focused platform)
-- **Notes:** Business payment solutions platform
+- **Notes:** Business payment solutions platform offering crypto payment processing. Verify specific card products and features on website.
 
 ### Cards with Personal Only
 

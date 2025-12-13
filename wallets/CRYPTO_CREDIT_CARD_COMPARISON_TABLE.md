@@ -23,7 +23,7 @@
 | **Uphold Card** | Debit | 1-4% | $0 | 0% | XRP, BTC, ETH, others | None | ❌ | [uphold.com/card](https://uphold.com/card) | ✅ Active | Multi-crypto | Debit card, multiple crypto rewards |
 | **CoinJar Card** | Debit | 1% | $0 | 0% | BTC | None | ❌ | [coinjar.com/card](https://www.coinjar.com/card) | ✅ Active | Australia | Australia only, Bitcoin rewards |
 | **CryptoSpend Card** | Debit | 1% | $0 | 0% | BTC, ETH, others | None | ❌ | [cryptospend.com.au](https://cryptospend.com.au) | ✅ Active | Australia | Australia only |
-| **Reap** | Business | TBD | TBD | TBD | TBD | TBD | ✅ | [reapglobal.com](https://reapglobal.com) | ✅ Active | Business | Business payment solutions |
+| **Reap** | Business | TBD | TBD | TBD | TBD | TBD | ✅ | [reap.global](https://reap.global) | ✅ Active | Business | Business payment solutions, crypto payments |
 | **EtherFi** | TBD | TBD | TBD | TBD | ETH | TBD | TBD | TBD | 🔄 Research | TBD | *Researching* |
 | **BlockFi Rewards** | Credit | 1.5% | $0 | 0% | BTC | None | BlockFi | ❌ Discontinued | - | Bankruptcy 2022 |
 | **MCO Card** | Credit | 1-5% | $0 | 0% | MCO | $0-$50k+ | Crypto.com | ❌ Discontinued | - | Replaced by CRO card |
@@ -205,11 +205,17 @@
 - **Notes:** Need to verify if this is a credit card product or related to EtherFi staking platform
 
 #### Reap
-- **Type:** Business payment solutions
-- **Website:** [reapglobal.com](https://reapglobal.com)
+- **Type:** Business payment platform
+- **Website:** [reap.global](https://reap.global)
 - **Status:** ✅ Active
-- **Business Support:** ✅ Yes
-- **Notes:** Business-focused payment platform, need to verify card product details and crypto features
+- **Business Support:** ✅ Yes (Business-focused platform)
+- **Cash Back:** TBD (verify on website)
+- **Annual Fee:** TBD (verify on website)
+- **Foreign Transaction Fee:** TBD (verify on website)
+- **Crypto Rewards:** TBD (verify crypto payment features)
+- **Staking Required:** None
+- **Availability:** Global (verify specific regions)
+- **Notes:** Business payment solutions platform offering crypto payment processing. Need to verify specific card product details, rewards structure, and fees from official website.
 
 #### Uphold Card
 - **Type:** Debit card
