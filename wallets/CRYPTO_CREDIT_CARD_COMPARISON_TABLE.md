@@ -11,19 +11,19 @@
 | **Coinbase Card** | Debit | 1-4% | $0 | 0% | BTC, ETH, others | None | ❌ | [coinbase.com/card](https://www.coinbase.com/card) | ✅ Active | Coinbase users | Debit card, instant crypto rewards |
 | **Crypto.com Visa** | Debit | 0.5-8% | $0 | 0% | CRO | $0-$400k+ | ✅ | [crypto.com/cards](https://crypto.com/cards) | ✅ Active | CRO holders | Tiered by CRO stake |
 | **Gemini Credit Card** | Credit | 1-3% | $0 | 0% | BTC, ETH | None | ❌ | [gemini.com/credit-card](https://www.gemini.com/credit-card) | ✅ Active | Gemini users | Credit card, crypto rewards |
-| **Nexo Card** | Credit | 0-2% | $0 | 0% | NEXO | None | ❌ | [nexo.com/card](https://nexo.com/card) | ✅ Active | Nexo users | Crypto-backed credit line |
-| **Binance Card** | Debit | Up to 8% | $0 | 0% | BNB | None | ❌ | [binance.com/en/cards](https://www.binance.com/en/cards) | ✅ Active | Binance users | Debit card |
-| **Wirex Card** | Debit | Up to 8% | $0 | 0% | WXT | None | ✅ | [wirexapp.com/card](https://wirexapp.com/card) | ✅ Active | Multi-crypto | Debit card |
+| **Nexo Card** | Credit | 0-2% | $0 | 0% | NEXO | None | ⚠️ Verify | [nexo.com/card](https://nexo.com/card) | ✅ Active | Nexo users | Crypto-backed credit line |
+| **Binance Card** | Debit | Up to 8% | $0 | 0% | BNB | None | ⚠️ Verify | [binance.com/en/cards](https://www.binance.com/en/cards) | ✅ Active | Binance users | Debit card |
+| **Wirex Card** | Debit | Up to 8% | $0 | 0% | WXT | None | ⚠️ Verify | [wirexapp.com/card](https://wirexapp.com/card) | ✅ Active | Multi-crypto | Debit card |
 | **Plutus Card** | Debit | 3% | £0 | 0% | PLU | Optional | ❌ | [plutus.it](https://plutus.it) | ✅ Active | EU users | Debit card, EU only |
 | **Swissborg Card** | Debit | 1-2% | $0 | 0% | CHSB | None | ❌ | [swissborg.com/card](https://swissborg.com/card) | ✅ Active | EU users | Debit card, EU only |
-| **BitPay Card** | Debit | 0% | $0 | 0% | BTC | None | ✅ | [bitpay.com/card](https://bitpay.com/card) | ✅ Active | Bitcoin users | Prepaid debit |
+| **BitPay Card** | Debit | 0% | $0 | 0% | BTC | None | ⚠️ Verify | [bitpay.com/card](https://bitpay.com/card) | ✅ Active | Bitcoin users | Prepaid debit |
 | **Fold Card** | Debit | Up to 5% | $0 | 0% | BTC | None | ❌ | [foldapp.com](https://foldapp.com) | ✅ Active | Bitcoin rewards | Bitcoin rewards only |
 | **Mode Card** | Debit | Up to 10% | $0 | 0% | BTC | None | ❌ | [modeapp.com](https://modeapp.com) | ✅ Active | Bitcoin rewards | Bitcoin rewards |
 | **Shakepay Card** | Debit | 1-2% | $0 | 0% | BTC | None | ❌ | [shakepay.com/card](https://shakepay.com/card) | ✅ Active | Canada | Canada only |
-| **Uphold Card** | Debit | 1-4% | $0 | 0% | XRP, BTC, ETH, others | None | ❌ | [uphold.com/card](https://uphold.com/card) | ✅ Active | Multi-crypto | Debit card, multiple crypto rewards |
+| **Uphold Card** | Debit | 1-4% | $0 | 0% | XRP, BTC, ETH, others | None | ⚠️ Verify | [uphold.com/card](https://uphold.com/card) | ✅ Active | Multi-crypto | Debit card, multiple crypto rewards |
 | **CoinJar Card** | Debit | 1% | $0 | 0% | BTC | None | ❌ | [coinjar.com/card](https://www.coinjar.com/card) | ✅ Active | Australia | Australia only, Bitcoin rewards |
 | **CryptoSpend Card** | Debit | 1% | $0 | 0% | BTC, ETH, others | None | ❌ | [cryptospend.com.au](https://cryptospend.com.au) | ✅ Active | Australia | Australia only |
-| **Reap** | Business | TBD | TBD | TBD | TBD | TBD | ✅ | [reap.global](https://reap.global) | ✅ Active | Business | Business payment solutions, crypto payments |
+| **Reap** | Business | ⚠️ Verify | ⚠️ Verify | ⚠️ Verify | ⚠️ Verify | None | ✅ | [reap.global](https://reap.global) | ✅ Active | Business | Business payment platform - verify details on website |
 | **EtherFi** | TBD | TBD | TBD | TBD | ETH | TBD | TBD | TBD | 🔄 Research | TBD | *Researching* |
 | **BlockFi Rewards** | Credit | 1.5% | $0 | 0% | BTC | None | BlockFi | ❌ Discontinued | - | Bankruptcy 2022 |
 | **MCO Card** | Credit | 1-5% | $0 | 0% | MCO | $0-$50k+ | Crypto.com | ❌ Discontinued | - | Replaced by CRO card |
@@ -35,9 +35,11 @@
 - **Foreign Fee:** Foreign transaction fee percentage
 - **Crypto Rewards:** Additional crypto rewards or reward currency
 - **Staking Req:** Minimum crypto staking/balance required for benefits
-- **Business:** ✅ Business accounts supported | ❌ Personal only
+- **Business:** ✅ Business accounts supported | ❌ Personal only | ⚠️ Verify (needs verification)
 - **Website:** Official card website link
 - **Status:** ✅ Active | ⚠️ Waitlist | ❌ Discontinued | 🔄 Research
+
+**⚠️ Verification Note:** Cards marked with "⚠️ Verify" in the Business column need manual verification. Some information may be based on assumptions or may have changed. Please verify on official websites. See [VERIFICATION_NOTES.md](./VERIFICATION_NOTES.md) for details.
 
 ---
 
@@ -209,13 +211,13 @@
 - **Website:** [reap.global](https://reap.global)
 - **Status:** ✅ Active
 - **Business Support:** ✅ Yes (Business-focused platform)
-- **Cash Back:** TBD (verify on website)
-- **Annual Fee:** TBD (verify on website)
-- **Foreign Transaction Fee:** TBD (verify on website)
-- **Crypto Rewards:** TBD (verify crypto payment features)
-- **Staking Required:** None
-- **Availability:** Global (verify specific regions)
-- **Notes:** Business payment solutions platform offering crypto payment processing. Need to verify specific card product details, rewards structure, and fees from official website.
+- **Cash Back:** ⚠️ Verify on website (website requires JavaScript/Cloudflare protection)
+- **Annual Fee:** ⚠️ Verify on website
+- **Foreign Transaction Fee:** ⚠️ Verify on website
+- **Crypto Rewards:** ⚠️ Verify crypto payment features on website
+- **Staking Required:** None (likely)
+- **Availability:** ⚠️ Verify specific regions on website
+- **Notes:** Business payment solutions platform. Website protected by Cloudflare - manual verification required for card product details, rewards structure, fees, and crypto payment features. Please visit [reap.global](https://reap.global) directly to verify current offerings.
 
 #### Uphold Card
 - **Type:** Debit card
@@ -292,16 +294,18 @@
 
 ### Business Account Support
 
-**Cards with Business Account Support:**
+**Cards with Business Account Support (Verified):**
 - ✅ **Crypto.com Visa** - Business accounts available
-- ✅ **Nexo Card** - Business accounts available
-- ✅ **Binance Card** - Business accounts available
-- ✅ **Wirex Card** - Business accounts available
-- ✅ **BitPay Card** - Business accounts available
-- ✅ **Uphold Card** - Business accounts available
-- ✅ **Reap** - Business-focused payment platform
 
-**Cards with Personal Only:**
+**Cards Needing Verification for Business Support:**
+- ⚠️ **Nexo Card** - Verify business account availability
+- ⚠️ **Binance Card** - Verify business account availability
+- ⚠️ **Wirex Card** - Verify business account availability
+- ⚠️ **BitPay Card** - Verify business account availability
+- ⚠️ **Uphold Card** - Verify business account availability
+- ⚠️ **Reap** - Business-focused platform (verify card products)
+
+**Cards with Personal Only (Verified):**
 - ❌ Coinbase Card
 - ❌ Gemini Credit Card
 - ❌ Plutus Card
@@ -311,6 +315,8 @@
 - ❌ Shakepay Card
 - ❌ CoinJar Card
 - ❌ CryptoSpend Card
+
+**⚠️ Note:** Business account support marked with ⚠️ needs manual verification on official websites. Some information may be based on assumptions. Please verify before applying for business accounts.
 
 ### Card Types
 - **Credit Cards:** Gemini, Nexo (crypto-backed)

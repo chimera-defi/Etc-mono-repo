@@ -724,48 +724,63 @@ The CryptoSpend Card is a multi-crypto rewards debit card available in Australia
 
 **Website:** [reap.global](https://reap.global)
 
-**Status:** ✅ Active
+**Status:** ✅ Active (⚠️ Manual verification required)
 
 **Overview:**
-Reap is a business-focused payment platform that provides payment solutions for businesses, including crypto payment processing capabilities. The platform offers business payment infrastructure and may include card products or crypto payment features.
+Reap is a business-focused payment platform that provides payment solutions for businesses. The website is protected by Cloudflare and requires JavaScript, so automated verification is not possible. Manual verification required for all details.
 
-**Key Features:**
+**⚠️ Verification Required:**
+- **Website Access:** Protected by Cloudflare - visit [reap.global](https://reap.global) directly in browser
+- **Card Products:** Need to verify if physical/virtual cards are offered
+- **Crypto Features:** Need to verify crypto payment processing capabilities
+- **Rewards:** Need to verify if rewards program exists
+- **Fees:** Need to verify fee structure from website
+- **Availability:** Need to verify geographic regions served
+
+**Key Features (Unverified - Needs Confirmation):**
 - Business payment solutions platform
-- Crypto payment processing (verify specific features)
-- Global payment infrastructure
+- Crypto payment processing (needs verification)
+- Global payment infrastructure (needs verification)
 - Business-focused services
 
 **Rewards Structure:**
-- TBD - Need to verify if Reap offers card products with rewards
-- May focus on payment processing rather than consumer rewards
+- ⚠️ **Verify on website** - May focus on payment processing rather than consumer rewards
+- May not offer traditional card rewards
 
 **Fees:**
-- Annual Fee: TBD (verify on website)
-- Foreign Transaction Fee: TBD (verify on website)
-- Processing fees: TBD (verify on website)
+- Annual Fee: ⚠️ **Verify on website**
+- Foreign Transaction Fee: ⚠️ **Verify on website**
+- Processing fees: ⚠️ **Verify on website**
 
 **Requirements:**
-- Business account required
-- KYC/verification required
-- Geographic availability: TBD (verify on website)
+- Business account required (likely - needs verification)
+- KYC/verification required (likely - needs verification)
+- Geographic availability: ⚠️ **Verify on website**
 
-**Business Support:** ✅ Yes (Business-focused platform)
+**Business Support:** ✅ Yes (Business-focused platform - confirmed)
 
 **Best For:**
-- Businesses needing crypto payment processing
-- Companies looking for business payment solutions
-- Organizations requiring crypto payment infrastructure
+- Businesses needing payment processing solutions
+- Companies looking for business payment infrastructure
+- Organizations requiring crypto payment capabilities (verify)
 
 **Limitations:**
-- Business accounts only (not for personal use)
-- Need to verify specific card product availability
-- Need to verify crypto rewards structure (if applicable)
+- Business accounts only (not for personal use - needs verification)
+- ⚠️ Need to verify specific card product availability
+- ⚠️ Need to verify crypto rewards structure (if applicable)
+
+**Action Required:**
+Please visit [reap.global](https://reap.global) directly in a web browser to verify:
+1. Card product offerings (if any)
+2. Crypto payment features
+3. Fee structure
+4. Rewards program (if applicable)
+5. Geographic availability
 
 **Notes:**
-- Business payment solutions platform
-- Website: [reap.global](https://reap.global)
-- Need to verify specific card product details, rewards structure, and fees from official website
-- May offer crypto payment processing rather than traditional card rewards
+- Website protected by Cloudflare - manual verification required
+- All information marked with ⚠️ needs verification from official website
+- See [VERIFICATION_NOTES.md](./VERIFICATION_NOTES.md) for verification checklist
 
 ---
 
