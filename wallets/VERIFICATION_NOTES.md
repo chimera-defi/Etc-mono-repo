@@ -44,13 +44,16 @@ The following cards' websites exist but initial scraping didn't find specific ra
 
 ---
 
-## Reap - Manual Verification Required
+## Reap - ✅ Verified via Browser Automation
 
 **Website:** [reap.global](https://reap.global)
 
-**Status:** ⚠️ **Manual verification required - Cloudflare protected**
+**Status:** ✅ **Verified December 2025 via Playwright browser automation**
 
-**Reason:** Entire website is protected by Cloudflare and requires JavaScript to load content. All pages tested return Cloudflare challenge pages. Automated scraping cannot access any actual content.
+**Verification Method:** Used Playwright (headless Chromium) to bypass Cloudflare protection. Waited for Cloudflare challenge to complete (~30 seconds) before extracting content.
+
+**Key Pages Verified:**
+- ✅ https://reap.global/resources/info/pricing (Pricing page - fully verified)
 
 **Key Pages Identified (All Protected):**
 - https://reap.global (homepage)
@@ -70,7 +73,22 @@ The following cards' websites exist but initial scraping didn't find specific ra
 - https://docs.reap.global (does not exist)
 - https://help.reap.global (does not exist)
 
-**Pricing Page:** The pricing page at https://reap.global/resources/info/pricing exists but is Cloudflare-protected. This page likely contains fee structure information that needs manual verification.
+**Pricing Page:** ✅ **VERIFIED** - https://reap.global/resources/info/pricing
+
+**Verified Information (December 2025):**
+- **Card Type:** Corporate Visa credit card (Physical & Virtual)
+- **Annual Fee:** FREE
+- **Monthly Bill Repayment:** FREE (Fiat currency or Stablecoins)
+- **ATM Withdrawal Fee:** 2%
+- **FX Fee:** 2%
+- **Available Currencies:** USD, HKD
+- **Collateral Requirement:** 1:1 ratio (Credit limit = 100% of collateral)
+- **Mobile App:** FREE
+- **Cash Back:** 0% (No cashback rewards)
+- **Late Fees:** May apply (not specified)
+- **Business Support:** ✅ Yes (Business-focused platform)
+
+**Verification Tool:** Playwright browser automation (headless Chromium) successfully bypassed Cloudflare protection after ~30 second wait for challenge completion.
 
 **Only Accessible:**
 - https://reap.global/robots.txt - Shows sitemap exists but sitemap itself is protected

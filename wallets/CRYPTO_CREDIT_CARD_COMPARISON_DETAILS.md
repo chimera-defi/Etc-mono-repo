@@ -740,10 +740,48 @@ The CryptoSpend Card is a multi-crypto rewards debit card available in Australia
 
 **Website:** [reap.global](https://reap.global)
 
-**Status:** ✅ Active (⚠️ Manual verification required)
+**Status:** ✅ Active (✅ Verified December 2025 via browser automation)
 
 **Overview:**
-Reap is a business-focused payment platform that provides payment solutions for businesses. The website is protected by Cloudflare and requires JavaScript, so automated verification is not possible. Manual verification required for all details.
+Reap is a business-focused payment platform offering corporate Visa credit cards with flexible bill repayment in fiat or digital currencies. The Reap Card is a secured corporate credit card with advanced spend control, easy access, and additional perks.
+
+**Business Support:** ✅ Yes (Business-focused platform)
+
+**Key Features:**
+- Corporate Visa credit card (Physical & Virtual)
+- Flexible bill repayment (Fiat currency or Stablecoins)
+- Advanced spend control and team management
+- Multi-currency support (USD, HKD)
+- Mobile app access
+- Card-level and team-level spend controls
+
+**Rewards Structure:**
+- Cash Back: 0% (No cashback rewards)
+- Rewards: Stablecoin repayment option available
+
+**Fees:**
+- Annual Fee: $0 ✅ Verified (FREE)
+- Foreign Transaction Fee: 2% ✅ Verified (FX fee)
+- ATM Withdrawal Fee: 2% ✅ Verified
+- Monthly Bill Repayment: FREE ✅ Verified (Fiat or Stablecoins)
+- Late Fee: May apply (amount not specified)
+
+**Requirements:**
+- Business account required
+- Collateral: 1:1 ratio ✅ Verified (Credit limit = 100% of collateral)
+- Available in: Hong Kong, Singapore, Mexico, Brazil (varies by region)
+
+**Best For:**
+- Businesses needing corporate credit cards
+- Companies wanting stablecoin payment options
+- Multi-currency treasury management
+- Teams requiring spend control and expense management
+
+**Limitations:**
+- Business accounts only (no personal accounts)
+- Requires collateral (1:1 ratio)
+- Limited currency support (USD, HKD)
+- Geographic availability varies by region
 
 **⚠️ Verification Required - Cloudflare Protected:**
 - **Website Access:** Entire website protected by Cloudflare - visit [reap.global](https://reap.global) directly in browser with JavaScript enabled

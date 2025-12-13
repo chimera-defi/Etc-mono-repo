@@ -23,7 +23,7 @@
 | **Uphold Card** | Debit | 1-4% | $0 | 0% | XRP, BTC, ETH, others | None | ⚠️ Verify | [uphold.com/card](https://uphold.com/card) | ⚠️ Verify | Multi-crypto | ⚠️ Website returns 404 - verify card status |
 | **CoinJar Card** | Debit | 1% | $0 | 0% | BTC | None | ❌ | [coinjar.com/card](https://www.coinjar.com/card) | ⚠️ Verify | Australia | ⚠️ Website returns 404 - verify card status |
 | **CryptoSpend Card** | Debit | 1% | $0 | 0% | BTC, ETH, others | None | ❌ | [cryptospend.com.au](https://cryptospend.com.au) | ✅ Active | Australia | Australia only |
-| **Reap** | Business | ⚠️ Verify | ⚠️ Verify | ⚠️ Verify | ⚠️ Verify | None | ✅ | [reap.global](https://reap.global) | ✅ Active | Business | Business payment platform - verify details on website |
+| **Reap** | Business Credit | 0% | $0 | 2% | Stablecoins | 1:1 Collateral | ✅ | [reap.global](https://reap.global) | ✅ Active | Business | ✅ Verified: Corporate Visa card, FREE annual fee, 2% ATM/FX fees, USD/HKD |
 | **EtherFi** | TBD | TBD | TBD | TBD | ETH | TBD | TBD | TBD | 🔄 Research | TBD | *Researching* |
 | **BlockFi Rewards** | Credit | 1.5% | $0 | 0% | BTC | None | BlockFi | ❌ Discontinued | - | Bankruptcy 2022 |
 | **MCO Card** | Credit | 1-5% | $0 | 0% | MCO | $0-$50k+ | Crypto.com | ❌ Discontinued | - | Replaced by CRO card |
@@ -211,18 +211,23 @@
 - **Notes:** Need to verify if this is a credit card product or related to EtherFi staking platform
 
 #### Reap
-- **Type:** Business payment platform
+- **Type:** Business credit card (Corporate Visa card)
 - **Website:** [reap.global](https://reap.global)
-- **Pricing Page:** [reap.global/resources/info/pricing](https://reap.global/resources/info/pricing) ⭐
-- **Status:** ✅ Active (⚠️ Website protected by Cloudflare)
-- **Business Support:** ✅ Yes (Business-focused platform - needs verification)
-- **Cash Back:** ⚠️ **Manual verification required** - Check pricing page
-- **Annual Fee:** ⚠️ **Manual verification required** - Check pricing page
-- **Foreign Transaction Fee:** ⚠️ **Manual verification required** - Check pricing page
-- **Crypto Rewards:** ⚠️ **Manual verification required** - Verify crypto payment features
-- **Staking Required:** None (likely - needs verification)
-- **Availability:** ⚠️ **Manual verification required** - Verify specific regions
-- **Notes:** Business payment solutions platform. **Entire website is protected by Cloudflare** - all pages require JavaScript and manual browser access. Automated verification impossible. Pricing information available at [reap.global/resources/info/pricing](https://reap.global/resources/info/pricing) but requires manual browser access. All product details, fees, card offerings, and crypto features need manual verification. See [VERIFICATION_NOTES.md](./VERIFICATION_NOTES.md) for detailed verification checklist.
+- **Pricing Page:** [reap.global/resources/info/pricing](https://reap.global/resources/info/pricing) ✅ Verified
+- **Status:** ✅ Active (✅ Verified December 2025 via browser automation)
+- **Business Support:** ✅ Yes (Business-focused platform)
+- **Cash Back:** 0% (No cashback rewards)
+- **Annual Fee:** $0 ✅ Verified (FREE)
+- **Foreign Transaction Fee:** 2% ✅ Verified (FX fee: 2%)
+- **ATM Fee:** 2% ✅ Verified
+- **Crypto Rewards:** Stablecoin repayment option ✅ Verified
+- **Staking Required:** 1:1 Collateral ratio ✅ Verified (Credit limit = 100% of collateral)
+- **Card Type:** Physical & Virtual ✅ Verified (FREE)
+- **Monthly Bill Repayment:** FREE (Fiat currency or Stablecoins) ✅ Verified
+- **Available Currencies:** USD, HKD ✅ Verified
+- **Mobile App:** FREE ✅ Verified
+- **Availability:** Global (Hong Kong, Singapore, Mexico, Brazil - varies by region)
+- **Notes:** ✅ **Verified via browser automation (Playwright)** - Corporate Visa credit card with flexible bill repayment in fiat or digital currencies. Secured corporate credit card with advanced spend control, easy access, and additional perks. Late fees may apply. See [VERIFICATION_NOTES.md](./VERIFICATION_NOTES.md) for verification details.
 
 #### Uphold Card
 - **Type:** Debit card

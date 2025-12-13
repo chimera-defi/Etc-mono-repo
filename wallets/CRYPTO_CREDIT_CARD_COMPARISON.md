@@ -29,7 +29,7 @@
 | **CryptoSpend Card** | 1% | $0 | BTC, ETH, others | ❌ | [cryptospend.com.au](https://cryptospend.com.au) | ✅ Active | Australia |
 | **Nexo Card** | Up to 2% | $0 | NEXO | ✅ | [nexo.com/card](https://nexo.com/card) | ✅ Active | Crypto-backed credit (EU, UK) |
 | **BitPay Card** | 0% | $0 | None | ✅ | [bitpay.com/card](https://bitpay.com/card) | ✅ Active | Bitcoin spending (US) |
-| **Reap** | TBD | TBD | TBD | ✅ | [reap.global](https://reap.global) | ✅ Active | Business payments |
+| **Reap** | 0% | $0 | Stablecoins | ✅ | [reap.global](https://reap.global) | ✅ Active | Business corporate cards |
 
 **Legend:**
 - **Cash Back:** Base cash back percentage (may vary by category/tier)
