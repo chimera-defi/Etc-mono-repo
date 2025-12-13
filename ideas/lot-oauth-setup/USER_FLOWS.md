@@ -732,33 +732,43 @@ async function handleManualKeyEntry(provider: string, key: string) {
 
 ## My Recommendation
 
-### Primary: Option A (IDE Popup) with PKCE
+### Primary: Option B (Browser + Local Callback) with Option C (Manual) Fallback
 
 **Rationale:**
-1. **Best UX** - User never leaves the IDE
-2. **Security** - Local token handling with PKCE
-3. **Modern** - Aligns with how tools like Vercel CLI handle OAuth
-4. **Fallback available** - Can offer browser option if webview fails
+1. **Full browser security** - Password managers, hardware 2FA, biometrics all work
+2. **Familiar pattern** - Users know OAuth flows from "Sign in with Google"
+3. **No webview limitations** - Some providers block embedded webviews
+4. **Universal fallback** - Manual entry works with ANY provider
 
 ### Implementation Priority
 
-1. **Phase 1**: Option A for supported providers
-2. **Phase 2**: Option B as fallback (automatic detection of webview issues)
-3. **Phase 3**: Option C for all providers (universal fallback)
+1. **Phase 1**: Option B (Browser OAuth) for providers with OAuth support
+2. **Phase 2**: Option C (Manual) as always-visible fallback
+3. **Phase 3**: Graceful B → C transition when OAuth fails
+
+> **Detailed flows for Options B & C**: See [DETAILED_FLOWS_B_C.md](./DETAILED_FLOWS_B_C.md)
 
 ### Chat UX Recommendation
 
 ```
 User: Set up Stripe
 
-AI: I'll help you set up Stripe. 
-
-   🔐 [Authenticate with Stripe]
-   
-   Click the button above to securely connect your Stripe account.
-   Your credentials stay on your machine.
-   
-   Having trouble? [Use browser instead] | [Manual setup]
+AI: I'll help you set up Stripe. To securely access your API keys,
+    I need you to authenticate.
+    
+    What happens:
+    1. Your browser opens to Stripe's login
+    2. You authorize LOT to read your API keys
+    3. Return here and I'll complete the setup
+    
+    🔗 [Open Stripe Authentication]
+        Opens in your default browser
+    
+    Prefer manual setup? [Enter API keys directly]
 ```
 
-Single primary button, minimal cognitive load, clear fallback options.
+**Key UX principles:**
+- Explain what will happen before it happens
+- Primary action is OAuth (Option B)
+- Manual fallback (Option C) always visible
+- Single click to start, clear next steps
