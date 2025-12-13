@@ -1,15 +1,5 @@
 # Crypto Wallet Comparison for Developers
 
-> **TL;DR:** Use **Rabby** (92) for development (tx simulation + stability), **Trust** (85) or **Rainbow** (82) for production. Use **MetaMask** (68) last for compatibility only — it has ~8 releases/month which is too much churn. Only wallets with ✅ in the "Core" column have both mobile + browser extension.
-
-**Data Sources:** GitHub REST API (Nov 2024, activity Nov 2025), [WalletBeat](https://walletbeat.fyi) (Dec 2025)
-
-**Related:** See [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON_TABLE.md) for cold storage recommendations.
-
----
-
-> 📖 **Want more details?** See the [full documentation with recommendations, methodology, security audits, and more](./WALLET_COMPARISON_UNIFIED_DETAILS.md).
-
 ## Complete Wallet Comparison (All 24 EVM Wallets)
 
 | Wallet | Score | Core | Rel/Mo | RPC | GitHub | Active | Chains | Devices | Testnets | License | Audits | Funding | Tx Sim | Scam | Account | ENS/Naming | HW | Best For | Rec |
@@ -52,3 +42,15 @@
 ---
 
 > 📖 **View full documentation:** [Recommendations, Methodology, Security Audits, EIP Support, and more →](./WALLET_COMPARISON_UNIFIED_DETAILS.md)
+
+---
+
+## Quick Summary
+
+> **TL;DR:** Use **Rabby** (92) for development (tx simulation + stability), **Trust** (85) or **Rainbow** (82) for production. Use **MetaMask** (68) last for compatibility only — it has ~8 releases/month which is too much churn. Only wallets with ✅ in the "Core" column have both mobile + browser extension.
+
+**Data Sources:** GitHub REST API (Nov 2024, activity Nov 2025), [WalletBeat](https://walletbeat.fyi) (Dec 2025)
+
+**Related:** See [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON_TABLE.md) for cold storage recommendations.
+
+> 📖 **Want more details?** See the [full documentation with recommendations, methodology, security audits, and more](./WALLET_COMPARISON_UNIFIED_DETAILS.md).
