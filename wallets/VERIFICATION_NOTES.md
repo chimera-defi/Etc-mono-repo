@@ -6,6 +6,42 @@
 
 This document tracks verification status and potential inaccuracies in the crypto credit card comparison. All information should be verified on official card websites before making decisions.
 
+## Verification Summary (December 2025)
+
+### ✅ Successfully Verified Cards
+
+1. **Crypto.com Visa Card** - Confirmed "up to 5% back" (higher tiers may vary)
+2. **Nexo Card** - Confirmed "up to 2% crypto cashback", "No monthly/annual/inactivity card fees"
+3. **Plutus Card** - Confirmed "3-9% in PLUS Rewards", "3% Back" base rate, "No fees. No Catch."
+4. **Shakepay Card** - Confirmed "up to 1.5% cashback", "No annual fees. No credit checks either."
+
+### ⚠️ Cards with Website Access Issues (404 Errors)
+
+1. **Swissborg Card** - https://swissborg.com/card returns 404
+2. **Uphold Card** - https://uphold.com/card returns 404
+3. **CoinJar Card** - https://www.coinjar.com/card returns 404
+
+**Action Required:** These cards need manual verification to confirm:
+- If card products still exist
+- Correct website URLs
+- Current card status
+
+### 🔒 Cards Requiring Manual Browser Access
+
+1. **Reap** - Entire website protected by Cloudflare (see detailed section below)
+
+### ⚠️ Cards Needing Deeper Verification
+
+The following cards' websites exist but initial scraping didn't find specific rate information (may require JavaScript or deeper navigation):
+- Coinbase Card
+- Binance Card
+- Wirex Card
+- Gemini Credit Card
+- Mode Card
+- BitPay Card (cashback mentioned but no percentage found)
+- Fold Card (bitcoin rewards mentioned but no percentage found)
+- CryptoSpend Card
+
 ---
 
 ## Reap - Manual Verification Required
@@ -57,6 +93,112 @@ This document tracks verification status and potential inaccuracies in the crypt
 - Crypto features: Need manual verification
 
 **Note:** Without access to the actual website content, all information about Reap is unverified. The platform appears to be business-focused based on the domain and context, but specific features, fees, and card products cannot be confirmed without manual browser access.
+
+---
+
+## Website Verification Results (December 2025)
+
+### Successfully Verified Cards
+
+#### Crypto.com Visa Card
+- **Website:** https://crypto.com/cards
+- **Status:** ✅ Accessible
+- **Verified:** "Get up to 5% back in crypto" confirmed in meta description
+- **Note:** Website confirms up to 5% cashback. Higher tiers (8% Obsidian) may require verification of current terms.
+
+#### Nexo Card
+- **Website:** https://nexo.com/card
+- **Status:** ✅ Accessible
+- **Verified:** "up to 2% crypto cashback" confirmed in structured data (JSON-LD)
+- **Note:** Confirmed "No monthly/annual/inactivity card fees" in structured data. Dual-mode card (Debit + Credit).
+
+#### Plutus Card
+- **Website:** https://plutus.it
+- **Status:** ✅ Accessible
+- **Verified:** "Earn 3-9% in PLUS Rewards" and "Get 3% Back" confirmed on homepage
+- **Note:** Confirmed "No fees. No Catch." on homepage. Base rate is 3%, can climb to 9% via loyalty tiers.
+
+#### Shakepay Card
+- **Website:** https://shakepay.com/card
+- **Status:** ✅ Accessible
+- **Verified:** "Earn up to 1.5% cashback" confirmed on card landing page
+- **Note:** Confirmed "No annual fees. No credit checks either." Canada only.
+
+#### BitPay Card
+- **Website:** https://bitpay.com/card
+- **Status:** ✅ Accessible
+- **Verified:** "Cash Back" mentioned in page title, but specific percentage not found in initial scrape
+- **Note:** Website accessible but requires deeper verification for cashback rates.
+
+#### Fold Card
+- **Website:** https://foldapp.com
+- **Status:** ✅ Accessible
+- **Verified:** Bitcoin rewards confirmed, but specific cashback percentage not found in initial scrape
+- **Note:** Website mentions bitcoin rewards but requires deeper verification for exact rates.
+
+### Cards with Website Access Issues
+
+#### Swissborg Card
+- **Website:** https://swissborg.com/card
+- **Status:** ❌ 404 Error
+- **Issue:** URL returns 404 page
+- **Action Required:** Verify correct URL or confirm if card product still exists
+- **Alternative URLs to Try:** 
+  - https://swissborg.com/products/card
+  - https://swissborg.com/crypto-card
+  - Check main website navigation
+
+#### Uphold Card
+- **Website:** https://uphold.com/card
+- **Status:** ❌ 404 Error
+- **Issue:** URL returns 404 page
+- **Action Required:** Verify correct URL or confirm if card product still exists
+- **Alternative URLs to Try:**
+  - https://uphold.com/debit-card
+  - https://uphold.com/products/card
+  - Check main website navigation
+
+#### CoinJar Card
+- **Website:** https://www.coinjar.com/card
+- **Status:** ❌ 404 Error
+- **Issue:** URL returns 404 page
+- **Action Required:** Verify correct URL or confirm if card product still exists
+- **Alternative URLs to Try:**
+  - https://coinjar.com/products/card
+  - Check main website navigation
+  - Verify if card is still offered
+
+### Cards Not Verified (No Website Access)
+
+#### Coinbase Card
+- **Website:** https://www.coinbase.com/card
+- **Status:** ⚠️ No specific data found in initial scrape
+- **Note:** Website exists but grep didn't find specific rates. May require JavaScript or deeper page navigation.
+
+#### Binance Card
+- **Website:** https://www.binance.com/en/cards
+- **Status:** ⚠️ No specific data found in initial scrape
+- **Note:** Website exists but may require JavaScript or deeper page navigation.
+
+#### Wirex Card
+- **Website:** https://wirexapp.com/card
+- **Status:** ⚠️ No specific data found in initial scrape
+- **Note:** Website exists but may require JavaScript or deeper page navigation.
+
+#### Gemini Credit Card
+- **Website:** https://www.gemini.com/credit-card
+- **Status:** ⚠️ No specific data found in initial scrape
+- **Note:** Website exists but may require JavaScript or deeper page navigation.
+
+#### Mode Card
+- **Website:** https://modeapp.com
+- **Status:** ⚠️ No specific data found in initial scrape
+- **Note:** Website exists but may require JavaScript or deeper page navigation.
+
+#### CryptoSpend Card
+- **Website:** https://cryptospend.com.au
+- **Status:** ⚠️ No specific data found in initial scrape
+- **Note:** Website exists but may require JavaScript or deeper page navigation.
 
 ---
 

@@ -243,12 +243,13 @@ The Nexo Card is a crypto-backed credit card that uses your crypto holdings as c
 - EU/UK availability
 
 **Rewards Structure:**
-- 0-2% cashback
-- Additional 2% in NEXO tokens (for NEXO holders)
+- Up to 2% cashback ✅ Verified
+- Additional rewards in NEXO tokens (for NEXO holders)
+- Dual-mode: Debit Mode (spend digital assets) and Credit Mode (borrow against crypto)
 
 **Fees:**
-- Annual Fee: $0
-- Foreign Transaction Fee: 0%
+- Annual Fee: $0 ✅ Verified (No monthly/annual/inactivity card fees)
+- Foreign Transaction Fee: 0% (FX/ATM terms vary by tier and region)
 - Interest on credit line (varies by collateral)
 
 **Requirements:**
@@ -433,23 +434,28 @@ The Mode Card is a Bitcoin rewards debit card with high cash back rates, availab
 
 **Website:** [plutus.it](https://plutus.it)
 
+**Status:** ✅ Active (✅ Verified December 2025)
+
 **Overview:**
-The Plutus Card is a debit card available in EU and UK, offering PLU token rewards.
+The Plutus Card is a debit card available in EU and UK, offering PLU token rewards. Base rate is 3%, can climb to 9% via loyalty tiers.
 
 **Business Support:** ❌ Personal only
 
 **Key Features:**
-- PLU token rewards
+- PLU token rewards (PLUS Rewards)
 - EU/UK availability
 - Debit card
+- No fees ✅ Verified ("No fees. No Catch.")
 
 **Rewards Structure:**
-- 3% base cash back
-- Rewards paid in PLU token
+- 3% base cash back ✅ Verified
+- Up to 9% via loyalty tiers ✅ Verified
+- Rewards paid in PLU token (PLUS Rewards)
 - Additional perks with PLU staking
+- Up to £10 back monthly at 50+ Perks ✅ Verified
 
 **Fees:**
-- Annual Fee: £0
+- Annual Fee: £0 ✅ Verified
 - Foreign Transaction Fee: 0%
 
 **Requirements:**
@@ -472,8 +478,10 @@ The Plutus Card is a debit card available in EU and UK, offering PLU token rewar
 
 **Website:** [swissborg.com/card](https://swissborg.com/card)
 
+**Status:** ⚠️ **Verification Required** - Website returns 404 error (December 2025)
+
 **Overview:**
-The Swissborg Card is a debit card available in EU, offering CHSB token rewards.
+The Swissborg Card is a debit card available in EU, offering CHSB token rewards. **⚠️ Card status needs verification** - website URL returns 404 error. May need to check alternative URLs or confirm if card product still exists.
 
 **Business Support:** ❌ Personal only
 
@@ -510,6 +518,8 @@ The Swissborg Card is a debit card available in EU, offering CHSB token rewards.
 
 **Website:** [shakepay.com/card](https://shakepay.com/card)
 
+**Status:** ✅ Active (✅ Verified December 2025)
+
 **Overview:**
 The Shakepay Card is a Bitcoin rewards debit card available in Canada.
 
@@ -519,13 +529,15 @@ The Shakepay Card is a Bitcoin rewards debit card available in Canada.
 - Bitcoin-only rewards
 - Canada-only availability
 - Debit card
+- No credit checks ✅ Verified
 
 **Rewards Structure:**
-- 1-2% cash back in Bitcoin
+- Up to 1.5% cash back in Bitcoin ✅ Verified
 - Rewards paid in BTC
+- Automatically settled to bitcoin balance in Shakepay account
 
 **Fees:**
-- Annual Fee: $0
+- Annual Fee: $0 ✅ Verified (No annual fees)
 - Foreign Transaction Fee: 0%
 
 **Requirements:**
@@ -586,8 +598,10 @@ The BitPay Card is a prepaid debit card that allows spending Bitcoin, available 
 
 **Website:** [uphold.com/card](https://uphold.com/card)
 
+**Status:** ⚠️ **Verification Required** - Website returns 404 error (December 2025)
+
 **Overview:**
-The Uphold Card is a debit card that offers crypto rewards, available in US, UK, and EU regions.
+The Uphold Card is a debit card that offers crypto rewards, available in US, UK, and EU regions. **⚠️ Card status needs verification** - website URL returns 404 error. May need to check alternative URLs (e.g., /debit-card) or confirm if card product still exists.
 
 **Business Support:** ✅ Yes (Uphold Business accounts available)
 
@@ -627,8 +641,10 @@ The Uphold Card is a debit card that offers crypto rewards, available in US, UK,
 
 **Website:** [coinjar.com/card](https://www.coinjar.com/card)
 
+**Status:** ⚠️ **Verification Required** - Website returns 404 error (December 2025)
+
 **Overview:**
-The CoinJar Card is a Bitcoin rewards debit card available in Australia.
+The CoinJar Card is a Bitcoin rewards debit card available in Australia. **⚠️ Card status needs verification** - website URL returns 404 error. May need to check alternative URLs or confirm if card product still exists.
 
 **Business Support:** ❌ Personal only
 

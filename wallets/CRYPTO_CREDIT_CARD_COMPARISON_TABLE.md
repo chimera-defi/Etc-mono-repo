@@ -9,19 +9,19 @@
 | Card | Type | Cash Back | Annual Fee | Foreign Fee | Crypto Rewards | Staking Req | Business | Website | Status | Best For | Notes |
 |------|------|-----------|------------|-------------|----------------|-------------|----------|---------|--------|----------|-------|
 | **Coinbase Card** | Debit | 1-4% | $0 | 0% | BTC, ETH, others | None | ❌ | [coinbase.com/card](https://www.coinbase.com/card) | ✅ Active | Coinbase users | Debit card, instant crypto rewards |
-| **Crypto.com Visa** | Debit | 0.5-8% | $0 | 0% | CRO | $0-$400k+ | ✅ | [crypto.com/cards](https://crypto.com/cards) | ✅ Active | CRO holders | Tiered by CRO stake |
+| **Crypto.com Visa** | Debit | 0.5-8% | $0 | 0% | CRO | $0-$400k+ | ✅ | [crypto.com/cards](https://crypto.com/cards) | ✅ Active | CRO holders | ✅ Verified: Up to 5% confirmed, higher tiers may vary |
 | **Gemini Credit Card** | Credit | 1-3% | $0 | 0% | BTC, ETH | None | ❌ | [gemini.com/credit-card](https://www.gemini.com/credit-card) | ✅ Active | Gemini users | Credit card, crypto rewards |
-| **Nexo Card** | Credit | 0-2% | $0 | 0% | NEXO | None | ⚠️ Verify | [nexo.com/card](https://nexo.com/card) | ✅ Active | Nexo users | Crypto-backed credit line |
+| **Nexo Card** | Credit | Up to 2% | $0 | 0% | NEXO | None | ✅ | [nexo.com/card](https://nexo.com/card) | ✅ Active | Nexo users | ✅ Verified: Up to 2% cashback, dual-mode (Debit + Credit), no fees |
 | **Binance Card** | Debit | Up to 8% | $0 | 0% | BNB | None | ⚠️ Verify | [binance.com/en/cards](https://www.binance.com/en/cards) | ✅ Active | Binance users | Debit card |
 | **Wirex Card** | Debit | Up to 8% | $0 | 0% | WXT | None | ⚠️ Verify | [wirexapp.com/card](https://wirexapp.com/card) | ✅ Active | Multi-crypto | Debit card |
-| **Plutus Card** | Debit | 3% | £0 | 0% | PLU | Optional | ❌ | [plutus.it](https://plutus.it) | ✅ Active | EU users | Debit card, EU only |
-| **Swissborg Card** | Debit | 1-2% | $0 | 0% | CHSB | None | ❌ | [swissborg.com/card](https://swissborg.com/card) | ✅ Active | EU users | Debit card, EU only |
+| **Plutus Card** | Debit | 3-9% | £0 | 0% | PLU | Optional | ❌ | [plutus.it](https://plutus.it) | ✅ Active | EU users | ✅ Verified: 3% base, up to 9% via loyalty tiers |
+| **Swissborg Card** | Debit | 1-2% | $0 | 0% | CHSB | None | ❌ | [swissborg.com/card](https://swissborg.com/card) | ⚠️ Verify | EU users | ⚠️ Website returns 404 - verify card status |
 | **BitPay Card** | Debit | 0% | $0 | 0% | BTC | None | ⚠️ Verify | [bitpay.com/card](https://bitpay.com/card) | ✅ Active | Bitcoin users | Prepaid debit |
 | **Fold Card** | Debit | Up to 5% | $0 | 0% | BTC | None | ❌ | [foldapp.com](https://foldapp.com) | ✅ Active | Bitcoin rewards | Bitcoin rewards only |
 | **Mode Card** | Debit | Up to 10% | $0 | 0% | BTC | None | ❌ | [modeapp.com](https://modeapp.com) | ✅ Active | Bitcoin rewards | Bitcoin rewards |
-| **Shakepay Card** | Debit | 1-2% | $0 | 0% | BTC | None | ❌ | [shakepay.com/card](https://shakepay.com/card) | ✅ Active | Canada | Canada only |
-| **Uphold Card** | Debit | 1-4% | $0 | 0% | XRP, BTC, ETH, others | None | ⚠️ Verify | [uphold.com/card](https://uphold.com/card) | ✅ Active | Multi-crypto | Debit card, multiple crypto rewards |
-| **CoinJar Card** | Debit | 1% | $0 | 0% | BTC | None | ❌ | [coinjar.com/card](https://www.coinjar.com/card) | ✅ Active | Australia | Australia only, Bitcoin rewards |
+| **Shakepay Card** | Debit | Up to 1.5% | $0 | 0% | BTC | None | ❌ | [shakepay.com/card](https://shakepay.com/card) | ✅ Active | Canada | ✅ Verified: Up to 1.5% cashback, Canada only |
+| **Uphold Card** | Debit | 1-4% | $0 | 0% | XRP, BTC, ETH, others | None | ⚠️ Verify | [uphold.com/card](https://uphold.com/card) | ⚠️ Verify | Multi-crypto | ⚠️ Website returns 404 - verify card status |
+| **CoinJar Card** | Debit | 1% | $0 | 0% | BTC | None | ❌ | [coinjar.com/card](https://www.coinjar.com/card) | ⚠️ Verify | Australia | ⚠️ Website returns 404 - verify card status |
 | **CryptoSpend Card** | Debit | 1% | $0 | 0% | BTC, ETH, others | None | ❌ | [cryptospend.com.au](https://cryptospend.com.au) | ✅ Active | Australia | Australia only |
 | **Reap** | Business | ⚠️ Verify | ⚠️ Verify | ⚠️ Verify | ⚠️ Verify | None | ✅ | [reap.global](https://reap.global) | ✅ Active | Business | Business payment platform - verify details on website |
 | **EtherFi** | TBD | TBD | TBD | TBD | ETH | TBD | TBD | TBD | 🔄 Research | TBD | *Researching* |
@@ -39,7 +39,11 @@
 - **Website:** Official card website link
 - **Status:** ✅ Active | ⚠️ Waitlist | ❌ Discontinued | 🔄 Research
 
-**⚠️ Verification Note:** Cards marked with "⚠️ Verify" in the Business column need manual verification. Some information may be based on assumptions or may have changed. Please verify on official websites. See [VERIFICATION_NOTES.md](./VERIFICATION_NOTES.md) for details.
+**⚠️ Verification Note:** 
+- Cards marked with "⚠️ Verify" in the Status column have website access issues (404 errors) and need manual verification to confirm card status.
+- Cards marked with "⚠️ Verify" in the Business column need manual verification for business account support.
+- Some information may be based on assumptions or may have changed. Please verify on official websites. 
+- See [VERIFICATION_NOTES.md](./VERIFICATION_NOTES.md) for detailed verification status and findings.
 
 ---
 

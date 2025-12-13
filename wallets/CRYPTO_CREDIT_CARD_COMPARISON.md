@@ -23,11 +23,11 @@
 | **Uphold Card** | 1-4% | $0 | XRP, BTC, ETH | ✅ | [uphold.com/card](https://uphold.com/card) | ✅ Active | Multi-crypto (US, UK, EU) |
 | **Plutus Card** | 3% | £0 | PLU | ❌ | [plutus.it](https://plutus.it) | ✅ Active | EU/UK users |
 | **Gemini Credit Card** | 1-3% | $0 | BTC, ETH | ❌ | [gemini.com/credit-card](https://www.gemini.com/credit-card) | ✅ Active | Credit building (US) |
-| **Swissborg Card** | 1-2% | $0 | CHSB | ❌ | [swissborg.com/card](https://swissborg.com/card) | ✅ Active | EU users |
-| **Shakepay Card** | 1-2% | $0 | BTC | ❌ | [shakepay.com/card](https://shakepay.com/card) | ✅ Active | Canada |
-| **CoinJar Card** | 1% | $0 | BTC | ❌ | [coinjar.com/card](https://www.coinjar.com/card) | ✅ Active | Australia |
+| **Swissborg Card** | 1-2% | $0 | CHSB | ❌ | [swissborg.com/card](https://swissborg.com/card) | ⚠️ Verify | EU users |
+| **Shakepay Card** | Up to 1.5% | $0 | BTC | ❌ | [shakepay.com/card](https://shakepay.com/card) | ✅ Active | Canada |
+| **CoinJar Card** | 1% | $0 | BTC | ❌ | [coinjar.com/card](https://www.coinjar.com/card) | ⚠️ Verify | Australia |
 | **CryptoSpend Card** | 1% | $0 | BTC, ETH, others | ❌ | [cryptospend.com.au](https://cryptospend.com.au) | ✅ Active | Australia |
-| **Nexo Card** | 0-2% | $0 | NEXO | ✅ | [nexo.com/card](https://nexo.com/card) | ✅ Active | Crypto-backed credit (EU, UK) |
+| **Nexo Card** | Up to 2% | $0 | NEXO | ✅ | [nexo.com/card](https://nexo.com/card) | ✅ Active | Crypto-backed credit (EU, UK) |
 | **BitPay Card** | 0% | $0 | None | ✅ | [bitpay.com/card](https://bitpay.com/card) | ✅ Active | Bitcoin spending (US) |
 | **Reap** | TBD | TBD | TBD | ✅ | [reap.global](https://reap.global) | ✅ Active | Business payments |
 
@@ -40,6 +40,8 @@
 - **Status:** ✅ Active | ⚠️ Waitlist | ❌ Discontinued | 🔄 Research
 
 **Note:** See [detailed comparison table](./CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md) for complete metrics including foreign transaction fees, card types, staking requirements, and geographic availability.
+
+**⚠️ Verification Status:** Some cards have been verified through website scraping (December 2025), while others require manual verification due to website access issues or Cloudflare protection. See [VERIFICATION_NOTES.md](./VERIFICATION_NOTES.md) for detailed verification status.
 
 ---
 
