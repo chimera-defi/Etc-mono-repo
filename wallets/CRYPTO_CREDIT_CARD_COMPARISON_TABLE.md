@@ -6,35 +6,37 @@
 
 ## Complete Card Comparison
 
-| Card | Type | Cash Back | Annual Fee | Foreign Fee | Crypto Rewards | Staking Req | Issuer | Status | Best For | Notes |
-|------|------|-----------|------------|-------------|----------------|-------------|--------|--------|----------|-------|
-| **Coinbase Card** | Debit | 1-4% | $0 | 0% | BTC, ETH, others | None | Coinbase | ✅ Active | Coinbase users | Debit card, instant crypto rewards |
-| **Crypto.com Visa** | Debit | 0.5-8% | $0 | 0% | CRO | $0-$400k+ | Crypto.com | ✅ Active | CRO holders | Tiered by CRO stake |
-| **Gemini Credit Card** | Credit | 1-3% | $0 | 0% | BTC, ETH | None | Gemini | ✅ Active | Gemini users | Credit card, crypto rewards |
-| **Nexo Card** | Credit | 0-2% | $0 | 0% | NEXO | None | Nexo | ✅ Active | Nexo users | Crypto-backed credit line |
-| **Binance Card** | Debit | Up to 8% | $0 | 0% | BNB | None | Binance | ✅ Active | Binance users | Debit card |
-| **Wirex Card** | Debit | Up to 8% | $0 | 0% | WXT | None | Wirex | ✅ Active | Multi-crypto | Debit card |
-| **Plutus Card** | Debit | 3% | £0 | 0% | PLU | Optional | Plutus | ✅ Active | EU users | Debit card, EU only |
-| **Swissborg Card** | Debit | 1-2% | $0 | 0% | CHSB | None | Swissborg | ✅ Active | EU users | Debit card, EU only |
-| **BitPay Card** | Debit | 0% | $0 | 0% | BTC | None | BitPay | ✅ Active | Bitcoin users | Prepaid debit |
-| **Fold Card** | Debit | Up to 5% | $0 | 0% | BTC | None | Fold | ✅ Active | Bitcoin rewards | Bitcoin rewards only |
-| **Mode Card** | Debit | Up to 10% | $0 | 0% | BTC | None | Mode | ✅ Active | Bitcoin rewards | Bitcoin rewards |
-| **Shakepay Card** | Debit | 1-2% | $0 | 0% | BTC | None | Shakepay | ✅ Active | Canada | Canada only |
-| **Uphold Card** | Debit | 1-4% | $0 | 0% | XRP, BTC, ETH, others | None | Uphold | ✅ Active | Multi-crypto | Debit card, multiple crypto rewards |
-| **CoinJar Card** | Debit | 1% | $0 | 0% | BTC | None | CoinJar | ✅ Active | Australia | Australia only, Bitcoin rewards |
-| **CryptoSpend Card** | Debit | 1% | $0 | 0% | BTC, ETH, others | None | CryptoSpend | ✅ Active | Australia | Australia only |
-| **EtherFi** | TBD | TBD | TBD | TBD | ETH | TBD | EtherFi | 🔄 Research | TBD | *Researching* |
-| **Reap** | TBD | TBD | TBD | TBD | TBD | TBD | Reap | 🔄 Research | TBD | *Researching* |
+| Card | Type | Cash Back | Annual Fee | Foreign Fee | Crypto Rewards | Staking Req | Business | Website | Status | Best For | Notes |
+|------|------|-----------|------------|-------------|----------------|-------------|----------|---------|--------|----------|-------|
+| **Coinbase Card** | Debit | 1-4% | $0 | 0% | BTC, ETH, others | None | ❌ | [coinbase.com/card](https://www.coinbase.com/card) | ✅ Active | Coinbase users | Debit card, instant crypto rewards |
+| **Crypto.com Visa** | Debit | 0.5-8% | $0 | 0% | CRO | $0-$400k+ | ✅ | [crypto.com/cards](https://crypto.com/cards) | ✅ Active | CRO holders | Tiered by CRO stake |
+| **Gemini Credit Card** | Credit | 1-3% | $0 | 0% | BTC, ETH | None | ❌ | [gemini.com/credit-card](https://www.gemini.com/credit-card) | ✅ Active | Gemini users | Credit card, crypto rewards |
+| **Nexo Card** | Credit | 0-2% | $0 | 0% | NEXO | None | ❌ | [nexo.com/card](https://nexo.com/card) | ✅ Active | Nexo users | Crypto-backed credit line |
+| **Binance Card** | Debit | Up to 8% | $0 | 0% | BNB | None | ❌ | [binance.com/en/cards](https://www.binance.com/en/cards) | ✅ Active | Binance users | Debit card |
+| **Wirex Card** | Debit | Up to 8% | $0 | 0% | WXT | None | ✅ | [wirexapp.com/card](https://wirexapp.com/card) | ✅ Active | Multi-crypto | Debit card |
+| **Plutus Card** | Debit | 3% | £0 | 0% | PLU | Optional | ❌ | [plutus.it](https://plutus.it) | ✅ Active | EU users | Debit card, EU only |
+| **Swissborg Card** | Debit | 1-2% | $0 | 0% | CHSB | None | ❌ | [swissborg.com/card](https://swissborg.com/card) | ✅ Active | EU users | Debit card, EU only |
+| **BitPay Card** | Debit | 0% | $0 | 0% | BTC | None | ✅ | [bitpay.com/card](https://bitpay.com/card) | ✅ Active | Bitcoin users | Prepaid debit |
+| **Fold Card** | Debit | Up to 5% | $0 | 0% | BTC | None | ❌ | [foldapp.com](https://foldapp.com) | ✅ Active | Bitcoin rewards | Bitcoin rewards only |
+| **Mode Card** | Debit | Up to 10% | $0 | 0% | BTC | None | ❌ | [modeapp.com](https://modeapp.com) | ✅ Active | Bitcoin rewards | Bitcoin rewards |
+| **Shakepay Card** | Debit | 1-2% | $0 | 0% | BTC | None | ❌ | [shakepay.com/card](https://shakepay.com/card) | ✅ Active | Canada | Canada only |
+| **Uphold Card** | Debit | 1-4% | $0 | 0% | XRP, BTC, ETH, others | None | ❌ | [uphold.com/card](https://uphold.com/card) | ✅ Active | Multi-crypto | Debit card, multiple crypto rewards |
+| **CoinJar Card** | Debit | 1% | $0 | 0% | BTC | None | ❌ | [coinjar.com/card](https://www.coinjar.com/card) | ✅ Active | Australia | Australia only, Bitcoin rewards |
+| **CryptoSpend Card** | Debit | 1% | $0 | 0% | BTC, ETH, others | None | ❌ | [cryptospend.com.au](https://cryptospend.com.au) | ✅ Active | Australia | Australia only |
+| **Reap** | Business | TBD | TBD | TBD | TBD | TBD | ✅ | [reapglobal.com](https://reapglobal.com) | ✅ Active | Business | Business payment solutions |
+| **EtherFi** | TBD | TBD | TBD | TBD | ETH | TBD | TBD | TBD | 🔄 Research | TBD | *Researching* |
 | **BlockFi Rewards** | Credit | 1.5% | $0 | 0% | BTC | None | BlockFi | ❌ Discontinued | - | Bankruptcy 2022 |
 | **MCO Card** | Credit | 1-5% | $0 | 0% | MCO | $0-$50k+ | Crypto.com | ❌ Discontinued | - | Replaced by CRO card |
 
 **Legend:**
-- **Type:** Credit card vs. Debit card vs. Prepaid
+- **Type:** Credit card vs. Debit card vs. Prepaid vs. Business
 - **Cash Back:** Base cash back percentage (may vary by category)
 - **Annual Fee:** $0 or annual fee amount
 - **Foreign Fee:** Foreign transaction fee percentage
 - **Crypto Rewards:** Additional crypto rewards or reward currency
 - **Staking Req:** Minimum crypto staking/balance required for benefits
+- **Business:** ✅ Business accounts supported | ❌ Personal only
+- **Website:** Official card website link
 - **Status:** ✅ Active | ⚠️ Waitlist | ❌ Discontinued | 🔄 Research
 
 ---
@@ -50,6 +52,8 @@
 - **Annual Fee:** $0
 - **Foreign Transaction Fee:** 0%
 - **Staking Required:** None
+- **Business Support:** ❌ Personal only
+- **Website:** [coinbase.com/card](https://www.coinbase.com/card)
 - **Availability:** US only
 - **Notes:** Instant crypto rewards, no credit check
 
@@ -65,6 +69,8 @@
 - **Annual Fee:** $0
 - **Foreign Transaction Fee:** 0%
 - **Staking Required:** $0-$400,000+ CRO
+- **Business Support:** ✅ Yes (Crypto.com Business accounts available)
+- **Website:** [crypto.com/cards](https://crypto.com/cards)
 - **Availability:** Global (varies by region)
 - **Notes:** 6-month staking lock, additional perks at higher tiers
 
@@ -75,6 +81,8 @@
 - **Annual Fee:** $0
 - **Foreign Transaction Fee:** 0%
 - **Staking Required:** None
+- **Business Support:** ❌ Personal only
+- **Website:** [gemini.com/credit-card](https://www.gemini.com/credit-card)
 - **Availability:** US only
 - **Notes:** Credit card (not debit), requires credit check
 
@@ -85,6 +93,8 @@
 - **Annual Fee:** $0
 - **Foreign Transaction Fee:** 0%
 - **Staking Required:** None (but NEXO holders get better rates)
+- **Business Support:** ✅ Yes (Nexo Business accounts available)
+- **Website:** [nexo.com/card](https://nexo.com/card)
 - **Availability:** EU, UK
 - **Notes:** Uses crypto as collateral for credit line
 
@@ -95,6 +105,8 @@
 - **Annual Fee:** $0
 - **Foreign Transaction Fee:** 0%
 - **Staking Required:** None (but BNB holdings affect rates)
+- **Business Support:** ✅ Yes (Binance Business accounts available)
+- **Website:** [binance.com/en/cards](https://www.binance.com/en/cards)
 - **Availability:** Global (varies by region)
 - **Notes:** Debit card, instant crypto-to-fiat conversion
 
@@ -105,6 +117,8 @@
 - **Annual Fee:** $0
 - **Foreign Transaction Fee:** 0%
 - **Staking Required:** None
+- **Business Support:** ✅ Yes (Wirex Business accounts available)
+- **Website:** [wirexapp.com/card](https://wirexapp.com/card)
 - **Availability:** Global (varies by region)
 - **Notes:** Multi-crypto support, Cryptoback™ rewards program
 
@@ -115,6 +129,8 @@
 - **Annual Fee:** £0
 - **Foreign Transaction Fee:** 0%
 - **Staking Required:** Optional (for additional perks)
+- **Business Support:** ❌ Personal only
+- **Website:** [plutus.it](https://plutus.it)
 - **Availability:** EU, UK
 - **Notes:** EU/UK only, PLU token rewards
 
@@ -125,6 +141,8 @@
 - **Annual Fee:** $0
 - **Foreign Transaction Fee:** 0%
 - **Staking Required:** None
+- **Business Support:** ❌ Personal only
+- **Website:** [swissborg.com/card](https://swissborg.com/card)
 - **Availability:** EU
 - **Notes:** EU only, Swissborg ecosystem integration
 
@@ -135,6 +153,8 @@
 - **Annual Fee:** $0
 - **Foreign Transaction Fee:** 0%
 - **Staking Required:** None
+- **Business Support:** ✅ Yes (BitPay Business accounts available)
+- **Website:** [bitpay.com/card](https://bitpay.com/card)
 - **Availability:** US
 - **Notes:** Bitcoin-focused, prepaid card
 
@@ -145,6 +165,8 @@
 - **Annual Fee:** $0
 - **Foreign Transaction Fee:** 0%
 - **Staking Required:** None
+- **Business Support:** ❌ Personal only
+- **Website:** [foldapp.com](https://foldapp.com)
 - **Availability:** US
 - **Notes:** Bitcoin rewards only, rotating categories
 
@@ -155,6 +177,8 @@
 - **Annual Fee:** $0
 - **Foreign Transaction Fee:** 0%
 - **Staking Required:** None
+- **Business Support:** ❌ Personal only
+- **Website:** [modeapp.com](https://modeapp.com)
 - **Availability:** US
 - **Notes:** Bitcoin rewards, high cash back rates
 
@@ -165,6 +189,8 @@
 - **Annual Fee:** $0
 - **Foreign Transaction Fee:** 0%
 - **Staking Required:** None
+- **Business Support:** ❌ Personal only
+- **Website:** [shakepay.com/card](https://shakepay.com/card)
 - **Availability:** Canada only
 - **Notes:** Canada only, Bitcoin rewards
 
@@ -174,11 +200,16 @@
 
 #### EtherFi (Ether F.I.)
 - **Status:** 🔄 Researching
+- **Website:** TBD
+- **Business Support:** TBD
 - **Notes:** Need to verify if this is a credit card product or related to EtherFi staking platform
 
 #### Reap
-- **Status:** 🔄 Researching
-- **Notes:** Need to verify card details and availability
+- **Type:** Business payment solutions
+- **Website:** [reapglobal.com](https://reapglobal.com)
+- **Status:** ✅ Active
+- **Business Support:** ✅ Yes
+- **Notes:** Business-focused payment platform, need to verify card product details and crypto features
 
 #### Uphold Card
 - **Type:** Debit card
@@ -187,6 +218,8 @@
 - **Annual Fee:** $0
 - **Foreign Transaction Fee:** 0%
 - **Staking Required:** None
+- **Business Support:** ✅ Yes (Uphold Business accounts available)
+- **Website:** [uphold.com/card](https://uphold.com/card)
 - **Availability:** US, UK, EU (varies by region)
 - **Notes:** Multi-crypto rewards, debit card
 
@@ -197,6 +230,8 @@
 - **Annual Fee:** $0
 - **Foreign Transaction Fee:** 0%
 - **Staking Required:** None
+- **Business Support:** ❌ Personal only
+- **Website:** [coinjar.com/card](https://www.coinjar.com/card)
 - **Availability:** Australia only
 - **Notes:** Australia only, Bitcoin rewards
 
@@ -207,6 +242,8 @@
 - **Annual Fee:** $0
 - **Foreign Transaction Fee:** 0%
 - **Staking Required:** None
+- **Business Support:** ❌ Personal only
+- **Website:** [cryptospend.com.au](https://cryptospend.com.au)
 - **Availability:** Australia only
 - **Notes:** Australia only, multi-crypto rewards
 
@@ -246,6 +283,28 @@
 - **Global:** Crypto.com, Binance, Wirex (varies by region)
 - **Canada:** Shakepay
 - **Australia:** CoinJar, CryptoSpend
+
+### Business Account Support
+
+**Cards with Business Account Support:**
+- ✅ **Crypto.com Visa** - Business accounts available
+- ✅ **Nexo Card** - Business accounts available
+- ✅ **Binance Card** - Business accounts available
+- ✅ **Wirex Card** - Business accounts available
+- ✅ **BitPay Card** - Business accounts available
+- ✅ **Uphold Card** - Business accounts available
+- ✅ **Reap** - Business-focused payment platform
+
+**Cards with Personal Only:**
+- ❌ Coinbase Card
+- ❌ Gemini Credit Card
+- ❌ Plutus Card
+- ❌ Swissborg Card
+- ❌ Fold Card
+- ❌ Mode Card
+- ❌ Shakepay Card
+- ❌ CoinJar Card
+- ❌ CryptoSpend Card
 
 ### Card Types
 - **Credit Cards:** Gemini, Nexo (crypto-backed)

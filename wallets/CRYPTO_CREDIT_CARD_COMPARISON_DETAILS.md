@@ -94,6 +94,8 @@
 
 ### Coinbase Card
 
+**Website:** [coinbase.com/card](https://www.coinbase.com/card)
+
 **Overview:**
 The Coinbase Card is a debit card that allows users to spend crypto and earn crypto rewards. It's linked directly to your Coinbase account.
 
@@ -102,6 +104,7 @@ The Coinbase Card is a debit card that allows users to spend crypto and earn cry
 - No credit check required
 - Supports multiple cryptocurrencies
 - US-only availability
+- Business Support: ❌ Personal only
 
 **Rewards Structure:**
 - Base: 1% cash back in crypto
@@ -133,8 +136,12 @@ The Coinbase Card is a debit card that allows users to spend crypto and earn cry
 
 ### Crypto.com Visa Card
 
+**Website:** [crypto.com/cards](https://crypto.com/cards)
+
 **Overview:**
 The Crypto.com Visa Card is a prepaid debit card with tiered rewards based on CRO token staking. Higher staking tiers unlock better rewards and perks.
+
+**Business Support:** ✅ Yes (Crypto.com Business accounts available)
 
 **Key Features:**
 - Tiered reward system (0.5% to 8%)
@@ -179,8 +186,12 @@ The Crypto.com Visa Card is a prepaid debit card with tiered rewards based on CR
 
 ### Gemini Credit Card
 
+**Website:** [gemini.com/credit-card](https://www.gemini.com/credit-card)
+
 **Overview:**
 The Gemini Credit Card is a traditional credit card that earns crypto rewards. It's issued by WebBank and offers flexible crypto reward options.
+
+**Business Support:** ❌ Personal only
 
 **Key Features:**
 - Traditional credit card (builds credit)
@@ -218,8 +229,12 @@ The Gemini Credit Card is a traditional credit card that earns crypto rewards. I
 
 ### Nexo Card
 
+**Website:** [nexo.com/card](https://nexo.com/card)
+
 **Overview:**
 The Nexo Card is a crypto-backed credit card that uses your crypto holdings as collateral for a credit line. Available in EU and UK.
+
+**Business Support:** ✅ Yes (Nexo Business accounts available)
 
 **Key Features:**
 - Crypto-backed credit line
@@ -256,8 +271,12 @@ The Nexo Card is a crypto-backed credit card that uses your crypto holdings as c
 
 ### Binance Card
 
+**Website:** [binance.com/en/cards](https://www.binance.com/en/cards)
+
 **Overview:**
 The Binance Card is a debit card linked to your Binance account, offering BNB rewards and instant crypto-to-fiat conversion.
+
+**Business Support:** ✅ Yes (Binance Business accounts available)
 
 **Key Features:**
 - Instant crypto-to-fiat conversion
@@ -293,8 +312,12 @@ The Binance Card is a debit card linked to your Binance account, offering BNB re
 
 ### Wirex Card
 
+**Website:** [wirexapp.com/card](https://wirexapp.com/card)
+
 **Overview:**
 The Wirex Card is a multi-crypto debit card with Cryptoback™ rewards program, supporting multiple cryptocurrencies.
+
+**Business Support:** ✅ Yes (Wirex Business accounts available)
 
 **Key Features:**
 - Multi-crypto support
@@ -330,8 +353,12 @@ The Wirex Card is a multi-crypto debit card with Cryptoback™ rewards program, 
 
 ### Fold Card
 
+**Website:** [foldapp.com](https://foldapp.com)
+
 **Overview:**
 The Fold Card is a Bitcoin rewards debit card available in the US, offering rotating category bonuses.
+
+**Business Support:** ❌ Personal only
 
 **Key Features:**
 - Bitcoin-only rewards
@@ -366,8 +393,12 @@ The Fold Card is a Bitcoin rewards debit card available in the US, offering rota
 
 ### Mode Card
 
+**Website:** [modeapp.com](https://modeapp.com)
+
 **Overview:**
 The Mode Card is a Bitcoin rewards debit card with high cash back rates, available in the US.
+
+**Business Support:** ❌ Personal only
 
 **Key Features:**
 - High Bitcoin rewards (up to 10%)
@@ -400,8 +431,12 @@ The Mode Card is a Bitcoin rewards debit card with high cash back rates, availab
 
 ### Plutus Card
 
+**Website:** [plutus.it](https://plutus.it)
+
 **Overview:**
 The Plutus Card is a debit card available in EU and UK, offering PLU token rewards.
+
+**Business Support:** ❌ Personal only
 
 **Key Features:**
 - PLU token rewards
@@ -435,8 +470,12 @@ The Plutus Card is a debit card available in EU and UK, offering PLU token rewar
 
 ### Swissborg Card
 
+**Website:** [swissborg.com/card](https://swissborg.com/card)
+
 **Overview:**
 The Swissborg Card is a debit card available in EU, offering CHSB token rewards.
+
+**Business Support:** ❌ Personal only
 
 **Key Features:**
 - CHSB token rewards
@@ -469,8 +508,12 @@ The Swissborg Card is a debit card available in EU, offering CHSB token rewards.
 
 ### Shakepay Card
 
+**Website:** [shakepay.com/card](https://shakepay.com/card)
+
 **Overview:**
 The Shakepay Card is a Bitcoin rewards debit card available in Canada.
+
+**Business Support:** ❌ Personal only
 
 **Key Features:**
 - Bitcoin-only rewards
@@ -503,8 +546,12 @@ The Shakepay Card is a Bitcoin rewards debit card available in Canada.
 
 ### BitPay Card
 
+**Website:** [bitpay.com/card](https://bitpay.com/card)
+
 **Overview:**
 The BitPay Card is a prepaid debit card that allows spending Bitcoin, available in the US.
+
+**Business Support:** ✅ Yes (BitPay Business accounts available)
 
 **Key Features:**
 - Bitcoin spending
@@ -537,8 +584,12 @@ The BitPay Card is a prepaid debit card that allows spending Bitcoin, available 
 
 ### Uphold Card
 
+**Website:** [uphold.com/card](https://uphold.com/card)
+
 **Overview:**
 The Uphold Card is a debit card that offers crypto rewards, available in US, UK, and EU regions.
+
+**Business Support:** ✅ Yes (Uphold Business accounts available)
 
 **Key Features:**
 - Multi-crypto rewards (XRP, BTC, ETH, others)
@@ -574,8 +625,12 @@ The Uphold Card is a debit card that offers crypto rewards, available in US, UK,
 
 ### CoinJar Card
 
+**Website:** [coinjar.com/card](https://www.coinjar.com/card)
+
 **Overview:**
 The CoinJar Card is a Bitcoin rewards debit card available in Australia.
+
+**Business Support:** ❌ Personal only
 
 **Key Features:**
 - Bitcoin-only rewards
@@ -609,8 +664,12 @@ The CoinJar Card is a Bitcoin rewards debit card available in Australia.
 
 ### CryptoSpend Card
 
+**Website:** [cryptospend.com.au](https://cryptospend.com.au)
+
 **Overview:**
 The CryptoSpend Card is a multi-crypto rewards debit card available in Australia.
+
+**Business Support:** ❌ Personal only
 
 **Key Features:**
 - Multi-crypto rewards
@@ -663,17 +722,19 @@ The CryptoSpend Card is a multi-crypto rewards debit card available in Australia
 
 ### Reap
 
-**Status:** 🔄 Researching
+**Website:** [reapglobal.com](https://reapglobal.com)
+
+**Status:** ✅ Active
+
+**Overview:**
+Reap is a business-focused payment platform that provides payment solutions for businesses. Need to verify specific card product details and crypto features.
+
+**Business Support:** ✅ Yes (Business-focused platform)
 
 **Notes:**
-- Need to verify Reap card details and availability
-- May be a crypto payment processor or card issuer
-- *Research ongoing*
-
-**Action Items:**
-- Search for official Reap card website
-- Verify card type, rewards, and fees
-- Confirm geographic availability
+- Business payment solutions platform
+- Need to verify card product details and crypto rewards features
+- May offer crypto payment processing or card products
 
 ---
 
@@ -822,6 +883,59 @@ The CryptoSpend Card is a multi-crypto rewards debit card available in Australia
 - Track reward earnings
 - Document crypto conversions
 - Consult a tax professional familiar with crypto taxation
+
+---
+
+## Business Account Support
+
+### Cards with Business Account Support
+
+**Crypto.com Visa Card**
+- **Website:** [crypto.com/cards](https://crypto.com/cards)
+- **Business Support:** ✅ Yes
+- **Notes:** Crypto.com offers business accounts with card access
+
+**Nexo Card**
+- **Website:** [nexo.com/card](https://nexo.com/card)
+- **Business Support:** ✅ Yes
+- **Notes:** Nexo Business accounts available with card access
+
+**Binance Card**
+- **Website:** [binance.com/en/cards](https://www.binance.com/en/cards)
+- **Business Support:** ✅ Yes
+- **Notes:** Binance Business accounts available
+
+**Wirex Card**
+- **Website:** [wirexapp.com/card](https://wirexapp.com/card)
+- **Business Support:** ✅ Yes
+- **Notes:** Wirex Business accounts available
+
+**BitPay Card**
+- **Website:** [bitpay.com/card](https://bitpay.com/card)
+- **Business Support:** ✅ Yes
+- **Notes:** BitPay Business accounts available
+
+**Uphold Card**
+- **Website:** [uphold.com/card](https://uphold.com/card)
+- **Business Support:** ✅ Yes
+- **Notes:** Uphold Business accounts available
+
+**Reap**
+- **Website:** [reapglobal.com](https://reapglobal.com)
+- **Business Support:** ✅ Yes (Business-focused platform)
+- **Notes:** Business payment solutions platform
+
+### Cards with Personal Only
+
+- Coinbase Card
+- Gemini Credit Card
+- Plutus Card
+- Swissborg Card
+- Fold Card
+- Mode Card
+- Shakepay Card
+- CoinJar Card
+- CryptoSpend Card
 
 ---
 
