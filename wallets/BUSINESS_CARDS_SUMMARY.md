@@ -10,8 +10,8 @@ These cards are specifically designed for business/corporate use:
    - **Type:** Business Credit (Corporate Visa card)
    - **Focus:** Business accounts only
    - **Website:** [reap.global](https://reap.global)
-   - **Features:** Corporate Visa credit card, stablecoin repayment, 1:1 collateral
-   - **Status:** ✅ Verified
+   - **Features:** Corporate Visa credit card, stablecoin repayment, 1:1 collateral, 2% FX/ATM fees
+   - **Status:** ✅ Verified (December 2025)
 
 2. **EtherFi Cash** - Score: 50 🟡
    - **Type:** Credit card (DeFi-native)
@@ -19,19 +19,19 @@ These cards are specifically designed for business/corporate use:
    - **Website:** [ether.fi/cash](https://ether.fi/cash)
    - **Corporate Cards:** [ether.fi/corporate-cards](https://ether.fi/corporate-cards)
    - **Features:** DeFi-native, non-custodial, use crypto as collateral
-   - **Status:** ✅ Verified (rates TBD)
+   - **Status:** ✅ Verified (rates TBD - pending deeper verification)
 
-## Cards with Business Account Support (Personal + Business)
-
-These cards offer both personal and business account options:
+## Cards with Verified Business Account Support (Personal + Business)
 
 1. **Nexo Card** - Score: 84 🟢
-   - Business accounts available
-   - Crypto-backed credit line
+   - ✅ Business accounts available (verified)
+   - Crypto-backed credit line, up to 2% cashback
 
 2. **Crypto.com Visa** - Score: 59 🟡
-   - Business accounts available
-   - ⚠️ UX penalty: -20 points
+   - ✅ Business accounts available
+   - ⚠️ UX penalty: -20 points (poor customer service, staking lock-ups)
+
+## Cards Needing Business Support Verification
 
 3. **Binance Card** - Score: 82 🟢
    - ⚠️ Business support needs verification
@@ -43,18 +43,26 @@ These cards offer both personal and business account options:
    - ⚠️ Business support needs verification
 
 6. **Uphold Card** - Score: 70 🟡
-   - ⚠️ Business support needs verification (404 error)
+   - ⚠️ Business support needs verification (website returns 404)
 
 ## Summary
 
-**Total Business/Corporate Cards:** 2 specifically business-focused (Reap, EtherFi Cash)
-**Total Cards with Business Support:** 8 cards (2 verified business-focused + 6 with business account options)
+| Category | Count | Cards |
+|----------|-------|-------|
+| Business-focused (verified) | 2 | Reap, EtherFi Cash |
+| Personal + Business (verified) | 2 | Nexo, Crypto.com |
+| Business support unverified | 4 | Binance, Wirex, BitPay, Uphold |
+| **Total with potential business support** | **8** | |
 
-**Recommendations:**
-- For **business-only needs:** Reap (verified, business-focused)
-- For **DeFi-native businesses:** EtherFi Cash (corporate cards available)
-- For **personal + business:** Nexo Card (highest score, verified business support)
+## Recommendations by Use Case
+
+| Use Case | Recommended Card | Notes |
+|----------|------------------|-------|
+| **Business-only needs** | Reap | ✅ Verified, business-focused, stablecoin repayment |
+| **DeFi-native businesses** | EtherFi Cash | Corporate cards available, non-custodial |
+| **Personal + business** | Nexo Card | Highest score (84), verified business support |
+| **High cashback (business)** | Binance Card | Score 82, ⚠️ verify business support first |
 
 ---
 
-*See [CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md](./CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md) for complete comparison.*
+*See [CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md](./CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md) for complete comparison and [CRYPTO_CREDIT_CARD_SCORING.md](./CRYPTO_CREDIT_CARD_SCORING.md) for score breakdowns.*

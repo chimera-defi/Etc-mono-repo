@@ -25,16 +25,18 @@
 
 | Component | Points | Notes |
 |-----------|--------|-------|
-| Cash Back Rate | 30 | Up to 10% (highest tier) |
-| Fees | 20 | $0 annual, 0% foreign |
+| Cash Back Rate | 30 | Up to 10% (highest tier) ⚠️ Verify |
+| Fees | 20 | $0 annual, 0% foreign ⚠️ Verify |
 | Crypto Rewards | 12 | Bitcoin only |
-| Availability | 5 | US only |
+| Availability | 5 | UK/EU (Mode is UK-based company) ⚠️ Verify |
 | Staking Requirements | 10 | None required |
 | Card Type | 8 | Debit card |
 | Trust & Security | 4 | Established company |
 | **Base Score** | **89** | |
 | Human Suggestions | +1 | Good user experience |
 | **Final Score** | **90** | 🟢 Highly Recommended |
+
+**⚠️ Verification Note:** Mode is a UK-based fintech company. The "up to 10%" cash back rate is exceptionally high and requires verification on official website. Geographic availability (originally stated as US-only) also needs verification.
 
 ---
 
@@ -299,7 +301,7 @@
 | Card Type | 5 | Prepaid debit |
 | Trust & Security | 4 | Established company |
 | **Base Score** | **44** | |
-| Human Suggestions | +8 | Unverified business support (+3), Bitcoin-focused (+2), Established (+3) |
+| Human Suggestions | +8 | Bitcoin spending utility (+3), Established company (+3), Clear use case (+2) |
 | **Final Score** | **52** | 🟡 Good Option |
 
 ---
@@ -376,9 +378,11 @@
 
 | Score Range | Count | Cards |
 |-------------|-------|-------|
-| 75+ 🟢 Highly Recommended | 8 | Mode (90), Plutus (88), Coinbase (85), Nexo (84), Binance (82), Wirex (80), Fold (78), Gemini (75) |
-| 50-74 🟡 Good Option | 9 | Shakepay (72), Uphold (70), Crypto.com (59), CryptoSpend (62), CoinJar (60), Swissborg (58), Reap (55), BitPay (52), EtherFi (50) |
+| 75+ 🟢 Highly Recommended | 8 | Mode (90 ⚠️), Plutus (88), Coinbase (85), Nexo (84), Binance (82), Wirex (80), Fold (78), Gemini (75) |
+| 50-74 🟡 Good Option | 9 | Shakepay (72), Uphold (70), CryptoSpend (62), CoinJar (60), Crypto.com (59), Swissborg (58), Reap (55), BitPay (52), EtherFi (50) |
 | <50 🔴 Consider Alternatives | 0 | None |
+
+**Note:** Mode Card marked ⚠️ - UK-based company, "up to 10%" rate and availability need verification.
 
 ---
 

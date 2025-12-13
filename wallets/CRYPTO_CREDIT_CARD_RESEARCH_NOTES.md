@@ -112,7 +112,7 @@
 8. **Swissborg Card** - ✅ Verified (EU)
 9. **BitPay Card** - ✅ Verified (US)
 10. **Fold Card** - ✅ Verified (US)
-11. **Mode Card** - ✅ Verified (US)
+11. **Mode Card** - ⚠️ Needs Verification (UK-based company, availability unclear)
 12. **Shakepay Card** - ✅ Verified (Canada)
 13. **Uphold Card** - ✅ Verified (US, UK, EU)
 14. **CoinJar Card** - ✅ Verified (Australia)
