@@ -74,6 +74,28 @@ Track significant changes to wallet statuses, recommendations, and documentation
 
 ---
 
+## Crypto Credit Cards
+
+| Date | Wallet/Card | Change | Details |
+|------|-------------|--------|---------|
+| Dec 2025 | **Documentation** | Score verification complete | Verified all 17 card score calculations match methodology |
+| Dec 2025 | **Mode Card** | Status → ⚠️ Verify | UK-based company, "up to 10%" rate needs verification; changed from "US only" |
+| Dec 2025 | **Shakepay Card** | Data fix | Fixed cashback rate from "1-2%" to verified "Up to 1.5%" |
+| Dec 2025 | **BitPay Card** | Scoring fix | Fixed Human Suggestions reasoning (removed invalid "unverified business support" bonus) |
+| Dec 2025 | **Table ordering** | Fix | Reordered cards by score descending (CryptoSpend 62 > CoinJar 60 > Crypto.com 59) |
+| Dec 2025 | **Business column** | Consistency fix | Standardized ⚠️ Verify markers for Binance, Wirex, BitPay, Uphold |
+| Dec 2025 | **Reap** | ✅ Verified | Corporate Visa card, stablecoin repayment, 2% FX/ATM fees via browser automation |
+| Dec 2025 | **EtherFi Cash** | ✅ Verified | DeFi-native credit card, corporate cards available; rates TBD |
+| Dec 2025 | **Nexo Card** | ✅ Verified | Up to 2% cashback, no fees, dual-mode (Debit + Credit) |
+| Dec 2025 | **Plutus Card** | ✅ Verified | 3% base, up to 9% via tiers, no fees |
+| Dec 2025 | **Shakepay Card** | ✅ Verified | Up to 1.5% cashback, Canada only |
+| Dec 2025 | **404 Errors** | ⚠️ Need verification | Swissborg, Uphold, CoinJar cards - website URLs return 404 |
+| Dec 2025 | **Scoring** | Added Human Suggestions | -20 to +5 adjustments for UX, verification status, business support |
+| Dec 2025 | **Crypto.com Visa** | -20 pts penalty | Poor UX, customer service issues, staking lock-ups |
+| Dec 2025 | **Initial** | Document created | 17-card comparison with scoring methodology |
+
+---
+
 ## Documentation Structure
 
 | Date | Change | Details |
@@ -84,4 +106,4 @@ Track significant changes to wallet statuses, recommendations, and documentation
 
 ---
 
-*For the latest wallet status updates, see [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md) (Software) and [HARDWARE_WALLET_COMPARISON.md](./HARDWARE_WALLET_COMPARISON.md) (Hardware).*
+*For the latest wallet status updates, see [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md) (Software), [HARDWARE_WALLET_COMPARISON.md](./HARDWARE_WALLET_COMPARISON.md) (Hardware), and [CRYPTO_CREDIT_CARD_COMPARISON.md](./CRYPTO_CREDIT_CARD_COMPARISON.md) (Credit Cards).*

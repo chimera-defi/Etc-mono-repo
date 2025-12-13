@@ -418,37 +418,40 @@ The Fold Card is a Bitcoin rewards debit card available in the US, offering rota
 
 **Website:** [modeapp.com](https://modeapp.com)
 
+**Status:** ⚠️ **Verification Required** - Mode is a UK-based company. Availability claims need verification.
+
 **Overview:**
-The Mode Card is a Bitcoin rewards debit card with high cash back rates, available in the US.
+The Mode Card is a Bitcoin rewards debit card with high cash back rates. Mode is a UK-based fintech company. ⚠️ Specific cash back rates (up to 10%) and geographic availability require verification on official website.
 
 **Business Support:** ❌ Personal only
 
 **Key Features:**
-- High Bitcoin rewards (up to 10%)
-- US-only availability
+- High Bitcoin rewards (up to 10% - ⚠️ verify)
+- UK/EU availability (⚠️ verify regions)
 - Debit card
 
 **Rewards Structure:**
-- Up to 10% cash back in Bitcoin
+- Up to 10% cash back in Bitcoin (⚠️ verify current rates)
 - Rewards paid in BTC
 
 **Fees:**
-- Annual Fee: $0
-- Foreign Transaction Fee: 0%
+- Annual Fee: $0 (⚠️ verify)
+- Foreign Transaction Fee: 0% (⚠️ verify)
 
 **Requirements:**
-- US residency
+- UK/EU residency (⚠️ verify regions)
 - KYC verification
 
 **Best For:**
 - Bitcoin-focused users seeking high rewards
-- US residents
-- Those who want maximum Bitcoin rewards
+- UK/EU residents (verify availability)
+- Those who want Bitcoin rewards
 
 **Limitations:**
-- US only
+- Geographic availability unclear - verify
 - Bitcoin rewards only
 - Debit card (no credit building)
+- ⚠️ High cash back rate (10%) requires verification
 
 ---
 
@@ -889,7 +892,7 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 5. **Crypto.com Midnight Blue** - 0.5%
 6. **Fold Card** - 1% base (up to 5% categories)
 7. **Mode Card** - Variable (up to 10%)
-8. **Shakepay Card** - 1-2%
+8. **Shakepay Card** - Up to 1.5%
 9. **Swissborg Card** - 1-2%
 10. **CoinJar Card** - 1%
 11. **CryptoSpend Card** - 1%
@@ -1070,12 +1073,12 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 
 ### Best for High Cash Back (No Staking)
 - **Plutus Card** - 3% base (EU/UK)
-- **Mode Card** - Up to 10% (US, Bitcoin)
+- **Mode Card** - Up to 10% (UK/EU ⚠️ Verify, Bitcoin)
 
 ### Best for Bitcoin Rewards
-- **Mode Card** - Up to 10% (US)
+- **Mode Card** - Up to 10% (UK/EU ⚠️ Verify)
 - **Fold Card** - Up to 5% (US)
-- **Shakepay Card** - 1-2% (Canada)
+- **Shakepay Card** - Up to 1.5% (Canada)
 
 ### Best for Multi-Crypto Rewards
 - **Coinbase Card** - BTC, ETH, others (US)
@@ -1087,7 +1090,7 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 - **Gemini Card** - 1-3% (US)
 - **Plutus Card** - 3% (EU/UK)
 - **Fold Card** - Up to 5% (US)
-- **Mode Card** - Up to 10% (US)
+- **Mode Card** - Up to 10% (UK/EU ⚠️ Verify)
 
 ### Best for Staking Rewards
 - **Crypto.com Visa** - Up to 8% with CRO stake
