@@ -308,22 +308,25 @@ function SearchableTable({ tableContent, title }: { tableContent: string; title?
                 <th
                   key={index}
                   onClick={() => handleSort(index)}
-                  className="px-3 py-2 text-left font-semibold border-b border-border whitespace-nowrap cursor-pointer hover:bg-muted/80 transition-colors select-none"
-                  title={`Sort by ${header}`}
+                  className="px-3 py-2 text-left font-semibold border-b border-border whitespace-nowrap cursor-pointer hover:bg-muted/80 transition-colors select-none group"
+                  title={`Click to sort by ${header}`}
                 >
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1.5">
                     <span>{header}</span>
                     {sortColumn === index ? (
-                      <span className="text-primary">
+                      <span className="text-primary flex-shrink-0">
                         {sortDirection === 'asc' ? (
-                          <ChevronUp className="h-3 w-3" />
+                          <ChevronUp className="h-3.5 w-3.5" />
                         ) : (
-                          <ChevronDown className="h-3 w-3" />
+                          <ChevronDown className="h-3.5 w-3.5" />
                         )}
                       </span>
                     ) : (
-                      <span className="text-muted-foreground/50 opacity-0 group-hover:opacity-100">
-                        <ChevronDown className="h-3 w-3" />
+                      <span className="text-muted-foreground/40 group-hover:text-muted-foreground/70 flex-shrink-0 transition-colors">
+                        <div className="flex flex-col -space-y-1">
+                          <ChevronUp className="h-2 w-2" />
+                          <ChevronDown className="h-2 w-2" />
+                        </div>
                       </span>
                     )}
                   </div>
