@@ -67,7 +67,7 @@
 
 ### Cards Under Research
 
-1. **EtherFi** (Ether F.I.) - *Researching* (website TBD)
+1. ~~**EtherFi Cash**~~ - ✅ **Verified** - DeFi-native crypto credit card available at [ether.fi/cash](https://ether.fi/cash). Offers cashback, available for individuals, families, and businesses. Specific rates need deeper verification.
 2. **Reap** - ✅ Active - [reap.global](https://reap.global) - Business-focused payment platform
 
 ### Discontinued Cards

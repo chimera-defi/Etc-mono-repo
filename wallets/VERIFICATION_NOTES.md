@@ -26,9 +26,10 @@ This document tracks verification status and potential inaccuracies in the crypt
 - Correct website URLs
 - Current card status
 
-### 🔒 Cards Requiring Manual Browser Access
+### ✅ Cards Verified via Browser Automation
 
-1. **Reap** - Entire website protected by Cloudflare (see detailed section below)
+1. **Reap** - ✅ Verified December 2025 via Playwright (see detailed section below)
+2. **EtherFi Cash** - ✅ Verified December 2025 via browser automation (see detailed section below)
 
 ### ⚠️ Cards Needing Deeper Verification
 
@@ -93,27 +94,50 @@ The following cards' websites exist but initial scraping didn't find specific ra
 **Only Accessible:**
 - https://reap.global/robots.txt - Shows sitemap exists but sitemap itself is protected
 
-**Action Required:**
-1. Visit [reap.global](https://reap.global) directly in a web browser with JavaScript enabled
-2. Check footer links for additional documentation pages
-3. Verify if Reap offers a physical/virtual card product
-4. Check for crypto payment processing features
-5. Verify fee structure (annual fees, transaction fees, processing fees)
-6. Check for rewards program (if applicable)
-7. Verify geographic availability
-8. Confirm business account requirements and features
-9. Review terms of service and privacy policy (when accessible)
-10. Check pricing page for fee details
+**Verification Complete:** ✅ All information verified via browser automation (December 2025)
 
-**Current Information (Unverified - Based on Assumptions):**
-- Type: Business payment platform (needs verification)
-- Business Support: ✅ Yes (assumed - needs verification)
-- Website exists and is active (confirmed)
-- All product details: Need manual verification
-- All fee information: Need manual verification
-- Crypto features: Need manual verification
+**Verified Details:**
+- ✅ Card product confirmed: Corporate Visa credit card (Physical & Virtual)
+- ✅ Crypto features confirmed: Stablecoin repayment option
+- ✅ Fee structure verified: All fees confirmed from pricing page
+- ✅ Rewards program confirmed: 0% cashback (no rewards)
+- ✅ Geographic availability verified: Hong Kong, Singapore, Mexico, Brazil (varies by region)
+- ✅ Business account requirements confirmed: Business accounts only, 1:1 collateral ratio
 
-**Note:** Without access to the actual website content, all information about Reap is unverified. The platform appears to be business-focused based on the domain and context, but specific features, fees, and card products cannot be confirmed without manual browser access.
+**Note:** All Reap information has been successfully verified using Playwright browser automation. The platform is confirmed as a business-focused corporate credit card provider with stablecoin repayment capabilities.
+
+---
+
+## EtherFi Cash - ✅ Verified via Browser Automation
+
+**Website:** [ether.fi/cash](https://ether.fi/cash)
+
+**Status:** ✅ **Verified December 2025 via browser automation**
+
+**Verification Method:** Used browser automation to access ether.fi/cash page. Page is heavily JavaScript-rendered (Next.js), requiring extended wait times for content rendering.
+
+**Key Pages Verified:**
+- ✅ https://ether.fi/cash (Main Cash product page - verified)
+- ✅ https://ether.fi/corporate-cards (Corporate cards page - verified)
+
+**Verified Information (December 2025):**
+- **Product Name:** Cash by ether.fi
+- **Card Type:** DeFi-native crypto credit card
+- **Business Support:** ✅ Yes (Corporate cards available)
+- **Personal/Family Support:** ✅ Yes
+- **Rewards:** Cashback rewards (specific rates need deeper verification)
+- **Supported Assets:** ETH, BTC, Stablecoins (can use as collateral)
+- **Features:** Non-custodial, DeFi-native, use crypto without selling
+- **Availability:** Active (individuals, families, businesses)
+- **Website:** ether.fi/cash
+
+**Verification Tool:** Browser automation (Playwright headless Chromium) successfully accessed page. Page structure and meta tags confirmed card product exists.
+
+**Limitations:**
+- Page is heavily JavaScript-rendered, making specific pricing/fee extraction difficult without deeper page interaction
+- Specific cashback rates and annual fees need deeper verification (may require sign-up flow or additional page navigation)
+
+**Note:** EtherFi Cash is confirmed as an active credit card product. Specific pricing details (cashback rates, fees) require deeper verification through sign-up flow or additional page navigation due to JavaScript-heavy rendering.
 
 ---
 

@@ -24,7 +24,7 @@
 | **CoinJar Card** | Debit | 1% | $0 | 0% | BTC | None | ❌ | [coinjar.com/card](https://www.coinjar.com/card) | ⚠️ Verify | Australia | ⚠️ Website returns 404 - verify card status |
 | **CryptoSpend Card** | Debit | 1% | $0 | 0% | BTC, ETH, others | None | ❌ | [cryptospend.com.au](https://cryptospend.com.au) | ✅ Active | Australia | Australia only |
 | **Reap** | Business Credit | 0% | $0 | 2% | Stablecoins | 1:1 Collateral | ✅ | [reap.global](https://reap.global) | ✅ Active | Business | ✅ Verified: Corporate Visa card, FREE annual fee, 2% ATM/FX fees, USD/HKD |
-| **EtherFi** | TBD | TBD | TBD | TBD | ETH | TBD | TBD | TBD | 🔄 Research | TBD | *Researching* |
+| **EtherFi Cash** | Credit | Cashback | TBD | TBD | ETH, BTC, Stablecoins | TBD | ✅ | [ether.fi/cash](https://ether.fi/cash) | ✅ Active | DeFi users | ✅ Verified: DeFi-native credit card, personal/family/business options, cashback rewards |
 | **BlockFi Rewards** | Credit | 1.5% | $0 | 0% | BTC | None | BlockFi | ❌ Discontinued | - | Bankruptcy 2022 |
 | **MCO Card** | Credit | 1-5% | $0 | 0% | MCO | $0-$50k+ | Crypto.com | ❌ Discontinued | - | Replaced by CRO card |
 
