@@ -41,9 +41,9 @@
 - **Website:** Official card website link
 - **Status:** ✅ Active | ⚠️ Waitlist | ❌ Discontinued | 🔄 Research
 
-**Note:** See [detailed comparison table](./CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md) for complete metrics including foreign transaction fees, card types, staking requirements, and geographic availability. See [scoring breakdown](./CRYPTO_CREDIT_CARD_SCORING.md) for detailed score calculations.
+**Note:** See [detailed comparison table](./CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md) for complete metrics and [detailed reviews](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md) for scoring methodology.
 
-**⚠️ Scoring Note:** Scores include "Human Suggestions" adjustments. **Crypto.com Visa receives -20 points** due to poor user experiences, customer service issues, and staking lock-up periods. See [Human Suggestions Scoring](./CRYPTO_CREDIT_CARD_SCORING.md#human-suggestions-scoring) for details.
+**⚠️ Scoring Note:** Scores include "Human Suggestions" adjustments. **Crypto.com Visa receives -20 points** due to poor user experiences, customer service issues, and staking lock-up periods.
 
 **⚠️ Verification Status:** Some cards have been verified through website scraping (December 2025), while others require manual verification due to website access issues or Cloudflare protection. See [VERIFICATION_NOTES.md](./VERIFICATION_NOTES.md) for detailed verification status.
 
@@ -124,19 +124,40 @@
 
 ## Business Account Support
 
-**Cards with Verified Business Account Support:**
+### Summary Table
+
+| Category | Count | Cards |
+|----------|-------|-------|
+| Business-focused (verified) | 2 | Reap, EtherFi Cash |
+| Personal + Business (verified) | 2 | Nexo, Crypto.com |
+| Business support unverified | 4 | Binance, Wirex, BitPay, Uphold |
+| **Total with potential business support** | **8** | |
+
+### Business Cards by Use Case
+
+| Use Case | Recommended Card | Score | Notes |
+|----------|------------------|-------|-------|
+| **Business-only needs** | Reap | 55 🟡 | ✅ Verified, business-focused, stablecoin repayment |
+| **DeFi-native businesses** | EtherFi Cash | 50 🟡 | Corporate cards available, non-custodial |
+| **Personal + business** | Nexo Card | 84 🟢 | Highest score, verified business support |
+| **High cashback (business)** | Binance Card | 82 🟢 | ⚠️ Verify business support first |
+
+### Verified Business Support
+
 - ✅ **Nexo Card** - Score: 84 🟢 - [nexo.com/card](https://nexo.com/card) - Business accounts available
 - ✅ **Reap** - Score: 55 🟡 - [reap.global](https://reap.global) - Business-focused platform (business accounts only)
 - ✅ **EtherFi Cash** - Score: 50 🟡 - [ether.fi/cash](https://ether.fi/cash) - Corporate cards available
 - ✅ **Crypto.com Visa** - Score: 59 🟡 - [crypto.com/cards](https://crypto.com/cards) - Business accounts available (⚠️ UX penalty)
 
-**Cards Needing Business Support Verification:**
+### Cards Needing Business Support Verification
+
 - ⚠️ **Binance Card** - Score: 82 🟢 - [binance.com/en/cards](https://www.binance.com/en/cards) - Verify business account availability
 - ⚠️ **Wirex Card** - Score: 80 🟢 - [wirexapp.com/card](https://wirexapp.com/card) - Verify business account availability
 - ⚠️ **BitPay Card** - Score: 52 🟡 - [bitpay.com/card](https://bitpay.com/card) - Verify business account availability
 - ⚠️ **Uphold Card** - Score: 70 🟡 - [uphold.com/card](https://uphold.com/card) - Verify business account availability (404 error)
 
-**Cards with Personal Only:**
+### Personal Only
+
 - ❌ Coinbase Card, Gemini Credit Card, Plutus Card, Swissborg Card, Fold Card, Mode Card, Shakepay Card, CoinJar Card, CryptoSpend Card
 
 **Last Updated:** December 2025

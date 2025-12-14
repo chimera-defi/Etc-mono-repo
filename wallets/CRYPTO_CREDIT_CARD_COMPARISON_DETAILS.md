@@ -1113,29 +1113,30 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 
 ---
 
-## Next Steps
+## Score Summary
 
-1. **Complete Research:**
-   - ✅ Verify EtherFi, Reap card details - **COMPLETED**
-   - ✅ Update comparison tables with verified information - **COMPLETED**
-   - ✅ Add scoring methodology and calculate scores - **COMPLETED**
+| Score Range | Count | Cards |
+|-------------|-------|-------|
+| 75+ 🟢 Highly Recommended | 8 | Mode (90 ⚠️), Plutus (88), Coinbase (85), Nexo (84), Binance (82), Wirex (80), Fold (78), Gemini (75) |
+| 50-74 🟡 Good Option | 9 | Shakepay (72), Uphold (70), CryptoSpend (62), CoinJar (60), Crypto.com (59), Swissborg (58), Reap (55), BitPay (52), EtherFi (50) |
+| <50 🔴 Consider Alternatives | 0 | None |
 
-2. **Add Missing Information:**
-   - Detailed fee structures
-   - Reward caps and limits
-   - Redemption processes
-   - Customer service ratings
+**Note:** Mode Card marked ⚠️ - UK-based company, "up to 10%" rate and availability need verification.
 
-3. **Create Scoring System:**
-   - Develop weighted scoring methodology
-   - Calculate scores for all cards
-   - Add score column to comparison table
+### Human Suggestions Scoring
 
-4. **Update Documentation:**
-   - Add changelog entries
-   - Update README with card comparison links
-   - Create contributing guidelines for card additions
+Score adjustments based on real-world user experiences and company reputation:
+
+**Penalties:**
+- **Crypto.com Visa: -20 points** - Poor UX, customer service issues, staking lock-ups
+- **Cards with 404 errors: -5 points** - Swissborg, Uphold, CoinJar (unclear if still active)
+- **Incomplete information: -10 points** - EtherFi Cash (rates TBD)
+
+**Bonuses:**
+- **Verified cards: +2 points** - Plutus, Nexo, Shakepay, Reap
+- **No staking required: +2 points** - Cards without staking requirements
+- **Credit card type: +3 points** - Gemini, Nexo, EtherFi, Reap
 
 ---
 
-*Last updated: December 2025 - Research ongoing*
+*Last updated: December 2025 - Core research complete. Scores verified.*

@@ -78,6 +78,7 @@ Track significant changes to wallet statuses, recommendations, and documentation
 
 | Date | Wallet/Card | Change | Details |
 |------|-------------|--------|---------|
+| Dec 2025 | **Documentation** | Structure consolidation | Deleted SCORING.md, RESEARCH_NOTES.md, BUSINESS_CARDS_SUMMARY.md; merged content into main files to match software/hardware wallet structure (3 files each) |
 | Dec 2025 | **Documentation** | Score verification complete | Verified all 17 card score calculations match methodology |
 | Dec 2025 | **Mode Card** | Status → ⚠️ Verify | UK-based company, "up to 10%" rate needs verification; changed from "US only" |
 | Dec 2025 | **Shakepay Card** | Data fix | Fixed cashback rate from "1-2%" to verified "Up to 1.5%" |

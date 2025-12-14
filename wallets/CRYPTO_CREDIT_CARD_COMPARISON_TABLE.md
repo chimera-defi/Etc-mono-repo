@@ -29,7 +29,7 @@
 | **MCO Card** | - | Credit | 1-5% | $0 | 0% | MCO | $0-$50k+ | - | - | ❌ Discontinued | - | Replaced by CRO card |
 
 **Legend:**
-- **Score:** 0-100 weighted score (see [Scoring Methodology](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#scoring-methodology) and [Score Breakdown](./CRYPTO_CREDIT_CARD_SCORING.md))
+- **Score:** 0-100 weighted score (see [Scoring Methodology](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#scoring-methodology))
   - 🟢 **75+:** Highly Recommended
   - 🟡 **50-74:** Good Option
   - 🔴 **<50:** Consider Alternatives
@@ -52,7 +52,7 @@
 **📊 Scoring Note:**
 - Scores include "Human Suggestions" adjustments based on user experiences and company reputation
 - **Crypto.com Visa receives -20 points** due to poor user experiences, customer service issues, and staking lock-up periods
-- See [CRYPTO_CREDIT_CARD_SCORING.md](./CRYPTO_CREDIT_CARD_SCORING.md) for detailed score breakdowns
+- See [CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#score-summary) for score breakdowns
 
 ---
 
@@ -66,7 +66,7 @@
 - **Verified cards: +2 points** - Cards with verified information
 - **No staking required: +2 points** - Cards without staking requirements
 
-See [CRYPTO_CREDIT_CARD_SCORING.md](./CRYPTO_CREDIT_CARD_SCORING.md) for complete scoring breakdowns and [CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#scoring-methodology) for detailed methodology.
+See [CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#scoring-methodology) for detailed methodology and [score summary](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#score-summary).
 
 ---
 
