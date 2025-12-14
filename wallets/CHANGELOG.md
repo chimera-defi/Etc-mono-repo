@@ -78,6 +78,21 @@ Track significant changes to wallet statuses, recommendations, and documentation
 
 | Date | Wallet/Card | Change | Details |
 |------|-------------|--------|---------|
+| Dec 2025 | **Major Expansion** | 17 → 26 cards | Added 9 new cards: Bybit, OKX, KuCard, Kraken, Gnosis Pay, Redotpay, Hi Card, 1inch Card, Revolut |
+| Dec 2025 | **Provider Groupings** | New categorization | Cards grouped by exchange/provider with consistent scoring handicaps |
+| Dec 2025 | **Exchange Cards** | -3 pts handicap | Coinbase, Binance, Gemini, KuCoin, OKX, CoinJar, Kraken, Crypto.com, Bybit (custody risk) |
+| Dec 2025 | **Baanx Infrastructure** | Added section | Documented Baanx as white-label provider powering 1inch Card and others |
+| Dec 2025 | **Bybit Card** | Added (88 🟢) | Up to 10% cashback, EEA/Switzerland, business support |
+| Dec 2025 | **Hi Card** | Added (86 🟢) | hi.com Web3 neobank, up to 10% cashback |
+| Dec 2025 | **Gnosis Pay** | Added (78 🟢) | DeFi-native non-custodial card, EU/UK |
+| Dec 2025 | **1inch Card** | Added (75 🟢) | Baanx + Mastercard partnership, DeFi users |
+| Dec 2025 | **KuCard** | Added (72 🟡) | KuCoin exchange card, up to 4% cashback |
+| Dec 2025 | **Revolut Crypto** | Added (72 🟡) | Established fintech with crypto card |
+| Dec 2025 | **Redotpay** | Added (70 🟡) | Hong Kong-based, global multi-region card |
+| Dec 2025 | **OKX Card** | Added (68 🟡) | New Mastercard stablecoin partnership, launching |
+| Dec 2025 | **Kraken Card** | Added (60 🟡) | Limited availability, expanding |
+| Dec 2025 | **Monolith Card** | Marked discontinued | Ethereum card, no longer active |
+| Dec 2025 | **Argent Card** | User query resolved | Argent is wallet-only, no dedicated card product |
 | Dec 2025 | **Documentation** | Structure consolidation | Deleted SCORING.md, RESEARCH_NOTES.md, BUSINESS_CARDS_SUMMARY.md; merged content into main files to match software/hardware wallet structure (3 files each) |
 | Dec 2025 | **Documentation** | Score verification complete | Verified all 17 card score calculations match methodology |
 | Dec 2025 | **Mode Card** | Status → ⚠️ Verify | UK-based company, "up to 10%" rate needs verification; changed from "US only" |
