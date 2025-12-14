@@ -1,6 +1,6 @@
 # Crypto Credit Card Comparison Table
 
-> **Data Status:** ✅ Expanded to 26 cards (December 2025). Cards grouped by provider for consistent scoring. Verify all information on official websites before applying.
+> **Data Status:** ✅ Expanded to 27 cards (December 2025). Cards grouped by provider for consistent scoring. Verify all information on official websites before applying.
 
 **Last Updated:** December 2025
 
@@ -8,6 +8,7 @@
 
 | Card | Score | Type | Cash Back | Annual Fee | Foreign Fee | Crypto Rewards | Staking Req | Provider | Business | Website | Status | Best For | Notes |
 |------|-------|------|-----------|------------|-------------|----------------|-------------|----------|----------|---------|--------|----------|-------|
+| **Ready Card** | 90 🟢 | Debit | 0% | $0 | 0% | None | None | Ready (Argent) | ❌ | [ready.co/card](https://www.ready.co/card) | ✅ Active | Zero-fee | Formerly Argent, onchain bank, zero fees |
 | **Bybit Card** | 88 🟢 | Debit | Up to 10% | $0 | 0% | Multi-crypto | None | Bybit Exchange | ✅ | [bybit.com/cards](https://www.bybit.com/en/cards/) | ✅ Active | High cashback | EEA/Switzerland, up to 10% cashback |
 | **Mode Card** | 87 🟢 | Debit | Up to 10% | $0 | 0% | BTC | None | Mode | ❌ | [modeapp.com](https://modeapp.com) | ⚠️ Verify | Bitcoin rewards | ⚠️ UK-based - verify availability |
 | **Hi Card** | 86 🟢 | Debit | Up to 10% | $0 | 0% | HI | Tiered | hi.com | ❌ | [hi.com](https://hi.com) | ✅ Active | High cashback | Web3 neobank, up to 10% cashback |

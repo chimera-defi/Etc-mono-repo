@@ -41,6 +41,24 @@ const DOCUMENT_CONFIG: Record<string, Omit<MarkdownDocument, 'slug' | 'content'>
     category: 'comparison',
     order: 2,
   },
+  'CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md': {
+    title: 'Crypto Credit Card Comparison',
+    description: 'Comparison of 27 crypto credit and debit cards with cashback rates, fees, and provider groupings',
+    category: 'comparison',
+    order: 3,
+  },
+  'CRYPTO_CREDIT_CARD_COMPARISON.md': {
+    title: 'Crypto Credit Card Overview',
+    description: 'Quick reference guide to crypto credit and debit cards with provider groupings and recommendations',
+    category: 'comparison',
+    order: 3,
+  },
+  'CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md': {
+    title: 'Crypto Credit Card Comparison - Details',
+    description: 'Full documentation with card reviews, scoring methodology, business support, and recommendations',
+    category: 'comparison',
+    order: 3,
+  },
   'README.md': {
     title: 'Overview',
     description: 'Wallet research documentation hub - quick recommendations and data sources',
@@ -57,7 +75,7 @@ const DOCUMENT_CONFIG: Record<string, Omit<MarkdownDocument, 'slug' | 'content'>
     title: 'WalletConnect Research',
     description: 'Original detailed research on WalletConnect-compatible wallets',
     category: 'research',
-    order: 3,
+    order: 4,
   },
   'HARDWARE_WALLET_RESEARCH_TASKS.md': {
     title: 'Hardware Wallet Research Tasks',
@@ -126,6 +144,8 @@ export function getRelatedDocument(slug: string, type: 'table' | 'details'): Mar
     'wallet-comparison-unified-details': { table: 'wallet-comparison-unified-table', details: 'wallet-comparison-unified-details' },
     'hardware-wallet-comparison-table': { table: 'hardware-wallet-comparison-table', details: 'hardware-wallet-comparison-details' },
     'hardware-wallet-comparison-details': { table: 'hardware-wallet-comparison-table', details: 'hardware-wallet-comparison-details' },
+    'crypto-credit-card-comparison-table': { table: 'crypto-credit-card-comparison-table', details: 'crypto-credit-card-comparison-details' },
+    'crypto-credit-card-comparison-details': { table: 'crypto-credit-card-comparison-table', details: 'crypto-credit-card-comparison-details' },
   };
   
   const related = relatedMap[slug];
@@ -165,14 +185,17 @@ export function extractTableOfContents(content: string): { id: string; title: st
 export function getWalletStats(documents: MarkdownDocument[]): {
   softwareWallets: number;
   hardwareWallets: number;
+  cryptoCards: number;
   lastUpdated: string;
 } {
   const softwareDoc = documents.find(d => d.slug === 'wallet-comparison-unified-table' || d.slug === 'wallet-comparison-unified-details');
   const hardwareDoc = documents.find(d => d.slug === 'hardware-wallet-comparison-table' || d.slug === 'hardware-wallet-comparison-details');
+  const cryptoCardDoc = documents.find(d => d.slug === 'crypto-credit-card-comparison-table' || d.slug === 'crypto-credit-card-comparison-details');
   
   // Count wallets from tables (rough estimate from content)
   const softwareCount = softwareDoc?.content.match(/\|\s+\*\*[^|]+\*\*\s+\|/g)?.length || 24;
   const hardwareCount = hardwareDoc?.content.match(/\|\s+\[?\*\*[^|]+\*\*\]?\s+\|/g)?.length || 23;
+  const cryptoCardCount = cryptoCardDoc?.content.match(/\|\s+\*\*[^|]+\*\*\s+\|/g)?.length || 27;
   
   const latestUpdate = documents
     .filter(d => d.lastUpdated)
@@ -183,6 +206,7 @@ export function getWalletStats(documents: MarkdownDocument[]): {
   return {
     softwareWallets: softwareCount,
     hardwareWallets: hardwareCount,
+    cryptoCards: cryptoCardCount,
     lastUpdated: latestUpdate,
   };
 }

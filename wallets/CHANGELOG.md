@@ -78,7 +78,8 @@ Track significant changes to wallet statuses, recommendations, and documentation
 
 | Date | Wallet/Card | Change | Details |
 |------|-------------|--------|---------|
-| Dec 2025 | **Major Expansion** | 17 → 26 cards | Added 9 new cards: Bybit, OKX, KuCard, Kraken, Gnosis Pay, Redotpay, Hi Card, 1inch Card, Revolut |
+| Dec 2025 | **Major Expansion** | 17 → 27 cards | Added 10 new cards: Ready (Argent), Bybit, OKX, KuCard, Kraken, Gnosis Pay, Redotpay, Hi Card, 1inch Card, Revolut |
+| Dec 2025 | **Ready Card** | Added (90 🟢) | Formerly Argent Card - onchain bank with zero-fee debit card (EU/UK) |
 | Dec 2025 | **Provider Groupings** | New categorization | Cards grouped by exchange/provider with consistent scoring handicaps |
 | Dec 2025 | **Exchange Cards** | -3 pts handicap | Coinbase, Binance, Gemini, KuCoin, OKX, CoinJar, Kraken, Crypto.com, Bybit (custody risk) |
 | Dec 2025 | **Baanx Infrastructure** | Added section | Documented Baanx as white-label provider powering 1inch Card and others |

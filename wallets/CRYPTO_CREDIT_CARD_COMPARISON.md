@@ -1,6 +1,6 @@
 # Crypto-Backed Credit Card Comparison
 
-> **TL;DR:** Comprehensive comparison with scoring system (**26 cards**). Updated December 2025. Cards are grouped by provider/exchange for consistent scoring handicaps. Some cards marked ⚠️ require additional verification. Scores include Human Suggestions adjustments for UX and verification status.
+> **TL;DR:** Comprehensive comparison with scoring system (**27 cards**). Updated December 2025. Cards are grouped by provider/exchange for consistent scoring handicaps. Some cards marked ⚠️ require additional verification. Scores include Human Suggestions adjustments for UX and verification status.
 
 **Data Sources:** Official card websites, terms of service, public announcements (as of December 2025)
 
@@ -14,6 +14,7 @@
 
 | Card | Score | Cash Back | Annual Fee | Crypto Rewards | Business | Provider | Website | Status | Best For |
 |------|-------|-----------|------------|----------------|----------|----------|---------|--------|----------|
+| **Ready Card** | 90 🟢 | 0% | $0 | None (zero-fee) | ❌ | Ready (Argent) | [ready.co/card](https://www.ready.co/card) | ✅ Active | Zero-fee onchain (EU/UK) |
 | **Bybit Card** | 88 🟢 | Up to 10% | $0 | Multi-crypto | ✅ | Bybit Exchange | [bybit.com/cards](https://www.bybit.com/en/cards/) | ✅ Active | High cashback (EEA/CH) |
 | **Mode Card** | 87 🟢 | Up to 10% | $0 | BTC | ❌ | Mode | [modeapp.com](https://modeapp.com) | ⚠️ Verify | Bitcoin rewards (UK/EU) |
 | **Hi Card** | 86 🟢 | Up to 10% | $0 | HI | ❌ | hi.com | [hi.com](https://hi.com) | ✅ Active | High cashback (Global) |
@@ -95,6 +96,7 @@ Independent card providers, not tied to major exchanges.
 
 | Provider | Card | Score | Cash Back | Status |
 |----------|------|-------|-----------|--------|
+| **Ready (Argent)** | Ready Card | 90 🟢 | 0% (zero-fee) | ✅ Active |
 | **Mode** | Mode Card | 87 🟢 | Up to 10% | ⚠️ Verify |
 | **hi.com** | Hi Card | 86 🟢 | Up to 10% | ✅ Active |
 | **Plutus** | Plutus Card | 85 🟢 | 3-9% | ✅ Active |
@@ -171,10 +173,11 @@ Designed primarily for business/corporate use cases.
 - **MCO Card** (Crypto.com legacy) - Discontinued (replaced by CRO card)
 - **Monolith Card** - Discontinued (Ethereum card, inactive)
 
-### Cards NOT Found (User Queries)
+### Cards Clarified (User Queries)
 
-- **Argent Card** - ❌ Argent is a wallet only, no dedicated card product found
-- **Reddy** - ❓ Not found - user may have meant **Redotpay** (added above)
+- **Argent Card → Ready Card** - ✅ Found! Argent pivoted to **Ready** (formerly Argent) - now an onchain bank with zero-fee debit card at [ready.co](https://www.ready.co/card)
+- **Reddy → Ready Card** - ✅ This was likely referring to **Ready Card** (formerly Argent) - added above
+- **Redotpay** - ✅ Also added as a separate card (Hong Kong-based crypto card)
 
 ---
 
