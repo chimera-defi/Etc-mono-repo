@@ -8,7 +8,7 @@
 
 | Card | Score | Type | Cash Back | Annual Fee | Foreign Fee | Crypto Rewards | Staking Req | Business | Website | Status | Best For | Notes |
 |------|-------|------|-----------|------------|-------------|----------------|-------------|----------|---------|--------|----------|-------|
-| **Mode Card** | 90 🟢 | Debit | Up to 10% | $0 | 0% | BTC | None | ❌ | [modeapp.com](https://modeapp.com) | ✅ Active | Bitcoin rewards | Bitcoin rewards |
+| **Mode Card** | 90 🟢 | Debit | Up to 10% | $0 | 0% | BTC | None | ❌ | [modeapp.com](https://modeapp.com) | ⚠️ Verify | Bitcoin rewards | ⚠️ UK-based company - verify availability |
 | **Plutus Card** | 88 🟢 | Debit | 3-9% | £0 | 0% | PLU | Optional | ❌ | [plutus.it](https://plutus.it) | ✅ Active | EU users | ✅ Verified: 3% base, up to 9% via loyalty tiers |
 | **Coinbase Card** | 85 🟢 | Debit | 1-4% | $0 | 0% | BTC, ETH, others | None | ❌ | [coinbase.com/card](https://www.coinbase.com/card) | ✅ Active | Coinbase users | Debit card, instant crypto rewards |
 | **Nexo Card** | 84 🟢 | Credit | Up to 2% | $0 | 0% | NEXO | None | ✅ | [nexo.com/card](https://nexo.com/card) | ✅ Active | Nexo users | ✅ Verified: Up to 2% cashback, dual-mode (Debit + Credit), no fees |
@@ -18,18 +18,18 @@
 | **Gemini Credit Card** | 75 🟢 | Credit | 1-3% | $0 | 0% | BTC, ETH | None | ❌ | [gemini.com/credit-card](https://www.gemini.com/credit-card) | ✅ Active | Gemini users | Credit card, crypto rewards |
 | **Shakepay Card** | 72 🟡 | Debit | Up to 1.5% | $0 | 0% | BTC | None | ❌ | [shakepay.com/card](https://shakepay.com/card) | ✅ Active | Canada | ✅ Verified: Up to 1.5% cashback, Canada only |
 | **Uphold Card** | 70 🟡 | Debit | 1-4% | $0 | 0% | XRP, BTC, ETH, others | None | ⚠️ Verify | [uphold.com/card](https://uphold.com/card) | ⚠️ Verify | Multi-crypto | ⚠️ Website returns 404 - verify card status |
-| **Crypto.com Visa** | 59 🟡 | Debit | 0.5-8% | $0 | 0% | CRO | $0-$400k+ | ✅ | [crypto.com/cards](https://crypto.com/cards) | ✅ Active | CRO holders | ⚠️ -20 pts: Poor UX, customer service issues, staking lock-ups |
 | **CryptoSpend Card** | 62 🟡 | Debit | 1% | $0 | 0% | BTC, ETH, others | None | ❌ | [cryptospend.com.au](https://cryptospend.com.au) | ✅ Active | Australia | Australia only |
 | **CoinJar Card** | 60 🟡 | Debit | 1% | $0 | 0% | BTC | None | ❌ | [coinjar.com/card](https://www.coinjar.com/card) | ⚠️ Verify | Australia | ⚠️ Website returns 404 - verify card status |
+| **Crypto.com Visa** | 59 🟡 | Debit | 0.5-8% | $0 | 0% | CRO | $0-$400k+ | ✅ | [crypto.com/cards](https://crypto.com/cards) | ✅ Active | CRO holders | ⚠️ -20 pts: Poor UX, customer service issues, staking lock-ups |
 | **Swissborg Card** | 58 🟡 | Debit | 1-2% | $0 | 0% | CHSB | None | ❌ | [swissborg.com/card](https://swissborg.com/card) | ⚠️ Verify | EU users | ⚠️ Website returns 404 - verify card status |
 | **Reap** | 55 🟡 | Business Credit | 0% | $0 | 2% | Stablecoins | 1:1 Collateral | ✅ | [reap.global](https://reap.global) | ✅ Active | Business | ✅ Verified: Corporate Visa card, FREE annual fee, 2% ATM/FX fees, USD/HKD |
-| **BitPay Card** | 52 🟡 | Debit | 0% | $0 | 0% | BTC | None | ⚠️ Verify | [bitpay.com/card](https://bitpay.com/card) | ✅ Active | Bitcoin users | Prepaid debit |
+| **BitPay Card** | 52 🟡 | Prepaid | 0% | $0 | 0% | None | None | ⚠️ Verify | [bitpay.com/card](https://bitpay.com/card) | ✅ Active | Bitcoin users | Prepaid debit |
 | **EtherFi Cash** | 50 🟡 | Credit | Cashback | TBD | TBD | ETH, BTC, Stablecoins | TBD | ✅ | [ether.fi/cash](https://ether.fi/cash) | ✅ Active | DeFi users | ⚠️ Rates TBD - pending verification |
-| **BlockFi Rewards** | - | Credit | 1.5% | $0 | 0% | BTC | None | BlockFi | ❌ Discontinued | - | Historical reference | Bankruptcy 2022 |
-| **MCO Card** | - | Credit | 1-5% | $0 | 0% | MCO | $0-$50k+ | Crypto.com | ❌ Discontinued | - | Historical reference | Replaced by CRO card |
+| **BlockFi Rewards** | - | Credit | 1.5% | $0 | 0% | BTC | None | - | - | ❌ Discontinued | - | Bankruptcy 2022 |
+| **MCO Card** | - | Credit | 1-5% | $0 | 0% | MCO | $0-$50k+ | - | - | ❌ Discontinued | - | Replaced by CRO card |
 
 **Legend:**
-- **Score:** 0-100 weighted score (see [Scoring Methodology](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#scoring-methodology) and [Score Breakdown](./CRYPTO_CREDIT_CARD_SCORING.md))
+- **Score:** 0-100 weighted score (see [Scoring Methodology](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#scoring-methodology))
   - 🟢 **75+:** Highly Recommended
   - 🟡 **50-74:** Good Option
   - 🔴 **<50:** Consider Alternatives
@@ -52,7 +52,7 @@
 **📊 Scoring Note:**
 - Scores include "Human Suggestions" adjustments based on user experiences and company reputation
 - **Crypto.com Visa receives -20 points** due to poor user experiences, customer service issues, and staking lock-up periods
-- See [CRYPTO_CREDIT_CARD_SCORING.md](./CRYPTO_CREDIT_CARD_SCORING.md) for detailed score breakdowns
+- See [CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#score-summary) for score breakdowns
 
 ---
 
@@ -66,7 +66,7 @@
 - **Verified cards: +2 points** - Cards with verified information
 - **No staking required: +2 points** - Cards without staking requirements
 
-See [CRYPTO_CREDIT_CARD_SCORING.md](./CRYPTO_CREDIT_CARD_SCORING.md) for complete scoring breakdowns and [CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#scoring-methodology) for detailed methodology.
+See [CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#scoring-methodology) for detailed methodology and [score summary](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#score-summary).
 
 ---
 
@@ -322,7 +322,7 @@ See [CRYPTO_CREDIT_CARD_SCORING.md](./CRYPTO_CREDIT_CARD_SCORING.md) for complet
 ## Comparison Summary
 
 ### Top Scored Cards (🟢 75+ Highly Recommended)
-1. **Mode Card** - 90 🟢 - Up to 10% Bitcoin rewards (US)
+1. **Mode Card** - 90 🟢 ⚠️ - Up to 10% Bitcoin rewards (UK/EU - verify)
 2. **Plutus Card** - 88 🟢 - 3-9% PLU rewards (EU/UK)
 3. **Coinbase Card** - 85 🟢 - 1-4% multi-crypto rewards (US)
 4. **Nexo Card** - 84 🟢 - Up to 2% crypto-backed credit (EU/UK)
@@ -343,7 +343,8 @@ See [CRYPTO_CREDIT_CARD_SCORING.md](./CRYPTO_CREDIT_CARD_SCORING.md) for complet
 - Notable exception: Some premium tiers may have fees (verify per card)
 
 ### Geographic Availability
-- **US Only:** Coinbase, Gemini, BitPay, Fold, Mode
+- **US Only:** Coinbase, Gemini, BitPay, Fold
+- **UK/EU (verify):** Mode
 - **US, UK, EU:** Uphold (varies by region)
 - **EU/UK:** Nexo, Plutus, Swissborg
 - **Global:** Crypto.com, Binance, Wirex (varies by region)
