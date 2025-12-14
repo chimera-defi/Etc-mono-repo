@@ -14,7 +14,8 @@ LOT is an MCP server + IDE extension concept that automates third-party service 
 | [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md) | 16-week implementation roadmap with technical decisions and code examples |
 | [USER_FLOWS.md](./USER_FLOWS.md) | User experience flows comparing different authentication approaches |
 | [DETAILED_FLOWS_B_C.md](./DETAILED_FLOWS_B_C.md) | In-depth exploration of Browser OAuth (Option B) and Manual Entry (Option C) with full chat mockups, error handling, and implementation code |
-| [PROVIDER_TEMPLATES.md](./PROVIDER_TEMPLATES.md) | **Comprehensive provider catalog** with 30+ services including Google (Analytics, Gmail, OAuth, Maps), email services, auth providers, payments, databases, AI APIs, and more |
+| [PROVIDER_TEMPLATES.md](./PROVIDER_TEMPLATES.md) | Comprehensive provider catalog with 30+ services including Google (Analytics, Gmail, OAuth, Maps), email services, auth providers, payments, databases, AI APIs, and more |
+| [ADVERSARIAL_ANALYSIS.md](./ADVERSARIAL_ANALYSIS.md) | **Critical analysis** - Why this might fail, competitive threats, monetization challenges, and fundraising reality check |
 
 ## Quick Summary
 
