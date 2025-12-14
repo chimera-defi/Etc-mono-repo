@@ -35,13 +35,15 @@ This document tracks verification status and potential inaccuracies in the crypt
 
 The following cards' websites exist but initial scraping didn't find specific rate information (may require JavaScript or deeper navigation):
 - Coinbase Card
-- Binance Card
-- Wirex Card
+- Binance Card - "Up to 8%" (high rate, verify if requires BNB staking)
+- Wirex Card - "Up to 8%" (high rate, verify if requires WXT staking)
 - Gemini Credit Card
-- Mode Card
+- Mode Card - "Up to 10%" ⚠️ **HIGH PRIORITY** (exceptionally high rate, UK-based company)
 - BitPay Card (cashback mentioned but no percentage found)
 - Fold Card (bitcoin rewards mentioned but no percentage found)
 - CryptoSpend Card
+
+**Note:** High cashback rates (8-10%) typically require significant token staking/holding. Verify actual base rates vs. maximum rates with staking requirements.
 
 ---
 
@@ -213,6 +215,22 @@ The following cards' websites exist but initial scraping didn't find specific ra
   - Check main website navigation
   - Verify if card is still offered
 
+### Cards Needing Deeper Verification
+
+#### Mode Card
+- **Website:** https://modeapp.com
+- **Status:** ⚠️ Needs Verification
+- **Issue:** Mode is a UK-based fintech company (founded in London), but original documentation claimed "US only" availability
+- **Concerns:**
+  - "Up to 10%" cash back rate is exceptionally high - needs verification
+  - Geographic availability unclear (UK? EU? US?)
+  - Actual terms and conditions unknown
+- **Action Required:** Verify on official website:
+  - Actual cash back rates and any conditions/caps
+  - Geographic availability (which countries/regions served)
+  - Fee structure
+  - Current card status
+
 ### Cards Not Verified (No Website Access)
 
 #### Coinbase Card
@@ -298,9 +316,10 @@ All cards should be verified for:
 ## Verification Priority
 
 ### High Priority (Verify Immediately)
-- **Reap** - No verified information available
+- **Mode Card** - UK-based company, "up to 10%" rate needs verification, geographic availability unclear
+- **EtherFi Cash** - Rates and fees TBD, requires deeper verification
 - Cards with "TBD" or "⚠️ Verify" markers
-- Cards with recent changes (check changelog)
+- Cards with 404 errors (Swissborg, Uphold, CoinJar)
 
 ### Medium Priority (Periodic Verification)
 - Cards with complex tiered rewards
