@@ -28,7 +28,7 @@
 | **Kraken Card** | 60 🟡 | Debit | ⚠️ | 🇺🇸🇪🇺 US/EU | TBD | $0 | Multi | [Kraken](https://www.kraken.com) | 🔄 | Kraken users |
 | **Crypto.com Visa** | 57 🟡 | Debit | ✅ | 🌍 Global | 0.5-8% | $0 | CRO | [Crypto.com](https://crypto.com/cards) | ✅ | CRO holders ⚠️ |
 | **Swissborg Card** | 56 🟡 | Debit | ❌ | 🇪🇺 EU | 1-2% | $0 | CHSB | [Swissborg](https://swissborg.com/card) | ⚠️ | EU users |
-| **Reap** | 55 🟡 | Business | ✅ | 🌏 APAC+ | 0% | 2% FX | Stables | [Reap](https://reap.global) | ✅ | Business |
+| **Reap** | 55 🟡 | Business | ✅ | 🌍 Global | 0% | 2% FX | Stables | [Reap](https://reap.global) | ✅ | Business |
 | **BitPay Card** | 52 🟡 | Prepaid | ⚠️ | 🇺🇸 US | 0% | $0 | None | [BitPay](https://bitpay.com/card) | ✅ | BTC spending |
 | **EtherFi Cash** | 50 🟡 | Credit | ✅ | 🌍 Global | TBD | TBD | ETH, BTC | [EtherFi](https://ether.fi/cash) | ✅ | DeFi users |
 
@@ -39,9 +39,9 @@
 
 **Region Key:**
 - 🇺🇸 **US** = US only | 🇪🇺 **EU/UK** = Europe + UK | 🇬🇧 **UK** = UK only | 🇨🇦 **CA** = Canada | 🇦🇺 **AU** = Australia
-- 🌍 **Global** = Most regions | 🌏 **APAC+** = Asia-Pacific focus | **\*** = Not available in US
+- 🌍 **Global** = Most regions (200+ countries) | **\*** = Not available in US
 
-**🇺🇸 Cards Available to Americans:** Coinbase, Fold, Gemini, Uphold, Kraken, BitPay, Crypto.com, Wirex, Revolut, Hi Card, Redotpay, EtherFi
+**🇺🇸 Cards Available to Americans:** Coinbase, Fold, Gemini, Uphold, Kraken, BitPay, Crypto.com, Wirex, Revolut, Hi Card, Redotpay, EtherFi, Reap (business)
 
 **⚠️ Scoring Notes:**
 - Exchange-based cards receive **-3 pts** (custody risk): Coinbase, Binance, Gemini, KuCoin, OKX, CoinJar, Kraken, Crypto.com, Bybit
