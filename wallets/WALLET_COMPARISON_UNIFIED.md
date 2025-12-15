@@ -34,7 +34,7 @@
 
 ---
 
-## Complete Wallet Comparison (All 24 EVM Wallets)
+## Complete Wallet Comparison (All 25 EVM Wallets)
 
 | Wallet | Score | Core | Rel/Mo | RPC | GitHub | Active | Chains | Devices | Testnets | License | Audits | Funding | Tx Sim | Scam | Account | ENS/Naming | HW | Best For | Rec |
 |--------|-------|------|--------|-----|--------|--------|--------|---------|----------|---------|--------|---------|--------|------|---------|------------|-----|----------|-----|
@@ -62,6 +62,7 @@
 | **Frame** | 32 | ❌ | ~1 | ✅ | [frame](https://github.com/floating/frame) | ❌ | Any | 💻 | ✅ | ✅ GPL-3 | ❓ None | 🔴 Donate | ✅ | ⚠️ | EOA | ❌ None | ✅ | ~~Desktop~~ | 🔴 |
 | **Argent** | 30 | ⚠️ | ~1 | ✅ | [argent-x](https://github.com/argentlabs/argent-x) | ❌ | 2 | 📱🌐⁂ | ✅ | ✅ GPL-3 | ❓ None | 🔴 VC | ❌ | ⚠️ | 4337 | ❌ None | ✅ | ~~Starknet~~ | 🔴 |
 | **Block** | 25 | ✅ | ~2 | ✅ | [extension](https://github.com/block-wallet/extension) | ❌ | 20+ | 📱🌐 | ✅ | ✅ MIT | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ❌ None | ✅ | ~~Stability~~ | 🔴 |
+| **Kohaku**⊕ | 45 | ❌ | 0 | ✅ | [kohaku-extension](https://github.com/ethereum/kohaku-extension) | ❌ | EVM | 🌐 | ✅ | ✅ GPL-3 | ❓ Fork | 🟡 EF | ✅ | ✅ | 7702+4337 | ✅ Basic | ✅ | ~~Privacy~~ | 🔴 |
 
 **Quick Reference:**
 - **Score:** 0-100 (see [Scoring Methodology](#-wallet-scores-weighted-methodology)) | **Core:** ✅ Both mobile+ext | **Rel/Mo:** Releases/month (lower = stable)
@@ -101,6 +102,7 @@
 | **Frame** | Feb 01, 2025 | 1,160 | 95 | 8.2% | ⭐⭐⭐⭐ |
 | **Argent** | Mar 14, 2025 | 641 | 93 | 14.5% | ⭐⭐⭐⭐ |
 | **Block** | Nov 27, 2024 | 96 | 45 | 46.9% | ⭐⭐⭐⭐ |
+| **Kohaku**⊕ | Aug 12, 2025 | 62 | 14 | 22.6% | ⭐⭐ |
 
 **GitHub Legend:**
 - **Ratio:** Issues ÷ Stars (lower = better code quality). Rainbow 0.3% is excellent, MetaMask 19.4% indicates maintenance burden.
@@ -169,6 +171,7 @@
 - **Block Wallet** — Abandoned (no commits since Nov 2024)
 - **Frame** — Inactive (no commits since Feb 2025)
 - **Argent** — Inactive, Starknet-only desktop
+- **Kohaku** — Stale Ambire v5.18.0 fork (no commits since Aug 2025)
 - **imToken** — Inactive (180+ days)
 
 ### ⚠️ MetaMask: Why It's Ranked Lower
@@ -215,6 +218,7 @@ Scores prioritize what matters for developers: platform coverage, stability, and
 | **Frame** | 32 | 0/25 | 12/20 | 10/25 | 0/15 | 10/10 | 0/5 | ❌ Inactive, desktop only |
 | **Argent** | 30 | 0/25 | 15/20 | 0/25 | 0/15 | 10/10 | 5/5 | ❌ Inactive, Starknet desktop |
 | **Block** | 25 | 25/25 | 0/20 | 0/25 | 0/15 | 0/10 | 0/5 | ❌ Abandoned (1+ year) |
+| **Kohaku**⊕ | 45 | 0/25 | 20/20 | 15/25 | 0/15 | 10/10 | 0/5 | ❌ Stale Ambire fork (Aug 2025) |
 
 **Scoring Methodology (100 points total):**
 
@@ -455,6 +459,7 @@ Complete explanations for all table columns:
 - § Brave Wallet is built into Brave browser
 - ‡ Ledger Live is hardware wallet companion
 - ⁂ Argent desktop extension is Starknet-only
+- ⊕ Kohaku is a stale fork of Ambire v5.18.0 under Ethereum Foundation — use Ambire instead
 - ~~Strikethrough~~ = was recommended, now inactive
 
 **Tracked EIPs:** EIP-712 (Typed Data), EIP-2612 (Permit), EIP-4337 (Account Abstraction), EIP-5792 (Wallet Call API), EIP-7702 (Set EOA Code), EIP-7710 (Smart Contract Delegation) — see [EIP Support Matrix](#-eip-support-matrix)
@@ -1041,6 +1046,7 @@ Each wallet has quirks. Test your dApp with at least 3 wallets before production
 | [floating/frame](https://github.com/floating/frame) | Feb 01, 2025 | ❌ Inactive |
 | [brave/brave-browser](https://github.com/brave/brave-browser) | Nov 28, 2025 | ✅ Active |
 | [enkryptcom/enKrypt](https://github.com/enkryptcom/enKrypt) | Nov 27, 2025 | ✅ Active |
+| [ethereum/kohaku-extension](https://github.com/ethereum/kohaku-extension) | Aug 12, 2025 | ❌ Stale Fork |
 
 **Not Verified (private repos):** OKX, 1inch, Zerion, Phantom
 
@@ -1055,6 +1061,7 @@ Several previously recommended wallets have **stopped active development**. See 
 | **Block Wallet** | Nov 2024 | ❌ INACTIVE | 1 year without commits |
 | **Frame** | Feb 2025 | ❌ INACTIVE | 10 months without commits |
 | **Argent-X** | Mar 2025 | ❌ INACTIVE | 8 months without commits |
+| **Kohaku**⊕ | Aug 2025 | ❌ STALE FORK | Ethereum Foundation fork of Ambire v5.18.0 — use Ambire instead |
 | **Coinbase SDK** | Jul 2025 | ⚠️ SLOW | 4 months without commits |
 | **Ambire** | Dec 2025 | ✅ ACTIVE | Active development, v5.32.2 released Dec 10, 2025 |
 | **Wigwam** | Sep 2025 | ⚠️ SLOW | 2+ months without commits |

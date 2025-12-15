@@ -1,6 +1,6 @@
 # Crypto Wallet Comparison for Developers
 
-## Complete Wallet Comparison (All 24 EVM Wallets)
+## Complete Wallet Comparison (All 25 EVM Wallets)
 
 | Wallet | Score | Core | Rel/Mo | RPC | GitHub | Active | Chains | Devices | Testnets | License | Audits | Funding | Tx Sim | Scam | Account | ENS/Naming | HW | Best For | Rec |
 |--------|-------|------|--------|-----|--------|--------|--------|---------|----------|---------|--------|---------|--------|------|---------|------------|-----|----------|-----|
@@ -28,6 +28,7 @@
 | **Frame** | 32 | ❌ | ~1 | ✅ | [frame](https://github.com/floating/frame) | ❌ | Any | 💻 | ✅ | ✅ GPL-3 | ❓ None | 🔴 Donate | ✅ | ⚠️ | EOA | ❌ None | ✅ | ~~Desktop~~ | 🔴 |
 | **Argent** | 30 | ⚠️ | ~1 | ✅ | [argent-x](https://github.com/argentlabs/argent-x) | ❌ | 2 | 📱🌐⁂ | ✅ | ✅ GPL-3 | ❓ None | 🔴 VC | ❌ | ⚠️ | 4337 | ❌ None | ✅ | ~~Starknet~~ | 🔴 |
 | **Block** | 25 | ✅ | ~2 | ✅ | [extension](https://github.com/block-wallet/extension) | ❌ | 20+ | 📱🌐 | ✅ | ✅ MIT | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ❌ None | ✅ | ~~Stability~~ | 🔴 |
+| **Kohaku**⊕ | 45 | ❌ | 0 | ✅ | [kohaku-extension](https://github.com/ethereum/kohaku-extension) | ❌ | EVM | 🌐 | ✅ | ✅ GPL-3 | ❓ Fork | 🟡 EF | ✅ | ✅ | 7702+4337 | ✅ Basic | ✅ | ~~Privacy~~ | 🔴 |
 
 **Quick Reference:**
 - **Score:** 0-100 (see [Scoring Methodology](./WALLET_COMPARISON_UNIFIED_DETAILS.md#-wallet-scores-weighted-methodology)) | **Core:** ✅ Both mobile+ext | **Rel/Mo:** Releases/month (lower = stable)
@@ -38,6 +39,8 @@
 **Detailed Legend:** See [Column Definitions](./WALLET_COMPARISON_UNIFIED_DETAILS.md#column-definitions) in the full documentation.
 
 **⚠️ Core Criteria:** Wallets need BOTH mobile app AND browser extension. Wallets marked ❌ in "Core" column don't meet this requirement.
+
+**Special Notes:** † Safe = web app only | § Brave = built into browser | ‡ Ledger Live = HW companion | ⁂ Argent = Starknet-only | ⊕ Kohaku = stale Ambire v5.18.0 fork (use Ambire instead)
 
 ---
 
