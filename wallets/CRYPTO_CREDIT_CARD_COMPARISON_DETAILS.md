@@ -794,7 +794,7 @@ Reap is a business-focused payment platform offering corporate Visa credit cards
 **Requirements:**
 - Business account required
 - Collateral: 1:1 ratio ✅ Verified (Credit limit = 100% of collateral)
-- Available in: Hong Kong, Singapore, Mexico, Brazil (varies by region)
+- Available in: 200+ countries globally including US, EU, UK, Canada, Hong Kong, Singapore, Australia, and more
 
 **Best For:**
 - Businesses needing corporate credit cards
