@@ -457,7 +457,7 @@ Complete explanations for all table columns:
 - ⁂ Argent desktop extension is Starknet-only
 - ~~Strikethrough~~ = was recommended, now inactive
 
-**Tracked EIPs:** EIP-712 (Typed Data), EIP-2612 (Permit), EIP-4337 (Account Abstraction), EIP-5792 (Wallet Call API), EIP-7702 (Set EOA Code) — see [EIP Support Matrix](#-eip-support-matrix)
+**Tracked EIPs:** EIP-712 (Typed Data), EIP-2612 (Permit), EIP-4337 (Account Abstraction), EIP-5792 (Wallet Call API), EIP-7702 (Set EOA Code), EIP-7710 (Smart Contract Delegation) — see [EIP Support Matrix](#-eip-support-matrix)
 
 ---
 
@@ -602,35 +602,36 @@ See [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON.md) for detailed h
 
 Detailed EIP support for developers building dApps:
 
-| Wallet | EIP-712 | EIP-2612 | EIP-4337 | EIP-5792 | EIP-7702 | Typed Data |
-|--------|---------|----------|----------|----------|----------|------------|
-| **MetaMask** | ✅ | ✅ | ⚠️ Snap | ⚠️ Partial | ✅ | ✅ v4 |
-| **Rabby** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
-| **Safe** | ✅ | ✅ | ✅ | ⚠️ Partial | ❌ | ✅ v4 |
-| **Rainbow** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
-| **Coinbase** | ✅ | ✅ | ✅ | ⚠️ Partial | ❌ | ✅ v4 |
-| **Trust** | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ v4 |
-| **Ambire** | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ v4 |
-| **Brave** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
-| **Ledger Live** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
-| **Sequence** | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ v4 |
-| **Uniswap** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
-| **Enkrypt** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
-| **MEW** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
-| **Phantom** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
-| **Daimo** | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ v4 |
-| **Frame** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
-| **OKX** | ✅ | ✅ | ❌ | ⚠️ Partial | ✅ | ✅ v4 |
-| **Zerion** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
-| **Taho** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
-| **Argent** | ✅ | ✅ | ✅ | ⚠️ Partial | ❌ | ✅ v4 |
+| Wallet | EIP-712 | EIP-2612 | EIP-4337 | EIP-5792 | EIP-7702 | EIP-7710 | Typed Data |
+|--------|---------|----------|----------|----------|----------|----------|------------|
+| **MetaMask** | ✅ | ✅ | ⚠️ Snap | ⚠️ Partial | ✅ | ⚠️ Alpha | ✅ v4 |
+| **Rabby** | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ v4 |
+| **Safe** | ✅ | ✅ | ✅ | ⚠️ Partial | ❌ | ❌ | ✅ v4 |
+| **Rainbow** | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ v4 |
+| **Coinbase** | ✅ | ✅ | ✅ | ⚠️ Partial | ❌ | ❌ | ✅ v4 |
+| **Trust** | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ✅ v4 |
+| **Ambire** | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ v4 |
+| **Brave** | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ v4 |
+| **Ledger Live** | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ v4 |
+| **Sequence** | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ v4 |
+| **Uniswap** | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ v4 |
+| **Enkrypt** | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ v4 |
+| **MEW** | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ v4 |
+| **Phantom** | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ v4 |
+| **Daimo** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ v4 |
+| **Frame** | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ v4 |
+| **OKX** | ✅ | ✅ | ❌ | ⚠️ Partial | ✅ | ❌ | ✅ v4 |
+| **Zerion** | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ v4 |
+| **Taho** | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ v4 |
+| **Argent** | ✅ | ✅ | ✅ | ⚠️ Partial | ❌ | ❌ | ✅ v4 |
 
 **EIP Definitions:**
 - **EIP-712:** Typed structured data hashing and signing (common for permits, orders) — Foundational standard for human-readable message signing
 - **EIP-2612:** Permit extension for ERC-20 (gasless approvals)
-- **EIP-4337:** Account Abstraction (smart contract wallets, paymasters)
+- **EIP-4337:** Account Abstraction (smart contract wallets, paymasters) — enables **gas abstraction** (pay gas in any token like USDC), **sponsored transactions** (someone else pays your gas), batching, and social recovery
 - **EIP-5792:** Wallet Call API (`wallet_sendCalls` method for batch transactions, atomic operations)
-- **EIP-7702:** Set EOA account code (upgrade EOA to smart account temporarily)
+- **EIP-7702:** Set EOA account code (upgrade EOA to smart account temporarily) — enables batching, gas sponsorship, and session keys for regular wallets without converting to smart contract wallet
+- **EIP-7710:** Smart Contract Delegation (⚠️ Draft) — enables **persistent sessions** with dApps without repeated signing, **delegated permissions** to AI agents or automated systems, and shareable invite links with bounded capabilities. Works with EIP-4337. Related: EIP-7715 (wallet API for granting permissions). MetaMask has alpha support via [Delegation Framework](https://github.com/MetaMask/delegation-framework) (Gated Alpha).
 - **EIP-7730:** Structured Data Clear Signing Format — Proposed by Ledger, currently Draft status. Standardizes JSON format for clear-signing smart contract calls and typed messages. Designed for hardware wallets with limited screen space. **Wallet support status unknown** — too new for widespread adoption (as of Dec 2025)
 - **Typed Data:** eth_signTypedData version support (v4 is current standard)
 
@@ -660,6 +661,7 @@ Detailed EIP support for developers building dApps:
 - EIP-4337 requires bundler infrastructure — only relevant for smart wallets
 - EIP-5792 is new (2024) — Sequence has full support; MetaMask, Coinbase, OKX, Safe, and Argent have partial support. Standardizes `wallet_sendCalls` for atomic batch transactions.
 - EIP-7702 is cutting edge — MetaMask, Ambire, Trust, and OKX support it ([source](https://github.com/fireblocks-labs/awesome-eip-7702#wallets-support-updates))
+- EIP-7710 is Draft status — MetaMask has ⚠️ Alpha support via the [Delegation Framework](https://github.com/MetaMask/delegation-framework) (Gated Alpha, not yet GA). Enables persistent dApp sessions without repeated signing, delegated permissions to AI agents, and shareable invite links with bounded capabilities.
 
 ---
 
