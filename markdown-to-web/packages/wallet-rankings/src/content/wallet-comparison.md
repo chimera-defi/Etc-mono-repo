@@ -14,68 +14,73 @@ meta:
 
 > **TL;DR:** Use **Rabby** for development (transaction simulation), **Safe** or **Trust Wallet** for production (active development + stable), and **MetaMask** only for compatibility testing.
 
-**Data Source:** GitHub REST API, November 2024 (activity updated November 29, 2025)
+**Data Source:** GitHub REST API, December 2025 | [Related: Hardware Wallet Comparison](/hardware-wallet-comparison)
 
 ---
 
 ## Complete Wallet Comparison (All 19 EVM Wallets)
 
-| Wallet | GitHub | Last Commit | Active | Chains | RPC | Stars | Issues | Ratio | Rel/mo | Stability | Browser Ext | Mobile | Tx Sim | EIP-4337 | Open Source | Best For | Alt | Rec |
-|--------|--------|-------------|--------|--------|-----|-------|--------|-------|--------|-----------|-------------|--------|--------|----------|-------------|----------|-----|-----|
-| **MetaMask** | [metamask-extension](https://github.com/MetaMask/metamask-extension) | Nov 27, 2025 | ✅ | Any | ✅ | 12,949 | 2,509 | 19.4% | ~8 | ⭐⭐ | ✅ | ✅ | ❌ | ⚠️ | ✅ | Compatibility | - | 🔴 |
-| **Rabby** | [Rabby](https://github.com/RabbyHub/Rabby) | Nov 21, 2025 | ✅ | 94 | ✅ | 1,726 | 120 | 7.0% | ~5.7 | ⭐⭐⭐⭐ | ✅ | ✅ | ✅ | ❌ | ✅ | Development | - | 🟢 |
-| **Coinbase** | [coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | Jul 11, 2025 | ⚠️ | 20+ | ⚠️ | 1,695 | 44 | 2.6% | - | ⭐⭐⭐⭐ | ✅ | ✅ | ❌ | ✅ | ⚠️ | Production | Trust | 🟡 |
-| **Trust** | [wallet-core](https://github.com/trustwallet/wallet-core) | Nov 27, 2025 | ✅ | 163 | ✅ | 3,354 | 69 | 2.1% | - | ⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ⚠️ | Multi-chain | - | 🟢 |
-| **Rainbow** | [rainbow](https://github.com/rainbow-me/rainbow) | Nov 26, 2025 | ✅ | 15+ | ⚠️ | 4,238 | 13 | 0.3% | ~4.3 | ⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ✅ | NFT/Ethereum | - | 🟢 |
-| **Taho** | [extension](https://github.com/tahowallet/extension) | Oct 30, 2025 | ⚠️ | EVM | ✅ | 3,179 | 338 | 10.6% | - | ⭐⭐⭐ | ✅ | ❌ | ❌ | ❌ | ✅ | Community | Rainbow | 🟡 |
-| **MEW** | [MyEtherWallet](https://github.com/MyEtherWallet/MyEtherWallet) | Nov 27, 2025 | ✅ | ETH/EVM | ✅ | 1,560 | 47 | 3.0% | - | ⭐⭐⭐⭐ | ❌* | ✅ | ❌ | ❌ | ✅ | Ethereum | - | 🟢 |
-| **Ambire** | [wallet](https://github.com/AmbireTech/wallet) | Aug 12, 2025 | ⚠️ | EVM | ✅ | 213 | 2 | 0.9% | - | ⭐⭐⭐⭐ | ✅ | ✅ | ❌ | ✅ | ✅ | Smart wallet | Safe | 🟡 |
-| **Block** | [extension](https://github.com/block-wallet/extension) | Nov 27, 2024 | ❌ | ~20 | ✅ | 96 | 45 | 46.9% | ~1.7 | ⭐⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ✅ | ~~Max stability~~ | Rainbow | 🔴 |
-| **Wigwam** | [wigwam](https://github.com/wigwamapp/wigwam) | Sep 11, 2025 | ⚠️ | Any | ✅ | 83 | 7 | 8.4% | ~2 | ⭐⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ✅ | Stability | - | 🟡 |
-| **Safe** | [safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | Nov 27, 2025 | ✅ | 30+ | ✅ | 524 | 114 | 21.8% | - | ⭐⭐⭐⭐ | ❌ | ✅ | ❌ | ✅ | ✅ | Enterprise | - | 🟢 |
-| **Argent** | [argent-x](https://github.com/argentlabs/argent-x) | Mar 14, 2025 | ❌ | 2 | ❌ | 641 | 93 | 14.5% | - | ⭐⭐⭐⭐ | ⚠️† | ✅ | ❌ | ✅ | ✅ | ~~Starknet/AA~~ | Safe | 🔴 |
-| **OKX** | Private | - | ? | 100+ | ✅ | - | - | - | - | ⭐⭐⭐⭐ | ✅ | ✅ | ❌ | ⚠️ | ⚠️ | EIP-7702 | - | 🟡 |
-| **Frame** | [frame](https://github.com/floating/frame) | Feb 01, 2025 | ❌ | Any | ✅ | 1,160 | 95 | 8.2% | ~1‡ | ⭐⭐⭐⭐ | ❌ | ❌ | ✅‡ | ❌ | ✅ | ~~Desktop dev~~ | Rabby | 🔴 |
-| **Phantom** | Private | - | ? | 5 | ❌ | - | - | - | - | ⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ❌ | Solana-first | - | 🟡 |
-| **Zerion** | Private | - | ? | ? | ? | - | - | - | - | ⭐⭐⭐ | ✅ | ✅ | ❌ | ❌ | ❌ | Portfolio | - | ⚪ |
-| **1inch** | Private | - | ? | ? | ? | - | - | - | - | ⭐⭐⭐ | ❌ | ✅ | ❌ | ❌ | ❌ | DeFi | - | ⚪ |
-| **Brave** | [brave-browser](https://github.com/brave/brave-browser) | Nov 28, 2025 | ✅ | 10+ | ✅ | 20,764 | 9,997 | 48.1% | - | ⭐⭐⭐⭐ | ⚠️§ | ✅ | ❌ | ❌ | ✅ | Brave users | - | 🟢 |
-| **Enkrypt** | [enKrypt](https://github.com/enkryptcom/enKrypt) | Nov 27, 2025 | ✅ | 75+ | ✅ | 411 | 21 | 5.1% | ~1.3‡ | ⭐⭐⭐⭐ | ✅ | ❌ | ❌ | ❌ | ✅ | Multi-chain | - | 🟢 |
+| Wallet | GitHub | Active | Chains | Platforms | Tx Sim | EIPs | Open Source | Best For | Rec |
+|--------|--------|--------|--------|-----------|--------|------|-------------|----------|-----|
+| **MetaMask** | [metamask-extension](https://github.com/MetaMask/metamask-extension) | ✅ | Any | 📱🌐 | ❌ | 712 · 7702 | ✅ | Compatibility | 🟡 |
+| **Rabby** | [Rabby](https://github.com/RabbyHub/Rabby) | ✅ | 94 | 📱🌐 | ✅ | 712 | ✅ | Development | 🟢 |
+| **Coinbase** | [coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | ⚠️ | 20+ | 📱🌐 | ✅ | 712 · 4337 | ⚠️ | Production | 🟡 |
+| **Trust** | [wallet-core](https://github.com/trustwallet/wallet-core) | ✅ | 163 | 📱🌐 | ❌ | 712 · 7702 | ⚠️ | Multi-chain | 🟢 |
+| **Rainbow** | [rainbow](https://github.com/rainbow-me/rainbow) | ✅ | 15+ | 📱🌐 | ❌ | 712 | ✅ | NFT/Ethereum | 🟢 |
+| **Taho** | [extension](https://github.com/tahowallet/extension) | ⚠️ | EVM | 🌐 | ❌ | 712 | ✅ | Community | 🟡 |
+| **MEW** | [MyEtherWallet](https://github.com/MyEtherWallet/MyEtherWallet) | ✅ | ETH+ | 📱🔗 | ❌ | 712 | ✅ | Ethereum | 🟢 |
+| **Ambire** | [extension](https://github.com/AmbireTech/extension) | ✅ | EVM | 🌐 | ✅ | 712 · 4337 · 7702 | ✅ | Smart wallet | 🟡 |
+| **Block** | [extension](https://github.com/block-wallet/extension) | ❌ | ~20 | 📱🌐 | ❌ | 712 | ✅ | ~~Stability~~ | 🔴 |
+| **Wigwam** | [wigwam](https://github.com/wigwamapp/wigwam) | ✅ | Any | 📱🌐 | ❌ | 712 | ✅ | Stability | 🟡 |
+| **Safe** | [safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | ✅ | 30+ | 🔗 | ✅ | 712 · 4337 | ✅ | Enterprise | 🟢 |
+| **Argent** | [argent-x](https://github.com/argentlabs/argent-x) | ❌ | 2 | 📱🌐† | ❌ | 712 · 4337 | ✅ | ~~Starknet~~ | 🔴 |
+| **OKX** | Private | ? | 100+ | 📱🌐 | ⚠️ | 712 · 7702 | ⚠️ | EIP-7702 | 🟡 |
+| **Frame** | [frame](https://github.com/floating/frame) | ❌ | Any | 💻 | ✅ | 712 | ✅ | ~~Desktop~~ | 🔴 |
+| **Phantom** | Private | ? | 5 | 📱🌐 | ✅ | 712 | ❌ | Solana-first | 🟡 |
+| **Zerion** | Private | ? | 50+ | 📱🌐 | ❌ | 712 | ❌ | Portfolio | ⚪ |
+| **1inch** | Private | ? | 12 | 📱 | ❌ | 712 | ❌ | DeFi | ⚪ |
+| **Brave** | [brave-browser](https://github.com/brave/brave-browser) | ✅ | 10+ | 📱🌐§ | ❌ | 712 | ✅ | Brave users | 🟢 |
+| **Enkrypt** | [enKrypt](https://github.com/enkryptcom/enKrypt) | ✅ | 75+ | 🌐 | ❌ | 712 | ✅ | Multi-chain | 🟢 |
 
-### Column Definitions
+---
 
-Complete explanations for all table columns:
+## Legend
 
-| Column | Values | Meaning |
-|--------|--------|---------|
-| **Wallet** | Name | Wallet name. ~~Strikethrough~~ = was recommended, now inactive |
-| **GitHub** | Link or Private | Repository link. "Private" = closed source |
-| **Last Commit** | Date | Most recent commit date |
-| **Active** | ✅ / ⚠️ / ❌ / ? | ✅ = Active (last 30 days) \| ⚠️ = Slow (1-4 months) \| ❌ = Inactive (4+ months) \| ? = Unknown (private repo) |
-| **Chains** | Number, Any, EVM | Built-in chain count. Exact numbers (94, 163) = verified. 10+, 20+ = at least X. Any = unrestricted custom RPC. EVM = any EVM chain. ETH+ = Ethereum + L2s |
-| **RPC** | ✅ / ⚠️ / ❌ | ✅ = Custom RPC support \| ⚠️ = Limited \| ❌ = No custom RPC |
-| **Stars** | Number | GitHub star count |
-| **Issues** | Number | Open GitHub issues |
-| **Ratio** | Percentage | Issues ÷ Stars (lower = better code quality). Rainbow 0.3% is excellent, MetaMask 19.4% indicates maintenance burden |
-| **Rel/mo** | Number | Releases per month (lower = more stable; MetaMask ~8/mo is high churn) |
-| **Stability** | ⭐⭐ to ⭐⭐⭐⭐ | ⭐⭐ = High churn (>6 rel/mo) \| ⭐⭐⭐ = Medium \| ⭐⭐⭐⭐ = Stable (<3 rel/mo) |
-| **Browser Ext** | ✅ / ⚠️ / ❌ | ✅ = Has browser extension \| ⚠️ = Limited (see notes) \| ❌ = None |
-| **Mobile** | ✅ / ❌ | ✅ = Has mobile app \| ❌ = None |
-| **Tx Sim** | ✅ / ⚠️ / ❌ | Transaction simulation: ✅ = Built-in preview of transaction effects \| ⚠️ = Limited/plugin \| ❌ = None. **Catches bugs before mainnet** |
-| **EIP-4337** | ✅ / ⚠️ / ❌ | Account Abstraction support: ✅ = Smart wallet with paymasters \| ⚠️ = Partial \| ❌ = None |
-| **Open Source** | ✅ / ⚠️ / ❌ | ✅ = FOSS (MIT, GPL, MPL, Apache) \| ⚠️ = Source-available/partial \| ❌ = Proprietary |
-| **Scam** | ✅ / ⚠️ / ❌ | Scam/phishing protection: ✅ = Built-in scam alerts (warns about known malicious contracts/addresses) \| ⚠️ = Basic protection \| ❌ = None. **Rabby, Safe, Coinbase have best protection** |
-| **Best For** | Use case | Primary recommended use case |
-| **Alt** | Wallet name | Recommended alternative for inactive/slow wallets |
-| **Rec** | 🟢 / 🟡 / 🔴 / ⚪ | 🟢 = Recommended \| 🟡 = Situational \| 🔴 = Avoid \| ⚪ = Not for developers |
+### Table Columns
 
-**Special Notes:**
-- \* MEW is web app + mobile, no browser extension
-- † Argent desktop extension is Starknet-only  
-- ‡ Limited verification (not from original research)
-- § Brave Wallet is built into Brave browser
+| Column | Meaning |
+|--------|---------|
+| **GitHub** | Repository link. "Private" = closed source |
+| **Active** | ✅ Active (≤30 days) · ⚠️ Slow (1-4 months) · ❌ Inactive (4+ months) · ? Unknown |
+| **Chains** | Built-in chains. Numbers = verified count. Any = custom RPC. EVM = any EVM. ETH+ = Ethereum + L2s |
+| **Platforms** | 📱 Mobile · 🌐 Browser Extension · 💻 Desktop · 🔗 Web App |
+| **Tx Sim** | Transaction simulation — preview effects before signing. **Catches bugs before mainnet** |
+| **EIPs** | Supported Ethereum standards (see EIP Reference below) |
+| **Open Source** | ✅ FOSS (MIT, GPL, Apache) · ⚠️ Partial/source-available · ❌ Proprietary |
+| **Rec** | 🟢 Recommended · 🟡 Situational · 🔴 Avoid · ⚪ Not for developers |
 
-**Chain Data Sources:** [Rabby API](https://api.rabby.io/v1/chain/list), [Trust registry](https://github.com/trustwallet/wallet-core/blob/master/registry.json)
+### EIP Reference
+
+| EIP | Name | What It Does |
+|-----|------|--------------|
+| **712** | Typed Data Signing | Human-readable message signing — shows what you're signing instead of hex |
+| **4337** | Account Abstraction | Smart wallets with gas sponsorship, batching, social recovery |
+| **7702** | Set EOA Code | Upgrade regular wallets temporarily to smart wallets (batching, session keys) |
+
+**Which EIPs matter?**
+- **All wallets** support EIP-712 (baseline for safe signing)
+- **Smart wallets** (Safe, Coinbase, Ambire) use EIP-4337 for advanced features
+- **Cutting-edge** (MetaMask, Trust, OKX, Ambire) support EIP-7702 (Pectra upgrade)
+
+### Special Notes
+
+| Symbol | Meaning |
+|--------|---------|
+| † | Argent desktop extension is Starknet-only |
+| § | Brave Wallet is built into Brave browser |
+| ~~Strikethrough~~ | Was recommended, now inactive/abandoned |
+
+**Data Sources:** [GitHub API](https://api.github.com) · [Rabby Chain List](https://api.rabby.io/v1/chain/list) · [Trust Registry](https://github.com/trustwallet/wallet-core/blob/master/registry.json) · [WalletBeat](https://walletbeat.fyi)
 
 ---
 
