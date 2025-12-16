@@ -30,17 +30,49 @@
 | **Block** | 25 | ✅ | ~2 | ✅ | [extension](https://github.com/block-wallet/extension) | ❌ | 20+ | 📱🌐 | ✅ | ✅ MIT | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ❌ None | ✅ | ~~Stability~~ | 🔴 |
 | **Kohaku**∆ | 45 | ❌ | 0 | ✅ | [kohaku-extension](https://github.com/ethereum/kohaku-extension) | ❌ | EVM | 🌐 | ✅ | ✅ GPL-3 | ❓ Fork | 🟡 EF | ✅ | ✅ | 7702+4337 | ✅ Basic | ✅ | ~~Privacy~~ | 🔴 |
 
-**Quick Reference:**
-- **Score:** 0-100 (see [Scoring Methodology](./WALLET_COMPARISON_UNIFIED_DETAILS.md#-wallet-scores-weighted-methodology)) | **Core:** ✅ Both mobile+ext | **Rel/Mo:** Releases/month (lower = stable)
-- **Devices:** 📱 Mobile | 🌐 Browser Extension | 💻 Desktop | 🔗 Web App
-- **Status:** ✅ Active | ⚠️ Slow | ❌ Inactive | 🔒 Private
-- **Rec:** 🟢 Recommended | 🟡 Situational | 🔴 Avoid | ⚪ Not for dev
+### Legend
 
-**Detailed Legend:** See [Column Definitions](./WALLET_COMPARISON_UNIFIED_DETAILS.md#column-definitions) in the full documentation.
+**Scoring & Recommendation:**
+| Symbol | Meaning |
+|--------|---------|
+| **Score** | 0-100 weighted score ([methodology](./WALLET_COMPARISON_UNIFIED_DETAILS.md#-wallet-scores-weighted-methodology)) |
+| **Core** | ✅ Has mobile + browser ext | ⚠️ Partial | ❌ Missing one or both |
+| **Rec** | 🟢 Recommended (75+) | 🟡 Situational (50-74) | 🔴 Avoid (<50) | ⚪ Not for dev |
 
-**⚠️ Core Criteria:** Wallets need BOTH mobile app AND browser extension. Wallets marked ❌ in "Core" column don't meet this requirement.
+**Development & Activity:**
+| Column | Values |
+|--------|--------|
+| **Rel/Mo** | Releases/month (lower = more stable; ~8 is high churn) |
+| **RPC** | ✅ Custom RPC | ⚠️ Limited | ❌ None |
+| **Active** | ✅ Active (≤30 days) | ⚠️ Slow (1-4 mo) | ❌ Inactive (4+ mo) | 🔒 Private repo |
+| **Testnets** | ✅ Custom chains/testnets | ❌ No testnet support |
+| **Chains** | Number = verified count | 10+ = minimum | Any = unrestricted | EVM = any EVM chain |
+| **Devices** | 📱 Mobile | 🌐 Browser Ext | 💻 Desktop | 🔗 Web App |
 
-**Special Notes:** † Safe = web app only | § Brave = built into browser | ‡ Ledger Live = HW companion | ⁂ Argent = Starknet-only | ∆ Kohaku = stale Ambire v5.18.0 fork (use Ambire instead)
+**Security & Features:**
+| Column | Values |
+|--------|--------|
+| **Tx Sim** | ✅ Built-in simulation | ⚠️ Plugin/limited | ❌ None |
+| **Scam** | ✅ Built-in scam/phishing alerts | ⚠️ Basic protection | ❌ None |
+| **HW** | ✅ Hardware wallet support | ⚠️ Limited | ❌ None |
+| **Audits** | ✅ Recent (2023+) | ⚠️ Old/Issues | 🐛 Bug bounty | ❓ None/Private |
+| **License** | ✅ FOSS (MIT, GPL, MPL) | ⚠️ Source-available | ❌ Proprietary |
+| **Funding** | 🟢 Sustainable | 🟡 VC-dependent | 🔴 Risky/Unknown |
+
+**Account Types & EIPs:** (grouped in "Account" column)
+| Value | Meaning |
+|-------|---------|
+| **EOA** | Standard Externally Owned Account |
+| **Safe** | Multi-sig smart contract wallet |
+| **4337** | EIP-4337 Account Abstraction (smart wallets, paymasters) |
+| **7702** | EIP-7702 upgraded EOA (batching, gas sponsorship, session keys) |
+| Combinations (e.g., EOA+7702) indicate multiple account types supported |
+
+**ENS/Naming:** ✅ Full = mainnet + subdomains | ✅ Basic = mainnet only | ⚠️ Import only = can't send to .eth | ❌ None
+
+**Special Notes:** † Safe = web app only | § Brave = built into browser | ‡ Ledger Live = HW companion | ⁂ Argent = Starknet-only | ∆ Kohaku = stale Ambire fork
+
+**⚠️ Core Criteria:** Wallets need BOTH mobile app AND browser extension. Wallets marked ❌ in "Core" don't meet this.
 
 ---
 
