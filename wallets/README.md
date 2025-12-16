@@ -80,9 +80,9 @@ Several previously recommended wallets have **stopped active development**:
 | Enterprise | **Safe** | 📱🌐 | ✅ | ✅ | 🟢 Grants | ✅ GPL-3 | ✅ Active |
 | Multi-chain | **Enkrypt** | 🌐 | ❌ | ⚠️ | 🟢 MEW | ✅ MIT | ✅ Active |
 | Ethereum | **MEW** | 📱🔗 | ❌ | ⚠️ | 🟢 Self | ✅ MIT | ✅ Active |
-| Smart Wallet | **Ambire** | 🌐 | ✅ | ✅ | 🟡 VC | ✅ GPL-3 | ⚠️ Slow |
+| Smart Wallet | **Ambire** | 🌐 | ✅ | ✅ | 🟡 VC | ✅ GPL-3 | ✅ Active |
 | Payments | **Daimo** | 📱 | ❌ | ⚠️ | 🟡 VC | ✅ GPL-3 | ✅ Active |
-| Community | **Taho** | 🌐 | ❌ | ⚠️ | 🔴 Grants | ✅ GPL-3 | ⚠️ Slow |
+| Community | **Taho** | 🌐 | ❌ | ⚠️ | 🔴 Grants | ✅ GPL-3 | ✅ Active |
 | Avoid | ~~Block Wallet~~ | - | - | - | 🔴 Unknown | - | ❌ Inactive |
 | Avoid | ~~Frame~~ | - | - | - | 🔴 Donate | - | ❌ Inactive |
 
@@ -151,4 +151,4 @@ A workflow runs every Monday to refresh activity data:
 - Can be triggered manually
 
 ---
-*Last updated: December 3, 2025*
+*Last updated: December 16, 2025*

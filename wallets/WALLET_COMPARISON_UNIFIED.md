@@ -34,7 +34,7 @@
 
 ---
 
-## Complete Wallet Comparison (All 24 EVM Wallets)
+## Complete Wallet Comparison (All 25 EVM Wallets)
 
 | Wallet | Score | Core | Rel/Mo | RPC | GitHub | Active | Chains | Devices | Testnets | License | Audits | Funding | Tx Sim | Scam | Account | ENS/Naming | HW | Best For | Rec |
 |--------|-------|------|--------|-----|--------|--------|--------|---------|----------|---------|--------|---------|--------|------|---------|------------|-----|----------|-----|
@@ -48,20 +48,21 @@
 | **OKX** | 62 | ✅ | ? | ✅ | Private | 🔒 | 100+ | 📱🌐 | ✅ | ❌ Prop | ❓ Priv | 🟢 OKX | ⚠️ | ⚠️ | EOA+7702 | ❌ None | ✅ | EIP-7702 | 🟡 |
 | **Safe** | 58 | ❌ | ~3 | ✅ | [safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | ✅ | 30+ | 🔗† | ✅ | ✅ GPL-3 | ✅ Certora | 🟢 Grants | ✅ | ✅ | Safe+4337 | ✅ Full | ✅ | Treasury/DAO | 🟡 |
 | **Enkrypt** | 55 | ❌ | ~2 | ✅ | [enKrypt](https://github.com/enkryptcom/enKrypt) | ✅ | 75+ | 🌐 | ✅ | ✅ MIT | ❓ None | 🟢 MEW | ❌ | ⚠️ | EOA | ✅ Basic | ✅ | Multi-chain ext | 🟡 |
-| **Ambire** | 55 | ❌ | ~2 | ✅ | [extension](https://github.com/AmbireTech/extension) | ⚠️ | EVM | 🌐 | ✅ | ✅ GPL-3 | ✅ 2025 | 🟡 VC | ✅ | ✅ | 7702+4337 | ✅ Basic | ✅ | Smart wallet | 🟡 |
-| **Wigwam** | 52 | ✅ | ~2 | ✅ | [wigwam](https://github.com/wigwamapp/wigwam) | ⚠️ | Any | 📱🌐 | ✅ | ✅ MIT | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ❌ None | ✅ | Stability | 🟡 |
+| **Ambire** | 62 | ❌ | ~2 | ✅ | [extension](https://github.com/AmbireTech/extension) | ✅ | EVM | 🌐 | ✅ | ✅ GPL-3 | ✅ 2025 | 🟡 VC | ✅ | ✅ | 7702+4337 | ✅ Basic | ✅ | Smart wallet | 🟡 |
+| **Wigwam** | 62 | ✅ | ~2 | ✅ | [wigwam](https://github.com/wigwamapp/wigwam) | ✅ | Any | 📱🌐 | ✅ | ✅ MIT | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ❌ None | ✅ | Stability | 🟡 |
 | **Ledger Live** | 50 | ❌ | ~4 | ✅ | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ✅ | 50+ | 📱💻 | ✅ | ✅ MIT | ✅ Ledger | 🟢 Ledger | ❌ | ⚠️ | EOA | ❌ None | ✅‡ | Hardware users | 🟡 |
 | **MEW** | 50 | ❌ | ~3 | ✅ | [MyEtherWallet](https://github.com/MyEtherWallet/MyEtherWallet) | ✅ | ETH+ | 📱🔗 | ✅ | ✅ MIT | ❓ None | 🟢 Self | ❌ | ⚠️ | EOA | ✅ Full | ✅ | Ethereum | 🟡 |
 | **Sequence** | 48 | ❌ | ~3 | ✅ | [sequence.js](https://github.com/0xsequence/sequence.js) | ✅ | EVM | 🔗 | ✅ | ✅ Apache | ✅ 2024 | 🟡 VC | ⚠️ | ⚠️ | 4337 | ❌ None | ❌ | Gaming/Embed | 🟡 |
 | **Daimo** | 45 | ❌ | ~2 | ❌ | [daimo](https://github.com/daimo-eth/daimo) | ✅ | 4 | 📱 | ❌ | ✅ GPL-3 | ✅ 2023 | 🟡 VC | ❌ | ⚠️ | 4337 | ✅ Basic | ❌ | Payments | 🟡 |
 | **Zerion** | 45 | ✅ | ? | ✅ | Private | 🔒 | 50+ | 📱🌐 | ✅ | ❌ Prop | ❓ Priv | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Basic | ✅ | Portfolio | ⚪ |
 | **Uniswap** | 42 | ❌ | ~5 | ⚠️ | [interface](https://github.com/Uniswap/interface) | ✅ | 20+ | 📱🔗 | ✅ | ✅ GPL-3 | ❓ None | 🟢 Uniswap | ❌ | ⚠️ | EOA | ❌ None | ❌ | DeFi/Swaps | 🟡 |
-| **Taho** | 40 | ❌ | ~1 | ✅ | [extension](https://github.com/tahowallet/extension) | ⚠️ | EVM | 🌐 | ✅ | ✅ GPL-3 | ❓ None | 🔴 Grants | ❌ | ⚠️ | EOA | ❌ None | ✅ | Community | 🟡 |
+| **Taho** | 50 | ❌ | ~1 | ✅ | [extension](https://github.com/tahowallet/extension) | ✅ | EVM | 🌐 | ✅ | ✅ GPL-3 | ❓ None | 🔴 Grants | ❌ | ⚠️ | EOA | ❌ None | ✅ | Community | 🟡 |
 | **imToken** | 38 | ❌ | ~1 | ✅ | [token-core](https://github.com/consenlabs/token-core-monorepo) | ❌ | 50+ | 📱 | ✅ | ⚠️ Apache | ⚠️ 2018 | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Basic | ⚠️ | Multi-chain | 🔴 |
 | **1inch** | 35 | ❌ | ? | ⚠️ | Private | 🔒 | 12 | 📱 | ✅ | ❌ Prop | ❓ Priv | 🟢 Token | ❌ | ⚠️ | EOA | ❌ None | ❌ | DeFi | ⚪ |
 | **Frame** | 32 | ❌ | ~1 | ✅ | [frame](https://github.com/floating/frame) | ❌ | Any | 💻 | ✅ | ✅ GPL-3 | ❓ None | 🔴 Donate | ✅ | ⚠️ | EOA | ❌ None | ✅ | ~~Desktop~~ | 🔴 |
 | **Argent** | 30 | ⚠️ | ~1 | ✅ | [argent-x](https://github.com/argentlabs/argent-x) | ❌ | 2 | 📱🌐⁂ | ✅ | ✅ GPL-3 | ❓ None | 🔴 VC | ❌ | ⚠️ | 4337 | ❌ None | ✅ | ~~Starknet~~ | 🔴 |
 | **Block** | 25 | ✅ | ~2 | ✅ | [extension](https://github.com/block-wallet/extension) | ❌ | 20+ | 📱🌐 | ✅ | ✅ MIT | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ❌ None | ✅ | ~~Stability~~ | 🔴 |
+| **Kohaku**∆ | 45 | ❌ | 0 | ✅ | [kohaku-extension](https://github.com/ethereum/kohaku-extension) | ❌ | EVM | 🌐 | ✅ | ✅ GPL-3 | ❓ Fork | 🟡 EF | ✅ | ✅ | 7702+4337 | ✅ Basic | ✅ | ~~Privacy~~ | 🔴 |
 
 **Quick Reference:**
 - **Score:** 0-100 (see [Scoring Methodology](#-wallet-scores-weighted-methodology)) | **Core:** ✅ Both mobile+ext | **Rel/Mo:** Releases/month (lower = stable)
@@ -77,30 +78,31 @@
 
 | Wallet | Last Commit | Stars | Issues | Ratio | Stability |
 |--------|-------------|-------|--------|-------|-----------|
-| **Rabby** | Nov 21, 2025 | 1,726 | 120 | 7.0% | ⭐⭐⭐⭐ |
-| **Trust** | Nov 27, 2025 | 3,354 | 69 | 2.1% | ⭐⭐⭐ |
-| **Rainbow** | Nov 26, 2025 | 4,238 | 13 | 0.3% | ⭐⭐⭐ |
-| **Brave** | Nov 28, 2025 | 20,764 | 9,997 | 48.1% | ⭐⭐⭐⭐ |
-| **Coinbase** | Jul 11, 2025 | 1,695 | 44 | 2.6% | ⭐⭐⭐⭐ |
-| **MetaMask** | Nov 27, 2025 | 12,949 | 2,509 | 19.4% | ⭐⭐ |
+| **Rabby** | Dec 16, 2025 | 1,750 | 110 | 6.3% | ⭐⭐⭐⭐ |
+| **Trust** | Dec 5, 2025 | 3,386 | 69 | 2.0% | ⭐⭐⭐ |
+| **Rainbow** | Dec 2, 2025 | 4,256 | 16 | 0.4% | ⭐⭐⭐ |
+| **Brave** | Dec 15, 2025 | 20,875 | 10,093 | 48.4% | ⭐⭐⭐⭐ |
+| **Coinbase** | Jul 11, 2025 | 1,705 | 46 | 2.7% | ⭐⭐⭐⭐ |
+| **MetaMask** | Dec 15, 2025 | 12,974 | 2,391 | 18.4% | ⭐⭐ |
 | **Phantom** | Private | - | - | - | ⭐⭐⭐ |
 | **OKX** | Private | - | - | - | ⭐⭐⭐⭐ |
-| **Safe** | Nov 27, 2025 | 524 | 114 | 21.8% | ⭐⭐⭐⭐ |
-| **Enkrypt** | Nov 27, 2025 | 411 | 21 | 5.1% | ⭐⭐⭐⭐ |
-| **Ambire** | Aug 12, 2025 | 213 | 2 | 0.9% | ⭐⭐⭐⭐ |
-| **Wigwam** | Sep 11, 2025 | 83 | 7 | 8.4% | ⭐⭐⭐⭐ |
-| **Ledger Live** | Nov 27, 2025 | 1,200+ | 150+ | ~12% | ⭐⭐⭐⭐ |
-| **MEW** | Nov 27, 2025 | 1,560 | 47 | 3.0% | ⭐⭐⭐⭐ |
-| **Sequence** | Nov 27, 2025 | 400+ | 20+ | ~5% | ⭐⭐⭐⭐ |
-| **Daimo** | Nov 27, 2025 | 300+ | 15+ | ~5% | ⭐⭐⭐⭐ |
+| **Safe** | Dec 15, 2025 | 528 | 105 | 19.9% | ⭐⭐⭐⭐ |
+| **Enkrypt** | Nov 27, 2025 | 413 | 25 | 6.1% | ⭐⭐⭐⭐ |
+| **Ambire** | Dec 10, 2025 | 60 | 1 | 1.7% | ⭐⭐⭐⭐ |
+| **Wigwam** | Dec 11, 2025 | 83 | 7 | 8.4% | ⭐⭐⭐⭐ |
+| **Ledger Live** | Dec 15, 2025 | 541 | 80 | 14.8% | ⭐⭐⭐⭐ |
+| **MEW** | Nov 27, 2025 | 1,570 | 52 | 3.3% | ⭐⭐⭐⭐ |
+| **Sequence** | Dec 14, 2025 | 312 | 25 | 8.0% | ⭐⭐⭐⭐ |
+| **Daimo** | Nov 30, 2025 | 408 | 227 | 55.6% | ⭐⭐⭐ |
 | **Zerion** | Private | - | - | - | ⭐⭐⭐ |
-| **Uniswap** | Nov 27, 2025 | 4,800+ | 200+ | ~4% | ⭐⭐⭐ |
-| **Taho** | Oct 30, 2025 | 3,179 | 338 | 10.6% | ⭐⭐⭐ |
+| **Uniswap** | Dec 12, 2025 | 5,429 | 798 | 14.7% | ⭐⭐⭐ |
+| **Taho** | Dec 5, 2025 | 3,183 | 339 | 10.7% | ⭐⭐⭐ |
 | **imToken** | May 2025 | 800+ | 50+ | ~6% | ⭐⭐⭐ |
 | **1inch** | Private | - | - | - | ⭐⭐⭐ |
-| **Frame** | Feb 01, 2025 | 1,160 | 95 | 8.2% | ⭐⭐⭐⭐ |
-| **Argent** | Mar 14, 2025 | 641 | 93 | 14.5% | ⭐⭐⭐⭐ |
+| **Frame** | Feb 01, 2025 | 1,166 | 95 | 8.1% | ⭐⭐⭐⭐ |
+| **Argent** | Mar 14, 2025 | 642 | 95 | 14.8% | ⭐⭐⭐⭐ |
 | **Block** | Nov 27, 2024 | 96 | 45 | 46.9% | ⭐⭐⭐⭐ |
+| **Kohaku**∆ | Aug 12, 2025 | 62 | 14 | 22.6% | ⭐⭐ |
 
 **GitHub Legend:**
 - **Ratio:** Issues ÷ Stars (lower = better code quality). Rainbow 0.3% is excellent, MetaMask 19.4% indicates maintenance burden.
@@ -157,8 +159,8 @@
 
 **Browser Extension Only (No Mobile):**
 - **Enkrypt** (55) — 75+ chains, great for multi-chain testing
-- **Ambire** (55) — Smart wallet with tx simulation
-- **Taho** (40) — Community-owned, open source ⚠️ slow dev
+- **Ambire** (62) — Smart wallet with tx simulation, EIP-7702 support
+- **Taho** (40) — Community-owned, open source, resumed active dev
 
 **Mobile/Web Only (No Browser Extension):**
 - **Safe** (58) — Enterprise multi-sig, requires WalletConnect
@@ -169,6 +171,7 @@
 - **Block Wallet** — Abandoned (no commits since Nov 2024)
 - **Frame** — Inactive (no commits since Feb 2025)
 - **Argent** — Inactive, Starknet-only desktop
+- **Kohaku** — Stale Ambire v5.18.0 fork (no commits since Aug 2025)
 - **imToken** — Inactive (180+ days)
 
 ### ⚠️ MetaMask: Why It's Ranked Lower
@@ -201,20 +204,21 @@ Scores prioritize what matters for developers: platform coverage, stability, and
 | **OKX** | 62 | 25/25 | 12/20 | 15/25 | 5/15 | 0/10 | 5/5 | Proprietary but feature-rich |
 | **Safe** | 58 | 0/25 | 15/20 | 18/25 | 15/15 | 5/10 | 5/5 | ❌ No browser ext — web only |
 | **Enkrypt** | 55 | 0/25 | 18/20 | 12/25 | 15/15 | 10/10 | 0/5 | ❌ No mobile app |
-| **Ambire** | 55 | 0/25 | 18/20 | 17/25 | 8/15 | 10/10 | 2/5 | ❌ No mobile app |
-| **Wigwam** | 52 | 25/25 | 12/20 | 5/25 | 5/15 | 5/10 | 0/5 | Slow dev, unknown funding |
+| **Ambire** | 62 | 0/25 | 18/20 | 17/25 | 15/15 | 10/10 | 2/5 | ❌ No mobile app |
+| **Wigwam** | 62 | 25/25 | 12/20 | 5/25 | 15/15 | 5/10 | 0/5 | Unknown funding |
 | **Ledger Live** | 50 | 0/25 | 16/20 | 9/25 | 15/15 | 10/10 | 0/5 | ❌ No browser extension |
 | **MEW** | 50 | 0/25 | 17/20 | 8/25 | 15/15 | 10/10 | 0/5 | ❌ No browser extension |
 | **Sequence** | 48 | 0/25 | 15/20 | 8/25 | 15/15 | 5/10 | 5/5 | ❌ Web SDK only |
 | **Daimo** | 45 | 0/25 | 18/20 | 2/25 | 15/15 | 10/10 | 0/5 | ❌ Mobile only, no testnets |
 | **Zerion** | 45 | 25/25 | 12/20 | 3/25 | 5/15 | 0/10 | 0/5 | Proprietary, not for dev |
 | **Uniswap** | 42 | 0/25 | 15/20 | 2/25 | 15/15 | 10/10 | 0/5 | ❌ No browser extension |
-| **Taho** | 40 | 0/25 | 17/20 | 3/25 | 5/15 | 10/10 | 5/5 | ❌ No mobile, risky funding |
+| **Taho** | 50 | 0/25 | 17/20 | 3/25 | 15/15 | 10/10 | 5/5 | ❌ No mobile, risky funding |
 | **imToken** | 38 | 0/25 | 19/20 | 9/25 | 0/15 | 8/10 | 2/5 | ❌ Inactive, mobile only |
 | **1inch** | 35 | 0/25 | 15/20 | 10/25 | 5/15 | 0/10 | 5/5 | ❌ Mobile only, proprietary |
 | **Frame** | 32 | 0/25 | 12/20 | 10/25 | 0/15 | 10/10 | 0/5 | ❌ Inactive, desktop only |
 | **Argent** | 30 | 0/25 | 15/20 | 0/25 | 0/15 | 10/10 | 5/5 | ❌ Inactive, Starknet desktop |
 | **Block** | 25 | 25/25 | 0/20 | 0/25 | 0/15 | 0/10 | 0/5 | ❌ Abandoned (1+ year) |
+| **Kohaku**∆ | 45 | 0/25 | 20/20 | 15/25 | 0/15 | 10/10 | 0/5 | ❌ Stale Ambire fork (Aug 2025) |
 
 **Scoring Methodology (100 points total):**
 
@@ -455,6 +459,7 @@ Complete explanations for all table columns:
 - § Brave Wallet is built into Brave browser
 - ‡ Ledger Live is hardware wallet companion
 - ⁂ Argent desktop extension is Starknet-only
+- ∆ Kohaku is a stale fork of Ambire v5.18.0 under Ethereum Foundation — use Ambire instead
 - ~~Strikethrough~~ = was recommended, now inactive
 
 **Tracked EIPs:** EIP-712 (Typed Data), EIP-2612 (Permit), EIP-4337 (Account Abstraction), EIP-5792 (Wallet Call API), EIP-7702 (Set EOA Code), EIP-7710 (Smart Contract Delegation) — see [EIP Support Matrix](#-eip-support-matrix)
@@ -1026,21 +1031,22 @@ Each wallet has quirks. Test your dApp with at least 3 wallets before production
 
 | Repository | Last Commit | Status |
 |------------|-------------|--------|
-| [MetaMask/metamask-extension](https://github.com/MetaMask/metamask-extension) | Nov 27, 2025 | ✅ Active |
-| [RabbyHub/Rabby](https://github.com/RabbyHub/Rabby) | Nov 21, 2025 | ✅ Active |
+| [MetaMask/metamask-extension](https://github.com/MetaMask/metamask-extension) | Dec 15, 2025 | ✅ Active |
+| [RabbyHub/Rabby](https://github.com/RabbyHub/Rabby) | Dec 16, 2025 | ✅ Active |
 | [coinbase/coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | Jul 11, 2025 | ⚠️ Slow |
-| [trustwallet/wallet-core](https://github.com/trustwallet/wallet-core) | Nov 27, 2025 | ✅ Active |
-| [rainbow-me/rainbow](https://github.com/rainbow-me/rainbow) | Nov 26, 2025 | ✅ Active |
-| [tahowallet/extension](https://github.com/tahowallet/extension) | Oct 30, 2025 | ⚠️ Slow |
+| [trustwallet/wallet-core](https://github.com/trustwallet/wallet-core) | Dec 5, 2025 | ✅ Active |
+| [rainbow-me/rainbow](https://github.com/rainbow-me/rainbow) | Dec 2, 2025 | ✅ Active |
+| [tahowallet/extension](https://github.com/tahowallet/extension) | Dec 5, 2025 | ✅ Active |
 | [MyEtherWallet/MyEtherWallet](https://github.com/MyEtherWallet/MyEtherWallet) | Nov 27, 2025 | ✅ Active |
-| [AmbireTech/extension](https://github.com/AmbireTech/extension) | Aug 12, 2025 | ⚠️ Slow |
+| [AmbireTech/extension](https://github.com/AmbireTech/extension) | Dec 10, 2025 | ✅ Active |
 | [block-wallet/extension](https://github.com/block-wallet/extension) | Nov 27, 2024 | ❌ Inactive |
-| [wigwamapp/wigwam](https://github.com/wigwamapp/wigwam) | Sep 11, 2025 | ⚠️ Slow |
-| [safe-global/safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | Nov 27, 2025 | ✅ Active |
+| [wigwamapp/wigwam](https://github.com/wigwamapp/wigwam) | Dec 11, 2025 | ✅ Active |
+| [safe-global/safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | Dec 15, 2025 | ✅ Active |
 | [argentlabs/argent-x](https://github.com/argentlabs/argent-x) | Mar 14, 2025 | ❌ Inactive |
 | [floating/frame](https://github.com/floating/frame) | Feb 01, 2025 | ❌ Inactive |
-| [brave/brave-browser](https://github.com/brave/brave-browser) | Nov 28, 2025 | ✅ Active |
+| [brave/brave-browser](https://github.com/brave/brave-browser) | Dec 15, 2025 | ✅ Active |
 | [enkryptcom/enKrypt](https://github.com/enkryptcom/enKrypt) | Nov 27, 2025 | ✅ Active |
+| [ethereum/kohaku-extension](https://github.com/ethereum/kohaku-extension) | Aug 12, 2025 | ❌ Stale Fork |
 
 **Not Verified (private repos):** OKX, 1inch, Zerion, Phantom
 
@@ -1055,10 +1061,11 @@ Several previously recommended wallets have **stopped active development**. See 
 | **Block Wallet** | Nov 2024 | ❌ INACTIVE | 1 year without commits |
 | **Frame** | Feb 2025 | ❌ INACTIVE | 10 months without commits |
 | **Argent-X** | Mar 2025 | ❌ INACTIVE | 8 months without commits |
-| **Coinbase SDK** | Jul 2025 | ⚠️ SLOW | 4 months without commits |
-| **Ambire** | Aug 2025 | ⚠️ SLOW | 3+ months without commits |
-| **Wigwam** | Sep 2025 | ⚠️ SLOW | 2+ months without commits |
-| **Taho** | Oct 2025 | ⚠️ SLOW | 1 month without commits |
+| **Kohaku**∆ | Aug 2025 | ❌ STALE FORK | Ethereum Foundation fork of Ambire v5.18.0 — use Ambire instead |
+| **Coinbase SDK** | Jul 2025 | ⚠️ SLOW | 5 months without commits |
+| **Ambire** | Dec 2025 | ✅ ACTIVE | Active development, v5.32.2 released Dec 10, 2025 |
+| **Wigwam** | Dec 2025 | ✅ ACTIVE | Resumed development Dec 11, 2025 |
+| **Taho** | Dec 2025 | ✅ ACTIVE | Resumed development Dec 5, 2025 |
 
 ---
 
@@ -1101,4 +1108,4 @@ Prefer in this order:
 
 ---
 
-*Last updated: December 7, 2025. Added EIP-7702 wallet support tracking: MetaMask, Ambire, Trust, OKX now support 7702. Added dedicated EIP-7702 section with sources and "wallets to watch" table. Revised scoring to prioritize core criteria (mobile + browser extension) and stability (release frequency). Data from [WalletBeat](https://walletbeat.fyi), [awesome-eip-7702](https://github.com/fireblocks-labs/awesome-eip-7702), [7702 Beat](https://swiss-knife.xyz/7702beat), and GitHub.*
+*Last updated: December 16, 2025. Full wallet validation: Wigwam and Taho resumed active development; GitHub metrics refreshed for all 25 wallets. Kohaku (ethereum/kohaku-extension) added as stale Ambire fork marked with ∆. Data from [WalletBeat](https://walletbeat.fyi), [awesome-eip-7702](https://github.com/fireblocks-labs/awesome-eip-7702), [7702 Beat](https://swiss-knife.xyz/7702beat), and GitHub API.*
