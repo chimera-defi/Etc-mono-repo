@@ -30,14 +30,37 @@
 
 *\* DIY wallets — price varies based on components purchased; requires self-assembly*
 
-**Quick Reference:**
-- **Score:** 0-100 (see [Scoring Methodology](./HARDWARE_WALLET_COMPARISON_DETAILS.md#-scoring-methodology)) | **Air-Gap:** ✅ QR/MicroSD only | **Open Source:** ✅ Full / ⚠️ Partial / ❌ Closed
-- **Secure Elem:** ✅ Has SE | ❌ MCU only | **Activity:** ✅ Active / ⚠️ Slow / ❌ Inactive / 🔒 Private
-- **Rec:** 🟢 Recommended (75+) | 🟡 Situational (50-74) | 🔴 Avoid (<50)
+### Legend
 
-**Detailed Legend:** See [Column Definitions](./HARDWARE_WALLET_COMPARISON_DETAILS.md#column-definitions) in the full documentation.
+**Scoring & Recommendation:**
+| Symbol | Meaning |
+|--------|---------|
+| **Score** | 0-100 weighted score ([methodology](./HARDWARE_WALLET_COMPARISON_DETAILS.md#-scoring-methodology)) |
+| **Rec** | 🟢 Recommended (75+) | 🟡 Situational (50-74) | 🔴 Avoid (<50) |
 
-> ⚠️ **Data Accuracy Note:** Prices, supported networks, and features change. Always verify on official manufacturer websites before purchasing. This table provides general guidance, not exact specifications.
+**Security Features:**
+| Column | Values |
+|--------|--------|
+| **Air-Gap** | ✅ Full = QR/MicroSD only (never connects during signing) | ❌ = USB/BT required |
+| **Secure Elem** | ✅ + Type (Optiga, ATECC, SE, Dual SE) = has security chip | ❌ None = MCU only |
+| **Open Source** | ✅ Full = firmware + bootloader open | ⚠️ Partial = app open, firmware closed | ❌ Closed |
+
+**Device & Connectivity:**
+| Column | Values |
+|--------|--------|
+| **Display** | Touch Color, Mono OLED, Color LCD, LCD, E-Ink Touch, None (NFC card) |
+| **Price** | ~$XXX approximate USD (verify on official site) |
+| **Conn** | USB-C, USB, BT (Bluetooth), QR, NFC, MicroSD, WiFi |
+
+**Development Activity:**
+| Column | Values |
+|--------|--------|
+| **GitHub** | Link = firmware repo | "Private" = closed source |
+| **Activity** | ✅ Active (≤30 days) | ⚠️ Slow (1-4 mo) | ❌ Inactive (4+ mo) | 🔒 Private repo |
+
+**Special Notes:** ~~Strikethrough~~ = Abandoned/inactive wallet
+
+> ⚠️ **Data Accuracy Note:** Prices, supported networks, and features change. Always verify on official manufacturer websites before purchasing.
 
 ---
 
