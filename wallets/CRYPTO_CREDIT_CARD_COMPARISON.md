@@ -14,7 +14,7 @@
 
 | Card | Score | Cash Back | Annual Fee | Crypto Rewards | Business | Provider | Website | Status | Best For |
 |------|-------|-----------|------------|----------------|----------|----------|---------|--------|----------|
-| **Ready Card** | 90 🟢 | 0% | $0 | None (zero-fee) | ❌ | Ready (Argent) | [ready.co/card](https://www.ready.co/card) | ✅ Active | Zero-fee onchain (EU/UK) |
+| **Ready Card** | 90 🟢 | Up to 10% | $0 | Crypto | ❌ | Ready (Argent) | [ready.co/card](https://www.ready.co/card) | ✅ Active | High cashback (EU/UK) |
 | **Bybit Card** | 88 🟢 | Up to 10% | $0 | Multi-crypto | ✅ | Bybit Exchange | [bybit.com/cards](https://www.bybit.com/en/cards/) | ✅ Active | High cashback (EEA/CH) |
 | **Mode Card** | 87 🟢 | Up to 10% | $0 | BTC | ❌ | Mode | [modeapp.com](https://modeapp.com) | ⚠️ Verify | Bitcoin rewards (UK/EU) |
 | **Hi Card** | 86 🟢 | Up to 10% | $0 | HI | ❌ | hi.com | [hi.com](https://hi.com) | ✅ Active | High cashback (Global) |
@@ -96,7 +96,7 @@ Independent card providers, not tied to major exchanges.
 
 | Provider | Card | Score | Cash Back | Status |
 |----------|------|-------|-----------|--------|
-| **Ready (Argent)** | Ready Card | 90 🟢 | 0% (zero-fee) | ✅ Active |
+| **Ready (Argent)** | Ready Card | 90 🟢 | Up to 10% | ✅ Active |
 | **Mode** | Mode Card | 87 🟢 | Up to 10% | ⚠️ Verify |
 | **hi.com** | Hi Card | 86 🟢 | Up to 10% | ✅ Active |
 | **Plutus** | Plutus Card | 85 🟢 | 3-9% | ✅ Active |

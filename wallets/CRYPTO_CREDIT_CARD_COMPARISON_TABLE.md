@@ -4,7 +4,7 @@
 
 | Card | Score | Type | Biz | Region | Cash Back | Annual Fee | FX Fee | Rewards | Provider | Status | Best For |
 |------|-------|------|-----|--------|-----------|------------|--------|---------|----------|--------|----------|
-| **Ready Card** | 90 🟢 | Debit | ❌ | 🇪🇺 EU/UK | 0% | $0 | 0% | None | [Ready](https://www.ready.co/card) | ✅ | Zero-fee onchain |
+| **Ready Card** | 90 🟢 | Debit | ❌ | 🇪🇺 EU/UK | Up to 10% | $0 | 0% | Crypto | [Ready](https://www.ready.co/card) | ✅ | High cashback EU/UK |
 | **Bybit Card** | 88 🟢 | Debit | ✅ | 🇪🇺 EEA/CH | Up to 10% | $0 | 0% | Multi | [Bybit](https://www.bybit.com/en/cards/) | ✅ | High cashback |
 | **Mode Card** | 87 🟢 | Debit | ❌ | 🇬🇧 UK | Up to 10% | $0 | 0% | BTC | [Mode](https://modeapp.com) | ⚠️ | Bitcoin rewards |
 | **Hi Card** | 86 🟢 | Debit | ❌ | 🌍 Global | Up to 10% | $0 | 0% | HI | [hi.com](https://hi.com) | ✅ | High cashback |
@@ -78,7 +78,7 @@
 
 ## Quick Summary
 
-> **TL;DR:** Use **Ready Card** (90) for zero-fee spending (formerly Argent), **Bybit Card** (88) or **Hi Card** (86) for up to 10% cashback, **Plutus Card** (85) for EU/UK users, or **Nexo Card** (82) for crypto-backed credit. Avoid **Crypto.com** (57) due to UX issues and staking lock-ups. Exchange-based cards have -3 pt custody risk penalty.
+> **TL;DR:** Use **Ready Card** (90) for up to 10% cashback with zero fees (10% first month, 3% thereafter), **Bybit Card** (88) or **Hi Card** (86) for consistent high cashback, **Plutus Card** (85) for EU/UK users, or **Nexo Card** (82) for crypto-backed credit. Avoid **Crypto.com** (57) due to UX issues and staking lock-ups. Exchange-based cards have -3 pt custody risk penalty.
 
 **Last Updated:** December 2025 | [Scoring Methodology](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#scoring-methodology) | [Provider Groupings](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#provider-groupings)
 
