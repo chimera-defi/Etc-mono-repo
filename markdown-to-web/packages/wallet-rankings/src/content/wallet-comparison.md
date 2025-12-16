@@ -42,17 +42,40 @@ meta:
 | **Brave** | [brave-browser](https://github.com/brave/brave-browser) | Nov 28, 2025 | ✅ | 10+ | ✅ | 20,764 | 9,997 | 48.1% | - | ⭐⭐⭐⭐ | ⚠️§ | ✅ | ❌ | ❌ | ✅ | Brave users | - | 🟢 |
 | **Enkrypt** | [enKrypt](https://github.com/enkryptcom/enKrypt) | Nov 27, 2025 | ✅ | 75+ | ✅ | 411 | 21 | 5.1% | ~1.3‡ | ⭐⭐⭐⭐ | ✅ | ❌ | ❌ | ❌ | ✅ | Multi-chain | - | 🟢 |
 
-**Legend:**
-- 🟢 Recommended | 🟡 Situational | 🔴 Avoid | ⚪ Not for dev
+### Column Definitions
+
+Complete explanations for all table columns:
+
+| Column | Values | Meaning |
+|--------|--------|---------|
+| **Wallet** | Name | Wallet name. ~~Strikethrough~~ = was recommended, now inactive |
+| **GitHub** | Link or Private | Repository link. "Private" = closed source |
+| **Last Commit** | Date | Most recent commit date |
+| **Active** | ✅ / ⚠️ / ❌ / ? | ✅ = Active (last 30 days) \| ⚠️ = Slow (1-4 months) \| ❌ = Inactive (4+ months) \| ? = Unknown (private repo) |
+| **Chains** | Number, Any, EVM | Built-in chain count. Exact numbers (94, 163) = verified. 10+, 20+ = at least X. Any = unrestricted custom RPC. EVM = any EVM chain. ETH+ = Ethereum + L2s |
+| **RPC** | ✅ / ⚠️ / ❌ | ✅ = Custom RPC support \| ⚠️ = Limited \| ❌ = No custom RPC |
+| **Stars** | Number | GitHub star count |
+| **Issues** | Number | Open GitHub issues |
+| **Ratio** | Percentage | Issues ÷ Stars (lower = better code quality). Rainbow 0.3% is excellent, MetaMask 19.4% indicates maintenance burden |
+| **Rel/mo** | Number | Releases per month (lower = more stable; MetaMask ~8/mo is high churn) |
+| **Stability** | ⭐⭐ to ⭐⭐⭐⭐ | ⭐⭐ = High churn (>6 rel/mo) \| ⭐⭐⭐ = Medium \| ⭐⭐⭐⭐ = Stable (<3 rel/mo) |
+| **Browser Ext** | ✅ / ⚠️ / ❌ | ✅ = Has browser extension \| ⚠️ = Limited (see notes) \| ❌ = None |
+| **Mobile** | ✅ / ❌ | ✅ = Has mobile app \| ❌ = None |
+| **Tx Sim** | ✅ / ⚠️ / ❌ | Transaction simulation: ✅ = Built-in preview of transaction effects \| ⚠️ = Limited/plugin \| ❌ = None. **Catches bugs before mainnet** |
+| **EIP-4337** | ✅ / ⚠️ / ❌ | Account Abstraction support: ✅ = Smart wallet with paymasters \| ⚠️ = Partial \| ❌ = None |
+| **Open Source** | ✅ / ⚠️ / ❌ | ✅ = FOSS (MIT, GPL, MPL, Apache) \| ⚠️ = Source-available/partial \| ❌ = Proprietary |
+| **Scam** | ✅ / ⚠️ / ❌ | Scam/phishing protection: ✅ = Built-in scam alerts (warns about known malicious contracts/addresses) \| ⚠️ = Basic protection \| ❌ = None. **Rabby, Safe, Coinbase have best protection** |
+| **Best For** | Use case | Primary recommended use case |
+| **Alt** | Wallet name | Recommended alternative for inactive/slow wallets |
+| **Rec** | 🟢 / 🟡 / 🔴 / ⚪ | 🟢 = Recommended \| 🟡 = Situational \| 🔴 = Avoid \| ⚪ = Not for developers |
+
+**Special Notes:**
 - \* MEW is web app + mobile, no browser extension
-- † Argent desktop extension is Starknet-only
+- † Argent desktop extension is Starknet-only  
 - ‡ Limited verification (not from original research)
 - § Brave Wallet is built into Brave browser
-- ~~Strikethrough~~ = was recommended, now inactive
 
-**Activity:** ✅ Active (last 30 days) | ⚠️ Slow (1-4 months) | ❌ Inactive (4+ months) | ? Unknown
-
-**Columns:** Stars/Issues/Ratio = GitHub metrics | Rel/mo = Releases per month | Tx Sim = Transaction simulation | EIP-4337 = Account Abstraction | Chains = Built-in count ([Rabby](https://api.rabby.io/v1/chain/list), [Trust](https://github.com/trustwallet/wallet-core/blob/master/registry.json)) | RPC = Custom RPC support | Alt = Alternative for inactive/slow wallets
+**Chain Data Sources:** [Rabby API](https://api.rabby.io/v1/chain/list), [Trust registry](https://github.com/trustwallet/wallet-core/blob/master/registry.json)
 
 ---
 
