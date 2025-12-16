@@ -16,7 +16,10 @@ Track significant changes to wallet statuses, recommendations, and documentation
 | Date | Wallet | Change | Details |
 |------|--------|--------|---------|
 | Dec 2025 | **Ambire** | Status ⚠️→✅, Score 55→62 | Activity verified Dec 10, 2025 (v5.32.2 release); GitHub metrics: 60 stars, 1 issue, 1.7% ratio. Still browser-only (Core: ❌) - mobile apps planned but not released |
-| Dec 2025 | **Kohaku** | ADDED (Score 45, 🔴 Avoid) | ethereum/kohaku-extension is a stale fork of Ambire v5.18.0 under Ethereum Foundation (last commit Aug 2025); marked with ⊕ to indicate fork status. Note: ethereum/kohaku (main repo) is privacy tooling (privacy-pools, railgun), not a wallet |
+| Dec 2025 | **Kohaku** | ADDED (Score 45, 🔴 Avoid) | ethereum/kohaku-extension is a stale fork of Ambire v5.18.0 under Ethereum Foundation (last commit Aug 2025); marked with ∆ to indicate fork status. Note: ethereum/kohaku (main repo) is privacy tooling (privacy-pools, railgun), not a wallet |
+| Dec 2025 | **Wigwam** | Status ⚠️→✅, Score 52→62 | Resumed development Dec 11, 2025; Activity score 5→15 |
+| Dec 2025 | **Taho** | Status ⚠️→✅, Score 40→50 | Resumed development Dec 5, 2025; Activity score 5→15 |
+| Dec 2025 | **All Wallets** | GitHub metrics refresh | Updated stars, issues, ratios for all 25 wallets (Dec 15-16, 2025 data) |
 | Dec 2025 | **Documentation** | Structure cleanup | Removed artifact files (walletconnect-wallet-research.md, HARDWARE_WALLET_RESEARCH_TASKS.md, PR_INFO.md); consolidated into unified docs |
 | Dec 2025 | **Documentation** | Developer guidance added | Added EIP-7730 (Clear Signing) documentation, Integration Best Practices (12 practices), Stability Maintenance section |
 | Dec 2025 | **Documentation** | Developer guidance added | Added Desktop-Mobile Sync note, Clear Signing & Safety Features section |
