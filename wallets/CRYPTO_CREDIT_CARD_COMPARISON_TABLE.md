@@ -32,22 +32,41 @@
 | **BitPay Card** | 52 🟡 | Prepaid | ⚠️ | 🇺🇸 US | 0% | $0 | 0% | None | [BitPay](https://bitpay.com/card) | ✅ | BTC spending |
 | **EtherFi Cash** | 50 🟡 | Credit | ✅ | 🌍 Global | TBD | TBD | TBD | ETH, BTC | [EtherFi](https://ether.fi/cash) | ✅ | DeFi users |
 
-**Quick Reference:**
-- **Score:** 0-100 (see [Scoring Methodology](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#scoring-methodology)) | **Type:** Credit / Debit / Prepaid / Business
-- **Biz:** ✅ Business supported | ❌ Personal only | ⚠️ Verify | **Status:** ✅ Active | ⚠️ Verify | 🔄 Launching
-- **Rec:** 🟢 Recommended (75+) | 🟡 Situational (50-74) | 🔴 Avoid (<50)
+### Legend
 
-**Region Key:**
-- 🇺🇸 **US** = US only | 🇪🇺 **EU/UK** = Europe + UK | 🇬🇧 **UK** = UK only | 🇨🇦 **CA** = Canada | 🇦🇺 **AU** = Australia
-- 🌍 **Global** = Most regions (200+ countries) | **\*** = Not available in US
+**Scoring & Recommendation:**
+| Symbol | Meaning |
+|--------|---------|
+| **Score** | 0-100 weighted score ([methodology](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#scoring-methodology)) |
+| **Rec** | 🟢 Recommended (75+) | 🟡 Situational (50-74) | 🔴 Avoid (<50) |
 
-**🇺🇸 Cards Available to Americans:** Coinbase, Fold, Gemini, Uphold, Kraken, BitPay, Crypto.com, Wirex, Revolut, Hi Card, Redotpay, EtherFi, Reap (business)
+**Card Details:**
+| Column | Values |
+|--------|--------|
+| **Type** | Credit, Debit, Prepaid, Business |
+| **Biz** | ✅ Business accounts supported | ❌ Personal only | ⚠️ Verify |
+| **Status** | ✅ Active | ⚠️ Verify | 🔄 Launching soon |
+| **Cash Back** | Max % reward rate (may require staking/tiers) |
+| **Annual Fee** | Yearly card fee ($0 = no fee) |
+| **FX Fee** | Foreign transaction fee (0% = no fee) |
+| **Rewards** | Token/currency earned (BTC, ETH, Multi, None) |
 
-**⚠️ Scoring Notes:**
-- Exchange-based cards receive **-3 pts** (custody risk): Coinbase, Binance, Gemini, KuCoin, OKX, CoinJar, Kraken, Crypto.com, Bybit
-- **Crypto.com receives additional -20 pts** for poor UX, customer service issues, and staking lock-ups
+**Geographic Availability:**
+| Symbol | Region |
+|--------|--------|
+| 🇺🇸 | US only |
+| 🇪🇺 | EU/UK (Europe + United Kingdom) |
+| 🇬🇧 | UK only |
+| 🇨🇦 | Canada |
+| 🇦🇺 | Australia |
+| 🌍 | Global (200+ countries) |
+| **\*** | Not available in US |
 
-**Detailed Legend:** See [Column Definitions](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#column-definitions) in the full documentation.
+**🇺🇸 US-Available Cards:** Coinbase, Fold, Gemini, Uphold, Kraken, BitPay, Crypto.com, Wirex, Revolut, Hi Card, Redotpay, EtherFi, Reap (business)
+
+**Scoring Adjustments:**
+- **-3 pts** Exchange custody risk: Coinbase, Binance, Gemini, KuCoin, OKX, CoinJar, Kraken, Crypto.com, Bybit
+- **-20 pts** Crypto.com: Poor UX, customer service issues, staking lock-ups
 
 > ⚠️ **Data Accuracy Note:** Rates, fees, and availability change frequently. Always verify on official card websites before applying.
 
