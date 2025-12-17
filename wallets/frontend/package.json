@@ -8,7 +8,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "generate-og": "node scripts/generate-og-images.js",
+    "validate-cards": "node scripts/validate-twitter-cards.js",
+    "prebuild": "npm run generate-og"
   },
   "dependencies": {
     "clsx": "^2.0.0",
@@ -28,6 +31,7 @@
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "autoprefixer": "^10.4.0",
+    "canvas": "^3.2.0",
     "eslint": "^8.0.0",
     "eslint-config-next": "^14.0.0",
     "postcss": "^8.4.0",
