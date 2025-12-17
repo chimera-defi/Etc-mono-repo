@@ -401,7 +401,7 @@ Complete explanations for all table columns:
 | **Rel/Mo** | Number or ? | Releases per month (lower = more stable; MetaMask ~8/mo is high churn) | ? = Unknown (private repo) |
 | **RPC** | ✅ / ⚠️ / ❌ | ✅ = Custom RPC support | ⚠️ = Limited | ❌ = No custom RPC |
 | **Chains** | Number, 10+, Any, EVM, ETH+ | Built-in chain count. Exact numbers (94, 163) = verified count. 10+, 20+ = at least X. Any = unrestricted custom RPC. EVM = any EVM chain. ETH+ = Ethereum + L2s. Sources: [Rabby API](https://api.rabby.io/v1/chain/list), [Trust registry](https://github.com/trustwallet/wallet-core/blob/master/registry.json) |
-| **Devices** | 📱🌐💻🔗 | 📱 = Mobile | 🌐 = Browser Extension | 💻 = Desktop | 🔗 = Web App |
+| **Devices** | 📱🌐💻🔗⚡ | 📱 = Mobile app | 🌐 = Browser Extension | 💻 = Desktop app | 🔗 = Web App | ⚡ = Browser Proxy (desktop app injects into browser via localhost, like Frame). See [Desktop App Wallets section](#-desktop-app-wallets-frame-like-architecture) for details |
 | **Testnets** | ✅ / ❌ | ✅ = Custom chain/testnet support | ❌ = No testnet support |
 | **License** | ✅ / ⚠️ / ❌ | ✅ = FOSS (MIT, GPL, MPL, Apache) | ⚠️ = Source-Available/Partial | ❌ = Proprietary |
 | **Audits** | ✅ / ⚠️ / ❓ / 🐛 | ✅ = Recent (2023+) | ⚠️ = Old/Issues | ❓ = None/Private | 🐛 = HackerOne bug bounty |
