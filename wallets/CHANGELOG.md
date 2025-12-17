@@ -15,7 +15,7 @@ Track significant changes to wallet statuses, recommendations, and documentation
 
 | Date | Wallet | Change | Details |
 |------|--------|--------|---------|
-| Dec 2025 | **All Wallets** | Added Desktop column | New "Desktop" column showing desktop app availability: ✅ App (Rabby, Ledger Live), ✅ Proxy (Frame's unique browser-proxy architecture), 🌐 Browser (Brave built-in), ❌ (no desktop). Added "Desktop App Wallets (Frame-like Architecture)" section documenting Frame's unique design and alternatives |
+| Dec 2025 | **Devices** | Verified & corrected | Added ⚡ emoji for browser proxy (Frame-style). Fixed Wigwam (📱🌐→🌐, no mobile app), Block Wallet (📱🌐→🌐, no mobile app), Safe (🔗→📱🔗, has mobile). Updated Core column accordingly: Wigwam ✅→❌ (score 62→58), Block ✅→❌ (score 25→10). Added "Desktop App Wallets (Frame-like Architecture)" section |
 | Dec 2025 | **Ambire** | Status ⚠️→✅, Score 55→62 | Activity verified Dec 10, 2025 (v5.32.2 release); GitHub metrics: 60 stars, 1 issue, 1.7% ratio. Still browser-only (Core: ❌) - mobile apps planned but not released |
 | Dec 2025 | **Kohaku** | ADDED (Score 45, 🔴 Avoid) | ethereum/kohaku-extension is a stale fork of Ambire v5.18.0 under Ethereum Foundation (last commit Aug 2025); marked with ∆ to indicate fork status. Note: ethereum/kohaku (main repo) is privacy tooling (privacy-pools, railgun), not a wallet |
 | Dec 2025 | **Wigwam** | Status ⚠️→✅, Score 52→62 | Resumed development Dec 11, 2025; Activity score 5→15 |
