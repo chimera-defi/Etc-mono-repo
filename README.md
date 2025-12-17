@@ -6,13 +6,22 @@ Research and prototyping workspace for technology evaluation.
 
 | Area | Description | Status |
 |------|-------------|--------|
+| [**wallets/**](./wallets/) | Crypto wallet comparison (24 software + 23 hardware wallets + 12 credit cards) | ✅ Active |
+| [**Dapps/**](./Dapps/) | Smart contract framework comparison (Foundry vs Hardhat + Hybrid template) | ✅ Complete |
 | [**mobile_experiments/**](./mobile_experiments/) | Cross-platform mobile frameworks (Capacitor, React Native, Flutter, Valdi) | ✅ Complete |
 | [**ai_experiments/**](./ai_experiments/) | AI constraint toolkits (Spec Kit, Guardrails AI, Guidance, Outlines, B-MAD) | 📋 Research |
-| [**wallets/**](./wallets/) | Crypto wallet comparison (24 software + 15 hardware wallets) | ✅ Active |
-| [**markdown-to-web/**](./markdown-to-web/) | Reusable Markdown-to-Website Vue library | ✅ Complete |
-| [**apps/**](./apps/) | Applications using markdown-web | ✅ Complete |
+| [**ideas/**](./ideas/) | Future exploration concepts (OAuth automation, self-hosted infra, mobile AI agents) | 💡 Backlog |
 
 ## Quick Links
+
+### Smart Contract Frameworks
+| Framework | Compile Time | Test Time | Best For |
+|-----------|--------------|-----------|----------|
+| **Foundry** | 0.65s | 0.13s | Speed + fuzzing (Rust) |
+| **Hardhat** | 1.58s | 1.50s | JS/TS ecosystem + plugins |
+| **Hybrid** | — | — | Template combining both |
+
+👉 **[Full Comparison](./Dapps/COMPARISON.md)** | **[Hybrid Template](./Dapps/Hybrid/)**
 
 ### Mobile Frameworks (Dec 2025)
 | Framework | Score | Best For |
@@ -41,11 +50,14 @@ Research and prototyping workspace for technology evaluation.
 ## Development
 
 ```bash
+# Smart contracts - Foundry
+cd Dapps/Foundry/app && forge test
+
+# Smart contracts - Hardhat
+cd Dapps/Hardhat/app && npx hardhat test
+
 # Mobile experiments
 cd mobile_experiments/Capacitor/app && npm run dev
-
-# Wallet site
-cd apps/wallet-site && npm install && npm run dev
 
 # Refresh wallet data
 cd wallets/scripts && ./refresh-github-data.sh
@@ -55,13 +67,13 @@ cd wallets/scripts && ./refresh-github-data.sh
 
 ```
 .
-├── mobile_experiments/   # Mobile framework comparison
-├── ai_experiments/       # AI constraint toolkit research
-├── wallets/              # Crypto wallet comparison
-├── markdown-to-web/      # Vue markdown library
-├── apps/                 # Applications
+├── wallets/              # Crypto wallet comparison (software + hardware + credit cards)
+├── Dapps/                # Smart contract framework comparison (Foundry vs Hardhat)
+├── mobile_experiments/   # Mobile framework comparison (Capacitor, React Native, Flutter)
+├── ai_experiments/       # AI constraint toolkit research (Spec Kit, Guardrails, etc.)
+├── ideas/                # Future exploration concepts
 ├── .github/              # CI workflows
 └── .cursorrules          # AI assistant guidelines
 ```
 
-Each directory contains detailed README with setup instructions.
+Each directory contains a detailed README with setup instructions and findings.
