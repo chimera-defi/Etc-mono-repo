@@ -33,3 +33,4 @@ dist/
 .pub-cache/
 Pods/
 *.xcuserstate
+core

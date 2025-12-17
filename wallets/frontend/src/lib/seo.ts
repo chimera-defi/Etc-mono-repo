@@ -3,6 +3,78 @@
  */
 
 /**
+ * Get page-specific OG image based on slug
+ * Falls back to default og-image.png if no specific image exists
+ */
+export function getOgImagePath(slug: string): string {
+  const imageMap: Record<string, string> = {
+    // Software wallet pages
+    'wallet-comparison-unified-table': '/og-software-wallets.png',
+    'wallet-comparison-unified': '/og-software-wallets.png',
+    'wallet-comparison-unified-details': '/og-software-wallets.png',
+    // Hardware wallet pages
+    'hardware-wallet-comparison-table': '/og-hardware-wallets.png',
+    'hardware-wallet-comparison': '/og-hardware-wallets.png',
+    'hardware-wallet-comparison-details': '/og-hardware-wallets.png',
+    // Crypto card pages
+    'crypto-credit-card-comparison-table': '/og-crypto-cards.png',
+    'crypto-credit-card-comparison': '/og-crypto-cards.png',
+    'crypto-credit-card-comparison-details': '/og-crypto-cards.png',
+  };
+  return imageMap[slug] || '/og-image.png';
+}
+
+/**
+ * Generate UTM-tagged URL for social sharing and campaign tracking
+ */
+export function generateUtmUrl(
+  baseUrl: string,
+  path: string,
+  params: {
+    source: 'twitter' | 'facebook' | 'linkedin' | 'email' | 'other';
+    medium?: 'social' | 'email' | 'cpc' | 'organic';
+    campaign?: string;
+    content?: string;
+  }
+): string {
+  const url = new URL(path, baseUrl);
+  url.searchParams.set('utm_source', params.source);
+  url.searchParams.set('utm_medium', params.medium || 'social');
+  if (params.campaign) {
+    url.searchParams.set('utm_campaign', params.campaign);
+  }
+  if (params.content) {
+    url.searchParams.set('utm_content', params.content);
+  }
+  return url.toString();
+}
+
+/**
+ * Generate social sharing URLs for different platforms
+ */
+export function getSocialShareUrls(
+  pageUrl: string,
+  title: string,
+  description?: string
+): {
+  twitter: string;
+  facebook: string;
+  linkedin: string;
+  email: string;
+} {
+  const encodedUrl = encodeURIComponent(pageUrl);
+  const encodedTitle = encodeURIComponent(title);
+  const encodedDesc = encodeURIComponent(description || '');
+
+  return {
+    twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+    email: `mailto:?subject=${encodedTitle}&body=${encodedDesc}%0A%0A${encodedUrl}`,
+  };
+}
+
+/**
  * Calculate reading time in minutes based on word count
  * Average reading speed: 200-250 words per minute
  */
