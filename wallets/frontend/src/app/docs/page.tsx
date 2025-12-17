@@ -4,6 +4,8 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { DocsContent } from './DocsContent';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
+// Cache-busting version for OG images - increment when images are updated
+const ogImageVersion = 'v2';
 
 export const metadata: Metadata = {
   title: 'Documentation',
@@ -22,7 +24,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: `${baseUrl}/og-image.png`,
+        url: `${baseUrl}/og-image.png?${ogImageVersion}`,
         width: 1200,
         height: 630,
         alt: 'Wallet Radar Documentation',
@@ -33,7 +35,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Documentation | Wallet Radar',
     description: 'Browse all wallet comparison documentation, guides, and research.',
-    images: [`${baseUrl}/og-image.png`],
+    images: [`${baseUrl}/og-image.png?${ogImageVersion}`],
   },
   alternates: {
     canonical: `${baseUrl}/docs/`,
