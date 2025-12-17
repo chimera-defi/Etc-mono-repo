@@ -15,6 +15,8 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
 const siteName = 'Wallet Radar';
 const defaultTitle = 'Wallet Radar - Developer-Focused Crypto Wallet Research';
 const defaultDescription = 'Comprehensive comparison of software and hardware crypto wallets for developers. Find stable MetaMask alternatives with scoring, security audits, GitHub activity tracking, and developer experience benchmarks. Compare 24+ EVM wallets and 23+ hardware wallets.';
+// Cache-busting version for OG images - increment when images are updated
+const ogImageVersion = 'v2';
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -58,7 +60,7 @@ export const metadata: Metadata = {
     description: defaultDescription,
     images: [
       {
-        url: `${baseUrl}/og-image.png`,
+        url: `${baseUrl}/og-image.png?${ogImageVersion}`,
         width: 1200,
         height: 630,
         alt: 'Wallet Radar - Developer-Focused Crypto Wallet Research',
@@ -71,7 +73,7 @@ export const metadata: Metadata = {
     description: defaultDescription,
     creator: '@chimeradefi',
     site: '@chimeradefi',
-    images: [`${baseUrl}/og-image.png`],
+    images: [`${baseUrl}/og-image.png?${ogImageVersion}`],
   },
   robots: {
     index: true,

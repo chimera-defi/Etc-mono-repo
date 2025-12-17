@@ -1,4 +1,6 @@
-# Cursor Rules for Mobile Experiments Repository
+# AI Assistant Rules for Experiments Repository
+
+> **Note:** These rules apply to ALL AI assistants working in this repository, including Cursor AI, Claude Code, and any other AI coding tools. See also `CLAUDE.md` for Claude Code-specific instructions.
 
 ## Project Structure
 - All AI-generated artifacts and temporary files should be placed in `.cursor/artifacts/`
