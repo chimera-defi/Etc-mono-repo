@@ -1,5 +1,7 @@
 # Wallet Site
 
+> ⚠️ **Status: Incomplete** - This app previously used the `markdown-web` library which has been removed from the monorepo. The app structure remains as a reference but is not currently functional without the library.
+
 A demonstration of using the `markdown-web` library to build a site that reads content from a separate location.
 
 ## Architecture

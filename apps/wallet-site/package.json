@@ -11,9 +11,11 @@
     "lint": "eslint . --ext .vue,.js"
   },
   "dependencies": {
-    "markdown-web": "file:../../markdown-to-web/packages/markdown-web",
     "vue": "^3.5.0",
     "vue-router": "^4.4.0"
+  },
+  "comments": {
+    "markdown-web": "Removed - markdown-to-web package no longer exists in monorepo"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.0",
