@@ -4,10 +4,11 @@ import Script from 'next/script';
 import { ArrowLeft, Clock, BookOpen, ExternalLink, FileText, Table } from 'lucide-react';
 import Link from 'next/link';
 import { getAllDocuments, getDocumentBySlug, getDocumentSlugs, extractTableOfContents, getRelatedDocument } from '@/lib/markdown';
-import { calculateReadingTime, formatReadingTime, optimizeMetaDescription, generateKeywords } from '@/lib/seo';
+import { calculateReadingTime, formatReadingTime, optimizeMetaDescription, generateKeywords, getOgImagePath } from '@/lib/seo';
 import { EnhancedMarkdownRenderer } from '@/components/EnhancedMarkdownRenderer';
 import { TableOfContents } from '@/components/TableOfContents';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { SocialShare } from '@/components/SocialShare';
 
 interface PageProps {
   params: {
@@ -40,6 +41,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   // Generate dynamic keywords based on content
   const dynamicKeywords = generateKeywords(document.title, document.category, document.content);
 
+  // Get page-specific OG image
+  const ogImagePath = getOgImagePath(params.slug);
+  const ogImageUrl = `${baseUrl}${ogImagePath}`;
+
   return {
     title: document.title,
     description: enhancedDescription,
@@ -54,7 +59,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       tags: document.category === 'comparison' ? ['crypto', 'wallet', 'comparison', 'DeFi'] : ['crypto', 'wallet', 'guide'],
       images: [
         {
-          url: `${baseUrl}/og-image.png`,
+          url: ogImageUrl,
           width: 1200,
           height: 630,
           alt: document.title,
@@ -67,7 +72,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: enhancedDescription,
       creator: '@chimeradefi',
       site: '@chimeradefi',
-      images: [`${baseUrl}/og-image.png`],
+      images: [ogImageUrl],
     },
     alternates: {
       canonical: pageUrl,
@@ -343,6 +348,15 @@ export default function DocumentPage({ params }: PageProps) {
 
           {/* Footer Navigation */}
           <footer className="mt-12 pt-8 border-t border-border">
+            {/* Social Sharing */}
+            <div className="mb-6 pb-6 border-b border-border">
+              <SocialShare
+                url={pageUrl}
+                title={document.title}
+                description={enhancedDescription}
+              />
+            </div>
+            
             <div className="flex flex-wrap items-center justify-between gap-4">
               <Link
                 href="/"
