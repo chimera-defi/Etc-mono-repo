@@ -140,6 +140,22 @@ export default function HomePage() {
           text: 'Yes! Wallet Radar is open source. You can contribute via our GitHub repository at github.com/chimera-defi/Etc-mono-repo/tree/main/wallets. We welcome improvements to data accuracy, new wallet additions, and feature suggestions.',
         },
       },
+      {
+        '@type': 'Question',
+        name: 'What is the best crypto credit card for personal use?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Bybit Card scores 88 and offers up to 10% cashback with multi-crypto rewards, no annual fee, and is available in EEA/CH regions. For US users, Coinbase Card (82) and Fold Card (76) are top options.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the best crypto credit card for business use?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Reap is our top business card recommendation. It offers corporate Visa cards with stablecoin repayment options, advanced spend controls, and is available in 200+ countries globally.',
+        },
+      },
     ],
   };
 
@@ -244,6 +260,74 @@ export default function HomePage() {
             reviewRating: {
               '@type': 'Rating',
               ratingValue: '4.55',
+              bestRating: '5',
+            },
+          },
+        },
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        item: {
+          '@type': 'Product',
+          name: 'Bybit Card',
+          category: 'Crypto Credit Card',
+          brand: {
+            '@type': 'Brand',
+            name: 'Bybit',
+          },
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: '4.4',
+            ratingCount: '1',
+            bestRating: '5',
+            worstRating: '1',
+          },
+          review: {
+            '@type': 'Review',
+            author: {
+              '@type': 'Organization',
+              name: siteName,
+            },
+            datePublished: new Date().toISOString(),
+            reviewBody: 'Score: 88 — Up to 10% cashback, multi-crypto rewards, no annual fee. Best Personal crypto card for EEA/CH users.',
+            reviewRating: {
+              '@type': 'Rating',
+              ratingValue: '4.4',
+              bestRating: '5',
+            },
+          },
+        },
+      },
+      {
+        '@type': 'ListItem',
+        position: 5,
+        item: {
+          '@type': 'Product',
+          name: 'Reap',
+          category: 'Crypto Credit Card',
+          brand: {
+            '@type': 'Brand',
+            name: 'Reap',
+          },
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: '2.75',
+            ratingCount: '1',
+            bestRating: '5',
+            worstRating: '1',
+          },
+          review: {
+            '@type': 'Review',
+            author: {
+              '@type': 'Organization',
+              name: siteName,
+            },
+            datePublished: new Date().toISOString(),
+            reviewBody: 'Score: 55 — Corporate Visa cards with stablecoin repayment, available in 200+ countries. Best Business crypto card for corporate use.',
+            reviewRating: {
+              '@type': 'Rating',
+              ratingValue: '2.75',
               bestRating: '5',
             },
           },
@@ -381,6 +465,36 @@ export default function HomePage() {
             </p>
             <div className="text-xs text-muted-foreground">
               ✅ Budget-Friendly • ✅ Optiga SE • ✅ Active
+            </div>
+          </div>
+
+          {/* Best Personal Crypto Card Pick */}
+          <div className="p-6 rounded-lg border border-orange-200 dark:border-orange-900 bg-orange-50 dark:bg-orange-950/30">
+            <div className="flex items-center gap-2 mb-3">
+              <CreditCard className="h-5 w-5 text-orange-600" />
+              <span className="text-sm font-medium text-orange-600">Best Personal Card</span>
+            </div>
+            <h3 className="font-bold text-xl mb-2">Bybit Card</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Score: 88 — Up to 10% cashback, multi-crypto rewards, no annual fee
+            </p>
+            <div className="text-xs text-muted-foreground">
+              ✅ High Cashback • ✅ EEA/CH • ✅ Business Available
+            </div>
+          </div>
+
+          {/* Best Business Crypto Card Pick */}
+          <div className="p-6 rounded-lg border border-amber-200 dark:border-amber-900 bg-amber-50 dark:bg-amber-950/30">
+            <div className="flex items-center gap-2 mb-3">
+              <CreditCard className="h-5 w-5 text-amber-600" />
+              <span className="text-sm font-medium text-amber-600">Best Business Card</span>
+            </div>
+            <h3 className="font-bold text-xl mb-2">Reap</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Score: 55 — Corporate Visa cards with stablecoin repayment, 200+ countries
+            </p>
+            <div className="text-xs text-muted-foreground">
+              ✅ Business-Focused • ✅ Stablecoins • ✅ Global
             </div>
           </div>
         </div>
