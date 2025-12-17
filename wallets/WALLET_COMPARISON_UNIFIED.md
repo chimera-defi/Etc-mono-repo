@@ -12,6 +12,7 @@
 
 - [Complete Wallet Comparison](#complete-wallet-comparison-all-24-evm-wallets)
 - [Quick Recommendations](#-quick-recommendations)
+- [Desktop App Wallets (Frame-like)](#-desktop-app-wallets-frame-like-architecture)
 - [GitHub Metrics](#github-metrics-stars-issues-code-quality)
 - [Scoring Methodology](#-wallet-scores-developer-focused-methodology)
 - [Security Audits](#-security-audits-from-walletbeat--github)
@@ -41,15 +42,15 @@
 | **Rabby** | 92 | ✅ | ~6 | ✅ | [Rabby](https://github.com/RabbyHub/Rabby) | ✅ | 94 | 📱🌐💻 | ✅ | ✅ MIT | ⚠️ Mob | 🟢 DeBank | ✅ | ✅ | EOA+Safe | ⚠️ Import only | ✅ | Development | 🟢 |
 | **Trust** | 85 | ✅ | ~3 | ✅ | [wallet-core](https://github.com/trustwallet/wallet-core) | ✅ | 163 | 📱🌐 | ✅ | ⚠️ Apache | ✅ 2023 | 🟢 Binance | ❌ | ⚠️ | EOA+7702 | ✅ Basic | ✅ | Multi-chain | 🟢 |
 | **Rainbow** | 82 | ✅ | ~4 | ⚠️ | [rainbow](https://github.com/rainbow-me/rainbow) | ✅ | 15+ | 📱🌐 | ✅ | ✅ GPL-3 | ❓ None | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Full | ✅ | NFT/Ethereum | 🟢 |
-| **Brave** | 78 | ✅ | ~2 | ✅ | [brave-browser](https://github.com/brave/brave-browser) | ✅ | 10+ | 📱🌐§ | ✅ | ✅ MPL-2 | 🐛 H1 | 🟢 Brave | ❌ | ⚠️ | EOA | ❌ None | ✅ | Brave users | 🟢 |
+| **Brave** | 78 | ✅ | ~2 | ✅ | [brave-browser](https://github.com/brave/brave-browser) | ✅ | 10+ | 📱🌐💻§ | ✅ | ✅ MPL-2 | 🐛 H1 | 🟢 Brave | ❌ | ⚠️ | EOA | ❌ None | ✅ | Brave users | 🟢 |
 | **Coinbase** | 75 | ✅ | ~2 | ✅ | [coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | ⚠️ | 20+ | 📱🌐 | ✅ | ⚠️ Partial | ❓ Priv | 🟢 Coinbase | ✅ | ✅ | EOA+4337 | ✅ Full+cb.id | ✅ | AA/Production | 🟢 |
 | **MetaMask** | 68 | ✅ | ~8 | ✅ | [metamask-extension](https://github.com/MetaMask/metamask-extension) | ✅ | Any | 📱🌐 | ✅ | ⚠️ Src-Avail | ✅ 2025 | 🟢 Consensys | ⚠️ | ⚠️ | EOA+7702 | ✅ Full | ✅ | Compatibility | 🟡 |
 | **Phantom** | 65 | ✅ | ? | ✅ | Private | 🔒 | 5 | 📱🌐 | ❌ | ❌ Prop | ❓ Priv | 🟢 VC $109M | ✅ | ✅ | EOA | ❌ None | ⚠️ | Solana-first | 🟡 |
 | **OKX** | 62 | ✅ | ? | ✅ | Private | 🔒 | 100+ | 📱🌐 | ✅ | ❌ Prop | ❓ Priv | 🟢 OKX | ⚠️ | ⚠️ | EOA+7702 | ❌ None | ✅ | EIP-7702 | 🟡 |
-| **Safe** | 58 | ❌ | ~3 | ✅ | [safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | ✅ | 30+ | 🔗† | ✅ | ✅ GPL-3 | ✅ Certora | 🟢 Grants | ✅ | ✅ | Safe+4337 | ✅ Full | ✅ | Treasury/DAO | 🟡 |
+| **Safe** | 58 | ❌ | ~3 | ✅ | [safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | ✅ | 30+ | 📱🔗† | ✅ | ✅ GPL-3 | ✅ Certora | 🟢 Grants | ✅ | ✅ | Safe+4337 | ✅ Full | ✅ | Treasury/DAO | 🟡 |
 | **Enkrypt** | 55 | ❌ | ~2 | ✅ | [enKrypt](https://github.com/enkryptcom/enKrypt) | ✅ | 75+ | 🌐 | ✅ | ✅ MIT | ❓ None | 🟢 MEW | ❌ | ⚠️ | EOA | ✅ Basic | ✅ | Multi-chain ext | 🟡 |
 | **Ambire** | 62 | ❌ | ~2 | ✅ | [extension](https://github.com/AmbireTech/extension) | ✅ | EVM | 🌐 | ✅ | ✅ GPL-3 | ✅ 2025 | 🟡 VC | ✅ | ✅ | 7702+4337 | ✅ Basic | ✅ | Smart wallet | 🟡 |
-| **Wigwam** | 62 | ✅ | ~2 | ✅ | [wigwam](https://github.com/wigwamapp/wigwam) | ✅ | Any | 📱🌐 | ✅ | ✅ MIT | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ❌ None | ✅ | Stability | 🟡 |
+| **Wigwam** | 58 | ❌ | ~2 | ✅ | [wigwam](https://github.com/wigwamapp/wigwam) | ✅ | Any | 🌐 | ✅ | ✅ MIT | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ❌ None | ✅ | Stability | 🟡 |
 | **Ledger Live** | 50 | ❌ | ~4 | ✅ | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ✅ | 50+ | 📱💻 | ✅ | ✅ MIT | ✅ Ledger | 🟢 Ledger | ❌ | ⚠️ | EOA | ❌ None | ✅‡ | Hardware users | 🟡 |
 | **MEW** | 50 | ❌ | ~3 | ✅ | [MyEtherWallet](https://github.com/MyEtherWallet/MyEtherWallet) | ✅ | ETH+ | 📱🔗 | ✅ | ✅ MIT | ❓ None | 🟢 Self | ❌ | ⚠️ | EOA | ✅ Full | ✅ | Ethereum | 🟡 |
 | **Sequence** | 48 | ❌ | ~3 | ✅ | [sequence.js](https://github.com/0xsequence/sequence.js) | ✅ | EVM | 🔗 | ✅ | ✅ Apache | ✅ 2024 | 🟡 VC | ⚠️ | ⚠️ | 4337 | ❌ None | ❌ | Gaming/Embed | 🟡 |
@@ -59,14 +60,14 @@
 | **Taho** | 50 | ❌ | ~1 | ✅ | [extension](https://github.com/tahowallet/extension) | ✅ | EVM | 🌐 | ✅ | ✅ GPL-3 | ❓ None | 🔴 Grants | ❌ | ⚠️ | EOA | ❌ None | ✅ | Community | 🟡 |
 | **imToken** | 38 | ❌ | ~1 | ✅ | [token-core](https://github.com/consenlabs/token-core-monorepo) | ❌ | 50+ | 📱 | ✅ | ⚠️ Apache | ⚠️ 2018 | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Basic | ⚠️ | Multi-chain | 🔴 |
 | **1inch** | 35 | ❌ | ? | ⚠️ | Private | 🔒 | 12 | 📱 | ✅ | ❌ Prop | ❓ Priv | 🟢 Token | ❌ | ⚠️ | EOA | ❌ None | ❌ | DeFi | ⚪ |
-| **Frame** | 32 | ❌ | ~1 | ✅ | [frame](https://github.com/floating/frame) | ❌ | Any | 💻 | ✅ | ✅ GPL-3 | ❓ None | 🔴 Donate | ✅ | ⚠️ | EOA | ❌ None | ✅ | ~~Desktop~~ | 🔴 |
+| **Frame** | 32 | ❌ | ~1 | ✅ | [frame](https://github.com/floating/frame) | ❌ | Any | 💻⚡ | ✅ | ✅ GPL-3 | ❓ None | 🔴 Donate | ✅ | ⚠️ | EOA | ❌ None | ✅ | ~~Desktop~~ | 🔴 |
 | **Argent** | 30 | ⚠️ | ~1 | ✅ | [argent-x](https://github.com/argentlabs/argent-x) | ❌ | 2 | 📱🌐⁂ | ✅ | ✅ GPL-3 | ❓ None | 🔴 VC | ❌ | ⚠️ | 4337 | ❌ None | ✅ | ~~Starknet~~ | 🔴 |
-| **Block** | 25 | ✅ | ~2 | ✅ | [extension](https://github.com/block-wallet/extension) | ❌ | 20+ | 📱🌐 | ✅ | ✅ MIT | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ❌ None | ✅ | ~~Stability~~ | 🔴 |
+| **Block** | 10 | ❌ | ~2 | ✅ | [extension](https://github.com/block-wallet/extension) | ❌ | 20+ | 🌐 | ✅ | ✅ MIT | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ❌ None | ✅ | ~~Stability~~ | 🔴 |
 | **Kohaku**∆ | 45 | ❌ | 0 | ✅ | [kohaku-extension](https://github.com/ethereum/kohaku-extension) | ❌ | EVM | 🌐 | ✅ | ✅ GPL-3 | ❓ Fork | 🟡 EF | ✅ | ✅ | 7702+4337 | ✅ Basic | ✅ | ~~Privacy~~ | 🔴 |
 
 **Quick Reference:**
 - **Score:** 0-100 (see [Scoring Methodology](#-wallet-scores-weighted-methodology)) | **Core:** ✅ Both mobile+ext | **Rel/Mo:** Releases/month (lower = stable)
-- **Devices:** 📱 Mobile | 🌐 Browser Extension | 💻 Desktop | 🔗 Web App
+- **Devices:** 📱 Mobile | 🌐 Browser Extension | 💻 Desktop App | 🔗 Web App | ⚡ Browser Proxy (Frame-style: desktop app injects into browser)
 - **Status:** ✅ Active | ⚠️ Slow | ❌ Inactive | 🔒 Private
 - **Rec:** 🟢 Recommended | 🟡 Situational | 🔴 Avoid | ⚪ Not for dev
 
@@ -174,6 +175,39 @@
 - **Kohaku** — Stale Ambire v5.18.0 fork (no commits since Aug 2025)
 - **imToken** — Inactive (180+ days)
 
+### 💻 Desktop App Wallets (Frame-like Architecture)
+
+**Question:** *"Are there other wallets similar to Frame which has a desktop app and a minimal extension?"*
+
+**Frame's Architecture:** Frame is unique — it's a **native desktop application** that injects into browsers via a **localhost proxy** rather than using a traditional browser extension. This approach offers:
+- Better security (keys stay in a native app, not a browser sandbox)
+- System-level hardware wallet integration
+- Privacy (no default RPC, zero tracking)
+- Works across any browser without installing multiple extensions
+
+**Wallets with Desktop Apps:**
+
+| Wallet | Desktop Type | Browser Integration | Status | Notes |
+|--------|--------------|---------------------|--------|-------|
+| **Frame** | ✅ Native + Proxy | System proxy injection | ❌ Inactive | Only wallet with Frame-style architecture |
+| **Rabby** | ✅ Native App | Separate browser extension | ✅ Active | Desktop app is supplementary to extension |
+| **Ledger Live** | ✅ Native App | WalletConnect only | ✅ Active | No browser injection, uses WC for dApps |
+| **Brave** | 🌐 Built into browser | Built-in (is the browser) | ✅ Active | Wallet is part of Brave browser |
+
+**Answer:** Currently, **no other active wallet uses Frame's exact architecture** (desktop app + browser proxy). The closest alternatives are:
+1. **Rabby** — Has a desktop app, but it works alongside (not replaces) the browser extension
+2. **Ledger Live** — Desktop-native, but uses WalletConnect for browser dApps instead of injection
+3. **Brave Wallet** — Native desktop experience, but you must use the Brave browser
+
+**If you need Frame-like privacy & desktop-first UX:**
+- For active wallets: **Rabby** (desktop + extension) or **Brave** (built into browser)
+- For hardware wallets: **Ledger Live** (desktop + mobile, no browser extension)
+- For maximum privacy: **Rabby with custom RPCs** (closest to Frame's privacy model)
+
+⚠️ **Frame is inactive** (no commits since Feb 2025) — if you're using it, consider migrating to Rabby.
+
+---
+
 ### ⚠️ MetaMask: Why It's Ranked Lower
 
 MetaMask scores 68 (🟡 Situational) despite being the industry standard:
@@ -205,7 +239,7 @@ Scores prioritize what matters for developers: platform coverage, stability, and
 | **Safe** | 58 | 0/25 | 15/20 | 18/25 | 15/15 | 5/10 | 5/5 | ❌ No browser ext — web only |
 | **Enkrypt** | 55 | 0/25 | 18/20 | 12/25 | 15/15 | 10/10 | 0/5 | ❌ No mobile app |
 | **Ambire** | 62 | 0/25 | 18/20 | 17/25 | 15/15 | 10/10 | 2/5 | ❌ No mobile app |
-| **Wigwam** | 62 | 25/25 | 12/20 | 5/25 | 15/15 | 5/10 | 0/5 | Unknown funding |
+| **Wigwam** | 58 | 0/25 | 18/20 | 15/25 | 15/15 | 10/10 | 0/5 | ❌ No mobile — browser ext only |
 | **Ledger Live** | 50 | 0/25 | 16/20 | 9/25 | 15/15 | 10/10 | 0/5 | ❌ No browser extension |
 | **MEW** | 50 | 0/25 | 17/20 | 8/25 | 15/15 | 10/10 | 0/5 | ❌ No browser extension |
 | **Sequence** | 48 | 0/25 | 15/20 | 8/25 | 15/15 | 5/10 | 5/5 | ❌ Web SDK only |
@@ -217,7 +251,7 @@ Scores prioritize what matters for developers: platform coverage, stability, and
 | **1inch** | 35 | 0/25 | 15/20 | 10/25 | 5/15 | 0/10 | 5/5 | ❌ Mobile only, proprietary |
 | **Frame** | 32 | 0/25 | 12/20 | 10/25 | 0/15 | 10/10 | 0/5 | ❌ Inactive, desktop only |
 | **Argent** | 30 | 0/25 | 15/20 | 0/25 | 0/15 | 10/10 | 5/5 | ❌ Inactive, Starknet desktop |
-| **Block** | 25 | 25/25 | 0/20 | 0/25 | 0/15 | 0/10 | 0/5 | ❌ Abandoned (1+ year) |
+| **Block** | 10 | 0/25 | 0/20 | 0/25 | 0/15 | 10/10 | 0/5 | ❌ Abandoned (1+ year), browser ext only |
 | **Kohaku**∆ | 45 | 0/25 | 20/20 | 15/25 | 0/15 | 10/10 | 0/5 | ❌ Stale Ambire fork (Aug 2025) |
 
 **Scoring Methodology (100 points total):**
@@ -441,7 +475,7 @@ Complete explanations for all table columns:
 | **Rel/Mo** | Number or ? | Releases per month (lower = more stable; MetaMask ~8/mo is high churn) | ? = Unknown (private repo) |
 | **RPC** | ✅ / ⚠️ / ❌ | ✅ = Custom RPC support | ⚠️ = Limited | ❌ = No custom RPC |
 | **Chains** | Number, 10+, Any, EVM, ETH+ | Built-in chain count. Exact numbers (94, 163) = verified count. 10+, 20+ = at least X. Any = unrestricted custom RPC. EVM = any EVM chain. ETH+ = Ethereum + L2s. Sources: [Rabby API](https://api.rabby.io/v1/chain/list), [Trust registry](https://github.com/trustwallet/wallet-core/blob/master/registry.json) |
-| **Devices** | 📱🌐💻🔗 | 📱 = Mobile | 🌐 = Browser Extension | 💻 = Desktop | 🔗 = Web App |
+| **Devices** | 📱🌐💻🔗⚡ | 📱 = Mobile app | 🌐 = Browser Extension | 💻 = Desktop app | 🔗 = Web App | ⚡ = Browser Proxy (desktop app that injects into browser via localhost, like Frame) |
 | **Testnets** | ✅ / ❌ | ✅ = Custom chain/testnet support | ❌ = No testnet support |
 | **License** | ✅ / ⚠️ / ❌ | ✅ = FOSS (MIT, GPL, MPL, Apache) | ⚠️ = Source-Available/Partial | ❌ = Proprietary |
 | **Audits** | ✅ / ⚠️ / ❓ / 🐛 | ✅ = Recent (2023+) | ⚠️ = Old/Issues | ❓ = None/Private | 🐛 = HackerOne bug bounty |
@@ -1108,4 +1142,4 @@ Prefer in this order:
 
 ---
 
-*Last updated: December 16, 2025. Full wallet validation: Wigwam and Taho resumed active development; GitHub metrics refreshed for all 25 wallets. Kohaku (ethereum/kohaku-extension) added as stale Ambire fork marked with ∆. Data from [WalletBeat](https://walletbeat.fyi), [awesome-eip-7702](https://github.com/fireblocks-labs/awesome-eip-7702), [7702 Beat](https://swiss-knife.xyz/7702beat), and GitHub API.*
+*Last updated: December 17, 2025. Verified and corrected Devices column: Added ⚡ emoji for browser proxy (Frame-style); fixed Wigwam (browser-only, no mobile), Block Wallet (browser-only, no mobile), Safe (has mobile app). Added "Desktop App Wallets (Frame-like Architecture)" section explaining Frame's unique design. Full wallet validation via GitHub API refresh. Data from [WalletBeat](https://walletbeat.fyi), [awesome-eip-7702](https://github.com/fireblocks-labs/awesome-eip-7702), [7702 Beat](https://swiss-knife.xyz/7702beat), and GitHub API.*
