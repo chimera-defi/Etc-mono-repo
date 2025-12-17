@@ -47,12 +47,6 @@ const DOCUMENT_CONFIG: Record<string, Omit<MarkdownDocument, 'slug' | 'content'>
     category: 'comparison',
     order: 3,
   },
-  'CRYPTO_CREDIT_CARD_COMPARISON.md': {
-    title: 'Crypto Credit Card Overview',
-    description: 'Quick reference guide to crypto credit and debit cards with provider groupings and recommendations',
-    category: 'comparison',
-    order: 3,
-  },
   'CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md': {
     title: 'Crypto Credit Card Comparison - Details',
     description: 'Full documentation with card reviews, scoring methodology, business support, and recommendations',
