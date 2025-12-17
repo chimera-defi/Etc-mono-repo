@@ -41,9 +41,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   // Generate dynamic keywords based on content
   const dynamicKeywords = generateKeywords(document.title, document.category, document.content);
 
-  // Get page-specific OG image
+  // Get page-specific OG image with cache-busting version parameter
+  // Increment ogImageVersion when images are updated to bust Twitter/social media caches
   const ogImagePath = getOgImagePath(params.slug);
-  const ogImageUrl = `${baseUrl}${ogImagePath}`;
+  const ogImageVersion = 'v2';
+  const ogImageUrl = `${baseUrl}${ogImagePath}?${ogImageVersion}`;
 
   return {
     title: document.title,
