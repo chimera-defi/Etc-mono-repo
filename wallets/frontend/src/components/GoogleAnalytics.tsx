@@ -6,8 +6,6 @@ interface GoogleAnalyticsProps {
   measurementId: string;
 }
 
-const CONSENT_KEY = 'wallet-radar-cookie-consent';
-
 export function GoogleAnalytics({ measurementId }: GoogleAnalyticsProps) {
   useEffect(() => {
     // Only run on client side
@@ -15,19 +13,15 @@ export function GoogleAnalytics({ measurementId }: GoogleAnalyticsProps) {
 
     // Initialize dataLayer
     window.dataLayer = window.dataLayer || [];
-    
+
     // Define gtag function
     window.gtag = function gtag(...args: unknown[]) {
       window.dataLayer.push(args);
     };
 
-    // Check existing consent status
-    const savedConsent = localStorage.getItem(CONSENT_KEY);
-    const hasConsent = savedConsent === 'accepted';
-
-    // Set default consent state (GDPR compliant - denied by default)
+    // Set consent state - analytics always enabled
     window.gtag('consent', 'default', {
-      analytics_storage: hasConsent ? 'granted' : 'denied',
+      analytics_storage: 'granted',
       ad_storage: 'denied',
       ad_user_data: 'denied',
       ad_personalization: 'denied',
@@ -44,14 +38,9 @@ export function GoogleAnalytics({ measurementId }: GoogleAnalyticsProps) {
     window.gtag('config', measurementId, {
       // Anonymize IP for additional privacy
       anonymize_ip: true,
-      // Don't send page view until consent is given (if not already)
-      send_page_view: hasConsent,
+      // Automatically send page view on config (default GA4 behavior)
+      send_page_view: true,
     });
-
-    // If consent was already given, send the page view
-    if (hasConsent) {
-      window.gtag('event', 'page_view');
-    }
 
     // Cleanup function
     return () => {
