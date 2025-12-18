@@ -15,7 +15,7 @@ const siteName = 'Wallet Radar';
 const defaultTitle = 'Wallet Radar - Developer-Focused Crypto Wallet Research';
 const defaultDescription = 'Comprehensive comparison of software and hardware crypto wallets for developers. Find stable MetaMask alternatives with scoring, security audits, GitHub activity tracking, and developer experience benchmarks. Compare 24+ EVM wallets and 23+ hardware wallets.';
 // Cache-busting version for OG images - increment when images are updated
-const ogImageVersion = 'v2';
+const ogImageVersion = 'v3';
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),

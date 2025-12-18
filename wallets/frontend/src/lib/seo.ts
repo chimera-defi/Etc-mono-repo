@@ -5,21 +5,31 @@
 /**
  * Get page-specific OG image based on slug
  * Falls back to default og-image.png if no specific image exists
+ *
+ * Table pages show comparison data, Details pages show recommendations/guides
  */
 export function getOgImagePath(slug: string): string {
   const imageMap: Record<string, string> = {
-    // Software wallet pages
-    'wallet-comparison-unified-table': '/og-software-wallets.png',
-    'wallet-comparison-unified': '/og-software-wallets.png',
-    'wallet-comparison-unified-details': '/og-software-wallets.png',
-    // Hardware wallet pages
-    'hardware-wallet-comparison-table': '/og-hardware-wallets.png',
-    'hardware-wallet-comparison': '/og-hardware-wallets.png',
-    'hardware-wallet-comparison-details': '/og-hardware-wallets.png',
-    // Crypto card pages
-    'crypto-credit-card-comparison-table': '/og-crypto-cards.png',
-    'crypto-credit-card-comparison': '/og-crypto-cards.png',
-    'crypto-credit-card-comparison-details': '/og-crypto-cards.png',
+    // Software wallet pages - TABLE versions (show comparison data)
+    'wallet-comparison-unified-table': '/og-software-wallets-table.png',
+    'wallet-comparison-unified': '/og-software-wallets-table.png',
+
+    // Software wallet pages - DETAILS versions (show recommendations)
+    'wallet-comparison-unified-details': '/og-software-wallets-details.png',
+
+    // Hardware wallet pages - TABLE versions (show comparison data)
+    'hardware-wallet-comparison-table': '/og-hardware-wallets-table.png',
+    'hardware-wallet-comparison': '/og-hardware-wallets-table.png',
+
+    // Hardware wallet pages - DETAILS versions (show recommendations)
+    'hardware-wallet-comparison-details': '/og-hardware-wallets-details.png',
+
+    // Crypto card pages - TABLE versions (show comparison data)
+    'crypto-credit-card-comparison-table': '/og-crypto-cards-table.png',
+    'crypto-credit-card-comparison': '/og-crypto-cards-table.png',
+
+    // Crypto card pages - DETAILS versions (show recommendations)
+    'crypto-credit-card-comparison-details': '/og-crypto-cards-details.png',
   };
   return imageMap[slug] || '/og-image.png';
 }
