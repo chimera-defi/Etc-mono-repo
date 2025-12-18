@@ -38,12 +38,9 @@ export function GoogleAnalytics({ measurementId }: GoogleAnalyticsProps) {
     window.gtag('config', measurementId, {
       // Anonymize IP for additional privacy
       anonymize_ip: true,
-      // Always send page view
+      // Automatically send page view on config (default GA4 behavior)
       send_page_view: true,
     });
-
-    // Send initial page view
-    window.gtag('event', 'page_view');
 
     // Cleanup function
     return () => {
