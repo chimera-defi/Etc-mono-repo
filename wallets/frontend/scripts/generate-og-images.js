@@ -381,33 +381,330 @@ function saveCanvas(canvas, filename) {
 }
 
 /**
+ * Generate Software Wallets Details Page Image (non-table)
+ */
+function generateSoftwareWalletsDetailsImage() {
+  const canvas = createCanvas(WIDTH, HEIGHT);
+  const ctx = canvas.getContext('2d');
+
+  // Background gradient
+  const gradient = ctx.createLinearGradient(0, 0, WIDTH, HEIGHT);
+  gradient.addColorStop(0, COLORS.background);
+  gradient.addColorStop(1, '#0c1929');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+  // Branding
+  drawBranding(ctx);
+
+  // Title
+  ctx.fillStyle = COLORS.text;
+  ctx.font = 'bold 42px Arial, sans-serif';
+  ctx.fillText('Software Wallet Guide', 50, 160);
+
+  // Subtitle
+  ctx.fillStyle = COLORS.textMuted;
+  ctx.font = '20px Arial, sans-serif';
+  ctx.fillText('Developer-focused recommendations and methodology', 50, 195);
+
+  // Recommendations section
+  const startY = 250;
+
+  // Section title
+  ctx.fillStyle = COLORS.primary;
+  ctx.font = 'bold 24px Arial, sans-serif';
+  ctx.fillText('🎯 Top Recommendations', 50, startY);
+
+  // Top picks
+  const picks = [
+    { rank: '🥇', name: 'Rabby', score: 92, for: 'Development - tx simulation, catches bugs' },
+    { rank: '🥈', name: 'Trust', score: 85, for: 'Production - stable, 163 chains' },
+    { rank: '🥉', name: 'Rainbow', score: 82, for: 'Production - best code quality' },
+  ];
+
+  let y = startY + 50;
+  picks.forEach((pick) => {
+    // Rank
+    ctx.font = '32px Arial, sans-serif';
+    ctx.fillText(pick.rank, 50, y);
+
+    // Wallet name and score
+    ctx.fillStyle = COLORS.text;
+    ctx.font = 'bold 28px Arial, sans-serif';
+    ctx.fillText(pick.name, 110, y);
+
+    ctx.fillStyle = COLORS.accent;
+    ctx.font = 'bold 28px Arial, sans-serif';
+    ctx.fillText(`${pick.score}`, 250, y);
+
+    // Description
+    ctx.fillStyle = COLORS.textMuted;
+    ctx.font = '18px Arial, sans-serif';
+    ctx.fillText(pick.for, 110, y + 28);
+
+    y += 80;
+  });
+
+  // Use cases section
+  y += 20;
+  ctx.fillStyle = COLORS.primary;
+  ctx.font = 'bold 24px Arial, sans-serif';
+  ctx.fillText('💡 Use Cases', 50, y);
+
+  const useCases = [
+    '• Maximum Stability: Brave (78) - ~2 releases/month',
+    '• Account Abstraction: Coinbase (75) - EIP-4337 support',
+    '• Compatibility Testing: MetaMask (68) - test last',
+  ];
+
+  y += 40;
+  ctx.fillStyle = COLORS.textMuted;
+  ctx.font = '18px Arial, sans-serif';
+  useCases.forEach((useCase) => {
+    ctx.fillText(useCase, 50, y);
+    y += 35;
+  });
+
+  // Footer
+  drawFooter(ctx, [
+    { value: '24+', label: 'Wallets Compared' },
+    { value: 'Weekly', label: 'Data Updates' },
+    { value: 'Open Source', label: 'Methodology' },
+  ]);
+
+  return canvas;
+}
+
+/**
+ * Generate Hardware Wallets Details Page Image (non-table)
+ */
+function generateHardwareWalletsDetailsImage() {
+  const canvas = createCanvas(WIDTH, HEIGHT);
+  const ctx = canvas.getContext('2d');
+
+  // Background gradient
+  const gradient = ctx.createLinearGradient(0, 0, WIDTH, HEIGHT);
+  gradient.addColorStop(0, '#0f172a');
+  gradient.addColorStop(1, '#1e1b4b');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+  // Branding
+  drawBranding(ctx);
+
+  // Title
+  ctx.fillStyle = COLORS.text;
+  ctx.font = 'bold 42px Arial, sans-serif';
+  ctx.fillText('Hardware Wallet Guide', 50, 160);
+
+  // Subtitle
+  ctx.fillStyle = COLORS.textMuted;
+  ctx.font = '20px Arial, sans-serif';
+  ctx.fillText('Cold storage security and recommendations', 50, 195);
+
+  // Recommendations section
+  const startY = 250;
+
+  // Section title
+  ctx.fillStyle = COLORS.primary;
+  ctx.font = 'bold 24px Arial, sans-serif';
+  ctx.fillText('🎯 Top Recommendations', 50, startY);
+
+  // Top picks
+  const picks = [
+    { rank: '🥇', name: 'Trezor Safe 5', score: 94, for: 'Best overall - Optiga SE, $169' },
+    { rank: '🥈', name: 'Keystone 3 Pro', score: 91, for: 'Air-gapped - 3× SE chips, $149' },
+    { rank: '🥉', name: 'ColdCard Mk4', score: 91, for: 'Bitcoin-first - Dual SE, $150' },
+  ];
+
+  let y = startY + 50;
+  picks.forEach((pick) => {
+    // Rank
+    ctx.font = '32px Arial, sans-serif';
+    ctx.fillText(pick.rank, 50, y);
+
+    // Wallet name and score
+    ctx.fillStyle = COLORS.text;
+    ctx.font = 'bold 28px Arial, sans-serif';
+    ctx.fillText(pick.name, 110, y);
+
+    ctx.fillStyle = COLORS.accent;
+    ctx.font = 'bold 28px Arial, sans-serif';
+    ctx.fillText(`${pick.score}`, 370, y);
+
+    // Description
+    ctx.fillStyle = COLORS.textMuted;
+    ctx.font = '18px Arial, sans-serif';
+    ctx.fillText(pick.for, 110, y + 28);
+
+    y += 80;
+  });
+
+  // Key features section
+  y += 20;
+  ctx.fillStyle = COLORS.primary;
+  ctx.font = 'bold 24px Arial, sans-serif';
+  ctx.fillText('🔒 Security Features', 50, y);
+
+  const features = [
+    '• Secure Element chips for key storage',
+    '• Open source firmware for transparency',
+    '• Air-gapped options for maximum security',
+  ];
+
+  y += 40;
+  ctx.fillStyle = COLORS.textMuted;
+  ctx.font = '18px Arial, sans-serif';
+  features.forEach((feature) => {
+    ctx.fillText(feature, 50, y);
+    y += 35;
+  });
+
+  // Footer
+  drawFooter(ctx, [
+    { value: '23+', label: 'Devices Reviewed' },
+    { value: '$79+', label: 'Starting Price' },
+    { value: 'Secure Element', label: 'Protection' },
+  ]);
+
+  return canvas;
+}
+
+/**
+ * Generate Crypto Cards Details Page Image (non-table)
+ */
+function generateCryptoCardsDetailsImage() {
+  const canvas = createCanvas(WIDTH, HEIGHT);
+  const ctx = canvas.getContext('2d');
+
+  // Background gradient
+  const gradient = ctx.createLinearGradient(0, 0, WIDTH, HEIGHT);
+  gradient.addColorStop(0, '#0f172a');
+  gradient.addColorStop(1, '#14532d');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+  // Branding
+  drawBranding(ctx);
+
+  // Title
+  ctx.fillStyle = COLORS.text;
+  ctx.font = 'bold 42px Arial, sans-serif';
+  ctx.fillText('Crypto Card Guide', 50, 160);
+
+  // Subtitle
+  ctx.fillStyle = COLORS.textMuted;
+  ctx.font = '20px Arial, sans-serif';
+  ctx.fillText('Maximize cashback and rewards on crypto spending', 50, 195);
+
+  // Recommendations section
+  const startY = 250;
+
+  // Section title
+  ctx.fillStyle = COLORS.primary;
+  ctx.font = 'bold 24px Arial, sans-serif';
+  ctx.fillText('🎯 Top Cashback Cards', 50, startY);
+
+  // Top picks
+  const picks = [
+    { rank: '🥇', name: 'Ready Card', cashback: '10%', for: 'EU/UK - Debit card' },
+    { rank: '🥈', name: 'Bybit Card', cashback: '10%', for: 'EEA - Debit card' },
+    { rank: '🥉', name: 'Plutus Card', cashback: '3-9%', for: 'EU/UK - Tiered rewards' },
+  ];
+
+  let y = startY + 50;
+  picks.forEach((pick) => {
+    // Rank
+    ctx.font = '32px Arial, sans-serif';
+    ctx.fillText(pick.rank, 50, y);
+
+    // Card name and cashback
+    ctx.fillStyle = COLORS.text;
+    ctx.font = 'bold 28px Arial, sans-serif';
+    ctx.fillText(pick.name, 110, y);
+
+    ctx.fillStyle = COLORS.accent;
+    ctx.font = 'bold 28px Arial, sans-serif';
+    ctx.fillText(pick.cashback, 330, y);
+
+    // Description
+    ctx.fillStyle = COLORS.textMuted;
+    ctx.font = '18px Arial, sans-serif';
+    ctx.fillText(pick.for, 110, y + 28);
+
+    y += 80;
+  });
+
+  // Regional options section
+  y += 20;
+  ctx.fillStyle = COLORS.primary;
+  ctx.font = 'bold 24px Arial, sans-serif';
+  ctx.fillText('🌍 Regional Options', 50, y);
+
+  const regions = [
+    '• US: Coinbase Card (1-4%), Fold Card (1.5%)',
+    '• EU/UK: Nexo Card (2%), Crypto.com (1-8%)',
+    '• Global: Multiple options with varying limits',
+  ];
+
+  y += 40;
+  ctx.fillStyle = COLORS.textMuted;
+  ctx.font = '18px Arial, sans-serif';
+  regions.forEach((region) => {
+    ctx.fillText(region, 50, y);
+    y += 35;
+  });
+
+  // Footer
+  drawFooter(ctx, [
+    { value: '27+', label: 'Cards Compared' },
+    { value: '10%', label: 'Max Cashback' },
+    { value: 'Global', label: 'Coverage' },
+  ]);
+
+  return canvas;
+}
+
+/**
  * Main execution
  */
 async function main() {
   console.log('🎨 Generating OG Images for Wallet Radar...\n');
-  
+
   // Ensure output directory exists
   if (!fs.existsSync(OUTPUT_DIR)) {
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });
   }
-  
-  // Generate all images
-  saveCanvas(generateSoftwareWalletsImage(), 'og-software-wallets.png');
-  saveCanvas(generateHardwareWalletsImage(), 'og-hardware-wallets.png');
-  saveCanvas(generateCryptoCardsImage(), 'og-crypto-cards.png');
-  
+
+  // Generate all images (6 total: 3 table + 3 details)
+  console.log('📊 Generating table comparison images...');
+  saveCanvas(generateSoftwareWalletsImage(), 'og-software-wallets-table.png');
+  saveCanvas(generateHardwareWalletsImage(), 'og-hardware-wallets-table.png');
+  saveCanvas(generateCryptoCardsImage(), 'og-crypto-cards-table.png');
+
+  console.log('\n📖 Generating details/guide images...');
+  saveCanvas(generateSoftwareWalletsDetailsImage(), 'og-software-wallets-details.png');
+  saveCanvas(generateHardwareWalletsDetailsImage(), 'og-hardware-wallets-details.png');
+  saveCanvas(generateCryptoCardsDetailsImage(), 'og-crypto-cards-details.png');
+
   // Only generate default image if it doesn't exist or --force flag is passed
+  console.log('\n🏠 Checking default homepage image...');
   const defaultImagePath = path.join(OUTPUT_DIR, 'og-image.png');
   if (!fs.existsSync(defaultImagePath) || process.argv.includes('--force')) {
     saveCanvas(generateDefaultImage(), 'og-image.png');
   } else {
     console.log('⏭️  Skipped: og-image.png (already exists, use --force to regenerate)');
   }
-  
+
   console.log('\n✨ All OG images generated successfully!');
+  console.log('\nGenerated files:');
+  console.log('  📊 Table pages: og-{software-wallets,hardware-wallets,crypto-cards}-table.png');
+  console.log('  📖 Details pages: og-{software-wallets,hardware-wallets,crypto-cards}-details.png');
+  console.log('  🏠 Homepage: og-image.png');
   console.log('\nNext steps:');
   console.log('1. Review the generated images in /public/');
-  console.log('2. Test with Twitter Card Validator: https://cards-dev.twitter.com/validator');
+  console.log('2. Update seo.ts to map table/details pages to correct images');
+  console.log('3. Test with Twitter Card Validator: https://cards-dev.twitter.com/validator');
 }
 
 main().catch(console.error);
