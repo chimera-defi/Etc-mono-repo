@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
   X,
   Download,
@@ -91,6 +91,9 @@ function ComparisonRow({
                 <X className="h-4 w-4" />
                 {value}
               </span>
+            ) : React.isValidElement(value) ? (
+              // Render React elements (like links) directly
+              value
             ) : value ? (
               <span>{String(value)}</span>
             ) : (
