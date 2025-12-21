@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Script from 'next/script';
-import { ArrowRight, Shield, Cpu, BookOpen, Github, Zap, CheckCircle, CreditCard } from 'lucide-react';
+import { ArrowRight, Shield, Cpu, BookOpen, Github, Zap, CheckCircle, CreditCard, GitCompare, SlidersHorizontal } from 'lucide-react';
 import { getAllDocuments, getWalletStats } from '@/lib/markdown';
 import { WalletCard } from '@/components/WalletCard';
 import { StatsCard } from '@/components/StatsCard';
@@ -385,6 +385,17 @@ export default function HomePage() {
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
+            {/* Explore CTA */}
+            <div className="mt-6 pt-6 border-t border-border/50">
+              <Link
+                href="/explore"
+                className="inline-flex items-center gap-2 text-primary hover:underline"
+              >
+                <GitCompare className="h-4 w-4" />
+                Compare wallets side-by-side with advanced filters
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -497,6 +508,48 @@ export default function HomePage() {
               ✅ Business-Focused • ✅ Stablecoins • ✅ Global
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Explore & Compare Feature */}
+      <section className="container mx-auto px-4 py-16 border-t border-border">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-2xl font-bold mb-4">Advanced Wallet Explorer</h2>
+          <p className="text-muted-foreground mb-8">
+            Filter, sort, and compare wallets side-by-side with our interactive comparison tool.
+            Find the perfect wallet based on your specific needs.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="p-6 rounded-lg border border-border">
+              <SlidersHorizontal className="h-8 w-8 text-primary mb-3 mx-auto" />
+              <h3 className="font-semibold mb-2">Advanced Filters</h3>
+              <p className="text-sm text-muted-foreground">
+                Filter by platforms, features, license, funding, and more
+              </p>
+            </div>
+            <div className="p-6 rounded-lg border border-border">
+              <GitCompare className="h-8 w-8 text-primary mb-3 mx-auto" />
+              <h3 className="font-semibold mb-2">Side-by-Side Compare</h3>
+              <p className="text-sm text-muted-foreground">
+                Compare up to 4 wallets with detailed feature breakdown
+              </p>
+            </div>
+            <div className="p-6 rounded-lg border border-border">
+              <Zap className="h-8 w-8 text-primary mb-3 mx-auto" />
+              <h3 className="font-semibold mb-2">Live Chain Data</h3>
+              <p className="text-sm text-muted-foreground">
+                Real-time TVL data from DeFiLlama for chain coverage
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/explore"
+            className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors"
+          >
+            <GitCompare className="h-5 w-5" />
+            Explore & Compare Wallets
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </section>
 

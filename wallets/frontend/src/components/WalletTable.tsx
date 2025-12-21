@@ -1,0 +1,789 @@
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+import {
+  ExternalLink,
+  Github,
+  Plus,
+  Check,
+  Smartphone,
+  Globe,
+  Monitor,
+  Link as LinkIcon,
+  Shield,
+  Zap,
+  AlertTriangle,
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
+
+// Client-side types (matching wallet-data.ts exports)
+export interface SoftwareWallet {
+  id: string;
+  name: string;
+  score: number;
+  core: 'full' | 'partial' | 'none';
+  releasesPerMonth: number | null;
+  rpc: 'full' | 'partial' | 'none';
+  github: string | null;
+  active: 'active' | 'slow' | 'inactive' | 'private';
+  chains: number | string;
+  devices: {
+    mobile: boolean;
+    browser: boolean;
+    desktop: boolean;
+    web: boolean;
+  };
+  testnets: boolean;
+  license: 'open' | 'partial' | 'closed';
+  licenseType: string;
+  audits: 'recent' | 'old' | 'bounty' | 'none';
+  funding: 'sustainable' | 'vc' | 'risky';
+  fundingSource: string;
+  txSimulation: boolean;
+  scamAlerts: 'full' | 'partial' | 'none';
+  accountTypes: string[];
+  ensNaming: 'full' | 'basic' | 'import' | 'none';
+  hardwareSupport: boolean;
+  bestFor: string;
+  recommendation: 'recommended' | 'situational' | 'avoid' | 'not-for-dev';
+  type: 'software';
+}
+
+export interface HardwareWallet {
+  id: string;
+  name: string;
+  score: number;
+  github: string | null;
+  airGap: boolean;
+  openSource: 'full' | 'partial' | 'closed';
+  secureElement: boolean;
+  secureElementType: string | null;
+  display: string;
+  price: number | null;
+  priceText: string;
+  connectivity: string[];
+  active: 'active' | 'slow' | 'inactive' | 'private';
+  recommendation: 'recommended' | 'situational' | 'avoid';
+  url: string | null;
+  type: 'hardware';
+}
+
+export interface CryptoCard {
+  id: string;
+  name: string;
+  score: number;
+  cardType: 'credit' | 'debit' | 'prepaid' | 'business';
+  businessSupport: 'yes' | 'no' | 'verify';
+  region: string;
+  regionCode: string;
+  cashBack: string;
+  cashBackMax: number | null;
+  annualFee: string;
+  fxFee: string;
+  rewards: string;
+  provider: string;
+  providerUrl: string | null;
+  status: 'active' | 'verify' | 'launching';
+  bestFor: string;
+  recommendation: 'recommended' | 'situational' | 'avoid';
+  type: 'card';
+}
+
+export type WalletData = SoftwareWallet | HardwareWallet | CryptoCard;
+
+// Badge component
+function Badge({
+  children,
+  variant = 'default',
+}: {
+  children: React.ReactNode;
+  variant?: 'default' | 'success' | 'warning' | 'error' | 'info';
+}) {
+  const variants = {
+    default: 'bg-muted text-muted-foreground',
+    success: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
+    warning: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400',
+    error: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
+    info: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
+  };
+
+  return (
+    <span className={cn('px-2 py-0.5 text-xs rounded-full font-medium', variants[variant])}>
+      {children}
+    </span>
+  );
+}
+
+// Score badge
+function ScoreBadge({ score }: { score: number }) {
+  let variant: 'success' | 'warning' | 'error' = 'warning';
+  if (score >= 75) variant = 'success';
+  else if (score < 50) variant = 'error';
+
+  return (
+    <div
+      className={cn(
+        'w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg',
+        variant === 'success' && 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
+        variant === 'warning' && 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400',
+        variant === 'error' && 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+      )}
+    >
+      {score}
+    </div>
+  );
+}
+
+// Recommendation badge
+function RecommendationBadge({ recommendation }: { recommendation: string }) {
+  const config = {
+    recommended: { label: 'Recommended', variant: 'success' as const },
+    situational: { label: 'Situational', variant: 'warning' as const },
+    avoid: { label: 'Avoid', variant: 'error' as const },
+    'not-for-dev': { label: 'Not for Dev', variant: 'default' as const },
+  };
+
+  const { label, variant } = config[recommendation as keyof typeof config] || config.situational;
+  return <Badge variant={variant}>{label}</Badge>;
+}
+
+// Device icons
+function DeviceIcons({ devices }: { devices: SoftwareWallet['devices'] }) {
+  return (
+    <div className="flex items-center gap-1">
+      {devices.mobile && (
+        <span title="Mobile">
+          <Smartphone className="h-4 w-4 text-muted-foreground" />
+        </span>
+      )}
+      {devices.browser && (
+        <span title="Browser Extension">
+          <Globe className="h-4 w-4 text-muted-foreground" />
+        </span>
+      )}
+      {devices.desktop && (
+        <span title="Desktop">
+          <Monitor className="h-4 w-4 text-muted-foreground" />
+        </span>
+      )}
+      {devices.web && (
+        <span title="Web App">
+          <LinkIcon className="h-4 w-4 text-muted-foreground" />
+        </span>
+      )}
+    </div>
+  );
+}
+
+// Feature indicator
+function FeatureIndicator({ value, label }: { value: boolean | string; label: string }) {
+  if (typeof value === 'boolean') {
+    return (
+      <span
+        title={label}
+        className={cn(
+          'inline-flex items-center justify-center w-5 h-5 rounded-full',
+          value ? 'bg-green-100 text-green-600 dark:bg-green-900/30' : 'bg-muted text-muted-foreground'
+        )}
+      >
+        {value ? <Check className="h-3 w-3" /> : '−'}
+      </span>
+    );
+  }
+
+  const isPartial = value === 'partial' || value === 'basic' || value === 'import';
+  const isFull = value === 'full' || value === 'recent' || value === 'open' || value === 'active';
+
+  return (
+    <span
+      title={label}
+      className={cn(
+        'inline-flex items-center justify-center w-5 h-5 rounded-full text-xs',
+        isFull && 'bg-green-100 text-green-600 dark:bg-green-900/30',
+        isPartial && 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30',
+        !isFull && !isPartial && 'bg-muted text-muted-foreground'
+      )}
+    >
+      {isFull ? '✓' : isPartial ? '~' : '−'}
+    </span>
+  );
+}
+
+// Software wallet row/card
+function SoftwareWalletItem({
+  wallet,
+  isSelected,
+  onToggleSelect,
+  viewMode,
+}: {
+  wallet: SoftwareWallet;
+  isSelected: boolean;
+  onToggleSelect: () => void;
+  viewMode: 'grid' | 'table';
+}) {
+  if (viewMode === 'table') {
+    return (
+      <tr className="border-b border-border hover:bg-muted/50 transition-colors">
+        <td className="py-3 px-4">
+          <button
+            onClick={onToggleSelect}
+            className={cn(
+              'p-1 rounded border transition-colors',
+              isSelected
+                ? 'bg-primary text-primary-foreground border-primary'
+                : 'border-border hover:border-primary'
+            )}
+          >
+            {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+          </button>
+        </td>
+        <td className="py-3 px-4">
+          <div className="flex items-center gap-3">
+            <ScoreBadge score={wallet.score} />
+            <div>
+              <div className="font-semibold">{wallet.name}</div>
+              <div className="text-sm text-muted-foreground">{wallet.bestFor}</div>
+            </div>
+          </div>
+        </td>
+        <td className="py-3 px-4">
+          <RecommendationBadge recommendation={wallet.recommendation} />
+        </td>
+        <td className="py-3 px-4">
+          <DeviceIcons devices={wallet.devices} />
+        </td>
+        <td className="py-3 px-4 text-sm">
+          {typeof wallet.chains === 'number' ? wallet.chains : wallet.chains}
+        </td>
+        <td className="py-3 px-4">
+          <div className="flex gap-1">
+            <FeatureIndicator value={wallet.txSimulation} label="Tx Simulation" />
+            <FeatureIndicator value={wallet.scamAlerts} label="Scam Alerts" />
+            <FeatureIndicator value={wallet.hardwareSupport} label="HW Support" />
+          </div>
+        </td>
+        <td className="py-3 px-4">
+          <Badge variant={wallet.license === 'open' ? 'success' : wallet.license === 'partial' ? 'warning' : 'default'}>
+            {wallet.licenseType}
+          </Badge>
+        </td>
+        <td className="py-3 px-4">
+          {wallet.github && (
+            <a
+              href={wallet.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <Github className="h-4 w-4" />
+            </a>
+          )}
+        </td>
+      </tr>
+    );
+  }
+
+  // Grid/card view
+  return (
+    <div
+      className={cn(
+        'p-4 border rounded-lg transition-all',
+        isSelected ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'
+      )}
+    >
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex items-center gap-3">
+          <ScoreBadge score={wallet.score} />
+          <div>
+            <h3 className="font-semibold">{wallet.name}</h3>
+            <RecommendationBadge recommendation={wallet.recommendation} />
+          </div>
+        </div>
+        <button
+          onClick={onToggleSelect}
+          className={cn(
+            'p-2 rounded-lg border transition-colors',
+            isSelected
+              ? 'bg-primary text-primary-foreground border-primary'
+              : 'border-border hover:border-primary hover:bg-muted'
+          )}
+          title={isSelected ? 'Remove from comparison' : 'Add to comparison'}
+        >
+          {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+        </button>
+      </div>
+
+      <p className="text-sm text-muted-foreground mb-3">{wallet.bestFor}</p>
+
+      <div className="flex items-center gap-4 mb-3">
+        <DeviceIcons devices={wallet.devices} />
+        <span className="text-sm text-muted-foreground">
+          {typeof wallet.chains === 'number' ? `${wallet.chains} chains` : wallet.chains}
+        </span>
+      </div>
+
+      <div className="flex flex-wrap gap-2 mb-3">
+        {wallet.txSimulation && (
+          <Badge variant="info">
+            <Shield className="h-3 w-3 inline mr-1" />
+            Tx Sim
+          </Badge>
+        )}
+        {wallet.scamAlerts !== 'none' && (
+          <Badge variant="warning">
+            <AlertTriangle className="h-3 w-3 inline mr-1" />
+            Scam Alerts
+          </Badge>
+        )}
+        {wallet.hardwareSupport && (
+          <Badge variant="default">
+            <Zap className="h-3 w-3 inline mr-1" />
+            HW
+          </Badge>
+        )}
+      </div>
+
+      <div className="flex items-center justify-between text-sm">
+        <Badge variant={wallet.license === 'open' ? 'success' : wallet.license === 'partial' ? 'warning' : 'default'}>
+          {wallet.licenseType}
+        </Badge>
+        {wallet.github && (
+          <a
+            href={wallet.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1"
+          >
+            <Github className="h-4 w-4" />
+            GitHub
+          </a>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// Hardware wallet row/card
+function HardwareWalletItem({
+  wallet,
+  isSelected,
+  onToggleSelect,
+  viewMode,
+}: {
+  wallet: HardwareWallet;
+  isSelected: boolean;
+  onToggleSelect: () => void;
+  viewMode: 'grid' | 'table';
+}) {
+  if (viewMode === 'table') {
+    return (
+      <tr className="border-b border-border hover:bg-muted/50 transition-colors">
+        <td className="py-3 px-4">
+          <button
+            onClick={onToggleSelect}
+            className={cn(
+              'p-1 rounded border transition-colors',
+              isSelected
+                ? 'bg-primary text-primary-foreground border-primary'
+                : 'border-border hover:border-primary'
+            )}
+          >
+            {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+          </button>
+        </td>
+        <td className="py-3 px-4">
+          <div className="flex items-center gap-3">
+            <ScoreBadge score={wallet.score} />
+            <div>
+              <div className="font-semibold">{wallet.name}</div>
+              <div className="text-sm text-muted-foreground">{wallet.priceText}</div>
+            </div>
+          </div>
+        </td>
+        <td className="py-3 px-4">
+          <RecommendationBadge recommendation={wallet.recommendation} />
+        </td>
+        <td className="py-3 px-4">
+          <FeatureIndicator value={wallet.airGap} label="Air-Gapped" />
+        </td>
+        <td className="py-3 px-4">
+          <FeatureIndicator value={wallet.secureElement} label="Secure Element" />
+        </td>
+        <td className="py-3 px-4">
+          <Badge variant={wallet.openSource === 'full' ? 'success' : wallet.openSource === 'partial' ? 'warning' : 'default'}>
+            {wallet.openSource === 'full' ? 'Open' : wallet.openSource === 'partial' ? 'Partial' : 'Closed'}
+          </Badge>
+        </td>
+        <td className="py-3 px-4 text-sm">
+          {wallet.connectivity.join(', ')}
+        </td>
+        <td className="py-3 px-4">
+          <div className="flex gap-2">
+            {wallet.github && (
+              <a
+                href={wallet.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <Github className="h-4 w-4" />
+              </a>
+            )}
+            {wallet.url && (
+              <a
+                href={wallet.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            )}
+          </div>
+        </td>
+      </tr>
+    );
+  }
+
+  // Grid/card view
+  return (
+    <div
+      className={cn(
+        'p-4 border rounded-lg transition-all',
+        isSelected ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'
+      )}
+    >
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex items-center gap-3">
+          <ScoreBadge score={wallet.score} />
+          <div>
+            <h3 className="font-semibold">{wallet.name}</h3>
+            <RecommendationBadge recommendation={wallet.recommendation} />
+          </div>
+        </div>
+        <button
+          onClick={onToggleSelect}
+          className={cn(
+            'p-2 rounded-lg border transition-colors',
+            isSelected
+              ? 'bg-primary text-primary-foreground border-primary'
+              : 'border-border hover:border-primary hover:bg-muted'
+          )}
+        >
+          {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+        </button>
+      </div>
+
+      <p className="text-lg font-semibold text-primary mb-2">{wallet.priceText}</p>
+
+      <div className="flex flex-wrap gap-2 mb-3">
+        {wallet.airGap && <Badge variant="success">Air-Gapped</Badge>}
+        {wallet.secureElement && (
+          <Badge variant="info">
+            SE: {wallet.secureElementType || 'Yes'}
+          </Badge>
+        )}
+        <Badge variant={wallet.openSource === 'full' ? 'success' : wallet.openSource === 'partial' ? 'warning' : 'default'}>
+          {wallet.openSource === 'full' ? 'Open Source' : wallet.openSource === 'partial' ? 'Partial OS' : 'Closed'}
+        </Badge>
+      </div>
+
+      <div className="text-sm text-muted-foreground mb-3">
+        {wallet.display} • {wallet.connectivity.join(', ')}
+      </div>
+
+      <div className="flex items-center gap-2">
+        {wallet.github && (
+          <a
+            href={wallet.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-sm"
+          >
+            <Github className="h-4 w-4" />
+          </a>
+        )}
+        {wallet.url && (
+          <a
+            href={wallet.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-sm"
+          >
+            <ExternalLink className="h-4 w-4" />
+            Website
+          </a>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// Crypto card row/card
+function CryptoCardItem({
+  card,
+  isSelected,
+  onToggleSelect,
+  viewMode,
+}: {
+  card: CryptoCard;
+  isSelected: boolean;
+  onToggleSelect: () => void;
+  viewMode: 'grid' | 'table';
+}) {
+  if (viewMode === 'table') {
+    return (
+      <tr className="border-b border-border hover:bg-muted/50 transition-colors">
+        <td className="py-3 px-4">
+          <button
+            onClick={onToggleSelect}
+            className={cn(
+              'p-1 rounded border transition-colors',
+              isSelected
+                ? 'bg-primary text-primary-foreground border-primary'
+                : 'border-border hover:border-primary'
+            )}
+          >
+            {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+          </button>
+        </td>
+        <td className="py-3 px-4">
+          <div className="flex items-center gap-3">
+            <ScoreBadge score={card.score} />
+            <div>
+              <div className="font-semibold">{card.name}</div>
+              <div className="text-sm text-muted-foreground">{card.provider}</div>
+            </div>
+          </div>
+        </td>
+        <td className="py-3 px-4">
+          <Badge variant="info">{card.cardType}</Badge>
+        </td>
+        <td className="py-3 px-4 text-sm">{card.region}</td>
+        <td className="py-3 px-4">
+          <span className="font-semibold text-green-600 dark:text-green-400">{card.cashBack}</span>
+        </td>
+        <td className="py-3 px-4 text-sm">{card.rewards}</td>
+        <td className="py-3 px-4 text-sm">{card.annualFee}</td>
+        <td className="py-3 px-4">
+          {card.providerUrl && (
+            <a
+              href={card.providerUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <ExternalLink className="h-4 w-4" />
+            </a>
+          )}
+        </td>
+      </tr>
+    );
+  }
+
+  // Grid/card view
+  return (
+    <div
+      className={cn(
+        'p-4 border rounded-lg transition-all',
+        isSelected ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'
+      )}
+    >
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex items-center gap-3">
+          <ScoreBadge score={card.score} />
+          <div>
+            <h3 className="font-semibold">{card.name}</h3>
+            <Badge variant="info">{card.cardType}</Badge>
+          </div>
+        </div>
+        <button
+          onClick={onToggleSelect}
+          className={cn(
+            'p-2 rounded-lg border transition-colors',
+            isSelected
+              ? 'bg-primary text-primary-foreground border-primary'
+              : 'border-border hover:border-primary hover:bg-muted'
+          )}
+        >
+          {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+        </button>
+      </div>
+
+      <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
+        {card.cashBack}
+      </div>
+
+      <p className="text-sm text-muted-foreground mb-3">{card.bestFor}</p>
+
+      <div className="flex flex-wrap gap-2 mb-3">
+        <Badge variant="default">{card.region}</Badge>
+        <Badge variant="default">{card.rewards}</Badge>
+        {card.businessSupport === 'yes' && <Badge variant="info">Business</Badge>}
+      </div>
+
+      <div className="flex items-center justify-between text-sm">
+        <span className="text-muted-foreground">
+          Fee: {card.annualFee} | FX: {card.fxFee}
+        </span>
+        {card.providerUrl && (
+          <a
+            href={card.providerUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:underline inline-flex items-center gap-1"
+          >
+            Apply
+            <ExternalLink className="h-3 w-3" />
+          </a>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// Main table/grid component
+interface WalletTableProps<T extends WalletData> {
+  wallets: T[];
+  selectedIds: string[];
+  onToggleSelect: (id: string) => void;
+  viewMode?: 'grid' | 'table';
+  type: 'software' | 'hardware' | 'cards';
+}
+
+export function WalletTable<T extends WalletData>({
+  wallets,
+  selectedIds,
+  onToggleSelect,
+  viewMode = 'grid',
+  type,
+}: WalletTableProps<T>) {
+  if (wallets.length === 0) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-lg text-muted-foreground mb-2">No wallets match your filters</p>
+        <p className="text-sm text-muted-foreground">Try adjusting your filter criteria</p>
+      </div>
+    );
+  }
+
+  if (viewMode === 'table') {
+    return (
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-border bg-muted/50">
+              <th className="py-3 px-4 text-left text-sm font-medium">Compare</th>
+              <th className="py-3 px-4 text-left text-sm font-medium">Wallet</th>
+              <th className="py-3 px-4 text-left text-sm font-medium">Status</th>
+              {type === 'software' && (
+                <>
+                  <th className="py-3 px-4 text-left text-sm font-medium">Platforms</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">Chains</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">Features</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">License</th>
+                </>
+              )}
+              {type === 'hardware' && (
+                <>
+                  <th className="py-3 px-4 text-left text-sm font-medium">Air-Gap</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">SE</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">Open Source</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">Connectivity</th>
+                </>
+              )}
+              {type === 'cards' && (
+                <>
+                  <th className="py-3 px-4 text-left text-sm font-medium">Region</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">Cashback</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">Rewards</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">Annual Fee</th>
+                </>
+              )}
+              <th className="py-3 px-4 text-left text-sm font-medium">Links</th>
+            </tr>
+          </thead>
+          <tbody>
+            {wallets.map(wallet => {
+              const isSelected = selectedIds.includes(wallet.id);
+              if (type === 'software') {
+                return (
+                  <SoftwareWalletItem
+                    key={wallet.id}
+                    wallet={wallet as SoftwareWallet}
+                    isSelected={isSelected}
+                    onToggleSelect={() => onToggleSelect(wallet.id)}
+                    viewMode="table"
+                  />
+                );
+              }
+              if (type === 'hardware') {
+                return (
+                  <HardwareWalletItem
+                    key={wallet.id}
+                    wallet={wallet as HardwareWallet}
+                    isSelected={isSelected}
+                    onToggleSelect={() => onToggleSelect(wallet.id)}
+                    viewMode="table"
+                  />
+                );
+              }
+              return (
+                <CryptoCardItem
+                  key={wallet.id}
+                  card={wallet as CryptoCard}
+                  isSelected={isSelected}
+                  onToggleSelect={() => onToggleSelect(wallet.id)}
+                  viewMode="table"
+                />
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
+  // Grid view
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {wallets.map(wallet => {
+        const isSelected = selectedIds.includes(wallet.id);
+        if (type === 'software') {
+          return (
+            <SoftwareWalletItem
+              key={wallet.id}
+              wallet={wallet as SoftwareWallet}
+              isSelected={isSelected}
+              onToggleSelect={() => onToggleSelect(wallet.id)}
+              viewMode="grid"
+            />
+          );
+        }
+        if (type === 'hardware') {
+          return (
+            <HardwareWalletItem
+              key={wallet.id}
+              wallet={wallet as HardwareWallet}
+              isSelected={isSelected}
+              onToggleSelect={() => onToggleSelect(wallet.id)}
+              viewMode="grid"
+            />
+          );
+        }
+        return (
+          <CryptoCardItem
+            key={wallet.id}
+            card={wallet as CryptoCard}
+            isSelected={isSelected}
+            onToggleSelect={() => onToggleSelect(wallet.id)}
+            viewMode="grid"
+          />
+        );
+      })}
+    </div>
+  );
+}
+
+export default WalletTable;
