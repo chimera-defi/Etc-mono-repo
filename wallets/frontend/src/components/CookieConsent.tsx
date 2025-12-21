@@ -4,6 +4,14 @@ import { useState, useEffect } from 'react';
 import { X, Cookie } from 'lucide-react';
 import Link from 'next/link';
 
+// Extend Window interface for Google Analytics
+declare global {
+  interface Window {
+    dataLayer: unknown[];
+    gtag: (...args: unknown[]) => void;
+  }
+}
+
 const CONSENT_KEY = 'wallet-radar-cookie-consent';
 
 type ConsentStatus = 'pending' | 'accepted' | 'rejected';

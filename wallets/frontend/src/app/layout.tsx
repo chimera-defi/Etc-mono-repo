@@ -4,12 +4,12 @@ import Script from 'next/script';
 import './globals.css';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
-import { GoogleAnalytics } from '@/components/GoogleAnalytics';
 import { ThemeProvider } from '@/components/ThemeProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
-const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-L6ZV569CMN';
+// Google Analytics Measurement ID - hardcoded for static export reliability
+const GA_MEASUREMENT_ID = 'G-L6ZV569CMN';
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
 const siteName = 'Wallet Radar';
 const defaultTitle = 'Wallet Radar - Developer-Focused Crypto Wallet Research';
@@ -141,9 +141,27 @@ export default function RootLayout({
         {/* Theme initialization script - must run before render to prevent FOUC */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         
-        {/* Preconnect for performance */}
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://www.google-analytics.com" />
+        {/* Google Analytics - Standard implementation for static export sites */}
+        {/* This MUST be in <head> for reliable tracking on static sites */}
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${GA_MEASUREMENT_ID}', {
+                page_path: window.location.pathname,
+                anonymize_ip: true
+              });
+            `,
+          }}
+        />
+        
+        {/* Preconnect for performance (keeping for other Google services) */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         
@@ -179,7 +197,6 @@ export default function RootLayout({
             <Footer />
           </div>
         </ThemeProvider>
-        {gaMeasurementId && <GoogleAnalytics measurementId={gaMeasurementId} />}
       </body>
     </html>
   );

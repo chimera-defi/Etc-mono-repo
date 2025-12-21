@@ -49,8 +49,7 @@ frontend/
 │   │   ├── MarkdownRenderer.tsx  # Markdown to HTML
 │   │   ├── TableOfContents.tsx   # TOC sidebar
 │   │   ├── WalletCard.tsx   # Document card
-│   │   ├── StatsCard.tsx    # Statistics display
-│   │   └── GoogleAnalytics.tsx  # Google Analytics tracking
+│   │   └── StatsCard.tsx    # Statistics display
 │   └── lib/
 │       ├── markdown.ts      # Markdown processing utilities
 │       └── utils.ts         # Utility functions
@@ -150,22 +149,13 @@ Update `navItems` in `src/components/Navigation.tsx` to change the header menu.
 
 ### Google Analytics 4
 
-Google Analytics 4 (GA4) is integrated for website tracking with GDPR-compliant consent management:
+Google Analytics 4 (GA4) is integrated via standard inline scripts in the HTML `<head>`:
 
-- **Environment Variable**: `NEXT_PUBLIC_GA_MEASUREMENT_ID`
-- **Default**: `G-L6ZV569CMN` (configured in code)
-- **Location**: Set in `.env.local` file (see `.env.example`)
+- **Measurement ID**: `G-L6ZV569CMN` (hardcoded in `layout.tsx` for static export reliability)
+- **Location**: Inline scripts in `src/app/layout.tsx`
+- **Implementation**: Standard Google-recommended approach for static sites
 
-### Cookie Consent (GDPR)
-
-A cookie consent banner is included that:
-- Shows on first visit after a 1-second delay
-- Remembers user choice in localStorage
-- Defaults to analytics being **denied** until consent is given
-- Supports "Accept All" and "Reject Non-Essential" options
-- Uses Google's Consent Mode v2 for compliant tracking
-
-The consent preference is stored in `localStorage` under `wallet-radar-cookie-consent`.
+The GA script is included directly in the HTML head (not via React components) to ensure tracking works reliably on statically exported sites.
 
 ## SEO Features
 
