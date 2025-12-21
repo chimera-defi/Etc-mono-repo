@@ -143,6 +143,8 @@
   67. **Static pages hardcode, dynamic pages use functions** - in Next.js apps, static pages (layout, /explore) often hardcode image paths directly, while dynamic routes (/docs/[slug]) use lookup functions. Don't add entries to lookup functions for static pages - it creates dead code.
   68. **Cache-busting version parameter** - OG images should include version parameters (e.g., `?v3`) to bust social media caches when images are updated. Increment the version when regenerating images.
   69. **Verify all metadata fields** - Twitter cards need: card type, title, description, creator, site, images. OG needs: title, description, url, type, images (with width/height/alt). Missing fields = incomplete social previews.
+  70. **Regenerate OG images when adding pages** - when adding a new page to wallets/frontend that needs an OG image: 1) Add a generate function to `scripts/generate-og-images.js`, 2) Run `npm run generate-og`, 3) Add metadata to the page pointing to the new image, 4) Commit the generated PNG. CI will fail if images are out of sync.
+  71. **Increment ogImageVersion on image updates** - when OG images are regenerated, increment the version parameter (e.g., `v3` → `v4`) in layout.tsx and affected pages to bust social media caches.
 
 ## Best Practices
 - Use semantic versioning for packages
