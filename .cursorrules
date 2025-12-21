@@ -137,6 +137,13 @@
   63. **Try multiple scraping approaches** - if curl fails, try: 1) Better user agents and headers, 2) Browser automation (Playwright/Puppeteer), 3) Python requests with BeautifulSoup, 4) Wait longer for JavaScript-heavy pages. Always attempt automated solutions before requesting manual help.
   64. **Document verification methods** - when verifying information via browser automation or other tools, document the method used (e.g., "Verified via Playwright browser automation") and the date in verification notes. This helps future verification efforts understand what worked.
 
+- SEO and social media card best practices:
+  65. **Static vs dynamic OG images** - before adding OG/Twitter card metadata, check existing pattern: does the project use static pre-generated PNGs or dynamic API-generated cards? Follow the established pattern.
+  66. **Consistency across pages** - when adding SEO to a new page, copy the EXACT pattern from similar existing pages: same ogImageVersion, same Twitter handles (@creator, @site), same image dimensions (1200x630), same metadata structure.
+  67. **Static pages hardcode, dynamic pages use functions** - in Next.js apps, static pages (layout, /explore) often hardcode image paths directly, while dynamic routes (/docs/[slug]) use lookup functions. Don't add entries to lookup functions for static pages - it creates dead code.
+  68. **Cache-busting version parameter** - OG images should include version parameters (e.g., `?v3`) to bust social media caches when images are updated. Increment the version when regenerating images.
+  69. **Verify all metadata fields** - Twitter cards need: card type, title, description, creator, site, images. OG needs: title, description, url, type, images (with width/height/alt). Missing fields = incomplete social previews.
+
 ## Best Practices
 - Use semantic versioning for packages
 - Include proper .gitignore files for each project type

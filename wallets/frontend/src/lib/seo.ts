@@ -10,9 +10,6 @@
  */
 export function getOgImagePath(slug: string): string {
   const imageMap: Record<string, string> = {
-    // Explore page - interactive wallet comparison tool
-    'explore': '/og-explore.png',
-
     // Software wallet pages - TABLE versions (show comparison data)
     'wallet-comparison-unified-table': '/og-software-wallets-table.png',
     'wallet-comparison-unified': '/og-software-wallets-table.png',
