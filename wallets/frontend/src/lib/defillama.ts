@@ -142,6 +142,7 @@ export async function fetchChainsTVL(): Promise<ChainData[]> {
 
 /**
  * Get top N EVM chains by TVL
+ * @future Available for wallet chain coverage analysis
  */
 export async function getTopEVMChains(limit: number = 20): Promise<ChainData[]> {
   const chains = await fetchChainsTVL();
@@ -150,6 +151,7 @@ export async function getTopEVMChains(limit: number = 20): Promise<ChainData[]> 
 
 /**
  * Get total EVM TVL
+ * @future Available for dashboard statistics
  */
 export async function getEVMTotalTVL(): Promise<{ total: number; formatted: string }> {
   const chains = await fetchChainsTVL();
@@ -163,6 +165,7 @@ export async function getEVMTotalTVL(): Promise<{ total: number; formatted: stri
 
 /**
  * Get chain data by name
+ * @future Available for chain-specific wallet analysis
  */
 export async function getChainByName(name: string): Promise<ChainData | null> {
   const chains = await fetchChainsTVL();
@@ -172,6 +175,7 @@ export async function getChainByName(name: string): Promise<ChainData | null> {
 /**
  * Calculate wallet chain coverage
  * Returns what percentage of total EVM TVL a wallet's supported chains cover
+ * @future Available for wallet comparison metrics
  */
 export async function calculateChainCoverage(
   supportedChainCount: number | string

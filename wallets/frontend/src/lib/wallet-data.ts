@@ -136,12 +136,6 @@ function extractGitHubUrl(cell: string): string | null {
   return null;
 }
 
-// Extract URL from markdown link
-function extractUrl(cell: string): string | null {
-  const match = cell.match(/\[([^\]]+)\]\(([^)]+)\)/);
-  return match ? match[2] : null;
-}
-
 // Parse releases per month
 function parseReleasesPerMonth(cell: string): number | null {
   const match = cell.match(/~?(\d+)/);
@@ -467,7 +461,10 @@ export function parseCryptoCards(): CryptoCard[] {
   }).filter(card => card.name !== 'Unknown' && card.score > 0);
 }
 
-// Get all wallet data
+/**
+ * Get all wallet data in a single call
+ * @future Available for API endpoint implementation
+ */
 export function getAllWalletData(): {
   software: SoftwareWallet[];
   hardware: HardwareWallet[];
@@ -480,7 +477,11 @@ export function getAllWalletData(): {
   };
 }
 
-// Filter options for UI
+/**
+ * Filter options for programmatic filtering
+ * @future Available for API endpoint implementation
+ * Note: ExploreContent.tsx uses its own FilterState for UI state management
+ */
 export interface FilterOptions {
   // Software wallet filters
   recommendation?: ('recommended' | 'situational' | 'avoid' | 'not-for-dev')[];
@@ -510,7 +511,10 @@ export interface FilterOptions {
   search?: string;
 }
 
-// Sort options
+/**
+ * Sort field options
+ * @future Available for API endpoint implementation
+ */
 export type SortField =
   | 'score'
   | 'name'
@@ -519,6 +523,12 @@ export type SortField =
   | 'price'
   | 'cashBackMax';
 export type SortDirection = 'asc' | 'desc';
+
+/**
+ * Filter and sort functions for programmatic use
+ * @future Available for API endpoint implementation
+ * Note: ExploreContent.tsx has its own implementations for client-side filtering
+ */
 
 // Filter software wallets
 export function filterSoftwareWallets(
