@@ -666,6 +666,116 @@ function generateCryptoCardsDetailsImage() {
 }
 
 /**
+ * Generate Explore Page OG Image
+ * Shows the interactive comparison tool feature
+ */
+function generateExploreImage() {
+  const canvas = createCanvas(WIDTH, HEIGHT);
+  const ctx = canvas.getContext('2d');
+
+  // Background gradient (unique purple-blue for explore)
+  const gradient = ctx.createLinearGradient(0, 0, WIDTH, HEIGHT);
+  gradient.addColorStop(0, '#0f172a');
+  gradient.addColorStop(0.5, '#1e1b4b');
+  gradient.addColorStop(1, '#0f172a');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+  // Branding
+  drawBranding(ctx);
+
+  // Title
+  ctx.fillStyle = COLORS.text;
+  ctx.font = 'bold 48px Arial, sans-serif';
+  ctx.fillText('Explore & Compare', 50, 170);
+
+  // Subtitle
+  ctx.fillStyle = COLORS.textMuted;
+  ctx.font = '22px Arial, sans-serif';
+  ctx.fillText('Filter, sort, and compare wallets side-by-side', 50, 210);
+
+  // Feature cards section
+  const startY = 270;
+  const cardWidth = 340;
+  const cardHeight = 160;
+  const cardGap = 35;
+
+  // Feature cards data
+  const features = [
+    {
+      icon: '💻',
+      title: 'Software Wallets',
+      count: '24+',
+      desc: 'Browser & mobile wallets',
+    },
+    {
+      icon: '🔐',
+      title: 'Hardware Wallets',
+      count: '23+',
+      desc: 'Cold storage devices',
+    },
+    {
+      icon: '💳',
+      title: 'Crypto Cards',
+      count: '27+',
+      desc: 'Debit & credit cards',
+    },
+  ];
+
+  features.forEach((feature, i) => {
+    const x = 50 + i * (cardWidth + cardGap);
+    const y = startY;
+
+    // Card background
+    ctx.fillStyle = COLORS.backgroundAlt;
+    roundRect(ctx, x, y, cardWidth, cardHeight, 12);
+    ctx.fill();
+
+    // Card border
+    ctx.strokeStyle = COLORS.border;
+    ctx.lineWidth = 1;
+    roundRect(ctx, x, y, cardWidth, cardHeight, 12);
+    ctx.stroke();
+
+    // Icon
+    ctx.font = '36px Arial, sans-serif';
+    ctx.fillText(feature.icon, x + 20, y + 50);
+
+    // Title
+    ctx.fillStyle = COLORS.text;
+    ctx.font = 'bold 22px Arial, sans-serif';
+    ctx.fillText(feature.title, x + 75, y + 45);
+
+    // Count
+    ctx.fillStyle = COLORS.accent;
+    ctx.font = 'bold 32px Arial, sans-serif';
+    ctx.fillText(feature.count, x + 20, y + 105);
+
+    // Description
+    ctx.fillStyle = COLORS.textMuted;
+    ctx.font = '16px Arial, sans-serif';
+    ctx.fillText(feature.desc, x + 20, y + 135);
+  });
+
+  // Interactive features row
+  const featuresY = startY + cardHeight + 50;
+  ctx.fillStyle = COLORS.primary;
+  ctx.font = 'bold 20px Arial, sans-serif';
+  ctx.fillText('🔍 Advanced Filtering', 50, featuresY);
+  ctx.fillText('📊 Multi-Wallet Compare', 380, featuresY);
+  ctx.fillText('⚡ Real-time Chain Data', 710, featuresY);
+
+  // Footer
+  drawFooter(ctx, [
+    { value: '74+', label: 'Total Options' },
+    { value: 'Side-by-Side', label: 'Comparison' },
+    { value: 'Live TVL', label: 'DeFiLlama Data' },
+  ]);
+
+  return canvas;
+}
+
+/**
  * Main execution
  */
 async function main() {
@@ -676,7 +786,7 @@ async function main() {
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });
   }
 
-  // Generate all images (6 total: 3 table + 3 details)
+  // Generate all images (7 total: 3 table + 3 details + 1 explore)
   console.log('📊 Generating table comparison images...');
   saveCanvas(generateSoftwareWalletsImage(), 'og-software-wallets-table.png');
   saveCanvas(generateHardwareWalletsImage(), 'og-hardware-wallets-table.png');
@@ -686,6 +796,9 @@ async function main() {
   saveCanvas(generateSoftwareWalletsDetailsImage(), 'og-software-wallets-details.png');
   saveCanvas(generateHardwareWalletsDetailsImage(), 'og-hardware-wallets-details.png');
   saveCanvas(generateCryptoCardsDetailsImage(), 'og-crypto-cards-details.png');
+
+  console.log('\n🔍 Generating explore page image...');
+  saveCanvas(generateExploreImage(), 'og-explore.png');
 
   // Only generate default image if it doesn't exist or --force flag is passed
   console.log('\n🏠 Checking default homepage image...');
@@ -700,6 +813,7 @@ async function main() {
   console.log('\nGenerated files:');
   console.log('  📊 Table pages: og-{software-wallets,hardware-wallets,crypto-cards}-table.png');
   console.log('  📖 Details pages: og-{software-wallets,hardware-wallets,crypto-cards}-details.png');
+  console.log('  🔍 Explore page: og-explore.png');
   console.log('  🏠 Homepage: og-image.png');
   console.log('\nNext steps:');
   console.log('1. Review the generated images in /public/');

@@ -39,8 +39,43 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Type check
+        run: npm run type-check
+
+      - name: Verify OG images are up-to-date
+        run: |
+          echo "🖼️ Checking if OG images need regeneration..."
+
+          # Store checksums of current OG images
+          find public -name 'og-*.png' -exec md5sum {} \; | sort > /tmp/og-before.txt
+
+          # Regenerate OG images
+          npm run generate-og
+
+          # Store checksums after regeneration
+          find public -name 'og-*.png' -exec md5sum {} \; | sort > /tmp/og-after.txt
+
+          # Compare
+          if ! diff -q /tmp/og-before.txt /tmp/og-after.txt > /dev/null 2>&1; then
+            echo "❌ OG images are out of date!"
+            echo ""
+            echo "The following images need to be regenerated:"
+            diff /tmp/og-before.txt /tmp/og-after.txt || true
+            echo ""
+            echo "Run 'npm run generate-og' locally and commit the updated images."
+            echo ""
+            echo "## ❌ OG Images Out of Date" >> $GITHUB_STEP_SUMMARY
+            echo "Run \`cd wallets/frontend && npm run generate-og\` and commit the changes." >> $GITHUB_STEP_SUMMARY
+            exit 1
+          else
+            echo "✅ OG images are up-to-date"
+          fi
+
       - name: Build
         run: npm run build
+
+      - name: Validate Twitter Cards
+        run: npm run validate-cards || true
 
       - name: Build Summary
         if: success()
@@ -49,10 +84,11 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "The Next.js application built successfully." >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Checks Passed" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Lint" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Type check" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ OG images up-to-date" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Build" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Amplify Preview" >> $GITHUB_STEP_SUMMARY
           echo "If Amplify PR previews are enabled, check the PR comments for the preview URL." >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "If no preview URL appears, ensure:" >> $GITHUB_STEP_SUMMARY
-          echo "1. PR previews are enabled in AWS Amplify Console" >> $GITHUB_STEP_SUMMARY
-          echo "2. Branch patterns include \`cursor/*\` or all branches" >> $GITHUB_STEP_SUMMARY
-          echo "3. The Amplify app is connected to this repository" >> $GITHUB_STEP_SUMMARY
