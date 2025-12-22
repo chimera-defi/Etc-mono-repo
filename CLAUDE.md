@@ -41,7 +41,41 @@ npm run validate-cards # Twitter Card validation (after build)
 | Pages | `src/app/docs/[slug]/page.tsx` | Dynamic page metadata |
 | Social | `src/components/SocialShare.tsx` | Social sharing buttons |
 | OG Images | `public/og-*.png` | Open Graph images for social |
+| OG Generator | `scripts/generate-og-images.js` | Generates OG images |
 | Validation | `scripts/validate-twitter-cards.js` | Twitter Card validator |
+
+### OG Image Workflow
+
+When adding a new page that needs a custom OG image:
+
+1. **Add generator function** to `scripts/generate-og-images.js`:
+   ```javascript
+   function generateMyNewPageImage() {
+     const canvas = createCanvas(WIDTH, HEIGHT);
+     // ... draw image
+     return canvas;
+   }
+   ```
+
+2. **Add to main()** in the same file:
+   ```javascript
+   saveCanvas(generateMyNewPageImage(), 'og-my-new-page.png');
+   ```
+
+3. **Regenerate images:**
+   ```bash
+   cd wallets/frontend
+   npm run generate-og
+   ```
+
+4. **Add metadata to page** (use existing pattern from explore/page.tsx or layout.tsx):
+   ```typescript
+   const ogImageUrl = `${baseUrl}/og-my-new-page.png?${ogImageVersion}`;
+   ```
+
+5. **Commit the PNG** - CI will fail if generated images don't match committed ones
+
+**CI Verification:** The GitHub Actions workflow compares committed images against freshly generated ones. If they differ, CI fails with instructions to regenerate.
 
 ### Verification Checklist
 
@@ -68,6 +102,7 @@ Before completing any frontend task:
 - **Rule #20:** Think about runability - code must actually run
 - **Rule #24:** Multi-tool verification - run ALL checks (lint, types, tests)
 - **Rule #61:** Verify build after cleanup - always confirm nothing breaks
+- **Rule #70:** Regenerate OG images when adding pages - CI will fail if images are out of sync
 
 ### Critical Rules for Documentation
 

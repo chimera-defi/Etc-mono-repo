@@ -7,15 +7,56 @@ import {
 import { getChainStats } from '@/lib/defillama';
 import { ExploreContent } from './ExploreContent';
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
+const ogImageVersion = 'v3';
+const pageTitle = 'Explore & Compare Wallets | Wallet Radar';
+const pageDescription = 'Filter, sort, and compare crypto wallets side-by-side. Advanced filtering for software wallets, hardware wallets, and crypto cards with real-time chain TVL data.';
+const pageUrl = `${baseUrl}/explore/`;
+const ogImageUrl = `${baseUrl}/og-explore.png?${ogImageVersion}`;
+
 export const metadata: Metadata = {
-  title: 'Explore & Compare Wallets | Wallet Radar',
-  description:
-    'Filter, sort, and compare crypto wallets side-by-side. Advanced filtering for software wallets, hardware wallets, and crypto cards with real-time chain TVL data.',
+  title: pageTitle,
+  description: pageDescription,
+  keywords: [
+    'crypto wallet comparison',
+    'wallet filter',
+    'compare wallets',
+    'software wallet',
+    'hardware wallet',
+    'crypto cards',
+    'EVM wallet',
+    'MetaMask alternative',
+    'wallet explorer',
+    'DeFi wallet comparison',
+  ],
   openGraph: {
-    title: 'Explore & Compare Wallets | Wallet Radar',
-    description:
-      'Filter, sort, and compare crypto wallets side-by-side. Advanced filtering for software wallets, hardware wallets, and crypto cards.',
+    title: pageTitle,
+    description: pageDescription,
+    url: pageUrl,
     type: 'website',
+    images: [
+      {
+        url: ogImageUrl,
+        width: 1200,
+        height: 630,
+        alt: 'Explore & Compare Crypto Wallets - Wallet Radar',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: pageTitle,
+    description: pageDescription,
+    creator: '@chimeradefi',
+    site: '@chimeradefi',
+    images: [ogImageUrl],
+  },
+  alternates: {
+    canonical: pageUrl,
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
