@@ -8,16 +8,25 @@
 
 ## Executive Summary
 
-Aztec Network presents a **first-mover opportunity** for liquid staking on a privacy-focused Ethereum L2. With native staking live since November 2025, a 200,000 AZTEC minimum stake requirement, and only two unidentified teams currently building fractional staking solutions, there is a narrow window to capture significant market share.
+Aztec Network presents a **first-mover opportunity** for liquid staking on a privacy-focused Ethereum L2. With native staking live since November 2025, a 200,000 AZTEC minimum stake requirement, and limited competition currently building fractional staking solutions, there is a narrow window to capture significant market share.
+
+> **⚠️ COMPETITIVE INTELLIGENCE DISCLAIMER:** Claims about "two teams building" are based on informal ecosystem communications (Discord/Telegram) and have not been officially confirmed. Treat as directional intelligence requiring verification through the Intelligence Gathering Strategy outlined in this document.
 
 **Key Facts:**
-- **Launch:** November 2025 (Mainnet live)
-- **Validators:** 500+ sequencers at launch, now ~1,000 in validator set
-- **Minimum Stake:** 200,000 AZTEC (~$6,000 at token sale prices)
-- **Token Sale:** Dec 2-6, 2025 - 19,476 ETH raised, 16,700 participants
-- **Liquid Staking Status:** ❌ NOT AVAILABLE (two teams building)
-- **Network Type:** Privacy-first ZK-Rollup L2 on Ethereum
-- **Backing:** Vitalik-supported project
+- **Launch:** November 2025 (Mainnet live) [^1]
+- **Validators:** 500+ sequencers at launch, now ~1,000 in validator set [^2]
+- **Minimum Stake:** 200,000 AZTEC (~$6,000 at token sale prices) [^3]
+- **Token Sale:** Dec 2-6, 2025 - 19,476 ETH raised, 16,700 participants [^4]
+- **Liquid Staking Status:** ❌ NOT AVAILABLE (limited competition, unverified)
+- **Network Type:** Privacy-first ZK-Rollup L2 on Ethereum [^5]
+- **Backing:** Vitalik-supported project [^6]
+
+[^1]: [Aztec Network Blog - TGE Next Steps](https://aztec.network/blog/aztec-tge-next-steps) (verified Dec 22, 2025)
+[^2]: [Running a Sequencer | Aztec Documentation](https://docs.aztec.network/the_aztec_network/setup/sequencer_management) (verified Dec 22, 2025)
+[^3]: [Aztec Staking Dashboard](https://stake.aztec.network/) (verified Dec 22, 2025)
+[^4]: [Aztec Network Token Sale Overview | LaikaLabs](https://laikalabs.ai/en/blogs/aztec-network-token-sale-overview) (verified Dec 22, 2025)
+[^5]: [What Is Aztec Network? | CoinGecko](https://www.coingecko.com/learn/what-is-aztec-network-ethereum-privacy-layer-2) (verified Dec 22, 2025)
+[^6]: [Analyzing Aztec's Decentralized Sequencer Solution | Gate.com](https://www.gate.com/learn/articles/analyzing-aztecs-decentralized-sequencer-solution/1918) (verified Dec 22, 2025)
 
 ---
 
@@ -88,7 +97,7 @@ Aztec Network presents a **first-mover opportunity** for liquid staking on a pri
 │  │  │  - Collect from OUR nodes│      │  - FIFO queue              │       │     │
 │  │  │  - Protocol fee (10%)    │      │  - Unbonding tracker       │       │     │
 │  │  │  - Update exchange rate  │      │  - Batch processing        │       │     │
-│  │  │  - Compound yields       │      │  - Instant withdraw buffer │       │     │
+│  │  │  - Compound yields       │      │  - Liquidity buffer        │       │     │
 │  │  └──────────────────────────┘      └───────────────────────────┘       │     │
 │  │                                                                          │     │
 │  └──────────────────────────────────────────────────────────────────────────┘    │
@@ -1025,11 +1034,18 @@ Our Protocol:
 └─ Capital Requirement: $0 in AZTEC ✅
 
 We only pay for:
-├─ Server infrastructure: ~$400/month per validator node
+├─ Server infrastructure: ~$400/month per validator node [^7]
 ├─ Smart contract development & audits: $200k one-time
 ├─ Bot infrastructure: ~$300/month
 └─ Team salaries: $50k/month (3-5 people)
 ```
+
+[^7]: **Validator Cost Estimate:** Based on Ethereum validator hardware requirements (8GB RAM, 4 vCPU, 200GB SSD) translated to cloud hosting (AWS/GCP). Assumes:
+  - Compute: $150/month (t3.large or equivalent)
+  - Storage: $20/month (200GB SSD)
+  - Bandwidth: $50/month
+  - Monitoring/backups: $30/month
+  - **⚠️ UNVERIFIED:** Aztec validator requirements not yet confirmed. Must validate on testnet. Actual costs could range $200-$800/month depending on requirements.
 
 ### Why This Model Works
 
@@ -1340,7 +1356,7 @@ const worker = new Worker('rewards', async (job) => {
 - Monitor `WithdrawalQueue.getQueueLength()`
 - When queue has requests:
   - Check liquidity buffer (10% of TVL)
-  - If buffer sufficient: instant withdrawal
+  - If buffer sufficient: fulfill withdrawal immediately
   - If buffer insufficient: unstake from validators
   - Process withdrawals in FIFO order
   - Wait for unbonding period (~7 days estimated)
@@ -1616,7 +1632,7 @@ spec:
 
 **⚠️ Disclaimer:** These estimates are speculative based on Ethereum L2 benchmarks. Actual Aztec costs may vary significantly as the network is new. Update these estimates after testnet deployment and real-world testing.
 
-**Monthly Infrastructure Costs:**
+**Monthly Infrastructure Costs:** [^8]
 ```
 Kubernetes cluster (3 nodes): $150/month
 Redis (managed): $50/month
@@ -1639,6 +1655,14 @@ TOTAL MONTHLY COST: ~$409/month
 ```
 
 **Note:** Removed Oracle and Rebalancing bots from cost estimates (we consume Aztec's metrics directly and run our own validators).
+
+[^8]: **Infrastructure Pricing Sources** (verified Dec 22, 2025):
+  - Kubernetes: [AWS EKS Pricing](https://aws.amazon.com/eks/pricing/) - 3× t3.medium nodes ≈ $150/month
+  - Redis: [AWS ElastiCache](https://aws.amazon.com/elasticache/pricing/) - cache.t3.micro ≈ $50/month
+  - Grafana Cloud: [Grafana Cloud Pricing](https://grafana.com/pricing/) - Pro plan $49/month
+  - PagerDuty: [PagerDuty Pricing](https://www.pagerduty.com/pricing/) - Professional $19/user/month
+  - Sentry: [Sentry Pricing](https://sentry.io/pricing/) - Team plan $26/month
+  - Domain/SSL: Standard domain + Let's Encrypt (free SSL)
 
 **Break-even Analysis:**
 ```
@@ -1782,7 +1806,7 @@ Total Rewards: 100%
 - FIFO (First In, First Out) processing
 - Batch processing for gas efficiency
 - Maintain liquidity buffer (5-10% of TVL unstaked)
-- Express withdrawal option (premium fee, instant liquidity from buffer)
+- Express withdrawal option (Phase 2 / Optional - premium fee for instant liquidity from buffer)
 
 ---
 
@@ -2212,7 +2236,7 @@ Year 2 (Optimistic):
 
 **Revenue Streams:**
 1. **Staking Fees:** 10% of all staking rewards (primary)
-2. **Express Withdrawal Fee:** 0.5% for instant withdrawals (secondary)
+2. **Express Withdrawal Fee (Phase 2):** 0.5% for instant withdrawals (optional feature)
 3. **Performance Fees:** 20% of excess returns vs. baseline (optional)
 
 **Cost Structure:**
