@@ -23,88 +23,1323 @@ Aztec Network presents a **first-mover opportunity** for liquid staking on a pri
 
 ## Architecture Diagram
 
-```mermaid
-graph TB
-    subgraph "User Layer"
-        U1[User with <200k AZTEC]
-        U2[User with AZTEC tokens]
-        U3[DeFi Protocols]
-    end
+### High-Level System Architecture
 
-    subgraph "Liquid Staking Protocol"
-        LSC[Liquid Staking Contract]
-        VM[Vault Manager]
-        SR[Stake Router]
-        RD[Rewards Distributor]
-        WQ[Withdrawal Queue]
-        LST[stAZTEC Token Contract]
-    end
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                              USER LAYER                                          │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐        │
+│  │   Retail     │  │ Institutional│  │     DeFi     │  │   Wallets    │        │
+│  │    Users     │  │   Investors  │  │  Protocols   │  │  (Metamask)  │        │
+│  │ (<200k AZTEC)│  │  (Any amount)│  │  (Aave, etc) │  │              │        │
+│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘        │
+│         │                 │                  │                  │                │
+│         └─────────────────┴──────────────────┴──────────────────┘                │
+│                                      │                                           │
+└──────────────────────────────────────┼───────────────────────────────────────────┘
+                                       │
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                        FRONTEND LAYER (Next.js/React)                            │
+│  ┌─────────────────────────────────────────────────────────────────────────┐    │
+│  │  - Deposit/Withdrawal UI                                                 │    │
+│  │  - stAZTEC Balance Display                                               │    │
+│  │  - Real-time APR/Exchange Rate                                           │    │
+│  │  - Optional: Private transaction interface                               │    │
+│  └─────────────────────────────────────────────────────────────────────────┘    │
+└──────────────────────────────────────┼───────────────────────────────────────────┘
+                                       │
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                    SMART CONTRACT LAYER (Noir + Solidity)                        │
+│                                                                                   │
+│  ┌────────────────────────────────────────────────────────────────────────┐     │
+│  │                     CORE CONTRACTS (Noir/Solidity)                      │     │
+│  │                                                                          │     │
+│  │  ┌──────────────────────────┐      ┌───────────────────────────┐       │     │
+│  │  │  LiquidStakingCore.nr    │◄─────┤  stAZTEC.sol (ERC20)      │       │     │
+│  │  │                          │      │  - Reward-bearing token    │       │     │
+│  │  │  - deposit()             │      │  - Exchange rate oracle    │       │     │
+│  │  │  - requestWithdrawal()   │      │  - Transfer logic          │       │     │
+│  │  │  - claimWithdrawal()     │      └───────────────────────────┘       │     │
+│  │  │  - Private state option  │                                           │     │
+│  │  └────────┬─────────────────┘                                           │     │
+│  │           │                                                              │     │
+│  │           ▼                                                              │     │
+│  │  ┌──────────────────────────┐      ┌───────────────────────────┐       │     │
+│  │  │  VaultManager.sol        │◄─────┤  StakeRouter.sol          │       │     │
+│  │  │                          │      │                            │       │     │
+│  │  │  - Pool aggregation      │      │  - Validator selection     │       │     │
+│  │  │  - 200k batch creation   │      │  - Performance scoring     │       │     │
+│  │  │  - Liquidity buffer      │      │  - Diversity algo          │       │     │
+│  │  │  - Validator tracking    │      │  - Rebalancing logic       │       │     │
+│  │  └────────┬─────────────────┘      └───────────────────────────┘       │     │
+│  │           │                                                              │     │
+│  │           ▼                                                              │     │
+│  │  ┌──────────────────────────┐      ┌───────────────────────────┐       │     │
+│  │  │  RewardsDistributor.sol  │      │  WithdrawalQueue.sol       │       │     │
+│  │  │                          │      │                            │       │     │
+│  │  │  - Collect rewards       │      │  - FIFO queue              │       │     │
+│  │  │  - Protocol fee (10%)    │      │  - Unbonding tracker       │       │     │
+│  │  │  - Insurance fund (5%)   │      │  - Express withdrawals     │       │     │
+│  │  │  - Update exchange rate  │      │  - Batch processing        │       │     │
+│  │  └──────────────────────────┘      └───────────────────────────┘       │     │
+│  │                                                                          │     │
+│  └──────────────────────────────────────────────────────────────────────────┘    │
+│                                                                                   │
+│  ┌────────────────────────────────────────────────────────────────────────┐     │
+│  │                   ORACLE & GOVERNANCE CONTRACTS                         │     │
+│  │                                                                          │     │
+│  │  ┌──────────────────────────┐      ┌───────────────────────────┐       │     │
+│  │  │  ValidatorOracle.sol     │      │  GovernanceProxy.sol       │       │     │
+│  │  │                          │      │                            │       │     │
+│  │  │  - Performance metrics   │      │  - Snapshot voting         │       │     │
+│  │  │  - Slashing detection    │      │  - Parameter updates       │       │     │
+│  │  │  - Rewards tracking      │      │  - Emergency pause         │       │     │
+│  │  │  - Multi-sig updates     │      │  - Upgrade timelock        │       │     │
+│  │  └──────────────────────────┘      └───────────────────────────┘       │     │
+│  │                                                                          │     │
+│  └──────────────────────────────────────────────────────────────────────────┘    │
+└──────────────────────────────────────┼───────────────────────────────────────────┘
+                                       │
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                      BOT INFRASTRUCTURE (TypeScript/Node.js)                     │
+│                                                                                   │
+│  ┌──────────────────────┐  ┌──────────────────────┐  ┌──────────────────────┐  │
+│  │   Staking Bot        │  │   Rewards Bot        │  │  Withdrawal Bot      │  │
+│  │   (Keeper #1)        │  │   (Keeper #2)        │  │  (Keeper #3)         │  │
+│  │                      │  │                      │  │                      │  │
+│  │ - Monitor pool       │  │ - Claim rewards      │  │ - Process queue      │  │
+│  │ - Trigger 200k batch │  │ - Update rates       │  │ - Unstake validators │  │
+│  │ - Select validators  │  │ - Compound yields    │  │ - Fulfill requests   │  │
+│  │ - Execute stakes     │  │ - Fee distribution   │  │ - Manage buffer      │  │
+│  │                      │  │                      │  │                      │  │
+│  │ Trigger: Pool ≥ 200k │  │ Trigger: Every epoch │  │ Trigger: Queue > 0   │  │
+│  └──────────────────────┘  └──────────────────────┘  └──────────────────────┘  │
+│                                                                                   │
+│  ┌──────────────────────┐  ┌──────────────────────┐  ┌──────────────────────┐  │
+│  │  Rebalancing Bot     │  │   Oracle Bot         │  │  Monitoring Bot      │  │
+│  │  (Keeper #4)         │  │   (Keeper #5)        │  │  (Alert System)      │  │
+│  │                      │  │                      │  │                      │  │
+│  │ - Track performance  │  │ - Fetch metrics      │  │ - Health checks      │  │
+│  │ - Migrate poor nodes │  │ - Update oracle      │  │ - Slashing alerts    │  │
+│  │ - Optimize spread    │  │ - Verify data        │  │ - Gas price monitor  │  │
+│  │ - Geographic balance │  │ - Multi-sig submit   │  │ - Anomaly detection  │  │
+│  │                      │  │                      │  │                      │  │
+│  │ Trigger: Daily/Event │  │ Trigger: Every epoch │  │ Trigger: Continuous  │  │
+│  └──────────────────────┘  └──────────────────────┘  └──────────────────────┘  │
+│                                                                                   │
+│  Technology Stack:                                                                │
+│  - Runtime: Node.js 20+ (TypeScript 5.3+)                                        │
+│  - Web3 Library: viem or ethers.js v6                                            │
+│  - Queue: BullMQ (Redis-backed)                                                  │
+│  - Monitoring: Prometheus + Grafana                                              │
+│  - Alerts: PagerDuty / Telegram Bot                                              │
+│  - Deployment: Docker + Kubernetes                                               │
+└──────────────────────────────────────┼───────────────────────────────────────────┘
+                                       │
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           AZTEC NETWORK LAYER                                    │
+│                                                                                   │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐       ┌──────────────┐   │
+│  │  Sequencer 1 │  │  Sequencer 2 │  │  Sequencer N │  ...  │ Sequencer 50+│   │
+│  │  200k AZTEC  │  │  200k AZTEC  │  │  200k AZTEC  │       │  200k AZTEC  │   │
+│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘       └──────┬───────┘   │
+│         │                 │                  │                       │           │
+│         └─────────────────┴──────────────────┴───────────────────────┘           │
+│                                      │                                           │
+│                                      ▼                                           │
+│                          ┌─────────────────────────┐                            │
+│                          │  Aztec Staking Contract │                            │
+│                          │  - Stake management     │                            │
+│                          │  - Reward distribution  │                            │
+│                          │  - Slashing logic       │                            │
+│                          │  - Governance votes     │                            │
+│                          └─────────────────────────┘                            │
+│                                      │                                           │
+│                                      ▼                                           │
+│                          ┌─────────────────────────┐                            │
+│                          │   Prover Network        │                            │
+│                          │   (14-level proof tree) │                            │
+│                          └─────────────────────────┘                            │
+│                                                                                   │
+└───────────────────────────────────────────────────────────────────────────────────┘
 
-    subgraph "Validator Management Layer"
-        VO[Validator Oracle]
-        NS[Node Selection Algorithm]
-        PF[Performance Tracker]
-        SL[Slashing Monitor]
-    end
 
-    subgraph "Aztec Network Layer"
-        SEQ1[Sequencer 1<br/>200k AZTEC]
-        SEQ2[Sequencer 2<br/>200k AZTEC]
-        SEQ3[Sequencer N<br/>200k AZTEC]
-        GOV[Governance Contract]
-        STAKE[Aztec Staking Contract]
-    end
+### Data Flow: Deposit Transaction
 
-    subgraph "Privacy Layer"
-        NOIR[Noir Smart Contracts]
-        ZKP[ZK Proof Generation]
-        ES[Encrypted State]
-    end
+┌──────┐                                                                    ┌──────┐
+│ User │                                                                    │Aztec │
+│      │                                                                    │ Net  │
+└──┬───┘                                                                    └───┬──┘
+   │                                                                            │
+   │ 1. deposit(50,000 AZTEC)                                                  │
+   ├──────────────────────────────────►┌─────────────────────┐                │
+   │                                    │ LiquidStakingCore   │                │
+   │                                    └──────────┬──────────┘                │
+   │                                               │                           │
+   │                                    2. Calculate stAZTEC amount            │
+   │                                               │ (50,000 / exchange_rate)  │
+   │                                               │                           │
+   │                                    ┌──────────▼──────────┐                │
+   │                                    │  stAZTEC.mint()     │                │
+   │◄───────────────────────────────────┤  Transfer to user   │                │
+   │ 3. Receive stAZTEC tokens          └──────────┬──────────┘                │
+   │                                               │                           │
+   │                                    4. Update VaultManager                 │
+   │                                               │                           │
+   │                                    ┌──────────▼──────────┐                │
+   │                                    │  VaultManager       │                │
+   │                                    │  total += 50k       │                │
+   │                                    │  pool = 250k total  │                │
+   │                                    └──────────┬──────────┘                │
+   │                                               │                           │
+   │                                    ┌──────────▼──────────┐                │
+   │                                    │ Check: pool >= 200k?│                │
+   │                                    │      YES             │                │
+   │                                    └──────────┬──────────┘                │
+   │                                               │                           │
+   │                                    5. Emit StakingNeeded event            │
+   │                                               │                           │
+   │                                    ┌──────────▼──────────┐                │
+   │                                    │   Staking Bot       │                │
+   │                                    │   (Listening)       │                │
+   │                                    └──────────┬──────────┘                │
+   │                                               │                           │
+   │                                    6. Execute staking tx                  │
+   │                                               │                           │
+   │                                    ┌──────────▼──────────┐                │
+   │                                    │  StakeRouter        │                │
+   │                                    │  selectValidator()  │                │
+   │                                    └──────────┬──────────┘                │
+   │                                               │                           │
+   │                                    7. Stake 200k to validator             │
+   │                                               │                           │
+   │                                               ├───────────────────────────►│
+   │                                               │  stakeTo(validator_addr,  │
+   │                                               │          200,000 AZTEC)   │
+   │                                               │                           │
+   │                                               │◄──────────────────────────┤
+   │                                               │  Staking confirmed        │
+   │                                    ┌──────────▼──────────┐                │
+   │                                    │  Update VaultManager│                │
+   │                                    │  pool -= 200k       │                │
+   │                                    │  staked += 200k     │                │
+   │                                    │  new batch created  │                │
+   │                                    └─────────────────────┘                │
+   │                                                                            │
+   │  8. User sees stAZTEC in wallet                                           │
+   │     and earns rewards automatically                                       │
+   │                                                                            │
+```
 
-    U1 -->|Deposit AZTEC| LSC
-    U2 -->|Deposit AZTEC| LSC
-    LSC -->|Mint stAZTEC| LST
-    LST -->|Return to User| U1
-    LST -->|Return to User| U2
-    LST -->|Collateral| U3
+### Privacy Architecture (Optional Private Deposits)
 
-    LSC --> VM
-    VM --> SR
-    SR -->|Batch into 200k units| NS
-    NS --> VO
-    VO --> SEQ1
-    VO --> SEQ2
-    VO --> SEQ3
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      PRIVACY-ENABLED ARCHITECTURE                        │
+│                                                                           │
+│  User Device (PXE - Private Execution Environment)                       │
+│  ┌────────────────────────────────────────────────────────────────┐     │
+│  │                                                                  │     │
+│  │  1. User initiates private deposit                              │     │
+│  │     ┌──────────────────────────────────────┐                    │     │
+│  │     │  PrivateLiquidStaking.nr             │                    │     │
+│  │     │  #[private]                          │                    │     │
+│  │     │  fn deposit_private(amount: Field)   │                    │     │
+│  │     └───────────┬──────────────────────────┘                    │     │
+│  │                 │                                                │     │
+│  │  2. Generate ZK proof of deposit                                │     │
+│  │                 │                                                │     │
+│  │     ┌───────────▼──────────────────────────┐                    │     │
+│  │     │  Noir Circuit Compilation            │                    │     │
+│  │     │  - Prove: user has X AZTEC           │                    │     │
+│  │     │  - Prove: transfer is valid          │                    │     │
+│  │     │  - Hide: amount, sender identity     │                    │     │
+│  │     └───────────┬──────────────────────────┘                    │     │
+│  │                 │                                                │     │
+│  │  3. Client-side proof generation                                │     │
+│  │                 │                                                │     │
+│  │     ┌───────────▼──────────────────────────┐                    │     │
+│  │     │  ZK Proof Generated                  │                    │     │
+│  │     │  Public inputs: commitment hash      │                    │     │
+│  │     │  Private: actual amount, nullifier   │                    │     │
+│  │     └───────────┬──────────────────────────┘                    │     │
+│  │                 │                                                │     │
+│  └─────────────────┼────────────────────────────────────────────────┘    │
+│                    │                                                      │
+│                    ▼                                                      │
+│  Aztec Network (Public State)                                            │
+│  ┌─────────────────────────────────────────────────────────────────┐    │
+│  │                                                                   │    │
+│  │  4. Submit proof to public contract                              │    │
+│  │     ┌──────────────────────────────────────┐                     │    │
+│  │     │  PublicLiquidStaking.sol             │                     │    │
+│  │     │  verifyAndProcess(proof)             │                     │    │
+│  │     └───────────┬──────────────────────────┘                     │    │
+│  │                 │                                                 │    │
+│  │  5. Verify proof without knowing amount                          │    │
+│  │                 │                                                 │    │
+│  │     ┌───────────▼──────────────────────────┐                     │    │
+│  │     │  if proof.verify() == true:          │                     │    │
+│  │     │    - Update public total (encrypted) │                     │    │
+│  │     │    - Mint stAZTEC to commitment addr │                     │    │
+│  │     │    - Emit event (no personal info)   │                     │    │
+│  │     └──────────────────────────────────────┘                     │    │
+│  │                                                                   │    │
+│  └───────────────────────────────────────────────────────────────────┘   │
+│                                                                           │
+│  Result: Observers see "someone staked something" but not who or how much│
+│                                                                           │
+└───────────────────────────────────────────────────────────────────────────┘
+```
 
-    SEQ1 -->|Block Rewards| RD
-    SEQ2 -->|Block Rewards| RD
-    SEQ3 -->|Block Rewards| RD
-    RD -->|Update stAZTEC value| LST
+---
 
-    U1 -->|Request Unstake| WQ
-    WQ -->|Process withdrawals| VM
+## Noir vs. Solidity: Language Comparison & Challenges
 
-    PF -->|Monitor Performance| SEQ1
-    PF -->|Monitor Performance| SEQ2
-    SL -->|Watch for slashing| SEQ1
-    SL -->|Watch for slashing| SEQ2
+### Overview
 
-    SEQ1 -.->|Interact with| STAKE
-    SEQ2 -.->|Interact with| STAKE
-    SEQ3 -.->|Interact with| STAKE
-    SEQ1 -.->|Vote on proposals| GOV
+Our liquid staking protocol will use a **hybrid architecture**:
+- **Noir** for privacy-enabled features (optional private deposits/withdrawals)
+- **Solidity** for public state management (vault pooling, ERC-20 token, governance)
 
-    NOIR -.->|Privacy features| LSC
-    ZKP -.->|Private transactions| LSC
-    ES -.->|Encrypted state| VM
+This section details the differences, challenges, and best practices for working with Noir.
 
-    style LSC fill:#ff6b6b
-    style LST fill:#4ecdc4
-    style SEQ1 fill:#95e1d3
-    style SEQ2 fill:#95e1d3
-    style SEQ3 fill:#95e1d3
-    style NOIR fill:#f38181
-    style ZKP fill:#f38181
+### Language Fundamentals
+
+| Aspect | Solidity | Noir |
+|--------|----------|------|
+| **Primary Purpose** | General smart contracts for EVM | Zero-knowledge circuit programming |
+| **Syntax Inspiration** | JavaScript, C++, Python | Rust |
+| **Execution Model** | EVM bytecode | ACIR (Abstract Circuit Intermediate Representation) |
+| **State Model** | Account-based (public) | UTXO (private) + Account (public) |
+| **Compilation Target** | EVM opcodes | ZK circuits → proofs |
+| **Learning Curve** | Moderate (familiar to web devs) | Steep (requires ZK understanding) |
+| **Tooling Maturity** | Excellent (Hardhat, Foundry, Remix) | Good and improving (Noir 1.0+) |
+| **Debugging** | Rich (console.log, stack traces) | Limited (constraint errors) |
+| **Gas Model** | EVM gas (per opcode) | Circuit size (gates/constraints) |
+
+### Key Differences
+
+#### 1. **Type System**
+
+**Solidity:**
+```solidity
+uint256 balance;        // 256-bit unsigned integer
+address user;           // 20-byte Ethereum address
+mapping(address => uint256) balances;
+bool isActive;
+```
+
+**Noir:**
+```noir
+Field balance;          // Prime field element (~254 bits)
+AztecAddress user;      // Aztec-specific address type
+mapping(AztecAddress => PrivateBalance) balances;  // Private state
+bool is_active;         // Underscore naming convention
+```
+
+**Critical Gotcha:** Noir's `Field` type wraps around at prime modulus, not 2^256. Integer overflow works differently!
+
+#### 2. **Arrays and Loops**
+
+**Solidity:**
+```solidity
+uint256[] public dynamicArray;  // Dynamic sizing
+for (uint i = 0; i < dynamicArray.length; i++) {
+    // Dynamic loop bounds
+}
+```
+
+**Noir:**
+```noir
+fn process_items<N>(items: [Field; N]) {  // Fixed-size array (compile-time)
+    for i in 0..N {  // Loop unrolled at compile time
+        // Each iteration adds gates to circuit
+    }
+}
+```
+
+**Critical Limitation:** Arrays must be fixed-size at compile time. No dynamic arrays or nested arrays (arrays of arrays).
+
+**Performance Impact:** Loops are "unrolled" - a 100-iteration loop creates 100x the circuit constraints. Optimize aggressively!
+
+#### 3. **Private vs. Public Functions**
+
+**Solidity:**
+```solidity
+function deposit(uint256 amount) public {
+    // All state changes are public on-chain
+    balances[msg.sender] += amount;
+}
+```
+
+**Noir (Aztec):**
+```noir
+#[private]  // Executes on client, generates proof
+fn deposit_private(amount: Field) {
+    // Private state updated locally
+    let sender = context.msg_sender();
+    storage.private_balances.at(sender).add(amount);
+    // Only proof is submitted on-chain
+}
+
+#[public]   // Executes on sequencer, like Solidity
+fn update_total(amount: Field) {
+    storage.total_staked.write(
+        storage.total_staked.read() + amount
+    );
+}
+```
+
+**Key Difference:** Private functions run on user's device (PXE - Private Execution Environment), public functions run on sequencers.
+
+#### 4. **Unconstrained Functions**
+
+**Noir:**
+```noir
+unconstrained fn calculate_complex_hash(data: Field) -> Field {
+    // Runs off-circuit (no ZK constraints generated)
+    // Useful for expensive computations
+    // WARNING: Results are NOT proven! Must constrain elsewhere
+    poseidon::hash(data)
+}
+
+fn verify_hash(data: Field) {
+    let hash = calculate_complex_hash(data);  // Call unconstrained
+    assert(hash == expected_hash);  // Constraint added here!
+}
+```
+
+**Critical Security Issue:** Unconstrained code can produce any value. Always constrain outputs!
+
+From [OpenZeppelin's Guide](https://www.openzeppelin.com/news/developer-guide-to-building-safe-noir-circuits):
+> "Circuit code without constraints can be 'proven' to create any outcome. When switching to unconstrained, appropriate constraints must still be laid down elsewhere."
+
+### Development Challenges & Solutions
+
+#### Challenge 1: **Circuit Size Explosion**
+
+**Problem:** Noir converts all logic to ZK constraints. Complex code = huge circuits = slow proving.
+
+**Example:**
+```noir
+// BAD: Creates massive circuit
+fn process_all_validators(validators: [ValidatorInfo; 1000]) {
+    for i in 0..1000 {  // 1000x circuit size!
+        // Complex validation logic
+        validate_performance(validators[i]);
+    }
+}
+
+// GOOD: Use unconstrained + selective constraints
+unconstrained fn find_best_validator(
+    validators: [ValidatorInfo; 1000]
+) -> u32 {
+    // Run off-circuit (fast)
+    let mut best_index = 0;
+    for i in 0..1000 {
+        if validators[i].performance > validators[best_index].performance {
+            best_index = i;
+        }
+    }
+    best_index
+}
+
+fn select_validator() -> ValidatorInfo {
+    let index = find_best_validator(all_validators);
+    let selected = all_validators[index];
+    // Only constrain the selected validator
+    constrain(selected.is_valid());
+    selected
+}
+```
+
+**Solution:** Push computation to unconstrained functions, verify results in constrained code.
+
+#### Challenge 2: **No Dynamic Data Structures**
+
+**Problem:** Can't use dynamic arrays, hashmaps with runtime sizing, or variable-length strings.
+
+**Workaround:**
+```noir
+// BAD: Won't compile
+fn store_deposits(deposits: [Field]) {  // No dynamic size!
+    // ...
+}
+
+// GOOD: Use compile-time generic + actual length tracking
+fn store_deposits<N>(
+    deposits: [Field; N],   // Max size at compile time
+    actual_length: u32      // Track actual usage
+) {
+    for i in 0..N {
+        if i < actual_length {
+            process(deposits[i]);
+        }
+    }
+}
+```
+
+**For Liquid Staking:** Pre-allocate max validator count (e.g., 100), track actual count separately.
+
+#### Challenge 3: **Bit Operations Are Expensive**
+
+**Problem:** Bitwise ops (<<, >>, &, |, ^) create many constraints.
+
+```noir
+// EXPENSIVE: Bit shifts in circuits
+fn calculate_share(amount: Field) -> Field {
+    amount >> 4  // Costs ~32 gates per bit!
+}
+
+// BETTER: Use division (cheaper in circuits)
+fn calculate_share(amount: Field) -> Field {
+    amount / 16  // Fewer constraints
+}
+```
+
+**Solution:** Avoid bit manipulation in constrained functions. Use unconstrained if necessary.
+
+#### Challenge 4: **Field Arithmetic Wraparound**
+
+**Problem:** Noir's `Field` type uses modular arithmetic (wraps at prime ~2^254).
+
+```noir
+fn calculate_rewards(stake: Field) -> Field {
+    stake * APR_MULTIPLIER  // Could wrap around!
+}
+```
+
+**Solution:** Use smaller integer types (u64, u128) when possible, or add overflow checks.
+
+```noir
+fn calculate_rewards(stake: u128) -> u128 {
+    // u128 has explicit overflow checks
+    stake * APR_MULTIPLIER
+}
+```
+
+**Best Practice from Noir Docs:**
+> "If proving efficiency is a priority, fields should be used as default. Smaller integer types (e.g., u64) incur extra range constraints."
+
+**Trade-off:** Field = faster proving, less safe. u64/u128 = slower proving, safer.
+
+#### Challenge 5: **Debugging is Hard**
+
+**Solidity:**
+```solidity
+console.log("Balance:", balance);  // Easy debugging
+```
+
+**Noir:**
+```noir
+// Limited debugging - mostly compile-time errors
+fn deposit(amount: Field) {
+    // Error: "Constraint failed at line 42"
+    // No stack traces, no runtime logs
+}
+```
+
+**Solution:**
+1. Use `nargo test` extensively (unit tests are your friend)
+2. Use `nargo info` to check circuit size
+3. Break code into small, testable functions
+4. Add explicit assertions for debugging
+
+```noir
+#[test]
+fn test_deposit() {
+    let result = calculate_exchange_rate(1000, 100);
+    assert(result == 10);  // Will show which constraint failed
+}
+```
+
+### Recommended Architecture for Liquid Staking
+
+#### **Hybrid Approach: Solidity + Noir**
+
+```
+┌─────────────────────────────────────────────────────┐
+│              SOLIDITY CONTRACTS                      │
+│                                                       │
+│  ✓ stAZTEC.sol (ERC-20 token)                        │
+│  ✓ VaultManager.sol (pool aggregation)               │
+│  ✓ RewardsDistributor.sol (fee distribution)         │
+│  ✓ WithdrawalQueue.sol (unbonding)                   │
+│  ✓ ValidatorOracle.sol (performance data)            │
+│  ✓ GovernanceProxy.sol (voting)                      │
+│                                                       │
+│  Why Solidity: Public state, ERC-20 compatibility,   │
+│  mature tooling, gas-efficient for non-ZK ops        │
+└─────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────┐
+│              NOIR CONTRACTS (OPTIONAL)               │
+│                                                       │
+│  ✓ PrivateLiquidStaking.nr                           │
+│    - #[private] deposit_private()                    │
+│    - #[private] withdraw_private()                   │
+│    - Private balance tracking                        │
+│                                                       │
+│  ✓ PrivateGovernance.nr                              │
+│    - Anonymous voting                                │
+│    - Hidden vote weights                             │
+│                                                       │
+│  Why Noir: Privacy features, encrypted balances,     │
+│  anonymous transactions                              │
+└─────────────────────────────────────────────────────┘
+```
+
+**Recommendation:** Start with **Solidity-only MVP**, add Noir privacy features in v2.
+
+**Rationale:**
+1. **Faster development:** Solidity tooling is mature
+2. **Lower risk:** Noir is newer, less battle-tested
+3. **Easier audits:** More auditors know Solidity
+4. **Privacy is optional:** Most users are fine with public staking
+
+**Noir as Differentiator:** Once MVP is live and secure, add Noir privacy features as **unique selling point** vs. competitors.
+
+### Development Tools & Workflow
+
+#### **Solidity Stack:**
+```bash
+# Foundry (recommended for testing/deployment)
+forge init liquid-staking
+forge test              # Run tests
+forge build             # Compile
+forge script Deploy     # Deploy contracts
+
+# Hardhat (alternative, more plugins)
+npx hardhat test
+npx hardhat deploy
+```
+
+#### **Noir Stack:**
+```bash
+# Install Noir (via noirup)
+curl -L https://install.noir-lang.org | bash
+noirup
+
+# Project setup
+nargo new private-staking
+cd private-staking
+
+# Development commands
+nargo check             # Type check
+nargo test              # Run tests
+nargo compile           # Compile to circuit
+nargo info              # Show circuit size
+
+# Example output
+Circuit size: 12,845 gates  # Lower is better!
+```
+
+#### **Integration Testing:**
+```typescript
+// Test Solidity + Noir integration
+import { deployContracts } from './deploy';
+import { compileNoirCircuit } from '@noir-lang/noir_js';
+
+describe('Hybrid Liquid Staking', () => {
+  it('should handle private deposit -> public staking flow', async () => {
+    // 1. Deploy Solidity contracts
+    const { vaultManager, stAztec } = await deployContracts();
+
+    // 2. Compile Noir circuit
+    const circuit = await compileNoirCircuit('PrivateLiquidStaking');
+
+    // 3. Generate proof of private deposit
+    const proof = await circuit.generateProof({ amount: 50000 });
+
+    // 4. Submit proof to Solidity contract
+    await vaultManager.verifyAndDeposit(proof);
+
+    // 5. Verify stAZTEC minted
+    expect(await stAztec.balanceOf(user)).to.equal(50000);
+  });
+});
+```
+
+### Learning Resources
+
+**Noir:**
+- [Aztec Documentation](https://docs.aztec.network/) - Official docs
+- [ZKCamp Aztec Course](https://github.com/ZKCamp/aztec-noir-course) - Free course
+- [Noir Language Docs](https://noir-lang.org/docs/) - Language reference
+- [OpenZeppelin Noir Guide](https://www.openzeppelin.com/news/developer-guide-to-building-safe-noir-circuits) - Security best practices
+
+**Aztec Development:**
+- [Smart Contracts Guide](https://docs.aztec.network/developers/docs/guides/smart_contracts)
+- [Token Contract Tutorial](https://docs.aztec.network/tutorials/contract_tutorials/token_contract)
+- [Testing Contracts](https://docs.aztec.network/guides/developer_guides/smart_contracts/testing_contracts/testing)
+
+### Key Takeaways
+
+✅ **Use Solidity for:**
+- Public state management
+- ERC-20 tokens
+- Vault pooling and staking logic
+- Governance (non-privacy-sensitive)
+- Oracle contracts
+
+✅ **Use Noir for:**
+- Optional private deposits/withdrawals
+- Anonymous governance voting
+- Encrypted balance tracking
+- Differentiating feature (v2)
+
+⚠️ **Noir Gotchas:**
+1. Fixed-size arrays only (no dynamic)
+2. Loops unroll → huge circuits (use unconstrained)
+3. Field arithmetic wraps (use u64/u128 for safety)
+4. Bit ops are expensive (avoid in circuits)
+5. Debugging is limited (test extensively)
+6. Unconstrained = unproven (add constraints!)
+
+🎯 **Recommended Strategy:**
+1. **Phase 1:** Solidity-only MVP (3-4 months)
+2. **Phase 2:** Add Noir privacy features (2-3 months)
+3. **Phase 3:** Optimize circuit sizes and UX
+
+---
+
+## Bot Infrastructure & Automation
+
+### Overview
+
+Liquid staking protocols require 24/7 automation for:
+1. **Staking:** Batch deposits into 200k AZTEC units
+2. **Rewards:** Claim and distribute yields
+3. **Withdrawals:** Process unbonding queue
+4. **Rebalancing:** Migrate stake from poor performers
+5. **Oracle Updates:** Track validator performance
+6. **Monitoring:** Alert on anomalies/slashing
+
+All bots will be written in **TypeScript/Node.js** for:
+- ✅ Strong typing (TypeScript)
+- ✅ Mature Web3 libraries (viem, ethers.js)
+- ✅ Easy async/await (promises)
+- ✅ Rich ecosystem (npm packages)
+- ✅ Team familiarity (most devs know JS/TS)
+
+### Minimum Required Bots (5 Core + 1 Optional)
+
+#### **Bot #1: Staking Keeper**
+
+**Purpose:** Monitor deposit pool and trigger staking when ≥200k AZTEC accumulated.
+
+**Responsibilities:**
+- Watch `DepositProcessed` events from `LiquidStakingCore`
+- Query `VaultManager.getPoolBalance()` every block
+- When balance ≥ 200k AZTEC:
+  - Call `StakeRouter.selectValidator()` (get best validator)
+  - Call `VaultManager.stakeToValidator(validatorAddr, 200000)`
+  - Verify transaction success
+  - Log staking event
+
+**Trigger:** Event-based + polling (every 12 seconds / 1 block)
+
+**Technology Stack:**
+```typescript
+// staking-keeper/src/index.ts
+import { createPublicClient, createWalletClient, parseAbi } from 'viem';
+import { privateKeyToAccount } from 'viem/accounts';
+import { aztec } from 'viem/chains';  // Custom Aztec chain config
+
+const client = createPublicClient({
+  chain: aztec,
+  transport: http(process.env.AZTEC_RPC_URL)
+});
+
+const wallet = createWalletClient({
+  account: privateKeyToAccount(process.env.KEEPER_PRIVATE_KEY),
+  chain: aztec,
+  transport: http(process.env.AZTEC_RPC_URL)
+});
+
+// Watch for deposits
+client.watchContractEvent({
+  address: VAULT_MANAGER_ADDRESS,
+  abi: parseAbi(['event DepositProcessed(address user, uint256 amount)']),
+  eventName: 'DepositProcessed',
+  onLogs: async (logs) => {
+    await checkAndStake();
+  }
+});
+
+async function checkAndStake() {
+  const poolBalance = await client.readContract({
+    address: VAULT_MANAGER_ADDRESS,
+    abi: vaultManagerAbi,
+    functionName: 'getPoolBalance'
+  });
+
+  if (poolBalance >= 200_000n * 10n**18n) {  // 200k AZTEC
+    const validator = await selectBestValidator();
+
+    const tx = await wallet.writeContract({
+      address: VAULT_MANAGER_ADDRESS,
+      abi: vaultManagerAbi,
+      functionName: 'stakeToValidator',
+      args: [validator, 200_000n * 10n**18n]
+    });
+
+    console.log(`Staked 200k AZTEC to ${validator}, tx: ${tx}`);
+  }
+}
+```
+
+**Dependencies:**
+```json
+{
+  "dependencies": {
+    "viem": "^2.7.0",
+    "dotenv": "^16.3.0",
+    "pino": "^8.16.0",  // Logging
+    "@sentry/node": "^7.91.0"  // Error tracking
+  }
+}
+```
+
+**Deployment:**
+- Dockerized Node.js app
+- Deployed on AWS ECS / GCP Cloud Run
+- Auto-restart on failure
+- Secret management: AWS Secrets Manager
+
+---
+
+#### **Bot #2: Rewards Keeper**
+
+**Purpose:** Claim staking rewards from validators and update stAZTEC exchange rate.
+
+**Responsibilities:**
+- Every epoch (~6.4 min on Ethereum, TBD for Aztec):
+  - Call `RewardsDistributor.claimAllRewards()`
+  - Calculate new exchange rate
+  - Update `stAZTEC.updateExchangeRate(newRate)`
+  - Distribute protocol fees to treasury
+  - Add to insurance fund
+
+**Trigger:** Time-based (every epoch) + event-based (reward distribution events)
+
+**Technology Stack:**
+```typescript
+// rewards-keeper/src/index.ts
+import { BullMQ } from 'bullmq';  // Queue for scheduling
+import { Redis } from 'ioredis';
+
+const redis = new Redis(process.env.REDIS_URL);
+const queue = new Queue('rewards', { connection: redis });
+
+// Schedule rewards claim every epoch
+await queue.add(
+  'claim-rewards',
+  {},
+  { repeat: { every: 384000 } }  // 6.4 min in ms
+);
+
+// Worker to process jobs
+const worker = new Worker('rewards', async (job) => {
+  console.log('Claiming rewards...');
+
+  // 1. Claim from all validators
+  const tx1 = await wallet.writeContract({
+    address: REWARDS_DISTRIBUTOR_ADDRESS,
+    abi: rewardsDistributorAbi,
+    functionName: 'claimAllRewards'
+  });
+  await waitForTransaction(tx1);
+
+  // 2. Get new total
+  const totalAztec = await getTotalControlledAztec();
+  const totalStAztec = await getStAztecSupply();
+
+  // 3. Update exchange rate
+  const newRate = totalAztec / totalStAztec;
+  const tx2 = await wallet.writeContract({
+    address: STAZTEC_ADDRESS,
+    abi: stAztecAbi,
+    functionName: 'updateExchangeRate',
+    args: [newRate]
+  });
+
+  console.log(`Exchange rate updated: ${newRate}`);
+}, { connection: redis });
+```
+
+**Dependencies:**
+```json
+{
+  "dependencies": {
+    "bullmq": "^5.1.0",  // Job queue
+    "ioredis": "^5.3.2",  // Redis client
+    "viem": "^2.7.0"
+  }
+}
+```
+
+---
+
+#### **Bot #3: Withdrawal Keeper**
+
+**Purpose:** Process withdrawal queue and fulfill unstaking requests.
+
+**Responsibilities:**
+- Monitor `WithdrawalQueue.getQueueLength()`
+- When queue has requests:
+  - Check liquidity buffer (10% of TVL)
+  - If buffer sufficient: instant withdrawal
+  - If buffer insufficient: unstake from validators
+  - Process withdrawals in FIFO order
+  - Wait for unbonding period (~7 days estimated)
+  - Transfer AZTEC to users
+
+**Trigger:** Event-based (`WithdrawalRequested`) + polling
+
+**Technology Stack:**
+```typescript
+// withdrawal-keeper/src/index.ts
+
+async function processWithdrawals() {
+  const queueLength = await client.readContract({
+    address: WITHDRAWAL_QUEUE_ADDRESS,
+    abi: withdrawalQueueAbi,
+    functionName: 'getQueueLength'
+  });
+
+  if (queueLength === 0n) return;
+
+  const buffer = await client.readContract({
+    address: VAULT_MANAGER_ADDRESS,
+    abi: vaultManagerAbi,
+    functionName: 'getLiquidityBuffer'
+  });
+
+  // Process up to buffer amount instantly
+  const processable = await client.readContract({
+    address: WITHDRAWAL_QUEUE_ADDRESS,
+    abi: withdrawalQueueAbi,
+    functionName: 'getProcessableAmount',
+    args: [buffer]
+  });
+
+  if (processable > 0n) {
+    const tx = await wallet.writeContract({
+      address: WITHDRAWAL_QUEUE_ADDRESS,
+      abi: withdrawalQueueAbi,
+      functionName: 'processWithdrawals',
+      args: [processable]
+    });
+
+    console.log(`Processed ${processable} AZTEC in withdrawals`);
+  }
+
+  // If buffer insufficient, trigger validator unstaking
+  if (queueLength > processable) {
+    await triggerValidatorUnstaking();
+  }
+}
+
+// Run every 5 minutes
+setInterval(processWithdrawals, 5 * 60 * 1000);
+```
+
+---
+
+#### **Bot #4: Rebalancing Keeper**
+
+**Purpose:** Monitor validator performance and migrate stake from underperformers.
+
+**Responsibilities:**
+- Daily performance check:
+  - Query `ValidatorOracle.getPerformanceScores()`
+  - Identify validators with <95% uptime or slashing events
+  - Unstake from poor performers
+  - Restake to high performers
+- Maintain geographic diversity (50+ validators across 6 continents)
+
+**Trigger:** Daily (or after slashing event)
+
+**Technology Stack:**
+```typescript
+// rebalancing-keeper/src/index.ts
+
+interface ValidatorScore {
+  address: string;
+  uptime: number;        // 0-100%
+  slashingEvents: number;
+  blocksProposed: number;
+  geographicRegion: string;
+}
+
+async function rebalanceStake() {
+  // Get all validator scores
+  const scores: ValidatorScore[] = await client.readContract({
+    address: VALIDATOR_ORACLE_ADDRESS,
+    abi: validatorOracleAbi,
+    functionName: 'getAllValidatorScores'
+  });
+
+  // Find underperformers (uptime <95% or slashed)
+  const poorPerformers = scores.filter(v =>
+    v.uptime < 95 || v.slashingEvents > 0
+  );
+
+  // Find top performers
+  const topPerformers = scores
+    .filter(v => v.uptime >= 99 && v.slashingEvents === 0)
+    .sort((a, b) => b.uptime - a.uptime)
+    .slice(0, 10);
+
+  // Migrate stake
+  for (const poor of poorPerformers) {
+    const target = selectDiverseValidator(topPerformers);
+
+    await wallet.writeContract({
+      address: VAULT_MANAGER_ADDRESS,
+      abi: vaultManagerAbi,
+      functionName: 'migrateStake',
+      args: [poor.address, target.address, 200_000n * 10n**18n]
+    });
+
+    console.log(`Migrated stake from ${poor.address} to ${target.address}`);
+  }
+}
+
+// Run daily at 2 AM UTC
+import { CronJob } from 'cron';
+new CronJob('0 2 * * *', rebalanceStake, null, true, 'UTC');
+```
+
+**Dependencies:**
+```json
+{
+  "dependencies": {
+    "cron": "^3.1.0",
+    "viem": "^2.7.0"
+  }
+}
+```
+
+---
+
+#### **Bot #5: Oracle Keeper**
+
+**Purpose:** Fetch validator performance metrics and update on-chain oracle.
+
+**Responsibilities:**
+- Every epoch:
+  - Query Aztec node for validator metrics:
+    - Blocks proposed / attested
+    - Uptime
+    - Slashing events
+    - Rewards earned
+  - Aggregate data
+  - Submit to `ValidatorOracle.updateMetrics()` via multi-sig
+- Use Chainlink-style multi-oracle approach (5-of-9 consensus)
+
+**Trigger:** Every epoch
+
+**Technology Stack:**
+```typescript
+// oracle-keeper/src/index.ts
+import axios from 'axios';
+
+interface ValidatorMetrics {
+  address: string;
+  blocksProposed: number;
+  blocksAttested: number;
+  uptime: number;
+  rewardsEarned: bigint;
+  slashingEvents: number;
+  lastUpdate: number;
+}
+
+async function fetchAndUpdateMetrics() {
+  // Fetch from Aztec node RPC
+  const response = await axios.post(AZTEC_NODE_RPC, {
+    jsonrpc: '2.0',
+    method: 'aztec_getValidatorMetrics',
+    params: [],
+    id: 1
+  });
+
+  const metrics: ValidatorMetrics[] = response.data.result;
+
+  // Hash metrics for multi-sig verification
+  const metricsHash = hashMetrics(metrics);
+
+  // Sign with keeper private key
+  const signature = await wallet.signMessage({
+    message: metricsHash
+  });
+
+  // Submit to oracle (requires 5-of-9 keepers to submit)
+  await wallet.writeContract({
+    address: VALIDATOR_ORACLE_ADDRESS,
+    abi: validatorOracleAbi,
+    functionName: 'submitMetrics',
+    args: [metrics, signature]
+  });
+
+  console.log(`Oracle updated with ${metrics.length} validator metrics`);
+}
+```
+
+---
+
+#### **Bot #6: Monitoring & Alerts (Optional but Recommended)**
+
+**Purpose:** Health checks, anomaly detection, and alerts.
+
+**Responsibilities:**
+- Monitor all keeper bots (are they running?)
+- Track gas prices (pause if too high)
+- Detect anomalies:
+  - Sudden TVL drop >20%
+  - Exchange rate anomalies
+  - Slashing events
+- Send alerts via PagerDuty / Telegram
+
+**Technology Stack:**
+```typescript
+// monitoring-bot/src/index.ts
+import { Telegraf } from 'telegraf';  // Telegram bot
+import Prometheus from 'prom-client';  // Metrics
+
+const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
+const ALERT_CHAT_ID = process.env.ALERT_CHAT_ID;
+
+// Prometheus metrics
+const tvlGauge = new Prometheus.Gauge({
+  name: 'aztec_liquid_staking_tvl',
+  help: 'Total value locked in AZTEC'
+});
+
+const exchangeRateGauge = new Prometheus.Gauge({
+  name: 'staztec_exchange_rate',
+  help: 'stAZTEC to AZTEC exchange rate'
+});
+
+async function monitorHealth() {
+  // Check TVL
+  const tvl = await getTotalValueLocked();
+  tvlGauge.set(Number(tvl) / 1e18);
+
+  // Check for anomalies
+  const tvlChange = (tvl - previousTVL) / previousTVL;
+  if (Math.abs(tvlChange) > 0.2) {  // 20% change
+    await bot.telegram.sendMessage(
+      ALERT_CHAT_ID,
+      `🚨 ALERT: TVL changed by ${(tvlChange * 100).toFixed(2)}%`
+    );
+  }
+
+  // Check slashing
+  const slashingEvents = await checkForSlashing();
+  if (slashingEvents.length > 0) {
+    await bot.telegram.sendMessage(
+      ALERT_CHAT_ID,
+      `⚠️ SLASHING DETECTED: ${slashingEvents.length} validator(s) slashed`
+    );
+  }
+
+  // Check gas prices
+  const gasPrice = await client.getGasPrice();
+  if (gasPrice > MAX_GAS_PRICE) {
+    await bot.telegram.sendMessage(
+      ALERT_CHAT_ID,
+      `⛽ High gas: ${gasPrice / 1e9} gwei - pausing keepers`
+    );
+    await pauseAllKeepers();
+  }
+}
+
+// Run every minute
+setInterval(monitorHealth, 60 * 1000);
+```
+
+**Dependencies:**
+```json
+{
+  "dependencies": {
+    "telegraf": "^4.15.0",  // Telegram bot
+    "prom-client": "^15.1.0",  // Prometheus metrics
+    "@sentry/node": "^7.91.0",  // Error tracking
+    "viem": "^2.7.0"
+  }
+}
+```
+
+---
+
+### Complete Bot Infrastructure Diagram
+
+```
+┌───────────────────────────────────────────────────────────────────────┐
+│                     BOT ORCHESTRATION LAYER                            │
+│                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────┐  │
+│  │               Kubernetes Cluster (3 nodes)                       │  │
+│  │                                                                   │  │
+│  │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐           │  │
+│  │  │ Staking Bot  │  │ Rewards Bot  │  │Withdrawal Bot│           │  │
+│  │  │  (Pod 1)     │  │  (Pod 2)     │  │  (Pod 3)     │           │  │
+│  │  │              │  │              │  │              │           │  │
+│  │  │ Replicas: 2  │  │ Replicas: 2  │  │ Replicas: 2  │           │  │
+│  │  │ (HA)         │  │ (HA)         │  │ (HA)         │           │  │
+│  │  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘           │  │
+│  │         │                 │                  │                   │  │
+│  │         └─────────────────┴──────────────────┘                   │  │
+│  │                           │                                       │  │
+│  │                           ▼                                       │  │
+│  │  ┌────────────────────────────────────────────────────────────┐  │  │
+│  │  │              Redis (BullMQ Queue)                           │  │  │
+│  │  │  - Job scheduling                                           │  │  │
+│  │  │  - Rate limiting                                            │  │  │
+│  │  │  - Distributed locks (prevent duplicate execution)         │  │  │
+│  │  └────────────────────────────────────────────────────────────┘  │  │
+│  │                                                                   │  │
+│  │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐           │  │
+│  │  │Rebalance Bot │  │  Oracle Bot  │  │ Monitor Bot  │           │  │
+│  │  │  (Pod 4)     │  │  (Pod 5)     │  │  (Pod 6)     │           │  │
+│  │  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘           │  │
+│  │         │                 │                  │                   │  │
+│  └─────────┼─────────────────┼──────────────────┼───────────────────┘  │
+│            │                 │                  │                       │
+└────────────┼─────────────────┼──────────────────┼───────────────────────┘
+             │                 │                  │
+             ▼                 ▼                  ▼
+┌───────────────────────────────────────────────────────────────────────┐
+│                   OBSERVABILITY STACK                                  │
+│                                                                         │
+│  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐    │
+│  │   Prometheus     │  │     Grafana      │  │    Sentry.io     │    │
+│  │   (Metrics)      │  │  (Dashboards)    │  │(Error Tracking)  │    │
+│  └──────────────────┘  └──────────────────┘  └──────────────────┘    │
+│                                                                         │
+│  ┌──────────────────┐  ┌──────────────────┐                           │
+│  │   PagerDuty      │  │  Telegram Bot    │                           │
+│  │ (On-call alerts) │  │  (Team alerts)   │                           │
+│  └──────────────────┘  └──────────────────┘                           │
+└───────────────────────────────────────────────────────────────────────┘
+```
+
+### Deployment Specification
+
+**Infrastructure:**
+- **Cloud Provider:** AWS or GCP
+- **Orchestration:** Kubernetes (EKS/GKE)
+- **Nodes:** 3x t3.medium (2 vCPU, 4GB RAM each)
+- **Redis:** ElastiCache / Cloud Memorystore (for BullMQ)
+- **Secrets:** AWS Secrets Manager / GCP Secret Manager
+
+**Docker Container Example:**
+```dockerfile
+# Dockerfile
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install dependencies
+COPY package*.json ./
+RUN npm ci --only=production
+
+# Copy source
+COPY dist/ ./dist/
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s \
+  CMD node dist/healthcheck.js || exit 1
+
+# Run bot
+CMD ["node", "dist/index.js"]
+```
+
+**Kubernetes Deployment:**
+```yaml
+# k8s/staking-keeper.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: staking-keeper
+spec:
+  replicas: 2  # High availability
+  selector:
+    matchLabels:
+      app: staking-keeper
+  template:
+    metadata:
+      labels:
+        app: staking-keeper
+    spec:
+      containers:
+      - name: staking-keeper
+        image: your-registry/staking-keeper:latest
+        env:
+        - name: AZTEC_RPC_URL
+          valueFrom:
+            secretKeyRef:
+              name: aztec-secrets
+              key: rpc-url
+        - name: KEEPER_PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: aztec-secrets
+              key: keeper-pk
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+```
+
+### Cost Estimate
+
+**Monthly Infrastructure Costs:**
+```
+Kubernetes cluster (3 nodes): $150/month
+Redis (managed): $50/month
+Monitoring (Grafana Cloud): $49/month
+Alerts (PagerDuty): $19/month
+Error tracking (Sentry): $26/month
+Domain/SSL: $5/month
+-----------------------------------------
+Total Infrastructure: ~$299/month
+
+Gas Costs (estimated):
+Staking tx: 1-2/day @ $0.50 = $30/month
+Rewards tx: ~250/month @ $0.20 = $50/month
+Withdrawal tx: ~100/month @ $0.30 = $30/month
+Oracle updates: ~250/month @ $0.40 = $100/month
+Rebalancing: ~10/month @ $0.50 = $5/month
+-----------------------------------------
+Total Gas: ~$215/month
+
+TOTAL MONTHLY COST: ~$514/month
+```
+
+**Break-even Analysis:**
+```
+At $50M TVL, 8% APR, 10% protocol fee:
+Monthly revenue: $50M * 0.08 * 0.10 / 12 = $33,333
+
+Infrastructure cost: $514
+Profit margin: 98.5% 🎉
 ```
 
 ---
