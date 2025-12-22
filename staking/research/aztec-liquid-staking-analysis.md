@@ -282,7 +282,7 @@ Aztec Network presents a **first-mover opportunity** for liquid staking on a pri
 │  │                                                                   │    │
 │  │  4. Submit proof to public contract                              │    │
 │  │     ┌──────────────────────────────────────┐                     │    │
-│  │     │  PublicLiquidStaking.sol             │                     │    │
+│  │     │  LiquidStakingCore.nr                │                     │    │
 │  │     │  verifyAndProcess(proof)             │                     │    │
 │  │     └───────────┬──────────────────────────┘                     │    │
 │  │                 │                                                 │    │
@@ -1173,7 +1173,7 @@ All bots will be written in **TypeScript/Node.js** for:
 - ✅ Rich ecosystem (npm packages)
 - ✅ Team familiarity (most devs know JS/TS)
 
-### Minimum Required Bots (5 Core + 1 Optional)
+### Required Bots (3 Core + 1 Optional Monitoring)
 
 #### **Bot #1: Staking Keeper**
 
@@ -1398,149 +1398,7 @@ setInterval(processWithdrawals, 5 * 60 * 1000);
 
 ---
 
-#### **Bot #4: Rebalancing Keeper**
-
-**Purpose:** Monitor validator performance and migrate stake from underperformers.
-
-**Responsibilities:**
-- Daily performance check:
-  - Query `ValidatorOracle.getPerformanceScores()`
-  - Identify validators with <95% uptime or slashing events
-  - Unstake from poor performers
-  - Restake to high performers
-- Maintain geographic diversity (50+ validators across 6 continents)
-
-**Trigger:** Daily (or after slashing event)
-
-**Technology Stack:**
-```typescript
-// rebalancing-keeper/src/index.ts
-
-interface ValidatorScore {
-  address: string;
-  uptime: number;        // 0-100%
-  slashingEvents: number;
-  blocksProposed: number;
-  geographicRegion: string;
-}
-
-async function rebalanceStake() {
-  // Get all validator scores
-  const scores: ValidatorScore[] = await client.readContract({
-    address: VALIDATOR_ORACLE_ADDRESS,
-    abi: validatorOracleAbi,
-    functionName: 'getAllValidatorScores'
-  });
-
-  // Find underperformers (uptime <95% or slashed)
-  const poorPerformers = scores.filter(v =>
-    v.uptime < 95 || v.slashingEvents > 0
-  );
-
-  // Find top performers
-  const topPerformers = scores
-    .filter(v => v.uptime >= 99 && v.slashingEvents === 0)
-    .sort((a, b) => b.uptime - a.uptime)
-    .slice(0, 10);
-
-  // Migrate stake
-  for (const poor of poorPerformers) {
-    const target = selectDiverseValidator(topPerformers);
-
-    await wallet.writeContract({
-      address: VAULT_MANAGER_ADDRESS,
-      abi: vaultManagerAbi,
-      functionName: 'migrateStake',
-      args: [poor.address, target.address, 200_000n * 10n**18n]
-    });
-
-    console.log(`Migrated stake from ${poor.address} to ${target.address}`);
-  }
-}
-
-// Run daily at 2 AM UTC
-import { CronJob } from 'cron';
-new CronJob('0 2 * * *', rebalanceStake, null, true, 'UTC');
-```
-
-**Dependencies:**
-```json
-{
-  "dependencies": {
-    "cron": "^3.1.0",
-    "viem": "^2.7.0"
-  }
-}
-```
-
----
-
-#### **Bot #5: Oracle Keeper**
-
-**Purpose:** Fetch validator performance metrics and update on-chain oracle.
-
-**Responsibilities:**
-- Every epoch:
-  - Query Aztec node for validator metrics:
-    - Blocks proposed / attested
-    - Uptime
-    - Slashing events
-    - Rewards earned
-  - Aggregate data
-  - Submit to `ValidatorOracle.updateMetrics()` via multi-sig
-- Use Chainlink-style multi-oracle approach (5-of-9 consensus)
-
-**Trigger:** Every epoch
-
-**Technology Stack:**
-```typescript
-// oracle-keeper/src/index.ts
-import axios from 'axios';
-
-interface ValidatorMetrics {
-  address: string;
-  blocksProposed: number;
-  blocksAttested: number;
-  uptime: number;
-  rewardsEarned: bigint;
-  slashingEvents: number;
-  lastUpdate: number;
-}
-
-async function fetchAndUpdateMetrics() {
-  // Fetch from Aztec node RPC
-  const response = await axios.post(AZTEC_NODE_RPC, {
-    jsonrpc: '2.0',
-    method: 'aztec_getValidatorMetrics',
-    params: [],
-    id: 1
-  });
-
-  const metrics: ValidatorMetrics[] = response.data.result;
-
-  // Hash metrics for multi-sig verification
-  const metricsHash = hashMetrics(metrics);
-
-  // Sign with keeper private key
-  const signature = await wallet.signMessage({
-    message: metricsHash
-  });
-
-  // Submit to oracle (requires 5-of-9 keepers to submit)
-  await wallet.writeContract({
-    address: VALIDATOR_ORACLE_ADDRESS,
-    abi: validatorOracleAbi,
-    functionName: 'submitMetrics',
-    args: [metrics, signature]
-  });
-
-  console.log(`Oracle updated with ${metrics.length} validator metrics`);
-}
-```
-
----
-
-#### **Bot #6: Monitoring & Alerts (Optional but Recommended)**
+#### **Bot #4: Monitoring & Alerts (Optional but Recommended)**
 
 **Purpose:** Health checks, anomaly detection, and alerts.
 
@@ -1756,6 +1614,8 @@ spec:
 
 ### Cost Estimate
 
+**⚠️ Disclaimer:** These estimates are speculative based on Ethereum L2 benchmarks. Actual Aztec costs may vary significantly as the network is new. Update these estimates after testnet deployment and real-world testing.
+
 **Monthly Infrastructure Costs:**
 ```
 Kubernetes cluster (3 nodes): $150/month
@@ -1767,25 +1627,28 @@ Domain/SSL: $5/month
 -----------------------------------------
 Total Infrastructure: ~$299/month
 
-Gas Costs (estimated):
+Gas Costs (estimated - based on Ethereum L2 analogues):
 Staking tx: 1-2/day @ $0.50 = $30/month
 Rewards tx: ~250/month @ $0.20 = $50/month
 Withdrawal tx: ~100/month @ $0.30 = $30/month
-Oracle updates: ~250/month @ $0.40 = $100/month
-Rebalancing: ~10/month @ $0.50 = $5/month
+Monitoring queries: Minimal (read-only)
 -----------------------------------------
-Total Gas: ~$215/month
+Total Gas: ~$110/month (conservative estimate)
 
-TOTAL MONTHLY COST: ~$514/month
+TOTAL MONTHLY COST: ~$409/month
 ```
+
+**Note:** Removed Oracle and Rebalancing bots from cost estimates (we consume Aztec's metrics directly and run our own validators).
 
 **Break-even Analysis:**
 ```
 At $50M TVL, 8% APR, 10% protocol fee:
 Monthly revenue: $50M * 0.08 * 0.10 / 12 = $33,333
 
-Infrastructure cost: $514
-Profit margin: 98.5% 🎉
+Infrastructure cost: ~$409
+Profit margin: 98.8% 🎉
+
+Break-even TVL: ~$6.1M (very achievable)
 ```
 
 ---
@@ -2002,36 +1865,50 @@ Coverage ratio: 50x expected losses
 
 ### 3. Oracle and Off-Chain Infrastructure
 
-#### 3.1 Validator Oracle
-**Purpose:** Track validator performance and status
+#### 3.1 Consuming Aztec Validator Metrics
+**Purpose:** Monitor OUR validator performance using Aztec's built-in metrics
 
-**Data Collection:**
+**⚠️ Important:** We DON'T build our own oracle. Aztec Network provides validator metrics via its RPC API. We simply READ these metrics to monitor OUR validators.
+
+**Available Metrics from Aztec RPC:**
 - Block proposal success rate
 - Attestation performance
 - Uptime metrics
 - Slashing events
 - Rewards earned
-- Geographic location
 - Node software version
 
-**Implementation:**
+**How We Consume Metrics:**
 ```typescript
-interface ValidatorMetrics {
-    address: string;
-    blocksProposed: number;
-    blocksSuccessful: number;
-    attestations: number;
-    uptime: number; // percentage
-    slashingEvents: SlashingEvent[];
-    totalRewards: bigint;
-    lastUpdated: timestamp;
+// Query Aztec node RPC for OUR validator metrics
+async function getOurValidatorMetrics() {
+  const response = await axios.post(AZTEC_NODE_RPC, {
+    jsonrpc: '2.0',
+    method: 'aztec_getValidatorMetrics',
+    params: [OUR_VALIDATOR_ADDRESSES],
+    id: 1
+  });
+
+  const metrics = response.data.result;
+
+  // Use metrics for monitoring/alerting
+  for (const validator of metrics) {
+    if (validator.uptime < 95) {
+      alertTeam(`Validator ${validator.address} uptime low: ${validator.uptime}%`);
+    }
+    if (validator.slashingEvents.length > 0) {
+      alertTeam(`CRITICAL: Validator ${validator.address} was slashed!`);
+    }
+  }
+
+  return metrics;
 }
 ```
 
-**Oracle Update Frequency:**
-- Critical metrics (slashing): Real-time
-- Performance metrics: Every epoch (~6.4 minutes on Ethereum, TBD for Aztec)
-- Rewards: Every block or epoch
+**Monitoring Frequency:**
+- Critical metrics (slashing): Real-time monitoring via Monitoring Bot
+- Performance metrics: Every epoch (for alerts)
+- Rewards: Every epoch (for exchange rate updates)
 
 #### 3.2 Exchange Rate Oracle
 **Purpose:** Calculate stAZTEC:AZTEC exchange rate
@@ -2051,31 +1928,31 @@ total_aztec_controlled = staked_aztec + pending_rewards + liquidity_buffer - sla
 - Minimum: Once per epoch
 
 #### 3.3 Keeper Bots
-**Required Automation:**
+**Required Automation:** (See detailed implementation in Bot Infrastructure section)
 
-1. **Staking Bot**
+1. **Staking Keeper**
    - Monitors deposit pool
    - Triggers batch staking when 200k AZTEC accumulated
-   - Selects validators via Stake Router
+   - Stakes to OUR validator nodes (round-robin or least-loaded)
 
-2. **Rewards Bot**
-   - Claims rewards from validators
-   - Triggers exchange rate update
-   - Compounds rewards
+2. **Rewards Keeper**
+   - Claims rewards from OUR validators
+   - Updates stAZTEC exchange rate
+   - Distributes protocol fee to treasury
 
-3. **Withdrawal Bot**
-   - Processes withdrawal queue
-   - Unstakes from validators as needed
-   - Fulfills withdrawal requests
+3. **Withdrawal Keeper**
+   - Processes withdrawal queue (FIFO)
+   - Unstakes from OUR validators when needed
+   - Fulfills withdrawal requests after unbonding
 
-4. **Rebalancing Bot**
-   - Monitors validator performance
-   - Migrates stake from poor performers
-   - Maintains target distribution
+4. **Monitoring Bot** (Optional)
+   - Monitors OUR validator health via Aztec RPC metrics
+   - Alerts team of slashing events or downtime
+   - Tracks gas prices and pauses operations if too high
 
 **Incentive Structure:**
-- Keeper reward: 0.1% of transaction value
-- Gas costs reimbursed from protocol fees
+- Bots run by protocol team (no external keeper rewards needed)
+- Gas costs paid from protocol fee treasury
 
 ---
 
@@ -2090,15 +1967,17 @@ total_aztec_controlled = staked_aztec + pending_rewards + liquidity_buffer - sla
    - Checks-Effects-Interactions pattern
    - Pull over push for withdrawals
 
-2. **Oracle Manipulation**
-   - Multi-source oracle data
-   - Median calculation vs single source
-   - Staleness checks (reject data >1 epoch old)
+2. **Exchange Rate Manipulation**
+   - Validate total_aztec_controlled calculations
+   - Multiple sources for validator reward data
+   - Sanity checks on exchange rate changes (max 1% per epoch)
+   - Emergency pause if anomalous rate detected
 
-3. **Validator Cartel Risk**
-   - Maximum stake per validator (e.g., 5% of TVL)
-   - Geographic diversity requirements
-   - Forced rotation mechanism
+3. **Validator Infrastructure Risk**
+   - Run OUR validators with high uptime SLA (>99%)
+   - Geographic diversity (multiple data centers)
+   - Redundant infrastructure to prevent slashing
+   - Monitoring and alerting for validator issues
 
 4. **Upgrade Risk**
    - Timelock on upgrades (48-72 hours)
@@ -2149,7 +2028,7 @@ Insurance Fund: 5% of TVL target
 - [ ] Create formal specification document
 
 ### Phase 2: MVP Development (Weeks 3-6)
-- [ ] Develop core smart contracts (Solidity/Noir)
+- [ ] Develop core smart contracts (Noir only)
 - [ ] Implement stAZTEC token contract
 - [ ] Build Vault Manager and Stake Router
 - [ ] Create basic frontend (deposit/withdraw UI)
@@ -2387,7 +2266,7 @@ Realistic break-even: 6-12 months post-launch
 
 | Risk | Likelihood | Impact | Mitigation |
 |------|------------|--------|------------|
-| Team capacity constraints | Medium | Medium | Hire experienced Solidity/Noir devs, outsource non-core |
+| Team capacity constraints | Medium | Medium | Hire experienced Noir devs (Solidity background helpful), outsource non-core |
 | Aztec ecosystem too small | Medium | High | Multi-chain expansion plan (backup options) |
 | Governance attacks | Low | Medium | Multi-sig, timelocks, community involvement |
 | Key person dependency | Medium | Medium | Documentation, knowledge sharing, redundancy |
