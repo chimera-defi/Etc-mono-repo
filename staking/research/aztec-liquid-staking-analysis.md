@@ -51,92 +51,98 @@ Aztec Network presents a **first-mover opportunity** for liquid staking on a pri
                                        │
                                        ▼
 ┌─────────────────────────────────────────────────────────────────────────────────┐
-│                    SMART CONTRACT LAYER (Noir + Solidity)                        │
+│                    SMART CONTRACT LAYER (100% Noir)                              │
 │                                                                                   │
 │  ┌────────────────────────────────────────────────────────────────────────┐     │
-│  │                     CORE CONTRACTS (Noir/Solidity)                      │     │
+│  │                     CORE CONTRACTS (Noir Only)                          │     │
 │  │                                                                          │     │
 │  │  ┌──────────────────────────┐      ┌───────────────────────────┐       │     │
-│  │  │  LiquidStakingCore.nr    │◄─────┤  stAZTEC.sol (ERC20)      │       │     │
+│  │  │  LiquidStakingCore.nr    │◄─────┤  StakedAztecToken.nr      │       │     │
 │  │  │                          │      │  - Reward-bearing token    │       │     │
-│  │  │  - deposit()             │      │  - Exchange rate oracle    │       │     │
-│  │  │  - requestWithdrawal()   │      │  - Transfer logic          │       │     │
+│  │  │  #[public]               │      │  - Public balances (Map)   │       │     │
+│  │  │  - deposit()             │      │  - Transfer logic          │       │     │
+│  │  │  - requestWithdrawal()   │      │  - Exchange rate tracking  │       │     │
 │  │  │  - claimWithdrawal()     │      └───────────────────────────┘       │     │
-│  │  │  - Private state option  │                                           │     │
+│  │  │                          │                                           │     │
+│  │  │  #[private] (Optional)   │                                           │     │
+│  │  │  - deposit_private()     │                                           │     │
+│  │  │  - withdraw_private()    │                                           │     │
 │  │  └────────┬─────────────────┘                                           │     │
 │  │           │                                                              │     │
 │  │           ▼                                                              │     │
 │  │  ┌──────────────────────────┐      ┌───────────────────────────┐       │     │
-│  │  │  VaultManager.sol        │◄─────┤  StakeRouter.sol          │       │     │
+│  │  │  VaultManager.nr         │◄─────┤  ValidatorRegistry.nr     │       │     │
 │  │  │                          │      │                            │       │     │
-│  │  │  - Pool aggregation      │      │  - Validator selection     │       │     │
-│  │  │  - 200k batch creation   │      │  - Performance scoring     │       │     │
-│  │  │  - Liquidity buffer      │      │  - Diversity algo          │       │     │
-│  │  │  - Validator tracking    │      │  - Rebalancing logic       │       │     │
+│  │  │  #[public]               │      │  #[public]                 │       │     │
+│  │  │  - Pool aggregation      │      │  - OUR validator addresses │       │     │
+│  │  │  - 200k batch creation   │      │  - Performance tracking    │       │     │
+│  │  │  - Liquidity buffer      │      │  - Uptime monitoring       │       │     │
+│  │  │  - Stake to OUR nodes    │      │  - Slashing protection     │       │     │
 │  │  └────────┬─────────────────┘      └───────────────────────────┘       │     │
 │  │           │                                                              │     │
 │  │           ▼                                                              │     │
 │  │  ┌──────────────────────────┐      ┌───────────────────────────┐       │     │
-│  │  │  RewardsDistributor.sol  │      │  WithdrawalQueue.sol       │       │     │
+│  │  │  RewardsManager.nr       │      │  WithdrawalQueue.nr        │       │     │
 │  │  │                          │      │                            │       │     │
-│  │  │  - Collect rewards       │      │  - FIFO queue              │       │     │
+│  │  │  #[public]               │      │  #[public]                 │       │     │
+│  │  │  - Collect from OUR nodes│      │  - FIFO queue              │       │     │
 │  │  │  - Protocol fee (10%)    │      │  - Unbonding tracker       │       │     │
-│  │  │  - Insurance fund (5%)   │      │  - Express withdrawals     │       │     │
 │  │  │  - Update exchange rate  │      │  - Batch processing        │       │     │
+│  │  │  - Compound yields       │      │  - Instant withdraw buffer │       │     │
 │  │  └──────────────────────────┘      └───────────────────────────┘       │     │
 │  │                                                                          │     │
 │  └──────────────────────────────────────────────────────────────────────────┘    │
 │                                                                                   │
-│  ┌────────────────────────────────────────────────────────────────────────┐     │
-│  │                   ORACLE & GOVERNANCE CONTRACTS                         │     │
-│  │                                                                          │     │
-│  │  ┌──────────────────────────┐      ┌───────────────────────────┐       │     │
-│  │  │  ValidatorOracle.sol     │      │  GovernanceProxy.sol       │       │     │
-│  │  │                          │      │                            │       │     │
-│  │  │  - Performance metrics   │      │  - Snapshot voting         │       │     │
-│  │  │  - Slashing detection    │      │  - Parameter updates       │       │     │
-│  │  │  - Rewards tracking      │      │  - Emergency pause         │       │     │
-│  │  │  - Multi-sig updates     │      │  - Upgrade timelock        │       │     │
-│  │  └──────────────────────────┘      └───────────────────────────┘       │     │
-│  │                                                                          │     │
-│  └──────────────────────────────────────────────────────────────────────────┘    │
+│  NOTE: All contracts written in Noir (.nr files)                                 │
+│  - #[public] functions execute on Aztec sequencers                               │
+│  - #[private] functions execute on user PXE (optional privacy features)          │
+│  - NO Solidity - Aztec only supports Noir contracts                              │
 └──────────────────────────────────────┼───────────────────────────────────────────┘
                                        │
                                        ▼
 ┌─────────────────────────────────────────────────────────────────────────────────┐
 │                      BOT INFRASTRUCTURE (TypeScript/Node.js)                     │
 │                                                                                   │
+│  Core Philosophy: We run OUR OWN validators. Users delegate AZTEC to us.        │
+│  Capital: $0 in AZTEC (users provide), only server costs (~$400/mo/validator)   │
+│                                                                                   │
 │  ┌──────────────────────┐  ┌──────────────────────┐  ┌──────────────────────┐  │
-│  │   Staking Bot        │  │   Rewards Bot        │  │  Withdrawal Bot      │  │
-│  │   (Keeper #1)        │  │   (Keeper #2)        │  │  (Keeper #3)         │  │
+│  │   Staking Keeper     │  │   Rewards Keeper     │  │  Withdrawal Keeper   │  │
+│  │   (Bot #1)           │  │   (Bot #2)           │  │  (Bot #3)            │  │
 │  │                      │  │                      │  │                      │  │
-│  │ - Monitor pool       │  │ - Claim rewards      │  │ - Process queue      │  │
-│  │ - Trigger 200k batch │  │ - Update rates       │  │ - Unstake validators │  │
-│  │ - Select validators  │  │ - Compound yields    │  │ - Fulfill requests   │  │
-│  │ - Execute stakes     │  │ - Fee distribution   │  │ - Manage buffer      │  │
-│  │                      │  │                      │  │                      │  │
+│  │ - Monitor pool       │  │ - Claim from OUR     │  │ - Process queue      │  │
+│  │ - Batch to 200k      │  │   validator nodes    │  │ - Unstake from OUR   │  │
+│  │ - Stake to OUR nodes │  │ - Update stAZTEC rate│  │   nodes if needed    │  │
+│  │ - Track activation   │  │ - Protocol fee (10%) │  │ - Fulfill withdrawals│  │
+│  │                      │  │ - Compound yields    │  │ - Manage liquidity   │  │
 │  │ Trigger: Pool ≥ 200k │  │ Trigger: Every epoch │  │ Trigger: Queue > 0   │  │
 │  └──────────────────────┘  └──────────────────────┘  └──────────────────────┘  │
 │                                                                                   │
-│  ┌──────────────────────┐  ┌──────────────────────┐  ┌──────────────────────┐  │
-│  │  Rebalancing Bot     │  │   Oracle Bot         │  │  Monitoring Bot      │  │
-│  │  (Keeper #4)         │  │   (Keeper #5)        │  │  (Alert System)      │  │
-│  │                      │  │                      │  │                      │  │
-│  │ - Track performance  │  │ - Fetch metrics      │  │ - Health checks      │  │
-│  │ - Migrate poor nodes │  │ - Update oracle      │  │ - Slashing alerts    │  │
-│  │ - Optimize spread    │  │ - Verify data        │  │ - Gas price monitor  │  │
-│  │ - Geographic balance │  │ - Multi-sig submit   │  │ - Anomaly detection  │  │
-│  │                      │  │                      │  │                      │  │
-│  │ Trigger: Daily/Event │  │ Trigger: Every epoch │  │ Trigger: Continuous  │  │
-│  └──────────────────────┘  └──────────────────────┘  └──────────────────────┘  │
+│  ┌──────────────────────────────────────────────────────────────────────────┐   │
+│  │  Monitoring & Alerts (Bot #4 - Optional but Recommended)                 │   │
+│  │                                                                            │   │
+│  │  - Health checks on OUR validators (uptime, sync status)                 │   │
+│  │  - Track staking pool, rewards, withdrawal queue                         │   │
+│  │  - Alert on slashing events affecting OUR nodes                          │   │
+│  │  - Gas price monitoring                                                   │   │
+│  │  - Anomaly detection (TVL drops, rate changes)                           │   │
+│  │  - Telegram/PagerDuty alerts                                             │   │
+│  │                                                                            │   │
+│  │  Trigger: Continuous monitoring                                           │   │
+│  └──────────────────────────────────────────────────────────────────────────┘   │
 │                                                                                   │
 │  Technology Stack:                                                                │
 │  - Runtime: Node.js 20+ (TypeScript 5.3+)                                        │
-│  - Web3 Library: viem or ethers.js v6                                            │
-│  - Queue: BullMQ (Redis-backed)                                                  │
+│  - Web3 Library: viem (recommended for Aztec)                                    │
+│  - Queue: BullMQ (Redis-backed job scheduling)                                   │
 │  - Monitoring: Prometheus + Grafana                                              │
 │  - Alerts: PagerDuty / Telegram Bot                                              │
-│  - Deployment: Docker + Kubernetes                                               │
+│  - Deployment: Docker + Kubernetes (3 nodes for HA)                              │
+│                                                                                   │
+│  Simplified from 6 bots to 3-4 because:                                          │
+│  ✓ No Rebalancing Bot - we control validators, just monitor OUR nodes           │
+│  ✓ No Oracle Bot - validator metrics from Aztec network directly                │
+│  ✓ No Migrator Bot - stake goes to OUR validators only                          │
 └──────────────────────────────────────┼───────────────────────────────────────────┘
                                        │
                                        ▼
@@ -298,15 +304,17 @@ Aztec Network presents a **first-mover opportunity** for liquid staking on a pri
 
 ---
 
-## Noir vs. Solidity: Language Comparison & Challenges
+## 100% Noir Architecture: Critical Understanding
 
-### Overview
+### ⚠️ IMPORTANT: Aztec ONLY Supports Noir Contracts
 
-Our liquid staking protocol will use a **hybrid architecture**:
-- **Noir** for privacy-enabled features (optional private deposits/withdrawals)
-- **Solidity** for public state management (vault pooling, ERC-20 token, governance)
+**There is NO Solidity on Aztec.** All smart contracts must be written in Noir (.nr files).
 
-This section details the differences, challenges, and best practices for working with Noir.
+Our liquid staking protocol will be written **entirely in Noir** using the Aztec.nr framework:
+- **#[public] functions** for transparent state (vault pooling, token balances, staking logic)
+- **#[private] functions** for optional privacy features (anonymous deposits/withdrawals)
+
+This section details Noir's unique characteristics, limitations, and best practices for building production contracts.
 
 ### Language Fundamentals
 
@@ -558,109 +566,128 @@ fn test_deposit() {
 }
 ```
 
-### Recommended Architecture for Liquid Staking
+### Correct Architecture for Aztec Liquid Staking
 
-#### **Hybrid Approach: Solidity + Noir**
+#### **100% Noir Approach** (Only Option on Aztec)
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│              SOLIDITY CONTRACTS                      │
+│              ALL CONTRACTS IN NOIR                   │
 │                                                       │
-│  ✓ stAZTEC.sol (ERC-20 token)                        │
-│  ✓ VaultManager.sol (pool aggregation)               │
-│  ✓ RewardsDistributor.sol (fee distribution)         │
-│  ✓ WithdrawalQueue.sol (unbonding)                   │
-│  ✓ ValidatorOracle.sol (performance data)            │
-│  ✓ GovernanceProxy.sol (voting)                      │
+│  ✓ StakedAztecToken.nr (token with public balances) │
+│  ✓ LiquidStakingCore.nr (main deposit/withdraw)     │
+│  ✓ VaultManager.nr (pool aggregation)               │
+│  ✓ RewardsManager.nr (fee distribution)             │
+│  ✓ WithdrawalQueue.nr (unbonding queue)             │
+│  ✓ ValidatorRegistry.nr (track OUR validators)      │
 │                                                       │
-│  Why Solidity: Public state, ERC-20 compatibility,   │
-│  mature tooling, gas-efficient for non-ZK ops        │
+│  All using #[public] functions for transparent state│
+│  Optional #[private] functions for privacy features │
 └─────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────┐
-│              NOIR CONTRACTS (OPTIONAL)               │
+│         OPTIONAL PRIVACY FEATURES (Phase 2)          │
 │                                                       │
-│  ✓ PrivateLiquidStaking.nr                           │
-│    - #[private] deposit_private()                    │
-│    - #[private] withdraw_private()                   │
-│    - Private balance tracking                        │
+│  ✓ #[private] deposit_private() in Core contract    │
+│  ✓ #[private] withdraw_private() in Core contract   │
+│  ✓ Private balance notes (UTXO model)               │
+│  ✓ Anonymous governance voting                      │
 │                                                       │
-│  ✓ PrivateGovernance.nr                              │
-│    - Anonymous voting                                │
-│    - Hidden vote weights                             │
-│                                                       │
-│  Why Noir: Privacy features, encrypted balances,     │
-│  anonymous transactions                              │
+│  Privacy via Noir's #[private] functions            │
+│  Executed client-side in PXE, ZK proofs submitted   │
 └─────────────────────────────────────────────────────┘
 ```
 
-**Recommendation:** Start with **Solidity-only MVP**, add Noir privacy features in v2.
+**Recommendation:** Start with **#[public] Noir functions** (MVP), add #[private] privacy features in Phase 2.
 
 **Rationale:**
-1. **Faster development:** Solidity tooling is mature
-2. **Lower risk:** Noir is newer, less battle-tested
-3. **Easier audits:** More auditors know Solidity
-4. **Privacy is optional:** Most users are fine with public staking
+1. **Required approach:** Aztec ONLY runs Noir, not Solidity
+2. **Simpler MVP:** Public functions are easier to debug and audit
+3. **Privacy as differentiator:** Add private deposits/withdrawals later as unique feature
+4. **Proven pattern:** Token contract tutorial shows this public → private progression
 
-**Noir as Differentiator:** Once MVP is live and secure, add Noir privacy features as **unique selling point** vs. competitors.
+**Development Path:**
+- **Phase 1 (3-4 months):** Public Noir contracts, standard transparent liquid staking
+- **Phase 2 (2-3 months):** Add #[private] functions for anonymous staking
+- **Phase 3:** Advanced privacy features (hidden balances, anonymous governance)
 
 ### Development Tools & Workflow
 
-#### **Solidity Stack:**
+#### **Aztec Noir Stack** (Required for Aztec Development)
+
 ```bash
-# Foundry (recommended for testing/deployment)
-forge init liquid-staking
-forge test              # Run tests
-forge build             # Compile
-forge script Deploy     # Deploy contracts
+# Install Aztec tooling (includes Noir compiler)
+bash -i <(curl -s install.aztec.network)
 
-# Hardhat (alternative, more plugins)
-npx hardhat test
-npx hardhat deploy
-```
+# Or install via npm
+npm install -g @aztec/cli
 
-#### **Noir Stack:**
-```bash
-# Install Noir (via noirup)
-curl -L https://install.noir-lang.org | bash
-noirup
-
-# Project setup
-nargo new private-staking
-cd private-staking
+# Initialize Aztec project
+aztec-nargo new liquid-staking
+cd liquid-staking
 
 # Development commands
-nargo check             # Type check
-nargo test              # Run tests
-nargo compile           # Compile to circuit
-nargo info              # Show circuit size
+aztec-nargo check           # Type check Noir code
+aztec-nargo compile         # Compile to Aztec contracts
+aztec-nargo test            # Run Noir unit tests
+aztec-nargo info            # Show circuit size
 
 # Example output
-Circuit size: 12,845 gates  # Lower is better!
+Functions:
+  deposit (public): 2,450 gates
+  withdraw (public): 1,890 gates
+  deposit_private (private): 12,845 gates  # Private functions larger
 ```
 
-#### **Integration Testing:**
+#### **Aztec Sandbox** (Local Development Network)
+
+```bash
+# Start local Aztec node
+aztec start --sandbox
+
+# In another terminal - deploy contracts
+aztec-cli deploy StakedAztecToken
+
+# Interact with contracts
+aztec-cli send deposit --args 100000 --contract-address 0x...
+```
+
+#### **Testing Workflow:**
 ```typescript
-// Test Solidity + Noir integration
-import { deployContracts } from './deploy';
-import { compileNoirCircuit } from '@noir-lang/noir_js';
+// Test Noir contracts with TypeScript
+import { AztecSDK, Contract } from '@aztec/aztec.js';
+import { liquidStakingArtifact } from './artifacts';
 
-describe('Hybrid Liquid Staking', () => {
-  it('should handle private deposit -> public staking flow', async () => {
-    // 1. Deploy Solidity contracts
-    const { vaultManager, stAztec } = await deployContracts();
+describe('Liquid Staking on Aztec', () => {
+  let sdk: AztecSDK;
+  let contract: Contract;
 
-    // 2. Compile Noir circuit
-    const circuit = await compileNoirCircuit('PrivateLiquidStaking');
+  beforeAll(async () => {
+    // Connect to Aztec sandbox
+    sdk = await AztecSDK.new({ rpcUrl: 'http://localhost:8080' });
 
-    // 3. Generate proof of private deposit
-    const proof = await circuit.generateProof({ amount: 50000 });
+    // Deploy Noir contract
+    contract = await Contract.deploy(sdk, liquidStakingArtifact);
+  });
 
-    // 4. Submit proof to Solidity contract
-    await vaultManager.verifyAndDeposit(proof);
+  it('should deposit and mint stAZTEC', async () => {
+    // Call #[public] function
+    const tx = await contract.methods.deposit(50000).send().wait();
 
-    // 5. Verify stAZTEC minted
-    expect(await stAztec.balanceOf(user)).to.equal(50000);
+    // Verify stAZTEC balance
+    const balance = await contract.methods.balanceOf(userAddress).call();
+    expect(balance).toBe(50000n);
+  });
+
+  it('should handle private deposits', async () => {
+    // Call #[private] function (executes in PXE)
+    const tx = await contract.methods.deposit_private(50000).send().wait();
+
+    // Private balance only visible to owner
+    const privateBalance = await contract.methods
+      .get_private_balance(userAddress)
+      .call();
+    expect(privateBalance).toBe(50000n);
   });
 });
 ```
@@ -680,31 +707,450 @@ describe('Hybrid Liquid Staking', () => {
 
 ### Key Takeaways
 
-✅ **Use Solidity for:**
-- Public state management
-- ERC-20 tokens
-- Vault pooling and staking logic
-- Governance (non-privacy-sensitive)
-- Oracle contracts
+✅ **ALL contracts must be written in Noir** (Aztec requirement):
+- StakedAztecToken.nr - token with public balances
+- LiquidStakingCore.nr - deposits, withdrawals
+- VaultManager.nr - pool aggregation, staking batches
+- RewardsManager.nr - rewards collection, fee distribution
+- WithdrawalQueue.nr - unbonding queue management
+- ValidatorRegistry.nr - track OUR validator nodes
 
-✅ **Use Noir for:**
-- Optional private deposits/withdrawals
-- Anonymous governance voting
-- Encrypted balance tracking
-- Differentiating feature (v2)
+✅ **Use #[public] functions for:**
+- All transparent state management (MVP approach)
+- Token balances and transfers
+- Vault pooling and staking logic
+- Rewards distribution
+- Withdrawal queue
+
+✅ **Use #[private] functions for (Phase 2):**
+- Optional anonymous deposits/withdrawals
+- Hidden balance tracking (UTXO notes)
+- Private governance voting
+- Differentiating privacy features
 
 ⚠️ **Noir Gotchas:**
-1. Fixed-size arrays only (no dynamic)
-2. Loops unroll → huge circuits (use unconstrained)
-3. Field arithmetic wraps (use u64/u128 for safety)
-4. Bit ops are expensive (avoid in circuits)
-5. Debugging is limited (test extensively)
-6. Unconstrained = unproven (add constraints!)
+1. Fixed-size arrays only (no dynamic arrays)
+2. Loops unroll at compile time → huge circuits (use unconstrained)
+3. Field arithmetic wraps around prime (use u64/u128 for safety)
+4. Bit operations are expensive (avoid in circuits)
+5. Debugging is limited (test extensively with `nargo test`)
+6. Unconstrained functions are NOT proven (must add constraints elsewhere)
 
 🎯 **Recommended Strategy:**
-1. **Phase 1:** Solidity-only MVP (3-4 months)
-2. **Phase 2:** Add Noir privacy features (2-3 months)
-3. **Phase 3:** Optimize circuit sizes and UX
+1. **Phase 1:** #[public] Noir contracts only (MVP - 3-4 months)
+2. **Phase 2:** Add #[private] privacy features (2-3 months)
+3. **Phase 3:** Optimize circuit sizes and advanced privacy UX
+
+---
+
+## Noir Contract Implementation Guide (Breadcrumbs for Future Developers)
+
+### Overview for Future Developers
+
+This section provides concrete guidance for implementing the liquid staking protocol in Noir. **Use this as a reference when actually building the contracts.**
+
+**Key Contracts to Build:**
+1. StakedAztecToken.nr - Token representing staked AZTEC
+2. LiquidStakingCore.nr - Main deposit/withdrawal entry point
+3. VaultManager.nr - Pool management and validator tracking
+4. RewardsManager.nr - Rewards collection and distribution
+5. WithdrawalQueue.nr - Unbonding queue management
+
+**Essential Documentation Links:**
+- **Start Here:** [Aztec Token Contract Tutorial](https://docs.aztec.network/developers/docs/tutorials/contract_tutorials/token_contract) - Follow this pattern for stAZTEC token
+- **Storage Patterns:** [Aztec Storage Documentation](https://docs.aztec.network/developers/docs/concepts/storage) - How to structure contract state
+- **Public/Private Functions:** [Understanding #[public] and #[private]](https://hackmd.io/@erayack/SJfsQKM4n) - Critical for architecture
+- **Noir Language:** [Noir Documentation](https://noir-lang.org/docs/) - Language reference
+- **Testing:** [Aztec Testing Guide](https://docs.aztec.network/developers/docs/guides/smart_contracts/testing) - How to test contracts
+
+### Contract Structure Example: StakedAztecToken.nr
+
+```noir
+use dep::aztec::macros::aztec;
+
+#[aztec]
+pub contract StakedAztecToken {
+    use dep::aztec::{
+        macros::{functions::{public}, storage::storage},
+        protocol_types::address::AztecAddress,
+        state_vars::{Map, PublicMutable}
+    };
+
+    #[storage]
+    struct Storage<Context> {
+        // Token balances (public for DeFi composability)
+        balances: Map<AztecAddress, PublicMutable<u128, Context>, Context>,
+
+        // Exchange rate (basis points: 10000 = 1.0, 10500 = 1.05)
+        exchange_rate: PublicMutable<u64, Context>,
+
+        // Total supply
+        total_supply: PublicMutable<u128, Context>,
+    }
+
+    #[public]
+    #[initializer]
+    fn constructor() {
+        storage.exchange_rate.write(10000); // Start at 1.0
+        storage.total_supply.write(0);
+    }
+
+    #[public]
+    fn mint(to: AztecAddress, amount: u128) {
+        // Access control: only LiquidStakingCore can mint
+        let sender = context.msg_sender();
+        assert(sender == LIQUID_STAKING_CORE, "Unauthorized");
+
+        let balance = storage.balances.at(to).read();
+        storage.balances.at(to).write(balance + amount);
+
+        let supply = storage.total_supply.read();
+        storage.total_supply.write(supply + amount);
+    }
+
+    #[public]
+    fn transfer(to: AztecAddress, amount: u128) {
+        let from = context.msg_sender();
+
+        let from_balance = storage.balances.at(from).read();
+        assert(from_balance >= amount, "Insufficient balance");
+
+        storage.balances.at(from).write(from_balance - amount);
+
+        let to_balance = storage.balances.at(to).read();
+        storage.balances.at(to).write(to_balance + amount);
+    }
+}
+```
+
+**Pattern:** Start with this token contract, following the [Aztec token tutorial](https://docs.aztec.network/developers/docs/tutorials/contract_tutorials/token_contract).
+
+### Key Implementation Notes
+
+**1. Storage Types (from [Aztec docs](https://docs.aztec.network/developers/docs/concepts/storage)):**
+```noir
+// Public state - visible to all
+PublicMutable<T, Context> - Single public value
+Map<K, PublicMutable<V, Context>, Context> - Public mapping
+
+// Private state - only visible to note owner (Phase 2)
+PrivateSet<Note, Context> - Set of private notes
+PrivateMutable<Note, Context> - Single private note
+```
+
+**2. Function Types:**
+```noir
+#[public] - Executes on sequencer, transparent state
+#[private] - Executes on user PXE, generates ZK proof
+unconstrained - Runs off-circuit, NOT proven (use carefully!)
+```
+
+**3. Fixed-Size Arrays (Noir Limitation):**
+```noir
+// Validators must be fixed size
+our_validators: [AztecAddress; 100]  // Max 100 validators
+
+// Track actual count separately
+validator_count: PublicMutable<u32, Context>
+```
+
+**4. Access Control Pattern:**
+```noir
+fn only_admin() {
+    let caller = context.msg_sender();
+    assert(caller == ADMIN_ADDRESS, "Only admin");
+}
+
+fn only_keeper() {
+    let caller = context.msg_sender();
+    assert(caller == KEEPER_ADDRESS, "Only keeper");
+}
+```
+
+### Development Workflow
+
+```bash
+# 1. Install Aztec tooling
+bash -i <(curl -s install.aztec.network)
+
+# 2. Create project
+aztec-nargo new aztec-liquid-staking
+cd aztec-liquid-staking
+
+# 3. Write contracts in src/
+# StakedAztecToken.nr
+# LiquidStakingCore.nr
+# etc.
+
+# 4. Compile
+aztec-nargo compile
+
+# 5. Test
+aztec-nargo test
+
+# 6. Deploy to sandbox
+aztec start --sandbox  # In separate terminal
+aztec-cli deploy StakedAztecToken
+```
+
+### Critical Gotchas for Noir
+
+⚠️ **Arrays must be fixed-size**
+```noir
+// ❌ Won't compile
+validators: [AztecAddress]
+
+// ✅ Correct
+validators: [AztecAddress; 100]
+actual_count: u32
+```
+
+⚠️ **Loops unroll at compile time**
+```noir
+// ❌ Huge circuit (10,000 gates!)
+for i in 0..1000 {
+    process(validators[i]);
+}
+
+// ✅ Use unconstrained for heavy iteration
+unconstrained fn find_best() -> u32 { ... }
+```
+
+⚠️ **Field arithmetic wraps around**
+```noir
+// ❌ Risky: Field wraps at prime modulus
+amount: Field = stake * multiplier;
+
+// ✅ Safer: u128 has overflow checks
+amount: u128 = stake * multiplier;
+```
+
+⚠️ **Access control is critical**
+```noir
+// ❌ Anyone can mint!
+#[public]
+fn mint(to: AztecAddress, amount: u128) {
+    storage.balances.at(to).write(amount);
+}
+
+// ✅ Only authorized contracts
+#[public]
+fn mint(to: AztecAddress, amount: u128) {
+    assert(context.msg_sender() == CORE_CONTRACT, "Unauthorized");
+    storage.balances.at(to).write(amount);
+}
+```
+
+### Testing Strategy
+
+```typescript
+// TypeScript tests using Aztec.js
+import { AztecSDK, Contract } from '@aztec/aztec.js';
+
+describe('Liquid Staking', () => {
+  it('should deposit and mint stAZTEC', async () => {
+    const tx = await liquidStaking.methods.deposit(50000).send().wait();
+    const balance = await stAztec.methods.balanceOf(user).call();
+    expect(balance).toBe(50000n);
+  });
+
+  it('should update exchange rate after rewards', async () => {
+    await rewardsManager.methods.claim_rewards().send().wait();
+    const rate = await stAztec.methods.get_exchange_rate().call();
+    expect(rate).toBeGreaterThan(10000n); // Should appreciate
+  });
+});
+```
+
+### Resources for Implementation
+
+**Must-Read Documentation:**
+1. [Developing Smart Contracts](https://docs.aztec.network/developers/docs/guides/smart_contracts) - Overview of Aztec contract development
+2. [Token Contract Tutorial](https://docs.aztec.network/developers/docs/tutorials/contract_tutorials/token_contract) - Complete working example
+3. [Understanding Private/Public](https://hackmd.io/@erayack/SJfsQKM4n) - Technical deep dive
+4. [Noir Language Reference](https://noir-lang.org/docs/) - Language documentation
+
+**Example Contracts:**
+- [Aztec Token Contract](https://github.com/AztecProtocol/aztec-packages/tree/master/noir-projects/noir-contracts/contracts/token_contract) - Reference implementation
+- [Aztec Noir Contracts](https://github.com/AztecProtocol/aztec-packages/tree/master/noir-projects/noir-contracts) - More examples
+
+**Getting Help:**
+- [Aztec Discord](https://discord.gg/aztec) - Active developer community
+- [Aztec GitHub Discussions](https://github.com/AztecProtocol/aztec-packages/discussions) - Technical Q&A
+
+### Implementation Checklist
+
+When building each contract, verify:
+
+- [ ] Storage layout uses correct types (PublicMutable, Map)
+- [ ] Functions marked #[public] or #[private] correctly
+- [ ] Access control on sensitive functions (mint, burn, admin)
+- [ ] Arrays are fixed-size with count tracking
+- [ ] Integer types prevent overflow (u128 vs Field)
+- [ ] Events emitted for bot monitoring
+- [ ] Unit tests cover all functions
+- [ ] Integration tests cover cross-contract calls
+
+---
+
+## Capital Requirements & Business Model (Corrected Understanding)
+
+### ⚠️ CRITICAL: Zero AZTEC Capital Required
+
+**Common Misconception:** We need $180k-$600k in AZTEC to run validators.
+**Reality:** We need **$0 in AZTEC**. Users provide ALL the capital.
+
+### How the Economics Actually Work
+
+#### **Traditional Validator Economics (Wrong for Us):**
+```
+Solo Validator:
+├─ Buy 200,000 AZTEC (~$6,000)
+├─ Run validator node
+├─ Earn 100% of staking rewards
+└─ Capital Requirement: $6,000/validator
+
+50 Validators:
+└─ Capital Requirement: $300,000 in AZTEC ❌
+```
+
+#### **Liquid Staking Protocol Economics (Our Model):**
+```
+Our Protocol:
+├─ Users deposit THEIR AZTEC to our contracts
+├─ Smart contracts pool deposits to 200k batches
+├─ Smart contracts stake to OUR validator nodes
+├─ OUR validators earn rewards
+├─ We take 10% protocol fee, users get 90%
+└─ Capital Requirement: $0 in AZTEC ✅
+
+We only pay for:
+├─ Server infrastructure: ~$400/month per validator node
+├─ Smart contract development & audits: $200k one-time
+├─ Bot infrastructure: ~$300/month
+└─ Team salaries: $50k/month (3-5 people)
+```
+
+### Why This Model Works
+
+**Users delegate their AZTEC to us via smart contracts:**
+1. User deposits 10,000 AZTEC into LiquidStakingCore.nr
+2. Contract mints stAZTEC tokens to user (1:1 initially)
+3. Contract pools deposits from many users
+4. When pool reaches 200,000 AZTEC → VaultManager stakes to OUR validator
+5. OUR validator earns rewards
+6. RewardsManager collects rewards, takes 10% fee, distributes 90% to stakers
+7. stAZTEC exchange rate increases (users' tokens become more valuable)
+
+**We NEVER own the AZTEC:** Smart contracts custody it, stake it, manage it.
+
+### Capital Requirements Breakdown
+
+**What We Actually Need:**
+
+```
+One-Time Costs:
+├─ Smart contract development: $100k (4 engineers × 3 months)
+├─ Security audits: $100k (2 audits)
+├─ Legal/incorporation: $10k
+└─ Total: $210k
+
+Monthly Operating Costs:
+├─ Validator infrastructure: $400/node × N nodes
+│   (Start with 1-3 nodes, scale as TVL grows)
+├─ Bot infrastructure: $300/month (Kubernetes, Redis, monitoring)
+├─ Team salaries: $50k/month (can start with 2-3 people)
+├─ Insurance/reserves: $5k/month
+└─ Total: ~$56k/month (assuming 3 validators to start)
+
+AZTEC Capital:
+└─ $0 - Users provide ALL staking capital ✅
+```
+
+### Revenue Model
+
+**Revenue = TVL × Staking APR × Protocol Fee**
+
+```
+Example with $10M TVL:
+├─ Total Value Locked: $10,000,000 in AZTEC
+├─ Staking APR: 8% (estimated)
+├─ Annual rewards: $800,000
+├─ Protocol fee: 10%
+├─ Our annual revenue: $80,000
+└─ Monthly revenue: $6,667
+
+Example with $50M TVL:
+├─ Total Value Locked: $50,000,000
+├─ Annual rewards: $4,000,000 (at 8% APR)
+├─ Our annual revenue: $400,000
+└─ Monthly revenue: $33,333 ✅ Profitable!
+
+Example with $200M TVL:
+├─ Annual rewards: $16,000,000
+├─ Our annual revenue: $1,600,000
+└─ Monthly revenue: $133,333 💰
+```
+
+### Break-Even Analysis
+
+```
+Monthly costs: ~$56k
+Required monthly revenue: $56k
+Required TVL at 8% APR, 10% fee: $84M
+
+More realistic break-even scenarios:
+├─ At $50M TVL: $33k/month revenue (need lower costs)
+├─ At $100M TVL: $66k/month revenue (profitable!) ✅
+└─ At $200M TVL: $133k/month revenue (2.4x costs)
+
+Timeline to break-even: 6-12 months post-launch
+(Assuming gradual TVL growth from $10M → $100M)
+```
+
+### Secondary Revenue Stream (Future)
+
+**Offering OUR validators to other protocols:**
+```
+Other liquid staking protocols can delegate to OUR validators
+├─ We charge them 5-8% commission on rewards
+├─ They don't need to run infrastructure
+├─ We earn fees from both retail users AND B2B protocols
+└─ Potential additional revenue: $50k-$200k/year
+```
+
+### Why This Is a Great Business
+
+**Low Capital Intensity:**
+- No need to raise millions for AZTEC
+- Users provide all staking capital
+- We just build software + run servers
+
+**High Margins:**
+- Software scales infinitely
+- Server costs grow linearly with TVL
+- Revenue grows linearly with TVL
+- Profit margin improves as we scale
+
+**Network Effects:**
+- More TVL → more validators → better decentralization
+- Better decentralization → more trust → more TVL
+- stAZTEC becomes DeFi primitive → more utility → more TVL
+
+**Risk Profile:**
+```
+Low financial risk:
+├─ No AZTEC capital at risk
+├─ Smart contract risk (mitigate with audits)
+├─ Validator slashing risk (mitigate with diversification)
+└─ Relatively small upfront investment ($210k)
+
+High upside:
+├─ If Aztec succeeds → massive TAM ($500M-$2B)
+├─ 40% market share of 50% staking rate = $100M-$400M TVL
+├─ At $200M TVL = $1.6M annual revenue
+└─ Software business with 70%+ margins
+```
 
 ---
 
