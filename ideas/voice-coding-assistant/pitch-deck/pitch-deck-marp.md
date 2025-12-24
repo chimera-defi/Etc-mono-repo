@@ -119,7 +119,7 @@ But **no mobile coding tool exists**
 
 ### 🤖 AI Agents
 - Autonomous coding
-- Codebase-aware
+- Codebase-aware (P0: Week 4-5)
 - Real-time progress
 
 </div>
@@ -240,7 +240,7 @@ _Note: Niche market (1.44M TAM), lifestyle business not venture-scale_
 | Platform | Desktop | Terminal | Desktop | ✅ **Mobile** |
 | Voice | ❌ | ⚠️ Limited | ✅ | ✅ **Primary** |
 | AI Agents | ✅ | ✅ | ❌ | ✅ |
-| Codebase Context | ✅ | ✅ | ❌ | ✅ |
+| Codebase Context | ✅ | ✅ | ❌ | ⏳ **Planned** |
 | Price | $20/mo | $20/mo | $10/mo | ✅ **$15/mo** |
 | Valuation | $29.3B | N/A | N/A | Seed |
 | Revenue | $1B+ | $600M+ | Unknown | $0 |
@@ -523,7 +523,7 @@ _Starting with mobile, but this is bigger - voice is the future of coding_
 
 ### To:
 1. Build and launch MVP (6 months)
-2. Acquire first 1,000 paying users
+2. Acquire first 4,500 total users (~675 paid at 15% conversion)
 3. Validate product-market fit
 4. Reach $10K MRR
 
