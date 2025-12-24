@@ -1,4 +1,4 @@
-# Voice-Enabled AI Agent Mobile App 🎤🤖
+# Voice-Enabled AI Coding Assistant 🎤🤖
 
 > **The first mobile-native AI coding assistant with voice interface**
 >
@@ -11,7 +11,7 @@
 | For... | Read This | Time |
 |--------|-----------|------|
 | **Decision makers** | [Executive Summary](./EXECUTIVE_SUMMARY.md) | 5 min |
-| **Investors** | [Pitch Deck Guide](./PITCH_DECK_GUIDE.md) | 15 min |
+| **Investors** | [Pitch Deck](./pitch-deck/) | 15 min |
 | **Implementers** | [Consolidated Overview](./CONSOLIDATED_OVERVIEW.md) | 30 min |
 | **Risk assessment** | [Risk Analysis](./RISK_ANALYSIS_AND_VIABILITY.md) | 60 min |
 
@@ -38,65 +38,27 @@ App:  📱 "Done! 4 files changed, +127 lines. PR ready."
 
 ---
 
-## 📊 Project Status
+## 📚 Documentation
 
-### Current Phase: Pre-Implementation
+### Essential Documents
 
-**What's Complete:**
-- ✅ Comprehensive market research (40+ sources)
-- ✅ Risk analysis & viability assessment
-- ✅ Technical architecture validated
-- ✅ Business model defined ($15/month Pro tier)
-- ✅ Revised implementation plan (8-12 weeks MVP)
-- ✅ Go/No-Go decision: **CONDITIONAL GO**
+| Document | Purpose | Length |
+|----------|---------|--------|
+| **[Executive Summary](./EXECUTIVE_SUMMARY.md)** | One-page overview, key decisions | 1 page |
+| **[Risk Analysis](./RISK_ANALYSIS_AND_VIABILITY.md)** | Comprehensive risk assessment, market analysis | 1,000 lines |
+| **[Consolidated Overview](./CONSOLIDATED_OVERVIEW.md)** | Technical architecture, implementation plan | 600 lines |
+| **[Pitch Deck Guide](./PITCH_DECK_GUIDE.md)** | Investor presentation template | 15 slides |
+| **[Pitch Deck](./pitch-deck/)** | LaTeX + HTML presentation formats | Multiple |
 
-**What's Next:**
-- Week 1-4: Alpha development (voice + basic agents)
-- Week 5-8: Beta launch (100 users, find PMF)
-- Week 9-16: Paid beta ($15/month, validate willingness to pay)
-- Week 17+: Public launch (ProductHunt, HackerNews)
-
-**Decision Gates:**
-- ❌ Week 4: Kill if NPS <50 or cost >$10/user
-- ❌ Week 8: Kill if WAU <30%
-- ❌ Week 16: Kill if conversion <10%
-
----
-
-## 📚 Documentation (Current & Authoritative)
-
-### Start Here
-
-| Document | Purpose | Audience | Length |
-|----------|---------|----------|--------|
-| **[Executive Summary](./EXECUTIVE_SUMMARY.md)** | One-page overview, key decisions | Everyone | 1 page |
-| **[Pitch Deck Guide](./PITCH_DECK_GUIDE.md)** | Investor/team presentation template | Fundraising | 15 slides |
-| **[Risk Analysis](./RISK_ANALYSIS_AND_VIABILITY.md)** | Comprehensive risk assessment, market analysis | Decision makers | 1,000 lines |
-| **[Consolidated Overview](./CONSOLIDATED_OVERVIEW.md)** | Technical architecture, implementation plan | Developers | 600 lines |
-
-### Deep Dives (All Current)
+### Supporting Research
 
 | Document | What's Inside |
 |----------|---------------|
-| **[Market Research](./docs/MARKET_RESEARCH_AND_FEATURE_PARITY.md)** | Cursor vs Claude Code comparison, user needs, gaps analysis |
-| **[Technical Decisions](./docs/TECHNICAL_DECISIONS_REVIEW.md)** | All 12 tech decisions validated (Whisper, Supabase, Zustand, etc.) |
+| **[Market Research](./docs/MARKET_RESEARCH_AND_FEATURE_PARITY.md)** | Cursor vs Claude Code comparison, user needs |
+| **[Technical Decisions](./docs/TECHNICAL_DECISIONS_REVIEW.md)** | All 12 tech decisions validated |
 | **[STT Quality Specs](./docs/STT_WISPR_FLOW_QUALITY.md)** | Whisper API integration, 95-98% accuracy target |
-| **[Component Specs Part 1](./docs/COMPONENT_TECHNICAL_SPECS.md)** | Speech services implementation (STT, TTS, CommandParser) |
-| **[Component Specs Part 2](./docs/COMPONENT_TECHNICAL_SPECS_PART2.md)** | API, state, storage services (⚠️ PusherService is outdated, use polling) |
-| **[UI Wireframes](./mocks/UI_WIREFRAMES.md)** | 10 screen mockups (voice interface, agents, settings) |
-| **[Architecture Diagrams](./architecture/ARCHITECTURE_DIAGRAMS.md)** | System flows, data models, deployment (⚠️ Some outdated) |
-
-### Reference (Historical Context)
-
-| Document | Status | Notes |
-|----------|--------|-------|
-| [`BUILDING_ON_PR35.md`](./docs/BUILDING_ON_PR35.md) | ⚠️ Outdated | Uses Pusher (now Supabase), but PR #35 insights still valid |
-| [`MOBILE_SPEECH_AGENT_APP_PLAN.md`](./docs/MOBILE_SPEECH_AGENT_APP_PLAN.md) | ⚠️ Outdated | Uses expo-speech-recognition (now Whisper), Pusher |
-| [`MOBILE_SPEECH_APP_ARCHITECTURE.md`](./docs/MOBILE_SPEECH_APP_ARCHITECTURE.md) | ⚠️ Outdated | Architecture revised, see CONSOLIDATED_OVERVIEW.md instead |
-| [`MOBILE_SPEECH_APP_QUICKSTART.md`](./docs/MOBILE_SPEECH_APP_QUICKSTART.md) | ⚠️ Outdated | Tech stack changed |
-| [`MOBILE_SPEECH_APP_README.md`](./docs/MOBILE_SPEECH_APP_README.md) | ⚠️ Outdated | Superseded by main README.md |
-| [`CURSOR_AGENTS_ANALYSIS.md`](./docs/CURSOR_AGENTS_ANALYSIS.md) | ✅ Reference | PR #35 findings, still useful |
-| [`MOBILE_APP_REVERSE_ENGINEERING.md`](./docs/MOBILE_APP_REVERSE_ENGINEERING.md) | ✅ Reference | Implementation notes |
+| **[UI Wireframes](./mocks/UI_WIREFRAMES.md)** | 10 screen mockups |
+| **[Architecture Diagrams](./architecture/ARCHITECTURE_DIAGRAMS.md)** | System flows, data models |
 
 ---
 
@@ -138,7 +100,7 @@ App:  📱 "Done! 4 files changed, +127 lines. PR ready."
 1. **Cost underestimated 24x** - Actual $9.75/user vs $1.54 projected
    - Mitigation: $15 pricing + strict usage limits
 
-2. **Codebase understanding missing** - P0 must-have to compete with Cursor
+2. **Codebase understanding missing** - P0 must-have to compete
    - Mitigation: Build CodebaseAnalyzer service (2 weeks)
 
 3. **iOS audio latency** - 16 seconds without compression
@@ -160,16 +122,16 @@ App:  📱 "Done! 4 files changed, +127 lines. PR ready."
 | **Language** | TypeScript 5.3+ | Type safety |
 | **State** | Zustand 4 | Lightweight, minimal boilerplate |
 | **Data** | TanStack Query v5 | Server state caching |
-| **STT** | OpenAI Whisper API | 95-98% accuracy (Wispr Flow quality) |
+| **STT** | OpenAI Whisper API | 95-98% accuracy |
 | **TTS** | expo-speech | On-device, <50ms latency |
 | **Backend** | Fastify 4 + PostgreSQL 16 | Fast API, serverless DB |
-| **Real-time** | Polling + Push Notifications | Reliable on mobile (WebSocket unreliable) |
+| **Real-time** | Polling + Push Notifications | Reliable on mobile |
 | **Auth** | OAuth 2.0 PKCE + GitHub | Secure, standard |
 | **Hosting** | Vercel + Neon | Serverless, auto-scale |
 
 **Changed from original plan:**
 - ❌ expo-speech-recognition → ✅ Whisper API (quality requirement)
-- ❌ Pusher → ✅ Supabase Realtime / Polling (cost optimization)
+- ❌ Pusher → ✅ Polling (cost optimization)
 - ❌ Regex command parser → ✅ Claude Haiku parsing (accuracy)
 
 ---
@@ -191,120 +153,40 @@ App:  📱 "Done! 4 files changed, +127 lines. PR ready."
 - ❌ Parallel agents
 - ❌ Image/screenshot context
 - ❌ Web search (@Web)
-- ❌ Multiple STT providers
-- ❌ Continuous listening (push-to-talk only)
 
-### Timeline
+### Milestones & Decision Gates
 
-```
-Week 1-2:   Foundation (React Native setup, UI components)
-Week 3-4:   Speech services (Whisper integration, TTS)
-Week 5-6:   Agent services (API, CodebaseAnalyzer)
-Week 7-8:   Integration (Claude API, real-time, push)
-Week 9-10:  Polish (testing, bug fixes, App Store prep)
-Week 11-12: Buffer (unexpected delays, extra testing)
-```
-
-### Milestones
-
-| Week | Milestone | Success Criteria |
-|------|-----------|------------------|
-| 4 | **Alpha launch** | 10 users, NPS >50, cost <$5/user |
-| 8 | **Beta launch** | 100 users, WAU >30% |
-| 16 | **Paid beta** | Conversion >10%, $1K MRR |
-| 24 | **Public launch** | 1,000 users, $10K MRR |
+| Week | Milestone | Success Criteria | Decision Gate |
+|------|-----------|------------------|---------------|
+| 4 | **Alpha launch** | 10 users, NPS >50, cost <$5/user | ❌ Kill if not met |
+| 8 | **Beta launch** | 100 users, WAU >30% | ❌ Kill if not met |
+| 16 | **Paid beta** | Conversion >10%, $1K MRR | ❌ Kill if not met |
+| 24 | **Public launch** | 1,000 users, $10K MRR | - |
 
 ---
 
-## 💰 Funding & Budget
+## 💰 Funding Options
 
 ### Option 1: Bootstrap (Recommended for MVP)
 
 **Budget:** $20K (4 months)
 - Development: Solo founder, 30-40 hrs/week
-- Infrastructure: $500/month (AWS, APIs, tools)
+- Infrastructure: $500/month
 - Marketing: $1K (ProductHunt, content)
 
-**Outcome:** Validate product-market fit, prove willingness to pay
+**Outcome:** Validate product-market fit
 
 ### Option 2: Seed Round ($150K)
 
 **Use of Funds:**
-- Development: $80K (team of 2-3 for 6 months)
+- Development: $80K
 - Infrastructure: $20K
 - Marketing: $30K
 - Operations: $20K
 
 **Terms:** 10% equity at $1.5M pre-money
 
-**Outcome:** Faster execution, hire team, scale to 1,000 users
-
----
-
-## 📈 Success Metrics
-
-### Product Metrics
-- Voice accuracy: >95%
-- End-to-end latency: <2 seconds
-- Agent success rate: >80%
-- Cost per user: <$6
-
-### Business Metrics
-- Weekly Active Users (WAU): >30%
-- Net Promoter Score (NPS): >40
-- Conversion rate (free → paid): >10%
-- Churn: <10%/month
-- MRR growth: 20%/month
-
----
-
-## 🎬 Next Steps
-
-### For Decision Makers
-1. ✅ Review [Executive Summary](./EXECUTIVE_SUMMARY.md)
-2. ✅ Read [Risk Analysis](./RISK_ANALYSIS_AND_VIABILITY.md)
-3. ✅ Decide: GO or NO-GO
-4. ✅ If GO: Allocate $20K budget, 4-month timeline
-
-### For Investors
-1. ✅ Review [Pitch Deck Guide](./PITCH_DECK_GUIDE.md)
-2. ✅ Watch demo video (coming after MVP)
-3. ✅ Schedule follow-up call
-4. ✅ Access data room (if interested)
-
-### For Developers
-1. ✅ Read [Consolidated Overview](./CONSOLIDATED_OVERVIEW.md)
-2. ✅ Review [Component Specs](./docs/COMPONENT_TECHNICAL_SPECS.md)
-3. ✅ Set up development environment
-4. ✅ Start Week 1 tasks
-
----
-
-## 🤝 Contributing
-
-This project is in pre-implementation phase. We welcome:
-- Code reviews of architecture
-- Feedback on business model
-- Early alpha testers
-- Advisors with mobile/AI/voice expertise
-
-**Contact:** Open an issue or discussion in the repo
-
----
-
-## 📞 Questions?
-
-### Technical Questions
-- Architecture: See [Consolidated Overview](./CONSOLIDATED_OVERVIEW.md)
-- Implementation: See [Component Specs](./docs/COMPONENT_TECHNICAL_SPECS.md)
-
-### Business Questions
-- Viability: See [Risk Analysis](./RISK_ANALYSIS_AND_VIABILITY.md)
-- Market: See [Market Research](./docs/MARKET_RESEARCH_AND_FEATURE_PARITY.md)
-
-### Investor Questions
-- Pitch: See [Pitch Deck Guide](./PITCH_DECK_GUIDE.md)
-- Financials: See [Executive Summary](./EXECUTIVE_SUMMARY.md)
+**Outcome:** Faster execution, scale to 1,000 users
 
 ---
 
