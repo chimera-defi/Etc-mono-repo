@@ -7,19 +7,19 @@
 
 ## The Opportunity
 
-**Build the first production-ready liquid staking protocol for Aztec Network** - a $144M-$240M addressable market (30-50% of supply staking) with limited competition.
+**Build the first production-ready liquid staking protocol for Aztec Network** - a $124M-$207M addressable market with proven demand ($22.8M already staked) and limited competition.
 
 | Metric | Value |
 |--------|-------|
 | **Market Launch** | November 2025 (mainnet live) |
 | **Total Supply** | 10.35B AZTEC |
-| **Current TVL Staked** | 570M+ AZTEC (~$26.5M @ $0.0464) |
-| **Token Sale Price** | $0.0464 (Dec 2025, TGE Feb 2026+) |
-| **Barrier to Entry** | 200,000 AZTEC minimum (~$9.3k) |
-| **Liquid Staking** | ❌ Not available (we'd be first major protocol) |
-| **Competition** | 1 identified: **Olla by Kryha** (early stage) |
-| **Current APY** | 166% (early bootstrap, will normalize to 6-10%) |
-| **Window** | 3-6 months before market saturates |
+| **Current Staked** | 570M AZTEC (**$22.8M @ $0.04**) |
+| **Token Price** | **$0.04** ($61M sale ÷ 1.547B tokens) |
+| **Barrier to Entry** | 200,000 AZTEC (~$8k) |
+| **Liquid Staking** | ❌ Not available (first-mover opportunity) |
+| **Competition** | Olla by Kryha (announced, not launched) |
+| **Current APY** | 166% (will normalize to 6-10% post-TGE) |
+| **TGE** | Feb 2026+ (tokens non-transferable until then) |
 
 ---
 
@@ -40,20 +40,18 @@
 
 **Revenue Projections:**
 
-| TVL (USD) | TVL (AZTEC) | Annual Revenue | Annual Profit | Margin |
-|-----------|-------------|----------------|---------------|--------|
-| $2.25M | 48.5M | $18k | $0 | **Break-even** |
-| $21.6M | 465M | $173k | $155k | **90%** |
-| $46.4M | 1B | $371k | $353k | **95%** |
-| $144M | 3.1B | $1.15M | $1.13M | **98%** |
-| $240M | 5.2B | $1.92M | $1.90M | **99%** |
+| Year | Market Share | TVL (AZTEC) | TVL (USD) | Annual Profit | Margin |
+|------|--------------|-------------|-----------|---------------|--------|
+| **Break-even** | - | 56M | $2.25M | $0 | - |
+| **Year 1** | 30% | 465M | $18.6M | **$131k** | 88% |
+| **Year 2** | 40% | 621M | $24.8M | **$180k** | 91% |
+| **Year 3** | 50% | 777M | $31.1M | **$231k** | 93% |
 
-*Assumes: 8% staking APR (down from 166% bootstrap), 10% protocol fee, $0.0464 token price*
-*Annual ops costs: $18k (3 validators + infrastructure)*
+*Assumes: 8% APR (down from 166% bootstrap), 10% fee, $0.04 token price, $18k/year ops*
 
-**Break-even:** $2.25M TVL (48.5M AZTEC) = **2-4 months post-launch**
+**Break-even:** $2.25M TVL (56M AZTEC) = **2-4 months post-launch**
 
-**Conservative Year 1 Target:** 465M AZTEC ($21.6M) = 30% share of 50% liquid staking at 30% total staking rate
+**Maximum potential:** $103M TVL → $810k/year profit (if capture 50% of market at 50% staking rate)
 
 ---
 
@@ -159,12 +157,12 @@
 **✅ PROCEED IMMEDIATELY**
 
 **Rationale:**
-1. First-mover advantage worth 30-50% market share
-2. **Ultra-low capital intensity** ($0 AZTEC, only $18k/year ops) = exceptional ROI
-3. Competition confirmed but early stage (Olla just announced)
-4. Technical feasibility validated (Aztec testnet live, Noir documented)
-5. **Break-even at $2.25M TVL = achievable within 2-4 months** (vs 6-12 months industry standard)
-6. Strong existing demand: 570M AZTEC already staked ($26.5M baseline)
+1. **Ultra-fast break-even:** $2.25M TVL in 2-4 months (only $18k/year ops)
+2. **Exceptional margins:** 88-93% profit margins at scale
+3. **Zero capital requirement:** $0 AZTEC needed (users provide all staking capital)
+4. **Proven demand:** $22.8M already staked (570M AZTEC, 2,850 validators)
+5. **First-mover advantage:** No liquid staking protocol live yet
+6. **Technical validation:** Testnet operational, Noir well-documented
 
 **Next 48 Hours:**
 1. Engage Noir developer recruiters

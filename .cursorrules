@@ -146,6 +146,18 @@
   70. **Regenerate OG images when adding pages** - when adding a new page to wallets/frontend that needs an OG image: 1) Add a generate function to `scripts/generate-og-images.js`, 2) Run `npm run generate-og`, 3) Add metadata to the page pointing to the new image, 4) Commit the generated PNG. CI will fail if images are out of sync.
   71. **Increment ogImageVersion on image updates** - when OG images are regenerated, increment the version parameter (e.g., `v3` → `v4`) in layout.tsx and affected pages to bust social media caches.
 
+- Token economics and financial projections:
+  72. **Calculate token price from primary data** - always calculate token price from verified fundraising data (amount raised ÷ tokens sold), not from third-party listing sites which may have outdated or incorrect prices
+  73. **Verify fundraising math** - when sources conflict on token price, trust the calculation from official fundraising data: if they raised $61M selling 1.547B tokens, the price is $0.0394 regardless of what ICO listing sites claim
+  74. **FDV is floor price in auctions** - in token auctions, the announced FDV represents the starting floor price; actual clearing price may be higher; calculate from actual amount raised for accuracy
+  75. **Price errors compound in projections** - a small token price error (e.g., $0.0464 vs $0.04 = 16% error) propagates through ALL TVL and revenue calculations; always verify base assumptions first
+  76. **Multi-pass financial review required** - when user says "numbers don't look right," they're usually correct; systematically verify: 1) token price from primary sources, 2) all TVL calculations, 3) revenue formulas, 4) break-even math, 5) cross-check against known data points
+  77. **Consolidate financial docs to single source** - having the same revenue projections in 3+ documents creates maintenance burden and inconsistency; consolidate to one ECONOMICS.md file and reference it from executive summary/assumptions
+  78. **Show calculation methodology** - always show formulas (e.g., "TVL × 8% APY × 10% fee = revenue") not just final numbers; makes errors easier to spot and builds trust
+  79. **Conservative estimates for new protocols** - for protocols without proven track record, use conservative estimates: token price at sale price (not projected), APY at sustainable levels (not bootstrap), market share at 30% (not 50%)
+  80. **Flag non-transferable tokens** - if tokens aren't tradable yet (locked until TGE), explicitly note this; it's a major risk factor that affects price assumptions
+  81. **Revenue in protocol token, costs in fiat** - clarify that liquid staking revenue is in protocol tokens (scales with price) while infrastructure costs are in fiat (fixed); this asymmetry is critical for sensitivity analysis
+
 ## Best Practices
 - Use semantic versioning for packages
 - Include proper .gitignore files for each project type

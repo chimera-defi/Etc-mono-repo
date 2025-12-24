@@ -64,40 +64,21 @@
 | Assumption | Value | Status | Impact if Wrong | Mitigation |
 |------------|-------|--------|-----------------|------------|
 | **Aztec total supply** | 10.35B AZTEC | ✅ VERIFIED | Critical - determines TAM | [CryptoRank](https://cryptorank.io/ico/aztec), [CoinGecko](https://www.coingecko.com/en/coins/aztec) |
-| **Token sale price** | $0.0464 | ✅ VERIFIED | High - baseline valuation | [ICO Drops](https://icodrops.com/aztec/) Dec 2025 sale |
-| **Implied FDV** | $350M (sale), $480M (calc) | ✅ VERIFIED | High - market size | [Bitget News](https://www.bitget.com/news/detail/12560605063211) |
-| **Current TVL staked** | 570M+ AZTEC ($26.5M) | ✅ VERIFIED | Medium - baseline demand | [PANews](https://www.panewslab.com/en/articles/ccce7885-d99d-4456-9699-43f35a61b5c0) as of Dec 6, 2025 |
+| **Token sale price** | **$0.04** ($61M ÷ 1.547B) | ✅ VERIFIED | High - baseline valuation | [The Block](https://www.theblock.co/post/381618/aztec-network-raises-over-60-million-in-eth-with-community-first-token-sale-testing-new-auction-model) |
+| **Implied FDV** | $350M floor → $414M actual | ✅ VERIFIED | High - market size | Calculated: $0.04 × 10.35B |
+| **Current TVL staked** | 570M AZTEC (**$22.8M** @ $0.04) | ✅ VERIFIED | Medium - baseline demand | [PANews](https://www.panewslab.com/en/articles/ccce7885-d99d-4456-9699-43f35a61b5c0) |
 | **Staking participation rate** | 40-60% | ⚠️ ESTIMATED | High - determines TAM | Use 40% (conservative) |
 | **Our market share** | 30-50% | ⚠️ ESTIMATED | Critical - revenue projections | Target 30% (conservative) |
 | **Protocol fee acceptable** | 10% | ⚠️ ESTIMATED | High - could price us out | Competitor analysis (Lido 10%) |
 | **User preference: liquid vs native** | 70% prefer liquid | ⚠️ ESTIMATED | High - determines demand | Ethereum: 33% choose liquid staking |
 
-**TAM Calculation (CORRECTED):**
-```
-Total Supply: 10.35B AZTEC
-Token Price: $0.0464 (Dec 2025 sale)
+**See ECONOMICS.md for complete TAM calculations and revenue projections.**
 
-Conservative (30% staked): 3.105B AZTEC = $144M max TVL
-Moderate (40% staked): 4.14B AZTEC = $192M max TVL
-Aggressive (50% staked): 5.175B AZTEC = $240M max TVL
-
-Our Share (30% of 50% liquid staking at 30% staked):
-= 30% × 50% × 3.105B = 465M AZTEC = $21.6M TVL
-```
-
-**Revenue at Conservative Share ($21.6M TVL):**
-```
-$21.6M × 8% APR × 10% fee = $173k annual revenue
-Monthly: $14.4k
-Profit after $18k annual costs: $155k/year (90% margin)
-```
-
-**Break-Even:**
-```
-$18k annual costs / (8% APR × 10% fee) = $2.25M TVL
-= 48.5M AZTEC (0.47% of supply)
-Time to break-even: 2-4 months post-launch (estimated)
-```
+**Quick Reference:**
+- Maximum TVL: $124M-$207M (30-50% of supply staking)
+- Break-even: $2.25M TVL (56M AZTEC, 0.54% of supply)
+- Conservative Year 1: $18.6M TVL → $131k profit
+- All calculations use $0.04 token price (verified actual sale price)
 
 ---
 
@@ -126,16 +107,17 @@ Time to break-even: 2-4 months post-launch (estimated)
 
 **2. Staking APR Lower Than Expected (5% vs 8%)**
 - Impact: Revenue reduced by 37.5%
-- At $21.6M TVL: $108k annual (vs $173k)
+- At $18.6M TVL: $93k annual (vs $149k)
+- Still profitable ($75k profit) after $18k costs
 - Break-even TVL: $3.6M (up from $2.25M)
-- Mitigation: Lower protocol fee to 8% to stay competitive, or wait for APY to stabilize
+- Mitigation: Lower protocol fee to 8%, or wait for APY to stabilize
 
-**3. Token Price Drops to $0.02 (57% decline from sale price)**
-- Impact: TVL in USD reduced by 57% (but AZTEC volume unchanged)
-- At 465M AZTEC: $9.3M TVL (vs $21.6M)
-- Revenue: $74k annual (vs $173k)
-- Still profitable but margins tighter
-- Mitigation: Revenue is in AZTEC (proportional), costs in fiat (fixed)
+**3. Token Price Drops to $0.02 (50% decline from sale price)**
+- Impact: TVL in USD halved (but AZTEC volume unchanged)
+- At 465M AZTEC: $9.3M TVL (vs $18.6M)
+- Revenue: $74k annual (vs $149k)
+- Still profitable ($56k profit) but tighter margins
+- Mitigation: Revenue in AZTEC (proportional), costs in fiat (fixed)
 
 **4. Olla Launches in 2 Months**
 - Impact: Lose first-mover advantage
