@@ -1,0 +1,708 @@
+% Mobile Speech Agent App - Investor Pitch Deck
+% LaTeX Beamer Presentation
+% Compile with: pdflatex pitch-deck.tex
+
+\documentclass[aspectratio=169]{beamer}
+\usetheme{Madrid}
+\usecolortheme{seahorse}
+
+% Packages
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+% Colors
+\definecolor{brandblue}{RGB}{41, 128, 185}
+\definecolor{brandpurple}{RGB}{142, 68, 173}
+\setbeamercolor{structure}{fg=brandblue}
+
+% Title page
+\title{Mobile Speech Agent}
+\subtitle{The First Mobile AI Coding Assistant with Voice}
+\author{[Your Name]}
+\date{\today}
+
+\begin{document}
+
+% ===============================
+% SLIDE 1: TITLE
+% ===============================
+\begin{frame}
+\titlepage
+\centering
+\vspace{-1cm}
+\Large{Code with your voice, anywhere}
+\end{frame}
+
+% ===============================
+% SLIDE 2: THE PROBLEM
+% ===============================
+\begin{frame}{The Problem}
+\centering
+\LARGE{\textbf{Developers want to code everywhere,}}
+
+\LARGE{\textbf{but are stuck at their desks}}
+
+\vspace{1cm}
+
+\begin{columns}[T]
+\column{0.33\textwidth}
+\centering
+\textcolor{red}{\textbf{Desktop Lock-in}}
+
+\small{Current AI tools are desktop-only}
+
+\small{Cursor: \$29B, Claude Code: \$600M}
+
+\column{0.33\textwidth}
+\centering
+\textcolor{red}{\textbf{Slow Typing}}
+
+\small{Developers type at 40 WPM}
+
+\small{but speak at 150 WPM}
+
+\small{\textbf{3.75x faster!}}
+
+\column{0.33\textwidth}
+\centering
+\textcolor{red}{\textbf{No Mobile Solution}}
+
+\small{73\% of companies hire remote}
+
+\small{But no mobile coding tool exists}
+\end{columns}
+
+\vspace{1cm}
+\small{\textbf{Market Data:} 28.7M global developers, \$23.97B AI tools market by 2030}
+\end{frame}
+
+% ===============================
+% SLIDE 3: THE SOLUTION
+% ===============================
+\begin{frame}{The Solution}
+\centering
+\LARGE{\textbf{Code with your voice, anywhere}}
+
+\vspace{0.5cm}
+
+\begin{table}
+\begin{tabular}{ccc}
+\textbf{Voice-First} & \textbf{Mobile-Native} & \textbf{AI Agents} \\
+3.75x faster input & iOS + Android & Autonomous coding \\
+95-98\% accuracy & Work on-the-go & Codebase-aware (P0) \\
+\end{tabular}
+\end{table}
+
+\vspace{0.5cm}
+
+\begin{block}{Unique Value Proposition}
+\centering
+\textbf{The ONLY mobile + voice + codebase-aware AI coding solution}
+
+No competition. Blue ocean market.
+\end{block}
+
+\vspace{0.5cm}
+
+\small{\textbf{Example:} ``Start an agent on wallet-frontend to add dark mode'' $\rightarrow$ Agent creates 4 files, +127 lines in 3 minutes}
+\end{frame}
+
+% ===============================
+% SLIDE 4: MARKET OPPORTUNITY
+% ===============================
+\begin{frame}{Market Opportunity}
+\framesubtitle{Three Growth Markets Converging}
+
+\begin{columns}[T]
+\column{0.33\textwidth}
+\centering
+\textbf{Voice Recognition}
+
+\$18.39B (2025)
+
+$\downarrow$
+
+\textcolor{green}{\$51.72B (2030)}
+
+\textbf{22.97\% CAGR}
+
+\column{0.33\textwidth}
+\centering
+\textbf{AI Developer Tools}
+
+\$7.37B (2025)
+
+$\downarrow$
+
+\textcolor{green}{\$23.97B (2030)}
+
+\textbf{26.60\% CAGR}
+
+\column{0.33\textwidth}
+\centering
+\textbf{Mobile Development}
+
+\$116.87B (2025)
+
+$\downarrow$
+
+\textcolor{green}{\$988.5B (2035)}
+
+\textbf{23.8\% CAGR}
+\end{columns}
+
+\vspace{1cm}
+
+\begin{block}{TAM / SAM / SOM}
+\begin{itemize}
+\item \textbf{TAM:} 28.7M developers $\times$ \$15/month = \$5.1B
+\item \textbf{SAM:} 1.44M mobile-first devs (5\%) = \$259M
+\item \textbf{SOM:} 1,440 users (0.1\% penetration) = \$259K (Year 1)
+\end{itemize}
+\end{block}
+\end{frame}
+
+% ===============================
+% SLIDE 5: BUSINESS MODEL
+% ===============================
+\begin{frame}{Business Model}
+
+\begin{table}
+\small
+\begin{tabular}{lccc}
+\toprule
+\textbf{Tier} & \textbf{Price} & \textbf{Features} & \textbf{Margin} \\
+\midrule
+Free & \$0 & 5 agents/month, limited voice & Break-even \\
+\textbf{Pro} & \textbf{\$15/month} & 50 agents, full voice & \textbf{60\%} \\
+Enterprise & \$75/month & Unlimited, team features & 70\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.5cm}
+
+\begin{columns}[T]
+\column{0.5\textwidth}
+\textbf{Revenue Projections}
+\begin{itemize}
+\item Year 1: 5,000 users, \$135K ARR
+\item Year 2: 20,000 users, \$720K ARR
+\item \textbf{Year 3: 50,000 users, \$2.25M ARR}
+\end{itemize}
+
+\column{0.5\textwidth}
+\textbf{Unit Economics}
+\begin{itemize}
+\item LTV: \$180 (12 months)
+\item CAC: \$30 (product-led growth)
+\item \textbf{LTV:CAC = 6:1} ✓
+\end{itemize}
+\end{columns}
+
+\vspace{0.5cm}
+\small{\textit{Note: Niche market (1.44M TAM), lifestyle business not venture-scale}}
+\end{frame}
+
+% ===============================
+% SLIDE 6: COMPETITIVE LANDSCAPE
+% ===============================
+\begin{frame}{Competitive Landscape}
+
+\begin{table}
+\small
+\begin{tabular}{lcccc}
+\toprule
+& \textbf{Cursor} & \textbf{Claude Code} & \textbf{Wispr Flow} & \textbf{Us} \\
+\midrule
+\textbf{Platform} & Desktop & Terminal & Desktop & \textcolor{green}{\textbf{Mobile}} \\
+\textbf{Voice} & No & Limited & Yes & \textcolor{green}{\textbf{Primary}} \\
+\textbf{AI Agents} & Yes & Yes & No & \textcolor{green}{\textbf{Yes}} \\
+\textbf{Codebase Context} & Yes & Yes & No & \textcolor{orange}{\textbf{Planned}} \\
+\textbf{Price} & \$20/mo & \$20/mo & \$10/mo & \textcolor{green}{\textbf{\$15/mo}} \\
+\midrule
+\textbf{Valuation} & \$29.3B & N/A & N/A & Seed \\
+\textbf{Revenue} & \$1B+ & \$600M+ & Unknown & \$0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.5cm}
+
+\begin{block}{Our Advantages}
+\begin{itemize}
+\item \textbf{Blue ocean:} Only mobile + voice + AI solution
+\item \textbf{Competitor weakness:} Cursor pricing backlash, Claude Code quality issues
+\item \textbf{Mobile-first:} 80\% of businesses adopting mobile-first strategies
+\end{itemize}
+\end{block}
+\end{frame}
+
+% ===============================
+% SLIDE 7: GO-TO-MARKET
+% ===============================
+\begin{frame}{Go-to-Market Strategy}
+
+\begin{columns}[T]
+\column{0.5\textwidth}
+\textbf{4-Phase Launch}
+
+\begin{enumerate}
+\item \textbf{Private Alpha} (Weeks 1-2)
+\begin{itemize}
+\item 10 users (network)
+\item Validate voice UX
+\item Metric: NPS $>$ 50
+\end{itemize}
+
+\item \textbf{Waitlist Beta} (Weeks 3-8)
+\begin{itemize}
+\item 100 users from waitlist
+\item Find product-market fit
+\item Metric: 30\% WAU
+\end{itemize}
+
+\item \textbf{Paid Beta} (Weeks 9-16)
+\begin{itemize}
+\item Charge \$15/month
+\item Validate willingness to pay
+\item Metric: 10\%+ conversion
+\end{itemize}
+
+\item \textbf{Public Launch} (Week 17+)
+\begin{itemize}
+\item ProductHunt, HackerNews
+\item Scale to 1,000 users
+\item Metric: \$10K MRR
+\end{itemize}
+\end{enumerate}
+
+\column{0.5\textwidth}
+\textbf{Distribution Channels}
+
+\begin{itemize}
+\item \textbf{Product-led growth} (free tier)
+\item \textbf{Developer communities} (Reddit, HN)
+\item \textbf{Content marketing} (blog, YouTube)
+\item \textbf{Partnerships} (bootcamps, dev tools)
+\end{itemize}
+
+\vspace{0.5cm}
+
+\begin{block}{Key Insight}
+Low-cost acquisition via product-led growth
+
+CAC: \$30 vs Industry avg: \$200+
+\end{block}
+\end{columns}
+\end{frame}
+
+% ===============================
+% SLIDE 8: TRACTION & MILESTONES
+% ===============================
+\begin{frame}{Traction & Milestones}
+
+\begin{columns}[T]
+\column{0.5\textwidth}
+\textbf{Current Status}
+\begin{itemize}
+\item ✓ Market research completed (40+ sources)
+\item ✓ Technical architecture validated
+\item ✓ Risk analysis conducted
+\item ✓ Revised business model
+\item $\rightarrow$ Alpha development starting
+\end{itemize}
+
+\vspace{0.5cm}
+
+\textbf{Decision Gates}
+\begin{itemize}
+\item Week 4: NPS $>$ 50 or \textcolor{red}{KILL}
+\item Week 8: WAU $>$ 30\% or \textcolor{red}{KILL}
+\item Week 16: Conversion $>$ 10\% or \textcolor{red}{KILL}
+\end{itemize}
+
+\column{0.5\textwidth}
+\textbf{6-Month Roadmap}
+
+\begin{table}
+\small
+\begin{tabular}{lcc}
+\toprule
+\textbf{Month} & \textbf{Users} & \textbf{MRR} \\
+\midrule
+1 (Alpha) & 10 & \$0 \\
+2 (Beta) & 100 & \$0 \\
+3-4 (Paid) & 100 & \$1K \\
+5-6 (Launch) & 1,000 & \$10K \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.5cm}
+
+\begin{alertblock}{Disciplined Execution}
+Clear milestones with kill criteria
+
+No sunk cost fallacy
+\end{alertblock}
+\end{columns}
+\end{frame}
+
+% ===============================
+% SLIDE 9: TEAM
+% ===============================
+\begin{frame}{Team}
+
+\begin{columns}[T]
+\column{0.6\textwidth}
+\textbf{Founder}
+
+\vspace{0.3cm}
+
+\textbf{[Your Name]}, CEO/Founder
+\begin{itemize}
+\item Background: [Prior experience]
+\item Why this: [Personal connection to problem]
+\item Skills: [Technical/business strengths]
+\end{itemize}
+
+\vspace{0.5cm}
+
+\textbf{Hiring Plan}
+\begin{itemize}
+\item Month 1-3: Solo founder (validation)
+\item Month 4-6: +1 full-stack developer
+\item Month 7-12: +1 AI/ML engineer, +1 designer
+\item Year 2: Build 5-person team
+\end{itemize}
+
+\column{0.4\textwidth}
+\textbf{Advisors}
+
+\vspace{0.3cm}
+
+\small{
+\begin{itemize}
+\item [Name], [Expertise]
+\item [Name], [Expertise]
+\item [Name], [Expertise]
+\end{itemize}
+}
+
+\vspace{0.5cm}
+
+\begin{block}{Philosophy}
+\small{Lean team, focused execution
+
+Hire after validation}
+\end{block}
+\end{columns}
+\end{frame}
+
+% ===============================
+% SLIDE 10: FINANCIAL ASK
+% ===============================
+\begin{frame}{Financial Ask}
+
+\begin{center}
+\LARGE{\textbf{Seeking: \$150K Seed Round}}
+\end{center}
+
+\vspace{0.5cm}
+
+\begin{columns}[T]
+\column{0.5\textwidth}
+\textbf{Use of Funds}
+
+\begin{table}
+\small
+\begin{tabular}{lr}
+\toprule
+\textbf{Category} & \textbf{Amount} \\
+\midrule
+Development & \$80K \\
+Infrastructure & \$20K \\
+Marketing & \$30K \\
+Operations & \$20K \\
+\midrule
+\textbf{Total} & \textbf{\$150K} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Runway:} 12 months to \$10K MRR
+
+\textbf{Valuation:} \$1.5M pre-money (10\% equity)
+
+\column{0.5\textwidth}
+\textbf{Investor ROI Scenarios}
+
+\begin{table}
+\tiny
+\begin{tabular}{lccc}
+\toprule
+\textbf{Scenario} & \textbf{Y3 ARR} & \textbf{Val.} & \textbf{Return} \\
+\midrule
+Conservative & \$1M & \$5M & 3.3x \\
+Base & \$2.25M & \$13.5M & \textbf{9x} \\
+Optimistic & \$5M & \$40M & 26.7x \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.3cm}
+
+\begin{alertblock}{Alternative: Bootstrap}
+\small{
+No funding needed
+
+\$50K MRR lifestyle business
+
+70\% margins = \$35K/month profit
+}
+\end{alertblock}
+\end{columns}
+\end{frame}
+
+% ===============================
+% SLIDE 11: WHY NOW
+% ===============================
+\begin{frame}{Why Now?}
+
+\begin{enumerate}
+\item \textbf{AI Coding Boom}
+\begin{itemize}
+\item Cursor \$29.3B (2025), \$1B revenue in 12 months
+\item ``Vibe coding'' = Word of the Year 2025
+\item 57\% of developers now use AI coding tools
+\end{itemize}
+
+\item \textbf{Voice Tech Maturity}
+\begin{itemize}
+\item Whisper API: 95-98\% accuracy (2025)
+\item Technical vocabulary recognition solved
+\item \$0.006/min cost (affordable)
+\end{itemize}
+
+\item \textbf{Remote Work Shift}
+\begin{itemize}
+\item 73\% of companies hiring remote developers
+\item Mobile-first becoming standard
+\item Developers want portability
+\end{itemize}
+
+\item \textbf{Competitor Weakness}
+\begin{itemize}
+\item Cursor pricing backlash (Sept 2025)
+\item Claude Code usage limit crisis (Sept 2025)
+\item User dissatisfaction at all-time high
+\end{itemize}
+\end{enumerate}
+
+\vspace{0.3cm}
+
+\centering
+\textbf{Window of Opportunity:} 12-18 months before big players add mobile
+\end{frame}
+
+% ===============================
+% SLIDE 12: RISKS & MITIGATION
+% ===============================
+\begin{frame}{Risks & Mitigation}
+
+\begin{table}
+\small
+\begin{tabular}{llll}
+\toprule
+\textbf{Risk} & \textbf{Likelihood} & \textbf{Impact} & \textbf{Mitigation} \\
+\midrule
+Cost explosion & High & Critical & Strict usage limits, \$15 pricing \\
+Cursor adds mobile & Medium & High & Move fast, 12-month head start \\
+Voice stays niche & Medium & High & Offer text input fallback \\
+Tech complexity & Medium & Medium & Reduced MVP scope \\
+Small TAM & High & Medium & Bootstrap, not VC-scale \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.5cm}
+
+\begin{block}{De-Risk Strategy}
+\begin{itemize}
+\item \textbf{Decision gates:} Kill if metrics not met (Week 4, 8, 16)
+\item \textbf{Lean approach:} \$20K budget, solo founder start
+\item \textbf{Fast iteration:} 4-week alpha, learn quickly
+\item \textbf{Pivot options:} Enterprise focus, desktop version, licensing
+\end{itemize}
+\end{block}
+
+\centering
+\textit{We know the risks, we have mitigation plans}
+\end{frame}
+
+% ===============================
+% SLIDE 13: VISION (5-YEAR)
+% ===============================
+\begin{frame}{5-Year Vision}
+
+\begin{center}
+\textbf{Mission:} Make coding accessible from anywhere, to anyone, using their voice
+\end{center}
+
+\vspace{0.5cm}
+
+\begin{table}
+\small
+\begin{tabular}{lll}
+\toprule
+\textbf{Year} & \textbf{Milestone} & \textbf{Metrics} \\
+\midrule
+1 & Mobile AI coding assistant & 5K users, \$135K ARR \\
+2 & Add desktop version, team features & 20K users, \$720K ARR \\
+3 & Enterprise sales, integrations & 50K users, \$2.25M ARR \\
+4 & Platform play - voice coding API & 100K users, \$5M ARR \\
+5 & Acquisition or IPO & 500K users, \$20M+ ARR \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.5cm}
+
+\textbf{Impact:}
+\begin{itemize}
+\item Enable developers with disabilities (accessibility)
+\item Empower non-native English speakers (natural language)
+\item Support remote work revolution (flexibility)
+\item Democratize coding (lower barrier to entry)
+\end{itemize}
+
+\vspace{0.3cm}
+\centering
+\textit{Starting with mobile, but this is bigger - voice is the future of coding}
+\end{frame}
+
+% ===============================
+% SLIDE 14: ASK & CLOSE
+% ===============================
+\begin{frame}{The Ask}
+
+\begin{center}
+\LARGE{\textbf{We're seeking \$150K in seed funding}}
+
+\vspace{0.5cm}
+
+\normalsize{
+To:
+\begin{enumerate}
+\item Build and launch MVP (6 months)
+\item Acquire first 4,500 total users ($\sim$675 paid at 15\% conversion)
+\item Validate product-market fit
+\item Reach \$10K MRR
+\end{enumerate}
+
+In exchange for \textbf{10\% equity} at \$1.5M pre-money valuation
+}
+\end{center}
+
+\vspace{0.5cm}
+
+\begin{block}{What We Need From You}
+\begin{itemize}
+\item Smart money (advisors, not just capital)
+\item Developer network (early users)
+\item Technical expertise (mobile, AI, voice)
+\item Follow-on potential (Series A if we hit milestones)
+\end{itemize}
+\end{block}
+
+\vspace{0.5cm}
+
+\begin{center}
+\Large{\textbf{Let's build the future of coding together.}}
+
+\vspace{0.3cm}
+
+\normalsize{Questions?}
+\end{center}
+\end{frame}
+
+% ===============================
+% BACKUP SLIDES
+% ===============================
+\appendix
+
+\begin{frame}{Appendix: Technical Architecture}
+\small{
+\textbf{Tech Stack:}
+\begin{itemize}
+\item Mobile: React Native + Expo SDK 52
+\item STT: OpenAI Whisper API (95-98\% accuracy)
+\item TTS: expo-speech (on-device, <50ms latency)
+\item Backend: Fastify 4 + PostgreSQL 16
+\item Real-time: Polling + Push Notifications
+\item Auth: OAuth 2.0 PKCE + GitHub
+\end{itemize}
+
+\textbf{Changed from Original Plan:}
+\begin{itemize}
+\item ✗ expo-speech-recognition → ✓ Whisper API (quality requirement)
+\item ✗ Pusher → ✓ Supabase/Polling (cost optimization)
+\item ✗ Regex parser → ✓ Claude Haiku (95\%+ accuracy)
+\end{itemize}
+}
+\end{frame}
+
+\begin{frame}{Appendix: Detailed Financials}
+\tiny{
+\textbf{3-Year P\&L Projection}
+
+\begin{tabular}{lrrr}
+\toprule
+& \textbf{Year 1} & \textbf{Year 2} & \textbf{Year 3} \\
+\midrule
+Total Users & 5,000 & 20,000 & 50,000 \\
+Conversion Rate & 15\% & 20\% & 25\% \\
+Paying Users & 750 & 4,000 & 12,500 \\
+Price/Month & \$15 & \$15 & \$15 \\
+\midrule
+Revenue & \$135K & \$720K & \$2.25M \\
+COGS (40\%) & \$54K & \$288K & \$900K \\
+\textbf{Gross Profit} & \$81K & \$432K & \$1.35M \\
+\midrule
+Operating Expenses & \$100K & \$300K & \$750K \\
+\textbf{Net Income} & (\$19K) & \$132K & \$600K \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.3cm}
+
+\textbf{Break-even:} Month 18
+
+\vspace{0.2cm}
+
+\textbf{Key Assumptions:}
+\begin{itemize}
+\item Conversion rate improves with product maturity (15\% → 20\% → 25\%)
+\item Price holds at \$15/month (no increases)
+\item COGS improves from 65\% to 40\% via usage limits
+\end{itemize}
+}
+\end{frame}
+
+\begin{frame}[plain]
+\centering
+\Huge{Thank You}
+
+\vspace{1cm}
+
+\Large{Contact: [Your Email]}
+
+\normalsize{Website: [Your Website]}
+
+\normalsize{Book a demo: [Calendly Link]}
+\end{frame}
+
+\end{document}
