@@ -6,10 +6,11 @@ This folder contains research, analysis, and development work related to liquid 
 
 ```
 staking/
-├── README.md                          # This file
+├── README.md                                      # This file
 └── research/
-    ├── liquid-staking-landscape-2025.md   # Comprehensive market research
-    └── OPPORTUNITIES.md                    # Priority-ranked opportunities
+    ├── liquid-staking-landscape-2025.md           # Comprehensive market research
+    ├── OPPORTUNITIES.md                            # Priority-ranked opportunities
+    └── protocol-differentiators-and-moats.md      # Technical analysis & features
 ```
 
 ## 🎯 Purpose
@@ -36,6 +37,16 @@ Priority-ranked list of market opportunities with actionable next steps:
 - **Tier 2:** Multi-chain aggregation, Berachain partnership, EigenLayer products
 - **Tier 3:** Long-term exploratory opportunities
 
+### [Protocol Differentiators & Moats](./research/protocol-differentiators-and-moats.md)
+Deep technical analysis of what makes protocols different and potential competitive advantages:
+- **Architecture Comparison:** Lido's Staking Router, Rocket Pool's Minipools, StakeWise's Vaults
+- **Token Models:** Rebasing vs Reward-Bearing vs Dual-Token analysis
+- **Technical Innovations:** DVT, MEV strategies, withdrawal mechanisms, slashing insurance
+- **User Pain Points:** Liquidity, smart contract risk, exit queue uncertainty
+- **Moat Analysis:** Network effects, technology moats, governance, brand
+- **Feature Opportunities:** 95+ scored features with build priority
+- **MVP Recommendations:** 6-month and 24-month roadmap
+
 ## 🔥 Top Opportunities (TL;DR)
 
 1. **Aztec Network** - Native staking live, liquid staking NOT available yet. Two teams building. URGENT first-mover opportunity.
@@ -60,7 +71,7 @@ See [OPPORTUNITIES.md](./research/OPPORTUNITIES.md) for detailed action plan, bu
 
 ## 📅 Research Date
 
-All research current as of **December 20, 2025**.
+All research current as of **December 24, 2025**.
 
 ## 🔗 Quick Links
 
