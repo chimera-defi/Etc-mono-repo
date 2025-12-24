@@ -1416,6 +1416,7 @@ aztec-cli verify-contract <address> <contract-name>
 1/ Introducing stAZTEC - liquid staking for @aztecnetwork 🔐
 
 2/ Problem: 200,000 AZTEC minimum to stake. 70% of holders locked out.
+   (Note: “70%” is a placeholder claim until backed by a source or removed from public-facing comms.)
 
 3/ Solution: Deposit any amount, get stAZTEC, earn 8% APR + DeFi utility
 

@@ -56,7 +56,7 @@
 **Status:** 🟢 Active demand, regulatory clarity achieved
 
 **Key Drivers:**
-- SEC guidance (May 2025): Staking activities ≠ securities
+- Reported SEC guidance (May 2025): “staking activities ≠ securities” (treat as directional until a primary citation is added)
 - Institutional ETH holdings: 6M ETH (5%+ of supply)
 - ETF providers seeking yield opportunities
 - DVT technology matured (Pectra upgrade: 2,048 ETH/validator)

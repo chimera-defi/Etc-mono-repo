@@ -86,6 +86,16 @@ Many landscape metrics are sourced from blogs/articles:
 ### “200k AZTEC ≈ $6k” fixed
 - Standardized to **~$8k at the $0.04 sale-price baseline** (and clarified “baseline ≠ forecast”).
 
+### Canonical docs added (to prevent drift)
+- `staking/research/aztec/VALIDATION-RESULTS.md`: one living log for all testnet measurements
+- `staking/research/aztec/COMPETITORS.md`: centralized competitor tracker
+- `staking/research/aztec/INTEGRATIONS.md`: centralized distribution/liquidity plan
+- `staking/research/aztec/liquid-staking-analysis.md` refactored into a more “technical appendix” shape (planning sections now point to canonical docs)
+
+### Public-facing claim hygiene
+- Marked the “**70% of holders**” claim as an un-sourced placeholder so it doesn’t silently become “fact” in pitches.
+- Marked the “**SEC May 2025**” regulatory clarity line as *directional until a primary citation is added* (still useful as a hypothesis).
+
 ---
 
 ## Recommended next improvements (concrete)

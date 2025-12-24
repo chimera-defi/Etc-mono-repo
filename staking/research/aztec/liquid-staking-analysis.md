@@ -1002,174 +1002,17 @@ When building each contract, verify:
 
 ---
 
-## Capital Requirements & Business Model (Corrected Understanding)
+## Economics (design constraints only)
 
-### ⚠️ CRITICAL: Zero AZTEC Capital Required
+This document is a **technical appendix**. Canonical economics live in:
+- `ECONOMICS.md` (numbers + formulas + break-even definitions)
+- `ASSUMPTIONS.md` (what’s verified vs estimated)
+- `VALIDATION-RESULTS.md` (what we actually measured)
 
-**Common Misconception:** We need $180k-$600k in AZTEC to run validators.
-**Reality:** We need **$0 in AZTEC**. Users provide ALL the capital.
-
-> **Note on consolidation:** This document is primarily a **technical architecture** reference. Economics are standardized in `ECONOMICS.md` (source of truth). Numbers in this section are kept only insofar as they support system design decisions.
-
-### How the Economics Actually Work
-
-#### **Traditional Validator Economics (Wrong for Us):**
-```
-Solo Validator:
-├─ Buy 200,000 AZTEC (~$8,000 at $0.04 baseline)
-├─ Run validator node
-├─ Earn 100% of staking rewards
-└─ Capital Requirement: ~$8,000/validator
-
-50 Validators:
-└─ Capital Requirement: ~$400,000 in AZTEC ❌
-```
-
-#### **Liquid Staking Protocol Economics (Our Model):**
-```
-Our Protocol:
-├─ Users deposit THEIR AZTEC to our contracts
-├─ Smart contracts pool deposits to 200k batches
-├─ Smart contracts stake to OUR validator nodes
-├─ OUR validators earn rewards
-├─ We take 10% protocol fee, users get 90%
-└─ Capital Requirement: $0 in AZTEC ✅
-
-We only pay for:
-├─ Server infrastructure: ~$400/month per validator node [^7]
-├─ Development + audits + runway: plan **$500k-$750k seed** (see `ECONOMICS.md`)
-├─ Bot infrastructure: ~$300/month
-└─ Team salaries: $50k/month (3-5 people)
-```
-
-[^7]: **Validator Cost Estimate:** Based on Ethereum validator hardware requirements (8GB RAM, 4 vCPU, 200GB SSD) translated to cloud hosting (AWS/GCP). Assumes:
-  - Compute: $150/month (t3.large or equivalent)
-  - Storage: $20/month (200GB SSD)
-  - Bandwidth: $50/month
-  - Monitoring/backups: $30/month
-  - **⚠️ UNVERIFIED:** Aztec validator requirements not yet confirmed. Must validate on testnet. Actual costs could range $200-$800/month depending on requirements.
-
-### Why This Model Works
-
-**Users delegate their AZTEC to us via smart contracts:**
-1. User deposits 10,000 AZTEC into LiquidStakingCore.nr
-2. Contract mints stAZTEC tokens to user (1:1 initially)
-3. Contract pools deposits from many users
-4. When pool reaches 200,000 AZTEC → VaultManager stakes to OUR validator
-5. OUR validator earns rewards
-6. RewardsManager collects rewards, takes 10% fee, distributes 90% to stakers
-7. stAZTEC exchange rate increases (users' tokens become more valuable)
-
-**We NEVER own the AZTEC:** Smart contracts custody it, stake it, manage it.
-
-### Capital Requirements Breakdown
-
-**What We Actually Need:**
-
-```
-One-time / pre-launch budget (planning):
-└─ Seed budget: $500k-$750k (engineering + audits + runway)  ← see ECONOMICS.md for breakdown
-
-Monthly Operating Costs:
-├─ Protocol-only ops (post-launch “keep the lights on”): ~ $1.5k/month (3 validators + baseline infra)
-└─ Fully-loaded operating burn (team + overhead while building/operating): ~ $56k/month (planning assumption used elsewhere)
-
-AZTEC Capital:
-└─ $0 - Users provide ALL staking capital ✅
-```
-
-### Revenue Model
-
-**Revenue = TVL × Staking APR × Protocol Fee**
-
-```
-Example with $10M TVL:
-├─ Total Value Locked: $10,000,000 in AZTEC
-├─ Staking APR: 8% (estimated)
-├─ Annual rewards: $800,000
-├─ Protocol fee: 10%
-├─ Our annual revenue: $80,000
-└─ Monthly revenue: $6,667
-
-Example with $50M TVL:
-├─ Total Value Locked: $50,000,000
-├─ Annual rewards: $4,000,000 (at 8% APR)
-├─ Our annual revenue: $400,000
-└─ Monthly revenue: $33,333 ✅ Profitable!
-
-Example with $200M TVL:
-├─ Annual rewards: $16,000,000
-├─ Our annual revenue: $1,600,000
-└─ Monthly revenue: $133,333 💰
-```
-
-### Break-Even Analysis
-
-```
-Break-even depends on what “costs” include:
-
-Protocol-only ops (validators + infra):
-- Annual cost: ~$18k
-- Break-even TVL at 8% APR, 10% fee: ~$2.25M
-
-Fully-loaded burn (team + overhead planning):
-- Monthly cost: ~$56k (~$672k/year)
-- Break-even TVL at 8% APR, 10% fee: ~$84M
-
-More realistic break-even scenarios:
-├─ At $50M TVL: $33k/month revenue (need lower costs)
-├─ At $100M TVL: $66k/month revenue (profitable!) ✅
-└─ At $200M TVL: $133k/month revenue (2.4x costs)
-
-Timeline to break-even: 6-12 months post-launch
-(Assuming gradual TVL growth from $10M → $100M)
-```
-
-### Secondary Revenue Stream (Future)
-
-**Offering OUR validators to other protocols:**
-```
-Other liquid staking protocols can delegate to OUR validators
-├─ We charge them 5-8% commission on rewards
-├─ They don't need to run infrastructure
-├─ We earn fees from both retail users AND B2B protocols
-└─ Potential additional revenue: $50k-$200k/year
-```
-
-### Why This Is a Great Business
-
-**Low Capital Intensity:**
-- No need to raise millions for AZTEC
-- Users provide all staking capital
-- We just build software + run servers
-
-**High Margins:**
-- Software scales infinitely
-- Server costs grow linearly with TVL
-- Revenue grows linearly with TVL
-- Profit margin improves as we scale
-
-**Network Effects:**
-- More TVL → more validators → better decentralization
-- Better decentralization → more trust → more TVL
-- stAZTEC becomes DeFi primitive → more utility → more TVL
-
-**Risk Profile:**
-```
-Low financial risk:
-├─ No AZTEC capital at risk
-├─ Smart contract risk (mitigate with audits)
-├─ Validator slashing risk (mitigate with diversification)
-└─ Relatively small upfront investment ($210k)
-
-High upside:
-├─ TVL TAM (at $0.04 sale-price baseline): ~$124M-$207M (see ECONOMICS.md)
-├─ Upside exists if price > $0.04 baseline (but we do not model price forecasts as “facts”)
-├─ Example sizing (baseline price): 50% staking → ~$207M total staked TVL
-│  - If 50% of stakers choose liquid and we capture 40% of that: ~20% of staked TVL → ~$41M TVL
-├─ Revenue at $41M TVL (8% APY, 10% fee): ~$328k/year (before salaries)
-└─ Software business with 70%+ margins
-```
+**Key design constraints (why they matter technically):**
+- **Minimum stake is 200,000 AZTEC** → protocol must pool deposits into 200k batches.
+- **Zero AZTEC capital required** (users provide staking capital) → protocol economics are driven by software + validator ops, not treasury size.
+- **Withdrawal UX depends on unbonding/slashing** → must validate on testnet before finalizing queue/buffer policy.
 
 ---
 
@@ -2099,172 +1942,20 @@ Insurance Fund: 5% of TVL target
 
 ---
 
-## Competitive Landscape: The Two Teams
+## Competitive landscape (canonical)
 
-### What We Know
-
-From Aztec's official communications and web research:
-- **Two teams** are confirmed to be building fractional staking solutions
-- Target launch: **Token transferability date** (TBD, post-TGE)
-- **No public disclosure** of team names or project details
-- Focus: Enable staking for holders with <200,000 AZTEC
-
-### Intelligence Gathering Strategy
-
-**Immediate Actions:**
-1. **Aztec Foundation Outreach**
-   - Contact Aztec Labs/Foundation
-   - Request information on ecosystem projects
-   - Inquire about partnership opportunities
-
-2. **Community Research**
-   - Monitor Aztec Discord/Telegram
-   - Track GitHub activity (Aztec ecosystem repos)
-   - Follow Aztec team members on Twitter/X
-   - Attend Aztec community calls
-
-3. **Competitive Analysis Framework**
-   ```
-   For each identified team, research:
-   ├─ Team background (prior projects, experience)
-   ├─ Funding status (bootstrapped vs. VC-backed)
-   ├─ Technical approach (architecture, privacy features)
-   ├─ Timeline to market (launch date estimates)
-   ├─ Market positioning (institutional vs. retail)
-   └─ Partnership strategy (independent vs. Aztec-supported)
-   ```
-
-### Likely Team Profiles
-
-**Team Type 1: Existing LST Protocol**
-- **Example Candidates:** Lido, Rocket Pool, Ankr (multi-chain expansion)
-- **Advantages:** Brand recognition, existing user base, proven tech
-- **Disadvantages:** Slower to market, less Aztec-specific optimization
-- **Likelihood:** Medium (requires Aztec-specific development)
-
-**Team Type 2: Aztec Native Project**
-- **Example Candidates:** Projects building on Aztec from early days
-- **Advantages:** Deep Aztec knowledge, privacy-first design, community support
-- **Disadvantages:** Less liquid staking experience, smaller team
-- **Likelihood:** High (aligns with "two teams building" narrative)
-
-**Team Type 3: New Startup**
-- **Example Candidates:** Stealth teams from Ethereum staking space
-- **Advantages:** Focused entirely on Aztec opportunity, fast-moving
-- **Disadvantages:** No track record, limited resources
-- **Likelihood:** High (startup velocity needed for this opportunity)
-
-### Competitive Strategy Options
-
-**Option A: Partner with One Team**
-- Combine resources to build superior product
-- Share market rather than fragment
-- Faster time to market via collaboration
-- Risk: Partner may defect or underperform
-
-**Option B: Compete Directly**
-- Build independently, aim to be first/best
-- Capture 100% of market vs. sharing
-- Differentiate via features (privacy, UX, DeFi integrations)
-- Risk: Winner-takes-most market dynamics
-
-**Option C: Build Different Product Tier**
-- Team 1 targets retail, Team 2 targets institutional
-- Avoid direct competition via segmentation
-- Potential collaboration on infrastructure
-- Risk: Market may prefer one-stop-shop solution
-
-**Recommendation:** **Option B (Compete)** with **Option C (Differentiation) fallback**
-- Attempt to be first to market with retail product
-- If outpaced, pivot to institutional tier with DVT integration
-- Monitor both competitors closely and adapt strategy
+Competitive intel changes quickly; keep it centralized:
+- **Competitor tracker:** `COMPETITORS.md`
+- **Assumption status:** `ASSUMPTIONS.md`
 
 ---
 
-## Market Sizing & Business Model
+## Market sizing & business model (canonical)
 
-### Total Addressable Market (TAM)
-
-**Aztec Token Sale Metrics:**
-- ETH Raised: 19,476 ETH (~$73M at $3,750/ETH)
-- Participants: 16,700 individuals
-- Average Investment: ~$4,370 per participant
-
-**Staking Assumptions:**
-```
-Scenario A (Conservative):
-├─ Participants with <200k AZTEC: 90% (15,030 people)
-├─ Average holdings: $4,000 per person
-├─ Staking rate: 30% (similar to early Ethereum)
-└─ TAM: $18M TVL
-
-Scenario B (Moderate):
-├─ Total AZTEC market cap: $500M (year 1 estimate)
-├─ Staking rate: 50% (mature market)
-├─ Liquid staking capture: 40% (vs. native staking)
-└─ TAM: $100M TVL
-
-Scenario C (Optimistic):
-├─ Total AZTEC market cap: $2B (if privacy narrative takes off)
-├─ Staking rate: 70% (Ethereum-like participation)
-├─ Liquid staking capture: 60% (dominant solution)
-└─ TAM: $840M TVL
-```
-
-**Target Market Share:**
-- Year 1: 40-60% of liquid staking market
-- Year 2: Maintain 30-50% (as competitors enter)
-
-**Revenue Projections:**
-```
-Year 1 (Conservative):
-├─ TVL: $20M average
-├─ Staking APR: 8% (estimated Aztec rewards)
-├─ Protocol Fee: 10% of rewards
-├─ Annual Revenue: $160k
-└─ Monthly Revenue: $13k
-
-Year 1 (Moderate):
-├─ TVL: $50M average
-├─ Staking APR: 8%
-├─ Protocol Fee: 10%
-├─ Annual Revenue: $400k
-└─ Monthly Revenue: $33k
-
-Year 2 (Optimistic):
-├─ TVL: $200M average
-├─ Staking APR: 6% (lower as network matures)
-├─ Protocol Fee: 10%
-├─ Annual Revenue: $1.2M
-└─ Monthly Revenue: $100k
-```
-
-### Business Model
-
-**Revenue Streams:**
-1. **Staking Fees:** 10% of all staking rewards (primary)
-2. **Express Withdrawal Fee (Phase 2):** 0.5% for instant withdrawals (optional feature)
-3. **Performance Fees:** 20% of excess returns vs. baseline (optional)
-
-**Cost Structure:**
-```
-See `ECONOMICS.md` for the standardized cost table and two cost models:
-1) protocol-only ops (validators + infra), and
-2) fully-loaded burn (team + overhead planning).
-
-Variable Costs:
-├─ Gas fees (keeper bots): ~0.5% of fees
-├─ Insurance fund: 5% of fees
-└─ Bug bounty payouts: Capped at $1M
-```
-
-**Break-Even Analysis:**
-```
-Protocol-only break-even: ~$2.25M TVL (8% APY, 10% fee)
-Fully-loaded rule-of-thumb break-even: ~$84M TVL (8% APY, 10% fee; assumes ~$56k/month burn)
-
-Realistic break-even: 6-12 months post-launch
-```
+To avoid drift across docs, use:
+- **Numbers + formulas:** `ECONOMICS.md`
+- **Fundraising narrative:** `FUNDRAISING.md`
+- **Distribution assumptions (liquidity):** `INTEGRATIONS.md`
 
 ---
 
@@ -2303,54 +1994,24 @@ Realistic break-even: 6-12 months post-launch
 
 ## Next Steps (Immediate Actions)
 
-### Week 1: Intelligence & Strategy
-- [ ] **Day 1-2:** Contact Aztec Foundation (partnerships team)
-- [ ] **Day 2-3:** Deep dive Aztec staking contract (on-chain + docs)
-- [ ] **Day 3-4:** Identify competitor teams (Discord, GitHub, Twitter)
-- [ ] **Day 4-5:** User interviews (token sale participants)
-- [ ] **Day 5-7:** Finalize architecture and strategy doc
+This appendix intentionally does not maintain a separate action plan.
 
-### Week 2: Team & Resources
-- [ ] Assemble core team (2-3 developers, 1 designer, 1 product)
-- [ ] Engage audit firms (get on their calendar ASAP)
-- [ ] Set up development infrastructure (testnet nodes, etc.)
-- [ ] Create project roadmap and Gantt chart
-- [ ] Secure initial funding ($200k-$500k for 6 months runway)
-
-### Week 3-4: Kick-off Development
-- [ ] Smart contract development sprint 1
-- [ ] Frontend mockups and designs
-- [ ] Technical specification document (detailed)
-- [ ] Risk assessment and security review (internal)
-- [ ] Community engagement (Twitter, Discord presence)
+Use the canonical planning docs instead:
+- **Execution plan:** `IMPLEMENTATION-PLAN.md`
+- **Task breakdown:** `TASKS.md`
+- **Competitor tracking:** `COMPETITORS.md`
+- **Distribution/liquidity:** `INTEGRATIONS.md`
+- **Measured validation:** `VALIDATION-RESULTS.md`
 
 ---
 
 ## Conclusion
 
-Aztec liquid staking represents a **rare first-mover opportunity** in a nascent but promising ecosystem. The combination of:
-
-1. ✅ **High barrier to entry** (200k AZTEC minimum)
-2. ✅ **Strong backing** (Vitalik, successful token sale)
-3. ✅ **Privacy narrative** (unique positioning)
-4. ✅ **Limited competition** (only 2 known teams)
-5. ✅ **Growing ecosystem** (500+ validators, active development)
-
-...creates an ideal environment for a well-executed liquid staking protocol to capture significant value.
-
-**Key Success Factors:**
-- **Speed:** Launch before or shortly after competitors
-- **Security:** Bulletproof smart contracts (this is non-negotiable)
-- **UX:** Simple, intuitive interface (lower barrier than competition)
-- **Privacy:** Leverage Aztec's unique privacy features
-- **Community:** Build trust with Aztec community early
-
-**Estimated Timeline:** 3-4 months to mainnet launch
-**Estimated Investment:** $200k-$500k (development + audits)
-**Target Year 1 TVL:** $50M-$100M
-**Target Year 1 Revenue:** $400k-$800k
-
-**Recommendation:** **PROCEED** with full development and launch ASAP.
+Aztec liquid staking still looks like a strong first-mover opportunity, but execution should be driven by:
+- **Validated network mechanics** (unbonding, slashing, tx costs, validator requirements) → `VALIDATION-RESULTS.md`
+- **A credible liquidity plan** (day-1 swap venue + bootstrap) → `INTEGRATIONS.md`
+- **Up-to-date competitor timelines** → `COMPETITORS.md`
+- **A single consistent economics model** → `ECONOMICS.md`
 
 ---
 
@@ -2369,6 +2030,6 @@ Aztec liquid staking represents a **rare first-mover opportunity** in a nascent 
 
 ---
 
-**Document Version:** 1.0
-**Last Updated:** December 22, 2025
+**Document Version:** 1.1
+**Last Updated:** December 24, 2025
 **Next Review:** January 2026 (or upon competitor identification)

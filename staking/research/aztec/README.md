@@ -22,13 +22,18 @@ Last Updated: December 24, 2025
    - Validation roadmap and decision triggers
    - Update monthly
 
-3. **[IMPLEMENTATION-PLAN.md](./IMPLEMENTATION-PLAN.md)**
+3. **[ECONOMICS.md](./ECONOMICS.md)** ✅ *Source of truth*
+   - Canonical numbers, formulas, and break-even definitions
+   - Explicitly separates **protocol-only** vs **fully-loaded** cost models
+   - Update when assumptions or validation results change
+
+4. **[IMPLEMENTATION-PLAN.md](./IMPLEMENTATION-PLAN.md)**
    - 6-month critical path: Design → Build → Test → Deploy
    - Week-by-week milestones
    - Team requirements, tooling, testnet validation
    - Read before starting development
 
-4. **[FUNDRAISING.md](./FUNDRAISING.md)**
+5. **[FUNDRAISING.md](./FUNDRAISING.md)**
    - Investor deck outline (12 slides)
    - Pitch narrative and objection handling
    - Target investors and data room contents
@@ -36,14 +41,20 @@ Last Updated: December 24, 2025
 
 ### Technical Analysis
 
-5. **[liquid-staking-analysis.md](./liquid-staking-analysis.md)**
-   - Comprehensive technical deep-dive (2,400+ lines)
-   - 100% Noir architecture, smart contract specs
-   - Bot infrastructure, security considerations
-   - Market sizing, revenue projections
-   - **Most detailed document** - reference material
+6. **[liquid-staking-analysis.md](./liquid-staking-analysis.md)**
+   - Long-form technical appendix (Noir/Aztec architecture + implementation notes)
+   - Contains some legacy planning sections; canonical docs are listed below
+   - Use as reference material when building
 
-6. **[INTEGRATIONS.md](./INTEGRATIONS.md)**
+7. **[VALIDATION-RESULTS.md](./VALIDATION-RESULTS.md)** ✅ *Source of truth*
+   - Single living log for all testnet measurements (validator requirements/costs, tx costs, unbonding, slashing)
+   - After each run, update `ASSUMPTIONS.md` and (if needed) `ECONOMICS.md`
+
+8. **[COMPETITORS.md](./COMPETITORS.md)** ✅ *Source of truth*
+   - Canonical competitor tracker (who, status, evidence, confidence, next steps)
+   - Keep this updated weekly during the pre-launch window
+
+9. **[INTEGRATIONS.md](./INTEGRATIONS.md)** ✅ *Source of truth*
    - Canonical distribution plan (DEX liquidity, lending, wallets, ecosystem support)
    - Liquidity bootstrap sequencing (pre-launch → launch week → post-launch)
    - Keeps “go-to-market” details out of the economics and technical docs
@@ -56,7 +67,11 @@ Last Updated: December 24, 2025
 
 - **Understand the opportunity in 5 minutes** → Read EXECUTIVE-SUMMARY.md
 - **Validate key assumptions** → Review ASSUMPTIONS.md
-- **Plan development timeline** → Follow IMPLEMENTATION-PLAN.md
+- **Get the numbers** → Use ECONOMICS.md (source of truth)
+- **Track competitors** → Use COMPETITORS.md (source of truth)
+- **Plan distribution/liquidity** → Use INTEGRATIONS.md (source of truth)
+- **Log real testnet measurements** → Use VALIDATION-RESULTS.md
+- **Plan development timeline** → Follow IMPLEMENTATION-PLAN.md and TASKS.md
 - **Prepare for fundraising** → Use FUNDRAISING.md
 - **Deep-dive technical architecture** → Study liquid-staking-analysis.md
 

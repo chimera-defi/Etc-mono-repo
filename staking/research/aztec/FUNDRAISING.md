@@ -2,7 +2,7 @@
 **Investor Deck Outline & Pitch Strategy**
 
 *Seed Round: $500k-$750k at $5M-$8M cap*
-*Last Updated: December 22, 2025*
+*Last Updated: December 24, 2025*
 
 ---
 
@@ -41,7 +41,7 @@ Tagline: "Unlock liquidity for 200,000 AZTEC stakers"
 - Illiquid (unbonding period **TBD**; often cited as ~7 days, must verify on testnet)
 - Misses DeFi opportunities
 
-Visual: Bar chart showing 70% of AZTEC holders have <200k tokens
+Visual: Bar chart showing “% of holders below 200k” (needs a defensible source or must be framed as an assumption)
 
 ### Slide 3: Solution
 **stAZTEC: Liquid Staking Protocol**
