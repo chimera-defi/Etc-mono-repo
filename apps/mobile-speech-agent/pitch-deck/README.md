@@ -19,16 +19,23 @@ This folder contains multiple presentation formats for the Mobile Speech Agent p
 
 **Best for:** Investor meetings, formal presentations, print handouts
 
-**Requirements:**
-- TeX distribution (TeX Live, MiKTeX, or MacTeX)
-- Packages: beamer, graphicx, booktabs, multirow, tikz
+**📱 View Online (No Installation):**
+1. Go to [Overleaf](https://www.overleaf.com/project)
+2. Create new project → Upload Project
+3. Upload `pitch-deck.tex`
+4. Click "Recompile" to generate PDF
+5. Download PDF
 
-**Compile:**
+**💻 Compile Locally:**
 ```bash
 cd pitch-deck
 pdflatex pitch-deck.tex
 pdflatex pitch-deck.tex  # Run twice for proper references
 ```
+
+**Requirements for local compilation:**
+- TeX distribution (TeX Live, MiKTeX, or MacTeX)
+- Packages: beamer, graphicx, booktabs, multirow, tikz
 
 **Output:** `pitch-deck.pdf` (16:9 widescreen, professional theme)
 
@@ -49,29 +56,32 @@ pdflatex pitch-deck.tex  # Run twice for proper references
 
 **Best for:** Remote presentations, browser-based sharing, quick edits
 
-**Requirements:**
-- [Marp CLI](https://github.com/marp-team/marp-cli) or [Marp for VS Code](https://marketplace.visualstudio.com/items?itemName=marp-team.marp-vscode)
+**📱 View Now (Pre-compiled):**
+- **HTML:** Open `pitch-deck-marp.html` in any browser
+- **GitHub:** View `pitch-deck-marp.html` directly on GitHub
 
-**Install Marp CLI:**
+**✏️ Edit & Preview (VS Code):**
+1. Install [Marp for VS Code](https://marketplace.visualstudio.com/items?itemName=marp-team.marp-vscode) extension
+2. Open `pitch-deck-marp.md`
+3. Click "Open Preview to the Side"
+
+**💻 Compile Yourself:**
+
+Install Marp CLI:
 ```bash
 npm install -g @marp-team/marp-cli
 ```
 
-**Compile to HTML:**
+Generate HTML:
 ```bash
 cd pitch-deck
 marp pitch-deck-marp.md --html -o pitch-deck-marp.html
 ```
 
-**Compile to PDF:**
+Generate PDF (requires Chrome/Edge/Firefox):
 ```bash
 marp pitch-deck-marp.md --pdf -o pitch-deck-marp.pdf
 ```
-
-**Live Preview (VS Code):**
-1. Install "Marp for VS Code" extension
-2. Open `pitch-deck-marp.md`
-3. Click "Open Preview to the Side"
 
 **Output:** HTML or PDF (16:9 widescreen, modern design)
 
