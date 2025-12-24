@@ -10,6 +10,15 @@ staking/
 └── research/
     ├── liquid-staking-landscape-2025.md   # Comprehensive market research
     └── OPPORTUNITIES.md                    # Priority-ranked opportunities
+    └── aztec/                              # Aztec liquid staking deep dive + build plan
+        ├── README.md                       # Aztec research index (start here)
+        ├── EXECUTIVE-SUMMARY.md            # 1-page overview
+        ├── ECONOMICS.md                    # Source of truth for numbers + formulas
+        ├── ASSUMPTIONS.md                  # Assumptions registry + validation plan
+        ├── IMPLEMENTATION-PLAN.md          # 6-month build plan
+        ├── FUNDRAISING.md                  # Seed deck outline + pitch narrative
+        ├── TASKS.md                        # Discrete task breakdown
+        └── liquid-staking-analysis.md      # Long-form technical analysis (reference)
 ```
 
 ## 🎯 Purpose
@@ -36,6 +45,12 @@ Priority-ranked list of market opportunities with actionable next steps:
 - **Tier 2:** Multi-chain aggregation, Berachain partnership, EigenLayer products
 - **Tier 3:** Long-term exploratory opportunities
 
+### [Aztec Liquid Staking Packet](./research/aztec/README.md)
+Deep-dive on building an Aztec-native liquid staking protocol (market, architecture, economics, plan).
+
+- **If you only read one Aztec doc**: `./research/aztec/EXECUTIVE-SUMMARY.md`
+- **If you need the numbers**: `./research/aztec/ECONOMICS.md` (source of truth)
+
 ## 🔥 Top Opportunities (TL;DR)
 
 1. **Aztec Network** - Native staking live, liquid staking NOT available yet. Two teams building. URGENT first-mover opportunity.
@@ -47,7 +62,7 @@ Priority-ranked list of market opportunities with actionable next steps:
 - **Total Market Size:** $66B+ locked in liquid staking
 - **Ethereum Staking:** 29% of supply staked (~34M ETH)
 - **Institutional Holdings:** 6M ETH (5%+ of circulating supply)
-- **Regulatory Status:** SEC confirmed (May 2025) that certain staking activities ≠ securities
+- **Regulatory Status:** Reported regulatory clarity (May 2025). Treat as *directional* until we add a primary citation to the specific SEC statement/guidance.
 
 ## 🚀 Next Steps
 
@@ -60,7 +75,7 @@ See [OPPORTUNITIES.md](./research/OPPORTUNITIES.md) for detailed action plan, bu
 
 ## 📅 Research Date
 
-All research current as of **December 20, 2025**.
+All research current as of **December 24, 2025** (see per-document “Last Updated” for details).
 
 ## 🔗 Quick Links
 

@@ -24,12 +24,27 @@
 
 ## 💰 Revenue Model
 
-**Assumptions:**
-- Staking APY: 8% (conservative, down from 166% bootstrap)
-- Protocol fee: 10% (industry standard)
-- Token price: **$0.04** (actual sale price)
+This file is the **source of truth** for Aztec staking economics and is referenced by:
+- `EXECUTIVE-SUMMARY.md` (one-page overview)
+- `ASSUMPTIONS.md` (assumption registry)
+- `FUNDRAISING.md` (seed pitch narrative)
+- `IMPLEMENTATION-PLAN.md` (targets + milestones)
+
+### Core assumptions (explicit)
+- **Staking APY (steady-state)**: 8% (conservative, vs. 166% bootstrap)
+- **Protocol fee**: 10% of staking rewards (industry standard baseline)
+- **Token price**: **$0.04** (sale price baseline; *not* a price forecast)
 
 ### Operating Costs
+
+To avoid cross-document confusion, we track **two cost models**:
+
+1) **Protocol-only operating costs** (validators + infra needed to run the protocol once built)
+2) **Fully-loaded operating costs** (team + ongoing overhead while building/operating the company)
+
+Both are useful; they answer different questions.
+
+#### 1) Protocol-only operating costs (post-launch “keep the lights on”)
 
 | Item | Monthly | Annual |
 |------|---------|--------|
@@ -38,17 +53,17 @@
 | Redis, Grafana, monitoring | $144 | $1,728 |
 | **Total** | **$1,494** | **$17,928** |
 
-### Break-Even
+#### Protocol-only break-even
 
 ```
-Revenue needed: $18k/year
+Revenue needed: ~$18k/year
 Formula: TVL × 8% APY × 10% fee = $18k
 TVL = $18k ÷ 0.008 = $2.25M
 In AZTEC: 56.25M tokens (0.54% of supply)
 Time to reach: 2-4 months post-launch
 ```
 
-### Revenue at Different TVL Levels
+#### Revenue at different TVL levels (protocol-only cost model)
 
 | TVL (AZTEC) | TVL (USD @ $0.04) | Annual Revenue | Annual Profit | Margin |
 |-------------|-------------------|----------------|---------------|--------|
@@ -58,6 +73,31 @@ Time to reach: 2-4 months post-launch
 | 1B | $40M | $320k | $302k | 94% |
 | 2B | $80M | $640k | $622k | 97% |
 | 3B | $120M | $960k | $942k | 98% |
+
+---
+
+#### 2) Fully-loaded operating costs (team + overhead)
+
+Several other docs in this folder reference a **fully-loaded** operating budget (team + infra) while we are actively building/operating:
+- `FUNDRAISING.md` slide outline uses **~$56k/month** as a planning number
+- `IMPLEMENTATION-PLAN.md` assumes a 3–5 person team on a 6-month build
+
+Those figures include people costs and should **not** be mixed with “protocol-only” costs above.
+
+**Planning assumption (fully-loaded):**
+- Fully-loaded burn: **$56k/month** (~$672k/year)
+
+**Fully-loaded break-even (rule of thumb):**
+
+```
+Revenue needed: ~$672k/year
+Formula: TVL × 8% APY × 10% fee = $672k
+TVL = $672k ÷ 0.008 = $84M
+```
+
+Interpretation:
+- **$2.25M TVL** is enough to cover protocol infra once built (very low floor)
+- **~$84M TVL** is a reasonable “covers a small team” target at the same APY/fee assumptions
 
 ---
 

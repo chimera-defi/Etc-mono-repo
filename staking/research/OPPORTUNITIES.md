@@ -16,6 +16,8 @@
 - Vitalik-backed project
 - **First mover advantage still available**
 
+**Deep dive packet:** See [`./aztec/README.md`](./aztec/README.md) (start), and use [`./aztec/ECONOMICS.md`](./aztec/ECONOMICS.md) as the source of truth for numbers.
+
 **Action Items:**
 - Contact Aztec foundation immediately
 - Research the two teams building fractional staking

@@ -9,6 +9,8 @@
 
 The liquid staking market has matured significantly with over **$66 billion locked** across platforms as of 2025. Ethereum dominates with 29% of supply staked (~34M ETH), while new paradigms like liquid restaking and multi-chain solutions are rapidly emerging. Key regulatory clarity from the SEC in May 2025 confirmed that certain liquid staking activities don't constitute securities offerings, accelerating institutional adoption.
 
+*Verification note:* The “SEC May 2025 clarity” point is important but currently treated as a secondary-source claim in this repo. Before relying on it for fundraising or product/legal strategy, add a primary citation (the specific SEC statement/guidance text).
+
 **Market Structure:**
 - **Liquid Staking:** 31.1% of all staked ETH
 - **Centralized Exchanges:** 24.0% of staked ETH
@@ -283,6 +285,8 @@ The liquid staking market has matured significantly with over **$66 billion lock
 **Status:** Recently launched (November 2025)
 **Type:** Privacy-focused Ethereum L2
 **Validators:** 500+ sequencers at launch
+
+**Deep dive:** See the dedicated Aztec packet in `staking/research/aztec/` (start at `staking/research/aztec/README.md`).
 
 **Staking Details:**
 - **Token:** $AZTEC

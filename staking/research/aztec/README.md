@@ -2,7 +2,7 @@
 
 **Complete research, planning, and strategic materials for building a liquid staking protocol on Aztec Network.**
 
-Last Updated: December 22, 2025
+Last Updated: December 24, 2025
 
 ---
 
@@ -87,16 +87,18 @@ Last Updated: December 22, 2025
 
 ### Economics (Verified)
 
-**Revenue Model:**
-- 10% protocol fee (industry standard)
-- Break-even: $62M TVL
-- Target: $100M-$200M TVL (6-12 months post-launch)
-- Margins: 70%+ at scale
+**Revenue Model (definitions matter):**
+- 10% protocol fee on staking rewards (industry standard baseline)
+- **Two break-evens** depending on what you include (see `ECONOMICS.md`):
+  - **Protocol-only break-even** (validators + infra): **$2.25M TVL** @ 8% APY, 10% fee
+  - **Fully-loaded break-even** (team + overhead planning): **~$84M TVL** @ 8% APY, 10% fee
+- “Break-even” figures cited elsewhere in this folder are being standardized to these definitions.
 
-**Capital Requirements:**
-- AZTEC capital: **$0** (users provide 100%)
-- Development: $210k one-time
-- Monthly operations: $56k (servers + team)
+**Capital Requirements (standardized):**
+- **AZTEC capital:** **$0** (users provide 100% of staking capital)
+- **Seed budget planning:** **$500k–$750k** to reach production launch (engineering + audits + runway)
+- **Protocol-only infra (post-launch):** ~**$1.5k/month** (3 validators + baseline infra), excluding salaries
+  - All detailed cost tables live in `ECONOMICS.md` (source of truth)
 
 ---
 
@@ -180,6 +182,9 @@ Last Updated: December 22, 2025
 - Verified competitive intelligence (Olla confirmed)
 - Validated Aztec testnet availability
 - Added source citations for all factual claims
+
+**December 24, 2025:**
+- Standardized economics definitions and reconciled cross-doc inconsistencies (protocol-only vs fully-loaded break-even)
 
 **Next Update:** January 15, 2026 (or upon major assumption change)
 

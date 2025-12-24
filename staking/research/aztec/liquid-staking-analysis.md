@@ -15,7 +15,7 @@ Aztec Network presents a **first-mover opportunity** for liquid staking on a pri
 **Key Facts:**
 - **Launch:** November 2025 (Mainnet live) [^1]
 - **Validators:** 500+ sequencers at launch, now ~1,000 in validator set [^2]
-- **Minimum Stake:** 200,000 AZTEC (~$6,000 at token sale prices) [^3]
+- **Minimum Stake:** 200,000 AZTEC (~$8,000 at the $0.04 sale-price baseline) [^3]
 - **Token Sale:** Dec 2-6, 2025 - 19,476 ETH raised, 16,700 participants [^4]
 - **Liquid Staking Status:** ❌ NOT AVAILABLE (limited competition, unverified)
 - **Network Type:** Privacy-first ZK-Rollup L2 on Ethereum [^5]
@@ -1009,18 +1009,20 @@ When building each contract, verify:
 **Common Misconception:** We need $180k-$600k in AZTEC to run validators.
 **Reality:** We need **$0 in AZTEC**. Users provide ALL the capital.
 
+> **Note on consolidation:** This document is primarily a **technical architecture** reference. Economics are standardized in `ECONOMICS.md` (source of truth). Numbers in this section are kept only insofar as they support system design decisions.
+
 ### How the Economics Actually Work
 
 #### **Traditional Validator Economics (Wrong for Us):**
 ```
 Solo Validator:
-├─ Buy 200,000 AZTEC (~$6,000)
+├─ Buy 200,000 AZTEC (~$8,000 at $0.04 baseline)
 ├─ Run validator node
 ├─ Earn 100% of staking rewards
-└─ Capital Requirement: $6,000/validator
+└─ Capital Requirement: ~$8,000/validator
 
 50 Validators:
-└─ Capital Requirement: $300,000 in AZTEC ❌
+└─ Capital Requirement: ~$400,000 in AZTEC ❌
 ```
 
 #### **Liquid Staking Protocol Economics (Our Model):**
@@ -1035,7 +1037,7 @@ Our Protocol:
 
 We only pay for:
 ├─ Server infrastructure: ~$400/month per validator node [^7]
-├─ Smart contract development & audits: $200k one-time
+├─ Development + audits + runway: plan **$500k-$750k seed** (see `ECONOMICS.md`)
 ├─ Bot infrastructure: ~$300/month
 └─ Team salaries: $50k/month (3-5 people)
 ```
@@ -1065,19 +1067,12 @@ We only pay for:
 **What We Actually Need:**
 
 ```
-One-Time Costs:
-├─ Smart contract development: $100k (4 engineers × 3 months)
-├─ Security audits: $100k (2 audits)
-├─ Legal/incorporation: $10k
-└─ Total: $210k
+One-time / pre-launch budget (planning):
+└─ Seed budget: $500k-$750k (engineering + audits + runway)  ← see ECONOMICS.md for breakdown
 
 Monthly Operating Costs:
-├─ Validator infrastructure: $400/node × N nodes
-│   (Start with 1-3 nodes, scale as TVL grows)
-├─ Bot infrastructure: $300/month (Kubernetes, Redis, monitoring)
-├─ Team salaries: $50k/month (can start with 2-3 people)
-├─ Insurance/reserves: $5k/month
-└─ Total: ~$56k/month (assuming 3 validators to start)
+├─ Protocol-only ops (post-launch “keep the lights on”): ~ $1.5k/month (3 validators + baseline infra)
+└─ Fully-loaded operating burn (team + overhead while building/operating): ~ $56k/month (planning assumption used elsewhere)
 
 AZTEC Capital:
 └─ $0 - Users provide ALL staking capital ✅
@@ -1111,9 +1106,15 @@ Example with $200M TVL:
 ### Break-Even Analysis
 
 ```
-Monthly costs: ~$56k
-Required monthly revenue: $56k
-Required TVL at 8% APR, 10% fee: $84M
+Break-even depends on what “costs” include:
+
+Protocol-only ops (validators + infra):
+- Annual cost: ~$18k
+- Break-even TVL at 8% APR, 10% fee: ~$2.25M
+
+Fully-loaded burn (team + overhead planning):
+- Monthly cost: ~$56k (~$672k/year)
+- Break-even TVL at 8% APR, 10% fee: ~$84M
 
 More realistic break-even scenarios:
 ├─ At $50M TVL: $33k/month revenue (need lower costs)
@@ -1162,9 +1163,11 @@ Low financial risk:
 └─ Relatively small upfront investment ($210k)
 
 High upside:
-├─ If Aztec succeeds → massive TAM ($500M-$2B)
-├─ 40% market share of 50% staking rate = $100M-$400M TVL
-├─ At $200M TVL = $1.6M annual revenue
+├─ TVL TAM (at $0.04 sale-price baseline): ~$124M-$207M (see ECONOMICS.md)
+├─ Upside exists if price > $0.04 baseline (but we do not model price forecasts as “facts”)
+├─ Example sizing (baseline price): 50% staking → ~$207M total staked TVL
+│  - If 50% of stakers choose liquid and we capture 40% of that: ~20% of staked TVL → ~$41M TVL
+├─ Revenue at $41M TVL (8% APY, 10% fee): ~$328k/year (before salaries)
 └─ Software business with 70%+ margins
 ```
 
@@ -1672,7 +1675,11 @@ Monthly revenue: $50M * 0.08 * 0.10 / 12 = $33,333
 Infrastructure cost: ~$409
 Profit margin: 98.8% 🎉
 
-Break-even TVL: ~$6.1M (very achievable)
+Break-even TVL (infra-only, excludes validator costs): ~$0.61M
+  - Annual infra-only cost: $409 * 12 ≈ $4.9k
+  - TVL = $4.9k ÷ 0.008 ≈ $0.61M
+
+For standardized definitions (including validators and/or team burn), see `ECONOMICS.md`.
 ```
 
 ---
@@ -2241,11 +2248,9 @@ Year 2 (Optimistic):
 
 **Cost Structure:**
 ```
-Fixed Costs:
-├─ Smart contract audits: $200k (one-time)
-├─ Infrastructure (servers, oracles): $5k/month
-├─ Team salaries (3-5 people): $50k/month
-└─ Legal/compliance: $10k/month
+See `ECONOMICS.md` for the standardized cost table and two cost models:
+1) protocol-only ops (validators + infra), and
+2) fully-loaded burn (team + overhead planning).
 
 Variable Costs:
 ├─ Gas fees (keeper bots): ~0.5% of fees
@@ -2255,9 +2260,8 @@ Variable Costs:
 
 **Break-Even Analysis:**
 ```
-Monthly costs: ~$65k
-Required monthly revenue: $65k
-Required TVL at 10% fee, 8% APR: $97.5M
+Protocol-only break-even: ~$2.25M TVL (8% APY, 10% fee)
+Fully-loaded rule-of-thumb break-even: ~$84M TVL (8% APY, 10% fee; assumes ~$56k/month burn)
 
 Realistic break-even: 6-12 months post-launch
 ```

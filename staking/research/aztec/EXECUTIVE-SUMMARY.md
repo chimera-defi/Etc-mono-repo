@@ -33,10 +33,11 @@
 
 ## Business Model
 
-**Capital Required:**
+**Capital Required (standardized):**
 - **AZTEC Capital:** $0 (users provide 100% of staking capital)
-- **Development:** $450k (contracts + audits + salaries for 6 months)
-- **Monthly Ops:** $1.5k (3 validators @ $400 + infrastructure $294)
+- **Seed budget (plan):** **$500k-$750k** to reach a production launch (engineering + audits + runway)
+- **Protocol-only infra (post-launch):** ~**$1.5k/month** for 3 validators + baseline infra **excluding salaries**
+  - Important: some documents use a **fully-loaded** monthly budget (team + overhead). See `ECONOMICS.md` for the two cost models.
 
 **Revenue Projections:**
 
@@ -47,11 +48,14 @@
 | **Year 2** | 40% | 621M | $24.8M | **$180k** | 91% |
 | **Year 3** | 50% | 777M | $31.1M | **$231k** | 93% |
 
-*Assumes: 8% APR (down from 166% bootstrap), 10% fee, $0.04 token price, $18k/year ops*
+*Assumes: 8% APR (down from 166% bootstrap), 10% fee, $0.04 token price, **protocol-only** ~$18k/year ops*
 
 **Break-even:** $2.25M TVL (56M AZTEC) = **2-4 months post-launch**
 
 **Maximum potential:** $103M TVL → $810k/year profit (if capture 50% of market at 50% staking rate)
+
+**Note on “fully-loaded break-even”:**
+If you include a small team + overhead (e.g., ~$56k/month planning burn used in `FUNDRAISING.md`), the break-even TVL is much higher (rule-of-thumb ~**$84M TVL** at the same APY/fee assumptions). `ECONOMICS.md` makes this explicit.
 
 ---
 

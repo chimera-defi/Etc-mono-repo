@@ -364,7 +364,7 @@
 - 🎯 No critical security incidents
 
 ### Month 6 Post-Launch
-- 🎯 $50M+ TVL (break-even)
+- 🎯 $50M+ TVL (comfortably funds a small team; protocol-only ops break-even is far lower—see ECONOMICS.md)
 - 🎯 2,000+ unique depositors
 - 🎯 10%+ market share
 - 🎯 Revenue positive
