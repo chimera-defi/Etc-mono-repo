@@ -283,7 +283,8 @@ await vault.stakeToValidator(validator, 200000); // Cost: $W
 **Context:** “Multiple teams are building” is not actionable without names, timelines, and technical approaches. We need a living tracker.
 
 **Deliverables:**
-- [ ] Add a “Competitors” section to `ASSUMPTIONS.md` (or a new `COMPETITORS.md` if it becomes large)
+- [ ] Update `COMPETITORS.md` (canonical competitor tracker)
+- [ ] Keep `ASSUMPTIONS.md` competitive assumptions in sync (high-level only)
 - [ ] Track: team/project name, links, status, expected launch window, approach (validators vs marketplace vs custodial), differentiation
 - [ ] Update `OPPORTUNITIES.md` Aztec action items with a link to this tracker
 
@@ -294,6 +295,7 @@ await vault.stakeToValidator(validator, 200000); // Cost: $W
 **Resources:**
 - `aztec/README.md` (existing competitor citations)
 - [Aztec TGE blog](https://aztec.network/blog/aztec-tge-next-steps)
+ - `COMPETITORS.md`
 
 ## Phase 2: Smart Contract Development (Week 3-14)
 

@@ -72,6 +72,8 @@ Last Updated: December 24, 2025
 
 **Our Window:** 6-12 months to launch before market saturation
 
+**Tracker:** Maintain an up-to-date competitor view in `COMPETITORS.md`.
+
 ### Testnet Availability (Verified)
 
 **Aztec Public Testnet:**
