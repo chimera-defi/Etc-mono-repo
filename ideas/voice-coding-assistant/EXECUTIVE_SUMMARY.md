@@ -69,14 +69,14 @@ Gross Margin: 35% (needs optimization to 60% target)
 - Pro tier: 60% gross margin (with usage limits)
 - Enterprise: 70% gross margin
 
-### Financial Projections
-| Milestone | Timeline | Users | MRR | Status |
-|-----------|----------|-------|-----|--------|
-| Alpha | Week 4 | 10 | $0 | Test & validate |
-| Beta | Week 8 | 100 | $0 | Find PMF |
-| Paid Beta | Week 16 | 100 | $1K | Validate willingness to pay |
-| Launch | Month 6 | 1,000 | $10K | Scale |
-| Year 1 | Month 12 | 5,000 | $50K | Lifestyle business viable |
+###Financial Projections
+| Milestone | Timeline | Users | Paying Users (15%) | MRR | ARR | Status |
+|-----------|----------|-------|-------------------|-----|-----|--------|
+| Alpha | Week 4 | 10 | 0 | $0 | $0 | Test & validate |
+| Beta | Week 8 | 100 | 0 | $0 | $0 | Find PMF |
+| Paid Beta | Week 16 | 100 | 15 | $225 | $2.7K | Validate willingness to pay |
+| Launch | Month 6 | 1,000 | 150 | $2.25K | $27K | Scale |
+| **Year 1** | **Month 12** | **5,000** | **750** | **$11.25K** | **$135K** | **Lifestyle business viable** |
 
 **Total Addressable Market:**
 - Global developers: 28.7M

@@ -189,9 +189,9 @@ $116.87B (2025)
 
 ## TAM / SAM / SOM
 
-- **TAM:** 28.7M developers × $15/month = **$5.1B**
-- **SAM:** 1.44M mobile-first devs (5%) = **$259M**
-- **SOM:** 1,440 users (0.1% penetration) = **$259K (Year 1)**
+- **TAM:** 28.7M developers × $180/year LTV = **$5.17B** total market
+- **SAM:** 1.44M mobile-first devs (5%) × $180 = **$259M** addressable
+- **SOM Year 1:** 5,000 users × 15% paid × $180 = **$135K** actual revenue
 
 ---
 
@@ -575,8 +575,10 @@ _Starting with mobile, but this is bigger - voice is the future of coding_
 
 | | Year 1 | Year 2 | Year 3 |
 |---|--------|--------|--------|
-| Users | 5,000 | 20,000 | 50,000 |
-| Paying (15-25%) | 750 | 4,000 | 12,500 |
+| Total Users | 5,000 | 20,000 | 50,000 |
+| Conversion Rate | 15% | 20% | 25% |
+| Paying Users | 750 | 4,000 | 12,500 |
+| Price/Month | $15 | $15 | $15 |
 | **Revenue** | **$135K** | **$720K** | **$2.25M** |
 | COGS (40%) | $54K | $288K | $900K |
 | **Gross Profit** | **$81K** | **$432K** | **$1.35M** |
@@ -584,6 +586,11 @@ _Starting with mobile, but this is bigger - voice is the future of coding_
 | **Net Income** | **($19K)** | **$132K** | **$600K** |
 
 **Break-even:** Month 18
+
+**Key Assumptions:**
+- Conversion rate improves with product maturity (15% → 20% → 25%)
+- Price holds at $15/month (no price increases)
+- COGS improves from 65% to 40% via usage limits
 
 ---
 
