@@ -137,6 +137,7 @@
 - [ ] Measure actual validator resource requirements
 - [ ] Monitor testnet for 2 weeks to measure APR
 - [ ] Test transaction gas costs on testnet
+- [ ] Maintain a dated log of testnet findings in `VALIDATION-RESULTS.md`
 
 ### Month 1
 - [ ] Research Olla roadmap (community channels, team outreach)

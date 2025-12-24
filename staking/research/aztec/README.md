@@ -85,6 +85,8 @@ Last Updated: December 24, 2025
 - Measure costs, gas prices, staking mechanics (Weeks 1-3)
 - See IMPLEMENTATION-PLAN.md for full checklist
 
+**Where results go:** Add dated findings to `VALIDATION-RESULTS.md` and then update `ASSUMPTIONS.md` / `ECONOMICS.md` accordingly.
+
 ### Economics (Verified)
 
 **Revenue Model (definitions matter):**

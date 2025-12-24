@@ -184,6 +184,117 @@ await vault.stakeToValidator(validator, 200000); // Cost: $W
 
 ---
 
+### TASK-005: Create a Single “Validation Results” Log (Aztec)
+**Status:** 🔴 Not Started
+**Estimated Time:** 2 hours
+**Priority:** High
+**Depends On:** None
+
+**Context:** We need one place to record what we actually measured on testnet (dates, configs, outcomes). This prevents drift between `ASSUMPTIONS.md`, `ECONOMICS.md`, and fundraising materials.
+
+**Deliverables:**
+- [ ] New file: `VALIDATION-RESULTS.md`
+- [ ] Template sections: validator requirements, validator costs, tx costs, unbonding/slashing, RPC reliability, notes/links
+- [ ] First entry created (even if it’s “setup complete, no measurements yet”)
+
+**Acceptance Criteria:**
+- File exists and is easy to append to over time (date-stamped entries)
+- Each entry links to the task(s) that produced the data (e.g., TASK-002/003/004/006)
+
+**Resources:**
+- `ASSUMPTIONS.md`
+- `ECONOMICS.md`
+
+---
+
+### TASK-006: Verify Slashing Mechanics (and Delegator Impact)
+**Status:** 🔴 Not Started
+**Estimated Time:** 4 hours
+**Priority:** High
+**Depends On:** TASK-002
+
+**Context:** Slashing parameters and “who eats the loss” (validator vs delegator vs protocol) directly determine insurance fund sizing, withdrawal buffer policy, and user risk disclosures.
+
+**Deliverables:**
+- [ ] Document slashing conditions (what triggers, severity, timing)
+- [ ] Determine how slashing losses flow through to delegated stake (who bears it)
+- [ ] Update `ASSUMPTIONS.md` (slashing penalty row + any new rows needed)
+- [ ] Add a dated entry in `VALIDATION-RESULTS.md` (from TASK-005)
+
+**Acceptance Criteria:**
+- Slashing penalty and mechanics marked ✅ VERIFIED with a primary source OR explicitly marked ❌ UNVERIFIED with a concrete test plan
+- Clear statement: “If slashing happens, stAZTEC holders experience X via exchange-rate change (or not)” with justification
+
+**Resources:**
+- [Aztec Documentation](https://docs.aztec.network/)
+- [Running a Sequencer](https://docs.aztec.network/the_aztec_network/setup/sequencer_management)
+
+---
+
+### TASK-007: Map Aztec DeFi Surface Area (Integration Targets)
+**Status:** 🔴 Not Started
+**Estimated Time:** 6 hours
+**Priority:** High
+**Depends On:** None
+
+**Context:** Liquid staking wins through distribution and integrations. We need a short, explicit list of day-1 integration targets (DEX liquidity, lending collateral, wallets).
+
+**Deliverables:**
+- [ ] List top Aztec-native DeFi venues (swap, lending, stablecoin rails if applicable)
+- [ ] Identify where an LST can be used on day 1 vs “later”
+- [ ] Add a short “Integration Targets” section to `IMPLEMENTATION-PLAN.md` (no rewrites; just append)
+
+**Acceptance Criteria:**
+- At least 5 concrete integration targets or categories (even if some are “to be confirmed”)
+- Each item includes: why it matters, what we need from them, and expected timeline
+
+**Resources:**
+- `staking/research/liquid-staking-landscape-2025.md`
+- `staking/research/OPPORTUNITIES.md`
+
+---
+
+### TASK-008: Liquidity Bootstrap Plan for stAZTEC (Go-to-Market)
+**Status:** 🔴 Not Started
+**Estimated Time:** 6 hours
+**Priority:** High
+**Depends On:** TASK-007
+
+**Context:** Without early liquidity, a liquid staking token is not “liquid.” We need an explicit bootstrap plan (initial pool(s), incentives, risks).
+
+**Deliverables:**
+- [ ] Define initial liquidity venues/pairs (e.g., stAZTEC/AZTEC, stAZTEC/ETH if bridged)
+- [ ] Incentive plan options (points, LM, grants, partners)
+- [ ] Risks and mitigations (thin liquidity, price impact, withdrawal pressure)
+- [ ] Append a “Liquidity & Distribution” section to `EXECUTIVE-SUMMARY.md` (brief)
+
+**Acceptance Criteria:**
+- Plan addresses: initial LP seed source, incentive duration, and success metrics (spread/volume/TVL)
+- Notes any assumptions that must be validated (and links to `ASSUMPTIONS.md`)
+
+---
+
+### TASK-009: Competitive Intelligence Tracker (Aztec Liquid Staking)
+**Status:** 🔴 Not Started
+**Estimated Time:** 4 hours
+**Priority:** High
+**Depends On:** None
+
+**Context:** “Multiple teams are building” is not actionable without names, timelines, and technical approaches. We need a living tracker.
+
+**Deliverables:**
+- [ ] Add a “Competitors” section to `ASSUMPTIONS.md` (or a new `COMPETITORS.md` if it becomes large)
+- [ ] Track: team/project name, links, status, expected launch window, approach (validators vs marketplace vs custodial), differentiation
+- [ ] Update `OPPORTUNITIES.md` Aztec action items with a link to this tracker
+
+**Acceptance Criteria:**
+- Olla by Kryha is captured with current public signals
+- At least 3 additional “leads” are captured (even if unverified), each with a next verification step
+
+**Resources:**
+- `aztec/README.md` (existing competitor citations)
+- [Aztec TGE blog](https://aztec.network/blog/aztec-tge-next-steps)
+
 ## Phase 2: Smart Contract Development (Week 3-14)
 
 ### TASK-101: Create StakedAztecToken.nr Contract Skeleton
@@ -1316,6 +1427,11 @@ aztec-cli verify-contract <address> <contract-name>
 Phase 1 (Foundation):
 TASK-001 → TASK-101 (Contract dev needs environment)
 TASK-002 (Validator deployment - parallel)
+TASK-005 (Validation results log - parallel)
+TASK-006 depends on TASK-002 (slashing mechanics)
+TASK-007 (DeFi mapping - parallel)
+TASK-008 depends on TASK-007 (liquidity bootstrap plan)
+TASK-009 (competitor tracker - parallel)
 
 Phase 2 (Contracts):
 TASK-101 → TASK-102 → TASK-103 → TASK-104 → TASK-105
@@ -1357,20 +1473,20 @@ TASK-504 depends on TASK-503
 
 | Phase | Total Tasks | Completed | In Progress | Not Started |
 |-------|-------------|-----------|-------------|-------------|
-| Phase 1 | 4 | 0 | 0 | 4 |
+| Phase 1 | 9 | 0 | 0 | 9 |
 | Phase 2 | 11 | 0 | 0 | 11 |
 | Phase 3 | 4 | 0 | 0 | 4 |
 | Phase 4 | 6 | 0 | 0 | 6 |
 | Phase 5 | 3 | 0 | 0 | 3 |
 | Phase 6 | 4 | 0 | 0 | 4 |
-| **TOTAL** | **32** | **0** | **0** | **32** |
+| **TOTAL** | **37** | **0** | **0** | **37** |
 
 **Critical Path Tasks:** TASK-001, 101, 102, 103, 104, 105, 106, 302, 401, 501
 
 **Next 3 Tasks to Assign:**
 1. TASK-001: Provision Aztec Testnet Environment
 2. TASK-002: Deploy Test Validator
-3. TASK-003: Measure Transaction Costs
+3. TASK-005: Create “Validation Results” Log (so measurements land in one place)
 
 ---
 

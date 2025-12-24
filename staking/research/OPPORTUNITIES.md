@@ -23,6 +23,7 @@
 - Research the two teams building fractional staking
 - Assess partnership vs competition strategy
 - Build prototype liquid staking solution
+- Maintain an up-to-date competitor tracker and testnet validation log (see `staking/research/aztec/`)
 
 **Market Potential:** 🌟🌟🌟🌟🌟
 **Timing Urgency:** ⏰⏰⏰⏰⌛ (2 teams already working on it)
