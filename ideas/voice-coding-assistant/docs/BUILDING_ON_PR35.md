@@ -162,7 +162,7 @@ POST /api/auth/startBackgroundComposerFromSnapshot
 **Our implementation (same structure):**
 
 ```typescript
-// apps/mobile-speech-agent/src/services/api/AgentApiService.ts
+// ideas/voice-coding-assistant/src/services/api/AgentApiService.ts
 async createAgent(request: CreateAgentRequest) {
   return this.request('/api/agents/create', {
     method: 'POST',
@@ -222,7 +222,7 @@ enum Status {
 **Our direct reuse:**
 
 ```typescript
-// apps/mobile-speech-agent/src/types/agent.types.ts
+// ideas/voice-coding-assistant/src/types/agent.types.ts
 export type AgentStatus =
   | 'CREATING'
   | 'RUNNING'
@@ -420,7 +420,7 @@ Mobile Voice Agent App
 **Inspired by PR #35's discovered states:**
 
 ```typescript
-// apps/mobile-speech-agent/src/components/agents/AgentStatusBadge.tsx
+// ideas/voice-coding-assistant/src/components/agents/AgentStatusBadge.tsx
 
 import React from 'react';
 import { View, Text } from 'react-native';
@@ -454,7 +454,7 @@ export function AgentStatusBadge({ status }: Props) {
 **Direct pattern reuse from PR #35:**
 
 ```typescript
-// apps/mobile-speech-agent/src/hooks/useRealtimeAgent.ts
+// ideas/voice-coding-assistant/src/hooks/useRealtimeAgent.ts
 
 import { useEffect } from 'react';
 import { pusherService } from '@/services/realtime/PusherService';
