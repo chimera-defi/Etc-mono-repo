@@ -158,6 +158,27 @@
   80. **Flag non-transferable tokens** - if tokens aren't tradable yet (locked until TGE), explicitly note this; it's a major risk factor that affects price assumptions
   81. **Revenue in protocol token, costs in fiat** - clarify that liquid staking revenue is in protocol tokens (scales with price) while infrastructure costs are in fiat (fixed); this asymmetry is critical for sensitivity analysis
 
+- Pitch decks and investor presentations:
+  82. **Verify math in financial slides** - revenue projections, ROI calculations, and unit economics MUST be mathematically correct; a single math error (e.g., "1,000 users = $10K MRR" when it's actually $1.5K) destroys credibility with investors; always double-check: users × conversion rate × price × 12 months
+  83. **Mark placeholders explicitly** - use clear placeholder syntax like `[Your Name]`, `[Date]`, `[Your Email]` and create a checklist document listing all placeholders that need to be filled before presenting; don't leave ambiguous text that might be mistaken for final content
+  84. **Cross-reference all data claims** - every number in a pitch deck should trace back to a source document (market research, financial model, risk analysis); verify EVERY statistic against source docs line-by-line before finalizing; cite sources in appendix
+  85. **Distinguish built vs planned features** - never claim a feature is complete when it's only planned; use clear markers: "✅ Built", "⏳ In Progress (Week 4)", "📋 Planned (v1.1)"; misleading investors about product status is a credibility killer
+  86. **Provide multiple presentation formats** - generate both print-friendly (LaTeX/PDF) and web-friendly (Marp/HTML) versions; LaTeX for professional investor meetings, HTML for easy sharing/viewing on GitHub; include compilation instructions for both
+  87. **Offer online compilation alternatives** - when local tools (pdflatex, chrome) aren't available, provide online alternatives (Overleaf for LaTeX, Marp CLI for HTML-only); never leave users unable to view generated content
+  88. **Revenue math verification checklist** - for any revenue projection, verify: (1) Total users, (2) Conversion rate %, (3) Paying users = (1) × (2), (4) Monthly price, (5) MRR = (3) × (4), (6) ARR = (5) × 12; show breakdown in appendix
+  89. **Investor pitch transparency** - showing risks and mitigation plans builds more trust than hiding them; include "Risks & Mitigation" slide with honest likelihood/impact ratings; investors respect founders who understand and plan for failure modes
+  90. **Placeholder completion checklist** - when generating templates, create a `PLACEHOLDERS_CHECKLIST.md` listing every `[...]` field that needs filling; organize by priority (P0: critical for any pitch, P1: nice to have, P2: optional details)
+  91. **Line-by-line data verification** - before finalizing any investor-facing document, review EVERY claim asking "Is this verifiably true?" and "Where did this number come from?"; mark unverified claims with "~" (approximate) or "verify before use"
+
+- Documentation consolidation and organization:
+  92. **Quick links table by audience** - when consolidating multiple docs, create a "Quick Links" table organized by audience (decision makers, investors, developers) with time estimates; helps readers find what they need without reading everything
+  93. **Mark outdated docs clearly** - use ⚠️ warnings with specific explanations: "⚠️ Outdated - Uses Pusher (now Supabase), but PR #35 insights still valid"; never delete outdated docs, mark their status and what's still useful
+  94. **Create navigation hubs** - main README should be a central hub with clear hierarchy: "Current & Authoritative" (latest docs), "Deep Dives" (detailed specs), "Reference" (historical context); prevents confusion about which doc is source of truth
+  95. **Preserve all information when consolidating** - "consolidate" means organize and cross-reference, NOT delete and shorten; verify via git diff that no data was lost; better to have organized long docs than incomplete short docs
+  96. **Cross-reference related docs** - when creating multiple docs (README, EXECUTIVE_SUMMARY, PITCH_DECK_GUIDE, RISK_ANALYSIS), add "See also" links at relevant sections; helps readers navigate between related content
+  97. **Status indicators in file lists** - use emojis/symbols to show status at a glance: "✅ Current", "⚠️ Outdated", "📚 Reference", "🚧 In Progress"; makes scanning large doc lists easier
+  98. **Consolidation means organization not deletion** - when user asks to "make docs more concise" or "consolidate", they usually mean "organize better" not "delete content"; add structure, navigation, summaries, but preserve detailed information
+
 ## Best Practices
 - Use semantic versioning for packages
 - Include proper .gitignore files for each project type
