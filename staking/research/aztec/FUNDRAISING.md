@@ -114,7 +114,7 @@ Visual: System architecture diagram (simplified)
 - ✅ Aztec testnet operational (May 2025)
 - ✅ Competitive intel verified (Olla at Devconnect)
 - ✅ Noir feasibility confirmed (token tutorial)
-- ✅ Cost estimates validated (AWS pricing)
+- ⚠️ Infra pricing sources compiled (AWS pricing pages); validator requirements/costs still require testnet measurement
 
 Visual: Timeline of milestones achieved
 
@@ -131,7 +131,7 @@ Visual: Timeline of milestones achieved
 Visual: Gantt chart
 
 ### Slide 11: Team
-**Experienced DeFi builders**
+**Team (fill in)**
 
 - Lead Engineer: [Noir/Rust expert]
 - Backend Engineer: [Distributed systems]

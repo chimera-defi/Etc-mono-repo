@@ -7,9 +7,9 @@
 
 ---
 
-## What we believe is true (high confidence)
+## What we believe is true (as of this doc’s last update)
 
-- **No dominant, production liquid staking token appears to be live yet** on Aztec (verified during initial research, but must be re-checked periodically).
+- **No dominant, production liquid staking token appears to be live yet** on Aztec (based on a best-effort desk scan; not exhaustive and must be re-checked periodically).
 - **Olla (by Kryha)** is a **publicly referenced** competitor (see below).
 - **Aztec has publicly stated multiple teams are working on fractional staking** (see Aztec blog source below).
 

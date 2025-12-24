@@ -1,13 +1,14 @@
 # Assumptions Registry
 
 **Critical assumptions underlying business model and technical architecture.**
-*Last Updated: December 24, 2025* (Corrected with verified tokenomics)
+*Last Updated: December 24, 2025* (Corrected with sourced tokenomics + clarified verification levels)
 
 ---
 
 ## Status Legend
 
 - ✅ **VERIFIED** - Confirmed via official documentation or testnet
+- 📎 **SOURCED (3rd-party)** - Backed by a reputable third-party source, but not confirmed by official docs/testnet
 - ⚠️ **ESTIMATED** - Industry benchmark, requires validation
 - ❌ **UNVERIFIED** - Assumption, needs research/testing
 - 🔄 **IN PROGRESS** - Currently being validated
@@ -19,7 +20,8 @@
 | Assumption | Current Value | Status | Impact if Wrong | Verification Plan |
 |------------|---------------|--------|-----------------|-------------------|
 | **Minimum stake** | 200,000 AZTEC | ✅ VERIFIED | Critical - changes pool mechanics | [Aztec Staking Dashboard](https://stake.aztec.network/) |
-| **Staking APR** | 8% (166% early bootstrap) | ✅ VERIFIED | High - affects revenue projections | [Current: 166% APY](https://www.panewslab.com/en/articles/ccce7885-d99d-4456-9699-43f35a61b5c0), will normalize post-TGE |
+| **Staking APY (current bootstrap)** | 166% (reported) | 📎 SOURCED (3rd-party) | Medium - short-term demand | [PANews report](https://www.panewslab.com/en/articles/ccce7885-d99d-4456-9699-43f35a61b5c0) |
+| **Staking APY (steady-state)** | 6-10% (target range) | ⚠️ ESTIMATED | High - affects demand + revenue | Validate on testnet over time + compare to similar networks |
 | **Unbonding period** | 7 days | ❌ UNVERIFIED | Medium - affects UX | Testnet validation required |
 | **Slashing penalty** | 5-10% | ❌ UNVERIFIED | Medium - affects insurance fund sizing | Review Aztec protocol specs |
 | **Epoch duration** | ~6 minutes | ⚠️ ESTIMATED | Low - affects bot timing | Testnet measurement |
@@ -49,7 +51,7 @@
 |------------|--------|--------|-------------------|-------|
 | **Olla by Kryha building liquid staking** | ✅ VERIFIED | [Aztec @Devconnect 2025](https://luma.com/heydpbsj) | Dec 22, 2025 | Featured at official event |
 | **Multiple teams building fractional staking** | ✅ VERIFIED | [Aztec TGE Blog](https://aztec.network/blog/aztec-tge-next-steps) | Dec 22, 2025 | Confirmed in official communications |
-| **No production protocol live yet** | ✅ VERIFIED | Manual research | Dec 22, 2025 | Checked Olla (pre-launch), staking dashboard |
+| **No production protocol live yet** | ⚠️ ESTIMATED | Manual research | Dec 22, 2025 | Best-effort scan; must be re-checked periodically as the ecosystem changes |
 | **6-12 month window before saturation** | ⚠️ ESTIMATED | Team analysis | Dec 22, 2025 | Depends on Olla timeline |
 
 **Competitor Research Summary:**
@@ -63,10 +65,10 @@
 
 | Assumption | Value | Status | Impact if Wrong | Mitigation |
 |------------|-------|--------|-----------------|------------|
-| **Aztec total supply** | 10.35B AZTEC | ✅ VERIFIED | Critical - determines TAM | [CryptoRank](https://cryptorank.io/ico/aztec), [CoinGecko](https://www.coingecko.com/en/coins/aztec) |
-| **Token sale price** | **$0.04** ($61M ÷ 1.547B) | ✅ VERIFIED | High - baseline valuation | [The Block](https://www.theblock.co/post/381618/aztec-network-raises-over-60-million-in-eth-with-community-first-token-sale-testing-new-auction-model) |
-| **Implied FDV** | $350M floor → $414M actual | ✅ VERIFIED | High - market size | Calculated: $0.04 × 10.35B |
-| **Current TVL staked** | 570M AZTEC (**$22.8M** @ $0.04) | ✅ VERIFIED | Medium - baseline demand | [PANews](https://www.panewslab.com/en/articles/ccce7885-d99d-4456-9699-43f35a61b5c0) |
+| **Aztec total supply** | 10.35B AZTEC | 📎 SOURCED (3rd-party) | Critical - determines TAM | Cross-check with Aztec official tokenomics once published |
+| **Token sale price (baseline)** | **$0.04** ($61M ÷ 1.547B) | 📎 SOURCED (3rd-party) | High - baseline valuation | Cross-check with Aztec official sale post / primary docs |
+| **Implied FDV (at baseline)** | ~$414M | ⚠️ ESTIMATED | Medium - narrative only | Calculated: $0.04 × 10.35B |
+| **Current staked (reported)** | 570M AZTEC (**~$22.8M** @ $0.04) | 📎 SOURCED (3rd-party) | Medium - baseline demand | Cross-check on `stake.aztec.network` directly |
 | **Staking participation rate** | 40-60% | ⚠️ ESTIMATED | High - determines TAM | Use 40% (conservative) |
 | **Our market share** | 30-50% | ⚠️ ESTIMATED | Critical - revenue projections | Target 30% (conservative) |
 | **Protocol fee acceptable** | 10% | ⚠️ ESTIMATED | High - could price us out | Competitor analysis (Lido 10%) |

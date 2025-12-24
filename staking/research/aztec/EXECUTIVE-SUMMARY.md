@@ -1,7 +1,7 @@
 # Aztec Liquid Staking - Executive Summary
 
 **1-Page Strategic Overview**
-*Last Updated: December 24, 2025* (Corrected with verified tokenomics)
+*Last Updated: December 24, 2025* (Corrected with sourced tokenomics + clarified cost-model definitions)
 
 ---
 
@@ -157,9 +157,9 @@ Liquid staking only works if the token is actually liquid and useful immediately
 ## Decision Framework
 
 **PROCEED if:**
-- ✅ Can hire 2+ experienced Noir developers within 4 weeks
-- ✅ Aztec testnet validates validator economics ($400/month estimate)
-- ✅ Competitive intel confirms 6+ month window
+- [ ] Can hire 2+ experienced Noir developers within 4 weeks
+- [ ] Aztec testnet validates validator economics ($400/month estimate)
+- [ ] Competitive intel supports a 6+ month window (see `COMPETITORS.md`)
 
 **PAUSE if:**
 - ❌ Olla announces mainnet launch within 8 weeks
@@ -170,7 +170,7 @@ Liquid staking only works if the token is actually liquid and useful immediately
 
 ## Recommendation
 
-**✅ PROCEED IMMEDIATELY**
+**Recommendation (current): PROCEED to validation + build planning**
 
 **Rationale:**
 1. **Ultra-fast break-even:** $2.25M TVL in 2-4 months (only $18k/year ops)

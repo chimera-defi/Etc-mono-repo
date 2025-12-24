@@ -94,7 +94,7 @@ Last Updated: December 24, 2025
 
 **Tracker:** Maintain an up-to-date competitor view in `COMPETITORS.md`.
 
-### Testnet Availability (Verified)
+### Testnet Availability (Sourced)
 
 **Aztec Public Testnet:**
 - Status: ✅ Live since May 2025
@@ -109,7 +109,7 @@ Last Updated: December 24, 2025
 
 **Where results go:** Add dated findings to `VALIDATION-RESULTS.md` and then update `ASSUMPTIONS.md` / `ECONOMICS.md` accordingly.
 
-### Economics (Verified)
+### Economics (Model + Sourced Inputs)
 
 **Revenue Model (definitions matter):**
 - 10% protocol fee on staking rewards (industry standard baseline)
@@ -153,6 +153,8 @@ Last Updated: December 24, 2025
 ---
 
 ## 📊 Documentation Status
+
+*Note:* “✅ Complete” here means the **document is drafted and internally consistent**, not that the underlying engineering work (testnet deployments, audits, mainnet launch) has been executed.
 
 | Document | Completeness | Last Review | Next Review |
 |----------|--------------|-------------|-------------|

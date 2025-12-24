@@ -5,7 +5,7 @@
 
 ---
 
-## ✅ Verified Tokenomics
+## 📎 Sourced Tokenomics
 
 | Metric | Value | Source |
 |--------|-------|--------|
@@ -273,5 +273,5 @@ Interpretation:
 ---
 
 **Last Updated:** December 24, 2025
-**Status:** All numbers verified from primary sources
+**Status:** Numbers are sourced and cross-checked where possible; citations include a mix of primary and secondary sources. Treat figures as provisional until we validate key mechanics on testnet and cross-check tokenomics with Aztec primary docs.
 **Next Review:** After testnet validator deployment (TASK-002)
