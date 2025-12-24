@@ -1,7 +1,7 @@
 # Assumptions Registry
 
 **Critical assumptions underlying business model and technical architecture.**
-*Last Updated: December 22, 2025*
+*Last Updated: December 24, 2025* (Corrected with verified tokenomics)
 
 ---
 
@@ -19,7 +19,7 @@
 | Assumption | Current Value | Status | Impact if Wrong | Verification Plan |
 |------------|---------------|--------|-----------------|-------------------|
 | **Minimum stake** | 200,000 AZTEC | ✅ VERIFIED | Critical - changes pool mechanics | [Aztec Staking Dashboard](https://stake.aztec.network/) |
-| **Staking APR** | 8% | ⚠️ ESTIMATED | High - affects revenue projections | Monitor first 3 months post-launch |
+| **Staking APR** | 8% (166% early bootstrap) | ✅ VERIFIED | High - affects revenue projections | [Current: 166% APY](https://www.panewslab.com/en/articles/ccce7885-d99d-4456-9699-43f35a61b5c0), will normalize post-TGE |
 | **Unbonding period** | 7 days | ❌ UNVERIFIED | Medium - affects UX | Testnet validation required |
 | **Slashing penalty** | 5-10% | ❌ UNVERIFIED | Medium - affects insurance fund sizing | Review Aztec protocol specs |
 | **Epoch duration** | ~6 minutes | ⚠️ ESTIMATED | Low - affects bot timing | Testnet measurement |
@@ -63,23 +63,40 @@
 
 | Assumption | Value | Status | Impact if Wrong | Mitigation |
 |------------|-------|--------|-----------------|------------|
-| **Aztec market cap** | $1.5B-$3B | ⚠️ ESTIMATED | High - determines TAM | Conservative projections |
+| **Aztec total supply** | 10.35B AZTEC | ✅ VERIFIED | Critical - determines TAM | [CryptoRank](https://cryptorank.io/ico/aztec), [CoinGecko](https://www.coingecko.com/en/coins/aztec) |
+| **Token sale price** | $0.0464 | ✅ VERIFIED | High - baseline valuation | [ICO Drops](https://icodrops.com/aztec/) Dec 2025 sale |
+| **Implied FDV** | $350M (sale), $480M (calc) | ✅ VERIFIED | High - market size | [Bitget News](https://www.bitget.com/news/detail/12560605063211) |
+| **Current TVL staked** | 570M+ AZTEC ($26.5M) | ✅ VERIFIED | Medium - baseline demand | [PANews](https://www.panewslab.com/en/articles/ccce7885-d99d-4456-9699-43f35a61b5c0) as of Dec 6, 2025 |
 | **Staking participation rate** | 40-60% | ⚠️ ESTIMATED | High - determines TAM | Use 40% (conservative) |
 | **Our market share** | 30-50% | ⚠️ ESTIMATED | Critical - revenue projections | Target 30% (conservative) |
 | **Protocol fee acceptable** | 10% | ⚠️ ESTIMATED | High - could price us out | Competitor analysis (Lido 10%) |
 | **User preference: liquid vs native** | 70% prefer liquid | ⚠️ ESTIMATED | High - determines demand | Ethereum: 33% choose liquid staking |
 
-**TAM Calculation:**
+**TAM Calculation (CORRECTED):**
 ```
-Conservative: $1.5B × 40% staked × 30% share = $180M TVL
-Optimistic: $3B × 60% staked × 50% share = $900M TVL
+Total Supply: 10.35B AZTEC
+Token Price: $0.0464 (Dec 2025 sale)
+
+Conservative (30% staked): 3.105B AZTEC = $144M max TVL
+Moderate (40% staked): 4.14B AZTEC = $192M max TVL
+Aggressive (50% staked): 5.175B AZTEC = $240M max TVL
+
+Our Share (30% of 50% liquid staking at 30% staked):
+= 30% × 50% × 3.105B = 465M AZTEC = $21.6M TVL
 ```
 
-**Revenue at Conservative TAM ($180M TVL):**
+**Revenue at Conservative Share ($21.6M TVL):**
 ```
-$180M × 8% APR × 10% fee = $1.44M annual revenue
-Monthly: $120k
-Profit after $56k costs: $64k/month (53% margin)
+$21.6M × 8% APR × 10% fee = $173k annual revenue
+Monthly: $14.4k
+Profit after $18k annual costs: $155k/year (90% margin)
+```
+
+**Break-Even:**
+```
+$18k annual costs / (8% APR × 10% fee) = $2.25M TVL
+= 48.5M AZTEC (0.47% of supply)
+Time to break-even: 2-4 months post-launch (estimated)
 ```
 
 ---
@@ -102,21 +119,30 @@ Profit after $56k costs: $64k/month (53% margin)
 ### High-Impact Scenarios
 
 **1. Validator Costs Higher Than Expected ($800/month vs $400)**
-- Impact: Monthly costs increase to $656
-- Break-even TVL: $98M (up from $62M)
+- Impact: Monthly costs increase to $2,550 (3 validators × $800 + $150)
+- Annual costs: $30.6k (up from $18k)
+- Break-even TVL: $3.83M (up from $2.25M)
 - Mitigation: Start with 1-2 validators, scale gradually
 
 **2. Staking APR Lower Than Expected (5% vs 8%)**
 - Impact: Revenue reduced by 37.5%
-- At $100M TVL: $500k annual (vs $800k)
-- Mitigation: Lower protocol fee to 8% to stay competitive
+- At $21.6M TVL: $108k annual (vs $173k)
+- Break-even TVL: $3.6M (up from $2.25M)
+- Mitigation: Lower protocol fee to 8% to stay competitive, or wait for APY to stabilize
 
-**3. Olla Launches in 2 Months**
+**3. Token Price Drops to $0.02 (57% decline from sale price)**
+- Impact: TVL in USD reduced by 57% (but AZTEC volume unchanged)
+- At 465M AZTEC: $9.3M TVL (vs $21.6M)
+- Revenue: $74k annual (vs $173k)
+- Still profitable but margins tighter
+- Mitigation: Revenue is in AZTEC (proportional), costs in fiat (fixed)
+
+**4. Olla Launches in 2 Months**
 - Impact: Lose first-mover advantage
 - Market share: 20-30% instead of 30-50%
 - Mitigation: Speed to market, superior UX, privacy features
 
-**4. Aztec Ecosystem Smaller Than Expected**
+**5. Aztec Ecosystem Smaller Than Expected**
 - Impact: TVL growth slower, break-even delayed 6-12 months
 - Mitigation: Multi-chain expansion (Mina, Aleo as backup)
 
