@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
+    "test": "vitest run",
     "generate-og": "node scripts/generate-og-images.js",
     "validate-cards": "node scripts/validate-twitter-cards.js",
     "prebuild": "npm run generate-og"
@@ -37,6 +38,7 @@
     "postcss": "^8.4.0",
     "sharp": "^0.34.5",
     "tailwindcss": "^3.3.0",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "vitest": "^4.0.16"
   }
 }

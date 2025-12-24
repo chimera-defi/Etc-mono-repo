@@ -70,6 +70,21 @@ The frontend reads Markdown files from the parent `wallets/` directory:
 | `HARDWARE_WALLET_COMPARISON.md` | `/docs/hardware-wallet-comparison` |
 | `CONTRIBUTING.md` | `/docs/contributing` |
 
+### Wallet data tables (used by `/explore`)
+
+The interactive explorer reads **markdown tables** from the parent `wallets/` directory via `src/lib/wallet-data.ts`.
+
+If you change any of these table column orders, you must update the parser + run tests:
+
+- `WALLET_COMPARISON_UNIFIED_TABLE.md` (software wallets)
+  - Columns: Wallet, Score, Core, Rel/Mo, RPC, GitHub, Active, Chains, Devices, Testnets, License, Audits, Funding, Tx Sim, Scam, Account, ENS/Naming, HW, Best For, Rec
+- `HARDWARE_WALLET_COMPARISON_TABLE.md` (hardware wallets)
+  - Columns: Wallet, Score, GitHub, Air-Gap, Open Source, Secure Elem, Display, Price, Conn, Activity, Rec
+- `CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md` (cards)
+  - Columns: Card, Score, Type, Biz, Region, Cash Back, Annual Fee, FX Fee, Rewards, Provider, Status, Best For
+
+Parser regression tests live in `src/lib/wallet-data.test.ts` and can be run with `npm test`.
+
 ### Adding New Documents
 
 1. Add a new Markdown file to `wallets/`
@@ -120,6 +135,7 @@ npm run build
 | `npm start` | Start production server |
 | `npm run lint` | Run ESLint |
 | `npm run type-check` | Run TypeScript checks |
+| `npm test` | Run parser regression tests |
 | `npm run generate-og` | Generate page-specific OG images |
 | `npm run validate-cards` | Validate Twitter Cards and OG tags |
 

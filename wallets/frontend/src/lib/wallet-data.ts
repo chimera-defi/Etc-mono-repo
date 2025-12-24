@@ -100,6 +100,13 @@ function parsePartial(cell: string): 'full' | 'partial' | 'none' {
   return 'none';
 }
 
+function parseClosedPartialFull(cell: string): 'full' | 'partial' | 'closed' {
+  const status = parsePartial(cell);
+  if (status === 'full') return 'full';
+  if (status === 'partial') return 'partial';
+  return 'closed';
+}
+
 // Parse recommendation symbol
 function parseRecommendation(cell: string): 'recommended' | 'situational' | 'avoid' | 'not-for-dev' {
   if (cell.includes('🟢')) return 'recommended';
@@ -386,7 +393,10 @@ export function parseHardwareWallets(): HardwareWallet[] {
     const name = linkMatch ? linkMatch[1].replace(/~~|^\[|\]$/g, '') : cells[0]?.replace(/[*~[\]]/g, '') || 'Unknown';
     const url = urlMatch ? urlMatch[1] : null;
 
-    const price = parsePrice(cells[6] || '');
+    // Table columns (HARDWARE_WALLET_COMPARISON_TABLE.md):
+    // Wallet(0) Score(1) GitHub(2) Air-Gap(3) Open Source(4) Secure Elem(5)
+    // Display(6) Price(7) Conn(8) Activity(9) Rec(10)
+    const price = parsePrice(cells[7] || '');
 
     return {
       id: generateSlug(name),
@@ -394,7 +404,7 @@ export function parseHardwareWallets(): HardwareWallet[] {
       score: parseInt(cells[1], 10) || 0,
       github: extractGitHubUrl(cells[2] || ''),
       airGap: parseBoolean(cells[3] || ''),
-      openSource: parsePartial(cells[4] || '') as 'full' | 'partial' | 'closed',
+      openSource: parseClosedPartialFull(cells[4] || ''),
       secureElement: parseBoolean(cells[5] || ''),
       secureElementType: cells[5]?.includes('✅') ? cells[5].replace(/✅\s*/, '').trim() || null : null,
       display: cells[6]?.trim() || 'Unknown',
