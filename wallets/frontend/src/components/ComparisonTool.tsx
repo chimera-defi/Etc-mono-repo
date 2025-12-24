@@ -14,12 +14,7 @@ import {
   ChevronUp,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type {
-  SoftwareWallet,
-  HardwareWallet,
-  CryptoCard,
-  WalletData,
-} from './WalletTable';
+import type { CryptoCard, HardwareWallet, SoftwareWallet, WalletData } from '@/types/wallets';
 
 interface ComparisonToolProps {
   type: 'software' | 'hardware' | 'cards';

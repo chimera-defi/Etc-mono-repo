@@ -1,80 +1,8 @@
 import fs from 'fs';
 import path from 'path';
+import type { CryptoCard, HardwareWallet, SoftwareWallet, WalletData } from '@/types/wallets';
 
-// Types for parsed wallet data
-export interface SoftwareWallet {
-  id: string;
-  name: string;
-  score: number;
-  core: 'full' | 'partial' | 'none';
-  releasesPerMonth: number | null;
-  rpc: 'full' | 'partial' | 'none';
-  github: string | null;
-  active: 'active' | 'slow' | 'inactive' | 'private';
-  chains: number | string;
-  devices: {
-    mobile: boolean;
-    browser: boolean;
-    desktop: boolean;
-    web: boolean;
-  };
-  testnets: boolean;
-  license: 'open' | 'partial' | 'closed';
-  licenseType: string;
-  audits: 'recent' | 'old' | 'bounty' | 'none';
-  funding: 'sustainable' | 'vc' | 'risky';
-  fundingSource: string;
-  txSimulation: boolean;
-  scamAlerts: 'full' | 'partial' | 'none';
-  accountTypes: string[];
-  ensNaming: 'full' | 'basic' | 'import' | 'none';
-  hardwareSupport: boolean;
-  bestFor: string;
-  recommendation: 'recommended' | 'situational' | 'avoid' | 'not-for-dev';
-  type: 'software';
-}
-
-export interface HardwareWallet {
-  id: string;
-  name: string;
-  score: number;
-  github: string | null;
-  airGap: boolean;
-  openSource: 'full' | 'partial' | 'closed';
-  secureElement: boolean;
-  secureElementType: string | null;
-  display: string;
-  price: number | null;
-  priceText: string;
-  connectivity: string[];
-  active: 'active' | 'slow' | 'inactive' | 'private';
-  recommendation: 'recommended' | 'situational' | 'avoid';
-  url: string | null;
-  type: 'hardware';
-}
-
-export interface CryptoCard {
-  id: string;
-  name: string;
-  score: number;
-  cardType: 'credit' | 'debit' | 'prepaid' | 'business';
-  businessSupport: 'yes' | 'no' | 'verify';
-  region: string;
-  regionCode: string;
-  cashBack: string;
-  cashBackMax: number | null;
-  annualFee: string;
-  fxFee: string;
-  rewards: string;
-  provider: string;
-  providerUrl: string | null;
-  status: 'active' | 'verify' | 'launching';
-  bestFor: string;
-  recommendation: 'recommended' | 'situational' | 'avoid';
-  type: 'card';
-}
-
-export type WalletData = SoftwareWallet | HardwareWallet | CryptoCard;
+export type { CryptoCard, HardwareWallet, SoftwareWallet, WalletData };
 
 // Path to markdown files (one level up from frontend)
 const CONTENT_DIR = path.join(process.cwd(), '..');
@@ -153,6 +81,7 @@ function parseReleasesPerMonth(cell: string): number | null {
 function parseChainsCount(cell: string): number | string {
   if (cell.toLowerCase().includes('any')) return 'any';
   if (cell.toLowerCase().includes('evm')) return 'evm';
+  if (cell.toLowerCase().includes('eth')) return 'eth';
   const match = cell.match(/(\d+)\+?/);
   return match ? parseInt(match[1], 10) : 0;
 }
@@ -160,8 +89,10 @@ function parseChainsCount(cell: string): number | string {
 // Parse license type
 function parseLicense(cell: string): { status: 'open' | 'partial' | 'closed'; type: string } {
   const status = parsePartial(cell);
-  // Extract license type like MIT, GPL-3, Apache, etc.
-  const typeMatch = cell.match(/(MIT|GPL-3|GPL|Apache|MPL-2|Prop|Src-Avail)/i);
+  // Extract license type like MIT, GPL-3, Apache-2.0, etc.
+  const typeMatch = cell.match(
+    /(MIT|GPL-3\.0|GPL-3|GPL|Apache-2\.0|Apache|MPL-2\.0|MPL-2|BSD-3-Clause|BSD|BUSL-1\.1|BUSL|Unlicensed|Prop|Src-Avail)/i
+  );
   return {
     status: status === 'full' ? 'open' : status === 'partial' ? 'partial' : 'closed',
     type: typeMatch ? typeMatch[1] : 'Unknown',
@@ -213,10 +144,22 @@ function parseEnsNaming(cell: string): 'full' | 'basic' | 'import' | 'none' {
 
 // Parse price from string
 function parsePrice(cell: string): { value: number | null; text: string } {
-  const match = cell.match(/\$(\d+)/);
+  // Examples:
+  // - "~$169"
+  // - "~$50-150*" (DIY range)
+  // - "$0-$17/mo"
+  // - "TBD"
+  const normalized = cell.replace(/[~*]/g, '').trim();
+  const matches = Array.from(normalized.matchAll(/\$(\d+)/g)).map(m => parseInt(m[1], 10));
+  const match = matches[0];
+  const value = matches.length === 0
+    ? null
+    : matches.length === 1
+      ? match
+      : Math.round((Math.min(...matches) + Math.max(...matches)) / 2);
   return {
-    value: match ? parseInt(match[1], 10) : null,
-    text: cell.replace(/[~*]/g, '').trim(),
+    value,
+    text: normalized,
   };
 }
 

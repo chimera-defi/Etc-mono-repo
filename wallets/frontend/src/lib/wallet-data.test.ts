@@ -34,6 +34,11 @@ describe('wallet-data table parsers', () => {
     expect(safe5?.display).toBe('Touch Color');
     expect(safe5?.price).toBe(169);
     expect(safe5?.connectivity).toContain('USB-C');
+
+    // Range parsing sanity check (DIY wallet ranges like "~$50-150*")
+    const specter = wallets.find((w) => w.name === 'Specter DIY');
+    expect(specter).toBeTruthy();
+    expect(specter?.price).toBeGreaterThan(0);
   });
 
   it('parses crypto cards table with basic invariants', () => {

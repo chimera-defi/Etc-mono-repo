@@ -351,7 +351,7 @@ Developer-focused crypto wallet research:
 • 23+ hardware wallets reviewed
 • 27+ crypto cards analyzed
 
-Free. Open source. No affiliate links.
+Free. Open source. No affiliate links (currently).
 
 walletradar.org
 ```
