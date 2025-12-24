@@ -242,7 +242,8 @@ await vault.stakeToValidator(validator, 200000); // Cost: $W
 **Deliverables:**
 - [ ] List top Aztec-native DeFi venues (swap, lending, stablecoin rails if applicable)
 - [ ] Identify where an LST can be used on day 1 vs “later”
-- [ ] Add a short “Integration Targets” section to `IMPLEMENTATION-PLAN.md` (no rewrites; just append)
+- [ ] Update `INTEGRATIONS.md` (canonical) with targets and sequencing
+- [ ] Add a short “Integration Targets” section to `IMPLEMENTATION-PLAN.md` (brief append only)
 
 **Acceptance Criteria:**
 - At least 5 concrete integration targets or categories (even if some are “to be confirmed”)
@@ -251,6 +252,7 @@ await vault.stakeToValidator(validator, 200000); // Cost: $W
 **Resources:**
 - `staking/research/liquid-staking-landscape-2025.md`
 - `staking/research/OPPORTUNITIES.md`
+- `INTEGRATIONS.md`
 
 ---
 
@@ -266,6 +268,7 @@ await vault.stakeToValidator(validator, 200000); // Cost: $W
 - [ ] Define initial liquidity venues/pairs (e.g., stAZTEC/AZTEC, stAZTEC/ETH if bridged)
 - [ ] Incentive plan options (points, LM, grants, partners)
 - [ ] Risks and mitigations (thin liquidity, price impact, withdrawal pressure)
+- [ ] Update `INTEGRATIONS.md` (canonical) with the chosen bootstrap plan
 - [ ] Append a “Liquidity & Distribution” section to `EXECUTIVE-SUMMARY.md` (brief)
 
 **Acceptance Criteria:**

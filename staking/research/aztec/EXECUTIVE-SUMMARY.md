@@ -90,6 +90,18 @@ If you include a small team + overhead (e.g., ~$56k/month planning burn used in 
 
 ---
 
+## Liquidity & Distribution (Day-1 viability)
+
+Liquid staking only works if the token is actually liquid and useful immediately.
+
+- **Canonical pool:** stAZTEC / AZTEC on a credible Aztec-native swap venue
+- **Sequencing:** pre-launch partner outreach → launch-week pool + comms → post-launch second integration (lending or wallet)
+- **Risks:** thin liquidity and withdrawal pressure; mitigate with conservative buffer policy and staged caps
+
+**Canonical plan:** See `INTEGRATIONS.md`.
+
+---
+
 ## Timeline to Launch
 
 | Phase | Duration | Deliverable |

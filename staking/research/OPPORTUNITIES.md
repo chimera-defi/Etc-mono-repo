@@ -18,6 +18,7 @@
 
 **Deep dive packet:** See [`./aztec/README.md`](./aztec/README.md) (start), and use [`./aztec/ECONOMICS.md`](./aztec/ECONOMICS.md) as the source of truth for numbers.
 **Competitive intel:** Keep [`./aztec/COMPETITORS.md`](./aztec/COMPETITORS.md) updated.
+**Distribution:** Track launch liquidity + partner plan in [`./aztec/INTEGRATIONS.md`](./aztec/INTEGRATIONS.md).
 
 **Action Items:**
 - Contact Aztec foundation immediately

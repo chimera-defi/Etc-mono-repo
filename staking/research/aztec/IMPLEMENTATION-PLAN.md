@@ -257,6 +257,17 @@
   - APR calculation
   - User metrics
 
+### Integrations & Liquidity (Weeks 18-24)
+
+**Goal:** ensure stAZTEC is meaningfully liquid and usable on day 1.
+
+- [ ] Identify/confirm Aztec-native swap venue(s) for canonical stAZTEC/AZTEC pool
+- [ ] Draft liquidity bootstrap plan (incentives + LP sourcing + risk policy)
+- [ ] Pre-launch partner outreach (DEX + wallet + ecosystem listing)
+- [ ] Prepare launch-week comms and integration checklist
+
+**Canonical plan:** `INTEGRATIONS.md`
+
 ### Contract Deployment (Week 23)
 - [ ] Mainnet deployment ceremony
   - Multi-sig deployment (3-of-5)

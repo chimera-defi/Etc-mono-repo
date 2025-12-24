@@ -43,6 +43,11 @@ Last Updated: December 24, 2025
    - Market sizing, revenue projections
    - **Most detailed document** - reference material
 
+6. **[INTEGRATIONS.md](./INTEGRATIONS.md)**
+   - Canonical distribution plan (DEX liquidity, lending, wallets, ecosystem support)
+   - Liquidity bootstrap sequencing (pre-launch → launch week → post-launch)
+   - Keeps “go-to-market” details out of the economics and technical docs
+
 ---
 
 ## 🎯 Quick Navigation
