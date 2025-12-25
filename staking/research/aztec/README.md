@@ -63,6 +63,10 @@ Last Updated: December 24, 2025
    - Copy/paste prompts + kickoff checklist for future agents
    - Enforces anti-hallucination rules and “source of truth” boundaries
 
+11. **[LOCAL-DEV.md](./LOCAL-DEV.md)**
+   - Local sandbox setup notes (incl. Docker requirement)
+   - Intended to be refreshed whenever Aztec tooling changes
+
 ---
 
 ## 🎯 Quick Navigation

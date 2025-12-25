@@ -63,11 +63,12 @@
 **Acceptance Criteria:**
 - Can deploy a simple "Hello World" Noir contract to local sandbox
 - Can deploy the same contract to public testnet
-- Documented setup instructions in `/docs/setup.md`
+- Documented setup instructions in `LOCAL-DEV.md` (and update it if Aztec tooling changes)
 
 **Resources:**
 - [Aztec Sandbox Setup](https://docs.aztec.network/developers/docs/getting_started/sandbox)
 - [Aztec CLI Installation](https://docs.aztec.network/developers/docs/getting_started/quickstart)
+ - `LOCAL-DEV.md`
 
 **Commands to Run:**
 ```bash

@@ -35,3 +35,24 @@
 - **Slashing (conditions + penalty + delegator impact)**: ❌
 - **RPC reliability/latency**: ❌
 
+---
+
+## 2025-12-25 — Tooling discovery in this workspace (Cursor cloud agent)
+
+- **Who ran it**: agent
+- **Environment**: Cursor cloud workspace (no systemd/init)
+- **Method**:
+  - Attempted to install Aztec via `install.aztec.network`
+  - Installed Docker Engine packages via apt
+  - Tested whether Docker daemon is reachable
+  - Installed `@aztec/cli` from npm to inspect what it provides
+- **Results**:
+  - **Docker**: CLI installed, but **daemon is not running** in this environment (`docker info` fails). Starting services via `service` is not available here.
+  - **Aztec installer**: fails early because it requires a working Docker daemon.
+  - **npm `@aztec/cli`**: installs as a JS module (no `aztec` binary provided here).
+- **Artifacts/links**:
+  - See `LOCAL-DEV.md` for recommended local workflow (Docker-backed sandbox).
+- **Follow-ups**:
+  - Run local sandbox on a machine where Docker daemon can run.
+  - Once `aztec` CLI is installed, complete the “hello world” compile/deploy smoke test and record it here.
+
