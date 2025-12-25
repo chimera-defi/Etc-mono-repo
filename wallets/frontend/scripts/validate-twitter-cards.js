@@ -116,9 +116,14 @@ function validateOgImages() {
   const publicDir = path.join(__dirname, '../public');
   const expectedImages = [
     'og-image.png',
-    'og-software-wallets.png',
-    'og-hardware-wallets.png',
-    'og-crypto-cards.png',
+    // Current generated set (see scripts/generate-og-images.js output)
+    'og-software-wallets-table.png',
+    'og-software-wallets-details.png',
+    'og-hardware-wallets-table.png',
+    'og-hardware-wallets-details.png',
+    'og-crypto-cards-table.png',
+    'og-crypto-cards-details.png',
+    'og-explore.png',
   ];
   
   const results = [];

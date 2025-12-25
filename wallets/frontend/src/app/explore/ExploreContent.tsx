@@ -9,8 +9,17 @@ import {
   type FilterState,
   type SortState,
 } from '@/components/WalletFilters';
-import { WalletTable, type SoftwareWallet, type HardwareWallet, type CryptoCard, type WalletData } from '@/components/WalletTable';
+import { WalletTable } from '@/components/WalletTable';
 import { ComparisonTool } from '@/components/ComparisonTool';
+import type { CryptoCard, HardwareWallet, SoftwareWallet, WalletData } from '@/types/wallets';
+import {
+  filterCryptoCards,
+  filterHardwareWallets,
+  filterSoftwareWallets,
+  sortWallets,
+  type FilterOptions,
+  type SortField,
+} from '@/lib/wallet-filtering';
 
 interface ExploreContentProps {
   softwareWallets: SoftwareWallet[];
@@ -21,248 +30,56 @@ interface ExploreContentProps {
 type TabType = 'software' | 'hardware' | 'cards';
 type ViewMode = 'grid' | 'table';
 
-// Filter functions
-function filterSoftwareWallets(
-  wallets: SoftwareWallet[],
-  filters: FilterState
-): SoftwareWallet[] {
-  return wallets.filter(wallet => {
-    // Search filter
-    if (filters.search) {
-      const searchLower = filters.search.toLowerCase();
-      const matchesSearch =
-        wallet.name.toLowerCase().includes(searchLower) ||
-        wallet.bestFor.toLowerCase().includes(searchLower) ||
-        wallet.fundingSource.toLowerCase().includes(searchLower);
-      if (!matchesSearch) return false;
-    }
+function toFilterOptions(filters: FilterState): FilterOptions {
+  const opts: FilterOptions = {};
 
-    // Score filter
-    if (wallet.score < filters.minScore) return false;
-    if (wallet.score > filters.maxScore) return false;
+  if (filters.search) opts.search = filters.search;
+  if (filters.minScore > 0) opts.minScore = filters.minScore;
+  if (filters.maxScore < 100) opts.maxScore = filters.maxScore;
 
-    // Recommendation filter
-    if (filters.recommendation.length && !filters.recommendation.includes(wallet.recommendation)) {
-      return false;
-    }
+  if (filters.recommendation.length) {
+    opts.recommendation = filters.recommendation as FilterOptions['recommendation'];
+  }
+  if (filters.platforms.length) {
+    opts.platforms = filters.platforms as FilterOptions['platforms'];
+  }
+  if (filters.license.length) {
+    opts.license = filters.license as FilterOptions['license'];
+  }
+  if (filters.features.length) {
+    opts.features = filters.features as FilterOptions['features'];
+  }
+  if (filters.accountTypes.length) {
+    opts.accountTypes = filters.accountTypes;
+  }
+  if (filters.active.length) {
+    opts.active = filters.active as FilterOptions['active'];
+  }
+  if (filters.funding.length) {
+    opts.funding = filters.funding as FilterOptions['funding'];
+  }
 
-    // Platform filter
-    if (filters.platforms.length) {
-      const hasPlatform = filters.platforms.some(platform => {
-        switch (platform) {
-          case 'mobile': return wallet.devices.mobile;
-          case 'browser': return wallet.devices.browser;
-          case 'desktop': return wallet.devices.desktop;
-          case 'web': return wallet.devices.web;
-          default: return false;
-        }
-      });
-      if (!hasPlatform) return false;
-    }
+  if (filters.airGap !== null) opts.airGap = filters.airGap;
+  if (filters.secureElement !== null) opts.secureElement = filters.secureElement;
 
-    // License filter
-    if (filters.license.length && !filters.license.includes(wallet.license)) {
-      return false;
-    }
+  if (filters.openSource.length) {
+    // WalletFilters uses open/partial/closed labels; parser uses full/partial/closed.
+    // We accept both values by mapping "open" -> "full".
+    const mapped = filters.openSource.map(v => (v === 'open' ? 'full' : v));
+    opts.openSource = mapped as FilterOptions['openSource'];
+  }
 
-    // Features filter
-    if (filters.features.length) {
-      const hasFeature = filters.features.every(feature => {
-        switch (feature) {
-          case 'txSimulation': return wallet.txSimulation;
-          case 'scamAlerts': return wallet.scamAlerts !== 'none';
-          case 'hardwareSupport': return wallet.hardwareSupport;
-          case 'testnets': return wallet.testnets;
-          default: return true;
-        }
-      });
-      if (!hasFeature) return false;
-    }
+  if (filters.priceMin > 0 || filters.priceMax < 500) {
+    opts.priceRange = { min: filters.priceMin, max: filters.priceMax };
+  }
+  if (filters.connectivity.length) opts.connectivity = filters.connectivity;
 
-    // Account types filter
-    if (filters.accountTypes.length) {
-      const hasAccountType = filters.accountTypes.some(type =>
-        wallet.accountTypes.includes(type)
-      );
-      if (!hasAccountType) return false;
-    }
+  if (filters.cardType.length) opts.cardType = filters.cardType as FilterOptions['cardType'];
+  if (filters.region.length) opts.region = filters.region;
+  if (filters.businessSupport !== null) opts.businessSupport = filters.businessSupport;
+  if (filters.cashBackMin > 0) opts.cashBackMin = filters.cashBackMin;
 
-    // Activity filter
-    if (filters.active.length && !filters.active.includes(wallet.active)) {
-      return false;
-    }
-
-    // Funding filter
-    if (filters.funding.length && !filters.funding.includes(wallet.funding)) {
-      return false;
-    }
-
-    return true;
-  });
-}
-
-function filterHardwareWallets(
-  wallets: HardwareWallet[],
-  filters: FilterState
-): HardwareWallet[] {
-  return wallets.filter(wallet => {
-    // Search filter
-    if (filters.search) {
-      const searchLower = filters.search.toLowerCase();
-      const matchesSearch =
-        wallet.name.toLowerCase().includes(searchLower) ||
-        wallet.display.toLowerCase().includes(searchLower);
-      if (!matchesSearch) return false;
-    }
-
-    // Score filter
-    if (wallet.score < filters.minScore) return false;
-    if (wallet.score > filters.maxScore) return false;
-
-    // Recommendation filter
-    if (filters.recommendation.length) {
-      const matchingRecs = filters.recommendation.filter(r => r !== 'not-for-dev');
-      if (matchingRecs.length && !matchingRecs.includes(wallet.recommendation)) {
-        return false;
-      }
-    }
-
-    // Air gap filter
-    if (filters.airGap !== null && wallet.airGap !== filters.airGap) {
-      return false;
-    }
-
-    // Secure element filter
-    if (filters.secureElement !== null && wallet.secureElement !== filters.secureElement) {
-      return false;
-    }
-
-    // Open source filter
-    if (filters.openSource.length && !filters.openSource.includes(wallet.openSource)) {
-      return false;
-    }
-
-    // Price range filter
-    if (wallet.price !== null) {
-      if (wallet.price < filters.priceMin || wallet.price > filters.priceMax) {
-        return false;
-      }
-    }
-
-    // Connectivity filter
-    if (filters.connectivity.length) {
-      const hasConnectivity = filters.connectivity.some(conn =>
-        wallet.connectivity.includes(conn)
-      );
-      if (!hasConnectivity) return false;
-    }
-
-    // Activity filter
-    if (filters.active.length && !filters.active.includes(wallet.active)) {
-      return false;
-    }
-
-    return true;
-  });
-}
-
-function filterCryptoCards(
-  cards: CryptoCard[],
-  filters: FilterState
-): CryptoCard[] {
-  return cards.filter(card => {
-    // Search filter
-    if (filters.search) {
-      const searchLower = filters.search.toLowerCase();
-      const matchesSearch =
-        card.name.toLowerCase().includes(searchLower) ||
-        card.provider.toLowerCase().includes(searchLower) ||
-        card.bestFor.toLowerCase().includes(searchLower);
-      if (!matchesSearch) return false;
-    }
-
-    // Score filter
-    if (card.score < filters.minScore) return false;
-    if (card.score > filters.maxScore) return false;
-
-    // Card type filter
-    if (filters.cardType.length && !filters.cardType.includes(card.cardType)) {
-      return false;
-    }
-
-    // Region filter
-    if (filters.region.length && !filters.region.includes(card.regionCode)) {
-      return false;
-    }
-
-    // Business support filter
-    if (filters.businessSupport !== null) {
-      if (filters.businessSupport && card.businessSupport !== 'yes') return false;
-    }
-
-    // Cashback min filter
-    if (filters.cashBackMin > 0 && card.cashBackMax !== null) {
-      if (card.cashBackMax < filters.cashBackMin) return false;
-    }
-
-    return true;
-  });
-}
-
-// Sort function
-function sortWallets<T extends WalletData>(
-  wallets: T[],
-  sort: SortState
-): T[] {
-  return [...wallets].sort((a, b) => {
-    let aValue: number | string = 0;
-    let bValue: number | string = 0;
-
-    switch (sort.field) {
-      case 'score':
-        aValue = a.score;
-        bValue = b.score;
-        break;
-      case 'name':
-        aValue = a.name.toLowerCase();
-        bValue = b.name.toLowerCase();
-        break;
-      case 'chains':
-        if (a.type === 'software' && b.type === 'software') {
-          aValue = typeof (a as SoftwareWallet).chains === 'number' ? (a as SoftwareWallet).chains as number : 999;
-          bValue = typeof (b as SoftwareWallet).chains === 'number' ? (b as SoftwareWallet).chains as number : 999;
-        }
-        break;
-      case 'releasesPerMonth':
-        if (a.type === 'software' && b.type === 'software') {
-          aValue = (a as SoftwareWallet).releasesPerMonth ?? 0;
-          bValue = (b as SoftwareWallet).releasesPerMonth ?? 0;
-        }
-        break;
-      case 'price':
-        if (a.type === 'hardware' && b.type === 'hardware') {
-          aValue = (a as HardwareWallet).price ?? 999;
-          bValue = (b as HardwareWallet).price ?? 999;
-        }
-        break;
-      case 'cashBackMax':
-        if (a.type === 'card' && b.type === 'card') {
-          aValue = (a as CryptoCard).cashBackMax ?? 0;
-          bValue = (b as CryptoCard).cashBackMax ?? 0;
-        }
-        break;
-    }
-
-    if (typeof aValue === 'string' && typeof bValue === 'string') {
-      return sort.direction === 'asc'
-        ? aValue.localeCompare(bValue)
-        : bValue.localeCompare(aValue);
-    }
-
-    return sort.direction === 'asc'
-      ? (aValue as number) - (bValue as number)
-      : (bValue as number) - (aValue as number);
-  });
+  return opts;
 }
 
 export function ExploreContent({
@@ -291,17 +108,32 @@ export function ExploreContent({
 
   // Filtered and sorted wallets
   const filteredSoftware = useMemo(
-    () => sortWallets(filterSoftwareWallets(softwareWallets, softwareFilters), softwareSort),
+    () =>
+      sortWallets(
+        filterSoftwareWallets(softwareWallets, toFilterOptions(softwareFilters)),
+        softwareSort.field as SortField,
+        softwareSort.direction
+      ),
     [softwareWallets, softwareFilters, softwareSort]
   );
 
   const filteredHardware = useMemo(
-    () => sortWallets(filterHardwareWallets(hardwareWallets, hardwareFilters), hardwareSort),
+    () =>
+      sortWallets(
+        filterHardwareWallets(hardwareWallets, toFilterOptions(hardwareFilters)),
+        hardwareSort.field as SortField,
+        hardwareSort.direction
+      ),
     [hardwareWallets, hardwareFilters, hardwareSort]
   );
 
   const filteredCards = useMemo(
-    () => sortWallets(filterCryptoCards(cryptoCards, cardFilters), cardSort),
+    () =>
+      sortWallets(
+        filterCryptoCards(cryptoCards, toFilterOptions(cardFilters)),
+        cardSort.field as SortField,
+        cardSort.direction
+      ),
     [cryptoCards, cardFilters, cardSort]
   );
 
