@@ -96,6 +96,7 @@ App:  📱 "Done! 4 files changed, +127 lines. PR ready."
 
 | Document | Purpose |
 |----------|---------|
+| **[ARCHITECTURE.md](./ARCHITECTURE.md)** | **Single-page architecture guide (START HERE)** |
 | **[Architecture Review](./02-architecture/ARCHITECTURE_REVIEW.md)** | Unknown unknowns, critical gaps, what's missing |
 | **[Claude SDK Mapping](./02-architecture/CONSOLIDATED_CLAUDE_ARCHITECTURE.md)** | How Cursor features map to Claude Agent SDK |
 | **[Development Kickoff](./03-development/DEVELOPMENT_KICKOFF.md)** | Task breakdown, ideal prompts, Claude AI integration |
@@ -104,34 +105,36 @@ App:  📱 "Done! 4 files changed, +127 lines. PR ready."
 
 | Finding | Impact | Document |
 |---------|--------|----------|
-| **Execution environment undefined** | Can't build without it | [Architecture Review](./02-architecture/ARCHITECTURE_REVIEW.md) |
+| ✅ **Execution: Fly.io → Hetzner VPS** | Decision made, ready to build | [ARCHITECTURE.md](./ARCHITECTURE.md) |
 | **Claude SDK covers 80%+ of Cursor** | Less custom code needed | [Claude SDK Mapping](./02-architecture/CONSOLIDATED_CLAUDE_ARCHITECTURE.md) |
 | **7 critical feature gaps** | Must close for parity | [Market Research](./03-development/MARKET_RESEARCH_AND_FEATURE_PARITY.md) |
 | **Cost underestimated 24x** | Pricing must be $15+/mo | [Risk Analysis](./01-planning/RISK_ANALYSIS_AND_VIABILITY.md) |
 
 ---
 
-## 🚨 Open Questions (Must Decide Before Coding)
+## ✅ Key Decisions Made
 
-| Question | Options | Recommended |
-|----------|---------|-------------|
-| **Project name** | Vox, Cadence, Sonnet, Claudia | Vox |
-| **Execution platform** | Modal.com, Fly.io, Codespaces | Modal.com |
-| **Real-time updates** | WebSocket, Pusher, Polling | Polling + Push |
-| **Container security** | Docker, gVisor, Firecracker | TBD |
+| Decision | Choice | Rationale |
+|----------|--------|-----------|
+| **Project name** | Vox | Voice-focused, memorable |
+| **Execution (MVP)** | **Fly.io Machines** | 5x cheaper than Modal, Node.js native, warm machines |
+| **Execution (Scale)** | Hetzner VPS per user | Zero cold start, predictable costs |
+| **Real-time updates** | Supabase Realtime | WebSocket, free tier available |
+| **STT** | OpenAI Whisper API | 95-98% accuracy |
+| **TTS** | expo-speech | On-device, <50ms latency |
 
-See [Architecture Review](./02-architecture/ARCHITECTURE_REVIEW.md) for full analysis.
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for complete technical decisions.
 
 ---
 
 ## 🚀 Next Steps
 
-### Immediate (Before Any Coding)
-1. ☐ Decide on project name
-2. ☐ Prototype Claude Agent SDK integration
-3. ☐ Choose execution platform (Modal vs Fly.io)
-4. ☐ Create security threat model
-5. ☐ Validate cost model
+### Immediate (Ready to Start)
+1. ✅ Project name decided: **Vox**
+2. ✅ Execution platform decided: **Fly.io** (MVP) → **Hetzner VPS** (Scale)
+3. ☐ Set up Fly.io account and deploy test container
+4. ☐ Prototype voice → Whisper → Claude flow
+5. ☐ Create Expo project scaffold
 
 ### Phase 1: Infrastructure (Weeks 1-3)
 - Build ExecutionService (container provisioning)

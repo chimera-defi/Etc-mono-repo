@@ -12,12 +12,13 @@
 |-----------|-----------|------|
 | Mobile App | React Native + Expo SDK 52 | Free |
 | Backend API | Fastify 4 + TypeScript | $20-50/mo |
-| AI Agents | Claude API + Agent SDK | ~$0.50/agent |
+| AI Agents | Claude API | ~$0.50/agent |
 | STT | OpenAI Whisper API | $0.006/min |
 | TTS | expo-speech (on-device) | Free |
 | Database | PostgreSQL (Neon) | $0-25/mo |
 | Real-time | Supabase Realtime | $0-25/mo |
-| **Execution** | **See Section 4 - Critical Decision** | **TBD** |
+| **Execution (MVP)** | **Fly.io Machines** | **~$15-30/mo** |
+| **Execution (Scale)** | **Hetzner VPS per user** | **$4.85/user/mo** |
 
 ---
 
@@ -145,29 +146,75 @@ interface CodebaseContext {
 
 ---
 
-## 4. Execution Environment: The Critical Decision
+## 4. Execution Environment: ✅ DECISION MADE
 
 ### The Problem
 
-Claude Agent SDK needs a runtime environment with:
+Claude agents need a runtime environment with:
 - File system access (clone repos, read/write files)
 - Command execution (npm install, tests, git)
 - Network access (GitHub API, npm registry)
 - Isolation (security sandbox per user)
 
-### Option Comparison
+### MVP Decision: **Fly.io Machines**
 
-| Option | Cold Start | Cost | Always-On | Security | Maintenance |
-|--------|-----------|------|-----------|----------|-------------|
-| **Modal.com** | 1-5s | $0.10/hr | No | High | Low |
-| **Fly.io Machines** | 2-10s | $0.02/hr | Optional | Medium | Low |
-| **VPS per User** | 0s | $5-15/user/mo | **Yes** | Medium | High |
-| **GitHub Codespaces** | 30-60s | $0.18/hr | No | High | Low |
-| **Self-hosted K8s** | 5-15s | ~$100/mo base | Yes | High | Very High |
+After comparing Modal.com vs Fly.io for MVP validation:
 
-### Recommended: Hybrid VPS + Serverless
+| Factor | Modal.com | Fly.io | Winner |
+|--------|-----------|--------|--------|
+| **Minimum cost** | $0 (pay per use) | $0 (pay per use) | Tie |
+| **Cold start** | 1-5s | 0s (with warm) | **Fly.io** |
+| **Keep warm option** | No native | `min_machines_running=1` | **Fly.io** |
+| **Node.js support** | Beta (Python-first) | **Native** | **Fly.io** |
+| **Docker support** | Custom images | **Full Docker** | **Fly.io** |
+| **Persistent volumes** | Limited | **Full support** | **Fly.io** |
+| **Hourly cost** | $0.10/hr | $0.02/hr | **Fly.io** |
+| **Setup complexity** | Very simple | Simple | Modal |
 
-See **Section 6** for detailed VPS-per-user architecture analysis.
+### MVP Cost Estimate (Fly.io)
+
+```
+Base (1 warm machine):  $0.02/hr × 24hr × 30 days = $14.40/mo
+Burst (extra machines): ~$5-15/mo during high usage
+────────────────────────────────────────────────────────────
+Total MVP cost:         ~$20-30/mo (regardless of user count)
+```
+
+### Why Fly.io Wins for MVP
+
+1. **Node.js is first-class** - Backend is Fastify/TypeScript. Modal is Python-first.
+2. **Warm machines = zero cold start** - ~$15/mo for instant response
+3. **5x cheaper** - $0.02/hr vs $0.10/hr
+4. **Full Docker** - Clone repos, run npm, git push all native
+5. **Easy VPS migration** - Fly containers are just Docker
+
+### Fly.io Configuration
+
+```toml
+# fly.toml
+app = "vox-agent-runner"
+
+[build]
+  dockerfile = "Dockerfile.agent"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  min_machines_running = 1  # Keep 1 warm (zero cold start)
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 2
+  memory_mb = 4096
+
+[mounts]
+  source = "repos_cache"
+  destination = "/home/vox/repos"
+```
+
+### Scale Decision: Hetzner VPS per User
+
+See **Section 6** for detailed VPS-per-user architecture for Pro tier.
 
 ---
 
