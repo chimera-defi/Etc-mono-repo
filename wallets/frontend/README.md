@@ -83,7 +83,7 @@ If you change any of these table column orders, you must update the parser + run
 - `CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md` (cards)
   - Columns: Card, Score, Type, Biz, Region, Cash Back, Annual Fee, FX Fee, Rewards, Provider, Status, Best For
 
-Parser regression tests live in `src/lib/wallet-data.test.ts` and can be run with `npm test`.
+`npm test` runs a lightweight smoke test in `scripts/smoke-test-wallet-data.js` to catch table header/structure drift.
 
 ### Adding New Documents
 
