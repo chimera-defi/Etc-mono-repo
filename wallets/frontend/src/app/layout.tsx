@@ -1,12 +1,9 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { ThemeProvider } from '@/components/ThemeProvider';
-
-const inter = Inter({ subsets: ['latin'] });
 
 // Google Analytics Measurement ID - hardcoded for static export reliability
 const GA_MEASUREMENT_ID = 'G-L6ZV569CMN';
@@ -177,7 +174,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content={siteName} />
       </head>
-      <body className={inter.className}>
+      <body className="font-sans">
         <Script
           id="organization-schema"
           type="application/ld+json"
