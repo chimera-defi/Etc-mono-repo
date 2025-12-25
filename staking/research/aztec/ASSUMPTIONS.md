@@ -59,6 +59,20 @@
 - **Team 2:** Referenced in Aztec communications, identity unknown
 - **Our edge:** Technical readiness, self-operated validators, capital efficiency
 
+### Competitor Tracker (living, inline)
+
+Maintain this table as the canonical competitor tracker (do not create a separate doc).
+
+| Project | Team | Status | Scope | Approach (hypothesis) | Differentiation | Evidence | Confidence | Next verification step |
+|---|---|---|---|---|---|---|---|---|
+| Olla | Kryha | Announced / early | Liquid staking / fractional staking | Aztec-native protocol (details TBD) | First public mindshare | Featured at Aztec @Devconnect event | ✅ | Find repo/docs, timeline, whether they run validators vs marketplace |
+| Team (unknown #2) | Unknown | Building | Fractional staking | Unknown | Unknown | Aztec blog says “multiple teams” | ⚠️ | Identify name via Aztec ecosystem channels (Discord, grants, GitHub, X) |
+| Team (unknown #3) | Unknown | Building | Fractional staking | Unknown | Unknown | Aztec blog says “multiple teams” | ⚠️ | Same as above |
+
+**Watchlist (leads; not verified):**
+- Existing LST operator expands to Aztec (watch: grants, hiring, testnet deployments)
+- Aztec-native DeFi team builds LST wrapper (watch: repos referencing staking/delegation/pool patterns)
+
 ---
 
 ## Market & Revenue Assumptions
@@ -139,7 +153,7 @@
 - [ ] Measure actual validator resource requirements
 - [ ] Monitor testnet for 2 weeks to measure APR
 - [ ] Test transaction gas costs on testnet
-- [ ] Maintain a dated log of testnet findings in `VALIDATION-RESULTS.md`
+- [ ] Maintain a dated log of findings in the Validation Log (below)
 
 ### Month 1
 - [ ] Research Olla roadmap (community channels, team outreach)
@@ -186,3 +200,26 @@
 - [Olla Announcement](https://luma.com/heydpbsj)
 - [AWS Pricing](https://aws.amazon.com/pricing/)
 - [Ethereum Liquid Staking Market Data](https://dune.com/hildobby/eth2-staking)
+
+---
+
+## Validation Log (dated, append-only)
+
+Use this section as the canonical log of what was actually measured or attempted. If it isn’t written here with method + artifacts, assume it did not happen.
+
+### 2025-12-25 — Tooling discovery in this workspace (Cursor cloud agent)
+
+- **Environment**: Cursor cloud workspace (no systemd/init)
+- **Method**:
+  - Attempted to install Aztec via `install.aztec.network`
+  - Installed Docker Engine packages via apt
+  - Tested whether Docker daemon is reachable
+  - Installed `@aztec/cli` from npm to inspect what it provides
+- **Results**:
+  - **Docker**: CLI installed, but **daemon is not running** in this environment (`docker info` fails). Starting services via `service` is not available here.
+  - **Aztec installer**: fails early because it requires a working Docker daemon.
+  - **npm `@aztec/cli`**: installs as a JS module (no `aztec` binary provided here).
+- **Artifacts/links**: terminal logs in this agent run
+- **Follow-ups**:
+  - Run local sandbox on a machine where Docker daemon can run.
+  - Once `aztec` CLI is installed, complete the “hello world” compile/deploy smoke test and record it here.

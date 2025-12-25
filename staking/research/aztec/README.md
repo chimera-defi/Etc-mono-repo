@@ -18,8 +18,9 @@ Last Updated: December 24, 2025
 
 2. **[ASSUMPTIONS.md](./ASSUMPTIONS.md)**
    - Critical assumptions registry
-   - Verification status (✅ Verified, ⚠️ Estimated, ❌ Unverified)
+   - Verification status (✅ Verified, 📎 Sourced, ⚠️ Estimated, ❌ Unverified)
    - Validation roadmap and decision triggers
+   - Includes: competitor tracker + validation log (kept inline to avoid extra docs)
    - Update monthly
 
 3. **[ECONOMICS.md](./ECONOMICS.md)** ✅ *Source of truth*
@@ -31,6 +32,7 @@ Last Updated: December 24, 2025
    - 6-month critical path: Design → Build → Test → Deploy
    - Week-by-week milestones
    - Team requirements, tooling, testnet validation
+   - Includes: distribution/liquidity plan (kept inline to avoid extra docs)
    - Read before starting development
 
 5. **[FUNDRAISING.md](./FUNDRAISING.md)**
@@ -46,26 +48,9 @@ Last Updated: December 24, 2025
    - Contains some legacy planning sections; canonical docs are listed below
    - Use as reference material when building
 
-7. **[VALIDATION-RESULTS.md](./VALIDATION-RESULTS.md)** ✅ *Source of truth*
-   - Single living log for all testnet measurements (validator requirements/costs, tx costs, unbonding, slashing)
-   - After each run, update `ASSUMPTIONS.md` and (if needed) `ECONOMICS.md`
-
-8. **[COMPETITORS.md](./COMPETITORS.md)** ✅ *Source of truth*
-   - Canonical competitor tracker (who, status, evidence, confidence, next steps)
-   - Keep this updated weekly during the pre-launch window
-
-9. **[INTEGRATIONS.md](./INTEGRATIONS.md)** ✅ *Source of truth*
-   - Canonical distribution plan (DEX liquidity, lending, wallets, ecosystem support)
-   - Liquidity bootstrap sequencing (pre-launch → launch week → post-launch)
-   - Keeps “go-to-market” details out of the economics and technical docs
-
-10. **[HANDOFF.md](./HANDOFF.md)** ⭐
-   - Copy/paste prompts + kickoff checklist for future agents
-   - Enforces anti-hallucination rules and “source of truth” boundaries
-
-11. **[LOCAL-DEV.md](./LOCAL-DEV.md)**
-   - Local sandbox setup notes (incl. Docker requirement)
-   - Intended to be refreshed whenever Aztec tooling changes
+7. **[TASKS.md](./TASKS.md)** ⭐
+   - Discrete, assignable tasks with acceptance criteria
+   - Includes: local sandbox setup notes + agent prompt templates (kept inline to avoid extra docs)
 
 ---
 
@@ -76,9 +61,9 @@ Last Updated: December 24, 2025
 - **Understand the opportunity in 5 minutes** → Read EXECUTIVE-SUMMARY.md
 - **Validate key assumptions** → Review ASSUMPTIONS.md
 - **Get the numbers** → Use ECONOMICS.md (source of truth)
-- **Track competitors** → Use COMPETITORS.md (source of truth)
-- **Plan distribution/liquidity** → Use INTEGRATIONS.md (source of truth)
-- **Log real testnet measurements** → Use VALIDATION-RESULTS.md
+- **Track competitors** → See ASSUMPTIONS.md (Competitive Intelligence section)
+- **Plan distribution/liquidity** → See IMPLEMENTATION-PLAN.md (Integrations & Liquidity section)
+- **Log real validation results** → Append to ASSUMPTIONS.md (Validation Log section)
 - **Plan development timeline** → Follow IMPLEMENTATION-PLAN.md and TASKS.md
 - **Prepare for fundraising** → Use FUNDRAISING.md
 - **Deep-dive technical architecture** → Study liquid-staking-analysis.md
