@@ -4,6 +4,7 @@
 > **Status:** Ready for Development
 > **Start Date:** TBD
 > **Target MVP:** 8-12 weeks
+> **Built With:** Claude Agent SDK + Claude Code Hooks + MCP
 
 ---
 
@@ -19,25 +20,180 @@
 
 ---
 
+## Leveraging Claude AI for Development
+
+This project should be built **using Claude's own AI infrastructure**:
+
+### Claude Agent SDK (Backend Core)
+
+The backend should use the **Claude Agent SDK** (`@anthropic-ai/claude-agent-sdk`) as the agent execution engine:
+
+```typescript
+// Backend: Using Claude Agent SDK for agent execution
+import { query } from '@anthropic-ai/claude-agent-sdk';
+
+// Process voice command through Claude Agent
+export async function executeAgentTask(
+  transcript: string,
+  repoContext: CodebaseContext
+): Promise<AgentResponse> {
+  const response = await query({
+    prompt: `
+      User voice command: "${transcript}"
+      Repository: ${repoContext.repoName}
+      Framework: ${repoContext.frameworkDetected}
+      Relevant files: ${repoContext.relevantFiles.map(f => f.path).join(', ')}
+
+      Execute this coding task autonomously.
+    `,
+    cwd: repoContext.localPath,
+    model: "claude-sonnet-4-5-20250929",
+    apiKey: process.env.ANTHROPIC_API_KEY,
+    // Use hooks for validation and monitoring
+    hooks: {
+      PreToolUse: [{
+        matcher: "Edit|Write",
+        callback: async (input) => {
+          console.log(`Editing: ${input.tool_input.file_path}`);
+          return {}; // Allow
+        }
+      }],
+      PostToolUse: [{
+        matcher: "*",
+        callback: async (input) => {
+          // Log all tool usage for audit trail
+          await logAgentAction(input);
+          return {};
+        }
+      }]
+    }
+  });
+
+  let result = '';
+  for await (const event of response) {
+    if (event.type === 'text') {
+      result += event.text;
+    }
+  }
+  return { response: result };
+}
+```
+
+### Claude Code Hooks (Development Workflow)
+
+Set up hooks in `.claude/settings.json` for the development process:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [{
+          "type": "command",
+          "command": ".claude/hooks/validate-bash.sh",
+          "timeout": 30
+        }]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [{
+          "type": "command",
+          "command": ".claude/hooks/lint-on-save.sh",
+          "timeout": 60
+        }]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [{
+          "type": "command",
+          "command": ".claude/hooks/verify-build.sh"
+        }]
+      }
+    ]
+  }
+}
+```
+
+### MCP Servers (Extended Capabilities)
+
+Create custom MCP servers for mobile app integration:
+
+```bash
+# Add MCP servers for development
+claude mcp add --transport stdio mobile-analytics -- node ./mcp-servers/analytics.js
+claude mcp add --transport http github https://mcp.github.com/mcp
+```
+
+### Slash Commands (Development Shortcuts)
+
+Create `.claude/commands/` for Claudia-specific development:
+
+```markdown
+<!-- .claude/commands/claudia-review.md -->
+---
+description: "Review Claudia mobile component for best practices"
+allowed-tools: ["Read", "Glob", "Grep"]
+---
+Review this React Native component for Claudia:
+$ARGUMENTS
+
+Check for:
+1. Voice interface accessibility
+2. State management patterns (Zustand)
+3. API integration with TanStack Query
+4. Error handling for speech services
+5. Performance considerations
+```
+
+---
+
 ## The Ideal Prompt to Kick Off Development
 
-Use this prompt with Claude Code or any AI development assistant to begin building Claudia:
+Use this prompt with Claude Code to begin building Claudia, leveraging Claude's own AI capabilities:
 
 ```
 # Project: Claudia - Mobile Voice AI Coding Agent
 
 ## Context
-You are building a React Native + Expo mobile app that allows developers to create and manage AI coding agents using voice commands. The app uses:
+You are building a React Native + Expo mobile app that allows developers to create and manage AI coding agents using voice commands.
 
+## Tech Stack
 - **Frontend:** React Native + Expo SDK 52, TypeScript, Zustand, TanStack Query
-- **Backend:** Fastify 4, PostgreSQL 16 (Neon), OAuth 2.0 PKCE
+- **Backend:** Fastify 4 + Claude Agent SDK, PostgreSQL 16 (Neon), OAuth 2.0 PKCE
 - **Voice:** OpenAI Whisper API (STT), expo-speech (TTS)
-- **AI:** Anthropic Claude API for agent execution
+- **AI Core:** Claude Agent SDK (`@anthropic-ai/claude-agent-sdk`) for agent execution
 - **Real-time:** Polling + Push Notifications
+
+## Claude AI Integration (CRITICAL)
+This app is powered by Claude's infrastructure. Use these tools:
+
+1. **Claude Agent SDK** - Backend agent execution engine
+   - Install: `npm install @anthropic-ai/claude-agent-sdk`
+   - Use `query()` for autonomous coding tasks
+   - Implement hooks for validation and logging
+
+2. **Claude Code Hooks** - Development workflow automation
+   - PreToolUse: Validate commands before execution
+   - PostToolUse: Run linters after edits
+   - Stop: Verify build before completing tasks
+
+3. **MCP Servers** - Extended capabilities
+   - GitHub MCP for repo operations
+   - Custom MCP for mobile analytics
+
+4. **Slash Commands** - Development shortcuts
+   - `/claudia-review` - Review components
+   - `/claudia-test` - Run test suites
 
 ## Documentation Location
 All planning docs are in: `ideas/voice-coding-assistant/`
 - Read `CONSOLIDATED_OVERVIEW.md` for current architecture
+- Read `DEVELOPMENT_KICKOFF.md` for task breakdown and Claude AI integration
 - Read `docs/TECHNICAL_DECISIONS_REVIEW.md` for validated tech decisions
 - Read `mocks/UI_WIREFRAMES.md` for UI specifications
 
@@ -46,18 +202,20 @@ All planning docs are in: `ideas/voice-coding-assistant/`
 
 ## Key Requirements
 1. Voice-first interface with 95%+ accuracy (Whisper API)
-2. Real-time agent status updates
+2. Real-time agent status updates via Claude Agent SDK
 3. Push notifications for agent completion
 4. GitHub OAuth for authentication
 5. Cost monitoring and usage limits
+6. Use Claude Agent SDK hooks for all agent execution
 
 ## Constraints
 - Target cost: <$10/user/month
 - Latency target: <2 seconds end-to-end for voice
 - Support both iOS and Android
 - Offline viewing mode for agent status
+- All agent tasks must use Claude Agent SDK (not raw API calls)
 
-Please proceed with the task while adhering to the documented architecture.
+Please proceed with the task while leveraging Claude AI infrastructure.
 ```
 
 ---
@@ -74,7 +232,42 @@ Please proceed with the task while adhering to the documented architecture.
 - [ ] Set up path aliases (@components, @services, @stores, etc.)
 - [ ] Add EditorConfig for consistent formatting
 
-#### P0.2 - Core Dependencies
+#### P0.2 - Claude Code Development Setup
+```bash
+# Create Claude Code hooks directory
+mkdir -p .claude/hooks .claude/commands
+
+# Create development hooks
+cat > .claude/hooks/lint-on-save.sh << 'EOF'
+#!/bin/bash
+# Run ESLint after file edits
+input=$(cat)
+file_path=$(echo "$input" | jq -r '.tool_input.file_path // empty')
+if [[ "$file_path" == *.ts || "$file_path" == *.tsx ]]; then
+  npm run lint --fix "$file_path" 2>/dev/null || true
+fi
+exit 0
+EOF
+chmod +x .claude/hooks/lint-on-save.sh
+
+# Create slash commands for Claudia development
+cat > .claude/commands/claudia-component.md << 'EOF'
+---
+description: "Create a new Claudia component with proper patterns"
+allowed-tools: ["Read", "Write", "Edit"]
+---
+Create a new React Native component for Claudia at: $ARGUMENTS
+
+Follow these patterns:
+1. Use TypeScript with strict types
+2. Use Zustand for state if needed
+3. Include accessibility props
+4. Add JSDoc comments
+5. Export from components/index.ts
+EOF
+```
+
+#### P0.3 - Core Dependencies
 ```bash
 # Install core dependencies
 npx expo install expo-speech expo-av expo-secure-store expo-notifications expo-auth-session expo-crypto
@@ -90,7 +283,46 @@ npx expo install react-native-screens react-native-safe-area-context
 npm install react-native-gesture-handler react-native-reanimated
 ```
 
-#### P0.3 - Project Structure
+#### P0.4 - Backend with Claude Agent SDK
+```bash
+# Backend directory
+mkdir -p backend && cd backend
+npm init -y
+
+# Install Claude Agent SDK and dependencies
+npm install @anthropic-ai/claude-agent-sdk
+npm install fastify @fastify/cors @fastify/jwt
+npm install pg @neondatabase/serverless
+npm install dotenv zod
+
+# TypeScript setup
+npm install -D typescript @types/node tsx
+npx tsc --init
+```
+
+**Backend structure with Agent SDK:**
+```
+backend/
+├── src/
+│   ├── index.ts                    # Fastify entry point
+│   ├── routes/
+│   │   ├── agents.ts               # Agent CRUD routes
+│   │   └── speech.ts               # Voice processing routes
+│   ├── services/
+│   │   ├── agentExecutor.ts        # Claude Agent SDK integration
+│   │   ├── codebaseAnalyzer.ts     # Repo analysis with Claude
+│   │   └── commandParser.ts        # Voice command parsing
+│   ├── hooks/                      # Agent SDK hooks
+│   │   ├── preToolUse.ts           # Validation before tool use
+│   │   ├── postToolUse.ts          # Logging after tool use
+│   │   └── permissionCheck.ts      # Security controls
+│   └── db/
+│       └── schema.sql
+├── package.json
+└── tsconfig.json
+```
+
+#### P0.5 - Project Structure
 ```
 claudia/
 ├── src/
@@ -241,7 +473,59 @@ type CommandIntent =
   | 'unknown';          // Unrecognized
 ```
 
-#### P3.2 - Agent API Service
+#### P3.2 - Claude Agent SDK Integration (Backend)
+| Task | Priority | Effort | Dependencies |
+|------|----------|--------|--------------|
+| Create AgentExecutor service with SDK | P0 | 8h | @anthropic-ai/claude-agent-sdk |
+| Implement PreToolUse hooks (security) | P0 | 4h | AgentExecutor |
+| Implement PostToolUse hooks (logging) | P0 | 3h | AgentExecutor |
+| Create permission rules for file access | P0 | 3h | AgentExecutor |
+| Stream agent responses to mobile client | P0 | 4h | AgentExecutor |
+| Build agent task queue system | P1 | 6h | AgentExecutor |
+
+**Key Implementation:**
+```typescript
+// backend/src/services/agentExecutor.ts
+import { query } from '@anthropic-ai/claude-agent-sdk';
+
+export class AgentExecutor {
+  async execute(task: AgentTask): Promise<AsyncGenerator<AgentEvent>> {
+    const response = await query({
+      prompt: this.buildPrompt(task),
+      cwd: task.repoLocalPath,
+      model: "claude-sonnet-4-5-20250929",
+      apiKey: process.env.ANTHROPIC_API_KEY,
+      permissionMode: 'default',
+      hooks: {
+        PreToolUse: [{
+          matcher: "Edit|Write|Bash",
+          callback: async (input) => {
+            // Validate tool use against security rules
+            return this.validateToolUse(input, task);
+          }
+        }],
+        PostToolUse: [{
+          matcher: "*",
+          callback: async (input) => {
+            // Log all actions for audit trail
+            await this.logAction(task.id, input);
+            // Emit progress event to mobile client
+            this.emitProgress(task.id, input);
+            return {};
+          }
+        }]
+      }
+    });
+
+    // Stream events to caller
+    for await (const event of response) {
+      yield this.transformEvent(event);
+    }
+  }
+}
+```
+
+#### P3.3 - Agent API Service
 | Task | Priority | Effort | Dependencies |
 |------|----------|--------|--------------|
 | Create AgentApiService | P0 | 6h | TanStack Query |
@@ -250,7 +534,7 @@ type CommandIntent =
 | Real-time status polling | P0 | 4h | AgentApiService |
 | Optimistic updates | P1 | 3h | TanStack Query |
 
-#### P3.3 - CodebaseAnalyzer (P0 Gap)
+#### P3.4 - CodebaseAnalyzer (P0 Gap)
 | Task | Priority | Effort | Dependencies |
 |------|----------|--------|--------------|
 | Create CodebaseAnalyzer service | P0 | 8h | GitHub API |
@@ -259,7 +543,40 @@ type CommandIntent =
 | Relevant file selection with Claude | P0 | 6h | Anthropic API |
 | Caching layer (24h TTL) | P1 | 3h | AsyncStorage |
 
-#### P3.4 - Agent UI
+#### P3.5 - Custom MCP Server (Optional)
+
+Create an MCP server for Claudia analytics that Claude Code can query:
+
+```typescript
+// mcp-servers/claudia-analytics.ts
+// Expose mobile app metrics to Claude Code for debugging/analysis
+
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+
+const server = new Server({ name: 'claudia-analytics', version: '1.0.0' });
+
+server.setRequestHandler('tools/list', async () => ({
+  tools: [
+    {
+      name: 'get_voice_accuracy_metrics',
+      description: 'Get STT accuracy metrics from Claudia mobile app',
+      inputSchema: { type: 'object', properties: { days: { type: 'number' } } }
+    },
+    {
+      name: 'get_agent_execution_logs',
+      description: 'Get recent agent execution logs',
+      inputSchema: { type: 'object', properties: { agentId: { type: 'string' } } }
+    }
+  ]
+}));
+```
+
+**Install in Claude Code:**
+```bash
+claude mcp add --transport stdio claudia-analytics -- node ./mcp-servers/claudia-analytics.js
+```
+
+#### P3.6 - Agent UI
 | Task | Priority | Effort | Dependencies |
 |------|----------|--------|--------------|
 | Agents list screen | P0 | 4h | agentStore |
@@ -424,6 +741,16 @@ Reference: ideas/voice-coding-assistant/CONSOLIDATED_OVERVIEW.md (API section)
 ---
 
 ## Resource Links
+
+### Claude AI Infrastructure (Primary)
+- [Claude Agent SDK - TypeScript](https://github.com/anthropics/claude-agent-sdk-typescript)
+- [Claude Agent SDK - Python](https://github.com/anthropics/claude-agent-sdk-python)
+- [Agent SDK Overview](https://platform.claude.com/docs/en/agent-sdk/overview)
+- [Agent SDK Hooks Reference](https://platform.claude.com/docs/en/agent-sdk/hooks)
+- [Claude Code Hooks Guide](https://code.claude.com/docs/en/hooks)
+- [MCP Servers Documentation](https://code.claude.com/docs/en/mcp)
+- [Slash Commands Reference](https://code.claude.com/docs/en/slash-commands)
+- [Building Agents with Claude](https://www.anthropic.com/engineering/building-agents-with-the-claude-agent-sdk)
 
 ### API Documentation
 - [OpenAI Whisper API](https://platform.openai.com/docs/guides/speech-to-text)
