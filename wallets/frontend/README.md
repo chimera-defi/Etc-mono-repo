@@ -70,6 +70,21 @@ The frontend reads Markdown files from the parent `wallets/` directory:
 | `HARDWARE_WALLET_COMPARISON.md` | `/docs/hardware-wallet-comparison` |
 | `CONTRIBUTING.md` | `/docs/contributing` |
 
+### Wallet data tables (used by `/explore`)
+
+The interactive explorer reads **markdown tables** from the parent `wallets/` directory via `src/lib/wallet-data.ts`.
+
+If you change any of these table column orders, you must update the parser + run tests:
+
+- `WALLET_COMPARISON_UNIFIED_TABLE.md` (software wallets)
+  - Columns: Wallet, Score, Core, Rel/Mo, RPC, GitHub, Active, Chains, Devices, Testnets, License, Audits, Funding, Tx Sim, Scam, Account, ENS/Naming, HW, Best For, Rec
+- `HARDWARE_WALLET_COMPARISON_TABLE.md` (hardware wallets)
+  - Columns: Wallet, Score, GitHub, Air-Gap, Open Source, Secure Elem, Display, Price, Conn, Activity, Rec
+- `CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md` (cards)
+  - Columns: Card, Score, Type, Biz, Region, Cash Back, Annual Fee, FX Fee, Rewards, Provider, Status, Best For
+
+`npm test` runs a lightweight smoke test in `scripts/smoke-test-wallet-data.js` to catch table header/structure drift.
+
 ### Adding New Documents
 
 1. Add a new Markdown file to `wallets/`
@@ -120,6 +135,7 @@ npm run build
 | `npm start` | Start production server |
 | `npm run lint` | Run ESLint |
 | `npm run type-check` | Run TypeScript checks |
+| `npm test` | Run wallet data smoke tests |
 | `npm run generate-og` | Generate page-specific OG images |
 | `npm run validate-cards` | Validate Twitter Cards and OG tags |
 
@@ -213,13 +229,17 @@ getOgImageUrl(title: string, category: string, baseUrl: string): string
 
 ### Page-Specific OG Images
 
-Each comparison page has a custom-generated OG image for social sharing:
+Each comparison page has custom-generated OG images for social sharing:
 
 | Page | OG Image |
 |------|----------|
-| Software Wallets | `/og-software-wallets.png` |
-| Hardware Wallets | `/og-hardware-wallets.png` |
-| Crypto Cards | `/og-crypto-cards.png` |
+| Software Wallets (table) | `/og-software-wallets-table.png` |
+| Software Wallets (details) | `/og-software-wallets-details.png` |
+| Hardware Wallets (table) | `/og-hardware-wallets-table.png` |
+| Hardware Wallets (details) | `/og-hardware-wallets-details.png` |
+| Crypto Cards (table) | `/og-crypto-cards-table.png` |
+| Crypto Cards (details) | `/og-crypto-cards-details.png` |
+| Explore | `/og-explore.png` |
 | Default | `/og-image.png` |
 
 OG images are automatically regenerated on build via `npm run prebuild`.
@@ -335,7 +355,7 @@ Developer-focused crypto wallet research:
 • 23+ hardware wallets reviewed
 • 27+ crypto cards analyzed
 
-Free. Open source. No affiliate links.
+Free. Open source. No affiliate links (currently).
 
 walletradar.org
 ```

@@ -157,7 +157,6 @@
   79. **Conservative estimates for new protocols** - for protocols without proven track record, use conservative estimates: token price at sale price (not projected), APY at sustainable levels (not bootstrap), market share at 30% (not 50%)
   80. **Flag non-transferable tokens** - if tokens aren't tradable yet (locked until TGE), explicitly note this; it's a major risk factor that affects price assumptions
   81. **Revenue in protocol token, costs in fiat** - clarify that liquid staking revenue is in protocol tokens (scales with price) while infrastructure costs are in fiat (fixed); this asymmetry is critical for sensitivity analysis
-
 - Pitch decks and investor presentations:
   82. **Verify math in financial slides** - revenue projections, ROI calculations, and unit economics MUST be mathematically correct; a single math error (e.g., "1,000 users = $10K MRR" when it's actually $1.5K) destroys credibility with investors; always double-check: users × conversion rate × price × 12 months
   83. **Mark placeholders explicitly** - use clear placeholder syntax like `[Your Name]`, `[Date]`, `[Your Email]` and create a checklist document listing all placeholders that need to be filled before presenting; don't leave ambiguous text that might be mistaken for final content
@@ -178,6 +177,11 @@
   96. **Cross-reference related docs** - when creating multiple docs (README, EXECUTIVE_SUMMARY, PITCH_DECK_GUIDE, RISK_ANALYSIS), add "See also" links at relevant sections; helps readers navigate between related content
   97. **Status indicators in file lists** - use emojis/symbols to show status at a glance: "✅ Current", "⚠️ Outdated", "📚 Reference", "🚧 In Progress"; makes scanning large doc lists easier
   98. **Consolidation means organization not deletion** - when user asks to "make docs more concise" or "consolidate", they usually mean "organize better" not "delete content"; add structure, navigation, summaries, but preserve detailed information
+
+- Next.js + data pipeline learnings:
+  99. **Client/server boundary** - never import Node-only modules (`fs`, `path`) into `'use client'` components. If logic must run in both places (filters/sorts), extract it into a client-safe module with no Node imports.
+  100. **Parser drift prevention** - if product UI depends on parsing markdown tables, add regression tests that spot-check a few known rows + column semantics (e.g., “price comes from Price column”) to catch column/index drift early.
+  101. **Structured data honesty** - avoid `AggregateRating`/`Review` markup unless it reflects real user ratings. Prefer editorial-safe schema (e.g., `ItemList` with URLs/descriptions).
 
 ## Best Practices
 - Use semantic versioning for packages

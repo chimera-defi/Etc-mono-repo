@@ -159,8 +159,8 @@ export default function HomePage() {
     ],
   };
 
-  // Review/Rating schema for Top Developer Picks
-  const reviewSchema = {
+  // ItemList schema for Top Picks (editorial selection; no user ratings)
+  const topPicksSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: 'Top Developer Picks - Wallet Radar',
@@ -174,27 +174,9 @@ export default function HomePage() {
           name: 'Rabby Wallet',
           applicationCategory: 'FinanceApplication',
           operatingSystem: 'Web, Desktop, Mobile',
-          aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: '4.6',
-            ratingCount: '1',
-            bestRating: '5',
-            worstRating: '1',
-          },
-          review: {
-            '@type': 'Review',
-            author: {
-              '@type': 'Organization',
-              name: siteName,
-            },
-            datePublished: new Date().toISOString(),
-            reviewBody: 'Score: 92 — Transaction simulation, both platforms, active development. Best for Development with approximately 6 releases per month.',
-            reviewRating: {
-              '@type': 'Rating',
-              ratingValue: '4.6',
-              bestRating: '5',
-            },
-          },
+          url: `${baseUrl}/docs/wallet-comparison-unified-table/`,
+          description:
+            'Score: 92 — Transaction simulation, both platforms, active development. Best for Development with approximately 6 releases per month.',
         },
       },
       {
@@ -208,27 +190,9 @@ export default function HomePage() {
             '@type': 'Brand',
             name: 'Trezor',
           },
-          aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: '4.7',
-            ratingCount: '1',
-            bestRating: '5',
-            worstRating: '1',
-          },
-          review: {
-            '@type': 'Review',
-            author: {
-              '@type': 'Organization',
-              name: siteName,
-            },
-            datePublished: new Date().toISOString(),
-            reviewBody: 'Score: 94 — Fully open source, Secure Element, active development. Best Hardware Wallet at approximately $169.',
-            reviewRating: {
-              '@type': 'Rating',
-              ratingValue: '4.7',
-              bestRating: '5',
-            },
-          },
+          url: `${baseUrl}/docs/hardware-wallet-comparison-table/`,
+          description:
+            'Score: 94 — Fully open source, Secure Element, active development. Best Hardware Wallet at approximately $169.',
         },
       },
       {
@@ -242,27 +206,9 @@ export default function HomePage() {
             '@type': 'Brand',
             name: 'Trezor',
           },
-          aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: '4.55',
-            ratingCount: '1',
-            bestRating: '5',
-            worstRating: '1',
-          },
-          review: {
-            '@type': 'Review',
-            author: {
-              '@type': 'Organization',
-              name: siteName,
-            },
-            datePublished: new Date().toISOString(),
-            reviewBody: 'Score: 91 — $79, Secure Element, fully open source firmware. Best Value hardware wallet with active development.',
-            reviewRating: {
-              '@type': 'Rating',
-              ratingValue: '4.55',
-              bestRating: '5',
-            },
-          },
+          url: `${baseUrl}/docs/hardware-wallet-comparison-table/`,
+          description:
+            'Score: 91 — $79, Secure Element, fully open source firmware. Best Value hardware wallet with active development.',
         },
       },
       {
@@ -276,27 +222,9 @@ export default function HomePage() {
             '@type': 'Brand',
             name: 'Bybit',
           },
-          aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: '4.4',
-            ratingCount: '1',
-            bestRating: '5',
-            worstRating: '1',
-          },
-          review: {
-            '@type': 'Review',
-            author: {
-              '@type': 'Organization',
-              name: siteName,
-            },
-            datePublished: new Date().toISOString(),
-            reviewBody: 'Score: 88 — Up to 10% cashback, multi-crypto rewards, no annual fee. Best Personal crypto card for EEA/CH users.',
-            reviewRating: {
-              '@type': 'Rating',
-              ratingValue: '4.4',
-              bestRating: '5',
-            },
-          },
+          url: `${baseUrl}/docs/crypto-credit-card-comparison-table/`,
+          description:
+            'Score: 88 — Up to 10% cashback, multi-crypto rewards, no annual fee. Best Personal crypto card for EEA/CH users.',
         },
       },
       {
@@ -310,27 +238,9 @@ export default function HomePage() {
             '@type': 'Brand',
             name: 'Reap',
           },
-          aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: '2.75',
-            ratingCount: '1',
-            bestRating: '5',
-            worstRating: '1',
-          },
-          review: {
-            '@type': 'Review',
-            author: {
-              '@type': 'Organization',
-              name: siteName,
-            },
-            datePublished: new Date().toISOString(),
-            reviewBody: 'Score: 55 — Corporate Visa cards with stablecoin repayment, available in 200+ countries. Best Business crypto card for corporate use.',
-            reviewRating: {
-              '@type': 'Rating',
-              ratingValue: '2.75',
-              bestRating: '5',
-            },
-          },
+          url: `${baseUrl}/docs/crypto-credit-card-comparison-table/`,
+          description:
+            'Score: 55 — Corporate Visa cards with stablecoin repayment, available in 200+ countries. Best Business crypto card for corporate use.',
         },
       },
     ],
@@ -344,9 +254,9 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <Script
-        id="review-schema"
+        id="top-picks-schema"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(topPicksSchema) }}
       />
       <div>
       {/* Hero Section */}

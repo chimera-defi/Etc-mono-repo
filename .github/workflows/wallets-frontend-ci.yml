@@ -42,6 +42,9 @@ jobs:
       - name: Type check
         run: npm run type-check
 
+      - name: Test
+        run: npm test
+
       - name: Verify OG images are up-to-date
         run: |
           echo "🖼️ Checking if OG images need regeneration..."
@@ -87,6 +90,7 @@ jobs:
           echo "### Checks Passed" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Lint" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Type check" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Tests" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ OG images up-to-date" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Build" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
