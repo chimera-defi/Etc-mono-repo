@@ -29,6 +29,7 @@ npm run dev
 npm run build          # Build for production
 npm run lint           # ESLint checks
 npm run type-check     # TypeScript verification
+npm test               # Frontend tests (e.g., parser regression)
 npm run validate-cards # Twitter Card validation (after build)
 ```
 
