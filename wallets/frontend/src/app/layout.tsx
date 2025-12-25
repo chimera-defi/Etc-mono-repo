@@ -13,7 +13,7 @@ const GA_MEASUREMENT_ID = 'G-L6ZV569CMN';
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
 const siteName = 'Wallet Radar';
 const defaultTitle = 'Wallet Radar - Developer-Focused Crypto Wallet Research';
-const defaultDescription = 'Comprehensive comparison of software and hardware crypto wallets for developers. Find stable MetaMask alternatives with scoring, security audits, GitHub activity tracking, and developer experience benchmarks. Compare 24+ EVM wallets and 23+ hardware wallets.';
+const defaultDescription = 'Developer-focused crypto wallet comparisons. Find stable MetaMask alternatives with scoring, audit links, GitHub activity, and UX notes for software and hardware wallets.';
 // Cache-busting version for OG images - increment when images are updated
 const ogImageVersion = 'v3';
 

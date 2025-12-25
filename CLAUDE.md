@@ -29,6 +29,7 @@ npm run dev
 npm run build          # Build for production
 npm run lint           # ESLint checks
 npm run type-check     # TypeScript verification
+npm test               # Frontend tests (e.g., parser regression)
 npm run validate-cards # Twitter Card validation (after build)
 ```
 
@@ -84,6 +85,7 @@ Before completing any frontend task:
 - [ ] `npm run build` succeeds
 - [ ] `npm run lint` shows no errors
 - [ ] `npm run type-check` passes
+- [ ] `npm test` passes (when present)
 - [ ] OG images exist and are 1200x630 pixels
 - [ ] Twitter metadata includes: card, title, description, image
 - [ ] All image URLs are absolute (include base URL)
@@ -123,6 +125,7 @@ npm run dev                   # Development server
 npm run build                 # Production build
 npm run lint                  # Lint check
 npm run type-check            # TypeScript check
+npm test                      # Frontend tests (when present)
 npm run generate-og           # Regenerate OG images
 npm run validate-cards        # Validate Twitter Cards (after build)
 
@@ -138,10 +141,11 @@ When reviewing or creating PRs, verify:
 1. **Build passes:** `npm run build` succeeds
 2. **Linting passes:** `npm run lint` shows no errors
 3. **Types pass:** `npm run type-check` has no errors
-4. **No unused code:** All imports and functions are used
-5. **Data preserved:** No accidental deletion of table rows/columns
-6. **Sources documented:** Data changes include verification sources
-7. **Commit messages:** Clear, descriptive commit messages
+4. **Tests pass:** `npm test` passes (when present)
+5. **No unused code:** All imports and functions are used
+6. **Data preserved:** No accidental deletion of table rows/columns
+7. **Sources documented:** Data changes include verification sources
+8. **Commit messages:** Clear, descriptive commit messages
 
 ## External Resources
 

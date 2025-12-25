@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
+    "test": "node scripts/smoke-test-wallet-data.js",
     "generate-og": "node scripts/generate-og-images.js",
     "validate-cards": "node scripts/validate-twitter-cards.js",
     "prebuild": "npm run generate-og"

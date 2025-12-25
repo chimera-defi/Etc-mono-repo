@@ -1,80 +1,8 @@
 import fs from 'fs';
 import path from 'path';
+import type { CryptoCard, HardwareWallet, SoftwareWallet, WalletData } from '@/types/wallets';
 
-// Types for parsed wallet data
-export interface SoftwareWallet {
-  id: string;
-  name: string;
-  score: number;
-  core: 'full' | 'partial' | 'none';
-  releasesPerMonth: number | null;
-  rpc: 'full' | 'partial' | 'none';
-  github: string | null;
-  active: 'active' | 'slow' | 'inactive' | 'private';
-  chains: number | string;
-  devices: {
-    mobile: boolean;
-    browser: boolean;
-    desktop: boolean;
-    web: boolean;
-  };
-  testnets: boolean;
-  license: 'open' | 'partial' | 'closed';
-  licenseType: string;
-  audits: 'recent' | 'old' | 'bounty' | 'none';
-  funding: 'sustainable' | 'vc' | 'risky';
-  fundingSource: string;
-  txSimulation: boolean;
-  scamAlerts: 'full' | 'partial' | 'none';
-  accountTypes: string[];
-  ensNaming: 'full' | 'basic' | 'import' | 'none';
-  hardwareSupport: boolean;
-  bestFor: string;
-  recommendation: 'recommended' | 'situational' | 'avoid' | 'not-for-dev';
-  type: 'software';
-}
-
-export interface HardwareWallet {
-  id: string;
-  name: string;
-  score: number;
-  github: string | null;
-  airGap: boolean;
-  openSource: 'full' | 'partial' | 'closed';
-  secureElement: boolean;
-  secureElementType: string | null;
-  display: string;
-  price: number | null;
-  priceText: string;
-  connectivity: string[];
-  active: 'active' | 'slow' | 'inactive' | 'private';
-  recommendation: 'recommended' | 'situational' | 'avoid';
-  url: string | null;
-  type: 'hardware';
-}
-
-export interface CryptoCard {
-  id: string;
-  name: string;
-  score: number;
-  cardType: 'credit' | 'debit' | 'prepaid' | 'business';
-  businessSupport: 'yes' | 'no' | 'verify';
-  region: string;
-  regionCode: string;
-  cashBack: string;
-  cashBackMax: number | null;
-  annualFee: string;
-  fxFee: string;
-  rewards: string;
-  provider: string;
-  providerUrl: string | null;
-  status: 'active' | 'verify' | 'launching';
-  bestFor: string;
-  recommendation: 'recommended' | 'situational' | 'avoid';
-  type: 'card';
-}
-
-export type WalletData = SoftwareWallet | HardwareWallet | CryptoCard;
+export type { CryptoCard, HardwareWallet, SoftwareWallet, WalletData };
 
 // Path to markdown files (one level up from frontend)
 const CONTENT_DIR = path.join(process.cwd(), '..');
@@ -98,6 +26,13 @@ function parsePartial(cell: string): 'full' | 'partial' | 'none' {
   if (cell.includes('✅')) return 'full';
   if (cell.includes('⚠️')) return 'partial';
   return 'none';
+}
+
+function parseClosedPartialFull(cell: string): 'full' | 'partial' | 'closed' {
+  const status = parsePartial(cell);
+  if (status === 'full') return 'full';
+  if (status === 'partial') return 'partial';
+  return 'closed';
 }
 
 // Parse recommendation symbol
@@ -146,6 +81,7 @@ function parseReleasesPerMonth(cell: string): number | null {
 function parseChainsCount(cell: string): number | string {
   if (cell.toLowerCase().includes('any')) return 'any';
   if (cell.toLowerCase().includes('evm')) return 'evm';
+  if (cell.toLowerCase().includes('eth')) return 'eth';
   const match = cell.match(/(\d+)\+?/);
   return match ? parseInt(match[1], 10) : 0;
 }
@@ -153,8 +89,10 @@ function parseChainsCount(cell: string): number | string {
 // Parse license type
 function parseLicense(cell: string): { status: 'open' | 'partial' | 'closed'; type: string } {
   const status = parsePartial(cell);
-  // Extract license type like MIT, GPL-3, Apache, etc.
-  const typeMatch = cell.match(/(MIT|GPL-3|GPL|Apache|MPL-2|Prop|Src-Avail)/i);
+  // Extract license type like MIT, GPL-3, Apache-2.0, etc.
+  const typeMatch = cell.match(
+    /(MIT|GPL-3\.0|GPL-3|GPL|Apache-2\.0|Apache|MPL-2\.0|MPL-2|BSD-3-Clause|BSD|BUSL-1\.1|BUSL|Unlicensed|Prop|Src-Avail)/i
+  );
   return {
     status: status === 'full' ? 'open' : status === 'partial' ? 'partial' : 'closed',
     type: typeMatch ? typeMatch[1] : 'Unknown',
@@ -206,10 +144,22 @@ function parseEnsNaming(cell: string): 'full' | 'basic' | 'import' | 'none' {
 
 // Parse price from string
 function parsePrice(cell: string): { value: number | null; text: string } {
-  const match = cell.match(/\$(\d+)/);
+  // Examples:
+  // - "~$169"
+  // - "~$50-150*" (DIY range)
+  // - "$0-$17/mo"
+  // - "TBD"
+  const normalized = cell.replace(/[~*]/g, '').trim();
+  const matches = Array.from(normalized.matchAll(/\$(\d+)/g)).map(m => parseInt(m[1], 10));
+  const match = matches[0];
+  const value = matches.length === 0
+    ? null
+    : matches.length === 1
+      ? match
+      : Math.round((Math.min(...matches) + Math.max(...matches)) / 2);
   return {
-    value: match ? parseInt(match[1], 10) : null,
-    text: cell.replace(/[~*]/g, '').trim(),
+    value,
+    text: normalized,
   };
 }
 
@@ -386,7 +336,10 @@ export function parseHardwareWallets(): HardwareWallet[] {
     const name = linkMatch ? linkMatch[1].replace(/~~|^\[|\]$/g, '') : cells[0]?.replace(/[*~[\]]/g, '') || 'Unknown';
     const url = urlMatch ? urlMatch[1] : null;
 
-    const price = parsePrice(cells[6] || '');
+    // Table columns (HARDWARE_WALLET_COMPARISON_TABLE.md):
+    // Wallet(0) Score(1) GitHub(2) Air-Gap(3) Open Source(4) Secure Elem(5)
+    // Display(6) Price(7) Conn(8) Activity(9) Rec(10)
+    const price = parsePrice(cells[7] || '');
 
     return {
       id: generateSlug(name),
@@ -394,7 +347,7 @@ export function parseHardwareWallets(): HardwareWallet[] {
       score: parseInt(cells[1], 10) || 0,
       github: extractGitHubUrl(cells[2] || ''),
       airGap: parseBoolean(cells[3] || ''),
-      openSource: parsePartial(cells[4] || '') as 'full' | 'partial' | 'closed',
+      openSource: parseClosedPartialFull(cells[4] || ''),
       secureElement: parseBoolean(cells[5] || ''),
       secureElementType: cells[5]?.includes('✅') ? cells[5].replace(/✅\s*/, '').trim() || null : null,
       display: cells[6]?.trim() || 'Unknown',
@@ -478,301 +431,15 @@ export function getAllWalletData(): {
 }
 
 /**
- * Filter options for programmatic filtering
- * @future Available for API endpoint implementation
- * Note: ExploreContent.tsx uses its own FilterState for UI state management
+ * Programmatic filtering/sorting utilities.
+ *
+ * Kept as exports from this module for backward compatibility, but implemented
+ * in `wallet-filtering.ts` to avoid duplicated logic and to support client-safe reuse.
  */
-export interface FilterOptions {
-  // Software wallet filters
-  recommendation?: ('recommended' | 'situational' | 'avoid' | 'not-for-dev')[];
-  platforms?: ('mobile' | 'browser' | 'desktop' | 'web')[];
-  license?: ('open' | 'partial' | 'closed')[];
-  features?: ('txSimulation' | 'scamAlerts' | 'hardwareSupport' | 'testnets')[];
-  accountTypes?: string[];
-  active?: ('active' | 'slow' | 'inactive' | 'private')[];
-  funding?: ('sustainable' | 'vc' | 'risky')[];
-
-  // Hardware wallet filters
-  airGap?: boolean;
-  secureElement?: boolean;
-  openSource?: ('full' | 'partial' | 'closed')[];
-  priceRange?: { min: number; max: number };
-  connectivity?: string[];
-
-  // Card filters
-  cardType?: ('credit' | 'debit' | 'prepaid' | 'business')[];
-  region?: string[];
-  businessSupport?: boolean;
-  cashBackMin?: number;
-
-  // Common
-  minScore?: number;
-  maxScore?: number;
-  search?: string;
-}
-
-/**
- * Sort field options
- * @future Available for API endpoint implementation
- */
-export type SortField =
-  | 'score'
-  | 'name'
-  | 'chains'
-  | 'releasesPerMonth'
-  | 'price'
-  | 'cashBackMax';
-export type SortDirection = 'asc' | 'desc';
-
-/**
- * Filter and sort functions for programmatic use
- * @future Available for API endpoint implementation
- * Note: ExploreContent.tsx has its own implementations for client-side filtering
- */
-
-// Filter software wallets
-export function filterSoftwareWallets(
-  wallets: SoftwareWallet[],
-  filters: FilterOptions
-): SoftwareWallet[] {
-  return wallets.filter(wallet => {
-    // Search filter
-    if (filters.search) {
-      const searchLower = filters.search.toLowerCase();
-      const matchesSearch =
-        wallet.name.toLowerCase().includes(searchLower) ||
-        wallet.bestFor.toLowerCase().includes(searchLower) ||
-        wallet.fundingSource.toLowerCase().includes(searchLower);
-      if (!matchesSearch) return false;
-    }
-
-    // Score filter
-    if (filters.minScore !== undefined && wallet.score < filters.minScore) return false;
-    if (filters.maxScore !== undefined && wallet.score > filters.maxScore) return false;
-
-    // Recommendation filter
-    if (filters.recommendation?.length && !filters.recommendation.includes(wallet.recommendation)) {
-      return false;
-    }
-
-    // Platform filter
-    if (filters.platforms?.length) {
-      const hasPlatform = filters.platforms.some(platform => {
-        switch (platform) {
-          case 'mobile': return wallet.devices.mobile;
-          case 'browser': return wallet.devices.browser;
-          case 'desktop': return wallet.devices.desktop;
-          case 'web': return wallet.devices.web;
-          default: return false;
-        }
-      });
-      if (!hasPlatform) return false;
-    }
-
-    // License filter
-    if (filters.license?.length && !filters.license.includes(wallet.license)) {
-      return false;
-    }
-
-    // Features filter
-    if (filters.features?.length) {
-      const hasFeature = filters.features.every(feature => {
-        switch (feature) {
-          case 'txSimulation': return wallet.txSimulation;
-          case 'scamAlerts': return wallet.scamAlerts !== 'none';
-          case 'hardwareSupport': return wallet.hardwareSupport;
-          case 'testnets': return wallet.testnets;
-          default: return true;
-        }
-      });
-      if (!hasFeature) return false;
-    }
-
-    // Account types filter
-    if (filters.accountTypes?.length) {
-      const hasAccountType = filters.accountTypes.some(type =>
-        wallet.accountTypes.includes(type)
-      );
-      if (!hasAccountType) return false;
-    }
-
-    // Activity filter
-    if (filters.active?.length && !filters.active.includes(wallet.active)) {
-      return false;
-    }
-
-    // Funding filter
-    if (filters.funding?.length && !filters.funding.includes(wallet.funding)) {
-      return false;
-    }
-
-    return true;
-  });
-}
-
-// Filter hardware wallets
-export function filterHardwareWallets(
-  wallets: HardwareWallet[],
-  filters: FilterOptions
-): HardwareWallet[] {
-  return wallets.filter(wallet => {
-    // Search filter
-    if (filters.search) {
-      const searchLower = filters.search.toLowerCase();
-      const matchesSearch =
-        wallet.name.toLowerCase().includes(searchLower) ||
-        wallet.display.toLowerCase().includes(searchLower);
-      if (!matchesSearch) return false;
-    }
-
-    // Score filter
-    if (filters.minScore !== undefined && wallet.score < filters.minScore) return false;
-    if (filters.maxScore !== undefined && wallet.score > filters.maxScore) return false;
-
-    // Recommendation filter
-    if (filters.recommendation?.length) {
-      const matchingRecs = filters.recommendation.filter(r => r !== 'not-for-dev');
-      if (matchingRecs.length && !matchingRecs.includes(wallet.recommendation)) {
-        return false;
-      }
-    }
-
-    // Air gap filter
-    if (filters.airGap !== undefined && wallet.airGap !== filters.airGap) {
-      return false;
-    }
-
-    // Secure element filter
-    if (filters.secureElement !== undefined && wallet.secureElement !== filters.secureElement) {
-      return false;
-    }
-
-    // Open source filter
-    if (filters.openSource?.length && !filters.openSource.includes(wallet.openSource)) {
-      return false;
-    }
-
-    // Price range filter
-    if (filters.priceRange && wallet.price !== null) {
-      if (wallet.price < filters.priceRange.min || wallet.price > filters.priceRange.max) {
-        return false;
-      }
-    }
-
-    // Connectivity filter
-    if (filters.connectivity?.length) {
-      const hasConnectivity = filters.connectivity.some(conn =>
-        wallet.connectivity.includes(conn)
-      );
-      if (!hasConnectivity) return false;
-    }
-
-    // Activity filter
-    if (filters.active?.length && !filters.active.includes(wallet.active)) {
-      return false;
-    }
-
-    return true;
-  });
-}
-
-// Filter crypto cards
-export function filterCryptoCards(
-  cards: CryptoCard[],
-  filters: FilterOptions
-): CryptoCard[] {
-  return cards.filter(card => {
-    // Search filter
-    if (filters.search) {
-      const searchLower = filters.search.toLowerCase();
-      const matchesSearch =
-        card.name.toLowerCase().includes(searchLower) ||
-        card.provider.toLowerCase().includes(searchLower) ||
-        card.bestFor.toLowerCase().includes(searchLower);
-      if (!matchesSearch) return false;
-    }
-
-    // Score filter
-    if (filters.minScore !== undefined && card.score < filters.minScore) return false;
-    if (filters.maxScore !== undefined && card.score > filters.maxScore) return false;
-
-    // Card type filter
-    if (filters.cardType?.length && !filters.cardType.includes(card.cardType)) {
-      return false;
-    }
-
-    // Region filter
-    if (filters.region?.length && !filters.region.includes(card.regionCode)) {
-      return false;
-    }
-
-    // Business support filter
-    if (filters.businessSupport !== undefined) {
-      if (filters.businessSupport && card.businessSupport !== 'yes') return false;
-    }
-
-    // Cashback min filter
-    if (filters.cashBackMin !== undefined && card.cashBackMax !== null) {
-      if (card.cashBackMax < filters.cashBackMin) return false;
-    }
-
-    return true;
-  });
-}
-
-// Sort wallets
-export function sortWallets<T extends WalletData>(
-  wallets: T[],
-  field: SortField,
-  direction: SortDirection
-): T[] {
-  return [...wallets].sort((a, b) => {
-    let aValue: number | string = 0;
-    let bValue: number | string = 0;
-
-    switch (field) {
-      case 'score':
-        aValue = a.score;
-        bValue = b.score;
-        break;
-      case 'name':
-        aValue = a.name.toLowerCase();
-        bValue = b.name.toLowerCase();
-        break;
-      case 'chains':
-        if (a.type === 'software' && b.type === 'software') {
-          aValue = typeof a.chains === 'number' ? a.chains : 999;
-          bValue = typeof b.chains === 'number' ? b.chains : 999;
-        }
-        break;
-      case 'releasesPerMonth':
-        if (a.type === 'software' && b.type === 'software') {
-          aValue = a.releasesPerMonth ?? 0;
-          bValue = b.releasesPerMonth ?? 0;
-        }
-        break;
-      case 'price':
-        if (a.type === 'hardware' && b.type === 'hardware') {
-          aValue = a.price ?? 999;
-          bValue = b.price ?? 999;
-        }
-        break;
-      case 'cashBackMax':
-        if (a.type === 'card' && b.type === 'card') {
-          aValue = a.cashBackMax ?? 0;
-          bValue = b.cashBackMax ?? 0;
-        }
-        break;
-    }
-
-    if (typeof aValue === 'string' && typeof bValue === 'string') {
-      return direction === 'asc'
-        ? aValue.localeCompare(bValue)
-        : bValue.localeCompare(aValue);
-    }
-
-    return direction === 'asc'
-      ? (aValue as number) - (bValue as number)
-      : (bValue as number) - (aValue as number);
-  });
-}
+export type { FilterOptions, SortDirection, SortField } from './wallet-filtering';
+export {
+  filterCryptoCards,
+  filterHardwareWallets,
+  filterSoftwareWallets,
+  sortWallets,
+} from './wallet-filtering';

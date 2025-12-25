@@ -5,7 +5,7 @@ import { DocsContent } from './DocsContent';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
 // Cache-busting version for OG images - increment when images are updated
-const ogImageVersion = 'v2';
+const ogImageVersion = 'v3';
 
 export const metadata: Metadata = {
   title: 'Documentation',
@@ -35,6 +35,8 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Documentation | Wallet Radar',
     description: 'Browse all wallet comparison documentation, guides, and research.',
+    creator: '@chimeradefi',
+    site: '@chimeradefi',
     images: [`${baseUrl}/og-image.png?${ogImageVersion}`],
   },
   alternates: {
