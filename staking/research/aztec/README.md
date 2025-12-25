@@ -2,7 +2,7 @@
 
 **Complete research, planning, and strategic materials for building a liquid staking protocol on Aztec Network.**
 
-Last Updated: December 22, 2025
+Last Updated: December 24, 2025
 
 ---
 
@@ -18,17 +18,24 @@ Last Updated: December 22, 2025
 
 2. **[ASSUMPTIONS.md](./ASSUMPTIONS.md)**
    - Critical assumptions registry
-   - Verification status (✅ Verified, ⚠️ Estimated, ❌ Unverified)
+   - Verification status (✅ Verified, 📎 Sourced, ⚠️ Estimated, ❌ Unverified)
    - Validation roadmap and decision triggers
+   - Includes: competitor tracker + validation log (kept inline to avoid extra docs)
    - Update monthly
 
-3. **[IMPLEMENTATION-PLAN.md](./IMPLEMENTATION-PLAN.md)**
+3. **[ECONOMICS.md](./ECONOMICS.md)** ✅ *Source of truth*
+   - Canonical numbers, formulas, and break-even definitions
+   - Explicitly separates **protocol-only** vs **fully-loaded** cost models
+   - Update when assumptions or validation results change
+
+4. **[IMPLEMENTATION-PLAN.md](./IMPLEMENTATION-PLAN.md)**
    - 6-month critical path: Design → Build → Test → Deploy
    - Week-by-week milestones
    - Team requirements, tooling, testnet validation
+   - Includes: distribution/liquidity plan (kept inline to avoid extra docs)
    - Read before starting development
 
-4. **[FUNDRAISING.md](./FUNDRAISING.md)**
+5. **[FUNDRAISING.md](./FUNDRAISING.md)**
    - Investor deck outline (12 slides)
    - Pitch narrative and objection handling
    - Target investors and data room contents
@@ -36,12 +43,14 @@ Last Updated: December 22, 2025
 
 ### Technical Analysis
 
-5. **[liquid-staking-analysis.md](./liquid-staking-analysis.md)**
-   - Comprehensive technical deep-dive (2,400+ lines)
-   - 100% Noir architecture, smart contract specs
-   - Bot infrastructure, security considerations
-   - Market sizing, revenue projections
-   - **Most detailed document** - reference material
+6. **[liquid-staking-analysis.md](./liquid-staking-analysis.md)**
+   - Long-form technical appendix (Noir/Aztec architecture + implementation notes)
+   - Contains some legacy planning sections; canonical docs are listed below
+   - Use as reference material when building
+
+7. **[TASKS.md](./TASKS.md)** ⭐
+   - Discrete, assignable tasks with acceptance criteria
+   - Includes: local sandbox setup notes + agent prompt templates (kept inline to avoid extra docs)
 
 ---
 
@@ -51,7 +60,11 @@ Last Updated: December 22, 2025
 
 - **Understand the opportunity in 5 minutes** → Read EXECUTIVE-SUMMARY.md
 - **Validate key assumptions** → Review ASSUMPTIONS.md
-- **Plan development timeline** → Follow IMPLEMENTATION-PLAN.md
+- **Get the numbers** → Use ECONOMICS.md (source of truth)
+- **Track competitors** → See ASSUMPTIONS.md (Competitive Intelligence section)
+- **Plan distribution/liquidity** → See IMPLEMENTATION-PLAN.md (Integrations & Liquidity section)
+- **Log real validation results** → Append to ASSUMPTIONS.md (Validation Log section)
+- **Plan development timeline** → Follow IMPLEMENTATION-PLAN.md and TASKS.md
 - **Prepare for fundraising** → Use FUNDRAISING.md
 - **Deep-dive technical architecture** → Study liquid-staking-analysis.md
 
@@ -59,7 +72,7 @@ Last Updated: December 22, 2025
 
 ## ✅ Key Findings
 
-### Competitive Intelligence (Verified)
+### Competitive Intelligence (Sourced)
 
 **Confirmed Competitor:**
 - **Olla (by Kryha)** - Featured at Aztec @Devconnect 2025
@@ -72,10 +85,12 @@ Last Updated: December 22, 2025
 
 **Our Window:** 6-12 months to launch before market saturation
 
-### Testnet Availability (Verified)
+**Tracker:** Maintain an up-to-date competitor tracker inside `ASSUMPTIONS.md`.
+
+### Testnet Availability (Sourced)
 
 **Aztec Public Testnet:**
-- Status: ✅ Live since May 2025
+- Status: Live since May 2025 (per Aztec docs)
 - Access: https://testnet.aztec.network/
 - Developer Portal: https://aztec.network/developers
 - 100+ sequencers operational on testnet
@@ -85,18 +100,22 @@ Last Updated: December 22, 2025
 - Measure costs, gas prices, staking mechanics (Weeks 1-3)
 - See IMPLEMENTATION-PLAN.md for full checklist
 
-### Economics (Verified)
+**Where results go:** Add dated findings to `ASSUMPTIONS.md` → Validation Log, then update `ASSUMPTIONS.md` / `ECONOMICS.md` accordingly.
 
-**Revenue Model:**
-- 10% protocol fee (industry standard)
-- Break-even: $62M TVL
-- Target: $100M-$200M TVL (6-12 months post-launch)
-- Margins: 70%+ at scale
+### Economics (Model + Sourced Inputs)
 
-**Capital Requirements:**
-- AZTEC capital: **$0** (users provide 100%)
-- Development: $210k one-time
-- Monthly operations: $56k (servers + team)
+**Revenue Model (definitions matter):**
+- 10% protocol fee on staking rewards (industry standard baseline)
+- **Two break-evens** depending on what you include (see `ECONOMICS.md`):
+  - **Protocol-only break-even** (validators + infra): **$2.25M TVL** @ 8% APY, 10% fee
+  - **Fully-loaded break-even** (team + overhead planning): **~$84M TVL** @ 8% APY, 10% fee
+- “Break-even” figures cited elsewhere in this folder are being standardized to these definitions.
+
+**Capital Requirements (standardized):**
+- **AZTEC capital:** **$0** (users provide 100% of staking capital)
+- **Seed budget planning:** **$500k–$750k** to reach production launch (engineering + audits + runway)
+- **Protocol-only infra (post-launch):** ~**$1.5k/month** (3 validators + baseline infra), excluding salaries
+  - All detailed cost tables live in `ECONOMICS.md` (source of truth)
 
 ---
 
@@ -127,6 +146,8 @@ Last Updated: December 22, 2025
 ---
 
 ## 📊 Documentation Status
+
+*Note:* “✅ Complete” here means the **document is drafted and internally consistent**, not that the underlying engineering work (testnet deployments, audits, mainnet launch) has been executed.
 
 | Document | Completeness | Last Review | Next Review |
 |----------|--------------|-------------|-------------|
@@ -177,9 +198,12 @@ Last Updated: December 22, 2025
 
 **December 22, 2025:**
 - Initial creation of all strategic planning documents
-- Verified competitive intelligence (Olla confirmed)
+- Sourced competitive intelligence (Olla referenced publicly)
 - Validated Aztec testnet availability
 - Added source citations for all factual claims
+
+**December 24, 2025:**
+- Standardized economics definitions and reconciled cross-doc inconsistencies (protocol-only vs fully-loaded break-even)
 
 **Next Update:** January 15, 2026 (or upon major assumption change)
 
@@ -191,7 +215,7 @@ Last Updated: December 22, 2025
 Claims about "two teams building" are based on informal ecosystem communications and Aztec official blog posts. Olla (by Kryha) is the only confirmed competitor with public announcement.
 
 **Cost Estimates:**
-Infrastructure costs ($299/month) verified via vendor pricing pages. Validator costs ($400/month) are estimates based on Ethereum benchmarks - **must validate on Aztec testnet**.
+Infrastructure costs ($299/month) sourced via vendor pricing pages. Validator costs ($400/month) are estimates based on Ethereum benchmarks - **must validate on Aztec testnet**.
 
 **Revenue Projections:**
 Based on 8% staking APR (estimated), 10% protocol fee (industry standard), and TVL assumptions. Actual results may vary significantly.
