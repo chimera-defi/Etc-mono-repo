@@ -16,11 +16,16 @@
 - Vitalik-backed project
 - **First mover advantage still available**
 
+**Deep dive packet:** See [`./aztec/README.md`](./aztec/README.md) (start), and use [`./aztec/ECONOMICS.md`](./aztec/ECONOMICS.md) as the source of truth for numbers.
+**Competitive intel:** Track competitors inside [`./aztec/ASSUMPTIONS.md`](./aztec/ASSUMPTIONS.md).
+**Distribution:** Track launch liquidity + partner plan inside [`./aztec/IMPLEMENTATION-PLAN.md`](./aztec/IMPLEMENTATION-PLAN.md).
+
 **Action Items:**
 - Contact Aztec foundation immediately
 - Research the two teams building fractional staking
 - Assess partnership vs competition strategy
 - Build prototype liquid staking solution
+- Maintain an up-to-date competitor tracker and testnet validation log (see `staking/research/aztec/`)
 
 **Market Potential:** 🌟🌟🌟🌟🌟
 **Timing Urgency:** ⏰⏰⏰⏰⌛ (2 teams already working on it)
@@ -51,7 +56,7 @@
 **Status:** 🟢 Active demand, regulatory clarity achieved
 
 **Key Drivers:**
-- SEC guidance (May 2025): Staking activities ≠ securities
+- Reported SEC guidance (May 2025): “staking activities ≠ securities” (treat as directional until a primary citation is added)
 - Institutional ETH holdings: 6M ETH (5%+ of supply)
 - ETF providers seeking yield opportunities
 - DVT technology matured (Pectra upgrade: 2,048 ETH/validator)
@@ -200,10 +205,10 @@
 ## 🚀 Recommended Action Plan
 
 ### Next 2 Weeks:
-1. ✅ **Aztec deep dive** - Contact teams, assess technology
-2. ✅ **Babylon research** - Understand Bitcoin staking architecture
-3. ✅ **Institutional survey** - Interview potential enterprise customers
-4. ✅ **Competitive analysis** - Detailed teardown of top 3 protocols
+1. 🎯 **Aztec deep dive** - Contact teams, assess technology
+2. 🎯 **Babylon research** - Understand Bitcoin staking architecture
+3. 🎯 **Institutional survey** - Interview potential enterprise customers
+4. 🎯 **Competitive analysis** - Detailed teardown of top 3 protocols
 
 ### Next 1-3 Months:
 5. 🎯 **Build Aztec prototype** - Get to market before competition

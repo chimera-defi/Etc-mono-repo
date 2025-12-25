@@ -1,7 +1,7 @@
 # Aztec Liquid Staking - Executive Summary
 
 **1-Page Strategic Overview**
-*Last Updated: December 24, 2025* (Corrected with verified tokenomics)
+*Last Updated: December 24, 2025* (Corrected with sourced tokenomics + clarified cost-model definitions)
 
 ---
 
@@ -33,10 +33,11 @@
 
 ## Business Model
 
-**Capital Required:**
+**Capital Required (standardized):**
 - **AZTEC Capital:** $0 (users provide 100% of staking capital)
-- **Development:** $450k (contracts + audits + salaries for 6 months)
-- **Monthly Ops:** $1.5k (3 validators @ $400 + infrastructure $294)
+- **Seed budget (plan):** **$500k-$750k** to reach a production launch (engineering + audits + runway)
+- **Protocol-only infra (post-launch):** ~**$1.5k/month** for 3 validators + baseline infra **excluding salaries**
+  - Important: some documents use a **fully-loaded** monthly budget (team + overhead). See `ECONOMICS.md` for the two cost models.
 
 **Revenue Projections:**
 
@@ -47,11 +48,14 @@
 | **Year 2** | 40% | 621M | $24.8M | **$180k** | 91% |
 | **Year 3** | 50% | 777M | $31.1M | **$231k** | 93% |
 
-*Assumes: 8% APR (down from 166% bootstrap), 10% fee, $0.04 token price, $18k/year ops*
+*Assumes: 8% APR (down from 166% bootstrap), 10% fee, $0.04 token price, **protocol-only** ~$18k/year ops*
 
 **Break-even:** $2.25M TVL (56M AZTEC) = **2-4 months post-launch**
 
 **Maximum potential:** $103M TVL → $810k/year profit (if capture 50% of market at 50% staking rate)
+
+**Note on “fully-loaded break-even”:**
+If you include a small team + overhead (e.g., ~$56k/month planning burn used in `FUNDRAISING.md`), the break-even TVL is much higher (rule-of-thumb ~**$84M TVL** at the same APY/fee assumptions). `ECONOMICS.md` makes this explicit.
 
 ---
 
@@ -72,9 +76,9 @@
 
 ---
 
-## Competitive Landscape
+## Competitive Landscape (Sourced signals)
 
-**Verified Competition:**
+**Known competitor signal:**
 1. **Olla (by Kryha)** - Featured at Aztec @Devconnect 2025, early stage
 2. **Unknown Team** - Mentioned in Aztec communications
 
@@ -83,6 +87,18 @@
 - ✅ Vertically integrated (self-operated validators)
 - ✅ Capital efficient ($0 AZTEC needed vs. competitors raising millions)
 - ✅ Privacy-native (leveraging Aztec's #[private] functions Phase 2)
+
+---
+
+## Liquidity & Distribution (Day-1 viability)
+
+Liquid staking only works if the token is actually liquid and useful immediately.
+
+- **Canonical pool:** stAZTEC / AZTEC on a credible Aztec-native swap venue
+- **Sequencing:** pre-launch partner outreach → launch-week pool + comms → post-launch second integration (lending or wallet)
+- **Risks:** thin liquidity and withdrawal pressure; mitigate with conservative buffer policy and staged caps
+
+**Canonical plan:** See `IMPLEMENTATION-PLAN.md` (Integrations & Liquidity section).
 
 ---
 
@@ -141,9 +157,9 @@
 ## Decision Framework
 
 **PROCEED if:**
-- ✅ Can hire 2+ experienced Noir developers within 4 weeks
-- ✅ Aztec testnet validates validator economics ($400/month estimate)
-- ✅ Competitive intel confirms 6+ month window
+- [ ] Can hire 2+ experienced Noir developers within 4 weeks
+- [ ] Aztec testnet validates validator economics ($400/month estimate)
+- [ ] Competitive intel supports a 6+ month window (see `ASSUMPTIONS.md` → Competitor Tracker)
 
 **PAUSE if:**
 - ❌ Olla announces mainnet launch within 8 weeks
@@ -154,7 +170,7 @@
 
 ## Recommendation
 
-**✅ PROCEED IMMEDIATELY**
+**Recommendation (current): PROCEED to validation + build planning**
 
 **Rationale:**
 1. **Ultra-fast break-even:** $2.25M TVL in 2-4 months (only $18k/year ops)

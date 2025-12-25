@@ -2,7 +2,7 @@
 **Design → Build → Test → Deploy**
 
 *6-month critical path to production launch*
-*Last Updated: December 22, 2025*
+*Last Updated: December 24, 2025*
 
 ---
 
@@ -38,6 +38,12 @@
   - Deploy test validator node
   - Set up development Aztec sandbox locally
   - Configure RPC endpoints and indexers
+
+- [ ] Local sandbox smoke test (must pass before serious development)
+  - Compile a minimal Noir contract
+  - Deploy to local sandbox
+  - Call one function successfully
+  - Record evidence in `ASSUMPTIONS.md` → Validation Log (commands, versions, outputs)
 
 - [ ] Development infrastructure
   - GitHub org + repos (contracts, bots, frontend)
@@ -247,7 +253,7 @@
 
 ### Frontend Development (Weeks 20-22)
 - [ ] Simple deposit/withdraw UI
-  - Web3 wallet connection (MetaMask, Rabby)
+  - Wallet/PXE connection (Aztec-compatible wallet tooling; confirm supported options)
   - Deposit flow + transaction confirmation
   - Withdrawal request + claim
   - Portfolio view (stAZTEC balance, exchange rate)
@@ -256,6 +262,40 @@
   - TVL tracking
   - APR calculation
   - User metrics
+
+### Integrations & Liquidity (Weeks 18-24)
+
+**Goal:** ensure stAZTEC is meaningfully liquid and usable on day 1.
+
+- [ ] Identify/confirm Aztec-native swap venue(s) for canonical stAZTEC/AZTEC pool
+- [ ] Draft liquidity bootstrap plan (incentives + LP sourcing + risk policy)
+- [ ] Pre-launch partner outreach (DEX + wallet + ecosystem listing)
+- [ ] Prepare launch-week comms and integration checklist
+
+#### Distribution plan (inline, canonical)
+
+**Non-negotiables (“liquid” definition):**
+- A credible swap venue with usable depth for stAZTEC↔AZTEC
+- A canonical pricing reference (often “the primary pool” early on)
+- A clear redemption story (withdraw queue + buffer policy documented)
+- A distribution channel (Aztec community + at least one partner surface)
+
+**Day‑1 integration targets (categories):**
+1) **DEX / swap liquidity (required)**
+2) **Lending / collateral (high leverage, optional day 1)**
+3) **Wallet/PXE surfaces (distribution)**
+4) **Foundation/ecosystem support (accelerator)**
+
+**Liquidity bootstrap plan (initial):**
+- Canonical pool: **stAZTEC / AZTEC**
+- Optional second pool: only if there’s a credible Aztec-native “bridge asset” demand
+- Liquidity sources: protocol-owned liquidity (later), launch partners, community LP incentives
+- Incentives: prefer points/grants-style early; treat token incentives as a later/legal-sensitive lever
+
+**Sequencing:**
+- Pre-launch: shortlist venue(s) + confirm pool mechanics + token metadata expectations
+- Launch week: ship canonical pool + publish liquidity/redemption docs + comms
+- Weeks 2–6: add second integration surface (lending or wallet) + iterate incentives if depth is insufficient
 
 ### Contract Deployment (Week 23)
 - [ ] Mainnet deployment ceremony
@@ -343,19 +383,19 @@
 ## Success Metrics
 
 ### Week 12 (Contract Development Complete)
-- ✅ 6 contracts deployed to testnet
-- ✅ 100+ tests passing
-- ✅ Public demo functional
+- 🎯 6 contracts deployed to testnet
+- 🎯 100+ tests passing
+- 🎯 Public demo functional
 
 ### Week 22 (Audits Complete)
-- ✅ 2 audit reports, all critical issues resolved
-- ✅ Bug bounty live
-- ✅ Bots operational on testnet
+- 🎯 2 audit reports, all critical issues resolved
+- 🎯 Bug bounty live
+- 🎯 Bots operational on testnet
 
 ### Week 24 (Mainnet Launch)
-- ✅ Contracts deployed to mainnet
-- ✅ 3 validators operational
-- ✅ Frontend live
+- 🎯 Contracts deployed to mainnet
+- 🎯 3 validators operational
+- 🎯 Frontend live
 
 ### Month 3 Post-Launch
 - 🎯 $10M+ TVL
@@ -364,7 +404,7 @@
 - 🎯 No critical security incidents
 
 ### Month 6 Post-Launch
-- 🎯 $50M+ TVL (break-even)
+- 🎯 $50M+ TVL (comfortably funds a small team; protocol-only ops break-even is far lower—see ECONOMICS.md)
 - 🎯 2,000+ unique depositors
 - 🎯 10%+ market share
 - 🎯 Revenue positive
