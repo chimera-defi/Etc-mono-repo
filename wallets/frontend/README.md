@@ -135,7 +135,7 @@ npm run build
 | `npm start` | Start production server |
 | `npm run lint` | Run ESLint |
 | `npm run type-check` | Run TypeScript checks |
-| `npm test` | Run parser regression tests |
+| `npm test` | Run wallet data smoke tests |
 | `npm run generate-og` | Generate page-specific OG images |
 | `npm run validate-cards` | Validate Twitter Cards and OG tags |
 
@@ -229,13 +229,17 @@ getOgImageUrl(title: string, category: string, baseUrl: string): string
 
 ### Page-Specific OG Images
 
-Each comparison page has a custom-generated OG image for social sharing:
+Each comparison page has custom-generated OG images for social sharing:
 
 | Page | OG Image |
 |------|----------|
-| Software Wallets | `/og-software-wallets.png` |
-| Hardware Wallets | `/og-hardware-wallets.png` |
-| Crypto Cards | `/og-crypto-cards.png` |
+| Software Wallets (table) | `/og-software-wallets-table.png` |
+| Software Wallets (details) | `/og-software-wallets-details.png` |
+| Hardware Wallets (table) | `/og-hardware-wallets-table.png` |
+| Hardware Wallets (details) | `/og-hardware-wallets-details.png` |
+| Crypto Cards (table) | `/og-crypto-cards-table.png` |
+| Crypto Cards (details) | `/og-crypto-cards-details.png` |
+| Explore | `/og-explore.png` |
 | Default | `/og-image.png` |
 
 OG images are automatically regenerated on build via `npm run prebuild`.
