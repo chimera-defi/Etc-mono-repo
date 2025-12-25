@@ -73,6 +73,8 @@
 **Commands to Run:**
 ```bash
 # Install Aztec
+# NOTE: local sandbox typically requires a working Docker daemon.
+# See LOCAL-DEV.md for canonical setup + troubleshooting.
 bash -i <(curl -s install.aztec.network)
 
 # Start sandbox

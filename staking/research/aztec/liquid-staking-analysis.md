@@ -625,11 +625,12 @@ fn test_deposit() {
 #### **Aztec Noir Stack** (Required for Aztec Development)
 
 ```bash
-# Install Aztec tooling (includes Noir compiler)
+# Install Aztec tooling (typically requires a working Docker daemon for local sandbox/devnet)
+# See LOCAL-DEV.md for the current recommended local setup and environment constraints.
 bash -i <(curl -s install.aztec.network)
 
-# Or install via npm
-npm install -g @aztec/cli
+# NOTE: npm packages like @aztec/cli may not provide a standalone `aztec` binary.
+# Treat npm installs as library/tooling components unless official docs say otherwise.
 
 # Initialize Aztec project
 aztec-nargo new liquid-staking
@@ -652,6 +653,8 @@ Functions:
 
 ```bash
 # Start local Aztec node
+# This is generally a long-running process and may rely on Docker images.
+# See LOCAL-DEV.md for a time-bounded smoke test and troubleshooting notes.
 aztec start --sandbox
 
 # In another terminal - deploy contracts
@@ -882,6 +885,8 @@ fn only_keeper() {
 
 ```bash
 # 1. Install Aztec tooling
+# Typically requires a working Docker daemon to run the local sandbox.
+# See LOCAL-DEV.md for the canonical local setup instructions.
 bash -i <(curl -s install.aztec.network)
 
 # 2. Create project
@@ -900,7 +905,7 @@ aztec-nargo compile
 aztec-nargo test
 
 # 6. Deploy to sandbox
-aztec start --sandbox  # In separate terminal
+aztec start --sandbox  # In separate terminal (long-running)
 aztec-cli deploy StakedAztecToken
 ```
 
