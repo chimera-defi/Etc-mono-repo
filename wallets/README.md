@@ -4,7 +4,7 @@ Developer-focused comparison of crypto wallets to find stable MetaMask alternati
 
 ## 📊 Main Comparison Tables
 
-**→ [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Software wallets (24 EVM wallets)
+**→ [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Software wallets (26 EVM wallets)
 
 **→ [HARDWARE_WALLET_COMPARISON.md](./HARDWARE_WALLET_COMPARISON.md)** — Hardware cold storage wallets (23 devices)
 
