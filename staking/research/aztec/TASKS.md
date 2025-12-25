@@ -63,7 +63,7 @@
 **Acceptance Criteria:**
 - Can deploy a simple "Hello World" Noir contract to local sandbox
 - Can deploy the same contract to public testnet
-- Documented setup instructions in `/docs/setup.md`
+- Documented setup instructions inline in TASK-001/TASK-001A (and update if Aztec tooling changes)
 
 **Resources:**
 - [Aztec Sandbox Setup](https://docs.aztec.network/developers/docs/getting_started/sandbox)
@@ -72,6 +72,8 @@
 **Commands to Run:**
 ```bash
 # Install Aztec
+# NOTE: local sandbox typically requires a working Docker daemon.
+# If Docker daemon cannot run (e.g., minimal CI environments), do the sandbox smoke test on a machine where it can.
 bash -i <(curl -s install.aztec.network)
 
 # Start sandbox
@@ -82,6 +84,38 @@ aztec-cli --version
 ```
 
 ---
+
+### TASK-001A: Local Sandbox Smoke Tests (compile → deploy → call)
+**Status:** 🔴 Not Started
+**Estimated Time:** 2-6 hours (depends on tooling friction)
+**Priority:** Critical
+**Depends On:** TASK-001
+
+**Context:** Before we validate economics or build real contracts, we need a working local loop. A “smoke test” is the smallest end-to-end check that proves the environment works.
+
+**What’s needed (pre-reqs):**
+- [ ] A machine where the **Docker daemon is running** (`docker info` works)
+- [ ] Aztec installer successfully installed tooling (per official docs)
+- [ ] A local sandbox/devnet can start (usually Docker-backed)
+
+**Smoke test checklist (must all pass):**
+- [ ] `aztec --version` works
+- [ ] Local sandbox starts and stays up (run in its own terminal)
+- [ ] Create a minimal Noir contract project (official template/tutorial)
+- [ ] `aztec-nargo compile` succeeds
+- [ ] Deploy contract to sandbox (capture contract address / tx hash)
+- [ ] Call a simple function and observe expected output/state change
+- [ ] Write a dated entry in `ASSUMPTIONS.md` → “Validation Log” including:
+  - versions installed, commands run, endpoints, outputs
+  - links to logs/tx hashes (or screenshots)
+
+**Acceptance Criteria:**
+- A new “Local sandbox smoke test” entry exists in `ASSUMPTIONS.md` Validation Log
+- Another agent can reproduce by copy/pasting the commands
+
+**Notes (avoid wrong assumptions):**
+- Do **not** assume EVM tooling (MetaMask/wagmi/viem) for local interactions.
+- If a step requires tooling you can’t confirm in Aztec docs, label it **PSEUDOCODE** and record what you tried.
 
 ### TASK-002: Deploy Test Validator on Aztec Testnet
 **Status:** 🔴 Not Started
@@ -183,6 +217,120 @@ await vault.stakeToValidator(validator, 200000); // Cost: $W
 5. Calculate elapsed time
 
 ---
+
+### TASK-005: Create a Single “Validation Results” Log (Aztec)
+**Status:** 🔴 Not Started
+**Estimated Time:** 2 hours
+**Priority:** High
+**Depends On:** None
+
+**Context:** We need one place to record what we actually measured on testnet (dates, configs, outcomes). This prevents drift between `ASSUMPTIONS.md`, `ECONOMICS.md`, and fundraising materials.
+
+**Deliverables:**
+- [ ] Add a “Validation Log” section to `ASSUMPTIONS.md` (if not present)
+- [ ] Template sections: validator requirements, validator costs, tx costs, unbonding/slashing, RPC reliability, notes/links
+- [ ] First entry created (even if it’s “setup complete, no measurements yet”)
+
+**Acceptance Criteria:**
+- File exists and is easy to append to over time (date-stamped entries)
+- Each entry links to the task(s) that produced the data (e.g., TASK-002/003/004/006)
+
+**Resources:**
+- `ASSUMPTIONS.md`
+- `ECONOMICS.md`
+
+---
+
+### TASK-006: Verify Slashing Mechanics (and Delegator Impact)
+**Status:** 🔴 Not Started
+**Estimated Time:** 4 hours
+**Priority:** High
+**Depends On:** TASK-002
+
+**Context:** Slashing parameters and “who eats the loss” (validator vs delegator vs protocol) directly determine insurance fund sizing, withdrawal buffer policy, and user risk disclosures.
+
+**Deliverables:**
+- [ ] Document slashing conditions (what triggers, severity, timing)
+- [ ] Determine how slashing losses flow through to delegated stake (who bears it)
+- [ ] Update `ASSUMPTIONS.md` (slashing penalty row + any new rows needed)
+- [ ] Add a dated entry in `ASSUMPTIONS.md` → Validation Log (from TASK-005)
+
+**Acceptance Criteria:**
+- Slashing penalty and mechanics marked ✅ VERIFIED with a primary source OR explicitly marked ❌ UNVERIFIED with a concrete test plan
+- Clear statement: “If slashing happens, stAZTEC holders experience X via exchange-rate change (or not)” with justification
+
+**Resources:**
+- [Aztec Documentation](https://docs.aztec.network/)
+- [Running a Sequencer](https://docs.aztec.network/the_aztec_network/setup/sequencer_management)
+
+---
+
+### TASK-007: Map Aztec DeFi Surface Area (Integration Targets)
+**Status:** 🔴 Not Started
+**Estimated Time:** 6 hours
+**Priority:** High
+**Depends On:** None
+
+**Context:** Liquid staking wins through distribution and integrations. We need a short, explicit list of day-1 integration targets (DEX liquidity, lending collateral, wallets).
+
+**Deliverables:**
+- [ ] List top Aztec-native DeFi venues (swap, lending, stablecoin rails if applicable)
+- [ ] Identify where an LST can be used on day 1 vs “later”
+- [ ] Update `IMPLEMENTATION-PLAN.md` (Integrations & Liquidity section) with targets and sequencing
+- [ ] Add a short “Integration Targets” section to `IMPLEMENTATION-PLAN.md` (brief append only)
+
+**Acceptance Criteria:**
+- At least 5 concrete integration targets or categories (even if some are “to be confirmed”)
+- Each item includes: why it matters, what we need from them, and expected timeline
+
+**Resources:**
+- `staking/research/liquid-staking-landscape-2025.md`
+- `staking/research/OPPORTUNITIES.md`
+
+---
+
+### TASK-008: Liquidity Bootstrap Plan for stAZTEC (Go-to-Market)
+**Status:** 🔴 Not Started
+**Estimated Time:** 6 hours
+**Priority:** High
+**Depends On:** TASK-007
+
+**Context:** Without early liquidity, a liquid staking token is not “liquid.” We need an explicit bootstrap plan (initial pool(s), incentives, risks).
+
+**Deliverables:**
+- [ ] Define initial liquidity venues/pairs (e.g., stAZTEC/AZTEC, stAZTEC/ETH if bridged)
+- [ ] Incentive plan options (points, LM, grants, partners)
+- [ ] Risks and mitigations (thin liquidity, price impact, withdrawal pressure)
+- [ ] Update `IMPLEMENTATION-PLAN.md` (Integrations & Liquidity section) with the chosen bootstrap plan
+- [ ] Append a “Liquidity & Distribution” section to `EXECUTIVE-SUMMARY.md` (brief)
+
+**Acceptance Criteria:**
+- Plan addresses: initial LP seed source, incentive duration, and success metrics (spread/volume/TVL)
+- Notes any assumptions that must be validated (and links to `ASSUMPTIONS.md`)
+
+---
+
+### TASK-009: Competitive Intelligence Tracker (Aztec Liquid Staking)
+**Status:** 🔴 Not Started
+**Estimated Time:** 4 hours
+**Priority:** High
+**Depends On:** None
+
+**Context:** “Multiple teams are building” is not actionable without names, timelines, and technical approaches. We need a living tracker.
+
+**Deliverables:**
+- [ ] Update `ASSUMPTIONS.md` (Competitor Tracker section; canonical)
+- [ ] Keep `ASSUMPTIONS.md` competitive assumptions in sync (high-level only)
+- [ ] Track: team/project name, links, status, expected launch window, approach (validators vs marketplace vs custodial), differentiation
+- [ ] Update `OPPORTUNITIES.md` Aztec action items with a link to this tracker
+
+**Acceptance Criteria:**
+- Olla by Kryha is captured with current public signals
+- At least 3 additional “leads” are captured (even if unverified), each with a next verification step
+
+**Resources:**
+- `aztec/README.md` (existing competitor citations)
+- [Aztec TGE blog](https://aztec.network/blog/aztec-tge-next-steps)
 
 ## Phase 2: Smart Contract Development (Week 3-14)
 
@@ -822,12 +970,13 @@ assert(totalSupply_after === totalSupply_before + mintAmount)
 
 **Structure:**
 ```typescript
-import { createPublicClient, createWalletClient } from 'viem';
-import { aztec } from 'viem/chains';
+// PSEUDOCODE ONLY:
+// Aztec is not EVM; client libraries and interaction patterns may differ from viem/ethers.
+// Use Aztec’s official SDK/client tooling once selected.
 
 const client = createPublicClient({
-  chain: aztec,
-  transport: http(process.env.AZTEC_RPC_URL)
+  // chain: <aztec chain config>,
+  // transport: <aztec transport>,
 });
 
 // Listen for deposits
@@ -1250,7 +1399,7 @@ aztec-cli verify-contract <address> <contract-name>
 
 **Deliverables:**
 - [ ] Next.js frontend deployed
-- [ ] Wallet connection (MetaMask, Rabby)
+- [ ] Wallet/PXE connection (Aztec-compatible tooling; confirm supported options)
 - [ ] Deposit flow
 - [ ] Withdrawal flow
 - [ ] Portfolio view
@@ -1267,7 +1416,7 @@ aztec-cli verify-contract <address> <contract-name>
 
 **Tech Stack:**
 - Next.js 14
-- wagmi/viem for Web3
+- Aztec-compatible wallet/SDK tooling (TBD; avoid assuming EVM libraries)
 - TailwindCSS
 - Vercel deployment
 
@@ -1300,12 +1449,13 @@ aztec-cli verify-contract <address> <contract-name>
 1/ Introducing stAZTEC - liquid staking for @aztecnetwork 🔐
 
 2/ Problem: 200,000 AZTEC minimum to stake. 70% of holders locked out.
+   (Note: “70%” is a placeholder claim until backed by a source or removed from public-facing comms.)
 
 3/ Solution: Deposit any amount, get stAZTEC, earn 8% APR + DeFi utility
 
 ... (continue with features, team, security)
 
-10/ Live now at staztec.io - audited by [firms], $X bug bounty
+10/ (Launch template) Live at staztec.io - audited by [firms], $X bug bounty
 ```
 
 ---
@@ -1316,6 +1466,11 @@ aztec-cli verify-contract <address> <contract-name>
 Phase 1 (Foundation):
 TASK-001 → TASK-101 (Contract dev needs environment)
 TASK-002 (Validator deployment - parallel)
+TASK-005 (Validation results log - parallel)
+TASK-006 depends on TASK-002 (slashing mechanics)
+TASK-007 (DeFi mapping - parallel)
+TASK-008 depends on TASK-007 (liquidity bootstrap plan)
+TASK-009 (competitor tracker - parallel)
 
 Phase 2 (Contracts):
 TASK-101 → TASK-102 → TASK-103 → TASK-104 → TASK-105
@@ -1357,20 +1512,20 @@ TASK-504 depends on TASK-503
 
 | Phase | Total Tasks | Completed | In Progress | Not Started |
 |-------|-------------|-----------|-------------|-------------|
-| Phase 1 | 4 | 0 | 0 | 4 |
+| Phase 1 | 9 | 0 | 0 | 9 |
 | Phase 2 | 11 | 0 | 0 | 11 |
 | Phase 3 | 4 | 0 | 0 | 4 |
 | Phase 4 | 6 | 0 | 0 | 6 |
 | Phase 5 | 3 | 0 | 0 | 3 |
 | Phase 6 | 4 | 0 | 0 | 4 |
-| **TOTAL** | **32** | **0** | **0** | **32** |
+| **TOTAL** | **37** | **0** | **0** | **37** |
 
 **Critical Path Tasks:** TASK-001, 101, 102, 103, 104, 105, 106, 302, 401, 501
 
 **Next 3 Tasks to Assign:**
 1. TASK-001: Provision Aztec Testnet Environment
 2. TASK-002: Deploy Test Validator
-3. TASK-003: Measure Transaction Costs
+3. TASK-005: Create “Validation Results” Log (so measurements land in one place)
 
 ---
 

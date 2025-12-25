@@ -2,7 +2,7 @@
 **Investor Deck Outline & Pitch Strategy**
 
 *Seed Round: $500k-$750k at $5M-$8M cap*
-*Last Updated: December 22, 2025*
+*Last Updated: December 24, 2025*
 
 ---
 
@@ -37,11 +37,11 @@ Tagline: "Unlock liquidity for 200,000 AZTEC stakers"
 ### Slide 2: Problem
 **High barrier to Aztec staking**
 
-- 200,000 AZTEC minimum ($6,000)
-- Illiquid (7-day unbonding)
+- 200,000 AZTEC minimum (~$8,000 at $0.04 sale-price baseline)
+- Illiquid (unbonding period **TBD**; often cited as ~7 days, must verify on testnet)
 - Misses DeFi opportunities
 
-Visual: Bar chart showing 70% of AZTEC holders have <200k tokens
+Visual: Bar chart showing “% of holders below 200k” (needs a defensible source or must be framed as an assumption)
 
 ### Slide 3: Solution
 **stAZTEC: Liquid Staking Protocol**
@@ -53,11 +53,13 @@ Visual: Bar chart showing 70% of AZTEC holders have <200k tokens
 Visual: User journey diagram (deposit → stAZTEC → DeFi)
 
 ### Slide 4: Market Opportunity
-**$500M-$2B TAM**
+**TVL TAM (at sale-price baseline)**
 
-- Aztec market cap: $1.5B-$3B
-- Staking participation: 40-60%
-- Liquid staking preference: 30-50% (Ethereum: 33%)
+- **Total supply:** 10.35B AZTEC
+- **Sale-price baseline:** $0.04 → **~$414M FDV** (not a price forecast)
+- **Staking participation:** 30-50% (scenario range; validate over time)
+- **TVL TAM @ $0.04:** **$124M-$207M** (see `ECONOMICS.md`)
+- **Liquid preference benchmark:** Ethereum ~33% liquid; Aztec is an assumption until measured
 
 Visual: TAM calculation waterfall
 
@@ -76,9 +78,13 @@ Visual: Competitive positioning matrix (features vs. launch timeline)
 **High-margin SaaS-like economics**
 
 - **Revenue:** 10% of staking rewards
-- **Costs:** $56k/month (servers + team)
-- **Break-even:** $62M TVL (6-12 months)
-- **Margins:** 70%+ at scale
+- **Costs (two models):**
+  - **Protocol-only ops** (validators + infra): ~**$18k/year** (see `ECONOMICS.md`)
+  - **Fully-loaded burn** (team + overhead while building/operating): **~$56k/month** (planning assumption)
+- **Break-even (depends on definition):**
+  - **Protocol-only:** **$2.25M TVL**
+  - **Fully-loaded (rule of thumb):** **~$84M TVL** (at 8% APY, 10% fee)
+- **Margins:** Very high on protocol-only costs; fully-loaded margins depend on headcount/pace
 
 Visual: Revenue projections table by TVL ($10M, $50M, $100M, $200M)
 
@@ -106,9 +112,9 @@ Visual: System architecture diagram (simplified)
 **Testnet live, Olla confirmed competitor**
 
 - ✅ Aztec testnet operational (May 2025)
-- ✅ Competitive intel verified (Olla at Devconnect)
+- ✅ Competitive intel sourced (Olla referenced publicly at Devconnect event)
 - ✅ Noir feasibility confirmed (token tutorial)
-- ✅ Cost estimates validated (AWS pricing)
+- ⚠️ Infra pricing sources compiled (AWS pricing pages); validator requirements/costs still require testnet measurement
 
 Visual: Timeline of milestones achieved
 
@@ -125,7 +131,7 @@ Visual: Timeline of milestones achieved
 Visual: Gantt chart
 
 ### Slide 11: Team
-**Experienced DeFi builders**
+**Team (fill in)**
 
 - Lead Engineer: [Noir/Rust expert]
 - Backend Engineer: [Distributed systems]
@@ -152,25 +158,27 @@ Visual: Pie chart of fund allocation
 ## Pitch Narrative (3-minute version)
 
 **Hook (15 seconds):**
-"Aztec just launched the first privacy-focused Ethereum L2 with native staking. There's $600M staked but no way to unlock that liquidity. We're building the Lido for Aztec."
+"Aztec just launched the first privacy-focused Ethereum L2 with native staking. There’s already ~570M AZTEC staked (~$22.8M at the $0.04 sale-price baseline) but no liquid staking token yet. We’re building the Lido-for-Aztec primitive."
 
 **Problem (30 seconds):**
-"To stake AZTEC, you need 200,000 tokens—that's $6,000. 70% of holders don't have that much. Even if you do, your AZTEC is locked for 7 days when you unstake. You can't use it in DeFi, can't trade it, can't collateralize it. That's a huge opportunity cost in a 200% APY DeFi ecosystem."
+"To stake AZTEC, you need 200,000 tokens—~$8,000 at the $0.04 sale-price baseline. Most holders won’t meet that minimum. Even if you do, staking is illiquid during unbonding (exact period TBD; often quoted ~7 days). Liquid staking solves this by letting users stay liquid while earning staking rewards."
 
 **Solution (30 seconds):**
 "stAZTEC lets you deposit any amount of AZTEC and receive a liquid token that earns staking rewards. You can use stAZTEC everywhere—lend it, trade it, provide liquidity. Think Lido's stETH but for privacy-focused Aztec."
 
 **Market (30 seconds):**
-"Aztec has a $1.5B-$3B market cap. If 40% stake and 30% choose liquid staking, that's $180M-$540M in our TAM. On Ethereum, liquid staking is a $50B market. We're going after the same opportunity on Aztec before it gets crowded."
+"At the $0.04 sale-price baseline, Aztec’s fully diluted value is ~414M. If 30–50% of supply stakes, that’s ~$124M–$207M staked TVL at that baseline price. If even a fraction of that staking shifts to liquid, the first credible provider can become a core DeFi primitive on Aztec."
 
 **Business Model (20 seconds):**
-"We take 10% of staking rewards—that's the industry standard. At $100M TVL, we're doing $800k in annual revenue with 70% margins. We break even at $62M TVL, which is 10% of the staked supply. Very achievable."
+"We take 10% of staking rewards—that’s the industry standard. At $100M TVL, that’s ~$800k in annual revenue at 8% APY. Protocol-only ops break even around $2.25M TVL; fully-loaded break-even depends on team burn (rule of thumb ~$84M TVL at the same assumptions)."
+
+*Note: “break-even” varies by cost model. Protocol-only break-even is far lower; fully-loaded break-even depends on team burn. See `ECONOMICS.md`.*
 
 **Competition (20 seconds):**
 "There's one team we've identified: Olla by Kryha. They just announced at Devconnect but haven't launched. We have a 6-month window to ship first and capture 30-50% market share. In liquid staking, first-mover advantage is huge—Lido has 30% of Ethereum staking."
 
 **Why Us (20 seconds):**
-"We don't need to raise millions for AZTEC capital—users provide that. We just need to build the contracts and run the validators. Our team has Noir expertise, we've validated the tech on testnet, and we can ship in 6 months. Low capital intensity, high margin business."
+"We don't need to raise millions for AZTEC capital—users provide that. We just need to build the contracts and run the validators. Our team can execute in Noir, we’ll validate the key mechanics on testnet, and we can target a ~6‑month path to production. Low capital intensity, high margin business."
 
 **Ask (15 seconds):**
 "We're raising $500k-$750k to get to mainnet. That covers contract development, two security audits, and 6 months of runway. We're talking to Pantera, Framework, and a few Aztec angels. Would love to have you involved."
@@ -234,7 +242,7 @@ Visual: Pie chart of fund allocation
 **Data:** Show capital flow diagram, comparison to Lido (they don't own ETH either).
 
 ### "Noir is too new/risky"
-**Response:** "Noir is production-ready—Aztec mainnet is live. We've validated contract patterns on testnet. We're budgeting for two audits (Trail of Bits + OpenZeppelin) to de-risk. Noir is actually simpler than Solidity for ZK primitives."
+**Response:** "Noir is required on Aztec. We’ll validate contract patterns on testnet and budget for two audits (e.g., firms with Noir/ZK experience) to de-risk. The key is disciplined testing, conservative launch caps, and independent audits—not vibes."
 
 **Data:** Show Aztec mainnet stats, audit firm quotes, Noir documentation maturity.
 
