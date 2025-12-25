@@ -75,7 +75,7 @@ For real local development, run it normally in a dedicated terminal.
 **Goal:** compile + deploy a minimal Noir contract into the local sandbox.
 
 Record evidence in:
-- `VALIDATION-RESULTS.md` (dated entry: “Local sandbox smoke test”)
+- `ASSUMPTIONS.md` → “Validation Log” (dated entry: “Local sandbox smoke test”)
 
 Checklist:
 - [ ] `aztec --version` works

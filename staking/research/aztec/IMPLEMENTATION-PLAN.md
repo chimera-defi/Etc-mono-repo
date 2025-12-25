@@ -39,6 +39,12 @@
   - Set up development Aztec sandbox locally
   - Configure RPC endpoints and indexers
 
+- [ ] Local sandbox smoke test (must pass before serious development)
+  - Compile a minimal Noir contract
+  - Deploy to local sandbox
+  - Call one function successfully
+  - Record evidence in `ASSUMPTIONS.md` → Validation Log (commands, versions, outputs)
+
 - [ ] Development infrastructure
   - GitHub org + repos (contracts, bots, frontend)
   - CI/CD pipelines (GitHub Actions)

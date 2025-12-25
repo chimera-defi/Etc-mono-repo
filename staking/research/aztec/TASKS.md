@@ -86,6 +86,38 @@ aztec-cli --version
 
 ---
 
+### TASK-001A: Local Sandbox Smoke Tests (compile → deploy → call)
+**Status:** 🔴 Not Started
+**Estimated Time:** 2-6 hours (depends on tooling friction)
+**Priority:** Critical
+**Depends On:** TASK-001
+
+**Context:** Before we validate economics or build real contracts, we need a working local loop. A “smoke test” is the smallest end-to-end check that proves the environment works.
+
+**What’s needed (pre-reqs):**
+- [ ] A machine where the **Docker daemon is running** (`docker info` works)
+- [ ] Aztec installer successfully installed tooling (per official docs)
+- [ ] A local sandbox/devnet can start (usually Docker-backed)
+
+**Smoke test checklist (must all pass):**
+- [ ] `aztec --version` works
+- [ ] Local sandbox starts and stays up (run in its own terminal)
+- [ ] Create a minimal Noir contract project (official template/tutorial)
+- [ ] `aztec-nargo compile` succeeds
+- [ ] Deploy contract to sandbox (capture contract address / tx hash)
+- [ ] Call a simple function and observe expected output/state change
+- [ ] Write a dated entry in `ASSUMPTIONS.md` → “Validation Log” including:
+  - versions installed, commands run, endpoints, outputs
+  - links to logs/tx hashes (or screenshots)
+
+**Acceptance Criteria:**
+- A new “Local sandbox smoke test” entry exists in `ASSUMPTIONS.md` Validation Log
+- Another agent can reproduce by copy/pasting the commands
+
+**Notes (avoid wrong assumptions):**
+- Do **not** assume EVM tooling (MetaMask/wagmi/viem) for local interactions.
+- If a step requires tooling you can’t confirm in Aztec docs, label it **PSEUDOCODE** and record what you tried.
+
 ### TASK-002: Deploy Test Validator on Aztec Testnet
 **Status:** 🔴 Not Started
 **Estimated Time:** 8 hours
