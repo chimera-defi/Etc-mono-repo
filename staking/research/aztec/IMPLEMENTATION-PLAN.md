@@ -272,7 +272,30 @@
 - [ ] Pre-launch partner outreach (DEX + wallet + ecosystem listing)
 - [ ] Prepare launch-week comms and integration checklist
 
-**Canonical plan:** `INTEGRATIONS.md`
+#### Distribution plan (inline, canonical)
+
+**Non-negotiables (“liquid” definition):**
+- A credible swap venue with usable depth for stAZTEC↔AZTEC
+- A canonical pricing reference (often “the primary pool” early on)
+- A clear redemption story (withdraw queue + buffer policy documented)
+- A distribution channel (Aztec community + at least one partner surface)
+
+**Day‑1 integration targets (categories):**
+1) **DEX / swap liquidity (required)**
+2) **Lending / collateral (high leverage, optional day 1)**
+3) **Wallet/PXE surfaces (distribution)**
+4) **Foundation/ecosystem support (accelerator)**
+
+**Liquidity bootstrap plan (initial):**
+- Canonical pool: **stAZTEC / AZTEC**
+- Optional second pool: only if there’s a credible Aztec-native “bridge asset” demand
+- Liquidity sources: protocol-owned liquidity (later), launch partners, community LP incentives
+- Incentives: prefer points/grants-style early; treat token incentives as a later/legal-sensitive lever
+
+**Sequencing:**
+- Pre-launch: shortlist venue(s) + confirm pool mechanics + token metadata expectations
+- Launch week: ship canonical pool + publish liquidity/redemption docs + comms
+- Weeks 2–6: add second integration surface (lending or wallet) + iterate incentives if depth is insufficient
 
 ### Contract Deployment (Week 23)
 - [ ] Mainnet deployment ceremony

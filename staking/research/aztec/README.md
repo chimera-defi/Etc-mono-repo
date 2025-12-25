@@ -85,7 +85,7 @@ Last Updated: December 24, 2025
 
 **Our Window:** 6-12 months to launch before market saturation
 
-**Tracker:** Maintain an up-to-date competitor view in `COMPETITORS.md`.
+**Tracker:** Maintain an up-to-date competitor tracker inside `ASSUMPTIONS.md`.
 
 ### Testnet Availability (Sourced)
 
@@ -100,7 +100,7 @@ Last Updated: December 24, 2025
 - Measure costs, gas prices, staking mechanics (Weeks 1-3)
 - See IMPLEMENTATION-PLAN.md for full checklist
 
-**Where results go:** Add dated findings to `VALIDATION-RESULTS.md` and then update `ASSUMPTIONS.md` / `ECONOMICS.md` accordingly.
+**Where results go:** Add dated findings to `ASSUMPTIONS.md` → Validation Log, then update `ASSUMPTIONS.md` / `ECONOMICS.md` accordingly.
 
 ### Economics (Model + Sourced Inputs)
 

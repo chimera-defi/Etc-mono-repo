@@ -98,7 +98,7 @@ Liquid staking only works if the token is actually liquid and useful immediately
 - **Sequencing:** pre-launch partner outreach → launch-week pool + comms → post-launch second integration (lending or wallet)
 - **Risks:** thin liquidity and withdrawal pressure; mitigate with conservative buffer policy and staged caps
 
-**Canonical plan:** See `INTEGRATIONS.md`.
+**Canonical plan:** See `IMPLEMENTATION-PLAN.md` (Integrations & Liquidity section).
 
 ---
 
@@ -159,7 +159,7 @@ Liquid staking only works if the token is actually liquid and useful immediately
 **PROCEED if:**
 - [ ] Can hire 2+ experienced Noir developers within 4 weeks
 - [ ] Aztec testnet validates validator economics ($400/month estimate)
-- [ ] Competitive intel supports a 6+ month window (see `COMPETITORS.md`)
+- [ ] Competitive intel supports a 6+ month window (see `ASSUMPTIONS.md` → Competitor Tracker)
 
 **PAUSE if:**
 - ❌ Olla announces mainnet launch within 8 weeks

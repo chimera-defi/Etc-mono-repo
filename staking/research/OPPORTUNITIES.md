@@ -17,8 +17,8 @@
 - **First mover advantage still available**
 
 **Deep dive packet:** See [`./aztec/README.md`](./aztec/README.md) (start), and use [`./aztec/ECONOMICS.md`](./aztec/ECONOMICS.md) as the source of truth for numbers.
-**Competitive intel:** Keep [`./aztec/COMPETITORS.md`](./aztec/COMPETITORS.md) updated.
-**Distribution:** Track launch liquidity + partner plan in [`./aztec/INTEGRATIONS.md`](./aztec/INTEGRATIONS.md).
+**Competitive intel:** Track competitors inside [`./aztec/ASSUMPTIONS.md`](./aztec/ASSUMPTIONS.md).
+**Distribution:** Track launch liquidity + partner plan inside [`./aztec/IMPLEMENTATION-PLAN.md`](./aztec/IMPLEMENTATION-PLAN.md).
 
 **Action Items:**
 - Contact Aztec foundation immediately

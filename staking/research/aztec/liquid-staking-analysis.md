@@ -626,7 +626,7 @@ fn test_deposit() {
 
 ```bash
 # Install Aztec tooling (typically requires a working Docker daemon for local sandbox/devnet)
-# See LOCAL-DEV.md for the current recommended local setup and environment constraints.
+# NOTE: local sandbox/devnet typically requires Docker; document any successful local setup in ASSUMPTIONS.md → Validation Log.
 bash -i <(curl -s install.aztec.network)
 
 # NOTE: npm packages like @aztec/cli may not provide a standalone `aztec` binary.
@@ -654,7 +654,7 @@ Functions:
 ```bash
 # Start local Aztec node
 # This is generally a long-running process and may rely on Docker images.
-# See LOCAL-DEV.md for a time-bounded smoke test and troubleshooting notes.
+# NOTE: record smoke test evidence in ASSUMPTIONS.md → Validation Log.
 aztec start --sandbox
 
 # In another terminal - deploy contracts
@@ -886,7 +886,7 @@ fn only_keeper() {
 ```bash
 # 1. Install Aztec tooling
 # Typically requires a working Docker daemon to run the local sandbox.
-# See LOCAL-DEV.md for the canonical local setup instructions.
+# NOTE: treat local setup instructions as part of TASKS.md (TASK-001 / TASK-001A).
 bash -i <(curl -s install.aztec.network)
 
 # 2. Create project
@@ -1016,7 +1016,7 @@ When building each contract, verify:
 This document is a **technical appendix**. Canonical economics live in:
 - `ECONOMICS.md` (numbers + formulas + break-even definitions)
 - `ASSUMPTIONS.md` (what’s verified vs estimated)
-- `VALIDATION-RESULTS.md` (what we actually measured)
+- ASSUMPTIONS.md → Validation Log (what we actually measured)
 
 **Key design constraints (why they matter technically):**
 - **Minimum stake is 200,000 AZTEC** → protocol must pool deposits into 200k batches.
@@ -1955,7 +1955,7 @@ Insurance Fund: 5% of TVL target
 ## Competitive landscape (canonical)
 
 Competitive intel changes quickly; keep it centralized:
-- **Competitor tracker:** `COMPETITORS.md`
+- **Competitor tracker:** ASSUMPTIONS.md (Competitor Tracker section)
 - **Assumption status:** `ASSUMPTIONS.md`
 
 ---
@@ -1965,7 +1965,7 @@ Competitive intel changes quickly; keep it centralized:
 To avoid drift across docs, use:
 - **Numbers + formulas:** `ECONOMICS.md`
 - **Fundraising narrative:** `FUNDRAISING.md`
-- **Distribution assumptions (liquidity):** `INTEGRATIONS.md`
+- **Distribution assumptions (liquidity):** IMPLEMENTATION-PLAN.md (Integrations & Liquidity section)
 
 ---
 
@@ -2009,18 +2009,18 @@ This appendix intentionally does not maintain a separate action plan.
 Use the canonical planning docs instead:
 - **Execution plan:** `IMPLEMENTATION-PLAN.md`
 - **Task breakdown:** `TASKS.md`
-- **Competitor tracking:** `COMPETITORS.md`
-- **Distribution/liquidity:** `INTEGRATIONS.md`
-- **Measured validation:** `VALIDATION-RESULTS.md`
+- **Competitor tracking:** ASSUMPTIONS.md (Competitor Tracker section)
+- **Distribution/liquidity:** IMPLEMENTATION-PLAN.md (Integrations & Liquidity section)
+- **Measured validation:** ASSUMPTIONS.md → Validation Log
 
 ---
 
 ## Conclusion
 
 Aztec liquid staking still looks like a strong first-mover opportunity, but execution should be driven by:
-- **Validated network mechanics** (unbonding, slashing, tx costs, validator requirements) → `VALIDATION-RESULTS.md`
-- **A credible liquidity plan** (day-1 swap venue + bootstrap) → `INTEGRATIONS.md`
-- **Up-to-date competitor timelines** → `COMPETITORS.md`
+- **Validated network mechanics** (unbonding, slashing, tx costs, validator requirements) → ASSUMPTIONS.md → Validation Log
+- **A credible liquidity plan** (day-1 swap venue + bootstrap) → IMPLEMENTATION-PLAN.md (Integrations & Liquidity section)
+- **Up-to-date competitor timelines** → ASSUMPTIONS.md (Competitor Tracker section)
 - **A single consistent economics model** → `ECONOMICS.md`
 
 ---

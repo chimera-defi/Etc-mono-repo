@@ -45,6 +45,12 @@ Priority-ranked list of market opportunities with actionable next steps:
 - **Tier 2:** Multi-chain aggregation, Berachain partnership, EigenLayer products
 - **Tier 3:** Long-term exploratory opportunities
 
+### Current review notes (what’s missing / next validation)
+- We have strong directionality, but the highest-leverage gaps are **testnet validation** (unbonding, slashing, tx costs, validator requirements) and **distribution/liquidity planning** for day-1.
+- The Aztec packet now keeps competitor tracking and validation logs **inline** to avoid doc sprawl:
+  - `staking/research/aztec/ASSUMPTIONS.md` (assumptions + competitor tracker + validation log)
+  - `staking/research/aztec/IMPLEMENTATION-PLAN.md` (includes integrations/liquidity plan inline)
+
 ### [Aztec Liquid Staking Packet](./research/aztec/README.md)
 Deep-dive on building an Aztec-native liquid staking protocol (market, architecture, economics, plan).
 

@@ -241,7 +241,7 @@ Interpretation:
 - High margins at scale (model): 88-98% on protocol-only cost assumptions
 - Zero AZTEC capital required (design/property of pooling model)
 - Reported demand baseline: ~570M AZTEC staked (~$22.8M at $0.04 baseline)
-- First-mover opportunity appears plausible, but must be re-checked (see `COMPETITORS.md`)
+- First-mover opportunity appears plausible, but must be re-checked (see ASSUMPTIONS.md → Competitor Tracker)
 
 **Risks:**
 - ⚠️ Token price volatility (non-transferable until TGE Feb 2026+)

@@ -63,18 +63,17 @@
 **Acceptance Criteria:**
 - Can deploy a simple "Hello World" Noir contract to local sandbox
 - Can deploy the same contract to public testnet
-- Documented setup instructions in `LOCAL-DEV.md` (and update it if Aztec tooling changes)
+- Documented setup instructions inline in TASK-001/TASK-001A (and update if Aztec tooling changes)
 
 **Resources:**
 - [Aztec Sandbox Setup](https://docs.aztec.network/developers/docs/getting_started/sandbox)
 - [Aztec CLI Installation](https://docs.aztec.network/developers/docs/getting_started/quickstart)
- - `LOCAL-DEV.md`
 
 **Commands to Run:**
 ```bash
 # Install Aztec
 # NOTE: local sandbox typically requires a working Docker daemon.
-# See LOCAL-DEV.md for canonical setup + troubleshooting.
+# If Docker daemon cannot run (e.g., minimal CI environments), do the sandbox smoke test on a machine where it can.
 bash -i <(curl -s install.aztec.network)
 
 # Start sandbox
@@ -228,7 +227,7 @@ await vault.stakeToValidator(validator, 200000); // Cost: $W
 **Context:** We need one place to record what we actually measured on testnet (dates, configs, outcomes). This prevents drift between `ASSUMPTIONS.md`, `ECONOMICS.md`, and fundraising materials.
 
 **Deliverables:**
-- [ ] New file: `VALIDATION-RESULTS.md`
+- [ ] Add a “Validation Log” section to `ASSUMPTIONS.md` (if not present)
 - [ ] Template sections: validator requirements, validator costs, tx costs, unbonding/slashing, RPC reliability, notes/links
 - [ ] First entry created (even if it’s “setup complete, no measurements yet”)
 
@@ -254,7 +253,7 @@ await vault.stakeToValidator(validator, 200000); // Cost: $W
 - [ ] Document slashing conditions (what triggers, severity, timing)
 - [ ] Determine how slashing losses flow through to delegated stake (who bears it)
 - [ ] Update `ASSUMPTIONS.md` (slashing penalty row + any new rows needed)
-- [ ] Add a dated entry in `VALIDATION-RESULTS.md` (from TASK-005)
+- [ ] Add a dated entry in `ASSUMPTIONS.md` → Validation Log (from TASK-005)
 
 **Acceptance Criteria:**
 - Slashing penalty and mechanics marked ✅ VERIFIED with a primary source OR explicitly marked ❌ UNVERIFIED with a concrete test plan
@@ -277,7 +276,7 @@ await vault.stakeToValidator(validator, 200000); // Cost: $W
 **Deliverables:**
 - [ ] List top Aztec-native DeFi venues (swap, lending, stablecoin rails if applicable)
 - [ ] Identify where an LST can be used on day 1 vs “later”
-- [ ] Update `INTEGRATIONS.md` (canonical) with targets and sequencing
+- [ ] Update `IMPLEMENTATION-PLAN.md` (Integrations & Liquidity section) with targets and sequencing
 - [ ] Add a short “Integration Targets” section to `IMPLEMENTATION-PLAN.md` (brief append only)
 
 **Acceptance Criteria:**
@@ -287,7 +286,6 @@ await vault.stakeToValidator(validator, 200000); // Cost: $W
 **Resources:**
 - `staking/research/liquid-staking-landscape-2025.md`
 - `staking/research/OPPORTUNITIES.md`
-- `INTEGRATIONS.md`
 
 ---
 
@@ -303,7 +301,7 @@ await vault.stakeToValidator(validator, 200000); // Cost: $W
 - [ ] Define initial liquidity venues/pairs (e.g., stAZTEC/AZTEC, stAZTEC/ETH if bridged)
 - [ ] Incentive plan options (points, LM, grants, partners)
 - [ ] Risks and mitigations (thin liquidity, price impact, withdrawal pressure)
-- [ ] Update `INTEGRATIONS.md` (canonical) with the chosen bootstrap plan
+- [ ] Update `IMPLEMENTATION-PLAN.md` (Integrations & Liquidity section) with the chosen bootstrap plan
 - [ ] Append a “Liquidity & Distribution” section to `EXECUTIVE-SUMMARY.md` (brief)
 
 **Acceptance Criteria:**
@@ -321,7 +319,7 @@ await vault.stakeToValidator(validator, 200000); // Cost: $W
 **Context:** “Multiple teams are building” is not actionable without names, timelines, and technical approaches. We need a living tracker.
 
 **Deliverables:**
-- [ ] Update `COMPETITORS.md` (canonical competitor tracker)
+- [ ] Update `ASSUMPTIONS.md` (Competitor Tracker section; canonical)
 - [ ] Keep `ASSUMPTIONS.md` competitive assumptions in sync (high-level only)
 - [ ] Track: team/project name, links, status, expected launch window, approach (validators vs marketplace vs custodial), differentiation
 - [ ] Update `OPPORTUNITIES.md` Aztec action items with a link to this tracker
@@ -333,7 +331,6 @@ await vault.stakeToValidator(validator, 200000); // Cost: $W
 **Resources:**
 - `aztec/README.md` (existing competitor citations)
 - [Aztec TGE blog](https://aztec.network/blog/aztec-tge-next-steps)
- - `COMPETITORS.md`
 
 ## Phase 2: Smart Contract Development (Week 3-14)
 

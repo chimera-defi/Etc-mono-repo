@@ -78,7 +78,7 @@
   16. **Structural verification checklist** - always verify: project structure matches requirements, import paths are correct, all components are used, required files exist
   17. **Dead code detection** - check if all code is actually used; unused code creates confusion
   18. **Documentation consistency** - check for outdated references, contradictory info, missing updates across all docs
-  19. **Never trust without verification** - verify claims against actual framework requirements, even if documentation says it's correct
+  19. **Never trust without verification** - avoid “✅ done/verified” language unless you either (a) cite an official source, or (b) recorded the experiment results (commands + artifacts) in-repo
   20. **Think about runability** - code that looks correct but can't run is worse than no code
 
 - Framework comparison best practices:
