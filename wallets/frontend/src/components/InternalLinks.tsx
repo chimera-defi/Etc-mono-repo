@@ -1,140 +1,74 @@
 'use client';
 
 import Link from 'next/link';
-import {
-  Shield,
-  Cpu,
-  CreditCard,
-  Eye,
-  AlertTriangle,
-  Lock,
-  Smartphone,
-  Globe,
-  Monitor,
-  Zap,
-  Wifi,
-  Fingerprint,
-  ArrowRight,
-} from 'lucide-react';
+import { Shield, Cpu, CreditCard, ArrowRight } from 'lucide-react';
 
-// Feature links - linking to explore page with filters or to doc sections
-// This provides internal linking value without creating thin content pages
-const FEATURE_LINKS = {
-  software: [
-    { label: 'Transaction Simulation', href: '/docs/wallet-comparison-unified-table#transaction-simulation', icon: Eye },
-    { label: 'Scam Protection', href: '/docs/wallet-comparison-unified-table#security', icon: AlertTriangle },
-    { label: 'Open Source', href: '/docs/wallet-comparison-unified-table#license', icon: Lock },
-    { label: 'Hardware Support', href: '/docs/wallet-comparison-unified-details#hardware-wallet-support', icon: Cpu },
-    { label: 'Mobile Apps', href: '/docs/wallet-comparison-unified-table#devices', icon: Smartphone },
-    { label: 'Browser Extensions', href: '/docs/wallet-comparison-unified-table#devices', icon: Globe },
-    { label: 'Desktop Apps', href: '/docs/wallet-comparison-unified-table#devices', icon: Monitor },
-    { label: 'Multi-Chain Support', href: '/docs/wallet-comparison-unified-table#chains', icon: Zap },
-  ],
-  hardware: [
-    { label: 'Air-Gapped Devices', href: '/docs/hardware-wallet-comparison-table#air-gap', icon: Wifi },
-    { label: 'Secure Element', href: '/docs/hardware-wallet-comparison-table#secure-element', icon: Fingerprint },
-    { label: 'Open Source Firmware', href: '/docs/hardware-wallet-comparison-table#open-source', icon: Lock },
-    { label: 'Budget Options', href: '/docs/hardware-wallet-comparison-table#price', icon: CreditCard },
-  ],
-  cards: [
-    { label: 'High Cashback', href: '/docs/crypto-credit-card-comparison-table#cashback', icon: CreditCard },
-    { label: 'No Annual Fee', href: '/docs/crypto-credit-card-comparison-table#fees', icon: CreditCard },
-    { label: 'US Available', href: '/docs/crypto-credit-card-comparison-table#region', icon: CreditCard },
-    { label: 'EU Available', href: '/docs/crypto-credit-card-comparison-table#region', icon: CreditCard },
-  ],
-};
-
-// Full featured links section for homepage
-// Links to existing content pages (comparison tables) which have substantial unique content
+/**
+ * Featured links section for homepage
+ * Links to existing comparison pages with substantial content
+ */
 export function FeaturedCategoryLinks() {
   return (
     <section className="container mx-auto px-4 py-16 border-t border-border">
-      <h2 className="text-2xl font-bold mb-2">Browse by Feature</h2>
+      <h2 className="text-2xl font-bold mb-2">Browse by Category</h2>
       <p className="text-muted-foreground mb-8">
-        Find the perfect wallet based on specific features and requirements.
+        Comprehensive comparison tables with detailed analysis.
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Software Wallet Features */}
-        <div>
-          <div className="flex items-center gap-2 mb-4">
-            <Shield className="h-5 w-5 text-primary" />
-            <h3 className="font-semibold">Software Wallets</h3>
+        {/* Software Wallets */}
+        <Link
+          href="/docs/wallet-comparison-unified-table"
+          className="group p-6 rounded-lg border border-border hover:border-primary/50 hover:bg-muted/50 transition-colors"
+        >
+          <div className="flex items-center gap-2 mb-3">
+            <Shield className="h-6 w-6 text-primary" />
+            <h3 className="font-semibold text-lg">Software Wallets</h3>
           </div>
-          <ul className="space-y-2">
-            {FEATURE_LINKS.software.map(({ label, href }) => (
-              <li key={label}>
-                <Link
-                  href={href}
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  {label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <Link
-            href="/docs/wallet-comparison-unified-table"
-            className="text-sm text-primary hover:underline mt-3 inline-flex items-center gap-1"
-          >
-            View full comparison
+          <p className="text-sm text-muted-foreground mb-4">
+            Compare 24+ EVM wallets. Transaction simulation, scam alerts, multi-chain support, and developer features.
+          </p>
+          <span className="text-sm text-primary inline-flex items-center gap-1 group-hover:underline">
+            View comparison
             <ArrowRight className="h-3 w-3" />
-          </Link>
-        </div>
+          </span>
+        </Link>
 
-        {/* Hardware Wallet Features */}
-        <div>
-          <div className="flex items-center gap-2 mb-4">
-            <Cpu className="h-5 w-5 text-primary" />
-            <h3 className="font-semibold">Hardware Wallets</h3>
+        {/* Hardware Wallets */}
+        <Link
+          href="/docs/hardware-wallet-comparison-table"
+          className="group p-6 rounded-lg border border-border hover:border-primary/50 hover:bg-muted/50 transition-colors"
+        >
+          <div className="flex items-center gap-2 mb-3">
+            <Cpu className="h-6 w-6 text-primary" />
+            <h3 className="font-semibold text-lg">Hardware Wallets</h3>
           </div>
-          <ul className="space-y-2">
-            {FEATURE_LINKS.hardware.map(({ label, href }) => (
-              <li key={label}>
-                <Link
-                  href={href}
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  {label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <Link
-            href="/docs/hardware-wallet-comparison-table"
-            className="text-sm text-primary hover:underline mt-3 inline-flex items-center gap-1"
-          >
-            View full comparison
+          <p className="text-sm text-muted-foreground mb-4">
+            Compare 23+ cold storage devices. Air-gap security, secure elements, open source firmware, and pricing.
+          </p>
+          <span className="text-sm text-primary inline-flex items-center gap-1 group-hover:underline">
+            View comparison
             <ArrowRight className="h-3 w-3" />
-          </Link>
-        </div>
+          </span>
+        </Link>
 
-        {/* Crypto Card Features */}
-        <div>
-          <div className="flex items-center gap-2 mb-4">
-            <CreditCard className="h-5 w-5 text-primary" />
-            <h3 className="font-semibold">Crypto Cards</h3>
+        {/* Crypto Cards */}
+        <Link
+          href="/docs/crypto-credit-card-comparison-table"
+          className="group p-6 rounded-lg border border-border hover:border-primary/50 hover:bg-muted/50 transition-colors"
+        >
+          <div className="flex items-center gap-2 mb-3">
+            <CreditCard className="h-6 w-6 text-primary" />
+            <h3 className="font-semibold text-lg">Crypto Cards</h3>
           </div>
-          <ul className="space-y-2">
-            {FEATURE_LINKS.cards.map(({ label, href }) => (
-              <li key={label}>
-                <Link
-                  href={href}
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  {label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <Link
-            href="/docs/crypto-credit-card-comparison-table"
-            className="text-sm text-primary hover:underline mt-3 inline-flex items-center gap-1"
-          >
-            View full comparison
+          <p className="text-sm text-muted-foreground mb-4">
+            Compare 27+ crypto cards. Cashback rates, annual fees, regional availability, and rewards programs.
+          </p>
+          <span className="text-sm text-primary inline-flex items-center gap-1 group-hover:underline">
+            View comparison
             <ArrowRight className="h-3 w-3" />
-          </Link>
-        </div>
+          </span>
+        </Link>
       </div>
 
       {/* Explore CTA */}
@@ -148,33 +82,5 @@ export function FeaturedCategoryLinks() {
         </Link>
       </div>
     </section>
-  );
-}
-
-// Related content links for footer of pages
-interface RelatedLinksProps {
-  links: Array<{ href: string; label: string; description?: string }>;
-  title?: string;
-}
-
-export function RelatedLinks({ links, title = 'Related Content' }: RelatedLinksProps) {
-  return (
-    <div className="border-t border-border pt-6 mt-8">
-      <h3 className="font-semibold mb-4">{title}</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {links.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className="p-4 rounded-lg border border-border hover:border-primary/50 hover:bg-muted/50 transition-colors"
-          >
-            <span className="font-medium block">{link.label}</span>
-            {link.description && (
-              <span className="text-sm text-muted-foreground">{link.description}</span>
-            )}
-          </Link>
-        ))}
-      </div>
-    </div>
   );
 }
