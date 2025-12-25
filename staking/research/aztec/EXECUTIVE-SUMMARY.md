@@ -76,9 +76,9 @@ If you include a small team + overhead (e.g., ~$56k/month planning burn used in 
 
 ---
 
-## Competitive Landscape
+## Competitive Landscape (Sourced signals)
 
-**Verified Competition:**
+**Known competitor signal:**
 1. **Olla (by Kryha)** - Featured at Aztec @Devconnect 2025, early stage
 2. **Unknown Team** - Mentioned in Aztec communications
 

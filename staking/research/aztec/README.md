@@ -59,6 +59,10 @@ Last Updated: December 24, 2025
    - Liquidity bootstrap sequencing (pre-launch → launch week → post-launch)
    - Keeps “go-to-market” details out of the economics and technical docs
 
+10. **[HANDOFF.md](./HANDOFF.md)** ⭐
+   - Copy/paste prompts + kickoff checklist for future agents
+   - Enforces anti-hallucination rules and “source of truth” boundaries
+
 ---
 
 ## 🎯 Quick Navigation
@@ -79,7 +83,7 @@ Last Updated: December 24, 2025
 
 ## ✅ Key Findings
 
-### Competitive Intelligence (Verified)
+### Competitive Intelligence (Sourced)
 
 **Confirmed Competitor:**
 - **Olla (by Kryha)** - Featured at Aztec @Devconnect 2025
@@ -97,7 +101,7 @@ Last Updated: December 24, 2025
 ### Testnet Availability (Sourced)
 
 **Aztec Public Testnet:**
-- Status: ✅ Live since May 2025
+- Status: Live since May 2025 (per Aztec docs)
 - Access: https://testnet.aztec.network/
 - Developer Portal: https://aztec.network/developers
 - 100+ sequencers operational on testnet
@@ -205,7 +209,7 @@ Last Updated: December 24, 2025
 
 **December 22, 2025:**
 - Initial creation of all strategic planning documents
-- Verified competitive intelligence (Olla confirmed)
+- Sourced competitive intelligence (Olla referenced publicly)
 - Validated Aztec testnet availability
 - Added source citations for all factual claims
 
@@ -222,7 +226,7 @@ Last Updated: December 24, 2025
 Claims about "two teams building" are based on informal ecosystem communications and Aztec official blog posts. Olla (by Kryha) is the only confirmed competitor with public announcement.
 
 **Cost Estimates:**
-Infrastructure costs ($299/month) verified via vendor pricing pages. Validator costs ($400/month) are estimates based on Ethereum benchmarks - **must validate on Aztec testnet**.
+Infrastructure costs ($299/month) sourced via vendor pricing pages. Validator costs ($400/month) are estimates based on Ethereum benchmarks - **must validate on Aztec testnet**.
 
 **Revenue Projections:**
 Based on 8% staking APR (estimated), 10% protocol fee (industry standard), and TVL assumptions. Actual results may vary significantly.

@@ -80,7 +80,7 @@
 - Maximum TVL: $124M-$207M (30-50% of supply staking)
 - Break-even: $2.25M TVL (56M AZTEC, 0.54% of supply)
 - Conservative Year 1: $18.6M TVL → $131k profit
-- All calculations use $0.04 token price (verified actual sale price)
+- All calculations use $0.04 token price (sale-price baseline, sourced)
 
 ---
 

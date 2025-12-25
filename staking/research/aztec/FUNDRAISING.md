@@ -112,7 +112,7 @@ Visual: System architecture diagram (simplified)
 **Testnet live, Olla confirmed competitor**
 
 - ✅ Aztec testnet operational (May 2025)
-- ✅ Competitive intel verified (Olla at Devconnect)
+- ✅ Competitive intel sourced (Olla referenced publicly at Devconnect event)
 - ✅ Noir feasibility confirmed (token tutorial)
 - ⚠️ Infra pricing sources compiled (AWS pricing pages); validator requirements/costs still require testnet measurement
 
@@ -178,7 +178,7 @@ Visual: Pie chart of fund allocation
 "There's one team we've identified: Olla by Kryha. They just announced at Devconnect but haven't launched. We have a 6-month window to ship first and capture 30-50% market share. In liquid staking, first-mover advantage is huge—Lido has 30% of Ethereum staking."
 
 **Why Us (20 seconds):**
-"We don't need to raise millions for AZTEC capital—users provide that. We just need to build the contracts and run the validators. Our team has Noir expertise, we've validated the tech on testnet, and we can ship in 6 months. Low capital intensity, high margin business."
+"We don't need to raise millions for AZTEC capital—users provide that. We just need to build the contracts and run the validators. Our team can execute in Noir, we’ll validate the key mechanics on testnet, and we can target a ~6‑month path to production. Low capital intensity, high margin business."
 
 **Ask (15 seconds):**
 "We're raising $500k-$750k to get to mainnet. That covers contract development, two security audits, and 6 months of runway. We're talking to Pantera, Framework, and a few Aztec angels. Would love to have you involved."
@@ -242,7 +242,7 @@ Visual: Pie chart of fund allocation
 **Data:** Show capital flow diagram, comparison to Lido (they don't own ETH either).
 
 ### "Noir is too new/risky"
-**Response:** "Noir is production-ready—Aztec mainnet is live. We've validated contract patterns on testnet. We're budgeting for two audits (Trail of Bits + OpenZeppelin) to de-risk. Noir is actually simpler than Solidity for ZK primitives."
+**Response:** "Noir is required on Aztec. We’ll validate contract patterns on testnet and budget for two audits (e.g., firms with Noir/ZK experience) to de-risk. The key is disciplined testing, conservative launch caps, and independent audits—not vibes."
 
 **Data:** Show Aztec mainnet stats, audit firm quotes, Noir documentation maturity.
 

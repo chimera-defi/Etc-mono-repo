@@ -247,7 +247,7 @@
 
 ### Frontend Development (Weeks 20-22)
 - [ ] Simple deposit/withdraw UI
-  - Web3 wallet connection (MetaMask, Rabby)
+  - Wallet/PXE connection (Aztec-compatible wallet tooling; confirm supported options)
   - Deposit flow + transaction confirmation
   - Withdrawal request + claim
   - Portfolio view (stAZTEC balance, exchange rate)

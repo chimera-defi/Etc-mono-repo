@@ -227,7 +227,7 @@ The liquid staking market has matured significantly with over **$66 billion lock
 **Key Developments:**
 
 #### Regulatory Clarity (May 2025)
-- SEC guidance confirmed protocol staking activities ≠ securities offerings
+- Reported SEC guidance suggested some protocol staking activities may not be securities offerings (treat as directional until we add a primary citation)
 - Reduced regulatory uncertainty for institutions
 - Accelerated institutional onboarding
 
@@ -299,6 +299,8 @@ The liquid staking market has matured significantly with over **$66 billion lock
 - ⚠️ **Liquid staking NOT YET available**
 - 📋 **Two teams working on fractional staking solutions** (target: token transferability date)
 - 🎯 **HIGH OPPORTUNITY:** First mover advantage for liquid staking provider
+
+*Note:* “Native staking is LIVE” is based on Aztec’s public staking dashboard and secondary reporting; treat as “sourced” rather than personally validated in this repo.
 
 **Market Potential:**
 - Privacy L2 is unique positioning

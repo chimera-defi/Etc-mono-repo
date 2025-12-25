@@ -938,12 +938,13 @@ assert(totalSupply_after === totalSupply_before + mintAmount)
 
 **Structure:**
 ```typescript
-import { createPublicClient, createWalletClient } from 'viem';
-import { aztec } from 'viem/chains';
+// PSEUDOCODE ONLY:
+// Aztec is not EVM; client libraries and interaction patterns may differ from viem/ethers.
+// Use Aztec’s official SDK/client tooling once selected.
 
 const client = createPublicClient({
-  chain: aztec,
-  transport: http(process.env.AZTEC_RPC_URL)
+  // chain: <aztec chain config>,
+  // transport: <aztec transport>,
 });
 
 // Listen for deposits
@@ -1366,7 +1367,7 @@ aztec-cli verify-contract <address> <contract-name>
 
 **Deliverables:**
 - [ ] Next.js frontend deployed
-- [ ] Wallet connection (MetaMask, Rabby)
+- [ ] Wallet/PXE connection (Aztec-compatible tooling; confirm supported options)
 - [ ] Deposit flow
 - [ ] Withdrawal flow
 - [ ] Portfolio view
@@ -1383,7 +1384,7 @@ aztec-cli verify-contract <address> <contract-name>
 
 **Tech Stack:**
 - Next.js 14
-- wagmi/viem for Web3
+- Aztec-compatible wallet/SDK tooling (TBD; avoid assuming EVM libraries)
 - TailwindCSS
 - Vercel deployment
 
@@ -1422,7 +1423,7 @@ aztec-cli verify-contract <address> <contract-name>
 
 ... (continue with features, team, security)
 
-10/ Live now at staztec.io - audited by [firms], $X bug bounty
+10/ (Launch template) Live at staztec.io - audited by [firms], $X bug bounty
 ```
 
 ---

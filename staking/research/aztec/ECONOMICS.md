@@ -1,6 +1,6 @@
 # Aztec Liquid Staking - Economics
 
-**Complete financial analysis with verified data**
+**Financial model with sourced inputs (pending validation)**
 *Last Updated: December 24, 2025*
 
 ---
@@ -234,14 +234,14 @@ Interpretation:
 
 ---
 
-## ✅ Business Viability
+## Business viability (model-based, pending validation)
 
 **Strengths:**
-- ✅ Ultra-low break-even: $2.25M TVL (2-4 months)
-- ✅ Exceptional margins: 88-98% at scale
-- ✅ Zero AZTEC capital required
-- ✅ Proven demand: $22.8M already staked
-- ✅ First-mover advantage (no liquid staking live)
+- Ultra-low protocol-only break-even (model): $2.25M TVL (2-4 months)
+- High margins at scale (model): 88-98% on protocol-only cost assumptions
+- Zero AZTEC capital required (design/property of pooling model)
+- Reported demand baseline: ~570M AZTEC staked (~$22.8M at $0.04 baseline)
+- First-mover opportunity appears plausible, but must be re-checked (see `COMPETITORS.md`)
 
 **Risks:**
 - ⚠️ Token price volatility (non-transferable until TGE Feb 2026+)

@@ -21,12 +21,12 @@ Aztec Network presents a **first-mover opportunity** for liquid staking on a pri
 - **Network Type:** Privacy-first ZK-Rollup L2 on Ethereum [^5]
 - **Backing:** Vitalik-supported project [^6]
 
-[^1]: [Aztec Network Blog - TGE Next Steps](https://aztec.network/blog/aztec-tge-next-steps) (verified Dec 22, 2025)
-[^2]: [Running a Sequencer | Aztec Documentation](https://docs.aztec.network/the_aztec_network/setup/sequencer_management) (verified Dec 22, 2025)
-[^3]: [Aztec Staking Dashboard](https://stake.aztec.network/) (verified Dec 22, 2025)
-[^4]: [Aztec Network Token Sale Overview | LaikaLabs](https://laikalabs.ai/en/blogs/aztec-network-token-sale-overview) (verified Dec 22, 2025)
-[^5]: [What Is Aztec Network? | CoinGecko](https://www.coingecko.com/learn/what-is-aztec-network-ethereum-privacy-layer-2) (verified Dec 22, 2025)
-[^6]: [Analyzing Aztec's Decentralized Sequencer Solution | Gate.com](https://www.gate.com/learn/articles/analyzing-aztecs-decentralized-sequencer-solution/1918) (verified Dec 22, 2025)
+[^1]: [Aztec Network Blog - TGE Next Steps](https://aztec.network/blog/aztec-tge-next-steps) (accessed Dec 22, 2025)
+[^2]: [Running a Sequencer | Aztec Documentation](https://docs.aztec.network/the_aztec_network/setup/sequencer_management) (accessed Dec 22, 2025)
+[^3]: [Aztec Staking Dashboard](https://stake.aztec.network/) (accessed Dec 22, 2025)
+[^4]: [Aztec Network Token Sale Overview | LaikaLabs](https://laikalabs.ai/en/blogs/aztec-network-token-sale-overview) (accessed Dec 22, 2025)
+[^5]: [What Is Aztec Network? | CoinGecko](https://www.coingecko.com/learn/what-is-aztec-network-ethereum-privacy-layer-2) (accessed Dec 22, 2025)
+[^6]: [Analyzing Aztec's Decentralized Sequencer Solution | Gate.com](https://www.gate.com/learn/articles/analyzing-aztecs-decentralized-sequencer-solution/1918) (accessed Dec 22, 2025)
 
 ---
 
@@ -38,8 +38,8 @@ Aztec Network presents a **first-mover opportunity** for liquid staking on a pri
 ┌─────────────────────────────────────────────────────────────────────────────────┐
 │                              USER LAYER                                          │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐        │
-│  │   Retail     │  │ Institutional│  │     DeFi     │  │   Wallets    │        │
-│  │    Users     │  │   Investors  │  │  Protocols   │  │  (Metamask)  │        │
+│  │   Retail     │  │ Institutional│  │     DeFi     │  │ Wallet/PXE   │        │
+│  │    Users     │  │   Investors  │  │  Protocols   │  │ (Aztec tool) │        │
 │  │ (<200k AZTEC)│  │  (Any amount)│  │  (Aave, etc) │  │              │        │
 │  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘        │
 │         │                 │                  │                  │                │
@@ -142,7 +142,7 @@ Aztec Network presents a **first-mover opportunity** for liquid staking on a pri
 │                                                                                   │
 │  Technology Stack:                                                                │
 │  - Runtime: Node.js 20+ (TypeScript 5.3+)                                        │
-│  - Web3 Library: viem (recommended for Aztec)                                    │
+│  - Client/SDK: use Aztec’s official SDK/client tooling (do not assume EVM libs)  │
 │  - Queue: BullMQ (Redis-backed job scheduling)                                   │
 │  - Monitoring: Prometheus + Grafana                                              │
 │  - Alerts: PagerDuty / Telegram Bot                                              │
@@ -664,6 +664,8 @@ aztec-cli send deposit --args 100000 --contract-address 0x...
 #### **Testing Workflow:**
 ```typescript
 // Test Noir contracts with TypeScript
+// NOTE: SDK import names/packages change over time.
+// Treat this as illustrative pseudocode and confirm current Aztec client library in official docs.
 import { AztecSDK, Contract } from '@aztec/aztec.js';
 import { liquidStakingArtifact } from './artifacts';
 
@@ -954,6 +956,8 @@ fn mint(to: AztecAddress, amount: u128) {
 
 ```typescript
 // TypeScript tests using Aztec.js
+// NOTE: SDK import names/packages change over time.
+// Treat this as illustrative pseudocode and confirm current Aztec client library in official docs.
 import { AztecSDK, Contract } from '@aztec/aztec.js';
 
 describe('Liquid Staking', () => {
@@ -1030,7 +1034,7 @@ Liquid staking protocols require 24/7 automation for:
 
 All bots will be written in **TypeScript/Node.js** for:
 - ✅ Strong typing (TypeScript)
-- ✅ Mature Web3 libraries (viem, ethers.js)
+- ⚠️ Client libraries/tooling must be validated against current Aztec docs (do not assume viem/ethers apply)
 - ✅ Easy async/await (promises)
 - ✅ Rich ecosystem (npm packages)
 - ✅ Team familiarity (most devs know JS/TS)
@@ -1057,7 +1061,9 @@ All bots will be written in **TypeScript/Node.js** for:
 // staking-keeper/src/index.ts
 import { createPublicClient, createWalletClient, parseAbi } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
-import { aztec } from 'viem/chains';  // Custom Aztec chain config
+// PSEUDOCODE ONLY: Aztec is not EVM; do not assume `viem/chains` has an Aztec chain config.
+// Use Aztec’s official client tooling.
+import { aztec } from 'viem/chains';  // placeholder
 
 const client = createPublicClient({
   chain: aztec,
@@ -1502,7 +1508,7 @@ TOTAL MONTHLY COST: ~$409/month
 
 **Note:** Removed Oracle and Rebalancing bots from cost estimates (we consume Aztec's metrics directly and run our own validators).
 
-[^8]: **Infrastructure Pricing Sources** (verified Dec 22, 2025):
+[^8]: **Infrastructure Pricing Sources** (accessed Dec 22, 2025):
   - Kubernetes: [AWS EKS Pricing](https://aws.amazon.com/eks/pricing/) - 3× t3.medium nodes ≈ $150/month
   - Redis: [AWS ElastiCache](https://aws.amazon.com/elasticache/pricing/) - cache.t3.micro ≈ $50/month
   - Grafana Cloud: [Grafana Cloud Pricing](https://grafana.com/pricing/) - Pro plan $49/month
@@ -1572,10 +1578,9 @@ function getExchangeRate() returns (uint256 rate)
 **Recommendation:** **Option B (Reward-Bearing)** for better DeFi composability
 
 **Token Features:**
-- ERC-20 compatible
-- Transfer restrictions during unstaking period
-- Oracle for exchange rate
-- Permit (EIP-2612) for gasless approvals
+- Token interface: **Aztec token contract patterns (Noir)** — *do not assume ERC-20 / EIP-2612 compatibility*
+- Transfer restrictions during unstaking period (if feasible in Aztec token patterns)
+- Exchange-rate tracking (reward-bearing model)
 
 #### 1.3 Vault Manager
 **Purpose:** Pool management and validator coordination
