@@ -142,10 +142,10 @@ When reviewing or creating PRs, verify:
 2. **Linting passes:** `npm run lint` shows no errors
 3. **Types pass:** `npm run type-check` has no errors
 4. **Tests pass:** `npm test` passes (when present)
-4. **No unused code:** All imports and functions are used
-5. **Data preserved:** No accidental deletion of table rows/columns
-6. **Sources documented:** Data changes include verification sources
-7. **Commit messages:** Clear, descriptive commit messages
+5. **No unused code:** All imports and functions are used
+6. **Data preserved:** No accidental deletion of table rows/columns
+7. **Sources documented:** Data changes include verification sources
+8. **Commit messages:** Clear, descriptive commit messages
 
 ## External Resources
 
