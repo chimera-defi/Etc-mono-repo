@@ -311,7 +311,7 @@ export function parseSoftwareWallets(): SoftwareWallet[] {
       recommendation: parseRecommendation(cells[19] || ''),
       type: 'software' as const,
     };
-  }).filter(wallet => wallet.name !== 'Unknown' && wallet.score > 0);
+  }).filter(wallet => wallet.name !== 'Unknown' && wallet.score > 0 && wallet.id !== '');
 }
 
 // Parse hardware wallets from markdown
@@ -359,7 +359,7 @@ export function parseHardwareWallets(): HardwareWallet[] {
       url,
       type: 'hardware' as const,
     };
-  }).filter(wallet => wallet.name !== 'Unknown' && wallet.score > 0);
+  }).filter(wallet => wallet.name !== 'Unknown' && wallet.score > 0 && wallet.id !== '');
 }
 
 // Parse crypto cards from markdown
@@ -411,7 +411,7 @@ export function parseCryptoCards(): CryptoCard[] {
       recommendation: parseHardwareRecommendation(cells[1] || ''), // Uses score emoji
       type: 'card' as const,
     };
-  }).filter(card => card.name !== 'Unknown' && card.score > 0);
+  }).filter(card => card.name !== 'Unknown' && card.score > 0 && card.id !== '');
 }
 
 /**

@@ -4,6 +4,7 @@ import { ArrowRight, Shield, Cpu, BookOpen, Github, Zap, CheckCircle, CreditCard
 import { getAllDocuments, getWalletStats } from '@/lib/markdown';
 import { WalletCard } from '@/components/WalletCard';
 import { StatsCard } from '@/components/StatsCard';
+import { FeaturedCategoryLinks } from '@/components/InternalLinks';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
 const siteName = 'Wallet Radar';
@@ -487,6 +488,9 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* Browse by Feature - Internal Links for SEO */}
+      <FeaturedCategoryLinks />
 
       {/* Data Sources */}
       <section className="container mx-auto px-4 py-16 border-t border-border">

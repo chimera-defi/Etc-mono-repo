@@ -5,28 +5,33 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const documents = getAllDocuments();
-  
-  // Homepage
-  const routes: MetadataRoute.Sitemap = [
+  const currentDate = new Date();
+
+  // Static pages with high priority
+  const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: `${baseUrl}/`,
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency: 'weekly',
       priority: 1.0,
     },
-    // Docs index page
+    {
+      url: `${baseUrl}/explore/`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
     {
       url: `${baseUrl}/docs/`,
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
   ];
 
-  // Add all document pages
-  documents.forEach((doc) => {
-    // Parse date safely - handle invalid dates
-    let lastModified = new Date();
+  // Document pages - these have substantial unique content
+  const documentRoutes: MetadataRoute.Sitemap = documents.map((doc) => {
+    let lastModified = currentDate;
     if (doc.lastUpdated) {
       try {
         const parsedDate = new Date(doc.lastUpdated);
@@ -37,14 +42,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
         // Keep default date if parsing fails
       }
     }
-    
-    routes.push({
+
+    // Higher priority for comparison tables, lower for other docs
+    const isComparisonTable = doc.slug.includes('-table');
+    const isComparisonDetails = doc.slug.includes('-details');
+
+    return {
       url: `${baseUrl}/docs/${doc.slug}/`,
-      lastModified: lastModified,
+      lastModified,
       changeFrequency: doc.category === 'comparison' ? 'weekly' : 'monthly',
-      priority: doc.category === 'comparison' ? 0.9 : 0.7,
-    });
+      priority: isComparisonTable ? 0.9 : isComparisonDetails ? 0.85 : 0.7,
+    };
   });
 
-  return routes;
+  return [
+    ...staticRoutes,
+    ...documentRoutes,
+  ];
 }
