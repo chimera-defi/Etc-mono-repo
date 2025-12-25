@@ -1,19 +1,56 @@
-# Voice-Enabled AI Coding Assistant 🎤🤖
+# Vox: Voice-Enabled AI Coding Assistant 🎤🤖
 
 > **The first mobile-native AI coding assistant with voice interface**
 >
-> Built on research from [PR #35](https://github.com/chimera-defi/Etc-mono-repo/pull/35) | Status: **Planning Complete** | Decision: **CONDITIONAL GO**
+> Built on Claude Agent SDK | Status: **Architecture Complete** | Decision: **CONDITIONAL GO**
 
 ---
 
-## 🎯 Quick Links
+## 📁 Documentation Map
 
-| For... | Read This | Time |
-|--------|-----------|------|
-| **Decision makers** | [Executive Summary](./EXECUTIVE_SUMMARY.md) | 5 min |
-| **Investors** | [Pitch Deck](./pitch-deck/) | 15 min |
-| **Implementers** | [Consolidated Overview](./CONSOLIDATED_OVERVIEW.md) | 30 min |
-| **Risk assessment** | [Risk Analysis](./RISK_ANALYSIS_AND_VIABILITY.md) | 60 min |
+```
+voice-coding-assistant/
+│
+├── README.md                    ← You are here (start here)
+│
+├── 01-planning/                 # Business & Strategy
+│   ├── EXECUTIVE_SUMMARY.md     # 5-min overview for decision makers
+│   ├── RISK_ANALYSIS_AND_VIABILITY.md  # Comprehensive risk assessment
+│   └── PITCH_DECK_GUIDE.md      # Investor presentation guide
+│
+├── 02-architecture/             # Technical Design
+│   ├── CONSOLIDATED_OVERVIEW.md # Technical architecture source of truth
+│   ├── ARCHITECTURE_DIAGRAMS.md # System flows, data models
+│   ├── ARCHITECTURE_REVIEW.md   # Unknown unknowns, gaps, missing pieces
+│   └── CONSOLIDATED_CLAUDE_ARCHITECTURE.md  # Cursor → Claude SDK mapping
+│
+├── 03-development/              # Implementation
+│   ├── DEVELOPMENT_KICKOFF.md   # Task breakdown, prompts, Claude AI setup
+│   ├── TECHNICAL_DECISIONS_REVIEW.md  # All 12 tech decisions validated
+│   ├── MARKET_RESEARCH_AND_FEATURE_PARITY.md  # Cursor feature parity
+│   └── STT_WISPR_FLOW_QUALITY.md # Whisper API specs, 95-98% accuracy
+│
+├── 04-design/                   # UI/UX
+│   └── UI_WIREFRAMES.md         # 10 screen mockups
+│
+├── pitch-deck/                  # Investor Materials
+│   └── ...                      # LaTeX + HTML presentations
+│
+└── assets/                      # Screenshots, images
+    └── ...
+```
+
+---
+
+## 🎯 Reading Order
+
+| Audience | Start Here | Then Read | Time |
+|----------|------------|-----------|------|
+| **Decision makers** | [Executive Summary](./01-planning/EXECUTIVE_SUMMARY.md) | [Risk Analysis](./01-planning/RISK_ANALYSIS_AND_VIABILITY.md) | 15 min |
+| **Investors** | [Pitch Deck](./pitch-deck/) | [Executive Summary](./01-planning/EXECUTIVE_SUMMARY.md) | 20 min |
+| **Architects** | [Architecture Review](./02-architecture/ARCHITECTURE_REVIEW.md) | [Claude SDK Mapping](./02-architecture/CONSOLIDATED_CLAUDE_ARCHITECTURE.md) | 45 min |
+| **Developers** | [Development Kickoff](./03-development/DEVELOPMENT_KICKOFF.md) | [Technical Decisions](./03-development/TECHNICAL_DECISIONS_REVIEW.md) | 60 min |
+| **Everyone** | This README | All of the above | 2 hrs |
 
 ---
 
@@ -22,7 +59,7 @@
 A **mobile app** that lets developers:
 - 🎤 **Code with voice** - 3.75x faster than typing (150 WPM vs 40 WPM)
 - 📱 **Work anywhere** - Code on phone/tablet, not just desk
-- 🤖 **AI agents** - Autonomous coding assistants that understand your codebase
+- 🤖 **AI agents** - Autonomous coding assistants powered by Claude Agent SDK
 - 🔔 **Stay updated** - Real-time progress, push notifications
 
 **Example:**
@@ -38,155 +75,95 @@ App:  📱 "Done! 4 files changed, +127 lines. PR ready."
 
 ---
 
-## 📚 Documentation
-
-### Essential Documents
-
-| Document | Purpose | Length |
-|----------|---------|--------|
-| **[Executive Summary](./EXECUTIVE_SUMMARY.md)** | One-page overview, key decisions | 1 page |
-| **[Risk Analysis](./RISK_ANALYSIS_AND_VIABILITY.md)** | Comprehensive risk assessment, market analysis | 1,000 lines |
-| **[Consolidated Overview](./CONSOLIDATED_OVERVIEW.md)** | Technical architecture, implementation plan | 600 lines |
-| **[Pitch Deck Guide](./PITCH_DECK_GUIDE.md)** | Investor presentation template | 15 slides |
-| **[Pitch Deck](./pitch-deck/)** | LaTeX + HTML presentation formats | Multiple |
-
-### Supporting Research
-
-| Document | What's Inside |
-|----------|---------------|
-| **[Market Research](./docs/MARKET_RESEARCH_AND_FEATURE_PARITY.md)** | Cursor vs Claude Code comparison, user needs |
-| **[Technical Decisions](./docs/TECHNICAL_DECISIONS_REVIEW.md)** | All 12 tech decisions validated |
-| **[STT Quality Specs](./docs/STT_WISPR_FLOW_QUALITY.md)** | Whisper API integration, 95-98% accuracy target |
-| **[UI Wireframes](./mocks/UI_WIREFRAMES.md)** | 10 screen mockups |
-| **[Architecture Diagrams](./architecture/ARCHITECTURE_DIAGRAMS.md)** | System flows, data models |
-
----
-
-## 🎯 Key Findings
-
-### Market Opportunity ✅
-
-**Three Growth Markets Converging:**
-- Voice Recognition: $18.39B → $51.72B by 2030 (22.97% CAGR)
-- AI Developer Tools: $7.37B → $23.97B by 2030 (26.60% CAGR)
-- Mobile Development: $116.87B → $988.5B by 2035 (23.8% CAGR)
-
-**Competitors:**
-- Cursor: $29.3B valuation, $1B revenue (desktop-only, pricing backlash)
-- Claude Code: $600M revenue (terminal-only, usage limit complaints)
-- **Us:** Mobile + voice + AI = Blue ocean (no competition)
-
-### Business Model ✅
-
-**Pricing:**
-- Free: 5 agents/month, 30 min voice
-- Pro: $15/month, 50 agents/month, 300 min voice
-- Enterprise: $75/month, unlimited, team features
-
-**Projections:**
-- Year 1: 5,000 users, $135K ARR
-- Year 2: 20,000 users, $720K ARR
-- Year 3: 50,000 users, $2.25M ARR
-
-**Unit Economics:**
-- LTV: $180 (12 months × $15)
-- CAC: $30 (product-led growth)
-- LTV:CAC = 6:1 ✅
-
-**Note:** Niche market (1.44M TAM), lifestyle business not venture-scale.
-
-### Critical Risks 🔴
-
-1. **Cost underestimated 24x** - Actual $9.75/user vs $1.54 projected
-   - Mitigation: $15 pricing + strict usage limits
-
-2. **Codebase understanding missing** - P0 must-have to compete
-   - Mitigation: Build CodebaseAnalyzer service (2 weeks)
-
-3. **iOS audio latency** - 16 seconds without compression
-   - Mitigation: Native audio compression module (1 week)
-
-4. **Niche market** - Only 1.44M TAM, can't raise VC
-   - Mitigation: Bootstrap or lifestyle business exit
-
-5. **Competitor response** - Cursor/Claude Code could add mobile in 12-18 months
-   - Mitigation: Move fast, establish brand
-
----
-
-## 🏗️ Tech Stack (Final)
+## 🏗️ Tech Stack
 
 | Layer | Technology | Why |
 |-------|-----------|-----|
 | **Mobile** | React Native + Expo SDK 52 | Cross-platform, fast iteration |
-| **Language** | TypeScript 5.3+ | Type safety |
-| **State** | Zustand 4 | Lightweight, minimal boilerplate |
-| **Data** | TanStack Query v5 | Server state caching |
+| **Backend** | Fastify 4 + **Claude Agent SDK** | AI-native architecture |
+| **AI Core** | `@anthropic-ai/claude-agent-sdk` | Agent execution engine |
 | **STT** | OpenAI Whisper API | 95-98% accuracy |
 | **TTS** | expo-speech | On-device, <50ms latency |
-| **Backend** | Fastify 4 + PostgreSQL 16 | Fast API, serverless DB |
-| **Real-time** | Polling + Push Notifications | Reliable on mobile |
+| **Database** | PostgreSQL 16 (Neon) | Serverless, auto-scale |
+| **State** | Zustand + TanStack Query | Lightweight, cached |
 | **Auth** | OAuth 2.0 PKCE + GitHub | Secure, standard |
-| **Hosting** | Vercel + Neon | Serverless, auto-scale |
-
-**Changed from original plan:**
-- ❌ expo-speech-recognition → ✅ Whisper API (quality requirement)
-- ❌ Pusher → ✅ Polling (cost optimization)
-- ❌ Regex command parser → ✅ Claude Haiku parsing (accuracy)
 
 ---
 
-## 🚀 Implementation Plan
+## 🔑 Key Documents
 
-### MVP Scope (8-12 Weeks)
+### Architecture (Most Important)
 
-**Included:**
-- ✅ Voice recording → Whisper transcription
-- ✅ Command parsing (Claude Haiku)
-- ✅ Basic agent creation (single-file editing)
-- ✅ CodebaseAnalyzer (heuristic-based)
-- ✅ Real-time status (polling + push notifications)
-- ✅ iOS + Android apps
+| Document | Purpose |
+|----------|---------|
+| **[Architecture Review](./02-architecture/ARCHITECTURE_REVIEW.md)** | Unknown unknowns, critical gaps, what's missing |
+| **[Claude SDK Mapping](./02-architecture/CONSOLIDATED_CLAUDE_ARCHITECTURE.md)** | How Cursor features map to Claude Agent SDK |
+| **[Development Kickoff](./03-development/DEVELOPMENT_KICKOFF.md)** | Task breakdown, ideal prompts, Claude AI integration |
 
-**Removed (defer to v1.1):**
-- ❌ Multi-file editing (Composer mode)
-- ❌ Parallel agents
-- ❌ Image/screenshot context
-- ❌ Web search (@Web)
+### Critical Findings
 
-### Milestones & Decision Gates
-
-| Week | Milestone | Success Criteria | Decision Gate |
-|------|-----------|------------------|---------------|
-| 4 | **Alpha launch** | 10 users, NPS >50, cost <$5/user | ❌ Kill if not met |
-| 8 | **Beta launch** | 100 users, WAU >30% | ❌ Kill if not met |
-| 16 | **Paid beta** | Conversion >10%, $1K MRR | ❌ Kill if not met |
-| 24 | **Public launch** | 1,000 users, $10K MRR | - |
+| Finding | Impact | Document |
+|---------|--------|----------|
+| **Execution environment undefined** | Can't build without it | [Architecture Review](./02-architecture/ARCHITECTURE_REVIEW.md) |
+| **Claude SDK covers 80%+ of Cursor** | Less custom code needed | [Claude SDK Mapping](./02-architecture/CONSOLIDATED_CLAUDE_ARCHITECTURE.md) |
+| **7 critical feature gaps** | Must close for parity | [Market Research](./03-development/MARKET_RESEARCH_AND_FEATURE_PARITY.md) |
+| **Cost underestimated 24x** | Pricing must be $15+/mo | [Risk Analysis](./01-planning/RISK_ANALYSIS_AND_VIABILITY.md) |
 
 ---
 
-## 💰 Funding Options
+## 🚨 Open Questions (Must Decide Before Coding)
 
-### Option 1: Bootstrap (Recommended for MVP)
+| Question | Options | Recommended |
+|----------|---------|-------------|
+| **Project name** | Vox, Cadence, Sonnet, Claudia | Vox |
+| **Execution platform** | Modal.com, Fly.io, Codespaces | Modal.com |
+| **Real-time updates** | WebSocket, Pusher, Polling | Polling + Push |
+| **Container security** | Docker, gVisor, Firecracker | TBD |
 
-**Budget:** $20K (4 months)
-- Development: Solo founder, 30-40 hrs/week
-- Infrastructure: $500/month
-- Marketing: $1K (ProductHunt, content)
+See [Architecture Review](./02-architecture/ARCHITECTURE_REVIEW.md) for full analysis.
 
-**Outcome:** Validate product-market fit
+---
 
-### Option 2: Seed Round ($150K)
+## 🚀 Next Steps
 
-**Use of Funds:**
-- Development: $80K
-- Infrastructure: $20K
-- Marketing: $30K
-- Operations: $20K
+### Immediate (Before Any Coding)
+1. ☐ Decide on project name
+2. ☐ Prototype Claude Agent SDK integration
+3. ☐ Choose execution platform (Modal vs Fly.io)
+4. ☐ Create security threat model
+5. ☐ Validate cost model
 
-**Terms:** 10% equity at $1.5M pre-money
+### Phase 1: Infrastructure (Weeks 1-3)
+- Build ExecutionService (container provisioning)
+- Build AgentOrchestrator (job queue, lifecycle)
+- Build CodebaseAnalyzer (repo context)
 
-**Outcome:** Faster execution, scale to 1,000 users
+### Phase 2: Mobile (Weeks 2-4)
+- Expo project setup
+- Voice recording + Whisper integration
+- Agent list/detail UI
+
+### Phase 3: Integration (Weeks 4-6)
+- Voice → Agent creation flow
+- Real-time status updates
+- Push notifications
+
+See [Development Kickoff](./03-development/DEVELOPMENT_KICKOFF.md) for complete task breakdown.
+
+---
+
+## 💰 Business Summary
+
+| Metric | Value |
+|--------|-------|
+| **TAM** | 1.44M mobile-first developers |
+| **Pricing** | Free / $15/mo Pro / $75/mo Enterprise |
+| **Year 1 Target** | 5,000 users, $135K ARR |
+| **Year 3 Target** | 50,000 users, $2.25M ARR |
+| **LTV:CAC** | 6:1 |
+| **Outcome** | Lifestyle business ($10K-50K MRR) |
+
+See [Executive Summary](./01-planning/EXECUTIVE_SUMMARY.md) for full analysis.
 
 ---
 
@@ -194,20 +171,16 @@ App:  📱 "Done! 4 files changed, +127 lines. PR ready."
 
 **CONDITIONAL GO** - Proceed with reduced scope and clear decision gates.
 
-**Rationale:**
-- ✅ Clear market gap (blue ocean opportunity)
-- ✅ Strong tailwinds (20%+ annual growth in all markets)
-- ✅ Competitor weakness (pricing/quality issues)
-- ⚠️ Niche market (lifestyle business, not VC-scale)
-- ⚠️ Risky unit economics (need strict controls)
-- ⚠️ High technical complexity (2-3x harder than planned)
+| Gate | When | Criteria | Action |
+|------|------|----------|--------|
+| Alpha | Week 4 | 10 users, NPS >50 | Kill if not met |
+| Beta | Week 8 | 100 users, WAU >30% | Kill if not met |
+| Paid | Week 16 | Conversion >10%, $1K MRR | Kill if not met |
 
 **Window:** 12-18 months before Cursor/Claude Code add mobile
 
-**Expected Outcome:** $10K-50K MRR lifestyle business (60% success, 40% failure)
-
 ---
 
-**Status:** Planning Complete ✅ | Ready for Alpha Development 🚀
+**Status:** Architecture Complete ✅ | Ready for Prototyping 🔧
 
-*Built with ❤️ for developers who want to code from anywhere*
+*Built with Claude Agent SDK for developers who want to code from anywhere*
