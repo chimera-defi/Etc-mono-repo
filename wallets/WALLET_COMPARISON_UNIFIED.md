@@ -35,7 +35,7 @@
 
 ---
 
-## Complete Wallet Comparison (All 25 EVM Wallets)
+## Complete Wallet Comparison (All 26 EVM Wallets)
 
 | Wallet | Score | Core | Rel/Mo | RPC | GitHub | Active | Chains | Devices | Testnets | License | Audits | Funding | Tx Sim | Scam | Account | ENS/Naming | HW | Best For | Rec |
 |--------|-------|------|--------|-----|--------|--------|--------|---------|----------|---------|--------|---------|--------|------|---------|------------|-----|----------|-----|
@@ -51,6 +51,7 @@
 | **Enkrypt** | 55 | ❌ | ~2 | ✅ | [enKrypt](https://github.com/enkryptcom/enKrypt) | ✅ | 75+ | 🌐 | ✅ | ✅ MIT | ❓ None | 🟢 MEW | ❌ | ⚠️ | EOA | ✅ Basic | ✅ | Multi-chain ext | 🟡 |
 | **Ambire** | 62 | ❌ | ~2 | ✅ | [extension](https://github.com/AmbireTech/extension) | ✅ | EVM | 🌐 | ✅ | ✅ GPL-3 | ✅ 2025 | 🟡 VC | ✅ | ✅ | 7702+4337 | ✅ Basic | ✅ | Smart wallet | 🟡 |
 | **Wigwam** | 58 | ❌ | ~2 | ✅ | [wigwam](https://github.com/wigwamapp/wigwam) | ✅ | Any | 🌐 | ✅ | ✅ MIT | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ❌ None | ✅ | Stability | 🟡 |
+| **Infinex** | 54 | ⚠️ | ? | ⚠️ | Private | 🔒 | Multi | 🌐🔗 | ❓ | ❌ Prop | ❓ None | ❓ Unknown | ❓ | ❓ | EOA | ✅ Basic | ❓ | Trading/Portfolio | 🟡 |
 | **Ledger Live** | 50 | ❌ | ~4 | ✅ | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ✅ | 50+ | 📱💻 | ✅ | ✅ MIT | ✅ Ledger | 🟢 Ledger | ❌ | ⚠️ | EOA | ❌ None | ✅‡ | Hardware users | 🟡 |
 | **MEW** | 50 | ❌ | ~3 | ✅ | [MyEtherWallet](https://github.com/MyEtherWallet/MyEtherWallet) | ✅ | ETH+ | 📱🔗 | ✅ | ✅ MIT | ❓ None | 🟢 Self | ❌ | ⚠️ | EOA | ✅ Full | ✅ | Ethereum | 🟡 |
 | **Sequence** | 48 | ❌ | ~3 | ✅ | [sequence.js](https://github.com/0xsequence/sequence.js) | ✅ | EVM | 🔗 | ✅ | ✅ Apache | ✅ 2024 | 🟡 VC | ⚠️ | ⚠️ | 4337 | ❌ None | ❌ | Gaming/Embed | 🟡 |
@@ -91,6 +92,7 @@
 | **Enkrypt** | Nov 27, 2025 | 413 | 25 | 6.1% | ⭐⭐⭐⭐ |
 | **Ambire** | Dec 10, 2025 | 60 | 1 | 1.7% | ⭐⭐⭐⭐ |
 | **Wigwam** | Dec 11, 2025 | 83 | 7 | 8.4% | ⭐⭐⭐⭐ |
+| **Infinex** | Private | - | - | - | ⭐⭐⭐ |
 | **Ledger Live** | Dec 15, 2025 | 541 | 80 | 14.8% | ⭐⭐⭐⭐ |
 | **MEW** | Nov 27, 2025 | 1,570 | 52 | 3.3% | ⭐⭐⭐⭐ |
 | **Sequence** | Dec 14, 2025 | 312 | 25 | 8.0% | ⭐⭐⭐⭐ |
