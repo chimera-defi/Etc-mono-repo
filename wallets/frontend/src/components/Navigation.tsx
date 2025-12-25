@@ -12,7 +12,8 @@ const navItems = [
   { href: '/explore', label: 'Explore & Compare' },
   { href: '/docs/wallet-comparison-unified-table', label: 'Software Wallets' },
   { href: '/docs/hardware-wallet-comparison-table', label: 'Hardware Wallets' },
-  { href: '/docs/readme', label: 'Overview' },
+  { href: '/docs/crypto-credit-card-comparison-table', label: 'Crypto Cards' },
+  { href: '/docs', label: 'All Docs' },
 ];
 
 export function Navigation() {
