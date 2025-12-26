@@ -1,6 +1,6 @@
 # Hardware Wallet Comparison (Cold Storage Alternatives to Ledger)
 
-## Complete Hardware Wallet Comparison (23 Wallets)
+## Complete Hardware Wallet Comparison (24 Wallets)
 
 | Wallet | Score | GitHub | Air-Gap | Open Source | Secure Elem | Display | Price | Conn | Activity | Rec |
 |--------|-------|--------|---------|-------------|-------------|---------|-------|------|----------|-----|
@@ -17,6 +17,7 @@
 | [**Krux**](https://selfcustody.github.io/krux/) | 67 | [krux](https://github.com/selfcustody/krux) | ✅ Full | ✅ Full | ❌ None | LCD | ~$30-100* | QR | ✅ Active | 🟡 |
 | [**SeedSigner**](https://seedsigner.com/) | 65 | [seedsigner](https://github.com/SeedSigner/seedsigner) | ✅ Full | ✅ Full | ❌ None | LCD | ~$50-100* | QR | ⚠️ Slow | 🟡 |
 | [**SafePal S1**](https://www.safepal.com/) | 62 | Private | ✅ Full | ⚠️ Partial | ✅ SE | LCD | ~$50 | QR | 🔒 Private | 🟡 |
+| [**Keycard**](https://keycard.tech/) | 62 | [status-keycard](https://github.com/keycard-tech/status-keycard) | ❌ | ✅ Full | ✅ CC | None | ~$29 | NFC | ⚠️ Slow | 🟡 |
 | [**GridPlus Lattice1**](https://gridplus.io/) | 59 | [SDK only](https://github.com/GridPlus/gridplus-sdk) | ❌ | ⚠️ SDK only | ✅ SE | 5" Touch | ~$400 | WiFi/USB | 🔒 Private | 🟡 |
 | [**Ledger Stax**](https://www.ledger.com/) | 57 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | E-Ink Touch | ~$280 | USB/BT | 🔒 Private | 🟡 |
 | [**Ledger Nano X**](https://www.ledger.com/) | 56 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$150 | USB/BT | 🔒 Private | 🟡 |
