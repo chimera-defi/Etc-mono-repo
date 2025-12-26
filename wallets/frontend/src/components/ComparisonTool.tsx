@@ -14,6 +14,7 @@ import {
   ChevronUp,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { formatChainSupport } from '@/lib/wallet-data';
 import type { CryptoCard, HardwareWallet, SoftwareWallet, WalletData } from '@/types/wallets';
 
 interface ComparisonToolProps {
@@ -195,7 +196,7 @@ function SoftwareWalletComparison({
             <ComparisonRow label="Score" values={wallets.map(w => w.score)} highlight />
             <ComparisonRow label="Recommendation" values={wallets.map(w => w.recommendation)} />
             <ComparisonRow label="Best For" values={wallets.map(w => w.bestFor)} />
-            <ComparisonRow label="Chain Support" values={wallets.map(w => typeof w.chains === 'number' ? w.chains : w.chains)} />
+            <ComparisonRow label="Chain Support" values={wallets.map(w => w.type === 'software' && w.chainSupport ? formatChainSupport(w.chainSupport) : (typeof w.chains === 'number' ? w.chains : w.chains))} />
             <ComparisonRow label="Mobile App" values={wallets.map(w => w.devices.mobile)} isBoolean />
             <ComparisonRow label="Browser Extension" values={wallets.map(w => w.devices.browser)} isBoolean />
             <ComparisonRow label="Desktop App" values={wallets.map(w => w.devices.desktop)} isBoolean />

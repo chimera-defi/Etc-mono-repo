@@ -1,3 +1,12 @@
+export interface ChainSupport {
+  bitcoin?: boolean;
+  ethereum?: boolean;
+  solana?: boolean;
+  evm?: boolean | number; // true = all EVM, number = count of EVM chains
+  moveChains?: boolean; // Sui + Aptos
+  other?: string[]; // Other chains not widely supported
+}
+
 export interface SoftwareWallet {
   id: string;
   name: string;
@@ -7,7 +16,8 @@ export interface SoftwareWallet {
   rpc: 'full' | 'partial' | 'none';
   github: string | null;
   active: 'active' | 'slow' | 'inactive' | 'private';
-  chains: number | string;
+  chains: number | string; // Legacy field - kept for backward compatibility
+  chainSupport?: ChainSupport; // New structured chain support
   devices: {
     mobile: boolean;
     browser: boolean;

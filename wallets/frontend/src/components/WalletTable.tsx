@@ -15,6 +15,7 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { formatChainSupport } from '@/lib/wallet-data';
 import type { CryptoCard, HardwareWallet, SoftwareWallet, WalletData } from '@/types/wallets';
 
 export type { CryptoCard, HardwareWallet, SoftwareWallet, WalletData };
@@ -181,7 +182,7 @@ function SoftwareWalletItem({
           <DeviceIcons devices={wallet.devices} />
         </td>
         <td className="py-3 px-4 text-sm">
-          {typeof wallet.chains === 'number' ? wallet.chains : wallet.chains}
+          {wallet.chainSupport ? formatChainSupport(wallet.chainSupport) : (typeof wallet.chains === 'number' ? wallet.chains : wallet.chains)}
         </td>
         <td className="py-3 px-4">
           <div className="flex gap-1">
@@ -246,7 +247,7 @@ function SoftwareWalletItem({
       <div className="flex items-center gap-4 mb-3">
         <DeviceIcons devices={wallet.devices} />
         <span className="text-sm text-muted-foreground">
-          {typeof wallet.chains === 'number' ? `${wallet.chains} chains` : wallet.chains}
+          {wallet.chainSupport ? formatChainSupport(wallet.chainSupport) : (typeof wallet.chains === 'number' ? `${wallet.chains} chains` : wallet.chains)}
         </span>
       </div>
 
