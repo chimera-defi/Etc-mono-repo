@@ -92,24 +92,30 @@ aztec-cli --version
 **Depends On:** TASK-001
 
 **Progress (2025-12-26):**
-- ✅ Docker daemon running with `--bridge=none --iptables=false`
+
+*Verified Working:*
+- ✅ Docker daemon starts with `--bridge=none --iptables=false`
 - ✅ nargo 1.0.0-beta.17 installed via noirup
-- ✅ Basic Noir compile + test working (`nargo compile`, `nargo test`)
-- ✅ **Staking pool contract prototype** - 5/5 tests pass (share calc, withdrawal, fees)
-- ✅ **Devnet RPC discovered**: `https://next.devnet.aztec-labs.com`
+- ✅ **Base Noir** compile + test working (`nargo compile`, `nargo test`)
+- ✅ **Base Noir prototype** (`noir-prototypes/staking_pool/`) - 5/5 tests pass
+  - ⚠️ This is NOT an Aztec contract, just basic Noir math
+- ✅ **Devnet RPC** working: `https://next.devnet.aztec-labs.com`
   - Node version: 3.0.0-devnet.20251212
   - L1 Chain ID: 11155111 (Sepolia)
-  - **stakingAssetAddress**: `0x3dae418ad4dbd49e00215d24079a10ac3bc9ef4f` ⭐
-  - Block queries working (`node_getBlocks`, `node_getNodeInfo`)
-  - Current block: 31833+ (actively producing)
-- ✅ **Aztec staking pool contract** created at `staking/contracts/aztec-staking-pool/`
-  - Full contract with deposit, withdraw, add_rewards, collect_fees
-  - Admin controls, fee management, pause functionality
-  - Requires aztec-nargo for compilation
+  - Block queries via curl confirmed working
+  - Current block: 31836+ (actively producing)
 - ✅ Docker image pulled: `aztecprotocol/aztec:latest` (1.22GB)
-- ✅ AztecJS installed (DNS issues in cloud env, works locally)
-- ❌ `install.aztec.network` returns 403 (CloudFront block)
-- ⏳ Deploy to devnet - requires local machine with full networking
+- ✅ aztec-nargo scripts installed to `/root/.aztec/bin/`
+
+*Not Working / Unverified:*
+- ⚠️ **Aztec contract UNVERIFIED** at `staking/contracts/aztec-staking-pool/`
+  - Written based on web research, NOT compiled
+  - Standard nargo CANNOT compile Aztec contracts (version mismatch)
+  - May contain syntax errors, wrong imports, incorrect patterns
+- ❌ Docker container execution fails (network restrictions)
+- ❌ aztec-nargo requires container execution, which fails
+- ❌ `install.aztec.network` was blocked (403) - now works but needs Docker
+- ⏳ Full smoke test requires local machine with working Docker
 
 **Alternative Path Discovered:**
 Can test against devnet using RPC + AztecJS without local sandbox:

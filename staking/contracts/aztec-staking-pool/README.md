@@ -1,7 +1,21 @@
 # Aztec Staking Pool Contract
 
-**Status:** Draft (requires aztec-nargo for compilation)
+**Status:** ⚠️ UNVERIFIED DRAFT - NOT COMPILED
 **Created:** 2025-12-26
+
+## ⚠️ Important Warning
+
+**This contract has NOT been compiled or tested.** It was written based on web research about Aztec contract patterns but:
+
+1. Standard nargo cannot compile Aztec contracts (version mismatch)
+2. aztec-nargo requires Docker container execution which failed in this environment
+3. The syntax, imports, and patterns may contain errors
+
+**Before using this contract:**
+- Compile with aztec-nargo on a machine with working Docker
+- Fix any compilation errors
+- Write and run tests
+- Get a security review
 
 ## Overview
 
