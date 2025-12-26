@@ -75,13 +75,9 @@ AI:          Anthropic Claude API
 
 **Reason:** User specifically requested "speech-to-text as good as Wispr Flow." On-device STT cannot achieve 95-98% accuracy, especially for technical/coding vocabulary.
 
-**Files with outdated STT info:**
-- ⚠️ `docs/MOBILE_SPEECH_AGENT_APP_PLAN.md` (lines 49, 117-118)
-- ⚠️ `docs/MOBILE_SPEECH_APP_ARCHITECTURE.md` (line 80)
-- ⚠️ `docs/MOBILE_SPEECH_APP_QUICKSTART.md` (lines 54, 187, 527)
-- ⚠️ `docs/MOBILE_SPEECH_APP_README.md` (line 43)
+**Note:** Earlier planning documents with on-device STT have been superseded by this consolidated overview.
 
-**Updated specs:** `docs/STT_WISPR_FLOW_QUALITY.md`, `docs/COMPONENT_TECHNICAL_SPECS.md`
+**Current specs:** `03-development/STT_WISPR_FLOW_QUALITY.md`
 
 #### 2. Real-time: Pusher → Supabase ⚠️
 
@@ -95,13 +91,9 @@ AI:          Anthropic Claude API
 
 **Reason:** Cost optimization. Supabase provides same WebSocket functionality at 50% lower cost.
 
-**Files with outdated real-time info:**
-- ⚠️ `docs/MOBILE_SPEECH_AGENT_APP_PLAN.md` (line 51)
-- ⚠️ `docs/COMPONENT_TECHNICAL_SPECS_PART2.md` (section 5.1)
-- ⚠️ `docs/BUILDING_ON_PR35.md` (multiple references)
-- ⚠️ `docs/MOBILE_SPEECH_APP_ARCHITECTURE.md` (line 60)
+**Note:** Earlier planning documents using Pusher have been superseded by this consolidated overview.
 
-**Updated specs:** `docs/TECHNICAL_DECISIONS_REVIEW.md` (section 6)
+**Current specs:** `03-development/TECHNICAL_DECISIONS_REVIEW.md` (section 6)
 
 #### 3. New Services Added (From Market Research)
 
@@ -208,7 +200,7 @@ interface Agent {
   taskDescription: string;
   status: 'pending' | 'running' | 'paused' | 'completed' | 'failed';
   progress: number; // 0-100
-  model: 'claude-3.5-sonnet' | 'claude-opus-4' | 'gpt-4';
+  model: 'claude-sonnet-4-20250514' | 'claude-opus-4-20250514' | 'gpt-4o';
   source: 'MOBILE_APP'; // Track origin (from PR #35 pattern)
   metadata: {
     filesChanged?: number;
@@ -515,37 +507,38 @@ Based on 100 active users, 30 agents/month each:
 
 ## Documentation Map
 
-### Planning Documents (Historical)
+### Current Folder Structure
 
-These documents were created during the planning phase and contain valuable context, but may have **outdated technical decisions**. Always refer to this consolidated overview for current specs.
+All documentation has been consolidated into a clean folder structure:
 
-| Document | Purpose | Status | Notes |
-|----------|---------|--------|-------|
-| `MOBILE_SPEECH_AGENT_APP_PLAN.md` | Initial planning | ⚠️ Outdated | Uses expo-speech-recognition, Pusher |
-| `MOBILE_SPEECH_APP_ARCHITECTURE.md` | Architecture overview | ⚠️ Outdated | Uses expo-speech-recognition, Pusher |
-| `MOBILE_SPEECH_APP_QUICKSTART.md` | 30-min setup guide | ⚠️ Outdated | Uses expo-speech-recognition |
-| `MOBILE_SPEECH_APP_README.md` | Project hub | ⚠️ Outdated | Uses expo-speech-recognition |
-| `UI_WIREFRAMES.md` | Screen mockups | ✅ Current | Still accurate |
-| `ARCHITECTURE_DIAGRAMS.md` | System diagrams | ⚠️ Partially outdated | STT flow outdated |
-| `BUILDING_ON_PR35.md` | PR #35 integration | ⚠️ Outdated | Uses Pusher |
+```
+voice-coding-assistant/
+├── 01-planning/           # Business & strategy docs
+├── 02-architecture/       # Technical design (you are here)
+├── 03-development/        # Implementation guides
+├── 04-design/             # UI/UX wireframes
+└── pitch-deck/            # Investor materials
+```
 
 ### Current Specifications (Use These)
 
-| Document | Purpose | Status |
-|----------|---------|--------|
-| **`CONSOLIDATED_OVERVIEW.md`** | **Single source of truth** | ✅ **CURRENT** |
-| `STT_WISPR_FLOW_QUALITY.md` | Wispr Flow analysis + Whisper specs | ✅ Current |
-| `COMPONENT_TECHNICAL_SPECS.md` | Speech services implementation | ✅ Current |
-| `COMPONENT_TECHNICAL_SPECS_PART2.md` | API, state, storage specs | ⚠️ Has PusherService (outdated) |
-| `TECHNICAL_DECISIONS_REVIEW.md` | All 12 decisions validated | ✅ Current |
-| `MARKET_RESEARCH_AND_FEATURE_PARITY.md` | Market analysis, gaps | ✅ Current |
+| Document | Location | Purpose |
+|----------|----------|---------|
+| **`CONSOLIDATED_OVERVIEW.md`** | `02-architecture/` | **Single source of truth** |
+| `ARCHITECTURE_REVIEW.md` | `02-architecture/` | Unknown unknowns, gaps analysis |
+| `CONSOLIDATED_CLAUDE_ARCHITECTURE.md` | `02-architecture/` | Cursor → Claude SDK mapping |
+| `ARCHITECTURE_DIAGRAMS.md` | `02-architecture/` | System flows and data models |
+| `DEVELOPMENT_KICKOFF.md` | `03-development/` | Task breakdown, Claude AI setup |
+| `TECHNICAL_DECISIONS_REVIEW.md` | `03-development/` | All 12 decisions validated |
+| `STT_WISPR_FLOW_QUALITY.md` | `03-development/` | Whisper API specs, 95-98% accuracy |
+| `MARKET_RESEARCH_AND_FEATURE_PARITY.md` | `03-development/` | Cursor feature parity analysis |
+| `UI_WIREFRAMES.md` | `04-design/` | 10 screen mockups |
 
-### Reference Documents
+### Historical Note
 
-| Document | Purpose |
-|----------|---------|
-| `CURSOR_AGENTS_ANALYSIS.md` | PR #35 findings on Cursor |
-| `MOBILE_APP_REVERSE_ENGINEERING.md` | How to reverse engineer Cursor mobile |
+Earlier planning documents (with expo-speech-recognition and Pusher references) have been superseded by this consolidated structure. All current specs use:
+- **STT:** OpenAI Whisper API (not on-device)
+- **Real-time:** Supabase Realtime (not Pusher)
 
 ---
 

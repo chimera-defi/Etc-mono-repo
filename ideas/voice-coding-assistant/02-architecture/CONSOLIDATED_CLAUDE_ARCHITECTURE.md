@@ -197,7 +197,7 @@ This document maps every Cursor Agents feature (from PR #35 analysis) to its Cla
 │  │  │      Complete this task autonomously. Create a PR when done.    │ │   │
 │  │  │    `,                                                           │ │   │
 │  │  │    cwd: '/workspace/repo',                                      │ │   │
-│  │  │    model: 'claude-sonnet-4-5-20250929',                          │ │   │
+│  │  │    model: 'claude-sonnet-4-20250514',                          │ │   │
 │  │  │    apiKey: process.env.ANTHROPIC_API_KEY,                       │ │   │
 │  │  │                                                                 │ │   │
 │  │  │    // ═══════════════════════════════════════════════════════   │ │   │
@@ -450,7 +450,7 @@ This document maps every Cursor Agents feature (from PR #35 analysis) to its Cla
 │  │     7. Push to feature/dark-mode-toggle branch                           ││
 │  │   `,                                                                     ││
 │  │   cwd: '/workspace/wallet-frontend',                                     ││
-│  │   model: 'claude-sonnet-4-5-20250929',                                    ││
+│  │   model: 'claude-sonnet-4-20250514',                                    ││
 │  │   hooks: { PreToolUse: [...], PostToolUse: [...] }                       ││
 │  │ });                                                                      ││
 │  └──────────────────────────────────────────────────────────────────────────┘│
