@@ -549,11 +549,11 @@ This document maps every Cursor Agents feature (from PR #35 analysis) to its Cla
 
 ## 4. MCP Integration Points
 
-### Custom MCP Servers for Claudia
+### Custom MCP Servers for Cadence
 
 ```typescript
 // mcp-servers/claudia-dev.ts
-// MCP server that exposes Claudia-specific tools to Claude Code
+// MCP server that exposes Cadence-specific tools to Claude Code
 
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 
@@ -567,7 +567,7 @@ server.setRequestHandler('tools/list', async () => ({
   tools: [
     {
       name: 'get_agent_status',
-      description: 'Get status of a Claudia agent by ID',
+      description: 'Get status of a Cadence agent by ID',
       inputSchema: {
         type: 'object',
         properties: {
@@ -679,11 +679,11 @@ claude mcp add claudia-dev --transport stdio -- node ./mcp-servers/claudia-dev.j
 ```markdown
 <!-- .claude/commands/claudia-component.md -->
 ---
-description: "Create a new Claudia React Native component"
+description: "Create a new Cadence React Native component"
 allowed-tools: ["Read", "Write", "Edit", "Glob"]
 ---
 
-Create a new React Native component for Claudia at: $ARGUMENTS
+Create a new React Native component for Cadence at: $ARGUMENTS
 
 Follow these patterns:
 1. Use TypeScript with strict types
@@ -698,11 +698,11 @@ Check existing components in src/components/ for style reference.
 ```markdown
 <!-- .claude/commands/claudia-test.md -->
 ---
-description: "Run Claudia test suite with coverage"
+description: "Run Cadence test suite with coverage"
 allowed-tools: ["Bash", "Read"]
 ---
 
-Run the Claudia test suite:
+Run the Cadence test suite:
 
 1. Run unit tests: `npm run test`
 2. Run integration tests: `npm run test:integration`
@@ -769,16 +769,16 @@ Run the Claudia test suite:
 
 ### Competitive Position
 
-| Feature | Cursor | Claudia | Winner |
+| Feature | Cursor | Cadence | Winner |
 |---------|--------|---------|--------|
 | Agent execution | ✅ | ✅ (via SDK) | Tie |
 | Multi-file editing | ✅ | ✅ (via SDK) | Tie |
 | Codebase context | ✅ | ⚠️ (must build) | Cursor |
-| Voice input | ❌ | ✅ | **Claudia** |
-| Mobile app | ❌ | ✅ | **Claudia** |
-| Offline viewing | ❌ | ✅ | **Claudia** |
-| Push notifications | ❌ | ✅ | **Claudia** |
-| Price | $20/mo | $10/mo | **Claudia** |
+| Voice input | ❌ | ✅ | **Cadence** |
+| Mobile app | ❌ | ✅ | **Cadence** |
+| Offline viewing | ❌ | ✅ | **Cadence** |
+| Push notifications | ❌ | ✅ | **Cadence** |
+| Price | $20/mo | $10/mo | **Cadence** |
 
 ---
 

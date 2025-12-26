@@ -1,8 +1,10 @@
 # Cadence Architecture Guide
 
-> **Single-page architecture reference for the Voice AI Coding Assistant**
+> **Architecture reference for the Voice AI Coding Assistant**
 >
-> Last Updated: December 25, 2025 | Status: Ready for Implementation
+> Last Updated: December 26, 2025 | Status: Ready for Implementation
+>
+> ⚠️ **Note:** For implementation details, task breakdowns, and code examples, see **[IMPLEMENTATION.md](./IMPLEMENTATION.md)** - that is the primary document for developers.
 
 ---
 
