@@ -9,21 +9,75 @@
 ## Quick Start
 
 ```bash
-# Create project
+# ==========================================
+# MOBILE APP (React Native + Expo)
+# ==========================================
 npx create-expo-app@latest cadence --template expo-template-blank-typescript
 cd cadence
 
-# Install core dependencies
+# Core Expo dependencies
 npx expo install expo-speech expo-av expo-secure-store expo-notifications expo-auth-session expo-crypto
+
+# State & data
 npm install zustand @tanstack/react-query axios
+
+# Navigation
 npm install @react-navigation/native @react-navigation/bottom-tabs @react-navigation/native-stack
 npx expo install react-native-screens react-native-safe-area-context react-native-gesture-handler react-native-reanimated
 
-# Backend (separate directory)
+# ==========================================
+# BACKEND SERVER (Fastify + TypeScript)
+# ==========================================
 mkdir -p ../cadence-backend && cd ../cadence-backend
 npm init -y
-npm install @anthropic-ai/claude-code fastify @fastify/cors @fastify/jwt pg dotenv zod
+
+# Core framework
+npm install fastify @fastify/cors @fastify/jwt @fastify/cookie @fastify/rate-limit
+
+# Database & ORM
+npm install drizzle-orm postgres
+npm install -D drizzle-kit
+
+# Job queue & cache
+npm install bullmq ioredis
+
+# AI providers
+npm install @anthropic-ai/claude-code openai @google/generative-ai
+
+# Auth & security
+npm install jose bcryptjs
+npm install -D @types/bcryptjs
+
+# Push notifications
+npm install expo-server-sdk
+
+# Utilities
+npm install zod dotenv nanoid
 npm install -D typescript @types/node tsx
+
+# Initialize TypeScript
+npx tsc --init
+```
+
+### Environment Variables
+
+```bash
+# cadence-backend/.env
+DATABASE_URL=postgresql://...@neon.tech/cadence
+REDIS_URL=redis://...@upstash.com:6379
+
+# AI Provider Keys (at least one required)
+ANTHROPIC_API_KEY=sk-ant-...
+OPENAI_API_KEY=sk-...
+GOOGLE_AI_KEY=...
+
+# Auth
+GITHUB_CLIENT_ID=...
+GITHUB_CLIENT_SECRET=...
+JWT_SECRET=your-32-char-secret
+
+# Expo Push
+EXPO_ACCESS_TOKEN=...
 ```
 
 ---
@@ -36,14 +90,854 @@ npm install -D typescript @types/node tsx
 | **Navigation** | React Navigation 7 | Tab + stack navigation |
 | **State** | Zustand 4 | Lightweight state management |
 | **Data** | TanStack Query v5 | API caching, optimistic updates |
-| **Backend** | Fastify 4 | Fast, TypeScript-first API |
-| **AI Core** | Claude Agent SDK | Agent execution |
+| **Backend** | Fastify 4 + TypeScript | Fast, schema-validated API |
+| **ORM** | Drizzle ORM | Type-safe database queries |
+| **Queue** | BullMQ + Redis | Background job processing |
+| **AI Core** | Multi-provider abstraction | Claude, OpenAI, Gemini, local |
 | **STT** | OpenAI Whisper API | 95-98% voice accuracy |
 | **TTS** | expo-speech | On-device, <50ms latency |
 | **Database** | PostgreSQL 16 (Neon) | Serverless, auto-scale |
-| **Real-time** | Polling + Push notifications | Status updates |
-| **Auth** | GitHub OAuth PKCE | Secure mobile auth |
-| **Execution** | Fly.io Machines (MVP) | Container execution |
+| **Cache** | Redis (Upstash) | Session, rate limiting, queues |
+| **Real-time** | Server-Sent Events + Push | Live status updates |
+| **Auth** | GitHub OAuth + JWT | Secure, stateless auth |
+| **Execution** | Fly.io Machines | Isolated container execution |
+
+---
+
+## Backend Architecture
+
+The backend is **critical** - it handles auth, multi-model AI, job orchestration, and real-time updates.
+
+### Backend Project Structure
+
+```
+cadence-backend/
+├── src/
+│   ├── index.ts                    # Fastify app entry
+│   ├── config/
+│   │   ├── env.ts                  # Environment variables
+│   │   └── database.ts             # DB connection
+│   ├── routes/
+│   │   ├── auth.ts                 # OAuth endpoints
+│   │   ├── agents.ts               # Agent CRUD
+│   │   ├── repos.ts                # Repository listing
+│   │   ├── models.ts               # Model configuration
+│   │   ├── users.ts                # User preferences
+│   │   └── webhooks.ts             # GitHub webhooks
+│   ├── services/
+│   │   ├── ai/                     # Multi-model abstraction
+│   │   │   ├── providers/
+│   │   │   │   ├── claude.ts       # Claude/Agent SDK
+│   │   │   │   ├── openai.ts       # OpenAI GPT-4/o1
+│   │   │   │   ├── gemini.ts       # Google Gemini
+│   │   │   │   └── local.ts        # Ollama/local models
+│   │   │   ├── ModelRouter.ts      # Provider selection
+│   │   │   └── types.ts            # Shared interfaces
+│   │   ├── agent/
+│   │   │   ├── AgentExecutor.ts    # Core execution logic
+│   │   │   ├── AgentQueue.ts       # Job queue management
+│   │   │   └── AgentSandbox.ts     # Fly.io isolation
+│   │   ├── codebase/
+│   │   │   ├── CodebaseAnalyzer.ts # Repo analysis
+│   │   │   ├── ContextBuilder.ts   # Prompt context
+│   │   │   └── FileSelector.ts     # Relevant file picking
+│   │   ├── auth/
+│   │   │   ├── GitHubAuth.ts       # OAuth flow
+│   │   │   ├── JwtService.ts       # Token management
+│   │   │   └── SessionStore.ts     # Redis sessions
+│   │   ├── notifications/
+│   │   │   ├── PushService.ts      # Expo push notifications
+│   │   │   └── SSEManager.ts       # Server-sent events
+│   │   └── usage/
+│   │       ├── UsageTracker.ts     # Per-user tracking
+│   │       ├── RateLimiter.ts      # Request limits
+│   │       └── CostCalculator.ts   # API cost estimation
+│   ├── db/
+│   │   ├── schema.ts               # Drizzle schema
+│   │   └── migrations/             # Database migrations
+│   ├── middleware/
+│   │   ├── auth.ts                 # JWT verification
+│   │   ├── rateLimit.ts            # Rate limiting
+│   │   └── errorHandler.ts         # Global error handling
+│   ├── workers/
+│   │   ├── agentWorker.ts          # BullMQ agent processor
+│   │   └── cleanupWorker.ts        # Old data cleanup
+│   └── types/
+│       └── index.ts                # Shared types
+├── drizzle.config.ts
+├── package.json
+└── tsconfig.json
+```
+
+### Multi-Model Provider Abstraction
+
+This is **essential** for future flexibility - today Claude, tomorrow OpenAI/Gemini/local.
+
+```typescript
+// src/services/ai/types.ts
+export interface AIProvider {
+  id: string;
+  name: string;
+  models: ModelConfig[];
+
+  // Core capabilities
+  chat(messages: Message[], options: ChatOptions): AsyncGenerator<ChatEvent>;
+  complete(prompt: string, options: CompleteOptions): Promise<string>;
+
+  // Agent capabilities (optional - not all providers support)
+  supportsAgentMode: boolean;
+  executeAgent?(task: AgentTask): AsyncGenerator<AgentEvent>;
+}
+
+export interface ModelConfig {
+  id: string;
+  name: string;
+  contextWindow: number;
+  inputCostPer1k: number;
+  outputCostPer1k: number;
+  capabilities: ('chat' | 'code' | 'vision' | 'agent')[];
+}
+
+export interface ChatOptions {
+  model: string;
+  temperature?: number;
+  maxTokens?: number;
+  systemPrompt?: string;
+  tools?: ToolDefinition[];
+}
+
+// src/services/ai/providers/claude.ts
+import { query, type ConversationTurn } from '@anthropic-ai/claude-code';
+
+export class ClaudeProvider implements AIProvider {
+  id = 'claude';
+  name = 'Anthropic Claude';
+  supportsAgentMode = true;
+
+  models: ModelConfig[] = [
+    {
+      id: 'claude-sonnet-4-20250514',
+      name: 'Claude Sonnet 4',
+      contextWindow: 200000,
+      inputCostPer1k: 0.003,
+      outputCostPer1k: 0.015,
+      capabilities: ['chat', 'code', 'vision', 'agent'],
+    },
+    {
+      id: 'claude-opus-4-20250514',
+      name: 'Claude Opus 4',
+      contextWindow: 200000,
+      inputCostPer1k: 0.015,
+      outputCostPer1k: 0.075,
+      capabilities: ['chat', 'code', 'vision', 'agent'],
+    },
+  ];
+
+  async *executeAgent(task: AgentTask): AsyncGenerator<AgentEvent> {
+    const response = await query({
+      prompt: task.prompt,
+      cwd: task.workingDir,
+      model: task.model,
+      apiKey: process.env.ANTHROPIC_API_KEY,
+      options: {
+        maxTurns: task.maxTurns ?? 50,
+      },
+      hooks: {
+        PreToolUse: [{
+          matcher: '*',
+          callback: async ({ tool_name, tool_input }) => {
+            yield { type: 'tool_start', tool: tool_name, input: tool_input };
+            return {}; // Allow tool execution
+          }
+        }],
+        PostToolUse: [{
+          matcher: '*',
+          callback: async ({ tool_name, tool_result }) => {
+            yield { type: 'tool_complete', tool: tool_name, result: tool_result };
+            return {};
+          }
+        }],
+      }
+    });
+
+    for await (const turn of response) {
+      yield this.transformTurn(turn);
+    }
+  }
+}
+
+// src/services/ai/providers/openai.ts
+import OpenAI from 'openai';
+
+export class OpenAIProvider implements AIProvider {
+  id = 'openai';
+  name = 'OpenAI';
+  supportsAgentMode = false; // Uses Responses API, different pattern
+
+  private client: OpenAI;
+
+  models: ModelConfig[] = [
+    {
+      id: 'gpt-4o',
+      name: 'GPT-4o',
+      contextWindow: 128000,
+      inputCostPer1k: 0.005,
+      outputCostPer1k: 0.015,
+      capabilities: ['chat', 'code', 'vision'],
+    },
+    {
+      id: 'o1',
+      name: 'o1',
+      contextWindow: 200000,
+      inputCostPer1k: 0.015,
+      outputCostPer1k: 0.060,
+      capabilities: ['chat', 'code'],
+    },
+  ];
+
+  async *chat(messages: Message[], options: ChatOptions): AsyncGenerator<ChatEvent> {
+    const stream = await this.client.chat.completions.create({
+      model: options.model,
+      messages: this.transformMessages(messages),
+      stream: true,
+    });
+
+    for await (const chunk of stream) {
+      yield { type: 'content', text: chunk.choices[0]?.delta?.content ?? '' };
+    }
+  }
+}
+
+// src/services/ai/ModelRouter.ts
+export class ModelRouter {
+  private providers: Map<string, AIProvider> = new Map();
+
+  constructor() {
+    // Register providers based on available API keys
+    if (process.env.ANTHROPIC_API_KEY) {
+      this.providers.set('claude', new ClaudeProvider());
+    }
+    if (process.env.OPENAI_API_KEY) {
+      this.providers.set('openai', new OpenAIProvider());
+    }
+    if (process.env.GOOGLE_AI_KEY) {
+      this.providers.set('gemini', new GeminiProvider());
+    }
+  }
+
+  getProvider(providerId: string): AIProvider {
+    const provider = this.providers.get(providerId);
+    if (!provider) throw new Error(`Provider ${providerId} not available`);
+    return provider;
+  }
+
+  getAvailableModels(): ModelConfig[] {
+    return Array.from(this.providers.values())
+      .flatMap(p => p.models.map(m => ({ ...m, provider: p.id })));
+  }
+
+  async executeAgentTask(task: AgentTask): AsyncGenerator<AgentEvent> {
+    const provider = this.getProviderForModel(task.model);
+
+    if (!provider.supportsAgentMode) {
+      // Fall back to chat-based agent loop
+      yield* this.chatBasedAgentLoop(provider, task);
+    } else {
+      yield* provider.executeAgent!(task);
+    }
+  }
+}
+```
+
+### Database Schema (Drizzle ORM)
+
+```typescript
+// src/db/schema.ts
+import { pgTable, uuid, text, timestamp, integer, jsonb, boolean, pgEnum } from 'drizzle-orm/pg-core';
+
+// Enums
+export const agentStatusEnum = pgEnum('agent_status', [
+  'pending', 'queued', 'running', 'paused', 'completed', 'failed', 'cancelled'
+]);
+
+export const subscriptionTierEnum = pgEnum('subscription_tier', [
+  'free', 'pro', 'enterprise'
+]);
+
+// Users
+export const users = pgTable('users', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  githubId: text('github_id').unique().notNull(),
+  githubUsername: text('github_username').notNull(),
+  email: text('email'),
+  avatarUrl: text('avatar_url'),
+
+  // Subscription
+  subscriptionTier: subscriptionTierEnum('subscription_tier').default('free'),
+  subscriptionExpiresAt: timestamp('subscription_expires_at'),
+
+  // Preferences
+  preferences: jsonb('preferences').$type<UserPreferences>().default({}),
+  defaultModel: text('default_model').default('claude-sonnet-4-20250514'),
+
+  // Usage tracking
+  agentsUsedThisMonth: integer('agents_used_this_month').default(0),
+  voiceMinutesUsedThisMonth: integer('voice_minutes_this_month').default(0),
+
+  // Push notifications
+  expoPushToken: text('expo_push_token'),
+
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+});
+
+// Agents
+export const agents = pgTable('agents', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  userId: uuid('user_id').references(() => users.id).notNull(),
+
+  // Repository info
+  repoUrl: text('repo_url').notNull(),
+  repoOwner: text('repo_owner').notNull(),
+  repoName: text('repo_name').notNull(),
+  branch: text('branch').notNull(),
+  baseBranch: text('base_branch').default('main'),
+
+  // Task
+  taskDescription: text('task_description').notNull(),
+  systemPrompt: text('system_prompt'), // Custom user instructions
+
+  // Execution
+  status: agentStatusEnum('status').default('pending'),
+  progress: integer('progress').default(0),
+  model: text('model').notNull(),
+
+  // Results
+  filesChanged: integer('files_changed').default(0),
+  linesAdded: integer('lines_added').default(0),
+  linesRemoved: integer('lines_removed').default(0),
+  prUrl: text('pr_url'),
+  prNumber: integer('pr_number'),
+
+  // Cost tracking
+  inputTokens: integer('input_tokens').default(0),
+  outputTokens: integer('output_tokens').default(0),
+  estimatedCost: integer('estimated_cost_cents').default(0),
+
+  // Error handling
+  errorMessage: text('error_message'),
+  retryCount: integer('retry_count').default(0),
+
+  // Execution environment
+  flyMachineId: text('fly_machine_id'),
+  workingDir: text('working_dir'),
+
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+  startedAt: timestamp('started_at'),
+  completedAt: timestamp('completed_at'),
+});
+
+// Agent logs (append-only)
+export const agentLogs = pgTable('agent_logs', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  agentId: uuid('agent_id').references(() => agents.id).notNull(),
+
+  type: text('type').notNull(), // 'tool_start', 'tool_complete', 'message', 'error'
+  toolName: text('tool_name'),
+  content: jsonb('content'),
+
+  timestamp: timestamp('timestamp').defaultNow(),
+});
+
+// API keys (for user's own keys)
+export const apiKeys = pgTable('api_keys', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  userId: uuid('user_id').references(() => users.id).notNull(),
+
+  provider: text('provider').notNull(), // 'anthropic', 'openai', 'google'
+  encryptedKey: text('encrypted_key').notNull(),
+  keyHint: text('key_hint'), // Last 4 chars for display
+
+  isActive: boolean('is_active').default(true),
+  lastUsedAt: timestamp('last_used_at'),
+
+  createdAt: timestamp('created_at').defaultNow(),
+});
+
+// Context cache (for codebase analysis)
+export const contextCache = pgTable('context_cache', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  repoUrl: text('repo_url').notNull(),
+  commitSha: text('commit_sha').notNull(),
+
+  context: jsonb('context').$type<CodebaseContext>(),
+
+  expiresAt: timestamp('expires_at').notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+});
+
+// Types
+interface UserPreferences {
+  voiceSpeed?: number;
+  autoSpeak?: boolean;
+  darkMode?: boolean;
+  notificationsEnabled?: boolean;
+}
+
+interface CodebaseContext {
+  framework: string;
+  language: string;
+  relevantFiles: { path: string; reason: string }[];
+  dependencies: { name: string; version: string }[];
+}
+```
+
+### Job Queue (BullMQ)
+
+```typescript
+// src/services/agent/AgentQueue.ts
+import { Queue, Worker, Job } from 'bullmq';
+import { Redis } from 'ioredis';
+
+const redis = new Redis(process.env.REDIS_URL!);
+
+export const agentQueue = new Queue('agents', { connection: redis });
+
+export interface AgentJobData {
+  agentId: string;
+  userId: string;
+  repoUrl: string;
+  branch: string;
+  taskDescription: string;
+  model: string;
+  systemPrompt?: string;
+  context?: CodebaseContext;
+}
+
+// Queue an agent job
+export async function queueAgentJob(data: AgentJobData): Promise<string> {
+  const job = await agentQueue.add('execute', data, {
+    attempts: 3,
+    backoff: { type: 'exponential', delay: 5000 },
+    removeOnComplete: { count: 100 },
+    removeOnFail: { count: 500 },
+  });
+  return job.id!;
+}
+
+// src/workers/agentWorker.ts
+import { Worker, Job } from 'bullmq';
+
+const worker = new Worker('agents', async (job: Job<AgentJobData>) => {
+  const { agentId, repoUrl, branch, taskDescription, model, context } = job.data;
+
+  const executor = new AgentExecutor();
+  const sandbox = new AgentSandbox();
+
+  try {
+    // Update status
+    await db.update(agents).set({ status: 'running', startedAt: new Date() })
+      .where(eq(agents.id, agentId));
+
+    // Clone repo into sandbox
+    const workingDir = await sandbox.prepare(repoUrl, branch);
+
+    // Execute agent
+    for await (const event of executor.execute({
+      agentId,
+      prompt: taskDescription,
+      workingDir,
+      model,
+      context,
+    })) {
+      // Log event
+      await db.insert(agentLogs).values({
+        agentId,
+        type: event.type,
+        toolName: event.tool,
+        content: event,
+      });
+
+      // Update progress
+      if (event.type === 'progress') {
+        await db.update(agents).set({ progress: event.percent })
+          .where(eq(agents.id, agentId));
+      }
+
+      // Emit SSE event
+      sseManager.emit(agentId, event);
+    }
+
+    // Create PR
+    const prUrl = await sandbox.createPullRequest(taskDescription);
+
+    // Mark complete
+    await db.update(agents).set({
+      status: 'completed',
+      completedAt: new Date(),
+      prUrl,
+    }).where(eq(agents.id, agentId));
+
+    // Send push notification
+    await pushService.notifyAgentComplete(agentId);
+
+  } catch (error) {
+    await db.update(agents).set({
+      status: 'failed',
+      errorMessage: error.message,
+    }).where(eq(agents.id, agentId));
+
+    await pushService.notifyAgentFailed(agentId, error.message);
+    throw error;
+  } finally {
+    await sandbox.cleanup();
+  }
+}, { connection: redis, concurrency: 5 });
+```
+
+### Real-time Updates (SSE + Push)
+
+```typescript
+// src/services/notifications/SSEManager.ts
+import { FastifyInstance } from 'fastify';
+
+class SSEManager {
+  private connections: Map<string, Set<FastifyReply>> = new Map();
+
+  register(fastify: FastifyInstance) {
+    fastify.get('/api/agents/:id/events', {
+      preHandler: [authMiddleware],
+    }, async (request, reply) => {
+      const { id } = request.params as { id: string };
+
+      reply.raw.writeHead(200, {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
+      });
+
+      // Add to connections
+      if (!this.connections.has(id)) {
+        this.connections.set(id, new Set());
+      }
+      this.connections.get(id)!.add(reply);
+
+      // Heartbeat every 30s
+      const heartbeat = setInterval(() => {
+        reply.raw.write(': heartbeat\n\n');
+      }, 30000);
+
+      // Cleanup on disconnect
+      request.raw.on('close', () => {
+        clearInterval(heartbeat);
+        this.connections.get(id)?.delete(reply);
+      });
+    });
+  }
+
+  emit(agentId: string, event: AgentEvent) {
+    const connections = this.connections.get(agentId);
+    if (!connections) return;
+
+    const data = `data: ${JSON.stringify(event)}\n\n`;
+    for (const reply of connections) {
+      reply.raw.write(data);
+    }
+  }
+}
+
+// src/services/notifications/PushService.ts
+import { Expo, ExpoPushMessage } from 'expo-server-sdk';
+
+const expo = new Expo();
+
+export class PushService {
+  async notifyAgentComplete(agentId: string) {
+    const agent = await db.query.agents.findFirst({
+      where: eq(agents.id, agentId),
+      with: { user: true },
+    });
+
+    if (!agent?.user.expoPushToken) return;
+
+    await expo.sendPushNotificationsAsync([{
+      to: agent.user.expoPushToken,
+      title: '✅ Agent Complete',
+      body: `${agent.repoName}: ${agent.taskDescription.slice(0, 50)}...`,
+      data: { agentId, type: 'agent_complete' },
+    }]);
+  }
+
+  async notifyAgentFailed(agentId: string, error: string) {
+    // Similar implementation
+  }
+}
+```
+
+### Complete API Routes
+
+```typescript
+// src/routes/agents.ts
+import { FastifyInstance } from 'fastify';
+import { z } from 'zod';
+
+const createAgentSchema = z.object({
+  repoUrl: z.string().url(),
+  branch: z.string().optional().default('main'),
+  taskDescription: z.string().min(10).max(5000),
+  model: z.string().optional(),
+  systemPrompt: z.string().optional(), // Custom instructions
+});
+
+export async function agentRoutes(fastify: FastifyInstance) {
+  // Create agent
+  fastify.post('/api/agents', {
+    preHandler: [authMiddleware, usageLimitMiddleware],
+    schema: { body: createAgentSchema },
+  }, async (request, reply) => {
+    const userId = request.user.id;
+    const { repoUrl, branch, taskDescription, model, systemPrompt } = request.body;
+
+    // Get user's preferred model or use provided
+    const user = await db.query.users.findFirst({ where: eq(users.id, userId) });
+    const selectedModel = model || user?.defaultModel || 'claude-sonnet-4-20250514';
+
+    // Analyze codebase for context
+    const context = await codebaseAnalyzer.analyze(repoUrl, branch, taskDescription);
+
+    // Create agent record
+    const [agent] = await db.insert(agents).values({
+      userId,
+      repoUrl,
+      repoOwner: parseRepoOwner(repoUrl),
+      repoName: parseRepoName(repoUrl),
+      branch,
+      taskDescription,
+      systemPrompt,
+      model: selectedModel,
+      status: 'queued',
+    }).returning();
+
+    // Queue for execution
+    await queueAgentJob({
+      agentId: agent.id,
+      userId,
+      repoUrl,
+      branch,
+      taskDescription,
+      model: selectedModel,
+      systemPrompt,
+      context,
+    });
+
+    // Increment usage
+    await db.update(users)
+      .set({ agentsUsedThisMonth: sql`agents_used_this_month + 1` })
+      .where(eq(users.id, userId));
+
+    return reply.status(201).send(agent);
+  });
+
+  // List agents
+  fastify.get('/api/agents', {
+    preHandler: [authMiddleware],
+  }, async (request, reply) => {
+    const userId = request.user.id;
+    const { status, limit = 20, offset = 0 } = request.query as any;
+
+    const query = db.select().from(agents)
+      .where(eq(agents.userId, userId))
+      .orderBy(desc(agents.createdAt))
+      .limit(limit)
+      .offset(offset);
+
+    if (status) {
+      query.where(eq(agents.status, status));
+    }
+
+    return query;
+  });
+
+  // Get agent detail
+  fastify.get('/api/agents/:id', {
+    preHandler: [authMiddleware],
+  }, async (request, reply) => {
+    const { id } = request.params as { id: string };
+    const userId = request.user.id;
+
+    const agent = await db.query.agents.findFirst({
+      where: and(eq(agents.id, id), eq(agents.userId, userId)),
+      with: { logs: { limit: 100, orderBy: [desc(agentLogs.timestamp)] } },
+    });
+
+    if (!agent) return reply.status(404).send({ error: 'Agent not found' });
+    return agent;
+  });
+
+  // Pause agent
+  fastify.post('/api/agents/:id/pause', {
+    preHandler: [authMiddleware],
+  }, async (request, reply) => {
+    const { id } = request.params as { id: string };
+
+    // Pause the BullMQ job
+    const job = await agentQueue.getJob(id);
+    if (job && (await job.isActive())) {
+      // Signal the worker to pause
+      await db.update(agents).set({ status: 'paused' }).where(eq(agents.id, id));
+    }
+
+    return { success: true };
+  });
+
+  // Resume agent
+  fastify.post('/api/agents/:id/resume', /* ... */);
+
+  // Cancel agent
+  fastify.delete('/api/agents/:id', /* ... */);
+
+  // Get logs (with SSE option)
+  fastify.get('/api/agents/:id/logs', /* ... */);
+}
+
+// src/routes/models.ts
+export async function modelRoutes(fastify: FastifyInstance) {
+  // List available models
+  fastify.get('/api/models', {
+    preHandler: [authMiddleware],
+  }, async (request, reply) => {
+    const userId = request.user.id;
+
+    // Get system models
+    const systemModels = modelRouter.getAvailableModels();
+
+    // Get user's custom API keys
+    const userKeys = await db.query.apiKeys.findMany({
+      where: and(eq(apiKeys.userId, userId), eq(apiKeys.isActive, true)),
+    });
+
+    // Add models from user's keys
+    const userModels = userKeys.flatMap(key => {
+      const provider = modelRouter.getProvider(key.provider);
+      return provider.models.map(m => ({ ...m, source: 'user_key' }));
+    });
+
+    return {
+      models: [...systemModels, ...userModels],
+      default: request.user.defaultModel,
+    };
+  });
+
+  // Update default model
+  fastify.patch('/api/models/default', {
+    preHandler: [authMiddleware],
+  }, async (request, reply) => {
+    const { modelId } = request.body as { modelId: string };
+
+    await db.update(users)
+      .set({ defaultModel: modelId })
+      .where(eq(users.id, request.user.id));
+
+    return { success: true };
+  });
+
+  // Add custom API key
+  fastify.post('/api/models/keys', {
+    preHandler: [authMiddleware],
+  }, async (request, reply) => {
+    const { provider, apiKey } = request.body as { provider: string; apiKey: string };
+
+    // Validate key works
+    const isValid = await modelRouter.validateApiKey(provider, apiKey);
+    if (!isValid) {
+      return reply.status(400).send({ error: 'Invalid API key' });
+    }
+
+    // Encrypt and store
+    const encrypted = await encrypt(apiKey);
+    await db.insert(apiKeys).values({
+      userId: request.user.id,
+      provider,
+      encryptedKey: encrypted,
+      keyHint: apiKey.slice(-4),
+    });
+
+    return { success: true };
+  });
+}
+
+// src/routes/users.ts
+export async function userRoutes(fastify: FastifyInstance) {
+  // Get current user
+  fastify.get('/api/users/me', /* ... */);
+
+  // Update preferences
+  fastify.patch('/api/users/me/preferences', /* ... */);
+
+  // Get usage stats
+  fastify.get('/api/users/me/usage', {
+    preHandler: [authMiddleware],
+  }, async (request, reply) => {
+    const user = await db.query.users.findFirst({
+      where: eq(users.id, request.user.id),
+    });
+
+    const limits = getUsageLimits(user.subscriptionTier);
+
+    return {
+      tier: user.subscriptionTier,
+      agents: {
+        used: user.agentsUsedThisMonth,
+        limit: limits.agentsPerMonth,
+      },
+      voiceMinutes: {
+        used: user.voiceMinutesUsedThisMonth,
+        limit: limits.voiceMinutesPerMonth,
+      },
+      resetsAt: getNextResetDate(),
+    };
+  });
+
+  // Register push token
+  fastify.post('/api/users/me/push-token', /* ... */);
+}
+```
+
+### Usage Limits
+
+```typescript
+// src/services/usage/UsageTracker.ts
+const TIER_LIMITS = {
+  free: { agentsPerMonth: 5, voiceMinutesPerMonth: 30 },
+  pro: { agentsPerMonth: 50, voiceMinutesPerMonth: 300 },
+  enterprise: { agentsPerMonth: Infinity, voiceMinutesPerMonth: Infinity },
+};
+
+export async function checkUsageLimit(userId: string, resource: 'agents' | 'voice'): Promise<boolean> {
+  const user = await db.query.users.findFirst({ where: eq(users.id, userId) });
+  const limits = TIER_LIMITS[user.subscriptionTier];
+
+  if (resource === 'agents') {
+    return user.agentsUsedThisMonth < limits.agentsPerMonth;
+  }
+  if (resource === 'voice') {
+    return user.voiceMinutesUsedThisMonth < limits.voiceMinutesPerMonth;
+  }
+  return false;
+}
+
+// Middleware
+export const usageLimitMiddleware = async (request, reply) => {
+  const canProceed = await checkUsageLimit(request.user.id, 'agents');
+  if (!canProceed) {
+    return reply.status(429).send({
+      error: 'Usage limit reached',
+      upgrade: '/pricing',
+    });
+  }
+};
+```
 
 ---
 
