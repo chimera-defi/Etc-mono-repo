@@ -95,9 +95,22 @@ aztec-cli --version
 - ✅ Docker daemon running with `--bridge=none --iptables=false`
 - ✅ nargo 1.0.0-beta.17 installed via noirup
 - ✅ Basic Noir compile + test working (`nargo compile`, `nargo test`)
-- 🔄 Docker pulling `aztecprotocol/aztec:latest` (~3.7GB+ downloaded)
+- ✅ **Staking pool contract prototype** - 5/5 tests pass (share calc, withdrawal, fees)
+- ✅ **Devnet RPC discovered**: `https://next.devnet.aztec-labs.com`
+  - Node version: 3.0.0-devnet.20251212
+  - L1 Chain ID: 11155111 (Sepolia)
+  - **stakingAssetAddress**: `0x3dae418ad4dbd49e00215d24079a10ac3bc9ef4f` ⭐
+  - Block queries working (`node_getBlocks`, `node_getNodeInfo`)
+- 🔄 Docker pulling `aztecprotocol/aztec:latest` (layers downloading)
 - ❌ `install.aztec.network` returns 403 (CloudFront block)
 - ⏳ Full sandbox smoke test still needs aztec-nargo + running sandbox
+
+**Alternative Path Discovered:**
+Can test against devnet using RPC + AztecJS without local sandbox:
+```javascript
+import { createAztecNodeClient } from "@aztec/aztec.js/node";
+const node = createAztecNodeClient("https://next.devnet.aztec-labs.com");
+```
 
 **Context:** Before we validate economics or build real contracts, we need a working local loop. A “smoke test” is the smallest end-to-end check that proves the environment works.
 

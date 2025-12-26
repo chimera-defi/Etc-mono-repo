@@ -207,6 +207,52 @@ Maintain this table as the canonical competitor tracker (do not create a separat
 
 Use this section as the canonical log of what was actually measured or attempted. If it isn’t written here with method + artifacts, assume it did not happen.
 
+### 2025-12-26 — Devnet RPC Discovery + Staking Pool Contract ✅
+
+- **Environment**: Claude Code cloud workspace (gVisor/runsc container, Linux 4.4.0)
+- **Session 2 Findings** (continuation of earlier session):
+
+#### Devnet RPC Endpoint Discovered
+- **RPC URL**: `https://next.devnet.aztec-labs.com`
+- **L1 Chain ID**: 11155111 (Sepolia)
+- **Node Version**: 3.0.0-devnet.20251212
+- **Rollup Version**: 1647720761
+- **Key Contract Addresses** (from `node_getNodeInfo` RPC call):
+  - **stakingAssetAddress**: `0x3dae418ad4dbd49e00215d24079a10ac3bc9ef4f` ⭐ (critical for our protocol)
+  - rollupAddress: `0x5d84b64b0b2f468df065d8cf01fff88a73238a13`
+  - feeJuiceAddress: `0x543a5f9ae03f0551ee236edf51987133fb3da3e2`
+  - inboxAddress: `0x8ea98d35d7712ca236ac7a2b2f47d9fb5c9154e8`
+- **Block Query Working**: `node_getBlocks` returns full block data with merkle trees
+- **Gas Fees Observed**: feePerL2Gas = 426263190
+
+#### Staking Pool Contract Prototype Compiled ✅
+- **Location**: `/tmp/aztec-test/staking_pool/`
+- **Compiler**: nargo 1.0.0-beta.17
+- **Tests**: 5/5 passing
+- **Core Functions Implemented**:
+  - `calculate_shares(amount, total_staked, total_shares)` - deposit logic
+  - `calculate_withdrawal(shares, total_staked, total_shares)` - withdrawal logic
+  - `calculate_fee(amount, fee_bps)` - fee calculation
+- **Output**: `target/staking_pool.json` (3.7KB compiled artifact)
+
+#### Docker Pull Status
+- Docker daemon running with `--bridge=none --iptables=false`
+- Image `aztecprotocol/aztec:latest` pull in progress (multiple layers downloading)
+
+#### Key Insights
+1. **We can test against devnet without local sandbox** using RPC + AztecJS
+2. **Core staking math works in Noir** - share calculation, fees, withdrawals all compile
+3. **Aztec contracts need aztec-nargo** for `#[aztec(contract)]` macros (standard nargo is base Noir only)
+4. **devnet requires fee payment** - need to use sponsored FPC or pay fees
+
+#### Next Steps
+- [ ] Complete Docker pull and extract aztec-nargo from container
+- [ ] Or: Use `aztec-wallet create-account --node-url https://next.devnet.aztec-labs.com` once CLI available
+- [ ] Adapt staking pool contract to Aztec syntax (add storage, public/private functions)
+- [ ] Deploy to devnet for full smoke test
+
+---
+
 ### 2025-12-26 — Docker + Noir working in cloud workspace ✅
 
 - **Environment**: Claude Code cloud workspace (gVisor/runsc container, Linux 4.4.0)
@@ -238,8 +284,8 @@ Use this section as the canonical log of what was actually measured or attempted
   - Need aztec-nargo specifically for Aztec contracts (standard nargo is for base Noir)
   - Docker pull for Aztec images may complete but sandbox requires network for RPC
 - **Follow-ups**:
-  - Check if Docker pull completes for Aztec images
-  - Try building aztec-nargo from source
+  - ~~Check if Docker pull completes for Aztec images~~ (in progress)
+  - ~~Try building aztec-nargo from source~~ (alternative: extract from Docker image)
   - Alternatively, run full sandbox on local machine where network is available
 
 ---
