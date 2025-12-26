@@ -1,6 +1,6 @@
 # Crypto Wallet Comparison for Developers
 
-## Complete Wallet Comparison (All 25 EVM Wallets)
+## Complete Wallet Comparison (All 26 EVM Wallets)
 
 | Wallet | Score | Core | Rel/Mo | RPC | GitHub | Active | Chains | Devices | Testnets | License | Audits | Funding | Tx Sim | Scam | Account | ENS/Naming | HW | Best For | Rec |
 |--------|-------|------|--------|-----|--------|--------|--------|---------|----------|---------|--------|---------|--------|------|---------|------------|-----|----------|-----|
@@ -29,6 +29,7 @@
 | **Argent** | 30 | ⚠️ | ~1 | ✅ | [argent-x](https://github.com/argentlabs/argent-x) | ❌ | 2 | 📱🌐⁂ | ✅ | ✅ GPL-3 | ❓ None | 🔴 VC | ❌ | ⚠️ | 4337 | ❌ None | ✅ | ~~Starknet~~ | 🔴 |
 | **Block** | 10 | ❌ | ~2 | ✅ | [extension](https://github.com/block-wallet/extension) | ❌ | 20+ | 🌐 | ✅ | ✅ MIT | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ❌ None | ✅ | ~~Stability~~ | 🔴 |
 | **Kohaku**∆ | 45 | ❌ | 0 | ✅ | [kohaku-extension](https://github.com/ethereum/kohaku-extension) | ❌ | EVM | 🌐 | ✅ | ✅ GPL-3 | ❓ Fork | 🟡 EF | ✅ | ✅ | 7702+4337 | ✅ Basic | ✅ | ~~Privacy~~ | 🔴 |
+| **Status** | 52 | ❌ | ~2 | ⚠️ | [status-mobile](https://github.com/status-im/status-mobile) | ✅ | 4 | 📱 | ✅ | ✅ MPL-2 | ❓ None | 🟢 Status | ❌ | ⚠️ | EOA | ✅ Basic | ✅ | Privacy/Messaging | 🟡 |
 
 ### Legend
 
