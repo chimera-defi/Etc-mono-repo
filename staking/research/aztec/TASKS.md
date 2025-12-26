@@ -110,12 +110,27 @@ aztec-cli --version
   - links to logs/tx hashes (or screenshots)
 
 **Acceptance Criteria:**
-- A new “Local sandbox smoke test” entry exists in `ASSUMPTIONS.md` Validation Log
+- A new "Local sandbox smoke test" entry exists in `ASSUMPTIONS.md` Validation Log
 - Another agent can reproduce by copy/pasting the commands
 
 **Notes (avoid wrong assumptions):**
 - Do **not** assume EVM tooling (MetaMask/wagmi/viem) for local interactions.
-- If a step requires tooling you can’t confirm in Aztec docs, label it **PSEUDOCODE** and record what you tried.
+- If a step requires tooling you can't confirm in Aztec docs, label it **PSEUDOCODE** and record what you tried.
+
+**🚨 HUMAN HANDOFF REQUIRED:**
+This task **cannot** be completed in cloud/CI environments without Docker daemon access.
+
+**Instructions for human:**
+1. Use a local machine or VM with Docker installed and running (`docker info` succeeds)
+2. Follow the smoke test checklist above
+3. Record results in `ASSUMPTIONS.md` → Validation Log with:
+   - Date, machine type, Docker version, Aztec CLI version
+   - Commands run and outputs
+   - Contract address / tx hash from successful deploy
+   - Any issues encountered
+4. Once complete, mark TASK-001A as ✅ and notify the team
+
+**Why this matters:** Contract development (TASK-101+) depends on a proven local toolchain.
 
 ### TASK-002: Deploy Test Validator on Aztec Testnet
 **Status:** 🔴 Not Started
@@ -1554,8 +1569,8 @@ Let me know if you have questions about the requirements.
 
 ---
 
-**Last Updated:** December 22, 2025
-**Total Tasks:** 32
+**Last Updated:** December 26, 2025
+**Total Tasks:** 37
 **Estimated Total Time:** ~300 hours (7.5 weeks at 40 hrs/week)
 
 **Ready to begin!** Start with TASK-001.
