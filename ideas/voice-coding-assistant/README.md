@@ -1,4 +1,4 @@
-# Vox: Voice-Enabled AI Coding Assistant 🎤🤖
+# Cadence: Voice-Enabled AI Coding Assistant 🎤🤖
 
 > **The first mobile-native AI coding assistant with voice interface**
 >
@@ -116,7 +116,7 @@ App:  📱 "Done! 4 files changed, +127 lines. PR ready."
 
 | Decision | Choice | Rationale |
 |----------|--------|-----------|
-| **Project name** | Vox | Voice-focused, memorable |
+| **Project name** | Cadence | Rhythm of voice + code |
 | **Execution (MVP)** | **Fly.io Machines** | 5x cheaper than Modal, Node.js native, warm machines |
 | **Execution (Scale)** | Hetzner VPS per user | Zero cold start, predictable costs |
 | **Real-time updates** | Supabase Realtime | WebSocket, free tier available |
@@ -130,7 +130,7 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for complete technical decisions.
 ## 🚀 Next Steps
 
 ### Immediate (Ready to Start)
-1. ✅ Project name decided: **Vox**
+1. ✅ Project name decided: **Cadence**
 2. ✅ Execution platform decided: **Fly.io** (MVP) → **Hetzner VPS** (Scale)
 3. ☐ Set up Fly.io account and deploy test container
 4. ☐ Prototype voice → Whisper → Claude flow

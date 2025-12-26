@@ -1,4 +1,4 @@
-# Vox Architecture Guide
+# Cadence Architecture Guide
 
 > **Single-page architecture reference for the Voice AI Coding Assistant**
 >
@@ -192,7 +192,7 @@ Total MVP cost:         ~$20-30/mo (regardless of user count)
 
 ```toml
 # fly.toml
-app = "vox-agent-runner"
+app = "cadence-agent-runner"
 
 [build]
   dockerfile = "Dockerfile.agent"
@@ -209,7 +209,7 @@ app = "vox-agent-runner"
 
 [mounts]
   source = "repos_cache"
-  destination = "/home/vox/repos"
+  destination = "/home/cadence/repos"
 ```
 
 ### Scale Decision: Hetzner VPS per User
@@ -295,7 +295,7 @@ Total latency target: <2 seconds end-to-end
 │  │  │  • Streams logs back to backend                         │     │   │
 │  │  └─────────────────────────────────────────────────────────┘     │   │
 │  │                                                                   │   │
-│  │  /home/vox/                                                       │   │
+│  │  /home/cadence/                                                       │   │
 │  │  ├── repos/                                                       │   │
 │  │  │   ├── wallet-frontend/     (cloned, npm installed)            │   │
 │  │  │   ├── api-service/         (cloned, cached)                   │   │
@@ -372,7 +372,7 @@ import { WebSocket } from 'ws';
 
 class AgentDaemon {
   private ws: WebSocket;
-  private reposDir = '/home/vox/repos';
+  private reposDir = '/home/cadence/repos';
 
   async connect(backendUrl: string, userToken: string) {
     this.ws = new WebSocket(`${backendUrl}/ws/daemon`, {
@@ -577,7 +577,7 @@ Post-MVP:   Hybrid model (Free=serverless, Pro=VPS)
 │  User A's VPS                               │
 │  ┌───────────────────────────────────────┐  │
 │  │ Agent Daemon (unprivileged)           │  │
-│  │ • Can only access /home/vox           │  │
+│  │ • Can only access /home/cadence       │  │
 │  │ • Cannot install system packages      │  │
 │  │ • Cannot access other users' data     │  │
 │  └───────────────────────────────────────┘  │
