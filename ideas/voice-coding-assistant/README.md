@@ -84,17 +84,17 @@ App:  "Done! 4 files changed, +127 lines. PR ready."
 
 | Phase | Duration | Deliverables |
 |-------|----------|--------------|
-| **0: Foundation** | Week 1 | Expo project, folder structure |
-| **1: Auth** | Week 2 | GitHub OAuth, token storage |
-| **2: Voice** | Weeks 3-4 | Whisper STT, expo-speech TTS |
-| **3: Agents** | Weeks 5-6 | Agent CRUD, command parsing |
-| **4: Backend** | Weeks 5-7 | Claude SDK, Fly.io execution |
-| **5: Context** | Weeks 7-8 | CodebaseAnalyzer |
-| **6: Real-time** | Weeks 8-9 | Polling, push notifications |
-| **7: Polish** | Weeks 10-11 | Testing, error handling |
-| **8: Launch** | Week 12 | App store prep |
+| **0: Validation** | **3-5 days** | **CLI prototype: voice → agent → code (MUST DO FIRST)** |
+| **1: Backend** | Week 1-2 | Fastify API, Drizzle ORM, GitHub OAuth |
+| **2: Mobile Shell** | Week 2-3 | Expo project, auth, navigation |
+| **3: Voice** | Weeks 3-4 | Whisper STT, expo-speech TTS |
+| **4: Agent API** | Weeks 5-6 | Agent CRUD, BullMQ, streaming |
+| **5: Integration** | Weeks 6-7 | Voice → Agent flow, command parsing |
+| **6: Notifications** | Weeks 8-9 | Push, real-time updates |
+| **7: Context** | Weeks 9-10 | CodebaseAnalyzer, file selection |
+| **8: Launch** | Weeks 11-12 | Usage limits, app store prep |
 
-**Total: 12 weeks to MVP**
+**Total: 12 weeks to MVP** (after validation gate)
 
 See [IMPLEMENTATION.md](./IMPLEMENTATION.md) for detailed task breakdown.
 

@@ -6,6 +6,121 @@
 
 ---
 
+## Milestone 0: Validate the Idea (3-5 days)
+
+> **Goal:** Prove voice → agent → code changes works BEFORE building mobile app
+
+### Why Start Here?
+
+The riskiest assumptions are:
+1. Voice transcription is accurate enough for coding tasks
+2. Claude Agent SDK can reliably modify codebases
+3. The end-to-end flow is fast enough (<30 seconds)
+
+**Build the smallest prototype to validate these before investing in React Native.**
+
+### Validation Prototype (Node.js CLI)
+
+```bash
+# Create validation prototype
+mkdir cadence-prototype && cd cadence-prototype
+npm init -y
+npm install @anthropic-ai/claude-code openai dotenv readline
+```
+
+```typescript
+// prototype.ts - Minimal end-to-end validation
+import { query } from '@anthropic-ai/claude-code';
+import OpenAI from 'openai';
+import * as fs from 'fs';
+import * as readline from 'readline';
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+async function transcribeAudio(audioPath: string): Promise<string> {
+  const file = fs.createReadStream(audioPath);
+  const response = await openai.audio.transcriptions.create({
+    file,
+    model: 'whisper-1',
+    language: 'en',
+  });
+  return response.text;
+}
+
+async function runAgent(task: string, repoPath: string): Promise<void> {
+  console.log(`\n🤖 Starting agent: "${task}"\n`);
+
+  const response = await query({
+    prompt: task,
+    cwd: repoPath,
+    model: 'claude-sonnet-4-20250514',
+    apiKey: process.env.ANTHROPIC_API_KEY!,
+    options: { maxTurns: 20 },
+  });
+
+  for await (const event of response) {
+    if (event.type === 'text') {
+      process.stdout.write(event.text);
+    } else if (event.type === 'tool_use') {
+      console.log(`\n🔧 ${event.name}: ${JSON.stringify(event.input).slice(0, 100)}...`);
+    }
+  }
+}
+
+// Run validation
+async function main() {
+  const args = process.argv.slice(2);
+
+  if (args[0] === '--audio') {
+    // Voice mode: transcribe audio file then run agent
+    const transcript = await transcribeAudio(args[1]);
+    console.log(`📝 Transcript: "${transcript}"`);
+    await runAgent(transcript, args[2] || process.cwd());
+  } else {
+    // Text mode: direct input
+    const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+    rl.question('Enter task: ', async (task) => {
+      await runAgent(task, args[0] || process.cwd());
+      rl.close();
+    });
+  }
+}
+
+main().catch(console.error);
+```
+
+### Validation Checklist
+
+| Test | Command | Success Criteria |
+|------|---------|------------------|
+| **Voice accuracy** | Record 10 coding tasks, transcribe | >90% word accuracy |
+| **Agent execution** | `npx tsx prototype.ts ./test-repo` | Agent edits files correctly |
+| **End-to-end** | `npx tsx prototype.ts --audio recording.m4a ./test-repo` | Voice → working code change |
+| **Latency** | Time full flow | <30 seconds total |
+| **Cost check** | Track API costs | <$0.50 per agent run |
+
+### Test Tasks for Validation
+
+```
+1. "Add a console.log to the main function in index.ts"
+2. "Create a new file called utils.ts with a function that adds two numbers"
+3. "Fix the typo in the README"
+4. "Add error handling to the fetchData function"
+5. "Write a unit test for the calculateTotal function"
+```
+
+### Decision Gate
+
+✅ **PROCEED** if all pass:
+- Voice accuracy >90%
+- Agent completes 4/5 test tasks correctly
+- End-to-end latency <30 seconds
+- Cost <$0.50 per agent
+
+❌ **STOP** if any fail - investigate root cause before mobile development.
+
+---
+
 ## Quick Start
 
 ```bash
@@ -939,6 +1054,368 @@ export const usageLimitMiddleware = async (request, reply) => {
 };
 ```
 
+### STT Proxy Endpoint (Whisper)
+
+For users without their own OpenAI key, the backend proxies Whisper API calls:
+
+```typescript
+// src/routes/stt.ts
+import OpenAI from 'openai';
+import { FastifyInstance } from 'fastify';
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+export async function sttRoutes(fastify: FastifyInstance) {
+  // Transcribe audio (for users without their own key)
+  fastify.post('/api/stt/transcribe', {
+    preHandler: [authMiddleware, usageLimitMiddleware],
+  }, async (request, reply) => {
+    const data = await request.file(); // @fastify/multipart
+    if (!data) return reply.status(400).send({ error: 'No audio file' });
+
+    const buffer = await data.toBuffer();
+    const file = new File([buffer], 'audio.m4a', { type: 'audio/m4a' });
+
+    const result = await openai.audio.transcriptions.create({
+      file,
+      model: 'whisper-1',
+      language: 'en',
+    });
+
+    // Track voice usage (assume ~1 min per request for billing)
+    await db.update(users)
+      .set({ voiceMinutesUsedThisMonth: sql`voice_minutes_this_month + 1` })
+      .where(eq(users.id, request.user.id));
+
+    return { text: result.text };
+  });
+}
+```
+
+### GitHub OAuth Implementation
+
+Complete PKCE flow for mobile authentication:
+
+```typescript
+// src/routes/auth.ts
+import { FastifyInstance } from 'fastify';
+
+export async function authRoutes(fastify: FastifyInstance) {
+  // Exchange code for tokens (mobile callback)
+  fastify.post('/api/auth/github', async (request, reply) => {
+    const { code, codeVerifier, redirectUri } = request.body as {
+      code: string;
+      codeVerifier: string;
+      redirectUri: string;
+    };
+
+    // Exchange code for access token
+    const tokenResponse = await fetch('https://github.com/login/oauth/access_token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        client_id: process.env.GITHUB_CLIENT_ID,
+        client_secret: process.env.GITHUB_CLIENT_SECRET,
+        code,
+        redirect_uri: redirectUri,
+        code_verifier: codeVerifier,
+      }),
+    });
+
+    const tokens = await tokenResponse.json();
+    if (tokens.error) {
+      return reply.status(401).send({ error: tokens.error_description });
+    }
+
+    // Get user info from GitHub
+    const userResponse = await fetch('https://api.github.com/user', {
+      headers: { Authorization: `Bearer ${tokens.access_token}` },
+    });
+    const githubUser = await userResponse.json();
+
+    // Upsert user in database
+    const [user] = await db.insert(users)
+      .values({
+        githubId: String(githubUser.id),
+        githubUsername: githubUser.login,
+        email: githubUser.email,
+        avatarUrl: githubUser.avatar_url,
+      })
+      .onConflictDoUpdate({
+        target: users.githubId,
+        set: {
+          githubUsername: githubUser.login,
+          email: githubUser.email,
+          avatarUrl: githubUser.avatar_url,
+          updatedAt: new Date(),
+        },
+      })
+      .returning();
+
+    // Generate JWT
+    const jwt = await fastify.jwt.sign({
+      sub: user.id,
+      githubId: user.githubId,
+      githubUsername: user.githubUsername,
+    }, { expiresIn: '7d' });
+
+    return {
+      token: jwt,
+      user: {
+        id: user.id,
+        githubUsername: user.githubUsername,
+        avatarUrl: user.avatarUrl,
+        subscriptionTier: user.subscriptionTier,
+      },
+    };
+  });
+
+  // Refresh token
+  fastify.post('/api/auth/refresh', {
+    preHandler: [authMiddleware],
+  }, async (request, reply) => {
+    const jwt = await fastify.jwt.sign({
+      sub: request.user.id,
+      githubId: request.user.githubId,
+      githubUsername: request.user.githubUsername,
+    }, { expiresIn: '7d' });
+
+    return { token: jwt };
+  });
+}
+```
+
+### Agent Sandbox (Fly.io Machines)
+
+Isolated execution environment for each agent:
+
+```typescript
+// src/services/agent/AgentSandbox.ts
+import { execSync } from 'child_process';
+
+interface FlyMachine {
+  id: string;
+  state: string;
+  private_ip: string;
+}
+
+export class AgentSandbox {
+  private appName = 'cadence-agent-runner';
+  private machineId: string | null = null;
+
+  async prepare(repoUrl: string, branch: string): Promise<string> {
+    // Create a new Fly machine for this agent
+    const machine = await this.createMachine();
+    this.machineId = machine.id;
+
+    // Clone repo inside the machine
+    const workingDir = `/home/cadence/repos/${Date.now()}`;
+    await this.execInMachine(`git clone ${repoUrl} ${workingDir}`);
+    await this.execInMachine(`cd ${workingDir} && git checkout ${branch}`);
+
+    // Install dependencies if package.json exists
+    await this.execInMachine(`
+      if [ -f ${workingDir}/package.json ]; then
+        cd ${workingDir} && npm install
+      fi
+    `);
+
+    return workingDir;
+  }
+
+  private async createMachine(): Promise<FlyMachine> {
+    const response = await fetch(
+      `https://api.machines.dev/v1/apps/${this.appName}/machines`,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${process.env.FLY_API_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          config: {
+            image: 'cadence-agent:latest',
+            guest: { cpu_kind: 'shared', cpus: 2, memory_mb: 4096 },
+            auto_destroy: true,
+            restart: { policy: 'no' },
+            env: {
+              ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY,
+            },
+          },
+        }),
+      }
+    );
+
+    return response.json();
+  }
+
+  private async execInMachine(command: string): Promise<string> {
+    const response = await fetch(
+      `https://api.machines.dev/v1/apps/${this.appName}/machines/${this.machineId}/exec`,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${process.env.FLY_API_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ cmd: ['sh', '-c', command] }),
+      }
+    );
+
+    const result = await response.json();
+    return result.stdout;
+  }
+
+  async createPullRequest(description: string): Promise<string> {
+    // Create branch, commit, push, and open PR via gh CLI
+    const branchName = `cadence/${Date.now()}`;
+    await this.execInMachine(`
+      git checkout -b ${branchName}
+      git add -A
+      git commit -m "feat: ${description.slice(0, 50)}"
+      git push origin ${branchName}
+      gh pr create --title "${description.slice(0, 50)}" --body "Created by Cadence AI Agent"
+    `);
+
+    // Get PR URL
+    const prUrl = await this.execInMachine(`gh pr view --json url -q .url`);
+    return prUrl.trim();
+  }
+
+  async cleanup(): Promise<void> {
+    if (!this.machineId) return;
+
+    await fetch(
+      `https://api.machines.dev/v1/apps/${this.appName}/machines/${this.machineId}`,
+      {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${process.env.FLY_API_TOKEN}` },
+      }
+    );
+  }
+}
+```
+
+### Monthly Usage Reset (Cron)
+
+Reset usage counters on the 1st of each month:
+
+```typescript
+// src/workers/usageResetWorker.ts
+import { CronJob } from 'cron';
+import { db } from '../db';
+import { users } from '../db/schema';
+
+// Reset all users' monthly usage on the 1st at midnight UTC
+export const usageResetJob = new CronJob('0 0 1 * *', async () => {
+  console.log('[Cron] Resetting monthly usage counters...');
+
+  await db.update(users).set({
+    agentsUsedThisMonth: 0,
+    voiceMinutesUsedThisMonth: 0,
+  });
+
+  console.log('[Cron] Monthly usage reset complete');
+});
+
+// Start the cron job
+usageResetJob.start();
+```
+
+### Health Check & Deployment
+
+```typescript
+// src/routes/health.ts
+export async function healthRoutes(fastify: FastifyInstance) {
+  fastify.get('/health', async () => ({ status: 'ok' }));
+
+  fastify.get('/ready', async (request, reply) => {
+    try {
+      // Check database
+      await db.execute(sql`SELECT 1`);
+      // Check Redis
+      await redis.ping();
+      return { status: 'ready' };
+    } catch (error) {
+      return reply.status(503).send({ status: 'not ready', error: error.message });
+    }
+  });
+}
+```
+
+```dockerfile
+# Dockerfile (cadence-backend)
+FROM node:20-alpine
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY dist ./dist
+
+ENV NODE_ENV=production
+EXPOSE 8080
+
+CMD ["node", "dist/index.js"]
+```
+
+```toml
+# fly.toml (cadence-backend)
+app = "cadence-backend"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  min_machines_running = 1
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory_mb = 512
+```
+
+### API Key Encryption
+
+Encrypt user API keys before storing:
+
+```typescript
+// src/services/auth/encryption.ts
+import { createCipheriv, createDecipheriv, randomBytes } from 'crypto';
+
+const ALGORITHM = 'aes-256-gcm';
+const KEY = Buffer.from(process.env.ENCRYPTION_KEY!, 'hex'); // 32 bytes
+
+export function encrypt(text: string): string {
+  const iv = randomBytes(16);
+  const cipher = createCipheriv(ALGORITHM, KEY, iv);
+
+  let encrypted = cipher.update(text, 'utf8', 'hex');
+  encrypted += cipher.final('hex');
+
+  const authTag = cipher.getAuthTag().toString('hex');
+  return `${iv.toString('hex')}:${authTag}:${encrypted}`;
+}
+
+export function decrypt(encryptedText: string): string {
+  const [ivHex, authTagHex, encrypted] = encryptedText.split(':');
+
+  const iv = Buffer.from(ivHex, 'hex');
+  const authTag = Buffer.from(authTagHex, 'hex');
+  const decipher = createDecipheriv(ALGORITHM, KEY, iv);
+  decipher.setAuthTag(authTag);
+
+  let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+  decrypted += decipher.final('utf8');
+
+  return decrypted;
+}
+```
+
 ---
 
 ## Feature Parity Requirements
@@ -1339,6 +1816,234 @@ npx create-expo-app@latest cadence --template expo-template-blank-typescript
 
 ---
 
-**Document Version:** 1.0
+---
+
+## Execution Environment Strategy
+
+### MVP: Fly.io Machines (Simple, Pay-per-use)
+
+For weeks 1-8, use Fly.io for simplicity:
+
+| Factor | Fly.io Advantage |
+|--------|------------------|
+| **Cold start** | ~0s with `min_machines_running=1` |
+| **Node.js** | Native support (unlike Modal.com's Python-first) |
+| **Docker** | Full support |
+| **Cost** | $0.02/hr (~$15-30/mo base) |
+
+### Scale: VPS-per-User (Zero Cold Start)
+
+When reaching 100+ Pro users, migrate to dedicated VPS:
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      HYBRID EXECUTION MODEL                              │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  FREE TIER ($0/mo):                                                      │
+│  • Serverless execution (Fly.io)                                         │
+│  • 5 agents/month limit                                                  │
+│  • Cold start: 2-5 seconds                                               │
+│  • Cost to us: ~$0.50/agent                                              │
+│                                                                          │
+│  PRO TIER ($15/mo):                                                      │
+│  • Dedicated VPS (Hetzner CX22: 2 vCPU, 4GB RAM)                        │
+│  • Unlimited agents, zero cold start                                     │
+│  • Repos cached, deps installed                                          │
+│  • Cost to us: ~$4.85/mo → 68% margin                                   │
+│                                                                          │
+│  ENTERPRISE TIER ($75/mo):                                               │
+│  • Larger VPS (Hetzner CX32: 4 vCPU, 8GB RAM)                           │
+│  • Parallel agents (2-4 simultaneously)                                  │
+│  • Priority support                                                      │
+│  • Cost to us: ~$15/mo → 80% margin                                     │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### Implementation Path
+
+```
+Week 1-8:   Fly.io Machines (serverless) - validate idea
+            ↓
+Week 9-12:  Build VPS provisioning (Hetzner API)
+            ↓
+Week 13-16: Migrate Pro users to VPS
+            ↓
+Post-MVP:   Hybrid model (Free=serverless, Pro=VPS)
+```
+
+---
+
+## Task Breakdown for AI Agents
+
+> **For future Claude agents to implement this project step-by-step**
+
+### Sprint 0: Validation (3-5 days) - MUST DO FIRST
+
+| Task ID | Task | Priority | Est. | Dependencies |
+|---------|------|----------|------|--------------|
+| `V-01` | Create `cadence-prototype` folder with Node.js + TypeScript | P0 | 1h | None |
+| `V-02` | Implement Whisper transcription function | P0 | 2h | V-01 |
+| `V-03` | Implement Claude Agent SDK wrapper | P0 | 2h | V-01 |
+| `V-04` | Create end-to-end CLI tool (text → agent → changes) | P0 | 2h | V-02, V-03 |
+| `V-05` | Record 5 test voice commands and transcribe | P0 | 1h | V-02 |
+| `V-06` | Run agents on 5 test tasks, measure success rate | P0 | 2h | V-04 |
+| `V-07` | Document results: accuracy, latency, cost | P0 | 1h | V-05, V-06 |
+
+**Output:** Decision to proceed or investigate issues.
+
+---
+
+### Sprint 1: Backend Foundation (Week 1-2)
+
+| Task ID | Task | Priority | Est. | Dependencies |
+|---------|------|----------|------|--------------|
+| `B-01` | Initialize `cadence-backend` with Fastify + TypeScript | P0 | 2h | V-07 ✓ |
+| `B-02` | Set up Drizzle ORM with PostgreSQL (Neon) schema | P0 | 3h | B-01 |
+| `B-03` | Implement health check routes (`/health`, `/ready`) | P0 | 1h | B-01 |
+| `B-04` | Implement GitHub OAuth routes (PKCE flow) | P0 | 4h | B-02 |
+| `B-05` | Implement JWT auth middleware | P0 | 2h | B-04 |
+| `B-06` | Set up Redis connection (Upstash) | P1 | 1h | B-01 |
+| `B-07` | Implement BullMQ job queue setup | P1 | 2h | B-06 |
+| `B-08` | Create Dockerfile and fly.toml for deployment | P1 | 2h | B-03 |
+| `B-09` | Deploy to Fly.io (backend API) | P1 | 2h | B-08 |
+
+**Output:** Running backend at `cadence-backend.fly.dev` with auth.
+
+---
+
+### Sprint 2: Mobile App Shell (Week 2-3)
+
+| Task ID | Task | Priority | Est. | Dependencies |
+|---------|------|----------|------|--------------|
+| `M-01` | Create Expo app with TypeScript template | P0 | 1h | None |
+| `M-02` | Set up folder structure (screens, components, services) | P0 | 1h | M-01 |
+| `M-03` | Configure React Navigation (tabs + stack) | P0 | 2h | M-02 |
+| `M-04` | Create Zustand stores (auth, agents, voice) | P0 | 2h | M-02 |
+| `M-05` | Implement GitHub OAuth flow (expo-auth-session) | P0 | 4h | M-03, B-04 |
+| `M-06` | Create login screen with GitHub button | P0 | 2h | M-05 |
+| `M-07` | Implement secure token storage (expo-secure-store) | P0 | 2h | M-05 |
+| `M-08` | Create navigation guards (protected routes) | P1 | 2h | M-07 |
+
+**Output:** App with working login, persisted sessions.
+
+---
+
+### Sprint 3: Voice Interface (Week 3-4)
+
+| Task ID | Task | Priority | Est. | Dependencies |
+|---------|------|----------|------|--------------|
+| `VO-01` | Implement audio recording (expo-av) | P0 | 4h | M-02 |
+| `VO-02` | Implement iOS audio compression (M4A, native module if needed) | P0 | 8h | VO-01 |
+| `VO-03` | Create WhisperSTTProvider (direct to OpenAI or via backend) | P0 | 4h | VO-01 |
+| `VO-04` | Create VoiceButton component with states | P0 | 4h | VO-01 |
+| `VO-05` | Create waveform animation during recording | P1 | 4h | VO-04 |
+| `VO-06` | Implement TTS with expo-speech | P1 | 2h | M-02 |
+| `VO-07` | Create transcript display component | P1 | 2h | VO-03 |
+| `VO-08` | Implement voice state machine (idle→listening→processing→speaking) | P1 | 3h | VO-03, VO-06 |
+
+**Output:** Working voice input that transcribes accurately.
+
+---
+
+### Sprint 4: Agent API & UI (Week 5-6)
+
+| Task ID | Task | Priority | Est. | Dependencies |
+|---------|------|----------|------|--------------|
+| `A-01` | Create agent CRUD routes (POST, GET, DELETE) | P0 | 4h | B-02 |
+| `A-02` | Implement AgentExecutor with Claude Agent SDK | P0 | 6h | B-07 |
+| `A-03` | Implement agentWorker (BullMQ processor) | P0 | 4h | A-02 |
+| `A-04` | Create SSEManager for real-time streaming | P0 | 4h | A-03 |
+| `A-05` | Create agent list screen (mobile) | P0 | 4h | M-03 |
+| `A-06` | Create agent detail screen with logs | P0 | 6h | A-05 |
+| `A-07` | Implement TanStack Query for agent data | P1 | 3h | A-05 |
+| `A-08` | Add pause/resume/cancel functionality | P1 | 4h | A-01 |
+
+**Output:** Can create agents via API, see status and logs.
+
+---
+
+### Sprint 5: Voice → Agent Integration (Week 6-7)
+
+| Task ID | Task | Priority | Est. | Dependencies |
+|---------|------|----------|------|--------------|
+| `I-01` | Create CommandParser (intent extraction via Claude Haiku) | P0 | 6h | VO-03 |
+| `I-02` | Implement voice command router | P0 | 3h | I-01 |
+| `I-03` | Create "New Agent" flow from voice | P0 | 4h | I-02, A-01 |
+| `I-04` | Implement repo selection (list user's repos) | P0 | 4h | M-05 |
+| `I-05` | Add spoken confirmation before agent starts | P1 | 2h | VO-06 |
+| `I-06` | Implement "What's the status?" voice command | P1 | 3h | I-01, A-05 |
+
+**Output:** Say "Start an agent on my-repo to add tests" → agent runs.
+
+---
+
+### Sprint 6: Notifications & Polish (Week 8-9)
+
+| Task ID | Task | Priority | Est. | Dependencies |
+|---------|------|----------|------|--------------|
+| `N-01` | Configure expo-notifications | P0 | 3h | M-02 |
+| `N-02` | Implement push token registration | P0 | 2h | N-01, B-02 |
+| `N-03` | Send push on agent complete | P0 | 2h | N-02, A-03 |
+| `N-04` | Send push on agent failure | P0 | 2h | N-02, A-03 |
+| `N-05` | Add notification preferences screen | P1 | 3h | N-01 |
+| `N-06` | Implement global error boundary | P1 | 2h | M-02 |
+| `N-07` | Add loading skeletons and empty states | P1 | 4h | A-05 |
+
+**Output:** Get notified when agents finish.
+
+---
+
+### Sprint 7: Codebase Context (Week 9-10)
+
+| Task ID | Task | Priority | Est. | Dependencies |
+|---------|------|----------|------|--------------|
+| `C-01` | Implement GitHub API repo tree fetching | P0 | 4h | B-04 |
+| `C-02` | Create framework detector (React, Next, Express, etc.) | P0 | 4h | C-01 |
+| `C-03` | Implement dependency analyzer (package.json) | P1 | 3h | C-01 |
+| `C-04` | Create relevant file selector (via Claude analysis) | P1 | 6h | C-02 |
+| `C-05` | Implement context caching (24h TTL) | P1 | 2h | C-01, B-06 |
+| `C-06` | Integrate context into agent prompts | P0 | 3h | C-04, A-02 |
+
+**Output:** Agents understand project structure before editing.
+
+---
+
+### Sprint 8: Launch Prep (Week 11-12)
+
+| Task ID | Task | Priority | Est. | Dependencies |
+|---------|------|----------|------|--------------|
+| `L-01` | Implement usage tracking (agents, voice minutes) | P0 | 4h | B-02 |
+| `L-02` | Implement usage limits enforcement | P0 | 3h | L-01 |
+| `L-03` | Add monthly usage reset cron job | P0 | 2h | L-01 |
+| `L-04` | Set up Sentry error tracking | P1 | 2h | M-02, B-01 |
+| `L-05` | Create app icons and splash screen | P1 | 4h | M-02 |
+| `L-06` | Configure EAS Build | P1 | 3h | M-02 |
+| `L-07` | TestFlight submission | P1 | 3h | L-06 |
+| `L-08` | Play Store internal testing | P1 | 3h | L-06 |
+
+**Output:** App ready for alpha testers.
+
+---
+
+### Task Summary
+
+| Sprint | Tasks | Hours | Focus |
+|--------|-------|-------|-------|
+| **0: Validation** | 7 | 11h | Prove idea works |
+| **1: Backend** | 9 | 21h | API foundation |
+| **2: Mobile Shell** | 8 | 16h | App structure + auth |
+| **3: Voice** | 8 | 31h | Recording + transcription |
+| **4: Agent API** | 8 | 35h | Execution + UI |
+| **5: Integration** | 6 | 22h | Voice → Agent flow |
+| **6: Notifications** | 7 | 18h | Push + polish |
+| **7: Context** | 6 | 22h | Codebase understanding |
+| **8: Launch** | 8 | 24h | Production ready |
+| **TOTAL** | **67** | **200h** | **12 weeks** |
+
+---
+
+**Document Version:** 2.0
 **Created:** December 26, 2025
 **Status:** Ready for Implementation
