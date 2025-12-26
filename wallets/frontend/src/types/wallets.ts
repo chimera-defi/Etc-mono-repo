@@ -68,6 +68,40 @@ export interface CryptoCard {
   bestFor: string;
   recommendation: 'recommended' | 'situational' | 'avoid';
   type: 'card';
+  
+  // Dune Analytics data (optional - added when Dune integration is active)
+  duneData?: {
+    // Chain support
+    supportedChains: string[]; // ['ethereum', 'polygon', 'arbitrum', ...]
+    chainCount: number;
+    
+    // Usage metrics
+    totalTransactions: number | null;
+    totalVolumeUsd: number | null;
+    activeUsers: number | null;
+    lastUpdated: string; // ISO date
+    
+    // Chain-specific data
+    chainMetrics: {
+      chain: string;
+      transactions: number;
+      volume: number;
+      users: number;
+    }[];
+    
+    // Time series (if available)
+    volumeHistory?: {
+      date: string;
+      volume: number;
+    }[];
+  };
+  
+  // Dune source metadata
+  duneSource?: {
+    queryId: number | null;
+    dashboardUrl: string;
+    lastFetched: string;
+  };
 }
 
 export type WalletData = SoftwareWallet | HardwareWallet | CryptoCard;
