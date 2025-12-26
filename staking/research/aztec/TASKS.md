@@ -86,10 +86,18 @@ aztec-cli --version
 ---
 
 ### TASK-001A: Local Sandbox Smoke Tests (compile → deploy → call)
-**Status:** 🔴 Not Started
+**Status:** 🟡 In Progress (Partial Success)
 **Estimated Time:** 2-6 hours (depends on tooling friction)
 **Priority:** Critical
 **Depends On:** TASK-001
+
+**Progress (2025-12-26):**
+- ✅ Docker daemon running with `--bridge=none --iptables=false`
+- ✅ nargo 1.0.0-beta.17 installed via noirup
+- ✅ Basic Noir compile + test working (`nargo compile`, `nargo test`)
+- 🔄 Docker pulling `aztecprotocol/aztec:latest` (~3.7GB+ downloaded)
+- ❌ `install.aztec.network` returns 403 (CloudFront block)
+- ⏳ Full sandbox smoke test still needs aztec-nargo + running sandbox
 
 **Context:** Before we validate economics or build real contracts, we need a working local loop. A “smoke test” is the smallest end-to-end check that proves the environment works.
 
