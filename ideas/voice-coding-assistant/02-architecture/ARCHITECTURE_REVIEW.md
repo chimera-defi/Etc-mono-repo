@@ -30,17 +30,13 @@
 | **Verse** | Poetry + code versioning | verse.dev | Voice + git metaphor | Abstract |
 | **Hum** | Sound of development | hum.dev | Simple, memorable, dev-focused | Very short, abstract |
 
-### **Top 3 Recommendations:**
+### **Decision: Cadence** ✅
 
-1. **Vox** - Clean, memorable, clearly voice-focused
-2. **Cadence** - Professional, implies rhythm of voice and development
-3. **Claudia** (keep) - Already documented, recognizable connection to Claude
+**Chosen name:** Cadence - Professional, implies rhythm of voice and development
 
-### Decision Criteria:
-- [ ] Domain availability check
-- [ ] Trademark search
-- [ ] User testing (which resonates?)
-- [ ] Brand alignment with Claude/Anthropic
+Other candidates considered:
+- Vox - Clean, voice-focused (but common word, trademark concerns)
+- Claudia - Connection to Claude (but too derivative)
 
 ---
 

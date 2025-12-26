@@ -12,11 +12,11 @@
 
 | Document | Purpose | Link |
 |----------|---------|------|
-| **Executive Summary** | Decision makers overview | [EXECUTIVE_SUMMARY.md](./EXECUTIVE_SUMMARY.md) |
-| **Consolidated Overview** | Technical architecture | [CONSOLIDATED_OVERVIEW.md](./CONSOLIDATED_OVERVIEW.md) |
-| **Risk Analysis** | Comprehensive risk assessment | [RISK_ANALYSIS_AND_VIABILITY.md](./RISK_ANALYSIS_AND_VIABILITY.md) |
-| **Technical Decisions** | All 12 validated decisions | [docs/TECHNICAL_DECISIONS_REVIEW.md](./docs/TECHNICAL_DECISIONS_REVIEW.md) |
-| **UI Wireframes** | 10 screen mockups | [mocks/UI_WIREFRAMES.md](./mocks/UI_WIREFRAMES.md) |
+| **Executive Summary** | Decision makers overview | [EXECUTIVE_SUMMARY.md](../01-planning/EXECUTIVE_SUMMARY.md) |
+| **Consolidated Overview** | Technical architecture | [CONSOLIDATED_OVERVIEW.md](../02-architecture/CONSOLIDATED_OVERVIEW.md) |
+| **Risk Analysis** | Comprehensive risk assessment | [RISK_ANALYSIS_AND_VIABILITY.md](../01-planning/RISK_ANALYSIS_AND_VIABILITY.md) |
+| **Technical Decisions** | All 12 validated decisions | [TECHNICAL_DECISIONS_REVIEW.md](./TECHNICAL_DECISIONS_REVIEW.md) |
+| **UI Wireframes** | 10 screen mockups | [UI_WIREFRAMES.md](../04-design/UI_WIREFRAMES.md) |
 
 ---
 
@@ -47,7 +47,7 @@ export async function executeAgentTask(
       Execute this coding task autonomously.
     `,
     cwd: repoContext.localPath,
-    model: "claude-sonnet-4-5-20250929",
+    model: "claude-sonnet-4-20250514",
     apiKey: process.env.ANTHROPIC_API_KEY,
     // Use hooks for validation and monitoring
     hooks: {
@@ -493,7 +493,7 @@ export class AgentExecutor {
     const response = await query({
       prompt: this.buildPrompt(task),
       cwd: task.repoLocalPath,
-      model: "claude-sonnet-4-5-20250929",
+      model: "claude-sonnet-4-20250514",
       apiKey: process.env.ANTHROPIC_API_KEY,
       permissionMode: 'default',
       hooks: {
