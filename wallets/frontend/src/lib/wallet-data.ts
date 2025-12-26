@@ -94,10 +94,12 @@ function parseChainSupport(chainsCell: string, bestFor: string, walletName: stri
   const support: ChainSupport = {};
   
   // Check if the chains cell already uses the new consolidated format
-  // (e.g., "Bitcoin, Ethereum, Solana, EVM, Move chains" or "Ethereum, EVM (94+)")
-  if (chainsLower.includes('bitcoin') || chainsLower.includes('ethereum') || 
+  // (e.g., "Bitcoin, Ethereum, Solana, EVM, Move chains" or "Ethereum, EVM (94+)" or just "EVM")
+  const hasNewFormat = chainsLower.includes('bitcoin') || chainsLower.includes('ethereum') || 
       chainsLower.includes('solana') || chainsLower.includes('move chains') ||
-      chainsLower.includes('starknet')) {
+      chainsLower.includes('starknet') || chainsLower.includes('evm');
+  
+  if (hasNewFormat) {
     // Parse the new consolidated format
     if (chainsLower.includes('bitcoin')) support.bitcoin = true;
     if (chainsLower.includes('ethereum')) support.ethereum = true;
