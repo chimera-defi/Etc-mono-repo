@@ -101,9 +101,15 @@ aztec-cli --version
   - L1 Chain ID: 11155111 (Sepolia)
   - **stakingAssetAddress**: `0x3dae418ad4dbd49e00215d24079a10ac3bc9ef4f` ⭐
   - Block queries working (`node_getBlocks`, `node_getNodeInfo`)
-- 🔄 Docker pulling `aztecprotocol/aztec:latest` (layers downloading)
+  - Current block: 31833+ (actively producing)
+- ✅ **Aztec staking pool contract** created at `staking/contracts/aztec-staking-pool/`
+  - Full contract with deposit, withdraw, add_rewards, collect_fees
+  - Admin controls, fee management, pause functionality
+  - Requires aztec-nargo for compilation
+- ✅ Docker image pulled: `aztecprotocol/aztec:latest` (1.22GB)
+- ✅ AztecJS installed (DNS issues in cloud env, works locally)
 - ❌ `install.aztec.network` returns 403 (CloudFront block)
-- ⏳ Full sandbox smoke test still needs aztec-nargo + running sandbox
+- ⏳ Deploy to devnet - requires local machine with full networking
 
 **Alternative Path Discovered:**
 Can test against devnet using RPC + AztecJS without local sandbox:
