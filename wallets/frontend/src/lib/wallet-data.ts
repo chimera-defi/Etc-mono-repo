@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import type { CryptoCard, HardwareWallet, SoftwareWallet, WalletData } from '@/types/wallets';
+import type { CryptoCard, HardwareWallet, SoftwareWallet, WalletData, ChainSupport } from '@/types/wallets';
 
 export type { CryptoCard, HardwareWallet, SoftwareWallet, WalletData };
 
@@ -77,13 +77,104 @@ function parseReleasesPerMonth(cell: string): number | null {
   return match ? parseInt(match[1], 10) : null;
 }
 
-// Parse chains count
+// Parse chains count (legacy)
 function parseChainsCount(cell: string): number | string {
   if (cell.toLowerCase().includes('any')) return 'any';
   if (cell.toLowerCase().includes('evm')) return 'evm';
   if (cell.toLowerCase().includes('eth')) return 'eth';
   const match = cell.match(/(\d+)\+?/);
   return match ? parseInt(match[1], 10) : 0;
+}
+
+// Parse chain support into structured categories
+function parseChainSupport(chainsCell: string, bestFor: string, walletName: string): ChainSupport {
+  const chainsLower = chainsCell.toLowerCase();
+  const bestForLower = bestFor.toLowerCase();
+  const nameLower = walletName.toLowerCase();
+  const support: ChainSupport = {};
+  
+  // Check if the chains cell already uses the new consolidated format
+  // (e.g., "Bitcoin, Ethereum, Solana, EVM, Move chains" or "Ethereum, EVM (94+)")
+  if (chainsLower.includes('bitcoin') || chainsLower.includes('ethereum') || 
+      chainsLower.includes('solana') || chainsLower.includes('move chains') ||
+      chainsLower.includes('starknet')) {
+    // Parse the new consolidated format
+    if (chainsLower.includes('bitcoin')) support.bitcoin = true;
+    if (chainsLower.includes('ethereum')) support.ethereum = true;
+    if (chainsLower.includes('solana')) support.solana = true;
+    if (chainsLower.includes('move chains')) support.moveChains = true;
+    
+    // Parse EVM - could be "EVM" or "EVM (94+)"
+    if (chainsLower.includes('evm')) {
+      const evmMatch = chainsLower.match(/evm\s*\((\d+)\+\)/);
+      if (evmMatch) {
+        support.evm = parseInt(evmMatch[1], 10);
+      } else {
+        support.evm = true; // Just "EVM" means all EVM chains
+      }
+    }
+    
+    // Parse other chains (like Starknet)
+    if (chainsLower.includes('starknet')) {
+      support.other = ['Starknet'];
+    }
+    
+    return support;
+  }
+
+  // Legacy format parsing (for backward compatibility)
+  const chainCount = parseChainsCount(chainsCell);
+  const numericCount = typeof chainCount === 'number' ? chainCount : 0;
+
+  // Special cases first
+  if (nameLower.includes('phantom')) {
+    // Phantom: Solana-first wallet, supports Solana + EVM
+    support.solana = true;
+    support.evm = true;
+    return support;
+  }
+
+  if (nameLower.includes('argent')) {
+    // Argent: Starknet-only
+    support.other = ['Starknet'];
+    return support;
+  }
+
+  // Check for Solana support (multi-chain wallets with 50+ chains typically support Solana)
+  if (bestForLower.includes('solana') || numericCount >= 50) {
+    support.solana = true;
+  }
+
+  // Check for Bitcoin support
+  if (bestForLower.includes('bitcoin') || nameLower.includes('bitcoin')) {
+    support.bitcoin = true;
+  }
+
+  // Ethereum: Most wallets with EVM support also support Ethereum
+  // Explicitly mark Ethereum if mentioned or if it's Ethereum-focused
+  if (bestForLower.includes('ethereum') || chainsLower.includes('eth+') || 
+      nameLower.includes('mew') || nameLower.includes('myetherwallet') ||
+      numericCount > 0) {
+    support.ethereum = true;
+  }
+
+  // EVM support: Most wallets in this table are EVM-focused
+  if (chainsLower.includes('evm')) {
+    support.evm = true; // "EVM" means all EVM chains
+  } else if (chainsLower.includes('any')) {
+    support.evm = true; // "Any" means all chains including EVM
+  } else if (numericCount > 0) {
+    // For numeric counts, assume EVM support
+    // Wallets with 50+ chains likely support all EVM chains
+    support.evm = numericCount >= 50 ? true : numericCount;
+  }
+
+  // Move chains (Sui + Aptos): Wallets with broad multi-chain support (50+ chains) typically support these
+  if (numericCount >= 50 || chainsLower.includes('any')) {
+    support.moveChains = true;
+  }
+
+  return support;
 }
 
 // Parse license type
@@ -284,6 +375,8 @@ export function parseSoftwareWallets(): SoftwareWallet[] {
 
     const license = parseLicense(cells[10] || '');
     const funding = parseFunding(cells[12] || '');
+    const bestFor = cells[18]?.replace(/[~*]/g, '').trim() || '';
+    const chainsCell = cells[7] || '';
 
     return {
       id: generateSlug(name),
@@ -294,7 +387,8 @@ export function parseSoftwareWallets(): SoftwareWallet[] {
       rpc: parsePartial(cells[4] || '') as 'full' | 'partial' | 'none',
       github: extractGitHubUrl(cells[5] || ''),
       active: parseStatus(cells[6] || ''),
-      chains: parseChainsCount(cells[7] || ''),
+      chains: parseChainsCount(chainsCell),
+      chainSupport: parseChainSupport(chainsCell, bestFor, name),
       devices: parseDevices(cells[8] || ''),
       testnets: parseBoolean(cells[9] || ''),
       license: license.status,
@@ -307,7 +401,7 @@ export function parseSoftwareWallets(): SoftwareWallet[] {
       accountTypes: parseAccountTypes(cells[15] || ''),
       ensNaming: parseEnsNaming(cells[16] || ''),
       hardwareSupport: parseBoolean(cells[17] || ''),
-      bestFor: cells[18]?.replace(/[~*]/g, '').trim() || '',
+      bestFor,
       recommendation: parseRecommendation(cells[19] || ''),
       type: 'software' as const,
     };
@@ -428,6 +522,43 @@ export function getAllWalletData(): {
     hardware: parseHardwareWallets(),
     cards: parseCryptoCards(),
   };
+}
+
+/**
+ * Format chain support for display
+ */
+export function formatChainSupport(chainSupport?: ChainSupport): string {
+  if (!chainSupport || Object.keys(chainSupport).length === 0) {
+    return 'Unknown';
+  }
+
+  const parts: string[] = [];
+
+  // Main three chains
+  if (chainSupport.bitcoin) parts.push('Bitcoin');
+  if (chainSupport.ethereum) parts.push('Ethereum');
+  if (chainSupport.solana) parts.push('Solana');
+
+  // EVM chains
+  if (chainSupport.evm !== undefined) {
+    if (chainSupport.evm === true) {
+      parts.push('EVM');
+    } else if (typeof chainSupport.evm === 'number') {
+      parts.push(`EVM (${chainSupport.evm}+)`);
+    }
+  }
+
+  // Move chains
+  if (chainSupport.moveChains) {
+    parts.push('Move chains');
+  }
+
+  // Other chains
+  if (chainSupport.other && chainSupport.other.length > 0) {
+    parts.push(...chainSupport.other);
+  }
+
+  return parts.length > 0 ? parts.join(', ') : 'Unknown';
 }
 
 /**
