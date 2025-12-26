@@ -1,6 +1,6 @@
-# Claudia - Mobile Speech Agent App Development Kickoff
+# Cadence - Mobile Speech Agent App Development Kickoff
 
-> **Project Codename:** Claudia (Voice-Enabled AI Coding Assistant)
+> **Project Codename:** Cadence (Voice-Enabled AI Coding Assistant)
 > **Status:** Ready for Development
 > **Start Date:** TBD
 > **Target MVP:** 8-12 weeks
@@ -131,15 +131,15 @@ claude mcp add --transport http github https://mcp.github.com/mcp
 
 ### Slash Commands (Development Shortcuts)
 
-Create `.claude/commands/` for Claudia-specific development:
+Create `.claude/commands/` for Cadence-specific development:
 
 ```markdown
-<!-- .claude/commands/claudia-review.md -->
+<!-- .claude/commands/cadence-review.md -->
 ---
-description: "Review Claudia mobile component for best practices"
+description: "Review Cadence mobile component for best practices"
 allowed-tools: ["Read", "Glob", "Grep"]
 ---
-Review this React Native component for Claudia:
+Review this React Native component for Cadence:
 $ARGUMENTS
 
 Check for:
@@ -154,10 +154,10 @@ Check for:
 
 ## The Ideal Prompt to Kick Off Development
 
-Use this prompt with Claude Code to begin building Claudia, leveraging Claude's own AI capabilities:
+Use this prompt with Claude Code to begin building Cadence, leveraging Claude's own AI capabilities:
 
 ```
-# Project: Claudia - Mobile Voice AI Coding Agent
+# Project: Cadence - Mobile Voice AI Coding Agent
 
 ## Context
 You are building a React Native + Expo mobile app that allows developers to create and manage AI coding agents using voice commands.
@@ -187,8 +187,8 @@ This app is powered by Claude's infrastructure. Use these tools:
    - Custom MCP for mobile analytics
 
 4. **Slash Commands** - Development shortcuts
-   - `/claudia-review` - Review components
-   - `/claudia-test` - Run test suites
+   - `/cadence-review` - Review components
+   - `/cadence-test` - Run test suites
 
 ## Documentation Location
 All planning docs are in: `ideas/voice-coding-assistant/`
@@ -225,7 +225,7 @@ Please proceed with the task while leveraging Claude AI infrastructure.
 ### Phase 0: Project Setup (Week 0-1)
 
 #### P0.1 - Repository & Tooling Setup
-- [ ] Create new Expo project: `npx create-expo-app@latest claudia --template expo-template-blank-typescript`
+- [ ] Create new Expo project: `npx create-expo-app@latest cadence --template expo-template-blank-typescript`
 - [ ] Configure ESLint + Prettier with project standards
 - [ ] Set up Husky for pre-commit hooks
 - [ ] Configure TypeScript strict mode
@@ -250,13 +250,13 @@ exit 0
 EOF
 chmod +x .claude/hooks/lint-on-save.sh
 
-# Create slash commands for Claudia development
-cat > .claude/commands/claudia-component.md << 'EOF'
+# Create slash commands for Cadence development
+cat > .claude/commands/cadence-component.md << 'EOF'
 ---
-description: "Create a new Claudia component with proper patterns"
+description: "Create a new Cadence component with proper patterns"
 allowed-tools: ["Read", "Write", "Edit"]
 ---
-Create a new React Native component for Claudia at: $ARGUMENTS
+Create a new React Native component for Cadence at: $ARGUMENTS
 
 Follow these patterns:
 1. Use TypeScript with strict types
@@ -324,7 +324,7 @@ backend/
 
 #### P0.5 - Project Structure
 ```
-claudia/
+cadence/
 ├── src/
 │   ├── app/                    # Expo Router screens
 │   │   ├── (tabs)/             # Tab navigation
@@ -545,21 +545,21 @@ export class AgentExecutor {
 
 #### P3.5 - Custom MCP Server (Optional)
 
-Create an MCP server for Claudia analytics that Claude Code can query:
+Create an MCP server for Cadence analytics that Claude Code can query:
 
 ```typescript
-// mcp-servers/claudia-analytics.ts
+// mcp-servers/cadence-analytics.ts
 // Expose mobile app metrics to Claude Code for debugging/analysis
 
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 
-const server = new Server({ name: 'claudia-analytics', version: '1.0.0' });
+const server = new Server({ name: 'cadence-analytics', version: '1.0.0' });
 
 server.setRequestHandler('tools/list', async () => ({
   tools: [
     {
       name: 'get_voice_accuracy_metrics',
-      description: 'Get STT accuracy metrics from Claudia mobile app',
+      description: 'Get STT accuracy metrics from Cadence mobile app',
       inputSchema: { type: 'object', properties: { days: { type: 'number' } } }
     },
     {
@@ -573,7 +573,7 @@ server.setRequestHandler('tools/list', async () => ({
 
 **Install in Claude Code:**
 ```bash
-claude mcp add --transport stdio claudia-analytics -- node ./mcp-servers/claudia-analytics.js
+claude mcp add --transport stdio cadence-analytics -- node ./mcp-servers/cadence-analytics.js
 ```
 
 #### P3.6 - Agent UI
@@ -671,14 +671,14 @@ claude mcp add --transport stdio claudia-analytics -- node ./mcp-servers/claudia
 
 ### Starting a New Development Session
 ```
-I'm continuing development on Claudia, the mobile voice AI coding agent app.
+I'm continuing development on Cadence, the mobile voice AI coding agent app.
 
 Current phase: [Phase 1/2/3/etc.]
 Last completed: [Task description]
 Next priority: [Task from list above]
 
 Project docs are in: ideas/voice-coding-assistant/
-Mobile app code should be in: apps/claudia/ (or wherever you set up)
+Mobile app code should be in: apps/cadence/ (or wherever you set up)
 
 Please review the DEVELOPMENT_KICKOFF.md and continue from where we left off.
 ```
@@ -687,7 +687,7 @@ Please review the DEVELOPMENT_KICKOFF.md and continue from where we left off.
 
 #### Voice Interface Development
 ```
-Implement the WhisperSTTProvider for Claudia's voice-to-text functionality.
+Implement the WhisperSTTProvider for Cadence's voice-to-text functionality.
 
 Requirements:
 - Use OpenAI Whisper API with 95%+ accuracy
@@ -700,7 +700,7 @@ Reference: ideas/voice-coding-assistant/docs/STT_WISPR_FLOW_QUALITY.md
 
 #### Agent Management Development
 ```
-Build the agent creation flow for Claudia.
+Build the agent creation flow for Cadence.
 
 The flow should:
 1. Step 1: Select repository (from GitHub)
@@ -713,7 +713,7 @@ Data models: ideas/voice-coding-assistant/CONSOLIDATED_OVERVIEW.md (Agent interf
 
 #### Backend Integration
 ```
-Create the AgentApiService for Claudia.
+Create the AgentApiService for Cadence.
 
 Endpoints needed:
 - POST /api/agents (create)
@@ -777,9 +777,9 @@ Reference: ideas/voice-coding-assistant/CONSOLIDATED_OVERVIEW.md (API section)
 - Expected outcome: Alpha in 4 weeks, Beta in 8 weeks
 
 **Questions to Answer Before Starting:**
-1. ☐ Where should the mobile app code live? (`apps/claudia/`?)
+1. ☐ Where should the mobile app code live? (`apps/cadence/`?)
 2. ☐ Backend: Build custom or use existing service?
-3. ☐ Domain/branding: Claudia? VoiceAgent? Other?
+3. ☐ Domain/branding: Cadence? VoiceAgent? Other?
 4. ☐ Beta user recruitment: How will we find 10 alpha users?
 
 ---
