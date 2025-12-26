@@ -224,6 +224,17 @@ Use this section as the canonical log of what was actually measured or attempted
   - inboxAddress: `0x8ea98d35d7712ca236ac7a2b2f47d9fb5c9154e8`
 - **Block Query Working**: `node_getBlocks` returns full block data with merkle trees
 - **Gas Fees Observed**: feePerL2Gas = 426263190
+- **Latest Block (at time of query)**: 31641 (proven: 31639, finalized: 31623)
+
+#### L1 Contract Analysis (Sepolia Etherscan)
+- **Staking Token** (`0x3dae418...`):
+  - Name: "Staking", Symbol: "STK"
+  - Type: TestERC20 with minting capabilities
+  - Owner can add/remove minters
+- **Rollup Contract** (`0x5d84b64...`):
+  - Submits epoch roots every 4-5 minutes (confirms ~6 min epoch estimate)
+  - Holds 15.8M FEE tokens
+  - Functions for epoch management, validator tracking, withdrawals
 
 #### Staking Pool Contract Prototype Compiled ✅
 - **Location**: `/tmp/aztec-test/staking_pool/`
@@ -237,13 +248,39 @@ Use this section as the canonical log of what was actually measured or attempted
 
 #### Docker Pull Status
 - Docker daemon running with `--bridge=none --iptables=false`
-- Image `aztecprotocol/aztec:latest` pull in progress (multiple layers downloading)
+- Image `aztecprotocol/aztec:latest` successfully pulled (1.22GB)
+- Container execution limited due to network restrictions (--bridge=none)
+
+#### Aztec L2 RPC Methods (verified working)
+```bash
+# Working methods on https://next.devnet.aztec-labs.com
+node_getVersion          # Returns rollup version
+node_getNodeInfo         # Full node info with L1 addresses
+node_getL1ContractAddresses   # L1 contract addresses
+node_getProtocolContractAddresses  # Protocol addresses
+node_getL2Tips           # Latest/proven/finalized blocks
+node_getBlocks           # Full block data with merkle trees
+node_getBlockHeader      # Block header only
+node_getBlock            # Single block by number
+
+# NOT available (require local PXE):
+pxe_*                    # Need local Private Execution Environment
+node_getContractInstance # Not exposed on public node
+```
+
+#### Aztec L2 State (observed at block 31660)
+- **noteHashTree**: 13,440 entries
+- **nullifierTree**: 13,568 entries
+- **publicDataTree**: 596 entries
+- **feePerL2Gas**: 1,020 (varies by block)
+- **Epoch submission**: Every 4-5 minutes (confirmed via L1 tx patterns)
 
 #### Key Insights
 1. **We can test against devnet without local sandbox** using RPC + AztecJS
 2. **Core staking math works in Noir** - share calculation, fees, withdrawals all compile
 3. **Aztec contracts need aztec-nargo** for `#[aztec(contract)]` macros (standard nargo is base Noir only)
 4. **devnet requires fee payment** - need to use sponsored FPC or pay fees
+5. **Docker image available** but container execution needs network bridge
 
 #### Next Steps
 - [ ] Complete Docker pull and extract aztec-nargo from container
