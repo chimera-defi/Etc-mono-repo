@@ -183,6 +183,14 @@
   100. **Parser drift prevention** - if product UI depends on parsing markdown tables, add regression tests that spot-check a few known rows + column semantics (e.g., “price comes from Price column”) to catch column/index drift early.
   101. **Structured data honesty** - avoid `AggregateRating`/`Review` markup unless it reflects real user ratings. Prefer editorial-safe schema (e.g., `ItemList` with URLs/descriptions).
 
+- Chain/network data consolidation learnings:
+  102. **Use Unicode symbols for chain categories** - when displaying multi-chain support in compact tables, use Unicode symbols (⟠ EVM, ₿ Bitcoin, ◎ Solana, △ Move, ⚛ Cosmos, ● Polkadot, ⧫ Starknet, + Other) instead of counts; symbols are more informative than "163 chains"
+  103. **Verify chain support from official sources** - check official GitHub registries (e.g., trustwallet/wallet-core/registry.json), provider configs (e.g., enkrypt/providers/index.ts), or APIs (e.g., api.rabby.io/v1/chain/list) before documenting chain support; marketing claims often inflate numbers
+  104. **Create structured types for complex data** - when changing from simple types (number | string) to structured data (SupportedChains interface), update types first, then parser, then all downstream components; TypeScript will catch missing updates
+  105. **Distinguish chain categories vs chain counts** - "chains" = number of individual networks (163), "chain categories" = types of blockchain ecosystems (EVM, Bitcoin, Solana); for developer documentation, categories are often more useful than counts
+  106. **Update smoke tests when changing data formats** - if a smoke test checks for specific data patterns (e.g., "94" for chains), update it when changing formats (e.g., to "⟠" for EVM); stale assertions cause false failures
+  107. **Sync duplicate tables across files** - when updating a markdown table that exists in multiple files (TABLE.md and UNIFIED.md), update ALL copies to maintain consistency; grep for distinctive values to find all instances
+
 ## Best Practices
 - Use semantic versioning for packages
 - Include proper .gitignore files for each project type
