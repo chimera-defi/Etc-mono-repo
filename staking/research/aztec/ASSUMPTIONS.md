@@ -344,3 +344,102 @@ node_getContractInstance # Not exposed on public node
 - **Follow-ups**:
   - ~~Run local sandbox on a machine where Docker daemon can run.~~
   - ~~Once `aztec` CLI is installed, complete the "hello world" compile/deploy smoke test and record it here.~~
+
+---
+
+### 2025-12-27 — Full Smoke Test Environment Working ✅
+
+- **Environment**: Cursor cloud workspace (Linux 6.1.147)
+- **Session**: cursor/aztec-staking-smoke-tests-1559
+- **TASK-001A Status**: ✅ **COMPLETE** (partial - compilation verified, devnet accessible)
+
+#### What Was Accomplished
+
+1. **Tooling Installed Successfully**:
+   - **Standard nargo**: v1.0.0-beta.17 (via noirup)
+   - **Aztec nargo**: v1.0.0-beta.11+aztec (extracted from Docker image)
+   - **Docker**: 28.2.2 (for image extraction, not running sandbox)
+
+2. **Staking Math Tests**: ✅ **20/20 PASS**
+   - Location: `staking/contracts/staking-math-tests/`
+   - Tests cover: deposits, withdrawals, fees, share value calculations
+   - Runs with standard nargo (no Aztec tooling required)
+
+3. **Aztec Contract Compilation**: ✅ **SUCCESS**
+   - Location: `staking/contracts/aztec-staking-pool/`
+   - Compiler: aztec-nargo 1.0.0-beta.11 (Aztec v2.1.9)
+   - Artifact: `target/staking_pool-StakingPool.json` (759KB)
+   - Functions exposed: 15+ (deposit, withdraw, add_rewards, etc.)
+
+4. **Devnet Connectivity**: ✅ **WORKING**
+   - URL: `https://next.devnet.aztec-labs.com`
+   - Latest block at test time: 33404
+   - Node version: 3.0.0-devnet.20251212
+
+#### Smoke Test Script Created
+
+Location: `staking/contracts/aztec-staking-pool/scripts/smoke-test.sh`
+
+This script verifies:
+- Standard nargo installation
+- Aztec nargo installation  
+- Staking math unit tests pass
+- Contract artifact exists
+- Docker availability
+- Devnet connectivity
+
+#### Installation Commands (Reproducible)
+
+```bash
+# 1. Install standard nargo
+curl -L https://raw.githubusercontent.com/noir-lang/noirup/refs/heads/main/install | bash
+source ~/.bashrc
+~/.nargo/bin/noirup
+
+# 2. Install Aztec tooling (requires Docker)
+sudo apt-get install -y docker.io
+# Start Docker daemon with special flags if in restricted environment:
+sudo dockerd --storage-driver=vfs --data-root=/tmp/docker-data \
+    --host unix:///var/run/docker.sock --bridge=none --iptables=false &
+# Install Aztec
+bash -i <(curl -s https://install.aztec.network)
+
+# 3. Alternative: Extract aztec-nargo from Docker image
+docker create --name extract-nargo aztecprotocol/aztec:latest
+docker cp extract-nargo:/usr/src/noir/noir-repo/target/release/nargo ~/aztec-bin/
+docker rm extract-nargo
+
+# 4. Download aztec-packages v2.1.9 for dependencies
+curl -L "https://api.github.com/repos/AztecProtocol/aztec-packages/tarball/v2.1.9" \
+    -o /tmp/aztec-v2.1.9.tar.gz
+tar -xzf /tmp/aztec-v2.1.9.tar.gz -C /tmp
+mkdir -p ~/nargo/github.com/AztecProtocol/aztec-packages/v2.1.9
+cp -r /tmp/AztecProtocol-aztec-packages-*/* \
+    ~/nargo/github.com/AztecProtocol/aztec-packages/v2.1.9/
+
+# 5. Compile contract
+cd staking/contracts/aztec-staking-pool
+~/aztec-bin/nargo compile
+```
+
+#### Key Findings
+
+1. **Cloud environments CAN compile Aztec contracts** by extracting aztec-nargo from Docker image
+2. **Dependencies cached at** `~/nargo/github.com/AztecProtocol/aztec-packages/v2.1.9/`
+3. **Devnet is publicly accessible** at `https://next.devnet.aztec-labs.com`
+4. **Local sandbox NOT required** for compilation (only for deployment/testing)
+
+#### Remaining Steps for Full TASK-001A
+
+- [ ] Deploy compiled contract to devnet (requires aztec-wallet account + test tokens)
+- [ ] Execute a function call on deployed contract
+- [ ] Record transaction hash and contract address
+
+#### Artifacts
+
+| Item | Location | Size |
+|------|----------|------|
+| Contract artifact | `aztec-staking-pool/target/staking_pool-StakingPool.json` | 759KB |
+| Smoke test script | `aztec-staking-pool/scripts/smoke-test.sh` | 3KB |
+| Extracted aztec-nargo | `~/aztec-bin/nargo` | 44MB |
+| Dependencies cache | `~/nargo/github.com/AztecProtocol/aztec-packages/v2.1.9/` | ~62MB |

@@ -1,9 +1,10 @@
 # Compilation Status
 
 **Status:** ✅ COMPILED SUCCESSFULLY
-**Date:** 2025-12-27
+**Date:** 2025-12-27 (refreshed)
 **Compiler:** aztec-nargo (nargo 1.0.0-beta.11, noirc 1.0.0-beta.11+aztec)
 **Aztec Version:** v2.1.9
+**Verification Session:** cursor/aztec-staking-smoke-tests-1559
 
 ## Compilation Output
 
