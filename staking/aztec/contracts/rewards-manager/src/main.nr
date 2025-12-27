@@ -5,7 +5,8 @@
 // - Claiming rewards from validators
 // - Calculating and updating the exchange rate
 // - Protocol fee distribution
-// - Integration with StakedAztecToken for rate updates
+// - Cross-contract integration with StakedAztecToken for rate updates
+// - Cross-contract integration with LiquidStakingCore for reward distribution
 //
 // Key features:
 // - Exchange rate only increases (stAZTEC always gains value)
@@ -17,6 +18,7 @@ use dep::aztec::macros::aztec;
 #[aztec]
 pub contract RewardsManager {
     use dep::aztec::protocol_types::address::AztecAddress;
+    use dep::aztec::protocol_types::abis::function_selector::FunctionSelector;
     use dep::aztec::state_vars::{Map, PublicMutable};
     use dep::aztec::macros::{
         functions::{initializer, public, view},
@@ -144,6 +146,12 @@ pub contract RewardsManager {
     
     /// Process rewards from a validator
     /// Called by keeper after claiming from Aztec staking
+    /// This function:
+    /// 1. Calculates protocol fee
+    /// 2. Updates internal tracking
+    /// 3. Updates backing amount
+    /// 4. Calls LiquidStakingCore.add_rewards
+    /// 5. Updates exchange rate on StakedAztecToken
     ///
     /// @param validator Address of validator rewards came from
     /// @param gross_amount Total rewards claimed (before fees)
@@ -186,9 +194,36 @@ pub contract RewardsManager {
         
         // Update AZTEC backing
         let backing = storage.total_aztec_backing.read();
-        storage.total_aztec_backing.write(backing + net_rewards);
+        let new_backing = backing + net_rewards;
+        storage.total_aztec_backing.write(new_backing);
         
         storage.last_rate_update.write(timestamp);
+        
+        // Call LiquidStakingCore to add rewards
+        RewardsManager::call_core_add_rewards(
+            &mut context,
+            storage.liquid_staking_core.read(),
+            gross_amount
+        );
+        
+        // Calculate and update new exchange rate
+        let supply = storage.total_st_aztec_supply.read();
+        if supply > 0 {
+            let new_rate = ((new_backing * (RATE_PRECISION as u128)) / supply) as u64;
+            let current_rate = storage.current_exchange_rate.read();
+            
+            // Only update if rate increased
+            if new_rate > current_rate {
+                storage.current_exchange_rate.write(new_rate);
+                
+                // Update exchange rate on StakedAztecToken
+                RewardsManager::call_staked_token_update_rate(
+                    &mut context,
+                    storage.staked_aztec_token.read(),
+                    new_rate
+                );
+            }
+        }
         
         (net_rewards, fee_amount)
     }
@@ -238,6 +273,13 @@ pub contract RewardsManager {
         
         storage.current_exchange_rate.write(final_rate);
         storage.last_rate_update.write(timestamp);
+        
+        // Update rate on StakedAztecToken
+        RewardsManager::call_staked_token_update_rate(
+            &mut context,
+            storage.staked_aztec_token.read(),
+            final_rate
+        );
         
         final_rate
     }
@@ -315,6 +357,40 @@ pub contract RewardsManager {
         assert(is_core | is_admin, "Only core or admin");
         
         storage.total_aztec_backing.write(new_backing);
+    }
+    
+    // ============ CROSS-CONTRACT CALL HELPERS ============
+    
+    /// Call LiquidStakingCore.add_rewards
+    #[contract_library_method]
+    fn call_core_add_rewards(
+        context: &mut PublicContext,
+        core_address: AztecAddress,
+        amount: u128
+    ) {
+        let selector = FunctionSelector::from_signature("add_rewards(u128)");
+        
+        context.call_public_function(
+            core_address,
+            selector,
+            [amount as Field].as_slice()
+        );
+    }
+    
+    /// Call StakedAztecToken.update_exchange_rate
+    #[contract_library_method]
+    fn call_staked_token_update_rate(
+        context: &mut PublicContext,
+        staked_token_address: AztecAddress,
+        new_rate: u64
+    ) {
+        let selector = FunctionSelector::from_signature("update_exchange_rate(u64)");
+        
+        context.call_public_function(
+            staked_token_address,
+            selector,
+            [new_rate as Field].as_slice()
+        );
     }
 
     // ============ VIEW FUNCTIONS ============
@@ -451,5 +527,17 @@ pub contract RewardsManager {
                 annual_rate_bps as u64
             }
         }
+    }
+    
+    #[public]
+    #[view]
+    fn get_staked_aztec_token() -> pub AztecAddress {
+        storage.staked_aztec_token.read()
+    }
+    
+    #[public]
+    #[view]
+    fn get_liquid_staking_core() -> pub AztecAddress {
+        storage.liquid_staking_core.read()
     }
 }

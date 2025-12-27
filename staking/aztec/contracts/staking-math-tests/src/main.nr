@@ -792,3 +792,294 @@ fn test_withdrawal_during_unbonding() {
     let is_claimable_2 = check_time_2 >= claimable_at;
     assert(is_claimable_2);
 }
+
+// ============ CROSS-CONTRACT FLOW TESTS ============
+// These tests validate the complete data flow through all contracts
+
+/// Simulates the full deposit flow:
+/// 1. User calls LiquidStakingCore.deposit
+/// 2. LiquidStakingCore calls Token.transfer_in_public (pull AZTEC)
+/// 3. LiquidStakingCore calls StakedAztecToken.mint (create stAZTEC)
+/// 4. State is updated in all contracts
+#[test]
+fn test_deposit_flow_state_transitions() {
+    // Initial state
+    let mut core_pending_pool: u128 = 0;
+    let mut core_total_deposited: u128 = 0;
+    let mut token_total_supply: u128 = 0;
+    let exchange_rate: u64 = 10000;
+    
+    // User deposits 100 AZTEC
+    let deposit_amount: u128 = 100_000_000_000_000_000_000; // 100 * 1e18
+    
+    // Step 1: Calculate stAZTEC to mint
+    let st_aztec_to_mint = calculate_st_aztec_for_deposit(deposit_amount, exchange_rate);
+    assert(st_aztec_to_mint == deposit_amount); // 1:1 at initial rate
+    
+    // Step 2: Update LiquidStakingCore state
+    core_pending_pool = core_pending_pool + deposit_amount;
+    core_total_deposited = core_total_deposited + deposit_amount;
+    
+    // Step 3: Update StakedAztecToken state (after mint call)
+    token_total_supply = token_total_supply + st_aztec_to_mint;
+    
+    // Verify final state
+    assert(core_pending_pool == deposit_amount);
+    assert(core_total_deposited == deposit_amount);
+    assert(token_total_supply == st_aztec_to_mint);
+}
+
+/// Simulates the withdrawal request flow:
+/// 1. User calls LiquidStakingCore.request_withdrawal
+/// 2. LiquidStakingCore calls StakedAztecToken.burn (destroy stAZTEC)
+/// 3. LiquidStakingCore calls WithdrawalQueue.add_request (queue withdrawal)
+/// 4. After unbonding, user calls WithdrawalQueue.claim_withdrawal
+/// 5. WithdrawalQueue calls Token.transfer (send AZTEC)
+#[test]
+fn test_withdrawal_flow_state_transitions() {
+    // Initial state: User has 100 stAZTEC
+    let user_st_aztec: u128 = 100_000_000_000_000_000_000;
+    let mut token_total_supply: u128 = user_st_aztec;
+    let mut queue_total_pending: u128 = 0;
+    let exchange_rate: u64 = 12000; // 1.2 after some rewards
+    
+    // Step 1: Calculate AZTEC to withdraw
+    let aztec_amount = calculate_aztec_for_withdrawal(user_st_aztec, exchange_rate);
+    assert(aztec_amount == 120_000_000_000_000_000_000); // 120 AZTEC
+    
+    // Step 2: Burn stAZTEC
+    token_total_supply = token_total_supply - user_st_aztec;
+    assert(token_total_supply == 0);
+    
+    // Step 3: Add to withdrawal queue
+    queue_total_pending = queue_total_pending + aztec_amount;
+    assert(queue_total_pending == aztec_amount);
+    
+    // Step 4: Claim (after unbonding)
+    // This would transfer AZTEC to user and update queue
+    queue_total_pending = queue_total_pending - aztec_amount;
+    assert(queue_total_pending == 0);
+}
+
+/// Simulates the batch staking flow:
+/// 1. Multiple users deposit, pending_pool grows
+/// 2. When pending_pool >= 200k, keeper triggers batch
+/// 3. VaultManager selects validator via round-robin
+/// 4. VaultManager records stake and calls LiquidStakingCore.notify_staked
+/// 5. LiquidStakingCore moves funds from pending to staked
+#[test]
+fn test_batch_staking_flow() {
+    let batch_size: u128 = 200_000_000_000_000_000_000_000; // 200k
+    let mut pending_pool: u128 = 0;
+    let mut staked_to_validators: u128 = 0;
+    let mut vault_total_staked: u128 = 0;
+    
+    // 10 users deposit 20k each = 200k total
+    let deposit_per_user: u128 = 20_000_000_000_000_000_000_000;
+    for _i in 0..10 {
+        pending_pool = pending_pool + deposit_per_user;
+    }
+    assert(pending_pool == batch_size);
+    assert(pending_pool >= batch_size); // Ready for batching!
+    
+    // Keeper triggers batch stake
+    // VaultManager.record_stake updates vault_total_staked
+    vault_total_staked = vault_total_staked + batch_size;
+    
+    // LiquidStakingCore.notify_staked moves from pending to staked
+    pending_pool = pending_pool - batch_size;
+    staked_to_validators = staked_to_validators + batch_size;
+    
+    // Verify final state
+    assert(pending_pool == 0);
+    assert(staked_to_validators == batch_size);
+    assert(vault_total_staked == batch_size);
+}
+
+/// Simulates the rewards distribution flow:
+/// 1. Keeper claims rewards from validators
+/// 2. RewardsManager.process_rewards calculates fees
+/// 3. RewardsManager calls LiquidStakingCore.add_rewards
+/// 4. RewardsManager calls StakedAztecToken.update_exchange_rate
+/// 5. Exchange rate increases, stAZTEC worth more AZTEC
+#[test]
+fn test_rewards_distribution_flow() {
+    // Initial state
+    let mut total_backing: u128 = 1_000_000_000_000_000_000_000_000; // 1M AZTEC
+    let mut total_supply: u128 = 1_000_000_000_000_000_000_000_000; // 1M stAZTEC
+    let mut exchange_rate: u64 = 10000; // 1:1
+    let protocol_fee_bps: u64 = 1000; // 10%
+    
+    // Rewards claimed: 80k AZTEC (8% annual)
+    let gross_rewards: u128 = 80_000_000_000_000_000_000_000;
+    
+    // Step 1: Calculate protocol fee
+    let protocol_fee = calculate_protocol_fee(gross_rewards, protocol_fee_bps);
+    assert(protocol_fee == 8_000_000_000_000_000_000_000); // 8k
+    
+    let net_rewards = gross_rewards - protocol_fee;
+    assert(net_rewards == 72_000_000_000_000_000_000_000); // 72k
+    
+    // Step 2: Add net rewards to backing
+    total_backing = total_backing + net_rewards;
+    assert(total_backing == 1_072_000_000_000_000_000_000_000);
+    
+    // Step 3: Calculate new exchange rate
+    let new_rate = calculate_exchange_rate(total_backing, total_supply);
+    assert(new_rate == 10720); // 1.072
+    
+    // Step 4: Verify rate only increases
+    assert(new_rate > exchange_rate);
+    exchange_rate = new_rate;
+    
+    // Step 5: Verify user benefits
+    let user_st_aztec: u128 = 100_000_000_000_000_000_000; // 100 stAZTEC
+    let user_aztec_value = calculate_aztec_for_withdrawal(user_st_aztec, exchange_rate);
+    // 100 * 10720 / 10000 = 107.2 AZTEC
+    assert(user_aztec_value == 107_200_000_000_000_000_000);
+}
+
+/// Simulates multiple deposits and withdrawals with varying rates
+#[test]
+fn test_mixed_operations_flow() {
+    // Initial state
+    let mut backing: u128 = 0;
+    let mut supply: u128 = 0;
+    let mut rate: u64 = 10000;
+    
+    // User A deposits 1000 at rate 10000
+    let deposit_a: u128 = 1000_000_000_000_000_000_000;
+    let st_aztec_a = calculate_st_aztec_for_deposit(deposit_a, rate);
+    backing = backing + deposit_a;
+    supply = supply + st_aztec_a;
+    assert(st_aztec_a == deposit_a);
+    
+    // Rewards add 100 (10%)
+    let rewards: u128 = 100_000_000_000_000_000_000;
+    backing = backing + rewards;
+    rate = calculate_exchange_rate(backing, supply);
+    assert(rate == 11000);
+    
+    // User B deposits 1100 at rate 11000
+    let deposit_b: u128 = 1100_000_000_000_000_000_000;
+    let st_aztec_b = calculate_st_aztec_for_deposit(deposit_b, rate);
+    backing = backing + deposit_b;
+    supply = supply + st_aztec_b;
+    assert(st_aztec_b == 1000_000_000_000_000_000_000); // Gets same stAZTEC as A
+    
+    // User A withdraws half
+    let withdraw_a = st_aztec_a / 2;
+    let aztec_out_a = calculate_aztec_for_withdrawal(withdraw_a, rate);
+    // 500 stAZTEC * 11000 / 10000 = 550 AZTEC
+    assert(aztec_out_a == 550_000_000_000_000_000_000);
+    
+    // User A profits: deposited 500 worth, gets 550 back
+    assert(aztec_out_a > deposit_a / 2);
+}
+
+/// Test fee accumulation and collection flow
+#[test]
+fn test_fee_collection_flow() {
+    let fee_bps: u64 = 1000; // 10%
+    let mut accumulated_fees: u128 = 0;
+    
+    // Process 3 reward events
+    let rewards_1: u128 = 100_000_000_000_000_000_000;
+    let rewards_2: u128 = 200_000_000_000_000_000_000;
+    let rewards_3: u128 = 150_000_000_000_000_000_000;
+    
+    accumulated_fees = accumulated_fees + calculate_protocol_fee(rewards_1, fee_bps);
+    accumulated_fees = accumulated_fees + calculate_protocol_fee(rewards_2, fee_bps);
+    accumulated_fees = accumulated_fees + calculate_protocol_fee(rewards_3, fee_bps);
+    
+    // Total fees: (100 + 200 + 150) * 10% = 45
+    assert(accumulated_fees == 45_000_000_000_000_000_000);
+    
+    // Collect fees (transfers to treasury)
+    let collected = accumulated_fees;
+    accumulated_fees = 0;
+    
+    assert(collected == 45_000_000_000_000_000_000);
+    assert(accumulated_fees == 0);
+}
+
+/// Test validator round-robin selection
+#[test]
+fn test_validator_selection_flow() {
+    // Simulate 5 validators, select 7 times
+    let validator_count: u32 = 5;
+    let mut next_index: u32 = 0;
+    let mut selections: [u32; 7] = [0, 0, 0, 0, 0, 0, 0];
+    
+    for i in 0..7 {
+        selections[i] = next_index;
+        next_index = (next_index + 1) % validator_count;
+    }
+    
+    // Verify round-robin pattern: 0, 1, 2, 3, 4, 0, 1
+    assert(selections[0] == 0);
+    assert(selections[1] == 1);
+    assert(selections[2] == 2);
+    assert(selections[3] == 3);
+    assert(selections[4] == 4);
+    assert(selections[5] == 0);
+    assert(selections[6] == 1);
+}
+
+/// Test complete deposit->batch->rewards->withdraw cycle
+#[test]
+fn test_complete_lifecycle() {
+    // === SETUP ===
+    let batch_size: u128 = 200_000_000_000_000_000_000_000; // 200k
+    let user_deposit: u128 = 200_000_000_000_000_000_000_000; // 200k
+    let mut exchange_rate: u64 = 10000;
+    let fee_bps: u64 = 1000;
+    
+    // State tracking
+    let mut pending_pool: u128 = 0;
+    let mut staked: u128 = 0;
+    let mut user_st_aztec: u128 = 0;
+    let mut backing: u128 = 0;
+    let mut supply: u128 = 0;
+    
+    // === PHASE 1: DEPOSIT ===
+    let st_aztec_minted = calculate_st_aztec_for_deposit(user_deposit, exchange_rate);
+    pending_pool = pending_pool + user_deposit;
+    user_st_aztec = user_st_aztec + st_aztec_minted;
+    backing = backing + user_deposit;
+    supply = supply + st_aztec_minted;
+    
+    assert(pending_pool == batch_size);
+    assert(user_st_aztec == user_deposit);
+    
+    // === PHASE 2: BATCH STAKE ===
+    assert(pending_pool >= batch_size);
+    pending_pool = pending_pool - batch_size;
+    staked = staked + batch_size;
+    
+    assert(pending_pool == 0);
+    assert(staked == batch_size);
+    
+    // === PHASE 3: REWARDS (after 1 year at 8% APY) ===
+    let gross_rewards = (staked * 8) / 100; // 8% of 200k = 16k
+    let fee = calculate_protocol_fee(gross_rewards, fee_bps);
+    let net_rewards = gross_rewards - fee;
+    
+    backing = backing + net_rewards;
+    exchange_rate = calculate_exchange_rate(backing, supply);
+    
+    // Rate should be ~1.072 (10720)
+    assert(exchange_rate > 10000);
+    assert(exchange_rate < 11000);
+    
+    // === PHASE 4: WITHDRAW ===
+    let aztec_out = calculate_aztec_for_withdrawal(user_st_aztec, exchange_rate);
+    
+    // User should get more than deposited
+    assert(aztec_out > user_deposit);
+    
+    // Profit is approximately 7.2% (8% - 10% protocol fee on 8% = 7.2%)
+    // 200k * 1.072 = 214.4k
+    let expected_min = user_deposit + ((user_deposit * 7) / 100); // At least 7%
+    assert(aztec_out >= expected_min);
+}

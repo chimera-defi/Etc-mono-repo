@@ -6,6 +6,7 @@
 // - Round-robin validator selection
 // - Stake distribution across validators
 // - Integration with ValidatorRegistry
+// - Cross-contract calls to LiquidStakingCore.notify_staked
 //
 // Key features:
 // - Ensures fair distribution across active validators
@@ -17,6 +18,7 @@ use dep::aztec::macros::aztec;
 #[aztec]
 pub contract VaultManager {
     use dep::aztec::protocol_types::address::AztecAddress;
+    use dep::aztec::protocol_types::abis::function_selector::FunctionSelector;
     use dep::aztec::state_vars::{Map, PublicMutable};
     use dep::aztec::macros::{
         functions::{initializer, public, view},
@@ -250,7 +252,7 @@ pub contract VaultManager {
         found_validator
     }
     
-    /// Record a stake to a validator
+    /// Record a stake to a validator and notify LiquidStakingCore
     /// Called when keeper executes actual stake transaction
     ///
     /// @param validator Address of validator receiving stake
@@ -278,6 +280,13 @@ pub contract VaultManager {
         // Increment batch counter
         let batches = storage.batches_processed.read();
         storage.batches_processed.write(batches + 1);
+        
+        // Notify LiquidStakingCore that stake has been processed
+        VaultManager::call_core_notify_staked(
+            &mut context,
+            storage.liquid_staking_core.read(),
+            amount
+        );
     }
     
     /// Record an unstake from a validator
@@ -302,6 +311,48 @@ pub contract VaultManager {
         
         let total = storage.total_staked.read();
         storage.total_staked.write(total - amount);
+    }
+    
+    /// Execute a batch stake to the selected validator
+    /// This is the main function called by the keeper when pending pool >= 200k
+    ///
+    /// @param batch_amount Amount to stake (should be BATCH_SIZE)
+    /// @return Selected validator address
+    #[public]
+    fn execute_batch_stake(batch_amount: u128) -> pub AztecAddress {
+        let caller = context.msg_sender();
+        let keeper = storage.keeper.read();
+        let admin = storage.admin.read();
+        let is_keeper = caller == keeper;
+        let is_admin = caller == admin;
+        assert(is_keeper | is_admin, "Only keeper or admin");
+        assert(!storage.paused.read(), "Contract is paused");
+        assert(batch_amount >= BATCH_SIZE, "Batch too small");
+        
+        // Select validator using round-robin
+        let validator = VaultManager::at(context.this_address()).select_next_validator(&mut context);
+        
+        // Record the stake
+        let is_active = storage.validator_active.at(validator).read();
+        assert(is_active, "Selected validator not active");
+        
+        let current = storage.stake_per_validator.at(validator).read();
+        storage.stake_per_validator.at(validator).write(current + batch_amount);
+        
+        let total = storage.total_staked.read();
+        storage.total_staked.write(total + batch_amount);
+        
+        let batches = storage.batches_processed.read();
+        storage.batches_processed.write(batches + 1);
+        
+        // Notify LiquidStakingCore
+        VaultManager::call_core_notify_staked(
+            &mut context,
+            storage.liquid_staking_core.read(),
+            batch_amount
+        );
+        
+        validator
     }
     
     /// Get the validator with lowest stake (for load balancing)
@@ -341,6 +392,24 @@ pub contract VaultManager {
         }
         
         lowest_validator
+    }
+    
+    // ============ CROSS-CONTRACT CALL HELPERS ============
+    
+    /// Call LiquidStakingCore.notify_staked
+    #[contract_library_method]
+    fn call_core_notify_staked(
+        context: &mut PublicContext,
+        core_address: AztecAddress,
+        amount: u128
+    ) {
+        let selector = FunctionSelector::from_signature("notify_staked(u128)");
+        
+        context.call_public_function(
+            core_address,
+            selector,
+            [amount as Field].as_slice()
+        );
     }
 
     // ============ VIEW FUNCTIONS ============
@@ -418,5 +487,17 @@ pub contract VaultManager {
         } else {
             total / (active as u128)
         }
+    }
+    
+    #[public]
+    #[view]
+    fn get_liquid_staking_core() -> pub AztecAddress {
+        storage.liquid_staking_core.read()
+    }
+    
+    #[public]
+    #[view]
+    fn get_keeper() -> pub AztecAddress {
+        storage.keeper.read()
     }
 }

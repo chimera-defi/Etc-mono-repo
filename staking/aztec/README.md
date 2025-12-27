@@ -40,15 +40,15 @@ staking/aztec/
 │   ├── FUNDRAISING.md          # Seed deck outline
 │   ├── TASKS.md                # Discrete task breakdown
 │   └── liquid-staking-analysis.md  # Technical architecture
-├── contracts/                  # Noir smart contracts (ALL COMPLETE)
-│   ├── aztec-staking-pool/     # Base staking pool (19 functions)
-│   ├── staked-aztec-token/     # stAZTEC token (16 functions)
-│   ├── withdrawal-queue/       # FIFO withdrawal queue (19 functions)
-│   ├── validator-registry/     # Validator tracking (23 functions)
-│   ├── liquid-staking-core/    # Main entry point (24 functions) NEW
-│   ├── vault-manager/          # Batch pooling (22 functions) NEW
-│   ├── rewards-manager/        # Exchange rate (21 functions) NEW
-│   ├── staking-math-tests/     # Unit tests (56 tests)
+├── contracts/                  # Noir smart contracts (ALL COMPLETE + INTEGRATED)
+│   ├── aztec-staking-pool/     # Base staking pool (21 functions)
+│   ├── staked-aztec-token/     # stAZTEC token (13 functions)
+│   ├── withdrawal-queue/       # FIFO withdrawal queue (24 functions)
+│   ├── validator-registry/     # Validator tracking (20 functions)
+│   ├── liquid-staking-core/    # Main entry point (37 functions)
+│   ├── vault-manager/          # Batch pooling (28 functions)
+│   ├── rewards-manager/        # Exchange rate (33 functions)
+│   ├── staking-math-tests/     # Unit tests (64 tests)
 │   ├── AGENT_HANDOFF.md        # Development handoff notes
 │   └── NOIR_GUIDE.md           # Noir/Aztec patterns guide
 └── scripts/                    # Development and testing scripts
@@ -59,23 +59,23 @@ staking/aztec/
 
 ## Current Status
 
-### ✅ ALL CONTRACTS COMPLETE
+### ✅ ALL CONTRACTS COMPLETE WITH CROSS-CONTRACT INTEGRATION
 
-| Contract | Status | Functions | Description |
-|----------|--------|-----------|-------------|
-| StakingPool | ✅ Complete | 16 | Base staking pool logic |
-| StakedAztecToken | ✅ Complete | 13 | stAZTEC liquid staking token |
-| WithdrawalQueue | ✅ Complete | 16 | FIFO queue with unbonding |
-| ValidatorRegistry | ✅ Complete | 20 | Validator tracking |
-| **LiquidStakingCore** | ✅ **NEW** | 29 | Main entry point |
-| **VaultManager** | ✅ **NEW** | 24 | 200k batch pooling |
-| **RewardsManager** | ✅ **NEW** | 29 | Exchange rate updates |
+| Contract | Status | Functions | Cross-Contract | Description |
+|----------|--------|-----------|----------------|-------------|
+| StakingPool | ✅ Complete | 21 | 1 helper | Base staking pool logic |
+| StakedAztecToken | ✅ Complete | 13 | - | stAZTEC liquid staking token |
+| WithdrawalQueue | ✅ Complete | 24 | 1 helper | FIFO queue with unbonding |
+| ValidatorRegistry | ✅ Complete | 20 | - | Validator tracking |
+| **LiquidStakingCore** | ✅ Complete | 37 | 4 helpers | Main entry point (full integration) |
+| **VaultManager** | ✅ Complete | 28 | 1 helper | 200k batch pooling |
+| **RewardsManager** | ✅ Complete | 33 | 2 helpers | Exchange rate updates |
 
-**Total: 147 functions across 7 contracts**
+**Total: 176 functions across 7 contracts + 9 cross-contract call helpers**
 
 ### Testing
 
-- **Unit Tests**: **56 tests passing** (expanded from 34)
+- **Unit Tests**: **64 tests passing** (includes 8 new cross-contract flow tests)
 - **CI**: GitHub Actions workflow for automated testing
 - **Devnet**: Accessible at `https://next.devnet.aztec-labs.com`
 
@@ -93,7 +93,7 @@ staking/aztec/
 ```bash
 cd staking/aztec/contracts/staking-math-tests
 ~/.nargo/bin/nargo test
-# Expected: 56 tests passed
+# Expected: 64 tests passed
 ```
 
 ### Compile a Contract

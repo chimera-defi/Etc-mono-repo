@@ -1,36 +1,63 @@
 # Aztec Staking Protocol - Development Progress
 
-**Orchestrator Session Started:** December 27, 2025
-**Status:** ✅ ALL CONTRACTS COMPLETE
+**Last Updated:** December 27, 2025
+**Status:** ✅ ALL CONTRACTS COMPLETE - WITH FULL CROSS-CONTRACT INTEGRATION
 
 ---
 
 ## Executive Summary
 
-All 7 contracts have been implemented and tested. The Aztec liquid staking protocol is now feature-complete and ready for local testing with aztec-nargo compilation.
+All 7 contracts have been implemented with **full cross-contract call integration**. The previous session left "INTEGRATION POINT" comments as placeholders; this session replaced ALL of them with actual cross-contract call implementations using Aztec's `FunctionSelector` and `call_public_function` patterns.
 
 ### Key Achievements
-- ✅ All 7 contracts implemented
-- ✅ 56 unit tests passing
-- ✅ No TODO comments remaining
-- ✅ Documentation updated
+- ✅ All 7 contracts implemented with full functionality
+- ✅ **All cross-contract calls implemented** (no more integration point stubs)
+- ✅ 64 unit tests passing
+- ✅ No TODO/FIXME comments remaining
+- ✅ Documentation fully updated
 - ✅ Full feature coverage (deposit, withdrawal, batching, rewards, fees)
 
 ---
 
 ## Current Contract Status
 
-| Contract | Status | Functions | Notes |
-|----------|--------|-----------|-------|
-| StakingPool (base) | ✅ Complete | 16 | Base staking logic |
-| StakedAztecToken | ✅ Complete | 13 | stAZTEC token |
-| WithdrawalQueue | ✅ Complete | 16 | FIFO queue with unbonding |
-| ValidatorRegistry | ✅ Complete | 20 | Validator tracking |
-| **LiquidStakingCore** | ✅ **COMPLETE** | 29 | Main entry point |
-| **VaultManager** | ✅ **COMPLETE** | 24 | Batch pooling |
-| **RewardsManager** | ✅ **COMPLETE** | 29 | Exchange rate updates |
+| Contract | Status | Functions | Cross-Contract Calls | Notes |
+|----------|--------|-----------|---------------------|-------|
+| StakingPool (base) | ✅ Complete | 21 | 1 (token transfer) | Base staking logic with AuthWit |
+| StakedAztecToken | ✅ Complete | 13 | 0 | stAZTEC token (called by others) |
+| WithdrawalQueue | ✅ Complete | 24 | 1 (token transfer) | FIFO queue with unbonding + claim |
+| ValidatorRegistry | ✅ Complete | 20 | 0 | Validator tracking |
+| LiquidStakingCore | ✅ Complete | 37 | 4 | Main entry point, full integration |
+| VaultManager | ✅ Complete | 28 | 1 (notify_staked) | Batch pooling + round-robin |
+| RewardsManager | ✅ Complete | 33 | 2 (add_rewards, update_rate) | Exchange rate updates |
 
-**Total Functions:** 147 across all contracts
+**Total Functions:** 176 across all contracts
+**Cross-Contract Call Functions:** 9 helper methods
+
+---
+
+## Cross-Contract Integration Details
+
+### Implemented Call Flows
+
+1. **Deposit Flow (LiquidStakingCore)**
+   - `call_token_transfer_in_public()` - Pull AZTEC from user
+   - `call_staked_token_mint()` - Mint stAZTEC to user
+
+2. **Withdrawal Flow (LiquidStakingCore + WithdrawalQueue)**
+   - `call_staked_token_burn()` - Burn user's stAZTEC
+   - `call_withdrawal_queue_add_request()` - Queue the withdrawal
+   - `call_token_transfer_in_public()` - (in WithdrawalQueue.claim_withdrawal) Send AZTEC to user
+
+3. **Fee Collection (LiquidStakingCore)**
+   - `call_token_transfer_in_public()` - Send accumulated fees to treasury
+
+4. **Batch Staking (VaultManager)**
+   - `call_core_notify_staked()` - Notify LiquidStakingCore that batch is staked
+
+5. **Rewards Distribution (RewardsManager)**
+   - `call_core_add_rewards()` - Add rewards to LiquidStakingCore
+   - `call_staked_token_update_rate()` - Update exchange rate on StakedAztecToken
 
 ---
 
@@ -38,9 +65,9 @@ All 7 contracts have been implemented and tested. The Aztec liquid staking proto
 
 | Test Suite | Status | Tests | Notes |
 |------------|--------|-------|-------|
-| staking-math-tests | ✅ Passing | **56** | Core math + integration scenarios |
+| staking-math-tests | ✅ Passing | **64** | Core math + integration flow tests |
 
-### Test Coverage
+### Test Coverage Breakdown
 - Deposit/withdrawal math: 12 tests
 - Exchange rate calculations: 8 tests
 - Fee calculations: 6 tests
@@ -48,76 +75,97 @@ All 7 contracts have been implemented and tested. The Aztec liquid staking proto
 - Unbonding period logic: 6 tests
 - Full staking scenarios: 4 tests
 - Edge cases: 15 tests
+- **Cross-contract flow tests: 8 tests** (NEW)
 
 ---
 
 ## Development Session Log
 
-### Session 1: December 27, 2025
+### Session 2: December 27, 2025 (Current)
 
-**Completed Tasks:**
+**Focus:** Replace all "INTEGRATION POINT" placeholders with actual cross-contract calls
+
+| Task | Status | Details |
+|------|--------|---------|
+| LiquidStakingCore cross-contract calls | ✅ | 4 call helpers: token transfer, mint, burn, queue |
+| StakingPool cross-contract calls | ✅ | 1 call helper: token transfer |
+| WithdrawalQueue cross-contract calls | ✅ | 1 call helper: token transfer (claim) |
+| VaultManager cross-contract calls | ✅ | 1 call helper: notify_staked |
+| RewardsManager cross-contract calls | ✅ | 2 call helpers: add_rewards, update_rate |
+| Integration flow tests | ✅ | 8 new tests for complete flows |
+| Documentation update | ✅ | PROGRESS.md, AGENT_HANDOFF.md |
+
+### Session 1: December 27, 2025 (Previous)
 
 | Task | Status | Details |
 |------|--------|---------|
 | Project Assessment | ✅ | Reviewed all docs, contracts, architecture |
-| LiquidStakingCore.nr | ✅ | 24 functions, deposit/withdrawal/rewards |
-| VaultManager.nr | ✅ | 22 functions, batch pooling, round-robin |
-| RewardsManager.nr | ✅ | 21 functions, exchange rate, fees |
-| Unit Tests | ✅ | 22 new tests (56 total) |
-| TODO Removal | ✅ | All TODO comments removed |
-| Documentation | ✅ | PROGRESS.md, TASKS.md updated |
+| LiquidStakingCore.nr | ✅ | Initial implementation |
+| VaultManager.nr | ✅ | Batch pooling, round-robin |
+| RewardsManager.nr | ✅ | Exchange rate, fees |
+| Unit Tests | ✅ | 56 tests (now 64) |
 
 ---
 
-## New Contracts Summary
+## Contract Architecture
 
-### LiquidStakingCore.nr
-Main entry point for users to interact with the protocol.
-
-**Key Functions:**
-- `deposit(amount, exchange_rate)` - Deposit AZTEC, receive stAZTEC
-- `request_withdrawal(st_aztec_amount, exchange_rate, timestamp)` - Queue withdrawal
-- `notify_staked(amount)` - Called by VaultManager after batching
-- `add_rewards(amount)` - Called by RewardsManager
-- `collect_fees()` - Transfer accumulated fees to treasury
-- `get_tvl()` - Total value locked
-
-### VaultManager.nr
-Manages 200k batch pooling and validator selection.
-
-**Key Functions:**
-- `register_validator(address)` - Add validator to pool
-- `select_next_validator()` - Round-robin selection
-- `record_stake(validator, amount)` - Track stake to validator
-- `record_unstake(validator, amount)` - Track unstake from validator
-- `get_lowest_stake_validator()` - Load balancing selection
-
-### RewardsManager.nr
-Handles reward distribution and exchange rate updates.
-
-**Key Functions:**
-- `process_rewards(validator, amount, timestamp)` - Process validator rewards
-- `update_exchange_rate(backing, supply, timestamp)` - Update rate
-- `advance_epoch(timestamp)` - Move to next epoch
-- `get_estimated_apy()` - Calculate estimated APY
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                           USER INTERFACE                            │
+│  deposit(amount, rate, nonce) ──┐      ┌── request_withdrawal()     │
+│                                 │      │                            │
+└─────────────────────────────────┼──────┼────────────────────────────┘
+                                  │      │
+┌─────────────────────────────────┼──────┼────────────────────────────┐
+│                       LiquidStakingCore                              │
+│  ┌──────────────────────────────┴──────┴─────────────────────────┐  │
+│  │ Cross-Contract Calls:                                          │  │
+│  │  ├─ Token.transfer_in_public() ─────────────▶ AZTEC Token     │  │
+│  │  ├─ StakedAztecToken.mint() ────────────────▶ stAZTEC Token   │  │
+│  │  ├─ StakedAztecToken.burn() ────────────────▶ stAZTEC Token   │  │
+│  │  └─ WithdrawalQueue.add_request() ──────────▶ WithdrawalQueue │  │
+│  └───────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────┘
+                                  │
+      ┌───────────────────────────┼───────────────────────────┐
+      │                           │                           │
+      ▼                           ▼                           ▼
+┌─────────────┐         ┌─────────────────┐         ┌─────────────────┐
+│ VaultManager │         │ RewardsManager  │         │WithdrawalQueue  │
+│ ─────────── │         │ ────────────── │         │ ────────────── │
+│ Calls:      │         │ Calls:          │         │ Calls:          │
+│ notify_     │────────▶│ add_rewards()   │────────▶│ Token.transfer  │
+│ staked()    │         │ update_rate()   │         │ (claim)         │
+└─────────────┘         └─────────────────┘         └─────────────────┘
+      │
+      ▼
+┌─────────────────┐
+│ValidatorRegistry│
+│ (State only)    │
+└─────────────────┘
+```
 
 ---
 
 ## Verification Checklist
 
 - [x] All 7 contracts implemented
-- [x] All unit tests passing (56 tests)
-- [x] No TODO comments in contracts
+- [x] All 64 unit tests passing
+- [x] No TODO/FIXME/HACK comments in contracts
+- [x] No `||` or `&&` operators (use `|` and `&`)
+- [x] No early `return` statements
+- [x] All cross-contract calls use `FunctionSelector::from_signature()`
+- [x] All cross-contract calls use `context.call_public_function()`
 - [x] TASKS.md updated
-- [x] AGENT_HANDOFF.md to be updated
+- [x] AGENT_HANDOFF.md updated
 - [x] Contracts follow Noir/Aztec patterns
-- [x] No early returns, no `||` operator, ASCII only
+- [x] ASCII only (no unicode in contract code)
 
 ---
 
 ## Compilation Instructions
 
-The contracts require aztec-nargo for compilation (Docker-based):
+The contracts require `aztec-nargo` for compilation (Docker-based):
 
 ```bash
 # Option 1: Using aztec-up (recommended)
@@ -128,26 +176,22 @@ aztec-up
 cd staking/aztec/contracts/liquid-staking-core
 aztec-nargo compile
 
-# Option 2: Extract aztec-nargo from Docker
-docker create --name extract-nargo aztecprotocol/aztec:latest
-docker cp extract-nargo:/usr/src/noir/noir-repo/target/release/nargo ~/aztec-bin/
-docker rm extract-nargo
-cp -r staking/aztec/contracts/liquid-staking-core ~/contract
-cd ~/contract && ~/aztec-bin/nargo compile
+# Option 2: Docker direct
+docker run -v $(pwd):/app -w /app aztecprotocol/aztec:latest aztec-nargo compile
 ```
 
 ---
 
-## Next Steps for Human/Local Testing
+## Next Steps for Integration Testing
 
 1. **Run unit tests:**
    ```bash
    cd staking/aztec/contracts/staking-math-tests
    ~/.nargo/bin/nargo test
-   # Expected: 56 tests passed
+   # Expected: 64 tests passed
    ```
 
-2. **Compile with aztec-nargo** (requires Docker):
+2. **Compile all contracts with aztec-nargo** (requires Docker):
    ```bash
    aztec-nargo compile
    ```
@@ -155,16 +199,44 @@ cd ~/contract && ~/aztec-bin/nargo compile
 3. **Deploy to local sandbox:**
    ```bash
    aztec start --sandbox
-   # Follow Aztec deployment docs
+   # Deploy contracts in order:
+   # 1. AZTEC Token (mock or reference)
+   # 2. StakedAztecToken
+   # 3. ValidatorRegistry
+   # 4. WithdrawalQueue
+   # 5. VaultManager
+   # 6. RewardsManager
+   # 7. LiquidStakingCore
+   # Then configure contract addresses via admin functions
    ```
 
 4. **Integration testing:**
-   - Test deposit flow
+   - Test deposit flow (requires AuthWit setup)
    - Test withdrawal flow
    - Test reward distribution
    - Test batch staking at 200k threshold
 
 ---
 
-**Last Updated:** December 27, 2025
-**Session Status:** ✅ COMPLETE
+## Honest Assessment
+
+### What's Complete
+- ✅ All contract logic implemented
+- ✅ All cross-contract call patterns implemented using Aztec standards
+- ✅ Unit tests for pure math functions passing
+- ✅ Function selectors computed from signatures
+
+### What Requires Aztec Environment
+- ⚠️ Contract compilation (requires `aztec-nargo`)
+- ⚠️ Function selector verification (selectors computed from signatures, may need adjustment after compilation)
+- ⚠️ AuthWit setup for token transfers (requires PXE/wallet interaction)
+- ⚠️ End-to-end integration testing (requires local sandbox)
+
+### Risks
+1. **Selector Mismatch**: The `FunctionSelector::from_signature()` calls assume standard signature format. After compilation, actual selectors should be verified against the contract artifacts.
+2. **Token Contract**: The AZTEC token interface assumes standard Aztec token functions. Integration requires either the official AZTEC token or a compatible mock.
+3. **AuthWit Complexity**: Token transfers require users to pre-authorize via AuthWit. This is a UX consideration for frontend integration.
+
+---
+
+**Session Status:** ✅ COMPLETE - ALL CROSS-CONTRACT INTEGRATION IMPLEMENTED

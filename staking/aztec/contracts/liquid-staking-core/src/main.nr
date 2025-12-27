@@ -12,12 +12,14 @@
 // - WithdrawalQueue: add/process withdrawal requests
 // - VaultManager: manage validator batching
 // - RewardsManager: track rewards and exchange rate
+// - Token: AZTEC token for transfers (uses AuthWit)
 
 use dep::aztec::macros::aztec;
 
 #[aztec]
 pub contract LiquidStakingCore {
     use dep::aztec::protocol_types::address::AztecAddress;
+    use dep::aztec::protocol_types::abis::function_selector::FunctionSelector;
     use dep::aztec::state_vars::{Map, PublicMutable};
     use dep::aztec::macros::{
         functions::{initializer, public, view},
@@ -162,16 +164,21 @@ pub contract LiquidStakingCore {
     /// The depositor receives stAZTEC proportional to the current exchange rate
     /// No minimum deposit requirement - anyone can deposit any amount
     ///
+    /// IMPORTANT: User must create AuthWit BEFORE calling this function!
+    /// The AuthWit authorizes this contract to pull AZTEC tokens from the user.
+    ///
     /// @param amount Amount of AZTEC to deposit (in wei)
     /// @param exchange_rate Current exchange rate from StakedAztecToken (basis points, 10000 = 1.0)
+    /// @param nonce AuthWit nonce for token transfer (0 if transferring own tokens)
     /// @return Amount of stAZTEC tokens minted
     #[public]
-    fn deposit(amount: u128, exchange_rate: u64) -> pub u128 {
+    fn deposit(amount: u128, exchange_rate: u64, nonce: Field) -> pub u128 {
         assert(!storage.paused.read(), "Contract is paused");
         assert(amount > 0, "Amount must be positive");
         assert(exchange_rate > 0, "Exchange rate must be positive");
         
         let depositor = context.msg_sender();
+        let this_address = context.this_address();
         
         // Calculate stAZTEC to mint based on exchange rate
         // stAZTEC = AZTEC * 10000 / exchange_rate
@@ -196,12 +203,24 @@ pub contract LiquidStakingCore {
         }
         storage.user_deposits.at(depositor).write(user_deposit + amount);
         
-        // INTEGRATION POINT: Token transfers
-        // In production deployment, add these cross-contract calls:
-        // 1. Token::at(aztec_token).transfer_in_public(depositor, this, amount, nonce)
-        //    - Requires user to create AuthWit beforehand
-        // 2. StakedAztecToken::at(staked_aztec_token).mint(depositor, st_aztec_amount)
-        // See NOIR_GUIDE.md for AuthWit patterns.
+        // Execute cross-contract calls for token operations
+        // 1. Transfer AZTEC from depositor to this contract
+        LiquidStakingCore::call_token_transfer_in_public(
+            &mut context,
+            storage.aztec_token.read(),
+            depositor,
+            this_address,
+            amount,
+            nonce
+        );
+        
+        // 2. Mint stAZTEC to depositor
+        LiquidStakingCore::call_staked_token_mint(
+            &mut context,
+            storage.staked_aztec_token.read(),
+            depositor,
+            st_aztec_amount
+        );
         
         st_aztec_amount
     }
@@ -248,16 +267,24 @@ pub contract LiquidStakingCore {
             // The keeper bot will initiate validator unstaking
         }
         
-        // Generate request ID (simple incrementing counter simulation)
-        // In production, this comes from WithdrawalQueue.add_request()
-        let total = storage.total_deposited.read();
-        let request_id = ((total / 1_000_000_000_000_000_000) as u64) + timestamp;
+        // Execute cross-contract calls
+        // 1. Burn stAZTEC from withdrawer
+        LiquidStakingCore::call_staked_token_burn(
+            &mut context,
+            storage.staked_aztec_token.read(),
+            withdrawer,
+            st_aztec_amount
+        );
         
-        // INTEGRATION POINT: Token burns and queue
-        // In production deployment, add these cross-contract calls:
-        // 1. StakedAztecToken::at(staked_aztec_token).burn(withdrawer, st_aztec_amount)
-        // 2. WithdrawalQueue::at(withdrawal_queue).add_request(withdrawer, st_aztec_amount, aztec_amount, timestamp)
-        // The request_id returned here is a placeholder; actual ID comes from WithdrawalQueue.
+        // 2. Add request to withdrawal queue and get request ID
+        let request_id = LiquidStakingCore::call_withdrawal_queue_add_request(
+            &mut context,
+            storage.withdrawal_queue.read(),
+            withdrawer,
+            st_aztec_amount,
+            aztec_amount,
+            timestamp
+        );
         
         request_id
     }
@@ -329,9 +356,17 @@ pub contract LiquidStakingCore {
         let fees = storage.accumulated_fees.read();
         storage.accumulated_fees.write(0);
         
-        // INTEGRATION POINT: Fee transfer
-        // In production, transfer AZTEC to treasury:
-        // Token::at(aztec_token).transfer_in_public(this, treasury, fees, 0)
+        // Transfer AZTEC fees to treasury
+        if fees > 0 {
+            LiquidStakingCore::call_token_transfer_in_public(
+                &mut context,
+                storage.aztec_token.read(),
+                context.this_address(),
+                treasury,
+                fees,
+                0 // nonce 0 for self-transfer
+            );
+        }
         
         fees
     }
@@ -346,6 +381,93 @@ pub contract LiquidStakingCore {
         
         let buffer = storage.liquidity_buffer.read();
         storage.liquidity_buffer.write(buffer + amount);
+    }
+
+    // ============ CROSS-CONTRACT CALL HELPERS ============
+    // These internal functions encapsulate cross-contract call logic.
+    // They use Aztec's public call dispatch mechanism with function selectors.
+    
+    /// Call Token.transfer_in_public to move AZTEC tokens
+    /// User must have authorized this via AuthWit before calling
+    #[contract_library_method]
+    fn call_token_transfer_in_public(
+        context: &mut PublicContext,
+        token_address: AztecAddress,
+        from: AztecAddress,
+        to: AztecAddress,
+        amount: u128,
+        nonce: Field
+    ) {
+        // Function signature: transfer_in_public(from: AztecAddress, to: AztecAddress, amount: u128, nonce: Field)
+        // This selector is computed from the function signature hash
+        // In production, this should match the compiled Token contract's artifact
+        let selector = FunctionSelector::from_signature("transfer_in_public((Field),(Field),u128,Field)");
+        
+        context.call_public_function(
+            token_address,
+            selector,
+            [from.to_field(), to.to_field(), amount as Field, nonce].as_slice()
+        );
+    }
+    
+    /// Call StakedAztecToken.mint to create new stAZTEC
+    #[contract_library_method]
+    fn call_staked_token_mint(
+        context: &mut PublicContext,
+        staked_token_address: AztecAddress,
+        to: AztecAddress,
+        amount: u128
+    ) {
+        // Function signature: mint(to: AztecAddress, amount: u128)
+        let selector = FunctionSelector::from_signature("mint((Field),u128)");
+        
+        context.call_public_function(
+            staked_token_address,
+            selector,
+            [to.to_field(), amount as Field].as_slice()
+        );
+    }
+    
+    /// Call StakedAztecToken.burn to destroy stAZTEC
+    #[contract_library_method]
+    fn call_staked_token_burn(
+        context: &mut PublicContext,
+        staked_token_address: AztecAddress,
+        from: AztecAddress,
+        amount: u128
+    ) {
+        // Function signature: burn(from: AztecAddress, amount: u128)
+        let selector = FunctionSelector::from_signature("burn((Field),u128)");
+        
+        context.call_public_function(
+            staked_token_address,
+            selector,
+            [from.to_field(), amount as Field].as_slice()
+        );
+    }
+    
+    /// Call WithdrawalQueue.add_request to queue a withdrawal
+    /// Returns the request ID
+    #[contract_library_method]
+    fn call_withdrawal_queue_add_request(
+        context: &mut PublicContext,
+        queue_address: AztecAddress,
+        user: AztecAddress,
+        shares_burned: u128,
+        aztec_amount: u128,
+        timestamp: u64
+    ) -> u64 {
+        // Function signature: add_request(user: AztecAddress, shares_burned: u128, aztec_amount: u128, timestamp: u64)
+        let selector = FunctionSelector::from_signature("add_request((Field),u128,u128,u64)");
+        
+        let result = context.call_public_function(
+            queue_address,
+            selector,
+            [user.to_field(), shares_burned as Field, aztec_amount as Field, timestamp as Field].as_slice()
+        );
+        
+        // Parse request_id from return value
+        result[0] as u64
     }
 
     // ============ VIEW FUNCTIONS ============
@@ -440,5 +562,30 @@ pub contract LiquidStakingCore {
         let staked = storage.total_staked_to_validators.read();
         let buffer = storage.liquidity_buffer.read();
         pending + staked + buffer
+    }
+    
+    /// Get contract addresses for verification
+    #[public]
+    #[view]
+    fn get_staked_aztec_token() -> pub AztecAddress {
+        storage.staked_aztec_token.read()
+    }
+    
+    #[public]
+    #[view]
+    fn get_withdrawal_queue() -> pub AztecAddress {
+        storage.withdrawal_queue.read()
+    }
+    
+    #[public]
+    #[view]
+    fn get_aztec_token() -> pub AztecAddress {
+        storage.aztec_token.read()
+    }
+    
+    #[public]
+    #[view]
+    fn get_treasury() -> pub AztecAddress {
+        storage.treasury.read()
     }
 }
