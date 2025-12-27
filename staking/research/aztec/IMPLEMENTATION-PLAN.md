@@ -491,8 +491,8 @@ To accelerate development, we will execute three parallel tracks immediately. Th
 
 1. **EXECUTE PARALLEL TRACKS:**
    - **Agent 1:** Implement `Token` trait in `aztec-staking-pool` and replace TODOs.
-   - **Agent 2:** Initialize `staking/frontend` (Next.js + Tailwind).
-   - **Agent 3:** Initialize `staking/bots` (TS Monorepo).
+   - **Agent 2:** Initialize `staking/aztec/frontend` (Next.js + Tailwind).
+   - **Agent 3:** Initialize `staking/aztec/bots` (TS Monorepo).
 2. **Start recruiting** Noir engineers (post to Aztec Discord, ZK talent pools)
 3. **Provision testnet** environment (set up Aztec sandbox locally)
 3. **Deploy test validator** (measure actual costs for 2 weeks)

@@ -879,7 +879,7 @@ struct Storage<Context> {
 **Context:** We need a UI to interact with the contracts. Since contracts are in flux, this task focuses on the *structure* and *mocked interactions* so frontend dev isn't blocked by contract dev.
 
 **Deliverables:**
-- [ ] Initialize Next.js 14 project in `staking/frontend`.
+- [ ] Initialize Next.js 14 project in `staking/aztec/frontend`.
 - [ ] Install Tailwind CSS and ShadcnUI (or similar component library).
 - [ ] Create `StakingCard` component (Tabs: Deposit, Withdraw).
 - [ ] Create `StatsCard` component (TVL, APY, User Balance).
@@ -1036,7 +1036,7 @@ assert(totalSupply_after === totalSupply_before + mintAmount)
 **Context:** We need a unified repository for all off-chain bots. This task sets up the project structure so individual bots can be implemented in parallel.
 
 **Deliverables:**
-- [ ] Create `staking/bots` directory.
+- [ ] Create `staking/aztec/bots` directory.
 - [ ] Initialize TypeScript Monorepo (npm workspaces or turborepo).
 - [ ] Create package structure:
   - `apps/staking-keeper`
@@ -1055,7 +1055,7 @@ assert(totalSupply_after === totalSupply_before + mintAmount)
 
 **Structure:**
 ```text
-staking/bots/
+staking/aztec/bots/
 ├── package.json
 ├── packages/
 │   └── common/ (Shared ABIs, types)
