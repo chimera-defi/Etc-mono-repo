@@ -5,13 +5,11 @@ on:
     branches: [main]
     paths:
       - 'wallets/frontend/**'
-      - 'wallets/*.md'
       - 'amplify.yml'
       - '.github/workflows/wallets-frontend-ci.yml'
   pull_request:
     paths:
       - 'wallets/frontend/**'
-      - 'wallets/*.md'
       - 'amplify.yml'
       - '.github/workflows/wallets-frontend-ci.yml'
 
