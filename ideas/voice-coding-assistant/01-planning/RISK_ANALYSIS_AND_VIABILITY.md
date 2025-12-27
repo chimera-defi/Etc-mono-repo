@@ -104,11 +104,11 @@
 
 ### 6.1 Revised MVP Scope (CRITICAL)
 
-#### Remove from MVP
-1. ❌ **Deepgram integration** - Whisper only (for now)
-2. ❌ **Multi-file editing (Composer)** - Single file only
-3. ❌ **Parallel agents** - One at a time
-4. ❌ **Stateful VPS** - Use Ephemeral Containers
+#### Defer to v2.0 🗓️ (Future Roadmap)
+1. 🗓️ **Deepgram integration** - Whisper only (for now)
+2. 🗓️ **Multi-file editing (Composer)** - Single file only
+3. 🗓️ **Parallel agents** - One at a time
+4. 🗓️ **Stateful VPS** - Use Ephemeral Containers for MVP
 
 #### Add to MVP (P0)
 1. ✅ **RAG / Vector Search** - Essential for agent quality.
@@ -141,7 +141,7 @@
 
 ---
 
-**Document Version:** 2.1
+**Document Version:** 2.2
 **Last Updated:** December 26, 2025
 **Analysis Conducted By:** Claude Code Risk Analysis Agent
 **Review Status:** Ready for stakeholder review
