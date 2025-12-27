@@ -89,16 +89,6 @@ async function main() {
 main().catch(console.error);
 ```
 
-### Validation Checklist
-
-| Test | Command | Success Criteria |
-|------|---------|------------------|
-| **Voice accuracy** | Record 10 coding tasks, transcribe | >90% word accuracy |
-| **Agent execution** | `npx tsx prototype.ts ./test-repo` | Agent edits files correctly |
-| **End-to-end** | `npx tsx prototype.ts --audio recording.m4a ./test-repo` | Voice → working code change |
-| **Latency** | Time full flow | <30 seconds total |
-| **Cost check** | Track API costs | <$0.50 per agent run |
-
 ### Golden Dataset (Continuous Eval)
 
 **CRITICAL:** Before moving to Phase 1, create a dataset of 20 "Golden Inputs" to prevent regressions.
@@ -191,73 +181,6 @@ npx tsc --init
 
 ---
 
-## Backend Architecture
-
-The backend is **critical** - it handles auth, multi-model AI, job orchestration, and real-time updates.
-
-### Backend Project Structure
-
-```
-cadence-backend/
-├── src/
-│   ├── index.ts                    # Fastify app entry
-│   ├── config/
-│   │   ├── env.ts                  # Environment variables
-│   │   └── database.ts             # DB connection
-│   ├── routes/
-│   │   ├── auth.ts                 # OAuth endpoints
-│   │   ├── agents.ts               # Agent CRUD
-│   │   ├── repos.ts                # Repository listing
-│   │   ├── models.ts               # Model configuration
-│   │   ├── users.ts                # User preferences
-│   │   └── webhooks.ts             # GitHub webhooks
-│   ├── services/
-│   │   ├── ai/                     # Multi-model abstraction
-│   │   │   ├── providers/
-│   │   │   │   ├── claude.ts       # Claude/Agent SDK
-│   │   │   │   ├── openai.ts       # OpenAI GPT-4/o1
-│   │   │   │   ├── gemini.ts       # Google Gemini
-│   │   │   │   └── local.ts        # Ollama/local models
-│   │   │   ├── ModelRouter.ts      # Provider selection
-│   │   │   └── types.ts            # Shared interfaces
-│   │   ├── agent/
-│   │   │   ├── AgentExecutor.ts    # Core execution logic
-│   │   │   ├── AgentQueue.ts       # Job queue management
-│   │   │   └── AgentSandbox.ts     # Fly.io isolation
-│   │   ├── codebase/
-│   │   │   ├── CodebaseIndexer.ts  # Vector embeddings
-│   │   │   ├── ContextBuilder.ts   # RAG retrieval
-│   │   │   └── FileSelector.ts     # Relevant file picking
-│   │   ├── auth/
-│   │   │   ├── GitHubAuth.ts       # OAuth flow
-│   │   │   ├── JwtService.ts       # Token management
-│   │   │   └── SessionStore.ts     # Redis sessions
-│   │   ├── notifications/
-│   │   │   ├── PushService.ts      # Expo push notifications
-│   │   │   └── SSEManager.ts       # Server-sent events
-│   │   └── usage/
-│   │       ├── UsageTracker.ts     # Per-user tracking
-│   │       ├── RateLimiter.ts      # Request limits
-│   │       └── CostCalculator.ts   # API cost estimation
-│   ├── db/
-│   │   ├── schema.ts               # Drizzle schema
-│   │   └── migrations/             # Database migrations
-│   ├── middleware/
-│   │   ├── auth.ts                 # JWT verification
-│   │   ├── rateLimit.ts            # Rate limiting
-│   │   └── errorHandler.ts         # Global error handling
-│   ├── workers/
-│   │   ├── agentWorker.ts          # BullMQ agent processor
-│   │   └── cleanupWorker.ts        # Old data cleanup
-│   └── types/
-│       └── index.ts                # Shared types
-├── drizzle.config.ts
-├── package.json
-└── tsconfig.json
-```
-
----
-
 ## Implementation Phases
 
 ### Phase 0: Foundation (Week 1)
@@ -269,7 +192,119 @@ cadence-backend/
 | 0.3 | **Establish Evaluation Pipeline (Golden Dataset)** | **8h** | **20 test cases + runner** |
 | 0.4 | Set up Claude Agent SDK integration | 4h | Agent execution working |
 
----
+### Phase 1: Authentication (Week 2)
+
+| # | Task | Est. | Dependencies |
+|---|------|------|--------------|
+| 1.1 | Implement GitHub OAuth PKCE flow | 4h | expo-auth-session |
+| 1.2 | Create AuthService class | 2h | - |
+| 1.3 | Secure token storage | 2h | expo-secure-store |
+| 1.4 | Build login/welcome screen | 4h | AuthService |
+| 1.5 | Token refresh logic | 2h | AuthService |
+| 1.6 | Create authStore (Zustand) | 2h | - |
+| 1.7 | Navigation guards (protected routes) | 2h | authStore |
+
+### Phase 2: Voice Interface (Weeks 3-4)
+
+| # | Task | Est. | Dependencies |
+|---|------|------|--------------|
+| 2.1 | Audio recording with expo-av | 4h | - |
+| 2.2 | **iOS audio compression (M4A) - Critical Fix** | **8h** | **Native module** |
+| 2.3 | Create WhisperSTTProvider | 6h | Audio recording |
+| 2.4 | Create TTSService (expo-speech) | 3h | - |
+| 2.5 | Build VoiceButton component | 4h | - |
+| 2.6 | Recording waveform animation | 4h | - |
+| 2.7 | Voice state indicator (idle/listening/processing/speaking) | 3h | - |
+| 2.8 | Transcript display component | 2h | - |
+| 2.9 | Create voiceStore (Zustand) | 3h | - |
+
+**WhisperSTTProvider Implementation:**
+```typescript
+// src/services/speech/WhisperSTTProvider.ts
+export class WhisperSTTProvider implements STTProvider {
+  async transcribe(audioUri: string): Promise<TranscriptionResult> {
+    const formData = new FormData();
+    formData.append('file', {
+      uri: audioUri,
+      type: 'audio/m4a',
+      name: 'recording.m4a',
+    } as any);
+    formData.append('model', 'whisper-1');
+    formData.append('language', 'en');
+
+    const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${OPENAI_API_KEY}` },
+      body: formData,
+    });
+    return response.json();
+  }
+}
+```
+
+### Phase 3: Agent Management (Weeks 5-6)
+
+| # | Task | Est. | Dependencies |
+|---|------|------|--------------|
+| 3.1 | Create CommandParser service (Claude Haiku) | 6h | - |
+| 3.2 | Define command intents (create, status, pause, etc.) | 2h | - |
+| 3.3 | Create AgentApiService | 6h | TanStack Query |
+| 3.4 | Agent CRUD operations | 4h | AgentApiService |
+| 3.5 | Create agentStore (Zustand) | 3h | - |
+| 3.6 | Build AgentListScreen | 4h | agentStore |
+| 3.7 | Build AgentDetailScreen | 6h | - |
+| 3.8 | Build CreateAgentFlow (3-step wizard) | 8h | All services |
+| 3.9 | Agent logs view | 4h | - |
+
+### Phase 4: Backend & Agent Execution (Weeks 5-7)
+
+| # | Task | Est. | Dependencies |
+|---|------|------|--------------|
+| 4.1 | Set up Fastify API routes | 4h | - |
+| 4.2 | Create AgentExecutor with Claude Agent SDK | 8h | SDK setup |
+| 4.3 | Implement PreToolUse hooks (security) | 4h | AgentExecutor |
+| 4.4 | Implement PostToolUse hooks (progress streaming) | 3h | AgentExecutor |
+| 4.5 | **Integration with Fly.io Machines API** | **8h** | **Fly.io account** |
+| 4.6 | Repository cloning & management (Ephemeral) | 4h | - |
+| 4.7 | Database schema & migrations | 4h | Neon PostgreSQL |
+| 4.8 | GitHub webhooks for PR updates | 4h | - |
+
+**AgentExecutor with Claude Agent SDK:**
+```typescript
+// backend/src/services/agentExecutor.ts
+import { query } from '@anthropic-ai/claude-code';
+
+export class AgentExecutor {
+  async execute(task: AgentTask): Promise<AsyncGenerator<AgentEvent>> {
+    const response = await query({
+      prompt: this.buildPrompt(task),
+      cwd: task.repoLocalPath,
+      model: 'claude-sonnet-4-20250514',
+      apiKey: process.env.ANTHROPIC_API_KEY,
+      hooks: {
+        PreToolUse: [{
+          matcher: 'Edit|Write|Bash',
+          callback: async (input) => {
+            await this.logAction(task.id, input);
+            return {};
+          }
+        }],
+        PostToolUse: [{
+          matcher: '*',
+          callback: async (input) => {
+            this.emitProgress(task.id, input);
+            return {};
+          }
+        }]
+      }
+    });
+
+    for await (const event of response) {
+      yield this.transformEvent(event);
+    }
+  }
+}
+```
 
 ### Phase 5: Codebase Context (Week 7-8)
 
@@ -309,9 +344,63 @@ async function indexRepo(repoId: string, repoUrl: string) {
 }
 ```
 
+### Phase 6: Real-time & Notifications (Week 8-9)
+
+| # | Task | Est. | Dependencies |
+|---|------|------|--------------|
+| 6.1 | Background polling (5s interval) | 4h | AgentApiService |
+| 6.2 | Configure expo-notifications | 4h | - |
+| 6.3 | Push token registration | 3h | Backend API |
+| 6.4 | Agent completion notifications | 2h | - |
+| 6.5 | Agent failure notifications | 2h | - |
+| 6.6 | In-app notification preferences | 2h | settingsStore |
+
+**PushService Implementation:**
+```typescript
+// src/services/notifications/PushService.ts
+import { Expo } from 'expo-server-sdk';
+const expo = new Expo();
+
+export class PushService {
+  async notifyAgentComplete(agentId: string) {
+    const agent = await db.query.agents.findFirst({ where: eq(agents.id, agentId), with: { user: true } });
+    if (!agent?.user.expoPushToken) return;
+
+    await expo.sendPushNotificationsAsync([{
+      to: agent.user.expoPushToken,
+      title: '✅ Agent Complete',
+      body: `${agent.repoName}: ${agent.taskDescription.slice(0, 50)}...`,
+      data: { agentId, type: 'agent_complete' },
+    }]);
+  }
+}
+```
+
+### Phase 7: Polish & Testing (Weeks 10-11)
+
+| # | Task | Est. | Dependencies |
+|---|------|------|--------------|
+| 7.1 | Global error boundary | 3h | - |
+| 7.2 | API error handling | 4h | - |
+| 7.3 | Loading states & skeletons | 4h | - |
+| 7.4 | Empty states | 3h | - |
+| 7.5 | Unit tests for services | 8h | Jest |
+| 7.6 | Integration tests | 8h | RNTL |
+
+### Phase 8: Launch Prep (Week 12)
+
+| # | Task | Est. | Dependencies |
+|---|------|------|--------------|
+| 8.1 | Implement usage tracking (agents, voice minutes) | 4h | Backend |
+| 8.2 | Implement usage limits enforcement | 4h | - |
+| 8.3 | Sentry error tracking | 3h | - |
+| 8.4 | App icons & splash screen | 4h | - |
+| 8.5 | App Store metadata | 4h | - |
+| 8.6 | EAS build configuration | 4h | - |
+
 ---
 
-## Phase 9: Future Roadmap (Post-MVP)
+## Phase 9: Future Roadmap (Scale Phase)
 
 > **Note:** These tasks are deliberately deferred to ensure MVP delivery. They are the "Scale" phase.
 
@@ -325,7 +414,7 @@ async function indexRepo(repoId: string, repoUrl: string) {
 
 ---
 
-## Task Breakdown for AI Agents
+## Task Breakdown for AI Agents (Sprint View)
 
 ### Sprint 0: Validation (3-5 days) - MUST DO FIRST
 
@@ -344,19 +433,6 @@ async function indexRepo(repoId: string, repoUrl: string) {
 
 ---
 
-### Sprint 7: Codebase Context (Week 9-10)
-
-| Task ID | Task | Priority | Est. | Dependencies |
-|---------|------|----------|------|--------------|
-| `C-01` | Implement GitHub API repo tree fetching | P0 | 4h | B-04 |
-| `C-02` | **Setup pgvector in Neon DB** | **P0** | **1h** | **B-02** |
-| `C-03` | **Implement CodebaseIndexer service** | **P0** | **8h** | **C-01, C-02** |
-| `C-04` | **Implement Semantic Search (RAG) service** | **P0** | **6h** | **C-03** |
-| `C-05` | Create relevant file selector (RAG + LLM) | P1 | 6h | C-04 |
-| `C-06` | Integrate context into agent prompts | P0 | 3h | C-05, A-02 |
-
----
-
-**Document Version:** 2.2
+**Document Version:** 2.2 (Restored & Enhanced)
 **Created:** December 26, 2025
 **Status:** Ready for Implementation

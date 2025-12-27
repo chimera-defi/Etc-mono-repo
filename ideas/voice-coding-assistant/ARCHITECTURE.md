@@ -20,7 +20,8 @@
 | Database | PostgreSQL (Neon) | $0-25/mo |
 | **Vector DB** | **pgvector (on Neon)** | **Included in DB** |
 | Real-time | Supabase Realtime / Polling | $0-25/mo |
-| **Execution** | **Fly.io Machines (Firecracker VMs)** | **~$0.0003/sec** |
+| **Execution (MVP)** | **Fly.io Machines (Firecracker)** | **~$0.0003/sec** |
+| **Execution (Scale)** | **Hetzner VPS per user** | **$4.85/user/mo** |
 
 ---
 
@@ -61,7 +62,7 @@
                                     │
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                    EXECUTION ENVIRONMENT (Fly.io Machines)              │
+│                    EXECUTION ENVIRONMENT (MVP: Fly.io)                  │
 │  ┌──────────────────────────────────────────────────────────────────┐   │
 │  │                    Claude Agent SDK Execution                    │   │
 │  │  • Clone repo  • Read/Edit files  • Run commands  • Create PR    │   │
@@ -156,18 +157,11 @@ interface CodebaseContext {
 
 ---
 
-## 4. Execution Environment: ✅ REVISED DECISION
+## 4. Execution Environment: MVP Decision
 
-### The Problem with VPS-per-User (Revisited)
-While "VPS-per-user" eliminates cold starts, it introduces massive **DevOps complexity**:
-- **Zombie Processes:** Agents crashing and leaving high-CPU processes running.
-- **Security Patching:** Managing OS updates for 1000+ VMs.
-- **Disk Corruption:** Corrupt git states requiring manual intervention.
-- **Cost:** Paying for idle time (nights/weekends).
+### The Decision: **Fly.io Machines (Firecracker VMs)**
 
-### Final Decision: **Fly.io Machines (Firecracker VMs)**
-
-We will use Fly.io Machines, which are lightweight Firecracker microVMs. They start in <300ms.
+We will use Fly.io Machines for the MVP phase. They are lightweight Firecracker microVMs that balance the need for isolation with low operational overhead.
 
 | Factor | Fly.io Machines | VPS-per-User | Winner |
 |--------|-----------------|--------------|--------|
@@ -178,9 +172,9 @@ We will use Fly.io Machines, which are lightweight Firecracker microVMs. They st
 
 ### Warm Pool Strategy
 To mitigate the 2-5s cold start of fetching the Docker image and cloning the repo:
-1. Maintain a small "warm pool" of generic runner machines (e.g., 5-10 machines).
+1. Maintain a small "warm pool" of generic runner machines.
 2. When a user requests an agent, claim a warm machine instantly.
-3. Use **Codebase Context (RAG)** to fetch only *relevant* files initially, rather than a full clone for massive repos (or shallow clone).
+3. Use **Codebase Context (RAG)** to fetch only *relevant* files initially.
 
 ### Fly.io Configuration
 
@@ -206,11 +200,7 @@ app = "cadence-agent-runner"
 
 ---
 
-## 5. Voice Pipeline & Command Parsing
-
-### Updated Pipeline (Deepgram Option)
-
-For MVP, we use **Whisper API**. For Scale (latency sensitive), we upgrade to **Deepgram Nova-2**.
+## 5. Voice Pipeline
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────┐
@@ -243,11 +233,6 @@ For MVP, we use **Whisper API**. For Scale (latency sensitive), we upgrade to **
 └──────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Task-Based Interaction (Important)
-We are building a **Task-Based** assistant, not a "Dictate-Code-Character-by-Character" editor.
-*   ✅ "Create a login form using React Hook Form"
-*   ❌ "Go to line 50 and change 'var' to 'const'" (Latency/Accuracy makes this frustrating via voice)
-
 ---
 
 ## 6. Context Engine (RAG)
@@ -257,7 +242,7 @@ We are building a **Task-Based** assistant, not a "Dictate-Code-Character-by-Cha
 1.  **Ingestion:**
     *   On Agent creation (or periodic sync), fetch repo file tree.
     *   Download key files (README, package.json, high-level structure).
-    *   Split code into chunks and generate embeddings (e.g., using OpenAI `text-embedding-3-small`).
+    *   Split code into chunks and generate embeddings.
     *   Store in **Neon Postgres (pgvector)**.
 
 2.  **Retrieval:**
@@ -283,55 +268,149 @@ We are building a **Task-Based** assistant, not a "Dictate-Code-Character-by-Cha
 
 ---
 
-## 8. Summary: Key Decisions
+## 8. Future Architecture: Scalability (The "Pro" Tier)
 
-| Decision | Choice | Rationale |
-|----------|--------|-----------|
-| **Mobile Framework** | React Native + Expo | Cross-platform, fast iteration |
-| **Backend** | Fastify + TypeScript | Fast, type-safe, familiar |
-| **Database** | Neon PostgreSQL + **pgvector** | Serverless, auto-scale, **RAG support** |
-| **STT** | OpenAI Whisper (Start) -> Deepgram | Balance of ease (now) vs speed (later) |
-| **Command Parsing** | **Structured Output (Outlines/Instructor)** | Guarantee valid JSON, no parsing errors |
-| **Execution** | **Fly.io Machines** | **Reduced DevOps complexity** vs VPS-per-user |
-| **AI Core** | Claude API + Agent tools | Best coding capability |
+> **Note:** The following architecture is preserved for the "Scale" phase (Phase 9 in Implementation). It represents the target state for high-margin power users.
+
+### 8.1 VPS-per-User Architecture
+
+**Why:**
+- **Zero cold start** - VM always running
+- **Persistent workspace** - repos stay cloned
+- **Faster subsequent agents** - dependencies cached
+- **Predictable pricing** - flat monthly cost
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    VPS-PER-USER ARCHITECTURE                             │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  When user subscribes ($15/mo):                                          │
+│  ┌──────────────────────────────────────────────────────────────────┐   │
+│  │  PROVISION: Hetzner Cloud CX22 (2 vCPU, 4GB RAM, 40GB SSD)       │   │
+│  │  Cost: ~$4.50/mo → Margin: ~$10.50/mo (70%)                      │   │
+│  └──────────────────────────────────────────────────────────────────┘   │
+│                                                                          │
+│  User's Dedicated VPS:                                                   │
+│  ┌──────────────────────────────────────────────────────────────────┐   │
+│  │  ┌─────────────────────────────────────────────────────────┐     │   │
+│  │  │              Agent Daemon                               │     │   │
+│  │  │                                                         │     │   │
+│  │  │  • Listens for tasks via API/WebSocket                  │     │   │
+│  │  │  • Manages cloned repositories (~5 repos cached)        │     │   │
+│  │  │  • Runs Claude Agent SDK                                │     │   │
+│  │  │  • Streams logs back to backend                         │     │   │
+│  │  └─────────────────────────────────────────────────────────┘     │   │
+│  │                                                                   │   │
+│  │  /home/cadence/                                                   │   │
+│  │  ├── repos/                                                       │   │
+│  │  │   ├── wallet-frontend/     (cloned, npm installed)             │   │
+│  │  │   ├── api-service/         (cloned, cached)                    │   │
+│  │  │   └── ...                                                      │   │
+│  │  ├── agent-daemon/            (our execution service)             │   │
+│  │  └── .anthropic/              (API key, config)                   │   │
+│  └──────────────────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### 8.2 Hybrid Architecture Model
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      HYBRID EXECUTION MODEL                              │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  FREE TIER ($0/mo):                                                      │
+│  ┌──────────────────────────────────────────────────────────────────┐   │
+│  │  Serverless execution (Fly.io Machines)                          │   │
+│  │  • 5 agents/month limit                                          │   │
+│  │  • Cold start: 2-5 seconds                                       │   │
+│  │  • Repos cloned fresh each time                                  │   │
+│  │  • Cost to us: ~$0.50/agent                                      │   │
+│  └──────────────────────────────────────────────────────────────────┘   │
+│                                                                          │
+│  PRO TIER ($15/mo):                                                      │
+│  ┌──────────────────────────────────────────────────────────────────┐   │
+│  │  Dedicated VPS (Hetzner CX22)                                    │   │
+│  │  • Unlimited agents                                              │   │
+│  │  • Zero cold start                                               │   │
+│  │  • Repos cached, deps installed                                  │   │
+│  │  • Cost to us: ~$4.85/mo → 68% margin                            │   │
+│  └──────────────────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### 8.3 Implementation: Agent Daemon (Reference Code)
+
+```typescript
+// agent-daemon/src/index.ts
+import { query } from '@anthropic-ai/claude-code';
+import { WebSocket } from 'ws';
+
+class AgentDaemon {
+  private ws: WebSocket;
+  private reposDir = '/home/cadence/repos';
+
+  async connect(backendUrl: string, userToken: string) {
+    this.ws = new WebSocket(`${backendUrl}/ws/daemon`, {
+      headers: { Authorization: `Bearer ${userToken}` }
+    });
+
+    this.ws.on('message', async (data) => {
+      const task = JSON.parse(data.toString());
+      await this.executeTask(task);
+    });
+  }
+
+  async executeTask(task: AgentTask) {
+    // 1. Ensure repo is cloned and up-to-date
+    const repoPath = await this.prepareRepo(task.repoUrl, task.branch);
+
+    // 2. Execute Claude Agent SDK
+    const response = await query({
+      prompt: task.prompt,
+      cwd: repoPath,
+      model: 'claude-sonnet-4-20250514',
+      apiKey: process.env.ANTHROPIC_API_KEY,
+      hooks: {
+        PostToolUse: [{
+          matcher: '*',
+          callback: async (input) => {
+            // Stream progress back to backend
+            this.ws.send(JSON.stringify({
+              type: 'progress',
+              agentId: task.id,
+              tool: input.tool_name,
+              result: input.tool_result
+            }));
+            return {};
+          }
+        }]
+      }
+    });
+
+    // 3. Process streaming response and notify completion
+    // ...
+  }
+}
+```
 
 ---
 
-## 9. Future Enhancements & Optimization
+## 9. Cost Comparison
 
-These items are technically feasible but deferred to reduce MVP complexity. They represent the "Scale" phase of the architecture.
+### Per-User Economics
 
-### 9.1 Dedicated VPS-per-User (The "Pro" Tier Infrastructure)
-While Fly.io is perfect for MVP, at scale (10,000+ users), maintaining a dedicated VPS for power users offers:
-*   **Zero Cold Start:** The VM is always running (or suspended/resumed instantly).
-*   **Persistent Workspace:** No need to re-clone the repo; `node_modules` stays cached.
-*   **Higher Margins:** Hetzner CX22 (€4.50/mo) is cheaper than running a Fly.io machine 24/7 if usage is high.
+| Model | Infrastructure | Claude API | Total/User/Mo | Margin at $15 |
+|-------|---------------|------------|---------------|---------------|
+| **Fly.io (MVP)** | ~$0.50-2.00 | ~$5-10 | $6-12 | 20-60% |
+| **VPS (Scale)** | $4.85 | ~$5-10 | $10-15 | 0-33% |
+| **Hybrid Pro** | $4.85 | ~$5-10 | $10-15 | 0-33% |
 
-**Implementation Trigger:** When API costs exceed $15,000/mo or user churn due to startup latency increases.
-
-### 9.2 Deepgram Nova-2 Integration
-*   **Current:** Whisper API (non-streaming).
-*   **Future:** Deepgram Nova-2 (streaming WebSocket).
-*   **Benefit:** Reduces voice latency from ~2s to ~300ms, enabling near-real-time conversational coding.
-*   **Complexity:** Requires WebSocket handling on mobile and backend stream processing.
-
-### 9.3 Multi-File "Composer" Editing
-*   **Current:** Single-file edits or sequential edits via SDK.
-*   **Future:** Context-aware multi-file editing (like Cursor's Composer).
-*   **Benefit:** Complex refactors (e.g., "Rename this component and update all 50 imports").
-*   **Complexity:** Requires advanced dependency graph analysis and transactional file system rollbacks.
+**Note:** Claude API costs dominate. VPS saves money only for very heavy users who would otherwise churn 100s of Fly.io machines.
 
 ---
 
-## Related Documents
-
-| Document | Purpose |
-|----------|---------|
-| [IMPLEMENTATION.md](./IMPLEMENTATION.md) | Task breakdowns and code guides |
-| [RISK_ANALYSIS.md](./01-planning/RISK_ANALYSIS_AND_VIABILITY.md) | Business viability & Risks |
-
----
-
-**Architecture Version:** 2.2 (Future Enhancements Added)
+**Architecture Version:** 2.2 (Restored & Enhanced)
 **Updated:** December 26, 2025
 **Status:** Ready for Implementation
