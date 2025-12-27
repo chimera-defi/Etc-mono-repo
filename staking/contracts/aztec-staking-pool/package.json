@@ -1,0 +1,15 @@
+{
+  "name": "aztec-staking-pool",
+  "version": "1.0.0",
+  "description": "**Status:** ✅ COMPILED SUCCESSFULLY **Created:** 2025-12-26 **Last Compiled:** 2025-12-27 **Compiler:** aztec-nargo 1.0.0-beta.11 (Aztec v2.1.9)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aztec/aztec.js": "^2.1.9"
+  }
+}

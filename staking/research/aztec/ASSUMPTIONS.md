@@ -344,3 +344,28 @@ node_getContractInstance # Not exposed on public node
 - **Follow-ups**:
   - ~~Run local sandbox on a machine where Docker daemon can run.~~
   - ~~Once `aztec` CLI is installed, complete the "hello world" compile/deploy smoke test and record it here.~~
+
+---
+
+### 2025-12-27 — Devnet Connectivity Smoke Test (AztecJS) ✅
+
+- **Environment**: Cursor Cloud Agent (remote environment)
+- **Method**:
+  - Verified Docker unavailability (`docker info` fails, `dockerd` not running).
+  - Identified `aztec-nargo` relies on Docker and cannot run.
+  - Initialized `package.json` in `staking/contracts/aztec-staking-pool`.
+  - Installed `@aztec/aztec.js`.
+  - Ran `scripts/query-devnet.mjs` to test connection.
+- **Results**:
+  - **Devnet Connection**: ✅ SUCCESS.
+  - **RPC URL**: `https://next.devnet.aztec-labs.com`
+  - **Latest Block**: ~33391
+  - **Fee Per L2 Gas**: 1080
+  - **L1 Chain ID**: 11155111
+  - **Key Address Found**: Staking Asset `0x3dae418ad4dbd49e00215d24079a10ac3bc9ef4f`
+- **Key Discovery**:
+  - Can interact with Devnet via AztecJS even without Docker or local sandbox.
+  - Contract compilation requires `aztec-nargo` which requires Docker.
+- **Next Steps**:
+  - Proceed with contract code authoring (`TASK-101`) even if local compilation is blocked.
+  - Code review and "skeleton" creation can happen.
