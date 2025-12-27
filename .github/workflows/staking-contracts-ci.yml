@@ -4,11 +4,11 @@ on:
   push:
     branches: [main]
     paths:
-      - 'staking/contracts/**'
+      - 'staking/aztec/**'
       - '.github/workflows/staking-contracts-ci.yml'
   pull_request:
     paths:
-      - 'staking/contracts/**'
+      - 'staking/aztec/**'
       - '.github/workflows/staking-contracts-ci.yml'
 
 jobs:
@@ -27,22 +27,22 @@ jobs:
           nargo --version
 
       - name: Run staking math tests
-        working-directory: staking/contracts/staking-math-tests
+        working-directory: staking/aztec/contracts/staking-math-tests
         run: |
           export PATH="$HOME/.nargo/bin:$PATH"
-          echo "Running 20 staking math unit tests..."
+          echo "Running staking math unit tests..."
           nargo test
 
       - name: Test Summary
         if: success()
         run: |
-          echo "## ✅ Staking Math Tests Passed" >> $GITHUB_STEP_SUMMARY
+          echo "## Staking Math Tests Passed" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "All 20 unit tests for staking pool math passed:" >> $GITHUB_STEP_SUMMARY
+          echo "All unit tests for staking pool math passed:" >> $GITHUB_STEP_SUMMARY
           echo "- Deposit/withdrawal calculations" >> $GITHUB_STEP_SUMMARY
           echo "- Fee calculations" >> $GITHUB_STEP_SUMMARY
           echo "- Share value calculations" >> $GITHUB_STEP_SUMMARY
           echo "- Edge cases and multi-user scenarios" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Note:** Aztec contract compilation requires local setup with Docker." >> $GITHUB_STEP_SUMMARY
-          echo "See \`staking/contracts/aztec-staking-pool/README.md\` for instructions." >> $GITHUB_STEP_SUMMARY
+          echo "See \`staking/aztec/contracts/aztec-staking-pool/README.md\` for instructions." >> $GITHUB_STEP_SUMMARY
