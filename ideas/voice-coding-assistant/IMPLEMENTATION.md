@@ -209,7 +209,7 @@ EXPO_ACCESS_TOKEN=...
 | **ORM** | Drizzle ORM | Type-safe database queries |
 | **Queue** | BullMQ + Redis | Background job processing |
 | **AI Core** | Multi-provider abstraction | Claude, OpenAI, Gemini, local |
-| **STT** | OpenAI Whisper API | 95-98% voice accuracy |
+| **STT** | OpenAI Whisper API + Context | 98% accuracy (Wispr Flow parity) |
 | **TTS** | expo-speech | On-device, <50ms latency |
 | **Database** | PostgreSQL 16 (Neon) | Serverless, auto-scale |
 | **Cache** | Redis (Upstash) | Session, rate limiting, queues |
@@ -1504,7 +1504,7 @@ cadence/
 |---|------|------|--------------|
 | 2.1 | Audio recording with expo-av | 4h | - |
 | 2.2 | iOS audio compression (M4A) | 8h | Native module |
-| 2.3 | Create WhisperSTTProvider | 6h | Audio recording |
+| 2.3 | Create WhisperSTTProvider with Context Injection (Wispr Flow parity) | 6h | Audio recording |
 | 2.4 | Create TTSService (expo-speech) | 3h | - |
 | 2.5 | Build VoiceButton component | 4h | - |
 | 2.6 | Recording waveform animation | 4h | - |
@@ -1512,12 +1512,13 @@ cadence/
 | 2.8 | Transcript display component | 2h | - |
 | 2.9 | Create voiceStore (Zustand) | 3h | - |
 | 2.10 | Error handling & retry logic | 3h | All voice services |
+| 2.11 | Implement Basic Keyword Extractor (for STT context) | 4h | 2.3 |
 
 **WhisperSTTProvider Implementation:**
 ```typescript
 // src/services/speech/WhisperSTTProvider.ts
 export class WhisperSTTProvider implements STTProvider {
-  async transcribe(audioUri: string): Promise<TranscriptionResult> {
+  async transcribe(audioUri: string, context?: string[]): Promise<TranscriptionResult> {
     const formData = new FormData();
     formData.append('file', {
       uri: audioUri,
@@ -1526,6 +1527,14 @@ export class WhisperSTTProvider implements STTProvider {
     } as any);
     formData.append('model', 'whisper-1');
     formData.append('language', 'en');
+
+    // WISPR FLOW PARITY: Inject context (keywords, variable names) into prompt
+    if (context && context.length > 0) {
+      // Whisper prompt limit is ~224 tokens, so we join key terms
+      // "Context: React, useState, useEffect, FastifyInstance..."
+      const prompt = `Context: ${context.join(', ')}.`;
+      formData.append('prompt', prompt);
+    }
 
     const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
       method: 'POST',
