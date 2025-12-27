@@ -14,7 +14,40 @@ import {
   ChevronUp,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type { CryptoCard, HardwareWallet, SoftwareWallet, WalletData } from '@/types/wallets';
+import type { CryptoCard, HardwareWallet, SoftwareWallet, SupportedChains, WalletData } from '@/types/wallets';
+
+// Chain icon configuration
+const chainIcons: { key: keyof Omit<SupportedChains, 'raw' | 'other'>; src: string; alt: string }[] = [
+  { key: 'evm', src: '/chains/eth.svg', alt: 'EVM' },
+  { key: 'bitcoin', src: '/chains/btc.svg', alt: 'BTC' },
+  { key: 'solana', src: '/chains/sol.svg', alt: 'SOL' },
+  { key: 'move', src: '/chains/move.svg', alt: 'Move' },
+  { key: 'cosmos', src: '/chains/cosmos.svg', alt: 'Cosmos' },
+  { key: 'polkadot', src: '/chains/polkadot.svg', alt: 'DOT' },
+  { key: 'starknet', src: '/chains/starknet.svg', alt: 'Stark' },
+];
+
+// Helper function to display chain support as icons
+function ChainSupportDisplay({ chains }: { chains: SupportedChains }) {
+  return (
+    <div className="flex items-center gap-0.5 flex-wrap">
+      {chainIcons.map(({ key, src, alt }) => 
+        chains[key] && (
+          <img 
+            key={key}
+            src={src} 
+            alt={alt} 
+            width={14} 
+            height={14} 
+            className="inline-block"
+            title={alt}
+          />
+        )
+      )}
+      {chains.other && <span className="text-xs text-muted-foreground">+</span>}
+    </div>
+  );
+}
 
 interface ComparisonToolProps {
   type: 'software' | 'hardware' | 'cards';
@@ -195,7 +228,7 @@ function SoftwareWalletComparison({
             <ComparisonRow label="Score" values={wallets.map(w => w.score)} highlight />
             <ComparisonRow label="Recommendation" values={wallets.map(w => w.recommendation)} />
             <ComparisonRow label="Best For" values={wallets.map(w => w.bestFor)} />
-            <ComparisonRow label="Chain Support" values={wallets.map(w => typeof w.chains === 'number' ? w.chains : w.chains)} />
+            <ComparisonRow label="Chain Support" values={wallets.map(w => <ChainSupportDisplay key={w.id} chains={w.chains} />)} />
             <ComparisonRow label="Mobile App" values={wallets.map(w => w.devices.mobile)} isBoolean />
             <ComparisonRow label="Browser Extension" values={wallets.map(w => w.devices.browser)} isBoolean />
             <ComparisonRow label="Desktop App" values={wallets.map(w => w.devices.desktop)} isBoolean />

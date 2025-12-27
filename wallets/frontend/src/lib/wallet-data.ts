@@ -77,13 +77,27 @@ function parseReleasesPerMonth(cell: string): number | null {
   return match ? parseInt(match[1], 10) : null;
 }
 
-// Parse chains count
-function parseChainsCount(cell: string): number | string {
-  if (cell.toLowerCase().includes('any')) return 'any';
-  if (cell.toLowerCase().includes('evm')) return 'evm';
-  if (cell.toLowerCase().includes('eth')) return 'eth';
-  const match = cell.match(/(\d+)\+?/);
-  return match ? parseInt(match[1], 10) : 0;
+// Parse supported chains from HTML img tags or Unicode symbols
+// Images: eth.svg (EVM), btc.svg (Bitcoin), sol.svg (Solana), move.svg (Move), cosmos.svg (Cosmos), polkadot.svg (Polkadot), starknet.svg (Starknet)
+// Footnotes: ¹ ² ³ ⁴ indicate additional chains listed in legend
+function parseSupportedChains(cell: string): import('@/types/wallets').SupportedChains {
+  const raw = cell.trim();
+  
+  // Check for image tags (new format) or Unicode symbols (legacy format)
+  const hasImg = (name: string) => raw.includes(`/${name}.`) || raw.includes(`${name}.svg`) || raw.includes(`${name}.png`);
+  
+  return {
+    evm: hasImg('eth') || raw.includes('⟠'),
+    bitcoin: hasImg('btc') || raw.includes('₿'),
+    solana: hasImg('sol') || raw.includes('◎'),
+    move: hasImg('move') || hasImg('sui') || hasImg('aptos') || raw.includes('△'),
+    cosmos: hasImg('cosmos') || raw.includes('⚛'),
+    polkadot: hasImg('polkadot') || raw.includes('●'),
+    starknet: hasImg('starknet') || raw.includes('⧫'),
+    // Check for footnote markers (¹²³⁴) or explicit "other" chains
+    other: /[¹²³⁴⁵⁶⁷⁸⁹]/.test(raw) || raw.includes('+') || hasImg('ton') || hasImg('xrp') || hasImg('tron'),
+    raw,
+  };
 }
 
 // Parse license type
@@ -294,7 +308,7 @@ export function parseSoftwareWallets(): SoftwareWallet[] {
       rpc: parsePartial(cells[4] || '') as 'full' | 'partial' | 'none',
       github: extractGitHubUrl(cells[5] || ''),
       active: parseStatus(cells[6] || ''),
-      chains: parseChainsCount(cells[7] || ''),
+      chains: parseSupportedChains(cells[7] || ''),
       devices: parseDevices(cells[8] || ''),
       testnets: parseBoolean(cells[9] || ''),
       license: license.status,

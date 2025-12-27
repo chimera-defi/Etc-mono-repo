@@ -252,8 +252,13 @@ export function sortWallets<T extends WalletData>(
         break;
       case 'chains':
         if (a.type === 'software' && b.type === 'software') {
-          aValue = typeof (a as SoftwareWallet).chains === 'number' ? (a as SoftwareWallet).chains as number : 999;
-          bValue = typeof (b as SoftwareWallet).chains === 'number' ? (b as SoftwareWallet).chains as number : 999;
+          // Count number of chain categories supported (more = higher value)
+          const countChains = (w: SoftwareWallet) => {
+            const c = w.chains;
+            return [c.evm, c.bitcoin, c.solana, c.move, c.cosmos, c.polkadot, c.starknet, c.other].filter(Boolean).length;
+          };
+          aValue = countChains(a as SoftwareWallet);
+          bValue = countChains(b as SoftwareWallet);
         }
         break;
       case 'releasesPerMonth':

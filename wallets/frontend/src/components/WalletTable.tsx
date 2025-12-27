@@ -15,9 +15,56 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type { CryptoCard, HardwareWallet, SoftwareWallet, WalletData } from '@/types/wallets';
+import type { CryptoCard, HardwareWallet, SoftwareWallet, SupportedChains, WalletData } from '@/types/wallets';
 
 export type { CryptoCard, HardwareWallet, SoftwareWallet, WalletData };
+
+// Helper function to generate tooltip text for chain support
+function getChainTooltip(chains: SupportedChains): string {
+  const supported: string[] = [];
+  if (chains.evm) supported.push('EVM (Ethereum, Polygon, Arbitrum, etc.)');
+  if (chains.bitcoin) supported.push('Bitcoin');
+  if (chains.solana) supported.push('Solana');
+  if (chains.move) supported.push('Move (Sui, Aptos)');
+  if (chains.cosmos) supported.push('Cosmos ecosystem');
+  if (chains.polkadot) supported.push('Polkadot');
+  if (chains.starknet) supported.push('Starknet');
+  if (chains.other) supported.push('Other chains (TON, XRP, etc.)');
+  return supported.length > 0 ? `Supported: ${supported.join(', ')}` : 'No chain support data';
+}
+
+// Chain icon configuration
+const chainIcons: { key: keyof Omit<SupportedChains, 'raw' | 'other'>; src: string; alt: string }[] = [
+  { key: 'evm', src: '/chains/eth.svg', alt: 'EVM' },
+  { key: 'bitcoin', src: '/chains/btc.svg', alt: 'Bitcoin' },
+  { key: 'solana', src: '/chains/sol.svg', alt: 'Solana' },
+  { key: 'move', src: '/chains/move.svg', alt: 'Move' },
+  { key: 'cosmos', src: '/chains/cosmos.svg', alt: 'Cosmos' },
+  { key: 'polkadot', src: '/chains/polkadot.svg', alt: 'Polkadot' },
+  { key: 'starknet', src: '/chains/starknet.svg', alt: 'Starknet' },
+];
+
+// Component to render chain icons
+function ChainIcons({ chains }: { chains: SupportedChains }) {
+  return (
+    <div className="flex items-center gap-0.5" title={getChainTooltip(chains)}>
+      {chainIcons.map(({ key, src, alt }) => 
+        chains[key] && (
+          <img 
+            key={key}
+            src={src} 
+            alt={alt} 
+            width={16} 
+            height={16} 
+            className="inline-block"
+            title={alt}
+          />
+        )
+      )}
+      {chains.other && <span className="text-xs text-muted-foreground ml-0.5">+</span>}
+    </div>
+  );
+}
 
 // Badge component
 function Badge({
@@ -181,7 +228,7 @@ function SoftwareWalletItem({
           <DeviceIcons devices={wallet.devices} />
         </td>
         <td className="py-3 px-4 text-sm">
-          {typeof wallet.chains === 'number' ? wallet.chains : wallet.chains}
+          <ChainIcons chains={wallet.chains} />
         </td>
         <td className="py-3 px-4">
           <div className="flex gap-1">
@@ -245,9 +292,7 @@ function SoftwareWalletItem({
 
       <div className="flex items-center gap-4 mb-3">
         <DeviceIcons devices={wallet.devices} />
-        <span className="text-sm text-muted-foreground">
-          {typeof wallet.chains === 'number' ? `${wallet.chains} chains` : wallet.chains}
-        </span>
+        <ChainIcons chains={wallet.chains} />
       </div>
 
       <div className="flex flex-wrap gap-2 mb-3">

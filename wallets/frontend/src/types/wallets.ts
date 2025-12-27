@@ -1,3 +1,28 @@
+/**
+ * Supported blockchain network categories
+ * Each property indicates whether the wallet supports that chain category
+ */
+export interface SupportedChains {
+  /** Ethereum & EVM-compatible chains (Polygon, Arbitrum, Base, Optimism, etc.) */
+  evm: boolean;
+  /** Bitcoin network */
+  bitcoin: boolean;
+  /** Solana network */
+  solana: boolean;
+  /** Move-based chains (Sui, Aptos) */
+  move: boolean;
+  /** Cosmos ecosystem (ATOM, Osmosis, Celestia, etc.) */
+  cosmos: boolean;
+  /** Polkadot/Substrate chains */
+  polkadot: boolean;
+  /** Starknet L2 */
+  starknet: boolean;
+  /** Other chains (TON, XRP, Tron, Cardano, etc.) */
+  other: boolean;
+  /** Raw chain string from markdown for display */
+  raw: string;
+}
+
 export interface SoftwareWallet {
   id: string;
   name: string;
@@ -7,7 +32,7 @@ export interface SoftwareWallet {
   rpc: 'full' | 'partial' | 'none';
   github: string | null;
   active: 'active' | 'slow' | 'inactive' | 'private';
-  chains: number | string;
+  chains: SupportedChains;
   devices: {
     mobile: boolean;
     browser: boolean;
