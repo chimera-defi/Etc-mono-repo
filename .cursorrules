@@ -180,8 +180,33 @@
 
 - Next.js + data pipeline learnings:
   99. **Client/server boundary** - never import Node-only modules (`fs`, `path`) into `'use client'` components. If logic must run in both places (filters/sorts), extract it into a client-safe module with no Node imports.
-  100. **Parser drift prevention** - if product UI depends on parsing markdown tables, add regression tests that spot-check a few known rows + column semantics (e.g., “price comes from Price column”) to catch column/index drift early.
+  100. **Parser drift prevention** - if product UI depends on parsing markdown tables, add regression tests that spot-check a few known rows + column semantics (e.g., "price comes from Price column") to catch column/index drift early.
   101. **Structured data honesty** - avoid `AggregateRating`/`Review` markup unless it reflects real user ratings. Prefer editorial-safe schema (e.g., `ItemList` with URLs/descriptions).
+
+- Aztec/Noir and ZK protocol development:
+  102. **Aztec ≠ EVM** - Aztec uses Noir lang, not Solidity; no `msg.sender` (use `context.msg_sender()`), no dynamic arrays (use `[T; N]` with count), no private→public storage reads
+  103. **Docker required for aztec-nargo** - Aztec tooling runs in Docker containers; in environments without Docker, contracts can be written but not compiled; mark uncompiled contracts clearly as "⏳ Pending Compilation"
+  104. **Fixed-size arrays in Noir** - Noir requires compile-time array sizes; for queues/lists, use `[T; MAX_SIZE]` with head/tail pointers or count variables; document max capacity limits
+  105. **Cross-contract calls pattern** - public→public: `Contract::at(addr).fn(args).call(&mut context)`; private→public: `.enqueue(&mut context)`; never assume EVM patterns work
+  106. **Modular contract architecture** - split large protocols into focused contracts (Token, Queue, Vault, Rewards, Core); easier to test, audit, and upgrade; single "god contract" is an anti-pattern
+  107. **Exchange rate in basis points** - for rebasing tokens, store exchange rate as u64 in basis points (10000 = 1.0); prevents precision loss and makes math clearer
+  108. **Unbonding period handling** - for staking protocols, always document unbonding period prominently; it's a critical UX factor; track with timestamp + configurable duration
+  109. **Keeper bot separation** - protocol actions triggered by external conditions (thresholds, time) should be separate bot processes; don't rely on user transactions to trigger protocol state changes
+
+- Parallel agent development:
+  110. **Create HANDOFF.md for complex projects** - when a project spans multiple sessions, create a handoff doc with: 30-second context, file map, architecture diagram, immediate next tasks, and gotchas
+  111. **Agent prompts as separate file** - store copy-paste agent prompts in AGENT-PROMPTS.md; organize by stream with clear dependencies and success criteria
+  112. **Stream dependencies explicit** - when planning parallel work, draw dependency graph: which streams can run independently, which block others, what are merge points
+  113. **Progress metrics table** - include simple table showing current vs target state (e.g., "Contracts compiled: 1/6"); helps agents understand where things stand
+  114. **Mark compilation status per file** - use ✅/⏳/❌ in status tables; "written but not compiled" is a distinct state from "compiled and tested"
+  115. **TODO stubs for integration points** - when writing contracts that call other contracts, use explicit `// TODO:` comments with the intended call; makes integration work grep-able
+
+- Protocol development workflow:
+  116. **Research docs before code** - for novel protocols, create ECONOMICS.md, ASSUMPTIONS.md, IMPLEMENTATION-PLAN.md before writing contracts; surface unknowns early
+  117. **TASKS.md with status tracking** - break implementation into discrete tasks with 🔴/🟡/✅ status; include dependencies, estimated time, and acceptance criteria
+  118. **Validation log in ASSUMPTIONS.md** - when assumptions are verified on testnet, log the verification with date, method, and results; prevents "I think we tested this" ambiguity
+  119. **Competitive tracker inline** - for market-driven projects, track competitors in ASSUMPTIONS.md, not a separate file; keeps it updated as you validate other assumptions
+  120. **Source of truth designation** - explicitly mark which doc is source of truth for numbers (ECONOMICS.md), architecture (IMPLEMENTATION-PLAN.md), tasks (TASKS.md); prevents drift
 
 ## Best Practices
 - Use semantic versioning for packages
