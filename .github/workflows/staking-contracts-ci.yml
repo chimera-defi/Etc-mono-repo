@@ -1,0 +1,115 @@
+name: Staking Contracts CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'staking/contracts/**'
+      - '.github/workflows/staking-contracts-ci.yml'
+  pull_request:
+    paths:
+      - 'staking/contracts/**'
+      - '.github/workflows/staking-contracts-ci.yml'
+
+jobs:
+  test-staking-math:
+    name: Staking Math Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Noir (nargo)
+        run: |
+          curl -L https://raw.githubusercontent.com/noir-lang/noirup/main/install | bash
+          echo "$HOME/.nargo/bin" >> $GITHUB_PATH
+
+      - name: Verify nargo installation
+        run: |
+          export PATH="$HOME/.nargo/bin:$PATH"
+          nargo --version
+
+      - name: Run staking math tests
+        working-directory: staking/contracts/staking-math-tests
+        run: |
+          export PATH="$HOME/.nargo/bin:$PATH"
+          echo "Running 20 staking math unit tests..."
+          nargo test
+
+      - name: Test Summary
+        if: success()
+        run: |
+          echo "## Staking Math Tests Passed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "All 20 unit tests for staking pool math passed:" >> $GITHUB_STEP_SUMMARY
+          echo "- Deposit/withdrawal calculations" >> $GITHUB_STEP_SUMMARY
+          echo "- Fee calculations" >> $GITHUB_STEP_SUMMARY
+          echo "- Share value calculations" >> $GITHUB_STEP_SUMMARY
+          echo "- Edge cases and multi-user scenarios" >> $GITHUB_STEP_SUMMARY
+
+  compile-aztec-contract:
+    name: Compile Aztec Contract (Smoke Test)
+    runs-on: ubuntu-latest
+    # This job is informational - don't block PRs if Aztec tooling has issues
+    continue-on-error: true
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Aztec tooling
+        run: |
+          echo "Installing Aztec tooling..."
+          bash -i <(curl -s https://install.aztec.network) || echo "Aztec install script completed"
+
+      - name: Start Aztec environment
+        run: |
+          # aztec-up downloads Docker images and sets up environment
+          # This may take several minutes
+          if command -v aztec-up &> /dev/null; then
+            timeout 300 aztec-up || echo "aztec-up completed or timed out"
+          else
+            echo "aztec-up not found, trying alternative path"
+            if [ -f "$HOME/.aztec/bin/aztec-up" ]; then
+              timeout 300 "$HOME/.aztec/bin/aztec-up" || echo "aztec-up completed or timed out"
+            else
+              echo "WARNING: Could not find aztec-up, skipping Aztec compilation"
+              exit 0
+            fi
+          fi
+
+      - name: Compile Aztec staking pool contract
+        working-directory: staking/contracts/aztec-staking-pool
+        run: |
+          export PATH="$HOME/.aztec/bin:$PATH"
+
+          if command -v aztec-nargo &> /dev/null; then
+            echo "Compiling with aztec-nargo..."
+            aztec-nargo compile
+
+            # Verify artifact was created
+            if [ -f "target/staking_pool-StakingPool.json" ]; then
+              echo "Compilation successful!"
+              ls -la target/
+            else
+              echo "WARNING: Artifact not found after compilation"
+            fi
+          else
+            echo "WARNING: aztec-nargo not available, skipping compilation"
+            echo "The Aztec contract should be compiled locally with:"
+            echo "  cd staking/contracts/aztec-staking-pool"
+            echo "  aztec-nargo compile"
+          fi
+
+      - name: Compilation Summary
+        if: success()
+        run: |
+          echo "## Aztec Contract Compilation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f "staking/contracts/aztec-staking-pool/target/staking_pool-StakingPool.json" ]; then
+            echo "Aztec staking pool contract compiled successfully." >> $GITHUB_STEP_SUMMARY
+            SIZE=$(stat -c%s "staking/contracts/aztec-staking-pool/target/staking_pool-StakingPool.json" 2>/dev/null || echo "unknown")
+            echo "Artifact size: $SIZE bytes" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "Aztec compilation was skipped or failed (non-blocking)." >> $GITHUB_STEP_SUMMARY
+            echo "Run locally: \`cd staking/contracts/aztec-staking-pool && aztec-nargo compile\`" >> $GITHUB_STEP_SUMMARY
+          fi
