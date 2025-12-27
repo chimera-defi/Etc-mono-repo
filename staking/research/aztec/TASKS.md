@@ -782,10 +782,11 @@ struct Storage<Context> {
 ---
 
 ### TASK-109: Create RewardsManager.nr Contract
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete (2025-12-27)
 **Estimated Time:** 8 hours
 **Priority:** High
 **Depends On:** TASK-104
+**Completed By:** claude/aztec-staking-review-NZIom
 
 **Context:** Implement rewards collection and exchange rate updates.
 
@@ -1568,18 +1569,18 @@ TASK-504 depends on TASK-503
 | Phase | Total Tasks | Completed | In Progress | Not Started |
 |-------|-------------|-----------|-------------|-------------|
 | Phase 1 | 9 | 0 | 1 | 8 |
-| Phase 2 | 11 | 6 | 0 | 5 |
+| Phase 2 | 11 | 7 | 0 | 4 |
 | Phase 3 | 4 | 0 | 0 | 4 |
 | Phase 4 | 6 | 0 | 0 | 6 |
 | Phase 5 | 3 | 0 | 0 | 3 |
 | Phase 6 | 4 | 0 | 0 | 4 |
-| **TOTAL** | **37** | **6** | **1** | **30** |
+| **TOTAL** | **37** | **7** | **1** | **29** |
 
 **Critical Path Tasks:** TASK-001, 101, 102, 103, 104, 105, 106, 302, 401, 501
 
 **Next 3 Tasks to Assign:**
 1. TASK-106: Implement LiquidStakingCore.nr Deposit Function (integrate cross-contract calls)
-2. TASK-109: Create RewardsManager.nr Contract
+2. TASK-107: Implement LiquidStakingCore.nr Withdrawal Request (integrate cross-contract calls)
 3. TASK-001A: Local Sandbox Smoke Tests (requires Docker environment)
 
 ---
