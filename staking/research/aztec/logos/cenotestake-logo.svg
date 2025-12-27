@@ -1,0 +1,54 @@
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+  <!-- CenoteStake Logo - Sacred Well (Water = Liquidity) -->
+  <defs>
+    <linearGradient id="waterGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0066CC;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#00CED1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#87CEEB;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="wellGradient" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#0066CC;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#000033;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <circle cx="200" cy="200" r="180" fill="url(#waterGradient)" opacity="0.1"/>
+  
+  <!-- Cenote (sacred well) -->
+  <g transform="translate(200, 200)">
+    <!-- Well opening (circular) -->
+    <circle cx="0" cy="-20" r="70" fill="url(#wellGradient)" opacity="0.8"/>
+    <circle cx="0" cy="-20" r="60" fill="none" stroke="url(#waterGradient)" stroke-width="4"/>
+    
+    <!-- Water surface (wavy) -->
+    <path d="M -60 -20 Q -40 -25 -20 -20 Q 0 -15 20 -20 Q 40 -25 60 -20" 
+          fill="none" stroke="#87CEEB" stroke-width="3" opacity="0.8"/>
+    
+    <!-- Water drops/flow (liquidity concept) -->
+    <circle cx="-40" cy="10" r="8" fill="url(#waterGradient)" opacity="0.7"/>
+    <circle cx="0" cy="20" r="10" fill="url(#waterGradient)" opacity="0.7"/>
+    <circle cx="40" cy="15" r="8" fill="url(#waterGradient)" opacity="0.7"/>
+    
+    <!-- Flow lines (liquidity) -->
+    <path d="M -40 10 Q -20 30 0 50" fill="none" stroke="url(#waterGradient)" stroke-width="2" opacity="0.6"/>
+    <path d="M 0 20 Q 10 35 20 50" fill="none" stroke="url(#waterGradient)" stroke-width="2" opacity="0.6"/>
+    <path d="M 40 15 Q 30 35 20 50" fill="none" stroke="url(#waterGradient)" stroke-width="2" opacity="0.6"/>
+    
+    <!-- Staking symbol (coins) -->
+    <g transform="translate(0, 80)">
+      <circle cx="0" cy="0" r="20" fill="url(#waterGradient)" stroke="#000" stroke-width="2"/>
+      <circle cx="0" cy="-15" r="18" fill="url(#waterGradient)" opacity="0.7"/>
+      <circle cx="0" cy="-30" r="16" fill="url(#waterGradient)" opacity="0.5"/>
+    </g>
+    
+    <!-- Aztec decorative border -->
+    <circle cx="0" cy="0" r="120" fill="none" stroke="url(#waterGradient)" stroke-width="3" opacity="0.4"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="200" y="320" font-family="Arial, sans-serif" font-size="32" font-weight="bold" 
+        text-anchor="middle" fill="#0066CC">CenoteStake</text>
+  <text x="200" y="350" font-family="Arial, sans-serif" font-size="18" 
+        text-anchor="middle" fill="#666">Liquid Staking</text>
+</svg>

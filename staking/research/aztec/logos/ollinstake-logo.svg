@@ -1,0 +1,52 @@
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+  <!-- OllinStake Logo - Movement Symbol -->
+  <defs>
+    <linearGradient id="ollinGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#DC143C;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8B0000;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="goldAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <circle cx="200" cy="200" r="180" fill="url(#ollinGradient)" opacity="0.1"/>
+  
+  <!-- Ollin symbol (movement/transformation) -->
+  <g transform="translate(200, 200)">
+    <!-- Central cross with movement arrows -->
+    <g>
+      <!-- Vertical line -->
+      <line x1="0" y1="-80" x2="0" y2="80" stroke="url(#ollinGradient)" stroke-width="6" stroke-linecap="round"/>
+      <!-- Horizontal line -->
+      <line x1="-80" y1="0" x2="80" y2="0" stroke="url(#ollinGradient)" stroke-width="6" stroke-linecap="round"/>
+      
+      <!-- Movement arrows (4 directions) -->
+      <path d="M 0 -80 L -15 -60 L 0 -70 L 15 -60 Z" fill="url(#goldAccent)"/>
+      <path d="M 80 0 L 60 -15 L 70 0 L 60 15 Z" fill="url(#goldAccent)"/>
+      <path d="M 0 80 L -15 60 L 0 70 L 15 60 Z" fill="url(#goldAccent)"/>
+      <path d="M -80 0 L -60 -15 L -70 0 L -60 15 Z" fill="url(#goldAccent)"/>
+      
+      <!-- Central circle (stake symbol) -->
+      <circle cx="0" cy="0" r="20" fill="url(#goldAccent)" stroke="#000" stroke-width="2"/>
+      <circle cx="0" cy="0" r="12" fill="#000"/>
+    </g>
+    
+    <!-- Aztec geometric border -->
+    <circle cx="0" cy="0" r="120" fill="none" stroke="url(#ollinGradient)" stroke-width="3" opacity="0.6"/>
+    
+    <!-- Decorative corner elements -->
+    <rect x="-130" y="-130" width="30" height="30" fill="none" stroke="url(#goldAccent)" stroke-width="3" transform="rotate(45 200 200)"/>
+    <rect x="100" y="-130" width="30" height="30" fill="none" stroke="url(#goldAccent)" stroke-width="3" transform="rotate(45 200 200)"/>
+    <rect x="-130" y="100" width="30" height="30" fill="none" stroke="url(#goldAccent)" stroke-width="3" transform="rotate(45 200 200)"/>
+    <rect x="100" y="100" width="30" height="30" fill="none" stroke="url(#goldAccent)" stroke-width="3" transform="rotate(45 200 200)"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="200" y="320" font-family="Arial, sans-serif" font-size="32" font-weight="bold" 
+        text-anchor="middle" fill="#DC143C">OllinStake</text>
+  <text x="200" y="350" font-family="Arial, sans-serif" font-size="18" 
+        text-anchor="middle" fill="#666">Liquid Staking</text>
+</svg>
