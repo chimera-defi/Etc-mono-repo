@@ -54,6 +54,8 @@ Copy and paste these prompts to specialized agents to kick off the work.
 ## 📚 Critical Context
 
 - **Master Plan:** [IMPLEMENTATION-PLAN.md](../../research/aztec/IMPLEMENTATION-PLAN.md)
+- **Architecture:** [ARCHITECTURE.md](./ARCHITECTURE.md)
+- **Component Design:** [DESIGN.md](./DESIGN.md)
 - **Task List:** [TASKS.md](../../research/aztec/TASKS.md)
 - **Contract Code:** `staking/contracts/aztec-staking-pool/src/main.nr`
 
