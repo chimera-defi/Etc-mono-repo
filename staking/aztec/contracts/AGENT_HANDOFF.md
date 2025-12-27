@@ -289,6 +289,7 @@ pub contract LiquidStakingCore {
 | Resource | Location |
 |----------|----------|
 | Main README | `staking/aztec/README.md` |
+| **Noir Guide** | `staking/aztec/contracts/NOIR_GUIDE.md` |
 | StakedAztecToken | `staking/aztec/contracts/staked-aztec-token/src/main.nr` |
 | WithdrawalQueue | `staking/aztec/contracts/withdrawal-queue/src/main.nr` |
 | ValidatorRegistry | `staking/aztec/contracts/validator-registry/src/main.nr` |
