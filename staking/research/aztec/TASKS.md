@@ -389,10 +389,16 @@ await vault.stakeToValidator(validator, 200000); // Cost: $W
 ## Phase 2: Smart Contract Development (Week 3-14)
 
 ### TASK-101: Create StakedAztecToken.nr Contract Skeleton
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete
+**Completed:** 2025-12-27
 **Estimated Time:** 3 hours
 **Priority:** Critical
 **Depends On:** TASK-001
+
+**Completion Notes:**
+- Created `staking/contracts/staked-aztec-token/` with full contract
+- Compiled artifact: 778KB, 16 functions
+- Includes: mint, burn, transfer, exchange_rate, balance_of, convert functions
 
 **Context:** Create the stAZTEC token contract - the core liquid staking token.
 
@@ -452,7 +458,8 @@ pub contract StakedAztecToken {
 ---
 
 ### TASK-102: Implement StakedAztecToken.nr Storage Functions
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete (merged with TASK-101)
+**Completed:** 2025-12-27
 **Estimated Time:** 4 hours
 **Priority:** Critical
 **Depends On:** TASK-101
@@ -510,7 +517,8 @@ fn test_only_rewards_manager_can_update_rate() {
 ---
 
 ### TASK-103: Implement StakedAztecToken.nr Mint/Burn Functions
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete (merged with TASK-101)
+**Completed:** 2025-12-27
 **Estimated Time:** 6 hours
 **Priority:** Critical
 **Depends On:** TASK-102
@@ -564,7 +572,8 @@ fn burn(from: AztecAddress, amount: u128) {
 ---
 
 ### TASK-104: Implement StakedAztecToken.nr Transfer Function
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete (merged with TASK-101)
+**Completed:** 2025-12-27
 **Estimated Time:** 5 hours
 **Priority:** High
 **Depends On:** TASK-103
@@ -814,10 +823,17 @@ where:
 ---
 
 ### TASK-110: Create WithdrawalQueue.nr Contract
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete
+**Completed:** 2025-12-27
 **Estimated Time:** 12 hours
 **Priority:** High
 **Depends On:** TASK-105
+
+**Completion Notes:**
+- Created `staking/contracts/withdrawal-queue/` with full contract
+- Compiled artifact: 824KB, 19 functions
+- Includes: add_request, claim_withdrawal, is_claimable, time_until_claimable
+- FIFO queue with configurable unbonding period
 
 **Context:** Implement FIFO withdrawal queue with unbonding period tracking.
 
@@ -858,10 +874,17 @@ struct Storage<Context> {
 ---
 
 ### TASK-111: Create ValidatorRegistry.nr Contract
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete
+**Completed:** 2025-12-27
 **Estimated Time:** 6 hours
 **Priority:** Medium
 **Depends On:** TASK-108
+
+**Completion Notes:**
+- Created `staking/contracts/validator-registry/` with full contract
+- Compiled artifact: 838KB, 23 functions
+- Includes: add/deactivate/reactivate validator, record_stake, record_unstake, record_slash
+- Status tracking: Active, Inactive, Slashed, Exiting, Exited
 
 **Context:** Track OUR validator addresses and status.
 
@@ -1567,19 +1590,27 @@ TASK-504 depends on TASK-503
 | Phase | Total Tasks | Completed | In Progress | Not Started |
 |-------|-------------|-----------|-------------|-------------|
 | Phase 1 | 9 | 1 | 0 | 8 |
-| Phase 2 | 11 | 0 | 0 | 11 |
+| Phase 2 | 11 | 6 | 0 | 5 |
 | Phase 3 | 4 | 0 | 0 | 4 |
 | Phase 4 | 6 | 0 | 0 | 6 |
 | Phase 5 | 3 | 0 | 0 | 3 |
 | Phase 6 | 4 | 0 | 0 | 4 |
-| **TOTAL** | **37** | **1** | **0** | **36** |
+| **TOTAL** | **37** | **7** | **0** | **30** |
 
-**Critical Path Tasks:** TASK-001, 101, 102, 103, 104, 105, 106, 302, 401, 501
+**Critical Path Tasks:** TASK-001, ~~101, 102, 103, 104~~, 105, 106, 302, 401, 501
+
+**Last Updated:** 2025-12-27 by cursor/aztec-staking-protocol-development-5e3b
+
+**Completed This Session:**
+- ✅ TASK-101-104: StakedAztecToken (778KB, 16 functions)
+- ✅ TASK-110: WithdrawalQueue (824KB, 19 functions)
+- ✅ TASK-111: ValidatorRegistry (838KB, 23 functions)
+- ✅ 34 unit tests passing (expanded from 20)
 
 **Next 3 Tasks to Assign:**
-1. ~~TASK-001A: Local Sandbox Smoke Tests~~ ✅ Complete (compilation verified)
-2. TASK-002: Deploy Test Validator (requires cloud/local machine with full Docker)
-3. TASK-003: Measure Testnet Transaction Costs
+1. TASK-105: Create LiquidStakingCore.nr Contract Skeleton
+2. TASK-106: Implement deposit() function
+3. TASK-107: Implement withdrawal request function
 
 ---
 
