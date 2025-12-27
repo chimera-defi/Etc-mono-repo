@@ -35,12 +35,12 @@ const COLORS = {
 // Last verified: December 2025
 const WALLET_DATA = {
   software: [
-    // Data from WALLET_COMPARISON_UNIFIED_TABLE.md
-    { name: 'Rabby', score: 92, platforms: 'Mobile+Ext', chains: '94', status: '🟢' },
-    { name: 'Trust', score: 85, platforms: 'Mobile+Ext', chains: '163', status: '🟢' },
-    { name: 'Rainbow', score: 82, platforms: 'Mobile+Ext', chains: '15+', status: '🟢' },
-    { name: 'Brave', score: 78, platforms: 'Mobile+Ext', chains: '10+', status: '🟢' },
-    { name: 'Coinbase', score: 75, platforms: 'Mobile+Ext', chains: '20+', status: '🟢' },
+    // Data from WALLET_COMPARISON_UNIFIED_TABLE.md (updated with consolidated chain format)
+    { name: 'Rabby', score: 92, platforms: 'Mobile+Ext', chains: 'Ethereum, EVM (94+)', status: '🟢' },
+    { name: 'Trust', score: 85, platforms: 'Mobile+Ext', chains: 'Bitcoin, Ethereum, Solana, EVM, Move chains', status: '🟢' },
+    { name: 'Rainbow', score: 82, platforms: 'Mobile+Ext', chains: 'Ethereum, EVM (15+)', status: '🟢' },
+    { name: 'Brave', score: 78, platforms: 'Mobile+Ext', chains: 'Ethereum, EVM (10+)', status: '🟢' },
+    { name: 'Coinbase', score: 75, platforms: 'Mobile+Ext', chains: 'Ethereum, EVM (20+)', status: '🟢' },
   ],
   hardware: [
     // Data from HARDWARE_WALLET_COMPARISON_TABLE.md
@@ -101,6 +101,7 @@ function drawTable(ctx, headers, data, startY) {
   const rowHeight = 50;
   const colWidths = headers.map((_, i) => {
     if (i === 0) return 220; // Name column
+    if (headers[i] === 'Chains') return 280; // Chains column - wider for consolidated format
     return 140; // Other columns
   });
   
@@ -235,7 +236,7 @@ function generateSoftwareWalletsImage() {
   // Footer
   drawFooter(ctx, [
     { value: '24+', label: 'Wallets Compared' },
-    { value: '163', label: 'Max Chains (Trust)' },
+    { value: 'Multi-chain', label: 'Chain Support' },
     { value: 'Weekly', label: 'Data Updates' },
   ]);
   
