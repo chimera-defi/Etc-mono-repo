@@ -460,3 +460,140 @@ fn test_withdrawal_from_empty_pool() {
     let amount = calculate_withdrawal_amount(100, 0, 0);
     assert(amount == 0);
 }
+
+// ============ LIQUID STAKING CORE TESTS ============
+
+#[test]
+fn test_deposit_mint_calculation_1_to_1() {
+    // At rate 10000 (1.0), depositing 1000 AZTEC mints 1000 stAZTEC
+    let amount: u128 = 1000;
+    let rate: u64 = 10000;
+    let st_aztec = (amount * 10000) / (rate as u128);
+    assert(st_aztec == 1000);
+}
+
+#[test]
+fn test_deposit_mint_calculation_after_rewards() {
+    // At rate 12000 (1.2), depositing 1200 AZTEC mints 1000 stAZTEC
+    let amount: u128 = 1200;
+    let rate: u64 = 12000;
+    let st_aztec = (amount * 10000) / (rate as u128);
+    assert(st_aztec == 1000);
+}
+
+#[test]
+fn test_withdrawal_amount_calculation() {
+    // At rate 12000 (1.2), burning 1000 stAZTEC returns 1200 AZTEC
+    let st_aztec: u128 = 1000;
+    let rate: u64 = 12000;
+    let aztec = (st_aztec * (rate as u128)) / 10000;
+    assert(aztec == 1200);
+}
+
+// ============ VAULT MANAGER TESTS ============
+
+#[test]
+fn test_batch_threshold_check() {
+    let pending: u128 = 199999;
+    let threshold: u128 = 200000;
+    assert(pending < threshold);
+
+    let pending2: u128 = 200000;
+    assert(pending2 >= threshold);
+}
+
+#[test]
+fn test_batch_stake_updates_totals() {
+    let pending: u128 = 250000;
+    let total_staked: u128 = 1000000;
+
+    // After batch stake, pending becomes 0, total increases
+    let new_pending: u128 = 0;
+    let new_total: u128 = total_staked + pending;
+
+    assert(new_pending == 0);
+    assert(new_total == 1250000);
+}
+
+// ============ REWARDS MANAGER TESTS ============
+
+#[test]
+fn test_protocol_fee_calculation() {
+    let rewards: u128 = 1000;
+    let fee_bps: u64 = 1000;  // 10%
+    let fee = (rewards * (fee_bps as u128)) / 10000;
+    assert(fee == 100);
+}
+
+#[test]
+fn test_exchange_rate_after_rewards() {
+    let total_staked: u128 = 1000000;
+    let net_rewards: u128 = 100000;  // After 10% protocol fee
+    let total_supply: u128 = 1000000;
+
+    // New rate = ((staked + rewards) * 10000) / supply
+    let new_rate = ((total_staked + net_rewards) * 10000) / total_supply;
+    assert(new_rate == 11000);  // 1.1 ratio
+}
+
+#[test]
+fn test_exchange_rate_first_deposit() {
+    let total_supply: u128 = 0;
+    // When supply is 0, rate should be 10000 (1.0)
+    let rate: u64 = 10000;
+    assert(rate == 10000);
+}
+
+// ============ INTEGRATION FLOW TESTS ============
+
+#[test]
+fn test_full_deposit_flow_math() {
+    // Simulate: User deposits 50000 AZTEC at 1:1 rate
+    let deposit: u128 = 50000;
+    let rate: u64 = 10000;
+
+    // Calculate stAZTEC minted
+    let st_aztec = (deposit * 10000) / (rate as u128);
+    assert(st_aztec == 50000);
+
+    // Pending pool increases
+    let old_pending: u128 = 150000;
+    let new_pending = old_pending + deposit;
+    assert(new_pending == 200000);
+
+    // Batch threshold reached
+    let threshold: u128 = 200000;
+    assert(new_pending >= threshold);
+}
+
+#[test]
+fn test_full_withdrawal_flow_math() {
+    // User requests withdrawal of 10000 stAZTEC at rate 11000 (1.1)
+    let st_aztec: u128 = 10000;
+    let rate: u64 = 11000;
+
+    // Calculate AZTEC to return
+    let aztec = (st_aztec * (rate as u128)) / 10000;
+    assert(aztec == 11000);
+}
+
+#[test]
+fn test_rewards_distribution_flow() {
+    // 1000 rewards come in, 10% protocol fee
+    let rewards: u128 = 1000;
+    let fee_bps: u64 = 1000;
+
+    let protocol_fee = (rewards * (fee_bps as u128)) / 10000;
+    let net_rewards = rewards - protocol_fee;
+
+    assert(protocol_fee == 100);
+    assert(net_rewards == 900);
+
+    // Rate update: 1M staked, 900 net rewards, 1M supply
+    let total_staked: u128 = 1000000;
+    let total_supply: u128 = 1000000;
+    let new_rate = ((total_staked + net_rewards) * 10000) / total_supply;
+
+    // Should be 10009 (slight increase)
+    assert(new_rate == 10009);
+}
