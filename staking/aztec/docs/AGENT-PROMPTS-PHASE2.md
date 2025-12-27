@@ -3,6 +3,7 @@
 **Created:** 2025-12-27
 **Purpose:** Parallelizable prompts to complete the Aztec staking contracts
 **Prerequisite:** Read AGENT_HANDOFF_PHASE2.md first for context
+**Status Update:** Enhanced with multi-pass review, progress tracking, and honest assessment requirements
 
 ---
 
@@ -11,34 +12,168 @@
 **Current State:** Contracts are accounting stubs - they track state but don't actually transfer tokens or call other contracts.
 
 **What's Missing:**
-1. Token transfers (AZTEC in, stAZTEC out)
-2. Cross-contract calls (contracts don't talk to each other)
-3. Withdrawal claiming (users can request but not claim)
-4. Overflow protection in RewardsManager
+1. Token transfers (AZTEC in, stAZTEC out) - NO actual movement of funds
+2. Cross-contract calls (contracts don't talk to each other) - ALL stubbed
+3. Withdrawal claiming (users can request but not claim) - MISSING ENTIRELY
+4. Overflow protection in RewardsManager - CRITICAL BUG
 
 **Priority:** TASK-P2-001 through P2-005 are CRITICAL and block all other work.
+
+**True Completion Estimate:** ~55% toward production-ready
+
+---
+
+## Mandatory Review Protocol (ALL Agents)
+
+**EVERY agent MUST follow this before marking any deliverable complete:**
+
+### Multi-Step Review Checklist (Per .cursorrules #15, #24)
+
+```
+1. DEVELOPER PERSPECTIVE: Can another developer use this?
+   - [ ] Code compiles/runs without errors
+   - [ ] Dependencies documented
+   - [ ] Setup instructions work from scratch
+
+2. REVIEWER PERSPECTIVE: Is this correct?
+   - [ ] Logic matches specification
+   - [ ] Edge cases handled
+   - [ ] No dead code or unused imports
+   - [ ] ACTUALLY does what comments claim (not just accounting)
+
+3. USER PERSPECTIVE: Does it actually work?
+   - [ ] Happy path tested END-TO-END (not just unit tests)
+   - [ ] Error states handled gracefully
+   - [ ] Clear error messages
+   - [ ] Users can ACTUALLY deposit/withdraw (not just track numbers)
+
+4. MAINTAINER PERSPECTIVE: Can this be maintained?
+   - [ ] Code is readable and commented
+   - [ ] No hardcoded values (use config)
+   - [ ] Tests exist for core functionality
+   - [ ] No duplicate state across contracts
+
+5. PM PERSPECTIVE: What could go wrong?
+   - [ ] Risks documented
+   - [ ] Blockers flagged
+   - [ ] Assumptions stated explicitly
+   - [ ] Honest assessment of completion (no overclaiming)
+
+6. SECURITY PERSPECTIVE: Is this safe?
+   - [ ] Overflow/underflow protection
+   - [ ] Zero address validation
+   - [ ] Access control verified
+   - [ ] Reentrancy considered
+```
+
+### Verification Commands (Per .cursorrules #24, #61)
+
+Before marking ANY deliverable complete, run ALL applicable:
+```bash
+# For Noir contracts
+cd ~/contract-name && ~/aztec-bin/nargo compile     # Compilation
+cd staking/aztec/contracts/staking-math-tests && ~/.nargo/bin/nargo test  # Unit tests
+
+# Verify changes
+git diff                          # Review ALL changes
+git status                        # Check for missed files
+
+# Honest verification
+# ASK: "Does this function ACTUALLY do X, or just track that X should happen?"
+```
+
+---
+
+## Testing Hierarchy
+
+**All testing follows this order - NO EXCEPTIONS:**
+
+```
+1. UNIT TESTS (Pure math, no chain)
+   - Run: cd staking/aztec/contracts/staking-math-tests && nargo test
+   - Why: Fast, catches logic errors early
+
+2. LOCAL SANDBOX (Aztec sandbox on your machine)
+   - Run: aztec start --sandbox
+   - Why: Fast iteration, no network issues, free
+   - MUST test cross-contract calls here
+
+3. LOCAL FORK (Fork of devnet state)
+   - Run: aztec start --fork https://next.devnet.aztec-labs.com
+   - Why: Real state, local speed
+
+4. DEVNET (https://next.devnet.aztec-labs.com)
+   - Why: Public test environment
+   - ONLY after local tests pass
+
+5. MAINNET
+   - ONLY after full audit and all prior stages pass
+```
+
+---
+
+## Progress Tracking Requirements
+
+**EVERY agent MUST maintain progress tracking:**
+
+1. **Update progress.md** after each significant milestone
+2. **Be HONEST** about what was accomplished vs what was stubbed
+3. **Document blockers** immediately when encountered
+4. **Mark completion percentage** accurately (not optimistically)
+
+### Progress Update Template
+
+```markdown
+### [Agent Name] Progress Update - [Date]
+
+**Task:** [Task ID and name]
+**Status:** [IN PROGRESS / COMPLETE / BLOCKED]
+**True Completion:** [X%]
+
+**What was actually done:**
+- [Specific deliverable 1]
+- [Specific deliverable 2]
+
+**What is still stubbed/incomplete:**
+- [Gap 1]
+- [Gap 2]
+
+**Blockers:**
+- [Blocker 1]
+
+**Next steps:**
+- [Step 1]
+```
 
 ---
 
 ## Parallelization Strategy
 
 ```
-WEEK 1 (Sequential - Critical Path):
-├── Agent A: Token Integration (P2-001) - BLOCKS EVERYTHING
-├── After A completes:
-│   ├── Agent B: Cross-Contract Calls (P2-002)
-│   └── Agent C: Overflow Fix + Validation (P2-003, P2-006, P2-008)
+CRITICAL PATH (Sequential - Must Complete in Order):
++-- Agent A: Token Integration (P2-001) - BLOCKS EVERYTHING
+|   +-- Completes: AZTEC transfers, stAZTEC minting/burning
+|
++-- After A completes:
+|   +-- Agent B: Cross-Contract Calls (P2-002) - DEPENDS ON A
+|   |   +-- Wire up contract-to-contract communication
+|   +-- Agent C: Security Fixes (P2-003, P2-006, P2-008) - PARALLEL WITH B
+|       +-- Fix overflow, add validation
+|
++-- After B completes:
+    +-- Agent D: Withdrawal Claiming (P2-004) - DEPENDS ON B
+    +-- Agent E: State Unification (P2-005) - PARALLEL WITH D
 
-WEEK 2 (Can Parallelize):
-├── Agent D: Withdrawal Claiming (P2-004)
-├── Agent E: State Unification (P2-005)
-├── Agent F: Events & Logging (P2-007)
-└── Agent G: Validator Selection (P2-009)
+INDEPENDENT (Can Run Anytime):
++-- Agent C: Security Fixes (no dependencies)
++-- Agent E: State Unification (no dependencies if careful)
++-- Agent F: Events & Logging (no dependencies)
 
-WEEK 3 (Polish):
-├── Agent H: Emergency Functions (P2-010)
-├── Agent I: View Functions (P2-011)
-└── Agent J: Integration Tests (TASK-201-204)
+FINAL PHASE (After D, E Complete):
++-- Agent G: Validator Selection
++-- Agent H: Emergency Functions
++-- Agent I: View Functions
++-- Agent J: Integration Tests
 ```
 
 ---
@@ -48,6 +183,7 @@ WEEK 3 (Polish):
 **Priority:** CRITICAL - Blocks all other work
 **Estimated Time:** 8-12 hours
 **Dependencies:** None
+**Testing Environment:** LOCAL SANDBOX ONLY (no testnet until integration)
 
 ```text
 You are implementing token transfer integration for the Aztec liquid staking protocol.
@@ -57,6 +193,11 @@ The LiquidStakingCore contract currently DOES NOT transfer any tokens. It only t
 accounting. Users cannot actually deposit or withdraw - the functions just update numbers.
 
 Your job is to implement REAL token transfers.
+
+## MANDATORY PROGRESS TRACKING
+1. Update staking/aztec/progress.md after each milestone
+2. Be HONEST about what works vs what's stubbed
+3. Mark true completion percentage (not optimistic)
 
 ## YOUR TASKS
 
@@ -76,8 +217,28 @@ trait IAztecToken {
 }
 ```
 
-### Task 2: Update deposit() Function
-Current (BROKEN - line 112-144):
+### Task 2: Add aztec_token to Storage
+Add to storage struct:
+```noir
+aztec_token: PublicMutable<AztecAddress, Context>,
+```
+
+Add setter with zero address check:
+```noir
+#[public]
+fn set_aztec_token(address: AztecAddress) {
+    let caller = context.msg_sender();
+    let admin = storage.admin.read();
+    assert(caller == admin, "Only admin");
+    assert(address != AztecAddress::zero(), "Cannot set zero address");
+    storage.aztec_token.write(address);
+}
+```
+
+### Task 3: Update deposit() Function
+Current location: lines 112-144
+
+CURRENT (BROKEN):
 ```noir
 fn deposit(amount: u128) -> pub u128 {
     // ... accounting only, no actual transfer
@@ -85,8 +246,9 @@ fn deposit(amount: u128) -> pub u128 {
 }
 ```
 
-Fixed:
+FIXED:
 ```noir
+#[public]
 fn deposit(amount: u128) -> pub u128 {
     let paused = storage.paused.read();
     assert(!paused, "Contract is paused");
@@ -125,16 +287,12 @@ fn deposit(amount: u128) -> pub u128 {
 }
 ```
 
-### Task 3: Update request_withdrawal() Function
-Current (BROKEN - line 147-176):
-```noir
-fn request_withdrawal(st_aztec_amount: u128) -> pub u64 {
-    // ... no token burn, no queue addition
-}
-```
+### Task 4: Update request_withdrawal() Function
+Current location: lines 147-176
 
-Fixed:
+FIXED:
 ```noir
+#[public]
 fn request_withdrawal(st_aztec_amount: u128) -> pub u64 {
     let paused = storage.paused.read();
     assert(!paused, "Contract is paused");
@@ -152,7 +310,7 @@ fn request_withdrawal(st_aztec_amount: u128) -> pub u64 {
 
     // STEP 3: Add to withdrawal queue
     let withdrawal_queue = storage.withdrawal_queue.read();
-    let current_timestamp = context.timestamp(); // Or pass as parameter
+    let current_timestamp = context.timestamp();
     let request_id = WithdrawalQueue::at(withdrawal_queue).add_request(
         caller,
         st_aztec_amount,
@@ -161,24 +319,6 @@ fn request_withdrawal(st_aztec_amount: u128) -> pub u64 {
     );
 
     request_id
-}
-```
-
-### Task 4: Add aztec_token to Storage
-Add to storage struct:
-```noir
-aztec_token: PublicMutable<AztecAddress, Context>,
-```
-
-Add setter:
-```noir
-#[public]
-fn set_aztec_token(address: AztecAddress) {
-    let caller = context.msg_sender();
-    let admin = storage.admin.read();
-    assert(caller == admin, "Only admin");
-    assert(address != AztecAddress::zero(), "Cannot set zero address");
-    storage.aztec_token.write(address);
 }
 ```
 
@@ -200,7 +340,13 @@ trait IVaultManager {
 }
 ```
 
-## VERIFICATION CHECKLIST
+## LOCAL-FIRST TESTING (MANDATORY)
+1. Compile contract: `cp -r staking/aztec/contracts/liquid-staking-core ~/liquid-staking-core && cd ~/liquid-staking-core && ~/aztec-bin/nargo compile`
+2. Run unit tests: `cd staking/aztec/contracts/staking-math-tests && ~/.nargo/bin/nargo test`
+3. Start local sandbox: `aztec start --sandbox`
+4. Deploy and test transfers locally BEFORE proceeding
+
+## VERIFICATION CHECKLIST (ALL MUST PASS)
 - [ ] aztec_token storage variable added
 - [ ] set_aztec_token() function added with zero check
 - [ ] deposit() calls transfer_from on AZTEC token
@@ -209,15 +355,20 @@ trait IVaultManager {
 - [ ] request_withdrawal() calls burn on StakedAztecToken
 - [ ] request_withdrawal() calls add_request on WithdrawalQueue
 - [ ] Contract compiles with aztec-nargo
-- [ ] Unit tests added for new paths
+- [ ] Unit tests pass (run: nargo test)
+- [ ] Local sandbox test passes (actual transfers verified)
+- [ ] Multi-step review completed (all 6 perspectives)
+- [ ] progress.md updated with honest assessment
 
 ## OUTPUT FORMAT
 Report back with:
 1. Functions modified and line numbers
 2. New functions/interfaces added
-3. Compilation status
-4. Test results
-5. Any issues or blockers encountered
+3. Compilation status (with output)
+4. Test results (with output)
+5. **HONEST ASSESSMENT:** What actually works vs what needs more work
+6. Any issues or blockers encountered
+7. Updated progress.md excerpt
 ```
 
 ---
@@ -226,7 +377,8 @@ Report back with:
 
 **Priority:** CRITICAL
 **Estimated Time:** 10-16 hours
-**Dependencies:** PROMPT A complete
+**Dependencies:** PROMPT A complete (token transfers must work first)
+**Testing Environment:** LOCAL SANDBOX ONLY
 
 ```text
 You are implementing cross-contract communication for the Aztec staking protocol.
@@ -235,8 +387,18 @@ You are implementing cross-contract communication for the Aztec staking protocol
 After PROMPT A, the contracts have token transfer code but need proper cross-contract
 call patterns following Aztec conventions.
 
+## MANDATORY PROGRESS TRACKING
+1. Update staking/aztec/progress.md after each milestone
+2. Be HONEST about what works vs what's stubbed
+3. Mark true completion percentage (not optimistic)
+
 ## AZTEC CROSS-CONTRACT CALL PATTERNS
-In Aztec, cross-contract calls use this pattern:
+IMPORTANT: First read current Aztec documentation at:
+https://docs.aztec.network/developers/contracts/cross_contract_calls
+
+The pattern may differ from examples below. VERIFY before implementing.
+
+Example pattern (may need adjustment):
 ```noir
 // Define interface
 struct ContractName {
@@ -249,7 +411,6 @@ impl ContractName {
     }
 
     fn some_function(&self, context: &mut PublicContext, arg: u128) {
-        // Call the function
         context.call_public_function(
             self.address,
             compute_selector("some_function(u128)"),
@@ -261,13 +422,12 @@ impl ContractName {
 
 ## YOUR TASKS
 
-### Task 1: Review Aztec Documentation
-Read: https://docs.aztec.network/developers/contracts/cross_contract_calls
-Understand the actual cross-contract call pattern for the current Aztec version.
+### Task 1: Verify Aztec Documentation
+1. Read: https://docs.aztec.network/developers/contracts/cross_contract_calls
+2. Document the ACTUAL pattern for current Aztec version
+3. If different from examples, update all code accordingly
 
-### Task 2: Implement Contract Interfaces
-Create proper interfaces for all contracts:
-
+### Task 2: Create Contract Interfaces File
 File: /home/user/Etc-mono-repo/staking/aztec/contracts/liquid-staking-core/src/interfaces.nr
 
 ```noir
@@ -280,15 +440,15 @@ impl StakedAztecTokenInterface {
     fn at(address: AztecAddress) -> Self { Self { address } }
 
     fn mint(&self, context: &mut PublicContext, to: AztecAddress, amount: u128) {
-        // Implement cross-contract call
+        // VERIFY: Implement per current Aztec docs
     }
 
     fn burn(&self, context: &mut PublicContext, from: AztecAddress, amount: u128) {
-        // Implement cross-contract call
+        // VERIFY: Implement per current Aztec docs
     }
 
     fn get_exchange_rate(&self, context: &PublicContext) -> u64 {
-        // Implement cross-contract call
+        // VERIFY: Implement per current Aztec docs
     }
 }
 
@@ -300,39 +460,57 @@ impl StakedAztecTokenInterface {
 ```
 
 ### Task 3: Wire Up All Contract Calls
-Update each contract to properly call others:
 
-**LiquidStakingCore calls:**
-- StakedAztecToken.mint() on deposit
-- StakedAztecToken.burn() on withdrawal
-- VaultManager.record_deposit() on deposit
-- WithdrawalQueue.add_request() on withdrawal
-- RewardsManager.get_exchange_rate() for rate lookups
+| Caller | Target | Function | When |
+|--------|--------|----------|------|
+| LiquidStakingCore | StakedAztecToken | mint() | On deposit |
+| LiquidStakingCore | StakedAztecToken | burn() | On withdrawal request |
+| LiquidStakingCore | VaultManager | record_deposit() | On deposit |
+| LiquidStakingCore | WithdrawalQueue | add_request() | On withdrawal request |
+| LiquidStakingCore | RewardsManager | get_exchange_rate() | On deposit/withdrawal |
+| VaultManager | ValidatorRegistry | get_active_validators() | On batch stake |
+| VaultManager | ValidatorRegistry | record_stake() | After staking |
+| RewardsManager | StakedAztecToken | update_exchange_rate() | On rewards processing |
 
-**VaultManager calls:**
-- ValidatorRegistry.get_active_validators() for selection
-- ValidatorRegistry.record_stake() after staking
-
-**RewardsManager calls:**
-- StakedAztecToken.update_exchange_rate() after rewards
-
-### Task 4: Test Cross-Contract Flow
+### Task 4: Integration Test (LOCAL SANDBOX)
 Create integration test that:
-1. Deploys all 7 contracts
+1. Deploys all 7 contracts to local sandbox
 2. Sets all contract addresses on each other
 3. Executes: deposit -> check balances -> request withdrawal -> verify queue
+4. Verifies tokens ACTUALLY moved (not just accounting)
 
-## VERIFICATION CHECKLIST
-- [ ] Interfaces follow Aztec patterns (check docs!)
+## LOCAL-FIRST TESTING (MANDATORY)
+1. `aztec start --sandbox` - Start local environment
+2. Deploy ALL contracts to local sandbox
+3. Wire up contract addresses
+4. Execute full deposit flow
+5. Verify with `aztec inspect` or similar tools
+6. DO NOT proceed to devnet until local works perfectly
+
+## VERIFICATION CHECKLIST (ALL MUST PASS)
+- [ ] Aztec docs reviewed and pattern verified
+- [ ] Interfaces follow ACTUAL Aztec patterns
 - [ ] All cross-contract calls compile
 - [ ] Bidirectional calls work (A calls B, B calls A)
 - [ ] State updates propagate correctly
 - [ ] Error handling for failed calls
+- [ ] Local sandbox integration test passes
+- [ ] Multi-step review completed (all 6 perspectives)
+- [ ] progress.md updated with honest assessment
 
 ## IMPORTANT
 Aztec's cross-contract call syntax may differ from examples above.
 ALWAYS check current Aztec documentation before implementing.
 If pattern differs, adapt accordingly and document the correct pattern.
+
+## OUTPUT FORMAT
+Report back with:
+1. Interfaces created with ACTUAL Aztec pattern used
+2. Contract calls wired up (which caller -> target)
+3. Local sandbox test results
+4. **HONEST ASSESSMENT:** What works end-to-end vs what's partial
+5. Blockers or Aztec SDK gaps found
+6. Updated progress.md excerpt
 ```
 
 ---
@@ -342,9 +520,15 @@ If pattern differs, adapt accordingly and document the correct pattern.
 **Priority:** CRITICAL
 **Estimated Time:** 4-6 hours
 **Dependencies:** None (can run in parallel with A)
+**Testing Environment:** Unit tests first, then local sandbox
 
 ```text
 You are fixing critical security issues in the Aztec staking contracts.
+
+## MANDATORY PROGRESS TRACKING
+1. Update staking/aztec/progress.md after each bug fix
+2. Document exact lines changed
+3. Mark true completion percentage
 
 ## CRITICAL BUGS TO FIX
 
@@ -362,37 +546,29 @@ PROBLEM: If total_value is large, multiplying by 10000 overflows u128.
 
 FIX:
 ```noir
-// Safe calculation that won't overflow
-fn process_rewards(...) -> pub u64 {
-    // ... existing code ...
+// Overflow-safe rate calculation
+fn calculate_new_rate(total_staked: u128, net_rewards: u128, total_supply: u128) -> u64 {
+    if total_supply == 0 {
+        return 10000;
+    }
 
-    // Overflow-safe rate calculation
-    let new_rate = if total_supply == 0 {
-        10000
-    } else {
-        // Split calculation to prevent overflow
-        // rate = (total_value / total_supply) * 10000
-        // But we need precision, so:
-        // rate = (total_value * 10000) / total_supply
-        // Check for overflow first
-        let max_safe_value = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF / 10000;
-        let total_value = total_staked + net_rewards;
+    let total_value = total_staked + net_rewards;
 
-        if total_value > max_safe_value {
-            // Use lower precision to avoid overflow
-            let scaled_value = total_value / 1000; // Lose 3 digits precision
-            let scaled_supply = total_supply / 1000;
-            if scaled_supply == 0 {
-                10000
-            } else {
-                ((scaled_value * 10000) / scaled_supply) as u64
-            }
+    // Check for potential overflow before multiplication
+    let max_safe_value: u128 = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF / 10000;
+
+    if total_value > max_safe_value {
+        // Use lower precision to avoid overflow
+        let scaled_value = total_value / 1000;
+        let scaled_supply = total_supply / 1000;
+        if scaled_supply == 0 {
+            10000
         } else {
-            ((total_value * 10000) / total_supply) as u64
+            ((scaled_value * 10000) / scaled_supply) as u64
         }
-    };
-
-    // ... rest of function
+    } else {
+        ((total_value * 10000) / total_supply) as u64
+    }
 }
 ```
 
@@ -410,13 +586,15 @@ fn set_some_address(address: AztecAddress) {
 }
 ```
 
-Files to update:
-- liquid-staking-core/src/main.nr (7 setter functions)
-- vault-manager/src/main.nr (3 setter functions)
-- rewards-manager/src/main.nr (4 setter functions)
-- staked-aztec-token/src/main.nr (3 setter functions)
-- withdrawal-queue/src/main.nr (2 setter functions)
-- validator-registry/src/main.nr (2 setter functions)
+Files and function counts to update:
+- liquid-staking-core/src/main.nr: 7 setter functions
+- vault-manager/src/main.nr: 3 setter functions
+- rewards-manager/src/main.nr: 4 setter functions
+- staked-aztec-token/src/main.nr: 3 setter functions
+- withdrawal-queue/src/main.nr: 2 setter functions
+- validator-registry/src/main.nr: 2 setter functions
+
+TOTAL: 21 functions need zero address checks
 
 ### Bug 3: Missing Input Validation (HIGH)
 Add to process_rewards():
@@ -438,14 +616,48 @@ File: vault-manager/src/main.nr, line 104
 CURRENT: `"Only admin or keeper can execute batch stake"`
 FIX: `"Only admin can execute batch stake"` (since code only checks admin)
 
-## VERIFICATION CHECKLIST
-- [ ] Overflow protection added to RewardsManager
+## ADD TESTS FOR EACH FIX
+Add to staking-math-tests/src/main.nr:
+
+```noir
+#[test]
+fn test_overflow_safe_rate_calculation() {
+    // Test with large values that would overflow without protection
+    let large_staked: u128 = 0xFFFFFFFFFFFFFFFFFFFFFFFF;
+    let large_supply: u128 = 0xFFFFFFFFFFFFFFFFFFFFFFF;
+    let rate = calculate_new_rate(large_staked, 0, large_supply);
+    assert(rate > 0);  // Should not panic/overflow
+}
+
+#[test]
+fn test_zero_supply_returns_default_rate() {
+    let rate = calculate_new_rate(1000000, 100000, 0);
+    assert(rate == 10000);
+}
+```
+
+## VERIFICATION CHECKLIST (ALL MUST PASS)
+- [ ] Overflow protection added to RewardsManager (line 109-110)
 - [ ] Zero address checks on all 21 setter functions
 - [ ] Input validation on process_rewards()
 - [ ] Input validation on execute_batch_stake()
-- [ ] All contracts compile
-- [ ] Add tests for overflow edge cases
-- [ ] Add tests for zero address rejection
+- [ ] Comment mismatch fixed
+- [ ] All contracts compile: `~/aztec-bin/nargo compile`
+- [ ] Unit tests pass: `~/.nargo/bin/nargo test`
+- [ ] New tests added for overflow edge cases
+- [ ] New tests added for zero address rejection
+- [ ] Multi-step review completed (all 6 perspectives)
+- [ ] progress.md updated with honest assessment
+
+## OUTPUT FORMAT
+Report back with:
+1. Each bug fixed with file:line references
+2. Number of setter functions updated (should be 21)
+3. Tests added with names
+4. Compilation status (all contracts)
+5. Test results (all tests)
+6. **HONEST ASSESSMENT:** Confidence level in fixes
+7. Updated progress.md excerpt
 ```
 
 ---
@@ -454,7 +666,8 @@ FIX: `"Only admin can execute batch stake"` (since code only checks admin)
 
 **Priority:** HIGH
 **Estimated Time:** 6 hours
-**Dependencies:** PROMPT A, B
+**Dependencies:** PROMPT A and B complete (token transfers and cross-contract calls)
+**Testing Environment:** LOCAL SANDBOX
 
 ```text
 You are implementing the withdrawal claim functionality.
@@ -462,16 +675,24 @@ You are implementing the withdrawal claim functionality.
 ## CONTEXT
 Currently users can REQUEST withdrawals but cannot CLAIM them.
 The request is tracked but there's no way to get their AZTEC back.
+This is a CRITICAL gap - users' funds are effectively locked.
+
+## MANDATORY PROGRESS TRACKING
+1. Update staking/aztec/progress.md after each milestone
+2. Be HONEST about what works vs what's stubbed
+3. This is HIGH priority - users can't get money back without this
 
 ## YOUR TASKS
 
 ### Task 1: Add claim_withdrawal() to LiquidStakingCore
 File: /home/user/Etc-mono-repo/staking/aztec/contracts/liquid-staking-core/src/main.nr
 
-Add function:
 ```noir
 #[public]
 fn claim_withdrawal(request_id: u64) -> pub u128 {
+    let paused = storage.paused.read();
+    assert(!paused, "Contract is paused");
+
     let caller = context.msg_sender();
 
     // Step 1: Get request from WithdrawalQueue
@@ -493,12 +714,9 @@ fn claim_withdrawal(request_id: u64) -> pub u128 {
         current_timestamp
     );
 
-    // Step 4: Transfer AZTEC to user
+    // Step 4: Transfer AZTEC to user (ACTUAL transfer, not just accounting)
     let aztec_token = storage.aztec_token.read();
     IAztecToken::at(aztec_token).transfer(caller, aztec_amount);
-
-    // Step 5: Emit event (if events implemented)
-    // emit WithdrawalClaimed { user: caller, request_id, amount: aztec_amount };
 
     aztec_amount
 }
@@ -522,9 +740,18 @@ fn get_withdrawal_status(request_id: u64) -> pub (AztecAddress, u128, bool, u64)
 }
 ```
 
-### Task 3: Handle Liquidity for Claims
-When users claim, we need AZTEC available. Add liquidity management:
+### Task 3: Ensure WithdrawalQueue Has Required Functions
+Verify these exist in withdrawal-queue/src/main.nr:
+- get_request_user(request_id) -> AztecAddress
+- get_request_amount(request_id) -> u128
+- is_claimable(request_id, current_timestamp) -> bool
+- is_request_fulfilled(request_id) -> bool
+- time_until_claimable(request_id, current_timestamp) -> u64
+- claim_withdrawal(request_id, timestamp) -> u128 (marks as claimed, returns amount)
 
+If any missing, implement them.
+
+### Task 4: Handle Liquidity for Claims
 ```noir
 #[public]
 fn ensure_liquidity_for_claims() {
@@ -532,31 +759,48 @@ fn ensure_liquidity_for_claims() {
     let admin = storage.admin.read();
     assert(caller == admin, "Only admin");
 
-    // Check pending withdrawals
     let withdrawal_queue = storage.withdrawal_queue.read();
     let pending = WithdrawalQueue::at(withdrawal_queue).get_total_pending();
 
-    // Check available liquidity
     let aztec_token = storage.aztec_token.read();
     let available = IAztecToken::at(aztec_token).balance_of(context.this_address());
 
-    // If not enough, need to unstake from validators
     if available < pending {
         let shortfall = pending - available;
-        // Trigger unstaking (implementation depends on Aztec staking mechanism)
-        // This may require waiting for unbonding
+        // Log shortfall for keeper bot to handle
+        // In production: trigger unstaking from validators
     }
 }
 ```
 
-## VERIFICATION CHECKLIST
+## LOCAL-FIRST TESTING (MANDATORY)
+1. Start local sandbox: `aztec start --sandbox`
+2. Deploy contracts
+3. Execute: deposit -> wait -> request_withdrawal -> wait unbonding -> claim
+4. Verify user receives ACTUAL AZTEC tokens
+5. Check contract balance decreased
+
+## VERIFICATION CHECKLIST (ALL MUST PASS)
 - [ ] claim_withdrawal() implemented
 - [ ] Verifies caller is request owner
 - [ ] Checks unbonding period
-- [ ] Transfers AZTEC to user
+- [ ] Transfers AZTEC to user (ACTUAL transfer verified)
 - [ ] Updates withdrawal queue state
 - [ ] get_withdrawal_status() view function works
-- [ ] Tests for full withdrawal flow
+- [ ] WithdrawalQueue has all required functions
+- [ ] ensure_liquidity_for_claims() implemented
+- [ ] Local sandbox full flow test passes
+- [ ] Multi-step review completed (all 6 perspectives)
+- [ ] progress.md updated with honest assessment
+
+## OUTPUT FORMAT
+Report back with:
+1. Functions implemented with line numbers
+2. WithdrawalQueue functions added/verified
+3. Local sandbox test results (full flow)
+4. **HONEST ASSESSMENT:** Does claim actually transfer tokens?
+5. Blockers or issues found
+6. Updated progress.md excerpt
 ```
 
 ---
@@ -565,7 +809,8 @@ fn ensure_liquidity_for_claims() {
 
 **Priority:** HIGH
 **Estimated Time:** 4 hours
-**Dependencies:** None
+**Dependencies:** None (but coordinate with other agents)
+**Testing Environment:** Unit tests + local sandbox
 
 ```text
 You are unifying state management across the staking contracts.
@@ -573,10 +818,15 @@ You are unifying state management across the staking contracts.
 ## PROBLEM
 Three contracts track overlapping state independently:
 - LiquidStakingCore: total_deposited, pending_pool, total_staked, exchange_rate
-- VaultManager: pending_pool, total_staked
-- RewardsManager: current_exchange_rate
+- VaultManager: pending_pool, total_staked (DUPLICATE!)
+- RewardsManager: current_exchange_rate (DUPLICATE!)
 
-This causes state divergence.
+This causes state divergence and bugs.
+
+## MANDATORY PROGRESS TRACKING
+1. Update staking/aztec/progress.md after each change
+2. Document which state moved where
+3. Be careful - wrong changes break everything
 
 ## SOLUTION
 1. LiquidStakingCore is authoritative for deposits (total_deposited)
@@ -590,14 +840,14 @@ This causes state divergence.
 Remove duplicate state, add read functions:
 
 ```noir
-// REMOVE these from VaultManager storage:
-// pending_pool: PublicMutable<u128, Context>,  // READ FROM LiquidStakingCore
+// REMOVE these from VaultManager storage (they're in LiquidStakingCore):
+// pending_pool: PublicMutable<u128, Context>,  // REMOVE - READ FROM LiquidStakingCore
 
-// KEEP:
-// total_staked: PublicMutable<u128, Context>,  // Only VaultManager knows what's with validators
+// KEEP these (VaultManager is authoritative for staking):
+// total_staked: PublicMutable<u128, Context>,  // VaultManager knows what's with validators
 
 // ADD interface to read from LiquidStakingCore:
-fn get_pending_from_core() -> u128 {
+fn get_pending_from_core(&self) -> u128 {
     let core = storage.liquid_staking_core.read();
     LiquidStakingCore::at(core).get_pending_pool()
 }
@@ -607,24 +857,25 @@ fn get_pending_from_core() -> u128 {
 Read exchange_rate from RewardsManager instead of storing locally:
 
 ```noir
-// CHANGE deposit() and request_withdrawal() to:
-fn get_current_exchange_rate() -> u64 {
+// ADD helper function:
+fn get_current_exchange_rate(&self) -> u64 {
     let rewards_manager = storage.rewards_manager.read();
     if rewards_manager == AztecAddress::zero() {
-        10000 // Default if not set
+        10000 // Default 1:1 if not set
     } else {
         RewardsManager::at(rewards_manager).get_current_exchange_rate()
     }
 }
 
-// REMOVE local exchange_rate updates
-// REMOVE update_exchange_rate() function (RewardsManager handles this)
+// REMOVE: storage.exchange_rate (use get_current_exchange_rate() instead)
+// REMOVE: update_exchange_rate() function (RewardsManager handles this)
 ```
 
 ### Task 3: Document Authoritative Sources
 Add comments to each contract:
 
 ```noir
+// LiquidStakingCore:
 // === STATE AUTHORITY ===
 // This contract is authoritative for:
 // - total_deposited: How much AZTEC users have deposited
@@ -633,14 +884,57 @@ Add comments to each contract:
 // This contract reads from:
 // - RewardsManager: exchange_rate
 // - VaultManager: total_staked (with validators)
+
+// VaultManager:
+// === STATE AUTHORITY ===
+// This contract is authoritative for:
+// - total_staked: AZTEC currently staked with validators
+// - next_validator_index: Round-robin selection state
+//
+// This contract reads from:
+// - LiquidStakingCore: pending_pool (to know what to stake)
+
+// RewardsManager:
+// === STATE AUTHORITY ===
+// This contract is authoritative for:
+// - current_exchange_rate: stAZTEC to AZTEC conversion rate
+// - accumulated_fees: Protocol fees to claim
+//
+// This contract writes to:
+// - StakedAztecToken: update_exchange_rate() after rewards
 ```
 
-## VERIFICATION CHECKLIST
+### Task 4: Update Tests
+Ensure tests reflect unified state:
+
+```noir
+#[test]
+fn test_state_authority_deposit() {
+    // LiquidStakingCore should update its pending_pool
+    // VaultManager should READ from LiquidStakingCore, not track its own
+}
+```
+
+## VERIFICATION CHECKLIST (ALL MUST PASS)
 - [ ] VaultManager doesn't duplicate pending_pool
 - [ ] LiquidStakingCore reads rate from RewardsManager
 - [ ] All state reads go to authoritative source
-- [ ] No circular dependencies
-- [ ] Tests pass with unified state
+- [ ] No circular dependencies (A reads B, B reads A)
+- [ ] State authority documented in each contract
+- [ ] All contracts compile
+- [ ] Unit tests pass
+- [ ] Local sandbox test passes with unified state
+- [ ] Multi-step review completed (all 6 perspectives)
+- [ ] progress.md updated with honest assessment
+
+## OUTPUT FORMAT
+Report back with:
+1. State variables removed from each contract
+2. Read-only getters added
+3. State authority documentation added
+4. **HONEST ASSESSMENT:** Is state now truly unified?
+5. Potential circular dependency risks
+6. Updated progress.md excerpt
 ```
 
 ---
@@ -650,14 +944,28 @@ Add comments to each contract:
 **Priority:** MEDIUM
 **Estimated Time:** 4 hours
 **Dependencies:** None
+**Testing Environment:** Local sandbox
 
 ```text
 You are adding event emission to all staking contracts.
 
+## CONTEXT
+Currently no events are emitted. This makes it impossible to:
+- Track user activity on-chain
+- Build indexers/explorers
+- Debug production issues
+- Meet audit requirements
+
+## MANDATORY PROGRESS TRACKING
+1. Update staking/aztec/progress.md after each contract updated
+2. List all events added per contract
+
 ## AZTEC EVENT PATTERN
-Check Aztec docs for current event syntax. Example pattern:
+IMPORTANT: Check current Aztec docs for event syntax:
+https://docs.aztec.network/developers/contracts/events
+
+Example pattern (verify with docs):
 ```noir
-// In contract:
 #[event]
 struct Deposit {
     user: AztecAddress,
@@ -677,7 +985,7 @@ context.emit_log(Deposit {
 
 ## EVENTS TO ADD
 
-### LiquidStakingCore
+### LiquidStakingCore (7 events)
 - Deposit(user, aztec_amount, st_aztec_amount, timestamp)
 - WithdrawalRequested(user, request_id, st_aztec_amount, aztec_amount, timestamp)
 - WithdrawalClaimed(user, request_id, aztec_amount, timestamp)
@@ -686,82 +994,147 @@ context.emit_log(Deposit {
 - ContractUnpaused(admin, timestamp)
 - AdminChanged(old_admin, new_admin, timestamp)
 
-### VaultManager
+### VaultManager (3 events)
 - DepositRecorded(amount, new_pending, timestamp)
 - BatchStakeExecuted(amount, validator_index, timestamp)
 - ThresholdChanged(old_threshold, new_threshold, timestamp)
 
-### RewardsManager
+### RewardsManager (4 events)
 - RewardsProcessed(reward_amount, protocol_fee, net_rewards, new_rate, timestamp)
 - ProtocolFeesClaimed(recipient, amount, timestamp)
 - ExchangeRateUpdated(old_rate, new_rate, timestamp)
 - FeeRateChanged(old_bps, new_bps, timestamp)
 
-### StakedAztecToken
+### StakedAztecToken (4 events)
 - Transfer(from, to, amount)
 - Mint(to, amount, minter)
 - Burn(from, amount, burner)
 - ExchangeRateUpdated(old_rate, new_rate)
 
-### WithdrawalQueue
+### WithdrawalQueue (3 events)
 - RequestAdded(request_id, user, shares, amount, timestamp)
 - RequestClaimed(request_id, user, amount, timestamp)
 - UnbondingPeriodChanged(old_period, new_period)
 
-### ValidatorRegistry
+### ValidatorRegistry (5 events)
 - ValidatorAdded(validator, timestamp)
 - ValidatorDeactivated(validator, timestamp)
 - ValidatorReactivated(validator, timestamp)
 - StakeRecorded(validator, amount, total_stake)
 - SlashRecorded(validator, amount, slash_count)
 
-## VERIFICATION CHECKLIST
-- [ ] Events follow Aztec syntax (check docs!)
+TOTAL: 26 events across 6 contracts
+
+## VERIFICATION CHECKLIST (ALL MUST PASS)
+- [ ] Events follow ACTUAL Aztec syntax (verified with docs)
+- [ ] All 26 events defined
 - [ ] All state-changing functions emit events
-- [ ] Events include relevant data
-- [ ] Events compile correctly
-- [ ] Test event emission
+- [ ] Events include relevant data (user, amounts, timestamps)
+- [ ] All contracts compile with events
+- [ ] Local sandbox emits events (verified with logs)
+- [ ] Multi-step review completed
+- [ ] progress.md updated with event count per contract
+
+## OUTPUT FORMAT
+Report back with:
+1. Events added per contract (count)
+2. Aztec event syntax verified (Y/N with docs link)
+3. Compilation status
+4. Local sandbox event emission verified
+5. **HONEST ASSESSMENT:** All events working or any issues?
+6. Updated progress.md excerpt
 ```
 
 ---
 
-## Remaining Agent Prompts
+## Remaining Agent Prompts (Summary)
 
 ### PROMPT G: Validator Selection (6 hours)
 Implement actual round-robin selection in VaultManager with ValidatorRegistry integration.
+- Tracks: next_validator_index
+- Skips: inactive validators
+- Distributes: stake fairly
 
 ### PROMPT H: Emergency Functions (4 hours)
 Add emergency withdrawal, emergency pause per function, migration mechanism.
+- Emergency pause per function (not just global)
+- Emergency withdrawal for admin
+- Migration/upgrade mechanism
 
 ### PROMPT I: View Functions (3 hours)
 Add get_user_effective_balance(), calculate_tvl(), calculate_apy(), estimate_rewards().
+- Preview functions for UI
+- APY calculation from historical data
+- Effective balance (including pending rewards)
 
 ### PROMPT J: Integration Tests (8 hours)
 Write TASK-201 through TASK-204 using Aztec testing framework.
+- Full deposit flow integration test
+- Withdrawal flow integration test
+- Staking batch trigger test
+- Fuzz tests for StakedAztecToken
 
 ---
 
-## Agent Execution Order
+## Coordination Protocol
 
-**Critical Path (Sequential):**
-```
-Day 1: PROMPT A (Token Integration) - MUST COMPLETE FIRST
-Day 2: PROMPT B (Cross-Contract) + PROMPT C (Security Fixes) - Parallel
-Day 3: PROMPT D (Withdrawal) + PROMPT E (State) - After B completes
-```
+### Handoff Between Agents
 
-**Parallel Work (Days 2-4):**
-```
-PROMPT C: Security Fixes (no dependencies)
-PROMPT F: Events (no dependencies)
-PROMPT E: State Unification (no dependencies)
-```
+When completing work, update these files:
+1. **progress.md** - Update completion status with honest assessment
+2. **TASKS.md** - Mark completed tasks with date
+3. **AGENT_HANDOFF_PHASE2.md** - Update if status changed
 
-**Final Phase (Days 4-5):**
-```
-PROMPT G, H, I, J after core integration complete
-```
+### Conflict Resolution
+
+If two agents modify the same file:
+1. First agent commits and pushes
+2. Second agent pulls, merges, resolves conflicts
+3. Both update progress.md with status
+
+### Definition of Done
+
+A deliverable is TRULY complete when:
+1. All checklist items pass
+2. Multi-step review completed (ALL 6 perspectives)
+3. Tests pass (unit AND local sandbox)
+4. Documentation updated
+5. progress.md updated with HONEST assessment
+6. No "accounting only" stubs remain - ACTUAL functionality works
+
+### Honest Self-Assessment Requirement
+
+After EACH task, agent MUST answer:
+1. "Does this ACTUALLY work, or just track that it should work?"
+2. "Can a user REALLY deposit/withdraw, or just see numbers change?"
+3. "What would break if deployed to mainnet tomorrow?"
+
+---
+
+## Agent Execution Timeline
+
+**Day 1:**
+- Start: Agent A (Token Integration) - CRITICAL PATH
+- Parallel: Agent C (Security Fixes) - No dependencies
+
+**Day 2:**
+- After A: Agent B (Cross-Contract) starts
+- Continue: Agent C completes
+- Parallel: Agent F (Events) starts
+
+**Day 3:**
+- After B: Agent D (Withdrawal) starts
+- Parallel: Agent E (State Unification) starts
+
+**Day 4-5:**
+- After D, E: Agents G, H, I, J (remaining work)
+- Integration testing begins
+
+**Day 6+:**
+- Full integration tests (TASK-201-204)
+- Devnet deployment (only after all local tests pass)
 
 ---
 
 *Last updated: 2025-12-27*
+*Quality: Enhanced with multi-pass review, progress tracking, honest assessment requirements*
