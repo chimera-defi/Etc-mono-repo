@@ -1,105 +1,110 @@
 # Cadence - Implementation Guide
 
 > **Project:** Voice-Enabled AI Coding Assistant (React Native Mobile App)
-> **Strategy:** Path B (Self-Hosted Agent) First
-> **Timeline:** 8 weeks MVP (Simplified)
+> **Approach:** Unified Core (Agent CLI First)
+> **Timeline:** 8 weeks MVP
+
+---
+
+## The Master Plan
+
+We build components in an order that validates value immediately while laying the foundation for scale.
+
+1.  **Phase 1: The Core (Relay + Agent CLI)** -> *Enables "Terminal Coding"*
+2.  **Phase 2: The Remote (Mobile App)** -> *Enables "Voice Coding"*
+3.  **Phase 3: The Polish (RAG + UX)** -> *Enables "Production Coding"*
+4.  **Phase 4: The Scale (Managed Infra)** -> *Enables "Mass Market"*
 
 ---
 
 ## Phase 0: Validation (3-5 days)
 
-> **Goal:** Prove voice → agent → code changes works BEFORE building mobile app
+> **Goal:** Prove voice → agent → code changes works using a throwaway script.
 
-*(Validation Prototype steps remain the same...)*
-
----
-
-## Phase 1: The Relay Server (Week 1)
-
-> **Goal:** Build the bridge between Mobile App and User's VPS.
-
-**Stack:** Fastify + `@fastify/websocket` + Redis (for session mapping).
-
-**Tasks:**
-1.  `R-01` Init Fastify project.
-2.  `R-02` Implement WebSocket route `/relay`.
-3.  `R-03` Implement simple authentication (Session ID exchange).
-4.  `R-04` Implement message routing (A → Relay → B).
-
-**Code Example (Relay):**
-```typescript
-fastify.register(require('@fastify/websocket'));
-
-fastify.get('/relay', { websocket: true }, (connection, req) => {
-  const { sessionId, role } = req.query; // role: 'app' or 'agent'
-  
-  // Store connection in Redis/Map
-  sessionManager.register(sessionId, role, connection.socket);
-
-  connection.socket.on('message', (message) => {
-    // Forward to counterpart
-    const targetRole = role === 'app' ? 'agent' : 'app';
-    const targetSocket = sessionManager.get(sessionId, targetRole);
-    if (targetSocket) targetSocket.send(message);
-  });
-});
-```
+*(Same validation prototype script as before)*
 
 ---
 
-## Phase 2: The Agent CLI (Week 2)
+## Phase 1: The Core (Weeks 1-2)
 
-> **Goal:** The binary that runs on the user's VPS.
+> **Goal:** A working "Remote Agent" system. You can type into a web UI and see your terminal execute it.
 
-**Stack:** Node.js, `ws` client, `@anthropic-ai/claude-agent-sdk`.
+### 1.1 The Relay Server
+*   **Stack:** Fastify + WebSockets + Redis.
+*   **Endpoints:** `/relay` (WebSocket), `/auth` (GitHub).
+*   **Deliverable:** A server that blindly forwards JSON between two connected sockets.
 
-**Tasks:**
-1.  `A-01` Create CLI scaffold (`commander`).
-2.  `A-02` Implement `cadence login` (Device Code flow).
-3.  `A-03` Implement `cadence start` (Connect to Relay).
-4.  `A-04` Integrate Claude Agent SDK to listen for messages from Relay.
+### 1.2 The Agent CLI (`@cadence/agent`)
+*   **Stack:** Node.js, Claude Agent SDK.
+*   **Commands:**
+    *   `cadence login`: Authenticates device.
+    *   `cadence start`: Connects to Relay, waits for tasks.
+*   **Logic:** Receives JSON `{ task: "..." }` -> Runs SDK -> Streams logs back.
 
-**Code Example (Agent):**
-```typescript
-// agent.ts
-import { query } from '@anthropic-ai/claude-code';
-import WebSocket from 'ws';
-
-const ws = new WebSocket('wss://api.cadence.dev/relay?role=agent');
-
-ws.on('message', async (data) => {
-  const command = JSON.parse(data);
-  if (command.type === 'EXECUTE') {
-    // Run Agent
-    const stream = await query({ prompt: command.text, cwd: process.cwd() });
-    for await (const chunk of stream) {
-      ws.send(JSON.stringify({ type: 'PROGRESS', chunk }));
-    }
-  }
-});
-```
+**Verification:** Connect a simple HTML test page to Relay. Type "create hello.txt". Verify `hello.txt` appears on your laptop.
 
 ---
 
-## Phase 3: Mobile App (Week 3-6)
+## Phase 2: The Remote (Weeks 3-5)
 
-> **Goal:** The remote control.
+> **Goal:** The Mobile App controlling the Agent.
 
-*(Follows original mobile app steps, but connects to Relay instead of Orchestrator).*
+### 2.1 Mobile Foundation
+*   **Stack:** React Native + Expo.
+*   **Features:** GitHub Login, WebSocket Client to Relay.
+
+### 2.2 Voice Integration
+*   **Stack:** expo-av (Recording) -> Whisper API -> Text.
+*   **Flow:**
+    1.  Record Audio.
+    2.  Send to Whisper.
+    3.  Receive Text.
+    4.  Send Text to Relay (as command).
+
+**Verification:** Speak "Create a README file" to phone. Verify `README.md` appears on your laptop.
 
 ---
 
-## Task Breakdown (Path B Priority)
+## Phase 3: The Polish (Weeks 6-7)
 
-| Sprint | Task | Focus |
+> **Goal:** Robustness and Context.
+
+### 3.1 Context Engine (Local)
+*   **Problem:** Agent blindly guesses file paths.
+*   **Solution:** Integrate `ripgrep` into Agent CLI.
+*   **Logic:** Before running agent, search for relevant files based on keywords in the prompt.
+
+### 3.2 Robustness
+*   **Reconnection:** Handle mobile network drops gracefully (message queueing in Relay).
+*   **Output:** Format logs nicely in Mobile App (Ansi to UI).
+
+---
+
+## Phase 4: The Scale (Future / Post-MVP)
+
+> **Goal:** Offer "Managed Mode" for users without VPS.
+
+### 4.1 Fly.io Runners
+*   **Concept:** A Docker container that runs `cadence start`.
+*   **Flow:**
+    1.  User clicks "Start Cloud Agent" in App.
+    2.  API spawns Fly.io Machine with `cadence-agent` image.
+    3.  Machine connects to Relay.
+    4.  App controls it exactly like a local agent.
+
+---
+
+## Task Breakdown (Sprint View)
+
+| Sprint | Focus | Tasks |
 | :--- | :--- | :--- |
-| **Sprint 1** | Relay Server | Backend plumbing (WebSockets) |
-| **Sprint 2** | Agent CLI | The "Brain" on the VPS |
-| **Sprint 3** | Mobile Shell | Auth + Voice Recording |
-| **Sprint 4** | Integration | Connecting Voice -> Relay -> CLI |
+| **Sprint 1** | **Core Plumbing** | `Relay Server`, `Agent CLI Skeleton`, `WebSocket Bridge` |
+| **Sprint 2** | **Agent Intelligence** | `Claude SDK Integration`, `File Tools`, `Local Context` |
+| **Sprint 3** | **Mobile Base** | `Auth`, `UI Shell`, `WebSocket Client` |
+| **Sprint 4** | **Voice & Polish** | `Voice Recording`, `Whisper API`, `UI Polish` |
 
 ---
 
-**Document Version:** 3.0 (Path B Focused)
+**Document Version:** 3.1 (Unified)
 **Created:** December 26, 2025
 **Status:** Ready for Implementation
