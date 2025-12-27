@@ -1,0 +1,8 @@
+[package]
+name = "staking_math_tests"
+type = "bin"
+authors = ["Aztec Liquid Staking"]
+compiler_version = ">=0.30.0"
+edition = "2024.01"
+
+[dependencies]
