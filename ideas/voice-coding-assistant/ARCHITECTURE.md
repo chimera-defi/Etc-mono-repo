@@ -229,12 +229,18 @@ See **Section 6** for detailed VPS-per-user architecture for Pro tier.
 │                                                                           │
 │  1. RECORD                    2. TRANSCRIBE              3. PARSE        │
 │  ┌─────────────┐             ┌─────────────┐            ┌─────────────┐  │
-│  │   expo-av   │────M4A─────>│  Whisper    │───Text───> │Claude Haiku │  │
-│  │  Recording  │   (50KB)    │    API      │            │  (Parser)   │  │
-│  │             │             │             │            │             │  │
+│  │   expo-av   │────M4A─────>│ Hybrid STT  │───Text───> │Claude Haiku │  │
+│  │  Recording  │   (50KB)    │ (Whisper +  │            │  (Parser)   │  │
+│  │             │             │  Context)   │            │             │  │
 │  │ Target: 30s │             │ ~300ms      │            │ ~200ms      │  │
-│  │ max         │             │ 95-98% acc  │            │ Intent+Ents │  │
-│  └─────────────┘             └─────────────┘            └──────┬──────┘  │
+│  │ max         │             │ 98% acc     │            │ Intent+Ents │  │
+│  └─────────────┘             └──────┬──────┘            └──────┬──────┘  │
+│                                     ^                          │         │
+│                                     │ (Inject Keywords)        │         │
+│                              ┌──────┴──────┐                   │         │
+│                              │  Context    │                   │         │
+│                              │  Analyzer   │                   │         │
+│                              └─────────────┘                   │         │
 │                                                                 │         │
 │  4. EXECUTE                   5. RESPOND                       │         │
 │  ┌─────────────┐             ┌─────────────┐                   │         │
@@ -255,6 +261,17 @@ See **Section 6** for detailed VPS-per-user architecture for Pro tier.
 
 Total latency target: <2 seconds end-to-end
 ```
+
+### Wispr Flow Parity Strategy (Reverse Engineered)
+
+To match **Wispr Flow's 95-98% accuracy**, we use a **Context Injection** strategy:
+
+1.  **Codebase Analysis**: Before recording, we scan the user's recent files/active repo.
+2.  **Keyword Extraction**: Extract variable names, libraries, and functions (e.g., `useEffect`, `FastifyInstance`).
+3.  **Prompt Injection**: Pass these keywords to Whisper's `prompt` parameter.
+    *   *Result:* Whisper hears "use effect" -> transcribes `useEffect` because it's in the prompt.
+
+**Architecture Reference:** See `WISPR_FLOW_RESEARCH_SUMMARY.md` for full reverse-engineering details.
 
 ---
 

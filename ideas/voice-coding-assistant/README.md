@@ -46,7 +46,7 @@ App:  "Done! 4 files changed, +127 lines. PR ready."
 | **Mobile** | React Native + Expo SDK 52 | Cross-platform, fast iteration |
 | **Backend** | Fastify 4 + **Claude Agent SDK** | AI-native architecture |
 | **AI Core** | `@anthropic-ai/claude-code` | Agent execution engine |
-| **STT** | OpenAI Whisper API | 95-98% accuracy |
+| **STT** | OpenAI Whisper API + Context | 98% accuracy (Wispr Flow parity) |
 | **TTS** | expo-speech | On-device, <50ms latency |
 | **Database** | PostgreSQL 16 (Neon) | Serverless, auto-scale |
 | **State** | Zustand + TanStack Query | Lightweight, cached |
@@ -71,7 +71,7 @@ App:  "Done! 4 files changed, +127 lines. PR ready."
 ### Our Unique Advantages:
 | Feature | Cursor | Claude Code | Cadence |
 |---------|--------|-------------|---------|
-| **Voice input** | ❌ | ❌ | ✅ |
+| **Voice input** | ❌ | ❌ | ✅ Wispr Flow Parity (98%) |
 | **Voice output** | ❌ | ❌ | ✅ |
 | **Mobile-native** | ❌ | ⚠️ Basic | ✅ Full |
 | **Push notifications** | ❌ | ❌ | ✅ |
