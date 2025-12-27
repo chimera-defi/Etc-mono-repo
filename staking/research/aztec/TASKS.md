@@ -86,10 +86,43 @@ aztec-cli --version
 ---
 
 ### TASK-001A: Local Sandbox Smoke Tests (compile → deploy → call)
-**Status:** 🔴 Not Started
+**Status:** 🟡 In Progress (Partial Success)
 **Estimated Time:** 2-6 hours (depends on tooling friction)
 **Priority:** Critical
 **Depends On:** TASK-001
+
+**Progress (2025-12-26):**
+
+*Verified Working:*
+- ✅ Docker daemon starts with `--bridge=none --iptables=false`
+- ✅ nargo 1.0.0-beta.17 installed via noirup
+- ✅ **Base Noir** compile + test working (`nargo compile`, `nargo test`)
+- ✅ **Base Noir prototype** (`noir-prototypes/staking_pool/`) - 5/5 tests pass
+  - ⚠️ This is NOT an Aztec contract, just basic Noir math
+- ✅ **Devnet RPC** working: `https://next.devnet.aztec-labs.com`
+  - Node version: 3.0.0-devnet.20251212
+  - L1 Chain ID: 11155111 (Sepolia)
+  - Block queries via curl confirmed working
+  - Current block: 31836+ (actively producing)
+- ✅ Docker image pulled: `aztecprotocol/aztec:latest` (1.22GB)
+- ✅ aztec-nargo scripts installed to `/root/.aztec/bin/`
+
+*Not Working / Unverified:*
+- ⚠️ **Aztec contract UNVERIFIED** at `staking/contracts/aztec-staking-pool/`
+  - Written based on web research, NOT compiled
+  - Standard nargo CANNOT compile Aztec contracts (version mismatch)
+  - May contain syntax errors, wrong imports, incorrect patterns
+- ❌ Docker container execution fails (network restrictions)
+- ❌ aztec-nargo requires container execution, which fails
+- ❌ `install.aztec.network` was blocked (403) - now works but needs Docker
+- ⏳ Full smoke test requires local machine with working Docker
+
+**Alternative Path Discovered:**
+Can test against devnet using RPC + AztecJS without local sandbox:
+```javascript
+import { createAztecNodeClient } from "@aztec/aztec.js/node";
+const node = createAztecNodeClient("https://next.devnet.aztec-labs.com");
+```
 
 **Context:** Before we validate economics or build real contracts, we need a working local loop. A “smoke test” is the smallest end-to-end check that proves the environment works.
 
@@ -110,12 +143,27 @@ aztec-cli --version
   - links to logs/tx hashes (or screenshots)
 
 **Acceptance Criteria:**
-- A new “Local sandbox smoke test” entry exists in `ASSUMPTIONS.md` Validation Log
+- A new "Local sandbox smoke test" entry exists in `ASSUMPTIONS.md` Validation Log
 - Another agent can reproduce by copy/pasting the commands
 
 **Notes (avoid wrong assumptions):**
 - Do **not** assume EVM tooling (MetaMask/wagmi/viem) for local interactions.
-- If a step requires tooling you can’t confirm in Aztec docs, label it **PSEUDOCODE** and record what you tried.
+- If a step requires tooling you can't confirm in Aztec docs, label it **PSEUDOCODE** and record what you tried.
+
+**🚨 HUMAN HANDOFF REQUIRED:**
+This task **cannot** be completed in cloud/CI environments without Docker daemon access.
+
+**Instructions for human:**
+1. Use a local machine or VM with Docker installed and running (`docker info` succeeds)
+2. Follow the smoke test checklist above
+3. Record results in `ASSUMPTIONS.md` → Validation Log with:
+   - Date, machine type, Docker version, Aztec CLI version
+   - Commands run and outputs
+   - Contract address / tx hash from successful deploy
+   - Any issues encountered
+4. Once complete, mark TASK-001A as ✅ and notify the team
+
+**Why this matters:** Contract development (TASK-101+) depends on a proven local toolchain.
 
 ### TASK-002: Deploy Test Validator on Aztec Testnet
 **Status:** 🔴 Not Started
@@ -1554,8 +1602,8 @@ Let me know if you have questions about the requirements.
 
 ---
 
-**Last Updated:** December 22, 2025
-**Total Tasks:** 32
+**Last Updated:** December 26, 2025
+**Total Tasks:** 37
 **Estimated Total Time:** ~300 hours (7.5 weeks at 40 hrs/week)
 
 **Ready to begin!** Start with TASK-001.
