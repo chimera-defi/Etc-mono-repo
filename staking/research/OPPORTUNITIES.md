@@ -1,6 +1,6 @@
 # Liquid Staking Opportunities - Priority Ranking
 
-**Last Updated:** December 20, 2025
+**Last Updated:** December 26, 2025
 
 ## 🔥 Tier 1: High-Priority Opportunities
 
@@ -261,4 +261,5 @@
 ---
 
 **Next Review Date:** January 15, 2026
+**Note:** For Aztec-specific competitor intelligence, see `aztec/ASSUMPTIONS.md` (Competitor Tracker section).
 **Owner:** Staking Research Team

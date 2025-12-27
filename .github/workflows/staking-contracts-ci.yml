@@ -1,0 +1,48 @@
+name: Staking Contracts CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'staking/contracts/**'
+      - '.github/workflows/staking-contracts-ci.yml'
+  pull_request:
+    paths:
+      - 'staking/contracts/**'
+      - '.github/workflows/staking-contracts-ci.yml'
+
+jobs:
+  test-staking-math:
+    name: Staking Math Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Noir (nargo)
+        run: |
+          curl -L https://raw.githubusercontent.com/noir-lang/noirup/main/install | bash
+          export PATH="$HOME/.nargo/bin:$PATH"
+          noirup
+          nargo --version
+
+      - name: Run staking math tests
+        working-directory: staking/contracts/staking-math-tests
+        run: |
+          export PATH="$HOME/.nargo/bin:$PATH"
+          echo "Running 20 staking math unit tests..."
+          nargo test
+
+      - name: Test Summary
+        if: success()
+        run: |
+          echo "## ✅ Staking Math Tests Passed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "All 20 unit tests for staking pool math passed:" >> $GITHUB_STEP_SUMMARY
+          echo "- Deposit/withdrawal calculations" >> $GITHUB_STEP_SUMMARY
+          echo "- Fee calculations" >> $GITHUB_STEP_SUMMARY
+          echo "- Share value calculations" >> $GITHUB_STEP_SUMMARY
+          echo "- Edge cases and multi-user scenarios" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Note:** Aztec contract compilation requires local setup with Docker." >> $GITHUB_STEP_SUMMARY
+          echo "See \`staking/contracts/aztec-staking-pool/README.md\` for instructions." >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,6 @@
+[package]
+name = "staking_pool"
+type = "bin"
+authors = [""]
+
+[dependencies]
