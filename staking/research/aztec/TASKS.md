@@ -46,6 +46,22 @@
 
 ## Phase 1: Foundation & Setup (Week 1-2)
 
+### TASK-000: Consolidate Knowledge and Setup
+**Status:** ✅ Complete
+**Estimated Time:** 2 hours
+**Priority:** Critical
+**Depends On:** None
+
+**Context:** The architecture and task breakdown have been established. Parallel execution tracks are defined in `staking/aztec/HANDOFF.md`.
+
+**Deliverables:**
+- [x] Central Handoff Document (`staking/aztec/HANDOFF.md`)
+- [x] Architecture Document (`staking/aztec/ARCHITECTURE.md`)
+- [x] Component Design Document (`staking/aztec/DESIGN.md`)
+- [x] Updated Task Registry (`staking/research/aztec/TASKS.md`)
+
+---
+
 ### TASK-001: Provision Aztec Testnet Development Environment
 **Status:** 🔴 Not Started
 **Estimated Time:** 4 hours
@@ -1594,6 +1610,8 @@ TASK-504 depends on TASK-503
 ---
 
 ## Using This Document with AI Agents
+
+**NOTE:** This is the *Task Registry*. For the actual Handoff instructions and Agent Prompts, please see **`staking/aztec/HANDOFF.md`**.
 
 **To assign a task to an agent:**
 
