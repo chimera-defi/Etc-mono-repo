@@ -79,8 +79,8 @@ pub contract StakingPool {
         let current_shares = storage.shares.at(caller).read();
         storage.shares.at(caller).write(current_shares + shares_to_mint);
 
-        // TODO: Integrate with Aztec token contract for actual transfers
-        // Token::at(staking_token).transfer_in_public(caller, context.this_address(), amount, 0).call(&mut context);
+        // Note: Token transfers are handled by LiquidStakingCore via cross-contract calls.
+        // This contract manages share accounting only.
 
         shares_to_mint
     }
@@ -115,8 +115,8 @@ pub contract StakingPool {
         // Update user shares
         storage.shares.at(caller).write(user_shares - shares_to_burn);
 
-        // TODO: Integrate with Aztec token contract for actual transfers
-        // Token::at(staking_token).transfer_in_public(context.this_address(), caller, net_amount, 0).call(&mut context);
+        // Note: Token transfers are handled by LiquidStakingCore via cross-contract calls.
+        // This contract manages share accounting only.
 
         net_amount
     }
@@ -132,7 +132,8 @@ pub contract StakingPool {
         let total_staked = storage.total_staked.read();
         storage.total_staked.write(total_staked + amount);
 
-        // TODO: Integrate with Aztec token contract for actual transfers
+        // Note: Token transfers are handled by LiquidStakingCore via cross-contract calls.
+        // This contract manages share accounting only.
     }
 
     /// Collect accumulated fees
@@ -145,7 +146,8 @@ pub contract StakingPool {
         let fees = storage.pending_fees.read();
         storage.pending_fees.write(0);
 
-        // TODO: Integrate with Aztec token contract for actual transfers
+        // Note: Token transfers are handled by LiquidStakingCore via cross-contract calls.
+        // This contract manages share accounting only.
 
         fees
     }
