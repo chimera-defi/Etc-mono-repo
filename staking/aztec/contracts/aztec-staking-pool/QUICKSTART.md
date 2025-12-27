@@ -2,8 +2,8 @@
 
 This document provides step-by-step instructions for AI agents to continue development on the Aztec staking pool contracts.
 
-**Last Verified:** 2025-12-27
-**Session:** cursor/aztec-staking-protocol-development-5e3b
+**Last Updated:** 2025-12-27
+**Location:** `staking/aztec/` (consolidated)
 
 ---
 
@@ -12,10 +12,10 @@ This document provides step-by-step instructions for AI agents to continue devel
 ```bash
 # Run the smoke test (does everything)
 export PATH="$HOME/.nargo/bin:$HOME/aztec-bin:$PATH"
-/workspace/staking/contracts/aztec-staking-pool/scripts/smoke-test.sh
+./staking/aztec/scripts/smoke-test.sh
 ```
 
-Expected output: **7 tests passed**, environment ready.
+Expected output: environment ready, tests passed.
 
 ---
 
@@ -24,7 +24,7 @@ Expected output: **7 tests passed**, environment ready.
 ### Option A: Run Setup Script (Recommended)
 
 ```bash
-/workspace/staking/contracts/aztec-staking-pool/scripts/setup-env.sh
+./staking/aztec/scripts/setup-env.sh
 ```
 
 This script will:
@@ -102,7 +102,7 @@ cp -r /tmp/AztecProtocol-aztec-packages-*/* \
 ### Unit Tests (34 tests)
 
 ```bash
-cd /workspace/staking/contracts/staking-math-tests
+cd staking/aztec/contracts/staking-math-tests
 ~/.nargo/bin/nargo test
 # Expected: 34 tests passed
 ```
@@ -123,7 +123,7 @@ cd /workspace/staking/contracts/staking-math-tests
 
 ```bash
 # Generic pattern
-cp -r /workspace/staking/contracts/CONTRACT-NAME ~/CONTRACT-NAME
+cp -r staking/aztec/contracts/CONTRACT-NAME ~/CONTRACT-NAME
 cd ~/CONTRACT-NAME
 ~/aztec-bin/nargo compile
 
@@ -135,19 +135,19 @@ ls -la target/*.json
 
 ```bash
 # StakingPool (base contract)
-cp -r /workspace/staking/contracts/aztec-staking-pool ~/aztec-contracts
+cp -r staking/aztec/contracts/aztec-staking-pool ~/aztec-contracts
 cd ~/aztec-contracts && ~/aztec-bin/nargo compile
 
 # StakedAztecToken
-cp -r /workspace/staking/contracts/staked-aztec-token ~/staked-aztec-token
+cp -r staking/aztec/contracts/staked-aztec-token ~/staked-aztec-token
 cd ~/staked-aztec-token && ~/aztec-bin/nargo compile
 
 # WithdrawalQueue
-cp -r /workspace/staking/contracts/withdrawal-queue ~/withdrawal-queue
+cp -r staking/aztec/contracts/withdrawal-queue ~/withdrawal-queue
 cd ~/withdrawal-queue && ~/aztec-bin/nargo compile
 
 # ValidatorRegistry
-cp -r /workspace/staking/contracts/validator-registry ~/validator-registry
+cp -r staking/aztec/contracts/validator-registry ~/validator-registry
 cd ~/validator-registry && ~/aztec-bin/nargo compile
 ```
 
@@ -156,36 +156,27 @@ cd ~/validator-registry && ~/aztec-bin/nargo compile
 ## Project Structure
 
 ```
-staking/contracts/
-├── aztec-staking-pool/          # Base staking pool contract
-│   ├── src/
-│   │   ├── main.nr              # StakingPool contract (760KB, 19 fn)
-│   │   └── staking_math.nr      # Pure math functions
-│   ├── scripts/
-│   │   ├── setup-env.sh         # Environment setup script
-│   │   ├── smoke-test.sh        # Verification script
-│   │   └── query-devnet.mjs     # Devnet query utility
-│   ├── Nargo.toml
-│   ├── QUICKSTART.md            # This file
-│   └── README.md
-│
-├── staked-aztec-token/          # stAZTEC token contract
-│   ├── src/main.nr              # (778KB, 16 fn)
-│   └── Nargo.toml
-│
-├── withdrawal-queue/            # Withdrawal queue contract
-│   ├── src/main.nr              # (824KB, 19 fn)
-│   └── Nargo.toml
-│
-├── validator-registry/          # Validator tracking contract
-│   ├── src/main.nr              # (838KB, 23 fn)
-│   └── Nargo.toml
-│
-├── staking-math-tests/          # Unit tests (34 tests)
-│   ├── src/main.nr
-│   └── Nargo.toml
-│
-└── AGENT_HANDOFF.md             # Handoff documentation
+staking/aztec/
+├── README.md                    # Project index (START HERE)
+├── docs/                        # Research and planning
+│   ├── EXECUTIVE-SUMMARY.md     # 1-page strategic overview
+│   ├── ECONOMICS.md             # Source of truth for numbers
+│   ├── ASSUMPTIONS.md           # Assumptions + competitor tracker
+│   ├── IMPLEMENTATION-PLAN.md   # 6-month build plan
+│   ├── FUNDRAISING.md           # Seed deck outline
+│   ├── TASKS.md                 # Discrete task breakdown
+│   └── liquid-staking-analysis.md  # Technical architecture
+├── contracts/                   # Smart contracts
+│   ├── aztec-staking-pool/      # Base staking pool (760KB, 19 fn)
+│   ├── staked-aztec-token/      # stAZTEC token (778KB, 16 fn)
+│   ├── withdrawal-queue/        # Withdrawal queue (824KB, 19 fn)
+│   ├── validator-registry/      # Validator tracking (838KB, 23 fn)
+│   ├── staking-math-tests/      # Unit tests (34 tests)
+│   └── AGENT_HANDOFF.md         # Development handoff notes
+└── scripts/                     # Development scripts
+    ├── smoke-test.sh            # Environment verification
+    ├── setup-env.sh             # Environment setup
+    └── query-devnet.mjs         # Devnet query utility
 ```
 
 ---
@@ -194,13 +185,13 @@ staking/contracts/
 
 | Contract | Status | Size | Functions | Notes |
 |----------|--------|------|-----------|-------|
-| StakingPool | ✅ Complete | 760KB | 19 | Base implementation |
-| StakedAztecToken | ✅ Complete | 778KB | 16 | ERC20-like token |
-| WithdrawalQueue | ✅ Complete | 824KB | 19 | FIFO with unbonding |
-| ValidatorRegistry | ✅ Complete | 838KB | 23 | Validator tracking |
-| LiquidStakingCore | ⏳ TODO | - | - | TASK-105 |
-| VaultManager | ⏳ TODO | - | - | TASK-108 |
-| RewardsManager | ⏳ TODO | - | - | TASK-109 |
+| StakingPool | Complete | 760KB | 19 | Base implementation |
+| StakedAztecToken | Complete | 778KB | 16 | ERC20-like token |
+| WithdrawalQueue | Complete | 824KB | 19 | FIFO with unbonding |
+| ValidatorRegistry | Complete | 838KB | 23 | Validator tracking |
+| LiquidStakingCore | TODO | - | - | TASK-105 |
+| VaultManager | TODO | - | - | TASK-108 |
+| RewardsManager | TODO | - | - | TASK-109 |
 
 ---
 
@@ -229,7 +220,7 @@ assert(is_admin | is_manager, "Unauthorized");
 
 ### Issue: Non-ASCII character errors
 **Cause:** Noir only supports ASCII in comments
-**Solution:** Use `->` instead of `→`, avoid emojis in comments
+**Solution:** Use `->` instead of special arrows, avoid emojis in comments
 
 ---
 
@@ -255,7 +246,7 @@ curl -s -X POST "https://next.devnet.aztec-labs.com" \
 4. **TASK-108:** Create VaultManager.nr
 5. **TASK-109:** Create RewardsManager.nr
 
-See `staking/research/aztec/TASKS.md` for full task breakdown.
+See `staking/aztec/docs/TASKS.md` for full task breakdown.
 
 ---
 
@@ -266,13 +257,13 @@ See `staking/research/aztec/TASKS.md` for full task breakdown.
 export PATH="$HOME/.nargo/bin:$HOME/aztec-bin:$PATH"
 
 # Run smoke test
-/workspace/staking/contracts/aztec-staking-pool/scripts/smoke-test.sh
+./staking/aztec/scripts/smoke-test.sh
 
 # Run unit tests
-cd /workspace/staking/contracts/staking-math-tests && nargo test
+cd staking/aztec/contracts/staking-math-tests && nargo test
 
 # Compile a contract
-cp -r /workspace/staking/contracts/YOUR-CONTRACT ~/YOUR-CONTRACT
+cp -r staking/aztec/contracts/YOUR-CONTRACT ~/YOUR-CONTRACT
 cd ~/YOUR-CONTRACT && ~/aztec-bin/nargo compile
 
 # Check artifact
