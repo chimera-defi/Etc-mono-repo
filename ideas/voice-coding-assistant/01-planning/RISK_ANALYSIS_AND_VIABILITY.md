@@ -71,6 +71,41 @@
 
 ---
 
+## 2. Competitive Landscape & Feature Parity
+
+### 3.1 Feature Matrix
+
+| Feature | Cursor Agents | Claude Code | Our App (Planned) |
+|---------|---------------|-------------|-------------------|
+| **Platform** | Desktop IDE | Terminal + CLI | **Mobile Native** |
+| **Input Methods** | Text | Text + Basic Voice | **Voice First** |
+| **Agent Capabilities** | Full Project | Full Project | **RAG-Enhanced** |
+| **Multi-file editing** | ✅ Composer | ✅ Multi-file | ❌ Single-file (MVP) |
+| **Parallel agents** | ✅ Up to 8 | ❌ | ❌ (MVP) |
+| **Mobile-Specific** | ❌ | ❌ | **Push Notifications** |
+
+### 3.2 What This Means For Us
+
+**Opportunities:**
+1. **Pricing Transparency:** Cursor's pricing changes angered users. Our $15/month simple model is a differentiator.
+2. **Reliability Focus:** Cursor/Claude have stability issues. We focus on "doing one thing well" (mobile agents).
+3. **Mobile-First:** Neither competitor has a true mobile experience.
+
+---
+
+## 4. User Demand & Viability
+
+### 4.1 Top User Demands
+1. **Autonomous Agent Mode** (95% priority)
+2. **Project-Wide Context Understanding** (90% priority)
+3. **Intelligent Code Completion** (85% priority)
+
+### 4.4 Mobile + Voice Coding Market Demand
+*   **Voice Coding Speed:** 150 WPM vs 40 WPM typing (3.75x faster).
+*   **Remote Work:** 73% of companies hiring remote devs; mobile access is critical.
+
+---
+
 ## 5. Critical Gaps & Risks
 
 ### 5.1 Critical Gaps Summary
@@ -141,7 +176,7 @@
 
 ---
 
-**Document Version:** 2.2
+**Document Version:** 2.2 (Restored & Enhanced)
 **Last Updated:** December 26, 2025
 **Analysis Conducted By:** Claude Code Risk Analysis Agent
 **Review Status:** Ready for stakeholder review
