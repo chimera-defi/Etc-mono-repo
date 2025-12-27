@@ -29,23 +29,28 @@ This directory contains all research, planning, and implementation for an Aztec-
 ```
 staking/aztec/
 ├── README.md                   # This file - main index
+├── PROGRESS.md                 # Development progress tracking (NEW)
 ├── docs/                       # Research and planning documentation
 │   ├── EXECUTIVE-SUMMARY.md    # One-page strategic overview
-│   ├── STRATEGIC-GAP-ANALYSIS.md # Gap analysis + parallel agent prompts (NEW)
-│   ├── AGENT-PROMPTS-QUICKREF.md # Copy-paste prompts for agents (NEW)
-│   ├── ASSUMPTIONS.md          # Assumptions registry + competitor tracker + validation log
-│   ├── ECONOMICS.md            # Financial models (source of truth for numbers)
+│   ├── STRATEGIC-GAP-ANALYSIS.md # Gap analysis + parallel agent prompts
+│   ├── AGENT-PROMPTS-QUICKREF.md # Copy-paste prompts for agents
+│   ├── ASSUMPTIONS.md          # Assumptions registry + competitor tracker
+│   ├── ECONOMICS.md            # Financial models (source of truth)
 │   ├── IMPLEMENTATION-PLAN.md  # 6-month build roadmap
-│   ├── FUNDRAISING.md          # Seed deck outline and pitch narrative
-│   ├── TASKS.md                # Discrete task breakdown + agent prompts
-│   └── liquid-staking-analysis.md  # Technical architecture reference
-├── contracts/                  # Noir smart contracts
-│   ├── aztec-staking-pool/     # Base staking pool (760KB, 19 functions)
-│   ├── staked-aztec-token/     # stAZTEC token (778KB, 16 functions)
-│   ├── withdrawal-queue/       # FIFO withdrawal queue (824KB, 19 functions)
-│   ├── validator-registry/     # Validator tracking (838KB, 23 functions)
-│   ├── staking-math-tests/     # Unit tests (34 tests)
-│   └── AGENT_HANDOFF.md        # Development handoff notes
+│   ├── FUNDRAISING.md          # Seed deck outline
+│   ├── TASKS.md                # Discrete task breakdown
+│   └── liquid-staking-analysis.md  # Technical architecture
+├── contracts/                  # Noir smart contracts (ALL COMPLETE)
+│   ├── aztec-staking-pool/     # Base staking pool (19 functions)
+│   ├── staked-aztec-token/     # stAZTEC token (16 functions)
+│   ├── withdrawal-queue/       # FIFO withdrawal queue (19 functions)
+│   ├── validator-registry/     # Validator tracking (23 functions)
+│   ├── liquid-staking-core/    # Main entry point (24 functions) NEW
+│   ├── vault-manager/          # Batch pooling (22 functions) NEW
+│   ├── rewards-manager/        # Exchange rate (21 functions) NEW
+│   ├── staking-math-tests/     # Unit tests (56 tests)
+│   ├── AGENT_HANDOFF.md        # Development handoff notes
+│   └── NOIR_GUIDE.md           # Noir/Aztec patterns guide
 └── scripts/                    # Development and testing scripts
     ├── smoke-test.sh           # Environment verification
     ├── setup-env.sh            # Environment setup
@@ -54,21 +59,23 @@ staking/aztec/
 
 ## Current Status
 
-### Contracts Implemented
+### ✅ ALL CONTRACTS COMPLETE
 
-| Contract | Status | Size | Functions |
-|----------|--------|------|-----------|
-| StakingPool | Compiled | 760KB | 19 |
-| StakedAztecToken | Compiled | 778KB | 16 |
-| WithdrawalQueue | Compiled | 824KB | 19 |
-| ValidatorRegistry | Compiled | 838KB | 23 |
-| **LiquidStakingCore** | TODO | - | - |
-| **VaultManager** | TODO | - | - |
-| **RewardsManager** | TODO | - | - |
+| Contract | Status | Functions | Description |
+|----------|--------|-----------|-------------|
+| StakingPool | ✅ Complete | 19 | Base staking pool logic |
+| StakedAztecToken | ✅ Complete | 16 | stAZTEC liquid staking token |
+| WithdrawalQueue | ✅ Complete | 19 | FIFO queue with unbonding |
+| ValidatorRegistry | ✅ Complete | 23 | Validator tracking |
+| **LiquidStakingCore** | ✅ **NEW** | 24 | Main entry point |
+| **VaultManager** | ✅ **NEW** | 22 | 200k batch pooling |
+| **RewardsManager** | ✅ **NEW** | 21 | Exchange rate updates |
+
+**Total: 144 functions across 7 contracts**
 
 ### Testing
 
-- **Unit Tests**: 34 tests passing (staking math)
+- **Unit Tests**: **56 tests passing** (expanded from 34)
 - **CI**: GitHub Actions workflow for automated testing
 - **Devnet**: Accessible at `https://next.devnet.aztec-labs.com`
 
@@ -86,7 +93,7 @@ staking/aztec/
 ```bash
 cd staking/aztec/contracts/staking-math-tests
 ~/.nargo/bin/nargo test
-# Expected: 34 tests passed
+# Expected: 56 tests passed
 ```
 
 ### Compile a Contract
@@ -129,11 +136,29 @@ cd ~/aztec-contracts && ~/aztec-bin/nargo compile
 
 ## Next Steps
 
-1. **TASK-105**: Create LiquidStakingCore.nr skeleton
-2. **TASK-106**: Implement deposit() function
-3. **TASK-107**: Implement withdrawal request function
+### Phase 2 Complete! Ready for Integration Testing
+
+1. **TASK-201**: Write Integration Test - Full Deposit Flow
+2. **TASK-202**: Write Integration Test - Withdrawal Flow
+3. **TASK-203**: Write Integration Test - Staking Batch Trigger
+
+### For Local Testing
+
+```bash
+# Install Aztec tools (requires Docker)
+bash -i <(curl -s install.aztec.network)
+aztec-up
+
+# Start local sandbox
+aztec start --sandbox
+
+# Compile contracts
+cd staking/aztec/contracts/liquid-staking-core
+aztec-nargo compile
+```
 
 See [docs/TASKS.md](docs/TASKS.md) for the complete task list.
+See [PROGRESS.md](PROGRESS.md) for detailed development progress.
 
 ## External Resources
 

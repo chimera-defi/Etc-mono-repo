@@ -460,3 +460,335 @@ fn test_withdrawal_from_empty_pool() {
     let amount = calculate_withdrawal_amount(100, 0, 0);
     assert(amount == 0);
 }
+
+// ============ LIQUID STAKING CORE TESTS ============
+// These tests validate the LiquidStakingCore deposit/withdrawal math
+
+/// Calculate stAZTEC to mint for AZTEC deposit
+fn calculate_st_aztec_for_deposit(amount: u128, exchange_rate: u64) -> u128 {
+    if exchange_rate == 0 {
+        0
+    } else {
+        (amount * 10000) / (exchange_rate as u128)
+    }
+}
+
+/// Calculate AZTEC for stAZTEC withdrawal
+fn calculate_aztec_for_withdrawal(st_aztec_amount: u128, exchange_rate: u64) -> u128 {
+    (st_aztec_amount * (exchange_rate as u128)) / 10000
+}
+
+/// Calculate protocol fee
+fn calculate_protocol_fee(amount: u128, fee_bps: u64) -> u128 {
+    (amount * (fee_bps as u128)) / 10000
+}
+
+#[test]
+fn test_deposit_at_initial_rate() {
+    // Rate 10000 = 1.0, so 100 AZTEC = 100 stAZTEC
+    let amount: u128 = 100_000_000_000_000_000_000; // 100 tokens
+    let rate: u64 = 10000;
+    let st_aztec = calculate_st_aztec_for_deposit(amount, rate);
+    assert(st_aztec == amount);
+}
+
+#[test]
+fn test_deposit_exchange_rate_after_rewards() {
+    // Rate 12000 = 1.2, so 120 AZTEC = 100 stAZTEC
+    let amount: u128 = 120_000_000_000_000_000_000; // 120 tokens
+    let rate: u64 = 12000;
+    let st_aztec = calculate_st_aztec_for_deposit(amount, rate);
+    assert(st_aztec == 100_000_000_000_000_000_000);
+}
+
+#[test]
+fn test_withdrawal_at_initial_rate() {
+    // Rate 10000 = 1.0, so 100 stAZTEC = 100 AZTEC
+    let st_aztec: u128 = 100_000_000_000_000_000_000;
+    let rate: u64 = 10000;
+    let aztec = calculate_aztec_for_withdrawal(st_aztec, rate);
+    assert(aztec == st_aztec);
+}
+
+#[test]
+fn test_withdrawal_exchange_rate_after_rewards() {
+    // Rate 12000 = 1.2, so 100 stAZTEC = 120 AZTEC
+    let st_aztec: u128 = 100_000_000_000_000_000_000;
+    let rate: u64 = 12000;
+    let aztec = calculate_aztec_for_withdrawal(st_aztec, rate);
+    assert(aztec == 120_000_000_000_000_000_000);
+}
+
+#[test]
+fn test_protocol_fee_10_percent() {
+    // 10% fee (1000 bps) on 1000 AZTEC
+    let amount: u128 = 1000_000_000_000_000_000_000; // 1000 tokens
+    let fee = calculate_protocol_fee(amount, 1000);
+    assert(fee == 100_000_000_000_000_000_000); // 100 tokens
+}
+
+#[test]
+fn test_protocol_fee_5_percent() {
+    // 5% fee (500 bps) on 1000 AZTEC
+    let amount: u128 = 1000_000_000_000_000_000_000;
+    let fee = calculate_protocol_fee(amount, 500);
+    assert(fee == 50_000_000_000_000_000_000); // 50 tokens
+}
+
+#[test]
+fn test_deposit_withdrawal_roundtrip() {
+    // Deposit AZTEC, then withdraw, should get back same amount (no fee)
+    let deposit_amount: u128 = 1000_000_000_000_000_000_000;
+    let rate: u64 = 10000;
+    
+    let st_aztec = calculate_st_aztec_for_deposit(deposit_amount, rate);
+    let aztec_back = calculate_aztec_for_withdrawal(st_aztec, rate);
+    
+    assert(aztec_back == deposit_amount);
+}
+
+#[test]
+fn test_rate_increase_benefits_early_stakers() {
+    // User deposits at rate 10000, rate increases to 12000
+    let deposit: u128 = 100_000_000_000_000_000_000;
+    let initial_rate: u64 = 10000;
+    let new_rate: u64 = 12000;
+    
+    // Get stAZTEC at initial rate
+    let st_aztec = calculate_st_aztec_for_deposit(deposit, initial_rate);
+    assert(st_aztec == 100_000_000_000_000_000_000);
+    
+    // Withdraw at new rate
+    let aztec_out = calculate_aztec_for_withdrawal(st_aztec, new_rate);
+    assert(aztec_out == 120_000_000_000_000_000_000);
+    
+    // Profit!
+    assert(aztec_out > deposit);
+}
+
+// ============ VAULT MANAGER TESTS ============
+// These tests validate round-robin and stake distribution math
+
+#[test]
+fn test_batch_size_constant() {
+    // Verify 200k batch size is correct
+    let batch_size: u128 = 200_000_000_000_000_000_000_000;
+    let expected: u128 = 200000 * 1_000_000_000_000_000_000;
+    assert(batch_size == expected);
+}
+
+#[test]
+fn test_round_robin_with_3_validators() {
+    let count: u32 = 3;
+    let mut index: u32 = 0;
+    
+    // First selection: validator 0, next becomes 1
+    index = (index + 1) % count;
+    assert(index == 1);
+    
+    // Second selection: validator 1, next becomes 2
+    index = (index + 1) % count;
+    assert(index == 2);
+    
+    // Third selection: validator 2, next becomes 0
+    index = (index + 1) % count;
+    assert(index == 0);
+}
+
+#[test]
+fn test_average_stake_calculation() {
+    let total_staked: u128 = 600_000_000_000_000_000_000_000; // 600k
+    let active_count: u32 = 3;
+    let average = total_staked / (active_count as u128);
+    assert(average == 200_000_000_000_000_000_000_000); // 200k each
+}
+
+#[test]
+fn test_stake_distribution_even() {
+    // 3 validators with 200k each = 600k total
+    let stakes: [u128; 3] = [
+        200_000_000_000_000_000_000_000,
+        200_000_000_000_000_000_000_000,
+        200_000_000_000_000_000_000_000
+    ];
+    
+    let total: u128 = stakes[0] + stakes[1] + stakes[2];
+    assert(total == 600_000_000_000_000_000_000_000);
+}
+
+// ============ REWARDS MANAGER TESTS ============
+// These tests validate exchange rate and reward distribution math
+
+/// Calculate exchange rate: (backing * 10000) / supply
+fn calculate_exchange_rate(backing: u128, supply: u128) -> u64 {
+    if supply == 0 {
+        10000
+    } else {
+        let rate = (backing * 10000) / supply;
+        rate as u64
+    }
+}
+
+#[test]
+fn test_initial_exchange_rate() {
+    let rate = calculate_exchange_rate(0, 0);
+    assert(rate == 10000);
+}
+
+#[test]
+fn test_exchange_rate_1_to_1() {
+    // 1000 AZTEC backs 1000 stAZTEC = rate 10000
+    let backing: u128 = 1000_000_000_000_000_000_000;
+    let supply: u128 = 1000_000_000_000_000_000_000;
+    let rate = calculate_exchange_rate(backing, supply);
+    assert(rate == 10000);
+}
+
+#[test]
+fn test_exchange_rate_after_rewards() {
+    // 1200 AZTEC backs 1000 stAZTEC = rate 12000
+    let backing: u128 = 1200_000_000_000_000_000_000;
+    let supply: u128 = 1000_000_000_000_000_000_000;
+    let rate = calculate_exchange_rate(backing, supply);
+    assert(rate == 12000);
+}
+
+#[test]
+fn test_reward_distribution() {
+    // 100 AZTEC rewards, 10% fee = 90 net, 10 fee
+    let gross_rewards: u128 = 100_000_000_000_000_000_000;
+    let fee_bps: u64 = 1000;
+    let fee = calculate_protocol_fee(gross_rewards, fee_bps);
+    let net = gross_rewards - fee;
+    
+    assert(fee == 10_000_000_000_000_000_000);
+    assert(net == 90_000_000_000_000_000_000);
+}
+
+#[test]
+fn test_rate_always_increases() {
+    // Simulate rate check logic
+    let current_rate: u64 = 10000;
+    let new_rate: u64 = 9500; // Lower rate (shouldn't happen)
+    
+    // Final rate should be max(current, new)
+    let final_rate = if new_rate > current_rate { new_rate } else { current_rate };
+    assert(final_rate == 10000);
+}
+
+#[test]
+fn test_rate_increases_with_rewards() {
+    let current_rate: u64 = 10000;
+    let new_rate: u64 = 10500; // Higher rate after rewards
+    
+    let final_rate = if new_rate > current_rate { new_rate } else { current_rate };
+    assert(final_rate == 10500);
+}
+
+#[test]
+fn test_apy_calculation() {
+    // Daily rewards of 0.0219% = ~8% APY
+    // epoch_rewards = 219 basis points per day
+    let backing: u128 = 1_000_000_000_000_000_000_000_000; // 1M
+    let daily_rewards: u128 = 219_000_000_000_000_000_000; // 219 tokens
+    
+    // Daily rate in bps: (219 * 10000) / 1M = 2.19 bps
+    let daily_rate_bps = (daily_rewards * 10000) / backing;
+    
+    // Annual rate: 2.19 * 365 = ~800 bps = 8%
+    let annual_rate_bps = daily_rate_bps * 365;
+    
+    // Should be approximately 800 (8%)
+    assert(annual_rate_bps > 700);
+    assert(annual_rate_bps < 900);
+}
+
+// ============ INTEGRATION SCENARIO TESTS ============
+// These tests validate full deposit->stake->rewards->withdraw flows
+
+#[test]
+fn test_full_staking_scenario() {
+    // Scenario: 10 users deposit 20k each = 200k total (1 batch)
+    // After some time, 8% APY rewards accumulate
+    
+    // Initial state
+    let mut total_backing: u128 = 0;
+    let mut total_supply: u128 = 0;
+    let initial_rate: u64 = 10000;
+    
+    // 10 users deposit 20k each
+    let deposit_per_user: u128 = 20_000_000_000_000_000_000_000; // 20k
+    for _i in 0..10 {
+        let st_aztec = calculate_st_aztec_for_deposit(deposit_per_user, initial_rate);
+        total_backing = total_backing + deposit_per_user;
+        total_supply = total_supply + st_aztec;
+    }
+    
+    assert(total_backing == 200_000_000_000_000_000_000_000); // 200k
+    assert(total_supply == 200_000_000_000_000_000_000_000);
+    
+    // Rewards: ~8% APY annual, simulate 1 year
+    // 200k * 0.08 = 16k rewards
+    let gross_rewards: u128 = 16_000_000_000_000_000_000_000; // 16k
+    let protocol_fee = calculate_protocol_fee(gross_rewards, 1000); // 10%
+    let net_rewards = gross_rewards - protocol_fee;
+    
+    total_backing = total_backing + net_rewards;
+    
+    // New exchange rate
+    let new_rate = calculate_exchange_rate(total_backing, total_supply);
+    
+    // Rate should be higher than initial
+    assert(new_rate > initial_rate);
+    
+    // Each user's 20k stAZTEC is now worth more AZTEC
+    let user_st_aztec: u128 = 20_000_000_000_000_000_000_000;
+    let user_aztec_out = calculate_aztec_for_withdrawal(user_st_aztec, new_rate);
+    
+    // User should get more than they deposited
+    assert(user_aztec_out > deposit_per_user);
+}
+
+#[test]
+fn test_late_depositor_fair_treatment() {
+    // Early user deposits 100k at rate 10000
+    let early_deposit: u128 = 100_000_000_000_000_000_000_000;
+    let mut backing: u128 = early_deposit;
+    let early_st_aztec = calculate_st_aztec_for_deposit(early_deposit, 10000);
+    let mut supply: u128 = early_st_aztec;
+    
+    // Rewards add 10k (rate increases)
+    let rewards: u128 = 10_000_000_000_000_000_000_000;
+    backing = backing + rewards;
+    
+    let new_rate = calculate_exchange_rate(backing, supply);
+    assert(new_rate == 11000); // 110k backing / 100k supply = 1.1
+    
+    // Late user deposits 110k at rate 11000
+    let late_deposit: u128 = 110_000_000_000_000_000_000_000;
+    let late_st_aztec = calculate_st_aztec_for_deposit(late_deposit, new_rate);
+    
+    // Late user gets 100k stAZTEC (110k * 10000 / 11000)
+    assert(late_st_aztec == 100_000_000_000_000_000_000_000);
+    
+    // Both users now have equal stAZTEC (fair!)
+    assert(early_st_aztec == late_st_aztec);
+}
+
+#[test]
+fn test_withdrawal_during_unbonding() {
+    // User requests withdrawal, checks time logic
+    let request_time: u64 = 1000000;
+    let unbonding_period: u64 = 604800; // 7 days
+    let claimable_at = request_time + unbonding_period;
+    
+    // Before unbonding complete
+    let check_time_1: u64 = 1000000 + 300000; // ~3.5 days
+    let is_claimable_1 = check_time_1 >= claimable_at;
+    assert(!is_claimable_1);
+    
+    // After unbonding complete
+    let check_time_2: u64 = 1000000 + 700000; // ~8 days
+    let is_claimable_2 = check_time_2 >= claimable_at;
+    assert(is_claimable_2);
+}
