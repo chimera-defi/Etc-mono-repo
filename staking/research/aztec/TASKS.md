@@ -634,62 +634,56 @@ struct Storage<Context> {
 
 ---
 
-### TASK-106: Implement LiquidStakingCore.nr Deposit Function
+### TASK-106: Implement LiquidStakingCore.nr Deposit Function (Real Token Transfer)
 **Status:** 🔴 Not Started
 **Estimated Time:** 8 hours
 **Priority:** Critical
 **Depends On:** TASK-105
 
-**Context:** Implement deposit logic that accepts AZTEC and mints stAZTEC.
+**Context:** Implement deposit logic that accepts AZTEC and mints stAZTEC. **CRITICAL:** The current contract has TODO stubs for token transfers. You must implement the actual Aztec Token interface call.
 
 **Deliverables:**
-- [ ] `deposit(amount: u128)` function
-- [ ] Exchange rate calculation
-- [ ] Call StakedAztecToken.mint()
-- [ ] Pool accounting updates
-- [ ] Event emission for bot monitoring
-- [ ] Unit and integration tests
+- [ ] Define `Token` interface trait at top of `main.nr` (if not importing from a library).
+- [ ] `deposit(amount: u128)` function calling `Token.transfer_from()`.
+- [ ] Exchange rate calculation.
+- [ ] Call StakedAztecToken.mint().
+- [ ] Pool accounting updates.
+- [ ] Event emission for bot monitoring.
+- [ ] Unit and integration tests.
 
 **Acceptance Criteria:**
-- Accepts any amount of AZTEC (no minimum)
-- Calculates correct stAZTEC amount based on exchange rate
-- Calls StakedAztecToken.mint() with correct amount
-- Updates pending_pool and total_deposited
-- Emits DepositProcessed event
-- If pool >= 200k, emits StakingNeeded event
-- Tests cover: first deposit (rate=1.0), deposit with rate>1.0, large deposit
+- Accepts any amount of AZTEC (no minimum).
+- **Actually moves funds** from `msg_sender` to `this_address` (verifiable in integration test).
+- Calculates correct stAZTEC amount based on exchange rate.
+- Calls StakedAztecToken.mint() with correct amount.
+- Updates pending_pool and total_deposited.
+- Emits DepositProcessed event.
+
+**Implementation Details:**
+You likely need to define a trait for the external Token contract if standard libs aren't available:
+```noir
+// Interface for standard Aztec Token
+trait Token {
+    fn transfer_in_public(from: AztecAddress, to: AztecAddress, amount: u128, nonce: Field);
+    fn transfer_public(to: AztecAddress, amount: u128, nonce: Field);
+}
+```
+Then use it in `deposit`:
+```noir
+// Transfer AZTEC from user to pool
+Token::at(staking_token_address).transfer_in_public(
+    context.msg_sender(),
+    context.this_address(),
+    amount,
+    0
+).call(&mut context);
+```
 
 **Implementation:**
 ```noir
 #[public]
 fn deposit(amount: u128) -> u128 {
-    let depositor = context.msg_sender();
-
-    // Transfer AZTEC from user (assumes approval)
-    // TODO: Call AZTEC token transfer
-
-    // Calculate stAZTEC amount
-    let exchange_rate = get_exchange_rate_from_token_contract();
-    let st_aztec_amount = (amount * 10000) / exchange_rate;
-
-    // Mint stAZTEC to user
-    call_staztec_mint(depositor, st_aztec_amount);
-
-    // Update accounting
-    let pool = storage.pending_pool.read();
-    storage.pending_pool.write(pool + amount);
-
-    let deposited = storage.total_deposited.read();
-    storage.total_deposited.write(deposited + amount);
-
-    // Emit events
-    emit_deposit_event(depositor, amount, st_aztec_amount);
-
-    if pool + amount >= 200_000 {
-        emit_staking_needed_event();
-    }
-
-    st_aztec_amount
+    // ... logic ...
 }
 ```
 
@@ -876,6 +870,43 @@ struct Storage<Context> {
 
 ---
 
+### TASK-205: Scaffold Frontend Application (Prototype)
+**Status:** 🔴 Not Started
+**Estimated Time:** 6 hours
+**Priority:** High
+**Depends On:** None (Can start parallel)
+
+**Context:** We need a UI to interact with the contracts. Since contracts are in flux, this task focuses on the *structure* and *mocked interactions* so frontend dev isn't blocked by contract dev.
+
+**Deliverables:**
+- [ ] Initialize Next.js 14 project in `staking/frontend`.
+- [ ] Install Tailwind CSS and ShadcnUI (or similar component library).
+- [ ] Create `StakingCard` component (Tabs: Deposit, Withdraw).
+- [ ] Create `StatsCard` component (TVL, APY, User Balance).
+- [ ] Create `useStakingContract` hook (Mocked initially).
+
+**Acceptance Criteria:**
+- App runs locally (`npm run dev`).
+- "Connect Wallet" button exists (can be a dummy state toggle).
+- User can "Deposit" (simulated delay, then balance updates).
+- Dark mode default.
+- "Liquid Staking" aesthetic (clean, professional).
+
+**Mock Hook Structure:**
+```typescript
+export const useStakingContract = () => {
+  const [balance, setBalance] = useState(0);
+  const deposit = async (amount) => {
+    console.log("Mock deposit:", amount);
+    await new Promise(r => setTimeout(r, 1000));
+    setBalance(prev => prev + amount);
+  };
+  return { balance, deposit };
+};
+```
+
+---
+
 ## Phase 3: Integration & Testing (Week 11-14)
 
 ### TASK-201: Write Integration Test: Full Deposit Flow
@@ -996,46 +1027,42 @@ assert(totalSupply_after === totalSupply_before + mintAmount)
 
 ## Phase 4: Bot Infrastructure (Week 10-16)
 
-### TASK-301: Create Staking Keeper Bot Skeleton
+### TASK-301: Scaffold Bot Infrastructure (Monorepo)
 **Status:** 🔴 Not Started
 **Estimated Time:** 4 hours
-**Priority:** High
-**Depends On:** TASK-106
+**Priority:** Critical
+**Depends On:** None (Can start parallel to contracts)
 
-**Context:** Create bot that monitors pool and triggers staking at 200k threshold.
+**Context:** We need a unified repository for all off-chain bots. This task sets up the project structure so individual bots can be implemented in parallel.
 
 **Deliverables:**
-- [ ] `bots/staking-keeper/src/index.ts` created
-- [ ] Basic event listener for DepositProcessed
-- [ ] Connection to Aztec RPC
-- [ ] Compiles and runs (no-op)
+- [ ] Create `staking/bots` directory.
+- [ ] Initialize TypeScript Monorepo (npm workspaces or turborepo).
+- [ ] Create package structure:
+  - `apps/staking-keeper`
+  - `apps/rewards-keeper`
+  - `apps/withdrawal-keeper`
+  - `apps/monitoring`
+  - `packages/common` (for shared ABIs, types, and Aztec client helpers)
+- [ ] `packages/common/src/abis/StakingPool.json` (placeholder).
+- [ ] `README.md` with "How to Run" instructions (e.g., `docker-compose up`).
 
 **Acceptance Criteria:**
-- Can connect to Aztec testnet RPC
-- Listens for DepositProcessed events
-- Logs events to console
-- No crashes
+- `npm install` works at root.
+- Can import shared types from `packages/common` into `apps/staking-keeper`.
+- Basic "Hello World" log from each bot when run.
+- Dockerfile template for at least one bot.
 
 **Structure:**
-```typescript
-// PSEUDOCODE ONLY:
-// Aztec is not EVM; client libraries and interaction patterns may differ from viem/ethers.
-// Use Aztec’s official SDK/client tooling once selected.
-
-const client = createPublicClient({
-  // chain: <aztec chain config>,
-  // transport: <aztec transport>,
-});
-
-// Listen for deposits
-client.watchContractEvent({
-  address: VAULT_MANAGER_ADDRESS,
-  abi: vaultManagerAbi,
-  eventName: 'DepositProcessed',
-  onLogs: async (logs) => {
-    console.log('Deposit detected:', logs);
-  }
-});
+```text
+staking/bots/
+├── package.json
+├── packages/
+│   └── common/ (Shared ABIs, types)
+└── apps/
+    ├── staking-keeper/
+    ├── rewards-keeper/
+    └── monitoring/
 ```
 
 ---
@@ -1437,36 +1464,25 @@ aztec-cli verify-contract <address> <contract-name>
 
 ---
 
-### TASK-503: Deploy Frontend Application
+### TASK-503: Deploy Frontend Application (Production)
 **Status:** 🔴 Not Started
 **Estimated Time:** 16 hours
 **Priority:** High
-**Depends On:** TASK-501
+**Depends On:** TASK-501, TASK-205
 
-**Context:** Deploy simple deposit/withdraw UI.
+**Context:** Take the scaffolded frontend (TASK-205), connect it to real mainnet contracts, and deploy.
 
 **Deliverables:**
-- [ ] Next.js frontend deployed
-- [ ] Wallet/PXE connection (Aztec-compatible tooling; confirm supported options)
-- [ ] Deposit flow
-- [ ] Withdrawal flow
-- [ ] Portfolio view
-- [ ] Domain: staztec.io or similar
+- [ ] Remove mocks from `useStakingContract`.
+- [ ] Connect to real Aztec PXE/Wallet.
+- [ ] Deploy to Vercel/Netlify.
+- [ ] Domain setup: staztec.io.
 
 **Acceptance Criteria:**
-- Live at production domain
-- Can connect wallet
-- Can deposit AZTEC
-- Can request/claim withdrawal
-- Shows balance and APR
-- SSL configured
-- Analytics integrated
-
-**Tech Stack:**
-- Next.js 14
-- Aztec-compatible wallet/SDK tooling (TBD; avoid assuming EVM libraries)
-- TailwindCSS
-- Vercel deployment
+- Live at production domain.
+- Real wallet connection works.
+- Real mainnet transactions work.
+- SSL/Analytics configured.
 
 ---
 

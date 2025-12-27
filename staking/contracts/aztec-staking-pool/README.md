@@ -70,7 +70,8 @@ aztec deploy StakingPool \
 ## Integration Notes
 
 ### TODO Items in Contract
-1. **Token Transfers**: Currently stubbed. Need to integrate with Aztec token contract:
+1. **CRITICAL: Token Transfers**: Currently stubbed in `main.nr`.
+   - **Action Required:** Implement the `Token` interface trait (see TASKS.md TASK-106) and call `transfer_from` for deposits and `transfer` for withdrawals.
    - `deposit()` needs to pull tokens from caller
    - `withdraw()` needs to send tokens to caller
    - `add_rewards()` needs to receive reward tokens
