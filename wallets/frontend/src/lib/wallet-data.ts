@@ -77,13 +77,21 @@ function parseReleasesPerMonth(cell: string): number | null {
   return match ? parseInt(match[1], 10) : null;
 }
 
-// Parse chains count
-function parseChainsCount(cell: string): number | string {
-  if (cell.toLowerCase().includes('any')) return 'any';
-  if (cell.toLowerCase().includes('evm')) return 'evm';
-  if (cell.toLowerCase().includes('eth')) return 'eth';
-  const match = cell.match(/(\d+)\+?/);
-  return match ? parseInt(match[1], 10) : 0;
+// Parse supported chains from Unicode symbols
+// Symbols: ⟠ (EVM), ₿ (Bitcoin), ◎ (Solana), △ (Move), ⚛ (Cosmos), ● (Polkadot), ⧫ (Starknet), + (Other)
+function parseSupportedChains(cell: string): import('@/types/wallets').SupportedChains {
+  const raw = cell.trim();
+  return {
+    evm: raw.includes('⟠'),
+    bitcoin: raw.includes('₿'),
+    solana: raw.includes('◎'),
+    move: raw.includes('△'),
+    cosmos: raw.includes('⚛'),
+    polkadot: raw.includes('●'),
+    starknet: raw.includes('⧫'),
+    other: raw.includes('+'),
+    raw,
+  };
 }
 
 // Parse license type
@@ -294,7 +302,7 @@ export function parseSoftwareWallets(): SoftwareWallet[] {
       rpc: parsePartial(cells[4] || '') as 'full' | 'partial' | 'none',
       github: extractGitHubUrl(cells[5] || ''),
       active: parseStatus(cells[6] || ''),
-      chains: parseChainsCount(cells[7] || ''),
+      chains: parseSupportedChains(cells[7] || ''),
       devices: parseDevices(cells[8] || ''),
       testnets: parseBoolean(cells[9] || ''),
       license: license.status,

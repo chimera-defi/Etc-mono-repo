@@ -15,9 +15,23 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type { CryptoCard, HardwareWallet, SoftwareWallet, WalletData } from '@/types/wallets';
+import type { CryptoCard, HardwareWallet, SoftwareWallet, SupportedChains, WalletData } from '@/types/wallets';
 
 export type { CryptoCard, HardwareWallet, SoftwareWallet, WalletData };
+
+// Helper function to generate tooltip text for chain support
+function getChainTooltip(chains: SupportedChains): string {
+  const supported: string[] = [];
+  if (chains.evm) supported.push('EVM (Ethereum, Polygon, Arbitrum, etc.)');
+  if (chains.bitcoin) supported.push('Bitcoin');
+  if (chains.solana) supported.push('Solana');
+  if (chains.move) supported.push('Move (Sui, Aptos)');
+  if (chains.cosmos) supported.push('Cosmos ecosystem');
+  if (chains.polkadot) supported.push('Polkadot');
+  if (chains.starknet) supported.push('Starknet');
+  if (chains.other) supported.push('Other chains (TON, XRP, etc.)');
+  return supported.length > 0 ? `Supported: ${supported.join(', ')}` : 'No chain support data';
+}
 
 // Badge component
 function Badge({
@@ -180,8 +194,8 @@ function SoftwareWalletItem({
         <td className="py-3 px-4">
           <DeviceIcons devices={wallet.devices} />
         </td>
-        <td className="py-3 px-4 text-sm">
-          {typeof wallet.chains === 'number' ? wallet.chains : wallet.chains}
+        <td className="py-3 px-4 text-sm" title={getChainTooltip(wallet.chains)}>
+          {wallet.chains.raw}
         </td>
         <td className="py-3 px-4">
           <div className="flex gap-1">
@@ -245,8 +259,8 @@ function SoftwareWalletItem({
 
       <div className="flex items-center gap-4 mb-3">
         <DeviceIcons devices={wallet.devices} />
-        <span className="text-sm text-muted-foreground">
-          {typeof wallet.chains === 'number' ? `${wallet.chains} chains` : wallet.chains}
+        <span className="text-sm text-muted-foreground" title={getChainTooltip(wallet.chains)}>
+          {wallet.chains.raw}
         </span>
       </div>
 
