@@ -52,6 +52,36 @@ Last Updated: December 24, 2025
    - Discrete, assignable tasks with acceptance criteria
    - Includes: local sandbox setup notes + agent prompt templates (kept inline to avoid extra docs)
 
+### Branding & Naming
+
+8. **[NAME_BRAINSTORM.md](./NAME_BRAINSTORM.md)** ⭐
+   - 100+ name ideas organized by category (Aztec mythology, Mexican words, liquid staking patterns)
+   - Comprehensive brainstorming with cultural context
+
+9. **[FINAL_VALIDATION_REPORT.md](./FINAL_VALIDATION_REPORT.md)** ⭐
+   - Complete validation results for top 5 name candidates
+   - Domain availability, social handles, trademark analysis
+   - Final recommendations with scoring matrix
+
+10. **[NAME_VALIDATION.md](./NAME_VALIDATION.md)**
+    - Detailed validation results for all 20 candidates
+    - Domain availability matrix
+    - Logo mockup status
+
+11. **[SOCIAL_HANDLES_RESULTS.md](./SOCIAL_HANDLES_RESULTS.md)**
+    - GitHub, Twitter/X, Discord, Telegram handle verification
+    - Manual check checklists and alternative suggestions
+
+12. **[trademark_search.md](./trademark_search.md)**
+    - Trademark search framework and risk assessment
+    - USPTO, EUIPO, WIPO search terms
+    - Legal considerations and filing strategy
+
+13. **[LOGO_PREVIEW.md](./LOGO_PREVIEW.md)**
+    - Logo design concepts and preview
+    - Usage guidelines and refinement notes
+    - See `logos/` folder for SVG files
+
 ---
 
 ## 🎯 Quick Navigation
@@ -67,6 +97,10 @@ Last Updated: December 24, 2025
 - **Plan development timeline** → Follow IMPLEMENTATION-PLAN.md and TASKS.md
 - **Prepare for fundraising** → Use FUNDRAISING.md
 - **Deep-dive technical architecture** → Study liquid-staking-analysis.md
+- **Choose a name** → Read FINAL_VALIDATION_REPORT.md (top recommendations)
+- **See logo concepts** → Check LOGO_PREVIEW.md and `logos/` folder
+- **Verify social handles** → See SOCIAL_HANDLES_RESULTS.md
+- **Check trademarks** → Review trademark_search.md
 
 ---
 
