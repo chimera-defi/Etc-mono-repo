@@ -33,6 +33,7 @@ App:  "Done! 4 files changed, +127 lines. PR ready."
 |----------|---------|-----------|
 | **[IMPLEMENTATION.md](./IMPLEMENTATION.md)** | **START HERE** - Task breakdown, code samples | 20 min |
 | [ARCHITECTURE.md](./ARCHITECTURE.md) | Complete technical reference | 30 min |
+| [GITHUB_INTEGRATION.md](./GITHUB_INTEGRATION.md) | GitHub workflow automation, auto-archiving | 15 min |
 | [01-business/EXECUTIVE_SUMMARY.md](./01-planning/EXECUTIVE_SUMMARY.md) | Business overview, financials | 10 min |
 | [01-business/RISK_ANALYSIS.md](./01-planning/RISK_ANALYSIS_AND_VIABILITY.md) | Risks, competitor analysis | 20 min |
 | [02-design/UI_WIREFRAMES.md](./04-design/UI_WIREFRAMES.md) | 10 screen mockups | 10 min |
@@ -148,6 +149,7 @@ voice-coding-assistant/
 ├── README.md                 ← You are here
 ├── IMPLEMENTATION.md         ← Task breakdown (START HERE)
 ├── ARCHITECTURE.md           ← Technical reference
+├── GITHUB_INTEGRATION.md     ← GitHub workflow automation
 ├── 01-planning/
 │   ├── EXECUTIVE_SUMMARY.md  ← Business overview
 │   └── RISK_ANALYSIS_AND_VIABILITY.md
