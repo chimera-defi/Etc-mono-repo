@@ -15,6 +15,8 @@ This directory contains all research, planning, and implementation for an Aztec-
 | If you want to... | Go to... |
 |------------------|----------|
 | Understand the opportunity (5 min) | [docs/EXECUTIVE-SUMMARY.md](docs/EXECUTIVE-SUMMARY.md) |
+| **See what's missing (GAP ANALYSIS)** | [docs/STRATEGIC-GAP-ANALYSIS.md](docs/STRATEGIC-GAP-ANALYSIS.md) |
+| **Run parallel agents** | [docs/AGENT-PROMPTS-QUICKREF.md](docs/AGENT-PROMPTS-QUICKREF.md) |
 | Get the numbers | [docs/ECONOMICS.md](docs/ECONOMICS.md) |
 | Validate assumptions | [docs/ASSUMPTIONS.md](docs/ASSUMPTIONS.md) |
 | Plan development | [docs/IMPLEMENTATION-PLAN.md](docs/IMPLEMENTATION-PLAN.md) |
@@ -29,6 +31,8 @@ staking/aztec/
 ├── README.md                   # This file - main index
 ├── docs/                       # Research and planning documentation
 │   ├── EXECUTIVE-SUMMARY.md    # One-page strategic overview
+│   ├── STRATEGIC-GAP-ANALYSIS.md # Gap analysis + parallel agent prompts (NEW)
+│   ├── AGENT-PROMPTS-QUICKREF.md # Copy-paste prompts for agents (NEW)
 │   ├── ASSUMPTIONS.md          # Assumptions registry + competitor tracker + validation log
 │   ├── ECONOMICS.md            # Financial models (source of truth for numbers)
 │   ├── IMPLEMENTATION-PLAN.md  # 6-month build roadmap
