@@ -612,17 +612,43 @@ Post-MVP:   Hybrid model (Free=serverless, Pro=VPS)
 
 ---
 
+## 11. GitHub Integration & Workflow Automation
+
+See **[GITHUB_INTEGRATION.md](./GITHUB_INTEGRATION.md)** for the complete GitHub integration design.
+
+### Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Webhook Events** | React to PR merges, closes, comments in real-time |
+| **Auto-Archiving** | Merged/closed PRs automatically archive agent sessions |
+| **Issue Integration** | Start agents from GitHub Issues, Linear, or Slack |
+| **@cadence Mentions** | Respond to PR comments with follow-up changes |
+| **Status Sync** | Keep issue trackers updated with agent progress |
+
+### Auto-Archive Workflow
+
+```
+PR Merged → Webhook fires → Agent marked "completed" → Moved to Archive
+PR Closed → Webhook fires → Agent marked "closed" → Moved to Archive
+```
+
+This keeps the active agent list clean, showing only in-progress work.
+
+---
+
 ## Related Documents
 
 | Document | Purpose |
 |----------|---------|
 | [README.md](./README.md) | Project overview and navigation |
-| [DEVELOPMENT_KICKOFF.md](./03-development/DEVELOPMENT_KICKOFF.md) | Task breakdown and prompts |
-| [ARCHITECTURE_REVIEW.md](./02-architecture/ARCHITECTURE_REVIEW.md) | Unknown unknowns and gaps |
+| [GITHUB_INTEGRATION.md](./GITHUB_INTEGRATION.md) | GitHub workflow automation |
+| [IMPLEMENTATION.md](./IMPLEMENTATION.md) | Task breakdown and code samples |
+| [UI_WIREFRAMES.md](./04-design/UI_WIREFRAMES.md) | Mobile UI mockups |
 | [RISK_ANALYSIS.md](./01-planning/RISK_ANALYSIS_AND_VIABILITY.md) | Business viability |
 
 ---
 
-**Architecture Version:** 2.0
-**Updated:** December 25, 2025
+**Architecture Version:** 2.1
+**Updated:** December 27, 2025
 **Status:** Ready for Implementation
