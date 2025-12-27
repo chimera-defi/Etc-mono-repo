@@ -1,0 +1,39 @@
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+  <!-- AztecYield Logo -->
+  <defs>
+    <linearGradient id="yieldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00CED1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#228B22;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="200" cy="200" r="180" fill="url(#yieldGradient)" opacity="0.1"/>
+  
+  <!-- Aztec geometric pattern (simplified) -->
+  <g transform="translate(200, 200)">
+    <!-- Central yield symbol (upward arrow) -->
+    <path d="M 0 -80 L -30 20 L -10 20 L -10 60 L 10 60 L 10 20 L 30 20 Z" 
+          fill="url(#goldGradient)" stroke="#000" stroke-width="2"/>
+    
+    <!-- Aztec-inspired geometric border -->
+    <circle cx="0" cy="0" r="120" fill="none" stroke="url(#goldGradient)" stroke-width="3" opacity="0.6"/>
+    <circle cx="0" cy="0" r="100" fill="none" stroke="url(#yieldGradient)" stroke-width="2" opacity="0.4"/>
+    
+    <!-- Decorative Aztec-style corners -->
+    <rect x="-140" y="-140" width="20" height="20" fill="url(#goldGradient)" transform="rotate(45 200 200)"/>
+    <rect x="120" y="-140" width="20" height="20" fill="url(#goldGradient)" transform="rotate(45 200 200)"/>
+    <rect x="-140" y="120" width="20" height="20" fill="url(#goldGradient)" transform="rotate(45 200 200)"/>
+    <rect x="120" y="120" width="20" height="20" fill="url(#goldGradient)" transform="rotate(45 200 200)"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="200" y="320" font-family="Arial, sans-serif" font-size="36" font-weight="bold" 
+        text-anchor="middle" fill="#00CED1">AztecYield</text>
+  <text x="200" y="350" font-family="Arial, sans-serif" font-size="18" 
+        text-anchor="middle" fill="#666">Liquid Staking</text>
+</svg>
