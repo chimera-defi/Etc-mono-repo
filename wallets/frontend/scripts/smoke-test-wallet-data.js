@@ -125,9 +125,9 @@ function run() {
     const chains = rabbyRow[7] || '';
     const license = rabbyRow[10] || '';
     if (!/92/.test(score)) fail(`Rabby score drifted (expected 92-ish), got: "${score}"`);
-    // Chains now uses Unicode symbols: ⟠ (EVM), ₿ (Bitcoin), ◎ (Solana), etc.
-    // Rabby is EVM-only, so it should have ⟠
-    if (!/⟠/.test(chains)) fail(`Rabby chains drifted (expected ⟠ for EVM), got: "${chains}"`);
+    // Chains now uses HTML img tags for chain logos
+    // Rabby is EVM-only, so it should have eth.svg image
+    if (!/eth\.svg/.test(chains) && !/⟠/.test(chains)) fail(`Rabby chains drifted (expected eth.svg or ⟠ for EVM), got: "${chains}"`);
     if (!/mit/i.test(license)) fail(`Rabby license drifted (expected MIT), got: "${license}"`);
     ok('Software wallets table: Rabby spot-check passed');
   }

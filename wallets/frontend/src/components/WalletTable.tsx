@@ -33,6 +33,39 @@ function getChainTooltip(chains: SupportedChains): string {
   return supported.length > 0 ? `Supported: ${supported.join(', ')}` : 'No chain support data';
 }
 
+// Chain icon configuration
+const chainIcons: { key: keyof Omit<SupportedChains, 'raw' | 'other'>; src: string; alt: string }[] = [
+  { key: 'evm', src: '/chains/eth.svg', alt: 'EVM' },
+  { key: 'bitcoin', src: '/chains/btc.svg', alt: 'Bitcoin' },
+  { key: 'solana', src: '/chains/sol.svg', alt: 'Solana' },
+  { key: 'move', src: '/chains/move.svg', alt: 'Move' },
+  { key: 'cosmos', src: '/chains/cosmos.svg', alt: 'Cosmos' },
+  { key: 'polkadot', src: '/chains/polkadot.svg', alt: 'Polkadot' },
+  { key: 'starknet', src: '/chains/starknet.svg', alt: 'Starknet' },
+];
+
+// Component to render chain icons
+function ChainIcons({ chains }: { chains: SupportedChains }) {
+  return (
+    <div className="flex items-center gap-0.5" title={getChainTooltip(chains)}>
+      {chainIcons.map(({ key, src, alt }) => 
+        chains[key] && (
+          <img 
+            key={key}
+            src={src} 
+            alt={alt} 
+            width={16} 
+            height={16} 
+            className="inline-block"
+            title={alt}
+          />
+        )
+      )}
+      {chains.other && <span className="text-xs text-muted-foreground ml-0.5">+</span>}
+    </div>
+  );
+}
+
 // Badge component
 function Badge({
   children,
@@ -194,8 +227,8 @@ function SoftwareWalletItem({
         <td className="py-3 px-4">
           <DeviceIcons devices={wallet.devices} />
         </td>
-        <td className="py-3 px-4 text-sm" title={getChainTooltip(wallet.chains)}>
-          {wallet.chains.raw}
+        <td className="py-3 px-4 text-sm">
+          <ChainIcons chains={wallet.chains} />
         </td>
         <td className="py-3 px-4">
           <div className="flex gap-1">
@@ -259,9 +292,7 @@ function SoftwareWalletItem({
 
       <div className="flex items-center gap-4 mb-3">
         <DeviceIcons devices={wallet.devices} />
-        <span className="text-sm text-muted-foreground" title={getChainTooltip(wallet.chains)}>
-          {wallet.chains.raw}
-        </span>
+        <ChainIcons chains={wallet.chains} />
       </div>
 
       <div className="flex flex-wrap gap-2 mb-3">

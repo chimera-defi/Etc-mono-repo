@@ -77,19 +77,25 @@ function parseReleasesPerMonth(cell: string): number | null {
   return match ? parseInt(match[1], 10) : null;
 }
 
-// Parse supported chains from Unicode symbols
-// Symbols: ⟠ (EVM), ₿ (Bitcoin), ◎ (Solana), △ (Move), ⚛ (Cosmos), ● (Polkadot), ⧫ (Starknet), + (Other)
+// Parse supported chains from HTML img tags or Unicode symbols
+// Images: eth.svg (EVM), btc.svg (Bitcoin), sol.svg (Solana), move.svg (Move), cosmos.svg (Cosmos), polkadot.svg (Polkadot), starknet.svg (Starknet)
+// Footnotes: ¹ ² ³ ⁴ indicate additional chains listed in legend
 function parseSupportedChains(cell: string): import('@/types/wallets').SupportedChains {
   const raw = cell.trim();
+  
+  // Check for image tags (new format) or Unicode symbols (legacy format)
+  const hasImg = (name: string) => raw.includes(`/${name}.`) || raw.includes(`${name}.svg`) || raw.includes(`${name}.png`);
+  
   return {
-    evm: raw.includes('⟠'),
-    bitcoin: raw.includes('₿'),
-    solana: raw.includes('◎'),
-    move: raw.includes('△'),
-    cosmos: raw.includes('⚛'),
-    polkadot: raw.includes('●'),
-    starknet: raw.includes('⧫'),
-    other: raw.includes('+'),
+    evm: hasImg('eth') || raw.includes('⟠'),
+    bitcoin: hasImg('btc') || raw.includes('₿'),
+    solana: hasImg('sol') || raw.includes('◎'),
+    move: hasImg('move') || hasImg('sui') || hasImg('aptos') || raw.includes('△'),
+    cosmos: hasImg('cosmos') || raw.includes('⚛'),
+    polkadot: hasImg('polkadot') || raw.includes('●'),
+    starknet: hasImg('starknet') || raw.includes('⧫'),
+    // Check for footnote markers (¹²³⁴) or explicit "other" chains
+    other: /[¹²³⁴⁵⁶⁷⁸⁹]/.test(raw) || raw.includes('+') || hasImg('ton') || hasImg('xrp') || hasImg('tron'),
     raw,
   };
 }
