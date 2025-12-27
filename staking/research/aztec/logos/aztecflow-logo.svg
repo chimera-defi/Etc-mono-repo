@@ -1,0 +1,58 @@
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+  <!-- AztecFlow Logo - Flow + Aztec Patterns -->
+  <defs>
+    <linearGradient id="flowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00CED1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0066CC;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="goldFlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <circle cx="200" cy="200" r="180" fill="url(#flowGradient)" opacity="0.1"/>
+  
+  <!-- Flow lines (liquidity) -->
+  <g transform="translate(200, 200)">
+    <!-- Flowing curves -->
+    <path d="M -120 -60 Q -60 -80 0 -60 Q 60 -40 120 -60" 
+          fill="none" stroke="url(#flowGradient)" stroke-width="6" stroke-linecap="round"/>
+    <path d="M -120 0 Q -60 -20 0 0 Q 60 20 120 0" 
+          fill="none" stroke="url(#flowGradient)" stroke-width="6" stroke-linecap="round"/>
+    <path d="M -120 60 Q -60 40 0 60 Q 60 80 120 60" 
+          fill="none" stroke="url(#flowGradient)" stroke-width="6" stroke-linecap="round"/>
+    
+    <!-- Flow arrows -->
+    <path d="M 100 -60 L 120 -50 L 110 -60 L 120 -70 Z" fill="url(#goldFlow)"/>
+    <path d="M 100 0 L 120 10 L 110 0 L 120 -10 Z" fill="url(#goldFlow)"/>
+    <path d="M 100 60 L 120 70 L 110 60 L 120 50 Z" fill="url(#goldFlow)"/>
+    
+    <!-- Central Aztec geometric pattern -->
+    <circle cx="0" cy="0" r="40" fill="none" stroke="url(#goldFlow)" stroke-width="4"/>
+    <rect x="-30" y="-30" width="60" height="60" fill="none" stroke="url(#goldFlow)" stroke-width="3" transform="rotate(45 200 200)"/>
+    
+    <!-- Staking symbol -->
+    <circle cx="0" cy="0" r="15" fill="url(#goldFlow)" stroke="#000" stroke-width="2"/>
+  </g>
+  
+  <!-- Aztec border pattern -->
+  <g transform="translate(200, 200)">
+    <circle cx="0" cy="0" r="130" fill="none" stroke="url(#flowGradient)" stroke-width="2" opacity="0.5"/>
+    
+    <!-- Corner decorations -->
+    <g transform="rotate(45)">
+      <rect x="-140" y="-10" width="20" height="20" fill="url(#goldFlow)" opacity="0.6"/>
+      <rect x="120" y="-10" width="20" height="20" fill="url(#goldFlow)" opacity="0.6"/>
+      <rect x="-140" y="-10" width="20" height="20" fill="url(#goldFlow)" opacity="0.6" transform="rotate(180 200 200)"/>
+      <rect x="120" y="-10" width="20" height="20" fill="url(#goldFlow)" opacity="0.6" transform="rotate(180 200 200)"/>
+    </g>
+  </g>
+  
+  <!-- Text -->
+  <text x="200" y="320" font-family="Arial, sans-serif" font-size="32" font-weight="bold" 
+        text-anchor="middle" fill="#00CED1">AztecFlow</text>
+  <text x="200" y="350" font-family="Arial, sans-serif" font-size="18" 
+        text-anchor="middle" fill="#666">Liquid Staking</text>
+</svg>
