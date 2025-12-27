@@ -1,8 +1,8 @@
 # Agent Handoff: Aztec Staking Pool Development
 
 **Created:** 2025-12-27
-**Previous Session:** cursor/aztec-staking-smoke-tests-1559
-**Status:** Environment verified, ready for contract development
+**Previous Session:** cursor/aztec-staking-protocol-development-5e3b
+**Status:** Core contracts implemented, ready for LiquidStakingCore integration
 
 ---
 
@@ -15,49 +15,57 @@ Continue development on the Aztec liquid staking pool smart contracts.
 
 **Current State:**
 - Environment is set up with nargo (1.0.0-beta.17) and aztec-nargo (1.0.0-beta.11+aztec)
-- Base staking pool contract compiles successfully (759KB artifact)
-- 20 staking math unit tests passing
+- 4 contracts compiled and verified:
+  - StakingPool (base contract): 760KB, 19 functions
+  - StakedAztecToken: 778KB, 16 functions
+  - WithdrawalQueue: 824KB, 19 functions
+  - ValidatorRegistry: 838KB, 23 functions
+- 34 staking math unit tests passing
 - Devnet accessible at https://next.devnet.aztec-labs.com
 
 **Your Tasks:**
-1. First, run the smoke test to verify environment: 
-   `/workspace/staking/contracts/aztec-staking-pool/scripts/smoke-test.sh`
+1. First, run verification:
+   - cd /workspace/staking/contracts/staking-math-tests && ~/.nargo/bin/nargo test
+   - Expected: 34 tests passed
 
-2. Review the existing contract at `staking/contracts/aztec-staking-pool/src/main.nr`
+2. Review existing contracts:
+   - staking/contracts/staked-aztec-token/src/main.nr
+   - staking/contracts/withdrawal-queue/src/main.nr
+   - staking/contracts/validator-registry/src/main.nr
 
-3. Based on TASKS.md, scaffold out the remaining contracts:
-   - StakedAztecToken.nr (ERC20-like liquid staking token)
-   - WithdrawalQueue.nr (FIFO withdrawal queue with unbonding)
-   - ValidatorRegistry.nr (validator tracking)
+3. Implement TASK-105: LiquidStakingCore.nr
+   - Main entry point that integrates all other contracts
+   - deposit() - accepts AZTEC, mints stAZTEC
+   - request_withdrawal() - burns stAZTEC, queues withdrawal
 
-4. Write unit tests for each new contract in staking-math-tests/
+4. Write integration tests for the full flow
 
 **Key Files:**
-- Contract: staking/contracts/aztec-staking-pool/src/main.nr
+- Contracts: staking/contracts/*/src/main.nr
 - Tests: staking/contracts/staking-math-tests/src/main.nr
 - Tasks: staking/research/aztec/TASKS.md
 - Setup Guide: staking/contracts/aztec-staking-pool/QUICKSTART.md
 
 **Important Notes:**
-- Aztec-nargo requires working directory under $HOME - copy contracts to ~/aztec-contracts
+- Aztec-nargo requires working directory under $HOME - copy contracts before compiling
 - Use extracted nargo at ~/aztec-bin/nargo for compilation
 - Dependencies are cached at ~/nargo/github.com/AztecProtocol/aztec-packages/v2.1.9/
+- Noir doesn't support || operator - use | for boolean OR (e.g., is_admin | is_manager)
+- Noir doesn't support early return - restructure logic to avoid return statements
+- No non-ASCII characters in comments (use -> instead of →)
 ```
 
 ---
 
 ## 📋 Pre-Flight Checklist
 
-Before starting development, the next agent should verify the environment:
+Before starting development, verify the environment:
 
 ### Step 1: Verify Tooling
 
 ```bash
-# Set up PATH
-export PATH="$HOME/.nargo/bin:$HOME/aztec-bin:$PATH"
-
 # Check standard nargo (for unit tests)
-nargo --version
+~/.nargo/bin/nargo --version
 # Expected: nargo version = 1.0.0-beta.17
 
 # Check aztec-nargo (for contract compilation)
@@ -65,131 +73,102 @@ nargo --version
 # Expected: Contains "+aztec" in version string
 ```
 
-### Step 2: Run Smoke Test
-
-```bash
-/workspace/staking/contracts/aztec-staking-pool/scripts/smoke-test.sh
-```
-
-Expected output:
-- ✅ Standard nargo found
-- ✅ Aztec nargo found
-- ✅ Staking math tests: 20 tests passed
-- ✅ Contract artifact exists
-- ✅ Devnet reachable
-
-### Step 3: Run Unit Tests
+### Step 2: Run Unit Tests
 
 ```bash
 cd /workspace/staking/contracts/staking-math-tests
-nargo test
-# Expected: 20 tests passed
+~/.nargo/bin/nargo test
+# Expected: 34 tests passed
 ```
 
-### Step 4: Verify Contract Compilation
+### Step 3: Verify Contract Compilation
 
 ```bash
-# Copy to home directory (required for aztec-nargo)
-cp -r /workspace/staking/contracts/aztec-staking-pool ~/aztec-contracts
-
-# Compile
-cd ~/aztec-contracts
-~/aztec-bin/nargo compile
-
-# Verify artifact
-ls -la target/staking_pool-StakingPool.json
-# Expected: ~759KB file
+# Copy and compile any contract
+cp -r /workspace/staking/contracts/staked-aztec-token ~/staked-aztec-token
+cd ~/staked-aztec-token && ~/aztec-bin/nargo compile
+ls -la target/*.json
+# Expected: ~778KB artifact
 ```
 
 ---
 
-## 🏗️ Contract Scaffolding Instructions
-
-### Current Architecture
-
-The existing `StakingPool` contract at `aztec-staking-pool/src/main.nr` is a **monolithic implementation** that combines:
-- Deposit/withdrawal logic
-- Share accounting
-- Fee management
-- Admin controls
-
-### Target Architecture (per TASKS.md)
-
-The production system should have **6 separate contracts**:
+## 🏗️ Current Contract Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    Contract Architecture                     │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  ┌─────────────────┐     ┌──────────────────┐              │
-│  │ StakedAztecToken│     │ LiquidStakingCore│              │
-│  │   (stAZTEC)     │◄────│   (Entry Point)  │              │
-│  │                 │     │                  │              │
-│  │ - balances      │     │ - deposit()      │              │
-│  │ - transfer()    │     │ - withdraw()     │              │
-│  │ - mint/burn     │     │ - accounting     │              │
-│  └─────────────────┘     └────────┬─────────┘              │
-│                                   │                         │
-│         ┌─────────────────────────┼─────────────────┐      │
-│         ▼                         ▼                 ▼      │
-│  ┌─────────────┐    ┌──────────────────┐  ┌─────────────┐  │
-│  │VaultManager │    │ WithdrawalQueue  │  │RewardsManager│  │
-│  │             │    │                  │  │             │  │
-│  │- validators │    │ - FIFO queue     │  │- claim()    │  │
-│  │- batching   │    │ - unbonding      │  │- distribute │  │
-│  │- 200k pools │    │ - 7-day period   │  │- fees       │  │
-│  └─────────────┘    └──────────────────┘  └─────────────┘  │
-│         │                                                   │
-│         ▼                                                   │
-│  ┌─────────────────┐                                       │
-│  │ValidatorRegistry│                                       │
-│  │                 │                                       │
-│  │ - add/remove    │                                       │
-│  │ - status track  │                                       │
-│  │ - slashing      │                                       │
-│  └─────────────────┘                                       │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│                    Contract Status                               │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌─────────────────┐     ┌──────────────────┐                  │
+│  │ StakedAztecToken│     │ LiquidStakingCore│                  │
+│  │   ✅ COMPLETE   │◄────│   ⏳ TODO        │                  │
+│  │   778KB, 16 fn  │     │   (TASK-105)     │                  │
+│  │                 │     │                  │                  │
+│  │ - mint/burn     │     │ - deposit()      │                  │
+│  │ - transfer()    │     │ - withdraw()     │                  │
+│  │ - exchange_rate │     │ - accounting     │                  │
+│  └─────────────────┘     └────────┬─────────┘                  │
+│                                   │                             │
+│         ┌─────────────────────────┼─────────────────┐          │
+│         ▼                         ▼                 ▼          │
+│  ┌─────────────┐    ┌──────────────────┐  ┌─────────────┐      │
+│  │VaultManager │    │ WithdrawalQueue  │  │RewardsManager│      │
+│  │  ⏳ TODO    │    │   ✅ COMPLETE    │  │  ⏳ TODO    │      │
+│  │ (TASK-108)  │    │   824KB, 19 fn   │  │ (TASK-109)  │      │
+│  │             │    │                  │  │             │      │
+│  │- validators │    │ - FIFO queue     │  │- claim()    │      │
+│  │- batching   │    │ - unbonding      │  │- distribute │      │
+│  │- 200k pools │    │ - 7-day period   │  │- fees       │      │
+│  └─────────────┘    └──────────────────┘  └─────────────┘      │
+│         │                                                       │
+│         ▼                                                       │
+│  ┌─────────────────┐                                           │
+│  │ValidatorRegistry│                                           │
+│  │   ✅ COMPLETE   │                                           │
+│  │   838KB, 23 fn  │                                           │
+│  │                 │                                           │
+│  │ - add/remove    │                                           │
+│  │ - status track  │                                           │
+│  │ - slashing      │                                           │
+│  └─────────────────┘                                           │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
-### Scaffolding Order (by dependency)
+### Completed Contracts
 
-1. **StakedAztecToken.nr** (TASK-101 to TASK-104)
-   - No dependencies
-   - ERC20-like token with mint/burn restricted to LiquidStakingCore
+| Contract | Location | Size | Functions |
+|----------|----------|------|-----------|
+| StakingPool (base) | `aztec-staking-pool/` | 760KB | 19 |
+| StakedAztecToken | `staked-aztec-token/` | 778KB | 16 |
+| WithdrawalQueue | `withdrawal-queue/` | 824KB | 19 |
+| ValidatorRegistry | `validator-registry/` | 838KB | 23 |
 
-2. **ValidatorRegistry.nr** (TASK-111)
-   - No dependencies
-   - Track validator addresses and status
+### Next Contracts to Implement
 
-3. **VaultManager.nr** (TASK-108)
-   - Depends on: ValidatorRegistry
-   - Pool management and batch staking
-
-4. **WithdrawalQueue.nr** (TASK-110)
-   - No dependencies
-   - FIFO queue with unbonding period tracking
-
-5. **RewardsManager.nr** (TASK-109)
-   - Depends on: StakedAztecToken
-   - Rewards collection and exchange rate updates
-
-6. **LiquidStakingCore.nr** (TASK-105 to TASK-107)
-   - Depends on: All above contracts
+1. **LiquidStakingCore.nr** (TASK-105 to TASK-107)
    - Main entry point for users
+   - Integrates all other contracts
+   
+2. **VaultManager.nr** (TASK-108)
+   - 200k batch pooling
+   - Round-robin validator selection
+
+3. **RewardsManager.nr** (TASK-109)
+   - Rewards collection
+   - Exchange rate updates
 
 ---
 
 ## 📝 Contract Templates
 
-### Template: StakedAztecToken.nr
+### Template: LiquidStakingCore.nr
 
 ```noir
-// staking/contracts/aztec-staking-pool/src/staked_aztec_token.nr
 use dep::aztec::macros::aztec;
 
 #[aztec]
-pub contract StakedAztecToken {
+pub contract LiquidStakingCore {
     use dep::aztec::protocol_types::address::AztecAddress;
     use dep::aztec::state_vars::{Map, PublicMutable};
     use dep::aztec::macros::{
@@ -199,68 +178,51 @@ pub contract StakedAztecToken {
 
     #[storage]
     struct Storage<Context> {
-        balances: Map<AztecAddress, PublicMutable<u128, Context>, Context>,
-        total_supply: PublicMutable<u128, Context>,
-        exchange_rate: PublicMutable<u64, Context>,  // Basis points (10000 = 1.0)
+        total_deposited: PublicMutable<u128, Context>,
+        pending_pool: PublicMutable<u128, Context>,
         
-        // Access control
-        liquid_staking_core: PublicMutable<AztecAddress, Context>,
-        rewards_manager: PublicMutable<AztecAddress, Context>,
+        // Contract references
+        staked_aztec_token: PublicMutable<AztecAddress, Context>,
+        withdrawal_queue: PublicMutable<AztecAddress, Context>,
+        validator_registry: PublicMutable<AztecAddress, Context>,
+        
         admin: PublicMutable<AztecAddress, Context>,
+        paused: PublicMutable<bool, Context>,
     }
 
     #[public]
     #[initializer]
-    fn constructor(admin: AztecAddress) {
-        storage.admin.write(admin);
-        storage.total_supply.write(0);
-        storage.exchange_rate.write(10000);  // 1.0 initial rate
+    fn constructor(admin_: AztecAddress) {
+        storage.admin.write(admin_);
+        storage.total_deposited.write(0);
+        storage.pending_pool.write(0);
+        storage.paused.write(false);
     }
 
-    // TODO: Implement mint(), burn(), transfer(), set_exchange_rate()
-    // See TASK-102, TASK-103, TASK-104 in TASKS.md
-}
-```
-
-### Template: WithdrawalQueue.nr
-
-```noir
-// staking/contracts/aztec-staking-pool/src/withdrawal_queue.nr
-use dep::aztec::macros::aztec;
-
-#[aztec]
-pub contract WithdrawalQueue {
-    use dep::aztec::protocol_types::address::AztecAddress;
-    use dep::aztec::state_vars::PublicMutable;
-    use dep::aztec::macros::{
-        functions::{initializer, public, view},
-        storage::storage,
-    };
-
-    // Fixed-size queue (Noir doesn't have dynamic arrays)
-    global MAX_QUEUE_SIZE: u64 = 10000;
-    global UNBONDING_PERIOD: u64 = 604800;  // 7 days in seconds
-
-    #[storage]
-    struct Storage<Context> {
-        // Queue pointers
-        queue_head: PublicMutable<u64, Context>,
-        queue_tail: PublicMutable<u64, Context>,
-        next_request_id: PublicMutable<u64, Context>,
+    #[public]
+    fn deposit(amount: u128) -> pub u128 {
+        assert(!storage.paused.read(), "Contract is paused");
+        assert(amount > 0, "Amount must be positive");
         
-        // Request data (indexed by request_id)
-        request_user: Map<u64, PublicMutable<AztecAddress, Context>, Context>,
-        request_amount: Map<u64, PublicMutable<u128, Context>, Context>,
-        request_timestamp: Map<u64, PublicMutable<u64, Context>, Context>,
-        request_fulfilled: Map<u64, PublicMutable<bool, Context>, Context>,
+        // TODO: Get exchange rate from StakedAztecToken
+        // TODO: Calculate stAZTEC to mint
+        // TODO: Call StakedAztecToken.mint()
+        // TODO: Update accounting
         
-        // Access control
-        liquid_staking_core: PublicMutable<AztecAddress, Context>,
-        admin: PublicMutable<AztecAddress, Context>,
+        0 // Return stAZTEC minted
     }
 
-    // TODO: Implement add_request(), process_withdrawals(), check_status()
-    // See TASK-110 in TASKS.md
+    #[public]
+    fn request_withdrawal(st_aztec_amount: u128) -> pub u64 {
+        assert(!storage.paused.read(), "Contract is paused");
+        assert(st_aztec_amount > 0, "Amount must be positive");
+        
+        // TODO: Call StakedAztecToken.burn()
+        // TODO: Calculate AZTEC amount
+        // TODO: Call WithdrawalQueue.add_request()
+        
+        0 // Return request ID
+    }
 }
 ```
 
@@ -268,56 +230,37 @@ pub contract WithdrawalQueue {
 
 ## 🧪 Testing Instructions
 
-### Adding Unit Tests
-
-Unit tests go in `staking-math-tests/src/main.nr`. This uses **standard Noir** (not Aztec-specific), so tests run fast without Docker.
-
-```noir
-// Add to staking-math-tests/src/main.nr
-
-// ============ NEW TEST FUNCTIONS ============
-
-#[test]
-fn test_exchange_rate_calculation() {
-    // Test that exchange rate correctly converts AZTEC to stAZTEC
-    let aztec_amount: u128 = 1000;
-    let exchange_rate: u64 = 12000;  // 1.2 (20% appreciation)
-    
-    // stAZTEC = AZTEC * 10000 / exchange_rate
-    let st_aztec = (aztec_amount * 10000) / (exchange_rate as u128);
-    assert(st_aztec == 833);  // 1000 / 1.2 = 833.33
-}
-
-#[test]
-fn test_withdrawal_queue_fifo() {
-    // Test FIFO ordering
-    // ... implement test
-}
-```
-
-### Running Tests
+### Running Unit Tests
 
 ```bash
-# Run all unit tests
 cd /workspace/staking/contracts/staking-math-tests
-nargo test
+~/.nargo/bin/nargo test
+# Expected: 34 tests passed
+```
 
-# Run specific test
-nargo test --exact test_exchange_rate_calculation
+### Adding New Tests
+
+Add to `staking-math-tests/src/main.nr`:
+
+```noir
+#[test]
+fn test_my_new_function() {
+    // Test implementation
+    assert(1 + 1 == 2);
+}
 ```
 
 ### Compiling Aztec Contracts
 
 ```bash
-# Copy updated contracts to home directory
-cp -r /workspace/staking/contracts/aztec-staking-pool ~/aztec-contracts
+# Copy to home directory (required for aztec-nargo)
+cp -r /workspace/staking/contracts/my-contract ~/my-contract
 
 # Compile
-cd ~/aztec-contracts
-~/aztec-bin/nargo compile
+cd ~/my-contract && ~/aztec-bin/nargo compile
 
-# Check for errors
-cat target/staking_pool-StakingPool.json | python3 -c "import sys,json; d=json.load(sys.stdin); print(f'Functions: {len(d[\"functions\"])}')"
+# Verify artifact
+ls -la target/*.json
 ```
 
 ---
@@ -326,13 +269,12 @@ cat target/staking_pool-StakingPool.json | python3 -c "import sys,json; d=json.l
 
 | Resource | Location |
 |----------|----------|
-| Main contract | `staking/contracts/aztec-staking-pool/src/main.nr` |
-| Math functions | `staking/contracts/aztec-staking-pool/src/staking_math.nr` |
+| StakedAztecToken | `staking/contracts/staked-aztec-token/src/main.nr` |
+| WithdrawalQueue | `staking/contracts/withdrawal-queue/src/main.nr` |
+| ValidatorRegistry | `staking/contracts/validator-registry/src/main.nr` |
 | Unit tests | `staking/contracts/staking-math-tests/src/main.nr` |
 | Task breakdown | `staking/research/aztec/TASKS.md` |
 | Architecture spec | `staking/research/aztec/liquid-staking-analysis.md` |
-| Assumptions | `staking/research/aztec/ASSUMPTIONS.md` |
-| Quick setup | `staking/contracts/aztec-staking-pool/QUICKSTART.md` |
 
 ### External Documentation
 
@@ -350,19 +292,24 @@ cat target/staking_pool-StakingPool.json | python3 -c "import sys,json; d=json.l
 
 ### Issue 2: "Due to how we containerize our applications..."
 **Cause:** aztec-nargo requires working directory under $HOME
-**Solution:** Copy contracts to `~/aztec-contracts` before compiling
+**Solution:** Copy contracts to `~/contract-name` before compiling
 
-### Issue 3: Docker daemon won't start
-**Cause:** Restricted cloud environment
-**Solution:** 
-```bash
-sudo dockerd --storage-driver=vfs --data-root=/tmp/docker-data \
-    --host unix:///var/run/docker.sock --bridge=none --iptables=false &
+### Issue 3: Boolean OR operator
+**Cause:** Noir doesn't support `||` for boolean OR
+**Solution:** Use bitwise OR `|` with boolean variables:
+```noir
+let is_admin = caller == admin;
+let is_manager = caller == manager;
+assert(is_admin | is_manager, "Unauthorized");
 ```
 
-### Issue 4: "dump_bash_state: command not found"
-**Cause:** Shell environment artifact (harmless)
-**Solution:** Ignore - doesn't affect functionality
+### Issue 4: Early return statements
+**Cause:** Noir doesn't support `return` in the middle of functions
+**Solution:** Restructure logic to avoid early returns
+
+### Issue 5: Non-ASCII characters
+**Cause:** Noir only supports ASCII in comments
+**Solution:** Use `->` instead of `→`, avoid emojis
 
 ---
 
@@ -370,21 +317,26 @@ sudo dockerd --storage-driver=vfs --data-root=/tmp/docker-data \
 
 For each new contract:
 
-1. [ ] Contract compiles with `aztec-nargo compile`
-2. [ ] All pure functions have unit tests in `staking-math-tests/`
-3. [ ] Unit tests pass: `nargo test`
-4. [ ] Contract artifact is valid JSON
-5. [ ] Functions documented with comments
-6. [ ] TASKS.md updated with completion status
+1. [x] Contract compiles with `aztec-nargo compile`
+2. [x] All pure functions have unit tests in `staking-math-tests/`
+3. [x] Unit tests pass: `nargo test`
+4. [x] Contract artifact is valid JSON
+5. [x] Functions documented with comments
+6. [x] TASKS.md updated with completion status
 
 ---
 
 ## 🎯 Recommended Next Steps
 
-1. **Run smoke test** to verify environment still works
-2. **Review TASKS.md** for detailed task specifications
-3. **Start with TASK-101** (StakedAztecToken skeleton)
-4. **Add unit tests** as you implement each function
+1. **Implement TASK-105** (LiquidStakingCore skeleton)
+2. **Implement TASK-106** (deposit function with cross-contract calls)
+3. **Implement TASK-107** (withdrawal request function)
+4. **Write integration tests** for full deposit → withdraw flow
 5. **Update TASKS.md** as you complete each task
 
 Good luck! 🚀
+
+---
+
+**Last Updated:** 2025-12-27
+**Session:** cursor/aztec-staking-protocol-development-5e3b

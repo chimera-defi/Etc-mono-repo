@@ -233,6 +233,189 @@ fn test_late_depositor_gets_fewer_shares() {
     assert(shares_b == 666); // integer division
 }
 
+// ============ EXCHANGE RATE CONVERSION TESTS ============
+// These tests validate the stAZTEC <-> AZTEC conversion math
+
+#[test]
+fn test_convert_to_aztec_at_1_to_1() {
+    // Rate 10000 = 1.0, so 100 stAZTEC = 100 AZTEC
+    let st_aztec: u128 = 100;
+    let rate: u64 = 10000;
+    let aztec = (st_aztec * (rate as u128)) / 10000;
+    assert(aztec == 100);
+}
+
+#[test]
+fn test_convert_to_aztec_after_rewards() {
+    // Rate 12000 = 1.2, so 100 stAZTEC = 120 AZTEC
+    let st_aztec: u128 = 100;
+    let rate: u64 = 12000;
+    let aztec = (st_aztec * (rate as u128)) / 10000;
+    assert(aztec == 120);
+}
+
+#[test]
+fn test_convert_to_st_aztec_at_1_to_1() {
+    // Rate 10000 = 1.0, so 100 AZTEC = 100 stAZTEC
+    let aztec: u128 = 100;
+    let rate: u64 = 10000;
+    let st_aztec = (aztec * 10000) / (rate as u128);
+    assert(st_aztec == 100);
+}
+
+#[test]
+fn test_convert_to_st_aztec_after_rewards() {
+    // Rate 12000 = 1.2, so 120 AZTEC = 100 stAZTEC
+    let aztec: u128 = 120;
+    let rate: u64 = 12000;
+    let st_aztec = (aztec * 10000) / (rate as u128);
+    assert(st_aztec == 100);
+}
+
+#[test]
+fn test_exchange_rate_roundtrip() {
+    // Convert AZTEC -> stAZTEC -> AZTEC should preserve value (within rounding)
+    let original_aztec: u128 = 1000;
+    let rate: u64 = 10500;  // 1.05 ratio
+    
+    // Convert to stAZTEC
+    let st_aztec = (original_aztec * 10000) / (rate as u128);
+    // st_aztec = 1000 * 10000 / 10500 = 952
+    
+    // Convert back to AZTEC
+    let final_aztec = (st_aztec * (rate as u128)) / 10000;
+    // final_aztec = 952 * 10500 / 10000 = 999 (rounding loss)
+    
+    // Should be within 1% due to integer division
+    assert(final_aztec <= original_aztec);
+    assert(final_aztec >= original_aztec - 10);  // Max 1% loss
+}
+
+// ============ WITHDRAWAL QUEUE MATH TESTS ============
+// These tests validate withdrawal queue timing calculations
+
+/// Calculate if a request is claimable
+fn is_request_claimable(
+    request_timestamp: u64,
+    current_timestamp: u64,
+    unbonding_period: u64
+) -> bool {
+    current_timestamp >= request_timestamp + unbonding_period
+}
+
+/// Calculate time remaining until claimable
+fn time_until_claimable(
+    request_timestamp: u64,
+    current_timestamp: u64,
+    unbonding_period: u64
+) -> u64 {
+    let claimable_at = request_timestamp + unbonding_period;
+    if current_timestamp >= claimable_at {
+        0
+    } else {
+        claimable_at - current_timestamp
+    }
+}
+
+#[test]
+fn test_withdrawal_not_claimable_immediately() {
+    let request_time: u64 = 1000;
+    let current_time: u64 = 1000;
+    let unbonding: u64 = 604800;  // 7 days
+    
+    assert(!is_request_claimable(request_time, current_time, unbonding));
+}
+
+#[test]
+fn test_withdrawal_not_claimable_during_unbonding() {
+    let request_time: u64 = 1000;
+    let current_time: u64 = 500000;  // ~5.7 days later
+    let unbonding: u64 = 604800;  // 7 days
+    
+    assert(!is_request_claimable(request_time, current_time, unbonding));
+}
+
+#[test]
+fn test_withdrawal_claimable_after_unbonding() {
+    let request_time: u64 = 1000;
+    let current_time: u64 = 605801;  // Just past 7 days
+    let unbonding: u64 = 604800;
+    
+    assert(is_request_claimable(request_time, current_time, unbonding));
+}
+
+#[test]
+fn test_withdrawal_claimable_exactly_at_unbonding() {
+    let request_time: u64 = 1000;
+    let unbonding: u64 = 604800;
+    let current_time: u64 = request_time + unbonding;  // Exactly at unbonding
+    
+    assert(is_request_claimable(request_time, current_time, unbonding));
+}
+
+#[test]
+fn test_time_until_claimable_during_unbonding() {
+    let request_time: u64 = 1000;
+    let current_time: u64 = 100000;
+    let unbonding: u64 = 604800;
+    
+    let remaining = time_until_claimable(request_time, current_time, unbonding);
+    // claimable_at = 1000 + 604800 = 605800
+    // remaining = 605800 - 100000 = 505800
+    assert(remaining == 505800);
+}
+
+#[test]
+fn test_time_until_claimable_after_unbonding() {
+    let request_time: u64 = 1000;
+    let current_time: u64 = 700000;
+    let unbonding: u64 = 604800;
+    
+    let remaining = time_until_claimable(request_time, current_time, unbonding);
+    assert(remaining == 0);
+}
+
+// ============ VALIDATOR SELECTION TESTS ============
+// These tests validate round-robin selection math
+
+/// Simple round-robin index calculation
+fn next_index(current: u32, count: u32) -> u32 {
+    (current + 1) % count
+}
+
+#[test]
+fn test_round_robin_single_validator() {
+    let current: u32 = 0;
+    let count: u32 = 1;
+    
+    let next = next_index(current, count);
+    assert(next == 0);  // Wraps back to 0
+}
+
+#[test]
+fn test_round_robin_multiple_validators() {
+    let count: u32 = 5;
+    
+    assert(next_index(0, count) == 1);
+    assert(next_index(1, count) == 2);
+    assert(next_index(2, count) == 3);
+    assert(next_index(3, count) == 4);
+    assert(next_index(4, count) == 0);  // Wraps
+}
+
+#[test]
+fn test_round_robin_wraparound() {
+    let count: u32 = 3;
+    
+    // Simulate 10 selections
+    let mut index: u32 = 0;
+    for _i in 0..10 {
+        index = next_index(index, count);
+    }
+    // After 10 iterations starting at 0: 1,2,0,1,2,0,1,2,0,1
+    assert(index == 1);
+}
+
 // ============ EDGE CASE TESTS ============
 
 #[test]
