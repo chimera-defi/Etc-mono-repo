@@ -66,8 +66,11 @@ All 7 contracts have been implemented with **full cross-contract call integratio
 | Test Suite | Status | Tests | Notes |
 |------------|--------|-------|-------|
 | staking-math-tests | ✅ Passing | **64** | Core math + integration flow tests |
+| integration (TypeScript) | 🟡 Scaffolded | **4 suites** | Awaiting compiled artifacts |
 
 ### Test Coverage Breakdown
+
+**Unit Tests (staking-math-tests, 64 total):**
 - Deposit/withdrawal math: 12 tests
 - Exchange rate calculations: 8 tests
 - Fee calculations: 6 tests
@@ -75,7 +78,13 @@ All 7 contracts have been implemented with **full cross-contract call integratio
 - Unbonding period logic: 6 tests
 - Full staking scenarios: 4 tests
 - Edge cases: 15 tests
-- **Cross-contract flow tests: 8 tests** (NEW)
+- **Cross-contract flow tests: 8 tests**
+
+**Integration Tests (tests/integration/, scaffolded):**
+- `deposit_flow.test.ts` - Full deposit flow (8 tests)
+- `withdrawal_flow.test.ts` - Withdrawal and claim flow (11 tests)
+- `batch_staking.test.ts` - 200k batch trigger (10 tests)
+- `rewards_distribution.test.ts` - Rewards and APY (11 tests)
 
 ---
 
@@ -92,8 +101,10 @@ All 7 contracts have been implemented with **full cross-contract call integratio
 | WithdrawalQueue cross-contract calls | ✅ | 1 call helper: token transfer (claim) |
 | VaultManager cross-contract calls | ✅ | 1 call helper: notify_staked |
 | RewardsManager cross-contract calls | ✅ | 2 call helpers: add_rewards, update_rate |
-| Integration flow tests | ✅ | 8 new tests for complete flows |
-| Documentation update | ✅ | PROGRESS.md, AGENT_HANDOFF.md |
+| Unit tests (staking-math) | ✅ | 8 new tests for complete flows (64 total) |
+| Integration test scaffolding | ✅ | 4 TypeScript test suites created |
+| Documentation update | ✅ | PROGRESS.md, AGENT_HANDOFF.md, README.md |
+| Meta-learnings | ✅ | 8 new rules added to .cursorrules (108-115) |
 
 ### Session 1: December 27, 2025 (Previous)
 

@@ -29,7 +29,9 @@ This directory contains all research, planning, and implementation for an Aztec-
 ```
 staking/aztec/
 ├── README.md                   # This file - main index
-├── PROGRESS.md                 # Development progress tracking (NEW)
+├── PROGRESS.md                 # Development progress tracking
+├── tests/                      # Integration tests (TypeScript/Jest)
+│   └── integration/            # End-to-end tests for sandbox
 ├── docs/                       # Research and planning documentation
 │   ├── EXECUTIVE-SUMMARY.md    # One-page strategic overview
 │   ├── STRATEGIC-GAP-ANALYSIS.md # Gap analysis + parallel agent prompts
@@ -76,6 +78,7 @@ staking/aztec/
 ### Testing
 
 - **Unit Tests**: **64 tests passing** (includes 8 new cross-contract flow tests)
+- **Integration Tests**: TypeScript/Jest scaffolding ready (see `tests/integration/`)
 - **CI**: GitHub Actions workflow for automated testing
 - **Devnet**: Accessible at `https://next.devnet.aztec-labs.com`
 
@@ -94,6 +97,18 @@ staking/aztec/
 cd staking/aztec/contracts/staking-math-tests
 ~/.nargo/bin/nargo test
 # Expected: 64 tests passed
+```
+
+### Run Integration Tests (requires sandbox)
+
+```bash
+# Start Aztec sandbox first
+aztec start --sandbox
+
+# In another terminal
+cd staking/aztec/tests/integration
+npm install
+npm test
 ```
 
 ### Compile a Contract

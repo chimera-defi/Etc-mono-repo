@@ -175,6 +175,17 @@ fn call_some_function(
 staking/aztec/
 ├── PROGRESS.md                 # ← Development progress tracking
 ├── README.md                   # ← Project overview
+├── tests/
+│   └── integration/            # ← TypeScript integration tests (scaffolded)
+│       ├── src/
+│       │   ├── setup.ts
+│       │   ├── test-utils.ts
+│       │   ├── deposit_flow.test.ts
+│       │   ├── withdrawal_flow.test.ts
+│       │   ├── batch_staking.test.ts
+│       │   └── rewards_distribution.test.ts
+│       ├── package.json
+│       └── README.md
 ├── contracts/
 │   ├── AGENT_HANDOFF.md       # ← This file
 │   ├── NOIR_GUIDE.md          # ← Noir/Aztec patterns guide
