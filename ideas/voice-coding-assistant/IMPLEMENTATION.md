@@ -2036,6 +2036,28 @@ Post-MVP:   Hybrid model (Free=serverless, Pro=VPS)
 
 ---
 
+### Sprint 9: GitHub Integration & Auto-Archiving (Week 13-14)
+
+> **Reference:** See [GITHUB_INTEGRATION.md](./GITHUB_INTEGRATION.md) for complete design
+
+| Task ID | Task | Priority | Est. | Dependencies |
+|---------|------|----------|------|--------------|
+| `G-01` | Set up GitHub webhook endpoint with signature verification | P0 | 3h | B-01 |
+| `G-02` | Handle `pull_request.merged` event → archive agent | P0 | 3h | G-01, A-01 |
+| `G-03` | Handle `pull_request.closed` event → archive agent | P0 | 2h | G-01, A-01 |
+| `G-04` | Add `archivedAt`, `archivedReason` fields to agents schema | P0 | 1h | B-02 |
+| `G-05` | Create AgentArchiver service | P0 | 3h | G-04 |
+| `G-06` | Update mobile UI with Active/Archived sections | P0 | 4h | A-05, G-05 |
+| `G-07` | Add SSE events for archive transitions | P0 | 2h | A-04, G-05 |
+| `G-08` | Handle `issue_comment` events for @cadence-ai mentions | P1 | 3h | G-01 |
+| `G-09` | Implement fix/update/status commands from PR comments | P1 | 4h | G-08, A-02 |
+| `G-10` | GitHub Issues integration (assign to cadence-bot) | P2 | 4h | G-01, A-01 |
+| `G-11` | Linear integration (future) | P2 | 6h | G-01 |
+
+**Output:** Merged/closed PRs auto-archive, keeping active view clean.
+
+---
+
 ### Task Summary
 
 | Sprint | Tasks | Hours | Focus |
@@ -2049,10 +2071,12 @@ Post-MVP:   Hybrid model (Free=serverless, Pro=VPS)
 | **6: Notifications** | 7 | 18h | Push + polish |
 | **7: Context** | 6 | 22h | Codebase understanding |
 | **8: Launch** | 8 | 24h | Production ready |
-| **TOTAL** | **67** | **200h** | **12 weeks** |
+| **9: GitHub Integration** | 11 | 35h | Webhooks + auto-archive |
+| **TOTAL** | **78** | **235h** | **14 weeks** |
 
 ---
 
-**Document Version:** 2.0
+**Document Version:** 2.1
 **Created:** December 26, 2025
+**Updated:** December 27, 2025
 **Status:** Ready for Implementation
