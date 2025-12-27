@@ -45,34 +45,44 @@ jobs:
       - name: Test
         run: npm test
 
-      - name: Verify OG images are up-to-date
+      - name: Verify OG images exist
         run: |
-          echo "🖼️ Checking if OG images need regeneration..."
-
-          # Store checksums of current OG images
-          find public -name 'og-*.png' -exec md5sum {} \; | sort > /tmp/og-before.txt
-
-          # Regenerate OG images
-          npm run generate-og
-
-          # Store checksums after regeneration
-          find public -name 'og-*.png' -exec md5sum {} \; | sort > /tmp/og-after.txt
-
-          # Compare
-          if ! diff -q /tmp/og-before.txt /tmp/og-after.txt > /dev/null 2>&1; then
-            echo "❌ OG images are out of date!"
+          echo "🖼️ Checking if OG images exist..."
+          
+          # List of required OG images
+          required_images=(
+            "og-image.png"
+            "og-software-wallets-table.png"
+            "og-hardware-wallets-table.png"
+            "og-crypto-cards-table.png"
+            "og-software-wallets-details.png"
+            "og-hardware-wallets-details.png"
+            "og-crypto-cards-details.png"
+            "og-explore.png"
+          )
+          
+          missing=0
+          for img in "${required_images[@]}"; do
+            if [ ! -f "public/$img" ]; then
+              echo "❌ Missing: public/$img"
+              missing=$((missing + 1))
+            else
+              echo "✅ Found: public/$img"
+            fi
+          done
+          
+          if [ $missing -gt 0 ]; then
             echo ""
-            echo "The following images need to be regenerated:"
-            diff /tmp/og-before.txt /tmp/og-after.txt || true
-            echo ""
-            echo "Run 'npm run generate-og' locally and commit the updated images."
-            echo ""
-            echo "## ❌ OG Images Out of Date" >> $GITHUB_STEP_SUMMARY
-            echo "Run \`cd wallets/frontend && npm run generate-og\` and commit the changes." >> $GITHUB_STEP_SUMMARY
+            echo "## ❌ Missing OG Images" >> $GITHUB_STEP_SUMMARY
+            echo "Run \`cd wallets/frontend && npm run generate-og\` and commit the new images." >> $GITHUB_STEP_SUMMARY
             exit 1
-          else
-            echo "✅ OG images are up-to-date"
           fi
+          
+          echo ""
+          echo "✅ All OG images present"
+          echo ""
+          echo "Note: OG image checksum verification is skipped because font rendering"
+          echo "differs across platforms. Images are generated locally and committed."
 
       - name: Build
         run: npm run build
@@ -91,7 +101,7 @@ jobs:
           echo "- ✅ Lint" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Type check" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Tests" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ OG images up-to-date" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ OG images present" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Build" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Amplify Preview" >> $GITHUB_STEP_SUMMARY
