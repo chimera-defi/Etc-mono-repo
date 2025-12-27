@@ -16,26 +16,32 @@ Last Updated: December 24, 2025
    - Decision framework and next steps
    - **Read this first** (5 minutes)
 
-2. **[ASSUMPTIONS.md](./ASSUMPTIONS.md)**
+2. **[HANDOFF.md](./HANDOFF.md)** ⭐ *Agent Quick Start*
+   - 30-second project context
+   - File map and architecture diagram
+   - Immediate next tasks and critical gotchas
+   - **Start here if you're a new agent/developer**
+
+3. **[ASSUMPTIONS.md](./ASSUMPTIONS.md)**
    - Critical assumptions registry
    - Verification status (✅ Verified, 📎 Sourced, ⚠️ Estimated, ❌ Unverified)
    - Validation roadmap and decision triggers
    - Includes: competitor tracker + validation log (kept inline to avoid extra docs)
    - Update monthly
 
-3. **[ECONOMICS.md](./ECONOMICS.md)** ✅ *Source of truth*
+4. **[ECONOMICS.md](./ECONOMICS.md)** ✅ *Source of truth*
    - Canonical numbers, formulas, and break-even definitions
    - Explicitly separates **protocol-only** vs **fully-loaded** cost models
    - Update when assumptions or validation results change
 
-4. **[IMPLEMENTATION-PLAN.md](./IMPLEMENTATION-PLAN.md)**
+5. **[IMPLEMENTATION-PLAN.md](./IMPLEMENTATION-PLAN.md)**
    - 6-month critical path: Design → Build → Test → Deploy
    - Week-by-week milestones
    - Team requirements, tooling, testnet validation
    - Includes: distribution/liquidity plan (kept inline to avoid extra docs)
    - Read before starting development
 
-5. **[FUNDRAISING.md](./FUNDRAISING.md)**
+6. **[FUNDRAISING.md](./FUNDRAISING.md)**
    - Investor deck outline (12 slides)
    - Pitch narrative and objection handling
    - Target investors and data room contents
@@ -43,14 +49,19 @@ Last Updated: December 24, 2025
 
 ### Technical Analysis
 
-6. **[liquid-staking-analysis.md](./liquid-staking-analysis.md)**
+7. **[liquid-staking-analysis.md](./liquid-staking-analysis.md)**
    - Long-form technical appendix (Noir/Aztec architecture + implementation notes)
    - Contains some legacy planning sections; canonical docs are listed below
    - Use as reference material when building
 
-7. **[TASKS.md](./TASKS.md)** ⭐
-   - Discrete, assignable tasks with acceptance criteria
-   - Includes: local sandbox setup notes + agent prompt templates (kept inline to avoid extra docs)
+8. **[TASKS.md](./TASKS.md)** ⭐
+   - Discrete, assignable tasks with acceptance criteria (37 total, 7 complete)
+   - Status tracking with 🔴/🟡/✅ indicators
+
+9. **[AGENT-PROMPTS.md](./AGENT-PROMPTS.md)** ⭐ *Parallel Development*
+   - Copy-paste prompts for 5 parallel work streams
+   - Stream dependencies and merge points
+   - Use when spawning multiple agents
 
 ---
 
@@ -58,6 +69,8 @@ Last Updated: December 24, 2025
 
 **If you want to:**
 
+- **Get up to speed fast (new agent)** → Read HANDOFF.md (30 seconds)
+- **Spawn parallel agents** → Use AGENT-PROMPTS.md (copy-paste ready)
 - **Understand the opportunity in 5 minutes** → Read EXECUTIVE-SUMMARY.md
 - **Validate key assumptions** → Review ASSUMPTIONS.md
 - **Get the numbers** → Use ECONOMICS.md (source of truth)
