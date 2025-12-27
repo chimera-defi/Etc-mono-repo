@@ -192,8 +192,8 @@ if [ $TESTS_FAILED -eq 0 ]; then
     echo "Environment is ready for development."
     echo ""
     echo "Quick commands:"
-    echo "  Run tests:    cd /workspace/staking/contracts/staking-math-tests && ~/.nargo/bin/nargo test"
-    echo "  Compile:      cp -r /workspace/staking/contracts/aztec-staking-pool ~/aztec-contracts && cd ~/aztec-contracts && ~/aztec-bin/nargo compile"
+    echo "  Run tests:    cd /workspace/staking/aztec/contracts/staking-math-tests && ~/.nargo/bin/nargo test"
+    echo "  Compile:      cp -r /workspace/staking/aztec/contracts/aztec-staking-pool ~/aztec-contracts && cd ~/aztec-contracts && ~/aztec-bin/nargo compile"
     exit 0
 else
     echo -e "${RED}Some tests failed. Review the output above.${NC}"
