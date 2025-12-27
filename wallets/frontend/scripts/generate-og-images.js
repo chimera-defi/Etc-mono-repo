@@ -236,7 +236,7 @@ function generateSoftwareWalletsImage() {
   // Footer
   drawFooter(ctx, [
     { value: '24+', label: 'Wallets Compared' },
-    { value: 'Multi-chain', label: 'Chain Support' },
+    { value: '163', label: 'Max Chains (Trust)' },
     { value: 'Weekly', label: 'Data Updates' },
   ]);
   
