@@ -5,7 +5,64 @@ applications:
       phases:
         preBuild:
           commands:
-            - npm ci
+            # Skip build for PRs that don't affect the wallet frontend, then run npm ci
+            - |
+              set -e
+
+              echo "=== Amplify Build Environment ==="
+              echo "AWS_BRANCH: ${AWS_BRANCH:-not set}"
+              echo "AWS_PULL_REQUEST_ID: ${AWS_PULL_REQUEST_ID:-not set}"
+              echo "Working directory: $(pwd)"
+
+              # Only check for changes on PR builds (not main branch)
+              if [ "$AWS_BRANCH" != "main" ] && [ "$AWS_BRANCH" != "master" ]; then
+                echo ""
+                echo "=== Checking for wallet frontend changes ==="
+
+                # Move to repo root for git operations
+                cd ../..
+                echo "Repo root: $(pwd)"
+
+                # Fetch main branch for comparison
+                echo "Fetching main branch..."
+                if ! git fetch origin main --depth=50 2>&1; then
+                  echo "Warning: Could not fetch main branch. Proceeding with build."
+                else
+                  # Check what files changed between main and current HEAD
+                  echo "Comparing with origin/main..."
+                  CHANGED_FILES=$(git diff --name-only origin/main...HEAD 2>&1) || CHANGED_FILES=""
+
+                  echo "Changed files in this PR:"
+                  echo "$CHANGED_FILES" | head -20
+
+                  # Check if any wallet frontend files changed
+                  WALLET_CHANGES=$(echo "$CHANGED_FILES" | grep -E "^(wallets/frontend/|amplify\.yml)" || true)
+
+                  if [ -z "$WALLET_CHANGES" ]; then
+                    echo ""
+                    echo "=============================================="
+                    echo "NO WALLET FRONTEND CHANGES DETECTED"
+                    echo "=============================================="
+                    echo "This PR does not modify wallets/frontend/ or amplify.yml"
+                    echo "Skipping Amplify preview build to save resources."
+                    echo ""
+                    exit 1
+                  fi
+
+                  echo ""
+                  echo "Wallet frontend changes detected:"
+                  echo "$WALLET_CHANGES"
+                fi
+
+                # Return to app directory
+                cd wallets/frontend
+              else
+                echo "Building main/master branch - skipping change detection"
+              fi
+
+              echo ""
+              echo "=== Running npm ci ==="
+              npm ci
         build:
           commands:
             - npm run build
