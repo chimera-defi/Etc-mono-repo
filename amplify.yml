@@ -5,6 +5,21 @@ applications:
       phases:
         preBuild:
           commands:
+            # Skip build for PRs that don't affect the wallet frontend
+            - |
+              if [ "$AWS_BRANCH" != "main" ] && [ -n "$AWS_PULL_REQUEST_ID" ]; then
+                echo "Checking if wallet frontend files changed..."
+                # Get the base branch (usually main)
+                git fetch origin main:refs/remotes/origin/main 2>/dev/null || true
+                # Check if any wallet frontend files changed
+                CHANGED_FILES=$(git diff --name-only origin/main...HEAD -- . amplify.yml 2>/dev/null || echo "check-failed")
+                if [ "$CHANGED_FILES" = "" ]; then
+                  echo "No wallet frontend changes detected. Skipping build."
+                  echo "To force a build, make a change in wallets/frontend/ or amplify.yml"
+                  exit 1
+                fi
+                echo "Wallet frontend changes detected. Proceeding with build."
+              fi
             - npm ci
         build:
           commands:
