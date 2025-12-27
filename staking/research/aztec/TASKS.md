@@ -383,10 +383,11 @@ await vault.stakeToValidator(validator, 200000); // Cost: $W
 ## Phase 2: Smart Contract Development (Week 3-14)
 
 ### TASK-101: Create StakedAztecToken.nr Contract Skeleton
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete (2025-12-27)
 **Estimated Time:** 3 hours
 **Priority:** Critical
 **Depends On:** TASK-001
+**Completed By:** claude/aztec-staking-review-NZIom
 
 **Context:** Create the stAZTEC token contract - the core liquid staking token.
 
@@ -446,10 +447,11 @@ pub contract StakedAztecToken {
 ---
 
 ### TASK-102: Implement StakedAztecToken.nr Storage Functions
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete (2025-12-27)
 **Estimated Time:** 4 hours
 **Priority:** Critical
 **Depends On:** TASK-101
+**Completed By:** claude/aztec-staking-review-NZIom
 
 **Context:** Implement constructor and exchange rate management.
 
@@ -504,10 +506,11 @@ fn test_only_rewards_manager_can_update_rate() {
 ---
 
 ### TASK-103: Implement StakedAztecToken.nr Mint/Burn Functions
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete (2025-12-27)
 **Estimated Time:** 6 hours
 **Priority:** Critical
 **Depends On:** TASK-102
+**Completed By:** claude/aztec-staking-review-NZIom
 
 **Context:** Implement core token minting and burning with access control.
 
@@ -558,10 +561,11 @@ fn burn(from: AztecAddress, amount: u128) {
 ---
 
 ### TASK-104: Implement StakedAztecToken.nr Transfer Function
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete (2025-12-27)
 **Estimated Time:** 5 hours
 **Priority:** High
 **Depends On:** TASK-103
+**Completed By:** claude/aztec-staking-review-NZIom
 
 **Context:** Implement ERC20-style transfer for stAZTEC token.
 
@@ -601,10 +605,11 @@ fn balance_of(owner: AztecAddress) -> u128 {
 ---
 
 ### TASK-105: Create LiquidStakingCore.nr Contract Skeleton
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete (2025-12-27)
 **Estimated Time:** 3 hours
 **Priority:** Critical
 **Depends On:** TASK-104
+**Completed By:** claude/aztec-staking-review-NZIom
 
 **Context:** Create the main entry point contract for deposits and withdrawals.
 
@@ -739,10 +744,11 @@ fn request_withdrawal(st_aztec_amount: u128) -> u64 {
 ---
 
 ### TASK-108: Create VaultManager.nr Contract
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete (2025-12-27)
 **Estimated Time:** 10 hours
 **Priority:** High
 **Depends On:** TASK-105
+**Completed By:** claude/aztec-staking-review-NZIom
 
 **Context:** Implement pool management and validator tracking.
 
@@ -776,10 +782,11 @@ struct Storage<Context> {
 ---
 
 ### TASK-109: Create RewardsManager.nr Contract
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete (2025-12-27)
 **Estimated Time:** 8 hours
 **Priority:** High
 **Depends On:** TASK-104
+**Completed By:** claude/aztec-staking-review-NZIom
 
 **Context:** Implement rewards collection and exchange rate updates.
 
@@ -808,10 +815,11 @@ where:
 ---
 
 ### TASK-110: Create WithdrawalQueue.nr Contract
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete (2025-12-27)
 **Estimated Time:** 12 hours
 **Priority:** High
 **Depends On:** TASK-105
+**Completed By:** claude/aztec-staking-review-NZIom
 
 **Context:** Implement FIFO withdrawal queue with unbonding period tracking.
 
@@ -1560,20 +1568,20 @@ TASK-504 depends on TASK-503
 
 | Phase | Total Tasks | Completed | In Progress | Not Started |
 |-------|-------------|-----------|-------------|-------------|
-| Phase 1 | 9 | 0 | 0 | 9 |
-| Phase 2 | 11 | 0 | 0 | 11 |
+| Phase 1 | 9 | 0 | 1 | 8 |
+| Phase 2 | 11 | 7 | 0 | 4 |
 | Phase 3 | 4 | 0 | 0 | 4 |
 | Phase 4 | 6 | 0 | 0 | 6 |
 | Phase 5 | 3 | 0 | 0 | 3 |
 | Phase 6 | 4 | 0 | 0 | 4 |
-| **TOTAL** | **37** | **0** | **0** | **37** |
+| **TOTAL** | **37** | **7** | **1** | **29** |
 
 **Critical Path Tasks:** TASK-001, 101, 102, 103, 104, 105, 106, 302, 401, 501
 
 **Next 3 Tasks to Assign:**
-1. TASK-001: Provision Aztec Testnet Environment
-2. TASK-002: Deploy Test Validator
-3. TASK-005: Create “Validation Results” Log (so measurements land in one place)
+1. TASK-106: Implement LiquidStakingCore.nr Deposit Function (integrate cross-contract calls)
+2. TASK-107: Implement LiquidStakingCore.nr Withdrawal Request (integrate cross-contract calls)
+3. TASK-001A: Local Sandbox Smoke Tests (requires Docker environment)
 
 ---
 

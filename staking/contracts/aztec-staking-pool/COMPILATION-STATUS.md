@@ -1,17 +1,27 @@
 # Compilation Status
 
-**Status:** ✅ COMPILED SUCCESSFULLY
+**Status:** ✅ COMPILED SUCCESSFULLY (Original) | ⏳ NEW CONTRACTS ADDED (Pending Compilation)
 **Date:** 2025-12-27
 **Compiler:** aztec-nargo (nargo 1.0.0-beta.11, noirc 1.0.0-beta.11+aztec)
 **Aztec Version:** v2.1.9
 
-## Compilation Output
+## Current Contracts
 
+### Original Contract (Verified Compiled)
 ```
 /root/aztec-contracts/target/staking_pool-StakingPool.json (759KB)
 ```
 
-## Exposed Functions (19 total)
+### New Contracts Added (2025-12-27)
+| Contract | File | Status | Description |
+|----------|------|--------|-------------|
+| StakedAztecToken | `staked_aztec_token.nr` | ⏳ Pending | Liquid staking token (stAZTEC) |
+| WithdrawalQueue | `withdrawal_queue.nr` | ⏳ Pending | FIFO withdrawal queue with unbonding |
+| VaultManager | `vault_manager.nr` | ⏳ Pending | 200k batch staking & validator mgmt |
+| LiquidStakingCore | `liquid_staking_core.nr` | ⏳ Pending | Main protocol entry point |
+| RewardsManager | `rewards_manager.nr` | ⏳ Pending | Rewards collection & fee distribution |
+
+## Original StakingPool Functions (19 total)
 
 ### Core Functions
 | Function | Type | Description |
@@ -59,8 +69,13 @@ Per IMPLEMENTATION-PLAN.md:
 5. WithdrawalQueue.nr - Unbonding queue
 6. ValidatorRegistry.nr - Validator tracking
 
-### Current Implementation (1 contract)
-Single StakingPool.nr contract combining core functionality.
+### Current Implementation (6 contracts)
+1. ✅ StakingPool.nr - Original combined contract (compiled)
+2. ⏳ StakedAztecToken.nr - ERC20-like stAZTEC token
+3. ⏳ WithdrawalQueue.nr - FIFO queue with 7-day unbonding
+4. ⏳ VaultManager.nr - 200k batch staking, round-robin validators
+5. ⏳ LiquidStakingCore.nr - Main entry point integrating all
+6. ⏳ RewardsManager.nr - Rewards collection & protocol fees
 
 ### Feature Coverage
 
@@ -70,46 +85,48 @@ Single StakingPool.nr contract combining core functionality.
 | Share-based withdrawals | LiquidStakingCore | ✅ | Implemented in withdraw() |
 | Fee calculation | RewardsManager | ✅ | Implemented in withdraw() |
 | Fee collection | RewardsManager | ✅ | Implemented in collect_fees() |
-| Pause mechanism | ValidatorRegistry | ✅ | Implemented via set_paused() |
+| Pause mechanism | All contracts | ✅ | set_paused() in all contracts |
 | Admin controls | Various | ✅ | set_admin, set_fee_bps |
-| Reward distribution | RewardsManager | ⚠️ | Partial - add_rewards() exists but no auto-distribution |
-| ERC20-like token | StakedAztecToken | ❌ | Shares tracked internally, no transfer function |
-| 200k batch pooling | VaultManager | ❌ | Not implemented |
-| Validator selection | VaultManager | ❌ | Not implemented |
-| Withdrawal queue | WithdrawalQueue | ❌ | Instant withdrawal, no queue |
-| Unbonding period | WithdrawalQueue | ❌ | Not implemented |
-| Validator registry | ValidatorRegistry | ❌ | Not implemented |
-| Token transfers | StakedAztecToken | ❌ | Not implemented |
+| Reward distribution | RewardsManager | ✅ NEW | collect_rewards() + distribute_protocol_fees() |
+| ERC20-like token | StakedAztecToken | ✅ NEW | mint/burn/transfer + exchange rate |
+| 200k batch pooling | VaultManager | ✅ NEW | execute_stake() at 200k threshold |
+| Validator selection | VaultManager | ✅ NEW | Round-robin selection |
+| Withdrawal queue | WithdrawalQueue | ✅ NEW | FIFO queue implementation |
+| Unbonding period | WithdrawalQueue | ✅ NEW | 7-day configurable period |
+| Validator registry | VaultManager | ✅ NEW | register/deactivate/reactivate |
+| Token transfers | StakedAztecToken | ✅ NEW | transfer() + transfer_from() |
+| Cross-contract calls | LiquidStakingCore | ⚠️ | Stubs in place, needs integration |
 
-### Missing for Production
+### Remaining for Production
 
-1. **Token Contract**: Separate ERC20-like stAZTEC token with transfers
-2. **Vault Manager**:
-   - Pool deposits until 200k threshold
-   - Round-robin validator selection
-   - Batch staking execution
-3. **Withdrawal Queue**:
-   - FIFO queue for withdrawal requests
-   - 7-day unbonding period tracking
-   - Batch processing of withdrawals
-4. **Validator Registry**:
-   - Track validator addresses
-   - Performance monitoring
-   - Slashing detection
-5. **Actual Token Integration**:
+1. **Cross-Contract Integration**:
+   - Replace TODO stubs in LiquidStakingCore with actual contract calls
+   - Connect StakedAztecToken ↔ LiquidStakingCore ↔ VaultManager ↔ RewardsManager
+   - Connect WithdrawalQueue authorization to LiquidStakingCore
+2. **Actual Token Integration**:
+   - Integration with AZTEC native token contract
    - Transfer AZTEC from users on deposit
    - Transfer AZTEC to users on withdraw
-   - Stake to L1 validators
+3. **Native Staking Integration**:
+   - Connect VaultManager to Aztec's native staking
+   - Validator registration with Aztec protocol
+   - Slashing detection and handling
+4. **Keeper Bot Infrastructure**:
+   - Staking keeper (200k threshold trigger)
+   - Rewards keeper (periodic collection)
+   - Withdrawal keeper (process queue)
 
 ## Next Steps
 
-1. [ ] Create StakedAztecToken.nr as separate token contract
-2. [ ] Add token transfer integration to StakingPool
-3. [ ] Implement WithdrawalQueue with unbonding
-4. [ ] Implement VaultManager for batch staking
-5. [ ] Add ValidatorRegistry for multi-validator support
-6. [ ] Integration tests on Aztec sandbox
-7. [ ] Devnet deployment test
+1. [x] Create StakedAztecToken.nr as separate token contract ✅ (2025-12-27)
+2. [x] Implement WithdrawalQueue with 7-day unbonding ✅ (2025-12-27)
+3. [x] Implement VaultManager for 200k batch staking ✅ (2025-12-27)
+4. [x] Create LiquidStakingCore.nr entry point ✅ (2025-12-27)
+5. [x] Create RewardsManager.nr for fee distribution ✅ (2025-12-27)
+6. [ ] Compile new contracts with aztec-nargo (requires Docker)
+7. [ ] Implement cross-contract call integration
+8. [ ] Integration tests on Aztec sandbox
+9. [ ] Devnet deployment test
 
 ## Reproduction Steps
 
