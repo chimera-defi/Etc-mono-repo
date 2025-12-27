@@ -789,6 +789,100 @@ AUTO_DELETE_ARCHIVED_AFTER_DAYS=90
 
 ---
 
-**Document Version:** 1.0
+---
+
+## 12. Agent Hand-Off Prompt
+
+Use this prompt to hand off implementation to a coding agent:
+
+```
+You are implementing GitHub integration for Cadence, a mobile voice-enabled AI coding assistant.
+
+## Context
+- Project location: ideas/voice-coding-assistant/
+- Backend: Fastify + TypeScript + Drizzle ORM + PostgreSQL
+- Mobile: React Native + Expo
+- See GITHUB_INTEGRATION.md for full design
+
+## Your Task: Sprint 9 - GitHub Integration
+
+Implement the following in order:
+
+### Phase 1: Webhook Foundation (G-01 to G-05)
+1. Create `backend/src/routes/webhooks.ts`:
+   - POST `/webhooks/github` endpoint
+   - Verify X-Hub-Signature-256 using GITHUB_WEBHOOK_SECRET
+   - Dispatch to GitHubWebhookDispatcher
+
+2. Create `backend/src/services/webhooks/GitHubWebhookDispatcher.ts`:
+   - Register handlers for: pull_request, issue_comment, check_run
+   - Call appropriate handler based on event type
+
+3. Create `backend/src/services/webhooks/PREventHandler.ts`:
+   - On `pull_request.merged`: Find agent by prUrl, call AgentArchiver.onPRMerged()
+   - On `pull_request.closed` (not merged): Call AgentArchiver.onPRClosed()
+
+4. Update `backend/src/db/schema.ts`:
+   - Add to agents table: archivedAt (timestamp), archivedReason (text), mergeCommit (text), mergedAt (timestamp)
+   - Run migration
+
+5. Create `backend/src/services/agent/AgentArchiver.ts`:
+   - onPRMerged(prUrl, mergeCommit): Update agent status='completed', set archivedAt
+   - onPRClosed(prUrl): Update agent status='closed', set archivedAt
+   - Emit SSE event for real-time UI update
+   - Send push notification
+
+### Phase 2: Mobile UI (G-06 to G-07)
+6. Update `mobile/src/screens/AgentsListScreen.tsx`:
+   - Add tab bar: [Active] [Archived]
+   - Active: Filter where archivedAt IS NULL
+   - Archived: Filter where archivedAt IS NOT NULL
+   - Show archive reason badge (Merged/Closed/Failed)
+
+7. Update `mobile/src/services/AgentEventStream.ts`:
+   - Handle 'agent_archived' event type
+   - Animate agent card moving to archived section
+   - Show toast notification
+
+### Phase 3: PR Interactions (G-08 to G-09)
+8. Create `backend/src/services/webhooks/CommentEventHandler.ts`:
+   - Parse @cadence-ai mentions in issue_comment events
+   - Extract command: fix, update, status, stop, restart
+   - For 'fix': Add follow-up instruction to agent, resume execution
+   - Reply to comment with status
+
+### Environment Variables Needed
+- GITHUB_WEBHOOK_SECRET: For signature verification
+- GITHUB_APP_PRIVATE_KEY: For GitHub API calls
+- GITHUB_APP_ID: GitHub App identifier
+
+### Success Criteria
+- [ ] PR merge triggers agent archive + push notification
+- [ ] PR close (without merge) triggers archive with 'closed' status
+- [ ] Mobile UI shows Active/Archived tabs
+- [ ] Real-time SSE updates move agents between sections
+- [ ] @cadence-ai fix [instruction] in PR comment triggers follow-up
+
+### Files to Create/Modify
+CREATE:
+- backend/src/routes/webhooks.ts
+- backend/src/services/webhooks/GitHubWebhookDispatcher.ts
+- backend/src/services/webhooks/PREventHandler.ts
+- backend/src/services/webhooks/CommentEventHandler.ts
+- backend/src/services/agent/AgentArchiver.ts
+
+MODIFY:
+- backend/src/db/schema.ts (add archive fields)
+- backend/src/index.ts (register webhook routes)
+- mobile/src/screens/AgentsListScreen.tsx (add tabs)
+- mobile/src/services/AgentEventStream.ts (handle archive events)
+
+Start with G-01 (webhook endpoint) and work through sequentially.
+```
+
+---
+
+**Document Version:** 1.1
 **Created:** December 27, 2025
+**Updated:** December 27, 2025
 **Status:** Design Phase - Ready for Implementation
