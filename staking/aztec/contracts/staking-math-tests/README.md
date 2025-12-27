@@ -19,11 +19,11 @@ The tests are separated from the Aztec contract so they can run in CI without re
 curl -L https://raw.githubusercontent.com/noir-lang/noirup/main/install | bash
 
 # Run tests
-cd staking/contracts/staking-math-tests
+cd staking/aztec/contracts/staking-math-tests
 nargo test
 ```
 
-## Test Coverage (20 tests)
+## Test Coverage (34 tests)
 
 ### Core Functionality
 | Test | Description |
@@ -78,7 +78,7 @@ Any changes to the Aztec contract's math should be reflected here and tested.
 ## CI Integration
 
 These tests run automatically on:
-- Push to `main` affecting `staking/contracts/**`
-- Pull requests affecting `staking/contracts/**`
+- Push to `main` affecting `staking/aztec/contracts/**`
+- Pull requests affecting `staking/aztec/contracts/**`
 
 See `.github/workflows/staking-contracts-ci.yml`

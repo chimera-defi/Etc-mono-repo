@@ -19,6 +19,7 @@ This directory contains all research, planning, and implementation for an Aztec-
 | Validate assumptions | [docs/ASSUMPTIONS.md](docs/ASSUMPTIONS.md) |
 | Plan development | [docs/IMPLEMENTATION-PLAN.md](docs/IMPLEMENTATION-PLAN.md) |
 | Pick up a task | [docs/TASKS.md](docs/TASKS.md) |
+| Next-agent handoff (gaps + parallel workstreams) | [docs/HANDOFF_NEXT_AGENT.md](docs/HANDOFF_NEXT_AGENT.md) |
 | Continue contract development | [contracts/AGENT_HANDOFF.md](contracts/AGENT_HANDOFF.md) |
 | Run smoke tests | [scripts/smoke-test.sh](scripts/smoke-test.sh) |
 
