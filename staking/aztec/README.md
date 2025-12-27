@@ -21,6 +21,7 @@ This directory contains all research, planning, and implementation for an Aztec-
 | Pick up a task | [docs/TASKS.md](docs/TASKS.md) |
 | Continue contract development | [contracts/AGENT_HANDOFF.md](contracts/AGENT_HANDOFF.md) |
 | Run smoke tests | [scripts/smoke-test.sh](scripts/smoke-test.sh) |
+| **See gaps & next agent prompts** | **[GAP_ANALYSIS.md](GAP_ANALYSIS.md)** 🆕 |
 
 ## Directory Structure
 
@@ -123,7 +124,26 @@ cd ~/aztec-contracts && ~/aztec-bin/nargo compile
 8. **[AGENT_HANDOFF.md](contracts/AGENT_HANDOFF.md)** - Continue development
 9. **[contracts/aztec-staking-pool/QUICKSTART.md](contracts/aztec-staking-pool/QUICKSTART.md)** - Setup guide
 
-## Next Steps
+## Critical Gaps (Executive Summary)
+
+A comprehensive gap analysis identified 15+ gaps. **See [GAP_ANALYSIS.md](GAP_ANALYSIS.md) for full details and 12 specialized agent prompts.**
+
+| Category | Status | Blocker? |
+|----------|--------|----------|
+| Legal/Regulatory | 🔴 Missing | Yes - before fundraising |
+| Security/Incident Response | 🔴 Missing | Yes - before launch |
+| Smart Contracts | 🟡 50% (4/7) | Yes - technical blocker |
+| Operations | 🔴 Missing | Yes - before launch |
+| Frontend/UX | 🔴 Missing | Yes - before launch |
+| Community/Marketing | 🟡 20% | No - can ramp up |
+
+### Immediate Actions
+
+1. **Start Legal (PROMPT-001)** - Entity formation, token classification
+2. **Complete Contracts (PROMPT-008)** - LiquidStakingCore, VaultManager, RewardsManager
+3. **Map Integrations (PROMPT-005)** - Identify Aztec DEXs and partners
+
+## Next Technical Steps
 
 1. **TASK-105**: Create LiquidStakingCore.nr skeleton
 2. **TASK-106**: Implement deposit() function
