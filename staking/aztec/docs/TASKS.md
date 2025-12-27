@@ -644,8 +644,32 @@ struct Storage<Context> {
     total_staked: PublicMutable<u128, Context>,
     liquidity_buffer: PublicMutable<u128, Context>,
     admin: PublicMutable<AztecAddress, Context>,
+    // Registry Pattern for Upgradeability
+    vault_manager: PublicMutable<AztecAddress, Context>,
+    rewards_manager: PublicMutable<AztecAddress, Context>,
 }
 ```
+
+---
+
+### TASK-105a: Implement Registry Pattern for Upgradeability
+**Status:** 🔴 Not Started
+**Estimated Time:** 2 hours
+**Priority:** High
+**Depends On:** TASK-105
+
+**Context:** To allow future upgrades of logic without migrating user funds, LiquidStakingCore must store pointers to helper contracts (Vault/Rewards) and allow the admin to update them.
+
+**Deliverables:**
+- [ ] `set_vault_manager(address)` function (admin only)
+- [ ] `set_rewards_manager(address)` function (admin only)
+- [ ] Ensure all calls to Vault/Rewards use the stored address, not a hardcoded one.
+- [ ] Unit tests for updating addresses.
+
+**Acceptance Criteria:**
+- Admin can change the VaultManager address.
+- Non-admin cannot change it.
+- Core contract continues to function after address change.
 
 ---
 
