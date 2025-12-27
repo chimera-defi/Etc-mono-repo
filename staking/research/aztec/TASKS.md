@@ -47,10 +47,17 @@
 ## Phase 1: Foundation & Setup (Week 1-2)
 
 ### TASK-001: Provision Aztec Testnet Development Environment
-**Status:** 🔴 Not Started
+**Status:** 🟡 In Progress (Partial Success)
 **Estimated Time:** 4 hours
 **Priority:** Critical
 **Depends On:** None
+
+**Progress (2025-12-27):**
+- ✅ **Devnet Connection Verified:** Successfully connected to `https://next.devnet.aztec-labs.com` using AztecJS (`@aztec/aztec.js`) without local sandbox.
+- ✅ **RPC Working:** Retrieved block headers, L1 addresses, and node info.
+- ❌ **Docker Unavailable:** Cannot run `aztec-nargo` or local sandbox in current environment.
+- ⚠️ **Workaround:** Will proceed with contract authoring and use AztecJS for interaction tests where possible.
+
 
 **Context:** Set up local Aztec development environment for contract development and testing.
 
@@ -383,10 +390,16 @@ await vault.stakeToValidator(validator, 200000); // Cost: $W
 ## Phase 2: Smart Contract Development (Week 3-14)
 
 ### TASK-101: Create StakedAztecToken.nr Contract Skeleton
-**Status:** 🔴 Not Started
+**Status:** 🟡 In Progress (Skeleton Created)
 **Estimated Time:** 3 hours
 **Priority:** Critical
 **Depends On:** TASK-001
+
+**Progress (2025-12-27):**
+- ✅ Created `staking/contracts/staked-aztec-token/src/main.nr` with skeleton code.
+- ✅ Created `staking/contracts/staked-aztec-token/Nargo.toml`.
+- ⚠️ Compilation blocked due to missing `aztec-nargo` (Docker issue).
+
 
 **Context:** Create the stAZTEC token contract - the core liquid staking token.
 
