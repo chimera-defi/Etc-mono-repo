@@ -17,6 +17,24 @@
 
 ## Phase 1: Foundation (Weeks 1-2)
 
+### Immediate Action Plan: Parallel Tracks
+To accelerate development, we will execute three parallel tracks immediately. These tracks are designed to be handled by specialized agents or sub-teams.
+
+**Track A: Smart Contract Core (Agent 1)**
+- **Goal:** Enable actual value transfer (remove mocks).
+- **Critical Task:** Implement `Token` interface in `StakingPool.nr` to replace TODO stubs.
+- **Output:** A contract that can actually move testnet AZTEC.
+
+**Track B: Frontend Scaffolding (Agent 2)**
+- **Goal:** Create the user interface skeleton.
+- **Stack:** Next.js 14, Tailwind CSS, mocked contract hooks.
+- **Output:** A deployable web app with "Deposit" and "Withdraw" UI (even if logic is mocked).
+
+**Track C: Infrastructure Scaffolding (Agent 3)**
+- **Goal:** Set up the off-chain "nervous system".
+- **Structure:** TypeScript Monorepo (`apps/staking-keeper`, `apps/rewards-keeper`, etc.).
+- **Output:** A runnable bot repo with Docker composition.
+
 ### Team Assembly
 - [ ] **Hire Lead Noir Engineer** - Smart contract architecture lead
   - Requirements: Noir experience OR Rust + ZK background
@@ -471,8 +489,12 @@
 
 ## Next Steps (This Week)
 
-1. **Start recruiting** Noir engineers (post to Aztec Discord, ZK talent pools)
-2. **Provision testnet** environment (set up Aztec sandbox locally)
+1. **EXECUTE PARALLEL TRACKS:**
+   - **Agent 1:** Implement `Token` trait in `aztec-staking-pool` and replace TODOs.
+   - **Agent 2:** Initialize `staking/frontend` (Next.js + Tailwind).
+   - **Agent 3:** Initialize `staking/bots` (TS Monorepo).
+2. **Start recruiting** Noir engineers (post to Aztec Discord, ZK talent pools)
+3. **Provision testnet** environment (set up Aztec sandbox locally)
 3. **Deploy test validator** (measure actual costs for 2 weeks)
 4. **Reach out to Aztec Foundation** (ecosystem support, potential grant)
 5. **Begin fundraising** (angels, seed VCs familiar with DeFi/ZK)
