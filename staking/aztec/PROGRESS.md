@@ -22,15 +22,15 @@ All 7 contracts have been implemented and tested. The Aztec liquid staking proto
 
 | Contract | Status | Functions | Notes |
 |----------|--------|-----------|-------|
-| StakingPool (base) | ✅ Complete | 19 | Base staking logic |
-| StakedAztecToken | ✅ Complete | 16 | stAZTEC token |
-| WithdrawalQueue | ✅ Complete | 19 | FIFO queue with unbonding |
-| ValidatorRegistry | ✅ Complete | 23 | Validator tracking |
-| **LiquidStakingCore** | ✅ **COMPLETE** | 24 | Main entry point |
-| **VaultManager** | ✅ **COMPLETE** | 22 | Batch pooling |
-| **RewardsManager** | ✅ **COMPLETE** | 21 | Exchange rate updates |
+| StakingPool (base) | ✅ Complete | 16 | Base staking logic |
+| StakedAztecToken | ✅ Complete | 13 | stAZTEC token |
+| WithdrawalQueue | ✅ Complete | 16 | FIFO queue with unbonding |
+| ValidatorRegistry | ✅ Complete | 20 | Validator tracking |
+| **LiquidStakingCore** | ✅ **COMPLETE** | 29 | Main entry point |
+| **VaultManager** | ✅ **COMPLETE** | 24 | Batch pooling |
+| **RewardsManager** | ✅ **COMPLETE** | 29 | Exchange rate updates |
 
-**Total Functions:** 144 across all contracts
+**Total Functions:** 147 across all contracts
 
 ---
 

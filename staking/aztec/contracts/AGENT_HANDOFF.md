@@ -146,15 +146,15 @@ ls -la target/*.json
 
 | Contract | Location | Functions | Status |
 |----------|----------|-----------|--------|
-| StakingPool (base) | `aztec-staking-pool/` | 19 | ✅ Complete |
-| StakedAztecToken | `staked-aztec-token/` | 16 | ✅ Complete |
-| WithdrawalQueue | `withdrawal-queue/` | 19 | ✅ Complete |
-| ValidatorRegistry | `validator-registry/` | 23 | ✅ Complete |
-| LiquidStakingCore | `liquid-staking-core/` | 24 | ✅ **NEW** |
-| VaultManager | `vault-manager/` | 22 | ✅ **NEW** |
-| RewardsManager | `rewards-manager/` | 21 | ✅ **NEW** |
+| StakingPool (base) | `aztec-staking-pool/` | 16 | ✅ Complete |
+| StakedAztecToken | `staked-aztec-token/` | 13 | ✅ Complete |
+| WithdrawalQueue | `withdrawal-queue/` | 16 | ✅ Complete |
+| ValidatorRegistry | `validator-registry/` | 20 | ✅ Complete |
+| LiquidStakingCore | `liquid-staking-core/` | 29 | ✅ **NEW** |
+| VaultManager | `vault-manager/` | 24 | ✅ **NEW** |
+| RewardsManager | `rewards-manager/` | 29 | ✅ **NEW** |
 
-**Total:** 144 functions across 7 contracts
+**Total:** 147 functions across 7 contracts
 
 ### New Contracts Summary
 

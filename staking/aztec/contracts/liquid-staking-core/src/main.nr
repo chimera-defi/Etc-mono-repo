@@ -4,7 +4,8 @@
 // This contract is the primary interface for users:
 // - deposit() - Accept AZTEC, mint stAZTEC
 // - request_withdrawal() - Burn stAZTEC, queue withdrawal
-// - claim_withdrawal() - Claim after unbonding period
+//
+// Withdrawal claims are handled by WithdrawalQueue.claim_withdrawal() directly.
 //
 // Cross-contract interactions:
 // - StakedAztecToken: mint/burn stAZTEC
@@ -195,12 +196,12 @@ pub contract LiquidStakingCore {
         }
         storage.user_deposits.at(depositor).write(user_deposit + amount);
         
-        // NOTE: Cross-contract calls to be implemented:
-        // 1. Transfer AZTEC from depositor to this contract (requires AuthWit)
-        // 2. Call StakedAztecToken.mint(depositor, st_aztec_amount)
-        //
-        // For now, this contract tracks accounting and external integration
-        // is handled by the deployment/test environment
+        // INTEGRATION POINT: Token transfers
+        // In production deployment, add these cross-contract calls:
+        // 1. Token::at(aztec_token).transfer_in_public(depositor, this, amount, nonce)
+        //    - Requires user to create AuthWit beforehand
+        // 2. StakedAztecToken::at(staked_aztec_token).mint(depositor, st_aztec_amount)
+        // See NOIR_GUIDE.md for AuthWit patterns.
         
         st_aztec_amount
     }
@@ -252,9 +253,11 @@ pub contract LiquidStakingCore {
         let total = storage.total_deposited.read();
         let request_id = ((total / 1_000_000_000_000_000_000) as u64) + timestamp;
         
-        // NOTE: Cross-contract calls to be implemented:
-        // 1. Call StakedAztecToken.burn(withdrawer, st_aztec_amount)
-        // 2. Call WithdrawalQueue.add_request(withdrawer, st_aztec_amount, aztec_amount, timestamp)
+        // INTEGRATION POINT: Token burns and queue
+        // In production deployment, add these cross-contract calls:
+        // 1. StakedAztecToken::at(staked_aztec_token).burn(withdrawer, st_aztec_amount)
+        // 2. WithdrawalQueue::at(withdrawal_queue).add_request(withdrawer, st_aztec_amount, aztec_amount, timestamp)
+        // The request_id returned here is a placeholder; actual ID comes from WithdrawalQueue.
         
         request_id
     }
@@ -326,7 +329,9 @@ pub contract LiquidStakingCore {
         let fees = storage.accumulated_fees.read();
         storage.accumulated_fees.write(0);
         
-        // NOTE: In production, transfer AZTEC tokens to treasury
+        // INTEGRATION POINT: Fee transfer
+        // In production, transfer AZTEC to treasury:
+        // Token::at(aztec_token).transfer_in_public(this, treasury, fees, 0)
         
         fees
     }

@@ -426,29 +426,30 @@ pub contract RewardsManager {
         let backing = storage.total_aztec_backing.read();
         let epoch = storage.current_epoch.read();
         
-        // Need at least 1 epoch of data
+        // Default APY of 8% (800 bps) when no data available
+        let default_apy: u64 = 800;
+        
+        // Need at least 1 epoch of data and non-zero backing
         if epoch == 0 {
-            return 800; // Default 8% APY
-        }
-        
-        // Get last epoch rewards
-        let last_epoch = epoch - 1;
-        let epoch_rewards = storage.rewards_per_epoch.at(last_epoch).read();
-        
-        if backing == 0 {
-            return 800; // Default 8% APY
-        }
-        
-        // Simple APY: (epoch_rewards / backing) * 365 * 10000 (in bps)
-        // Assuming 1 epoch per day for simplicity
-        let daily_rate_bps = (epoch_rewards * 10000) / backing;
-        let annual_rate_bps = daily_rate_bps * 365;
-        
-        // Cap at reasonable APY (max 50%)
-        if annual_rate_bps > 5000 {
-            5000
+            default_apy
+        } else if backing == 0 {
+            default_apy
         } else {
-            annual_rate_bps as u64
+            // Get last epoch rewards
+            let last_epoch = epoch - 1;
+            let epoch_rewards = storage.rewards_per_epoch.at(last_epoch).read();
+            
+            // Simple APY: (epoch_rewards / backing) * 365 * 10000 (in bps)
+            // Assuming 1 epoch per day for simplicity
+            let daily_rate_bps = (epoch_rewards * 10000) / backing;
+            let annual_rate_bps = daily_rate_bps * 365;
+            
+            // Cap at reasonable APY (max 50%)
+            if annual_rate_bps > 5000 {
+                5000
+            } else {
+                annual_rate_bps as u64
+            }
         }
     }
 }

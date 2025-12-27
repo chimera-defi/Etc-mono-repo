@@ -63,15 +63,15 @@ staking/aztec/
 
 | Contract | Status | Functions | Description |
 |----------|--------|-----------|-------------|
-| StakingPool | ✅ Complete | 19 | Base staking pool logic |
-| StakedAztecToken | ✅ Complete | 16 | stAZTEC liquid staking token |
-| WithdrawalQueue | ✅ Complete | 19 | FIFO queue with unbonding |
-| ValidatorRegistry | ✅ Complete | 23 | Validator tracking |
-| **LiquidStakingCore** | ✅ **NEW** | 24 | Main entry point |
-| **VaultManager** | ✅ **NEW** | 22 | 200k batch pooling |
-| **RewardsManager** | ✅ **NEW** | 21 | Exchange rate updates |
+| StakingPool | ✅ Complete | 16 | Base staking pool logic |
+| StakedAztecToken | ✅ Complete | 13 | stAZTEC liquid staking token |
+| WithdrawalQueue | ✅ Complete | 16 | FIFO queue with unbonding |
+| ValidatorRegistry | ✅ Complete | 20 | Validator tracking |
+| **LiquidStakingCore** | ✅ **NEW** | 29 | Main entry point |
+| **VaultManager** | ✅ **NEW** | 24 | 200k batch pooling |
+| **RewardsManager** | ✅ **NEW** | 29 | Exchange rate updates |
 
-**Total: 144 functions across 7 contracts**
+**Total: 147 functions across 7 contracts**
 
 ### Testing
 
