@@ -616,10 +616,16 @@ fn balance_of(owner: AztecAddress) -> u128 {
 ---
 
 ### TASK-105: Create LiquidStakingCore.nr Contract Skeleton
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete
+**Completed:** 2025-12-27
 **Estimated Time:** 3 hours
 **Priority:** Critical
 **Depends On:** TASK-104
+
+**Completion Notes:**
+- Created `liquid-staking-core/` with 313 lines, 27 functions
+- Includes deposit(), request_withdrawal(), trigger_batch_stake(), and all admin/view functions
+- Compiled artifact generated successfully
 
 **Context:** Create the main entry point contract for deposits and withdrawals.
 
@@ -650,10 +656,16 @@ struct Storage<Context> {
 ---
 
 ### TASK-106: Implement LiquidStakingCore.nr Deposit Function
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete (merged with TASK-105)
+**Completed:** 2025-12-27
 **Estimated Time:** 8 hours
 **Priority:** Critical
 **Depends On:** TASK-105
+
+**Completion Notes:**
+- Full deposit() implementation with exchange rate calculation and pending pool tracking
+- Integrated with StakedAztecToken minting logic
+- Event emission for bot monitoring included
 
 **Context:** Implement deposit logic that accepts AZTEC and mints stAZTEC.
 
@@ -711,10 +723,16 @@ fn deposit(amount: u128) -> u128 {
 ---
 
 ### TASK-107: Implement LiquidStakingCore.nr Withdrawal Request
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete (merged with TASK-105)
+**Completed:** 2025-12-27
 **Estimated Time:** 6 hours
 **Priority:** High
 **Depends On:** TASK-106
+
+**Completion Notes:**
+- Full request_withdrawal() implementation with request ID generation
+- Integrated with StakedAztecToken burn logic and WithdrawalQueue
+- Exchange rate calculation for AZTEC amount included
 
 **Context:** Implement withdrawal request that burns stAZTEC and queues withdrawal.
 
@@ -754,10 +772,16 @@ fn request_withdrawal(st_aztec_amount: u128) -> u64 {
 ---
 
 ### TASK-108: Create VaultManager.nr Contract
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete
+**Completed:** 2025-12-27
 **Estimated Time:** 10 hours
 **Priority:** High
 **Depends On:** TASK-105
+
+**Completion Notes:**
+- Created `vault-manager/` with 161 lines, 14 functions
+- Includes record_deposit(), execute_batch_stake(), and round-robin validator selection
+- Validator tracking and pool accounting implemented
 
 **Context:** Implement pool management and validator tracking.
 
@@ -791,10 +815,16 @@ struct Storage<Context> {
 ---
 
 ### TASK-109: Create RewardsManager.nr Contract
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete
+**Completed:** 2025-12-27
 **Estimated Time:** 8 hours
 **Priority:** High
 **Depends On:** TASK-104
+
+**Completion Notes:**
+- Created `rewards-manager/` with 165 lines, 13 functions
+- Includes process_rewards(), claim_protocol_fees(), and exchange rate updates
+- Protocol fee calculation (10%) and treasury distribution implemented
 
 **Context:** Implement rewards collection and exchange rate updates.
 
@@ -1590,27 +1620,30 @@ TASK-504 depends on TASK-503
 | Phase | Total Tasks | Completed | In Progress | Not Started |
 |-------|-------------|-----------|-------------|-------------|
 | Phase 1 | 9 | 1 | 0 | 8 |
-| Phase 2 | 11 | 6 | 0 | 5 |
+| Phase 2 | 11 | 11 | 0 | 0 |
 | Phase 3 | 4 | 0 | 0 | 4 |
 | Phase 4 | 6 | 0 | 0 | 6 |
 | Phase 5 | 3 | 0 | 0 | 3 |
 | Phase 6 | 4 | 0 | 0 | 4 |
-| **TOTAL** | **37** | **7** | **0** | **30** |
+| **TOTAL** | **37** | **12** | **0** | **25** |
 
-**Critical Path Tasks:** TASK-001, ~~101, 102, 103, 104~~, 105, 106, 302, 401, 501
+**Critical Path Tasks:** TASK-001, ~~101, 102, 103, 104, 105, 106~~, 302, 401, 501
 
 **Last Updated:** 2025-12-27 by cursor/aztec-staking-protocol-development-5e3b
 
 **Completed This Session:**
 - ✅ TASK-101-104: StakedAztecToken (778KB, 16 functions)
+- ✅ TASK-105-107: LiquidStakingCore (313 lines, 27 functions)
+- ✅ TASK-108: VaultManager (161 lines, 14 functions)
+- ✅ TASK-109: RewardsManager (165 lines, 13 functions)
 - ✅ TASK-110: WithdrawalQueue (824KB, 19 functions)
 - ✅ TASK-111: ValidatorRegistry (838KB, 23 functions)
-- ✅ 34 unit tests passing (expanded from 20)
+- ✅ Phase 2 Complete: All 11 core contract tasks finished
 
 **Next 3 Tasks to Assign:**
-1. TASK-105: Create LiquidStakingCore.nr Contract Skeleton
-2. TASK-106: Implement deposit() function
-3. TASK-107: Implement withdrawal request function
+1. TASK-201: Write Integration Test: Full Deposit Flow
+2. TASK-202: Write Integration Test: Withdrawal Flow
+3. TASK-203: Write Integration Test: Staking Batch Trigger
 
 ---
 
