@@ -297,6 +297,32 @@ We are building a **Task-Based** assistant, not a "Dictate-Code-Character-by-Cha
 
 ---
 
+## 9. Future Enhancements & Optimization
+
+These items are technically feasible but deferred to reduce MVP complexity. They represent the "Scale" phase of the architecture.
+
+### 9.1 Dedicated VPS-per-User (The "Pro" Tier Infrastructure)
+While Fly.io is perfect for MVP, at scale (10,000+ users), maintaining a dedicated VPS for power users offers:
+*   **Zero Cold Start:** The VM is always running (or suspended/resumed instantly).
+*   **Persistent Workspace:** No need to re-clone the repo; `node_modules` stays cached.
+*   **Higher Margins:** Hetzner CX22 (€4.50/mo) is cheaper than running a Fly.io machine 24/7 if usage is high.
+
+**Implementation Trigger:** When API costs exceed $15,000/mo or user churn due to startup latency increases.
+
+### 9.2 Deepgram Nova-2 Integration
+*   **Current:** Whisper API (non-streaming).
+*   **Future:** Deepgram Nova-2 (streaming WebSocket).
+*   **Benefit:** Reduces voice latency from ~2s to ~300ms, enabling near-real-time conversational coding.
+*   **Complexity:** Requires WebSocket handling on mobile and backend stream processing.
+
+### 9.3 Multi-File "Composer" Editing
+*   **Current:** Single-file edits or sequential edits via SDK.
+*   **Future:** Context-aware multi-file editing (like Cursor's Composer).
+*   **Benefit:** Complex refactors (e.g., "Rename this component and update all 50 imports").
+*   **Complexity:** Requires advanced dependency graph analysis and transactional file system rollbacks.
+
+---
+
 ## Related Documents
 
 | Document | Purpose |
@@ -306,6 +332,6 @@ We are building a **Task-Based** assistant, not a "Dictate-Code-Character-by-Cha
 
 ---
 
-**Architecture Version:** 2.1 (Refined)
+**Architecture Version:** 2.2 (Future Enhancements Added)
 **Updated:** December 26, 2025
 **Status:** Ready for Implementation

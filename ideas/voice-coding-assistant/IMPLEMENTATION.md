@@ -311,6 +311,20 @@ async function indexRepo(repoId: string, repoUrl: string) {
 
 ---
 
+## Phase 9: Future Roadmap (Post-MVP)
+
+> **Note:** These tasks are deliberately deferred to ensure MVP delivery. They are the "Scale" phase.
+
+| Task ID | Task | Complexity | Value |
+|---------|------|------------|-------|
+| `F-01` | **VPS-per-User Infrastructure** (Hetzner) | High | Zero cold start, persistent workspace |
+| `F-02` | **Deepgram Nova-2 Integration** (Streaming) | High | <300ms voice latency |
+| `F-03` | **Multi-File "Composer" Editing** | Very High | Feature parity with Cursor |
+| `F-04` | **Self-Hosted LLM Option** (Ollama) | High | Privacy/Enterprise requirement |
+| `F-05` | **Web Search Tool** (@Web) | Medium | Better context for agents |
+
+---
+
 ## Task Breakdown for AI Agents
 
 ### Sprint 0: Validation (3-5 days) - MUST DO FIRST
@@ -343,6 +357,6 @@ async function indexRepo(repoId: string, repoUrl: string) {
 
 ---
 
-**Document Version:** 2.1
+**Document Version:** 2.2
 **Created:** December 26, 2025
 **Status:** Ready for Implementation
