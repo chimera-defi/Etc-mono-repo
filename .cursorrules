@@ -183,6 +183,13 @@
   100. **Parser drift prevention** - if product UI depends on parsing markdown tables, add regression tests that spot-check a few known rows + column semantics (e.g., “price comes from Price column”) to catch column/index drift early.
   101. **Structured data honesty** - avoid `AggregateRating`/`Review` markup unless it reflects real user ratings. Prefer editorial-safe schema (e.g., `ItemList` with URLs/descriptions).
 
+## Agent Architecture & Voice Coding Learnings
+- **BYOC (Bring Your Own Compute) De-risking:** For developer tools, allowing users to run the execution agent on their own hardware (VPS/Desktop) eliminates infrastructure cost/complexity for the MVP.
+- **The Relay Pattern:** Use a "dumb" WebSocket relay to connect mobile clients to protected agents (behind firewalls/NAT) without complex tunneling (ngrok) or ingress setup.
+- **Context is Critical:** Agents cannot "guess" file locations in large repos. Semantic search (RAG) or robust local search (ripgrep) is a P0 requirement, not an enhancement.
+- **Voice for Commands, Text for Code:** Voice is superior for high-level intent ("Refactor this to use context") but inferior for precision editing ("Change line 50"). UI should reflect this hybrid approach.
+- **Path A/B Unification:** When building "Managed" vs "Self-Hosted" versions, build the Self-Hosted CLI first. The Managed version is simply the Self-Hosted CLI running in a container you control.
+
 ## Best Practices
 - Use semantic versioning for packages
 - Include proper .gitignore files for each project type
