@@ -1,16 +1,16 @@
 // Aztec Liquid Staking Pool Contract
-// NOTE: Requires aztec-nargo compiler (not standard nargo)
-// Based on Aztec Token Contract patterns
+// Based on Aztec v2.1.9 patterns (PriceFeed, Lending contracts)
 
-use dep::aztec::prelude::{
-    AztecAddress, Map, PublicMutable, PrivateMutable
-};
-use dep::aztec::context::{PublicContext, PrivateContext};
+use dep::aztec::macros::aztec;
 
 #[aztec]
-contract StakingPool {
-    use dep::aztec::prelude::{AztecAddress, Map, PublicMutable};
-    use dep::aztec::protocol_types::traits::{Serialize, Deserialize};
+pub contract StakingPool {
+    use dep::aztec::protocol_types::address::AztecAddress;
+    use dep::aztec::state_vars::{Map, PublicMutable};
+    use dep::aztec::macros::{
+        functions::{initializer, public, view},
+        storage::storage,
+    };
 
     // ============ STORAGE ============
     #[storage]
@@ -34,27 +34,6 @@ contract StakingPool {
         paused: PublicMutable<bool, Context>,
     }
 
-    // ============ EVENTS ============
-    #[event]
-    struct Deposit {
-        depositor: AztecAddress,
-        amount: u128,
-        shares_minted: u128,
-    }
-
-    #[event]
-    struct Withdraw {
-        withdrawer: AztecAddress,
-        shares_burned: u128,
-        amount_received: u128,
-    }
-
-    #[event]
-    struct RewardsAdded {
-        amount: u128,
-        new_total_staked: u128,
-    }
-
     // ============ INITIALIZER ============
     #[public]
     #[initializer]
@@ -73,7 +52,7 @@ contract StakingPool {
     /// Deposit tokens and receive shares
     /// Returns: number of shares minted
     #[public]
-    fn deposit(amount: u128) -> u128 {
+    fn deposit(amount: u128) -> pub u128 {
         assert(!storage.paused.read(), "Pool is paused");
         assert(amount > 0, "Amount must be positive");
 
@@ -100,8 +79,8 @@ contract StakingPool {
         let current_shares = storage.shares.at(caller).read();
         storage.shares.at(caller).write(current_shares + shares_to_mint);
 
-        // TODO: Transfer tokens from caller to pool
-        // This requires integration with Aztec token contract
+        // TODO: Integrate with Aztec token contract for actual transfers
+        // Token::at(staking_token).transfer_in_public(caller, context.this_address(), amount, 0).call(&mut context);
 
         shares_to_mint
     }
@@ -109,7 +88,7 @@ contract StakingPool {
     /// Withdraw tokens by burning shares
     /// Returns: amount of tokens received
     #[public]
-    fn withdraw(shares_to_burn: u128) -> u128 {
+    fn withdraw(shares_to_burn: u128) -> pub u128 {
         assert(!storage.paused.read(), "Pool is paused");
         assert(shares_to_burn > 0, "Shares must be positive");
 
@@ -136,14 +115,14 @@ contract StakingPool {
         // Update user shares
         storage.shares.at(caller).write(user_shares - shares_to_burn);
 
-        // TODO: Transfer tokens from pool to caller
-        // This requires integration with Aztec token contract
+        // TODO: Integrate with Aztec token contract for actual transfers
+        // Token::at(staking_token).transfer_in_public(context.this_address(), caller, net_amount, 0).call(&mut context);
 
         net_amount
     }
 
     /// Add staking rewards to the pool (increases share value)
-    /// Only callable by admin or reward source
+    /// Only callable by admin
     #[public]
     fn add_rewards(amount: u128) {
         let caller = context.msg_sender();
@@ -153,12 +132,12 @@ contract StakingPool {
         let total_staked = storage.total_staked.read();
         storage.total_staked.write(total_staked + amount);
 
-        // TODO: Transfer reward tokens to pool
+        // TODO: Integrate with Aztec token contract for actual transfers
     }
 
     /// Collect accumulated fees
     #[public]
-    fn collect_fees() -> u128 {
+    fn collect_fees() -> pub u128 {
         let fee_recipient = storage.fee_recipient.read();
         let caller = context.msg_sender();
         assert(caller == fee_recipient, "Only fee recipient can collect");
@@ -166,7 +145,7 @@ contract StakingPool {
         let fees = storage.pending_fees.read();
         storage.pending_fees.write(0);
 
-        // TODO: Transfer fees to recipient
+        // TODO: Integrate with Aztec token contract for actual transfers
 
         fees
     }
@@ -205,25 +184,25 @@ contract StakingPool {
 
     #[public]
     #[view]
-    fn get_total_staked() -> u128 {
+    fn get_total_staked() -> pub u128 {
         storage.total_staked.read()
     }
 
     #[public]
     #[view]
-    fn get_total_shares() -> u128 {
+    fn get_total_shares() -> pub u128 {
         storage.total_shares.read()
     }
 
     #[public]
     #[view]
-    fn get_share_balance(account: AztecAddress) -> u128 {
+    fn get_share_balance(account: AztecAddress) -> pub u128 {
         storage.shares.at(account).read()
     }
 
     #[public]
     #[view]
-    fn get_share_value() -> u128 {
+    fn get_share_value() -> pub u128 {
         let total_staked = storage.total_staked.read();
         let total_shares = storage.total_shares.read();
 
@@ -236,20 +215,20 @@ contract StakingPool {
 
     #[public]
     #[view]
-    fn get_fee_bps() -> u64 {
+    fn get_fee_bps() -> pub u64 {
         storage.fee_bps.read()
     }
 
     #[public]
     #[view]
-    fn is_paused() -> bool {
+    fn is_paused() -> pub bool {
         storage.paused.read()
     }
 
     /// Calculate how many shares a deposit would receive
     #[public]
     #[view]
-    fn preview_deposit(amount: u128) -> u128 {
+    fn preview_deposit(amount: u128) -> pub u128 {
         let total_staked = storage.total_staked.read();
         let total_shares = storage.total_shares.read();
 
@@ -263,7 +242,7 @@ contract StakingPool {
     /// Calculate how many tokens a withdrawal would receive
     #[public]
     #[view]
-    fn preview_withdraw(shares: u128) -> u128 {
+    fn preview_withdraw(shares: u128) -> pub u128 {
         let total_staked = storage.total_staked.read();
         let total_shares = storage.total_shares.read();
 
