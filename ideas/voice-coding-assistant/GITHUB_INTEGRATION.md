@@ -35,7 +35,7 @@ Cursor's approach that we're reverse-engineering:
 | `pull_request.merged` | PR merged to base branch | Archive agent session, notify user |
 | `pull_request.closed` | PR closed without merge | Archive agent, mark as "Closed" |
 | `pull_request.review_submitted` | Review added to PR | Notify user, update agent status |
-| `issue_comment.created` | Comment on PR/issue | Parse for @cadence mentions |
+| `issue_comment.created` | Comment on PR/issue | Parse for @cadence-ai mentions |
 | `check_run.completed` | CI checks finish | Update agent with CI status |
 | `push` | New commits pushed | Update agent with commit info |
 
@@ -315,10 +315,10 @@ export class AgentArchiver {
 │                                                                              │
 │  1. CREATE ISSUE (Any source)                                                │
 │  ┌──────────────────────────────────────────────────────────────────────┐   │
-│  │  Linear: "Add dark mode support"  @cadence                           │   │
+│  │  Linear: "Add dark mode support"  @cadence-ai                           │   │
 │  │  GitHub Issue: "Fix auth bug" → assign to cadence-bot                │   │
 │  │  Cadence App: Voice command or manual creation                       │   │
-│  │  Slack: "@cadence implement feature X on repo Y"                     │   │
+│  │  Slack: "@cadence-ai implement feature X on repo Y"                     │   │
 │  └──────────────────────────────────────────────────────────────────────┘   │
 │                                        │                                     │
 │                                        ▼                                     │
@@ -348,7 +348,7 @@ export class AgentArchiver {
 │  │  Developer reviews PR:                                                │   │
 │  │  • Approve → Merge → Issue auto-closes                               │   │
 │  │  • Request changes → Agent responds with follow-up commit            │   │
-│  │  • Comment "@cadence fix the test" → Agent makes changes             │   │
+│  │  • Comment "@cadence-ai fix the test" → Agent makes changes             │   │
 │  └──────────────────────────────────────────────────────────────────────┘   │
 │                                        │                                     │
 │                                        ▼                                     │
@@ -372,7 +372,7 @@ export class LinearWebhookHandler {
   async handleIssueCreated(payload: LinearWebhookPayload) {
     const issue = payload.data;
 
-    // Check if @cadence mentioned or assigned
+    // Check if @cadence-ai mentioned or assigned
     if (!this.shouldProcess(issue)) return;
 
     // Parse configuration from issue
@@ -428,7 +428,7 @@ export class GitHubIssueHandler {
     const issue = payload.issue;
     const assignee = payload.assignee;
 
-    // Check if assigned to cadence-bot or @cadence mentioned
+    // Check if assigned to cadence-bot or @cadence-ai mentioned
     if (assignee.login !== 'cadence-bot' && !this.hasCadenceMention(issue)) {
       return;
     }
@@ -469,7 +469,7 @@ export class GitHubIssueHandler {
 
 ## 5. PR Comment Interaction
 
-### @cadence Mentions in PRs
+### @cadence-ai Mentions in PRs
 
 ```typescript
 // backend/src/services/webhooks/CommentEventHandler.ts
@@ -477,7 +477,7 @@ export class CommentEventHandler implements WebhookHandler {
   async handle(payload: GitHubWebhookPayload) {
     const comment = payload.comment;
 
-    if (!comment.body.includes('@cadence')) return;
+    if (!comment.body.includes('@cadence-ai')) return;
 
     // Find associated agent
     const agent = await db.query.agents.findFirst({
@@ -530,11 +530,11 @@ export class CommentEventHandler implements WebhookHandler {
 
 | Command | Description | Example |
 |---------|-------------|---------|
-| `@cadence fix [instruction]` | Make changes based on feedback | `@cadence fix the failing test` |
-| `@cadence update` | Pull latest changes, re-run checks | `@cadence update` |
-| `@cadence status` | Get current agent status | `@cadence status` |
-| `@cadence stop` | Cancel the agent | `@cadence stop` |
-| `@cadence restart` | Restart agent from scratch | `@cadence restart` |
+| `@cadence-ai fix [instruction]` | Make changes based on feedback | `@cadence-ai fix the failing test` |
+| `@cadence-ai update` | Pull latest changes, re-run checks | `@cadence-ai update` |
+| `@cadence-ai status` | Get current agent status | `@cadence-ai status` |
+| `@cadence-ai stop` | Cancel the agent | `@cadence-ai stop` |
+| `@cadence-ai restart` | Restart agent from scratch | `@cadence-ai restart` |
 
 ---
 
@@ -765,7 +765,7 @@ AUTO_DELETE_ARCHIVED_AFTER_DAYS=90
 | Task | Priority | Est. |
 |------|----------|------|
 | Handle `issue_comment` events | P0 | 3h |
-| Parse @cadence mentions | P0 | 2h |
+| Parse @cadence-ai mentions | P0 | 2h |
 | Implement fix/update commands | P0 | 4h |
 | Add review notification handling | P1 | 2h |
 

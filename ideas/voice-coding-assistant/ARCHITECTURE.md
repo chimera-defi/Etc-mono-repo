@@ -623,7 +623,7 @@ See **[GITHUB_INTEGRATION.md](./GITHUB_INTEGRATION.md)** for the complete GitHub
 | **Webhook Events** | React to PR merges, closes, comments in real-time |
 | **Auto-Archiving** | Merged/closed PRs automatically archive agent sessions |
 | **Issue Integration** | Start agents from GitHub Issues, Linear, or Slack |
-| **@cadence Mentions** | Respond to PR comments with follow-up changes |
+| **@cadence-ai Mentions** | Respond to PR comments with follow-up changes |
 | **Status Sync** | Keep issue trackers updated with agent progress |
 
 ### Auto-Archive Workflow
