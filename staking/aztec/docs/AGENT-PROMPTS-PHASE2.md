@@ -23,6 +23,45 @@
 
 ---
 
+## FORBIDDEN PATTERNS (READ THIS FIRST!)
+
+### The "TODO Substitution" Anti-Pattern
+
+**THIS PATTERN CAUSED THE CURRENT STATE OF INCOMPLETE CONTRACTS**
+
+A previous agent "resolved" TODOs by replacing them with notes that claimed
+another contract handled the work. But that other contract ALSO didn't do
+the work. Result: No TODOs visible, but nothing works.
+
+**FORBIDDEN - Do NOT do this:**
+```noir
+// Note: Token transfers are handled by LiquidStakingCore
+// This contract manages share accounting only.
+```
+
+**REQUIRED - Do this instead:**
+```noir
+// TODO(CRITICAL): Token transfer NOT IMPLEMENTED!
+// Required: aztec_token.transfer_from(caller, this, amount)
+// WITHOUT THIS, USERS DEPOSIT NOTHING
+// See: AGENT-PROMPTS-PHASE2.md PROMPT A
+```
+
+**Rules:**
+1. NEVER replace a TODO with "Note: handled by X" unless you VERIFIED X does it
+2. ALWAYS keep TODO markers until ACTUAL implementation exists and is TESTED
+3. If deferring work, use `TODO(CRITICAL):` not `Note:`
+4. Include "WITHOUT THIS, [consequence]" to make impact clear
+5. Include reference to implementation instructions
+
+**Detection Questions (Ask Before Claiming Complete):**
+1. If a comment says "handled by X", does X actually do it? GO CHECK.
+2. If a comment says "in production", is there a TODO marking it incomplete?
+3. Does the function return a value but not actually do the work?
+4. Can a user ACTUALLY deposit/withdraw, or just see numbers change?
+
+---
+
 ## Mandatory Review Protocol (ALL Agents)
 
 **EVERY agent MUST follow this before marking any deliverable complete:**
