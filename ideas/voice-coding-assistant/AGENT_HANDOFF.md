@@ -3,54 +3,99 @@
 > **Use this file to maintain continuity between agent sessions**
 
 Last Updated: December 28, 2025
-Current Status: **MVP Complete**
-Approach: **Simplified - User's VPS + Voice Bridge**
+Current Status: **Planning Complete - Ready for iOS Development**
+Approach: **Swift iOS App + Backend API + User's VPS**
 
 ---
 
-## Major Simplification (Dec 28, 2025)
+## Current Direction (Dec 28, 2025)
 
-The project was simplified from a 12-week mobile app build to:
+**Major pivot:** Building a native Swift iOS app instead of React Native or web interface.
 
 | Component | Status | Description |
 |-----------|--------|-------------|
-| `cadence-web` | ✅ Complete | Browser-based voice interface WITH setup flow |
-| `cadence-setup/bootstrap.sh` | ✅ Complete | One-liner VPS bootstrap script |
-| `cadence-bridge` | ✅ Complete | HTTP server wrapping Claude CLI (deployed via bootstrap) |
+| `cadence-api` | ✅ Scaffolded | Backend API with tests (Fastify + TypeScript) |
+| `cadence-ios` | 📋 Planned | Native Swift/SwiftUI iOS app |
+| `cadence-setup` | ✅ Complete | VPS bootstrap script |
 
-**Total code: ~700 lines instead of 10,000+**
+### Why Swift over React Native?
 
-### Why the Simplification?
+| Factor | Swift | React Native |
+|--------|-------|--------------|
+| **Voice APIs** | ✅ Native AVFoundation | ⚠️ Wrapper libraries |
+| **Performance** | ✅ No JS bridge | ⚠️ Bridge overhead |
+| **iOS Integration** | ✅ Siri, Widgets, Shortcuts | ⚠️ Limited |
+| **Target Audience** | ✅ iOS developers | - |
 
-1. User already has a VPS → Don't build VPS provisioning
-2. Claude Code CLI exists → Don't build agent execution
-3. Browser can record audio → Don't need mobile app for MVP
-4. Whisper API exists → Don't build STT
-5. **Setup happens IN THE APP** → No separate CLI needed
+**Decision:** Native Swift for best voice experience. iOS-only for MVP.
 
-### What We Actually Built
+---
+
+## Architecture Overview
 
 ```
-cadence-web/       → Static HTML page with setup flow + voice recording
-cadence-setup/     → bootstrap.sh one-liner for VPS (shown in the app)
-cadence-bridge     → ~100 LOC HTTP server, auto-deployed to VPS
+┌─────────────────────┐      ┌─────────────────────┐      ┌─────────────────────┐
+│   iOS App (Swift)   │ ──── │   Backend API       │ ──── │   User's VPS        │
+│                     │      │   (Fastify)         │      │   (Claude Code)     │
+│ • Voice recording   │      │ • Task management   │      │ • Code execution    │
+│ • AVFoundation      │      │ • Whisper proxy     │      │ • Git operations    │
+│ • SwiftUI           │      │ • VPS bridge        │      │ • File editing      │
+└─────────────────────┘      └─────────────────────┘      └─────────────────────┘
 ```
 
-### The Setup Flow
+---
 
-1. User opens `cadence-web/index.html`
-2. App shows bootstrap command to copy
-3. User SSHs into VPS, runs the one-liner
-4. User enters VPS IP + API keys in the app
-5. App connects to VPS over HTTP, sends config
-6. VPS installs Claude Code, deploys bridge, returns endpoint + key
-7. User starts coding with voice
+## Components
+
+### 1. Backend API (`cadence-api/`)
+
+**Status:** ✅ Scaffolded with tests
+
+| File | Purpose |
+|------|---------|
+| `src/index.ts` | Fastify app entry |
+| `src/routes/tasks.ts` | Task CRUD |
+| `src/routes/voice.ts` | Transcription + parsing |
+| `src/services/whisper.ts` | OpenAI Whisper integration |
+| `src/services/command-parser.ts` | Voice → intent |
+| `src/services/vps-bridge.ts` | Forward to user's VPS |
+| `src/tests/*.test.ts` | Vitest test suite |
+
+```bash
+cd cadence-api
+npm install
+npm test        # Run tests
+npm run dev     # Start server
+```
+
+### 2. iOS App (`cadence-ios/`)
+
+**Status:** 📋 Planned (see `cadence-ios/PLAN.md`)
+
+| Component | Technology |
+|-----------|------------|
+| UI | SwiftUI (iOS 17+) |
+| Audio | AVFoundation |
+| Networking | URLSession + async/await |
+| State | @Observable |
+| Storage | SwiftData + Keychain |
+
+**Implementation phases:**
+1. Core voice recording (Week 1)
+2. API integration (Week 1-2)
+3. Task management (Week 2)
+4. Settings & VPS setup (Week 2-3)
+5. Polish & TestFlight (Week 3)
+
+### 3. VPS Setup (`cadence-setup/`)
+
+**Status:** ✅ Complete
+
+Bootstrap script that user runs on their VPS to set up Claude Code bridge.
 
 ---
 
 ## Pre-Flight Checklist
-
-Before working on Cadence:
 
 ```bash
 # 1. Check Node.js version (need 20+)
@@ -61,30 +106,11 @@ pwd
 # Should be: .../Etc-mono-repo/ideas/voice-coding-assistant
 
 # 3. Check components exist
-ls cadence-setup/ cadence-web/
+ls cadence-api/ cadence-ios/ cadence-setup/
+
+# 4. API tests pass
+cd cadence-api && npm install && npm test
 ```
-
----
-
-## Current Status
-
-### MVP Components
-
-| Component | Status | Location |
-|-----------|--------|----------|
-| Web Interface (+ setup) | ✅ Ready | `cadence-web/index.html` |
-| Bootstrap Script | ✅ Ready | `cadence-setup/bootstrap.sh` |
-| Bridge Server | ✅ Ready | Embedded in bootstrap.sh, deployed to VPS |
-| Documentation | ✅ Updated | `README.md` |
-
-### Future Work (Optional)
-
-| Task | Priority | Description |
-|------|----------|-------------|
-| Mobile app | P2 | React Native version of cadence-web |
-| HTTPS setup | P1 | Add Caddy/nginx for SSL |
-| Multi-repo | P2 | Better repo management UI |
-| Streaming | P2 | Stream Claude output in real-time |
 
 ---
 
@@ -92,13 +118,12 @@ ls cadence-setup/ cadence-web/
 
 | Decision | Choice | Rationale | Date |
 |----------|--------|-----------|------|
-| Execution | User's VPS | User controls environment | Dec 28, 2025 |
-| Bridge | Node.js HTTP | Minimal, ~100 LOC | Dec 28, 2025 |
-| Voice | Browser MediaRecorder | Works everywhere | Dec 28, 2025 |
+| iOS Framework | **Swift + SwiftUI** | Native voice APIs, best UX | Dec 28, 2025 |
+| Backend | Fastify + TypeScript | Fast, type-safe | Dec 28, 2025 |
 | STT | OpenAI Whisper API | 98% accuracy | Dec 28, 2025 |
-| Auth | API key | Simple, secure | Dec 28, 2025 |
-| VPS Setup | In-app bootstrap | User runs one-liner, app configures | Dec 28, 2025 |
-| Mobile app | Deferred | Start simple | Dec 28, 2025 |
+| TTS | AVSpeechSynthesizer | Native, free | Dec 28, 2025 |
+| Execution | User's VPS + Claude Code | User controls environment | Dec 28, 2025 |
+| Auth | API key + Keychain | Simple, secure | Dec 28, 2025 |
 
 ---
 
@@ -106,38 +131,36 @@ ls cadence-setup/ cadence-web/
 
 | File | Change | Date |
 |------|--------|------|
-| cadence-setup/bootstrap.sh | Created - in-app setup script | Dec 28, 2025 |
-| cadence-web/index.html | Updated - integrated setup flow | Dec 28, 2025 |
-| README.md | Updated - bootstrap approach | Dec 28, 2025 |
-| AGENT_HANDOFF.md | Updated | Dec 28, 2025 |
+| ARCHITECTURE.md | Updated for Swift | Dec 28, 2025 |
+| cadence-api/* | Created backend scaffold | Dec 28, 2025 |
+| cadence-ios/PLAN.md | Created Swift implementation plan | Dec 28, 2025 |
+| AGENT_HANDOFF.md | Updated for new direction | Dec 28, 2025 |
 
 ---
 
-## Next Agent Instructions
+## Next Steps
 
-### To Test the MVP:
+### Immediate (iOS Development)
 
-1. Get a VPS (Hetzner, DigitalOcean, etc.)
-2. Open `cadence-web/index.html` in browser
-3. Copy the bootstrap command shown
-4. SSH into your VPS and run the command
-5. Enter VPS IP + API keys in the app
-6. Click "Connect & Setup" - app will configure VPS
-7. Test voice recording and task execution
+1. **Create Xcode project** - New SwiftUI app targeting iOS 17+
+2. **Implement AudioRecorder** - AVAudioRecorder wrapper
+3. **Build VoiceView** - Record button + waveform
+4. **Integrate with API** - Transcription endpoint
+5. **Add task management** - List + detail views
 
-### To Continue Development:
+### Backend Improvements
 
-1. **Add HTTPS**: Create Caddy config for SSL
-2. **Improve UI**: Better output display, history
-3. **Add streaming**: SSE for real-time Claude output
-4. **Mobile app**: Port cadence-web to React Native
+1. **WebSocket support** - Real-time task updates
+2. **Database** - Replace in-memory with PostgreSQL
+3. **Authentication** - GitHub OAuth
+4. **Deployment** - Vercel or Railway
 
 ---
 
 ## Required API Keys
 
 ```bash
-# Anthropic (Claude Code)
+# Anthropic (Claude Code on VPS)
 ANTHROPIC_API_KEY=sk-ant-...
 
 # OpenAI (Whisper - for voice)
@@ -146,6 +169,17 @@ OPENAI_API_KEY=sk-...
 
 ---
 
-**Document Version:** 2.1
+## Deprecated Components
+
+The following were created during earlier iterations but are now superseded:
+
+| Component | Reason | Replacement |
+|-----------|--------|-------------|
+| `cadence-web/` | Web prototype | Swift iOS app |
+| React Native plans | Cross-platform not needed | Swift native |
+
+---
+
+**Document Version:** 3.0
 **Created:** December 28, 2025
-**Updated:** December 28, 2025 - In-app bootstrap setup
+**Updated:** December 28, 2025 - Swift iOS app direction
