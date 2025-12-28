@@ -2,9 +2,9 @@
 
 > **Architecture reference for the Voice AI Coding Assistant**
 >
-> Last Updated: December 26, 2025 | Status: Ready for Implementation
+> Last Updated: December 28, 2025 | Status: Planning - Swift iOS App
 >
-> ⚠️ **Note:** For implementation details, task breakdowns, and code examples, see **[IMPLEMENTATION.md](./IMPLEMENTATION.md)** - that is the primary document for developers.
+> ⚠️ **Note:** This architecture has been updated to use **Swift/SwiftUI** for iOS instead of React Native.
 
 ---
 
@@ -12,15 +12,30 @@
 
 | Component | Technology | Cost |
 |-----------|-----------|------|
-| Mobile App | React Native + Expo SDK 52 | Free |
+| **iOS App** | **Swift + SwiftUI** | Free |
 | Backend API | Fastify 4 + TypeScript | $20-50/mo |
-| AI Agents | Claude API | ~$0.50/agent |
+| AI Agents | Claude Code CLI | ~$0.50/agent |
 | STT | OpenAI Whisper API | $0.006/min |
-| TTS | expo-speech (on-device) | Free |
+| TTS | AVSpeechSynthesizer (native) | Free |
 | Database | PostgreSQL (Neon) | $0-25/mo |
-| Real-time | Supabase Realtime | $0-25/mo |
-| **Execution (MVP)** | **Fly.io Machines** | **~$15-30/mo** |
-| **Execution (Scale)** | **Hetzner VPS per user** | **$4.85/user/mo** |
+| Real-time | WebSocket | $0 |
+| **Execution** | **User's VPS + Claude Code** | **User provides** |
+
+---
+
+## Architecture Decision: Swift over React Native
+
+| Factor | Swift | React Native |
+|--------|-------|--------------|
+| **Voice APIs** | ✅ Native AVFoundation, Speech.framework | ⚠️ Wrapper libraries |
+| **Performance** | ✅ Native, no bridge | ⚠️ JS bridge overhead |
+| **iOS Integration** | ✅ Siri, Shortcuts, Widgets | ⚠️ Limited |
+| **App Size** | ✅ Smaller | ⚠️ Larger (include RN runtime) |
+| **Target Audience** | ✅ iOS developers appreciate native | - |
+| **Development Time** | ⚠️ iOS only | ✅ Cross-platform |
+| **Team Size** | ⚠️ Need Swift expertise | ✅ JS developers |
+
+**Decision:** Swift. We're targeting iOS-only for MVP. Voice is core functionality - native APIs provide better experience.
 
 ---
 
@@ -28,15 +43,15 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                         MOBILE APP (React Native)                        │
+│                         iOS APP (Swift/SwiftUI)                          │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐    │
 │  │ Voice Input │  │ Agent List  │  │Agent Detail │  │  Settings   │    │
-│  │ (Whisper)   │  │             │  │             │  │             │    │
+│  │ (AVAudio)   │  │             │  │             │  │             │    │
 │  └──────┬──────┘  └─────────────┘  └─────────────┘  └─────────────┘    │
 │         │                                                                │
 │         ▼                                                                │
 │  ┌──────────────────────────────────────────────────────────────────┐   │
-│  │  Voice Processing: expo-av → Whisper API → CommandParser (Haiku) │   │
+│  │  Voice: AVAudioRecorder → Whisper API → CommandParser (Haiku)    │   │
 │  └────────────────────────────────┬─────────────────────────────────┘   │
 └───────────────────────────────────┼─────────────────────────────────────┘
                                     │ HTTPS
@@ -44,21 +59,21 @@
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                         BACKEND API (Fastify)                            │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐    │
-│  │ Auth Routes │  │Agent Routes │  │ Codebase    │  │ Webhooks    │    │
-│  │ (GitHub)    │  │ (CRUD)      │  │ Analyzer    │  │ (GitHub)    │    │
+│  │ Auth Routes │  │ Task Routes │  │ VPS Bridge  │  │ Webhooks    │    │
+│  │ (GitHub)    │  │ (CRUD)      │  │             │  │ (GitHub)    │    │
 │  └─────────────┘  └──────┬──────┘  └─────────────┘  └─────────────┘    │
 │                          │                                               │
 │                          ▼                                               │
 │  ┌──────────────────────────────────────────────────────────────────┐   │
-│  │              Agent Orchestrator (Queue + State + Health)          │   │
+│  │              Task Queue + WebSocket for real-time updates         │   │
 │  └────────────────────────────────┬─────────────────────────────────┘   │
 └───────────────────────────────────┼─────────────────────────────────────┘
                                     │
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                    EXECUTION ENVIRONMENT (See Section 4)                 │
+│                    USER'S VPS (Claude Code Bridge)                       │
 │  ┌──────────────────────────────────────────────────────────────────┐   │
-│  │                    Claude Agent SDK Execution                     │   │
+│  │                    Claude Code CLI Execution                      │   │
 │  │  • Clone repo  • Read/Edit files  • Run commands  • Create PR    │   │
 │  └──────────────────────────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────────────────────────┘
@@ -220,18 +235,18 @@ See **Section 6** for detailed VPS-per-user architecture for Pro tier.
 
 ---
 
-## 5. Voice Pipeline
+## 5. Voice Pipeline (Swift Native)
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                           VOICE PIPELINE                                  │
+│                      VOICE PIPELINE (iOS Native)                          │
 ├──────────────────────────────────────────────────────────────────────────┤
 │                                                                           │
 │  1. RECORD                    2. TRANSCRIBE              3. PARSE        │
 │  ┌─────────────┐             ┌─────────────┐            ┌─────────────┐  │
-│  │   expo-av   │────M4A─────>│ Hybrid STT  │───Text───> │Claude Haiku │  │
-│  │  Recording  │   (50KB)    │ (Whisper +  │            │  (Parser)   │  │
-│  │             │             │  Context)   │            │             │  │
+│  │AVAudioRec-  │────M4A─────>│ Whisper API │───Text───> │Claude Haiku │  │
+│  │order        │   (50KB)    │ (OpenAI)    │            │  (Parser)   │  │
+│  │             │             │             │            │             │  │
 │  │ Target: 30s │             │ ~300ms      │            │ ~200ms      │  │
 │  │ max         │             │ 98% acc     │            │ Intent+Ents │  │
 │  └─────────────┘             └──────┬──────┘            └──────┬──────┘  │
@@ -245,15 +260,15 @@ See **Section 6** for detailed VPS-per-user architecture for Pro tier.
 │  4. EXECUTE                   5. RESPOND                       │         │
 │  ┌─────────────┐             ┌─────────────┐                   │         │
 │  │   Backend   │<────────────│   Router    │<──────────────────┘         │
-│  │   Agent     │             │             │                              │
-│  │  Creation   │             │ Route to    │                              │
+│  │   + VPS     │             │             │                              │
+│  │   Bridge    │             │ Route to    │                              │
 │  │             │             │ handler     │                              │
 │  └──────┬──────┘             └─────────────┘                              │
 │         │                                                                  │
 │         ▼                                                                  │
 │  ┌─────────────┐                                                          │
-│  │ expo-speech │  "Agent started. I'll notify you when complete."        │
-│  │   (TTS)     │                                                          │
+│  │AVSpeech-    │  "Agent started. I'll notify you when complete."        │
+│  │Synthesizer  │                                                          │
 │  │  <50ms      │                                                          │
 │  └─────────────┘                                                          │
 │                                                                           │
@@ -617,15 +632,14 @@ Post-MVP:   Hybrid model (Free=serverless, Pro=VPS)
 
 | Decision | Choice | Rationale |
 |----------|--------|-----------|
-| **Mobile Framework** | React Native + Expo | Cross-platform, fast iteration |
+| **iOS Framework** | **Swift + SwiftUI** | Native voice APIs, best UX |
 | **Backend** | Fastify + TypeScript | Fast, type-safe, familiar |
 | **Database** | Neon PostgreSQL | Serverless, auto-scale |
 | **STT** | OpenAI Whisper API | 95-98% accuracy, reliable |
-| **TTS** | expo-speech | Free, on-device, low latency |
-| **Real-time** | Supabase Realtime | WebSocket, free tier |
-| **Execution (MVP)** | Fly.io Machines | Simple, pay-per-use |
-| **Execution (Scale)** | Hetzner VPS per user | Zero cold start, predictable |
-| **AI Core** | Claude API + Agent tools | Best coding capability |
+| **TTS** | AVSpeechSynthesizer | Free, native, low latency |
+| **Real-time** | WebSocket | Direct, no third-party |
+| **Execution** | User's VPS + Claude Code | User controls environment |
+| **AI Core** | Claude Code CLI | Battle-tested agent execution |
 
 ---
 
