@@ -2,9 +2,11 @@
 
 > **Architecture reference for the Voice AI Coding Assistant**
 >
-> Last Updated: December 28, 2025 | Status: Planning - Swift iOS App
+> Last Updated: December 28, 2025 | Status: Backend Complete - iOS Development Pending
 >
 > ⚠️ **Note:** This architecture has been updated to use **Swift/SwiftUI** for iOS instead of React Native.
+>
+> **Implementation Status:** Backend API is fully scaffolded with streaming, text input, and webhook support. See Section 3 for actual endpoints.
 
 ---
 
@@ -148,18 +150,33 @@ interface CodebaseContext {
 
 ## 3. API Endpoints
 
-| Method | Endpoint | Purpose |
-|--------|----------|---------|
-| `POST` | `/api/auth/github` | OAuth callback |
-| `POST` | `/api/agents` | Create agent |
-| `GET` | `/api/agents` | List agents |
-| `GET` | `/api/agents/:id` | Get agent detail |
-| `POST` | `/api/agents/:id/pause` | Pause agent |
-| `POST` | `/api/agents/:id/resume` | Resume agent |
-| `DELETE` | `/api/agents/:id` | Cancel agent |
-| `GET` | `/api/agents/:id/logs` | Get agent logs |
-| `POST` | `/api/codebase/analyze` | Analyze repository |
-| `GET` | `/api/repos` | List user repositories |
+### Implemented Endpoints (cadence-api/)
+
+| Method | Endpoint | Purpose | Status |
+|--------|----------|---------|--------|
+| `GET` | `/api/health` | Health check | ✅ Implemented |
+| `GET` | `/api/tasks` | List all tasks | ✅ Implemented |
+| `GET` | `/api/tasks/:id` | Get task detail | ✅ Implemented |
+| `POST` | `/api/tasks` | Create new task | ✅ Implemented |
+| `DELETE` | `/api/tasks/:id` | Cancel task | ✅ Implemented |
+| `POST` | `/api/voice/transcribe` | Transcribe audio (Whisper) | ✅ Implemented |
+| `POST` | `/api/voice/parse` | Parse text to command | ✅ Implemented |
+| `POST` | `/api/voice/command` | Transcribe + parse combo | ✅ Implemented |
+| `POST` | `/api/input/text` | Text input (keyboard) | ✅ Implemented |
+| `POST` | `/api/input/command` | Direct command execution | ✅ Implemented |
+| `WS` | `/api/ws/stream` | WebSocket streaming | ✅ Implemented |
+| `GET` | `/api/ws/health` | WebSocket health check | ✅ Implemented |
+| `POST` | `/api/webhooks/github` | GitHub webhook handler | ✅ Implemented |
+
+### Planned Endpoints (Not Yet Implemented)
+
+| Method | Endpoint | Purpose | Status |
+|--------|----------|---------|--------|
+| `POST` | `/api/auth/github` | OAuth callback | 📋 Planned |
+| `GET` | `/api/repos` | List user repositories | 📋 Planned |
+| `POST` | `/api/codebase/analyze` | Analyze repository | 📋 Planned |
+
+> **Note:** The API uses "tasks" terminology (not "agents") to match the backend implementation.
 
 ---
 
@@ -287,6 +304,88 @@ To match **Wispr Flow's 95-98% accuracy**, we use a **Context Injection** strate
     *   *Result:* Whisper hears "use effect" -> transcribes `useEffect` because it's in the prompt.
 
 **Architecture Reference:** See `WISPR_FLOW_RESEARCH_SUMMARY.md` for full reverse-engineering details.
+
+---
+
+## 5.1 Real-Time Streaming Architecture (Implemented)
+
+The backend implements a two-layer streaming architecture:
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                     STREAMING ARCHITECTURE                                │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  iOS App (Swift)                Backend API                User's VPS   │
+│  ┌─────────────┐              ┌─────────────┐            ┌─────────────┐│
+│  │ WebSocket   │◄─────WS─────►│ StreamMan-  │◄────SSE───►│ Claude Code ││
+│  │ Client      │   Events     │ ager        │  Events    │ Execution   ││
+│  └─────────────┘              └─────────────┘            └─────────────┘│
+│                                                                          │
+│  Events:                       Subscription:              SSE Format:    │
+│  • task_started               • subscribe(taskId)        • data: {...}  │
+│  • tool_use                   • unsubscribe(taskId)      • type: output │
+│  • file_edit                  • emit(event)              • type: tool   │
+│  • command_run                                                           │
+│  • output                                                                │
+│  • error                                                                 │
+│  • task_completed                                                        │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### Streaming Flow
+
+1. **Client connects** via WebSocket to `/api/ws/stream`
+2. **Client subscribes** to task ID: `{ "type": "subscribe", "taskId": "..." }`
+3. **VPS streams events** via Server-Sent Events (SSE) to backend
+4. **Backend forwards** events to subscribed WebSocket clients
+5. **Client receives** real-time updates (tool usage, file edits, output)
+
+### Input Methods
+
+| Method | Endpoint | Use Case |
+|--------|----------|----------|
+| Voice | `/api/voice/command` | Primary - hands-free coding |
+| Text | `/api/input/text` | Fallback - keyboard input |
+| Direct | `/api/input/command` | Programmatic - direct action |
+
+---
+
+## 5.2 Known Limitations & Future Work
+
+### Current Limitations
+
+| Limitation | Description | Mitigation |
+|------------|-------------|------------|
+| **In-memory storage** | Tasks stored in Map, lost on restart | Planned: PostgreSQL |
+| **No authentication** | API is open, no user isolation | Planned: GitHub OAuth |
+| **Mock VPS mode** | Real VPS execution not tested | VPS bridge has mock mode |
+| **No rate limiting** | API can be abused | Planned: Rate limiting |
+| **Single process** | No horizontal scaling | Planned: Redis pub/sub |
+
+### Not Yet Implemented
+
+| Feature | Status | Notes |
+|---------|--------|-------|
+| iOS App | 📋 Planned | See `cadence-ios/PLAN.md` |
+| GitHub OAuth | 📋 Planned | For user authentication |
+| Database | 📋 Planned | PostgreSQL via Neon |
+| VPS Provisioning | 📋 Planned | Hetzner API integration |
+| TTS Responses | 📋 Planned | AVSpeechSynthesizer in iOS |
+
+### Test Coverage
+
+| Component | Tests | Coverage |
+|-----------|-------|----------|
+| Tasks API | 9 | CRUD + validation |
+| Input API | 9 | Text + command handling |
+| Webhooks | 10 | Signature + side effects |
+| StreamManager | 18 | Subscriptions + events |
+| VPS Bridge | 4 | Mock streaming |
+| Command Parser | 15 | Intent detection |
+| Health | 1 | Basic check |
+| **Total** | **66** | Core functionality |
 
 ---
 
@@ -680,6 +779,14 @@ This keeps the active agent list clean, showing only in-progress work.
 
 ---
 
-**Architecture Version:** 2.1
-**Updated:** December 27, 2025
-**Status:** Ready for Implementation
+**Architecture Version:** 3.0
+**Updated:** December 28, 2025
+**Status:** Backend Complete - iOS Development Pending
+
+### Change Log
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 3.0 | Dec 28, 2025 | Added streaming architecture, limitations, updated endpoints |
+| 2.1 | Dec 27, 2025 | Swift iOS decision, VPS-per-user analysis |
+| 2.0 | Dec 27, 2025 | Initial architecture document |

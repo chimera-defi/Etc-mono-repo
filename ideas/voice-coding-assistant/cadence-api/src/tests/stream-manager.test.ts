@@ -2,8 +2,13 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { StreamManager } from '../services/stream-manager.js';
 import { WebSocket } from 'ws';
 
+// Extended WebSocket type for testing
+interface MockWebSocket extends WebSocket {
+  _trigger: (event: string, data?: unknown) => void;
+}
+
 // Mock WebSocket
-function createMockSocket(): WebSocket {
+function createMockSocket(): MockWebSocket {
   const handlers: Record<string, (data: unknown) => void> = {};
   return {
     readyState: WebSocket.OPEN,
@@ -16,7 +21,7 @@ function createMockSocket(): WebSocket {
     _trigger: (event: string, data?: unknown) => {
       if (handlers[event]) handlers[event](data);
     },
-  } as unknown as WebSocket & { _trigger: (event: string, data?: unknown) => void };
+  } as unknown as MockWebSocket;
 }
 
 describe('StreamManager', () => {
@@ -186,6 +191,94 @@ describe('StreamManager', () => {
       expect(lastCall.data.success).toBe(true);
       expect(lastCall.data.summary).toBe('Task completed successfully');
       expect(lastCall.data.prUrl).toBe('https://github.com/user/repo/pull/123');
+    });
+  });
+
+  describe('WebSocket message handling', () => {
+    it('subscribes to task when client sends subscribe message', () => {
+      const socket = createMockSocket();
+      manager.addConnection('conn-1', socket);
+
+      // Initially not subscribed
+      expect(manager.getTaskSubscriberCount('task-123')).toBe(0);
+
+      // Simulate client sending subscribe message
+      const message = JSON.stringify({ type: 'subscribe', taskId: 'task-123' });
+      socket._trigger('message', Buffer.from(message));
+
+      // Now subscribed
+      expect(manager.getTaskSubscriberCount('task-123')).toBe(1);
+
+      // Confirmation should be sent
+      expect(socket.send).toHaveBeenCalledWith(
+        JSON.stringify({ type: 'subscribed', taskId: 'task-123' })
+      );
+    });
+
+    it('unsubscribes from task when client sends unsubscribe message', () => {
+      const socket = createMockSocket();
+      manager.addConnection('conn-1', socket);
+      manager.subscribeToTask('conn-1', 'task-456');
+
+      expect(manager.getTaskSubscriberCount('task-456')).toBe(1);
+
+      // Simulate client sending unsubscribe message
+      const message = JSON.stringify({ type: 'unsubscribe', taskId: 'task-456' });
+      socket._trigger('message', Buffer.from(message));
+
+      // Now unsubscribed
+      expect(manager.getTaskSubscriberCount('task-456')).toBe(0);
+    });
+
+    it('ignores invalid JSON messages', () => {
+      const socket = createMockSocket();
+      manager.addConnection('conn-1', socket);
+
+      // This should not throw
+      socket._trigger('message', Buffer.from('not valid json'));
+
+      // Connection still exists
+      expect(manager.getConnectionCount()).toBe(1);
+    });
+
+    it('ignores messages without proper type', () => {
+      const socket = createMockSocket();
+      manager.addConnection('conn-1', socket);
+
+      // Message without type
+      socket._trigger('message', Buffer.from(JSON.stringify({ taskId: 'task-1' })));
+
+      // Should not crash, no subscriptions made
+      expect(manager.getTaskSubscriberCount('task-1')).toBe(0);
+    });
+
+    it('ignores subscribe without taskId', () => {
+      const socket = createMockSocket();
+      manager.addConnection('conn-1', socket);
+
+      // Subscribe without taskId
+      socket._trigger('message', Buffer.from(JSON.stringify({ type: 'subscribe' })));
+
+      // Should not crash
+      expect(manager.getConnectionCount()).toBe(1);
+    });
+  });
+
+  describe('WebSocket close handling', () => {
+    it('removes connection when socket closes', () => {
+      const socket = createMockSocket();
+      manager.addConnection('conn-1', socket);
+      manager.subscribeToTask('conn-1', 'task-1');
+
+      expect(manager.getConnectionCount()).toBe(1);
+      expect(manager.getTaskSubscriberCount('task-1')).toBe(1);
+
+      // Simulate socket close
+      socket._trigger('close');
+
+      // Connection and subscription removed
+      expect(manager.getConnectionCount()).toBe(0);
+      expect(manager.getTaskSubscriberCount('task-1')).toBe(0);
     });
   });
 });

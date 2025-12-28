@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll, afterAll, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
 import { buildApp } from '../index.js';
 import { FastifyInstance } from 'fastify';
 import { tasks } from '../routes/tasks.js';
@@ -29,8 +29,8 @@ describe('Webhook Routes', () => {
       .digest('hex')}`;
   }
 
-  describe('POST /api/webhooks/github', () => {
-    it('accepts valid webhook with signature', async () => {
+  describe('Signature Verification', () => {
+    it('accepts valid webhook with correct signature', async () => {
       const payload = {
         action: 'opened',
         repository: {
@@ -55,7 +55,7 @@ describe('Webhook Routes', () => {
       expect(body.event).toBe('pull_request');
     });
 
-    it('rejects invalid signature', async () => {
+    it('rejects invalid signature with 401', async () => {
       const payload = {
         action: 'opened',
         repository: {
@@ -75,42 +75,41 @@ describe('Webhook Routes', () => {
       });
 
       expect(response.statusCode).toBe(401);
+      const body = JSON.parse(response.payload);
+      expect(body.error).toBe('Invalid signature');
     });
 
-    it('handles pull_request.closed event', async () => {
-      const payload = {
-        action: 'closed',
-        repository: {
-          full_name: 'user/repo',
-          html_url: 'https://github.com/user/repo',
-        },
-        pull_request: {
-          number: 123,
-          html_url: 'https://github.com/user/repo/pull/123',
-          title: 'Test PR',
-          state: 'closed',
-          merged: false,
-          head: { ref: 'feature-branch' },
-          base: { ref: 'main' },
-        },
-      };
+    it('rejects signature with wrong length', async () => {
+      const payload = { action: 'opened' };
 
       const response = await app.inject({
         method: 'POST',
         url: '/api/webhooks/github',
         headers: {
           'x-github-event': 'pull_request',
-          'x-hub-signature-256': createSignature(payload),
+          'x-hub-signature-256': 'sha256=tooshort',
         },
         payload,
       });
 
-      expect(response.statusCode).toBe(200);
-      const body = JSON.parse(response.payload);
-      expect(body.action).toBe('closed');
+      expect(response.statusCode).toBe(401);
     });
+  });
 
-    it('handles pull_request.merged event', async () => {
+  describe('Pull Request Events - Side Effects', () => {
+    it('updates task status to completed when PR is merged', async () => {
+      const prUrl = 'https://github.com/user/repo/pull/123';
+
+      // Create a task that references this PR in its output
+      const taskId = 'task-for-pr-123';
+      tasks.set(taskId, {
+        id: taskId,
+        task: 'Add feature X',
+        status: 'running',
+        createdAt: new Date().toISOString(),
+        output: `Created PR: ${prUrl}`,
+      });
+
       const payload = {
         action: 'closed',
         repository: {
@@ -119,11 +118,11 @@ describe('Webhook Routes', () => {
         },
         pull_request: {
           number: 123,
-          html_url: 'https://github.com/user/repo/pull/123',
-          title: 'Test PR',
+          html_url: prUrl,
+          title: 'Add feature X',
           state: 'closed',
           merged: true,
-          head: { ref: 'feature-branch' },
+          head: { ref: 'feature-x' },
           base: { ref: 'main' },
         },
       };
@@ -139,9 +138,114 @@ describe('Webhook Routes', () => {
       });
 
       expect(response.statusCode).toBe(200);
+
+      // Verify task was updated
+      const updatedTask = tasks.get(taskId);
+      expect(updatedTask).toBeDefined();
+      expect(updatedTask!.status).toBe('completed');
+      expect(updatedTask!.completedAt).toBeDefined();
     });
 
-    it('handles issue_comment event with @cadence-ai mention', async () => {
+    it('updates task status to cancelled when PR is closed without merge', async () => {
+      const prUrl = 'https://github.com/user/repo/pull/456';
+
+      // Create a task that references this PR
+      const taskId = 'task-for-pr-456';
+      tasks.set(taskId, {
+        id: taskId,
+        task: 'Fix bug Y',
+        status: 'running',
+        createdAt: new Date().toISOString(),
+        output: `PR created: ${prUrl}`,
+      });
+
+      const payload = {
+        action: 'closed',
+        repository: {
+          full_name: 'user/repo',
+          html_url: 'https://github.com/user/repo',
+        },
+        pull_request: {
+          number: 456,
+          html_url: prUrl,
+          title: 'Fix bug Y',
+          state: 'closed',
+          merged: false,
+          head: { ref: 'fix-bug-y' },
+          base: { ref: 'main' },
+        },
+      };
+
+      const response = await app.inject({
+        method: 'POST',
+        url: '/api/webhooks/github',
+        headers: {
+          'x-github-event': 'pull_request',
+          'x-hub-signature-256': createSignature(payload),
+        },
+        payload,
+      });
+
+      expect(response.statusCode).toBe(200);
+
+      // Verify task was cancelled (not completed)
+      const updatedTask = tasks.get(taskId);
+      expect(updatedTask).toBeDefined();
+      expect(updatedTask!.status).toBe('cancelled');
+      expect(updatedTask!.completedAt).toBeDefined();
+    });
+
+    it('does not modify tasks when no matching task found', async () => {
+      const prUrl = 'https://github.com/user/repo/pull/789';
+
+      // Create a task that does NOT reference this PR
+      const taskId = 'unrelated-task';
+      tasks.set(taskId, {
+        id: taskId,
+        task: 'Some other task',
+        status: 'running',
+        createdAt: new Date().toISOString(),
+        output: 'Some output without PR URL',
+      });
+
+      const payload = {
+        action: 'closed',
+        repository: {
+          full_name: 'user/repo',
+          html_url: 'https://github.com/user/repo',
+        },
+        pull_request: {
+          number: 789,
+          html_url: prUrl,
+          title: 'Unrelated PR',
+          state: 'closed',
+          merged: true,
+          head: { ref: 'some-branch' },
+          base: { ref: 'main' },
+        },
+      };
+
+      const response = await app.inject({
+        method: 'POST',
+        url: '/api/webhooks/github',
+        headers: {
+          'x-github-event': 'pull_request',
+          'x-hub-signature-256': createSignature(payload),
+        },
+        payload,
+      });
+
+      expect(response.statusCode).toBe(200);
+
+      // Task should remain unchanged
+      const task = tasks.get(taskId);
+      expect(task!.status).toBe('running');
+      expect(task!.completedAt).toBeUndefined();
+    });
+  });
+
+  describe('Issue Comment Events', () => {
+    it('processes @cadence-ai mentions', async () => {
       const payload = {
         action: 'created',
         repository: {
@@ -169,10 +273,14 @@ describe('Webhook Routes', () => {
         payload,
       });
 
+      // Currently only logs - test that it doesn't error
       expect(response.statusCode).toBe(200);
+      const body = JSON.parse(response.payload);
+      expect(body.received).toBe(true);
+      expect(body.event).toBe('issue_comment');
     });
 
-    it('ignores comment without @cadence-ai mention', async () => {
+    it('ignores comments without @cadence-ai mention', async () => {
       const payload = {
         action: 'created',
         repository: {
@@ -198,6 +306,34 @@ describe('Webhook Routes', () => {
       expect(response.statusCode).toBe(200);
     });
 
+    it('ignores non-created actions', async () => {
+      const payload = {
+        action: 'deleted',
+        repository: {
+          full_name: 'user/repo',
+          html_url: 'https://github.com/user/repo',
+        },
+        comment: {
+          body: '@cadence-ai do something',
+          user: { login: 'testuser' },
+        },
+      };
+
+      const response = await app.inject({
+        method: 'POST',
+        url: '/api/webhooks/github',
+        headers: {
+          'x-github-event': 'issue_comment',
+          'x-hub-signature-256': createSignature(payload),
+        },
+        payload,
+      });
+
+      expect(response.statusCode).toBe(200);
+    });
+  });
+
+  describe('Unknown Events', () => {
     it('handles unknown event types gracefully', async () => {
       const payload = {
         action: 'unknown',
@@ -218,6 +354,8 @@ describe('Webhook Routes', () => {
       });
 
       expect(response.statusCode).toBe(200);
+      const body = JSON.parse(response.payload);
+      expect(body.received).toBe(true);
     });
   });
 });

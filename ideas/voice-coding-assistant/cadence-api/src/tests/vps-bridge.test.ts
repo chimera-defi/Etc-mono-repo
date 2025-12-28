@@ -16,14 +16,6 @@ describe('VPSBridge', () => {
     });
   });
 
-  describe('configure', () => {
-    it('sets endpoint and API key', () => {
-      bridge.configure('http://localhost:3000', 'test-key');
-      // Configuration is internal, so we test via healthCheck behavior
-      // (would need to mock fetch for full test)
-    });
-  });
-
   describe('executeTask (mock mode)', () => {
     it('returns mock response when no VPS configured', async () => {
       const task: Task = {
