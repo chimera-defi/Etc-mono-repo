@@ -1,8 +1,26 @@
 # Aztec Liquid Staking - Agent Handoff Document
 
-**Version:** 2.0
+**Version:** 2.1
 **Last Updated:** December 27, 2025
 **Status:** ✅ ALL CONTRACTS COMPLETE WITH CROSS-CONTRACT INTEGRATION
+
+---
+
+## 🔴 PRIORITY: Environment Setup Required
+
+**Before doing anything else, read and follow:**
+
+```
+/workspace/staking/aztec/NEXT_AGENT_PROMPT.md
+```
+
+The contracts are complete but **cannot be compiled** because `aztec-nargo` is not installed and Docker is unavailable. The next agent's primary task is to:
+
+1. Get Docker working, OR
+2. Install `aztec-nargo` natively, OR  
+3. Set up CI-based compilation
+
+**Do not modify contracts until the build environment works.**
 
 ---
 

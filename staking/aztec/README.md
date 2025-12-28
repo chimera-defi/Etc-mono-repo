@@ -14,14 +14,15 @@ This directory contains all research, planning, and implementation for an Aztec-
 
 | If you want to... | Go to... |
 |------------------|----------|
+| **🔴 SET UP BUILD ENVIRONMENT (DO FIRST)** | [NEXT_AGENT_PROMPT.md](NEXT_AGENT_PROMPT.md) |
+| Continue contract development | [contracts/AGENT_HANDOFF.md](contracts/AGENT_HANDOFF.md) |
 | Understand the opportunity (5 min) | [docs/EXECUTIVE-SUMMARY.md](docs/EXECUTIVE-SUMMARY.md) |
-| **See what's missing (GAP ANALYSIS)** | [docs/STRATEGIC-GAP-ANALYSIS.md](docs/STRATEGIC-GAP-ANALYSIS.md) |
-| **Run parallel agents** | [docs/AGENT-PROMPTS-QUICKREF.md](docs/AGENT-PROMPTS-QUICKREF.md) |
+| See what's missing (GAP ANALYSIS) | [docs/STRATEGIC-GAP-ANALYSIS.md](docs/STRATEGIC-GAP-ANALYSIS.md) |
+| Run parallel agents | [docs/AGENT-PROMPTS-QUICKREF.md](docs/AGENT-PROMPTS-QUICKREF.md) |
 | Get the numbers | [docs/ECONOMICS.md](docs/ECONOMICS.md) |
 | Validate assumptions | [docs/ASSUMPTIONS.md](docs/ASSUMPTIONS.md) |
 | Plan development | [docs/IMPLEMENTATION-PLAN.md](docs/IMPLEMENTATION-PLAN.md) |
 | Pick up a task | [docs/TASKS.md](docs/TASKS.md) |
-| Continue contract development | [contracts/AGENT_HANDOFF.md](contracts/AGENT_HANDOFF.md) |
 | Run smoke tests | [scripts/smoke-test.sh](scripts/smoke-test.sh) |
 
 ## Directory Structure
@@ -30,6 +31,7 @@ This directory contains all research, planning, and implementation for an Aztec-
 staking/aztec/
 ├── README.md                   # This file - main index
 ├── PROGRESS.md                 # Development progress tracking
+├── NEXT_AGENT_PROMPT.md        # 🔴 PRIORITY: Environment setup instructions
 ├── tests/                      # Integration tests (TypeScript/Jest)
 │   └── integration/            # End-to-end tests for sandbox
 ├── docs/                       # Research and planning documentation
