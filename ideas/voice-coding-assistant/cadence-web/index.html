@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadence - Voice Coding Assistant</title>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --border: #2a2a3a;
+      --text: #e0e0e0;
+      --text-dim: #888;
+      --primary: #6366f1;
+      --primary-dim: #4f46e5;
+      --success: #10b981;
+      --error: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .subtitle {
+      color: var(--text-dim);
+      margin-bottom: 2rem;
+    }
+
+    .config-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .config-section h2 {
+      font-size: 0.875rem;
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .input-group {
+      margin-bottom: 1rem;
+    }
+
+    .input-group:last-child {
+      margin-bottom: 0;
+    }
+
+    label {
+      display: block;
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-dim);
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    input::placeholder {
+      color: var(--text-dim);
+    }
+
+    .voice-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .record-btn {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 3px solid var(--primary);
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      transition: all 0.2s;
+    }
+
+    .record-btn:hover {
+      background: rgba(99, 102, 241, 0.1);
+    }
+
+    .record-btn.recording {
+      border-color: var(--error);
+      background: rgba(239, 68, 68, 0.1);
+      animation: pulse 1.5s infinite;
+    }
+
+    .record-btn.processing {
+      border-color: var(--text-dim);
+      cursor: wait;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .mic-icon {
+      width: 48px;
+      height: 48px;
+      fill: var(--primary);
+    }
+
+    .record-btn.recording .mic-icon {
+      fill: var(--error);
+    }
+
+    .status {
+      color: var(--text-dim);
+      font-size: 0.875rem;
+    }
+
+    .status.error {
+      color: var(--error);
+    }
+
+    .transcript-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .transcript-section h2 {
+      font-size: 0.875rem;
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    #transcript {
+      width: 100%;
+      min-height: 80px;
+      padding: 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 1rem;
+      resize: vertical;
+      font-family: inherit;
+    }
+
+    #transcript:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .send-btn {
+      width: 100%;
+      padding: 1rem;
+      background: var(--primary);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: background 0.2s;
+    }
+
+    .send-btn:hover {
+      background: var(--primary-dim);
+    }
+
+    .send-btn:disabled {
+      background: var(--border);
+      cursor: not-allowed;
+    }
+
+    .output-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    .output-section h2 {
+      font-size: 0.875rem;
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    #output {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.875rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 400px;
+      overflow-y: auto;
+      color: var(--text-dim);
+    }
+
+    #output.has-content {
+      color: var(--text);
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎙️ Cadence</h1>
+    <p class="subtitle">Voice-enabled AI coding assistant</p>
+
+    <!-- Configuration -->
+    <div class="config-section">
+      <h2>Configuration</h2>
+      <div class="input-group">
+        <label for="endpoint">Cadence Endpoint</label>
+        <input type="text" id="endpoint" placeholder="http://YOUR_VPS_IP:3000" />
+      </div>
+      <div class="input-group">
+        <label for="apiKey">API Key</label>
+        <input type="password" id="apiKey" placeholder="cad_xxxxxxxx" />
+      </div>
+      <div class="input-group">
+        <label for="openaiKey">OpenAI API Key (for voice)</label>
+        <input type="password" id="openaiKey" placeholder="sk-xxxxxxxx" />
+      </div>
+      <div class="input-group">
+        <label for="repoUrl">Repository URL (optional)</label>
+        <input type="text" id="repoUrl" placeholder="https://github.com/your/repo" />
+      </div>
+    </div>
+
+    <!-- Voice Input -->
+    <div class="voice-section">
+      <button class="record-btn" id="recordBtn">
+        <svg class="mic-icon" viewBox="0 0 24 24">
+          <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+          <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+        </svg>
+      </button>
+      <p class="status" id="status">Click to record</p>
+    </div>
+
+    <!-- Transcript -->
+    <div class="transcript-section">
+      <h2>Task</h2>
+      <textarea id="transcript" placeholder="Your voice command will appear here, or type directly..."></textarea>
+      <button class="send-btn" id="sendBtn">Send to Claude</button>
+    </div>
+
+    <!-- Output -->
+    <div class="output-section">
+      <h2>Output</h2>
+      <div id="output">Waiting for task...</div>
+    </div>
+  </div>
+
+  <script>
+    // State
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let isRecording = false;
+
+    // Elements
+    const recordBtn = document.getElementById('recordBtn');
+    const status = document.getElementById('status');
+    const transcript = document.getElementById('transcript');
+    const sendBtn = document.getElementById('sendBtn');
+    const output = document.getElementById('output');
+    const endpointInput = document.getElementById('endpoint');
+    const apiKeyInput = document.getElementById('apiKey');
+    const openaiKeyInput = document.getElementById('openaiKey');
+    const repoUrlInput = document.getElementById('repoUrl');
+
+    // Load saved config
+    endpointInput.value = localStorage.getItem('cadence_endpoint') || '';
+    apiKeyInput.value = localStorage.getItem('cadence_apiKey') || '';
+    openaiKeyInput.value = localStorage.getItem('cadence_openaiKey') || '';
+    repoUrlInput.value = localStorage.getItem('cadence_repoUrl') || '';
+
+    // Save config on change
+    [endpointInput, apiKeyInput, openaiKeyInput, repoUrlInput].forEach(input => {
+      input.addEventListener('change', () => {
+        localStorage.setItem('cadence_' + input.id, input.value);
+      });
+    });
+
+    // Record button handler
+    recordBtn.addEventListener('click', async () => {
+      if (isRecording) {
+        stopRecording();
+      } else {
+        await startRecording();
+      }
+    });
+
+    async function startRecording() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+
+        mediaRecorder.ondataavailable = (e) => {
+          audioChunks.push(e.data);
+        };
+
+        mediaRecorder.onstop = async () => {
+          const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+          await transcribeAudio(audioBlob);
+        };
+
+        mediaRecorder.start();
+        isRecording = true;
+        recordBtn.classList.add('recording');
+        status.textContent = 'Recording... Click to stop';
+      } catch (err) {
+        status.textContent = 'Microphone access denied';
+        status.classList.add('error');
+        console.error(err);
+      }
+    }
+
+    function stopRecording() {
+      if (mediaRecorder && isRecording) {
+        mediaRecorder.stop();
+        mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        isRecording = false;
+        recordBtn.classList.remove('recording');
+        recordBtn.classList.add('processing');
+        status.textContent = 'Transcribing...';
+      }
+    }
+
+    async function transcribeAudio(audioBlob) {
+      const openaiKey = openaiKeyInput.value;
+      if (!openaiKey) {
+        status.textContent = 'OpenAI API key required for voice';
+        status.classList.add('error');
+        recordBtn.classList.remove('processing');
+        return;
+      }
+
+      try {
+        // Convert to mp3/m4a format that Whisper accepts
+        const formData = new FormData();
+        formData.append('file', audioBlob, 'recording.webm');
+        formData.append('model', 'whisper-1');
+        formData.append('language', 'en');
+
+        const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${openaiKey}`
+          },
+          body: formData
+        });
+
+        if (!response.ok) {
+          throw new Error(`Whisper API error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        transcript.value = data.text;
+        status.textContent = 'Transcription complete';
+        status.classList.remove('error');
+      } catch (err) {
+        status.textContent = 'Transcription failed: ' + err.message;
+        status.classList.add('error');
+        console.error(err);
+      } finally {
+        recordBtn.classList.remove('processing');
+      }
+    }
+
+    // Send button handler
+    sendBtn.addEventListener('click', async () => {
+      const task = transcript.value.trim();
+      const endpoint = endpointInput.value.trim();
+      const apiKey = apiKeyInput.value.trim();
+      const repoUrl = repoUrlInput.value.trim();
+
+      if (!task) {
+        output.textContent = 'Please enter a task';
+        return;
+      }
+
+      if (!endpoint) {
+        output.textContent = 'Please enter your Cadence endpoint';
+        return;
+      }
+
+      if (!apiKey) {
+        output.textContent = 'Please enter your API key';
+        return;
+      }
+
+      sendBtn.disabled = true;
+      sendBtn.textContent = 'Running...';
+      output.textContent = 'Sending task to Claude...';
+      output.classList.remove('has-content');
+
+      try {
+        const response = await fetch(`${endpoint}/task`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            task,
+            repoUrl: repoUrl || undefined
+          })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          output.textContent = data.output || 'Task completed successfully';
+          output.classList.add('has-content');
+        } else {
+          output.textContent = 'Error: ' + (data.error || 'Unknown error');
+        }
+      } catch (err) {
+        output.textContent = 'Failed to connect: ' + err.message;
+        console.error(err);
+      } finally {
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'Send to Claude';
+      }
+    });
+
+    // Allow Ctrl+Enter to send
+    transcript.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.key === 'Enter') {
+        sendBtn.click();
+      }
+    });
+  </script>
+</body>
+</html>

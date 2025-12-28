@@ -3,180 +3,139 @@
 > **Use this file to maintain continuity between agent sessions**
 
 Last Updated: December 28, 2025
-Current Sprint: **Sprint 0 - Validation**
-Status: **Ready to Begin**
+Current Status: **MVP Complete**
+Approach: **Simplified - User's VPS + Voice Bridge**
+
+---
+
+## Major Simplification (Dec 28, 2025)
+
+The project was simplified from a 12-week mobile app build to:
+
+| Component | Status | Description |
+|-----------|--------|-------------|
+| `cadence-setup` | ✅ Complete | One-command VPS provisioning |
+| `cadence-web` | ✅ Complete | Browser-based voice interface |
+| `cadence-bridge` | ✅ Complete | HTTP server wrapping Claude CLI |
+
+**Total code: ~500 lines instead of 10,000+**
+
+### Why the Simplification?
+
+1. User already has a VPS → Don't build VPS provisioning
+2. Claude Code CLI exists → Don't build agent execution
+3. Browser can record audio → Don't need mobile app for MVP
+4. Whisper API exists → Don't build STT
+
+### What We Actually Built
+
+```
+cadence-setup/     → SSH into VPS, install Claude Code, deploy bridge
+cadence-web/       → Static HTML page for voice recording
+cadence-bridge     → ~100 LOC HTTP server, runs Claude CLI
+```
 
 ---
 
 ## Pre-Flight Checklist
 
-Before starting any work, verify your environment:
+Before working on Cadence:
 
 ```bash
 # 1. Check Node.js version (need 20+)
 node --version
 
-# 2. Verify you're in the right directory
+# 2. Verify directory
 pwd
 # Should be: .../Etc-mono-repo/ideas/voice-coding-assistant
 
-# 3. Check that scaffold directories exist
-ls -la cadence-prototype/ cadence-backend/ cadence-app/
-
-# 4. Read the documentation
-# - AGENT-PROMPTS-QUICKREF.md (your task breakdown)
-# - IMPLEMENTATION.md (detailed specs)
-# - ARCHITECTURE.md (technical decisions)
+# 3. Check components exist
+ls cadence-setup/ cadence-web/
 ```
 
 ---
 
 ## Current Status
 
-### Sprint 0: Validation Prototype
+### MVP Components
 
-| Task ID | Task | Status | Assignee |
-|---------|------|--------|----------|
-| V-01 | Create prototype project | Not Started | - |
-| V-02 | Implement Whisper transcription | Not Started | - |
-| V-03 | Implement Claude Agent wrapper | Not Started | - |
-| V-04 | Create end-to-end CLI | Not Started | - |
-| V-05 | Record 5 test voice commands | Not Started | - |
-| V-06 | Run validation tests | Not Started | - |
-| V-07 | Document results | Not Started | - |
+| Component | Status | Location |
+|-----------|--------|----------|
+| Setup CLI | ✅ Ready | `cadence-setup/src/cli.ts` |
+| Web Interface | ✅ Ready | `cadence-web/index.html` |
+| Bridge Server | ✅ Ready | Embedded in setup CLI |
+| Documentation | ✅ Updated | `README.md` |
 
-### Sprint 1: Backend Foundation
+### Future Work (Optional)
 
-| Task ID | Task | Status | Assignee |
-|---------|------|--------|----------|
-| B-01 | Initialize backend project | Not Started | - |
-| B-02 | Create project structure | Not Started | - |
-| B-03 | Implement health routes | Not Started | - |
-| B-04 | Implement database schema | Not Started | - |
-| B-05 | Implement GitHub OAuth | Not Started | - |
-| B-06 | Implement JWT middleware | Not Started | - |
-| B-07 | Set up Redis | Not Started | - |
-| B-08 | Set up BullMQ | Not Started | - |
-| B-09 | Create Dockerfile | Not Started | - |
-
-### Sprint 2: Mobile Shell
-
-| Task ID | Task | Status | Assignee |
-|---------|------|--------|----------|
-| M-01 | Create Expo project | Not Started | - |
-| M-02 | Create folder structure | Not Started | - |
-| M-03 | Configure navigation | Not Started | - |
-| M-04 | Create Zustand stores | Not Started | - |
-| M-05 | Implement GitHub OAuth | Not Started | - |
-| M-06 | Create login screen | Not Started | - |
-| M-07 | Implement secure storage | Not Started | - |
-| M-08 | Create navigation guards | Not Started | - |
+| Task | Priority | Description |
+|------|----------|-------------|
+| Mobile app | P2 | React Native version of cadence-web |
+| HTTPS setup | P1 | Add Caddy/nginx for SSL |
+| Multi-repo | P2 | Better repo management UI |
+| Streaming | P2 | Stream Claude output in real-time |
 
 ---
 
-## Known Issues & Workarounds
-
-### None Yet
-
-*Issues will be documented here as they're discovered*
-
----
-
-## Architecture Decisions Made
+## Architecture Decisions
 
 | Decision | Choice | Rationale | Date |
 |----------|--------|-----------|------|
-| Mobile Framework | React Native + Expo | Cross-platform, fast iteration | Dec 26, 2025 |
-| Backend | Fastify + TypeScript | Fast, type-safe | Dec 26, 2025 |
-| STT Provider | OpenAI Whisper | Best accuracy | Dec 26, 2025 |
-| TTS Provider | expo-speech | On-device, low latency | Dec 26, 2025 |
-| Execution (MVP) | Fly.io Machines | Simple, pay-per-use | Dec 27, 2025 |
-| Execution (Scale) | Hetzner VPS | Zero cold start | Dec 27, 2025 |
+| Execution | User's VPS | User controls environment | Dec 28, 2025 |
+| Bridge | Node.js HTTP | Minimal, ~100 LOC | Dec 28, 2025 |
+| Voice | Browser MediaRecorder | Works everywhere | Dec 28, 2025 |
+| STT | OpenAI Whisper API | 98% accuracy | Dec 28, 2025 |
+| Auth | API key | Simple, secure | Dec 28, 2025 |
+| Mobile app | Deferred | Start simple | Dec 28, 2025 |
 
 ---
 
-## Environment Setup
+## Files Created/Modified This Session
 
-### Required API Keys
-
-```bash
-# Anthropic (Claude Agent SDK)
-ANTHROPIC_API_KEY=sk-ant-...
-
-# OpenAI (Whisper STT)
-OPENAI_API_KEY=sk-...
-
-# GitHub OAuth App
-GITHUB_CLIENT_ID=...
-GITHUB_CLIENT_SECRET=...
-```
-
-### Recommended Development Tools
-
-- VS Code or Cursor
-- Node.js 20+
-- Expo CLI
-- iOS Simulator (Xcode) or Android Studio
-- Postman/Insomnia for API testing
-
----
-
-## Definition of Done
-
-A task is complete when:
-
-1. **Code works:** Compiles, runs, no errors
-2. **Tests pass:** Unit tests with 80%+ coverage
-3. **Verified locally:** Manually tested
-4. **Documentation updated:** README, comments
-5. **Review complete:** 5-perspective checklist passed
-6. **Committed:** Clean commit message
+| File | Change | Date |
+|------|--------|------|
+| cadence-setup/package.json | Created | Dec 28, 2025 |
+| cadence-setup/src/cli.ts | Created | Dec 28, 2025 |
+| cadence-setup/tsconfig.json | Created | Dec 28, 2025 |
+| cadence-setup/README.md | Created | Dec 28, 2025 |
+| cadence-web/index.html | Created | Dec 28, 2025 |
+| README.md | Updated - simplified | Dec 28, 2025 |
+| AGENT_HANDOFF.md | Updated | Dec 28, 2025 |
 
 ---
 
 ## Next Agent Instructions
 
-### If Starting Sprint 0 (Validation):
+### To Test the MVP:
 
-1. Read `AGENT-PROMPTS-QUICKREF.md` - Prompt 1
-2. Create the prototype in `cadence-prototype/`
-3. Complete tasks V-01 through V-07
-4. Update this file with results
-5. Make GO/NO-GO recommendation
+1. Get a VPS (Hetzner, DigitalOcean, etc.)
+2. Run `cd cadence-setup && npm install && npm run dev`
+3. Enter VPS credentials when prompted
+4. Open `cadence-web/index.html` in browser
+5. Configure endpoint and API keys
+6. Test voice recording and task execution
 
-### If Sprint 0 Passed, Starting Sprint 1 or 2:
+### To Continue Development:
 
-1. Read `AGENT-PROMPTS-QUICKREF.md` - Prompt 2 or 3
-2. Can run Sprint 1 and 2 in parallel
-3. Complete all tasks in the sprint
-4. Update this file with status
-5. Push code to repository
-
----
-
-## Files Modified This Session
-
-*List files you modified so the next agent knows what changed*
-
-| File | Change | Date |
-|------|--------|------|
-| AGENT-PROMPTS-QUICKREF.md | Created | Dec 28, 2025 |
-| AGENT_HANDOFF.md | Created | Dec 28, 2025 |
-| cadence-prototype/README.md | Created | Dec 28, 2025 |
-| cadence-backend/README.md | Created | Dec 28, 2025 |
-| cadence-app/README.md | Created | Dec 28, 2025 |
+1. **Add HTTPS**: Create Caddy config for SSL
+2. **Improve UI**: Better output display, history
+3. **Add streaming**: SSE for real-time Claude output
+4. **Mobile app**: Port cadence-web to React Native
 
 ---
 
-## Contact / Escalation
+## Required API Keys
 
-If blocked or need clarification:
-- Review IMPLEMENTATION.md first
-- Check ARCHITECTURE.md for technical decisions
-- Document the issue in this file
-- Flag as blocker in task status
+```bash
+# Anthropic (Claude Code)
+ANTHROPIC_API_KEY=sk-ant-...
+
+# OpenAI (Whisper - for voice)
+OPENAI_API_KEY=sk-...
+```
 
 ---
 
-**Document Version:** 1.0
+**Document Version:** 2.0
 **Created:** December 28, 2025
+**Updated:** December 28, 2025 - Major simplification
