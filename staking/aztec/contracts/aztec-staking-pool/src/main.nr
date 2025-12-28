@@ -79,8 +79,13 @@ pub contract StakingPool {
         let current_shares = storage.shares.at(caller).read();
         storage.shares.at(caller).write(current_shares + shares_to_mint);
 
-        // Note: Token transfers are handled by LiquidStakingCore via cross-contract calls.
-        // This contract manages share accounting only.
+        // TODO(CRITICAL): Token transfer NOT IMPLEMENTED!
+        // This contract does accounting only - NO actual AZTEC moves!
+        // Either:
+        // 1. This contract should call aztec_token.transfer_from(caller, this, amount)
+        // 2. Or LiquidStakingCore should call this contract AND handle transfers
+        // Currently NEITHER contract transfers tokens!
+        // See: AGENT-PROMPTS-PHASE2.md PROMPT A
 
         shares_to_mint
     }
@@ -115,8 +120,11 @@ pub contract StakingPool {
         // Update user shares
         storage.shares.at(caller).write(user_shares - shares_to_burn);
 
-        // Note: Token transfers are handled by LiquidStakingCore via cross-contract calls.
-        // This contract manages share accounting only.
+        // TODO(CRITICAL): Token transfer NOT IMPLEMENTED!
+        // User's shares are burned but NO AZTEC is returned!
+        // Required: aztec_token.transfer(caller, net_amount)
+        // Currently user loses shares and gets nothing back!
+        // See: AGENT-PROMPTS-PHASE2.md PROMPT A
 
         net_amount
     }
@@ -132,8 +140,11 @@ pub contract StakingPool {
         let total_staked = storage.total_staked.read();
         storage.total_staked.write(total_staked + amount);
 
-        // Note: Token transfers are handled by LiquidStakingCore via cross-contract calls.
-        // This contract manages share accounting only.
+        // TODO(HIGH): Reward tokens NOT TRANSFERRED!
+        // This increases total_staked but no actual rewards arrive!
+        // In production: RewardsManager should transfer AZTEC here
+        // Currently: Numbers go up but no real value added
+        // See: AGENT-PROMPTS-PHASE2.md PROMPT B
     }
 
     /// Collect accumulated fees
@@ -146,8 +157,11 @@ pub contract StakingPool {
         let fees = storage.pending_fees.read();
         storage.pending_fees.write(0);
 
-        // Note: Token transfers are handled by LiquidStakingCore via cross-contract calls.
-        // This contract manages share accounting only.
+        // TODO(HIGH): Fee tokens NOT TRANSFERRED!
+        // pending_fees reset to 0 but recipient gets nothing!
+        // Required: aztec_token.transfer(fee_recipient, fees)
+        // Currently: Fees are "collected" but no actual transfer
+        // See: AGENT-PROMPTS-PHASE2.md PROMPT B
 
         fees
     }

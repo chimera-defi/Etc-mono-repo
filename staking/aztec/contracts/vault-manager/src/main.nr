@@ -101,7 +101,7 @@ pub contract VaultManager {
     fn execute_batch_stake() -> pub u128 {
         let caller = context.msg_sender();
         let admin = storage.admin.read();
-        assert(caller == admin, "Only admin or keeper can execute batch stake");
+        assert(caller == admin, "Only admin can execute batch stake");
         assert(!storage.paused.read(), "Contract is paused");
 
         let pending = storage.pending_pool.read();
@@ -116,6 +116,16 @@ pub contract VaultManager {
 
         let current_index = storage.next_validator_index.read();
         storage.next_validator_index.write(current_index + 1);
+
+        // TODO(CRITICAL): Actual staking NOT IMPLEMENTED!
+        // This just updates numbers - NO tokens are staked anywhere!
+        // Required implementation:
+        // 1. Call validator_registry.get_active_validators()
+        // 2. Select validators (round-robin or weighted)
+        // 3. Actually stake AZTEC with Aztec protocol
+        // 4. Track per-validator balances
+        // WITHOUT THIS, TOKENS SIT IN CONTRACT EARNING NOTHING
+        // See: AGENT-PROMPTS-PHASE2.md PROMPT G
 
         stake_amount
     }
