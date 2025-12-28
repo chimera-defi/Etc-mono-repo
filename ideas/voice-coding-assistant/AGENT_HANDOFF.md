@@ -14,11 +14,11 @@ The project was simplified from a 12-week mobile app build to:
 
 | Component | Status | Description |
 |-----------|--------|-------------|
-| `cadence-setup` | ✅ Complete | One-command VPS provisioning |
-| `cadence-web` | ✅ Complete | Browser-based voice interface |
-| `cadence-bridge` | ✅ Complete | HTTP server wrapping Claude CLI |
+| `cadence-web` | ✅ Complete | Browser-based voice interface WITH setup flow |
+| `cadence-setup/bootstrap.sh` | ✅ Complete | One-liner VPS bootstrap script |
+| `cadence-bridge` | ✅ Complete | HTTP server wrapping Claude CLI (deployed via bootstrap) |
 
-**Total code: ~500 lines instead of 10,000+**
+**Total code: ~700 lines instead of 10,000+**
 
 ### Why the Simplification?
 
@@ -26,14 +26,25 @@ The project was simplified from a 12-week mobile app build to:
 2. Claude Code CLI exists → Don't build agent execution
 3. Browser can record audio → Don't need mobile app for MVP
 4. Whisper API exists → Don't build STT
+5. **Setup happens IN THE APP** → No separate CLI needed
 
 ### What We Actually Built
 
 ```
-cadence-setup/     → SSH into VPS, install Claude Code, deploy bridge
-cadence-web/       → Static HTML page for voice recording
-cadence-bridge     → ~100 LOC HTTP server, runs Claude CLI
+cadence-web/       → Static HTML page with setup flow + voice recording
+cadence-setup/     → bootstrap.sh one-liner for VPS (shown in the app)
+cadence-bridge     → ~100 LOC HTTP server, auto-deployed to VPS
 ```
+
+### The Setup Flow
+
+1. User opens `cadence-web/index.html`
+2. App shows bootstrap command to copy
+3. User SSHs into VPS, runs the one-liner
+4. User enters VPS IP + API keys in the app
+5. App connects to VPS over HTTP, sends config
+6. VPS installs Claude Code, deploys bridge, returns endpoint + key
+7. User starts coding with voice
 
 ---
 
@@ -61,9 +72,9 @@ ls cadence-setup/ cadence-web/
 
 | Component | Status | Location |
 |-----------|--------|----------|
-| Setup CLI | ✅ Ready | `cadence-setup/src/cli.ts` |
-| Web Interface | ✅ Ready | `cadence-web/index.html` |
-| Bridge Server | ✅ Ready | Embedded in setup CLI |
+| Web Interface (+ setup) | ✅ Ready | `cadence-web/index.html` |
+| Bootstrap Script | ✅ Ready | `cadence-setup/bootstrap.sh` |
+| Bridge Server | ✅ Ready | Embedded in bootstrap.sh, deployed to VPS |
 | Documentation | ✅ Updated | `README.md` |
 
 ### Future Work (Optional)
@@ -86,6 +97,7 @@ ls cadence-setup/ cadence-web/
 | Voice | Browser MediaRecorder | Works everywhere | Dec 28, 2025 |
 | STT | OpenAI Whisper API | 98% accuracy | Dec 28, 2025 |
 | Auth | API key | Simple, secure | Dec 28, 2025 |
+| VPS Setup | In-app bootstrap | User runs one-liner, app configures | Dec 28, 2025 |
 | Mobile app | Deferred | Start simple | Dec 28, 2025 |
 
 ---
@@ -94,12 +106,9 @@ ls cadence-setup/ cadence-web/
 
 | File | Change | Date |
 |------|--------|------|
-| cadence-setup/package.json | Created | Dec 28, 2025 |
-| cadence-setup/src/cli.ts | Created | Dec 28, 2025 |
-| cadence-setup/tsconfig.json | Created | Dec 28, 2025 |
-| cadence-setup/README.md | Created | Dec 28, 2025 |
-| cadence-web/index.html | Created | Dec 28, 2025 |
-| README.md | Updated - simplified | Dec 28, 2025 |
+| cadence-setup/bootstrap.sh | Created - in-app setup script | Dec 28, 2025 |
+| cadence-web/index.html | Updated - integrated setup flow | Dec 28, 2025 |
+| README.md | Updated - bootstrap approach | Dec 28, 2025 |
 | AGENT_HANDOFF.md | Updated | Dec 28, 2025 |
 
 ---
@@ -109,11 +118,12 @@ ls cadence-setup/ cadence-web/
 ### To Test the MVP:
 
 1. Get a VPS (Hetzner, DigitalOcean, etc.)
-2. Run `cd cadence-setup && npm install && npm run dev`
-3. Enter VPS credentials when prompted
-4. Open `cadence-web/index.html` in browser
-5. Configure endpoint and API keys
-6. Test voice recording and task execution
+2. Open `cadence-web/index.html` in browser
+3. Copy the bootstrap command shown
+4. SSH into your VPS and run the command
+5. Enter VPS IP + API keys in the app
+6. Click "Connect & Setup" - app will configure VPS
+7. Test voice recording and task execution
 
 ### To Continue Development:
 
@@ -136,6 +146,6 @@ OPENAI_API_KEY=sk-...
 
 ---
 
-**Document Version:** 2.0
+**Document Version:** 2.1
 **Created:** December 28, 2025
-**Updated:** December 28, 2025 - Major simplification
+**Updated:** December 28, 2025 - In-app bootstrap setup

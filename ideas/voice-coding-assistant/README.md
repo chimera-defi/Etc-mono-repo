@@ -8,17 +8,11 @@
 
 ## Quick Start (5 minutes)
 
-```bash
-# One command to set up your VPS
-npx cadence-setup
-```
-
-You'll be prompted for:
-- VPS IP address
-- SSH credentials
-- Anthropic API key
-
-Then open `cadence-web/index.html` in your browser to start coding with voice.
+1. **Open** `cadence-web/index.html` in your browser
+2. **Copy** the bootstrap command shown in the app
+3. **Run** it on your VPS (SSH in and paste)
+4. **Enter** your VPS IP + API keys in the app
+5. **Done** - Start coding with voice!
 
 **That's it.** No mobile app to build. No backend to deploy. Just your VPS running Claude.
 
@@ -62,8 +56,8 @@ Claude: Analyzing codebase... Found src/api.ts
 
 | Document | Purpose | Read Time |
 |----------|---------|-----------|
-| **[cadence-setup/](./cadence-setup/)** | **START HERE** - One-command VPS setup | 5 min |
-| [cadence-web/](./cadence-web/) | Browser-based voice interface | 2 min |
+| **[cadence-web/](./cadence-web/)** | **START HERE** - Voice interface + VPS setup | 5 min |
+| [cadence-setup/](./cadence-setup/) | Bootstrap script details | 2 min |
 | [IMPLEMENTATION.md](./IMPLEMENTATION.md) | Full mobile app plans (future) | 20 min |
 | [ARCHITECTURE.md](./ARCHITECTURE.md) | Technical reference | 30 min |
 
@@ -121,8 +115,8 @@ Claude: Analyzing codebase... Found src/api.ts
 
 | Phase | Duration | Deliverables |
 |-------|----------|--------------|
-| **VPS Setup** | 5 min | `npx cadence-setup` provisions your VPS |
-| **Voice Interface** | 0 min | Open `cadence-web/index.html` |
+| **Open App** | 0 min | Open `cadence-web/index.html` |
+| **VPS Setup** | 5 min | Copy/paste bootstrap command, enter credentials |
 | **Start Coding** | Immediate | Speak commands, Claude executes |
 
 ### Future Mobile App (Optional)
@@ -148,10 +142,16 @@ See [IMPLEMENTATION.md](./IMPLEMENTATION.md) for full mobile app plans.
 
 ---
 
-## Quick Start
+## Development Setup
+
+### MVP (Current)
+
+No installation required! Just open `cadence-web/index.html` in a browser.
+
+### Future Mobile App
 
 ```bash
-# Mobile app
+# Mobile app (when ready to build native)
 npx create-expo-app@latest cadence --template expo-template-blank-typescript
 cd cadence
 
@@ -163,7 +163,7 @@ npm install zustand @tanstack/react-query axios
 npx expo start
 ```
 
-See [IMPLEMENTATION.md](./IMPLEMENTATION.md) for full setup instructions.
+See [IMPLEMENTATION.md](./IMPLEMENTATION.md) for full mobile app plans.
 
 ---
 
@@ -185,12 +185,11 @@ See [IMPLEMENTATION.md](./IMPLEMENTATION.md) for full setup instructions.
 voice-coding-assistant/
 ├── README.md                 ← You are here
 │
-├── cadence-setup/            ← ONE-COMMAND VPS SETUP
-│   ├── src/cli.ts            ← Setup CLI tool
-│   └── README.md             ← Setup instructions
+├── cadence-web/              ← VOICE INTERFACE (START HERE)
+│   └── index.html            ← Voice UI + integrated VPS setup
 │
-├── cadence-web/              ← VOICE INTERFACE
-│   └── index.html            ← Browser-based voice UI
+├── cadence-setup/            ← VPS BOOTSTRAP SCRIPT
+│   └── bootstrap.sh          ← One-liner for VPS setup
 │
 ├── IMPLEMENTATION.md         ← Full mobile app plans (future)
 ├── ARCHITECTURE.md           ← Technical reference
@@ -204,7 +203,7 @@ voice-coding-assistant/
 
 ---
 
-**Status:** MVP Ready - Run `npx cadence-setup` to start
+**Status:** MVP Ready - Open `cadence-web/index.html` to start
 **Approach:** Simplest thing first - your VPS, your control
 
 *Voice-enabled coding powered by Claude Code*
