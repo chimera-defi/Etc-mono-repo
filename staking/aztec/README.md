@@ -121,6 +121,7 @@ cd ~/aztec-contracts && ~/aztec-bin/nargo compile
 5. **[IMPLEMENTATION-PLAN.md](docs/IMPLEMENTATION-PLAN.md)** - 6-month roadmap
 6. **[TASKS.md](docs/TASKS.md)** - Assignable task breakdown
 7. **[liquid-staking-analysis.md](docs/liquid-staking-analysis.md)** - Architecture deep-dive
+8. **[INFRASTRUCTURE.md](docs/INFRASTRUCTURE.md)** - Validator & Sandbox specs (NEW)
 
 ### Development
 

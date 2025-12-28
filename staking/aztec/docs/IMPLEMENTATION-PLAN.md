@@ -35,8 +35,10 @@
 
 ### Technical Setup
 - [ ] Provision Aztec testnet environment
-  - Deploy test validator node
-  - Set up development Aztec sandbox locally
+  - **See [docs/INFRASTRUCTURE.md](docs/INFRASTRUCTURE.md) for hardware specs**
+  - Run `scripts/setup-validator.sh` to install validator dependencies
+  - Deploy test validator node (verify $400/mo cost estimate)
+  - Set up development Aztec sandbox locally (requires 16GB RAM)
   - Configure RPC endpoints and indexers
 
 - [ ] Local sandbox smoke test (must pass before serious development)
