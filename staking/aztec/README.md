@@ -32,8 +32,6 @@ staking/aztec/
 ├── README.md                   # This file - main index
 ├── PROGRESS.md                 # Development progress tracking
 ├── NEXT_AGENT_PROMPT.md        # 🔴 PRIORITY: Environment setup instructions
-├── tests/                      # Integration tests (TypeScript/Jest)
-│   └── integration/            # End-to-end tests for sandbox
 ├── docs/                       # Research and planning documentation
 │   ├── EXECUTIVE-SUMMARY.md    # One-page strategic overview
 │   ├── STRATEGIC-GAP-ANALYSIS.md # Gap analysis + parallel agent prompts
@@ -79,10 +77,11 @@ staking/aztec/
 
 ### Testing
 
-- **Unit Tests**: **64 tests passing** (includes 8 new cross-contract flow tests)
-- **Integration Tests**: TypeScript/Jest scaffolding ready (see `tests/integration/`)
-- **CI**: GitHub Actions workflow for automated testing
+- **Unit Tests**: **64 tests passing** (pure Noir math tests)
+- **Integration Tests**: **NOT YET WRITTEN** - requires sandbox environment
 - **Devnet**: Accessible at `https://next.devnet.aztec-labs.com`
+
+⚠️ **Note**: Contracts cannot be compiled without `aztec-nargo`. See [NEXT_AGENT_PROMPT.md](NEXT_AGENT_PROMPT.md).
 
 ## Quick Start
 
@@ -101,19 +100,7 @@ cd staking/aztec/contracts/staking-math-tests
 # Expected: 64 tests passed
 ```
 
-### Run Integration Tests (requires sandbox)
-
-```bash
-# Start Aztec sandbox first
-aztec start --sandbox
-
-# In another terminal
-cd staking/aztec/tests/integration
-npm install
-npm test
-```
-
-### Compile a Contract
+### Compile a Contract (requires aztec-nargo)
 
 ```bash
 # aztec-nargo requires working directory under $HOME

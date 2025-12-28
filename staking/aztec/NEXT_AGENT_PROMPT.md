@@ -168,11 +168,6 @@ aztec-nargo compile
 # 3. Sandbox is running (if Docker available)
 curl http://localhost:8080/status
 # Expected: JSON response with node info
-
-# 4. Integration tests connect
-cd /workspace/staking/aztec/tests/integration
-npm test
-# Expected: Tests run (not skip) and interact with sandbox
 ```
 
 ---
@@ -225,18 +220,6 @@ npm test
 └── withdrawal-queue/        # Withdrawal management
 ```
 
-### Integration Tests Location
-```
-/workspace/staking/aztec/tests/integration/
-├── src/
-│   ├── setup.ts              # Sandbox connection
-│   ├── deposit_flow.test.ts  # 9 tests
-│   ├── withdrawal_flow.test.ts # 12 tests
-│   ├── batch_staking.test.ts # 11 tests
-│   └── rewards_distribution.test.ts # 13 tests
-└── package.json
-```
-
 ### Useful Links
 - Aztec Docs: https://docs.aztec.network/
 - Aztec GitHub: https://github.com/AztecProtocol/aztec-packages
@@ -251,6 +234,18 @@ You're done when:
 1. ✅ `aztec-nargo compile` succeeds on at least one contract
 2. ✅ Contract artifacts (`.json` files) are generated in `target/`
 3. ✅ Environment setup is documented and reproducible
-4. ✅ (Bonus) Sandbox running and integration tests connect
+4. ✅ (Bonus) Sandbox running and responding to API calls
 
 **Start with Option A (Docker). If that fails within 30 minutes, move to Option B. Document everything.**
+
+---
+
+## After Environment Works: Write Real Integration Tests
+
+Once the environment is working, integration tests need to be written FROM SCRATCH. The previous "integration tests" were fake stubs that tested nothing.
+
+Real integration tests must:
+1. Deploy actual contracts to sandbox
+2. Call contract methods
+3. Assert on actual return values and state changes
+4. Not just `console.log()` and return

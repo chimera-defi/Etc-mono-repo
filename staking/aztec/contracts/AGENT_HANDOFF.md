@@ -63,16 +63,15 @@ cat /workspace/staking/aztec/contracts/NOIR_GUIDE.md
 | Test Suite | Status | Count |
 |------------|--------|-------|
 | Noir Unit Tests | ✅ Passing | 64 |
-| TypeScript Integration | ✅ Passing | 45 (skip mode) |
+| Integration Tests | ❌ Not Written | 0 |
 
 ```bash
-# Verified commands:
+# Only verified command:
 ~/.nargo/bin/nargo test     # → 64 tests passed
-npm test                     # → 45 tests passed (sandbox unavailable)
-npx tsc --noEmit            # → No errors
 ```
 
-- Tests cover: math, exchange rates, fees, unbonding, validator selection, complete flows
+- Unit tests cover: math, exchange rates, fees, unbonding, validator selection
+- ⚠️ **No integration tests exist** - requires sandbox environment
 
 ---
 
@@ -101,7 +100,7 @@ The previous session left "INTEGRATION POINT" comments as placeholders. This ses
    - `call_core_add_rewards()` - Add rewards to core
    - `call_staked_token_update_rate()` - Update exchange rate
 
-6. **Added 8 new integration flow tests** covering complete lifecycle
+6. **Added 8 unit tests** simulating integration flows (pure Noir, no sandbox)
 
 ---
 
@@ -205,17 +204,7 @@ fn call_some_function(
 staking/aztec/
 ├── PROGRESS.md                 # ← Development progress tracking
 ├── README.md                   # ← Project overview
-├── tests/
-│   └── integration/            # ← TypeScript integration tests (scaffolded)
-│       ├── src/
-│       │   ├── setup.ts
-│       │   ├── test-utils.ts
-│       │   ├── deposit_flow.test.ts
-│       │   ├── withdrawal_flow.test.ts
-│       │   ├── batch_staking.test.ts
-│       │   └── rewards_distribution.test.ts
-│       ├── package.json
-│       └── README.md
+├── NEXT_AGENT_PROMPT.md        # ← 🔴 Environment setup instructions
 ├── contracts/
 │   ├── AGENT_HANDOFF.md       # ← This file
 │   ├── NOIR_GUIDE.md          # ← Noir/Aztec patterns guide
