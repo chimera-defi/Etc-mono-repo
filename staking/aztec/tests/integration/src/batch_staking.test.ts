@@ -1,276 +1,138 @@
 /**
- * Integration Test: Batch Staking Trigger
- * TASK-203 Implementation
+ * Batch Staking Integration Tests
  * 
- * Tests the batch staking flow:
- * 1. Multiple deposits accumulate in pending pool
- * 2. When pool >= 200k AZTEC, batch is ready
- * 3. Keeper calls VaultManager.execute_batch_stake()
- * 4. Validator is selected via round-robin
- * 5. LiquidStakingCore.notify_staked() is called
- * 6. Funds move from pending to staked
- * 
- * Prerequisites:
- * - Aztec sandbox running
- * - All contracts deployed and configured
- * - At least one validator registered
+ * Tests the batch staking mechanism:
+ * 1. Deposits accumulate in pool
+ * 2. When threshold (200k AZTEC) is reached, batch stake triggers
+ * 3. Validator selection occurs
+ * 4. Funds are delegated to selected validator
  */
 
-import { describe, it, expect, beforeAll } from '@jest/globals';
-import { AccountWallet, Fr } from '@aztec/aztec.js';
-import { pxe, TEST_CONFIG, ensureSandboxRunning } from './setup.js';
-import {
-  createTestAccount,
-  createTestAccounts,
-  formatTokenAmount,
-} from './test-utils.js';
+import { TEST_CONFIG, sandboxAvailable, skipIfNoSandbox } from './setup.js';
 
-describe('Batch Staking Integration Tests', () => {
-  let admin: AccountWallet;
-  let keeper: AccountWallet;
-  let users: AccountWallet[];
-  let sandboxAvailable: boolean;
-
-  // Contract instances
-  // let liquidStakingCore: LiquidStakingCoreContract;
-  // let vaultManager: VaultManagerContract;
-  // let validatorRegistry: ValidatorRegistryContract;
-
-  // Test validators
-  // let validator1: AztecAddress;
-  // let validator2: AztecAddress;
-  // let validator3: AztecAddress;
-
+describe('Batch Staking Flow', () => {
   beforeAll(async () => {
-    sandboxAvailable = await ensureSandboxRunning();
-    
-    if (!sandboxAvailable) {
-      console.warn('\\n⚠️  Sandbox not available - tests will be skipped');
-      return;
-    }
-
-    admin = await createTestAccount();
-    keeper = await createTestAccount();
-    users = await createTestAccounts(10); // 10 users for batch testing
-    
-    // Deploy contracts
-    // Register validators
-    // await vaultManager.methods.register_validator(validator1).send().wait();
-    // await vaultManager.methods.register_validator(validator2).send().wait();
-    // await vaultManager.methods.register_validator(validator3).send().wait();
-    
-    // Set keeper
-    // await vaultManager.methods.set_keeper(keeper.getAddress()).send().wait();
+    if (skipIfNoSandbox()) return;
+    // Would initialize test accounts and contracts here
   });
 
-  describe('Batch Threshold Detection', () => {
-    it('should report batch not ready when pool < 200k', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
+  describe('Threshold Detection', () => {
+    it('should track pending_pool balance', async () => {
+      if (skipIfNoSandbox()) return;
 
-      console.log('Test: batch threshold detection (under)');
+      // Test scenario:
+      // 1. Record initial pending_pool
+      // 2. User deposits AZTEC
+      // 3. Verify pending_pool increased
       
-      // TODO: Deposit less than 200k
-      // const depositAmount = 100_000_000_000_000_000_000_000n; // 100k
-      // await deposit(user, depositAmount);
-      // const isReady = await liquidStakingCore.methods.is_batch_ready().simulate();
-      // expect(isReady).toBe(false);
+      console.log('  Test would verify pending_pool tracking');
     });
 
-    it('should report batch ready when pool >= 200k', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
+    it('should detect when threshold is reached', async () => {
+      if (skipIfNoSandbox()) return;
 
-      console.log('Test: batch threshold detection (at threshold)');
+      // Test scenario:
+      // 1. Deposit to bring pending_pool to 199k
+      // 2. Deposit 1k more
+      // 3. Verify threshold detection
       
-      // Exactly 200k should trigger batch ready
-      // const isReady = await liquidStakingCore.methods.is_batch_ready().simulate();
-      // expect(isReady).toBe(true);
-    });
-
-    it('should accumulate deposits from multiple users to reach threshold', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
-
-      console.log('Test: multi-user deposit accumulation');
-      
-      // 10 users deposit 20k each = 200k total
-      const depositPerUser = 20_000_000_000_000_000_000_000n; // 20k
-      
-      // TODO: Execute deposits from each user
-      // for (const user of users) {
-      //   await deposit(user, depositPerUser);
-      // }
-      // const pendingPool = await liquidStakingCore.methods.get_pending_pool().simulate();
-      // expect(pendingPool).toBe(TEST_CONFIG.BATCH_SIZE);
+      const threshold = TEST_CONFIG.BATCH_SIZE;
+      console.log(`  Test would verify threshold detection at ${threshold}`);
     });
   });
 
-  describe('Batch Execution', () => {
-    it('should select validator via round-robin', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
+  describe('Validator Selection', () => {
+    it('should select validator from registry', async () => {
+      if (skipIfNoSandbox()) return;
 
-      console.log('Test: round-robin validator selection');
+      // Test scenario:
+      // 1. Register multiple validators
+      // 2. Trigger batch stake
+      // 3. Verify a valid validator was selected
       
-      // TODO: Execute multiple batches, verify different validators selected
-      // const selectedValidators: AztecAddress[] = [];
-      // for (let i = 0; i < 3; i++) {
-      //   // Deposit 200k, execute batch
-      //   const validator = await vaultManager.withWallet(keeper).methods
-      //     .select_next_validator()
-      //     .send().wait();
-      //   selectedValidators.push(validator);
-      // }
-      // // Should cycle through: validator1, validator2, validator3
-      // expect(new Set(selectedValidators).size).toBe(3);
+      console.log('  Test would verify validator selection');
     });
 
-    it('should move funds from pending to staked after batch', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
+    it('should prioritize validators by score', async () => {
+      if (skipIfNoSandbox()) return;
 
-      console.log('Test: pending to staked transition');
+      // Test scenario:
+      // 1. Register validators with different scores
+      // 2. Trigger batch stake
+      // 3. Verify highest-scored validator selected
       
-      // TODO: 
-      // const pendingBefore = await liquidStakingCore.methods.get_pending_pool().simulate();
-      // const stakedBefore = await liquidStakingCore.methods.get_total_staked().simulate();
-      // 
-      // await vaultManager.withWallet(keeper).methods
-      //   .execute_batch_stake(TEST_CONFIG.BATCH_SIZE)
-      //   .send().wait();
-      // 
-      // const pendingAfter = await liquidStakingCore.methods.get_pending_pool().simulate();
-      // const stakedAfter = await liquidStakingCore.methods.get_total_staked().simulate();
-      // 
-      // expect(pendingAfter).toBe(pendingBefore - TEST_CONFIG.BATCH_SIZE);
-      // expect(stakedAfter).toBe(stakedBefore + TEST_CONFIG.BATCH_SIZE);
+      console.log('  Test would verify score-based selection');
     });
 
-    it('should increment batches processed counter', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
+    it('should skip suspended validators', async () => {
+      if (skipIfNoSandbox()) return;
 
-      console.log('Test: batch counter increment');
-      
-      // TODO:
-      // const batchesBefore = await vaultManager.methods.get_batches_processed().simulate();
-      // await execute_batch();
-      // const batchesAfter = await vaultManager.methods.get_batches_processed().simulate();
-      // expect(batchesAfter).toBe(batchesBefore + 1n);
-    });
-
-    it('should only allow keeper or admin to execute batch', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
-
-      console.log('Test: keeper/admin authorization');
-      
-      // TODO: Random user should be rejected
-      // const randomUser = users[0];
-      // await expect(
-      //   vaultManager.withWallet(randomUser).methods
-      //     .execute_batch_stake(TEST_CONFIG.BATCH_SIZE)
-      //     .send()
-      // ).rejects.toThrow('Only keeper or admin');
+      console.log('  Test would verify suspended validator exclusion');
     });
   });
 
-  describe('Validator Management', () => {
-    it('should skip inactive validators in round-robin', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
+  describe('Fund Movement', () => {
+    it('should transfer funds from pool to validator', async () => {
+      if (skipIfNoSandbox()) return;
 
-      console.log('Test: inactive validator skipping');
+      // Test scenario:
+      // 1. Record validator balance before
+      // 2. Execute batch stake
+      // 3. Verify pool decreased by batch_size
+      // 4. Verify validator received funds
       
-      // TODO: Deactivate validator, verify it's skipped
-      // await vaultManager.methods.deactivate_validator(validator2).send().wait();
-      // const selected = await select_next_validators(5);
-      // expect(selected.includes(validator2)).toBe(false);
+      console.log('  Test would verify fund transfer');
     });
 
-    it('should track stake per validator', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
+    it('should update total_staked after batch', async () => {
+      if (skipIfNoSandbox()) return;
 
-      console.log('Test: per-validator stake tracking');
-      
-      // TODO: Verify stake tracking
-      // const stake1 = await vaultManager.methods.get_validator_stake(validator1).simulate();
-      // const stake2 = await vaultManager.methods.get_validator_stake(validator2).simulate();
-      // expect(stake1 + stake2).toBe(totalStaked);
+      console.log('  Test would verify total_staked increment');
     });
 
-    it('should calculate average stake correctly', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
+    it('should reset pending_pool after batch', async () => {
+      if (skipIfNoSandbox()) return;
 
-      console.log('Test: average stake calculation');
+      // Test scenario:
+      // 1. Pending pool is 250k
+      // 2. Batch stake removes 200k
+      // 3. Verify 50k remains in pending_pool
       
-      // TODO: 600k staked across 3 validators = 200k average
-      // const avgStake = await vaultManager.methods.get_average_stake().simulate();
-      // const totalStaked = await vaultManager.methods.get_total_staked().simulate();
-      // const activeCount = await vaultManager.methods.get_active_validator_count().simulate();
-      // expect(avgStake).toBe(totalStaked / activeCount);
+      console.log('  Test would verify pending_pool reset');
     });
   });
 
-  describe('Edge Cases', () => {
-    it('should reject batch smaller than minimum size', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
+  describe('VaultManager Integration', () => {
+    it('should record stake via VaultManager', async () => {
+      if (skipIfNoSandbox()) return;
 
-      console.log('Test: minimum batch size enforcement');
-      
-      // TODO:
-      // const smallBatch = TEST_CONFIG.BATCH_SIZE - 1n;
-      // await expect(
-      //   vaultManager.methods.execute_batch_stake(smallBatch).send()
-      // ).rejects.toThrow('Batch too small');
+      console.log('  Test would verify VaultManager.record_stake call');
     });
 
-    it('should handle batch when no active validators', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
+    it('should track validator allocation', async () => {
+      if (skipIfNoSandbox()) return;
 
-      console.log('Test: no active validators handling');
+      // Test scenario:
+      // 1. Batch stake to validator A
+      // 2. Verify vault records allocation
+      // 3. Batch stake to validator B
+      // 4. Verify both allocations tracked
       
-      // TODO: Deactivate all validators, verify error
+      console.log('  Test would verify allocation tracking');
     });
+  });
 
-    it('should handle reactivation of validator', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
+  describe('Multiple Batches', () => {
+    it('should handle consecutive batch stakes', async () => {
+      if (skipIfNoSandbox()) return;
 
-      console.log('Test: validator reactivation');
+      // Test scenario:
+      // 1. Deposit 400k AZTEC
+      // 2. First batch stakes 200k
+      // 3. Second batch stakes 200k
+      // 4. Verify both batches executed correctly
       
-      // TODO: Deactivate, reactivate, verify selection works
+      console.log('  Test would verify consecutive batches');
     });
   });
 });

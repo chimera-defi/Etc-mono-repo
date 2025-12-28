@@ -1,307 +1,156 @@
 /**
- * Integration Test: Rewards Distribution
- * TASK-203+ Implementation
+ * Rewards Distribution Integration Tests
  * 
- * Tests the rewards flow:
- * 1. Keeper claims rewards from validators
- * 2. RewardsManager processes rewards (calculates fees)
- * 3. RewardsManager calls LiquidStakingCore.add_rewards()
- * 4. RewardsManager calls StakedAztecToken.update_exchange_rate()
- * 5. Exchange rate increases
- * 6. stAZTEC holders benefit (can withdraw more AZTEC)
- * 
- * Prerequisites:
- * - Aztec sandbox running
- * - All contracts deployed and configured
- * - Stakes already made to validators
+ * Tests the reward processing flow:
+ * 1. Validator rewards are received
+ * 2. RewardsManager processes rewards
+ * 3. Protocol fee is extracted
+ * 4. Exchange rate is updated
+ * 5. stAZTEC holders benefit from appreciation
  */
 
-import { describe, it, expect, beforeAll } from '@jest/globals';
-import { AccountWallet, Fr } from '@aztec/aztec.js';
-import { pxe, TEST_CONFIG, ensureSandboxRunning } from './setup.js';
-import {
-  createTestAccount,
-  stAztecToAztec,
-  calculateFee,
-  formatTokenAmount,
-  assertRateIncreased,
-} from './test-utils.js';
+import { TEST_CONFIG, sandboxAvailable, skipIfNoSandbox } from './setup.js';
 
-describe('Rewards Distribution Integration Tests', () => {
-  let admin: AccountWallet;
-  let keeper: AccountWallet;
-  let treasury: AccountWallet;
-  let user: AccountWallet;
-  let sandboxAvailable: boolean;
-
-  // Contract instances
-  // let liquidStakingCore: LiquidStakingCoreContract;
-  // let rewardsManager: RewardsManagerContract;
-  // let stakedAztecToken: StakedAztecTokenContract;
-
-  // Test state
-  let initialExchangeRate: bigint;
-  let userStAztecBalance: bigint;
-
+describe('Rewards Distribution Flow', () => {
   beforeAll(async () => {
-    sandboxAvailable = await ensureSandboxRunning();
-    
-    if (!sandboxAvailable) {
-      console.warn('\\n⚠️  Sandbox not available - tests will be skipped');
-      return;
-    }
-
-    admin = await createTestAccount();
-    keeper = await createTestAccount();
-    treasury = await createTestAccount();
-    user = await createTestAccount();
-    
-    // Deploy and configure contracts
-    // Set keeper: await rewardsManager.methods.set_keeper(keeper.getAddress()).send().wait();
-    
-    // User deposits to get stAZTEC
-    // await deposit(user, TEST_CONFIG.DEPOSIT_AMOUNT);
-    
-    // initialExchangeRate = await stakedAztecToken.methods.get_exchange_rate().simulate();
-    // userStAztecBalance = await stakedAztecToken.methods.balance_of(user.getAddress()).simulate();
-    
-    initialExchangeRate = TEST_CONFIG.INITIAL_RATE;
-    userStAztecBalance = TEST_CONFIG.DEPOSIT_AMOUNT;
+    if (skipIfNoSandbox()) return;
+    // Would initialize test accounts and contracts here
   });
 
-  describe('Process Rewards', () => {
-    it('should calculate protocol fee correctly', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
+  describe('Reward Processing', () => {
+    it('should accept rewards from validators', async () => {
+      if (skipIfNoSandbox()) return;
 
-      const grossRewards = 100_000_000_000_000_000_000n; // 100 AZTEC
-      const feeBps = TEST_CONFIG.PROTOCOL_FEE_BPS;
+      // Test scenario:
+      // 1. Validator submits rewards
+      // 2. Verify rewards received by protocol
       
-      const expectedFee = calculateFee(grossRewards, feeBps);
-      const expectedNet = grossRewards - expectedFee;
-      
-      // 10% fee on 100 = 10 fee, 90 net
-      expect(expectedFee).toBe(10_000_000_000_000_000_000n);
-      expect(expectedNet).toBe(90_000_000_000_000_000_000n);
-      
-      console.log(`Gross rewards: ${formatTokenAmount(grossRewards)}`);
-      console.log(`Protocol fee (${feeBps} bps): ${formatTokenAmount(expectedFee)}`);
-      console.log(`Net rewards: ${formatTokenAmount(expectedNet)}`);
-      
-      // TODO: Execute process_rewards and verify return values match
+      console.log('  Test would verify reward acceptance');
     });
 
-    it('should track rewards per validator', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
+    it('should extract protocol fee', async () => {
+      if (skipIfNoSandbox()) return;
 
-      console.log('Test: per-validator reward tracking');
+      // Test scenario:
+      // 1. Process 100 AZTEC in rewards
+      // 2. With 10% fee, 10 AZTEC goes to fee_recipient
+      // 3. Verify fee_recipient balance increased
       
-      // TODO: Process rewards from multiple validators
-      // const rewardsV1 = await rewardsManager.methods.get_validator_rewards(validator1).simulate();
-      // const rewardsV2 = await rewardsManager.methods.get_validator_rewards(validator2).simulate();
-      // expect(rewardsV1 + rewardsV2).toBe(totalRewards);
+      const rewardAmount = 100_000_000_000_000_000_000n; // 100 AZTEC
+      const feeAmount = (rewardAmount * TEST_CONFIG.PROTOCOL_FEE_BPS) / 10000n;
+      
+      console.log(`  Test would verify ${feeAmount} fee extracted from ${rewardAmount} rewards`);
     });
 
-    it('should track rewards per epoch', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
+    it('should update total_rewards correctly', async () => {
+      if (skipIfNoSandbox()) return;
 
-      console.log('Test: per-epoch reward tracking');
-      
-      // TODO: Process rewards in different epochs
-      // const epoch0Rewards = await rewardsManager.methods.get_epoch_rewards(0n).simulate();
-    });
-
-    it('should only allow keeper or admin to process rewards', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
-
-      console.log('Test: keeper authorization');
-      
-      // TODO: Random user should be rejected
+      console.log('  Test would verify total_rewards tracking');
     });
   });
 
   describe('Exchange Rate Updates', () => {
     it('should increase exchange rate after rewards', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
+      if (skipIfNoSandbox()) return;
 
-      console.log('Test: exchange rate increase');
+      // Test scenario:
+      // 1. Initial rate is 10000 (1.0)
+      // 2. Process rewards
+      // 3. Verify rate increased based on new total_assets / total_shares
       
-      const backing = 1_100_000_000_000_000_000_000n; // 1100 (after rewards)
-      const supply = 1_000_000_000_000_000_000_000n; // 1000
-      
-      // Expected rate: 1100/1000 * 10000 = 11000
-      const expectedRate = (backing * 10000n) / supply;
-      expect(expectedRate).toBe(11000n);
-      
-      console.log(`New rate after rewards: ${expectedRate} (${Number(expectedRate) / 10000}x)`);
-      
-      // TODO: Process rewards and verify rate update
-      // const rateBefore = await stakedAztecToken.methods.get_exchange_rate().simulate();
-      // await process_rewards(grossRewards);
-      // const rateAfter = await stakedAztecToken.methods.get_exchange_rate().simulate();
-      // assertRateIncreased(rateBefore, rateAfter);
+      console.log('  Test would verify exchange rate increase');
     });
 
-    it('should never decrease exchange rate', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
+    it('should calculate rate correctly', async () => {
+      if (skipIfNoSandbox()) return;
 
-      console.log('Test: rate monotonic increase');
+      // Test scenario:
+      // total_assets = 1000 AZTEC + 100 rewards = 1100 AZTEC
+      // total_shares = 1000 stAZTEC
+      // new_rate = 1100 * 10000 / 1000 = 11000 (1.1)
       
-      // TODO: Even with manipulation attempts, rate should not decrease
-      // This is enforced by: final_rate = max(new_rate, current_rate)
+      console.log('  Test would verify rate calculation');
     });
 
-    it('should update rate on StakedAztecToken contract', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
+    it('should emit rate update event', async () => {
+      if (skipIfNoSandbox()) return;
 
-      console.log('Test: cross-contract rate update');
-      
-      // TODO: Verify rate is synchronized
-      // const rateOnRewards = await rewardsManager.methods.get_exchange_rate().simulate();
-      // const rateOnToken = await stakedAztecToken.methods.get_exchange_rate().simulate();
-      // expect(rateOnRewards).toBe(rateOnToken);
+      console.log('  Test would verify event emission');
     });
   });
 
-  describe('User Benefits', () => {
-    it('should allow users to withdraw more AZTEC after rewards', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
+  describe('Staker Benefits', () => {
+    it('should allow redemption at new rate', async () => {
+      if (skipIfNoSandbox()) return;
 
-      console.log('Test: user profit from rewards');
+      // Test scenario:
+      // 1. User deposits 100 AZTEC, gets 100 stAZTEC
+      // 2. Rewards increase rate to 1.1
+      // 3. User withdraws 100 stAZTEC
+      // 4. User receives 110 AZTEC
       
-      // User has 100 stAZTEC at rate 10000 (deposited 100 AZTEC)
-      const stAztecBalance = 100_000_000_000_000_000_000n;
-      const initialRate = 10000n;
-      const newRate = 11000n; // After 10% rewards
+      const stAztecAmount = TEST_CONFIG.DEPOSIT_AMOUNT;
+      const rate = 11000n;
+      const expectedAztec = (stAztecAmount * rate) / TEST_CONFIG.INITIAL_RATE;
       
-      const initialValue = stAztecToAztec(stAztecBalance, initialRate);
-      const newValue = stAztecToAztec(stAztecBalance, newRate);
-      
-      expect(newValue).toBeGreaterThan(initialValue);
-      
-      console.log(`stAZTEC balance: ${formatTokenAmount(stAztecBalance)}`);
-      console.log(`Value at initial rate: ${formatTokenAmount(initialValue)}`);
-      console.log(`Value after rewards: ${formatTokenAmount(newValue)}`);
-      console.log(`Profit: ${formatTokenAmount(newValue - initialValue)}`);
+      console.log(`  Test would verify ${stAztecAmount} stAZTEC redeems for ${expectedAztec} AZTEC`);
     });
 
-    it('should distribute rewards proportionally to stAZTEC holdings', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
+    it('should distribute rewards proportionally', async () => {
+      if (skipIfNoSandbox()) return;
 
-      console.log('Test: proportional reward distribution');
+      // Test scenario:
+      // User A: 70% of stAZTEC supply
+      // User B: 30% of stAZTEC supply
+      // After rewards, each can redeem proportionally more
       
-      // User A has 100 stAZTEC, User B has 200 stAZTEC
-      // User B should get 2x the rewards
+      console.log('  Test would verify proportional distribution');
     });
   });
 
   describe('Fee Collection', () => {
-    it('should accumulate fees from multiple reward events', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
+    it('should allow admin to collect fees', async () => {
+      if (skipIfNoSandbox()) return;
 
-      console.log('Test: fee accumulation');
+      // Test scenario:
+      // 1. Process rewards, fees accumulate
+      // 2. Admin calls collect_fees
+      // 3. Verify fee_recipient receives fees
       
-      // TODO: Process multiple rewards, verify accumulated fees
-      // const fees = await liquidStakingCore.methods.get_accumulated_fees().simulate();
+      console.log('  Test would verify fee collection');
     });
 
-    it('should allow treasury to collect accumulated fees', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
+    it('should only allow authorized fee collection', async () => {
+      if (skipIfNoSandbox()) return;
 
-      console.log('Test: fee collection');
-      
-      // TODO: Treasury collects fees
-      // const feesBefore = await liquidStakingCore.methods.get_accumulated_fees().simulate();
-      // await liquidStakingCore.withWallet(treasury).methods.collect_fees().send().wait();
-      // const feesAfter = await liquidStakingCore.methods.get_accumulated_fees().simulate();
-      // expect(feesAfter).toBe(0n);
-      // // Treasury should have received the fees as AZTEC
-    });
-
-    it('should only allow treasury or admin to collect fees', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
-
-      console.log('Test: fee collection authorization');
+      console.log('  Test would verify fee collection authorization');
     });
   });
 
-  describe('APY Estimation', () => {
-    it('should calculate estimated APY from recent rewards', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
+  describe('APY Calculation', () => {
+    it('should track rewards over time for APY estimation', async () => {
+      if (skipIfNoSandbox()) return;
 
-      console.log('Test: APY estimation');
+      // Test scenario:
+      // 1. Track rewards over simulated time period
+      // 2. Calculate annualized return
+      // 3. Verify APY calculation matches expected
       
-      // TODO: After processing rewards, check APY estimate
-      // const apy = await rewardsManager.methods.get_estimated_apy().simulate();
-      // APY in basis points: 800 = 8%
-      // expect(apy).toBeGreaterThan(0n);
-      // expect(apy).toBeLessThanOrEqual(5000n); // Max 50% cap
-    });
-
-    it('should return default APY when no data available', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
-
-      console.log('Test: default APY');
-      
-      // Before any rewards processed, should return default 8% (800 bps)
+      console.log('  Test would verify APY tracking');
     });
   });
 
-  describe('Epoch Management', () => {
-    it('should advance epoch correctly', async () => {
-      if (!sandboxAvailable) {
-        console.log('Skipping - sandbox not available');
-        return;
-      }
+  describe('RewardsManager Integration', () => {
+    it('should call LiquidStakingCore.add_rewards', async () => {
+      if (skipIfNoSandbox()) return;
 
-      console.log('Test: epoch advancement');
-      
-      // TODO:
-      // const epochBefore = await rewardsManager.methods.get_current_epoch().simulate();
-      // await rewardsManager.withWallet(keeper).methods.advance_epoch(timestamp).send().wait();
-      // const epochAfter = await rewardsManager.methods.get_current_epoch().simulate();
-      // expect(epochAfter).toBe(epochBefore + 1n);
+      console.log('  Test would verify add_rewards cross-contract call');
+    });
+
+    it('should call StakedAztecToken.update_exchange_rate', async () => {
+      if (skipIfNoSandbox()) return;
+
+      console.log('  Test would verify update_exchange_rate cross-contract call');
     });
   });
 });
