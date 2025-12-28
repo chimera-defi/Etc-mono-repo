@@ -252,6 +252,8 @@
   - Slashing insurance in place
 
 ### Frontend Development (Weeks 20-22)
+*See detailed plan in `staking/aztec/docs/FRONTEND_HANDOFF.md`*
+
 - [ ] Simple deposit/withdraw UI
   - Wallet/PXE connection (Aztec-compatible wallet tooling; confirm supported options)
   - Deposit flow + transaction confirmation
