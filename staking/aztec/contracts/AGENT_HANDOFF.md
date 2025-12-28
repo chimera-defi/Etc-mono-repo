@@ -59,4 +59,4 @@ cd contracts/liquid-staking-core
 aztec-nargo compile
 ```
 
-See [NEXT_AGENT_PROMPT.md](../NEXT_AGENT_PROMPT.md) for environment setup.
+See [docs/INTEGRATION-TESTING.md](../docs/INTEGRATION-TESTING.md) for environment setup.

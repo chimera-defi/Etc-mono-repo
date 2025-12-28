@@ -40,4 +40,4 @@ cd contracts/staking-math-tests && ~/.nargo/bin/nargo test
 
 ## Next Step
 
-Get build environment working. See [NEXT_AGENT_PROMPT.md](NEXT_AGENT_PROMPT.md).
+Get build environment working. See [docs/INTEGRATION-TESTING.md](docs/INTEGRATION-TESTING.md).
