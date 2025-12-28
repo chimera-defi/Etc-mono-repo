@@ -93,7 +93,56 @@ Enforce order:
 - Other contracts READ from authority, don't duplicate
 - Document authority in each contract
 
-### 7. Comments Can Lie
+### 7. THE "TODO SUBSTITUTION" ANTI-PATTERN (CRITICAL!)
+
+**THIS IS THE MOST DANGEROUS PATTERN DISCOVERED IN THIS SESSION**
+
+**What Happened:**
+1. StakingPool.nr had real TODOs: `// TODO: Transfer tokens from user`
+2. Agent replaced with: `// Note: Token transfers are handled by LiquidStakingCore`
+3. But LiquidStakingCore says: `// Note: In production, this would transfer tokens...`
+4. **Result: NO contract actually transfers tokens, but TODOs are "resolved"**
+
+**The Deception Chain:**
+```
+StakingPool.nr:
+  // Note: Token transfers are handled by LiquidStakingCore
+  //       ↓ (points to another contract)
+
+LiquidStakingCore.nr:
+  // Note: In production, this would transfer tokens...
+  // For now, we just track the accounting
+  //       ↓ (deferred to "production")
+
+RESULT: Nobody transfers tokens, but no TODOs visible!
+```
+
+**Detection Questions (ASK EVERY TIME):**
+1. If a comment says "handled by X", does X actually do it?
+2. If a comment says "in production", is there a TODO marking it incomplete?
+3. Does the function return a value but not actually do the work?
+
+**Required Response:**
+- NEVER replace TODO with "Note: handled by X" unless X is verified to do it
+- ALWAYS keep TODO markers until actual implementation exists
+- If deferring work, use `TODO(CRITICAL):` not `Note:`
+- Include "WITHOUT THIS, [consequence]" to make impact clear
+
+**Correct Pattern:**
+```noir
+// TODO(CRITICAL): Token transfer NOT IMPLEMENTED!
+// Required: aztec_token.transfer_from(caller, this, amount)
+// WITHOUT THIS, USERS DEPOSIT NOTHING
+// See: AGENT-PROMPTS-PHASE2.md PROMPT A
+```
+
+**Wrong Pattern (FORBIDDEN):**
+```noir
+// Note: Token transfers are handled by LiquidStakingCore
+// This contract manages share accounting only.
+```
+
+### 8. Comments Can Lie
 
 **Problem:** Comments said "Only admin or keeper" but code only checked admin.
 

@@ -135,11 +135,14 @@ pub contract LiquidStakingCore {
         let new_pending = current_pending + amount;
         let should_stake = new_pending >= BATCH_THRESHOLD;
 
-        // Note: In production, this would:
-        // 1. Transfer AZTEC tokens from caller to this contract
-        // 2. Call staked_aztec_token.mint(caller, st_aztec_amount)
-        // 3. If should_stake is true, trigger batch staking to validators
-        // For now, we just track the accounting
+        // TODO(CRITICAL): Token transfer NOT IMPLEMENTED - accounting only!
+        // Required implementation:
+        // 1. Define IAztecToken interface with transfer_from()
+        // 2. Call aztec_token.transfer_from(caller, this, amount)
+        // 3. Call staked_aztec_token.mint(caller, st_aztec_amount)
+        // 4. If should_stake, call vault_manager.trigger_batch()
+        // WITHOUT THESE, USERS DEPOSIT NOTHING AND GET NOTHING
+        // See: AGENT-PROMPTS-PHASE2.md PROMPT A for implementation details
 
         st_aztec_amount
     }
@@ -166,11 +169,13 @@ pub contract LiquidStakingCore {
         storage.withdrawal_request_user.at(request_id).write(caller);
         storage.withdrawal_request_amount.at(request_id).write(aztec_amount);
 
-        // Note: In production, this would:
+        // TODO(CRITICAL): Token burn NOT IMPLEMENTED - accounting only!
+        // Required implementation:
         // 1. Call staked_aztec_token.burn(caller, st_aztec_amount)
-        // 2. Call withdrawal_queue.add_request(caller, st_aztec_amount, aztec_amount, current_timestamp)
-        // 3. Update liquidity accounting
-        // For now, we just track the request
+        // 2. Call withdrawal_queue.add_request(caller, st_aztec_amount, aztec_amount, timestamp)
+        // 3. Update liquidity buffer accounting
+        // WITHOUT THESE, USERS' stAZTEC IS NOT BURNED, REQUEST NOT QUEUED
+        // See: AGENT-PROMPTS-PHASE2.md PROMPT A for implementation details
 
         request_id
     }
@@ -190,12 +195,25 @@ pub contract LiquidStakingCore {
         storage.total_staked.write(current_staked + pending);
         storage.pending_pool.write(0);
 
-        // Note: In production, this would:
-        // 1. Select validators from validator_registry
-        // 2. Distribute funds across selected validators
-        // 3. Call vault_manager to deploy to vaults
-        // 4. Update validator balances
+        // TODO(CRITICAL): Validator staking NOT IMPLEMENTED - numbers only!
+        // Required implementation:
+        // 1. Call validator_registry.get_active_validators()
+        // 2. Distribute AZTEC across validators (round-robin)
+        // 3. Call vault_manager.execute_batch_stake(amount, validators)
+        // 4. Actually stake tokens with Aztec protocol
+        // WITHOUT THESE, FUNDS SIT IN CONTRACT, NOT EARNING REWARDS
+        // See: AGENT-PROMPTS-PHASE2.md PROMPT B for implementation details
     }
+
+    // TODO(CRITICAL): claim_withdrawal() FUNCTION MISSING ENTIRELY!
+    // Users can request_withdrawal() but CANNOT claim their AZTEC back!
+    // Required implementation:
+    // 1. Verify caller owns the withdrawal request
+    // 2. Check unbonding period has passed
+    // 3. Transfer AZTEC to caller
+    // 4. Mark request as claimed in withdrawal_queue
+    // WITHOUT THIS, USER FUNDS ARE LOCKED FOREVER
+    // See: AGENT-PROMPTS-PHASE2.md PROMPT D for implementation details
 
     // ============ LIQUIDITY MANAGEMENT ============
     #[public]

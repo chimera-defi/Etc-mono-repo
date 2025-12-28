@@ -103,6 +103,11 @@ pub contract RewardsManager {
         let current_pending = storage.pending_protocol_fees.read();
         storage.pending_protocol_fees.write(current_pending + protocol_fee);
 
+        // TODO(CRITICAL): INTEGER OVERFLOW BUG!
+        // If total_value is large, multiplying by 10000 overflows u128!
+        // Example: total_value > 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF/10000
+        // Required fix: Check for overflow before multiplication
+        // See: AGENT-PROMPTS-PHASE2.md PROMPT C for safe implementation
         let new_rate = if total_supply == 0 {
             10000
         } else {
@@ -116,6 +121,12 @@ pub contract RewardsManager {
         let total_distributed = storage.total_rewards_distributed.read();
         storage.total_rewards_distributed.write(total_distributed + reward_amount);
 
+        // TODO(HIGH): StakedAztecToken NOT UPDATED!
+        // We store new_rate locally but StakedAztecToken doesn't know!
+        // Required: Call staked_aztec_token.update_exchange_rate(new_rate)
+        // Currently: stAZTEC has stale exchange rate
+        // See: AGENT-PROMPTS-PHASE2.md PROMPT B
+
         new_rate
     }
 
@@ -128,6 +139,12 @@ pub contract RewardsManager {
 
         let pending = storage.pending_protocol_fees.read();
         storage.pending_protocol_fees.write(0);
+
+        // TODO(HIGH): Fee tokens NOT TRANSFERRED!
+        // pending_protocol_fees reset to 0 but NO actual transfer!
+        // Required: Call aztec_token.transfer(fee_recipient, pending)
+        // Currently: Fees are "claimed" but recipient gets nothing
+        // See: AGENT-PROMPTS-PHASE2.md PROMPT B
 
         pending
     }
