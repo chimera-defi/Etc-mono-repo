@@ -1286,6 +1286,112 @@ spec:
 
 ---
 
+
+## Phase 4.5: Frontend Development (Week 18-22)
+
+See `staking/aztec/docs/FRONTEND_HANDOFF.md` for detailed instructions and prompts.
+
+### TASK-350: Setup Frontend Project
+**Status:** 🔴 Not Started
+**Estimated Time:** 2 hours
+**Priority:** High
+**Depends On:** None
+
+**Context:** Initialize the Next.js application structure.
+
+**Deliverables:**
+- [ ] Next.js project initialized in `staking/aztec/frontend`
+- [ ] Tailwind CSS configured
+- [ ] Directory structure established (`src/components`, `src/app`, `src/hooks`)
+
+**Acceptance Criteria:**
+- `npm run dev` starts the server
+- Tailwind styles are working
+- Clean boilerplate (no default Vercel branding)
+
+---
+
+### TASK-351: Implement Core UI Components
+**Status:** 🔴 Not Started
+**Estimated Time:** 6 hours
+**Priority:** High
+**Depends On:** TASK-350
+
+**Context:** Build atomic components to be used across the app.
+
+**Deliverables:**
+- [ ] `Button`, `Input`, `Card`, `Modal`, `Tabs` components
+- [ ] Dark mode styling applied
+- [ ] Accessible (aria labels, focus states)
+
+**Acceptance Criteria:**
+- Components visually match the design requirements (Dark/Purple theme)
+- Responsive on mobile
+- Documented usage (or Storybook if preferred, but not strict req)
+
+---
+
+### TASK-352: Implement Staking Widget & Logic
+**Status:** 🔴 Not Started
+**Estimated Time:** 8 hours
+**Priority:** Critical
+**Depends On:** TASK-351
+
+**Context:** The main user interaction point for staking.
+
+**Deliverables:**
+- [ ] `StakeWidget` component with Tabs (Stake/Unstake)
+- [ ] Input validation (max amount, numeric only)
+- [ ] Output estimation (Exchange rate calculation)
+- [ ] Mock wallet connection state handling
+
+**Acceptance Criteria:**
+- User can toggle between Stake and Unstake
+- Inputting 100 AZTEC shows ~98 stAZTEC (based on mock rate)
+- "Stake" button disabled if disconnected or empty input
+
+---
+
+### TASK-353: Implement Dashboard & Withdrawal Queue
+**Status:** 🔴 Not Started
+**Estimated Time:** 8 hours
+**Priority:** High
+**Depends On:** TASK-352
+
+**Context:** Views for user's position and pending withdrawals.
+
+**Deliverables:**
+- [ ] `WithdrawalQueue` list component
+- [ ] `StatsBar` (TVL, APY)
+- [ ] `Portfolio` summary (Balance, Rewards)
+
+**Acceptance Criteria:**
+- Queue shows mock items with status (Unbonding vs Ready)
+- "Claim" button active only for Ready items
+- Stats bar responsive
+
+---
+
+### TASK-354: Mock Integration & Polishing
+**Status:** 🔴 Not Started
+**Estimated Time:** 6 hours
+**Priority:** Medium
+**Depends On:** TASK-353
+
+**Context:** Wire everything together into a cohesive page with mock data.
+
+**Deliverables:**
+- [ ] `useStaking` mock hook
+- [ ] `page.tsx` assembled with all components
+- [ ] Polished layout and spacing
+
+**Acceptance Criteria:**
+- Full user journey clickable (Connect -> Stake -> Unstake -> Claim)
+- No console errors
+- Ready for "Real" integration with Aztec.js
+
+---
+
 ## Phase 5: Security & Audits (Week 15-22)
 
 ### TASK-401: Conduct Internal Security Review
@@ -1569,6 +1675,10 @@ TASK-304 (Withdrawal bot)
 TASK-305 (Monitoring bot)
 TASK-306 depends on TASK-302, 303, 304, 305
 
+Phase 4.5 (Frontend):
+TASK-350 → TASK-351 → TASK-352 → TASK-353 → TASK-354
+TASK-503 depends on TASK-354 (Deploy requires Build)
+
 Phase 5 (Security):
 TASK-401 depends on ALL contract tasks
 TASK-402 depends on TASK-401
@@ -1593,11 +1703,12 @@ TASK-504 depends on TASK-503
 | Phase 2 | 11 | 6 | 0 | 5 |
 | Phase 3 | 4 | 0 | 0 | 4 |
 | Phase 4 | 6 | 0 | 0 | 6 |
+| Phase 4.5 | 5 | 0 | 0 | 5 |
 | Phase 5 | 3 | 0 | 0 | 3 |
 | Phase 6 | 4 | 0 | 0 | 4 |
-| **TOTAL** | **37** | **7** | **0** | **30** |
+| **TOTAL** | **42** | **7** | **0** | **35** |
 
-**Critical Path Tasks:** TASK-001, ~~101, 102, 103, 104~~, 105, 106, 302, 401, 501
+**Critical Path Tasks:** TASK-001, ~~101, 102, 103, 104~~, 105, 106, 302, 350, 401, 501
 
 **Last Updated:** 2025-12-27 by cursor/aztec-staking-protocol-development-5e3b
 
