@@ -6,6 +6,9 @@ import { config } from 'dotenv';
 import { taskRoutes } from './routes/tasks.js';
 import { voiceRoutes } from './routes/voice.js';
 import { healthRoutes } from './routes/health.js';
+import { inputRoutes } from './routes/input.js';
+import { websocketRoutes } from './routes/websocket.js';
+import { webhookRoutes } from './routes/webhooks.js';
 
 config();
 
@@ -31,6 +34,9 @@ export async function buildApp() {
   await app.register(healthRoutes, { prefix: '/api' });
   await app.register(taskRoutes, { prefix: '/api' });
   await app.register(voiceRoutes, { prefix: '/api' });
+  await app.register(inputRoutes, { prefix: '/api' });
+  await app.register(websocketRoutes, { prefix: '/api' });
+  await app.register(webhookRoutes, { prefix: '/api' });
 
   return app;
 }

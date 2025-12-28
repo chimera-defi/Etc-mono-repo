@@ -22,22 +22,26 @@ Cadence/
 ├── CadenceApp.swift              # App entry point
 ├── Models/
 │   ├── Task.swift                # Task model
+│   ├── StreamEvent.swift         # WebSocket streaming events
 │   ├── VoiceCommand.swift        # Parsed voice command
 │   └── VPSConnection.swift       # VPS config
 ├── Views/
 │   ├── MainView.swift            # Tab container
+│   ├── InputView.swift           # Combined voice + text input
 │   ├── VoiceView.swift           # Voice recording interface
+│   ├── TextInputView.swift       # Keyboard text input
 │   ├── TaskListView.swift        # List of tasks
-│   ├── TaskDetailView.swift      # Single task detail
+│   ├── TaskDetailView.swift      # Single task detail + live output
 │   ├── SettingsView.swift        # App settings
 │   └── SetupView.swift           # VPS setup flow
 ├── ViewModels/
-│   ├── VoiceViewModel.swift      # Voice recording logic
-│   ├── TaskViewModel.swift       # Task management
+│   ├── InputViewModel.swift      # Voice + text input logic
+│   ├── TaskViewModel.swift       # Task management + streaming
 │   └── SettingsViewModel.swift   # Settings management
 ├── Services/
 │   ├── AudioRecorder.swift       # AVAudioRecorder wrapper
 │   ├── APIClient.swift           # Backend API calls
+│   ├── WebSocketClient.swift     # Real-time streaming
 │   ├── WhisperService.swift      # Voice transcription
 │   └── KeychainService.swift     # Secure storage
 └── Resources/
@@ -194,6 +198,229 @@ actor APIClient {
 }
 ```
 
+### 4. WebSocket Client for Streaming
+
+```swift
+// WebSocketClient.swift
+import Foundation
+
+@Observable
+class WebSocketClient {
+    private var webSocket: URLSessionWebSocketTask?
+    private let session = URLSession.shared
+
+    var isConnected = false
+    var events: [StreamEvent] = []
+
+    func connect(to url: URL) {
+        webSocket = session.webSocketTask(with: url)
+        webSocket?.resume()
+        isConnected = true
+        receiveMessages()
+    }
+
+    func subscribe(to taskId: String) {
+        let message = ["type": "subscribe", "taskId": taskId]
+        send(message)
+    }
+
+    private func receiveMessages() {
+        webSocket?.receive { [weak self] result in
+            switch result {
+            case .success(let message):
+                self?.handleMessage(message)
+                self?.receiveMessages() // Continue listening
+            case .failure(let error):
+                print("WebSocket error: \(error)")
+                self?.isConnected = false
+            }
+        }
+    }
+
+    private func handleMessage(_ message: URLSessionWebSocketTask.Message) {
+        if case .string(let text) = message,
+           let data = text.data(using: .utf8),
+           let event = try? JSONDecoder().decode(StreamEvent.self, from: data) {
+            DispatchQueue.main.async {
+                self.events.append(event)
+            }
+        }
+    }
+
+    private func send(_ dict: [String: String]) {
+        guard let data = try? JSONEncoder().encode(dict),
+              let string = String(data: data, encoding: .utf8) else { return }
+        webSocket?.send(.string(string)) { _ in }
+    }
+
+    func disconnect() {
+        webSocket?.cancel(with: .goingAway, reason: nil)
+        isConnected = false
+    }
+}
+```
+
+### 5. Combined Input View (Voice + Text)
+
+```swift
+// InputView.swift
+import SwiftUI
+
+struct InputView: View {
+    @State private var viewModel = InputViewModel()
+    @State private var showTextInput = false
+
+    var body: some View {
+        VStack(spacing: 24) {
+            // Mode toggle
+            Picker("Input Mode", selection: $showTextInput) {
+                Label("Voice", systemImage: "mic.fill").tag(false)
+                Label("Text", systemImage: "keyboard").tag(true)
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal)
+
+            if showTextInput {
+                // Text input
+                TextInputView(viewModel: viewModel)
+            } else {
+                // Voice input
+                VoiceInputView(viewModel: viewModel)
+            }
+
+            // Recent transcriptions/commands
+            if let lastCommand = viewModel.lastCommand {
+                HStack {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundStyle(.green)
+                    Text(lastCommand)
+                        .font(.subheadline)
+                }
+                .padding()
+                .background(.ultraThinMaterial)
+                .cornerRadius(8)
+            }
+        }
+    }
+}
+
+struct TextInputView: View {
+    @Bindable var viewModel: InputViewModel
+    @FocusState private var isFocused: Bool
+
+    var body: some View {
+        VStack(spacing: 16) {
+            TextField("Type your command...", text: $viewModel.textInput, axis: .vertical)
+                .textFieldStyle(.plain)
+                .padding()
+                .background(.ultraThinMaterial)
+                .cornerRadius(12)
+                .focused($isFocused)
+                .lineLimit(1...5)
+
+            Button(action: viewModel.submitText) {
+                Label("Send", systemImage: "paperplane.fill")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.borderedProminent)
+            .disabled(viewModel.textInput.isEmpty || viewModel.isProcessing)
+        }
+        .padding()
+    }
+}
+```
+
+### 6. Task Detail with Live Streaming
+
+```swift
+// TaskDetailView.swift
+import SwiftUI
+
+struct TaskDetailView: View {
+    let task: CodingTask
+    @State private var webSocket = WebSocketClient()
+
+    var body: some View {
+        ScrollViewReader { proxy in
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    // Task info
+                    TaskHeaderView(task: task)
+
+                    Divider()
+
+                    // Live output stream
+                    Text("Live Output")
+                        .font(.headline)
+
+                    LazyVStack(alignment: .leading, spacing: 8) {
+                        ForEach(webSocket.events) { event in
+                            StreamEventRow(event: event)
+                                .id(event.id)
+                        }
+                    }
+                    .onChange(of: webSocket.events.count) { _, _ in
+                        if let last = webSocket.events.last {
+                            withAnimation {
+                                proxy.scrollTo(last.id, anchor: .bottom)
+                            }
+                        }
+                    }
+                }
+                .padding()
+            }
+        }
+        .navigationTitle(task.shortDescription)
+        .onAppear {
+            webSocket.connect(to: URL(string: "ws://localhost:3001/api/ws/stream")!)
+            webSocket.subscribe(to: task.id)
+        }
+        .onDisappear {
+            webSocket.disconnect()
+        }
+    }
+}
+
+struct StreamEventRow: View {
+    let event: StreamEvent
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 8) {
+            Image(systemName: iconForEvent(event))
+                .foregroundStyle(colorForEvent(event))
+                .frame(width: 20)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(titleForEvent(event))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Text(event.message)
+                    .font(.system(.body, design: .monospaced))
+            }
+        }
+        .padding(.vertical, 4)
+    }
+
+    func iconForEvent(_ event: StreamEvent) -> String {
+        switch event.type {
+        case "file_edit": return "doc.text"
+        case "command_run": return "terminal"
+        case "tool_use": return "wrench"
+        case "error": return "exclamationmark.triangle"
+        default: return "text.bubble"
+        }
+    }
+
+    func colorForEvent(_ event: StreamEvent) -> Color {
+        switch event.type {
+        case "error": return .red
+        case "task_completed": return .green
+        default: return .blue
+        }
+    }
+}
+```
+
 ## Implementation Phases
 
 ### Phase 1: Core Voice Recording (Week 1)
@@ -203,26 +430,34 @@ actor APIClient {
 - [ ] Audio level visualization
 - [ ] Microphone permission handling
 
-### Phase 2: API Integration (Week 1-2)
+### Phase 2: API & Input Integration (Week 1-2)
 - [ ] APIClient with async/await
 - [ ] Voice transcription endpoint
+- [ ] **Text input endpoint** (keyboard fallback)
 - [ ] Command parsing endpoint
 - [ ] Task CRUD endpoints
 - [ ] Error handling
 
-### Phase 3: Task Management (Week 2)
-- [ ] Task list view
-- [ ] Task detail view
-- [ ] Real-time status updates (polling initially)
-- [ ] Task history with SwiftData
+### Phase 3: Real-time Streaming (Week 2)
+- [ ] **WebSocket client implementation**
+- [ ] **Live output streaming to TaskDetailView**
+- [ ] **Stream event parsing and display**
+- [ ] Connection status handling
+- [ ] Reconnection logic
 
-### Phase 4: Settings & VPS Setup (Week 2-3)
+### Phase 4: Task Management (Week 2-3)
+- [ ] Task list view with status indicators
+- [ ] Task detail view with **live output**
+- [ ] Task history with SwiftData
+- [ ] Pull-to-refresh
+
+### Phase 5: Settings & VPS Setup (Week 3)
 - [ ] Settings view
 - [ ] VPS endpoint configuration
 - [ ] Keychain storage for API keys
 - [ ] Connection health check
 
-### Phase 5: Polish (Week 3)
+### Phase 6: Polish (Week 3-4)
 - [ ] Push notifications for task completion
 - [ ] Haptic feedback
 - [ ] Dark mode support

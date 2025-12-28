@@ -6,21 +6,22 @@ import { ParsedCommand } from '../types.js';
  */
 export class CommandParser {
   // Patterns for different intents
+  // Note: Order matters! More specific patterns should come before general ones
   private patterns = {
     create_task: [
       /^(start|create|run|execute|do|make|add|implement|fix|build|write|generate)/i,
       /on (?:the )?(?:repo(?:sitory)?|project|codebase)/i,
     ],
-    check_status: [
-      /^(what('s| is)|how('s| is)|check|status|show|get)/i,
-      /(status|progress|state|doing|happening)/i,
+    list_tasks: [
+      /^(list|show|display|get) ?(all|my)? ?(tasks|agents|jobs)/i,
+      /what (tasks|agents|jobs)/i,
     ],
     cancel_task: [
       /^(cancel|stop|abort|kill|end|terminate)/i,
     ],
-    list_tasks: [
-      /^(list|show|display|get) ?(all)? ?(tasks|agents|jobs)/i,
-      /what (tasks|agents|jobs)/i,
+    check_status: [
+      /^(what('s| is)|how('s| is)|check|status)/i,
+      /(status|progress|state|doing|happening)/i,
     ],
   };
 

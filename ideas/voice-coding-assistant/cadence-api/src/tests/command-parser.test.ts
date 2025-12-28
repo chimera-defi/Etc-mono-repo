@@ -71,8 +71,13 @@ describe('CommandParser', () => {
       expect(result.intent).toBe('list_tasks');
     });
 
-    it('parses "show my agents"', async () => {
-      const result = await parser.parse('show my agents');
+    it('parses "show all agents"', async () => {
+      const result = await parser.parse('show all agents');
+      expect(result.intent).toBe('list_tasks');
+    });
+
+    it('parses "list my tasks"', async () => {
+      const result = await parser.parse('list my tasks');
       expect(result.intent).toBe('list_tasks');
     });
   });
