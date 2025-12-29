@@ -12,7 +12,7 @@
 
 ## Table of Contents
 
-- [Complete Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON_TABLE.md#complete-hardware-wallet-comparison-23-wallets) (Table View)
+- [Complete Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON_TABLE.md#complete-hardware-wallet-comparison-25-wallets) (Table View)
 - [Quick Recommendations](#-quick-recommendations)
 - [GitHub Metrics](#github-metrics-firmware-repositories)
 - [Security Deep Dive](#-security-deep-dive)
@@ -100,7 +100,7 @@ Unlike software wallets where frequent updates can indicate instability, hardwar
 
 ## 🏆 Quick Recommendations
 
-**Quick Answers:** Best overall? **Trezor Safe 5** (94). Air-gapped? **Keystone 3 Pro** (91). Bitcoin-only? **ColdCard Mk4** (91). Best value? **Trezor Safe 3** (91) at $79. Budget option? **Blockstream Jade** (81) at ~$65. See [full comparison table](#complete-hardware-wallet-comparison-23-wallets) for all 23 wallets.
+**Quick Answers:** Best overall? **Trezor Safe 5** (94). Air-gapped? **Keystone 3 Pro** (91). Bitcoin-only? **ColdCard Mk4** (91). Best value? **Trezor Safe 3** (91) at $79. Budget option? **Blockstream Jade** (81) at ~$65. See [full comparison table](#complete-hardware-wallet-comparison-25-wallets) for all 25 wallets.
 
 **Jump to:** [Comparison Table](#complete-hardware-wallet-comparison-23-wallets) | [Scoring Methodology](#-scoring-methodology) | [Security Deep Dive](#-security-deep-dive) | [Why Look Beyond Ledger?](#-why-look-beyond-ledger)
 
@@ -110,7 +110,7 @@ Unlike software wallets where frequent updates can indicate instability, hardwar
 |----------|----------|-------|-----------|---------------|
 | **Best Overall** | Trezor Safe 5 | 94 | Keystone 3 Pro (91) | Trezor Safe 3 (~$79) |
 | **Bitcoin Only** | ColdCard Mk4 | 91 | Foundation Passport (81) | Blockstream Jade (~$65) |
-| **Air-Gapped** | Keystone 3 Pro | 91 | ColdCard Mk4 (91) | SafePal S1 (~$50) |
+| **Air-Gapped** | Keystone 3 Pro | 91 | Keycard Shell (91) | SafePal S1 (~$50) |
 | **Best Value** | Trezor Safe 3 | 91 | Blockstream Jade (81) | Tangem (~$55) |
 | **Beginners** | Trezor Safe 5 | 94 | BitBox02 (88) | Blockstream Jade (~$65) |
 | **DIY/Self-Build** | Specter DIY | 72 | SeedSigner (65) | Krux (~$30-100) |
@@ -263,6 +263,7 @@ UX & ECOSYSTEM (10 pts)
 |--------|---------------|-------------------|--------------|---------------|--------------|---------|-------|
 | **Trezor Safe 5** | 22/25 | 20/20 | 15/15 | 15/15 | 14/15 | 8/10 | **94** |
 | **Keystone 3 Pro** | 25/25 | 20/20 | 15/15 | 15/15 | 8/15 | 8/10 | **91** |
+| **Keycard Shell** | 25/25 | 20/20 | 15/15 | 15/15 | 10/15 | 8/10 | **91** |
 | **Trezor Safe 3** | 22/25 | 20/20 | 15/15 | 15/15 | 14/15 | 5/10 | **91** |
 | **ColdCard Mk4** | 25/25 | 20/20 | 15/15 | 15/15 | 12/15 | 4/10 | **91** |
 | **BitBox02** | 20/25 | 20/20 | 15/15 | 15/15 | 12/15 | 6/10 | **88** |
