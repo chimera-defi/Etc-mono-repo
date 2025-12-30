@@ -1,5 +1,11 @@
 # Frontend Handoff: Liquid Aztec Staking
 
+**Updated:** 2025-12-30
+**Status:** Ready to start (contracts complete)
+**Parallel Agents:** 3 agents can work simultaneously
+
+> **For detailed agent prompts, see:** `/workspace/staking/aztec/PARALLEL_WORK_HANDOFF.md`
+
 ## Overview
 This document outlines the design, user journeys, and technical requirements for the Liquid Aztec Staking frontend. It serves as a guide for the next agent to build the UI.
 
@@ -28,35 +34,30 @@ Based on analysis of leading liquid staking protocols (Lido, Rocket Pool, Jito),
 - **Icons**: Lucide React
 - **Wallet**: Aztec Wallet Adapter (or mock interface if not ready)
 
-## Task Breakdown
+## Task Breakdown (Parallelizable)
 
-### Phase 1: Setup & Scaffolding
+### Agent F1: Setup + UI Kit (Day 1-2)
 - [ ] Initialize Next.js project in `staking/aztec/frontend`
-- [ ] Configure Tailwind CSS and Lucide React
-- [ ] Create basic Layout (Navbar, Footer, Background)
+- [ ] Configure Tailwind CSS (dark theme) and Lucide React
+- [ ] Create UI Kit: Button, Input, Card, Modal, Tabs, Badge
+- [ ] Create utility functions (cn, formatAztec, formatRate)
 
-### Phase 2: Core Components
-- [ ] **UI Kit**: Button (variants), Input (with Max button), Card, Modal, Tabs, Loader.
-- [ ] **Connect Wallet**: Button component that simulates connection states.
-- [ ] **Stats Display**: Component for APY, TVL, Exchange Rate.
+### Agent F2: Feature Components (Day 1-3)
+- [ ] **StakeWidget**: Stake/Unstake tabs, amount inputs, summary
+- [ ] **WithdrawalQueue**: Pending requests list, claim button
+- [ ] **PortfolioView**: Balance, rewards, APY display
+- [ ] **StatsBar**: TVL, APY, exchange rate
+- [ ] **ConnectWallet**: Connection states (mock)
 
-### Phase 3: Feature Implementation
-- [ ] **Stake Widget**: 
-    - Toggle Stake/Unstake
-    - Amount inputs with validation
-    - Summary view (Rate, Fee, Receive Amount)
-- [ ] **Withdrawal Queue**:
-    - List of pending withdrawals
-    - "Claim" button for ready items
-    - Progress indicator for unbonding
-- [ ] **Portfolio**:
-    - Total Staked Balance
-    - Rewards Earned (mocked/calculated)
-
-### Phase 4: Integration (Mock)
+### Agent F3: Integration + Polish (Day 2-4)
 - [ ] Create `useStaking` hook (mock implementation)
 - [ ] Create `useWallet` hook (mock implementation)
-- [ ] Wire up UI to mock hooks to demonstrate flow
+- [ ] Assemble main page with all components
+- [ ] Add toast notifications and loading states
+- [ ] Add tests and responsive design
+- [ ] Verify build passes
+
+**Detailed prompts for each agent:** See `PARALLEL_WORK_HANDOFF.md`
 
 ## Prompts for Coding Agents
 
