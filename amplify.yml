@@ -36,14 +36,16 @@ applications:
                   echo "$CHANGED_FILES" | head -20
 
                   # Check if any wallet frontend files changed
-                  WALLET_CHANGES=$(echo "$CHANGED_FILES" | grep -E "^(wallets/frontend/|amplify\.yml)" || true)
+                  # Include markdown files in wallets/ since they generate the frontend data
+                  # Pattern matches: wallets/frontend/** OR wallets/*.md (root level only) OR amplify.yml
+                  WALLET_CHANGES=$(echo "$CHANGED_FILES" | grep -E "^(wallets/frontend/|wallets/[^/]*\.md|amplify\.yml)" || true)
 
                   if [ -z "$WALLET_CHANGES" ]; then
                     echo ""
                     echo "=============================================="
                     echo "NO WALLET FRONTEND CHANGES DETECTED"
                     echo "=============================================="
-                    echo "This PR does not modify wallets/frontend/ or amplify.yml"
+                    echo "This PR does not modify wallets/frontend/, wallets/*.md, or amplify.yml"
                     echo "Skipping Amplify preview build to save resources."
                     echo ""
                     exit 1
