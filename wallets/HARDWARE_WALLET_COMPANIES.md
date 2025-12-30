@@ -4,7 +4,7 @@ Aggregated scores and wallet counts for hardware wallet manufacturers.
 
 | Company | Aggregated Score | Wallet Count | Wallets |
 |---------|------------------|--------------|---------|
-| **Trezor** | 93.0 | 3 | [View Wallets](./HARDWARE_WALLET_COMPARISON_TABLE.md) (Trezor Safe 7, Trezor Safe 5, Trezor Safe 3) |
+| **Trezor** | 93.7 | 3 | [View Wallets](./HARDWARE_WALLET_COMPARISON_TABLE.md) (Trezor Safe 7, Trezor Safe 5, Trezor Safe 3) |
 | **Keystone** | 91.0 | 1 | [View Wallets](./HARDWARE_WALLET_COMPARISON_TABLE.md) (Keystone 3 Pro) |
 | **Coldcard** | 91.0 | 1 | [View Wallets](./HARDWARE_WALLET_COMPARISON_TABLE.md) (ColdCard Mk4) |
 | **BitBox** | 88.0 | 2 | [View Wallets](./HARDWARE_WALLET_COMPARISON_TABLE.md) (BitBox02, BitBox02 Nova) |
