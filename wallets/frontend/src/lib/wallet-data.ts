@@ -457,3 +457,43 @@ export {
   filterSoftwareWallets,
   sortWallets,
 } from './wallet-filtering';
+
+export interface WalletCompany {
+  name: string;
+  aggregatedScore: number;
+  walletCount: number;
+  wallets: HardwareWallet[];
+}
+
+export function getHardwareWalletCompanies(): WalletCompany[] {
+  const wallets = parseHardwareWallets();
+  const companies: Record<string, HardwareWallet[]> = {};
+
+  wallets.forEach(wallet => {
+    // Determine company name based on wallet name
+    let companyName = wallet.name.split(' ')[0];
+    
+    // Handle special cases
+    if (wallet.name.startsWith('BC Vault')) companyName = 'BC Vault';
+    if (wallet.name.toLowerCase().includes('coldcard')) companyName = 'Coldcard';
+    if (wallet.name.toLowerCase().includes('trezor')) companyName = 'Trezor';
+    if (wallet.name.includes('BitBox')) companyName = 'BitBox';
+
+    if (!companies[companyName]) {
+      companies[companyName] = [];
+    }
+    companies[companyName].push(wallet);
+  });
+
+  return Object.entries(companies).map(([name, companyWallets]) => {
+    const totalScore = companyWallets.reduce((sum, w) => sum + w.score, 0);
+    const aggregatedScore = totalScore / companyWallets.length;
+    
+    return {
+      name,
+      aggregatedScore,
+      walletCount: companyWallets.length,
+      wallets: companyWallets
+    };
+  }).sort((a, b) => b.aggregatedScore - a.aggregatedScore);
+}
