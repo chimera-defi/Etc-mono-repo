@@ -235,13 +235,40 @@ You are a backend engineer building keeper bots for the Aztec liquid staking pro
 - Jest for testing
 
 ## VERIFICATION CHECKLIST (ALL MUST PASS)
-- [ ] `npm run lint` - No linting errors in any bot
-- [ ] `npm run type-check` - TypeScript compiles
-- [ ] `npm test` - All tests pass (80%+ coverage)
-- [ ] Each bot starts without errors (local mock mode)
-- [ ] Kubernetes manifests valid: `kubectl apply --dry-run=client -f k8s/`
-- [ ] README in bots/ with setup instructions
-- [ ] Multi-step review completed
+
+**Before marking complete, run ALL verification commands:**
+
+```bash
+# 1. Linting
+cd /workspace/staking/aztec/bots/staking-keeper && npm run lint
+cd /workspace/staking/aztec/bots/rewards-keeper && npm run lint
+cd /workspace/staking/aztec/bots/withdrawal-keeper && npm run lint
+cd /workspace/staking/aztec/bots/monitoring && npm run lint
+# Expected: No errors
+
+# 2. Type checking
+cd /workspace/staking/aztec/bots/staking-keeper && npm run type-check
+# Expected: No TypeScript errors
+
+# 3. Tests
+cd /workspace/staking/aztec/bots/staking-keeper && npm test
+# Expected: All tests pass, 80%+ coverage
+
+# 4. Bot startup (mock mode)
+cd /workspace/staking/aztec/bots/staking-keeper && npm run dev
+# Expected: Bot starts without errors, connects to mock client
+
+# 5. Kubernetes manifests
+kubectl apply --dry-run=client -f /workspace/staking/aztec/bots/k8s/
+# Expected: All manifests valid
+
+# 6. Files exist
+test -f /workspace/staking/aztec/bots/staking-keeper/README.md && echo "✅ README exists" || echo "❌ Missing"
+test -f /workspace/staking/aztec/bots/shared/src/aztec-client.ts && echo "✅ Shared client exists" || echo "❌ Missing"
+```
+
+- [ ] All verification commands pass
+- [ ] Multi-step review completed (see Part 1)
 
 ## OUTPUT FORMAT
 Report back with:
@@ -319,6 +346,24 @@ For each assumption, provide:
 ```
 
 ## VERIFICATION CHECKLIST
+
+**Before marking complete, verify ALL items:**
+
+```bash
+# 1. Local sandbox works
+aztec start --sandbox &
+sleep 10
+curl http://localhost:8080/status && echo "✅ Sandbox running" || echo "❌ Sandbox failed"
+
+# 2. ASSUMPTIONS.md updated
+grep -q "Validation Log" /workspace/staking/aztec/docs/ASSUMPTIONS.md && echo "✅ Validation log exists" || echo "❌ Missing"
+grep -q "✅\|❌\|⚠️" /workspace/staking/aztec/docs/ASSUMPTIONS.md && echo "✅ Status markers present" || echo "❌ Missing"
+
+# 3. Evidence files exist
+test -f /workspace/staking/aztec/docs/validation/gas-costs.csv && echo "✅ Gas costs recorded" || echo "❌ Missing"
+test -f /workspace/staking/aztec/docs/validation/unbonding-test.md && echo "✅ Unbonding test documented" || echo "❌ Missing"
+```
+
 - [ ] Local sandbox working before devnet tests
 - [ ] Each assumption has evidence (not just claims)
 - [ ] ASSUMPTIONS.md Validation Log updated with dated entries
@@ -415,6 +460,24 @@ You are a security engineer preparing the Aztec staking protocol for audits.
    - Payout structure
 
 ## VERIFICATION CHECKLIST
+
+**Before marking complete, verify ALL items:**
+
+```bash
+# 1. Security docs exist
+test -f /workspace/staking/aztec/docs/SECURITY.md && echo "✅ SECURITY.md exists" || echo "❌ Missing"
+test -f /workspace/staking/aztec/docs/INVARIANTS.md && echo "✅ INVARIANTS.md exists" || echo "❌ Missing"
+test -f /workspace/staking/aztec/docs/SECURITY-CHECKLIST.md && echo "✅ Checklist exists" || echo "❌ Missing"
+test -f /workspace/staking/aztec/docs/BUG-BOUNTY-SCOPE.md && echo "✅ Bug bounty scope exists" || echo "❌ Missing"
+
+# 2. NatSpec coverage (sample check)
+grep -r "@notice" /workspace/staking/aztec/contracts/liquid-staking-core/src/main.nr | wc -l
+# Expected: At least 10+ @notice comments (one per public function)
+
+# 3. Threat model includes key categories
+grep -q "Reentrancy\|Access control\|Integer overflow" /workspace/staking/aztec/docs/SECURITY.md && echo "✅ Threat categories covered" || echo "❌ Missing"
+```
+
 - [ ] All contracts have NatSpec on every public function
 - [ ] SECURITY.md covers all threat categories
 - [ ] INVARIANTS.md testable (can write assertions)
@@ -487,6 +550,24 @@ You are a business development lead for the Aztec liquid staking protocol.
    ```
 
 ## VERIFICATION CHECKLIST
+
+**Before marking complete, verify ALL items:**
+
+```bash
+# 1. Partnership docs exist
+test -f /workspace/staking/aztec/docs/PARTNERSHIPS.md && echo "✅ PARTNERSHIPS.md exists" || echo "❌ Missing"
+
+# 2. Integration targets identified
+grep -c "|" /workspace/staking/aztec/docs/PARTNERSHIPS.md | head -1
+# Expected: At least 10 rows in partnership table
+
+# 3. Competitor tracker updated
+grep -q "Olla\|Kryha" /workspace/staking/aztec/docs/ASSUMPTIONS.md && echo "✅ Competitor tracked" || echo "❌ Missing"
+
+# 4. Outreach templates exist
+grep -q "Outreach Templates\|Email\|DM" /workspace/staking/aztec/docs/PARTNERSHIPS.md && echo "✅ Templates included" || echo "❌ Missing"
+```
+
 - [ ] 10+ integration targets identified with contact info
 - [ ] Liquidity bootstrap plan has specific numbers
 - [ ] Competitor tracker updated with evidence
@@ -564,6 +645,24 @@ Mark items requiring legal counsel clearly.
    ```
 
 ## VERIFICATION CHECKLIST
+
+**Before marking complete, verify ALL items:**
+
+```bash
+# 1. Legal doc exists
+test -f /workspace/staking/aztec/docs/LEGAL-OPERATIONAL.md && echo "✅ Legal doc exists" || echo "❌ Missing"
+
+# 2. Entity recommendation included
+grep -q "Recommendation:\|Delaware\|Cayman\|Swiss" /workspace/staking/aztec/docs/LEGAL-OPERATIONAL.md && echo "✅ Recommendation present" || echo "❌ Missing"
+
+# 3. Lawyer review items marked
+grep -q "REQUIRES LAWYER REVIEW\|lawyer review" /workspace/staking/aztec/docs/LEGAL-OPERATIONAL.md && echo "✅ Review items marked" || echo "❌ Missing"
+
+# 4. Multiple jurisdictions compared
+grep -c "Delaware\|Cayman\|Swiss\|BVI" /workspace/staking/aztec/docs/LEGAL-OPERATIONAL.md
+# Expected: At least 2 jurisdictions mentioned
+```
+
 - [ ] All recommendations have rationale
 - [ ] Items requiring lawyer review clearly marked
 - [ ] Multiple jurisdictions compared
@@ -653,12 +752,38 @@ You are a frontend engineer building the staking protocol interface.
 - Jest + React Testing Library
 
 ## VERIFICATION CHECKLIST
-- [ ] `npm run lint` - No errors
-- [ ] `npm run type-check` - TypeScript compiles
-- [ ] `npm test` - All tests pass
-- [ ] `npm run build` - Production build succeeds
+
+**Before marking complete, run ALL verification commands:**
+
+```bash
+# 1. Linting
+cd /workspace/staking/aztec/frontend && npm run lint
+# Expected: No errors
+
+# 2. Type checking
+cd /workspace/staking/aztec/frontend && npm run type-check
+# Expected: No TypeScript errors
+
+# 3. Tests
+cd /workspace/staking/aztec/frontend && npm test
+# Expected: All tests pass
+
+# 4. Build
+cd /workspace/staking/aztec/frontend && npm run build
+# Expected: Production build succeeds
+
+# 5. Mock mode works
+cd /workspace/staking/aztec/frontend && npm run dev:mock &
+sleep 5
+curl http://localhost:3000 && echo "✅ App loads" || echo "❌ App failed"
+
+# 6. Files exist
+test -f /workspace/staking/aztec/frontend/README.md && echo "✅ README exists" || echo "❌ Missing"
+test -d /workspace/staking/aztec/frontend/src/components && echo "✅ Components exist" || echo "❌ Missing"
+```
+
+- [ ] All verification commands pass
 - [ ] App works with mock data (no chain needed)
-- [ ] README has setup instructions
 - [ ] Multi-step review completed
 
 ## OUTPUT FORMAT
@@ -735,6 +860,26 @@ You are the CMO building community and marketing for the Aztec staking protocol.
    - Grant application outline (if applicable)
 
 ## VERIFICATION CHECKLIST
+
+**Before marking complete, verify ALL items:**
+
+```bash
+# 1. Marketing docs exist
+test -f /workspace/staking/aztec/docs/MARKETING-PLAN.md && echo "✅ Marketing plan exists" || echo "❌ Missing"
+test -f /workspace/staking/aztec/docs/LAUNCH-THREAD.md && echo "✅ Launch thread exists" || echo "❌ Missing"
+test -f /workspace/staking/aztec/docs/DISCORD-ANNOUNCEMENT.md && echo "✅ Discord announcement exists" || echo "❌ Missing"
+
+# 2. Content calendar included
+grep -q "Content Calendar\|Week\|Month" /workspace/staking/aztec/docs/MARKETING-PLAN.md && echo "✅ Calendar present" || echo "❌ Missing"
+
+# 3. Numbers match ECONOMICS.md (sample check)
+grep -q "8.5\|8%" /workspace/staking/aztec/docs/MARKETING-PLAN.md && echo "✅ APY matches" || echo "⚠️ Check APY consistency"
+grep -q "\$10M\|10M" /workspace/staking/aztec/docs/MARKETING-PLAN.md && echo "✅ TVL matches" || echo "⚠️ Check TVL consistency"
+
+# 4. No unverified claims (check for specific numbers without ~)
+grep -E "[0-9]{4,}" /workspace/staking/aztec/docs/MARKETING-PLAN.md | grep -v "~\|approximately\|about" && echo "⚠️ Check for unverified specific numbers" || echo "✅ No obvious unverified claims"
+```
+
 - [ ] Messaging consistent with EXECUTIVE-SUMMARY.md
 - [ ] Numbers match ECONOMICS.md
 - [ ] No unverified claims (per .cursorrules #52)
