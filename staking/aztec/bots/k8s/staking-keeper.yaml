@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: staking-keeper
+  namespace: aztec-staking
+  labels:
+    app: staking-keeper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: staking-keeper
+  template:
+    metadata:
+      labels:
+        app: staking-keeper
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+        prometheus.io/path: "/metrics"
+    spec:
+      containers:
+      - name: staking-keeper
+        image: ghcr.io/aztec-staking/staking-keeper:latest
+        ports:
+        - name: metrics
+          containerPort: 9090
+        env:
+        - name: METRICS_PORT
+          value: "9090"
+        - name: POLLING_INTERVAL
+          valueFrom:
+            configMapKeyRef:
+              name: aztec-staking-bots-config
+              key: STAKING_POLLING_INTERVAL
+        envFrom:
+        - configMapRef:
+            name: aztec-staking-bots-config
+        - secretRef:
+            name: aztec-staking-bots-secrets
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "200m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 9090
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 9090
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: staking-keeper
+  namespace: aztec-staking
+  labels:
+    app: staking-keeper
+spec:
+  selector:
+    app: staking-keeper
+  ports:
+  - name: metrics
+    port: 9090
+    targetPort: 9090
