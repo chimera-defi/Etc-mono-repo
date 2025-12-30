@@ -1495,8 +1495,8 @@ Update this table as tasks are completed:
 | GAP-011 | Security Audit | 🔴 Open | [Security] | Week 8-16 | - | ❌ |
 | GAP-012 | Validator Deployment | 🔴 Open | [DevOps] | Week 4-6 | - | ❌ |
 | GAP-013 | Frontend | 🔴 Open | [Frontend] | Week 3-5 | - | ❌ |
-| GAP-014 | BD & Partnerships | 🔴 Open | [BD] | Week 1-2 | - | ❌ |
-| GAP-015 | Marketing | 🔴 Open | [Marketing] | Week 1-2 | - | ❌ |
+| GAP-014 | BD & Partnerships | ✅ Complete | [BD] | Week 1-2 | 2025-12-30 | ✅ Verified |
+| GAP-015 | Marketing | ✅ Complete | [Marketing] | Week 1-2 | 2025-12-30 | ✅ Verified |
 | GAP-016 | Operations | 🔴 Open | [DevOps] | Week 3-4 | - | ❌ |
 | GAP-017 | Insurance Fund | 🔴 Open | [Risk] | Week 5 | - | ❌ |
 
