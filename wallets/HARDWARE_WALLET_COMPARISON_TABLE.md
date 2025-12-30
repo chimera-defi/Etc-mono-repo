@@ -1,18 +1,22 @@
 # Hardware Wallet Comparison (Cold Storage Alternatives to Ledger)
 
-## Complete Hardware Wallet Comparison (26 Wallets)
+## Complete Hardware Wallet Comparison (32 Wallets)
 
 | Wallet | Score | GitHub | Air-Gap | Open Source | Secure Elem | Display | Price | Conn | Activity | Rec |
 |--------|-------|--------|---------|-------------|-------------|---------|-------|------|----------|-----|
+| [**Trezor Safe 7**](https://trezor.io/) | 96 | [trezor-firmware](https://github.com/trezor/trezor-firmware) | ❌ | ✅ Full | ✅ Tropic01 | Touch Color | ~$249 | USB-C | ✅ Active | 🟢 |
 | [**Trezor Safe 5**](https://trezor.io/) | 94 | [trezor-firmware](https://github.com/trezor/trezor-firmware) | ❌ | ✅ Full | ✅ Optiga | Touch Color | ~$169 | USB-C | ✅ Active | 🟢 |
 | [**Keystone 3 Pro**](https://keyst.one/) | 91 | [keystone3-firmware](https://github.com/KeystoneHQ/keystone3-firmware) | ✅ Full | ✅ Full | ✅ 3× SE | Touch Color | ~$149 | QR | ✅ Active | 🟢 |
 | [**Keycard Shell**](https://get.keycard.tech/products/keycard-shell) | 91 | [keycard-shell](https://github.com/keycard-tech/keycard-shell) | ✅ Full | ✅ Full | ✅ SE | Touch Keypad | ~$110 | QR/USB | ✅ Active | 🟢 |
 | [**ColdCard Mk4**](https://coldcard.com/) | 91 | [firmware](https://github.com/Coldcard/firmware) | ✅ Full | ✅ Full | ✅ Dual SE | Mono LCD | ~$150 | MicroSD | ✅ Active | 🟢 |
 | [**Trezor Safe 3**](https://trezor.io/) | 91 | [trezor-firmware](https://github.com/trezor/trezor-firmware) | ❌ | ✅ Full | ✅ Optiga | Mono OLED | ~$79 | USB-C | ✅ Active | 🟢 |
 | [**BitBox02**](https://bitbox.swiss/) | 88 | [bitbox02-firmware](https://github.com/BitBoxSwiss/bitbox02-firmware) | ❌ | ✅ Full | ✅ ATECC | Touch Edge | ~$150 | USB-C | ✅ Active | 🟢 |
+| [**BitBox02 Nova**](https://bitbox.swiss/) | 88 | [bitbox02-firmware](https://github.com/BitBoxSwiss/bitbox02-firmware) | ❌ | ✅ Full | ✅ ATECC | Touch Edge | ~$150 | USB-C | ✅ Active | 🟢 |
 | [**Blockstream Jade**](https://blockstream.com/jade/) | 81 | [Jade](https://github.com/Blockstream/Jade) | ❌ | ✅ Full | ✅ SE | Color LCD | ~$65 | USB/BT | ✅ Active | 🟢 |
 | [**Foundation Passport**](https://foundationdevices.com/) | 81 | [passport2](https://github.com/Foundation-Devices/passport2) | ✅ Full | ✅ Full | ✅ ATECC | Color LCD | ~$259 | MicroSD/QR | ⚠️ Slow | 🟢 |
 | [**OneKey Pro**](https://onekey.so/) | 77 | [firmware-pro](https://github.com/OneKeyHQ/firmware-pro) | ❌ | ✅ Full | ✅ SE | Touch Color | ~$199 | USB/BT | ✅ Active | 🟢 |
+| [**OneKey Classic 1S Pure**](https://onekey.so/) | 75 | [firmware](https://github.com/OneKeyHQ/firmware) | ❌ | ✅ Full | ✅ SE | Mono OLED | ~$99 | USB | ✅ Active | 🟢 |
+| [**OneKey Classic 1S**](https://onekey.so/) | 74 | [firmware](https://github.com/OneKeyHQ/firmware) | ❌ | ✅ Full | ✅ SE | Mono OLED | ~$89 | USB | ✅ Active | 🟢 |
 | [**NGRAVE ZERO**](https://www.ngrave.io/) | 72 | Private | ✅ Full | ⚠️ Partial | ✅ SE | Touch Color | ~$400 | QR | 🔒 Private | 🟡 |
 | [**Specter DIY**](https://specter.solutions/hardware/) | 72 | [specter-diy](https://github.com/cryptoadvance/specter-diy) | ✅ Full | ✅ Full | ❌ None | LCD | ~$50-150* | QR | ✅ Active | 🟡 |
 | [**Krux**](https://selfcustody.github.io/krux/) | 67 | [krux](https://github.com/selfcustody/krux) | ✅ Full | ✅ Full | ❌ None | LCD | ~$30-100* | QR | ✅ Active | 🟡 |
@@ -21,7 +25,9 @@
 | [**Keycard**](https://keycard.tech/) | 62 | [status-keycard](https://github.com/keycard-tech/status-keycard) | ❌ | ✅ Full | ✅ CC | None | ~$29 | NFC | ⚠️ Slow | 🟡 |
 | [**GridPlus Lattice1**](https://gridplus.io/) | 59 | [SDK only](https://github.com/GridPlus/gridplus-sdk) | ❌ | ⚠️ SDK only | ✅ SE | 5" Touch | ~$400 | WiFi/USB | 🔒 Private | 🟡 |
 | [**Ledger Stax**](https://www.ledger.com/) | 57 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | E-Ink Touch | ~$280 | USB/BT | 🔒 Private | 🟡 |
+| [**Ledger Flex**](https://www.ledger.com/) | 56 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Flexible E-Ink | ~$199 | USB/BT | 🔒 Private | 🟡 |
 | [**Ledger Nano X**](https://www.ledger.com/) | 56 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$150 | USB/BT | 🔒 Private | 🟡 |
+| [**Ledger Nano Gen5**](https://www.ledger.com/) | 55 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$79 | USB | 🔒 Private | 🟡 |
 | [**Ledger Nano S+**](https://www.ledger.com/) | 55 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$80 | USB | 🔒 Private | 🟡 |
 | ~~[**Ledger Nano S**](https://www.ledger.com/)~~ | 49 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$59* | USB | ❌ Inactive | 🟡 |
 | [**Tangem Wallet**](https://tangem.com/) | 53 | Private | ❌ | ⚠️ Partial | ✅ SE | None | ~$55 | NFC | 🔒 Private | 🟡 |
@@ -75,7 +81,7 @@
 
 ## Quick Summary
 
-> **TL;DR:** Use **Trezor Safe 5** (94) for best security + UX, **ColdCard Mk4** (91) for Bitcoin maximalists, **Keystone 3 Pro** (91) for air-gapped security, or **Trezor Safe 3** (91) for best value at $79. **Blockstream Jade** (81) is a great budget option. For DIY enthusiasts: **Specter DIY** (72) or **SeedSigner** (65). **Ledger** (55-57) is penalized for Ledger Recover. See [Why Look Beyond Ledger?](./HARDWARE_WALLET_COMPARISON_DETAILS.md#-why-look-beyond-ledger) for details.
+> **TL;DR:** Use **Trezor Safe 7** (96) for quantum-ready security, **Trezor Safe 5** (94) for best security + UX, **ColdCard Mk4** (91) for Bitcoin maximalists, **Keystone 3 Pro** (91) for air-gapped security, or **Trezor Safe 3** (91) for best value at $79. **Blockstream Jade** (81) is a great budget option. For DIY enthusiasts: **Specter DIY** (72) or **SeedSigner** (65). **Ledger** (55-57) is penalized for Ledger Recover. See [Why Look Beyond Ledger?](./HARDWARE_WALLET_COMPARISON_DETAILS.md#-why-look-beyond-ledger) for details.
 
 **Last Updated:** December 2025 | [Scoring Methodology](./HARDWARE_WALLET_COMPARISON_DETAILS.md#-scoring-methodology) | [GitHub Activity Data](./HARDWARE_WALLET_COMPARISON_DETAILS.md#github-metrics-firmware-repositories) | [View Company Aggregates](./HARDWARE_WALLET_COMPANIES.md)
 
