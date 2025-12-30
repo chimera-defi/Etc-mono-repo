@@ -46,16 +46,6 @@ export const MOCK_DATA = {
   currentPendingPool: 150000_000000000000000000n, // 150,000 AZTEC
 };
 
-// Helper to generate a mock address
-export function generateMockAddress(): string {
-  const chars = '0123456789abcdef';
-  let address = '0x';
-  for (let i = 0; i < 40; i++) {
-    address += chars[Math.floor(Math.random() * chars.length)];
-  }
-  return address;
-}
-
 // Mock connected wallet
 export const MOCK_WALLET = {
   address: '0x742d35Cc6634C0532925a3b844Bc9e7595f0Ab32',
