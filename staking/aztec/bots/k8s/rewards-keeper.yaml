@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rewards-keeper
+  labels:
+    app: rewards-keeper
+    component: bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rewards-keeper
+  template:
+    metadata:
+      labels:
+        app: rewards-keeper
+        component: bot
+    spec:
+      containers:
+      - name: rewards-keeper
+        image: staztec/rewards-keeper:latest
+        ports:
+        - containerPort: 9091
+          name: metrics
+        env:
+        - name: RPC_URL
+          valueFrom:
+            configMapKeyRef:
+              name: bot-config
+              key: rpc-url
+        - name: REWARDS_MANAGER_ADDRESS
+          valueFrom:
+            configMapKeyRef:
+              name: bot-config
+              key: rewards-manager-address
+        - name: VAULT_MANAGER_ADDRESS
+          valueFrom:
+            configMapKeyRef:
+              name: bot-config
+              key: vault-manager-address
+        - name: CLAIM_INTERVAL_MS
+          value: "86400000"
+        - name: METRICS_PORT
+          value: "9091"
+        - name: LOG_LEVEL
+          value: "info"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 9091
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 9091
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rewards-keeper-metrics
+  labels:
+    app: rewards-keeper
+spec:
+  ports:
+  - port: 9091
+    targetPort: 9091
+    name: metrics
+  selector:
+    app: rewards-keeper
