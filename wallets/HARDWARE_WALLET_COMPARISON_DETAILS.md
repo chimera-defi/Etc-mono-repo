@@ -13,7 +13,7 @@
 
 ## Table of Contents
 
-- [Complete Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON_TABLE.md#complete-hardware-wallet-comparison-25-wallets) (Table View)
+- [Complete Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON_TABLE.md#complete-hardware-wallet-comparison-32-wallets) (Table View)
 - [Quick Recommendations](#-quick-recommendations)
 - [GitHub Metrics](#github-metrics-firmware-repositories)
 - [Security Deep Dive](#-security-deep-dive)
@@ -101,9 +101,9 @@ Unlike software wallets where frequent updates can indicate instability, hardwar
 
 ## 🏆 Quick Recommendations
 
-**Quick Answers:** Best overall? **Trezor Safe 5** (94). Air-gapped? **Keystone 3 Pro** (91). Bitcoin-only? **ColdCard Mk4** (91). Best value? **Trezor Safe 3** (91) at $79. Budget option? **Blockstream Jade** (81) at ~$65. See [full comparison table](#complete-hardware-wallet-comparison-25-wallets) for all 25 wallets.
+**Quick Answers:** Best overall? **Trezor Safe 7** (96) - quantum-ready security. Air-gapped? **Keystone 3 Pro** (91). Bitcoin-only? **ColdCard Mk4** (91). Best value? **Trezor Safe 3** (91) at $79. Budget option? **Blockstream Jade** (81) at ~$65. See [full comparison table](#complete-hardware-wallet-comparison-32-wallets) for all 32 wallets.
 
-**Jump to:** [Comparison Table](#complete-hardware-wallet-comparison-25-wallets) | [Scoring Methodology](#-scoring-methodology) | [Security Deep Dive](#-security-deep-dive) | [Why Look Beyond Ledger?](#-why-look-beyond-ledger)
+**Jump to:** [Comparison Table](#complete-hardware-wallet-comparison-32-wallets) | [Scoring Methodology](#-scoring-methodology) | [Security Deep Dive](#-security-deep-dive) | [Why Look Beyond Ledger?](#-why-look-beyond-ledger)
 
 ### Top Picks by Use Case
 
