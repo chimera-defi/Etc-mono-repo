@@ -2,7 +2,7 @@
 
 > 📊 **View the comparison table:** [See all wallets at a glance →](./HARDWARE_WALLET_COMPARISON_TABLE.md)
 
-> **TL;DR:** Use **Trezor Safe 5** (94) for best security + UX, **ColdCard Mk4** (91) for Bitcoin maximalists, **Keystone 3 Pro** (91) for air-gapped security, or **Trezor Safe 3** (91) for best value at $79. **Blockstream Jade** (81) is a great budget option. For DIY enthusiasts: **Specter DIY** (72) or **SeedSigner** (65). **Ledger** (55-57) is penalized for Ledger Recover. See [Why Look Beyond Ledger?](#-why-look-beyond-ledger) for details.
+> **TL;DR:** Use **Trezor Safe 5** (92) for best security + UX, **ColdCard Mk4** (91) for Bitcoin maximalists, **Keystone 3 Pro** (91) for air-gapped security, or **Trezor Safe 3** (91) for best value at $79. **Blockstream Jade** (81) is a great budget option. For DIY enthusiasts: **Specter DIY** (72) or **SeedSigner** (65). **Ledger** (55-57) is penalized for Ledger Recover. See [Why Look Beyond Ledger?](#-why-look-beyond-ledger) for details.
 
 **Last Updated:** December 2025 | [Scoring Methodology](#-scoring-methodology) | [GitHub Activity Data](#github-metrics-firmware-repositories) | [View Company Aggregates](./HARDWARE_WALLET_COMPANIES.md)
 
@@ -109,11 +109,11 @@ Unlike software wallets where frequent updates can indicate instability, hardwar
 
 | Use Case | Top Pick | Score | Runner-Up | Budget Option |
 |----------|----------|-------|-----------|---------------|
-| **Best Overall** | Trezor Safe 5 | 94 | Keystone 3 Pro (91) | Trezor Safe 3 (~$79) |
+| **Best Overall** | Trezor Safe 5 | 92 | Keystone 3 Pro (91) | Trezor Safe 3 (~$79) |
 | **Bitcoin Only** | ColdCard Mk4 | 91 | Foundation Passport (81) | Blockstream Jade (~$65) |
 | **Air-Gapped** | Keystone 3 Pro | 91 | Keycard Shell (91) | SafePal S1 (~$50) |
 | **Best Value** | Trezor Safe 3 | 91 | Blockstream Jade (81) | Tangem (~$55) |
-| **Beginners** | Trezor Safe 5 | 94 | BitBox02 (88) | Blockstream Jade (~$65) |
+| **Beginners** | Trezor Safe 5 | 92 | BitBox02 (88) | Blockstream Jade (~$65) |
 | **DIY/Self-Build** | Specter DIY | 72 | SeedSigner (65) | Krux (~$30-100) |
 
 ### DIY Signing Devices
@@ -210,9 +210,12 @@ SECURITY ARCHITECTURE (25 pts)
   Secure Element present: +8
   SE certification EAL6+: +4 (EAL5+: +2, EAL7: +6)
   Air-gap capable (QR/MicroSD only): +8
-  Dual/Triple SE: +3
+  Dual/Triple SE or Custom Silicon (Tropic01): +3
   Physical tamper protection: +2
+  Advanced Features (Shamir Backup, Multisig, Passphrase): +5
+  Security Audit / Bug Bounty Program: +3
   No SE, MCU only: -5 penalty
+  (Max score capped at 25)
   
 TRANSPARENCY (20 pts)
   ✅ Full open source (firmware + bootloader): 20
@@ -263,9 +266,10 @@ UX & ECOSYSTEM (10 pts)
 
 | Wallet | Security (25) | Transparency (20) | Privacy (15) | Activity (15) | Company (15) | UX (10) | Total |
 |--------|---------------|-------------------|--------------|---------------|--------------|---------|-------|
-| **Trezor Safe 5** | 22/25 | 20/20 | 15/15 | 15/15 | 14/15 | 8/10 | **94** |
+| **Trezor Safe 7** | 22/25 | 20/20 | 15/15 | 15/15 | 14/15 | 10/10 | **96** |
+| **Trezor Safe 5** | 20/25 | 20/20 | 15/15 | 15/15 | 14/15 | 8/10 | **92** |
 | **Keystone 3 Pro** | 25/25 | 20/20 | 15/15 | 15/15 | 8/15 | 8/10 | **91** |
-| **Keycard Shell** | 25/25 | 20/20 | 15/15 | 15/15 | 10/15 | 8/10 | **91** |
+| **Keycard Shell** | 25/25 | 20/20 | 15/15 | 15/15 | 10/15 | 6/10 | **91** |
 | **Trezor Safe 3** | 22/25 | 20/20 | 15/15 | 15/15 | 14/15 | 5/10 | **91** |
 | **ColdCard Mk4** | 25/25 | 20/20 | 15/15 | 15/15 | 12/15 | 4/10 | **91** |
 | **BitBox02** | 20/25 | 20/20 | 15/15 | 15/15 | 12/15 | 6/10 | **88** |
