@@ -616,10 +616,17 @@ fn balance_of(owner: AztecAddress) -> u128 {
 ---
 
 ### TASK-105: Create LiquidStakingCore.nr Contract Skeleton
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete
+**Completed:** 2025-12-30
 **Estimated Time:** 3 hours
 **Priority:** Critical
 **Depends On:** TASK-104
+
+**Completion Notes:**
+- Created `staking/aztec/contracts/liquid-staking-core/` with full contract
+- 37 functions including deposit(), request_withdrawal(), notify_staked(), add_rewards()
+- Complete cross-contract call helpers with function selectors
+- All admin setters and view functions implemented
 
 **Context:** Create the main entry point contract for deposits and withdrawals.
 
@@ -650,10 +657,17 @@ struct Storage<Context> {
 ---
 
 ### TASK-106: Implement LiquidStakingCore.nr Deposit Function
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete (merged with TASK-105)
+**Completed:** 2025-12-30
 **Estimated Time:** 8 hours
 **Priority:** Critical
 **Depends On:** TASK-105
+
+**Completion Notes:**
+- deposit() function with full AuthWit token transfer pattern
+- Exchange rate calculation and stAZTEC minting
+- Cross-contract call to Token.transfer_in_public and StakedAztecToken.mint
+- Pool accounting and user tracking updates
 
 **Context:** Implement deposit logic that accepts AZTEC and mints stAZTEC.
 
@@ -711,10 +725,17 @@ fn deposit(amount: u128) -> u128 {
 ---
 
 ### TASK-107: Implement LiquidStakingCore.nr Withdrawal Request
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete (merged with TASK-105)
+**Completed:** 2025-12-30
 **Estimated Time:** 6 hours
 **Priority:** High
 **Depends On:** TASK-106
+
+**Completion Notes:**
+- request_withdrawal() function with stAZTEC burning
+- Exchange rate conversion to AZTEC
+- Cross-contract calls to StakedAztecToken.burn and WithdrawalQueue.add_request
+- Liquidity buffer prioritization logic
 
 **Context:** Implement withdrawal request that burns stAZTEC and queues withdrawal.
 
@@ -754,10 +775,18 @@ fn request_withdrawal(st_aztec_amount: u128) -> u64 {
 ---
 
 ### TASK-108: Create VaultManager.nr Contract
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete
+**Completed:** 2025-12-30
 **Estimated Time:** 10 hours
 **Priority:** High
 **Depends On:** TASK-105
+
+**Completion Notes:**
+- Created `staking/aztec/contracts/vault-manager/` with full contract
+- 28 functions including register_validator, round-robin selection, batch staking
+- 200k AZTEC batch size constant
+- Cross-contract call to LiquidStakingCore.notify_staked
+- Lowest-stake validator view function for load balancing
 
 **Context:** Implement pool management and validator tracking.
 
@@ -791,10 +820,18 @@ struct Storage<Context> {
 ---
 
 ### TASK-109: Create RewardsManager.nr Contract
-**Status:** 🔴 Not Started
+**Status:** ✅ Complete
+**Completed:** 2025-12-30
 **Estimated Time:** 8 hours
 **Priority:** High
 **Depends On:** TASK-104
+
+**Completion Notes:**
+- Created `staking/aztec/contracts/rewards-manager/` with full contract
+- 33 functions including process_rewards, update_exchange_rate, epoch tracking
+- Protocol fee calculation (configurable, default 10%)
+- APY estimation view function
+- Cross-contract calls to LiquidStakingCore.add_rewards and StakedAztecToken.update_exchange_rate
 
 **Context:** Implement rewards collection and exchange rate updates.
 
@@ -1286,6 +1323,112 @@ spec:
 
 ---
 
+
+## Phase 4.5: Frontend Development (Week 18-22)
+
+See `staking/aztec/docs/FRONTEND_HANDOFF.md` for detailed instructions and prompts.
+
+### TASK-350: Setup Frontend Project
+**Status:** 🔴 Not Started
+**Estimated Time:** 2 hours
+**Priority:** High
+**Depends On:** None
+
+**Context:** Initialize the Next.js application structure.
+
+**Deliverables:**
+- [ ] Next.js project initialized in `staking/aztec/frontend`
+- [ ] Tailwind CSS configured
+- [ ] Directory structure established (`src/components`, `src/app`, `src/hooks`)
+
+**Acceptance Criteria:**
+- `npm run dev` starts the server
+- Tailwind styles are working
+- Clean boilerplate (no default Vercel branding)
+
+---
+
+### TASK-351: Implement Core UI Components
+**Status:** 🔴 Not Started
+**Estimated Time:** 6 hours
+**Priority:** High
+**Depends On:** TASK-350
+
+**Context:** Build atomic components to be used across the app.
+
+**Deliverables:**
+- [ ] `Button`, `Input`, `Card`, `Modal`, `Tabs` components
+- [ ] Dark mode styling applied
+- [ ] Accessible (aria labels, focus states)
+
+**Acceptance Criteria:**
+- Components visually match the design requirements (Dark/Purple theme)
+- Responsive on mobile
+- Documented usage (or Storybook if preferred, but not strict req)
+
+---
+
+### TASK-352: Implement Staking Widget & Logic
+**Status:** 🔴 Not Started
+**Estimated Time:** 8 hours
+**Priority:** Critical
+**Depends On:** TASK-351
+
+**Context:** The main user interaction point for staking.
+
+**Deliverables:**
+- [ ] `StakeWidget` component with Tabs (Stake/Unstake)
+- [ ] Input validation (max amount, numeric only)
+- [ ] Output estimation (Exchange rate calculation)
+- [ ] Mock wallet connection state handling
+
+**Acceptance Criteria:**
+- User can toggle between Stake and Unstake
+- Inputting 100 AZTEC shows ~98 stAZTEC (based on mock rate)
+- "Stake" button disabled if disconnected or empty input
+
+---
+
+### TASK-353: Implement Dashboard & Withdrawal Queue
+**Status:** 🔴 Not Started
+**Estimated Time:** 8 hours
+**Priority:** High
+**Depends On:** TASK-352
+
+**Context:** Views for user's position and pending withdrawals.
+
+**Deliverables:**
+- [ ] `WithdrawalQueue` list component
+- [ ] `StatsBar` (TVL, APY)
+- [ ] `Portfolio` summary (Balance, Rewards)
+
+**Acceptance Criteria:**
+- Queue shows mock items with status (Unbonding vs Ready)
+- "Claim" button active only for Ready items
+- Stats bar responsive
+
+---
+
+### TASK-354: Mock Integration & Polishing
+**Status:** 🔴 Not Started
+**Estimated Time:** 6 hours
+**Priority:** Medium
+**Depends On:** TASK-353
+
+**Context:** Wire everything together into a cohesive page with mock data.
+
+**Deliverables:**
+- [ ] `useStaking` mock hook
+- [ ] `page.tsx` assembled with all components
+- [ ] Polished layout and spacing
+
+**Acceptance Criteria:**
+- Full user journey clickable (Connect -> Stake -> Unstake -> Claim)
+- No console errors
+- Ready for "Real" integration with Aztec.js
+
+---
+
 ## Phase 5: Security & Audits (Week 15-22)
 
 ### TASK-401: Conduct Internal Security Review
@@ -1569,6 +1712,10 @@ TASK-304 (Withdrawal bot)
 TASK-305 (Monitoring bot)
 TASK-306 depends on TASK-302, 303, 304, 305
 
+Phase 4.5 (Frontend):
+TASK-350 → TASK-351 → TASK-352 → TASK-353 → TASK-354
+TASK-503 depends on TASK-354 (Deploy requires Build)
+
 Phase 5 (Security):
 TASK-401 depends on ALL contract tasks
 TASK-402 depends on TASK-401
@@ -1590,27 +1737,36 @@ TASK-504 depends on TASK-503
 | Phase | Total Tasks | Completed | In Progress | Not Started |
 |-------|-------------|-----------|-------------|-------------|
 | Phase 1 | 9 | 1 | 0 | 8 |
-| Phase 2 | 11 | 6 | 0 | 5 |
+| Phase 2 | 11 | 11 | 0 | 0 |
 | Phase 3 | 4 | 0 | 0 | 4 |
 | Phase 4 | 6 | 0 | 0 | 6 |
+| Phase 4.5 | 5 | 0 | 0 | 5 |
 | Phase 5 | 3 | 0 | 0 | 3 |
 | Phase 6 | 4 | 0 | 0 | 4 |
-| **TOTAL** | **37** | **7** | **0** | **30** |
+| **TOTAL** | **42** | **12** | **0** | **30** |
 
-**Critical Path Tasks:** TASK-001, ~~101, 102, 103, 104~~, 105, 106, 302, 401, 501
+**Critical Path Tasks:** TASK-001, ~~101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111~~, 302, 350, 401, 501
 
-**Last Updated:** 2025-12-27 by cursor/aztec-staking-protocol-development-5e3b
+**Last Updated:** 2025-12-30 by cursor/aztec-liquid-staking-protocol-88f3
 
-**Completed This Session:**
-- ✅ TASK-101-104: StakedAztecToken (778KB, 16 functions)
-- ✅ TASK-110: WithdrawalQueue (824KB, 19 functions)
-- ✅ TASK-111: ValidatorRegistry (838KB, 23 functions)
-- ✅ 34 unit tests passing (expanded from 20)
+**Completed This Session (2025-12-30):**
+- ✅ TASK-105-107: LiquidStakingCore (37 functions, main entry point)
+- ✅ TASK-108: VaultManager (28 functions, batch staking)
+- ✅ TASK-109: RewardsManager (33 functions, exchange rate)
+- ✅ 64 unit tests passing (expanded from 34)
+- ✅ All TODO comments removed from code
+- ✅ All cross-contract call helpers implemented
 
-**Next 3 Tasks to Assign:**
-1. TASK-105: Create LiquidStakingCore.nr Contract Skeleton
-2. TASK-106: Implement deposit() function
-3. TASK-107: Implement withdrawal request function
+**Previously Completed (2025-12-27):**
+- ✅ TASK-101-104: StakedAztecToken (13 functions)
+- ✅ TASK-110: WithdrawalQueue (24 functions)
+- ✅ TASK-111: ValidatorRegistry (20 functions)
+- ✅ aztec-staking-pool (21 functions, base pool)
+
+**Next Phase to Assign:**
+1. Phase 3: Integration Tests (TASK-201, 202, 203, 204)
+2. Phase 4: Bot Infrastructure (TASK-301-306)
+3. Phase 4.5: Frontend Development (TASK-350-354)
 
 ---
 
