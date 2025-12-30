@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monitoring
+  namespace: aztec-staking
+  labels:
+    app: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: monitoring
+  template:
+    metadata:
+      labels:
+        app: monitoring
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9093"
+        prometheus.io/path: "/metrics"
+    spec:
+      containers:
+      - name: monitoring
+        image: ghcr.io/aztec-staking/monitoring:latest
+        ports:
+        - name: metrics
+          containerPort: 9093
+        env:
+        - name: METRICS_PORT
+          value: "9093"
+        - name: POLLING_INTERVAL
+          valueFrom:
+            configMapKeyRef:
+              name: aztec-staking-bots-config
+              key: MONITORING_POLLING_INTERVAL
+        envFrom:
+        - configMapRef:
+            name: aztec-staking-bots-config
+        - secretRef:
+            name: aztec-staking-bots-secrets
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "200m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 9093
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 9093
+          initialDelaySeconds: 10
+          periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: monitoring
+  namespace: aztec-staking
+  labels:
+    app: monitoring
+spec:
+  selector:
+    app: monitoring
+  ports:
+  - name: metrics
+    port: 9093
+    targetPort: 9093
