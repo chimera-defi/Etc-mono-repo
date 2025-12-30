@@ -282,11 +282,20 @@ The following 8 workstreams can be executed in parallel by specialized agents:
 
 ---
 
-## Part 7: Agent Prompts
+## Part 7: Agent Prompts & Tasks
 
-**IMPORTANT:** All agent prompts have been consolidated into a single canonical file to avoid duplication:
+**IMPORTANT:** Actionable tasks and parallelizable agent prompts have been generated from all gaps:
 
-**See: [AGENT-PROMPTS-QUICKREF.md](AGENT-PROMPTS-QUICKREF.md)**
+**See: [GAP_TASKS_AND_PROMPTS.md](GAP_TASKS_AND_PROMPTS.md)** ⭐ **NEW**
+
+That file contains:
+- Actionable tasks for all gaps (TASK-GAP-001 through GAP-017+)
+- Parallelizable agent prompts (copy-paste ready)
+- Verification commands for each task
+- Execution timeline and parallelization map
+- Task status tracking table
+
+**Also see:** [AGENT-PROMPTS-QUICKREF.md](AGENT-PROMPTS-QUICKREF.md)
 
 That file contains:
 - 8 detailed agent prompts (contracts, bots, validation, security, BD, legal, frontend, marketing)

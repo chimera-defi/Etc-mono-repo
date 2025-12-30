@@ -44,6 +44,7 @@ contracts/
 
 | Document | Purpose | Verification |
 |----------|---------|--------------|
+| `docs/GAP_TASKS_AND_PROMPTS.md` | **NEW** - Actionable tasks + parallelizable prompts | ✅ Generated from gaps |
 | `PARALLEL_WORK_HANDOFF.md` | **START HERE** - Agent prompts for frontend + bots | ✅ Includes verification steps |
 | `contracts/AGENT_HANDOFF.md` | Contract status and next steps | ✅ Verified: 64/64 tests passing |
 | `contracts/HANDOFF_SUMMARY_2025-12-30.md` | Detailed contract review results | ✅ Verified: All contracts complete |
