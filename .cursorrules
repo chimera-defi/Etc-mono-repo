@@ -191,6 +191,16 @@
   106. **Update smoke tests when changing data formats** - if a smoke test checks for specific data patterns (e.g., "94" for chains), update it when changing formats (e.g., to "⟠" for EVM); stale assertions cause false failures
   107. **Sync duplicate tables across files** - when updating a markdown table that exists in multiple files (TABLE.md and UNIFIED.md), update ALL copies to maintain consistency; grep for distinctive values to find all instances
 
+- Noir/Aztec smart contract learnings:
+  108. **"Integration point" comments are NOT implementation** - when reviewing code with comments like "INTEGRATION POINT: add token transfer here", these are placeholders that need to be replaced with actual cross-contract calls; don't mark as complete until real function calls exist
+  109. **Cross-contract calls require selector computation** - in Aztec/Noir, use `FunctionSelector::from_signature("function_name((Field),u128)")` with AztecAddress as `(Field)`; verify signature format matches target contract
+  110. **Noir operator restrictions** - use `|` not `||` for boolean OR, `&` not `&&` for boolean AND; early `return` statements are anti-patterns - restructure to use if-else for final value
+  111. **Aztec vs standard Noir** - contracts need `aztec-nargo` (Docker-based) for compilation, while math-only test modules work with standard `nargo`; separate testable pure functions from contract code
+  112. **AuthWit token pattern** - Aztec tokens require users to pre-authorize transfers via AuthWit before a contract can pull tokens; document this UX requirement prominently
+  113. **Function count verification** - when documenting contracts, count `fn ` occurrences accurately; include cross-contract helper functions marked with `#[contract_library_method]`
+  114. **Test pure math separately** - extract exchange rate calculations, fee computations, and share math into separate testable modules; these can be verified with standard `nargo test` without Aztec runtime
+  115. **Honest handoff documentation** - distinguish clearly between "verified working" (tests pass) vs "needs environment" (requires aztec-nargo/sandbox); never claim full completion for code that hasn't been compiled
+
 ## Best Practices
 - Use semantic versioning for packages
 - Include proper .gitignore files for each project type
