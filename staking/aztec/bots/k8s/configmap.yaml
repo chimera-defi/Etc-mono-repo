@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bot-config
+data:
+  rpc-url: "http://aztec-rpc:8080"
+  liquid-staking-core-address: ""
+  vault-manager-address: ""
+  rewards-manager-address: ""
+  withdrawal-queue-address: ""
+  validator-registry-address: ""
