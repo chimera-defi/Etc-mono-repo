@@ -1,6 +1,6 @@
 # Hardware Wallet Comparison (Cold Storage Alternatives to Ledger)
 
-## Complete Hardware Wallet Comparison (25 Wallets)
+## Complete Hardware Wallet Comparison (26 Wallets)
 
 | Wallet | Score | GitHub | Air-Gap | Open Source | Secure Elem | Display | Price | Conn | Activity | Rec |
 |--------|-------|--------|---------|-------------|-------------|---------|-------|------|----------|-----|
@@ -23,6 +23,7 @@
 | [**Ledger Stax**](https://www.ledger.com/) | 57 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | E-Ink Touch | ~$280 | USB/BT | 🔒 Private | 🟡 |
 | [**Ledger Nano X**](https://www.ledger.com/) | 56 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$150 | USB/BT | 🔒 Private | 🟡 |
 | [**Ledger Nano S+**](https://www.ledger.com/) | 55 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$80 | USB | 🔒 Private | 🟡 |
+| ~~[**Ledger Nano S**](https://www.ledger.com/)~~ | 49 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$59* | USB | ❌ Inactive | 🟡 |
 | [**Tangem Wallet**](https://tangem.com/) | 53 | Private | ❌ | ⚠️ Partial | ✅ SE | None | ~$55 | NFC | 🔒 Private | 🟡 |
 | [**Ellipal Titan 2.0**](https://www.ellipal.com/) | 48 | Private | ✅ Full | ❌ Closed | ❌ None | Touch Color | ~$170 | QR | 🔒 Private | 🔴 |
 | [**SecuX V20**](https://secuxtech.com/) | 47 | Private | ❌ | ❌ Closed | ✅ SE | Touch Color | ~$140 | USB/BT | 🔒 Private | 🔴 |
@@ -31,6 +32,8 @@
 | [**BC Vault**](https://bc-vault.com/) | 33 | Private | ❌ Closed | ❌ None | OLED | ~$140 | USB | 🔒 Private | 🔴 |
 
 *\* DIY wallets — price varies based on components purchased; requires self-assembly*
+
+**Note:** ~~Strikethrough~~ indicates discontinued/inactive wallets. Ledger Nano S was discontinued in 2023; limited storage (2-3 apps max) compared to Nano S+.
 
 ### Legend
 
