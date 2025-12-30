@@ -77,8 +77,9 @@
 
 > **TL;DR:** Use **Trezor Safe 5** (94) for best security + UX, **ColdCard Mk4** (91) for Bitcoin maximalists, **Keystone 3 Pro** (91) for air-gapped security, or **Trezor Safe 3** (91) for best value at $79. **Blockstream Jade** (81) is a great budget option. For DIY enthusiasts: **Specter DIY** (72) or **SeedSigner** (65). **Ledger** (55-57) is penalized for Ledger Recover. See [Why Look Beyond Ledger?](./HARDWARE_WALLET_COMPARISON_DETAILS.md#-why-look-beyond-ledger) for details.
 
-**Last Updated:** December 2025 | [Scoring Methodology](./HARDWARE_WALLET_COMPARISON_DETAILS.md#-scoring-methodology) | [GitHub Activity Data](./HARDWARE_WALLET_COMPARISON_DETAILS.md#github-metrics-firmware-repositories)
+**Last Updated:** December 2025 | [Scoring Methodology](./HARDWARE_WALLET_COMPARISON_DETAILS.md#-scoring-methodology) | [GitHub Activity Data](./HARDWARE_WALLET_COMPARISON_DETAILS.md#github-metrics-firmware-repositories) | [View Company Aggregates](./HARDWARE_WALLET_COMPANIES.md)
 
 **Related:** See [Software Wallet Comparison](./WALLET_COMPARISON_UNIFIED_TABLE.md) for EVM wallet recommendations and integration details.
+**Companies:** See [Hardware Wallet Companies](./HARDWARE_WALLET_COMPANIES.md) for aggregated scores and wallet counts by manufacturer.
 
 > 📖 **Want more details?** See the [full documentation with recommendations, methodology, security deep dive, and more](./HARDWARE_WALLET_COMPARISON_DETAILS.md).
