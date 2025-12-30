@@ -62,6 +62,7 @@ Track significant changes to wallet statuses, recommendations, and documentation
 
 | Date | Wallet | Change | Details |
 |------|--------|--------|---------|
+| Dec 2025 | **Keycard Shell** | Added | Modular air-gapped hardware wallet with secure element, duress PIN, water/dust resistant, fully open source (score 91 🟢) |
 | Dec 2025 | **Documentation** | Structure cleanup | Consolidated hardware wallet comparison into single unified document |
 | Dec 2025 | **Blockstream Jade** | Added | Open source Bitcoin hardware wallet (score 81) |
 | Dec 2025 | **SeedSigner** | Added | DIY Raspberry Pi-based signing device (score 65) |
