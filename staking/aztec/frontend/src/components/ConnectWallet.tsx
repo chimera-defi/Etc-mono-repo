@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Wallet, LogOut, ChevronDown, Copy, Check, ExternalLink } from 'lucide-react';
-import { Button, Modal } from './ui';
+import { Button } from './ui';
 import { truncateAddress } from '@/lib/format';
 import { cn } from '@/lib/cn';
 
