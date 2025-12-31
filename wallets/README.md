@@ -10,6 +10,10 @@ Developer-focused comparison of crypto wallets to find stable MetaMask alternati
 
 **→ [CRYPTO_CREDIT_CARD_COMPARISON.md](./CRYPTO_CREDIT_CARD_COMPARISON.md)** — Crypto-backed credit/debit cards (12+ cards)
 
+**→ [NEOBANK_COMPARISON.md](./NEOBANK_COMPARISON.md)** — Crypto-friendly banks (Personal & Business)
+
+**→ [RAMP_COMPARISON.md](./RAMP_COMPARISON.md)** — On/Off-ramp infrastructure (Fees & Dev UX)
+
 | Column | Description | Source |
 |--------|-------------|--------|
 | **Score** | 0-100 weighted score | Calculated |
@@ -102,6 +106,8 @@ Several previously recommended wallets have **stopped active development**:
   - [Table](./HARDWARE_WALLET_COMPARISON_TABLE.md) | [Details](./HARDWARE_WALLET_COMPARISON_DETAILS.md)
 - **[CRYPTO_CREDIT_CARD_COMPARISON.md](./CRYPTO_CREDIT_CARD_COMPARISON.md)** — Crypto credit card comparison (17 cards)
   - [Table](./CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md) | [Details](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md)
+- **[NEOBANK_COMPARISON.md](./NEOBANK_COMPARISON.md)** — Neo-bank & friendly banking comparison
+- **[RAMP_COMPARISON.md](./RAMP_COMPARISON.md)** — On/Off-ramp infrastructure comparison
 
 ### Supporting Documents
 

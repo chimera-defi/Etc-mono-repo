@@ -4,7 +4,7 @@
 
 **Data Sources:** GitHub REST API (Nov 2024, activity Nov 2025), [WalletBeat](https://walletbeat.fyi) (Dec 2025)
 
-**Related:** See [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON.md) for cold storage recommendations.
+**Related:** See [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON.md) for cold storage, [Neo-Bank Comparison](./NEOBANK_COMPARISON.md) for banking, and [Ramp Comparison](./RAMP_COMPARISON.md) for infrastructure.
 
 ---
 
