@@ -115,11 +115,20 @@
 ## Next Steps
 
 1. ✅ Category defined: "Stablecoin Payment Networks"
-2. ⏳ Define full metrics and scoring methodology
-3. ⏳ Collect detailed data for 5-10 services
-4. ⏳ Create comparison table
-5. ⏳ Integrate into frontend
+2. ✅ Metrics and scoring methodology defined (see STABLECOIN_PAYMENT_NETWORKS_METRICS.md)
+3. ✅ TypeScript types created (see STABLECOIN_PAYMENT_NETWORKS_TYPE.ts)
+4. ⏳ Collect detailed data for 5-10 services
+5. ⏳ Create comparison table
+6. ⏳ Integrate into frontend
 
 ---
 
-*Consolidated research - category decision: "Stablecoin Payment Networks"*
+## Related Documents
+
+- **Metrics & Scoring:** STABLECOIN_PAYMENT_NETWORKS_METRICS.md
+- **TypeScript Types:** STABLECOIN_PAYMENT_NETWORKS_TYPE.ts
+- **Summary:** STABLECOIN_PAYMENT_NETWORKS_SUMMARY.md
+
+---
+
+*Consolidated research - category decision: "Stablecoin Payment Networks" - Metrics defined*
