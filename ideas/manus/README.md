@@ -85,6 +85,8 @@ Given Manus’ described strengths, the most coherent portfolio fit is:
 
 Below are opportunity areas that map to Manus’ apparent breakthroughs. Some are “copy the product,” others are “sell picks-and-shovels.”
 
+For concrete build sketches + $100M ARR paths, see `ideas/manus/BUILDOUTS.md`.
+
 ### 1) Open “agent execution layer” (cloud workspace + replay) for teams
 
 - **Thesis**: Teams want auditability, reproducibility, and cost control more than “chat.”
