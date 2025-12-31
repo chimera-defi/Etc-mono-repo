@@ -4,9 +4,16 @@ This file contains instructions for Claude Code when working in this repository.
 
 ## Quick Reference
 
-- **Rules Location:** `.cursorrules` - contains comprehensive AI assistant guidelines
+- **Rules Location:** `.cursorrules` - contains comprehensive AI assistant guidelines including PR attribution requirements at the top
+- **PR Template:** `.github/pull_request_template.md` - GitHub PR template with agent attribution fields
 - **Artifacts:** Place generated files in `.cursor/artifacts/`
 - **Always verify:** Run linting, type checking, and tests before marking tasks complete
+
+## Enforcement Mechanisms
+
+- **Git Hook:** `.git/hooks/commit-msg` - warns if commit messages lack agent attribution (can bypass with `--no-verify`)
+- **CI Check:** `.github/workflows/pr-attribution-check.yml` - validates PR descriptions and posts feedback as PR comment
+- **PR Template:** GitHub automatically uses `.github/pull_request_template.md` when creating PRs via UI
 
 ## Core Principles
 
@@ -112,6 +119,17 @@ Before completing any frontend task:
 - **Rule #32:** Never consolidate by deletion
 - **Rule #35:** Concise ≠ shorter - remove redundancy, not information
 
+### Critical Rules for PR Creation
+
+- **Rule #116:** Always include agent name in PRs - enables tracking and performance analysis
+- **Rule #117:** Include agent name in commit messages - provides attribution even if PRs are squashed
+- **Rule #118:** PR titles focus on what's done, not the prompt - descriptive and action-oriented
+- **Rule #119:** Include original prompt in PR description - provides context for reviewers
+- **Rule #120:** Create prompt artifact for complex requests - preserves full context
+- **Rule #121:** PR description structure - consistent format for easier analysis
+
+**Quick reference:** See `.cursorrules` "PR Attribution Requirements" section at the top.
+
 ## Common Commands
 
 ```bash
@@ -138,14 +156,17 @@ cd wallets/scripts
 
 When reviewing or creating PRs, verify:
 
-1. **Build passes:** `npm run build` succeeds
-2. **Linting passes:** `npm run lint` shows no errors
-3. **Types pass:** `npm run type-check` has no errors
-4. **Tests pass:** `npm test` passes (when present)
-5. **No unused code:** All imports and functions are used
-6. **Data preserved:** No accidental deletion of table rows/columns
-7. **Sources documented:** Data changes include verification sources
-8. **Commit messages:** Clear, descriptive commit messages
+1. **Agent attribution:** PR description includes agent name (e.g., "**Agent:** Composer") - see Rule #116
+2. **PR title:** Descriptive and focused on what's done, not the prompt - see Rule #118
+3. **Original prompt:** Included in PR description or artifact - see Rule #119
+4. **Build passes:** `npm run build` succeeds
+5. **Linting passes:** `npm run lint` shows no errors
+6. **Types pass:** `npm run type-check` has no errors
+7. **Tests pass:** `npm test` passes (when present)
+8. **No unused code:** All imports and functions are used
+9. **Data preserved:** No accidental deletion of table rows/columns
+10. **Sources documented:** Data changes include verification sources
+11. **Commit messages:** Clear, descriptive commit messages with agent attribution - see Rule #117
 
 ## External Resources
 
