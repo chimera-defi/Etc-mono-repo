@@ -72,8 +72,17 @@ cd wallets/scripts && ./refresh-github-data.sh
 ├── mobile_experiments/   # Mobile framework comparison (Capacitor, React Native, Flutter)
 ├── ai_experiments/       # AI constraint toolkit research (Spec Kit, Guardrails, etc.)
 ├── ideas/                # Future exploration concepts
-├── .github/              # CI workflows
-└── .cursorrules          # AI assistant guidelines
+├── .github/              # CI workflows + PR templates
+├── .cursor/              # Agent onboarding & PR attribution guides
+└── .cursorrules          # AI assistant guidelines (all agents)
 ```
 
 Each directory contains a detailed README with setup instructions and findings.
+
+## For AI Agents
+
+**New agents:** See [`.cursor/AGENT_ONBOARDING.md`](.cursor/AGENT_ONBOARDING.md) for quick start.
+
+**PR Attribution:** Required for all AI-generated PRs. See [`.cursor/PR_ATTRIBUTION.md`](.cursor/PR_ATTRIBUTION.md) for quick reference or [`.cursor/PR_ATTRIBUTION_MINIMAL.md`](.cursor/PR_ATTRIBUTION_MINIMAL.md) for context-limited agents.
+
+**Enforcement:** PR template, git hooks, and CI checks ensure compliance. See [`.cursor/ENFORCEMENT_SUMMARY.md`](.cursor/ENFORCEMENT_SUMMARY.md) for details.
