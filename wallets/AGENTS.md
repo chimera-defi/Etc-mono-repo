@@ -66,6 +66,41 @@ The scoring system should prioritize what matters for developers:
 3. **Stability:** Low release frequency is GOOD (inverse of MetaMask's problem)
 4. **Activity:** Active development matters, but stable > frequent releases
 5. **Open Source:** Important for debugging and trust, but not critical for usage
+6. **API Openness:** Backend/API transparency matters for developers who need to understand data sources, self-host services, or build integrations
+
+### API Openness Criteria
+
+API openness is now tracked as a separate dimension from client-side open source. This matters for developers who:
+- Want to understand where their data comes from
+- Need to self-host services for privacy/compliance
+- Want to build integrations with wallet APIs
+- Need to verify API behavior matches documentation
+
+**API Openness Categories:**
+
+| Category | Symbol | Description |
+|----------|--------|-------------|
+| **Full** | ✅ | Backend services are open source AND self-hostable |
+| **Partial** | ⚠️ | Some APIs open/public, but core services proprietary |
+| **Public** | 🌐 | APIs accessible without auth, but code is proprietary |
+| **Closed** | ❌ | Proprietary APIs, no public access without auth |
+
+**API Openness by Wallet (Research Findings):**
+
+| Wallet | Client Code | Backend/API | Public API | Self-Hostable |
+|--------|-------------|-------------|------------|---------------|
+| **Safe** | ✅ GPL-3 | ✅ 8+ services | ✅ Yes | ✅ Yes |
+| **MEW/Enkrypt** | ✅ MIT | ⚠️ Partial | ⚠️ Limited | ⚠️ Partial |
+| **Rabby** | ✅ MIT | ❌ DeBank proprietary | ✅ No auth | ❌ No |
+| **Rainbow** | ✅ GPL-3 | ❌ Proprietary | ❌ No | ❌ No |
+| **Trust** | ⚠️ Apache | ❌ Binance proprietary | ❌ No | ❌ No |
+| **MetaMask** | ⚠️ Src-Avail | ❌ Infura proprietary | ⚠️ Via Infura | ❌ No |
+| **Coinbase** | ⚠️ Partial | ❌ Coinbase proprietary | ⚠️ Limited | ❌ No |
+| **Phantom** | ❌ Prop | ❌ Proprietary | ❌ No | ❌ No |
+| **OKX** | ❌ Prop | ❌ Proprietary | ❌ No | ❌ No |
+| **Zerion** | ❌ Prop | ❌ Proprietary | ❌ No | ❌ No |
+
+**Key Insight:** Safe is the clear leader with 8+ open source backend services (transaction-service, config-service, events-service, etc.) that can all be self-hosted. Rabby's DeBank API is publicly accessible without authentication but the code is proprietary.
 
 ### Stability Metrics (Anti-MetaMask Criteria)
 The original goal was to find STABLE alternatives. Key stability indicators:
