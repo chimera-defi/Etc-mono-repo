@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: withdrawal-keeper
+  labels:
+    app: withdrawal-keeper
+    component: bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: withdrawal-keeper
+  template:
+    metadata:
+      labels:
+        app: withdrawal-keeper
+        component: bot
+    spec:
+      containers:
+      - name: withdrawal-keeper
+        image: staztec/withdrawal-keeper:latest
+        ports:
+        - containerPort: 9092
+          name: metrics
+        env:
+        - name: RPC_URL
+          valueFrom:
+            configMapKeyRef:
+              name: bot-config
+              key: rpc-url
+        - name: WITHDRAWAL_QUEUE_ADDRESS
+          valueFrom:
+            configMapKeyRef:
+              name: bot-config
+              key: withdrawal-queue-address
+        - name: LIQUID_STAKING_CORE_ADDRESS
+          valueFrom:
+            configMapKeyRef:
+              name: bot-config
+              key: liquid-staking-core-address
+        - name: POLL_INTERVAL_MS
+          value: "60000"
+        - name: MIN_LIQUIDITY_BUFFER
+          value: "100000000000000000000000"
+        - name: METRICS_PORT
+          value: "9092"
+        - name: LOG_LEVEL
+          value: "info"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 9092
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 9092
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: withdrawal-keeper-metrics
+  labels:
+    app: withdrawal-keeper
+spec:
+  ports:
+  - port: 9092
+    targetPort: 9092
+    name: metrics
+  selector:
+    app: withdrawal-keeper
