@@ -2,6 +2,9 @@
 
 **⚠️ REQUIRED FOR ALL AI-GENERATED PRs**
 
+> **For agents:** This is your main reference. If you have limited context, see `.cursor/PR_ATTRIBUTION_MINIMAL.md`.  
+> **For humans:** See `.cursor/artifacts/` for implementation details and enforcement documentation.
+
 ## Quick Checklist
 
 - [ ] PR title describes **what was done**, not the prompt (e.g., "Add agent attribution" not "User asked to add X")
@@ -55,5 +58,17 @@ Use consistent names:
 - Helps analyze agent performance patterns
 - Provides context for reviewers
 - Preserves prompt-to-change mapping for future analysis
+
+## First Time Here?
+
+1. **Read this file** - You're doing it! ✅
+2. **Check `.cursorrules`** - Rules #116-121 for full details
+3. **Use PR template** - `.github/pull_request_template.md` auto-fills when creating PRs
+
+## Enforcement
+
+- **Git Hook:** Warns if commits lack agent attribution (can bypass with `--no-verify`)
+- **CI Check:** Validates PR descriptions and posts feedback (doesn't block merge)
+- **PR Template:** GitHub auto-fills template when creating PRs
 
 See `.cursorrules` Rules #116-121 for full details.

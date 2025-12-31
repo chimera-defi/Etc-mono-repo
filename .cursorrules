@@ -10,8 +10,8 @@
 3. Include original prompt in PR description under `## Original Request`
 4. Use descriptive PR titles focused on what was done, not the prompt
 
-**Quick reference:** See `.cursor/PR_ATTRIBUTION.md` for template and examples.  
-**Full rules:** See Rules #116-121 in "Pull request creation and agent attribution" section below.
+**Quick reference:** `.cursor/PR_ATTRIBUTION.md` (~60 lines) or `.cursor/PR_ATTRIBUTION_MINIMAL.md` (~20 lines for context-limited agents)  
+**Full rules:** See Rules #116-121 below. **Enforcement:** Git hook (warns), CI check (validates + comments), PR template (auto-fills).
 
 ## Project Structure
 - All AI-generated artifacts and temporary files should be placed in `.cursor/artifacts/`

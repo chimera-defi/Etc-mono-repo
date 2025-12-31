@@ -5,16 +5,17 @@ This file contains instructions for Claude Code when working in this repository.
 ## Quick Reference
 
 - **Rules Location:** `.cursorrules` - contains comprehensive AI assistant guidelines
-- **PR Attribution:** `.cursor/PR_ATTRIBUTION.md` - quick reference for PR creation requirements
+- **PR Attribution:** `.cursor/PR_ATTRIBUTION.md` - quick reference for PR creation requirements (~60 lines)
+- **PR Attribution (Minimal):** `.cursor/PR_ATTRIBUTION_MINIMAL.md` - ultra-concise version for context-limited agents (~20 lines)
 - **PR Template:** `.github/pull_request_template.md` - GitHub PR template with agent attribution fields
 - **Artifacts:** Place generated files in `.cursor/artifacts/`
 - **Always verify:** Run linting, type checking, and tests before marking tasks complete
 
 ## Enforcement Mechanisms
 
-- **Git Hook:** `.git/hooks/commit-msg` - warns if commit messages lack agent attribution (can be bypassed with `--no-verify`)
-- **CI Check:** `.github/workflows/pr-attribution-check.yml` - validates PR descriptions have agent attribution and posts feedback
-- **PR Template:** GitHub automatically uses `.github/pull_request_template.md` when creating PRs
+- **Git Hook:** `.git/hooks/commit-msg` - warns if commit messages lack agent attribution (can bypass with `--no-verify`)
+- **CI Check:** `.github/workflows/pr-attribution-check.yml` - validates PR descriptions and posts feedback as PR comment
+- **PR Template:** GitHub automatically uses `.github/pull_request_template.md` when creating PRs via UI
 
 ## Core Principles
 
