@@ -105,6 +105,7 @@ function run() {
     'Devices',
     'Testnets',
     'License',
+    'API',        // NEW: API openness column
     'Audits',
     'Funding',
     'Tx Sim',

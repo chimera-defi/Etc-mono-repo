@@ -23,6 +23,12 @@ export interface SupportedChains {
   raw: string;
 }
 
+/**
+ * API openness level - separate from client code open source
+ * Tracks backend service transparency and self-hostability
+ */
+export type ApiOpenness = 'open' | 'partial' | 'public' | 'closed';
+
 export interface SoftwareWallet {
   id: string;
   name: string;
@@ -50,6 +56,8 @@ export interface SoftwareWallet {
   accountTypes: string[];
   ensNaming: 'full' | 'basic' | 'import' | 'none';
   hardwareSupport: boolean;
+  /** API/backend openness - separate from client code license */
+  apiOpenness: ApiOpenness;
   bestFor: string;
   recommendation: 'recommended' | 'situational' | 'avoid' | 'not-for-dev';
   type: 'software';

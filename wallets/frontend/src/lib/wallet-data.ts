@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import type { CryptoCard, HardwareWallet, SoftwareWallet, WalletData } from '@/types/wallets';
+import type { ApiOpenness, CryptoCard, HardwareWallet, SoftwareWallet, WalletData } from '@/types/wallets';
 
-export type { CryptoCard, HardwareWallet, SoftwareWallet, WalletData };
+export type { ApiOpenness, CryptoCard, HardwareWallet, SoftwareWallet, WalletData };
 
 // Path to markdown files (one level up from frontend)
 const CONTENT_DIR = path.join(process.cwd(), '..');
@@ -120,6 +120,16 @@ function parseAudits(cell: string): 'recent' | 'old' | 'bounty' | 'none' {
   if (cell.includes('⚠️')) return 'old';
   if (cell.includes('❓') || cell.includes('❌')) return 'none';
   return 'none';
+}
+
+// Parse API openness
+function parseApiOpenness(cell: string): import('@/types/wallets').ApiOpenness {
+  if (cell.includes('✅') || cell.toLowerCase().includes('open') || cell.toLowerCase().includes('none')) return 'open';
+  if (cell.includes('🌐') || cell.toLowerCase().includes('public')) return 'public';
+  if (cell.includes('⚠️') || cell.toLowerCase().includes('partial') || cell.toLowerCase().includes('limited') || 
+      cell.toLowerCase().includes('infura') || cell.toLowerCase().includes('alchemy') || cell.toLowerCase().includes('browser') ||
+      cell.toLowerCase().includes('waku') || cell.toLowerCase().includes('dex')) return 'partial';
+  return 'closed';
 }
 
 // Parse funding
@@ -297,8 +307,12 @@ export function parseSoftwareWallets(): SoftwareWallet[] {
     const name = nameMatch ? nameMatch[1] : cells[0] || 'Unknown';
 
     const license = parseLicense(cells[10] || '');
-    const funding = parseFunding(cells[12] || '');
+    const funding = parseFunding(cells[13] || '');
 
+    // Table columns after adding API column (index 11):
+    // 0=Wallet, 1=Score, 2=Core, 3=Rel/Mo, 4=RPC, 5=GitHub, 6=Active,
+    // 7=Chains, 8=Devices, 9=Testnets, 10=License, 11=API, 12=Audits,
+    // 13=Funding, 14=TxSim, 15=Scam, 16=Account, 17=ENS, 18=HW, 19=BestFor, 20=Rec
     return {
       id: generateSlug(name),
       name,
@@ -313,16 +327,17 @@ export function parseSoftwareWallets(): SoftwareWallet[] {
       testnets: parseBoolean(cells[9] || ''),
       license: license.status,
       licenseType: license.type,
-      audits: parseAudits(cells[11] || ''),
+      apiOpenness: parseApiOpenness(cells[11] || ''),
+      audits: parseAudits(cells[12] || ''),
       funding: funding.status,
       fundingSource: funding.source,
-      txSimulation: parseBoolean(cells[13] || ''),
-      scamAlerts: parsePartial(cells[14] || '') as 'full' | 'partial' | 'none',
-      accountTypes: parseAccountTypes(cells[15] || ''),
-      ensNaming: parseEnsNaming(cells[16] || ''),
-      hardwareSupport: parseBoolean(cells[17] || ''),
-      bestFor: cells[18]?.replace(/[~*]/g, '').trim() || '',
-      recommendation: parseRecommendation(cells[19] || ''),
+      txSimulation: parseBoolean(cells[14] || ''),
+      scamAlerts: parsePartial(cells[15] || '') as 'full' | 'partial' | 'none',
+      accountTypes: parseAccountTypes(cells[16] || ''),
+      ensNaming: parseEnsNaming(cells[17] || ''),
+      hardwareSupport: parseBoolean(cells[18] || ''),
+      bestFor: cells[19]?.replace(/[~*]/g, '').trim() || '',
+      recommendation: parseRecommendation(cells[20] || ''),
       type: 'software' as const,
     };
   }).filter(wallet => wallet.name !== 'Unknown' && wallet.score > 0 && wallet.id !== '');
