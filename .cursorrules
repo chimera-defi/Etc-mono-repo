@@ -201,6 +201,14 @@
   114. **Test pure math separately** - extract exchange rate calculations, fee computations, and share math into separate testable modules; these can be verified with standard `nargo test` without Aztec runtime
   115. **Honest handoff documentation** - distinguish clearly between "verified working" (tests pass) vs "needs environment" (requires aztec-nargo/sandbox); never claim full completion for code that hasn't been compiled
 
+- Pull request creation and agent attribution:
+  116. **Always include agent name in PRs** - when creating pull requests, include the agent name (e.g., "Composer", "Claude Code", "Cursor AI") in the PR description. This enables tracking which agents are used most and analyzing their performance over time. Format: "**Agent:** [Agent Name]" at the top of the PR description.
+  117. **Include agent name in commit messages** - add agent attribution to commit messages when making commits. Format: `[Agent: Composer]` or `(Agent: Composer)` at the start or end of the commit message. This provides attribution even if PRs are squashed or merged differently.
+  118. **PR titles focus on what's done, not the prompt** - PR titles should be descriptive and focused on the actual changes made (e.g., "Add agent attribution to PR descriptions" or "Fix token price calculation in economics model"), not the user's prompt or request. Avoid titles like "User asked to add X" or "Implement feature Y as requested" - instead describe the change itself.
+  119. **Include original prompt in PR description** - always include the original user prompt/request in the PR description, either in a "## Original Request" section or as a quote block. This provides context for reviewers and helps track what prompts lead to which changes. If the prompt is very long, include a summary and link to the full prompt in `.cursor/artifacts/` if needed.
+  120. **Create prompt artifact for complex requests** - for complex or multi-step requests, create a `.cursor/artifacts/[pr-number]-original-prompt.md` file documenting the full prompt and context, then reference it in the PR description. This preserves full context for future analysis.
+  121. **PR description structure** - structure PR descriptions with: (1) Agent attribution at top, (2) Brief summary of changes, (3) Original request/prompt, (4) Changes made, (5) Testing/verification notes. This consistent structure makes it easier to analyze agent performance patterns.
+
 ## Best Practices
 - Use semantic versioning for packages
 - Include proper .gitignore files for each project type
