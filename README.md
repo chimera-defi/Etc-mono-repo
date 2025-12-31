@@ -81,6 +81,6 @@ Each directory contains a detailed README with setup instructions and findings.
 
 ## For AI Agents
 
-**PR Attribution:** Required for all AI-generated PRs. See [`.cursor/PR_ATTRIBUTION.md`](.cursor/PR_ATTRIBUTION.md) for quick reference or [`.cursor/PR_ATTRIBUTION_MINIMAL.md`](.cursor/PR_ATTRIBUTION_MINIMAL.md) for context-limited agents.
+**PR Attribution:** Required for all AI-generated PRs. See `.cursorrules` "PR Attribution Requirements" section at the top for the complete guide.
 
 **Enforcement:** PR template (`.github/pull_request_template.md`), git hook (`.git/hooks/commit-msg`), and CI check (`.github/workflows/pr-attribution-check.yml`) provide reminders and validation.

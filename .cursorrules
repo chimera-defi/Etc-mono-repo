@@ -2,16 +2,30 @@
 
 > **Note:** These rules apply to ALL AI assistants working in this repository, including Cursor AI, Claude Code, GPT-4, Gemini, Claude Opus, and any other AI coding tools. See also `CLAUDE.md` for Claude Code-specific instructions.
 
-## ⚠️ PR Attribution Requirements (Quick Reference)
+## ⚠️ PR Attribution Requirements
 
 **When creating pull requests, you MUST:**
-1. Include `**Agent:** [Your Agent Name]` at the top of PR description
-2. Add `[Agent: YourAgent]` or `(Agent: YourAgent)` to commit messages
-3. Include original prompt in PR description under `## Original Request`
-4. Use descriptive PR titles focused on what was done, not the prompt
+1. **PR description:** Start with `**Agent:** [Your Agent Name]` (e.g., Composer, Claude Code, GPT-4, Gemini, Claude Opus, Cursor AI)
+2. **Commit messages:** Include `[Agent: YourAgent]` or `(Agent: YourAgent)`
+3. **Original prompt:** Include in PR description under `## Original Request`
+4. **PR title:** Describe what was done, not the prompt (e.g., "Add agent attribution" not "User asked to add X")
 
-**Quick reference:** `.cursor/PR_ATTRIBUTION.md` (~60 lines) or `.cursor/PR_ATTRIBUTION_MINIMAL.md` (~20 lines for context-limited agents)  
-**Full rules:** See Rules #116-121 below. **Enforcement:** Git hook (warns), CI check (validates + comments), PR template (auto-fills).
+**Template:**
+```markdown
+**Agent:** [Agent Name]
+
+## Summary
+Brief description of changes.
+
+## Original Request
+> [User's prompt]
+
+## Changes Made
+- Change 1
+- Change 2
+```
+
+**Enforcement:** Git hook (`.git/hooks/commit-msg`) warns on commits, CI check (`.github/workflows/pr-attribution-check.yml`) validates PRs, PR template (`.github/pull_request_template.md`) auto-fills. See Rules #116-121 below for details.
 
 ## Project Structure
 - All AI-generated artifacts and temporary files should be placed in `.cursor/artifacts/`
@@ -29,7 +43,7 @@
 - Keep README files updated with project status and setup instructions
 
 ## AI Assistant Guidelines
-- **PR Attribution Required:** When creating PRs, include agent name in PR description and commits. See `.cursor/PR_ATTRIBUTION.md` for quick reference and Rules #116-121 for details.
+- **PR Attribution Required:** When creating PRs, include agent name in PR description and commits. See "PR Attribution Requirements" section above and Rules #116-121 for details.
 - When generating code, prefer creating new files over modifying existing ones unless explicitly requested
 - Always check for existing similar implementations before creating new ones
 - Document assumptions and limitations in code comments
@@ -214,8 +228,8 @@
   115. **Honest handoff documentation** - distinguish clearly between "verified working" (tests pass) vs "needs environment" (requires aztec-nargo/sandbox); never claim full completion for code that hasn't been compiled
 
 - Pull request creation and agent attribution:
-  116. **Always include agent name in PRs** - when creating pull requests, include the agent name (e.g., "Composer", "Claude Code", "Cursor AI") in the PR description. This enables tracking which agents are used most and analyzing their performance over time. Format: "**Agent:** [Agent Name]" at the top of the PR description. **Quick reference:** `.cursor/PR_ATTRIBUTION.md` or `.cursor/PR_ATTRIBUTION_MINIMAL.md` (for context-limited agents).
-  117. **Include agent name in commit messages** - add agent attribution to commit messages when making commits. Format: `[Agent: Composer]` or `(Agent: Composer)` at the start or end of the commit message. This provides attribution even if PRs are squashed or merged differently. **Enforcement:** Git hook `.git/hooks/commit-msg` warns if missing (can bypass with `--no-verify`).
+  116. **Always include agent name in PRs** - when creating pull requests, include the agent name (e.g., "Composer", "Claude Code", "GPT-4", "Gemini", "Claude Opus", "Cursor AI") in the PR description. Format: "**Agent:** [Agent Name]" at the top. This enables tracking which agents are used most and analyzing their performance over time.
+  117. **Include agent name in commit messages** - add agent attribution to commit messages when making commits. Format: `[Agent: YourAgent]` or `(Agent: YourAgent)` at the start or end of the commit message. This provides attribution even if PRs are squashed or merged differently. **Enforcement:** Git hook `.git/hooks/commit-msg` warns if missing (can bypass with `--no-verify`).
   118. **PR titles focus on what's done, not the prompt** - PR titles should be descriptive and focused on the actual changes made (e.g., "Add agent attribution to PR descriptions" or "Fix token price calculation in economics model"), not the user's prompt or request. Avoid titles like "User asked to add X" or "Implement feature Y as requested" - instead describe the change itself. **Enforcement:** CI check validates title quality.
   119. **Include original prompt in PR description** - always include the original user prompt/request in the PR description, either in a "## Original Request" section or as a quote block. This provides context for reviewers and helps track what prompts lead to which changes. If the prompt is very long, include a summary and link to the full prompt in `.cursor/artifacts/` if needed. **Enforcement:** CI check validates presence.
   120. **Create prompt artifact for complex requests** - for complex or multi-step requests, create a `.cursor/artifacts/[pr-number]-original-prompt.md` file documenting the full prompt and context, then reference it in the PR description. This preserves full context for future analysis.

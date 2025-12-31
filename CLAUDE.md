@@ -4,9 +4,7 @@ This file contains instructions for Claude Code when working in this repository.
 
 ## Quick Reference
 
-- **Rules Location:** `.cursorrules` - contains comprehensive AI assistant guidelines
-- **PR Attribution:** `.cursor/PR_ATTRIBUTION.md` - quick reference for PR creation requirements (~60 lines)
-- **PR Attribution (Minimal):** `.cursor/PR_ATTRIBUTION_MINIMAL.md` - ultra-concise version for context-limited agents (~20 lines)
+- **Rules Location:** `.cursorrules` - contains comprehensive AI assistant guidelines including PR attribution requirements at the top
 - **PR Template:** `.github/pull_request_template.md` - GitHub PR template with agent attribution fields
 - **Artifacts:** Place generated files in `.cursor/artifacts/`
 - **Always verify:** Run linting, type checking, and tests before marking tasks complete
@@ -129,6 +127,8 @@ Before completing any frontend task:
 - **Rule #119:** Include original prompt in PR description - provides context for reviewers
 - **Rule #120:** Create prompt artifact for complex requests - preserves full context
 - **Rule #121:** PR description structure - consistent format for easier analysis
+
+**Quick reference:** See `.cursorrules` "PR Attribution Requirements" section at the top.
 
 ## Common Commands
 

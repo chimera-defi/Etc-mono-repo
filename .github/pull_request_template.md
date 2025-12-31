@@ -1,6 +1,6 @@
 <!--
 ⚠️ REQUIRED: This PR template must be filled out completely.
-If you're an AI agent creating this PR, see .cursor/PR_ATTRIBUTION.md for quick reference.
+If you're an AI agent creating this PR, see .cursorrules "PR Attribution Requirements" section for the complete guide.
 -->
 
 **Agent:** <!-- REQUIRED: e.g., Composer, Claude Code, GPT-4, Gemini, Claude Opus -->

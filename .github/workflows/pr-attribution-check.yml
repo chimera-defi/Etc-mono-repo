@@ -71,7 +71,7 @@ jobs:
                 comment += '\n';
               }
               
-              comment += 'See [.cursor/PR_ATTRIBUTION.md](/.cursor/PR_ATTRIBUTION.md) for the required format.\n';
+              comment += 'See [.cursorrules](/.cursorrules) "PR Attribution Requirements" section for the required format.\n';
               comment += '\n';
               comment += '**Note:** This check does not block merging, but following these guidelines helps track agent usage and performance.';
               
