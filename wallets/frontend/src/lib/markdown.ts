@@ -108,7 +108,14 @@ export function getAllDocuments(): MarkdownDocument[] {
       
       // Extract last updated from content if present
       const lastUpdatedMatch = content.match(/Last [Uu]pdated:?\s*([^\n\|]+)/);
-      const lastUpdated = lastUpdatedMatch ? lastUpdatedMatch[1].trim() : undefined;
+      const lastUpdatedRaw = lastUpdatedMatch 
+        ? lastUpdatedMatch[1].replace(/^\*+\s*/, '').replace(/\*+$/, '').trim() // Strip markdown bold/italic
+        : undefined;
+      
+      // Extract just the date portion (e.g., "December 16, 2025" or "December 2025")
+      // This handles formats like "December 16, 2025. Full validation..." or just "December 2025"
+      const dateOnlyMatch = lastUpdatedRaw?.match(/^((?:January|February|March|April|May|June|July|August|September|October|November|December)\s+(?:\d{1,2},?\s+)?\d{4})/i);
+      const lastUpdated = dateOnlyMatch ? dateOnlyMatch[1] : lastUpdatedRaw;
       
       return {
         slug,
