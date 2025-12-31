@@ -76,3 +76,9 @@ High-level ideas and concepts for future exploration and implementation.
 
 - **Coolify**: Self-hosted PaaS for VPS management
 - Self-hosted reseller platforms (alternatives to WHMCS)
+
+---
+
+## Research Notes
+
+- **Manus (A‑I‑M‑A‑N‑U‑S) acquisition + product assessment**: see `ideas/manus/README.md`
