@@ -77,3 +77,33 @@ applications:
         paths:
           - 'node_modules/**/*'
           - '.next/cache/**/*'
+
+  # Simple static landing page for a staking subdomain (e.g., cenote-staking.<domain>)
+  - appRoot: staking/site
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - echo "No prebuild needed (static site)"
+        build:
+          commands:
+            - echo "No build needed (static site)"
+      artifacts:
+        baseDirectory: .
+        files:
+          - '**/*'
+
+  # Simple static landing page for an Aztec staking subdomain (e.g., aztec.cenote-staking.<domain>)
+  - appRoot: staking/aztec/site
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - echo "No prebuild needed (static site)"
+        build:
+          commands:
+            - echo "No build needed (static site)"
+      artifacts:
+        baseDirectory: .
+        files:
+          - '**/*'
