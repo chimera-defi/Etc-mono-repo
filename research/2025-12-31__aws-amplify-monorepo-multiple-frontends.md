@@ -25,6 +25,33 @@ Why this is usually best:
 - Easy to reason about and operate
 - Minimal “routing glue” required
 
+## This repo: adding `cenote-staking` and `aztec` subdomains (hosting-only)
+
+This repo now includes two tiny static sites you can deploy via Amplify Hosting:
+
+- `staking/site/` (landing page for the overall staking project)
+- `staking/aztec/site/` (landing page for the Aztec staking subproject)
+
+`amplify.yml` was updated to add them as additional monorepo `applications` with `appRoot` set to those folders.
+
+### Suggested subdomain mapping
+
+Pick the pattern you prefer:
+
+- **One level**:
+  - `cenote-staking.<your-domain>` → `staking/site`
+  - `cenote-staking-aztec.<your-domain>` → `staking/aztec/site`
+- **Two levels**:
+  - `cenote-staking.<your-domain>` → `staking/site`
+  - `aztec.cenote-staking.<your-domain>` → `staking/aztec/site`
+
+### What you still need to do in AWS
+
+1. In **Amplify Console → Domain management**, add your domain (or choose an existing one).
+2. Add the subdomains you want and point each one at the correct app/branch.
+3. Create the required DNS records (Amplify will show CNAME/ALIAS records to add at your DNS provider / Route 53).
+
+
 ### Option B — One Amplify App hosting multiple SPAs under different paths (possible but often awkward)
 
 Amplify Hosting is essentially “one site per Amplify app / branch” from a hosting perspective.
