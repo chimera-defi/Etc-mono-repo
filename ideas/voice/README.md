@@ -9,8 +9,10 @@ Collection of ideas for building applications and features using voice AI techno
 
 | Document | Purpose | Read Time |
 |----------|---------|-----------|
-| **[EXECUTIVE_SUMMARY.md](./EXECUTIVE_SUMMARY.md)** | **START HERE** - One-page overview for decision makers | 5 min |
-| [MARKET_ANALYSIS.md](./MARKET_ANALYSIS.md) | Comprehensive market research & competitive analysis | 15 min |
+| **[OPPORTUNITIES_COMPARISON.md](./OPPORTUNITIES_COMPARISON.md)** | **START HERE** - Apples-to-apples comparison of all opportunities | 10 min |
+| **[03-voice-opportunities-research.md](./03-voice-opportunities-research.md)** | **NEW** - Deep research on 10+ emerging voice AI markets | 30 min |
+| [EXECUTIVE_SUMMARY.md](./EXECUTIVE_SUMMARY.md) | Overview of existing three ideas | 5 min |
+| [MARKET_ANALYSIS.md](./MARKET_ANALYSIS.md) | Market research & competitive analysis | 15 min |
 | [ARCHITECTURE_COMPARISON.md](./ARCHITECTURE_COMPARISON.md) | Technical architecture comparison | 10 min |
 | [01-translation-assistant/PRODUCT_SPEC.md](./01-translation-assistant/PRODUCT_SPEC.md) | Translation Assistant product specification | 20 min |
 | [02-direct-coding/PRODUCT_SPEC.md](./02-direct-coding/PRODUCT_SPEC.md) | Direct Coding Interface product specification | 20 min |
@@ -25,6 +27,24 @@ Collection of ideas for building applications and features using voice AI techno
 | **Direct Coding Interface** | 🔴 Small (50K-100K) | ⚠️ Medium | ✅ Excellent (95.6%) | ⚠️ **LOW-MODERATE** |
 
 **Overall:** All three are viable as **lifestyle businesses** ($100K-500K ARR), not venture-scale ($100M+).
+
+## 🆕 New Research: Emerging Voice AI Opportunities
+
+**Deep research analysis reveals 5+ new opportunities with 5-20x higher ARR potential:**
+
+| Opportunity | Year 1 ARR | Market Size | Complexity | Verdict |
+|------------|------------|-------------|------------|---------|
+| **Voice Journaling & Mental Health** | $4.5M | ✅ Large (500M) | ⚠️ Low (6-8 weeks) | ⭐⭐⭐⭐⭐ **BEST** |
+| **Voice-Based Customer Service** | $6M | ✅ Large (10M) | 🔴 High (12-16 weeks) | ⭐⭐⭐⭐ Venture-scale |
+| **Voice Content Creation** | $2.7M | ✅ Large (10M) | ⚠️ Medium (8-10 weeks) | ⭐⭐⭐ Good |
+| **Healthcare Dictation** | $1.2M | ⚠️ Medium (5M) | 🔴 High (16-20 weeks) | ⭐⭐⭐ |
+| **Education/Tutoring** | $3.6M | ✅ Large (500M) | ⚠️ Medium (10-12 weeks) | ⭐⭐⭐ |
+
+**Key Finding:** New opportunities show **$1.2M-6M ARR potential** vs $135K-480K for existing ideas - **5-20x larger**.
+
+**Top Recommendation:** **Voice Journaling & Mental Health** - Highest ARR ($4.5M), best unit economics (99% margin), lowest complexity (6-8 weeks), lowest risk.
+
+**See:** [OPPORTUNITIES_COMPARISON.md](./OPPORTUNITIES_COMPARISON.md) for detailed comparison
 
 ---
 
