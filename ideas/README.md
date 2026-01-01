@@ -72,6 +72,15 @@ High-level ideas and concepts for future exploration and implementation.
 
 ---
 
+## Voice AI Ideas
+
+**See [`voice/`](./voice/)** for a collection of ideas leveraging Wispr Flow's high-quality speech-to-text capabilities, including:
+- **Cadence AI**: Voice-enabled coding assistant (in development)
+- **Translation Assistant**: Real-time translation workflows using voice input
+- **Direct Coding Interface**: Voice-to-code transcription for hands-free development
+
+---
+
 ## Tooling to Explore
 
 - **Coolify**: Self-hosted PaaS for VPS management
