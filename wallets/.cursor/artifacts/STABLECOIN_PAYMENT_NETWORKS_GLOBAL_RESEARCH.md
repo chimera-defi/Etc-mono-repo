@@ -94,9 +94,9 @@
 ## Services to Verify
 
 ### High Priority (Likely Match)
-1. **Valora** (Global/Celo) - ✅ QR code visible, ✅ stablecoins (USDC/USDT), ✅ mobile app, ❓ verify bank withdrawal
-2. **Daimo** (Global) - ❓ verify QR payments, ✅ stablecoins, ❓ verify bank withdrawal
-3. **Bitso** (Mexico/Latin America) - ❓ verify QR payments, ✅ stablecoins, ✅ bank withdrawal (likely)
+1. **Valora** (Global/Celo) - ✅ QR code visible, ✅ stablecoins (USDC/USDT), ✅ mobile app, ✅ bank withdrawal (via third-party providers, limited locations)
+2. ~~**Daimo** (Global)~~ - ❌ **EXCLUDED** - Consumer app shut down Nov 2025, only B2B Daimo Pay remains
+3. **Bitso** (Mexico/Latin America) - ❓ verify QR payments, ✅ stablecoins ("Digital Dollars"), ✅ bank withdrawal
 
 ### Medium Priority (Need Verification)
 4. **Strike** (Global) - ✅ QR payments, ❌ likely no stablecoins (Bitcoin/Lightning only), ✅ bank withdrawal
@@ -119,11 +119,11 @@
 3. **Belo** (Argentina, Brazil) ✅
 4. **Ripio** (Argentina, Brazil) ✅
 5. **Buenbit** (Argentina) ✅
+6. **Valora** (Global) ✅ - QR ✅, USDC/USDT ✅, bank withdrawal ✅ (via third-party providers, limited locations), Mobile Money ✅ (Africa)
 
-### Likely Matches (Need Verification)
-- **Valora** (Global) - Has QR, stablecoins, mobile app; need to verify bank withdrawal
-- **Bitso** (Latin America) - Has stablecoins, bank withdrawal; need to verify QR payments
-- **Daimo** (Global) - Has stablecoins, P2P; need to verify QR + bank withdrawal
+### Excluded
+- ~~**Daimo**~~ - Consumer app shut down Nov 2025, only B2B Daimo Pay remains (routes deposits TO apps, not FROM apps)
+- ~~**Bitso**~~ - Exchange/wallet model, QR payments not found in documentation, likely not a P2P payment network
 
 ### Reference Models (Similar Concept, Different Asset Type)
 - **UPI** (India) - Fiat QR payments (reference for QR payment network concept)
@@ -137,12 +137,9 @@
 
 **Completed:**
 - ✅ Argentina services (Peanut, Lemon Cash, Belo, Ripio, Buenbit)
-- ✅ Valora website review (QR visible, stablecoins confirmed)
-
-**In Progress:**
-- 🔄 Verifying Valora bank withdrawal capabilities
-- 🔄 Verifying Daimo QR payments + bank withdrawal
-- 🔄 Verifying Bitso QR payments + bank withdrawal
+- ✅ Valora verification (QR ✅, stablecoins ✅, bank withdrawal ✅ via third-party, Mobile Money ✅)
+- ✅ Daimo verification (❌ excluded - consumer app shut down, B2B only)
+- ✅ Bitso verification (❌ excluded - exchange/wallet, QR payments not found)
 
 **Pending:**
 - ⏳ Research India crypto payment apps
@@ -190,16 +187,28 @@
 
 ## Summary
 
-**Confirmed Services:** 5 (all Argentina-based)
-- Peanut, Lemon Cash, Belo, Ripio, Buenbit
+**Confirmed Services:** 6
+- **Argentina (5):** Peanut, Lemon Cash, Belo, Ripio, Buenbit
+- **Global (1):** Valora (bank withdrawal via third-party, limited locations)
 
-**Likely Matches:** 3 (need verification)
-- Valora (Global), Daimo (Global), Bitso (Latin America)
+**Excluded:** 2
+- **Daimo** - Consumer app shut down, B2B only
+- **Bitso** - Exchange/wallet model, QR payments not found
 
 **Potential Matches:** 5+ (need research)
 - Various services in India, Southeast Asia, Africa
 
-**Key Insight:** This category appears to be most developed in Latin America (especially Argentina), where high inflation and currency instability drive demand for stablecoin-based payment networks. Other regions may have fewer services matching all criteria.
+**Key Insight:** This category appears to be most developed in Latin America (especially Argentina), where high inflation and currency instability drive demand for stablecoin-based payment networks. 
+
+**Global Services Found:**
+- **Valora** (Global) - Confirmed match, but bank withdrawal is via third-party providers in limited locations (not direct bank integration like Argentina services)
+- Most other global services are either exchanges/wallets or B2B infrastructure, not consumer P2P payment networks
+
+**Regional Distribution:**
+- **Argentina:** 5 confirmed services (most mature market)
+- **Brazil:** 2 services (Belo, Ripio - also operate in Argentina)
+- **Global:** 1 service (Valora - indirect bank withdrawal)
+- **Other regions:** Need deeper research (India, Southeast Asia, Africa)
 
 ---
 
