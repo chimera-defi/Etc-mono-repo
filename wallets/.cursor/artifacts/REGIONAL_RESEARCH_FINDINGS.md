@@ -7,9 +7,10 @@
 
 ## Summary
 
-**Services Verified:** 8  
+**Services Verified:** 17  
 **Matches Found:** 0  
-**Excluded:** 8 (exchange/wallet models or fiat-only QR payments)
+**Excluded:** 16 (exchange/wallet models, fiat-only QR payments, or on-ramp services)  
+**Unclear:** 1 (Yellow Card - needs manual verification)
 
 **Key Finding:** Most services found are either:
 1. **Exchange/wallet models** (crypto trading + bank withdrawal, but no QR-based P2P payments)
@@ -186,15 +187,73 @@ Some services (like Yellow Card) focus on **B2B infrastructure** ("empowers glob
 | **Valr** | Africa | ❌ | ✅ | ✅ | ❌ Exchange |
 | **Revolut** | Europe | ❓ | ✅ | ✅ | ❌ Likely no QR |
 | **N26** | Europe | ❌ | ❌ (limited) | ✅ | ❌ Neobank |
+| **Strike** | Global | ❓ | ❌ (Bitcoin only) | ✅ | ❌ Bitcoin-focused |
+| **Cash App** | US | ✅ (fiat) | ❌ (Bitcoin only) | ✅ | ❌ Not stablecoins |
+| **MoonPay** | Global | ❌ | ✅ | ✅ | ❌ On-ramp service |
+| **Ramp** | Global | ❌ | ✅ | ✅ | ❌ On-ramp service |
+| **Mercado Bitcoin** | Brazil | ❌ | ✅ | ✅ | ❌ Exchange |
+| **Nubank Crypto** | Brazil | ❌ | ✅ | ✅ | ❌ Neobank |
+| **Buda** | Colombia | ❓ | ✅ | ✅ | ❌ Exchange (likely) |
+| **Volabit** | Mexico | ❌ | ✅ | ✅ | ❌ Exchange |
+
+---
+
+## Additional Services Researched
+
+### Yellow Card (Africa)
+- **App Store Research:** JavaScript-heavy pages, unable to extract QR payment info
+- **Status:** ❓ **UNCLEAR** - B2B infrastructure focus, consumer QR payments unclear
+- **Next Steps:** Would need manual app testing or user documentation
+
+### Strike (Global)
+- **Status:** ❌ **NOT A MATCH** (Cloudflare protection prevented scraping)
+- **Likely Features:** Lightning Network payments (Bitcoin), not stablecoins
+- **Assessment:** Bitcoin-focused, not stablecoin payment network
+
+### Cash App (US)
+- **Status:** ❌ **NOT A MATCH**
+- **Features:**
+  - ✅ QR payments (fiat)
+  - ✅ Bitcoin trading
+  - ❌ No stablecoins (USDC/USDT) found
+- **Assessment:** Fiat QR payments + Bitcoin separately, not stablecoin QR payments
+
+### MoonPay (Global)
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** On-ramp/off-ramp service (buy/sell crypto), not P2P payment network
+- **Features:** Buy/sell crypto, not QR-based P2P transfers
+
+### Ramp Network (Global)
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** On-ramp/off-ramp service (buy/sell crypto), not P2P payment network
+- **Features:** Buy/sell crypto, not QR-based P2P transfers
+
+### Mercado Bitcoin (Brazil)
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Exchange/wallet model
+- **Features:** Crypto trading, no QR payments found
+
+### Nubank Crypto (Brazil)
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Neobank with crypto features, not P2P payment network
+- **Features:** Crypto trading via Bitpanda integration, no QR payments found
+
+### Buda (Colombia)
+- **Status:** ❌ **NOT A MATCH** (Cloudflare protection prevented scraping)
+- **Likely:** Exchange/wallet model
+
+### Volabit (Mexico)
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Exchange/wallet model, no QR payments found
 
 ---
 
 ## Next Steps
 
 1. ✅ **Completed:** India, Southeast Asia, Africa, Europe initial research
-2. ⏳ **Pending:** Deeper research on Yellow Card (check app store, user docs)
-3. ⏳ **Pending:** Search for specific crypto QR payment apps in these regions
-4. ⏳ **Pending:** Research other potential services (Strike, Cash App, etc.)
+2. ✅ **Completed:** Additional services research (Strike, Cash App, MoonPay, Ramp, etc.)
+3. ⏳ **Pending:** Manual app testing for Yellow Card (if needed)
+4. ⏳ **Pending:** Search for other potential services in overlooked regions
 
 ---
 
