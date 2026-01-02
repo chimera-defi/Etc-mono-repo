@@ -104,8 +104,8 @@
 
 1. ✅ **Completed:** Argentina services, Valora, Daimo, Bitso verification
 2. ✅ **Completed:** India, Southeast Asia, Africa, Europe initial research
-3. ⏳ **Pending:** Deeper research on Yellow Card (check app store, user docs for QR payments)
-4. ⏳ **Pending:** Search for other potential services (Strike, Cash App, etc.)
+3. ✅ **Completed:** Additional services research (Strike, Cash App, MoonPay, Ramp, Mercado Bitcoin, Nubank, Buda, Volabit)
+4. ⏳ **Pending:** Manual app testing for Yellow Card (if needed for final verification)
 
 ---
 
