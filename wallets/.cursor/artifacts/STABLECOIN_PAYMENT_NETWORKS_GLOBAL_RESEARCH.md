@@ -66,22 +66,56 @@
 
 #### India
 - **UPI** - Fiat-based QR payments (not crypto, but similar concept - reference model)
-- **Crypto payment apps** - Need to research if any offer QR + bank withdrawal
 - **CoinDCX** - Exchange, verify QR payments + bank withdrawal
+  - ❌ QR payments not found in website scraping
+  - ✅ Crypto trading
+  - ✅ Bank withdrawal (exchange model)
+  - **Status:** Exchange/wallet model, not P2P payment network
 - **WazirX** - Exchange, verify QR payments + bank withdrawal
+  - ❌ QR payments not found in website scraping
+  - ✅ Crypto trading
+  - ✅ Bank withdrawal (exchange model)
+  - **Status:** Exchange/wallet model, not P2P payment network
+- **Crypto payment apps** - Need deeper research for consumer P2P QR payment apps
 
 #### Southeast Asia
-- **Philippines**: GCash, PayMaya (fiat QR payments - reference models)
-- **Indonesia**: OVO, GoPay (fiat QR payments - reference models)
-- **Thailand**: PromptPay (fiat QR payments - reference models)
-- **Crypto payment apps** - Need to research if any offer QR + bank withdrawal
+- **Philippines**: 
+  - **GCash** - QR payments ("Pay QR") + crypto ("GCrypto") separately, verify if crypto QR payments
+    - ✅ QR payments (fiat)
+    - ✅ Crypto trading
+    - ❓ Crypto QR payments (unclear if crypto can be sent via QR)
+    - **Status:** Fiat QR payments + crypto separately, not integrated stablecoin QR payments
+  - **PayMaya/Maya** - QR payments + crypto separately, verify if crypto QR payments
+    - ✅ QR payments ("Pay with QR")
+    - ✅ Crypto trading
+    - ❓ Crypto QR payments (unclear if crypto can be sent via QR)
+    - **Status:** Fiat QR payments + crypto separately, not integrated stablecoin QR payments
+- **Indonesia**: 
+  - **OVO** - Fiat QR payments, no crypto found
+  - **GoPay** - QRIS payments, verify if crypto/stablecoin support
+    - ✅ QRIS (QR payments)
+    - ❓ Crypto/stablecoin support (not found in website scraping)
+    - **Status:** Fiat QR payments, crypto support unclear
+- **Thailand**: PromptPay (fiat QR payments - reference model, no crypto found)
 
 ### Africa
 
 #### Potential Services
+- **Yellow Card** - "Africa's Leading Stablecoin Payment Infrastructure", verify QR payments + bank withdrawal
+  - ✅ Stablecoins (USDC/USDT likely)
+  - ❓ QR payments (not found in website scraping)
+  - ❓ Bank withdrawal (not found in website scraping)
+  - **Status:** B2B infrastructure focus, unclear if consumer P2P QR payments
 - **Luno** - Exchange, operates in Africa, verify QR payments + bank withdrawal
+  - ❌ QR payments not found in website scraping
+  - ✅ Crypto trading
+  - ✅ Bank withdrawal (exchange model)
+  - **Status:** Exchange/wallet model, not P2P payment network
 - **Valr** - South Africa exchange, verify QR payments + bank withdrawal
-- **Yellow Card** - Crypto exchange, verify QR payments + bank withdrawal
+  - ❌ QR payments not found in website scraping
+  - ✅ Crypto trading
+  - ✅ Bank withdrawal (exchange model)
+  - **Status:** Exchange/wallet model, not P2P payment network
 
 ### North America
 
@@ -145,6 +179,13 @@
 - ⏳ Research India crypto payment apps
 - ⏳ Research Southeast Asia crypto payment apps
 - ⏳ Research Africa crypto payment apps
+
+**In Progress:**
+- 🔄 Yellow Card (Africa) - Stablecoin infrastructure, verify QR payments + bank withdrawal
+- 🔄 Luno (Africa) - Exchange, verify QR payments + bank withdrawal
+- 🔄 Valr (South Africa) - Exchange, verify QR payments + bank withdrawal
+- 🔄 GCash/PayMaya (Philippines) - QR payments + crypto separately, verify if crypto QR payments
+- 🔄 GoPay (Indonesia) - QRIS payments, verify if crypto/stablecoin support
 
 ---
 
