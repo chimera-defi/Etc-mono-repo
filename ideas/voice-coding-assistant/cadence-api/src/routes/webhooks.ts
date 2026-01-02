@@ -1,11 +1,19 @@
 import { FastifyPluginAsync } from 'fastify';
-import { createHmac, timingSafeEqual } from 'crypto';
-import { GitHubWebhookPayload } from '../types.js';
+import { createHmac, timingSafeEqual, randomUUID } from 'crypto';
+import { GitHubWebhookPayload, Task } from '../types.js';
 import { tasks } from './tasks.js';
 import { streamManager } from '../services/stream-manager.js';
 
 /**
  * GitHub Webhook handlers for PR lifecycle events
+ *
+ * Implemented:
+ * - pull_request: merged/closed updates task status
+ * - issue_comment: @cadence-ai mentions create tasks
+ *
+ * Not implemented:
+ * - check_run: CI status updates (would need PR-to-task mapping)
+ * - push: commit notifications (would need branch-to-task mapping)
  */
 export const webhookRoutes: FastifyPluginAsync = async (app) => {
   /**
@@ -46,8 +54,8 @@ export const webhookRoutes: FastifyPluginAsync = async (app) => {
     app.log.info(`Received GitHub webhook: ${event} ${body.action}`);
 
     try {
-      await handleWebhookEvent(event, body);
-      return { received: true, event, action: body.action };
+      const result = await handleWebhookEvent(event, body, app.log);
+      return { received: true, event, action: body.action, ...result };
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Unknown error';
       app.log.error(`Webhook handler error: ${message}`);
@@ -59,46 +67,47 @@ export const webhookRoutes: FastifyPluginAsync = async (app) => {
   });
 };
 
+interface WebhookResult {
+  handled: boolean;
+  taskId?: string;
+  action?: string;
+}
+
 /**
  * Route webhook events to appropriate handlers
  */
-async function handleWebhookEvent(event: string, payload: GitHubWebhookPayload): Promise<void> {
+async function handleWebhookEvent(
+  event: string,
+  payload: GitHubWebhookPayload,
+  log: { info: (msg: string) => void }
+): Promise<WebhookResult> {
   switch (event) {
     case 'pull_request':
-      await handlePullRequestEvent(payload);
-      break;
+      return handlePullRequestEvent(payload);
     case 'issue_comment':
-      await handleIssueCommentEvent(payload);
-      break;
-    case 'check_run':
-      await handleCheckRunEvent(payload);
-      break;
-    case 'push':
-      await handlePushEvent(payload);
-      break;
+      return handleIssueCommentEvent(payload, log);
     default:
-      // Ignore other events
-      break;
+      // Ignore unhandled events (check_run, push, etc.)
+      return { handled: false };
   }
 }
 
 /**
  * Handle pull_request events
  */
-async function handlePullRequestEvent(payload: GitHubWebhookPayload): Promise<void> {
-  const { action, pull_request, repository } = payload;
-  if (!pull_request) return;
+function handlePullRequestEvent(payload: GitHubWebhookPayload): WebhookResult {
+  const { action, pull_request } = payload;
+  if (!pull_request) return { handled: false };
 
   const prUrl = pull_request.html_url;
 
   // Find task associated with this PR
   const task = findTaskByPrUrl(prUrl);
-  if (!task) return;
+  if (!task) return { handled: false };
 
   switch (action) {
-    case 'merged':
     case 'closed':
-      // Archive the task
+      // Archive the task (merged = true if PR was merged, false if just closed)
       task.status = pull_request.merged ? 'completed' : 'cancelled';
       task.completedAt = new Date().toISOString();
       tasks.set(task.id, task);
@@ -109,7 +118,7 @@ async function handlePullRequestEvent(payload: GitHubWebhookPayload): Promise<vo
         pull_request.merged ? 'PR merged successfully' : 'PR closed without merge',
         prUrl
       );
-      break;
+      return { handled: true, taskId: task.id, action: pull_request.merged ? 'completed' : 'cancelled' };
 
     case 'review_submitted':
       // Notify about review
@@ -117,7 +126,7 @@ async function handlePullRequestEvent(payload: GitHubWebhookPayload): Promise<vo
         task.id,
         `Review submitted on PR #${pull_request.number}`
       );
-      break;
+      return { handled: true, taskId: task.id, action: 'review_notified' };
 
     case 'synchronize':
       // New commits pushed to PR
@@ -125,50 +134,55 @@ async function handlePullRequestEvent(payload: GitHubWebhookPayload): Promise<vo
         task.id,
         `New commits pushed to PR #${pull_request.number}`
       );
-      break;
+      return { handled: true, taskId: task.id, action: 'sync_notified' };
+
+    default:
+      return { handled: false };
   }
 }
 
 /**
  * Handle issue_comment events (for @cadence-ai mentions)
+ * Creates a new task when someone mentions @cadence-ai in a comment
  */
-async function handleIssueCommentEvent(payload: GitHubWebhookPayload): Promise<void> {
-  const { action, comment, repository } = payload;
-  if (action !== 'created' || !comment) return;
+function handleIssueCommentEvent(
+  payload: GitHubWebhookPayload,
+  log: { info: (msg: string) => void }
+): WebhookResult {
+  const { action, comment, repository, issue } = payload;
+  if (action !== 'created' || !comment) return { handled: false };
 
   // Check for @cadence-ai mention
-  if (!comment.body.includes('@cadence-ai')) return;
+  if (!comment.body.includes('@cadence-ai')) return { handled: false };
 
   // Parse command from comment
   const command = parseCommentCommand(comment.body);
-  if (!command) return;
+  if (!command) return { handled: false };
 
-  // TODO: Handle commands like:
-  // @cadence-ai fix the failing test
-  // @cadence-ai update the documentation
-  // @cadence-ai address review comments
+  log.info(`Creating task from @cadence-ai mention: ${command}`);
 
-  console.log(`Received @cadence-ai command: ${command}`);
-}
+  // Create a new task from the command
+  const task: Task = {
+    id: randomUUID(),
+    task: command,
+    repoUrl: repository.html_url,
+    status: 'pending',
+    createdAt: new Date().toISOString(),
+    output: `Created from GitHub comment by ${comment.user.login}${issue ? ` on issue #${issue.number}` : ''}`,
+  };
 
-/**
- * Handle check_run events (CI status)
- */
-async function handleCheckRunEvent(payload: GitHubWebhookPayload): Promise<void> {
-  // TODO: Update task with CI status
-}
+  tasks.set(task.id, task);
 
-/**
- * Handle push events
- */
-async function handlePushEvent(payload: GitHubWebhookPayload): Promise<void> {
-  // TODO: Update task with commit info
+  // Emit task started event
+  streamManager.emitTaskStarted(task.id, `Task created from @cadence-ai mention: ${command}`);
+
+  return { handled: true, taskId: task.id, action: 'task_created' };
 }
 
 /**
  * Find task by PR URL
  */
-function findTaskByPrUrl(prUrl: string) {
+function findTaskByPrUrl(prUrl: string): Task | null {
   for (const [, task] of tasks) {
     // Check if task output contains the PR URL
     if (task.output?.includes(prUrl)) {
