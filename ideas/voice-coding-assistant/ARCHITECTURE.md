@@ -380,12 +380,13 @@ The backend implements a two-layer streaming architecture:
 |-----------|-------|----------|
 | Tasks API | 9 | CRUD + validation |
 | Input API | 9 | Text + command handling |
-| Webhooks | 10 | Signature + side effects |
-| StreamManager | 18 | Subscriptions + events |
+| Voice API | 11 | Transcribe, parse, command endpoints |
+| Webhooks | 10 | Signature + PR/comment side effects |
+| StreamManager | 18 | Subscriptions + events + message handling |
 | VPS Bridge | 4 | Mock streaming |
 | Command Parser | 15 | Intent detection |
 | Health | 1 | Basic check |
-| **Total** | **66** | Core functionality |
+| **Total** | **77** | Core functionality |
 
 ---
 
@@ -746,24 +747,30 @@ Post-MVP:   Hybrid model (Free=serverless, Pro=VPS)
 
 See **[GITHUB_INTEGRATION.md](./GITHUB_INTEGRATION.md)** for the complete GitHub integration design.
 
-### Key Features
+### Implemented Features
 
-| Feature | Description |
-|---------|-------------|
-| **Webhook Events** | React to PR merges, closes, comments in real-time |
-| **Auto-Archiving** | Merged/closed PRs automatically archive agent sessions |
-| **Issue Integration** | Start agents from GitHub Issues, Linear, or Slack |
-| **@cadence-ai Mentions** | Respond to PR comments with follow-up changes |
-| **Status Sync** | Keep issue trackers updated with agent progress |
+| Feature | Status | Description |
+|---------|--------|-------------|
+| **PR Close/Merge** | ✅ Implemented | Updates task to completed/cancelled |
+| **@cadence-ai Mentions** | ✅ Implemented | Creates new task from comment |
+| **Signature Verification** | ✅ Implemented | HMAC SHA-256 validation |
+
+### Planned Features
+
+| Feature | Status | Description |
+|---------|--------|-------------|
+| **Issue Integration** | 📋 Planned | Start agents from GitHub Issues |
+| **Check Run Status** | 📋 Planned | Update task with CI status |
+| **Push Events** | 📋 Planned | Track commits to branches |
+| **Linear/Slack** | 📋 Planned | External issue tracker integration |
 
 ### Auto-Archive Workflow
 
 ```
-PR Merged → Webhook fires → Agent marked "completed" → Moved to Archive
-PR Closed → Webhook fires → Agent marked "closed" → Moved to Archive
+PR Merged → Webhook fires → Task marked "completed"
+PR Closed → Webhook fires → Task marked "cancelled"
+@cadence-ai mention → Webhook fires → New task created
 ```
-
-This keeps the active agent list clean, showing only in-progress work.
 
 ---
 
@@ -779,7 +786,7 @@ This keeps the active agent list clean, showing only in-progress work.
 
 ---
 
-**Architecture Version:** 3.0
+**Architecture Version:** 3.1
 **Updated:** December 28, 2025
 **Status:** Backend Complete - iOS Development Pending
 
@@ -787,6 +794,7 @@ This keeps the active agent list clean, showing only in-progress work.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 3.1 | Dec 28, 2025 | Fixed webhook stubs, added voice tests, 77 tests total |
 | 3.0 | Dec 28, 2025 | Added streaming architecture, limitations, updated endpoints |
 | 2.1 | Dec 27, 2025 | Swift iOS decision, VPS-per-user analysis |
 | 2.0 | Dec 27, 2025 | Initial architecture document |

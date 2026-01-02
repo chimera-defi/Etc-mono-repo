@@ -244,8 +244,10 @@ describe('Webhook Routes', () => {
     });
   });
 
-  describe('Issue Comment Events', () => {
-    it('processes @cadence-ai mentions', async () => {
+  describe('Issue Comment Events - Side Effects', () => {
+    it('creates task from @cadence-ai mention', async () => {
+      const taskCountBefore = tasks.size;
+
       const payload = {
         action: 'created',
         repository: {
@@ -273,14 +275,29 @@ describe('Webhook Routes', () => {
         payload,
       });
 
-      // Currently only logs - test that it doesn't error
       expect(response.statusCode).toBe(200);
       const body = JSON.parse(response.payload);
       expect(body.received).toBe(true);
-      expect(body.event).toBe('issue_comment');
+      expect(body.handled).toBe(true);
+      expect(body.taskId).toBeDefined();
+      expect(body.action).toBe('task_created');
+
+      // Verify a task was actually created
+      expect(tasks.size).toBe(taskCountBefore + 1);
+
+      // Verify task content
+      const createdTask = tasks.get(body.taskId);
+      expect(createdTask).toBeDefined();
+      expect(createdTask!.task).toBe('fix the failing tests');
+      expect(createdTask!.repoUrl).toBe('https://github.com/user/repo');
+      expect(createdTask!.status).toBe('pending');
+      expect(createdTask!.output).toContain('testuser');
+      expect(createdTask!.output).toContain('issue #123');
     });
 
     it('ignores comments without @cadence-ai mention', async () => {
+      const taskCountBefore = tasks.size;
+
       const payload = {
         action: 'created',
         repository: {
@@ -304,9 +321,16 @@ describe('Webhook Routes', () => {
       });
 
       expect(response.statusCode).toBe(200);
+      const body = JSON.parse(response.payload);
+      expect(body.handled).toBe(false);
+
+      // No task should be created
+      expect(tasks.size).toBe(taskCountBefore);
     });
 
     it('ignores non-created actions', async () => {
+      const taskCountBefore = tasks.size;
+
       const payload = {
         action: 'deleted',
         repository: {
@@ -330,6 +354,11 @@ describe('Webhook Routes', () => {
       });
 
       expect(response.statusCode).toBe(200);
+      const body = JSON.parse(response.payload);
+      expect(body.handled).toBe(false);
+
+      // No task should be created for deleted comments
+      expect(tasks.size).toBe(taskCountBefore);
     });
   });
 
