@@ -11,7 +11,7 @@
 - **Argentina:** 5 services (Peanut, Lemon Cash, Belo, Ripio, Buenbit)
 - **Global:** 1 service (Valora)
 
-**Key Finding:** This category is most developed in Latin America, especially Argentina, where economic conditions drive demand for stablecoin-based payment networks.
+**Key Finding:** This category is most developed in Latin America, especially Argentina, where economic conditions drive demand for stablecoin-based payment networks. Other regions (India, Southeast Asia, Africa, Europe) primarily have either exchange/wallet models or fiat-only QR payment systems, not integrated stablecoin QR payment networks.
 
 ---
 
@@ -64,11 +64,11 @@
 - Bank withdrawal via third-party (not direct integration)
 - Mobile Money available in Africa
 
-### Other Regions ❓ **NEED RESEARCH**
-- **India:** Need to research crypto payment apps
-- **Southeast Asia:** Need to research Philippines, Indonesia, Thailand, Vietnam
-- **Africa:** Need to research beyond Mobile Money (Valora)
-- **Europe:** Need deeper research (Revolut has crypto but likely missing QR payments)
+### Other Regions ✅ **RESEARCHED**
+- **India:** ❌ No matches found (CoinDCX, WazirX are exchanges, not P2P payment networks)
+- **Southeast Asia:** ❌ No matches found (GCash, PayMaya have fiat QR + crypto separately, not integrated; OVO, GoPay are fiat-only)
+- **Africa:** ❓ Yellow Card needs deeper research (B2B focus, unclear if consumer QR payments); Luno, Valr are exchanges
+- **Europe:** ❌ No matches found (Revolut, N26 are neobanks, not crypto payment networks)
 
 ---
 
@@ -103,10 +103,9 @@
 ## Next Steps
 
 1. ✅ **Completed:** Argentina services, Valora, Daimo, Bitso verification
-2. ⏳ **Pending:** Research India crypto payment ecosystem
-3. ⏳ **Pending:** Research Southeast Asia crypto payment apps
-4. ⏳ **Pending:** Research Africa crypto payment services (beyond Mobile Money)
-5. ⏳ **Pending:** Research Europe crypto payment services
+2. ✅ **Completed:** India, Southeast Asia, Africa, Europe initial research
+3. ⏳ **Pending:** Deeper research on Yellow Card (check app store, user docs for QR payments)
+4. ⏳ **Pending:** Search for other potential services (Strike, Cash App, etc.)
 
 ---
 
@@ -114,7 +113,8 @@
 
 1. **STABLECOIN_PAYMENT_NETWORKS_GLOBAL_RESEARCH.md** - Full research document
 2. **SERVICE_VERIFICATION_RESULTS.md** - Detailed verification results for Valora, Daimo, Bitso
-3. **GLOBAL_RESEARCH_SUMMARY.md** - This summary
+3. **REGIONAL_RESEARCH_FINDINGS.md** - Detailed findings for India, Southeast Asia, Africa, Europe
+4. **GLOBAL_RESEARCH_SUMMARY.md** - This summary
 
 ---
 
