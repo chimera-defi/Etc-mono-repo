@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useCallback } from 'react';
-import { Shield, Cpu, CreditCard, LayoutGrid, List, GitCompare } from 'lucide-react';
+import { Shield, Cpu, CreditCard, ArrowLeftRight, LayoutGrid, List, GitCompare } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   WalletFilters,
@@ -11,7 +11,7 @@ import {
 } from '@/components/WalletFilters';
 import { WalletTable } from '@/components/WalletTable';
 import { ComparisonTool } from '@/components/ComparisonTool';
-import type { CryptoCard, HardwareWallet, SoftwareWallet, WalletData } from '@/types/wallets';
+import type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData } from '@/types/wallets';
 import {
   filterCryptoCards,
   filterHardwareWallets,
@@ -25,9 +25,10 @@ interface ExploreContentProps {
   softwareWallets: SoftwareWallet[];
   hardwareWallets: HardwareWallet[];
   cryptoCards: CryptoCard[];
+  ramps: Ramp[];
 }
 
-type TabType = 'software' | 'hardware' | 'cards';
+type TabType = 'software' | 'hardware' | 'cards' | 'ramps';
 type ViewMode = 'grid' | 'table';
 
 function toFilterOptions(filters: FilterState): FilterOptions {
@@ -86,6 +87,7 @@ export function ExploreContent({
   softwareWallets,
   hardwareWallets,
   cryptoCards,
+  ramps,
 }: ExploreContentProps) {
   const [activeTab, setActiveTab] = useState<TabType>('software');
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
@@ -101,10 +103,14 @@ export function ExploreContent({
   const [cardFilters, setCardFilters] = useState<FilterState>(initialFilterState);
   const [cardSort, setCardSort] = useState<SortState>({ field: 'score', direction: 'desc' });
 
+  const [rampFilters, setRampFilters] = useState<FilterState>(initialFilterState);
+  const [rampSort, setRampSort] = useState<SortState>({ field: 'score', direction: 'desc' });
+
   // Selected wallets for comparison (by ID)
   const [selectedSoftware, setSelectedSoftware] = useState<string[]>([]);
   const [selectedHardware, setSelectedHardware] = useState<string[]>([]);
   const [selectedCards, setSelectedCards] = useState<string[]>([]);
+  const [selectedRamps, setSelectedRamps] = useState<string[]>([]);
 
   // Filtered and sorted wallets
   const filteredSoftware = useMemo(
@@ -137,6 +143,16 @@ export function ExploreContent({
     [cryptoCards, cardFilters, cardSort]
   );
 
+  const filteredRamps = useMemo(
+    () =>
+      sortWallets(
+        ramps.filter(() => true), // Simple filter for now, can add filtering logic later
+        rampSort.field as SortField,
+        rampSort.direction
+      ),
+    [ramps, rampSort]
+  );
+
   // Get selected wallet objects
   const selectedSoftwareWallets = useMemo(
     () => softwareWallets.filter(w => selectedSoftware.includes(w.id)),
@@ -151,6 +167,11 @@ export function ExploreContent({
   const selectedCardWallets = useMemo(
     () => cryptoCards.filter(w => selectedCards.includes(w.id)),
     [cryptoCards, selectedCards]
+  );
+
+  const selectedRampWallets = useMemo(
+    () => ramps.filter(w => selectedRamps.includes(w.id)),
+    [ramps, selectedRamps]
   );
 
   // Toggle selection handlers
@@ -176,6 +197,16 @@ export function ExploreContent({
 
   const toggleCardSelect = useCallback((id: string) => {
     setSelectedCards(prev =>
+      prev.includes(id)
+        ? prev.filter(x => x !== id)
+        : prev.length < 4
+        ? [...prev, id]
+        : prev
+    );
+  }, []);
+
+  const toggleRampSelect = useCallback((id: string) => {
+    setSelectedRamps(prev =>
       prev.includes(id)
         ? prev.filter(x => x !== id)
         : prev.length < 4
@@ -228,6 +259,20 @@ export function ExploreContent({
           selectedWallets: selectedCardWallets,
           allWallets: cryptoCards,
           clearSelected: () => setSelectedCards([]),
+        };
+      case 'ramps':
+        return {
+          wallets: filteredRamps,
+          totalCount: ramps.length,
+          filters: rampFilters,
+          setFilters: setRampFilters,
+          sort: rampSort,
+          setSort: setRampSort,
+          selected: selectedRamps,
+          toggleSelect: toggleRampSelect,
+          selectedWallets: selectedRampWallets,
+          allWallets: ramps,
+          clearSelected: () => setSelectedRamps([]),
         };
     }
   };
@@ -288,6 +333,23 @@ export function ExploreContent({
             {selectedCards.length > 0 && (
               <span className="bg-primary-foreground/20 text-xs px-1.5 py-0.5 rounded">
                 {selectedCards.length}
+              </span>
+            )}
+          </button>
+          <button
+            onClick={() => setActiveTab('ramps')}
+            className={cn(
+              'inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors',
+              activeTab === 'ramps'
+                ? 'bg-primary text-primary-foreground'
+                : 'bg-muted hover:bg-muted/80'
+            )}
+          >
+            <ArrowLeftRight className="h-4 w-4" />
+            Ramps ({ramps.length})
+            {selectedRamps.length > 0 && (
+              <span className="bg-primary-foreground/20 text-xs px-1.5 py-0.5 rounded">
+                {selectedRamps.length}
               </span>
             )}
           </button>
@@ -368,7 +430,7 @@ export function ExploreContent({
         selectedIds={tabData.selected}
         onToggleSelect={tabData.toggleSelect}
         viewMode={viewMode}
-        type={activeTab}
+        type={activeTab as 'software' | 'hardware' | 'cards' | 'ramps'}
       />
     </div>
   );

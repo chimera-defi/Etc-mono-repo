@@ -15,9 +15,9 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type { CryptoCard, HardwareWallet, SoftwareWallet, SupportedChains, WalletData } from '@/types/wallets';
+import type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, SupportedChains, WalletData } from '@/types/wallets';
 
-export type { CryptoCard, HardwareWallet, SoftwareWallet, WalletData };
+export type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData };
 
 // Helper function to generate tooltip text for chain support
 function getChainTooltip(chains: SupportedChains): string {
@@ -615,13 +615,122 @@ function CryptoCardItem({
   );
 }
 
+// Ramp row/card
+function RampItem({
+  ramp,
+  isSelected,
+  onToggleSelect,
+  viewMode,
+}: {
+  ramp: Ramp;
+  isSelected: boolean;
+  onToggleSelect: () => void;
+  viewMode: 'grid' | 'table';
+}) {
+  if (viewMode === 'table') {
+    return (
+      <tr className="border-b border-border hover:bg-muted/50 transition-colors">
+        <td className="py-3 px-4">
+          <button
+            onClick={onToggleSelect}
+            className={cn(
+              'p-1 rounded border transition-colors',
+              isSelected
+                ? 'bg-primary text-primary-foreground border-primary'
+                : 'border-border hover:border-primary'
+            )}
+          >
+            {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+          </button>
+        </td>
+        <td className="py-3 px-4">
+          <div className="flex items-center gap-3">
+            <ScoreBadge score={ramp.score} />
+            <div>
+              <div className="font-semibold">{ramp.name}</div>
+              <div className="text-sm text-muted-foreground">{ramp.bestFor}</div>
+            </div>
+          </div>
+        </td>
+        <td className="py-3 px-4">
+          <RecommendationBadge recommendation={ramp.recommendation} />
+        </td>
+        <td className="py-3 px-4">
+          <div className="flex gap-2">
+            {ramp.onRamp && <Badge variant="success">On-Ramp</Badge>}
+            {ramp.offRamp && <Badge variant="info">Off-Ramp</Badge>}
+          </div>
+        </td>
+        <td className="py-3 px-4 text-sm">{ramp.coverage}</td>
+        <td className="py-3 px-4 text-sm">{ramp.feeModel}</td>
+        <td className="py-3 px-4 text-sm">{ramp.minFee}</td>
+        <td className="py-3 px-4 text-sm">{ramp.devUx}</td>
+      </tr>
+    );
+  }
+
+  // Grid/card view
+  return (
+    <div
+      className={cn(
+        'p-4 border rounded-lg transition-all',
+        isSelected ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'
+      )}
+    >
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex items-center gap-3">
+          <ScoreBadge score={ramp.score} />
+          <div>
+            <h3 className="font-semibold">{ramp.name}</h3>
+            <RecommendationBadge recommendation={ramp.recommendation} />
+          </div>
+        </div>
+        <button
+          onClick={onToggleSelect}
+          className={cn(
+            'p-2 rounded-lg border transition-colors',
+            isSelected
+              ? 'bg-primary text-primary-foreground border-primary'
+              : 'border-border hover:border-primary hover:bg-muted'
+          )}
+        >
+          {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+        </button>
+      </div>
+
+      <p className="text-sm text-muted-foreground mb-3">{ramp.bestFor}</p>
+
+      <div className="flex flex-wrap gap-2 mb-3">
+        {ramp.onRamp && <Badge variant="success">On-Ramp</Badge>}
+        {ramp.offRamp && <Badge variant="info">Off-Ramp</Badge>}
+        <Badge variant="default">{ramp.coverage}</Badge>
+      </div>
+
+      <div className="space-y-1 text-sm mb-3">
+        <div className="flex justify-between">
+          <span className="text-muted-foreground">Fee Model:</span>
+          <span className="font-medium">{ramp.feeModel}</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-muted-foreground">Min Fee:</span>
+          <span className="font-medium">{ramp.minFee}</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-muted-foreground">Dev UX:</span>
+          <span className="font-medium">{ramp.devUx}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // Main table/grid component
 interface WalletTableProps<T extends WalletData> {
   wallets: T[];
   selectedIds: string[];
   onToggleSelect: (id: string) => void;
   viewMode?: 'grid' | 'table';
-  type: 'software' | 'hardware' | 'cards';
+  type: 'software' | 'hardware' | 'cards' | 'ramps';
 }
 
 export function WalletTable<T extends WalletData>({
@@ -673,7 +782,16 @@ export function WalletTable<T extends WalletData>({
                   <th className="py-3 px-4 text-left text-sm font-medium">Annual Fee</th>
                 </>
               )}
-              <th className="py-3 px-4 text-left text-sm font-medium">Links</th>
+              {type === 'ramps' && (
+                <>
+                  <th className="py-3 px-4 text-left text-sm font-medium">Type</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">Coverage</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">Fee Model</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">Min Fee</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">Dev UX</th>
+                </>
+              )}
+              {type !== 'ramps' && <th className="py-3 px-4 text-left text-sm font-medium">Links</th>}
             </tr>
           </thead>
           <tbody>
@@ -701,10 +819,21 @@ export function WalletTable<T extends WalletData>({
                   />
                 );
               }
+              if (type === 'cards') {
+                return (
+                  <CryptoCardItem
+                    key={wallet.id}
+                    card={wallet as CryptoCard}
+                    isSelected={isSelected}
+                    onToggleSelect={() => onToggleSelect(wallet.id)}
+                    viewMode="table"
+                  />
+                );
+              }
               return (
-                <CryptoCardItem
+                <RampItem
                   key={wallet.id}
-                  card={wallet as CryptoCard}
+                  ramp={wallet as Ramp}
                   isSelected={isSelected}
                   onToggleSelect={() => onToggleSelect(wallet.id)}
                   viewMode="table"
@@ -744,10 +873,21 @@ export function WalletTable<T extends WalletData>({
             />
           );
         }
+        if (type === 'cards') {
+          return (
+            <CryptoCardItem
+              key={wallet.id}
+              card={wallet as CryptoCard}
+              isSelected={isSelected}
+              onToggleSelect={() => onToggleSelect(wallet.id)}
+              viewMode="grid"
+            />
+          );
+        }
         return (
-          <CryptoCardItem
+          <RampItem
             key={wallet.id}
-            card={wallet as CryptoCard}
+            ramp={wallet as Ramp}
             isSelected={isSelected}
             onToggleSelect={() => onToggleSelect(wallet.id)}
             viewMode="grid"
