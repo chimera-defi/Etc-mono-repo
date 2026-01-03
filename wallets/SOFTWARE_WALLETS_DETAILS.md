@@ -1,18 +1,18 @@
 # Crypto Wallet Comparison for Developers - Full Documentation
 
-> 📊 **View the comparison table:** [See all wallets at a glance →](./WALLET_COMPARISON_UNIFIED_TABLE.md)
+> 📊 **View the comparison table:** [See all wallets at a glance →](./SOFTWARE_WALLETS.md)
 
 > **TL;DR:** Use **Rabby** (92) for development (tx simulation + stability), **Trust** (85) or **Rainbow** (82) for production. Use **MetaMask** (68) last for compatibility only — it has ~8 releases/month which is too much churn. Only wallets with ✅ in the "Core" column have both mobile + browser extension.
 
 **Data Sources:** GitHub REST API (Nov 2024, activity Nov 2025), [WalletBeat](https://walletbeat.fyi) (Dec 2025)
 
-**Related:** See [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON_TABLE.md) for cold storage recommendations.
+**Related:** See [Hardware Wallet Comparison](./HARDWARE_WALLETS.md) for cold storage recommendations.
 
 ---
 
 ## Table of Contents
 
-- [Complete Wallet Comparison](./WALLET_COMPARISON_UNIFIED_TABLE.md#complete-wallet-comparison-all-24-evm-wallets) (Table View)
+- [Complete Wallet Comparison](./SOFTWARE_WALLETS.md#complete-wallet-comparison-all-24-evm-wallets) (Table View)
 - [Quick Recommendations](#-quick-recommendations)
 - [GitHub Metrics](#github-metrics-stars-issues-code-quality)
 - [Scoring Methodology](#-wallet-scores-developer-focused-methodology)
@@ -462,7 +462,7 @@ Comprehensive feature comparison across account types, hardware wallet support, 
 
 #### Hardware Wallet Support
 
-See [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON_TABLE.md) for detailed hardware wallet analysis and recommendations.
+See [Hardware Wallet Comparison](./HARDWARE_WALLETS.md) for detailed hardware wallet analysis and recommendations.
 
 | Wallet | Ledger | Trezor | Keystone | GridPlus | Other | Notes |
 |--------|--------|--------|----------|----------|-------|-------|
@@ -491,7 +491,7 @@ See [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON_TABLE.md) for deta
 | **imToken** | ❌ | ❌ | ✅ QR | ❌ | imKey (BT) | Mobile-only, limited HW support |
 | **Block** | ✅ WebUSB | ✅ WebUSB | ✅ QR | ✅ WebUSB | ✅ Others | Good HW wallet support |
 
-**Connection Types:** WebUSB, Bluetooth (BT), QR code, WalletConnect (WC). See [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON_TABLE.md) for hardware wallet recommendations.
+**Connection Types:** WebUSB, Bluetooth (BT), QR code, WalletConnect (WC). See [Hardware Wallet Comparison](./HARDWARE_WALLETS.md) for hardware wallet recommendations.
 
 ### ENS & Address Resolution
 

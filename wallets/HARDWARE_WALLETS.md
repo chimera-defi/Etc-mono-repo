@@ -85,7 +85,7 @@
 
 **Last Updated:** December 2025 | [Scoring Methodology](./HARDWARE_WALLET_COMPARISON_DETAILS.md#-scoring-methodology) | [GitHub Activity Data](./HARDWARE_WALLET_COMPARISON_DETAILS.md#github-metrics-firmware-repositories) | [View Company Aggregates](./HARDWARE_WALLET_COMPANIES.md)
 
-**Related:** See [Software Wallet Comparison](./WALLET_COMPARISON_UNIFIED_TABLE.md) for EVM wallet recommendations and integration details.
+**Related:** See [Software Wallet Comparison](./SOFTWARE_WALLETS.md) for EVM wallet recommendations and integration details.
 **Companies:** See [Hardware Wallet Companies](./HARDWARE_WALLET_COMPANIES.md) for aggregated scores and wallet counts by manufacturer.
 
 > 📖 **Want more details?** See the [full documentation with recommendations, methodology, security deep dive, and more](./HARDWARE_WALLET_COMPARISON_DETAILS.md).
