@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import type { ApiOpenness, CryptoCard, HardwareWallet, SoftwareWallet, WalletData } from '@/types/wallets';
+import type { ApiOpenness, CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData } from '@/types/wallets';
 
-export type { ApiOpenness, CryptoCard, HardwareWallet, SoftwareWallet, WalletData };
+export type { ApiOpenness, CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData };
 
 // Path to markdown files (one level up from frontend)
 const CONTENT_DIR = path.join(process.cwd(), '..');
@@ -443,6 +443,57 @@ export function parseCryptoCards(): CryptoCard[] {
   }).filter(card => card.name !== 'Unknown' && card.score > 0 && card.id !== '');
 }
 
+// Parse ramp type
+function parseRampType(cell: string): 'both' | 'on-ramp' | 'off-ramp' {
+  const lower = cell.toLowerCase();
+  if (lower.includes('both')) return 'both';
+  if (lower.includes('off')) return 'off-ramp';
+  return 'on-ramp';
+}
+
+// Parse ramps from markdown
+export function parseRamps(): Ramp[] {
+  const filePath = path.join(CONTENT_DIR, 'RAMP_COMPARISON_TABLE.md');
+
+  if (!fs.existsSync(filePath)) {
+    console.error('Ramp file not found:', filePath);
+    return [];
+  }
+
+  const content = fs.readFileSync(filePath, 'utf-8');
+  const rows = parseMarkdownTable(content);
+
+  // Skip header row
+  const dataRows = rows.slice(1);
+
+  return dataRows.map(cells => {
+    // Extract provider name from bold text
+    const nameMatch = cells[0]?.match(/\*\*([^*]+)\*\*/);
+    const name = nameMatch ? nameMatch[1] : cells[0] || 'Unknown';
+
+    // Parse score (may have emoji)
+    const scoreMatch = cells[1]?.match(/(\d+)/);
+    const score = scoreMatch ? parseInt(scoreMatch[1], 10) : 0;
+
+    return {
+      id: generateSlug(name),
+      name,
+      score,
+      rampType: parseRampType(cells[2] || ''),
+      onRamp: parseBoolean(cells[3] || ''),
+      offRamp: parseBoolean(cells[4] || ''),
+      coverage: cells[5]?.trim() || 'Unknown',
+      feeModel: cells[6]?.trim() || 'Unknown',
+      minFee: cells[7]?.trim() || 'Custom',
+      devUx: cells[8]?.trim() || 'Good',
+      status: parseCardStatus(cells[9] || ''),
+      bestFor: cells[10]?.trim() || '',
+      recommendation: parseHardwareRecommendation(cells[1] || ''), // Uses score emoji
+      type: 'ramp' as const,
+    };
+  }).filter(ramp => ramp.name !== 'Unknown' && ramp.score > 0 && ramp.id !== '');
+}
+
 /**
  * Get all wallet data in a single call
  * @future Available for API endpoint implementation
@@ -451,11 +502,13 @@ export function getAllWalletData(): {
   software: SoftwareWallet[];
   hardware: HardwareWallet[];
   cards: CryptoCard[];
+  ramps: Ramp[];
 } {
   return {
     software: parseSoftwareWallets(),
     hardware: parseHardwareWallets(),
     cards: parseCryptoCards(),
+    ramps: parseRamps(),
   };
 }
 
