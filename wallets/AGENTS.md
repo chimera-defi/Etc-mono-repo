@@ -21,9 +21,12 @@ This document provides guidance for AI coding assistants working on the wallet c
 ## 📊 Document Structure
 
 ### Single Source of Truth
-- **WALLET_COMPARISON_UNIFIED.md** is the single unified table with ALL wallets and ALL data
-- Do NOT create separate tables for different wallet categories
-- Keep all data in one comprehensive table, use filtering/sorting in the HTML version
+- **SOFTWARE_WALLETS.md** is the main software wallet comparison table
+- **HARDWARE_WALLETS.md** is the main hardware wallet comparison table
+- **CRYPTO_CARDS.md** is the main crypto card comparison table
+- Each category has both a table view (main file) and details view (`*_DETAILS.md`)
+- Do NOT create separate tables for different wallet categories within the same type
+- Keep all data in one comprehensive table per category, use filtering/sorting in the HTML version
 
 ### Supporting Documents
 - `README.md` — Quick reference and links
@@ -322,6 +325,45 @@ cd scripts
 12. **Marketing claims ≠ facts:** Manufacturers inflate numbers. Be skeptical and conservative
 13. **Add disclaimers:** Every data table should note that users must verify on official sites
 
+### URL/File Rename Meta-Learnings (Jan 2025)
+
+**When renaming files or changing URL patterns, comprehensive updates are required:**
+
+1. **URL changes cascade everywhere:** File names → slugs → frontend references → SEO mappings → scripts → documentation. One rename requires 10+ file updates.
+
+2. **Slug generation must be consistent:** The formula `filename.replace('.md', '').toLowerCase().replace(/_/g, '-')` must match expected URLs everywhere. Test with verification scripts.
+
+3. **Table/Details detection pattern:** Comparison pages use a pattern:
+   - Base slug = table view (e.g., `software-wallets`)
+   - Base slug + `-details` = details view (e.g., `software-wallets-details`)
+   - Detection logic must be consistent across: page component, sitemap, related document mapping
+
+4. **Related document mapping is bidirectional:** When updating `relatedMap`, verify both directions:
+   - Table → Details: `software-wallets` → `software-wallets-details`
+   - Details → Table: `software-wallets-details` → `software-wallets`
+
+5. **SEO mappings need updates:** OG image paths, sitemap priorities, structured data URLs all reference slugs. Update all simultaneously.
+
+6. **Verification checklist prevents errors:** Before completing a rename:
+   - ✓ File existence check
+   - ✓ Slug generation verification
+   - ✓ Related document mapping test
+   - ✓ Grep for old references
+   - ✓ Build/type check (if available)
+
+7. **Old URLs break external links:** When changing public URLs, consider:
+   - Adding Next.js redirects for old → new URLs
+   - Updating social media posts
+   - Noting breaking changes in changelog
+
+8. **Sitemap logic needs pattern updates:** If detection logic changes (e.g., removing `-table` suffix), update sitemap priority logic to match new pattern.
+
+9. **Scripts reference file paths:** `wallet-data.ts`, `generate-og-images.js`, `smoke-test-wallet-data.js` all have hardcoded file paths. Update all simultaneously.
+
+10. **Internal markdown links break:** Cross-references in markdown files use relative paths. Update all internal links when renaming.
+
+**Key insight:** URL/file renames are not simple operations. They require systematic updates across frontend code, configuration, scripts, and documentation. Always use a checklist and verify with grep/search.
+
 ---
 
-*Last updated: December 5, 2025*
+*Last updated: January 3, 2025*

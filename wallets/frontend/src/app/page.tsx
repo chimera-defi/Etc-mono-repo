@@ -175,7 +175,7 @@ export default function HomePage() {
           name: 'Rabby Wallet',
           applicationCategory: 'FinanceApplication',
           operatingSystem: 'Web, Desktop, Mobile',
-          url: `${baseUrl}/docs/wallet-comparison-unified-table/`,
+          url: `${baseUrl}/docs/software-wallets/`,
           description:
             'Score: 92 — Transaction simulation, both platforms, active development. Best for Development with approximately 6 releases per month.',
         },
@@ -191,7 +191,7 @@ export default function HomePage() {
             '@type': 'Brand',
             name: 'Trezor',
           },
-          url: `${baseUrl}/docs/hardware-wallet-comparison-table/`,
+          url: `${baseUrl}/docs/hardware-wallets/`,
           description:
             'Score: 94 — Fully open source, Secure Element, active development. Best Hardware Wallet at approximately $169.',
         },
@@ -207,7 +207,7 @@ export default function HomePage() {
             '@type': 'Brand',
             name: 'Trezor',
           },
-          url: `${baseUrl}/docs/hardware-wallet-comparison-table/`,
+          url: `${baseUrl}/docs/hardware-wallets/`,
           description:
             'Score: 91 — $79, Secure Element, fully open source firmware. Best Value hardware wallet with active development.',
         },
@@ -223,7 +223,7 @@ export default function HomePage() {
             '@type': 'Brand',
             name: 'Bybit',
           },
-          url: `${baseUrl}/docs/crypto-credit-card-comparison-table/`,
+          url: `${baseUrl}/docs/crypto-cards/`,
           description:
             'Score: 88 — Up to 10% cashback, multi-crypto rewards, no annual fee. Best Personal crypto card for EEA/CH users.',
         },
@@ -239,7 +239,7 @@ export default function HomePage() {
             '@type': 'Brand',
             name: 'Reap',
           },
-          url: `${baseUrl}/docs/crypto-credit-card-comparison-table/`,
+          url: `${baseUrl}/docs/crypto-cards/`,
           description:
             'Score: 55 — Corporate Visa cards with stablecoin repayment, available in 200+ countries. Best Business crypto card for corporate use.',
         },
@@ -275,21 +275,21 @@ export default function HomePage() {
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
-                href="/docs/wallet-comparison-unified-table"
+                href="/docs/software-wallets"
                 className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors"
               >
                 Software Wallets
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                href="/docs/hardware-wallet-comparison-table"
+                href="/docs/hardware-wallets"
                 className="inline-flex items-center gap-2 border border-border px-6 py-3 rounded-lg font-medium hover:bg-muted transition-colors"
               >
                 Hardware Wallets
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                href="/docs/crypto-credit-card-comparison-table"
+                href="/docs/crypto-cards"
                 className="inline-flex items-center gap-2 border border-border px-6 py-3 rounded-lg font-medium hover:bg-muted transition-colors"
               >
                 Crypto Cards

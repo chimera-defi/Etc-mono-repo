@@ -24,9 +24,12 @@ jobs:
             const warnings = [];
             
             // Check for agent attribution
-            const agentPattern = /\*\*Agent:\s*\*\*|Agent:\s*(Composer|Claude|GPT|Gemini|Cursor|Opus)/i;
-            if (!agentPattern.test(body)) {
-              errors.push('❌ PR description missing agent attribution. Add `**Agent:** [Agent Name]` at the top.');
+            // Matches: **Agent:** [name] or Agent: [name] where name is one of the known agents
+            const agentPattern = /\*\*Agent:\s*\*\*.*|Agent:\s*(Composer|Claude|GPT|Gemini|Cursor|Opus|AI Assistant)/i;
+            // Also check for the format **Agent:** [name] at the start of the body
+            const hasAgentAttribution = agentPattern.test(body) || /^\*\*Agent:\s*/.test(body.trim());
+            if (!hasAgentAttribution) {
+              errors.push('❌ PR description missing agent attribution. Add `**Agent:** [Agent Name]` at the top. Valid agents: Composer, Claude Code, GPT-4, Gemini, Claude Opus, Cursor AI');
             }
             
             // Check for original request

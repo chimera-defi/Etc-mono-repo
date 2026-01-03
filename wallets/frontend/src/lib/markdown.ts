@@ -17,37 +17,37 @@ export interface MarkdownDocument {
 
 // Define the markdown files we want to process and their metadata
 const DOCUMENT_CONFIG: Record<string, Omit<MarkdownDocument, 'slug' | 'content'>> = {
-  'WALLET_COMPARISON_UNIFIED_TABLE.md': {
+  'SOFTWARE_WALLETS.md': {
     title: 'Software Wallet Comparison',
     description: 'Developer-focused comparison of 24 EVM wallets with scoring, security audits, and recommendations',
     category: 'comparison',
     order: 1,
   },
-  'WALLET_COMPARISON_UNIFIED_DETAILS.md': {
+  'SOFTWARE_WALLETS_DETAILS.md': {
     title: 'Software Wallet Comparison - Details',
     description: 'Full documentation with recommendations, methodology, security audits, and more',
     category: 'comparison',
     order: 1,
   },
-  'HARDWARE_WALLET_COMPARISON_TABLE.md': {
+  'HARDWARE_WALLETS.md': {
     title: 'Hardware Wallet Comparison',
     description: 'Cold storage comparison of 23 hardware wallets with security features and GitHub metrics',
     category: 'comparison',
     order: 2,
   },
-  'HARDWARE_WALLET_COMPARISON_DETAILS.md': {
+  'HARDWARE_WALLETS_DETAILS.md': {
     title: 'Hardware Wallet Comparison - Details',
     description: 'Full documentation with recommendations, methodology, security deep dive, and more',
     category: 'comparison',
     order: 2,
   },
-  'CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md': {
+  'CRYPTO_CARDS.md': {
     title: 'Crypto Credit Card Comparison',
     description: 'Comparison of 27 crypto credit and debit cards with cashback rates, fees, and provider groupings',
     category: 'comparison',
     order: 3,
   },
-  'CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md': {
+  'CRYPTO_CARDS_DETAILS.md': {
     title: 'Crypto Credit Card Comparison - Details',
     description: 'Full documentation with card reviews, scoring methodology, business support, and recommendations',
     category: 'comparison',
@@ -141,12 +141,12 @@ export function getRelatedDocument(slug: string, type: 'table' | 'details'): Mar
   
   // Map slugs to their related documents
   const relatedMap: Record<string, { table: string; details: string }> = {
-    'wallet-comparison-unified-table': { table: 'wallet-comparison-unified-table', details: 'wallet-comparison-unified-details' },
-    'wallet-comparison-unified-details': { table: 'wallet-comparison-unified-table', details: 'wallet-comparison-unified-details' },
-    'hardware-wallet-comparison-table': { table: 'hardware-wallet-comparison-table', details: 'hardware-wallet-comparison-details' },
-    'hardware-wallet-comparison-details': { table: 'hardware-wallet-comparison-table', details: 'hardware-wallet-comparison-details' },
-    'crypto-credit-card-comparison-table': { table: 'crypto-credit-card-comparison-table', details: 'crypto-credit-card-comparison-details' },
-    'crypto-credit-card-comparison-details': { table: 'crypto-credit-card-comparison-table', details: 'crypto-credit-card-comparison-details' },
+    'software-wallets': { table: 'software-wallets', details: 'software-wallets-details' },
+    'software-wallets-details': { table: 'software-wallets', details: 'software-wallets-details' },
+    'hardware-wallets': { table: 'hardware-wallets', details: 'hardware-wallets-details' },
+    'hardware-wallets-details': { table: 'hardware-wallets', details: 'hardware-wallets-details' },
+    'crypto-cards': { table: 'crypto-cards', details: 'crypto-cards-details' },
+    'crypto-cards-details': { table: 'crypto-cards', details: 'crypto-cards-details' },
   };
   
   const related = relatedMap[slug];
@@ -189,9 +189,9 @@ export function getWalletStats(documents: MarkdownDocument[]): {
   cryptoCards: number;
   lastUpdated: string;
 } {
-  const softwareDoc = documents.find(d => d.slug === 'wallet-comparison-unified-table' || d.slug === 'wallet-comparison-unified-details');
-  const hardwareDoc = documents.find(d => d.slug === 'hardware-wallet-comparison-table' || d.slug === 'hardware-wallet-comparison-details');
-  const cryptoCardDoc = documents.find(d => d.slug === 'crypto-credit-card-comparison-table' || d.slug === 'crypto-credit-card-comparison-details');
+  const softwareDoc = documents.find(d => d.slug === 'software-wallets' || d.slug === 'software-wallets-details');
+  const hardwareDoc = documents.find(d => d.slug === 'hardware-wallets' || d.slug === 'hardware-wallets-details');
+  const cryptoCardDoc = documents.find(d => d.slug === 'crypto-cards' || d.slug === 'crypto-cards-details');
   
   // Count wallets from tables (rough estimate from content)
   const softwareCount = softwareDoc?.content.match(/\|\s+\*\*[^|]+\*\*\s+\|/g)?.length || 24;
