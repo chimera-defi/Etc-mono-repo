@@ -12,11 +12,24 @@
 |----------|-------|----------|-----------------|-----------|--------|
 | **Transak** | 92 | 🛠️ Developers | 160+ Countries | Medium (Spread + Fee) | Excellent (React SDK) |
 | **MoonPay** | 90 | 🌍 Coverage | 160+ Countries | High (Spread + Fee) | Great (Widget) |
+| **Coinbase Pay** | 89 | 🪙 Coinbase | 100+ Countries | Medium | Excellent (SDK) |
 | **Ramp** | 88 | 🇪🇺 EU / Speed | 150+ Countries | Low/Medium | Good (SDK) |
 | **Sardine** | 86 | 🇺🇸 US / Fraud | US + Select Global | Variable (Risk based) | Advanced (API/SDK) |
 | **Stripe** | 85 | 🤝 Trust | Global | Usage Based | Excellent (Stripe style) |
+| **Simplex** | 84 | 💳 High Limits | 150+ Countries | Medium/High | Good (Widget) |
+| **Modern Treasury** | 83 | 🏢 Enterprise | US + Select | Usage Based | Excellent (API) |
 | **Banxa** | 80 | 🏦 Local Pay | Global | Variable | Good |
 | **Mercuryo** | 78 | 💼 B2B | Global | Medium | Good |
+| **Guardarian** | 77 | 🇪🇺 EU Focus | 100+ Countries | Low/Medium | Good (Widget) |
+| **CoinSwitch** | 76 | 🇮🇳 India/APAC | 100+ Countries | Medium | Good (API) |
+| **Utorg** | 75 | 🔗 Multi-chain | 100+ Countries | Medium | Good (Widget) |
+| **CoinGate** | 74 | 💰 Low Fees | Global | Low | Good (API) |
+| **BitPay** | 73 | ₿ Bitcoin | Global | Medium | Good (API) |
+| **Changelly** | 72 | 🔄 Exchange | Global | Medium | Good (API) |
+| **Coinify** | 71 | 🇪🇺 EU | 50+ Countries | Medium | Good (API) |
+| **onesafe** | 70 | 🏢 Enterprise | Select Global | Variable | Good (API) |
+| **Reap** | 68 | 💼 Business Off-Ramp | Global | Variable | Good (API) |
+| **Coinmama** | 65 | 🚀 Simple On-Ramp | 100+ Countries | High | Basic (Widget) |
 
 ---
 
@@ -55,8 +68,12 @@ Fees are the biggest friction point for users. They typically consist of three p
 
 ### 3. Supported Chains
 *   **Transak & MoonPay:** Support the widest range of long-tail assets and chains (L1s, L2s, some L3s).
+*   **Coinbase Pay:** Strong Coinbase ecosystem integration (Base, Ethereum, Solana, Bitcoin, and Coinbase-supported chains).
 *   **Ramp:** Strong focus on Ethereum L2s (Arbitrum, Optimism, zkSync, Base).
 *   **Stripe:** More conservative asset list (mostly majors: BTC, ETH, SOL, USDC).
+*   **Modern Treasury:** Enterprise payment infrastructure with crypto capabilities, primarily US-focused.
+*   **BitPay:** Bitcoin-focused with some altcoin support (BCH, ETH, LTC, XRP, DOGE).
+*   **Guardarian, Utorg, CoinGate:** Multi-chain support with varying coverage of major chains.
 
 ---
 
@@ -139,6 +156,84 @@ The scoring system evaluates ramps across multiple dimensions:
 - **Documentation:** Excellent documentation (Stripe standard)
 - **Support:** Premium support available
 
+### Coinbase Pay Integration
+- **Widget:** React SDK available
+- **API:** Full API access
+- **Documentation:** Excellent Coinbase documentation
+- **Support:** Coinbase developer support
+
+### Simplex Integration
+- **Widget:** Simple widget integration
+- **API:** API available
+- **Documentation:** Good documentation
+- **Support:** Email support
+
+### Modern Treasury Integration
+- **Widget:** No widget (API-only)
+- **API:** Full REST API
+- **Documentation:** Excellent enterprise documentation
+- **Support:** Enterprise support available
+
+### Guardarian Integration
+- **Widget:** Widget available
+- **API:** API available
+- **Documentation:** Good documentation
+- **Support:** Email support
+
+### CoinSwitch Integration
+- **Widget:** Limited widget
+- **API:** Primary integration method
+- **Documentation:** Good API docs
+- **Support:** Developer support
+
+### Utorg Integration
+- **Widget:** Widget available
+- **API:** API available
+- **Documentation:** Good documentation
+- **Support:** Email support
+
+### CoinGate Integration
+- **Widget:** No widget (API-only)
+- **API:** Full API
+- **Documentation:** Good API documentation
+- **Support:** Email support
+
+### BitPay Integration
+- **Widget:** No widget (API-only)
+- **API:** Full API
+- **Documentation:** Good merchant API docs
+- **Support:** Merchant support
+
+### Changelly Integration
+- **Widget:** No widget (API-only)
+- **API:** Full API
+- **Documentation:** Good API documentation
+- **Support:** Email support
+
+### Coinify Integration
+- **Widget:** No widget (API-only)
+- **API:** Full API
+- **Documentation:** Good API documentation
+- **Support:** Email support
+
+### onesafe Integration
+- **Widget:** No widget (API-only)
+- **API:** Full API
+- **Documentation:** Enterprise documentation
+- **Support:** Enterprise support
+
+### Reap Integration
+- **Widget:** No widget (API-only)
+- **API:** Full API (off-ramp only)
+- **Documentation:** Business API documentation
+- **Support:** Business support
+
+### Coinmama Integration
+- **Widget:** Basic widget
+- **API:** Limited API
+- **Documentation:** Basic documentation
+- **Support:** Email support
+
 ---
 
 ## Provider-Specific Notes
@@ -184,6 +279,98 @@ The scoring system evaluates ramps across multiple dimensions:
 - Global coverage
 - Medium fees
 - Good for enterprise
+
+### Coinbase Pay
+- Seamless Coinbase ecosystem integration
+- Strong Base L2 support
+- Excellent SDK and documentation
+- Medium fees
+- Best for apps targeting Coinbase users
+
+### Simplex
+- High transaction limits
+- Strong card processing
+- Good widget integration
+- Medium to high fees
+- Widely integrated
+
+### Modern Treasury
+- Enterprise payment infrastructure
+- Strong API and developer tools
+- US-focused with select global
+- Usage-based pricing
+- Best for large-scale operations
+
+### Guardarian
+- European focus
+- Good widget integration
+- Competitive fees
+- Strong EU payment methods
+- 100+ countries
+
+### CoinSwitch
+- Strong India/APAC presence
+- Good API integration
+- Local payment methods (UPI, etc.)
+- Medium fees
+- Best for Indian market
+
+### Utorg
+- Multi-chain support
+- Good widget integration
+- Medium fees
+- 100+ countries
+- Balanced offering
+
+### CoinGate
+- Very low fees
+- Strong API
+- Global coverage
+- Bitcoin and altcoin support
+- Good for cost-sensitive applications
+
+### BitPay
+- Bitcoin-focused
+- Strong merchant tools
+- Good API
+- Medium fees
+- Best for Bitcoin-heavy applications
+
+### Changelly
+- Exchange-focused
+- Good API integration
+- Medium fees
+- Global coverage
+- Best for exchange integrations
+
+### Coinify
+- European focus
+- Good API
+- Medium fees
+- 50+ countries
+- EU payment methods
+
+### onesafe
+- Enterprise-focused
+- Variable pricing
+- Select global coverage
+- Good API
+- Best for enterprise use cases
+
+### Reap
+- **Off-ramp only** (no on-ramp)
+- Business-focused
+- Global coverage
+- Variable fees
+- Best for business off-ramp needs
+
+### Coinmama
+- **On-ramp only** (no off-ramp)
+- Simple integration
+- High fees
+- 100+ countries
+- Basic widget
+- Best for simple on-ramp needs
 
 ---
 
