@@ -88,7 +88,7 @@ Approach: **Swift iOS App + Backend API + User's VPS**
 | File | Purpose |
 |------|---------|
 | `src/index.ts` | Fastify app entry |
-| `src/types.ts` | Types + Zod schemas (StreamEvent, GitConfig, etc.) |
+| `src/types.ts` | Types + Zod schemas (StreamEvent, Task, Webhook types) |
 | `src/routes/tasks.ts` | Task CRUD |
 | `src/routes/voice.ts` | Transcription + parsing |
 | `src/routes/input.ts` | **NEW:** Text input + commands |
@@ -210,7 +210,7 @@ cd cadence-api && npm install && npm test
 
 | File | Change | Date |
 |------|--------|------|
-| `src/types.ts` | Added StreamEvent, TextInput, GitConfig, Webhook types | Dec 28, 2025 |
+| `src/types.ts` | Added StreamEvent, TextInput, Webhook types | Dec 28, 2025 |
 | `src/routes/input.ts` | **Created** - Text input + command endpoints | Dec 28, 2025 |
 | `src/routes/websocket.ts` | **Created** - WebSocket streaming | Dec 28, 2025 |
 | `src/routes/webhooks.ts` | **Created** - GitHub webhook handlers | Dec 28, 2025 |

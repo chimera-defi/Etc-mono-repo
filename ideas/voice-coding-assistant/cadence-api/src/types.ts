@@ -99,41 +99,6 @@ export const TextInputSchema = z.object({
 });
 export type TextInputRequest = z.infer<typeof TextInputSchema>;
 
-// =============================================================================
-// GIT WORKFLOW
-// =============================================================================
-
-export const GitConfigSchema = z.object({
-  repoUrl: z.string().url(),
-  branch: z.string().optional(),
-  baseBranch: z.string().default('main'),
-  autoCommit: z.boolean().default(true),
-  autoPR: z.boolean().default(true),
-  prTitle: z.string().optional(),
-  prBody: z.string().optional(),
-});
-export type GitConfig = z.infer<typeof GitConfigSchema>;
-
-export interface GitCommit {
-  sha: string;
-  message: string;
-  author: string;
-  timestamp: string;
-  filesChanged: number;
-}
-
-export interface PullRequest {
-  number: number;
-  url: string;
-  title: string;
-  state: 'open' | 'closed' | 'merged';
-  branch: string;
-  baseBranch: string;
-  commits: GitCommit[];
-  createdAt: string;
-  mergedAt?: string;
-}
-
 // GitHub Webhook Events
 export interface GitHubWebhookPayload {
   action: string;
