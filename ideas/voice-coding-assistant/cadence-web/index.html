@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadence - Voice Coding Assistant</title>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --surface-hover: #1a1a24;
+      --border: #2a2a3a;
+      --text: #e0e0e0;
+      --text-dim: #888;
+      --primary: #6366f1;
+      --primary-dim: #4f46e5;
+      --success: #10b981;
+      --error: #ef4444;
+      --warning: #f59e0b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .container { max-width: 600px; width: 100%; }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .subtitle { color: var(--text-dim); margin-bottom: 2rem; }
+
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .section h2 {
+      font-size: 0.875rem;
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .input-group { margin-bottom: 1rem; }
+    .input-group:last-child { margin-bottom: 0; }
+
+    label {
+      display: block;
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-dim);
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    input::placeholder, textarea::placeholder { color: var(--text-dim); }
+
+    .btn {
+      width: 100%;
+      padding: 1rem;
+      background: var(--primary);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn:hover { background: var(--primary-dim); }
+    .btn:disabled { background: var(--border); cursor: not-allowed; }
+    .btn.secondary { background: var(--surface); border: 1px solid var(--border); }
+    .btn.secondary:hover { background: var(--surface-hover); }
+
+    .code-block {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.875rem;
+      overflow-x: auto;
+      position: relative;
+    }
+
+    .code-block code {
+      color: var(--success);
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      padding: 0.25rem 0.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
+    .copy-btn:hover { background: var(--surface-hover); color: var(--text); }
+
+    .steps {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .step {
+      flex: 1;
+      text-align: center;
+      padding: 0.75rem;
+      background: var(--bg);
+      border-radius: 8px;
+      font-size: 0.875rem;
+      color: var(--text-dim);
+    }
+
+    .step.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .step.completed {
+      background: var(--success);
+      color: white;
+    }
+
+    .status-msg {
+      text-align: center;
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+    }
+
+    .status-msg.loading { background: rgba(99, 102, 241, 0.1); color: var(--primary); }
+    .status-msg.success { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+    .status-msg.error { background: rgba(239, 68, 68, 0.1); color: var(--error); }
+
+    .voice-section { text-align: center; padding: 2rem; }
+
+    .record-btn {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 3px solid var(--primary);
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      transition: all 0.2s;
+    }
+
+    .record-btn:hover { background: rgba(99, 102, 241, 0.1); }
+    .record-btn.recording {
+      border-color: var(--error);
+      background: rgba(239, 68, 68, 0.1);
+      animation: pulse 1.5s infinite;
+    }
+    .record-btn.processing { border-color: var(--text-dim); cursor: wait; }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .mic-icon { width: 48px; height: 48px; fill: var(--primary); }
+    .record-btn.recording .mic-icon { fill: var(--error); }
+
+    .status { color: var(--text-dim); font-size: 0.875rem; }
+    .status.error { color: var(--error); }
+
+    #transcript {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    #output {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.875rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 400px;
+      overflow-y: auto;
+      color: var(--text-dim);
+    }
+
+    #output.has-content { color: var(--text); }
+
+    .hidden { display: none !important; }
+
+    .nav-link {
+      display: inline-block;
+      color: var(--primary);
+      font-size: 0.875rem;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    .nav-link:hover { text-decoration: underline; }
+
+    .connected-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid var(--success);
+      border-radius: 20px;
+      font-size: 0.875rem;
+      color: var(--success);
+      margin-bottom: 1rem;
+    }
+
+    .connected-badge::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎙️ Cadence</h1>
+    <p class="subtitle">Voice-enabled AI coding assistant</p>
+
+    <!-- ============ SETUP VIEW ============ -->
+    <div id="setupView">
+      <div class="steps">
+        <div class="step" id="step1">1. Bootstrap</div>
+        <div class="step" id="step2">2. Connect</div>
+        <div class="step" id="step3">3. Ready</div>
+      </div>
+
+      <!-- Step 1: Bootstrap Command -->
+      <div id="bootstrapStep" class="section">
+        <h2>Step 1: Run this on your VPS</h2>
+        <p style="color: var(--text-dim); font-size: 0.875rem; margin-bottom: 1rem;">
+          SSH into your VPS and run this command. It starts a temporary setup server.
+        </p>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyBootstrap()">Copy</button>
+          <code>curl -fsSL https://raw.githubusercontent.com/chimera-defi/Etc-mono-repo/main/ideas/voice-coding-assistant/cadence-setup/bootstrap.sh | sudo bash</code>
+        </div>
+        <p style="color: var(--text-dim); font-size: 0.75rem; margin-top: 0.75rem;">
+          This installs Node.js and starts a setup listener on port 3000.
+        </p>
+      </div>
+
+      <!-- Step 2: Connect -->
+      <div id="connectStep" class="section">
+        <h2>Step 2: Enter VPS Details</h2>
+        <div id="connectStatus"></div>
+        <div class="input-group">
+          <label for="vpsIp">VPS IP Address</label>
+          <input type="text" id="vpsIp" placeholder="167.235.XX.XX" />
+        </div>
+        <div class="input-group">
+          <label for="anthropicKey">Anthropic API Key</label>
+          <input type="password" id="anthropicKey" placeholder="sk-ant-xxxxxxxx" />
+        </div>
+        <div class="input-group">
+          <label for="openaiKey">OpenAI API Key (for voice transcription)</label>
+          <input type="password" id="openaiKey" placeholder="sk-xxxxxxxx" />
+        </div>
+        <button class="btn" id="connectBtn" onclick="connectAndSetup()">Connect & Setup VPS</button>
+      </div>
+
+      <p class="nav-link" onclick="showExistingSetup()">Already set up? Enter existing credentials →</p>
+    </div>
+
+    <!-- ============ EXISTING SETUP VIEW ============ -->
+    <div id="existingView" class="hidden">
+      <div class="section">
+        <h2>Connect to Existing VPS</h2>
+        <div class="input-group">
+          <label for="existingEndpoint">Cadence Endpoint</label>
+          <input type="text" id="existingEndpoint" placeholder="http://YOUR_VPS_IP:3000" />
+        </div>
+        <div class="input-group">
+          <label for="existingApiKey">API Key</label>
+          <input type="password" id="existingApiKey" placeholder="cad_xxxxxxxx" />
+        </div>
+        <div class="input-group">
+          <label for="existingOpenaiKey">OpenAI API Key (for voice)</label>
+          <input type="password" id="existingOpenaiKey" placeholder="sk-xxxxxxxx" />
+        </div>
+        <button class="btn" onclick="connectExisting()">Connect</button>
+      </div>
+      <p class="nav-link" onclick="showSetup()">← Set up a new VPS</p>
+    </div>
+
+    <!-- ============ VOICE VIEW ============ -->
+    <div id="voiceView" class="hidden">
+      <div class="connected-badge">
+        Connected to <span id="connectedEndpoint"></span>
+      </div>
+
+      <!-- Voice Input -->
+      <div class="section voice-section">
+        <button class="record-btn" id="recordBtn">
+          <svg class="mic-icon" viewBox="0 0 24 24">
+            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+          </svg>
+        </button>
+        <p class="status" id="status">Click to record</p>
+      </div>
+
+      <!-- Task Input -->
+      <div class="section">
+        <h2>Task</h2>
+        <textarea id="transcript" placeholder="Your voice command will appear here, or type directly..."></textarea>
+        <div class="input-group" style="margin-top: 1rem;">
+          <label for="repoUrl">Repository URL (optional)</label>
+          <input type="text" id="repoUrl" placeholder="https://github.com/your/repo" />
+        </div>
+        <button class="btn" id="sendBtn" style="margin-top: 1rem;">Send to Claude</button>
+      </div>
+
+      <!-- Output -->
+      <div class="section">
+        <h2>Output</h2>
+        <div id="output">Waiting for task...</div>
+      </div>
+
+      <p class="nav-link" onclick="disconnect()">Disconnect</p>
+    </div>
+  </div>
+
+  <script>
+    // State
+    let config = {
+      endpoint: localStorage.getItem('cadence_endpoint') || '',
+      apiKey: localStorage.getItem('cadence_apiKey') || '',
+      openaiKey: localStorage.getItem('cadence_openaiKey') || '',
+    };
+
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let isRecording = false;
+
+    // Elements
+    const setupView = document.getElementById('setupView');
+    const existingView = document.getElementById('existingView');
+    const voiceView = document.getElementById('voiceView');
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check if already configured
+      if (config.endpoint && config.apiKey) {
+        checkConnection();
+      } else {
+        showSetup();
+      }
+
+      // Load saved values
+      document.getElementById('existingEndpoint').value = config.endpoint;
+      document.getElementById('existingApiKey').value = config.apiKey;
+      document.getElementById('existingOpenaiKey').value = config.openaiKey;
+
+      // Setup voice handlers
+      setupVoiceHandlers();
+    });
+
+    // View Navigation
+    function showSetup() {
+      setupView.classList.remove('hidden');
+      existingView.classList.add('hidden');
+      voiceView.classList.add('hidden');
+      updateSteps(1);
+    }
+
+    function showExistingSetup() {
+      setupView.classList.add('hidden');
+      existingView.classList.remove('hidden');
+      voiceView.classList.add('hidden');
+    }
+
+    function showVoice() {
+      setupView.classList.add('hidden');
+      existingView.classList.add('hidden');
+      voiceView.classList.remove('hidden');
+      document.getElementById('connectedEndpoint').textContent = config.endpoint;
+    }
+
+    function updateSteps(current) {
+      document.getElementById('step1').className = 'step' + (current > 1 ? ' completed' : current === 1 ? ' active' : '');
+      document.getElementById('step2').className = 'step' + (current > 2 ? ' completed' : current === 2 ? ' active' : '');
+      document.getElementById('step3').className = 'step' + (current === 3 ? ' active' : '');
+    }
+
+    // Copy bootstrap command
+    function copyBootstrap() {
+      const cmd = document.querySelector('.code-block code').textContent;
+      navigator.clipboard.writeText(cmd);
+      const btn = document.querySelector('.copy-btn');
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 2000);
+    }
+
+    // Connect and setup VPS
+    async function connectAndSetup() {
+      const vpsIp = document.getElementById('vpsIp').value.trim();
+      const anthropicKey = document.getElementById('anthropicKey').value.trim();
+      const openaiKey = document.getElementById('openaiKey').value.trim();
+      const statusEl = document.getElementById('connectStatus');
+      const btn = document.getElementById('connectBtn');
+
+      if (!vpsIp) {
+        statusEl.innerHTML = '<div class="status-msg error">Please enter VPS IP address</div>';
+        return;
+      }
+      if (!anthropicKey) {
+        statusEl.innerHTML = '<div class="status-msg error">Please enter Anthropic API key</div>';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Connecting...';
+      statusEl.innerHTML = '<div class="status-msg loading">Connecting to VPS...</div>';
+      updateSteps(2);
+
+      try {
+        // Check if bootstrap server is running
+        const healthCheck = await fetch(`http://${vpsIp}:3000/health`, {
+          method: 'GET',
+          mode: 'cors'
+        }).catch(() => null);
+
+        if (!healthCheck || !healthCheck.ok) {
+          throw new Error('Cannot connect to VPS. Make sure you ran the bootstrap command.');
+        }
+
+        statusEl.innerHTML = '<div class="status-msg loading">Setting up Claude Code and Cadence bridge...</div>';
+
+        // Send setup request
+        const response = await fetch(`http://${vpsIp}:3000/setup`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ anthropicKey, openaiKey })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          throw new Error(data.error || 'Setup failed');
+        }
+
+        // Save config
+        config.endpoint = data.endpoint;
+        config.apiKey = data.apiKey;
+        config.openaiKey = openaiKey;
+
+        localStorage.setItem('cadence_endpoint', config.endpoint);
+        localStorage.setItem('cadence_apiKey', config.apiKey);
+        localStorage.setItem('cadence_openaiKey', config.openaiKey);
+
+        statusEl.innerHTML = '<div class="status-msg success">Setup complete!</div>';
+        updateSteps(3);
+
+        // Wait a moment then switch to voice view
+        setTimeout(() => showVoice(), 1500);
+
+      } catch (err) {
+        statusEl.innerHTML = `<div class="status-msg error">${err.message}</div>`;
+        btn.disabled = false;
+        btn.textContent = 'Connect & Setup VPS';
+      }
+    }
+
+    // Connect to existing setup
+    async function connectExisting() {
+      const endpoint = document.getElementById('existingEndpoint').value.trim();
+      const apiKey = document.getElementById('existingApiKey').value.trim();
+      const openaiKey = document.getElementById('existingOpenaiKey').value.trim();
+
+      if (!endpoint || !apiKey) {
+        alert('Please enter endpoint and API key');
+        return;
+      }
+
+      config.endpoint = endpoint;
+      config.apiKey = apiKey;
+      config.openaiKey = openaiKey;
+
+      localStorage.setItem('cadence_endpoint', config.endpoint);
+      localStorage.setItem('cadence_apiKey', config.apiKey);
+      localStorage.setItem('cadence_openaiKey', config.openaiKey);
+
+      checkConnection();
+    }
+
+    // Check if connected
+    async function checkConnection() {
+      try {
+        const response = await fetch(`${config.endpoint}/health`);
+        if (response.ok) {
+          showVoice();
+        } else {
+          showSetup();
+        }
+      } catch (err) {
+        showSetup();
+      }
+    }
+
+    // Disconnect
+    function disconnect() {
+      config.endpoint = '';
+      config.apiKey = '';
+      localStorage.removeItem('cadence_endpoint');
+      localStorage.removeItem('cadence_apiKey');
+      showSetup();
+    }
+
+    // Voice Handlers
+    function setupVoiceHandlers() {
+      const recordBtn = document.getElementById('recordBtn');
+      const status = document.getElementById('status');
+      const transcript = document.getElementById('transcript');
+      const sendBtn = document.getElementById('sendBtn');
+      const output = document.getElementById('output');
+
+      recordBtn.addEventListener('click', async () => {
+        if (isRecording) {
+          stopRecording();
+        } else {
+          await startRecording();
+        }
+      });
+
+      sendBtn.addEventListener('click', sendTask);
+
+      transcript.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.key === 'Enter') sendTask();
+      });
+    }
+
+    async function startRecording() {
+      const status = document.getElementById('status');
+      const recordBtn = document.getElementById('recordBtn');
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+
+        mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
+        mediaRecorder.onstop = async () => {
+          const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+          await transcribeAudio(audioBlob);
+        };
+
+        mediaRecorder.start();
+        isRecording = true;
+        recordBtn.classList.add('recording');
+        status.textContent = 'Recording... Click to stop';
+      } catch (err) {
+        status.textContent = 'Microphone access denied';
+        status.classList.add('error');
+      }
+    }
+
+    function stopRecording() {
+      const status = document.getElementById('status');
+      const recordBtn = document.getElementById('recordBtn');
+
+      if (mediaRecorder && isRecording) {
+        mediaRecorder.stop();
+        mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        isRecording = false;
+        recordBtn.classList.remove('recording');
+        recordBtn.classList.add('processing');
+        status.textContent = 'Transcribing...';
+      }
+    }
+
+    async function transcribeAudio(audioBlob) {
+      const status = document.getElementById('status');
+      const recordBtn = document.getElementById('recordBtn');
+      const transcript = document.getElementById('transcript');
+
+      if (!config.openaiKey) {
+        status.textContent = 'OpenAI API key required for voice';
+        status.classList.add('error');
+        recordBtn.classList.remove('processing');
+        return;
+      }
+
+      try {
+        const formData = new FormData();
+        formData.append('file', audioBlob, 'recording.webm');
+        formData.append('model', 'whisper-1');
+        formData.append('language', 'en');
+
+        const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${config.openaiKey}` },
+          body: formData
+        });
+
+        if (!response.ok) throw new Error(`Whisper API error: ${response.status}`);
+
+        const data = await response.json();
+        transcript.value = data.text;
+        status.textContent = 'Transcription complete';
+        status.classList.remove('error');
+      } catch (err) {
+        status.textContent = 'Transcription failed: ' + err.message;
+        status.classList.add('error');
+      } finally {
+        recordBtn.classList.remove('processing');
+      }
+    }
+
+    async function sendTask() {
+      const transcript = document.getElementById('transcript');
+      const sendBtn = document.getElementById('sendBtn');
+      const output = document.getElementById('output');
+      const repoUrl = document.getElementById('repoUrl').value.trim();
+
+      const task = transcript.value.trim();
+
+      if (!task) {
+        output.textContent = 'Please enter a task';
+        return;
+      }
+
+      sendBtn.disabled = true;
+      sendBtn.textContent = 'Running...';
+      output.textContent = 'Sending task to Claude...';
+      output.classList.remove('has-content');
+
+      try {
+        const response = await fetch(`${config.endpoint}/task`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${config.apiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ task, repoUrl: repoUrl || undefined })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          output.textContent = data.output || 'Task completed successfully';
+          output.classList.add('has-content');
+        } else {
+          output.textContent = 'Error: ' + (data.error || 'Unknown error');
+        }
+      } catch (err) {
+        output.textContent = 'Failed to connect: ' + err.message;
+      } finally {
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'Send to Claude';
+      }
+    }
+  </script>
+</body>
+</html>
