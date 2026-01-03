@@ -45,7 +45,7 @@
 **Scoring & Recommendation:**
 | Symbol | Meaning |
 |--------|---------|
-| **Score** | 0-100 weighted score ([methodology](./WALLET_COMPARISON_UNIFIED_DETAILS.md#-wallet-scores-weighted-methodology)) |
+| **Score** | 0-100 weighted score ([methodology](./SOFTWARE_WALLETS_DETAILS.md#-wallet-scores-weighted-methodology)) |
 | **Core** | ✅ Has mobile + browser ext | ⚠️ Partial | ❌ Missing one or both |
 | **Rec** | 🟢 Recommended (75+) | 🟡 Situational (50-74) | 🔴 Avoid (<50) | ⚪ Not for dev |
 
@@ -104,7 +104,7 @@
 
 ---
 
-> 📖 **View full documentation:** [Recommendations, Methodology, Security Audits, EIP Support, and more →](./WALLET_COMPARISON_UNIFIED_DETAILS.md)
+> 📖 **View full documentation:** [Recommendations, Methodology, Security Audits, EIP Support, and more →](./SOFTWARE_WALLETS_DETAILS.md)
 
 ---
 
@@ -114,6 +114,6 @@
 
 **Data Sources:** GitHub REST API (Nov 2024, activity Nov 2025), [WalletBeat](https://walletbeat.fyi) (Dec 2025)
 
-**Related:** See [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON_TABLE.md) for cold storage recommendations.
+**Related:** See [Hardware Wallet Comparison](./HARDWARE_WALLETS.md) for cold storage recommendations.
 
-> 📖 **Want more details?** See the [full documentation with recommendations, methodology, security audits, and more](./WALLET_COMPARISON_UNIFIED_DETAILS.md).
+> 📖 **Want more details?** See the [full documentation with recommendations, methodology, security audits, and more](./SOFTWARE_WALLETS_DETAILS.md).

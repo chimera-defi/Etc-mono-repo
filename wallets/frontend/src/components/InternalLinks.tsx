@@ -18,7 +18,7 @@ export function FeaturedCategoryLinks() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Software Wallets */}
         <Link
-          href="/docs/wallet-comparison-unified-table"
+          href="/docs/software-wallets"
           className="group p-6 rounded-lg border border-border hover:border-primary/50 hover:bg-muted/50 transition-colors"
         >
           <div className="flex items-center gap-2 mb-3">
@@ -36,7 +36,7 @@ export function FeaturedCategoryLinks() {
 
         {/* Hardware Wallets */}
         <Link
-          href="/docs/hardware-wallet-comparison-table"
+          href="/docs/hardware-wallets"
           className="group p-6 rounded-lg border border-border hover:border-primary/50 hover:bg-muted/50 transition-colors"
         >
           <div className="flex items-center gap-2 mb-3">
@@ -54,7 +54,7 @@ export function FeaturedCategoryLinks() {
 
         {/* Crypto Cards */}
         <Link
-          href="/docs/crypto-credit-card-comparison-table"
+          href="/docs/crypto-cards"
           className="group p-6 rounded-lg border border-border hover:border-primary/50 hover:bg-muted/50 transition-colors"
         >
           <div className="flex items-center gap-2 mb-3">

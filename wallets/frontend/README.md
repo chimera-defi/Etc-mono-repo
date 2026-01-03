@@ -66,8 +66,9 @@ The frontend reads Markdown files from the parent `wallets/` directory:
 | File | Page URL |
 |------|----------|
 | `README.md` | `/docs/readme` |
-| `WALLET_COMPARISON_UNIFIED.md` | `/docs/wallet-comparison-unified` |
-| `HARDWARE_WALLET_COMPARISON.md` | `/docs/hardware-wallet-comparison` |
+| `SOFTWARE_WALLETS.md` | `/docs/software-wallets` |
+| `HARDWARE_WALLETS.md` | `/docs/hardware-wallets` |
+| `CRYPTO_CARDS.md` | `/docs/crypto-cards` |
 | `CONTRIBUTING.md` | `/docs/contributing` |
 
 ### Wallet data tables (used by `/explore`)
@@ -76,11 +77,11 @@ The interactive explorer reads **markdown tables** from the parent `wallets/` di
 
 If you change any of these table column orders, you must update the parser + run tests:
 
-- `WALLET_COMPARISON_UNIFIED_TABLE.md` (software wallets)
+- `SOFTWARE_WALLETS.md` (software wallets)
   - Columns: Wallet, Score, Core, Rel/Mo, RPC, GitHub, Active, Chains, Devices, Testnets, License, Audits, Funding, Tx Sim, Scam, Account, ENS/Naming, HW, Best For, Rec
-- `HARDWARE_WALLET_COMPARISON_TABLE.md` (hardware wallets)
+- `HARDWARE_WALLETS.md` (hardware wallets)
   - Columns: Wallet, Score, GitHub, Air-Gap, Open Source, Secure Elem, Display, Price, Conn, Activity, Rec
-- `CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md` (cards)
+- `CRYPTO_CARDS.md` (cards)
   - Columns: Card, Score, Type, Biz, Region, Cash Back, Annual Fee, FX Fee, Rewards, Provider, Status, Best For
 
 `npm test` runs a lightweight smoke test in `scripts/smoke-test-wallet-data.js` to catch table header/structure drift.
@@ -297,7 +298,7 @@ Then test with official validators:
 Use the `generateUtmUrl()` utility or add parameters manually:
 
 ```
-https://walletradar.org/docs/wallet-comparison-unified-table/?utm_source=twitter&utm_medium=social&utm_campaign=software_dec2025
+https://walletradar.org/docs/software-wallets/?utm_source=twitter&utm_medium=social&utm_campaign=software_dec2025
 ```
 
 ---
@@ -314,7 +315,7 @@ We've tracked GitHub activity, release frequency, and security audits for 24+ wa
 
 Rabby scored highest (92/100).
 
-Full comparison → walletradar.org/docs/wallet-comparison-unified-table/
+Full comparison → walletradar.org/docs/software-wallets/
 
 #DeFi #Web3 #crypto
 ```
@@ -331,7 +332,7 @@ We've scored 23+ hardware wallets on:
 
 Top pick: Trezor Safe 5 (94/100)
 
-walletradar.org/docs/hardware-wallet-comparison-table/
+walletradar.org/docs/hardware-wallets/
 ```
 
 ### Crypto Cards
@@ -343,7 +344,7 @@ We compared 27+ crypto debit & credit cards:
 🌍 Availability (US/EU/Global)
 💰 Fees & requirements
 
-walletradar.org/docs/crypto-credit-card-comparison-table/
+walletradar.org/docs/crypto-cards/
 ```
 
 ### General Promotion
