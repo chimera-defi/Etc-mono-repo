@@ -77,7 +77,7 @@ export default function CompaniesPage() {
       
       <div className="mt-8 text-center">
         <Link 
-          href="/docs/hardware-wallet-comparison-table"
+          href="/docs/hardware-wallets"
           className="inline-flex items-center gap-2 text-primary hover:underline"
         >
           View full hardware wallet comparison table

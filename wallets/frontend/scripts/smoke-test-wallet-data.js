@@ -88,7 +88,7 @@ function run() {
   console.log('🔎 Running wallet table smoke tests...\n');
 
   // ---- Software wallets table ----
-  const softwarePath = path.join(WALLETS_DIR, 'WALLET_COMPARISON_UNIFIED_TABLE.md');
+  const softwarePath = path.join(WALLETS_DIR, 'SOFTWARE_WALLETS.md');
   const softwareContent = readFileOrFail(softwarePath);
   const softwareRows = parseMarkdownTable(softwareContent);
   if (softwareRows.length < 5) fail('Software table has too few rows (expected header + data).');
@@ -134,7 +134,7 @@ function run() {
   }
 
   // ---- Hardware wallets table ----
-  const hardwarePath = path.join(WALLETS_DIR, 'HARDWARE_WALLET_COMPARISON_TABLE.md');
+  const hardwarePath = path.join(WALLETS_DIR, 'HARDWARE_WALLETS.md');
   const hardwareContent = readFileOrFail(hardwarePath);
   const hardwareRows = parseMarkdownTable(hardwareContent);
   if (hardwareRows.length < 5) fail('Hardware table has too few rows (expected header + data).');
@@ -179,7 +179,7 @@ function run() {
   }
 
   // ---- Crypto cards table ----
-  const cardsPath = path.join(WALLETS_DIR, 'CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md');
+  const cardsPath = path.join(WALLETS_DIR, 'CRYPTO_CARDS.md');
   const cardsContent = readFileOrFail(cardsPath);
   const cardsRows = parseMarkdownTable(cardsContent);
   if (cardsRows.length < 5) fail('Cards table has too few rows (expected header + data).');

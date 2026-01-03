@@ -1,19 +1,19 @@
 # Hardware Wallet Comparison (Cold Storage Alternatives to Ledger) - Full Documentation
 
-> 📊 **View the comparison table:** [See all wallets at a glance →](./HARDWARE_WALLET_COMPARISON_TABLE.md)
+> 📊 **View the comparison table:** [See all wallets at a glance →](./HARDWARE_WALLETS.md)
 
 > **TL;DR:** Use **Trezor Safe 5** (92) for best security + UX, **ColdCard Mk4** (91) for Bitcoin maximalists, **Keystone 3 Pro** (91) for air-gapped security, or **Trezor Safe 3** (91) for best value at $79. **Blockstream Jade** (81) is a great budget option. For DIY enthusiasts: **Specter DIY** (72) or **SeedSigner** (65). **Ledger** (55-57) is penalized for Ledger Recover. See [Why Look Beyond Ledger?](#-why-look-beyond-ledger) for details.
 
 **Last Updated:** December 2025 | [Scoring Methodology](#-scoring-methodology) | [GitHub Activity Data](#github-metrics-firmware-repositories) | [View Company Aggregates](./HARDWARE_WALLET_COMPANIES.md)
 
-**Related:** See [Software Wallet Comparison](./WALLET_COMPARISON_UNIFIED_TABLE.md) for EVM wallet recommendations and integration details.
+**Related:** See [Software Wallet Comparison](./SOFTWARE_WALLETS.md) for EVM wallet recommendations and integration details.
 **Companies:** See [Hardware Wallet Companies](./HARDWARE_WALLET_COMPANIES.md) for aggregated scores and wallet counts by manufacturer.
 
 ---
 
 ## Table of Contents
 
-- [Complete Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON_TABLE.md#complete-hardware-wallet-comparison-32-wallets) (Table View)
+- [Complete Hardware Wallet Comparison](./HARDWARE_WALLETS.md#complete-hardware-wallet-comparison-32-wallets) (Table View)
 - [Quick Recommendations](#-quick-recommendations)
 - [GitHub Metrics](#github-metrics-firmware-repositories)
 - [Security Deep Dive](#-security-deep-dive)
@@ -192,7 +192,7 @@ For technically-inclined users who want maximum transparency and control:
 
 **Quick Reference:** Score = Security (25) + Transparency (20) + Privacy (15) + Activity (15) + Company (15) + UX (10) = 100 total
 
-Hardware wallet scoring uses a comprehensive methodology consistent with our [Software Wallet Comparison](./WALLET_COMPARISON_UNIFIED_TABLE.md), adapted for cold storage priorities:
+Hardware wallet scoring uses a comprehensive methodology consistent with our [Software Wallet Comparison](./SOFTWARE_WALLETS.md), adapted for cold storage priorities:
 
 | Category | Weight | Description | Data Sources |
 |----------|--------|-------------|--------------|
