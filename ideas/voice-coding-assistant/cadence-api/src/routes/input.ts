@@ -82,14 +82,9 @@ export const inputRoutes: FastifyPluginAsync = async (app) => {
       task?: string;
       repoUrl?: string;
       repoPath?: string;
-      gitConfig?: {
-        branch?: string;
-        autoCommit?: boolean;
-        autoPR?: boolean;
-      };
     };
   }>('/input/command', async (request, reply) => {
-    const { action, taskId, task: taskDescription, repoUrl, repoPath, gitConfig } = request.body;
+    const { action, taskId, task: taskDescription, repoUrl, repoPath } = request.body;
 
     switch (action) {
       case 'create_task': {
@@ -109,7 +104,7 @@ export const inputRoutes: FastifyPluginAsync = async (app) => {
         tasks.set(task.id, task);
 
         // Start execution with streaming
-        executeWithStreaming(task, vpsBridge, gitConfig);
+        executeWithStreaming(task, vpsBridge);
 
         task.status = 'running';
         tasks.set(task.id, task);
@@ -160,8 +155,7 @@ export const inputRoutes: FastifyPluginAsync = async (app) => {
  */
 async function executeWithStreaming(
   task: Task,
-  vpsBridge: VPSBridge,
-  gitConfig?: { branch?: string; autoCommit?: boolean; autoPR?: boolean }
+  vpsBridge: VPSBridge
 ): Promise<void> {
   const taskId = task.id;
 
