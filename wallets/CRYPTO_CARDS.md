@@ -82,6 +82,6 @@
 
 **Last Updated:** December 2025 | [Scoring Methodology](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#scoring-methodology) | [Provider Groupings](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#provider-groupings)
 
-**Related:** See [Software Wallet Comparison](./WALLET_COMPARISON_UNIFIED_TABLE.md) and [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON_TABLE.md) for wallet recommendations.
+**Related:** See [Software Wallet Comparison](./SOFTWARE_WALLETS.md) and [Hardware Wallet Comparison](./HARDWARE_WALLETS.md) for wallet recommendations.
 
 > 📖 **Want more details?** See the [full documentation with detailed card reviews, scoring breakdowns, and business support info](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md).

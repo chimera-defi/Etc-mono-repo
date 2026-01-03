@@ -22,12 +22,12 @@ export function Footer() {
             <h3 className="font-semibold mb-3">Comparisons</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/docs/wallet-comparison-unified-table" className="text-muted-foreground hover:text-foreground">
+                <Link href="/docs/software-wallets" className="text-muted-foreground hover:text-foreground">
                   Software Wallets
                 </Link>
               </li>
               <li>
-                <Link href="/docs/hardware-wallet-comparison-table" className="text-muted-foreground hover:text-foreground">
+                <Link href="/docs/hardware-wallets" className="text-muted-foreground hover:text-foreground">
                   Hardware Wallets
                 </Link>
               </li>

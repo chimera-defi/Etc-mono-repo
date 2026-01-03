@@ -5,12 +5,15 @@ Thank you for helping keep this wallet comparison accurate and up-to-date!
 ## Quick Links
 
 ### Software Wallets (EVM)
-- **Main comparison:** [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)
+- **Main comparison:** [SOFTWARE_WALLETS.md](./SOFTWARE_WALLETS.md) | [Details](./SOFTWARE_WALLETS_DETAILS.md)
 - **Refresh script:** [scripts/refresh-github-data.sh](./scripts/refresh-github-data.sh)
 
 ### Hardware Wallets (Cold Storage)
-- **Hardware comparison:** [HARDWARE_WALLET_COMPARISON.md](./HARDWARE_WALLET_COMPARISON.md)
+- **Hardware comparison:** [HARDWARE_WALLETS.md](./HARDWARE_WALLETS.md) | [Details](./HARDWARE_WALLETS_DETAILS.md)
 - **Refresh script:** [scripts/refresh-hardware-wallet-data.sh](./scripts/refresh-hardware-wallet-data.sh)
+
+### Crypto Cards
+- **Card comparison:** [CRYPTO_CARDS.md](./CRYPTO_CARDS.md) | [Details](./CRYPTO_CARDS_DETAILS.md)
 
 ---
 
@@ -89,7 +92,7 @@ SECURITY (5 pts)
 
 ### Step 3: Add to Main Table
 
-Add your row to `WALLET_COMPARISON_UNIFIED.md` in score order (highest first):
+Add your row to `SOFTWARE_WALLETS.md` in score order (highest first):
 
 ```markdown
 | **WalletName** | XX | [repo](https://github.com/org/repo) | ✅ | 50+ | 📱🌐 | ✅ | ✅ MIT | ✅ 2024 | 🟢 Company | ✅ | ✅ | EOA | ✅ Multiple | ❌ | Use Case | 🟢 |
@@ -203,7 +206,7 @@ UX & ECOSYSTEM (10 pts)
 
 ### Step 2: Add to Main Table
 
-Add your row to `HARDWARE_WALLET_COMPARISON.md` in score order:
+Add your row to `HARDWARE_WALLETS.md` in score order:
 
 ```markdown
 | **WalletName** | XX | ✅/❌ | ✅/⚠️/❌ | ✅/❌ SE Type | Display | Chains | $XXX | Conn | ❌ | ✅/⚠️/❌ | 🟢/🟡/🔴 |
@@ -320,11 +323,140 @@ Use this template for your PR:
 
 ---
 
+---
+
+## Renaming Files or Changing URLs
+
+**⚠️ IMPORTANT:** Changing file names or URL slugs requires comprehensive updates across the entire codebase. Follow this checklist to avoid breaking links and SEO.
+
+### When to Rename
+
+Only rename files/URLs if:
+- URLs are too long or unclear (e.g., `wallet-comparison-unified-table` → `software-wallets`)
+- File names don't match the URL pattern
+- You're consolidating multiple files into a clearer structure
+
+### File Naming Convention
+
+**Comparison pages follow this pattern:**
+- **Table view:** `CATEGORY.md` → `/docs/category` (e.g., `SOFTWARE_WALLETS.md` → `/docs/software-wallets`)
+- **Details view:** `CATEGORY_DETAILS.md` → `/docs/category-details` (e.g., `SOFTWARE_WALLETS_DETAILS.md` → `/docs/software-wallets-details`)
+
+**Slug generation formula:** `filename.replace('.md', '').toLowerCase().replace(/_/g, '-')`
+
+### Rename Checklist
+
+When renaming files or changing URL patterns, you MUST update:
+
+#### 1. File System
+- [ ] Rename markdown files
+- [ ] Verify files exist in correct location
+
+#### 2. Frontend Configuration (`frontend/src/lib/markdown.ts`)
+- [ ] Update `DOCUMENT_CONFIG` with new file names
+- [ ] Verify slug generation matches expected URLs
+- [ ] Update `relatedMap` in `getRelatedDocument()` function
+- [ ] Update `getWalletStats()` function if it references specific slugs
+
+#### 3. SEO & Metadata (`frontend/src/lib/seo.ts`)
+- [ ] Update `getOgImagePath()` mapping for new slugs
+- [ ] Verify OG image paths are correct
+- [ ] Check that image files exist in `public/` directory
+
+#### 4. Frontend Components
+- [ ] Update `Navigation.tsx` nav items
+- [ ] Update `Footer.tsx` links
+- [ ] Update `InternalLinks.tsx` (FeaturedCategoryLinks)
+- [ ] Update `page.tsx` (homepage links and structured data)
+- [ ] Update any page-specific links (e.g., `companies/page.tsx`)
+
+#### 5. Page Logic (`frontend/src/app/docs/[slug]/page.tsx`)
+- [ ] Update table/details detection logic
+- [ ] Verify `isTablePage` and `isDetailsPage` detection
+- [ ] Update `RelatedDocuments` component logic if needed
+
+#### 6. Sitemap (`frontend/src/app/sitemap.ts`)
+- [ ] Update `isComparisonTable` detection logic
+- [ ] Verify priority logic still works correctly
+
+#### 7. Data Parsers (`frontend/src/lib/wallet-data.ts`)
+- [ ] Update file paths in `parseSoftwareWallets()`
+- [ ] Update file paths in `parseHardwareWallets()`
+- [ ] Update file paths in `parseCryptoCards()`
+- [ ] Update any comments referencing old file names
+
+#### 8. Scripts
+- [ ] Update `scripts/generate-og-images.js` file references and comments
+- [ ] Update `scripts/smoke-test-wallet-data.js` file paths
+- [ ] Verify any other scripts that reference file names
+
+#### 9. Documentation
+- [ ] Update `frontend/README.md` file mapping table
+- [ ] Update `README.md` (root) file references
+- [ ] Update internal markdown links in comparison files
+- [ ] Update `CONTRIBUTING.md` if it references specific files
+
+#### 10. Verification
+- [ ] Run verification script to check file existence
+- [ ] Verify slug generation produces expected URLs
+- [ ] Test related document mapping (table ↔ details)
+- [ ] Check for any remaining old references: `grep -r "old-name" frontend/`
+- [ ] Verify no broken internal links in markdown files
+
+### SEO Considerations
+
+**When changing URLs, be aware:**
+
+1. **Broken External Links:** Old URLs will 404 unless you add redirects
+   - Consider adding Next.js redirects in `next.config.js` if URLs are public-facing
+   - Update any social media posts or external documentation
+
+2. **OG Images:** Social media caches OG images
+   - Increment `ogImageVersion` in `layout.tsx` when regenerating images
+   - Verify OG image paths match new slugs
+
+3. **Sitemap:** Search engines need updated sitemap
+   - Sitemap auto-generates from `getAllDocuments()`, so it updates automatically
+   - Verify sitemap priorities are correct for new naming pattern
+
+4. **Structured Data:** Schema.org markup includes URLs
+   - Verify structured data URLs in `page.tsx` match new slugs
+   - Check breadcrumb and article schema URLs
+
+### Example: Complete Rename Workflow
+
+```bash
+# 1. Rename files
+mv WALLET_COMPARISON_UNIFIED_TABLE.md SOFTWARE_WALLETS.md
+mv WALLET_COMPARISON_UNIFIED_DETAILS.md SOFTWARE_WALLETS_DETAILS.md
+
+# 2. Update frontend config
+# Edit frontend/src/lib/markdown.ts: DOCUMENT_CONFIG
+
+# 3. Update all references
+# Edit: seo.ts, Navigation.tsx, Footer.tsx, etc.
+
+# 4. Verify
+cd frontend
+node -e "const { getAllDocuments } = require('./src/lib/markdown.ts'); console.log(getAllDocuments().map(d => d.slug));"
+```
+
+### Testing After Rename
+
+1. **Build check:** `cd frontend && npm run build` (may fail on missing deps, but should compile)
+2. **Type check:** `cd frontend && npm run type-check`
+3. **Lint check:** `cd frontend && npm run lint`
+4. **Smoke test:** `cd frontend && npm test` (if available)
+5. **Manual verification:** Check that all URLs load correctly
+
+---
+
 ## Questions?
 
 Open an issue if you're unsure about:
 - How to classify a wallet's license
 - What activity status to assign
 - How to score a particular feature
+- How to rename files without breaking links
 
 We're happy to help!

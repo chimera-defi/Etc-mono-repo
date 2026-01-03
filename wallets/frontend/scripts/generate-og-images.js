@@ -31,11 +31,11 @@ const COLORS = {
 };
 
 // Wallet data for the images
-// IMPORTANT: This data must match WALLET_COMPARISON_UNIFIED_TABLE.md and HARDWARE_WALLET_COMPARISON_TABLE.md
+// IMPORTANT: This data must match SOFTWARE_WALLETS.md and HARDWARE_WALLETS.md
 // Last verified: December 2025
 const WALLET_DATA = {
   software: [
-    // Data from WALLET_COMPARISON_UNIFIED_TABLE.md
+    // Data from SOFTWARE_WALLETS.md
     { name: 'Rabby', score: 92, platforms: 'Mobile+Ext', chains: '94', status: '🟢' },
     { name: 'Trust', score: 85, platforms: 'Mobile+Ext', chains: '163', status: '🟢' },
     { name: 'Rainbow', score: 82, platforms: 'Mobile+Ext', chains: '15+', status: '🟢' },
@@ -43,7 +43,7 @@ const WALLET_DATA = {
     { name: 'Coinbase', score: 75, platforms: 'Mobile+Ext', chains: '20+', status: '🟢' },
   ],
   hardware: [
-    // Data from HARDWARE_WALLET_COMPARISON_TABLE.md
+    // Data from HARDWARE_WALLETS.md
     { name: 'Trezor Safe 5', score: 94, price: '~$169', security: 'Optiga SE', status: '🟢' },
     { name: 'Keystone 3 Pro', score: 91, price: '~$149', security: '3× SE', status: '🟢' },
     { name: 'ColdCard Mk4', score: 91, price: '~$150', security: 'Dual SE', status: '🟢' },
@@ -51,7 +51,7 @@ const WALLET_DATA = {
     { name: 'BitBox02', score: 88, price: '~$150', security: 'ATECC', status: '🟢' },
   ],
   cards: [
-    // Data from CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md - Top 5 by score
+    // Data from CRYPTO_CARDS.md - Top 5 by score
     // Last verified: December 2025
     { name: 'Ready Card', cashback: '10%', type: 'Debit', region: 'EU/UK', status: '🟢' },
     { name: 'Bybit Card', cashback: '10%', type: 'Debit', region: 'EEA', status: '🟢' },

@@ -288,7 +288,7 @@ function parseMarkdownTable(content: string): string[][] {
 
 // Parse software wallets from markdown
 export function parseSoftwareWallets(): SoftwareWallet[] {
-  const filePath = path.join(CONTENT_DIR, 'WALLET_COMPARISON_UNIFIED_TABLE.md');
+  const filePath = path.join(CONTENT_DIR, 'SOFTWARE_WALLETS.md');
 
   if (!fs.existsSync(filePath)) {
     console.error('Software wallet file not found:', filePath);
@@ -345,7 +345,7 @@ export function parseSoftwareWallets(): SoftwareWallet[] {
 
 // Parse hardware wallets from markdown
 export function parseHardwareWallets(): HardwareWallet[] {
-  const filePath = path.join(CONTENT_DIR, 'HARDWARE_WALLET_COMPARISON_TABLE.md');
+  const filePath = path.join(CONTENT_DIR, 'HARDWARE_WALLETS.md');
 
   if (!fs.existsSync(filePath)) {
     console.error('Hardware wallet file not found:', filePath);
@@ -365,7 +365,7 @@ export function parseHardwareWallets(): HardwareWallet[] {
     const name = linkMatch ? linkMatch[1].replace(/~~|^\[|\]$/g, '') : cells[0]?.replace(/[*~[\]]/g, '') || 'Unknown';
     const url = urlMatch ? urlMatch[1] : null;
 
-    // Table columns (HARDWARE_WALLET_COMPARISON_TABLE.md):
+    // Table columns (HARDWARE_WALLETS.md):
     // Wallet(0) Score(1) GitHub(2) Air-Gap(3) Open Source(4) Secure Elem(5)
     // Display(6) Price(7) Conn(8) Activity(9) Rec(10)
     const price = parsePrice(cells[7] || '');
@@ -393,7 +393,7 @@ export function parseHardwareWallets(): HardwareWallet[] {
 
 // Parse crypto cards from markdown
 export function parseCryptoCards(): CryptoCard[] {
-  const filePath = path.join(CONTENT_DIR, 'CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md');
+  const filePath = path.join(CONTENT_DIR, 'CRYPTO_CARDS.md');
 
   if (!fs.existsSync(filePath)) {
     console.error('Crypto card file not found:', filePath);

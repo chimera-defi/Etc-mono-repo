@@ -4,11 +4,11 @@ Developer-focused comparison of crypto wallets to find stable MetaMask alternati
 
 ## 📊 Main Comparison Tables
 
-**→ [WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Software wallets (24 EVM wallets)
+**→ [SOFTWARE_WALLETS.md](./SOFTWARE_WALLETS.md)** — Software wallets (24 EVM wallets)
 
-**→ [HARDWARE_WALLET_COMPARISON.md](./HARDWARE_WALLET_COMPARISON.md)** — Hardware cold storage wallets (23 devices)
+**→ [HARDWARE_WALLETS.md](./HARDWARE_WALLETS.md)** — Hardware cold storage wallets (23 devices)
 
-**→ [CRYPTO_CREDIT_CARD_COMPARISON.md](./CRYPTO_CREDIT_CARD_COMPARISON.md)** — Crypto-backed credit/debit cards (12+ cards)
+**→ [CRYPTO_CARDS.md](./CRYPTO_CARDS.md)** — Crypto-backed credit/debit cards (27 cards)
 
 | Column | Description | Source |
 |--------|-------------|--------|
@@ -96,12 +96,12 @@ Several previously recommended wallets have **stopped active development**:
 
 ### Main Comparison Tables
 
-- **[WALLET_COMPARISON_UNIFIED.md](./WALLET_COMPARISON_UNIFIED.md)** — Software wallet comparison (24 EVM wallets)
-  - [Table](./WALLET_COMPARISON_UNIFIED_TABLE.md) | [Details](./WALLET_COMPARISON_UNIFIED_DETAILS.md)
-- **[HARDWARE_WALLET_COMPARISON.md](./HARDWARE_WALLET_COMPARISON.md)** — Hardware wallet comparison (23 cold storage devices)
-  - [Table](./HARDWARE_WALLET_COMPARISON_TABLE.md) | [Details](./HARDWARE_WALLET_COMPARISON_DETAILS.md)
-- **[CRYPTO_CREDIT_CARD_COMPARISON.md](./CRYPTO_CREDIT_CARD_COMPARISON.md)** — Crypto credit card comparison (17 cards)
-  - [Table](./CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md) | [Details](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md)
+- **[SOFTWARE_WALLETS.md](./SOFTWARE_WALLETS.md)** — Software wallet comparison (24 EVM wallets)
+  - [Table](./SOFTWARE_WALLETS.md) | [Details](./SOFTWARE_WALLETS_DETAILS.md)
+- **[HARDWARE_WALLETS.md](./HARDWARE_WALLETS.md)** — Hardware wallet comparison (23 cold storage devices)
+  - [Table](./HARDWARE_WALLETS.md) | [Details](./HARDWARE_WALLETS_DETAILS.md)
+- **[CRYPTO_CARDS.md](./CRYPTO_CARDS.md)** — Crypto credit card comparison (27 cards)
+  - [Table](./CRYPTO_CARDS.md) | [Details](./CRYPTO_CARDS_DETAILS.md)
 
 ### Supporting Documents
 
