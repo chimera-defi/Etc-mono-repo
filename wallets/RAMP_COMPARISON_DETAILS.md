@@ -4,32 +4,34 @@
 
 **Data Sources:** Developer Documentation, Fee Schedules, Integration Guides (as of Dec 2025).
 
+**Verification Status:** Original 7 providers (Transak, MoonPay, Ramp, Sardine, Stripe, Banxa, Mercuryo) verified from PR 128 research. Additional 13 providers added based on industry knowledge and user request (Modern Treasury, onesafe, Reap specifically requested). All values marked with "~" are approximate and should be verified on official provider websites before integration.
+
 ---
 
 ## 🌉 Top Providers Comparison
 
 | Provider | Score | Best For | Global Coverage | Fee Model | Dev UX |
 |----------|-------|----------|-----------------|-----------|--------|
-| **Transak** | 92 | 🛠️ Developers | 160+ Countries | Medium (Spread + Fee) | Excellent (React SDK) |
-| **MoonPay** | 90 | 🌍 Coverage | 160+ Countries | High (Spread + Fee) | Great (Widget) |
-| **Coinbase Pay** | 89 | 🪙 Coinbase | 100+ Countries | Medium | Excellent (SDK) |
-| **Ramp** | 88 | 🇪🇺 EU / Speed | 150+ Countries | Low/Medium | Good (SDK) |
+| **Transak** | 92 | 🛠️ Developers | ~160+ Countries | Medium (Spread + Fee) | Excellent (React SDK) |
+| **MoonPay** | 90 | 🌍 Coverage | ~160+ Countries | High (Spread + Fee) | Great (Widget) |
+| **Coinbase Pay** | 89 | 🪙 Coinbase | ~100+ Countries | Medium | Excellent (SDK) |
+| **Ramp** | 88 | 🇪🇺 EU / Speed | ~150+ Countries | Low/Medium | Good (SDK) |
 | **Sardine** | 86 | 🇺🇸 US / Fraud | US + Select Global | Variable (Risk based) | Advanced (API/SDK) |
 | **Stripe** | 85 | 🤝 Trust | Global | Usage Based | Excellent (Stripe style) |
-| **Simplex** | 84 | 💳 High Limits | 150+ Countries | Medium/High | Good (Widget) |
+| **Simplex** | 84 | 💳 High Limits | ~150+ Countries | Medium/High | Good (Widget) |
 | **Modern Treasury** | 83 | 🏢 Enterprise | US + Select | Usage Based | Excellent (API) |
 | **Banxa** | 80 | 🏦 Local Pay | Global | Variable | Good |
 | **Mercuryo** | 78 | 💼 B2B | Global | Medium | Good |
-| **Guardarian** | 77 | 🇪🇺 EU Focus | 100+ Countries | Low/Medium | Good (Widget) |
-| **CoinSwitch** | 76 | 🇮🇳 India/APAC | 100+ Countries | Medium | Good (API) |
-| **Utorg** | 75 | 🔗 Multi-chain | 100+ Countries | Medium | Good (Widget) |
+| **Guardarian** | 77 | 🇪🇺 EU Focus | ~100+ Countries | Low/Medium | Good (Widget) |
+| **CoinSwitch** | 76 | 🇮🇳 India/APAC | ~100+ Countries | Medium | Good (API) |
+| **Utorg** | 75 | 🔗 Multi-chain | ~100+ Countries | Medium | Good (Widget) |
 | **CoinGate** | 74 | 💰 Low Fees | Global | Low | Good (API) |
 | **BitPay** | 73 | ₿ Bitcoin | Global | Medium | Good (API) |
 | **Changelly** | 72 | 🔄 Exchange | Global | Medium | Good (API) |
-| **Coinify** | 71 | 🇪🇺 EU | 50+ Countries | Medium | Good (API) |
+| **Coinify** | 71 | 🇪🇺 EU | ~50+ Countries | Medium | Good (API) |
 | **onesafe** | 70 | 🏢 Enterprise | Select Global | Variable | Good (API) |
 | **Reap** | 68 | 💼 Business Off-Ramp | Global | Variable | Good (API) |
-| **Coinmama** | 65 | 🚀 Simple On-Ramp | 100+ Countries | High | Basic (Widget) |
+| **Coinmama** | 65 | 🚀 Simple On-Ramp | ~100+ Countries | High | Basic (Widget) |
 
 ---
 
@@ -42,10 +44,10 @@ Fees are the biggest friction point for users. They typically consist of three p
 
 | Provider | Est. Processing Fee | Est. Spread | Min. Fee | Notes |
 |----------|---------------------|-------------|----------|-------|
-| **Ramp** | ~0.99% - 2.9% | Low (~1%) | €2.49 | Competitive for bank transfers. |
-| **Transak** | ~3.5% (Cards) | Medium (~2%) | $5.00 | Fee varies heavily by payment method. |
-| **MoonPay** | ~4.5% (Cards) | High (~2-3%) | $3.99 | Often the most expensive, but highest conversion. |
-| **Stripe** | Custom | Custom | Custom | Usage-based pricing for businesses. |
+| **Ramp** | ~0.99% - 2.9% | Low (~1%) | ~€2.49 | Competitive for bank transfers. Verify on ramp.network |
+| **Transak** | ~3.5% (Cards) | Medium (~2%) | ~$5.00 | Fee varies heavily by payment method. Verify on transak.com |
+| **MoonPay** | ~4.5% (Cards) | High (~2-3%) | ~$3.99 | Often the most expensive, but highest conversion. Verify on moonpay.com |
+| **Stripe** | Custom | Custom | Custom | Usage-based pricing for businesses. Verify on stripe.com |
 
 > **Agent Insight:** "Zero Fee" promotions often hide costs in the **Spread**. Always check the final "Amount Received" vs. Spot Price.
 
@@ -121,6 +123,12 @@ The scoring system evaluates ramps across multiple dimensions:
 - **+3 pts** Instant settlement options (e.g., Sardine Instant ACH)
 - **-5 pts** High fees relative to competitors
 - **-3 pts** Limited geographic coverage
+
+**Scoring Notes:**
+- Scores are estimates based on available documentation and industry knowledge
+- Original 7 providers (Transak, MoonPay, Ramp, Sardine, Stripe, Banxa, Mercuryo) scored based on verified PR 128 research
+- Additional providers scored using same methodology but may need verification
+- Scores should be considered approximate until verified with official provider documentation
 
 ---
 
@@ -383,3 +391,9 @@ The scoring system evaluates ramps across multiple dimensions:
 ---
 
 **Last Updated:** December 2025
+
+**Verification Notes:**
+- Original 7 providers verified from PR 128 research (Transak, MoonPay, Ramp, Sardine, Stripe, Banxa, Mercuryo)
+- Additional 13 providers added per user request (Modern Treasury, onesafe, Reap specifically mentioned)
+- All coverage numbers, fees, and status should be verified on official provider websites before integration
+- Values marked with "~" are approximate estimates based on available documentation

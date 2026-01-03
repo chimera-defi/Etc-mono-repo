@@ -4,26 +4,26 @@
 
 | Provider | Score | Type | On-Ramp | Off-Ramp | Coverage | Fee Model | Min Fee | Dev UX | Status | Best For |
 |----------|-------|------|---------|----------|----------|-----------|---------|--------|--------|----------|
-| **Transak** | 92 🟢 | Both | ✅ | ✅ | 160+ Countries | Medium (Spread + Fee) | $5.00 | Excellent (React SDK) | ✅ | Developers |
-| **MoonPay** | 90 🟢 | Both | ✅ | ✅ | 160+ Countries | High (Spread + Fee) | $3.99 | Great (Widget) | ✅ | Coverage |
-| **Coinbase Pay** | 89 🟢 | Both | ✅ | ✅ | 100+ Countries | Medium | $1.00 | Excellent (SDK) | ✅ | Coinbase users |
-| **Ramp** | 88 🟢 | Both | ✅ | ✅ | 150+ Countries | Low/Medium | €2.49 | Good (SDK) | ✅ | EU / Speed |
+| **Transak** | 92 🟢 | Both | ✅ | ✅ | ~160+ Countries | Medium (Spread + Fee) | ~$5.00 | Excellent (React SDK) | ✅ | Developers |
+| **MoonPay** | 90 🟢 | Both | ✅ | ✅ | ~160+ Countries | High (Spread + Fee) | ~$3.99 | Great (Widget) | ✅ | Coverage |
+| **Coinbase Pay** | 89 🟢 | Both | ✅ | ✅ | ~100+ Countries | Medium | ~$1.00 | Excellent (SDK) | ✅ | Coinbase users |
+| **Ramp** | 88 🟢 | Both | ✅ | ✅ | ~150+ Countries | Low/Medium | ~€2.49 | Good (SDK) | ✅ | EU / Speed |
 | **Sardine** | 86 🟢 | Both | ✅ | ✅ | US + Select Global | Variable (Risk based) | Custom | Advanced (API/SDK) | ✅ | US / Fraud |
 | **Stripe** | 85 🟢 | Both | ✅ | ✅ | Global | Usage Based | Custom | Excellent (Stripe style) | ✅ | Trust |
-| **Simplex** | 84 🟢 | Both | ✅ | ✅ | 150+ Countries | Medium/High | $10.00 | Good (Widget) | ✅ | High limits |
+| **Simplex** | 84 🟢 | Both | ✅ | ✅ | ~150+ Countries | Medium/High | ~$10.00 | Good (Widget) | ✅ | High limits |
 | **Modern Treasury** | 83 🟢 | Both | ✅ | ✅ | US + Select | Usage Based | Custom | Excellent (API) | ✅ | Enterprise |
 | **Banxa** | 80 🟡 | Both | ✅ | ✅ | Global | Variable | Custom | Good | ✅ | Local Pay |
 | **Mercuryo** | 78 🟡 | Both | ✅ | ✅ | Global | Medium | Custom | Good | ✅ | B2B |
-| **Guardarian** | 77 🟡 | Both | ✅ | ✅ | 100+ Countries | Low/Medium | €5.00 | Good (Widget) | ✅ | EU focus |
-| **CoinSwitch** | 76 🟡 | Both | ✅ | ✅ | 100+ Countries | Medium | ₹100 | Good (API) | ✅ | India / APAC |
-| **Utorg** | 75 🟡 | Both | ✅ | ✅ | 100+ Countries | Medium | $5.00 | Good (Widget) | ✅ | Multi-chain |
-| **CoinGate** | 74 🟡 | Both | ✅ | ✅ | Global | Low | €0.01 | Good (API) | ✅ | Low fees |
-| **BitPay** | 73 🟡 | Both | ✅ | ✅ | Global | Medium | $1.00 | Good (API) | ✅ | Bitcoin focus |
-| **Changelly** | 72 🟡 | Both | ✅ | ✅ | Global | Medium | $5.00 | Good (API) | ✅ | Exchange |
-| **Coinify** | 71 🟡 | Both | ✅ | ✅ | 50+ Countries | Medium | €5.00 | Good (API) | ✅ | EU |
+| **Guardarian** | 77 🟡 | Both | ✅ | ✅ | ~100+ Countries | Low/Medium | ~€5.00 | Good (Widget) | ✅ | EU focus |
+| **CoinSwitch** | 76 🟡 | Both | ✅ | ✅ | ~100+ Countries | Medium | ~₹100 | Good (API) | ✅ | India / APAC |
+| **Utorg** | 75 🟡 | Both | ✅ | ✅ | ~100+ Countries | Medium | ~$5.00 | Good (Widget) | ✅ | Multi-chain |
+| **CoinGate** | 74 🟡 | Both | ✅ | ✅ | Global | Low | ~€0.01 | Good (API) | ✅ | Low fees |
+| **BitPay** | 73 🟡 | Both | ✅ | ✅ | Global | Medium | ~$1.00 | Good (API) | ✅ | Bitcoin focus |
+| **Changelly** | 72 🟡 | Both | ✅ | ✅ | Global | Medium | ~$5.00 | Good (API) | ✅ | Exchange |
+| **Coinify** | 71 🟡 | Both | ✅ | ✅ | ~50+ Countries | Medium | ~€5.00 | Good (API) | ✅ | EU |
 | **onesafe** | 70 🟡 | Both | ✅ | ✅ | Select Global | Variable | Custom | Good (API) | ✅ | Enterprise |
 | **Reap** | 68 🟡 | Off-Ramp | ❌ | ✅ | Global | Variable | Custom | Good (API) | ✅ | Business off-ramp |
-| **Coinmama** | 65 🟡 | On-Ramp | ✅ | ❌ | 100+ Countries | High | $30.00 | Basic (Widget) | ✅ | Simple on-ramp |
+| **Coinmama** | 65 🟡 | On-Ramp | ✅ | ❌ | ~100+ Countries | High | ~$30.00 | Basic (Widget) | ✅ | Simple on-ramp |
 
 ### Legend
 
@@ -40,9 +40,9 @@
 | **On-Ramp** | ✅ Supported | ❌ Not supported |
 | **Off-Ramp** | ✅ Supported | ❌ Not supported |
 | **Status** | ✅ Active | ⚠️ Verify | 🔄 Launching soon |
-| **Coverage** | Number of countries supported (160+ = most coverage) |
+| **Coverage** | Number of countries supported (~160+ = most coverage; verify on official sites) |
 | **Fee Model** | Processing fee structure (Low/Medium/High, Variable, Usage Based) |
-| **Min Fee** | Minimum transaction fee |
+| **Min Fee** | Minimum transaction fee (~ indicates approximate; verify on official sites) |
 | **Dev UX** | Developer experience rating (Excellent/Great/Good/Advanced) |
 
 **Fee Structure Notes:**
@@ -71,7 +71,7 @@
 
 ---
 
-> ⚠️ **Data Accuracy Note:** Fees, coverage, and availability change frequently. Always verify on official provider websites before integration.
+> ⚠️ **Data Accuracy Note:** Fees, coverage, and availability change frequently. Always verify on official provider websites before integration. Values marked with "~" are approximate estimates based on available documentation as of December 2025. Specific numbers (country counts, fees) should be verified directly with providers before integration.
 
 ---
 
