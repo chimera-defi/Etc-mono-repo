@@ -250,6 +250,12 @@ Brief description of changes.
   122. **Always include human co-author in commits** - when making commits, include `Co-authored-by: [Human Name] <email>` in commit messages to attribute the human collaborator. Changes should be additive with respect to attribution - include both agent AND human attribution. This ensures proper credit for collaborative work. Format: Add `Co-authored-by:` line after the commit message body.
   129. **CI checks must not skip** - PR attribution check should run on ALL PRs (no paths filter). Frontend CI checks (lint, type-check, tests, OG images, Twitter Cards validation) should fail builds on errors, not skip with `|| true`. All checks are important and should be enforced.
 
+- Adding new comparison types (ramps, exchanges, etc.):
+  130. **Complete integration checklist** - when adding a new comparison type, follow comprehensive checklist: (1) Markdown files with clickable links, (2) Type definitions with url field, (3) Data parsing extracting links, (4) Filtering functions (not placeholders), (5) Components (table, comparison, filters), (6) Pages (explore, docs, sitemap), (7) Navigation (all 6 locations per Rule #127), (8) SEO (OG images, keywords, schema), (9) Markdown config, (10) Documentation updates. See `wallets/CONTRIBUTING.md` "Adding a New Comparison Type" for full checklist.
+  131. **Status type mapping** - when new comparison types have different status enums (e.g., ramps: 'active'|'verify'|'launching' vs filters: 'active'|'slow'|'inactive'|'private'), create explicit mapping in filter function. Don't force incompatible types or use `as` casts.
+  132. **Structured data for new types** - when adding ItemList schema for new comparison types, update regex to extract names from markdown link format `[**Name**](url)`, use appropriate `@type` (Product for ramps/hardware, SoftwareApplication for software wallets), and update schema name to match category (e.g., "Ramp Provider Comparison").
+  133. **Keyword detection for new types** - add content-based keyword detection in `generateKeywords()` for new comparison types (e.g., ramp detection adds: crypto ramp, on-ramp, off-ramp, fiat on-ramp, fiat off-ramp, crypto payment gateway). This improves SEO discoverability.
+
 ## Best Practices
 - Use semantic versioning for packages
 - Include proper .gitignore files for each project type

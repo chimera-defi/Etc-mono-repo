@@ -373,11 +373,17 @@ cd scripts
 
 1. **CI checks must not skip** - PR attribution check should run on ALL PRs (no paths filter). Frontend CI checks should fail builds on errors, not skip with `|| true`. See `.cursorrules` Rule #129.
 
-2. **Type filtering requires mapping** - when adding new comparison types with different status enums (e.g., ramps: 'active'|'verify'|'launching' vs filters: 'active'|'slow'|'inactive'|'private'), create status mapping in filter function. Don't force incompatible types.
+2. **Type filtering requires mapping** - when adding new comparison types with different status enums (e.g., ramps: 'active'|'verify'|'launching' vs filters: 'active'|'slow'|'inactive'|'private'), create status mapping in filter function. Don't force incompatible types. See `.cursorrules` Rule #131.
 
 3. **Navigation consistency checklist** - when adding new comparison sections, verify presence in: Navigation.tsx (burger menu), Footer.tsx, InternalLinks.tsx (homepage), landing page hero, stats section, Top Developer Picks. Missing any location creates inconsistent UX. See `.cursorrules` Rule #127.
 
 4. **OG images for new types** - when adding new comparison types, generate OG images (table + details), add to `seo.ts` mappings, update CI workflow to check for images, regenerate via `npm run generate-og`. CI will fail if images are missing. See `.cursorrules` Rule #128.
+
+5. **Complete integration checklist** - when adding new comparison types, follow comprehensive checklist covering: markdown files, types, parsing, filtering, components, pages, navigation (all 6 locations), SEO (OG images, keywords, schema), markdown config, and documentation. See `CONTRIBUTING.md` "Adding a New Comparison Type" section for full checklist. See `.cursorrules` Rule #130.
+
+6. **Structured data for new types** - update ItemList schema regex to handle markdown link format `[**Name**](url)`, use appropriate `@type` (Product vs SoftwareApplication), and update schema name to match category. See `.cursorrules` Rule #132.
+
+7. **Keyword detection for new types** - add content-based keyword detection in `generateKeywords()` for new comparison types to improve SEO discoverability. See `.cursorrules` Rule #133.
 
 ---
 
