@@ -72,6 +72,14 @@ High-level ideas and concepts for future exploration and implementation.
 
 ---
 
+## iPhone Translation Keyboard (Text + Voice)
+
+**Concept**: An iOS custom keyboard that translates what you type into a destination language and inserts it into any app (WhatsApp, iMessage, etc.), with a realistic path for voice-to-text via a companion app + paste workflow.
+
+**Notes**: See `ideas/iphone-translation-keyboard.md`.
+
+---
+
 ## Tooling to Explore
 
 - **Coolify**: Self-hosted PaaS for VPS management
