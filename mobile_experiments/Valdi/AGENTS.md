@@ -1,5 +1,10 @@
 # AGENTS.md - Guide for AI Coding Assistants
 
+> **Cross-references:**
+> - **`.cursorrules`** - General AI assistant rules (all agents). See Rules #52-59 for Valdi framework notes.
+> - **`CLAUDE.md`** - Claude Code-specific instructions and quick reference
+> - **`wallets/AGENTS.md`** - Wallet comparison specific guidelines
+
 This document provides context and guidelines for AI coding assistants working on this Valdi application.
 
 ## Overview
