@@ -30,7 +30,7 @@
 **Scoring & Recommendation:**
 | Symbol | Meaning |
 |--------|---------|
-| **Score** | 0-100 weighted score ([methodology](./RAMP_COMPARISON_DETAILS.md#scoring-methodology)) |
+| **Score** | 0-100 weighted score ([methodology](./RAMPS_DETAILS.md#scoring-methodology)) |
 | **Rec** | 🟢 Recommended (75+) | 🟡 Situational (50-74) | 🔴 Avoid (<50) |
 
 **Ramp Details:**
@@ -75,7 +75,7 @@
 
 ---
 
-> 📖 **View full documentation:** [Detailed Reviews, Methodology, Integration Guides, and more →](./RAMP_COMPARISON_DETAILS.md)
+> 📖 **View full documentation:** [Detailed Reviews, Methodology, Integration Guides, and more →](./RAMPS_DETAILS.md)
 
 ---
 
@@ -83,8 +83,8 @@
 
 > **TL;DR:** Use **Transak** (92) for best developer experience with React SDK, **MoonPay** (90) for widest coverage and token support, **Coinbase Pay** (89) for Coinbase ecosystem integration, **Ramp** (88) for lowest fees (especially EU bank transfers), **Sardine** (86) for US instant ACH and high-value transactions, **Stripe** (85) for mainstream brand trust, or **Modern Treasury** (83) for enterprise payment infrastructure. Most providers support both on-ramp and off-ramp; **Reap** (68) is off-ramp only, **Coinmama** (65) is on-ramp only.
 
-**Last Updated:** December 2025 | [Scoring Methodology](./RAMP_COMPARISON_DETAILS.md#scoring-methodology) | [Integration Guides](./RAMP_COMPARISON_DETAILS.md#integration-guides)
+**Last Updated:** December 2025 | [Scoring Methodology](./RAMPS_DETAILS.md#scoring-methodology) | [Integration Guides](./RAMPS_DETAILS.md#integration-guides)
 
-**Related:** See [Software Wallet Comparison](./WALLET_COMPARISON_UNIFIED_TABLE.md), [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON_TABLE.md), and [Crypto Credit Card Comparison](./CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md) for wallet recommendations.
+**Related:** See [Software Wallet Comparison](./SOFTWARE_WALLETS.md), [Hardware Wallet Comparison](./HARDWARE_WALLETS.md), and [Crypto Credit Card Comparison](./CRYPTO_CARDS.md) for wallet recommendations.
 
-> 📖 **Want more details?** See the [full documentation with detailed provider reviews, scoring breakdowns, and integration guides](./RAMP_COMPARISON_DETAILS.md).
+> 📖 **Want more details?** See the [full documentation with detailed provider reviews, scoring breakdowns, and integration guides](./RAMPS_DETAILS.md).

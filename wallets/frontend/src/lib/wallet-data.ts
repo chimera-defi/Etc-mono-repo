@@ -453,7 +453,7 @@ function parseRampType(cell: string): 'both' | 'on-ramp' | 'off-ramp' {
 
 // Parse ramps from markdown
 export function parseRamps(): Ramp[] {
-  const filePath = path.join(CONTENT_DIR, 'RAMP_COMPARISON_TABLE.md');
+  const filePath = path.join(CONTENT_DIR, 'RAMPS.md');
 
   if (!fs.existsSync(filePath)) {
     console.error('Ramp file not found:', filePath);
