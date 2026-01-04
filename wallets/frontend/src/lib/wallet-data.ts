@@ -535,6 +535,7 @@ export type { FilterOptions, SortDirection, SortField } from './wallet-filtering
 export {
   filterCryptoCards,
   filterHardwareWallets,
+  filterRamps,
   filterSoftwareWallets,
   sortWallets,
 } from './wallet-filtering';

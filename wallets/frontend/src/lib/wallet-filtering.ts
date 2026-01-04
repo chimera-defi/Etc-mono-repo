@@ -1,4 +1,4 @@
-import type { CryptoCard, HardwareWallet, SoftwareWallet, WalletData } from '@/types/wallets';
+import type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData } from '@/types/wallets';
 
 /**
  * Client-safe filtering/sorting utilities for wallet data.
@@ -226,6 +226,37 @@ export function filterCryptoCards(
     // Cashback min filter
     if (filters.cashBackMin !== undefined && card.cashBackMax !== null) {
       if (card.cashBackMax < filters.cashBackMin) return false;
+    }
+
+    return true;
+  });
+}
+
+export function filterRamps(ramps: Ramp[], filters: FilterOptions): Ramp[] {
+  return ramps.filter(ramp => {
+    // Search filter
+    if (filters.search) {
+      const searchLower = filters.search.toLowerCase();
+      const matchesSearch =
+        ramp.name.toLowerCase().includes(searchLower) ||
+        ramp.bestFor.toLowerCase().includes(searchLower) ||
+        ramp.coverage.toLowerCase().includes(searchLower) ||
+        ramp.feeModel.toLowerCase().includes(searchLower);
+      if (!matchesSearch) return false;
+    }
+
+    // Score filter
+    if (filters.minScore !== undefined && ramp.score < filters.minScore) return false;
+    if (filters.maxScore !== undefined && ramp.score > filters.maxScore) return false;
+
+    // Recommendation filter
+    if (filters.recommendation?.length && !filters.recommendation.includes(ramp.recommendation)) {
+      return false;
+    }
+
+    // Status filter (using active filter)
+    if (filters.active?.length) {
+      if (!filters.active.includes(ramp.status)) return false;
     }
 
     return true;

@@ -15,6 +15,7 @@ import type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData } fro
 import {
   filterCryptoCards,
   filterHardwareWallets,
+  filterRamps,
   filterSoftwareWallets,
   sortWallets,
   type FilterOptions,
@@ -146,11 +147,11 @@ export function ExploreContent({
   const filteredRamps = useMemo(
     () =>
       sortWallets(
-        ramps.filter(() => true), // Simple filter for now, can add filtering logic later
+        filterRamps(ramps, toFilterOptions(rampFilters)),
         rampSort.field as SortField,
         rampSort.direction
       ),
-    [ramps, rampSort]
+    [ramps, rampFilters, rampSort]
   );
 
   // Get selected wallet objects

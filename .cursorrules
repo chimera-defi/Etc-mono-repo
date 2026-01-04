@@ -163,6 +163,12 @@ Brief description of changes.
   63. **Try multiple scraping approaches** - if curl fails, try: 1) Better user agents and headers, 2) Browser automation (Playwright/Puppeteer), 3) Python requests with BeautifulSoup, 4) Wait longer for JavaScript-heavy pages. Always attempt automated solutions before requesting manual help.
   64. **Document verification methods** - when verifying information via browser automation or other tools, document the method used (e.g., "Verified via Playwright browser automation") and the date in verification notes. This helps future verification efforts understand what worked.
 
+- Comparison table user experience and consistency:
+  123. **Always include clickable website links** - comparison tables should include clickable links to provider websites for user-friendliness and accessibility. Match the pattern used in other comparison tables: hardware wallets use `[**Name**](url)` format in provider name column, crypto cards include links in provider column. Users need easy access to actual products/services.
+  124. **Parse markdown links in table data** - when provider names include markdown links `[**Name**](url)`, extract both name and URL in parsing logic. Add `url` field to type definitions and display links in both table and grid views with external link icons for consistency.
+  125. **File naming consistency matters** - when renaming comparison files to shorter names (e.g., `RAMP_COMPARISON_TABLE.md` → `RAMPS.md`), update ALL references: markdown config, parsing functions, cross-references in markdown files, and related document mappings. Use git mv to preserve history.
+  126. **Add filtering functions for new comparison types** - when adding new comparison types (e.g., ramps), create dedicated filtering function in `wallet-filtering.ts` even if simple. Placeholder `filter(() => true)` creates technical debt. Implement at least search and score filtering for consistency.
+
 - SEO and social media card best practices:
   65. **Static vs dynamic OG images** - before adding OG/Twitter card metadata, check existing pattern: does the project use static pre-generated PNGs or dynamic API-generated cards? Follow the established pattern.
   66. **Consistency across pages** - when adding SEO to a new page, copy the EXACT pattern from similar existing pages: same ogImageVersion, same Twitter handles (@creator, @site), same image dimensions (1200x630), same metadata structure.
@@ -234,6 +240,7 @@ Brief description of changes.
   119. **Include original prompt in PR description** - always include the original user prompt/request in the PR description, either in a "## Original Request" section or as a quote block. This provides context for reviewers and helps track what prompts lead to which changes. If the prompt is very long, include a summary and link to the full prompt in `.cursor/artifacts/` if needed. **Enforcement:** CI check validates presence.
   120. **Create prompt artifact for complex requests** - for complex or multi-step requests, create a `.cursor/artifacts/[pr-number]-original-prompt.md` file documenting the full prompt and context, then reference it in the PR description. This preserves full context for future analysis.
   121. **PR description structure** - structure PR descriptions with: (1) Agent attribution at top, (2) Brief summary of changes, (3) Original request/prompt, (4) Changes made, (5) Testing/verification notes. This consistent structure makes it easier to analyze agent performance patterns. **Template:** `.github/pull_request_template.md` is auto-filled when creating PRs.
+  122. **Always include human co-author in commits** - when making commits, include `Co-authored-by: [Human Name] <email>` in commit messages to attribute the human collaborator. Changes should be additive with respect to attribution - include both agent AND human attribution. This ensures proper credit for collaborative work. Format: Add `Co-authored-by:` line after the commit message body.
 
 ## Best Practices
 - Use semantic versioning for packages
