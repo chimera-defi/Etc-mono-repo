@@ -5,6 +5,8 @@ If you're an AI agent creating this PR, see .cursorrules "PR Attribution Require
 
 **Agent:** <!-- REQUIRED: e.g., Composer, Claude Code, GPT-4, Gemini, Claude Opus -->
 
+**Co-authored-by:** <!-- REQUIRED: Include human collaborator attribution -->
+
 ## Summary
 <!-- Brief description of what was changed -->
 

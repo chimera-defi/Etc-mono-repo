@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Script from 'next/script';
-import { ArrowRight, Shield, Cpu, BookOpen, Github, Zap, CheckCircle, CreditCard, GitCompare, SlidersHorizontal } from 'lucide-react';
+import { ArrowRight, Shield, Cpu, BookOpen, Github, Zap, CheckCircle, CreditCard, GitCompare, SlidersHorizontal, ArrowLeftRight } from 'lucide-react';
 import { getAllDocuments, getWalletStats } from '@/lib/markdown';
 import { WalletCard } from '@/components/WalletCard';
 import { StatsCard } from '@/components/StatsCard';
@@ -244,6 +244,38 @@ export default function HomePage() {
             'Score: 55 — Corporate Visa cards with stablecoin repayment, available in 200+ countries. Best Business crypto card for corporate use.',
         },
       },
+      {
+        '@type': 'ListItem',
+        position: 6,
+        item: {
+          '@type': 'Product',
+          name: 'Transak',
+          category: 'Crypto On/Off-Ramp',
+          brand: {
+            '@type': 'Brand',
+            name: 'Transak',
+          },
+          url: `${baseUrl}/docs/ramps/`,
+          description:
+            'Score: 92 — React SDK, 160+ countries, excellent developer experience. Best Ramp for Developers with both on-ramp and off-ramp support.',
+        },
+      },
+      {
+        '@type': 'ListItem',
+        position: 7,
+        item: {
+          '@type': 'Product',
+          name: 'onesafe',
+          category: 'Crypto On/Off-Ramp',
+          brand: {
+            '@type': 'Brand',
+            name: 'onesafe',
+          },
+          url: `${baseUrl}/docs/ramps/`,
+          description:
+            'Score: 70 — Enterprise-focused API, custom pricing, select global coverage. Best Business Ramp for enterprise use cases.',
+        },
+      },
     ],
   };
 
@@ -295,6 +327,13 @@ export default function HomePage() {
                 Crypto Cards
                 <ArrowRight className="h-4 w-4" />
               </Link>
+              <Link
+                href="/docs/ramps"
+                className="inline-flex items-center gap-2 border border-border px-6 py-3 rounded-lg font-medium hover:bg-muted transition-colors"
+              >
+                Ramps
+                <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
             {/* Explore CTA */}
             <div className="mt-6 pt-6 border-t border-border/50">
@@ -313,7 +352,7 @@ export default function HomePage() {
 
       {/* Quick Stats */}
       <section className="container mx-auto px-4 -mt-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           <StatsCard
             label="Software Wallets"
             value="24+"
@@ -331,6 +370,12 @@ export default function HomePage() {
             value="27+"
             description="Credit & debit cards compared"
             icon={<CreditCard className="h-5 w-5" />}
+          />
+          <StatsCard
+            label="Ramps"
+            value="20+"
+            description="On/off-ramp providers compared"
+            icon={<ArrowLeftRight className="h-5 w-5" />}
           />
           <StatsCard
             label="Last Updated"
@@ -417,6 +462,36 @@ export default function HomePage() {
             </p>
             <div className="text-xs text-muted-foreground">
               ✅ Business-Focused • ✅ Stablecoins • ✅ Global
+            </div>
+          </div>
+
+          {/* Best Ramp for Developers Pick */}
+          <div className="p-6 rounded-lg border border-cyan-200 dark:border-cyan-900 bg-cyan-50 dark:bg-cyan-950/30">
+            <div className="flex items-center gap-2 mb-3">
+              <ArrowLeftRight className="h-5 w-5 text-cyan-600" />
+              <span className="text-sm font-medium text-cyan-600">Best Ramp for Developers</span>
+            </div>
+            <h3 className="font-bold text-xl mb-2">Transak</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Score: 92 — React SDK, 160+ countries, excellent developer experience
+            </p>
+            <div className="text-xs text-muted-foreground">
+              ✅ React SDK • ✅ 160+ Countries • ✅ Both On/Off-Ramp
+            </div>
+          </div>
+
+          {/* Best Business Ramp Pick */}
+          <div className="p-6 rounded-lg border border-teal-200 dark:border-teal-900 bg-teal-50 dark:bg-teal-950/30">
+            <div className="flex items-center gap-2 mb-3">
+              <ArrowLeftRight className="h-5 w-5 text-teal-600" />
+              <span className="text-sm font-medium text-teal-600">Best Business Ramp</span>
+            </div>
+            <h3 className="font-bold text-xl mb-2">onesafe</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Score: 70 — Enterprise-focused API, custom pricing, select global coverage
+            </p>
+            <div className="text-xs text-muted-foreground">
+              ✅ Enterprise API • ✅ Custom Pricing • ✅ Both On/Off-Ramp
             </div>
           </div>
         </div>

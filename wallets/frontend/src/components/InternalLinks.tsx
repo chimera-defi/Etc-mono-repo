@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Shield, Cpu, CreditCard, ArrowRight } from 'lucide-react';
+import { Shield, Cpu, CreditCard, ArrowLeftRight, ArrowRight } from 'lucide-react';
 
 /**
  * Featured links section for homepage
@@ -15,7 +15,7 @@ export function FeaturedCategoryLinks() {
         Comprehensive comparison tables with detailed analysis.
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {/* Software Wallets */}
         <Link
           href="/docs/software-wallets"
@@ -63,6 +63,24 @@ export function FeaturedCategoryLinks() {
           </div>
           <p className="text-sm text-muted-foreground mb-4">
             Compare 27+ crypto cards. Cashback rates, annual fees, regional availability, and rewards programs.
+          </p>
+          <span className="text-sm text-primary inline-flex items-center gap-1 group-hover:underline">
+            View comparison
+            <ArrowRight className="h-3 w-3" />
+          </span>
+        </Link>
+
+        {/* Ramps */}
+        <Link
+          href="/docs/ramps"
+          className="group p-6 rounded-lg border border-border hover:border-primary/50 hover:bg-muted/50 transition-colors"
+        >
+          <div className="flex items-center gap-2 mb-3">
+            <ArrowLeftRight className="h-6 w-6 text-primary" />
+            <h3 className="font-semibold text-lg">Ramps</h3>
+          </div>
+          <p className="text-sm text-muted-foreground mb-4">
+            Compare 20+ on/off-ramp providers. Coverage, fees, developer experience, and integration options.
           </p>
           <span className="text-sm text-primary inline-flex items-center gap-1 group-hover:underline">
             View comparison

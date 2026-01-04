@@ -45,7 +45,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     // Higher priority for comparison tables, lower for other docs
     // New naming: software-wallets (table), software-wallets-details (details)
-    const isComparisonTable = !doc.slug.includes('-details') && ['software-wallets', 'hardware-wallets', 'crypto-cards'].includes(doc.slug);
+    const isComparisonTable = !doc.slug.includes('-details') && ['software-wallets', 'hardware-wallets', 'crypto-cards', 'ramps'].includes(doc.slug);
     const isComparisonDetails = doc.slug.includes('-details');
 
     return {

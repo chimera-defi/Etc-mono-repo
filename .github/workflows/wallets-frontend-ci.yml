@@ -55,9 +55,11 @@ jobs:
             "og-software-wallets-table.png"
             "og-hardware-wallets-table.png"
             "og-crypto-cards-table.png"
+            "og-ramps-table.png"
             "og-software-wallets-details.png"
             "og-hardware-wallets-details.png"
             "og-crypto-cards-details.png"
+            "og-ramps-details.png"
             "og-explore.png"
           )
           
@@ -88,7 +90,7 @@ jobs:
         run: npm run build
 
       - name: Validate Twitter Cards
-        run: npm run validate-cards || true
+        run: npm run validate-cards
 
       - name: Build Summary
         if: success()

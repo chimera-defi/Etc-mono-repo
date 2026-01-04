@@ -2,6 +2,11 @@
 
 This file contains instructions for Claude Code when working in this repository.
 
+> **Cross-references:**
+> - **`.cursorrules`** - Comprehensive AI assistant guidelines (all agents). See "PR Attribution Requirements" at top and Rules #116-129 for attribution details.
+> - **`wallets/AGENTS.md`** - Wallet comparison specific guidelines, scoring methodology, and data verification standards
+> - **`mobile_experiments/Valdi/AGENTS.md`** - Valdi framework specific guidelines
+
 ## Quick Reference
 
 - **Rules Location:** `.cursorrules` - contains comprehensive AI assistant guidelines including PR attribution requirements at the top
@@ -99,6 +104,8 @@ Before completing any frontend task:
 
 ## Meta Learnings (from .cursorrules)
 
+> **Full rules:** See `.cursorrules` for complete list. Wallet-specific: see `wallets/AGENTS.md`.
+
 ### Critical Rules for Data Work
 
 - **Rule #46:** No data loss on restructure - verify ALL columns preserved
@@ -112,12 +119,17 @@ Before completing any frontend task:
 - **Rule #24:** Multi-tool verification - run ALL checks (lint, types, tests)
 - **Rule #61:** Verify build after cleanup - always confirm nothing breaks
 - **Rule #70:** Regenerate OG images when adding pages - CI will fail if images are out of sync
+- **Rule #126:** Add filtering functions for new comparison types - map status types correctly
+- **Rule #127:** Navigation consistency - add new sections to ALL navigation locations
+- **Rule #128:** OG images for new comparison types - generate, map, update CI
+- **Rule #129:** CI checks must not skip - all checks should fail builds on errors
 
 ### Critical Rules for Documentation
 
 - **Rule #31:** Add columns, don't remove rows
 - **Rule #32:** Never consolidate by deletion
 - **Rule #35:** Concise ≠ shorter - remove redundancy, not information
+- **Rule #125:** File naming consistency - update ALL references when renaming
 
 ### Critical Rules for PR Creation
 
@@ -127,6 +139,7 @@ Before completing any frontend task:
 - **Rule #119:** Include original prompt in PR description - provides context for reviewers
 - **Rule #120:** Create prompt artifact for complex requests - preserves full context
 - **Rule #121:** PR description structure - consistent format for easier analysis
+- **Rule #122:** Always include human co-author in commits - additive attribution
 
 **Quick reference:** See `.cursorrules` "PR Attribution Requirements" section at the top.
 

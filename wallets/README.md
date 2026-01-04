@@ -102,6 +102,8 @@ Several previously recommended wallets have **stopped active development**:
   - [Table](./HARDWARE_WALLETS.md) | [Details](./HARDWARE_WALLETS_DETAILS.md)
 - **[CRYPTO_CARDS.md](./CRYPTO_CARDS.md)** — Crypto credit card comparison (27 cards)
   - [Table](./CRYPTO_CARDS.md) | [Details](./CRYPTO_CARDS_DETAILS.md)
+- **[RAMPS.md](./RAMPS.md)** — Crypto on/off-ramp provider comparison (20 providers)
+  - [Table](./RAMPS.md) | [Details](./RAMPS_DETAILS.md)
 
 ### Supporting Documents
 

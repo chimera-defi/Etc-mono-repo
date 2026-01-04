@@ -45,7 +45,7 @@ export interface SortState {
 }
 
 interface WalletFiltersProps {
-  type: 'software' | 'hardware' | 'cards';
+  type: 'software' | 'hardware' | 'cards' | 'ramps';
   filters: FilterState;
   sort: SortState;
   onFiltersChange: (filters: FilterState) => void;
@@ -143,6 +143,10 @@ const SORT_OPTIONS = {
     { value: 'score', label: 'Score' },
     { value: 'name', label: 'Name' },
     { value: 'cashBackMax', label: 'Cashback Rate' },
+  ],
+  ramps: [
+    { value: 'score', label: 'Score' },
+    { value: 'name', label: 'Name' },
   ],
 };
 
@@ -464,7 +468,8 @@ export function WalletFilters({
 
       {/* Results count */}
       <div className="text-sm text-muted-foreground">
-        Showing {resultCount} of {totalCount} {type === 'cards' ? 'cards' : 'wallets'}
+        Showing {resultCount} of {totalCount}{' '}
+        {type === 'cards' ? 'cards' : type === 'ramps' ? 'ramps' : 'wallets'}
       </div>
 
       {/* Advanced filters panel */}
@@ -612,6 +617,15 @@ export function WalletFilters({
                   className="w-full"
                 />
               </div>
+            </div>
+          )}
+
+          {/* Ramp-specific filters - for now just use common filters */}
+          {type === 'ramps' && (
+            <div className="pt-4 border-t border-border">
+              <p className="text-sm text-muted-foreground">
+                Ramp filters use score range and recommendation filters above.
+              </p>
             </div>
           )}
         </div>
