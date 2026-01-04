@@ -15,6 +15,9 @@ Thank you for helping keep this wallet comparison accurate and up-to-date!
 ### Crypto Cards
 - **Card comparison:** [CRYPTO_CARDS.md](./CRYPTO_CARDS.md) | [Details](./CRYPTO_CARDS_DETAILS.md)
 
+### Ramps (On/Off-Ramp Providers)
+- **Ramp comparison:** [RAMPS.md](./RAMPS.md) | [Details](./RAMPS_DETAILS.md)
+
 ---
 
 ## Adding a New Software Wallet
@@ -235,6 +238,174 @@ cd scripts
 
 ---
 
+## Adding a New Ramp Provider
+
+### Prerequisites
+
+Before adding a ramp provider, verify:
+
+1. ✅ It's a legitimate on-ramp and/or off-ramp service (not just a wallet feature)
+2. ✅ It's publicly available (not private/enterprise-only without public docs)
+3. ✅ It has developer documentation or API/SDK available
+
+### Step 1: Gather Required Data
+
+| Column | How to Verify |
+|--------|---------------|
+| **Score** | Calculate using [ramp scoring methodology](#ramp-scoring) |
+| **Type** | Both, On-Ramp only, or Off-Ramp only |
+| **On-Ramp** | ✅ if supports fiat → crypto, ❌ otherwise |
+| **Off-Ramp** | ✅ if supports crypto → fiat, ❌ otherwise |
+| **Coverage** | Check official docs for supported countries/regions |
+| **Fee Model** | Check pricing page or API docs |
+| **Min Fee** | Check pricing page (use ~ prefix if approximate) |
+| **Dev UX** | Check developer docs (SDK, Widget, API) |
+| **Status** | ✅ Active, ⚠️ Verify (needs verification), 🚧 Launching |
+| **Best For** | Your assessment of ideal use case |
+| **Rec** | 🟢 if score ≥75, 🟡 if 50-74, 🔴 if <50 |
+| **URL** | Official website URL |
+
+### Ramp Scoring
+
+Use this formula (100 points total) — prioritizes coverage, developer experience, and fees:
+
+```
+COVERAGE (25 pts)
+  160+ countries = 25
+  100-159 countries = 20
+  50-99 countries = 15
+  10-49 countries = 10
+  <10 countries = 5
+  US-only = 8
+  EU-only = 10
+
+FEE STRUCTURE (20 pts)
+  Low fees (<1%) = 20
+  Medium fees (1-3%) = 15
+  High fees (>3%) = 10
+  Variable/custom = 12
+  Unknown = 5
+
+DEVELOPER EXPERIENCE (20 pts)
+  Excellent (React SDK, great docs) = 20
+  Great (Widget, good docs) = 15
+  Good (API/SDK, basic docs) = 10
+  Basic (Widget only, minimal docs) = 5
+
+SUPPORTED CHAINS/ASSETS (15 pts)
+  Multi-chain (10+ chains) = 15
+  Multi-chain (5-9 chains) = 12
+  Multi-chain (2-4 chains) = 8
+  Single chain = 5
+
+KYC/COMPLIANCE (10 pts)
+  Clear KYC requirements = 10
+  Variable (risk-based) = 8
+  Unknown = 5
+
+RELIABILITY (10 pts)
+  Established provider (2+ years) = 10
+  New but active = 7
+  Unknown/verify = 5
+```
+
+**Score Interpretation:**
+- 🟢 **75+:** Recommended — excellent coverage, good dev UX, reasonable fees
+- 🟡 **50-74:** Situational — has limitations (limited coverage, higher fees, etc.)
+- 🔴 **<50:** Avoid — significant issues (very limited coverage, poor dev UX, etc.)
+
+### Step 2: Add to Main Table
+
+Add your row to `RAMPS.md` in score order (highest first):
+
+```markdown
+| [**ProviderName**](https://provider.com/) | XX 🟢 | Both | ✅ | ✅ | ~160+ Countries | Medium | ~$5.00 | Excellent (React SDK) | ✅ | Developers |
+```
+
+**Important:** Use markdown link format `[**Name**](url)` for provider name to enable clickable links.
+
+### Step 3: Update Other Sections
+
+If applicable, also update:
+
+- [ ] **Top Providers Comparison** table in RAMPS_DETAILS.md
+- [ ] **Provider-Specific Notes** section
+- [ ] **Fee Analysis** section
+- [ ] **Developer Experience** section
+- [ ] **Changelog** — Add entry to [CHANGELOG.md](./CHANGELOG.md)
+
+### Step 4: Frontend Integration
+
+When adding a new comparison type (like ramps), you must update:
+
+#### 4a. Type Definitions (`frontend/src/types/wallets.ts`)
+- [ ] Add interface (e.g., `Ramp`) with all required fields including `url: string | null`
+- [ ] Add to `WalletData` union type
+
+#### 4b. Data Parsing (`frontend/src/lib/wallet-data.ts`)
+- [ ] Add parsing function (e.g., `parseRamps()`)
+- [ ] Extract name and URL from markdown links: `[**Name**](url)`
+- [ ] Add to `getAllWalletData()` return object
+- [ ] Export parsing function
+
+#### 4c. Filtering (`frontend/src/lib/wallet-filtering.ts`)
+- [ ] Add filtering function (e.g., `filterRamps()`)
+- [ ] Map status types correctly if different from filter types
+- [ ] Export filtering function
+- [ ] Add to `wallet-data.ts` exports
+
+#### 4d. Components
+- [ ] **WalletTable.tsx:** Add item component (e.g., `RampItem`) for table/grid views
+- [ ] **ComparisonTool.tsx:** Add comparison component (e.g., `RampComparison`)
+- [ ] **WalletFilters.tsx:** Add filter options if needed
+- [ ] **ExploreContent.tsx:** Add tab, state management, filtering
+
+#### 4e. Pages
+- [ ] **explore/page.tsx:** Call parsing function, pass to ExploreContent
+- [ ] **docs/[slug]/page.tsx:** Add to `isTablePage` check
+- [ ] **sitemap.ts:** Add to `isComparisonTable` check
+
+#### 4f. Navigation (See Rule #127)
+- [ ] **Navigation.tsx:** Add to burger menu
+- [ ] **Footer.tsx:** Add to Comparisons section
+- [ ] **InternalLinks.tsx:** Add card to FeaturedCategoryLinks
+- [ ] **page.tsx:** Add to hero section, stats section, Top Developer Picks
+
+#### 4g. SEO (`frontend/src/lib/seo.ts`)
+- [ ] Add OG image mappings for table and details pages
+- [ ] Add keyword detection for new type (e.g., ramp-specific keywords)
+- [ ] Update ItemList schema to handle new type correctly
+
+#### 4h. OG Images (`frontend/scripts/generate-og-images.js`)
+- [ ] Add data to `WALLET_DATA` object
+- [ ] Create generator function for table image
+- [ ] Create generator function for details image
+- [ ] Add to `main()` function
+- [ ] Run `npm run generate-og` and commit PNGs
+- [ ] Update CI workflow to check for new images
+
+#### 4i. Markdown Config (`frontend/src/lib/markdown.ts`)
+- [ ] Add file to `DOCUMENT_CONFIG`
+- [ ] Add to `relatedMap` for table/details navigation
+
+### Step 5: Verification
+
+```bash
+cd wallets/frontend
+npm run type-check  # Verify TypeScript
+npm run lint        # Verify linting
+npm run build       # Verify build
+npm run generate-og # Regenerate OG images
+```
+
+---
+
+## Adding a New Crypto Card
+
+See existing `CRYPTO_CARDS.md` for card-specific guidelines. Follow similar pattern to software/hardware wallets.
+
+---
+
 ## Updating Existing Data
 
 ### Activity Status Updates
@@ -278,6 +449,8 @@ When a wallet publishes a new audit:
 | Chain count | Official docs or registry file |
 | Audit | Link to audit report |
 | Funding | Press releases, Crunchbase, etc. |
+| Ramp coverage | Official docs or API documentation |
+| Ramp fees | Pricing page or API docs |
 
 ### What Doesn't Require Verification
 
@@ -292,36 +465,31 @@ When a wallet publishes a new audit:
 Use this template for your PR:
 
 ```markdown
-## New Wallet: [Wallet Name]
+## New [Wallet/Card/Ramp]: [Name]
 
 ### Data Sources
-- GitHub: [link]
+- GitHub: [link] (if applicable)
 - Official docs: [link]
 - WalletBeat: [link if available]
 
 ### Verification
-- [x] GitHub repo verified
-- [x] Last commit date checked: YYYY-MM-DD
-- [x] License verified: [LICENSE]
-- [x] Chain count verified: [N] chains
+- [x] GitHub repo verified (if applicable)
+- [x] Last commit date checked: YYYY-MM-DD (if applicable)
+- [x] License verified: [LICENSE] (if applicable)
+- [x] Chain count verified: [N] chains (if applicable)
 - [x] Score calculated: XX/100
 
 ### Score Breakdown
-- Core (mobile + ext): XX/25
-- Stability (rel/mo): XX/20
-- DevExp (tx sim, testnets, RPC): XX/25
-- Activity: XX/15
-- FOSS: XX/10
-- Security: XX/5
+- [Component 1]: XX/pts
+- [Component 2]: XX/pts
 - **Total: XX/100**
 
 ### Changes
 - Added row to main comparison table
 - Added to [list other sections updated]
 - Updated [CHANGELOG.md](./CHANGELOG.md)
+- Updated frontend (if new comparison type)
 ```
-
----
 
 ---
 
@@ -362,6 +530,7 @@ When renaming files or changing URL patterns, you MUST update:
 - [ ] Update `getOgImagePath()` mapping for new slugs
 - [ ] Verify OG image paths are correct
 - [ ] Check that image files exist in `public/` directory
+- [ ] Add keyword detection if needed
 
 #### 4. Frontend Components
 - [ ] Update `Navigation.tsx` nav items
@@ -374,15 +543,14 @@ When renaming files or changing URL patterns, you MUST update:
 - [ ] Update table/details detection logic
 - [ ] Verify `isTablePage` and `isDetailsPage` detection
 - [ ] Update `RelatedDocuments` component logic if needed
+- [ ] Update ItemList schema to handle new type correctly
 
 #### 6. Sitemap (`frontend/src/app/sitemap.ts`)
 - [ ] Update `isComparisonTable` detection logic
 - [ ] Verify priority logic still works correctly
 
 #### 7. Data Parsers (`frontend/src/lib/wallet-data.ts`)
-- [ ] Update file paths in `parseSoftwareWallets()`
-- [ ] Update file paths in `parseHardwareWallets()`
-- [ ] Update file paths in `parseCryptoCards()`
+- [ ] Update file paths in parsing functions
 - [ ] Update any comments referencing old file names
 
 #### 8. Scripts
@@ -402,6 +570,7 @@ When renaming files or changing URL patterns, you MUST update:
 - [ ] Test related document mapping (table ↔ details)
 - [ ] Check for any remaining old references: `grep -r "old-name" frontend/`
 - [ ] Verify no broken internal links in markdown files
+- [ ] Run `npm run type-check`, `npm run lint`, `npm run build`
 
 ### SEO Considerations
 
@@ -438,7 +607,9 @@ mv WALLET_COMPARISON_UNIFIED_DETAILS.md SOFTWARE_WALLETS_DETAILS.md
 
 # 4. Verify
 cd frontend
-node -e "const { getAllDocuments } = require('./src/lib/markdown.ts'); console.log(getAllDocuments().map(d => d.slug));"
+npm run type-check
+npm run lint
+npm run build
 ```
 
 ### Testing After Rename
@@ -451,6 +622,83 @@ node -e "const { getAllDocuments } = require('./src/lib/markdown.ts'); console.l
 
 ---
 
+## Adding a New Comparison Type
+
+When adding a completely new comparison category (e.g., ramps, exchanges, etc.), follow this comprehensive checklist:
+
+### 1. Markdown Files
+- [ ] Create `CATEGORY.md` (table view)
+- [ ] Create `CATEGORY_DETAILS.md` (details view)
+- [ ] Follow existing table structure patterns
+- [ ] Include clickable website links: `[**Name**](url)` format
+- [ ] Mark uncertain values with `~` prefix
+- [ ] Add data accuracy disclaimer
+
+### 2. Type Definitions (`frontend/src/types/wallets.ts`)
+- [ ] Create interface with all required fields
+- [ ] Include `url: string | null` field for website links
+- [ ] Add `type: 'category'` field
+- [ ] Add to `WalletData` union type
+
+### 3. Data Parsing (`frontend/src/lib/wallet-data.ts`)
+- [ ] Create parsing function
+- [ ] Extract name and URL from markdown links
+- [ ] Handle all table columns
+- [ ] Add to `getAllWalletData()`
+- [ ] Export parsing function
+
+### 4. Filtering (`frontend/src/lib/wallet-filtering.ts`)
+- [ ] Create filtering function (don't use placeholder)
+- [ ] Map status types correctly if different
+- [ ] Implement search, score, recommendation filters
+- [ ] Export filtering function
+- [ ] Add to `wallet-data.ts` exports
+
+### 5. Components
+- [ ] **WalletTable.tsx:** Add item component for table/grid views
+- [ ] **ComparisonTool.tsx:** Add comparison component
+- [ ] **WalletFilters.tsx:** Add filter options if needed
+- [ ] **ExploreContent.tsx:** Add tab, state, filtering
+
+### 6. Pages
+- [ ] **explore/page.tsx:** Parse and pass data
+- [ ] **docs/[slug]/page.tsx:** Add to `isTablePage` check
+- [ ] **sitemap.ts:** Add to `isComparisonTable` check
+
+### 7. Navigation (Rule #127)
+- [ ] **Navigation.tsx:** Add to burger menu
+- [ ] **Footer.tsx:** Add to Comparisons section
+- [ ] **InternalLinks.tsx:** Add card to FeaturedCategoryLinks
+- [ ] **page.tsx:** Add to hero section, stats section, Top Developer Picks
+
+### 8. SEO (Rule #128)
+- [ ] **seo.ts:** Add OG image mappings
+- [ ] **seo.ts:** Add keyword detection
+- [ ] **docs/[slug]/page.tsx:** Update ItemList schema for new type
+- [ ] **generate-og-images.js:** Add generator functions
+- [ ] **CI workflow:** Add image check
+- [ ] Run `npm run generate-og` and commit PNGs
+
+### 9. Markdown Config (`frontend/src/lib/markdown.ts`)
+- [ ] Add files to `DOCUMENT_CONFIG`
+- [ ] Add to `relatedMap` for table/details navigation
+
+### 10. Documentation
+- [ ] Update `README.md` to include new category
+- [ ] Update `CONTRIBUTING.md` with category-specific guidelines
+- [ ] Add to changelog
+
+### 11. Verification
+- [ ] `npm run type-check` passes
+- [ ] `npm run lint` passes
+- [ ] `npm run build` passes
+- [ ] OG images generated and committed
+- [ ] All navigation locations updated
+- [ ] Social sharing works
+- [ ] Structured data includes new type
+
+---
+
 ## Questions?
 
 Open an issue if you're unsure about:
@@ -458,5 +706,6 @@ Open an issue if you're unsure about:
 - What activity status to assign
 - How to score a particular feature
 - How to rename files without breaking links
+- How to add a new comparison type
 
 We're happy to help!

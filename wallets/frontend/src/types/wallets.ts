@@ -103,5 +103,23 @@ export interface CryptoCard {
   type: 'card';
 }
 
-export type WalletData = SoftwareWallet | HardwareWallet | CryptoCard;
+export interface Ramp {
+  id: string;
+  name: string;
+  score: number;
+  rampType: 'both' | 'on-ramp' | 'off-ramp';
+  onRamp: boolean;
+  offRamp: boolean;
+  coverage: string;
+  feeModel: string;
+  minFee: string;
+  devUx: string;
+  status: 'active' | 'verify' | 'launching';
+  bestFor: string;
+  recommendation: 'recommended' | 'situational' | 'avoid';
+  url: string | null;
+  type: 'ramp';
+}
+
+export type WalletData = SoftwareWallet | HardwareWallet | CryptoCard | Ramp;
 

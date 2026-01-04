@@ -1,6 +1,11 @@
 # AI Assistant Rules for Experiments Repository
 
-> **Note:** These rules apply to ALL AI assistants working in this repository, including Cursor AI, Claude Code, GPT-4, Gemini, Claude Opus, and any other AI coding tools. See also `CLAUDE.md` for Claude Code-specific instructions.
+> **Note:** These rules apply to ALL AI assistants working in this repository, including Cursor AI, Claude Code, GPT-4, Gemini, Claude Opus, and any other AI coding tools.
+>
+> **Cross-references:**
+> - **CLAUDE.md** - Claude Code-specific instructions and quick reference
+> - **wallets/AGENTS.md** - Wallet comparison specific guidelines and meta learnings
+> - **mobile_experiments/Valdi/AGENTS.md** - Valdi framework specific guidelines
 
 ## ⚠️ PR Attribution Requirements
 
@@ -163,6 +168,14 @@ Brief description of changes.
   63. **Try multiple scraping approaches** - if curl fails, try: 1) Better user agents and headers, 2) Browser automation (Playwright/Puppeteer), 3) Python requests with BeautifulSoup, 4) Wait longer for JavaScript-heavy pages. Always attempt automated solutions before requesting manual help.
   64. **Document verification methods** - when verifying information via browser automation or other tools, document the method used (e.g., "Verified via Playwright browser automation") and the date in verification notes. This helps future verification efforts understand what worked.
 
+- Comparison table user experience and consistency:
+  123. **Always include clickable website links** - comparison tables should include clickable links to provider websites for user-friendliness and accessibility. Match the pattern used in other comparison tables: hardware wallets use `[**Name**](url)` format in provider name column, crypto cards include links in provider column. Users need easy access to actual products/services.
+  124. **Parse markdown links in table data** - when provider names include markdown links `[**Name**](url)`, extract both name and URL in parsing logic. Add `url` field to type definitions and display links in both table and grid views with external link icons for consistency.
+  125. **File naming consistency matters** - when renaming comparison files to shorter names (e.g., `RAMP_COMPARISON_TABLE.md` → `RAMPS.md`), update ALL references: markdown config, parsing functions, cross-references in markdown files, and related document mappings. Use git mv to preserve history. See `wallets/AGENTS.md` "URL/File Rename Meta-Learnings" for comprehensive checklist.
+  126. **Add filtering functions for new comparison types** - when adding new comparison types (e.g., ramps), create dedicated filtering function in `wallet-filtering.ts` even if simple. Placeholder `filter(() => true)` creates technical debt. Implement at least search and score filtering for consistency. Map status types correctly (e.g., ramp status 'verify'/'launching' → filter status 'slow').
+  127. **Navigation consistency** - when adding new comparison sections (e.g., ramps), add to ALL navigation locations: Navigation.tsx (burger menu), Footer.tsx, InternalLinks.tsx (homepage), landing page hero section, stats section, and Top Developer Picks. Missing any location creates inconsistent UX.
+  128. **OG images for new comparison types** - when adding new comparison types, generate OG images (table and details), add to `seo.ts` mappings, update CI workflow to check for images, and regenerate via `npm run generate-og`. CI will fail if images are missing.
+
 - SEO and social media card best practices:
   65. **Static vs dynamic OG images** - before adding OG/Twitter card metadata, check existing pattern: does the project use static pre-generated PNGs or dynamic API-generated cards? Follow the established pattern.
   66. **Consistency across pages** - when adding SEO to a new page, copy the EXACT pattern from similar existing pages: same ogImageVersion, same Twitter handles (@creator, @site), same image dimensions (1200x630), same metadata structure.
@@ -227,13 +240,21 @@ Brief description of changes.
   114. **Test pure math separately** - extract exchange rate calculations, fee computations, and share math into separate testable modules; these can be verified with standard `nargo test` without Aztec runtime
   115. **Honest handoff documentation** - distinguish clearly between "verified working" (tests pass) vs "needs environment" (requires aztec-nargo/sandbox); never claim full completion for code that hasn't been compiled
 
-- Pull request creation and agent attribution:
+- Pull request creation and agent attribution (see also `CLAUDE.md` for quick reference):
   116. **Always include agent name in PRs** - when creating pull requests, include the agent name (e.g., "Composer", "Claude Code", "GPT-4", "Gemini", "Claude Opus", "Cursor AI") in the PR description. Format: "**Agent:** [Agent Name]" at the top. This enables tracking which agents are used most and analyzing their performance over time.
   117. **Include agent name in commit messages** - add agent attribution to commit messages when making commits. Format: `[Agent: YourAgent]` or `(Agent: YourAgent)` at the start or end of the commit message. This provides attribution even if PRs are squashed or merged differently. **Enforcement:** Git hook `.git/hooks/commit-msg` warns if missing (can bypass with `--no-verify`).
   118. **PR titles focus on what's done, not the prompt** - PR titles should be descriptive and focused on the actual changes made (e.g., "Add agent attribution to PR descriptions" or "Fix token price calculation in economics model"), not the user's prompt or request. Avoid titles like "User asked to add X" or "Implement feature Y as requested" - instead describe the change itself. **Enforcement:** CI check validates title quality.
   119. **Include original prompt in PR description** - always include the original user prompt/request in the PR description, either in a "## Original Request" section or as a quote block. This provides context for reviewers and helps track what prompts lead to which changes. If the prompt is very long, include a summary and link to the full prompt in `.cursor/artifacts/` if needed. **Enforcement:** CI check validates presence.
   120. **Create prompt artifact for complex requests** - for complex or multi-step requests, create a `.cursor/artifacts/[pr-number]-original-prompt.md` file documenting the full prompt and context, then reference it in the PR description. This preserves full context for future analysis.
   121. **PR description structure** - structure PR descriptions with: (1) Agent attribution at top, (2) Brief summary of changes, (3) Original request/prompt, (4) Changes made, (5) Testing/verification notes. This consistent structure makes it easier to analyze agent performance patterns. **Template:** `.github/pull_request_template.md` is auto-filled when creating PRs.
+  122. **Always include human co-author in commits** - when making commits, include `Co-authored-by: [Human Name] <email>` in commit messages to attribute the human collaborator. Changes should be additive with respect to attribution - include both agent AND human attribution. This ensures proper credit for collaborative work. Format: Add `Co-authored-by:` line after the commit message body.
+  129. **CI checks must not skip** - PR attribution check should run on ALL PRs (no paths filter). Frontend CI checks (lint, type-check, tests, OG images, Twitter Cards validation) should fail builds on errors, not skip with `|| true`. All checks are important and should be enforced.
+
+- Adding new comparison types (ramps, exchanges, etc.):
+  130. **Complete integration checklist** - when adding a new comparison type, follow comprehensive checklist: (1) Markdown files with clickable links, (2) Type definitions with url field, (3) Data parsing extracting links, (4) Filtering functions (not placeholders), (5) Components (table, comparison, filters), (6) Pages (explore, docs, sitemap), (7) Navigation (all 6 locations per Rule #127), (8) SEO (OG images, keywords, schema), (9) Markdown config, (10) Documentation updates. See `wallets/CONTRIBUTING.md` "Adding a New Comparison Type" for full checklist.
+  131. **Status type mapping** - when new comparison types have different status enums (e.g., ramps: 'active'|'verify'|'launching' vs filters: 'active'|'slow'|'inactive'|'private'), create explicit mapping in filter function. Don't force incompatible types or use `as` casts.
+  132. **Structured data for new types** - when adding ItemList schema for new comparison types, update regex to extract names from markdown link format `[**Name**](url)`, use appropriate `@type` (Product for ramps/hardware, SoftwareApplication for software wallets), and update schema name to match category (e.g., "Ramp Provider Comparison").
+  133. **Keyword detection for new types** - add content-based keyword detection in `generateKeywords()` for new comparison types (e.g., ramp detection adds: crypto ramp, on-ramp, off-ramp, fiat on-ramp, fiat off-ramp, crypto payment gateway). This improves SEO discoverability.
 
 ## Best Practices
 - Use semantic versioning for packages

@@ -53,6 +53,18 @@ const DOCUMENT_CONFIG: Record<string, Omit<MarkdownDocument, 'slug' | 'content'>
     category: 'comparison',
     order: 3,
   },
+  'RAMPS.md': {
+    title: 'Crypto On/Off-Ramp Comparison',
+    description: 'Comparison of crypto on-ramp and off-ramp providers with fees, coverage, and developer experience',
+    category: 'comparison',
+    order: 4,
+  },
+  'RAMPS_DETAILS.md': {
+    title: 'Crypto On/Off-Ramp Comparison - Details',
+    description: 'Full documentation with provider reviews, integration guides, fee analysis, and recommendations',
+    category: 'comparison',
+    order: 4,
+  },
   'README.md': {
     title: 'Overview',
     description: 'Wallet research documentation hub - quick recommendations and data sources',
@@ -147,6 +159,8 @@ export function getRelatedDocument(slug: string, type: 'table' | 'details'): Mar
     'hardware-wallets-details': { table: 'hardware-wallets', details: 'hardware-wallets-details' },
     'crypto-cards': { table: 'crypto-cards', details: 'crypto-cards-details' },
     'crypto-cards-details': { table: 'crypto-cards', details: 'crypto-cards-details' },
+    'ramps': { table: 'ramps', details: 'ramps-details' },
+    'ramps-details': { table: 'ramps', details: 'ramps-details' },
   };
   
   const related = relatedMap[slug];
