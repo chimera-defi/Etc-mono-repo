@@ -31,6 +31,16 @@ export function Footer() {
                   Hardware Wallets
                 </Link>
               </li>
+              <li>
+                <Link href="/docs/crypto-cards" className="text-muted-foreground hover:text-foreground">
+                  Crypto Cards
+                </Link>
+              </li>
+              <li>
+                <Link href="/docs/ramps" className="text-muted-foreground hover:text-foreground">
+                  Ramps
+                </Link>
+              </li>
             </ul>
           </div>
 
