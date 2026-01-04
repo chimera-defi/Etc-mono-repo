@@ -90,7 +90,7 @@ jobs:
         run: npm run build
 
       - name: Validate Twitter Cards
-        run: npm run validate-cards || true
+        run: npm run validate-cards
 
       - name: Build Summary
         if: success()

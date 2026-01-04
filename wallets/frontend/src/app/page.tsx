@@ -260,6 +260,22 @@ export default function HomePage() {
             'Score: 92 — React SDK, 160+ countries, excellent developer experience. Best Ramp for Developers with both on-ramp and off-ramp support.',
         },
       },
+      {
+        '@type': 'ListItem',
+        position: 7,
+        item: {
+          '@type': 'Product',
+          name: 'onesafe',
+          category: 'Crypto On/Off-Ramp',
+          brand: {
+            '@type': 'Brand',
+            name: 'onesafe',
+          },
+          url: `${baseUrl}/docs/ramps/`,
+          description:
+            'Score: 70 — Enterprise-focused API, custom pricing, select global coverage. Best Business Ramp for enterprise use cases.',
+        },
+      },
     ],
   };
 
@@ -461,6 +477,21 @@ export default function HomePage() {
             </p>
             <div className="text-xs text-muted-foreground">
               ✅ React SDK • ✅ 160+ Countries • ✅ Both On/Off-Ramp
+            </div>
+          </div>
+
+          {/* Best Business Ramp Pick */}
+          <div className="p-6 rounded-lg border border-teal-200 dark:border-teal-900 bg-teal-50 dark:bg-teal-950/30">
+            <div className="flex items-center gap-2 mb-3">
+              <ArrowLeftRight className="h-5 w-5 text-teal-600" />
+              <span className="text-sm font-medium text-teal-600">Best Business Ramp</span>
+            </div>
+            <h3 className="font-bold text-xl mb-2">onesafe</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Score: 70 — Enterprise-focused API, custom pricing, select global coverage
+            </p>
+            <div className="text-xs text-muted-foreground">
+              ✅ Enterprise API • ✅ Custom Pricing • ✅ Both On/Off-Ramp
             </div>
           </div>
         </div>
