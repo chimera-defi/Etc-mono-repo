@@ -1,7 +1,8 @@
 # Stablecoin Payment Networks - Final Research Summary
 
 **Date:** December 16, 2025  
-**Research Scope:** Global search for stablecoin payment networks (QR payments + bank withdrawal)
+**Research Scope:** Global search for crypto-specific stablecoin payment networks (QR payments + bank withdrawal)  
+**Focus:** Crypto-specific payment applications (NOT exchanges, NOT fiat-only apps, NOT wallets without payment features)
 
 ---
 
@@ -105,37 +106,43 @@
 
 ---
 
-## Unclear (3 Services)
+## Unclear (2 Services - Crypto-Specific Apps Requiring Deeper Research)
 
 ### Yellow Card (Africa)
-- **Status:** ❓ **UNCLEAR - NEEDS MANUAL VERIFICATION**
+- **Status:** ❓ **UNCLEAR - B2B FOCUS, CONSUMER FEATURES UNCLEAR**
 - **Reason:** Website mentions "Stablecoin Payment Infrastructure" but unclear if consumer P2P QR payments exist
 - **Features:**
-  - ✅ Stablecoins (USDC/USDT likely)
-  - ❓ QR payments - not found in website scraping
-  - ❓ Bank withdrawal - not found in website scraping
+  - ✅ Stablecoins (USDC/USDT likely based on "Stablecoin Payment Infrastructure")
+  - ⚠️ B2B focus: "empowers global businesses in emerging markets"
+  - ❓ Consumer P2P QR payments - unclear
+  - ❓ Bank withdrawal - unclear
 - **Assessment:** Appears to be B2B infrastructure focus ("empowers global businesses"), unclear if consumer P2P QR payments exist
-- **Next Steps:** Manual app testing or user documentation review needed
+- **Next Steps:** 
+  - Check if consumer app exists (vs. B2B only)
+  - Review app store descriptions
+  - Verify consumer P2P QR payment features
+  - Check bank withdrawal capabilities
 
 ### Chipper Cash (Africa)
 - **Status:** ❓ **UNCLEAR - NEEDS DEEPER RESEARCH**
 - **Reason:** Has crypto features, but unclear if stablecoin P2P QR payments exist
 - **Features:**
   - ✅ Cross-border payments
-  - ✅ Crypto trading (likely)
-  - ❓ Stablecoin P2P QR payments - unclear
-  - ❓ Bank withdrawal - unclear
-- **Assessment:** Payment service with crypto features, but unclear if it matches stablecoin QR payment network criteria
-- **Next Steps:** Need deeper investigation for stablecoin QR payment features
-
-### Palm (Africa)
-- **Status:** ❓ **UNCLEAR - NEEDS DEEPER RESEARCH**
-- **Reason:** Limited information found, may have crypto features
-- **Features:**
-  - ❓ Crypto/stablecoin support - unclear
+  - ✅ Mobile app (iOS, Android)
+  - ❓ Crypto/stablecoin support - unclear if stablecoin P2P QR payments exist
   - ❓ QR payments - unclear
-- **Assessment:** Needs deeper investigation
-- **Next Steps:** Need more research to determine if it matches criteria
+  - ❓ Bank withdrawal - unclear
+- **Assessment:** Payment service with crypto features mentioned, but unclear if it matches stablecoin QR payment network criteria
+- **Next Steps:** 
+  - Check App Store descriptions (iOS/Android)
+  - Review user documentation/help pages
+  - Search for "QR code" + "stablecoin" + "Chipper Cash"
+  - Verify if crypto payments are integrated or separate feature
+
+### Excluded: Palm (Africa)
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Business identity/compliance service (KYB, business filings), NOT a crypto payment app
+- **Assessment:** Focuses on business identity management, compliance, and filings - not crypto payments
 
 ---
 
