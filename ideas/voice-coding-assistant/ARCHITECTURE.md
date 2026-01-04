@@ -2,9 +2,11 @@
 
 > **Architecture reference for the Voice AI Coding Assistant**
 >
-> Last Updated: December 26, 2025 | Status: Ready for Implementation
+> Last Updated: December 28, 2025 | Status: Backend Complete - iOS Development Pending
 >
-> ⚠️ **Note:** For implementation details, task breakdowns, and code examples, see **[IMPLEMENTATION.md](./IMPLEMENTATION.md)** - that is the primary document for developers.
+> ⚠️ **Note:** This architecture has been updated to use **Swift/SwiftUI** for iOS instead of React Native.
+>
+> **Implementation Status:** Backend API is fully scaffolded with streaming, text input, and webhook support. See Section 3 for actual endpoints.
 
 ---
 
@@ -12,15 +14,30 @@
 
 | Component | Technology | Cost |
 |-----------|-----------|------|
-| Mobile App | React Native + Expo SDK 52 | Free |
+| **iOS App** | **Swift + SwiftUI** | Free |
 | Backend API | Fastify 4 + TypeScript | $20-50/mo |
-| AI Agents | Claude API | ~$0.50/agent |
+| AI Agents | Claude Code CLI | ~$0.50/agent |
 | STT | OpenAI Whisper API | $0.006/min |
-| TTS | expo-speech (on-device) | Free |
+| TTS | AVSpeechSynthesizer (native) | Free |
 | Database | PostgreSQL (Neon) | $0-25/mo |
-| Real-time | Supabase Realtime | $0-25/mo |
-| **Execution (MVP)** | **Fly.io Machines** | **~$15-30/mo** |
-| **Execution (Scale)** | **Hetzner VPS per user** | **$4.85/user/mo** |
+| Real-time | WebSocket | $0 |
+| **Execution** | **User's VPS + Claude Code** | **User provides** |
+
+---
+
+## Architecture Decision: Swift over React Native
+
+| Factor | Swift | React Native |
+|--------|-------|--------------|
+| **Voice APIs** | ✅ Native AVFoundation, Speech.framework | ⚠️ Wrapper libraries |
+| **Performance** | ✅ Native, no bridge | ⚠️ JS bridge overhead |
+| **iOS Integration** | ✅ Siri, Shortcuts, Widgets | ⚠️ Limited |
+| **App Size** | ✅ Smaller | ⚠️ Larger (include RN runtime) |
+| **Target Audience** | ✅ iOS developers appreciate native | - |
+| **Development Time** | ⚠️ iOS only | ✅ Cross-platform |
+| **Team Size** | ⚠️ Need Swift expertise | ✅ JS developers |
+
+**Decision:** Swift. We're targeting iOS-only for MVP. Voice is core functionality - native APIs provide better experience.
 
 ---
 
@@ -28,15 +45,15 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                         MOBILE APP (React Native)                        │
+│                         iOS APP (Swift/SwiftUI)                          │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐    │
 │  │ Voice Input │  │ Agent List  │  │Agent Detail │  │  Settings   │    │
-│  │ (Whisper)   │  │             │  │             │  │             │    │
+│  │ (AVAudio)   │  │             │  │             │  │             │    │
 │  └──────┬──────┘  └─────────────┘  └─────────────┘  └─────────────┘    │
 │         │                                                                │
 │         ▼                                                                │
 │  ┌──────────────────────────────────────────────────────────────────┐   │
-│  │  Voice Processing: expo-av → Whisper API → CommandParser (Haiku) │   │
+│  │  Voice: AVAudioRecorder → Whisper API → CommandParser (Haiku)    │   │
 │  └────────────────────────────────┬─────────────────────────────────┘   │
 └───────────────────────────────────┼─────────────────────────────────────┘
                                     │ HTTPS
@@ -44,21 +61,21 @@
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                         BACKEND API (Fastify)                            │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐    │
-│  │ Auth Routes │  │Agent Routes │  │ Codebase    │  │ Webhooks    │    │
-│  │ (GitHub)    │  │ (CRUD)      │  │ Analyzer    │  │ (GitHub)    │    │
+│  │ Auth Routes │  │ Task Routes │  │ VPS Bridge  │  │ Webhooks    │    │
+│  │ (GitHub)    │  │ (CRUD)      │  │             │  │ (GitHub)    │    │
 │  └─────────────┘  └──────┬──────┘  └─────────────┘  └─────────────┘    │
 │                          │                                               │
 │                          ▼                                               │
 │  ┌──────────────────────────────────────────────────────────────────┐   │
-│  │              Agent Orchestrator (Queue + State + Health)          │   │
+│  │              Task Queue + WebSocket for real-time updates         │   │
 │  └────────────────────────────────┬─────────────────────────────────┘   │
 └───────────────────────────────────┼─────────────────────────────────────┘
                                     │
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                    EXECUTION ENVIRONMENT (See Section 4)                 │
+│                    USER'S VPS (Claude Code Bridge)                       │
 │  ┌──────────────────────────────────────────────────────────────────┐   │
-│  │                    Claude Agent SDK Execution                     │   │
+│  │                    Claude Code CLI Execution                      │   │
 │  │  • Clone repo  • Read/Edit files  • Run commands  • Create PR    │   │
 │  └──────────────────────────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────────────────────────┘
@@ -133,18 +150,33 @@ interface CodebaseContext {
 
 ## 3. API Endpoints
 
-| Method | Endpoint | Purpose |
-|--------|----------|---------|
-| `POST` | `/api/auth/github` | OAuth callback |
-| `POST` | `/api/agents` | Create agent |
-| `GET` | `/api/agents` | List agents |
-| `GET` | `/api/agents/:id` | Get agent detail |
-| `POST` | `/api/agents/:id/pause` | Pause agent |
-| `POST` | `/api/agents/:id/resume` | Resume agent |
-| `DELETE` | `/api/agents/:id` | Cancel agent |
-| `GET` | `/api/agents/:id/logs` | Get agent logs |
-| `POST` | `/api/codebase/analyze` | Analyze repository |
-| `GET` | `/api/repos` | List user repositories |
+### Implemented Endpoints (cadence-api/)
+
+| Method | Endpoint | Purpose | Status |
+|--------|----------|---------|--------|
+| `GET` | `/api/health` | Health check | ✅ Implemented |
+| `GET` | `/api/tasks` | List all tasks | ✅ Implemented |
+| `GET` | `/api/tasks/:id` | Get task detail | ✅ Implemented |
+| `POST` | `/api/tasks` | Create new task | ✅ Implemented |
+| `DELETE` | `/api/tasks/:id` | Cancel task | ✅ Implemented |
+| `POST` | `/api/voice/transcribe` | Transcribe audio (Whisper) | ✅ Implemented |
+| `POST` | `/api/voice/parse` | Parse text to command | ✅ Implemented |
+| `POST` | `/api/voice/command` | Transcribe + parse combo | ✅ Implemented |
+| `POST` | `/api/input/text` | Text input (keyboard) | ✅ Implemented |
+| `POST` | `/api/input/command` | Direct command execution | ✅ Implemented |
+| `WS` | `/api/ws/stream` | WebSocket streaming | ✅ Implemented |
+| `GET` | `/api/ws/health` | WebSocket health check | ✅ Implemented |
+| `POST` | `/api/webhooks/github` | GitHub webhook handler | ✅ Implemented |
+
+### Planned Endpoints (Not Yet Implemented)
+
+| Method | Endpoint | Purpose | Status |
+|--------|----------|---------|--------|
+| `POST` | `/api/auth/github` | OAuth callback | 📋 Planned |
+| `GET` | `/api/repos` | List user repositories | 📋 Planned |
+| `POST` | `/api/codebase/analyze` | Analyze repository | 📋 Planned |
+
+> **Note:** The API uses "tasks" terminology (not "agents") to match the backend implementation.
 
 ---
 
@@ -220,18 +252,18 @@ See **Section 6** for detailed VPS-per-user architecture for Pro tier.
 
 ---
 
-## 5. Voice Pipeline
+## 5. Voice Pipeline (Swift Native)
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────┐
-│                           VOICE PIPELINE                                  │
+│                      VOICE PIPELINE (iOS Native)                          │
 ├──────────────────────────────────────────────────────────────────────────┤
 │                                                                           │
 │  1. RECORD                    2. TRANSCRIBE              3. PARSE        │
 │  ┌─────────────┐             ┌─────────────┐            ┌─────────────┐  │
-│  │   expo-av   │────M4A─────>│ Hybrid STT  │───Text───> │Claude Haiku │  │
-│  │  Recording  │   (50KB)    │ (Whisper +  │            │  (Parser)   │  │
-│  │             │             │  Context)   │            │             │  │
+│  │AVAudioRec-  │────M4A─────>│ Whisper API │───Text───> │Claude Haiku │  │
+│  │order        │   (50KB)    │ (OpenAI)    │            │  (Parser)   │  │
+│  │             │             │             │            │             │  │
 │  │ Target: 30s │             │ ~300ms      │            │ ~200ms      │  │
 │  │ max         │             │ 98% acc     │            │ Intent+Ents │  │
 │  └─────────────┘             └──────┬──────┘            └──────┬──────┘  │
@@ -245,15 +277,15 @@ See **Section 6** for detailed VPS-per-user architecture for Pro tier.
 │  4. EXECUTE                   5. RESPOND                       │         │
 │  ┌─────────────┐             ┌─────────────┐                   │         │
 │  │   Backend   │<────────────│   Router    │<──────────────────┘         │
-│  │   Agent     │             │             │                              │
-│  │  Creation   │             │ Route to    │                              │
+│  │   + VPS     │             │             │                              │
+│  │   Bridge    │             │ Route to    │                              │
 │  │             │             │ handler     │                              │
 │  └──────┬──────┘             └─────────────┘                              │
 │         │                                                                  │
 │         ▼                                                                  │
 │  ┌─────────────┐                                                          │
-│  │ expo-speech │  "Agent started. I'll notify you when complete."        │
-│  │   (TTS)     │                                                          │
+│  │AVSpeech-    │  "Agent started. I'll notify you when complete."        │
+│  │Synthesizer  │                                                          │
 │  │  <50ms      │                                                          │
 │  └─────────────┘                                                          │
 │                                                                           │
@@ -272,6 +304,89 @@ To match **Wispr Flow's 95-98% accuracy**, we use a **Context Injection** strate
     *   *Result:* Whisper hears "use effect" -> transcribes `useEffect` because it's in the prompt.
 
 **Architecture Reference:** See `WISPR_FLOW_RESEARCH_SUMMARY.md` for full reverse-engineering details.
+
+---
+
+## 5.1 Real-Time Streaming Architecture (Implemented)
+
+The backend implements a two-layer streaming architecture:
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                     STREAMING ARCHITECTURE                                │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  iOS App (Swift)                Backend API                User's VPS   │
+│  ┌─────────────┐              ┌─────────────┐            ┌─────────────┐│
+│  │ WebSocket   │◄─────WS─────►│ StreamMan-  │◄────SSE───►│ Claude Code ││
+│  │ Client      │   Events     │ ager        │  Events    │ Execution   ││
+│  └─────────────┘              └─────────────┘            └─────────────┘│
+│                                                                          │
+│  Events:                       Subscription:              SSE Format:    │
+│  • task_started               • subscribe(taskId)        • data: {...}  │
+│  • tool_use                   • unsubscribe(taskId)      • type: output │
+│  • file_edit                  • emit(event)              • type: tool   │
+│  • command_run                                                           │
+│  • output                                                                │
+│  • error                                                                 │
+│  • task_completed                                                        │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### Streaming Flow
+
+1. **Client connects** via WebSocket to `/api/ws/stream`
+2. **Client subscribes** to task ID: `{ "type": "subscribe", "taskId": "..." }`
+3. **VPS streams events** via Server-Sent Events (SSE) to backend
+4. **Backend forwards** events to subscribed WebSocket clients
+5. **Client receives** real-time updates (tool usage, file edits, output)
+
+### Input Methods
+
+| Method | Endpoint | Use Case |
+|--------|----------|----------|
+| Voice | `/api/voice/command` | Primary - hands-free coding |
+| Text | `/api/input/text` | Fallback - keyboard input |
+| Direct | `/api/input/command` | Programmatic - direct action |
+
+---
+
+## 5.2 Known Limitations & Future Work
+
+### Current Limitations
+
+| Limitation | Description | Mitigation |
+|------------|-------------|------------|
+| **In-memory storage** | Tasks stored in Map, lost on restart | Planned: PostgreSQL |
+| **No authentication** | API is open, no user isolation | Planned: GitHub OAuth |
+| **Mock VPS mode** | Real VPS execution not tested | VPS bridge has mock mode |
+| **No rate limiting** | API can be abused | Planned: Rate limiting |
+| **Single process** | No horizontal scaling | Planned: Redis pub/sub |
+
+### Not Yet Implemented
+
+| Feature | Status | Notes |
+|---------|--------|-------|
+| iOS App | 📋 Planned | See `cadence-ios/PLAN.md` |
+| GitHub OAuth | 📋 Planned | For user authentication |
+| Database | 📋 Planned | PostgreSQL via Neon |
+| VPS Provisioning | 📋 Planned | Hetzner API integration |
+| TTS Responses | 📋 Planned | AVSpeechSynthesizer in iOS |
+
+### Test Coverage
+
+| Component | Tests | Coverage |
+|-----------|-------|----------|
+| Tasks API | 9 | CRUD + validation |
+| Input API | 9 | Text + command handling |
+| Voice API | 11 | Transcribe, parse, command endpoints |
+| Webhooks | 10 | Signature + PR/comment side effects |
+| StreamManager | 18 | Subscriptions + events + message handling |
+| VPS Bridge | 4 | Mock streaming |
+| Command Parser | 15 | Intent detection |
+| Health | 1 | Basic check |
+| **Total** | **77** | Core functionality |
 
 ---
 
@@ -617,15 +732,14 @@ Post-MVP:   Hybrid model (Free=serverless, Pro=VPS)
 
 | Decision | Choice | Rationale |
 |----------|--------|-----------|
-| **Mobile Framework** | React Native + Expo | Cross-platform, fast iteration |
+| **iOS Framework** | **Swift + SwiftUI** | Native voice APIs, best UX |
 | **Backend** | Fastify + TypeScript | Fast, type-safe, familiar |
 | **Database** | Neon PostgreSQL | Serverless, auto-scale |
 | **STT** | OpenAI Whisper API | 95-98% accuracy, reliable |
-| **TTS** | expo-speech | Free, on-device, low latency |
-| **Real-time** | Supabase Realtime | WebSocket, free tier |
-| **Execution (MVP)** | Fly.io Machines | Simple, pay-per-use |
-| **Execution (Scale)** | Hetzner VPS per user | Zero cold start, predictable |
-| **AI Core** | Claude API + Agent tools | Best coding capability |
+| **TTS** | AVSpeechSynthesizer | Free, native, low latency |
+| **Real-time** | WebSocket | Direct, no third-party |
+| **Execution** | User's VPS + Claude Code | User controls environment |
+| **AI Core** | Claude Code CLI | Battle-tested agent execution |
 
 ---
 
@@ -633,24 +747,30 @@ Post-MVP:   Hybrid model (Free=serverless, Pro=VPS)
 
 See **[GITHUB_INTEGRATION.md](./GITHUB_INTEGRATION.md)** for the complete GitHub integration design.
 
-### Key Features
+### Implemented Features
 
-| Feature | Description |
-|---------|-------------|
-| **Webhook Events** | React to PR merges, closes, comments in real-time |
-| **Auto-Archiving** | Merged/closed PRs automatically archive agent sessions |
-| **Issue Integration** | Start agents from GitHub Issues, Linear, or Slack |
-| **@cadence-ai Mentions** | Respond to PR comments with follow-up changes |
-| **Status Sync** | Keep issue trackers updated with agent progress |
+| Feature | Status | Description |
+|---------|--------|-------------|
+| **PR Close/Merge** | ✅ Implemented | Updates task to completed/cancelled |
+| **@cadence-ai Mentions** | ✅ Implemented | Creates new task from comment |
+| **Signature Verification** | ✅ Implemented | HMAC SHA-256 validation |
+
+### Planned Features
+
+| Feature | Status | Description |
+|---------|--------|-------------|
+| **Issue Integration** | 📋 Planned | Start agents from GitHub Issues |
+| **Check Run Status** | 📋 Planned | Update task with CI status |
+| **Push Events** | 📋 Planned | Track commits to branches |
+| **Linear/Slack** | 📋 Planned | External issue tracker integration |
 
 ### Auto-Archive Workflow
 
 ```
-PR Merged → Webhook fires → Agent marked "completed" → Moved to Archive
-PR Closed → Webhook fires → Agent marked "closed" → Moved to Archive
+PR Merged → Webhook fires → Task marked "completed"
+PR Closed → Webhook fires → Task marked "cancelled"
+@cadence-ai mention → Webhook fires → New task created
 ```
-
-This keeps the active agent list clean, showing only in-progress work.
 
 ---
 
@@ -666,6 +786,15 @@ This keeps the active agent list clean, showing only in-progress work.
 
 ---
 
-**Architecture Version:** 2.1
-**Updated:** December 27, 2025
-**Status:** Ready for Implementation
+**Architecture Version:** 3.1
+**Updated:** December 28, 2025
+**Status:** Backend Complete - iOS Development Pending
+
+### Change Log
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 3.1 | Dec 28, 2025 | Fixed webhook stubs, added voice tests, 77 tests total |
+| 3.0 | Dec 28, 2025 | Added streaming architecture, limitations, updated endpoints |
+| 2.1 | Dec 27, 2025 | Swift iOS decision, VPS-per-user analysis |
+| 2.0 | Dec 27, 2025 | Initial architecture document |

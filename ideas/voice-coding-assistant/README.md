@@ -1,57 +1,85 @@
 # Cadence: Voice-Enabled AI Coding Assistant
 
-> **The first mobile-native AI coding assistant with voice interface**
+> **Control Claude Code with your voice, from anywhere**
 >
-> React Native + Expo | Claude Agent SDK | Status: **Ready for Implementation**
+> Your VPS + Claude Code + Voice | Status: **Ready to Use**
+
+---
+
+## Quick Start (5 minutes)
+
+1. **Open** `cadence-web/index.html` in your browser
+2. **Copy** the bootstrap command shown in the app
+3. **Run** it on your VPS (SSH in and paste)
+4. **Enter** your VPS IP + API keys in the app
+5. **Done** - Start coding with voice!
+
+**That's it.** No mobile app to build. No backend to deploy. Just your VPS running Claude.
 
 ---
 
 ## What is Cadence?
 
-A **mobile app** that lets developers:
+A **voice interface** for Claude Code that lets developers:
 - **Code with voice** - 3.75x faster than typing (150 WPM vs 40 WPM)
-- **Work anywhere** - Code on phone/tablet, not just desk
-- **AI agents** - Autonomous coding assistants powered by Claude Agent SDK
-- **Stay updated** - Real-time progress, push notifications
+- **Work anywhere** - From phone, tablet, or any browser
+- **AI agents** - Claude Code executes on your VPS
+- **Simple setup** - One command, 5 minutes
 
 **Example:**
 ```
-You:  "Start an agent on wallet-frontend to add dark mode"
-App:  "Analyzing codebase... Found React + TypeScript"
-      "Creating DarkModeContext, updating theme..."
-      (3 minutes later)
-App:  "Done! 4 files changed, +127 lines. PR ready."
+You:  "Add error handling to the fetchData function"
+      (speak into phone or browser)
+
+Claude: Analyzing codebase... Found src/api.ts
+        Adding try-catch with proper error types...
+        Running tests... All passing.
+        Done! 1 file changed, +12 lines.
 ```
 
-**The Opportunity:** NO ONE offers mobile + voice + AI coding. We're first.
-
 ---
+
+## Architecture
+
+```
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────────────┐
+│  Phone/Browser  │     │  Whisper API    │     │  Your VPS               │
+│                 │     │  (OpenAI)       │     │                         │
+│  Record voice   │────>│  Transcribe     │────>│  Cadence Bridge         │
+│                 │     │                 │     │       │                 │
+│  <── Results ───│<────│<────────────────│<────│  Claude Code            │
+│                 │     │                 │     │  (executes tasks)       │
+└─────────────────┘     └─────────────────┘     └─────────────────────────┘
+```
 
 ## Quick Links
 
 | Document | Purpose | Read Time |
 |----------|---------|-----------|
-| **[IMPLEMENTATION.md](./IMPLEMENTATION.md)** | **START HERE** - Task breakdown, code samples | 20 min |
-| [ARCHITECTURE.md](./ARCHITECTURE.md) | Complete technical reference | 30 min |
-| [GITHUB_INTEGRATION.md](./GITHUB_INTEGRATION.md) | GitHub workflow automation, auto-archiving | 15 min |
-| [01-business/EXECUTIVE_SUMMARY.md](./01-planning/EXECUTIVE_SUMMARY.md) | Business overview, financials | 10 min |
-| [01-business/RISK_ANALYSIS.md](./01-planning/RISK_ANALYSIS_AND_VIABILITY.md) | Risks, competitor analysis | 20 min |
-| [02-design/UI_WIREFRAMES.md](./04-design/UI_WIREFRAMES.md) | 10 screen mockups | 10 min |
+| **[cadence-web/](./cadence-web/)** | **START HERE** - Voice interface + VPS setup | 5 min |
+| [cadence-setup/](./cadence-setup/) | Bootstrap script details | 2 min |
+| [IMPLEMENTATION.md](./IMPLEMENTATION.md) | Full mobile app plans (future) | 20 min |
+| [ARCHITECTURE.md](./ARCHITECTURE.md) | Technical reference | 30 min |
 
 ---
 
-## Tech Stack
+## Tech Stack (Simplified)
+
+| Layer | Technology | Why |
+|-------|-----------|-----|
+| **Execution** | Your VPS + Claude Code | You control the environment |
+| **Bridge** | Node.js HTTP server (~100 LOC) | Thin wrapper for Claude CLI |
+| **Voice** | OpenAI Whisper API | 98% accuracy |
+| **Interface** | Static HTML + JS | Works on any device |
+| **Auth** | API key | Simple, secure |
+
+### Future (Mobile App)
 
 | Layer | Technology | Why |
 |-------|-----------|-----|
 | **Mobile** | React Native + Expo SDK 52 | Cross-platform, fast iteration |
-| **Backend** | Fastify 4 + **Claude Agent SDK** | AI-native architecture |
-| **AI Core** | `@anthropic-ai/claude-code` | Agent execution engine |
-| **STT** | OpenAI Whisper API + Context | 98% accuracy (Wispr Flow parity) |
-| **TTS** | expo-speech | On-device, <50ms latency |
-| **Database** | PostgreSQL 16 (Neon) | Serverless, auto-scale |
-| **State** | Zustand + TanStack Query | Lightweight, cached |
-| **Auth** | OAuth 2.0 PKCE + GitHub | Secure, standard |
+| **Backend** | Fastify 4 | API server |
+| **Database** | PostgreSQL (Neon) | Serverless, auto-scale |
 
 ---
 
@@ -83,21 +111,24 @@ App:  "Done! 4 files changed, +127 lines. PR ready."
 
 ## Implementation Timeline
 
+### MVP (Now Available)
+
 | Phase | Duration | Deliverables |
 |-------|----------|--------------|
-| **0: Validation** | **3-5 days** | **CLI prototype: voice → agent → code (MUST DO FIRST)** |
-| **1: Backend** | Week 1-2 | Fastify API, Drizzle ORM, GitHub OAuth |
-| **2: Mobile Shell** | Week 2-3 | Expo project, auth, navigation |
-| **3: Voice** | Weeks 3-4 | Whisper STT, expo-speech TTS |
-| **4: Agent API** | Weeks 5-6 | Agent CRUD, BullMQ, streaming |
-| **5: Integration** | Weeks 6-7 | Voice → Agent flow, command parsing |
-| **6: Notifications** | Weeks 8-9 | Push, real-time updates |
-| **7: Context** | Weeks 9-10 | CodebaseAnalyzer, file selection |
-| **8: Launch** | Weeks 11-12 | Usage limits, app store prep |
+| **Open App** | 0 min | Open `cadence-web/index.html` |
+| **VPS Setup** | 5 min | Copy/paste bootstrap command, enter credentials |
+| **Start Coding** | Immediate | Speak commands, Claude executes |
 
-**Total: 12 weeks to MVP** (after validation gate)
+### Future Mobile App (Optional)
 
-See [IMPLEMENTATION.md](./IMPLEMENTATION.md) for detailed task breakdown.
+| Phase | Duration | Deliverables |
+|-------|----------|--------------|
+| **1: Mobile Shell** | Week 1-2 | Expo project, auth, navigation |
+| **2: Voice** | Week 2-3 | Native voice recording |
+| **3: Agent UI** | Week 3-4 | Agent list, detail screens |
+| **4: Polish** | Week 4-5 | Push notifications, offline |
+
+See [IMPLEMENTATION.md](./IMPLEMENTATION.md) for full mobile app plans.
 
 ---
 
@@ -111,10 +142,16 @@ See [IMPLEMENTATION.md](./IMPLEMENTATION.md) for detailed task breakdown.
 
 ---
 
-## Quick Start
+## Development Setup
+
+### MVP (Current)
+
+No installation required! Just open `cadence-web/index.html` in a browser.
+
+### Future Mobile App
 
 ```bash
-# Mobile app
+# Mobile app (when ready to build native)
 npx create-expo-app@latest cadence --template expo-template-blank-typescript
 cd cadence
 
@@ -126,7 +163,7 @@ npm install zustand @tanstack/react-query axios
 npx expo start
 ```
 
-See [IMPLEMENTATION.md](./IMPLEMENTATION.md) for full setup instructions.
+See [IMPLEMENTATION.md](./IMPLEMENTATION.md) for full mobile app plans.
 
 ---
 
@@ -147,21 +184,26 @@ See [IMPLEMENTATION.md](./IMPLEMENTATION.md) for full setup instructions.
 ```
 voice-coding-assistant/
 ├── README.md                 ← You are here
-├── IMPLEMENTATION.md         ← Task breakdown (START HERE)
+│
+├── cadence-web/              ← VOICE INTERFACE (START HERE)
+│   └── index.html            ← Voice UI + integrated VPS setup
+│
+├── cadence-setup/            ← VPS BOOTSTRAP SCRIPT
+│   └── bootstrap.sh          ← One-liner for VPS setup
+│
+├── IMPLEMENTATION.md         ← Full mobile app plans (future)
 ├── ARCHITECTURE.md           ← Technical reference
-├── GITHUB_INTEGRATION.md     ← GitHub workflow automation
-├── 01-planning/
-│   ├── EXECUTIVE_SUMMARY.md  ← Business overview
-│   └── RISK_ANALYSIS_AND_VIABILITY.md
-├── 04-design/
-│   └── UI_WIREFRAMES.md      ← Screen mockups
+├── AGENT-PROMPTS-QUICKREF.md ← Prompts for parallel development
+├── AGENT_HANDOFF.md          ← Session continuity
+│
+├── 01-planning/              ← Business docs
+├── 04-design/                ← UI mockups
 └── pitch-deck/               ← Investor materials
 ```
 
 ---
 
-**Status:** Ready for Implementation
-**Decision:** CONDITIONAL GO with decision gates
-**Window:** 12-18 months before Cursor/Claude Code add mobile
+**Status:** MVP Ready - Open `cadence-web/index.html` to start
+**Approach:** Simplest thing first - your VPS, your control
 
-*Built with Claude Agent SDK for developers who want to code from anywhere*
+*Voice-enabled coding powered by Claude Code*
