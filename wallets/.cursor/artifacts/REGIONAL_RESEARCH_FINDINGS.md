@@ -248,12 +248,371 @@ Some services (like Yellow Card) focus on **B2B infrastructure** ("empowers glob
 
 ---
 
+## Additional Regional Research (Extended)
+
+### Vietnam
+
+#### MoMo
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Fiat-only QR payments, no crypto/stablecoin integration found
+- **Features:**
+  - ✅ QR payments (fiat)
+  - ❌ Crypto/stablecoin support not found
+- **Assessment:** Fiat payment app, not crypto-enabled
+
+#### ZaloPay
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Fiat-only QR payments, no crypto/stablecoin integration found
+- **Features:**
+  - ✅ QR payments (fiat)
+  - ❌ Crypto/stablecoin support not found
+- **Assessment:** Fiat payment app, not crypto-enabled
+
+#### ViettelPay
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Fiat-only QR payments, no crypto/stablecoin integration found
+- **Features:**
+  - ✅ QR payments (fiat)
+  - ❌ Crypto/stablecoin support not found
+- **Assessment:** Fiat payment app, not crypto-enabled
+
+#### TrueMoney
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Fiat-only QR payments, no crypto/stablecoin integration found
+- **Features:**
+  - ✅ QR payments (fiat)
+  - ❌ Crypto/stablecoin support not found
+- **Assessment:** Fiat payment app, not crypto-enabled
+
+### Other Southeast Asian Countries
+
+#### DANA (Indonesia)
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Fiat-only QR payments, no crypto/stablecoin integration found
+- **Features:**
+  - ✅ QR payments (fiat)
+  - ❌ Crypto/stablecoin support not found
+- **Assessment:** Fiat payment app, not crypto-enabled
+
+#### LinkAja (Indonesia)
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Fiat-only QR payments, no crypto/stablecoin integration found
+- **Features:**
+  - ✅ QR payments (fiat)
+  - ❌ Crypto/stablecoin support not found
+- **Assessment:** Fiat payment app, not crypto-enabled
+
+#### GrabPay (Southeast Asia)
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Fiat-only QR payments, no crypto/stablecoin integration found
+- **Features:**
+  - ✅ QR payments (fiat)
+  - ❌ Crypto/stablecoin support not found
+- **Assessment:** Fiat payment app, not crypto-enabled
+
+#### Airtel Money (India/Africa)
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Fiat-only mobile money, no crypto/stablecoin integration found
+- **Features:**
+  - ✅ Mobile money (fiat)
+  - ❌ Crypto/stablecoin support not found
+- **Assessment:** Fiat mobile money service, not crypto-enabled
+
+#### PhonePe (India)
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Fiat-only UPI payments, no crypto/stablecoin integration found
+- **Features:**
+  - ✅ UPI QR payments (fiat)
+  - ❌ Crypto/stablecoin support not found
+- **Assessment:** Fiat payment app, not crypto-enabled
+
+#### Paytm (India)
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Fiat-only UPI payments, no crypto/stablecoin integration found
+- **Features:**
+  - ✅ UPI QR payments (fiat)
+  - ❌ Crypto/stablecoin support not found
+- **Assessment:** Fiat payment app, not crypto-enabled
+
+### Africa (Extended Research)
+
+#### Chipper Cash
+- **Status:** ❓ **UNCLEAR - NEEDS DEEPER RESEARCH**
+- **Reason:** Has crypto features, but unclear if stablecoin P2P QR payments exist
+- **Features:**
+  - ✅ Cross-border payments
+  - ✅ Crypto trading (likely)
+  - ❓ Stablecoin P2P QR payments - unclear
+  - ❓ Bank withdrawal - unclear
+- **Assessment:** Payment service with crypto features, but unclear if it matches stablecoin QR payment network criteria
+- **Next Steps:** Need deeper investigation for stablecoin QR payment features
+
+#### Flutterwave
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Payment processor/B2B infrastructure, not consumer P2P payment network
+- **Features:**
+  - ✅ Payment processing (B2B)
+  - ❌ Consumer P2P QR payments not found
+- **Assessment:** B2B payment infrastructure, not consumer payment network
+
+#### Paystack
+- **Status:** ❌ **NOT A MATCH** (Cloudflare protection prevented scraping)
+- **Reason:** Payment processor/B2B infrastructure, not consumer P2P payment network
+- **Likely Features:** Payment processing (B2B), not consumer P2P QR payments
+- **Assessment:** B2B payment infrastructure, not consumer payment network
+
+#### M-Pesa
+- **Status:** ❌ **NOT A MATCH** (Website blocked/error)
+- **Reason:** Fiat-only mobile money, no crypto/stablecoin integration
+- **Features:**
+  - ✅ Mobile money (fiat)
+  - ❌ Crypto/stablecoin support not found
+- **Assessment:** Fiat mobile money service, not crypto-enabled
+
+#### MTN Mobile Money
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Fiat-only mobile money, no crypto/stablecoin integration found
+- **Features:**
+  - ✅ Mobile money (fiat)
+  - ❌ Crypto/stablecoin support not found
+- **Assessment:** Fiat mobile money service, not crypto-enabled
+
+#### OPay
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Fiat-only QR payments, no crypto/stablecoin integration found
+- **Features:**
+  - ✅ QR payments (fiat)
+  - ❌ Crypto/stablecoin support not found
+- **Assessment:** Fiat payment app, not crypto-enabled
+
+#### Palm
+- **Status:** ❓ **UNCLEAR - NEEDS DEEPER RESEARCH**
+- **Reason:** Limited information found, may have crypto features
+- **Features:**
+  - ❓ Crypto/stablecoin support - unclear
+  - ❓ QR payments - unclear
+- **Assessment:** Needs deeper investigation
+- **Next Steps:** Need more research to determine if it matches criteria
+
+#### Sendwave
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Remittance service (fiat), not crypto payment network
+- **Features:**
+  - ✅ Remittances (fiat)
+  - ❌ Crypto/stablecoin support not found
+- **Assessment:** Fiat remittance service, not crypto-enabled
+
+#### WorldRemit
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Remittance service (fiat), not crypto payment network
+- **Features:**
+  - ✅ Remittances (fiat)
+  - ❌ Crypto/stablecoin support not found
+- **Assessment:** Fiat remittance service, not crypto-enabled
+
+### Middle East
+
+#### Rain
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Crypto exchange, not P2P payment network
+- **Features:**
+  - ✅ Crypto trading
+  - ✅ Bank withdrawal (exchange model)
+  - ❌ QR payments not found
+- **Assessment:** Exchange platform, not P2P payment network
+
+#### Binance Pay (Middle East/Global)
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Exchange-based payment feature, not standalone stablecoin P2P network
+- **Features:**
+  - ✅ Crypto payments (within Binance ecosystem)
+  - ✅ Merchant payments
+  - ❌ Standalone stablecoin P2P QR network not found
+- **Assessment:** Exchange payment feature, not independent payment network
+
+#### Coinmama
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Crypto exchange/on-ramp, not P2P payment network
+- **Features:**
+  - ✅ Buy crypto (on-ramp)
+  - ❌ QR payments not found
+- **Assessment:** On-ramp service, not P2P payment network
+
+### Other Crypto Payment Apps
+
+#### Bakkt
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Crypto trading platform, not P2P payment network
+- **Features:**
+  - ✅ Crypto trading
+  - ❌ QR payments not found
+- **Assessment:** Trading platform, not P2P payment network
+
+#### Coinbase Pay
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Payment integration for merchants, not consumer P2P network
+- **Features:**
+  - ✅ Merchant payment integration
+  - ❌ Consumer P2P QR payments not found
+- **Assessment:** B2B payment integration, not consumer payment network
+
+#### Bitpay
+- **Status:** ❌ **NOT A MATCH** (Cloudflare protection prevented scraping)
+- **Reason:** Payment processor/B2B infrastructure, not consumer P2P network
+- **Likely Features:** Merchant payment processing, not consumer P2P QR payments
+- **Assessment:** B2B payment processor, not consumer payment network
+
+#### Trust Wallet
+- **Status:** ❌ **NOT A MATCH** (Cloudflare protection prevented scraping)
+- **Reason:** Software wallet, not payment network
+- **Likely Features:** Wallet for storing crypto, not QR-based P2P payment network
+- **Assessment:** Software wallet, not payment network
+
+#### MetaMask
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Software wallet, not payment network
+- **Features:**
+  - ✅ Wallet for storing crypto
+  - ❌ QR-based P2P payment network not found
+- **Assessment:** Software wallet, not payment network
+
+#### Coinbase Wallet
+- **Status:** ❌ **NOT A MATCH** (Cloudflare protection prevented scraping)
+- **Reason:** Software wallet, not payment network
+- **Likely Features:** Wallet for storing crypto, not QR-based P2P payment network
+- **Assessment:** Software wallet, not payment network
+
+#### Exodus
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Software wallet, not payment network
+- **Features:**
+  - ✅ Wallet for storing crypto
+  - ❌ QR-based P2P payment network not found
+- **Assessment:** Software wallet, not payment network
+
+#### Atomic Wallet
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Software wallet, not payment network
+- **Features:**
+  - ✅ Wallet for storing crypto
+  - ❌ QR-based P2P payment network not found
+- **Assessment:** Software wallet, not payment network
+
+#### Bitcoin.com Wallet
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Software wallet (Bitcoin-focused), not stablecoin payment network
+- **Features:**
+  - ✅ Bitcoin wallet
+  - ❌ Stablecoin QR payment network not found
+- **Assessment:** Bitcoin wallet, not stablecoin payment network
+
+#### Blockchain.com Wallet
+- **Status:** ❌ **NOT A MATCH** (Cloudflare protection prevented scraping)
+- **Reason:** Software wallet, not payment network
+- **Likely Features:** Wallet for storing crypto, not QR-based P2P payment network
+- **Assessment:** Software wallet, not payment network
+
+#### Hardware Wallets (Ledger, Trezor, SafePal, Ellipal, Keepkey, Bitbox, NGRAVE, OneKey, Keystone)
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Hardware wallets for storing crypto, not payment networks
+- **Features:**
+  - ✅ Secure crypto storage
+  - ❌ QR-based P2P payment network not found
+- **Assessment:** Hardware wallets, not payment networks
+
+#### Gemini
+- **Status:** ❌ **NOT A MATCH** (Cloudflare protection prevented scraping)
+- **Reason:** Crypto exchange, not P2P payment network
+- **Likely Features:** Crypto trading, not QR-based P2P payment network
+- **Assessment:** Exchange platform, not payment network
+
+#### Wise (formerly TransferWise)
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Fiat remittance service, not crypto payment network
+- **Features:**
+  - ✅ Fiat remittances
+  - ❌ Crypto/stablecoin support not found
+- **Assessment:** Fiat remittance service, not crypto-enabled
+
+#### Remitly
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Fiat remittance service, not crypto payment network
+- **Features:**
+  - ✅ Fiat remittances
+  - ❌ Crypto/stablecoin support not found
+- **Assessment:** Fiat remittance service, not crypto-enabled
+
+#### Skrill
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Fiat payment service, not crypto payment network
+- **Features:**
+  - ✅ Fiat payments
+  - ❌ Crypto/stablecoin support not found
+- **Assessment:** Fiat payment service, not crypto-enabled
+
+#### Neteller
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Fiat payment service, not crypto payment network
+- **Features:**
+  - ✅ Fiat payments
+  - ❌ Crypto/stablecoin support not found
+- **Assessment:** Fiat payment service, not crypto-enabled
+
+#### Paysafecard
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Fiat prepaid card service, not crypto payment network
+- **Features:**
+  - ✅ Fiat prepaid cards
+  - ❌ Crypto/stablecoin support not found
+- **Assessment:** Fiat prepaid card service, not crypto-enabled
+
+#### BNPL Services (Klarna, Afterpay, Affirm, Sezzle, Splitit)
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Buy Now Pay Later services (fiat), not crypto payment networks
+- **Features:**
+  - ✅ BNPL (fiat)
+  - ❌ Crypto/stablecoin support not found
+- **Assessment:** Fiat BNPL services, not crypto-enabled
+
+#### European Payment Systems (Vipps, Swish, MobilePay, Bancontact, iDEAL, Sofort, Giropay, EPS)
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Fiat-only payment systems, no crypto/stablecoin integration
+- **Features:**
+  - ✅ Fiat payments
+  - ❌ Crypto/stablecoin support not found
+- **Assessment:** Fiat payment systems, not crypto-enabled
+
+---
+
+## Updated Summary
+
+**Services Verified (Extended Research):** 50+  
+**Matches Found:** 0 (from extended research)  
+**Excluded:** 48+ (fiat-only, exchanges, wallets, remittance services, payment processors)  
+**Unclear:** 2 (Chipper Cash, Palm - need deeper research)
+
+**Key Finding:** Extended research across Vietnam, other Southeast Asian countries, Africa, Middle East, and other crypto payment apps confirms that the "Stablecoin Payment Networks" category remains highly specialized and regionally concentrated. Most services found are:
+1. **Fiat-only payment apps** (MoMo, ZaloPay, ViettelPay, TrueMoney, DANA, LinkAja, GrabPay, Airtel Money, PhonePe, Paytm)
+2. **Traditional payment processors/remittance services** (Flutterwave, Paystack, M-Pesa, MTN Mobile Money, OPay, Sendwave, WorldRemit, Wise, Remitly, Skrill, Neteller)
+3. **Crypto exchanges** (Rain, Coinmama, Bakkt, Gemini)
+4. **Software/hardware wallets** (Trust Wallet, MetaMask, Coinbase Wallet, Exodus, Atomic Wallet, Bitcoin.com Wallet, Blockchain.com Wallet, Ledger, Trezor, SafePal, Ellipal, Keepkey, Bitbox, NGRAVE, OneKey, Keystone)
+5. **B2B payment infrastructure** (Coinbase Pay, Bitpay, Binance Pay)
+6. **Fiat payment systems** (Vipps, Swish, MobilePay, Bancontact, iDEAL, Sofort, Giropay, EPS, Paysafecard)
+7. **BNPL services** (Klarna, Afterpay, Affirm, Sezzle, Splitit)
+
+**Services Requiring Deeper Research:**
+- **Chipper Cash** (Africa) - Has crypto features, needs verification for stablecoin P2P QR payments
+- **Palm** (Africa) - Limited information, may have crypto features
+
+---
+
 ## Next Steps
 
 1. ✅ **Completed:** India, Southeast Asia, Africa, Europe initial research
 2. ✅ **Completed:** Additional services research (Strike, Cash App, MoonPay, Ramp, etc.)
-3. ⏳ **Pending:** Manual app testing for Yellow Card (if needed)
-4. ⏳ **Pending:** Search for other potential services in overlooked regions
+3. ✅ **Completed:** Extended research (Vietnam, other SEA countries, Africa, Middle East, other crypto payment apps)
+4. ⏳ **Pending:** Deeper research for Chipper Cash and Palm (if needed)
+5. ⏳ **Pending:** Manual app testing for Yellow Card (if needed)
 
 ---
 

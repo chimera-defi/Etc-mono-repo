@@ -7,10 +7,10 @@
 
 ## Executive Summary
 
-**Total Services Researched:** 23  
+**Total Services Researched:** 70+  
 **Confirmed Matches:** 6  
-**Excluded:** 16  
-**Unclear:** 1 (Yellow Card)
+**Excluded:** 60+  
+**Unclear:** 3 (Yellow Card, Chipper Cash, Palm)
 
 **Key Finding:** The "Stablecoin Payment Networks" category is **highly concentrated in Latin America**, especially Argentina, where economic conditions (high inflation, currency instability) drive strong demand for stablecoin-based payment networks. Other regions primarily have:
 - Exchange/wallet models (crypto trading + bank withdrawal, but no QR-based P2P payments)
@@ -39,7 +39,7 @@
 
 ---
 
-## Excluded Services (16 Services)
+## Excluded Services (60+ Services)
 
 ### Consumer Apps Shut Down
 - **Daimo** - Consumer app shut down November 2025, only B2B Daimo Pay remains
@@ -73,9 +73,39 @@
 - **MoonPay** (Global) - Buy/sell crypto service, not P2P payment network
 - **Ramp Network** (Global) - Buy/sell crypto service, not P2P payment network
 
+### Vietnam & Other Southeast Asian Countries (Extended Research)
+- **MoMo, ZaloPay, ViettelPay, TrueMoney** (Vietnam) - Fiat-only QR payments
+- **DANA, LinkAja** (Indonesia) - Fiat-only QR payments
+- **GrabPay** (Southeast Asia) - Fiat-only QR payments
+- **Airtel Money** (India/Africa) - Fiat-only mobile money
+- **PhonePe, Paytm** (India) - Fiat-only UPI payments
+
+### Africa (Extended Research)
+- **Flutterwave, Paystack** - B2B payment processors
+- **M-Pesa, MTN Mobile Money, OPay** - Fiat-only mobile money
+- **Sendwave, WorldRemit** - Fiat remittance services
+
+### Middle East
+- **Rain** - Crypto exchange
+- **Binance Pay** - Exchange-based payment feature, not standalone network
+- **Coinmama** - Crypto exchange/on-ramp
+
+### Software/Hardware Wallets
+- **Trust Wallet, MetaMask, Coinbase Wallet, Exodus, Atomic Wallet, Bitcoin.com Wallet, Blockchain.com Wallet** - Software wallets
+- **Ledger, Trezor, SafePal, Ellipal, Keepkey, Bitbox, NGRAVE, OneKey, Keystone** - Hardware wallets
+
+### B2B Payment Infrastructure
+- **Coinbase Pay, Bitpay** - B2B payment processors
+- **Bakkt, Gemini** - Crypto exchanges
+
+### Fiat Remittance/Payment Services
+- **Wise, Remitly, Skrill, Neteller, Paysafecard** - Fiat remittance/payment services
+- **Klarna, Afterpay, Affirm, Sezzle, Splitit** - BNPL services (fiat)
+- **Vipps, Swish, MobilePay, Bancontact, iDEAL, Sofort, Giropay, EPS** - Fiat payment systems
+
 ---
 
-## Unclear (1 Service)
+## Unclear (3 Services)
 
 ### Yellow Card (Africa)
 - **Status:** ❓ **UNCLEAR - NEEDS MANUAL VERIFICATION**
@@ -86,6 +116,26 @@
   - ❓ Bank withdrawal - not found in website scraping
 - **Assessment:** Appears to be B2B infrastructure focus ("empowers global businesses"), unclear if consumer P2P QR payments exist
 - **Next Steps:** Manual app testing or user documentation review needed
+
+### Chipper Cash (Africa)
+- **Status:** ❓ **UNCLEAR - NEEDS DEEPER RESEARCH**
+- **Reason:** Has crypto features, but unclear if stablecoin P2P QR payments exist
+- **Features:**
+  - ✅ Cross-border payments
+  - ✅ Crypto trading (likely)
+  - ❓ Stablecoin P2P QR payments - unclear
+  - ❓ Bank withdrawal - unclear
+- **Assessment:** Payment service with crypto features, but unclear if it matches stablecoin QR payment network criteria
+- **Next Steps:** Need deeper investigation for stablecoin QR payment features
+
+### Palm (Africa)
+- **Status:** ❓ **UNCLEAR - NEEDS DEEPER RESEARCH**
+- **Reason:** Limited information found, may have crypto features
+- **Features:**
+  - ❓ Crypto/stablecoin support - unclear
+  - ❓ QR payments - unclear
+- **Assessment:** Needs deeper investigation
+- **Next Steps:** Need more research to determine if it matches criteria
 
 ---
 
@@ -102,11 +152,12 @@
 - Mobile Money available in Africa
 
 ### Other Regions ❌ **NO MATCHES FOUND**
-- **India:** Exchange models only (CoinDCX, WazirX)
-- **Southeast Asia:** Fiat QR payments exist, but crypto is separate (GCash, PayMaya) or not available (OVO, GoPay)
-- **Africa:** Exchange models (Luno, Valr), Yellow Card unclear
-- **Europe:** Neobanks (Revolut, N26), not crypto payment networks
+- **India:** Exchange models only (CoinDCX, WazirX), fiat-only UPI payments (PhonePe, Paytm)
+- **Southeast Asia:** Fiat QR payments exist, but crypto is separate (GCash, PayMaya) or not available (OVO, GoPay, MoMo, ZaloPay, ViettelPay, TrueMoney, DANA, LinkAja, GrabPay)
+- **Africa:** Exchange models (Luno, Valr), fiat mobile money (M-Pesa, MTN Mobile Money, OPay), B2B processors (Flutterwave, Paystack), fiat remittance (Sendwave, WorldRemit), Yellow Card/Chipper Cash/Palm unclear
+- **Europe:** Neobanks (Revolut, N26), fiat payment systems (Vipps, Swish, MobilePay, Bancontact, iDEAL, Sofort, Giropay, EPS), not crypto payment networks
 - **North America:** Bitcoin-focused (Strike, Cash App) or on-ramp services (MoonPay, Ramp)
+- **Middle East:** Exchanges (Rain, Coinmama) or exchange-based payment features (Binance Pay)
 
 ---
 
@@ -183,4 +234,4 @@ This suggests the category is **most viable in markets with**:
 ---
 
 **Last Updated:** December 16, 2025  
-**Research Status:** Complete (pending Yellow Card manual verification if needed)
+**Research Status:** Complete (pending deeper research for Yellow Card, Chipper Cash, and Palm if needed)
