@@ -17,7 +17,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const core = require('@actions/core');
+            // core is already provided by actions/github-script@v7
             const pr = context.payload.pull_request;
             const title = pr.title || '';
             const body = pr.body || '';
