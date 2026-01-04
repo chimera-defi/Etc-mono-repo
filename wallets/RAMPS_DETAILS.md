@@ -384,9 +384,9 @@ The scoring system evaluates ramps across multiple dimensions:
 
 ## Related Resources
 
-- [Software Wallet Comparison](./WALLET_COMPARISON_UNIFIED_TABLE.md)
-- [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON_TABLE.md)
-- [Crypto Credit Card Comparison](./CRYPTO_CREDIT_CARD_COMPARISON_TABLE.md)
+- [Software Wallet Comparison](./SOFTWARE_WALLETS.md)
+- [Hardware Wallet Comparison](./HARDWARE_WALLETS.md)
+- [Crypto Credit Card Comparison](./CRYPTO_CARDS.md)
 
 ---
 
