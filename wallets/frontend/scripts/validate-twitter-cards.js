@@ -123,6 +123,8 @@ function validateOgImages() {
     'og-hardware-wallets-details.png',
     'og-crypto-cards-table.png',
     'og-crypto-cards-details.png',
+    'og-ramps-table.png',
+    'og-ramps-details.png',
     'og-explore.png',
   ];
   

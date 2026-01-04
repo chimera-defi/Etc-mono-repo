@@ -3,7 +3,7 @@
 This file contains instructions for Claude Code when working in this repository.
 
 > **Cross-references:**
-> - **`.cursorrules`** - Comprehensive AI assistant guidelines (all agents). See "PR Attribution Requirements" at top and Rules #116-129 for attribution details.
+> - **`.cursorrules`** - Comprehensive AI assistant guidelines (all agents). See "PR Attribution Requirements" at top and Rules #116-134 for attribution details.
 > - **`wallets/AGENTS.md`** - Wallet comparison specific guidelines, scoring methodology, and data verification standards
 > - **`mobile_experiments/Valdi/AGENTS.md`** - Valdi framework specific guidelines
 
@@ -133,9 +133,10 @@ Before completing any frontend task:
 
 ### Critical Rules for PR Creation
 
-- **Rule #116:** Always include agent name in PRs - enables tracking and performance analysis
-- **Rule #117:** Include agent name in commit messages - provides attribution even if PRs are squashed
+- **Rule #116:** Always include model name in PRs (e.g., "Claude Opus 4.5" not "Claude Code") - enables tracking model performance
+- **Rule #117:** Include model name in commit messages - use `[Agent: Claude Opus 4.5]` format
 - **Rule #118:** PR titles focus on what's done, not the prompt - descriptive and action-oriented
+- **Rule #134:** Model attribution, not platform attribution - attribute to specific model, not interface
 - **Rule #119:** Include original prompt in PR description - provides context for reviewers
 - **Rule #120:** Create prompt artifact for complex requests - preserves full context
 - **Rule #121:** PR description structure - consistent format for easier analysis
@@ -169,7 +170,7 @@ cd wallets/scripts
 
 When reviewing or creating PRs, verify:
 
-1. **Agent attribution:** PR description includes agent name (e.g., "**Agent:** Composer") - see Rule #116
+1. **Model attribution:** PR description includes model name (e.g., "**Agent:** Claude Opus 4.5") - see Rule #116, #134
 2. **PR title:** Descriptive and focused on what's done, not the prompt - see Rule #118
 3. **Original prompt:** Included in PR description or artifact - see Rule #119
 4. **Build passes:** `npm run build` succeeds
@@ -179,7 +180,7 @@ When reviewing or creating PRs, verify:
 8. **No unused code:** All imports and functions are used
 9. **Data preserved:** No accidental deletion of table rows/columns
 10. **Sources documented:** Data changes include verification sources
-11. **Commit messages:** Clear, descriptive commit messages with agent attribution - see Rule #117
+11. **Commit messages:** Clear, descriptive with model attribution (e.g., `[Agent: Claude Opus 4.5]`) - see Rule #117
 
 ## External Resources
 
