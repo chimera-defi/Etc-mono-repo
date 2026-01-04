@@ -100,12 +100,65 @@
 
 ---
 
+## Extended Research (Latest)
+
+### Vietnam & Other Southeast Asian Countries
+- **MoMo, ZaloPay, ViettelPay, TrueMoney** (Vietnam) - ❌ Fiat-only QR payments
+- **DANA, LinkAja** (Indonesia) - ❌ Fiat-only QR payments
+- **GrabPay** (Southeast Asia) - ❌ Fiat-only QR payments
+- **Airtel Money** (India/Africa) - ❌ Fiat-only mobile money
+- **PhonePe, Paytm** (India) - ❌ Fiat-only UPI payments
+
+**Finding:** All Southeast Asian services researched are fiat-only payment apps, not stablecoin QR payment networks.
+
+### Africa (Extended)
+- **Chipper Cash** - ❓ **UNCLEAR** - Has crypto features, needs deeper research for stablecoin P2P QR payments
+- **Palm** - ❓ **UNCLEAR** - Limited information, may have crypto features
+- **Flutterwave, Paystack** - ❌ B2B payment processors
+- **M-Pesa, MTN Mobile Money, OPay** - ❌ Fiat-only mobile money
+- **Sendwave, WorldRemit** - ❌ Fiat remittance services
+
+**Finding:** Most Africa services are fiat-only mobile money or remittance services. Chipper Cash and Palm require deeper investigation.
+
+### Middle East
+- **Rain** - ❌ Crypto exchange
+- **Binance Pay** - ❌ Exchange-based payment feature, not standalone network
+- **Coinmama** - ❌ Crypto exchange/on-ramp
+
+**Finding:** Middle East services are exchanges or exchange-based payment features, not standalone stablecoin P2P networks.
+
+### Other Crypto Payment Apps
+- **Bakkt, Gemini** - ❌ Crypto exchanges
+- **Coinbase Pay, Bitpay** - ❌ B2B payment processors
+- **Trust Wallet, MetaMask, Coinbase Wallet, Exodus, Atomic Wallet, Bitcoin.com Wallet, Blockchain.com Wallet** - ❌ Software wallets
+- **Ledger, Trezor, SafePal, Ellipal, Keepkey, Bitbox, NGRAVE, OneKey, Keystone** - ❌ Hardware wallets
+- **Wise, Remitly, Skrill, Neteller, Paysafecard** - ❌ Fiat remittance/payment services
+- **Klarna, Afterpay, Affirm, Sezzle, Splitit** - ❌ BNPL services (fiat)
+- **Vipps, Swish, MobilePay, Bancontact, iDEAL, Sofort, Giropay, EPS** - ❌ Fiat payment systems
+
+**Finding:** All other crypto payment apps researched are either wallets, exchanges, B2B processors, or fiat-only services.
+
+---
+
+## Updated Summary
+
+**Total Services Researched:** 70+  
+**Confirmed Matches:** 6 (unchanged)  
+**Excluded:** 60+  
+**Unclear:** 3 (Yellow Card, Chipper Cash, Palm)
+
+**Key Finding:** Extended research across Vietnam, other Southeast Asian countries, Africa, Middle East, and other crypto payment apps confirms that the "Stablecoin Payment Networks" category remains **highly specialized and regionally concentrated**. No new matches were found in the extended research.
+
+---
+
 ## Next Steps
 
 1. ✅ **Completed:** Argentina services, Valora, Daimo, Bitso verification
 2. ✅ **Completed:** India, Southeast Asia, Africa, Europe initial research
 3. ✅ **Completed:** Additional services research (Strike, Cash App, MoonPay, Ramp, Mercado Bitcoin, Nubank, Buda, Volabit)
-4. ⏳ **Pending:** Manual app testing for Yellow Card (if needed for final verification)
+4. ✅ **Completed:** Extended research (Vietnam, other SEA countries, Africa, Middle East, other crypto payment apps)
+5. ⏳ **Pending:** Deeper research for Chipper Cash and Palm (if needed)
+6. ⏳ **Pending:** Manual app testing for Yellow Card (if needed for final verification)
 
 ---
 
@@ -113,7 +166,7 @@
 
 1. **STABLECOIN_PAYMENT_NETWORKS_GLOBAL_RESEARCH.md** - Full research document
 2. **SERVICE_VERIFICATION_RESULTS.md** - Detailed verification results for Valora, Daimo, Bitso
-3. **REGIONAL_RESEARCH_FINDINGS.md** - Detailed findings for India, Southeast Asia, Africa, Europe
+3. **REGIONAL_RESEARCH_FINDINGS.md** - Detailed findings for all regions (including extended research)
 4. **GLOBAL_RESEARCH_SUMMARY.md** - This summary
 
 ---
