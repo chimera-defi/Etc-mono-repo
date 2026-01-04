@@ -107,7 +107,7 @@ export default function DocumentPage({ params }: PageProps) {
   // Check if this is a table or details page and get the related one
   // New naming: software-wallets (table), software-wallets-details (details)
   const isDetailsPage = document.slug.includes('-details');
-  const isTablePage = !isDetailsPage && ['software-wallets', 'hardware-wallets', 'crypto-cards'].includes(document.slug);
+  const isTablePage = !isDetailsPage && ['software-wallets', 'hardware-wallets', 'crypto-cards', 'ramps'].includes(document.slug);
   const relatedDoc = isTablePage 
     ? getRelatedDocument(document.slug, 'details')
     : isDetailsPage 
@@ -417,7 +417,7 @@ function RelatedDocuments({ currentSlug }: { currentSlug: string }) {
   // Exclude the related table/details page since we show navigation banner
   // New naming: software-wallets (table), software-wallets-details (details)
   const isDetailsPage = currentSlug.includes('-details');
-  const isTablePage = !isDetailsPage && ['software-wallets', 'hardware-wallets', 'crypto-cards'].includes(currentSlug);
+  const isTablePage = !isDetailsPage && ['software-wallets', 'hardware-wallets', 'crypto-cards', 'ramps'].includes(currentSlug);
   const relatedDoc = isTablePage 
     ? getRelatedDocument(currentSlug, 'details')
     : isDetailsPage 

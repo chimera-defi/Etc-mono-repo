@@ -27,6 +27,12 @@ export function getOgImagePath(slug: string): string {
 
     // Crypto card pages - DETAILS versions (show recommendations)
     'crypto-cards-details': '/og-crypto-cards-details.png',
+
+    // Ramp pages - TABLE versions (show comparison data)
+    'ramps': '/og-ramps-table.png',
+
+    // Ramp pages - DETAILS versions (show recommendations)
+    'ramps-details': '/og-ramps-details.png',
   };
   return imageMap[slug] || '/og-image.png';
 }

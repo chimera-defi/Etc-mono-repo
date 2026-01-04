@@ -3,6 +3,11 @@ name: PR Attribution Check
 on:
   pull_request:
     types: [opened, edited, synchronize]
+    paths:
+      - 'wallets/**'
+      - '.cursorrules'
+      - '.github/**'
+      - '**/*.md'
 
 jobs:
   check-pr-attribution:

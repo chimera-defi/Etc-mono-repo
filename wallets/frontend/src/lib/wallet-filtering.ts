@@ -254,9 +254,17 @@ export function filterRamps(ramps: Ramp[], filters: FilterOptions): Ramp[] {
       return false;
     }
 
-    // Status filter (using active filter)
+    // Status filter - map ramp status to filter active values
+    // Ramp status: 'active' | 'verify' | 'launching'
+    // Filter active: 'active' | 'slow' | 'inactive' | 'private'
     if (filters.active?.length) {
-      if (!filters.active.includes(ramp.status)) return false;
+      const statusMap: Record<Ramp['status'], 'active' | 'slow' | 'inactive' | 'private'> = {
+        'active': 'active',
+        'verify': 'slow', // Treat 'verify' as 'slow' for filtering
+        'launching': 'slow', // Treat 'launching' as 'slow' for filtering
+      };
+      const mappedStatus = statusMap[ramp.status];
+      if (!filters.active.includes(mappedStatus)) return false;
     }
 
     return true;

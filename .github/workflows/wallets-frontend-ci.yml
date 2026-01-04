@@ -55,9 +55,11 @@ jobs:
             "og-software-wallets-table.png"
             "og-hardware-wallets-table.png"
             "og-crypto-cards-table.png"
+            "og-ramps-table.png"
             "og-software-wallets-details.png"
             "og-hardware-wallets-details.png"
             "og-crypto-cards-details.png"
+            "og-ramps-details.png"
             "og-explore.png"
           )
           
