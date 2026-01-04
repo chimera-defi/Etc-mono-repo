@@ -225,20 +225,23 @@ export default function DocumentPage({ params }: PageProps) {
   const itemListSchema = document.category === 'comparison' ? {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: `${document.title} - Wallet Comparison`,
+    name: `${document.title} - ${document.slug.includes('ramp') ? 'Ramp Provider' : 'Wallet'} Comparison`,
     description: enhancedDescription,
     numberOfItems: document.content.match(/\|\s+\*\*[^|]+\*\*\s+\|/g)?.length || 0,
     itemListElement: (() => {
-      const walletMatches = document.content.match(/\|\s+\*\*([^*]+)\*\*\s+\|/g) || [];
+      // Match provider names in markdown table format: | [**Name**](url) | or | **Name** |
+      const walletMatches = document.content.match(/\|\s+\[?\*\*([^*]+)\*\*\]?[^|]*\s+\|/g) || [];
       return walletMatches.slice(0, 10).map((match, index) => {
-        const walletName = match.replace(/\|\s+\*\*|\*\*\s+\|/g, '').trim();
+        const walletName = match.replace(/\|\s+\[?\*\*|\*\*\]?[^|]*\s+\|/g, '').trim();
+        // Determine item type based on document type
+        const isRamp = document.slug.includes('ramp');
+        const isHardware = walletName.toLowerCase().includes('trezor') || walletName.toLowerCase().includes('ledger');
+        const itemType = isRamp ? 'Product' : (isHardware ? 'Product' : 'SoftwareApplication');
         return {
           '@type': 'ListItem',
           position: index + 1,
           item: {
-            '@type': walletName.toLowerCase().includes('trezor') || walletName.toLowerCase().includes('ledger') 
-              ? 'Product' 
-              : 'SoftwareApplication',
+            '@type': itemType,
             name: walletName,
             description: `Featured in ${document.title}`,
           },

@@ -194,6 +194,11 @@ export function generateKeywords(
     contentKeywords.push('Rabby wallet');
   }
   
+  // Ramp detection
+  if (titleLower.includes('ramp') || contentLower.includes('on-ramp') || contentLower.includes('off-ramp')) {
+    contentKeywords.push('crypto ramp', 'on-ramp', 'off-ramp', 'fiat on-ramp', 'fiat off-ramp', 'crypto payment gateway');
+  }
+  
   // Combine and dedupe
   const allKeywords = [
     ...baseKeywords,
