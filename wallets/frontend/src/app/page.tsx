@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Script from 'next/script';
-import { ArrowRight, Shield, Cpu, BookOpen, Github, Zap, CheckCircle, CreditCard, GitCompare, SlidersHorizontal } from 'lucide-react';
+import { ArrowRight, Shield, Cpu, BookOpen, Github, Zap, CheckCircle, CreditCard, GitCompare, SlidersHorizontal, ArrowLeftRight } from 'lucide-react';
 import { getAllDocuments, getWalletStats } from '@/lib/markdown';
 import { WalletCard } from '@/components/WalletCard';
 import { StatsCard } from '@/components/StatsCard';
@@ -295,6 +295,13 @@ export default function HomePage() {
                 Crypto Cards
                 <ArrowRight className="h-4 w-4" />
               </Link>
+              <Link
+                href="/docs/ramps"
+                className="inline-flex items-center gap-2 border border-border px-6 py-3 rounded-lg font-medium hover:bg-muted transition-colors"
+              >
+                Ramps
+                <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
             {/* Explore CTA */}
             <div className="mt-6 pt-6 border-t border-border/50">
@@ -313,7 +320,7 @@ export default function HomePage() {
 
       {/* Quick Stats */}
       <section className="container mx-auto px-4 -mt-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           <StatsCard
             label="Software Wallets"
             value="24+"
@@ -331,6 +338,12 @@ export default function HomePage() {
             value="27+"
             description="Credit & debit cards compared"
             icon={<CreditCard className="h-5 w-5" />}
+          />
+          <StatsCard
+            label="Ramps"
+            value="20+"
+            description="On/off-ramp providers compared"
+            icon={<ArrowLeftRight className="h-5 w-5" />}
           />
           <StatsCard
             label="Last Updated"
