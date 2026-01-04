@@ -10,14 +10,14 @@
 ## ⚠️ PR Attribution Requirements
 
 **When creating pull requests, you MUST:**
-1. **PR description:** Start with `**Agent:** [Your Agent Name]` (e.g., Composer, Claude Code, GPT-4, Gemini, Claude Opus, Cursor AI)
-2. **Commit messages:** Include `[Agent: YourAgent]` or `(Agent: YourAgent)`
+1. **PR description:** Start with `**Agent:** [Model Name]` - use specific model names (e.g., Claude Opus 4.5, Claude Sonnet 3.5, GPT-4o, Gemini 2.0) NOT platform names (Claude Code, Cursor AI, ChatGPT)
+2. **Commit messages:** Include `[Agent: ModelName]` (e.g., `[Agent: Claude Opus 4.5]`)
 3. **Original prompt:** Include in PR description under `## Original Request`
 4. **PR title:** Describe what was done, not the prompt (e.g., "Add agent attribution" not "User asked to add X")
 
 **Template:**
 ```markdown
-**Agent:** [Agent Name]
+**Agent:** [Model Name, e.g., Claude Opus 4.5]
 
 ## Summary
 Brief description of changes.
@@ -241,8 +241,8 @@ Brief description of changes.
   115. **Honest handoff documentation** - distinguish clearly between "verified working" (tests pass) vs "needs environment" (requires aztec-nargo/sandbox); never claim full completion for code that hasn't been compiled
 
 - Pull request creation and agent attribution (see also `CLAUDE.md` for quick reference):
-  116. **Always include agent name in PRs** - when creating pull requests, include the agent name (e.g., "Composer", "Claude Code", "GPT-4", "Gemini", "Claude Opus", "Cursor AI") in the PR description. Format: "**Agent:** [Agent Name]" at the top. This enables tracking which agents are used most and analyzing their performance over time.
-  117. **Include agent name in commit messages** - add agent attribution to commit messages when making commits. Format: `[Agent: YourAgent]` or `(Agent: YourAgent)` at the start or end of the commit message. This provides attribution even if PRs are squashed or merged differently. **Enforcement:** Git hook `.git/hooks/commit-msg` warns if missing (can bypass with `--no-verify`).
+  116. **Always include agent/model name in PRs** - when creating pull requests, include the specific model name (e.g., "Claude Opus 4.5", "GPT-4o", "Gemini 2.0", "Claude Sonnet 3.5") rather than just the platform (e.g., "Claude Code", "Cursor AI"). Format: "**Agent:** [Model Name]" at the top. This enables tracking which models perform best on different tasks.
+  117. **Include model name in commit messages** - add model attribution to commit messages when making commits. Format: `[Agent: ModelName]` (e.g., `[Agent: Claude Opus 4.5]`). Use specific model names, not platform names. This provides attribution even if PRs are squashed or merged differently. **Enforcement:** Git hook `.git/hooks/commit-msg` warns if missing (can bypass with `--no-verify`).
   118. **PR titles focus on what's done, not the prompt** - PR titles should be descriptive and focused on the actual changes made (e.g., "Add agent attribution to PR descriptions" or "Fix token price calculation in economics model"), not the user's prompt or request. Avoid titles like "User asked to add X" or "Implement feature Y as requested" - instead describe the change itself. **Enforcement:** CI check validates title quality.
   119. **Include original prompt in PR description** - always include the original user prompt/request in the PR description, either in a "## Original Request" section or as a quote block. This provides context for reviewers and helps track what prompts lead to which changes. If the prompt is very long, include a summary and link to the full prompt in `.cursor/artifacts/` if needed. **Enforcement:** CI check validates presence.
   120. **Create prompt artifact for complex requests** - for complex or multi-step requests, create a `.cursor/artifacts/[pr-number]-original-prompt.md` file documenting the full prompt and context, then reference it in the PR description. This preserves full context for future analysis.
@@ -255,6 +255,7 @@ Brief description of changes.
   131. **Status type mapping** - when new comparison types have different status enums (e.g., ramps: 'active'|'verify'|'launching' vs filters: 'active'|'slow'|'inactive'|'private'), create explicit mapping in filter function. Don't force incompatible types or use `as` casts.
   132. **Structured data for new types** - when adding ItemList schema for new comparison types, update regex to extract names from markdown link format `[**Name**](url)`, use appropriate `@type` (Product for ramps/hardware, SoftwareApplication for software wallets), and update schema name to match category (e.g., "Ramp Provider Comparison").
   133. **Keyword detection for new types** - add content-based keyword detection in `generateKeywords()` for new comparison types (e.g., ramp detection adds: crypto ramp, on-ramp, off-ramp, fiat on-ramp, fiat off-ramp, crypto payment gateway). This improves SEO discoverability.
+  134. **Model attribution, not platform attribution** - attribute work to the specific AI model (e.g., "Claude Opus 4.5", "GPT-4o", "Claude Sonnet 3.5") rather than the platform or interface (e.g., "Claude Code", "Cursor AI", "ChatGPT"). The model determines capabilities and quality; the platform is just the interface. This enables meaningful performance analysis across different models.
 
 ## Best Practices
 - Use semantic versioning for packages
