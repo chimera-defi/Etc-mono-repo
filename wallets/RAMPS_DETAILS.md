@@ -12,26 +12,26 @@
 
 | Provider | Score | Best For | Global Coverage | Fee Model | Dev UX |
 |----------|-------|----------|-----------------|-----------|--------|
-| **Transak** | 92 | 🛠️ Developers | ~160+ Countries | Medium (Spread + Fee) | Excellent (React SDK) |
-| **MoonPay** | 90 | 🌍 Coverage | ~160+ Countries | High (Spread + Fee) | Great (Widget) |
-| **Coinbase Pay** | 89 | 🪙 Coinbase | ~100+ Countries | Medium | Excellent (SDK) |
-| **Ramp** | 88 | 🇪🇺 EU / Speed | ~150+ Countries | Low/Medium | Good (SDK) |
-| **Sardine** | 86 | 🇺🇸 US / Fraud | US + Select Global | Variable (Risk based) | Advanced (API/SDK) |
-| **Stripe** | 85 | 🤝 Trust | Global | Usage Based | Excellent (Stripe style) |
-| **Simplex** | 84 | 💳 High Limits | ~150+ Countries | Medium/High | Good (Widget) |
-| **Modern Treasury** | 83 | 🏢 Enterprise | US + Select | Usage Based | Excellent (API) |
-| **Banxa** | 80 | 🏦 Local Pay | Global | Variable | Good |
-| **Mercuryo** | 78 | 💼 B2B | Global | Medium | Good |
-| **Guardarian** | 77 | 🇪🇺 EU Focus | ~100+ Countries | Low/Medium | Good (Widget) |
-| **CoinSwitch** | 76 | 🇮🇳 India/APAC | ~100+ Countries | Medium | Good (API) |
-| **Utorg** | 75 | 🔗 Multi-chain | ~100+ Countries | Medium | Good (Widget) |
-| **CoinGate** | 74 | 💰 Low Fees | Global | Low | Good (API) |
-| **BitPay** | 73 | ₿ Bitcoin | Global | Medium | Good (API) |
-| **Changelly** | 72 | 🔄 Exchange | Global | Medium | Good (API) |
-| **Coinify** | 71 | 🇪🇺 EU | ~50+ Countries | Medium | Good (API) |
-| **onesafe** | 70 | 🏢 Enterprise | Select Global | Variable | Good (API) |
-| **Reap** | 68 | 💼 Business Off-Ramp | Global | Variable | Good (API) |
-| **Coinmama** | 65 | 🚀 Simple On-Ramp | ~100+ Countries | High | Basic (Widget) |
+| [**Transak**](https://transak.com/) | 92 | 🛠️ Developers | ~160+ Countries | Medium (Spread + Fee) | Excellent (React SDK) |
+| [**MoonPay**](https://www.moonpay.com/) | 90 | 🌍 Coverage | ~160+ Countries | High (Spread + Fee) | Great (Widget) |
+| [**Coinbase Pay**](https://www.coinbase.com/developers/pay-sdk) | 89 | 🪙 Coinbase | ~100+ Countries | Medium | Excellent (SDK) |
+| [**Ramp**](https://ramp.network/) | 88 | 🇪🇺 EU / Speed | ~150+ Countries | Low/Medium | Good (SDK) |
+| [**Sardine**](https://www.sardine.ai/) | 86 | 🇺🇸 US / Fraud | US + Select Global | Variable (Risk based) | Advanced (API/SDK) |
+| [**Stripe**](https://stripe.com/docs/crypto) | 85 | 🤝 Trust | Global | Usage Based | Excellent (Stripe style) |
+| [**Simplex**](https://www.simplex.com/) | 84 | 💳 High Limits | ~150+ Countries | Medium/High | Good (Widget) |
+| [**Modern Treasury**](https://www.moderntreasury.com/) | 83 | 🏢 Enterprise | US + Select | Usage Based | Excellent (API) |
+| [**Banxa**](https://banxa.com/) | 80 | 🏦 Local Pay | Global | Variable | Good |
+| [**Mercuryo**](https://mercuryo.io/) | 78 | 💼 B2B | Global | Medium | Good |
+| [**Guardarian**](https://guardarian.com/) | 77 | 🇪🇺 EU Focus | ~100+ Countries | Low/Medium | Good (Widget) |
+| [**CoinSwitch**](https://coinswitch.co/) | 76 | 🇮🇳 India/APAC | ~100+ Countries | Medium | Good (API) |
+| [**Utorg**](https://utorg.pro/) | 75 | 🔗 Multi-chain | ~100+ Countries | Medium | Good (Widget) |
+| [**CoinGate**](https://coingate.com/) | 74 | 💰 Low Fees | Global | Low | Good (API) |
+| [**BitPay**](https://bitpay.com/) | 73 | ₿ Bitcoin | Global | Medium | Good (API) |
+| [**Changelly**](https://changelly.com/) | 72 | 🔄 Exchange | Global | Medium | Good (API) |
+| [**Coinify**](https://www.coinify.com/) | 71 | 🇪🇺 EU | ~50+ Countries | Medium | Good (API) |
+| [**onesafe**](https://onesafe.io/) | 70 | 🏢 Enterprise | Select Global | Variable | Good (API) |
+| [**Reap**](https://reap.global/) | 68 | 💼 Business Off-Ramp | Global | Variable | Good (API) |
+| [**Coinmama**](https://www.coinmama.com/) | 65 | 🚀 Simple On-Ramp | ~100+ Countries | High | Basic (Widget) |
 
 ---
 
@@ -247,55 +247,50 @@ The scoring system evaluates ramps across multiple dimensions:
 ## Provider-Specific Notes
 
 ### Transak
+- **Website:** [transak.com](https://transak.com/)
 - Best for developers seeking React SDK
 - Wide chain and token support
 - Good documentation
 - Medium fees
 
 ### MoonPay
-- Widest coverage (160+ countries)
+- **Website:** [moonpay.com](https://www.moonpay.com/)
+- Widest coverage (~160+ countries)
 - Highest conversion rates
 - High fees but reliable
 - Good widget integration
 
-### Ramp
-- Lowest fees for bank transfers
-- Strong EU/SEPA support
-- Focus on L2 chains
-- Good SDK
-
-### Sardine
-- Best for US market
-- Instant ACH settlement
-- Advanced fraud detection
-- Higher limits
-
-### Stripe
-- Mainstream brand recognition
-- Excellent developer experience
-- Conservative asset list
-- Usage-based pricing
-
-### Banxa
-- Local payment methods
-- Good global coverage
-- Variable fees
-- B2B focus
-
-### Mercuryo
-- B2B focused
-- Global coverage
-- Medium fees
-- Good for enterprise
-
 ### Coinbase Pay
+- **Website:** [coinbase.com/developers/pay-sdk](https://www.coinbase.com/developers/pay-sdk)
 - Seamless Coinbase ecosystem integration
 - Strong Base L2 support
 - Excellent SDK and documentation
 - Medium fees
 - Best for apps targeting Coinbase users
 
+### Ramp
+- **Website:** [ramp.network](https://ramp.network/)
+- Lowest fees for bank transfers
+- Strong EU/SEPA support
+- Focus on L2 chains
+- Good SDK
+
+### Sardine
+- **Website:** [sardine.ai](https://www.sardine.ai/)
+- Best for US market
+- Instant ACH settlement
+- Advanced fraud detection
+- Higher limits
+
+### Stripe
+- **Website:** [stripe.com/docs/crypto](https://stripe.com/docs/crypto)
+- Mainstream brand recognition
+- Excellent developer experience
+- Conservative asset list
+- Usage-based pricing
+
 ### Simplex
+- **Website:** [simplex.com](https://www.simplex.com/)
 - High transaction limits
 - Strong card processing
 - Good widget integration
@@ -303,20 +298,37 @@ The scoring system evaluates ramps across multiple dimensions:
 - Widely integrated
 
 ### Modern Treasury
+- **Website:** [moderntreasury.com](https://www.moderntreasury.com/)
 - Enterprise payment infrastructure
 - Strong API and developer tools
 - US-focused with select global
 - Usage-based pricing
 - Best for large-scale operations
 
+### Banxa
+- **Website:** [banxa.com](https://banxa.com/)
+- Local payment methods
+- Good global coverage
+- Variable fees
+- B2B focus
+
+### Mercuryo
+- **Website:** [mercuryo.io](https://mercuryo.io/)
+- B2B focused
+- Global coverage
+- Medium fees
+- Good for enterprise
+
 ### Guardarian
+- **Website:** [guardarian.com](https://guardarian.com/)
 - European focus
 - Good widget integration
 - Competitive fees
 - Strong EU payment methods
-- 100+ countries
+- ~100+ countries
 
 ### CoinSwitch
+- **Website:** [coinswitch.co](https://coinswitch.co/)
 - Strong India/APAC presence
 - Good API integration
 - Local payment methods (UPI, etc.)
@@ -324,13 +336,15 @@ The scoring system evaluates ramps across multiple dimensions:
 - Best for Indian market
 
 ### Utorg
+- **Website:** [utorg.pro](https://utorg.pro/)
 - Multi-chain support
 - Good widget integration
 - Medium fees
-- 100+ countries
+- ~100+ countries
 - Balanced offering
 
 ### CoinGate
+- **Website:** [coingate.com](https://coingate.com/)
 - Very low fees
 - Strong API
 - Global coverage
@@ -338,6 +352,7 @@ The scoring system evaluates ramps across multiple dimensions:
 - Good for cost-sensitive applications
 
 ### BitPay
+- **Website:** [bitpay.com](https://bitpay.com/)
 - Bitcoin-focused
 - Strong merchant tools
 - Good API
@@ -345,6 +360,7 @@ The scoring system evaluates ramps across multiple dimensions:
 - Best for Bitcoin-heavy applications
 
 ### Changelly
+- **Website:** [changelly.com](https://changelly.com/)
 - Exchange-focused
 - Good API integration
 - Medium fees
@@ -352,13 +368,15 @@ The scoring system evaluates ramps across multiple dimensions:
 - Best for exchange integrations
 
 ### Coinify
+- **Website:** [coinify.com](https://www.coinify.com/)
 - European focus
 - Good API
 - Medium fees
-- 50+ countries
+- ~50+ countries
 - EU payment methods
 
 ### onesafe
+- **Website:** [onesafe.io](https://onesafe.io/)
 - Enterprise-focused
 - Variable pricing
 - Select global coverage
@@ -366,6 +384,7 @@ The scoring system evaluates ramps across multiple dimensions:
 - Best for enterprise use cases
 
 ### Reap
+- **Website:** [reap.global](https://reap.global/)
 - **Off-ramp only** (no on-ramp)
 - Business-focused
 - Global coverage
@@ -373,10 +392,11 @@ The scoring system evaluates ramps across multiple dimensions:
 - Best for business off-ramp needs
 
 ### Coinmama
+- **Website:** [coinmama.com](https://www.coinmama.com/)
 - **On-ramp only** (no off-ramp)
 - Simple integration
 - High fees
-- 100+ countries
+- ~100+ countries
 - Basic widget
 - Best for simple on-ramp needs
 

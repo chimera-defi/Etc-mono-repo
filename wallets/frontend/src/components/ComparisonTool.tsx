@@ -584,6 +584,7 @@ function RampComparison({
     general: true,
     features: true,
     fees: true,
+    links: true,
   });
 
   const toggleSection = (section: keyof typeof sections) => {
@@ -601,7 +602,18 @@ function RampComparison({
             <th key={ramp.id} className="py-4 px-4 text-center min-w-[180px]">
               <div className="flex flex-col items-center gap-2">
                 <div className="flex items-center gap-2">
-                  <span className="font-bold">{ramp.name}</span>
+                  {ramp.url ? (
+                    <a
+                      href={ramp.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-bold text-foreground hover:text-primary hover:underline"
+                    >
+                      {ramp.name}
+                    </a>
+                  ) : (
+                    <span className="font-bold">{ramp.name}</span>
+                  )}
                   <button
                     onClick={() => onRemove(ramp.id)}
                     className="p-1 hover:bg-muted rounded"
@@ -669,6 +681,37 @@ function RampComparison({
           <>
             <ComparisonRow label="Fee Model" values={ramps.map(r => r.feeModel)} />
             <ComparisonRow label="Min Fee" values={ramps.map(r => r.minFee)} />
+          </>
+        )}
+
+        {/* Links Section */}
+        <SectionHeader
+          title="Links"
+          isOpen={sections.links}
+          onToggle={() => toggleSection('links')}
+          colSpan={colSpan}
+        />
+        {sections.links && (
+          <>
+            <ComparisonRow
+              label="Website"
+              values={ramps.map(r =>
+                r.url ? (
+                  <a
+                    key={r.id}
+                    href={r.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline inline-flex items-center gap-1"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    Visit
+                  </a>
+                ) : (
+                  '-'
+                )
+              )}
+            />
           </>
         )}
       </tbody>

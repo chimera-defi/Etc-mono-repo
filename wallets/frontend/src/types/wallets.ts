@@ -117,6 +117,7 @@ export interface Ramp {
   status: 'active' | 'verify' | 'launching';
   bestFor: string;
   recommendation: 'recommended' | 'situational' | 'avoid';
+  url: string | null;
   type: 'ramp';
 }
 

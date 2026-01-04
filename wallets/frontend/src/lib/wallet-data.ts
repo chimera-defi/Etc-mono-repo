@@ -467,9 +467,21 @@ export function parseRamps(): Ramp[] {
   const dataRows = rows.slice(1);
 
   return dataRows.map(cells => {
-    // Extract provider name from bold text
+    // Extract provider name and URL from markdown link format: [**Name**](url)
+    const linkMatch = cells[0]?.match(/\[(?:\*\*)?([^*]+)(?:\*\*)?\]\(([^)]+)\)/);
     const nameMatch = cells[0]?.match(/\*\*([^*]+)\*\*/);
-    const name = nameMatch ? nameMatch[1] : cells[0] || 'Unknown';
+    
+    let name = 'Unknown';
+    let url: string | null = null;
+    
+    if (linkMatch) {
+      name = linkMatch[1].trim();
+      url = linkMatch[2].trim();
+    } else if (nameMatch) {
+      name = nameMatch[1].trim();
+    } else {
+      name = cells[0]?.trim() || 'Unknown';
+    }
 
     // Parse score (may have emoji)
     const scoreMatch = cells[1]?.match(/(\d+)/);
@@ -489,6 +501,7 @@ export function parseRamps(): Ramp[] {
       status: parseCardStatus(cells[9] || ''),
       bestFor: cells[10]?.trim() || '',
       recommendation: parseHardwareRecommendation(cells[1] || ''), // Uses score emoji
+      url,
       type: 'ramp' as const,
     };
   }).filter(ramp => ramp.name !== 'Unknown' && ramp.score > 0 && ramp.id !== '');

@@ -647,7 +647,20 @@ function RampItem({
           <div className="flex items-center gap-3">
             <ScoreBadge score={ramp.score} />
             <div>
-              <div className="font-semibold">{ramp.name}</div>
+              <div className="font-semibold">
+                {ramp.url ? (
+                  <a
+                    href={ramp.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-foreground hover:text-primary hover:underline"
+                  >
+                    {ramp.name}
+                  </a>
+                ) : (
+                  ramp.name
+                )}
+              </div>
               <div className="text-sm text-muted-foreground">{ramp.bestFor}</div>
             </div>
           </div>
@@ -665,6 +678,19 @@ function RampItem({
         <td className="py-3 px-4 text-sm">{ramp.feeModel}</td>
         <td className="py-3 px-4 text-sm">{ramp.minFee}</td>
         <td className="py-3 px-4 text-sm">{ramp.devUx}</td>
+        <td className="py-3 px-4">
+          {ramp.url && (
+            <a
+              href={ramp.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground"
+              title={`Visit ${ramp.name} website`}
+            >
+              <ExternalLink className="h-4 w-4" />
+            </a>
+          )}
+        </td>
       </tr>
     );
   }
@@ -719,6 +745,20 @@ function RampItem({
           <span className="text-muted-foreground">Dev UX:</span>
           <span className="font-medium">{ramp.devUx}</span>
         </div>
+      </div>
+
+      <div className="flex items-center justify-between text-sm">
+        {ramp.url && (
+          <a
+            href={ramp.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:underline inline-flex items-center gap-1"
+          >
+            Visit Website
+            <ExternalLink className="h-3 w-3" />
+          </a>
+        )}
       </div>
     </div>
   );
@@ -789,6 +829,7 @@ export function WalletTable<T extends WalletData>({
                   <th className="py-3 px-4 text-left text-sm font-medium">Fee Model</th>
                   <th className="py-3 px-4 text-left text-sm font-medium">Min Fee</th>
                   <th className="py-3 px-4 text-left text-sm font-medium">Dev UX</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">Links</th>
                 </>
               )}
               {type !== 'ramps' && <th className="py-3 px-4 text-left text-sm font-medium">Links</th>}
