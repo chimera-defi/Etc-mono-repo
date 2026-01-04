@@ -2,36 +2,58 @@
 
 > **Use this file to maintain continuity between agent sessions**
 
-Last Updated: December 28, 2025
-Current Status: **Backend Complete - Ready for iOS Development & Integration**
+Last Updated: January 3, 2026
+Current Status: **Backend Complete - Ready for iOS Development**
 Approach: **Swift iOS App + Backend API + User's VPS**
 
 ---
 
-## Current Direction (Dec 28, 2025)
+## Quick Start for Next Agent
 
-**Major pivot:** Building a native Swift iOS app with a fully-featured backend API.
+```bash
+# 1. Navigate to project
+cd /home/user/Etc-mono-repo/ideas/voice-coding-assistant
 
-| Component | Status | Description |
-|-----------|--------|-------------|
-| `cadence-api` | ✅ Complete | Backend API with streaming, webhooks, tests |
-| `cadence-ios` | 📋 Planned | Native Swift/SwiftUI iOS app |
-| `cadence-setup` | ✅ Complete | VPS bootstrap script |
+# 2. Verify backend works
+cd cadence-api && npm install && npm test
+# Expected: 77 tests passing
 
-### Why Swift over React Native?
-
-| Factor | Swift | React Native |
-|--------|-------|--------------|
-| **Voice APIs** | ✅ Native AVFoundation | ⚠️ Wrapper libraries |
-| **Performance** | ✅ No JS bridge | ⚠️ Bridge overhead |
-| **iOS Integration** | ✅ Siri, Widgets, Shortcuts | ⚠️ Limited |
-| **Target Audience** | ✅ iOS developers | - |
-
-**Decision:** Native Swift for best voice experience. iOS-only for MVP.
+# 3. Check TypeScript compiles
+npm run typecheck
+# Expected: No errors
+```
 
 ---
 
-## Architecture Overview
+## Project Status Summary
+
+### What's Built (Complete)
+
+| Component | Status | Tests | Description |
+|-----------|--------|-------|-------------|
+| **Backend API** | ✅ Done | 77 passing | Fastify + TypeScript |
+| **Task CRUD** | ✅ Done | 9 tests | Create, read, list, delete tasks |
+| **Voice Routes** | ✅ Done | 11 tests | Transcribe, parse, command endpoints |
+| **Text Input** | ✅ Done | 9 tests | Keyboard input alternative to voice |
+| **WebSocket Streaming** | ✅ Done | 18 tests | Real-time task output |
+| **GitHub Webhooks** | ✅ Done | 10 tests | PR events, @cadence-ai mentions |
+| **Command Parser** | ✅ Done | 15 tests | Intent detection |
+| **VPS Bridge** | ✅ Done | 4 tests | Mock mode for testing |
+| **VPS Bootstrap** | ✅ Done | - | `cadence-setup/bootstrap.sh` |
+
+### What's Not Built (Remaining)
+
+| Component | Priority | Effort | Description |
+|-----------|----------|--------|-------------|
+| **iOS App** | P0 | 3-4 weeks | Swift/SwiftUI native app |
+| **Database** | P1 | 1 day | PostgreSQL (tasks in memory now) |
+| **Authentication** | P1 | 2-3 days | GitHub OAuth |
+| **Real VPS Integration** | P1 | 1 week | SSE parsing from actual VPS |
+| **Deployment** | P2 | 1 day | Vercel/Railway for backend |
+
+---
+
+## Architecture
 
 ```
 ┌─────────────────────┐      ┌─────────────────────┐      ┌─────────────────────┐
@@ -39,268 +61,206 @@ Approach: **Swift iOS App + Backend API + User's VPS**
 │                     │  WS  │   (Fastify)         │  SSE │   (Claude Code)     │
 │ • Voice recording   │      │ • Task management   │      │ • Code execution    │
 │ • Text input        │      │ • Whisper proxy     │      │ • Git operations    │
-│ • WebSocket client  │      │ • WebSocket stream  │      │ • File editing      │
-│ • Live streaming    │      │ • GitHub webhooks   │      │ • PR creation       │
+│ • WebSocket client  │      │ • WebSocket stream  │      │ • PR creation       │
+│ • Live streaming    │      │ • GitHub webhooks   │      │                     │
 └─────────────────────┘      └─────────────────────┘      └─────────────────────┘
 ```
 
 ---
 
-## Session Summary (Dec 28, 2025)
+## Key Files
 
-### New Features Added This Session
+### Backend (`cadence-api/src/`)
 
-1. **WebSocket Streaming** - Real-time output from Claude to iOS app
-   - `stream-manager.ts` - Subscription management
-   - `websocket.ts` - WebSocket endpoint
-   - Events: `task_started`, `tool_use`, `file_edit`, `command_run`, `output`, `error`, `task_completed`
+| File | Purpose | Lines |
+|------|---------|-------|
+| `index.ts` | Fastify app entry | 54 |
+| `types.ts` | Zod schemas + interfaces | 102 |
+| `routes/tasks.ts` | Task CRUD | 96 |
+| `routes/voice.ts` | Voice transcription + parsing | 88 |
+| `routes/input.ts` | Text input + direct commands | 155 |
+| `routes/websocket.ts` | WebSocket streaming endpoint | 34 |
+| `routes/webhooks.ts` | GitHub webhook handlers | 161 |
+| `services/command-parser.ts` | Voice → intent mapping | 83 |
+| `services/stream-manager.ts` | WebSocket subscription mgmt | 130 |
+| `services/vps-bridge.ts` | VPS communication (mock mode) | 134 |
+| `services/whisper.ts` | OpenAI Whisper integration | 38 |
 
-2. **Text Input Support** - Keyboard input alongside voice
-   - `input.ts` - Text input + direct command endpoints
-   - `/api/input/text` - Accept keyboard text
-   - `/api/input/command` - Direct command execution
-
-3. **GitHub Webhooks** - Git workflow automation
-   - `webhooks.ts` - PR event handlers
-   - Signature verification (HMAC SHA-256)
-   - @cadence-ai mention parsing
-   - Auto-archive on PR merge
-
-4. **VPS Bridge Streaming** - SSE parsing from VPS
-   - `executeTaskStreaming()` - Stream events from VPS
-   - Mock mode with realistic event simulation
-   - Error handling and timeout support
-
-5. **Comprehensive Test Suite**
-   - `input.test.ts` - Text input tests
-   - `stream-manager.test.ts` - WebSocket tests
-   - `webhooks.test.ts` - Webhook tests
-   - `vps-bridge.test.ts` - Streaming tests
-
----
-
-## Components
-
-### 1. Backend API (`cadence-api/`)
-
-**Status:** ✅ Complete with streaming and webhooks
+### iOS Plan (`cadence-ios/`)
 
 | File | Purpose |
 |------|---------|
-| `src/index.ts` | Fastify app entry |
-| `src/types.ts` | Types + Zod schemas (StreamEvent, Task, Webhook types) |
-| `src/routes/tasks.ts` | Task CRUD |
-| `src/routes/voice.ts` | Transcription + parsing |
-| `src/routes/input.ts` | **NEW:** Text input + commands |
-| `src/routes/websocket.ts` | **NEW:** WebSocket streaming |
-| `src/routes/webhooks.ts` | **NEW:** GitHub webhooks |
-| `src/services/whisper.ts` | OpenAI Whisper integration |
-| `src/services/command-parser.ts` | Voice → intent |
-| `src/services/vps-bridge.ts` | **UPDATED:** Streaming support |
-| `src/services/stream-manager.ts` | **NEW:** WebSocket subscriptions |
-| `src/tests/*.test.ts` | Comprehensive test suite |
+| `PLAN.md` | Complete Swift implementation plan |
 
-```bash
-cd cadence-api
-npm install
-npm test        # Run all tests
-npm run dev     # Start server
-npm run typecheck  # TypeScript check
-```
+### Documentation
 
-### 2. iOS App (`cadence-ios/`)
-
-**Status:** 📋 Planned (see `cadence-ios/PLAN.md`)
-
-| Component | Technology |
-|-----------|------------|
-| UI | SwiftUI (iOS 17+) |
-| Audio | AVFoundation |
-| WebSocket | URLSessionWebSocketTask |
-| Networking | URLSession + async/await |
-| State | @Observable |
-| Storage | SwiftData + Keychain |
-
-**Key Views Updated:**
-- `InputView` - Combined voice + text input with segmented control
-- `TaskDetailView` - Live streaming updates via WebSocket
-- `WebSocketClient` - Real-time event subscription
-
-### 3. VPS Setup (`cadence-setup/`)
-
-**Status:** ✅ Complete
-
-Bootstrap script that user runs on their VPS to set up Claude Code bridge.
+| File | Purpose |
+|------|---------|
+| `ARCHITECTURE.md` | Full system architecture (v3.1) |
+| `AGENT-PROMPTS.md` | Prompts for parallel agent development |
+| `AGENT_HANDOFF.md` | This file - agent continuity |
 
 ---
 
 ## API Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/health` | Health check |
-| GET | `/api/tasks` | List all tasks |
-| GET | `/api/tasks/:id` | Get single task |
-| POST | `/api/tasks` | Create new task |
-| DELETE | `/api/tasks/:id` | Cancel task |
-| POST | `/api/voice/transcribe` | Transcribe audio |
-| POST | `/api/voice/parse` | Parse text to command |
-| POST | `/api/voice/command` | Transcribe + parse |
-| **POST** | `/api/input/text` | **Text input** |
-| **POST** | `/api/input/command` | **Direct command** |
-| **WS** | `/api/ws/stream` | **WebSocket streaming** |
-| **POST** | `/api/webhooks/github` | **GitHub webhooks** |
+| Method | Endpoint | Purpose | Tested |
+|--------|----------|---------|--------|
+| GET | `/api/health` | Health check | ✅ |
+| GET | `/api/tasks` | List all tasks | ✅ |
+| GET | `/api/tasks/:id` | Get single task | ✅ |
+| POST | `/api/tasks` | Create new task | ✅ |
+| DELETE | `/api/tasks/:id` | Cancel task | ✅ |
+| POST | `/api/voice/transcribe` | Transcribe audio | ✅ |
+| POST | `/api/voice/parse` | Parse text → intent | ✅ |
+| POST | `/api/voice/command` | Transcribe + parse | ✅ |
+| POST | `/api/input/text` | Text input | ✅ |
+| POST | `/api/input/command` | Direct command | ✅ |
+| WS | `/api/ws/stream` | WebSocket streaming | ✅ |
+| GET | `/api/ws/health` | WebSocket health | ✅ |
+| POST | `/api/webhooks/github` | GitHub webhooks | ✅ |
 
 ---
 
-## Agent Prompts for Parallel Development
+## Next Agent Tasks
 
-**See: `AGENT-PROMPTS.md`** for self-contained prompts for 6 parallel agents:
+### Option A: Build iOS App (Recommended)
 
-| Agent | Focus | Can Run With |
-|-------|-------|--------------|
-| Agent 1 | Backend WebSocket Streaming | 2, 6 |
-| Agent 2 | Backend GitHub Webhooks | 1, 6 |
-| Agent 3 | iOS Voice Recording | 4, 5 |
-| Agent 4 | iOS WebSocket Client | 3, 5 |
-| Agent 5 | iOS Text Input | 3, 4 |
-| Agent 6 | VPS Bridge Streaming | 1, 2 |
+1. Create Xcode project with SwiftUI (iOS 17+)
+2. Implement `AudioRecorder` service (AVFoundation)
+3. Build `VoiceView` with record button + waveform
+4. Add `APIClient` for backend communication
+5. Implement `WebSocketClient` for live streaming
+6. Build `TaskListView` and `TaskDetailView`
+7. Add `TextInputView` as voice alternative
+8. Settings + VPS configuration
 
-**Backend agents (1, 2, 6)** can run in parallel.
-**iOS agents (3, 4, 5)** can run in parallel.
-Cross-team integration requires backend running.
+**Reference:** `cadence-ios/PLAN.md` has complete code samples.
 
----
+### Option B: Add Database + Auth
 
-## Pre-Flight Checklist
+1. Add PostgreSQL via Neon (serverless)
+2. Replace in-memory `tasks` Map with Drizzle ORM
+3. Add GitHub OAuth for user authentication
+4. Add user isolation for tasks
 
-```bash
-# 1. Check Node.js version (need 20+)
-node --version
+### Option C: Production VPS Integration
 
-# 2. Verify directory
-pwd
-# Should be: .../Etc-mono-repo/ideas/voice-coding-assistant
-
-# 3. Check components exist
-ls cadence-api/ cadence-ios/ cadence-setup/
-
-# 4. API tests pass
-cd cadence-api && npm install && npm test
-```
+1. Update `vps-bridge.ts` to parse real SSE from VPS
+2. Test with actual Claude Code execution
+3. Add connection health checks
+4. Implement retry logic
 
 ---
 
-## Architecture Decisions
+## Known Limitations
 
-| Decision | Choice | Rationale | Date |
-|----------|--------|-----------|------|
-| iOS Framework | **Swift + SwiftUI** | Native voice APIs, best UX | Dec 28, 2025 |
-| Backend | Fastify + TypeScript | Fast, type-safe | Dec 28, 2025 |
-| STT | OpenAI Whisper API | 98% accuracy | Dec 28, 2025 |
-| TTS | AVSpeechSynthesizer | Native, free | Dec 28, 2025 |
-| Execution | User's VPS + Claude Code | User controls environment | Dec 28, 2025 |
-| Auth | API key + Keychain | Simple, secure | Dec 28, 2025 |
-| **Streaming** | WebSocket (iOS) + SSE (VPS) | Real-time updates | Dec 28, 2025 |
-| **Input** | Voice + Text | Flexibility for users | Dec 28, 2025 |
-
----
-
-## Files Created/Modified This Session
-
-| File | Change | Date |
-|------|--------|------|
-| `src/types.ts` | Added StreamEvent, TextInput, Webhook types | Dec 28, 2025 |
-| `src/routes/input.ts` | **Created** - Text input + command endpoints | Dec 28, 2025 |
-| `src/routes/websocket.ts` | **Created** - WebSocket streaming | Dec 28, 2025 |
-| `src/routes/webhooks.ts` | **Created** - GitHub webhook handlers | Dec 28, 2025 |
-| `src/services/stream-manager.ts` | **Created** - Subscription management | Dec 28, 2025 |
-| `src/services/vps-bridge.ts` | **Updated** - Added streaming support | Dec 28, 2025 |
-| `src/tests/input.test.ts` | **Created** - Input endpoint tests | Dec 28, 2025 |
-| `src/tests/stream-manager.test.ts` | **Created** - Streaming tests | Dec 28, 2025 |
-| `src/tests/webhooks.test.ts` | **Created** - Webhook tests | Dec 28, 2025 |
-| `src/tests/vps-bridge.test.ts` | **Created** - VPS bridge tests | Dec 28, 2025 |
-| `cadence-ios/PLAN.md` | **Updated** - Added WebSocket, TextInput, streaming | Dec 28, 2025 |
-| `AGENT-PROMPTS.md` | **Created** - 6 agent prompts for parallel dev | Dec 28, 2025 |
-| `AGENT_HANDOFF.md` | **Updated** - Full session summary | Dec 28, 2025 |
-
----
-
-## Next Steps
-
-### Immediate (Pick from Agent Prompts)
-
-**Option A: Start iOS Development**
-1. Copy Agent 3 prompt → Create Xcode project + voice recording
-2. Copy Agent 4 prompt → Add WebSocket client
-3. Copy Agent 5 prompt → Add text input
-4. Integration test with running backend
-
-**Option B: Complete Backend**
-1. Copy Agent 1 prompt → Verify WebSocket streaming
-2. Copy Agent 2 prompt → Complete GitHub webhook features
-3. Copy Agent 6 prompt → Production VPS bridge
-
-**Option C: Parallel Development**
-- Run Agents 1, 2, 6 simultaneously (backend)
-- Run Agents 3, 4, 5 simultaneously (iOS)
-- Integrate when both complete
-
-### Future Enhancements
-
-1. **Database** - Replace in-memory with PostgreSQL
-2. **Authentication** - GitHub OAuth
-3. **Deployment** - Vercel or Railway for backend
-4. **TestFlight** - iOS app distribution
-
----
-
-## Required API Keys
-
-```bash
-# Anthropic (Claude Code on VPS)
-ANTHROPIC_API_KEY=sk-ant-...
-
-# OpenAI (Whisper - for voice)
-OPENAI_API_KEY=sk-...
-
-# GitHub (Webhooks - optional)
-GITHUB_WEBHOOK_SECRET=your-secret
-```
+| Limitation | Impact | Mitigation |
+|------------|--------|------------|
+| In-memory storage | Tasks lost on restart | Add PostgreSQL |
+| No authentication | API is open | Add GitHub OAuth |
+| Mock VPS mode | No real execution | Connect to actual VPS |
+| No rate limiting | Abuse possible | Add rate limiting |
+| Single process | No scaling | Add Redis pub/sub |
 
 ---
 
 ## Test Commands
 
 ```bash
-# Backend tests
 cd cadence-api
-npm test                    # All tests
-npm test -- --grep stream   # Streaming tests
-npm test -- --grep webhook  # Webhook tests
-npm test -- --grep input    # Input tests
-npm run typecheck           # TypeScript
 
-# Manual API testing
-curl http://localhost:3001/api/health
-curl -X POST http://localhost:3001/api/input/text \
-  -H "Content-Type: application/json" \
-  -d '{"text": "add dark mode to settings"}'
+# Run all tests
+npm test
+
+# Run specific test files
+npm test -- --grep stream      # Streaming tests
+npm test -- --grep webhook     # Webhook tests
+npm test -- --grep voice       # Voice tests
+npm test -- --grep input       # Input tests
+npm test -- --grep tasks       # Task CRUD tests
+
+# TypeScript check
+npm run typecheck
+
+# Start dev server (requires OPENAI_API_KEY for voice)
+npm run dev
 ```
 
 ---
 
-## Deprecated Components
+## Environment Variables
 
-The following were created during earlier iterations but are now superseded:
+```bash
+# Required for voice transcription
+OPENAI_API_KEY=sk-...
 
-| Component | Reason | Replacement |
-|-----------|--------|-------------|
-| `cadence-web/` | Web prototype | Swift iOS app |
-| React Native plans | Cross-platform not needed | Swift native |
+# Required for GitHub webhooks
+GITHUB_WEBHOOK_SECRET=your-secret
+
+# Required for VPS execution (future)
+ANTHROPIC_API_KEY=sk-ant-...
+VPS_ENDPOINT=https://your-vps.example.com
+```
 
 ---
 
-**Document Version:** 4.0
-**Created:** December 28, 2025
-**Updated:** December 28, 2025 - Added streaming, text input, webhooks, agent prompts
+## Session Log (January 3, 2026)
+
+### Work Completed This Session
+
+1. **Code Audit & Cleanup**
+   - Removed unused types: `GitConfig`, `GitCommit`, `PullRequest`
+   - Removed unused `gitConfig` parameter from `executeWithStreaming`
+   - Verified no TODOs, FIXMEs, or stubs remain
+   - All 77 tests passing
+
+2. **Git Attribution Fix**
+   - Added `Co-authored-by: Chimera <chimera_defi@protonmail.com>`
+   - Added `Generated-by: Claude Code <noreply@anthropic.com>`
+   - Both commits pushed to `claude/voice-agent-planning-NKlNI`
+
+3. **Multi-Pass Review (per .cursorrules)**
+   - ✅ Tests pass (77/77)
+   - ✅ TypeScript compiles cleanly
+   - ✅ No TODOs or stubs
+   - ✅ No unused code
+   - ✅ Documentation updated
+
+### Commits This Session
+
+| Hash | Message |
+|------|---------|
+| `beee585` | fix(cadence): Implement webhook handlers, add voice tests, clean up stubs |
+| `16d72ea` | refactor(cadence): Remove unused types and parameters |
+
+---
+
+## Architecture Decisions
+
+| Decision | Choice | Rationale |
+|----------|--------|-----------|
+| iOS Framework | Swift + SwiftUI | Native voice APIs (AVFoundation) |
+| Backend | Fastify + TypeScript | Fast, type-safe |
+| STT | OpenAI Whisper API | 98% accuracy |
+| TTS | AVSpeechSynthesizer | Native, free |
+| Execution | User's VPS + Claude Code | User controls environment |
+| Real-time | WebSocket | Direct, no third-party |
+| Input | Voice + Text | Flexibility |
+
+---
+
+## Related Documents
+
+| Document | Purpose |
+|----------|---------|
+| `ARCHITECTURE.md` | Full system design (v3.1) |
+| `AGENT-PROMPTS.md` | Prompts for 6 parallel agents |
+| `cadence-ios/PLAN.md` | Swift implementation plan |
+| `IMPLEMENTATION.md` | Detailed task breakdown |
+| `GITHUB_INTEGRATION.md` | Webhook automation design |
+
+---
+
+**Document Version:** 5.0
+**Updated:** January 3, 2026
