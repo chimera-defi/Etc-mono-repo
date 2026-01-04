@@ -3,6 +3,7 @@ import {
   parseSoftwareWallets,
   parseHardwareWallets,
   parseCryptoCards,
+  parseRamps,
 } from '@/lib/wallet-data';
 import { getAllDocuments, getWalletStats } from '@/lib/markdown';
 import { getChainStats } from '@/lib/defillama';
@@ -66,6 +67,7 @@ export default async function ExplorePage() {
   const softwareWallets = parseSoftwareWallets();
   const hardwareWallets = parseHardwareWallets();
   const cryptoCards = parseCryptoCards();
+  const ramps = parseRamps();
 
   const docs = getAllDocuments();
   const walletStats = getWalletStats(docs);
@@ -121,6 +123,7 @@ export default async function ExplorePage() {
         softwareWallets={softwareWallets}
         hardwareWallets={hardwareWallets}
         cryptoCards={cryptoCards}
+        ramps={ramps}
       />
     </div>
   );

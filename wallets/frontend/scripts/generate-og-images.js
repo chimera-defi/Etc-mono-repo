@@ -59,6 +59,15 @@ const WALLET_DATA = {
     { name: 'Coinbase Card', cashback: '1-4%', type: 'Debit', region: 'US', status: '🟢' },
     { name: 'Nexo Card', cashback: '2%', type: 'Credit', region: 'EU/UK', status: '🟢' },
   ],
+  ramps: [
+    // Data from RAMPS.md - Top 5 by score
+    // Last verified: January 2026
+    { name: 'Transak', score: 92, type: 'Both', coverage: '160+', devUx: 'React SDK', status: '🟢' },
+    { name: 'MoonPay', score: 90, type: 'Both', coverage: '160+', devUx: 'Widget', status: '🟢' },
+    { name: 'Coinbase Pay', score: 89, type: 'Both', coverage: '100+', devUx: 'SDK', status: '🟢' },
+    { name: 'Ramp', score: 88, type: 'Both', coverage: '150+', devUx: 'SDK', status: '🟢' },
+    { name: 'Sardine', score: 86, type: 'Both', coverage: 'US+', devUx: 'API/SDK', status: '🟢' },
+  ],
 };
 
 /**
@@ -666,6 +675,149 @@ function generateCryptoCardsDetailsImage() {
 }
 
 /**
+ * Generate Ramps OG Image (Table)
+ */
+function generateRampsImage() {
+  const canvas = createCanvas(WIDTH, HEIGHT);
+  const ctx = canvas.getContext('2d');
+  
+  // Background gradient
+  const gradient = ctx.createLinearGradient(0, 0, WIDTH, HEIGHT);
+  gradient.addColorStop(0, '#0f172a');
+  gradient.addColorStop(1, '#1e3a5f');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, WIDTH, HEIGHT);
+  
+  // Branding
+  drawBranding(ctx);
+  
+  // Title
+  ctx.fillStyle = COLORS.text;
+  ctx.font = 'bold 42px Arial, sans-serif';
+  ctx.fillText('Crypto On/Off-Ramp Comparison', 50, 160);
+  
+  // Subtitle
+  ctx.fillStyle = COLORS.textMuted;
+  ctx.font = '20px Arial, sans-serif';
+  ctx.fillText('20+ providers scored on coverage, fees & developer experience', 50, 195);
+  
+  // Table
+  const headers = ['Provider', 'Score', 'Type', 'Coverage', 'Dev UX'];
+  const rampTableData = WALLET_DATA.ramps.map(r => [
+    r.name,
+    r.score.toString(),
+    r.type,
+    r.coverage,
+    r.devUx,
+  ]);
+  drawTable(ctx, headers, rampTableData, 230);
+  
+  // Footer
+  drawFooter(ctx, [
+    { value: '20+', label: 'Providers Compared' },
+    { value: '160+', label: 'Max Countries' },
+    { value: 'Global', label: 'Coverage' },
+  ]);
+  
+  return canvas;
+}
+
+/**
+ * Generate Ramps Details Page Image (non-table)
+ */
+function generateRampsDetailsImage() {
+  const canvas = createCanvas(WIDTH, HEIGHT);
+  const ctx = canvas.getContext('2d');
+
+  // Background gradient
+  const gradient = ctx.createLinearGradient(0, 0, WIDTH, HEIGHT);
+  gradient.addColorStop(0, '#0f172a');
+  gradient.addColorStop(1, '#1e3a5f');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+  // Branding
+  drawBranding(ctx);
+
+  // Title
+  ctx.fillStyle = COLORS.text;
+  ctx.font = 'bold 42px Arial, sans-serif';
+  ctx.fillText('Ramp Provider Guide', 50, 160);
+
+  // Subtitle
+  ctx.fillStyle = COLORS.textMuted;
+  ctx.font = '20px Arial, sans-serif';
+  ctx.fillText('Choose the best on-ramp and off-ramp for your dApp', 50, 195);
+
+  // Recommendations section
+  const startY = 250;
+
+  // Section title
+  ctx.fillStyle = COLORS.primary;
+  ctx.font = 'bold 24px Arial, sans-serif';
+  ctx.fillText('🎯 Top Developer Picks', 50, startY);
+
+  // Top picks
+  const picks = [
+    { rank: '🥇', name: 'Transak', score: 92, for: 'React SDK, 160+ countries' },
+    { rank: '🥈', name: 'MoonPay', score: 90, for: 'Widget, wide coverage' },
+    { rank: '🥉', name: 'Coinbase Pay', score: 89, for: 'SDK, Coinbase users' },
+  ];
+
+  let y = startY + 50;
+  picks.forEach((pick) => {
+    // Rank
+    ctx.font = '32px Arial, sans-serif';
+    ctx.fillText(pick.rank, 50, y);
+
+    // Provider name and score
+    ctx.fillStyle = COLORS.text;
+    ctx.font = 'bold 28px Arial, sans-serif';
+    ctx.fillText(pick.name, 110, y);
+
+    ctx.fillStyle = COLORS.accent;
+    ctx.font = 'bold 28px Arial, sans-serif';
+    ctx.fillText(`Score: ${pick.score}`, 330, y);
+
+    // Description
+    ctx.fillStyle = COLORS.textMuted;
+    ctx.font = '18px Arial, sans-serif';
+    ctx.fillText(pick.for, 110, y + 28);
+
+    y += 80;
+  });
+
+  // Use case section
+  y += 20;
+  ctx.fillStyle = COLORS.primary;
+  ctx.font = 'bold 24px Arial, sans-serif';
+  ctx.fillText('💡 Use Cases', 50, y);
+
+  const useCases = [
+    '• Developers: Transak (React SDK), Coinbase Pay (SDK)',
+    '• Enterprise: Modern Treasury, Stripe (API-first)',
+    '• Global Coverage: MoonPay, Transak (160+ countries)',
+  ];
+
+  y += 40;
+  ctx.fillStyle = COLORS.textMuted;
+  ctx.font = '18px Arial, sans-serif';
+  useCases.forEach((useCase) => {
+    ctx.fillText(useCase, 50, y);
+    y += 35;
+  });
+
+  // Footer
+  drawFooter(ctx, [
+    { value: '20+', label: 'Providers Compared' },
+    { value: 'Both', label: 'On/Off-Ramp' },
+    { value: 'Global', label: 'Coverage' },
+  ]);
+
+  return canvas;
+}
+
+/**
  * Generate Explore Page OG Image
  * Shows the interactive comparison tool feature
  */
@@ -719,6 +871,12 @@ function generateExploreImage() {
       title: 'Crypto Cards',
       count: '27+',
       desc: 'Debit & credit cards',
+    },
+    {
+      icon: '🔄',
+      title: 'Ramps',
+      count: '20+',
+      desc: 'On/off-ramp providers',
     },
   ];
 
@@ -786,16 +944,18 @@ async function main() {
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });
   }
 
-  // Generate all images (7 total: 3 table + 3 details + 1 explore)
+  // Generate all images (9 total: 4 table + 4 details + 1 explore)
   console.log('📊 Generating table comparison images...');
   saveCanvas(generateSoftwareWalletsImage(), 'og-software-wallets-table.png');
   saveCanvas(generateHardwareWalletsImage(), 'og-hardware-wallets-table.png');
   saveCanvas(generateCryptoCardsImage(), 'og-crypto-cards-table.png');
+  saveCanvas(generateRampsImage(), 'og-ramps-table.png');
 
   console.log('\n📖 Generating details/guide images...');
   saveCanvas(generateSoftwareWalletsDetailsImage(), 'og-software-wallets-details.png');
   saveCanvas(generateHardwareWalletsDetailsImage(), 'og-hardware-wallets-details.png');
   saveCanvas(generateCryptoCardsDetailsImage(), 'og-crypto-cards-details.png');
+  saveCanvas(generateRampsDetailsImage(), 'og-ramps-details.png');
 
   console.log('\n🔍 Generating explore page image...');
   saveCanvas(generateExploreImage(), 'og-explore.png');

@@ -14,7 +14,7 @@ import {
   ChevronUp,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type { CryptoCard, HardwareWallet, SoftwareWallet, SupportedChains, WalletData } from '@/types/wallets';
+import type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, SupportedChains, WalletData } from '@/types/wallets';
 
 // Chain icon configuration
 const chainIcons: { key: keyof Omit<SupportedChains, 'raw' | 'other'>; src: string; alt: string }[] = [
@@ -50,7 +50,7 @@ function ChainSupportDisplay({ chains }: { chains: SupportedChains }) {
 }
 
 interface ComparisonToolProps {
-  type: 'software' | 'hardware' | 'cards';
+  type: 'software' | 'hardware' | 'cards' | 'ramps';
   selectedWallets: WalletData[];
   allWallets: WalletData[];
   onRemove: (id: string) => void;
@@ -572,6 +572,153 @@ function CryptoCardComparison({
   );
 }
 
+// Ramp comparison
+function RampComparison({
+  ramps,
+  onRemove,
+}: {
+  ramps: Ramp[];
+  onRemove: (id: string) => void;
+}) {
+  const [sections, setSections] = useState({
+    general: true,
+    features: true,
+    fees: true,
+    links: true,
+  });
+
+  const toggleSection = (section: keyof typeof sections) => {
+    setSections(prev => ({ ...prev, [section]: !prev[section] }));
+  };
+
+  const colSpan = ramps.length + 1;
+
+  return (
+    <table className="w-full">
+      <thead>
+        <tr className="border-b border-border">
+          <th className="py-4 px-4 text-left w-48">Feature</th>
+          {ramps.map(ramp => (
+            <th key={ramp.id} className="py-4 px-4 text-center min-w-[180px]">
+              <div className="flex flex-col items-center gap-2">
+                <div className="flex items-center gap-2">
+                  {ramp.url ? (
+                    <a
+                      href={ramp.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-bold text-foreground hover:text-primary hover:underline"
+                    >
+                      {ramp.name}
+                    </a>
+                  ) : (
+                    <span className="font-bold">{ramp.name}</span>
+                  )}
+                  <button
+                    onClick={() => onRemove(ramp.id)}
+                    className="p-1 hover:bg-muted rounded"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+                <div
+                  className={cn(
+                    'w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg',
+                    ramp.score >= 75 && 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
+                    ramp.score >= 50 && ramp.score < 75 && 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400',
+                    ramp.score < 50 && 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                  )}
+                >
+                  {ramp.score}
+                </div>
+              </div>
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {/* General Section */}
+        <SectionHeader
+          title="General"
+          isOpen={sections.general}
+          onToggle={() => toggleSection('general')}
+          colSpan={colSpan}
+        />
+        {sections.general && (
+          <>
+            <ComparisonRow label="Score" values={ramps.map(r => r.score)} highlight />
+            <ComparisonRow label="Recommendation" values={ramps.map(r => r.recommendation)} />
+            <ComparisonRow label="Type" values={ramps.map(r => r.rampType)} />
+            <ComparisonRow label="On-Ramp" values={ramps.map(r => r.onRamp)} isBoolean />
+            <ComparisonRow label="Off-Ramp" values={ramps.map(r => r.offRamp)} isBoolean />
+            <ComparisonRow label="Coverage" values={ramps.map(r => r.coverage)} />
+            <ComparisonRow label="Best For" values={ramps.map(r => r.bestFor)} />
+          </>
+        )}
+
+        {/* Features Section */}
+        <SectionHeader
+          title="Features"
+          isOpen={sections.features}
+          onToggle={() => toggleSection('features')}
+          colSpan={colSpan}
+        />
+        {sections.features && (
+          <>
+            <ComparisonRow label="Dev UX" values={ramps.map(r => r.devUx)} />
+            <ComparisonRow label="Status" values={ramps.map(r => r.status)} />
+          </>
+        )}
+
+        {/* Fees Section */}
+        <SectionHeader
+          title="Fees"
+          isOpen={sections.fees}
+          onToggle={() => toggleSection('fees')}
+          colSpan={colSpan}
+        />
+        {sections.fees && (
+          <>
+            <ComparisonRow label="Fee Model" values={ramps.map(r => r.feeModel)} />
+            <ComparisonRow label="Min Fee" values={ramps.map(r => r.minFee)} />
+          </>
+        )}
+
+        {/* Links Section */}
+        <SectionHeader
+          title="Links"
+          isOpen={sections.links}
+          onToggle={() => toggleSection('links')}
+          colSpan={colSpan}
+        />
+        {sections.links && (
+          <>
+            <ComparisonRow
+              label="Website"
+              values={ramps.map(r =>
+                r.url ? (
+                  <a
+                    key={r.id}
+                    href={r.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline inline-flex items-center gap-1"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    Visit
+                  </a>
+                ) : (
+                  '-'
+                )
+              )}
+            />
+          </>
+        )}
+      </tbody>
+    </table>
+  );
+}
+
 // Export/Share functions
 function generateComparisonText(wallets: WalletData[], type: string): string {
   const lines = [`Wallet Radar - ${type} Comparison\n`];
@@ -626,10 +773,10 @@ export function ComparisonTool({
     return (
       <div className="text-center py-12 border border-dashed border-border rounded-lg">
         <p className="text-lg text-muted-foreground mb-2">
-          No {type === 'cards' ? 'cards' : 'wallets'} selected for comparison
+          No {type === 'cards' ? 'cards' : type === 'ramps' ? 'ramps' : 'wallets'} selected for comparison
         </p>
         <p className="text-sm text-muted-foreground">
-          Click the + button on any {type === 'cards' ? 'card' : 'wallet'} to add it to the comparison
+          Click the + button on any {type === 'cards' ? 'card' : type === 'ramps' ? 'ramp' : 'wallet'} to add it to the comparison
         </p>
       </div>
     );
@@ -641,7 +788,7 @@ export function ComparisonTool({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-sm text-muted-foreground">
-            Comparing {selectedWallets.length} {type === 'cards' ? 'cards' : 'wallets'}
+            Comparing {selectedWallets.length} {type === 'cards' ? 'cards' : type === 'ramps' ? 'ramps' : 'wallets'}
           </span>
           {selectedWallets.length < 4 && availableWallets.length > 0 && (
             <button
@@ -694,6 +841,12 @@ export function ComparisonTool({
         {type === 'cards' && (
           <CryptoCardComparison
             cards={selectedWallets as CryptoCard[]}
+            onRemove={onRemove}
+          />
+        )}
+        {type === 'ramps' && (
+          <RampComparison
+            ramps={selectedWallets as Ramp[]}
             onRemove={onRemove}
           />
         )}
