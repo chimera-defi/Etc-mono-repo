@@ -35,36 +35,40 @@ interface EnhancedMarkdownRendererProps {
 }
 
 // Section definitions - which sections should be collapsible
+// Using #{1,3} to match h1, h2, and h3 headers
 const COLLAPSIBLE_SECTIONS = [
-  { pattern: /^#{1,2}\s+.*Recommendations.*$/im, title: 'Recommendations by Use Case', icon: Trophy },
-  { pattern: /^#{1,2}\s+.*Scoring.*Methodology.*$/im, title: 'Scoring Methodology', icon: Calculator },
-  { pattern: /^#{1,2}\s+.*Security.*Deep.*Dive.*$/im, title: 'Security Deep Dive', icon: Shield },
-  { pattern: /^#{1,2}\s+.*Security.*Audits.*$/im, title: 'Security Audits', icon: Shield },
-  { pattern: /^#{1,2}\s+.*Security.*Features.*$/im, title: 'Security Features', icon: Lock },
-  { pattern: /^#{1,2}\s+.*Known.*Quirks.*$/im, title: 'Known Quirks & Gotchas', icon: AlertTriangle },
-  { pattern: /^#{1,2}\s+.*EIP.*Support.*$/im, title: 'EIP Support Matrix', icon: Layers },
-  { pattern: /^#{1,2}\s+.*EIP-7702.*$/im, title: 'EIP-7702 Wallet Support', icon: Zap },
-  { pattern: /^#{1,2}\s+.*Account.*Type.*$/im, title: 'Account Type Support', icon: Key },
-  { pattern: /^#{1,2}\s+.*Hardware.*Wallet.*Support.*$/im, title: 'Hardware Wallet Support', icon: Key },
-  { pattern: /^#{1,2}\s+.*ENS.*Address.*$/im, title: 'ENS & Address Resolution', icon: Target },
-  { pattern: /^#{1,2}\s+.*Browser.*Integration.*$/im, title: 'Browser Integration', icon: Code },
-  { pattern: /^#{1,2}\s+.*Mobile.*Deep.*$/im, title: 'Mobile Deep-linking', icon: Smartphone },
-  { pattern: /^#{1,2}\s+.*Developer.*Experience.*$/im, title: 'Developer Experience', icon: Code },
-  { pattern: /^#{1,2}\s+.*Monetization.*Business.*$/im, title: 'Monetization & Business Model', icon: DollarSign },
-  { pattern: /^#{1,2}\s+.*Gas.*Estimation.*$/im, title: 'Gas Estimation & Transaction Preview', icon: Zap },
-  { pattern: /^#{1,2}\s+.*Privacy.*Data.*$/im, title: 'Privacy & Data Collection', icon: Lock },
-  { pattern: /^#{1,2}\s+.*License.*Information.*$/im, title: 'License Information', icon: FileText },
-  { pattern: /^#{1,2}\s+.*Other.*Wallet.*Comparison.*$/im, title: 'Other Resources', icon: ExternalLink },
-  { pattern: /^#{1,2}\s+.*Integration.*Advice.*$/im, title: 'Integration Advice', icon: BookOpen },
-  { pattern: /^#{1,2}\s+.*Data.*Sources.*Verification.*$/im, title: 'Data Sources & Verification', icon: FileText },
-  { pattern: /^#{1,2}\s+.*Activity.*Status.*Details.*$/im, title: 'Activity Status Details', icon: Info },
-  { pattern: /^#{1,2}\s+.*Changelog.*$/im, title: 'Changelog', icon: FileText },
-  { pattern: /^#{1,2}\s+.*Contributing.*Add.*$/im, title: 'Contributing', icon: BookOpen },
-  { pattern: /^#{1,2}\s+.*Quick.*Recommendations.*$/im, title: 'Quick Recommendations', icon: Trophy },
-  { pattern: /^#{1,2}\s+.*Wallets.*to.*Avoid.*$/im, title: 'Wallets to Avoid', icon: AlertTriangle },
-  { pattern: /^#{1,2}\s+.*Why.*Look.*Beyond.*$/im, title: 'Why Look Beyond Ledger?', icon: AlertTriangle },
-  { pattern: /^#{1,2}\s+.*Ledger.*Migration.*$/im, title: 'Ledger Migration', icon: Target },
-  { pattern: /^#{1,2}\s+.*Resources.*$/im, title: 'Resources', icon: ExternalLink },
+  { pattern: /^#{1,3}\s+.*Recommendations.*$/im, title: 'Recommendations by Use Case', icon: Trophy },
+  { pattern: /^#{1,3}\s+.*Scoring.*Methodology.*$/im, title: 'Scoring Methodology', icon: Calculator },
+  { pattern: /^#{1,3}\s+.*Security.*Deep.*Dive.*$/im, title: 'Security Deep Dive', icon: Shield },
+  { pattern: /^#{1,3}\s+.*Security.*Audits.*$/im, title: 'Security Audits', icon: Shield },
+  { pattern: /^#{1,3}\s+.*Security.*Features.*$/im, title: 'Security Features', icon: Lock },
+  { pattern: /^#{1,3}\s+.*Known.*Quirks.*$/im, title: 'Known Quirks & Gotchas', icon: AlertTriangle },
+  { pattern: /^#{1,3}\s+.*EIP.*Support.*$/im, title: 'EIP Support Matrix', icon: Layers },
+  { pattern: /^#{1,3}\s+.*EIP-7702.*$/im, title: 'EIP-7702 Wallet Support', icon: Zap },
+  { pattern: /^#{1,3}\s+.*Account.*Type.*$/im, title: 'Account Type Support', icon: Key },
+  { pattern: /^#{1,3}\s+.*Hardware.*Wallet.*Support.*$/im, title: 'Hardware Wallet Support', icon: Key },
+  { pattern: /^#{1,3}\s+.*ENS.*Address.*$/im, title: 'ENS & Address Resolution', icon: Target },
+  { pattern: /^#{1,3}\s+.*Browser.*Integration.*$/im, title: 'Browser Integration', icon: Code },
+  { pattern: /^#{1,3}\s+.*Mobile.*Deep.*$/im, title: 'Mobile Deep-linking', icon: Smartphone },
+  { pattern: /^#{1,3}\s+.*Developer.*Experience.*$/im, title: 'Developer Experience', icon: Code },
+  { pattern: /^#{1,3}\s+.*Monetization.*Business.*$/im, title: 'Monetization & Business Model', icon: DollarSign },
+  { pattern: /^#{1,3}\s+.*Gas.*Estimation.*$/im, title: 'Gas Estimation & Transaction Preview', icon: Zap },
+  { pattern: /^#{1,3}\s+.*Privacy.*Data.*$/im, title: 'Privacy & Data Collection', icon: Lock },
+  { pattern: /^#{1,3}\s+.*License.*Information.*$/im, title: 'License Information', icon: FileText },
+  { pattern: /^#{1,3}\s+.*Other.*Wallet.*Comparison.*$/im, title: 'Other Resources', icon: ExternalLink },
+  { pattern: /^#{1,3}\s+.*Integration.*Advice.*$/im, title: 'Integration Advice', icon: BookOpen },
+  { pattern: /^#{1,3}\s+.*Data.*Sources.*Verification.*$/im, title: 'Data Sources & Verification', icon: FileText },
+  { pattern: /^#{1,3}\s+.*Activity.*Status.*Details.*$/im, title: 'Activity Status Details', icon: Info },
+  { pattern: /^#{1,3}\s+.*Changelog.*$/im, title: 'Changelog', icon: FileText },
+  { pattern: /^#{1,3}\s+.*Contributing.*Add.*$/im, title: 'Contributing', icon: BookOpen },
+  { pattern: /^#{1,3}\s+.*Quick.*Recommendations.*$/im, title: 'Quick Recommendations', icon: Trophy },
+  { pattern: /^#{1,3}\s+.*Wallets.*to.*Avoid.*$/im, title: 'Wallets to Avoid', icon: AlertTriangle },
+  { pattern: /^#{1,3}\s+.*Why.*Look.*Beyond.*$/im, title: 'Why Look Beyond Ledger?', icon: AlertTriangle },
+  { pattern: /^#{1,3}\s+.*Ledger.*Migration.*$/im, title: 'Ledger Migration', icon: Target },
+  { pattern: /^#{1,3}\s+.*Resources.*$/im, title: 'Resources', icon: ExternalLink },
+  // Table-specific sections (often h3 headers)
+  { pattern: /^#{1,3}\s+.*Additional.*Chains.*$/im, title: 'Additional Chains by Wallet', icon: Layers },
+  { pattern: /^#{1,3}\s+.*Legend.*$/im, title: 'Legend', icon: BookOpen },
 ];
 
 // Patterns for primary content that should always be visible
@@ -89,7 +93,7 @@ function parseMarkdownSections(content: string): { primary: string; sections: { 
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
-    const isHeading = /^#{1,2}\s+/.test(line);
+    const isHeading = /^#{1,3}\s+/.test(line);
     
     if (isHeading) {
       // Check if this is a collapsible section
