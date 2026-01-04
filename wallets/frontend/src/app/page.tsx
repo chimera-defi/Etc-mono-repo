@@ -244,6 +244,22 @@ export default function HomePage() {
             'Score: 55 — Corporate Visa cards with stablecoin repayment, available in 200+ countries. Best Business crypto card for corporate use.',
         },
       },
+      {
+        '@type': 'ListItem',
+        position: 6,
+        item: {
+          '@type': 'Product',
+          name: 'Transak',
+          category: 'Crypto On/Off-Ramp',
+          brand: {
+            '@type': 'Brand',
+            name: 'Transak',
+          },
+          url: `${baseUrl}/docs/ramps/`,
+          description:
+            'Score: 92 — React SDK, 160+ countries, excellent developer experience. Best Ramp for Developers with both on-ramp and off-ramp support.',
+        },
+      },
     ],
   };
 
@@ -430,6 +446,21 @@ export default function HomePage() {
             </p>
             <div className="text-xs text-muted-foreground">
               ✅ Business-Focused • ✅ Stablecoins • ✅ Global
+            </div>
+          </div>
+
+          {/* Best Ramp for Developers Pick */}
+          <div className="p-6 rounded-lg border border-cyan-200 dark:border-cyan-900 bg-cyan-50 dark:bg-cyan-950/30">
+            <div className="flex items-center gap-2 mb-3">
+              <ArrowLeftRight className="h-5 w-5 text-cyan-600" />
+              <span className="text-sm font-medium text-cyan-600">Best Ramp for Developers</span>
+            </div>
+            <h3 className="font-bold text-xl mb-2">Transak</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Score: 92 — React SDK, 160+ countries, excellent developer experience
+            </p>
+            <div className="text-xs text-muted-foreground">
+              ✅ React SDK • ✅ 160+ Countries • ✅ Both On/Off-Ramp
             </div>
           </div>
         </div>
