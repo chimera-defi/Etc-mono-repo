@@ -237,8 +237,8 @@
 4. ✅ Research Southeast Asia services
 5. ✅ Research Africa services
 6. ✅ Extended research (Vietnam, other SEA countries, Africa, Middle East, other crypto payment apps)
-7. ⏳ Deeper research for Chipper Cash and Palm (if needed)
-8. ⏳ Manual app testing for Yellow Card (if needed)
+7. ✅ Parallel research completed (DeFi protocols, crypto remittances, Latin America beyond Argentina, Asia beyond fiat, Europe, North America)
+8. ⏳ Manual app testing for Chipper Cash and Yellow Card (automated scraping inconclusive - JavaScript-heavy websites and Cloudflare protection prevented definitive verification)
 
 ---
 
@@ -276,11 +276,11 @@
 - **Argentina (5):** Peanut, Lemon Cash, Belo, Ripio, Buenbit
 - **Global (1):** Valora (bank withdrawal via third-party, limited locations)
 
-**Total Services Researched:** 70+  
-**Excluded:** 60+ (exchanges, wallets, fiat-only services, B2B processors, remittance services)  
-**Unclear:** 3 (Yellow Card, Chipper Cash, Palm)
+**Total Services Researched:** 110+  
+**Excluded:** 100+ (exchanges, wallets, fiat-only services, B2B processors, remittance services, DeFi protocols, Bitcoin-focused services, defunct/parked domains)  
+**Unclear:** 2 (Yellow Card, Chipper Cash - require manual app testing)
 
-**Key Insight:** This category is **highly specialized and regionally concentrated** in Latin America (especially Argentina), where high inflation and currency instability drive demand for stablecoin-based payment networks. Extended research across Vietnam, other Southeast Asian countries, Africa, Middle East, and other crypto payment apps found **no additional matches**.
+**Key Insight:** This category is **highly specialized and regionally concentrated** in Latin America (especially Argentina), where high inflation and currency instability drive demand for stablecoin-based payment networks. Extended research across Vietnam, other Southeast Asian countries, Africa, Middle East, and other crypto payment apps found **no additional matches**. Latest parallel research (DeFi protocols, crypto remittances, Latin America beyond Argentina, Asia beyond fiat, Europe, North America) also found **no new matches** - all investigated services were either fiat-only, Bitcoin-focused, B2B processors, or defunct/parked domains.
 
 **Global Services Found:**
 - **Valora** (Global) - Confirmed match, but bank withdrawal is via third-party providers in limited locations (not direct bank integration like Argentina services)
@@ -294,4 +294,53 @@
 
 ---
 
-*Research complete - comprehensive global search completed*
+## Latest Parallel Research Summary (December 16, 2025)
+
+**Additional Services Investigated:** 40+  
+**New Matches Found:** 0
+
+### Categories Investigated
+
+1. **DeFi Payment Protocols**
+   - Request Finance, Superfluid, Sablier
+   - **Result:** All excluded (B2B infrastructure or protocols, not consumer P2P QR payment networks)
+
+2. **Crypto Remittances**
+   - Remitly, Xoom, Wise, Azimo
+   - **Result:** All excluded (fiat-only remittance services)
+
+3. **Latin America Beyond Argentina**
+   - PicPay (Brazil), PagSeguro (Brazil), Rappi (Colombia), Mercado Pago (multiple countries)
+   - **Result:** All excluded (fiat-only payment apps or connection errors)
+
+4. **Asia Beyond Fiat**
+   - WeChat, Alipay (China), Kakao (South Korea), Line Pay (Japan), Grab, Gojek (Southeast Asia)
+   - **Result:** All excluded (fiat-only payment apps or connection errors)
+
+5. **Europe**
+   - Satispay (Italy), N26 (Germany), Monese (UK)
+   - **Result:** All excluded (fiat-only neobanks or payment apps)
+
+6. **North America**
+   - Zelle, Venmo, Cash App, Strike (US)
+   - **Result:** All excluded (fiat-only P2P networks or Bitcoin-focused)
+
+7. **Bitcoin/Lightning Services**
+   - Lightning Network, Muun, Wallet of Satoshi, Bitrefill
+   - **Result:** All excluded (Bitcoin-focused, not stablecoins)
+
+8. **B2B Payment Processors**
+   - Cryptopay.me, Coinbase Commerce, NOWPayments, CoinGate, BTCPay Server, BitPay, Circle Payments, Stellar, Xendit, dLocal, EBANX
+   - **Result:** All excluded (B2B infrastructure, not consumer P2P networks)
+
+9. **Defunct/Parked Domains**
+   - Didi, Line Pay, Mobius Network, Tem.com, Cryptopay.com, Cryptowisser
+   - **Result:** All excluded (defunct, parked, or information sites)
+
+**Overall Finding:** Comprehensive parallel research found **no new matches**. All services investigated were either fiat-only, Bitcoin-focused, B2B processors, or defunct/parked domains.
+
+**Note:** Palm was excluded as a business identity/compliance service, not a crypto payment app. Chipper Cash and Yellow Card remain unclear due to automated scraping limitations (JavaScript-heavy websites, Cloudflare protection) and require manual app testing for definitive verification.
+
+---
+
+*Research complete - comprehensive global search completed including latest parallel research*

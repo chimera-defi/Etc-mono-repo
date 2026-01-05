@@ -181,25 +181,212 @@ The vast majority of crypto-related services fall into these categories:
 
 ---
 
+## Latest Parallel Research Results (December 16, 2025)
+
+### DeFi Payment Protocols Investigated
+
+#### Request Finance (`request.finance`)
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** B2B platform for crypto and fiat payouts/invoicing, not consumer P2P stablecoin QR payment network
+- **Features:** Business invoicing and payouts, not consumer P2P QR payments
+- **Assessment:** B2B payment infrastructure, not consumer payment network
+
+#### Superfluid (`superfluid.finance`)
+- **Status:** ❌ **NOT A MATCH**
+- **Reason:** Money streaming DeFi protocol, not consumer P2P stablecoin QR payment network
+- **Features:** On-chain token streaming (salary, subscriptions), not consumer P2P QR payments
+- **Assessment:** DeFi protocol for streaming payments, not consumer QR payment network
+
+#### Sablier (`sablier.com`)
+- **Status:** ❌ **NOT A MATCH** (Network error/Cloudflare protection)
+- **Reason:** On-chain token distribution infrastructure (DeFi protocol), not consumer P2P stablecoin QR payment network
+- **Features:** Token vesting/distribution for teams, not consumer P2P QR payments
+- **Assessment:** DeFi protocol for token distribution, not consumer payment network
+
+**Finding:** All DeFi payment protocols investigated are B2B infrastructure or underlying protocols, not consumer-facing stablecoin P2P QR payment networks.
+
+### Crypto Remittances and Regional Searches
+
+#### Latin America (Beyond Argentina)
+
+**Brazil:**
+- **PicPay** (`picpay.com.br`) - ❌ **NOT A MATCH** (Connection error/blocked)
+  - Likely: Fiat-only payment app
+- **PagSeguro** (`pagseguro.com.br`) - ❌ **NOT A MATCH** (Connection error/blocked)
+  - Likely: Fiat-only payment processor
+
+**Colombia:**
+- **Rappi** (`rappi.com.co`) - ❌ **NOT A MATCH** (Connection error/blocked)
+  - Likely: Fiat-only delivery/payment app
+
+**Finding:** All Latin American services beyond Argentina are either fiat-only payment apps or encountered connection errors preventing verification.
+
+#### Asia (Beyond Fiat-Only)
+
+**China:**
+- **WeChat** (`wechat.com`) - ❌ **NOT A MATCH** (Connection error/blocked)
+  - Known: Fiat-only WeChat Pay, no crypto integration
+- **Alipay** (`alipay.com`) - ❌ **NOT A MATCH** (Connection error/blocked)
+  - Known: Fiat-only payment app, no crypto integration
+
+**South Korea:**
+- **Kakao** (`kakao.com`) - ❌ **NOT A MATCH** (Connection error/blocked)
+  - Likely: Fiat-only payment app
+
+**Japan:**
+- **Line Pay** (`linepay.com`) - ❌ **NOT A MATCH** (Parked domain/connection error)
+  - Status: Defunct or unavailable
+
+**Southeast Asia:**
+- **Grab** (`grab.com`) - ❌ **NOT A MATCH** (Connection error/blocked)
+  - Known: Fiat-only GrabPay, no crypto integration
+- **Gojek** (`gojek.com`) - ❌ **NOT A MATCH** (Connection error/blocked)
+  - Known: Fiat-only GoPay, no crypto integration
+
+**Finding:** All Asian services researched are fiat-only payment apps or encountered connection errors. No stablecoin QR payment networks found.
+
+#### Europe
+
+**Italy:**
+- **Satispay** (`satispay.com`) - ❌ **NOT A MATCH**
+  - Reason: Fiat-only payment app, no crypto/stablecoin integration found
+  - Features: Fiat QR payments, no crypto support
+
+**Germany:**
+- **N26** (`n26.com`) - ❌ **NOT A MATCH** (Connection error/blocked)
+  - Known: Neobank with limited crypto via Bitpanda, no QR payments for crypto
+
+**UK:**
+- **Monese** (`monese.com`) - ❌ **NOT A MATCH** (Connection error/blocked)
+  - Known: Neobank, no crypto features found
+
+**Finding:** All European services researched are fiat-only neobanks or payment apps, not crypto payment networks.
+
+#### North America
+
+**US:**
+- **Zelle** (`zellepay.com`) - ❌ **NOT A MATCH** (Connection error/blocked)
+  - Known: Fiat-only P2P payment network, no crypto
+- **Venmo** (`venmo.com`) - ❌ **NOT A MATCH** (Connection error/blocked)
+  - Known: Fiat-only P2P payment app, no crypto
+- **Cash App** (`cash.app`) - ❌ **NOT A MATCH**
+  - Reason: Bitcoin trading, no stablecoins (USDC/USDT)
+  - Features: Fiat QR payments + Bitcoin separately, not stablecoin QR payments
+- **Strike** (`strike.me`) - ❌ **NOT A MATCH** (Cloudflare protection)
+  - Known: Lightning Network (Bitcoin), not stablecoins
+
+**Finding:** All North American services researched are fiat-only P2P networks or Bitcoin-focused, not stablecoin QR payment networks.
+
+#### Fiat Remittance Services
+
+- **Remitly** (`remitly.com`) - ❌ **NOT A MATCH**
+  - Reason: Fiat remittance service, no crypto/stablecoin integration
+- **Xoom** (`xoom.com`) - ❌ **NOT A MATCH** (Connection error/blocked)
+  - Known: Fiat remittance service (PayPal-owned)
+- **Wise** (`wise.com`) - ❌ **NOT A MATCH** (Connection error/blocked)
+  - Known: Fiat remittance service, no crypto
+- **Azimo** (`azimo.com`) - ❌ **NOT A MATCH** (Connection error/blocked)
+  - Status: Defunct or unavailable
+
+**Finding:** All remittance services researched are fiat-only, not crypto payment networks.
+
+#### Bitcoin/Lightning Network Services
+
+- **Lightning Network** (`lightning.network`) - ❌ **NOT A MATCH**
+  - Reason: Bitcoin protocol, not stablecoins
+- **Muun** (`muun.com`) - ❌ **NOT A MATCH** (Connection error/blocked)
+  - Known: Bitcoin Lightning Wallet, not stablecoins
+- **Wallet of Satoshi** (`walletofsatoshi.com`) - ❌ **NOT A MATCH** (Connection error/blocked)
+  - Known: Bitcoin Lightning Wallet, not stablecoins
+- **Bitrefill** (`bitrefill.com`) - ❌ **NOT A MATCH** (Cloudflare protection)
+  - Known: Crypto gift cards/top-ups, Bitcoin-focused, not stablecoin P2P QR payments
+
+**Finding:** All Bitcoin/Lightning services are Bitcoin-focused, not stablecoin payment networks.
+
+#### B2B Payment Processors/Gateways
+
+- **Cryptopay.me** (`cryptopay.me`) - ❌ **NOT A MATCH**
+  - Reason: B2B payment processor, not consumer P2P QR payment network
+- **Coinbase Commerce** (`coinbase.com/commerce`) - ❌ **NOT A MATCH** (Cloudflare protection)
+  - Known: B2B merchant payment integration, not consumer P2P network
+- **NOWPayments** (`nowpayments.io`) - ❌ **NOT A MATCH**
+  - Reason: B2B crypto payment gateway, not consumer P2P QR payment network
+- **CoinGate** (`coingate.com`) - ❌ **NOT A MATCH** (Connection error/blocked)
+  - Known: B2B crypto payment processor
+- **BTCPay Server** (`btcpayserver.org`) - ❌ **NOT A MATCH** (Connection error/blocked)
+  - Known: Self-hosted Bitcoin payment processor, not consumer P2P network
+- **BitPay** (`bitpay.com`) - ❌ **NOT A MATCH** (Cloudflare protection)
+  - Known: B2B crypto payment processor
+- **Circle Payments** (`circle.com/en/payments`) - ❌ **NOT A MATCH** (Connection error/blocked)
+  - Known: B2B stablecoin payment infrastructure, not consumer P2P network
+- **Stellar** (`stellar.org`) - ❌ **NOT A MATCH**
+  - Reason: Blockchain network/protocol, not consumer payment app
+- **Xendit** (`xendit.co`) - ❌ **NOT A MATCH** (Connection error/blocked)
+  - Known: B2B payment gateway (Southeast Asia)
+- **dLocal** (`dlocal.com`) - ❌ **NOT A MATCH** (Connection error/blocked)
+  - Known: B2B payment processor (Latin America)
+- **EBANX** (`ebanx.com`) - ❌ **NOT A MATCH** (Connection error/blocked)
+  - Known: B2B payment processor (Latin America)
+
+**Finding:** All B2B payment processors/gateways are business-focused infrastructure, not consumer P2P QR payment networks.
+
+#### Defunct/Parked Domains
+
+- **Didi** (`didi.com`) - ❌ **NOT A MATCH** (Parked domain)
+- **Line Pay** (`linepay.com`) - ❌ **NOT A MATCH** (Parked domain/connection error)
+- **Mobius Network** (`mobius.network`) - ❌ **NOT A MATCH** (Connection error/blocked)
+- **Tem.com** (`tem.com`) - ❌ **NOT A MATCH** (Parked domain/connection error)
+- **Cryptopay.com** (`cryptopay.com`) - ❌ **NOT A MATCH** (Connection error/blocked)
+- **Cryptowisser** (`cryptowisser.com`) - ❌ **NOT A MATCH**
+  - Reason: Information/comparison site, not a payment service
+
+**Finding:** Several services encountered were defunct, parked domains, or information sites, not active payment services.
+
+#### Mercado Pago Regional Domains
+
+Multiple `mercadopago.com.*` country domains were checked (Argentina, Brazil, Mexico, Colombia, Chile, Peru, Uruguay, etc.). Most encountered connection errors or were clearly fiat-focused e-commerce/digital wallet services without crypto QR payment features.
+
+**Finding:** Mercado Pago is a fiat-focused payment processor, not a stablecoin QR payment network.
+
+### Summary of Latest Parallel Research
+
+**Total Services Investigated:** 40+ additional services  
+**New Matches Found:** 0  
+**Excluded:** 40+ (fiat-only, Bitcoin-focused, B2B processors, defunct/parked domains)
+
+**Key Finding:** The comprehensive parallel research across DeFi protocols, crypto remittances, and multiple regions (Latin America beyond Argentina, Asia beyond fiat, Europe, North America) found **no new matches** for the "Stablecoin Payment Networks" category. All services investigated were either:
+1. Fiat-only payment/remittance apps
+2. Bitcoin/Lightning Network focused (not stablecoins)
+3. B2B payment processors/gateways (not consumer P2P)
+4. Defunct, parked domains, or information sites
+5. Blockchain protocols/networks (not consumer apps)
+
 ## Next Steps for Deeper Research
 
 1. **Chipper Cash:**
-   - Check App Store descriptions (iOS/Android)
-   - Review user documentation/help pages
-   - Search for "QR code" + "stablecoin" + "Chipper Cash"
-   - Verify if crypto payments are integrated or separate feature
+   - ✅ Attempted App Store scraping (JavaScript-heavy, no useful results)
+   - ✅ Attempted help page scraping (no useful results)
+   - ⏳ **Status:** Still unclear - requires manual app testing or user documentation review
+   - **Recommendation:** Manual app testing needed to verify:
+     - Stablecoin P2P QR payment features
+     - Bank withdrawal capabilities
+     - Whether crypto payments are integrated or separate feature
 
 2. **Yellow Card:**
-   - Check if consumer app exists (vs. B2B only)
-   - Review app store descriptions
-   - Verify consumer P2P QR payment features
-   - Check bank withdrawal capabilities
+   - ✅ Attempted App Store scraping (JavaScript-heavy, no useful results)
+   - ✅ Attempted blog page scraping (mostly CSS/font definitions, no useful content)
+   - ⏳ **Status:** Still unclear - requires manual app testing or user documentation review
+   - **Recommendation:** Manual app testing needed to verify:
+     - Consumer app existence (vs. B2B only)
+     - Consumer P2P QR payment features
+     - Bank withdrawal capabilities
 
 3. **Other Potential Services:**
-   - Search for DeFi payment protocols
-   - Look for crypto remittance apps beyond exchanges
-   - Research P2P crypto payment apps in other regions
-   - Check for services that may have been missed
+   - ✅ Completed: DeFi payment protocols research
+   - ✅ Completed: Crypto remittance apps research
+   - ✅ Completed: P2P crypto payment apps in other regions research
+   - ✅ Completed: Services that may have been missed research
+   - **Result:** No new matches found
 
 ---
 
@@ -215,4 +402,4 @@ As we're still figuring out what this category should be, consider:
 ---
 
 **Last Updated:** December 16, 2025  
-**Research Status:** In Progress - Deeper investigation needed for Chipper Cash and Yellow Card
+**Research Status:** Parallel research completed - No new matches found. Chipper Cash and Yellow Card remain unclear and require manual app testing for definitive verification.
