@@ -9,13 +9,14 @@ interface SocialShareProps {
   title: string;
   description?: string;
   className?: string;
+  size?: 'default' | 'large';
 }
 
 /**
  * Social sharing buttons component
  * Provides share functionality for Twitter, Facebook, LinkedIn, Email, and Copy Link
  */
-export function SocialShare({ url, title, description, className = '' }: SocialShareProps) {
+export function SocialShare({ url, title, description, className = '', size = 'default' }: SocialShareProps) {
   const [copied, setCopied] = useState(false);
   const shareUrls = getSocialShareUrls(url, title, description);
 
@@ -38,57 +39,77 @@ export function SocialShare({ url, title, description, className = '' }: SocialS
     }
   };
 
+  const isLarge = size === 'large';
+  const iconSize = isLarge ? 'h-5 w-5' : 'h-4 w-4';
+  const buttonPadding = isLarge ? 'p-3' : 'p-2';
+  const labelSize = isLarge ? 'text-base font-medium' : 'text-sm';
+
   const buttons = [
     {
       platform: 'twitter' as const,
       icon: Twitter,
       label: 'Share on Twitter',
+      shortLabel: 'Twitter',
       className: 'hover:bg-[#1DA1F2]/10 hover:text-[#1DA1F2]',
+      bgClass: 'bg-[#1DA1F2]/10 text-[#1DA1F2]',
     },
     {
       platform: 'facebook' as const,
       icon: Facebook,
       label: 'Share on Facebook',
+      shortLabel: 'Facebook',
       className: 'hover:bg-[#4267B2]/10 hover:text-[#4267B2]',
+      bgClass: 'bg-[#4267B2]/10 text-[#4267B2]',
     },
     {
       platform: 'linkedin' as const,
       icon: Linkedin,
       label: 'Share on LinkedIn',
+      shortLabel: 'LinkedIn',
       className: 'hover:bg-[#0077B5]/10 hover:text-[#0077B5]',
+      bgClass: 'bg-[#0077B5]/10 text-[#0077B5]',
     },
     {
       platform: 'email' as const,
       icon: Mail,
       label: 'Share via Email',
+      shortLabel: 'Email',
       className: 'hover:bg-muted',
+      bgClass: 'bg-muted',
     },
   ];
 
   return (
-    <div className={`flex items-center gap-1 ${className}`}>
-      <span className="text-sm text-muted-foreground mr-2">Share:</span>
-      {buttons.map(({ platform, icon: Icon, label, className: btnClass }) => (
+    <div className={`flex items-center gap-2 ${className}`}>
+      <span className={`${labelSize} text-muted-foreground mr-1`}>Share:</span>
+      {buttons.map(({ platform, icon: Icon, label, shortLabel, className: btnClass, bgClass }) => (
         <button
           key={platform}
           onClick={() => handleShare(platform)}
-          className={`p-2 rounded-lg text-muted-foreground transition-colors ${btnClass}`}
+          className={`${buttonPadding} rounded-lg text-muted-foreground transition-colors ${isLarge ? `${bgClass} border border-border` : btnClass} ${isLarge ? 'flex items-center gap-2' : ''}`}
           title={label}
           aria-label={label}
         >
-          <Icon className="h-4 w-4" />
+          <Icon className={iconSize} />
+          {isLarge && <span className="hidden sm:inline text-sm">{shortLabel}</span>}
         </button>
       ))}
       <button
         onClick={handleCopyLink}
-        className="p-2 rounded-lg text-muted-foreground hover:bg-muted transition-colors"
+        className={`${buttonPadding} rounded-lg text-muted-foreground hover:bg-muted transition-colors ${isLarge ? 'bg-muted border border-border flex items-center gap-2' : ''}`}
         title={copied ? 'Copied!' : 'Copy link'}
         aria-label="Copy link"
       >
         {copied ? (
-          <Check className="h-4 w-4 text-green-500" />
+          <>
+            <Check className={`${iconSize} text-green-500`} />
+            {isLarge && <span className="hidden sm:inline text-sm text-green-500">Copied!</span>}
+          </>
         ) : (
-          <Link2 className="h-4 w-4" />
+          <>
+            <Link2 className={iconSize} />
+            {isLarge && <span className="hidden sm:inline text-sm">Copy</span>}
+          </>
         )}
       </button>
     </div>
