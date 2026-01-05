@@ -8,6 +8,7 @@ import {
 import { getAllDocuments, getWalletStats } from '@/lib/markdown';
 import { getChainStats } from '@/lib/defillama';
 import { ExploreContent } from './ExploreContent';
+import { SocialShare } from '@/components/SocialShare';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
 const ogImageVersion = 'v3';
@@ -83,10 +84,20 @@ export default async function ExplorePage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Explore & Compare</h1>
-        <p className="text-muted-foreground">
-          Filter, sort, and compare wallets side-by-side. Select wallets to see a detailed comparison.
-        </p>
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">Explore & Compare</h1>
+            <p className="text-muted-foreground">
+              Filter, sort, and compare wallets side-by-side. Select wallets to see a detailed comparison.
+            </p>
+          </div>
+          <SocialShare
+            url={pageUrl}
+            title={pageTitle}
+            description={pageDescription}
+            size="large"
+          />
+        </div>
         <div className="mt-4">
           {chainStats ? (
             <div className="flex flex-wrap gap-4 text-sm">
