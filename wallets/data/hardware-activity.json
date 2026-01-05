@@ -1,0 +1,14 @@
+{
+  "type": "hardware_wallets",
+  "generated": "2026-01-05",
+  "wallets": [
+    {"wallet": "Trezor", "repo": "trezor/trezor-firmware", "lastCommit": "2026-01-02", "daysAgo": 2, "stars": 1652, "issues": 557, "ratio": "33.7%", "status": "✅"},
+    {"wallet": "Keystone", "repo": "KeystoneHQ/keystone3-firmware", "lastCommit": "2026-01-05", "daysAgo": 0, "stars": 191, "issues": 86, "ratio": "45.0%", "status": "✅"},
+    {"wallet": "BitBox02", "repo": "BitBoxSwiss/bitbox02-firmware", "lastCommit": "2026-01-05", "daysAgo": 0, "stars": 338, "issues": 52, "ratio": "15.4%", "status": "✅"},
+    {"wallet": "ColdCard", "repo": "Coldcard/firmware", "lastCommit": "2026-01-02", "daysAgo": 2, "stars": 690, "issues": 7, "ratio": "1.0%", "status": "✅"},
+    {"wallet": "Foundation Passport", "repo": "Foundation-Devices/passport2", "lastCommit": "2025-12-09", "daysAgo": 26, "stars": 77, "issues": 8, "ratio": "10.4%", "status": "✅"},
+    {"wallet": "OneKey", "repo": "OneKeyHQ/firmware-pro", "lastCommit": "2025-12-31", "daysAgo": 5, "stars": 18, "issues": 16, "ratio": "88.9%", "status": "✅"},
+    {"wallet": "KeepKey", "repo": "keepkey/keepkey-firmware", "lastCommit": "2025-02-11", "daysAgo": 327, "stars": 163, "issues": 17, "ratio": "10.4%", "status": "❌"}
+  ],
+  "closed_source_note": "Ledger, NGRAVE, Ellipal, SafePal, SecuX, Tangem, BC Vault, GridPlus have no public firmware repos"
+}

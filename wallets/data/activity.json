@@ -1,0 +1,25 @@
+{
+  "generated": "2026-01-05",
+  "wallets": [
+    {"wallet": "MetaMask", "repo": "MetaMask/metamask-extension", "lastCommit": "2025-12-19", "daysAgo": 16, "status": "✅"},
+    {"wallet": "Rabby", "repo": "RabbyHub/Rabby", "lastCommit": "2025-12-31", "daysAgo": 5, "status": "✅"},
+    {"wallet": "Coinbase", "repo": "coinbase/coinbase-wallet-sdk", "lastCommit": "2025-07-11", "daysAgo": 177, "status": "❌"},
+    {"wallet": "Trust Wallet", "repo": "trustwallet/wallet-core", "lastCommit": "2025-12-31", "daysAgo": 4, "status": "✅"},
+    {"wallet": "Rainbow", "repo": "rainbow-me/rainbow", "lastCommit": "2025-12-24", "daysAgo": 11, "status": "✅"},
+    {"wallet": "Safe", "repo": "safe-global/safe-wallet-monorepo", "lastCommit": "2026-01-04", "daysAgo": 0, "status": "✅"},
+    {"wallet": "Ambire", "repo": "AmbireTech/extension", "lastCommit": "2025-12-19", "daysAgo": 16, "status": "✅"},
+    {"wallet": "MEW", "repo": "MyEtherWallet/MyEtherWallet", "lastCommit": "2025-11-27", "daysAgo": 39, "status": "⚠️"},
+    {"wallet": "Taho", "repo": "tahowallet/extension", "lastCommit": "2025-12-05", "daysAgo": 30, "status": "✅"},
+    {"wallet": "Frame", "repo": "floating/frame", "lastCommit": "2025-02-01", "daysAgo": 338, "status": "❌"},
+    {"wallet": "Brave", "repo": "brave/brave-browser", "lastCommit": "2026-01-05", "daysAgo": 0, "status": "✅"},
+    {"wallet": "Enkrypt", "repo": "enkryptcom/enKrypt", "lastCommit": "2025-12-18", "daysAgo": 17, "status": "✅"},
+    {"wallet": "imToken", "repo": "consenlabs/token-core-monorepo", "lastCommit": "2025-12-23", "daysAgo": 13, "status": "✅"},
+    {"wallet": "Daimo", "repo": "daimo-eth/daimo", "lastCommit": "2025-12-01", "daysAgo": 35, "status": "⚠️"},
+    {"wallet": "Argent", "repo": "argentlabs/argent-x", "lastCommit": "2025-03-14", "daysAgo": 296, "status": "❌"},
+    {"wallet": "Block Wallet", "repo": "block-wallet/extension", "lastCommit": "2024-11-27", "daysAgo": 403, "status": "❌"},
+    {"wallet": "Wigwam", "repo": "wigwamapp/wigwam", "lastCommit": "2025-12-11", "daysAgo": 24, "status": "✅"},
+    {"wallet": "Ledger Live", "repo": "LedgerHQ/ledger-live", "lastCommit": "2026-01-05", "daysAgo": 0, "status": "✅"},
+    {"wallet": "Sequence", "repo": "0xsequence/sequence.js", "lastCommit": "2025-12-18", "daysAgo": 17, "status": "✅"},
+    {"wallet": "Uniswap", "repo": "Uniswap/interface", "lastCommit": "2025-12-20", "daysAgo": 15, "status": "✅"}
+  ]
+}
