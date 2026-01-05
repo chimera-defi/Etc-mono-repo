@@ -1,7 +1,7 @@
 import { FastifyPluginAsync } from 'fastify';
-import { createHmac, timingSafeEqual, randomUUID } from 'crypto';
-import { GitHubWebhookPayload, Task } from '../types.js';
-import { tasks } from './tasks.js';
+import { createHmac, timingSafeEqual } from 'crypto';
+import { GitHubWebhookPayload } from '../types.js';
+import { taskService } from '../services/task-service.js';
 import { streamManager } from '../services/stream-manager.js';
 
 /**
@@ -95,22 +95,23 @@ async function handleWebhookEvent(
 /**
  * Handle pull_request events
  */
-function handlePullRequestEvent(payload: GitHubWebhookPayload): WebhookResult {
+async function handlePullRequestEvent(payload: GitHubWebhookPayload): Promise<WebhookResult> {
   const { action, pull_request } = payload;
   if (!pull_request) return { handled: false };
 
   const prUrl = pull_request.html_url;
 
   // Find task associated with this PR
-  const task = findTaskByPrUrl(prUrl);
+  const task = await findTaskByPrUrl(prUrl);
   if (!task) return { handled: false };
 
   switch (action) {
     case 'closed':
       // Archive the task (merged = true if PR was merged, false if just closed)
-      task.status = pull_request.merged ? 'completed' : 'cancelled';
-      task.completedAt = new Date().toISOString();
-      tasks.set(task.id, task);
+      await taskService.update(task.id, {
+        status: pull_request.merged ? 'completed' : 'cancelled',
+        completedAt: new Date(),
+      });
 
       streamManager.emitTaskCompleted(
         task.id,
@@ -145,10 +146,10 @@ function handlePullRequestEvent(payload: GitHubWebhookPayload): WebhookResult {
  * Handle issue_comment events (for @cadence-ai mentions)
  * Creates a new task when someone mentions @cadence-ai in a comment
  */
-function handleIssueCommentEvent(
+async function handleIssueCommentEvent(
   payload: GitHubWebhookPayload,
   log: { info: (msg: string) => void }
-): WebhookResult {
+): Promise<WebhookResult> {
   const { action, comment, repository, issue } = payload;
   if (action !== 'created' || !comment) return { handled: false };
 
@@ -162,16 +163,12 @@ function handleIssueCommentEvent(
   log.info(`Creating task from @cadence-ai mention: ${command}`);
 
   // Create a new task from the command
-  const task: Task = {
-    id: randomUUID(),
+  const task = await taskService.create({
     task: command,
     repoUrl: repository.html_url,
     status: 'pending',
-    createdAt: new Date().toISOString(),
     output: `Created from GitHub comment by ${comment.user.login}${issue ? ` on issue #${issue.number}` : ''}`,
-  };
-
-  tasks.set(task.id, task);
+  });
 
   // Emit task started event
   streamManager.emitTaskStarted(task.id, `Task created from @cadence-ai mention: ${command}`);
@@ -182,14 +179,8 @@ function handleIssueCommentEvent(
 /**
  * Find task by PR URL
  */
-function findTaskByPrUrl(prUrl: string): Task | null {
-  for (const [, task] of tasks) {
-    // Check if task output contains the PR URL
-    if (task.output?.includes(prUrl)) {
-      return task;
-    }
-  }
-  return null;
+async function findTaskByPrUrl(prUrl: string): Promise<import('../types.js').Task | null> {
+  return await taskService.findByOutput(prUrl);
 }
 
 /**
