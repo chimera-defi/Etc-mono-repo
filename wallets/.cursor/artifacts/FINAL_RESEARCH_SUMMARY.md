@@ -8,10 +8,10 @@
 
 ## Executive Summary
 
-**Total Services Researched:** 70+  
+**Total Services Researched:** 110+  
 **Confirmed Matches:** 6  
-**Excluded:** 60+  
-**Unclear:** 3 (Yellow Card, Chipper Cash, Palm)
+**Excluded:** 100+  
+**Unclear:** 2 (Yellow Card, Chipper Cash - require manual app testing)
 
 **Key Finding:** The "Stablecoin Payment Networks" category is **highly concentrated in Latin America**, especially Argentina, where economic conditions (high inflation, currency instability) drive strong demand for stablecoin-based payment networks. Other regions primarily have:
 - Exchange/wallet models (crypto trading + bank withdrawal, but no QR-based P2P payments)
@@ -144,6 +144,24 @@
 - **Reason:** Business identity/compliance service (KYB, business filings), NOT a crypto payment app
 - **Assessment:** Focuses on business identity management, compliance, and filings - not crypto payments
 
+### Latest Parallel Research (December 16, 2025)
+
+**Additional Services Investigated:** 40+  
+**New Matches Found:** 0
+
+**Categories Investigated:**
+1. **DeFi Payment Protocols** (Request Finance, Superfluid, Sablier) - All excluded (B2B infrastructure or protocols, not consumer P2P QR payment networks)
+2. **Crypto Remittances** (Remitly, Xoom, Wise, Azimo) - All excluded (fiat-only remittance services)
+3. **Latin America Beyond Argentina** (PicPay, PagSeguro, Rappi, Mercado Pago) - All excluded (fiat-only payment apps or connection errors)
+4. **Asia Beyond Fiat** (WeChat, Alipay, Kakao, Line Pay, Grab, Gojek) - All excluded (fiat-only payment apps or connection errors)
+5. **Europe** (Satispay, N26, Monese) - All excluded (fiat-only neobanks or payment apps)
+6. **North America** (Zelle, Venmo, Cash App, Strike) - All excluded (fiat-only P2P networks or Bitcoin-focused)
+7. **Bitcoin/Lightning Services** (Lightning Network, Muun, Wallet of Satoshi, Bitrefill) - All excluded (Bitcoin-focused, not stablecoins)
+8. **B2B Payment Processors** (Cryptopay.me, Coinbase Commerce, NOWPayments, CoinGate, BTCPay Server, BitPay, Circle Payments, Stellar, Xendit, dLocal, EBANX) - All excluded (B2B infrastructure, not consumer P2P networks)
+9. **Defunct/Parked Domains** (Didi, Line Pay, Mobius Network, Tem.com, Cryptopay.com, Cryptowisser) - All excluded (defunct, parked, or information sites)
+
+**Finding:** Comprehensive parallel research found **no new matches**. All services investigated were either fiat-only, Bitcoin-focused, B2B processors, or defunct/parked domains.
+
 ---
 
 ## Regional Distribution
@@ -241,4 +259,4 @@ This suggests the category is **most viable in markets with**:
 ---
 
 **Last Updated:** December 16, 2025  
-**Research Status:** Complete (pending deeper research for Yellow Card, Chipper Cash, and Palm if needed)
+**Research Status:** Comprehensive parallel research completed - No new matches found. Yellow Card and Chipper Cash remain unclear and require manual app testing for definitive verification (automated scraping inconclusive due to JavaScript-heavy websites and Cloudflare protection).

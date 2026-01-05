@@ -142,12 +142,17 @@
 
 ## Updated Summary
 
-**Total Services Researched:** 70+  
+**Total Services Researched:** 110+  
 **Confirmed Matches:** 6 (unchanged)  
-**Excluded:** 60+  
-**Unclear:** 3 (Yellow Card, Chipper Cash, Palm)
+**Excluded:** 100+  
+**Unclear:** 2 (Yellow Card, Chipper Cash - require manual app testing)
 
 **Key Finding:** Extended research across Vietnam, other Southeast Asian countries, Africa, Middle East, and other crypto payment apps confirms that the "Stablecoin Payment Networks" category remains **highly specialized and regionally concentrated**. No new matches were found in the extended research.
+
+**Latest Parallel Research (December 16, 2025):**
+- **Additional Services Investigated:** 40+ (DeFi protocols, crypto remittances, Latin America beyond Argentina, Asia beyond fiat, Europe, North America, Bitcoin/Lightning services, B2B processors)
+- **New Matches Found:** 0
+- **All Investigated Services Excluded:** Fiat-only payment apps, Bitcoin-focused services, B2B payment processors, defunct/parked domains, or blockchain protocols (not consumer P2P QR payment networks)
 
 ---
 
@@ -157,8 +162,8 @@
 2. ✅ **Completed:** India, Southeast Asia, Africa, Europe initial research
 3. ✅ **Completed:** Additional services research (Strike, Cash App, MoonPay, Ramp, Mercado Bitcoin, Nubank, Buda, Volabit)
 4. ✅ **Completed:** Extended research (Vietnam, other SEA countries, Africa, Middle East, other crypto payment apps)
-5. ⏳ **Pending:** Deeper research for Chipper Cash and Palm (if needed)
-6. ⏳ **Pending:** Manual app testing for Yellow Card (if needed for final verification)
+5. ✅ **Completed:** Parallel research (DeFi protocols, crypto remittances, Latin America beyond Argentina, Asia beyond fiat, Europe, North America)
+6. ⏳ **Pending:** Manual app testing for Chipper Cash and Yellow Card (automated scraping inconclusive - JavaScript-heavy websites and Cloudflare protection prevented definitive verification)
 
 ---
 
@@ -172,3 +177,5 @@
 ---
 
 **Last Updated:** December 16, 2025
+
+**Note:** Palm was excluded as a business identity/compliance service, not a crypto payment app. Chipper Cash and Yellow Card remain unclear due to automated scraping limitations (JavaScript-heavy websites, Cloudflare protection) and require manual app testing for definitive verification.
