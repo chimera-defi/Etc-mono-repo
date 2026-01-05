@@ -343,23 +343,31 @@ export default function DocumentPage({ params }: PageProps) {
               <span>{formatReadingTime(calculateReadingTime(document.content))}</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-4">{document.title}</h1>
-            <p className="text-lg text-muted-foreground">{document.description}</p>
+            <p className="text-lg text-muted-foreground mb-4">{document.description}</p>
+            {/* Social Sharing - Header */}
+            <SocialShare
+              url={pageUrl}
+              title={document.title}
+              description={enhancedDescription}
+              size="large"
+            />
           </header>
 
           {/* Content */}
-          <EnhancedMarkdownRenderer 
-            content={document.content} 
-            showExpandableSections={document.category === 'comparison'}
+          <EnhancedMarkdownRenderer
+            content={document.content}
+            showExpandableSections={true}
           />
 
           {/* Footer Navigation */}
           <footer className="mt-12 pt-8 border-t border-border">
-            {/* Social Sharing */}
+            {/* Social Sharing - Footer */}
             <div className="mb-6 pb-6 border-b border-border">
               <SocialShare
                 url={pageUrl}
                 title={document.title}
                 description={enhancedDescription}
+                size="large"
               />
             </div>
             
