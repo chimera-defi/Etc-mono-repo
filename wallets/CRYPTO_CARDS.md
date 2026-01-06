@@ -93,7 +93,7 @@
 >
 > **🔐 Non-Custodial Cards:** EtherFi Cash, Ready Card, Gnosis Pay, 1inch Card, CryptoSpend — your keys, your crypto.
 
-**Last Updated:** January 2026 | [Scoring Methodology](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#scoring-methodology) | [Provider Groupings](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#provider-groupings)
+**Last Updated:** January 2026 (Scores recalculated with verified data) | [Scoring Methodology](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#scoring-methodology) | [Provider Groupings](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#provider-groupings)
 
 **Related:** See [Software Wallet Comparison](./SOFTWARE_WALLETS.md) and [Hardware Wallet Comparison](./HARDWARE_WALLETS.md) for wallet recommendations.
 

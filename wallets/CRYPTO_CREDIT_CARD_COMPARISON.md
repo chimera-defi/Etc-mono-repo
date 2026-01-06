@@ -20,14 +20,14 @@
 | **Gnosis Pay** | 78 🟢 | Up to 5% | €0 | GNO/SAFE | ❌ | Gnosis DAO | [gnosispay.com](https://gnosispay.com) | ✅ Active | DeFi-native (EU/UK) |
 | **Wirex Card** | 78 🟢 | Up to 8% | $0 | WXT | ⚠️ Verify | Wirex | [wirexapp.com/card](https://wirexapp.com/card) | ⚠️ Verify | Multi-crypto (Global) |
 | **Fold Card** | 77 🟢 | 3-5% | $0 | BTC | ❌ | Fold | [foldapp.com](https://foldapp.com) | ✅ Active | Bitcoin rewards (US) |
-| **Gemini Credit Card** | 76 🟢 | Up to 4% | $0 | BTC, ETH | ❌ | Gemini Exchange | [gemini.com/credit-card](https://www.gemini.com/credit-card) | ✅ Active | Credit building (US) |
+| **Gemini Card** | 76 🟢 | Up to 4% | $0 | BTC, ETH | ❌ | Gemini Exchange | [gemini.com/credit-card](https://www.gemini.com/credit-card) | ✅ Active | Credit building (US) |
 | **KuCard** | 76 🟢 | Up to 4% | $0 | Multi-crypto | ❌ | KuCoin Exchange | [kucoin.com/kucard](https://www.kucoin.com/kucard) | ✅ Active | KuCoin users (Global*) |
 | **Revolut Crypto** | 76 🟢 | 1-3% | $0/paid | Multi-crypto | ✅ | Revolut | [revolut.com](https://www.revolut.com/crypto/crypto-card/) | ✅ Active | Fiat+Crypto (Global) |
 | **Coinbase Card** | 75 🟢 | 1-4% | $0 | BTC, ETH, others | ❌ | Coinbase Exchange | [coinbase.com/card](https://www.coinbase.com/card) | ✅ Active | Coinbase users (US) |
 | **Bybit Card** | 74 🟡 | Up to 10% | $0 | Multi-crypto | ✅ | Bybit Exchange | [bybit.com/cards](https://www.bybit.com/en/cards/) | ⚠️ Verify | High cashback (EEA/CH) |
 | **Plutus Card** | 73 🟡 | 3-9% | £0 | PLU | ❌ | Plutus | [plutus.it](https://plutus.it) | ✅ Active | EU/UK perks |
 | **Uphold Card** | 73 🟡 | 1-4% | $0 | XRP, BTC, ETH | ⚠️ Verify | Uphold | [uphold.com/card](https://uphold.com/card) | ⚠️ Verify | Multi-crypto (US/EU) |
-| **CryptoSpend Card** | 71 🟡 | 1% | $0 | BTC, ETH, others | ❌ | CryptoSpend | [cryptospend.com.au](https://cryptospend.com.au) | ✅ Active | Australia (self-custody) |
+| **CryptoSpend** | 71 🟡 | 1% | $0 | BTC, ETH, others | ❌ | CryptoSpend | [cryptospend.com.au](https://cryptospend.com.au) | ✅ Active | Australia (self-custody) |
 | **Shakepay Card** | 70 🟡 | 1.5% | $0 | BTC | ❌ | Shakepay | [shakepay.com/card](https://shakepay.com/card) | ✅ Active | Canada |
 | **1inch Card** | 70 🟡 | Up to 2% | $0 | 1INCH | ❌ | Baanx (1inch) | [1inch.com/card](https://1inch.com/card) | ✅ Active | DeFi users (EU/UK) |
 | **Mode Card** | 69 🟡 | Up to 10% | $0 | BTC | ❌ | Mode | [modeapp.com](https://modeapp.com) | ⚠️ Verify | Bitcoin rewards (UK) |
@@ -142,7 +142,7 @@ Designed primarily for business/corporate use cases.
 
 **Medium Cashback (1-4%):**
 7. **Plutus Card** - 3-9% PLU rewards (EU, UK, base 3%)
-8. **Gemini Credit Card** - Up to 4% crypto rewards (US)
+8. **Gemini Card** - Up to 4% crypto rewards (US)
 9. **KuCard** - Up to 4% multi-crypto rewards (Global*)
 10. **Coinbase Card** - 1-4% crypto rewards (US)
 11. **Uphold Card** - 1-4% multi-crypto rewards (US/EU ⚠️ Verify)
@@ -156,7 +156,7 @@ Designed primarily for business/corporate use cases.
 19. **Swissborg Card** - 1-2% CHSB rewards (EU)
 20. **Shakepay Card** - 1.5% Bitcoin rewards (Canada)
 21. **CoinJar Card** - 1% Bitcoin rewards (Australia)
-22. **CryptoSpend Card** - 1% multi-crypto rewards (Australia, self-custody)
+22. **CryptoSpend** - 1% multi-crypto rewards (Australia, self-custody)
 
 **Utility/Low Cashback:**
 23. **BitPay Card** - 1%* merchant cashback (US)
@@ -264,7 +264,7 @@ Designed primarily for business/corporate use cases.
 
 ### Personal Only
 
-- ❌ Coinbase Card, Gemini Credit Card, Plutus Card, Swissborg Card, Fold Card, Mode Card, Shakepay Card, CoinJar Card, CryptoSpend Card, Hi Card, KuCard, Gnosis Pay, 1inch Card, Kraken Card
+- ❌ Coinbase Card, Gemini Card, Plutus Card, Swissborg Card, Fold Card, Mode Card, Shakepay Card, CoinJar Card, CryptoSpend, Hi Card, KuCard, Gnosis Pay, 1inch Card, Kraken Card
 
 **Last Updated:** December 2025
 
