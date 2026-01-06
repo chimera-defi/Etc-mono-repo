@@ -201,19 +201,35 @@ function run() {
   ];
   assertHeaders('Crypto cards table', cardsRows[0], cardsExpectedHeader);
 
-  const bybitRow = findRowByFirstCellSubstring(cardsRows, 'bybit card');
-  if (!bybitRow) {
-    fail('Crypto cards table: could not find Bybit Card row.');
+  // Spot-check EtherFi Cash (top-ranked card after Jan 2026 recalculation)
+  const etherfiRow = findRowByFirstCellSubstring(cardsRows, 'etherfi cash');
+  if (!etherfiRow) {
+    fail('Crypto cards table: could not find EtherFi Cash row.');
   } else {
-    const score = bybitRow[1] || '';
-    const custody = bybitRow[3] || '';
-    const provider = bybitRow[10] || '';  // Index shifted due to Custody column
-    const status = bybitRow[11] || '';     // Index shifted due to Custody column
-    if (!/88/.test(score)) fail(`Bybit Card score drifted (expected 88-ish), got: "${score}"`);
-    if (!/Exch/.test(custody)) fail(`Bybit custody drifted (expected Exch), got: "${custody}"`);
-    if (!/bybit/i.test(provider)) fail(`Bybit provider drifted (expected bybit), got: "${provider}"`);
-    if (!/✅/.test(status)) fail(`Bybit status drifted (expected ✅), got: "${status}"`);
-    ok('Crypto cards table: Bybit Card spot-check passed');
+    const score = etherfiRow[1] || '';
+    const custody = etherfiRow[3] || '';
+    const provider = etherfiRow[10] || '';  // Index shifted due to Custody column
+    const status = etherfiRow[11] || '';     // Index shifted due to Custody column
+    if (!/85/.test(score)) fail(`EtherFi Cash score drifted (expected 85-ish), got: "${score}"`);
+    if (!/Self/.test(custody)) fail(`EtherFi Cash custody drifted (expected Self), got: "${custody}"`);
+    if (!/etherfi/i.test(provider)) fail(`EtherFi Cash provider drifted (expected etherfi), got: "${provider}"`);
+    if (!/✅/.test(status)) fail(`EtherFi Cash status drifted (expected ✅), got: "${status}"`);
+    ok('Crypto cards table: EtherFi Cash spot-check passed');
+  }
+
+  // Spot-check Ready Card (self-custody, 3% cashback - major correction Jan 2026)
+  const readyRow = findRowByFirstCellSubstring(cardsRows, 'ready card');
+  if (!readyRow) {
+    fail('Crypto cards table: could not find Ready Card row.');
+  } else {
+    const score = readyRow[1] || '';
+    const custody = readyRow[3] || '';
+    const cashback = readyRow[6] || '';  // Cash Back column
+    if (!/83/.test(score)) fail(`Ready Card score drifted (expected 83-ish), got: "${score}"`);
+    if (!/Self/.test(custody)) fail(`Ready Card custody drifted (expected Self), got: "${custody}"`);
+    // Cash back should be 3% (not "Up to 10%" - major correction)
+    if (!/3%/.test(cashback)) fail(`Ready Card cash back should be 3% (verified), got: "${cashback}"`);
+    ok('Crypto cards table: Ready Card spot-check passed');
   }
 
   console.log('\nDone.');

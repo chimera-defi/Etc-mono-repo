@@ -1201,27 +1201,32 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 
 | Score Range | Count | Cards |
 |-------------|-------|-------|
-| 75+ 🟢 Highly Recommended | 13 | Ready (90), Bybit (88), Mode (87 ⚠️), Hi (86), EtherFi Cash (85), Plutus (85), Coinbase (82), Nexo (82), Binance (79), Gnosis Pay (78), Wirex (78), Fold (76), 1inch (75) |
-| 50-74 🟡 Good Option | 14 | Gemini (74), KuCard (72), Revolut (72), Shakepay (70), Redotpay (70), OKX (68), Uphold (67), CryptoSpend (62), CoinJar (60), Kraken (60), Crypto.com (57), Swissborg (56), Reap (55), BitPay (52) |
-| <50 🔴 Consider Alternatives | 0 | None |
+| 75+ 🟢 Highly Recommended | 10 | EtherFi Cash (85), Ready (83), Hi (79 ⚠️), Gnosis Pay (78), Wirex (78 ⚠️), Fold (77), Gemini (76), KuCard (76), Revolut (76), Coinbase (75) |
+| 50-74 🟡 Good Option | 15 | Bybit (74 ⚠️), Plutus (73), Uphold (73 ⚠️), CryptoSpend (71), Shakepay (70), 1inch (70), Mode (69 ⚠️), Binance (67), Redotpay (67), CoinJar (65 ⚠️), Nexo (63), Kraken (60), Swissborg (60 ⚠️), BitPay (56), OKX (50) |
+| <50 🔴 Consider Alternatives | 2 | Reap (47), Crypto.com (41) |
 
-**Note:** Mode Card marked ⚠️ - UK-based company, "up to 10%" rate and availability need verification.
+**Key Corrections (January 2026):**
+- Ready Card: **3% cashback** (was incorrectly listed as "Up to 10%")
+- Binance Card: **Up to 3% max** (was incorrectly listed as "Up to 8%")
+- Crypto.com Visa: **0% base tier** (requires $400+ CRO stake for any rewards, 12-month lock)
+- Nexo Card: Has **FX fees on weekdays** (was listed as 0% FX)
+
+**⚠️ Note:** Cards marked with ⚠️ have unverified data (website unreachable or incomplete info).
 
 ### Human Suggestions Scoring
 
 Score adjustments based on real-world user experiences and company reputation:
 
 **Penalties:**
-- **Crypto.com Visa: -20 points** - Poor UX, customer service issues, staking lock-ups
-- **Cards with 404 errors: -5 points** - Swissborg, Uphold, CoinJar (unclear if still active)
+- **Crypto.com Visa: -20 points** - Poor UX, customer service issues, 12-month staking lock-ups, 0% base tier
+- **TBD/Unverified data: -3 to -5 points** - OKX Card, Mode Card, Bybit Card (incomplete data)
 - **Exchange custody risk: -3 points** - Coinbase, Binance, Gemini, KuCoin, OKX, CoinJar, Kraken, Crypto.com, Bybit
 
 **Bonuses:**
-- **Non-custodial: +3 points** - Ready Card, EtherFi Cash, Gnosis Pay, 1inch Card (self-custody = lower risk)
-- **Verified cards: +2 points** - Plutus, Nexo, Shakepay, Reap, EtherFi Cash
-- **No staking required: +2 points** - Cards without staking requirements
-- **Credit card type: +3 points** - Gemini, Nexo, EtherFi Cash, Reap
+- **Non-custodial: +3 points** - Ready Card, EtherFi Cash, Gnosis Pay, 1inch Card, CryptoSpend (self-custody = lower risk)
+- **Verified cards: +2 points** - Plutus, Shakepay, EtherFi Cash
+- **Credit card type bonus** - EtherFi Cash, Gemini, Nexo (credit cards score higher)
 
 ---
 
-*Last updated: January 2026 - Added Custody column, updated EtherFi Cash with verified data (85 score), identified non-custodial cards (Ready Card, EtherFi Cash, Gnosis Pay, 1inch Card).*
+*Last updated: January 2026 - Comprehensive score recalculation with verified data. Key corrections: Ready Card 3% (not 10%), Binance 3% (not 8%), Crypto.com base 0%. Added custody scoring adjustments.*
