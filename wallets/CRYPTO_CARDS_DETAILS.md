@@ -827,6 +827,20 @@ EtherFi Cash is a DeFi-native, non-custodial crypto credit card. It allows users
 - Your crypto stays in your control
 - Card is issued separately from ether.fi protocol
 
+**Score Breakdown (85 points):**
+
+| Category | Points | Calculation |
+|----------|--------|-------------|
+| **Cash Back Rate** | 18/30 | 2-3% = 18 pts (3-4% range per methodology) |
+| **Fees** | 15/20 | $0 annual + 1% FX = 15 pts |
+| **Crypto Rewards** | 15/15 | Multi-crypto (ETH, BTC, Stables) = 15 pts |
+| **Availability** | 10/10 | Global (100M+ locations) = 10 pts |
+| **Staking Requirements** | 10/10 | None required = 10 pts |
+| **Card Type** | 10/10 | Credit card = 10 pts |
+| **Trust & Security** | 5/5 | Established DeFi protocol + non-custodial = 5 pts |
+| **Human Suggestions** | +3 | Non-custodial bonus |
+| **TOTAL** | **86** | Rounded to **85** |
+
 **Note:** Ether.Fi Cash card is not affiliated with the ether.fi protocol and issued subject to separate terms provided by Issuer.
 
 ---
