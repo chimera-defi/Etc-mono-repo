@@ -188,6 +188,7 @@ function run() {
     'Card',
     'Score',
     'Type',
+    'Custody',    // NEW: Custody column added Jan 2026
     'Biz',
     'Region',
     'Cash Back',
@@ -205,9 +206,11 @@ function run() {
     fail('Crypto cards table: could not find Bybit Card row.');
   } else {
     const score = bybitRow[1] || '';
-    const provider = bybitRow[9] || '';
-    const status = bybitRow[10] || '';
+    const custody = bybitRow[3] || '';
+    const provider = bybitRow[10] || '';  // Index shifted due to Custody column
+    const status = bybitRow[11] || '';     // Index shifted due to Custody column
     if (!/88/.test(score)) fail(`Bybit Card score drifted (expected 88-ish), got: "${score}"`);
+    if (!/Exch/.test(custody)) fail(`Bybit custody drifted (expected Exch), got: "${custody}"`);
     if (!/bybit/i.test(provider)) fail(`Bybit provider drifted (expected bybit), got: "${provider}"`);
     if (!/✅/.test(status)) fail(`Bybit status drifted (expected ✅), got: "${status}"`);
     ok('Crypto cards table: Bybit Card spot-check passed');
