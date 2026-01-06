@@ -742,22 +742,92 @@ The CryptoSpend Card is a multi-crypto rewards debit card available in Australia
 
 ---
 
-## Cards Under Research
+### EtherFi Cash
 
-### EtherFi (Ether F.I.)
+**Website:** [ether.fi/cash](https://ether.fi/cash)
 
-**Status:** 🔄 Researching
+**Status:** ✅ Active (✅ Verified January 2026 via browser automation)
 
-**Notes:**
-- Need to verify if EtherFi offers a credit/debit card product
-- EtherFi is primarily known as a liquid staking platform for Ethereum
-- May be related to EtherFi's ecosystem or a planned product
-- *Research ongoing*
+**Overview:**
+EtherFi Cash is a DeFi-native, non-custodial crypto credit card. It allows users to borrow against and spend their ether.fi balance in the real world without selling their crypto. Available for individuals, families, and businesses.
 
-**Action Items:**
-- Verify official EtherFi website for card products
-- Check for announcements or waitlist
-- Confirm card details if available
+**Business Support:** ✅ Yes (Corporate cards available for crypto-native businesses)
+
+**Key Features:**
+- **Non-custodial:** Your crypto remains in your control ✅ Verified
+- **Crypto-backed credit:** Borrow against your ether.fi balance
+- **No monthly minimums:** Repay anytime
+- **No spending limits:** All tiers have no spending limits
+- **Apple Pay & Google Pay:** Contactless payments supported ✅ Verified
+- **Global acceptance:** Over 100 million locations worldwide
+- **Family cards:** Coming soon (family member cards with controls)
+- **Virtual & Physical cards:** Multiple cards per account
+
+**Rewards Structure:**
+| Tier | Requirements | Cash Back | Physical Cards | Virtual Cards |
+|------|-------------|-----------|----------------|---------------|
+| **Core** | Free (all members) | 2% | 1 | 3 |
+| **Luxe** | 10K Membership Points | 3% | 1 | 5 |
+| **Pinnacle** | 50K Membership Points | 3% | 2 | Unlimited |
+| **VIP** | Invite only | Higher | More | Unlimited |
+
+**Current Promotion:** 3% cashback on ALL purchases until December 31
+
+**Fees:**
+- Annual Fee: $0 ✅ Verified (Free Club membership)
+- Foreign Transaction Fee: 1% (0% for VIP tier) ✅ Verified
+- ATM Fee: 2% ✅ Verified
+- Monthly minimums: None ✅ Verified
+
+**Cardholder Benefits:**
+- Airport Companion lounge access (all tiers)
+- Concierge service (all tiers)
+- Priority 24/7 support (Luxe+)
+- Crypto conference lounge access (Luxe+)
+- Exclusive hotel discounts up to 65% (all tiers)
+- Event passes - crypto, sports, and more (Pinnacle+)
+- Crypto concierge (Pinnacle+)
+- EtherFi Ventures Access (VIP only)
+
+**Purchase Protection & Insurance:**
+- Price protection: Up to $2K
+- Purchase protection: Up to $10K
+- Extended warranty: Up to $10K
+- Auto rental insurance: ✅
+- Baggage delay coverage: Up to $500
+- Baggage loss coverage: Up to $1K
+
+**Referral Program:**
+- 1% Cashback on referral purchases
+- 10% points on referral deposits
+
+**Supported Assets:**
+- ETH (Ethereum)
+- BTC (Bitcoin)
+- Stablecoins (value-accruing stables)
+- Other ether.fi ecosystem assets
+
+**Requirements:**
+- EtherFi account (join The Club for free)
+- KYC verification
+- No credit check required (crypto-backed)
+
+**Best For:**
+- DeFi users who want non-custodial card solutions
+- Users who want to spend without selling crypto
+- Businesses needing corporate crypto cards
+- Users seeking full control over their funds
+
+**Limitations:**
+- Requires ether.fi ecosystem participation
+- 1% FX fee (not 0% like some competitors)
+- Some features marked as "coming soon" (family cards, event passes)
+
+**Custody Model:** 🔐 Self-custody / Non-custodial
+- Your crypto stays in your control
+- Card is issued separately from ether.fi protocol
+
+**Note:** Ether.Fi Cash card is not affiliated with the ether.fi protocol and issued subject to separate terms provided by Issuer.
 
 ---
 
@@ -1117,8 +1187,8 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 
 | Score Range | Count | Cards |
 |-------------|-------|-------|
-| 75+ 🟢 Highly Recommended | 8 | Mode (90 ⚠️), Plutus (88), Coinbase (85), Nexo (84), Binance (82), Wirex (80), Fold (78), Gemini (75) |
-| 50-74 🟡 Good Option | 9 | Shakepay (72), Uphold (70), CryptoSpend (62), CoinJar (60), Crypto.com (59), Swissborg (58), Reap (55), BitPay (52), EtherFi (50) |
+| 75+ 🟢 Highly Recommended | 13 | Ready (90), Bybit (88), Mode (87 ⚠️), Hi (86), EtherFi Cash (85), Plutus (85), Coinbase (82), Nexo (82), Binance (79), Gnosis Pay (78), Wirex (78), Fold (76), 1inch (75) |
+| 50-74 🟡 Good Option | 14 | Gemini (74), KuCard (72), Revolut (72), Shakepay (70), Redotpay (70), OKX (68), Uphold (67), CryptoSpend (62), CoinJar (60), Kraken (60), Crypto.com (57), Swissborg (56), Reap (55), BitPay (52) |
 | <50 🔴 Consider Alternatives | 0 | None |
 
 **Note:** Mode Card marked ⚠️ - UK-based company, "up to 10%" rate and availability need verification.
@@ -1130,13 +1200,14 @@ Score adjustments based on real-world user experiences and company reputation:
 **Penalties:**
 - **Crypto.com Visa: -20 points** - Poor UX, customer service issues, staking lock-ups
 - **Cards with 404 errors: -5 points** - Swissborg, Uphold, CoinJar (unclear if still active)
-- **Incomplete information: -10 points** - EtherFi Cash (rates TBD)
+- **Exchange custody risk: -3 points** - Coinbase, Binance, Gemini, KuCoin, OKX, CoinJar, Kraken, Crypto.com, Bybit
 
 **Bonuses:**
-- **Verified cards: +2 points** - Plutus, Nexo, Shakepay, Reap
+- **Non-custodial: +3 points** - Ready Card, EtherFi Cash, Gnosis Pay, 1inch Card (self-custody = lower risk)
+- **Verified cards: +2 points** - Plutus, Nexo, Shakepay, Reap, EtherFi Cash
 - **No staking required: +2 points** - Cards without staking requirements
-- **Credit card type: +3 points** - Gemini, Nexo, EtherFi, Reap
+- **Credit card type: +3 points** - Gemini, Nexo, EtherFi Cash, Reap
 
 ---
 
-*Last updated: December 2025 - Core research complete. Scores verified.*
+*Last updated: January 2026 - Added Custody column, updated EtherFi Cash with verified data (85 score), identified non-custodial cards (Ready Card, EtherFi Cash, Gnosis Pay, 1inch Card).*

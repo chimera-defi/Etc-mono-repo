@@ -110,36 +110,77 @@ The following cards' websites exist but initial scraping didn't find specific ra
 
 ---
 
-## EtherFi Cash - ✅ Verified via Browser Automation
+## EtherFi Cash - ✅ Fully Verified via Browser Automation
 
 **Website:** [ether.fi/cash](https://ether.fi/cash)
 
-**Status:** ✅ **Verified December 2025 via browser automation**
+**Status:** ✅ **Fully Verified January 2026 via browser automation**
 
-**Verification Method:** Used browser automation to access ether.fi/cash page. Page is heavily JavaScript-rendered (Next.js), requiring extended wait times for content rendering.
+**Verification Method:** Used Playwright browser automation to access ether.fi/cash page. Page is JavaScript-rendered (Next.js). Full page content including membership tier tables successfully extracted.
 
 **Key Pages Verified:**
-- ✅ https://ether.fi/cash (Main Cash product page - verified)
+- ✅ https://ether.fi/cash (Main Cash product page - fully verified)
 - ✅ https://ether.fi/corporate-cards (Corporate cards page - verified)
+- ✅ https://ether.fi/the-club (Club membership page - verified)
 
-**Verified Information (December 2025):**
+**Verified Information (January 2026):**
+
+**Basic Details:**
 - **Product Name:** Cash by ether.fi
-- **Card Type:** DeFi-native crypto credit card
+- **Card Type:** DeFi-native crypto credit card (crypto-backed credit line)
 - **Business Support:** ✅ Yes (Corporate cards available)
-- **Personal/Family Support:** ✅ Yes
-- **Rewards:** Cashback rewards (specific rates need deeper verification)
-- **Supported Assets:** ETH, BTC, Stablecoins (can use as collateral)
-- **Features:** Non-custodial, DeFi-native, use crypto without selling
-- **Availability:** Active (individuals, families, businesses)
+- **Personal/Family Support:** ✅ Yes (Family cards coming soon)
+- **Custody:** 🔐 Non-custodial (self-custody) - "Your crypto remains in your control"
 - **Website:** ether.fi/cash
 
-**Verification Tool:** Browser automation (Playwright headless Chromium) successfully accessed page. Page structure and meta tags confirmed card product exists.
+**Membership Tiers (Verified from /cash page):**
+| Tier | Requirements | Cash Back | Physical Cards | Virtual Cards |
+|------|-------------|-----------|----------------|---------------|
+| **Core** | Free (all members) | 2% | 1 | 3 |
+| **Luxe** | 10K Membership Points | 3% | 1 | 5 |
+| **Pinnacle** | 50K Membership Points | 3% | 2 | Unlimited |
+| **VIP** | Invite only | Higher | More | Unlimited |
 
-**Limitations:**
-- Page is heavily JavaScript-rendered, making specific pricing/fee extraction difficult without deeper page interaction
-- Specific cashback rates and annual fees need deeper verification (may require sign-up flow or additional page navigation)
+**Current Promotion:** 3% cashback on ALL purchases until December 31
 
-**Note:** EtherFi Cash is confirmed as an active credit card product. Specific pricing details (cashback rates, fees) require deeper verification through sign-up flow or additional page navigation due to JavaScript-heavy rendering.
+**Fees (Verified):**
+- Annual Fee: $0 ✅ (Free Club membership)
+- FX Fee: 1% (0% for VIP tier) ✅
+- ATM Fee: 2% ✅
+- Monthly minimums: None ✅
+- Spending limits: None ✅
+
+**Insurance Benefits (All Tiers):**
+- Price protection: Up to $2K ✅
+- Purchase protection: Up to $10K ✅
+- Extended warranty: Up to $10K ✅
+- Auto rental insurance: ✅
+- Baggage delay: Up to $500 ✅
+- Baggage loss: Up to $1K ✅
+
+**Cardholder Benefits:**
+- Airport Companion lounge access (all tiers)
+- Concierge service (all tiers)
+- Priority 24/7 support (Luxe+)
+- Crypto conference lounge access (Luxe+)
+- Hotel discounts up to 65% (all tiers)
+- Event passes (Pinnacle+, coming soon)
+- Crypto concierge (Pinnacle+, coming soon)
+- EtherFi Ventures Access (VIP only, coming soon)
+
+**Referral Program:**
+- 1% Cashback on referral purchases
+- 10% points on referral deposits
+- 3000 points per $1000 spent
+
+**Supported Assets:**
+- ETH (Ethereum)
+- BTC (Bitcoin)
+- Stablecoins (value-accruing stables)
+
+**Verification Tool:** Playwright browser automation with networkidle wait successfully extracted all tier information, fee structure, and benefits from JavaScript-rendered page content.
+
+**Score Update:** Increased from 50 to 85 based on verified data showing competitive 2-3% cashback, $0 annual fee, non-custodial model, and comprehensive insurance benefits.
 
 ---
 
@@ -317,7 +358,7 @@ All cards should be verified for:
 
 ### High Priority (Verify Immediately)
 - **Mode Card** - UK-based company, "up to 10%" rate needs verification, geographic availability unclear
-- **EtherFi Cash** - Rates and fees TBD, requires deeper verification
+- ~~**EtherFi Cash** - Rates and fees TBD, requires deeper verification~~ ✅ **VERIFIED January 2026** - 2-3% cashback, $0 annual fee, 1% FX fee
 - Cards with "TBD" or "⚠️ Verify" markers
 - Cards with 404 errors (Swissborg, Uphold, CoinJar)
 

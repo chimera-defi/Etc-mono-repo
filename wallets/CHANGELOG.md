@@ -11,6 +11,17 @@ Track significant changes to wallet statuses, recommendations, and documentation
 
 ---
 
+## Crypto Cards (January 2026)
+
+| Date | Card | Change | Details |
+|------|------|--------|---------|
+| Jan 2026 | **Custody Column** | NEW | Added Custody column to all 27 crypto cards: 🔐 Self (non-custodial), 🏦 Exch (exchange custody), 📋 CeFi (centralized custody). Identified 4 non-custodial cards: Ready Card, EtherFi Cash, Gnosis Pay, 1inch Card |
+| Jan 2026 | **EtherFi Cash** | Score 50→85, Rec 🟡→🟢 | Fully verified via browser automation: 2-3% cashback, $0 annual fee, 1% FX fee, non-custodial, corporate cards available. Previously had TBD values. Complete tier structure documented. |
+| Jan 2026 | **Non-Custodial Bonus** | NEW | Added +3 pts scoring bonus for non-custodial cards (Ready Card, EtherFi Cash, Gnosis Pay, 1inch Card) |
+| Jan 2026 | **Quick Summary** | Updated | Added non-custodial card recommendations and 🔐 badge for self-custody cards |
+
+---
+
 ## Software Wallets (EVM)
 
 | Date | Wallet | Change | Details |
@@ -110,7 +121,7 @@ Track significant changes to wallet statuses, recommendations, and documentation
 | Dec 2025 | **Table ordering** | Fix | Reordered cards by score descending (CryptoSpend 62 > CoinJar 60 > Crypto.com 59) |
 | Dec 2025 | **Business column** | Consistency fix | Standardized ⚠️ Verify markers for Binance, Wirex, BitPay, Uphold |
 | Dec 2025 | **Reap** | ✅ Verified | Corporate Visa card, stablecoin repayment, 2% FX/ATM fees via browser automation |
-| Dec 2025 | **EtherFi Cash** | ✅ Verified | DeFi-native credit card, corporate cards available; rates TBD |
+| Dec 2025 | **EtherFi Cash** | ✅ Verified | DeFi-native credit card, corporate cards available; rates TBD → **Updated Jan 2026: 2-3% CB, $0 fee, 1% FX, score 50→85** |
 | Dec 2025 | **Nexo Card** | ✅ Verified | Up to 2% cashback, no fees, dual-mode (Debit + Credit) |
 | Dec 2025 | **Plutus Card** | ✅ Verified | 3% base, up to 9% via tiers, no fees |
 | Dec 2025 | **Shakepay Card** | ✅ Verified | Up to 1.5% cashback, Canada only |

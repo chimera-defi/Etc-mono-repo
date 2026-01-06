@@ -40,7 +40,7 @@
 | **Swissborg Card** | 56 🟡 | 1-2% | $0 | CHSB | ❌ | Swissborg | [swissborg.com/card](https://swissborg.com/card) | ⚠️ Verify | EU users |
 | **Reap** | 55 🟡 | 0% | $0 | Stablecoins | ✅ | Reap | [reap.global](https://reap.global) | ✅ Active | Business corporate cards |
 | **BitPay Card** | 52 🟡 | 0% | $0 | None | ⚠️ Verify | BitPay | [bitpay.com/card](https://bitpay.com/card) | ✅ Active | Bitcoin spending (US) |
-| **EtherFi Cash** | 50 🟡 | Cashback | TBD | ETH, BTC, Stablecoins | ✅ | EtherFi | [ether.fi/cash](https://ether.fi/cash) | ✅ Active | DeFi users |
+| **EtherFi Cash** | 85 🟢 | 2-3% | $0 | ETH, BTC, Stablecoins | ✅ | EtherFi | [ether.fi/cash](https://ether.fi/cash) | ✅ Active | Non-custodial DeFi |
 
 **Legend:**
 - **Score:** 0-100 weighted score (🟢 75+ Highly Recommended | 🟡 50-74 Good Option | 🔴 <50 Consider Alternatives)
@@ -88,7 +88,7 @@ Self-custody or smart-contract based cards. Higher technical barrier but no cust
 |----------|------|-------|-----------|--------|
 | **Gnosis DAO** | Gnosis Pay | 78 🟢 | Up to 5% | ✅ Active |
 | **1inch (Baanx)** | 1inch Card | 75 🟢 | Up to 2% | ✅ Active |
-| **EtherFi** | EtherFi Cash | 50 🟡 | TBD | ✅ Active |
+| **EtherFi** | EtherFi Cash | 85 🟢 | 2-3% | ✅ Active |
 
 ### Fintech/Standalone Cards (Independent)
 
@@ -160,7 +160,7 @@ Designed primarily for business/corporate use cases.
 21. **Crypto.com Visa** - 0.5-8% CRO rewards with staking (Global)
 22. **BitPay Card** - 0% Bitcoin spending prepaid (US)
 23. **Reap** - 0% business stablecoin cards (APAC)
-24. **EtherFi Cash** - TBD DeFi-native cashback (Global)
+24. **EtherFi Cash** - 2-3% DeFi-native cashback, non-custodial (Global)
 
 ### Cards Under Launch/Research
 
@@ -239,7 +239,7 @@ Designed primarily for business/corporate use cases.
 |----------|------------------|-------|-------|
 | **High cashback (business)** | Bybit Card | 88 🟢 | Up to 10% cashback, business accounts available |
 | **Business-only needs** | Reap | 55 🟡 | ✅ Verified, business-focused, stablecoin repayment |
-| **DeFi-native businesses** | EtherFi Cash | 50 🟡 | Corporate cards available, non-custodial |
+| **DeFi-native businesses** | EtherFi Cash | 85 🟢 | Corporate cards available, non-custodial |
 | **Fiat + crypto (business)** | Revolut Crypto | 72 🟡 | Established fintech, business accounts |
 | **Multi-region (APAC)** | Redotpay | 70 🟡 | Hong Kong-based, global expansion |
 | **Crypto-backed credit** | Nexo Card | 82 🟢 | Highest score for credit line model |
@@ -252,7 +252,7 @@ Designed primarily for business/corporate use cases.
 - ✅ **Redotpay** - Score: 70 🟡 - [redotpay.com](https://redotpay.com) - Business accounts available
 - ✅ **Crypto.com Visa** - Score: 57 🟡 - [crypto.com/cards](https://crypto.com/cards) - Business accounts available (⚠️ UX penalty)
 - ✅ **Reap** - Score: 55 🟡 - [reap.global](https://reap.global) - Business-focused platform (business accounts only)
-- ✅ **EtherFi Cash** - Score: 50 🟡 - [ether.fi/cash](https://ether.fi/cash) - Corporate cards available
+- ✅ **EtherFi Cash** - Score: 85 🟢 - [ether.fi/cash](https://ether.fi/cash) - Corporate cards available, non-custodial, 2-3% cashback
 
 ### Cards Needing Business Support Verification
 
