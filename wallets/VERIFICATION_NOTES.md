@@ -20,13 +20,20 @@ This document tracks verification status and potential inaccuracies in the crypt
 8. **Crypto.com Visa (US)** - **NEW**: Now has Visa Signature® Credit Card with different tier structure (1.5% free to 6% with $500k stake). Monthly fee options added. Verified January 7, 2026.
 9. **1inch Card** - Confirmed prepaid Mastercard powered by Crypto Life (CL), issued by Monavate, FCA-authorized. Verified January 7, 2026.
 
+### ❌ Cards Likely Inactive/Defunct
+
+1. **Mode Card** - ❌ **LIKELY DEFUNCT**: modeapp.com completely unreachable (timeout after 25+ seconds on multiple attempts). Note: mode.com is a DIFFERENT company (ThoughtSpot Mode - business intelligence tool, not crypto). The Mode Bitcoin card company appears inactive/defunct. **Recommendation: Strike through in comparison table.**
+
+### ✅ Cards Verified Working (Updated January 7, 2026)
+
+1. **Gemini Card** - ✅ **WORKING**: Website accessible, "Earn up to 4% crypto back on every purchase with no annual fee", issued by WebBank. Bitcoin, ETH, and 50+ crypto reward options available.
+
 ### ⚠️ Cards Needing Status Verification
 
-1. **Hi Card** - Website shows 2021-2022 copyright, card product info minimal/unclear. Status uncertain ⚠️
-2. **Uphold Card** - Website timing out on all URLs. Status uncertain ⚠️
-3. **Gemini Card** - Website timing out. Status uncertain ⚠️
-4. **Bybit Card** - HTTP2 protocol errors. Status uncertain ⚠️
-5. **Mode Card** - Website timing out. High cashback rate (up to 10%) needs verification ⚠️
+1. **Hi Card** - Website shows 2021-2022 copyright, card product info minimal/unclear. Main site (hi.com) loads but card-specific features not prominent. High cashback claims (10%) unverified. Status uncertain ⚠️
+2. **Uphold Card** - Website returns "Sorry... there was an error" message on main domain. Card product status uncertain ⚠️
+3. **Bybit Card** - HTTP2 protocol errors on ALL tested URLs (including en, en-GB, en-US, nl regional variants). May be heavily geo-restricted or undergoing service changes ⚠️
+4. **Swissborg Card** - Website navigation failures on all tested pages. Card-specific page (swissborg.com/card) returns 404. Company may exist but card product status unclear ⚠️
 
 ### Previous Verifications (December 2025)
 

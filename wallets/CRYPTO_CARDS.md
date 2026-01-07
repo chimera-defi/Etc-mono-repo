@@ -20,7 +20,7 @@
 | [**CryptoSpend**](https://cryptospend.com.au) | 71 🟡 | Debit | 🔐 Self | ❌ | 🇦🇺 AU | 1% | $0 | 0% | BTC, ETH | ✅ | Australia |
 | [**Shakepay Card**](https://shakepay.com/card) | 70 🟡 | Prepaid | 📋 CeFi | ❌ | 🇨🇦 CA | 1.5% | $0 | 0% | BTC | ✅ | Canada |
 | [**1inch Card**](https://1inch.com/card) | 70 🟡 | Debit | 🔐 Self | ❌ | 🇪🇺 EU/UK | Up to 2% | $0 | 0% | 1INCH | ✅ | DeFi users |
-| [**Mode Card**](https://modeapp.com) | 69 🟡 | Debit | 📋 CeFi | ❌ | 🇬🇧 UK | Up to 10% | $0 | 0% | BTC | ⚠️ | Bitcoin rewards |
+| ~~[**Mode Card**](https://modeapp.com)~~ | 69 🟡 | Debit | 📋 CeFi | ❌ | 🇬🇧 UK | Up to 10% | $0 | 0% | BTC | ❌ | ~~Bitcoin rewards~~ |
 | [**Binance Card**](https://www.binance.com/en/cards) | 67 🟡 | Debit | 🏦 Exch | ⚠️ | 🇧🇷 Brazil | Up to 3% | $0 | 0-2% | BNB | ✅ | Binance users |
 | [**Redotpay**](https://redotpay.com) | 67 🟡 | Debit | 📋 CeFi | ✅ | 🌍 Global | Up to 3% | $0-$100 | 1-2% | USDT, USDC | ✅ | Multi-region |
 | [**CoinJar Card**](https://www.coinjar.com/card) | 65 🟡 | Debit | 🏦 Exch | ❌ | 🇦🇺 AU | 1% | $0 | 0% | BTC | ⚠️ | Australia |
@@ -82,6 +82,10 @@
 - Crypto.com Visa: Base tier has **0%** cash back (requires $400+ CRO stake for rewards); US now has **Visa Signature® Credit Card** with different tier structure
 - Nexo Card: Has **FX fees on weekdays** (was listed as 0%)
 - **Hi Card**: Website shows 2021-2022 copyright, card product status uncertain ⚠️
+- **Mode Card**: ❌ Website (modeapp.com) unreachable as of January 2026 - company may be inactive/defunct. Note: mode.com is a different company (ThoughtSpot Mode, a BI tool).
+- **Bybit Card**: Website returns HTTP2 errors from all regions tested - may be heavily geo-restricted
+- **Swissborg Card**: Website access issues, card product page (swissborg.com/card) returns 404
+- **Uphold Card**: Website showing errors, card product status uncertain
 
 > ⚠️ **Data Accuracy Note:** Rates, fees, and availability change frequently. Always verify on official card websites before applying.
 

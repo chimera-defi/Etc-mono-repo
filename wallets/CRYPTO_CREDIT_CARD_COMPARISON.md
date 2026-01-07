@@ -30,7 +30,7 @@
 | **CryptoSpend** | 71 🟡 | 1% | $0 | BTC, ETH, others | ❌ | CryptoSpend | [cryptospend.com.au](https://cryptospend.com.au) | ✅ Active | Australia (self-custody) |
 | **Shakepay Card** | 70 🟡 | 1.5% | $0 | BTC | ❌ | Shakepay | [shakepay.com/card](https://shakepay.com/card) | ✅ Active | Canada |
 | **1inch Card** | 70 🟡 | Up to 2% | $0 | 1INCH | ❌ | Baanx (1inch) | [1inch.com/card](https://1inch.com/card) | ✅ Active | DeFi users (EU/UK) |
-| **Mode Card** | 69 🟡 | Up to 10% | $0 | BTC | ❌ | Mode | [modeapp.com](https://modeapp.com) | ⚠️ Verify | Bitcoin rewards (UK) |
+| ~~**Mode Card**~~ | 69 🟡 | Up to 10% | $0 | BTC | ❌ | Mode | ~~[modeapp.com](https://modeapp.com)~~ | ❌ Defunct | ~~Bitcoin rewards (UK)~~ |
 | **Binance Card** | 67 🟡 | Up to 3% | $0 | BNB | ⚠️ Verify | Binance Exchange | [binance.com/en/cards](https://www.binance.com/en/cards) | ✅ Active | Binance users (Brazil only) |
 | **Redotpay** | 67 🟡 | Up to 3% | $0-$100 | USDT, USDC | ✅ | Redotpay | [redotpay.com](https://redotpay.com) | ✅ Active | Multi-region (HK-based) |
 | **CoinJar Card** | 65 🟡 | 1% | $0 | BTC | ❌ | CoinJar Exchange | [coinjar.com/card](https://www.coinjar.com/card) | ⚠️ Verify | Australia |
@@ -105,7 +105,7 @@ Independent card providers, not tied to major exchanges.
 | **Plutus** | Plutus Card | 73 🟡 | 3-9% | ✅ Active |
 | **Uphold** | Uphold Card | 73 🟡 | 1-4% | ⚠️ Verify |
 | **Shakepay** | Shakepay Card | 70 🟡 | 1.5% | ✅ Active |
-| **Mode** | Mode Card | 69 🟡 | Up to 10% | ⚠️ Verify |
+| ~~**Mode**~~ | ~~Mode Card~~ | 69 🟡 | Up to 10% | ❌ Defunct |
 | **Redotpay** | Redotpay | 67 🟡 | Up to 3% | ✅ Active |
 | **Nexo** | Nexo Card | 63 🟡 | Up to 2% | ✅ Active |
 | **Swissborg** | Swissborg Card | 60 🟡 | 1-2% | ⚠️ Verify |

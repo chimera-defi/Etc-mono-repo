@@ -27,6 +27,10 @@ Major regional availability changes discovered through browser automation verifi
 | Jan 7, 2026 | **Plutus Card** | URL Note | Main domain (plutus.it) works, /card URL returns 404. 3% base, up to 9% confirmed. |
 | Jan 7, 2026 | **Ready Card** | Verified | 3% cashback, self-custody, zero FX fees confirmed. Previously Argent brand. |
 | Jan 7, 2026 | **1inch Card** | Verified | Prepaid Mastercard powered by Crypto Life (CL), issued by Monavate, FCA-authorized. |
+| Jan 7, 2026 | **Mode Card** | Status ❌ | **LIKELY DEFUNCT**: modeapp.com unreachable (timeout). Note: mode.com is different company. Marked as strikethrough. |
+| Jan 7, 2026 | **Gemini Card** | Status ✅ | Verified working: up to 4% crypto back, no annual fee, issued by WebBank. |
+| Jan 7, 2026 | **Bybit Card** | Status ⚠️ | HTTP2 errors on all URLs - may be geo-restricted. Cannot verify from current location. |
+| Jan 7, 2026 | **Swissborg Card** | Status ⚠️ | Website navigation issues, /card page returns 404. Card product may be discontinued. |
 
 **Verification Method:** Playwright browser automation with Chromium. All data verified from official websites January 7, 2026.
 
