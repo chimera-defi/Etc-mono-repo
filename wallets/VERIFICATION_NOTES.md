@@ -1,14 +1,41 @@
 # Verification Notes - Crypto Credit Card Information
 
-**Last Updated:** January 2026
+**Last Updated:** January 7, 2026
 
 ## Important Note
 
 This document tracks verification status and potential inaccuracies in the crypto credit card comparison. All information should be verified on official card websites before making decisions.
 
-## Verification Summary (December 2025)
+## Verification Summary (January 7, 2026)
 
-### ✅ Successfully Verified Cards
+### ✅ Successfully Verified Cards (January 2026 Update)
+
+1. **Gnosis Pay** - **MAJOR UPDATE**: Region expanded from EU/UK to Global. Now supports: EEA, UK, Brazil, Argentina, Mexico, Colombia, Philippines, Thailand, Japan, Singapore. Verified via gnosispay.com January 7, 2026.
+2. **Binance Card** - **MAJOR UPDATE**: Region changed from Global to **Brazil only**. Verified via binance.com January 7, 2026. FX fee is 1-2%, Crypto Conversion Fee is 0.9%.
+3. **Ready Card** - Confirmed 3% cashback, self-custody, zero FX fees. URL: ready.co/card. Verified January 7, 2026.
+4. **Wirex Card** - Main domain works, but /card URL returns 404. Confirmed up to 8% Cryptoback™. Verified January 7, 2026.
+5. **Plutus Card** - Confirmed 3% base, up to 9% with loyalty tiers, no fees. URL: plutus.it (/card URL returns 404). Verified January 7, 2026.
+6. **Coinbase Card** - Confirmed "crypto rewards", variable rate, no hidden fees, US only (except Hawaii). Verified January 7, 2026.
+7. **Nexo Card** - Confirmed "no monthly, annual, or inactivity card fees", cashback mentioned but no specific percentage shown in initial scrape. Verified January 7, 2026.
+8. **Crypto.com Visa (US)** - **NEW**: Now has Visa Signature® Credit Card with different tier structure (1.5% free to 6% with $500k stake). Monthly fee options added. Verified January 7, 2026.
+9. **1inch Card** - Confirmed prepaid Mastercard powered by Crypto Life (CL), issued by Monavate, FCA-authorized. Verified January 7, 2026.
+
+### ❌ Cards Likely Inactive/Defunct
+
+1. **Mode Card** - ❌ **LIKELY DEFUNCT**: modeapp.com completely unreachable (timeout after 25+ seconds on multiple attempts). Note: mode.com is a DIFFERENT company (ThoughtSpot Mode - business intelligence tool, not crypto). The Mode Bitcoin card company appears inactive/defunct. **Recommendation: Strike through in comparison table.**
+
+### ✅ Cards Verified Working (Updated January 7, 2026)
+
+1. **Gemini Card** - ✅ **WORKING**: Website accessible, "Earn up to 4% crypto back on every purchase with no annual fee", issued by WebBank. Bitcoin, ETH, and 50+ crypto reward options available.
+
+### ⚠️ Cards Needing Status Verification
+
+1. **Hi Card** - Website shows 2021-2022 copyright, card product info minimal/unclear. Main site (hi.com) loads but card-specific features not prominent. High cashback claims (10%) unverified. Status uncertain ⚠️
+2. **Uphold Card** - Website returns "Sorry... there was an error" message on main domain. Card product status uncertain ⚠️
+3. **Bybit Card** - HTTP2 protocol errors on ALL tested URLs (including en, en-GB, en-US, nl regional variants). May be heavily geo-restricted or undergoing service changes ⚠️
+4. **Swissborg Card** - Website navigation failures on all tested pages. Card-specific page (swissborg.com/card) returns 404. Company may exist but card product status unclear ⚠️
+
+### Previous Verifications (December 2025)
 
 1. **Crypto.com Visa Card** - Confirmed "up to 5% back" (higher tiers may vary)
 2. **Nexo Card** - Confirmed "up to 2% crypto cashback", "No monthly/annual/inactivity card fees"
