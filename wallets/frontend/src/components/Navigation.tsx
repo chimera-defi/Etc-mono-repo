@@ -15,6 +15,7 @@ const navItems = [
   { href: '/docs/hardware-wallets', label: 'Hardware Wallets' },
   { href: '/docs/crypto-cards', label: 'Crypto Cards' },
   { href: '/docs/ramps', label: 'Ramps' },
+  { href: '/docs/qr-payments', label: 'QR Payments' },
   { href: '/docs', label: 'All Docs' },
 ];
 

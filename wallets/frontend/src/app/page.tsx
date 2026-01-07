@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Script from 'next/script';
-import { ArrowRight, Shield, Cpu, BookOpen, Github, Zap, CheckCircle, CreditCard, GitCompare, SlidersHorizontal, ArrowLeftRight } from 'lucide-react';
+import { ArrowRight, Shield, Cpu, BookOpen, Github, Zap, CheckCircle, CreditCard, GitCompare, SlidersHorizontal, ArrowLeftRight, QrCode } from 'lucide-react';
 import { getAllDocuments, getWalletStats } from '@/lib/markdown';
 import { WalletCard } from '@/components/WalletCard';
 import { StatsCard } from '@/components/StatsCard';
@@ -276,6 +276,22 @@ export default function HomePage() {
             'Score: 70 — Enterprise-focused API, custom pricing, select global coverage. Best Business Ramp for enterprise use cases.',
         },
       },
+      {
+        '@type': 'ListItem',
+        position: 8,
+        item: {
+          '@type': 'Product',
+          name: 'Flexa',
+          category: 'QR Payment Provider',
+          brand: {
+            '@type': 'Brand',
+            name: 'Flexa',
+          },
+          url: `${baseUrl}/docs/qr-payments/`,
+          description:
+            'Score: 88 — Retail POS integration, guaranteed settlement, 99+ digital assets. Best QR Payment provider for retail merchants.',
+        },
+      },
     ],
   };
 
@@ -334,6 +350,13 @@ export default function HomePage() {
                 Ramps
                 <ArrowRight className="h-4 w-4" />
               </Link>
+              <Link
+                href="/docs/qr-payments"
+                className="inline-flex items-center gap-2 border border-border px-6 py-3 rounded-lg font-medium hover:bg-muted transition-colors"
+              >
+                QR Payments
+                <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
             {/* Explore CTA */}
             <div className="mt-6 pt-6 border-t border-border/50">
@@ -352,7 +375,7 @@ export default function HomePage() {
 
       {/* Quick Stats */}
       <section className="container mx-auto px-4 -mt-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
           <StatsCard
             label="Software Wallets"
             value="24+"
@@ -376,6 +399,12 @@ export default function HomePage() {
             value="20+"
             description="On/off-ramp providers compared"
             icon={<ArrowLeftRight className="h-5 w-5" />}
+          />
+          <StatsCard
+            label="QR Payments"
+            value="8+"
+            description="QR payment providers compared"
+            icon={<QrCode className="h-5 w-5" />}
           />
           <StatsCard
             label="Last Updated"
@@ -492,6 +521,21 @@ export default function HomePage() {
             </p>
             <div className="text-xs text-muted-foreground">
               ✅ Enterprise API • ✅ Custom Pricing • ✅ Both On/Off-Ramp
+            </div>
+          </div>
+
+          {/* Best QR Payment Pick */}
+          <div className="p-6 rounded-lg border border-indigo-200 dark:border-indigo-900 bg-indigo-50 dark:bg-indigo-950/30">
+            <div className="flex items-center gap-2 mb-3">
+              <QrCode className="h-5 w-5 text-indigo-600" />
+              <span className="text-sm font-medium text-indigo-600">Best QR Payments</span>
+            </div>
+            <h3 className="font-bold text-xl mb-2">Flexa</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Score: 88 — Retail POS integration, guaranteed settlement, 99+ assets
+            </p>
+            <div className="text-xs text-muted-foreground">
+              ✅ No Chargebacks • ✅ Existing POS • ✅ Global Coverage
             </div>
           </div>
         </div>

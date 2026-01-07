@@ -68,6 +68,15 @@ const WALLET_DATA = {
     { name: 'Ramp', score: 88, type: 'Both', coverage: '150+', devUx: 'SDK', status: '🟢' },
     { name: 'Sardine', score: 86, type: 'Both', coverage: 'US+', devUx: 'API/SDK', status: '🟢' },
   ],
+  qrPayments: [
+    // Data from QR_PAYMENTS.md - Top 5 by score
+    // Last verified: January 2026
+    { name: 'Flexa', score: 88, type: 'In-Store', feeModel: '~0.5%', devUx: 'SDK/API', status: '🟢' },
+    { name: 'NOWPayments', score: 85, type: 'Both', feeModel: '0.5%', devUx: 'API', status: '🟢' },
+    { name: 'Coinbase Commerce', score: 83, type: 'Both', feeModel: '1%', devUx: 'SDK', status: '🟢' },
+    { name: 'BitPay', score: 82, type: 'Both', feeModel: '1%', devUx: 'API', status: '🟢' },
+    { name: 'CoinGate', score: 80, type: 'Both', feeModel: '1%', devUx: 'API', status: '🟢' },
+  ],
 };
 
 /**
@@ -818,6 +827,149 @@ function generateRampsDetailsImage() {
 }
 
 /**
+ * Generate QR Payments OG Image (Table)
+ */
+function generateQRPaymentsImage() {
+  const canvas = createCanvas(WIDTH, HEIGHT);
+  const ctx = canvas.getContext('2d');
+
+  // Background gradient (unique indigo for QR payments)
+  const gradient = ctx.createLinearGradient(0, 0, WIDTH, HEIGHT);
+  gradient.addColorStop(0, '#0f172a');
+  gradient.addColorStop(1, '#312e81');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+  // Branding
+  drawBranding(ctx);
+
+  // Title
+  ctx.fillStyle = COLORS.text;
+  ctx.font = 'bold 42px Arial, sans-serif';
+  ctx.fillText('QR Payment Crypto Providers', 50, 160);
+
+  // Subtitle
+  ctx.fillStyle = COLORS.textMuted;
+  ctx.font = '20px Arial, sans-serif';
+  ctx.fillText('8+ providers scored on fees, coverage & developer experience', 50, 195);
+
+  // Table
+  const headers = ['Provider', 'Score', 'Type', 'Fee', 'Dev UX'];
+  const qrTableData = WALLET_DATA.qrPayments.map(p => [
+    p.name,
+    p.score.toString(),
+    p.type,
+    p.feeModel,
+    p.devUx,
+  ]);
+  drawTable(ctx, headers, qrTableData, 230);
+
+  // Footer
+  drawFooter(ctx, [
+    { value: '8+', label: 'Providers Compared' },
+    { value: '0.5%', label: 'Lowest Fee' },
+    { value: 'Global', label: 'Coverage' },
+  ]);
+
+  return canvas;
+}
+
+/**
+ * Generate QR Payments Details Page Image (non-table)
+ */
+function generateQRPaymentsDetailsImage() {
+  const canvas = createCanvas(WIDTH, HEIGHT);
+  const ctx = canvas.getContext('2d');
+
+  // Background gradient
+  const gradient = ctx.createLinearGradient(0, 0, WIDTH, HEIGHT);
+  gradient.addColorStop(0, '#0f172a');
+  gradient.addColorStop(1, '#312e81');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+  // Branding
+  drawBranding(ctx);
+
+  // Title
+  ctx.fillStyle = COLORS.text;
+  ctx.font = 'bold 42px Arial, sans-serif';
+  ctx.fillText('QR Payment Provider Guide', 50, 160);
+
+  // Subtitle
+  ctx.fillStyle = COLORS.textMuted;
+  ctx.font = '20px Arial, sans-serif';
+  ctx.fillText('Accept crypto payments at your retail store or e-commerce site', 50, 195);
+
+  // Recommendations section
+  const startY = 250;
+
+  // Section title
+  ctx.fillStyle = COLORS.primary;
+  ctx.font = 'bold 24px Arial, sans-serif';
+  ctx.fillText('🎯 Top QR Payment Providers', 50, startY);
+
+  // Top picks
+  const picks = [
+    { rank: '🥇', name: 'Flexa', score: 88, for: 'Retail POS - no chargebacks' },
+    { rank: '🥈', name: 'NOWPayments', score: 85, for: 'Lowest fees at 0.5%' },
+    { rank: '🥉', name: 'Coinbase Commerce', score: 83, for: 'Brand trust & easy setup' },
+  ];
+
+  let y = startY + 50;
+  picks.forEach((pick) => {
+    // Rank
+    ctx.font = '32px Arial, sans-serif';
+    ctx.fillText(pick.rank, 50, y);
+
+    // Provider name and score
+    ctx.fillStyle = COLORS.text;
+    ctx.font = 'bold 28px Arial, sans-serif';
+    ctx.fillText(pick.name, 110, y);
+
+    ctx.fillStyle = COLORS.accent;
+    ctx.font = 'bold 28px Arial, sans-serif';
+    ctx.fillText(`Score: ${pick.score}`, 400, y);
+
+    // Description
+    ctx.fillStyle = COLORS.textMuted;
+    ctx.font = '18px Arial, sans-serif';
+    ctx.fillText(pick.for, 110, y + 28);
+
+    y += 80;
+  });
+
+  // Use case section
+  y += 20;
+  ctx.fillStyle = COLORS.primary;
+  ctx.font = 'bold 24px Arial, sans-serif';
+  ctx.fillText('💡 Use Cases', 50, y);
+
+  const useCases = [
+    '• Retail: Flexa (POS integration, guaranteed settlement)',
+    '• E-Commerce: NOWPayments, Coinbase Commerce (plugins)',
+    '• Emerging Markets: YODL Pay (local QR standards)',
+  ];
+
+  y += 40;
+  ctx.fillStyle = COLORS.textMuted;
+  ctx.font = '18px Arial, sans-serif';
+  useCases.forEach((useCase) => {
+    ctx.fillText(useCase, 50, y);
+    y += 35;
+  });
+
+  // Footer
+  drawFooter(ctx, [
+    { value: '8+', label: 'Providers Compared' },
+    { value: 'QR + POS', label: 'Integration' },
+    { value: 'No Chargebacks', label: 'Settlement' },
+  ]);
+
+  return canvas;
+}
+
+/**
  * Generate Explore Page OG Image
  * Shows the interactive comparison tool feature
  */
@@ -848,9 +1000,9 @@ function generateExploreImage() {
 
   // Feature cards section
   const startY = 270;
-  const cardWidth = 340;
+  const cardWidth = 210;
   const cardHeight = 160;
-  const cardGap = 35;
+  const cardGap = 15;
 
   // Feature cards data
   const features = [
@@ -877,6 +1029,12 @@ function generateExploreImage() {
       title: 'Ramps',
       count: '20+',
       desc: 'On/off-ramp providers',
+    },
+    {
+      icon: '📱',
+      title: 'QR Payments',
+      count: '8+',
+      desc: 'QR payment providers',
     },
   ];
 
@@ -925,7 +1083,7 @@ function generateExploreImage() {
 
   // Footer
   drawFooter(ctx, [
-    { value: '74+', label: 'Total Options' },
+    { value: '102+', label: 'Total Options' },
     { value: 'Side-by-Side', label: 'Comparison' },
     { value: 'Live TVL', label: 'DeFiLlama Data' },
   ]);
@@ -944,18 +1102,20 @@ async function main() {
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });
   }
 
-  // Generate all images (9 total: 4 table + 4 details + 1 explore)
+  // Generate all images (11 total: 5 table + 5 details + 1 explore)
   console.log('📊 Generating table comparison images...');
   saveCanvas(generateSoftwareWalletsImage(), 'og-software-wallets-table.png');
   saveCanvas(generateHardwareWalletsImage(), 'og-hardware-wallets-table.png');
   saveCanvas(generateCryptoCardsImage(), 'og-crypto-cards-table.png');
   saveCanvas(generateRampsImage(), 'og-ramps-table.png');
+  saveCanvas(generateQRPaymentsImage(), 'og-qr-payments-table.png');
 
   console.log('\n📖 Generating details/guide images...');
   saveCanvas(generateSoftwareWalletsDetailsImage(), 'og-software-wallets-details.png');
   saveCanvas(generateHardwareWalletsDetailsImage(), 'og-hardware-wallets-details.png');
   saveCanvas(generateCryptoCardsDetailsImage(), 'og-crypto-cards-details.png');
   saveCanvas(generateRampsDetailsImage(), 'og-ramps-details.png');
+  saveCanvas(generateQRPaymentsDetailsImage(), 'og-qr-payments-details.png');
 
   console.log('\n🔍 Generating explore page image...');
   saveCanvas(generateExploreImage(), 'og-explore.png');

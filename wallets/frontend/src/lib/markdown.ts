@@ -65,6 +65,18 @@ const DOCUMENT_CONFIG: Record<string, Omit<MarkdownDocument, 'slug' | 'content'>
     category: 'comparison',
     order: 4,
   },
+  'QR_PAYMENTS.md': {
+    title: 'QR Payment Crypto Providers',
+    description: 'Comparison of QR code crypto payment providers for merchants with fees, coverage, and integration options',
+    category: 'comparison',
+    order: 5,
+  },
+  'QR_PAYMENTS_DETAILS.md': {
+    title: 'QR Payment Crypto Providers - Details',
+    description: 'Full documentation with provider reviews, QR payment technology, integration guides, and recommendations',
+    category: 'comparison',
+    order: 5,
+  },
   'README.md': {
     title: 'Overview',
     description: 'Wallet research documentation hub - quick recommendations and data sources',
@@ -161,6 +173,8 @@ export function getRelatedDocument(slug: string, type: 'table' | 'details'): Mar
     'crypto-cards-details': { table: 'crypto-cards', details: 'crypto-cards-details' },
     'ramps': { table: 'ramps', details: 'ramps-details' },
     'ramps-details': { table: 'ramps', details: 'ramps-details' },
+    'qr-payments': { table: 'qr-payments', details: 'qr-payments-details' },
+    'qr-payments-details': { table: 'qr-payments', details: 'qr-payments-details' },
   };
   
   const related = relatedMap[slug];

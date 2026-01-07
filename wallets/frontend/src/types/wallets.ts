@@ -131,5 +131,23 @@ export interface Ramp {
   type: 'ramp';
 }
 
-export type WalletData = SoftwareWallet | HardwareWallet | CryptoCard | Ramp;
+export interface QRPayment {
+  id: string;
+  name: string;
+  score: number;
+  paymentType: 'in-store' | 'both';
+  qrSupport: boolean;
+  merchantFiat: boolean;
+  coverage: string;
+  feeModel: string;
+  minFee: string;
+  devUx: string;
+  status: 'active' | 'verify' | 'launching';
+  bestFor: string;
+  recommendation: 'recommended' | 'situational' | 'avoid';
+  url: string | null;
+  type: 'qr-payment';
+}
+
+export type WalletData = SoftwareWallet | HardwareWallet | CryptoCard | Ramp | QRPayment;
 

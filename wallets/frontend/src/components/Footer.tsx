@@ -41,6 +41,11 @@ export function Footer() {
                   Ramps
                 </Link>
               </li>
+              <li>
+                <Link href="/docs/qr-payments" className="text-muted-foreground hover:text-foreground">
+                  QR Payments
+                </Link>
+              </li>
             </ul>
           </div>
 

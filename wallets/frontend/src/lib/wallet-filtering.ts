@@ -1,4 +1,4 @@
-import type { CryptoCard, CustodyType, HardwareWallet, Ramp, SoftwareWallet, WalletData } from '@/types/wallets';
+import type { CryptoCard, CustodyType, HardwareWallet, QRPayment, Ramp, SoftwareWallet, WalletData } from '@/types/wallets';
 
 /**
  * Client-safe filtering/sorting utilities for wallet data.
@@ -286,6 +286,43 @@ export function filterRamps(ramps: Ramp[], filters: FilterOptions): Ramp[] {
         'launching': 'slow', // Treat 'launching' as 'slow' for filtering
       };
       const mappedStatus = statusMap[ramp.status];
+      if (!filters.active.includes(mappedStatus)) return false;
+    }
+
+    return true;
+  });
+}
+
+export function filterQRPayments(qrPayments: QRPayment[], filters: FilterOptions): QRPayment[] {
+  return qrPayments.filter(qr => {
+    // Search filter
+    if (filters.search) {
+      const searchLower = filters.search.toLowerCase();
+      const matchesSearch =
+        qr.name.toLowerCase().includes(searchLower) ||
+        qr.bestFor.toLowerCase().includes(searchLower) ||
+        qr.coverage.toLowerCase().includes(searchLower) ||
+        qr.feeModel.toLowerCase().includes(searchLower);
+      if (!matchesSearch) return false;
+    }
+
+    // Score filter
+    if (filters.minScore !== undefined && qr.score < filters.minScore) return false;
+    if (filters.maxScore !== undefined && qr.score > filters.maxScore) return false;
+
+    // Recommendation filter
+    if (filters.recommendation?.length && !filters.recommendation.includes(qr.recommendation)) {
+      return false;
+    }
+
+    // Status filter - map QR payment status to filter active values
+    if (filters.active?.length) {
+      const statusMap: Record<QRPayment['status'], 'active' | 'slow' | 'inactive' | 'private'> = {
+        'active': 'active',
+        'verify': 'slow',
+        'launching': 'slow',
+      };
+      const mappedStatus = statusMap[qr.status];
       if (!filters.active.includes(mappedStatus)) return false;
     }
 

@@ -33,6 +33,12 @@ export function getOgImagePath(slug: string): string {
 
     // Ramp pages - DETAILS versions (show recommendations)
     'ramps-details': '/og-ramps-details.png',
+
+    // QR Payment pages - TABLE versions (show comparison data)
+    'qr-payments': '/og-qr-payments-table.png',
+
+    // QR Payment pages - DETAILS versions (show recommendations)
+    'qr-payments-details': '/og-qr-payments-details.png',
   };
   return imageMap[slug] || '/og-image.png';
 }
@@ -197,6 +203,11 @@ export function generateKeywords(
   // Ramp detection
   if (titleLower.includes('ramp') || contentLower.includes('on-ramp') || contentLower.includes('off-ramp')) {
     contentKeywords.push('crypto ramp', 'on-ramp', 'off-ramp', 'fiat on-ramp', 'fiat off-ramp', 'crypto payment gateway');
+  }
+
+  // QR Payment detection
+  if (titleLower.includes('qr') || contentLower.includes('qr payment') || contentLower.includes('qr code')) {
+    contentKeywords.push('QR payment', 'crypto QR code', 'merchant crypto', 'crypto POS', 'Bitcoin QR', 'accept crypto');
   }
   
   // Combine and dedupe
