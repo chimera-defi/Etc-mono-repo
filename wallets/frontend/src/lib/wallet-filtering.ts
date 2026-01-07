@@ -28,6 +28,7 @@ export interface FilterOptions {
   cardType?: ('credit' | 'debit' | 'prepaid' | 'business')[];
   region?: string[];
   businessSupport?: boolean;
+  noAnnualFee?: boolean;
   cashBackMin?: number;
   custody?: CustodyType[];
   cardStatus?: ('active' | 'verify' | 'launching')[];
@@ -228,6 +229,15 @@ export function filterCryptoCards(
     // Business support filter
     if (filters.businessSupport !== undefined) {
       if (filters.businessSupport && card.businessSupport !== 'yes') return false;
+    }
+
+    // No annual fee filter
+    if (filters.noAnnualFee !== undefined && filters.noAnnualFee) {
+      // Check if annual fee is $0, €0, £0, or "0" or "Free"
+      const feeValue = card.annualFee.toLowerCase();
+      const isFree = feeValue.includes('$0') || feeValue.includes('€0') || feeValue.includes('£0') || 
+                     feeValue === '0' || feeValue === 'free' || feeValue === '$0' || feeValue === '0%';
+      if (!isFree) return false;
     }
 
     // Cashback min filter

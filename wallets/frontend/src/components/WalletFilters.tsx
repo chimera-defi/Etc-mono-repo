@@ -38,6 +38,7 @@ export interface FilterState {
   cardStatus: string[];
   region: string[];
   businessSupport: boolean | null;
+  noAnnualFee: boolean | null;
   cashBackMin: number;
 }
 
@@ -187,6 +188,7 @@ export const initialFilterState: FilterState = {
   cardStatus: [],
   region: [],
   businessSupport: null,
+  noAnnualFee: null,
   cashBackMin: 0,
 };
 
@@ -397,6 +399,7 @@ export function WalletFilters({
     if (filters.cardStatus.length) count++;
     if (filters.region.length) count++;
     if (filters.businessSupport !== null) count++;
+    if (filters.noAnnualFee !== null) count++;
     if (filters.cashBackMin > 0) count++;
     return count;
   }, [filters]);
@@ -633,6 +636,11 @@ export function WalletFilters({
                 label="Business Support"
                 value={filters.businessSupport}
                 onChange={value => updateFilter('businessSupport', value)}
+              />
+              <ToggleButton
+                label="No Annual Fee"
+                value={filters.noAnnualFee}
+                onChange={value => updateFilter('noAnnualFee', value)}
               />
               <div className="space-y-2">
                 <label className="text-sm text-muted-foreground">
