@@ -1,4 +1,4 @@
-import type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData } from '@/types/wallets';
+import type { CryptoCard, CustodyType, HardwareWallet, Ramp, SoftwareWallet, WalletData } from '@/types/wallets';
 
 /**
  * Client-safe filtering/sorting utilities for wallet data.
@@ -29,6 +29,7 @@ export interface FilterOptions {
   region?: string[];
   businessSupport?: boolean;
   cashBackMin?: number;
+  custody?: CustodyType[];
 
   // Common
   minScore?: number;
@@ -210,6 +211,11 @@ export function filterCryptoCards(
 
     // Card type filter
     if (filters.cardType?.length && !filters.cardType.includes(card.cardType)) {
+      return false;
+    }
+
+    // Custody filter
+    if (filters.custody?.length && !filters.custody.includes(card.custody)) {
       return false;
     }
 

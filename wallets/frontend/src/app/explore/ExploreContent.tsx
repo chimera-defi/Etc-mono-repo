@@ -77,6 +77,7 @@ function toFilterOptions(filters: FilterState): FilterOptions {
   if (filters.connectivity.length) opts.connectivity = filters.connectivity;
 
   if (filters.cardType.length) opts.cardType = filters.cardType as FilterOptions['cardType'];
+  if (filters.custody.length) opts.custody = filters.custody as FilterOptions['custody'];
   if (filters.region.length) opts.region = filters.region;
   if (filters.businessSupport !== null) opts.businessSupport = filters.businessSupport;
   if (filters.cashBackMin > 0) opts.cashBackMin = filters.cashBackMin;

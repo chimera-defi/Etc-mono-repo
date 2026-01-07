@@ -34,6 +34,7 @@ export interface FilterState {
   connectivity: string[];
   // Cards
   cardType: string[];
+  custody: string[];
   region: string[];
   businessSupport: boolean | null;
   cashBackMin: number;
@@ -127,6 +128,12 @@ const REGION_OPTIONS = [
   { value: 'Global', label: 'Global' },
 ];
 
+const CUSTODY_OPTIONS = [
+  { value: 'self', label: '🔐 Self-Custody', color: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' },
+  { value: 'exchange', label: '🏦 Exchange', color: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' },
+  { value: 'cefi', label: '📋 CeFi', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' },
+];
+
 const SORT_OPTIONS = {
   software: [
     { value: 'score', label: 'Score' },
@@ -169,6 +176,7 @@ export const initialFilterState: FilterState = {
   priceMax: 500,
   connectivity: [],
   cardType: [],
+  custody: [],
   region: [],
   businessSupport: null,
   cashBackMin: 0,
@@ -377,6 +385,7 @@ export function WalletFilters({
     if (filters.openSource.length) count++;
     if (filters.connectivity.length) count++;
     if (filters.cardType.length) count++;
+    if (filters.custody.length) count++;
     if (filters.region.length) count++;
     if (filters.businessSupport !== null) count++;
     if (filters.cashBackMin > 0) count++;
@@ -592,6 +601,12 @@ export function WalletFilters({
                 options={CARD_TYPE_OPTIONS}
                 selected={filters.cardType}
                 onChange={values => updateFilter('cardType', values)}
+              />
+              <MultiSelect
+                label="Custody"
+                options={CUSTODY_OPTIONS}
+                selected={filters.custody}
+                onChange={values => updateFilter('custody', values)}
               />
               <MultiSelect
                 label="Region"
