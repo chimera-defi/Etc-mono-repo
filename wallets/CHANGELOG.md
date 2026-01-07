@@ -13,6 +13,23 @@ Track significant changes to wallet statuses, recommendations, and documentation
 
 ## Crypto Cards (January 2026)
 
+### Regional Availability Updates (January 7, 2026)
+
+Major regional availability changes discovered through browser automation verification:
+
+| Date | Card | Change | Details |
+|------|------|--------|---------|
+| Jan 7, 2026 | **Gnosis Pay** | Region 🇪🇺→🌍 | **MAJOR UPDATE:** Expanded from EU/UK to Global. Now supports: EEA, UK, Brazil, Argentina, Mexico, Colombia, Philippines, Thailand, Japan, Singapore. Verified via gnosispay.com. |
+| Jan 7, 2026 | **Binance Card** | Region 🌍→🇧🇷 | **MAJOR UPDATE:** Now Brazil-only (was listed as "Global*"). Website explicitly states "Currently we support: Brazil." FX fee is 1-2%. |
+| Jan 7, 2026 | **Hi Card** | Status ⚠️ | Website shows 2021-2022 copyright, card product status uncertain. Needs manual verification. |
+| Jan 7, 2026 | **Wirex Card** | URL Fix | Main domain (wirexapp.com) works, /card URL returns 404. Up to 8% Cryptoback™ confirmed. |
+| Jan 7, 2026 | **Crypto.com US** | NEW Product | Now has Visa Signature® Credit Card with different tier structure (1.5% free → 6% with $500k stake). Monthly fee options available. |
+| Jan 7, 2026 | **Plutus Card** | URL Note | Main domain (plutus.it) works, /card URL returns 404. 3% base, up to 9% confirmed. |
+| Jan 7, 2026 | **Ready Card** | Verified | 3% cashback, self-custody, zero FX fees confirmed. Previously Argent brand. |
+| Jan 7, 2026 | **1inch Card** | Verified | Prepaid Mastercard powered by Crypto Life (CL), issued by Monavate, FCA-authorized. |
+
+**Verification Method:** Playwright browser automation with Chromium. All data verified from official websites January 7, 2026.
+
 ### Score Recalculation (January 2026)
 
 Comprehensive recalculation of all 27 crypto card scores using verified website data. Major corrections identified through browser automation research.

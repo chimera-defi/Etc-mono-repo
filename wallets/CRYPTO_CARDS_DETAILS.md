@@ -2,7 +2,7 @@
 
 > **Comprehensive guide to crypto-backed and crypto rewards credit/debit cards**
 
-**Last Updated:** December 2025
+**Last Updated:** January 7, 2026 (Gnosis Pay global expansion, Binance Brazil-only verified)
 
 ---
 
@@ -1035,22 +1035,35 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 - Gemini Credit Card
 - BitPay Card
 - Fold Card
-- Mode Card
 
 ### EU/UK
 - Nexo Card (EU, UK)
 - Plutus Card (EU, UK)
 - Swissborg Card (EU)
+- 1inch Card (EU, UK)
+- Ready Card (EU, UK)
 
 ### Canada
 - Shakepay Card
 
-### Global (Varies by Region)
-- Crypto.com Visa Card
-- Binance Card
-- Wirex Card
+### Brazil Only
+- Binance Card (**January 2026 Update:** Now Brazil-only, not global)
 
-*Note: Availability within "global" regions varies - verify on official websites*
+### Global (Multi-Region)
+- **Gnosis Pay** (**January 2026 Update:** Now global - EEA, UK, Brazil, Argentina, Mexico, Colombia, Philippines, Thailand, Japan, Singapore)
+- Crypto.com Visa Card
+- Wirex Card
+- EtherFi Cash (100M+ merchants worldwide)
+- Hi Card
+- KuCard (excludes US)
+- Revolut Crypto
+- Redotpay
+
+### Regional Notes
+- Mode Card - UK-based company, availability unclear ⚠️
+- Uphold Card - US, UK, EU regions ⚠️ (website timing out)
+
+*Note: Availability within "global" regions varies - verify on official websites before applying*
 
 ---
 
