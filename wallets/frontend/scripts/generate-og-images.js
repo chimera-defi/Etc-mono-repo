@@ -56,7 +56,7 @@ const WALLET_DATA = {
     { name: 'EtherFi Cash', cashback: '2-3%', type: 'Credit', region: 'Global', status: '🟢' },
     { name: 'Ready Card', cashback: '3%', type: 'Debit', region: 'EU/UK', status: '🟢' },
     { name: 'Hi Card', cashback: '10%', type: 'Debit', region: 'Global', status: '🟢' },
-    { name: 'Gnosis Pay', cashback: '5%', type: 'Debit', region: 'EU/UK', status: '🟢' },
+    { name: 'Gnosis Pay', cashback: '5%', type: 'Debit', region: 'Global', status: '🟢' },
     { name: 'Wirex Card', cashback: '8%', type: 'Debit', region: 'Global', status: '🟢' },
   ],
   ramps: [

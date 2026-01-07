@@ -7,7 +7,7 @@
 | [**EtherFi Cash**](https://ether.fi/cash) | 85 🟢 | Credit | 🔐 Self | ✅ | 🌍 Global | 2-3% | $0 | 1% | ETH, BTC, Stables | ✅ | Non-custodial DeFi |
 | [**Ready Card**](https://www.ready.co/card) | 83 🟢 | Debit | 🔐 Self | ❌ | 🇪🇺 EU/UK | 3% | $0 | 0% | Crypto | ✅ | Self-custody EU/UK |
 | [**Hi Card**](https://hi.com) | 79 🟢 | Debit | 📋 CeFi | ❌ | 🌍 Global | Up to 10% | $0 | 0% | HI | ⚠️ | High cashback |
-| [**Gnosis Pay**](https://gnosispay.com) | 78 🟢 | Debit | 🔐 Self | ❌ | 🇪🇺 EU/UK | Up to 5% | €0 | 0% | GNO/SAFE | ✅ | DeFi-native |
+| [**Gnosis Pay**](https://gnosispay.com) | 78 🟢 | Debit | 🔐 Self | ❌ | 🌍 Global | Up to 5% | €0 | 0% | GNO/SAFE | ✅ | DeFi-native |
 | [**Wirex Card**](https://wirexapp.com/card) | 78 🟢 | Debit | 📋 CeFi | ⚠️ | 🌍 Global | Up to 8% | $0 | 0% | WXT | ⚠️ | Multi-crypto |
 | [**Fold Card**](https://foldapp.com) | 77 🟢 | Debit | 📋 CeFi | ❌ | 🇺🇸 US | 3-5% | $0 | 0% | BTC | ✅ | Bitcoin rewards |
 | [**Gemini Card**](https://www.gemini.com/credit-card) | 76 🟢 | Credit | 🏦 Exch | ❌ | 🇺🇸 US | Up to 4% | $0 | 0% | BTC, ETH | ✅ | Credit building |
@@ -20,8 +20,8 @@
 | [**CryptoSpend**](https://cryptospend.com.au) | 71 🟡 | Debit | 🔐 Self | ❌ | 🇦🇺 AU | 1% | $0 | 0% | BTC, ETH | ✅ | Australia |
 | [**Shakepay Card**](https://shakepay.com/card) | 70 🟡 | Prepaid | 📋 CeFi | ❌ | 🇨🇦 CA | 1.5% | $0 | 0% | BTC | ✅ | Canada |
 | [**1inch Card**](https://1inch.com/card) | 70 🟡 | Debit | 🔐 Self | ❌ | 🇪🇺 EU/UK | Up to 2% | $0 | 0% | 1INCH | ✅ | DeFi users |
-| [**Mode Card**](https://modeapp.com) | 69 🟡 | Debit | 📋 CeFi | ❌ | 🇬🇧 UK | Up to 10% | $0 | 0% | BTC | ⚠️ | Bitcoin rewards |
-| [**Binance Card**](https://www.binance.com/en/cards) | 67 🟡 | Debit | 🏦 Exch | ⚠️ | 🌍 Global* | Up to 3% | $0 | 0% | BNB | ✅ | Binance users |
+| ~~[**Mode Card**](https://modeapp.com)~~ | 69 🟡 | Debit | 📋 CeFi | ❌ | 🇬🇧 UK | Up to 10% | $0 | 0% | BTC | ❌ | ~~Bitcoin rewards~~ |
+| [**Binance Card**](https://www.binance.com/en/cards) | 67 🟡 | Debit | 🏦 Exch | ⚠️ | 🇧🇷 Brazil | Up to 3% | $0 | 0-2% | BNB | ✅ | Binance users |
 | [**Redotpay**](https://redotpay.com) | 67 🟡 | Debit | 📋 CeFi | ✅ | 🌍 Global | Up to 3% | $0-$100 | 1-2% | USDT, USDC | ✅ | Multi-region |
 | [**CoinJar Card**](https://www.coinjar.com/card) | 65 🟡 | Debit | 🏦 Exch | ❌ | 🇦🇺 AU | 1% | $0 | 0% | BTC | ⚠️ | Australia |
 | [**Nexo Card**](https://nexo.com/card) | 63 🟡 | Credit | 📋 CeFi | ✅ | 🇪🇺 EU/UK | Up to 2% | $0 | FX fees | NEXO | ✅ | Crypto credit |
@@ -75,10 +75,17 @@
 - **-20 pts** Crypto.com: Poor UX, customer service issues, 12-month staking lock-ups, 0% base tier
 
 **Key Corrections (January 2026):**
+- **Gnosis Pay**: Region expanded from EU/UK to **🌍 Global** (EEA, UK, Brazil, Argentina, Mexico, Colombia, Philippines, Thailand, Japan, Singapore) - verified via gnosispay.com January 2026
+- **Binance Card**: Region changed from Global to **🇧🇷 Brazil only** - verified via binance.com January 2026; FX fee is 1-2%
 - Ready Card: Cash back verified at **3%** (was incorrectly listed as "Up to 10%")
 - Binance Card: Max cash back is **3%** (was incorrectly listed as "Up to 8%")
-- Crypto.com Visa: Base tier has **0%** cash back (requires $400+ CRO stake for rewards)
+- Crypto.com Visa: Base tier has **0%** cash back (requires $400+ CRO stake for rewards); US now has **Visa Signature® Credit Card** with different tier structure
 - Nexo Card: Has **FX fees on weekdays** (was listed as 0%)
+- **Hi Card**: Website shows 2021-2022 copyright, card product status uncertain ⚠️
+- **Mode Card**: ❌ Website (modeapp.com) unreachable as of January 2026 - company may be inactive/defunct. Note: mode.com is a different company (ThoughtSpot Mode, a BI tool).
+- **Bybit Card**: Website returns HTTP2 errors from all regions tested - may be heavily geo-restricted
+- **Swissborg Card**: Website access issues, card product page (swissborg.com/card) returns 404
+- **Uphold Card**: Website showing errors, card product status uncertain
 
 > ⚠️ **Data Accuracy Note:** Rates, fees, and availability change frequently. Always verify on official card websites before applying.
 
@@ -90,11 +97,11 @@
 
 ## Quick Summary
 
-> **TL;DR:** Use **EtherFi Cash** (85) for global non-custodial DeFi credit with 2-3% cashback, **Ready Card** (83) for 3% self-custody cashback in EU/UK, **Gnosis Pay** (78) or **1inch Card** (70) for EU/UK DeFi-native options. For high cashback with CeFi/exchange custody, **Hi Card** (79) or **Wirex** (78). Avoid **Crypto.com** (41) due to 0% base tier, 12-month staking lock-ups, and poor UX.
+> **TL;DR:** Use **EtherFi Cash** (85) for global non-custodial DeFi credit with 2-3% cashback, **Ready Card** (83) for 3% self-custody cashback in EU/UK, **Gnosis Pay** (78) for global DeFi-native option (now available in 10+ countries), or **1inch Card** (70) for EU/UK. For high cashback with CeFi/exchange custody, **Hi Card** (79) or **Wirex** (78). Note: **Binance Card** is now Brazil-only. Avoid **Crypto.com** (41) due to 0% base tier, 12-month staking lock-ups, and poor UX.
 >
 > **🔐 Non-Custodial Cards:** EtherFi Cash, Ready Card, Gnosis Pay, 1inch Card, CryptoSpend — your keys, your crypto.
 
-**Last Updated:** January 2026 (Scores recalculated with verified data) | [Scoring Methodology](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#scoring-methodology) | [Provider Groupings](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#provider-groupings)
+**Last Updated:** January 7, 2026 (Gnosis Pay global expansion, Binance Brazil-only verified) | [Scoring Methodology](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#scoring-methodology) | [Provider Groupings](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md#provider-groupings)
 
 **Related:** See [Software Wallet Comparison](./SOFTWARE_WALLETS.md) and [Hardware Wallet Comparison](./HARDWARE_WALLETS.md) for wallet recommendations.
 
