@@ -385,6 +385,41 @@ cd scripts
 
 7. **Keyword detection for new types** - add content-based keyword detection in `generateKeywords()` for new comparison types to improve SEO discoverability. See `.cursorrules` Rule #133.
 
+### Crypto Card Meta-Learnings (Jan 2026)
+
+1. **Every column should be filterable** - when adding new columns (e.g., Custody), ensure frontend supports filtering: update FilterOptions interface, FilterState interface, filter function logic, and filter UI component. The chain is: `types/wallets.ts` → `wallet-filtering.ts` → `WalletFilters.tsx` → `ExploreContent.tsx`. See `.cursorrules` Rule #135.
+
+2. **Verify custody from official sources** - custody classifications must be verified from official website text. Look for keywords:
+   - Self-custody: "self-custody", "non-custodial", "your keys", "your control"
+   - Exchange: "exchange" references, funds held on exchange
+   - CeFi: Prepaid cards issued by banks, "issued by [Bank Name]"
+   Document verification in VERIFICATION_NOTES.md. See `.cursorrules` Rule #136.
+
+3. **Score changes cascade to multiple files** - when recalculating scores, create a checklist:
+   - [ ] Main table (CRYPTO_CARDS.md)
+   - [ ] Comparison file (CRYPTO_CREDIT_CARD_COMPARISON.md)
+   - [ ] Details file score summary (CRYPTO_CARDS_DETAILS.md)
+   - [ ] Homepage recommendations (page.tsx)
+   - [ ] Structured data/schema.org
+   - [ ] FAQ answers
+   - [ ] Smoke tests (if spot-check values changed)
+   See `.cursorrules` Rule #137.
+
+4. **TBD data requires research attempts** - before marking data as TBD:
+   - Attempt browser automation (Playwright) to scrape official websites
+   - Try multiple URLs (main site, help pages, FAQ)
+   - Document research attempts and results
+   - If website unreachable after multiple attempts, mark with ⚠️ status
+   See `.cursorrules` Rule #138.
+
+5. **High cashback claims require verification** - "Up to X%" claims often require staking or tier progression. Verify actual base rates and document requirements. Marketing claims frequently differ from typical user experience.
+
+6. **Custody affects scoring** - custody type impacts scores via adjustments:
+   - Self-custody: +3 pts (lower risk)
+   - Exchange custody: -3 pts (platform risk)
+   - CeFi custody: 0 pts (neutral)
+   Ensure custody classification is accurate before applying adjustments.
+
 ---
 
-*Last updated: January 4, 2026*
+*Last updated: January 6, 2026*

@@ -1,6 +1,6 @@
 # Crypto-Backed Credit Card Comparison
 
-> **TL;DR:** Comprehensive comparison with scoring system (**27 cards**). Updated December 2025. Cards are grouped by provider/exchange for consistent scoring handicaps. Some cards marked ⚠️ require additional verification. Scores include Human Suggestions adjustments for UX and verification status.
+> **TL;DR:** Comprehensive comparison with scoring system (**27 cards**). Updated January 2026. Cards are grouped by provider/exchange for consistent scoring handicaps. Some cards marked ⚠️ require additional verification. Scores include Human Suggestions adjustments for UX and verification status.
 
 **Data Sources:** Official card websites, terms of service, public announcements (as of December 2025)
 
@@ -14,33 +14,33 @@
 
 | Card | Score | Cash Back | Annual Fee | Crypto Rewards | Business | Provider | Website | Status | Best For |
 |------|-------|-----------|------------|----------------|----------|----------|---------|--------|----------|
-| **Ready Card** | 90 🟢 | Up to 10% | $0 | Crypto | ❌ | Ready (Argent) | [ready.co/card](https://www.ready.co/card) | ✅ Active | High cashback (EU/UK) |
-| **Bybit Card** | 88 🟢 | Up to 10% | $0 | Multi-crypto | ✅ | Bybit Exchange | [bybit.com/cards](https://www.bybit.com/en/cards/) | ✅ Active | High cashback (EEA/CH) |
-| **Mode Card** | 87 🟢 | Up to 10% | $0 | BTC | ❌ | Mode | [modeapp.com](https://modeapp.com) | ⚠️ Verify | Bitcoin rewards (UK/EU) |
-| **Hi Card** | 86 🟢 | Up to 10% | $0 | HI | ❌ | hi.com | [hi.com](https://hi.com) | ✅ Active | High cashback (Global) |
-| **Plutus Card** | 85 🟢 | 3-9% | £0 | PLU | ❌ | Plutus | [plutus.it](https://plutus.it) | ✅ Active | EU/UK users |
-| **Coinbase Card** | 82 🟢 | 1-4% | $0 | BTC, ETH, others | ❌ | Coinbase Exchange | [coinbase.com/card](https://www.coinbase.com/card) | ✅ Active | Coinbase users (US) |
-| **Nexo Card** | 82 🟢 | Up to 2% | $0 | NEXO | ✅ | Nexo | [nexo.com/card](https://nexo.com/card) | ✅ Active | Crypto-backed credit (EU, UK) |
-| **Binance Card** | 79 🟢 | Up to 8% | $0 | BNB | ⚠️ Verify | Binance Exchange | [binance.com/en/cards](https://www.binance.com/en/cards) | ✅ Active | Binance users (Global) |
-| **Wirex Card** | 78 🟢 | Up to 8% | $0 | WXT | ⚠️ Verify | Wirex | [wirexapp.com/card](https://wirexapp.com/card) | ✅ Active | Multi-crypto (Global) |
+| **EtherFi Cash** | 85 🟢 | 2-3% | $0 | ETH, BTC, Stables | ✅ | EtherFi | [ether.fi/cash](https://ether.fi/cash) | ✅ Active | Non-custodial DeFi |
+| **Ready Card** | 83 🟢 | 3% | $0 | Crypto | ❌ | Ready (Argent) | [ready.co/card](https://www.ready.co/card) | ✅ Active | Self-custody (EU/UK) |
+| **Hi Card** | 79 🟢 | Up to 10% | $0 | HI | ❌ | hi.com | [hi.com](https://hi.com) | ⚠️ Verify | High cashback (Global) |
 | **Gnosis Pay** | 78 🟢 | Up to 5% | €0 | GNO/SAFE | ❌ | Gnosis DAO | [gnosispay.com](https://gnosispay.com) | ✅ Active | DeFi-native (EU/UK) |
-| **Fold Card** | 76 🟢 | Up to 5% | $0 | BTC | ❌ | Fold | [foldapp.com](https://foldapp.com) | ✅ Active | Bitcoin rewards (US) |
-| **1inch Card** | 75 🟢 | Up to 2% | $0 | 1INCH | ❌ | Baanx (1inch) | [1inch.com/card](https://1inch.com/card) | ✅ Active | DeFi users (Global) |
-| **Gemini Credit Card** | 74 🟡 | 1-3% | $0 | BTC, ETH | ❌ | Gemini Exchange | [gemini.com/credit-card](https://www.gemini.com/credit-card) | ✅ Active | Credit building (US) |
-| **KuCard** | 72 🟡 | Up to 4% | $0 | Multi-crypto | ❌ | KuCoin Exchange | [kucoin.com/kucard](https://www.kucoin.com/kucard) | ✅ Active | KuCoin users (Global) |
-| **Revolut Crypto** | 72 🟡 | 1-3% | $0/paid | Multi-crypto | ✅ | Revolut | [revolut.com](https://www.revolut.com/crypto/crypto-card/) | ✅ Active | Fiat+Crypto (Global) |
-| **Shakepay Card** | 70 🟡 | Up to 1.5% | $0 | BTC | ❌ | Shakepay | [shakepay.com/card](https://shakepay.com/card) | ✅ Active | Canada |
-| **Redotpay** | 70 🟡 | Up to 3% | $0-$100 | USDT, USDC | ✅ | Redotpay | [redotpay.com](https://redotpay.com) | ✅ Active | Multi-region (HK-based) |
-| **OKX Card** | 68 🟡 | TBD | $0 | Stablecoins | ⚠️ Verify | OKX Exchange | [okx.com](https://www.okx.com) | 🔄 Launching | Stablecoin payments |
-| **Uphold Card** | 67 🟡 | 1-4% | $0 | XRP, BTC, ETH | ⚠️ Verify | Uphold | [uphold.com/card](https://uphold.com/card) | ⚠️ Verify | Multi-crypto (US, UK, EU) |
-| **CryptoSpend Card** | 62 🟡 | 1% | $0 | BTC, ETH, others | ❌ | CryptoSpend | [cryptospend.com.au](https://cryptospend.com.au) | ✅ Active | Australia |
-| **CoinJar Card** | 60 🟡 | 1% | $0 | BTC | ❌ | CoinJar Exchange | [coinjar.com/card](https://www.coinjar.com/card) | ⚠️ Verify | Australia |
+| **Wirex Card** | 78 🟢 | Up to 8% | $0 | WXT | ⚠️ Verify | Wirex | [wirexapp.com/card](https://wirexapp.com/card) | ⚠️ Verify | Multi-crypto (Global) |
+| **Fold Card** | 77 🟢 | 3-5% | $0 | BTC | ❌ | Fold | [foldapp.com](https://foldapp.com) | ✅ Active | Bitcoin rewards (US) |
+| **Gemini Card** | 76 🟢 | Up to 4% | $0 | BTC, ETH | ❌ | Gemini Exchange | [gemini.com/credit-card](https://www.gemini.com/credit-card) | ✅ Active | Credit building (US) |
+| **KuCard** | 76 🟢 | Up to 4% | $0 | Multi-crypto | ❌ | KuCoin Exchange | [kucoin.com/kucard](https://www.kucoin.com/kucard) | ✅ Active | KuCoin users (Global*) |
+| **Revolut Crypto** | 76 🟢 | 1-3% | $0/paid | Multi-crypto | ✅ | Revolut | [revolut.com](https://www.revolut.com/crypto/crypto-card/) | ✅ Active | Fiat+Crypto (Global) |
+| **Coinbase Card** | 75 🟢 | 1-4% | $0 | BTC, ETH, others | ❌ | Coinbase Exchange | [coinbase.com/card](https://www.coinbase.com/card) | ✅ Active | Coinbase users (US) |
+| **Bybit Card** | 74 🟡 | Up to 10% | $0 | Multi-crypto | ✅ | Bybit Exchange | [bybit.com/cards](https://www.bybit.com/en/cards/) | ⚠️ Verify | High cashback (EEA/CH) |
+| **Plutus Card** | 73 🟡 | 3-9% | £0 | PLU | ❌ | Plutus | [plutus.it](https://plutus.it) | ✅ Active | EU/UK perks |
+| **Uphold Card** | 73 🟡 | 1-4% | $0 | XRP, BTC, ETH | ⚠️ Verify | Uphold | [uphold.com/card](https://uphold.com/card) | ⚠️ Verify | Multi-crypto (US/EU) |
+| **CryptoSpend** | 71 🟡 | 1% | $0 | BTC, ETH, others | ❌ | CryptoSpend | [cryptospend.com.au](https://cryptospend.com.au) | ✅ Active | Australia (self-custody) |
+| **Shakepay Card** | 70 🟡 | 1.5% | $0 | BTC | ❌ | Shakepay | [shakepay.com/card](https://shakepay.com/card) | ✅ Active | Canada |
+| **1inch Card** | 70 🟡 | Up to 2% | $0 | 1INCH | ❌ | Baanx (1inch) | [1inch.com/card](https://1inch.com/card) | ✅ Active | DeFi users (EU/UK) |
+| **Mode Card** | 69 🟡 | Up to 10% | $0 | BTC | ❌ | Mode | [modeapp.com](https://modeapp.com) | ⚠️ Verify | Bitcoin rewards (UK) |
+| **Binance Card** | 67 🟡 | Up to 3% | $0 | BNB | ⚠️ Verify | Binance Exchange | [binance.com/en/cards](https://www.binance.com/en/cards) | ✅ Active | Binance users (Global*) |
+| **Redotpay** | 67 🟡 | Up to 3% | $0-$100 | USDT, USDC | ✅ | Redotpay | [redotpay.com](https://redotpay.com) | ✅ Active | Multi-region (HK-based) |
+| **CoinJar Card** | 65 🟡 | 1% | $0 | BTC | ❌ | CoinJar Exchange | [coinjar.com/card](https://www.coinjar.com/card) | ⚠️ Verify | Australia |
+| **Nexo Card** | 63 🟡 | Up to 2% | $0 | NEXO | ✅ | Nexo | [nexo.com/card](https://nexo.com/card) | ✅ Active | Crypto credit (EU/UK) |
 | **Kraken Card** | 60 🟡 | TBD | $0 | Multi-crypto | ⚠️ Verify | Kraken Exchange | [kraken.com](https://www.kraken.com) | 🔄 Limited | Kraken users |
-| **Crypto.com Visa** | 57 🟡 | 0.5-8% | $0 | CRO | ✅ | Crypto.com Exchange | [crypto.com/cards](https://crypto.com/cards) | ✅ Active | CRO holders (Global) ⚠️ -20 pts |
-| **Swissborg Card** | 56 🟡 | 1-2% | $0 | CHSB | ❌ | Swissborg | [swissborg.com/card](https://swissborg.com/card) | ⚠️ Verify | EU users |
-| **Reap** | 55 🟡 | 0% | $0 | Stablecoins | ✅ | Reap | [reap.global](https://reap.global) | ✅ Active | Business corporate cards |
-| **BitPay Card** | 52 🟡 | 0% | $0 | None | ⚠️ Verify | BitPay | [bitpay.com/card](https://bitpay.com/card) | ✅ Active | Bitcoin spending (US) |
-| **EtherFi Cash** | 50 🟡 | Cashback | TBD | ETH, BTC, Stablecoins | ✅ | EtherFi | [ether.fi/cash](https://ether.fi/cash) | ✅ Active | DeFi users |
+| **Swissborg Card** | 60 🟡 | 1-2% | $0 | CHSB | ❌ | Swissborg | [swissborg.com/card](https://swissborg.com/card) | ⚠️ Verify | EU users |
+| **BitPay Card** | 56 🟡 | 1%* | $0 | None | ⚠️ Verify | BitPay | [bitpay.com/card](https://bitpay.com/card) | ✅ Active | Bitcoin spending (US) |
+| **OKX Card** | 50 🟡 | TBD | $0 | Stablecoins | ⚠️ Verify | OKX Exchange | [okx.com](https://www.okx.com) | 🔄 Launching | Stablecoin payments |
+| **Reap** | 47 🔴 | 0% | $0 | Stablecoins | ✅ | Reap | [reap.global](https://reap.global) | ✅ Active | Business cards |
+| **Crypto.com Visa** | 41 🔴 | 0-8% | $0 | CRO | ✅ | Crypto.com Exchange | [crypto.com/cards](https://crypto.com/cards) | ✅ Active | CRO stakers ⚠️ -20 pts |
 
 **Legend:**
 - **Score:** 0-100 weighted score (🟢 75+ Highly Recommended | 🟡 50-74 Good Option | 🔴 <50 Consider Alternatives)
@@ -70,25 +70,27 @@ These cards require keeping funds on a centralized exchange. Risk of exchange is
 
 | Provider | Card | Score | Cash Back | Status |
 |----------|------|-------|-----------|--------|
-| **Bybit** | Bybit Card | 88 🟢 | Up to 10% | ✅ Active |
-| **Coinbase** | Coinbase Card | 82 🟢 | 1-4% | ✅ Active |
-| **Binance** | Binance Card | 79 🟢 | Up to 8% | ✅ Active |
-| **Gemini** | Gemini Card | 74 🟡 | 1-3% | ✅ Active |
-| **KuCoin** | KuCard | 72 🟡 | Up to 4% | ✅ Active |
-| **OKX** | OKX Card | 68 🟡 | TBD | 🔄 Launching |
-| **CoinJar** | CoinJar Card | 60 🟡 | 1% | ⚠️ Verify |
+| **Gemini** | Gemini Card | 76 🟢 | Up to 4% | ✅ Active |
+| **KuCoin** | KuCard | 76 🟢 | Up to 4% | ✅ Active |
+| **Coinbase** | Coinbase Card | 75 🟢 | 1-4% | ✅ Active |
+| **Bybit** | Bybit Card | 74 🟡 | Up to 10% | ⚠️ Verify |
+| **Binance** | Binance Card | 67 🟡 | Up to 3% | ✅ Active |
+| **CoinJar** | CoinJar Card | 65 🟡 | 1% | ⚠️ Verify |
 | **Kraken** | Kraken Card | 60 🟡 | TBD | 🔄 Limited |
-| **Crypto.com** | Crypto.com Visa | 57 🟡 | 0.5-8% | ✅ Active ⚠️ -20 UX |
+| **OKX** | OKX Card | 50 🟡 | TBD | 🔄 Launching |
+| **Crypto.com** | Crypto.com Visa | 41 🔴 | 0-8% | ✅ Active ⚠️ -20 UX |
 
-### DeFi-Native Cards (Non-Custodial)
+### DeFi-Native Cards (Non-Custodial, +3 pts bonus)
 
 Self-custody or smart-contract based cards. Higher technical barrier but no custody risk.
 
 | Provider | Card | Score | Cash Back | Status |
 |----------|------|-------|-----------|--------|
+| **EtherFi** | EtherFi Cash | 85 🟢 | 2-3% | ✅ Active |
+| **Ready (Argent)** | Ready Card | 83 🟢 | 3% | ✅ Active |
 | **Gnosis DAO** | Gnosis Pay | 78 🟢 | Up to 5% | ✅ Active |
-| **1inch (Baanx)** | 1inch Card | 75 🟢 | Up to 2% | ✅ Active |
-| **EtherFi** | EtherFi Cash | 50 🟡 | TBD | ✅ Active |
+| **CryptoSpend** | CryptoSpend | 71 🟡 | 1% | ✅ Active |
+| **1inch (Baanx)** | 1inch Card | 70 🟡 | Up to 2% | ✅ Active |
 
 ### Fintech/Standalone Cards (Independent)
 
@@ -96,20 +98,18 @@ Independent card providers, not tied to major exchanges.
 
 | Provider | Card | Score | Cash Back | Status |
 |----------|------|-------|-----------|--------|
-| **Ready (Argent)** | Ready Card | 90 🟢 | Up to 10% | ✅ Active |
-| **Mode** | Mode Card | 87 🟢 | Up to 10% | ⚠️ Verify |
-| **hi.com** | Hi Card | 86 🟢 | Up to 10% | ✅ Active |
-| **Plutus** | Plutus Card | 85 🟢 | 3-9% | ✅ Active |
-| **Nexo** | Nexo Card | 82 🟢 | Up to 2% | ✅ Active |
-| **Wirex** | Wirex Card | 78 🟢 | Up to 8% | ✅ Active |
-| **Fold** | Fold Card | 76 🟢 | Up to 5% | ✅ Active |
-| **Revolut** | Revolut Crypto | 72 🟡 | 1-3% | ✅ Active |
-| **Shakepay** | Shakepay Card | 70 🟡 | Up to 1.5% | ✅ Active |
-| **Redotpay** | Redotpay | 70 🟡 | Up to 3% | ✅ Active |
-| **Uphold** | Uphold Card | 67 🟡 | 1-4% | ⚠️ Verify |
-| **CryptoSpend** | CryptoSpend | 62 🟡 | 1% | ✅ Active |
-| **Swissborg** | Swissborg Card | 56 🟡 | 1-2% | ⚠️ Verify |
-| **BitPay** | BitPay Card | 52 🟡 | 0% | ✅ Active |
+| **hi.com** | Hi Card | 79 🟢 | Up to 10% | ⚠️ Verify |
+| **Wirex** | Wirex Card | 78 🟢 | Up to 8% | ⚠️ Verify |
+| **Fold** | Fold Card | 77 🟢 | 3-5% | ✅ Active |
+| **Revolut** | Revolut Crypto | 76 🟢 | 1-3% | ✅ Active |
+| **Plutus** | Plutus Card | 73 🟡 | 3-9% | ✅ Active |
+| **Uphold** | Uphold Card | 73 🟡 | 1-4% | ⚠️ Verify |
+| **Shakepay** | Shakepay Card | 70 🟡 | 1.5% | ✅ Active |
+| **Mode** | Mode Card | 69 🟡 | Up to 10% | ⚠️ Verify |
+| **Redotpay** | Redotpay | 67 🟡 | Up to 3% | ✅ Active |
+| **Nexo** | Nexo Card | 63 🟡 | Up to 2% | ✅ Active |
+| **Swissborg** | Swissborg Card | 60 🟡 | 1-2% | ⚠️ Verify |
+| **BitPay** | BitPay Card | 56 🟡 | 1%* | ✅ Active |
 
 ### Business-Focused Cards
 
@@ -117,7 +117,7 @@ Designed primarily for business/corporate use cases.
 
 | Provider | Card | Score | Cash Back | Status |
 |----------|------|-------|-----------|--------|
-| **Reap** | Reap | 55 🟡 | 0% | ✅ Active |
+| **Reap** | Reap | 47 🔴 | 0% | ✅ Active |
 
 ### Infrastructure Provider: Baanx
 
@@ -133,34 +133,35 @@ Designed primarily for business/corporate use cases.
 ### Confirmed Active Cards
 
 **High Cashback (5%+):**
-1. **Bybit Card** - Up to 10% multi-crypto rewards (EEA/CH)
-2. **Mode Card** - Up to 10% Bitcoin rewards (UK/EU ⚠️ Verify)
-3. **Hi Card** - Up to 10% HI token rewards (Global)
-4. **Plutus Card** - 3-9% PLU rewards (EU, UK)
-5. **Binance Card** - Up to 8% BNB rewards (Global)
-6. **Wirex Card** - Up to 8% WXT rewards (Global)
-7. **Gnosis Pay** - Up to 5% GNO/SAFE rewards (EU/UK)
-8. **Fold Card** - Up to 5% Bitcoin rewards (US)
+1. **Hi Card** - Up to 10% HI token rewards (Global ⚠️ Verify)
+2. **Bybit Card** - Up to 10% multi-crypto rewards (EEA/CH ⚠️ Verify)
+3. **Mode Card** - Up to 10% Bitcoin rewards (UK ⚠️ Verify)
+4. **Wirex Card** - Up to 8% WXT rewards (Global ⚠️ Verify)
+5. **Gnosis Pay** - Up to 5% GNO/SAFE rewards (EU/UK)
+6. **Fold Card** - 3-5% Bitcoin rewards (US)
 
 **Medium Cashback (1-4%):**
-9. **Coinbase Card** - 1-4% crypto rewards (US)
-10. **KuCard** - Up to 4% multi-crypto rewards (Global)
-11. **Gemini Credit Card** - 1-3% crypto rewards (US)
-12. **Revolut Crypto Card** - 1-3% crypto rewards (Global)
+7. **Plutus Card** - 3-9% PLU rewards (EU, UK, base 3%)
+8. **Gemini Card** - Up to 4% crypto rewards (US)
+9. **KuCard** - Up to 4% multi-crypto rewards (Global*)
+10. **Coinbase Card** - 1-4% crypto rewards (US)
+11. **Uphold Card** - 1-4% multi-crypto rewards (US/EU ⚠️ Verify)
+12. **Binance Card** - Up to 3% BNB rewards (Global*)
 13. **Redotpay** - Up to 3% stablecoin rewards (HK-based, Global)
-14. **Nexo Card** - Up to 2% crypto-backed credit (EU, UK)
-15. **1inch Card** - Up to 2% DeFi rewards (Global)
-16. **Swissborg Card** - 1-2% CHSB rewards (EU)
-17. **Shakepay Card** - Up to 1.5% Bitcoin rewards (Canada)
-18. **Uphold Card** - 1-4% multi-crypto rewards (US, UK, EU)
-19. **CoinJar Card** - 1% Bitcoin rewards (Australia)
-20. **CryptoSpend Card** - 1% multi-crypto rewards (Australia)
+14. **Ready Card** - 3% crypto rewards, self-custody (EU/UK)
+15. **Revolut Crypto Card** - 1-3% crypto rewards (Global)
+16. **EtherFi Cash** - 2-3% DeFi-native cashback, non-custodial (Global)
+17. **Nexo Card** - Up to 2% crypto-backed credit (EU, UK)
+18. **1inch Card** - Up to 2% DeFi rewards (EU/UK)
+19. **Swissborg Card** - 1-2% CHSB rewards (EU)
+20. **Shakepay Card** - 1.5% Bitcoin rewards (Canada)
+21. **CoinJar Card** - 1% Bitcoin rewards (Australia)
+22. **CryptoSpend** - 1% multi-crypto rewards (Australia, self-custody)
 
 **Utility/Low Cashback:**
-21. **Crypto.com Visa** - 0.5-8% CRO rewards with staking (Global)
-22. **BitPay Card** - 0% Bitcoin spending prepaid (US)
-23. **Reap** - 0% business stablecoin cards (APAC)
-24. **EtherFi Cash** - TBD DeFi-native cashback (Global)
+23. **BitPay Card** - 1%* merchant cashback (US)
+24. **Crypto.com Visa** - 0-8% CRO rewards (base 0%, requires staking)
+25. **Reap** - 0% business stablecoin cards (APAC)
 
 ### Cards Under Launch/Research
 
@@ -237,33 +238,33 @@ Designed primarily for business/corporate use cases.
 
 | Use Case | Recommended Card | Score | Notes |
 |----------|------------------|-------|-------|
-| **High cashback (business)** | Bybit Card | 88 🟢 | Up to 10% cashback, business accounts available |
-| **Business-only needs** | Reap | 55 🟡 | ✅ Verified, business-focused, stablecoin repayment |
-| **DeFi-native businesses** | EtherFi Cash | 50 🟡 | Corporate cards available, non-custodial |
-| **Fiat + crypto (business)** | Revolut Crypto | 72 🟡 | Established fintech, business accounts |
-| **Multi-region (APAC)** | Redotpay | 70 🟡 | Hong Kong-based, global expansion |
-| **Crypto-backed credit** | Nexo Card | 82 🟢 | Highest score for credit line model |
+| **DeFi-native businesses** | EtherFi Cash | 85 🟢 | Corporate cards available, non-custodial |
+| **Fiat + crypto (business)** | Revolut Crypto | 76 🟢 | Established fintech, business accounts |
+| **High cashback (business)** | Bybit Card | 74 🟡 | Up to 10% (verify), business accounts available |
+| **Multi-region (APAC)** | Redotpay | 67 🟡 | Hong Kong-based, global expansion |
+| **Crypto-backed credit** | Nexo Card | 63 🟡 | Credit line model, EU/UK |
+| **Business-only needs** | Reap | 47 🔴 | ✅ Verified, business-focused, 0% cashback |
 
 ### Verified Business Support
 
-- ✅ **Bybit Card** - Score: 88 🟢 - [bybit.com/cards](https://www.bybit.com/en/cards/) - Business accounts available
-- ✅ **Nexo Card** - Score: 82 🟢 - [nexo.com/card](https://nexo.com/card) - Business accounts available
-- ✅ **Revolut Crypto** - Score: 72 🟡 - [revolut.com](https://www.revolut.com/crypto/crypto-card/) - Business accounts available
-- ✅ **Redotpay** - Score: 70 🟡 - [redotpay.com](https://redotpay.com) - Business accounts available
-- ✅ **Crypto.com Visa** - Score: 57 🟡 - [crypto.com/cards](https://crypto.com/cards) - Business accounts available (⚠️ UX penalty)
-- ✅ **Reap** - Score: 55 🟡 - [reap.global](https://reap.global) - Business-focused platform (business accounts only)
-- ✅ **EtherFi Cash** - Score: 50 🟡 - [ether.fi/cash](https://ether.fi/cash) - Corporate cards available
+- ✅ **EtherFi Cash** - Score: 85 🟢 - [ether.fi/cash](https://ether.fi/cash) - Corporate cards available, non-custodial, 2-3% cashback
+- ✅ **Revolut Crypto** - Score: 76 🟢 - [revolut.com](https://www.revolut.com/crypto/crypto-card/) - Business accounts available
+- ✅ **Bybit Card** - Score: 74 🟡 - [bybit.com/cards](https://www.bybit.com/en/cards/) - Business accounts available
+- ✅ **Redotpay** - Score: 67 🟡 - [redotpay.com](https://redotpay.com) - Business accounts available
+- ✅ **Nexo Card** - Score: 63 🟡 - [nexo.com/card](https://nexo.com/card) - Business accounts available
+- ✅ **Reap** - Score: 47 🔴 - [reap.global](https://reap.global) - Business-focused platform (business accounts only)
+- ✅ **Crypto.com Visa** - Score: 41 🔴 - [crypto.com/cards](https://crypto.com/cards) - Business accounts available (⚠️ UX penalty)
 
 ### Cards Needing Business Support Verification
 
-- ⚠️ **Binance Card** - Score: 79 🟢 - [binance.com/en/cards](https://www.binance.com/en/cards) - Verify business account availability
 - ⚠️ **Wirex Card** - Score: 78 🟢 - [wirexapp.com/card](https://wirexapp.com/card) - Verify business account availability
-- ⚠️ **BitPay Card** - Score: 52 🟡 - [bitpay.com/card](https://bitpay.com/card) - Verify business account availability
-- ⚠️ **Uphold Card** - Score: 67 🟡 - [uphold.com/card](https://uphold.com/card) - Verify business account availability
+- ⚠️ **Uphold Card** - Score: 73 🟡 - [uphold.com/card](https://uphold.com/card) - Verify business account availability
+- ⚠️ **Binance Card** - Score: 67 🟡 - [binance.com/en/cards](https://www.binance.com/en/cards) - Verify business account availability
+- ⚠️ **BitPay Card** - Score: 56 🟡 - [bitpay.com/card](https://bitpay.com/card) - Verify business account availability
 
 ### Personal Only
 
-- ❌ Coinbase Card, Gemini Credit Card, Plutus Card, Swissborg Card, Fold Card, Mode Card, Shakepay Card, CoinJar Card, CryptoSpend Card, Hi Card, KuCard, Gnosis Pay, 1inch Card, Kraken Card
+- ❌ Coinbase Card, Gemini Card, Plutus Card, Swissborg Card, Fold Card, Mode Card, Shakepay Card, CoinJar Card, CryptoSpend, Hi Card, KuCard, Gnosis Pay, 1inch Card, Kraken Card
 
 **Last Updated:** December 2025
 
@@ -293,4 +294,4 @@ To ensure consistent scoring, cards from the same category receive identical han
 
 ---
 
-*Last updated: December 2025 - Expanded to 26 cards. Added provider groupings with consistent scoring handicaps. New cards: Bybit, OKX, KuCard, Kraken, Gnosis Pay, Redotpay, Hi Card, 1inch Card, Revolut. Cards grouped by exchange/provider for consistent evaluation.*
+*Last updated: January 2026 - Comprehensive score recalculation using verified data. Key corrections: Ready Card 3% (not 10%), Binance 3% (not 8%), Crypto.com base 0%. Added custody type scoring (+3 self-custody, -3 exchange). 27 cards total.*

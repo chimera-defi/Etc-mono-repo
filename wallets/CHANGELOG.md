@@ -11,6 +11,47 @@ Track significant changes to wallet statuses, recommendations, and documentation
 
 ---
 
+## Crypto Cards (January 2026)
+
+### Score Recalculation (January 2026)
+
+Comprehensive recalculation of all 27 crypto card scores using verified website data. Major corrections identified through browser automation research.
+
+| Date | Card | Change | Details |
+|------|------|--------|---------|
+| Jan 2026 | **Ready Card** | Score 90→83, Cash back 10%→3% | **MAJOR FIX:** Cash back is 3% (verified), NOT "Up to 10%" as previously listed. Website clearly states "Get 3% cashback" multiple times. |
+| Jan 2026 | **Bybit Card** | Score 88→74, Status ⚠️ | High cashback claims unverified (website unreachable). Staking likely required for max rates. Moved to situational recommendation. |
+| Jan 2026 | **Mode Card** | Score 87→69, Status ⚠️ | Website timeout - data unverifiable. UK only, single token rewards. Significant downgrade. |
+| Jan 2026 | **Hi Card** | Score 86→79, Status ⚠️ | Limited info available, single token (HI) rewards, newer company. |
+| Jan 2026 | **Plutus Card** | Score 85→73 | Base rate is 3% (up to 9% with perks), single token (PLU), EU/UK only |
+| Jan 2026 | **Coinbase Card** | Score 82→75 | Exchange custody penalty (-3), US only availability |
+| Jan 2026 | **Nexo Card** | Score 82→63 | **MAJOR FIX:** Only 2% max cashback, has FX fees on weekdays (not 0%) |
+| Jan 2026 | **Binance Card** | Score 79→67, Cash back 8%→3% | **MAJOR FIX:** Max cashback is 3% (verified via website), NOT "Up to 8%". Exchange custody penalty. |
+| Jan 2026 | **Fold Card** | Score 76→77 | Minor increase: no staking required, established company |
+| Jan 2026 | **1inch Card** | Score 75→70 | Only 2% max cashback limits score |
+| Jan 2026 | **Gemini Card** | Score 74→76 | Credit card bonus, up to 4% verified |
+| Jan 2026 | **KuCard** | Score 72→76 | Multi-crypto rewards bonus |
+| Jan 2026 | **Revolut Crypto** | Score 72→76 | Global availability, established fintech |
+| Jan 2026 | **OKX Card** | Score 68→50 | TBD data incomplete, launching status penalty |
+| Jan 2026 | **Uphold Card** | Score 67→73 | Multi-region availability bonus |
+| Jan 2026 | **CryptoSpend** | Score 62→71, Custody 📋→🔐 | **CORRECTION:** Offers optional self-custody, +3 bonus |
+| Jan 2026 | **CoinJar Card** | Score 60→65 | Established exchange |
+| Jan 2026 | **Crypto.com Visa** | Score 57→41, Rec 🟡→🔴 | **MAJOR FIX:** Base tier has 0% cashback! Requires $400+ CRO stake (12-month lock) for any rewards. Combined with -20 UX penalty = 🔴 Avoid. |
+| Jan 2026 | **Swissborg Card** | Score 56→60 | Reassessed with current data |
+| Jan 2026 | **Reap** | Score 55→47, Rec 🟡→🔴 | 0% cashback, 2% FX fee, business-only |
+| Jan 2026 | **BitPay Card** | Score 52→56 | Has merchant-specific cashback program |
+
+### Previous Updates (Early January 2026)
+
+| Date | Card | Change | Details |
+|------|------|--------|---------|
+| Jan 2026 | **Custody Column** | NEW | Added Custody column to all 27 crypto cards: 🔐 Self (non-custodial), 🏦 Exch (exchange custody), 📋 CeFi (centralized custody). Identified 5 non-custodial cards: Ready Card, EtherFi Cash, Gnosis Pay, 1inch Card, CryptoSpend |
+| Jan 2026 | **EtherFi Cash** | Score 50→85, Rec 🟡→🟢 | Fully verified via browser automation: 2-3% cashback, $0 annual fee, 1% FX fee, non-custodial, corporate cards available. Previously had TBD values. Complete tier structure documented. |
+| Jan 2026 | **Non-Custodial Bonus** | NEW | Added +3 pts scoring bonus for non-custodial cards (self-custody = lower risk) |
+| Jan 2026 | **Quick Summary** | Updated | Added non-custodial card recommendations and 🔐 badge for self-custody cards |
+
+---
+
 ## Software Wallets (EVM)
 
 | Date | Wallet | Change | Details |
@@ -110,7 +151,7 @@ Track significant changes to wallet statuses, recommendations, and documentation
 | Dec 2025 | **Table ordering** | Fix | Reordered cards by score descending (CryptoSpend 62 > CoinJar 60 > Crypto.com 59) |
 | Dec 2025 | **Business column** | Consistency fix | Standardized ⚠️ Verify markers for Binance, Wirex, BitPay, Uphold |
 | Dec 2025 | **Reap** | ✅ Verified | Corporate Visa card, stablecoin repayment, 2% FX/ATM fees via browser automation |
-| Dec 2025 | **EtherFi Cash** | ✅ Verified | DeFi-native credit card, corporate cards available; rates TBD |
+| Dec 2025 | **EtherFi Cash** | ✅ Verified | DeFi-native credit card, corporate cards available; rates TBD → **Updated Jan 2026: 2-3% CB, $0 fee, 1% FX, score 50→85** |
 | Dec 2025 | **Nexo Card** | ✅ Verified | Up to 2% cashback, no fees, dual-mode (Debit + Credit) |
 | Dec 2025 | **Plutus Card** | ✅ Verified | 3% base, up to 9% via tiers, no fees |
 | Dec 2025 | **Shakepay Card** | ✅ Verified | Up to 1.5% cashback, Canada only |

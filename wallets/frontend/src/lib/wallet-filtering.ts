@@ -1,4 +1,4 @@
-import type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData } from '@/types/wallets';
+import type { CryptoCard, CustodyType, HardwareWallet, Ramp, SoftwareWallet, WalletData } from '@/types/wallets';
 
 /**
  * Client-safe filtering/sorting utilities for wallet data.
@@ -28,7 +28,10 @@ export interface FilterOptions {
   cardType?: ('credit' | 'debit' | 'prepaid' | 'business')[];
   region?: string[];
   businessSupport?: boolean;
+  noAnnualFee?: boolean;
   cashBackMin?: number;
+  custody?: CustodyType[];
+  cardStatus?: ('active' | 'verify' | 'launching')[];
 
   // Common
   minScore?: number;
@@ -213,6 +216,11 @@ export function filterCryptoCards(
       return false;
     }
 
+    // Custody filter
+    if (filters.custody?.length && !filters.custody.includes(card.custody)) {
+      return false;
+    }
+
     // Region filter
     if (filters.region?.length && !filters.region.includes(card.regionCode)) {
       return false;
@@ -223,9 +231,23 @@ export function filterCryptoCards(
       if (filters.businessSupport && card.businessSupport !== 'yes') return false;
     }
 
+    // No annual fee filter
+    if (filters.noAnnualFee !== undefined && filters.noAnnualFee) {
+      // Check if annual fee is $0, €0, £0, or "0" or "Free"
+      const feeValue = card.annualFee.toLowerCase();
+      const isFree = feeValue.includes('$0') || feeValue.includes('€0') || feeValue.includes('£0') || 
+                     feeValue === '0' || feeValue === 'free' || feeValue === '$0' || feeValue === '0%';
+      if (!isFree) return false;
+    }
+
     // Cashback min filter
     if (filters.cashBackMin !== undefined && card.cashBackMax !== null) {
       if (card.cashBackMax < filters.cashBackMin) return false;
+    }
+
+    // Status filter
+    if (filters.cardStatus?.length && !filters.cardStatus.includes(card.status)) {
+      return false;
     }
 
     return true;
