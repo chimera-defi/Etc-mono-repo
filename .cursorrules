@@ -257,6 +257,13 @@ Brief description of changes.
   133. **Keyword detection for new types** - add content-based keyword detection in `generateKeywords()` for new comparison types (e.g., ramp detection adds: crypto ramp, on-ramp, off-ramp, fiat on-ramp, fiat off-ramp, crypto payment gateway). This improves SEO discoverability.
   134. **Model attribution, not platform attribution** - attribute work to the specific AI model (e.g., "Claude Opus 4.5", "GPT-4o", "Claude Sonnet 3.5") rather than the platform or interface (e.g., "Claude Code", "Cursor AI", "ChatGPT"). The model determines capabilities and quality; the platform is just the interface. This enables meaningful performance analysis across different models.
 
+- Crypto card comparison and filtering learnings:
+  135. **Every column should be filterable** - when adding new columns to comparison tables (e.g., Custody), ensure the frontend FilterOptions, FilterState, and filter UI components are all updated to support filtering by that column. The chain: types/wallets.ts → wallet-filtering.ts (FilterOptions + filter function) → WalletFilters.tsx (FilterState + UI) → ExploreContent.tsx (toFilterOptions mapper).
+  136. **Verify custody from official sources** - custody classifications (self-custody, exchange, CeFi) should be verified from official website text. Look for: "self-custody", "non-custodial", "your keys", "your control" for self-custody; "exchange" references for exchange custody; prepaid cards issued by banks typically indicate CeFi. Document verification in VERIFICATION_NOTES.md.
+  137. **Score changes cascade to multiple files** - when recalculating scores, update: (1) main table (CRYPTO_CARDS.md), (2) comparison file (CRYPTO_CREDIT_CARD_COMPARISON.md), (3) details file score summary, (4) homepage recommendations, (5) structured data/schema.org in page.tsx, (6) FAQ answers. Create a checklist before starting.
+  138. **TBD data requires research attempts** - for cards marked TBD, attempt browser automation research before marking as unverifiable. Document research attempts and results. If website is unreachable after multiple attempts, mark with ⚠️ status and note in verification docs.
+  139. **Provider links in markdown tables** - use `[ProviderName](url)` format in Provider column for easy user access. Parser extracts both name and URL (providerUrl field). Verify all links resolve correctly.
+
 ## Best Practices
 - Use semantic versioning for packages
 - Include proper .gitignore files for each project type

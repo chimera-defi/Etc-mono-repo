@@ -742,22 +742,106 @@ The CryptoSpend Card is a multi-crypto rewards debit card available in Australia
 
 ---
 
-## Cards Under Research
+### EtherFi Cash
 
-### EtherFi (Ether F.I.)
+**Website:** [ether.fi/cash](https://ether.fi/cash)
 
-**Status:** 🔄 Researching
+**Status:** ✅ Active (✅ Verified January 2026 via browser automation)
 
-**Notes:**
-- Need to verify if EtherFi offers a credit/debit card product
-- EtherFi is primarily known as a liquid staking platform for Ethereum
-- May be related to EtherFi's ecosystem or a planned product
-- *Research ongoing*
+**Overview:**
+EtherFi Cash is a DeFi-native, non-custodial crypto credit card. It allows users to borrow against and spend their ether.fi balance in the real world without selling their crypto. Available for individuals, families, and businesses.
 
-**Action Items:**
-- Verify official EtherFi website for card products
-- Check for announcements or waitlist
-- Confirm card details if available
+**Business Support:** ✅ Yes (Corporate cards available for crypto-native businesses)
+
+**Key Features:**
+- **Non-custodial:** Your crypto remains in your control ✅ Verified
+- **Crypto-backed credit:** Borrow against your ether.fi balance
+- **No monthly minimums:** Repay anytime
+- **No spending limits:** All tiers have no spending limits
+- **Apple Pay & Google Pay:** Contactless payments supported ✅ Verified
+- **Global acceptance:** Over 100 million locations worldwide
+- **Family cards:** Coming soon (family member cards with controls)
+- **Virtual & Physical cards:** Multiple cards per account
+
+**Rewards Structure:**
+| Tier | Requirements | Cash Back | Physical Cards | Virtual Cards |
+|------|-------------|-----------|----------------|---------------|
+| **Core** | Free (all members) | 2% | 1 | 3 |
+| **Luxe** | 10K Membership Points | 3% | 1 | 5 |
+| **Pinnacle** | 50K Membership Points | 3% | 2 | Unlimited |
+| **VIP** | Invite only | Higher | More | Unlimited |
+
+**Current Promotion:** 3% cashback on ALL purchases until December 31
+
+**Fees:**
+- Annual Fee: $0 ✅ Verified (Free Club membership)
+- Foreign Transaction Fee: 1% (0% for VIP tier) ✅ Verified
+- ATM Fee: 2% ✅ Verified
+- Monthly minimums: None ✅ Verified
+
+**Cardholder Benefits:**
+- Airport Companion lounge access (all tiers)
+- Concierge service (all tiers)
+- Priority 24/7 support (Luxe+)
+- Crypto conference lounge access (Luxe+)
+- Exclusive hotel discounts up to 65% (all tiers)
+- Event passes - crypto, sports, and more (Pinnacle+)
+- Crypto concierge (Pinnacle+)
+- EtherFi Ventures Access (VIP only)
+
+**Purchase Protection & Insurance:**
+- Price protection: Up to $2K
+- Purchase protection: Up to $10K
+- Extended warranty: Up to $10K
+- Auto rental insurance: ✅
+- Baggage delay coverage: Up to $500
+- Baggage loss coverage: Up to $1K
+
+**Referral Program:**
+- 1% Cashback on referral purchases
+- 10% points on referral deposits
+
+**Supported Assets:**
+- ETH (Ethereum)
+- BTC (Bitcoin)
+- Stablecoins (value-accruing stables)
+- Other ether.fi ecosystem assets
+
+**Requirements:**
+- EtherFi account (join The Club for free)
+- KYC verification
+- No credit check required (crypto-backed)
+
+**Best For:**
+- DeFi users who want non-custodial card solutions
+- Users who want to spend without selling crypto
+- Businesses needing corporate crypto cards
+- Users seeking full control over their funds
+
+**Limitations:**
+- Requires ether.fi ecosystem participation
+- 1% FX fee (not 0% like some competitors)
+- Some features marked as "coming soon" (family cards, event passes)
+
+**Custody Model:** 🔐 Self-custody / Non-custodial
+- Your crypto stays in your control
+- Card is issued separately from ether.fi protocol
+
+**Score Breakdown (85 points):**
+
+| Category | Points | Calculation |
+|----------|--------|-------------|
+| **Cash Back Rate** | 18/30 | 2-3% = 18 pts (3-4% range per methodology) |
+| **Fees** | 15/20 | $0 annual + 1% FX = 15 pts |
+| **Crypto Rewards** | 15/15 | Multi-crypto (ETH, BTC, Stables) = 15 pts |
+| **Availability** | 10/10 | Global (100M+ locations) = 10 pts |
+| **Staking Requirements** | 10/10 | None required = 10 pts |
+| **Card Type** | 10/10 | Credit card = 10 pts |
+| **Trust & Security** | 5/5 | Established DeFi protocol + non-custodial = 5 pts |
+| **Human Suggestions** | +3 | Non-custodial bonus |
+| **TOTAL** | **86** | Rounded to **85** |
+
+**Note:** Ether.Fi Cash card is not affiliated with the ether.fi protocol and issued subject to separate terms provided by Issuer.
 
 ---
 
@@ -1117,26 +1201,32 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 
 | Score Range | Count | Cards |
 |-------------|-------|-------|
-| 75+ 🟢 Highly Recommended | 8 | Mode (90 ⚠️), Plutus (88), Coinbase (85), Nexo (84), Binance (82), Wirex (80), Fold (78), Gemini (75) |
-| 50-74 🟡 Good Option | 9 | Shakepay (72), Uphold (70), CryptoSpend (62), CoinJar (60), Crypto.com (59), Swissborg (58), Reap (55), BitPay (52), EtherFi (50) |
-| <50 🔴 Consider Alternatives | 0 | None |
+| 75+ 🟢 Highly Recommended | 10 | EtherFi Cash (85), Ready (83), Hi (79 ⚠️), Gnosis Pay (78), Wirex (78 ⚠️), Fold (77), Gemini (76), KuCard (76), Revolut (76), Coinbase (75) |
+| 50-74 🟡 Good Option | 15 | Bybit (74 ⚠️), Plutus (73), Uphold (73 ⚠️), CryptoSpend (71), Shakepay (70), 1inch (70), Mode (69 ⚠️), Binance (67), Redotpay (67), CoinJar (65 ⚠️), Nexo (63), Kraken (60), Swissborg (60 ⚠️), BitPay (56), OKX (50) |
+| <50 🔴 Consider Alternatives | 2 | Reap (47), Crypto.com (41) |
 
-**Note:** Mode Card marked ⚠️ - UK-based company, "up to 10%" rate and availability need verification.
+**Key Corrections (January 2026):**
+- Ready Card: **3% cashback** (was incorrectly listed as "Up to 10%")
+- Binance Card: **Up to 3% max** (was incorrectly listed as "Up to 8%")
+- Crypto.com Visa: **0% base tier** (requires $400+ CRO stake for any rewards, 12-month lock)
+- Nexo Card: Has **FX fees on weekdays** (was listed as 0% FX)
+
+**⚠️ Note:** Cards marked with ⚠️ have unverified data (website unreachable or incomplete info).
 
 ### Human Suggestions Scoring
 
 Score adjustments based on real-world user experiences and company reputation:
 
 **Penalties:**
-- **Crypto.com Visa: -20 points** - Poor UX, customer service issues, staking lock-ups
-- **Cards with 404 errors: -5 points** - Swissborg, Uphold, CoinJar (unclear if still active)
-- **Incomplete information: -10 points** - EtherFi Cash (rates TBD)
+- **Crypto.com Visa: -20 points** - Poor UX, customer service issues, 12-month staking lock-ups, 0% base tier
+- **TBD/Unverified data: -3 to -5 points** - OKX Card, Mode Card, Bybit Card (incomplete data)
+- **Exchange custody risk: -3 points** - Coinbase, Binance, Gemini, KuCoin, OKX, CoinJar, Kraken, Crypto.com, Bybit
 
 **Bonuses:**
-- **Verified cards: +2 points** - Plutus, Nexo, Shakepay, Reap
-- **No staking required: +2 points** - Cards without staking requirements
-- **Credit card type: +3 points** - Gemini, Nexo, EtherFi, Reap
+- **Non-custodial: +3 points** - Ready Card, EtherFi Cash, Gnosis Pay, 1inch Card, CryptoSpend (self-custody = lower risk)
+- **Verified cards: +2 points** - Plutus, Shakepay, EtherFi Cash
+- **Credit card type bonus** - EtherFi Cash, Gemini, Nexo (credit cards score higher)
 
 ---
 
-*Last updated: December 2025 - Core research complete. Scores verified.*
+*Last updated: January 2026 - Comprehensive score recalculation with verified data. Key corrections: Ready Card 3% (not 10%), Binance 3% (not 8%), Crypto.com base 0%. Added custody scoring adjustments.*

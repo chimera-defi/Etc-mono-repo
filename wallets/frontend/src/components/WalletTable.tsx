@@ -539,15 +539,18 @@ function CryptoCardItem({
         <td className="py-3 px-4 text-sm">{card.rewards}</td>
         <td className="py-3 px-4 text-sm">{card.annualFee}</td>
         <td className="py-3 px-4">
-          {card.providerUrl && (
+          {card.providerUrl ? (
             <a
               href={card.providerUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground"
+              className="text-primary hover:underline flex items-center gap-1 text-sm"
             >
-              <ExternalLink className="h-4 w-4" />
+              {card.provider}
+              <ExternalLink className="h-3 w-3" />
             </a>
+          ) : (
+            <span className="text-sm text-muted-foreground">{card.provider}</span>
           )}
         </td>
       </tr>
