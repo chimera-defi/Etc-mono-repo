@@ -72,7 +72,30 @@ High-level ideas and concepts for future exploration and implementation.
 
 ---
 
+## Bug Tracking & Visual Review Tools
+
+**Research**: Comprehensive analysis of bug tracking, visual feedback, and AI debugging tools.
+
+See [bug-tracking-review-tools/](./bug-tracking-review-tools/) for:
+- Feature comparison matrix of 12+ tools (BugHerd, Marker.io, Jam.dev, React Scan, etc.)
+- Gap analysis identifying 7 critical missing features
+- **VoiceBug** concept: AI-powered voice-first bug platform
+- Integration synergies with [Voice Coding Assistant](./voice-coding-assistant/)
+
+**Key Insight**: No existing tool combines voice-first reporting + AI bug resolution + mobile-native capture. This is a blue ocean opportunity.
+
+**Highlighted Tools**:
+- **Jam.dev**: Best-in-class AI bug reporting (auto-titles, repro steps)
+- **React Scan**: Visual React performance debugging by Aiden Bai
+- **Better Stack**: Only tool with MCP server for AI agent integration
+- **CodeRabbit**: 46% runtime bug detection in PR reviews
+
+---
+
 ## Tooling to Explore
 
 - **Coolify**: Self-hosted PaaS for VPS management
 - Self-hosted reseller platforms (alternatives to WHMCS)
+- **Jam.dev**: AI-powered bug reporting with JamGPT
+- **React Scan**: React performance debugging (CLI: `npx react-scan@latest`)
+- **Better Stack**: AI debugging with MCP server for Claude Code
