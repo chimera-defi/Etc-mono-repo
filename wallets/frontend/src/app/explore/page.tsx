@@ -11,7 +11,7 @@ import { ExploreContent } from './ExploreContent';
 import { SocialShare } from '@/components/SocialShare';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
-const ogImageVersion = 'v3';
+const ogImageVersion = 'v4';
 const pageTitle = 'Explore & Compare Wallets | Wallet Radar';
 const pageDescription = 'Filter, sort, and compare crypto wallets side-by-side. Advanced filtering for software wallets, hardware wallets, and crypto cards with real-time chain TVL data.';
 const pageUrl = `${baseUrl}/explore/`;

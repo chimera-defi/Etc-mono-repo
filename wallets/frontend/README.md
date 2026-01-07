@@ -82,7 +82,8 @@ If you change any of these table column orders, you must update the parser + run
 - `HARDWARE_WALLETS.md` (hardware wallets)
   - Columns: Wallet, Score, GitHub, Air-Gap, Open Source, Secure Elem, Display, Price, Conn, Activity, Rec
 - `CRYPTO_CARDS.md` (cards)
-  - Columns: Card, Score, Type, Biz, Region, Cash Back, Annual Fee, FX Fee, Rewards, Provider, Status, Best For
+  - Columns: Card, Score, Type, Custody, Biz, Region, Cash Back, Annual Fee, FX Fee, Rewards, Status, Best For
+  - Note: Card column contains clickable link to provider website (e.g., `[**Card Name**](url)`)
 
 `npm test` runs a lightweight smoke test in `scripts/smoke-test-wallet-data.js` to catch table header/structure drift.
 

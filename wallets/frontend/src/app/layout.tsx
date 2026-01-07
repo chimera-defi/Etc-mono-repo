@@ -12,7 +12,7 @@ const siteName = 'Wallet Radar';
 const defaultTitle = 'Wallet Radar - Developer-Focused Crypto Wallet Research';
 const defaultDescription = 'Developer-focused crypto wallet comparisons. Find stable MetaMask alternatives with scoring, audit links, GitHub activity, and UX notes for software and hardware wallets.';
 // Cache-busting version for OG images - increment when images are updated
-const ogImageVersion = 'v3';
+const ogImageVersion = 'v4';
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
