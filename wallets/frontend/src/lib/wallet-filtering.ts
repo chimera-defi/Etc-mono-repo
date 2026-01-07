@@ -30,6 +30,7 @@ export interface FilterOptions {
   businessSupport?: boolean;
   cashBackMin?: number;
   custody?: CustodyType[];
+  cardStatus?: ('active' | 'verify' | 'launching')[];
 
   // Common
   minScore?: number;
@@ -232,6 +233,11 @@ export function filterCryptoCards(
     // Cashback min filter
     if (filters.cashBackMin !== undefined && card.cashBackMax !== null) {
       if (card.cashBackMax < filters.cashBackMin) return false;
+    }
+
+    // Status filter
+    if (filters.cardStatus?.length && !filters.cardStatus.includes(card.status)) {
+      return false;
     }
 
     return true;

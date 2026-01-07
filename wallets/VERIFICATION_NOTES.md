@@ -1,6 +1,6 @@
 # Verification Notes - Crypto Credit Card Information
 
-**Last Updated:** December 2025
+**Last Updated:** January 2026
 
 ## Important Note
 
@@ -44,6 +44,35 @@ The following cards' websites exist but initial scraping didn't find specific ra
 - CryptoSpend Card
 
 **Note:** High cashback rates (8-10%) typically require significant token staking/holding. Verify actual base rates vs. maximum rates with staking requirements.
+
+---
+
+## Custody Verification (January 2026)
+
+Custody classifications were verified via browser automation (Playwright) by searching for self-custody keywords on official websites.
+
+### ✅ Self-Custody Cards Verified
+
+| Card | Evidence | Source |
+|------|----------|--------|
+| **Ready Card** | "100% self-custody", "stay in control with self-custody", "Pioneering self-custody since 2017" | ready.co/card |
+| **EtherFi Cash** | "non-custodial, cashback credit card", "Non-custodial & secure", "Your crypto remains in your control" | ether.fi/cash |
+| **Gnosis Pay** | "SELF-CUSTODIAL", "Self-Custody: Users maintain full control", "Take control of your money through your SAFE account" | gnosispay.com |
+| **CryptoSpend** | "Optional self-custody for advanced users", "Transparent custody infrastructure" | cryptospend.com.au |
+
+### 🏦 Exchange Custody Cards
+
+Exchange-based cards where funds are held on the exchange platform:
+- Coinbase Card, Gemini Card, Binance Card, KuCoin Card, OKX Card, CoinJar Card, Kraken Card, Crypto.com Visa, Bybit Card
+
+### 📋 CeFi Custody Cards
+
+Cards issued by centralized finance companies where the company holds funds:
+- Hi Card, Wirex Card, Fold Card, Plutus Card, Revolut Crypto, Shakepay Card, Mode Card, Redotpay, Nexo Card, Swissborg Card, BitPay Card, Reap, Uphold Card
+
+### ⚠️ Notes on 1inch Card
+
+The 1inch Card is classified as self-custody based on marketing ("tied to your crypto wallet"), but it's a "prepaid Mastercard powered by Crypto Life (CL), developed in partnership with Baanx". For prepaid cards, funds typically leave user control when loaded. Classification kept as self-custody per marketing, but users should verify actual custody model.
 
 ---
 
