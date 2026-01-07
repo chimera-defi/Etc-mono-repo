@@ -82,11 +82,21 @@ export interface HardwareWallet {
   type: 'hardware';
 }
 
+/**
+ * Custody type for crypto cards
+ * - self: Non-custodial, you control your keys
+ * - exchange: Funds held on centralized exchange
+ * - cefi: Funds held by centralized finance company
+ */
+export type CustodyType = 'self' | 'exchange' | 'cefi';
+
 export interface CryptoCard {
   id: string;
   name: string;
   score: number;
   cardType: 'credit' | 'debit' | 'prepaid' | 'business';
+  /** Custody model: self (non-custodial), exchange, or cefi */
+  custody: CustodyType;
   businessSupport: 'yes' | 'no' | 'verify';
   region: string;
   regionCode: string;

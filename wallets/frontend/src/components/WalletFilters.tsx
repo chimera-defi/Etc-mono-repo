@@ -34,8 +34,11 @@ export interface FilterState {
   connectivity: string[];
   // Cards
   cardType: string[];
+  custody: string[];
+  cardStatus: string[];
   region: string[];
   businessSupport: boolean | null;
+  noAnnualFee: boolean | null;
   cashBackMin: number;
 }
 
@@ -127,6 +130,18 @@ const REGION_OPTIONS = [
   { value: 'Global', label: 'Global' },
 ];
 
+const CUSTODY_OPTIONS = [
+  { value: 'self', label: '🔐 Self-Custody', color: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' },
+  { value: 'exchange', label: '🏦 Exchange', color: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' },
+  { value: 'cefi', label: '📋 CeFi', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' },
+];
+
+const CARD_STATUS_OPTIONS = [
+  { value: 'active', label: '✅ Active', color: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' },
+  { value: 'verify', label: '⚠️ Verify', color: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' },
+  { value: 'launching', label: '🔄 Launching', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' },
+];
+
 const SORT_OPTIONS = {
   software: [
     { value: 'score', label: 'Score' },
@@ -169,8 +184,11 @@ export const initialFilterState: FilterState = {
   priceMax: 500,
   connectivity: [],
   cardType: [],
+  custody: [],
+  cardStatus: [],
   region: [],
   businessSupport: null,
+  noAnnualFee: null,
   cashBackMin: 0,
 };
 
@@ -377,8 +395,11 @@ export function WalletFilters({
     if (filters.openSource.length) count++;
     if (filters.connectivity.length) count++;
     if (filters.cardType.length) count++;
+    if (filters.custody.length) count++;
+    if (filters.cardStatus.length) count++;
     if (filters.region.length) count++;
     if (filters.businessSupport !== null) count++;
+    if (filters.noAnnualFee !== null) count++;
     if (filters.cashBackMin > 0) count++;
     return count;
   }, [filters]);
@@ -594,6 +615,18 @@ export function WalletFilters({
                 onChange={values => updateFilter('cardType', values)}
               />
               <MultiSelect
+                label="Custody"
+                options={CUSTODY_OPTIONS}
+                selected={filters.custody}
+                onChange={values => updateFilter('custody', values)}
+              />
+              <MultiSelect
+                label="Status"
+                options={CARD_STATUS_OPTIONS}
+                selected={filters.cardStatus}
+                onChange={values => updateFilter('cardStatus', values)}
+              />
+              <MultiSelect
                 label="Region"
                 options={REGION_OPTIONS}
                 selected={filters.region}
@@ -603,6 +636,11 @@ export function WalletFilters({
                 label="Business Support"
                 value={filters.businessSupport}
                 onChange={value => updateFilter('businessSupport', value)}
+              />
+              <ToggleButton
+                label="No Annual Fee"
+                value={filters.noAnnualFee}
+                onChange={value => updateFilter('noAnnualFee', value)}
               />
               <div className="space-y-2">
                 <label className="text-sm text-muted-foreground">

@@ -146,7 +146,7 @@ export default function HomePage() {
         name: 'What is the best crypto credit card for personal use?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Bybit Card scores 88 and offers up to 10% cashback with multi-crypto rewards, no annual fee, and is available in EEA/CH regions. For US users, Coinbase Card (82) and Fold Card (76) are top options.',
+          text: 'EtherFi Cash scores 85 and offers 2-3% cashback with non-custodial self-custody, no annual fee, and is available globally. For US users, Gemini Card (76), Coinbase Card (75), and Fold Card (77) are top options.',
         },
       },
       {
@@ -154,7 +154,7 @@ export default function HomePage() {
         name: 'What is the best crypto credit card for business use?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Reap is our top business card recommendation. It offers corporate Visa cards with stablecoin repayment options, advanced spend controls, and is available in 200+ countries globally.',
+          text: 'EtherFi Cash is our top business card recommendation with a score of 85. It offers non-custodial corporate cards with 2-3% cashback and is available globally. Revolut Crypto (76) is also excellent for fiat+crypto business needs.',
         },
       },
     ],
@@ -217,15 +217,15 @@ export default function HomePage() {
         position: 4,
         item: {
           '@type': 'Product',
-          name: 'Bybit Card',
+          name: 'EtherFi Cash',
           category: 'Crypto Credit Card',
           brand: {
             '@type': 'Brand',
-            name: 'Bybit',
+            name: 'EtherFi',
           },
           url: `${baseUrl}/docs/crypto-cards/`,
           description:
-            'Score: 88 — Up to 10% cashback, multi-crypto rewards, no annual fee. Best Personal crypto card for EEA/CH users.',
+            'Score: 85 — 2-3% cashback, non-custodial self-custody, no annual fee. Best Personal crypto card with DeFi-native features.',
         },
       },
       {
@@ -233,15 +233,15 @@ export default function HomePage() {
         position: 5,
         item: {
           '@type': 'Product',
-          name: 'Reap',
+          name: 'EtherFi Cash',
           category: 'Crypto Credit Card',
           brand: {
             '@type': 'Brand',
-            name: 'Reap',
+            name: 'EtherFi',
           },
           url: `${baseUrl}/docs/crypto-cards/`,
           description:
-            'Score: 55 — Corporate Visa cards with stablecoin repayment, available in 200+ countries. Best Business crypto card for corporate use.',
+            'Score: 85 — Corporate cards available, non-custodial, 2-3% cashback. Best Business crypto card for DeFi-native companies.',
         },
       },
       {
@@ -441,12 +441,12 @@ export default function HomePage() {
               <CreditCard className="h-5 w-5 text-orange-600" />
               <span className="text-sm font-medium text-orange-600">Best Personal Card</span>
             </div>
-            <h3 className="font-bold text-xl mb-2">Bybit Card</h3>
+            <h3 className="font-bold text-xl mb-2">EtherFi Cash</h3>
             <p className="text-sm text-muted-foreground mb-4">
-              Score: 88 — Up to 10% cashback, multi-crypto rewards, no annual fee
+              Score: 85 — 2-3% cashback, non-custodial self-custody, no annual fee
             </p>
             <div className="text-xs text-muted-foreground">
-              ✅ High Cashback • ✅ EEA/CH • ✅ Business Available
+              ✅ Self-Custody • ✅ Global • ✅ DeFi-Native
             </div>
           </div>
 
@@ -456,12 +456,12 @@ export default function HomePage() {
               <CreditCard className="h-5 w-5 text-amber-600" />
               <span className="text-sm font-medium text-amber-600">Best Business Card</span>
             </div>
-            <h3 className="font-bold text-xl mb-2">Reap</h3>
+            <h3 className="font-bold text-xl mb-2">EtherFi Cash</h3>
             <p className="text-sm text-muted-foreground mb-4">
-              Score: 55 — Corporate Visa cards with stablecoin repayment, 200+ countries
+              Score: 85 — Corporate cards, non-custodial, 2-3% cashback globally
             </p>
             <div className="text-xs text-muted-foreground">
-              ✅ Business-Focused • ✅ Stablecoins • ✅ Global
+              ✅ Business-Focused • ✅ Self-Custody • ✅ Global
             </div>
           </div>
 

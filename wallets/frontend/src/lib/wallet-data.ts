@@ -209,6 +209,16 @@ function parseCardType(cell: string): 'credit' | 'debit' | 'prepaid' | 'business
   return 'debit';
 }
 
+// Parse custody type
+// 🔐 Self = self-custody/non-custodial
+// 🏦 Exch = exchange custody
+// 📋 CeFi = centralized finance custody
+function parseCustodyType(cell: string): import('@/types/wallets').CustodyType {
+  if (cell.includes('🔐') || cell.toLowerCase().includes('self')) return 'self';
+  if (cell.includes('🏦') || cell.toLowerCase().includes('exch')) return 'exchange';
+  return 'cefi';
+}
+
 // Parse business support
 function parseBusinessSupport(cell: string): 'yes' | 'no' | 'verify' {
   if (cell.includes('✅')) return 'yes';
@@ -406,6 +416,9 @@ export function parseCryptoCards(): CryptoCard[] {
   // Skip header row
   const dataRows = rows.slice(1);
 
+  // Table columns (CRYPTO_CARDS.md) after adding Custody column (Jan 2026):
+  // Card(0) Score(1) Type(2) Custody(3) Biz(4) Region(5) CashBack(6) 
+  // AnnualFee(7) FxFee(8) Rewards(9) Provider(10) Status(11) BestFor(12)
   return dataRows.map(cells => {
     // Extract card name from bold text
     const nameMatch = cells[0]?.match(/\*\*([^*]+)\*\*/);
@@ -415,28 +428,29 @@ export function parseCryptoCards(): CryptoCard[] {
     const scoreMatch = cells[1]?.match(/(\d+)/);
     const score = scoreMatch ? parseInt(scoreMatch[1], 10) : 0;
 
-    const region = parseRegion(cells[4] || '');
+    const region = parseRegion(cells[5] || '');
 
     // Extract provider URL
-    const providerMatch = cells[9]?.match(/\[([^\]]+)\]\(([^)]+)\)/);
+    const providerMatch = cells[10]?.match(/\[([^\]]+)\]\(([^)]+)\)/);
 
     return {
       id: generateSlug(name),
       name,
       score,
       cardType: parseCardType(cells[2] || ''),
-      businessSupport: parseBusinessSupport(cells[3] || ''),
+      custody: parseCustodyType(cells[3] || ''),
+      businessSupport: parseBusinessSupport(cells[4] || ''),
       region: region.region,
       regionCode: region.code,
-      cashBack: cells[5]?.trim() || '0%',
-      cashBackMax: parseCashBackMax(cells[5] || ''),
-      annualFee: cells[6]?.trim() || '$0',
-      fxFee: cells[7]?.trim() || '0%',
-      rewards: cells[8]?.trim() || 'None',
-      provider: providerMatch ? providerMatch[1] : cells[9]?.replace(/[[\]()]/g, '') || 'Unknown',
+      cashBack: cells[6]?.trim() || '0%',
+      cashBackMax: parseCashBackMax(cells[6] || ''),
+      annualFee: cells[7]?.trim() || '$0',
+      fxFee: cells[8]?.trim() || '0%',
+      rewards: cells[9]?.trim() || 'None',
+      provider: providerMatch ? providerMatch[1] : cells[10]?.replace(/[[\]()]/g, '') || 'Unknown',
       providerUrl: providerMatch ? providerMatch[2] : null,
-      status: parseCardStatus(cells[10] || ''),
-      bestFor: cells[11]?.trim() || '',
+      status: parseCardStatus(cells[11] || ''),
+      bestFor: cells[12]?.trim() || '',
       recommendation: parseHardwareRecommendation(cells[1] || ''), // Uses score emoji
       type: 'card' as const,
     };
