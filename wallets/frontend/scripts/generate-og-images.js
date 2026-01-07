@@ -52,12 +52,12 @@ const WALLET_DATA = {
   ],
   cards: [
     // Data from CRYPTO_CARDS.md - Top 5 by score
-    // Last verified: December 2025
-    { name: 'Ready Card', cashback: '10%', type: 'Debit', region: 'EU/UK', status: '🟢' },
-    { name: 'Bybit Card', cashback: '10%', type: 'Debit', region: 'EEA', status: '🟢' },
-    { name: 'Plutus Card', cashback: '3-9%', type: 'Debit', region: 'EU/UK', status: '🟢' },
-    { name: 'Coinbase Card', cashback: '1-4%', type: 'Debit', region: 'US', status: '🟢' },
-    { name: 'Nexo Card', cashback: '2%', type: 'Credit', region: 'EU/UK', status: '🟢' },
+    // Last verified: January 2026
+    { name: 'EtherFi Cash', cashback: '2-3%', type: 'Credit', region: 'Global', status: '🟢' },
+    { name: 'Ready Card', cashback: '3%', type: 'Debit', region: 'EU/UK', status: '🟢' },
+    { name: 'Hi Card', cashback: '10%', type: 'Debit', region: 'Global', status: '🟢' },
+    { name: 'Gnosis Pay', cashback: '5%', type: 'Debit', region: 'EU/UK', status: '🟢' },
+    { name: 'Wirex Card', cashback: '8%', type: 'Debit', region: 'Global', status: '🟢' },
   ],
   ramps: [
     // Data from RAMPS.md - Top 5 by score
@@ -616,9 +616,9 @@ function generateCryptoCardsDetailsImage() {
 
   // Top picks
   const picks = [
-    { rank: '🥇', name: 'Ready Card', cashback: '10%', for: 'EU/UK - Debit card' },
-    { rank: '🥈', name: 'Bybit Card', cashback: '10%', for: 'EEA - Debit card' },
-    { rank: '🥉', name: 'Plutus Card', cashback: '3-9%', for: 'EU/UK - Tiered rewards' },
+    { rank: '🥇', name: 'EtherFi Cash', cashback: '2-3%', for: 'Global - Non-custodial DeFi credit' },
+    { rank: '🥈', name: 'Ready Card', cashback: '3%', for: 'EU/UK - Self-custody debit' },
+    { rank: '🥉', name: 'Hi Card', cashback: '10%', for: 'Global - High cashback' },
   ];
 
   let y = startY + 50;
@@ -651,9 +651,9 @@ function generateCryptoCardsDetailsImage() {
   ctx.fillText('🌍 Regional Options', 50, y);
 
   const regions = [
-    '• US: Coinbase Card (1-4%), Fold Card (1.5%)',
-    '• EU/UK: Nexo Card (2%), Crypto.com (1-8%)',
-    '• Global: Multiple options with varying limits',
+    '• US: Coinbase Card (1-4%), Fold Card (3-5%)',
+    '• EU/UK: Gnosis Pay (5%), Ready Card (3%)',
+    '• Global: EtherFi Cash (2-3%), Hi Card (10%)',
   ];
 
   y += 40;

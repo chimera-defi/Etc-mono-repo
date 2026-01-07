@@ -184,35 +184,37 @@ function run() {
   const cardsRows = parseMarkdownTable(cardsContent);
   if (cardsRows.length < 5) fail('Cards table has too few rows (expected header + data).');
 
+  // Provider column merged into Card column (Jan 2026) - card names now link directly to provider
   const cardsExpectedHeader = [
     'Card',
     'Score',
     'Type',
-    'Custody',    // NEW: Custody column added Jan 2026
+    'Custody',    // Custody column added Jan 2026
     'Biz',
     'Region',
     'Cash Back',
     'Annual Fee',
     'FX Fee',
     'Rewards',
-    'Provider',
     'Status',
     'Best For',
   ];
   assertHeaders('Crypto cards table', cardsRows[0], cardsExpectedHeader);
 
   // Spot-check EtherFi Cash (top-ranked card after Jan 2026 recalculation)
+  // Card column now contains both name and URL: [**Card Name**](url)
   const etherfiRow = findRowByFirstCellSubstring(cardsRows, 'etherfi cash');
   if (!etherfiRow) {
     fail('Crypto cards table: could not find EtherFi Cash row.');
   } else {
+    const card = etherfiRow[0] || '';
     const score = etherfiRow[1] || '';
     const custody = etherfiRow[3] || '';
-    const provider = etherfiRow[10] || '';  // Index shifted due to Custody column
-    const status = etherfiRow[11] || '';     // Index shifted due to Custody column
+    const status = etherfiRow[10] || '';     // Status column at index 10 after removing Provider
     if (!/85/.test(score)) fail(`EtherFi Cash score drifted (expected 85-ish), got: "${score}"`);
     if (!/Self/.test(custody)) fail(`EtherFi Cash custody drifted (expected Self), got: "${custody}"`);
-    if (!/etherfi/i.test(provider)) fail(`EtherFi Cash provider drifted (expected etherfi), got: "${provider}"`);
+    // Card column should now have URL embedded
+    if (!/ether\.fi/i.test(card)) fail(`EtherFi Cash card column should contain ether.fi URL, got: "${card}"`);
     if (!/✅/.test(status)) fail(`EtherFi Cash status drifted (expected ✅), got: "${status}"`);
     ok('Crypto cards table: EtherFi Cash spot-check passed');
   }
@@ -222,11 +224,14 @@ function run() {
   if (!readyRow) {
     fail('Crypto cards table: could not find Ready Card row.');
   } else {
+    const card = readyRow[0] || '';
     const score = readyRow[1] || '';
     const custody = readyRow[3] || '';
     const cashback = readyRow[6] || '';  // Cash Back column
     if (!/83/.test(score)) fail(`Ready Card score drifted (expected 83-ish), got: "${score}"`);
     if (!/Self/.test(custody)) fail(`Ready Card custody drifted (expected Self), got: "${custody}"`);
+    // Card column should now have URL embedded
+    if (!/ready\.co/i.test(card)) fail(`Ready Card card column should contain ready.co URL, got: "${card}"`);
     // Cash back should be 3% (not "Up to 10%" - major correction)
     if (!/3%/.test(cashback)) fail(`Ready Card cash back should be 3% (verified), got: "${cashback}"`);
     ok('Crypto cards table: Ready Card spot-check passed');
