@@ -5,7 +5,7 @@ import { DocsContent } from './DocsContent';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
 // Cache-busting version for OG images - increment when images are updated
-const ogImageVersion = 'v3';
+const ogImageVersion = 'v4';
 
 export const metadata: Metadata = {
   title: 'Documentation',

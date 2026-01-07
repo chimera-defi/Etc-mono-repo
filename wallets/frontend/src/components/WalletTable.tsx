@@ -524,8 +524,20 @@ function CryptoCardItem({
           <div className="flex items-center gap-3">
             <ScoreBadge score={card.score} />
             <div>
-              <div className="font-semibold">{card.name}</div>
-              <div className="text-sm text-muted-foreground">{card.provider}</div>
+              {card.providerUrl ? (
+                <a
+                  href={card.providerUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-foreground hover:text-primary hover:underline inline-flex items-center gap-1"
+                >
+                  {card.name}
+                  <ExternalLink className="h-3 w-3 text-muted-foreground" />
+                </a>
+              ) : (
+                <div className="font-semibold">{card.name}</div>
+              )}
+              <div className="text-sm text-muted-foreground">{card.bestFor}</div>
             </div>
           </div>
         </td>
@@ -538,21 +550,6 @@ function CryptoCardItem({
         </td>
         <td className="py-3 px-4 text-sm">{card.rewards}</td>
         <td className="py-3 px-4 text-sm">{card.annualFee}</td>
-        <td className="py-3 px-4">
-          {card.providerUrl ? (
-            <a
-              href={card.providerUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary hover:underline flex items-center gap-1 text-sm"
-            >
-              {card.provider}
-              <ExternalLink className="h-3 w-3" />
-            </a>
-          ) : (
-            <span className="text-sm text-muted-foreground">{card.provider}</span>
-          )}
-        </td>
       </tr>
     );
   }
@@ -569,7 +566,19 @@ function CryptoCardItem({
         <div className="flex items-center gap-3">
           <ScoreBadge score={card.score} />
           <div>
-            <h3 className="font-semibold">{card.name}</h3>
+            {card.providerUrl ? (
+              <a
+                href={card.providerUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-foreground hover:text-primary hover:underline inline-flex items-center gap-1"
+              >
+                {card.name}
+                <ExternalLink className="h-3 w-3 text-muted-foreground" />
+              </a>
+            ) : (
+              <h3 className="font-semibold">{card.name}</h3>
+            )}
             <Badge variant="info">{card.cardType}</Badge>
           </div>
         </div>
@@ -835,7 +844,7 @@ export function WalletTable<T extends WalletData>({
                   <th className="py-3 px-4 text-left text-sm font-medium">Links</th>
                 </>
               )}
-              {type !== 'ramps' && <th className="py-3 px-4 text-left text-sm font-medium">Links</th>}
+              {(type === 'software' || type === 'hardware') && <th className="py-3 px-4 text-left text-sm font-medium">Links</th>}
             </tr>
           </thead>
           <tbody>

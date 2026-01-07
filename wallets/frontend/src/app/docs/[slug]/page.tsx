@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   // Get page-specific OG image with cache-busting version parameter
   // Increment ogImageVersion when images are updated to bust Twitter/social media caches
   const ogImagePath = getOgImagePath(params.slug);
-  const ogImageVersion = 'v3';
+  const ogImageVersion = 'v4';
   const ogImageUrl = `${baseUrl}${ogImagePath}?${ogImageVersion}`;
 
   return {

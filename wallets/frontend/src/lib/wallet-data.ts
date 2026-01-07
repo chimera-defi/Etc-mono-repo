@@ -416,22 +416,32 @@ export function parseCryptoCards(): CryptoCard[] {
   // Skip header row
   const dataRows = rows.slice(1);
 
-  // Table columns (CRYPTO_CARDS.md) after adding Custody column (Jan 2026):
+  // Table columns (CRYPTO_CARDS.md) after merging Provider into Card column (Jan 2026):
   // Card(0) Score(1) Type(2) Custody(3) Biz(4) Region(5) CashBack(6) 
-  // AnnualFee(7) FxFee(8) Rewards(9) Provider(10) Status(11) BestFor(12)
+  // AnnualFee(7) FxFee(8) Rewards(9) Status(10) BestFor(11)
+  // Card column now has format: [**Card Name**](url)
   return dataRows.map(cells => {
-    // Extract card name from bold text
+    // Extract card name and URL from markdown link format: [**Card Name**](url)
+    const linkMatch = cells[0]?.match(/\[(?:\*\*)?([^*\]]+)(?:\*\*)?\]\(([^)]+)\)/);
     const nameMatch = cells[0]?.match(/\*\*([^*]+)\*\*/);
-    const name = nameMatch ? nameMatch[1] : cells[0] || 'Unknown';
+    
+    let name = 'Unknown';
+    let cardUrl: string | null = null;
+    
+    if (linkMatch) {
+      name = linkMatch[1].trim();
+      cardUrl = linkMatch[2].trim();
+    } else if (nameMatch) {
+      name = nameMatch[1].trim();
+    } else {
+      name = cells[0]?.replace(/[*[\]()]/g, '').trim() || 'Unknown';
+    }
 
     // Parse score (may have emoji)
     const scoreMatch = cells[1]?.match(/(\d+)/);
     const score = scoreMatch ? parseInt(scoreMatch[1], 10) : 0;
 
     const region = parseRegion(cells[5] || '');
-
-    // Extract provider URL
-    const providerMatch = cells[10]?.match(/\[([^\]]+)\]\(([^)]+)\)/);
 
     return {
       id: generateSlug(name),
@@ -447,10 +457,10 @@ export function parseCryptoCards(): CryptoCard[] {
       annualFee: cells[7]?.trim() || '$0',
       fxFee: cells[8]?.trim() || '0%',
       rewards: cells[9]?.trim() || 'None',
-      provider: providerMatch ? providerMatch[1] : cells[10]?.replace(/[[\]()]/g, '') || 'Unknown',
-      providerUrl: providerMatch ? providerMatch[2] : null,
-      status: parseCardStatus(cells[11] || ''),
-      bestFor: cells[12]?.trim() || '',
+      provider: name, // Provider is now the card name itself
+      providerUrl: cardUrl, // URL now comes from Card column
+      status: parseCardStatus(cells[10] || ''),
+      bestFor: cells[11]?.trim() || '',
       recommendation: parseHardwareRecommendation(cells[1] || ''), // Uses score emoji
       type: 'card' as const,
     };
