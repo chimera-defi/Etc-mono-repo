@@ -197,6 +197,14 @@ If Phase 1 succeeds, add:
 - Calendar embedding
 - Team/family sharing
 
+## Documentation
+
+- **[Research Summary](./RESEARCH_SUMMARY.md)** - Executive summary with key findings and recommendations
+- **[API Feasibility Analysis](./01-research/API_FEASIBILITY.md)** - Detailed analysis of each data source (Google, Facebook, Instagram, etc.)
+- **[Market Analysis](./01-research/MARKET_ANALYSIS.md)** - Competitive landscape, market size, revenue potential, and go-to-market strategy
+- **[Technical Specification](./02-spec/TECHNICAL_SPEC.md)** - MVP tech stack, database schema, API endpoints, deployment strategy
+- **[Backend Architecture](./02-spec/ARCHITECTURE.md)** - Privacy-first system design, multi-tenant data isolation, browser automation strategy, message parsing approach, detailed data flows
+
 ## Next Steps
 
 1. **Validate demand**: Survey 20-30 people about birthday management pain points
