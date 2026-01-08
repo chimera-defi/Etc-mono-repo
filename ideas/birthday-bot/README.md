@@ -1,6 +1,7 @@
 # Birthday Bot
 
 **Status**: Research Phase | **Last Updated**: Jan 8, 2026
+**Agent**: Claude Haiku 4.5 | **Attribution**: See [ATTRIBUTION.md](./ATTRIBUTION.md)
 
 ## Problem Statement
 
