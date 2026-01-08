@@ -22,11 +22,8 @@ interface AppState {
   // WebSocket events
   events: StreamEvent[];
   addEvent: (event: StreamEvent) => void;
-  clearEvents: (taskId?: string) => void;
 
   // Voice state
-  isRecording: boolean;
-  setRecording: (recording: boolean) => void;
   transcript: string;
   setTranscript: (text: string) => void;
 
@@ -77,16 +74,8 @@ export const useStore = create<AppState>()(
         set((state) => ({
           events: [...state.events, event].slice(-100), // Keep last 100 events
         })),
-      clearEvents: (taskId) =>
-        set((state) => ({
-          events: taskId
-            ? state.events.filter((e) => e.taskId !== taskId)
-            : [],
-        })),
 
       // Voice state
-      isRecording: false,
-      setRecording: (recording) => set({ isRecording: recording }),
       transcript: '',
       setTranscript: (text) => set({ transcript: text }),
 

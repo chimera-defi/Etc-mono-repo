@@ -16,6 +16,7 @@
 
 | Component | Technology | Cost |
 |-----------|-----------|------|
+| **Web Frontend** | **Next.js 14 + TypeScript** | Free |
 | **iOS App** | **Swift + SwiftUI** | Free |
 | Backend API | Fastify 4 + TypeScript | $20-50/mo |
 | AI Agents | Claude Code CLI | ~$0.50/agent |
@@ -24,6 +25,54 @@
 | Database | PostgreSQL (Neon) | $0-25/mo |
 | Real-time | WebSocket | $0 |
 | **Execution** | **User's VPS + Claude Code** | **User provides** |
+
+---
+
+## Web Frontend (cadence-web-frontend/)
+
+A full-featured Next.js web application that mirrors the mobile app functionality, allowing development and testing of the Cadence system via browser.
+
+### Tech Stack
+
+| Component | Technology |
+|-----------|------------|
+| Framework | Next.js 14 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS |
+| State | Zustand + localStorage |
+| Icons | Lucide React |
+
+### Features
+
+| Feature | Description |
+|---------|-------------|
+| **Voice Interface** | MediaRecorder API + OpenAI Whisper transcription |
+| **Task Dashboard** | List/filter tasks with real-time WebSocket updates |
+| **Task Detail** | Live streaming output, cancel running tasks |
+| **GitHub Integration** | Repository list, webhook setup info |
+| **Settings** | API endpoint, keys, voice preferences, dark/light mode |
+
+### Project Structure
+
+```
+cadence-web-frontend/
+├── src/
+│   ├── app/              # Next.js pages
+│   ├── components/       # UI components (Navigation, VoiceInterface, TaskList, etc.)
+│   ├── hooks/            # Custom hooks (useVoiceRecorder, useWebSocket)
+│   └── lib/              # Services (api.ts, store.ts, websocket.ts, types.ts)
+├── package.json
+└── tailwind.config.ts
+```
+
+### Running Locally
+
+```bash
+cd cadence-web-frontend
+npm install
+npm run dev
+# Open http://localhost:3000
+```
 
 ---
 
