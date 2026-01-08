@@ -72,6 +72,37 @@ High-level ideas and concepts for future exploration and implementation.
 
 ---
 
+## Birthday Bot
+
+**Problem**: People frequently forget their friends' and family members' birthdays. Birthday data is scattered across Facebook, Instagram, Google Contacts, phone contacts, and calendar apps, with no unified way to manage, prioritize, and remember them.
+
+**Solution**: A unified birthday management app that aggregates birthdays from multiple sources (phone contacts, Google Contacts, Google Calendar, Facebook), deduplicates conflicting entries, lets users prioritize contacts, and sends reliable notifications.
+
+**Key Features**:
+- Multi-source aggregation (phone, Google, Facebook, manual entry)
+- Intelligent deduplication with conflict resolution
+- Customizable notifications (1 week, 3 days, 1 day before)
+- Birthday groups/prioritization
+- iOS + Android native apps + web dashboard
+- Cloud sync across devices
+
+**Status**: Research phase completed. MVP is feasible in 8-10 weeks.
+
+**Market**: 100-150M potential users globally. Direct competitors exist (Birday, Birthday Sweet, Hip) but are fragmented. Opportunity to differentiate via superior UX and multi-source aggregation.
+
+**Key Challenges**:
+- Instagram has no official API for birthday data (requires browser extension workaround)
+- Saturated market requires strong differentiation
+- Requires monetization strategy to sustain development
+
+**Documentation**:
+- [Birthday Bot Main Overview](./birthday-bot/README.md)
+- [API Feasibility Analysis](./birthday-bot/01-research/API_FEASIBILITY.md)
+- [Market Analysis](./birthday-bot/01-research/MARKET_ANALYSIS.md)
+- [Technical Specification](./birthday-bot/02-spec/TECHNICAL_SPEC.md)
+
+---
+
 ## Tooling to Explore
 
 - **Coolify**: Self-hosted PaaS for VPS management
