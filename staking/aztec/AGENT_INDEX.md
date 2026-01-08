@@ -1,7 +1,7 @@
 # Agent Index - Aztec Liquid Staking Protocol
 
 **Last Updated:** 2025-12-30
-**Status:** Phase 2 Complete → Ready for Phase 3, 4, 4.5
+**Status:** Phase 2, 4, 4.5 Complete → Ready for Phase 3 (Integration Tests), Phase 5 (Security)
 
 ---
 
@@ -9,8 +9,8 @@
 
 | I want to work on... | Go to | Start command |
 |---------------------|-------|---------------|
-| Frontend | `PARALLEL_WORK_HANDOFF.md` §Part 1 | `cd frontend && npm run dev` |
-| Bots | `PARALLEL_WORK_HANDOFF.md` §Part 2 | `cd bots/staking-keeper && npm run dev` |
+| Frontend | `frontend/README.md` | `cd frontend && npm run dev` |
+| Bots | `bots/README.md` | `cd bots/staking-keeper && npm run dev` |
 | Security | `docs/AGENT-PROMPTS-QUICKREF.md` Prompt 4 | Read contracts first |
 | Integration Tests | `docs/TASKS.md` TASK-201+ | Needs aztec-nargo |
 | Contracts (review) | `contracts/AGENT_HANDOFF.md` | `nargo test` |
@@ -19,7 +19,7 @@
 
 ## Current Status
 
-### ✅ Complete (Phase 2)
+### ✅ Complete (Phase 2 - Smart Contracts)
 ```
 contracts/
 ├── liquid-staking-core/   37 functions ✅
@@ -32,11 +32,30 @@ contracts/
 └── staking-math-tests/    64 tests ✅
 ```
 
-### 🚀 Ready to Start (Parallel)
-- **Frontend (3 agents):** F1 (UI Kit), F2 (Features), F3 (Integration)
-- **Bots (2 agents):** B1 (Staking+Rewards), B2 (Withdrawal+Monitoring)
-- **Security (1 agent):** Documentation + threat model
-- **BD (1 agent):** Partnership research
+### ✅ Complete (Phase 4 - Bots)
+```
+bots/
+├── shared/                5 utilities ✅
+├── staking-keeper/        Batch staking ✅
+├── rewards-keeper/        Claims + rate updates ✅
+├── withdrawal-keeper/     Queue processing ✅
+├── monitoring/            Health + alerts ✅
+└── k8s/                   6 manifests ✅
+```
+
+### ✅ Complete (Phase 4.5 - Frontend)
+```
+frontend/
+├── components/ui/         6 atomic components ✅
+├── components/            5 feature components ✅
+├── hooks/                 3 mock hooks ✅
+└── __tests__/             43 tests passing ✅
+```
+
+### 🚀 Ready to Start
+- **Integration Tests:** TASK-201-204 (requires aztec-nargo)
+- **Security Review:** TASK-401-403 (documentation + audit prep)
+- **Deployment:** TASK-501-504 (after security review)
 
 ---
 
