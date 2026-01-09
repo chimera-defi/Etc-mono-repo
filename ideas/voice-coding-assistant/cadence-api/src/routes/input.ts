@@ -1,10 +1,9 @@
 import { FastifyPluginAsync } from 'fastify';
-import { randomUUID } from 'crypto';
 import { TextInputSchema, Task } from '../types.js';
 import { CommandParser } from '../services/command-parser.js';
 import { VPSBridge } from '../services/vps-bridge.js';
 import { streamManager } from '../services/stream-manager.js';
-import { tasks } from './tasks.js';
+import { taskService } from '../services/task-service.js';
 
 export const inputRoutes: FastifyPluginAsync = async (app) => {
   const parser = new CommandParser();
@@ -32,25 +31,21 @@ export const inputRoutes: FastifyPluginAsync = async (app) => {
 
       // If it's a create_task intent, create the task
       if (command.intent === 'create_task') {
-        const task: Task = {
-          id: randomUUID(),
+        const task = await taskService.create({
           task: command.task || text,
           repoUrl: command.repoUrl || repoUrl,
           repoPath,
           status: 'pending',
-          createdAt: new Date().toISOString(),
-        };
-
-        tasks.set(task.id, task);
+        });
 
         // Start execution with streaming
         executeWithStreaming(task, vpsBridge);
 
-        task.status = 'running';
-        tasks.set(task.id, task);
+        // Mark as running
+        const runningTask = await taskService.update(task.id, { status: 'running' });
 
         return reply.status(201).send({
-          task,
+          task: runningTask || task,
           command,
           source: 'text',
         });
@@ -92,24 +87,20 @@ export const inputRoutes: FastifyPluginAsync = async (app) => {
           return reply.status(400).send({ error: 'task is required for create_task action' });
         }
 
-        const task: Task = {
-          id: randomUUID(),
+        const task = await taskService.create({
           task: taskDescription,
           repoUrl,
           repoPath,
           status: 'pending',
-          createdAt: new Date().toISOString(),
-        };
-
-        tasks.set(task.id, task);
+        });
 
         // Start execution with streaming
         executeWithStreaming(task, vpsBridge);
 
-        task.status = 'running';
-        tasks.set(task.id, task);
+        // Mark as running
+        const runningTask = await taskService.update(task.id, { status: 'running' });
 
-        return reply.status(201).send({ task });
+        return reply.status(201).send({ task: runningTask || task });
       }
 
       case 'cancel_task': {
@@ -117,18 +108,19 @@ export const inputRoutes: FastifyPluginAsync = async (app) => {
           return reply.status(400).send({ error: 'taskId is required for cancel_task action' });
         }
 
-        const task = tasks.get(taskId);
+        const task = await taskService.get(taskId);
         if (!task) {
           return reply.status(404).send({ error: 'Task not found' });
         }
 
-        task.status = 'cancelled';
-        task.completedAt = new Date().toISOString();
-        tasks.set(taskId, task);
+        const cancelledTask = await taskService.update(taskId, {
+          status: 'cancelled',
+          completedAt: new Date(),
+        });
 
         streamManager.emitTaskCompleted(taskId, false, 'Task cancelled by user');
 
-        return { task };
+        return { task: cancelledTask || task };
       }
 
       case 'get_status': {
@@ -136,7 +128,7 @@ export const inputRoutes: FastifyPluginAsync = async (app) => {
           return reply.status(400).send({ error: 'taskId is required for get_status action' });
         }
 
-        const task = tasks.get(taskId);
+        const task = await taskService.get(taskId);
         if (!task) {
           return reply.status(404).send({ error: 'Task not found' });
         }
@@ -196,25 +188,21 @@ async function executeWithStreaming(
     });
 
     // Update task status
-    const updatedTask = tasks.get(taskId);
-    if (updatedTask) {
-      updatedTask.status = result.success ? 'completed' : 'failed';
-      updatedTask.output = result.output;
-      updatedTask.completedAt = new Date().toISOString();
-      tasks.set(taskId, updatedTask);
-    }
+    await taskService.update(taskId, {
+      status: result.success ? 'completed' : 'failed',
+      output: result.output,
+      completedAt: new Date(),
+    });
 
     // Emit completion
     streamManager.emitTaskCompleted(taskId, result.success, result.output, result.prUrl);
   } catch (error) {
     // Update task as failed
-    const updatedTask = tasks.get(taskId);
-    if (updatedTask) {
-      updatedTask.status = 'failed';
-      updatedTask.output = error instanceof Error ? error.message : 'Unknown error';
-      updatedTask.completedAt = new Date().toISOString();
-      tasks.set(taskId, updatedTask);
-    }
+    await taskService.update(taskId, {
+      status: 'failed',
+      error: error instanceof Error ? error.message : 'Unknown error',
+      completedAt: new Date(),
+    });
 
     streamManager.emitError(taskId, error instanceof Error ? error.message : 'Unknown error', false);
     streamManager.emitTaskCompleted(taskId, false, 'Task failed with error');

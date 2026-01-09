@@ -7,8 +7,18 @@ export const voiceRoutes: FastifyPluginAsync = async (app) => {
   const whisper = new WhisperService();
   const parser = new CommandParser();
 
+  // Rate limit configuration for voice endpoints (stricter due to resource intensity)
+  const voiceRateLimitConfig = {
+    max: 20,
+    timeWindow: '1 minute',
+  };
+
   // Transcribe audio to text
-  app.post('/voice/transcribe', async (request, reply) => {
+  app.post('/voice/transcribe', {
+    config: {
+      rateLimit: voiceRateLimitConfig,
+    },
+  }, async (request, reply) => {
     const parseResult = TranscribeRequestSchema.safeParse(request.body);
     if (!parseResult.success) {
       return reply.status(400).send({
@@ -32,7 +42,11 @@ export const voiceRoutes: FastifyPluginAsync = async (app) => {
   });
 
   // Parse voice command into structured intent
-  app.post<{ Body: { text: string } }>('/voice/parse', async (request, reply) => {
+  app.post<{ Body: { text: string } }>('/voice/parse', {
+    config: {
+      rateLimit: voiceRateLimitConfig,
+    },
+  }, async (request, reply) => {
     const { text } = request.body;
 
     if (!text || typeof text !== 'string') {
@@ -52,7 +66,11 @@ export const voiceRoutes: FastifyPluginAsync = async (app) => {
   });
 
   // Combined: transcribe + parse
-  app.post('/voice/command', async (request, reply) => {
+  app.post('/voice/command', {
+    config: {
+      rateLimit: voiceRateLimitConfig,
+    },
+  }, async (request, reply) => {
     const parseResult = TranscribeRequestSchema.safeParse(request.body);
     if (!parseResult.success) {
       return reply.status(400).send({

@@ -18,8 +18,8 @@ describe('Webhook Routes', () => {
     await app.close();
   });
 
-  beforeEach(() => {
-    tasks.clear();
+  beforeEach(async () => {
+    await tasks.clear();
   });
 
   function createSignature(payload: object): string {
@@ -102,7 +102,7 @@ describe('Webhook Routes', () => {
 
       // Create a task that references this PR in its output
       const taskId = 'task-for-pr-123';
-      tasks.set(taskId, {
+      await tasks.set(taskId, {
         id: taskId,
         task: 'Add feature X',
         status: 'running',
@@ -140,7 +140,7 @@ describe('Webhook Routes', () => {
       expect(response.statusCode).toBe(200);
 
       // Verify task was updated
-      const updatedTask = tasks.get(taskId);
+      const updatedTask = await tasks.get(taskId);
       expect(updatedTask).toBeDefined();
       expect(updatedTask!.status).toBe('completed');
       expect(updatedTask!.completedAt).toBeDefined();
@@ -151,7 +151,7 @@ describe('Webhook Routes', () => {
 
       // Create a task that references this PR
       const taskId = 'task-for-pr-456';
-      tasks.set(taskId, {
+      await tasks.set(taskId, {
         id: taskId,
         task: 'Fix bug Y',
         status: 'running',
@@ -189,7 +189,7 @@ describe('Webhook Routes', () => {
       expect(response.statusCode).toBe(200);
 
       // Verify task was cancelled (not completed)
-      const updatedTask = tasks.get(taskId);
+      const updatedTask = await tasks.get(taskId);
       expect(updatedTask).toBeDefined();
       expect(updatedTask!.status).toBe('cancelled');
       expect(updatedTask!.completedAt).toBeDefined();
@@ -200,7 +200,7 @@ describe('Webhook Routes', () => {
 
       // Create a task that does NOT reference this PR
       const taskId = 'unrelated-task';
-      tasks.set(taskId, {
+      await tasks.set(taskId, {
         id: taskId,
         task: 'Some other task',
         status: 'running',
@@ -238,7 +238,7 @@ describe('Webhook Routes', () => {
       expect(response.statusCode).toBe(200);
 
       // Task should remain unchanged
-      const task = tasks.get(taskId);
+      const task = await tasks.get(taskId);
       expect(task!.status).toBe('running');
       expect(task!.completedAt).toBeUndefined();
     });
@@ -246,7 +246,7 @@ describe('Webhook Routes', () => {
 
   describe('Issue Comment Events - Side Effects', () => {
     it('creates task from @cadence-ai mention', async () => {
-      const taskCountBefore = tasks.size;
+      const taskCountBefore = await tasks.size;
 
       const payload = {
         action: 'created',
@@ -283,10 +283,10 @@ describe('Webhook Routes', () => {
       expect(body.action).toBe('task_created');
 
       // Verify a task was actually created
-      expect(tasks.size).toBe(taskCountBefore + 1);
+      expect(await tasks.size).toBe(taskCountBefore + 1);
 
       // Verify task content
-      const createdTask = tasks.get(body.taskId);
+      const createdTask = await tasks.get(body.taskId);
       expect(createdTask).toBeDefined();
       expect(createdTask!.task).toBe('fix the failing tests');
       expect(createdTask!.repoUrl).toBe('https://github.com/user/repo');
@@ -296,7 +296,7 @@ describe('Webhook Routes', () => {
     });
 
     it('ignores comments without @cadence-ai mention', async () => {
-      const taskCountBefore = tasks.size;
+      const taskCountBefore = await tasks.size;
 
       const payload = {
         action: 'created',
@@ -325,11 +325,11 @@ describe('Webhook Routes', () => {
       expect(body.handled).toBe(false);
 
       // No task should be created
-      expect(tasks.size).toBe(taskCountBefore);
+      expect(await tasks.size).toBe(taskCountBefore);
     });
 
     it('ignores non-created actions', async () => {
-      const taskCountBefore = tasks.size;
+      const taskCountBefore = await tasks.size;
 
       const payload = {
         action: 'deleted',
@@ -358,7 +358,7 @@ describe('Webhook Routes', () => {
       expect(body.handled).toBe(false);
 
       // No task should be created for deleted comments
-      expect(tasks.size).toBe(taskCountBefore);
+      expect(await tasks.size).toBe(taskCountBefore);
     });
   });
 
