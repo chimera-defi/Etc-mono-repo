@@ -9,6 +9,7 @@ import {
   Loader2,
   Ban,
   GitBranch,
+  GitPullRequest,
   FileCode,
   Terminal,
   ExternalLink,
@@ -35,6 +36,12 @@ const statusConfig: Record<
     label: 'Running',
     color: 'text-primary',
     bgColor: 'bg-primary/10',
+  },
+  pr_open: {
+    icon: GitPullRequest,
+    label: 'PR Open',
+    color: 'text-blue-400',
+    bgColor: 'bg-blue-400/10',
   },
   completed: {
     icon: CheckCircle2,

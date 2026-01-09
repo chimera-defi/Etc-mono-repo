@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import {
   Save,
   Loader2,
@@ -13,13 +13,23 @@ import {
   Mic,
   Moon,
   Sun,
+  Github,
+  LogOut,
 } from 'lucide-react';
 import { useStore } from '@/lib/store';
 import { api } from '@/lib/api';
 import { clsx } from 'clsx';
 
 export function Settings() {
-  const { settings, updateSettings, isConnected, setConnected } = useStore();
+  const {
+    settings,
+    updateSettings,
+    isConnected,
+    setConnected,
+    githubUser,
+    setGitHubUser,
+    setGitHubRepos,
+  } = useStore();
 
   const [localSettings, setLocalSettings] = useState(settings);
   const [showApiKey, setShowApiKey] = useState(false);
@@ -27,6 +37,41 @@ export function Settings() {
   const [isTesting, setIsTesting] = useState(false);
   const [testResult, setTestResult] = useState<'success' | 'error' | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [isCheckingGitHub, setIsCheckingGitHub] = useState(true);
+  const [isDisconnectingGitHub, setIsDisconnectingGitHub] = useState(false);
+
+  // Check GitHub auth on mount
+  useEffect(() => {
+    const checkGitHubAuth = async () => {
+      try {
+        const authResponse = await api.getMe();
+        setGitHubUser(authResponse.user);
+      } catch {
+        setGitHubUser(null);
+      } finally {
+        setIsCheckingGitHub(false);
+      }
+    };
+
+    checkGitHubAuth();
+  }, [setGitHubUser]);
+
+  const handleConnectGitHub = useCallback(() => {
+    window.location.href = api.getGitHubAuthUrl();
+  }, []);
+
+  const handleDisconnectGitHub = useCallback(async () => {
+    setIsDisconnectingGitHub(true);
+    try {
+      await api.logout();
+      setGitHubUser(null);
+      setGitHubRepos([]);
+    } catch (err) {
+      console.error('Failed to disconnect GitHub:', err);
+    } finally {
+      setIsDisconnectingGitHub(false);
+    }
+  }, [setGitHubUser, setGitHubRepos]);
 
   const handleChange = useCallback(
     (field: keyof typeof localSettings, value: string | boolean) => {
@@ -215,6 +260,64 @@ export function Settings() {
             </p>
           </div>
         </div>
+      </div>
+
+      {/* GitHub Integration */}
+      <div className="bg-surface border border-border rounded-xl p-6 mb-6">
+        <div className="flex items-center gap-3 mb-4">
+          <Github className="w-5 h-5 text-primary" />
+          <h3 className="text-lg font-medium">GitHub Integration</h3>
+        </div>
+
+        {isCheckingGitHub ? (
+          <div className="flex items-center gap-3 text-[var(--text-dim)]">
+            <Loader2 className="w-5 h-5 animate-spin" />
+            <span>Checking connection...</span>
+          </div>
+        ) : githubUser ? (
+          <div className="space-y-4">
+            <div className="flex items-center gap-4">
+              <img
+                src={githubUser.avatar_url}
+                alt={githubUser.login}
+                className="w-12 h-12 rounded-full"
+              />
+              <div>
+                <p className="font-medium">{githubUser.name || githubUser.login}</p>
+                <p className="text-sm text-[var(--text-dim)]">@{githubUser.login}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-success">
+              <CheckCircle2 className="w-4 h-4" />
+              <span>Connected to GitHub</span>
+            </div>
+            <button
+              onClick={handleDisconnectGitHub}
+              disabled={isDisconnectingGitHub}
+              className="flex items-center gap-2 px-4 py-2 text-error hover:bg-error/10 rounded-lg transition-colors"
+            >
+              {isDisconnectingGitHub ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <LogOut className="w-4 h-4" />
+              )}
+              Disconnect GitHub
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <p className="text-sm text-[var(--text-dim)]">
+              Connect your GitHub account to access your repositories and track pull requests.
+            </p>
+            <button
+              onClick={handleConnectGitHub}
+              className="flex items-center gap-2 px-4 py-2 bg-[#24292e] text-white rounded-lg hover:bg-[#2f363d] transition-colors"
+            >
+              <Github className="w-5 h-5" />
+              Connect with GitHub
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Preferences */}

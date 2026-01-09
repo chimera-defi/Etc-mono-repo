@@ -1,7 +1,16 @@
-// Task status
-export type TaskStatus = 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
+// Task status (extended with PR states)
+export type TaskStatus =
+  | 'pending'      // Task created, not started
+  | 'running'      // Agent executing, no PR yet
+  | 'pr_open'      // PR created, awaiting review/merge
+  | 'completed'    // PR merged successfully
+  | 'failed'       // Agent error
+  | 'cancelled';   // PR closed without merge, or user cancelled
 
-// Task model
+// PR state
+export type PRState = 'open' | 'merged' | 'closed';
+
+// Task model (with PR lifecycle fields)
 export interface Task {
   id: string;
   task: string;
@@ -11,6 +20,11 @@ export interface Task {
   output?: string;
   createdAt: string;
   completedAt?: string;
+  // PR Lifecycle Fields
+  prUrl?: string;
+  prNumber?: number;
+  prState?: PRState;
+  prBranch?: string;
 }
 
 // Create task request
@@ -124,4 +138,43 @@ export interface TaskListResponse {
 export interface HealthResponse {
   status: string;
   timestamp: string;
+}
+
+// =============================================================================
+// GITHUB OAUTH & REPOS
+// =============================================================================
+
+// GitHub user (from OAuth)
+export interface GitHubUser {
+  id: number;
+  login: string;
+  name: string | null;
+  avatar_url: string;
+  html_url: string;
+}
+
+// GitHub repository
+export interface GitHubRepo {
+  id: number;
+  name: string;
+  full_name: string;
+  html_url: string;
+  description: string | null;
+  private: boolean;
+  default_branch: string;
+  updated_at: string;
+  pushed_at: string;
+  language: string | null;
+  stargazers_count: number;
+}
+
+// Auth response
+export interface AuthResponse {
+  user: GitHubUser;
+  authenticated: boolean;
+}
+
+// Repos response
+export interface ReposResponse {
+  repos: GitHubRepo[];
 }

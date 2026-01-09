@@ -5,6 +5,9 @@ import type {
   TranscribeResponse,
   ParsedCommand,
   HealthResponse,
+  AuthResponse,
+  ReposResponse,
+  GitHubRepo,
 } from './types';
 
 class APIClient {
@@ -34,6 +37,7 @@ class APIClient {
     const response = await fetch(`${this.baseUrl}${path}`, {
       ...options,
       headers,
+      credentials: 'include', // Include cookies for OAuth sessions
     });
 
     if (!response.ok) {
@@ -109,6 +113,31 @@ class APIClient {
       method: 'POST',
       body: JSON.stringify({ text, repoUrl }),
     });
+  }
+
+  // ===== GitHub Auth =====
+
+  // Get GitHub OAuth URL (redirects to GitHub)
+  getGitHubAuthUrl(): string {
+    return `${this.baseUrl}/api/auth/github`;
+  }
+
+  // Get current authenticated user
+  async getMe(): Promise<AuthResponse> {
+    return this.fetch<AuthResponse>('/api/auth/me');
+  }
+
+  // Logout (clear session)
+  async logout(): Promise<{ success: boolean }> {
+    return this.fetch<{ success: boolean }>('/api/auth/logout', {
+      method: 'POST',
+    });
+  }
+
+  // Get user's GitHub repositories
+  async getRepos(): Promise<GitHubRepo[]> {
+    const response = await this.fetch<ReposResponse>('/api/repos');
+    return response.repos;
   }
 
   // WebSocket URL

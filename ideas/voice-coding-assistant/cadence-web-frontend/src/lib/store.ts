@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Task, Settings, StreamEvent } from './types';
+import type { Task, Settings, StreamEvent, GitHubUser, GitHubRepo } from './types';
 
 interface AppState {
   // Tasks
@@ -10,6 +10,14 @@ interface AppState {
   addTask: (task: Task) => void;
   updateTask: (id: string, updates: Partial<Task>) => void;
   selectTask: (id: string | null) => void;
+
+  // GitHub OAuth
+  githubUser: GitHubUser | null;
+  githubRepos: GitHubRepo[];
+  setGitHubUser: (user: GitHubUser | null) => void;
+  setGitHubRepos: (repos: GitHubRepo[]) => void;
+  selectedRepoId: number | null;
+  selectRepo: (id: number | null) => void;
 
   // Settings
   settings: Settings;
@@ -56,6 +64,14 @@ export const useStore = create<AppState>()(
           ),
         })),
       selectTask: (id) => set({ selectedTaskId: id }),
+
+      // GitHub OAuth
+      githubUser: null,
+      githubRepos: [],
+      setGitHubUser: (user) => set({ githubUser: user }),
+      setGitHubRepos: (repos) => set({ githubRepos: repos }),
+      selectedRepoId: null,
+      selectRepo: (id) => set({ selectedRepoId: id }),
 
       // Settings
       settings: defaultSettings,
