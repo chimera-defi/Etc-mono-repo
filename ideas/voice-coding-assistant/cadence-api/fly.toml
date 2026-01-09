@@ -1,0 +1,69 @@
+# fly.toml app configuration file generated for cadence-api
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+
+app = "cadence-api"
+primary_region = "iad"
+
+[build]
+
+[http_service]
+  internal_port = 3001
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ["app"]
+
+  # Health check configuration
+  [[http_service.checks]]
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "10s"
+    method = "GET"
+    path = "/api/health"
+    protocol = "http"
+    [http_service.checks.headers]
+      # Add any required headers here if needed
+
+[vm]
+  size = "shared-cpu-1x"
+  memory = "512mb"
+
+[[services]]
+  protocol = "tcp"
+  internal_port = 3001
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+
+  # Health check for load balancer
+  [[services.tcp_checks]]
+    interval = "15s"
+    timeout = "2s"
+    grace_period = "5s"
+
+  # HTTP health check
+  [[services.http_checks]]
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "10s"
+    method = "GET"
+    path = "/api/health"
+    protocol = "http"
+
+[env]
+  NODE_ENV = "production"
+  PORT = "3001"
+  HOST = "0.0.0.0"
+  LOG_LEVEL = "info"
+
+# Deploy configuration
+[deploy]
+  strategy = "rolling"
