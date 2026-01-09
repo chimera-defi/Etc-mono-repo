@@ -2,8 +2,8 @@
 
 > **Use this file to maintain continuity between agent sessions**
 
-Last Updated: January 3, 2026
-Current Status: **Backend Complete - Ready for iOS Development**
+Last Updated: January 6, 2026
+Current Status: **Backend Complete with DB + Auth - Ready for iOS Development**
 Approach: **Swift iOS App + Backend API + User's VPS**
 
 ---
@@ -40,16 +40,19 @@ npm run typecheck
 | **Command Parser** | ✅ Done | 15 tests | Intent detection |
 | **VPS Bridge** | ✅ Done | 4 tests | Mock mode for testing |
 | **VPS Bootstrap** | ✅ Done | - | `cadence-setup/bootstrap.sh` |
+| **Database (PostgreSQL)** | ✅ Done | - | Drizzle ORM + mock mode for tests |
+| **Authentication** | ✅ Done | - | GitHub OAuth + JWT tokens |
+| **Rate Limiting** | ✅ Done | - | @fastify/rate-limit middleware |
+| **Deployment Config** | ✅ Done | - | Dockerfile + fly.toml for Fly.io |
 
 ### What's Not Built (Remaining)
 
 | Component | Priority | Effort | Description |
 |-----------|----------|--------|-------------|
 | **iOS App** | P0 | 3-4 weeks | Swift/SwiftUI native app |
-| **Database** | P1 | 1 day | PostgreSQL (tasks in memory now) |
-| **Authentication** | P1 | 2-3 days | GitHub OAuth |
 | **Real VPS Integration** | P1 | 1 week | SSE parsing from actual VPS |
-| **Deployment** | P2 | 1 day | Vercel/Railway for backend |
+| **Production Deployment** | P2 | 1-2 days | Deploy to Fly.io with PostgreSQL |
+| **Redis Pub/Sub** | P3 | 2 days | Horizontal scaling for WebSockets |
 
 ---
 
@@ -76,15 +79,28 @@ npm run typecheck
 |------|---------|-------|
 | `index.ts` | Fastify app entry | 54 |
 | `types.ts` | Zod schemas + interfaces | 102 |
-| `routes/tasks.ts` | Task CRUD | 96 |
+| `routes/tasks.ts` | Task CRUD | 323 |
 | `routes/voice.ts` | Voice transcription + parsing | 88 |
 | `routes/input.ts` | Text input + direct commands | 155 |
 | `routes/websocket.ts` | WebSocket streaming endpoint | 34 |
 | `routes/webhooks.ts` | GitHub webhook handlers | 161 |
+| `routes/auth.ts` | GitHub OAuth + JWT endpoints | 159 |
 | `services/command-parser.ts` | Voice → intent mapping | 83 |
 | `services/stream-manager.ts` | WebSocket subscription mgmt | 130 |
 | `services/vps-bridge.ts` | VPS communication (mock mode) | 134 |
 | `services/whisper.ts` | OpenAI Whisper integration | 38 |
+| `services/task-service.ts` | Task CRUD abstraction | 169 |
+| `db/index.ts` | Database connection + mock mode | 33 |
+| `db/schema.ts` | Drizzle ORM schema | 23 |
+| `middleware/auth.ts` | JWT authentication middleware | 52 |
+
+### Deployment (`cadence-api/`)
+
+| File | Purpose |
+|------|---------|
+| `Dockerfile` | Multi-stage production build |
+| `fly.toml` | Fly.io deployment config |
+| `drizzle.config.ts` | Drizzle ORM configuration |
 
 ### iOS Plan (`cadence-ios/`)
 
@@ -119,6 +135,10 @@ npm run typecheck
 | WS | `/api/ws/stream` | WebSocket streaming | ✅ |
 | GET | `/api/ws/health` | WebSocket health | ✅ |
 | POST | `/api/webhooks/github` | GitHub webhooks | ✅ |
+| GET | `/api/auth/github` | Start GitHub OAuth | - |
+| GET | `/api/auth/github/callback` | OAuth callback | - |
+| GET | `/api/auth/me` | Get current user (JWT) | - |
+| POST | `/api/auth/logout` | Logout user | - |
 
 ---
 
@@ -137,12 +157,15 @@ npm run typecheck
 
 **Reference:** `cadence-ios/PLAN.md` has complete code samples.
 
-### Option B: Add Database + Auth
+### Option B: Deploy to Fly.io (Ready Now)
 
-1. Add PostgreSQL via Neon (serverless)
-2. Replace in-memory `tasks` Map with Drizzle ORM
-3. Add GitHub OAuth for user authentication
-4. Add user isolation for tasks
+1. Set up Fly.io account and install `flyctl`
+2. Create Fly PostgreSQL database: `fly postgres create`
+3. Deploy app: `fly deploy`
+4. Set secrets: `fly secrets set GITHUB_CLIENT_ID=... GITHUB_CLIENT_SECRET=... JWT_SECRET=...`
+5. Run migrations: `fly ssh console -C "npm run db:migrate"`
+
+**Reference:** `cadence-api/DEPLOYMENT.md` has complete instructions.
 
 ### Option C: Production VPS Integration
 
@@ -157,11 +180,10 @@ npm run typecheck
 
 | Limitation | Impact | Mitigation |
 |------------|--------|------------|
-| In-memory storage | Tasks lost on restart | Add PostgreSQL |
-| No authentication | API is open | Add GitHub OAuth |
 | Mock VPS mode | No real execution | Connect to actual VPS |
-| No rate limiting | Abuse possible | Add rate limiting |
-| Single process | No scaling | Add Redis pub/sub |
+| Single process | No horizontal scaling | Add Redis pub/sub for WebSockets |
+| Tests need PostgreSQL | CI requires DB or mock mode | Uses `NODE_ENV=test` mock storage |
+| No user isolation | All tasks visible to all users | Add user FK to tasks table |
 
 ---
 
@@ -192,6 +214,14 @@ npm run dev
 ## Environment Variables
 
 ```bash
+# Database
+DATABASE_URL=postgresql://user:pass@host:5432/cadence
+
+# Authentication (GitHub OAuth)
+GITHUB_CLIENT_ID=your-client-id
+GITHUB_CLIENT_SECRET=your-client-secret
+JWT_SECRET=your-jwt-secret
+
 # Required for voice transcription
 OPENAI_API_KEY=sk-...
 
@@ -201,7 +231,70 @@ GITHUB_WEBHOOK_SECRET=your-secret
 # Required for VPS execution (future)
 ANTHROPIC_API_KEY=sk-ant-...
 VPS_ENDPOINT=https://your-vps.example.com
+
+# Test mode (uses in-memory storage)
+NODE_ENV=test
+USE_MOCK_DB=true
 ```
+
+---
+
+## Session Log (January 6, 2026)
+
+### Work Completed This Session
+
+1. **Database Integration (Drizzle ORM + PostgreSQL)**
+   - Added `src/db/schema.ts` with tasks table schema
+   - Added `src/db/index.ts` with connection management + mock mode
+   - Created `drizzle.config.ts` for migrations
+   - Updated `routes/tasks.ts` to use database operations
+   - Added `services/task-service.ts` for clean DB abstraction
+
+2. **Authentication (GitHub OAuth + JWT)**
+   - Added `routes/auth.ts` with OAuth flow endpoints
+   - Added `middleware/auth.ts` for JWT verification
+   - Integrated `@fastify/jwt` for token management
+   - Created `AUTH_README.md` with setup instructions
+
+3. **Rate Limiting**
+   - Added `@fastify/rate-limit` middleware
+   - Configured 100 requests/minute per IP
+   - Applied to all API routes
+
+4. **Deployment Configuration**
+   - Created `Dockerfile` with multi-stage build
+   - Created `fly.toml` for Fly.io deployment
+   - Created `DEPLOYMENT.md` with deployment guide
+   - Added `DATABASE.md` with schema documentation
+
+5. **Test Fixes**
+   - Fixed async/await issues in `webhooks.test.ts`
+   - Added mock storage mode for tests (`NODE_ENV=test`)
+   - All task operations now properly awaited
+
+### Files Created/Modified
+
+| File | Action | Purpose |
+|------|--------|---------|
+| `src/db/schema.ts` | Created | Drizzle ORM schema |
+| `src/db/index.ts` | Created | DB connection + mock mode |
+| `src/routes/auth.ts` | Created | GitHub OAuth endpoints |
+| `src/middleware/auth.ts` | Created | JWT auth middleware |
+| `src/services/task-service.ts` | Created | Task CRUD abstraction |
+| `src/routes/tasks.ts` | Modified | Added DB operations |
+| `src/tests/webhooks.test.ts` | Modified | Fixed async/await |
+| `Dockerfile` | Created | Production container |
+| `fly.toml` | Created | Fly.io config |
+| `drizzle.config.ts` | Created | ORM config |
+| `AUTH_README.md` | Created | Auth setup guide |
+| `DATABASE.md` | Created | Schema docs |
+| `DEPLOYMENT.md` | Created | Deploy guide |
+
+### Commits This Session
+
+| Hash | Message |
+|------|---------|
+| `344fd1f` | feat(cadence): Add database, auth, rate limiting, and deployment config |
 
 ---
 
@@ -262,5 +355,5 @@ VPS_ENDPOINT=https://your-vps.example.com
 
 ---
 
-**Document Version:** 5.0
-**Updated:** January 3, 2026
+**Document Version:** 6.0
+**Updated:** January 6, 2026
