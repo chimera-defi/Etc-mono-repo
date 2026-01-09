@@ -3,18 +3,23 @@
 > **Research Date:** January 6, 2026
 > **Purpose:** Evaluate E2B as an execution environment for Cadence AI agents
 > **Status:** Analysis Complete - Recommendation Provided
+>
+> ⚠️ **IMPORTANT:** This analysis is for **future phases** (Phase 3, Week 21+). MVP uses **user's own VPS** (BYOV) as documented in ARCHITECTURE.md Section 4 and 8. E2B will be added as a managed option after mobile app is complete.
 
 ---
 
 ## Executive Summary
 
-**E2B is the best execution environment for Cadence's MVP**, offering:
+**For future managed sandbox tier**, E2B offers the best technical capabilities:
 - **150ms cold starts** (10-30x faster than Modal/Fly.io)
 - **$0.05/hour per sandbox** (~60% cheaper than alternatives)
 - **Purpose-built for AI agents** (not general-purpose infrastructure)
 - **Free $100 credit** for all new users (supports ~2000 agent runs)
 
-**Recommendation:** Use E2B for MVP. Migrate to VPS-per-user only if needed at scale (>500 users).
+**Updated Recommendation (Jan 2026):**
+- **Phase 1 MVP:** User's own VPS (BYOV) - zero infrastructure cost, full control
+- **Phase 2:** Mobile app development - still VPS-only
+- **Phase 3:** Add E2B as managed option for non-technical users
 
 ---
 
@@ -352,56 +357,37 @@ const machineConfig = {
 
 ## 8. Recommendation Summary
 
-### ✅ USE E2B FOR CADENCE MVP
+### ✅ UPDATED RECOMMENDATION: VPS-FIRST, THEN E2B
 
-**Why:**
-1. **Best UX:** 150ms cold starts = feels instant (vs 2-10s competitors)
-2. **AI-First:** Purpose-built for AI agents, not general infrastructure
-3. **Simple SDK:** Easier than Fly.io Machines API or VPS management
-4. **Free Credit:** $100 = ~40,000 test agents (removes MVP risk)
-5. **MCP Support:** Native Claude integration via Model Context Protocol
-6. **Quick Wins:** Ship MVP faster, iterate faster, lower risk
+**Phase 1 (Current): VPS-Only MVP**
+- **Why:** Zero infrastructure cost, full user control, zero cold start
+- **Target:** Technical developers comfortable with VPS
+- **Cost:** $0 to us (users provide VPS)
+- **Setup:** 5 minutes via bootstrap script
 
-**When to Migrate:**
-- **Trigger 1:** >500 active Pro users
-- **Trigger 2:** E2B costs >$3K/mo
-- **Trigger 3:** Need >24 hour sessions
-- **Migrate to:** Hetzner VPS-per-user (not Fly.io or Modal)
+**Phase 2: Mobile App**
+- **Focus:** Polish mobile experience
+- **Execution:** Still VPS-only
+- **Timeline:** Weeks 17-20
+
+**Phase 3: Add E2B as Managed Option**
+- **Why E2B over others:** 150ms cold starts, AI-first design, simple SDK
+- **Target:** Non-technical users who want zero-ops
+- **Pricing:** Free tier (VPS DIY) + Pro tier ($15/mo E2B managed)
+- **Timeline:** Week 21+
+
+**Architecture Evolution:**
+```
+Week 1-16:  VPS-only (BYOV)
+Week 17-20: Mobile app + VPS
+Week 21+:   Add E2B as managed option
+            └─ DIY (Free) = User's VPS
+            └─ Managed (Pro $15/mo) = E2B sandbox
+```
 
 ### Implementation Changes to ARCHITECTURE.md
 
-**Replace Section 8 ("Recommended Architecture Decision"):**
-
-```markdown
-## 8. Recommended Architecture Decision
-
-### For MVP (Weeks 1-16): Use E2B Sandboxes ✅
-
-**Why:**
-- 150ms cold starts (10-66x faster than Fly.io/Modal)
-- Purpose-built for AI agents (not retrofitted general infra)
-- Simple SDK: `Sandbox.create()` vs Fly Machines API
-- $100 free credit = 2000 hours of testing
-- MCP integration for Claude Code
-
-**Cost Estimate (first 100 users):**
-- E2B infrastructure: ~$500/mo
-- Claude API: ~$3,000/mo
-- Total: ~$3,500/mo
-- Revenue at $15/user: $1,500/mo (wait for scale)
-
-### For Scale (Week 17+): Migrate to VPS-per-user
-
-**Trigger:** >500 active users OR E2B costs >$3K/mo
-
-**Why:**
-- Predictable costs ($4.85/user vs $5-10/user serverless)
-- Zero cold start (always-on VMs)
-- Unlimited session duration
-- Better margins (68% vs 37%)
-
-**Implementation:** Hetzner Cloud CX22 per Pro user
-```
+**✅ COMPLETED:** Section 4 and Section 8 updated (Jan 9, 2026) to reflect VPS-first approach with E2B as future Phase 3 addition. See ARCHITECTURE.md v4.0 for current state.
 
 ---
 

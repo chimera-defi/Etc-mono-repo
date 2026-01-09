@@ -63,23 +63,35 @@ Claude: Analyzing codebase... Found src/api.ts
 
 ---
 
-## Tech Stack (Simplified)
+## Tech Stack
+
+### Current (Phase 1)
 
 | Layer | Technology | Why |
 |-------|-----------|-----|
-| **Execution** | Your VPS + Claude Code | You control the environment |
-| **Bridge** | Node.js HTTP server (~100 LOC) | Thin wrapper for Claude CLI |
+| **Execution** | Your VPS + Claude Code | BYOV - zero cost, full control |
+| **Bridge** | Node.js daemon on VPS | Thin wrapper for Claude CLI |
 | **Voice** | OpenAI Whisper API | 98% accuracy |
-| **Interface** | Static HTML + JS | Works on any device |
-| **Auth** | API key | Simple, secure |
+| **Interface** | Static HTML + JS | Testing UI (not final) |
+| **Backend** | Fastify 4 + TypeScript | API server (77 tests ✅) |
+| **Auth** | API key | Simple VPS connection |
 
-### Future (Mobile App)
+### Phase 2 (Mobile App)
 
 | Layer | Technology | Why |
 |-------|-----------|-----|
-| **Mobile** | React Native + Expo SDK 52 | Cross-platform, fast iteration |
-| **Backend** | Fastify 4 | API server |
-| **Database** | PostgreSQL (Neon) | Serverless, auto-scale |
+| **Mobile** | Swift + SwiftUI | Native voice APIs, iOS-first |
+| **Voice UI** | AVFoundation | Native recording |
+| **TTS** | AVSpeechSynthesizer | Native, low latency |
+| **Database** | PostgreSQL (Neon) | User data, task history |
+
+### Phase 3 (Managed Sandboxes)
+
+| Layer | Technology | Why |
+|-------|-----------|-----|
+| **Managed Execution** | E2B Sandboxes | 150ms cold start, zero-ops |
+| **Billing** | Stripe | Pro tier ($15/mo) |
+| **Hybrid Model** | VPS (DIY) or E2B (Managed) | User choice |
 
 ---
 
@@ -109,26 +121,41 @@ Claude: Analyzing codebase... Found src/api.ts
 
 ---
 
-## Implementation Timeline
+## Implementation Roadmap
 
-### MVP (Now Available)
+### Phase 1: VPS-Only MVP (Weeks 1-16) - Current
 
-| Phase | Duration | Deliverables |
-|-------|----------|--------------|
-| **Open App** | 0 min | Open `cadence-web/index.html` |
-| **VPS Setup** | 5 min | Copy/paste bootstrap command, enter credentials |
-| **Start Coding** | Immediate | Speak commands, Claude executes |
+| Component | Status | Notes |
+|-----------|--------|-------|
+| **Backend API** | ✅ Complete | 77 tests passing |
+| **Bootstrap Script** | ✅ Complete | `cadence-setup/bootstrap.sh` |
+| **Testing UI** | ✅ Complete | `cadence-web/index.html` (browser-based) |
+| **Mobile App** | 🚧 In Progress | iOS Swift/SwiftUI |
 
-### Future Mobile App (Optional)
+**Current State:** VPS-only execution, web-based testing UI available.
 
-| Phase | Duration | Deliverables |
-|-------|----------|--------------|
-| **1: Mobile Shell** | Week 1-2 | Expo project, auth, navigation |
-| **2: Voice** | Week 2-3 | Native voice recording |
-| **3: Agent UI** | Week 3-4 | Agent list, detail screens |
-| **4: Polish** | Week 4-5 | Push notifications, offline |
+### Phase 2: Mobile App (Weeks 17-20) - Next
 
-See [IMPLEMENTATION.md](./IMPLEMENTATION.md) for full mobile app plans.
+| Component | Status | Deliverables |
+|-----------|--------|--------------|
+| **iOS App** | 📋 Planned | Swift/SwiftUI native app |
+| **Voice UI** | 📋 Planned | Native voice recording + transcription |
+| **Task Views** | 📋 Planned | Agent list, detail, streaming updates |
+| **VPS Settings** | 📋 Planned | Connection management |
+
+**Execution:** Still VPS-only (BYOV).
+
+### Phase 3: Managed Sandboxes (Weeks 21+) - Future
+
+| Component | Status | Deliverables |
+|-----------|--------|--------------|
+| **E2B Integration** | 📋 Planned | Managed sandbox option |
+| **Billing Tiers** | 📋 Planned | Free (VPS) + Pro (E2B $15/mo) |
+| **Provider Selection** | 📋 Planned | Settings to choose execution mode |
+
+**Execution:** Hybrid (DIY VPS or managed E2B).
+
+See [ARCHITECTURE.md](./ARCHITECTURE.md) Section 8 for detailed roadmap.
 
 ---
 
