@@ -1,20 +1,34 @@
 'use client';
 
-import { useState, useCallback } from 'react';
-import { Mic, MicOff, Send, Loader2 } from 'lucide-react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
+import { Mic, MicOff, Send, Loader2, ChevronDown } from 'lucide-react';
 import { useVoiceRecorder } from '@/hooks/useVoiceRecorder';
 import { useStore } from '@/lib/store';
 import { api } from '@/lib/api';
 import { clsx } from 'clsx';
 
 export function VoiceInterface() {
-  const { transcript, setTranscript, addTask, settings } = useStore();
+  const {
+    transcript,
+    setTranscript,
+    addTask,
+    settings,
+    githubUser,
+    githubRepos,
+    selectedRepoId,
+    selectRepo,
+  } = useStore();
   const { isRecording, isProcessing, audioLevel, error, startRecording, stopRecording } = useVoiceRecorder();
 
-  const [repoUrl, setRepoUrl] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [statusMessage, setStatusMessage] = useState('Click to record');
   const [transcribeError, setTranscribeError] = useState<string | null>(null);
+
+  // Get currently selected repo
+  const selectedRepo = useMemo(
+    () => githubRepos.find((r) => r.id === selectedRepoId),
+    [githubRepos, selectedRepoId]
+  );
 
   const handleRecordToggle = useCallback(async () => {
     if (isRecording) {
@@ -82,11 +96,11 @@ export function VoiceInterface() {
     try {
       const task = await api.createTask({
         task: transcript,
-        repoUrl: repoUrl || undefined,
+        repoUrl: selectedRepo?.html_url,
       });
       addTask(task);
       setTranscript('');
-      setRepoUrl('');
+      selectRepo(null);
       setStatusMessage('Task created successfully!');
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to create task';
@@ -94,7 +108,7 @@ export function VoiceInterface() {
     } finally {
       setIsSending(false);
     }
-  }, [transcript, repoUrl, addTask, setTranscript]);
+  }, [transcript, selectedRepo, addTask, setTranscript, selectRepo]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -181,15 +195,33 @@ export function VoiceInterface() {
 
         <div className="bg-surface border border-border rounded-xl p-4">
           <label className="block text-sm text-[var(--text-dim)] mb-2">
-            Repository URL (optional)
+            Repository {githubUser ? '' : '(connect GitHub in Settings)'}
           </label>
-          <input
-            type="text"
-            value={repoUrl}
-            onChange={(e) => setRepoUrl(e.target.value)}
-            placeholder="https://github.com/your/repo"
-            className="w-full bg-transparent border-none focus:outline-none text-[var(--text)]"
-          />
+          {githubUser && githubRepos.length > 0 ? (
+            <div className="relative">
+              <select
+                value={selectedRepoId ?? ''}
+                onChange={(e) => selectRepo(e.target.value ? Number(e.target.value) : null)}
+                className="w-full bg-transparent border-none focus:outline-none text-[var(--text)] appearance-none cursor-pointer pr-8"
+              >
+                <option value="">Select a repository...</option>
+                {githubRepos.map((repo) => (
+                  <option key={repo.id} value={repo.id}>
+                    {repo.full_name} {repo.private ? '(private)' : ''}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="absolute right-0 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--text-dim)] pointer-events-none" />
+            </div>
+          ) : githubUser ? (
+            <p className="text-[var(--text-dim)] text-sm">
+              No repositories found. Check Settings.
+            </p>
+          ) : (
+            <p className="text-[var(--text-dim)] text-sm">
+              Connect your GitHub account in Settings to select a repository.
+            </p>
+          )}
         </div>
 
         <button

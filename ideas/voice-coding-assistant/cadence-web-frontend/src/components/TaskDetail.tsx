@@ -213,6 +213,57 @@ export function TaskDetail() {
             </div>
           )}
         </div>
+
+        {/* PR Information */}
+        {task.prNumber && (
+          <div className="mt-4 pt-4 border-t border-border">
+            <div className="flex items-center gap-3 mb-3">
+              <GitPullRequest className="w-5 h-5 text-blue-400" />
+              <span className="font-medium">Pull Request</span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+              <div>
+                <span className="text-[var(--text-dim)]">PR:</span>
+                {task.prUrl ? (
+                  <a
+                    href={task.prUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ml-2 text-primary hover:underline inline-flex items-center gap-1"
+                  >
+                    #{task.prNumber}
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                ) : (
+                  <span className="ml-2">#{task.prNumber}</span>
+                )}
+              </div>
+              {task.prBranch && (
+                <div className="flex items-center gap-2">
+                  <span className="text-[var(--text-dim)]">Branch:</span>
+                  <code className="ml-2 px-2 py-0.5 bg-background rounded text-xs font-mono">
+                    {task.prBranch}
+                  </code>
+                </div>
+              )}
+              {task.prState && (
+                <div>
+                  <span className="text-[var(--text-dim)]">Status:</span>
+                  <span
+                    className={clsx(
+                      'ml-2 px-2 py-0.5 rounded text-xs font-medium',
+                      task.prState === 'merged' && 'bg-success/20 text-success',
+                      task.prState === 'open' && 'bg-blue-400/20 text-blue-400',
+                      task.prState === 'closed' && 'bg-error/20 text-error'
+                    )}
+                  >
+                    {task.prState.charAt(0).toUpperCase() + task.prState.slice(1)}
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Output */}

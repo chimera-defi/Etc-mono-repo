@@ -61,7 +61,7 @@ async function captureScreenshots() {
   await page.click('button:has-text("Voice")');
   await page.waitForTimeout(500);
   await page.fill('textarea', 'Add error handling to the fetchData function in src/api.ts');
-  await page.fill('input[placeholder*="github"]', 'https://github.com/example/my-project');
+  // Repo selection requires GitHub OAuth - shows prompt to connect
   await page.waitForTimeout(300);
   await page.screenshot({ path: `${screenshotsDir}/08-voice-with-task.png`, fullPage: false });
 
