@@ -200,6 +200,272 @@ See Valdi documentation at `/docs/docs/workflow-hermes-debugger.md` for detailed
 4. **Hot reload is fast** - Encourage using it for rapid iteration
 5. **Bazel is the build system** - Direct bazel commands available but CLI preferred
 6. **Cross-platform by default** - Code runs on iOS, Android, and macOS
+7. **🔥 USE MCP CLI for token efficiency** - See section below for Valdi-specific patterns
+
+---
+
+## 🚀 MCP CLI for Token Efficiency (CRITICAL)
+
+### Why Use MCP CLI for Valdi Development
+
+Valdi projects have specific structure requirements (BUILD.bazel files, modules/, WORKSPACE, config.yaml, etc.). **MCP CLI reduces tokens by 60-80%** when exploring and working with this structure.
+
+### Valdi-Specific MCP CLI Patterns
+
+#### Pattern 1: Explore Valdi Project Structure
+
+```bash
+# Get complete directory tree
+mcp-cli filesystem/directory_tree '{
+  "path": "/home/user/Etc-mono-repo/mobile_experiments/Valdi"
+}'
+
+# Find all BUILD.bazel files
+mcp-cli filesystem/search_files '{
+  "path": "/home/user/Etc-mono-repo/mobile_experiments/Valdi",
+  "pattern": "**/BUILD.bazel"
+}'
+
+# Find all TypeScript component files
+mcp-cli filesystem/search_files '{
+  "path": "/home/user/Etc-mono-repo/mobile_experiments/Valdi/modules",
+  "pattern": "**/*.ts"
+}'
+```
+
+**Token Savings:** ~80% vs recursive directory exploration
+
+#### Pattern 2: Bulk Read Valdi Configuration
+
+```bash
+# Read all config files at once
+mcp-cli filesystem/read_multiple_files '{
+  "paths": [
+    "mobile_experiments/Valdi/config.yaml",
+    "mobile_experiments/Valdi/WORKSPACE",
+    "mobile_experiments/Valdi/.bazelrc",
+    "mobile_experiments/Valdi/package.json"
+  ]
+}'
+```
+
+**Token Savings:** ~66% (1 call vs 4 calls)
+
+#### Pattern 3: Search Valdi Documentation
+
+```bash
+# Find all Valdi docs
+mcp-cli filesystem/search_files '{
+  "path": "/home/user/Etc-mono-repo/mobile_experiments/Valdi",
+  "pattern": "**/*.md"
+}'
+
+# Read specific sections of large docs
+mcp-cli filesystem/read_text_file '{
+  "path": "/home/user/Etc-mono-repo/mobile_experiments/Valdi/AGENTS.md",
+  "head": 100
+}'
+```
+
+**Token Savings:** ~70% for discovery + selective reading
+
+#### Pattern 4: Store Valdi Knowledge
+
+**CRITICAL:** Store Valdi-specific knowledge to avoid re-researching framework details.
+
+```bash
+# Store Valdi architecture knowledge
+mcp-cli memory/create_entities '{
+  "entities": [
+    {
+      "name": "Valdi Framework Architecture",
+      "entityType": "architecture",
+      "observations": [
+        "Cross-platform: iOS, Android, macOS",
+        "TSX compiles to native (not web views)",
+        "Bazel build system",
+        "Class-based components with onRender() method",
+        "Lowercase tags: <view>, <label>, not <View>, <Label>",
+        "Hot reload for fast iteration"
+      ]
+    }
+  ]
+}'
+
+# Store Valdi project structure requirements
+mcp-cli memory/create_entities '{
+  "entities": [
+    {
+      "name": "Valdi Project Structure",
+      "entityType": "structure",
+      "observations": [
+        "modules/ - application modules with src/",
+        "BUILD.bazel - build rules for each module",
+        "WORKSPACE - Bazel workspace config",
+        "config.yaml - Valdi project config",
+        ".bazelrc - Bazel build flags",
+        "Must run valdi projectsync after config changes"
+      ]
+    }
+  ]
+}'
+
+# Store Valdi CLI commands
+mcp-cli memory/create_entities '{
+  "entities": [
+    {
+      "name": "Valdi CLI Commands",
+      "entityType": "commands",
+      "observations": [
+        "valdi dev_setup - initial setup",
+        "valdi projectsync - sync after config changes",
+        "valdi install ios/android/macos - build and install",
+        "valdi hotreload - fast development iteration",
+        "bazel build //modules/path:target - direct build",
+        "bazel clean - clear build cache"
+      ]
+    }
+  ]
+}'
+
+# Store common Valdi patterns
+mcp-cli memory/create_entities '{
+  "entities": [
+    {
+      "name": "Valdi Component Patterns",
+      "entityType": "patterns",
+      "observations": [
+        "Class extends Component",
+        "onRender() method returns TSX",
+        "Lifecycle: onMount(), onUnmount(), onUpdate()",
+        "Provider pattern for dependency injection",
+        "Flexbox layout with RTL support",
+        "setState() for re-renders"
+      ]
+    }
+  ]
+}'
+```
+
+**Token Savings:** ~90% across sessions (store once, query many times)
+
+#### Pattern 5: Query Valdi Knowledge Before Working
+
+**ALWAYS query first:**
+
+```bash
+# Check for existing Valdi knowledge
+mcp-cli memory/search_nodes '{"query": "Valdi"}'
+mcp-cli memory/search_nodes '{"query": "Bazel"}'
+mcp-cli memory/search_nodes '{"query": "components"}'
+
+# Get specific Valdi entities
+mcp-cli memory/open_nodes '{
+  "names": ["Valdi Framework Architecture", "Valdi Project Structure"]
+}'
+```
+
+**Token Savings:** ~95% vs re-reading documentation
+
+### Valdi Work Checklist with MCP CLI
+
+When working on Valdi tasks:
+
+1. **🔥 Query knowledge first:** Check `memory/search_nodes` for Valdi knowledge
+2. **Explore structure:** Use `directory_tree` to understand project layout
+3. **Batch config reads:** Use `read_multiple_files` for BUILD.bazel, config.yaml, etc.
+4. **Store discoveries:** Use `memory/create_entities` when learning new Valdi patterns
+5. **Search efficiently:** Use `search_files` for BUILD.bazel files, TypeScript components
+6. **Read selectively:** For large docs, use `head`/`tail` parameters
+
+### Example: Adding a New Valdi Component
+
+**Traditional approach (inefficient):**
+```
+Read AGENTS.md (full file)
+→ Read config.yaml
+→ Read BUILD.bazel
+→ Read example component
+→ Research Valdi component lifecycle
+→ Write component
+```
+
+**MCP CLI approach (efficient):**
+```bash
+# 1. Query existing Valdi knowledge
+mcp-cli memory/search_nodes '{"query": "Valdi component"}'
+
+# 2. If needed, batch read related files
+mcp-cli filesystem/read_multiple_files '{
+  "paths": [
+    "mobile_experiments/Valdi/modules/snapchat_valdi/BUILD.bazel",
+    "mobile_experiments/Valdi/config.yaml"
+  ]
+}'
+
+# 3. Store new pattern if discovered
+mcp-cli memory/create_entities '{
+  "entities": [{"name": "NewValdiPattern", "entityType": "pattern", "observations": [...]}]
+}'
+```
+
+**Token Savings:** ~75% vs traditional approach
+
+### Valdi-Specific Knowledge to Store
+
+Store these entity types to build cumulative knowledge:
+
+1. **Architecture:** Framework design, compilation process, platform support
+2. **Structure:** Project layout, required files, module organization
+3. **Commands:** CLI commands, Bazel commands, workflow steps
+4. **Patterns:** Component patterns, lifecycle methods, Provider pattern
+5. **Pitfalls:** Common mistakes, build issues, debugging tips
+6. **Libraries:** Available standard library modules (valdi_core, valdi_http, etc.)
+
+### Integration with Valdi Workflow
+
+When developing Valdi components:
+
+```bash
+# Store build discoveries
+mcp-cli memory/create_entities '{
+  "entities": [
+    {
+      "name": "Valdi Build Process",
+      "entityType": "workflow",
+      "observations": [
+        "valdi projectsync regenerates BUILD files",
+        "Hot reload fastest for development",
+        "bazel clean fixes stuck builds",
+        "VSCode integration for debugging",
+        "Hermes debugger with Chrome DevTools"
+      ]
+    }
+  ]
+}'
+
+# Store component learnings
+mcp-cli memory/add_observations '{
+  "observations": [
+    {
+      "entityName": "Valdi Component Patterns",
+      "contents": [
+        "Event handlers use arrow functions: onPress={() => this.handlePress()}",
+        "Styling properties passed directly to elements",
+        "Flexbox layout: flexDirection, alignItems, justifyContent"
+      ]
+    }
+  ]
+}'
+```
+
+This creates a knowledge base that improves with every Valdi task.
+
+### See Also
+
+- **Full MCP CLI Documentation:** `/home/user/Etc-mono-repo/mcp-cli-evaluation.md`
+- **General MCP CLI Guidelines:** See CLAUDE.md "MCP CLI Integration" section
+- **Rules:** See `.cursorrules` Rules #140-155
 
 ---
 
