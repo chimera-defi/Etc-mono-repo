@@ -807,44 +807,44 @@ export function WalletTable<T extends WalletData>({
         <table className="w-full">
           <thead>
             <tr className="border-b border-border bg-muted/50">
-              <th className="py-3 px-4 text-left text-sm font-medium">Compare</th>
-              <th className="py-3 px-4 text-left text-sm font-medium">Wallet</th>
-              <th className="py-3 px-4 text-left text-sm font-medium">Status</th>
+              <th className="py-3 px-4 text-left text-sm font-medium" title="Select wallets to compare side-by-side">Compare</th>
+              <th className="py-3 px-4 text-left text-sm font-medium" title="Wallet name with overall score">Wallet</th>
+              <th className="py-3 px-4 text-left text-sm font-medium" title="Recommendation level: Recommended, Situational, or Avoid">Status</th>
               {type === 'software' && (
                 <>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Platforms</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Chains</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Features</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">License</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium" title="Supported platforms: mobile app, browser extension, desktop, or web app">Platforms</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium" title="Blockchain networks supported: EVM, Bitcoin, Solana, and others">Chains</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium" title="Key features: transaction simulation, scam alerts, hardware support">Features</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium" title="Open source status: open source, partial open source, or closed source">License</th>
                 </>
               )}
               {type === 'hardware' && (
                 <>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Air-Gap</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">SE</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Open Source</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Connectivity</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium" title="Air-gapped: device never connects during transaction signing">Air-Gap</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium" title="Secure Element (SE): dedicated chip for key storage and signing">SE</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium" title="Firmware transparency: open source, partial, or closed source">Open Source</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium" title="Connection methods: USB, Bluetooth, QR codes, or MicroSD">Connectivity</th>
                 </>
               )}
               {type === 'cards' && (
                 <>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Region</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Cashback</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Rewards</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Annual Fee</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium" title="Geographic region where the card is available">Region</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium" title="Percentage of purchases returned as cashback">Cashback</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium" title="Additional rewards program details">Rewards</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium" title="Annual fee or subscription cost, if any">Annual Fee</th>
                 </>
               )}
               {type === 'ramps' && (
                 <>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Type</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Coverage</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Fee Model</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Min Fee</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Dev UX</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Links</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium" title="Type of service: on-ramp (fiat to crypto), off-ramp (crypto to fiat), or both">Type</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium" title="Geographic or asset coverage supported">Coverage</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium" title="Fee structure: flat rate, percentage, or tiered">Fee Model</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium" title="Minimum transaction fee or amount">Min Fee</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium" title="Developer experience: API quality and integration documentation">Dev UX</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium" title="External links to provider website">Links</th>
                 </>
               )}
-              {(type === 'software' || type === 'hardware') && <th className="py-3 px-4 text-left text-sm font-medium">Links</th>}
+              {(type === 'software' || type === 'hardware') && <th className="py-3 px-4 text-left text-sm font-medium" title="External links to GitHub repository and website">Links</th>}
             </tr>
           </thead>
           <tbody>
