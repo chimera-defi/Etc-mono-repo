@@ -26,6 +26,234 @@ This file contains instructions for Claude Code when working in this repository.
 2. **Verify before completing** - Always run verification commands (`npm run lint`, `npm run build`, `npm test`)
 3. **No data loss** - When editing tables or documents, preserve all existing data
 4. **Document sources** - Include verification dates and source links for any data
+5. **🔥 USE MCP CLI FOR TOKEN EFFICIENCY** - Always prefer MCP CLI over native tools when applicable (see MCP CLI section below)
+
+## 🚀 MCP CLI Integration (CRITICAL FOR TOKEN EFFICIENCY)
+
+**IMPORTANT:** This repository is configured with MCP CLI to achieve **60-80% token reduction** for file operations and knowledge management. You MUST use these tools strategically to maximize efficiency.
+
+### Why MCP CLI?
+
+- **Token Reduction:** 60-80% fewer tokens vs loading full MCP schemas
+- **On-Demand Loading:** Only load tool schemas when needed
+- **Bulk Operations:** Read multiple files in a single call
+- **Persistent Memory:** Cross-session knowledge graph
+- **Better Workflows:** Pattern-based tool discovery
+
+### Configuration
+
+MCP CLI is configured in `mcp_servers.json` at the repository root with:
+- **Filesystem Server:** Enhanced file operations, bulk reads, directory trees
+- **Memory Server:** Persistent knowledge graph for cross-session context
+- **Brave Search:** Web research integration (optional, requires API key)
+
+### When to Use MCP CLI
+
+**🔥 ALWAYS use MCP CLI for these operations:**
+
+1. **Bulk File Reading** - Reading 2+ files at once
+2. **Directory Analysis** - Getting directory trees or file listings with metadata
+3. **File Search** - Pattern-based file discovery across large codebases
+4. **Knowledge Storage** - Storing research findings, architectural decisions, project context
+5. **Knowledge Retrieval** - Querying previously stored information
+6. **Large File Operations** - Reading specific sections (head/tail) of large files
+
+**❌ Do NOT use MCP CLI for:**
+- Single file reads of small files (use native Read tool)
+- File writes/edits (use native Write/Edit tools)
+- Git operations (use native Bash tool)
+
+### Common MCP CLI Patterns
+
+#### Pattern 1: Bulk File Reading (HIGH PRIORITY)
+
+Instead of multiple Read tool calls:
+```bash
+# ❌ OLD WAY (multiple tool calls)
+Read package.json
+Read tsconfig.json
+Read next.config.js
+
+# ✅ NEW WAY (single MCP CLI call)
+mcp-cli filesystem/read_multiple_files '{"paths": ["package.json", "tsconfig.json", "next.config.js"]}'
+```
+
+**Token Savings:** ~66% (1 call vs 3 calls, reduced overhead)
+
+#### Pattern 2: Directory Tree Analysis
+
+```bash
+# Get full directory structure with one command
+mcp-cli filesystem/directory_tree '{"path": "/home/user/Etc-mono-repo/wallets/frontend/src"}'
+```
+
+**Token Savings:** ~80% vs recursive directory listing
+
+#### Pattern 3: File Search with Patterns
+
+```bash
+# Find all TypeScript files
+mcp-cli filesystem/search_files '{"path": "/home/user/Etc-mono-repo/wallets", "pattern": "**/*.ts"}'
+
+# Find all config files
+mcp-cli filesystem/search_files '{"path": "/home/user/Etc-mono-repo", "pattern": "**/*config*"}'
+```
+
+**Token Savings:** ~70% vs Glob + multiple reads
+
+#### Pattern 4: Large File Head/Tail Reading
+
+```bash
+# Read first 50 lines only
+mcp-cli filesystem/read_text_file '{"path": "/home/user/Etc-mono-repo/CLAUDE.md", "head": 50}'
+
+# Read last 100 lines only
+mcp-cli filesystem/read_text_file '{"path": "/home/user/Etc-mono-repo/wallets/frontend/src/lib/seo.ts", "tail": 100}'
+```
+
+**Token Savings:** ~90% for large files (only load what you need)
+
+#### Pattern 5: Knowledge Graph Storage
+
+```bash
+# Store project knowledge (CRITICAL for avoiding repeated research)
+mcp-cli memory/create_entities '{"entities": [
+  {"name": "Wallets Frontend Architecture", "entityType": "architecture", "observations": [
+    "Next.js 14 with App Router",
+    "TypeScript strict mode",
+    "OG images generated via scripts/generate-og-images.js",
+    "Twitter Card validation required"
+  ]}
+]}'
+
+# Create relationships between concepts
+mcp-cli memory/create_relations '{"relations": [
+  {"from": "Wallets Frontend", "to": "Next.js 14", "relationType": "uses"}
+]}'
+```
+
+**Token Savings:** ~90% across sessions (store once, query many times)
+
+#### Pattern 6: Knowledge Retrieval
+
+```bash
+# Search for previously stored knowledge
+mcp-cli memory/search_nodes '{"query": "OG images"}'
+
+# Open specific entities
+mcp-cli memory/open_nodes '{"names": ["Wallets Frontend Architecture"]}'
+
+# Read entire knowledge graph
+mcp-cli memory/read_graph '{}'
+```
+
+**Token Savings:** ~95% vs re-reading documentation
+
+### Project-Specific MCP CLI Usage
+
+#### For Wallets Frontend
+
+```bash
+# Analyze all wallet data files
+mcp-cli filesystem/search_files '{"path": "/home/user/Etc-mono-repo/wallets", "pattern": "**/*.json"}'
+
+# Read multiple wallet configs
+mcp-cli filesystem/read_multiple_files '{"paths": ["wallets/frontend/package.json", "wallets/frontend/tsconfig.json"]}'
+
+# Store wallet research
+mcp-cli memory/create_entities '{"entities": [{"name": "MetaMask Features", "entityType": "wallet", "observations": ["Browser extension", "EVM chains", "Most popular"]}]}'
+```
+
+#### For Voice Coding Assistant (Cadence)
+
+```bash
+# Explore all cadence components
+mcp-cli filesystem/directory_tree '{"path": "/home/user/Etc-mono-repo/ideas/voice-coding-assistant"}'
+
+# Read multiple cadence configs
+mcp-cli filesystem/search_files '{"path": "/home/user/Etc-mono-repo/ideas/voice-coding-assistant", "pattern": "**/*package.json"}'
+```
+
+#### For Staking Projects
+
+```bash
+# Analyze staking research
+mcp-cli filesystem/read_multiple_files '{"paths": ["staking/README.md", "staking/aztec/README.md"]}'
+
+# Store staking knowledge
+mcp-cli memory/create_entities '{"entities": [{"name": "Aztec Staking", "entityType": "project", "observations": ["Privacy-focused", "ZK proofs", "Research phase"]}]}'
+```
+
+#### For Ideas & Research
+
+```bash
+# Search all idea documentation
+mcp-cli filesystem/search_files '{"path": "/home/user/Etc-mono-repo/ideas", "pattern": "**/*.md"}'
+
+# Store idea evaluations
+mcp-cli memory/create_entities '{"entities": [{"name": "Birthday Bot Idea", "entityType": "idea", "observations": ["Unified birthday reminders", "Cross-platform", "Privacy-first"]}]}'
+```
+
+### Tool Discovery Workflow
+
+When you need a tool but aren't sure what's available:
+
+```bash
+# 1. List all available tools
+mcp-cli
+
+# 2. Search for specific capabilities
+mcp-cli grep "*file*"      # Find file-related tools
+mcp-cli grep "*read*"       # Find read operations
+mcp-cli grep "*search*"     # Find search tools
+
+# 3. Get specific tool schema
+mcp-cli filesystem/read_multiple_files
+
+# 4. Execute the tool
+mcp-cli filesystem/read_multiple_files '{"paths": ["file1", "file2"]}'
+```
+
+### JSON Output Mode
+
+For programmatic processing, use `--json` flag:
+
+```bash
+mcp-cli --json filesystem/search_files '{"path": ".", "pattern": "**/*.ts"}' | jq '.[]'
+```
+
+### Best Practices
+
+1. **🔥 ALWAYS check if MCP CLI can do it better** before using native tools
+2. **Batch operations** - Combine multiple reads into one `read_multiple_files` call
+3. **Store knowledge** - Use memory server to avoid repeated research
+4. **Query first** - Check knowledge graph before searching/reading files
+5. **Use head/tail** - For large files, read only what you need
+6. **Pattern search** - Use `search_files` for discovery instead of manual globbing
+7. **JSON mode** - Use `--json` when you need structured output
+
+### Measuring Token Savings
+
+Track your MCP CLI usage to ensure token reduction:
+- **Before MCP CLI:** Note context size for file operations
+- **After MCP CLI:** Compare context size for same operations
+- **Expected:** 60-80% reduction in tokens
+
+### Troubleshooting
+
+If MCP CLI fails:
+- Check `mcp_servers.json` exists and is valid JSON
+- Verify server is listed: `mcp-cli`
+- Check error messages in stderr
+- Fall back to native tools if necessary
+
+### Full Documentation
+
+See `mcp-cli-evaluation.md` for:
+- Detailed evaluation and testing results
+- Token usage analysis with examples
+- Performance characteristics
+- Integration strategies
 
 ## Project-Specific Notes
 
