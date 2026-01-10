@@ -48,11 +48,11 @@ export function TooltipIcon({ text, side = 'bottom' }: TooltipIconProps) {
         }}
         onMouseEnter={() => setIsVisible(true)}
         onMouseLeave={() => setIsVisible(false)}
-        className="inline-flex items-center justify-center w-5 h-5 ml-1 text-xs font-bold rounded-full bg-primary text-primary-foreground hover:bg-primary/80 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 flex-shrink-0 cursor-help"
+        className="inline-flex items-center justify-center px-2.5 py-1 ml-2 text-xs font-bold rounded-full bg-orange-500 text-white hover:bg-orange-600 active:bg-orange-700 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 flex-shrink-0 cursor-help border-2 border-orange-600 shadow-md hover:shadow-lg"
         aria-label={`More info: ${text}`}
         title={text}
       >
-        ?
+        ? Info
       </button>
 
       {isVisible && (
