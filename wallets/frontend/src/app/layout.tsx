@@ -10,7 +10,7 @@ const GA_MEASUREMENT_ID = 'G-L6ZV569CMN';
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
 const siteName = 'Wallet Radar';
 const defaultTitle = 'Wallet Radar - Developer-Focused Crypto Wallet Research';
-const defaultDescription = 'Developer-focused crypto wallet comparisons. Find stable MetaMask alternatives with scoring, audit links, GitHub activity, and UX notes for software and hardware wallets.';
+const defaultDescription = 'Independent research and comparison of crypto wallets, hardware wallets, and payment solutions. Scoring, security audits, GitHub activity analysis, and developer experience benchmarks.';
 // Cache-busting version for OG images - increment when images are updated
 const ogImageVersion = 'v4';
 
@@ -23,20 +23,23 @@ export const metadata: Metadata = {
   description: defaultDescription,
   keywords: [
     'crypto wallet',
-    'MetaMask alternative',
+    'wallet research',
+    'wallet comparison',
     'hardware wallet',
+    'software wallet',
+    'wallet analysis',
     'Rabby wallet',
     'Trezor',
     'Ledger',
-    'wallet comparison',
     'EVM wallet',
     'Ethereum wallet',
     'Web3 wallet',
-    'crypto wallet security',
-    'developer wallet',
-    'wallet audit',
+    'crypto security',
+    'developer tools',
+    'security audit',
     'blockchain wallet',
     'DeFi wallet',
+    'educational research',
   ],
   authors: [{ name: 'Chimera DeFi' }],
   creator: 'Chimera DeFi',
