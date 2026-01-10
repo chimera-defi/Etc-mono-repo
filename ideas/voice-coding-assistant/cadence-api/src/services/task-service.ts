@@ -22,6 +22,10 @@ export class TaskService {
       repoPath: record.repoPath ?? undefined,
       status: record.status,
       output: record.output ?? undefined,
+      prUrl: record.prUrl ?? undefined,
+      prNumber: record.prNumber ?? undefined,
+      prBranch: record.prBranch ?? undefined,
+      prState: record.prState ?? undefined,
       createdAt: record.createdAt.toISOString(),
       completedAt: record.completedAt?.toISOString(),
     };
@@ -34,7 +38,7 @@ export class TaskService {
     task: string;
     repoUrl?: string;
     repoPath?: string;
-    status?: 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
+    status?: 'pending' | 'running' | 'pr_open' | 'completed' | 'failed' | 'cancelled';
     output?: string;
   }): Promise<Task> {
     if (useMockStorage) {
@@ -104,10 +108,14 @@ export class TaskService {
   async update(
     id: string,
     updates: {
-      status?: 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
+      status?: 'pending' | 'running' | 'pr_open' | 'completed' | 'failed' | 'cancelled';
       output?: string;
       error?: string;
       completedAt?: Date;
+      prUrl?: string;
+      prNumber?: number;
+      prBranch?: string;
+      prState?: 'open' | 'merged' | 'closed';
     }
   ): Promise<Task | null> {
     if (useMockStorage) {
@@ -116,6 +124,11 @@ export class TaskService {
       if (updates.status) task.status = updates.status;
       if (updates.output) task.output = updates.output;
       if (updates.completedAt) task.completedAt = updates.completedAt.toISOString();
+      if (updates.completedAt === undefined && 'completedAt' in updates) task.completedAt = undefined;
+      if (updates.prUrl) task.prUrl = updates.prUrl;
+      if (updates.prNumber) task.prNumber = updates.prNumber;
+      if (updates.prBranch) task.prBranch = updates.prBranch;
+      if (updates.prState) task.prState = updates.prState;
       return task;
     }
 
@@ -162,7 +175,63 @@ export class TaskService {
     const found = records.find(r => r.output?.includes(text));
     return found ? this.toTask(found) : null;
   }
+
+  /**
+   * Find task by PR URL
+   */
+  async findByPrUrl(prUrl: string): Promise<Task | null> {
+    if (useMockStorage) {
+      for (const task of mockTasks.values()) {
+        if (task.prUrl === prUrl) {
+          return task;
+        }
+      }
+      return null;
+    }
+
+    const records = await db!
+      .select()
+      .from(schema.tasks);
+
+    const found = records.find(r => (r as unknown as Task).prUrl === prUrl);
+    return found ? this.toTask(found) : null;
+  }
+
+  /**
+   * Find a running task for a given repository URL (without a PR yet)
+   * Used to link newly opened PRs to their originating task
+   */
+  async findRunningTaskForRepo(repoUrl: string): Promise<Task | null> {
+    if (useMockStorage) {
+      for (const task of mockTasks.values()) {
+        if (task.status === 'running' && task.repoUrl === repoUrl && !task.prUrl) {
+          return task;
+        }
+      }
+      return null;
+    }
+
+    const records = await db!
+      .select()
+      .from(schema.tasks)
+      .where(eq(schema.tasks.repoUrl, repoUrl));
+
+    const found = records.find(r =>
+      r.status === 'running' && !(r as unknown as Task).prUrl
+    );
+    return found ? this.toTask(found) : null;
+  }
 }
 
 // Export singleton instance
 export const taskService = new TaskService();
+
+/**
+ * Direct setter for tests - allows setting task with specific ID
+ * Only works in mock storage mode
+ */
+export function setTaskDirectly(id: string, task: Task): void {
+  if (useMockStorage) {
+    mockTasks.set(id, { ...task, id });
+  }
+}

@@ -9,10 +9,15 @@ import {
   JWTPayload,
 } from '../types/auth.js';
 import { authenticateJWT } from '../middleware/auth.js';
+import { GitHubRepo } from '../types.js';
 
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 const JWT_EXPIRATION = process.env.JWT_EXPIRATION || '7d'; // Default 7 days
+
+// Store GitHub access tokens for authenticated users (for repo fetching)
+// In production, store this in database alongside user info
+const userGitHubTokens = new Map<string, string>();
 
 /**
  * Exchange GitHub authorization code for access token
@@ -148,6 +153,9 @@ export async function authRoutes(
       // Fetch user information from GitHub
       const user = await fetchGitHubUser(githubAccessToken);
 
+      // Store GitHub token for later repo fetching
+      userGitHubTokens.set(user.id, githubAccessToken);
+
       // Create our JWT tokens
       const tokens = createTokens(app, user);
 
@@ -239,4 +247,92 @@ export async function authRoutes(
       }
     }
   );
+
+  /**
+   * POST /api/auth/logout
+   * Clear session (invalidate stored GitHub token)
+   */
+  app.post(
+    '/auth/logout',
+    {
+      preHandler: authenticateJWT,
+    },
+    async (request, reply) => {
+      if (request.jwtUser) {
+        userGitHubTokens.delete(request.jwtUser.sub);
+      }
+      return reply.status(200).send({ success: true });
+    }
+  );
+
+  /**
+   * GET /api/repos
+   * List authenticated user's GitHub repositories
+   */
+  app.get(
+    '/repos',
+    {
+      preHandler: authenticateJWT,
+    },
+    async (request, reply) => {
+      if (!request.jwtUser) {
+        return reply.status(401).send({
+          error: 'Unauthorized',
+          message: 'User not authenticated',
+        });
+      }
+
+      const githubToken = userGitHubTokens.get(request.jwtUser.sub);
+      if (!githubToken) {
+        return reply.status(401).send({
+          error: 'GitHub Token Expired',
+          message: 'Please re-authenticate with GitHub',
+        });
+      }
+
+      try {
+        // Fetch user's repos (including private ones)
+        const reposResponse = await fetch(
+          'https://api.github.com/user/repos?sort=pushed&per_page=100&affiliation=owner,collaborator',
+          {
+            headers: {
+              Authorization: `Bearer ${githubToken}`,
+              Accept: 'application/vnd.github.v3+json',
+            },
+          }
+        );
+
+        if (!reposResponse.ok) {
+          return reply.status(reposResponse.status).send({
+            error: 'Failed to fetch repositories',
+          });
+        }
+
+        const repos = (await reposResponse.json()) as GitHubRepo[];
+
+        // Return simplified repo data
+        return {
+          repos: repos.map((repo) => ({
+            id: repo.id,
+            name: repo.name,
+            full_name: repo.full_name,
+            html_url: repo.html_url,
+            description: repo.description,
+            private: repo.private,
+            default_branch: repo.default_branch,
+            updated_at: repo.updated_at,
+            pushed_at: repo.pushed_at,
+            language: repo.language,
+            stargazers_count: repo.stargazers_count,
+          })),
+        };
+      } catch (err) {
+        request.log.error(err, 'Failed to fetch repos');
+        return reply.status(500).send({ error: 'Failed to fetch repositories' });
+      }
+    }
+  );
 }
+
+// Export token map for use in other routes
+export { userGitHubTokens };
