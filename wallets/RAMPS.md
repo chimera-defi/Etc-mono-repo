@@ -1,5 +1,7 @@
 # Crypto On/Off-Ramp Comparison (Crypto-Only)
 
+> **🔒 Safety & Link Note:** This page contains external links to official on/off-ramp provider websites for research purposes. All external links include `utm_source=walletradar` to identify traffic from our site. **We are not affiliated with any service providers.** Always verify service availability in your region and review fees directly on official websites before use.
+
 ## Complete Ramp Comparison (All 20 Providers)
 
 | Provider | Score | Type | On-Ramp | Off-Ramp | Coverage | Fee Model | Min Fee | Dev UX | Status | Best For |
