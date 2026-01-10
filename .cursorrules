@@ -291,6 +291,9 @@ Brief description of changes.
   159. **Dead code in state management** - when using Zustand or similar state libraries, check all defined state variables and actions are actually used. Common pattern: define state for future features during initial setup, then forget to remove unused definitions. Run grep for each state variable to verify usage.
   160. **Web/mobile API parity** - web frontends mirroring mobile apps must use identical API endpoints, data models, and WebSocket event formats. Copy types from backend to frontend exactly - don't redefine with subtle differences.
   161. **Multi-pass code review** - before committing new frontends, do explicit passes: (1) unused imports/variables, (2) dead state management code, (3) placeholder URLs like `href="#"`, (4) hardcoded values that should be configurable, (5) mock data clearly marked as such.
+  162. **Keep only latest screenshots** - when capturing UI screenshots, remove old/integration screenshots and keep only the most recent. Use numbered prefixes (01-, 02-) for ordered screenshots. Don't accumulate stale screenshots in git history.
+  163. **Task/PR lifecycle segregation in UI** - task management UIs should visually segregate tasks by status lifecycle: "In Progress" (pending/running), "Open PRs" (awaiting review), "Merged" (completed), and "Failed/Cancelled" sections. Use icons and colors that match status semantics (spinner for running, PR icon for open, merge icon for completed).
+  164. **VPS/server setup in Settings** - web frontends that connect to remote backends need a "Connection" section in Settings with: (1) API endpoint URL input, (2) API key input (optional), (3) Test Connection button, (4) Connection status indicator. Users configure their VPS endpoint here after manual bootstrap setup.
 
 ## Best Practices
 - Use semantic versioning for packages

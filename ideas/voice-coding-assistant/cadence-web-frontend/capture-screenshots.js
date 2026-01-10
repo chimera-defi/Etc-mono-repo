@@ -52,8 +52,16 @@ async function captureScreenshots() {
   console.log('7. Testing connection...');
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.waitForTimeout(200);
-  await page.click('button:has-text("Test Connection")');
-  await page.waitForTimeout(1000);
+  // Fill in endpoint first so button is enabled
+  const endpointInput = page.locator('input[placeholder*="localhost"]').first();
+  await endpointInput.fill('http://localhost:3001');
+  await page.waitForTimeout(300);
+  // Now click test connection
+  const testBtn = page.locator('button', { hasText: 'Test Connection' });
+  if (await testBtn.isVisible()) {
+    await testBtn.click();
+    await page.waitForTimeout(1500);
+  }
   await page.screenshot({ path: `${screenshotsDir}/07-settings-connection-test.png`, fullPage: false });
 
   // 8. Voice Interface - type a task

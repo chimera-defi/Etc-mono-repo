@@ -22,6 +22,10 @@ export class TaskService {
       repoPath: record.repoPath ?? undefined,
       status: record.status,
       output: record.output ?? undefined,
+      prUrl: record.prUrl ?? undefined,
+      prNumber: record.prNumber ?? undefined,
+      prBranch: record.prBranch ?? undefined,
+      prState: record.prState ?? undefined,
       createdAt: record.createdAt.toISOString(),
       completedAt: record.completedAt?.toISOString(),
     };
@@ -34,7 +38,7 @@ export class TaskService {
     task: string;
     repoUrl?: string;
     repoPath?: string;
-    status?: 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
+    status?: 'pending' | 'running' | 'pr_open' | 'completed' | 'failed' | 'cancelled';
     output?: string;
   }): Promise<Task> {
     if (useMockStorage) {
