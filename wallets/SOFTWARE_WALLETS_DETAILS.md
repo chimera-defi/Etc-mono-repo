@@ -2,7 +2,7 @@
 
 > 📊 **View the comparison table:** [See all wallets at a glance →](./SOFTWARE_WALLETS.md)
 
-> **TL;DR:** Use **Rabby** (92) for development (tx simulation + stability), **Trust** (85) or **Rainbow** (82) for production. Use **MetaMask** (68) last for compatibility only — it has ~8 releases/month which is too much churn. Only wallets with ✅ in the "Core" column have both mobile + browser extension.
+> **TL;DR:** Use **Rabby** (92) for development (tx simulation + stability), **Trust** (85) or **Rainbow** (82) for production. Use **MetaMask** (73) last for compatibility only — it has ~8 releases/month which is too much churn. Only wallets with ✅ in the "Core" column have both mobile + browser extension.
 
 **Data Sources:** GitHub REST API (Nov 2024, activity Nov 2025), [WalletBeat](https://walletbeat.fyi) (Dec 2025)
 
@@ -37,7 +37,7 @@
 ---
 ## 🎯 Quick Recommendations
 
-**Quick Answers:** Best for development? **Rabby** (92). Most stable? **Trust** (85). Best code quality? **Rainbow** (82). Why not MetaMask? **MetaMask** (68) has ~8 rel/mo = too much churn. See [full comparison table](#complete-wallet-comparison-all-24-evm-wallets) for all 24 wallets.
+**Quick Answers:** Best for development? **Rabby** (92). Most stable? **Trust** (85). Best code quality? **Rainbow** (82). Why not MetaMask? **MetaMask** (73) has ~8 rel/mo = too much churn. See [full comparison table](#complete-wallet-comparison-all-24-evm-wallets) for all 24 wallets.
 
 **Jump to:** [Comparison Table](#complete-wallet-comparison-all-24-evm-wallets) | [Scoring Methodology](#-wallet-scores-weighted-methodology) | [Features Matrix](#wallet-features-matrix) | [EIP Support](#-eip-support-matrix) | [Developer Experience](#-developer-experience-benchmarks)
 
@@ -48,7 +48,7 @@
 | 🥇 | **Rabby** | 92 | Development — tx simulation, catches bugs before mainnet |
 | 🥈 | **Trust** | 85 | Production — most stable (~3 rel/mo), 163 chains, wide adoption |
 | 🥉 | **Rainbow** | 82 | Production — best code quality (0.3% issue ratio), curated chains |
-| 4 | **Brave** | 78 | Maximum stability — ~2 rel/mo, built into browser |
+| 4 | **Brave** | 81 | Maximum stability — ~2 rel/mo, built into browser, bug bounty |
 | 5 | **Coinbase** | 75 | Account Abstraction — EIP-4337 support ⚠️ SDK dev slowed |
 
 ### Use Case Recommendations
@@ -64,25 +64,25 @@
 - **Coinbase** (75) — AA support, enterprise backing ⚠️ SDK dev slowed
 
 **For Maximum Stability:**
-- **Brave** (78) — ~2 rel/mo, built into browser
+- **Brave** (81) — ~2 rel/mo, built into browser, bug bounty
 - **Trust** (85) — ~3 rel/mo, very stable
 - **Coinbase** (75) — ~2 rel/mo, stable API
 
 **For Account Abstraction / EIP-7702:**
 - **Trust** (85) — EIP-7702 support, most chains (163)
 - **Coinbase** (75) — EIP-4337 in browser extension
-- **OKX** (62) — EIP-7702 support, proprietary
-- **MetaMask** (68) — EIP-7702 support, but high churn
+- **Ambire** (65) — EIP-7702 + 4337, 11+ audits
+- **MetaMask** (73) — EIP-7702 support, but high churn
 
 **For Compatibility Testing (Use Last):**
-- **MetaMask** (68) — Most widely supported, but ~8 rel/mo = test last
+- **MetaMask** (73) — Most widely supported, but ~8 rel/mo = test last
 
 ### ⚠️ Good Wallets That DON'T Meet Core Criteria
 
 **Browser Extension Only (No Mobile):**
+- **Ambire** (65) — Smart wallet with tx simulation, EIP-7702 support, 11+ audits
 - **Enkrypt** (55) — 75+ chains, great for multi-chain testing
-- **Ambire** (62) — Smart wallet with tx simulation, EIP-7702 support
-- **Taho** (50) — Community-owned, open source, resumed active dev
+- **Taho** (45) — Community-owned, open source, resumed active dev
 
 **Mobile/Web Only (No Browser Extension):**
 - **Safe** (58) — Enterprise multi-sig, requires WalletConnect
@@ -97,10 +97,11 @@
 
 ### ⚠️ MetaMask: Why It's Ranked Lower
 
-MetaMask scores 68 (🟡 Situational) despite being the industry standard:
+MetaMask scores 73 (🟡 Situational) despite being the industry standard:
 - **~8 releases/month** — highest churn of any wallet
 - **19.3% issue/star ratio** — indicates maintenance challenges
 - **Frequent breaking changes** — requires constant testing
+- **Positive:** Well-audited (Apr 2025 audit by Diligence, Cure53, Cyfrin)
 - **Use for:** Compatibility testing only (test with MetaMask last)
 
 ---
@@ -157,26 +158,26 @@ Scores prioritize what matters for developers: platform coverage, stability, and
 | **Rabby** | 🥇 92 | 25/25 | 14/20 | 23/25 | 15/15 | 10/10 | 5/5 | Best dev wallet — tx sim + stable |
 | **Trust** | 🥈 85 | 25/25 | 17/20 | 15/25 | 15/15 | 8/10 | 5/5 | Most stable major wallet |
 | **Rainbow** | 🥉 82 | 25/25 | 16/20 | 11/25 | 15/15 | 10/10 | 5/5 | Great code quality (0.3% issues) |
-| **Brave** | 78 | 25/25 | 18/20 | 10/25 | 15/15 | 10/10 | 0/5 | Built into browser, very stable |
+| **Brave** | 81 | 25/25 | 18/20 | 10/25 | 15/15 | 10/10 | 3/5 | Built into browser, bug bounty |
 | **Coinbase** | 75 | 25/25 | 18/20 | 17/25 | 8/15 | 5/10 | 2/5 | AA support, SDK dev slowed |
-| **MetaMask** | 68 | 25/25 | 8/20 | 15/25 | 15/15 | 5/10 | 0/5 | ⚠️ ~8 rel/mo = high churn |
+| **MetaMask** | 73 | 25/25 | 8/20 | 15/25 | 15/15 | 5/10 | 5/5 | ⚠️ ~8 rel/mo = high churn, audited 2025 |
 | **Phantom** | 65 | 25/25 | 15/20 | 15/25 | 5/15 | 0/10 | 5/5 | No testnets, proprietary |
+| **Ambire** | 65 | 0/25 | 18/20 | 17/25 | 15/15 | 10/10 | 5/5 | ❌ No mobile app, 11+ audits |
 | **OKX** | 62 | 25/25 | 12/20 | 15/25 | 5/15 | 0/10 | 5/5 | Proprietary but feature-rich |
 | **Safe** | 58 | 0/25 | 15/20 | 18/25 | 15/15 | 5/10 | 5/5 | ❌ No browser ext — web only |
 | **Enkrypt** | 55 | 0/25 | 18/20 | 12/25 | 15/15 | 10/10 | 0/5 | ❌ No mobile app |
-| **Ambire** | 62 | 0/25 | 18/20 | 17/25 | 15/15 | 10/10 | 2/5 | ❌ No mobile app |
 | **Wigwam** | 62 | 25/25 | 12/20 | 5/25 | 15/15 | 5/10 | 0/5 | Unknown funding |
+| **Daimo** | 50 | 0/25 | 18/20 | 2/25 | 15/15 | 10/10 | 5/5 | ❌ Mobile only, no testnets, audited 2023 |
 | **Ledger Live** | 50 | 0/25 | 16/20 | 9/25 | 15/15 | 10/10 | 0/5 | ❌ No browser extension |
 | **MEW** | 50 | 0/25 | 17/20 | 8/25 | 15/15 | 10/10 | 0/5 | ❌ No browser extension |
 | **Sequence** | 48 | 0/25 | 15/20 | 8/25 | 15/15 | 5/10 | 5/5 | ❌ Web SDK only |
-| **Daimo** | 45 | 0/25 | 18/20 | 2/25 | 15/15 | 10/10 | 0/5 | ❌ Mobile only, no testnets |
+| **Taho** | 45 | 0/25 | 17/20 | 3/25 | 15/15 | 10/10 | 0/5 | ❌ No mobile, risky funding, no audit |
 | **Zerion** | 45 | 25/25 | 12/20 | 3/25 | 5/15 | 0/10 | 0/5 | Proprietary, not for dev |
 | **Uniswap** | 42 | 0/25 | 15/20 | 2/25 | 15/15 | 10/10 | 0/5 | ❌ No browser extension |
-| **Taho** | 50 | 0/25 | 17/20 | 3/25 | 15/15 | 10/10 | 5/5 | ❌ No mobile, risky funding |
 | **imToken** | 38 | 0/25 | 19/20 | 9/25 | 0/15 | 8/10 | 2/5 | ❌ Inactive, mobile only |
-| **1inch** | 35 | 0/25 | 15/20 | 10/25 | 5/15 | 0/10 | 5/5 | ❌ Mobile only, proprietary |
 | **Frame** | 32 | 0/25 | 12/20 | 10/25 | 0/15 | 10/10 | 0/5 | ❌ Inactive, desktop only |
-| **Argent** | 30 | 0/25 | 15/20 | 0/25 | 0/15 | 10/10 | 5/5 | ❌ Inactive, Starknet desktop |
+| **1inch** | 30 | 0/25 | 15/20 | 10/25 | 5/15 | 0/10 | 0/5 | ❌ Mobile only, proprietary, no audit |
+| **Argent** | 25 | 0/25 | 15/20 | 0/25 | 0/15 | 10/10 | 0/5 | ❌ Inactive, Starknet desktop, no audit |
 | **Block** | 25 | 25/25 | 0/20 | 0/25 | 0/15 | 0/10 | 0/5 | ❌ Abandoned (1+ year) |
 | **Kohaku**∆ | 45 | 0/25 | 20/20 | 15/25 | 0/15 | 10/10 | 0/5 | ❌ Stale Ambire fork (Aug 2025) |
 
@@ -225,7 +226,7 @@ SECURITY (5 pts)
 - 🟡 **50-74:** Situational — may not meet core criteria or has limitations
 - 🔴 **<50:** Caution — doesn't meet core criteria, inactive, or limited
 
-**Key Insight:** MetaMask scores 68 despite being the industry standard because of its ~8 releases/month (high churn). Wallets like Trust (85) and Rainbow (82) offer better stability while meeting all core criteria.
+**Key Insight:** MetaMask scores 73 despite being the industry standard because of its ~8 releases/month (high churn). Though well-audited (2025), wallets like Trust (85), Rainbow (82), and Brave (81) offer better stability while meeting all core criteria.
 
 ---
 
@@ -306,7 +307,7 @@ START HERE
 | **Safe** | May 2025 | Ackee, Certora | None found | [Safe Audits](https://github.com/safe-fndn/safe-smart-account/tree/main/docs) |
 | **MetaMask** | Apr 2025 | Diligence, Cure53, Cyfrin | All fixed | [Delegator](https://assets.ctfassets.net/clixtyxoaeas/21m4LE3WLYbgWjc33aDcp2/8252073e115688b1dc1500a9c2d33fe4/metamask-delegator-framework-audit-2024-10.pdf) |
 | **Trust Wallet** | Sep 2023 | External (Binance) | All fixed | [Audit](https://github.com/trustwallet/wallet-core/tree/master/audit) |
-| **Ambire** | Feb 2025 | Hunter Security, Pashov | None found | [Audits](https://github.com/AmbireTech/ambire-common/tree/main/audits) |
+| **Ambire** | 2023-2025 | Hunter Security (4), Pashov (3), Shieldify, Code4rena, CuriousApple, Facu | None found | [11+ Audits](https://github.com/AmbireTech/ambire-common/tree/main/audits) |
 | **Daimo** | Oct 2023 | Veridise | All fixed | [Audit](https://github.com/daimo-eth/daimo/tree/master/audits) |
 | **imToken** | May 2018 | Cure53 | All fixed | [Report](https://cure53.de/pentest-report_imtoken.pdf) |
 | **Brave** | Ongoing | HackerOne | Bug bounty | [HackerOne](https://hackerone.com/brave) |
