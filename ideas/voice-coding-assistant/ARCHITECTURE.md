@@ -2,9 +2,11 @@
 
 > **Architecture reference for the Voice AI Coding Assistant**
 >
-> Last Updated: December 28, 2025 | Status: Backend Complete - iOS Development Pending
+> Last Updated: January 9, 2026 | Status: Backend Complete - iOS Development Pending
 >
 > ⚠️ **Note:** This architecture has been updated to use **Swift/SwiftUI** for iOS instead of React Native.
+>
+> **Execution Strategy:** MVP uses user's own VPS (BYOV). Managed sandboxes (E2B, Fly.io, Modal) planned for future phases.
 >
 > **Implementation Status:** Backend API is fully scaffolded with streaming, text input, and webhook support. See Section 3 for actual endpoints.
 
@@ -190,65 +192,62 @@ Claude agents need a runtime environment with:
 - Network access (GitHub API, npm registry)
 - Isolation (security sandbox per user)
 
-### MVP Decision: **Fly.io Machines**
+### MVP Decision: **User's Own VPS (BYOV)**
 
-After comparing Modal.com vs Fly.io for MVP validation:
+**Why VPS-first:**
+- **Zero infrastructure cost** - user provides VPS ($5-10/mo any provider)
+- **Full control** - users manage their own environment
+- **Zero cold start** - always-on VM, instant response
+- **Simple architecture** - no managed sandbox integration needed
+- **Educational** - users learn deployment, understand how it works
 
-| Factor | Modal.com | Fly.io | Winner |
-|--------|-----------|--------|--------|
-| **Minimum cost** | $0 (pay per use) | $0 (pay per use) | Tie |
-| **Cold start** | 1-5s | 0s (with warm) | **Fly.io** |
-| **Keep warm option** | No native | `min_machines_running=1` | **Fly.io** |
-| **Node.js support** | Beta (Python-first) | **Native** | **Fly.io** |
-| **Docker support** | Custom images | **Full Docker** | **Fly.io** |
-| **Persistent volumes** | Limited | **Full support** | **Fly.io** |
-| **Hourly cost** | $0.10/hr | $0.02/hr | **Fly.io** |
-| **Setup complexity** | Very simple | Simple | Modal |
+**User Setup (5 minutes):**
+1. User has any Linux VPS (Hetzner, DigitalOcean, Linode, etc.)
+2. Run bootstrap script: `curl -fsSL https://setup.cadence.dev | sh`
+3. Enter Anthropic API key when prompted
+4. Connect mobile app to VPS IP + API key
+5. Done - start coding with voice
 
-### MVP Cost Estimate (Fly.io)
+### VPS Requirements
 
-```
-Base (1 warm machine):  $0.02/hr × 24hr × 30 days = $14.40/mo
-Burst (extra machines): ~$5-15/mo during high usage
-────────────────────────────────────────────────────────────
-Total MVP cost:         ~$20-30/mo (regardless of user count)
-```
+| Requirement | Minimum | Recommended |
+|-------------|---------|-------------|
+| **CPU** | 1 vCPU | 2 vCPU |
+| **RAM** | 2GB | 4GB |
+| **Storage** | 20GB | 40GB |
+| **OS** | Ubuntu 22.04+ | Ubuntu 24.04 LTS |
+| **Network** | Egress to GitHub, npm, Anthropic API | Firewall configured |
+| **Cost** | ~$5/mo (Linode, Hetzner) | ~$10-12/mo (DigitalOcean) |
 
-### Why Fly.io Wins for MVP
+### Bootstrap Script
 
-1. **Node.js is first-class** - Backend is Fastify/TypeScript. Modal is Python-first.
-2. **Warm machines = zero cold start** - ~$15/mo for instant response
-3. **5x cheaper** - $0.02/hr vs $0.10/hr
-4. **Full Docker** - Clone repos, run npm, git push all native
-5. **Easy VPS migration** - Fly containers are just Docker
+The `cadence-setup/bootstrap.sh` script handles setup automatically:
+- Installs Node.js 20, git, Claude Code CLI
+- Creates unprivileged `cadence` user
+- Configures firewall (egress only)
+- Starts agent daemon as systemd service
+- Generates API key for mobile app connection
 
-### Fly.io Configuration
+See **Section 6** for detailed VPS architecture and daemon implementation.
 
-```toml
-# fly.toml
-app = "cadence-agent-runner"
+---
 
-[build]
-  dockerfile = "Dockerfile.agent"
+### Future: Managed Sandbox Options
 
-[http_service]
-  internal_port = 8080
-  force_https = true
-  min_machines_running = 1  # Keep 1 warm (zero cold start)
+For users who don't want to manage VPS, we'll add managed sandbox options in future phases:
 
-[[vm]]
-  cpu_kind = "shared"
-  cpus = 2
-  memory_mb = 4096
+| Provider | Cold Start | Cost/Hour | Best For |
+|----------|------------|-----------|----------|
+| **E2B** | 150ms | $0.05 | AI agents, fastest startup |
+| **Fly.io** | 2-10s | $0.02 | General compute, cheapest |
+| **Modal** | 1-5s | $0.10 | ML workloads, GPU support |
 
-[mounts]
-  source = "repos_cache"
-  destination = "/home/cadence/repos"
-```
+**Roadmap:**
+- **Phase 1 (Current):** VPS-only (BYOV)
+- **Phase 2 (After mobile app):** Add E2B as managed option
+- **Phase 3 (Scale):** Full hybrid (Free=E2B limited, Pro=VPS or managed)
 
-### Scale Decision: Hetzner VPS per User
-
-See **Section 6** for detailed VPS-per-user architecture for Pro tier.
+See **[E2B_SANDBOX_ANALYSIS.md](./E2B_SANDBOX_ANALYSIS.md)** for detailed comparison and future integration plans.
 
 ---
 
@@ -647,46 +646,94 @@ User subscribes to Pro ($15/mo)
 
 ## 8. Recommended Architecture Decision
 
-### For MVP (Weeks 1-8): Use Fly.io Machines
+### Phase 1: VPS-Only MVP (Weeks 1-16)
 
-**Why:**
-- Simpler than VPS management
-- Pay-per-use reduces risk
-- Can be "warm" with min_machines_running
-- Easy to migrate later
+**Execution:** User's own VPS (BYOV - Bring Your Own VPS)
 
-```typescript
-// Fly.io Machine configuration
-const machineConfig = {
-  image: 'vox-agent:latest',
-  guest: {
-    cpu_kind: 'shared',
-    cpus: 2,
-    memory_mb: 4096
-  },
-  auto_destroy: true,
-  restart: { policy: 'no' }
-};
+**Why VPS-first:**
+- **Zero infrastructure cost** - users provide their own VPS
+- **Faster to market** - no managed sandbox integration
+- **User control** - technical users prefer owning infrastructure
+- **Zero cold start** - always-on VM
+- **Simpler architecture** - direct SSH/HTTP to user's VPS
+
+**What to build:**
+- Bootstrap script (`cadence-setup/bootstrap.sh`)
+- Agent daemon for VPS (`cadence-daemon/`)
+- Mobile app with VPS connection settings
+- Backend API for voice transcription + WebSocket
+
+**Target users:** Technical developers comfortable with VPS
+
+---
+
+### Phase 2: Mobile App Development (Weeks 17-20)
+
+**Focus:** Polish mobile experience
+
+**What to build:**
+- iOS app (Swift/SwiftUI) per `cadence-ios/PLAN.md`
+- Voice recording + transcription UI
+- Task list, detail views, streaming updates
+- VPS connection management
+
+**Still using:** VPS-only execution
+
+---
+
+### Phase 3: Add Managed Sandboxes (Weeks 21+)
+
+**New option:** E2B managed sandboxes alongside VPS
+
+**Why add E2B:**
+- **Lower barrier** - non-technical users want zero-ops
+- **Faster setup** - 5 minutes → 30 seconds
+- **No VPS management** - we handle infrastructure
+
+**Architecture:**
+```
+┌─────────────────────────────────────────────────────────┐
+│               EXECUTION OPTIONS                         │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  DIY (Free):                 Managed (Pro $15/mo):      │
+│  ┌──────────────────┐       ┌──────────────────┐       │
+│  │ User's VPS       │       │ E2B Sandbox      │       │
+│  │ • Bring your own │       │ • Zero-ops       │       │
+│  │ • Full control   │       │ • 150ms startup  │       │
+│  │ • $5-10/mo       │       │ • $0.05/hr       │       │
+│  └──────────────────┘       └──────────────────┘       │
+│                                                          │
+└─────────────────────────────────────────────────────────┘
 ```
 
-### For Scale (Post-100 Users): Migrate to VPS
+**What to build:**
+- E2B integration (`cadence-api/src/services/e2b-runner.ts`)
+- Execution provider selection in settings
+- Billing for managed tier
 
-**Why:**
-- Proven product-market fit
-- Predictable costs
-- Better user experience (zero cold start)
-- Higher margins
+See **[E2B_SANDBOX_ANALYSIS.md](./E2B_SANDBOX_ANALYSIS.md)** for E2B integration details.
 
-### Implementation Path
+---
+
+### Sequential Roadmap
 
 ```
-Week 1-8:   Fly.io Machines (serverless)
-            ↓
-Week 9-12:  Build VPS provisioning (Hetzner API)
-            ↓
-Week 13-16: Migrate Pro users to VPS
-            ↓
-Post-MVP:   Hybrid model (Free=serverless, Pro=VPS)
+Phase 1 (Weeks 1-16):    VPS-only MVP
+  └─ Backend API ✅ Done
+  └─ Bootstrap script ✅ Done
+  └─ Testing UI (cadence-web) ✅ Done
+  └─ Mobile app → In Progress
+
+Phase 2 (Weeks 17-20):   Mobile App Polish
+  └─ iOS Swift app
+  └─ Voice UI
+  └─ VPS connection
+
+Phase 3 (Weeks 21+):     Managed Sandboxes
+  └─ E2B integration
+  └─ Billing/tiers
+  └─ Optional: Fly.io, Modal
 ```
 
 ---
@@ -786,14 +833,15 @@ PR Closed → Webhook fires → Task marked "cancelled"
 
 ---
 
-**Architecture Version:** 3.1
-**Updated:** December 28, 2025
+**Architecture Version:** 4.0
+**Updated:** January 9, 2026
 **Status:** Backend Complete - iOS Development Pending
 
 ### Change Log
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 4.0 | Jan 9, 2026 | VPS-first architecture, E2B/sandboxes moved to future phases, sequential roadmap |
 | 3.1 | Dec 28, 2025 | Fixed webhook stubs, added voice tests, 77 tests total |
 | 3.0 | Dec 28, 2025 | Added streaming architecture, limitations, updated endpoints |
 | 2.1 | Dec 27, 2025 | Swift iOS decision, VPS-per-user analysis |
