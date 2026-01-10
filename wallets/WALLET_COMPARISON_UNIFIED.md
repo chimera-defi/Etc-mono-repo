@@ -46,15 +46,15 @@
 | **Coinbase** | 75 | ✅ | ~2 | ✅ | [coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | ⚠️ | ⟠₿◎ | 📱🌐 | ✅ | ⚠️ Partial | ⚠️ Limited | ❓ Priv | 🟢 Coinbase | ✅ | ✅ | EOA+4337 | ✅ Full+cb.id | ✅ | AA/Production | 🟢 |
 | **MetaMask** | 73 | ✅ | ~8 | ✅ | [metamask-extension](https://github.com/MetaMask/metamask-extension) | ✅ | ⟠ | 📱🌐 | ✅ | ⚠️ Src-Avail | ⚠️ Infura | ✅ 2025 | 🟢 Consensys | ⚠️ | ⚠️ | EOA+7702 | ✅ Full | ✅ | Compatibility | 🟡 |
 | **Phantom** | 65 | ✅ | ? | ✅ | Private | 🔒 | ⟠₿◎ | 📱🌐 | ❌ | ❌ Prop | ❌ Closed | ❓ Priv | 🟢 VC $109M | ✅ | ✅ | EOA | ❌ None | ⚠️ | Solana-first | 🟡 |
-| **OKX** | 62 | ✅ | ? | ✅ | Private | 🔒 | ⟠₿◎△⚛+ | 📱🌐 | ✅ | ❌ Prop | ❌ Closed | ❓ Priv | 🟢 OKX | ⚠️ | ⚠️ | EOA+7702 | ❌ None | ✅ | EIP-7702 | 🟡 |
-| **Safe** | 58 | ❌ | ~3 | ✅ | [safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | ✅ | ⟠ | 📱🔗† | ✅ | ✅ GPL-3 | ✅ Open | ✅ Certora | 🟢 Grants | ✅ | ✅ | Safe+4337 | ✅ Full | ✅ | Treasury/DAO | 🟡 |
-| **Enkrypt** | 55 | ❌ | ~2 | ✅ | [enKrypt](https://github.com/enkryptcom/enKrypt) | ✅ | ⟠₿◎●+ | 🌐 | ✅ | ✅ MIT | ⚠️ Partial | ❓ None | 🟢 MEW | ❌ | ⚠️ | EOA | ✅ Basic | ✅ | Multi-chain ext | 🟡 |
+| **Wigwam** | 67 | ✅ | ~2 | ✅ | [wigwam](https://github.com/wigwamapp/wigwam) | ✅ | ⟠ | 🌐 | ✅ | ✅ MIT | ❌ Closed | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ❌ None | ✅ | Stability | 🟡 |
 | **Ambire** | 65 | ❌ | ~2 | ✅ | [extension](https://github.com/AmbireTech/extension) | ✅ | ⟠ | 🌐 | ✅ | ✅ GPL-3 | ❌ Closed | ✅ 2025 | 🟡 VC | ✅ | ✅ | 7702+4337 | ✅ Basic | ✅ | Smart wallet | 🟡 |
-| **Wigwam** | 58 | ❌ | ~2 | ✅ | [wigwam](https://github.com/wigwamapp/wigwam) | ✅ | ⟠ | 🌐 | ✅ | ✅ MIT | ❌ Closed | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ❌ None | ✅ | Stability | 🟡 |
+| **Safe** | 63 | ❌ | ~3 | ✅ | [safe-wallet-monorepo](https://github.com/safe-global/safe-wallet-monorepo) | ✅ | ⟠ | 📱🔗† | ✅ | ✅ GPL-3 | ✅ Open | ✅ Certora | 🟢 Grants | ✅ | ✅ | Safe+4337 | ✅ Full | ✅ | Treasury/DAO | 🟡 |
+| **OKX** | 62 | ✅ | ? | ✅ | Private | 🔒 | ⟠₿◎△⚛+ | 📱🌐 | ✅ | ❌ Prop | ❌ Closed | ❓ Priv | 🟢 OKX | ⚠️ | ⚠️ | EOA+7702 | ❌ None | ✅ | EIP-7702 | 🟡 |
+| **Enkrypt** | 55 | ❌ | ~2 | ✅ | [enKrypt](https://github.com/enkryptcom/enKrypt) | ✅ | ⟠₿◎●+ | 🌐 | ✅ | ✅ MIT | ⚠️ Partial | ❓ None | 🟢 MEW | ❌ | ⚠️ | EOA | ✅ Basic | ✅ | Multi-chain ext | 🟡 |
+| **Sequence** | 53 | ❌ | ~3 | ✅ | [sequence.js](https://github.com/0xsequence/sequence.js) | ✅ | ⟠ | 🔗 | ✅ | ✅ Apache | ⚠️ Partial | ✅ 2024 | 🟡 VC | ⚠️ | ⚠️ | 4337 | ❌ None | ❌ | Gaming/Embed | 🟡 |
 | **Daimo** | 50 | ❌ | ~2 | ❌ | [daimo](https://github.com/daimo-eth/daimo) | ✅ | ⟠ | 📱 | ❌ | ✅ GPL-3 | ❌ Closed | ✅ 2023 | 🟡 VC | ❌ | ⚠️ | 4337 | ✅ Basic | ❌ | Payments | 🟡 |
 | **Ledger Live** | 50 | ❌ | ~4 | ✅ | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ✅ | ⟠₿◎△⚛●+ | 📱💻 | ✅ | ✅ MIT | ⚠️ Limited | ✅ Ledger | 🟢 Ledger | ❌ | ⚠️ | EOA | ❌ None | ✅‡ | Hardware users | 🟡 |
 | **MEW** | 50 | ❌ | ~3 | ✅ | [MyEtherWallet](https://github.com/MyEtherWallet/MyEtherWallet) | ✅ | ⟠ | 📱🔗 | ✅ | ✅ MIT | ⚠️ Partial | ❓ None | 🟢 Self | ❌ | ⚠️ | EOA | ✅ Full | ✅ | Ethereum | 🟡 |
-| **Sequence** | 48 | ❌ | ~3 | ✅ | [sequence.js](https://github.com/0xsequence/sequence.js) | ✅ | ⟠ | 🔗 | ✅ | ✅ Apache | ⚠️ Partial | ✅ 2024 | 🟡 VC | ⚠️ | ⚠️ | 4337 | ❌ None | ❌ | Gaming/Embed | 🟡 |
 | **Zerion** | 45 | ✅ | ? | ✅ | Private | 🔒 | ⟠◎ | 📱🌐 | ✅ | ❌ Prop | ❌ Closed | ❓ Priv | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Basic | ✅ | Portfolio | ⚪ |
 | **Taho** | 45 | ❌ | ~1 | ✅ | [extension](https://github.com/tahowallet/extension) | ✅ | ⟠ | 🌐 | ✅ | ✅ GPL-3 | ⚠️ Alchemy | ❓ None | 🔴 Grants | ❌ | ⚠️ | EOA | ❌ None | ✅ | Community | 🟡 |
 | **Uniswap** | 42 | ❌ | ~5 | ⚠️ | [interface](https://github.com/Uniswap/interface) | ✅ | ⟠ | 📱🔗 | ✅ | ✅ GPL-3 | ⚠️ Limited | ❓ None | 🟢 Uniswap | ❌ | ⚠️ | EOA | ❌ None | ❌ | DeFi/Swaps | 🟡 |
@@ -163,11 +163,11 @@
 
 **Browser Extension Only (No Mobile):**
 - **Enkrypt** (55) — 75+ chains, great for multi-chain testing
-- **Ambire** (62) — Smart wallet with tx simulation, EIP-7702 support
-- **Taho** (40) — Community-owned, open source, resumed active dev
+- **Ambire** (65) — Smart wallet with tx simulation, EIP-7702 support
+- **Taho** (45) — Community-owned, open source, resumed active dev
 
 **Mobile/Web Only (No Browser Extension):**
-- **Safe** (58) — Enterprise multi-sig, requires WalletConnect
+- **Safe** (63) — Enterprise multi-sig, requires WalletConnect
 - **Ledger Live** (50) — Hardware wallet users
 - **MEW** (50) — Classic Ethereum, web + mobile
 

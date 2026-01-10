@@ -85,7 +85,7 @@
 - **Taho** (45) — Community-owned, open source, resumed active dev
 
 **Mobile/Web Only (No Browser Extension):**
-- **Safe** (58) — Enterprise multi-sig, requires WalletConnect
+- **Safe** (63) — Enterprise multi-sig, requires WalletConnect
 - **Ledger Live** (50) — Hardware wallet users
 - **MEW** (50) — Classic Ethereum, web + mobile
 
@@ -162,15 +162,15 @@ Scores prioritize what matters for developers: platform coverage, stability, and
 | **Coinbase** | 75 | 25/25 | 18/20 | 17/25 | 8/15 | 5/10 | 2/5 | AA support, SDK dev slowed |
 | **MetaMask** | 73 | 25/25 | 8/20 | 15/25 | 15/15 | 5/10 | 5/5 | ⚠️ ~8 rel/mo = high churn, audited 2025 |
 | **Phantom** | 65 | 25/25 | 15/20 | 15/25 | 5/15 | 0/10 | 5/5 | No testnets, proprietary |
+| **Wigwam** | 67 | 25/25 | 12/20 | 5/25 | 15/15 | 10/10 | 0/5 | MIT license, no audit |
 | **Ambire** | 65 | 0/25 | 18/20 | 17/25 | 15/15 | 10/10 | 5/5 | ❌ No mobile app, 11+ audits |
+| **Safe** | 63 | 0/25 | 15/20 | 18/25 | 15/15 | 10/10 | 5/5 | ❌ No browser ext — web only, GPL-3 |
 | **OKX** | 62 | 25/25 | 12/20 | 15/25 | 5/15 | 0/10 | 5/5 | Proprietary but feature-rich |
-| **Safe** | 58 | 0/25 | 15/20 | 18/25 | 15/15 | 5/10 | 5/5 | ❌ No browser ext — web only |
 | **Enkrypt** | 55 | 0/25 | 18/20 | 12/25 | 15/15 | 10/10 | 0/5 | ❌ No mobile app |
-| **Wigwam** | 62 | 25/25 | 12/20 | 5/25 | 15/15 | 5/10 | 0/5 | Unknown funding |
 | **Daimo** | 50 | 0/25 | 18/20 | 2/25 | 15/15 | 10/10 | 5/5 | ❌ Mobile only, no testnets, audited 2023 |
 | **Ledger Live** | 50 | 0/25 | 16/20 | 9/25 | 15/15 | 10/10 | 0/5 | ❌ No browser extension |
 | **MEW** | 50 | 0/25 | 17/20 | 8/25 | 15/15 | 10/10 | 0/5 | ❌ No browser extension |
-| **Sequence** | 48 | 0/25 | 15/20 | 8/25 | 15/15 | 5/10 | 5/5 | ❌ Web SDK only |
+| **Sequence** | 53 | 0/25 | 15/20 | 8/25 | 15/15 | 10/10 | 5/5 | ❌ Web SDK only, Apache license |
 | **Taho** | 45 | 0/25 | 17/20 | 3/25 | 15/15 | 10/10 | 0/5 | ❌ No mobile, risky funding, no audit |
 | **Zerion** | 45 | 25/25 | 12/20 | 3/25 | 5/15 | 0/10 | 0/5 | Proprietary, not for dev |
 | **Uniswap** | 42 | 0/25 | 15/20 | 2/25 | 15/15 | 10/10 | 0/5 | ❌ No browser extension |
