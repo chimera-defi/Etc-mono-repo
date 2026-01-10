@@ -3,7 +3,7 @@
 This file contains instructions for Claude Code when working in this repository.
 
 > **Cross-references:**
-> - **`.cursorrules`** - Comprehensive AI assistant guidelines (all agents). See "PR Attribution Requirements" at top and Rules #116-134 for attribution details.
+> - **`.cursorrules`** - Comprehensive AI assistant guidelines (all agents). See "PR Attribution Requirements" at top, Rules #140-141 for MCP CLI installation, and Rules #142-157 for MCP CLI usage patterns.
 > - **`wallets/AGENTS.md`** - Wallet comparison specific guidelines, scoring methodology, and data verification standards
 > - **`mobile_experiments/Valdi/AGENTS.md`** - Valdi framework specific guidelines
 
@@ -39,6 +39,44 @@ This file contains instructions for Claude Code when working in this repository.
 - **Bulk Operations:** Read multiple files in a single call
 - **Persistent Memory:** Cross-session knowledge graph
 - **Better Workflows:** Pattern-based tool discovery
+
+### Installation (REQUIRED BEFORE USE)
+
+**CRITICAL:** MCP CLI must be installed before any `mcp-cli` commands are executed, or you'll get exit code 127 (command not found).
+
+#### Check if MCP CLI is Already Installed
+
+```bash
+which mcp-cli
+mcp-cli --version
+```
+
+If you see `v0.1.3` or higher, MCP CLI is installed and you can skip to "Configuration" below.
+
+#### Install MCP CLI
+
+If not installed, install it using the official installation script:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash
+```
+
+This will:
+1. Download the MCP CLI binary for your platform (linux/x86_64, darwin/arm64, etc.)
+2. Verify the checksum
+3. Install to `/usr/local/bin/mcp-cli`
+4. Output success message
+
+#### Verify Installation
+
+After installation, verify it worked:
+
+```bash
+mcp-cli --version  # Should show: mcp-cli v0.1.3
+mcp-cli            # Should list all configured servers
+```
+
+**Note:** Installation requires internet access and may take 30-60 seconds. If behind a proxy, you may need to configure curl.
 
 ### Configuration
 

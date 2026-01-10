@@ -206,6 +206,29 @@ See Valdi documentation at `/docs/docs/workflow-hermes-debugger.md` for detailed
 
 ## 🚀 MCP CLI for Token Efficiency (CRITICAL)
 
+### Installation (REQUIRED BEFORE USE)
+
+**CRITICAL:** MCP CLI must be installed before any `mcp-cli` commands are executed, or you'll get exit code 127 (command not found).
+
+#### Check if MCP CLI is Already Installed
+
+```bash
+which mcp-cli
+mcp-cli --version
+```
+
+If you see `v0.1.3` or higher, MCP CLI is installed. Otherwise, proceed with installation.
+
+#### Install MCP CLI
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash
+```
+
+After installation, verify with `mcp-cli --version`.
+
+**See also:** Full installation instructions in `CLAUDE.md` "MCP CLI Integration" section and `.cursorrules` Rules #140-141.
+
 ### Why Use MCP CLI for Valdi Development
 
 Valdi projects have specific structure requirements (BUILD.bazel files, modules/, WORKSPACE, config.yaml, etc.). **MCP CLI reduces tokens by 60-80%** when exploring and working with this structure.
