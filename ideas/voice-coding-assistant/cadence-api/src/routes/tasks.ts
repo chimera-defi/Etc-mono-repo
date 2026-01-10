@@ -1,91 +1,53 @@
 import { FastifyPluginAsync } from 'fastify';
-import { eq } from 'drizzle-orm';
 import { Task, CreateTaskSchema } from '../types.js';
 import { VPSBridge } from '../services/vps-bridge.js';
 import { db, schema, useMockStorage } from '../db/index.js';
-
-// In-memory storage for tests
-const inMemoryTasks = new Map<string, Task>();
-
-// Helper function to convert database record to Task type
-function toTask(record: typeof schema.tasks.$inferSelect): Task {
-  return {
-    id: record.id,
-    task: record.task,
-    repoUrl: record.repoUrl ?? undefined,
-    repoPath: record.repoPath ?? undefined,
-    status: record.status,
-    output: record.output ?? undefined,
-    createdAt: record.createdAt.toISOString(),
-    completedAt: record.completedAt?.toISOString(),
-  };
-}
+import { taskService, setTaskDirectly } from '../services/task-service.js';
 
 // Export for testing - backwards compatible Map-like interface
-// Uses in-memory storage when db is not available (tests)
+// Uses taskService which provides unified storage for both routes and tests
 export const tasks = {
   clear: async () => {
-    if (useMockStorage) {
-      inMemoryTasks.clear();
-    } else {
-      await db!.delete(schema.tasks);
-    }
+    await taskService.clear();
   },
   get: async (id: string) => {
-    if (useMockStorage) {
-      return inMemoryTasks.get(id);
-    }
-    const records = await db!
-      .select()
-      .from(schema.tasks)
-      .where(eq(schema.tasks.id, id))
-      .limit(1);
-    return records.length > 0 ? toTask(records[0]) : undefined;
+    return await taskService.get(id);
   },
   set: async (id: string, task: Task) => {
-    if (useMockStorage) {
-      inMemoryTasks.set(id, task);
-      return;
-    }
-    // For backwards compatibility with tests
-    const existing = await db!
-      .select()
-      .from(schema.tasks)
-      .where(eq(schema.tasks.id, id))
-      .limit(1);
-
-    if (existing.length > 0) {
-      await db!
-        .update(schema.tasks)
-        .set({
+    // Check if task exists
+    const existing = await taskService.get(id);
+    if (existing) {
+      // Update existing task
+      await taskService.update(id, {
+        status: task.status,
+        output: task.output,
+        prUrl: task.prUrl,
+        prNumber: task.prNumber,
+        prBranch: task.prBranch,
+        prState: task.prState,
+        completedAt: task.completedAt ? new Date(task.completedAt) : undefined,
+      });
+    } else {
+      // Create new task with specific ID (for tests)
+      if (useMockStorage) {
+        setTaskDirectly(id, task);
+      } else {
+        await db!.insert(schema.tasks).values({
+          id,
           task: task.task,
           status: task.status,
           output: task.output ?? null,
           repoUrl: task.repoUrl ?? null,
           repoPath: task.repoPath ?? null,
           completedAt: task.completedAt ? new Date(task.completedAt) : null,
-          updatedAt: new Date(),
-        })
-        .where(eq(schema.tasks.id, id));
-    } else {
-      await db!.insert(schema.tasks).values({
-        id,
-        task: task.task,
-        status: task.status,
-        output: task.output ?? null,
-        repoUrl: task.repoUrl ?? null,
-        repoPath: task.repoPath ?? null,
-        completedAt: task.completedAt ? new Date(task.completedAt) : null,
-      });
+        });
+      }
     }
   },
   get size() {
-    if (useMockStorage) {
-      return Promise.resolve(inMemoryTasks.size);
-    }
     return (async () => {
-      const records = await db!.select().from(schema.tasks);
-      return records.length;
+      const all = await taskService.getAll();
+      return all.length;
     })();
   },
 };
@@ -93,28 +55,12 @@ export const tasks = {
 export const taskRoutes: FastifyPluginAsync = async (app) => {
   const vpsBridge = new VPSBridge();
 
-  // Helper to generate UUID for mock storage
-  const generateId = () => crypto.randomUUID();
-
   // List all tasks
   app.get('/tasks', async (request, reply) => {
     try {
-      if (useMockStorage) {
-        const taskList = Array.from(inMemoryTasks.values())
-          .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-        return { tasks: taskList };
-      }
-
-      const records = await db!
-        .select()
-        .from(schema.tasks)
-        .orderBy(schema.tasks.createdAt);
-
+      const taskList = await taskService.getAll();
       // Sort in descending order (newest first)
-      const taskList = records
-        .map(toTask)
-        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-
+      taskList.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
       return { tasks: taskList };
     } catch (error) {
       app.log.error(error, 'Failed to fetch tasks');
@@ -128,25 +74,11 @@ export const taskRoutes: FastifyPluginAsync = async (app) => {
   // Get single task
   app.get<{ Params: { id: string } }>('/tasks/:id', async (request, reply) => {
     try {
-      if (useMockStorage) {
-        const task = inMemoryTasks.get(request.params.id);
-        if (!task) {
-          return reply.status(404).send({ error: 'Task not found' });
-        }
-        return task;
-      }
-
-      const records = await db!
-        .select()
-        .from(schema.tasks)
-        .where(eq(schema.tasks.id, request.params.id))
-        .limit(1);
-
-      if (records.length === 0) {
+      const task = await taskService.get(request.params.id);
+      if (!task) {
         return reply.status(404).send({ error: 'Task not found' });
       }
-
-      return toTask(records[0]);
+      return task;
     } catch (error) {
       app.log.error(error, 'Failed to fetch task');
       return reply.status(500).send({
@@ -169,97 +101,40 @@ export const taskRoutes: FastifyPluginAsync = async (app) => {
     const { task: taskDescription, repoUrl, repoPath } = parseResult.data;
 
     try {
-      let task: Task;
-
-      if (useMockStorage) {
-        // Create task in memory
-        task = {
-          id: generateId(),
-          task: taskDescription,
-          repoUrl: repoUrl ?? undefined,
-          repoPath: repoPath ?? undefined,
-          status: 'pending',
-          createdAt: new Date().toISOString(),
-        };
-        inMemoryTasks.set(task.id, task);
-      } else {
-        // Create task in database
-        const [record] = await db!
-          .insert(schema.tasks)
-          .values({
-            task: taskDescription,
-            repoUrl: repoUrl ?? null,
-            repoPath: repoPath ?? null,
-            status: 'pending',
-          })
-          .returning();
-        task = toTask(record);
-      }
+      // Create task using taskService
+      const task = await taskService.create({
+        task: taskDescription,
+        repoUrl,
+        repoPath,
+        status: 'pending',
+      });
 
       // Execute task on VPS asynchronously
       vpsBridge.executeTask(task).then(async (result) => {
         try {
-          if (useMockStorage) {
-            const existingTask = inMemoryTasks.get(task.id);
-            if (existingTask) {
-              existingTask.status = result.success ? 'completed' : 'failed';
-              existingTask.output = result.output;
-              existingTask.completedAt = new Date().toISOString();
-            }
-          } else {
-            await db!
-              .update(schema.tasks)
-              .set({
-                status: result.success ? 'completed' : 'failed',
-                output: result.output,
-                completedAt: new Date(),
-                updatedAt: new Date(),
-              })
-              .where(eq(schema.tasks.id, task.id));
-          }
+          await taskService.update(task.id, {
+            status: result.success ? 'completed' : 'failed',
+            output: result.output,
+            completedAt: new Date(),
+          });
         } catch (error) {
           app.log.error(error, 'Failed to update task after execution');
         }
       }).catch(async (error) => {
         try {
-          if (useMockStorage) {
-            const existingTask = inMemoryTasks.get(task.id);
-            if (existingTask) {
-              existingTask.status = 'failed';
-              existingTask.completedAt = new Date().toISOString();
-            }
-          } else {
-            await db!
-              .update(schema.tasks)
-              .set({
-                status: 'failed',
-                error: error.message,
-                completedAt: new Date(),
-                updatedAt: new Date(),
-              })
-              .where(eq(schema.tasks.id, task.id));
-          }
+          await taskService.update(task.id, {
+            status: 'failed',
+            error: error.message,
+            completedAt: new Date(),
+          });
         } catch (updateError) {
           app.log.error(updateError, 'Failed to update task after error');
         }
       });
 
       // Mark as running
-      if (useMockStorage) {
-        task.status = 'running';
-        return reply.status(201).send(task);
-      }
-
-      const [updatedRecord] = await db!
-        .update(schema.tasks)
-        .set({
-          status: 'running',
-          updatedAt: new Date(),
-        })
-        .where(eq(schema.tasks.id, task.id))
-        .returning();
-
-      return reply.status(201).send(toTask(updatedRecord));
+      const runningTask = await taskService.update(task.id, { status: 'running' });
+      return reply.status(201).send(runningTask || task);
     } catch (error) {
       app.log.error(error, 'Failed to create task');
       return reply.status(500).send({
@@ -272,46 +147,21 @@ export const taskRoutes: FastifyPluginAsync = async (app) => {
   // Cancel task
   app.delete<{ Params: { id: string } }>('/tasks/:id', async (request, reply) => {
     try {
-      if (useMockStorage) {
-        const task = inMemoryTasks.get(request.params.id);
-        if (!task) {
-          return reply.status(404).send({ error: 'Task not found' });
-        }
-        if (task.status === 'completed' || task.status === 'failed') {
-          return reply.status(400).send({ error: 'Cannot cancel completed task' });
-        }
-        task.status = 'cancelled';
-        task.completedAt = new Date().toISOString();
-        return { success: true, task };
-      }
-
-      const records = await db!
-        .select()
-        .from(schema.tasks)
-        .where(eq(schema.tasks.id, request.params.id))
-        .limit(1);
-
-      if (records.length === 0) {
+      const task = await taskService.get(request.params.id);
+      if (!task) {
         return reply.status(404).send({ error: 'Task not found' });
       }
-
-      const task = toTask(records[0]);
 
       if (task.status === 'completed' || task.status === 'failed') {
         return reply.status(400).send({ error: 'Cannot cancel completed task' });
       }
 
-      const [updatedRecord] = await db!
-        .update(schema.tasks)
-        .set({
-          status: 'cancelled',
-          completedAt: new Date(),
-          updatedAt: new Date(),
-        })
-        .where(eq(schema.tasks.id, request.params.id))
-        .returning();
+      const cancelledTask = await taskService.update(request.params.id, {
+        status: 'cancelled',
+        completedAt: new Date(),
+      });
 
-      return { success: true, task: toTask(updatedRecord) };
+      return { success: true, task: cancelledTask || task };
     } catch (error) {
       app.log.error(error, 'Failed to cancel task');
       return reply.status(500).send({
