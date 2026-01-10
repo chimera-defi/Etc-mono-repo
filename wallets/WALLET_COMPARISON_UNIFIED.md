@@ -40,10 +40,10 @@
 | Wallet | Score | Core | Rel/Mo | RPC | GitHub | Active | Chains | Devices | Testnets | License | API | Audits | Funding | Tx Sim | Scam | Account | ENS/Naming | HW | Best For | Rec |
 |--------|-------|------|--------|-----|--------|--------|--------|---------|----------|---------|-----|--------|---------|--------|------|---------|------------|-----|----------|-----|
 | **Rabby** | 92 | ✅ | ~6 | ✅ | [Rabby](https://github.com/RabbyHub/Rabby) | ✅ | ⟠ | 📱🌐💻 | ✅ | ✅ MIT | 🌐 Public | ⚠️ Mob | 🟢 DeBank | ✅ | ✅ | EOA+Safe | ⚠️ Import only | ✅ | Development | 🟢 |
-| **Trust** | 85 | ✅ | ~3 | ✅ | [wallet-core](https://github.com/trustwallet/wallet-core) | ✅ | ⟠₿◎△⚛●+ | 📱🌐 | ✅ | ⚠️ Apache | ❌ Closed | ✅ 2023 | 🟢 Binance | ❌ | ⚠️ | EOA+7702 | ✅ Basic | ✅ | Multi-chain | 🟢 |
+| **Trust** | 82 | ✅ | ~3 | ✅ | [wallet-core](https://github.com/trustwallet/wallet-core) | ✅ | ⟠₿◎△⚛●+ | 📱🌐 | ✅ | ⚠️ Apache | ❌ Closed | ✅ 2023 | 🟢 Binance | ❌ | ⚠️ | EOA+7702 | ✅ Basic | ✅ | Multi-chain | 🟢 |
 | **Rainbow** | 77 | ✅ | ~4 | ⚠️ | [rainbow](https://github.com/rainbow-me/rainbow) | ✅ | ⟠ | 📱🌐 | ✅ | ✅ GPL-3 | ❌ Closed | ❓ None | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Full | ✅ | NFT/Ethereum | 🟢 |
 | **Brave** | 81 | ✅ | ~2 | ✅ | [brave-browser](https://github.com/brave/brave-browser) | ✅ | ⟠₿◎ | 📱🌐💻§ | ✅ | ✅ MPL-2 | ⚠️ Browser | 🐛 H1 | 🟢 Brave | ❌ | ⚠️ | EOA | ❌ None | ✅ | Brave users | 🟢 |
-| **Coinbase** | 75 | ✅ | ~2 | ✅ | [coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | ⚠️ | ⟠₿◎ | 📱🌐 | ✅ | ⚠️ Partial | ⚠️ Limited | ❓ Priv | 🟢 Coinbase | ✅ | ✅ | EOA+4337 | ✅ Full+cb.id | ✅ | AA/Production | 🟢 |
+| **Coinbase** | 73 | ✅ | ~2 | ✅ | [coinbase-wallet-sdk](https://github.com/coinbase/coinbase-wallet-sdk) | ⚠️ | ⟠₿◎ | 📱🌐 | ✅ | ⚠️ Partial | ⚠️ Limited | ❓ Priv | 🟢 Coinbase | ✅ | ✅ | EOA+4337 | ✅ Full+cb.id | ✅ | AA/Production | 🟢 |
 | **MetaMask** | 73 | ✅ | ~8 | ✅ | [metamask-extension](https://github.com/MetaMask/metamask-extension) | ✅ | ⟠ | 📱🌐 | ✅ | ⚠️ Src-Avail | ⚠️ Infura | ✅ 2025 | 🟢 Consensys | ⚠️ | ⚠️ | EOA+7702 | ✅ Full | ✅ | Compatibility | 🟡 |
 | **Phantom** | 60 | ✅ | ? | ✅ | Private | 🔒 | ⟠₿◎ | 📱🌐 | ❌ | ❌ Prop | ❌ Closed | ❓ Priv | 🟢 VC $109M | ✅ | ✅ | EOA | ❌ None | ⚠️ | Solana-first | 🟡 |
 | **Wigwam** | 67 | ✅ | ~2 | ✅ | [wigwam](https://github.com/wigwamapp/wigwam) | ✅ | ⟠ | 🌐 | ✅ | ✅ MIT | ❌ Closed | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ❌ None | ✅ | Stability | 🟡 |
@@ -58,7 +58,7 @@
 | **Zerion** | 45 | ✅ | ? | ✅ | Private | 🔒 | ⟠◎ | 📱🌐 | ✅ | ❌ Prop | ❌ Closed | ❓ Priv | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Basic | ✅ | Portfolio | ⚪ |
 | **Taho** | 45 | ❌ | ~1 | ✅ | [extension](https://github.com/tahowallet/extension) | ✅ | ⟠ | 🌐 | ✅ | ✅ GPL-3 | ⚠️ Alchemy | ❓ None | 🔴 Grants | ❌ | ⚠️ | EOA | ❌ None | ✅ | Community | 🟡 |
 | **Uniswap** | 42 | ❌ | ~5 | ⚠️ | [interface](https://github.com/Uniswap/interface) | ✅ | ⟠ | 📱🔗 | ✅ | ✅ GPL-3 | ⚠️ Limited | ❓ None | 🟢 Uniswap | ❌ | ⚠️ | EOA | ❌ None | ❌ | DeFi/Swaps | 🟡 |
-| **imToken** | 38 | ❌ | ~1 | ✅ | [token-core](https://github.com/consenlabs/token-core-monorepo) | ❌ | ⟠₿⚛ | 📱 | ✅ | ⚠️ Apache | ❌ Closed | ⚠️ 2018 | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Basic | ⚠️ | Multi-chain | 🔴 |
+| **imToken** | 35 | ❌ | ~1 | ✅ | [token-core](https://github.com/consenlabs/token-core-monorepo) | ❌ | ⟠₿⚛ | 📱 | ✅ | ⚠️ Apache | ❌ Closed | ⚠️ 2018 | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Basic | ⚠️ | Multi-chain | 🔴 |
 | **Frame** | 32 | ❌ | ~1 | ✅ | [frame](https://github.com/floating/frame) | ❌ | ⟠ | 💻⚡ | ✅ | ✅ GPL-3 | ✅ None | ❓ None | 🔴 Donate | ✅ | ⚠️ | EOA | ❌ None | ✅ | ~~Desktop~~ | 🔴 |
 | **1inch** | 30 | ❌ | ? | ⚠️ | Private | 🔒 | ⟠ | 📱 | ✅ | ❌ Prop | ⚠️ DEX API | ❓ Priv | 🟢 Token | ❌ | ⚠️ | EOA | ❌ None | ❌ | DeFi | ⚪ |
 | **Argent** | 25 | ⚠️ | ~1 | ✅ | [argent-x](https://github.com/argentlabs/argent-x) | ❌ | ⟠⧫ | 📱🌐⁂ | ✅ | ✅ GPL-3 | ❌ Closed | ❓ None | 🔴 VC | ❌ | ⚠️ | 4337 | ❌ None | ✅ | ~~Starknet~~ | 🔴 |
@@ -232,10 +232,10 @@ Scores prioritize what matters for developers: platform coverage, stability, and
 | Wallet | Score | Core | Stability | DevExp | Activity | FOSS | Security | Notes |
 |--------|-------|------|-----------|--------|----------|------|----------|-------|
 | **Rabby** | 🥇 92 | 25/25 | 14/20 | 23/25 | 15/15 | 10/10 | 5/5 | Best dev wallet — tx sim + stable |
-| **Trust** | 🥈 85 | 25/25 | 17/20 | 15/25 | 15/15 | 8/10 | 5/5 | Most stable major wallet |
+| **Trust** | 🥈 82 | 25/25 | 17/20 | 15/25 | 15/15 | 5/10 | 5/5 | Stable, Apache-2.0 core (partial FOSS) |
 | **Rainbow** | 🥉 77 | 25/25 | 16/20 | 11/25 | 15/15 | 10/10 | 0/5 | Great code quality, no audit |
 | **Brave** | 81 | 25/25 | 18/20 | 10/25 | 15/15 | 10/10 | 3/5 | Built into browser, bug bounty |
-| **Coinbase** | 75 | 25/25 | 18/20 | 17/25 | 8/15 | 5/10 | 2/5 | AA support, SDK dev slowed |
+| **Coinbase** | 73 | 25/25 | 18/20 | 17/25 | 8/15 | 5/10 | 0/5 | AA support, SDK dev slowed, private audits |
 | **MetaMask** | 73 | 25/25 | 8/20 | 15/25 | 15/15 | 5/10 | 5/5 | ⚠️ ~8 rel/mo = high churn, audited 2025 |
 | **Phantom** | 60 | 25/25 | 15/20 | 15/25 | 5/15 | 0/10 | 0/5 | No testnets, proprietary, no audit |
 | **OKX** | 57 | 25/25 | 12/20 | 15/25 | 5/15 | 0/10 | 0/5 | Proprietary, no audit |
@@ -250,11 +250,11 @@ Scores prioritize what matters for developers: platform coverage, stability, and
 | **Zerion** | 45 | 25/25 | 12/20 | 3/25 | 5/15 | 0/10 | 0/5 | Proprietary, not for dev |
 | **Taho** | 45 | 0/25 | 17/20 | 3/25 | 15/15 | 10/10 | 0/5 | ❌ No mobile, risky funding, no audit |
 | **Uniswap** | 42 | 0/25 | 15/20 | 2/25 | 15/15 | 10/10 | 0/5 | ❌ No browser extension |
-| **imToken** | 38 | 0/25 | 19/20 | 9/25 | 0/15 | 8/10 | 2/5 | ❌ Inactive, mobile only |
-| **1inch** | 30 | 0/25 | 15/20 | 10/25 | 5/15 | 0/10 | 0/5 | ❌ Mobile only, proprietary, no audit |
+| **imToken** | 35 | 0/25 | 19/20 | 9/25 | 0/15 | 5/10 | 2/5 | ❌ Inactive, mobile only, partial Apache |
 | **Frame** | 32 | 0/25 | 12/20 | 10/25 | 0/15 | 10/10 | 0/5 | ❌ Inactive, desktop only |
+| **1inch** | 30 | 0/25 | 15/20 | 10/25 | 5/15 | 0/10 | 0/5 | ❌ Mobile only, proprietary, no audit |
 | **Argent** | 25 | 0/25 | 15/20 | 0/25 | 0/15 | 10/10 | 0/5 | ❌ Inactive, Starknet desktop, no audit |
-| **Block** | 25 | 25/25 | 0/20 | 0/25 | 0/15 | 0/10 | 0/5 | ❌ Abandoned (1+ year) |
+| **Block** | 10 | 0/25 | 0/20 | 0/25 | 0/15 | 10/10 | 0/5 | ❌ Abandoned, browser ext only, MIT |
 | **Kohaku**∆ | 45 | 0/25 | 20/20 | 15/25 | 0/15 | 10/10 | 0/5 | ❌ Stale Ambire fork (Aug 2025) |
 
 **Scoring Methodology (100 points total):**

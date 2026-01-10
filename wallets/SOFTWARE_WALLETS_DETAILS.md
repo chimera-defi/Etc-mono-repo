@@ -156,10 +156,10 @@ Scores prioritize what matters for developers: platform coverage, stability, and
 | Wallet | Score | Core | Stability | DevExp | Activity | FOSS | Security | Notes |
 |--------|-------|------|-----------|--------|----------|------|----------|-------|
 | **Rabby** | 🥇 92 | 25/25 | 14/20 | 23/25 | 15/15 | 10/10 | 5/5 | Best dev wallet — tx sim + stable |
-| **Trust** | 🥈 85 | 25/25 | 17/20 | 15/25 | 15/15 | 8/10 | 5/5 | Most stable major wallet |
+| **Trust** | 🥈 82 | 25/25 | 17/20 | 15/25 | 15/15 | 5/10 | 5/5 | Stable, Apache-2.0 core (partial FOSS) |
 | **Rainbow** | 🥉 77 | 25/25 | 16/20 | 11/25 | 15/15 | 10/10 | 0/5 | Great code quality, no audit |
 | **Brave** | 81 | 25/25 | 18/20 | 10/25 | 15/15 | 10/10 | 3/5 | Built into browser, bug bounty |
-| **Coinbase** | 75 | 25/25 | 18/20 | 17/25 | 8/15 | 5/10 | 2/5 | AA support, SDK dev slowed |
+| **Coinbase** | 73 | 25/25 | 18/20 | 17/25 | 8/15 | 5/10 | 0/5 | AA support, SDK dev slowed, private audits |
 | **MetaMask** | 73 | 25/25 | 8/20 | 15/25 | 15/15 | 5/10 | 5/5 | ⚠️ ~8 rel/mo = high churn, audited 2025 |
 | **Phantom** | 60 | 25/25 | 15/20 | 15/25 | 5/15 | 0/10 | 0/5 | No testnets, proprietary, no audit |
 | **Wigwam** | 67 | 25/25 | 12/20 | 5/25 | 15/15 | 10/10 | 0/5 | MIT license, no audit |
@@ -174,11 +174,11 @@ Scores prioritize what matters for developers: platform coverage, stability, and
 | **Taho** | 45 | 0/25 | 17/20 | 3/25 | 15/15 | 10/10 | 0/5 | ❌ No mobile, risky funding, no audit |
 | **Zerion** | 45 | 25/25 | 12/20 | 3/25 | 5/15 | 0/10 | 0/5 | Proprietary, not for dev |
 | **Uniswap** | 42 | 0/25 | 15/20 | 2/25 | 15/15 | 10/10 | 0/5 | ❌ No browser extension |
-| **imToken** | 38 | 0/25 | 19/20 | 9/25 | 0/15 | 8/10 | 2/5 | ❌ Inactive, mobile only |
+| **imToken** | 35 | 0/25 | 19/20 | 9/25 | 0/15 | 5/10 | 2/5 | ❌ Inactive, mobile only, partial Apache |
 | **Frame** | 32 | 0/25 | 12/20 | 10/25 | 0/15 | 10/10 | 0/5 | ❌ Inactive, desktop only |
 | **1inch** | 30 | 0/25 | 15/20 | 10/25 | 5/15 | 0/10 | 0/5 | ❌ Mobile only, proprietary, no audit |
 | **Argent** | 25 | 0/25 | 15/20 | 0/25 | 0/15 | 10/10 | 0/5 | ❌ Inactive, Starknet desktop, no audit |
-| **Block** | 25 | 25/25 | 0/20 | 0/25 | 0/15 | 0/10 | 0/5 | ❌ Abandoned (1+ year) |
+| **Block** | 10 | 0/25 | 0/20 | 0/25 | 0/15 | 10/10 | 0/5 | ❌ Abandoned, browser ext only, MIT |
 | **Kohaku**∆ | 45 | 0/25 | 20/20 | 15/25 | 0/15 | 10/10 | 0/5 | ❌ Stale Ambire fork (Aug 2025) |
 
 **Scoring Methodology (100 points total):**
