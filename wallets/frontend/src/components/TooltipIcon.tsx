@@ -1,14 +1,13 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { HelpCircle } from 'lucide-react';
 
 interface TooltipIconProps {
   text: string;
   side?: 'left' | 'right' | 'top' | 'bottom';
 }
 
-export function TooltipIcon({ text, side = 'right' }: TooltipIconProps) {
+export function TooltipIcon({ text, side = 'bottom' }: TooltipIconProps) {
   const [isVisible, setIsVisible] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -43,20 +42,23 @@ export function TooltipIcon({ text, side = 'right' }: TooltipIconProps) {
     <div className="relative inline-block">
       <button
         ref={triggerRef}
-        onClick={() => setIsVisible(!isVisible)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsVisible(!isVisible);
+        }}
         onMouseEnter={() => setIsVisible(true)}
         onMouseLeave={() => setIsVisible(false)}
-        className="inline-flex items-center justify-center p-0 h-4 w-4 rounded-full hover:bg-muted transition-colors focus:outline-none focus:ring-1 focus:ring-primary flex-shrink-0"
-        aria-label={`Tooltip: ${text}`}
+        className="inline-flex items-center justify-center w-5 h-5 ml-1 text-xs font-bold rounded-full bg-primary text-primary-foreground hover:bg-primary/80 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 flex-shrink-0 cursor-help"
+        aria-label={`More info: ${text}`}
         title={text}
       >
-        <HelpCircle className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground" />
+        ?
       </button>
 
       {isVisible && (
         <div
           ref={tooltipRef}
-          className={`absolute z-50 px-3 py-2 text-xs bg-foreground text-background rounded shadow-lg max-w-xs pointer-events-auto ${sideClasses[side]}`}
+          className={`absolute z-50 px-3 py-2 text-xs bg-foreground text-background rounded-lg shadow-lg max-w-xs pointer-events-auto ${sideClasses[side]}`}
           style={{ wordWrap: 'break-word' }}
         >
           {text}
