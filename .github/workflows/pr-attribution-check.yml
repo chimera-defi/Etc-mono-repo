@@ -11,6 +11,9 @@ jobs:
     name: Check PR Attribution
     runs-on: ubuntu-latest
     if: github.event.pull_request.draft == false
+    permissions:
+      pull-requests: write
+      contents: read
     
     steps:
       - name: Check PR Description
@@ -26,18 +29,18 @@ jobs:
             const warnings = [];
             
             // Check for agent attribution
-            // Matches: **Agent:** [name] or Agent: [name] where name is one of the known agents
-            const agentPattern = /\*\*Agent:\s*\*\*.*|Agent:\s*(Composer|Claude|GPT|Gemini|Cursor|Opus|AI Assistant)/i;
-            // Also check for the format **Agent:** [name] at the start of the body
-            const hasAgentAttribution = agentPattern.test(body) || /^\*\*Agent:\s*/.test(body.trim());
+            // Matches: **Agent:** [name] at the start of PR body
+            // Example: **Agent:** Claude Sonnet 4.5
+            const agentPattern = /^\*\*Agent:\*\*\s+.+/i;
+            const hasAgentAttribution = agentPattern.test(body.trim());
             if (!hasAgentAttribution) {
-              errors.push('❌ PR description missing agent attribution. Add `**Agent:** [Agent Name]` at the top. Valid agents: Composer, Claude Code, GPT-4, Gemini, Claude Opus, Cursor AI');
+              errors.push('❌ PR description missing agent attribution. Add `**Agent:** [Model Name]` at the top (e.g., Claude Sonnet 4.5, Claude Opus 4.5, GPT-4o)');
             }
             
-            // Check for original request
-            const originalRequestPattern = /##\s*Original\s*Request|Original\s*Request/i;
+            // Check for original request (required per .cursorrules Rule #119)
+            const originalRequestPattern = /##\s*Original\s*Request/i;
             if (!originalRequestPattern.test(body)) {
-              warnings.push('⚠️ PR description missing "## Original Request" section. Consider adding the original prompt.');
+              errors.push('❌ PR description missing "## Original Request" section. Add the original user prompt.');
             }
             
             // Check PR title quality (should describe what was done, not the prompt)
@@ -78,7 +81,11 @@ jobs:
               
               comment += 'See [.cursorrules](/.cursorrules) "PR Attribution Requirements" section for the required format.\n';
               comment += '\n';
-              comment += '**Note:** This check does not block merging, but following these guidelines helps track agent usage and performance.';
+              if (errors.length > 0) {
+                comment += '**This check will fail the PR until required fixes are addressed.**';
+              } else {
+                comment += '**Suggestions above are optional but recommended for better tracking.**';
+              }
               
               // Post as PR comment
               github.rest.issues.createComment({
