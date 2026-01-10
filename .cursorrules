@@ -292,3 +292,80 @@ Brief description of changes.
 - Maintain clear separation between different experiments
 - Document tooling requirements and setup steps
 - Keep dependencies minimal for experimental projects
+# =============================================================================
+# TOKEN-EFFICIENCY ADDENDUM (QUALITY-PRESERVING)
+# =============================================================================
+
+## OUTPUT DISCIPLINE (TOKEN CONTROL)
+- Default to concise answers with no unsolicited expansion.
+- Provide ≤3 short, optional follow-ups unless explicitly requested.
+- Do not restate context already present in the rules or prompt.
+- Avoid repeating framework notes verbatim; reference them conceptually.
+
+---
+
+## NO-ECHO RULE
+- Do not restate the user prompt, rules, or known context unless explicitly requested.
+
+---
+
+## UNIVERSAL RESPONSE MODE (CHEAP → DEEP)
+Default mode:
+- Answer the question directly.
+- Keep reasoning implicit.
+
+Only expand when the user explicitly signals:
+- “Go deeper”
+- “Expand”
+- “Show reasoning”
+- “Explore tradeoffs”
+- “Re-validate”
+- “Multi-pass review”
+
+Absent these signals: do not expand.
+
+---
+
+## DIFF-FIRST OUTPUT
+- For code changes, output diffs by default.
+- Full file output only when explicitly requested.
+
+---
+
+## ASSUMPTION LOCK
+- Once assumptions are stated and accepted, do not restate them in follow-ups.
+
+---
+
+## ENUMERATION CAP
+- Limit lists to ≤5 items unless expansion is explicitly requested.
+
+---
+
+## REASONING GATE
+- Do not expose chain-of-thought or detailed reasoning unless explicitly requested.
+
+---
+
+## SUMMARY CACHE PROTOCOL (TOKEN-SAVING)
+- After any non-trivial task (research, architecture, comparisons):
+  - Produce a short summary: intent, key decisions, outputs.
+  - Store via MCP memory.
+- On follow-ups:
+  - Treat the summary as authoritative.
+  - Re-read raw files/docs only if assumptions change.
+
+---
+
+## CONTEXT COMPRESSION
+- When conversation exceeds practical context, summarize and continue from the summary.
+
+---
+
+## TOKEN BUDGET HEURISTICS
+- Simple answer: ~100 tokens
+- Code diff: ~200 tokens
+- Summary: ~300 tokens
+- Large tasks must end with a summary to avoid reloading context.
+
+# =============================================================================
