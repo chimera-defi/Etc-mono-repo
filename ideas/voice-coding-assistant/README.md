@@ -56,7 +56,8 @@ Claude: Analyzing codebase... Found src/api.ts
 
 | Document | Purpose | Read Time |
 |----------|---------|-----------|
-| **[cadence-web/](./cadence-web/)** | **START HERE** - Voice interface + VPS setup | 5 min |
+| **[cadence-web-frontend/](./cadence-web-frontend/)** | **Full web app** - Next.js dashboard with voice | 5 min |
+| **[cadence-web/](./cadence-web/)** | Simple voice interface + VPS setup | 5 min |
 | [cadence-setup/](./cadence-setup/) | Bootstrap script details | 2 min |
 | [IMPLEMENTATION.md](./IMPLEMENTATION.md) | Full mobile app plans (future) | 20 min |
 | [ARCHITECTURE.md](./ARCHITECTURE.md) | Technical reference | 30 min |
@@ -212,8 +213,14 @@ See [IMPLEMENTATION.md](./IMPLEMENTATION.md) for full mobile app plans.
 voice-coding-assistant/
 ├── README.md                 ← You are here
 │
-├── cadence-web/              ← VOICE INTERFACE (START HERE)
+├── cadence-web-frontend/     ← FULL WEB APP (Next.js)
+│   └── src/                  ← Voice, tasks, repos, settings
+│
+├── cadence-web/              ← SIMPLE VOICE INTERFACE
 │   └── index.html            ← Voice UI + integrated VPS setup
+│
+├── cadence-api/              ← BACKEND API (Fastify)
+│   └── src/                  ← 77 tests, full task/voice/webhook API
 │
 ├── cadence-setup/            ← VPS BOOTSTRAP SCRIPT
 │   └── bootstrap.sh          ← One-liner for VPS setup

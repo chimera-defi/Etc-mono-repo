@@ -1,16 +1,21 @@
 import { z } from 'zod';
 
-// Task status
+// Task status (extended with PR states)
 export const TaskStatus = z.enum([
-  'pending',
-  'running',
-  'completed',
-  'failed',
-  'cancelled'
+  'pending',      // Task created, not started
+  'running',      // Agent executing, no PR yet
+  'pr_open',      // PR created, awaiting review/merge
+  'completed',    // PR merged successfully
+  'failed',       // Agent error
+  'cancelled'     // PR closed without merge, or user cancelled
 ]);
 export type TaskStatus = z.infer<typeof TaskStatus>;
 
-// Task schema
+// PR state
+export const PRState = z.enum(['open', 'merged', 'closed']);
+export type PRState = z.infer<typeof PRState>;
+
+// Task schema (extended with PR lifecycle fields)
 export const TaskSchema = z.object({
   id: z.string().uuid(),
   task: z.string().min(1),
@@ -20,6 +25,11 @@ export const TaskSchema = z.object({
   output: z.string().optional(),
   createdAt: z.string().datetime(),
   completedAt: z.string().datetime().optional(),
+  // PR Lifecycle Fields
+  prUrl: z.string().url().optional(),
+  prNumber: z.number().int().positive().optional(),
+  prState: PRState.optional(),
+  prBranch: z.string().optional(),
 });
 export type Task = z.infer<typeof TaskSchema>;
 
@@ -124,4 +134,38 @@ export interface GitHubWebhookPayload {
     body: string;
     user: { login: string };
   };
+}
+
+// =============================================================================
+// GITHUB OAUTH & REPOS
+// =============================================================================
+
+// GitHub user (from OAuth)
+export interface GitHubUser {
+  id: number;
+  login: string;
+  name: string | null;
+  avatar_url: string;
+  html_url: string;
+}
+
+// GitHub repository
+export interface GitHubRepo {
+  id: number;
+  name: string;
+  full_name: string;
+  html_url: string;
+  description: string | null;
+  private: boolean;
+  default_branch: string;
+  updated_at: string;
+  pushed_at: string;
+  language: string | null;
+  stargazers_count: number;
+}
+
+// Session with GitHub auth
+export interface Session {
+  githubToken?: string;
+  user?: GitHubUser;
 }

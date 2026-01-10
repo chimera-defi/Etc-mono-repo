@@ -2,7 +2,7 @@
 
 > **Architecture reference for the Voice AI Coding Assistant**
 >
-> Last Updated: January 9, 2026 | Status: Backend Complete - iOS Development Pending
+> Last Updated: January 9, 2026 | Status: Backend Complete - GitHub OAuth + PR Lifecycle
 >
 > ⚠️ **Note:** This architecture has been updated to use **Swift/SwiftUI** for iOS instead of React Native.
 >
@@ -16,6 +16,7 @@
 
 | Component | Technology | Cost |
 |-----------|-----------|------|
+| **Web Frontend** | **Next.js 14 + TypeScript** | Free |
 | **iOS App** | **Swift + SwiftUI** | Free |
 | Backend API | Fastify 4 + TypeScript | $20-50/mo |
 | AI Agents | Claude Code CLI | ~$0.50/agent |
@@ -24,6 +25,54 @@
 | Database | PostgreSQL (Neon) | $0-25/mo |
 | Real-time | WebSocket | $0 |
 | **Execution** | **User's VPS + Claude Code** | **User provides** |
+
+---
+
+## Web Frontend (cadence-web-frontend/)
+
+A full-featured Next.js web application that mirrors the mobile app functionality, allowing development and testing of the Cadence system via browser.
+
+### Tech Stack
+
+| Component | Technology |
+|-----------|------------|
+| Framework | Next.js 14 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS |
+| State | Zustand + localStorage |
+| Icons | Lucide React |
+
+### Features
+
+| Feature | Description |
+|---------|-------------|
+| **Voice Interface** | MediaRecorder API + OpenAI Whisper transcription |
+| **Task Dashboard** | List/filter tasks with real-time WebSocket updates |
+| **Task Detail** | Live streaming output, cancel running tasks |
+| **GitHub Integration** | Repository list, webhook setup info |
+| **Settings** | API endpoint, keys, voice preferences, dark/light mode |
+
+### Project Structure
+
+```
+cadence-web-frontend/
+├── src/
+│   ├── app/              # Next.js pages
+│   ├── components/       # UI components (Navigation, VoiceInterface, TaskList, etc.)
+│   ├── hooks/            # Custom hooks (useVoiceRecorder, useWebSocket)
+│   └── lib/              # Services (api.ts, store.ts, websocket.ts, types.ts)
+├── package.json
+└── tailwind.config.ts
+```
+
+### Running Locally
+
+```bash
+cd cadence-web-frontend
+npm install
+npm run dev
+# Open http://localhost:3000
+```
 
 ---
 
@@ -170,12 +219,20 @@ interface CodebaseContext {
 | `GET` | `/api/ws/health` | WebSocket health check | ✅ Implemented |
 | `POST` | `/api/webhooks/github` | GitHub webhook handler | ✅ Implemented |
 
+### GitHub OAuth & Repository Endpoints
+
+| Method | Endpoint | Purpose | Status |
+|--------|----------|---------|--------|
+| `GET` | `/api/auth/github` | Initiate GitHub OAuth flow | ✅ Implementing |
+| `GET` | `/api/auth/github/callback` | OAuth callback handler | ✅ Implementing |
+| `GET` | `/api/auth/me` | Get current user info | ✅ Implementing |
+| `POST` | `/api/auth/logout` | Clear session | ✅ Implementing |
+| `GET` | `/api/repos` | List user's GitHub repositories | ✅ Implementing |
+
 ### Planned Endpoints (Not Yet Implemented)
 
 | Method | Endpoint | Purpose | Status |
 |--------|----------|---------|--------|
-| `POST` | `/api/auth/github` | OAuth callback | 📋 Planned |
-| `GET` | `/api/repos` | List user repositories | 📋 Planned |
 | `POST` | `/api/codebase/analyze` | Analyze repository | 📋 Planned |
 
 > **Note:** The API uses "tasks" terminology (not "agents") to match the backend implementation.
@@ -821,6 +878,199 @@ PR Closed → Webhook fires → Task marked "cancelled"
 
 ---
 
+## 12. GitHub OAuth + PR Lifecycle (NEW)
+
+### Core Concept: 1 Task = 1 Pull Request
+
+Every task in Cadence creates exactly one PR. The frontend tracks tasks through their PR lifecycle:
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                      TASK → PR LIFECYCLE                                     │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  1. USER CREATES TASK                                                        │
+│  ┌──────────────────────────────────────────────────────────────────────┐   │
+│  │  • User selects repo from connected GitHub repos                     │   │
+│  │  • User describes task via voice or text                             │   │
+│  │  • Task status: "pending" → "running"                                │   │
+│  └──────────────────────────────────────────────────────────────────────┘   │
+│                                        │                                     │
+│                                        ▼                                     │
+│  2. AGENT EXECUTES + CREATES PR                                              │
+│  ┌──────────────────────────────────────────────────────────────────────┐   │
+│  │  • Agent clones repo, creates branch                                 │   │
+│  │  • Agent implements task, creates PR                                 │   │
+│  │  • Task.prUrl = PR URL, Task.prNumber = PR #                         │   │
+│  │  • Task status: "running" → "pr_open"                                │   │
+│  └──────────────────────────────────────────────────────────────────────┘   │
+│                                        │                                     │
+│                                        ▼                                     │
+│  3. PR AWAITS REVIEW/MERGE                                                   │
+│  ┌──────────────────────────────────────────────────────────────────────┐   │
+│  │  • Frontend shows task in "Open PRs" section                         │   │
+│  │  • User reviews PR on GitHub                                         │   │
+│  │  • WebSocket updates stream CI status, review comments               │   │
+│  └──────────────────────────────────────────────────────────────────────┘   │
+│                                        │                                     │
+│                          ┌─────────────┴─────────────┐                      │
+│                          ▼                           ▼                      │
+│  4a. PR MERGED                          4b. PR CLOSED (without merge)       │
+│  ┌────────────────────────┐             ┌────────────────────────┐          │
+│  │  Webhook fires         │             │  Webhook fires         │          │
+│  │  Task → "completed"    │             │  Task → "cancelled"    │          │
+│  │  Moves to "Merged"     │             │  User can restart      │          │
+│  └────────────────────────┘             └────────────────────────┘          │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### GitHub OAuth Flow
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          GITHUB OAUTH FLOW                                   │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  Frontend (Settings)                Backend API                  GitHub     │
+│  ┌─────────────┐                 ┌─────────────┐              ┌──────────┐  │
+│  │ "Connect    │──── GET ───────>│ /auth/      │──redirect──>│ OAuth    │  │
+│  │  GitHub"    │    /auth/github │ github      │             │ authorize│  │
+│  └─────────────┘                 └─────────────┘              └────┬─────┘  │
+│                                                                     │        │
+│                                                                     │        │
+│  ┌─────────────┐                 ┌─────────────┐              ┌────▼─────┐  │
+│  │ Repos list  │<── redirect ────│ /auth/      │<── code ────│ Callback │  │
+│  │ populated   │    + token      │ callback    │             │          │  │
+│  └─────────────┘                 └─────────────┘              └──────────┘  │
+│                                                                              │
+│  Token Storage: httpOnly cookie (secure, same-site)                         │
+│  Scopes: repo, read:user                                                    │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Updated Task Data Model
+
+```typescript
+interface Task {
+  id: string;
+  task: string;                    // Task description
+  repoUrl?: string;                // GitHub repo URL
+  repoPath?: string;               // Optional subfolder
+  status: TaskStatus;              // Extended with PR states
+
+  // PR Lifecycle Fields (NEW)
+  prUrl?: string;                  // PR URL once created
+  prNumber?: number;               // PR number (#123)
+  prState?: 'open' | 'merged' | 'closed';  // PR state from webhook
+  prBranch?: string;               // Feature branch name
+
+  output?: string;
+  createdAt: string;
+  completedAt?: string;
+}
+
+// Extended status to include PR states
+type TaskStatus =
+  | 'pending'      // Task created, not started
+  | 'running'      // Agent executing, no PR yet
+  | 'pr_open'      // PR created, awaiting review/merge
+  | 'completed'    // PR merged successfully
+  | 'failed'       // Agent error
+  | 'cancelled';   // PR closed without merge, or user cancelled
+```
+
+### Frontend UI Sections
+
+```
+┌────────────────────────────────────────────────────────────────┐
+│                          TASKS VIEW                             │
+├────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ═══════════════════════════════════════════════════════════    │
+│  IN PROGRESS (2)                              [+ New Task]      │
+│  ═══════════════════════════════════════════════════════════    │
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │ ● chimera-defi/wallet-frontend                           │  │
+│  │   "Add dark mode theme support"                          │  │
+│  │   Status: RUNNING • 67%                                  │  │
+│  │   Started: 5 min ago                                     │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+│  ═══════════════════════════════════════════════════════════    │
+│  OPEN PRs (3)                                                   │
+│  ═══════════════════════════════════════════════════════════    │
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │ ◐ chimera-defi/api-service         PR #189              │  │
+│  │   "Implement caching layer"                              │  │
+│  │   Branch: claude/caching-x7f2a                           │  │
+│  │   CI: ✓ passing • Reviews: 0/1 required                  │  │
+│  │   [View PR →]                                            │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+│  ═══════════════════════════════════════════════════════════    │
+│  MERGED (12)                                    [View All →]    │
+│  ═══════════════════════════════════════════════════════════    │
+│                                                                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │ ✓ chimera-defi/mobile-app          PR #156               │  │
+│  │   "Add push notification support"                        │  │
+│  │   Merged: Dec 28, 2025                                   │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+└────────────────────────────────────────────────────────────────┘
+```
+
+### Webhook → Task Status Mapping
+
+| Webhook Event | Action | Task Status Change |
+|---------------|--------|-------------------|
+| `pull_request.opened` | PR created by agent | `running` → `pr_open` |
+| `pull_request.closed` + merged=true | PR merged | `pr_open` → `completed` |
+| `pull_request.closed` + merged=false | PR closed | `pr_open` → `cancelled` |
+| `pull_request.synchronize` | New commits pushed | No change (notify user) |
+| `pull_request_review.submitted` | Review added | No change (notify user) |
+| `check_run.completed` | CI finished | No change (update CI status) |
+
+### Repository Selection
+
+When creating a task, users select from their connected GitHub repositories:
+
+```typescript
+// GET /api/repos response
+interface ReposResponse {
+  repos: GitHubRepo[];
+}
+
+interface GitHubRepo {
+  id: number;
+  name: string;
+  full_name: string;           // "owner/repo"
+  html_url: string;
+  description: string | null;
+  private: boolean;
+  default_branch: string;
+  updated_at: string;
+}
+```
+
+### Environment Variables
+
+```bash
+# GitHub OAuth App
+GITHUB_CLIENT_ID=Ov23li...
+GITHUB_CLIENT_SECRET=abc123...
+GITHUB_CALLBACK_URL=http://localhost:3001/api/auth/github/callback
+
+# Existing webhook secret
+GITHUB_WEBHOOK_SECRET=whsec_...
+```
+
+---
+
 ## Related Documents
 
 | Document | Purpose |
@@ -833,14 +1083,15 @@ PR Closed → Webhook fires → Task marked "cancelled"
 
 ---
 
-**Architecture Version:** 4.0
+**Architecture Version:** 4.1
 **Updated:** January 9, 2026
-**Status:** Backend Complete - iOS Development Pending
+**Status:** Backend Complete - GitHub OAuth + PR Lifecycle Implementation
 
 ### Change Log
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 4.1 | Jan 9, 2026 | Added GitHub OAuth, PR lifecycle tracking (1 task = 1 PR), updated UI sections |
 | 4.0 | Jan 9, 2026 | VPS-first architecture, E2B/sandboxes moved to future phases, sequential roadmap |
 | 3.1 | Dec 28, 2025 | Fixed webhook stubs, added voice tests, 77 tests total |
 | 3.0 | Dec 28, 2025 | Added streaming architecture, limitations, updated endpoints |

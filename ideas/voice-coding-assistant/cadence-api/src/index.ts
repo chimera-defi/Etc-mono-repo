@@ -1,5 +1,6 @@
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
+import cookie from '@fastify/cookie';
 import websocket from '@fastify/websocket';
 import jwt from '@fastify/jwt';
 import rateLimit from '@fastify/rate-limit';
@@ -18,6 +19,7 @@ config();
 const PORT = parseInt(process.env.PORT || '3001', 10);
 const HOST = process.env.HOST || '0.0.0.0';
 const RATE_LIMIT_MAX = parseInt(process.env.RATE_LIMIT_MAX || '100', 10);
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
 
 export async function buildApp() {
   const app = Fastify({
@@ -28,8 +30,12 @@ export async function buildApp() {
 
   // Register plugins
   await app.register(cors, {
-    origin: true,
+    origin: [FRONTEND_URL, 'http://localhost:3000'],
     credentials: true,
+  });
+
+  await app.register(cookie, {
+    secret: process.env.COOKIE_SECRET || 'cadence-dev-secret-change-in-production',
   });
 
   await app.register(websocket);

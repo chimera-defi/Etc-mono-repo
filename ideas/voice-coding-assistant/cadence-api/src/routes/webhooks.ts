@@ -1,6 +1,6 @@
 import { FastifyPluginAsync } from 'fastify';
 import { createHmac, timingSafeEqual } from 'crypto';
-import { GitHubWebhookPayload } from '../types.js';
+import { GitHubWebhookPayload, Task } from '../types.js';
 import { taskService } from '../services/task-service.js';
 import { streamManager } from '../services/stream-manager.js';
 
@@ -8,7 +8,7 @@ import { streamManager } from '../services/stream-manager.js';
  * GitHub Webhook handlers for PR lifecycle events
  *
  * Implemented:
- * - pull_request: merged/closed updates task status
+ * - pull_request: merged/closed updates task status, opened links task to PR
  * - issue_comment: @cadence-ai mentions create tasks
  *
  * Not implemented:
@@ -94,46 +94,94 @@ async function handleWebhookEvent(
 
 /**
  * Handle pull_request events
+ * Supports full PR lifecycle: opened → synchronize → closed (merged/cancelled)
  */
 async function handlePullRequestEvent(payload: GitHubWebhookPayload): Promise<WebhookResult> {
-  const { action, pull_request } = payload;
+  const { action, pull_request, repository } = payload;
   if (!pull_request) return { handled: false };
 
   const prUrl = pull_request.html_url;
+  const prNumber = pull_request.number;
+  const prBranch = pull_request.head.ref;
+  const isMerged = pull_request.merged;
 
   // Find task associated with this PR
-  const task = await findTaskByPrUrl(prUrl);
-  if (!task) return { handled: false };
+  let task = await findTaskByPrUrl(prUrl);
 
   switch (action) {
+    case 'opened':
+      // PR was just opened - find running task for this repo and link it to PR
+      if (!task) {
+        task = await findRunningTaskForRepo(repository.html_url);
+      }
+      if (!task) return { handled: false };
+
+      // Update task with PR info and transition to pr_open status
+      await taskService.update(task.id, {
+        prUrl,
+        prNumber,
+        prBranch,
+        prState: 'open',
+        status: 'pr_open',
+      });
+
+      streamManager.emitOutput(
+        task.id,
+        `PR #${prNumber} opened: ${pull_request.title}`
+      );
+      return { handled: true, taskId: task.id, action: 'pr_opened' };
+
     case 'closed':
+      if (!task) return { handled: false };
+
       // Archive the task (merged = true if PR was merged, false if just closed)
       await taskService.update(task.id, {
-        status: pull_request.merged ? 'completed' : 'cancelled',
+        status: isMerged ? 'completed' : 'cancelled',
+        prState: isMerged ? 'merged' : 'closed',
         completedAt: new Date(),
       });
 
       streamManager.emitTaskCompleted(
         task.id,
-        pull_request.merged,
-        pull_request.merged ? 'PR merged successfully' : 'PR closed without merge',
+        isMerged,
+        isMerged ? 'PR merged successfully' : 'PR closed without merge',
         prUrl
       );
-      return { handled: true, taskId: task.id, action: pull_request.merged ? 'completed' : 'cancelled' };
+      return { handled: true, taskId: task.id, action: isMerged ? 'completed' : 'cancelled' };
+
+    case 'reopened':
+      if (!task) return { handled: false };
+
+      // PR reopened - move back to pr_open status
+      await taskService.update(task.id, {
+        status: 'pr_open',
+        prState: 'open',
+        completedAt: undefined,
+      });
+
+      streamManager.emitOutput(
+        task.id,
+        `PR #${prNumber} reopened`
+      );
+      return { handled: true, taskId: task.id, action: 'pr_reopened' };
 
     case 'review_submitted':
+      if (!task) return { handled: false };
+
       // Notify about review
       streamManager.emitOutput(
         task.id,
-        `Review submitted on PR #${pull_request.number}`
+        `Review submitted on PR #${prNumber}`
       );
       return { handled: true, taskId: task.id, action: 'review_notified' };
 
     case 'synchronize':
+      if (!task) return { handled: false };
+
       // New commits pushed to PR
       streamManager.emitOutput(
         task.id,
-        `New commits pushed to PR #${pull_request.number}`
+        `New commits pushed to PR #${prNumber}`
       );
       return { handled: true, taskId: task.id, action: 'sync_notified' };
 
@@ -177,10 +225,23 @@ async function handleIssueCommentEvent(
 }
 
 /**
- * Find task by PR URL
+ * Find task by PR URL (checks prUrl field directly)
  */
-async function findTaskByPrUrl(prUrl: string): Promise<import('../types.js').Task | null> {
+async function findTaskByPrUrl(prUrl: string): Promise<Task | null> {
+  // First try finding by prUrl field
+  const byPrUrl = await taskService.findByPrUrl(prUrl);
+  if (byPrUrl) return byPrUrl;
+
+  // Fallback: check output for PR URL (legacy)
   return await taskService.findByOutput(prUrl);
+}
+
+/**
+ * Find a running task for a given repository URL
+ * Used to link newly opened PRs to their originating task
+ */
+async function findRunningTaskForRepo(repoUrl: string): Promise<Task | null> {
+  return await taskService.findRunningTaskForRepo(repoUrl);
 }
 
 /**
