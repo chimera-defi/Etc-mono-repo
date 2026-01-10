@@ -1,5 +1,7 @@
 # Hardware Wallet Comparison (Cold Storage Alternatives to Ledger)
 
+> **🔒 Safety & Link Note:** This page contains external links to official hardware wallet provider websites and GitHub repositories for research purposes. All external links include `utm_source=walletradar` to identify traffic from our site. **We are not affiliated with any wallet manufacturers.** Always purchase hardware wallets from official sources and verify firmware signatures before use.
+
 ## Complete Hardware Wallet Comparison (32 Wallets)
 
 | Wallet | Score | GitHub | Air-Gap | Open Source | Secure Elem | Display | Price | Conn | Activity | Rec |

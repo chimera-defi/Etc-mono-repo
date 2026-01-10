@@ -1,5 +1,7 @@
 # Crypto Wallet Comparison for Developers
 
+> **🔒 Safety & Link Note:** This page contains external links to official wallet provider websites and GitHub repositories for research purposes. All external links include `utm_source=walletradar` to identify traffic from our site. **We are not affiliated with any wallet providers.** Always verify wallet security and features directly from official sources before use.
+
 ## Complete Wallet Comparison (All 26 Wallets)
 
 | Wallet | Score | Core | Rel/Mo | RPC | GitHub | Active | Chains | Devices | Testnets | License | API | Audits | Funding | Tx Sim | Scam | Account | ENS/Naming | HW | Best For | Rec |

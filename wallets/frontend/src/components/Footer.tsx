@@ -54,14 +54,19 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/docs/about" className="text-muted-foreground hover:text-foreground">
+                  About Us
+                </Link>
+              </li>
+              <li>
                 <Link href="/docs/contributing" className="text-muted-foreground hover:text-foreground">
                   Contributing
                 </Link>
               </li>
               <li>
-                <a 
-                  href="https://walletbeat.fyi" 
-                  target="_blank" 
+                <a
+                  href="https://walletbeat.fyi"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1"
                 >
@@ -107,36 +112,42 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-muted-foreground">
+        <div className="mt-8 pt-8 border-t border-border">
+          <p className="text-sm text-muted-foreground mb-4">
             Data from GitHub API, WalletBeat, and community research.
           </p>
-          <div className="flex items-center gap-6">
-            <a
-              href="mailto:chimera_deFi@protonmail.com"
-              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
-            >
-              <Mail className="h-4 w-4" />
-              Contact Us
-            </a>
-            <a
-              href="https://x.com/chimeradefi"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
-            >
-              <Twitter className="h-4 w-4" />
-              Twitter
-            </a>
-            <a
-              href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
-            >
-              <Github className="h-4 w-4" />
-              View on GitHub
-            </a>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div className="text-sm text-muted-foreground">
+              <p><strong>Open Source:</strong> <a href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">View on GitHub</a></p>
+              <p><strong>Found an issue?</strong> <a href="https://github.com/chimera-defi/Etc-mono-repo/issues" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Report on GitHub Issues</a></p>
+            </div>
+            <div className="flex items-center gap-6">
+              <a
+                href="mailto:chimera_deFi@protonmail.com"
+                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
+              >
+                <Mail className="h-4 w-4" />
+                Contact Us
+              </a>
+              <a
+                href="https://x.com/chimeradefi"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
+              >
+                <Twitter className="h-4 w-4" />
+                Twitter
+              </a>
+              <a
+                href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
+              >
+                <Github className="h-4 w-4" />
+                Source Code
+              </a>
+            </div>
           </div>
         </div>
       </div>
