@@ -225,3 +225,13 @@ export class TaskService {
 
 // Export singleton instance
 export const taskService = new TaskService();
+
+/**
+ * Direct setter for tests - allows setting task with specific ID
+ * Only works in mock storage mode
+ */
+export function setTaskDirectly(id: string, task: Task): void {
+  if (useMockStorage) {
+    mockTasks.set(id, { ...task, id });
+  }
+}
