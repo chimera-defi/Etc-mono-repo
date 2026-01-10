@@ -15,9 +15,22 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { TooltipIcon } from '@/components/TooltipIcon';
 import type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, SupportedChains, WalletData } from '@/types/wallets';
 
 export type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData };
+
+// Table header with tooltip
+function TableHeader({ label, tooltip }: { label: string; tooltip: string }) {
+  return (
+    <th className="py-3 px-4 text-left text-sm font-medium">
+      <div className="flex items-center gap-1">
+        {label}
+        <TooltipIcon text={tooltip} side="bottom" />
+      </div>
+    </th>
+  );
+}
 
 // Helper function to generate tooltip text for chain support
 function getChainTooltip(chains: SupportedChains): string {
@@ -807,44 +820,44 @@ export function WalletTable<T extends WalletData>({
         <table className="w-full">
           <thead>
             <tr className="border-b border-border bg-muted/50">
-              <th className="py-3 px-4 text-left text-sm font-medium" title="Select wallets to compare side-by-side">Compare</th>
-              <th className="py-3 px-4 text-left text-sm font-medium" title="Wallet name with overall score">Wallet</th>
-              <th className="py-3 px-4 text-left text-sm font-medium" title="Recommendation level: Recommended, Situational, or Avoid">Status</th>
+              <TableHeader label="Compare" tooltip="Select wallets to compare side-by-side" />
+              <TableHeader label="Wallet" tooltip="Wallet name with overall score" />
+              <TableHeader label="Status" tooltip="Recommendation level: Recommended, Situational, or Avoid" />
               {type === 'software' && (
                 <>
-                  <th className="py-3 px-4 text-left text-sm font-medium" title="Supported platforms: mobile app, browser extension, desktop, or web app">Platforms</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium" title="Blockchain networks supported: EVM, Bitcoin, Solana, and others">Chains</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium" title="Key features: transaction simulation, scam alerts, hardware support">Features</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium" title="Open source status: open source, partial open source, or closed source">License</th>
+                  <TableHeader label="Platforms" tooltip="Supported platforms: mobile app, browser extension, desktop, or web app" />
+                  <TableHeader label="Chains" tooltip="Blockchain networks supported: EVM, Bitcoin, Solana, and others" />
+                  <TableHeader label="Features" tooltip="Key features: transaction simulation, scam alerts, hardware support" />
+                  <TableHeader label="License" tooltip="Open source status: open source, partial open source, or closed source" />
                 </>
               )}
               {type === 'hardware' && (
                 <>
-                  <th className="py-3 px-4 text-left text-sm font-medium" title="Air-gapped: device never connects during transaction signing">Air-Gap</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium" title="Secure Element (SE): dedicated chip for key storage and signing">SE</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium" title="Firmware transparency: open source, partial, or closed source">Open Source</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium" title="Connection methods: USB, Bluetooth, QR codes, or MicroSD">Connectivity</th>
+                  <TableHeader label="Air-Gap" tooltip="Air-gapped: device never connects during transaction signing" />
+                  <TableHeader label="SE" tooltip="Secure Element (SE): dedicated chip for key storage and signing" />
+                  <TableHeader label="Open Source" tooltip="Firmware transparency: open source, partial, or closed source" />
+                  <TableHeader label="Connectivity" tooltip="Connection methods: USB, Bluetooth, QR codes, or MicroSD" />
                 </>
               )}
               {type === 'cards' && (
                 <>
-                  <th className="py-3 px-4 text-left text-sm font-medium" title="Geographic region where the card is available">Region</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium" title="Percentage of purchases returned as cashback">Cashback</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium" title="Additional rewards program details">Rewards</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium" title="Annual fee or subscription cost, if any">Annual Fee</th>
+                  <TableHeader label="Region" tooltip="Geographic region where the card is available" />
+                  <TableHeader label="Cashback" tooltip="Percentage of purchases returned as cashback" />
+                  <TableHeader label="Rewards" tooltip="Additional rewards program details" />
+                  <TableHeader label="Annual Fee" tooltip="Annual fee or subscription cost, if any" />
                 </>
               )}
               {type === 'ramps' && (
                 <>
-                  <th className="py-3 px-4 text-left text-sm font-medium" title="Type of service: on-ramp (fiat to crypto), off-ramp (crypto to fiat), or both">Type</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium" title="Geographic or asset coverage supported">Coverage</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium" title="Fee structure: flat rate, percentage, or tiered">Fee Model</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium" title="Minimum transaction fee or amount">Min Fee</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium" title="Developer experience: API quality and integration documentation">Dev UX</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium" title="External links to provider website">Links</th>
+                  <TableHeader label="Type" tooltip="Type of service: on-ramp (fiat to crypto), off-ramp (crypto to fiat), or both" />
+                  <TableHeader label="Coverage" tooltip="Geographic or asset coverage supported" />
+                  <TableHeader label="Fee Model" tooltip="Fee structure: flat rate, percentage, or tiered" />
+                  <TableHeader label="Min Fee" tooltip="Minimum transaction fee or amount" />
+                  <TableHeader label="Dev UX" tooltip="Developer experience: API quality and integration documentation" />
+                  <TableHeader label="Links" tooltip="External links to provider website" />
                 </>
               )}
-              {(type === 'software' || type === 'hardware') && <th className="py-3 px-4 text-left text-sm font-medium" title="External links to GitHub repository and website">Links</th>}
+              {(type === 'software' || type === 'hardware') && <TableHeader label="Links" tooltip="External links to GitHub repository and website" />}
             </tr>
           </thead>
           <tbody>
