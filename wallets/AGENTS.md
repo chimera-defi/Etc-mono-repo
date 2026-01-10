@@ -237,6 +237,270 @@ When recalculating scores:
 
 ---
 
+## 🚀 MCP CLI for Token Efficiency (CRITICAL)
+
+### Why Use MCP CLI in Wallet Work
+
+The wallet comparison project involves reading multiple data files, documentation, and configuration files. **MCP CLI reduces tokens by 60-80% for these operations** through bulk operations and on-demand schema loading.
+
+### Wallet-Specific MCP CLI Patterns
+
+#### Pattern 1: Bulk Read Wallet Data Files
+
+**Instead of:**
+```bash
+Read SOFTWARE_WALLETS.md
+Read HARDWARE_WALLETS.md
+Read CRYPTO_CARDS.md
+```
+
+**Use:**
+```bash
+mcp-cli filesystem/read_multiple_files '{
+  "paths": [
+    "wallets/SOFTWARE_WALLETS.md",
+    "wallets/HARDWARE_WALLETS.md",
+    "wallets/CRYPTO_CARDS.md"
+  ]
+}'
+```
+
+**Token Savings:** ~66% (1 call vs 3 calls)
+
+#### Pattern 2: Search All Wallet Markdown Files
+
+```bash
+# Find all wallet documentation
+mcp-cli filesystem/search_files '{
+  "path": "/home/user/Etc-mono-repo/wallets",
+  "pattern": "**/*.md"
+}'
+
+# Find all wallet data files
+mcp-cli filesystem/search_files '{
+  "path": "/home/user/Etc-mono-repo/wallets",
+  "pattern": "**/*WALLETS*.md"
+}'
+```
+
+**Token Savings:** ~70% vs Glob + multiple Read operations
+
+#### Pattern 3: Analyze Wallet Frontend Structure
+
+```bash
+# Get complete directory tree
+mcp-cli filesystem/directory_tree '{
+  "path": "/home/user/Etc-mono-repo/wallets/frontend/src"
+}'
+
+# Search for config files
+mcp-cli filesystem/search_files '{
+  "path": "/home/user/Etc-mono-repo/wallets/frontend",
+  "pattern": "**/*config*"
+}'
+```
+
+**Token Savings:** ~80% vs recursive directory exploration
+
+#### Pattern 4: Read Large Documentation Files (Head/Tail)
+
+```bash
+# Read first 100 lines of wallet table
+mcp-cli filesystem/read_text_file '{
+  "path": "/home/user/Etc-mono-repo/wallets/SOFTWARE_WALLETS.md",
+  "head": 100
+}'
+
+# Read last 50 lines of changelog
+mcp-cli filesystem/read_text_file '{
+  "path": "/home/user/Etc-mono-repo/wallets/CHANGELOG.md",
+  "tail": 50
+}'
+```
+
+**Token Savings:** ~90% for large files
+
+#### Pattern 5: Store Wallet Research Knowledge
+
+**CRITICAL:** When researching wallets, store findings in memory server to avoid re-researching.
+
+```bash
+# Store wallet features
+mcp-cli memory/create_entities '{
+  "entities": [
+    {
+      "name": "MetaMask",
+      "entityType": "wallet",
+      "observations": [
+        "Browser extension for EVM chains",
+        "Mobile app available",
+        "~8 releases per month (high churn)",
+        "19% issue/star ratio (concerning)",
+        "Most popular Web3 wallet"
+      ]
+    },
+    {
+      "name": "Rabby",
+      "entityType": "wallet",
+      "observations": [
+        "Browser extension + mobile app",
+        "EVM chains with multi-chain transaction preview",
+        "Lower release frequency (more stable)",
+        "DeBank API backend (proprietary but public)",
+        "Good MetaMask alternative for developers"
+      ]
+    }
+  ]
+}'
+
+# Store architectural knowledge
+mcp-cli memory/create_entities '{
+  "entities": [
+    {
+      "name": "Wallets Frontend Architecture",
+      "entityType": "architecture",
+      "observations": [
+        "Next.js 14 with App Router",
+        "TypeScript strict mode",
+        "Data parsed from markdown tables",
+        "OG images generated via scripts/generate-og-images.js",
+        "Twitter Card validation required before deployment",
+        "Smoke tests check for parser drift"
+      ]
+    }
+  ]
+}'
+
+# Store scoring methodology
+mcp-cli memory/create_entities '{
+  "entities": [
+    {
+      "name": "Wallet Scoring Methodology",
+      "entityType": "methodology",
+      "observations": [
+        "Developer-focused: prioritize mobile + browser extension",
+        "Stability over features: low release frequency is GOOD",
+        "Platform coverage is CRITICAL for core criteria",
+        "Open source important but not required for dev use",
+        "API openness: separate from client-side open source"
+      ]
+    }
+  ]
+}'
+```
+
+**Token Savings:** ~90% across sessions (store once, query many times)
+
+#### Pattern 6: Query Wallet Knowledge Before Research
+
+**ALWAYS query knowledge graph first before researching:**
+
+```bash
+# Search for wallet information
+mcp-cli memory/search_nodes '{"query": "MetaMask"}'
+mcp-cli memory/search_nodes '{"query": "Rabby"}'
+mcp-cli memory/search_nodes '{"query": "hardware wallet"}'
+
+# Get specific entities
+mcp-cli memory/open_nodes '{
+  "names": ["Wallets Frontend Architecture", "Wallet Scoring Methodology"]
+}'
+
+# Read entire knowledge graph
+mcp-cli memory/read_graph '{}'
+```
+
+**Token Savings:** ~95% vs re-reading documentation
+
+### Wallet Work Checklist with MCP CLI
+
+When working on wallet tasks:
+
+1. **🔥 Query knowledge first:** Check `memory/search_nodes` for existing research
+2. **Batch file reads:** Use `read_multiple_files` for 2+ files
+3. **Store new findings:** Use `memory/create_entities` after research
+4. **Use directory_tree:** Get full project structure in one call
+5. **Search efficiently:** Use `search_files` with patterns, not manual Glob
+6. **Read sections:** For large tables, use `head`/`tail` parameters
+
+### Example: Adding a New Wallet
+
+**Traditional approach (inefficient):**
+```
+Read SOFTWARE_WALLETS.md (full file)
+→ Read CONTRIBUTING.md (full file)
+→ Read wallets/AGENTS.md (full file)
+→ Research wallet features manually
+→ Update table
+```
+
+**MCP CLI approach (efficient):**
+```bash
+# 1. Query existing knowledge
+mcp-cli memory/search_nodes '{"query": "wallet scoring"}'
+
+# 2. If needed, read only relevant sections
+mcp-cli filesystem/read_text_file '{
+  "path": "/home/user/Etc-mono-repo/wallets/SOFTWARE_WALLETS.md",
+  "head": 50
+}'
+
+# 3. Research and store findings
+mcp-cli memory/create_entities '{
+  "entities": [{"name": "NewWallet", "entityType": "wallet", "observations": [...]}]
+}'
+
+# 4. Batch read related files if needed
+mcp-cli filesystem/read_multiple_files '{
+  "paths": ["wallets/CONTRIBUTING.md", "wallets/CHANGELOG.md"]
+}'
+```
+
+**Token Savings:** ~75% vs traditional approach
+
+### Wallet-Specific Knowledge to Store
+
+Store these entity types to build cumulative knowledge:
+
+1. **Wallets:** Name, features, platform availability, stability metrics
+2. **Architecture:** Frontend structure, build process, validation requirements
+3. **Methodologies:** Scoring criteria, verification standards, data sources
+4. **Issues:** Common pitfalls, red flags, verification mistakes
+5. **Best For:** Use case mappings (developer use, cold storage, etc.)
+
+### Integration with Verification
+
+When refreshing wallet data:
+
+```bash
+# Store verification findings
+mcp-cli memory/create_entities '{
+  "entities": [
+    {
+      "name": "Trust Wallet Verification Jan 2026",
+      "entityType": "verification",
+      "observations": [
+        "Mobile app: iOS + Android verified in app stores",
+        "Browser extension: Chrome Web Store verified",
+        "Last commit: Jan 5, 2026",
+        "Release frequency: 4.2/month (moderate)",
+        "Meets core criteria: YES (mobile + browser)"
+      ]
+    }
+  ]
+}'
+```
+
+This creates an auditable history of verifications.
+
+### See Also
+
+- **Full MCP CLI Documentation:** `/home/user/Etc-mono-repo/mcp-cli-evaluation.md`
+- **General MCP CLI Guidelines:** See CLAUDE.md "MCP CLI Integration" section
+- **Rules:** See `.cursorrules` Rules #140-155
+
+---
+
 ## ⚠️ Red Flags
 
 ### Wallets to Watch
