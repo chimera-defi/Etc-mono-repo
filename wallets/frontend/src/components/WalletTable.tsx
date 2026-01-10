@@ -20,13 +20,15 @@ import type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, SupportedChains,
 
 export type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData };
 
-// Table header with tooltip
-function TableHeader({ label, tooltip }: { label: string; tooltip: string }) {
+// Table header with tooltip helper
+function TableHeaderWithTooltip({ label, tooltip }: { label: string; tooltip: string }) {
   return (
-    <th className="py-3 px-4 text-left text-sm font-medium">
-      <div className="flex items-center gap-1">
-        {label}
-        <TooltipIcon text={tooltip} side="bottom" />
+    <th className="py-3 px-4 text-left text-sm font-medium group cursor-help" title="Click info button for more details">
+      <div className="flex items-center gap-2">
+        <span>{label}</span>
+        <span className="inline-block relative">
+          <TooltipIcon text={tooltip} side="bottom" />
+        </span>
       </div>
     </th>
   );
@@ -820,44 +822,44 @@ export function WalletTable<T extends WalletData>({
         <table className="w-full">
           <thead>
             <tr className="border-b border-border bg-muted/50">
-              <TableHeader label="Compare" tooltip="Select wallets to compare side-by-side" />
-              <TableHeader label="Wallet" tooltip="Wallet name with overall score" />
-              <TableHeader label="Status" tooltip="Recommendation level: Recommended, Situational, or Avoid" />
+              <TableHeaderWithTooltip label="Compare" tooltip="Select wallets to compare side-by-side" />
+              <TableHeaderWithTooltip label="Wallet" tooltip="Wallet name with overall score" />
+              <TableHeaderWithTooltip label="Status" tooltip="Recommendation level: Recommended, Situational, or Avoid" />
               {type === 'software' && (
                 <>
-                  <TableHeader label="Platforms" tooltip="Supported platforms: mobile app, browser extension, desktop, or web app" />
-                  <TableHeader label="Chains" tooltip="Blockchain networks supported: EVM, Bitcoin, Solana, and others" />
-                  <TableHeader label="Features" tooltip="Key features: transaction simulation, scam alerts, hardware support" />
-                  <TableHeader label="License" tooltip="Open source status: open source, partial open source, or closed source" />
+                  <TableHeaderWithTooltip label="Platforms" tooltip="Supported platforms: mobile app, browser extension, desktop, or web app" />
+                  <TableHeaderWithTooltip label="Chains" tooltip="Blockchain networks supported: EVM, Bitcoin, Solana, and others" />
+                  <TableHeaderWithTooltip label="Features" tooltip="Key features: transaction simulation, scam alerts, hardware support" />
+                  <TableHeaderWithTooltip label="License" tooltip="Open source status: open source, partial open source, or closed source" />
                 </>
               )}
               {type === 'hardware' && (
                 <>
-                  <TableHeader label="Air-Gap" tooltip="Air-gapped: device never connects during transaction signing" />
-                  <TableHeader label="SE" tooltip="Secure Element (SE): dedicated chip for key storage and signing" />
-                  <TableHeader label="Open Source" tooltip="Firmware transparency: open source, partial, or closed source" />
-                  <TableHeader label="Connectivity" tooltip="Connection methods: USB, Bluetooth, QR codes, or MicroSD" />
+                  <TableHeaderWithTooltip label="Air-Gap" tooltip="Air-gapped: device never connects during transaction signing" />
+                  <TableHeaderWithTooltip label="SE" tooltip="Secure Element (SE): dedicated chip for key storage and signing" />
+                  <TableHeaderWithTooltip label="Open Source" tooltip="Firmware transparency: open source, partial, or closed source" />
+                  <TableHeaderWithTooltip label="Connectivity" tooltip="Connection methods: USB, Bluetooth, QR codes, or MicroSD" />
                 </>
               )}
               {type === 'cards' && (
                 <>
-                  <TableHeader label="Region" tooltip="Geographic region where the card is available" />
-                  <TableHeader label="Cashback" tooltip="Percentage of purchases returned as cashback" />
-                  <TableHeader label="Rewards" tooltip="Additional rewards program details" />
-                  <TableHeader label="Annual Fee" tooltip="Annual fee or subscription cost, if any" />
+                  <TableHeaderWithTooltip label="Region" tooltip="Geographic region where the card is available" />
+                  <TableHeaderWithTooltip label="Cashback" tooltip="Percentage of purchases returned as cashback" />
+                  <TableHeaderWithTooltip label="Rewards" tooltip="Additional rewards program details" />
+                  <TableHeaderWithTooltip label="Annual Fee" tooltip="Annual fee or subscription cost, if any" />
                 </>
               )}
               {type === 'ramps' && (
                 <>
-                  <TableHeader label="Type" tooltip="Type of service: on-ramp (fiat to crypto), off-ramp (crypto to fiat), or both" />
-                  <TableHeader label="Coverage" tooltip="Geographic or asset coverage supported" />
-                  <TableHeader label="Fee Model" tooltip="Fee structure: flat rate, percentage, or tiered" />
-                  <TableHeader label="Min Fee" tooltip="Minimum transaction fee or amount" />
-                  <TableHeader label="Dev UX" tooltip="Developer experience: API quality and integration documentation" />
-                  <TableHeader label="Links" tooltip="External links to provider website" />
+                  <TableHeaderWithTooltip label="Type" tooltip="Type of service: on-ramp (fiat to crypto), off-ramp (crypto to fiat), or both" />
+                  <TableHeaderWithTooltip label="Coverage" tooltip="Geographic or asset coverage supported" />
+                  <TableHeaderWithTooltip label="Fee Model" tooltip="Fee structure: flat rate, percentage, or tiered" />
+                  <TableHeaderWithTooltip label="Min Fee" tooltip="Minimum transaction fee or amount" />
+                  <TableHeaderWithTooltip label="Dev UX" tooltip="Developer experience: API quality and integration documentation" />
+                  <TableHeaderWithTooltip label="Links" tooltip="External links to provider website" />
                 </>
               )}
-              {(type === 'software' || type === 'hardware') && <TableHeader label="Links" tooltip="External links to GitHub repository and website" />}
+              {(type === 'software' || type === 'hardware') && <TableHeaderWithTooltip label="Links" tooltip="External links to GitHub repository and website" />}
             </tr>
           </thead>
           <tbody>
