@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useLayoutEffect, useEffect, useCallback } from 'react';
+import { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { HelpCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -28,18 +28,19 @@ export function Tooltip({
 }: TooltipProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [coords, setCoords] = useState({ top: 0, left: 0 });
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const triggerRef = useRef<HTMLSpanElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
+  const isHoveringRef = useRef(false);
 
-  // Detect touch device on mount
+  // Track mount state for SSR
   useEffect(() => {
-    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    setIsMounted(true);
   }, []);
 
-  // Close tooltip when clicking outside (for mobile)
+  // Close tooltip when clicking outside
   useEffect(() => {
-    if (!isVisible || !isTouchDevice) return;
+    if (!isVisible) return;
 
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       const target = event.target as Node;
@@ -53,20 +54,20 @@ export function Tooltip({
       }
     };
 
-    // Use a small delay to prevent immediate close on the same tap
+    // Small delay to prevent immediate close
     const timeoutId = setTimeout(() => {
+      document.addEventListener('mousedown', handleClickOutside);
       document.addEventListener('touchstart', handleClickOutside);
-      document.addEventListener('click', handleClickOutside);
-    }, 10);
+    }, 50);
 
     return () => {
       clearTimeout(timeoutId);
+      document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('touchstart', handleClickOutside);
-      document.removeEventListener('click', handleClickOutside);
     };
-  }, [isVisible, isTouchDevice]);
+  }, [isVisible]);
 
-  // Use layout effect for synchronous position calculation before paint
+  // Calculate position when visible
   useLayoutEffect(() => {
     if (!isVisible || !triggerRef.current) return;
 
@@ -96,18 +97,11 @@ export function Tooltip({
         break;
     }
 
-    // Ensure tooltip stays within viewport
+    // Keep tooltip within viewport
     const viewportWidth = window.innerWidth;
-    const tooltipWidth = maxWidth;
-
-    // Clamp horizontal position
     if (position === 'top' || position === 'bottom') {
-      const halfWidth = tooltipWidth / 2;
-      if (left - halfWidth < 8) {
-        left = halfWidth + 8;
-      } else if (left + halfWidth > viewportWidth - 8) {
-        left = viewportWidth - halfWidth - 8;
-      }
+      const halfWidth = maxWidth / 2;
+      left = Math.max(halfWidth + 8, Math.min(left, viewportWidth - halfWidth - 8));
     }
 
     setCoords({ top, left });
@@ -128,60 +122,50 @@ export function Tooltip({
     }
   };
 
-  // Handle tap/click for mobile
-  const handleClick = useCallback((e: React.MouseEvent | React.TouchEvent) => {
-    if (isTouchDevice) {
-      e.preventDefault();
-      e.stopPropagation();
-      setIsVisible(prev => !prev);
-    }
-  }, [isTouchDevice]);
+  // Toggle on click/tap (works for both mobile and desktop)
+  const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
+    e.stopPropagation();
+    setIsVisible(prev => !prev);
+  };
 
-  // Handle mouse events for desktop
-  const handleMouseEnter = useCallback(() => {
-    if (!isTouchDevice) {
-      setIsVisible(true);
-    }
-  }, [isTouchDevice]);
+  // Show on hover (desktop only, doesn't interfere with click)
+  const handleMouseEnter = () => {
+    isHoveringRef.current = true;
+    setIsVisible(true);
+  };
 
-  const handleMouseLeave = useCallback(() => {
-    if (!isTouchDevice) {
-      setIsVisible(false);
-    }
-  }, [isTouchDevice]);
-
-  // Only render portal on client side
-  const canUseDOM = typeof window !== 'undefined';
+  const handleMouseLeave = () => {
+    isHoveringRef.current = false;
+    // Only hide if we're leaving via mouse (not if it was clicked open)
+    setIsVisible(false);
+  };
 
   return (
     <>
       <span
         ref={triggerRef}
-        className={cn('inline-flex items-center cursor-help', className)}
+        className={cn('inline-flex items-center cursor-pointer', className)}
         onClick={handleClick}
-        onTouchEnd={handleClick}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        onFocus={() => setIsVisible(true)}
-        onBlur={() => setIsVisible(false)}
         tabIndex={0}
         role="button"
-        aria-describedby={isVisible ? 'tooltip' : undefined}
+        aria-expanded={isVisible}
+        aria-label={showIcon ? 'Show more information' : undefined}
       >
         {children}
         {showIcon && (
           <HelpCircle
             className="h-3.5 w-3.5 ml-1 text-muted-foreground hover:text-foreground transition-colors"
-            aria-label="More information"
+            aria-hidden="true"
           />
         )}
       </span>
 
-      {canUseDOM && isVisible && content &&
+      {isMounted && isVisible && content &&
         createPortal(
           <div
             ref={tooltipRef}
-            id="tooltip"
             role="tooltip"
             style={{
               position: 'fixed',
@@ -194,17 +178,10 @@ export function Tooltip({
             className={cn(
               'px-3 py-2 text-xs font-normal leading-relaxed whitespace-normal',
               'bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900',
-              'rounded-md shadow-xl',
-              'transition-opacity duration-150'
+              'rounded-md shadow-xl border border-gray-700 dark:border-gray-300'
             )}
           >
             {content}
-            {/* Mobile close hint */}
-            {isTouchDevice && (
-              <div className="mt-1 pt-1 border-t border-gray-700 dark:border-gray-300 text-[10px] opacity-70">
-                Tap anywhere to close
-              </div>
-            )}
           </div>,
           document.body
         )}
