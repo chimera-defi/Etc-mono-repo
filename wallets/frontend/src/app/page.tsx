@@ -301,8 +301,8 @@ export default function HomePage() {
             </svg>
           </div>
           <div className="flex-1 text-sm">
-            <p className="font-semibold">Educational Research Site</p>
-            <p>Wallet Radar is an independent research and comparison platform. We are not affiliated with any wallet providers. <a href="/docs/readme" className="underline hover:text-blue-700">Learn more</a></p>
+            <p className="font-semibold">📚 Educational Research &amp; Data Only</p>
+            <p>Wallet Radar does NOT provide financial advice, recommend wallets, have login pages, or collect personal information. All data is sourced publicly and linked for independent verification. Completely independent of all wallet providers. <a href="/docs/about" className="underline hover:text-blue-700">Why we&apos;re not phishing</a></p>
           </div>
         </div>
       </div>
@@ -316,8 +316,8 @@ export default function HomePage() {
               Comparison
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
-              Find stable MetaMask alternatives with comprehensive scoring, security audits, 
-              GitHub activity tracking, and developer experience benchmarks.
+              Research and compare crypto wallets with transparent scoring, security data,
+              GitHub activity metrics, and developer experience documentation.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
@@ -356,7 +356,7 @@ export default function HomePage() {
                 className="inline-flex items-center gap-2 text-primary hover:underline"
               >
                 <GitCompare className="h-4 w-4" />
-                Compare wallets side-by-side with advanced filters
+                Browse documented wallet comparisons with advanced filters
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
@@ -400,19 +400,19 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Top Picks Section */}
+      {/* Most Actively Developed Wallets Section */}
       <section className="container mx-auto px-4 py-16">
-        <h2 className="text-2xl font-bold mb-8">Top Developer Picks</h2>
+        <h2 className="text-2xl font-bold mb-8">Most Actively Developed Wallets</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Software Wallet Pick */}
           <div className="p-6 rounded-lg border border-green-200 dark:border-green-900 bg-green-50 dark:bg-green-950/30">
             <div className="flex items-center gap-2 mb-3">
               <CheckCircle className="h-5 w-5 text-green-600" />
-              <span className="text-sm font-medium text-green-600">Best for Development</span>
+              <span className="text-sm font-medium text-green-600">Highest Development Activity</span>
             </div>
             <h3 className="font-bold text-xl mb-2">Rabby Wallet</h3>
             <p className="text-sm text-muted-foreground mb-4">
-              Score: 92 — Transaction simulation, both platforms, active development
+              Score: 92 — Transaction simulation, transaction preview, scam alerts, ~6 releases/month
             </p>
             <div className="text-xs text-muted-foreground">
               ✅ Tx Simulation • ✅ Scam Alerts • ~6 releases/month
@@ -423,86 +423,86 @@ export default function HomePage() {
           <div className="p-6 rounded-lg border border-blue-200 dark:border-blue-900 bg-blue-50 dark:bg-blue-950/30">
             <div className="flex items-center gap-2 mb-3">
               <Shield className="h-5 w-5 text-blue-600" />
-              <span className="text-sm font-medium text-blue-600">Best Hardware Wallet</span>
+              <span className="text-sm font-medium text-blue-600">Most Recent Open Source</span>
             </div>
             <h3 className="font-bold text-xl mb-2">Trezor Safe 5</h3>
             <p className="text-sm text-muted-foreground mb-4">
-              Score: 94 — Fully open source, Secure Element, active development
+              Score: 94 — Fully open source firmware, Secure Element chip, recent commits
             </p>
             <div className="text-xs text-muted-foreground">
               ✅ Open Source • ✅ Optiga SE • ~$169
             </div>
           </div>
 
-          {/* Best Value Pick */}
+          {/* Budget-Friendly Hardware Pick */}
           <div className="p-6 rounded-lg border border-purple-200 dark:border-purple-900 bg-purple-50 dark:bg-purple-950/30">
             <div className="flex items-center gap-2 mb-3">
               <Zap className="h-5 w-5 text-purple-600" />
-              <span className="text-sm font-medium text-purple-600">Best Value</span>
+              <span className="text-sm font-medium text-purple-600">Budget-Friendly Hardware</span>
             </div>
             <h3 className="font-bold text-xl mb-2">Trezor Safe 3</h3>
             <p className="text-sm text-muted-foreground mb-4">
-              Score: 91 — $79, Secure Element, fully open source firmware
+              Score: 91 — Approximately $79, fully open source, Secure Element chip
             </p>
             <div className="text-xs text-muted-foreground">
               ✅ Budget-Friendly • ✅ Optiga SE • ✅ Active
             </div>
           </div>
 
-          {/* Best Personal Crypto Card Pick */}
+          {/* Non-Custodial Crypto Card */}
           <div className="p-6 rounded-lg border border-orange-200 dark:border-orange-900 bg-orange-50 dark:bg-orange-950/30">
             <div className="flex items-center gap-2 mb-3">
               <CreditCard className="h-5 w-5 text-orange-600" />
-              <span className="text-sm font-medium text-orange-600">Best Personal Card</span>
+              <span className="text-sm font-medium text-orange-600">Non-Custodial Card</span>
             </div>
             <h3 className="font-bold text-xl mb-2">EtherFi Cash</h3>
             <p className="text-sm text-muted-foreground mb-4">
-              Score: 85 — 2-3% cashback, non-custodial self-custody, no annual fee
+              Score: 85 — Self-custody control, 2-3% cashback rewards, no annual fee
             </p>
             <div className="text-xs text-muted-foreground">
               ✅ Self-Custody • ✅ Global • ✅ DeFi-Native
             </div>
           </div>
 
-          {/* Best Business Crypto Card Pick */}
+          {/* Enterprise-Grade Crypto Card */}
           <div className="p-6 rounded-lg border border-amber-200 dark:border-amber-900 bg-amber-50 dark:bg-amber-950/30">
             <div className="flex items-center gap-2 mb-3">
               <CreditCard className="h-5 w-5 text-amber-600" />
-              <span className="text-sm font-medium text-amber-600">Best Business Card</span>
+              <span className="text-sm font-medium text-amber-600">Enterprise-Grade Card</span>
             </div>
             <h3 className="font-bold text-xl mb-2">EtherFi Cash</h3>
             <p className="text-sm text-muted-foreground mb-4">
-              Score: 85 — Corporate cards, non-custodial, 2-3% cashback globally
+              Score: 85 — Corporate support, self-custody control, 2-3% rewards globally
             </p>
             <div className="text-xs text-muted-foreground">
               ✅ Business-Focused • ✅ Self-Custody • ✅ Global
             </div>
           </div>
 
-          {/* Best Ramp for Developers Pick */}
+          {/* Most Developer-Friendly Ramp */}
           <div className="p-6 rounded-lg border border-cyan-200 dark:border-cyan-900 bg-cyan-50 dark:bg-cyan-950/30">
             <div className="flex items-center gap-2 mb-3">
               <ArrowLeftRight className="h-5 w-5 text-cyan-600" />
-              <span className="text-sm font-medium text-cyan-600">Best Ramp for Developers</span>
+              <span className="text-sm font-medium text-cyan-600">Developer-Friendly Ramp</span>
             </div>
             <h3 className="font-bold text-xl mb-2">Transak</h3>
             <p className="text-sm text-muted-foreground mb-4">
-              Score: 92 — React SDK, 160+ countries, excellent developer experience
+              Score: 92 — React SDK integration, 160+ countries support, on/off ramp
             </p>
             <div className="text-xs text-muted-foreground">
               ✅ React SDK • ✅ 160+ Countries • ✅ Both On/Off-Ramp
             </div>
           </div>
 
-          {/* Best Business Ramp Pick */}
+          {/* Enterprise Ramp Solution */}
           <div className="p-6 rounded-lg border border-teal-200 dark:border-teal-900 bg-teal-50 dark:bg-teal-950/30">
             <div className="flex items-center gap-2 mb-3">
               <ArrowLeftRight className="h-5 w-5 text-teal-600" />
-              <span className="text-sm font-medium text-teal-600">Best Business Ramp</span>
+              <span className="text-sm font-medium text-teal-600">Enterprise Solution</span>
             </div>
             <h3 className="font-bold text-xl mb-2">onesafe</h3>
             <p className="text-sm text-muted-foreground mb-4">
-              Score: 70 — Enterprise-focused API, custom pricing, select global coverage
+              Score: 70 — Enterprise API, custom configurations, dedicated support
             </p>
             <div className="text-xs text-muted-foreground">
               ✅ Enterprise API • ✅ Custom Pricing • ✅ Both On/Off-Ramp
@@ -581,9 +581,68 @@ export default function HomePage() {
       {/* Browse by Feature - Internal Links for SEO */}
       <FeaturedCategoryLinks />
 
+      {/* Trust & Transparency Section */}
+      <section className="container mx-auto px-4 py-16 border-t border-border">
+        <div className="max-w-3xl">
+          <h2 className="text-2xl font-bold mb-8">Why We&apos;re Not Phishing</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-3">
+              <div className="flex gap-3">
+                <div className="flex-shrink-0 text-primary">✅</div>
+                <div>
+                  <p className="font-semibold text-sm">Never ask for passwords</p>
+                  <p className="text-sm text-muted-foreground">No login page, no wallet connection, no key requests</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="flex-shrink-0 text-primary">✅</div>
+                <div>
+                  <p className="font-semibold text-sm">No personal data collection</p>
+                  <p className="text-sm text-muted-foreground">No registration, no email required, no user tracking</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="flex-shrink-0 text-primary">✅</div>
+                <div>
+                  <p className="font-semibold text-sm">Transparent data sources</p>
+                  <p className="text-sm text-muted-foreground">All links and data sources verified and documented</p>
+                </div>
+              </div>
+            </div>
+            <div className="space-y-3">
+              <div className="flex gap-3">
+                <div className="flex-shrink-0 text-primary">✅</div>
+                <div>
+                  <p className="font-semibold text-sm">Open source code</p>
+                  <p className="text-sm text-muted-foreground">View and audit our code on GitHub</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="flex-shrink-0 text-primary">✅</div>
+                <div>
+                  <p className="font-semibold text-sm">Published methodology</p>
+                  <p className="text-sm text-muted-foreground">All scoring formulas documented and reproducible</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="flex-shrink-0 text-primary">✅</div>
+                <div>
+                  <p className="font-semibold text-sm">No affiliate links</p>
+                  <p className="text-sm text-muted-foreground">We don&apos;t profit from wallet recommendations</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Data Sources */}
       <section className="container mx-auto px-4 py-16 border-t border-border">
-        <h2 className="text-2xl font-bold mb-8">Data Sources</h2>
+        <h2 className="text-2xl font-bold mb-4">Data Sources</h2>
+        <p className="text-sm text-muted-foreground mb-8">
+          All links below are to official, verified sources. We do NOT use shortened URLs, redirects, or referral links.
+          <a href="/docs/data-sources" className="text-primary hover:underline ml-1">View our data verification process</a>
+        </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <a
             href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets?utm_source=walletradar&utm_medium=comparison"
