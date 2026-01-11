@@ -9,5 +9,6 @@ Disallow: /_next/
 # Sitemap location
 Sitemap: https://walletradar.org/sitemap.xml
 
-# Crawl-delay
-Crawl-delay: 1
+# Crawl-delay - Allow faster crawling for better domain analysis
+# Slower rates can appear evasive; transparency helps trust
+Crawl-delay: 0.5

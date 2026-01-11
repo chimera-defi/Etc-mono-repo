@@ -59,6 +59,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/docs/data-sources" className="text-muted-foreground hover:text-foreground">
+                  Data Sources
+                </Link>
+              </li>
+              <li>
                 <Link href="/docs/contributing" className="text-muted-foreground hover:text-foreground">
                   Contributing
                 </Link>
