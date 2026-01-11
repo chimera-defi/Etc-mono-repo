@@ -16,17 +16,17 @@
 | [**Coinbase Card**](https://www.coinbase.com/card) | 75 🟢 | Debit | 🏦 Exch | ❌ | 🇺🇸 US | 1-4% | $0 | 0% | BTC, ETH | ✅ | Coinbase users |
 | [**Bybit Card**](https://www.bybit.com/en/cards/) | 74 🟡 | Debit | 🏦 Exch | ✅ | 🇪🇺 EEA/CH | Up to 10% | $0 | 0% | Multi | ⚠️ | High cashback |
 | [**Plutus Card**](https://plutus.it) | 73 🟡 | Debit | 📋 CeFi | ❌ | 🇪🇺 EU/UK | 3-9% | £0 | 0% | PLU | ✅ | EU/UK perks |
-| [**Uphold Card**](https://uphold.com/card) | 73 🟡 | Debit | 📋 CeFi | ⚠️ | 🇺🇸🇪🇺 US/EU | 1-4% | $0 | 0% | XRP, BTC | ⚠️ | Multi-crypto |
+| [**Uphold Card**](https://uphold.com) | 73 🟡 | Debit | 📋 CeFi | ⚠️ | 🇺🇸🇪🇺 US/EU | 1-4% | $0 | 0% | XRP, BTC | ⚠️ | Multi-crypto |
 | [**CryptoSpend**](https://cryptospend.com.au) | 71 🟡 | Debit | 🔐 Self | ❌ | 🇦🇺 AU | 1% | $0 | 0% | BTC, ETH | ✅ | Australia |
 | [**Shakepay Card**](https://shakepay.com/card) | 70 🟡 | Prepaid | 📋 CeFi | ❌ | 🇨🇦 CA | 1.5% | $0 | 0% | BTC | ✅ | Canada |
 | [**1inch Card**](https://1inch.com/card) | 70 🟡 | Debit | 🔐 Self | ❌ | 🇪🇺 EU/UK | Up to 2% | $0 | 0% | 1INCH | ✅ | DeFi users |
 | ~~[**Mode Card**](https://modeapp.com)~~ | 69 🟡 | Debit | 📋 CeFi | ❌ | 🇬🇧 UK | Up to 10% | $0 | 0% | BTC | ❌ | ~~Bitcoin rewards~~ |
 | [**Binance Card**](https://www.binance.com/en/cards) | 67 🟡 | Debit | 🏦 Exch | ⚠️ | 🇧🇷 Brazil | Up to 3% | $0 | 0-2% | BNB | ✅ | Binance users |
 | [**Redotpay**](https://redotpay.com) | 67 🟡 | Debit | 📋 CeFi | ✅ | 🌍 Global | Up to 3% | $0-$100 | 1-2% | USDT, USDC | ✅ | Multi-region |
-| [**CoinJar Card**](https://www.coinjar.com/card) | 65 🟡 | Debit | 🏦 Exch | ❌ | 🇦🇺 AU | 1% | $0 | 0% | BTC | ⚠️ | Australia |
+| [**CoinJar Card**](https://www.coinjar.com) | 65 🟡 | Debit | 🏦 Exch | ❌ | 🇦🇺 AU | 1% | $0 | 0% | BTC | ⚠️ | Australia |
 | [**Nexo Card**](https://nexo.com/card) | 63 🟡 | Credit | 📋 CeFi | ✅ | 🇪🇺 EU/UK | Up to 2% | $0 | FX fees | NEXO | ✅ | Crypto credit |
 | [**Kraken Card**](https://www.kraken.com) | 60 🟡 | Debit | 🏦 Exch | ⚠️ | 🇺🇸🇪🇺 US/EU | TBD | $0 | TBD | Multi | 🔄 | Kraken users |
-| [**Swissborg Card**](https://swissborg.com/card) | 60 🟡 | Debit | 📋 CeFi | ❌ | 🇪🇺 EU | 1-2% | $0 | 0% | CHSB | ⚠️ | EU users |
+| [**Swissborg Card**](https://swissborg.com) | 60 🟡 | Debit | 📋 CeFi | ❌ | 🇪🇺 EU | 1-2% | $0 | 0% | CHSB | ⚠️ | EU users |
 | [**BitPay Card**](https://bitpay.com/card) | 56 🟡 | Prepaid | 📋 CeFi | ⚠️ | 🇺🇸 US | 1%* | $0 | 0% | None | ✅ | BTC spending |
 | [**OKX Card**](https://www.okx.com) | 50 🟡 | Debit | 🏦 Exch | ⚠️ | 🇪🇺 EU | TBD | $0 | TBD | Stables | 🔄 | Stablecoins |
 | [**Reap**](https://reap.global) | 47 🔴 | Business | 📋 CeFi | ✅ | 🌍 Global | 0% | $0 | 2% | Stables | ✅ | Business |

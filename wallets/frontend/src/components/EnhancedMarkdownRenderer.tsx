@@ -7,6 +7,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
 import { cn } from '@/lib/utils';
+import { addReferrerTracking, isExternalLink, getExternalLinkTitle } from '@/lib/link-utils';
 import { Search, X, ChevronDown, ChevronUp, ChevronRight } from 'lucide-react';
 import {
   Trophy,
@@ -418,16 +419,23 @@ function SearchableTable({ tableContent, title }: { tableContent: string; title?
                         rehypePlugins={[rehypeRaw]}
                         components={{
                           p: ({ children }) => <>{children}</>,
-                          a: ({ href, children }) => (
-                            <a
-                              href={href}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-primary hover:underline"
-                            >
-                              {children}
-                            </a>
-                          ),
+                          a: ({ href, children }) => {
+                            const external = isExternalLink(href);
+                            let transformedHref = href;
+                            if (external && transformedHref) {
+                              transformedHref = addReferrerTracking(transformedHref);
+                            }
+                            return (
+                              <a
+                                href={transformedHref}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-primary hover:underline"
+                              >
+                                {children}
+                              </a>
+                            );
+                          },
                         }}
                       >
                         {cell}
@@ -533,10 +541,10 @@ function getMarkdownComponents() {
       </div>
     ),
     a: ({ href, children }: { href?: string; children?: React.ReactNode }) => {
-      const isExternal = href?.startsWith('http');
+      const external = isExternalLink(href);
 
       let transformedHref = href;
-      if (href && !isExternal && href.includes('.md')) {
+      if (href && !external && href.includes('.md')) {
         const [pathPart, hashPart] = href.split('#');
         const filename = pathPart.replace(/^\.\//, '').replace(/^.*\//, '');
 
@@ -546,7 +554,12 @@ function getMarkdownComponents() {
         }
       }
 
-      if (transformedHref && !isExternal && transformedHref.startsWith('/')) {
+      // Add referrer tracking for external links
+      if (external && transformedHref) {
+        transformedHref = addReferrerTracking(transformedHref);
+      }
+
+      if (transformedHref && !external && transformedHref.startsWith('/')) {
         return (
           <Link href={transformedHref}>
             {children}
@@ -557,8 +570,10 @@ function getMarkdownComponents() {
       return (
         <a
           href={transformedHref}
-          target={isExternal ? '_blank' : undefined}
-          rel={isExternal ? 'noopener noreferrer' : undefined}
+          target={external ? '_blank' : undefined}
+          rel={external ? 'noopener noreferrer' : undefined}
+          title={external ? getExternalLinkTitle(href || '') : undefined}
+          className={cn(external && 'text-primary hover:underline')}
         >
           {children}
         </a>
