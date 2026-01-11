@@ -381,7 +381,7 @@ export default function DocumentPage({ params }: PageProps) {
               </Link>
               <div className="flex items-center gap-4 text-sm">
                 <a
-                  href="https://walletbeat.fyi"
+                  href="https://walletbeat.fyi?utm_source=walletradar&utm_medium=comparison"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
@@ -390,7 +390,7 @@ export default function DocumentPage({ params }: PageProps) {
                   <ExternalLink className="h-3 w-3" />
                 </a>
                 <a
-                  href="https://ethereum.org/en/wallets/find-wallet/"
+                  href="https://ethereum.org/en/wallets/find-wallet/?utm_source=walletradar&utm_medium=comparison"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
