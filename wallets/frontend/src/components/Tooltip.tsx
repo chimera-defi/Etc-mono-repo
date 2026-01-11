@@ -156,7 +156,7 @@ export function Tooltip({
         {children}
         {showIcon && (
           <HelpCircle
-            className="h-3.5 w-3.5 ml-1 text-muted-foreground hover:text-foreground transition-colors"
+            className="h-4 w-4 ml-1.5 text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors flex-shrink-0"
             aria-hidden="true"
           />
         )}
