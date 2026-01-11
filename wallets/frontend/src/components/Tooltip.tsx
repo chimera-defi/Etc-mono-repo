@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useLayoutEffect } from 'react';
+import { useState, useRef, useLayoutEffect, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { HelpCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -28,8 +28,43 @@ export function Tooltip({
 }: TooltipProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [coords, setCoords] = useState({ top: 0, left: 0 });
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
   const triggerRef = useRef<HTMLSpanElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
+
+  // Detect touch device on mount
+  useEffect(() => {
+    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }, []);
+
+  // Close tooltip when clicking outside (for mobile)
+  useEffect(() => {
+    if (!isVisible || !isTouchDevice) return;
+
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      const target = event.target as Node;
+      if (
+        triggerRef.current &&
+        !triggerRef.current.contains(target) &&
+        tooltipRef.current &&
+        !tooltipRef.current.contains(target)
+      ) {
+        setIsVisible(false);
+      }
+    };
+
+    // Use a small delay to prevent immediate close on the same tap
+    const timeoutId = setTimeout(() => {
+      document.addEventListener('touchstart', handleClickOutside);
+      document.addEventListener('click', handleClickOutside);
+    }, 10);
+
+    return () => {
+      clearTimeout(timeoutId);
+      document.removeEventListener('touchstart', handleClickOutside);
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [isVisible, isTouchDevice]);
 
   // Use layout effect for synchronous position calculation before paint
   useLayoutEffect(() => {
@@ -61,8 +96,22 @@ export function Tooltip({
         break;
     }
 
+    // Ensure tooltip stays within viewport
+    const viewportWidth = window.innerWidth;
+    const tooltipWidth = maxWidth;
+
+    // Clamp horizontal position
+    if (position === 'top' || position === 'bottom') {
+      const halfWidth = tooltipWidth / 2;
+      if (left - halfWidth < 8) {
+        left = halfWidth + 8;
+      } else if (left + halfWidth > viewportWidth - 8) {
+        left = viewportWidth - halfWidth - 8;
+      }
+    }
+
     setCoords({ top, left });
-  }, [isVisible, position]);
+  }, [isVisible, position, maxWidth]);
 
   const getTransform = () => {
     switch (position) {
@@ -79,6 +128,28 @@ export function Tooltip({
     }
   };
 
+  // Handle tap/click for mobile
+  const handleClick = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    if (isTouchDevice) {
+      e.preventDefault();
+      e.stopPropagation();
+      setIsVisible(prev => !prev);
+    }
+  }, [isTouchDevice]);
+
+  // Handle mouse events for desktop
+  const handleMouseEnter = useCallback(() => {
+    if (!isTouchDevice) {
+      setIsVisible(true);
+    }
+  }, [isTouchDevice]);
+
+  const handleMouseLeave = useCallback(() => {
+    if (!isTouchDevice) {
+      setIsVisible(false);
+    }
+  }, [isTouchDevice]);
+
   // Only render portal on client side
   const canUseDOM = typeof window !== 'undefined';
 
@@ -87,11 +158,15 @@ export function Tooltip({
       <span
         ref={triggerRef}
         className={cn('inline-flex items-center cursor-help', className)}
-        onMouseEnter={() => setIsVisible(true)}
-        onMouseLeave={() => setIsVisible(false)}
+        onClick={handleClick}
+        onTouchEnd={handleClick}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         onFocus={() => setIsVisible(true)}
         onBlur={() => setIsVisible(false)}
         tabIndex={0}
+        role="button"
+        aria-describedby={isVisible ? 'tooltip' : undefined}
       >
         {children}
         {showIcon && (
@@ -106,6 +181,7 @@ export function Tooltip({
         createPortal(
           <div
             ref={tooltipRef}
+            id="tooltip"
             role="tooltip"
             style={{
               position: 'fixed',
@@ -123,6 +199,12 @@ export function Tooltip({
             )}
           >
             {content}
+            {/* Mobile close hint */}
+            {isTouchDevice && (
+              <div className="mt-1 pt-1 border-t border-gray-700 dark:border-gray-300 text-[10px] opacity-70">
+                Tap anywhere to close
+              </div>
+            )}
           </div>,
           document.body
         )}
