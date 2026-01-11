@@ -2,12 +2,6 @@
  * Utility functions for handling external links with referrer attribution
  */
 
-export interface LinkAttribution {
-  url: string;
-  hasParams: boolean;
-  isExternal: boolean;
-}
-
 /**
  * Add referrer tracking parameters to external links
  * Adds utm_source=walletradar and utm_medium=comparison for tracking
@@ -52,44 +46,5 @@ export function getExternalLinkTitle(href: string): string {
     return `Opens external link: ${url.hostname}`;
   } catch {
     return 'Opens external link';
-  }
-}
-
-/**
- * List of known safe wallet/research domains
- * Used for additional trust verification
- */
-const TRUSTED_DOMAINS = [
-  'github.com',
-  'ethereum.org',
-  'chainlist.org',
-  'walletbeat.fyi',
-  'trezor.io',
-  'ledger.com',
-  'coldcard.com',
-  'keystone.so',
-  'bitbox.swiss',
-  'keepkey.com',
-  'gnosispay.com',
-  'ether.fi',
-  'transak.com',
-  'rabby.io',
-  'metamask.io',
-  'walletconnect.com',
-  'twitter.com',
-  'x.com',
-];
-
-/**
- * Check if a domain is in our trusted domains list
- */
-export function isTrustedDomain(href: string): boolean {
-  try {
-    const url = new URL(href);
-    return TRUSTED_DOMAINS.some(domain =>
-      url.hostname === domain || url.hostname.endsWith('.' + domain)
-    );
-  } catch {
-    return false;
   }
 }
