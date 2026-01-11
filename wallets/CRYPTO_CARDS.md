@@ -1,7 +1,5 @@
 # Crypto Credit Card Comparison (27 Cards)
 
-> **🔒 Safety & Link Note:** This page contains external links to official card provider websites for research purposes. All external links include `utm_source=walletradar` to identify traffic from our site. **We are not affiliated with any card providers.** Always verify card details directly on official websites before applying. Status indicators (✅ Active, ⚠️ Verify, 🔄 Launching) reflect our last verification date.
-
 ## Complete Card Comparison (All 27 Crypto Cards)
 
 | Card | Score | Type | Custody | Biz | Region | Cash Back | Annual Fee | FX Fee | Rewards | Status | Best For |

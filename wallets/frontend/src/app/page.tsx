@@ -586,7 +586,7 @@ export default function HomePage() {
         <h2 className="text-2xl font-bold mb-8">Data Sources</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <a
-            href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets"
+            href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets?utm_source=walletradar&utm_medium=comparison"
             target="_blank"
             rel="noopener noreferrer"
             className="p-4 rounded-lg border border-border hover:border-primary/50 transition-colors"
@@ -596,7 +596,7 @@ export default function HomePage() {
             <p className="text-sm text-muted-foreground">Stars, issues, activity status</p>
           </a>
           <a
-            href="https://walletbeat.fyi"
+            href="https://walletbeat.fyi?utm_source=walletradar&utm_medium=comparison"
             target="_blank"
             rel="noopener noreferrer"
             className="p-4 rounded-lg border border-border hover:border-primary/50 transition-colors"
@@ -616,7 +616,7 @@ export default function HomePage() {
             <p className="text-sm text-muted-foreground">Chain counts</p>
           </a>
           <a
-            href="https://github.com/trustwallet/wallet-core"
+            href="https://github.com/trustwallet/wallet-core?utm_source=walletradar&utm_medium=comparison"
             target="_blank"
             rel="noopener noreferrer"
             className="p-4 rounded-lg border border-border hover:border-primary/50 transition-colors"

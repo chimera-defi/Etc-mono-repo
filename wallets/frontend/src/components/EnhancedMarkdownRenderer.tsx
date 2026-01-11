@@ -419,16 +419,23 @@ function SearchableTable({ tableContent, title }: { tableContent: string; title?
                         rehypePlugins={[rehypeRaw]}
                         components={{
                           p: ({ children }) => <>{children}</>,
-                          a: ({ href, children }) => (
-                            <a
-                              href={href}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-primary hover:underline"
-                            >
-                              {children}
-                            </a>
-                          ),
+                          a: ({ href, children }) => {
+                            const external = isExternalLink(href);
+                            let transformedHref = href;
+                            if (external && transformedHref) {
+                              transformedHref = addReferrerTracking(transformedHref);
+                            }
+                            return (
+                              <a
+                                href={transformedHref}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-primary hover:underline"
+                              >
+                                {children}
+                              </a>
+                            );
+                          },
                         }}
                       >
                         {cell}

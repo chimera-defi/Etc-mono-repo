@@ -70,7 +70,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="https://walletbeat.fyi"
+                  href="https://walletbeat.fyi?utm_source=walletradar&utm_medium=comparison"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1"
@@ -86,9 +86,9 @@ export function Footer() {
             <h3 className="font-semibold mb-3">External</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <a 
-                  href="https://ethereum.org/en/wallets/find-wallet/" 
-                  target="_blank" 
+                <a
+                  href="https://ethereum.org/en/wallets/find-wallet/?utm_source=walletradar&utm_medium=comparison"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1"
                 >
@@ -96,9 +96,9 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a 
-                  href="https://chainlist.org" 
-                  target="_blank" 
+                <a
+                  href="https://chainlist.org?utm_source=walletradar&utm_medium=comparison"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1"
                 >
@@ -123,8 +123,8 @@ export function Footer() {
           </p>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div className="text-sm text-muted-foreground">
-              <p><strong>Open Source:</strong> <a href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">View on GitHub</a></p>
-              <p><strong>Found an issue?</strong> <a href="https://github.com/chimera-defi/Etc-mono-repo/issues" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Report on GitHub Issues</a></p>
+              <p><strong>Open Source:</strong> <a href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets?utm_source=walletradar&utm_medium=comparison" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">View on GitHub</a></p>
+              <p><strong>Found an issue?</strong> <a href="https://github.com/chimera-defi/Etc-mono-repo/issues?utm_source=walletradar&utm_medium=comparison" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Report on GitHub Issues</a></p>
             </div>
             <div className="flex items-center gap-6">
               <a
@@ -135,7 +135,7 @@ export function Footer() {
                 Contact Us
               </a>
               <a
-                href="https://x.com/chimeradefi"
+                href="https://x.com/chimeradefi?utm_source=walletradar&utm_medium=comparison"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
@@ -144,7 +144,7 @@ export function Footer() {
                 Twitter
               </a>
               <a
-                href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets"
+                href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets?utm_source=walletradar&utm_medium=comparison"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"

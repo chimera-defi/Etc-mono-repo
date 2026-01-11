@@ -51,7 +51,7 @@ export function Navigation() {
             ))}
             <ThemeToggle />
             <a
-              href="https://x.com/chimeradefi"
+              href="https://x.com/chimeradefi?utm_source=walletradar&utm_medium=comparison"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors"
@@ -60,7 +60,7 @@ export function Navigation() {
               <Twitter className="h-5 w-5" />
             </a>
             <a
-              href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets"
+              href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets?utm_source=walletradar&utm_medium=comparison"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors"
