@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { HelpCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -27,119 +27,71 @@ export function Tooltip({
   maxWidth = 280,
 }: TooltipProps) {
   const [isVisible, setIsVisible] = useState(false);
-  const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
-  const [mounted, setMounted] = useState(false);
+  const [coords, setCoords] = useState({ top: 0, left: 0 });
   const triggerRef = useRef<HTMLSpanElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
 
-  // Ensure we only render portal on client
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  // Use layout effect for synchronous position calculation before paint
+  useLayoutEffect(() => {
+    if (!isVisible || !triggerRef.current) return;
 
-  // Calculate tooltip position based on trigger element
-  const calculatePosition = useCallback(() => {
-    if (!triggerRef.current) return;
-
-    const triggerRect = triggerRef.current.getBoundingClientRect();
-    const scrollX = window.scrollX;
-    const scrollY = window.scrollY;
-    const padding = 8;
+    const trigger = triggerRef.current;
+    const rect = trigger.getBoundingClientRect();
+    const gap = 8;
 
     let top = 0;
     let left = 0;
 
     switch (position) {
       case 'top':
-        top = triggerRect.top + scrollY - padding;
-        left = triggerRect.left + scrollX + triggerRect.width / 2;
+        top = rect.top - gap;
+        left = rect.left + rect.width / 2;
         break;
       case 'bottom':
-        top = triggerRect.bottom + scrollY + padding;
-        left = triggerRect.left + scrollX + triggerRect.width / 2;
+        top = rect.bottom + gap;
+        left = rect.left + rect.width / 2;
         break;
       case 'left':
-        top = triggerRect.top + scrollY + triggerRect.height / 2;
-        left = triggerRect.left + scrollX - padding;
+        top = rect.top + rect.height / 2;
+        left = rect.left - gap;
         break;
       case 'right':
-        top = triggerRect.top + scrollY + triggerRect.height / 2;
-        left = triggerRect.right + scrollX + padding;
+        top = rect.top + rect.height / 2;
+        left = rect.right + gap;
         break;
     }
 
-    setTooltipPosition({ top, left });
-  }, [position]);
+    setCoords({ top, left });
+  }, [isVisible, position]);
 
-  useEffect(() => {
-    if (isVisible) {
-      calculatePosition();
-      window.addEventListener('scroll', calculatePosition, true);
-      window.addEventListener('resize', calculatePosition);
-      return () => {
-        window.removeEventListener('scroll', calculatePosition, true);
-        window.removeEventListener('resize', calculatePosition);
-      };
+  const getTransform = () => {
+    switch (position) {
+      case 'top':
+        return 'translateX(-50%) translateY(-100%)';
+      case 'bottom':
+        return 'translateX(-50%)';
+      case 'left':
+        return 'translateX(-100%) translateY(-50%)';
+      case 'right':
+        return 'translateY(-50%)';
+      default:
+        return '';
     }
-  }, [isVisible, calculatePosition]);
-
-  const positionStyles: Record<string, React.CSSProperties> = {
-    top: {
-      transform: 'translate(-50%, -100%)',
-    },
-    bottom: {
-      transform: 'translate(-50%, 0)',
-    },
-    left: {
-      transform: 'translate(-100%, -50%)',
-    },
-    right: {
-      transform: 'translate(0, -50%)',
-    },
   };
 
-  const arrowClasses = {
-    top: 'top-full left-1/2 -translate-x-1/2 border-t-slate-900 dark:border-t-slate-100 border-x-transparent border-b-transparent',
-    bottom: 'bottom-full left-1/2 -translate-x-1/2 border-b-slate-900 dark:border-b-slate-100 border-x-transparent border-t-transparent',
-    left: 'left-full top-1/2 -translate-y-1/2 border-l-slate-900 dark:border-l-slate-100 border-y-transparent border-r-transparent',
-    right: 'right-full top-1/2 -translate-y-1/2 border-r-slate-900 dark:border-r-slate-100 border-y-transparent border-l-transparent',
-  };
-
-  const tooltipElement = isVisible && content && mounted ? (
-    <div
-      role="tooltip"
-      className={cn(
-        'fixed z-[9999] px-3 py-2 text-xs font-normal leading-relaxed',
-        'bg-slate-900 dark:bg-slate-100 text-slate-100 dark:text-slate-900',
-        'rounded-md shadow-lg pointer-events-none',
-        'animate-in fade-in-0 zoom-in-95 duration-150'
-      )}
-      style={{
-        top: tooltipPosition.top,
-        left: tooltipPosition.left,
-        maxWidth,
-        ...positionStyles[position],
-      }}
-    >
-      {content}
-      {/* Arrow */}
-      <span
-        className={cn(
-          'absolute w-0 h-0 border-4',
-          arrowClasses[position]
-        )}
-      />
-    </div>
-  ) : null;
+  // Only render portal on client side
+  const canUseDOM = typeof window !== 'undefined';
 
   return (
     <>
       <span
         ref={triggerRef}
-        className={cn('relative inline-flex items-center cursor-help', className)}
+        className={cn('inline-flex items-center cursor-help', className)}
         onMouseEnter={() => setIsVisible(true)}
         onMouseLeave={() => setIsVisible(false)}
         onFocus={() => setIsVisible(true)}
         onBlur={() => setIsVisible(false)}
+        tabIndex={0}
       >
         {children}
         {showIcon && (
@@ -149,7 +101,31 @@ export function Tooltip({
           />
         )}
       </span>
-      {mounted && typeof document !== 'undefined' && createPortal(tooltipElement, document.body)}
+
+      {canUseDOM && isVisible && content &&
+        createPortal(
+          <div
+            ref={tooltipRef}
+            role="tooltip"
+            style={{
+              position: 'fixed',
+              top: coords.top,
+              left: coords.left,
+              transform: getTransform(),
+              maxWidth,
+              zIndex: 99999,
+            }}
+            className={cn(
+              'px-3 py-2 text-xs font-normal leading-relaxed whitespace-normal',
+              'bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900',
+              'rounded-md shadow-xl',
+              'transition-opacity duration-150'
+            )}
+          >
+            {content}
+          </div>,
+          document.body
+        )}
     </>
   );
 }

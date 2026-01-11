@@ -932,9 +932,16 @@ export function WalletTable<T extends WalletData>({
               <th className="py-3 px-4 text-left text-sm font-medium">
                 <HeaderTooltip label="Wallet" tooltip={softwareWalletTooltips.headers.wallet} />
               </th>
-              <th className="py-3 px-4 text-left text-sm font-medium">
-                <HeaderTooltip label="Status" tooltip={softwareWalletTooltips.headers.status} />
-              </th>
+              {(type === 'software' || type === 'hardware' || type === 'ramps') && (
+                <th className="py-3 px-4 text-left text-sm font-medium">
+                  <HeaderTooltip label="Status" tooltip={softwareWalletTooltips.headers.status} />
+                </th>
+              )}
+              {type === 'cards' && (
+                <th className="py-3 px-4 text-left text-sm font-medium">
+                  <HeaderTooltip label="Type" tooltip={cryptoCardTooltips.headers.cardType} />
+                </th>
+              )}
               {type === 'software' && (
                 <>
                   <th className="py-3 px-4 text-left text-sm font-medium">
