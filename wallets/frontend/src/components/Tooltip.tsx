@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { HelpCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -26,47 +27,74 @@ export function Tooltip({
   maxWidth = 280,
 }: TooltipProps) {
   const [isVisible, setIsVisible] = useState(false);
-  const [adjustedPosition, setAdjustedPosition] = useState(position);
+  const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
+  const [mounted, setMounted] = useState(false);
   const triggerRef = useRef<HTMLSpanElement>(null);
-  const tooltipRef = useRef<HTMLDivElement>(null);
 
-  // Adjust tooltip position to stay within viewport
-  const adjustPosition = useCallback(() => {
-    if (!triggerRef.current || !tooltipRef.current || !isVisible) return;
+  // Ensure we only render portal on client
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Calculate tooltip position based on trigger element
+  const calculatePosition = useCallback(() => {
+    if (!triggerRef.current) return;
 
     const triggerRect = triggerRef.current.getBoundingClientRect();
-    const tooltipRect = tooltipRef.current.getBoundingClientRect();
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
     const padding = 8;
 
-    let newPosition = position;
+    let top = 0;
+    let left = 0;
 
-    // Check if tooltip overflows and adjust
-    if (position === 'top' && triggerRect.top - tooltipRect.height - padding < 0) {
-      newPosition = 'bottom';
-    } else if (position === 'bottom' && triggerRect.bottom + tooltipRect.height + padding > window.innerHeight) {
-      newPosition = 'top';
-    } else if (position === 'left' && triggerRect.left - tooltipRect.width - padding < 0) {
-      newPosition = 'right';
-    } else if (position === 'right' && triggerRect.right + tooltipRect.width + padding > window.innerWidth) {
-      newPosition = 'left';
+    switch (position) {
+      case 'top':
+        top = triggerRect.top + scrollY - padding;
+        left = triggerRect.left + scrollX + triggerRect.width / 2;
+        break;
+      case 'bottom':
+        top = triggerRect.bottom + scrollY + padding;
+        left = triggerRect.left + scrollX + triggerRect.width / 2;
+        break;
+      case 'left':
+        top = triggerRect.top + scrollY + triggerRect.height / 2;
+        left = triggerRect.left + scrollX - padding;
+        break;
+      case 'right':
+        top = triggerRect.top + scrollY + triggerRect.height / 2;
+        left = triggerRect.right + scrollX + padding;
+        break;
     }
 
-    setAdjustedPosition(newPosition);
-  }, [position, isVisible]);
+    setTooltipPosition({ top, left });
+  }, [position]);
 
   useEffect(() => {
     if (isVisible) {
-      adjustPosition();
-      window.addEventListener('resize', adjustPosition);
-      return () => window.removeEventListener('resize', adjustPosition);
+      calculatePosition();
+      window.addEventListener('scroll', calculatePosition, true);
+      window.addEventListener('resize', calculatePosition);
+      return () => {
+        window.removeEventListener('scroll', calculatePosition, true);
+        window.removeEventListener('resize', calculatePosition);
+      };
     }
-  }, [isVisible, adjustPosition]);
+  }, [isVisible, calculatePosition]);
 
-  const positionClasses = {
-    top: 'bottom-full left-1/2 -translate-x-1/2 mb-2',
-    bottom: 'top-full left-1/2 -translate-x-1/2 mt-2',
-    left: 'right-full top-1/2 -translate-y-1/2 mr-2',
-    right: 'left-full top-1/2 -translate-y-1/2 ml-2',
+  const positionStyles: Record<string, React.CSSProperties> = {
+    top: {
+      transform: 'translate(-50%, -100%)',
+    },
+    bottom: {
+      transform: 'translate(-50%, 0)',
+    },
+    left: {
+      transform: 'translate(-100%, -50%)',
+    },
+    right: {
+      transform: 'translate(0, -50%)',
+    },
   };
 
   const arrowClasses = {
@@ -76,47 +104,53 @@ export function Tooltip({
     right: 'right-full top-1/2 -translate-y-1/2 border-r-slate-900 dark:border-r-slate-100 border-y-transparent border-l-transparent',
   };
 
-  return (
-    <span
-      ref={triggerRef}
-      className={cn('relative inline-flex items-center', className)}
-      onMouseEnter={() => setIsVisible(true)}
-      onMouseLeave={() => setIsVisible(false)}
-      onFocus={() => setIsVisible(true)}
-      onBlur={() => setIsVisible(false)}
+  const tooltipElement = isVisible && content && mounted ? (
+    <div
+      role="tooltip"
+      className={cn(
+        'fixed z-[9999] px-3 py-2 text-xs font-normal leading-relaxed',
+        'bg-slate-900 dark:bg-slate-100 text-slate-100 dark:text-slate-900',
+        'rounded-md shadow-lg pointer-events-none',
+        'animate-in fade-in-0 zoom-in-95 duration-150'
+      )}
+      style={{
+        top: tooltipPosition.top,
+        left: tooltipPosition.left,
+        maxWidth,
+        ...positionStyles[position],
+      }}
     >
-      {children}
-      {showIcon && (
-        <HelpCircle
-          className="h-3.5 w-3.5 ml-1 text-muted-foreground hover:text-foreground cursor-help transition-colors"
-          aria-label="More information"
-        />
-      )}
+      {content}
+      {/* Arrow */}
+      <span
+        className={cn(
+          'absolute w-0 h-0 border-4',
+          arrowClasses[position]
+        )}
+      />
+    </div>
+  ) : null;
 
-      {isVisible && content && (
-        <div
-          ref={tooltipRef}
-          role="tooltip"
-          className={cn(
-            'absolute z-50 px-3 py-2 text-xs font-normal leading-relaxed',
-            'bg-slate-900 dark:bg-slate-100 text-slate-100 dark:text-slate-900',
-            'rounded-md shadow-lg',
-            'animate-in fade-in-0 zoom-in-95 duration-150',
-            positionClasses[adjustedPosition]
-          )}
-          style={{ maxWidth, width: 'max-content' }}
-        >
-          {content}
-          {/* Arrow */}
-          <span
-            className={cn(
-              'absolute w-0 h-0 border-4',
-              arrowClasses[adjustedPosition]
-            )}
+  return (
+    <>
+      <span
+        ref={triggerRef}
+        className={cn('relative inline-flex items-center cursor-help', className)}
+        onMouseEnter={() => setIsVisible(true)}
+        onMouseLeave={() => setIsVisible(false)}
+        onFocus={() => setIsVisible(true)}
+        onBlur={() => setIsVisible(false)}
+      >
+        {children}
+        {showIcon && (
+          <HelpCircle
+            className="h-3.5 w-3.5 ml-1 text-muted-foreground hover:text-foreground transition-colors"
+            aria-label="More information"
           />
-        </div>
-      )}
-    </span>
+        )}
+      </span>
+      {mounted && typeof document !== 'undefined' && createPortal(tooltipElement, document.body)}
+    </>
   );
 }
 
@@ -131,7 +165,7 @@ interface HeaderTooltipProps {
 
 export function HeaderTooltip({ label, tooltip, className }: HeaderTooltipProps) {
   return (
-    <Tooltip content={tooltip} showIcon position="top" className={className}>
+    <Tooltip content={tooltip} showIcon position="bottom" className={className}>
       <span>{label}</span>
     </Tooltip>
   );
