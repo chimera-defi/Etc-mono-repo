@@ -77,6 +77,18 @@ const DOCUMENT_CONFIG: Record<string, Omit<MarkdownDocument, 'slug' | 'content'>
     category: 'guide',
     order: 5,
   },
+  'ABOUT.md': {
+    title: 'About Wallet Radar',
+    description: 'Educational research platform for wallet comparison. Independent, non-affiliated, and open source.',
+    category: 'guide',
+    order: 6,
+  },
+  'DATA_SOURCES.md': {
+    title: 'Data Sources & External Links',
+    description: 'Transparency about external links, data verification, and link tracking. Why we link to wallet sites and how to verify information.',
+    category: 'guide',
+    order: 6.5,
+  },
   'walletconnect-wallet-research.md': {
     title: 'WalletConnect Research',
     description: 'Original detailed research on WalletConnect-compatible wallets',
@@ -93,7 +105,7 @@ const DOCUMENT_CONFIG: Record<string, Omit<MarkdownDocument, 'slug' | 'content'>
     title: 'Changelog',
     description: 'Track significant changes to wallet statuses, recommendations, and documentation structure',
     category: 'guide',
-    order: 6,
+    order: 7,
   },
 };
 
