@@ -2,7 +2,7 @@
 
 > **Comprehensive guide to crypto-backed and crypto rewards credit/debit cards**
 
-**Last Updated:** January 7, 2026 (Gnosis Pay global expansion, Binance Brazil-only verified)
+**Last Updated:** January 12, 2026 (Added 11 new crypto cards: MetaMask, Tria, Solflare, Kast, ThorWallet, Fuse, Payy, Spendly, Tuyo, Avici, Amp Pay; marked Kontigo as discontinued)
 
 ---
 
@@ -68,40 +68,68 @@ This section accounts for real-world user experiences, company reputation, and p
 ### By Card Type
 
 #### Credit Cards
+- **EtherFi Cash** - Non-custodial DeFi credit card
 - **Gemini Credit Card** - Traditional credit card with crypto rewards
 - **Nexo Card** - Crypto-backed credit line
+- **Tria Card** - Self-custodial Visa credit card (1,000+ cryptos)
+- **Avici Money** - Collateral-backed Visa credit card
 
 #### Debit Cards
+- **MetaMask Card** - Self-custodial Mastercard debit card
+- **Solflare Card** - Self-custody Solana debit card (UK/EEA)
+- **Kast Card** - Stablecoin Visa debit card (tiered rewards)
+- **ThorWallet Card** - Non-custodial Mastercard with Swiss IBAN
+- **Amp Pay Black Card** - Solana-powered debit card
+- **Payy Card** - Privacy-preserving Visa debit card
 - **Coinbase Card** - Debit card with instant crypto rewards
 - **Crypto.com Visa** - Prepaid debit card with tiered rewards
-- **Binance Card** - Debit card with BNB rewards
+- **Binance Card** - Debit card with BNB rewards (Brazil only)
 - **Wirex Card** - Multi-crypto debit card
 - **Uphold Card** - Multi-crypto debit card (US, UK, EU)
 - **Plutus Card** - EU/UK debit card
 - **Swissborg Card** - EU debit card
 - **Fold Card** - Bitcoin rewards debit card
-- **Mode Card** - Bitcoin rewards debit card
-- **Shakepay Card** - Canada Bitcoin rewards card
+- ~~**Mode Card**~~ - Bitcoin rewards debit card (Discontinued)
 - **CoinJar Card** - Australia Bitcoin rewards card
 - **CryptoSpend Card** - Australia multi-crypto rewards card
+- ~~**Kontigo Card**~~ - USDC neobank card (Discontinued Jan 2026)
 
 #### Prepaid Cards
+- **Tuyo Card** - Self-custodial Visa prepaid (USDC on Base)
+- **Fuse Wallet Card** - Virtual Visa prepaid (Solana smart wallet)
+- **Spendly Card** - No-KYC virtual prepaid cards
 - **BitPay Card** - Bitcoin prepaid card
+- **Shakepay Card** - Canada Bitcoin rewards prepaid card
 
 ### By Reward Currency
 
 #### Bitcoin Rewards
 - Fold Card
-- Mode Card
+- ~~Mode Card~~ (Discontinued)
 - Shakepay Card
+- ~~Kontigo~~ (10% BTC - Discontinued)
 - BitPay Card (spending, not rewards)
 
 #### Multi-Crypto Rewards
+- EtherFi Cash (ETH, BTC, Stables)
+- MetaMask Card (MetaMask Rewards points + crypto cashback)
+- Tria Card (TRIA tokens - up to 6%)
+- ThorWallet Card (Multi-currency support, no cashback currently)
+- Amp Pay (Multi-crypto, no cashback)
 - Coinbase Card (BTC, ETH, others)
 - Gemini Card (BTC or ETH choice)
 - Wirex Card (WXT)
 - Uphold Card (XRP, BTC, ETH, others)
 - CryptoSpend Card (BTC, ETH, others)
+
+#### Stablecoin-Focused (No Traditional Rewards)
+- Kast Card (Kast Points - 2-12%)
+- Solflare Card (No cashback, raffle rewards until Feb 2026)
+- Fuse Wallet Card (No rewards)
+- Payy Card (No rewards - privacy-focused)
+- Tuyo Card (TUYO tokens)
+- Spendly Card (No rewards)
+- Avici Money (No rewards - collateral model)
 
 #### Token-Specific Rewards
 - Crypto.com Visa (CRO)
@@ -842,6 +870,630 @@ EtherFi Cash is a DeFi-native, non-custodial crypto credit card. It allows users
 | **TOTAL** | **86** | Rounded to **85** |
 
 **Note:** Ether.Fi Cash card is not affiliated with the ether.fi protocol and issued subject to separate terms provided by Issuer.
+
+---
+
+### MetaMask Card
+
+**Website:** [metamask.io/card](https://metamask.io/card)
+
+**Status:** ✅ Active (Launched April 2025, global rollout Q2 2025)
+
+**Overview:**
+The MetaMask Card is a self-custodial Mastercard debit card developed by MetaMask in partnership with Baanx and Mastercard. It enables users to spend cryptocurrency directly from their MetaMask wallet without pre-loading funds or custodial wallets.
+
+**Business Support:** ❌ Personal only
+
+**Key Features:**
+- **Self-custodial:** No pre-loading, funds stay in your wallet until spent
+- **Smart contract authorization:** Payments verified on-chain in <5 seconds
+- **Apple Pay & Google Pay support:** Contactless payments
+- **Virtual & Metal cards:** Virtual card free, Metal card $199/year
+- **Global acceptance:** 150M+ Mastercard merchants worldwide
+- **Multiple stablecoins:** mUSD, amUSD, wETH, EURe, GBPe, USDC, aUSDC, aBasUSDC, USDT
+
+**Rewards Structure:**
+- 1 MetaMask Rewards point per $1 spent
+- Crypto cashback rewards
+- Exclusive benefits from global partner network
+
+**Fees:**
+- Annual Fee: $0 (Virtual), $199 (Metal)
+- Foreign Transaction Fee: 0%
+- Maintenance Fee: None
+
+**Requirements:**
+- MetaMask wallet
+- KYC verification
+- Available regions: US (excl. NY, VT), Canada, Mexico, Brazil, Colombia, Argentina, EU, UK, Switzerland
+
+**Best For:**
+- MetaMask users wanting self-custodial spending
+- Users who prefer not to use custodial card services
+- International travelers (0% FX fees)
+
+**Limitations:**
+- Not available in NY and Vermont
+- Metal card has $199 annual fee
+- Apple Pay not yet available (coming soon)
+
+**Custody Model:** 🔐 Self-custody via smart contracts
+
+**Score: 76**
+
+---
+
+### Tria Card
+
+**Website:** [tria.so](https://tria.so)
+
+**Status:** ✅ Active (Beta launched October 2025, 250K+ users)
+
+**Overview:**
+Tria Card is a self-custodial Visa credit card that enables spending from 1,000+ cryptocurrencies while maintaining full control of private keys. Part of Tria's cross-chain neobank platform with gas-free transactions.
+
+**Business Support:** ❌ Personal only
+
+**Key Features:**
+- **Self-custodial credit card:** Spend from 1,000+ cryptos
+- **Three tiers:** Virtual (free), Signature, Premium
+- **Gas-free transactions:** Cross-chain swaps without manual gas fees
+- **Global availability:** 150+ countries
+- **Apple Pay & Google Pay:** Mobile wallet support
+- **Daily limits:** Up to $1M depending on tier
+- **Airport lounge access:** Premium tier benefit
+
+**Rewards Structure:**
+| Tier | Cashback | Notes |
+|------|----------|-------|
+| Virtual | Variable | Basic tier |
+| Signature | Up to 4.5% | In TRIA tokens |
+| Premium | Up to 6% | In TRIA tokens |
+
+**Important:** Cashback displayed in USD but redeemable only for TRIA tokens 3 months after TGE. Token value volatility risk applies.
+
+**Fees:**
+- Annual Fee: $0
+- Foreign Transaction Fee: 1% (on international transactions in USD)
+- Deposits/Withdrawals/Top-ups: $0 (promotional)
+
+**Requirements:**
+- Tria wallet account
+- KYC verification
+- No staking required
+
+**Best For:**
+- Users wanting high cashback rewards
+- Multi-chain crypto holders
+- Self-custody advocates
+
+**Limitations:**
+- Rewards in TRIA tokens (not USD) - value risk
+- 3-month wait post-TGE for redemption
+- Beta stage platform
+
+**Custody Model:** 🔐 Self-custody
+
+**Score: 72**
+
+---
+
+### Solflare Card
+
+**Website:** [solflare.com/card](https://solflare.com/card)
+
+**Status:** ✅ Active (UK/EEA launch 2024, partnership with Mastercard)
+
+**Overview:**
+Solflare Card is the first self-custody crypto debit card on Solana, enabling instant USDC spending worldwide without top-ups, custodians, or hidden fees. Developed in partnership with Mastercard and Bridge.
+
+**Business Support:** ❌ Personal only
+
+**Key Features:**
+- **Self-custodial:** First true self-custody card on Solana
+- **No top-ups required:** Instant conversion at point of sale
+- **Zero hidden fees:** All fees displayed on transaction statements
+- **Mastercard network:** 110M+ merchants worldwide
+- **Google Pay support:** Apple Pay coming soon
+- **Multi-factor authentication:** 2-of-3 key approval system
+
+**Rewards Structure:**
+- **No traditional cashback**
+- **Raffle rewards:** Until Feb 14, 2026
+- Each transaction = raffle points/tickets
+- Prizes include cars (ending with Porsche 911 GT3)
+- Live leaderboard tracking
+
+**Fees:**
+- Annual Fee: $0
+- Foreign Transaction Fee: 0%
+- Top-up fees: $0
+- Conversion fees: Transparent, shown per transaction
+
+**Requirements:**
+- Solflare wallet
+- KYC verification
+- UK or EEA residency
+
+**Best For:**
+- Solana ecosystem users
+- Users wanting self-custody without complexity
+- UK/EEA residents
+
+**Limitations:**
+- UK/EEA only (not global)
+- No traditional cashback
+- Apple Pay not yet available
+- Temporary raffle rewards only
+
+**Custody Model:** 🔐 Self-custody (2-of-3 multisig)
+
+**Score: 72**
+
+---
+
+### Kast Card
+
+**Website:** [kast.xyz](https://kast.xyz)
+
+**Status:** ✅ Active (150+ countries, multiple tiers available)
+
+**Overview:**
+Kast is a stablecoin banking platform offering Visa debit cards that let users spend USDT, USDC, and USDe across 100M+ merchants worldwide. Features tiered cashback system with Kast Points.
+
+**Business Support:** ❌ Personal only (virtual USD bank accounts available)
+
+**Key Features:**
+- **Multiple card tiers:** K Card, X Card, Solana series, Founders Card
+- **Stablecoin-native:** USDT, USDC, USDe support
+- **Virtual USD accounts:** ACH and Fedwire support
+- **24/7 support:** Available across all tiers
+- **Instant virtual cards:** Available in <2 minutes post-KYC
+- **Special editions:** Solana Illuma (light-up metal), Gold, Solid Gold
+
+**Rewards Structure:**
+| Tier | Annual Fee | Cashback | Notes |
+|------|------------|----------|-------|
+| K Card | $20/year | 2-6% | Kast Points |
+| X Card | $1,000/year | 5-12% | Kast Points |
+| Solana Card | Free | Variable | Virtual only |
+| Solana Illuma | 10 SOL | Variable | Light-up metal |
+| Founders Card | $10,000/year | Premium | Exclusive |
+
+**Fees:**
+- Annual Fee: $20-$10,000 (tier dependent)
+- Foreign Transaction Fee: 2% (on non-USD transactions)
+- Standard Physical Card: Free (pay shipping $40)
+- ATM Withdrawal: $3 + 2% (USD), additional 2% FX fee (non-USD)
+- Small transaction fee: $0.25 per transaction under $20
+
+**Requirements:**
+- Kast account
+- KYC verification (virtual card in 2 minutes)
+- Available in 150+ countries
+
+**Best For:**
+- Stablecoin holders
+- Users wanting tiered rewards
+- International users needing USD accounts
+
+**Limitations:**
+- Annual fees for higher tiers
+- Rewards in Kast Points (not USD)
+- Some tiers very expensive ($10K/year)
+
+**Custody Model:** 🔐 Self-custody
+
+**Score: 71**
+
+---
+
+### ThorWallet Card
+
+**Website:** [thorwallet.org/cards](https://thorwallet.org/cards)
+
+**Status:** ✅ Active (100+ countries, new program launching 2026)
+
+**Overview:**
+ThorWallet offers Mastercard debit cards directly from your non-custodial DeFi wallet, with Swiss IBAN access and fee-free USDC top-ups. New card program launching in 2026 with enhanced features.
+
+**Business Support:** ❌ Personal only
+
+**Key Features:**
+- **Non-custodial:** Full ownership of funds
+- **Swiss IBAN:** SEPA payments from crypto account
+- **Three card tiers:** Standard (free), Gold, Platinum
+- **40M+ merchants:** Mastercard acceptance
+- **Multiple payment platforms:** PayPal, Apple Pay, Google Pay, Samsung Pay
+- **New 2026 program:** Instant activation, fee-free USDC top-ups
+
+**Rewards Structure:**
+- No traditional cashback currently
+- Tier benefits vary by card level
+- Standard tier: Free in-app access
+
+**Fees:**
+| Tier | Sign-up Fee | Crypto Top-up & FX Fee | Spending Limits |
+|------|-------------|------------------------|-----------------|
+| Standard | Free | 1% | $20K/month, $10K/day |
+| Gold | 1.5 ETH (one-time) | 0.5% | $200K/month, $100K/day |
+| Platinum | 15 ETH (one-time) | 0.25% | $200K/month, $100K/day |
+
+**2026 Program Updates:**
+- Physical and virtual cards
+- Instant activation from day one
+- USD-denominated cards
+- Fee-free USDC top-ups
+
+**Requirements:**
+- THORWallet app
+- KYC verification
+- Available in 100+ countries
+
+**Best For:**
+- Cross-chain DeFi users
+- Users wanting Swiss IBAN access
+- Multi-currency crypto holders
+
+**Limitations:**
+- No cashback rewards currently
+- Upgrade fees for Gold/Platinum
+- Some features "coming soon"
+
+**Custody Model:** 🔐 Self-custody / Non-custodial
+
+**Score: 70**
+
+---
+
+### Amp Pay Black Card
+
+**Website:** [getamp.pay](https://getamp.pay)
+
+**Status:** ✅ Active (Solana-powered payments)
+
+**Overview:**
+Amp Pay Black Card is a Solana-powered crypto debit card enabling instant spending of USDC and SOL with low transaction fees. Part of the Amp Pay decentralized payment platform.
+
+**Business Support:** ❌ Personal only
+
+**Key Features:**
+- **Solana-powered:** Low fees, fast transactions
+- **Crypto-to-fiat conversion:** Instant at point of sale
+- **USDC deposits:** Convert SPL tokens to USDC
+- **Savings vault:** Auto-swap to Carrot token for yield
+- **Decentralized platform:** Built on Solana blockchain
+
+**Rewards Structure:**
+- Up to 4% cashback on select purchases
+- Potential yield through Carrot token savings vault
+- Low fee structure on Solana network
+
+**Fees:**
+- Annual Fee: $0
+- Foreign Transaction Fee: 1% (on non-USD transactions)
+- USD transactions: $0
+- Transaction fees: Low (Solana network)
+
+**Requirements:**
+- Amp Pay account
+- Wallet with Solana SPL tokens
+- KYC verification
+
+**Best For:**
+- Solana ecosystem users
+- USDC/stablecoin spenders
+- Users prioritizing low fees over rewards
+
+**Limitations:**
+- No cashback rewards
+- Limited to Solana ecosystem
+- Newer platform (less established)
+
+**Custody Model:** 🔐 Self-custody
+
+**Score: 68**
+
+---
+
+### Payy Card
+
+**Website:** [payy.link](https://payy.link) or [docs.payy.network](https://docs.payy.network)
+
+**Status:** ✅ Active (Launched August 2025 by Polybase Labs)
+
+**Overview:**
+Payy Card is the first non-custodial, privacy-preserving stablecoin Visa card. Built by a former Apple engineer, it uses zero-knowledge proofs to enable private crypto spending without revealing transaction data on public blockchains.
+
+**Business Support:** ❌ Personal only
+
+**Key Features:**
+- **Privacy-first:** Zero-knowledge proofs hide transaction details
+- **Self-custodial:** Spend USDC from Payy Wallet
+- **No public blockchain exposure:** Transactions remain private
+- **Visa acceptance:** Global merchant network
+- **Non-custodial architecture:** You control your USDC
+
+**Rewards Structure:**
+- No cashback currently
+- Focus on privacy rather than rewards
+
+**Fees:**
+- Annual Fee: $0
+- Foreign Transaction Fee: 0%
+- Standard Visa fees may apply
+
+**Requirements:**
+- Payy Wallet
+- USDC holdings
+- KYC verification
+
+**Best For:**
+- Privacy-conscious users
+- USDC holders
+- Users wanting self-custody with privacy
+
+**Limitations:**
+- No cashback/rewards
+- USDC only (no multi-crypto)
+- Very new platform (August 2025 launch)
+
+**Custody Model:** 🔐 Self-custody with ZK privacy
+
+**Score: 66**
+
+---
+
+### Tuyo Card
+
+**Website:** [tuyo.com/card](https://tuyo.com/card)
+
+**Status:** ✅ Active (41 countries, TUYO rewards program)
+
+**Overview:**
+Tuyo Card is a self-custodial Visa prepaid card enabling USDC spending on Base blockchain. Features TUYO token rewards program with planned TGE in early 2026.
+
+**Business Support:** ❌ Personal only
+
+**Key Features:**
+- **Self-custodial:** Full control of USDC on Base
+- **Visa prepaid card:** Virtual available now, physical coming soon
+- **Apple Pay & Google Pay support:** Mobile wallet integration
+- **41 countries:** US, Spain, EU, LATAM (NOT Australia)
+- **TUYO rewards:** Points per dollar spent
+
+**Rewards Structure:**
+- TUYO tokens for every dollar spent
+- Seasonal multipliers available
+- TGE planned early 2026
+- Not traditional cashback
+
+**Fees:**
+- Issuance Fee: $0
+- Monthly Fee: $0
+- USD transactions: $0
+- FX spread: Up to ~1% (non-USD transactions)
+
+**Requirements:**
+- Tuyo account
+- USDC on Base blockchain
+- KYC verification
+- Residency in supported countries
+
+**Best For:**
+- USDC holders on Base
+- Users in supported 41 countries
+- Early adopters wanting token rewards
+
+**Limitations:**
+- NOT available in Australia (despite @itstuyo handle)
+- Only USDC (no multi-crypto)
+- TUYO token value risk
+- FX spread on non-USD
+
+**Custody Model:** 🔐 Self-custody on Base
+
+**Score: 65**
+
+---
+
+### Fuse Wallet Card
+
+**Website:** [fuse.io/wallet](https://fuse.io/wallet)
+
+**Status:** ✅ Active (US launch via Bridge partnership)
+
+**Overview:**
+Fuse Pay is a virtual Visa prepaid card integrated into the Fuse Solana smart wallet, enabling stablecoin spending directly from your wallet. Partnership with Bridge for payment processing.
+
+**Business Support:** ❌ Personal only
+
+**Key Features:**
+- **Solana smart wallet:** 2-of-3 multisig, no seed phrases
+- **Virtual Visa prepaid:** Issued by Lead Bank
+- **Bank transfers:** ACH (US) and SEPA (EU) support
+- **No seed phrase:** Multi-factor authentication instead
+- **Squads Protocol:** Built on Solana's smart account standard
+
+**Rewards Structure:**
+- No cashback currently
+- Focus on utility and security over rewards
+
+**Fees:**
+- Annual Fee: $0
+- Foreign Transaction Fee: 0%
+- Standard Visa prepaid fees may apply
+
+**Requirements:**
+- Fuse wallet (iOS)
+- US residency (except NY, LA, FL, AK)
+- KYC verification
+- Stablecoin holdings
+
+**Best For:**
+- Solana ecosystem users
+- US residents wanting stablecoin spending
+- Users preferring no seed phrase model
+
+**Limitations:**
+- US-only (excludes 4 states: NY, LA, FL, AK)
+- Virtual card only (no physical)
+- No cashback/rewards
+- iOS only currently
+
+**Custody Model:** 🔐 Self-custody (2-of-3 multisig)
+
+**Score: 64**
+
+---
+
+### Spendly Card
+
+**Website:** [usespendly.com](https://www.usespendly.com)
+
+**Status:** ✅ Active (180+ countries, instant virtual cards)
+
+**Overview:**
+Spendly provides instant no-KYC virtual prepaid cards funded with cryptocurrency. Turn crypto into usable cards in seconds with support for multiple cryptocurrencies.
+
+**Business Support:** ❌ Personal only
+
+**Key Features:**
+- **No KYC:** Minimal info required
+- **Instant cards:** Available within minutes
+- **Apple Pay & Google Pay:** Mobile wallet support
+- **180+ countries:** Global availability
+- **Multiple cryptos:** BTC, ETH, SOL, BNB, XRP, LTC, USDC, USDT
+- **Flexible balances:** $25 to $10,000 per card
+
+**Rewards Structure:**
+- No cashback
+- No subscriptions
+- Focus on convenience and privacy
+
+**Fees:**
+- Annual Fee: $0
+- Subscription: None
+- Card creation: Per-card pricing (one-time)
+- Funded with crypto: 1:1 conversion minus fees
+
+**Requirements:**
+- Minimal KYC
+- Cryptocurrency holdings
+- Supported: USDC (SOL, ERC20, BEP20), USDT (TRC20, ERC20, SOL, BEP20), BTC, ETH, SOL, BNB, XRP, LTC
+
+**Best For:**
+- Privacy-focused users
+- No-KYC spending needs
+- Travelers needing quick cards
+- Small to medium transactions
+
+**Limitations:**
+- No cashback
+- Prepaid only (reload required)
+- Per-card fees
+- Virtual only (no physical)
+
+**Custody Model:** 🔐 Self-custody (crypto conversion to prepaid)
+
+**Score: 62**
+
+---
+
+### Avici Money Card
+
+**Website:** [avici.money](https://avici.money)
+
+**Status:** ✅ Active (3 years operating, turned 3 on Jan 3, 2026)
+
+**Overview:**
+Avici is a self-custodial neobank offering a collateral-backed Visa credit card. Users post crypto as collateral to unlock spending limits without selling their assets.
+
+**Business Support:** ⚠️ Coming (Business cards mentioned as upcoming)
+
+**Key Features:**
+- **Collateral-backed credit:** Lock crypto, get spending power
+- **Self-custodial:** Full control of funds
+- **Physical card:** Coming soon (currently virtual)
+- **Apple Pay & Google Pay:** Mobile wallet support
+- **Real-time collateral:** Smart contract backing
+
+**Collateral Model:**
+- Post $500 crypto → Get $500 spending limit (1:1 ratio)
+- Crypto locked in smart contract
+- Provider fronts payment, crypto backs position
+- Liquidation risk if collateral value drops
+
+**Rewards Structure:**
+- No cashback currently
+- Focus on crypto preservation rather than rewards
+
+**Fees:**
+- Annual Fee: $0
+- FX Fee: 1% (promotional), up to 3% standard
+- Cross-border fees: Up to 3%
+- ATM withdrawal fees: Apply
+- Penalty fees: Late payment, returned payment, liquidation events
+
+**Requirements:**
+- Avici account (iOS/Android)
+- Cryptocurrency holdings for collateral
+- KYC verification
+
+**Best For:**
+- Users wanting to avoid selling crypto
+- Holders with volatile assets
+- Users comfortable with collateral risk
+
+**Limitations:**
+- 1-3% FX fees (higher than competitors)
+- Liquidation risk if collateral drops
+- Multiple potential penalty fees
+- No cashback rewards
+- Collateral lock-up required
+
+**Custody Model:** 🔐 Self-custody (smart contract collateral)
+
+**Score: 59**
+
+---
+
+### Kontigo Card (DISCONTINUED)
+
+**Website:** [kontigo.com](https://kontigo.com)
+
+**Status:** ❌ Discontinued (Card program shut down January 2026)
+
+**Overview:**
+Kontigo was a USDC-focused neobank offering stablecoin cards with Bitcoin cashback, primarily serving Latino markets. Card program was terminated by Rain in January 2026 following banking access issues and a $340K hack.
+
+**Timeline of Issues:**
+- **December 2025:** JP Morgan and Checkbook cut banking access citing Venezuela compliance risks
+- **January 2026:** $340K USDC stolen from 1,005 user accounts
+- **January 2026:** Rain shut down card program
+- **Status:** Company refunded affected users but card program remains closed
+
+**Previous Features (When Active):**
+- 10% BTC cashback on purchases
+- USDC wallet and stablecoin card
+- 10% USDC yield
+- USDT credit line
+- Tokenized US stock investment
+
+**Business Support:** ⚠️ Was available
+
+**Why Score is Low (38):**
+- -20 points: Card program discontinued
+- -10 points: Security breach ($340K hack)
+- -5 points: Banking access terminated
+- Remaining points: Previous features when operational
+
+**Best For:**
+- ~~Latino market users~~ (Service discontinued)
+
+**Current Status:** Do not recommend - card program shut down
+
+**Score: 38** (Discontinued)
 
 ---
 
