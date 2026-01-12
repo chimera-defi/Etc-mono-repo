@@ -5,7 +5,7 @@
 | Card | Score | Type | Custody | Biz | Region | Cash Back | Annual Fee | FX Fee | Rewards | Status | Best For |
 |------|-------|------|---------|-----|--------|-----------|------------|--------|---------|--------|----------|
 | [**1inch Card**](https://1inch.com/card) | 70 🟡 | Debit | 🔐 Self | ❌ | 🇪🇺 EU/UK | Up to 2% | $0 | 0% | 1INCH | ✅ | DeFi users |
-| [**Amp Pay Black Card**](https://getamp.pay) (@GetAmpPay) | 68 🟡 | Debit | 🔐 Self | ❌ | 🌍 Global | 0% | $0 | TBD | USDC/SOL | ✅ | Solana payments |
+| [**Amp Pay Black Card**](https://getamp.pay) (@GetAmpPay) | 68 🟡 | Debit | 🔐 Self | ❌ | 🌍 Global | Up to 4% | $0 | 1% | USDC/SOL | ✅ | Solana payments |
 | [**Avici Money**](https://avici.money) (@AviciMoney) | 59 🟡 | Credit | 🔐 Self | ⚠️ | 🌍 Global | 0% | $0 | 1-3% | Multi | ✅ | Collateral-backed |
 | [**Binance Card**](https://www.binance.com/en/cards) | 67 🟡 | Debit | 🏦 Exch | ⚠️ | 🇧🇷 Brazil | Up to 3% | $0 | 0-2% | BNB | ✅ | Binance users |
 | [**BitPay Card**](https://bitpay.com/card) | 56 🟡 | Prepaid | 📋 CeFi | ⚠️ | 🇺🇸 US | 1%* | $0 | 0% | None | ✅ | BTC spending |
@@ -20,7 +20,7 @@
 | [**Gemini Card**](https://www.gemini.com/credit-card) | 76 🟢 | Credit | 🏦 Exch | ❌ | 🇺🇸 US | Up to 4% | $0 | 0% | BTC, ETH | ✅ | Credit building |
 | [**Gnosis Pay**](https://gnosispay.com) | 78 🟢 | Debit | 🔐 Self | ❌ | 🌍 Global | Up to 5% | €0 | 0% | GNO/SAFE | ✅ | DeFi-native |
 | [**Hi Card**](https://hi.com) | 79 🟢 | Debit | 📋 CeFi | ❌ | 🌍 Global | Up to 10% | $0 | 0% | HI | ⚠️ | High cashback |
-| [**Kast**](https://kast.xyz) (@kastxyz) | 71 🟡 | Debit | 🔐 Self | ❌ | 🌍 Global | 2-12% | $20-$1,000/yr | 0% | Kast Points | ✅ | Stablecoin banking |
+| [**Kast**](https://kast.xyz) (@kastxyz) | 71 🟡 | Debit | 🔐 Self | ❌ | 🌍 Global | 2-12% | $20-$1,000/yr | 2% | Kast Points | ✅ | Stablecoin banking |
 | ~~[**Kontigo**](https://kontigo.com)~~ | 38 🔴 | Debit | 🔐 Self | ⚠️ | 🌍 Global | 10% BTC | $0 | 0% | BTC | ❌ | ~~Crypto neobank~~ |
 | [**Kraken Card**](https://www.kraken.com) | 60 🟡 | Debit | 🏦 Exch | ⚠️ | 🇺🇸🇪🇺 US/EU | TBD | $0 | TBD | Multi | 🔄 | Kraken users |
 | [**KuCard**](https://www.kucoin.com/kucard) | 76 🟢 | Debit | 🏦 Exch | ❌ | 🌍 Global* | Up to 4% | $0 | 0% | Multi | ✅ | KuCoin users |
@@ -38,8 +38,8 @@
 | [**Solflare Card**](https://solflare.com/card) (@solflare_wallet) | 72 🟡 | Debit | 🔐 Self | ❌ | 🇪🇺 EU/UK | 0% | $0 | 0% | None | ✅ | Solana ecosystem |
 | [**Spendly**](https://www.usespendly.com) (@SpendlyCC) | 62 🟡 | Prepaid | 🔐 Self | ❌ | 🌍 Global | 0% | $0 | 0% | Multi | ✅ | No-KYC spending |
 | [**Swissborg Card**](https://swissborg.com) | 60 🟡 | Debit | 📋 CeFi | ❌ | 🇪🇺 EU | 1-2% | $0 | 0% | CHSB | ⚠️ | EU users |
-| [**ThorWallet**](https://thorwallet.org) (@THORWalletORG) | 70 🟡 | Debit | 🔐 Self | ❌ | 🌍 Global | 0% | $0-$100/yr | 0% | Multi | ✅ | Cross-chain DeFi |
-| [**Tria**](https://tria.so) (@useTria) | 72 🟡 | Credit | 🔐 Self | ❌ | 🌍 Global | Up to 6% | $0 | 0% | TRIA | ✅ | Token rewards |
+| [**ThorWallet**](https://thorwallet.org) (@THORWalletORG) | 70 🟡 | Debit | 🔐 Self | ❌ | 🌍 Global | 0% | $0+ | 0.25-1% | Multi | ✅ | Cross-chain DeFi |
+| [**Tria**](https://tria.so) (@useTria) | 72 🟡 | Credit | 🔐 Self | ❌ | 🌍 Global | Up to 6% | $0 | 1% | TRIA | ✅ | Token rewards |
 | [**Tuyo**](https://tuyo.com/card) (@itstuyo) | 65 🟡 | Prepaid | 🔐 Self | ❌ | 🌍 Global* | 0% | $0 | ~1% | TUYO | ✅ | USDC on Base |
 | [**Uphold Card**](https://uphold.com) | 73 🟡 | Debit | 📋 CeFi | ⚠️ | 🇺🇸🇪🇺 US/EU | 1-4% | $0 | 0% | XRP, BTC | ⚠️ | Multi-crypto |
 | [**Wirex Card**](https://wirexapp.com/card) | 78 🟢 | Debit | 📋 CeFi | ⚠️ | 🌍 Global | Up to 8% | $0 | 0% | WXT | ⚠️ | Multi-crypto |

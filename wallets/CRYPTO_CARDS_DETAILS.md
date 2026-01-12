@@ -954,7 +954,7 @@ Tria Card is a self-custodial Visa credit card that enables spending from 1,000+
 
 **Fees:**
 - Annual Fee: $0
-- Foreign Transaction Fee: 0%
+- Foreign Transaction Fee: 1% (on international transactions in USD)
 - Deposits/Withdrawals/Top-ups: $0 (promotional)
 
 **Requirements:**
@@ -1062,8 +1062,10 @@ Kast is a stablecoin banking platform offering Visa debit cards that let users s
 
 **Fees:**
 - Annual Fee: $20-$10,000 (tier dependent)
-- Foreign Transaction Fee: 0%
+- Foreign Transaction Fee: 2% (on non-USD transactions)
 - Standard Physical Card: Free (pay shipping $40)
+- ATM Withdrawal: $3 + 2% (USD), additional 2% FX fee (non-USD)
+- Small transaction fee: $0.25 per transaction under $20
 
 **Requirements:**
 - Kast account
@@ -1111,11 +1113,11 @@ ThorWallet offers Mastercard debit cards directly from your non-custodial DeFi w
 - Standard tier: Free in-app access
 
 **Fees:**
-| Tier | Sign-up Fee | Benefits |
-|------|-------------|----------|
-| Standard | Free | Basic limits |
-| Gold | One-time fee | Lower fees, higher limits |
-| Platinum | One-time fee | Lowest fees, highest limits |
+| Tier | Sign-up Fee | Crypto Top-up & FX Fee | Spending Limits |
+|------|-------------|------------------------|-----------------|
+| Standard | Free | 1% | $20K/month, $10K/day |
+| Gold | 1.5 ETH (one-time) | 0.5% | $200K/month, $100K/day |
+| Platinum | 15 ETH (one-time) | 0.25% | $200K/month, $100K/day |
 
 **2026 Program Updates:**
 - Physical and virtual cards
@@ -1163,13 +1165,14 @@ Amp Pay Black Card is a Solana-powered crypto debit card enabling instant spendi
 - **Decentralized platform:** Built on Solana blockchain
 
 **Rewards Structure:**
-- No traditional cashback
+- Up to 4% cashback on select purchases
 - Potential yield through Carrot token savings vault
-- Low fee structure compensates
+- Low fee structure on Solana network
 
 **Fees:**
 - Annual Fee: $0
-- Foreign Transaction Fee: TBD
+- Foreign Transaction Fee: 1% (on non-USD transactions)
+- USD transactions: $0
 - Transaction fees: Low (Solana network)
 
 **Requirements:**
