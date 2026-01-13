@@ -32,7 +32,6 @@ export function Tooltip({
   const [isMounted, setIsMounted] = useState(false);
   const triggerRef = useRef<HTMLSpanElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
-  const isHoveringRef = useRef(false);
 
   // Track mount state for SSR
   useEffect(() => {
@@ -136,13 +135,11 @@ export function Tooltip({
 
   // Show on hover (desktop only, doesn't interfere with click)
   const handleMouseEnter = () => {
-    isHoveringRef.current = true;
     setIsClickOpen(false);
     setIsVisible(true);
   };
 
   const handleMouseLeave = (event: React.MouseEvent<HTMLSpanElement>) => {
-    isHoveringRef.current = false;
     // Only hide if we're leaving via mouse (not if it was clicked open)
     if (isClickOpen) return;
 
@@ -190,11 +187,9 @@ export function Tooltip({
               zIndex: 99999,
             }}
             onMouseEnter={() => {
-              isHoveringRef.current = true;
               setIsVisible(true);
             }}
             onMouseLeave={(event) => {
-              isHoveringRef.current = false;
               if (isClickOpen) return;
 
               const nextTarget = event.relatedTarget as Node | null;
