@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import {
   ExternalLink,
   Github,
@@ -15,6 +14,14 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Tooltip, HeaderTooltip } from '@/components/Tooltip';
+import {
+  softwareWalletTooltips,
+  hardwareWalletTooltips,
+  cryptoCardTooltips,
+  rampTooltips,
+  commonTooltips,
+} from '@/lib/tooltip-content';
 import type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, SupportedChains, WalletData } from '@/types/wallets';
 
 export type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData };
@@ -34,34 +41,38 @@ function getChainTooltip(chains: SupportedChains): string {
 }
 
 // Chain icon configuration
-const chainIcons: { key: keyof Omit<SupportedChains, 'raw' | 'other'>; src: string; alt: string }[] = [
-  { key: 'evm', src: '/chains/eth.svg', alt: 'EVM' },
-  { key: 'bitcoin', src: '/chains/btc.svg', alt: 'Bitcoin' },
-  { key: 'solana', src: '/chains/sol.svg', alt: 'Solana' },
-  { key: 'move', src: '/chains/move.svg', alt: 'Move' },
-  { key: 'cosmos', src: '/chains/cosmos.svg', alt: 'Cosmos' },
-  { key: 'polkadot', src: '/chains/polkadot.svg', alt: 'Polkadot' },
-  { key: 'starknet', src: '/chains/starknet.svg', alt: 'Starknet' },
+const chainIcons: { key: keyof Omit<SupportedChains, 'raw' | 'other'>; src: string; alt: string; tooltip: string }[] = [
+  { key: 'evm', src: '/chains/eth.svg', alt: 'EVM', tooltip: commonTooltips.chains.evm },
+  { key: 'bitcoin', src: '/chains/btc.svg', alt: 'Bitcoin', tooltip: commonTooltips.chains.bitcoin },
+  { key: 'solana', src: '/chains/sol.svg', alt: 'Solana', tooltip: commonTooltips.chains.solana },
+  { key: 'move', src: '/chains/move.svg', alt: 'Move', tooltip: commonTooltips.chains.move },
+  { key: 'cosmos', src: '/chains/cosmos.svg', alt: 'Cosmos', tooltip: commonTooltips.chains.cosmos },
+  { key: 'polkadot', src: '/chains/polkadot.svg', alt: 'Polkadot', tooltip: commonTooltips.chains.polkadot },
+  { key: 'starknet', src: '/chains/starknet.svg', alt: 'Starknet', tooltip: commonTooltips.chains.starknet },
 ];
 
 // Component to render chain icons
 function ChainIcons({ chains }: { chains: SupportedChains }) {
   return (
     <div className="flex items-center gap-0.5" title={getChainTooltip(chains)}>
-      {chainIcons.map(({ key, src, alt }) => 
+      {chainIcons.map(({ key, src, alt, tooltip }) =>
         chains[key] && (
-          <img 
-            key={key}
-            src={src} 
-            alt={alt} 
-            width={16} 
-            height={16} 
-            className="inline-block"
-            title={alt}
-          />
+          <Tooltip key={key} content={tooltip}>
+            <img
+              src={src}
+              alt={alt}
+              width={16}
+              height={16}
+              className="inline-block"
+            />
+          </Tooltip>
         )
       )}
-      {chains.other && <span className="text-xs text-muted-foreground ml-0.5">+</span>}
+      {chains.other && (
+        <Tooltip content={commonTooltips.chains.other}>
+          <span className="text-xs text-muted-foreground ml-0.5">+</span>
+        </Tooltip>
+      )}
     </div>
   );
 }
@@ -70,9 +81,11 @@ function ChainIcons({ chains }: { chains: SupportedChains }) {
 function Badge({
   children,
   variant = 'default',
+  tooltip,
 }: {
   children: React.ReactNode;
   variant?: 'default' | 'success' | 'warning' | 'error' | 'info';
+  tooltip?: string;
 }) {
   const variants = {
     default: 'bg-muted text-muted-foreground',
@@ -82,20 +95,26 @@ function Badge({
     info: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
   };
 
-  return (
+  const badge = (
     <span className={cn('px-2 py-0.5 text-xs rounded-full font-medium', variants[variant])}>
       {children}
     </span>
   );
+
+  if (tooltip) {
+    return <Tooltip content={tooltip}>{badge}</Tooltip>;
+  }
+
+  return badge;
 }
 
 // Score badge
-function ScoreBadge({ score }: { score: number }) {
+function ScoreBadge({ score, tooltip }: { score: number; tooltip?: string }) {
   let variant: 'success' | 'warning' | 'error' = 'warning';
   if (score >= 75) variant = 'success';
   else if (score < 50) variant = 'error';
 
-  return (
+  const badge = (
     <div
       className={cn(
         'w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg',
@@ -107,19 +126,23 @@ function ScoreBadge({ score }: { score: number }) {
       {score}
     </div>
   );
+
+  const defaultTooltip = `Score: ${score}/100 - ${variant === 'success' ? 'Recommended' : variant === 'warning' ? 'Situational' : 'Avoid'}`;
+
+  return <Tooltip content={tooltip || defaultTooltip}>{badge}</Tooltip>;
 }
 
 // Recommendation badge
 function RecommendationBadge({ recommendation }: { recommendation: string }) {
   const config = {
-    recommended: { label: 'Recommended', variant: 'success' as const },
-    situational: { label: 'Situational', variant: 'warning' as const },
-    avoid: { label: 'Avoid', variant: 'error' as const },
-    'not-for-dev': { label: 'Not for Dev', variant: 'default' as const },
+    recommended: { label: 'Recommended', variant: 'success' as const, tooltip: softwareWalletTooltips.recommendation.recommended },
+    situational: { label: 'Situational', variant: 'warning' as const, tooltip: softwareWalletTooltips.recommendation.situational },
+    avoid: { label: 'Avoid', variant: 'error' as const, tooltip: softwareWalletTooltips.recommendation.avoid },
+    'not-for-dev': { label: 'Not for Dev', variant: 'default' as const, tooltip: softwareWalletTooltips.recommendation['not-for-dev'] },
   };
 
-  const { label, variant } = config[recommendation as keyof typeof config] || config.situational;
-  return <Badge variant={variant}>{label}</Badge>;
+  const { label, variant, tooltip } = config[recommendation as keyof typeof config] || config.situational;
+  return <Badge variant={variant} tooltip={tooltip}>{label}</Badge>;
 }
 
 // Device icons
@@ -127,42 +150,59 @@ function DeviceIcons({ devices }: { devices: SoftwareWallet['devices'] }) {
   return (
     <div className="flex items-center gap-1">
       {devices.mobile && (
-        <span title="Mobile">
-          <Smartphone className="h-4 w-4 text-muted-foreground" />
-        </span>
+        <Tooltip content={softwareWalletTooltips.devices.mobile}>
+          <span>
+            <Smartphone className="h-4 w-4 text-muted-foreground" />
+          </span>
+        </Tooltip>
       )}
       {devices.browser && (
-        <span title="Browser Extension">
-          <Globe className="h-4 w-4 text-muted-foreground" />
-        </span>
+        <Tooltip content={softwareWalletTooltips.devices.browser}>
+          <span>
+            <Globe className="h-4 w-4 text-muted-foreground" />
+          </span>
+        </Tooltip>
       )}
       {devices.desktop && (
-        <span title="Desktop">
-          <Monitor className="h-4 w-4 text-muted-foreground" />
-        </span>
+        <Tooltip content={softwareWalletTooltips.devices.desktop}>
+          <span>
+            <Monitor className="h-4 w-4 text-muted-foreground" />
+          </span>
+        </Tooltip>
       )}
       {devices.web && (
-        <span title="Web App">
-          <LinkIcon className="h-4 w-4 text-muted-foreground" />
-        </span>
+        <Tooltip content={softwareWalletTooltips.devices.web}>
+          <span>
+            <LinkIcon className="h-4 w-4 text-muted-foreground" />
+          </span>
+        </Tooltip>
       )}
     </div>
   );
 }
 
 // Feature indicator
-function FeatureIndicator({ value, label }: { value: boolean | string; label: string }) {
+function FeatureIndicator({ value, label, tooltip }: { value: boolean | string; label: string; tooltip?: string }) {
+  const getTooltipContent = () => {
+    if (tooltip) return tooltip;
+    if (typeof value === 'boolean') {
+      return value ? `${label}: Supported` : `${label}: Not supported`;
+    }
+    return `${label}: ${value}`;
+  };
+
   if (typeof value === 'boolean') {
     return (
-      <span
-        title={label}
-        className={cn(
-          'inline-flex items-center justify-center w-5 h-5 rounded-full',
-          value ? 'bg-green-100 text-green-600 dark:bg-green-900/30' : 'bg-muted text-muted-foreground'
-        )}
-      >
-        {value ? <Check className="h-3 w-3" /> : '−'}
-      </span>
+      <Tooltip content={getTooltipContent()}>
+        <span
+          className={cn(
+            'inline-flex items-center justify-center w-5 h-5 rounded-full',
+            value ? 'bg-green-100 text-green-600 dark:bg-green-900/30' : 'bg-muted text-muted-foreground'
+          )}
+        >
+          {value ? <Check className="h-3 w-3" /> : '−'}
+        </span>
+      </Tooltip>
     );
   }
 
@@ -170,17 +210,18 @@ function FeatureIndicator({ value, label }: { value: boolean | string; label: st
   const isFull = value === 'full' || value === 'recent' || value === 'open' || value === 'active';
 
   return (
-    <span
-      title={label}
-      className={cn(
-        'inline-flex items-center justify-center w-5 h-5 rounded-full text-xs',
-        isFull && 'bg-green-100 text-green-600 dark:bg-green-900/30',
-        isPartial && 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30',
-        !isFull && !isPartial && 'bg-muted text-muted-foreground'
-      )}
-    >
-      {isFull ? '✓' : isPartial ? '~' : '−'}
-    </span>
+    <Tooltip content={getTooltipContent()}>
+      <span
+        className={cn(
+          'inline-flex items-center justify-center w-5 h-5 rounded-full text-xs',
+          isFull && 'bg-green-100 text-green-600 dark:bg-green-900/30',
+          isPartial && 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30',
+          !isFull && !isPartial && 'bg-muted text-muted-foreground'
+        )}
+      >
+        {isFull ? '✓' : isPartial ? '~' : '−'}
+      </span>
+    </Tooltip>
   );
 }
 
@@ -232,13 +273,16 @@ function SoftwareWalletItem({
         </td>
         <td className="py-3 px-4">
           <div className="flex gap-1">
-            <FeatureIndicator value={wallet.txSimulation} label="Tx Simulation" />
-            <FeatureIndicator value={wallet.scamAlerts} label="Scam Alerts" />
-            <FeatureIndicator value={wallet.hardwareSupport} label="HW Support" />
+            <FeatureIndicator value={wallet.txSimulation} label="Tx Simulation" tooltip={softwareWalletTooltips.features.txSimulation} />
+            <FeatureIndicator value={wallet.scamAlerts} label="Scam Alerts" tooltip={softwareWalletTooltips.features.scamAlerts} />
+            <FeatureIndicator value={wallet.hardwareSupport} label="HW Support" tooltip={softwareWalletTooltips.features.hardwareSupport} />
           </div>
         </td>
         <td className="py-3 px-4">
-          <Badge variant={wallet.license === 'open' ? 'success' : wallet.license === 'partial' ? 'warning' : 'default'}>
+          <Badge
+            variant={wallet.license === 'open' ? 'success' : wallet.license === 'partial' ? 'warning' : 'default'}
+            tooltip={softwareWalletTooltips.license[wallet.license]}
+          >
             {wallet.licenseType}
           </Badge>
         </td>
@@ -297,19 +341,19 @@ function SoftwareWalletItem({
 
       <div className="flex flex-wrap gap-2 mb-3">
         {wallet.txSimulation && (
-          <Badge variant="info">
+          <Badge variant="info" tooltip={softwareWalletTooltips.features.txSimulation}>
             <Shield className="h-3 w-3 inline mr-1" />
             Tx Sim
           </Badge>
         )}
         {wallet.scamAlerts !== 'none' && (
-          <Badge variant="warning">
+          <Badge variant="warning" tooltip={softwareWalletTooltips.features.scamAlerts}>
             <AlertTriangle className="h-3 w-3 inline mr-1" />
             Scam Alerts
           </Badge>
         )}
         {wallet.hardwareSupport && (
-          <Badge variant="default">
+          <Badge variant="default" tooltip={softwareWalletTooltips.features.hardwareSupport}>
             <Zap className="h-3 w-3 inline mr-1" />
             HW
           </Badge>
@@ -317,7 +361,10 @@ function SoftwareWalletItem({
       </div>
 
       <div className="flex items-center justify-between text-sm">
-        <Badge variant={wallet.license === 'open' ? 'success' : wallet.license === 'partial' ? 'warning' : 'default'}>
+        <Badge
+          variant={wallet.license === 'open' ? 'success' : wallet.license === 'partial' ? 'warning' : 'default'}
+          tooltip={softwareWalletTooltips.license[wallet.license]}
+        >
           {wallet.licenseType}
         </Badge>
         {wallet.github && (
@@ -377,18 +424,31 @@ function HardwareWalletItem({
           <RecommendationBadge recommendation={wallet.recommendation} />
         </td>
         <td className="py-3 px-4">
-          <FeatureIndicator value={wallet.airGap} label="Air-Gapped" />
+          <FeatureIndicator
+            value={wallet.airGap}
+            label="Air-Gapped"
+            tooltip={wallet.airGap ? hardwareWalletTooltips.airGap.true : hardwareWalletTooltips.airGap.false}
+          />
         </td>
         <td className="py-3 px-4">
-          <FeatureIndicator value={wallet.secureElement} label="Secure Element" />
+          <FeatureIndicator
+            value={wallet.secureElement}
+            label="Secure Element"
+            tooltip={wallet.secureElement ? hardwareWalletTooltips.secureElement.true : hardwareWalletTooltips.secureElement.false}
+          />
         </td>
         <td className="py-3 px-4">
-          <Badge variant={wallet.openSource === 'full' ? 'success' : wallet.openSource === 'partial' ? 'warning' : 'default'}>
+          <Badge
+            variant={wallet.openSource === 'full' ? 'success' : wallet.openSource === 'partial' ? 'warning' : 'default'}
+            tooltip={hardwareWalletTooltips.openSource[wallet.openSource]}
+          >
             {wallet.openSource === 'full' ? 'Open' : wallet.openSource === 'partial' ? 'Partial' : 'Closed'}
           </Badge>
         </td>
         <td className="py-3 px-4 text-sm">
-          {wallet.connectivity.join(', ')}
+          <Tooltip content={`Connectivity options: ${wallet.connectivity.join(', ')}`}>
+            <span>{wallet.connectivity.join(', ')}</span>
+          </Tooltip>
         </td>
         <td className="py-3 px-4">
           <div className="flex gap-2">
@@ -450,20 +510,27 @@ function HardwareWalletItem({
       <p className="text-lg font-semibold text-primary mb-2">{wallet.priceText}</p>
 
       <div className="flex flex-wrap gap-2 mb-3">
-        {wallet.airGap && <Badge variant="success">Air-Gapped</Badge>}
+        {wallet.airGap && (
+          <Badge variant="success" tooltip={hardwareWalletTooltips.airGap.true}>Air-Gapped</Badge>
+        )}
         {wallet.secureElement && (
-          <Badge variant="info">
+          <Badge variant="info" tooltip={hardwareWalletTooltips.secureElement.true}>
             SE: {wallet.secureElementType || 'Yes'}
           </Badge>
         )}
-        <Badge variant={wallet.openSource === 'full' ? 'success' : wallet.openSource === 'partial' ? 'warning' : 'default'}>
+        <Badge
+          variant={wallet.openSource === 'full' ? 'success' : wallet.openSource === 'partial' ? 'warning' : 'default'}
+          tooltip={hardwareWalletTooltips.openSource[wallet.openSource]}
+        >
           {wallet.openSource === 'full' ? 'Open Source' : wallet.openSource === 'partial' ? 'Partial OS' : 'Closed'}
         </Badge>
       </div>
 
-      <div className="text-sm text-muted-foreground mb-3">
-        {wallet.display} • {wallet.connectivity.join(', ')}
-      </div>
+      <Tooltip content={`Display: ${wallet.display}, Connectivity: ${wallet.connectivity.join(', ')}`}>
+        <div className="text-sm text-muted-foreground mb-3 cursor-help">
+          {wallet.display} • {wallet.connectivity.join(', ')}
+        </div>
+      </Tooltip>
 
       <div className="flex items-center gap-2">
         {wallet.github && (
@@ -542,14 +609,28 @@ function CryptoCardItem({
           </div>
         </td>
         <td className="py-3 px-4">
-          <Badge variant="info">{card.cardType}</Badge>
+          <Badge variant="info" tooltip={cryptoCardTooltips.cardType[card.cardType]}>{card.cardType}</Badge>
         </td>
-        <td className="py-3 px-4 text-sm">{card.region}</td>
+        <td className="py-3 px-4 text-sm">
+          <Tooltip content={cryptoCardTooltips.region[card.regionCode as keyof typeof cryptoCardTooltips.region] || `Available in ${card.region}`}>
+            <span>{card.region}</span>
+          </Tooltip>
+        </td>
         <td className="py-3 px-4">
-          <span className="font-semibold text-green-600 dark:text-green-400">{card.cashBack}</span>
+          <Tooltip content="Maximum cashback rate (may require staking or tier progression)">
+            <span className="font-semibold text-green-600 dark:text-green-400">{card.cashBack}</span>
+          </Tooltip>
         </td>
-        <td className="py-3 px-4 text-sm">{card.rewards}</td>
-        <td className="py-3 px-4 text-sm">{card.annualFee}</td>
+        <td className="py-3 px-4 text-sm">
+          <Tooltip content={`Rewards earned: ${card.rewards}`}>
+            <span>{card.rewards}</span>
+          </Tooltip>
+        </td>
+        <td className="py-3 px-4 text-sm">
+          <Tooltip content={card.annualFee === '$0' ? 'No annual fee' : `Annual fee: ${card.annualFee}`}>
+            <span>{card.annualFee}</span>
+          </Tooltip>
+        </td>
       </tr>
     );
   }
@@ -579,7 +660,7 @@ function CryptoCardItem({
             ) : (
               <h3 className="font-semibold">{card.name}</h3>
             )}
-            <Badge variant="info">{card.cardType}</Badge>
+            <Badge variant="info" tooltip={cryptoCardTooltips.cardType[card.cardType]}>{card.cardType}</Badge>
           </div>
         </div>
         <button
@@ -595,22 +676,30 @@ function CryptoCardItem({
         </button>
       </div>
 
-      <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
-        {card.cashBack}
-      </div>
+      <Tooltip content="Maximum cashback rate (may require staking or tier progression)">
+        <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-2 cursor-help">
+          {card.cashBack}
+        </div>
+      </Tooltip>
 
       <p className="text-sm text-muted-foreground mb-3">{card.bestFor}</p>
 
       <div className="flex flex-wrap gap-2 mb-3">
-        <Badge variant="default">{card.region}</Badge>
-        <Badge variant="default">{card.rewards}</Badge>
-        {card.businessSupport === 'yes' && <Badge variant="info">Business</Badge>}
+        <Badge variant="default" tooltip={cryptoCardTooltips.region[card.regionCode as keyof typeof cryptoCardTooltips.region] || `Available in ${card.region}`}>
+          {card.region}
+        </Badge>
+        <Badge variant="default" tooltip={`Rewards earned: ${card.rewards}`}>{card.rewards}</Badge>
+        {card.businessSupport === 'yes' && (
+          <Badge variant="info" tooltip={cryptoCardTooltips.businessSupport.yes}>Business</Badge>
+        )}
       </div>
 
       <div className="flex items-center justify-between text-sm">
-        <span className="text-muted-foreground">
-          Fee: {card.annualFee} | FX: {card.fxFee}
-        </span>
+        <Tooltip content={`Annual fee: ${card.annualFee}, Foreign exchange fee: ${card.fxFee}`}>
+          <span className="text-muted-foreground cursor-help">
+            Fee: {card.annualFee} | FX: {card.fxFee}
+          </span>
+        </Tooltip>
         {card.providerUrl && (
           <a
             href={card.providerUrl}
@@ -682,14 +771,34 @@ function RampItem({
         </td>
         <td className="py-3 px-4">
           <div className="flex gap-2">
-            {ramp.onRamp && <Badge variant="success">On-Ramp</Badge>}
-            {ramp.offRamp && <Badge variant="info">Off-Ramp</Badge>}
+            {ramp.onRamp && (
+              <Badge variant="success" tooltip="On-Ramp: Convert fiat currency to crypto">On-Ramp</Badge>
+            )}
+            {ramp.offRamp && (
+              <Badge variant="info" tooltip="Off-Ramp: Convert crypto to fiat currency">Off-Ramp</Badge>
+            )}
           </div>
         </td>
-        <td className="py-3 px-4 text-sm">{ramp.coverage}</td>
-        <td className="py-3 px-4 text-sm">{ramp.feeModel}</td>
-        <td className="py-3 px-4 text-sm">{ramp.minFee}</td>
-        <td className="py-3 px-4 text-sm">{ramp.devUx}</td>
+        <td className="py-3 px-4 text-sm">
+          <Tooltip content={`Geographic coverage: ${ramp.coverage}`}>
+            <span>{ramp.coverage}</span>
+          </Tooltip>
+        </td>
+        <td className="py-3 px-4 text-sm">
+          <Tooltip content={rampTooltips.feeModel[ramp.feeModel as keyof typeof rampTooltips.feeModel] || `Fee model: ${ramp.feeModel}`}>
+            <span>{ramp.feeModel}</span>
+          </Tooltip>
+        </td>
+        <td className="py-3 px-4 text-sm">
+          <Tooltip content={`Minimum transaction fee (approximate): ${ramp.minFee}`}>
+            <span>{ramp.minFee}</span>
+          </Tooltip>
+        </td>
+        <td className="py-3 px-4 text-sm">
+          <Tooltip content={rampTooltips.devUx[ramp.devUx as keyof typeof rampTooltips.devUx] || `Developer experience: ${ramp.devUx}`}>
+            <span>{ramp.devUx}</span>
+          </Tooltip>
+        </td>
         <td className="py-3 px-4">
           {ramp.url && (
             <a
@@ -739,23 +848,33 @@ function RampItem({
       <p className="text-sm text-muted-foreground mb-3">{ramp.bestFor}</p>
 
       <div className="flex flex-wrap gap-2 mb-3">
-        {ramp.onRamp && <Badge variant="success">On-Ramp</Badge>}
-        {ramp.offRamp && <Badge variant="info">Off-Ramp</Badge>}
-        <Badge variant="default">{ramp.coverage}</Badge>
+        {ramp.onRamp && (
+          <Badge variant="success" tooltip="On-Ramp: Convert fiat currency to crypto">On-Ramp</Badge>
+        )}
+        {ramp.offRamp && (
+          <Badge variant="info" tooltip="Off-Ramp: Convert crypto to fiat currency">Off-Ramp</Badge>
+        )}
+        <Badge variant="default" tooltip={`Geographic coverage: ${ramp.coverage}`}>{ramp.coverage}</Badge>
       </div>
 
       <div className="space-y-1 text-sm mb-3">
         <div className="flex justify-between">
           <span className="text-muted-foreground">Fee Model:</span>
-          <span className="font-medium">{ramp.feeModel}</span>
+          <Tooltip content={rampTooltips.feeModel[ramp.feeModel as keyof typeof rampTooltips.feeModel] || `Fee model: ${ramp.feeModel}`}>
+            <span className="font-medium cursor-help">{ramp.feeModel}</span>
+          </Tooltip>
         </div>
         <div className="flex justify-between">
           <span className="text-muted-foreground">Min Fee:</span>
-          <span className="font-medium">{ramp.minFee}</span>
+          <Tooltip content={`Minimum transaction fee (approximate): ${ramp.minFee}`}>
+            <span className="font-medium cursor-help">{ramp.minFee}</span>
+          </Tooltip>
         </div>
         <div className="flex justify-between">
           <span className="text-muted-foreground">Dev UX:</span>
-          <span className="font-medium">{ramp.devUx}</span>
+          <Tooltip content={rampTooltips.devUx[ramp.devUx as keyof typeof rampTooltips.devUx] || `Developer experience: ${ramp.devUx}`}>
+            <span className="font-medium cursor-help">{ramp.devUx}</span>
+          </Tooltip>
         </div>
       </div>
 
@@ -807,44 +926,97 @@ export function WalletTable<T extends WalletData>({
         <table className="w-full">
           <thead>
             <tr className="border-b border-border bg-muted/50">
-              <th className="py-3 px-4 text-left text-sm font-medium">Compare</th>
-              <th className="py-3 px-4 text-left text-sm font-medium">Wallet</th>
-              <th className="py-3 px-4 text-left text-sm font-medium">Status</th>
+              <th className="py-3 px-4 text-left text-sm font-medium">
+                <HeaderTooltip label="Compare" tooltip={softwareWalletTooltips.headers.compare} />
+              </th>
+              <th className="py-3 px-4 text-left text-sm font-medium">
+                <HeaderTooltip label="Wallet" tooltip={softwareWalletTooltips.headers.wallet} />
+              </th>
+              {(type === 'software' || type === 'hardware' || type === 'ramps') && (
+                <th className="py-3 px-4 text-left text-sm font-medium">
+                  <HeaderTooltip label="Status" tooltip={softwareWalletTooltips.headers.status} />
+                </th>
+              )}
+              {type === 'cards' && (
+                <th className="py-3 px-4 text-left text-sm font-medium">
+                  <HeaderTooltip label="Type" tooltip={cryptoCardTooltips.headers.cardType} />
+                </th>
+              )}
               {type === 'software' && (
                 <>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Platforms</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Chains</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Features</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">License</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">
+                    <HeaderTooltip label="Platforms" tooltip={softwareWalletTooltips.headers.platforms} />
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">
+                    <HeaderTooltip label="Chains" tooltip={softwareWalletTooltips.headers.chains} />
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">
+                    <HeaderTooltip label="Features" tooltip={softwareWalletTooltips.headers.features} />
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">
+                    <HeaderTooltip label="License" tooltip={softwareWalletTooltips.headers.license} />
+                  </th>
                 </>
               )}
               {type === 'hardware' && (
                 <>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Air-Gap</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">SE</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Open Source</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Connectivity</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">
+                    <HeaderTooltip label="Air-Gap" tooltip={hardwareWalletTooltips.headers.airGap} />
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">
+                    <HeaderTooltip label="SE" tooltip={hardwareWalletTooltips.headers.secureElement} />
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">
+                    <HeaderTooltip label="Open Source" tooltip={hardwareWalletTooltips.headers.openSource} />
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">
+                    <HeaderTooltip label="Connectivity" tooltip={hardwareWalletTooltips.headers.connectivity} />
+                  </th>
                 </>
               )}
               {type === 'cards' && (
                 <>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Region</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Cashback</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Rewards</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Annual Fee</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">
+                    <HeaderTooltip label="Region" tooltip={cryptoCardTooltips.headers.region} />
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">
+                    <HeaderTooltip label="Cashback" tooltip={cryptoCardTooltips.headers.cashback} />
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">
+                    <HeaderTooltip label="Rewards" tooltip={cryptoCardTooltips.headers.rewards} />
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">
+                    <HeaderTooltip label="Annual Fee" tooltip={cryptoCardTooltips.headers.annualFee} />
+                  </th>
                 </>
               )}
               {type === 'ramps' && (
                 <>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Type</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Coverage</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Fee Model</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Min Fee</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Dev UX</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">Links</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">
+                    <HeaderTooltip label="Type" tooltip={rampTooltips.headers.type} />
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">
+                    <HeaderTooltip label="Coverage" tooltip={rampTooltips.headers.coverage} />
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">
+                    <HeaderTooltip label="Fee Model" tooltip={rampTooltips.headers.feeModel} />
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">
+                    <HeaderTooltip label="Min Fee" tooltip={rampTooltips.headers.minFee} />
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">
+                    <HeaderTooltip label="Dev UX" tooltip={rampTooltips.headers.devUx} />
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">
+                    <HeaderTooltip label="Links" tooltip={rampTooltips.headers.links} />
+                  </th>
                 </>
               )}
-              {(type === 'software' || type === 'hardware') && <th className="py-3 px-4 text-left text-sm font-medium">Links</th>}
+              {(type === 'software' || type === 'hardware') && (
+                <th className="py-3 px-4 text-left text-sm font-medium">
+                  <HeaderTooltip label="Links" tooltip={softwareWalletTooltips.headers.links} />
+                </th>
+              )}
             </tr>
           </thead>
           <tbody>
