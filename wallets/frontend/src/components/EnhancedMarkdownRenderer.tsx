@@ -78,24 +78,44 @@ function getHeaderTooltip(header: string, tableType: TableType): string | null {
   // Software wallet specific
   if (tableType === 'software') {
     if (lowerHeader === 'wallet' || lowerHeader === 'name') return softwareWalletTooltips.headers.wallet;
+    if (lowerHeader === 'core') return softwareWalletTooltips.headers.core;
+    if (lowerHeader === 'rel/mo' || lowerHeader === 'rel mo' || lowerHeader === 'relmo') {
+      return softwareWalletTooltips.headers.releaseCadence;
+    }
+    if (lowerHeader === 'rpc') return softwareWalletTooltips.headers.rpc;
+    if (lowerHeader === 'github') return softwareWalletTooltips.headers.github;
+    if (lowerHeader === 'active') return softwareWalletTooltips.headers.activity;
     if (lowerHeader === 'platforms' || lowerHeader === 'plat') return softwareWalletTooltips.headers.platforms;
     if (lowerHeader === 'chains') return softwareWalletTooltips.headers.chains;
+    if (lowerHeader === 'devices') return softwareWalletTooltips.headers.devices;
+    if (lowerHeader === 'testnets') return softwareWalletTooltips.headers.testnets;
     if (lowerHeader === 'features' || lowerHeader === 'feat') return softwareWalletTooltips.headers.features;
     if (lowerHeader === 'license' || lowerHeader === 'lic') return softwareWalletTooltips.headers.license;
+    if (lowerHeader === 'api') return softwareWalletTooltips.headers.api;
+    if (lowerHeader === 'audits') return softwareWalletTooltips.headers.audits;
+    if (lowerHeader === 'funding') return softwareWalletTooltips.headers.funding;
+    if (lowerHeader === 'tx sim' || lowerHeader === 'txsim') return softwareWalletTooltips.headers.txSim;
+    if (lowerHeader === 'scam') return softwareWalletTooltips.headers.scam;
+    if (lowerHeader === 'account') return softwareWalletTooltips.headers.account;
+    if (lowerHeader === 'ens/naming' || lowerHeader === 'ens' || lowerHeader === 'ens naming') {
+      return softwareWalletTooltips.headers.ensNaming;
+    }
+    if (lowerHeader === 'hw') return softwareWalletTooltips.headers.hardwareSupport;
+    if (lowerHeader === 'best for') return softwareWalletTooltips.headers.bestFor;
     if (lowerHeader === 'links') return softwareWalletTooltips.headers.links;
   }
 
   // Hardware wallet specific
   if (tableType === 'hardware') {
     if (lowerHeader === 'wallet' || lowerHeader === 'name') return hardwareWalletTooltips.headers.wallet;
-    if (lowerHeader === 'github') return 'Link to firmware repository. "Private" means closed source.';
+    if (lowerHeader === 'github') return hardwareWalletTooltips.headers.github;
     if (lowerHeader === 'air-gap' || lowerHeader === 'airgap') return hardwareWalletTooltips.headers.airGap;
     if (lowerHeader === 'open source' || lowerHeader === 'opensource') return hardwareWalletTooltips.headers.openSource;
     if (lowerHeader === 'secure elem' || lowerHeader === 'se' || lowerHeader === 'secure element') return hardwareWalletTooltips.headers.secureElement;
-    if (lowerHeader === 'display') return 'Display type: Touch Color, Mono OLED, Color LCD, E-Ink, or None (NFC card)';
-    if (lowerHeader === 'price') return 'Approximate price in USD. Verify on official website.';
+    if (lowerHeader === 'display') return hardwareWalletTooltips.headers.display;
+    if (lowerHeader === 'price') return hardwareWalletTooltips.headers.price;
     if (lowerHeader === 'conn' || lowerHeader === 'connectivity') return hardwareWalletTooltips.headers.connectivity;
-    if (lowerHeader === 'activity') return 'GitHub activity: ✅ Active (≤30 days), ⚠️ Slow (1-4 mo), ❌ Inactive (4+ mo), 🔒 Private';
+    if (lowerHeader === 'activity') return hardwareWalletTooltips.headers.activity;
     if (lowerHeader === 'links') return hardwareWalletTooltips.headers.links;
   }
 
@@ -103,20 +123,30 @@ function getHeaderTooltip(header: string, tableType: TableType): string | null {
   if (tableType === 'cards') {
     if (lowerHeader === 'card' || lowerHeader === 'name') return cryptoCardTooltips.headers.card;
     if (lowerHeader === 'type' || lowerHeader === 'card type') return cryptoCardTooltips.headers.cardType;
+    if (lowerHeader === 'custody') return cryptoCardTooltips.headers.custody;
+    if (lowerHeader === 'biz' || lowerHeader === 'business') return cryptoCardTooltips.headers.business;
     if (lowerHeader === 'region') return cryptoCardTooltips.headers.region;
-    if (lowerHeader === 'cashback' || lowerHeader === 'rewards %') return cryptoCardTooltips.headers.cashback;
+    if (lowerHeader === 'cashback' || lowerHeader === 'cash back' || lowerHeader === 'rewards %') {
+      return cryptoCardTooltips.headers.cashback;
+    }
     if (lowerHeader === 'rewards') return cryptoCardTooltips.headers.rewards;
     if (lowerHeader === 'annual fee' || lowerHeader === 'fee') return cryptoCardTooltips.headers.annualFee;
+    if (lowerHeader === 'fx fee') return cryptoCardTooltips.headers.fxFee;
+    if (lowerHeader === 'status') return cryptoCardTooltips.headers.status;
+    if (lowerHeader === 'best for') return cryptoCardTooltips.headers.bestFor;
   }
 
   // Ramp specific
   if (tableType === 'ramps') {
     if (lowerHeader === 'provider' || lowerHeader === 'name') return rampTooltips.headers.provider;
     if (lowerHeader === 'type') return rampTooltips.headers.type;
+    if (lowerHeader === 'on-ramp' || lowerHeader === 'on ramp') return rampTooltips.headers.onRamp;
+    if (lowerHeader === 'off-ramp' || lowerHeader === 'off ramp') return rampTooltips.headers.offRamp;
     if (lowerHeader === 'coverage') return rampTooltips.headers.coverage;
     if (lowerHeader === 'fee model' || lowerHeader === 'fees') return rampTooltips.headers.feeModel;
     if (lowerHeader === 'min fee') return rampTooltips.headers.minFee;
     if (lowerHeader === 'dev ux' || lowerHeader === 'devux') return rampTooltips.headers.devUx;
+    if (lowerHeader === 'best for') return rampTooltips.headers.bestFor;
     if (lowerHeader === 'links') return rampTooltips.headers.links;
   }
 
