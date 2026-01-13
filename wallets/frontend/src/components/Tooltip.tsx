@@ -27,6 +27,7 @@ export function Tooltip({
   maxWidth = 280,
 }: TooltipProps) {
   const [isVisible, setIsVisible] = useState(false);
+  const [isClickOpen, setIsClickOpen] = useState(false);
   const [coords, setCoords] = useState({ top: 0, left: 0 });
   const [isMounted, setIsMounted] = useState(false);
   const triggerRef = useRef<HTMLSpanElement>(null);
@@ -51,6 +52,7 @@ export function Tooltip({
         !tooltipRef.current.contains(target)
       ) {
         setIsVisible(false);
+        setIsClickOpen(false);
       }
     };
 
@@ -125,18 +127,30 @@ export function Tooltip({
   // Toggle on click/tap (works for both mobile and desktop)
   const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
     e.stopPropagation();
-    setIsVisible(prev => !prev);
+    setIsVisible(prev => {
+      const next = !prev;
+      setIsClickOpen(next);
+      return next;
+    });
   };
 
   // Show on hover (desktop only, doesn't interfere with click)
   const handleMouseEnter = () => {
     isHoveringRef.current = true;
+    setIsClickOpen(false);
     setIsVisible(true);
   };
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = (event: React.MouseEvent<HTMLSpanElement>) => {
     isHoveringRef.current = false;
     // Only hide if we're leaving via mouse (not if it was clicked open)
+    if (isClickOpen) return;
+
+    const nextTarget = event.relatedTarget as Node | null;
+    if (nextTarget && tooltipRef.current?.contains(nextTarget)) {
+      return;
+    }
+
     setIsVisible(false);
   };
 
@@ -174,6 +188,21 @@ export function Tooltip({
               transform: getTransform(),
               maxWidth,
               zIndex: 99999,
+            }}
+            onMouseEnter={() => {
+              isHoveringRef.current = true;
+              setIsVisible(true);
+            }}
+            onMouseLeave={(event) => {
+              isHoveringRef.current = false;
+              if (isClickOpen) return;
+
+              const nextTarget = event.relatedTarget as Node | null;
+              if (nextTarget && triggerRef.current?.contains(nextTarget)) {
+                return;
+              }
+
+              setIsVisible(false);
             }}
             className={cn(
               'px-3 py-2 text-xs font-normal leading-relaxed whitespace-normal',
