@@ -9,6 +9,14 @@ import rehypeSlug from 'rehype-slug';
 import { cn } from '@/lib/utils';
 import { addReferrerTracking, isExternalLink, getExternalLinkTitle } from '@/lib/link-utils';
 import { Search, X, ChevronDown, ChevronUp, ChevronRight } from 'lucide-react';
+import { HeaderTooltip } from '@/components/Tooltip';
+import {
+  softwareWalletTooltips,
+  hardwareWalletTooltips,
+  cryptoCardTooltips,
+  rampTooltips,
+  commonTooltips,
+} from '@/lib/tooltip-content';
 import {
   Trophy,
   Calculator,
@@ -33,6 +41,86 @@ interface EnhancedMarkdownRendererProps {
   content: string;
   className?: string;
   showExpandableSections?: boolean;
+}
+
+// Header to tooltip mapping for markdown tables
+type TableType = 'software' | 'hardware' | 'cards' | 'ramps';
+
+function detectTableType(title: string | undefined): TableType {
+  if (!title) return 'software';
+  const lowerTitle = title.toLowerCase();
+  if (lowerTitle.includes('hardware')) return 'hardware';
+  if (lowerTitle.includes('card') || lowerTitle.includes('credit') || lowerTitle.includes('debit')) return 'cards';
+  if (lowerTitle.includes('ramp')) return 'ramps';
+  return 'software';
+}
+
+function getHeaderTooltip(header: string, tableType: TableType): string | null {
+  const lowerHeader = header.toLowerCase().trim();
+
+  // Common mappings across all table types
+  if (lowerHeader === 'score' || lowerHeader.includes('score')) {
+    return commonTooltips.score;
+  }
+  if (lowerHeader === 'rec' || lowerHeader === 'recommendation' || lowerHeader === 'status') {
+    switch (tableType) {
+      case 'software':
+        return softwareWalletTooltips.headers.status;
+      case 'hardware':
+        return hardwareWalletTooltips.headers.status;
+      case 'ramps':
+        return rampTooltips.headers.status;
+      default:
+        return 'Recommendation status based on overall score';
+    }
+  }
+
+  // Software wallet specific
+  if (tableType === 'software') {
+    if (lowerHeader === 'wallet' || lowerHeader === 'name') return softwareWalletTooltips.headers.wallet;
+    if (lowerHeader === 'platforms' || lowerHeader === 'plat') return softwareWalletTooltips.headers.platforms;
+    if (lowerHeader === 'chains') return softwareWalletTooltips.headers.chains;
+    if (lowerHeader === 'features' || lowerHeader === 'feat') return softwareWalletTooltips.headers.features;
+    if (lowerHeader === 'license' || lowerHeader === 'lic') return softwareWalletTooltips.headers.license;
+    if (lowerHeader === 'links') return softwareWalletTooltips.headers.links;
+  }
+
+  // Hardware wallet specific
+  if (tableType === 'hardware') {
+    if (lowerHeader === 'wallet' || lowerHeader === 'name') return hardwareWalletTooltips.headers.wallet;
+    if (lowerHeader === 'github') return 'Link to firmware repository. "Private" means closed source.';
+    if (lowerHeader === 'air-gap' || lowerHeader === 'airgap') return hardwareWalletTooltips.headers.airGap;
+    if (lowerHeader === 'open source' || lowerHeader === 'opensource') return hardwareWalletTooltips.headers.openSource;
+    if (lowerHeader === 'secure elem' || lowerHeader === 'se' || lowerHeader === 'secure element') return hardwareWalletTooltips.headers.secureElement;
+    if (lowerHeader === 'display') return 'Display type: Touch Color, Mono OLED, Color LCD, E-Ink, or None (NFC card)';
+    if (lowerHeader === 'price') return 'Approximate price in USD. Verify on official website.';
+    if (lowerHeader === 'conn' || lowerHeader === 'connectivity') return hardwareWalletTooltips.headers.connectivity;
+    if (lowerHeader === 'activity') return 'GitHub activity: ✅ Active (≤30 days), ⚠️ Slow (1-4 mo), ❌ Inactive (4+ mo), 🔒 Private';
+    if (lowerHeader === 'links') return hardwareWalletTooltips.headers.links;
+  }
+
+  // Crypto card specific
+  if (tableType === 'cards') {
+    if (lowerHeader === 'card' || lowerHeader === 'name') return cryptoCardTooltips.headers.card;
+    if (lowerHeader === 'type' || lowerHeader === 'card type') return cryptoCardTooltips.headers.cardType;
+    if (lowerHeader === 'region') return cryptoCardTooltips.headers.region;
+    if (lowerHeader === 'cashback' || lowerHeader === 'rewards %') return cryptoCardTooltips.headers.cashback;
+    if (lowerHeader === 'rewards') return cryptoCardTooltips.headers.rewards;
+    if (lowerHeader === 'annual fee' || lowerHeader === 'fee') return cryptoCardTooltips.headers.annualFee;
+  }
+
+  // Ramp specific
+  if (tableType === 'ramps') {
+    if (lowerHeader === 'provider' || lowerHeader === 'name') return rampTooltips.headers.provider;
+    if (lowerHeader === 'type') return rampTooltips.headers.type;
+    if (lowerHeader === 'coverage') return rampTooltips.headers.coverage;
+    if (lowerHeader === 'fee model' || lowerHeader === 'fees') return rampTooltips.headers.feeModel;
+    if (lowerHeader === 'min fee') return rampTooltips.headers.minFee;
+    if (lowerHeader === 'dev ux' || lowerHeader === 'devux') return rampTooltips.headers.devUx;
+    if (lowerHeader === 'links') return rampTooltips.headers.links;
+  }
+
+  return null;
 }
 
 // Section definitions - which sections should be collapsible with clickable headings
@@ -369,34 +457,42 @@ function SearchableTable({ tableContent, title }: { tableContent: string; title?
         <table className="w-full border-collapse text-sm">
           <thead className="bg-muted">
             <tr>
-              {parsedTable.headers.map((header, index) => (
-                <th
-                  key={index}
-                  onClick={() => handleSort(index)}
-                  className="px-3 py-2 text-left font-semibold border-b border-border whitespace-nowrap cursor-pointer hover:bg-muted/80 transition-colors select-none group"
-                  title={`Click to sort by ${header}`}
-                >
-                  <div className="flex items-center gap-1.5">
-                    <span>{header}</span>
-                    {sortColumn === index ? (
-                      <span className="text-primary flex-shrink-0">
-                        {sortDirection === 'asc' ? (
-                          <ChevronUp className="h-3.5 w-3.5" />
-                        ) : (
-                          <ChevronDown className="h-3.5 w-3.5" />
-                        )}
-                      </span>
-                    ) : (
-                      <span className="text-muted-foreground/40 group-hover:text-muted-foreground/70 flex-shrink-0 transition-colors">
-                        <div className="flex flex-col -space-y-1">
-                          <ChevronUp className="h-2 w-2" />
-                          <ChevronDown className="h-2 w-2" />
-                        </div>
-                      </span>
-                    )}
-                  </div>
-                </th>
-              ))}
+              {parsedTable.headers.map((header, index) => {
+                const tableType = detectTableType(title);
+                const tooltip = getHeaderTooltip(header, tableType);
+                return (
+                  <th
+                    key={index}
+                    onClick={() => handleSort(index)}
+                    className="px-3 py-2 text-left font-semibold border-b border-border whitespace-nowrap cursor-pointer hover:bg-muted/80 transition-colors select-none group"
+                    title={tooltip ? undefined : `Click to sort by ${header}`}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      {tooltip ? (
+                        <HeaderTooltip label={header} tooltip={tooltip} />
+                      ) : (
+                        <span>{header}</span>
+                      )}
+                      {sortColumn === index ? (
+                        <span className="text-primary flex-shrink-0">
+                          {sortDirection === 'asc' ? (
+                            <ChevronUp className="h-3.5 w-3.5" />
+                          ) : (
+                            <ChevronDown className="h-3.5 w-3.5" />
+                          )}
+                        </span>
+                      ) : (
+                        <span className="text-muted-foreground/40 group-hover:text-muted-foreground/70 flex-shrink-0 transition-colors">
+                          <div className="flex flex-col -space-y-1">
+                            <ChevronUp className="h-2 w-2" />
+                            <ChevronDown className="h-2 w-2" />
+                          </div>
+                        </span>
+                      )}
+                    </div>
+                  </th>
+                );
+              })}
             </tr>
           </thead>
           <tbody>
