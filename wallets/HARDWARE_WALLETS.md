@@ -1,6 +1,6 @@
 # Hardware Wallet Comparison (Cold Storage Alternatives to Ledger)
 
-## Complete Hardware Wallet Comparison (32 Wallets)
+## Complete Hardware Wallet Comparison
 
 | Wallet | Score | GitHub | Air-Gap | Open Source | Secure Elem | Display | Price | Conn | Activity | Rec |
 |--------|-------|--------|---------|-------------|-------------|---------|-------|------|----------|-----|
