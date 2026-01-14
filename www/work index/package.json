@@ -1,0 +1,12 @@
+{
+  "name": "work-index",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Markdown-sourced portfolio list.",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "marked": "^12.0.0"
+  }
+}
