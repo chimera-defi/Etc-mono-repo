@@ -6,6 +6,8 @@ const baseDir = __dirname;
 const sourcePath = path.join(baseDir, "projects.md");
 const outputDir = path.join(baseDir, "dist");
 const outputPath = path.join(outputDir, "index.html");
+const styleSourcePath = path.join(baseDir, "style.css");
+const styleOutputPath = path.join(outputDir, "style.css");
 
 const markdown = fs.readFileSync(sourcePath, "utf8");
 const content = marked.parse(markdown);
@@ -14,13 +16,15 @@ if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir, { recursive: true });
 }
 
+fs.copyFileSync(styleSourcePath, styleOutputPath);
+
 const html = `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Work Index</title>
-    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
     <div class="page">
