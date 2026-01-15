@@ -1,6 +1,6 @@
-# Crypto Credit Card Comparison (38 Cards)
+# Crypto Credit Card Comparison
 
-## Complete Card Comparison (All 38 Crypto Cards)
+## Complete Card Comparison
 
 | Card | Score | Type | Custody | Biz | Region | Cash Back | Annual Fee | FX Fee | Rewards | Status | Best For |
 |------|-------|------|---------|-----|--------|-----------|------------|--------|---------|--------|----------|
