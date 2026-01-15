@@ -4,10 +4,15 @@ const { marked } = require("marked");
 
 const baseDir = __dirname;
 const sourcePath = path.join(baseDir, "projects.md");
-const outputPath = path.join(baseDir, "index.html");
+const outputDir = path.join(baseDir, "dist");
+const outputPath = path.join(outputDir, "index.html");
 
 const markdown = fs.readFileSync(sourcePath, "utf8");
 const content = marked.parse(markdown);
+
+if (!fs.existsSync(outputDir)) {
+  fs.mkdirSync(outputDir, { recursive: true });
+}
 
 const html = `<!doctype html>
 <html lang="en">
@@ -15,7 +20,7 @@ const html = `<!doctype html>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Work Index</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../style.css" />
   </head>
   <body>
     <div class="page">
