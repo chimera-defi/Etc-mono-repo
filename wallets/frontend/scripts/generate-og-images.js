@@ -235,7 +235,7 @@ function generateSoftwareWalletsImage() {
   // Subtitle
   ctx.fillStyle = COLORS.textMuted;
   ctx.font = '20px Arial, sans-serif';
-  ctx.fillText('24+ EVM wallets scored on security, activity & developer experience', 50, 195);
+  ctx.fillText('EVM wallets scored on security, activity & developer experience', 50, 195);
   
   // Table
   const headers = ['Wallet', 'Score', 'Platforms', 'Chains', 'Status'];
@@ -243,7 +243,7 @@ function generateSoftwareWalletsImage() {
   
   // Footer
   drawFooter(ctx, [
-    { value: '24+', label: 'Wallets Compared' },
+    { value: 'Compared', label: 'Wallets' },
     { value: '163', label: 'Max Chains (Trust)' },
     { value: 'Weekly', label: 'Data Updates' },
   ]);
@@ -276,7 +276,7 @@ function generateHardwareWalletsImage() {
   // Subtitle
   ctx.fillStyle = COLORS.textMuted;
   ctx.font = '20px Arial, sans-serif';
-  ctx.fillText('23+ cold storage devices reviewed for security & open source firmware', 50, 195);
+  ctx.fillText('Cold storage devices reviewed for security & open source firmware', 50, 195);
   
   // Table
   const headers = ['Wallet', 'Score', 'Price', 'Security', 'Status'];
@@ -284,7 +284,7 @@ function generateHardwareWalletsImage() {
   
   // Footer
   drawFooter(ctx, [
-    { value: '23+', label: 'Devices Reviewed' },
+    { value: 'Reviewed', label: 'Devices' },
     { value: 'Trezor', label: 'Top Pick (Score: 94)' },
     { value: '$79+', label: 'Starting Price' },
   ]);
@@ -317,7 +317,7 @@ function generateCryptoCardsImage() {
   // Subtitle
   ctx.fillStyle = COLORS.textMuted;
   ctx.font = '20px Arial, sans-serif';
-  ctx.fillText('27+ crypto debit & credit cards compared for rewards & availability', 50, 195);
+  ctx.fillText('Crypto debit & credit cards compared for rewards & availability', 50, 195);
   
   // Table
   const headers = ['Card', 'Cashback', 'Type', 'Region', 'Status'];
@@ -325,7 +325,7 @@ function generateCryptoCardsImage() {
   
   // Footer
   drawFooter(ctx, [
-    { value: '27+', label: 'Cards Compared' },
+    { value: 'Compared', label: 'Cards' },
     { value: '10%', label: 'Max Cashback' },
     { value: 'Global', label: 'Availability' },
   ]);
@@ -367,7 +367,7 @@ function generateDefaultImage() {
   // Stats row
   ctx.font = '20px Arial, sans-serif';
   ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-  ctx.fillText('24+ Software Wallets  •  23+ Hardware Wallets  •  27+ Crypto Cards', WIDTH / 2, HEIGHT / 2 + 120);
+  ctx.fillText('Software Wallets  •  Hardware Wallets  •  Crypto Cards', WIDTH / 2, HEIGHT / 2 + 120);
   
   // URL
   ctx.font = 'bold 22px Arial, sans-serif';
@@ -476,7 +476,7 @@ function generateSoftwareWalletsDetailsImage() {
 
   // Footer
   drawFooter(ctx, [
-    { value: '24+', label: 'Wallets Compared' },
+    { value: 'Compared', label: 'Wallets' },
     { value: 'Weekly', label: 'Data Updates' },
     { value: 'Open Source', label: 'Methodology' },
   ]);
@@ -571,7 +571,7 @@ function generateHardwareWalletsDetailsImage() {
 
   // Footer
   drawFooter(ctx, [
-    { value: '23+', label: 'Devices Reviewed' },
+    { value: 'Reviewed', label: 'Devices' },
     { value: '$79+', label: 'Starting Price' },
     { value: 'Secure Element', label: 'Protection' },
   ]);
@@ -666,7 +666,7 @@ function generateCryptoCardsDetailsImage() {
 
   // Footer
   drawFooter(ctx, [
-    { value: '27+', label: 'Cards Compared' },
+    { value: 'Compared', label: 'Cards' },
     { value: '10%', label: 'Max Cashback' },
     { value: 'Global', label: 'Coverage' },
   ]);
@@ -699,7 +699,7 @@ function generateRampsImage() {
   // Subtitle
   ctx.fillStyle = COLORS.textMuted;
   ctx.font = '20px Arial, sans-serif';
-  ctx.fillText('20+ providers scored on coverage, fees & developer experience', 50, 195);
+  ctx.fillText('Providers scored on coverage, fees & developer experience', 50, 195);
   
   // Table
   const headers = ['Provider', 'Score', 'Type', 'Coverage', 'Dev UX'];
@@ -714,7 +714,7 @@ function generateRampsImage() {
   
   // Footer
   drawFooter(ctx, [
-    { value: '20+', label: 'Providers Compared' },
+    { value: 'Compared', label: 'Providers' },
     { value: '160+', label: 'Max Countries' },
     { value: 'Global', label: 'Coverage' },
   ]);
@@ -809,7 +809,7 @@ function generateRampsDetailsImage() {
 
   // Footer
   drawFooter(ctx, [
-    { value: '20+', label: 'Providers Compared' },
+    { value: 'Compared', label: 'Providers' },
     { value: 'Both', label: 'On/Off-Ramp' },
     { value: 'Global', label: 'Coverage' },
   ]);
@@ -857,25 +857,25 @@ function generateExploreImage() {
     {
       icon: '💻',
       title: 'Software Wallets',
-      count: '24+',
+      count: 'Compared',
       desc: 'Browser & mobile wallets',
     },
     {
       icon: '🔐',
       title: 'Hardware Wallets',
-      count: '23+',
+      count: 'Compared',
       desc: 'Cold storage devices',
     },
     {
       icon: '💳',
       title: 'Crypto Cards',
-      count: '27+',
+      count: 'Compared',
       desc: 'Debit & credit cards',
     },
     {
       icon: '🔄',
       title: 'Ramps',
-      count: '20+',
+      count: 'Compared',
       desc: 'On/off-ramp providers',
     },
   ];
@@ -925,7 +925,7 @@ function generateExploreImage() {
 
   // Footer
   drawFooter(ctx, [
-    { value: '74+', label: 'Total Options' },
+    { value: 'All Options', label: 'Total' },
     { value: 'Side-by-Side', label: 'Comparison' },
     { value: 'Live TVL', label: 'DeFiLlama Data' },
   ]);

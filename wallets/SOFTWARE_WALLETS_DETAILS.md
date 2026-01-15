@@ -12,7 +12,7 @@
 
 ## Table of Contents
 
-- [Complete Wallet Comparison](./SOFTWARE_WALLETS.md#complete-wallet-comparison-all-24-evm-wallets) (Table View)
+- [Complete Wallet Comparison](./SOFTWARE_WALLETS.md#complete-wallet-comparison) (Table View)
 - [Quick Recommendations](#-quick-recommendations)
 - [GitHub Metrics](#github-metrics-stars-issues-code-quality)
 - [Scoring Methodology](#-wallet-scores-developer-focused-methodology)
@@ -37,9 +37,9 @@
 ---
 ## 🎯 Quick Recommendations
 
-**Quick Answers:** Best for development? **Rabby** (92). Most stable? **Trust** (85). Best code quality? **Rainbow** (82). Why not MetaMask? **MetaMask** (73) has ~8 rel/mo = too much churn. See [full comparison table](#complete-wallet-comparison-all-24-evm-wallets) for all 24 wallets.
+**Quick Answers:** Best for development? **Rabby** (92). Most stable? **Trust** (85). Best code quality? **Rainbow** (82). Why not MetaMask? **MetaMask** (73) has ~8 rel/mo = too much churn. See [full comparison table](#complete-wallet-comparison) for all wallets.
 
-**Jump to:** [Comparison Table](#complete-wallet-comparison-all-24-evm-wallets) | [Scoring Methodology](#-wallet-scores-weighted-methodology) | [Features Matrix](#wallet-features-matrix) | [EIP Support](#-eip-support-matrix) | [Developer Experience](#-developer-experience-benchmarks)
+**Jump to:** [Comparison Table](#complete-wallet-comparison) | [Scoring Methodology](#-wallet-scores-weighted-methodology) | [Features Matrix](#wallet-features-matrix) | [EIP Support](#-eip-support-matrix) | [Developer Experience](#-developer-experience-benchmarks)
 
 ### ✅ Top Picks (Meet Core Criteria: Mobile + Browser Extension)
 

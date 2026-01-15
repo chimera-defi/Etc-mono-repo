@@ -1,6 +1,6 @@
 # Crypto Wallet Comparison for Developers
 
-## Complete Wallet Comparison (All 26 Wallets)
+## Complete Wallet Comparison
 
 | Wallet | Score | Core | Rel/Mo | RPC | GitHub | Active | Chains | Devices | Testnets | License | API | Audits | Funding | Tx Sim | Scam | Account | ENS/Naming | HW | Best For | Rec |
 |--------|-------|------|--------|-----|--------|--------|--------|---------|----------|---------|-----|--------|---------|--------|------|---------|------------|-----|----------|-----|

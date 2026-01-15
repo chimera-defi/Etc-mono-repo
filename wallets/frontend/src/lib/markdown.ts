@@ -19,7 +19,7 @@ export interface MarkdownDocument {
 const DOCUMENT_CONFIG: Record<string, Omit<MarkdownDocument, 'slug' | 'content'>> = {
   'SOFTWARE_WALLETS.md': {
     title: 'Software Wallet Comparison',
-    description: 'Developer-focused comparison of 24 EVM wallets with scoring, security audits, and recommendations',
+    description: 'Developer-focused comparison of software wallets with scoring, security audits, and recommendations',
     category: 'comparison',
     order: 1,
   },
@@ -31,7 +31,7 @@ const DOCUMENT_CONFIG: Record<string, Omit<MarkdownDocument, 'slug' | 'content'>
   },
   'HARDWARE_WALLETS.md': {
     title: 'Hardware Wallet Comparison',
-    description: 'Cold storage comparison of 23 hardware wallets with security features and GitHub metrics',
+    description: 'Cold storage comparison of hardware wallets with security features and GitHub metrics',
     category: 'comparison',
     order: 2,
   },
@@ -43,7 +43,7 @@ const DOCUMENT_CONFIG: Record<string, Omit<MarkdownDocument, 'slug' | 'content'>
   },
   'CRYPTO_CARDS.md': {
     title: 'Crypto Credit Card Comparison',
-    description: 'Comparison of 27 crypto credit and debit cards with cashback rates, fees, and provider groupings',
+    description: 'Comparison of crypto credit cards.',
     category: 'comparison',
     order: 3,
   },
@@ -55,7 +55,7 @@ const DOCUMENT_CONFIG: Record<string, Omit<MarkdownDocument, 'slug' | 'content'>
   },
   'RAMPS.md': {
     title: 'Crypto On/Off-Ramp Comparison',
-    description: 'Comparison of crypto on-ramp and off-ramp providers with fees, coverage, and developer experience',
+    description: 'Comparison of crypto on-ramp and off-ramp providers with fees, coverage, and developer experience.',
     category: 'comparison',
     order: 4,
   },
@@ -213,16 +213,19 @@ export function getWalletStats(documents: MarkdownDocument[]): {
   softwareWallets: number;
   hardwareWallets: number;
   cryptoCards: number;
+  ramps: number;
   lastUpdated: string;
 } {
   const softwareDoc = documents.find(d => d.slug === 'software-wallets' || d.slug === 'software-wallets-details');
   const hardwareDoc = documents.find(d => d.slug === 'hardware-wallets' || d.slug === 'hardware-wallets-details');
   const cryptoCardDoc = documents.find(d => d.slug === 'crypto-cards' || d.slug === 'crypto-cards-details');
+  const rampsDoc = documents.find(d => d.slug === 'ramps' || d.slug === 'ramps-details');
   
   // Count wallets from tables (rough estimate from content)
   const softwareCount = softwareDoc?.content.match(/\|\s+\*\*[^|]+\*\*\s+\|/g)?.length || 24;
   const hardwareCount = hardwareDoc?.content.match(/\|\s+\[?\*\*[^|]+\*\*\]?\s+\|/g)?.length || 23;
   const cryptoCardCount = cryptoCardDoc?.content.match(/\|\s+\*\*[^|]+\*\*\s+\|/g)?.length || 27;
+  const rampsCount = rampsDoc?.content.match(/\|\s+\*\*[^|]+\*\*\s+\|/g)?.length || 20;
   
   const latestUpdate = documents
     .filter(d => d.lastUpdated)
@@ -234,6 +237,7 @@ export function getWalletStats(documents: MarkdownDocument[]): {
     softwareWallets: softwareCount,
     hardwareWallets: hardwareCount,
     cryptoCards: cryptoCardCount,
+    ramps: rampsCount,
     lastUpdated: latestUpdate,
   };
 }
