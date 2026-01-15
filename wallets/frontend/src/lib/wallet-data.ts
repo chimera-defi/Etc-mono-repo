@@ -549,6 +549,26 @@ export function getAllWalletData(): {
   };
 }
 
+export type WalletType = 'software' | 'hardware' | 'cards' | 'ramps';
+
+export function getWalletsByType(type: WalletType): WalletData[] {
+  switch (type) {
+    case 'software':
+      return parseSoftwareWallets();
+    case 'hardware':
+      return parseHardwareWallets();
+    case 'cards':
+      return parseCryptoCards();
+    case 'ramps':
+      return parseRamps();
+  }
+}
+
+export function getWalletById(type: WalletType, id: string): WalletData | null {
+  const wallets = getWalletsByType(type);
+  return wallets.find(wallet => wallet.id === id) ?? null;
+}
+
 /**
  * Programmatic filtering/sorting utilities.
  *

@@ -1,11 +1,39 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, Shield, Box } from 'lucide-react';
+import { ArrowRight, Shield } from 'lucide-react';
 import { getHardwareWalletCompanies } from '@/lib/wallet-data';
+
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
+const ogImageVersion = 'v4';
 
 export const metadata: Metadata = {
   title: 'Hardware Wallet Companies | Wallet Radar',
   description: 'Aggregated scores and statistics for hardware wallet manufacturers. Compare companies based on average wallet security scores.',
+  openGraph: {
+    title: 'Hardware Wallet Companies | Wallet Radar',
+    description: 'Aggregated scores and statistics for hardware wallet manufacturers. Compare companies based on average wallet security scores.',
+    url: `${baseUrl}/companies/`,
+    type: 'website',
+    images: [
+      {
+        url: `${baseUrl}/og-image.png?${ogImageVersion}`,
+        width: 1200,
+        height: 630,
+        alt: 'Hardware wallet companies comparison',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Hardware Wallet Companies | Wallet Radar',
+    description: 'Aggregated scores and statistics for hardware wallet manufacturers.',
+    creator: '@chimeradefi',
+    site: '@chimeradefi',
+    images: [`${baseUrl}/og-image.png?${ogImageVersion}`],
+  },
+  alternates: {
+    canonical: `${baseUrl}/companies/`,
+  },
 };
 
 export default function CompaniesPage() {
@@ -58,7 +86,7 @@ export default function CompaniesPage() {
                         {company.wallets.map(wallet => (
                           <Link 
                             key={wallet.id}
-                            href={`/explore?tab=hardware&search=${encodeURIComponent(wallet.name)}`}
+                            href={`/wallets/hardware/${wallet.id}`}
                             className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border border-border hover:border-primary/50 hover:bg-primary/5 transition-colors"
                           >
                             <Shield className="h-3 w-3" />
