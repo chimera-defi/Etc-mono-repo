@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { getAllDocuments } from '@/lib/markdown';
+import { getAllWalletData } from '@/lib/wallet-data';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
 
@@ -26,6 +27,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: currentDate,
       changeFrequency: 'weekly',
       priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/companies/`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: 0.7,
     },
   ];
 
@@ -56,8 +63,37 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
   });
 
+  const { software, hardware, cards, ramps } = getAllWalletData();
+  const walletRoutes: MetadataRoute.Sitemap = [
+    ...software.map(wallet => ({
+      url: `${baseUrl}/wallets/software/${wallet.id}/`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    })),
+    ...hardware.map(wallet => ({
+      url: `${baseUrl}/wallets/hardware/${wallet.id}/`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    })),
+    ...cards.map(wallet => ({
+      url: `${baseUrl}/wallets/cards/${wallet.id}/`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly',
+      priority: 0.6,
+    })),
+    ...ramps.map(wallet => ({
+      url: `${baseUrl}/wallets/ramps/${wallet.id}/`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly',
+      priority: 0.6,
+    })),
+  ];
+
   return [
     ...staticRoutes,
     ...documentRoutes,
+    ...walletRoutes,
   ];
 }
