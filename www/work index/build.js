@@ -18,9 +18,20 @@ const html = `<!doctype html>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <main class="container">
-      ${content}
-    </main>
+    <div class="page">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark"></span>
+          <span class="brand-text">Work Index</span>
+        </div>
+        <p class="brand-subtitle">Markdown-sourced portfolio</p>
+      </header>
+      <main class="container">
+        <article class="content">
+          ${content}
+        </article>
+      </main>
+    </div>
   </body>
 </html>
 `;
