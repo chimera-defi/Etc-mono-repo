@@ -48,7 +48,11 @@ applications:
                     echo "This PR does not modify wallets/frontend/, wallets/*.md, or amplify.yml"
                     echo "Skipping Amplify preview build to save resources."
                     echo ""
-                    exit 1
+
+                    # Mark skip so the build phase can no-op successfully.
+                    # (Exiting non-zero fails Amplify; we want a green, empty preview.)
+                    touch wallets/frontend/.amplify-skip-build
+                    exit 0
                   fi
 
                   echo ""
@@ -67,7 +71,16 @@ applications:
               npm ci
         build:
           commands:
-            - npm run build
+            - |
+              set -e
+
+              if [ -f .amplify-skip-build ]; then
+                echo "Skipping build (no wallet frontend changes)."
+                mkdir -p out
+                exit 0
+              fi
+
+              npm run build
       artifacts:
         # Static export generates files in 'out' directory
         baseDirectory: out
@@ -77,3 +90,20 @@ applications:
         paths:
           - 'node_modules/**/*'
           - '.next/cache/**/*'
+
+  - appRoot: www/portfolio
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - npm ci
+        build:
+          commands:
+            - npm run build
+      artifacts:
+        baseDirectory: dist
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - 'node_modules/**/*'
