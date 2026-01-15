@@ -1,6 +1,6 @@
 # Crypto On/Off-Ramp Comparison (Crypto-Only)
 
-## Complete Ramp Comparison (All 20 Providers)
+## Complete Ramp Comparison
 
 | Provider | Score | Type | On-Ramp | Off-Ramp | Coverage | Fee Model | Min Fee | Dev UX | Status | Best For |
 |----------|-------|------|---------|----------|----------|-----------|---------|--------|--------|----------|
