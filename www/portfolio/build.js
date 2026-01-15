@@ -19,7 +19,7 @@ const html = `<!doctype html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Work Index</title>
+    <title>Portfolio</title>
     <link rel="stylesheet" href="../style.css" />
   </head>
   <body>
@@ -27,7 +27,7 @@ const html = `<!doctype html>
       <header class="topbar">
         <div class="brand">
           <span class="brand-mark"></span>
-          <span class="brand-text">Work Index</span>
+          <span class="brand-text">Portfolio</span>
         </div>
         <p class="brand-subtitle">Markdown-sourced portfolio</p>
       </header>

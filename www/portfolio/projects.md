@@ -1,4 +1,4 @@
-# Work Index
+# Portfolio
 
 A living list of my shipped projects.
 
