@@ -369,25 +369,25 @@ export default function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           <StatsCard
             label="Software Wallets"
-            value="Compared"
+            value={`${stats.softwareWallets}+`}
             description="EVM-compatible wallets compared"
             icon={<Shield className="h-5 w-5" />}
           />
           <StatsCard
             label="Hardware Wallets"
-            value="Compared"
+            value={`${stats.hardwareWallets}+`}
             description="Cold storage devices reviewed"
             icon={<Cpu className="h-5 w-5" />}
           />
           <StatsCard
             label="Crypto Cards"
-            value="Compared"
+            value={`${stats.cryptoCards}+`}
             description="Credit & debit cards compared"
             icon={<CreditCard className="h-5 w-5" />}
           />
           <StatsCard
             label="Ramps"
-            value="Compared"
+            value={`${stats.ramps}+`}
             description="On/off-ramp providers compared"
             icon={<ArrowLeftRight className="h-5 w-5" />}
           />
