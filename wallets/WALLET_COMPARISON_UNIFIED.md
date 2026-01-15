@@ -10,7 +10,7 @@
 
 ## Table of Contents
 
-- [Complete Wallet Comparison](#complete-wallet-comparison-all-24-evm-wallets)
+- [Complete Wallet Comparison](#complete-wallet-comparison)
 - [Quick Recommendations](#-quick-recommendations)
 - [Desktop App Wallets (Frame-like)](#-desktop-app-wallets-frame-like-architecture)
 - [GitHub Metrics](#github-metrics-stars-issues-code-quality)
@@ -35,7 +35,7 @@
 
 ---
 
-## Complete Wallet Comparison (All 26 Wallets)
+## Complete Wallet Comparison
 
 | Wallet | Score | Core | Rel/Mo | RPC | GitHub | Active | Chains | Devices | Testnets | License | API | Audits | Funding | Tx Sim | Scam | Account | ENS/Naming | HW | Best For | Rec |
 |--------|-------|------|--------|-----|--------|--------|--------|---------|----------|---------|-----|--------|---------|--------|------|---------|------------|-----|----------|-----|
@@ -119,9 +119,9 @@
 
 ## 🎯 Quick Recommendations
 
-**Quick Answers:** Best for development? **Rabby** (92). Most stable? **Trust** (85). Best code quality? **Rainbow** (82). Why not MetaMask? **MetaMask** (68) has ~8 rel/mo = too much churn. See [full comparison table](#complete-wallet-comparison-all-24-evm-wallets) for all 24 wallets.
+**Quick Answers:** Best for development? **Rabby** (92). Most stable? **Trust** (85). Best code quality? **Rainbow** (82). Why not MetaMask? **MetaMask** (68) has ~8 rel/mo = too much churn. See [full comparison table](#complete-wallet-comparison) for all wallets.
 
-**Jump to:** [Comparison Table](#complete-wallet-comparison-all-24-evm-wallets) | [Scoring Methodology](#-wallet-scores-weighted-methodology) | [Features Matrix](#wallet-features-matrix) | [EIP Support](#-eip-support-matrix) | [Developer Experience](#-developer-experience-benchmarks)
+**Jump to:** [Comparison Table](#complete-wallet-comparison) | [Scoring Methodology](#-wallet-scores-weighted-methodology) | [Features Matrix](#wallet-features-matrix) | [EIP Support](#-eip-support-matrix) | [Developer Experience](#-developer-experience-benchmarks)
 
 ### ✅ Top Picks (Meet Core Criteria: Mobile + Browser Extension)
 

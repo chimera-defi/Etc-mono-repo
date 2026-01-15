@@ -34,7 +34,7 @@ export default function HomePage() {
         name: 'What makes Wallet Radar different from other wallet comparison sites?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Wallet Radar focuses specifically on developer needs, tracking GitHub activity, release frequency, security audits, and developer experience metrics. We compare 24+ software wallets and 23+ hardware wallets with detailed scoring methodology.',
+          text: 'Wallet Radar focuses specifically on developer needs, tracking GitHub activity, release frequency, security audits, and developer experience metrics. We compare software and hardware wallets with a detailed scoring methodology.',
         },
       },
       {
@@ -82,7 +82,7 @@ export default function HomePage() {
         name: 'Do you compare hardware and software wallets together?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'We maintain separate comparison tables for software wallets (24+ EVM-compatible wallets) and hardware wallets (23+ cold storage devices) due to their different use cases and evaluation criteria.',
+          text: 'We maintain separate comparison tables for software wallets and hardware wallets due to their different use cases and evaluation criteria.',
         },
       },
       {
@@ -369,25 +369,25 @@ export default function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           <StatsCard
             label="Software Wallets"
-            value="24+"
+            value={`${stats.softwareWallets}+`}
             description="EVM-compatible wallets compared"
             icon={<Shield className="h-5 w-5" />}
           />
           <StatsCard
             label="Hardware Wallets"
-            value="23+"
+            value={`${stats.hardwareWallets}+`}
             description="Cold storage devices reviewed"
             icon={<Cpu className="h-5 w-5" />}
           />
           <StatsCard
             label="Crypto Cards"
-            value="27+"
+            value={`${stats.cryptoCards}+`}
             description="Credit & debit cards compared"
             icon={<CreditCard className="h-5 w-5" />}
           />
           <StatsCard
             label="Ramps"
-            value="20+"
+            value={`${stats.ramps}+`}
             description="On/off-ramp providers compared"
             icon={<ArrowLeftRight className="h-5 w-5" />}
           />
