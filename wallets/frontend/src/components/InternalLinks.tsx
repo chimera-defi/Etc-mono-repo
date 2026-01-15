@@ -26,7 +26,7 @@ export function FeaturedCategoryLinks() {
             <h3 className="font-semibold text-lg">Software Wallets</h3>
           </div>
           <p className="text-sm text-muted-foreground mb-4">
-            Compare 24+ EVM wallets. Transaction simulation, scam alerts, multi-chain support, and developer features.
+            Compare EVM wallets. Transaction simulation, scam alerts, multi-chain support, and developer features.
           </p>
           <span className="text-sm text-primary inline-flex items-center gap-1 group-hover:underline">
             View comparison
@@ -44,7 +44,7 @@ export function FeaturedCategoryLinks() {
             <h3 className="font-semibold text-lg">Hardware Wallets</h3>
           </div>
           <p className="text-sm text-muted-foreground mb-4">
-            Compare 23+ cold storage devices. Air-gap security, secure elements, open source firmware, and pricing.
+            Compare cold storage devices. Air-gap security, secure elements, open source firmware, and pricing.
           </p>
           <span className="text-sm text-primary inline-flex items-center gap-1 group-hover:underline">
             View comparison
@@ -62,7 +62,7 @@ export function FeaturedCategoryLinks() {
             <h3 className="font-semibold text-lg">Crypto Cards</h3>
           </div>
           <p className="text-sm text-muted-foreground mb-4">
-            Compare 27+ crypto cards. Cashback rates, annual fees, regional availability, and rewards programs.
+            Compare crypto credit cards. Cashback rates, annual fees, regional availability, and rewards programs.
           </p>
           <span className="text-sm text-primary inline-flex items-center gap-1 group-hover:underline">
             View comparison
@@ -80,7 +80,7 @@ export function FeaturedCategoryLinks() {
             <h3 className="font-semibold text-lg">Ramps</h3>
           </div>
           <p className="text-sm text-muted-foreground mb-4">
-            Compare 20+ on/off-ramp providers. Coverage, fees, developer experience, and integration options.
+            Compare on/off-ramp providers. Coverage, fees, developer experience, and integration options.
           </p>
           <span className="text-sm text-primary inline-flex items-center gap-1 group-hover:underline">
             View comparison

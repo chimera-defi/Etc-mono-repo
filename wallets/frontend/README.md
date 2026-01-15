@@ -312,7 +312,7 @@ Ready-to-use templates for promoting Wallet Radar:
 ```
 Stop gambling on wallet updates breaking your dApp tests.
 
-We've tracked GitHub activity, release frequency, and security audits for 24+ wallets to find the most STABLE MetaMask alternatives.
+We've tracked GitHub activity, release frequency, and security audits to find the most STABLE MetaMask alternatives.
 
 Rabby scored highest (92/100).
 
@@ -325,7 +325,7 @@ Full comparison → walletradar.org/docs/software-wallets/
 ```
 Looking for a Ledger alternative after the Recover controversy?
 
-We've scored 23+ hardware wallets on:
+We've scored hardware wallets on:
 🔐 Security architecture
 🔓 Open source firmware
 📊 Development activity
@@ -340,7 +340,7 @@ walletradar.org/docs/hardware-wallets/
 ```
 Tired of searching for the best crypto card?
 
-We compared 27+ crypto debit & credit cards:
+We compared crypto debit & credit cards:
 💳 Cashback rates (up to 10%)
 🌍 Availability (US/EU/Global)
 💰 Fees & requirements
@@ -353,9 +353,9 @@ walletradar.org/docs/crypto-cards/
 📡 Wallet Radar
 
 Developer-focused crypto wallet research:
-• 24+ software wallets compared
-• 23+ hardware wallets reviewed
-• 27+ crypto cards analyzed
+• software wallets compared
+• hardware wallets reviewed
+• crypto cards analyzed
 
 Free. Open source. No affiliate links (currently).
 
