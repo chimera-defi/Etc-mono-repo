@@ -3,38 +3,21 @@
  */
 
 /**
- * Get page-specific OG image based on slug
- * Falls back to default og-image.png if no specific image exists
- *
- * Table pages show comparison data, Details pages show recommendations/guides
+ * Get page-specific OG image based on slug.
+ * Falls back to the default og-image.svg if no specific image exists.
  */
 export function getOgImagePath(slug: string): string {
   const imageMap: Record<string, string> = {
-    // Software wallet pages - TABLE versions (show comparison data)
-    'software-wallets': '/og-software-wallets-table.png',
-
-    // Software wallet pages - DETAILS versions (show recommendations)
-    'software-wallets-details': '/og-software-wallets-details.png',
-
-    // Hardware wallet pages - TABLE versions (show comparison data)
-    'hardware-wallets': '/og-hardware-wallets-table.png',
-
-    // Hardware wallet pages - DETAILS versions (show recommendations)
-    'hardware-wallets-details': '/og-hardware-wallets-details.png',
-
-    // Crypto card pages - TABLE versions (show comparison data)
-    'crypto-cards': '/og-crypto-cards-table.png',
-
-    // Crypto card pages - DETAILS versions (show recommendations)
-    'crypto-cards-details': '/og-crypto-cards-details.png',
-
-    // Ramp pages - TABLE versions (show comparison data)
-    'ramps': '/og-ramps-table.png',
-
-    // Ramp pages - DETAILS versions (show recommendations)
-    'ramps-details': '/og-ramps-details.png',
+    'software-wallets': '/og-image.svg',
+    'software-wallets-details': '/og-image.svg',
+    'hardware-wallets': '/og-image.svg',
+    'hardware-wallets-details': '/og-image.svg',
+    'crypto-cards': '/og-image.svg',
+    'crypto-cards-details': '/og-image.svg',
+    'ramps': '/og-image.svg',
+    'ramps-details': '/og-image.svg',
   };
-  return imageMap[slug] || '/og-image.png';
+  return imageMap[slug] || '/og-image.svg';
 }
 
 /**
@@ -210,3 +193,27 @@ export function generateKeywords(
   return Array.from(new Set(allKeywords)).slice(0, 15);
 }
 
+/**
+ * Generate keywords for wallet profile pages.
+ */
+export function generateWalletKeywords(
+  name: string,
+  type: 'software' | 'hardware' | 'cards' | 'ramps'
+): string[] {
+  const baseKeywords = [
+    name,
+    'wallet comparison',
+    'crypto wallet',
+    'developer wallet',
+    'wallet score',
+  ];
+
+  const typeKeywords: Record<typeof type, string[]> = {
+    software: ['software wallet', 'browser extension wallet', 'mobile wallet'],
+    hardware: ['hardware wallet', 'cold storage', 'secure element'],
+    cards: ['crypto card', 'cashback card', 'crypto credit card', 'crypto debit card'],
+    ramps: ['crypto ramp', 'on-ramp', 'off-ramp', 'fiat on-ramp', 'fiat off-ramp'],
+  };
+
+  return Array.from(new Set([...baseKeywords, ...typeKeywords[type]])).slice(0, 15);
+}

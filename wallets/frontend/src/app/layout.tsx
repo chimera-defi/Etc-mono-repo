@@ -12,7 +12,7 @@ const siteName = 'Wallet Radar';
 const defaultTitle = 'Wallet Radar - Developer-Focused Crypto Wallet Research';
 const defaultDescription = 'Independent research and comparison of crypto wallets, hardware wallets, and payment solutions. Scoring, security audits, GitHub activity analysis, and developer experience benchmarks.';
 // Cache-busting version for OG images - increment when images are updated
-const ogImageVersion = 'v4';
+const ogImageVersion = 'v5';
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     description: defaultDescription,
     images: [
       {
-        url: `${baseUrl}/og-image.png?${ogImageVersion}`,
+        url: `${baseUrl}/og-image.svg?${ogImageVersion}`,
         width: 1200,
         height: 630,
         alt: 'Wallet Radar - Developer-Focused Crypto Wallet Research',
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     description: defaultDescription,
     creator: '@chimeradefi',
     site: '@chimeradefi',
-    images: [`${baseUrl}/og-image.png?${ogImageVersion}`],
+    images: [`${baseUrl}/og-image.svg?${ogImageVersion}`],
   },
   robots: {
     index: true,
@@ -101,7 +101,7 @@ export default function RootLayout({
     '@type': 'Organization',
     name: siteName,
     url: baseUrl,
-    logo: `${baseUrl}/logo.png`,
+    logo: `${baseUrl}/logo.svg`,
     description: 'Developer-focused crypto wallet research and comparison platform',
     sameAs: [
       'https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets',
@@ -168,9 +168,7 @@ export default function RootLayout({
         {/* PWA and icons */}
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.svg" />
         <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
         <meta name="theme-color" content="#3b82f6" media="(prefers-color-scheme: light)" />
         <meta name="apple-mobile-web-app-capable" content="yes" />

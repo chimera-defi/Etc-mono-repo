@@ -5,7 +5,7 @@ import { DocsContent } from './DocsContent';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
 // Cache-busting version for OG images - increment when images are updated
-const ogImageVersion = 'v4';
+const ogImageVersion = 'v5';
 
 export const metadata: Metadata = {
   title: 'Documentation',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: `${baseUrl}/og-image.png?${ogImageVersion}`,
+        url: `${baseUrl}/og-image.svg?${ogImageVersion}`,
         width: 1200,
         height: 630,
         alt: 'Wallet Radar Documentation',
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     description: 'Browse all wallet comparison documentation, guides, and research.',
     creator: '@chimeradefi',
     site: '@chimeradefi',
-    images: [`${baseUrl}/og-image.png?${ogImageVersion}`],
+    images: [`${baseUrl}/og-image.svg?${ogImageVersion}`],
   },
   alternates: {
     canonical: `${baseUrl}/docs/`,

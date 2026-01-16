@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { getAllDocuments } from '@/lib/markdown';
+import { getAllWalletData } from '@/lib/wallet-data';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
 
@@ -12,20 +13,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: `${baseUrl}/`,
       lastModified: currentDate,
-      changeFrequency: 'weekly',
+      changeFrequency: 'weekly' as const,
       priority: 1.0,
     },
     {
       url: `${baseUrl}/explore/`,
       lastModified: currentDate,
-      changeFrequency: 'weekly',
+      changeFrequency: 'weekly' as const,
       priority: 0.95,
     },
     {
       url: `${baseUrl}/docs/`,
       lastModified: currentDate,
-      changeFrequency: 'weekly',
+      changeFrequency: 'weekly' as const,
       priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/companies/`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
     },
   ];
 
@@ -48,16 +55,48 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const isComparisonTable = !doc.slug.includes('-details') && ['software-wallets', 'hardware-wallets', 'crypto-cards', 'ramps'].includes(doc.slug);
     const isComparisonDetails = doc.slug.includes('-details');
 
+    const changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'] =
+      doc.category === 'comparison' ? 'weekly' : 'monthly';
+
     return {
       url: `${baseUrl}/docs/${doc.slug}/`,
       lastModified,
-      changeFrequency: doc.category === 'comparison' ? 'weekly' : 'monthly',
+      changeFrequency,
       priority: isComparisonTable ? 0.9 : isComparisonDetails ? 0.85 : 0.7,
     };
   });
 
+  const { software, hardware, cards, ramps } = getAllWalletData();
+  const walletRoutes: MetadataRoute.Sitemap = [
+    ...software.map(wallet => ({
+      url: `${baseUrl}/wallets/software/${wallet.id}/`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    })),
+    ...hardware.map(wallet => ({
+      url: `${baseUrl}/wallets/hardware/${wallet.id}/`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    })),
+    ...cards.map(wallet => ({
+      url: `${baseUrl}/wallets/cards/${wallet.id}/`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly' as const,
+      priority: 0.6,
+    })),
+    ...ramps.map(wallet => ({
+      url: `${baseUrl}/wallets/ramps/${wallet.id}/`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly' as const,
+      priority: 0.6,
+    })),
+  ];
+
   return [
     ...staticRoutes,
     ...documentRoutes,
+    ...walletRoutes,
   ];
 }
