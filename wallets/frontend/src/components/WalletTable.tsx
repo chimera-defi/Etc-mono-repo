@@ -13,6 +13,7 @@ import {
   Zap,
   AlertTriangle,
 } from 'lucide-react';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Tooltip, HeaderTooltip } from '@/components/Tooltip';
 import {
@@ -50,6 +51,10 @@ const chainIcons: { key: keyof Omit<SupportedChains, 'raw' | 'other'>; src: stri
   { key: 'polkadot', src: '/chains/polkadot.svg', alt: 'Polkadot', tooltip: commonTooltips.chains.polkadot },
   { key: 'starknet', src: '/chains/starknet.svg', alt: 'Starknet', tooltip: commonTooltips.chains.starknet },
 ];
+
+function getWalletDetailHref(type: 'software' | 'hardware' | 'cards' | 'ramps', id: string) {
+  return `/wallets/${type}/${id}`;
+}
 
 // Component to render chain icons
 function ChainIcons({ chains }: { chains: SupportedChains }) {
@@ -231,11 +236,13 @@ function SoftwareWalletItem({
   isSelected,
   onToggleSelect,
   viewMode,
+  detailHref,
 }: {
   wallet: SoftwareWallet;
   isSelected: boolean;
   onToggleSelect: () => void;
   viewMode: 'grid' | 'table';
+  detailHref: string;
 }) {
   if (viewMode === 'table') {
     return (
@@ -257,7 +264,9 @@ function SoftwareWalletItem({
           <div className="flex items-center gap-3">
             <ScoreBadge score={wallet.score} />
             <div>
-              <div className="font-semibold">{wallet.name}</div>
+              <Link href={detailHref} className="font-semibold hover:underline">
+                {wallet.name}
+              </Link>
               <div className="text-sm text-muted-foreground">{wallet.bestFor}</div>
             </div>
           </div>
@@ -314,7 +323,9 @@ function SoftwareWalletItem({
         <div className="flex items-center gap-3">
           <ScoreBadge score={wallet.score} />
           <div>
-            <h3 className="font-semibold">{wallet.name}</h3>
+            <Link href={detailHref} className="font-semibold hover:underline">
+              {wallet.name}
+            </Link>
             <RecommendationBadge recommendation={wallet.recommendation} />
           </div>
         </div>
@@ -389,11 +400,13 @@ function HardwareWalletItem({
   isSelected,
   onToggleSelect,
   viewMode,
+  detailHref,
 }: {
   wallet: HardwareWallet;
   isSelected: boolean;
   onToggleSelect: () => void;
   viewMode: 'grid' | 'table';
+  detailHref: string;
 }) {
   if (viewMode === 'table') {
     return (
@@ -415,7 +428,9 @@ function HardwareWalletItem({
           <div className="flex items-center gap-3">
             <ScoreBadge score={wallet.score} />
             <div>
-              <div className="font-semibold">{wallet.name}</div>
+              <Link href={detailHref} className="font-semibold hover:underline">
+                {wallet.name}
+              </Link>
               <div className="text-sm text-muted-foreground">{wallet.priceText}</div>
             </div>
           </div>
@@ -490,7 +505,9 @@ function HardwareWalletItem({
         <div className="flex items-center gap-3">
           <ScoreBadge score={wallet.score} />
           <div>
-            <h3 className="font-semibold">{wallet.name}</h3>
+            <Link href={detailHref} className="font-semibold hover:underline">
+              {wallet.name}
+            </Link>
             <RecommendationBadge recommendation={wallet.recommendation} />
           </div>
         </div>
@@ -565,11 +582,13 @@ function CryptoCardItem({
   isSelected,
   onToggleSelect,
   viewMode,
+  detailHref,
 }: {
   card: CryptoCard;
   isSelected: boolean;
   onToggleSelect: () => void;
   viewMode: 'grid' | 'table';
+  detailHref: string;
 }) {
   if (viewMode === 'table') {
     return (
@@ -591,19 +610,21 @@ function CryptoCardItem({
           <div className="flex items-center gap-3">
             <ScoreBadge score={card.score} />
             <div>
-              {card.providerUrl ? (
-                <a
-                  href={card.providerUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-semibold text-foreground hover:text-primary hover:underline inline-flex items-center gap-1"
-                >
+              <div className="flex items-center gap-2">
+                <Link href={detailHref} className="font-semibold hover:underline">
                   {card.name}
-                  <ExternalLink className="h-3 w-3 text-muted-foreground" />
-                </a>
-              ) : (
-                <div className="font-semibold">{card.name}</div>
-              )}
+                </Link>
+                {card.providerUrl && (
+                  <a
+                    href={card.providerUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                )}
+              </div>
               <div className="text-sm text-muted-foreground">{card.bestFor}</div>
             </div>
           </div>
@@ -647,19 +668,21 @@ function CryptoCardItem({
         <div className="flex items-center gap-3">
           <ScoreBadge score={card.score} />
           <div>
-            {card.providerUrl ? (
-              <a
-                href={card.providerUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-semibold text-foreground hover:text-primary hover:underline inline-flex items-center gap-1"
-              >
+            <div className="flex items-center gap-2">
+              <Link href={detailHref} className="font-semibold hover:underline">
                 {card.name}
-                <ExternalLink className="h-3 w-3 text-muted-foreground" />
-              </a>
-            ) : (
-              <h3 className="font-semibold">{card.name}</h3>
-            )}
+              </Link>
+              {card.providerUrl && (
+                <a
+                  href={card.providerUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  <ExternalLink className="h-3 w-3" />
+                </a>
+              )}
+            </div>
             <Badge variant="info" tooltip={cryptoCardTooltips.cardType[card.cardType]}>{card.cardType}</Badge>
           </div>
         </div>
@@ -722,11 +745,13 @@ function RampItem({
   isSelected,
   onToggleSelect,
   viewMode,
+  detailHref,
 }: {
   ramp: Ramp;
   isSelected: boolean;
   onToggleSelect: () => void;
   viewMode: 'grid' | 'table';
+  detailHref: string;
 }) {
   if (viewMode === 'table') {
     return (
@@ -749,18 +774,9 @@ function RampItem({
             <ScoreBadge score={ramp.score} />
             <div>
               <div className="font-semibold">
-                {ramp.url ? (
-                  <a
-                    href={ramp.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-foreground hover:text-primary hover:underline"
-                  >
-                    {ramp.name}
-                  </a>
-                ) : (
-                  ramp.name
-                )}
+                <Link href={detailHref} className="text-foreground hover:text-primary hover:underline">
+                  {ramp.name}
+                </Link>
               </div>
               <div className="text-sm text-muted-foreground">{ramp.bestFor}</div>
             </div>
@@ -828,7 +844,9 @@ function RampItem({
         <div className="flex items-center gap-3">
           <ScoreBadge score={ramp.score} />
           <div>
-            <h3 className="font-semibold">{ramp.name}</h3>
+            <Link href={detailHref} className="font-semibold hover:underline">
+              {ramp.name}
+            </Link>
             <RecommendationBadge recommendation={ramp.recommendation} />
           </div>
         </div>
@@ -1030,6 +1048,7 @@ export function WalletTable<T extends WalletData>({
                     isSelected={isSelected}
                     onToggleSelect={() => onToggleSelect(wallet.id)}
                     viewMode="table"
+                    detailHref={getWalletDetailHref('software', wallet.id)}
                   />
                 );
               }
@@ -1041,6 +1060,7 @@ export function WalletTable<T extends WalletData>({
                     isSelected={isSelected}
                     onToggleSelect={() => onToggleSelect(wallet.id)}
                     viewMode="table"
+                    detailHref={getWalletDetailHref('hardware', wallet.id)}
                   />
                 );
               }
@@ -1052,6 +1072,7 @@ export function WalletTable<T extends WalletData>({
                     isSelected={isSelected}
                     onToggleSelect={() => onToggleSelect(wallet.id)}
                     viewMode="table"
+                    detailHref={getWalletDetailHref('cards', wallet.id)}
                   />
                 );
               }
@@ -1062,6 +1083,7 @@ export function WalletTable<T extends WalletData>({
                   isSelected={isSelected}
                   onToggleSelect={() => onToggleSelect(wallet.id)}
                   viewMode="table"
+                  detailHref={getWalletDetailHref('ramps', wallet.id)}
                 />
               );
             })}
@@ -1084,6 +1106,7 @@ export function WalletTable<T extends WalletData>({
               isSelected={isSelected}
               onToggleSelect={() => onToggleSelect(wallet.id)}
               viewMode="grid"
+              detailHref={getWalletDetailHref('software', wallet.id)}
             />
           );
         }
@@ -1095,6 +1118,7 @@ export function WalletTable<T extends WalletData>({
               isSelected={isSelected}
               onToggleSelect={() => onToggleSelect(wallet.id)}
               viewMode="grid"
+              detailHref={getWalletDetailHref('hardware', wallet.id)}
             />
           );
         }
@@ -1106,6 +1130,7 @@ export function WalletTable<T extends WalletData>({
               isSelected={isSelected}
               onToggleSelect={() => onToggleSelect(wallet.id)}
               viewMode="grid"
+              detailHref={getWalletDetailHref('cards', wallet.id)}
             />
           );
         }
@@ -1116,6 +1141,7 @@ export function WalletTable<T extends WalletData>({
             isSelected={isSelected}
             onToggleSelect={() => onToggleSelect(wallet.id)}
             viewMode="grid"
+            detailHref={getWalletDetailHref('ramps', wallet.id)}
           />
         );
       })}

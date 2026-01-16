@@ -535,18 +535,53 @@ export function parseRamps(): Ramp[] {
  * Get all wallet data in a single call
  * @future Available for API endpoint implementation
  */
-export function getAllWalletData(): {
+type AllWalletData = {
   software: SoftwareWallet[];
   hardware: HardwareWallet[];
   cards: CryptoCard[];
   ramps: Ramp[];
-} {
-  return {
-    software: parseSoftwareWallets(),
-    hardware: parseHardwareWallets(),
-    cards: parseCryptoCards(),
-    ramps: parseRamps(),
-  };
+};
+
+let cachedAllWalletData: AllWalletData | null = null;
+
+export function getAllWalletData(): AllWalletData {
+  if (!cachedAllWalletData) {
+    cachedAllWalletData = {
+      software: parseSoftwareWallets(),
+      hardware: parseHardwareWallets(),
+      cards: parseCryptoCards(),
+      ramps: parseRamps(),
+    };
+  }
+
+  return cachedAllWalletData;
+}
+
+const WALLET_TYPES = ['software', 'hardware', 'cards', 'ramps'] as const;
+
+export type WalletType = typeof WALLET_TYPES[number];
+
+export function isWalletType(value: string): value is WalletType {
+  return (WALLET_TYPES as readonly string[]).includes(value);
+}
+
+export function getWalletsByType(type: WalletType): WalletData[] {
+  const allWallets = getAllWalletData();
+  switch (type) {
+    case 'software':
+      return allWallets.software;
+    case 'hardware':
+      return allWallets.hardware;
+    case 'cards':
+      return allWallets.cards;
+    case 'ramps':
+      return allWallets.ramps;
+  }
+}
+
+export function getWalletById(type: WalletType, id: string): WalletData | null {
+  const wallets = getWalletsByType(type);
+  return wallets.find(wallet => wallet.id === id) ?? null;
 }
 
 /**

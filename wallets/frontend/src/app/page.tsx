@@ -410,7 +410,11 @@ export default function HomePage() {
               <CheckCircle className="h-5 w-5 text-green-600" />
               <span className="text-sm font-medium text-green-600">Highest Development Activity</span>
             </div>
-            <h3 className="font-bold text-xl mb-2">Rabby Wallet</h3>
+            <h3 className="font-bold text-xl mb-2">
+              <Link href="/wallets/software/rabby-wallet" className="hover:underline">
+                Rabby Wallet
+              </Link>
+            </h3>
             <p className="text-sm text-muted-foreground mb-4">
               Score: 92 — Transaction simulation, transaction preview, scam alerts, ~6 releases/month
             </p>
@@ -425,7 +429,11 @@ export default function HomePage() {
               <Shield className="h-5 w-5 text-blue-600" />
               <span className="text-sm font-medium text-blue-600">Most Recent Open Source</span>
             </div>
-            <h3 className="font-bold text-xl mb-2">Trezor Safe 5</h3>
+            <h3 className="font-bold text-xl mb-2">
+              <Link href="/wallets/hardware/trezor-safe-5" className="hover:underline">
+                Trezor Safe 5
+              </Link>
+            </h3>
             <p className="text-sm text-muted-foreground mb-4">
               Score: 94 — Fully open source firmware, Secure Element chip, recent commits
             </p>
@@ -440,7 +448,11 @@ export default function HomePage() {
               <Zap className="h-5 w-5 text-purple-600" />
               <span className="text-sm font-medium text-purple-600">Budget-Friendly Hardware</span>
             </div>
-            <h3 className="font-bold text-xl mb-2">Trezor Safe 3</h3>
+            <h3 className="font-bold text-xl mb-2">
+              <Link href="/wallets/hardware/trezor-safe-3" className="hover:underline">
+                Trezor Safe 3
+              </Link>
+            </h3>
             <p className="text-sm text-muted-foreground mb-4">
               Score: 91 — Approximately $79, fully open source, Secure Element chip
             </p>
@@ -455,7 +467,11 @@ export default function HomePage() {
               <CreditCard className="h-5 w-5 text-orange-600" />
               <span className="text-sm font-medium text-orange-600">Non-Custodial Card</span>
             </div>
-            <h3 className="font-bold text-xl mb-2">EtherFi Cash</h3>
+            <h3 className="font-bold text-xl mb-2">
+              <Link href="/wallets/cards/etherfi-cash" className="hover:underline">
+                EtherFi Cash
+              </Link>
+            </h3>
             <p className="text-sm text-muted-foreground mb-4">
               Score: 85 — Self-custody control, 2-3% cashback rewards, no annual fee
             </p>
@@ -470,7 +486,11 @@ export default function HomePage() {
               <CreditCard className="h-5 w-5 text-amber-600" />
               <span className="text-sm font-medium text-amber-600">Enterprise-Grade Card</span>
             </div>
-            <h3 className="font-bold text-xl mb-2">EtherFi Cash</h3>
+            <h3 className="font-bold text-xl mb-2">
+              <Link href="/wallets/cards/etherfi-cash" className="hover:underline">
+                EtherFi Cash
+              </Link>
+            </h3>
             <p className="text-sm text-muted-foreground mb-4">
               Score: 85 — Corporate support, self-custody control, 2-3% rewards globally
             </p>
@@ -485,7 +505,11 @@ export default function HomePage() {
               <ArrowLeftRight className="h-5 w-5 text-cyan-600" />
               <span className="text-sm font-medium text-cyan-600">Developer-Friendly Ramp</span>
             </div>
-            <h3 className="font-bold text-xl mb-2">Transak</h3>
+            <h3 className="font-bold text-xl mb-2">
+              <Link href="/wallets/ramps/transak" className="hover:underline">
+                Transak
+              </Link>
+            </h3>
             <p className="text-sm text-muted-foreground mb-4">
               Score: 92 — React SDK integration, 160+ countries support, on/off ramp
             </p>
@@ -500,7 +524,11 @@ export default function HomePage() {
               <ArrowLeftRight className="h-5 w-5 text-teal-600" />
               <span className="text-sm font-medium text-teal-600">Enterprise Solution</span>
             </div>
-            <h3 className="font-bold text-xl mb-2">onesafe</h3>
+            <h3 className="font-bold text-xl mb-2">
+              <Link href="/wallets/ramps/onesafe" className="hover:underline">
+                onesafe
+              </Link>
+            </h3>
             <p className="text-sm text-muted-foreground mb-4">
               Score: 70 — Enterprise API, custom configurations, dedicated support
             </p>
