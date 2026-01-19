@@ -216,6 +216,12 @@ interface ContentSegment {
   id?: string;
 }
 
+// Sections that should contain child headings (e.g., FAQ contains question h3 headers)
+const CONTAINER_SECTIONS = [
+  /^#{1,3}\s+.*Frequently.*Asked.*Questions.*$/im,
+  /^#{1,3}\s+.*FAQ.*$/im,
+];
+
 /**
  * Parse markdown into segments, keeping collapsible sections inline
  */
@@ -224,6 +230,8 @@ function parseInlineCollapsibleSections(content: string): ContentSegment[] {
   const segments: ContentSegment[] = [];
 
   let currentSegment: ContentSegment = { type: 'regular', content: '' };
+  let isInContainerSection = false;
+  let containerLevel = 0;
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
@@ -236,6 +244,21 @@ function parseInlineCollapsibleSections(content: string): ContentSegment[] {
       // Check if this heading should be collapsible
       const collapsibleMatch = COLLAPSIBLE_SECTIONS.find(s => s.pattern.test(line));
       const isPrimary = PRIMARY_SECTIONS.some(p => p.test(line));
+      const isContainer = CONTAINER_SECTIONS.some(p => p.test(line));
+
+      // If we're in a container section (like FAQ), include child headings in the content
+      if (isInContainerSection && currentSegment.type === 'collapsible') {
+        // Check if this heading is a child (deeper level) or sibling/parent (same or shallower level)
+        if (level > containerLevel) {
+          // This is a child heading (e.g., h3 inside h2 FAQ) - include it in the content
+          currentSegment.content += line + '\n';
+          continue;
+        } else {
+          // Same or higher level heading - end the container section
+          isInContainerSection = false;
+          containerLevel = 0;
+        }
+      }
 
       if (collapsibleMatch && !isPrimary) {
         // Save previous segment if it has content
@@ -252,6 +275,12 @@ function parseInlineCollapsibleSections(content: string): ContentSegment[] {
           icon: collapsibleMatch.icon,
           id: headingText.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
         };
+
+        // Mark if this is a container section
+        if (isContainer) {
+          isInContainerSection = true;
+          containerLevel = level;
+        }
       } else {
         // This is a non-collapsible heading
         // If we were in a collapsible section, end it
@@ -260,6 +289,8 @@ function parseInlineCollapsibleSections(content: string): ContentSegment[] {
             segments.push(currentSegment);
           }
           currentSegment = { type: 'regular', content: line + '\n' };
+          isInContainerSection = false;
+          containerLevel = 0;
         } else {
           currentSegment.content += line + '\n';
         }
