@@ -221,15 +221,13 @@ export function getWalletStats(documents: MarkdownDocument[]): {
   const cryptoCardDoc = documents.find(d => d.slug === 'crypto-cards' || d.slug === 'crypto-cards-details');
   const rampsDoc = documents.find(d => d.slug === 'ramps' || d.slug === 'ramps-details');
   
-  // Count wallets from tables - using actual verified counts from markdown files
-  // Software: Rabby to Block (25 wallets)
-  // Hardware: Trezor Safe 7 to BC Vault (32 wallets)
-  // Crypto Cards: Binance Card to Wirex Card (35 cards)
-  // Ramps: Transak to Coinmama (16 providers)
-  const softwareCount = softwareDoc?.content.match(/\|\s+\*\*[^|]+\*\*\s+\|/g)?.length || 25;
-  const hardwareCount = hardwareDoc?.content.match(/\|\s+\[?\*\*[^|]+\*\*\]?\s+\|/g)?.length || 32;
-  const cryptoCardCount = cryptoCardDoc?.content.match(/\|\s+\*\*[^|]+\*\*\s+\|/g)?.length || 35;
-  const rampsCount = rampsDoc?.content.match(/\|\s+\*\*[^|]+\*\*\s+\|/g)?.length || 16;
+  // Count wallets from tables by matching data rows with name + numeric score
+  // Pattern: | **Name** | Score | (NOT | **Name** | **Score** | which is header)
+  // This regex matches: start of line, pipe, spaces, bold text starting with capital letter, spaces, pipe, plain number, spaces, pipe
+  const softwareCount = softwareDoc?.content.match(/^\| \*\*[A-Z][^*]+\*\* \| \d+ \|/gm)?.length || 0;
+  const hardwareCount = hardwareDoc?.content.match(/^\| (?:~~)?\[?\*\*[A-Z][^*]+\*\*\]?(?:~~)? \| \d+ \|/gm)?.length || 0;
+  const cryptoCardCount = cryptoCardDoc?.content.match(/^\| \[?\*\*[A-Z][^*]+\*\*\]? \| \d+ /gm)?.length || 0;
+  const rampsCount = rampsDoc?.content.match(/^\| \[?\*\*[A-Z][^*]+\*\*\]? \| \d+ /gm)?.length || 0;
   
   const latestUpdate = documents
     .filter(d => d.lastUpdated)
