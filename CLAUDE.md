@@ -13,9 +13,24 @@
 
 | Check | Location | Action |
 |-------|----------|--------|
-| Commit hook | `.git/hooks/commit-msg` | Warns on missing agent attribution |
-| CI check | `.github/workflows/pr-attribution-check.yml` | Validates PR descriptions |
-| PR template | `.github/pull_request_template.md` | Auto-fills attribution fields |
+| CI check | `.github/workflows/pr-attribution-check.yml` | Validates PR has **Agent:**, **Co-authored-by:**, and **## Original Request** |
+| PR template | `.github/pull_request_template.md` | Auto-fills required attribution fields |
+
+**Required PR Format:**
+```markdown
+**Agent:** Claude Sonnet 4.5
+
+**Co-authored-by:** Chimera <chimera_defi@protonmail.com>
+
+## Summary
+[What was changed]
+
+## Original Request
+> [User's original prompt]
+
+## Changes Made
+- [List of changes]
+```
 
 ## Wallets Frontend
 
@@ -57,6 +72,7 @@ Before completing any task:
 | #47 | Chains ≠ tokens |
 | #116 | Include model name in PRs |
 | #117 | Include model name in commits |
+| #122 | Include Co-authored-by: Name <email> in PRs |
 | #140 | Install MCP CLI before using |
 | #146 | Store knowledge in memory server |
 
