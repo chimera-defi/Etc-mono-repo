@@ -34,6 +34,7 @@ import {
   Zap,
   BookOpen,
   Target,
+  HelpCircle,
   type LucideIcon
 } from 'lucide-react';
 
@@ -193,6 +194,9 @@ const COLLAPSIBLE_SECTIONS: { pattern: RegExp; icon: LucideIcon }[] = [
   { pattern: /^#{1,3}\s+.*GitHub.*Metrics.*$/im, icon: Code },
   // Table of Contents
   { pattern: /^#{1,3}\s+.*Table.*of.*Contents.*$/im, icon: FileText },
+  // Frequently Asked Questions
+  { pattern: /^#{1,3}\s+.*Frequently.*Asked.*Questions.*$/im, icon: HelpCircle },
+  { pattern: /^#{1,3}\s+.*FAQ.*$/im, icon: HelpCircle },
 ];
 
 // Patterns for primary content that should NEVER be collapsed

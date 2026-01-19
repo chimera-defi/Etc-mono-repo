@@ -110,10 +110,54 @@
 
 ## Quick Summary
 
-> **TL;DR:** Use **Rabby** (92) for development (tx simulation + stability), **Trust** (85) or **Rainbow** (82) for production. Use **MetaMask** (68) last for compatibility only — it has ~8 releases/month which is too much churn. Only wallets with ✅ in the "Core" column have both mobile + browser extension.
+> **TL;DR:** Use **Rabby** (92) for development (tx simulation + stability), **Trust** (85) or **Rainbow** (77) for production. Use **MetaMask** (68) last for compatibility only — it has ~8 releases/month which is too much churn. Only wallets with ✅ in the "Core" column have both mobile + browser extension.
 
 **Data Sources:** GitHub REST API (Nov 2024, activity Nov 2025), [WalletBeat](https://walletbeat.fyi) (Dec 2025)
 
 **Related:** See [Hardware Wallet Comparison](./HARDWARE_WALLETS.md) for cold storage recommendations.
 
 > 📖 **Want more details?** See the [full documentation with recommendations, methodology, security audits, and more](./SOFTWARE_WALLETS_DETAILS.md).
+
+---
+
+## Frequently Asked Questions
+
+### What is the best software wallet for developers?
+
+**Rabby Wallet** (92/100) is the top choice for developers, featuring transaction simulation that previews every transaction before signing, scam alerts, support for 120+ chains, and stable development with ~6 releases per month. It works on desktop (browser extension) and mobile (iOS/Android), making it ideal for development and testing across platforms.
+
+### Is Rabby Wallet better than MetaMask?
+
+Yes, for developers. Rabby scores 92 vs MetaMask's 68. Rabby offers transaction simulation (MetaMask doesn't), fewer breaking changes (~6 releases/month vs MetaMask's ~8/month), and better scam detection. MetaMask is still useful for compatibility testing since it has the largest ecosystem, but Rabby is recommended for daily development work.
+
+### What wallets have transaction simulation?
+
+Only **Rabby** (92) has full transaction simulation built-in. **Rainbow** (77) has basic transaction preview. Transaction simulation shows you exactly what will happen before you sign—asset changes, contract interactions, and potential scams—preventing costly mistakes in DeFi interactions.
+
+### Which software wallet is best for production apps?
+
+**Trust Wallet** (82) or **Rainbow** (77) are best for production. Both have stable releases, large user bases, excellent mobile UX, and good developer documentation. Trust Wallet supports 100+ chains and has WalletConnect integration. Rainbow focuses on Ethereum with superior UX and NFT support.
+
+### Do I need both mobile and browser extension?
+
+Yes, for serious development. The "Core" column (✅/❌) shows which wallets have BOTH mobile app AND browser extension. Only these wallets allow testing across all user scenarios. Safe Wallet (87), Ledger Live (84), and Brave Wallet (80) fail this criteria—they're missing either mobile or browser components.
+
+### Why does MetaMask have a lower score?
+
+MetaMask (68) has high development churn with ~8 releases per month, causing frequent breaking changes for dApp developers. It lacks transaction simulation and has weaker scam protection compared to alternatives. While it's still necessary for compatibility testing (largest install base), it's not ideal as your primary development wallet.
+
+### What is the most actively developed software wallet?
+
+**MetaMask** has the highest release frequency (~8/month) but also the most churn. For stable active development, **Rabby** (~6/month), **Rainbow** (~5/month), and **Phantom** (~5/month) balance frequent updates with stability. Check the "Rel/Mo" (releases per month) column in the comparison table.
+
+### Can I use a software wallet with a hardware wallet?
+
+Yes. **Rabby** (92), **MetaMask** (68), and **Rainbow** (77) all support hardware wallet integration. Connect your Ledger or Trezor to sign transactions while using the software wallet's interface. This combines software wallet convenience with hardware wallet security for production environments.
+
+### What is the safest software wallet?
+
+**Safe Wallet** (87) formerly Gnosis Safe offers multi-signature security requiring multiple approvals for transactions. For single-user security, **Rabby** (92) with transaction simulation and scam alerts provides the best protection against malicious contracts. Always use software wallets with hardware wallet integration for maximum security.
+
+### Which wallets support the most blockchains?
+
+**Trust Wallet** (82) supports 100+ chains. **Rabby** (92) supports 120+ EVM chains. **OKX Wallet** (79) supports 80+ chains including non-EVM networks. For Ethereum-only development, **Rainbow** (77) focuses solely on Ethereum and L2s with excellent UX.

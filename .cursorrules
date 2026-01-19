@@ -156,7 +156,9 @@ Rules are organized by domain. Reference by number in code reviews.
 - **#119** Include original prompt in PR description
 - **#120** Create `.cursor/artifacts/` prompt file for complex requests
 - **#121** PR structure: Agent → Summary → Original Request → Changes → Testing
-- **#122** Include `Co-authored-by:` for human collaborator attribution
+- **#122** Include `Co-authored-by: Name <email>` in BOTH commit messages AND PR descriptions (CI validates PR description)
+- **#124** Commit Co-authored-by goes in commit message body; PR Co-authored-by goes in PR description (both required)
+- **#125** Meta learning: Co-authored-by in commit ≠ Co-authored-by in PR (need both for CI to pass)
 - **#129** CI checks must not skip - all checks enforced
 - **#134** Model attribution, not platform attribution
 

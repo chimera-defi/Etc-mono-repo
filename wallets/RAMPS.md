@@ -88,3 +88,47 @@
 **Related:** See [Software Wallet Comparison](./SOFTWARE_WALLETS.md), [Hardware Wallet Comparison](./HARDWARE_WALLETS.md), and [Crypto Credit Card Comparison](./CRYPTO_CARDS.md) for wallet recommendations.
 
 > 📖 **Want more details?** See the [full documentation with detailed provider reviews, scoring breakdowns, and integration guides](./RAMPS_DETAILS.md).
+
+---
+
+## Frequently Asked Questions
+
+### What is the best crypto on-ramp for developers?
+
+**Transak** (92/100) is the top choice for developers with React SDK, excellent documentation, support for both on-ramp and off-ramp, and coverage in 160+ countries. It scores highest in developer UX with comprehensive integration guides and responsive API. **MoonPay** (90) is also excellent with React + Mobile SDKs and 160+ country support.
+
+### What is the difference between on-ramp and off-ramp?
+
+**On-ramp** = Buy crypto with fiat (bank card → crypto). **Off-ramp** = Sell crypto for fiat (crypto → bank account). Most developers need both. **Transak** (92), **MoonPay** (90), **Coinbase Pay** (89), and **Ramp** (88) all support both directions. Check the "Type" column in the comparison table—most top providers do both.
+
+### Which crypto ramp has the lowest fees?
+
+Fees vary by payment method and region. **Ramp** (88) advertises competitive fees especially for EU bank transfers. **Coinbase Pay** (89) has low fees for Coinbase users. **Stripe** (85) offers transparent pricing. **Transak** (92) is competitive at 0.99-5.5%. Always check live quotes—actual fees depend on amount, payment method, and country.
+
+### What is the best crypto ramp for high volume / business use?
+
+**Modern Treasury** (83) specializes in enterprise payment infrastructure with custom pricing. **Transak** (92) and **MoonPay** (90) both support business accounts with volume discounts. **Sardine** (86) offers instant ACH for high-value US transactions. **Stripe** (85) provides mainstream enterprise solutions. Most providers offer custom pricing for businesses.
+
+### Do crypto ramps require KYC?
+
+Yes, all legitimate ramps require KYC/identity verification for regulatory compliance. **Transak** (92) and **Ramp** (88) have different KYC tiers based on transaction amounts. **Sardine** (86) has instant US verification. **Coinbase Pay** (89) uses Coinbase's existing KYC. Beware of "no KYC" ramps—these are often scams or non-compliant services that may freeze funds.
+
+### Which ramps support the most countries?
+
+**Transak** (92) and **MoonPay** (90) both support 160+ countries. **Ramp** (88) covers 150+ countries. **Coinbase Pay** (89) availability depends on Coinbase country support. **Sardine** (86) focuses on US market. Always verify your country is supported before integrating—coverage changes frequently.
+
+### Can I integrate a crypto ramp into my dApp?
+
+Yes. **Transak** (92) provides React SDK with easy integration. **MoonPay** (90) offers React + Mobile SDKs. **Ramp** (88) has JavaScript SDK. **Coinbase Pay** (89) integrates with Coinbase SDK. **Stripe** (85) provides standard payment APIs. Most ramps offer iframe widgets or SDK packages—check the "Dev UX" column for developer experience ratings.
+
+### What payment methods do crypto ramps accept?
+
+Most ramps accept: credit/debit cards, bank transfers (ACH/SEPA), Apple Pay, Google Pay. **MoonPay** (90) supports the widest payment methods. **Transak** (92) accepts cards + bank transfers. **Ramp** (88) focuses on bank transfers and cards. **Sardine** (86) specializes in instant US ACH. Payment method availability varies by country and affects fees.
+
+### Are crypto ramps safe?
+
+Established ramps like **Transak** (92), **MoonPay** (90), **Coinbase Pay** (89), **Ramp** (88), and **Stripe** (85) are regulated and safe. They comply with KYC/AML regulations and have strong security practices. Always verify you're on the official website—phishing sites are common. Check for HTTPS and correct domain.
+
+### What is the fastest crypto ramp?
+
+**Ramp** (88) advertises sub-60-second transactions for low KYC tier amounts. **Transak** (92) and **MoonPay** (90) typically complete in 5-15 minutes for card purchases. **Sardine** (86) offers instant ACH for US users. Bank transfers take 1-5 business days on all platforms. Speed varies by payment method, KYC status, and first-time vs. repeat user—cards are fastest, bank transfers slowest.
