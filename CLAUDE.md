@@ -32,6 +32,12 @@
 - [List of changes]
 ```
 
+**Important:** Also add `Co-authored-by: Chimera <chimera_defi@protonmail.com>` to commit message body (separate from PR description).
+
+**Why Both?**
+- PR description Co-authored-by: Validated by CI (`.github/workflows/pr-attribution-check.yml`)
+- Commit message Co-authored-by: Shows in git history and GitHub commits
+
 ## Wallets Frontend
 
 ```bash
@@ -72,7 +78,9 @@ Before completing any task:
 | #47 | Chains ≠ tokens |
 | #116 | Include model name in PRs |
 | #117 | Include model name in commits |
-| #122 | Include Co-authored-by: Name <email> in PRs |
+| #122 | Include Co-authored-by: Name <email> in PRs AND commits |
+| #124 | Commit vs PR Co-authored-by are different (both required) |
+| #125 | CI checks PR description Co-authored-by (not just commit) |
 | #140 | Install MCP CLI before using |
 | #146 | Store knowledge in memory server |
 
@@ -94,3 +102,22 @@ git status && git diff
 # Wallet data refresh
 cd wallets/scripts && ./refresh-github-data.sh
 ```
+
+## Troubleshooting CI Failures
+
+### PR Attribution Check Failing?
+
+**Common causes:**
+1. **Missing Co-authored-by in PR description** (not commit)
+   - CI checks PR body, not git commit
+   - Add to PR description: `**Co-authored-by:** Chimera <chimera_defi@protonmail.com>`
+   - Also add to commit message body (different requirement)
+
+2. **Missing Agent field**
+   - Add to PR description: `**Agent:** Claude Sonnet 4.5`
+
+3. **Missing Original Request section**
+   - Add to PR description: `## Original Request` with user's prompt
+
+**Quick fix:**
+Edit PR description to include all three required fields. CI re-runs automatically.
