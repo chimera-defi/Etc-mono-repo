@@ -110,15 +110,20 @@ function getWalletHighlights(type: WalletType, wallet: WalletData): string[] {
 
 /**
  * Convert wallet data to schema-friendly format
+ * Refactored to reduce repetition and improve clarity
  */
 function getStructuredData(type: WalletType, wallet: WalletData, pageUrl: string) {
-  // Prepare wallet data for schema generation
+  // Extract company/brand name once (first word of wallet name)
+  const companyName = wallet.name.split(' ')[0];
+
+  // Prepare base wallet data for schema generation (convert null to undefined once)
   const schemaData = {
     name: wallet.name,
     score: wallet.score,
-    url: 'url' in wallet ? wallet.url : undefined,
-    github: 'github' in wallet ? wallet.github : undefined,
+    url: ('url' in wallet ? wallet.url : null) ?? undefined,
+    github: ('github' in wallet ? wallet.github : null) ?? undefined,
     description: getWalletDescription(type, wallet),
+    company: companyName,
   };
 
   // Type-specific data extraction
@@ -138,12 +143,9 @@ function getStructuredData(type: WalletType, wallet: WalletData, pageUrl: string
 
     return generateWalletProductSchema({
       ...schemaData,
-      url: schemaData.url ?? undefined, // Convert null to undefined
-      github: schemaData.github ?? undefined, // Convert null to undefined
       platforms,
       features,
       releaseFrequency: software.releasesPerMonth ?? undefined,
-      company: software.name.split(' ')[0], // Extract company from wallet name
     }, type, pageUrl);
   }
 
@@ -151,14 +153,11 @@ function getStructuredData(type: WalletType, wallet: WalletData, pageUrl: string
     const hardware = wallet as HardwareWallet;
     return generateWalletProductSchema({
       ...schemaData,
-      url: schemaData.url ?? undefined, // Convert null to undefined
-      github: schemaData.github ?? undefined, // Convert null to undefined
-      price: hardware.price ?? undefined, // Convert null to undefined
+      price: hardware.price ?? undefined,
       openSource: hardware.openSource,
       secureElement: hardware.secureElement,
-      secureElementType: hardware.secureElementType ?? undefined, // Convert null to undefined
+      secureElementType: hardware.secureElementType ?? undefined,
       connectivity: hardware.connectivity,
-      company: hardware.name.split(' ')[0], // Extract brand name
     }, type, pageUrl);
   }
 
@@ -171,13 +170,11 @@ function getStructuredData(type: WalletType, wallet: WalletData, pageUrl: string
 
     return generateWalletProductSchema({
       ...schemaData,
-      url: schemaData.url ?? undefined, // Convert null to undefined
-      github: schemaData.github ?? undefined, // Convert null to undefined
       features,
-      company: card.name.split(' ')[0],
     }, type, pageUrl);
   }
 
+  // Ramps
   const ramp = wallet as Ramp;
   const features: string[] = [];
   if (ramp.rampType) features.push(`${ramp.rampType} Support`);
@@ -186,10 +183,7 @@ function getStructuredData(type: WalletType, wallet: WalletData, pageUrl: string
 
   return generateWalletProductSchema({
     ...schemaData,
-    url: schemaData.url ?? undefined, // Convert null to undefined
-    github: schemaData.github ?? undefined, // Convert null to undefined
     features,
-    company: ramp.name.split(' ')[0],
   }, type, pageUrl);
 }
 

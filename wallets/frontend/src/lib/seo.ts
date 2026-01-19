@@ -322,6 +322,64 @@ export function generateFAQSchema(faqs: Array<{ question: string; answer: string
 }
 
 /**
+ * Extract FAQ questions and answers from markdown content.
+ * Parses "## Frequently Asked Questions" sections with H3 questions and paragraph answers.
+ * Critical for converting markdown FAQs into FAQPage schema for AEO.
+ *
+ * @param content - Markdown content containing FAQ section
+ * @returns Array of FAQ items with question and answer
+ *
+ * @example
+ * ```ts
+ * const content = `
+ * ## Frequently Asked Questions
+ *
+ * ### What is the best wallet?
+ *
+ * Rabby Wallet (92/100) is the best choice...
+ * `;
+ * const faqs = extractFAQsFromMarkdown(content);
+ * // Returns: [{ question: 'What is the best wallet?', answer: 'Rabby Wallet (92/100)...' }]
+ * ```
+ */
+export function extractFAQsFromMarkdown(content: string): Array<{ question: string; answer: string }> {
+  const faqs: Array<{ question: string; answer: string }> = [];
+
+  // Find the FAQ section
+  const faqSectionMatch = content.split(/## Frequently Asked Questions/i);
+  if (faqSectionMatch.length < 2) return [];
+
+  const faqSection = faqSectionMatch[1];
+
+  // Match ### Question followed by answer paragraph(s)
+  // Stops at next ### or ## heading
+  const questionRegex = /###\s+(.+?)\n\n([\s\S]+?)(?=\n###|\n##|$)/g;
+  const matches = Array.from(faqSection.matchAll(questionRegex));
+
+  for (const match of matches) {
+    const question = match[1].trim();
+    let answer = match[2].trim();
+
+    // Clean up answer text for schema
+    // Remove markdown bold/italic
+    answer = answer.replace(/\*\*([^*]+)\*\*/g, '$1');
+    answer = answer.replace(/\*([^*]+)\*/g, '$1');
+    // Remove markdown links but keep text
+    answer = answer.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+    // Normalize whitespace
+    answer = answer.replace(/\n+/g, ' ').replace(/\s+/g, ' ').trim();
+    // Limit length to 1000 chars for schema (LLMs prefer concise answers)
+    if (answer.length > 1000) {
+      answer = answer.substring(0, 997) + '...';
+    }
+
+    faqs.push({ question, answer });
+  }
+
+  return faqs;
+}
+
+/**
  * Interface for wallet data used in Product schema generation
  */
 interface WalletSchemaData {
