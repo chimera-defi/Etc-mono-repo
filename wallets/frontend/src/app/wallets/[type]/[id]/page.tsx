@@ -6,7 +6,7 @@ import { ArrowLeft, ExternalLink, ShieldCheck, Star, Wallet, Cpu, CreditCard, Ar
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SocialShare } from '@/components/SocialShare';
 import { getAllWalletData, getWalletById, getWalletsByType, isWalletType, type WalletType } from '@/lib/wallet-data';
-import { generateWalletKeywords, optimizeMetaDescription } from '@/lib/seo';
+import { generateWalletKeywords, optimizeMetaDescription, generateBreadcrumbSchema, generateWalletProductSchema } from '@/lib/seo';
 import type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData } from '@/types/wallets';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
@@ -108,97 +108,89 @@ function getWalletHighlights(type: WalletType, wallet: WalletData): string[] {
   ];
 }
 
+/**
+ * Convert wallet data to schema-friendly format
+ */
 function getStructuredData(type: WalletType, wallet: WalletData, pageUrl: string) {
-  const base = {
-    '@context': 'https://schema.org',
+  // Prepare wallet data for schema generation
+  const schemaData = {
     name: wallet.name,
-    url: pageUrl,
+    score: wallet.score,
+    url: 'url' in wallet ? wallet.url : undefined,
+    github: 'github' in wallet ? wallet.github : undefined,
+    description: getWalletDescription(type, wallet),
   };
 
+  // Type-specific data extraction
   if (type === 'software') {
     const software = wallet as SoftwareWallet;
-    return {
-      ...base,
-      '@type': 'SoftwareApplication',
-      applicationCategory: 'FinanceApplication',
-      operatingSystem: [
-        software.devices.mobile ? 'Mobile' : null,
-        software.devices.browser ? 'Browser Extension' : null,
-        software.devices.desktop ? 'Desktop' : null,
-        software.devices.web ? 'Web' : null,
-      ].filter(Boolean),
-      offers: {
-        '@type': 'Offer',
-        price: '0',
-        priceCurrency: 'USD',
-      },
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: software.score,
-        bestRating: 100,
-        worstRating: 0,
-        ratingCount: 1,
-      },
-      description: getWalletDescription(type, software),
-    };
+    const platforms: string[] = [];
+    if (software.devices.mobile) platforms.push('Mobile');
+    if (software.devices.browser) platforms.push('Browser Extension');
+    if (software.devices.desktop) platforms.push('Desktop');
+    if (software.devices.web) platforms.push('Web');
+
+    const features: string[] = [];
+    if (software.txSimulation) features.push('Transaction Simulation');
+    if (software.scamAlerts && software.scamAlerts !== 'none') features.push('Scam Detection');
+    if (software.hardwareSupport) features.push('Hardware Wallet Support');
+    if (software.chains && software.chains.raw) features.push(software.chains.raw);
+
+    return generateWalletProductSchema({
+      ...schemaData,
+      url: schemaData.url ?? undefined, // Convert null to undefined
+      github: schemaData.github ?? undefined, // Convert null to undefined
+      platforms,
+      features,
+      releaseFrequency: software.releasesPerMonth ?? undefined,
+      company: software.name.split(' ')[0], // Extract company from wallet name
+    }, type, pageUrl);
   }
 
   if (type === 'hardware') {
     const hardware = wallet as HardwareWallet;
-    return {
-      ...base,
-      '@type': 'Product',
-      brand: {
-        '@type': 'Brand',
-        name: hardware.name.split(' ')[0],
-      },
-      offers: {
-        '@type': 'Offer',
-        price: hardware.price ?? undefined,
-        priceCurrency: 'USD',
-        availability: 'https://schema.org/InStock',
-      },
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: hardware.score,
-        bestRating: 100,
-        worstRating: 0,
-        ratingCount: 1,
-      },
-      description: getWalletDescription(type, hardware),
-    };
+    return generateWalletProductSchema({
+      ...schemaData,
+      url: schemaData.url ?? undefined, // Convert null to undefined
+      github: schemaData.github ?? undefined, // Convert null to undefined
+      price: hardware.price ?? undefined, // Convert null to undefined
+      openSource: hardware.openSource,
+      secureElement: hardware.secureElement,
+      secureElementType: hardware.secureElementType ?? undefined, // Convert null to undefined
+      connectivity: hardware.connectivity,
+      company: hardware.name.split(' ')[0], // Extract brand name
+    }, type, pageUrl);
   }
 
   if (type === 'cards') {
     const card = wallet as CryptoCard;
-    return {
-      ...base,
-      '@type': 'Product',
-      category: 'Crypto Card',
-      offers: {
-        '@type': 'Offer',
-        price: '0',
-        priceCurrency: 'USD',
-      },
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: card.score,
-        bestRating: 100,
-        worstRating: 0,
-        ratingCount: 1,
-      },
-      description: getWalletDescription(type, card),
-    };
+    const features: string[] = [];
+    if (card.cashBack) features.push(`Up to ${card.cashBack} Cashback`);
+    if (card.custody) features.push(`Custody: ${card.custody}`);
+    if (card.businessSupport === 'yes') features.push('Business Support Available');
+
+    return generateWalletProductSchema({
+      ...schemaData,
+      url: schemaData.url ?? undefined, // Convert null to undefined
+      github: schemaData.github ?? undefined, // Convert null to undefined
+      features,
+      company: card.name.split(' ')[0],
+    }, type, pageUrl);
   }
 
   const ramp = wallet as Ramp;
-  return {
-    ...base,
-    '@type': 'Service',
-    serviceType: 'Crypto On/Off Ramp',
-    areaServed: ramp.coverage,
-    description: getWalletDescription(type, ramp),
-  };
+  const features: string[] = [];
+  if (ramp.rampType) features.push(`${ramp.rampType} Support`);
+  if (ramp.coverage) features.push(`Coverage: ${ramp.coverage}`);
+  if (ramp.devUx) features.push(`Developer UX: ${ramp.devUx}`);
+
+  return generateWalletProductSchema({
+    ...schemaData,
+    url: schemaData.url ?? undefined, // Convert null to undefined
+    github: schemaData.github ?? undefined, // Convert null to undefined
+    features,
+    company: ramp.name.split(' ')[0],
+  }, type, pageUrl);
 }
 
 export async function generateMetadata({ params }: { params: { type: WalletType; id: string } }): Promise<Metadata> {
@@ -279,8 +271,23 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
     .sort((a, b) => b.score - a.score)
     .slice(0, 6);
 
+  // Generate breadcrumb schema for better LLM navigation understanding
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { label: 'Home', href: '/' },
+    { label: 'Explore', href: '/explore' },
+    { label: typeLabels[params.type], href: `/explore?tab=${params.type}` },
+    { label: wallet.name, href: `/wallets/${params.type}/${params.id}` },
+  ], baseUrl);
+
   return (
     <div className="container mx-auto px-4 py-8">
+      <Script
+        id="breadcrumb-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
       <Script
         id="wallet-structured-data"
         type="application/ld+json"

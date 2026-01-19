@@ -89,3 +89,47 @@
 **Companies:** See [Hardware Wallet Companies](./HARDWARE_WALLET_COMPANIES.md) for aggregated scores and wallet counts by manufacturer.
 
 > 📖 **Want more details?** See the [full documentation with recommendations, methodology, security deep dive, and more](./HARDWARE_WALLET_COMPARISON_DETAILS.md).
+
+---
+
+## Frequently Asked Questions
+
+### What is the best hardware wallet in 2026?
+
+**Trezor Safe 7** (96/100) is the top-rated hardware wallet, featuring quantum-ready security with Tropic01 Secure Element, fully open source firmware, touch color display, and active development. At ~$249, it offers cutting-edge security for long-term crypto storage. For best value, **Trezor Safe 3** (91/100) at ~$79 provides Optiga Secure Element and full open source firmware.
+
+### Why should I choose Trezor over Ledger?
+
+Trezor wallets score significantly higher (91-96) than Ledger (55-57) due to fully open source firmware, no controversial features like Ledger Recover, and transparent security practices. Trezor Safe 5 (92) and Safe 3 (91) both feature Secure Elements and active development, while Ledger is penalized for closed-source firmware components and privacy concerns. See [full comparison details](./HARDWARE_WALLET_COMPARISON_DETAILS.md#-why-look-beyond-ledger).
+
+### What is the most secure hardware wallet?
+
+**Trezor Safe 7** (96) offers the highest security with Tropic01 Secure Element and quantum-ready cryptography. **ColdCard Mk4** (91) and **Keystone 3 Pro** (91) provide full air-gap isolation via MicroSD/QR codes, preventing any USB/Bluetooth attack vectors. All three feature fully open source firmware and active development.
+
+### What is the best budget hardware wallet?
+
+**Trezor Safe 3** (91/100) at ~$79 is the best budget option with Optiga Secure Element, fully open source firmware, and active development. **Blockstream Jade** (81) at ~$65 is also excellent for Bitcoin-focused users. For DIY enthusiasts, **Krux** (67) costs ~$30-100 but requires self-assembly and lacks a Secure Element.
+
+### Do I need a Secure Element in my hardware wallet?
+
+Yes, recommended. Secure Elements are tamper-resistant chips that protect private keys from physical extraction attacks. All top-rated wallets (Trezor Safe series, ColdCard, Keystone) include Secure Elements. DIY wallets like SeedSigner (65) and Krux (67) lack Secure Elements but compensate with air-gap isolation and stateless operation.
+
+### What does "air-gap" mean for hardware wallets?
+
+Air-gap wallets never connect directly to computers or phones during transaction signing. They use QR codes or MicroSD cards to transfer data, eliminating USB/Bluetooth attack vectors. **Keystone 3 Pro** (91), **ColdCard Mk4** (91), and **Foundation Passport** (81) all feature full air-gap isolation for maximum security.
+
+### Are open source hardware wallets safer?
+
+Yes. Fully open source firmware (Trezor, ColdCard, Keystone) allows independent security audits and community verification. Closed source wallets (Ellipal, SecuX, Arculus) score significantly lower (42-48) due to inability to verify security claims. Partial open source (Ledger, SafePal) still has proprietary components that cannot be audited.
+
+### Can I use a hardware wallet with my phone?
+
+Yes. **Trezor Safe 5** (92) and **OneKey Pro** (77) support Bluetooth mobile connectivity. **Keystone 3 Pro** (91) and **ColdCard Mk4** (91) work with phones via QR codes (air-gapped). Most USB-C wallets like **Trezor Safe 3** (91) can connect directly to Android phones with USB-C OTG adapters.
+
+### What is the best hardware wallet for Ethereum developers?
+
+**Trezor Safe 5** (92) or **Safe 3** (91) are ideal for Ethereum development with full EVM support, USB-C connectivity, and active development (recent commits). Both integrate seamlessly with MetaMask and Rabby. For air-gapped development testing, **Keystone 3 Pro** (91) offers QR-based signing with multi-chain support.
+
+### Should I buy a used hardware wallet?
+
+No, never buy used hardware wallets. Always purchase directly from manufacturers or authorized retailers. Used wallets may be tampered with, have compromised firmware, or contain malicious modifications. All wallets in this comparison link to official manufacturer websites for secure purchasing.

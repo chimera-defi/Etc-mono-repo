@@ -255,3 +255,234 @@ export function markdownToPlainText(content: string): string {
     .replace(/\s+/g, ' ')
     .trim();
 }
+
+/**
+ * Generate BreadcrumbList schema for improved navigation understanding by search engines and LLMs.
+ * Helps with entity recognition and site structure comprehension.
+ *
+ * @param breadcrumbs - Array of breadcrumb items with label and href
+ * @param baseUrl - Base URL of the site (e.g., 'https://walletradar.org')
+ * @returns BreadcrumbList schema object
+ *
+ * @example
+ * ```ts
+ * const schema = generateBreadcrumbSchema([
+ *   { label: 'Home', href: '/' },
+ *   { label: 'Software Wallets', href: '/docs/software-wallets' },
+ *   { label: 'Rabby Wallet', href: '/wallets/software/rabby-wallet' }
+ * ], 'https://walletradar.org');
+ * ```
+ */
+export function generateBreadcrumbSchema(
+  breadcrumbs: Array<{ label: string; href: string }>,
+  baseUrl: string
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs.map((crumb, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: crumb.label,
+      item: `${baseUrl}${crumb.href}`,
+    })),
+  };
+}
+
+/**
+ * Generate FAQ schema for a list of questions and answers.
+ * Critical for AEO (Answer Engine Optimization) - helps LLMs extract Q&A pairs.
+ *
+ * @param faqs - Array of FAQ items with question and answer
+ * @returns FAQPage schema object
+ *
+ * @example
+ * ```ts
+ * const schema = generateFAQSchema([
+ *   {
+ *     question: 'Is Rabby Wallet better than MetaMask?',
+ *     answer: 'Rabby Wallet scores 92/100 vs MetaMask 84/100. Rabby offers transaction simulation and scam detection...'
+ *   }
+ * ]);
+ * ```
+ */
+export function generateFAQSchema(faqs: Array<{ question: string; answer: string }>) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(faq => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  };
+}
+
+/**
+ * Interface for wallet data used in Product schema generation
+ */
+interface WalletSchemaData {
+  name: string;
+  score: number;
+  url?: string;
+  github?: string;
+  description?: string;
+  company?: string;
+  price?: number;
+  platforms?: string[];
+  features?: string[];
+  releaseFrequency?: number;
+  openSource?: string | boolean;
+  secureElement?: boolean;
+  secureElementType?: string;
+  connectivity?: string[];
+}
+
+/**
+ * Generate enhanced Product/SoftwareApplication schema for wallet profiles.
+ * Includes rich metadata for better LLM comprehension and citation accuracy.
+ *
+ * @param wallet - Wallet data object
+ * @param type - Type of wallet (software, hardware, cards, ramps)
+ * @param pageUrl - Full URL of the wallet profile page
+ * @returns Product or SoftwareApplication schema object
+ *
+ * @example
+ * ```ts
+ * const schema = generateWalletProductSchema({
+ *   name: 'Rabby Wallet',
+ *   score: 92,
+ *   url: 'https://rabby.io',
+ *   platforms: ['Web', 'Desktop', 'Mobile'],
+ *   features: ['Transaction Simulation', 'Scam Detection', 'Multi-chain Support']
+ * }, 'software', 'https://walletradar.org/wallets/software/rabby-wallet');
+ * ```
+ */
+export function generateWalletProductSchema(
+  wallet: WalletSchemaData,
+  type: 'software' | 'hardware' | 'cards' | 'ramps',
+  pageUrl: string
+) {
+  const baseSchema = {
+    '@context': 'https://schema.org',
+    name: wallet.name,
+    url: pageUrl,
+    description: wallet.description || `${wallet.name} - Developer-focused crypto wallet with score ${wallet.score}/100`,
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: wallet.score.toString(),
+      bestRating: '100',
+      worstRating: '0',
+      ratingCount: '1',
+      reviewCount: '1',
+    },
+  };
+
+  if (type === 'software') {
+    return {
+      ...baseSchema,
+      '@type': 'SoftwareApplication',
+      applicationCategory: 'FinanceApplication',
+      applicationSubCategory: 'Cryptocurrency Wallet',
+      operatingSystem: wallet.platforms?.join(', ') || 'Web',
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD',
+        availability: 'https://schema.org/InStock',
+      },
+      featureList: wallet.features || [],
+      downloadUrl: wallet.url,
+      softwareVersion: 'Latest',
+      releaseNotes: wallet.releaseFrequency
+        ? `Approximately ${wallet.releaseFrequency} releases per month`
+        : undefined,
+      author: wallet.company ? {
+        '@type': 'Organization',
+        name: wallet.company,
+      } : undefined,
+      codeRepository: wallet.github,
+      keywords: `crypto wallet, blockchain wallet, ${wallet.name}, web3 wallet`,
+    };
+  }
+
+  if (type === 'hardware') {
+    return {
+      ...baseSchema,
+      '@type': 'Product',
+      category: 'Hardware Wallet',
+      brand: wallet.company ? {
+        '@type': 'Brand',
+        name: wallet.company,
+      } : {
+        '@type': 'Brand',
+        name: wallet.name.split(' ')[0],
+      },
+      offers: {
+        '@type': 'Offer',
+        price: wallet.price?.toString() || undefined,
+        priceCurrency: 'USD',
+        availability: 'https://schema.org/InStock',
+      },
+      additionalProperty: [
+        ...(wallet.secureElement ? [{
+          '@type': 'PropertyValue',
+          name: 'Secure Element',
+          value: wallet.secureElementType || 'Yes',
+        }] : []),
+        ...(wallet.openSource ? [{
+          '@type': 'PropertyValue',
+          name: 'Open Source',
+          value: typeof wallet.openSource === 'string' ? wallet.openSource : 'Yes',
+        }] : []),
+        ...(wallet.connectivity && wallet.connectivity.length > 0 ? [{
+          '@type': 'PropertyValue',
+          name: 'Connectivity',
+          value: wallet.connectivity.join(', '),
+        }] : []),
+      ].filter(Boolean),
+      material: 'Electronics',
+      audience: {
+        '@type': 'PeopleAudience',
+        audienceType: 'Cryptocurrency Developers and Investors',
+      },
+    };
+  }
+
+  if (type === 'cards') {
+    return {
+      ...baseSchema,
+      '@type': 'FinancialProduct',
+      category: 'Crypto Credit Card',
+      provider: wallet.company ? {
+        '@type': 'Organization',
+        name: wallet.company,
+      } : undefined,
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD',
+      },
+      featureList: wallet.features || [],
+    };
+  }
+
+  // Ramps
+  return {
+    ...baseSchema,
+    '@type': 'Service',
+    serviceType: 'Crypto On/Off Ramp',
+    provider: wallet.company ? {
+      '@type': 'Organization',
+      name: wallet.company,
+    } : undefined,
+    areaServed: 'Global',
+    availableChannel: {
+      '@type': 'ServiceChannel',
+      serviceUrl: wallet.url,
+    },
+  };
+}
