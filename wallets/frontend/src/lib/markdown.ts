@@ -227,10 +227,11 @@ export function getWalletStats(documents: MarkdownDocument[]): {
   const softwareCount = softwareDoc?.content.match(/^\|\s*\*\*[A-Z][^*|]+\*\*\s*\|\s*\d+\s*\|/gm)?.length || 0;
   // Hardware: | **Trezor Safe 5** | 94 | or | ~~**Device**~~ | 50 |
   const hardwareCount = hardwareDoc?.content.match(/^\|\s*(?:~~)?\[?\*\*[A-Z][^*|]+\*\*\]?(?:\([^)]*\))?(?:~~)?\s*\|\s*\d+\s*\|/gm)?.length || 0;
-  // Crypto cards: | [**1inch Card**](url) | 70 🟡 | (score followed by emoji)
-  const cryptoCardCount = cryptoCardDoc?.content.match(/^\|\s*(?:~~)?\[?\*\*[A-Z0-9][^*|]+\*\*\]?(?:\([^)]*\))?(?:~~)?\s*\|\s*\d+\s*[🟢🟡🔴]?\s*\|/gm)?.length || 0;
-  // Ramps: | [**Transak**](url) | 92 🟢 | (score followed by emoji)
-  const rampsCount = rampsDoc?.content.match(/^\|\s*(?:~~)?\[?\*\*[A-Z][^*|]+\*\*\]?(?:\([^)]*\))?(?:~~)?\s*\|\s*\d+\s*[🟢🟡🔴]?\s*\|/gm)?.length || 0;
+  // Crypto cards: | [**1inch Card**](url) | 70 🟡 | (score followed by optional emoji)
+  // Using [^|]* to match any chars (including emoji) before the pipe
+  const cryptoCardCount = cryptoCardDoc?.content.match(/^\|\s*(?:~~)?\[?\*\*[A-Z0-9][^*|]+\*\*\]?(?:\([^)]*\))?(?:~~)?\s*\|\s*\d+[^|]*\|/gm)?.length || 0;
+  // Ramps: | [**Transak**](url) | 92 🟢 | (score followed by optional emoji)
+  const rampsCount = rampsDoc?.content.match(/^\|\s*(?:~~)?\[?\*\*[A-Z][^*|]+\*\*\]?(?:\([^)]*\))?(?:~~)?\s*\|\s*\d+[^|]*\|/gm)?.length || 0;
 
   const latestUpdate = documents
     .filter(d => d.lastUpdated)
