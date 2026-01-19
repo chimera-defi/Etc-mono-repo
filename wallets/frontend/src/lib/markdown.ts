@@ -221,11 +221,15 @@ export function getWalletStats(documents: MarkdownDocument[]): {
   const cryptoCardDoc = documents.find(d => d.slug === 'crypto-cards' || d.slug === 'crypto-cards-details');
   const rampsDoc = documents.find(d => d.slug === 'ramps' || d.slug === 'ramps-details');
   
-  // Count wallets from tables (rough estimate from content)
-  const softwareCount = softwareDoc?.content.match(/\|\s+\*\*[^|]+\*\*\s+\|/g)?.length || 24;
-  const hardwareCount = hardwareDoc?.content.match(/\|\s+\[?\*\*[^|]+\*\*\]?\s+\|/g)?.length || 23;
-  const cryptoCardCount = cryptoCardDoc?.content.match(/\|\s+\*\*[^|]+\*\*\s+\|/g)?.length || 27;
-  const rampsCount = rampsDoc?.content.match(/\|\s+\*\*[^|]+\*\*\s+\|/g)?.length || 20;
+  // Count wallets from tables - using actual verified counts from markdown files
+  // Software: Rabby to Block (25 wallets)
+  // Hardware: Trezor Safe 7 to BC Vault (32 wallets)
+  // Crypto Cards: Binance Card to Wirex Card (35 cards)
+  // Ramps: Transak to Coinmama (16 providers)
+  const softwareCount = softwareDoc?.content.match(/\|\s+\*\*[^|]+\*\*\s+\|/g)?.length || 25;
+  const hardwareCount = hardwareDoc?.content.match(/\|\s+\[?\*\*[^|]+\*\*\]?\s+\|/g)?.length || 32;
+  const cryptoCardCount = cryptoCardDoc?.content.match(/\|\s+\*\*[^|]+\*\*\s+\|/g)?.length || 35;
+  const rampsCount = rampsDoc?.content.match(/\|\s+\*\*[^|]+\*\*\s+\|/g)?.length || 16;
   
   const latestUpdate = documents
     .filter(d => d.lastUpdated)

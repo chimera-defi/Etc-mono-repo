@@ -10,6 +10,7 @@ import { ThemeToggle } from './ThemeToggle';
 const navItems = [
   { href: '/', label: 'Home' },
   { href: '/explore', label: 'Explore & Compare' },
+  { href: '/articles', label: 'Articles' },
   { href: '/companies', label: 'Companies' },
   { href: '/docs/software-wallets', label: 'Software Wallets' },
   { href: '/docs/hardware-wallets', label: 'Hardware Wallets' },
