@@ -649,6 +649,37 @@ Same as above. Track citation frequency.
 
 ## Changelog
 
+### January 19, 2026 - Code Review & Corrections
+
+**Quality Assurance Review:**
+- ✅ Verified all wallet scores against source data
+- 🔧 **Fixed hallucination:** MetaMask score was incorrectly stated as 68/100 (actual: 73/100)
+  - Updated 5 instances in `rabby-vs-metamask.md`: frontmatter, quick answer, feature table, FAQ, conclusion
+- ✅ Verified Trezor Safe 7 (96), ColdCard Mk4 (91), Keystone 3 Pro (91) scores are accurate
+- ✅ Confirmed Rabby (92), Trust (82), Rainbow (77) scores are accurate
+
+**Code Architecture Review:**
+- ✅ No refactoring needed - shared utilities already properly extracted:
+  - `generateBreadcrumbSchema()`, `extractFAQsFromMarkdown()`, `generateFAQSchema()` ✅
+  - `optimizeMetaDescription()`, `calculateReadingTime()`, `formatReadingTime()` ✅
+  - `EnhancedMarkdownRenderer`, `Breadcrumbs`, `SocialShare` components ✅
+- ✅ Page templates (`articles/[slug]` vs `docs/[slug]`) have different enough requirements to warrant separate implementations
+- ✅ Consistent baseUrl, metadata structure, schema patterns across all pages
+- ✅ Build verification: All 144 pages generate successfully
+
+**Consistency Verification:**
+- ✅ Article pages match docs page patterns for metadata, schema, breadcrumbs
+- ✅ Both use same imports from lib/seo.ts
+- ✅ Both generate BreadcrumbList, Article, and FAQPage schemas
+- ✅ OG images: Docs use per-page images, articles use generic (intentional - no article-specific images generated yet)
+- ⚠️ **Future enhancement**: Generate article-specific OG images (1200x630) for better social sharing
+
+**Testing:**
+- ✅ Build successful after corrections
+- ✅ All 3 article pages generated: rabby-vs-metamask, best-wallet-for-ethereum-developers, most-secure-hardware-wallet
+- ✅ TypeScript compilation clean
+- ✅ No linting errors
+
 ### January 19, 2026 - Week 1 Quick Wins + Blog System
 - ✅ Added BreadcrumbList schema generator to lib/seo.ts
 - ✅ Added FAQ schema generator to lib/seo.ts
