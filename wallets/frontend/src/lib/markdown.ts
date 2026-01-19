@@ -220,21 +220,25 @@ export function getWalletStats(documents: MarkdownDocument[]): {
   const hardwareDoc = documents.find(d => d.slug === 'hardware-wallets' || d.slug === 'hardware-wallets-details');
   const cryptoCardDoc = documents.find(d => d.slug === 'crypto-cards' || d.slug === 'crypto-cards-details');
   const rampsDoc = documents.find(d => d.slug === 'ramps' || d.slug === 'ramps-details');
-  
+
   // Count wallets from tables by matching data rows with name + numeric score
-  // Pattern: | **Name** | Score | (NOT | **Name** | **Score** | which is header)
-  // This regex matches: start of line, pipe, spaces, bold text starting with capital letter, spaces, pipe, plain number, spaces, pipe
-  const softwareCount = softwareDoc?.content.match(/^\| \*\*[A-Z][^*]+\*\* \| \d+ \|/gm)?.length || 0;
-  const hardwareCount = hardwareDoc?.content.match(/^\| (?:~~)?\[?\*\*[A-Z][^*]+\*\*\]?(?:~~)? \| \d+ \|/gm)?.length || 0;
-  const cryptoCardCount = cryptoCardDoc?.content.match(/^\| \[?\*\*[A-Z][^*]+\*\*\]? \| \d+ /gm)?.length || 0;
-  const rampsCount = rampsDoc?.content.match(/^\| \[?\*\*[A-Z][^*]+\*\*\]? \| \d+ /gm)?.length || 0;
-  
+  // Pattern: | **Name** | Score | or | [**Name**](url) | Score 🟢 | (handles links, emojis, strikethrough)
+  // Software: | **Rabby** | 92 | ✅ |
+  const softwareCount = softwareDoc?.content.match(/^\|\s*\*\*[A-Z][^*|]+\*\*\s*\|\s*\d+\s*\|/gm)?.length || 0;
+  // Hardware: | **Trezor Safe 5** | 94 | or | ~~**Device**~~ | 50 |
+  const hardwareCount = hardwareDoc?.content.match(/^\|\s*(?:~~)?\[?\*\*[A-Z][^*|]+\*\*\]?(?:\([^)]*\))?(?:~~)?\s*\|\s*\d+\s*\|/gm)?.length || 0;
+  // Crypto cards: | [**1inch Card**](url) | 70 🟡 | (score followed by optional emoji)
+  // Using [^|]* to match any chars (including emoji) before the pipe
+  const cryptoCardCount = cryptoCardDoc?.content.match(/^\|\s*(?:~~)?\[?\*\*[A-Z0-9][^*|]+\*\*\]?(?:\([^)]*\))?(?:~~)?\s*\|\s*\d+[^|]*\|/gm)?.length || 0;
+  // Ramps: | [**Transak**](url) | 92 🟢 | (score followed by optional emoji)
+  const rampsCount = rampsDoc?.content.match(/^\|\s*(?:~~)?\[?\*\*[A-Z][^*|]+\*\*\]?(?:\([^)]*\))?(?:~~)?\s*\|\s*\d+[^|]*\|/gm)?.length || 0;
+
   const latestUpdate = documents
     .filter(d => d.lastUpdated)
     .map(d => d.lastUpdated!)
     .sort()
     .pop() || 'December 2025';
-  
+
   return {
     softwareWallets: softwareCount,
     hardwareWallets: hardwareCount,
