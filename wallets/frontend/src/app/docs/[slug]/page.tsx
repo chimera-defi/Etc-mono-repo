@@ -4,7 +4,7 @@ import Script from 'next/script';
 import { ArrowLeft, Clock, BookOpen, ExternalLink, FileText, Table } from 'lucide-react';
 import Link from 'next/link';
 import { getAllDocuments, getDocumentBySlug, getDocumentSlugs, extractTableOfContents, getRelatedDocument } from '@/lib/markdown';
-import { calculateReadingTime, formatReadingTime, optimizeMetaDescription, generateKeywords, getOgImagePath } from '@/lib/seo';
+import { calculateReadingTime, formatReadingTime, optimizeMetaDescription, generateKeywords, getOgImagePath, markdownToPlainText } from '@/lib/seo';
 import { EnhancedMarkdownRenderer } from '@/components/EnhancedMarkdownRenderer';
 import { TableOfContents } from '@/components/TableOfContents';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -158,6 +158,7 @@ export default function DocumentPage({ params }: PageProps) {
     '@type': 'Article',
     headline: document.title,
     description: enhancedDescription,
+    articleBody: markdownToPlainText(document.content),
     author: {
       '@type': 'Organization',
       name: 'Chimera DeFi',
@@ -213,6 +214,7 @@ export default function DocumentPage({ params }: PageProps) {
     '@type': 'HowTo',
     name: document.title,
     description: enhancedDescription,
+    text: markdownToPlainText(document.content),
     step: extractHowToSteps(document.content).map((step, index) => ({
       '@type': 'HowToStep',
       position: index + 1,

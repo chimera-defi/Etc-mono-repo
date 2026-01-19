@@ -217,3 +217,41 @@ export function generateWalletKeywords(
 
   return Array.from(new Set([...baseKeywords, ...typeKeywords[type]])).slice(0, 15);
 }
+
+/**
+ * Convert markdown content to plain text for schema.org articleBody
+ * Preserves readability while removing markdown syntax
+ */
+export function markdownToPlainText(content: string): string {
+  return content
+    // Remove code blocks
+    .replace(/```[\s\S]*?```/g, '')
+    // Remove inline code
+    .replace(/`([^`]+)`/g, '$1')
+    // Convert markdown links to text
+    .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
+    // Remove images
+    .replace(/!\[([^\]]*)\]\([^\)]+\)/g, '')
+    // Remove headers but keep text
+    .replace(/^#{1,6}\s+(.+)$/gm, '$1')
+    // Remove bold/italic
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*]+)\*/g, '$1')
+    .replace(/__([^_]+)__/g, '$1')
+    .replace(/_([^_]+)_/g, '$1')
+    // Remove strikethrough
+    .replace(/~~([^~]+)~~/g, '$1')
+    // Remove horizontal rules
+    .replace(/^[-*_]{3,}$/gm, '')
+    // Remove blockquotes
+    .replace(/^>\s+/gm, '')
+    // Remove list markers
+    .replace(/^[\s]*[-*+]\s+/gm, '')
+    .replace(/^[\s]*\d+\.\s+/gm, '')
+    // Remove table formatting
+    .replace(/\|/g, ' ')
+    // Normalize whitespace
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
