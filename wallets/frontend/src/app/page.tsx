@@ -52,7 +52,7 @@ export default function HomePage() {
         name: 'What is the best hardware wallet?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Trezor Safe 5 scores 94 and is our top hardware wallet recommendation. It features fully open source firmware, Secure Element (Optiga), active development, and costs approximately $169.',
+          text: 'Trezor Safe 5 scores 92 and is our top hardware wallet recommendation. It features fully open source firmware, Secure Element (Optiga), active development, and costs approximately $169.',
         },
       },
       {
@@ -195,7 +195,7 @@ export default function HomePage() {
           },
           url: `${baseUrl}/docs/hardware-wallets/`,
           description:
-            'Score: 94 — Fully open source, Secure Element, active development. Best Hardware Wallet at approximately $169.',
+            'Score: 92 — Fully open source, Secure Element, active development. Best Hardware Wallet at approximately $169.',
         },
       },
       {
@@ -437,7 +437,7 @@ export default function HomePage() {
               </Link>
             </h3>
             <p className="text-sm text-muted-foreground mb-4">
-              Score: 94 — Fully open source firmware, Secure Element chip, recent commits
+              Score: 92 — Fully open source firmware, Secure Element chip, recent commits
             </p>
             <div className="text-xs text-muted-foreground">
               ✅ Open Source • ✅ Optiga SE • ~$169
