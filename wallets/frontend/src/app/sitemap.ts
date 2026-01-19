@@ -1,11 +1,13 @@
 import { MetadataRoute } from 'next';
 import { getAllDocuments } from '@/lib/markdown';
 import { getAllWalletData } from '@/lib/wallet-data';
+import { getAllArticles } from '@/lib/articles';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const documents = getAllDocuments();
+  const articles = getAllArticles();
   const currentDate = new Date();
 
   // Static pages with high priority
@@ -23,6 +25,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.95,
     },
     {
+      url: `${baseUrl}/articles/`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly' as const,
+      priority: 0.9,
+    },
+    {
       url: `${baseUrl}/docs/`,
       lastModified: currentDate,
       changeFrequency: 'weekly' as const,
@@ -35,6 +43,31 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
   ];
+
+  // Article pages - high priority for SEO/AEO content
+  const articleRoutes: MetadataRoute.Sitemap = articles.map((article) => {
+    let lastModified = currentDate;
+    if (article.lastUpdated) {
+      try {
+        const parsedDate = new Date(article.lastUpdated);
+        if (!isNaN(parsedDate.getTime())) {
+          lastModified = parsedDate;
+        }
+      } catch {
+        // Keep default date if parsing fails
+      }
+    }
+
+    // Comparison articles get higher priority
+    const priority = article.category === 'comparison' ? 0.9 : 0.85;
+
+    return {
+      url: `${baseUrl}/articles/${article.slug}/`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority,
+    };
+  });
 
   // Document pages - these have substantial unique content
   const documentRoutes: MetadataRoute.Sitemap = documents.map((doc) => {
@@ -96,6 +129,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     ...staticRoutes,
+    ...articleRoutes,
     ...documentRoutes,
     ...walletRoutes,
   ];
