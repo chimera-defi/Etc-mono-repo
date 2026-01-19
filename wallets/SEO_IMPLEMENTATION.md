@@ -11,7 +11,7 @@
 
 This document tracks all SEO (Search Engine Optimization), AEO (Answer Engine Optimization), and GEO (Generative Engine Optimization) implementations for walletradar.org. The goal is to optimize discoverability in both traditional search engines and LLMs (ChatGPT, Copilot, Gemini, Perplexity).
 
-**Status:** Week 1 Quick Wins ✅ COMPLETED (January 19, 2026)
+**Status:** Week 1 Quick Wins ✅ COMPLETED + Blog System ✅ COMPLETED (January 19, 2026)
 
 ---
 
@@ -162,6 +162,95 @@ keywords: 'crypto wallet, blockchain wallet, Rabby Wallet, web3 wallet'
 
 ---
 
+### 4. Blog/Article System for SEO Content (`articles/`, `app/articles/`)
+
+**Purpose:** Create long-form comparison articles and "best wallet for X" guides optimized for search intent and LLM citations.
+
+**New Infrastructure:**
+
+1. **Article Data Layer** (`lib/articles.ts`) - 120 lines
+   - `getArticleSlugs()` - Reads article directory
+   - `getArticleBySlug(slug)` - Parses frontmatter + markdown
+   - `getAllArticles()` - Returns all articles sorted by date
+   - `getRelatedArticles(slug)` - Finds similar articles by wallets/tags
+
+2. **Article Page Template** (`app/articles/[slug]/page.tsx`) - 300 lines
+   - Dynamic routing for all article slugs
+   - Full schema markup (BreadcrumbList, Article, FAQPage)
+   - Related articles sidebar
+   - Featured wallets sidebar
+   - Author card
+   - Social sharing
+   - Reading time
+
+3. **Article Listing Page** (`app/articles/page.tsx`) - 200 lines
+   - Shows all articles grouped by category
+   - Card layout with metadata
+   - Filter by category (comparison, guide, tutorial)
+
+4. **Sitemap Integration** (`app/sitemap.ts`)
+   - Added `articleRoutes` to sitemap
+   - Priority 0.9 for comparison articles
+   - Priority 0.85 for guide articles
+   - Monthly changeFrequency
+
+**Articles Created:**
+
+| Article | Category | Size | FAQs | Wallets Covered |
+|---------|----------|------|------|-----------------|
+| **Rabby vs MetaMask** | Comparison | 8.8KB | 10 | Rabby (92), MetaMask (68) |
+| **Best Wallet for Ethereum Developers** | Guide | 11.6KB | 10 | Rabby, Frame, Safe, MetaMask, Rainbow |
+| **Most Secure Hardware Wallet** | Guide | 13.5KB | 10 | Trezor Safe 7, ColdCard Mk4, Keystone 3 Pro |
+
+**Frontmatter Structure:**
+```yaml
+---
+title: "Article title optimized for search"
+description: "Meta description with key entities and scores"
+category: comparison | guide | tutorial | news
+lastUpdated: "2026-01-19"
+author: "Wallet Radar Team"
+wallets: ["Rabby", "MetaMask"]  # For related articles
+tags: ["ethereum", "developer-tools", "web3"]
+---
+```
+
+**Schema Markup Included:**
+
+```typescript
+// BreadcrumbList
+Home → Articles → Article Title
+
+// Article schema
+{
+  '@type': 'Article',
+  headline: article.title,
+  author: { '@type': 'Organization', name: article.author },
+  publisher: { '@type': 'Organization', name: 'Wallet Radar' },
+  datePublished: article.lastUpdated,
+  dateModified: article.lastUpdated,
+  keywords: [...wallets, ...tags].join(', ')
+}
+
+// FAQPage schema (auto-extracted from markdown)
+{
+  '@type': 'FAQPage',
+  mainEntity: [10 FAQ questions from article]
+}
+```
+
+**SEO Benefits:**
+- **Target Search Intent:** "Rabby vs MetaMask", "best wallet for developers", "most secure hardware wallet"
+- **Long-Form Content:** 8-13KB per article (optimal for ranking)
+- **Entity-Rich:** Wallet names, scores, features in first 200 words
+- **Internal Linking:** Related articles + featured wallets sidebar
+- **LLM-Friendly:** Direct answers, comparison tables, structured FAQs
+- **Social Sharing:** Twitter Card and OpenGraph metadata
+
+**Impact:** 3 new high-value SEO pages targeting competitive queries. Articles auto-appear in sitemap and are fully schema-compliant.
+
+---
+
 ## Schema Implementation Status
 
 | Schema Type | Status | Pages Affected | Purpose |
@@ -189,7 +278,14 @@ keywords: 'crypto wallet, blockchain wallet, Rabby Wallet, web3 wallet'
 | `SOFTWARE_WALLETS.md` | +43 | FAQ section |
 | `CRYPTO_CARDS.md` | +43 | FAQ section |
 | `RAMPS.md` | +43 | FAQ section |
-| **TOTAL** | **+469 lines** | Week 1 implementation |
+| `lib/articles.ts` | +120 | Article data layer (NEW) |
+| `app/articles/[slug]/page.tsx` | +300 | Article page template (NEW) |
+| `app/articles/page.tsx` | +200 | Article listing page (NEW) |
+| `app/sitemap.ts` | +15 | Article routes |
+| `articles/rabby-vs-metamask.md` | +250 | Comparison article (NEW) |
+| `articles/best-wallet-for-ethereum-developers.md` | +350 | Guide article (NEW) |
+| `articles/most-secure-hardware-wallet.md` | +400 | Guide article (NEW) |
+| **TOTAL** | **+2104 lines** | Week 1 + Blog System |
 
 ---
 
@@ -205,8 +301,13 @@ keywords: 'crypto wallet, blockchain wallet, Rabby Wallet, web3 wallet'
 - [x] **Task 8:** Add 10 FAQs to CRYPTO_CARDS.md
 - [x] **Task 9:** Add 10 FAQs to RAMPS.md
 - [x] **Task 10:** Create composite SEO documentation (this file)
+- [x] **Task 11:** Build blog/article system infrastructure
+- [x] **Task 12:** Create "Rabby vs MetaMask" comparison article
+- [x] **Task 13:** Create "Best Wallet for Ethereum Developers" guide
+- [x] **Task 14:** Create "Most Secure Hardware Wallet" guide
+- [x] **Task 15:** Integrate articles into sitemap
 
-**Status:** ✅ ALL WEEK 1 TASKS COMPLETE
+**Status:** ✅ ALL WEEK 1 + BLOG TASKS COMPLETE
 
 ---
 
@@ -236,27 +337,39 @@ keywords: 'crypto wallet, blockchain wallet, Rabby Wallet, web3 wallet'
 
 ---
 
-## Next Steps (Week 2-4)
+## Next Steps (Week 2+)
 
 ### Priority Order
 
-**Week 2-3: Real-Time Data Integration** 🟡 PENDING
-- [ ] Integrate CoinGecko API for live crypto prices
-- [ ] Integrate DeFiLlama API for real-time TVL data
-- [ ] Add security scores to comparison tables
-- [ ] Enhance comparison tables with Pros/Cons columns
-- [ ] Display "Last Updated" timestamps with live data
-
-**Week 4-6: Content Expansion** 🟡 PENDING
-- [ ] Create glossary page (`/glossary`) with entity markup
-- [ ] Add 10 "X vs Y" comparison articles (e.g., "Rabby vs MetaMask")
-- [ ] Add 5 "best wallet for [use case]" pages
+**Week 2-3: Content Expansion** 🟡 PENDING
+- [x] ~~Add 10 "X vs Y" comparison articles~~ (3 articles created, 7 more to go)
+- [x] ~~Add 5 "best wallet for [use case]" pages~~ (2 guides created, 3 more to go)
+- [ ] Add articles navigation to homepage/navbar
+- [ ] Create 7 more comparison articles:
+  - "Trezor vs Ledger"
+  - "MetaMask vs Rainbow"
+  - "Trust Wallet vs Rabby"
+  - "Hardware vs Software Wallets"
+  - "ColdCard vs Trezor Safe 7"
+  - "Coinbase Wallet vs MetaMask"
+  - "Best Ethereum Wallet: Comprehensive Guide"
+- [ ] Create 3 more guide articles:
+  - "Best Wallet for DeFi"
+  - "Best Wallet for NFT Collectors"
+  - "Best Multi-Chain Wallet"
+- [ ] Create glossary page (`/glossary`) with DefinedTerm schema
 - [ ] Create wallet setup guides with HowTo schema
-- [ ] Add video transcripts with VideoObject schema (future)
 
-**Month 2-3: Advanced Features** 🟡 PENDING
-- [ ] Implement AI referral tracking (detect ChatGPT/Copilot traffic)
-- [ ] Set up weekly LLM citation monitoring
+**Week 4-6: Advanced Content** 🟡 PENDING
+- [ ] Add video transcripts with VideoObject schema (if videos exist)
+- [ ] Create "Best Crypto Card" comparison article
+- [ ] Create "Best Crypto On-Ramp" comparison article
+- [ ] Add Pros/Cons sections to comparison tables
+- [ ] Enhance comparison articles with detailed feature tables
+
+**Month 2-3: Analytics & Monitoring** 🟡 PENDING
+- [ ] Implement AI referral tracking (detect ChatGPT/Copilot traffic in Google Analytics 4)
+- [ ] Set up weekly LLM citation monitoring (manual ChatGPT/Perplexity tests)
 - [ ] Add product feeds for Google Merchant Center
 - [ ] Create voice search optimization (SpeakableSpecification)
 - [ ] Multi-modal content (videos + transcripts)
@@ -390,20 +503,26 @@ Same as above. Track citation frequency.
 
 **SEO Core:**
 - `/wallets/frontend/src/lib/seo.ts` - All schema generators
+- `/wallets/frontend/src/lib/articles.ts` - Article data layer (NEW)
 - `/wallets/frontend/src/app/layout.tsx` - Organization/WebSite schema
 - `/wallets/frontend/src/app/page.tsx` - Homepage FAQs + TopPicks
 - `/wallets/frontend/src/app/docs/[slug]/page.tsx` - Doc page schemas
 - `/wallets/frontend/src/app/wallets/[type]/[id]/page.tsx` - Wallet profile schemas
+- `/wallets/frontend/src/app/articles/[slug]/page.tsx` - Article page template (NEW)
+- `/wallets/frontend/src/app/articles/page.tsx` - Article listing page (NEW)
 
 **Content:**
 - `/wallets/HARDWARE_WALLETS.md` - Hardware wallet comparison + FAQs
 - `/wallets/SOFTWARE_WALLETS.md` - Software wallet comparison + FAQs
 - `/wallets/CRYPTO_CARDS.md` - Crypto card comparison + FAQs
 - `/wallets/RAMPS.md` - Ramp provider comparison + FAQs
+- `/wallets/articles/rabby-vs-metamask.md` - Comparison article (NEW)
+- `/wallets/articles/best-wallet-for-ethereum-developers.md` - Guide article (NEW)
+- `/wallets/articles/most-secure-hardware-wallet.md` - Guide article (NEW)
 
 **Config:**
 - `/wallets/frontend/public/robots.txt` - Crawl directives
-- `/wallets/frontend/src/app/sitemap.ts` - Dynamic sitemap
+- `/wallets/frontend/src/app/sitemap.ts` - Dynamic sitemap (includes articles)
 
 ---
 
@@ -530,7 +649,7 @@ Same as above. Track citation frequency.
 
 ## Changelog
 
-### January 19, 2026 - Week 1 Quick Wins
+### January 19, 2026 - Week 1 Quick Wins + Blog System
 - ✅ Added BreadcrumbList schema generator to lib/seo.ts
 - ✅ Added FAQ schema generator to lib/seo.ts
 - ✅ Added enhanced Product schema generator to lib/seo.ts
@@ -541,8 +660,18 @@ Same as above. Track citation frequency.
 - ✅ Added 10 FAQs to CRYPTO_CARDS.md
 - ✅ Added 10 FAQs to RAMPS.md
 - ✅ Created this comprehensive SEO documentation
+- ✅ Built blog/article system infrastructure
+  - Created `lib/articles.ts` data layer (120 lines)
+  - Created `app/articles/[slug]/page.tsx` template (300 lines)
+  - Created `app/articles/page.tsx` listing page (200 lines)
+  - Updated `app/sitemap.ts` with article routes
+- ✅ Created 3 SEO-optimized articles:
+  - "Rabby vs MetaMask" comparison (8.8KB, 10 FAQs)
+  - "Best Wallet for Ethereum Developers" guide (11.6KB, 10 FAQs)
+  - "Most Secure Hardware Wallet" guide (13.5KB, 10 FAQs)
+- ✅ All articles include full schema markup (BreadcrumbList, Article, FAQPage)
 
-**Total:** 469 lines of code/content added across 6 files
+**Total:** 2104 lines of code/content added across 13 files
 
 ---
 
