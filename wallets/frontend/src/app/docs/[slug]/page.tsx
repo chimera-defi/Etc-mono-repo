@@ -4,7 +4,7 @@ import Script from 'next/script';
 import { ArrowLeft, Clock, BookOpen, ExternalLink, FileText, Table } from 'lucide-react';
 import Link from 'next/link';
 import { getAllDocuments, getDocumentBySlug, getDocumentSlugs, extractTableOfContents, getRelatedDocument } from '@/lib/markdown';
-import { calculateReadingTime, formatReadingTime, optimizeMetaDescription, generateKeywords, getOgImagePath, markdownToPlainText } from '@/lib/seo';
+import { calculateReadingTime, formatReadingTime, optimizeMetaDescription, generateKeywords, getOgImagePath, markdownToPlainText, extractFAQsFromMarkdown, generateFAQSchema, generateBreadcrumbSchema } from '@/lib/seo';
 import { EnhancedMarkdownRenderer } from '@/components/EnhancedMarkdownRenderer';
 import { TableOfContents } from '@/components/TableOfContents';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -132,25 +132,16 @@ export default function DocumentPage({ params }: PageProps) {
     return new Date().toISOString();
   };
 
-  // Breadcrumb structured data
-  const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: `${baseUrl}/`,
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: document.title,
-        item: pageUrl,
-      },
-    ],
-  };
+  // Breadcrumb structured data - use helper for consistency
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { label: 'Home', href: '/' },
+    { label: 'Docs', href: '/docs' },
+    { label: document.title, href: `/docs/${params.slug}` },
+  ], baseUrl);
+
+  // Extract FAQs from markdown content and generate FAQ schema
+  const faqs = extractFAQsFromMarkdown(document.content);
+  const faqSchema = faqs.length > 0 ? generateFAQSchema(faqs) : null;
 
   // Article structured data for comparison pages
   const articleSchema = document.category === 'comparison' ? {
@@ -278,6 +269,13 @@ export default function DocumentPage({ params }: PageProps) {
           id="itemlist-schema"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+        />
+      )}
+      {faqSchema && (
+        <Script
+          id="faq-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       )}
       <div className="container mx-auto px-4 py-8">

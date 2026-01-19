@@ -36,7 +36,16 @@ jobs:
             if (!hasAgentAttribution) {
               errors.push('❌ PR description missing agent attribution. Add `**Agent:** [Model Name]` at the top (e.g., Claude Sonnet 4.5, Claude Opus 4.5, GPT-4o)');
             }
-            
+
+            // Check for Co-authored-by attribution (required per .cursorrules Rule #122)
+            // Matches: **Co-authored-by:** Name <email> or Co-authored-by: Name <email>
+            // Example: **Co-authored-by:** Chimera <chimera_defi@protonmail.com>
+            const coauthorPattern = /^\*\*Co-authored-by:\*\*\s+.+<.+@.+>/im;
+            const hasCoauthor = coauthorPattern.test(body);
+            if (!hasCoauthor) {
+              errors.push('❌ PR description missing co-author attribution. Add `**Co-authored-by:** Name <email>` (e.g., **Co-authored-by:** Chimera <chimera_defi@protonmail.com>)');
+            }
+
             // Check for original request (required per .cursorrules Rule #119)
             const originalRequestPattern = /##\s*Original\s*Request/i;
             if (!originalRequestPattern.test(body)) {

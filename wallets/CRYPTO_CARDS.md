@@ -122,3 +122,47 @@
 **Related:** See [Software Wallet Comparison](./SOFTWARE_WALLETS.md) and [Hardware Wallet Comparison](./HARDWARE_WALLETS.md) for wallet recommendations.
 
 > 📖 **Want more details?** See the [full documentation with detailed card reviews, scoring breakdowns, and business support info](./CRYPTO_CREDIT_CARD_COMPARISON_DETAILS.md).
+
+---
+
+## Frequently Asked Questions
+
+### What is the best crypto credit card in 2026?
+
+**EtherFi Cash** (85/100) is the top-rated crypto card, offering 2-3% cashback with non-custodial self-custody (you control your crypto), no annual fee, and global availability. It's DeFi-native, supports both personal and corporate cards, and has no staking requirements. For EU/UK users, **Ready Card** (83) offers 3% cashback with self-custody.
+
+### Which crypto cards are non-custodial?
+
+Non-custodial cards where you control your crypto: **EtherFi Cash** (85), **Ready Card** (83), **Gnosis Pay** (78), **MetaMask Card** (76), **Kast** (71), **1inch Card** (70), **ThorWallet** (70), **Tria** (72), **Solflare** (72), and **CryptoSpend** (68). These cards get +3 bonus points in scoring because self-custody eliminates exchange risk.
+
+### What is the best crypto card for the US?
+
+For US users: **EtherFi Cash** (85) is #1 with 2-3% cashback and non-custodial security. **Gemini Card** (76) offers up to 3% back (requires Gemini account). **Coinbase Card** (75) provides up to 4% back but requires Coinbase custody. **Fold Card** (77) gives 2-3% Bitcoin cashback. Avoid **Crypto.com** (41) which has 0% base tier cashback.
+
+### What is the best crypto card for business/corporate use?
+
+**EtherFi Cash** (85) is best for business with corporate card support, non-custodial security, 2-3% cashback, and global availability. **Reap** (73, US-only) specializes in business expenses with 1.5% crypto rewards. **Revolut Crypto** (76) offers excellent fiat+crypto business features for EU/UK companies. Check the "Business" column in the comparison table.
+
+### Should I use a custodial or non-custodial crypto card?
+
+Non-custodial is safer. Custodial cards (Binance, Coinbase, Gemini) require trusting an exchange with your crypto and get -3 points in our scoring. Non-custodial cards (EtherFi, Ready, Gnosis Pay) let you control your crypto and get +3 bonus points. If an exchange fails or freezes accounts, custodial cards stop working immediately.
+
+### What happened to Crypto.com Card?
+
+**Crypto.com Card** (41/100) scores very low due to: 0% cashback at base tier, mandatory 12-month staking lock-ups for rewards, poor customer service, and frequent negative user reviews. It requires $400+ CRO stake just to get any cashback. Much better alternatives exist—see EtherFi Cash (85) or Ready Card (83).
+
+### Which crypto cards work globally?
+
+True global cards (🌍): **EtherFi Cash** (85), **Gnosis Pay** (78 - 10+ countries including EEA, UK, Brazil, Argentina, Mexico, Japan, Singapore), **MetaMask Card** (76), **1inch Card** (70 - EU/UK), **CryptoSpend** (68 - 31 countries). Note: **Binance Card** changed from global to Brazil-only in 2026.
+
+### What are the highest cashback crypto cards?
+
+**Coinbase Card** (75) offers up to 4% back but requires custodial Coinbase account. **Ready Card** (83) gives 3% with non-custodial self-custody. **EtherFi Cash** (85) provides 2-3% non-custodial. **Gemini Card** (76) offers up to 3% back. Avoid claimed "10% back" cards—these are usually temporary promos or require massive staking.
+
+### Do crypto cards charge foreign exchange fees?
+
+Most cards charge 1-3% FX fees. **Nexo Card** (77) advertises 0% FX on weekends only (has fees on weekdays). **Revolut Crypto** (76) offers competitive FX rates. **EtherFi Cash** (85) has standard FX fees. Always check the "FX Fee" column in the comparison table and verify current rates on official card websites.
+
+### Can I get a crypto card without KYC?
+
+No legitimate cards exist without KYC/identity verification. All regulated crypto cards require KYC compliance. Beware of scams claiming "no KYC crypto cards"—these are fraudulent. Non-custodial cards like **EtherFi Cash** (85) still require KYC but let you control your crypto after verification.

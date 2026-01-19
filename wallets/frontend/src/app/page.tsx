@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import Script from 'next/script';
-import { ArrowRight, Shield, Cpu, BookOpen, Github, Zap, CheckCircle, CreditCard, GitCompare, SlidersHorizontal, ArrowLeftRight } from 'lucide-react';
+import { ArrowRight, Shield, Cpu, BookOpen, Github, Zap, CheckCircle, CreditCard, GitCompare, SlidersHorizontal, ArrowLeftRight, FileText } from 'lucide-react';
 import { getAllDocuments, getWalletStats } from '@/lib/markdown';
+import { getAllArticles } from '@/lib/articles';
 import { WalletCard } from '@/components/WalletCard';
 import { StatsCard } from '@/components/StatsCard';
 import { FeaturedCategoryLinks } from '@/components/InternalLinks';
@@ -12,7 +13,8 @@ const siteName = 'Wallet Radar';
 export default function HomePage() {
   const documents = getAllDocuments();
   const stats = getWalletStats(documents);
-  
+  const articles = getAllArticles().slice(0, 3); // Get first 3 articles for featured section
+
   const comparisonDocs = documents.filter(d => d.category === 'comparison');
   const guideDocs = documents.filter(d => d.category === 'guide' || d.category === 'research');
 
@@ -578,6 +580,51 @@ export default function HomePage() {
             Explore & Compare Wallets
             <ArrowRight className="h-4 w-4" />
           </Link>
+        </div>
+      </section>
+
+      {/* Featured Articles */}
+      <section className="container mx-auto px-4 py-16 border-t border-border">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-2xl font-bold">Latest Articles</h2>
+          <Link
+            href="/articles"
+            className="text-sm text-primary hover:underline flex items-center gap-1"
+          >
+            View all articles
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {articles.map((article) => (
+            <Link
+              key={article.slug}
+              href={`/articles/${article.slug}`}
+              className="group p-6 rounded-lg border border-border hover:border-primary transition-colors"
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <FileText className="h-5 w-5 text-primary" />
+                <span className="text-xs font-medium text-muted-foreground uppercase">
+                  {article.category}
+                </span>
+              </div>
+              <h3 className="font-bold text-lg mb-2 group-hover:text-primary transition-colors">
+                {article.title}
+              </h3>
+              <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
+                {article.description}
+              </p>
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <span>{article.lastUpdated}</span>
+                {article.wallets && article.wallets.length > 0 && (
+                  <>
+                    <span>•</span>
+                    <span>{article.wallets.join(', ')}</span>
+                  </>
+                )}
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 

@@ -3,9 +3,9 @@
 If you're an AI agent creating this PR, see .cursorrules "PR Attribution Requirements" section for the complete guide.
 -->
 
-**Agent:** <!-- REQUIRED: e.g., Composer, Claude Code, GPT-4, Gemini, Claude Opus -->
+**Agent:** <!-- REQUIRED: e.g., Claude Sonnet 4.5, Claude Opus 4.5, GPT-4o -->
 
-**Co-authored-by:** <!-- REQUIRED: Include human collaborator attribution -->
+**Co-authored-by:** <!-- REQUIRED: Format: Name <email> e.g., Chimera <chimera_defi@protonmail.com> -->
 
 ## Summary
 <!-- Brief description of what was changed -->
