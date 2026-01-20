@@ -1,156 +1,277 @@
-# Wallet Research
+<div align="center">
 
-Developer-focused comparison of crypto wallets to find stable MetaMask alternatives.
+![Wallet Radar](./frontend/public/og-image.png)
 
-## 📊 Main Comparison Tables
+# Wallet Radar
 
-**→ [SOFTWARE_WALLETS.md](./SOFTWARE_WALLETS.md)** — Software wallets (24 EVM wallets)
+**Developer-Focused Crypto Wallet Research Platform**
 
-**→ [HARDWARE_WALLETS.md](./HARDWARE_WALLETS.md)** — Hardware cold storage wallets (23 devices)
+[![Wallets Frontend CI](https://github.com/chimera-defi/Etc-mono-repo/actions/workflows/wallets-frontend-ci.yml/badge.svg)](https://github.com/chimera-defi/Etc-mono-repo/actions/workflows/wallets-frontend-ci.yml)
+[![Refresh Wallet Data](https://github.com/chimera-defi/Etc-mono-repo/actions/workflows/refresh-wallet-data.yml/badge.svg)](https://github.com/chimera-defi/Etc-mono-repo/actions/workflows/refresh-wallet-data.yml)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Website](https://img.shields.io/badge/Website-walletradar.org-blue)](https://walletradar.org)
 
-**→ [CRYPTO_CARDS.md](./CRYPTO_CARDS.md)** — Crypto-backed credit/debit cards (27 cards)
+[🌐 Visit Website](https://walletradar.org) • [📊 Compare Wallets](https://walletradar.org/explore) • [📚 Documentation](https://walletradar.org/docs)
 
-| Column | Description | Source |
-|--------|-------------|--------|
-| **Score** | 0-100 weighted score | Calculated |
-| GitHub | Repository link | GitHub |
-| Active | ✅/⚠️/❌ activity status | GitHub |
-| Chains | Built-in chain count | WalletBeat |
-| **Devices** | 📱 Mobile / 🌐 Browser / 💻 Desktop | WalletBeat |
-| **Testnets** | Custom chain / testnet support | WalletBeat |
-| **License** | ✅ FOSS / ⚠️ Source-Avail / ❌ Proprietary | GitHub + WalletBeat |
-| **Audits** | ✅ Recent (2023+) / ⚠️ Old/Issues / ❓ Unknown | WalletBeat + GitHub |
-| **Funding** | 🟢 Sustainable / 🟡 VC / 🔴 Donations | Research |
-| **Tx Sim** | ✅ Built-in / ⚠️ Plugin / ❌ None | WalletBeat |
-| **Scam** | ✅ Alerts / ⚠️ Basic / ❌ None | WalletBeat |
-| **Account Type** | EOA / Safe / 4337 / 7702 | WalletBeat |
-| **HW Wallets** | Hardware wallet support | WalletBeat |
-| EIP-4337 | Account abstraction support | WalletBeat |
-| Best For | Use case | Analysis |
-| Rec | 🟢/🟡/🔴 recommendation | Analysis |
-
-### Sections in Document (Dec 2025)
-- 📊 **Wallet Scores** — Weighted 0-100 scoring with methodology
-- 🧭 **Decision Flowchart** — Visual guide to choose the right wallet
-- 🔒 **Security Audits** — Audit history with links to reports
-- ⚡ **Known Quirks & Gotchas** — Developer pain points per wallet
-- 📋 **EIP Support Matrix** — EIP-712, EIP-2612, EIP-4337, EIP-5792, EIP-7702
-- ⛽ **Gas Estimation** — Transaction preview quality by wallet
-- 📱 **Mobile Deep-linking** — Universal links, custom schemes
-- 🚀 **Developer Experience** — Docs, SDKs, error messages
-- 🛡️ **Security Features** — Transaction simulation & scam protection
-- 💰 **Monetization** — Business models & funding sources
-- 🔐 **Privacy** — Data collection & RPC defaults
-- 📝 **Changelog** — [CHANGELOG.md](./CHANGELOG.md) — Track changes to wallet statuses
-- 🆕 **Contributing** — How to add new wallets
-
-### Hardware Wallet Quick Picks (Cold Storage)
-
-| Use Case | Wallet | Score | Why |
-|----------|--------|-------|-----|
-| Best Overall | **Trezor Safe 5** | 94 | Fully open source, Secure Element, active development |
-| Air-Gapped | **Keystone 3 Pro** | 91 | QR-only, never connects to computer, triple SE |
-| Bitcoin Only | **ColdCard Mk4** | 91 | Dual SE, duress PIN, 0.9% issue ratio |
-| Best Value | **Trezor Safe 3** | 91 | $79, Secure Element, fully open source |
-| Swiss Quality | **BitBox02** | 88 | Open source, reproducible builds, active dev |
-| ⚠️ Caution | **Ledger** | 55-57 | Ledger Recover, closed firmware (use passphrase) |
-| 🔴 Avoid | **KeepKey** | 39 | Abandoned (no commits 10 months) |
-
-**Legend:** 🟢 Active development + open source | 🟡 Closed/private repo | 🔴 Inactive/abandoned
+</div>
 
 ---
 
-## ⚠️ Activity Status Alert (Nov 2025)
+## 🎯 What is Wallet Radar?
 
-Several previously recommended wallets have **stopped active development**:
-- ❌ **Block Wallet** — No commits since Nov 2024 (1 year!)
-- ❌ **Frame** — No commits since Feb 2025
-- ❌ **Argent-X** — No commits since Mar 2025
-- ⚠️ **Coinbase SDK** — Slow (last commit Jul 2025)
+Wallet Radar is a comprehensive comparison platform designed for developers who need reliable data to choose the right crypto wallet. We track **100+ wallets** across software, hardware, crypto cards, and on/off-ramps with transparent scoring based on security, GitHub activity, developer experience, and real-world usage metrics.
 
----
+Unlike consumer-focused wallet lists, Wallet Radar provides:
+- **📊 Transparent Scoring** — Weighted methodology based on security, activity, and developer experience
+- **🔍 GitHub Activity Tracking** — Real-time monitoring of development activity, release frequency, and maintenance status
+- **🛡️ Security Audits** — Comprehensive audit history with links to reports
+- **👨‍💻 Developer Experience** — Documentation quality, SDK availability, error messages, and integration ease
+- **🔗 Multi-Chain Support** — Track which wallets support your target chains
+- **⚡ Live Data** — Automated weekly updates via GitHub API
 
-## Quick Recommendations
+### 📈 What We Compare
 
-| Use Case | Wallet | Devices | Tx Sim | Scam | Funding | License | Status |
-|----------|--------|---------|--------|------|---------|---------|--------|
-| Development | **Rabby** | 📱🌐💻 | ✅ | ✅ | 🟢 DeBank | ✅ MIT | ✅ Active |
-| Production | **Trust Wallet** | 📱🌐 | ❌ | ⚠️ | 🟢 Binance | ⚠️ Apache-2 | ✅ Active |
-| Production | **Rainbow** | 📱🌐 | ❌ | ⚠️ | 🟡 VC | ✅ GPL-3 | ✅ Active |
-| Enterprise | **Safe** | 📱🌐 | ✅ | ✅ | 🟢 Grants | ✅ GPL-3 | ✅ Active |
-| Multi-chain | **Enkrypt** | 🌐 | ❌ | ⚠️ | 🟢 MEW | ✅ MIT | ✅ Active |
-| Ethereum | **MEW** | 📱🔗 | ❌ | ⚠️ | 🟢 Self | ✅ MIT | ✅ Active |
-| Smart Wallet | **Ambire** | 🌐 | ✅ | ✅ | 🟡 VC | ✅ GPL-3 | ✅ Active |
-| Payments | **Daimo** | 📱 | ❌ | ⚠️ | 🟡 VC | ✅ GPL-3 | ✅ Active |
-| Community | **Taho** | 🌐 | ❌ | ⚠️ | 🔴 Grants | ✅ GPL-3 | ✅ Active |
-| Avoid | ~~Block Wallet~~ | - | - | - | 🔴 Unknown | - | ❌ Inactive |
-| Avoid | ~~Frame~~ | - | - | - | 🔴 Donate | - | ❌ Inactive |
-
-**Devices:** 📱 Mobile | 🌐 Browser Extension | 💻 Desktop | 🔗 Web App
-**Funding:** 🟢 Sustainable | 🟡 VC-dependent | 🔴 Donation-based
-**Security:** Tx Sim = Transaction simulation | Scam = Scam/phishing alerts
+| Category | Count | Description |
+|----------|-------|-------------|
+| **Software Wallets** | 24+ | Browser extensions, mobile apps, desktop wallets |
+| **Hardware Wallets** | 23+ | Cold storage devices with security element analysis |
+| **Crypto Cards** | 27+ | Crypto-backed credit & debit cards |
+| **On/Off-Ramps** | 20+ | Fiat-to-crypto conversion providers |
 
 ---
 
-## Documents
+## 🖼️ Product Screenshots
 
-### Main Comparison Tables
+<div align="center">
 
-- **[SOFTWARE_WALLETS.md](./SOFTWARE_WALLETS.md)** — Software wallet comparison (24 EVM wallets)
-  - [Table](./SOFTWARE_WALLETS.md) | [Details](./SOFTWARE_WALLETS_DETAILS.md)
-- **[HARDWARE_WALLETS.md](./HARDWARE_WALLETS.md)** — Hardware wallet comparison (23 cold storage devices)
-  - [Table](./HARDWARE_WALLETS.md) | [Details](./HARDWARE_WALLETS_DETAILS.md)
-- **[CRYPTO_CARDS.md](./CRYPTO_CARDS.md)** — Crypto credit card comparison (27 cards)
-  - [Table](./CRYPTO_CARDS.md) | [Details](./CRYPTO_CARDS_DETAILS.md)
-- **[RAMPS.md](./RAMPS.md)** — Crypto on/off-ramp provider comparison (20 providers)
-  - [Table](./RAMPS.md) | [Details](./RAMPS_DETAILS.md)
+### Software Wallet Comparison
+![Software Wallets](./frontend/public/og-software-wallets-table.png)
 
-### Supporting Documents
+### Interactive Explorer & Comparison Tool
+![Explore & Compare](./frontend/public/og-explore.png)
 
-- **[CHANGELOG.md](./CHANGELOG.md)** — Complete history of changes
-- **[CONTRIBUTING.md](./CONTRIBUTING.md)** — How to add new wallets
-- **[VERIFICATION_NOTES.md](./VERIFICATION_NOTES.md)** — Verification status and methods
-- **[tests/](./tests/)** — Integration testing suite
+</div>
 
-## External Resources
+---
 
-| Resource | URL | Focus |
-|----------|-----|-------|
-| **WalletBeat** | [walletbeat.fyi](https://walletbeat.fyi) | Technical features, RPC config, ENS, security |
-| Ethereum.org | [ethereum.org/wallets](https://ethereum.org/en/wallets/find-wallet/) | Consumer features |
-| WalletConnect | [explorer.walletconnect.com](https://explorer.walletconnect.com/) | Wallet registry |
-| ChainList | [chainlist.org](https://chainlist.org) | RPC endpoints |
+## ✨ Key Features
 
-## Data Sources
+### 🔍 **Advanced Filtering & Comparison**
+- Filter by platforms (Mobile, Browser, Desktop)
+- Filter by features (Transaction Simulation, Scam Alerts, Testnets)
+- Filter by license type (Open Source, Source Available, Proprietary)
+- Compare up to 4 wallets side-by-side
 
-- Original data: GitHub REST API (November 2024)
-- Activity status: GitHub REST API (November 29, 2025)
-- Chain counts: [Rabby API](https://api.rabby.io/v1/chain/list), [Trust registry](https://github.com/trustwallet/wallet-core/blob/master/registry.json)
-- **License, devices, testnets:** [WalletBeat](https://walletbeat.fyi) (December 2025)
-- **Security audits:** WalletBeat + wallet GitHub repos (December 2025)
-- Additional wallets discovered: WalletBeat registry, GitHub search
+### 📊 **Comprehensive Scoring System**
+- Security features (audits, open source, tx simulation)
+- GitHub metrics (stars, issues, release frequency)
+- Developer experience (docs, SDKs, support)
+- Platform coverage (mobile, browser, desktop)
 
-See [PR #62](https://github.com/chimera-defi/ethglobal-argentina-25/pull/62) for original methodology.
+### 🔄 **Automated Data Updates**
+- Weekly GitHub Activity monitoring
+- Automated PR creation with updated data
+- Manual verification for security-critical changes
 
-## Automation
+### 🎨 **Developer-Friendly Interface**
+- Clean, fast Next.js 14 application
+- Dark mode support
+- Responsive design for all devices
+- SEO optimized with structured data
 
-### Refresh Script
+### 🔗 **Live Chain Data Integration**
+- Real-time TVL data from DeFiLlama
+- Chain support verification
+- Network status tracking
+
+---
+
+## 🏗️ Tech Stack
+
+### Frontend
+- **Framework:** Next.js 14 (React 18)
+- **Styling:** Tailwind CSS 3
+- **Icons:** Lucide React
+- **Markdown:** react-markdown with GitHub Flavored Markdown
+- **Type Safety:** TypeScript 5
+
+### Data Pipeline
+- **Data Source:** GitHub REST API, WalletBeat, Rabby API, Trust Registry
+- **Automation:** GitHub Actions (weekly refresh)
+- **Storage:** Markdown files with frontmatter metadata
+
+### Infrastructure
+- **Hosting:** AWS Amplify
+- **CI/CD:** GitHub Actions
+- **OG Images:** Canvas-based generation with Sharp
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 20+
+- npm or yarn
+
+### Local Development
 
 ```bash
+# Clone the repository
+git clone https://github.com/chimera-defi/Etc-mono-repo.git
+cd Etc-mono-repo/wallets/frontend
+
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Open http://localhost:3000 in your browser
+```
+
+### Build for Production
+
+```bash
+# Build the application
+npm run build
+
+# Start production server
+npm start
+```
+
+### Available Scripts
+
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Build for production |
+| `npm start` | Start production server |
+| `npm run lint` | Run ESLint |
+| `npm run type-check` | Run TypeScript type checking |
+| `npm test` | Run smoke tests |
+| `npm run generate-og` | Generate OG images |
+| `npm run validate-cards` | Validate Twitter cards |
+
+---
+
+## 📁 Project Structure
+
+```
+wallets/
+├── frontend/               # Next.js application
+│   ├── src/
+│   │   ├── app/           # Next.js 14 App Router pages
+│   │   ├── components/    # React components
+│   │   ├── lib/           # Utilities & helpers
+│   │   └── styles/        # Global styles
+│   ├── public/            # Static assets & OG images
+│   ├── scripts/           # Build & validation scripts
+│   └── package.json
+├── scripts/               # Data refresh automation
+│   └── refresh-github-data.sh
+├── SOFTWARE_WALLETS.md    # Software wallet comparison table
+├── HARDWARE_WALLETS.md    # Hardware wallet comparison table
+├── CRYPTO_CARDS.md        # Crypto card comparison table
+├── RAMPS.md               # On/off-ramp comparison table
+├── *_DETAILS.md           # Detailed analysis documents
+├── CHANGELOG.md           # Change history
+└── README.md              # This file
+```
+
+---
+
+## 📊 Data Sources
+
+All data is sourced from publicly available, verified sources:
+
+| Source | Usage | Links |
+|--------|-------|-------|
+| **GitHub API** | Stars, issues, release frequency, activity status | [API Docs](https://docs.github.com/en/rest) |
+| **WalletBeat** | License info, device support, security audits | [walletbeat.fyi](https://walletbeat.fyi) |
+| **Rabby API** | Chain counts for software wallets | [api.rabby.io](https://api.rabby.io/v1/chain/list) |
+| **Trust Registry** | Network support data | [GitHub](https://github.com/trustwallet/wallet-core) |
+| **DeFiLlama** | Real-time TVL data for chains | [defillama.com](https://defillama.com) |
+
+---
+
+## 🔄 Automated Updates
+
+Wallet data is automatically refreshed every Monday via GitHub Actions:
+
+```bash
+# Manual refresh (requires GitHub token)
 cd wallets/scripts
 ./refresh-github-data.sh          # Text output
-./refresh-github-data.sh --json   # JSON output  
+./refresh-github-data.sh --json   # JSON output
 ./refresh-github-data.sh --markdown  # Markdown table
 ```
 
 See [scripts/README.md](./scripts/README.md) for full documentation.
 
-### GitHub Actions
+---
 
-A workflow runs every Monday to refresh activity data:
-- `.github/workflows/refresh-wallet-data.yml`
-- Creates a PR with updated status
-- Can be triggered manually
+## 📚 Documentation
+
+Comprehensive comparison tables and guides:
+
+- **[SOFTWARE_WALLETS.md](./SOFTWARE_WALLETS.md)** — Software wallet comparison (24 EVM wallets)
+- **[HARDWARE_WALLETS.md](./HARDWARE_WALLETS.md)** — Hardware wallet comparison (23 devices)
+- **[CRYPTO_CARDS.md](./CRYPTO_CARDS.md)** — Crypto credit card comparison (27 cards)
+- **[RAMPS.md](./RAMPS.md)** — On/off-ramp provider comparison (20 providers)
+- **[CHANGELOG.md](./CHANGELOG.md)** — Complete change history
+- **[CONTRIBUTING.md](./CONTRIBUTING.md)** — How to contribute
+- **[VERIFICATION_NOTES.md](./VERIFICATION_NOTES.md)** — Data verification methods
 
 ---
-*Last updated: December 16, 2025*
+
+## 🛡️ Trust & Transparency
+
+### Why We're Not Phishing
+
+✅ **Never ask for passwords** — No login page, no wallet connection, no key requests
+✅ **No personal data collection** — No registration, no email required, no user tracking
+✅ **Transparent data sources** — All links and data sources verified and documented
+✅ **Open source code** — View and audit our code on GitHub
+✅ **Published methodology** — All scoring formulas documented and reproducible
+✅ **No affiliate links** — We don't profit from wallet recommendations
+
+### Educational Purpose Only
+
+Wallet Radar does NOT provide financial advice, recommend specific wallets, or collect personal information. All data is sourced publicly and linked for independent verification. We are completely independent of all wallet providers.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Here's how you can help:
+
+1. **Report Issues** — Found incorrect data? [Open an issue](https://github.com/chimera-defi/Etc-mono-repo/issues)
+2. **Add Wallets** — See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines
+3. **Improve Documentation** — Fix typos, clarify explanations
+4. **Enhance Features** — Submit PRs for new features or improvements
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed guidelines.
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🔗 Links
+
+- **Website:** [walletradar.org](https://walletradar.org)
+- **GitHub:** [github.com/chimera-defi/Etc-mono-repo/tree/main/wallets](https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets)
+- **Issues:** [github.com/chimera-defi/Etc-mono-repo/issues](https://github.com/chimera-defi/Etc-mono-repo/issues)
+
+---
+
+<div align="center">
+
+**Built with ❤️ for the developer community**
+
+[⬆ Back to Top](#wallet-radar)
+
+</div>
