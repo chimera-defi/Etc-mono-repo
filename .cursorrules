@@ -23,7 +23,7 @@
 - Install: `curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash`
 - Use for: 2+ file reads, directory trees, pattern searches, knowledge storage
 - Store research in memory server to avoid re-reading docs
-- **Saves 60-95% tokens** vs native tools (see token-reduction-skill.md)
+- **Benchmarked savings:** 91% (concise responses), 84% (knowledge graph), 44% (targeted reads) - see token-reduction-skill.md
 
 ---
 
@@ -171,7 +171,7 @@ Rules are organized by domain. Reference by number in code reviews.
 - **#146** Store knowledge in memory server
 - **#147** Query knowledge graph before searching
 - **#148** Token reduction skill always active (see .cursor/token-reduction-skill.md)
-- **#149** MCP CLI saves 60-95% tokens vs native tools
+- **#149** Benchmarked token savings: 91% (concise), 84% (knowledge graph), 44% (targeted reads)
 - **#150** Query knowledge graph before researching to avoid duplicate work
 
 ### Comparison Tables (123-139)

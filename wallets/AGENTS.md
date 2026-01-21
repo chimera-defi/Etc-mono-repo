@@ -95,10 +95,10 @@ Rabby, Trust, Rainbow, Brave, Coinbase, MetaMask, Phantom, OKX, Wigwam, Zerion, 
 **Token optimization:** See `.cursor/token-reduction-skill.md`
 
 ```bash
-# Bulk read wallet tables (saves 60%+ tokens vs 3 separate reads)
+# Bulk read wallet tables (reduces tool call overhead, provides structured data)
 mcp-cli filesystem/read_multiple_files '{"paths": ["wallets/SOFTWARE_WALLETS.md", "wallets/HARDWARE_WALLETS.md", "wallets/CRYPTO_CARDS.md"]}'
 
-# Store wallet research (saves 95% tokens on repeated queries)
+# Store wallet research (saves 84% tokens across multiple sessions)
 mcp-cli memory/create_entities '{"entities": [{"name": "WalletName", "entityType": "wallet", "observations": ["feature1", "feature2"]}]}'
 
 # ALWAYS query before research (avoids duplicate work)

@@ -47,7 +47,7 @@ Bug on line 47 - missing return statement.
 **CRITICAL: Use MCP CLI for bulk operations (see `.cursor/MCP_CLI.md`):**
 
 ```bash
-# Instead of multiple Read calls (5000+ tokens each)
+# Bulk file reads - reduces tool call overhead
 mcp-cli filesystem/read_multiple_files '{"paths": ["file1.md", "file2.md", "file3.md"]}'
 
 # Read specific line ranges only
@@ -57,7 +57,10 @@ mcp-cli filesystem/read_text_file '{"path": "/large_file.py", "head": 150}'
 mcp-cli filesystem/directory_tree '{"path": "./src"}'
 ```
 
-**Token savings:** 60-90% reduction vs native tools
+**Token savings:**
+- **1-10% per operation** (from reduced tool call overhead)
+- **Scales with file count:** 3 files = 1%, 10 files = 10%, 50 files = 30%
+- **Major benefit:** Single tool call, structured data, better ergonomics
 
 **Cache file contents mentally** - don't re-read unnecessarily
 
@@ -285,15 +288,28 @@ mcp-cli filesystem/directory_tree '{"path": "."}'
 
 ## Token Savings Comparison
 
-| Operation | Without Skill | With Skill | Savings |
-|-----------|---------------|-----------|---------|
-| Read 5 files natively | ~25K tokens | ~8K tokens (MCP CLI) | 68% |
-| Full file read | 5K tokens | 500 tokens (head/tail) | 90% |
-| Directory exploration | 10K tokens | 2K tokens (tree) | 80% |
-| Repeated research | 5K tokens | 250 tokens (knowledge graph) | 95% |
-| Verbose explanation | 800 tokens | 200 tokens (concise) | 75% |
+**Benchmarked Results** (see `.cursor/benchmark-*.sh` for methodology):
 
-**Average workflow savings: 40-70%**
+| Strategy | Baseline | Optimized | Measured Savings |
+|----------|----------|-----------|------------------|
+| **Response conciseness** | ~189 tokens | ~17 tokens | **91%** ⭐ |
+| **Knowledge graph (10 sessions)** | ~65K tokens | ~10K tokens | **84%** ⭐ |
+| **Targeted file reads** | ~4525 tokens | ~2573 tokens | **44%** |
+| **Parallel tool calls** | ~3400 tokens | ~2700 tokens | **20%** |
+| **Bulk file reads (3 files)** | ~3986 tokens | ~3936 tokens | **1%** |
+
+**Real-World Impact:**
+
+- **Single session, simple task:** 10-30% savings
+  - From: concise responses, targeted reads
+
+- **Single session, complex task:** 30-50% savings
+  - From: concise responses, parallel tool calls, targeted reads
+
+- **Multi-session, repeated research:** 70-90% savings
+  - From: knowledge graph preventing duplicate research
+
+**Key Insight:** MCP CLI bulk operations provide modest per-operation savings (1-10%) but scale with file count. Real savings come from concise communication (91%), knowledge graph reuse (84%), and targeted file access (44%).
 
 ---
 

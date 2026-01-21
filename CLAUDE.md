@@ -85,7 +85,7 @@ Before completing any task:
 | #140 | Install MCP CLI before using |
 | #146 | Store knowledge in memory server |
 | #148 | Token reduction skill always active |
-| #149 | MCP CLI saves 60-95% tokens |
+| #149 | Benchmarked savings: 91% (concise), 84% (knowledge graph), 44% (targeted reads) |
 | #150 | Query knowledge graph before researching |
 
 ## Project-Specific Docs
