@@ -1,43 +1,100 @@
 # Development Progress
 
-**Status:** Code complete, unverified (requires aztec-nargo)
+**Status:** ✅ Phase 2 Complete - All contracts compile with v3.0.x
+
+---
+
+## Environment Status ✅
+
+| Tool | Version | Status |
+|------|---------|--------|
+| Docker | 28.2.2 | ✅ Working |
+| noirup/nargo | 1.0.0-beta.18 | ✅ Installed |
+| aztec-nargo | 1.0.0-beta.15 (from devnet image) | ✅ Extracted |
+| aztec-packages | v3.0.3 | ✅ Dependencies updated |
 
 ---
 
 ## What Works
 
 ```bash
+# Unit tests (64/64 passing)
 cd contracts/staking-math-tests && ~/.nargo/bin/nargo test
 # 64 tests passed ✅
+
+# All 3 core contracts compile successfully
+cd ~/aztec-contracts/staked-aztec-token && ~/aztec-bin/aztec-nargo compile   # 773 KB
+cd ~/aztec-contracts/liquid-staking-core && ~/aztec-bin/aztec-nargo compile  # 782 KB
+cd ~/aztec-contracts/withdrawal-queue && ~/aztec-bin/aztec-nargo compile     # 791 KB
 ```
 
 ---
 
-## What's Not Verified
+## Contract Architecture (Simplified)
 
-| Item | Reason |
-|------|--------|
-| Contract compilation | Requires `aztec-nargo` (Docker not available) |
-| Cross-contract calls | Function selectors are guesses from docs |
-| Integration flows | No sandbox to test against |
+Reduced from 7 contracts (176 functions) to 3 core contracts (38 functions):
+
+| Contract | Functions | Artifact Size | Status |
+|----------|-----------|---------------|--------|
+| StakedAztecToken | 13 | 773 KB | ✅ Compiles |
+| LiquidStakingCore | 14 | 782 KB | ✅ Compiles |
+| WithdrawalQueue | 11 | 791 KB | ✅ Compiles |
+| **Total** | **38** | **2.3 MB** | **3/3 ✅** |
+
+### Removed Contracts (Redundant)
+- `aztec-staking-pool` - Standalone pool, not part of liquid staking flow
+- `validator-registry` - Duplicated VaultManager functionality
+- `vault-manager` - Admin operations simplified into LiquidStakingCore
+- `rewards-manager` - Admin operations simplified into LiquidStakingCore
+
+### Core Flow
+```
+User deposits AZTEC → LiquidStakingCore.deposit() → Mints stAZTEC (StakedAztecToken)
+User withdraws → LiquidStakingCore.request_withdrawal() → Creates unbonding request (WithdrawalQueue)
+After 7 days → WithdrawalQueue.claim_withdrawal() → Returns AZTEC to user
+```
 
 ---
 
-## Contract Summary
+## Breaking Changes (v2.1.9 → v3.0.x)
 
-| Contract | Functions | Cross-Contract Calls |
-|----------|-----------|---------------------|
-| LiquidStakingCore | 37 | 4 (transfer, mint, burn, queue) |
-| RewardsManager | 33 | 2 (add_rewards, update_rate) |
-| VaultManager | 28 | 1 (notify_staked) |
-| WithdrawalQueue | 24 | 1 (transfer on claim) |
-| StakingPool | 21 | 1 (transfer) |
-| ValidatorRegistry | 20 | 0 |
-| StakedAztecToken | 13 | 0 |
-| **Total** | **176** | **9 helpers** |
+See `contracts/NOIR_GUIDE.md` section 1.1 for full migration guide.
+
+Key changes:
+- `#[public]` → `#[external("public")]`
+- `storage.field` → `self.storage.field`
+- `context.msg_sender()` → `self.msg_sender().unwrap()`
+- `context.this_address()` → `self.address`
+- Cross-contract calls: `self.context.call_public_function(..., GasOpts::default())`
+- Add `use dep::aztec::protocol_types::traits::ToField` for `.to_field()` calls
 
 ---
 
-## Next Step
+## Next Steps (Phase 3)
 
-Get build environment working. See [docs/INTEGRATION-TESTING.md](docs/INTEGRATION-TESTING.md).
+1. **Verify function selectors** against actual Aztec Token contract ABI
+2. **Run integration tests** with Aztec sandbox/devnet
+3. **Deploy to devnet** for full flow testing
+4. **Add private transfer support** (optional enhancement)
+
+---
+
+## Commands Reference
+
+```bash
+# Install nargo (for unit tests)
+curl -L https://raw.githubusercontent.com/noir-lang/noirup/refs/heads/main/install | bash
+~/.nargo/bin/noirup
+
+# Extract aztec-nargo from Docker
+docker pull aztecprotocol/aztec:devnet
+docker create --name tmp-aztec aztecprotocol/aztec:devnet
+docker cp tmp-aztec:/usr/src/noir/noir-repo/target/release/nargo ~/aztec-bin/aztec-nargo
+docker rm tmp-aztec
+chmod +x ~/aztec-bin/aztec-nargo
+
+# Compile Aztec contracts (must be under $HOME)
+cp -r contracts/staked-aztec-token ~/aztec-contracts/
+cd ~/aztec-contracts/staked-aztec-token
+~/aztec-bin/aztec-nargo compile
+```

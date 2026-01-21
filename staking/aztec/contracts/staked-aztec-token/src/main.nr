@@ -1,5 +1,6 @@
 // StakedAztecToken (stAZTEC) - Liquid Staking Token Contract
 // TASK-101 to TASK-104 implementation
+// Updated for Aztec v3.0.x API
 
 use dep::aztec::macros::aztec;
 
@@ -8,7 +9,7 @@ pub contract StakedAztecToken {
     use dep::aztec::protocol_types::address::AztecAddress;
     use dep::aztec::state_vars::{Map, PublicMutable};
     use dep::aztec::macros::{
-        functions::{initializer, public, view},
+        functions::{external, initializer, view},
         storage::storage,
     };
 
@@ -24,134 +25,134 @@ pub contract StakedAztecToken {
     }
 
     // ============ INITIALIZER ============
-    #[public]
+    #[external("public")]
     #[initializer]
     fn constructor(admin_: AztecAddress) {
-        storage.admin.write(admin_);
-        storage.total_supply.write(0);
-        storage.exchange_rate.write(10000);
+        self.storage.admin.write(admin_);
+        self.storage.total_supply.write(0);
+        self.storage.exchange_rate.write(10000);
     }
 
     // ============ ADMIN FUNCTIONS ============
-    #[public]
+    #[external("public")]
     fn set_liquid_staking_core(core_address: AztecAddress) {
-        let caller = context.msg_sender();
-        let admin = storage.admin.read();
+        let caller = self.msg_sender().unwrap();
+        let admin = self.storage.admin.read();
         assert(caller == admin, "Only admin can set core address");
-        storage.liquid_staking_core.write(core_address);
+        self.storage.liquid_staking_core.write(core_address);
     }
-    
-    #[public]
+
+    #[external("public")]
     fn set_rewards_manager(rewards_address: AztecAddress) {
-        let caller = context.msg_sender();
-        let admin = storage.admin.read();
+        let caller = self.msg_sender().unwrap();
+        let admin = self.storage.admin.read();
         assert(caller == admin, "Only admin can set rewards manager");
-        storage.rewards_manager.write(rewards_address);
+        self.storage.rewards_manager.write(rewards_address);
     }
-    
-    #[public]
+
+    #[external("public")]
     fn set_admin(new_admin: AztecAddress) {
-        let caller = context.msg_sender();
-        let admin = storage.admin.read();
+        let caller = self.msg_sender().unwrap();
+        let admin = self.storage.admin.read();
         assert(caller == admin, "Only admin");
-        storage.admin.write(new_admin);
+        self.storage.admin.write(new_admin);
     }
 
     // ============ MINT/BURN FUNCTIONS ============
-    #[public]
+    #[external("public")]
     fn mint(to: AztecAddress, amount: u128) {
-        let caller = context.msg_sender();
-        let core = storage.liquid_staking_core.read();
+        let caller = self.msg_sender().unwrap();
+        let core = self.storage.liquid_staking_core.read();
         assert(caller == core, "Only LiquidStakingCore can mint");
         assert(amount > 0, "Amount must be positive");
-        
-        let balance = storage.balances.at(to).read();
-        storage.balances.at(to).write(balance + amount);
-        
-        let supply = storage.total_supply.read();
-        storage.total_supply.write(supply + amount);
+
+        let balance = self.storage.balances.at(to).read();
+        self.storage.balances.at(to).write(balance + amount);
+
+        let supply = self.storage.total_supply.read();
+        self.storage.total_supply.write(supply + amount);
     }
-    
-    #[public]
+
+    #[external("public")]
     fn burn(from: AztecAddress, amount: u128) {
-        let caller = context.msg_sender();
-        let core = storage.liquid_staking_core.read();
+        let caller = self.msg_sender().unwrap();
+        let core = self.storage.liquid_staking_core.read();
         assert(caller == core, "Only LiquidStakingCore can burn");
         assert(amount > 0, "Amount must be positive");
-        
-        let balance = storage.balances.at(from).read();
+
+        let balance = self.storage.balances.at(from).read();
         assert(balance >= amount, "Insufficient balance to burn");
-        storage.balances.at(from).write(balance - amount);
-        
-        let supply = storage.total_supply.read();
-        storage.total_supply.write(supply - amount);
+        self.storage.balances.at(from).write(balance - amount);
+
+        let supply = self.storage.total_supply.read();
+        self.storage.total_supply.write(supply - amount);
     }
 
     // ============ TRANSFER FUNCTION ============
-    #[public]
+    #[external("public")]
     fn transfer(to: AztecAddress, amount: u128) {
-        let from = context.msg_sender();
+        let from = self.msg_sender().unwrap();
         assert(amount > 0, "Amount must be positive");
-        
-        let from_balance = storage.balances.at(from).read();
+
+        let from_balance = self.storage.balances.at(from).read();
         assert(from_balance >= amount, "Insufficient balance");
-        
-        storage.balances.at(from).write(from_balance - amount);
-        
-        let to_balance = storage.balances.at(to).read();
-        storage.balances.at(to).write(to_balance + amount);
+
+        self.storage.balances.at(from).write(from_balance - amount);
+
+        let to_balance = self.storage.balances.at(to).read();
+        self.storage.balances.at(to).write(to_balance + amount);
     }
 
     // ============ EXCHANGE RATE ============
-    #[public]
+    #[external("public")]
     fn update_exchange_rate(new_rate: u64) {
-        let caller = context.msg_sender();
-        let rewards_manager = storage.rewards_manager.read();
-        let admin = storage.admin.read();
-        
+        let caller = self.msg_sender().unwrap();
+        let rewards_manager = self.storage.rewards_manager.read();
+        let admin = self.storage.admin.read();
+
         // Check caller is authorized (rewards manager or admin)
         let is_rewards_manager = caller == rewards_manager;
         let is_admin = caller == admin;
         assert(is_rewards_manager | is_admin, "Only RewardsManager or admin can update rate");
-        
-        let current_rate = storage.exchange_rate.read();
+
+        let current_rate = self.storage.exchange_rate.read();
         assert(new_rate >= current_rate, "Rate can only increase");
-        
-        storage.exchange_rate.write(new_rate);
+
+        self.storage.exchange_rate.write(new_rate);
     }
 
     // ============ VIEW FUNCTIONS ============
-    #[public]
+    #[external("public")]
     #[view]
-    fn balance_of(account: AztecAddress) -> pub u128 {
-        storage.balances.at(account).read()
+    fn balance_of(account: AztecAddress) -> u128 {
+        self.storage.balances.at(account).read()
     }
-    
-    #[public]
+
+    #[external("public")]
     #[view]
-    fn get_total_supply() -> pub u128 {
-        storage.total_supply.read()
+    fn get_total_supply() -> u128 {
+        self.storage.total_supply.read()
     }
-    
-    #[public]
+
+    #[external("public")]
     #[view]
-    fn get_exchange_rate() -> pub u64 {
-        storage.exchange_rate.read()
+    fn get_exchange_rate() -> u64 {
+        self.storage.exchange_rate.read()
     }
-    
+
     // Convert stAZTEC to AZTEC: stAZTEC * rate / 10000
-    #[public]
+    #[external("public")]
     #[view]
-    fn convert_to_aztec(st_aztec_amount: u128) -> pub u128 {
-        let rate = storage.exchange_rate.read();
+    fn convert_to_aztec(st_aztec_amount: u128) -> u128 {
+        let rate = self.storage.exchange_rate.read();
         (st_aztec_amount * (rate as u128)) / 10000
     }
-    
+
     // Convert AZTEC to stAZTEC: AZTEC * 10000 / rate
-    #[public]
+    #[external("public")]
     #[view]
-    fn convert_to_st_aztec(aztec_amount: u128) -> pub u128 {
-        let rate = storage.exchange_rate.read();
+    fn convert_to_st_aztec(aztec_amount: u128) -> u128 {
+        let rate = self.storage.exchange_rate.read();
         (aztec_amount * 10000) / (rate as u128)
     }
 }
