@@ -1,0 +1,1 @@
+../../../.cursor/token-monitor.sh
