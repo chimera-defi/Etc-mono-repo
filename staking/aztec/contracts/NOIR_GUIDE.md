@@ -1,4 +1,4 @@
-# Aztec Noir & Nargo: The Missing Manual (for v0.30+)
+# Aztec Noir & Nargo: The Missing Manual (for v3.0.x)
 
 This guide consolidates research, patterns, and examples for Aztec's Noir language and Nargo build tool. It is designed to help future agents navigate the complexities of writing smart contracts on Aztec, specifically for liquid staking.
 
@@ -7,8 +7,81 @@ This guide consolidates research, patterns, and examples for Aztec's Noir langua
 *   **Language**: Noir (Rust-like ZK-DSL)
 *   **Extension**: `.nr`
 *   **Build Tool**: `aztec-nargo` (wrapper around `nargo` with Aztec backend)
-*   **Key Version**: v0.30.0+ (Aztec v2.1.9)
+*   **Key Version**: v3.0.3 (Aztec devnet)
 *   **Documentation**: [Aztec Docs](https://docs.aztec.network), [Noir Docs](https://noir-lang.org/docs)
+
+## 1.1 v3.0.x Migration Guide (from v2.1.9)
+
+**BREAKING CHANGES in v3.0.x:**
+
+| v2.1.9 | v3.0.x | Notes |
+|--------|--------|-------|
+| `#[public]` | `#[external("public")]` | Function attribute renamed |
+| `#[private]` | `#[external("private")]` | Function attribute renamed |
+| `storage.field.read()` | `self.storage.field.read()` | Must use `self.` prefix |
+| `context.msg_sender()` | `self.msg_sender().unwrap()` | Returns Option, must unwrap |
+| `context.this_address()` | `self.address` | Direct access |
+| `&mut context` | `self.context` | Context is on self |
+| `functions::{initializer, public, view}` | `functions::{external, initializer, view}` | Import change |
+| `-> pub u128` | `-> u128` | Remove `pub` from return types |
+
+**Example migration:**
+
+```rust
+// v2.1.9 (OLD)
+use dep::aztec::macros::functions::{initializer, public, view};
+
+#[public]
+fn transfer(to: AztecAddress, amount: u128) {
+    let from = context.msg_sender();
+    let balance = storage.balances.at(from).read();
+    storage.balances.at(from).write(balance - amount);
+}
+
+// v3.0.x (NEW)
+use dep::aztec::macros::functions::{external, initializer, view};
+
+#[external("public")]
+fn transfer(to: AztecAddress, amount: u128) {
+    let from = self.msg_sender().unwrap();
+    let balance = self.storage.balances.at(from).read();
+    self.storage.balances.at(from).write(balance - amount);
+}
+```
+
+**Cross-contract calls in v3.0.x:**
+
+```rust
+// v3.0.x pattern
+#[external("public")]
+fn call_other_contract() {
+    let selector = FunctionSelector::from_signature("some_function(Field)");
+    let _res = self.context.call_public_function(
+        target_address,
+        selector,
+        [arg1],
+        false  // is_static
+    );
+}
+
+// Or use interface pattern:
+self.call(OtherContract::at(address).method(args));
+```
+
+**Contract library methods:**
+
+```rust
+// v3.0.x - pass storage explicitly
+#[contract_library_method]
+fn _helper(storage: Storage<PublicContext>, value: Field) {
+    storage.field.write(value);
+}
+
+#[external("public")]
+fn use_helper(value: Field) {
+    _helper(self.storage, value);
+}
+```
 
 ## 2. Build System Verification
 
