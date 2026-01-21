@@ -1,5 +1,5 @@
 #!/bin/bash
-# Aztec Staking Pool Smoke Test Script
+# Aztec Liquid Staking Smoke Test Script
 #
 # This script verifies the development environment and toolchain are working.
 # Run this after setting up a new development environment.
@@ -13,6 +13,11 @@
 # Prerequisites:
 #   - noirup installed (Noir toolchain installer)
 #   - For full mode: Docker with aztec-nargo binary extracted
+#
+# Contract Architecture (v3.0.x):
+#   - StakedAztecToken: Liquid staking token (stAZTEC)
+#   - LiquidStakingCore: Main entry point for deposits/withdrawals
+#   - WithdrawalQueue: FIFO unbonding queue with 7-day period
 
 # Colors for output
 RED='\033[0;31m'
@@ -33,7 +38,7 @@ if [ "$1" = "--minimal" ]; then
 fi
 
 echo "========================================"
-echo "Aztec Staking Pool Smoke Test"
+echo "Aztec Liquid Staking Smoke Test"
 echo "========================================"
 echo ""
 echo "Aztec directory: $AZTEC_DIR"
@@ -114,7 +119,10 @@ echo "Test 2: Checking aztec-nargo installation..."
 AZTEC_NARGO_FOUND=false
 AZTEC_NARGO_BIN=""
 
-if [ -f "$HOME/aztec-bin/nargo" ]; then
+if [ -f "$HOME/aztec-bin/aztec-nargo" ]; then
+    AZTEC_NARGO_BIN="$HOME/aztec-bin/aztec-nargo"
+    AZTEC_NARGO_FOUND=true
+elif [ -f "$HOME/aztec-bin/nargo" ]; then
     AZTEC_NARGO_BIN="$HOME/aztec-bin/nargo"
     AZTEC_NARGO_FOUND=true
 elif [ -f "$HOME/.aztec/bin/aztec-nargo" ]; then
@@ -168,34 +176,52 @@ fi
 # ============================================================
 echo ""
 echo "Test 4: Checking Aztec contract compilation..."
-ARTIFACT_PATH="$HOME/aztec-contracts/target/staking_pool-StakingPool.json"
 
-if [ -f "$ARTIFACT_PATH" ]; then
-    ARTIFACT_SIZE=$(ls -lh "$ARTIFACT_PATH" | awk '{print $5}')
-    FUNC_COUNT=$(python3 -c "import json; d=json.load(open('$ARTIFACT_PATH')); print(len(d.get('functions', [])))" 2>/dev/null || echo "?")
-    pass "Contract artifact exists: $ARTIFACT_SIZE, $FUNC_COUNT functions"
-elif [ "$MINIMAL_MODE" = true ]; then
+compile_contract() {
+    local contract_name=$1
+    local contract_dir=$2
+    local artifact_name=$3
+
+    echo "  Compiling $contract_name..."
+    rm -rf ~/aztec-contracts/$contract_dir 2>/dev/null
+    mkdir -p ~/aztec-contracts 2>/dev/null
+    cp -r "$CONTRACTS_DIR/$contract_dir" ~/aztec-contracts/ 2>/dev/null
+    ORIG_DIR=$(pwd)
+    cd ~/aztec-contracts/$contract_dir
+    COMPILE_OUTPUT=$("$AZTEC_NARGO_BIN" compile 2>&1)
+    COMPILE_STATUS=$?
+    cd "$ORIG_DIR"
+
+    if [ $COMPILE_STATUS -eq 0 ] && [ -d ~/aztec-contracts/$contract_dir/target ]; then
+        ARTIFACT_SIZE=$(du -sh ~/aztec-contracts/$contract_dir/target 2>/dev/null | cut -f1)
+        echo -e "    ${GREEN}✓${NC} $contract_name compiled ($ARTIFACT_SIZE)"
+        return 0
+    else
+        echo -e "    ${RED}✗${NC} $contract_name failed"
+        echo "$COMPILE_OUTPUT" | tail -5
+        return 1
+    fi
+}
+
+if [ "$MINIMAL_MODE" = true ]; then
     skip "Contract compilation (requires aztec-nargo)"
 elif [ "$AZTEC_NARGO_FOUND" = true ]; then
-    echo "  Compiling contract..."
-    rm -rf ~/aztec-contracts 2>/dev/null
-    cp -r "$CONTRACTS_DIR/aztec-staking-pool" ~/aztec-contracts 2>/dev/null
-    ORIG_DIR=$(pwd)
-    cd ~/aztec-contracts
-    COMPILE_OUTPUT=$("$AZTEC_NARGO_BIN" compile 2>&1)
-    cd "$ORIG_DIR"
-    if [ -f ~/aztec-contracts/target/staking_pool-StakingPool.json ]; then
-        ARTIFACT_SIZE=$(ls -lh ~/aztec-contracts/target/staking_pool-StakingPool.json | awk '{print $5}')
-        pass "Contract compiled: $ARTIFACT_SIZE"
+    CONTRACTS_COMPILED=0
+
+    compile_contract "StakedAztecToken" "staked-aztec-token" "staked_aztec_token" && CONTRACTS_COMPILED=$((CONTRACTS_COMPILED + 1))
+    compile_contract "LiquidStakingCore" "liquid-staking-core" "liquid_staking_core" && CONTRACTS_COMPILED=$((CONTRACTS_COMPILED + 1))
+    compile_contract "WithdrawalQueue" "withdrawal-queue" "withdrawal_queue" && CONTRACTS_COMPILED=$((CONTRACTS_COMPILED + 1))
+
+    if [ $CONTRACTS_COMPILED -eq 3 ]; then
+        pass "All 3 contracts compiled successfully"
     else
-        fail "Contract compilation failed"
-        echo "$COMPILE_OUTPUT" | tail -10
+        fail "Compiled $CONTRACTS_COMPILED/3 contracts"
     fi
 else
     if [ "$ENV_TYPE" = "sandboxed" ]; then
         warn "Contract compilation unavailable (sandboxed environment)"
     else
-        fail "Contract artifact not found and aztec-nargo not available"
+        fail "aztec-nargo not available for contract compilation"
     fi
 fi
 
@@ -255,22 +281,23 @@ check_contract() {
         echo -e "  ${GREEN}✓${NC} $name"
         return 0
     else
-        echo -e "  ${YELLOW}✗${NC} $name"
+        echo -e "  ${YELLOW}✗${NC} $name (not found)"
         return 1
     fi
 }
 
 CONTRACTS_FOUND=0
-check_contract "aztec-staking-pool" "aztec-staking-pool" && CONTRACTS_FOUND=$((CONTRACTS_FOUND + 1))
+echo "  Core contracts (required):"
 check_contract "staked-aztec-token" "staked-aztec-token" && CONTRACTS_FOUND=$((CONTRACTS_FOUND + 1))
+check_contract "liquid-staking-core" "liquid-staking-core" && CONTRACTS_FOUND=$((CONTRACTS_FOUND + 1))
 check_contract "withdrawal-queue" "withdrawal-queue" && CONTRACTS_FOUND=$((CONTRACTS_FOUND + 1))
-check_contract "validator-registry" "validator-registry" && CONTRACTS_FOUND=$((CONTRACTS_FOUND + 1))
+echo "  Test suite:"
 check_contract "staking-math-tests" "staking-math-tests" && CONTRACTS_FOUND=$((CONTRACTS_FOUND + 1))
 
-if [ $CONTRACTS_FOUND -eq 5 ]; then
-    pass "All 5 contract projects found"
+if [ $CONTRACTS_FOUND -eq 4 ]; then
+    pass "All 4 contract projects found (3 core + 1 test suite)"
 else
-    fail "Found $CONTRACTS_FOUND/5 contract projects"
+    fail "Found $CONTRACTS_FOUND/4 contract projects"
 fi
 
 # ============================================================
@@ -305,7 +332,7 @@ if [ $TESTS_FAILED -eq 0 ]; then
     echo "Quick commands:"
     echo "  Run tests:    cd staking/aztec/contracts/staking-math-tests && ~/.nargo/bin/nargo test"
     if [ "$AZTEC_NARGO_FOUND" = true ]; then
-        echo "  Compile:      cp -r staking/aztec/contracts/aztec-staking-pool ~/aztec-contracts && cd ~/aztec-contracts && ~/aztec-bin/nargo compile"
+        echo "  Compile:      cp -r staking/aztec/contracts/staked-aztec-token ~/aztec-contracts/ && cd ~/aztec-contracts/staked-aztec-token && ~/aztec-bin/aztec-nargo compile"
     fi
     exit 0
 else
