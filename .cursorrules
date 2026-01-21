@@ -8,6 +8,8 @@
 
 ## Token Efficiency (CRITICAL)
 
+**Token Reduction Skill:** See `.cursor/token-reduction-skill.md` for comprehensive strategies
+
 **Default behavior - minimize tokens:**
 - Answer directly, keep reasoning implicit
 - No restating context/rules/prompts
@@ -21,6 +23,7 @@
 - Install: `curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash`
 - Use for: 2+ file reads, directory trees, pattern searches, knowledge storage
 - Store research in memory server to avoid re-reading docs
+- **Saves 60-95% tokens** vs native tools (see token-reduction-skill.md)
 
 ---
 
@@ -162,11 +165,14 @@ Rules are organized by domain. Reference by number in code reviews.
 - **#129** CI checks must not skip - all checks enforced
 - **#134** Model attribution, not platform attribution
 
-### MCP CLI (140-157)
+### MCP CLI & Token Efficiency (140-157)
 - **#140** Install MCP CLI before using
 - **#142** Always prefer MCP CLI for bulk operations
 - **#146** Store knowledge in memory server
 - **#147** Query knowledge graph before searching
+- **#148** Token reduction skill always active (see .cursor/token-reduction-skill.md)
+- **#149** MCP CLI saves 60-95% tokens vs native tools
+- **#150** Query knowledge graph before researching to avoid duplicate work
 
 ### Comparison Tables (123-139)
 - **#123** Always include clickable website links

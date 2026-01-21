@@ -1,13 +1,14 @@
 # Claude Code Instructions
 
-> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md`
+> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `.cursor/token-reduction-skill.md`
 
 ## Quick Start
 
 1. **Read `.cursorrules`** - All AI rules apply to Claude Code
 2. **Install MCP CLI** before bulk operations: `curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash`
 3. **Query knowledge** before researching: `mcp-cli memory/search_nodes '{"query": "topic"}'`
-4. **Verify before completing:** Run lint, build, tests
+4. **Use token reduction skill** - Always active (saves 40-70% tokens)
+5. **Verify before completing:** Run lint, build, tests
 
 ## Enforcement
 
@@ -83,6 +84,9 @@ Before completing any task:
 | #125 | CI checks PR description Co-authored-by (not just commit) |
 | #140 | Install MCP CLI before using |
 | #146 | Store knowledge in memory server |
+| #148 | Token reduction skill always active |
+| #149 | MCP CLI saves 60-95% tokens |
+| #150 | Query knowledge graph before researching |
 
 ## Project-Specific Docs
 
