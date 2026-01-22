@@ -1,6 +1,6 @@
 # Wallet Comparison Guidelines
 
-> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md`
+> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `.cursor/token-reduction-skill.md`
 
 ## Core Purpose
 
@@ -92,17 +92,24 @@ Rabby, Trust, Rainbow, Brave, Coinbase, MetaMask, Phantom, OKX, Wigwam, Zerion, 
 ## MCP CLI Patterns (Wallet-Specific)
 
 **General patterns:** See `.cursor/MCP_CLI.md`
+**Token optimization:** See `.cursor/token-reduction-skill.md`
 
 ```bash
-# Bulk read wallet tables
+# Bulk read wallet tables (reduces tool call overhead, provides structured data)
 mcp-cli filesystem/read_multiple_files '{"paths": ["wallets/SOFTWARE_WALLETS.md", "wallets/HARDWARE_WALLETS.md", "wallets/CRYPTO_CARDS.md"]}'
 
-# Store wallet research
+# Store wallet research (saves 84% tokens across multiple sessions)
 mcp-cli memory/create_entities '{"entities": [{"name": "WalletName", "entityType": "wallet", "observations": ["feature1", "feature2"]}]}'
 
-# Query before research
+# ALWAYS query before research (avoids duplicate work)
 mcp-cli memory/search_nodes '{"query": "wallet name"}'
 ```
+
+**Token reduction for wallet work:**
+- Query knowledge graph for previously researched wallets
+- Use MCP CLI bulk reads for comparing multiple wallet tables
+- Store scoring methodology in memory server
+- Use targeted file reads (head/tail) for large wallet lists
 
 ---
 
