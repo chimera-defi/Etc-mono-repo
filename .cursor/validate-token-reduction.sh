@@ -38,12 +38,11 @@ echo "-----------------------------------"
 # Check required files exist
 REQUIRED_FILES=(
   ".claude/skills/token-reduce/SKILL.md"
-  ".cursor/token-reduction-skill-v2.md"
+  ".cursor/TOKEN_REDUCTION.md"
   ".cursor/benchmark-real-tokens.sh"
   ".cursor/token-monitor.sh"
   ".cursor/cleanup-workspace.sh"
   ".cursor/BENCHMARK_RESULTS.md"
-  ".cursor/AUTO_WORKFLOW.md"
 )
 
 for file in "${REQUIRED_FILES[@]}"; do
@@ -91,17 +90,17 @@ echo ""
 echo "Test 3: Documentation Consistency"
 echo "----------------------------------"
 
-# Check that v2.0 is referenced, not v1.0
-if grep -q "token-reduction-skill-v2.md\|/token-reduce" CLAUDE.md; then
-  pass "CLAUDE.md references v2.0 or skill"
+# Check that TOKEN_REDUCTION.md or /token-reduce skill is referenced
+if grep -q "TOKEN_REDUCTION.md\|/token-reduce" CLAUDE.md; then
+  pass "CLAUDE.md references token reduction"
 else
-  warn "CLAUDE.md should reference v2.0"
+  warn "CLAUDE.md should reference TOKEN_REDUCTION.md or /token-reduce skill"
 fi
 
-if grep -q "token-reduction-skill-v2.md" .cursorrules; then
-  pass ".cursorrules references v2.0"
+if grep -q "TOKEN_REDUCTION.md\|/token-reduce" .cursorrules; then
+  pass ".cursorrules references token reduction"
 else
-  warn ".cursorrules should reference v2.0"
+  warn ".cursorrules should reference TOKEN_REDUCTION.md or /token-reduce skill"
 fi
 
 # Check skill is invocable
@@ -124,9 +123,9 @@ echo ""
 echo "Test 4: Artifact Detection"
 echo "--------------------------"
 
-# Check for duplicate files
-if [ -f ".cursor/token-reduction-skill.md" ] && [ -f ".cursor/token-reduction-skill-v2.md" ]; then
-  warn "Both v1.0 and v2.0 exist (cleanup available)"
+# Check for old duplicate files
+if [ -f ".cursor/token-reduction-skill.md" ]; then
+  warn "Legacy token-reduction-skill.md exists (run cleanup)"
 fi
 
 # Check for old benchmarks
@@ -203,14 +202,14 @@ echo "Test 7: Content Quality"
 echo "-----------------------"
 
 # Check for overstated claims
-if grep -q "60-95%" .cursor/token-reduction-skill-v2.md; then
-  fail "v2.0 still has overstated MCP CLI claims"
+if grep -q "60-95%" .cursor/TOKEN_REDUCTION.md; then
+  fail "TOKEN_REDUCTION.md has overstated MCP CLI claims"
 else
-  pass "MCP CLI claims corrected in v2.0"
+  pass "MCP CLI claims reasonable in TOKEN_REDUCTION.md"
 fi
 
 # Check for preambles in example sections (should exist as anti-patterns)
-EXAMPLE_PREAMBLES=$(grep -c "❌" .cursor/token-reduction-skill-v2.md 2>/dev/null || echo "0")
+EXAMPLE_PREAMBLES=$(grep -c "❌\|🚫" .cursor/TOKEN_REDUCTION.md 2>/dev/null || echo "0")
 if [ "$EXAMPLE_PREAMBLES" -gt 0 ] 2>/dev/null; then
   pass "Anti-pattern examples present ($EXAMPLE_PREAMBLES found)"
 else
@@ -228,25 +227,25 @@ echo ""
 echo "Test 8: Completeness Check"
 echo "--------------------------"
 
-# Check README exists
-if [ -f ".cursor/README.md" ]; then
-  pass ".cursor/README.md exists"
+# Check core docs exist
+if [ -f ".cursor/TOKEN_REDUCTION.md" ]; then
+  pass "TOKEN_REDUCTION.md exists"
 else
-  warn "Should have .cursor/README.md"
+  fail "Missing TOKEN_REDUCTION.md"
 fi
 
-# Check skill has README
-if [ -f ".claude/skills/token-reduce/README.md" ]; then
-  pass "Skill README exists"
+# Check skill file exists
+if [ -f ".claude/skills/token-reduce/SKILL.md" ]; then
+  pass "Skill SKILL.md exists"
 else
-  warn "Should have skill-specific README"
+  fail "Missing skill definition"
 fi
 
-# Check AUTO_WORKFLOW documentation
-if [ -f ".cursor/AUTO_WORKFLOW.md" ]; then
-  pass "AUTO_WORKFLOW.md exists"
+# Check MCP CLI docs
+if [ -f ".cursor/MCP_CLI.md" ]; then
+  pass "MCP_CLI.md exists"
 else
-  warn "Should document automatic workflow"
+  warn "Should have MCP_CLI.md"
 fi
 
 echo ""

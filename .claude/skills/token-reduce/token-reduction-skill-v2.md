@@ -1,1 +1,0 @@
-../../../.cursor/token-reduction-skill-v2.md

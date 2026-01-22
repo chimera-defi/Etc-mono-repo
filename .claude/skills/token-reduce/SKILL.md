@@ -48,11 +48,10 @@ When invoked, I will:
 
 **Core documentation available in `.cursor/`:**
 
-- **`TOKEN_REDUCTION.md`** - Consolidated guide (replaces v2.0, README, AUTO_WORKFLOW)
+- **`TOKEN_REDUCTION.md`** - Consolidated optimization guide
+- **`BENCHMARK_RESULTS.md`** - Empirical validation data
 - **`benchmark-real-tokens.sh`** - Real token counting with tiktoken
 - **`token-monitor.sh`** - Session tracking and monitoring
-- **`BENCHMARK_RESULTS.md`** - Empirical validation data
-- **`ACTUAL_USAGE_PROOF.md`** - Real measurements from this task
 
 ## ⚡ Quick Optimization Patterns
 
