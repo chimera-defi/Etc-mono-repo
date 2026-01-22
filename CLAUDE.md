@@ -1,13 +1,13 @@
 # Claude Code Instructions
 
-> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `.cursor/token-reduction-skill.md`
+> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `/token-reduce` skill
 
 ## Quick Start
 
 1. **Read `.cursorrules`** - All AI rules apply to Claude Code
 2. **Install MCP CLI** before bulk operations: `curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash`
 3. **Query knowledge** before researching: `mcp-cli memory/search_nodes '{"query": "topic"}'`
-4. **Use token reduction skill** - Always active (saves 40-70% tokens)
+4. **Use token reduction** - Auto-active via `/token-reduce` skill (91% concise, 84% knowledge graph, 44% targeted reads)
 5. **Verify before completing:** Run lint, build, tests
 
 ## Enforcement
@@ -96,6 +96,49 @@ Before completing any task:
 | Valdi | `mobile_experiments/Valdi/AGENTS.md` |
 | Staking | `staking/AGENTS.md` |
 | Ideas | `ideas/AGENTS.md` |
+
+## Session Workflow
+
+### Starting a Session
+
+```bash
+# 1. Token monitoring (optional but recommended)
+.cursor/token-monitor.sh init
+
+# 2. Query knowledge graph for context
+mcp-cli memory/search_nodes '{"query": "your topic"}'
+
+# 3. Token reduction auto-active (no action needed)
+# Skill auto-invokes when you mention: tokens, efficiency, optimize, costs
+```
+
+### During Session
+
+**Token reduction is always active:**
+- Responses use concise patterns (no preambles)
+- Knowledge graph queried before research
+- Targeted file reads (head/tail, not full files)
+- Parallel tool calls when possible
+
+**Manual invocation available:**
+```bash
+/token-reduce src/app.ts          # Analyze file
+/token-reduce wallets/frontend    # Analyze directory
+/token-reduce                     # Analyze conversation
+```
+
+### Ending a Session
+
+```bash
+# 1. Review token savings (if monitoring)
+.cursor/token-monitor.sh summary
+
+# 2. Clean up temporary files
+.cursor/cleanup-workspace.sh
+
+# 3. Verify quality
+npm run lint && npm run build && npm test
+```
 
 ## Common Commands
 

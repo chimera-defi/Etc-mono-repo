@@ -6,24 +6,34 @@
 
 ---
 
-## Token Efficiency (CRITICAL)
+## Token Efficiency (CRITICAL - AUTO-ACTIVE)
 
-**Token Reduction Skill:** See `.cursor/token-reduction-skill.md` for comprehensive strategies
+**Token Reduction Skill:** `/token-reduce` - Always active, auto-invokes on efficiency keywords
 
-**Default behavior - minimize tokens:**
+**Auto-invocation triggers:** "tokens", "optimize", "efficiency", "costs", "context limit"
+
+**Default behavior (enforced automatically):**
 - Answer directly, keep reasoning implicit
 - No restating context/rules/prompts
 - Diffs over full files
 - Lists ≤5 items unless expansion requested
+- `[uses tool]` instead of narrating actions
 - ~100 tokens for simple answers, ~200 for diffs, ~300 for summaries
 
 **Expand only when user says:** "Go deeper", "Expand", "Show reasoning", "Explore tradeoffs"
 
+**Session workflow (automatic):**
+1. Query knowledge graph before researching (`mcp-cli memory/search_nodes`)
+2. Use targeted file reads (head/tail, not full files)
+3. Parallel tool calls when possible
+4. Store findings in knowledge graph
+5. Skip preambles and confirmations
+
 **MCP CLI required for bulk operations:** See `.cursor/MCP_CLI.md`
 - Install: `curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash`
 - Use for: 2+ file reads, directory trees, pattern searches, knowledge storage
-- Store research in memory server to avoid re-reading docs
-- **Benchmarked savings:** 91% (concise responses), 84% (knowledge graph), 44% (targeted reads) - see token-reduction-skill.md
+- **Benchmarked savings:** 91% (concise), 84% (knowledge graph), 44% (targeted reads)
+- Complete guide: `.cursor/token-reduction-skill-v2.md`
 
 ---
 

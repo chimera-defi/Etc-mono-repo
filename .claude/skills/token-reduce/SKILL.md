@@ -1,6 +1,6 @@
 ---
 name: token-reduce
-description: Optimize token usage and reduce context consumption. Applies benchmarked strategies with 30-90% savings. Use when working on cost optimization, managing context limits, or improving efficiency.
+description: Optimize token usage and reduce context consumption. Applies benchmarked strategies with 30-90% savings. Auto-invokes on keywords: tokens, optimize, efficiency, costs, context, api usage, budget, performance, reduce. Use when working on cost optimization, managing context limits, improving efficiency, or analyzing token consumption patterns.
 argument-hint: [file-or-directory]
 disable-model-invocation: false
 allowed-tools: Read, Grep, Glob, Bash, Edit
