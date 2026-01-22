@@ -51,4 +51,4 @@ Analyze `$ARGUMENTS` for token optimization opportunities.
 
 ---
 
-*Enforcement: .cursorrules (always on) | Analysis: this skill (on-demand)*
+*Enforcement: .cursorrules + hooks | Analysis: this skill (on-demand)*

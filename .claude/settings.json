@@ -1,3 +1,15 @@
 {
-  "hooks": {}
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/enforce-targeted-read.py"
+          }
+        ]
+      }
+    ]
+  }
 }
