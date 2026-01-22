@@ -251,7 +251,6 @@ Use: Edit specific sections with targeted old_string/new_string
 
 ---
 
-**Version:** 3.0 (Consolidated)
-**Replaces:** v2.0, README, AUTO_WORKFLOW
+**Version:** 3.0
 **Status:** Production-ready
-**Validation:** All tests passing
+**Validation:** `.cursor/validate-token-reduction.sh`

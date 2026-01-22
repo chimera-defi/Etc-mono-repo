@@ -1,6 +1,6 @@
 # Wallet Comparison Guidelines
 
-> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `.cursor/token-reduction-skill.md`
+> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `/token-reduce` skill
 
 ## Core Purpose
 
@@ -92,7 +92,7 @@ Rabby, Trust, Rainbow, Brave, Coinbase, MetaMask, Phantom, OKX, Wigwam, Zerion, 
 ## MCP CLI Patterns (Wallet-Specific)
 
 **General patterns:** See `.cursor/MCP_CLI.md`
-**Token optimization:** See `.cursor/token-reduction-skill.md`
+**Token optimization:** See `.cursor/TOKEN_REDUCTION.md` or use `/token-reduce` skill
 
 ```bash
 # Bulk read wallet tables (reduces tool call overhead, provides structured data)

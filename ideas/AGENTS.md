@@ -1,6 +1,6 @@
 # Ideas & Research Guide
 
-> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `.cursor/token-reduction-skill.md`
+> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `/token-reduce` skill
 
 ## Projects
 

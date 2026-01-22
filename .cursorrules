@@ -8,11 +8,10 @@
 
 ## Token Efficiency (CRITICAL - AUTO-ACTIVE)
 
-**Token Reduction Skill:** `/token-reduce` - Always active, auto-invokes on efficiency keywords
+**Enforcement:** Hooks in `.claude/settings.json` + these rules (always on)
+**Analysis:** `/token-reduce [file|dir]` skill (on-demand)
 
-**Auto-invocation triggers:** "tokens", "optimize", "efficiency", "costs", "context limit"
-
-**Default behavior (enforced automatically):**
+**Default behavior (enforced via rules + hooks):**
 - Answer directly, keep reasoning implicit
 - No restating context/rules/prompts
 - Diffs over full files
