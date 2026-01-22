@@ -1,37 +1,3 @@
 {
-  "hooks": {
-    "user-prompt-submit": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": ".claude/hooks/user-prompt-knowledge-check.sh"
-          }
-        ]
-      }
-    ],
-    "PreToolUse": [
-      {
-        "matcher": "Read",
-        "hooks": [
-          {
-            "type": "command",
-            "command": ".claude/hooks/pre-read-targeted.sh"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": ".claude/hooks/stop-token-reminder.sh"
-          }
-        ]
-      }
-    ]
-  }
+  "hooks": {}
 }
