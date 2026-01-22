@@ -24,7 +24,7 @@ Successfully created, benchmarked, automated, and validated a comprehensive toke
    - Applies benchmarked strategies with real measurements
    - Provides before/after analysis with specific savings
 
-2. **Token Reduction Guide v2.0** (`.cursor/token-reduction-skill-v2.md`)
+2. **Token Reduction Guide** (`.cursor/TOKEN_REDUCTION.md`)
    - Impact-first structure (lead with 89% win)
    - Concrete before/after examples
    - Communication style guide
@@ -293,7 +293,7 @@ This conversation itself demonstrates token reduction:
 - `.claude/skills/token-reduce/README.md` - Usage examples
 
 **Complete Guides:**
-- `.cursor/token-reduction-skill-v2.md` - Full optimization guide
+- `.cursor/TOKEN_REDUCTION.md` - Full optimization guide
 - `.cursor/AUTO_WORKFLOW.md` - Automation documentation
 - `.cursor/BENCHMARK_RESULTS.md` - Empirical validation
 - `.cursor/SKILL_IMPROVEMENTS.md` - v1→v2 evolution

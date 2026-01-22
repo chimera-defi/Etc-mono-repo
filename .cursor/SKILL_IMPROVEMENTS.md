@@ -57,7 +57,7 @@ Savings: 91%
 
 ### 2. **Refocused Skill (v2.0)** 📋
 
-**Created:** `token-reduction-skill-v2.md`
+**Created:** `TOKEN_REDUCTION.md` (consolidated guide)
 
 **Key changes:**
 

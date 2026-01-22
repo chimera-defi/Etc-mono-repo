@@ -171,7 +171,7 @@ The skill can use:
 
 Symlinked from `.cursor/`:
 
-- **`token-reduction-skill-v2.md`** - Complete optimization guide
+- **`TOKEN_REDUCTION.md`** - Complete optimization guide
 - **`BENCHMARK_RESULTS.md`** - Empirical validation
 - **`benchmark-real-tokens.sh`** - Real token counting
 - **`token-monitor.sh`** - Session tracking

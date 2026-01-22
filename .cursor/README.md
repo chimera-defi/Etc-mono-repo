@@ -9,7 +9,7 @@ This directory contains configuration files, skills, and benchmarks for optimizi
 | File | Purpose | When to Use |
 |------|---------|-------------|
 | **MCP_CLI.md** | MCP CLI integration guide | Bulk file operations |
-| **token-reduction-skill-v2.md** | Token optimization (recommended) | Every session |
+| **TOKEN_REDUCTION.md** | Token optimization (recommended) | Every session |
 | **token-reduction-skill.md** | Token optimization v1.0 | Legacy reference |
 | **BENCHMARK_RESULTS.md** | Empirical benchmark data | Validate claims |
 | **SKILL_IMPROVEMENTS.md** | v1→v2 evolution analysis | Understand improvements |
@@ -20,7 +20,7 @@ This directory contains configuration files, skills, and benchmarks for optimizi
 
 ### Version 2.0 (Recommended)
 
-**File:** `token-reduction-skill-v2.md`
+**File:** `TOKEN_REDUCTION.md`
 
 **Focus:** Impact-driven, evidence-based token optimization
 
@@ -173,7 +173,7 @@ Evolution from v1.0 to v2.0:
 curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash
 
 # 2. Read the skill
-cat .cursor/token-reduction-skill-v2.md
+cat .cursor/TOKEN_REDUCTION.md
 
 # 3. Run benchmarks to validate
 .cursor/test-token-reduction.sh

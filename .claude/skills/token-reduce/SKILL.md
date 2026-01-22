@@ -1,9 +1,9 @@
 ---
 name: token-reduce
-description: Optimize token usage and reduce context consumption. Applies benchmarked strategies with 30-90% savings. Auto-invokes on keywords: tokens, optimize, efficiency, costs, context, api usage, budget, performance, reduce. Use when working on cost optimization, managing context limits, improving efficiency, or analyzing token consumption patterns.
+description: Optimize token usage and reduce context consumption. Applies benchmarked strategies with 30-90% savings. Auto-invokes on keywords - tokens, optimize, efficiency, costs, context, api usage, budget, performance, reduce. Use when working on cost optimization, managing context limits, improving efficiency, or analyzing token consumption patterns.
 argument-hint: [file-or-directory]
 disable-model-invocation: false
-allowed-tools: Read, Grep, Glob, Bash, Edit
+allowed-tools: Read, Grep, Glob, Bash, Edit, Task
 ---
 
 # Token Reduction Skill
@@ -18,7 +18,7 @@ When invoked, I will:
 2. **Apply** high-impact optimization strategies (benchmarked at 30-90% savings)
 3. **Measure** actual token reduction achieved
 4. **Report** specific savings with before/after metrics
-5. **Monitor** patterns for continuous improvement
+5. **Recommend** techniques including sub-agents, parallel ops, MCP CLI
 
 ## 📊 Benchmarked Strategies (Priority Order)
 
@@ -29,7 +29,8 @@ When invoked, I will:
 | **Concise communication** | **89-91%** | Every response |
 | **Knowledge graph** | **76-84%** | Multi-session research |
 | **Targeted file reads** | **33-44%** | Large files |
-| **Parallel tool calls** | **20%** | Complex tasks |
+| **Parallel tool calls** | **20%** | Multi-step tasks |
+| **Sub-agents (Task)** | **15-30%** | Complex analysis |
 | **MCP CLI bulk ops** | **1-10%** | 10+ files |
 
 ## 🔧 How to Use
@@ -47,11 +48,11 @@ When invoked, I will:
 
 **Core documentation available in `.cursor/`:**
 
-- **`token-reduction-skill-v2.md`** - Complete optimization guide with examples
+- **`TOKEN_REDUCTION.md`** - Consolidated guide (replaces v2.0, README, AUTO_WORKFLOW)
 - **`benchmark-real-tokens.sh`** - Real token counting with tiktoken
 - **`token-monitor.sh`** - Session tracking and monitoring
 - **`BENCHMARK_RESULTS.md`** - Empirical validation data
-- **`README.md`** - Quick reference for all guides
+- **`ACTUAL_USAGE_PROOF.md`** - Real measurements from this task
 
 ## ⚡ Quick Optimization Patterns
 
