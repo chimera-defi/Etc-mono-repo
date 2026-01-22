@@ -42,7 +42,6 @@ REQUIRED_FILES=(
   ".cursor/benchmark-real-tokens.sh"
   ".cursor/token-monitor.sh"
   ".cursor/cleanup-workspace.sh"
-  ".cursor/test-token-reduction.sh"
   ".cursor/BENCHMARK_RESULTS.md"
   ".cursor/AUTO_WORKFLOW.md"
 )
@@ -161,7 +160,6 @@ EXECUTABLES=(
   ".cursor/benchmark-real-tokens.sh"
   ".cursor/token-monitor.sh"
   ".cursor/cleanup-workspace.sh"
-  ".cursor/test-token-reduction.sh"
 )
 
 for exe in "${EXECUTABLES[@]}"; do

@@ -12,7 +12,6 @@ This directory contains configuration files, skills, and benchmarks for optimizi
 | **TOKEN_REDUCTION.md** | Token optimization (recommended) | Every session |
 | **token-reduction-skill.md** | Token optimization v1.0 | Legacy reference |
 | **BENCHMARK_RESULTS.md** | Empirical benchmark data | Validate claims |
-| **SKILL_IMPROVEMENTS.md** | v1→v2 evolution analysis | Understand improvements |
 
 ---
 
@@ -74,17 +73,11 @@ This directory contains configuration files, skills, and benchmarks for optimizi
 ### Run All Benchmarks
 
 ```bash
-# Quick validation
-.cursor/test-token-reduction.sh
-
-# Raw measurements
-.cursor/benchmark-token-reduction.sh
-
-# Conversation modeling
-.cursor/benchmark-conversation-overhead.sh
-
 # Real token counts (requires Python + tiktoken)
 .cursor/benchmark-real-tokens.sh
+
+# Comprehensive validation
+.cursor/validate-token-reduction.sh
 
 # Full analysis
 cat .cursor/BENCHMARK_RESULTS.md
@@ -151,17 +144,6 @@ Comprehensive analysis of empirical testing:
 - Targeted reads: 44% savings ✅
 - MCP CLI bulk ops: 1-10% savings (overstated in v1)
 
-### SKILL_IMPROVEMENTS.md
-
-Evolution from v1.0 to v2.0:
-- What we got wrong and right
-- Improvements in v2.0
-- Benchmark enhancements
-- Recommended next steps
-- Lessons for other skills
-
-**Purpose:** Transparent documentation of learning process
-
 ---
 
 ## 🚀 Getting Started
@@ -175,8 +157,8 @@ curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh 
 # 2. Read the skill
 cat .cursor/TOKEN_REDUCTION.md
 
-# 3. Run benchmarks to validate
-.cursor/test-token-reduction.sh
+# 3. Run validation to verify
+.cursor/validate-token-reduction.sh
 .cursor/benchmark-real-tokens.sh
 
 # 4. Start monitoring

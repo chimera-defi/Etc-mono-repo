@@ -235,9 +235,6 @@ Use: Edit specific sections with targeted old_string/new_string
 # Tiktoken measurement
 ```
 
-**Proof:**
-See `.cursor/ACTUAL_USAGE_PROOF.md` for real measurements from this task.
-
 ---
 
 ## Key Insight

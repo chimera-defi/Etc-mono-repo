@@ -270,4 +270,4 @@ Estimated **~100 tokens** per additional turn:
 
 *Benchmarked by: Claude Sonnet 4.5
 Scripts: `.cursor/benchmark-*.sh`
-Run tests: `.cursor/test-token-reduction.sh`*
+Validation: `.cursor/validate-token-reduction.sh`*
