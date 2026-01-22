@@ -46,9 +46,9 @@ Categories:
 
 Files kept:
   - Production skills (.claude/skills/)
-  - Latest documentation (.cursor/*-v2.md, README.md)
+  - Core documentation (TOKEN_REDUCTION.md, MCP_CLI.md, BENCHMARK_RESULTS.md)
   - Latest benchmarks (benchmark-real-tokens.sh)
-  - Core tools (token-monitor.sh, test-*.sh)
+  - Core tools (token-monitor.sh, validate-token-reduction.sh)
 EOF
       exit 0
       ;;
@@ -214,9 +214,9 @@ echo ""
 echo "Files kept (production):"
 echo "  ✓ .claude/skills/token-reduce/ (slash command skill)"
 echo "  ✓ .cursor/TOKEN_REDUCTION.md (consolidated guide)"
+echo "  ✓ .cursor/BENCHMARK_RESULTS.md (empirical data)"
+echo "  ✓ .cursor/MCP_CLI.md (MCP CLI reference)"
 echo "  ✓ .cursor/benchmark-real-tokens.sh (tiktoken benchmarks)"
 echo "  ✓ .cursor/token-monitor.sh (session tracking)"
 echo "  ✓ .cursor/validate-token-reduction.sh (validation)"
-echo "  ✓ .cursor/BENCHMARK_RESULTS.md (empirical data)"
-echo "  ✓ .cursor/README.md (documentation)"
 echo ""
