@@ -1,9 +1,22 @@
 ---
 name: token-reduce
-description: Optimize token usage and reduce context consumption. Applies benchmarked strategies with 30-90% savings. Auto-invokes on keywords - tokens, optimize, efficiency, costs, context, api usage, budget, performance, reduce. Use when working on cost optimization, managing context limits, improving efficiency, or analyzing token consumption patterns.
+description: |
+  Optimize token usage and reduce context consumption. Applies benchmarked strategies
+  with 30-90% savings. Auto-invokes on keywords: tokens, optimize, efficiency, costs,
+  context, api usage, budget, performance, reduce. Use when working on cost optimization,
+  managing context limits, improving efficiency, or analyzing token consumption patterns.
+  Prerequisite: MCP CLI (`curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash`)
+author: Claude Code
+version: 2.0.0
 argument-hint: [file-or-directory]
 disable-model-invocation: false
-allowed-tools: Read, Grep, Glob, Bash, Edit, Task
+allowed-tools:
+  - Read
+  - Grep
+  - Glob
+  - Bash
+  - Edit
+  - Task
 ---
 
 # Token Reduction Skill
