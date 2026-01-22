@@ -160,10 +160,40 @@ pub contract WithdrawalQueue {
     }
 
     // ============ VIEW FUNCTIONS ============
+
+    /// Get full request details for frontend
+    #[external("public")]
+    #[view]
+    fn get_request(request_id: u64) -> (AztecAddress, u128, u64, bool) {
+        let user = self.storage.request_user.at(request_id).read();
+        let amount = self.storage.request_aztec_amount.at(request_id).read();
+        let timestamp = self.storage.request_timestamp.at(request_id).read();
+        let fulfilled = self.storage.request_fulfilled.at(request_id).read();
+        (user, amount, timestamp, fulfilled)
+    }
+
     #[external("public")]
     #[view]
     fn get_request_amount(request_id: u64) -> u128 {
         self.storage.request_aztec_amount.at(request_id).read()
+    }
+
+    #[external("public")]
+    #[view]
+    fn get_request_user(request_id: u64) -> AztecAddress {
+        self.storage.request_user.at(request_id).read()
+    }
+
+    #[external("public")]
+    #[view]
+    fn get_request_timestamp(request_id: u64) -> u64 {
+        self.storage.request_timestamp.at(request_id).read()
+    }
+
+    #[external("public")]
+    #[view]
+    fn is_request_fulfilled(request_id: u64) -> bool {
+        self.storage.request_fulfilled.at(request_id).read()
     }
 
     #[external("public")]
@@ -176,6 +206,21 @@ pub contract WithdrawalQueue {
         !fulfilled & (current_timestamp >= request_timestamp + unbonding_period)
     }
 
+    /// Calculate time remaining until claimable
+    #[external("public")]
+    #[view]
+    fn time_until_claimable(request_id: u64, current_timestamp: u64) -> u64 {
+        let request_timestamp = self.storage.request_timestamp.at(request_id).read();
+        let unbonding_period = self.storage.unbonding_period.read();
+        let claimable_at = request_timestamp + unbonding_period;
+
+        if current_timestamp >= claimable_at {
+            0
+        } else {
+            claimable_at - current_timestamp
+        }
+    }
+
     #[external("public")]
     #[view]
     fn get_total_pending() -> u128 {
@@ -186,5 +231,11 @@ pub contract WithdrawalQueue {
     #[view]
     fn get_unbonding_period() -> u64 {
         self.storage.unbonding_period.read()
+    }
+
+    #[external("public")]
+    #[view]
+    fn get_next_request_id() -> u64 {
+        self.storage.next_request_id.read()
     }
 }
