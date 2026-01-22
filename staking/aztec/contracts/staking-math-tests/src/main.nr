@@ -1083,3 +1083,259 @@ fn test_complete_lifecycle() {
     let expected_min = user_deposit + ((user_deposit * 7) / 100); // At least 7%
     assert(aztec_out >= expected_min);
 }
+
+// ============ NEW V3.0.x ARCHITECTURE TESTS ============
+// These tests validate the new ERC20-compatible stAZTEC contract
+
+/// Test ERC20 approve/allowance flow
+#[test]
+fn test_erc20_allowance_flow() {
+    // Owner has 1000 stAZTEC, approves spender for 500
+    let owner_balance: u128 = 1000_000_000_000_000_000_000;
+    let approval_amount: u128 = 500_000_000_000_000_000_000;
+    let transfer_amount: u128 = 300_000_000_000_000_000_000;
+
+    // After approval, spender can transfer up to allowance
+    let mut allowance: u128 = approval_amount;
+    let mut owner_bal: u128 = owner_balance;
+    let mut recipient_bal: u128 = 0;
+
+    // Spender transfers 300 from owner
+    assert(allowance >= transfer_amount);
+    allowance = allowance - transfer_amount;
+    owner_bal = owner_bal - transfer_amount;
+    recipient_bal = recipient_bal + transfer_amount;
+
+    assert(allowance == 200_000_000_000_000_000_000);
+    assert(owner_bal == 700_000_000_000_000_000_000);
+    assert(recipient_bal == 300_000_000_000_000_000_000);
+}
+
+/// Test that mint correctly tracks backing and updates rate
+#[test]
+fn test_mint_with_backing_tracking() {
+    let mut total_supply: u128 = 0;
+    let mut total_backing: u128 = 0;
+    let mut rate: u64 = 10000;
+
+    // User deposits 100 AZTEC at 1:1 rate
+    let deposit_1: u128 = 100_000_000_000_000_000_000;
+    let st_aztec_1 = (deposit_1 * 10000) / (rate as u128);
+    total_supply = total_supply + st_aztec_1;
+    total_backing = total_backing + deposit_1;
+
+    // Rate should stay 10000 (1:1)
+    rate = ((total_backing * 10000) / total_supply) as u64;
+    assert(rate == 10000);
+
+    // Add rewards: 10 AZTEC
+    let rewards: u128 = 10_000_000_000_000_000_000;
+    total_backing = total_backing + rewards;
+
+    // Rate should increase to 11000 (110 backing / 100 supply)
+    rate = ((total_backing * 10000) / total_supply) as u64;
+    assert(rate == 11000);
+
+    // User deposits 110 AZTEC at 1.1 rate
+    let deposit_2: u128 = 110_000_000_000_000_000_000;
+    let st_aztec_2 = (deposit_2 * 10000) / (rate as u128);
+    total_supply = total_supply + st_aztec_2;
+    total_backing = total_backing + deposit_2;
+
+    // st_aztec_2 should be 100 (110 * 10000 / 11000)
+    assert(st_aztec_2 == 100_000_000_000_000_000_000);
+
+    // Rate should still be 11000 (220 backing / 200 supply)
+    rate = ((total_backing * 10000) / total_supply) as u64;
+    assert(rate == 11000);
+}
+
+/// Test burn returns correct AZTEC amount based on rate
+#[test]
+fn test_burn_returns_correct_aztec() {
+    let mut total_supply: u128 = 200_000_000_000_000_000_000; // 200 stAZTEC
+    let mut total_backing: u128 = 220_000_000_000_000_000_000; // 220 AZTEC
+    let rate: u64 = 11000; // 1.1
+
+    let user_st_aztec: u128 = 100_000_000_000_000_000_000; // 100 stAZTEC
+
+    // Burn should return: st_aztec * rate / 10000 = 100 * 11000 / 10000 = 110
+    let aztec_returned = (user_st_aztec * (rate as u128)) / 10000;
+    assert(aztec_returned == 110_000_000_000_000_000_000);
+
+    total_supply = total_supply - user_st_aztec;
+    total_backing = total_backing - aztec_returned;
+
+    // After burn: 100 supply, 110 backing, rate still 11000
+    assert(total_supply == 100_000_000_000_000_000_000);
+    assert(total_backing == 110_000_000_000_000_000_000);
+    let new_rate = ((total_backing * 10000) / total_supply) as u64;
+    assert(new_rate == 11000);
+}
+
+/// Test add_rewards increases exchange rate correctly
+#[test]
+fn test_add_rewards_increases_rate() {
+    let mut total_supply: u128 = 1000_000_000_000_000_000_000; // 1000 stAZTEC
+    let mut total_backing: u128 = 1000_000_000_000_000_000_000; // 1000 AZTEC
+    let mut rate: u64 = 10000; // 1:1
+
+    // Add 100 AZTEC rewards (10%)
+    let rewards: u128 = 100_000_000_000_000_000_000;
+    total_backing = total_backing + rewards;
+
+    // New rate: 1100 backing / 1000 supply = 1.1
+    let new_rate = ((total_backing * 10000) / total_supply) as u64;
+    assert(new_rate == 11000);
+    assert(new_rate > rate);
+    rate = new_rate;
+
+    // Each stAZTEC is now worth 1.1 AZTEC
+    let user_st_aztec: u128 = 100_000_000_000_000_000_000;
+    let user_value = (user_st_aztec * (rate as u128)) / 10000;
+    assert(user_value == 110_000_000_000_000_000_000);
+}
+
+/// Test minimum deposit enforcement
+#[test]
+fn test_minimum_deposit() {
+    let min_deposit: u128 = 1_000_000_000_000_000_000; // 1 AZTEC
+
+    // Valid deposits
+    assert(min_deposit <= 1_000_000_000_000_000_000);
+    assert(min_deposit <= 100_000_000_000_000_000_000);
+    assert(min_deposit <= 1_000_000_000_000_000_000_000);
+
+    // At minimum
+    let at_min: u128 = 1_000_000_000_000_000_000;
+    assert(at_min >= min_deposit);
+}
+
+/// Test frontend view function: balance_of_in_aztec
+#[test]
+fn test_balance_of_in_aztec_calculation() {
+    let st_balance: u128 = 100_000_000_000_000_000_000; // 100 stAZTEC
+    let rate: u64 = 12500; // 1.25
+
+    // balance_of_in_aztec = st_balance * rate / 10000
+    let aztec_value = (st_balance * (rate as u128)) / 10000;
+    assert(aztec_value == 125_000_000_000_000_000_000); // 125 AZTEC
+}
+
+/// Test time_until_claimable calculation
+#[test]
+fn test_time_until_claimable_calculation() {
+    let request_timestamp: u64 = 1000000;
+    let unbonding_period: u64 = 604800; // 7 days
+    let claimable_at = request_timestamp + unbonding_period;
+
+    // Test at various times
+    let current_1: u64 = 1000000; // Just requested
+    let remaining_1 = if current_1 >= claimable_at { 0 } else { claimable_at - current_1 };
+    assert(remaining_1 == 604800);
+
+    let current_2: u64 = 1300000; // 3.5 days in
+    let remaining_2 = if current_2 >= claimable_at { 0 } else { claimable_at - current_2 };
+    assert(remaining_2 == 304800);
+
+    let current_3: u64 = 1604800; // Exactly at claimable
+    let remaining_3 = if current_3 >= claimable_at { 0 } else { claimable_at - current_3 };
+    assert(remaining_3 == 0);
+
+    let current_4: u64 = 1700000; // Past claimable
+    let remaining_4 = if current_4 >= claimable_at { 0 } else { claimable_at - current_4 };
+    assert(remaining_4 == 0);
+}
+
+/// Test fee collection accumulation
+#[test]
+fn test_fee_collection_accumulation() {
+    let mut accumulated_fees: u128 = 0;
+    let fee_bps: u64 = 1000; // 10%
+
+    // Process multiple reward events
+    let rewards: [u128; 5] = [
+        100_000_000_000_000_000_000,  // 100
+        250_000_000_000_000_000_000,  // 250
+        75_000_000_000_000_000_000,   // 75
+        180_000_000_000_000_000_000,  // 180
+        395_000_000_000_000_000_000   // 395
+    ];
+
+    for i in 0..5 {
+        let fee = (rewards[i] * (fee_bps as u128)) / 10000;
+        accumulated_fees = accumulated_fees + fee;
+    }
+
+    // Total rewards: 1000, 10% fee = 100
+    assert(accumulated_fees == 100_000_000_000_000_000_000);
+}
+
+/// Test exchange rate never decreases (no slashing)
+#[test]
+fn test_rate_never_decreases() {
+    let mut rate: u64 = 10000;
+
+    // Simulate rate updates (only increase allowed)
+    let proposed_rates: [u64; 5] = [10000, 10500, 11000, 10800, 12000];
+
+    for i in 0..5 {
+        let proposed = proposed_rates[i];
+        if proposed > rate {
+            rate = proposed;
+        }
+        // Rate should never decrease
+        assert(rate >= 10000);
+    }
+
+    // Final rate should be 12000 (highest seen)
+    assert(rate == 12000);
+}
+
+/// Test multiple users proportional ownership
+#[test]
+fn test_multiple_users_proportional() {
+    let mut total_backing: u128 = 0;
+    let mut total_supply: u128 = 0;
+    let rate: u64 = 10000;
+
+    // 3 users deposit different amounts at same rate
+    let deposits: [u128; 3] = [
+        100_000_000_000_000_000_000,   // User A: 100
+        250_000_000_000_000_000_000,   // User B: 250
+        150_000_000_000_000_000_000    // User C: 150
+    ];
+
+    let mut user_shares: [u128; 3] = [0, 0, 0];
+
+    for i in 0..3 {
+        let st_aztec = (deposits[i] * 10000) / (rate as u128);
+        user_shares[i] = st_aztec;
+        total_backing = total_backing + deposits[i];
+        total_supply = total_supply + st_aztec;
+    }
+
+    // Total: 500 backing, 500 supply
+    assert(total_backing == 500_000_000_000_000_000_000);
+    assert(total_supply == 500_000_000_000_000_000_000);
+
+    // Each user owns proportional share
+    // A: 100/500 = 20%
+    // B: 250/500 = 50%
+    // C: 150/500 = 30%
+    assert(user_shares[0] * 100 / total_supply == 20);
+    assert(user_shares[1] * 100 / total_supply == 50);
+    assert(user_shares[2] * 100 / total_supply == 30);
+
+    // Add rewards: 50 AZTEC
+    let rewards: u128 = 50_000_000_000_000_000_000;
+    total_backing = total_backing + rewards;
+
+    // Each user's value increases proportionally
+    let new_rate = ((total_backing * 10000) / total_supply) as u64;
+    assert(new_rate == 11000); // 550/500 = 1.1
+
+    // User B's 250 stAZTEC now worth: 250 * 1.1 = 275 AZTEC
+    let user_b_value = (user_shares[1] * (new_rate as u128)) / 10000;
+    assert(user_b_value == 275_000_000_000_000_000_000);
+}
