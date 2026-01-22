@@ -180,7 +180,7 @@ Rules are organized by domain. Reference by number in code reviews.
 - **#142** Always prefer MCP CLI for bulk operations
 - **#146** Store knowledge in memory server
 - **#147** Query knowledge graph before searching
-- **#148** Token reduction skill always active (see .cursor/token-reduction-skill.md)
+- **#148** Token reduction skill always active (see .cursor/token-reduction-skill-v2.md and /token-reduce)
 - **#149** Benchmarked token savings: 91% (concise), 84% (knowledge graph), 44% (targeted reads)
 - **#150** Query knowledge graph before researching to avoid duplicate work
 
