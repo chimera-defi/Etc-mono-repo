@@ -1,13 +1,13 @@
 ---
 name: token-reduce
 description: |
-  Optimize token usage and reduce context consumption. Applies benchmarked strategies
-  with 30-90% savings. Auto-invokes on keywords: tokens, optimize, efficiency, costs,
-  context, api usage, budget, performance, reduce. Use when working on cost optimization,
-  managing context limits, improving efficiency, or analyzing token consumption patterns.
-  Prerequisite: MCP CLI (`curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash`)
+  Analyze files, directories, or conversations for token optimization opportunities.
+  Reports baseline usage, identifies waste patterns, and recommends specific improvements.
+  Use when: approaching context limits, high API costs, analyzing large codebases,
+  or reviewing token usage patterns. Triggers: tokens, optimize, efficiency, costs, budget.
+  NOTE: Always-on behavior enforced via .cursorrules and hooks, not this skill.
 author: Claude Code
-version: 2.0.0
+version: 3.0.0
 argument-hint: [file-or-directory]
 disable-model-invocation: false
 allowed-tools:
@@ -21,17 +21,34 @@ allowed-tools:
 
 # Token Reduction Skill
 
-Apply empirically validated token optimization techniques to reduce API costs and maximize context windows.
+**Purpose:** Analyze and report token optimization opportunities (not enforce always-on behavior).
+
+## Architecture: How Token Efficiency Works
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  ALWAYS-ON (Automatic - no invocation needed)           │
+│  ├── .cursorrules         → Behavior rules              │
+│  ├── .claude/settings.json → Enforcement hooks          │
+│  │   ├── user-prompt-submit → Knowledge graph reminder  │
+│  │   ├── PreToolUse (Read)  → Targeted read reminder    │
+│  │   └── Stop               → Session summary           │
+│  └── CLAUDE.md             → System prompt rules        │
+├─────────────────────────────────────────────────────────┤
+│  ON-DEMAND (This skill - invoke for analysis)           │
+│  └── /token-reduce [target] → Analyze & report          │
+└─────────────────────────────────────────────────────────┘
+```
 
 ## 🎯 What This Skill Does
 
-When invoked, I will:
+When invoked with `/token-reduce [target]`, I will:
 
-1. **Analyze** current token usage patterns in `ARGUMENTS` (file/directory/conversation)
-2. **Apply** high-impact optimization strategies (benchmarked at 30-90% savings)
-3. **Measure** actual token reduction achieved
-4. **Report** specific savings with before/after metrics
-5. **Recommend** techniques including sub-agents, parallel ops, MCP CLI
+1. **Analyze** token usage patterns in `$ARGUMENTS` (file/directory/conversation)
+2. **Identify** optimization opportunities with specific line numbers
+3. **Measure** current token consumption using tiktoken
+4. **Report** findings with before/after estimates
+5. **Recommend** specific improvements ranked by impact
 
 ## 📊 Benchmarked Strategies (Priority Order)
 
