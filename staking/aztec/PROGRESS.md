@@ -10,7 +10,7 @@
 |------|---------|--------|
 | Docker | 28.2.2 | ✅ Working |
 | noirup/nargo | 1.0.0-beta.18 | ✅ Installed |
-| aztec-nargo | 1.0.0-beta.15 (from devnet image) | ✅ Extracted |
+| aztec CLI | 3.0.0-devnet.20251212 | ✅ Installed |
 | aztec-packages | v3.0.3 | ✅ Dependencies updated |
 
 ---
@@ -29,9 +29,9 @@ cd contracts/staking-math-tests && ~/.nargo/bin/nargo test
 ./scripts/integration-test.sh
 
 # All 3 core contracts compile successfully
-cd ~/aztec-contracts/staked-aztec-token && ~/aztec-bin/aztec-nargo compile   # 832 KB
-cd ~/aztec-contracts/liquid-staking-core && ~/aztec-bin/aztec-nargo compile  # 844 KB
-cd ~/aztec-contracts/withdrawal-queue && ~/aztec-bin/aztec-nargo compile     # 836 KB
+cd ~/aztec-contracts/staked-aztec-token && aztec compile   # 832 KB
+cd ~/aztec-contracts/liquid-staking-core && aztec compile  # 844 KB
+cd ~/aztec-contracts/withdrawal-queue && aztec compile     # 836 KB
 ```
 
 ```bash
@@ -41,6 +41,18 @@ aztec start --local-network
 curl -s -X POST http://localhost:8080 -H "Content-Type: application/json" \
   -d '{"jsonrpc":"2.0","method":"node_getVersion","params":[],"id":1}'
 ```
+
+```bash
+# Token contract (for sandbox E2E)
+cd /root/nargo/github.com/AztecProtocol/aztec-packages/v3.0.3/noir-projects/noir-contracts
+aztec compile --package token_contract
+```
+
+## In Progress / Known Issues
+
+- Local sandbox E2E (`scripts/local-sandbox-e2e.sh`) can stall on token deployment if the sandbox process is reclaimed or slow to respond.
+- The Aztec CLI runs inside Docker; ensure the sandbox stays up long enough for wallet deploys to complete.
+- If the sandbox process dies, inspect `/tmp/aztec-local.log` for OOM or network errors.
 
 ---
 
@@ -155,7 +167,7 @@ get_next_request_id() -> u64
 | Test Suite | Tests | Status |
 |------------|-------|--------|
 | staking-math-tests | 74 | ✅ All passing |
-| smoke-test.sh | 7 | ✅ All passing |
+| smoke-test.sh | 8 | ✅ All passing (sandbox E2E optional) |
 | integration-test.sh | 6 | ✅ All passing |
 
 Test categories:
@@ -206,12 +218,9 @@ cd staking/aztec/contracts/staking-math-tests && ~/.nargo/bin/nargo test
 
 # Compile a contract
 cp -r staking/aztec/contracts/staked-aztec-token ~/aztec-contracts/
-pushd ~/aztec-contracts/staked-aztec-token && ~/aztec-bin/aztec-nargo compile; popd
+pushd ~/aztec-contracts/staked-aztec-token && aztec compile; popd
 
-# Extract aztec-nargo from Docker (first time setup)
-docker pull aztecprotocol/aztec:devnet
-docker create --name tmp-aztec aztecprotocol/aztec:devnet
-docker cp tmp-aztec:/usr/src/noir/noir-repo/target/release/nargo ~/aztec-bin/aztec-nargo
-docker rm tmp-aztec
-chmod +x ~/aztec-bin/aztec-nargo
+# Install Aztec CLI (first time setup)
+bash -i <(curl -s https://install.aztec.network)
+aztec-up 3.0.0-devnet.20251212
 ```

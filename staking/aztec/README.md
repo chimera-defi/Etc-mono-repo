@@ -26,7 +26,7 @@ cd staking/aztec/contracts/staking-math-tests
 |-----------|--------|
 | Contract code | ✅ Complete (66 functions, 3 contracts) |
 | Unit tests | ✅ 74 passing |
-| Compilation | ✅ Works with aztec-nargo (Docker) |
+| Compilation | ✅ Works with aztec CLI `aztec compile` (Docker) |
 | Integration tests | ✅ 6 passing (`./staking/aztec/scripts/integration-test.sh`) |
 
 ---

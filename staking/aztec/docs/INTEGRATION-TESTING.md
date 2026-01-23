@@ -39,21 +39,13 @@ For contract compilation and local sandbox:
 bash -i <(curl -s https://install.aztec.network)
 aztec-up 3.0.0-devnet.20251212
 
-# 3. Extract aztec-nargo (if needed separately)
-docker pull aztecprotocol/aztec:latest
-mkdir -p ~/aztec-bin
-docker create --name tmp-aztec aztecprotocol/aztec:latest
-docker cp tmp-aztec:/usr/src/noir/noir-repo/target/release/nargo ~/aztec-bin/
-docker rm tmp-aztec
-chmod +x ~/aztec-bin/nargo
-
-# 4. Run full smoke test
+# 3. Run full smoke test
 ./staking/aztec/scripts/smoke-test.sh
 
-# 5. Run integration test
+# 4. Run integration test
 ./staking/aztec/scripts/integration-test.sh
 
-# 6. Start local sandbox
+# 5. Start local sandbox
 aztec start --local-network
 ```
 
@@ -105,16 +97,22 @@ cp -r staking/aztec/contracts/staked-aztec-token ~/aztec-contracts/
 cp -r staking/aztec/contracts/liquid-staking-core ~/aztec-contracts/
 cp -r staking/aztec/contracts/withdrawal-queue ~/aztec-contracts/
 
-# Compile
-cd ~/aztec-contracts/staked-aztec-token && ~/aztec-bin/aztec-nargo compile
-cd ~/aztec-contracts/liquid-staking-core && ~/aztec-bin/aztec-nargo compile
-cd ~/aztec-contracts/withdrawal-queue && ~/aztec-bin/aztec-nargo compile
+# Compile (Aztec CLI transpiles public bytecode)
+cd ~/aztec-contracts/staked-aztec-token && aztec compile
+cd ~/aztec-contracts/liquid-staking-core && aztec compile
+cd ~/aztec-contracts/withdrawal-queue && aztec compile
 
 # Verify artifact
 ls -lh target/*.json
 ```
 
 **Expected output:** JSON artifacts per contract (~832K, ~844K, ~836K).
+
+**Token contract (for local sandbox E2E):**
+```bash
+cd /root/nargo/github.com/AztecProtocol/aztec-packages/v3.0.3/noir-projects/noir-contracts
+aztec compile --package token_contract
+```
 
 ### Level 3: Local Sandbox (Requires Docker)
 
@@ -130,7 +128,12 @@ aztec-wallet import-test-accounts
 
 # Terminal 3: Deploy and test contracts
 aztec-wallet create-account -a test-wallet -f test0
+
+# Optional: End-to-end local flow (deploy + stake + withdraw)
+./staking/aztec/scripts/local-sandbox-e2e.sh
 ```
+
+**Troubleshooting:** If you see `host.docker.internal:8080` connection refused, the sandbox likely died (OOM or crash). Restart `aztec start --local-network`, then re-run the script.
 
 ### Level 4: Devnet Testing (Network Access Only)
 
