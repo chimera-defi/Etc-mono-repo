@@ -34,6 +34,14 @@ cd ~/aztec-contracts/liquid-staking-core && ~/aztec-bin/aztec-nargo compile  # 8
 cd ~/aztec-contracts/withdrawal-queue && ~/aztec-bin/aztec-nargo compile     # 836 KB
 ```
 
+```bash
+# Local sandbox start (no devnet usage)
+aztec start --local-network
+# Verify node responds
+curl -s -X POST http://localhost:8080 -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","method":"node_getVersion","params":[],"id":1}'
+```
+
 ---
 
 ## Function Selector Verification ✅

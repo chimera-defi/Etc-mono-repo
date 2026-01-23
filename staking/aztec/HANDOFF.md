@@ -34,6 +34,11 @@
 - Updated smoke-test.sh for 3-contract architecture
 - Created integration-test.sh for full verification
 
+### 6. Local Sandbox Validation (No Devnet Cost)
+- Installed Aztec CLI (3.0.0-devnet.20251212)
+- Started local sandbox with `aztec start --local-network`
+- Verified node responds via `node_getVersion` RPC
+
 ---
 
 ## Current State
@@ -74,6 +79,11 @@ staking/aztec/contracts/
 3. Configure contract references (set_liquid_staking_core, etc.)
 4. Test full deposit/withdrawal flow
 
+### Priority 1.5: Local Sandbox Deployment (No Devnet Cost)
+1. Deploy the 3 contracts to local sandbox
+2. Wire contract references (set_liquid_staking_core, etc.)
+3. Run a full deposit → withdrawal → claim flow locally
+
 ### Priority 2: Function Selector Verification
 The contracts use these selectors for cross-contract calls:
 ```
@@ -102,6 +112,11 @@ const totalDeposited = await core.get_total_deposited();
 const totalStaked = await core.get_total_staked();
 const fees = await core.get_accumulated_fees();
 ```
+
+### Priority 5: UI/UX Prototype (Local)
+- Scaffold frontend (`staking/aztec/frontend`)
+- Connect to local sandbox only
+- Test full UX flow (deposit, request withdrawal, claim) with mocked + live data
 
 ### Priority 4: Optional Enhancements
 - Add private transfer support (Aztec privacy features)

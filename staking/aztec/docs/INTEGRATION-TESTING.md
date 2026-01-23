@@ -57,6 +57,14 @@ chmod +x ~/aztec-bin/nargo
 aztec start --local-network
 ```
 
+**Local sandbox verification (no devnet cost):**
+```bash
+# In another terminal, confirm the local node is responding
+curl -s -X POST http://localhost:8080 \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","method":"node_getVersion","params":[],"id":1}'
+```
+
 ## Environment Types
 
 The smoke test auto-detects your environment:
