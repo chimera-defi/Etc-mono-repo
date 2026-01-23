@@ -4,6 +4,10 @@
 **Status:** Pre-implementation Analysis
 **Priority:** 🔥 URGENT - Tier 1 Opportunity
 
+**Note:** Contract architecture has since been simplified to a 3-contract model
+(StakedAztecToken, LiquidStakingCore, WithdrawalQueue). See `staking/aztec/PROGRESS.md`
+for the current implementation details.
+
 ---
 
 ## Executive Summary

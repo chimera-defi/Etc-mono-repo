@@ -22,7 +22,7 @@ cd staking/aztec/contracts/staking-math-tests
 ```
 
 **What works without Docker:**
-- Unit tests (34 tests in staking-math-tests)
+- Unit tests (74 tests in staking-math-tests)
 - Devnet connectivity checks
 - Contract project structure validation
 
@@ -50,7 +50,10 @@ chmod +x ~/aztec-bin/nargo
 # 4. Run full smoke test
 ./staking/aztec/scripts/smoke-test.sh
 
-# 5. Start local sandbox
+# 5. Run integration test
+./staking/aztec/scripts/integration-test.sh
+
+# 6. Start local sandbox
 aztec start --local-network
 ```
 
@@ -90,17 +93,20 @@ Compile contracts with Aztec macros and dependencies.
 
 ```bash
 # Copy to home directory (aztec-nargo requirement)
-cp -r staking/aztec/contracts/aztec-staking-pool ~/aztec-contracts
-cd ~/aztec-contracts
+cp -r staking/aztec/contracts/staked-aztec-token ~/aztec-contracts/
+cp -r staking/aztec/contracts/liquid-staking-core ~/aztec-contracts/
+cp -r staking/aztec/contracts/withdrawal-queue ~/aztec-contracts/
 
 # Compile
-~/aztec-bin/nargo compile
+cd ~/aztec-contracts/staked-aztec-token && ~/aztec-bin/aztec-nargo compile
+cd ~/aztec-contracts/liquid-staking-core && ~/aztec-bin/aztec-nargo compile
+cd ~/aztec-contracts/withdrawal-queue && ~/aztec-bin/aztec-nargo compile
 
 # Verify artifact
-ls -lh target/staking_pool-StakingPool.json
+ls -lh target/*.json
 ```
 
-**Expected output:** ~760KB JSON artifact with 19+ functions.
+**Expected output:** JSON artifacts per contract (~832K, ~844K, ~836K).
 
 ### Level 3: Local Sandbox (Requires Docker)
 
