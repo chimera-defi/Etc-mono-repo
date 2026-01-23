@@ -36,6 +36,19 @@ cd ~/aztec-contracts/withdrawal-queue && ~/aztec-bin/aztec-nargo compile     # 8
 
 ---
 
+## Function Selector Verification ✅
+
+```
+transfer_in_public((Field),(Field),u128,Field) -> 0x8c9e5472
+mint((Field),u128,u128) -> 0x342cb4ce
+burn((Field),u128) -> 0x2dcbea8b
+add_request((Field),u128,u64) -> 0x9833d028
+```
+
+Verified via `FunctionSelector.fromSignature` (Aztec stdlib v3.0.3).
+
+---
+
 ## Contract Architecture (Production-Ready)
 
 | Contract | Functions | Artifact Size | Status |

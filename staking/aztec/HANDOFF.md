@@ -78,11 +78,11 @@ staking/aztec/contracts/
 The contracts use these selectors for cross-contract calls:
 ```
 transfer_in_public((Field),(Field),u128,Field) -> 0x8c9e5472
-mint((Field),u128,u128) -> needs verification
+mint((Field),u128,u128) -> 0x342cb4ce
 burn((Field),u128) -> 0x2dcbea8b
-add_request((Field),u128,u64) -> needs verification
+add_request((Field),u128,u64) -> 0x9833d028
 ```
-Verify these against actual Aztec Token contract ABI.
+Verified via `FunctionSelector.fromSignature` (Aztec stdlib CLI).
 
 ### Priority 3: Frontend Integration
 Use these view functions:
