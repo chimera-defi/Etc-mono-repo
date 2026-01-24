@@ -22,7 +22,7 @@ cd staking/aztec/contracts/staking-math-tests
 ```
 
 **What works without Docker:**
-- Unit tests (34 tests in staking-math-tests)
+- Unit tests (74 tests in staking-math-tests)
 - Devnet connectivity checks
 - Contract project structure validation
 
@@ -39,19 +39,22 @@ For contract compilation and local sandbox:
 bash -i <(curl -s https://install.aztec.network)
 aztec-up 3.0.0-devnet.20251212
 
-# 3. Extract aztec-nargo (if needed separately)
-docker pull aztecprotocol/aztec:latest
-mkdir -p ~/aztec-bin
-docker create --name tmp-aztec aztecprotocol/aztec:latest
-docker cp tmp-aztec:/usr/src/noir/noir-repo/target/release/nargo ~/aztec-bin/
-docker rm tmp-aztec
-chmod +x ~/aztec-bin/nargo
-
-# 4. Run full smoke test
+# 3. Run full smoke test
 ./staking/aztec/scripts/smoke-test.sh
+
+# 4. Run integration test
+./staking/aztec/scripts/integration-test.sh
 
 # 5. Start local sandbox
 aztec start --local-network
+```
+
+**Local sandbox verification (no devnet cost):**
+```bash
+# In another terminal, confirm the local node is responding
+curl -s -X POST http://localhost:8080 \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","method":"node_getVersion","params":[],"id":1}'
 ```
 
 ## Environment Types
@@ -90,17 +93,26 @@ Compile contracts with Aztec macros and dependencies.
 
 ```bash
 # Copy to home directory (aztec-nargo requirement)
-cp -r staking/aztec/contracts/aztec-staking-pool ~/aztec-contracts
-cd ~/aztec-contracts
+cp -r staking/aztec/contracts/staked-aztec-token ~/aztec-contracts/
+cp -r staking/aztec/contracts/liquid-staking-core ~/aztec-contracts/
+cp -r staking/aztec/contracts/withdrawal-queue ~/aztec-contracts/
 
-# Compile
-~/aztec-bin/nargo compile
+# Compile (Aztec CLI transpiles public bytecode)
+cd ~/aztec-contracts/staked-aztec-token && aztec compile
+cd ~/aztec-contracts/liquid-staking-core && aztec compile
+cd ~/aztec-contracts/withdrawal-queue && aztec compile
 
 # Verify artifact
-ls -lh target/staking_pool-StakingPool.json
+ls -lh target/*.json
 ```
 
-**Expected output:** ~760KB JSON artifact with 19+ functions.
+**Expected output:** JSON artifacts per contract (~832K, ~844K, ~836K).
+
+**Token contract (for local sandbox E2E):**
+```bash
+cd /root/nargo/github.com/AztecProtocol/aztec-packages/v3.0.3/noir-projects/noir-contracts
+aztec compile --package token_contract
+```
 
 ### Level 3: Local Sandbox (Requires Docker)
 
@@ -116,7 +128,12 @@ aztec-wallet import-test-accounts
 
 # Terminal 3: Deploy and test contracts
 aztec-wallet create-account -a test-wallet -f test0
+
+# Optional: End-to-end local flow (deploy + stake + withdraw)
+./staking/aztec/scripts/local-sandbox-e2e.sh
 ```
+
+**Troubleshooting:** If you see `host.docker.internal:8080` connection refused, the sandbox likely died (OOM or crash). Restart `aztec start --local-network`, then re-run the script.
 
 ### Level 4: Devnet Testing (Network Access Only)
 

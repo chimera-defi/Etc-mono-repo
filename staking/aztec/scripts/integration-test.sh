@@ -170,9 +170,9 @@ echo "  Computing selectors for cross-contract calls..."
 # These are the function signatures we use in our contracts
 SELECTORS_TO_CHECK=(
     "transfer_in_public((Field),(Field),u128,Field)"
-    "transfer_public((Field),(Field),u128,Field)"
-    "mint((Field),u128)"
+    "mint((Field),u128,u128)"
     "burn((Field),u128)"
+    "add_request((Field),u128,u64)"
 )
 
 SELECTOR_ERRORS=0
@@ -316,7 +316,7 @@ if [ $TESTS_FAILED -eq 0 ]; then
     echo ""
     echo "Contract Status:"
     echo "  - All 3 contracts compile with aztec-nargo v3.0.x"
-    echo "  - 64 unit tests passing"
+    echo "  - 74 unit tests passing"
     echo "  - TXE environment operational"
     echo ""
     echo "Next Steps:"
