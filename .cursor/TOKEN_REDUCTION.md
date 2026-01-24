@@ -139,6 +139,11 @@ mcp-cli filesystem/search_files '{"path": ".", "pattern": "*.ts"}'
 - `/token-reduce` auto-triggers on keywords
 - Knowledge graph auto-queried
 
+**Hooks (`.claude/settings.json`):**
+- `enforce-targeted-read.py` - Blocks Read on files >300 lines without limit
+- `enforce-grep-limits.py` - Warns when Grep content mode used without head_limit
+- `warn-glob-explosion.py` - Warns when Glob returns >50 files (suggests sub-agent)
+
 **Manual tools:**
 ```bash
 /token-reduce [file]           # Analyze & optimize
@@ -251,6 +256,7 @@ Use: Edit specific sections with targeted old_string/new_string
 
 ---
 
-**Version:** 3.0
+**Version:** 3.1
 **Status:** Production-ready
 **Validation:** `.cursor/validate-token-reduction.sh`
+**Context compaction prevention:** Hooks + sub-agent delegation (Rules #151-153)

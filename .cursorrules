@@ -34,6 +34,13 @@
 - **Benchmarked savings:** 91% (concise), 84% (knowledge graph), 44% (targeted reads)
 - Complete guide: `.cursor/TOKEN_REDUCTION.md`
 
+**Sub-agent delegation (prevents context compaction):**
+- **>5 files to read?** → `Task(subagent_type="Explore")`
+- **Uncertain where info lives?** → `Task(subagent_type="Explore")`
+- **Pattern match across codebase?** → `Task(subagent_type="Explore")`
+- **Complex multi-step research?** → `Task(subagent_type="general-purpose")`
+- Sub-agents return summaries, keeping main context lean
+
 ---
 
 ## PR Attribution (Enforced)
@@ -182,6 +189,9 @@ Rules are organized by domain. Reference by number in code reviews.
 - **#148** Token reduction skill always active (see .cursor/TOKEN_REDUCTION.md and /token-reduce)
 - **#149** Benchmarked token savings: 91% (concise), 84% (knowledge graph), 44% (targeted reads)
 - **#150** Query knowledge graph before researching to avoid duplicate work
+- **#151** Use sub-agents for exploration (>5 files, uncertain locations, pattern matching)
+- **#152** Sub-agents return summaries - keeps main context lean, prevents compaction
+- **#153** Hooks enforce: Read >300 lines blocked, Grep content warned, Glob >50 files warned
 
 ### Comparison Tables (123-139)
 - **#123** Always include clickable website links
