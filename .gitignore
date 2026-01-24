@@ -34,3 +34,4 @@ dist/
 Pods/
 *.xcuserstate
 core
+core.*

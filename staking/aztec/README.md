@@ -10,7 +10,7 @@ Liquid staking infrastructure for Aztec Network (stAZTEC).
 # Run unit tests (works without Docker)
 cd staking/aztec/contracts/staking-math-tests
 ~/.nargo/bin/nargo test
-# Expected: 64 tests passed
+# Expected: 74 tests passed
 
 # Run smoke test
 ./staking/aztec/scripts/smoke-test.sh --minimal
@@ -24,10 +24,10 @@ cd staking/aztec/contracts/staking-math-tests
 
 | Component | Status |
 |-----------|--------|
-| Contract code | ✅ Complete (176 functions, 7 contracts) |
-| Unit tests | ✅ 64 passing |
-| Compilation | ❌ Requires aztec-nargo (Docker) |
-| Integration tests | ❌ Not written |
+| Contract code | ✅ Complete (66 functions, 3 contracts) |
+| Unit tests | ✅ 74 passing |
+| Compilation | ✅ Works with aztec CLI `aztec compile` (Docker) |
+| Integration tests | ✅ 6 passing (`./staking/aztec/scripts/integration-test.sh`) |
 
 ---
 
@@ -46,10 +46,6 @@ cd staking/aztec/contracts/staking-math-tests
 
 | Contract | Functions | Description |
 |----------|-----------|-------------|
-| liquid-staking-core | 37 | Main entry point |
-| rewards-manager | 33 | Exchange rate updates |
-| vault-manager | 28 | 200k batch staking |
-| withdrawal-queue | 24 | FIFO withdrawals |
-| aztec-staking-pool | 21 | Base staking |
-| validator-registry | 20 | Validator tracking |
-| staked-aztec-token | 13 | stAZTEC token |
+| staked-aztec-token | 20 | stAZTEC token + exchange rate source of truth |
+| liquid-staking-core | 26 | Main entry point (deposit/withdraw/fees) |
+| withdrawal-queue | 20 | FIFO unbonding queue |
