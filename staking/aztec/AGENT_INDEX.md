@@ -42,33 +42,49 @@ contracts/
 
 ## Key Documents
 
-| Document | Purpose |
-|----------|---------|
-| `PARALLEL_WORK_HANDOFF.md` | **START HERE** - Agent prompts for frontend + bots |
-| `contracts/AGENT_HANDOFF.md` | Contract status and next steps |
-| `contracts/HANDOFF_SUMMARY_2025-12-30.md` | Detailed contract review results |
-| `docs/TASKS.md` | Task tracking (TASK-XXX references) |
-| `docs/FRONTEND_HANDOFF.md` | Frontend design requirements |
-| `docs/AGENT-PROMPTS-QUICKREF.md` | All agent prompts (8 total) |
+| Document | Purpose | Verification |
+|----------|---------|--------------|
+| `docs/GAP_TASKS_AND_PROMPTS.md` | **NEW** - Actionable tasks + parallelizable prompts | ✅ Generated from gaps |
+| `PARALLEL_WORK_HANDOFF.md` | **START HERE** - Agent prompts for frontend + bots | ✅ Includes verification steps |
+| `contracts/AGENT_HANDOFF.md` | Contract status and next steps | ✅ Verified: 64/64 tests passing |
+| `contracts/HANDOFF_SUMMARY_2025-12-30.md` | Detailed contract review results | ✅ Verified: All contracts complete |
+| `docs/TASKS.md` | Task tracking (TASK-XXX references) | ✅ Updated with current status |
+| `docs/FRONTEND_HANDOFF.md` | Frontend design requirements | ⚠️ Needs frontend implementation |
+| `docs/AGENT-PROMPTS-QUICKREF.md` | All agent prompts (8 total) | ✅ Enhanced with verification commands |
+| `docs/STRATEGIC-GAP-ANALYSIS.md` | Comprehensive gap analysis | ✅ Updated with verification methodology |
 
 ---
 
 ## Verification Commands
 
+**Always verify before marking work complete:**
+
 ```bash
 # Verify contracts (must pass before other work)
 cd /workspace/staking/aztec/contracts/staking-math-tests
 ~/.nargo/bin/nargo test
-# Expected: 64 tests passed
+# Expected: 64 tests passed ✅
 
 # Verify frontend (after setup)
 cd /workspace/staking/aztec/frontend
 npm run build && npm run lint && npm test
+# Expected: Build succeeds, no lint errors, tests pass
 
 # Verify bots (after setup)
 cd /workspace/staking/aztec/bots/staking-keeper
 npm run build && npm run lint && npm test
+# Expected: Build succeeds, no lint errors, tests pass
+
+# Verify gap status
+grep -q "✅\|🔴\|🟡" /workspace/staking/aztec/docs/STRATEGIC-GAP-ANALYSIS.md && echo "✅ Gap tracking active" || echo "⚠️ Check gap tracking"
 ```
+
+**Verification Methodology:**
+- ✅ Verified = Checked against actual repo state, tests run
+- ❌ Not Verified = Assumed or inferred, needs verification
+- ⚠️ Partial = Some verification done, gaps remain
+
+See `docs/STRATEGIC-GAP-ANALYSIS.md` Part 13 for full verification methodology.
 
 ---
 
