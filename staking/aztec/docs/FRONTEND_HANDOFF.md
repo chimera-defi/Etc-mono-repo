@@ -1,7 +1,7 @@
 # Frontend Handoff: Liquid Aztec Staking
 
 **Updated:** 2025-12-30
-**Status:** Ready to start (contracts complete)
+**Status:** Scaffolded (Next.js + Tailwind baseline in `staking/aztec/frontend`)
 **Parallel Agents:** 3 agents can work simultaneously
 
 > **For detailed agent prompts, see:** `/workspace/staking/aztec/PARALLEL_WORK_HANDOFF.md`
@@ -37,8 +37,8 @@ Based on analysis of leading liquid staking protocols (Lido, Rocket Pool, Jito),
 ## Task Breakdown (Parallelizable)
 
 ### Agent F1: Setup + UI Kit (Day 1-2)
-- [ ] Initialize Next.js project in `staking/aztec/frontend`
-- [ ] Configure Tailwind CSS (dark theme) and Lucide React
+- [x] Initialize Next.js project in `staking/aztec/frontend`
+- [x] Configure Tailwind CSS (baseline)
 - [ ] Create UI Kit: Button, Input, Card, Modal, Tabs, Badge
 - [ ] Create utility functions (cn, formatAztec, formatRate)
 

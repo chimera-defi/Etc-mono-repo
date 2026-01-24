@@ -1,6 +1,6 @@
 # Agent Handoff - Aztec Liquid Staking
 
-**Date:** 2026-01-22
+**Date:** 2026-01-23
 **Previous Agent:** Claude Opus 4.5
 **Status:** Phase 2 Complete - Ready for Devnet Deployment
 
@@ -33,6 +33,20 @@
 - Added 10 new integration tests (74 total, all passing)
 - Updated smoke-test.sh for 3-contract architecture
 - Created integration-test.sh for full verification
+
+### 6. Local Sandbox Validation (No Devnet Cost)
+- Installed Aztec CLI (3.0.0-devnet.20251212)
+- Started local sandbox with `aztec start --local-network`
+- Verified node responds via `node_getVersion` RPC
+
+### 7. Local Sandbox E2E Script (In Progress)
+- Added `scripts/local-sandbox-e2e.sh` to compile, deploy, and run stake → withdraw → claim
+- Uses `aztec compile` (transpiled bytecode required for deploy)
+- Token contract compile requires `aztec compile --package token_contract` from the noir-contracts workspace
+
+### 8. Frontend Scaffold
+- Created `staking/aztec/frontend` (Next.js + Tailwind)
+- Updated layout, globals, and landing page for a staking UI shell
 
 ---
 
@@ -74,15 +88,21 @@ staking/aztec/contracts/
 3. Configure contract references (set_liquid_staking_core, etc.)
 4. Test full deposit/withdrawal flow
 
+### Priority 1.5: Local Sandbox Deployment (No Devnet Cost)
+1. Deploy the 3 contracts to local sandbox
+2. Wire contract references (set_liquid_staking_core, etc.)
+3. Run a full deposit → withdrawal → claim flow locally
+4. If deploy hangs, keep sandbox alive and re-run after `token_contract` compile
+
 ### Priority 2: Function Selector Verification
 The contracts use these selectors for cross-contract calls:
 ```
 transfer_in_public((Field),(Field),u128,Field) -> 0x8c9e5472
-mint((Field),u128,u128) -> needs verification
+mint((Field),u128,u128) -> 0x342cb4ce
 burn((Field),u128) -> 0x2dcbea8b
-add_request((Field),u128,u64) -> needs verification
+add_request((Field),u128,u64) -> 0x9833d028
 ```
-Verify these against actual Aztec Token contract ABI.
+Verified via `FunctionSelector.fromSignature` (Aztec stdlib CLI).
 
 ### Priority 3: Frontend Integration
 Use these view functions:
@@ -103,6 +123,11 @@ const totalStaked = await core.get_total_staked();
 const fees = await core.get_accumulated_fees();
 ```
 
+### Priority 5: UI/UX Prototype (Local)
+- Scaffold frontend (`staking/aztec/frontend`)
+- Connect to local sandbox only
+- Test full UX flow (deposit, request withdrawal, claim) with mocked + live data
+
 ### Priority 4: Optional Enhancements
 - Add private transfer support (Aztec privacy features)
 - Add batch withdrawal claims
@@ -121,7 +146,7 @@ cd staking/aztec/contracts/staking-math-tests && ~/.nargo/bin/nargo test
 
 # Compile contracts (must be under $HOME)
 cp -r staking/aztec/contracts/staked-aztec-token ~/aztec-contracts/
-pushd ~/aztec-contracts/staked-aztec-token && ~/aztec-bin/aztec-nargo compile; popd
+pushd ~/aztec-contracts/staked-aztec-token && aztec compile; popd
 ```
 
 ---
@@ -173,7 +198,8 @@ pushd ~/aztec-contracts/staked-aztec-token && ~/aztec-bin/aztec-nargo compile; p
 1. **Don't modify exchange rate logic** - It's designed to be the source of truth
 2. **Rate only increases** - This is intentional (no slashing support yet)
 3. **MIN_DEPOSIT is 1 AZTEC** - Prevents dust attacks
-4. **Contracts must be compiled under $HOME** - aztec-nargo limitation
+4. **Contracts must be compiled under $HOME** - aztec CLI/Docker limitation
 5. **Use pushd/popd for compilation** - cd doesn't work well in the environment
+6. **Local sandbox E2E** - token deploy completes, but sandbox can be killed mid-run; when this happens `aztec-wallet` fails with `host.docker.internal:8080` connection refused
 
 Good luck!

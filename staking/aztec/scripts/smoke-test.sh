@@ -4,15 +4,16 @@
 # This script verifies the development environment and toolchain are working.
 # Run this after setting up a new development environment.
 #
-# Usage: ./staking/aztec/scripts/smoke-test.sh [--minimal]
+# Usage: ./staking/aztec/scripts/smoke-test.sh [--minimal] [--sandbox-e2e]
 #
 # Modes:
 #   Default:  All tests (Docker required for full pass)
 #   --minimal: Only test what works without Docker (unit tests, devnet, project structure)
+#   --sandbox-e2e: Run local sandbox deploy + end-to-end flow (requires Aztec CLI)
 #
 # Prerequisites:
 #   - noirup installed (Noir toolchain installer)
-#   - For full mode: Docker with aztec-nargo binary extracted
+#   - For full mode: Docker with Aztec CLI installed
 #
 # Contract Architecture (v3.0.x):
 #   - StakedAztecToken: Liquid staking token (stAZTEC)
@@ -33,9 +34,15 @@ TESTS_DIR="${CONTRACTS_DIR}/staking-math-tests"
 
 # Parse arguments
 MINIMAL_MODE=false
-if [ "$1" = "--minimal" ]; then
-    MINIMAL_MODE=true
-fi
+SANDBOX_E2E=false
+for arg in "$@"; do
+    if [ "$arg" = "--minimal" ]; then
+        MINIMAL_MODE=true
+    fi
+    if [ "$arg" = "--sandbox-e2e" ]; then
+        SANDBOX_E2E=true
+    fi
+done
 
 echo "========================================"
 echo "Aztec Liquid Staking Smoke Test"
@@ -46,6 +53,9 @@ if [ "$MINIMAL_MODE" = true ]; then
     echo -e "Mode: ${BLUE}Minimal${NC} (Docker-independent tests only)"
 else
     echo -e "Mode: ${BLUE}Full${NC} (all tests, Docker required)"
+fi
+if [ "$SANDBOX_E2E" = true ]; then
+    echo -e "Sandbox E2E: ${BLUE}Enabled${NC} (local deploy + flow)"
 fi
 echo ""
 
@@ -111,40 +121,34 @@ else
 fi
 
 # ============================================================
-# TEST 2: Aztec-Nargo (Requires Docker extraction)
+# TEST 2: Aztec CLI (Compile Support)
 # ============================================================
 echo ""
-echo "Test 2: Checking aztec-nargo installation..."
+echo "Test 2: Checking Aztec CLI installation..."
 
-AZTEC_NARGO_FOUND=false
-AZTEC_NARGO_BIN=""
+AZTEC_CLI_FOUND=false
+AZTEC_CLI_BIN=""
 
-if [ -f "$HOME/aztec-bin/aztec-nargo" ]; then
-    AZTEC_NARGO_BIN="$HOME/aztec-bin/aztec-nargo"
-    AZTEC_NARGO_FOUND=true
-elif [ -f "$HOME/aztec-bin/nargo" ]; then
-    AZTEC_NARGO_BIN="$HOME/aztec-bin/nargo"
-    AZTEC_NARGO_FOUND=true
-elif [ -f "$HOME/.aztec/bin/aztec-nargo" ]; then
-    AZTEC_NARGO_BIN="$HOME/.aztec/bin/aztec-nargo"
-    AZTEC_NARGO_FOUND=true
+if [ -f "$HOME/.aztec/bin/aztec" ]; then
+    AZTEC_CLI_BIN="$HOME/.aztec/bin/aztec"
+    AZTEC_CLI_FOUND=true
+elif command -v aztec &> /dev/null; then
+    AZTEC_CLI_BIN="$(command -v aztec)"
+    AZTEC_CLI_FOUND=true
 fi
 
-if [ "$AZTEC_NARGO_FOUND" = true ]; then
-    AZTEC_NARGO_VERSION=$("$AZTEC_NARGO_BIN" --version 2>/dev/null | head -1)
-    pass "Aztec nargo found: $AZTEC_NARGO_VERSION"
+if [ "$AZTEC_CLI_FOUND" = true ]; then
+    AZTEC_CLI_VERSION=$("$AZTEC_CLI_BIN" --version 2>/dev/null | head -1)
+    pass "Aztec CLI found: $AZTEC_CLI_VERSION"
 elif [ "$MINIMAL_MODE" = true ]; then
-    skip "aztec-nargo (requires Docker to install)"
+    skip "Aztec CLI (requires full toolchain)"
 else
     if [ "$ENV_TYPE" = "sandboxed" ]; then
-        warn "aztec-nargo unavailable (sandboxed environment, Docker not supported)"
+        warn "Aztec CLI unavailable (sandboxed environment, Docker not supported)"
     else
-        fail "aztec-nargo not found"
-        echo "  To install with Docker:"
-        echo "    docker pull aztecprotocol/aztec:latest"
-        echo "    docker create --name tmp-aztec aztecprotocol/aztec:latest"
-        echo "    docker cp tmp-aztec:/usr/src/noir/noir-repo/target/release/nargo ~/aztec-bin/"
-        echo "    docker rm tmp-aztec"
+        fail "Aztec CLI not found"
+        echo "  Install via: bash -i <(curl -s https://install.aztec.network)"
+        echo "  Then run: aztec-up <version>"
     fi
 fi
 
@@ -172,7 +176,7 @@ else
 fi
 
 # ============================================================
-# TEST 4: Aztec Contract Compilation (Requires aztec-nargo)
+# TEST 4: Aztec Contract Compilation (Requires Aztec CLI)
 # ============================================================
 echo ""
 echo "Test 4: Checking Aztec contract compilation..."
@@ -188,7 +192,7 @@ compile_contract() {
     cp -r "$CONTRACTS_DIR/$contract_dir" ~/aztec-contracts/ 2>/dev/null
     ORIG_DIR=$(pwd)
     cd ~/aztec-contracts/$contract_dir
-    COMPILE_OUTPUT=$("$AZTEC_NARGO_BIN" compile 2>&1)
+    COMPILE_OUTPUT=$("$AZTEC_CLI_BIN" compile 2>&1)
     COMPILE_STATUS=$?
     cd "$ORIG_DIR"
 
@@ -204,8 +208,8 @@ compile_contract() {
 }
 
 if [ "$MINIMAL_MODE" = true ]; then
-    skip "Contract compilation (requires aztec-nargo)"
-elif [ "$AZTEC_NARGO_FOUND" = true ]; then
+    skip "Contract compilation (requires aztec compile)"
+elif [ "$AZTEC_CLI_FOUND" = true ]; then
     CONTRACTS_COMPILED=0
 
     compile_contract "StakedAztecToken" "staked-aztec-token" "staked_aztec_token" && CONTRACTS_COMPILED=$((CONTRACTS_COMPILED + 1))
@@ -221,7 +225,7 @@ else
     if [ "$ENV_TYPE" = "sandboxed" ]; then
         warn "Contract compilation unavailable (sandboxed environment)"
     else
-        fail "aztec-nargo not available for contract compilation"
+        fail "Aztec CLI not available for contract compilation"
     fi
 fi
 
@@ -301,6 +305,39 @@ else
 fi
 
 # ============================================================
+# TEST 8: Local Sandbox E2E (De-risks devnet deploy)
+# ============================================================
+RUN_SANDBOX_E2E=$SANDBOX_E2E
+AZTEC_CLI_BIN=""
+if [ -x "$HOME/.aztec/bin/aztec" ]; then
+    AZTEC_CLI_BIN="$HOME/.aztec/bin/aztec"
+elif command -v aztec &> /dev/null; then
+    AZTEC_CLI_BIN="$(command -v aztec)"
+fi
+
+if [ "$MINIMAL_MODE" = false ] && [ "$RUN_SANDBOX_E2E" = false ] && [ -n "$AZTEC_CLI_BIN" ]; then
+    RUN_SANDBOX_E2E=true
+fi
+
+if [ "$RUN_SANDBOX_E2E" = true ]; then
+    echo ""
+    echo "Test 8: Local sandbox deploy + E2E flow..."
+    if [ "$MINIMAL_MODE" = true ]; then
+        skip "Sandbox E2E (requires full mode)"
+    elif [ -x "$AZTEC_DIR/scripts/local-sandbox-e2e.sh" ]; then
+        if "$AZTEC_DIR/scripts/local-sandbox-e2e.sh" >/tmp/aztec-sandbox-e2e.log 2>&1; then
+            pass "Local sandbox E2E flow completed"
+        else
+            fail "Local sandbox E2E flow failed (see /tmp/aztec-sandbox-e2e.log)"
+        fi
+    else
+        fail "Local sandbox E2E script not found"
+    fi
+else
+    skip "Sandbox E2E (run with --sandbox-e2e when Aztec CLI is installed)"
+fi
+
+# ============================================================
 # Summary
 # ============================================================
 echo ""
@@ -320,7 +357,7 @@ if [ $TESTS_FAILED -eq 0 ]; then
         echo ""
         echo "For full contract compilation and sandbox testing, you need:"
         echo "  1. Docker installed and running"
-        echo "  2. aztec-nargo extracted from Docker image"
+        echo "  2. Aztec CLI installed (aztec-up)"
         echo ""
         echo "See: staking/aztec/docs/INTEGRATION-TESTING.md"
     else
@@ -331,8 +368,8 @@ if [ $TESTS_FAILED -eq 0 ]; then
     echo ""
     echo "Quick commands:"
     echo "  Run tests:    cd staking/aztec/contracts/staking-math-tests && ~/.nargo/bin/nargo test"
-    if [ "$AZTEC_NARGO_FOUND" = true ]; then
-        echo "  Compile:      cp -r staking/aztec/contracts/staked-aztec-token ~/aztec-contracts/ && cd ~/aztec-contracts/staked-aztec-token && ~/aztec-bin/aztec-nargo compile"
+    if [ "$AZTEC_CLI_FOUND" = true ]; then
+        echo "  Compile:      cp -r staking/aztec/contracts/staked-aztec-token ~/aztec-contracts/ && cd ~/aztec-contracts/staked-aztec-token && aztec compile"
     fi
     exit 0
 else

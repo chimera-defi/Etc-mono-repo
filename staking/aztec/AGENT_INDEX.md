@@ -1,7 +1,7 @@
 # Agent Index - Aztec Liquid Staking Protocol
 
-**Last Updated:** 2025-12-30
-**Status:** Phase 2 Complete → Ready for Phase 3, 4, 4.5
+**Last Updated:** 2026-01-23
+**Status:** Phase 2 Complete → Phase 3 in progress (local sandbox validated)
 
 ---
 
@@ -9,7 +9,7 @@
 
 | I want to work on... | Go to | Start command |
 |---------------------|-------|---------------|
-| Frontend | `PARALLEL_WORK_HANDOFF.md` §Part 1 | `cd frontend && npm run dev` |
+| Frontend | `PARALLEL_WORK_HANDOFF.md` §Part 1 | (not yet scaffolded) |
 | Bots | `PARALLEL_WORK_HANDOFF.md` §Part 2 | `cd bots/staking-keeper && npm run dev` |
 | Security | `docs/AGENT-PROMPTS-QUICKREF.md` Prompt 4 | Read contracts first |
 | Integration Tests | `docs/TASKS.md` TASK-201+ | Needs aztec-nargo |
@@ -22,14 +22,10 @@
 ### ✅ Complete (Phase 2)
 ```
 contracts/
-├── liquid-staking-core/   37 functions ✅
-├── rewards-manager/       33 functions ✅
-├── vault-manager/         28 functions ✅
-├── withdrawal-queue/      24 functions ✅
-├── aztec-staking-pool/    21 functions ✅
-├── validator-registry/    20 functions ✅
-├── staked-aztec-token/    13 functions ✅
-└── staking-math-tests/    64 tests ✅
+├── staked-aztec-token/    20 functions ✅
+├── liquid-staking-core/   26 functions ✅
+├── withdrawal-queue/      20 functions ✅
+└── staking-math-tests/    74 tests ✅
 ```
 
 ### 🚀 Ready to Start (Parallel)
@@ -59,7 +55,7 @@ contracts/
 # Verify contracts (must pass before other work)
 cd /workspace/staking/aztec/contracts/staking-math-tests
 ~/.nargo/bin/nargo test
-# Expected: 64 tests passed
+# Expected: 74 tests passed
 
 # Verify frontend (after setup)
 cd /workspace/staking/aztec/frontend
@@ -101,34 +97,35 @@ npm run build && npm run lint && npm test
 
 ---
 
-## Contract Interface Reference
+## Contract Interface Reference (Current)
 
 For frontend and bot developers, here are the key contract functions:
 
 ### LiquidStakingCore
 ```typescript
-deposit(amount: u128, exchange_rate: u64, nonce: Field) → u128 // returns stAZTEC
-request_withdrawal(st_aztec_amount: u128, exchange_rate: u64, timestamp: u64) → u64 // returns request_id
-get_tvl() → u128
+deposit(amount: u128, nonce: Field) → u128 // returns stAZTEC
+request_withdrawal(st_aztec_amount: u128, timestamp: u64) → u64 // returns request_id
+get_total_deposited() → u128
 get_pending_pool() → u128
-is_batch_ready() → bool
+get_total_staked() → u128
 ```
 
 ### StakedAztecToken
 ```typescript
 balance_of(account: AztecAddress) → u128
+balance_of_in_aztec(account: AztecAddress) → u128
 get_exchange_rate() → u64  // 10000 = 1.0
-get_total_supply() → u128
+total_supply() → u128
 convert_to_aztec(st_aztec_amount: u128) → u128
 convert_to_st_aztec(aztec_amount: u128) → u128
 ```
 
 ### WithdrawalQueue
 ```typescript
-get_queue_length() → u64
+get_request(request_id: u64) → (user, amount, timestamp, fulfilled)
 is_claimable(request_id: u64, current_timestamp: u64) → bool
 time_until_claimable(request_id: u64, current_timestamp: u64) → u64
-get_request_amount(request_id: u64) → u128
+get_total_pending() → u128
 ```
 
 ### RewardsManager

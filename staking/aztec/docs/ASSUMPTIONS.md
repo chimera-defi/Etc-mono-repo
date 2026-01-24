@@ -278,6 +278,19 @@ node_getContractInstance # Not exposed on public node
 #### Key Insights
 1. **We can test against devnet without local sandbox** using RPC + AztecJS
 2. **Core staking math works in Noir** - share calculation, fees, withdrawals all compile
+
+---
+
+### 2026-01-23 — Local Sandbox Start (No Devnet Cost) ✅
+
+- **Environment**: Linux, Docker 28.2.2, aztec CLI 3.0.0-devnet.20251212
+- **Command**: `aztec start --local-network` (local sandbox)
+- **RPC Check**:
+  - `curl -s -X POST http://localhost:8080 -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"node_getVersion","params":[],"id":1}'`
+  - **Result**: `node_getVersion` returned a version integer (local node responding)
+- **Notes**:
+  - Sandbox started successfully without devnet usage.
+  - No contracts deployed yet (deployment flow still pending).
 3. **Aztec contracts need aztec-nargo** for `#[aztec(contract)]` macros (standard nargo is base Noir only)
 4. **devnet requires fee payment** - need to use sponsored FPC or pay fees
 5. **Docker image available** but container execution needs network bridge
