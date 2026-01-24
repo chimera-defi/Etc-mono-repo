@@ -1,6 +1,21 @@
 export default function Home() {
+  const stats = [
+    { label: "Exchange rate", value: "--" },
+    { label: "APY", value: "--" },
+    { label: "Total staked", value: "--" },
+  ];
+  const queue = [
+    { label: "Latest request", value: "--", highlight: true },
+    { label: "Next up", value: "--", highlight: false },
+  ];
+  const summary = [
+    "Contracts: StakedAztecToken / LiquidStakingCore / WithdrawalQueue",
+    "Network: Local sandbox",
+    "Next: wire UI to contract calls",
+  ];
+
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(111,77,255,0.25),_transparent_55%),radial-gradient(circle_at_25%_75%,_rgba(255,153,102,0.25),_transparent_50%),linear-gradient(180deg,_#0b0c10_0%,_#11131a_45%,_#0b0c10_100%)]">
+    <div className="min-h-screen bg-[var(--background)]">
       <main className="mx-auto flex min-h-screen w-full max-w-6xl flex-col gap-12 px-6 pb-20 pt-16 md:px-10">
         <header className="flex flex-col gap-6">
           <div className="inline-flex w-fit items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.3em] text-white/70">
@@ -66,18 +81,15 @@ export default function Home() {
                 Protocol Snapshot
               </h3>
               <div className="mt-6 grid gap-4">
-                <div className="flex items-center justify-between text-white/80">
-                  <span>Exchange rate</span>
-                  <span className="font-mono text-white">--</span>
-                </div>
-                <div className="flex items-center justify-between text-white/80">
-                  <span>APY</span>
-                  <span className="font-mono text-white">--</span>
-                </div>
-                <div className="flex items-center justify-between text-white/80">
-                  <span>Total staked</span>
-                  <span className="font-mono text-white">--</span>
-                </div>
+                {stats.map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="flex items-center justify-between text-white/80"
+                  >
+                    <span>{stat.label}</span>
+                    <span className="font-mono text-white">{stat.value}</span>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -86,29 +98,34 @@ export default function Home() {
                 Withdrawal Queue
               </h3>
               <div className="mt-4 space-y-3">
-                <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-white/80">
-                  <span>Latest request</span>
-                  <span className="text-xs text-[var(--aztec-mint)]">--</span>
-                </div>
-                <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-white/60">
-                  <span>Next up</span>
-                  <span className="text-xs">--</span>
-                </div>
+                {queue.map((item) => (
+                  <div
+                    key={item.label}
+                    className={`flex items-center justify-between rounded-2xl border border-white/10 bg-black/30 px-4 py-3 ${
+                      item.highlight ? "text-white/80" : "text-white/60"
+                    }`}
+                  >
+                    <span>{item.label}</span>
+                    <span
+                      className={`text-xs ${
+                        item.highlight ? "text-[var(--aztec-mint)]" : ""
+                      }`}
+                    >
+                      {item.value}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </section>
 
         <section className="grid gap-4 text-xs uppercase tracking-[0.3em] text-white/40 md:grid-cols-3">
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            Contracts: StakedAztecToken / LiquidStakingCore / WithdrawalQueue
-          </div>
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            Network: Local sandbox
-          </div>
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            Next: wire UI to contract calls
-          </div>
+          {summary.map((item) => (
+            <div key={item} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+              {item}
+            </div>
+          ))}
         </section>
       </main>
     </div>
