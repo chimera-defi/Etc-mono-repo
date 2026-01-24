@@ -8,20 +8,19 @@ export default function Home() {
             <span className="h-2 w-2 rounded-full bg-[var(--aztec-mint)] shadow-[0_0_12px_rgba(99,242,182,0.6)]" />
           </div>
           <h1 className="text-4xl font-semibold leading-tight text-white md:text-6xl">
-            Aztec Liquid Staking
-            <span className="block text-white/60">Local UX playground</span>
+            Aztec Staking Sandbox
+            <span className="block text-white/60">Local-only UI shell</span>
           </h1>
           <p className="max-w-2xl text-lg text-white/70">
-            Stake AZTEC, receive stAZTEC, and simulate withdrawals without touching
-            devnet. This sandbox UI mirrors the three-contract architecture and
-            keeps everything local.
+            Connect this UI to the local Aztec sandbox to test staking, withdrawals,
+            and queue behavior without devnet spend.
           </p>
           <div className="flex flex-wrap gap-3">
             <button className="rounded-full bg-[var(--aztec-violet)] px-5 py-2 text-sm font-semibold text-white shadow-[0_10px_30px_rgba(111,77,255,0.35)] transition hover:-translate-y-0.5 hover:bg-[#5a39f0]">
-              Start Local Session
+              Start Sandbox
             </button>
             <button className="rounded-full border border-white/15 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-white/40 hover:text-white">
-              View Contract Status
+              Refresh Status
             </button>
           </div>
         </header>
@@ -29,7 +28,7 @@ export default function Home() {
         <section className="grid gap-6 md:grid-cols-[1.1fr_0.9fr]">
           <div className="rounded-3xl border border-white/10 bg-[var(--aztec-graphite)]/70 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
             <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-white">Stake / Unstake</h2>
+              <h2 className="text-xl font-semibold text-white">Stake / Withdraw</h2>
               <span className="text-xs uppercase tracking-[0.2em] text-white/40">
                 stAZTEC
               </span>
@@ -39,14 +38,14 @@ export default function Home() {
                 <p className="text-xs uppercase tracking-[0.2em] text-white/50">
                   Available balance
                 </p>
-                <p className="mt-2 text-2xl font-semibold text-white">50,000 AZTEC</p>
+                <p className="mt-2 text-2xl font-semibold text-white">-- AZTEC</p>
               </div>
               <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
                 <p className="text-xs uppercase tracking-[0.2em] text-white/50">
                   Input amount
                 </p>
                 <div className="mt-3 flex items-center justify-between rounded-xl border border-white/10 bg-black/40 px-4 py-3">
-                  <span className="text-white/80">10,000</span>
+                  <span className="text-white/80">0.0</span>
                   <span className="text-xs uppercase text-white/40">AZTEC</span>
                 </div>
               </div>
@@ -55,7 +54,7 @@ export default function Home() {
                   Stake
                 </button>
                 <button className="flex-1 rounded-xl border border-white/15 px-4 py-3 text-sm font-semibold text-white/80 transition hover:border-white/40 hover:text-white">
-                  Request Withdrawal
+                  Request
                 </button>
               </div>
             </div>
@@ -64,20 +63,20 @@ export default function Home() {
           <div className="grid gap-6">
             <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
               <h3 className="text-sm uppercase tracking-[0.25em] text-white/50">
-                Protocol Pulse
+                Protocol Snapshot
               </h3>
               <div className="mt-6 grid gap-4">
                 <div className="flex items-center justify-between text-white/80">
                   <span>Exchange rate</span>
-                  <span className="font-mono text-white">1.025</span>
+                  <span className="font-mono text-white">--</span>
                 </div>
                 <div className="flex items-center justify-between text-white/80">
                   <span>APY</span>
-                  <span className="font-mono text-white">8.5%</span>
+                  <span className="font-mono text-white">--</span>
                 </div>
                 <div className="flex items-center justify-between text-white/80">
                   <span>Total staked</span>
-                  <span className="font-mono text-white">10.5M AZTEC</span>
+                  <span className="font-mono text-white">--</span>
                 </div>
               </div>
             </div>
@@ -88,12 +87,12 @@ export default function Home() {
               </h3>
               <div className="mt-4 space-y-3">
                 <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-white/80">
-                  <span>Request #42</span>
-                  <span className="text-xs text-[var(--aztec-mint)]">Claimable</span>
+                  <span>Latest request</span>
+                  <span className="text-xs text-[var(--aztec-mint)]">--</span>
                 </div>
                 <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-white/60">
-                  <span>Request #43</span>
-                  <span className="text-xs">3d 11h left</span>
+                  <span>Next up</span>
+                  <span className="text-xs">--</span>
                 </div>
               </div>
             </div>
@@ -105,10 +104,10 @@ export default function Home() {
             Contracts: StakedAztecToken / LiquidStakingCore / WithdrawalQueue
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            Network: Local sandbox (no devnet spend)
+            Network: Local sandbox
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            Next: wire UI to local contract calls
+            Next: wire UI to contract calls
           </div>
         </section>
       </main>
