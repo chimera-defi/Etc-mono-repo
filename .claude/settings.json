@@ -9,6 +9,26 @@
             "command": ".claude/hooks/enforce-targeted-read.py"
           }
         ]
+      },
+      {
+        "matcher": "Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/enforce-grep-limits.py"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Glob",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/warn-glob-explosion.py"
+          }
+        ]
       }
     ]
   }

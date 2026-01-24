@@ -2,6 +2,24 @@
 
 > **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `/token-reduce` skill
 
+## Context Compaction Prevention (Critical)
+
+**Use sub-agents to avoid filling main context:**
+
+| Task | Instead of | Use |
+|------|-----------|-----|
+| Codebase exploration | Multiple Glob/Grep/Read | `Task(subagent_type="Explore")` |
+| Finding files | Glob with broad patterns | `Task(subagent_type="Explore")` |
+| Complex research | Sequential file reads | `Task(subagent_type="general-purpose")` |
+
+**Rules:**
+- **>5 file reads needed?** → Spawn Explore agent
+- **Uncertain where info lives?** → Spawn Explore agent
+- **Pattern matching across codebase?** → Spawn Explore agent
+- **Glob returns >50 files?** → Hook warns, use sub-agent instead
+
+**Hooks enforce:** Read limits (300 lines), Grep content warnings, Glob explosion warnings
+
 ## Quick Start
 
 1. **Read `.cursorrules`** - All AI rules apply to Claude Code
@@ -87,6 +105,9 @@ Before completing any task:
 | #148 | Token reduction skill always active |
 | #149 | Benchmarked savings: 91% (concise), 84% (knowledge graph), 44% (targeted reads) |
 | #150 | Query knowledge graph before researching |
+| #151 | Use sub-agents for exploration (>5 files, uncertain locations) |
+| #152 | Sub-agents return summaries - prevents context compaction |
+| #153 | Hooks enforce: Read >300 lines, Grep content, Glob >50 files |
 
 ## Project-Specific Docs
 
