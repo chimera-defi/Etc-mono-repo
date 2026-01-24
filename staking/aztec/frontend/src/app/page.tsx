@@ -1,4 +1,37 @@
-export default function Home() {
+async function getSandboxStatus() {
+  const nodeUrl = process.env.AZTEC_NODE_URL ?? "http://127.0.0.1:8080";
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 1500);
+
+  try {
+    const res = await fetch(nodeUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        method: "node_getVersion",
+        params: [],
+        id: 1,
+      }),
+      signal: controller.signal,
+      cache: "no-store",
+    });
+    clearTimeout(timeout);
+
+    if (!res.ok) {
+      return { ok: false, version: null, nodeUrl };
+    }
+
+    const json = (await res.json()) as { result?: string };
+    return { ok: true, version: json.result ?? null, nodeUrl };
+  } catch (error) {
+    clearTimeout(timeout);
+    return { ok: false, version: null, nodeUrl, error };
+  }
+}
+
+export default async function Home() {
+  const sandbox = await getSandboxStatus();
   const stats = [
     { label: "Exchange rate", value: "--" },
     { label: "APY", value: "--" },
@@ -9,9 +42,9 @@ export default function Home() {
     { label: "Next up", value: "--", highlight: false },
   ];
   const summary = [
-    "Contracts: StakedAztecToken / LiquidStakingCore / WithdrawalQueue",
-    "Network: Local sandbox",
-    "Next: wire UI to contract calls",
+    `Sandbox: ${sandbox.ok ? "online" : "offline"}`,
+    `Node URL: ${sandbox.nodeUrl}`,
+    `Version: ${sandbox.version ?? "--"}`,
   ];
 
   return (
@@ -20,7 +53,11 @@ export default function Home() {
         <header className="flex flex-col gap-6">
           <div className="inline-flex w-fit items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.3em] text-white/70">
             Local Sandbox
-            <span className="h-2 w-2 rounded-full bg-[var(--aztec-mint)] shadow-[0_0_12px_rgba(99,242,182,0.6)]" />
+            <span
+              className={`h-2 w-2 rounded-full shadow-[0_0_12px_rgba(99,242,182,0.6)] ${
+                sandbox.ok ? "bg-[var(--aztec-mint)]" : "bg-red-400"
+              }`}
+            />
           </div>
           <h1 className="text-4xl font-semibold leading-tight text-white md:text-6xl">
             Aztec Staking Sandbox
@@ -122,7 +159,10 @@ export default function Home() {
 
         <section className="grid gap-4 text-xs uppercase tracking-[0.3em] text-white/40 md:grid-cols-3">
           {summary.map((item) => (
-            <div key={item} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div
+              key={item}
+              className="rounded-2xl border border-white/10 bg-white/5 p-4"
+            >
               {item}
             </div>
           ))}
