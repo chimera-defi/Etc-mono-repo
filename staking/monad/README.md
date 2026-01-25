@@ -14,10 +14,14 @@ Small, safe helpers to validate RPC, uptime endpoints, and local devnet runs. Th
   - Prints a small JSON snapshot of CPU, memory, and disk.
 - `scripts/run_local_devnet.sh [monad-bft-path]`
   - Runs the monad-bft local devnet docker flow.
+- `scripts/check_prereqs.sh`
+  - Checks for required binaries (curl, rg, python3).
 - `scripts/install_sysctl.sh [path]`
   - Writes the monad sysctl tuning file and applies it.
 - `scripts/install_systemd_unit.sh [src] [dest]`
   - Installs the validator systemd unit skeleton.
+- `scripts/install_status_service.sh [src] [dest] [target_dir]`
+  - Installs the status server systemd unit and copies the script.
 
 ## Example
 
@@ -27,8 +31,10 @@ Small, safe helpers to validate RPC, uptime endpoints, and local devnet runs. Th
 ./scripts/status_server.py
 ./scripts/collect_node_info.sh
 ./scripts/run_local_devnet.sh ~/monad-bft
+./scripts/check_prereqs.sh
 sudo ./scripts/install_sysctl.sh
 sudo ./scripts/install_systemd_unit.sh
+sudo ./scripts/install_status_service.sh
 ```
 
 ## Notes

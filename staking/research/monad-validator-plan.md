@@ -253,8 +253,10 @@ flowchart TD
    - `staking/monad/scripts/status_server.py`
    - `staking/monad/scripts/collect_node_info.sh`
    - `staking/monad/scripts/run_local_devnet.sh`
+   - `staking/monad/scripts/check_prereqs.sh`
    - `staking/monad/scripts/install_sysctl.sh`
    - `staking/monad/scripts/install_systemd_unit.sh`
+   - `staking/monad/scripts/install_status_service.sh`
 
 ### 2.8.2 Chain State Watchers
 
