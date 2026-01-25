@@ -22,6 +22,8 @@ Small, safe helpers to validate RPC, uptime endpoints, and local devnet runs. Th
   - Installs the validator systemd unit skeleton.
 - `scripts/install_status_service.sh [src] [dest] [target_dir]`
   - Installs the status server systemd unit and copies the script.
+- `scripts/e2e_smoke_test.sh`
+  - End-to-end smoke test for status server + mock RPC routes.
 
 ## Example
 
@@ -36,6 +38,7 @@ RPC_URL=http://localhost:8080 ./scripts/status_server.py
 sudo ./scripts/install_sysctl.sh
 sudo ./scripts/install_systemd_unit.sh
 sudo ./scripts/install_status_service.sh
+./scripts/e2e_smoke_test.sh
 ```
 
 ## Notes

@@ -257,6 +257,7 @@ flowchart TD
    - `staking/monad/scripts/install_sysctl.sh`
    - `staking/monad/scripts/install_systemd_unit.sh`
    - `staking/monad/scripts/install_status_service.sh`
+   - `staking/monad/scripts/e2e_smoke_test.sh`
 
 ### 2.8.2 Chain State Watchers
 
