@@ -15,6 +15,7 @@ RPC_URL=http://localhost:8080 ./scripts/status_server.py
 - Set `RPC_URL` in `/etc/monad/status.env` and enable `monad-status.service`.
 - Install sysctl tuning with `scripts/install_sysctl.sh` before running monad-bft devnet.
 - Replace placeholder contact info in `landing/index.html`.
+- Use `RUNBOOK.md` for start/restart/rollback steps.
 
 ## Scripts
 
@@ -38,6 +39,8 @@ RPC_URL=http://localhost:8080 ./scripts/status_server.py
   - Installs the status server systemd unit and copies the script.
 - `config/status.env.example`
   - Environment variables for the status server.
+- `RUNBOOK.md`
+  - MVP runbook for start, checks, and rollback.
 - `scripts/e2e_smoke_test.sh`
   - End-to-end smoke test for status server + mock RPC routes.
 
