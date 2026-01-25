@@ -24,6 +24,7 @@
 - [ ] `curl -fsS http://localhost:8787/status` returns JSON.
 - [ ] `staking/monad/scripts/check_rpc.sh <rpc> eth_blockNumber` succeeds.
 - [ ] `staking/monad/scripts/e2e_smoke_test.sh` passes.
+- [ ] `staking/monad/scripts/preflight_check.sh` passes.
 
 ## Rollback
 

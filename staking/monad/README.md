@@ -39,12 +39,16 @@ RPC_URL=http://localhost:8080 ./scripts/status_server.py
   - Installs the status server systemd unit and copies the script.
 - `scripts/install_validator_service.sh [src] [dest] [env_src] [env_dest]`
   - Installs the validator systemd unit and env file.
+- `scripts/preflight_check.sh [bin] [config] [status_env]`
+  - Validates critical file paths before starting services.
 - `config/status.env.example`
   - Environment variables for the status server.
 - `config/validator.env.example`
   - Environment variables for the validator service.
 - `config/nginx-status.conf.example`
   - Nginx reverse proxy snippet for `/status`.
+- `config/Caddyfile.status.example`
+  - Caddy reverse proxy with basic rate limiting.
 - `RUNBOOK.md`
   - MVP runbook for start, checks, and rollback.
 - `DEPLOY_CHECKLIST.md`

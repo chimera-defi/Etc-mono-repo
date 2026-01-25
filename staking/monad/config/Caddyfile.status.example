@@ -4,4 +4,11 @@ status.example.com {
     X-Frame-Options "DENY"
     X-Content-Type-Options "nosniff"
   }
+  rate_limit {
+    zone status {
+      key {remote_host}
+      events 60
+      window 1m
+    }
+  }
 }
