@@ -1,17 +1,34 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1400" height="980" viewBox="0 0 1400 980">
   <defs>
+    <linearGradient id="bg-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="100%" stop-color="#eef2ff" />
+    </linearGradient>
+    <linearGradient id="hero-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e0f2fe" />
+      <stop offset="100%" stop-color="#dbeafe" />
+    </linearGradient>
+    <linearGradient id="cta-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#1d4ed8" />
+    </linearGradient>
+    <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.12" />
+    </filter>
     <style>
-      .bg { fill: #f8fafc; }
-      .panel { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1; }
-      .hero { fill: #e0f2fe; stroke: #bae6fd; stroke-width: 1; }
+      .bg { fill: url(#bg-gradient); }
+      .panel { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1; filter: url(#card-shadow); }
+      .hero { fill: url(#hero-gradient); stroke: #bae6fd; stroke-width: 1; filter: url(#card-shadow); }
+      .cta-primary { fill: url(#cta-gradient); }
+      .cta-text { font-size: 13px; font-family: Inter, Arial, sans-serif; fill: #ffffff; font-weight: 600; }
       .accent { fill: #bfdbfe; }
       .accent-2 { fill: #dcfce7; }
       .accent-3 { fill: #fef3c7; }
       .text { font-family: Inter, Arial, sans-serif; fill: #0f172a; }
       .subtext { font-family: Inter, Arial, sans-serif; fill: #475569; }
       .label { font-size: 12px; font-family: Inter, Arial, sans-serif; fill: #64748b; }
-      .title { font-size: 22px; font-weight: 700; font-family: Inter, Arial, sans-serif; fill: #0f172a; }
-      .h2 { font-size: 16px; font-weight: 600; font-family: Inter, Arial, sans-serif; fill: #0f172a; }
+      .title { font-size: 24px; font-weight: 700; font-family: Inter, Arial, sans-serif; fill: #0f172a; }
+      .h2 { font-size: 17px; font-weight: 600; font-family: Inter, Arial, sans-serif; fill: #0f172a; }
       .chip { fill: #ffffff; stroke: #cbd5f5; }
       .chip-text { font-size: 11px; font-family: Inter, Arial, sans-serif; fill: #1e3a8a; }
       .muted { fill: #e2e8f0; }
@@ -39,8 +56,8 @@
   <text class="subtext" x="92" y="198" font-size="14">Task-first explorer with instant compare and verified evidence.</text>
   <rect class="panel" x="92" y="218" width="320" height="40" rx="10" />
   <text class="label" x="110" y="242">Search wallets, chains, features</text>
-  <rect class="panel" x="424" y="218" width="160" height="40" rx="10" />
-  <text class="subtext" x="446" y="242" font-size="13">Start Compare</text>
+  <rect class="cta-primary" x="424" y="218" width="160" height="40" rx="10" />
+  <text class="cta-text" x="446" y="242">Start Compare</text>
 
   <!-- Task tiles -->
   <rect class="panel" x="92" y="274" width="280" height="72" rx="12" />
@@ -103,8 +120,8 @@
   <!-- Sticky compare tray -->
   <rect class="panel" x="60" y="915" width="1280" height="48" rx="12" />
   <text class="label" x="92" y="945">3 selected: Rabby, Trezor, Transak</text>
-  <rect class="panel" x="1160" y="925" width="160" height="30" rx="10" />
-  <text class="subtext" x="1184" y="946" font-size="13">Compare now</text>
+  <rect class="cta-primary" x="1160" y="925" width="160" height="30" rx="10" />
+  <text class="cta-text" x="1184" y="946">Compare now</text>
 
   <text class="label" x="60" y="972">Variant B: Developer Toolkit - wireframe</text>
 </svg>

@@ -1,14 +1,33 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1400" height="980" viewBox="0 0 1400 980">
   <defs>
+    <linearGradient id="bg-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="100%" stop-color="#eef2ff" />
+    </linearGradient>
+    <linearGradient id="hero-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#eff6ff" />
+    </linearGradient>
+    <linearGradient id="cta-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#1d4ed8" />
+    </linearGradient>
+    <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.12" />
+    </filter>
     <style>
-      .bg { fill: #f8fafc; }
-      .panel { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1; }
+      .bg { fill: url(#bg-gradient); }
+      .panel { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1; filter: url(#card-shadow); }
+      .hero { fill: url(#hero-gradient); stroke: #dbeafe; stroke-width: 1; filter: url(#card-shadow); }
+      .cta-primary { fill: url(#cta-gradient); }
+      .cta-secondary { fill: #ffffff; stroke: #cbd5f5; stroke-width: 1; }
+      .cta-text { font-size: 13px; font-family: Inter, Arial, sans-serif; fill: #ffffff; font-weight: 600; }
       .muted { fill: #e2e8f0; }
       .text { font-family: Inter, Arial, sans-serif; fill: #0f172a; }
       .subtext { font-family: Inter, Arial, sans-serif; fill: #475569; }
       .label { font-size: 12px; font-family: Inter, Arial, sans-serif; fill: #64748b; }
-      .title { font-size: 22px; font-weight: 700; font-family: Inter, Arial, sans-serif; fill: #0f172a; }
-      .h2 { font-size: 16px; font-weight: 600; font-family: Inter, Arial, sans-serif; fill: #0f172a; }
+      .title { font-size: 24px; font-weight: 700; font-family: Inter, Arial, sans-serif; fill: #0f172a; }
+      .h2 { font-size: 17px; font-weight: 600; font-family: Inter, Arial, sans-serif; fill: #0f172a; }
       .chip { fill: #eff6ff; stroke: #bfdbfe; }
       .chip-text { font-size: 11px; font-family: Inter, Arial, sans-serif; fill: #1d4ed8; }
       .accent { fill: #dbeafe; }
@@ -33,12 +52,12 @@
   <text class="label" x="1216" y="69">Theme</text>
 
   <!-- Hero -->
-  <rect class="panel" x="60" y="116" width="1280" height="230" rx="16" />
+  <rect class="hero" x="60" y="116" width="1280" height="230" rx="16" />
   <text class="title" x="92" y="170">Audit-grade wallet comparisons for developers</text>
   <text class="subtext" x="92" y="198" font-size="14">Evidence-led scoring, transparent sources, and side-by-side tooling.</text>
-  <rect class="panel" x="92" y="222" width="210" height="38" rx="10" />
-  <text class="subtext" x="110" y="246" font-size="13">Start Comparison</text>
-  <rect class="panel" x="312" y="222" width="190" height="38" rx="10" />
+  <rect class="cta-primary" x="92" y="222" width="210" height="38" rx="10" />
+  <text class="cta-text" x="110" y="246">Start Comparison</text>
+  <rect class="cta-secondary" x="312" y="222" width="190" height="38" rx="10" />
   <text class="subtext" x="328" y="246" font-size="13">Read Methodology</text>
 
   <!-- Hero evidence card -->
