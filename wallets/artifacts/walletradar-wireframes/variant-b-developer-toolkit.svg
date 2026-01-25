@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="980" viewBox="0 0 1400 980">
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .panel { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1; }
+      .hero { fill: #e0f2fe; stroke: #bae6fd; stroke-width: 1; }
+      .accent { fill: #bfdbfe; }
+      .accent-2 { fill: #dcfce7; }
+      .accent-3 { fill: #fef3c7; }
+      .text { font-family: Inter, Arial, sans-serif; fill: #0f172a; }
+      .subtext { font-family: Inter, Arial, sans-serif; fill: #475569; }
+      .label { font-size: 12px; font-family: Inter, Arial, sans-serif; fill: #64748b; }
+      .title { font-size: 22px; font-weight: 700; font-family: Inter, Arial, sans-serif; fill: #0f172a; }
+      .h2 { font-size: 16px; font-weight: 600; font-family: Inter, Arial, sans-serif; fill: #0f172a; }
+      .chip { fill: #ffffff; stroke: #cbd5f5; }
+      .chip-text { font-size: 11px; font-family: Inter, Arial, sans-serif; fill: #1e3a8a; }
+      .muted { fill: #e2e8f0; }
+      .table-head { fill: #f1f5f9; }
+      .table-row { fill: #ffffff; }
+      .table-row-alt { fill: #f8fafc; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1400" height="980" />
+
+  <!-- Header -->
+  <rect class="panel" x="60" y="32" width="1280" height="64" rx="12" />
+  <text class="text" x="90" y="72" font-size="18" font-weight="700">Wallet Radar</text>
+  <text class="label" x="230" y="72">Compare</text>
+  <text class="label" x="310" y="72">Explore</text>
+  <text class="label" x="380" y="72">Docs</text>
+  <text class="label" x="440" y="72">Articles</text>
+  <rect class="panel" x="1180" y="48" width="140" height="32" rx="8" />
+  <text class="label" x="1212" y="69">Theme</text>
+
+  <!-- Hero -->
+  <rect class="hero" x="60" y="116" width="1280" height="250" rx="16" />
+  <text class="title" x="92" y="170">Pick a wallet in under 60 seconds</text>
+  <text class="subtext" x="92" y="198" font-size="14">Task-first explorer with instant compare and verified evidence.</text>
+  <rect class="panel" x="92" y="218" width="320" height="40" rx="10" />
+  <text class="label" x="110" y="242">Search wallets, chains, features</text>
+  <rect class="panel" x="424" y="218" width="160" height="40" rx="10" />
+  <text class="subtext" x="446" y="242" font-size="13">Start Compare</text>
+
+  <!-- Task tiles -->
+  <rect class="panel" x="92" y="274" width="280" height="72" rx="12" />
+  <rect class="panel" x="384" y="274" width="280" height="72" rx="12" />
+  <rect class="panel" x="676" y="274" width="280" height="72" rx="12" />
+  <rect class="panel" x="968" y="274" width="280" height="72" rx="12" />
+  <text class="h2" x="112" y="304">Software Wallets</text>
+  <text class="h2" x="404" y="304">Hardware Wallets</text>
+  <text class="h2" x="696" y="304">Crypto Cards</text>
+  <text class="h2" x="988" y="304">Ramps</text>
+  <text class="label" x="112" y="328">Mobile + extension</text>
+  <text class="label" x="404" y="328">Secure element</text>
+  <text class="label" x="696" y="328">Cashback rates</text>
+  <text class="label" x="988" y="328">On and off ramp</text>
+
+  <!-- Filter chips -->
+  <rect class="chip" x="92" y="360" width="90" height="26" rx="13" />
+  <rect class="chip" x="190" y="360" width="110" height="26" rx="13" />
+  <rect class="chip" x="308" y="360" width="120" height="26" rx="13" />
+  <rect class="chip" x="436" y="360" width="130" height="26" rx="13" />
+  <text class="chip-text" x="108" y="377">Open source</text>
+  <text class="chip-text" x="206" y="377">Active dev</text>
+  <text class="chip-text" x="324" y="377">Tx simulation</text>
+  <text class="chip-text" x="452" y="377">Mobile + ext</text>
+
+  <!-- Stats row -->
+  <rect class="panel" x="60" y="402" width="1280" height="70" rx="12" />
+  <rect class="accent" x="92" y="420" width="210" height="34" rx="10" />
+  <rect class="accent-2" x="320" y="420" width="210" height="34" rx="10" />
+  <rect class="accent-3" x="548" y="420" width="210" height="34" rx="10" />
+  <rect class="accent" x="776" y="420" width="210" height="34" rx="10" />
+  <rect class="accent-2" x="1004" y="420" width="210" height="34" rx="10" />
+
+  <!-- Comparison workspace -->
+  <text class="h2" x="60" y="510">Compare Workspace</text>
+  <rect class="panel" x="60" y="526" width="1280" height="250" rx="14" />
+  <rect class="table-head" x="80" y="546" width="1240" height="28" rx="6" />
+  <text class="label" x="95" y="566">Wallet</text>
+  <text class="label" x="260" y="566">Score</text>
+  <text class="label" x="360" y="566">Platforms</text>
+  <text class="label" x="520" y="566">Features</text>
+  <text class="label" x="680" y="566">License</text>
+  <text class="label" x="820" y="566">Activity</text>
+  <rect class="table-row" x="80" y="580" width="1240" height="36" rx="6" />
+  <rect class="table-row-alt" x="80" y="620" width="1240" height="36" rx="6" />
+  <rect class="table-row" x="80" y="660" width="1240" height="36" rx="6" />
+  <rect class="table-row-alt" x="80" y="700" width="1240" height="36" rx="6" />
+
+  <!-- Inline comparison cards -->
+  <rect class="panel" x="60" y="790" width="410" height="110" rx="12" />
+  <rect class="panel" x="495" y="790" width="410" height="110" rx="12" />
+  <rect class="panel" x="930" y="790" width="410" height="110" rx="12" />
+  <text class="h2" x="80" y="820">Fast compare</text>
+  <text class="label" x="80" y="844">Pick up to four</text>
+  <text class="h2" x="515" y="820">Share link</text>
+  <text class="label" x="515" y="844">Save selection</text>
+  <text class="h2" x="950" y="820">Evidence</text>
+  <text class="label" x="950" y="844">Source tooltips</text>
+
+  <!-- Sticky compare tray -->
+  <rect class="panel" x="60" y="915" width="1280" height="48" rx="12" />
+  <text class="label" x="92" y="945">3 selected: Rabby, Trezor, Transak</text>
+  <rect class="panel" x="1160" y="925" width="160" height="30" rx="10" />
+  <text class="subtext" x="1184" y="946" font-size="13">Compare now</text>
+
+  <text class="label" x="60" y="972">Variant B: Developer Toolkit - wireframe</text>
+</svg>
