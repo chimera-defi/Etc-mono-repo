@@ -9,7 +9,7 @@ Small, safe helpers to validate RPC, uptime endpoints, and local devnet runs. Th
 - `scripts/uptime_probe.sh <status-url>`
   - Checks a `/status` endpoint or uptime URL.
 - `scripts/status_server.py`
-  - Minimal `/status` JSON endpoint for local use.
+  - Minimal `/status` JSON endpoint for local use (set `RPC_URL`).
 - `scripts/collect_node_info.sh`
   - Prints a small JSON snapshot of CPU, memory, and disk.
 - `scripts/run_local_devnet.sh [monad-bft-path]`
@@ -29,6 +29,7 @@ Small, safe helpers to validate RPC, uptime endpoints, and local devnet runs. Th
 ./scripts/check_rpc.sh http://localhost:8080 eth_chainId
 ./scripts/uptime_probe.sh https://status.example.com/status
 ./scripts/status_server.py
+RPC_URL=http://localhost:8080 ./scripts/status_server.py
 ./scripts/collect_node_info.sh
 ./scripts/run_local_devnet.sh ~/monad-bft
 ./scripts/check_prereqs.sh
