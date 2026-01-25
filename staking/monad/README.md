@@ -20,8 +20,10 @@ Small, safe helpers to validate RPC, uptime endpoints, and local devnet runs. Th
   - Writes the monad sysctl tuning file and applies it.
 - `scripts/install_systemd_unit.sh [src] [dest]`
   - Installs the validator systemd unit skeleton.
-- `scripts/install_status_service.sh [src] [dest] [target_dir]`
+- `scripts/install_status_service.sh [src] [dest] [target_dir] [env_src] [env_dest]`
   - Installs the status server systemd unit and copies the script.
+- `config/status.env.example`
+  - Environment variables for the status server.
 - `scripts/e2e_smoke_test.sh`
   - End-to-end smoke test for status server + mock RPC routes.
 
