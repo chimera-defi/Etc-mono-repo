@@ -105,7 +105,20 @@ Brutal truth: this is doable in ~2–3.5 months at 15–25 hrs/week, but uptime 
 4) **Documentation**
    - Weekly outage summary + fix notes.
 
-### 2.3 Week 7–10: Geo Diversity + Monitoring Hooks
+### 2.3 Pre‑Testnet Validation (Local + Dry Runs)
+
+1) **Local smoke checks**
+   - Process starts cleanly and stays up for 60+ minutes.
+   - RPC responds: `curl -s <rpc-url> | head -c 200`.
+   - Disk + memory headroom verified (no swap thrash).
+2) **Local E2E checks**
+   - Sync to a known block height.
+   - Validator signs/produces expected events (per docs).
+3) **Failure simulation**
+   - Restart service twice; confirm recovery time.
+   - Force log rotation; confirm no data loss.
+
+### 2.4 Week 7–10: Geo Diversity + Monitoring Hooks
 
 1) **Second validator**
    - Different region/provider.
@@ -114,7 +127,7 @@ Brutal truth: this is doable in ~2–3.5 months at 15–25 hrs/week, but uptime 
 3) **Monitoring hooks**
    - Add Prometheus endpoints (no full stack yet).
 
-### 2.4 Week 11–14: Expand Observability + Alerting
+### 2.5 Week 11–14: Expand Observability + Alerting
 
 1) **Prometheus + Grafana**
    - Basic dashboard: uptime, lag, disk, memory.
@@ -122,6 +135,24 @@ Brutal truth: this is doable in ~2–3.5 months at 15–25 hrs/week, but uptime 
    - Central log search.
 3) **Alert channels**
    - Telegram + Discord + email routing.
+
+## 2.6 Testnet Deploy Requirements (Technical)
+
+1) **Prereqs**
+   - Stable node binary/version pinned.
+   - Config baseline committed in `~/infra/config/monad/`.
+   - Keys generated and stored locally (no HSM).
+2) **Host readiness**
+   - Time sync enabled (chrony/ntpd).
+   - Disk alerts at 80%+.
+   - Log rotation enabled.
+3) **Testnet bootstrap**
+   - Genesis/config pulled from official source.
+   - Network connectivity validated (peers reachable).
+4) **Post‑deploy verification**
+   - Node synced within expected window.
+   - RPC responds consistently under light polling.
+   - Uptime monitor live and reporting.
 
 ## 3. Spec Additions (Keep This Tight)
 
