@@ -138,6 +138,27 @@ Brutal truth: this is doable in ~2–3.5 months at 15–25 hrs/week, but uptime 
 2) **Weekly reliability note** (short markdown, 5–10 lines).
 3) **Changelog of incidents** (date + duration + fix).
 
+### 3.3 Config Layout (No Rework Later)
+
+1) **Single source of truth**
+   - `~/infra/config/monad/` (base config + env templates).
+2) **Per‑node overrides**
+   - `~/infra/config/monad/nodes/validator-1/`
+   - `~/infra/config/monad/nodes/validator-2/`
+3) **Rule**
+   - Keep base config immutable; only override node‑specific values.
+
+### 3.4 Public Landing Page (Infra‑as‑a‑Service)
+
+1) **Purpose**
+   - Advertise validator reliability and delegation readiness.
+2) **MVP content**
+   - Uptime proof link, regions, response SLA, and status endpoint.
+3) **Where to host**
+   - `~/infra/landing/` (static site, no backend).
+4) **Delegation‑ready signal**
+   - “Delegation waitlist” link + public status JSON.
+
 ---
 
 ## 4. Top Gotchas & Survival Checklist
@@ -170,6 +191,15 @@ Brutal truth: this is doable in ~2–3.5 months at 15–25 hrs/week, but uptime 
 
 - **Daily:** “Check sync, check disk, check alerts, fix fast.”
 - **Weekly:** “Review logs, update runbook, test restart + rollback.”
+
+## 5. Evidence Template (Minimal)
+
+1) **Uptime proof**
+   - Link: `https://status.<domain>/` (public monitor).
+2) **Weekly reliability note**
+   - `docs/uptime/2025-01-07.md` (5–10 lines).
+3) **Incident log**
+   - `docs/incidents/2025-01-09.md` (duration + cause + fix).
 
 ---
 
