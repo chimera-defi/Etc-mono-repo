@@ -6,36 +6,49 @@
     </linearGradient>
     <linearGradient id="hero-gradient" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#ffffff" />
-      <stop offset="100%" stop-color="#eff6ff" />
+      <stop offset="100%" stop-color="#e0f2fe" />
     </linearGradient>
+    <radialGradient id="glow-blue" cx="0.3" cy="0.2" r="0.6">
+      <stop offset="0%" stop-color="#60a5fa" stop-opacity="0.28" />
+      <stop offset="100%" stop-color="#60a5fa" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="glow-purple" cx="0.8" cy="0.3" r="0.6">
+      <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#a78bfa" stop-opacity="0" />
+    </radialGradient>
     <linearGradient id="cta-gradient" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#2563eb" />
       <stop offset="100%" stop-color="#1d4ed8" />
     </linearGradient>
     <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.12" />
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#0f172a" flood-opacity="0.12" />
     </filter>
     <style>
       .bg { fill: url(#bg-gradient); }
-      .panel { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1; filter: url(#card-shadow); }
-      .hero { fill: url(#hero-gradient); stroke: #dbeafe; stroke-width: 1; filter: url(#card-shadow); }
+      .panel { fill: #ffffff; stroke: #e5e7eb; stroke-width: 1; filter: url(#card-shadow); }
+      .hero { fill: url(#hero-gradient); stroke: #bfdbfe; stroke-width: 1; filter: url(#card-shadow); }
       .cta-primary { fill: url(#cta-gradient); }
       .cta-secondary { fill: #ffffff; stroke: #cbd5f5; stroke-width: 1; }
       .cta-text { font-size: 13px; font-family: Inter, Arial, sans-serif; fill: #ffffff; font-weight: 600; }
+      .cta-secondary-text { font-size: 13px; font-family: Inter, Arial, sans-serif; fill: #1e3a8a; font-weight: 600; }
       .muted { fill: #e2e8f0; }
       .text { font-family: Inter, Arial, sans-serif; fill: #0f172a; }
       .subtext { font-family: Inter, Arial, sans-serif; fill: #475569; }
       .label { font-size: 12px; font-family: Inter, Arial, sans-serif; fill: #64748b; }
-      .title { font-size: 24px; font-weight: 700; font-family: Inter, Arial, sans-serif; fill: #0f172a; }
+      .title { font-size: 26px; font-weight: 700; font-family: Inter, Arial, sans-serif; fill: #0f172a; }
+      .title-accent { font-size: 26px; font-weight: 700; font-family: Inter, Arial, sans-serif; fill: #1d4ed8; }
       .h2 { font-size: 17px; font-weight: 600; font-family: Inter, Arial, sans-serif; fill: #0f172a; }
       .chip { fill: #eff6ff; stroke: #bfdbfe; }
       .chip-text { font-size: 11px; font-family: Inter, Arial, sans-serif; fill: #1d4ed8; }
       .accent { fill: #dbeafe; }
       .accent-2 { fill: #ecfdf3; }
       .accent-3 { fill: #fef9c3; }
-      .table-head { fill: #f1f5f9; }
+      .table-head { fill: #eef2ff; }
       .table-row { fill: #ffffff; }
-      .table-row-alt { fill: #f8fafc; }
+      .table-row-alt { fill: #f3f4f6; }
+      .icon-bg { fill: #e0f2fe; }
+      .icon-bg-2 { fill: #dcfce7; }
+      .icon-bg-3 { fill: #fef3c7; }
     </style>
   </defs>
 
@@ -53,12 +66,15 @@
 
   <!-- Hero -->
   <rect class="hero" x="60" y="116" width="1280" height="230" rx="16" />
-  <text class="title" x="92" y="170">Audit-grade wallet comparisons for developers</text>
+  <circle cx="1150" cy="180" r="120" fill="url(#glow-blue)" />
+  <circle cx="980" cy="210" r="140" fill="url(#glow-purple)" />
+  <text class="title-accent" x="92" y="170">Audit-grade</text>
+  <text class="title" x="228" y="170">wallet comparisons for developers</text>
   <text class="subtext" x="92" y="198" font-size="14">Evidence-led scoring, transparent sources, and side-by-side tooling.</text>
   <rect class="cta-primary" x="92" y="222" width="210" height="38" rx="10" />
   <text class="cta-text" x="110" y="246">Start Comparison</text>
   <rect class="cta-secondary" x="312" y="222" width="190" height="38" rx="10" />
-  <text class="subtext" x="328" y="246" font-size="13">Read Methodology</text>
+  <text class="cta-secondary-text" x="328" y="246">Read Methodology</text>
 
   <!-- Hero evidence card -->
   <rect class="panel" x="900" y="146" width="400" height="170" rx="14" />
@@ -81,7 +97,8 @@
   <!-- Top picks -->
   <text class="h2" x="60" y="430">Top Picks + Evidence</text>
   <rect class="panel" x="60" y="446" width="410" height="130" rx="14" />
-  <rect class="accent" x="80" y="466" width="60" height="18" rx="9" />
+  <circle class="icon-bg" cx="100" cy="482" r="14" />
+  <rect class="accent" x="122" y="466" width="60" height="18" rx="9" />
   <text class="label" x="150" y="480">Rabby Wallet</text>
   <rect class="muted" x="80" y="492" width="300" height="10" rx="5" />
   <rect class="muted" x="80" y="510" width="260" height="10" rx="5" />
@@ -93,7 +110,8 @@
   <text class="chip-text" x="290" y="547">Open</text>
 
   <rect class="panel" x="495" y="446" width="410" height="130" rx="14" />
-  <rect class="accent-2" x="515" y="466" width="60" height="18" rx="9" />
+  <circle class="icon-bg-2" cx="535" cy="482" r="14" />
+  <rect class="accent-2" x="557" y="466" width="60" height="18" rx="9" />
   <text class="label" x="585" y="480">Trezor Safe 5</text>
   <rect class="muted" x="515" y="492" width="300" height="10" rx="5" />
   <rect class="muted" x="515" y="510" width="260" height="10" rx="5" />
@@ -105,7 +123,8 @@
   <text class="chip-text" x="724" y="547">Active</text>
 
   <rect class="panel" x="930" y="446" width="410" height="130" rx="14" />
-  <rect class="accent-3" x="950" y="466" width="60" height="18" rx="9" />
+  <circle class="icon-bg-3" cx="970" cy="482" r="14" />
+  <rect class="accent-3" x="992" y="466" width="60" height="18" rx="9" />
   <text class="label" x="1020" y="480">Transak</text>
   <rect class="muted" x="950" y="492" width="300" height="10" rx="5" />
   <rect class="muted" x="950" y="510" width="260" height="10" rx="5" />
