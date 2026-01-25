@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import json
+import os
+import urllib.request
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from datetime import datetime, timezone
 
@@ -44,11 +46,15 @@ class StatusHandler(BaseHTTPRequestHandler):
             self.end_headers()
             return
 
+        block_hex, err = _rpc_call("eth_blockNumber")
+        block_height = int(block_hex, 16) if block_hex else None
+
         payload = {
             "status": "ok",
-            "timestamp": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-            "block_height": None,
-            "last_seen": None,
+            "timestamp": _utc_now(),
+            "block_height": block_height,
+            "last_seen": _utc_now() if block_height is not None else None,
+            "rpc_error": err,
         }
 
         body = json.dumps(payload).encode("utf-8")
