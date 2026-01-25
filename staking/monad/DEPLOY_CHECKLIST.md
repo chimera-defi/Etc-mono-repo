@@ -17,14 +17,13 @@
 
 - [ ] Update `/etc/monad/validator.env` as needed.
 - [ ] Update `/etc/monad/status.env` with `RPC_URL=...`.
-- [ ] (Optional) Configure reverse proxy: `staking/monad/scripts/install_caddy.sh`.
+- [ ] (Optional) Configure reverse proxy: `staking/monad/config/nginx-status.conf.example`.
 
 ## Verify
 
 - [ ] `curl -fsS http://localhost:8787/status` returns JSON.
 - [ ] `staking/monad/scripts/check_rpc.sh <rpc> eth_blockNumber` succeeds.
 - [ ] `staking/monad/scripts/e2e_smoke_test.sh` passes.
-- [ ] `staking/monad/scripts/preflight_check.sh` passes.
 
 ## Rollback
 
