@@ -1,0 +1,14 @@
+status.example.com {
+  reverse_proxy /status 127.0.0.1:8787
+  header {
+    X-Frame-Options "DENY"
+    X-Content-Type-Options "nosniff"
+  }
+  rate_limit {
+    zone status {
+      key {remote_host}
+      events 60
+      window 1m
+    }
+  }
+}
