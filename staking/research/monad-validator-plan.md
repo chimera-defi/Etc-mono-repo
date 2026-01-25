@@ -14,6 +14,7 @@ Brutal truth: this is doable in ~2–3.5 months at 15–25 hrs/week, but uptime 
 3) **Minimal paths**
    - Config: `~/.monad/` or `/etc/monad/` (choose one, stay consistent).
    - Logs: `/var/log/monad/`.
+   - Key policy: software keys only (no HSM).
 
 ### 1.2 Add a Second Node (Geo Diversity)
 
@@ -25,6 +26,7 @@ Brutal truth: this is doable in ~2–3.5 months at 15–25 hrs/week, but uptime 
    - Add `validator-2` in a new region.
    - Keep a single public endpoint with low‑TTL DNS (60–120s) or a small proxy.
    - Never copy validator keys between hosts.
+   - Keep keys on local disk with strict file permissions (no HSM).
 
 ### 1.3 Monitoring Stack (Later)
 
@@ -59,7 +61,16 @@ Brutal truth: this is doable in ~2–3.5 months at 15–25 hrs/week, but uptime 
 3) **Where to host**
    - Small read‑only service in `~/infra/status-api/`.
 
-### 1.6 Evolve to Small Cluster (No Rework)
+### 1.6 Key Management (No HSM)
+
+1) **Policy**
+   - Software keys only; no HSM requirement.
+2) **Storage**
+   - Local disk with minimal permissions; backup encrypted offline only.
+3) **Rotation**
+   - Document exact rotation steps in the runbook (do not improvise during incidents).
+
+### 1.7 Evolve to Small Cluster (No Rework)
 
 1) **Phase 1**
    - Single validator + health checks.
@@ -411,6 +422,7 @@ Brutal truth: this is doable in ~2–3.5 months at 15–25 hrs/week, but uptime 
    - `/etc/systemd/system/monad-validator.service`.
 3) **Health check**
    - `curl -s <rpc-url> | head -c 200`.
+   - Optional: `curl -s <rpc-url> | jq -r .result` if JSON‑RPC.
 4) **Uptime proof**
    - Create a public uptime monitor (StatusCake/UptimeRobot).
 5) **Runbook v1**
@@ -445,11 +457,26 @@ Brutal truth: this is doable in ~2–3.5 months at 15–25 hrs/week, but uptime 
 3) **Alert channels**
    - Telegram + Discord + email routing.
 
+## 3. Spec Additions (Keep This Tight)
+
+### 3.1 VDP Rules (TBD, Must Confirm)
+
+1) **Uptime threshold**: `TBD%` (insert official requirement).
+2) **Response SLA**: `TBD minutes` to acknowledge/mitigate incidents.
+3) **MEV policy**: `TBD` (document allowed/forbidden behaviors).
+4) **Proof format**: `TBD` (what the VDP program accepts as evidence).
+
+### 3.2 Evidence Artifacts (Delegator Trust)
+
+1) **Public uptime link** (UptimeRobot/StatusCake).
+2) **Weekly reliability note** (short markdown, 5–10 lines).
+3) **Changelog of incidents** (date + duration + fix).
+
 ---
 
-## 3. Top Gotchas & Survival Checklist
+## 4. Top Gotchas & Survival Checklist
 
-### 3.1 Failure Modes (5–7 Most Common)
+### 4.1 Failure Modes (5–7 Most Common)
 
 - **Disk pressure**: logs/snapshots fill volume -> node stalls.
 - **Memory starvation**: OOM kills validator.
@@ -459,13 +486,13 @@ Brutal truth: this is doable in ~2–3.5 months at 15–25 hrs/week, but uptime 
 - **Key mishandling**: wrong permissions or accidental overwrite.
 - **Silent lag**: node up but not syncing or signing.
 
-### 3.2 Proving Uptime to Delegators
+### 4.2 Proving Uptime to Delegators
 
 1) Public uptime page or monitor link.
 2) Daily uptime % posted consistently.
 3) Short outage changelog with fixes.
 
-### 3.3 Fastest Ways to Lose VDP Standing
+### 4.3 Fastest Ways to Lose VDP Standing
 
 - **Uptime <98%** (VDP removal trigger).
 - **Upgrade delays >48h** after announcement.
@@ -476,7 +503,7 @@ Brutal truth: this is doable in ~2–3.5 months at 15–25 hrs/week, but uptime 
 - **Stop running testnet validator** while in VDP (non‑compliant).
 - **Regulatory compliance failures** per VDP criteria.
 
-### 3.4 Minimal Routine
+### 4.4 Minimal Routine
 
 - **Daily:** “Check sync, check disk, check alerts, fix fast.”
 - **Weekly:** “Review logs, update runbook, test restart + rollback.”
