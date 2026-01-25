@@ -49,6 +49,18 @@ flowchart TD
    - Config: `~/.monad/` or `/etc/monad/` (choose one, stay consistent).
    - Logs: `/var/log/monad/`.
 
+### 1.1.1 Quickstart (Runnable MVP)
+
+1) **Install deps**
+   - Foundry: `foundryup` (for `forge`, `cast`, `anvil`).
+   - Docker + compose (for monad-bft local devnet).
+2) **Run local devnet**
+   - `monad-bft/docker/single-node/nets/run.sh --use-prebuilt`
+3) **Wire status**
+   - `RPC_URL=http://localhost:8080 staking/monad/scripts/status_server.py`
+4) **Verify**
+   - `staking/monad/scripts/e2e_smoke_test.sh`
+
 ### 1.2 Add a Second Node (Geo Diversity)
 
 1) **When**
@@ -156,6 +168,8 @@ flowchart TD
      net.ipv4.tcp_rmem = 4096 62500000 62500000
      net.ipv4.tcp_wmem = 4096 62500000 62500000
      ```
+7) **Memory requirement**
+   - Local devnet requires enough RAM to allocate hugepages; plan for >= 8–16 GiB.
 
 ### 2.2 Week 3–6: VDP Readiness
 

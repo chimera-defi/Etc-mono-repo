@@ -2,6 +2,20 @@
 
 Small, safe helpers to validate RPC, uptime endpoints, and local devnet runs. These are intentionally minimal; no irreversible actions.
 
+## Quickstart
+
+```bash
+./scripts/check_prereqs.sh
+RPC_URL=http://localhost:8080 ./scripts/status_server.py
+./scripts/e2e_smoke_test.sh
+```
+
+## Ops TODO
+
+- Set `RPC_URL` in `/etc/monad/status.env` and enable `monad-status.service`.
+- Install sysctl tuning with `scripts/install_sysctl.sh` before running monad-bft devnet.
+- Replace placeholder contact info in `landing/index.html`.
+
 ## Scripts
 
 - `scripts/check_rpc.sh <rpc-url> [method]`
