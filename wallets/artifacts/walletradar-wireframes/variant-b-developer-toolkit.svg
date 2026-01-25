@@ -20,6 +20,9 @@
       <stop offset="0%" stop-color="#2563eb" />
       <stop offset="100%" stop-color="#1d4ed8" />
     </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#e2e8f0" stroke-width="1" />
+    </pattern>
     <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="120%">
       <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#0f172a" flood-opacity="0.12" />
     </filter>
@@ -30,6 +33,8 @@
       .cta-primary { fill: url(#cta-gradient); }
       .cta-text { font-size: 13px; font-family: Inter, Arial, sans-serif; fill: #ffffff; font-weight: 600; }
       .title-accent { font-size: 24px; font-weight: 700; font-family: Inter, Arial, sans-serif; fill: #1d4ed8; }
+      .badge { fill: #ffffff; stroke: #bfdbfe; stroke-width: 1; }
+      .badge-text { font-size: 11px; font-family: Inter, Arial, sans-serif; fill: #1d4ed8; font-weight: 600; }
       .accent { fill: #bfdbfe; }
       .accent-2 { fill: #dcfce7; }
       .accent-3 { fill: #fef3c7; }
@@ -51,6 +56,7 @@
   </defs>
 
   <rect class="bg" x="0" y="0" width="1400" height="980" />
+  <rect x="0" y="0" width="1400" height="980" fill="url(#grid)" opacity="0.25" />
 
   <!-- Header -->
   <rect class="panel" x="60" y="32" width="1280" height="64" rx="12" />
@@ -66,6 +72,8 @@
   <rect class="hero" x="60" y="116" width="1280" height="250" rx="16" />
   <circle cx="1120" cy="180" r="130" fill="url(#glow-blue)" />
   <circle cx="980" cy="220" r="150" fill="url(#glow-green)" />
+  <rect class="badge" x="92" y="142" width="122" height="22" rx="11" />
+  <text class="badge-text" x="106" y="157">Compare fast</text>
   <text class="title-accent" x="92" y="170">Pick a wallet</text>
   <text class="title" x="232" y="170">in under 60 seconds</text>
   <text class="subtext" x="92" y="198" font-size="14">Task-first explorer with instant compare and verified evidence.</text>

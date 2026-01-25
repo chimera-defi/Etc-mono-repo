@@ -20,17 +20,23 @@
       <stop offset="0%" stop-color="#2563eb" />
       <stop offset="100%" stop-color="#1d4ed8" />
     </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#e2e8f0" stroke-width="1" />
+    </pattern>
     <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="120%">
       <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#0f172a" flood-opacity="0.12" />
     </filter>
     <style>
       .bg { fill: url(#bg-gradient); }
       .panel { fill: #ffffff; stroke: #e5e7eb; stroke-width: 1; filter: url(#card-shadow); }
+      .panel-soft { fill: #f8fafc; stroke: #e5e7eb; stroke-width: 1; filter: url(#card-shadow); }
       .hero { fill: url(#hero-gradient); stroke: #bfdbfe; stroke-width: 1; filter: url(#card-shadow); }
       .cta-primary { fill: url(#cta-gradient); }
       .cta-secondary { fill: #ffffff; stroke: #cbd5f5; stroke-width: 1; }
       .cta-text { font-size: 13px; font-family: Inter, Arial, sans-serif; fill: #ffffff; font-weight: 600; }
       .cta-secondary-text { font-size: 13px; font-family: Inter, Arial, sans-serif; fill: #1e3a8a; font-weight: 600; }
+      .badge { fill: #ffffff; stroke: #bfdbfe; stroke-width: 1; }
+      .badge-text { font-size: 11px; font-family: Inter, Arial, sans-serif; fill: #1d4ed8; font-weight: 600; }
       .muted { fill: #e2e8f0; }
       .text { font-family: Inter, Arial, sans-serif; fill: #0f172a; }
       .subtext { font-family: Inter, Arial, sans-serif; fill: #475569; }
@@ -53,6 +59,7 @@
   </defs>
 
   <rect class="bg" x="0" y="0" width="1400" height="980" />
+  <rect x="0" y="0" width="1400" height="980" fill="url(#grid)" opacity="0.25" />
 
   <!-- Header -->
   <rect class="panel" x="60" y="32" width="1280" height="64" rx="12" />
@@ -68,6 +75,8 @@
   <rect class="hero" x="60" y="116" width="1280" height="230" rx="16" />
   <circle cx="1150" cy="180" r="120" fill="url(#glow-blue)" />
   <circle cx="980" cy="210" r="140" fill="url(#glow-purple)" />
+  <rect class="badge" x="92" y="142" width="136" height="22" rx="11" />
+  <text class="badge-text" x="106" y="157">Evidence-led UI</text>
   <text class="title-accent" x="92" y="170">Audit-grade</text>
   <text class="title" x="228" y="170">wallet comparisons for developers</text>
   <text class="subtext" x="92" y="198" font-size="14">Evidence-led scoring, transparent sources, and side-by-side tooling.</text>
@@ -77,7 +86,7 @@
   <text class="cta-secondary-text" x="328" y="246">Read Methodology</text>
 
   <!-- Hero evidence card -->
-  <rect class="panel" x="900" y="146" width="400" height="170" rx="14" />
+  <rect class="panel-soft" x="900" y="146" width="400" height="170" rx="14" />
   <text class="h2" x="922" y="176">Score Breakdown</text>
   <rect class="accent" x="922" y="190" width="356" height="10" rx="5" />
   <rect class="accent-2" x="922" y="210" width="310" height="10" rx="5" />
