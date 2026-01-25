@@ -313,6 +313,8 @@ flowchart TD
    - “Delegation waitlist” link + public status JSON.
 5) **Reference assets**
    - Link to [Monad Developers org](https://github.com/monad-developers) for any validator profile/examples.
+6) **MVP asset (in repo)**
+   - `staking/monad/landing/index.html` (static landing page).
 
 ### 3.6 Capacity Planning & Growth
 
