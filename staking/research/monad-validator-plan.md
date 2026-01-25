@@ -1,27 +1,53 @@
-# Monad Validator Plan (Testnet -> VDP -> Small Cluster)
+# Monad Validator Architecture & Work Plan
 
-Brutal truth: this is doable in ~2-3.5 months at 15-25 hrs/week, but only if uptime discipline is ruthless and response time is fast. Plan for on-call reality.
+Brutal truth: this is doable in ~2–3.5 months at 15–25 hrs/week, but uptime discipline and fast incident response are non‑negotiable.
 
-## 1. Continuation Checklist (What We Need Next)
+## 1. Architecture (MVP -> VDP -> Small Cluster)
 
-1) **Define uptime target** (e.g., 99.5%+ testnet, 99.9%+ VDP).
-2) **Pick the smallest viable stack** (1 validator + logs + health checks).
-3) **Create a single runbook** (restart, rollback, log triage).
-4) **Start public uptime tracking now** (UptimeRobot/StatusCake).
-5) **Set alert ownership** (primary + backup responder).
+### 1.0 Diagrams
 
-## 2. Where to Add Growth Without Rework
+```mermaid
+flowchart LR
+  User[Delegators/Users] -->|Status| StatusAPI[/status JSON/]
+  User -->|RPC| DNS[Low-TTL DNS/Proxy]
+  DNS --> V1[validator-1]
+  DNS --> V2[validator-2]
+  V1 --> Logs1[(Logs)]
+  V2 --> Logs2[(Logs)]
+  V1 --> Metrics1[(Metrics)]
+  V2 --> Metrics2[(Metrics)]
+  Metrics1 --> Prom[Prometheus]
+  Metrics2 --> Prom
+  Logs1 --> Loki[Loki]
+  Logs2 --> Loki
+  Prom --> Graf[Grafana]
+  Alert[Alertmanager] --> Chan[Telegram/Discord/Email]
+  Prom --> Alert
+  Loki --> Alert
+```
 
-### 2.1 Second Node / Geo Diversity
+```mermaid
+flowchart TD
+  A[Install + Configure] --> B[Local Smoke Checks]
+  B --> C[Testnet Sync + Uptime Proof]
+  C --> D[VDP Application]
+  D --> E[Operate + Monitor]
+  E --> F{Incident?}
+  F -->|No| E
+  F -->|Yes| G[Mitigate + Postmortem]
+  G --> E
+```
 
-1) **When:** After 2-4 weeks of stable single-node uptime.
-2) **Where:** Different provider + region (e.g., us-east + eu-west).
-3) **How (minimal):**
-   - Run a second validator; keep a single public endpoint for delegators.
-   - Keep validator keys isolated per host; never sync or copy keys between regions.
-4) **Failover hint:** DNS with low TTL (60-120s) or a simple proxy.
+### 1.1 MVP (Single Validator)
 
-### 2.2 Observability Stack (Prometheus/Grafana/Loki)
+1) **Host roles**
+   - `validator-1`: validator + local RPC + logs.
+2) **Core services**
+   - Validator daemon (systemd managed) from [monad](https://github.com/category-labs/monad) + [monad-bft](https://github.com/category-labs/monad-bft).
+   - Basic health checks (local + external).
+3) **Minimal paths**
+   - Config: `~/.monad/` or `/etc/monad/` (choose one, stay consistent).
+   - Logs: `/var/log/monad/`.
 
 ### 1.1.2 Canonical Paths
 
@@ -39,25 +65,34 @@ Brutal truth: this is doable in ~2-3.5 months at 15-25 hrs/week, but only if upt
 4) **Verify**
    - `staking/monad/infra/scripts/e2e_smoke_test.sh`
 
-- **Sources:** systemd health checks, Prometheus alerts, log error patterns.
-- **Channels:** Telegram bot, Discord webhook, email for audit.
-- **Where to wire:** `~/infra/alerting/` or Alertmanager routes.
+### 1.3 Monitoring Stack (Later)
 
-### 2.4 Public Stats Endpoint (JSON)
+1) **Current**
+   - systemd + journalctl + external uptime monitor.
+2) **Later plug‑in points**
+   - Prometheus scrape targets on each validator.
+   - Grafana dashboards under `~/infra/monitoring/`.
+   - Loki + Promtail on each host.
+3) **Where to wire**
+   - Systemd overrides: `/etc/systemd/system/monad-validator.service.d/override.conf`.
+   - Monitoring configs: `~/infra/monitoring/`.
 
-- **Goal:** uptime + sync status for delegators.
-- **Minimal endpoint:**
-  - `/status` -> `{"uptime": "99.9", "block_height": 123456, "last_seen": "..."}`
-- **Where to host:** small read-only service on the same host or a separate VM.
+### 1.4 Notification Channels (Later)
 
-### 2.5 From One Server to a Small Cluster
+1) **Channels**
+   - Telegram bot, Discord webhook, email.
+2) **Where to wire**
+   - Alertmanager routes in `~/infra/alerting/`.
+   - Optional lightweight relay service if needed.
 
-1) **Phase 1:** single validator + health checks.
-2) **Phase 2:** 2 validators + geo diversity + documented failover.
-3) **Phase 3:** 3-4 nodes (validator, RPC, monitoring, indexer).
-4) **Rule:** never throw away configs; duplicate and adjust.
+### 1.5 Public Stats Endpoint (Later)
 
-## 3. What to Build Out (Practical Next Work)
+1) **Goal**
+   - Provide uptime + sync status to delegators.
+2) **Minimal endpoint**
+   - `/status` -> `{"uptime":"99.9","block_height":123456,"last_seen":"..."}`
+3) **Where to host**
+   - Small read‑only service in `~/infra/status-api/`.
 
 1) **Phase 1**
    - Single validator + health checks.
@@ -549,19 +584,19 @@ Brutal truth: this is doable in ~2-3.5 months at 15-25 hrs/week, but only if upt
 
 ### 4.1 Failure Modes (5–7 Most Common)
 
-- **Disk pressure:** logs/snapshots fill volume -> node stalls.
-- **Memory starvation:** OOM kills validator process.
-- **Clock drift:** time skew -> missed blocks.
-- **Network instability:** transient drops -> missed attestations.
-- **Bad updates:** upgrading without rollback plan.
-- **Key mishandling:** wrong permissions or accidental overwrite.
-- **Silent lag:** node up but not syncing/signing.
+- **Disk pressure**: logs/snapshots fill volume -> node stalls.
+- **Memory starvation**: OOM kills validator.
+- **Clock drift**: time skew -> missed blocks.
+- **Network instability**: transient drops -> missed attestations.
+- **Bad updates**: upgrade without rollback.
+- **Key mishandling**: wrong permissions or accidental overwrite.
+- **Silent lag**: node up but not syncing or signing.
 
-### 4.2 Proving Uptime to Delegators (Simple + Honest)
+### 4.2 Proving Uptime to Delegators
 
-1) Public uptime page/monitor link.
+1) Public uptime page or monitor link.
 2) Daily uptime % posted consistently.
-3) Short changelog for outages and fixes.
+3) Short outage changelog with fixes.
 
 ### 4.3 Fastest Ways to Lose VDP Standing
 
@@ -574,10 +609,19 @@ Brutal truth: this is doable in ~2-3.5 months at 15-25 hrs/week, but only if upt
 - **Stop running testnet validator** while in VDP (non‑compliant).
 - **Regulatory compliance failures** per VDP criteria.
 
-### 4.4 Minimal Daily/Weekly Routine
+### 4.4 Minimal Routine
 
 - **Daily:** “Check sync, check disk, check alerts, fix fast.”
 - **Weekly:** “Review logs, update runbook, test restart + rollback.”
+
+## 5. Evidence Template (Minimal)
+
+1) **Uptime proof**
+   - Link: `https://status.<domain>/` (public monitor).
+2) **Weekly reliability note**
+   - `docs/uptime/2025-01-07.md` (5–10 lines).
+3) **Incident log**
+   - `docs/incidents/2025-01-09.md` (duration + cause + fix).
 
 ---
 
