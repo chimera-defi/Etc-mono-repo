@@ -47,10 +47,15 @@ class StatusHandler(BaseHTTPRequestHandler):
             return
 
         block_hex, err = _rpc_call("eth_blockNumber")
-        block_height = int(block_hex, 16) if block_hex else None
+        block_height = None
+        if block_hex:
+            try:
+                block_height = int(block_hex, 16)
+            except ValueError:
+                err = f"RPC invalid hex: {block_hex}"
 
         payload = {
-            "status": "ok",
+            "status": "ok" if not err else "degraded",
             "timestamp": _utc_now(),
             "block_height": block_height,
             "last_seen": _utc_now() if block_height is not None else None,

@@ -8,6 +8,7 @@ Type=simple
 User=monad
 Group=monad
 WorkingDirectory=/opt/monad-status
+EnvironmentFile=/etc/monad/status.env
 ExecStart=/usr/bin/env python3 /opt/monad-status/status_server.py
 Restart=always
 RestartSec=5
