@@ -20,6 +20,10 @@
       <stop offset="0%" stop-color="#2563eb" />
       <stop offset="100%" stop-color="#1d4ed8" />
     </linearGradient>
+    <linearGradient id="glass-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.75" />
+      <stop offset="100%" stop-color="#e0f2fe" stop-opacity="0.45" />
+    </linearGradient>
     <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
       <path d="M40 0H0V40" fill="none" stroke="#e2e8f0" stroke-width="1" />
     </pattern>
@@ -31,12 +35,14 @@
       .panel { fill: #ffffff; stroke: #e5e7eb; stroke-width: 1; filter: url(#card-shadow); }
       .panel-soft { fill: #f8fafc; stroke: #e5e7eb; stroke-width: 1; filter: url(#card-shadow); }
       .hero { fill: url(#hero-gradient); stroke: #bfdbfe; stroke-width: 1; filter: url(#card-shadow); }
+      .glass { fill: url(#glass-gradient); stroke: #c7d2fe; stroke-width: 1; filter: url(#card-shadow); }
       .cta-primary { fill: url(#cta-gradient); }
       .cta-secondary { fill: #ffffff; stroke: #cbd5f5; stroke-width: 1; }
       .cta-text { font-size: 13px; font-family: Inter, Arial, sans-serif; fill: #ffffff; font-weight: 600; }
       .cta-secondary-text { font-size: 13px; font-family: Inter, Arial, sans-serif; fill: #1e3a8a; font-weight: 600; }
       .badge { fill: #ffffff; stroke: #bfdbfe; stroke-width: 1; }
       .badge-text { font-size: 11px; font-family: Inter, Arial, sans-serif; fill: #1d4ed8; font-weight: 600; }
+      .icon { stroke: #1d4ed8; stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
       .muted { fill: #e2e8f0; }
       .text { font-family: Inter, Arial, sans-serif; fill: #0f172a; }
       .subtext { font-family: Inter, Arial, sans-serif; fill: #475569; }
@@ -62,7 +68,7 @@
   <rect x="0" y="0" width="1400" height="980" fill="url(#grid)" opacity="0.25" />
 
   <!-- Header -->
-  <rect class="panel" x="60" y="32" width="1280" height="64" rx="12" />
+  <rect class="glass" x="60" y="32" width="1280" height="64" rx="12" />
   <text class="text" x="90" y="72" font-size="18" font-weight="700">Wallet Radar</text>
   <text class="label" x="230" y="72">Compare</text>
   <text class="label" x="310" y="72">Explore</text>
@@ -86,7 +92,7 @@
   <text class="cta-secondary-text" x="328" y="246">Read Methodology</text>
 
   <!-- Hero evidence card -->
-  <rect class="panel-soft" x="900" y="146" width="400" height="170" rx="14" />
+  <rect class="glass" x="900" y="146" width="400" height="170" rx="14" />
   <text class="h2" x="922" y="176">Score Breakdown</text>
   <rect class="accent" x="922" y="190" width="356" height="10" rx="5" />
   <rect class="accent-2" x="922" y="210" width="310" height="10" rx="5" />
@@ -100,13 +106,15 @@
   <text class="chip-text" x="1136" y="285">Chain Data</text>
 
   <!-- Trust strip -->
-  <rect class="panel" x="60" y="360" width="1280" height="36" rx="10" />
+  <rect class="glass" x="60" y="360" width="1280" height="36" rx="10" />
   <text class="label" x="92" y="383">No login. No tracking. No affiliates. Verified sources only.</text>
 
   <!-- Top picks -->
   <text class="h2" x="60" y="430">Top Picks + Evidence</text>
-  <rect class="panel" x="60" y="446" width="410" height="130" rx="14" />
+  <rect class="glass" x="60" y="446" width="410" height="130" rx="14" />
   <circle class="icon-bg" cx="100" cy="482" r="14" />
+  <path class="icon" d="M94 478 L90 482 L94 486" />
+  <path class="icon" d="M106 478 L110 482 L106 486" />
   <rect class="accent" x="122" y="466" width="60" height="18" rx="9" />
   <text class="label" x="150" y="480">Rabby Wallet</text>
   <rect class="muted" x="80" y="492" width="300" height="10" rx="5" />
@@ -118,8 +126,9 @@
   <rect class="chip" x="274" y="532" width="90" height="22" rx="11" />
   <text class="chip-text" x="290" y="547">Open</text>
 
-  <rect class="panel" x="495" y="446" width="410" height="130" rx="14" />
+  <rect class="glass" x="495" y="446" width="410" height="130" rx="14" />
   <circle class="icon-bg-2" cx="535" cy="482" r="14" />
+  <path class="icon" d="M535 474 L542 477 V484 C542 488 539 491 535 493 C531 491 528 488 528 484 V477 Z" />
   <rect class="accent-2" x="557" y="466" width="60" height="18" rx="9" />
   <text class="label" x="585" y="480">Trezor Safe 5</text>
   <rect class="muted" x="515" y="492" width="300" height="10" rx="5" />
@@ -131,8 +140,10 @@
   <rect class="chip" x="709" y="532" width="90" height="22" rx="11" />
   <text class="chip-text" x="724" y="547">Active</text>
 
-  <rect class="panel" x="930" y="446" width="410" height="130" rx="14" />
+  <rect class="glass" x="930" y="446" width="410" height="130" rx="14" />
   <circle class="icon-bg-3" cx="970" cy="482" r="14" />
+  <path class="icon" d="M962 482 H978" />
+  <path class="icon" d="M974 478 L978 482 L974 486" />
   <rect class="accent-3" x="992" y="466" width="60" height="18" rx="9" />
   <text class="label" x="1020" y="480">Transak</text>
   <rect class="muted" x="950" y="492" width="300" height="10" rx="5" />
@@ -146,7 +157,7 @@
 
   <!-- Comparison preview -->
   <text class="h2" x="60" y="620">Comparison Preview</text>
-  <rect class="panel" x="60" y="636" width="1280" height="200" rx="14" />
+  <rect class="glass" x="60" y="636" width="1280" height="200" rx="14" />
   <rect class="table-head" x="80" y="656" width="1240" height="28" rx="6" />
   <text class="label" x="95" y="676">Wallet</text>
   <text class="label" x="280" y="676">Score</text>
@@ -161,12 +172,12 @@
   <text class="label" x="95" y="793">Transak</text>
 
   <!-- Docs + Sources -->
-  <rect class="panel" x="60" y="852" width="640" height="90" rx="12" />
+  <rect class="glass" x="60" y="852" width="640" height="90" rx="12" />
   <text class="h2" x="90" y="882">Guides and Methodology</text>
   <rect class="muted" x="90" y="894" width="420" height="10" rx="5" />
   <rect class="muted" x="90" y="912" width="340" height="10" rx="5" />
 
-  <rect class="panel" x="700" y="852" width="640" height="90" rx="12" />
+  <rect class="glass" x="700" y="852" width="640" height="90" rx="12" />
   <text class="h2" x="730" y="882">Sources Ledger</text>
   <rect class="muted" x="730" y="894" width="420" height="10" rx="5" />
   <rect class="muted" x="730" y="912" width="340" height="10" rx="5" />
