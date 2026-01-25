@@ -273,6 +273,7 @@ flowchart TD
    - `staking/monad/scripts/install_status_service.sh`
    - `staking/monad/scripts/install_validator_service.sh`
    - `staking/monad/scripts/preflight_check.sh`
+   - `staking/monad/scripts/install_caddy.sh`
    - `staking/monad/scripts/e2e_smoke_test.sh`
    - `staking/monad/RUNBOOK.md`
    - `staking/monad/DEPLOY_CHECKLIST.md`

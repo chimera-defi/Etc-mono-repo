@@ -49,6 +49,8 @@ RPC_URL=http://localhost:8080 ./scripts/status_server.py
   - Nginx reverse proxy snippet for `/status`.
 - `config/Caddyfile.status.example`
   - Caddy reverse proxy with basic rate limiting.
+- `scripts/install_caddy.sh [caddyfile_src] [caddyfile_dest]`
+  - Installs Caddy and applies the status reverse proxy.
 - `RUNBOOK.md`
   - MVP runbook for start, checks, and rollback.
 - `DEPLOY_CHECKLIST.md`
