@@ -154,6 +154,38 @@ Brutal truth: this is doable in ~2–3.5 months at 15–25 hrs/week, but uptime 
    - RPC responds consistently under light polling.
    - Uptime monitor live and reporting.
 
+## 2.7 Validator Exit Process (TBD by Monad Spec)
+
+1) **Exit trigger**
+   - Operator‑initiated exit request (per Monad docs).
+2) **Exit phases**
+   - Exit requested → cooldown/unbonding → withdrawal unlock.
+3) **Operational requirement**
+   - Keep the node online until exit finalizes (avoid penalties).
+4) **Action items**
+   - Record exact exit command + expected time window once docs are confirmed.
+   - Define “safe to stop” criteria in the runbook.
+
+## 2.8 Automation (Scripts + Watchers)
+
+### 2.8.1 Scripts (Plan Only)
+
+1) **Deploy helper** (no code yet)
+   - Inputs: config path, keys path, chain ID.
+2) **Exit helper** (no code yet)
+   - Inputs: validator ID, exit reason, confirmation checklist.
+3) **Rule**
+   - Keep scripts minimal; do not automate irreversible actions without manual confirmation.
+
+### 2.8.2 Chain State Watchers
+
+1) **What to watch**
+   - Sync lag, missed slots, validator status, slashing events (if exposed).
+2) **Triggers**
+   - Alert on lag > threshold or status changes (active → jailed/penalized).
+3) **Where to wire**
+   - Local watcher service in `~/infra/watchers/` → Alertmanager routes.
+
 ## 3. Spec Additions (Keep This Tight)
 
 ### 3.1 VDP Rules (TBD, Must Confirm)
