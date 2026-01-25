@@ -237,18 +237,18 @@ flowchart TD
    - RPC responds consistently under light polling.
    - Uptime monitor live and reporting.
 
-## 2.7 Validator Exit Process (TBD by Monad Spec)
+## 2.7 Validator Exit Process (Current Docs)
 
 1) **Exit trigger**
-   - Operator‑initiated exit request (per Monad docs).
+   - Operator‑initiated exit request (no explicit “validator exit” doc found; use staking flows).
 2) **Exit phases**
-   - Exit requested → cooldown/unbonding → withdrawal unlock.
+   - Undelegate stake → wait for withdrawal delay → withdraw (per staking behavior).
 3) **Operational requirement**
    - Keep the node online until exit finalizes (avoid penalties).
 4) **Action items**
    - Use undelegate/withdraw flows in [staking-sdk-cli](https://github.com/monad-developers/staking-sdk-cli) once exact validator exit docs are confirmed.
-   - Current staking behavior shows `WITHDRAWAL_DELAY = 1 epoch` for withdrawals after unstake per [staking behavior](https://docs.monad.xyz/developer-essentials/staking/staking-behavior).
-   - Record exact exit command + expected time window once validator‑specific exit docs are confirmed.
+    - Current staking behavior shows `WITHDRAWAL_DELAY = 1 epoch` for withdrawals after unstake per [staking behavior](https://docs.monad.xyz/developer-essentials/staking/staking-behavior).
+    - Record exact exit command + expected time window once validator‑specific exit docs are confirmed.
    - Define “safe to stop” criteria in the runbook.
 
 ## 2.8 Automation (Scripts + Watchers)
@@ -472,7 +472,7 @@ flowchart TD
 
 **Instructions to agent:**
 - Update only `staking/research/monad-validator-plan.md`.
-- Replace any remaining TBDs with doc‑verified facts and cite links inline.
+ - Confirm whether a validator‑specific exit command exists beyond undelegate/withdrawal.
 - Keep the plan concise; no scripts or Dockerfiles.
 
 ---
