@@ -478,3 +478,10 @@ flowchart TD
 ---
 
 **Treat Testnet uptime as the #1 priority before anything else.**
+
+## 7. Open Tasks (Post‑MVP)
+
+1) Run real `monad-bft` devnet on a host with 8–16 GiB RAM (hugepages).
+2) Confirm validator‑specific exit command if it exists beyond undelegate/withdraw.
+3) Install validator binary + config in `/etc/monad/` and validate systemd unit.
+4) Replace `liquidmonad.xyz` defaults if using a different domain.
