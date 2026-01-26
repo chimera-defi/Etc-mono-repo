@@ -24,6 +24,7 @@ if [[ ${1:-} == "--with-caddy" ]]; then
   WITH_CADDY=true
 fi
 
+sudo "$ROOT_DIR/scripts/create_monad_user.sh"
 sudo "$ROOT_DIR/scripts/install_sysctl.sh"
 sudo "$ROOT_DIR/scripts/install_validator_service.sh"
 sudo "$ROOT_DIR/scripts/install_status_service.sh"

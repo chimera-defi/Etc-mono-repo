@@ -8,14 +8,20 @@
 sudo staking/monad/infra/scripts/install_sysctl.sh
 ```
 
-2) Start status server:
+2) Create the `monad` user (one-time):
+
+```bash
+sudo staking/monad/infra/scripts/create_monad_user.sh
+```
+
+3) Start status server:
 
 ```bash
 sudo staking/monad/infra/scripts/install_status_service.sh
 sudo systemctl enable --now monad-status.service
 ```
 
-3) Local devnet (if hardware allows):
+4) Local devnet (if hardware allows):
 
 ```bash
 cd /root/monad-bft/docker/single-node

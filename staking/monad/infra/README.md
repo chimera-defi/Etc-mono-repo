@@ -30,6 +30,7 @@ Optional Caddy install:
 
 - Set `RPC_URL` in `/etc/monad/status.env` and enable `monad-status.service`.
 - Install sysctl tuning with `scripts/install_sysctl.sh` before running monad-bft devnet.
+- Create the `monad` system user with `scripts/create_monad_user.sh`.
 - Update `status.liquidmonad.xyz` and `ops@liquidmonad.xyz` if using a different domain.
 - Use `RUNBOOK.md` for start/restart/rollback steps.
 
@@ -51,6 +52,8 @@ Optional Caddy install:
   - Writes the monad sysctl tuning file and applies it.
 - `scripts/install_systemd_unit.sh [src] [dest]`
   - Installs the validator systemd unit skeleton.
+- `scripts/create_monad_user.sh [user] [group] [home]`
+  - Creates the system user/group and owns `/etc/monad` + `/opt/monad-status`.
 - `scripts/install_status_service.sh [src] [dest] [target_dir] [env_src] [env_dest]`
   - Installs the status server systemd unit and copies the script.
 - `scripts/install_validator_service.sh [src] [dest] [env_src] [env_dest]`

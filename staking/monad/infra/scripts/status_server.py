@@ -5,8 +5,8 @@ import urllib.request
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from datetime import datetime, timezone
 
-HOST = "0.0.0.0"
-PORT = 8787
+HOST = os.getenv("STATUS_HOST", "127.0.0.1")
+PORT = int(os.getenv("STATUS_PORT", "8787"))
 RPC_URL = os.getenv("RPC_URL", "")
 RPC_TIMEOUT_SECS = 5
 
