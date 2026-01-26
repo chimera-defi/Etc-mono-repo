@@ -277,6 +277,8 @@ flowchart TD
    - `staking/monad/scripts/e2e_smoke_test.sh`
    - `staking/monad/RUNBOOK.md`
    - `staking/monad/DEPLOY_CHECKLIST.md`
+   - `staking/monad/config/README.md`
+   - `staking/monad/watchers/README.md`
 
 ### 2.8.2 Chain State Watchers
 

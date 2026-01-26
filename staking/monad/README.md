@@ -2,6 +2,10 @@
 
 Small, safe helpers to validate RPC, uptime endpoints, and local devnet runs. These are intentionally minimal; no irreversible actions.
 
+## Canonical Path
+
+All Monad infra assets now live under `staking/monad/`. Legacy `staking/impl/monad/infra` has been removed.
+
 ## Quickstart
 
 ```bash
@@ -45,6 +49,12 @@ RPC_URL=http://localhost:8080 ./scripts/status_server.py
   - Environment variables for the status server.
 - `config/validator.env.example`
   - Environment variables for the validator service.
+- `config/README.md`
+  - Config layout and per-node overrides.
+- `config/nodes/validator-1/README.md`
+- `config/nodes/validator-2/README.md`
+- `systemd/override.conf`
+  - Example systemd overrides for flags/env/limits.
 - `config/nginx-status.conf.example`
   - Nginx reverse proxy snippet for `/status`.
 - `config/Caddyfile.status.example`
@@ -55,6 +65,8 @@ RPC_URL=http://localhost:8080 ./scripts/status_server.py
   - MVP runbook for start, checks, and rollback.
 - `DEPLOY_CHECKLIST.md`
   - One-page production checklist.
+- `watchers/README.md`
+  - Placeholder for future monitoring.
 - `scripts/e2e_smoke_test.sh`
   - End-to-end smoke test for status server + mock RPC routes.
 
