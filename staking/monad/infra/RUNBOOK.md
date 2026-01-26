@@ -48,6 +48,12 @@ staking/monad/infra/scripts/check_rpc.sh http://localhost:8080 eth_blockNumber
 sudo staking/monad/infra/scripts/install_validator_binary.sh /path/to/monad-bft /path/to/config.toml
 ```
 
+## 2.3 Firewall (UFW)
+
+```bash
+sudo staking/monad/infra/scripts/install_firewall_ufw.sh
+```
+
 - E2E smoke test:
 
 ```bash

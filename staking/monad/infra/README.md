@@ -26,6 +26,12 @@ Optional Caddy install:
 ./scripts/setup_server.sh --with-caddy
 ```
 
+Optional firewall install:
+
+```bash
+./scripts/setup_server.sh --with-firewall
+```
+
 Optional binary install:
 
 ```bash
@@ -69,6 +75,8 @@ MONAD_CONFIG_SRC=/path/to/config.toml \
   - Installs the validator systemd unit and env file.
 - `scripts/install_validator_binary.sh <binary-src> [config-src] [bin-dest] [config-dest]`
   - Installs the validator binary and optional config.
+- `scripts/install_firewall_ufw.sh`
+  - Installs UFW and applies minimal inbound rules.
 - `scripts/preflight_check.sh [bin] [config] [status_env]`
   - Validates critical file paths before starting services.
 - `config/status.env.example`
@@ -87,7 +95,7 @@ MONAD_CONFIG_SRC=/path/to/config.toml \
   - Caddy reverse proxy with basic rate limiting.
 - `scripts/install_caddy.sh [caddyfile_src] [caddyfile_dest]`
   - Installs Caddy and applies the status reverse proxy.
-- `scripts/setup_server.sh [--with-caddy]`
+- `scripts/setup_server.sh [--with-caddy] [--with-firewall]`
   - Runs sysctl + service installs + tests in one go.
 - `RUNBOOK.md`
   - MVP runbook for start, checks, and rollback.

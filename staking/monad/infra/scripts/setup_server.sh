@@ -5,23 +5,28 @@ ROOT_DIR=$(cd "$(dirname "$0")/.." && pwd)
 
 usage() {
   cat <<EOFMSG
-Usage: $0 [--with-caddy]
+Usage: $0 [--with-caddy] [--with-firewall]
 
 Sets up a Monad infra host:
 - installs sysctl tuning
 - installs validator + status services
 - optionally installs Caddy
+- optionally installs UFW firewall rules
 - runs preflight and e2e smoke tests
 EOFMSG
 }
 
 WITH_CADDY=false
+WITH_FIREWALL=false
 if [[ ${1:-} == "--help" ]]; then
   usage
   exit 0
 fi
 if [[ ${1:-} == "--with-caddy" ]]; then
   WITH_CADDY=true
+fi
+if [[ ${1:-} == "--with-firewall" ]]; then
+  WITH_FIREWALL=true
 fi
 
 sudo "$ROOT_DIR/scripts/create_monad_user.sh"
@@ -37,6 +42,9 @@ sudo "$ROOT_DIR/scripts/install_status_service.sh"
 
 if [[ "$WITH_CADDY" == "true" ]]; then
   sudo "$ROOT_DIR/scripts/install_caddy.sh"
+fi
+if [[ "$WITH_FIREWALL" == "true" ]]; then
+  sudo "$ROOT_DIR/scripts/install_firewall_ufw.sh"
 fi
 
 "$ROOT_DIR/scripts/preflight_check.sh"
