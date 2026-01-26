@@ -11,6 +11,7 @@
 - Response time: 15–30 minutes.
 - Status endpoint availability: 99.5%+.
 - Weekly reliability summary.
+- Uptime target: 98%+ weekly (align with VDP requirement).
 
 ## Runbook Hooks
 
@@ -21,3 +22,4 @@
 
 - Weekly uptime report.
 - Incident log with RCA and remediation.
+- Monthly summary for delegators.

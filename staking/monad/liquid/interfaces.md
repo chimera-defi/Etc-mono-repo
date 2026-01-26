@@ -16,6 +16,7 @@ Fields:
 - `validator.degraded`
 - `validator.recovered`
 - `validator.slash_warning`
+- `validator.uptime_below_target`
 
 ## Metrics (Future)
 

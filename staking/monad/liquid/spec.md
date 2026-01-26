@@ -18,6 +18,8 @@
 - Public status JSON endpoint for uptime and block height.
 - Incident reporting cadence and audit trail.
 - SLA definition for response time and remediation.
+- Commission cap aligned to program rules (default: 10%, temporary 20% if allowed).
+- Default target: Monad testnet first; mainnet only after 4+ weeks uptime proof.
 
 ## Open Questions
 
