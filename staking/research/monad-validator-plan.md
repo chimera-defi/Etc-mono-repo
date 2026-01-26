@@ -49,6 +49,10 @@ flowchart TD
    - Config: `~/.monad/` or `/etc/monad/` (choose one, stay consistent).
    - Logs: `/var/log/monad/`.
 
+### 1.1.2 Canonical Paths
+
+- Infra assets live under `staking/monad/` (single source of truth).
+
 ### 1.1.1 Quickstart (Runnable MVP)
 
 1) **Install deps**
