@@ -18,6 +18,7 @@
 - [ ] Update `/etc/monad/validator.env` as needed.
 - [ ] Update `/etc/monad/status.env` with `RPC_URL=...`.
 - [ ] (Optional) Configure reverse proxy: `staking/monad/scripts/install_caddy.sh`.
+- [ ] Update status domain/email defaults if not using `liquidmonad.xyz`.
 
 ## Verify
 

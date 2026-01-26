@@ -14,7 +14,7 @@ RPC_URL=http://localhost:8080 ./scripts/status_server.py
 
 - Set `RPC_URL` in `/etc/monad/status.env` and enable `monad-status.service`.
 - Install sysctl tuning with `scripts/install_sysctl.sh` before running monad-bft devnet.
-- Replace placeholder contact info in `landing/index.html`.
+- Update `status.liquidmonad.xyz` and `ops@liquidmonad.xyz` if using a different domain.
 - Use `RUNBOOK.md` for start/restart/rollback steps.
 
 ## Scripts
@@ -62,7 +62,7 @@ RPC_URL=http://localhost:8080 ./scripts/status_server.py
 
 ```bash
 ./scripts/check_rpc.sh http://localhost:8080 eth_chainId
-./scripts/uptime_probe.sh https://status.example.com/status
+./scripts/uptime_probe.sh https://status.liquidmonad.xyz/status
 ./scripts/status_server.py
 RPC_URL=http://localhost:8080 ./scripts/status_server.py
 ./scripts/collect_node_info.sh

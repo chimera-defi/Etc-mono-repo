@@ -1,6 +1,6 @@
 server {
   listen 80;
-  server_name status.example.com;
+  server_name status.liquidmonad.xyz;
 
   location /status {
     proxy_pass http://127.0.0.1:8787/status;
