@@ -26,12 +26,21 @@ Optional Caddy install:
 ./scripts/setup_server.sh --with-caddy
 ```
 
+Optional binary install:
+
+```bash
+MONAD_BFT_BIN_SRC=/path/to/monad-bft \
+MONAD_CONFIG_SRC=/path/to/config.toml \
+./scripts/setup_server.sh
+```
+
 ## Ops TODO
 
 - Set `RPC_URL` in `/etc/monad/status.env` and enable `monad-status.service`.
 - Install sysctl tuning with `scripts/install_sysctl.sh` before running monad-bft devnet.
 - Create the `monad` system user with `scripts/create_monad_user.sh`.
 - Update `status.liquidmonad.xyz` and `ops@liquidmonad.xyz` if using a different domain.
+- Block public access to `:8787`; expose only through Caddy or another proxy.
 - Use `RUNBOOK.md` for start/restart/rollback steps.
 
 ## Scripts
@@ -58,6 +67,8 @@ Optional Caddy install:
   - Installs the status server systemd unit and copies the script.
 - `scripts/install_validator_service.sh [src] [dest] [env_src] [env_dest]`
   - Installs the validator systemd unit and env file.
+- `scripts/install_validator_binary.sh <binary-src> [config-src] [bin-dest] [config-dest]`
+  - Installs the validator binary and optional config.
 - `scripts/preflight_check.sh [bin] [config] [status_env]`
   - Validates critical file paths before starting services.
 - `config/status.env.example`

@@ -490,7 +490,8 @@ flowchart TD
 
 1) Run real `monad-bft` devnet on a host with 8–16 GiB RAM (hugepages).
 2) Confirm validator‑specific exit command if it exists beyond undelegate/withdraw.
-3) Install validator binary + config in `/etc/monad/` and validate systemd unit.
+3) Install validator binary + config in `/etc/monad/` (use `staking/monad/infra/scripts/install_validator_binary.sh`) and validate systemd unit.
 4) Replace `liquidmonad.xyz` defaults if using a different domain.
 5) Run `staking/monad/infra/scripts/setup_server.sh` on a fresh host and validate end‑to‑end setup (status service + validator unit skeleton + optional Caddy).
 6) Confirm `monad` system user + permissions via `staking/monad/infra/scripts/create_monad_user.sh`.
+7) Add minimal firewall rules (allow SSH + 80/443, block 8787).

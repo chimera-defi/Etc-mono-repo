@@ -5,5 +5,5 @@
 
 ## Structure
 
-- `config.toml.example`: base config template.
+- `config.toml.example`: populate from official docs, then copy to `/etc/monad/config.toml`.
 - `nodes/validator-1/` and `nodes/validator-2/`: per-node overrides.

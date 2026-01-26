@@ -25,6 +25,12 @@ if [[ ${1:-} == "--with-caddy" ]]; then
 fi
 
 sudo "$ROOT_DIR/scripts/create_monad_user.sh"
+if [[ -n ${MONAD_BFT_BIN_SRC:-} ]]; then
+  sudo "$ROOT_DIR/scripts/install_validator_binary.sh" \
+    "$MONAD_BFT_BIN_SRC" "${MONAD_CONFIG_SRC:-}"
+else
+  echo "MONAD_BFT_BIN_SRC not set; skipping binary install."
+fi
 sudo "$ROOT_DIR/scripts/install_sysctl.sh"
 sudo "$ROOT_DIR/scripts/install_validator_service.sh"
 sudo "$ROOT_DIR/scripts/install_status_service.sh"
