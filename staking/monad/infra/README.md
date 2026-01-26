@@ -14,6 +14,18 @@ RPC_URL=http://localhost:8080 ./scripts/status_server.py
 ./scripts/e2e_smoke_test.sh
 ```
 
+## One-Step Setup
+
+```bash
+./scripts/setup_server.sh
+```
+
+Optional Caddy install:
+
+```bash
+./scripts/setup_server.sh --with-caddy
+```
+
 ## Ops TODO
 
 - Set `RPC_URL` in `/etc/monad/status.env` and enable `monad-status.service`.
@@ -61,6 +73,8 @@ RPC_URL=http://localhost:8080 ./scripts/status_server.py
   - Caddy reverse proxy with basic rate limiting.
 - `scripts/install_caddy.sh [caddyfile_src] [caddyfile_dest]`
   - Installs Caddy and applies the status reverse proxy.
+- `scripts/setup_server.sh [--with-caddy]`
+  - Runs sysctl + service installs + tests in one go.
 - `RUNBOOK.md`
   - MVP runbook for start, checks, and rollback.
 - `DEPLOY_CHECKLIST.md`
