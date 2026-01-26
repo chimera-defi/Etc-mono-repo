@@ -51,7 +51,7 @@ flowchart TD
 
 ### 1.1.2 Canonical Paths
 
-- Infra assets live under `staking/monad/` (single source of truth).
+- Infra assets live under `staking/monad/infra/` (single source of truth).
 
 ### 1.1.1 Quickstart (Runnable MVP)
 
@@ -61,9 +61,9 @@ flowchart TD
 2) **Run local devnet**
    - `monad-bft/docker/single-node/nets/run.sh --use-prebuilt`
 3) **Wire status**
-   - `RPC_URL=http://localhost:8080 staking/monad/scripts/status_server.py`
+   - `RPC_URL=http://localhost:8080 staking/monad/infra/scripts/status_server.py`
 4) **Verify**
-   - `staking/monad/scripts/e2e_smoke_test.sh`
+   - `staking/monad/infra/scripts/e2e_smoke_test.sh`
 
 ### 1.2 Add a Second Node (Geo Diversity)
 
@@ -266,23 +266,23 @@ flowchart TD
 3) **Rule**
    - Keep scripts minimal; do not automate irreversible actions without manual confirmation.
 4) **MVP helpers (in repo)**
-   - `staking/monad/scripts/check_rpc.sh`
-   - `staking/monad/scripts/uptime_probe.sh`
-   - `staking/monad/scripts/status_server.py`
-   - `staking/monad/scripts/collect_node_info.sh`
-   - `staking/monad/scripts/run_local_devnet.sh`
-   - `staking/monad/scripts/check_prereqs.sh`
-   - `staking/monad/scripts/install_sysctl.sh`
-   - `staking/monad/scripts/install_systemd_unit.sh`
-   - `staking/monad/scripts/install_status_service.sh`
-   - `staking/monad/scripts/install_validator_service.sh`
-   - `staking/monad/scripts/preflight_check.sh`
-   - `staking/monad/scripts/install_caddy.sh`
-   - `staking/monad/scripts/e2e_smoke_test.sh`
-   - `staking/monad/RUNBOOK.md`
-   - `staking/monad/DEPLOY_CHECKLIST.md`
-   - `staking/monad/config/README.md`
-   - `staking/monad/watchers/README.md`
+   - `staking/monad/infra/scripts/check_rpc.sh`
+   - `staking/monad/infra/scripts/uptime_probe.sh`
+   - `staking/monad/infra/scripts/status_server.py`
+   - `staking/monad/infra/scripts/collect_node_info.sh`
+   - `staking/monad/infra/scripts/run_local_devnet.sh`
+   - `staking/monad/infra/scripts/check_prereqs.sh`
+   - `staking/monad/infra/scripts/install_sysctl.sh`
+   - `staking/monad/infra/scripts/install_systemd_unit.sh`
+   - `staking/monad/infra/scripts/install_status_service.sh`
+   - `staking/monad/infra/scripts/install_validator_service.sh`
+   - `staking/monad/infra/scripts/preflight_check.sh`
+   - `staking/monad/infra/scripts/install_caddy.sh`
+   - `staking/monad/infra/scripts/e2e_smoke_test.sh`
+   - `staking/monad/infra/RUNBOOK.md`
+   - `staking/monad/infra/DEPLOY_CHECKLIST.md`
+   - `staking/monad/infra/config/README.md`
+   - `staking/monad/infra/watchers/README.md`
 
 ### 2.8.2 Chain State Watchers
 
@@ -342,7 +342,7 @@ flowchart TD
 5) **Reference assets**
    - Link to [Monad Developers org](https://github.com/monad-developers) for any validator profile/examples.
 6) **MVP asset (in repo)**
-   - `staking/monad/landing/index.html` (static landing page).
+   - `staking/monad/infra/landing/index.html` (static landing page).
 
 ### 3.6 Capacity Planning & Growth
 
