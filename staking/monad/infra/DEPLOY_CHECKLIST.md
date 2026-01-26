@@ -54,6 +54,11 @@
 - [ ] Block public access to `:8787`; expose only via reverse proxy.
 - [ ] Allow `22/tcp` and `80/443` if using Caddy; deny other inbound.
 
+## Network Hardening
+
+- [ ] Block public access to `:8787`; expose only via reverse proxy.
+- [ ] Allow `22/tcp` and `80/443` if using Caddy; deny other inbound.
+
 ## Rollback
 
 - [ ] Restore `/etc/monad/status.env` and `/etc/monad/validator.env` backups.
