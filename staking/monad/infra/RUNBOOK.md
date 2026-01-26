@@ -5,13 +5,13 @@
 1) Apply sysctl tuning:
 
 ```bash
-sudo staking/monad/scripts/install_sysctl.sh
+sudo staking/monad/infra/scripts/install_sysctl.sh
 ```
 
 2) Start status server:
 
 ```bash
-sudo staking/monad/scripts/install_status_service.sh
+sudo staking/monad/infra/scripts/install_status_service.sh
 sudo systemctl enable --now monad-status.service
 ```
 
@@ -33,20 +33,20 @@ curl -fsS http://localhost:8787/status
 - RPC check:
 
 ```bash
-staking/monad/scripts/check_rpc.sh http://localhost:8080 eth_blockNumber
+staking/monad/infra/scripts/check_rpc.sh http://localhost:8080 eth_blockNumber
 ```
 
 - E2E smoke test:
 
 ```bash
-staking/monad/scripts/e2e_smoke_test.sh
+staking/monad/infra/scripts/e2e_smoke_test.sh
 ```
 
 ## 2.1 Daily Checks (5 minutes)
 
 1) `systemctl status monad-validator`
 2) `journalctl -u monad-validator -n 200 --no-pager`
-3) `staking/monad/scripts/check_rpc.sh http://localhost:8080 eth_blockNumber`
+3) `staking/monad/infra/scripts/check_rpc.sh http://localhost:8080 eth_blockNumber`
 4) Disk: `df -h` (alert at 80%+)
 5) Time sync: `timedatectl status` (NTP active)
 
