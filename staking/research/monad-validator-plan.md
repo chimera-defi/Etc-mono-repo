@@ -204,10 +204,10 @@ Brutal truth: this is doable in ~2–3.5 months at 15–25 hrs/week, but uptime 
 ### 3.3 Config Layout (No Rework Later)
 
 1) **Single source of truth**
-   - `~/infra/config/monad/` (base config + env templates).
+   - `staking/impl/monad/infra/config/` (base config + env templates).
 2) **Per‑node overrides**
-   - `~/infra/config/monad/nodes/validator-1/`
-   - `~/infra/config/monad/nodes/validator-2/`
+   - `staking/impl/monad/infra/config/nodes/validator-1/`
+   - `staking/impl/monad/infra/config/nodes/validator-2/`
 3) **Rule**
    - Keep base config immutable; only override node‑specific values.
 
