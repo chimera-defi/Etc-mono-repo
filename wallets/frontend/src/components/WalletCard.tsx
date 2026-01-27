@@ -5,6 +5,7 @@ import type { MarkdownDocument } from '@/lib/markdown';
 
 interface WalletCardProps {
   document: MarkdownDocument;
+  className?: string;
 }
 
 const categoryColors: Record<string, string> = {
@@ -21,11 +22,14 @@ const categoryLabels: Record<string, string> = {
   other: 'Documentation',
 };
 
-export function WalletCard({ document }: WalletCardProps) {
+export function WalletCard({ document, className }: WalletCardProps) {
   return (
     <Link
       href={`/docs/${document.slug}`}
-      className="group block p-6 rounded-lg border border-border bg-card hover:border-primary/50 hover:shadow-lg transition-all"
+      className={cn(
+        'group block p-6 rounded-lg border border-border bg-card hover:border-primary/50 hover:shadow-lg transition-all',
+        className
+      )}
     >
       <div className="flex items-start justify-between mb-3">
         <span
