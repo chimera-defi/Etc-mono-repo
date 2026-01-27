@@ -255,15 +255,14 @@ flowchart TD
 ## 2.7 Validator Exit Process (Current Docs)
 
 1) **Exit trigger**
-   - Operator‑initiated exit request (no explicit “validator exit”/`removeValidator` doc found; use staking flows).
+   - Operator‑initiated exit request via staking flows (official off‑boarding path).
 2) **Exit phases**
    - Undelegate stake → wait for withdrawal delay → withdraw (per [staking precompile](https://docs.monad.xyz/developer-essentials/staking/staking-precompile) and [staking behavior](https://docs.monad.xyz/developer-essentials/staking/staking-behavior)).
 3) **Operational requirement**
    - Keep the node online until exit finalizes (avoid penalties).
 4) **Action items**
-   - Use `undelegate`/`withdraw` flows in [staking-sdk-cli](https://github.com/monad-developers/staking-sdk-cli) once exact validator exit docs are confirmed.
+   - Use `undelegate`/`withdraw` flows in [staking-sdk-cli](https://github.com/monad-developers/staking-sdk-cli).
     - Current staking behavior shows `WITHDRAWAL_DELAY = 1 epoch` for withdrawals after unstake per [staking behavior](https://docs.monad.xyz/developer-essentials/staking/staking-behavior).
-    - Record exact exit command + expected time window once validator‑specific exit docs are confirmed.
    - Define “safe to stop” criteria in the runbook.
 
 ## 2.8 Automation (Scripts + Watchers)
