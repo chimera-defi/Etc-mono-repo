@@ -9,6 +9,7 @@ Minimal monitoring setup for a single host. This is intended as a starting point
 - Alertmanager with basic node alerts
 - Loki + Promtail log shipping for `/var/log/syslog` and `/var/log/auth.log`
 - Basic Grafana dashboard: **Monad Node Basics**
+- Basic Grafana dashboard: **Monad IO + Network**
 
 ## Start
 
