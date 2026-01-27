@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+  <defs>
+    <linearGradient id="bg-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1020" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <linearGradient id="hero-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1f2937" />
+    </linearGradient>
+    <radialGradient id="glow-blue" cx="0.3" cy="0.2" r="0.7">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="glow-green" cx="0.85" cy="0.35" r="0.7">
+      <stop offset="0%" stop-color="#22c55e" stop-opacity="0.28" />
+      <stop offset="100%" stop-color="#22c55e" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="cta-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#6366f1" />
+    </linearGradient>
+    <linearGradient id="glass-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#1e293b" stop-opacity="0.55" />
+    </linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#1f2937" stroke-width="1" />
+    </pattern>
+    <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#000000" flood-opacity="0.45" />
+    </filter>
+    <style>
+      .bg { fill: url(#bg-gradient); }
+      .hero { fill: url(#hero-gradient); stroke: #334155; stroke-width: 1; filter: url(#card-shadow); }
+      .glass { fill: url(#glass-gradient); stroke: #475569; stroke-width: 1; filter: url(#card-shadow); }
+      .panel { fill: #0f172a; fill-opacity: 0.7; stroke: #334155; stroke-width: 1; filter: url(#card-shadow); }
+      .cta-primary { fill: url(#cta-gradient); }
+      .cta-text { font-size: 12px; font-family: Inter, Arial, sans-serif; fill: #ffffff; font-weight: 600; }
+      .badge { fill: #0f172a; stroke: #38bdf8; stroke-width: 1; }
+      .badge-text { font-size: 10px; font-family: Inter, Arial, sans-serif; fill: #38bdf8; font-weight: 600; }
+      .title { font-size: 22px; font-weight: 700; font-family: Inter, Arial, sans-serif; fill: #f8fafc; }
+      .title-accent { font-size: 22px; font-weight: 700; font-family: Inter, Arial, sans-serif; fill: #38bdf8; }
+      .subtext { font-family: Inter, Arial, sans-serif; fill: #cbd5f5; font-size: 12px; }
+      .label { font-family: Inter, Arial, sans-serif; fill: #94a3b8; font-size: 11px; }
+      .stat-text { font-family: Inter, Arial, sans-serif; fill: #f8fafc; font-size: 11px; font-weight: 600; }
+      .h2 { font-family: Inter, Arial, sans-serif; fill: #e2e8f0; font-size: 14px; font-weight: 600; }
+      .chip { fill: #0b1224; stroke: #2563eb; }
+      .chip-text { font-size: 10px; font-family: Inter, Arial, sans-serif; fill: #93c5fd; }
+      .accent { fill: #1d4ed8; }
+      .accent-2 { fill: #22c55e; }
+      .accent-3 { fill: #f59e0b; }
+      .icon { stroke: #38bdf8; stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .icon-green { stroke: #22c55e; stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .icon-amber { stroke: #f59e0b; stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .motion-line { stroke: #38bdf8; stroke-width: 2; stroke-linecap: round; opacity: 0.3; }
+      .motion-line-soft { stroke: #6366f1; stroke-width: 2; stroke-linecap: round; opacity: 0.25; }
+      .muted { fill: #1f2937; }
+      .table-head { fill: #1e293b; }
+      .table-row { fill: #0f172a; }
+      .table-row-alt { fill: #111827; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="390" height="844" />
+  <rect x="0" y="0" width="390" height="844" fill="url(#grid)" opacity="0.35" />
+
+  <!-- Header -->
+  <rect class="glass" x="16" y="18" width="358" height="50" rx="12" />
+  <text class="title" x="28" y="48">Wallet Radar</text>
+  <rect class="panel" x="332" y="30" width="30" height="26" rx="8" />
+  <path class="icon" d="M338 38 H354" />
+  <path class="icon" d="M338 44 H354" />
+  <path class="icon" d="M338 50 H354" />
+
+  <!-- Hero -->
+  <rect class="hero" x="16" y="80" width="358" height="220" rx="16" />
+  <circle cx="300" cy="120" r="80" fill="url(#glow-blue)" />
+  <circle cx="320" cy="170" r="90" fill="url(#glow-green)" />
+  <line class="motion-line" x1="170" y1="112" x2="270" y2="112" />
+  <line class="motion-line-soft" x1="190" y1="128" x2="290" y2="128" />
+  <rect class="badge" x="28" y="96" width="110" height="20" rx="10" />
+  <text class="badge-text" x="38" y="110">Compare fast</text>
+  <text class="title-accent" x="28" y="144">Pick a wallet</text>
+  <text class="title" x="28" y="170">in under 60 seconds</text>
+  <rect class="accent" x="28" y="178" width="90" height="4" rx="2" />
+  <text class="subtext" x="28" y="196">Task-first explorer with instant compare</text>
+  <rect class="glass" x="28" y="210" width="220" height="34" rx="10" />
+  <text class="label" x="40" y="232">Search wallets, chains, features</text>
+  <rect class="cta-primary" x="254" y="210" width="96" height="34" rx="10" />
+  <text class="cta-text" x="268" y="232">Compare</text>
+
+  <!-- Task tiles -->
+  <rect class="panel" x="16" y="314" width="171" height="70" rx="12" />
+  <rect class="panel" x="203" y="314" width="171" height="70" rx="12" />
+  <rect class="panel" x="16" y="392" width="171" height="70" rx="12" />
+  <rect class="panel" x="203" y="392" width="171" height="70" rx="12" />
+  <rect class="icon" x="30" y="332" width="12" height="14" rx="2" />
+  <path class="icon-green" d="M220 328 L228 332 V340 C228 344 224 347 220 349 C216 347 212 344 212 340 V332 Z" />
+  <rect class="icon-amber" x="30" y="410" width="16" height="10" rx="2" />
+  <path class="icon-amber" d="M30 414 H46" />
+  <path class="icon" d="M220 412 H234" />
+  <path class="icon" d="M230 408 L234 412 L230 416" />
+  <text class="h2" x="50" y="340">Software</text>
+  <text class="h2" x="238" y="340">Hardware</text>
+  <text class="h2" x="50" y="418">Cards</text>
+  <text class="h2" x="238" y="418">Ramps</text>
+  <text class="label" x="50" y="360">Mobile + ext</text>
+  <text class="label" x="238" y="360">Secure element</text>
+  <text class="label" x="50" y="438">Cashback</text>
+  <text class="label" x="238" y="438">On/Off ramp</text>
+
+  <!-- Stats row -->
+  <rect class="panel" x="16" y="476" width="358" height="56" rx="12" />
+  <rect class="glass" x="28" y="490" width="86" height="28" rx="8" />
+  <rect class="accent" x="28" y="490" width="5" height="28" rx="2" />
+  <rect class="glass" x="120" y="490" width="86" height="28" rx="8" />
+  <rect class="accent-2" x="120" y="490" width="5" height="28" rx="2" />
+  <rect class="glass" x="212" y="490" width="86" height="28" rx="8" />
+  <rect class="accent-3" x="212" y="490" width="5" height="28" rx="2" />
+  <rect class="glass" x="304" y="490" width="54" height="28" rx="8" />
+  <rect class="accent" x="304" y="490" width="5" height="28" rx="2" />
+  <text class="stat-text" x="38" y="508">Soft 45+</text>
+  <text class="stat-text" x="130" y="508">Hard 14+</text>
+  <text class="stat-text" x="222" y="508">Cards 9+</text>
+  <text class="stat-text" x="312" y="508">Jan</text>
+
+  <!-- Comparison preview -->
+  <text class="h2" x="16" y="560">Compare Workspace</text>
+  <rect class="glass" x="16" y="570" width="358" height="120" rx="12" />
+  <rect class="table-head" x="28" y="582" width="334" height="18" rx="6" />
+  <rect class="table-row" x="28" y="604" width="334" height="18" rx="6" />
+  <rect class="table-row-alt" x="28" y="626" width="334" height="18" rx="6" />
+  <rect class="table-row" x="28" y="648" width="334" height="18" rx="6" />
+
+  <!-- Latest Articles -->
+  <rect class="glass" x="16" y="700" width="358" height="90" rx="12" />
+  <text class="h2" x="28" y="730">Latest Articles</text>
+  <rect class="muted" x="28" y="742" width="280" height="8" rx="4" />
+  <rect class="muted" x="28" y="756" width="220" height="8" rx="4" />
+  <rect class="chip" x="28" y="768" width="70" height="18" rx="9" />
+  <text class="chip-text" x="40" y="781">View all</text>
+
+  <!-- Sticky compare tray -->
+  <rect class="glass" x="16" y="812" width="358" height="18" rx="9" />
+  <text class="label" x="28" y="826">3 selected - Compare</text>
+</svg>

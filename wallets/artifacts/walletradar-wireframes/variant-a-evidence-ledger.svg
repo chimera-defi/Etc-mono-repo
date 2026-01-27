@@ -1,0 +1,206 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="980" viewBox="0 0 1400 980">
+  <defs>
+    <linearGradient id="bg-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1020" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <linearGradient id="hero-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#111827" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <radialGradient id="glow-blue" cx="0.3" cy="0.2" r="0.6">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="glow-purple" cx="0.8" cy="0.3" r="0.6">
+      <stop offset="0%" stop-color="#a855f7" stop-opacity="0.28" />
+      <stop offset="100%" stop-color="#a855f7" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="cta-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#6366f1" />
+    </linearGradient>
+    <linearGradient id="glass-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#1e293b" stop-opacity="0.55" />
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#1f2937" stroke-width="1" />
+    </pattern>
+    <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+    <style>
+      .bg { fill: url(#bg-gradient); }
+      .panel { fill: #0f172a; fill-opacity: 0.7; stroke: #334155; stroke-width: 1; filter: url(#card-shadow); }
+      .panel-soft { fill: #111827; fill-opacity: 0.6; stroke: #334155; stroke-width: 1; filter: url(#card-shadow); }
+      .hero { fill: url(#hero-gradient); stroke: #334155; stroke-width: 1; filter: url(#card-shadow); }
+      .glass { fill: url(#glass-gradient); stroke: #475569; stroke-width: 1; filter: url(#card-shadow); }
+      .cta-primary { fill: url(#cta-gradient); }
+      .cta-secondary { fill: #0f172a; stroke: #60a5fa; stroke-width: 1; }
+      .cta-text { font-size: 13px; font-family: Inter, Arial, sans-serif; fill: #ffffff; font-weight: 600; }
+      .cta-secondary-text { font-size: 13px; font-family: Inter, Arial, sans-serif; fill: #93c5fd; font-weight: 600; }
+      .badge { fill: #0f172a; stroke: #38bdf8; stroke-width: 1; }
+      .badge-text { font-size: 11px; font-family: Inter, Arial, sans-serif; fill: #38bdf8; font-weight: 600; }
+      .icon { stroke: #38bdf8; stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .motion-line { stroke: #38bdf8; stroke-width: 2; stroke-linecap: round; opacity: 0.35; }
+      .motion-line-soft { stroke: #6366f1; stroke-width: 2; stroke-linecap: round; opacity: 0.25; }
+      .muted { fill: #334155; }
+      .text { font-family: Inter, Arial, sans-serif; fill: #f8fafc; }
+      .subtext { font-family: Inter, Arial, sans-serif; fill: #cbd5f5; }
+      .label { font-size: 12px; font-family: Inter, Arial, sans-serif; fill: #94a3b8; }
+      .title { font-size: 28px; font-weight: 700; font-family: Inter, Arial, sans-serif; fill: #f8fafc; }
+      .title-accent { font-size: 28px; font-weight: 700; font-family: Inter, Arial, sans-serif; fill: #38bdf8; }
+      .chip { fill: #0b1224; stroke: #2563eb; }
+      .chip-text { font-size: 11px; font-family: Inter, Arial, sans-serif; fill: #93c5fd; }
+      .pill-text { font-size: 10px; font-family: Inter, Arial, sans-serif; fill: #f8fafc; font-weight: 600; }
+      .accent { fill: #1d4ed8; }
+      .accent-2 { fill: #10b981; }
+      .accent-3 { fill: #f59e0b; }
+      .table-head { fill: #1e293b; }
+      .table-row { fill: #0f172a; }
+      .table-row-alt { fill: #111827; }
+      .icon-bg { fill: #0b2a42; }
+      .icon-bg-2 { fill: #0b2f2a; }
+      .icon-bg-3 { fill: #3a2a0a; }
+      .h2 { font-size: 17px; font-weight: 600; font-family: Inter, Arial, sans-serif; fill: #e2e8f0; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1400" height="980" />
+  <rect x="0" y="0" width="1400" height="980" fill="url(#grid)" opacity="0.35" />
+
+  <!-- Header -->
+  <rect class="glass" x="60" y="32" width="1280" height="64" rx="12" />
+  <text class="text" x="90" y="72" font-size="18" font-weight="700">Wallet Radar</text>
+  <text class="label" x="230" y="72">Compare</text>
+  <text class="label" x="310" y="72">Explore</text>
+  <text class="label" x="380" y="72">Docs</text>
+  <text class="label" x="440" y="72">Articles</text>
+  <rect class="panel" x="1180" y="48" width="140" height="32" rx="8" />
+  <text class="label" x="1216" y="69">Theme</text>
+
+  <!-- Hero -->
+  <rect class="hero" x="60" y="116" width="1280" height="230" rx="16" />
+  <circle cx="1150" cy="180" r="120" fill="url(#glow-blue)" />
+  <circle cx="980" cy="210" r="140" fill="url(#glow-purple)" />
+  <line class="motion-line" x1="560" y1="150" x2="700" y2="150" />
+  <line class="motion-line-soft" x1="600" y1="165" x2="740" y2="165" />
+  <line class="motion-line" x1="540" y1="250" x2="680" y2="236" />
+  <line class="motion-line-soft" x1="610" y1="262" x2="760" y2="248" />
+  <rect class="badge" x="92" y="142" width="136" height="22" rx="11" />
+  <text class="badge-text" x="106" y="157">Evidence-led UI</text>
+  <text class="title-accent" x="92" y="170">Audit-grade</text>
+  <text class="title" x="228" y="170">wallet comparisons for developers</text>
+  <rect class="accent" x="92" y="182" width="120" height="4" rx="2" />
+  <text class="subtext" x="92" y="198" font-size="14">Evidence-led scoring, transparent sources, and side-by-side tooling.</text>
+  <rect class="cta-primary" x="92" y="222" width="210" height="38" rx="10" />
+  <text class="cta-text" x="110" y="246">Start Comparison</text>
+  <rect class="cta-secondary" x="312" y="222" width="190" height="38" rx="10" />
+  <text class="cta-secondary-text" x="328" y="246">Read Methodology</text>
+
+  <!-- Hero evidence card -->
+  <rect class="glass" x="900" y="146" width="400" height="170" rx="14" />
+  <path class="icon" d="M906 166 L916 170 V178 C916 182 912 185 906 187 C900 185 896 182 896 178 V170 Z" />
+  <text class="h2" x="922" y="176">Score Breakdown</text>
+  <rect class="accent" x="922" y="190" width="356" height="10" rx="5" />
+  <rect class="accent-2" x="922" y="210" width="310" height="10" rx="5" />
+  <rect class="accent-3" x="922" y="230" width="270" height="10" rx="5" />
+  <text class="label" x="922" y="258">Security / Dev UX / Activity / Coverage</text>
+  <rect class="chip" x="922" y="270" width="80" height="22" rx="11" />
+  <text class="chip-text" x="936" y="285">GitHub</text>
+  <rect class="chip" x="1010" y="270" width="100" height="22" rx="11" />
+  <text class="chip-text" x="1026" y="285">WalletBeat</text>
+  <rect class="chip" x="1118" y="270" width="110" height="22" rx="11" />
+  <text class="chip-text" x="1136" y="285">Chain Data</text>
+
+  <!-- Trust strip -->
+  <rect class="glass" x="60" y="360" width="1280" height="36" rx="10" />
+  <text class="label" x="92" y="383">No login / No tracking / No affiliates / Verified sources</text>
+
+  <!-- Top picks -->
+  <text class="h2" x="60" y="430">Top Picks + Evidence</text>
+  <rect class="glass" x="60" y="446" width="410" height="130" rx="14" />
+  <circle class="icon-bg" cx="100" cy="482" r="14" />
+  <path class="icon" d="M94 478 L90 482 L94 486" />
+  <path class="icon" d="M106 478 L110 482 L106 486" />
+  <rect class="accent" x="122" y="466" width="70" height="18" rx="9" />
+  <text class="pill-text" x="132" y="479">Software</text>
+  <text class="label" x="200" y="480">Rabby Wallet</text>
+  <rect class="muted" x="80" y="492" width="300" height="10" rx="5" />
+  <rect class="muted" x="80" y="510" width="260" height="10" rx="5" />
+  <rect class="chip" x="80" y="532" width="90" height="22" rx="11" />
+  <text class="chip-text" x="94" y="547">6 releases</text>
+  <rect class="chip" x="176" y="532" width="92" height="22" rx="11" />
+  <text class="chip-text" x="194" y="547">Tx Sim</text>
+  <rect class="chip" x="274" y="532" width="90" height="22" rx="11" />
+  <text class="chip-text" x="290" y="547">Open</text>
+
+  <rect class="glass" x="495" y="446" width="410" height="130" rx="14" />
+  <circle class="icon-bg-2" cx="535" cy="482" r="14" />
+  <path class="icon" d="M535 474 L542 477 V484 C542 488 539 491 535 493 C531 491 528 488 528 484 V477 Z" />
+  <rect class="accent-2" x="557" y="466" width="78" height="18" rx="9" />
+  <text class="pill-text" x="566" y="479">Hardware</text>
+  <text class="label" x="645" y="480">Trezor Safe 5</text>
+  <rect class="muted" x="515" y="492" width="300" height="10" rx="5" />
+  <rect class="muted" x="515" y="510" width="260" height="10" rx="5" />
+  <rect class="chip" x="515" y="532" width="90" height="22" rx="11" />
+  <text class="chip-text" x="528" y="547">Secure</text>
+  <rect class="chip" x="611" y="532" width="92" height="22" rx="11" />
+  <text class="chip-text" x="628" y="547">Open</text>
+  <rect class="chip" x="709" y="532" width="90" height="22" rx="11" />
+  <text class="chip-text" x="724" y="547">Active</text>
+
+  <rect class="glass" x="930" y="446" width="410" height="130" rx="14" />
+  <circle class="icon-bg-3" cx="970" cy="482" r="14" />
+  <path class="icon" d="M962 482 H978" />
+  <path class="icon" d="M974 478 L978 482 L974 486" />
+  <rect class="accent-3" x="992" y="466" width="60" height="18" rx="9" />
+  <text class="pill-text" x="1004" y="479">Ramps</text>
+  <text class="label" x="1070" y="480">Transak</text>
+  <rect class="muted" x="950" y="492" width="300" height="10" rx="5" />
+  <rect class="muted" x="950" y="510" width="260" height="10" rx="5" />
+  <rect class="chip" x="950" y="532" width="90" height="22" rx="11" />
+  <text class="chip-text" x="966" y="547">Dev UX</text>
+  <rect class="chip" x="1046" y="532" width="92" height="22" rx="11" />
+  <text class="chip-text" x="1060" y="547">160+</text>
+  <rect class="chip" x="1144" y="532" width="90" height="22" rx="11" />
+  <text class="chip-text" x="1159" y="547">API</text>
+
+  <!-- Comparison preview -->
+  <text class="h2" x="60" y="620">Comparison Preview</text>
+  <rect class="glass" x="1130" y="608" width="180" height="24" rx="12" />
+  <text class="pill-text" x="1150" y="625">Open Explorer</text>
+  <rect class="glass" x="60" y="636" width="1280" height="200" rx="14" />
+  <line class="motion-line" x1="1060" y1="668" x2="1210" y2="668" />
+  <line class="motion-line-soft" x1="1020" y1="684" x2="1170" y2="684" />
+  <rect class="table-head" x="80" y="656" width="1240" height="28" rx="6" />
+  <text class="label" x="95" y="676">Wallet</text>
+  <text class="label" x="280" y="676">Score</text>
+  <text class="label" x="380" y="676">Platforms</text>
+  <text class="label" x="520" y="676">License</text>
+  <text class="label" x="660" y="676">Activity</text>
+  <rect class="table-row" x="80" y="690" width="1240" height="36" rx="6" />
+  <rect class="table-row-alt" x="80" y="730" width="1240" height="36" rx="6" />
+  <rect class="table-row" x="80" y="770" width="1240" height="36" rx="6" />
+  <text class="label" x="95" y="713">Rabby Wallet</text>
+  <text class="label" x="95" y="753">Trezor Safe 5</text>
+  <text class="label" x="95" y="793">Transak</text>
+
+  <!-- Docs + Sources -->
+  <rect class="glass" x="60" y="852" width="640" height="90" rx="12" />
+  <text class="h2" x="90" y="882">Latest Articles</text>
+  <rect class="glass" x="560" y="872" width="100" height="20" rx="10" />
+  <text class="pill-text" x="578" y="887">View all</text>
+  <rect class="muted" x="90" y="894" width="420" height="10" rx="5" />
+  <rect class="muted" x="90" y="912" width="340" height="10" rx="5" />
+
+  <rect class="glass" x="700" y="852" width="640" height="90" rx="12" />
+  <text class="h2" x="730" y="882">Resources &amp; Sources</text>
+  <rect class="glass" x="1200" y="872" width="110" height="20" rx="10" />
+  <text class="pill-text" x="1216" y="887">View all</text>
+  <rect class="muted" x="730" y="894" width="420" height="10" rx="5" />
+  <rect class="muted" x="730" y="912" width="340" height="10" rx="5" />
+
+  <text class="label" x="60" y="965">Variant A: Evidence Ledger - wireframe</text>
+</svg>
