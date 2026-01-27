@@ -43,6 +43,8 @@
       .badge { fill: #0f172a; stroke: #38bdf8; stroke-width: 1; }
       .badge-text { font-size: 11px; font-family: Inter, Arial, sans-serif; fill: #38bdf8; font-weight: 600; }
       .icon { stroke: #38bdf8; stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .motion-line { stroke: #38bdf8; stroke-width: 2; stroke-linecap: round; opacity: 0.35; }
+      .motion-line-soft { stroke: #6366f1; stroke-width: 2; stroke-linecap: round; opacity: 0.25; }
       .muted { fill: #334155; }
       .text { font-family: Inter, Arial, sans-serif; fill: #f8fafc; }
       .subtext { font-family: Inter, Arial, sans-serif; fill: #cbd5f5; }
@@ -81,6 +83,10 @@
   <rect class="hero" x="60" y="116" width="1280" height="230" rx="16" />
   <circle cx="1150" cy="180" r="120" fill="url(#glow-blue)" />
   <circle cx="980" cy="210" r="140" fill="url(#glow-purple)" />
+  <line class="motion-line" x1="560" y1="150" x2="700" y2="150" />
+  <line class="motion-line-soft" x1="600" y1="165" x2="740" y2="165" />
+  <line class="motion-line" x1="540" y1="250" x2="680" y2="236" />
+  <line class="motion-line-soft" x1="610" y1="262" x2="760" y2="248" />
   <rect class="badge" x="92" y="142" width="136" height="22" rx="11" />
   <text class="badge-text" x="106" y="157">Evidence-led UI</text>
   <text class="title-accent" x="92" y="170">Audit-grade</text>
@@ -160,6 +166,8 @@
   <!-- Comparison preview -->
   <text class="h2" x="60" y="620">Comparison Preview</text>
   <rect class="glass" x="60" y="636" width="1280" height="200" rx="14" />
+  <line class="motion-line" x1="1060" y1="668" x2="1210" y2="668" />
+  <line class="motion-line-soft" x1="1020" y1="684" x2="1170" y2="684" />
   <rect class="table-head" x="80" y="656" width="1240" height="28" rx="6" />
   <text class="label" x="95" y="676">Wallet</text>
   <text class="label" x="280" y="676">Score</text>
