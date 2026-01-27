@@ -514,3 +514,4 @@ flowchart TD
 5) Run `staking/monad/infra/scripts/setup_server.sh` on a fresh host and validate end‑to‑end setup (status service + validator unit skeleton + optional Caddy).
 6) Confirm `monad` system user + permissions via `staking/monad/infra/scripts/create_monad_user.sh`.
 7) Add minimal firewall rules (allow SSH + 80/443, block 8787) via `staking/monad/infra/scripts/install_firewall_ufw.sh`.
+8) Add Prometheus/Grafana/Loki stack (per Extensibility Hooks) and connect alert routing.
