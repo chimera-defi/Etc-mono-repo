@@ -43,7 +43,9 @@ threading.Thread(target=rpc_server.serve_forever, daemon=True).start()
 
 env = dict(**os.environ)
 env['RPC_URL'] = f'http://127.0.0.1:{mock_port}'
-status_proc = subprocess.Popen(['python3','staking/monad/infra/scripts/status_server.py'], env=env)
+env['STATUS_PORT'] = str(status_port)
+status_path = os.path.join(root_dir, 'scripts', 'status_server.py')
+status_proc = subprocess.Popen(['python3', status_path], env=env)
 
 try:
     time.sleep(1)
