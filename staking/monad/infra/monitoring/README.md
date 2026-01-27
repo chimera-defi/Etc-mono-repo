@@ -37,6 +37,14 @@ Expose only Grafana behind auth and keep Prometheus/Loki internal. The compose f
 monitoring.example.com -> Grafana (auth required)
 ```
 
+## Public Exposure (Recommended Pattern)
+
+Expose only Grafana behind auth and keep Prometheus/Loki internal.
+
+```text
+monitoring.example.com -> Grafana (auth required)
+```
+
 ## Notes
 
 - Lock down ports with firewall rules (allow only admin IPs).
