@@ -39,7 +39,7 @@ monitoring.example.com -> Grafana (auth required)
 
 ## Public Exposure (Recommended Pattern)
 
-Expose only Grafana behind auth and keep Prometheus/Loki internal.
+Expose only Grafana behind auth and keep Prometheus/Loki internal. The compose file binds Prometheus/Loki/node_exporter to localhost by default; use Caddy or SSH tunneling for access.
 
 ```text
 monitoring.example.com -> Grafana (auth required)
