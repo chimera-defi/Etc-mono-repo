@@ -1,22 +1,191 @@
 import Link from 'next/link';
 import Script from 'next/script';
-import { ArrowRight, Shield, Cpu, BookOpen, Github, Zap, CheckCircle, CreditCard, GitCompare, SlidersHorizontal, ArrowLeftRight, FileText } from 'lucide-react';
-import { getAllDocuments, getWalletStats } from '@/lib/markdown';
+import { ArrowRight, Shield, Cpu, BookOpen, Github, CheckCircle, GitCompare, ArrowLeftRight, FileText, Lock, Eye, UserX, Database } from 'lucide-react';
+import { getAllDocuments } from '@/lib/markdown';
 import { getAllArticles } from '@/lib/articles';
-import { WalletCard } from '@/components/WalletCard';
-import { StatsCard } from '@/components/StatsCard';
-import { FeaturedCategoryLinks } from '@/components/InternalLinks';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
-const siteName = 'Wallet Radar';
+
+// Score Breakdown Card Component
+function ScoreBreakdownCard() {
+  return (
+    <div className="bg-slate-900/70 border border-slate-700/60 backdrop-blur-sm rounded-xl p-6">
+      <div className="flex items-center gap-2 mb-4">
+        <div className="w-5 h-5 rounded border border-sky-400/50 flex items-center justify-center">
+          <div className="w-2.5 h-2.5 bg-sky-400 rounded-sm" />
+        </div>
+        <h3 className="text-lg font-semibold text-slate-100">Score Breakdown</h3>
+      </div>
+
+      {/* Score bars */}
+      <div className="space-y-3 mb-4">
+        <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+          <div className="h-full w-[85%] bg-sky-400 rounded-full" />
+        </div>
+        <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+          <div className="h-full w-[90%] bg-emerald-400 rounded-full" />
+        </div>
+        <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+          <div className="h-full w-[75%] bg-amber-400 rounded-full" />
+        </div>
+      </div>
+
+      <p className="text-sm text-slate-400 mb-4">Security / Dev UX / Activity / Coverage</p>
+
+      {/* Source chips */}
+      <div className="flex flex-wrap gap-2">
+        <span className="px-3 py-1 text-xs border border-slate-600 rounded-full text-slate-300">GitHub</span>
+        <span className="px-3 py-1 text-xs border border-slate-600 rounded-full text-slate-300">WalletBeat</span>
+        <span className="px-3 py-1 text-xs border border-slate-600 rounded-full text-slate-300">Chain Data</span>
+      </div>
+    </div>
+  );
+}
+
+// Top Pick Card Component
+interface TopPickCardProps {
+  category: 'Software' | 'Hardware' | 'Ramps';
+  name: string;
+  score: number;
+  badges: string[];
+  href: string;
+  icon: React.ReactNode;
+  categoryColor: string;
+}
+
+function TopPickCard({ category, name, score, badges, href, icon, categoryColor }: TopPickCardProps) {
+  return (
+    <Link
+      href={href}
+      className="group bg-slate-900/70 border border-slate-700/60 backdrop-blur-sm rounded-xl p-6 hover:border-sky-500/50 transition-all"
+    >
+      <div className="flex items-center gap-3 mb-4">
+        <div className="text-slate-400">{icon}</div>
+        <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${categoryColor}`}>
+          {category}
+        </span>
+        <span className="text-slate-100 font-semibold">{name}</span>
+      </div>
+
+      {/* Score bar */}
+      <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden mb-4">
+        <div
+          className="h-full bg-gradient-to-r from-sky-400 to-indigo-500 rounded-full transition-all"
+          style={{ width: `${score}%` }}
+        />
+      </div>
+
+      {/* Proof badges */}
+      <div className="flex flex-wrap gap-2">
+        {badges.map((badge) => (
+          <span key={badge} className="px-3 py-1 text-xs border border-slate-600 rounded-full text-slate-300">
+            {badge}
+          </span>
+        ))}
+      </div>
+    </Link>
+  );
+}
+
+// Mini Table Row Component
+interface TableRowProps {
+  wallet: string;
+  score: number;
+  platforms: string;
+  license: string;
+  activity: string;
+}
+
+function MiniTableRow({ wallet, score, platforms, license, activity }: TableRowProps) {
+  return (
+    <tr className="border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors">
+      <td className="py-3 px-4 text-slate-100">{wallet}</td>
+      <td className="py-3 px-4 text-slate-300">{score}</td>
+      <td className="py-3 px-4 text-slate-300">{platforms}</td>
+      <td className="py-3 px-4 text-slate-300">{license}</td>
+      <td className="py-3 px-4 text-slate-300">{activity}</td>
+    </tr>
+  );
+}
+
+// Article Card Component
+interface ArticleCardProps {
+  category: string;
+  title: string;
+  description: string;
+  lastUpdated: string;
+  href: string;
+}
+
+function ArticleCard({ category, title, description, lastUpdated, href }: ArticleCardProps) {
+  return (
+    <Link
+      href={href}
+      className="group bg-slate-900/70 border border-slate-700/60 backdrop-blur-sm rounded-xl p-5 hover:border-sky-500/50 transition-all"
+    >
+      <span className="text-xs font-medium text-sky-400 uppercase tracking-wide mb-2 block">
+        {category}
+      </span>
+      <h3 className="text-lg font-semibold text-slate-100 mb-2 group-hover:text-sky-400 transition-colors line-clamp-2">
+        {title}
+      </h3>
+      <p className="text-sm text-slate-400 line-clamp-2 mb-3">{description}</p>
+      <span className="text-xs text-slate-500">{lastUpdated}</span>
+    </Link>
+  );
+}
+
+// Resource Card Component
+interface ResourceCardProps {
+  title: string;
+  description: string;
+  href: string;
+  icon: React.ReactNode;
+}
+
+function ResourceCard({ title, description, href, icon }: ResourceCardProps) {
+  return (
+    <Link
+      href={href}
+      className="group bg-slate-900/70 border border-slate-700/60 backdrop-blur-sm rounded-xl p-5 hover:border-sky-500/50 transition-all"
+    >
+      <div className="text-sky-400 mb-3">{icon}</div>
+      <h3 className="text-base font-semibold text-slate-100 mb-2 group-hover:text-sky-400 transition-colors">
+        {title}
+      </h3>
+      <p className="text-sm text-slate-400 line-clamp-2">{description}</p>
+    </Link>
+  );
+}
+
+// Source Tile Component
+interface SourceTileProps {
+  name: string;
+  description: string;
+  href: string;
+  icon: React.ReactNode;
+}
+
+function SourceTile({ name, description, href, icon }: SourceTileProps) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="bg-slate-900/70 border border-slate-700/60 backdrop-blur-sm rounded-xl p-4 hover:border-sky-500/50 transition-all"
+    >
+      <div className="text-slate-300 mb-2">{icon}</div>
+      <h3 className="text-sm font-semibold text-slate-100 mb-1">{name}</h3>
+      <p className="text-xs text-slate-400">{description}</p>
+    </a>
+  );
+}
 
 export default function HomePage() {
   const documents = getAllDocuments();
-  const stats = getWalletStats(documents);
-  const articles = getAllArticles().slice(0, 3); // Get first 3 articles for featured section
+  const articles = getAllArticles().slice(0, 3);
 
-  const comparisonDocs = documents.filter(d => d.category === 'comparison');
-  const guideDocs = documents.filter(d => d.category === 'guide' || d.category === 'research');
+  const guideDocs = documents.filter(d => d.category === 'guide' || d.category === 'research').slice(0, 3);
 
   // FAQPage structured data
   const faqSchema = {
@@ -57,112 +226,16 @@ export default function HomePage() {
       },
       {
         '@type': 'Question',
-        name: 'What is the best value hardware wallet?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Trezor Safe 3 offers the best value at $79 with a score of 91. It includes Secure Element (Optiga), fully open source firmware, and active development.',
-        },
-      },
-      {
-        '@type': 'Question',
         name: 'How often is wallet data updated?',
         acceptedAnswer: {
           '@type': 'Answer',
           text: 'Wallet data is regularly refreshed via GitHub API, tracking stars, issues, release frequency, and activity status. Comparison pages are updated weekly, while guides are updated monthly.',
         },
       },
-      {
-        '@type': 'Question',
-        name: 'What security features should I look for in a crypto wallet?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Key security features include: transaction simulation, scam detection alerts, open source code, security audits, Secure Element (for hardware wallets), and active maintenance with regular updates.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Do you compare hardware and software wallets together?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'We maintain separate comparison tables for software wallets and hardware wallets due to their different use cases and evaluation criteria.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'What data sources does Wallet Radar use?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'We use GitHub API for stars, issues, and activity status; WalletBeat for license, device, and security information; Rabby API for chain counts; and Trust Registry for network support data.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'How are wallet scores calculated?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Scores are calculated using a comprehensive methodology that considers security features, GitHub activity, release frequency, developer experience, platform support, and security audits. Full methodology is included in each comparison document.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Are all wallets open source?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'No, not all wallets are open source. We clearly indicate open source status in our comparisons. Hardware wallets like Trezor Safe 5 and Safe 3 feature fully open source firmware, while some software wallets may have proprietary components.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'What is transaction simulation?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Transaction simulation allows you to preview what will happen before signing a transaction, helping prevent mistakes and scams. This is a key security feature found in wallets like Rabby.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Should I use a hardware or software wallet?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Software wallets are better for daily development and frequent transactions. Hardware wallets are essential for long-term storage and large amounts of crypto. Many developers use both: a software wallet for daily use and a hardware wallet for secure storage.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'How do I know if a wallet is actively maintained?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'We track GitHub activity, release frequency, and issue resolution times. Active wallets typically have regular releases (monthly or more frequent), responsive issue handling, and recent commits. Our comparisons include activity status indicators.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Can I contribute to Wallet Radar?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Yes! Wallet Radar is open source. You can contribute via our GitHub repository at github.com/chimera-defi/Etc-mono-repo/tree/main/wallets. We welcome improvements to data accuracy, new wallet additions, and feature suggestions.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'What is the best crypto credit card for personal use?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'EtherFi Cash scores 85 and offers 2-3% cashback with non-custodial self-custody, no annual fee, and is available globally. For US users, Gemini Card (76), Coinbase Card (75), and Fold Card (77) are top options.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'What is the best crypto credit card for business use?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'EtherFi Cash is our top business card recommendation with a score of 85. It offers non-custodial corporate cards with 2-3% cashback and is available globally. Revolut Crypto (76) is also excellent for fiat+crypto business needs.',
-        },
-      },
     ],
   };
 
-  // ItemList schema for Top Picks (editorial selection; no user ratings)
+  // ItemList schema for Top Picks
   const topPicksSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
@@ -178,8 +251,7 @@ export default function HomePage() {
           applicationCategory: 'FinanceApplication',
           operatingSystem: 'Web, Desktop, Mobile',
           url: `${baseUrl}/docs/software-wallets/`,
-          description:
-            'Score: 92 — Transaction simulation, both platforms, active development. Best for Development with approximately 6 releases per month.',
+          description: 'Score: 92 — Transaction simulation, both platforms, active development.',
         },
       },
       {
@@ -189,13 +261,8 @@ export default function HomePage() {
           '@type': 'Product',
           name: 'Trezor Safe 5',
           category: 'Hardware Wallet',
-          brand: {
-            '@type': 'Brand',
-            name: 'Trezor',
-          },
           url: `${baseUrl}/docs/hardware-wallets/`,
-          description:
-            'Score: 92 — Fully open source, Secure Element, active development. Best Hardware Wallet at approximately $169.',
+          description: 'Score: 92 — Fully open source, Secure Element, active development.',
         },
       },
       {
@@ -203,79 +270,10 @@ export default function HomePage() {
         position: 3,
         item: {
           '@type': 'Product',
-          name: 'Trezor Safe 3',
-          category: 'Hardware Wallet',
-          brand: {
-            '@type': 'Brand',
-            name: 'Trezor',
-          },
-          url: `${baseUrl}/docs/hardware-wallets/`,
-          description:
-            'Score: 91 — $79, Secure Element, fully open source firmware. Best Value hardware wallet with active development.',
-        },
-      },
-      {
-        '@type': 'ListItem',
-        position: 4,
-        item: {
-          '@type': 'Product',
-          name: 'EtherFi Cash',
-          category: 'Crypto Credit Card',
-          brand: {
-            '@type': 'Brand',
-            name: 'EtherFi',
-          },
-          url: `${baseUrl}/docs/crypto-cards/`,
-          description:
-            'Score: 85 — 2-3% cashback, non-custodial self-custody, no annual fee. Best Personal crypto card with DeFi-native features.',
-        },
-      },
-      {
-        '@type': 'ListItem',
-        position: 5,
-        item: {
-          '@type': 'Product',
-          name: 'EtherFi Cash',
-          category: 'Crypto Credit Card',
-          brand: {
-            '@type': 'Brand',
-            name: 'EtherFi',
-          },
-          url: `${baseUrl}/docs/crypto-cards/`,
-          description:
-            'Score: 85 — Corporate cards available, non-custodial, 2-3% cashback. Best Business crypto card for DeFi-native companies.',
-        },
-      },
-      {
-        '@type': 'ListItem',
-        position: 6,
-        item: {
-          '@type': 'Product',
           name: 'Transak',
           category: 'Crypto On/Off-Ramp',
-          brand: {
-            '@type': 'Brand',
-            name: 'Transak',
-          },
           url: `${baseUrl}/docs/ramps/`,
-          description:
-            'Score: 92 — React SDK, 160+ countries, excellent developer experience. Best Ramp for Developers with both on-ramp and off-ramp support.',
-        },
-      },
-      {
-        '@type': 'ListItem',
-        position: 7,
-        item: {
-          '@type': 'Product',
-          name: 'onesafe',
-          category: 'Crypto On/Off-Ramp',
-          brand: {
-            '@type': 'Brand',
-            name: 'onesafe',
-          },
-          url: `${baseUrl}/docs/ramps/`,
-          description:
-            'Score: 70 — Enterprise-focused API, custom pricing, select global coverage. Best Business Ramp for enterprise use cases.',
+          description: 'Score: 92 — React SDK, 160+ countries, excellent developer experience.',
         },
       },
     ],
@@ -293,474 +291,291 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(topPicksSchema) }}
       />
-      <div>
-      {/* Disclaimer Banner */}
-      <div className="w-full bg-blue-50 border-b border-blue-200 text-blue-900 px-4 py-3">
-        <div className="container mx-auto flex items-start gap-3">
-          <div className="mt-0.5 flex-shrink-0">
-            <svg className="h-5 w-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-            </svg>
-          </div>
-          <div className="flex-1 text-sm">
-            <p className="font-semibold">📚 Educational Research &amp; Data Only</p>
-            <p>Wallet Radar does NOT provide financial advice, recommend wallets, have login pages, or collect personal information. All data is sourced publicly and linked for independent verification. Completely independent of all wallet providers. <a href="/docs/about" className="underline hover:text-blue-700">Why we&apos;re not phishing</a></p>
-          </div>
-        </div>
-      </div>
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-primary/5 to-background">
-        <div className="container mx-auto px-4 py-16 md:py-24">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
-              Developer-Focused{' '}
-              <span className="text-primary">Crypto Wallet</span>{' '}
-              Comparison
-            </h1>
-            <p className="text-xl text-muted-foreground mb-8">
-              Research and compare crypto wallets with transparent scoring, security data,
-              GitHub activity metrics, and developer experience documentation.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Link
-                href="/docs/software-wallets"
-                className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors"
-              >
-                Software Wallets
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="/docs/hardware-wallets"
-                className="inline-flex items-center gap-2 border border-border px-6 py-3 rounded-lg font-medium hover:bg-muted transition-colors"
-              >
-                Hardware Wallets
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="/docs/crypto-cards"
-                className="inline-flex items-center gap-2 border border-border px-6 py-3 rounded-lg font-medium hover:bg-muted transition-colors"
-              >
-                Crypto Cards
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="/docs/ramps"
-                className="inline-flex items-center gap-2 border border-border px-6 py-3 rounded-lg font-medium hover:bg-muted transition-colors"
-              >
-                Ramps
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+
+      {/* Main container with dark glass background */}
+      <div className="min-h-screen bg-gradient-to-b from-[#0b1020] to-[#111827]">
+
+        {/* Disclaimer Banner */}
+        <div className="w-full bg-sky-900/30 border-b border-sky-800/50 text-sky-100 px-4 py-3">
+          <div className="container mx-auto max-w-7xl flex items-start gap-3">
+            <div className="mt-0.5 flex-shrink-0">
+              <svg className="h-5 w-5 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+              </svg>
             </div>
-            {/* Explore CTA */}
-            <div className="mt-6 pt-6 border-t border-border/50">
-              <Link
-                href="/explore"
-                className="inline-flex items-center gap-2 text-primary hover:underline"
-              >
-                <GitCompare className="h-4 w-4" />
-                Browse documented wallet comparisons with advanced filters
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+            <div className="flex-1 text-sm">
+              <p className="font-semibold">Educational Research &amp; Data Only</p>
+              <p className="text-sky-200/80">No login pages, no wallet connections, no tracking. All data is public and verifiable. <a href="/docs/about" className="underline hover:text-white">Why we&apos;re not phishing</a></p>
             </div>
           </div>
         </div>
-      </section>
 
-      {/* Quick Stats */}
-      <section className="container mx-auto px-4 -mt-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-          <StatsCard
-            label="Software Wallets"
-            value={`${stats.softwareWallets}+`}
-            description="EVM-compatible wallets compared"
-            icon={<Shield className="h-5 w-5" />}
-          />
-          <StatsCard
-            label="Hardware Wallets"
-            value={`${stats.hardwareWallets}+`}
-            description="Cold storage devices reviewed"
-            icon={<Cpu className="h-5 w-5" />}
-          />
-          <StatsCard
-            label="Crypto Cards"
-            value={`${stats.cryptoCards}+`}
-            description="Credit & debit cards compared"
-            icon={<CreditCard className="h-5 w-5" />}
-          />
-          <StatsCard
-            label="Ramps"
-            value={`${stats.ramps}+`}
-            description="On/off-ramp providers compared"
-            icon={<ArrowLeftRight className="h-5 w-5" />}
-          />
-          <StatsCard
-            label="Last Updated"
-            value={stats.lastUpdated.split(',')[0] || 'Dec 2025'}
-            description="Regular data refreshes via GitHub API"
-            icon={<Github className="h-5 w-5" />}
-          />
-        </div>
-      </section>
+        {/* Hero Section */}
+        <section className="container mx-auto max-w-7xl px-4 md:px-6 pt-16 md:pt-20 pb-12 md:pb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            {/* Hero Left - Text Content */}
+            <div>
+              <span className="inline-flex items-center px-3 py-1 text-xs font-medium text-sky-400 border border-sky-500/50 rounded-full mb-6">
+                Evidence-led UI
+              </span>
 
-      {/* Most Actively Developed Wallets Section */}
-      <section className="container mx-auto px-4 py-16">
-        <h2 className="text-2xl font-bold mb-8">Most Actively Developed Wallets</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Software Wallet Pick */}
-          <div className="p-6 rounded-lg border border-green-200 dark:border-green-900 bg-green-50 dark:bg-green-950/30">
-            <div className="flex items-center gap-2 mb-3">
-              <CheckCircle className="h-5 w-5 text-green-600" />
-              <span className="text-sm font-medium text-green-600">Highest Development Activity</span>
-            </div>
-            <h3 className="font-bold text-xl mb-2">
-              <Link href="/wallets/software/rabby-wallet" className="hover:underline">
-                Rabby Wallet
-              </Link>
-            </h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Score: 92 — Transaction simulation, transaction preview, scam alerts, ~6 releases/month
-            </p>
-            <div className="text-xs text-muted-foreground">
-              ✅ Tx Simulation • ✅ Scam Alerts • ~6 releases/month
-            </div>
-          </div>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-100 mb-4 leading-tight">
+                <span className="text-sky-400">Audit-grade</span> wallet comparisons for developers
+              </h1>
 
-          {/* Hardware Wallet Pick */}
-          <div className="p-6 rounded-lg border border-blue-200 dark:border-blue-900 bg-blue-50 dark:bg-blue-950/30">
-            <div className="flex items-center gap-2 mb-3">
-              <Shield className="h-5 w-5 text-blue-600" />
-              <span className="text-sm font-medium text-blue-600">Most Recent Open Source</span>
-            </div>
-            <h3 className="font-bold text-xl mb-2">
-              <Link href="/wallets/hardware/trezor-safe-5" className="hover:underline">
-                Trezor Safe 5
-              </Link>
-            </h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Score: 92 — Fully open source firmware, Secure Element chip, recent commits
-            </p>
-            <div className="text-xs text-muted-foreground">
-              ✅ Open Source • ✅ Optiga SE • ~$169
-            </div>
-          </div>
-
-          {/* Budget-Friendly Hardware Pick */}
-          <div className="p-6 rounded-lg border border-purple-200 dark:border-purple-900 bg-purple-50 dark:bg-purple-950/30">
-            <div className="flex items-center gap-2 mb-3">
-              <Zap className="h-5 w-5 text-purple-600" />
-              <span className="text-sm font-medium text-purple-600">Budget-Friendly Hardware</span>
-            </div>
-            <h3 className="font-bold text-xl mb-2">
-              <Link href="/wallets/hardware/trezor-safe-3" className="hover:underline">
-                Trezor Safe 3
-              </Link>
-            </h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Score: 91 — Approximately $79, fully open source, Secure Element chip
-            </p>
-            <div className="text-xs text-muted-foreground">
-              ✅ Budget-Friendly • ✅ Optiga SE • ✅ Active
-            </div>
-          </div>
-
-          {/* Non-Custodial Crypto Card */}
-          <div className="p-6 rounded-lg border border-orange-200 dark:border-orange-900 bg-orange-50 dark:bg-orange-950/30">
-            <div className="flex items-center gap-2 mb-3">
-              <CreditCard className="h-5 w-5 text-orange-600" />
-              <span className="text-sm font-medium text-orange-600">Non-Custodial Card</span>
-            </div>
-            <h3 className="font-bold text-xl mb-2">
-              <Link href="/wallets/cards/etherfi-cash" className="hover:underline">
-                EtherFi Cash
-              </Link>
-            </h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Score: 85 — Self-custody control, 2-3% cashback rewards, no annual fee
-            </p>
-            <div className="text-xs text-muted-foreground">
-              ✅ Self-Custody • ✅ Global • ✅ DeFi-Native
-            </div>
-          </div>
-
-          {/* Enterprise-Grade Crypto Card */}
-          <div className="p-6 rounded-lg border border-amber-200 dark:border-amber-900 bg-amber-50 dark:bg-amber-950/30">
-            <div className="flex items-center gap-2 mb-3">
-              <CreditCard className="h-5 w-5 text-amber-600" />
-              <span className="text-sm font-medium text-amber-600">Enterprise-Grade Card</span>
-            </div>
-            <h3 className="font-bold text-xl mb-2">
-              <Link href="/wallets/cards/etherfi-cash" className="hover:underline">
-                EtherFi Cash
-              </Link>
-            </h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Score: 85 — Corporate support, self-custody control, 2-3% rewards globally
-            </p>
-            <div className="text-xs text-muted-foreground">
-              ✅ Business-Focused • ✅ Self-Custody • ✅ Global
-            </div>
-          </div>
-
-          {/* Most Developer-Friendly Ramp */}
-          <div className="p-6 rounded-lg border border-cyan-200 dark:border-cyan-900 bg-cyan-50 dark:bg-cyan-950/30">
-            <div className="flex items-center gap-2 mb-3">
-              <ArrowLeftRight className="h-5 w-5 text-cyan-600" />
-              <span className="text-sm font-medium text-cyan-600">Developer-Friendly Ramp</span>
-            </div>
-            <h3 className="font-bold text-xl mb-2">
-              <Link href="/wallets/ramps/transak" className="hover:underline">
-                Transak
-              </Link>
-            </h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Score: 92 — React SDK integration, 160+ countries support, on/off ramp
-            </p>
-            <div className="text-xs text-muted-foreground">
-              ✅ React SDK • ✅ 160+ Countries • ✅ Both On/Off-Ramp
-            </div>
-          </div>
-
-          {/* Enterprise Ramp Solution */}
-          <div className="p-6 rounded-lg border border-teal-200 dark:border-teal-900 bg-teal-50 dark:bg-teal-950/30">
-            <div className="flex items-center gap-2 mb-3">
-              <ArrowLeftRight className="h-5 w-5 text-teal-600" />
-              <span className="text-sm font-medium text-teal-600">Enterprise Solution</span>
-            </div>
-            <h3 className="font-bold text-xl mb-2">
-              <Link href="/wallets/ramps/onesafe" className="hover:underline">
-                onesafe
-              </Link>
-            </h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Score: 70 — Enterprise API, custom configurations, dedicated support
-            </p>
-            <div className="text-xs text-muted-foreground">
-              ✅ Enterprise API • ✅ Custom Pricing • ✅ Both On/Off-Ramp
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Explore & Compare Feature */}
-      <section className="container mx-auto px-4 py-16 border-t border-border">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-2xl font-bold mb-4">Advanced Wallet Explorer</h2>
-          <p className="text-muted-foreground mb-8">
-            Filter, sort, and compare wallets side-by-side with our interactive comparison tool.
-            Find the perfect wallet based on your specific needs.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="p-6 rounded-lg border border-border">
-              <SlidersHorizontal className="h-8 w-8 text-primary mb-3 mx-auto" />
-              <h3 className="font-semibold mb-2">Advanced Filters</h3>
-              <p className="text-sm text-muted-foreground">
-                Filter by platforms, features, license, funding, and more
+              <p className="text-lg text-slate-400 mb-8 max-w-xl">
+                Evidence-led scoring, transparent sources, and side-by-side tooling.
               </p>
+
+              <div className="flex flex-wrap gap-4">
+                <Link
+                  href="/explore"
+                  className="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-400 text-slate-900 font-medium px-6 py-3 rounded-lg transition-colors"
+                >
+                  Start Comparison
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link
+                  href="/docs/methodology"
+                  className="inline-flex items-center gap-2 border border-slate-600 hover:border-slate-500 text-slate-200 font-medium px-6 py-3 rounded-lg transition-colors"
+                >
+                  Read Methodology
+                </Link>
+              </div>
             </div>
-            <div className="p-6 rounded-lg border border-border">
-              <GitCompare className="h-8 w-8 text-primary mb-3 mx-auto" />
-              <h3 className="font-semibold mb-2">Side-by-Side Compare</h3>
-              <p className="text-sm text-muted-foreground">
-                Compare up to 4 wallets with detailed feature breakdown
-              </p>
-            </div>
-            <div className="p-6 rounded-lg border border-border">
-              <Zap className="h-8 w-8 text-primary mb-3 mx-auto" />
-              <h3 className="font-semibold mb-2">Live Chain Data</h3>
-              <p className="text-sm text-muted-foreground">
-                Real-time TVL data from DeFiLlama for chain coverage
-              </p>
+
+            {/* Hero Right - Score Breakdown Card */}
+            <div className="lg:justify-self-end w-full lg:max-w-md">
+              <ScoreBreakdownCard />
             </div>
           </div>
-          <Link
-            href="/explore"
-            className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors"
-          >
-            <GitCompare className="h-5 w-5" />
-            Explore & Compare Wallets
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-      </section>
+        </section>
 
-      {/* Featured Articles */}
-      <section className="container mx-auto px-4 py-16 border-t border-border">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl font-bold">Latest Articles</h2>
-          <Link
-            href="/articles"
-            className="text-sm text-primary hover:underline flex items-center gap-1"
-          >
-            View all articles
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {articles.map((article) => (
+        {/* Trust / Proof Band */}
+        <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
+          <div className="bg-slate-900/50 border border-slate-700/40 rounded-xl px-6 py-4">
+            <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 text-sm text-slate-400">
+              <span className="flex items-center gap-2">
+                <Lock className="h-4 w-4 text-slate-500" />
+                No login
+              </span>
+              <span className="hidden md:inline text-slate-700">/</span>
+              <span className="flex items-center gap-2">
+                <Eye className="h-4 w-4 text-slate-500" />
+                No tracking
+              </span>
+              <span className="hidden md:inline text-slate-700">/</span>
+              <span className="flex items-center gap-2">
+                <UserX className="h-4 w-4 text-slate-500" />
+                No affiliates
+              </span>
+              <span className="hidden md:inline text-slate-700">/</span>
+              <span className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-slate-500" />
+                Verified sources
+              </span>
+            </div>
+          </div>
+        </section>
+
+        {/* Top Picks Section */}
+        <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
+          <h2 className="text-2xl font-bold text-slate-100 mb-6">Top Picks + Evidence</h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <TopPickCard
+              category="Software"
+              name="Rabby Wallet"
+              score={92}
+              badges={['6 releases', 'Tx Sim', 'Open']}
+              href="/docs/software-wallets"
+              icon={<GitCompare className="h-5 w-5" />}
+              categoryColor="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
+            />
+            <TopPickCard
+              category="Hardware"
+              name="Trezor Safe 5"
+              score={92}
+              badges={['Secure', 'Open', 'Active']}
+              href="/docs/hardware-wallets"
+              icon={<Shield className="h-5 w-5" />}
+              categoryColor="bg-sky-500/20 text-sky-400 border border-sky-500/30"
+            />
+            <TopPickCard
+              category="Ramps"
+              name="Transak"
+              score={92}
+              badges={['Dev UX', '160+', 'API']}
+              href="/docs/ramps"
+              icon={<ArrowLeftRight className="h-5 w-5" />}
+              categoryColor="bg-amber-500/20 text-amber-400 border border-amber-500/30"
+            />
+          </div>
+        </section>
+
+        {/* Comparison Preview (Mini Table) */}
+        <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-slate-100">Comparison Preview</h2>
             <Link
-              key={article.slug}
-              href={`/articles/${article.slug}`}
-              className="group p-6 rounded-lg border border-border hover:border-primary transition-colors"
+              href="/explore"
+              className="inline-flex items-center gap-2 border border-slate-600 hover:border-sky-500 text-slate-200 hover:text-sky-400 text-sm font-medium px-4 py-2 rounded-lg transition-colors"
             >
-              <div className="flex items-center gap-2 mb-3">
-                <FileText className="h-5 w-5 text-primary" />
-                <span className="text-xs font-medium text-muted-foreground uppercase">
-                  {article.category}
-                </span>
-              </div>
-              <h3 className="font-bold text-lg mb-2 group-hover:text-primary transition-colors">
-                {article.title}
-              </h3>
-              <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
-                {article.description}
-              </p>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <span>{article.lastUpdated}</span>
-                {article.wallets && article.wallets.length > 0 && (
-                  <>
-                    <span>•</span>
-                    <span>{article.wallets.join(', ')}</span>
-                  </>
-                )}
-              </div>
+              Open Explorer
+              <ArrowRight className="h-4 w-4" />
             </Link>
-          ))}
-        </div>
-      </section>
+          </div>
 
-      {/* Main Comparisons */}
-      <section className="container mx-auto px-4 py-16 border-t border-border">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl font-bold">Wallet Comparisons</h2>
-          <span className="text-sm text-muted-foreground">Full scoring methodology included</span>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {comparisonDocs.map((doc) => (
-            <WalletCard key={doc.slug} document={doc} />
-          ))}
-        </div>
-      </section>
-
-      {/* Research & Guides */}
-      <section className="container mx-auto px-4 py-16 border-t border-border">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl font-bold">Resources & Guides</h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {guideDocs.map((doc) => (
-            <WalletCard key={doc.slug} document={doc} />
-          ))}
-        </div>
-      </section>
-
-      {/* Browse by Feature - Internal Links for SEO */}
-      <FeaturedCategoryLinks />
-
-      {/* Trust & Transparency Section */}
-      <section className="container mx-auto px-4 py-16 border-t border-border">
-        <div className="max-w-3xl">
-          <h2 className="text-2xl font-bold mb-8">Why We&apos;re Not Phishing</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-3">
-              <div className="flex gap-3">
-                <div className="flex-shrink-0 text-primary">✅</div>
-                <div>
-                  <p className="font-semibold text-sm">Never ask for passwords</p>
-                  <p className="text-sm text-muted-foreground">No login page, no wallet connection, no key requests</p>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <div className="flex-shrink-0 text-primary">✅</div>
-                <div>
-                  <p className="font-semibold text-sm">No personal data collection</p>
-                  <p className="text-sm text-muted-foreground">No registration, no email required, no user tracking</p>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <div className="flex-shrink-0 text-primary">✅</div>
-                <div>
-                  <p className="font-semibold text-sm">Transparent data sources</p>
-                  <p className="text-sm text-muted-foreground">All links and data sources verified and documented</p>
-                </div>
-              </div>
-            </div>
-            <div className="space-y-3">
-              <div className="flex gap-3">
-                <div className="flex-shrink-0 text-primary">✅</div>
-                <div>
-                  <p className="font-semibold text-sm">Open source code</p>
-                  <p className="text-sm text-muted-foreground">View and audit our code on GitHub</p>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <div className="flex-shrink-0 text-primary">✅</div>
-                <div>
-                  <p className="font-semibold text-sm">Published methodology</p>
-                  <p className="text-sm text-muted-foreground">All scoring formulas documented and reproducible</p>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <div className="flex-shrink-0 text-primary">✅</div>
-                <div>
-                  <p className="font-semibold text-sm">No affiliate links</p>
-                  <p className="text-sm text-muted-foreground">We don&apos;t profit from wallet recommendations</p>
-                </div>
-              </div>
+          <div className="bg-slate-900/70 border border-slate-700/60 backdrop-blur-sm rounded-xl overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-slate-800/50 border-b border-slate-700/50">
+                  <tr>
+                    <th className="py-3 px-4 text-left text-sm font-semibold text-slate-300">Wallet</th>
+                    <th className="py-3 px-4 text-left text-sm font-semibold text-slate-300">Score</th>
+                    <th className="py-3 px-4 text-left text-sm font-semibold text-slate-300">Platforms</th>
+                    <th className="py-3 px-4 text-left text-sm font-semibold text-slate-300">License</th>
+                    <th className="py-3 px-4 text-left text-sm font-semibold text-slate-300">Activity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <MiniTableRow
+                    wallet="Rabby Wallet"
+                    score={92}
+                    platforms="Desktop, Mobile"
+                    license="Open Source"
+                    activity="Active"
+                  />
+                  <MiniTableRow
+                    wallet="Trezor Safe 5"
+                    score={92}
+                    platforms="Hardware"
+                    license="Open Source"
+                    activity="Active"
+                  />
+                  <MiniTableRow
+                    wallet="Transak"
+                    score={92}
+                    platforms="API, SDK"
+                    license="Commercial"
+                    activity="Active"
+                  />
+                </tbody>
+              </table>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Data Sources */}
-      <section className="container mx-auto px-4 py-16 border-t border-border">
-        <h2 className="text-2xl font-bold mb-4">Data Sources</h2>
-        <p className="text-sm text-muted-foreground mb-8">
-          All links below are to official, verified sources. We do NOT use shortened URLs, redirects, or referral links.
-          <a href="/docs/data-sources" className="text-primary hover:underline ml-1">View our data verification process</a>
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <a
-            href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets?utm_source=walletradar&utm_medium=comparison"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-4 rounded-lg border border-border hover:border-primary/50 transition-colors"
-          >
-            <Github className="h-6 w-6 mb-2" />
-            <h3 className="font-semibold">GitHub API</h3>
-            <p className="text-sm text-muted-foreground">Stars, issues, activity status</p>
-          </a>
-          <a
-            href="https://walletbeat.fyi?utm_source=walletradar&utm_medium=comparison"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-4 rounded-lg border border-border hover:border-primary/50 transition-colors"
-          >
-            <BookOpen className="h-6 w-6 mb-2" />
-            <h3 className="font-semibold">WalletBeat</h3>
-            <p className="text-sm text-muted-foreground">License, devices, security</p>
-          </a>
-          <a
-            href="https://api.rabby.io/v1/chain/list"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-4 rounded-lg border border-border hover:border-primary/50 transition-colors"
-          >
-            <Shield className="h-6 w-6 mb-2" />
-            <h3 className="font-semibold">Rabby API</h3>
-            <p className="text-sm text-muted-foreground">Chain counts</p>
-          </a>
-          <a
-            href="https://github.com/trustwallet/wallet-core?utm_source=walletradar&utm_medium=comparison"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-4 rounded-lg border border-border hover:border-primary/50 transition-colors"
-          >
-            <Cpu className="h-6 w-6 mb-2" />
-            <h3 className="font-semibold">Trust Registry</h3>
-            <p className="text-sm text-muted-foreground">Network support</p>
-          </a>
-        </div>
-      </section>
+        {/* Latest Articles */}
+        <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-slate-100">Latest Articles</h2>
+            <Link
+              href="/articles"
+              className="inline-flex items-center gap-1 text-sm text-sky-400 hover:text-sky-300 transition-colors"
+            >
+              View all
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {articles.map((article) => (
+              <ArticleCard
+                key={article.slug}
+                category={article.category}
+                title={article.title}
+                description={article.description}
+                lastUpdated={article.lastUpdated}
+                href={`/articles/${article.slug}`}
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* Resources & Guides */}
+        <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-slate-100">Resources &amp; Guides</h2>
+            <Link
+              href="/docs"
+              className="inline-flex items-center gap-1 text-sm text-sky-400 hover:text-sky-300 transition-colors"
+            >
+              View all
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {guideDocs.length > 0 ? (
+              guideDocs.map((doc) => (
+                <ResourceCard
+                  key={doc.slug}
+                  title={doc.title}
+                  description={doc.description}
+                  href={`/docs/${doc.slug}`}
+                  icon={<BookOpen className="h-6 w-6" />}
+                />
+              ))
+            ) : (
+              <>
+                <ResourceCard
+                  title="Scoring Methodology"
+                  description="Learn how we evaluate and score wallets based on security, developer experience, and more."
+                  href="/docs/methodology"
+                  icon={<FileText className="h-6 w-6" />}
+                />
+                <ResourceCard
+                  title="Data Sources"
+                  description="Transparency about where our data comes from and how we verify it."
+                  href="/docs/data-sources"
+                  icon={<Database className="h-6 w-6" />}
+                />
+                <ResourceCard
+                  title="Security Guide"
+                  description="Best practices for choosing and using crypto wallets securely."
+                  href="/docs/security-guide"
+                  icon={<Shield className="h-6 w-6" />}
+                />
+              </>
+            )}
+          </div>
+        </section>
+
+        {/* Sources & Transparency */}
+        <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-16 md:pb-20">
+          <h2 className="text-2xl font-bold text-slate-100 mb-2">Sources &amp; Transparency</h2>
+          <p className="text-sm text-slate-400 mb-6">
+            All links are to official, verified sources. No shortened URLs or referral links.
+          </p>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <SourceTile
+              name="GitHub API"
+              description="Stars, issues, activity status"
+              href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets"
+              icon={<Github className="h-5 w-5" />}
+            />
+            <SourceTile
+              name="WalletBeat"
+              description="License, devices, security"
+              href="https://walletbeat.fyi"
+              icon={<BookOpen className="h-5 w-5" />}
+            />
+            <SourceTile
+              name="Rabby API"
+              description="Chain counts"
+              href="https://api.rabby.io/v1/chain/list"
+              icon={<Shield className="h-5 w-5" />}
+            />
+            <SourceTile
+              name="Trust Registry"
+              description="Network support"
+              href="https://github.com/trustwallet/wallet-core"
+              icon={<Cpu className="h-5 w-5" />}
+            />
+          </div>
+        </section>
       </div>
     </>
   );
