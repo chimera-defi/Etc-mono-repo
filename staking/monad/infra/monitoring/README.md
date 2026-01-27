@@ -26,4 +26,4 @@ sudo docker compose up -d
 - Lock down ports with firewall rules (allow only admin IPs).
 - Replace default Grafana credentials immediately.
 - Add validator‑specific dashboards and scrape targets as needed.
-- Consider a dedicated volume for Loki storage in production.
+- Loki data lives under `monitoring/loki-data/` by default; move to a dedicated volume in production.

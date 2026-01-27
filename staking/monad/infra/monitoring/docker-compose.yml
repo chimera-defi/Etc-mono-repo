@@ -26,9 +26,11 @@ services:
     image: grafana/loki:latest
     container_name: monad-loki
     restart: unless-stopped
+    user: "0"
     command: -config.file=/etc/loki/config.yml
     volumes:
       - ./loki-config.yml:/etc/loki/config.yml:ro
+      - ./loki-data:/var/loki
     ports:
       - "3100:3100"
 
