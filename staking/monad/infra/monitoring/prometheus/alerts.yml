@@ -1,0 +1,29 @@
+groups:
+  - name: node-alerts
+    rules:
+      - alert: NodeExporterDown
+        expr: up{job="node"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Node exporter down"
+          description: "Node exporter is not reachable for more than 2 minutes."
+
+      - alert: HighCPU
+        expr: 100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 85
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage"
+          description: "CPU usage is above 85% for 10 minutes."
+
+      - alert: HighDiskUsage
+        expr: (node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"} / node_filesystem_size_bytes{fstype!~"tmpfs|overlay"}) * 100 < 15
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Low disk space"
+          description: "Disk free space is below 15% for 15 minutes."

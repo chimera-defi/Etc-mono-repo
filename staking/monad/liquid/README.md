@@ -17,7 +17,7 @@ This project defines a liquid staking offering that runs on top of our validator
 ## Dependencies
 
 - Monad validator stack: `staking/monad/`
-- Status JSON: `/status` endpoint from `staking/monad/scripts/status_server.py`
+- Status JSON: `/status` endpoint from `staking/monad/infra/scripts/status_server.py`
 
 ## Next Steps
 

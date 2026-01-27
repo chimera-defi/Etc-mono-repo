@@ -436,11 +436,13 @@ The liquid staking market has matured significantly with over **$66 billion lock
 | **Rocket Pool** | ETH | 0.01 ETH | 3-4% | 5-20% | Highest | Medium | Decentralization purists |
 | **StakeWise** | ETH | 0 ETH | ~3% | 10% | High | Medium | Non-custodial focus |
 | **Frax Ether** | ETH | 0 ETH | Variable | 10% | Medium | Medium | Frax ecosystem users |
-| **Swell** | ETH | Variable | Variable | TBD | Medium | Growing | Restaking + points farmers |
-| **Etherfi** | ETH (via EigenLayer) | Variable | Base + restaking | TBD | Medium | Medium | Maximum yield seekers |
+| **Swell** | ETH | Variable | Variable | Varies | Medium | Growing | Restaking + points farmers |
+| **Etherfi** | ETH (via EigenLayer) | Variable | Base + restaking | Varies | Medium | Medium | Maximum yield seekers |
 | **Jito** | Solana | Variable | ~7%+ | Variable | Medium | High | Solana ecosystem |
 | **Marinade** | Solana | Variable | ~7%+ | Variable | High | Highest on SOL | Solana DeFi |
 | **Ankr** | Multi-chain | Variable | Chain-specific | Variable | Medium | Medium | Multi-chain diversification |
+
+Note: Swell and Etherfi do not publish a single fixed fee across all products; verify current fee terms in their official docs before relying on this table.
 
 ---
 

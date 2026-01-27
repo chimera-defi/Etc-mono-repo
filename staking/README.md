@@ -31,6 +31,11 @@ staking/
 └── research/                              # General staking research
     ├── liquid-staking-landscape-2025.md   # Market research
     └── OPPORTUNITIES.md                   # Priority-ranked opportunities
+└── monad/                                 # Monad validator infra + liquid staking
+    ├── README.md                          # Monad infra entrypoint
+    ├── RUNBOOK.md                         # Ops runbook
+    ├── DEPLOY_CHECKLIST.md                # Production checklist
+    └── liquid/                            # Liquid staking skeleton
 ```
 
 ## Purpose
@@ -68,6 +73,10 @@ Comprehensive analysis of the current liquid staking ecosystem including:
 - Competitive analysis matrix
 
 ### [Opportunities](./research/OPPORTUNITIES.md)
+
+### [Monad Validator Infra](./monad/README.md)
+
+Validator ops scripts, runbook, and deployment checklist for Monad.
 
 Priority-ranked list of market opportunities with actionable next steps:
 - **Tier 1:** Aztec liquid staking, Bitcoin staking, Institutional infrastructure

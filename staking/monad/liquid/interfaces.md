@@ -2,7 +2,7 @@
 
 ## Status JSON
 
-Source: `staking/monad/scripts/status_server.py`
+Source: `staking/monad/infra/scripts/status_server.py`
 
 Fields:
 - `status` (ok | degraded)
