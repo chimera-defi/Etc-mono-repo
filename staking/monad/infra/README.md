@@ -46,6 +46,8 @@ MONAD_CONFIG_SRC=/path/to/config.toml \
 ./scripts/setup_server.sh
 ```
 
+Full guide: `SETUP.md` (end‑to‑end host setup + monitoring).
+
 ## Ops TODO
 
 - Set `RPC_URL` in `/etc/monad/status.env` and enable `monad-status.service`.
@@ -107,6 +109,8 @@ MONAD_CONFIG_SRC=/path/to/config.toml \
   - MVP runbook for start, checks, and rollback.
 - `DEPLOY_CHECKLIST.md`
   - One-page production checklist.
+- `SETUP.md`
+  - Full end‑to‑end setup guide.
 - `IDEAS.md`
   - Future hardening + SaaS expansion ideas.
 - `watchers/README.md`

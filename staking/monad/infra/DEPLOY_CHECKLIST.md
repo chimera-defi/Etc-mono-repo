@@ -16,6 +16,7 @@
 - [ ] Install status server: `staking/monad/infra/scripts/install_status_service.sh`.
 - [ ] (Optional) Run all setup steps: `staking/monad/infra/scripts/setup_server.sh`.
 - [ ] (Optional) Install firewall rules: `staking/monad/infra/scripts/install_firewall_ufw.sh`.
+- [ ] (Optional) Monitoring stack: `staking/monad/infra/monitoring/README.md`.
 
 ## Configure
 
@@ -31,6 +32,7 @@
 - [ ] `staking/monad/infra/scripts/e2e_smoke_test.sh` passes.
 - [ ] `staking/monad/infra/scripts/preflight_check.sh` passes.
 - [ ] (Optional) Monitoring stack up: `staking/monad/infra/monitoring/` (Prometheus/Grafana/Loki).
+- [ ] (Optional) Full setup guide followed: `staking/monad/infra/SETUP.md`.
 
 ## Network Hardening
 
