@@ -117,8 +117,11 @@ RPC_URL=http://localhost:8080 ./scripts/status_server.py
 ./scripts/run_local_devnet.sh ~/monad-bft
 ./scripts/check_prereqs.sh
 sudo ./scripts/install_sysctl.sh
+sudo ./scripts/create_monad_user.sh
 sudo ./scripts/install_systemd_unit.sh
 sudo ./scripts/install_status_service.sh
+sudo ./scripts/install_validator_binary.sh /path/to/monad-bft /path/to/config.toml
+sudo ./scripts/install_firewall_ufw.sh
 ./scripts/e2e_smoke_test.sh
 ```
 

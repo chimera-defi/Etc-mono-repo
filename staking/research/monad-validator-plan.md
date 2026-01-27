@@ -284,10 +284,13 @@ flowchart TD
    - `staking/monad/infra/scripts/check_prereqs.sh`
    - `staking/monad/infra/scripts/install_sysctl.sh`
    - `staking/monad/infra/scripts/install_systemd_unit.sh`
+   - `staking/monad/infra/scripts/create_monad_user.sh`
    - `staking/monad/infra/scripts/install_status_service.sh`
    - `staking/monad/infra/scripts/install_validator_service.sh`
+   - `staking/monad/infra/scripts/install_validator_binary.sh`
    - `staking/monad/infra/scripts/preflight_check.sh`
    - `staking/monad/infra/scripts/install_caddy.sh`
+   - `staking/monad/infra/scripts/install_firewall_ufw.sh`
    - `staking/monad/infra/scripts/setup_server.sh`
    - `staking/monad/infra/scripts/e2e_smoke_test.sh`
    - `staking/monad/infra/RUNBOOK.md`
