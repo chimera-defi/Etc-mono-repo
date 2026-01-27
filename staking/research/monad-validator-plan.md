@@ -49,6 +49,10 @@ flowchart TD
    - Config: `~/.monad/` or `/etc/monad/` (choose one, stay consistent).
    - Logs: `/var/log/monad/`.
 
+### 1.1.2 Canonical Paths
+
+- Infra assets live under `staking/monad/infra/` (single source of truth).
+
 ### 1.1.1 Quickstart (Runnable MVP)
 
 1) **Install deps**
@@ -57,9 +61,9 @@ flowchart TD
 2) **Run local devnet**
    - `monad-bft/docker/single-node/nets/run.sh --use-prebuilt`
 3) **Wire status**
-   - `RPC_URL=http://localhost:8080 staking/monad/scripts/status_server.py`
+   - `RPC_URL=http://localhost:8080 staking/monad/infra/scripts/status_server.py`
 4) **Verify**
-   - `staking/monad/scripts/e2e_smoke_test.sh`
+   - `staking/monad/infra/scripts/e2e_smoke_test.sh`
 
 ### 1.2 Add a Second Node (Geo Diversity)
 
@@ -216,6 +220,8 @@ flowchart TD
    - Central log search.
 3) **Alert channels**
    - Telegram + Discord + email routing.
+4) **MVP stack in repo**
+   - `staking/monad/infra/monitoring/` (docker compose, Prometheus, Grafana, Loki, Promtail).
 
 ## 2.6 Testnet Deploy Requirements (Technical)
 
@@ -232,6 +238,17 @@ flowchart TD
 3) **Testnet bootstrap**
    - Genesis/config pulled from official source in [Node Ops](https://docs.monad.xyz/node-ops/).
    - Network details from [Testnets](https://docs.monad.xyz/developer-essentials/testnets) and [Network Info](https://docs.monad.xyz/developer-essentials/network-information).
+   - After full node sync, register via `addValidator` with `MIN_VALIDATE_STAKE = 100,000 MON` per [Validator Installation](https://docs.monad.xyz/node-ops/validator-installation).
+   - **Testnet chain IDs**
+     - Testnet: `10143`
+     - Tempnet: `20143` (RPC/Faucet via developer Discord form)
+   - **Testnet RPC endpoints (public, rate‑limited)**
+     - https://testnet-rpc.monad.xyz (wss: `wss://testnet-rpc.monad.xyz`)
+     - https://rpc-testnet.monadinfra.com (wss: `wss://rpc-testnet.monadinfra.com`)
+     - https://rpc.ankr.com/monad_testnet (Ankr; debug_* disabled)
+   - **Mainnet reference (for later)**
+     - Chain ID: `143`
+     - Public RPC endpoints: https://rpc.monad.xyz, https://rpc1.monad.xyz, https://rpc3.monad.xyz, https://rpc-mainnet.monadinfra.com
 4) **Post‑deploy verification**
    - Node synced within expected window.
    - RPC responds consistently under light polling.
@@ -240,15 +257,14 @@ flowchart TD
 ## 2.7 Validator Exit Process (Current Docs)
 
 1) **Exit trigger**
-   - Operator‑initiated exit request (no explicit “validator exit” doc found; use staking flows).
+   - Operator‑initiated exit request via staking flows (official off‑boarding path).
 2) **Exit phases**
-   - Undelegate stake → wait for withdrawal delay → withdraw (per staking behavior).
+   - Undelegate stake → wait for withdrawal delay → withdraw (per [staking precompile](https://docs.monad.xyz/developer-essentials/staking/staking-precompile) and [staking behavior](https://docs.monad.xyz/developer-essentials/staking/staking-behavior)).
 3) **Operational requirement**
    - Keep the node online until exit finalizes (avoid penalties).
 4) **Action items**
-   - Use undelegate/withdraw flows in [staking-sdk-cli](https://github.com/monad-developers/staking-sdk-cli) once exact validator exit docs are confirmed.
+   - Use `undelegate`/`withdraw` flows in [staking-sdk-cli](https://github.com/monad-developers/staking-sdk-cli).
     - Current staking behavior shows `WITHDRAWAL_DELAY = 1 epoch` for withdrawals after unstake per [staking behavior](https://docs.monad.xyz/developer-essentials/staking/staking-behavior).
-    - Record exact exit command + expected time window once validator‑specific exit docs are confirmed.
    - Define “safe to stop” criteria in the runbook.
 
 ## 2.8 Automation (Scripts + Watchers)
@@ -262,21 +278,33 @@ flowchart TD
 3) **Rule**
    - Keep scripts minimal; do not automate irreversible actions without manual confirmation.
 4) **MVP helpers (in repo)**
-   - `staking/monad/scripts/check_rpc.sh`
-   - `staking/monad/scripts/uptime_probe.sh`
-   - `staking/monad/scripts/status_server.py`
-   - `staking/monad/scripts/collect_node_info.sh`
-   - `staking/monad/scripts/run_local_devnet.sh`
-   - `staking/monad/scripts/check_prereqs.sh`
-   - `staking/monad/scripts/install_sysctl.sh`
-   - `staking/monad/scripts/install_systemd_unit.sh`
-   - `staking/monad/scripts/install_status_service.sh`
-   - `staking/monad/scripts/install_validator_service.sh`
-   - `staking/monad/scripts/preflight_check.sh`
-   - `staking/monad/scripts/install_caddy.sh`
-   - `staking/monad/scripts/e2e_smoke_test.sh`
-   - `staking/monad/RUNBOOK.md`
-   - `staking/monad/DEPLOY_CHECKLIST.md`
+   - `staking/monad/infra/scripts/check_rpc.sh`
+   - `staking/monad/infra/scripts/uptime_probe.sh`
+   - `staking/monad/infra/scripts/status_server.py`
+   - `staking/monad/infra/scripts/collect_node_info.sh`
+   - `staking/monad/infra/scripts/run_local_devnet.sh`
+   - `staking/monad/infra/scripts/check_prereqs.sh`
+   - `staking/monad/infra/scripts/install_sysctl.sh`
+   - `staking/monad/infra/scripts/install_systemd_unit.sh`
+   - `staking/monad/infra/scripts/create_monad_user.sh`
+   - `staking/monad/infra/scripts/install_status_service.sh`
+   - `staking/monad/infra/scripts/install_validator_service.sh`
+   - `staking/monad/infra/scripts/install_validator_binary.sh`
+   - `staking/monad/infra/scripts/preflight_check.sh`
+   - `staking/monad/infra/scripts/install_caddy.sh`
+   - `staking/monad/infra/scripts/install_firewall_ufw.sh`
+   - `staking/monad/infra/scripts/setup_server.sh`
+   - `staking/monad/infra/SETUP.md`
+   - `staking/monad/infra/scripts/bootstrap_all.sh`
+   - `staking/monad/infra/scripts/harden_ssh.sh`
+   - `staking/monad/infra/scripts/install_fail2ban.sh`
+   - `staking/monad/infra/scripts/enable_unattended_upgrades.sh`
+   - `staking/monad/infra/scripts/backup_monad_config.sh`
+   - `staking/monad/infra/scripts/e2e_smoke_test.sh`
+   - `staking/monad/infra/RUNBOOK.md`
+   - `staking/monad/infra/DEPLOY_CHECKLIST.md`
+   - `staking/monad/infra/config/README.md`
+   - `staking/monad/infra/watchers/README.md`
 
 ### 2.8.2 Chain State Watchers
 
@@ -289,13 +317,13 @@ flowchart TD
 
 ## 3. Spec Additions (Keep This Tight)
 
-### 3.1 VDP Rules (Must Confirm)
+### 3.1 VDP Rules (Docs‑Confirmed)
 
 1) **Uptime threshold**: 98% weekly minimum per [VDP guidelines](https://docs.monad.xyz/node-ops/validator-delegation-program/).
 2) **Commission cap**: 10% (temporarily 20%) per [VDP guidelines](https://docs.monad.xyz/node-ops/validator-delegation-program/).
-3) **MEV policy**: must comply with [MEV Systems Policy](https://docs.monad.xyz/node-ops/validator-delegation-program/mev).
-4) **Eligibility**: maintain a testnet validator during VDP participation and 4+ weeks active ops for evaluation per [VDP guidelines](https://docs.monad.xyz/node-ops/validator-delegation-program/).
-5) **Removal triggers**: <98% weekly uptime 3 times in 3 months, alt binary use, or peering with centralized flow routers per [VDP guidelines](https://docs.monad.xyz/node-ops/validator-delegation-program/).
+3) **MEV policy**: no toxic MEV (frontrunning/sandwiching); no alt binaries or centralized flow routers in contravention of policy per [VDP guidelines](https://docs.monad.xyz/node-ops/validator-delegation-program/).
+4) **Eligibility**: testnet uptime ≥ 4 weeks; geographic/operator diversity goals; KYC/KYB prior to delegation; metrics access by Foundation; and no external RPCs on validator node per [VDP guidelines](https://docs.monad.xyz/node-ops/validator-delegation-program/).
+5) **Removal triggers**: <98% uptime, MEV policy violations, alt binary use, centralized flow router peering, upgrade delays >48h, unresponsiveness >24h, or regulatory compliance failures per [VDP guidelines](https://docs.monad.xyz/node-ops/validator-delegation-program/).
 
 ### 3.2 Evidence Artifacts (Delegator Trust)
 
@@ -306,20 +334,20 @@ flowchart TD
 ### 3.3 Staking Constants (Docs‑Derived)
 
 1) **Active set requirements** (current docs)
-   - `MIN_AUTH_ADDRESS_STAKE = 100,000 MON`
-   - `ACTIVE_VALIDATOR_STAKE = 10,000,000 MON`
-   - `ACTIVE_VALSET_SIZE = 200`
-   - Source: [staking behavior](https://docs.monad.xyz/developer-essentials/staking/staking-behavior).
+   - `MIN_VALIDATE_STAKE = 100,000 MON` (self‑stake to call `addValidator`).
+   - `ACTIVE_VALIDATOR_STAKE = 10,000,000 MON`.
+   - `ACTIVE_VALSET_SIZE = 200`.
+   - Source: [Validator Installation](https://docs.monad.xyz/node-ops/validator-installation) + [staking behavior](https://docs.monad.xyz/developer-essentials/staking/staking-behavior).
 2) **Withdrawal delay**
    - `WITHDRAWAL_DELAY = 1 epoch` after unstake (current docs).
 
 ### 3.4 Config Layout (No Rework Later)
 
 1) **Single source of truth**
-   - `staking/impl/monad/infra/config/` (base config + env templates).
+   - `~/infra/config/monad/` (base config + env templates).
 2) **Per‑node overrides**
-   - `staking/impl/monad/infra/config/nodes/validator-1/`
-   - `staking/impl/monad/infra/config/nodes/validator-2/`
+   - `~/infra/config/monad/nodes/validator-1/`
+   - `~/infra/config/monad/nodes/validator-2/`
 3) **Rule**
    - Keep base config immutable; only override node‑specific values.
 
@@ -336,7 +364,7 @@ flowchart TD
 5) **Reference assets**
    - Link to [Monad Developers org](https://github.com/monad-developers) for any validator profile/examples.
 6) **MVP asset (in repo)**
-   - `staking/monad/landing/index.html` (static landing page).
+   - `staking/monad/infra/landing/index.html` (static landing page).
 
 ### 3.6 Capacity Planning & Growth
 
@@ -348,6 +376,12 @@ flowchart TD
    - Re‑size after each network upgrade or when sync lag appears.
 4) **Where to track**
    - Simple usage notes in `docs/ops/capacity.md`.
+5) **Current requirements (docs)**
+   - CPU: 16‑core, 4.5GHz+ base (e.g., Ryzen 9950x/7950x, EPYC 4584PX).
+   - Memory: 32GB+ RAM.
+   - Storage: 2TB dedicated disk for TrieDB (execution) + PCIe Gen4x4 NVMe SSD or better.
+   - Bandwidth: 300 Mbit/s for validators.
+   - Bare metal recommended due to tight consensus timing and IO latency.
 
 ### 3.7 Security Hardening (No HSM)
 
@@ -415,12 +449,14 @@ flowchart TD
 
 ### 4.3 Fastest Ways to Lose VDP Standing
 
-- **Uptime <98%** three times in a 3‑month window (VDP removal trigger).
-- **Running an alt binary** or **peering with centralized flow routers** (explicit VDP removal triggers).
+- **Uptime <98%** (VDP removal trigger).
+- **Upgrade delays >48h** after announcement.
+- **Unresponsiveness >24h** during performance incidents.
+- **Running an alt binary** or **peering with centralized flow routers**.
 - **MEV policy violations** per [MEV Systems Policy](https://docs.monad.xyz/node-ops/validator-delegation-program/mev).
 - **Commission above cap** (10% standard, 20% temporary).
 - **Stop running testnet validator** while in VDP (non‑compliant).
-- **Exceed 1B MON in non‑VDP delegation**, which triggers VDP delegation removal per [VDP guidelines](https://docs.monad.xyz/node-ops/validator-delegation-program/).
+- **Regulatory compliance failures** per VDP criteria.
 
 ### 4.4 Minimal Routine
 
@@ -478,3 +514,14 @@ flowchart TD
 ---
 
 **Treat Testnet uptime as the #1 priority before anything else.**
+
+## 7. Open Tasks (Post‑MVP)
+
+1) Run real `monad-bft` devnet on a host with 8–16 GiB RAM (hugepages).
+2) Confirm validator‑specific exit command if it exists beyond undelegate/withdraw.
+3) Install validator binary + config in `/etc/monad/` (use `staking/monad/infra/scripts/install_validator_binary.sh`) and validate systemd unit.
+4) Replace `liquidmonad.xyz` defaults if using a different domain.
+5) Run `staking/monad/infra/scripts/setup_server.sh` on a fresh host and validate end‑to‑end setup (status service + validator unit skeleton + optional Caddy).
+6) Confirm `monad` system user + permissions via `staking/monad/infra/scripts/create_monad_user.sh`.
+7) Add minimal firewall rules (allow SSH + 80/443, block 8787) via `staking/monad/infra/scripts/install_firewall_ufw.sh`.
+8) Add Prometheus/Grafana/Loki stack (per Extensibility Hooks) and connect alert routing.

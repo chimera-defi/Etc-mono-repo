@@ -1,0 +1,5 @@
+# Monad validator config template
+# Populate using official Monad docs:
+# https://docs.monad.xyz/node-ops/validator-installation
+#
+# Place the finalized file at /etc/monad/config.toml

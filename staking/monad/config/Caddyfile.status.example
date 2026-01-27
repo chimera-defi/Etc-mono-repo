@@ -1,7 +1,0 @@
-status.example.com {
-  reverse_proxy /status 127.0.0.1:8787
-  header {
-    X-Frame-Options "DENY"
-    X-Content-Type-Options "nosniff"
-  }
-}

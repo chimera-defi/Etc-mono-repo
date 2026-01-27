@@ -1,0 +1,14 @@
+status.liquidmonad.xyz {
+  reverse_proxy /status 127.0.0.1:8787
+  header {
+    X-Frame-Options "DENY"
+    X-Content-Type-Options "nosniff"
+  }
+}
+
+monitoring.liquidmonad.xyz {
+  basicauth {
+    admin {$GRAFANA_BASIC_AUTH_HASH}
+  }
+  reverse_proxy 127.0.0.1:3000
+}
