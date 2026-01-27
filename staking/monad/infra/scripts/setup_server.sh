@@ -5,7 +5,7 @@ ROOT_DIR=$(cd "$(dirname "$0")/.." && pwd)
 
 usage() {
   cat <<EOFMSG
-Usage: $0 [--with-caddy] [--with-firewall]
+Usage: $0 [--with-caddy] [--with-firewall] [--help]
 
 Sets up a Monad infra host:
 - installs sysctl tuning
@@ -18,16 +18,25 @@ EOFMSG
 
 WITH_CADDY=false
 WITH_FIREWALL=false
-if [[ ${1:-} == "--help" ]]; then
-  usage
-  exit 0
-fi
-if [[ ${1:-} == "--with-caddy" ]]; then
-  WITH_CADDY=true
-fi
-if [[ ${1:-} == "--with-firewall" ]]; then
-  WITH_FIREWALL=true
-fi
+for arg in "$@"; do
+  case "$arg" in
+    --help)
+      usage
+      exit 0
+      ;;
+    --with-caddy)
+      WITH_CADDY=true
+      ;;
+    --with-firewall)
+      WITH_FIREWALL=true
+      ;;
+    *)
+      echo "Unknown argument: $arg" >&2
+      usage
+      exit 2
+      ;;
+  esac
+done
 
 sudo "$ROOT_DIR/scripts/create_monad_user.sh"
 if [[ -n ${MONAD_BFT_BIN_SRC:-} ]]; then

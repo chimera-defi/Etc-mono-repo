@@ -32,6 +32,12 @@ Optional firewall install:
 ./scripts/setup_server.sh --with-firewall
 ```
 
+Optional firewall customization:
+
+```bash
+SSH_PORT=2222 ALLOW_PORTS=30303,9100 ./scripts/install_firewall_ufw.sh
+```
+
 Optional binary install:
 
 ```bash
@@ -101,6 +107,8 @@ MONAD_CONFIG_SRC=/path/to/config.toml \
   - MVP runbook for start, checks, and rollback.
 - `DEPLOY_CHECKLIST.md`
   - One-page production checklist.
+- `IDEAS.md`
+  - Future hardening + SaaS expansion ideas.
 - `watchers/README.md`
   - Placeholder for future monitoring.
 - `scripts/e2e_smoke_test.sh`
