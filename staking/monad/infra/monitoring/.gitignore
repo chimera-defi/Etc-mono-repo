@@ -1,0 +1,5 @@
+loki-data/
+.env
+grafana/data/
+prometheus/data/
+alertmanager/data/
