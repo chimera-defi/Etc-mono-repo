@@ -53,6 +53,7 @@ MONAD_CONFIG_SRC=/path/to/config.toml \
 ```
 
 Full guide: `SETUP.md` (end‑to‑end host setup + monitoring).
+Proof bundle checklist: `OPS_PROOF.md` (uptime + stats evidence).
 
 Full automation script:
 
@@ -60,7 +61,7 @@ Full automation script:
 ./scripts/bootstrap_all.sh --with-caddy --with-firewall --with-monitoring --with-hardening
 ```
 
-## Ops TODO
+## Ops Checklist
 
 - Set `RPC_URL` in `/etc/monad/status.env` and enable `monad-status.service`.
 - Install sysctl tuning with `scripts/install_sysctl.sh` before running monad-bft devnet.
@@ -68,6 +69,20 @@ Full automation script:
 - Update `status.liquidmonad.xyz` and `ops@liquidmonad.xyz` if using a different domain.
 - Block public access to `:8787`; expose only through Caddy or another proxy.
 - Use `RUNBOOK.md` for start/restart/rollback steps.
+
+## VDP Requirements Coverage
+
+- Uptime >= 98%, 4+ weeks testnet history, and always-on testnet validator are operational (monitoring + runbook).
+- Commission <= 10% (temporary 20% cap), MEV policy compliance, and no external RPCs are policy/ops controls.
+- KYC/KYB and responsiveness (24h) are human/process requirements (documented in `RUNBOOK.md` + checklist).
+- Metrics access: `/status` and Grafana dashboards are available for Foundation access.
+
+## Public Stats Exposure
+
+- Keep the status server bound to localhost (`127.0.0.1:8787`).
+- Expose `/status` via Caddy using `config/Caddyfile.status.example`.
+- Optional Grafana exposure with basic auth (set `GRAFANA_BASIC_AUTH_HASH`).
+- Prefer a public uptime link (UptimeRobot/StatusCake) pointing at `/status`.
 
 ## Scripts
 

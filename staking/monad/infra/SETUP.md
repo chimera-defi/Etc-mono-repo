@@ -57,7 +57,15 @@ Optional public exposure (Grafana only):
 - Put Grafana behind auth using `monitoring.<domain>` in `config/Caddyfile.status.example`.
 - Keep Prometheus/Loki unexposed.
 
-## 5) Validate
+## 5) Public Status + Uptime Proof
+
+- Expose `/status` through Caddy only (do not open `:8787` directly).
+- Create an uptime monitor for `https://status.<domain>/status`.
+- If needed, expose Grafana read-only with basic auth.
+
+Proof bundle checklist: `OPS_PROOF.md`.
+
+## 6) Validate
 
 ```bash
 curl -fsS http://localhost:8787/status
@@ -65,7 +73,7 @@ curl -fsS http://localhost:8787/status
 ./scripts/e2e_smoke_test.sh
 ```
 
-## 6) Production Hardening Checklist
+## 7) Production Hardening Checklist
 
 - Change Grafana admin password.
 - Restrict monitoring ports by firewall or reverse proxy.

@@ -36,6 +36,19 @@
 - [ ] (Optional) Monitoring stack up: `staking/monad/infra/monitoring/` (Prometheus/Grafana/Loki).
 - [ ] (Optional) Full setup guide followed: `staking/monad/infra/SETUP.md`.
 
+## VDP Eligibility (Operational)
+
+- [ ] Testnet validator has been running for >= 4 weeks.
+- [ ] Maintain uptime >= 98% (continuous monitoring).
+- [ ] Commission <= 10% (temporary cap 20% per VDP notice).
+- [ ] KYC/KYB completed before requesting delegation.
+- [ ] Node metrics are accessible to the Monad Foundation.
+- [ ] Validator runs on testnet at all times while in VDP.
+- [ ] Do not serve external RPCs from validator node.
+- [ ] Follow MEV policy (no toxic MEV; no alt binary or centralized flow routers).
+- [ ] Upgrade within 48 hours of announcements unless otherwise specified.
+- [ ] Respond to outreach within 24 hours for performance issues.
+
 ## Network Hardening
 
 - [ ] Block public access to `:8787`; expose only via reverse proxy.

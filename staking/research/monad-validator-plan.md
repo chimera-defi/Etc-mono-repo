@@ -317,13 +317,13 @@ flowchart TD
 
 ## 3. Spec Additions (Keep This Tight)
 
-### 3.1 VDP Rules (Must Confirm)
+### 3.1 VDP Rules (Docs‑Confirmed)
 
 1) **Uptime threshold**: 98% weekly minimum per [VDP guidelines](https://docs.monad.xyz/node-ops/validator-delegation-program/).
 2) **Commission cap**: 10% (temporarily 20%) per [VDP guidelines](https://docs.monad.xyz/node-ops/validator-delegation-program/).
 3) **MEV policy**: no toxic MEV (frontrunning/sandwiching); no alt binaries or centralized flow routers in contravention of policy per [VDP guidelines](https://docs.monad.xyz/node-ops/validator-delegation-program/).
-4) **Eligibility**: testnet uptime ≥ 4 weeks; geographic/operator diversity goals; KYC/KYB prior to delegation per [VDP guidelines](https://docs.monad.xyz/node-ops/validator-delegation-program/).
-5) **Removal triggers**: <98% uptime, MEV policy violations, alt binary use, or centralized flow router peering per [VDP guidelines](https://docs.monad.xyz/node-ops/validator-delegation-program/).
+4) **Eligibility**: testnet uptime ≥ 4 weeks; geographic/operator diversity goals; KYC/KYB prior to delegation; metrics access by Foundation; and no external RPCs on validator node per [VDP guidelines](https://docs.monad.xyz/node-ops/validator-delegation-program/).
+5) **Removal triggers**: <98% uptime, MEV policy violations, alt binary use, centralized flow router peering, upgrade delays >48h, unresponsiveness >24h, or regulatory compliance failures per [VDP guidelines](https://docs.monad.xyz/node-ops/validator-delegation-program/).
 
 ### 3.2 Evidence Artifacts (Delegator Trust)
 
@@ -449,12 +449,14 @@ flowchart TD
 
 ### 4.3 Fastest Ways to Lose VDP Standing
 
-- **Uptime <98%** three times in a 3‑month window (VDP removal trigger).
-- **Running an alt binary** or **peering with centralized flow routers** (explicit VDP removal triggers).
+- **Uptime <98%** (VDP removal trigger).
+- **Upgrade delays >48h** after announcement.
+- **Unresponsiveness >24h** during performance incidents.
+- **Running an alt binary** or **peering with centralized flow routers**.
 - **MEV policy violations** per [MEV Systems Policy](https://docs.monad.xyz/node-ops/validator-delegation-program/mev).
 - **Commission above cap** (10% standard, 20% temporary).
 - **Stop running testnet validator** while in VDP (non‑compliant).
-- **Exceed 1B MON in non‑VDP delegation**, which triggers VDP delegation removal per [VDP guidelines](https://docs.monad.xyz/node-ops/validator-delegation-program/).
+- **Regulatory compliance failures** per VDP criteria.
 
 ### 4.4 Minimal Routine
 

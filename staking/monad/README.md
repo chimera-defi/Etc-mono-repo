@@ -9,7 +9,7 @@ staking/monad/
 │   ├── config/            # Service templates + env + config.toml.example
 │   ├── landing/           # Static landing page
 │   ├── systemd/           # systemd overrides
-│   ├── watchers/          # Monitoring notes (placeholder)
+│   ├── watchers/          # Monitoring notes + future watcher hooks
 │   ├── DEPLOY_CHECKLIST.md
 │   └── RUNBOOK.md
 └── liquid/                # Liquid staking project docs
