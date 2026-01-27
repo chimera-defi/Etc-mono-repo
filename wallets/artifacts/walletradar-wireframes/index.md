@@ -23,3 +23,4 @@ Open the PNGs for quick review; SVGs are editable originals.
 - [Variant B PNG](./variant-b-developer-toolkit.png)
 - [Mobile A PNG](./variant-a-evidence-ledger-mobile.png)
 - [Mobile B PNG](./variant-b-developer-toolkit-mobile.png)
+- [Landing Layout Spec](./landing-layout-spec.md)
