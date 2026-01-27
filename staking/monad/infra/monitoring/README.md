@@ -21,6 +21,14 @@ sudo docker compose up -d
 - Grafana: `http://<host>:3000` (default admin/admin)
 - Loki API: `http://<host>:3100`
 
+## Public Exposure (Recommended Pattern)
+
+Expose only Grafana behind auth and keep Prometheus/Loki internal.
+
+```text
+monitoring.example.com -> Grafana (auth required)
+```
+
 ## Notes
 
 - Lock down ports with firewall rules (allow only admin IPs).

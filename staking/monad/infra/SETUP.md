@@ -44,6 +44,11 @@ Access:
 - Prometheus: `http://<host>:9090`
 - Loki: `http://<host>:3100`
 
+Optional public exposure (Grafana only):
+
+- Put Grafana behind auth using `monitoring.<domain>` in `config/Caddyfile.status.example`.
+- Keep Prometheus/Loki unexposed.
+
 ## 5) Validate
 
 ```bash

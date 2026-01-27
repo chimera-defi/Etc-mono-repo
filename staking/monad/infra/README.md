@@ -26,6 +26,12 @@ Optional Caddy install:
 ./scripts/setup_server.sh --with-caddy
 ```
 
+Generate Grafana basic auth hash (for `GRAFANA_BASIC_AUTH_HASH`):
+
+```bash
+caddy hash-password --plaintext 'change-me'
+```
+
 Optional firewall install:
 
 ```bash
@@ -100,7 +106,7 @@ Full guide: `SETUP.md` (end‑to‑end host setup + monitoring).
 - `config/nginx-status.conf.example`
   - Nginx reverse proxy snippet for `/status`.
 - `config/Caddyfile.status.example`
-  - Caddy reverse proxy with basic rate limiting.
+  - Caddy reverse proxy for `/status` + optional Grafana basic auth.
 - `scripts/install_caddy.sh [caddyfile_src] [caddyfile_dest]`
   - Installs Caddy and applies the status reverse proxy.
 - `scripts/setup_server.sh [--with-caddy] [--with-firewall]`
