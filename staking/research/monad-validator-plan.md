@@ -237,6 +237,13 @@ flowchart TD
    - Genesis/config pulled from official source in [Node Ops](https://docs.monad.xyz/node-ops/).
    - Network details from [Testnets](https://docs.monad.xyz/developer-essentials/testnets) and [Network Info](https://docs.monad.xyz/developer-essentials/network-information).
    - After full node sync, register via `addValidator` with `MIN_VALIDATE_STAKE = 100,000 MON` per [Validator Installation](https://docs.monad.xyz/node-ops/validator-installation).
+   - **Testnet chain IDs**
+     - Testnet: `10143`
+     - Tempnet: `20143` (RPC/Faucet via developer Discord form)
+   - **Testnet RPC endpoints (public, rate‑limited)**
+     - https://testnet-rpc.monad.xyz (wss: `wss://testnet-rpc.monad.xyz`)
+     - https://rpc-testnet.monadinfra.com (wss: `wss://rpc-testnet.monadinfra.com`)
+     - https://rpc.ankr.com/monad_testnet (Ankr; debug_* disabled)
 4) **Post‑deploy verification**
    - Node synced within expected window.
    - RPC responds consistently under light polling.
