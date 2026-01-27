@@ -30,6 +30,7 @@
 - [ ] `staking/monad/infra/scripts/check_rpc.sh <rpc> eth_blockNumber` succeeds.
 - [ ] `staking/monad/infra/scripts/e2e_smoke_test.sh` passes.
 - [ ] `staking/monad/infra/scripts/preflight_check.sh` passes.
+- [ ] (Optional) Monitoring stack up: `staking/monad/infra/monitoring/` (Prometheus/Grafana/Loki).
 
 ## Network Hardening
 

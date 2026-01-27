@@ -220,6 +220,8 @@ flowchart TD
    - Central log search.
 3) **Alert channels**
    - Telegram + Discord + email routing.
+4) **MVP stack in repo**
+   - `staking/monad/infra/monitoring/` (docker compose, Prometheus, Grafana, Loki, Promtail).
 
 ## 2.6 Testnet Deploy Requirements (Technical)
 

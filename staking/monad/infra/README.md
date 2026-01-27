@@ -111,6 +111,8 @@ MONAD_CONFIG_SRC=/path/to/config.toml \
   - Future hardening + SaaS expansion ideas.
 - `watchers/README.md`
   - Placeholder for future monitoring.
+- `monitoring/README.md`
+  - Prometheus + Grafana + Loki docker compose setup.
 - `scripts/e2e_smoke_test.sh`
   - End-to-end smoke test for status server + mock RPC routes.
 

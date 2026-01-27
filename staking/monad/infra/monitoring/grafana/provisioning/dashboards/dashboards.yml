@@ -1,0 +1,9 @@
+apiVersion: 1
+
+dashboards:
+  - name: default
+    orgId: 1
+    folder: ""
+    type: file
+    options:
+      path: /etc/grafana/provisioning/dashboards
