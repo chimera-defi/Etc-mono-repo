@@ -53,6 +53,7 @@
       .label { font-size: 12px; font-family: Inter, Arial, sans-serif; fill: #94a3b8; }
       .title { font-size: 26px; font-weight: 700; font-family: Inter, Arial, sans-serif; fill: #f8fafc; }
       .h2 { font-size: 17px; font-weight: 600; font-family: Inter, Arial, sans-serif; fill: #e2e8f0; }
+      .stat-text { font-size: 12px; font-family: Inter, Arial, sans-serif; fill: #f8fafc; font-weight: 600; }
       .chip { fill: #0b1224; stroke: #2563eb; }
       .chip-text { font-size: 11px; font-family: Inter, Arial, sans-serif; fill: #93c5fd; }
       .muted { fill: #1f2937; }
@@ -114,14 +115,14 @@
   <path class="icon" d="M998 292 L1002 296 L998 300" />
   <path class="icon" d="M1002 304 H990" />
   <path class="icon" d="M994 300 L990 304 L994 308" />
-  <text class="h2" x="112" y="304">Software Wallets</text>
-  <text class="h2" x="404" y="304">Hardware Wallets</text>
-  <text class="h2" x="696" y="304">Crypto Cards</text>
-  <text class="h2" x="988" y="304">Ramps</text>
-  <text class="label" x="112" y="328">Mobile + extension</text>
-  <text class="label" x="404" y="328">Secure element</text>
-  <text class="label" x="696" y="328">Cashback rates</text>
-  <text class="label" x="988" y="328">On and off ramp</text>
+  <text class="h2" x="144" y="304">Software Wallets</text>
+  <text class="h2" x="436" y="304">Hardware Wallets</text>
+  <text class="h2" x="728" y="304">Crypto Cards</text>
+  <text class="h2" x="1020" y="304">Ramps</text>
+  <text class="label" x="144" y="328">Mobile + extension</text>
+  <text class="label" x="436" y="328">Secure element</text>
+  <text class="label" x="728" y="328">Cashback rates</text>
+  <text class="label" x="1020" y="328">On and off ramp</text>
 
   <!-- Filter chips -->
   <rect class="chip" x="92" y="360" width="90" height="26" rx="13" />
@@ -140,6 +141,11 @@
   <rect class="accent-3" x="548" y="420" width="210" height="34" rx="10" />
   <rect class="accent" x="776" y="420" width="210" height="34" rx="10" />
   <rect class="accent-2" x="1004" y="420" width="210" height="34" rx="10" />
+  <text class="stat-text" x="110" y="442">Software 45+</text>
+  <text class="stat-text" x="338" y="442">Hardware 14+</text>
+  <text class="stat-text" x="566" y="442">Cards 9+</text>
+  <text class="stat-text" x="794" y="442">Ramps 11+</text>
+  <text class="stat-text" x="1022" y="442">Updated Jan</text>
 
   <!-- Comparison workspace -->
   <text class="h2" x="60" y="510">Compare Workspace</text>
