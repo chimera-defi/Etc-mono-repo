@@ -105,7 +105,7 @@
 
   <!-- Trust strip -->
   <rect class="glass" x="16" y="438" width="358" height="34" rx="10" />
-  <text class="label" x="28" y="460">No login " No tracking " Verified sources</text>
+  <text class="label" x="28" y="460">No login / No tracking / Verified sources</text>
 
   <!-- Top picks -->
   <text class="h2" x="16" y="500">Top Picks</text>
@@ -134,5 +134,5 @@
 
   <!-- Sticky compare tray -->
   <rect class="glass" x="16" y="820" width="358" height="18" rx="9" />
-  <text class="label" x="28" y="834">2 selected " Compare</text>
+  <text class="label" x="28" y="834">2 selected - Compare</text>
 </svg>

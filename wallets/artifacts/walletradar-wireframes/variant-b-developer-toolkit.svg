@@ -136,16 +136,21 @@
 
   <!-- Stats row -->
   <rect class="panel" x="60" y="402" width="1280" height="70" rx="12" />
-  <rect class="accent" x="92" y="420" width="210" height="34" rx="10" />
-  <rect class="accent-2" x="320" y="420" width="210" height="34" rx="10" />
-  <rect class="accent-3" x="548" y="420" width="210" height="34" rx="10" />
-  <rect class="accent" x="776" y="420" width="210" height="34" rx="10" />
-  <rect class="accent-2" x="1004" y="420" width="210" height="34" rx="10" />
-  <text class="stat-text" x="110" y="442">Software 45+</text>
-  <text class="stat-text" x="338" y="442">Hardware 14+</text>
-  <text class="stat-text" x="566" y="442">Cards 9+</text>
-  <text class="stat-text" x="794" y="442">Ramps 11+</text>
-  <text class="stat-text" x="1022" y="442">Updated Jan</text>
+  <rect class="glass" x="92" y="420" width="210" height="34" rx="10" />
+  <rect class="accent" x="92" y="420" width="6" height="34" rx="3" />
+  <rect class="glass" x="320" y="420" width="210" height="34" rx="10" />
+  <rect class="accent-2" x="320" y="420" width="6" height="34" rx="3" />
+  <rect class="glass" x="548" y="420" width="210" height="34" rx="10" />
+  <rect class="accent-3" x="548" y="420" width="6" height="34" rx="3" />
+  <rect class="glass" x="776" y="420" width="210" height="34" rx="10" />
+  <rect class="accent" x="776" y="420" width="6" height="34" rx="3" />
+  <rect class="glass" x="1004" y="420" width="210" height="34" rx="10" />
+  <rect class="accent-2" x="1004" y="420" width="6" height="34" rx="3" />
+  <text class="stat-text" x="108" y="442">Software 45+</text>
+  <text class="stat-text" x="336" y="442">Hardware 14+</text>
+  <text class="stat-text" x="564" y="442">Cards 9+</text>
+  <text class="stat-text" x="792" y="442">Ramps 11+</text>
+  <text class="stat-text" x="1018" y="442">Updated Jan</text>
 
   <!-- Comparison workspace -->
   <text class="h2" x="60" y="510">Compare Workspace</text>

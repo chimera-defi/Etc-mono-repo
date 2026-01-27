@@ -43,6 +43,7 @@
       .title-accent { font-size: 22px; font-weight: 700; font-family: Inter, Arial, sans-serif; fill: #38bdf8; }
       .subtext { font-family: Inter, Arial, sans-serif; fill: #cbd5f5; font-size: 12px; }
       .label { font-family: Inter, Arial, sans-serif; fill: #94a3b8; font-size: 11px; }
+      .stat-text { font-family: Inter, Arial, sans-serif; fill: #f8fafc; font-size: 11px; font-weight: 600; }
       .h2 { font-family: Inter, Arial, sans-serif; fill: #e2e8f0; font-size: 14px; font-weight: 600; }
       .chip { fill: #0b1224; stroke: #2563eb; }
       .chip-text { font-size: 10px; font-family: Inter, Arial, sans-serif; fill: #93c5fd; }
@@ -111,14 +112,18 @@
 
   <!-- Stats row -->
   <rect class="panel" x="16" y="476" width="358" height="56" rx="12" />
-  <rect class="accent" x="28" y="490" width="86" height="28" rx="8" />
-  <rect class="accent-2" x="120" y="490" width="86" height="28" rx="8" />
-  <rect class="accent-3" x="212" y="490" width="86" height="28" rx="8" />
-  <rect class="accent" x="304" y="490" width="54" height="28" rx="8" />
-  <text class="label" x="36" y="508">Soft 45+</text>
-  <text class="label" x="128" y="508">Hard 14+</text>
-  <text class="label" x="220" y="508">Cards 9+</text>
-  <text class="label" x="312" y="508">Jan</text>
+  <rect class="glass" x="28" y="490" width="86" height="28" rx="8" />
+  <rect class="accent" x="28" y="490" width="5" height="28" rx="2" />
+  <rect class="glass" x="120" y="490" width="86" height="28" rx="8" />
+  <rect class="accent-2" x="120" y="490" width="5" height="28" rx="2" />
+  <rect class="glass" x="212" y="490" width="86" height="28" rx="8" />
+  <rect class="accent-3" x="212" y="490" width="5" height="28" rx="2" />
+  <rect class="glass" x="304" y="490" width="54" height="28" rx="8" />
+  <rect class="accent" x="304" y="490" width="5" height="28" rx="2" />
+  <text class="stat-text" x="38" y="508">Soft 45+</text>
+  <text class="stat-text" x="130" y="508">Hard 14+</text>
+  <text class="stat-text" x="222" y="508">Cards 9+</text>
+  <text class="stat-text" x="312" y="508">Jan</text>
 
   <!-- Comparison preview -->
   <text class="h2" x="16" y="560">Compare Workspace</text>
@@ -130,5 +135,5 @@
 
   <!-- Sticky compare tray -->
   <rect class="glass" x="16" y="812" width="358" height="18" rx="9" />
-  <text class="label" x="28" y="826">3 selected " Compare</text>
+  <text class="label" x="28" y="826">3 selected - Compare</text>
 </svg>
