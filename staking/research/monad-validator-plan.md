@@ -236,6 +236,7 @@ flowchart TD
 3) **Testnet bootstrap**
    - Genesis/config pulled from official source in [Node Ops](https://docs.monad.xyz/node-ops/).
    - Network details from [Testnets](https://docs.monad.xyz/developer-essentials/testnets) and [Network Info](https://docs.monad.xyz/developer-essentials/network-information).
+   - After full node sync, register via `addValidator` with `MIN_VALIDATE_STAKE = 100,000 MON` per [Validator Installation](https://docs.monad.xyz/node-ops/validator-installation).
 4) **Post‑deploy verification**
    - Node synced within expected window.
    - RPC responds consistently under light polling.
@@ -300,9 +301,9 @@ flowchart TD
 
 1) **Uptime threshold**: 98% weekly minimum per [VDP guidelines](https://docs.monad.xyz/node-ops/validator-delegation-program/).
 2) **Commission cap**: 10% (temporarily 20%) per [VDP guidelines](https://docs.monad.xyz/node-ops/validator-delegation-program/).
-3) **MEV policy**: must comply with [MEV Systems Policy](https://docs.monad.xyz/node-ops/validator-delegation-program/mev).
-4) **Eligibility**: maintain a testnet validator during VDP participation and 4+ weeks active ops for evaluation per [VDP guidelines](https://docs.monad.xyz/node-ops/validator-delegation-program/).
-5) **Removal triggers**: <98% weekly uptime 3 times in 3 months, alt binary use, or peering with centralized flow routers per [VDP guidelines](https://docs.monad.xyz/node-ops/validator-delegation-program/).
+3) **MEV policy**: no toxic MEV (frontrunning/sandwiching); no alt binaries or centralized flow routers in contravention of policy per [VDP guidelines](https://docs.monad.xyz/node-ops/validator-delegation-program/).
+4) **Eligibility**: testnet uptime ≥ 4 weeks; geographic/operator diversity goals; KYC/KYB prior to delegation per [VDP guidelines](https://docs.monad.xyz/node-ops/validator-delegation-program/).
+5) **Removal triggers**: <98% uptime, MEV policy violations, alt binary use, or centralized flow router peering per [VDP guidelines](https://docs.monad.xyz/node-ops/validator-delegation-program/).
 
 ### 3.2 Evidence Artifacts (Delegator Trust)
 
@@ -313,10 +314,10 @@ flowchart TD
 ### 3.3 Staking Constants (Docs‑Derived)
 
 1) **Active set requirements** (current docs)
-   - `MIN_AUTH_ADDRESS_STAKE = 100,000 MON`
-   - `ACTIVE_VALIDATOR_STAKE = 10,000,000 MON`
-   - `ACTIVE_VALSET_SIZE = 200`
-   - Source: [staking behavior](https://docs.monad.xyz/developer-essentials/staking/staking-behavior).
+   - `MIN_VALIDATE_STAKE = 100,000 MON` (self‑stake to call `addValidator`).
+   - `ACTIVE_VALIDATOR_STAKE = 10,000,000 MON`.
+   - `ACTIVE_VALSET_SIZE = 200`.
+   - Source: [Validator Installation](https://docs.monad.xyz/node-ops/validator-installation) + [staking behavior](https://docs.monad.xyz/developer-essentials/staking/staking-behavior).
 2) **Withdrawal delay**
    - `WITHDRAWAL_DELAY = 1 epoch` after unstake (current docs).
 
@@ -355,6 +356,12 @@ flowchart TD
    - Re‑size after each network upgrade or when sync lag appears.
 4) **Where to track**
    - Simple usage notes in `docs/ops/capacity.md`.
+5) **Current requirements (docs)**
+   - CPU: 16‑core, 4.5GHz+ base (e.g., Ryzen 9950x/7950x, EPYC 4584PX).
+   - Memory: 32GB+ RAM.
+   - Storage: 2TB dedicated disk for TrieDB (execution) + PCIe Gen4x4 NVMe SSD or better.
+   - Bandwidth: 300 Mbit/s for validators.
+   - Bare metal recommended due to tight consensus timing and IO latency.
 
 ### 3.7 Security Hardening (No HSM)
 
