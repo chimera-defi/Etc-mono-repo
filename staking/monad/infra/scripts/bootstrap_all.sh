@@ -5,12 +5,13 @@ ROOT_DIR=$(cd "$(dirname "$0")/.." && pwd)
 
 usage() {
   cat <<EOFMSG
-Usage: $0 [--with-caddy] [--with-firewall] [--with-monitoring]
+Usage: $0 [--with-caddy] [--with-firewall] [--with-monitoring] [--with-hardening]
 
 Runs full infra bootstrap:
 - validator + status setup (setup_server.sh)
 - optional Caddy + firewall
 - optional monitoring stack (docker compose)
+- optional security hardening (SSH + fail2ban + unattended upgrades)
 
 Env vars:
   MONAD_BFT_BIN_SRC     Path or URL to monad-bft binary
@@ -22,6 +23,7 @@ EOFMSG
 WITH_CADDY=false
 WITH_FIREWALL=false
 WITH_MONITORING=false
+WITH_HARDENING=false
 
 for arg in "$@"; do
   case "$arg" in
@@ -37,6 +39,9 @@ for arg in "$@"; do
       ;;
     --with-monitoring)
       WITH_MONITORING=true
+      ;;
+    --with-hardening)
+      WITH_HARDENING=true
       ;;
     *)
       echo "Unknown argument: $arg" >&2
@@ -59,6 +64,12 @@ fi
 if [[ "$WITH_MONITORING" == "true" ]]; then
   (cd "$ROOT_DIR/monitoring" && sudo docker compose up -d)
   echo "Monitoring up: Grafana http://<host>:3000, Prometheus http://<host>:9090, Loki http://<host>:3100"
+fi
+
+if [[ "$WITH_HARDENING" == "true" ]]; then
+  sudo "$ROOT_DIR/scripts/harden_ssh.sh"
+  sudo "$ROOT_DIR/scripts/install_fail2ban.sh"
+  sudo "$ROOT_DIR/scripts/enable_unattended_upgrades.sh"
 fi
 
 echo "Bootstrap complete."

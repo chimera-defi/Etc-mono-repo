@@ -18,6 +18,7 @@
 - [ ] (Optional) Full bootstrap: `staking/monad/infra/scripts/bootstrap_all.sh`.
 - [ ] (Optional) Install firewall rules: `staking/monad/infra/scripts/install_firewall_ufw.sh`.
 - [ ] (Optional) Monitoring stack: `staking/monad/infra/monitoring/README.md`.
+- [ ] (Optional) Hardening: `staking/monad/infra/scripts/harden_ssh.sh`, `install_fail2ban.sh`, `enable_unattended_upgrades.sh`.
 
 ## Configure
 

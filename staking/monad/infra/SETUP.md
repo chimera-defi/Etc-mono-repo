@@ -21,7 +21,7 @@ Or fully automated:
 ```bash
 MONAD_BFT_BIN_SRC=/path/to/monad-bft \
 MONAD_CONFIG_SRC=/path/to/config.toml \
-./scripts/bootstrap_all.sh --with-caddy --with-firewall --with-monitoring
+./scripts/bootstrap_all.sh --with-caddy --with-firewall --with-monitoring --with-hardening
 ```
 
 What this does:

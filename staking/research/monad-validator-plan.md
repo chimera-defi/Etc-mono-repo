@@ -296,6 +296,10 @@ flowchart TD
    - `staking/monad/infra/scripts/setup_server.sh`
    - `staking/monad/infra/SETUP.md`
    - `staking/monad/infra/scripts/bootstrap_all.sh`
+   - `staking/monad/infra/scripts/harden_ssh.sh`
+   - `staking/monad/infra/scripts/install_fail2ban.sh`
+   - `staking/monad/infra/scripts/enable_unattended_upgrades.sh`
+   - `staking/monad/infra/scripts/backup_monad_config.sh`
    - `staking/monad/infra/scripts/e2e_smoke_test.sh`
    - `staking/monad/infra/RUNBOOK.md`
    - `staking/monad/infra/DEPLOY_CHECKLIST.md`

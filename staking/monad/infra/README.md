@@ -57,7 +57,7 @@ Full guide: `SETUP.md` (end‑to‑end host setup + monitoring).
 Full automation script:
 
 ```bash
-./scripts/bootstrap_all.sh --with-caddy --with-firewall --with-monitoring
+./scripts/bootstrap_all.sh --with-caddy --with-firewall --with-monitoring --with-hardening
 ```
 
 ## Ops TODO
@@ -119,6 +119,14 @@ Full automation script:
   - Runs sysctl + service installs + tests in one go.
 - `scripts/bootstrap_all.sh [--with-caddy] [--with-firewall] [--with-monitoring]`
   - End‑to‑end bootstrap including optional monitoring stack.
+- `scripts/harden_ssh.sh`
+  - Disables password auth, disables root login, and sets SSH port.
+- `scripts/install_fail2ban.sh`
+  - Installs fail2ban with an SSH jail.
+- `scripts/enable_unattended_upgrades.sh`
+  - Enables automatic security updates.
+- `scripts/backup_monad_config.sh`
+  - Creates a timestamped backup of `/etc/monad`.
 - `RUNBOOK.md`
   - MVP runbook for start, checks, and rollback.
 - `DEPLOY_CHECKLIST.md`
