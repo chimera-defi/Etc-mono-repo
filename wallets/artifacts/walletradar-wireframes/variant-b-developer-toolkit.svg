@@ -154,6 +154,8 @@
 
   <!-- Comparison workspace -->
   <text class="h2" x="60" y="510">Compare Workspace</text>
+  <rect class="glass" x="1120" y="498" width="200" height="24" rx="12" />
+  <text class="stat-text" x="1142" y="515">Open Explorer</text>
   <rect class="glass" x="60" y="526" width="1280" height="250" rx="14" />
   <rect class="table-head" x="80" y="546" width="1240" height="28" rx="6" />
   <text class="label" x="95" y="566">Wallet</text>
@@ -171,12 +173,12 @@
   <rect class="glass" x="60" y="790" width="410" height="110" rx="12" />
   <rect class="glass" x="495" y="790" width="410" height="110" rx="12" />
   <rect class="glass" x="930" y="790" width="410" height="110" rx="12" />
-  <text class="h2" x="80" y="820">Fast compare</text>
-  <text class="label" x="80" y="844">Pick up to four</text>
-  <text class="h2" x="515" y="820">Share link</text>
-  <text class="label" x="515" y="844">Save selection</text>
-  <text class="h2" x="950" y="820">Evidence</text>
-  <text class="label" x="950" y="844">Source tooltips</text>
+  <text class="h2" x="80" y="820">Latest Articles</text>
+  <text class="label" x="80" y="844">Updates, comparisons, and reviews</text>
+  <text class="h2" x="515" y="820">Resources &amp; Guides</text>
+  <text class="label" x="515" y="844">Methodology, data sources, audits</text>
+  <text class="h2" x="950" y="820">Sources &amp; Transparency</text>
+  <text class="label" x="950" y="844">Direct links to verified datasets</text>
 
   <!-- Sticky compare tray -->
   <rect class="glass" x="60" y="915" width="1280" height="48" rx="12" />

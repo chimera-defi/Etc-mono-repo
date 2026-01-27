@@ -133,6 +133,14 @@
   <rect class="table-row-alt" x="28" y="626" width="334" height="18" rx="6" />
   <rect class="table-row" x="28" y="648" width="334" height="18" rx="6" />
 
+  <!-- Latest Articles -->
+  <rect class="glass" x="16" y="700" width="358" height="90" rx="12" />
+  <text class="h2" x="28" y="730">Latest Articles</text>
+  <rect class="muted" x="28" y="742" width="280" height="8" rx="4" />
+  <rect class="muted" x="28" y="756" width="220" height="8" rx="4" />
+  <rect class="chip" x="28" y="768" width="70" height="18" rx="9" />
+  <text class="chip-text" x="40" y="781">View all</text>
+
   <!-- Sticky compare tray -->
   <rect class="glass" x="16" y="812" width="358" height="18" rx="9" />
   <text class="label" x="28" y="826">3 selected - Compare</text>

@@ -119,12 +119,14 @@
   <text class="chip-text" x="40" y="579">Tx Sim</text>
 
   <rect class="glass" x="16" y="616" width="358" height="96" rx="12" />
-  <circle cx="36" cy="642" r="12" fill="#0b2f2a" />
-  <path class="icon" d="M36 634 L43 637 V644 C43 648 40 651 36 653 C32 651 29 648 29 644 V637 Z" />
-  <text class="label" x="56" y="644">Trezor Safe 5</text>
+  <circle cx="36" cy="642" r="12" fill="#0b2a42" />
+  <rect class="icon" x="30" y="634" width="12" height="16" rx="2" />
+  <path class="icon" d="M32 642 H40" />
+  <text class="label" x="56" y="644">Latest Articles</text>
   <rect class="muted" x="28" y="658" width="260" height="8" rx="4" />
-  <rect class="chip" x="28" y="672" width="70" height="18" rx="9" />
-  <text class="chip-text" x="40" y="685">Secure</text>
+  <rect class="muted" x="28" y="672" width="220" height="8" rx="4" />
+  <rect class="chip" x="28" y="684" width="70" height="18" rx="9" />
+  <text class="chip-text" x="40" y="697">View all</text>
 
   <!-- Comparison preview -->
   <text class="h2" x="16" y="742">Comparison Preview</text>

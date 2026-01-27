@@ -169,6 +169,8 @@
 
   <!-- Comparison preview -->
   <text class="h2" x="60" y="620">Comparison Preview</text>
+  <rect class="glass" x="1130" y="608" width="180" height="24" rx="12" />
+  <text class="pill-text" x="1150" y="625">Open Explorer</text>
   <rect class="glass" x="60" y="636" width="1280" height="200" rx="14" />
   <line class="motion-line" x1="1060" y1="668" x2="1210" y2="668" />
   <line class="motion-line-soft" x1="1020" y1="684" x2="1170" y2="684" />
@@ -187,12 +189,16 @@
 
   <!-- Docs + Sources -->
   <rect class="glass" x="60" y="852" width="640" height="90" rx="12" />
-  <text class="h2" x="90" y="882">Guides and Methodology</text>
+  <text class="h2" x="90" y="882">Latest Articles</text>
+  <rect class="glass" x="560" y="872" width="100" height="20" rx="10" />
+  <text class="pill-text" x="578" y="887">View all</text>
   <rect class="muted" x="90" y="894" width="420" height="10" rx="5" />
   <rect class="muted" x="90" y="912" width="340" height="10" rx="5" />
 
   <rect class="glass" x="700" y="852" width="640" height="90" rx="12" />
-  <text class="h2" x="730" y="882">Sources Ledger</text>
+  <text class="h2" x="730" y="882">Resources &amp; Sources</text>
+  <rect class="glass" x="1200" y="872" width="110" height="20" rx="10" />
+  <text class="pill-text" x="1216" y="887">View all</text>
   <rect class="muted" x="730" y="894" width="420" height="10" rx="5" />
   <rect class="muted" x="730" y="912" width="340" height="10" rx="5" />
 
