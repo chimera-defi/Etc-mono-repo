@@ -16,6 +16,14 @@ MONAD_CONFIG_SRC=/path/to/config.toml \
 ./scripts/setup_server.sh --with-caddy --with-firewall
 ```
 
+Or fully automated:
+
+```bash
+MONAD_BFT_BIN_SRC=/path/to/monad-bft \
+MONAD_CONFIG_SRC=/path/to/config.toml \
+./scripts/bootstrap_all.sh --with-caddy --with-firewall --with-monitoring
+```
+
 What this does:
 
 - creates the `monad` system user and owns `/etc/monad` + `/opt/monad-status`

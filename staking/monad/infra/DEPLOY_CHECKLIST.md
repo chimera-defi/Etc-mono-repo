@@ -15,6 +15,7 @@
 - [ ] Install validator service: `staking/monad/infra/scripts/install_validator_service.sh`.
 - [ ] Install status server: `staking/monad/infra/scripts/install_status_service.sh`.
 - [ ] (Optional) Run all setup steps: `staking/monad/infra/scripts/setup_server.sh`.
+- [ ] (Optional) Full bootstrap: `staking/monad/infra/scripts/bootstrap_all.sh`.
 - [ ] (Optional) Install firewall rules: `staking/monad/infra/scripts/install_firewall_ufw.sh`.
 - [ ] (Optional) Monitoring stack: `staking/monad/infra/monitoring/README.md`.
 

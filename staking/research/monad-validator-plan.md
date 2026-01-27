@@ -295,6 +295,7 @@ flowchart TD
    - `staking/monad/infra/scripts/install_firewall_ufw.sh`
    - `staking/monad/infra/scripts/setup_server.sh`
    - `staking/monad/infra/SETUP.md`
+   - `staking/monad/infra/scripts/bootstrap_all.sh`
    - `staking/monad/infra/scripts/e2e_smoke_test.sh`
    - `staking/monad/infra/RUNBOOK.md`
    - `staking/monad/infra/DEPLOY_CHECKLIST.md`

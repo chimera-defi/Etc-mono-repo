@@ -54,6 +54,12 @@ MONAD_CONFIG_SRC=/path/to/config.toml \
 
 Full guide: `SETUP.md` (end‑to‑end host setup + monitoring).
 
+Full automation script:
+
+```bash
+./scripts/bootstrap_all.sh --with-caddy --with-firewall --with-monitoring
+```
+
 ## Ops TODO
 
 - Set `RPC_URL` in `/etc/monad/status.env` and enable `monad-status.service`.
@@ -111,6 +117,8 @@ Full guide: `SETUP.md` (end‑to‑end host setup + monitoring).
   - Installs Caddy and applies the status reverse proxy.
 - `scripts/setup_server.sh [--with-caddy] [--with-firewall]`
   - Runs sysctl + service installs + tests in one go.
+- `scripts/bootstrap_all.sh [--with-caddy] [--with-firewall] [--with-monitoring]`
+  - End‑to‑end bootstrap including optional monitoring stack.
 - `RUNBOOK.md`
   - MVP runbook for start, checks, and rollback.
 - `DEPLOY_CHECKLIST.md`
