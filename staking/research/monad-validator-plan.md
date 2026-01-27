@@ -244,6 +244,9 @@ flowchart TD
      - https://testnet-rpc.monad.xyz (wss: `wss://testnet-rpc.monad.xyz`)
      - https://rpc-testnet.monadinfra.com (wss: `wss://rpc-testnet.monadinfra.com`)
      - https://rpc.ankr.com/monad_testnet (Ankr; debug_* disabled)
+   - **Mainnet reference (for later)**
+     - Chain ID: `143`
+     - Public RPC endpoints: https://rpc.monad.xyz, https://rpc1.monad.xyz, https://rpc3.monad.xyz, https://rpc-mainnet.monadinfra.com
 4) **Post‑deploy verification**
    - Node synced within expected window.
    - RPC responds consistently under light polling.
