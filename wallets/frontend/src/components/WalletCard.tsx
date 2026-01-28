@@ -25,7 +25,7 @@ export function WalletCard({ document }: WalletCardProps) {
   return (
     <Link
       href={`/docs/${document.slug}`}
-      className="group block p-6 bg-slate-900/70 border border-slate-700/60 backdrop-blur-sm rounded-xl hover:border-sky-500/50 transition-all"
+      className="group block p-6 glass-card-hover"
     >
       <div className="flex items-start justify-between mb-3">
         <span

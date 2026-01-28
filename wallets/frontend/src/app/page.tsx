@@ -3,13 +3,14 @@ import Script from 'next/script';
 import { ArrowRight, Shield, Cpu, BookOpen, Github, CheckCircle, GitCompare, ArrowLeftRight, FileText, Lock, Eye, UserX, Database } from 'lucide-react';
 import { getAllDocuments } from '@/lib/markdown';
 import { getAllArticles } from '@/lib/articles';
+import { ArticleCard } from '@/components/ArticleCard';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
 
 // Score Breakdown Card Component
 function ScoreBreakdownCard() {
   return (
-    <div className="bg-slate-900/70 border border-slate-700/60 backdrop-blur-sm rounded-xl p-6">
+    <div className="glass-card p-6">
       <div className="flex items-center gap-2 mb-4">
         <div className="w-5 h-5 rounded border border-sky-400/50 flex items-center justify-center">
           <div className="w-2.5 h-2.5 bg-sky-400 rounded-sm" />
@@ -55,10 +56,7 @@ interface TopPickCardProps {
 
 function TopPickCard({ category, name, score, badges, href, icon, categoryColor }: TopPickCardProps) {
   return (
-    <Link
-      href={href}
-      className="group bg-slate-900/70 border border-slate-700/60 backdrop-blur-sm rounded-xl p-6 hover:border-sky-500/50 transition-all"
-    >
+    <Link href={href} className="group glass-card-hover p-6">
       <div className="flex items-center gap-3 mb-4">
         <div className="text-slate-400">{icon}</div>
         <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${categoryColor}`}>
@@ -87,54 +85,6 @@ function TopPickCard({ category, name, score, badges, href, icon, categoryColor 
   );
 }
 
-// Mini Table Row Component
-interface TableRowProps {
-  wallet: string;
-  score: number;
-  platforms: string;
-  license: string;
-  activity: string;
-}
-
-function MiniTableRow({ wallet, score, platforms, license, activity }: TableRowProps) {
-  return (
-    <tr className="border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors">
-      <td className="py-3 px-4 text-slate-100">{wallet}</td>
-      <td className="py-3 px-4 text-slate-300">{score}</td>
-      <td className="py-3 px-4 text-slate-300">{platforms}</td>
-      <td className="py-3 px-4 text-slate-300">{license}</td>
-      <td className="py-3 px-4 text-slate-300">{activity}</td>
-    </tr>
-  );
-}
-
-// Article Card Component
-interface ArticleCardProps {
-  category: string;
-  title: string;
-  description: string;
-  lastUpdated: string;
-  href: string;
-}
-
-function ArticleCard({ category, title, description, lastUpdated, href }: ArticleCardProps) {
-  return (
-    <Link
-      href={href}
-      className="group bg-slate-900/70 border border-slate-700/60 backdrop-blur-sm rounded-xl p-5 hover:border-sky-500/50 transition-all"
-    >
-      <span className="text-xs font-medium text-sky-400 uppercase tracking-wide mb-2 block">
-        {category}
-      </span>
-      <h3 className="text-lg font-semibold text-slate-100 mb-2 group-hover:text-sky-400 transition-colors line-clamp-2">
-        {title}
-      </h3>
-      <p className="text-sm text-slate-400 line-clamp-2 mb-3">{description}</p>
-      <span className="text-xs text-slate-500">{lastUpdated}</span>
-    </Link>
-  );
-}
-
 // Resource Card Component
 interface ResourceCardProps {
   title: string;
@@ -145,10 +95,7 @@ interface ResourceCardProps {
 
 function ResourceCard({ title, description, href, icon }: ResourceCardProps) {
   return (
-    <Link
-      href={href}
-      className="group bg-slate-900/70 border border-slate-700/60 backdrop-blur-sm rounded-xl p-5 hover:border-sky-500/50 transition-all"
-    >
+    <Link href={href} className="group glass-card-hover p-5">
       <div className="text-sky-400 mb-3">{icon}</div>
       <h3 className="text-base font-semibold text-slate-100 mb-2 group-hover:text-sky-400 transition-colors">
         {title}
@@ -172,7 +119,7 @@ function SourceTile({ name, description, href, icon }: SourceTileProps) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="bg-slate-900/70 border border-slate-700/60 backdrop-blur-sm rounded-xl p-4 hover:border-sky-500/50 transition-all"
+      className="glass-card-hover p-4"
     >
       <div className="text-slate-300 mb-2">{icon}</div>
       <h3 className="text-sm font-semibold text-slate-100 mb-1">{name}</h3>
@@ -181,10 +128,28 @@ function SourceTile({ name, description, href, icon }: SourceTileProps) {
   );
 }
 
+// Mini Table Row Component
+function MiniTableRow({ wallet, score, platforms, license, activity }: {
+  wallet: string;
+  score: number;
+  platforms: string;
+  license: string;
+  activity: string;
+}) {
+  return (
+    <tr className="border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors">
+      <td className="py-3 px-4 text-slate-100">{wallet}</td>
+      <td className="py-3 px-4 text-slate-300">{score}</td>
+      <td className="py-3 px-4 text-slate-300">{platforms}</td>
+      <td className="py-3 px-4 text-slate-300">{license}</td>
+      <td className="py-3 px-4 text-slate-300">{activity}</td>
+    </tr>
+  );
+}
+
 export default function HomePage() {
   const documents = getAllDocuments();
   const articles = getAllArticles().slice(0, 3);
-
   const guideDocs = documents.filter(d => d.category === 'guide' || d.category === 'research').slice(0, 3);
 
   // FAQPage structured data
@@ -293,286 +258,269 @@ export default function HomePage() {
       />
 
       {/* Disclaimer Banner */}
-        <div className="w-full bg-sky-900/30 border-b border-sky-800/50 text-sky-100 px-4 py-3">
-          <div className="container mx-auto max-w-7xl flex items-start gap-3">
-            <div className="mt-0.5 flex-shrink-0">
-              <svg className="h-5 w-5 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <div className="flex-1 text-sm">
-              <p className="font-semibold">Educational Research &amp; Data Only</p>
-              <p className="text-sky-200/80">No login pages, no wallet connections, no tracking. All data is public and verifiable. <a href="/docs/about" className="underline hover:text-white">Why we&apos;re not phishing</a></p>
-            </div>
+      <div className="w-full bg-sky-900/30 border-b border-sky-800/50 text-sky-100 px-4 py-3">
+        <div className="container mx-auto max-w-7xl flex items-start gap-3">
+          <div className="mt-0.5 flex-shrink-0">
+            <svg className="h-5 w-5 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+            </svg>
+          </div>
+          <div className="flex-1 text-sm">
+            <p className="font-semibold">Educational Research &amp; Data Only</p>
+            <p className="text-sky-200/80">No login pages, no wallet connections, no tracking. All data is public and verifiable. <a href="/docs/about" className="underline hover:text-white">Why we&apos;re not phishing</a></p>
           </div>
         </div>
+      </div>
 
-        {/* Hero Section */}
-        <section className="container mx-auto max-w-7xl px-4 md:px-6 pt-16 md:pt-20 pb-12 md:pb-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-            {/* Hero Left - Text Content */}
-            <div>
-              <span className="inline-flex items-center px-3 py-1 text-xs font-medium text-sky-400 border border-sky-500/50 rounded-full mb-6">
-                Evidence-led UI
-              </span>
+      {/* Hero Section */}
+      <section className="container mx-auto max-w-7xl px-4 md:px-6 pt-16 md:pt-20 pb-12 md:pb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+          {/* Hero Left - Text Content */}
+          <div>
+            <span className="inline-flex items-center px-3 py-1 text-xs font-medium text-sky-400 border border-sky-500/50 rounded-full mb-6">
+              Evidence-led UI
+            </span>
 
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-100 mb-4 leading-tight">
-                <span className="text-sky-400">Audit-grade</span> wallet comparisons for developers
-              </h1>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-100 mb-4 leading-tight">
+              <span className="text-sky-400">Audit-grade</span> wallet comparisons for developers
+            </h1>
 
-              <p className="text-lg text-slate-400 mb-8 max-w-xl">
-                Evidence-led scoring, transparent sources, and side-by-side tooling.
-              </p>
+            <p className="text-lg text-slate-400 mb-8 max-w-xl">
+              Evidence-led scoring, transparent sources, and side-by-side tooling.
+            </p>
 
-              <div className="flex flex-wrap gap-4">
-                <Link
-                  href="/explore"
-                  className="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-400 text-slate-900 font-medium px-6 py-3 rounded-lg transition-colors"
-                >
-                  Start Comparison
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-                <Link
-                  href="/docs/methodology"
-                  className="inline-flex items-center gap-2 border border-slate-600 hover:border-slate-500 text-slate-200 font-medium px-6 py-3 rounded-lg transition-colors"
-                >
-                  Read Methodology
-                </Link>
-              </div>
-            </div>
-
-            {/* Hero Right - Score Breakdown Card */}
-            <div className="lg:justify-self-end w-full lg:max-w-md">
-              <ScoreBreakdownCard />
+            <div className="flex flex-wrap gap-4">
+              <Link
+                href="/explore"
+                className="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-400 text-slate-900 font-medium px-6 py-3 rounded-lg transition-colors"
+              >
+                Start Comparison
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/docs/methodology"
+                className="inline-flex items-center gap-2 border border-slate-600 hover:border-slate-500 text-slate-200 font-medium px-6 py-3 rounded-lg transition-colors"
+              >
+                Read Methodology
+              </Link>
             </div>
           </div>
-        </section>
 
-        {/* Trust / Proof Band */}
-        <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
-          <div className="bg-slate-900/50 border border-slate-700/40 rounded-xl px-6 py-4">
-            <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 text-sm text-slate-400">
-              <span className="flex items-center gap-2">
-                <Lock className="h-4 w-4 text-slate-500" />
-                No login
-              </span>
-              <span className="hidden md:inline text-slate-700">/</span>
-              <span className="flex items-center gap-2">
-                <Eye className="h-4 w-4 text-slate-500" />
-                No tracking
-              </span>
-              <span className="hidden md:inline text-slate-700">/</span>
-              <span className="flex items-center gap-2">
-                <UserX className="h-4 w-4 text-slate-500" />
-                No affiliates
-              </span>
-              <span className="hidden md:inline text-slate-700">/</span>
-              <span className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-slate-500" />
-                Verified sources
-              </span>
-            </div>
+          {/* Hero Right - Score Breakdown Card */}
+          <div className="lg:justify-self-end w-full lg:max-w-md">
+            <ScoreBreakdownCard />
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Top Picks Section */}
-        <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
-          <h2 className="text-2xl font-bold text-slate-100 mb-6">Top Picks + Evidence</h2>
+      {/* Trust / Proof Band */}
+      <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
+        <div className="bg-slate-900/50 border border-slate-700/40 rounded-xl px-6 py-4">
+          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 text-sm text-slate-400">
+            <span className="flex items-center gap-2">
+              <Lock className="h-4 w-4 text-slate-500" />
+              No login
+            </span>
+            <span className="hidden md:inline text-slate-700">/</span>
+            <span className="flex items-center gap-2">
+              <Eye className="h-4 w-4 text-slate-500" />
+              No tracking
+            </span>
+            <span className="hidden md:inline text-slate-700">/</span>
+            <span className="flex items-center gap-2">
+              <UserX className="h-4 w-4 text-slate-500" />
+              No affiliates
+            </span>
+            <span className="hidden md:inline text-slate-700">/</span>
+            <span className="flex items-center gap-2">
+              <CheckCircle className="h-4 w-4 text-slate-500" />
+              Verified sources
+            </span>
+          </div>
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <TopPickCard
-              category="Software"
-              name="Rabby Wallet"
-              score={92}
-              badges={['6 releases', 'Tx Sim', 'Open']}
-              href="/docs/software-wallets"
-              icon={<GitCompare className="h-5 w-5" />}
-              categoryColor="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
+      {/* Top Picks Section */}
+      <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
+        <h2 className="text-2xl font-bold text-slate-100 mb-6">Top Picks + Evidence</h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <TopPickCard
+            category="Software"
+            name="Rabby Wallet"
+            score={92}
+            badges={['6 releases', 'Tx Sim', 'Open']}
+            href="/docs/software-wallets"
+            icon={<GitCompare className="h-5 w-5" />}
+            categoryColor="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
+          />
+          <TopPickCard
+            category="Hardware"
+            name="Trezor Safe 5"
+            score={92}
+            badges={['Secure', 'Open', 'Active']}
+            href="/docs/hardware-wallets"
+            icon={<Shield className="h-5 w-5" />}
+            categoryColor="bg-sky-500/20 text-sky-400 border border-sky-500/30"
+          />
+          <TopPickCard
+            category="Ramps"
+            name="Transak"
+            score={92}
+            badges={['Dev UX', '160+', 'API']}
+            href="/docs/ramps"
+            icon={<ArrowLeftRight className="h-5 w-5" />}
+            categoryColor="bg-amber-500/20 text-amber-400 border border-amber-500/30"
+          />
+        </div>
+      </section>
+
+      {/* Comparison Preview (Mini Table) */}
+      <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold text-slate-100">Comparison Preview</h2>
+          <Link
+            href="/explore"
+            className="inline-flex items-center gap-2 border border-slate-600 hover:border-sky-500 text-slate-200 hover:text-sky-400 text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+          >
+            Open Explorer
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        <div className="glass-card overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-slate-800/50 border-b border-slate-700/50">
+                <tr>
+                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-300">Wallet</th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-300">Score</th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-300">Platforms</th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-300">License</th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-300">Activity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <MiniTableRow wallet="Rabby Wallet" score={92} platforms="Desktop, Mobile" license="Open Source" activity="Active" />
+                <MiniTableRow wallet="Trezor Safe 5" score={92} platforms="Hardware" license="Open Source" activity="Active" />
+                <MiniTableRow wallet="Transak" score={92} platforms="API, SDK" license="Commercial" activity="Active" />
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* Latest Articles */}
+      <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold text-slate-100">Latest Articles</h2>
+          <Link
+            href="/articles"
+            className="inline-flex items-center gap-1 text-sm text-sky-400 hover:text-sky-300 transition-colors"
+          >
+            View all
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {articles.map((article) => (
+            <ArticleCard
+              key={article.slug}
+              slug={article.slug}
+              category={article.category}
+              title={article.title}
+              description={article.description}
+              lastUpdated={article.lastUpdated}
+              variant="compact"
             />
-            <TopPickCard
-              category="Hardware"
-              name="Trezor Safe 5"
-              score={92}
-              badges={['Secure', 'Open', 'Active']}
-              href="/docs/hardware-wallets"
-              icon={<Shield className="h-5 w-5" />}
-              categoryColor="bg-sky-500/20 text-sky-400 border border-sky-500/30"
-            />
-            <TopPickCard
-              category="Ramps"
-              name="Transak"
-              score={92}
-              badges={['Dev UX', '160+', 'API']}
-              href="/docs/ramps"
-              icon={<ArrowLeftRight className="h-5 w-5" />}
-              categoryColor="bg-amber-500/20 text-amber-400 border border-amber-500/30"
-            />
-          </div>
-        </section>
+          ))}
+        </div>
+      </section>
 
-        {/* Comparison Preview (Mini Table) */}
-        <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-slate-100">Comparison Preview</h2>
-            <Link
-              href="/explore"
-              className="inline-flex items-center gap-2 border border-slate-600 hover:border-sky-500 text-slate-200 hover:text-sky-400 text-sm font-medium px-4 py-2 rounded-lg transition-colors"
-            >
-              Open Explorer
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
+      {/* Resources & Guides */}
+      <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold text-slate-100">Resources &amp; Guides</h2>
+          <Link
+            href="/docs"
+            className="inline-flex items-center gap-1 text-sm text-sky-400 hover:text-sky-300 transition-colors"
+          >
+            View all
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
 
-          <div className="bg-slate-900/70 border border-slate-700/60 backdrop-blur-sm rounded-xl overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-slate-800/50 border-b border-slate-700/50">
-                  <tr>
-                    <th className="py-3 px-4 text-left text-sm font-semibold text-slate-300">Wallet</th>
-                    <th className="py-3 px-4 text-left text-sm font-semibold text-slate-300">Score</th>
-                    <th className="py-3 px-4 text-left text-sm font-semibold text-slate-300">Platforms</th>
-                    <th className="py-3 px-4 text-left text-sm font-semibold text-slate-300">License</th>
-                    <th className="py-3 px-4 text-left text-sm font-semibold text-slate-300">Activity</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <MiniTableRow
-                    wallet="Rabby Wallet"
-                    score={92}
-                    platforms="Desktop, Mobile"
-                    license="Open Source"
-                    activity="Active"
-                  />
-                  <MiniTableRow
-                    wallet="Trezor Safe 5"
-                    score={92}
-                    platforms="Hardware"
-                    license="Open Source"
-                    activity="Active"
-                  />
-                  <MiniTableRow
-                    wallet="Transak"
-                    score={92}
-                    platforms="API, SDK"
-                    license="Commercial"
-                    activity="Active"
-                  />
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        {/* Latest Articles */}
-        <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-slate-100">Latest Articles</h2>
-            <Link
-              href="/articles"
-              className="inline-flex items-center gap-1 text-sm text-sky-400 hover:text-sky-300 transition-colors"
-            >
-              View all
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {articles.map((article) => (
-              <ArticleCard
-                key={article.slug}
-                category={article.category}
-                title={article.title}
-                description={article.description}
-                lastUpdated={article.lastUpdated}
-                href={`/articles/${article.slug}`}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {guideDocs.length > 0 ? (
+            guideDocs.map((doc) => (
+              <ResourceCard
+                key={doc.slug}
+                title={doc.title}
+                description={doc.description}
+                href={`/docs/${doc.slug}`}
+                icon={<BookOpen className="h-6 w-6" />}
               />
-            ))}
-          </div>
-        </section>
+            ))
+          ) : (
+            <>
+              <ResourceCard
+                title="Scoring Methodology"
+                description="Learn how we evaluate and score wallets based on security, developer experience, and more."
+                href="/docs/methodology"
+                icon={<FileText className="h-6 w-6" />}
+              />
+              <ResourceCard
+                title="Data Sources"
+                description="Transparency about where our data comes from and how we verify it."
+                href="/docs/data-sources"
+                icon={<Database className="h-6 w-6" />}
+              />
+              <ResourceCard
+                title="Security Guide"
+                description="Best practices for choosing and using crypto wallets securely."
+                href="/docs/security-guide"
+                icon={<Shield className="h-6 w-6" />}
+              />
+            </>
+          )}
+        </div>
+      </section>
 
-        {/* Resources & Guides */}
-        <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-slate-100">Resources &amp; Guides</h2>
-            <Link
-              href="/docs"
-              className="inline-flex items-center gap-1 text-sm text-sky-400 hover:text-sky-300 transition-colors"
-            >
-              View all
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
+      {/* Sources & Transparency */}
+      <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-16 md:pb-20">
+        <h2 className="text-2xl font-bold text-slate-100 mb-2">Sources &amp; Transparency</h2>
+        <p className="text-sm text-slate-400 mb-6">
+          All links are to official, verified sources. No shortened URLs or referral links.
+        </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {guideDocs.length > 0 ? (
-              guideDocs.map((doc) => (
-                <ResourceCard
-                  key={doc.slug}
-                  title={doc.title}
-                  description={doc.description}
-                  href={`/docs/${doc.slug}`}
-                  icon={<BookOpen className="h-6 w-6" />}
-                />
-              ))
-            ) : (
-              <>
-                <ResourceCard
-                  title="Scoring Methodology"
-                  description="Learn how we evaluate and score wallets based on security, developer experience, and more."
-                  href="/docs/methodology"
-                  icon={<FileText className="h-6 w-6" />}
-                />
-                <ResourceCard
-                  title="Data Sources"
-                  description="Transparency about where our data comes from and how we verify it."
-                  href="/docs/data-sources"
-                  icon={<Database className="h-6 w-6" />}
-                />
-                <ResourceCard
-                  title="Security Guide"
-                  description="Best practices for choosing and using crypto wallets securely."
-                  href="/docs/security-guide"
-                  icon={<Shield className="h-6 w-6" />}
-                />
-              </>
-            )}
-          </div>
-        </section>
-
-        {/* Sources & Transparency */}
-        <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-16 md:pb-20">
-          <h2 className="text-2xl font-bold text-slate-100 mb-2">Sources &amp; Transparency</h2>
-          <p className="text-sm text-slate-400 mb-6">
-            All links are to official, verified sources. No shortened URLs or referral links.
-          </p>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <SourceTile
-              name="GitHub API"
-              description="Stars, issues, activity status"
-              href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets"
-              icon={<Github className="h-5 w-5" />}
-            />
-            <SourceTile
-              name="WalletBeat"
-              description="License, devices, security"
-              href="https://walletbeat.fyi"
-              icon={<BookOpen className="h-5 w-5" />}
-            />
-            <SourceTile
-              name="Rabby API"
-              description="Chain counts"
-              href="https://api.rabby.io/v1/chain/list"
-              icon={<Shield className="h-5 w-5" />}
-            />
-            <SourceTile
-              name="Trust Registry"
-              description="Network support"
-              href="https://github.com/trustwallet/wallet-core"
-              icon={<Cpu className="h-5 w-5" />}
-            />
-          </div>
-        </section>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <SourceTile
+            name="GitHub API"
+            description="Stars, issues, activity status"
+            href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets"
+            icon={<Github className="h-5 w-5" />}
+          />
+          <SourceTile
+            name="WalletBeat"
+            description="License, devices, security"
+            href="https://walletbeat.fyi"
+            icon={<BookOpen className="h-5 w-5" />}
+          />
+          <SourceTile
+            name="Rabby API"
+            description="Chain counts"
+            href="https://api.rabby.io/v1/chain/list"
+            icon={<Shield className="h-5 w-5" />}
+          />
+          <SourceTile
+            name="Trust Registry"
+            description="Network support"
+            href="https://github.com/trustwallet/wallet-core"
+            icon={<Cpu className="h-5 w-5" />}
+          />
+        </div>
+      </section>
     </>
   );
 }

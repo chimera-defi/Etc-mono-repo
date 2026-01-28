@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import { ArrowRight, Calendar, Clock, Tag } from 'lucide-react';
 import { getAllArticles } from '@/lib/articles';
-import { calculateReadingTime, formatReadingTime } from '@/lib/seo';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { ArticleCard } from '@/components/ArticleCard';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
 
@@ -69,7 +67,17 @@ export default function ArticlesPage() {
           </h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {comparisonArticles.map((article) => (
-              <ArticleCard key={article.slug} article={article} />
+              <ArticleCard
+                key={article.slug}
+                slug={article.slug}
+                category={article.category}
+                title={article.title}
+                description={article.description}
+                lastUpdated={article.lastUpdated}
+                content={article.content}
+                wallets={article.wallets}
+                variant="full"
+              />
             ))}
           </div>
         </section>
@@ -84,7 +92,17 @@ export default function ArticlesPage() {
           </h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {guideArticles.map((article) => (
-              <ArticleCard key={article.slug} article={article} />
+              <ArticleCard
+                key={article.slug}
+                slug={article.slug}
+                category={article.category}
+                title={article.title}
+                description={article.description}
+                lastUpdated={article.lastUpdated}
+                content={article.content}
+                wallets={article.wallets}
+                variant="full"
+              />
             ))}
           </div>
         </section>
@@ -97,57 +115,5 @@ export default function ArticlesPage() {
         </div>
       )}
     </div>
-  );
-}
-
-function ArticleCard({ article }: { article: ReturnType<typeof getAllArticles>[0] }) {
-  const readingTime = calculateReadingTime(article.content);
-
-  return (
-    <Link
-      href={`/articles/${article.slug}`}
-      className="group block bg-slate-900/70 border border-slate-700/60 backdrop-blur-sm rounded-xl p-6 hover:border-sky-500/50 transition-all"
-    >
-      {/* Category Badge */}
-      <div className="flex items-center justify-between mb-3">
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-400 font-medium text-xs capitalize">
-          {article.category}
-        </span>
-        <span className="text-xs text-slate-400 inline-flex items-center gap-1">
-          <Clock className="h-3 w-3" />
-          {formatReadingTime(readingTime)}
-        </span>
-      </div>
-
-      {/* Title */}
-      <h3 className="text-xl font-semibold mb-2 text-slate-100 group-hover:text-sky-400 transition-colors">
-        {article.title}
-      </h3>
-
-      {/* Description */}
-      <p className="text-sm text-slate-400 mb-4 line-clamp-3">
-        {article.description}
-      </p>
-
-      {/* Meta */}
-      <div className="flex items-center gap-4 text-xs text-slate-500 mb-4">
-        <span className="inline-flex items-center gap-1">
-          <Calendar className="h-3 w-3" />
-          {new Date(article.lastUpdated).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-        </span>
-        {article.wallets && article.wallets.length > 0 && (
-          <span className="inline-flex items-center gap-1">
-            <Tag className="h-3 w-3" />
-            {article.wallets.length} wallet{article.wallets.length !== 1 ? 's' : ''}
-          </span>
-        )}
-      </div>
-
-      {/* Read More */}
-      <div className="inline-flex items-center gap-2 text-sm font-medium text-sky-400 group-hover:gap-3 transition-all">
-        Read Article
-        <ArrowRight className="h-4 w-4" />
-      </div>
-    </Link>
   );
 }
