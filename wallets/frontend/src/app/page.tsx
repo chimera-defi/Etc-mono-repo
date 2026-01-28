@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import Script from 'next/script';
-import { ArrowRight, Shield, Cpu, BookOpen, Github, CheckCircle, GitCompare, ArrowLeftRight, FileText, Lock, Eye, UserX, Database, CreditCard } from 'lucide-react';
+import { ArrowRight, Shield, Cpu, BookOpen, Github, CheckCircle, GitCompare, ArrowLeftRight, FileText, Lock, Eye, UserX, Database, CreditCard, Sparkles } from 'lucide-react';
 import { getAllDocuments } from '@/lib/markdown';
 import { getAllArticles } from '@/lib/articles';
 import { ArticleCard } from '@/components/ArticleCard';
+import { FAQ } from '@/components/FAQ';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
 
@@ -159,18 +160,34 @@ export default function HomePage() {
     mainEntity: [
       {
         '@type': 'Question',
-        name: 'What is Wallet Radar?',
+        name: 'What is a crypto wallet?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Wallet Radar is a developer-focused platform for comparing crypto wallets. We provide comprehensive scoring, security audits, GitHub activity tracking, and developer experience benchmarks for software and hardware wallets.',
+          text: 'A crypto wallet is software or hardware that stores your private keys and lets you send, receive, and manage cryptocurrencies. It doesn\'t actually store your coins—those live on the blockchain. Instead, it holds the keys that prove you own them.',
         },
       },
       {
         '@type': 'Question',
-        name: 'What makes Wallet Radar different from other wallet comparison sites?',
+        name: 'How do I connect my wallet to a dApp?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Wallet Radar focuses specifically on developer needs, tracking GitHub activity, release frequency, security audits, and developer experience metrics. We compare software and hardware wallets with a detailed scoring methodology.',
+          text: 'To connect your wallet to a decentralized application (dApp): 1) Visit the dApp website, 2) Click "Connect Wallet" button, 3) Select your wallet from the list, 4) Approve the connection in your wallet popup, 5) Review and confirm any permissions. Always verify you\'re on the correct website before connecting.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What is a seed phrase and why is it important?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'A seed phrase (recovery phrase) is a 12-24 word sequence that can restore your wallet if you lose access. It\'s the master key to all your funds. NEVER share it with anyone, store it offline in multiple secure locations, and never enter it on any website.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What is Wallet Radar?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Wallet Radar is a developer-focused platform for comparing crypto wallets. We provide comprehensive scoring, security audits, GitHub activity tracking, and developer experience benchmarks for software and hardware wallets.',
         },
       },
       {
@@ -187,14 +204,6 @@ export default function HomePage() {
         acceptedAnswer: {
           '@type': 'Answer',
           text: 'Trezor Safe 5 scores 92 and is our top hardware wallet recommendation. It features fully open source firmware, Secure Element (Optiga), active development, and costs approximately $169.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'How often is wallet data updated?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Wallet data is regularly refreshed via GitHub API, tracking stars, issues, release frequency, and activity status. Comparison pages are updated weekly, while guides are updated monthly.',
         },
       },
     ],
@@ -535,6 +544,73 @@ export default function HomePage() {
           )}
         </div>
       </section>
+
+      {/* New to Wallets? Quick Start */}
+      <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
+        <div className="glass-card p-6 md:p-8 relative overflow-hidden">
+          {/* Background accent */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-sky-500/10 to-transparent rounded-full -translate-y-1/2 translate-x-1/2" />
+
+          <div className="relative">
+            <div className="flex items-center gap-2 mb-4">
+              <Sparkles className="h-5 w-5 text-sky-400" />
+              <span className="text-sm font-medium text-sky-400">Quick Start</span>
+            </div>
+
+            <h2 className="text-2xl font-bold text-slate-100 mb-3">New to Crypto Wallets?</h2>
+            <p className="text-slate-400 mb-6 max-w-2xl">
+              A wallet is your gateway to Web3. It stores your keys, lets you sign transactions, and connects you to decentralized apps. Here&apos;s how to get started in 3 steps:
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <div className="flex gap-3">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-400 font-bold text-sm">1</div>
+                <div>
+                  <h3 className="font-semibold text-slate-100 mb-1">Choose a Wallet</h3>
+                  <p className="text-sm text-slate-400">Pick based on your needs—Rabby for developers, Trust for multi-chain.</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-400 font-bold text-sm">2</div>
+                <div>
+                  <h3 className="font-semibold text-slate-100 mb-1">Secure Your Seed</h3>
+                  <p className="text-sm text-slate-400">Write down your 12-24 word phrase. Store it offline. Never share it.</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-400 font-bold text-sm">3</div>
+                <div>
+                  <h3 className="font-semibold text-slate-100 mb-1">Connect to dApps</h3>
+                  <p className="text-sm text-slate-400">Click &quot;Connect Wallet&quot; on any dApp and approve the connection.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/docs/software-wallets"
+                className="inline-flex items-center gap-2 text-sm font-medium text-sky-400 hover:text-sky-300 transition-colors"
+              >
+                Compare wallets
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <span className="text-slate-600">•</span>
+              <a
+                href="#faq"
+                className="inline-flex items-center gap-2 text-sm font-medium text-slate-400 hover:text-slate-300 transition-colors"
+              >
+                Read the FAQ below
+                <ArrowRight className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <div id="faq">
+        <FAQ />
+      </div>
 
       {/* Sources & Transparency */}
       <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-16 md:pb-20">
