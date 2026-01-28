@@ -340,7 +340,7 @@ function InlineCollapsibleSection({
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
           'w-full flex items-center gap-3 p-3 rounded-lg',
-          'bg-muted/50 hover:bg-muted border border-border',
+          'bg-slate-900/60 hover:bg-slate-900/80 border border-slate-700/60 backdrop-blur',
           'text-left font-semibold transition-colors',
           headingSizeClasses
         )}
@@ -360,7 +360,7 @@ function InlineCollapsibleSection({
       </button>
 
       {isOpen && (
-        <div className="mt-4 pl-4 border-l-2 border-primary/20">
+        <div className="mt-4 pl-4 border-l-2 border-sky-400/30">
           {children}
         </div>
       )}
@@ -478,7 +478,7 @@ function SearchableTable({ tableContent, title }: { tableContent: string; title?
 
   return (
     <div className="searchable-table mb-8">
-      <div className="flex flex-col sm:flex-row gap-3 mb-4 p-4 bg-muted/50 rounded-lg border border-border">
+      <div className="flex flex-col sm:flex-row gap-3 mb-4 p-4 glass-panel">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <input
@@ -486,7 +486,7 @@ function SearchableTable({ tableContent, title }: { tableContent: string; title?
             placeholder={`Search ${title || 'wallets'}... (name, score, features)`}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-10 py-2 text-sm border border-border rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="glass-input pl-10 pr-10 py-2 text-sm"
             aria-label="Search table"
           />
           {searchQuery && (
@@ -503,7 +503,7 @@ function SearchableTable({ tableContent, title }: { tableContent: string; title?
         {hasFilters && (
           <button
             onClick={handleClear}
-            className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground border border-border rounded-md hover:bg-muted transition-colors whitespace-nowrap"
+            className="px-4 py-2 text-sm text-slate-300 border border-slate-700/60 rounded-md bg-slate-900/50 hover:bg-slate-900/80 transition-colors whitespace-nowrap"
           >
             Clear Filters
           </button>
@@ -520,7 +520,7 @@ function SearchableTable({ tableContent, title }: { tableContent: string; title?
 
       <div className="table-wrapper overflow-x-auto -mx-4 px-4">
         <table className="w-full border-collapse text-sm">
-          <thead className="bg-muted">
+          <thead className="bg-slate-950/70">
             <tr>
               {parsedTable.headers.map((header, index) => {
                 const tableType = detectTableType(title);
@@ -529,7 +529,7 @@ function SearchableTable({ tableContent, title }: { tableContent: string; title?
                   <th
                     key={index}
                     onClick={() => handleSort(index)}
-                    className="px-3 py-2 text-left font-semibold border-b border-border whitespace-nowrap cursor-pointer hover:bg-muted/80 transition-colors select-none group"
+                    className="px-3 py-2 text-left font-semibold border-b border-slate-700/60 whitespace-nowrap cursor-pointer hover:bg-slate-900/70 transition-colors select-none group"
                     title={tooltip ? undefined : `Click to sort by ${header}`}
                   >
                     <div className="flex items-center gap-1.5">
@@ -547,7 +547,7 @@ function SearchableTable({ tableContent, title }: { tableContent: string; title?
                           )}
                         </span>
                       ) : (
-                        <span className="text-muted-foreground/40 group-hover:text-muted-foreground/70 flex-shrink-0 transition-colors">
+                        <span className="text-slate-500/60 group-hover:text-slate-400/80 flex-shrink-0 transition-colors">
                           <div className="flex flex-col -space-y-1">
                             <ChevronUp className="h-2 w-2" />
                             <ChevronDown className="h-2 w-2" />
@@ -572,7 +572,7 @@ function SearchableTable({ tableContent, title }: { tableContent: string; title?
               </tr>
             ) : (
               sortedRows.map((row, rowIndex) => (
-                <tr key={rowIndex} className="border-b border-border hover:bg-muted/50">
+                <tr key={rowIndex} className="border-b border-slate-800/70 hover:bg-slate-900/40">
                   {row.rawCells.map((cell, cellIndex) => (
                     <td key={cellIndex} className="px-3 py-2">
                       <ReactMarkdown

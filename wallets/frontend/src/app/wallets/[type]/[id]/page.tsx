@@ -274,7 +274,7 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
   ], baseUrl);
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-10">
       <Script
         id="breadcrumb-schema"
         type="application/ld+json"
@@ -298,41 +298,43 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
         ]}
       />
 
-      <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mt-6">
-        <div>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
-            <span className="inline-flex items-center gap-2">
-              {typeIcons[params.type]}
-              {typeLabels[params.type]}
-            </span>
-            <span aria-hidden="true">•</span>
-            <span>Score {wallet.score}/100</span>
+      <div className="glass-panel p-6 mt-6">
+        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+          <div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+              <span className="inline-flex items-center gap-2">
+                {typeIcons[params.type]}
+                {typeLabels[params.type]}
+              </span>
+              <span aria-hidden="true">•</span>
+              <span>Score {wallet.score}/100</span>
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold mb-4">{wallet.name}</h1>
+            <p className="text-lg text-muted-foreground max-w-2xl">{description}</p>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">{wallet.name}</h1>
-          <p className="text-lg text-muted-foreground max-w-2xl">{description}</p>
-        </div>
 
-        <div className="flex flex-col gap-3 w-full max-w-xs">
-          <SocialShare url={pageUrl} title={wallet.name} description={description} size="large" />
-          <Link
-            href={`/explore?tab=${params.type}&search=${encodeURIComponent(wallet.name)}`}
-            className="inline-flex items-center gap-2 border border-border px-4 py-2 rounded-lg text-sm font-medium hover:bg-muted transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Explorer
-          </Link>
-          <Link
-            href={typeDocs[params.type].href}
-            className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors"
-          >
-            View Comparison Table
-          </Link>
+          <div className="flex flex-col gap-3 w-full max-w-xs">
+            <SocialShare url={pageUrl} title={wallet.name} description={description} size="large" />
+            <Link
+              href={`/explore?tab=${params.type}&search=${encodeURIComponent(wallet.name)}`}
+              className="inline-flex items-center gap-2 border border-slate-700/60 bg-slate-900/60 px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-900/80 transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to Explorer
+            </Link>
+            <Link
+              href={typeDocs[params.type].href}
+              className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-sky-400 to-indigo-500 px-4 py-2 text-sm font-semibold text-slate-900 shadow-sm transition hover:brightness-110"
+            >
+              View Comparison Table
+            </Link>
+          </div>
         </div>
       </div>
 
       <section className="mt-10 grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8">
         <div>
-          <div className="rounded-xl border border-border p-6 mb-6">
+          <div className="glass-panel p-6 mb-6">
             <h2 className="text-xl font-semibold mb-4">Highlights</h2>
             <ul className="space-y-2 text-sm text-muted-foreground">
               {highlights.map(item => (
@@ -344,7 +346,7 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
             </ul>
           </div>
 
-          <div className="rounded-xl border border-border p-6">
+          <div className="glass-panel p-6">
             <h2 className="text-xl font-semibold mb-4">Source & References</h2>
             <p className="text-sm text-muted-foreground mb-4">
               All scores come from Wallet Radar&apos;s developer-focused scoring methodology. View the full scoring breakdown, audits, and platform requirements in the comparison tables.
@@ -367,7 +369,7 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
         </div>
 
         <aside className="space-y-6">
-          <div className="rounded-xl border border-border p-6">
+          <div className="glass-panel p-6">
             <h2 className="text-lg font-semibold mb-3">Quick Links</h2>
             <ul className="space-y-2 text-sm">
               <li>
@@ -390,7 +392,7 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
             </ul>
           </div>
 
-          <div className="rounded-xl border border-border p-6">
+          <div className="glass-panel p-6">
             <h2 className="text-lg font-semibold mb-3">Related {typeLabels[params.type]}s</h2>
             <ul className="space-y-3 text-sm">
               {relatedWallets.map(item => (
@@ -411,7 +413,7 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
           </div>
 
           {'github' in wallet && wallet.github && (
-            <div className="rounded-xl border border-border p-6">
+            <div className="glass-panel p-6">
               <h2 className="text-lg font-semibold mb-3">Developer Links</h2>
               <a
                 href={wallet.github}
@@ -426,7 +428,7 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
           )}
 
           {'url' in wallet && wallet.url && (
-            <div className="rounded-xl border border-border p-6">
+            <div className="glass-panel p-6">
               <h2 className="text-lg font-semibold mb-3">Official Website</h2>
               <a
                 href={wallet.url}
@@ -441,7 +443,7 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
           )}
 
           {'providerUrl' in wallet && wallet.providerUrl && (
-            <div className="rounded-xl border border-border p-6">
+            <div className="glass-panel p-6">
               <h2 className="text-lg font-semibold mb-3">Apply or Learn More</h2>
               <a
                 href={wallet.providerUrl}

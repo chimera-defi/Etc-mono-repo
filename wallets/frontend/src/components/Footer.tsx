@@ -3,7 +3,7 @@ import { Wallet, Github, ExternalLink, Mail, Twitter } from 'lucide-react';
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-muted/30">
+    <footer className="border-t border-slate-800/60 bg-slate-950/70">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
@@ -117,7 +117,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-border">
+        <div className="mt-8 pt-8 border-t border-slate-800/60">
           <p className="text-sm text-muted-foreground mb-4">
             Data from GitHub API, WalletBeat, and community research.
           </p>

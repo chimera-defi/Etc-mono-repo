@@ -50,32 +50,32 @@ export function SocialShare({ url, title, description, className = '', size = 'd
       icon: Twitter,
       label: 'Share on Twitter',
       shortLabel: 'Twitter',
-      className: 'hover:bg-[#1DA1F2]/10 hover:text-[#1DA1F2]',
-      bgClass: 'bg-[#1DA1F2]/10 text-[#1DA1F2]',
+      className: 'hover:bg-slate-900/60 hover:text-slate-100',
+      bgClass: 'bg-slate-900/70 text-[#38bdf8] border border-slate-700/60',
     },
     {
       platform: 'facebook' as const,
       icon: Facebook,
       label: 'Share on Facebook',
       shortLabel: 'Facebook',
-      className: 'hover:bg-[#4267B2]/10 hover:text-[#4267B2]',
-      bgClass: 'bg-[#4267B2]/10 text-[#4267B2]',
+      className: 'hover:bg-slate-900/60 hover:text-slate-100',
+      bgClass: 'bg-slate-900/70 text-[#60a5fa] border border-slate-700/60',
     },
     {
       platform: 'linkedin' as const,
       icon: Linkedin,
       label: 'Share on LinkedIn',
       shortLabel: 'LinkedIn',
-      className: 'hover:bg-[#0077B5]/10 hover:text-[#0077B5]',
-      bgClass: 'bg-[#0077B5]/10 text-[#0077B5]',
+      className: 'hover:bg-slate-900/60 hover:text-slate-100',
+      bgClass: 'bg-slate-900/70 text-[#38bdf8] border border-slate-700/60',
     },
     {
       platform: 'email' as const,
       icon: Mail,
       label: 'Share via Email',
       shortLabel: 'Email',
-      className: 'hover:bg-muted',
-      bgClass: 'bg-muted',
+      className: 'hover:bg-slate-900/60 hover:text-slate-100',
+      bgClass: 'bg-slate-900/70 text-slate-200 border border-slate-700/60',
     },
   ];
 
@@ -86,7 +86,7 @@ export function SocialShare({ url, title, description, className = '', size = 'd
         <button
           key={platform}
           onClick={() => handleShare(platform)}
-          className={`${buttonPadding} rounded-lg text-muted-foreground transition-colors ${isLarge ? `${bgClass} border border-border` : btnClass} ${isLarge ? 'flex items-center gap-2' : ''}`}
+          className={`${buttonPadding} rounded-lg text-muted-foreground transition-colors ${isLarge ? `${bgClass}` : btnClass} ${isLarge ? 'flex items-center gap-2' : ''}`}
           title={label}
           aria-label={label}
         >
@@ -96,7 +96,7 @@ export function SocialShare({ url, title, description, className = '', size = 'd
       ))}
       <button
         onClick={handleCopyLink}
-        className={`${buttonPadding} rounded-lg text-muted-foreground hover:bg-muted transition-colors ${isLarge ? 'bg-muted border border-border flex items-center gap-2' : ''}`}
+        className={`${buttonPadding} rounded-lg text-muted-foreground hover:bg-slate-900/60 transition-colors ${isLarge ? 'bg-slate-900/70 border border-slate-700/60 flex items-center gap-2' : ''}`}
         title={copied ? 'Copied!' : 'Copy link'}
         aria-label="Copy link"
       >
@@ -126,14 +126,14 @@ export function SocialShareCompact({ url, title, description }: SocialShareProps
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 rounded-lg text-muted-foreground hover:bg-muted transition-colors"
+        className="p-2 rounded-lg text-muted-foreground hover:bg-slate-900/60 transition-colors"
         title="Share"
         aria-label="Share"
       >
         <Link2 className="h-4 w-4" />
       </button>
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2 p-2 bg-background border border-border rounded-lg shadow-lg z-50">
+        <div className="absolute right-0 top-full mt-2 p-2 glass-panel z-50">
           <SocialShare url={url} title={title} description={description} />
         </div>
       )}

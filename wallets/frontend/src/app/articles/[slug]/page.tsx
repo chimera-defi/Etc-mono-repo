@@ -146,7 +146,7 @@ export default function ArticlePage({ params }: PageProps) {
         />
       )}
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-10">
         {/* Breadcrumb Navigation */}
         <Breadcrumbs
           items={[
@@ -158,85 +158,87 @@ export default function ArticlePage({ params }: PageProps) {
         <div className="lg:grid lg:grid-cols-[1fr_250px] lg:gap-8 mt-6">
           {/* Main Content */}
           <article className="min-w-0">
-            {/* Header */}
-            <header className="mb-8 pb-6 border-b border-border">
-              <div className="flex items-center gap-3 text-sm text-muted-foreground mb-3 flex-wrap">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary font-medium capitalize">
-                  {article.category}
-                </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <Calendar className="h-4 w-4" />
-                  <time dateTime={article.lastUpdated}>{new Date(article.lastUpdated).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
-                </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <Clock className="h-4 w-4" />
-                  <span>{formatReadingTime(calculateReadingTime(article.content))}</span>
-                </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <User className="h-4 w-4" />
-                  <span>{article.author}</span>
-                </span>
-              </div>
-
-              <h1 className="text-3xl md:text-4xl font-bold mb-4">{article.title}</h1>
-              <p className="text-lg text-muted-foreground mb-4">{article.description}</p>
-
-              {/* Tags */}
-              {article.tags && article.tags.length > 0 && (
-                <div className="flex items-center gap-2 flex-wrap mb-4">
-                  <Tag className="h-4 w-4 text-muted-foreground" />
-                  {article.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs px-2 py-1 rounded-md bg-muted text-muted-foreground"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+            <div className="glass-panel p-6">
+              {/* Header */}
+              <header className="mb-8 pb-6 border-b border-slate-700/60">
+                <div className="flex items-center gap-3 text-sm text-muted-foreground mb-3 flex-wrap">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-sky-400/40 bg-sky-400/10 text-sky-300 font-medium capitalize">
+                    {article.category}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <Calendar className="h-4 w-4" />
+                    <time dateTime={article.lastUpdated}>{new Date(article.lastUpdated).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+                  </span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <Clock className="h-4 w-4" />
+                    <span>{formatReadingTime(calculateReadingTime(article.content))}</span>
+                  </span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <User className="h-4 w-4" />
+                    <span>{article.author}</span>
+                  </span>
                 </div>
-              )}
 
-              {/* Social Sharing */}
-              <SocialShare
-                url={pageUrl}
-                title={article.title}
-                description={enhancedDescription}
-                size="large"
-              />
-            </header>
+                <h1 className="text-3xl md:text-4xl font-bold mb-4">{article.title}</h1>
+                <p className="text-lg text-muted-foreground mb-4">{article.description}</p>
 
-            {/* Content */}
-            <EnhancedMarkdownRenderer
-              content={article.content}
-              showExpandableSections={false}
-            />
+                {/* Tags */}
+                {article.tags && article.tags.length > 0 && (
+                  <div className="flex items-center gap-2 flex-wrap mb-4">
+                    <Tag className="h-4 w-4 text-muted-foreground" />
+                    {article.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-xs px-2 py-1 rounded-md border border-slate-700/60 bg-slate-900/70 text-slate-300"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
 
-            {/* Footer */}
-            <footer className="mt-12 pt-8 border-t border-border">
-              <div className="mb-6">
+                {/* Social Sharing */}
                 <SocialShare
                   url={pageUrl}
                   title={article.title}
                   description={enhancedDescription}
                   size="large"
                 />
-              </div>
+              </header>
 
-              <Link
-                href="/articles"
-                className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                Back to Articles
-              </Link>
-            </footer>
+              {/* Content */}
+              <EnhancedMarkdownRenderer
+                content={article.content}
+                showExpandableSections={false}
+              />
+
+              {/* Footer */}
+              <footer className="mt-12 pt-8 border-t border-slate-700/60">
+                <div className="mb-6">
+                  <SocialShare
+                    url={pageUrl}
+                    title={article.title}
+                    description={enhancedDescription}
+                    size="large"
+                  />
+                </div>
+
+                <Link
+                  href="/articles"
+                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Back to Articles
+                </Link>
+              </footer>
+            </div>
           </article>
 
           {/* Sidebar */}
           <aside className="hidden lg:block">
             <div className="sticky top-24 space-y-6">
               {/* Author Card */}
-              <div className="rounded-lg border border-border p-4">
+              <div className="glass-panel p-4">
                 <h3 className="font-semibold text-sm mb-2">About the Author</h3>
                 <p className="text-sm text-muted-foreground">
                   {article.author} - Expert analysis of crypto wallets for developers
@@ -245,14 +247,14 @@ export default function ArticlePage({ params }: PageProps) {
 
               {/* Related Articles */}
               {relatedArticles.length > 0 && (
-                <div className="rounded-lg border border-border p-4">
+                <div className="glass-panel p-4">
                   <h3 className="font-semibold text-sm mb-3">Related Articles</h3>
                   <ul className="space-y-3">
                     {relatedArticles.map((related) => (
                       <li key={related.slug}>
                         <Link
                           href={`/articles/${related.slug}`}
-                          className="text-sm hover:text-primary transition-colors block"
+                          className="text-sm hover:text-sky-300 transition-colors block"
                         >
                           <span className="line-clamp-2">{related.title}</span>
                           <span className="text-xs text-muted-foreground capitalize mt-1 block">
@@ -267,7 +269,7 @@ export default function ArticlePage({ params }: PageProps) {
 
               {/* Featured Wallets */}
               {article.wallets && article.wallets.length > 0 && (
-                <div className="rounded-lg border border-border p-4">
+                <div className="glass-panel p-4">
                   <h3 className="font-semibold text-sm mb-3">Featured Wallets</h3>
                   <ul className="space-y-2">
                     {article.wallets.map((wallet) => (
