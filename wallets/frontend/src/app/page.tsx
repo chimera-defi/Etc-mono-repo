@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Script from 'next/script';
-import { ArrowRight, Shield, Cpu, BookOpen, Github, CheckCircle, GitCompare, ArrowLeftRight, FileText, Lock, Eye, UserX, Database } from 'lucide-react';
+import { ArrowRight, Shield, Cpu, BookOpen, Github, CheckCircle, GitCompare, ArrowLeftRight, FileText, Lock, Eye, UserX, Database, CreditCard } from 'lucide-react';
 import { getAllDocuments } from '@/lib/markdown';
 import { getAllArticles } from '@/lib/articles';
 import { ArticleCard } from '@/components/ArticleCard';
@@ -45,7 +45,7 @@ function ScoreBreakdownCard() {
 
 // Top Pick Card Component
 interface TopPickCardProps {
-  category: 'Software' | 'Hardware' | 'Ramps';
+  category: 'Software' | 'Hardware' | 'Ramps' | 'Cards';
   name: string;
   score: number;
   badges: string[];
@@ -344,7 +344,7 @@ export default function HomePage() {
       <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
         <h2 className="text-2xl font-bold text-slate-100 mb-6">Top Picks + Evidence</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <TopPickCard
             category="Software"
             name="Rabby Wallet"
@@ -364,6 +364,15 @@ export default function HomePage() {
             categoryColor="bg-sky-500/20 text-sky-400 border border-sky-500/30"
           />
           <TopPickCard
+            category="Cards"
+            name="Gnosis Pay"
+            score={88}
+            badges={['Self-custody', 'Visa', 'DeFi']}
+            href="/docs/crypto-cards"
+            icon={<CreditCard className="h-5 w-5" />}
+            categoryColor="bg-violet-500/20 text-violet-400 border border-violet-500/30"
+          />
+          <TopPickCard
             category="Ramps"
             name="Transak"
             score={92}
@@ -372,6 +381,45 @@ export default function HomePage() {
             icon={<ArrowLeftRight className="h-5 w-5" />}
             categoryColor="bg-amber-500/20 text-amber-400 border border-amber-500/30"
           />
+        </div>
+      </section>
+
+      {/* Browse Categories */}
+      <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
+        <h2 className="text-2xl font-bold text-slate-100 mb-6">Browse All Comparisons</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <Link
+            href="/docs/software-wallets"
+            className="glass-card-hover p-4 text-center group"
+          >
+            <GitCompare className="h-8 w-8 mx-auto mb-2 text-emerald-400" />
+            <h3 className="font-semibold text-slate-100 group-hover:text-sky-400 transition-colors">Software Wallets</h3>
+            <p className="text-xs text-slate-400 mt-1">Browser & mobile</p>
+          </Link>
+          <Link
+            href="/docs/hardware-wallets"
+            className="glass-card-hover p-4 text-center group"
+          >
+            <Shield className="h-8 w-8 mx-auto mb-2 text-sky-400" />
+            <h3 className="font-semibold text-slate-100 group-hover:text-sky-400 transition-colors">Hardware Wallets</h3>
+            <p className="text-xs text-slate-400 mt-1">Cold storage</p>
+          </Link>
+          <Link
+            href="/docs/crypto-cards"
+            className="glass-card-hover p-4 text-center group"
+          >
+            <CreditCard className="h-8 w-8 mx-auto mb-2 text-violet-400" />
+            <h3 className="font-semibold text-slate-100 group-hover:text-sky-400 transition-colors">Crypto Cards</h3>
+            <p className="text-xs text-slate-400 mt-1">Spend crypto</p>
+          </Link>
+          <Link
+            href="/docs/ramps"
+            className="glass-card-hover p-4 text-center group"
+          >
+            <ArrowLeftRight className="h-8 w-8 mx-auto mb-2 text-amber-400" />
+            <h3 className="font-semibold text-slate-100 group-hover:text-sky-400 transition-colors">On/Off Ramps</h3>
+            <p className="text-xs text-slate-400 mt-1">Fiat ↔ Crypto</p>
+          </Link>
         </div>
       </section>
 
@@ -403,6 +451,7 @@ export default function HomePage() {
               <tbody>
                 <MiniTableRow wallet="Rabby Wallet" score={92} platforms="Desktop, Mobile" license="Open Source" activity="Active" />
                 <MiniTableRow wallet="Trezor Safe 5" score={92} platforms="Hardware" license="Open Source" activity="Active" />
+                <MiniTableRow wallet="Gnosis Pay" score={88} platforms="Visa Card" license="DeFi" activity="Active" />
                 <MiniTableRow wallet="Transak" score={92} platforms="API, SDK" license="Commercial" activity="Active" />
               </tbody>
             </table>
