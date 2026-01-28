@@ -278,7 +278,7 @@ export default function DocumentPage({ params }: PageProps) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       )}
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-10">
       {/* Breadcrumb Navigation */}
       <Breadcrumbs
         items={[
@@ -289,7 +289,7 @@ export default function DocumentPage({ params }: PageProps) {
       
       {/* Navigation between table and details */}
       {relatedDoc && (
-        <div className="mb-6 p-4 rounded-lg border border-border bg-muted/50">
+        <div className="mb-6 glass-panel p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               {isTablePage ? (
@@ -327,89 +327,93 @@ export default function DocumentPage({ params }: PageProps) {
       <div className="lg:grid lg:grid-cols-[1fr_250px] lg:gap-8">
         {/* Main Content */}
         <article className="min-w-0">
-          {/* Header */}
-          <header className="mb-8 pb-6 border-b border-border">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3 flex-wrap">
-              <BookOpen className="h-4 w-4" aria-hidden="true" />
-              <span className="capitalize">{document.category}</span>
-              {document.lastUpdated && (
-                <>
-                  <span aria-hidden="true">•</span>
-                  <Clock className="h-4 w-4" aria-hidden="true" />
-                  <time dateTime={parseDate(document.lastUpdated)}>{document.lastUpdated}</time>
-                </>
-              )}
-              <span aria-hidden="true">•</span>
-              <span>{formatReadingTime(calculateReadingTime(document.content))}</span>
-            </div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">{document.title}</h1>
-            <p className="text-lg text-muted-foreground mb-4">{document.description}</p>
-            {/* Social Sharing - Header */}
-            <SocialShare
-              url={pageUrl}
-              title={document.title}
-              description={enhancedDescription}
-              size="large"
-            />
-          </header>
-
-          {/* Content */}
-          <EnhancedMarkdownRenderer
-            content={document.content}
-            showExpandableSections={true}
-          />
-
-          {/* Footer Navigation */}
-          <footer className="mt-12 pt-8 border-t border-border">
-            {/* Social Sharing - Footer */}
-            <div className="mb-6 pb-6 border-b border-border">
+          <div className="glass-panel p-6">
+            {/* Header */}
+            <header className="mb-8 pb-6 border-b border-slate-700/60">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3 flex-wrap">
+                <BookOpen className="h-4 w-4" aria-hidden="true" />
+                <span className="capitalize">{document.category}</span>
+                {document.lastUpdated && (
+                  <>
+                    <span aria-hidden="true">•</span>
+                    <Clock className="h-4 w-4" aria-hidden="true" />
+                    <time dateTime={parseDate(document.lastUpdated)}>{document.lastUpdated}</time>
+                  </>
+                )}
+                <span aria-hidden="true">•</span>
+                <span>{formatReadingTime(calculateReadingTime(document.content))}</span>
+              </div>
+              <h1 className="text-3xl md:text-4xl font-bold mb-4">{document.title}</h1>
+              <p className="text-lg text-muted-foreground mb-4">{document.description}</p>
+              {/* Social Sharing - Header */}
               <SocialShare
                 url={pageUrl}
                 title={document.title}
                 description={enhancedDescription}
                 size="large"
               />
-            </div>
-            
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <Link
-                href="/"
-                className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                Back to Home
-              </Link>
-              <div className="flex items-center gap-4 text-sm">
-                <a
-                  href="https://walletbeat.fyi?utm_source=walletradar&utm_medium=comparison"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  WalletBeat
-                  <ExternalLink className="h-3 w-3" />
-                </a>
-                <a
-                  href="https://ethereum.org/en/wallets/find-wallet/?utm_source=walletradar&utm_medium=comparison"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Ethereum.org
-                  <ExternalLink className="h-3 w-3" />
-                </a>
+            </header>
+
+            {/* Content */}
+            <EnhancedMarkdownRenderer
+              content={document.content}
+              showExpandableSections={true}
+            />
+
+            {/* Footer Navigation */}
+            <footer className="mt-12 pt-8 border-t border-slate-700/60">
+              {/* Social Sharing - Footer */}
+              <div className="mb-6 pb-6 border-b border-slate-700/60">
+                <SocialShare
+                  url={pageUrl}
+                  title={document.title}
+                  description={enhancedDescription}
+                  size="large"
+                />
               </div>
-            </div>
-          </footer>
+              
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <Link
+                  href="/"
+                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Back to Home
+                </Link>
+                <div className="flex items-center gap-4 text-sm">
+                  <a
+                    href="https://walletbeat.fyi?utm_source=walletradar&utm_medium=comparison"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    WalletBeat
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                  <a
+                    href="https://ethereum.org/en/wallets/find-wallet/?utm_source=walletradar&utm_medium=comparison"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    Ethereum.org
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                </div>
+              </div>
+            </footer>
+          </div>
         </article>
 
         {/* Sidebar TOC */}
         <aside className="hidden lg:block">
           <div className="sticky top-24">
-            <TableOfContents items={filteredToc} />
+            <div className="glass-panel p-4">
+              <TableOfContents items={filteredToc} />
+            </div>
             
             {/* Related Documents */}
-            <div className="mt-8 pt-8 border-t border-border">
+            <div className="mt-6 glass-panel p-4">
               <p className="font-semibold text-sm mb-3">Related</p>
               <RelatedDocuments currentSlug={params.slug} />
             </div>

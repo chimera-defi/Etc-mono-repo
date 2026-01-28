@@ -60,9 +60,9 @@ interface WalletFiltersProps {
 
 // Filter option definitions
 const RECOMMENDATION_OPTIONS = [
-  { value: 'recommended', label: 'Recommended', color: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' },
-  { value: 'situational', label: 'Situational', color: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' },
-  { value: 'avoid', label: 'Avoid', color: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' },
+  { value: 'recommended', label: 'Recommended', color: 'bg-emerald-400/15 text-emerald-300' },
+  { value: 'situational', label: 'Situational', color: 'bg-amber-400/15 text-amber-300' },
+  { value: 'avoid', label: 'Avoid', color: 'bg-rose-400/15 text-rose-300' },
 ];
 
 const PLATFORM_OPTIONS = [
@@ -131,15 +131,15 @@ const REGION_OPTIONS = [
 ];
 
 const CUSTODY_OPTIONS = [
-  { value: 'self', label: '🔐 Self-Custody', color: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' },
-  { value: 'exchange', label: '🏦 Exchange', color: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' },
-  { value: 'cefi', label: '📋 CeFi', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' },
+  { value: 'self', label: '🔐 Self-Custody', color: 'bg-emerald-400/15 text-emerald-300' },
+  { value: 'exchange', label: '🏦 Exchange', color: 'bg-amber-400/15 text-amber-300' },
+  { value: 'cefi', label: '📋 CeFi', color: 'bg-sky-400/15 text-sky-300' },
 ];
 
 const CARD_STATUS_OPTIONS = [
-  { value: 'active', label: '✅ Active', color: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' },
-  { value: 'verify', label: '⚠️ Verify', color: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' },
-  { value: 'launching', label: '🔄 Launching', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' },
+  { value: 'active', label: '✅ Active', color: 'bg-emerald-400/15 text-emerald-300' },
+  { value: 'verify', label: '⚠️ Verify', color: 'bg-amber-400/15 text-amber-300' },
+  { value: 'launching', label: '🔄 Launching', color: 'bg-sky-400/15 text-sky-300' },
 ];
 
 const SORT_OPTIONS = {
@@ -219,17 +219,16 @@ function MultiSelect({
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          'w-full flex items-center justify-between px-3 py-2 text-sm border rounded-lg',
-          'bg-background text-foreground border-border',
-          'hover:border-primary/50 transition-colors',
-          selected.length > 0 && 'border-primary'
+          'w-full flex items-center justify-between px-3 py-2 text-sm glass-select',
+          'hover:border-sky-400/60 transition-colors',
+          selected.length > 0 && 'border-sky-400/70'
         )}
       >
         <span className="flex items-center gap-2">
           <Filter className="h-4 w-4 text-muted-foreground" />
           {label}
           {selected.length > 0 && (
-            <span className="bg-primary text-primary-foreground text-xs px-1.5 py-0.5 rounded">
+            <span className="bg-sky-400/20 text-sky-200 text-xs px-1.5 py-0.5 rounded">
               {selected.length}
             </span>
           )}
@@ -242,15 +241,15 @@ function MultiSelect({
       </button>
 
       {isOpen && (
-        <div className="absolute z-50 mt-1 w-full bg-background border border-border rounded-lg shadow-lg max-h-60 overflow-auto">
+        <div className="absolute z-50 mt-2 w-full glass-panel max-h-60 overflow-auto">
           {options.map(option => (
             <button
               key={option.value}
               onClick={() => toggleOption(option.value)}
               className={cn(
                 'w-full flex items-center justify-between px-3 py-2 text-sm',
-                'hover:bg-muted transition-colors',
-                selected.includes(option.value) && 'bg-primary/10'
+                'hover:bg-slate-900/60 transition-colors',
+                selected.includes(option.value) && 'bg-sky-400/10'
               )}
             >
               <span className="flex items-center gap-2">
@@ -281,14 +280,14 @@ function ToggleButton({
   return (
     <div className="flex items-center gap-2">
       <span className="text-sm text-muted-foreground">{label}</span>
-      <div className="flex border border-border rounded-lg overflow-hidden">
+      <div className="flex border border-slate-700/60 rounded-lg overflow-hidden bg-slate-900/60">
         <button
           onClick={() => onChange(value === true ? null : true)}
           className={cn(
             'px-3 py-1 text-xs transition-colors',
             value === true
-              ? 'bg-green-600 text-white'
-              : 'bg-background hover:bg-muted'
+              ? 'bg-emerald-500/90 text-slate-950'
+              : 'bg-transparent hover:bg-slate-900/70 text-slate-200'
           )}
         >
           Yes
@@ -298,8 +297,8 @@ function ToggleButton({
           className={cn(
             'px-3 py-1 text-xs transition-colors',
             value === false
-              ? 'bg-red-600 text-white'
-              : 'bg-background hover:bg-muted'
+              ? 'bg-rose-500/90 text-slate-950'
+              : 'bg-transparent hover:bg-slate-900/70 text-slate-200'
           )}
         >
           No
@@ -340,7 +339,7 @@ function RangeSlider({
           max={max}
           value={value[0]}
           onChange={e => onChange([parseInt(e.target.value), value[1]])}
-          className="flex-1"
+          className="flex-1 accent-sky-400"
         />
         <input
           type="range"
@@ -348,7 +347,7 @@ function RangeSlider({
           max={max}
           value={value[1]}
           onChange={e => onChange([value[0], parseInt(e.target.value)])}
-          className="flex-1"
+          className="flex-1 accent-sky-400"
         />
       </div>
     </div>
@@ -418,7 +417,7 @@ export function WalletFilters({
             placeholder="Search wallets..."
             value={filters.search}
             onChange={e => updateFilter('search', e.target.value)}
-            className="w-full pl-10 pr-10 py-2 border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="glass-input pl-10 pr-10 py-2"
           />
           {filters.search && (
             <button
@@ -435,7 +434,7 @@ export function WalletFilters({
           <select
             value={sort.field}
             onChange={e => onSortChange({ ...sort, field: e.target.value })}
-            className="px-3 py-2 border border-border rounded-lg bg-background text-foreground text-sm"
+            className="glass-select px-3 py-2 text-sm"
           >
             {sortOptions.map(option => (
               <option key={option.value} value={option.value}>
@@ -450,7 +449,7 @@ export function WalletFilters({
                 direction: sort.direction === 'asc' ? 'desc' : 'asc',
               })
             }
-            className="p-2 border border-border rounded-lg hover:bg-muted transition-colors"
+            className="p-2 border border-slate-700/60 rounded-lg bg-slate-900/60 hover:bg-slate-900/80 transition-colors"
             title={sort.direction === 'asc' ? 'Ascending' : 'Descending'}
           >
             <ArrowUpDown className="h-4 w-4" />
@@ -463,8 +462,8 @@ export function WalletFilters({
           className={cn(
             'flex items-center gap-2 px-4 py-2 border rounded-lg transition-colors',
             showAdvanced || activeFilterCount > 0
-              ? 'border-primary bg-primary/10 text-primary'
-              : 'border-border hover:bg-muted'
+              ? 'border-sky-400/60 bg-sky-400/10 text-sky-300'
+              : 'border-slate-700/60 bg-slate-900/50 hover:bg-slate-900/80 text-slate-200'
           )}
         >
           <SlidersHorizontal className="h-4 w-4" />
@@ -480,7 +479,7 @@ export function WalletFilters({
         {activeFilterCount > 0 && (
           <button
             onClick={clearFilters}
-            className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground border border-border rounded-lg hover:bg-muted transition-colors"
+            className="px-4 py-2 text-sm text-slate-300 border border-slate-700/60 rounded-lg bg-slate-900/50 hover:bg-slate-900/80 transition-colors"
           >
             Clear All
           </button>
@@ -495,7 +494,7 @@ export function WalletFilters({
 
       {/* Advanced filters panel */}
       {showAdvanced && (
-        <div className="p-4 border border-border rounded-lg bg-muted/30 space-y-6">
+        <div className="glass-panel p-5 space-y-6">
           {/* Common filters */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Score range */}
@@ -529,7 +528,7 @@ export function WalletFilters({
 
           {/* Software-specific filters */}
           {type === 'software' && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-4 border-t border-border">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-4 border-t border-slate-700/60">
               <MultiSelect
                 label="Platforms"
                 options={PLATFORM_OPTIONS}
@@ -565,7 +564,7 @@ export function WalletFilters({
 
           {/* Hardware-specific filters */}
           {type === 'hardware' && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-4 border-t border-border">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-4 border-t border-slate-700/60">
               <ToggleButton
                 label="Air-Gapped"
                 value={filters.airGap}
@@ -607,7 +606,7 @@ export function WalletFilters({
 
           {/* Card-specific filters */}
           {type === 'cards' && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-4 border-t border-border">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-4 border-t border-slate-700/60">
               <MultiSelect
                 label="Card Type"
                 options={CARD_TYPE_OPTIONS}
@@ -652,7 +651,7 @@ export function WalletFilters({
                   max={10}
                   value={filters.cashBackMin}
                   onChange={e => updateFilter('cashBackMin', parseInt(e.target.value))}
-                  className="w-full"
+                  className="w-full accent-sky-400"
                 />
               </div>
             </div>
@@ -660,7 +659,7 @@ export function WalletFilters({
 
           {/* Ramp-specific filters - for now just use common filters */}
           {type === 'ramps' && (
-            <div className="pt-4 border-t border-border">
+            <div className="pt-4 border-t border-slate-700/60">
               <p className="text-sm text-muted-foreground">
                 Ramp filters use score range and recommendation filters above.
               </p>

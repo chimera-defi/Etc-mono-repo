@@ -9,10 +9,10 @@ interface WalletCardProps {
 }
 
 const categoryColors: Record<string, string> = {
-  comparison: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
-  research: 'bg-purple-500/10 text-purple-600 dark:text-purple-400',
-  guide: 'bg-green-500/10 text-green-600 dark:text-green-400',
-  other: 'bg-gray-500/10 text-gray-600 dark:text-gray-400',
+  comparison: 'border-sky-400/40 bg-sky-400/10 text-sky-300',
+  research: 'border-indigo-400/40 bg-indigo-400/10 text-indigo-300',
+  guide: 'border-emerald-400/40 bg-emerald-400/10 text-emerald-300',
+  other: 'border-slate-500/40 bg-slate-500/10 text-slate-300',
 };
 
 const categoryLabels: Record<string, string> = {
@@ -27,23 +27,23 @@ export function WalletCard({ document, className }: WalletCardProps) {
     <Link
       href={`/docs/${document.slug}`}
       className={cn(
-        'group block p-6 rounded-lg border border-border bg-card hover:border-primary/50 hover:shadow-lg transition-all',
+        'group block p-6 glass-panel glass-panel-hover',
         className
       )}
     >
       <div className="flex items-start justify-between mb-3">
         <span
           className={cn(
-            'text-xs font-medium px-2 py-1 rounded-full',
+            'text-xs font-medium px-2 py-1 rounded-full border',
             categoryColors[document.category]
           )}
         >
           {categoryLabels[document.category]}
         </span>
-        <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+        <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-sky-300 group-hover:translate-x-1 transition-all" />
       </div>
       
-      <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
+      <h3 className="font-semibold text-lg mb-2 group-hover:text-sky-300 transition-colors">
         {document.title}
       </h3>
       

@@ -77,7 +77,7 @@ function ComparisonRow({
   const maxValue = Math.max(...numericValues.filter((v): v is number => v !== null));
 
   return (
-    <tr className={cn('border-b border-border', highlight && 'bg-muted/30')}>
+    <tr className={cn('border-b border-slate-800/70', highlight && 'bg-slate-900/40')}>
       <td className="py-3 px-4 font-medium text-sm text-muted-foreground whitespace-nowrap">
         {label}
       </td>
@@ -147,7 +147,7 @@ function SectionHeader({
   colSpan: number;
 }) {
   return (
-    <tr className="bg-muted/50">
+    <tr className="bg-slate-950/70">
       <td colSpan={colSpan} className="py-2 px-4">
         <button
           onClick={onToggle}
@@ -185,7 +185,7 @@ function SoftwareWalletComparison({
   return (
     <table className="w-full">
       <thead>
-        <tr className="border-b border-border">
+        <tr className="border-b border-slate-800/70">
           <th className="py-4 px-4 text-left w-48">Feature</th>
           {wallets.map(wallet => (
             <th key={wallet.id} className="py-4 px-4 text-center min-w-[180px]">
@@ -194,7 +194,7 @@ function SoftwareWalletComparison({
                   <span className="font-bold">{wallet.name}</span>
                   <button
                     onClick={() => onRemove(wallet.id)}
-                    className="p-1 hover:bg-muted rounded"
+                    className="p-1 hover:bg-slate-900/70 rounded"
                     title="Remove from comparison"
                   >
                     <X className="h-4 w-4" />
@@ -330,7 +330,7 @@ function HardwareWalletComparison({
   return (
     <table className="w-full">
       <thead>
-        <tr className="border-b border-border">
+        <tr className="border-b border-slate-800/70">
           <th className="py-4 px-4 text-left w-48">Feature</th>
           {wallets.map(wallet => (
             <th key={wallet.id} className="py-4 px-4 text-center min-w-[180px]">
@@ -339,7 +339,7 @@ function HardwareWalletComparison({
                   <span className="font-bold">{wallet.name}</span>
                   <button
                     onClick={() => onRemove(wallet.id)}
-                    className="p-1 hover:bg-muted rounded"
+                    className="p-1 hover:bg-slate-900/70 rounded"
                   >
                     <X className="h-4 w-4" />
                   </button>
@@ -471,7 +471,7 @@ function CryptoCardComparison({
   return (
     <table className="w-full">
       <thead>
-        <tr className="border-b border-border">
+        <tr className="border-b border-slate-800/70">
           <th className="py-4 px-4 text-left w-48">Feature</th>
           {cards.map(card => (
             <th key={card.id} className="py-4 px-4 text-center min-w-[180px]">
@@ -480,7 +480,7 @@ function CryptoCardComparison({
                   <span className="font-bold">{card.name}</span>
                   <button
                     onClick={() => onRemove(card.id)}
-                    className="p-1 hover:bg-muted rounded"
+                    className="p-1 hover:bg-slate-900/70 rounded"
                   >
                     <X className="h-4 w-4" />
                   </button>
@@ -596,7 +596,7 @@ function RampComparison({
   return (
     <table className="w-full">
       <thead>
-        <tr className="border-b border-border">
+        <tr className="border-b border-slate-800/70">
           <th className="py-4 px-4 text-left w-48">Feature</th>
           {ramps.map(ramp => (
             <th key={ramp.id} className="py-4 px-4 text-center min-w-[180px]">
@@ -616,7 +616,7 @@ function RampComparison({
                   )}
                   <button
                     onClick={() => onRemove(ramp.id)}
-                    className="p-1 hover:bg-muted rounded"
+                    className="p-1 hover:bg-slate-900/70 rounded"
                   >
                     <X className="h-4 w-4" />
                   </button>
@@ -771,7 +771,7 @@ export function ComparisonTool({
 
   if (selectedWallets.length === 0) {
     return (
-      <div className="text-center py-12 border border-dashed border-border rounded-lg">
+      <div className="text-center py-12 border border-dashed border-slate-700/60 rounded-lg bg-slate-950/40">
         <p className="text-lg text-muted-foreground mb-2">
           No {type === 'cards' ? 'cards' : type === 'ramps' ? 'ramps' : 'wallets'} selected for comparison
         </p>
@@ -802,21 +802,21 @@ export function ComparisonTool({
         <div className="flex items-center gap-2">
           <button
             onClick={handleExport}
-            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm border border-border rounded-lg hover:bg-muted transition-colors"
+            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm border border-slate-700/60 rounded-lg bg-slate-900/60 hover:bg-slate-900/80 transition-colors"
           >
             <Download className="h-4 w-4" />
             Export
           </button>
           <button
             onClick={handleShare}
-            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm border border-border rounded-lg hover:bg-muted transition-colors"
+            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm border border-slate-700/60 rounded-lg bg-slate-900/60 hover:bg-slate-900/80 transition-colors"
           >
             <Share2 className="h-4 w-4" />
             Share
           </button>
           <button
             onClick={onClear}
-            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-red-600 border border-red-200 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-rose-300 border border-rose-400/40 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 transition-colors"
           >
             <X className="h-4 w-4" />
             Clear All
@@ -825,7 +825,7 @@ export function ComparisonTool({
       </div>
 
       {/* Comparison table */}
-      <div className="overflow-x-auto border border-border rounded-lg">
+      <div className="glass-panel overflow-x-auto">
         {type === 'software' && (
           <SoftwareWalletComparison
             wallets={selectedWallets as SoftwareWallet[]}
@@ -855,12 +855,12 @@ export function ComparisonTool({
       {/* Add modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-background border border-border rounded-lg p-6 max-w-md w-full max-h-[80vh] overflow-y-auto">
+          <div className="glass-panel p-6 max-w-md w-full max-h-[80vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-bold text-lg">Add to Comparison</h3>
               <button
                 onClick={() => setShowAddModal(false)}
-                className="p-1 hover:bg-muted rounded"
+                className="p-1 hover:bg-slate-900/70 rounded"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -875,15 +875,15 @@ export function ComparisonTool({
                       setShowAddModal(false);
                     }
                   }}
-                  className="w-full flex items-center justify-between p-3 border border-border rounded-lg hover:bg-muted transition-colors"
+                  className="w-full flex items-center justify-between p-3 border border-slate-700/60 rounded-lg bg-slate-900/60 hover:bg-slate-900/80 transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <div
                       className={cn(
                         'w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold',
-                        wallet.score >= 75 && 'bg-green-100 text-green-700',
-                        wallet.score >= 50 && wallet.score < 75 && 'bg-yellow-100 text-yellow-700',
-                        wallet.score < 50 && 'bg-red-100 text-red-700'
+                        wallet.score >= 75 && 'bg-emerald-400/15 text-emerald-300',
+                        wallet.score >= 50 && wallet.score < 75 && 'bg-amber-400/15 text-amber-300',
+                        wallet.score < 50 && 'bg-rose-400/15 text-rose-300'
                       )}
                     >
                       {wallet.score}

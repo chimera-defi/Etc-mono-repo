@@ -93,11 +93,11 @@ function Badge({
   tooltip?: string;
 }) {
   const variants = {
-    default: 'bg-muted text-muted-foreground',
-    success: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
-    warning: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400',
-    error: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
-    info: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
+    default: 'border border-slate-700/60 bg-slate-900/70 text-slate-300',
+    success: 'border border-emerald-400/30 bg-emerald-400/15 text-emerald-300',
+    warning: 'border border-amber-400/30 bg-amber-400/15 text-amber-300',
+    error: 'border border-rose-400/30 bg-rose-400/15 text-rose-300',
+    info: 'border border-sky-400/30 bg-sky-400/15 text-sky-300',
   };
 
   const badge = (
@@ -123,9 +123,9 @@ function ScoreBadge({ score, tooltip }: { score: number; tooltip?: string }) {
     <div
       className={cn(
         'w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg',
-        variant === 'success' && 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
-        variant === 'warning' && 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400',
-        variant === 'error' && 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+        variant === 'success' && 'bg-emerald-400/15 text-emerald-300',
+        variant === 'warning' && 'bg-amber-400/15 text-amber-300',
+        variant === 'error' && 'bg-rose-400/15 text-rose-300'
       )}
     >
       {score}
@@ -201,8 +201,8 @@ function FeatureIndicator({ value, label, tooltip }: { value: boolean | string; 
       <Tooltip content={getTooltipContent()}>
         <span
           className={cn(
-            'inline-flex items-center justify-center w-5 h-5 rounded-full',
-            value ? 'bg-green-100 text-green-600 dark:bg-green-900/30' : 'bg-muted text-muted-foreground'
+            'inline-flex items-center justify-center w-5 h-5 rounded-full border',
+            value ? 'border-emerald-400/30 bg-emerald-400/20 text-emerald-300' : 'border-slate-700/60 bg-slate-900/70 text-slate-400'
           )}
         >
           {value ? <Check className="h-3 w-3" /> : '−'}
@@ -218,10 +218,10 @@ function FeatureIndicator({ value, label, tooltip }: { value: boolean | string; 
     <Tooltip content={getTooltipContent()}>
       <span
         className={cn(
-          'inline-flex items-center justify-center w-5 h-5 rounded-full text-xs',
-          isFull && 'bg-green-100 text-green-600 dark:bg-green-900/30',
-          isPartial && 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30',
-          !isFull && !isPartial && 'bg-muted text-muted-foreground'
+          'inline-flex items-center justify-center w-5 h-5 rounded-full text-xs border',
+          isFull && 'border-emerald-400/30 bg-emerald-400/20 text-emerald-300',
+          isPartial && 'border-amber-400/30 bg-amber-400/20 text-amber-300',
+          !isFull && !isPartial && 'border-slate-700/60 bg-slate-900/70 text-slate-400'
         )}
       >
         {isFull ? '✓' : isPartial ? '~' : '−'}
@@ -246,15 +246,15 @@ function SoftwareWalletItem({
 }) {
   if (viewMode === 'table') {
     return (
-      <tr className="border-b border-border hover:bg-muted/50 transition-colors">
+      <tr className="border-b border-slate-800/70 hover:bg-slate-900/40 transition-colors">
         <td className="py-3 px-4">
           <button
             onClick={onToggleSelect}
             className={cn(
               'p-1 rounded border transition-colors',
               isSelected
-                ? 'bg-primary text-primary-foreground border-primary'
-                : 'border-border hover:border-primary'
+                ? 'bg-sky-400/20 text-sky-200 border-sky-400/60'
+                : 'border-slate-700/60 hover:border-sky-400/60'
             )}
           >
             {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
@@ -315,8 +315,8 @@ function SoftwareWalletItem({
   return (
     <div
       className={cn(
-        'p-4 border rounded-lg transition-all',
-        isSelected ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'
+        'glass-panel p-4 transition-all',
+        isSelected ? 'border-sky-400/60 bg-sky-400/10' : 'glass-panel-hover'
       )}
     >
       <div className="flex items-start justify-between mb-3">
@@ -334,8 +334,8 @@ function SoftwareWalletItem({
           className={cn(
             'p-2 rounded-lg border transition-colors',
             isSelected
-              ? 'bg-primary text-primary-foreground border-primary'
-              : 'border-border hover:border-primary hover:bg-muted'
+              ? 'bg-sky-400/20 text-sky-200 border-sky-400/60'
+              : 'border-slate-700/60 hover:border-sky-400/60 hover:bg-slate-900/70'
           )}
           title={isSelected ? 'Remove from comparison' : 'Add to comparison'}
         >
@@ -410,15 +410,15 @@ function HardwareWalletItem({
 }) {
   if (viewMode === 'table') {
     return (
-      <tr className="border-b border-border hover:bg-muted/50 transition-colors">
+      <tr className="border-b border-slate-800/70 hover:bg-slate-900/40 transition-colors">
         <td className="py-3 px-4">
           <button
             onClick={onToggleSelect}
             className={cn(
               'p-1 rounded border transition-colors',
               isSelected
-                ? 'bg-primary text-primary-foreground border-primary'
-                : 'border-border hover:border-primary'
+                ? 'bg-sky-400/20 text-sky-200 border-sky-400/60'
+                : 'border-slate-700/60 hover:border-sky-400/60'
             )}
           >
             {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
@@ -497,8 +497,8 @@ function HardwareWalletItem({
   return (
     <div
       className={cn(
-        'p-4 border rounded-lg transition-all',
-        isSelected ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'
+        'glass-panel p-4 transition-all',
+        isSelected ? 'border-sky-400/60 bg-sky-400/10' : 'glass-panel-hover'
       )}
     >
       <div className="flex items-start justify-between mb-3">
@@ -516,8 +516,8 @@ function HardwareWalletItem({
           className={cn(
             'p-2 rounded-lg border transition-colors',
             isSelected
-              ? 'bg-primary text-primary-foreground border-primary'
-              : 'border-border hover:border-primary hover:bg-muted'
+              ? 'bg-sky-400/20 text-sky-200 border-sky-400/60'
+              : 'border-slate-700/60 hover:border-sky-400/60 hover:bg-slate-900/70'
           )}
         >
           {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
@@ -592,15 +592,15 @@ function CryptoCardItem({
 }) {
   if (viewMode === 'table') {
     return (
-      <tr className="border-b border-border hover:bg-muted/50 transition-colors">
+      <tr className="border-b border-slate-800/70 hover:bg-slate-900/40 transition-colors">
         <td className="py-3 px-4">
           <button
             onClick={onToggleSelect}
             className={cn(
               'p-1 rounded border transition-colors',
               isSelected
-                ? 'bg-primary text-primary-foreground border-primary'
-                : 'border-border hover:border-primary'
+                ? 'bg-sky-400/20 text-sky-200 border-sky-400/60'
+                : 'border-slate-700/60 hover:border-sky-400/60'
             )}
           >
             {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
@@ -660,8 +660,8 @@ function CryptoCardItem({
   return (
     <div
       className={cn(
-        'p-4 border rounded-lg transition-all',
-        isSelected ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'
+        'glass-panel p-4 transition-all',
+        isSelected ? 'border-sky-400/60 bg-sky-400/10' : 'glass-panel-hover'
       )}
     >
       <div className="flex items-start justify-between mb-3">
@@ -691,8 +691,8 @@ function CryptoCardItem({
           className={cn(
             'p-2 rounded-lg border transition-colors',
             isSelected
-              ? 'bg-primary text-primary-foreground border-primary'
-              : 'border-border hover:border-primary hover:bg-muted'
+              ? 'bg-sky-400/20 text-sky-200 border-sky-400/60'
+              : 'border-slate-700/60 hover:border-sky-400/60 hover:bg-slate-900/70'
           )}
         >
           {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
@@ -755,15 +755,15 @@ function RampItem({
 }) {
   if (viewMode === 'table') {
     return (
-      <tr className="border-b border-border hover:bg-muted/50 transition-colors">
+      <tr className="border-b border-slate-800/70 hover:bg-slate-900/40 transition-colors">
         <td className="py-3 px-4">
           <button
             onClick={onToggleSelect}
             className={cn(
               'p-1 rounded border transition-colors',
               isSelected
-                ? 'bg-primary text-primary-foreground border-primary'
-                : 'border-border hover:border-primary'
+                ? 'bg-sky-400/20 text-sky-200 border-sky-400/60'
+                : 'border-slate-700/60 hover:border-sky-400/60'
             )}
           >
             {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
@@ -836,8 +836,8 @@ function RampItem({
   return (
     <div
       className={cn(
-        'p-4 border rounded-lg transition-all',
-        isSelected ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'
+        'glass-panel p-4 transition-all',
+        isSelected ? 'border-sky-400/60 bg-sky-400/10' : 'glass-panel-hover'
       )}
     >
       <div className="flex items-start justify-between mb-3">
@@ -855,8 +855,8 @@ function RampItem({
           className={cn(
             'p-2 rounded-lg border transition-colors',
             isSelected
-              ? 'bg-primary text-primary-foreground border-primary'
-              : 'border-border hover:border-primary hover:bg-muted'
+              ? 'bg-sky-400/20 text-sky-200 border-sky-400/60'
+              : 'border-slate-700/60 hover:border-sky-400/60 hover:bg-slate-900/70'
           )}
         >
           {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
@@ -940,10 +940,10 @@ export function WalletTable<T extends WalletData>({
 
   if (viewMode === 'table') {
     return (
-      <div className="overflow-x-auto">
+      <div className="glass-panel overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-border bg-muted/50">
+            <tr className="border-b border-slate-700/60 bg-slate-950/70">
               <th className="py-3 px-4 text-left text-sm font-medium">
                 <HeaderTooltip label="Compare" tooltip={softwareWalletTooltips.headers.compare} />
               </th>

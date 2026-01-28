@@ -43,7 +43,7 @@ export default function ArticlesPage() {
   const guideArticles = articles.filter(a => a.category === 'guide');
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-10">
       <Breadcrumbs
         items={[
           { label: 'Home', href: '/' },
@@ -52,7 +52,7 @@ export default function ArticlesPage() {
       />
 
       {/* Header */}
-      <div className="mt-6 mb-12">
+      <div className="mt-6 mb-12 glass-panel p-6">
         <h1 className="text-3xl md:text-4xl font-bold mb-4">Wallet Comparison Articles</h1>
         <p className="text-lg text-muted-foreground max-w-3xl">
           Expert guides, detailed comparisons, and practical advice for choosing the right crypto wallet.
@@ -64,7 +64,7 @@ export default function ArticlesPage() {
       {comparisonArticles.length > 0 && (
         <section className="mb-16">
           <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-            <span className="inline-block w-1 h-6 bg-primary rounded"></span>
+            <span className="inline-block w-1 h-6 bg-sky-400 rounded"></span>
             Wallet Comparisons
           </h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -79,7 +79,7 @@ export default function ArticlesPage() {
       {guideArticles.length > 0 && (
         <section>
           <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-            <span className="inline-block w-1 h-6 bg-primary rounded"></span>
+            <span className="inline-block w-1 h-6 bg-sky-400 rounded"></span>
             Wallet Guides
           </h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -106,11 +106,11 @@ function ArticleCard({ article }: { article: ReturnType<typeof getAllArticles>[0
   return (
     <Link
       href={`/articles/${article.slug}`}
-      className="group block rounded-xl border border-border p-6 hover:border-primary/50 hover:shadow-lg transition-all"
+      className="group block glass-panel glass-panel-hover p-6"
     >
       {/* Category Badge */}
       <div className="flex items-center justify-between mb-3">
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary font-medium text-xs capitalize">
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-sky-400/40 bg-sky-400/10 text-sky-300 font-medium text-xs capitalize">
           {article.category}
         </span>
         <span className="text-xs text-muted-foreground inline-flex items-center gap-1">
@@ -120,7 +120,7 @@ function ArticleCard({ article }: { article: ReturnType<typeof getAllArticles>[0
       </div>
 
       {/* Title */}
-      <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
+      <h3 className="text-xl font-semibold mb-2 group-hover:text-sky-300 transition-colors">
         {article.title}
       </h3>
 
@@ -144,7 +144,7 @@ function ArticleCard({ article }: { article: ReturnType<typeof getAllArticles>[0
       </div>
 
       {/* Read More */}
-      <div className="inline-flex items-center gap-2 text-sm font-medium text-primary group-hover:gap-3 transition-all">
+      <div className="inline-flex items-center gap-2 text-sm font-medium text-sky-300 group-hover:gap-3 transition-all">
         Read Article
         <ArrowRight className="h-4 w-4" />
       </div>
