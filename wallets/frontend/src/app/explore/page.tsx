@@ -82,7 +82,7 @@ export default async function ExplorePage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-10">
       <div className="mb-8">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
           <div>
@@ -101,21 +101,21 @@ export default async function ExplorePage() {
         <div className="mt-4">
           {chainStats ? (
             <div className="flex flex-wrap gap-4 text-sm">
-              <div className="px-3 py-1.5 bg-muted rounded-lg">
+              <div className="px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-900/60">
                 <span className="text-muted-foreground">Data Updated:</span>{' '}
                 <span className="font-semibold">{walletStats.lastUpdated}</span>
               </div>
-              <div className="px-3 py-1.5 bg-muted rounded-lg">
+              <div className="px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-900/60">
                 <span className="text-muted-foreground">Total EVM Chains:</span>{' '}
                 <span className="font-semibold">{chainStats.evmChains}</span>
               </div>
-              <div className="px-3 py-1.5 bg-muted rounded-lg">
+              <div className="px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-900/60">
                 <span className="text-muted-foreground">EVM TVL:</span>{' '}
                 <span className="font-semibold text-green-600 dark:text-green-400">
                   {chainStats.evmTVL}
                 </span>
               </div>
-              <div className="px-3 py-1.5 bg-muted rounded-lg">
+              <div className="px-3 py-1.5 rounded-lg border border-slate-700/60 bg-slate-900/60">
                 <span className="text-muted-foreground">Top Chain:</span>{' '}
                 <span className="font-semibold">
                   {chainStats.topChains[0]?.name} ({chainStats.topChains[0]?.tvl})

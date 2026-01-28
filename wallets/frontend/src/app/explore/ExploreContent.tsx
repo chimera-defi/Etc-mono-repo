@@ -287,21 +287,21 @@ export function ExploreContent({
   return (
     <div className="space-y-6">
       {/* Tabs */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-700/60 pb-4">
         <div className="flex gap-2">
           <button
             onClick={() => setActiveTab('software')}
             className={cn(
-              'inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors',
+              'inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold transition-colors',
               activeTab === 'software'
-                ? 'bg-primary text-primary-foreground'
-                : 'bg-muted hover:bg-muted/80'
+                ? 'border-sky-400/60 bg-sky-400/15 text-sky-200'
+                : 'border-slate-700/60 bg-slate-900/50 text-slate-300 hover:bg-slate-900/80'
             )}
           >
             <Shield className="h-4 w-4" />
             Software ({softwareWallets.length})
             {selectedSoftware.length > 0 && (
-              <span className="bg-primary-foreground/20 text-xs px-1.5 py-0.5 rounded">
+              <span className="bg-sky-400/20 text-xs px-1.5 py-0.5 rounded text-sky-100">
                 {selectedSoftware.length}
               </span>
             )}
@@ -309,16 +309,16 @@ export function ExploreContent({
           <button
             onClick={() => setActiveTab('hardware')}
             className={cn(
-              'inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors',
+              'inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold transition-colors',
               activeTab === 'hardware'
-                ? 'bg-primary text-primary-foreground'
-                : 'bg-muted hover:bg-muted/80'
+                ? 'border-sky-400/60 bg-sky-400/15 text-sky-200'
+                : 'border-slate-700/60 bg-slate-900/50 text-slate-300 hover:bg-slate-900/80'
             )}
           >
             <Cpu className="h-4 w-4" />
             Hardware ({hardwareWallets.length})
             {selectedHardware.length > 0 && (
-              <span className="bg-primary-foreground/20 text-xs px-1.5 py-0.5 rounded">
+              <span className="bg-sky-400/20 text-xs px-1.5 py-0.5 rounded text-sky-100">
                 {selectedHardware.length}
               </span>
             )}
@@ -326,16 +326,16 @@ export function ExploreContent({
           <button
             onClick={() => setActiveTab('cards')}
             className={cn(
-              'inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors',
+              'inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold transition-colors',
               activeTab === 'cards'
-                ? 'bg-primary text-primary-foreground'
-                : 'bg-muted hover:bg-muted/80'
+                ? 'border-sky-400/60 bg-sky-400/15 text-sky-200'
+                : 'border-slate-700/60 bg-slate-900/50 text-slate-300 hover:bg-slate-900/80'
             )}
           >
             <CreditCard className="h-4 w-4" />
             Cards ({cryptoCards.length})
             {selectedCards.length > 0 && (
-              <span className="bg-primary-foreground/20 text-xs px-1.5 py-0.5 rounded">
+              <span className="bg-sky-400/20 text-xs px-1.5 py-0.5 rounded text-sky-100">
                 {selectedCards.length}
               </span>
             )}
@@ -343,16 +343,16 @@ export function ExploreContent({
           <button
             onClick={() => setActiveTab('ramps')}
             className={cn(
-              'inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors',
+              'inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold transition-colors',
               activeTab === 'ramps'
-                ? 'bg-primary text-primary-foreground'
-                : 'bg-muted hover:bg-muted/80'
+                ? 'border-sky-400/60 bg-sky-400/15 text-sky-200'
+                : 'border-slate-700/60 bg-slate-900/50 text-slate-300 hover:bg-slate-900/80'
             )}
           >
             <ArrowLeftRight className="h-4 w-4" />
             Ramps ({ramps.length})
             {selectedRamps.length > 0 && (
-              <span className="bg-primary-foreground/20 text-xs px-1.5 py-0.5 rounded">
+              <span className="bg-sky-400/20 text-xs px-1.5 py-0.5 rounded text-sky-100">
                 {selectedRamps.length}
               </span>
             )}
@@ -361,12 +361,12 @@ export function ExploreContent({
 
         <div className="flex items-center gap-2">
           {/* View mode toggle */}
-          <div className="flex border border-border rounded-lg overflow-hidden">
+          <div className="flex border border-slate-700/60 rounded-lg overflow-hidden bg-slate-900/60">
             <button
               onClick={() => setViewMode('grid')}
               className={cn(
                 'p-2 transition-colors',
-                viewMode === 'grid' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+                viewMode === 'grid' ? 'bg-sky-400/20 text-sky-200' : 'hover:bg-slate-900/80 text-slate-300'
               )}
               title="Grid view"
             >
@@ -376,7 +376,7 @@ export function ExploreContent({
               onClick={() => setViewMode('table')}
               className={cn(
                 'p-2 transition-colors',
-                viewMode === 'table' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
+                viewMode === 'table' ? 'bg-sky-400/20 text-sky-200' : 'hover:bg-slate-900/80 text-slate-300'
               )}
               title="Table view"
             >
@@ -389,12 +389,12 @@ export function ExploreContent({
             onClick={() => setShowComparison(!showComparison)}
             disabled={!hasSelectedWallets}
             className={cn(
-              'inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors',
+              'inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors border',
               hasSelectedWallets
                 ? showComparison
-                  ? 'bg-primary text-primary-foreground'
-                  : 'border border-primary text-primary hover:bg-primary/10'
-                : 'border border-border text-muted-foreground cursor-not-allowed'
+                  ? 'border-sky-400/60 bg-sky-400/20 text-sky-200'
+                  : 'border-sky-400/60 text-sky-200 hover:bg-sky-400/10'
+                : 'border-slate-700/60 text-muted-foreground cursor-not-allowed'
             )}
           >
             <GitCompare className="h-4 w-4" />
@@ -405,7 +405,7 @@ export function ExploreContent({
 
       {/* Comparison panel */}
       {showComparison && hasSelectedWallets && (
-        <div className="border border-primary/20 bg-primary/5 rounded-lg p-4">
+        <div className="border border-sky-400/30 bg-sky-400/10 rounded-lg p-4">
           <ComparisonTool
             type={activeTab}
             selectedWallets={tabData.selectedWallets as WalletData[]}

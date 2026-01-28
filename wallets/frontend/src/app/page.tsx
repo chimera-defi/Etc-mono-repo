@@ -17,10 +17,8 @@ export default function HomePage() {
   const guideDocs = documents.filter(d => d.category === 'guide' || d.category === 'research');
   const resourceDocs = guideDocs.slice(0, 3);
 
-  const glassCard =
-    'rounded-[14px] border border-slate-700/60 bg-slate-900/70 backdrop-blur shadow-[0_8px_22px_rgba(2,6,23,0.35)]';
-  const glassCardHover =
-    `${glassCard} transition-all hover:border-slate-500/70 hover:shadow-[0_12px_28px_rgba(56,189,248,0.12)]`;
+  const glassCard = 'glass-panel';
+  const glassCardHover = 'glass-panel glass-panel-hover';
 
   const topPicks = [
     {
@@ -468,35 +466,35 @@ export default function HomePage() {
                   value={`${stats.softwareWallets}+`}
                   description="EVM-compatible wallets compared"
                   icon={<Shield className="h-5 w-5" />}
-                  className={`${glassCard} !p-5`}
+                  className="!p-5"
                 />
                 <StatsCard
                   label="Hardware Wallets"
                   value={`${stats.hardwareWallets}+`}
                   description="Cold storage devices reviewed"
                   icon={<Cpu className="h-5 w-5" />}
-                  className={`${glassCard} !p-5`}
+                  className="!p-5"
                 />
                 <StatsCard
                   label="Crypto Cards"
                   value={`${stats.cryptoCards}+`}
                   description="Credit & debit cards compared"
                   icon={<CreditCard className="h-5 w-5" />}
-                  className={`${glassCard} !p-5`}
+                  className="!p-5"
                 />
                 <StatsCard
                   label="Ramps"
                   value={`${stats.ramps}+`}
                   description="On/off-ramp providers compared"
                   icon={<ArrowLeftRight className="h-5 w-5" />}
-                  className={`${glassCard} !p-5`}
+                  className="!p-5"
                 />
                 <StatsCard
                   label="Last Updated"
                   value={stats.lastUpdated.split(',')[0] || 'Dec 2025'}
                   description="Regular data refreshes via GitHub API"
                   icon={<Github className="h-5 w-5" />}
-                  className={`${glassCard} !p-5`}
+                  className="!p-5"
                 />
               </div>
             </div>

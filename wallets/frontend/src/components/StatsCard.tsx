@@ -10,9 +10,9 @@ interface StatsCardProps {
 
 export function StatsCard({ label, value, description, icon, className }: StatsCardProps) {
   return (
-    <div className={cn('p-6 rounded-lg border border-border bg-card', className)}>
+    <div className={cn('glass-panel p-6', className)}>
       <div className="flex items-center gap-3 mb-2">
-        {icon && <div className="text-primary">{icon}</div>}
+        {icon && <div className="text-sky-300">{icon}</div>}
         <span className="text-sm font-medium text-muted-foreground">{label}</span>
       </div>
       <p className="text-3xl font-bold">{value}</p>
