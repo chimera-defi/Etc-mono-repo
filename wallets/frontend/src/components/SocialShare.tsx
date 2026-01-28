@@ -115,28 +115,3 @@ export function SocialShare({ url, title, description, className = '', size = 'd
     </div>
   );
 }
-
-/**
- * Compact social share for mobile/smaller spaces
- */
-export function SocialShareCompact({ url, title, description }: SocialShareProps) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <div className="relative">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="p-2 rounded-lg text-muted-foreground hover:bg-slate-900/60 transition-colors"
-        title="Share"
-        aria-label="Share"
-      >
-        <Link2 className="h-4 w-4" />
-      </button>
-      {isOpen && (
-        <div className="absolute right-0 top-full mt-2 p-2 glass-panel z-50">
-          <SocialShare url={url} title={title} description={description} />
-        </div>
-      )}
-    </div>
-  );
-}
