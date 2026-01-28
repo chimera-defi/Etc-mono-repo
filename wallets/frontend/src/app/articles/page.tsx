@@ -43,7 +43,7 @@ export default function ArticlesPage() {
   const guideArticles = articles.filter(a => a.category === 'guide');
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 max-w-7xl">
       <Breadcrumbs
         items={[
           { label: 'Home', href: '/' },
@@ -53,8 +53,8 @@ export default function ArticlesPage() {
 
       {/* Header */}
       <div className="mt-6 mb-12">
-        <h1 className="text-3xl md:text-4xl font-bold mb-4">Wallet Comparison Articles</h1>
-        <p className="text-lg text-muted-foreground max-w-3xl">
+        <h1 className="text-3xl md:text-4xl font-bold mb-4 text-slate-100">Wallet Comparison Articles</h1>
+        <p className="text-lg text-slate-400 max-w-3xl">
           Expert guides, detailed comparisons, and practical advice for choosing the right crypto wallet.
           Compare features, security, and developer experience across hardware and software wallets.
         </p>
@@ -63,8 +63,8 @@ export default function ArticlesPage() {
       {/* Comparison Articles */}
       {comparisonArticles.length > 0 && (
         <section className="mb-16">
-          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-            <span className="inline-block w-1 h-6 bg-primary rounded"></span>
+          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-slate-100">
+            <span className="inline-block w-1 h-6 bg-sky-400 rounded"></span>
             Wallet Comparisons
           </h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -78,8 +78,8 @@ export default function ArticlesPage() {
       {/* Guide Articles */}
       {guideArticles.length > 0 && (
         <section>
-          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-            <span className="inline-block w-1 h-6 bg-primary rounded"></span>
+          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-slate-100">
+            <span className="inline-block w-1 h-6 bg-sky-400 rounded"></span>
             Wallet Guides
           </h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -93,7 +93,7 @@ export default function ArticlesPage() {
       {/* No articles fallback */}
       {articles.length === 0 && (
         <div className="text-center py-12">
-          <p className="text-muted-foreground">No articles available yet. Check back soon!</p>
+          <p className="text-slate-400">No articles available yet. Check back soon!</p>
         </div>
       )}
     </div>
@@ -106,31 +106,31 @@ function ArticleCard({ article }: { article: ReturnType<typeof getAllArticles>[0
   return (
     <Link
       href={`/articles/${article.slug}`}
-      className="group block rounded-xl border border-border p-6 hover:border-primary/50 hover:shadow-lg transition-all"
+      className="group block bg-slate-900/70 border border-slate-700/60 backdrop-blur-sm rounded-xl p-6 hover:border-sky-500/50 transition-all"
     >
       {/* Category Badge */}
       <div className="flex items-center justify-between mb-3">
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary font-medium text-xs capitalize">
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-400 font-medium text-xs capitalize">
           {article.category}
         </span>
-        <span className="text-xs text-muted-foreground inline-flex items-center gap-1">
+        <span className="text-xs text-slate-400 inline-flex items-center gap-1">
           <Clock className="h-3 w-3" />
           {formatReadingTime(readingTime)}
         </span>
       </div>
 
       {/* Title */}
-      <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
+      <h3 className="text-xl font-semibold mb-2 text-slate-100 group-hover:text-sky-400 transition-colors">
         {article.title}
       </h3>
 
       {/* Description */}
-      <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
+      <p className="text-sm text-slate-400 mb-4 line-clamp-3">
         {article.description}
       </p>
 
       {/* Meta */}
-      <div className="flex items-center gap-4 text-xs text-muted-foreground mb-4">
+      <div className="flex items-center gap-4 text-xs text-slate-500 mb-4">
         <span className="inline-flex items-center gap-1">
           <Calendar className="h-3 w-3" />
           {new Date(article.lastUpdated).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
@@ -144,7 +144,7 @@ function ArticleCard({ article }: { article: ReturnType<typeof getAllArticles>[0
       </div>
 
       {/* Read More */}
-      <div className="inline-flex items-center gap-2 text-sm font-medium text-primary group-hover:gap-3 transition-all">
+      <div className="inline-flex items-center gap-2 text-sm font-medium text-sky-400 group-hover:gap-3 transition-all">
         Read Article
         <ArrowRight className="h-4 w-4" />
       </div>

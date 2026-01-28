@@ -292,10 +292,7 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(topPicksSchema) }}
       />
 
-      {/* Main container with dark glass background */}
-      <div className="min-h-screen bg-gradient-to-b from-[#0b1020] to-[#111827]">
-
-        {/* Disclaimer Banner */}
+      {/* Disclaimer Banner */}
         <div className="w-full bg-sky-900/30 border-b border-sky-800/50 text-sky-100 px-4 py-3">
           <div className="container mx-auto max-w-7xl flex items-start gap-3">
             <div className="mt-0.5 flex-shrink-0">
@@ -576,7 +573,6 @@ export default function HomePage() {
             />
           </div>
         </section>
-      </div>
     </>
   );
 }

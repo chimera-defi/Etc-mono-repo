@@ -82,12 +82,12 @@ export default async function ExplorePage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 max-w-7xl">
       <div className="mb-8">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
           <div>
-            <h1 className="text-3xl font-bold mb-2">Explore & Compare</h1>
-            <p className="text-muted-foreground">
+            <h1 className="text-3xl font-bold mb-2 text-slate-100">Explore &amp; Compare</h1>
+            <p className="text-slate-400">
               Filter, sort, and compare wallets side-by-side. Select wallets to see a detailed comparison.
             </p>
           </div>
@@ -101,29 +101,29 @@ export default async function ExplorePage() {
         <div className="mt-4">
           {chainStats ? (
             <div className="flex flex-wrap gap-4 text-sm">
-              <div className="px-3 py-1.5 bg-muted rounded-lg">
-                <span className="text-muted-foreground">Data Updated:</span>{' '}
-                <span className="font-semibold">{walletStats.lastUpdated}</span>
+              <div className="px-3 py-1.5 bg-slate-900/70 border border-slate-700/60 rounded-lg">
+                <span className="text-slate-400">Data Updated:</span>{' '}
+                <span className="font-semibold text-slate-200">{walletStats.lastUpdated}</span>
               </div>
-              <div className="px-3 py-1.5 bg-muted rounded-lg">
-                <span className="text-muted-foreground">Total EVM Chains:</span>{' '}
-                <span className="font-semibold">{chainStats.evmChains}</span>
+              <div className="px-3 py-1.5 bg-slate-900/70 border border-slate-700/60 rounded-lg">
+                <span className="text-slate-400">Total EVM Chains:</span>{' '}
+                <span className="font-semibold text-slate-200">{chainStats.evmChains}</span>
               </div>
-              <div className="px-3 py-1.5 bg-muted rounded-lg">
-                <span className="text-muted-foreground">EVM TVL:</span>{' '}
-                <span className="font-semibold text-green-600 dark:text-green-400">
+              <div className="px-3 py-1.5 bg-slate-900/70 border border-slate-700/60 rounded-lg">
+                <span className="text-slate-400">EVM TVL:</span>{' '}
+                <span className="font-semibold text-emerald-400">
                   {chainStats.evmTVL}
                 </span>
               </div>
-              <div className="px-3 py-1.5 bg-muted rounded-lg">
-                <span className="text-muted-foreground">Top Chain:</span>{' '}
-                <span className="font-semibold">
+              <div className="px-3 py-1.5 bg-slate-900/70 border border-slate-700/60 rounded-lg">
+                <span className="text-slate-400">Top Chain:</span>{' '}
+                <span className="font-semibold text-slate-200">
                   {chainStats.topChains[0]?.name} ({chainStats.topChains[0]?.tvl})
                 </span>
               </div>
             </div>
           ) : (
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-slate-400">
               Live chain stats are temporarily unavailable. Data last updated: {walletStats.lastUpdated}.
             </p>
           )}

@@ -175,7 +175,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content={siteName} />
       </head>
-      <body className="font-sans">
+      <body className="font-sans bg-gradient-to-b from-[#0b1020] to-[#111827] min-h-screen">
         <Script
           id="organization-schema"
           type="application/ld+json"
