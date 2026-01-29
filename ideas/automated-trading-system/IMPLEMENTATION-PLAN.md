@@ -47,6 +47,16 @@
 - Determinism checks across REPLAY runs
 - Risk matrix review
 - Shadow mode validation against LIVE feeds
+- E2E disaster drills (loss halt + recovery)
+- AI regression checklist for risk/exec changes
+
+## Phase 6: Iteration Backlog (Post-MVP)
+
+- Portfolio-level netting + exposure caps
+- Smart order routing policies
+- Adaptive risk limits by regime
+- Execution cost model calibration
+- Cross-venue latency arbitrage detection
 
 ## Deliverables Checklist
 

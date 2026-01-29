@@ -447,6 +447,14 @@ Fill {
 - Replay reads Decision + Intent logs as source.
 - Same event ordering in DRY_RUN and REPLAY.
 
+## 8.10 Future Ideas / Backlog
+
+- Portfolio-level optimization (cross-strategy netting).
+- Venue-specific smart order routing policies.
+- Adaptive risk limits based on volatility regimes.
+- Execution cost model calibrated to live fills.
+- Cross-venue latency arbitrage detection + suppression.
+
 ## 9. Acceptance criteria
 
 The system is complete when:
