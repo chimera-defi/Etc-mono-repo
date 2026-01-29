@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Fill",
+  "type": "object",
+  "required": ["id", "ts", "mode", "venue", "asset", "side", "qty", "price", "order_id", "intent_id"],
+  "properties": {
+    "id": { "type": "string" },
+    "ts": { "type": "string" },
+    "mode": { "type": "string", "enum": ["LIVE", "DRY_RUN", "REPLAY"] },
+    "venue": { "type": "string" },
+    "asset": { "type": "string" },
+    "side": { "type": "string", "enum": ["BUY", "SELL"] },
+    "qty": { "type": "number" },
+    "price": { "type": "number" },
+    "fees": { "type": "number" },
+    "order_id": { "type": "string" },
+    "intent_id": { "type": "string" }
+  }
+}

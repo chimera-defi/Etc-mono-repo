@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Decision",
+  "type": "object",
+  "required": ["id", "ts", "mode", "strategy_id", "version_hash"],
+  "properties": {
+    "id": { "type": "string" },
+    "ts": { "type": "string" },
+    "mode": { "type": "string", "enum": ["LIVE", "DRY_RUN", "REPLAY"] },
+    "strategy_id": { "type": "string" },
+    "version_hash": { "type": "string" },
+    "inputs_ref": { "type": "string" },
+    "rationale": { "type": "string" },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  }
+}
