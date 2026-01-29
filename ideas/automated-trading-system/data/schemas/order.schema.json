@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Order",
+  "type": "object",
+  "required": ["id", "ts", "mode", "venue", "asset", "side", "qty", "order_type", "status", "intent_id"],
+  "properties": {
+    "id": { "type": "string" },
+    "ts": { "type": "string" },
+    "mode": { "type": "string", "enum": ["LIVE", "DRY_RUN", "REPLAY"] },
+    "venue": { "type": "string" },
+    "asset": { "type": "string" },
+    "side": { "type": "string", "enum": ["BUY", "SELL"] },
+    "qty": { "type": "number" },
+    "order_type": { "type": "string", "enum": ["MARKET", "LIMIT"] },
+    "limit_price": { "type": "number" },
+    "tif": { "type": "string" },
+    "status": { "type": "string" },
+    "intent_id": { "type": "string" },
+    "correlation_id": { "type": "string" }
+  }
+}
