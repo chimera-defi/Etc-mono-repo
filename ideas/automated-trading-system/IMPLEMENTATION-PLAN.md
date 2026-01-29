@@ -12,6 +12,7 @@
 
 - Strategy interface scaffolding
 - Intent logging (append-only)
+- Order state machine + idempotency keys
 - Risk engine with basic limits
 - DRY_RUN pipeline with simulated fills
 - REPLAY runner using stored logs
@@ -22,6 +23,7 @@
 - LIVE routing behind feature flag
 - Kill switch (global + per-strategy)
 - Slippage/spread estimator and guardrail
+- Time sync + clock discipline
 
 ## Phase 3: Audit + Reporting (Week 5)
 
@@ -44,6 +46,7 @@
 - Chaos tests: timeouts, stale data, partial fills
 - Determinism checks across REPLAY runs
 - Risk matrix review
+- Shadow mode validation against LIVE feeds
 
 ## Deliverables Checklist
 
@@ -52,6 +55,7 @@
 - [ ] Strategy interface + sample strategy
 - [ ] DRY_RUN and REPLAY parity
 - [ ] LIVE safety gates
+- [ ] Order state machine + idempotency
 - [ ] First adapter + tests
 - [ ] Audit report outputs
 - [ ] Arbitrage checklist (fees, latency, inventory, transfers)

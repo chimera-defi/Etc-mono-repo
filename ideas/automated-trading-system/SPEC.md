@@ -1,5 +1,6 @@
 # Automated Trading System Spec (Excerpt)
 
+- regime-based performance breakdowns
 - slippage and spread sensitivity analysis
 
 ---
@@ -115,11 +116,38 @@ Decision -> Intent -> Order -> Fill
     +---------+---------+--------+
               |
               v
-         Audit Store
+        Audit Store
               |
               v
             Replay
 ```
+
+## 4.5 Architecture Refinements (Research-Driven)
+
+- Introduce a Market Data Ingestion service (normalize, timestamp, dedupe).
+- Add a Position/Portfolio service as a single source of truth.
+- Add a Reconciliation worker (orders/positions vs venue state).
+- Separate Execution Orchestrator from Venue Adapters (clean boundary).
+- Make Audit Store append-only with schema versioning.
+- Add an Order State Machine with idempotency keys.
+- Establish a Time Sync/Clock source (monotonic + venue timestamps).
+- Add Circuit Breakers (global and per-strategy) with cooldowns.
+- Add a Slippage/Impact Modeler to feed risk checks.
+- Ship metrics to an Observability pipeline (latency, rejects, drift).
+
+## 4.6 Arbitrage Loop (Cross-Venue)
+
+```
+Price Gap Detector -> Inventory Check -> Risk Gate -> Execute Leg A
+                                         |                 |
+                                         v                 v
+                                  Execute Leg B      Rebalance/Transfer
+```
+
+Key constraints:
+- Fees + latency determine viable spread.
+- Inventory/transfer friction limits throughput.
+- Partial fills must trigger immediate hedge or cancel.
 
 ## 10. Venue Adapter Contract (Draft)
 
@@ -169,6 +197,7 @@ Adapter outputs must include:
 - PnL (gross/net)
 - Top slippage outliers
 - Risk blocks triggered
+- Regime-based performance breakdown (trend/mean-revert/high-vol)
 
 ### Incident Report
 
@@ -201,6 +230,8 @@ Follow-up actions:
 - Integration: adapter sandbox + simulated fills.
 - Replay: deterministic run comparison.
 - Chaos: dropped market data, venue timeouts.
+- Shadow mode: mirror LIVE inputs without execution.
+- Property tests: state machine transitions + idempotency.
 
 ## 17. Research Notes (TODO)
 
@@ -212,6 +243,8 @@ ArXiv:
 - Limit Order Book Dynamics in Matching Markets (spread + slippage): http://arxiv.org/abs/2511.20606v2
 - Event-Driven LSTM for Forex Price Prediction: http://arxiv.org/abs/2102.01499v1
 - Trade the Event (event-driven trading): http://arxiv.org/abs/2105.12825v2
+- Building Trust Takes Time: Limits to Arbitrage for Blockchain-Based Assets: http://arxiv.org/abs/1812.00595v4
+- Arbitrageurs' profits, LVR, and sandwich attacks: http://arxiv.org/abs/2307.02074v6
 
 Online:
 - FIX Trading Community (protocol standards): https://www.fixtrading.org/standards/
@@ -249,6 +282,25 @@ Online:
 - Prefer deterministic systems for replayability and auditability.
 - Treat tooling and observability as first-class (engineering culture).
 - Keep systems simple and composable; avoid hidden side effects.
+
+## 20. Telegram Control Plane (Optional)
+
+Purpose: allow human-in-the-loop commands without bypassing safety.
+
+### Commands (Draft)
+
+- `/status` -> system health + mode
+- `/arm <ttl>` -> arm LIVE for a limited window
+- `/disarm` -> revoke arming immediately
+- `/intent <strategy> <params>` -> stage intent (no execution)
+- `/confirm <intent_id>` -> confirm a staged intent (LIVE only)
+
+### Safety Gates
+
+- Allowlist of chat/user IDs only.
+- Require two-step confirmation for LIVE.
+- Enforce intent hash confirmation (must match stored intent).
+- Rate limit commands + lockout on abuse.
 
 ## 5. Strategy Interface (Draft)
 
