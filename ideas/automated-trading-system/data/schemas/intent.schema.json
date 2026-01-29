@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Intent",
+  "type": "object",
+  "required": ["id", "ts", "mode", "strategy_id", "version_hash", "asset", "side", "qty", "order_type"],
+  "properties": {
+    "id": { "type": "string" },
+    "ts": { "type": "string" },
+    "mode": { "type": "string", "enum": ["LIVE", "DRY_RUN", "REPLAY"] },
+    "strategy_id": { "type": "string" },
+    "version_hash": { "type": "string" },
+    "asset": { "type": "string" },
+    "side": { "type": "string", "enum": ["BUY", "SELL"] },
+    "qty": { "type": "number" },
+    "order_type": { "type": "string", "enum": ["MARKET", "LIMIT"] },
+    "limit_price": { "type": "number" },
+    "tif": { "type": "string" },
+    "urgency": { "type": "string" },
+    "risk_tags": { "type": "array", "items": { "type": "string" } },
+    "rationale_ref": { "type": "string" }
+  }
+}
