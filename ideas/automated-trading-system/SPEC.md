@@ -183,6 +183,10 @@ Adapter outputs must include:
 | Policy | Scope | Threshold | Action |
 |--------|-------|-----------|--------|
 | Max position | per-asset | config | block |
+| Loss kill-switch | per-strategy | config | halt + alert |
+| Portfolio loss limit | global | config | halt all |
+| Drawdown throttle | per-strategy | config | reduce size |
+| Latency breach | per-venue | config | block new orders |
 | Max daily loss | global | config | block + kill |
 | Max trade size | per-order | config | block |
 | Slippage | per-order | config | block |
@@ -223,6 +227,8 @@ Follow-up actions:
 - Separate read-only and trade keys.
 - Per-venue allowlist for assets.
 - Mandatory human confirmation in LIVE.
+- Automated kill loops on large losses with cooldown.
+- Auto-recovery requires human re-arming in LIVE.
 
 ## 16. Testing Strategy
 
@@ -232,6 +238,21 @@ Follow-up actions:
 - Chaos: dropped market data, venue timeouts.
 - Shadow mode: mirror LIVE inputs without execution.
 - Property tests: state machine transitions + idempotency.
+- End-to-end: local harness with replayed feeds + simulated venue.
+- E2E invariants: no execution without arming + confirmed intent.
+- Disaster drills: trigger loss limits + verify auto-halt + recovery flow.
+
+## 16.1 Recovery + Restart Procedure (Draft)
+
+1. Auto-halt triggers (loss limit, latency breach, venue down).
+2. System enters SAFE mode: stop new orders, allow cancels/hedges only.
+3. Operators review audit logs + reconciliation report.
+4. Required checks before re-arming:
+   - Risk limits reset/confirmed.
+   - Positions reconciled to venue state.
+   - Market data freshness restored.
+   - Any incident report drafted.
+5. Human re-arming required for LIVE.
 
 ## 17. Research Notes (TODO)
 
