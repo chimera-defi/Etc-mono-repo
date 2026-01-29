@@ -134,6 +134,8 @@ Decision -> Intent -> Order -> Fill
 - Add Circuit Breakers (global and per-strategy) with cooldowns.
 - Add a Slippage/Impact Modeler to feed risk checks.
 - Ship metrics to an Observability pipeline (latency, rejects, drift).
+- Define plug-in boundaries (strategies, adapters, risk policies) with versioned contracts.
+- Support horizontal scaling for ingestion + replay workers (stateless, sharded by venue/asset).
 
 ## 4.6 Arbitrage Loop (Cross-Venue)
 
@@ -229,6 +231,14 @@ Follow-up actions:
 - Mandatory human confirmation in LIVE.
 - Automated kill loops on large losses with cooldown.
 - Auto-recovery requires human re-arming in LIVE.
+
+## 15.1 AI-Generated Code Risk Checklist (Draft)
+
+- Guard against silent behavior drift: add approval-based config diffs.
+- Avoid unreviewed logic changes in risk/exec paths.
+- Require regression tests for any strategy + risk policy change.
+- Track schema version bumps in logs + replay snapshots.
+- Validate determinism: REPLAY must match prior runs.
 
 ## 16. Testing Strategy
 
