@@ -523,9 +523,9 @@ export default function HomePage() {
           ) : (
             <>
               <ResourceCard
-                title="Scoring Methodology"
+                title="About Wallet Radar"
                 description="Learn how we evaluate and score wallets based on security, developer experience, and more."
-                href="/docs/methodology"
+                href="/docs/about"
                 icon={<FileText className="h-6 w-6" />}
               />
               <ResourceCard
@@ -535,9 +535,9 @@ export default function HomePage() {
                 icon={<Database className="h-6 w-6" />}
               />
               <ResourceCard
-                title="Security Guide"
-                description="Best practices for choosing and using crypto wallets securely."
-                href="/docs/security-guide"
+                title="Contributing"
+                description="Help improve our wallet comparisons by contributing data or suggestions."
+                href="/docs/contributing"
                 icon={<Shield className="h-6 w-6" />}
               />
             </>
