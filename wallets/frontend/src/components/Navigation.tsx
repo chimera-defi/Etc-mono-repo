@@ -3,9 +3,11 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { Menu, X, Wallet, Github, Twitter, Search } from 'lucide-react';
+import { Menu, X, Wallet, Github, Twitter } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from './ThemeToggle';
+import { SiteSearch } from './SiteSearch';
+import type { SearchItem } from '@/lib/search-data';
 
 const navItems = [
   { href: '/', label: 'Home' },
@@ -18,7 +20,11 @@ const navItems = [
   { href: '/docs', label: 'Docs' },
 ];
 
-export function Navigation() {
+interface NavigationProps {
+  searchData?: SearchItem[];
+}
+
+export function Navigation({ searchData = [] }: NavigationProps) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -52,15 +58,8 @@ export function Navigation() {
 
           {/* Right side actions */}
           <div className="flex items-center space-x-2">
-            {/* Search button */}
-            <Link
-              href="/explore"
-              className="flex items-center gap-2 px-3 py-1.5 text-sm text-slate-400 bg-slate-800/50 border border-slate-700/60 rounded-lg hover:border-slate-600 hover:text-slate-300 transition-colors"
-              title="Search & Compare"
-            >
-              <Search className="h-4 w-4" />
-              <span className="hidden sm:inline">Search</span>
-            </Link>
+            {/* Site-wide search */}
+            <SiteSearch searchData={searchData} />
 
             <ThemeToggle />
 
