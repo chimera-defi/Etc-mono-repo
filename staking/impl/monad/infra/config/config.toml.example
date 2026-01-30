@@ -1,0 +1,18 @@
+# Monad validator config template (placeholder)
+# Fill in values based on official Monad docs.
+
+[node]
+moniker = "validator-1"
+data_dir = "/var/lib/monad"
+
+[rpc]
+enabled = true
+listen_addr = "0.0.0.0:26657"
+
+[p2p]
+listen_addr = "0.0.0.0:26656"
+external_address = ""
+
+[log]
+level = "info"
+output = "stdout"
