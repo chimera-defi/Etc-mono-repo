@@ -37,6 +37,7 @@ export function DocsContent({ documents }: DocsContentProps) {
         <SearchFilter 
           documents={documents} 
           onFilter={handleFilter}
+          onQueryChange={setSearchQuery}
         />
         {isFiltered && (
           <div className="mt-4">

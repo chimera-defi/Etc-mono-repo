@@ -8,6 +8,7 @@ import type { MarkdownDocument } from '@/lib/markdown';
 interface SearchFilterProps {
   documents: MarkdownDocument[];
   onFilter: (filtered: MarkdownDocument[]) => void;
+  onQueryChange?: (query: string) => void;
   className?: string;
 }
 
@@ -18,7 +19,7 @@ const CATEGORY_OPTIONS = [
   { value: 'research', label: 'Research' },
 ];
 
-export function SearchFilter({ documents, onFilter, className }: SearchFilterProps) {
+export function SearchFilter({ documents, onFilter, onQueryChange, className }: SearchFilterProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
 
@@ -47,6 +48,7 @@ export function SearchFilter({ documents, onFilter, className }: SearchFilterPro
     const query = e.target.value;
     setSearchQuery(query);
     onFilter(filterDocuments(query, selectedCategory));
+    onQueryChange?.(query);
   };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -59,12 +61,13 @@ export function SearchFilter({ documents, onFilter, className }: SearchFilterPro
     setSearchQuery('');
     setSelectedCategory('all');
     onFilter(documents);
+    onQueryChange?.('');
   };
 
   const hasFilters = searchQuery.trim() || selectedCategory !== 'all';
 
   return (
-    <div className={cn('flex flex-col sm:flex-row gap-4', className)}>
+    <div className={cn('glass-panel p-4 flex flex-col sm:flex-row gap-4', className)}>
       {/* Search Input */}
       <div className="relative flex-1">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -73,7 +76,7 @@ export function SearchFilter({ documents, onFilter, className }: SearchFilterPro
           placeholder="Search documentation..."
           value={searchQuery}
           onChange={handleSearchChange}
-          className="w-full pl-10 pr-10 py-2 border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          className="glass-input pl-10 pr-10 py-2"
           aria-label="Search documentation"
         />
         {searchQuery && (
@@ -81,6 +84,7 @@ export function SearchFilter({ documents, onFilter, className }: SearchFilterPro
             onClick={() => {
               setSearchQuery('');
               onFilter(filterDocuments('', selectedCategory));
+              onQueryChange?.('');
             }}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
             aria-label="Clear search"
@@ -96,7 +100,7 @@ export function SearchFilter({ documents, onFilter, className }: SearchFilterPro
         <select
           value={selectedCategory}
           onChange={handleCategoryChange}
-          className="pl-10 pr-8 py-2 border border-border rounded-lg bg-background text-foreground appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent min-w-[160px]"
+          className="glass-select pl-10 pr-8 py-2 appearance-none cursor-pointer min-w-[160px]"
           aria-label="Filter by category"
         >
           {CATEGORY_OPTIONS.map(option => (
@@ -116,7 +120,7 @@ export function SearchFilter({ documents, onFilter, className }: SearchFilterPro
       {hasFilters && (
         <button
           onClick={handleClear}
-          className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground border border-border rounded-lg hover:bg-muted transition-colors"
+          className="px-4 py-2 text-sm text-slate-300 border border-slate-700/60 rounded-lg bg-slate-900/50 hover:bg-slate-900/80 transition-colors"
         >
           Clear All
         </button>

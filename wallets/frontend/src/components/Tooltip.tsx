@@ -167,7 +167,7 @@ export function Tooltip({
         {children}
         {showIcon && (
           <HelpCircle
-            className="h-4 w-4 ml-1.5 text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors flex-shrink-0"
+            className="h-4 w-4 ml-1.5 text-sky-400 hover:text-sky-300 transition-colors flex-shrink-0"
             aria-hidden="true"
           />
         )}
@@ -201,8 +201,7 @@ export function Tooltip({
             }}
             className={cn(
               'px-3 py-2 text-xs font-normal leading-relaxed whitespace-normal',
-              'bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900',
-              'rounded-md shadow-xl border border-gray-700 dark:border-gray-300'
+              'bg-slate-900/90 text-slate-100 rounded-md border border-slate-700/60 backdrop-blur shadow-xl'
             )}
           >
             {content}

@@ -40,7 +40,7 @@ export default function CompaniesPage() {
   const companies = getHardwareWalletCompanies();
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-10">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Hardware Wallet Companies</h1>
         <p className="text-muted-foreground">
@@ -49,10 +49,10 @@ export default function CompaniesPage() {
       </div>
 
       <div className="grid gap-6">
-        <div className="border border-border rounded-lg overflow-hidden">
+        <div className="glass-panel overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">
-              <thead className="bg-muted/50 border-b border-border">
+              <thead className="bg-slate-950/70 border-b border-slate-700/60">
                 <tr>
                   <th className="px-6 py-3 font-medium">Company</th>
                   <th className="px-6 py-3 font-medium">Aggregated Score</th>
@@ -60,24 +60,24 @@ export default function CompaniesPage() {
                   <th className="px-6 py-3 font-medium">Wallets</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border">
+              <tbody className="divide-y divide-slate-800/70">
                 {companies.map((company) => (
-                  <tr key={company.name} className="hover:bg-muted/30 transition-colors">
+                  <tr key={company.name} className="hover:bg-slate-900/40 transition-colors">
                     <td className="px-6 py-4 font-medium text-lg">{company.name}</td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
                         <span className={
-                          company.aggregatedScore >= 90 ? 'text-green-600 dark:text-green-400 font-bold' :
-                          company.aggregatedScore >= 75 ? 'text-green-600 dark:text-green-400' :
-                          company.aggregatedScore >= 50 ? 'text-yellow-600 dark:text-yellow-400' :
-                          'text-red-600 dark:text-red-400'
+                          company.aggregatedScore >= 90 ? 'text-emerald-300 font-bold' :
+                          company.aggregatedScore >= 75 ? 'text-emerald-300' :
+                          company.aggregatedScore >= 50 ? 'text-amber-300' :
+                          'text-rose-300'
                         }>
                           {company.aggregatedScore.toFixed(1)}
                         </span>
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="inline-flex items-center justify-center px-2 py-1 rounded-md bg-muted font-medium">
+                      <span className="inline-flex items-center justify-center px-2 py-1 rounded-md border border-slate-700/60 bg-slate-900/70 font-medium text-slate-200">
                         {company.walletCount}
                       </span>
                     </td>
@@ -87,7 +87,7 @@ export default function CompaniesPage() {
                           <Link 
                             key={wallet.id}
                             href={`/wallets/hardware/${wallet.id}`}
-                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border border-border hover:border-primary/50 hover:bg-primary/5 transition-colors"
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border border-slate-700/60 bg-slate-900/60 hover:border-sky-400/60 hover:bg-slate-900/80 transition-colors"
                           >
                             <Shield className="h-3 w-3" />
                             {wallet.name}
@@ -106,7 +106,7 @@ export default function CompaniesPage() {
       <div className="mt-8 text-center">
         <Link 
           href="/docs/hardware-wallets"
-          className="inline-flex items-center gap-2 text-primary hover:underline"
+          className="inline-flex items-center gap-2 text-sky-300 hover:text-sky-200"
         >
           View full hardware wallet comparison table
           <ArrowRight className="h-4 w-4" />
