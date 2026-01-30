@@ -104,3 +104,7 @@ mcp-cli memory/create_relations '{"relations": [
 3. Link related concepts
 4. Track dead ends (prevent repeating mistakes)
 5. Iterate quickly with MCP CLI
+
+## Meta Learnings
+
+- Always commit changes with a self-chosen message; do not ask for one.
