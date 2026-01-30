@@ -307,7 +307,7 @@ export default function HomePage() {
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                href="/docs/methodology"
+                href="/docs/about"
                 className="inline-flex items-center gap-2 border border-slate-600 hover:border-slate-500 text-slate-200 font-medium px-6 py-3 rounded-lg transition-colors"
               >
                 Read Methodology
