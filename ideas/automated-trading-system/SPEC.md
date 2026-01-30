@@ -266,6 +266,10 @@ Follow-up actions:
 
 ## 17. Research Notes (TODO)
 
+Profitability caveat:
+- Reported profitability in literature is capacity- and cost-sensitive; treat results as conditional.
+- Commonly studied approaches include market making and cross-venue arbitrage under strict fee/latency assumptions (see 17.2).
+
 ## 17.1 Research Sources (Initial)
 
 ArXiv:
@@ -283,6 +287,17 @@ Online:
 - Coinbase Advanced Trade API docs: https://docs.cloud.coinbase.com/advanced-trade-api/docs
 - Jane Street Blog (engineering culture/context): https://blog.janestreet.com/
 - Jane Street Open Source (Core/Async tooling): https://opensource.janestreet.com/
+
+## 17.2 Research Sources (Additional)
+
+Market making + execution:
+- Adaptive Optimal Market Making Strategies with Inventory Liquidation Costs: http://arxiv.org/abs/2405.11444v1
+- Optimizing Market Making using Multi-Agent Reinforcement Learning: http://arxiv.org/abs/1812.10252v1
+- Market Making via Reinforcement Learning in China Commodity Market: http://arxiv.org/abs/2205.08936v3
+
+LLM + NLP:
+- FinBERT: Financial Sentiment Analysis with Pre-trained Language Models: https://export.arxiv.org/api/query?id_list=1908.10063
+- Financial NLP survey: http://arxiv.org/abs/2404.07738
 
 ### Market Microstructure
 - Slippage models for L1 vs L2 data.
@@ -307,6 +322,10 @@ Online:
 Sources (initial):
 - FinBERT: http://arxiv.org/abs/1908.10063
 - Financial NLP survey: http://arxiv.org/abs/2404.07738
+
+Notes:
+- LLM signals should be treated as weak, regime-sensitive features; route through risk checks.
+- Any LLM-driven signal must pass replay + shadow mode before LIVE consideration.
 
 ## 18. Arbitrage System Design Notes (Draft)
 
