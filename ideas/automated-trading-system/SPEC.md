@@ -1,5 +1,6 @@
 # Automated Trading System Spec (Excerpt)
 
+- regime-based performance breakdowns
 - slippage and spread sensitivity analysis
 
 ---
@@ -115,11 +116,40 @@ Decision -> Intent -> Order -> Fill
     +---------+---------+--------+
               |
               v
-         Audit Store
+        Audit Store
               |
               v
             Replay
 ```
+
+## 4.5 Architecture Refinements (Research-Driven)
+
+- Introduce a Market Data Ingestion service (normalize, timestamp, dedupe).
+- Add a Position/Portfolio service as a single source of truth.
+- Add a Reconciliation worker (orders/positions vs venue state).
+- Separate Execution Orchestrator from Venue Adapters (clean boundary).
+- Make Audit Store append-only with schema versioning.
+- Add an Order State Machine with idempotency keys.
+- Establish a Time Sync/Clock source (monotonic + venue timestamps).
+- Add Circuit Breakers (global and per-strategy) with cooldowns.
+- Add a Slippage/Impact Modeler to feed risk checks.
+- Ship metrics to an Observability pipeline (latency, rejects, drift).
+- Define plug-in boundaries (strategies, adapters, risk policies) with versioned contracts.
+- Support horizontal scaling for ingestion + replay workers (stateless, sharded by venue/asset).
+
+## 4.6 Arbitrage Loop (Cross-Venue)
+
+```
+Price Gap Detector -> Inventory Check -> Risk Gate -> Execute Leg A
+                                         |                 |
+                                         v                 v
+                                  Execute Leg B      Rebalance/Transfer
+```
+
+Key constraints:
+- Fees + latency determine viable spread.
+- Inventory/transfer friction limits throughput.
+- Partial fills must trigger immediate hedge or cancel.
 
 ## 10. Venue Adapter Contract (Draft)
 
@@ -155,6 +185,10 @@ Adapter outputs must include:
 | Policy | Scope | Threshold | Action |
 |--------|-------|-----------|--------|
 | Max position | per-asset | config | block |
+| Loss kill-switch | per-strategy | config | halt + alert |
+| Portfolio loss limit | global | config | halt all |
+| Drawdown throttle | per-strategy | config | reduce size |
+| Latency breach | per-venue | config | block new orders |
 | Max daily loss | global | config | block + kill |
 | Max trade size | per-order | config | block |
 | Slippage | per-order | config | block |
@@ -169,6 +203,7 @@ Adapter outputs must include:
 - PnL (gross/net)
 - Top slippage outliers
 - Risk blocks triggered
+- Regime-based performance breakdown (trend/mean-revert/high-vol)
 
 ### Incident Report
 
@@ -194,6 +229,16 @@ Follow-up actions:
 - Separate read-only and trade keys.
 - Per-venue allowlist for assets.
 - Mandatory human confirmation in LIVE.
+- Automated kill loops on large losses with cooldown.
+- Auto-recovery requires human re-arming in LIVE.
+
+## 15.1 AI-Generated Code Risk Checklist (Draft)
+
+- Guard against silent behavior drift: add approval-based config diffs.
+- Avoid unreviewed logic changes in risk/exec paths.
+- Require regression tests for any strategy + risk policy change.
+- Track schema version bumps in logs + replay snapshots.
+- Validate determinism: REPLAY must match prior runs.
 
 ## 16. Testing Strategy
 
@@ -201,8 +246,29 @@ Follow-up actions:
 - Integration: adapter sandbox + simulated fills.
 - Replay: deterministic run comparison.
 - Chaos: dropped market data, venue timeouts.
+- Shadow mode: mirror LIVE inputs without execution.
+- Property tests: state machine transitions + idempotency.
+- End-to-end: local harness with replayed feeds + simulated venue.
+- E2E invariants: no execution without arming + confirmed intent.
+- Disaster drills: trigger loss limits + verify auto-halt + recovery flow.
+
+## 16.1 Recovery + Restart Procedure (Draft)
+
+1. Auto-halt triggers (loss limit, latency breach, venue down).
+2. System enters SAFE mode: stop new orders, allow cancels/hedges only.
+3. Operators review audit logs + reconciliation report.
+4. Required checks before re-arming:
+   - Risk limits reset/confirmed.
+   - Positions reconciled to venue state.
+   - Market data freshness restored.
+   - Any incident report drafted.
+5. Human re-arming required for LIVE.
 
 ## 17. Research Notes (TODO)
+
+Profitability caveat:
+- Reported profitability in literature is capacity- and cost-sensitive; treat results as conditional.
+- Commonly studied approaches include market making and cross-venue arbitrage under strict fee/latency assumptions (see 17.2).
 
 ## 17.1 Research Sources (Initial)
 
@@ -212,6 +278,8 @@ ArXiv:
 - Limit Order Book Dynamics in Matching Markets (spread + slippage): http://arxiv.org/abs/2511.20606v2
 - Event-Driven LSTM for Forex Price Prediction: http://arxiv.org/abs/2102.01499v1
 - Trade the Event (event-driven trading): http://arxiv.org/abs/2105.12825v2
+- Building Trust Takes Time: Limits to Arbitrage for Blockchain-Based Assets: http://arxiv.org/abs/1812.00595v4
+- Arbitrageurs' profits, LVR, and sandwich attacks: http://arxiv.org/abs/2307.02074v6
 
 Online:
 - FIX Trading Community (protocol standards): https://www.fixtrading.org/standards/
@@ -219,6 +287,17 @@ Online:
 - Coinbase Advanced Trade API docs: https://docs.cloud.coinbase.com/advanced-trade-api/docs
 - Jane Street Blog (engineering culture/context): https://blog.janestreet.com/
 - Jane Street Open Source (Core/Async tooling): https://opensource.janestreet.com/
+
+## 17.2 Research Sources (Additional)
+
+Market making + execution:
+- Adaptive Optimal Market Making Strategies with Inventory Liquidation Costs: http://arxiv.org/abs/2405.11444v1
+- Optimizing Market Making using Multi-Agent Reinforcement Learning: http://arxiv.org/abs/1812.10252v1
+- Market Making via Reinforcement Learning in China Commodity Market: http://arxiv.org/abs/2205.08936v3
+
+LLM + NLP:
+- FinBERT: Financial Sentiment Analysis with Pre-trained Language Models: https://export.arxiv.org/api/query?id_list=1908.10063
+- Financial NLP survey: http://arxiv.org/abs/2404.07738
 
 ### Market Microstructure
 - Slippage models for L1 vs L2 data.
@@ -235,6 +314,19 @@ Online:
 - Reconciliation patterns for exchange state drift.
 - Key management best practices and rotation cadence.
 
+### LLM + NLP Signals (Research Notes)
+- Use LLMs as feature generators, not direct trade decision makers.
+- Evaluate on offline datasets with strict leakage checks.
+- Require ablations vs simpler baselines before promotion.
+
+Sources (initial):
+- FinBERT: http://arxiv.org/abs/1908.10063
+- Financial NLP survey: http://arxiv.org/abs/2404.07738
+
+Notes:
+- LLM signals should be treated as weak, regime-sensitive features; route through risk checks.
+- Any LLM-driven signal must pass replay + shadow mode before LIVE consideration.
+
 ## 18. Arbitrage System Design Notes (Draft)
 
 - Cross-venue price capture requires strict fee + latency modeling.
@@ -249,6 +341,25 @@ Online:
 - Prefer deterministic systems for replayability and auditability.
 - Treat tooling and observability as first-class (engineering culture).
 - Keep systems simple and composable; avoid hidden side effects.
+
+## 20. Telegram Control Plane (Optional)
+
+Purpose: allow human-in-the-loop commands without bypassing safety.
+
+### Commands (Draft)
+
+- `/status` -> system health + mode
+- `/arm <ttl>` -> arm LIVE for a limited window
+- `/disarm` -> revoke arming immediately
+- `/intent <strategy> <params>` -> stage intent (no execution)
+- `/confirm <intent_id>` -> confirm a staged intent (LIVE only)
+
+### Safety Gates
+
+- Allowlist of chat/user IDs only.
+- Require two-step confirmation for LIVE.
+- Enforce intent hash confirmation (must match stored intent).
+- Rate limit commands + lockout on abuse.
 
 ## 5. Strategy Interface (Draft)
 
@@ -363,6 +474,14 @@ Fill {
 - Backtest uses same pipeline as DRY_RUN.
 - Replay reads Decision + Intent logs as source.
 - Same event ordering in DRY_RUN and REPLAY.
+
+## 8.10 Future Ideas / Backlog
+
+- Portfolio-level optimization (cross-strategy netting).
+- Venue-specific smart order routing policies.
+- Adaptive risk limits based on volatility regimes.
+- Execution cost model calibrated to live fills.
+- Cross-venue latency arbitrage detection + suppression.
 
 ## 9. Acceptance criteria
 
