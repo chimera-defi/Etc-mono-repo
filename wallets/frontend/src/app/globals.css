@@ -6,6 +6,10 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -30,25 +34,33 @@
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    /* Dark Glass Design System */
+    /* Background: #0b1020 (HSL: 224 51% 8%) → #111827 (HSL: 221 39% 11%) */
+    --background: 224 51% 8%;
     --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
+    /* Card: slate-900/70 (#0f172a @ 70% = semi-transparent dark) */
+    --card: 222 47% 11%;
     --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
+    --popover: 222 47% 11%;
     --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
+    /* Primary: sky-400 (#38bdf8 = HSL: 198 93% 60%) */
+    --primary: 198 93% 60%;
+    --primary-foreground: 222 47% 11%;
+    /* Secondary: indigo-500 (#6366f1 = HSL: 239 84% 67%) */
+    --secondary: 239 84% 67%;
     --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
+    /* Muted: slate-800 (#1e293b = HSL: 217 33% 17%) */
+    --muted: 217 33% 17%;
+    /* Muted foreground: slate-400 (#94a3b8 = HSL: 215 20% 65%) */
+    --muted-foreground: 215 20% 65%;
+    --accent: 217 33% 17%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    /* Border: slate-700/60 (#334155 @ 60% = HSL: 217 19% 27%) */
+    --border: 217 19% 27%;
+    --input: 217 19% 27%;
+    --ring: 198 93% 60%;
   }
 }
 
@@ -179,6 +191,19 @@
 
 .toc-link.level-3 {
   @apply pl-4;
+}
+
+/* Dark Glass Design System Utilities */
+.dark-glass-bg {
+  @apply bg-gradient-to-b from-[#0b1020] to-[#111827];
+}
+
+.glass-card {
+  @apply bg-slate-900/70 border border-slate-700/60 backdrop-blur-sm rounded-xl;
+}
+
+.glass-card-hover {
+  @apply bg-slate-900/70 border border-slate-700/60 backdrop-blur-sm rounded-xl hover:border-sky-500/50 transition-all;
 }
 
 /* Smooth scrolling */

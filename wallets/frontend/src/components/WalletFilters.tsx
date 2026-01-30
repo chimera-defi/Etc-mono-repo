@@ -671,5 +671,3 @@ export function WalletFilters({
     </div>
   );
 }
-
-export default WalletFilters;

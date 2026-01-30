@@ -6,56 +6,68 @@ import { useState } from 'react';
 import { Menu, X, Wallet, Github, Twitter } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from './ThemeToggle';
+import { SiteSearch } from './SiteSearch';
+import type { SearchItem } from '@/lib/search-data';
 
 const navItems = [
   { href: '/', label: 'Home' },
-  { href: '/explore', label: 'Explore & Compare' },
-  { href: '/articles', label: 'Articles' },
-  { href: '/companies', label: 'Companies' },
-  { href: '/docs/software-wallets', label: 'Software Wallets' },
-  { href: '/docs/hardware-wallets', label: 'Hardware Wallets' },
-  { href: '/docs/crypto-cards', label: 'Crypto Cards' },
+  { href: '/explore', label: 'Explore' },
+  { href: '/docs/software-wallets', label: 'Software' },
+  { href: '/docs/hardware-wallets', label: 'Hardware' },
+  { href: '/docs/crypto-cards', label: 'Cards' },
   { href: '/docs/ramps', label: 'Ramps' },
-  { href: '/docs/about', label: 'About' },
-  { href: '/docs', label: 'All Docs' },
+  { href: '/articles', label: 'Articles' },
+  { href: '/docs', label: 'Docs' },
 ];
 
-export function Navigation() {
+interface NavigationProps {
+  searchData?: SearchItem[];
+}
+
+export function Navigation({ searchData = [] }: NavigationProps) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-slate-700/60 bg-slate-900/80 backdrop-blur-md">
       <nav className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <Wallet className="h-6 w-6 text-primary" />
-            <span className="font-bold text-xl">Wallet Radar</span>
+            <Wallet className="h-6 w-6 text-sky-400" />
+            <span className="font-bold text-xl text-slate-100">Wallet Radar</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
+          <div className="hidden lg:flex items-center space-x-1">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'text-sm font-medium transition-colors hover:text-primary',
-                  pathname === item.href
-                    ? 'text-primary'
-                    : 'text-muted-foreground'
+                  'px-3 py-2 text-sm font-medium rounded-lg transition-colors hover:bg-slate-800/50',
+                  pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href))
+                    ? 'text-sky-400 bg-sky-500/10'
+                    : 'text-slate-400 hover:text-slate-200'
                 )}
               >
                 {item.label}
               </Link>
             ))}
+          </div>
+
+          {/* Right side actions */}
+          <div className="flex items-center space-x-2">
+            {/* Site-wide search */}
+            <SiteSearch searchData={searchData} />
+
             <ThemeToggle />
+
             <a
               href="https://x.com/chimeradefi?utm_source=walletradar&utm_medium=comparison"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="hidden sm:block text-slate-400 hover:text-slate-100 transition-colors p-2"
               aria-label="Twitter"
             >
               <Twitter className="h-5 w-5" />
@@ -64,25 +76,22 @@ export function Navigation() {
               href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets?utm_source=walletradar&utm_medium=comparison"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="hidden sm:block text-slate-400 hover:text-slate-100 transition-colors p-2"
               aria-label="GitHub"
             >
               <Github className="h-5 w-5" />
             </a>
-          </div>
 
-          {/* Mobile Menu Button and Theme Toggle */}
-          <div className="md:hidden flex items-center space-x-2">
-            <ThemeToggle />
+            {/* Mobile Menu Button */}
             <button
-              className="p-2"
+              className="lg:hidden p-2"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? (
-                <X className="h-6 w-6" />
+                <X className="h-6 w-6 text-slate-300" />
               ) : (
-                <Menu className="h-6 w-6" />
+                <Menu className="h-6 w-6 text-slate-300" />
               )}
             </button>
           </div>
@@ -90,23 +99,43 @@ export function Navigation() {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-border">
-            <div className="flex flex-col space-y-3">
+          <div className="lg:hidden py-4 border-t border-slate-700/60">
+            <div className="flex flex-col space-y-1">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    'text-sm font-medium transition-colors hover:text-primary py-2',
-                    pathname === item.href
-                      ? 'text-primary'
-                      : 'text-muted-foreground'
+                    'px-3 py-2 text-sm font-medium rounded-lg transition-colors',
+                    pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href))
+                      ? 'text-sky-400 bg-sky-500/10'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
                   )}
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {item.label}
                 </Link>
               ))}
+              <div className="flex items-center gap-2 px-3 pt-2 mt-2 border-t border-slate-700/60">
+                <a
+                  href="https://x.com/chimeradefi?utm_source=walletradar&utm_medium=comparison"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-slate-400 hover:text-slate-100 transition-colors p-2"
+                  aria-label="Twitter"
+                >
+                  <Twitter className="h-5 w-5" />
+                </a>
+                <a
+                  href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets?utm_source=walletradar&utm_medium=comparison"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-slate-400 hover:text-slate-100 transition-colors p-2"
+                  aria-label="GitHub"
+                >
+                  <Github className="h-5 w-5" />
+                </a>
+              </div>
             </div>
           </div>
         )}

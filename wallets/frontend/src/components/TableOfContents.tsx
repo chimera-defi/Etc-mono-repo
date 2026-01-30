@@ -44,7 +44,7 @@ export function TableOfContents({ items }: TableOfContentsProps) {
 
   return (
     <nav className="space-y-1">
-      <p className="font-semibold text-sm mb-3">On this page</p>
+      <p className="font-semibold text-sm mb-3 text-slate-200">On this page</p>
       {items.map((item) => (
         <a
           key={item.id}
@@ -52,7 +52,7 @@ export function TableOfContents({ items }: TableOfContentsProps) {
           className={cn(
             'toc-link',
             `level-${item.level}`,
-            activeId === item.id && 'text-primary font-medium'
+            activeId === item.id && 'text-sky-400 font-medium'
           )}
         >
           {item.title}

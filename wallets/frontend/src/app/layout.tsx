@@ -4,6 +4,7 @@ import './globals.css';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { getSearchData } from '@/lib/search-data';
 
 // Google Analytics Measurement ID - hardcoded for static export reliability
 const GA_MEASUREMENT_ID = 'G-L6ZV569CMN';
@@ -95,6 +96,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Generate search data at build time
+  const searchData = getSearchData();
   // Structured data for Organization and Website
   const organizationSchema = {
     '@context': 'https://schema.org',
@@ -175,7 +178,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content={siteName} />
       </head>
-      <body className="font-sans">
+      <body className="font-sans bg-gradient-to-b from-[#0b1020] to-[#111827] min-h-screen">
         <Script
           id="organization-schema"
           type="application/ld+json"
@@ -188,7 +191,7 @@ export default function RootLayout({
         />
         <ThemeProvider defaultTheme="dark">
           <div className="min-h-screen flex flex-col">
-            <Navigation />
+            <Navigation searchData={searchData} />
             <main className="flex-1">
               {children}
             </main>

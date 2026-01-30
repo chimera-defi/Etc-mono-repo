@@ -289,24 +289,24 @@ export default function DocumentPage({ params }: PageProps) {
       
       {/* Navigation between table and details */}
       {relatedDoc && (
-        <div className="mb-6 p-4 rounded-lg border border-border bg-muted/50">
+        <div className="mb-6 p-4 rounded-xl border border-slate-700/60 bg-slate-900/70 backdrop-blur-sm">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               {isTablePage ? (
                 <>
-                  <Table className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm text-muted-foreground">Viewing comparison table</span>
+                  <Table className="h-4 w-4 text-slate-400" />
+                  <span className="text-sm text-slate-400">Viewing comparison table</span>
                 </>
               ) : (
                 <>
-                  <FileText className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm text-muted-foreground">Viewing full documentation</span>
+                  <FileText className="h-4 w-4 text-slate-400" />
+                  <span className="text-sm text-slate-400">Viewing full documentation</span>
                 </>
               )}
             </div>
             <Link
               href={`/docs/${relatedDoc.slug}`}
-              className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+              className="inline-flex items-center gap-2 text-sm font-medium text-sky-400 hover:text-sky-300 transition-colors"
             >
               {isTablePage ? (
                 <>
@@ -328,8 +328,8 @@ export default function DocumentPage({ params }: PageProps) {
         {/* Main Content */}
         <article className="min-w-0">
           {/* Header */}
-          <header className="mb-8 pb-6 border-b border-border">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3 flex-wrap">
+          <header className="mb-8 pb-6 border-b border-slate-700/60">
+            <div className="flex items-center gap-2 text-sm text-slate-400 mb-3 flex-wrap">
               <BookOpen className="h-4 w-4" aria-hidden="true" />
               <span className="capitalize">{document.category}</span>
               {document.lastUpdated && (
@@ -342,8 +342,8 @@ export default function DocumentPage({ params }: PageProps) {
               <span aria-hidden="true">•</span>
               <span>{formatReadingTime(calculateReadingTime(document.content))}</span>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">{document.title}</h1>
-            <p className="text-lg text-muted-foreground mb-4">{document.description}</p>
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-slate-100">{document.title}</h1>
+            <p className="text-lg text-slate-400 mb-4">{document.description}</p>
             {/* Social Sharing - Header */}
             <SocialShare
               url={pageUrl}
@@ -357,12 +357,13 @@ export default function DocumentPage({ params }: PageProps) {
           <EnhancedMarkdownRenderer
             content={document.content}
             showExpandableSections={true}
+            skipFirstH1={true}
           />
 
           {/* Footer Navigation */}
-          <footer className="mt-12 pt-8 border-t border-border">
+          <footer className="mt-12 pt-8 border-t border-slate-700/60">
             {/* Social Sharing - Footer */}
-            <div className="mb-6 pb-6 border-b border-border">
+            <div className="mb-6 pb-6 border-b border-slate-700/60">
               <SocialShare
                 url={pageUrl}
                 title={document.title}
@@ -370,11 +371,11 @@ export default function DocumentPage({ params }: PageProps) {
                 size="large"
               />
             </div>
-            
+
             <div className="flex flex-wrap items-center justify-between gap-4">
               <Link
                 href="/"
-                className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-slate-200 transition-colors"
               >
                 <ArrowLeft className="h-4 w-4" />
                 Back to Home
@@ -384,7 +385,7 @@ export default function DocumentPage({ params }: PageProps) {
                   href="https://walletbeat.fyi?utm_source=walletradar&utm_medium=comparison"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
+                  className="inline-flex items-center gap-1 text-slate-400 hover:text-slate-200 transition-colors"
                 >
                   WalletBeat
                   <ExternalLink className="h-3 w-3" />
@@ -393,7 +394,7 @@ export default function DocumentPage({ params }: PageProps) {
                   href="https://ethereum.org/en/wallets/find-wallet/?utm_source=walletradar&utm_medium=comparison"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
+                  className="inline-flex items-center gap-1 text-slate-400 hover:text-slate-200 transition-colors"
                 >
                   Ethereum.org
                   <ExternalLink className="h-3 w-3" />
@@ -409,8 +410,8 @@ export default function DocumentPage({ params }: PageProps) {
             <TableOfContents items={filteredToc} />
             
             {/* Related Documents */}
-            <div className="mt-8 pt-8 border-t border-border">
-              <p className="font-semibold text-sm mb-3">Related</p>
+            <div className="mt-8 pt-8 border-t border-slate-700/60">
+              <p className="font-semibold text-sm mb-3 text-slate-200">Related</p>
               <RelatedDocuments currentSlug={params.slug} />
             </div>
           </div>
@@ -497,10 +498,10 @@ function RelatedDocuments({ currentSlug }: { currentSlug: string }) {
         <li key={doc.slug}>
           <Link
             href={`/docs/${doc.slug}`}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors block"
+            className="text-sm text-slate-400 hover:text-slate-200 transition-colors block"
           >
             <span className="line-clamp-2">{doc.title}</span>
-            <span className="text-xs text-muted-foreground/70 capitalize">
+            <span className="text-xs text-slate-500 capitalize">
               {doc.category}
             </span>
           </Link>
