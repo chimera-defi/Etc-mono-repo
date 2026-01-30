@@ -4,7 +4,7 @@
 
 ## Projects
 
-### Monad Validator (`staking/impl/monad/`) - ✅ Operational
+### Monad Validator (`staking/monad/`) - ✅ Operational
 Production validator infrastructure for Monad network:
 - **infra/** - Validator setup, systemd configs, monitoring
 - **runbook/** - Operations manual
@@ -13,7 +13,7 @@ Production validator infrastructure for Monad network:
 
 **Commands:**
 ```bash
-cd staking/impl/monad/infra
+cd staking/monad/infra
 ./scripts/healthcheck.sh  # Check validator status
 ```
 

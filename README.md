@@ -9,7 +9,7 @@ Research and prototyping workspace for technology evaluation.
 | Area | Description | Status |
 |------|-------------|--------|
 | [**wallets/**](./wallets/) | Wallet Radar - crypto wallet comparison platform (100+ wallets) | ✅ Production |
-| [**staking/monad/**](./staking/impl/monad/) | Monad validator infrastructure (runbook, monitoring, deployment) | ✅ Operational |
+| [**staking/monad/**](./staking/monad/) | Monad validator infrastructure (runbook, monitoring, deployment) | ✅ Operational |
 
 ### In Development
 
@@ -79,7 +79,7 @@ cd wallets/frontend && npm run dev
 cd staking/aztec && aztec-nargo compile
 
 # Staking - Monad validator
-cd staking/impl/monad/infra && ./scripts/healthcheck.sh
+cd staking/monad/infra && ./scripts/healthcheck.sh
 
 # Smart contracts - Foundry
 cd Dapps/Foundry/app && forge test
@@ -101,7 +101,7 @@ cd wallets/scripts && ./refresh-github-data.sh
 ├── wallets/              # Wallet Radar - crypto wallet comparison platform
 ├── staking/              # Staking projects
 │   ├── aztec/            # Aztec liquid staking (Noir contracts)
-│   ├── impl/monad/       # Monad validator infrastructure
+│   ├── monad/            # Monad validator infrastructure
 │   └── research/         # Staking market research
 ├── Dapps/                # Smart contract framework comparison (Foundry vs Hardhat)
 ├── mobile_experiments/   # Mobile framework comparison (Capacitor, React Native, Flutter)
