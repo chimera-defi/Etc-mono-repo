@@ -84,3 +84,10 @@ Each directory contains a detailed README with setup instructions and findings.
 **PR Attribution:** Required for all AI-generated PRs. See `.cursorrules` "PR Attribution Requirements" section at the top for the complete guide.
 
 **Enforcement:** PR template (`.github/pull_request_template.md`), git hook (`.git/hooks/commit-msg`), and CI check (`.github/workflows/pr-attribution-check.yml`) provide reminders and validation.
+
+## Shared Guidance
+
+- `docs/shared/AI_RAILS.md`
+- `docs/shared/GUIDELINES.md`
+- `docs/shared/BUILD_TOOLS.md`
+- `docs/shared/ENHANCEMENTS.md`
