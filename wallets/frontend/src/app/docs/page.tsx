@@ -48,13 +48,13 @@ export default function DocsPage() {
   const documents = getAllDocuments();
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 max-w-7xl">
       <Breadcrumbs items={[{ label: 'Docs', href: '/docs' }]} />
-      
+
       <header className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-bold mb-4">Documentation</h1>
-        <p className="text-lg text-muted-foreground max-w-2xl">
-          Browse all wallet comparison documentation, guides, and research materials. 
+        <h1 className="text-3xl md:text-4xl font-bold mb-4 text-slate-100">Documentation</h1>
+        <p className="text-lg text-slate-400 max-w-2xl">
+          Browse all wallet comparison documentation, guides, and research materials.
           Our comprehensive resources help developers make informed decisions about crypto wallets.
         </p>
       </header>
