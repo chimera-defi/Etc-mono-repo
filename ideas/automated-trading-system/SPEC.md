@@ -299,6 +299,15 @@ Online:
 - Reconciliation patterns for exchange state drift.
 - Key management best practices and rotation cadence.
 
+### LLM + NLP Signals (Research Notes)
+- Use LLMs as feature generators, not direct trade decision makers.
+- Evaluate on offline datasets with strict leakage checks.
+- Require ablations vs simpler baselines before promotion.
+
+Sources (initial):
+- FinBERT: http://arxiv.org/abs/1908.10063
+- Financial NLP survey: http://arxiv.org/abs/2404.07738
+
 ## 18. Arbitrage System Design Notes (Draft)
 
 - Cross-venue price capture requires strict fee + latency modeling.
