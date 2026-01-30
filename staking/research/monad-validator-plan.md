@@ -525,3 +525,29 @@ flowchart TD
 6) Confirm `monad` system user + permissions via `staking/monad/infra/scripts/create_monad_user.sh`.
 7) Add minimal firewall rules (allow SSH + 80/443, block 8787) via `staking/monad/infra/scripts/install_firewall_ufw.sh`.
 8) Add Prometheus/Grafana/Loki stack (per Extensibility Hooks) and connect alert routing.
+
+## 8. Enhancement Backlog (Prioritized)
+
+### 8.1 Ops Automation
+1) **One‑command bootstrap wrapper** (runs bootstrap + checks + proof bundle).
+2) **Post‑install verifier** that checks firewall, systemd units, ports, and `/status`.
+3) **Rollback helper** to restore envs + systemd units in one step.
+
+### 8.2 Public Proof & Delegator Trust
+1) **Proof bundle generator** (uptime link + `/status` JSON + Grafana snapshot + incident log).
+2) **Read‑only Grafana user** + documented sharing flow.
+3) **Public JSON stats endpoint** (minimal: uptime, block height, last seen).
+
+### 8.3 Monitoring & Alerting
+1) **Alertmanager routes** (Telegram/email) with a default template.
+2) **Disk/CPU/RAM thresholds** tied to clear runbook actions.
+3) **External uptime monitor** wired to `/status` with 60s probes.
+
+### 8.4 Security Hardening
+1) **Fail2ban jail profiles** (SSH + web proxy).
+2) **Automatic security updates** + reboot window policy.
+3) **Permission audit script** for `/etc/monad` and key files.
+
+### 8.5 Testing
+1) **Extended e2e smoke**: Caddy `/status`, monitoring up checks, validator service status.
+2) **Shell lint** (shellcheck if present) for scripts.
