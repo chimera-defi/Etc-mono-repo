@@ -42,6 +42,7 @@ interface EnhancedMarkdownRendererProps {
   content: string;
   className?: string;
   showExpandableSections?: boolean;
+  skipFirstH1?: boolean;
 }
 
 // Header to tooltip mapping for markdown tables
@@ -756,18 +757,24 @@ const markdownComponents = getMarkdownComponents();
 export function EnhancedMarkdownRenderer({
   content,
   className,
-  showExpandableSections = true
+  showExpandableSections = true,
+  skipFirstH1 = false
 }: EnhancedMarkdownRendererProps) {
+  // Strip the first H1 heading if requested (to avoid repetition with page title)
+  const processedContent = skipFirstH1
+    ? content.replace(/^#\s+[^\n]+\n+/, '')
+    : content;
+
   // Detect if this is a comparison page (enable table search)
-  const isComparisonPage = content.includes('Complete') &&
-    (content.includes('Comparison') || content.includes('Hardware Wallet'));
+  const isComparisonPage = processedContent.includes('Complete') &&
+    (processedContent.includes('Comparison') || processedContent.includes('Hardware Wallet'));
 
   if (!showExpandableSections) {
-    return <MarkdownContent content={content} className={className} enableTableSearch={isComparisonPage} />;
+    return <MarkdownContent content={processedContent} className={className} enableTableSearch={isComparisonPage} />;
   }
 
   // Parse content into inline collapsible segments
-  const segments = parseInlineCollapsibleSections(content);
+  const segments = parseInlineCollapsibleSections(processedContent);
 
   return (
     <div className={className}>

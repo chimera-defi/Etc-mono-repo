@@ -250,6 +250,7 @@ function SoftwareWalletItem({
         <td className="py-3 px-4">
           <button
             onClick={onToggleSelect}
+            aria-label={isSelected ? `Remove ${wallet.name} from comparison` : `Add ${wallet.name} to comparison`}
             className={cn(
               'p-1 rounded border transition-colors',
               isSelected
@@ -331,6 +332,7 @@ function SoftwareWalletItem({
         </div>
         <button
           onClick={onToggleSelect}
+          aria-label={isSelected ? `Remove ${wallet.name} from comparison` : `Add ${wallet.name} to comparison`}
           className={cn(
             'p-2 rounded-lg border transition-colors',
             isSelected
@@ -414,6 +416,7 @@ function HardwareWalletItem({
         <td className="py-3 px-4">
           <button
             onClick={onToggleSelect}
+            aria-label={isSelected ? `Remove ${wallet.name} from comparison` : `Add ${wallet.name} to comparison`}
             className={cn(
               'p-1 rounded border transition-colors',
               isSelected
@@ -596,6 +599,7 @@ function CryptoCardItem({
         <td className="py-3 px-4">
           <button
             onClick={onToggleSelect}
+            aria-label={isSelected ? `Remove ${card.name} from comparison` : `Add ${card.name} to comparison`}
             className={cn(
               'p-1 rounded border transition-colors',
               isSelected
@@ -759,6 +763,7 @@ function RampItem({
         <td className="py-3 px-4">
           <button
             onClick={onToggleSelect}
+            aria-label={isSelected ? `Remove ${ramp.name} from comparison` : `Add ${ramp.name} to comparison`}
             className={cn(
               'p-1 rounded border transition-colors',
               isSelected
@@ -1148,5 +1153,3 @@ export function WalletTable<T extends WalletData>({
     </div>
   );
 }
-
-export default WalletTable;
