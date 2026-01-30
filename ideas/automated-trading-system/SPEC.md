@@ -1,5 +1,6 @@
 # Automated Trading System Spec (Excerpt)
 
+- regime-based performance breakdowns
 - slippage and spread sensitivity analysis
 
 ---
