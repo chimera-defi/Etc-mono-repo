@@ -17,6 +17,12 @@ High-level ideas and concepts for future exploration and implementation.
 - Extend AI assistant plugins/extensions to support OAuth flows
 - Store credentials securely (encrypted, environment-specific)
 - Support multiple providers (Google, GitHub, AWS, etc.)
+
+## AgentRadar (ERC-8004 Trust-as-a-Service)
+DeFi protocol concept for ERC-8004 agent credit with Ethos vouching + reverse-Kelly interest pricing.
+
+- Spec: `agentradar/SPEC.md`
+- Plan: `agentradar/PLAN.md`
 - Generate boilerplate code with credentials pre-configured
 - Fallback to manual setup if OAuth unavailable
 
