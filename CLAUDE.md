@@ -117,6 +117,13 @@ Before completing any task:
 | Valdi | `mobile_experiments/Valdi/AGENTS.md` |
 | Staking | `staking/AGENTS.md` |
 | Ideas | `ideas/AGENTS.md` |
+| **Status** | `.cursor/artifacts/PROJECT_STATUS.md` |
+
+## File Organization
+
+- **Artifacts:** `.cursor/artifacts/` (generated docs, status files)
+- **Never litter root:** Keep generated markdown out of root directory
+- **Project docs:** Each project folder has its own AGENTS.md
 
 ## Session Workflow
 
