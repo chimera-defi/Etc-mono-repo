@@ -114,3 +114,9 @@ mcp-cli memory/create_entities '{"entities": [{"name": "Valdi Pattern", "entityT
 - **Discord:** [discord.gg/uJyNEeYX2U](https://discord.gg/uJyNEeYX2U)
 - **Examples:** `/apps/` in Valdi repo
 - **GitHub:** [github.com/Snapchat/Valdi](https://github.com/Snapchat/Valdi)
+
+## Meta Learnings
+
+- Always open a PR for changes; do not push directly to main.
+- Always pull latest `main` and rebase your branch on `main` at the start of each new request.
+- After rebasing, force-push with lease if the branch diverges from the PR head.

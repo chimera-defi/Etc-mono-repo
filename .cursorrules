@@ -128,6 +128,7 @@ Brief description.
 - **Model attribution:** Specific model (Claude Opus 4.5), not platform (Cursor)
 - **Math verification:** Breakdown values must sum to stated totals
 - **Cross-document consistency:** Data in multiple places must match
+- **Rebase discipline:** Pull latest `main` and rebase at the start of each new request
 
 ---
 

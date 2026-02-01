@@ -108,6 +108,7 @@ Before completing any task:
 | #151 | Use sub-agents for exploration (>5 files, uncertain locations) |
 | #152 | Sub-agents return summaries - prevents context compaction |
 | #153 | Hooks enforce: Read >300 lines, Grep content, Glob >50 files |
+| #154 | Pull latest `main` and rebase at the start of each new request |
 
 ## Project-Specific Docs
 
@@ -130,6 +131,10 @@ Before completing any task:
 ### Starting a Session
 
 ```bash
+# 0. Sync with main
+git fetch origin
+git rebase origin/main
+
 # 1. Token monitoring (optional but recommended)
 .cursor/token-monitor.sh init
 
