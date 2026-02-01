@@ -3,6 +3,7 @@
 **Benchmarked:** 91% concise, 84% knowledge graph, 44% targeted reads
 **Auto-active:** Via `.cursorrules` + `/token-reduce` skill
 **Validated:** `.cursor/validate-token-reduction.sh`
+**QMD:** Optional local search for docs/notes (https://github.com/tobi/qmd)
 
 ---
 
@@ -16,6 +17,7 @@
 | Parallel ops | 20% | Multi-step |
 | Sub-agents | 15-30% | Complex tasks |
 | MCP CLI bulk | 1-10% | 10+ files |
+| QMD retrieval | 30-60% | Docs/notes |
 
 ---
 
@@ -120,6 +122,20 @@ mcp-cli filesystem/search_files '{"path": ".", "pattern": "*.ts"}'
 
 ---
 
+## 7. QMD Retrieval (30-60%)
+
+Use QMD to search large notes/doc sets before reading files into context.
+
+```bash
+bun install -g https://github.com/tobi/qmd
+qmd collection add <path> --name <name>
+qmd context add qmd://<name> "context"
+qmd embed
+qmd query "question" --all --files --min-score 0.3
+```
+
+---
+
 ## Anti-Patterns
 
 🚫 Restating user requests
@@ -150,6 +166,8 @@ mcp-cli filesystem/search_files '{"path": ".", "pattern": "*.ts"}'
 .cursor/token-monitor.sh       # Track savings
 .cursor/validate-token-reduction.sh  # Validate
 ```
+
+**Auto-invoke keywords:** token-reduce, token reduction, context limits
 
 ---
 
@@ -197,6 +215,17 @@ mcp-cli memory/search_nodes '{"query": "topic", "relationType": "related"}'
 
 # Batch storage (after major research)
 Store multiple findings at once, retrieve as needed
+```
+
+## Benchmark dependencies
+
+The benchmark script uses `tiktoken` via `pip3`. On Debian/Ubuntu, you may need:
+
+```bash
+apt install python3-venv
+python3 -m venv /tmp/token-venv
+source /tmp/token-venv/bin/activate
+pip3 install tiktoken
 ```
 
 ### Differential Updates
