@@ -117,3 +117,4 @@ Never claim full completion for uncompiled code.
 ## Meta Learnings
 
 - Always open a PR for changes; do not push directly to main.
+- Always pull latest `main` and rebase your branch on `main` at the start of each new request.
