@@ -1,6 +1,6 @@
 # Token Reduction Guide
 
-**Benchmarked:** 91% concise, 84% knowledge graph, 44% targeted reads
+**Benchmarked:** 89% concise, 76% knowledge graph, 33% targeted reads (real token count, 2026-01-30)
 **Auto-active:** Via `.cursorrules` + `/token-reduce` skill
 **Validated:** `.cursor/validate-token-reduction.sh`
 **QMD:** Optional local search for docs/notes (https://github.com/tobi/qmd)
@@ -11,9 +11,9 @@
 
 | Strategy | Savings | Use |
 |----------|---------|-----|
-| Concise responses | 91% | Always |
-| Knowledge graph | 84% | Multi-session |
-| Targeted reads | 44% | Large files |
+| Concise responses | 89% | Always |
+| Knowledge graph | 76% | Multi-session |
+| Targeted reads | 33% | Large files |
 | Parallel ops | 20% | Multi-step |
 | Sub-agents | 15-30% | Complex tasks |
 | MCP CLI bulk | 1-10% | 10+ files |
