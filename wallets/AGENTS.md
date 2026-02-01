@@ -162,6 +162,7 @@ mcp-cli memory/search_nodes '{"query": "wallet name"}'
 **Workflow:**
 1. Always open a PR for changes; do not push directly to main.
 2. Always pull latest `main` and rebase your branch on `main` at the start of each new request.
+3. After rebasing, force-push with lease if the branch diverges from the PR head.
 4. Activity status decays
 
 **Multi-Pass Review:**
