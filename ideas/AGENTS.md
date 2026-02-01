@@ -133,3 +133,7 @@ mcp-cli memory/create_relations '{"relations": [
 ## Meta Learnings
 
 - Always commit changes with a self-chosen message; do not ask for one.
+- Always open a PR for changes; do not push directly to main.
+- Verify repo contents before answering status questions; inspect the tree first to avoid incorrect claims.
+- Always pull latest `main` and rebase your branch on `main` at the start of each new request.
+- After rebasing, force-push with lease if the branch diverges from the PR head.
