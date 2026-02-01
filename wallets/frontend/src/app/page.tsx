@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Script from 'next/script';
-import { ArrowRight, Shield, Cpu, BookOpen, Github, CheckCircle, GitCompare, ArrowLeftRight, FileText, Lock, Eye, UserX, Database, CreditCard, Sparkles } from 'lucide-react';
+import { ArrowRight, Shield, Cpu, BookOpen, Github, CheckCircle, GitCompare, ArrowLeftRight, FileText, Lock, Eye, UserX, Database, CreditCard, Sparkles, Smartphone, HardDrive, Wallet, ArrowUpDown } from 'lucide-react';
 import { getAllDocuments } from '@/lib/markdown';
 import { getAllArticles } from '@/lib/articles';
 import { ArticleCard } from '@/components/ArticleCard';
@@ -8,41 +8,6 @@ import { FAQ } from '@/components/FAQ';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
 
-// Score Breakdown Card Component
-function ScoreBreakdownCard() {
-  return (
-    <div className="glass-card p-6">
-      <div className="flex items-center gap-2 mb-4">
-        <div className="w-5 h-5 rounded border border-sky-400/50 flex items-center justify-center">
-          <div className="w-2.5 h-2.5 bg-sky-400 rounded-sm" />
-        </div>
-        <h3 className="text-lg font-semibold text-slate-100">Score Breakdown</h3>
-      </div>
-
-      {/* Score bars */}
-      <div className="space-y-3 mb-4">
-        <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
-          <div className="h-full w-[85%] bg-sky-400 rounded-full" />
-        </div>
-        <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
-          <div className="h-full w-[90%] bg-emerald-400 rounded-full" />
-        </div>
-        <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
-          <div className="h-full w-[75%] bg-amber-400 rounded-full" />
-        </div>
-      </div>
-
-      <p className="text-sm text-slate-400 mb-4">Security / Dev UX / Activity / Coverage</p>
-
-      {/* Source chips */}
-      <div className="flex flex-wrap gap-2">
-        <span className="px-3 py-1 text-xs border border-slate-600 rounded-full text-slate-300">GitHub</span>
-        <span className="px-3 py-1 text-xs border border-slate-600 rounded-full text-slate-300">WalletBeat</span>
-        <span className="px-3 py-1 text-xs border border-slate-600 rounded-full text-slate-300">Chain Data</span>
-      </div>
-    </div>
-  );
-}
 
 // Top Pick Card Component
 interface TopPickCardProps {
@@ -298,7 +263,7 @@ export default function HomePage() {
               Evidence-led scoring, transparent sources, and side-by-side tooling.
             </p>
 
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-4 mb-8">
               <Link
                 href="/explore"
                 className="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-400 text-slate-900 font-medium px-6 py-3 rounded-lg transition-colors"
@@ -313,11 +278,79 @@ export default function HomePage() {
                 Read Methodology
               </Link>
             </div>
+
+            {/* Quick Navigation Links */}
+            <div className="flex flex-wrap gap-3">
+              <span className="text-sm text-slate-500 self-center mr-1">Jump to:</span>
+              <Link
+                href="/docs/software-wallets"
+                className="inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-sky-400 transition-colors"
+              >
+                <Smartphone className="h-4 w-4" />
+                Software
+              </Link>
+              <span className="text-slate-600">•</span>
+              <Link
+                href="/docs/hardware-wallets"
+                className="inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-sky-400 transition-colors"
+              >
+                <HardDrive className="h-4 w-4" />
+                Hardware
+              </Link>
+              <span className="text-slate-600">•</span>
+              <Link
+                href="/docs/crypto-cards"
+                className="inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-sky-400 transition-colors"
+              >
+                <CreditCard className="h-4 w-4" />
+                Cards
+              </Link>
+              <span className="text-slate-600">•</span>
+              <Link
+                href="/docs/ramps"
+                className="inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-sky-400 transition-colors"
+              >
+                <ArrowUpDown className="h-4 w-4" />
+                Ramps
+              </Link>
+            </div>
           </div>
 
-          {/* Hero Right - Score Breakdown Card */}
+          {/* Hero Right - Comparison Categories Grid */}
           <div className="lg:justify-self-end w-full lg:max-w-md">
-            <ScoreBreakdownCard />
+            <div className="grid grid-cols-2 gap-4">
+              <Link href="/docs/software-wallets" className="group glass-card-hover p-5 text-center">
+                <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-sky-500/10 flex items-center justify-center group-hover:bg-sky-500/20 transition-colors">
+                  <Smartphone className="h-6 w-6 text-sky-400" />
+                </div>
+                <h3 className="font-semibold text-slate-100 mb-1">Software Wallets</h3>
+                <p className="text-xs text-slate-400">Browser & mobile apps</p>
+              </Link>
+
+              <Link href="/docs/hardware-wallets" className="group glass-card-hover p-5 text-center">
+                <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-emerald-500/10 flex items-center justify-center group-hover:bg-emerald-500/20 transition-colors">
+                  <HardDrive className="h-6 w-6 text-emerald-400" />
+                </div>
+                <h3 className="font-semibold text-slate-100 mb-1">Hardware Wallets</h3>
+                <p className="text-xs text-slate-400">Cold storage devices</p>
+              </Link>
+
+              <Link href="/docs/crypto-cards" className="group glass-card-hover p-5 text-center">
+                <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-amber-500/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-colors">
+                  <CreditCard className="h-6 w-6 text-amber-400" />
+                </div>
+                <h3 className="font-semibold text-slate-100 mb-1">Crypto Cards</h3>
+                <p className="text-xs text-slate-400">Spend crypto anywhere</p>
+              </Link>
+
+              <Link href="/docs/ramps" className="group glass-card-hover p-5 text-center">
+                <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
+                  <ArrowUpDown className="h-6 w-6 text-purple-400" />
+                </div>
+                <h3 className="font-semibold text-slate-100 mb-1">On/Off Ramps</h3>
+                <p className="text-xs text-slate-400">Fiat ↔ crypto bridges</p>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
