@@ -158,6 +158,9 @@ mcp-cli memory/search_nodes '{"query": "wallet name"}'
 1. Single table principle
 2. Changelog discipline
 3. Verify before trust
+
+**Workflow:**
+1. Always open a PR for changes; do not push directly to main.
 4. Activity status decays
 
 **Multi-Pass Review:**

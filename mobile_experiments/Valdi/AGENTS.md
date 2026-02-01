@@ -114,3 +114,7 @@ mcp-cli memory/create_entities '{"entities": [{"name": "Valdi Pattern", "entityT
 - **Discord:** [discord.gg/uJyNEeYX2U](https://discord.gg/uJyNEeYX2U)
 - **Examples:** `/apps/` in Valdi repo
 - **GitHub:** [github.com/Snapchat/Valdi](https://github.com/Snapchat/Valdi)
+
+## Meta Learnings
+
+- Always open a PR for changes; do not push directly to main.
