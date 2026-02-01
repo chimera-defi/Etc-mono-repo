@@ -244,11 +244,19 @@ See `staking/AGENTS.md` for detailed patterns.
 
 ## Ideas Project Specifics
 
-**Current projects:** Voice Coding Assistant (Cadence), Birthday Bot
+**Current projects:** Voice Coding Assistant (Cadence), Automated Trading System, Birthday Bot
 
 **Focus:** Document exploration, prototype fast, store research
 
 See `ideas/AGENTS.md` for project details.
+
+---
+
+## Project Status
+
+**Comprehensive tracking:** `.cursor/artifacts/PROJECT_STATUS.md`
+
+Categories: Active/Production, In Development, Research/Evaluation, Ideas Backlog
 
 ---
 

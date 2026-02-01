@@ -4,28 +4,53 @@
 
 ## Projects
 
-### Voice Coding Assistant (Cadence)
+### Voice Coding Assistant (Cadence) - 🧪 Prototype
 **Location:** `ideas/voice-coding-assistant/`
 
 Multi-platform voice-controlled coding assistant:
 - cadence-backend - Backend services
 - cadence-api - API layer
 - cadence-app - Main application
-- cadence-web - Web interface
-- cadence-ios - iOS client
+- cadence-web-frontend - Web interface
 - cadence-prototype - POC
+- cadence-setup - Configuration
 
 **Status:** Research/prototype phase
 
-### Birthday Bot
+### Automated Trading System - 📊 Research
+**Location:** `ideas/automated-trading-system/`
+
+Automated trading system with:
+- `docs/` - Strategy documentation
+- `src/` - Implementation code
+- `tests/` - Test suite
+- `SPEC.md` - Technical specification (recently expanded)
+
+**Status:** Research/specification phase
+
+### Birthday Bot - 📅 Planning
 **Location:** `ideas/birthday-bot/`
 
 Unified birthday reminder application:
-- Cross-platform tracking
+- Cross-platform tracking (Facebook, Google, Instagram, contacts)
 - Privacy-first approach
 - Automated reminders
 
+**Key findings:**
+- Market: 100-150M potential users
+- Instagram: No official API (browser extension workaround)
+- MVP: Feasible in 8-10 weeks
+- Competitors: Birday, Birthday Sweet, Hip (fragmented)
+
 **Status:** Idea/planning phase
+
+### Conceptual Ideas
+
+| Idea | Description | Status |
+|------|-------------|--------|
+| OAuth Auto-Setup | AI-driven third-party service provisioning | 💭 Concept |
+| Self-Hosted Infra | Coolify evaluation, PaaS alternatives | 💭 Exploration |
+| Mobile AI Agent | Native app with camera, location, offline support | 💭 Concept |
 
 ## Core Principles
 

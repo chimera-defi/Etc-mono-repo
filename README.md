@@ -4,13 +4,35 @@ Research and prototyping workspace for technology evaluation.
 
 ## Projects
 
+### Active / Production
+
 | Area | Description | Status |
 |------|-------------|--------|
-| [**wallets/**](./wallets/) | Crypto wallet comparison (24 software + 23 hardware wallets + 12 credit cards) | ✅ Active |
-| [**Dapps/**](./Dapps/) | Smart contract framework comparison (Foundry vs Hardhat + Hybrid template) | ✅ Complete |
-| [**mobile_experiments/**](./mobile_experiments/) | Cross-platform mobile frameworks (Capacitor, React Native, Flutter, Valdi) | ✅ Complete |
+| [**wallets/**](./wallets/) | Wallet Radar - crypto wallet comparison platform (100+ wallets) | ✅ Production |
+| [**staking/monad/**](./staking/monad/) | Monad validator infrastructure (runbook, monitoring, deployment) | ✅ Operational |
+
+### In Development
+
+| Area | Description | Status |
+|------|-------------|--------|
+| [**staking/aztec/**](./staking/aztec/) | Aztec liquid staking (4 Noir contracts, 34 tests passing) | 🔧 Development |
+| [**staking/research/**](./staking/research/) | Staking market research ($66B+ landscape analysis) | 📚 Active |
+
+### Research / Evaluation
+
+| Area | Description | Status |
+|------|-------------|--------|
 | [**ai_experiments/**](./ai_experiments/) | AI constraint toolkits (Spec Kit, Guardrails AI, Guidance, Outlines, B-MAD) | 📋 Research |
-| [**ideas/**](./ideas/) | Future exploration concepts (OAuth automation, self-hosted infra, mobile AI agents) | 💡 Backlog |
+| [**mobile_experiments/**](./mobile_experiments/) | Cross-platform mobile frameworks (Capacitor, React Native, Flutter, Valdi) | ✅ Complete |
+| [**Dapps/**](./Dapps/) | Smart contract framework comparison (Foundry vs Hardhat + Hybrid template) | ✅ Complete |
+
+### Ideas Backlog
+
+| Area | Description | Status |
+|------|-------------|--------|
+| [**ideas/voice-coding-assistant/**](./ideas/voice-coding-assistant/) | Cadence - voice-controlled coding assistant | 🧪 Prototype |
+| [**ideas/birthday-bot/**](./ideas/birthday-bot/) | Unified birthday management across platforms | 📅 Planning |
+| [**ideas/automated-trading-system/**](./ideas/automated-trading-system/) | Automated trading system | 📊 Research |
 
 ## Quick Links
 
@@ -50,6 +72,15 @@ Research and prototyping workspace for technology evaluation.
 ## Development
 
 ```bash
+# Wallets - Wallet Radar
+cd wallets/frontend && npm run dev
+
+# Staking - Aztec contracts
+cd staking/aztec && aztec-nargo compile
+
+# Staking - Monad validator
+cd staking/monad/infra && ./scripts/healthcheck.sh
+
 # Smart contracts - Foundry
 cd Dapps/Foundry/app && forge test
 
@@ -67,11 +98,18 @@ cd wallets/scripts && ./refresh-github-data.sh
 
 ```
 .
-├── wallets/              # Crypto wallet comparison (software + hardware + credit cards)
+├── wallets/              # Wallet Radar - crypto wallet comparison platform
+├── staking/              # Staking projects
+│   ├── aztec/            # Aztec liquid staking (Noir contracts)
+│   ├── monad/            # Monad validator infrastructure
+│   └── research/         # Staking market research
 ├── Dapps/                # Smart contract framework comparison (Foundry vs Hardhat)
 ├── mobile_experiments/   # Mobile framework comparison (Capacitor, React Native, Flutter)
 ├── ai_experiments/       # AI constraint toolkit research (Spec Kit, Guardrails, etc.)
 ├── ideas/                # Future exploration concepts
+│   ├── voice-coding-assistant/  # Cadence - voice coding
+│   ├── birthday-bot/            # Birthday management
+│   └── automated-trading-system/ # Trading system
 ├── .github/              # CI workflows + PR templates
 ├── .cursor/              # Agent onboarding & PR attribution guides
 └── .cursorrules          # AI assistant guidelines (all agents)
