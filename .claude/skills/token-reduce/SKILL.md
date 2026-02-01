@@ -1,7 +1,8 @@
 ---
 name: token-reduce
 description: |
-  Analyze files/directories for token optimization. Reports waste patterns and improvements.
+  Reduce token usage by retrieving only relevant context and summarizing it.
+  Uses QMD (Query Markup Documents) when available for local search.
   Use when: context limits, high costs, large codebases. Enforcement via .cursorrules.
 author: Claude Code
 version: 3.1.0
@@ -16,7 +17,7 @@ allowed-tools:
 
 # Token Reduction Skill
 
-Analyze `$ARGUMENTS` for token optimization opportunities.
+Reduce context usage for `$ARGUMENTS` using targeted retrieval and short summaries.
 
 ## Strategies (by impact)
 
@@ -25,14 +26,25 @@ Analyze `$ARGUMENTS` for token optimization opportunities.
 | Concise responses | 89-91% | Always |
 | Knowledge graph | 76-84% | Multi-session |
 | Targeted reads | 33-44% | Large files |
+| QMD retrieval | 30-60% | Docs/notes |
 | Parallel calls | 20% | Multi-step |
 
 ## Process
 
-1. Count tokens in target (tiktoken)
-2. Identify waste patterns
-3. Report: `Baseline → Optimized (X% saved)`
-4. Recommend fixes
+1. If QMD is installed, search relevant docs first.
+2. Pull only top results and summarize in 5–10 bullets.
+3. If QMD is unavailable, do targeted reads only.
+4. Report: `Baseline → Optimized (X% saved)` and fixes.
+
+## QMD quickstart
+
+```
+bun install -g https://github.com/tobi/qmd
+qmd collection add <path> --name <name>
+qmd context add qmd://<name> "context"
+qmd embed
+qmd query "question" --all --files --min-score 0.3
+```
 
 ## Anti-patterns flagged
 
