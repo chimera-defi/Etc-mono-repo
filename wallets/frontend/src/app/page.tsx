@@ -263,7 +263,7 @@ export default function HomePage() {
               Evidence-led scoring, transparent sources, and side-by-side tooling.
             </p>
 
-            <div className="flex flex-wrap gap-4 mb-8">
+            <div className="flex flex-wrap gap-3 mb-6">
               <Link
                 href="/explore"
                 className="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-400 text-slate-900 font-medium px-6 py-3 rounded-lg transition-colors"
@@ -271,44 +271,34 @@ export default function HomePage() {
                 Start Comparison
                 <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link
-                href="/docs/about"
-                className="inline-flex items-center gap-2 border border-slate-600 hover:border-slate-500 text-slate-200 font-medium px-6 py-3 rounded-lg transition-colors"
-              >
-                Read Methodology
-              </Link>
             </div>
 
-            {/* Quick Navigation Links */}
+            {/* Direct Category Links */}
             <div className="flex flex-wrap gap-3">
-              <span className="text-sm text-slate-500 self-center mr-1">Jump to:</span>
               <Link
                 href="/docs/software-wallets"
-                className="inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-sky-400 transition-colors"
+                className="inline-flex items-center gap-2 border border-slate-600 hover:border-sky-500 hover:text-sky-400 text-slate-200 font-medium px-4 py-2 rounded-lg transition-colors"
               >
                 <Smartphone className="h-4 w-4" />
                 Software
               </Link>
-              <span className="text-slate-600">•</span>
               <Link
                 href="/docs/hardware-wallets"
-                className="inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-sky-400 transition-colors"
+                className="inline-flex items-center gap-2 border border-slate-600 hover:border-emerald-500 hover:text-emerald-400 text-slate-200 font-medium px-4 py-2 rounded-lg transition-colors"
               >
                 <HardDrive className="h-4 w-4" />
                 Hardware
               </Link>
-              <span className="text-slate-600">•</span>
               <Link
                 href="/docs/crypto-cards"
-                className="inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-sky-400 transition-colors"
+                className="inline-flex items-center gap-2 border border-slate-600 hover:border-amber-500 hover:text-amber-400 text-slate-200 font-medium px-4 py-2 rounded-lg transition-colors"
               >
                 <CreditCard className="h-4 w-4" />
                 Cards
               </Link>
-              <span className="text-slate-600">•</span>
               <Link
                 href="/docs/ramps"
-                className="inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-sky-400 transition-colors"
+                className="inline-flex items-center gap-2 border border-slate-600 hover:border-purple-500 hover:text-purple-400 text-slate-200 font-medium px-4 py-2 rounded-lg transition-colors"
               >
                 <ArrowUpDown className="h-4 w-4" />
                 Ramps
