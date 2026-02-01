@@ -4,11 +4,35 @@
 
 ## Projects
 
-### Aztec Staking (`staking/aztec/`)
-Privacy-focused staking using Aztec Network. Zero-knowledge proofs, private transactions, Noir smart contracts. **Status:** Research phase.
+### Monad Validator (`staking/monad/`) - ✅ Operational
+Production validator infrastructure for Monad network:
+- **infra/** - Validator setup, systemd configs, monitoring
+- **runbook/** - Operations manual
+- **scripts/** - Health checks, deployment automation
+- **watchers/** - Monitoring infrastructure
 
-### Staking Research (`staking/research/`)
-Staking mechanism comparisons, economic models, risk analysis, implementation strategies. **Status:** Active research.
+**Commands:**
+```bash
+cd staking/monad/infra
+./scripts/healthcheck.sh  # Check validator status
+```
+
+### Aztec Liquid Staking (`staking/aztec/`) - 🔧 Development
+Privacy-focused liquid staking using Aztec Network:
+- 4 smart contracts (Noir): staking-pool, staked-token, withdrawal-queue, validator-registry
+- 34 unit tests passing
+- 6-month implementation plan documented
+- Zero-knowledge proofs for private staking
+
+**Key docs:** `EXECUTIVE-SUMMARY.md`, `ECONOMICS.md`, `IMPLEMENTATION-PLAN.md`
+
+### Staking Research (`staking/research/`) - 📚 Active
+Market analysis and opportunity research:
+- Liquid staking landscape ($66B+ market)
+- `OPPORTUNITIES.md` - Priority-ranked opportunities
+- `monad-validator-plan.md` - Monad strategy
+
+**Key insight:** Aztec is urgent first-mover opportunity for private liquid staking.
 
 ## Core Principles
 
