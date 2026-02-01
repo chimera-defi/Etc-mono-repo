@@ -133,3 +133,4 @@ mcp-cli memory/create_relations '{"relations": [
 ## Meta Learnings
 
 - Always commit changes with a self-chosen message; do not ask for one.
+- Always open a PR for changes; do not push directly to main.
