@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Script from 'next/script';
-import { ArrowRight, Shield, Cpu, BookOpen, Github, CheckCircle, GitCompare, ArrowLeftRight, FileText, Lock, Eye, UserX, Database, CreditCard, Sparkles, Smartphone, HardDrive, Wallet, ArrowUpDown } from 'lucide-react';
+import { ArrowRight, Shield, Cpu, BookOpen, Github, CheckCircle, GitCompare, ArrowLeftRight, FileText, Lock, Eye, UserX, Database, CreditCard, Sparkles, Smartphone, HardDrive, ArrowUpDown } from 'lucide-react';
 import { getAllDocuments } from '@/lib/markdown';
 import { getAllArticles } from '@/lib/articles';
 import { ArticleCard } from '@/components/ArticleCard';
