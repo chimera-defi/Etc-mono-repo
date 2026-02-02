@@ -57,6 +57,8 @@
 - PR description Co-authored-by: Validated by CI (`.github/workflows/pr-attribution-check.yml`)
 - Commit message Co-authored-by: Shows in git history and GitHub commits
 
+**Never include:** Session links (`https://claude.ai/code/session_*`) in commits or PR descriptions.
+
 ## Wallets Frontend
 
 ```bash
