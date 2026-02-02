@@ -201,3 +201,25 @@ cd wallets/scripts && ./refresh-github-data.sh
 
 **Quick fix:**
 Edit PR description to include all three required fields. CI re-runs automatically.
+
+## Meta Learnings (Frontend/UI)
+
+### Theme-Aware Styling
+- **Never use hardcoded Tailwind colors** like `text-slate-100`, `bg-slate-800` for themed content
+- **Use CSS variables:** `text-foreground`, `text-muted-foreground`, `bg-muted`, `bg-card`, `border-border`
+- Hardcoded colors break light/dark mode toggle
+- Color variables defined in `globals.css` under `:root` and `.dark`
+
+### UI Best Practices
+- **Avoid redundancy:** Don't show same nav links in multiple formats (buttons AND grid)
+- **Use Next.js `<Image>`** instead of `<img>` for optimization and ESLint compliance
+- **Replace `alert()`** with inline state-based notifications (better UX)
+- **Placeholder components:** Remove fake data components before shipping
+
+### Multi-Pass Review Checklist
+1. `npm run lint` - No warnings or errors
+2. `npm run type-check` - TypeScript passes
+3. `npm run build` - Build succeeds
+4. Check for unused imports
+5. Verify theme works in both light and dark mode
+6. Test all interactive elements
