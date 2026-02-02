@@ -306,63 +306,40 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Hero Right - Comparison Categories Grid */}
+          {/* Hero Right - Quick Stats Card */}
           <div className="lg:justify-self-end w-full lg:max-w-md">
-            <div className="grid grid-cols-2 gap-4">
-              <Link href="/docs/software-wallets" className="group glass-card-hover p-5 text-center">
-                <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-sky-500/10 flex items-center justify-center group-hover:bg-sky-500/20 transition-colors">
-                  <Smartphone className="h-6 w-6 text-sky-400" />
+            <div className="glass-card p-6 md:p-8">
+              <h3 className="text-lg font-semibold text-slate-100 mb-6 text-center">Why Trust Our Data</h3>
+              <div className="grid grid-cols-2 gap-6">
+                <div className="text-center">
+                  <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-sky-500/10 flex items-center justify-center">
+                    <span className="text-2xl font-bold text-sky-400">25+</span>
+                  </div>
+                  <div className="text-sm text-slate-400">Wallets Compared</div>
                 </div>
-                <h3 className="font-semibold text-slate-100 mb-1">Software Wallets</h3>
-                <p className="text-xs text-slate-400">Browser & mobile apps</p>
-              </Link>
-
-              <Link href="/docs/hardware-wallets" className="group glass-card-hover p-5 text-center">
-                <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-emerald-500/10 flex items-center justify-center group-hover:bg-emerald-500/20 transition-colors">
-                  <HardDrive className="h-6 w-6 text-emerald-400" />
+                <div className="text-center">
+                  <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                    <span className="text-2xl font-bold text-emerald-400">4</span>
+                  </div>
+                  <div className="text-sm text-slate-400">Categories</div>
                 </div>
-                <h3 className="font-semibold text-slate-100 mb-1">Hardware Wallets</h3>
-                <p className="text-xs text-slate-400">Cold storage devices</p>
-              </Link>
-
-              <Link href="/docs/crypto-cards" className="group glass-card-hover p-5 text-center">
-                <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-amber-500/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-colors">
-                  <CreditCard className="h-6 w-6 text-amber-400" />
+                <div className="text-center">
+                  <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-amber-500/10 flex items-center justify-center">
+                    <span className="text-2xl font-bold text-amber-400">50+</span>
+                  </div>
+                  <div className="text-sm text-slate-400">Data Points</div>
                 </div>
-                <h3 className="font-semibold text-slate-100 mb-1">Crypto Cards</h3>
-                <p className="text-xs text-slate-400">Spend crypto anywhere</p>
-              </Link>
-
-              <Link href="/docs/ramps" className="group glass-card-hover p-5 text-center">
-                <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
-                  <ArrowUpDown className="h-6 w-6 text-purple-400" />
+                <div className="text-center">
+                  <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-purple-500/10 flex items-center justify-center">
+                    <span className="text-2xl font-bold text-purple-400">0</span>
+                  </div>
+                  <div className="text-sm text-slate-400">Affiliate Links</div>
                 </div>
-                <h3 className="font-semibold text-slate-100 mb-1">On/Off Ramps</h3>
-                <p className="text-xs text-slate-400">Fiat ↔ crypto bridges</p>
-              </Link>
+              </div>
+              <div className="mt-6 pt-6 border-t border-slate-700/50 text-center">
+                <p className="text-xs text-slate-500">All scores derived from GitHub data & verified sources</p>
+              </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Quick Stats Section */}
-      <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-          <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-sky-400 mb-2">25+</div>
-            <div className="text-sm text-slate-400">Wallets Compared</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-emerald-400 mb-2">4</div>
-            <div className="text-sm text-slate-400">Categories</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-amber-400 mb-2">50+</div>
-            <div className="text-sm text-slate-400">Data Points Each</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-purple-400 mb-2">100%</div>
-            <div className="text-sm text-slate-400">Open Methodology</div>
           </div>
         </div>
       </section>
