@@ -31,6 +31,31 @@
 | **Kohaku**∆ | 45 | ❌ | 0 | ✅ | [kohaku-extension](https://github.com/ethereum/kohaku-extension) | ❌ | <img src="/chains/eth.svg" width="16" title="EVM"> | 🌐 | ✅ | ✅ GPL-3 | ❌ Closed | ❓ Fork | 🟡 EF | ✅ | ✅ | 7702+4337 | ✅ Basic | ✅ | ~~Privacy~~ | 🔴 |
 | **Status** | 52 | ❌ | ~2 | ⚠️ | [status-mobile](https://github.com/status-im/status-mobile) | ✅ | <img src="/chains/eth.svg" width="16" title="EVM"> | 📱 | ✅ | ✅ MPL-2 | ⚠️ Waku | ❓ None | 🟢 Status | ❌ | ⚠️ | EOA | ✅ Basic | ✅ | Privacy/Messaging | 🟡 |
 
+## Pros & Cons (Top Picks)
+
+**Rabby (92)**
+- ✅ Transaction simulation + scam detection
+- ✅ Strong developer UX
+- ⚠️ EVM-focused
+- ⚠️ ENS import only (no direct .eth send)
+
+**Trust (82)**
+- ✅ Broad multi-chain coverage
+- ✅ Stable release cadence
+- ❌ No built-in tx simulation
+- ⚠️ Partial open source
+
+**Rainbow (77)**
+- ✅ Great Ethereum/NFT UX
+- ✅ Strong code quality signals
+- ❌ No built-in tx simulation
+- ⚠️ Limited custom RPC support
+
+**MetaMask (73)**
+- ✅ Widest compatibility
+- ✅ Best WalletConnect coverage
+- ❌ High release churn
+
 ### Additional Chains by Wallet
 
 | # | Wallet | Additional Chains |
