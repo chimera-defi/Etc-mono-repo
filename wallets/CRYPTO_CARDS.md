@@ -44,6 +44,27 @@
 | [**Uphold Card**](https://uphold.com) | 73 🟡 | Debit | 📋 CeFi | ⚠️ | 🇺🇸🇪🇺 US/EU | 1-4% | $0 | 0% | XRP, BTC | ⚠️ | Multi-crypto |
 | [**Wirex Card**](https://wirexapp.com/card) | 78 🟢 | Debit | 📋 CeFi | ⚠️ | 🌍 Global | Up to 8% | $0 | 0% | WXT | ⚠️ | Multi-crypto |
 
+## Pros & Cons (Top Picks)
+
+**EtherFi Cash (85)**
+- ✅ Non-custodial
+- ✅ Strong rewards
+- ⚠️ Availability varies by region
+
+**Ready Card (83)**
+- ✅ Self-custody
+- ✅ High cashback
+- ⚠️ EU/UK focused
+
+**Gnosis Pay (78)**
+- ✅ DeFi-native
+- ✅ Strong EU/EEA option
+- ⚠️ Limited global availability
+
+**Coinbase Card (75)**
+- ✅ Easy onboarding for Coinbase users
+- ❌ Custodial exchange risk
+
 ### Legend
 
 **Scoring & Recommendation:**

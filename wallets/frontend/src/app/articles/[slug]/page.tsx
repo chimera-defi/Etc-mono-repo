@@ -4,7 +4,7 @@ import Script from 'next/script';
 import { ArrowLeft, Clock, User, Calendar, Tag } from 'lucide-react';
 import Link from 'next/link';
 import { getArticleBySlug, getArticleSlugs, getRelatedArticles } from '@/lib/articles';
-import { calculateReadingTime, formatReadingTime, optimizeMetaDescription, extractFAQsFromMarkdown, generateFAQSchema, generateBreadcrumbSchema } from '@/lib/seo';
+import { calculateReadingTime, formatReadingTime, optimizeMetaDescription, extractFAQsFromMarkdown, extractHowToSteps, generateFAQSchema, generateHowToSchema, generateBreadcrumbSchema } from '@/lib/seo';
 import { EnhancedMarkdownRenderer } from '@/components/EnhancedMarkdownRenderer';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SocialShare } from '@/components/SocialShare';
@@ -99,6 +99,11 @@ export default function ArticlePage({ params }: PageProps) {
   const faqs = extractFAQsFromMarkdown(article.content);
   const faqSchema = faqs.length > 0 ? generateFAQSchema(faqs) : null;
 
+  const howToSteps = article.category === 'guide' ? extractHowToSteps(article.content) : [];
+  const howToSchema = howToSteps.length > 0
+    ? generateHowToSchema(article.title, enhancedDescription, howToSteps)
+    : null;
+
   // Article structured data
   const articleSchema = {
     '@context': 'https://schema.org',
@@ -143,6 +148,13 @@ export default function ArticlePage({ params }: PageProps) {
           id="faq-schema"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
+      {howToSchema && (
+        <Script
+          id="howto-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
         />
       )}
 
