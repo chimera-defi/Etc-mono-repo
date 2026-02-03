@@ -31,19 +31,6 @@
       <g:product_type>Hardware Wallet</g:product_type>
     </item>
     <item>
-      <g:id>hardware-keycard-shell</g:id>
-      <g:title>Keycard Shell</g:title>
-      <g:description>Keycard Shell - Hardware Wallet listed on Wallet Radar.</g:description>
-      <g:link>https://walletradar.org/docs/hardware-wallets#keycard-shell</g:link>
-      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
-      <g:availability>in stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:price>109 EUR</g:price>
-      <g:brand>Keycard</g:brand>
-      <g:google_product_category>Electronics</g:google_product_category>
-      <g:product_type>Hardware Wallet</g:product_type>
-    </item>
-    <item>
       <g:id>hardware-trezor-safe-3</g:id>
       <g:title>Trezor Safe 3</g:title>
       <g:description>Trezor Safe 3 - Hardware Wallet listed on Wallet Radar.</g:description>
@@ -53,32 +40,6 @@
       <g:condition>new</g:condition>
       <g:price>59 USD</g:price>
       <g:brand>Trezor</g:brand>
-      <g:google_product_category>Electronics</g:google_product_category>
-      <g:product_type>Hardware Wallet</g:product_type>
-    </item>
-    <item>
-      <g:id>hardware-bitbox02</g:id>
-      <g:title>BitBox02</g:title>
-      <g:description>BitBox02 - Hardware Wallet listed on Wallet Radar.</g:description>
-      <g:link>https://walletradar.org/docs/hardware-wallets#bitbox02</g:link>
-      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
-      <g:availability>in stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:price>149 EUR</g:price>
-      <g:brand>BitBox02</g:brand>
-      <g:google_product_category>Electronics</g:google_product_category>
-      <g:product_type>Hardware Wallet</g:product_type>
-    </item>
-    <item>
-      <g:id>hardware-bitbox02-nova</g:id>
-      <g:title>BitBox02 Nova</g:title>
-      <g:description>BitBox02 Nova - Hardware Wallet listed on Wallet Radar.</g:description>
-      <g:link>https://walletradar.org/docs/hardware-wallets#bitbox02-nova</g:link>
-      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
-      <g:availability>in stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:price>175 EUR</g:price>
-      <g:brand>BitBox02</g:brand>
       <g:google_product_category>Electronics</g:google_product_category>
       <g:product_type>Hardware Wallet</g:product_type>
     </item>
@@ -131,32 +92,6 @@
       <g:condition>new</g:condition>
       <g:price>99 USD</g:price>
       <g:brand>OneKey</g:brand>
-      <g:google_product_category>Electronics</g:google_product_category>
-      <g:product_type>Hardware Wallet</g:product_type>
-    </item>
-    <item>
-      <g:id>hardware-keycard</g:id>
-      <g:title>Keycard</g:title>
-      <g:description>Keycard - Hardware Wallet listed on Wallet Radar.</g:description>
-      <g:link>https://walletradar.org/docs/hardware-wallets#keycard</g:link>
-      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
-      <g:availability>in stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:price>25 EUR</g:price>
-      <g:brand>Keycard</g:brand>
-      <g:google_product_category>Electronics</g:google_product_category>
-      <g:product_type>Hardware Wallet</g:product_type>
-    </item>
-    <item>
-      <g:id>hardware-ledger-stax</g:id>
-      <g:title>Ledger Stax</g:title>
-      <g:description>Ledger Stax - Hardware Wallet listed on Wallet Radar.</g:description>
-      <g:link>https://walletradar.org/docs/hardware-wallets#ledger-stax</g:link>
-      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
-      <g:availability>in stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:price>399 USD</g:price>
-      <g:brand>Ledger</g:brand>
       <g:google_product_category>Electronics</g:google_product_category>
       <g:product_type>Hardware Wallet</g:product_type>
     </item>

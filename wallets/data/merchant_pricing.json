@@ -1,28 +1,8 @@
 {
-  "BitBox02": {
-    "last_checked": "2026-02-03",
-    "price": "149 EUR",
-    "source": "https://shop.bitbox.swiss/en/products/bitbox02-80/"
-  },
-  "BitBox02 Nova": {
-    "last_checked": "2026-02-03",
-    "price": "175 EUR",
-    "source": "https://shop.bitbox.swiss/en/products/bitbox02-nova-79/"
-  },
   "Blockstream Jade": {
     "last_checked": "2026-02-03",
     "price": "79 USD",
     "source": "https://store.blockstream.com/product/blockstream-jade/"
-  },
-  "Keycard": {
-    "last_checked": "2026-02-03",
-    "price": "25 EUR",
-    "source": "https://get.keycard.tech/products/keycard"
-  },
-  "Keycard Shell": {
-    "last_checked": "2026-02-03",
-    "price": "109 EUR",
-    "source": "https://get.keycard.tech/products/keycard-shell"
   },
   "Ledger Flex": {
     "last_checked": "2026-02-03",
@@ -43,11 +23,6 @@
     "last_checked": "2026-02-03",
     "price": "99 USD",
     "source": "https://shop.ledger.com/products/ledger-nano-x"
-  },
-  "Ledger Stax": {
-    "last_checked": "2026-02-03",
-    "price": "399 USD",
-    "source": "https://shop.ledger.com/products/ledger-stax"
   },
   "OneKey Classic 1S": {
     "last_checked": "2026-02-03",

@@ -2,7 +2,7 @@
 
 Date: 2026-02-03
 
-## Verified provider pricing
+## Verified provider pricing (USD-only feed)
 
 | Item | Price | Currency | Source |
 | --- | --- | --- | --- |
@@ -10,20 +10,15 @@ Date: 2026-02-03
 | Ledger Nano S+ | 59 | USD | https://shop.ledger.com/products/ledger-nano-s-plus |
 | Ledger Nano Gen5 | 179 | USD | https://shop.ledger.com/products/ledger-nano-gen5 |
 | Ledger Flex | 249 | USD | https://shop.ledger.com/products/ledger-flex |
-| Ledger Stax | 399 | USD | https://shop.ledger.com/products/ledger-stax |
 | Trezor Safe 3 | 59 | USD | https://trezor.io/trezor-safe-3 |
 | Trezor Safe 5 | 129 | USD | https://trezor.io/trezor-safe-5 |
 | Trezor Safe 7 | 249 | USD | https://trezor.io/trezor-safe-7 |
 | OneKey Pro | 278 | USD | https://onekey.so/products/onekey-pro-hardware-wallet/ |
 | OneKey Classic 1S | 99 | USD | https://onekey.so/products/onekey-classic-1s-hardware-wallet/ |
 | OneKey Classic 1S Pure | 79 | USD | https://onekey.so/products/onekey-classic-1s-hardware-wallet/#pure |
-| BitBox02 | 149 | EUR | https://shop.bitbox.swiss/en/products/bitbox02-80/ |
-| BitBox02 Nova | 175 | EUR | https://shop.bitbox.swiss/en/products/bitbox02-nova-79/ |
 | Blockstream Jade | 79 | USD | https://store.blockstream.com/product/blockstream-jade/ |
-| Keycard | 25 | EUR | https://get.keycard.tech/products/keycard |
-| Keycard Shell | 109 | EUR | https://get.keycard.tech/products/keycard-shell |
 
-## Excluded from feed (no verified price)
+## Excluded from feed (no verified price or non-USD)
 
 - Arculus (blocked by 403 during automated fetch)
 - ColdCard Mk4 (blocked by 403 during automated fetch)
@@ -33,6 +28,11 @@ Date: 2026-02-03
 - Keystone 3 Pro (no price in page HTML)
 - Krux (DIY, no fixed retail price)
 - NGRAVE ZERO (no structured price in HTML)
+- Ledger Stax (bundle pricing only; base device price not verified)
+- BitBox02 (EUR pricing; feed limited to USD)
+- BitBox02 Nova (EUR pricing; feed limited to USD)
+- Keycard (EUR pricing; feed limited to USD)
+- Keycard Shell (EUR pricing; feed limited to USD)
 - SafePal S1 (no structured price found)
 - SecuX V20 (no structured price found)
 - SeedSigner (DIY, no fixed retail price)
