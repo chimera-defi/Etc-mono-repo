@@ -1,0 +1,749 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
+  <channel>
+    <title>Wallet Radar Merchant Feed</title>
+    <link>https://walletradar.org</link>
+    <description>Wallet Radar product feed for wallets and cards.</description>
+    <item>
+      <g:id>software-rabby</g:id>
+      <g:title>Rabby</g:title>
+      <g:description>Rabby - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#rabby</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Rabby</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-trust</g:id>
+      <g:title>Trust</g:title>
+      <g:description>Trust - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#trust</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Trust</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-rainbow</g:id>
+      <g:title>Rainbow</g:title>
+      <g:description>Rainbow - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#rainbow</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Rainbow</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-brave</g:id>
+      <g:title>Brave</g:title>
+      <g:description>Brave - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#brave</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Brave</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-coinbase</g:id>
+      <g:title>Coinbase</g:title>
+      <g:description>Coinbase - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#coinbase</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Coinbase</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-metamask</g:id>
+      <g:title>MetaMask</g:title>
+      <g:description>MetaMask - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#metamask</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>MetaMask</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-phantom</g:id>
+      <g:title>Phantom</g:title>
+      <g:description>Phantom - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#phantom</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Phantom</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-wigwam</g:id>
+      <g:title>Wigwam</g:title>
+      <g:description>Wigwam - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#wigwam</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Wigwam</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-ambire</g:id>
+      <g:title>Ambire</g:title>
+      <g:description>Ambire - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#ambire</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Ambire</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-safe</g:id>
+      <g:title>Safe</g:title>
+      <g:description>Safe - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#safe</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Safe</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-okx</g:id>
+      <g:title>OKX</g:title>
+      <g:description>OKX - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#okx</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>OKX</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-enkrypt</g:id>
+      <g:title>Enkrypt</g:title>
+      <g:description>Enkrypt - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#enkrypt</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Enkrypt</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-ledger-live</g:id>
+      <g:title>Ledger Live</g:title>
+      <g:description>Ledger Live - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#ledger-live</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Ledger</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-mew</g:id>
+      <g:title>MEW</g:title>
+      <g:description>MEW - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#mew</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>MEW</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-sequence</g:id>
+      <g:title>Sequence</g:title>
+      <g:description>Sequence - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#sequence</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Sequence</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-daimo</g:id>
+      <g:title>Daimo</g:title>
+      <g:description>Daimo - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#daimo</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Daimo</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-zerion</g:id>
+      <g:title>Zerion</g:title>
+      <g:description>Zerion - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#zerion</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Zerion</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-taho</g:id>
+      <g:title>Taho</g:title>
+      <g:description>Taho - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#taho</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Taho</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-uniswap</g:id>
+      <g:title>Uniswap</g:title>
+      <g:description>Uniswap - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#uniswap</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Uniswap</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-imtoken</g:id>
+      <g:title>imToken</g:title>
+      <g:description>imToken - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#imtoken</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>imToken</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-frame</g:id>
+      <g:title>Frame</g:title>
+      <g:description>Frame - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#frame</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Frame</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-1inch</g:id>
+      <g:title>1inch</g:title>
+      <g:description>1inch - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#1inch</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>1inch</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-argent</g:id>
+      <g:title>Argent</g:title>
+      <g:description>Argent - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#argent</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Argent</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-block</g:id>
+      <g:title>Block</g:title>
+      <g:description>Block - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#block</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Block</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-kohaku</g:id>
+      <g:title>Kohaku∆</g:title>
+      <g:description>Kohaku∆ - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#kohaku</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Kohaku∆</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>software-status</g:id>
+      <g:title>Status</g:title>
+      <g:description>Status - Software Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/software-wallets#status</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/software.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Status</g:brand>
+      <g:google_product_category>Software &gt; Computer Software</g:google_product_category>
+      <g:product_type>Software Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-trezor-safe-7</g:id>
+      <g:title>Trezor Safe 7</g:title>
+      <g:description>Trezor Safe 7 - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#trezor-safe-7</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Trezor</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-trezor-safe-5</g:id>
+      <g:title>Trezor Safe 5</g:title>
+      <g:description>Trezor Safe 5 - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#trezor-safe-5</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Trezor</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-keystone-3-pro</g:id>
+      <g:title>Keystone 3 Pro</g:title>
+      <g:description>Keystone 3 Pro - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#keystone-3-pro</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Keystone</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-keycard-shell</g:id>
+      <g:title>Keycard Shell</g:title>
+      <g:description>Keycard Shell - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#keycard-shell</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Keycard</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-coldcard-mk4</g:id>
+      <g:title>ColdCard Mk4</g:title>
+      <g:description>ColdCard Mk4 - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#coldcard-mk4</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>ColdCard</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-trezor-safe-3</g:id>
+      <g:title>Trezor Safe 3</g:title>
+      <g:description>Trezor Safe 3 - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#trezor-safe-3</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Trezor</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-bitbox02</g:id>
+      <g:title>BitBox02</g:title>
+      <g:description>BitBox02 - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#bitbox02</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>BitBox02</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-bitbox02-nova</g:id>
+      <g:title>BitBox02 Nova</g:title>
+      <g:description>BitBox02 Nova - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#bitbox02-nova</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>BitBox02</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-blockstream-jade</g:id>
+      <g:title>Blockstream Jade</g:title>
+      <g:description>Blockstream Jade - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#blockstream-jade</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Blockstream</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-foundation-passport</g:id>
+      <g:title>Foundation Passport</g:title>
+      <g:description>Foundation Passport - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#foundation-passport</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Foundation</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-onekey-pro</g:id>
+      <g:title>OneKey Pro</g:title>
+      <g:description>OneKey Pro - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#onekey-pro</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>OneKey</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-onekey-classic-1s-pure</g:id>
+      <g:title>OneKey Classic 1S Pure</g:title>
+      <g:description>OneKey Classic 1S Pure - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#onekey-classic-1s-pure</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>OneKey</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-onekey-classic-1s</g:id>
+      <g:title>OneKey Classic 1S</g:title>
+      <g:description>OneKey Classic 1S - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#onekey-classic-1s</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>OneKey</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-ngrave-zero</g:id>
+      <g:title>NGRAVE ZERO</g:title>
+      <g:description>NGRAVE ZERO - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#ngrave-zero</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>NGRAVE</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-specter-diy</g:id>
+      <g:title>Specter DIY</g:title>
+      <g:description>Specter DIY - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#specter-diy</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Specter</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-krux</g:id>
+      <g:title>Krux</g:title>
+      <g:description>Krux - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#krux</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Krux</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-seedsigner</g:id>
+      <g:title>SeedSigner</g:title>
+      <g:description>SeedSigner - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#seedsigner</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>SeedSigner</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-safepal-s1</g:id>
+      <g:title>SafePal S1</g:title>
+      <g:description>SafePal S1 - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#safepal-s1</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>SafePal</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-keycard</g:id>
+      <g:title>Keycard</g:title>
+      <g:description>Keycard - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#keycard</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Keycard</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-gridplus-lattice1</g:id>
+      <g:title>GridPlus Lattice1</g:title>
+      <g:description>GridPlus Lattice1 - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#gridplus-lattice1</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>GridPlus</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-ledger-stax</g:id>
+      <g:title>Ledger Stax</g:title>
+      <g:description>Ledger Stax - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#ledger-stax</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Ledger</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-ledger-flex</g:id>
+      <g:title>Ledger Flex</g:title>
+      <g:description>Ledger Flex - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#ledger-flex</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Ledger</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-ledger-nano-x</g:id>
+      <g:title>Ledger Nano X</g:title>
+      <g:description>Ledger Nano X - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#ledger-nano-x</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Ledger</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-ledger-nano-gen5</g:id>
+      <g:title>Ledger Nano Gen5</g:title>
+      <g:description>Ledger Nano Gen5 - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#ledger-nano-gen5</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Ledger</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-ledger-nano-s</g:id>
+      <g:title>Ledger Nano S+</g:title>
+      <g:description>Ledger Nano S+ - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#ledger-nano-s</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Ledger</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-ledger-nano-s</g:id>
+      <g:title>~~Ledger Nano S~~</g:title>
+      <g:description>~~Ledger Nano S~~ - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#ledger-nano-s</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>~~Ledger</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-tangem-wallet</g:id>
+      <g:title>Tangem Wallet</g:title>
+      <g:description>Tangem Wallet - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#tangem-wallet</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Tangem</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-ellipal-titan-2-0</g:id>
+      <g:title>Ellipal Titan 2.0</g:title>
+      <g:description>Ellipal Titan 2.0 - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#ellipal-titan-2-0</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Ellipal</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-secux-v20</g:id>
+      <g:title>SecuX V20</g:title>
+      <g:description>SecuX V20 - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#secux-v20</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>SecuX</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-arculus</g:id>
+      <g:title>Arculus</g:title>
+      <g:description>Arculus - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#arculus</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>Arculus</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-keepkey</g:id>
+      <g:title>~~KeepKey~~</g:title>
+      <g:description>~~KeepKey~~ - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#keepkey</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>0 USD</g:price>
+      <g:brand>~~KeepKey~~</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+  </channel>
+</rss>
