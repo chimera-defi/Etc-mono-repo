@@ -341,11 +341,11 @@ Home → Articles → Article Title
 
 ### Priority Order
 
-**Week 2-3: Content Expansion** 🟡 PENDING
-- [x] ~~Add 10 "X vs Y" comparison articles~~ (3 articles created, 7 more to go)
-- [x] ~~Add 5 "best wallet for [use case]" pages~~ (2 guides created, 3 more to go)
+**Week 2-3: Content Expansion** ✅ COMPLETE
+- [x] ~~Add 10 "X vs Y" comparison articles~~ (10 total created)
+- [x] ~~Add 5 "best wallet for [use case]" pages~~ (5 total created)
 - [ ] Add articles navigation to homepage/navbar
-- [ ] Create 7 more comparison articles:
+- [x] Create 7 more comparison articles:
   - "Trezor vs Ledger"
   - "MetaMask vs Rainbow"
   - "Trust Wallet vs Rabby"
@@ -353,23 +353,23 @@ Home → Articles → Article Title
   - "ColdCard vs Trezor Safe 7"
   - "Coinbase Wallet vs MetaMask"
   - "Best Ethereum Wallet: Comprehensive Guide"
-- [ ] Create 3 more guide articles:
+- [x] Create 3 more guide articles:
   - "Best Wallet for DeFi"
   - "Best Wallet for NFT Collectors"
   - "Best Multi-Chain Wallet"
-- [ ] Create glossary page (`/glossary`) with DefinedTerm schema
-- [ ] Create wallet setup guides with HowTo schema
+- [x] Create glossary page (`/glossary`) with DefinedTerm schema
+- [x] Create wallet setup guides with HowTo schema
 
-**Week 4-6: Advanced Content** 🟡 PENDING
-- [ ] Add video transcripts with VideoObject schema (if videos exist)
-- [ ] Create "Best Crypto Card" comparison article
-- [ ] Create "Best Crypto On-Ramp" comparison article
-- [ ] Add Pros/Cons sections to comparison tables
-- [ ] Enhance comparison articles with detailed feature tables
+**Week 4-6: Advanced Content** 🟡 IN PROGRESS
+- [x] Add video transcript template with VideoObject schema (awaiting real videos)
+- [x] Create "Best Crypto Card" comparison article
+- [x] Create "Best Crypto On-Ramp" comparison article
+- [x] Add Pros/Cons sections to comparison tables
+- [x] Enhance comparison articles with detailed feature tables
 
 **Month 2-3: Analytics & Monitoring** 🟡 PENDING
-- [ ] Implement AI referral tracking (detect ChatGPT/Copilot traffic in Google Analytics 4)
-- [ ] Set up weekly LLM citation monitoring (manual ChatGPT/Perplexity tests)
+- [x] Implement AI referral tracking (detect ChatGPT/Copilot traffic in Google Analytics 4)
+- [x] Set up weekly LLM citation monitoring (manual ChatGPT/Perplexity tests)
 - [ ] Add product feeds for Google Merchant Center
 - [ ] Create voice search optimization (SpeakableSpecification)
 - [ ] Multi-modal content (videos + transcripts)
