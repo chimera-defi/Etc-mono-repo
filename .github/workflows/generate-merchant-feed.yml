@@ -31,7 +31,7 @@ jobs:
       - name: Check for changes
         id: check_changes
         run: |
-          git add wallets/artifacts/merchant-center.xml
+          git add wallets/frontend/public/merchant-center.xml wallets/artifacts/merchant-center.xml
           if git diff --cached --quiet; then
             echo "changes=false" >> $GITHUB_OUTPUT
             echo "No changes detected"
@@ -52,11 +52,12 @@ jobs:
             ## Automated Merchant Center Feed Refresh
 
             This PR updates `wallets/artifacts/merchant-center.xml` from the wallet tables.
+            The public feed is published at `wallets/frontend/public/merchant-center.xml`.
 
             ### Review Checklist
             - [ ] Validate feed XML structure
             - [ ] Confirm item counts match table rows
-            - [ ] Update pricing once structured price data exists
+            - [ ] Confirm pricing matches `wallets/data/merchant_pricing.json`
 
             ---
             *Generated automatically by GitHub Actions.*

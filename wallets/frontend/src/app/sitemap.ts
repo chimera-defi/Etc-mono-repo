@@ -48,6 +48,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly' as const,
       priority: 0.7,
     },
+    {
+      url: `${baseUrl}/merchant-center.xml`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly' as const,
+      priority: 0.2,
+    },
   ];
 
   // Article pages - high priority for SEO/AEO content

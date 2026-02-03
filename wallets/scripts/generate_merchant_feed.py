@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
-"""Generate a basic Google Merchant Center feed from wallet tables.
+"""Generate a Google Merchant Center feed from wallet tables.
 
 Notes:
-- Pricing is set to 0 USD by default because wallet docs do not track prices.
-- Update the pricing logic if/when structured price data is added.
+- Pricing is sourced from `wallets/data/merchant_pricing.json`.
+- Items without verified pricing are skipped to avoid placeholder values.
 """
 from __future__ import annotations
 
 import argparse
+import json
 import html
 import os
 import re
+import sys
 from pathlib import Path
-from typing import List, Dict
+from typing import List, Dict, Any
 
 BASE_URL = os.environ.get("WALLET_BASE_URL", "https://walletradar.org")
 
@@ -21,6 +23,7 @@ TABLE_FILES = {
     "hardware": "wallets/HARDWARE_WALLETS.md",
     "cards": "wallets/CRYPTO_CARDS.md",
 }
+PRICING_FILE = Path("wallets/data/merchant_pricing.json")
 
 
 def slugify(value: str) -> str:
@@ -60,8 +63,17 @@ def parse_table(lines: List[str]) -> List[Dict[str, str]]:
     return rows
 
 
-def build_item(row: Dict[str, str], category: str) -> Dict[str, str]:
+def load_pricing() -> Dict[str, Dict[str, Any]]:
+    if not PRICING_FILE.exists():
+        return {}
+    return json.loads(PRICING_FILE.read_text(encoding="utf-8"))
+
+
+def build_item(row: Dict[str, str], category: str, pricing: Dict[str, Dict[str, Any]]) -> Dict[str, str] | None:
     name = row.get("Wallet", "Unknown")
+    price_entry = pricing.get(name)
+    if not price_entry:
+        return None
     slug = slugify(name)
     if category == "software":
         url = f"{BASE_URL}/docs/software-wallets#{slug}"
@@ -82,7 +94,7 @@ def build_item(row: Dict[str, str], category: str) -> Dict[str, str]:
         "image_link": f"{BASE_URL}/og/wallets/{category}.png",
         "availability": "in stock",
         "condition": "new",
-        "price": "0 USD",
+        "price": price_entry["price"],
         "brand": brand,
         "google_product_category": "Software > Computer Software" if category == "software" else "Electronics",
         "product_type": product_type,
@@ -109,19 +121,29 @@ def write_feed(items: List[Dict[str, str]], output_path: Path) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output", default="wallets/artifacts/merchant-center.xml")
+    parser.add_argument("--output", default="wallets/frontend/public/merchant-center.xml")
+    parser.add_argument("--artifact-output", default="wallets/artifacts/merchant-center.xml")
     args = parser.parse_args()
 
     items: List[Dict[str, str]] = []
+    pricing = load_pricing()
     for category, path in TABLE_FILES.items():
         content = Path(path).read_text(encoding="utf-8").splitlines()
         rows = parse_table(content)
         for row in rows:
             if not row.get("Wallet"):
                 continue
-            items.append(build_item(row, category))
+            item = build_item(row, category, pricing)
+            if item:
+                items.append(item)
+            else:
+                print(f"Skipping {row.get('Wallet')} (no verified price)", file=sys.stderr)
 
-    write_feed(items, Path(args.output))
+    output_path = Path(args.output)
+    write_feed(items, output_path)
+    artifact_path = Path(args.artifact_output)
+    if artifact_path.resolve() != output_path.resolve():
+        write_feed(items, artifact_path)
 
 
 if __name__ == "__main__":

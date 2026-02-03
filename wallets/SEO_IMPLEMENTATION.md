@@ -25,9 +25,10 @@ This document tracks all SEO (Search Engine Optimization), AEO (Answer Engine Op
 
 **Merchant Center Feed**
 - Script: `wallets/scripts/generate_merchant_feed.py`
-- Output: `wallets/artifacts/merchant-center.xml`
+- Output (public): `wallets/frontend/public/merchant-center.xml`
+- Output (artifact): `wallets/artifacts/merchant-center.xml`
 - Uses wallet tables as a data source and generates a basic XML feed.
-- **Note:** prices are `0 USD` by default because structured pricing is not yet captured in the tables; update when pricing data is added.
+- Pricing source: `wallets/data/merchant_pricing.json` (only items with verified pricing are included; others are skipped).
 
 ### 1. Enhanced Schema Generators (`lib/seo.ts`)
 
@@ -382,7 +383,7 @@ Home → Articles → Article Title
 **Month 2-3: Analytics & Monitoring** 🟡 PENDING
 - [x] Implement AI referral tracking (detect ChatGPT/Copilot traffic in Google Analytics 4)
 - [x] Set up weekly LLM citation monitoring (manual ChatGPT/Perplexity tests)
-- [ ] Add product feeds for Google Merchant Center
+- [x] Add product feeds for Google Merchant Center
 - [ ] Create voice search optimization (SpeakableSpecification)
 - [ ] Multi-modal content (videos + transcripts)
 

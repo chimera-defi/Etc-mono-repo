@@ -6,7 +6,9 @@ Automation scripts for refreshing wallet comparison data.
 
 ### `generate_merchant_feed.py` (Merchant Center)
 
-Generates a basic Google Merchant Center feed from the wallet comparison tables.
+Generates a Google Merchant Center feed from the wallet comparison tables using
+verified pricing from `wallets/data/merchant_pricing.json`. Items without
+verified pricing are skipped.
 
 #### Usage
 
@@ -16,7 +18,8 @@ Generates a basic Google Merchant Center feed from the wallet comparison tables.
 
 #### Output
 
-- `wallets/artifacts/merchant-center.xml`
+- `wallets/frontend/public/merchant-center.xml` (public feed URL)
+- `wallets/artifacts/merchant-center.xml` (CI artifact copy)
 
 **Note:** Prices are set to `0 USD` by default because structured pricing is not stored in the tables yet. Update the script once pricing data is available.
 
