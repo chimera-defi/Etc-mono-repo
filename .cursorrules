@@ -130,6 +130,9 @@ Brief description.
 - **Cross-document consistency:** Data in multiple places must match
 - **No direct pushes to main:** Always use a PR branch
 - **Hooks required:** `git config core.hooksPath .githooks`
+- **Rebase discipline:** Pull latest `main` and rebase at the start of each new request
+- **One task = one PR:** Stack commits on a single branch/PR for the request
+- **Branch/worktree first:** Create a feature branch/worktree before making changes
 
 ---
 
@@ -187,6 +190,8 @@ Rules are organized by domain. Reference by number in code reviews.
 - **#135** Never push directly to `main` or `master`
 - **#136** Use a feature branch + PR for all changes
 - **#137** Install hooks: `git config core.hooksPath .githooks`
+- **#138** One task = one PR; keep all related commits in the same PR branch
+- **#139** Create a branch/worktree before making changes
 
 ### MCP CLI & Token Efficiency (140-157)
 - **#140** Install MCP CLI before using

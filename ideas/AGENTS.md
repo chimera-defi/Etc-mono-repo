@@ -4,7 +4,9 @@
 
 ## Git Discipline (Required)
 
+- One task = one PR (keep all commits on a single PR branch)
 - Never push directly to `main` or `master`
+- Create a branch/worktree before changes
 - Always use a feature branch + PR
 - Enable hooks: `git config core.hooksPath .githooks`
 
