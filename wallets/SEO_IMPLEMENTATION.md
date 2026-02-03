@@ -17,6 +17,18 @@ This document tracks all SEO (Search Engine Optimization), AEO (Answer Engine Op
 
 ## What Was Implemented
 
+### 0. SpeakableSpecification + Merchant Center Feed (February 2026)
+
+**SpeakableSpecification**
+- Added a short `.speakable-summary` block and JSON-LD Speakable schema on homepage and docs pages.
+- Purpose: improve voice assistant read-outs for short summaries (not full tables).
+
+**Merchant Center Feed**
+- Script: `wallets/scripts/generate_merchant_feed.py`
+- Output: `wallets/artifacts/merchant-center.xml`
+- Uses wallet tables as a data source and generates a basic XML feed.
+- **Note:** prices are `0 USD` by default because structured pricing is not yet captured in the tables; update when pricing data is added.
+
 ### 1. Enhanced Schema Generators (`lib/seo.ts`)
 
 **File:** `/home/user/Etc-mono-repo/wallets/frontend/src/lib/seo.ts`
