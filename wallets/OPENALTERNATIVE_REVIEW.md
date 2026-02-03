@@ -31,7 +31,12 @@ This document summarizes patterns worth adapting from directory-style sites like
 - Added a homepage search module that routes directly to the Explore page.
 - Added popular search chips for quick discovery.
 - Added Explore URL query handling to pre-fill search and category.
+- Added Explore URL filter support (features, custody, open source, etc.) for curated collections.
+- Added curated collections section with intent-based entry points.
+- Added a latest updates section combining docs + articles by recency.
+- Added a "Submit" CTA in the navigation.
 - Added a Sponsorship & Data Licensing document and footer link.
+- Added a homepage sponsorship callout with data partner chips.
 - Added Community & Support section to drive submissions and requests.
 - Added SearchAction schema for better SEO discovery.
 
