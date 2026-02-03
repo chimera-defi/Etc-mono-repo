@@ -31,7 +31,7 @@ jobs:
       - name: Check for changes
         id: check_changes
         run: |
-          git add wallets/frontend/public/merchant-center.xml wallets/artifacts/merchant-center.xml
+          git add wallets/frontend/public/merchant-center.xml
           if git diff --cached --quiet; then
             echo "changes=false" >> $GITHUB_OUTPUT
             echo "No changes detected"
@@ -40,6 +40,13 @@ jobs:
             echo "Changes detected:"
             git diff --cached --stat
           fi
+
+      - name: Upload feed artifact
+        if: steps.check_changes.outputs.changes == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: merchant-center-feed
+          path: wallets/frontend/public/merchant-center.xml
 
       - name: Create Pull Request
         if: steps.check_changes.outputs.changes == 'true' && github.event.inputs.dry_run != 'true'
@@ -51,8 +58,8 @@ jobs:
           body: |
             ## Automated Merchant Center Feed Refresh
 
-            This PR updates `wallets/artifacts/merchant-center.xml` from the hardware wallet table.
-            The public feed is published at `wallets/frontend/public/merchant-center.xml`.
+            This PR updates the hardware-wallet Merchant Center feed published at
+            `wallets/frontend/public/merchant-center.xml`.
 
             ### Review Checklist
             - [ ] Validate feed XML structure

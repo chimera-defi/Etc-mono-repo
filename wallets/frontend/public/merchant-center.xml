@@ -3,33 +3,7 @@
   <channel>
     <title>Wallet Radar Merchant Feed</title>
     <link>https://walletradar.org</link>
-    <description>Wallet Radar product feed for wallets and cards.</description>
-    <item>
-      <g:id>hardware-trezor-safe-7</g:id>
-      <g:title>Trezor Safe 7</g:title>
-      <g:description>Trezor Safe 7 - Hardware Wallet listed on Wallet Radar.</g:description>
-      <g:link>https://walletradar.org/docs/hardware-wallets#trezor-safe-7</g:link>
-      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
-      <g:availability>in stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:price>249 USD</g:price>
-      <g:brand>Trezor</g:brand>
-      <g:google_product_category>Electronics</g:google_product_category>
-      <g:product_type>Hardware Wallet</g:product_type>
-    </item>
-    <item>
-      <g:id>hardware-trezor-safe-5</g:id>
-      <g:title>Trezor Safe 5</g:title>
-      <g:description>Trezor Safe 5 - Hardware Wallet listed on Wallet Radar.</g:description>
-      <g:link>https://walletradar.org/docs/hardware-wallets#trezor-safe-5</g:link>
-      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
-      <g:availability>in stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:price>129 USD</g:price>
-      <g:brand>Trezor</g:brand>
-      <g:google_product_category>Electronics</g:google_product_category>
-      <g:product_type>Hardware Wallet</g:product_type>
-    </item>
+    <description>Wallet Radar product feed for hardware wallets.</description>
     <item>
       <g:id>hardware-trezor-safe-3</g:id>
       <g:title>Trezor Safe 3</g:title>

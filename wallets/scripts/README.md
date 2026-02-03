@@ -20,10 +20,18 @@ placeholder pricing. Items without verified pricing are skipped.
 #### Output
 
 - `wallets/frontend/public/merchant-center.xml` (public feed URL)
-- `wallets/artifacts/merchant-center.xml` (CI artifact copy)
+
+Optional artifact output:
+
+```bash
+./generate_merchant_feed.py --artifact-output wallets/artifacts/merchant-center.xml
+```
 
 **Note:** Keep `wallets/data/merchant_pricing.json` updated with official
-provider pricing so the feed stays compliant.
+provider pricing so the feed stays compliant. Files under `wallets/artifacts/`
+are gitignored and intended for local inspection only.
+
+Pricing sources and exclusions are documented in `wallets/MERCHANT_FEED.md`.
 
 ### `refresh-github-data.sh` (Software Wallets)
 

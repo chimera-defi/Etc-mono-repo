@@ -43,15 +43,5 @@
     "last_checked": "2026-02-03",
     "price": "59 USD",
     "source": "https://trezor.io/trezor-safe-3"
-  },
-  "Trezor Safe 5": {
-    "last_checked": "2026-02-03",
-    "price": "129 USD",
-    "source": "https://trezor.io/trezor-safe-5"
-  },
-  "Trezor Safe 7": {
-    "last_checked": "2026-02-03",
-    "price": "249 USD",
-    "source": "https://trezor.io/trezor-safe-7"
   }
 }

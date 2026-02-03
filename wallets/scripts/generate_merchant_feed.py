@@ -75,6 +75,9 @@ def build_item(row: Dict[str, str], pricing: Dict[str, Dict[str, Any]]) -> Dict[
     price_entry = pricing.get(name)
     if not price_entry:
         return None
+    price_value = price_entry.get("price", "")
+    if not price_value.endswith("USD"):
+        return None
     slug = slugify(name)
     url = f"{BASE_URL}/docs/hardware-wallets#{slug}"
     product_type = "Hardware Wallet"
@@ -88,7 +91,7 @@ def build_item(row: Dict[str, str], pricing: Dict[str, Dict[str, Any]]) -> Dict[
         "image_link": f"{BASE_URL}/og/wallets/hardware.png",
         "availability": "in stock",
         "condition": "new",
-        "price": price_entry["price"],
+        "price": price_value,
         "brand": brand,
         "google_product_category": "Electronics",
         "product_type": product_type,
@@ -103,7 +106,7 @@ def write_feed(items: List[Dict[str, str]], output_path: Path) -> None:
         f.write("  <channel>\n")
         f.write("    <title>Wallet Radar Merchant Feed</title>\n")
         f.write(f"    <link>{html.escape(BASE_URL)}</link>\n")
-        f.write("    <description>Wallet Radar product feed for wallets and cards.</description>\n")
+        f.write("    <description>Wallet Radar product feed for hardware wallets.</description>\n")
         for item in items:
             f.write("    <item>\n")
             for key, value in item.items():
@@ -116,7 +119,7 @@ def write_feed(items: List[Dict[str, str]], output_path: Path) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", default="wallets/frontend/public/merchant-center.xml")
-    parser.add_argument("--artifact-output", default="wallets/artifacts/merchant-center.xml")
+    parser.add_argument("--artifact-output", default="")
     args = parser.parse_args()
 
     items: List[Dict[str, str]] = []
@@ -135,9 +138,10 @@ def main() -> None:
 
     output_path = Path(args.output)
     write_feed(items, output_path)
-    artifact_path = Path(args.artifact_output)
-    if artifact_path.resolve() != output_path.resolve():
-        write_feed(items, artifact_path)
+    if args.artifact_output:
+        artifact_path = Path(args.artifact_output)
+        if artifact_path.resolve() != output_path.resolve():
+            write_feed(items, artifact_path)
 
 
 if __name__ == "__main__":
