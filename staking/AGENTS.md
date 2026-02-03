@@ -2,6 +2,14 @@
 
 > **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `/token-reduce` skill
 
+## Git Discipline (Required)
+
+- One task = one PR (keep all commits on a single PR branch)
+- Never push directly to `main` or `master`
+- Create a branch/worktree before changes
+- Always use a feature branch + PR
+- Enable hooks: `git config core.hooksPath .githooks`
+
 ## Projects
 
 ### Monad Validator (`staking/monad/`) - ✅ Operational
@@ -119,3 +127,6 @@ Never claim full completion for uncompiled code.
 - Always open a PR for changes; do not push directly to main.
 - Always pull latest `main` and rebase your branch on `main` at the start of each new request.
 - After rebasing, force-push with lease if the branch diverges from the PR head.
+- Keep one task in one PR; do not create multiple PRs for the same request.
+- Always commit changes with a descriptive message and model attribution.
+- Record research inputs in `.cursor/artifacts/` or project artifacts to preserve source context.

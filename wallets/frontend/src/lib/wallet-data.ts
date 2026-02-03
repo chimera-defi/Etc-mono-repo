@@ -6,6 +6,17 @@ export type { ApiOpenness, CryptoCard, HardwareWallet, Ramp, SoftwareWallet, Wal
 
 // Path to markdown files (one level up from frontend)
 const CONTENT_DIR = path.join(process.cwd(), '..');
+const MERCHANT_PRICING_PATH = path.join(CONTENT_DIR, 'data', 'merchant_pricing.json');
+
+function loadMerchantPricing(): Record<string, { last_checked?: string }> {
+  try {
+    if (!fs.existsSync(MERCHANT_PRICING_PATH)) return {};
+    const raw = fs.readFileSync(MERCHANT_PRICING_PATH, 'utf-8');
+    return JSON.parse(raw) as Record<string, { last_checked?: string }>;
+  } catch {
+    return {};
+  }
+}
 
 // Parse status symbols
 function parseStatus(cell: string): 'active' | 'slow' | 'inactive' | 'private' {
@@ -356,6 +367,7 @@ export function parseSoftwareWallets(): SoftwareWallet[] {
 // Parse hardware wallets from markdown
 export function parseHardwareWallets(): HardwareWallet[] {
   const filePath = path.join(CONTENT_DIR, 'HARDWARE_WALLETS.md');
+  const pricing = loadMerchantPricing();
 
   if (!fs.existsSync(filePath)) {
     console.error('Hardware wallet file not found:', filePath);
@@ -379,6 +391,7 @@ export function parseHardwareWallets(): HardwareWallet[] {
     // Wallet(0) Score(1) GitHub(2) Air-Gap(3) Open Source(4) Secure Elem(5)
     // Display(6) Price(7) Conn(8) Activity(9) Rec(10)
     const price = parsePrice(cells[7] || '');
+    const priceLastChecked = pricing[name]?.last_checked ?? null;
 
     return {
       id: generateSlug(name),
@@ -392,6 +405,7 @@ export function parseHardwareWallets(): HardwareWallet[] {
       display: cells[6]?.trim() || 'Unknown',
       price: price.value,
       priceText: price.text,
+      priceLastChecked,
       connectivity: parseConnectivity(cells[8] || ''),
       active: parseStatus(cells[9] || ''),
       recommendation: parseHardwareRecommendation(cells[10] || ''),

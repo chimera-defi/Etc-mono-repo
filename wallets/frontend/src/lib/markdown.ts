@@ -89,6 +89,12 @@ const DOCUMENT_CONFIG: Record<string, Omit<MarkdownDocument, 'slug' | 'content'>
     category: 'guide',
     order: 6.5,
   },
+  'GLOSSARY.md': {
+    title: 'Glossary',
+    description: 'Definitions of key wallet and crypto terms.',
+    category: 'guide',
+    order: 6.7,
+  },
   'walletconnect-wallet-research.md': {
     title: 'WalletConnect Research',
     description: 'Original detailed research on WalletConnect-compatible wallets',
