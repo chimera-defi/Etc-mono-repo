@@ -12,7 +12,6 @@ import json
 import html
 import os
 import re
-import sys
 from pathlib import Path
 from typing import List, Dict, Any
 
@@ -132,8 +131,6 @@ def main() -> None:
             item = build_item(row, pricing)
             if item:
                 items.append(item)
-            else:
-                print(f"Skipping {row.get('Wallet')} (no verified price)", file=sys.stderr)
 
     output_path = Path(args.output)
     write_feed(items, output_path)
