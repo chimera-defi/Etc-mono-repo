@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Shield, Cpu, CreditCard, ArrowLeftRight, LayoutGrid, List, GitCompare } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -31,6 +32,22 @@ interface ExploreContentProps {
 
 type TabType = 'software' | 'hardware' | 'cards' | 'ramps';
 type ViewMode = 'grid' | 'table';
+
+const allowedValues = {
+  platforms: new Set(['mobile', 'browser', 'desktop', 'web']),
+  features: new Set(['txSimulation', 'scamAlerts', 'hardwareSupport', 'testnets']),
+  license: new Set(['open', 'partial', 'closed']),
+  recommendation: new Set(['recommended', 'situational', 'avoid', 'not-for-dev']),
+  openSource: new Set(['full', 'partial', 'closed']),
+  cardType: new Set(['credit', 'debit', 'prepaid', 'business']),
+  custody: new Set(['self', 'exchange', 'cefi']),
+  cardStatus: new Set(['active', 'verify', 'launching']),
+  region: new Set(['US', 'EU', 'UK', 'CA', 'AU', 'Global']),
+  active: new Set(['active', 'slow', 'inactive', 'private']),
+  funding: new Set(['sustainable', 'vc', 'risky']),
+  connectivity: new Set(['USB-C', 'USB', 'Bluetooth', 'QR', 'NFC', 'MicroSD', 'WiFi']),
+  accountTypes: new Set(['EOA', 'Safe', 'EIP-4337', 'EIP-7702']),
+};
 
 function toFilterOptions(filters: FilterState): FilterOptions {
   const opts: FilterOptions = {};
@@ -93,9 +110,11 @@ export function ExploreContent({
   cryptoCards,
   ramps,
 }: ExploreContentProps) {
+  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<TabType>('software');
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [showComparison, setShowComparison] = useState(false);
+  const lastParamsRef = useRef<string | null>(null);
 
   // Filter and sort states for each tab
   const [softwareFilters, setSoftwareFilters] = useState<FilterState>(initialFilterState);
@@ -115,6 +134,101 @@ export function ExploreContent({
   const [selectedHardware, setSelectedHardware] = useState<string[]>([]);
   const [selectedCards, setSelectedCards] = useState<string[]>([]);
   const [selectedRamps, setSelectedRamps] = useState<string[]>([]);
+
+  useEffect(() => {
+    const paramsKey = searchParams.toString();
+    if (paramsKey === lastParamsRef.current) return;
+    lastParamsRef.current = paramsKey;
+
+    const queryParam = (searchParams.get('q') || '').trim();
+    const typeParam = searchParams.get('type');
+    const validTabs: TabType[] = ['software', 'hardware', 'cards', 'ramps'];
+
+    if (typeParam && validTabs.includes(typeParam as TabType)) {
+      setActiveTab(typeParam as TabType);
+    }
+
+    const parseListParam = (key: string, allowed?: Set<string>, toLower: boolean = true) => {
+      const raw = searchParams.get(key);
+      if (!raw) return [];
+      const items = raw
+        .split(',')
+        .map((item) => item.trim())
+        .filter(Boolean)
+        .map((item) => (toLower ? item.toLowerCase() : item));
+      if (!allowed) return items;
+      return items.filter((item) => allowed.has(item));
+    };
+
+    const parseNumberParam = (key: string) => {
+      const raw = searchParams.get(key);
+      if (!raw) return null;
+      const value = Number(raw);
+      return Number.isFinite(value) ? value : null;
+    };
+
+    const parseBooleanParam = (key: string) => {
+      const raw = searchParams.get(key);
+      if (!raw) return null;
+      const normalized = raw.toLowerCase();
+      if (['true', '1', 'yes'].includes(normalized)) return true;
+      if (['false', '0', 'no'].includes(normalized)) return false;
+      return null;
+    };
+
+    const nextFilters: FilterState = {
+      ...initialFilterState,
+      search: queryParam,
+    };
+
+    const minScore = parseNumberParam('minScore');
+    const maxScore = parseNumberParam('maxScore');
+    if (minScore !== null) nextFilters.minScore = Math.min(100, Math.max(0, minScore));
+    if (maxScore !== null) nextFilters.maxScore = Math.min(100, Math.max(0, maxScore));
+
+    nextFilters.recommendation = parseListParam('recommendation', allowedValues.recommendation);
+    nextFilters.platforms = parseListParam('platforms', allowedValues.platforms);
+    nextFilters.features = parseListParam('features', allowedValues.features);
+    nextFilters.license = parseListParam('license', allowedValues.license);
+    nextFilters.accountTypes = parseListParam('accountTypes', allowedValues.accountTypes, false);
+    nextFilters.active = parseListParam('active', allowedValues.active);
+    nextFilters.funding = parseListParam('funding', allowedValues.funding);
+    nextFilters.openSource = parseListParam('openSource', allowedValues.openSource);
+    nextFilters.connectivity = parseListParam('connectivity', allowedValues.connectivity, false);
+    nextFilters.cardType = parseListParam('cardType', allowedValues.cardType);
+    nextFilters.custody = parseListParam('custody', allowedValues.custody);
+    nextFilters.cardStatus = parseListParam('cardStatus', allowedValues.cardStatus);
+    nextFilters.region = parseListParam('region', allowedValues.region, false);
+
+    const airGap = parseBooleanParam('airGap');
+    const secureElement = parseBooleanParam('secureElement');
+    const businessSupport = parseBooleanParam('businessSupport');
+    const noAnnualFee = parseBooleanParam('noAnnualFee');
+
+    if (airGap !== null) nextFilters.airGap = airGap;
+    if (secureElement !== null) nextFilters.secureElement = secureElement;
+    if (businessSupport !== null) nextFilters.businessSupport = businessSupport;
+    if (noAnnualFee !== null) nextFilters.noAnnualFee = noAnnualFee;
+
+    const cashBackMin = parseNumberParam('cashBackMin');
+    if (cashBackMin !== null) nextFilters.cashBackMin = Math.min(10, Math.max(0, cashBackMin));
+
+    const priceMin = parseNumberParam('priceMin');
+    const priceMax = parseNumberParam('priceMax');
+    if (priceMin !== null) nextFilters.priceMin = Math.min(500, Math.max(0, priceMin));
+    if (priceMax !== null) nextFilters.priceMax = Math.min(500, Math.max(0, priceMax));
+
+    setSoftwareFilters(nextFilters);
+    setHardwareFilters(nextFilters);
+    setCardFilters(nextFilters);
+    setRampFilters(nextFilters);
+
+    setSelectedSoftware([]);
+    setSelectedHardware([]);
+    setSelectedCards([]);
+    setSelectedRamps([]);
+    setShowComparison(false);
+  }, [searchParams]);
 
   // Filtered and sorted wallets
   const filteredSoftware = useMemo(
