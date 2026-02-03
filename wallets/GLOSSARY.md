@@ -2,19 +2,6 @@
 
 This glossary defines core terms used across Wallet Radar comparisons.
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "DefinedTermSet",
-  "name": "Wallet Radar Glossary",
-  "hasDefinedTerm": [
-    { "@type": "DefinedTerm", "name": "EOA", "description": "Externally Owned Account controlled by a private key." },
-    { "@type": "DefinedTerm", "name": "Account Abstraction", "description": "Smart contract wallets enabling batch transactions and gas sponsorship." },
-    { "@type": "DefinedTerm", "name": "Transaction Simulation", "description": "Preview of transaction effects before signing." }
-  ]
-}
-</script>
-
 ## Terms
 
 **EOA (Externally Owned Account)**  
