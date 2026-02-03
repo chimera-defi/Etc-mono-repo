@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Script from 'next/script';
-import { ArrowRight, Shield, Cpu, BookOpen, Github, CheckCircle, GitCompare, ArrowLeftRight, FileText, Lock, Eye, UserX, Database, CreditCard, Sparkles, Smartphone, HardDrive, ArrowUpDown, Mail } from 'lucide-react';
+import { ArrowRight, Shield, Cpu, BookOpen, Github, CheckCircle, GitCompare, ArrowLeftRight, FileText, Lock, Eye, UserX, Database, CreditCard, Sparkles, Smartphone, HardDrive, ArrowUpDown, Mail, TrendingUp, Calendar } from 'lucide-react';
 import { getAllDocuments, getWalletStats } from '@/lib/markdown';
 import { getAllArticles } from '@/lib/articles';
 import { ArticleCard } from '@/components/ArticleCard';
@@ -133,6 +133,72 @@ export default function HomePage() {
     { label: 'Gnosis Pay cards', href: '/explore?type=cards&q=Gnosis' },
     { label: 'Transak ramps', href: '/explore?type=ramps&q=Transak' },
   ];
+  const collections = [
+    {
+      title: 'Transaction Simulation Wallets',
+      description: 'Wallets that preview outcomes before you sign.',
+      href: '/explore?type=software&features=txSimulation',
+      accent: 'from-sky-500/15 to-transparent',
+    },
+    {
+      title: 'Self-Custody Cards',
+      description: 'Cards that keep control of your keys.',
+      href: '/explore?type=cards&custody=self',
+      accent: 'from-emerald-500/15 to-transparent',
+    },
+    {
+      title: 'Air-Gapped Hardware',
+      description: 'Offline-first cold storage devices.',
+      href: '/explore?type=hardware&airGap=true',
+      accent: 'from-amber-500/15 to-transparent',
+    },
+    {
+      title: 'No Annual Fee Cards',
+      description: 'Cards with zero yearly fees.',
+      href: '/explore?type=cards&noAnnualFee=true',
+      accent: 'from-violet-500/15 to-transparent',
+    },
+    {
+      title: 'Recommended Only',
+      description: 'Highest scoring picks across categories.',
+      href: '/explore?recommendation=recommended',
+      accent: 'from-indigo-500/15 to-transparent',
+    },
+    {
+      title: 'Open Source Hardware',
+      description: 'Fully open firmware devices.',
+      href: '/explore?type=hardware&openSource=full',
+      accent: 'from-teal-500/15 to-transparent',
+    },
+  ];
+
+  const parseDateValue = (value?: string) => {
+    if (!value) return 0;
+    const direct = Date.parse(value);
+    if (!Number.isNaN(direct)) return direct;
+    const fallback = Date.parse(`${value} 1`);
+    if (!Number.isNaN(fallback)) return fallback;
+    return 0;
+  };
+
+  const latestUpdates = [
+    ...documents.map((doc) => ({
+      type: 'doc' as const,
+      title: doc.title,
+      description: doc.description,
+      href: `/docs/${doc.slug}`,
+      updated: doc.lastUpdated,
+    })),
+    ...allArticles.map((article) => ({
+      type: 'article' as const,
+      title: article.title,
+      description: article.description,
+      href: `/articles/${article.slug}`,
+      updated: article.lastUpdated,
+    })),
+  ]
+    .sort((a, b) => parseDateValue(b.updated) - parseDateValue(a.updated))
+    .slice(0, 6);
 
   // FAQPage structured data
   const faqSchema = {
@@ -390,6 +456,51 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Support the Research */}
+      <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
+        <div className="glass-card p-6 md:p-8">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div>
+              <p className="text-sm text-sky-400 mb-2">Supported by the community</p>
+              <h2 className="text-2xl font-bold text-foreground mb-2">Keep Wallet Radar independent</h2>
+              <p className="text-sm text-muted-foreground max-w-2xl">
+                We don&apos;t use affiliate links. Sponsorships and data licensing help fund research, data refreshes, and open source tooling.
+              </p>
+              <div className="flex flex-wrap items-center gap-2 mt-4 text-xs text-muted-foreground">
+                <span className="px-2.5 py-1 border border-border rounded-full inline-flex items-center gap-1">
+                  <Github className="h-3 w-3" />
+                  GitHub API
+                </span>
+                <span className="px-2.5 py-1 border border-border rounded-full inline-flex items-center gap-1">
+                  <BookOpen className="h-3 w-3" />
+                  WalletBeat
+                </span>
+                <span className="px-2.5 py-1 border border-border rounded-full inline-flex items-center gap-1">
+                  <Database className="h-3 w-3" />
+                  DeFiLlama
+                </span>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/docs/sponsorship"
+                className="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-400 text-slate-900 font-medium px-6 py-3 rounded-lg transition-colors"
+              >
+                Become a sponsor
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <a
+                href="mailto:chimera_deFi@protonmail.com?subject=Wallet%20Radar%20Sponsorship"
+                className="inline-flex items-center gap-2 border border-border text-foreground hover:text-sky-400 hover:border-sky-500/50 font-medium px-6 py-3 rounded-lg transition-colors"
+              >
+                Contact us
+                <Mail className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Top Picks Section */}
       <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
         <h2 className="text-2xl font-bold text-foreground mb-6">Top Picks + Evidence</h2>
@@ -431,6 +542,49 @@ export default function HomePage() {
             icon={<ArrowLeftRight className="h-5 w-5" />}
             categoryColor="bg-amber-500/20 text-amber-400 border border-amber-500/30"
           />
+        </div>
+      </section>
+
+      {/* Curated Collections */}
+      <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <div className="flex items-center gap-2 text-sm text-sky-400 mb-2">
+              <TrendingUp className="h-4 w-4" />
+              Curated Collections
+            </div>
+            <h2 className="text-2xl font-bold text-foreground">Explore by Intent</h2>
+          </div>
+          <Link
+            href="/explore"
+            className="inline-flex items-center gap-1 text-sm text-sky-400 hover:text-sky-300 transition-colors"
+          >
+            View explorer
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {collections.map((collection) => (
+            <Link
+              key={collection.title}
+              href={collection.href}
+              className="group glass-card-hover p-6 relative overflow-hidden"
+            >
+              <div className={`absolute inset-0 bg-gradient-to-br ${collection.accent} opacity-0 group-hover:opacity-100 transition-opacity`} />
+              <div className="relative">
+                <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-sky-400 transition-colors">
+                  {collection.title}
+                </h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  {collection.description}
+                </p>
+                <span className="text-xs text-sky-400 inline-flex items-center gap-1">
+                  Open collection
+                  <ArrowRight className="h-3 w-3" />
+                </span>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 
@@ -552,6 +706,43 @@ export default function HomePage() {
               lastUpdated={article.lastUpdated}
               variant="compact"
             />
+          ))}
+        </div>
+      </section>
+
+      {/* Latest Updates */}
+      <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <div className="flex items-center gap-2 text-sm text-sky-400 mb-2">
+              <Calendar className="h-4 w-4" />
+              Recently Updated
+            </div>
+            <h2 className="text-2xl font-bold text-foreground">Latest Research Drops</h2>
+          </div>
+          <Link
+            href="/docs"
+            className="inline-flex items-center gap-1 text-sm text-sky-400 hover:text-sky-300 transition-colors"
+          >
+            Browse docs
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {latestUpdates.map((item) => (
+            <Link key={`${item.type}-${item.title}`} href={item.href} className="glass-card-hover p-5 group">
+              <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
+                <span className="uppercase tracking-wide">
+                  {item.type === 'doc' ? 'Doc' : 'Article'}
+                </span>
+                <span className="text-border">•</span>
+                <span>{item.updated || 'Recently'}</span>
+              </div>
+              <h3 className="text-base font-semibold text-foreground mb-2 group-hover:text-sky-400 transition-colors">
+                {item.title}
+              </h3>
+              <p className="text-sm text-muted-foreground line-clamp-2">{item.description}</p>
+            </Link>
           ))}
         </div>
       </section>
