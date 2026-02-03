@@ -67,8 +67,8 @@ def load_pricing() -> Dict[str, Dict[str, Any]]:
     return json.loads(PRICING_FILE.read_text(encoding="utf-8"))
 
 
-def build_item(row: Dict[str, str], category: str, pricing: Dict[str, Dict[str, Any]]) -> Dict[str, str] | None:
-    raw_name = row.get("Wallet") or row.get("Card") or "Unknown"
+def build_item(row: Dict[str, str], pricing: Dict[str, Dict[str, Any]]) -> Dict[str, str] | None:
+    raw_name = row.get("Wallet") or "Unknown"
     if "~~" in raw_name:
         return None
     name = raw_name.replace("~~", "").strip()
@@ -76,28 +76,21 @@ def build_item(row: Dict[str, str], category: str, pricing: Dict[str, Dict[str, 
     if not price_entry:
         return None
     slug = slugify(name)
-    if category == "software":
-        url = f"{BASE_URL}/docs/software-wallets#{slug}"
-        product_type = "Software Wallet"
-    elif category == "hardware":
-        url = f"{BASE_URL}/docs/hardware-wallets#{slug}"
-        product_type = "Hardware Wallet"
-    else:
-        url = f"{BASE_URL}/docs/crypto-cards#{slug}"
-        product_type = "Crypto Card"
+    url = f"{BASE_URL}/docs/hardware-wallets#{slug}"
+    product_type = "Hardware Wallet"
 
     brand = name.split(" ")[0]
     return {
-        "id": f"{category}-{slug}",
+        "id": f"hardware-{slug}",
         "title": name,
         "description": f"{name} - {product_type} listed on Wallet Radar.",
         "link": url,
-        "image_link": f"{BASE_URL}/og/wallets/{category}.png",
+        "image_link": f"{BASE_URL}/og/wallets/hardware.png",
         "availability": "in stock",
         "condition": "new",
         "price": price_entry["price"],
         "brand": brand,
-        "google_product_category": "Software > Computer Software" if category == "software" else "Electronics",
+        "google_product_category": "Electronics",
         "product_type": product_type,
     }
 
@@ -128,13 +121,13 @@ def main() -> None:
 
     items: List[Dict[str, str]] = []
     pricing = load_pricing()
-    for category, path in TABLE_FILES.items():
+    for _, path in TABLE_FILES.items():
         content = Path(path).read_text(encoding="utf-8").splitlines()
         rows = parse_table(content)
         for row in rows:
-            if not (row.get("Wallet") or row.get("Card")):
+            if not row.get("Wallet"):
                 continue
-            item = build_item(row, category, pricing)
+            item = build_item(row, pricing)
             if item:
                 items.append(item)
             else:
