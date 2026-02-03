@@ -681,7 +681,7 @@ lynx -dump -nolist https://example.com/docs/page > /tmp/page.txt
 wc -c /tmp/page.html /tmp/page.txt
 ```
 
-### 7.1 Simulate AI Agent Consumption
+### 7.1 Test AI Agent Interaction
 
 **Goal:** test if an agent can answer questions from the cleaned content.
 
@@ -707,7 +707,7 @@ resp = openai.ChatCompletion.create(
 print(resp["choices"][0]["message"]["content"])
 ```
 
-### 7.2 Monitor for SEO Issues
+### 7.2 Monitor for SEO Issues Post-Implementation
 
 **Checklist:**
 - No duplicate canonical tags.
@@ -719,6 +719,14 @@ print(resp["choices"][0]["message"]["content"])
 ```bash
 curl -sSL https://example.com/docs/page | rg -n "canonical|noindex|schema.org"
 ```
+
+### 7.3 Diagram (Textual Description)
+
+```
+Raw HTML -> Extract Main -> Clean Markdown -> Agent Test -> SEO Validation
+```
+
+**Caption:** One canonical URL, multiple consumers (humans + agents), one validation loop.
 
 ---
 
@@ -746,7 +754,7 @@ curl -sSL https://example.com/docs/page | rg -n "canonical|noindex|schema.org"
 - Add FAQ schema via plugin or custom HTML blocks.
 
 **Mintlify:**
-- Prefer built-in doc pages; automation handles structure.
+- Prefer built-in doc pages; automation handles structure and updates.
 - Validate that generated pages include structured data.
 
 ---
