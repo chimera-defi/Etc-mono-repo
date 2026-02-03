@@ -103,6 +103,7 @@ export default function DocumentPage({ params }: PageProps) {
   const rawDescription = document.description || 
     `Comprehensive ${document.category} guide for crypto wallet comparison. ${document.title.includes('Comparison') ? 'Compare wallets with detailed scoring, security audits, and developer experience metrics.' : 'Expert insights and analysis for developers.'}`;
   const enhancedDescription = optimizeMetaDescription(rawDescription);
+  const summaryText = document.description || enhancedDescription;
 
   // Check if this is a table or details page and get the related one
   // New naming: software-wallets (table), software-wallets-details (details)
@@ -142,6 +143,16 @@ export default function DocumentPage({ params }: PageProps) {
   // Extract FAQs from markdown content and generate FAQ schema
   const faqs = extractFAQsFromMarkdown(document.content);
   const faqSchema = faqs.length > 0 ? generateFAQSchema(faqs) : null;
+
+  const speakableSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: document.title,
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['.speakable-summary'],
+    },
+  };
 
   // Article structured data for comparison pages
   const articleSchema = document.category === 'comparison' ? {
@@ -278,6 +289,11 @@ export default function DocumentPage({ params }: PageProps) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       )}
+      <Script
+        id="speakable-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableSchema) }}
+      />
       <div className="container mx-auto px-4 py-8">
       {/* Breadcrumb Navigation */}
       <Breadcrumbs
@@ -343,7 +359,10 @@ export default function DocumentPage({ params }: PageProps) {
               <span>{formatReadingTime(calculateReadingTime(document.content))}</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-4 text-slate-100">{document.title}</h1>
-            <p className="text-lg text-slate-400 mb-4">{document.description}</p>
+            <p className="text-lg text-slate-400 mb-3 speakable-summary">{summaryText}</p>
+            <p className="text-sm text-slate-500 mb-4">
+              Summary: {enhancedDescription}
+            </p>
             {/* Social Sharing - Header */}
             <SocialShare
               url={pageUrl}

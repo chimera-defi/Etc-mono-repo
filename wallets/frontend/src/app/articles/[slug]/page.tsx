@@ -4,7 +4,7 @@ import Script from 'next/script';
 import { ArrowLeft, Clock, User, Calendar, Tag } from 'lucide-react';
 import Link from 'next/link';
 import { getArticleBySlug, getArticleSlugs, getRelatedArticles } from '@/lib/articles';
-import { calculateReadingTime, formatReadingTime, optimizeMetaDescription, extractFAQsFromMarkdown, generateFAQSchema, generateBreadcrumbSchema } from '@/lib/seo';
+import { calculateReadingTime, formatReadingTime, optimizeMetaDescription, extractFAQsFromMarkdown, extractHowToSteps, generateFAQSchema, generateHowToSchema, generateBreadcrumbSchema, getOgImagePath } from '@/lib/seo';
 import { EnhancedMarkdownRenderer } from '@/components/EnhancedMarkdownRenderer';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SocialShare } from '@/components/SocialShare';
@@ -38,6 +38,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const pageUrl = `${baseUrl}/articles/${params.slug}/`;
   const enhancedDescription = optimizeMetaDescription(article.description);
 
+  const ogImagePath = getOgImagePath(article.slug);
+
   return {
     title: `${article.title} | Wallet Radar`,
     description: enhancedDescription,
@@ -52,7 +54,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       tags: article.tags,
       images: [
         {
-          url: `${baseUrl}/og-image.svg`,
+          url: `${baseUrl}${ogImagePath}`,
           width: 1200,
           height: 630,
           alt: article.title,
@@ -65,7 +67,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: enhancedDescription,
       creator: '@chimeradefi',
       site: '@chimeradefi',
-      images: [`${baseUrl}/og-image.svg`],
+      images: [`${baseUrl}${ogImagePath}`],
     },
     alternates: {
       canonical: pageUrl,
@@ -98,6 +100,11 @@ export default function ArticlePage({ params }: PageProps) {
   // Extract and generate FAQ schema
   const faqs = extractFAQsFromMarkdown(article.content);
   const faqSchema = faqs.length > 0 ? generateFAQSchema(faqs) : null;
+
+  const howToSteps = article.category === 'guide' ? extractHowToSteps(article.content) : [];
+  const howToSchema = howToSteps.length > 0
+    ? generateHowToSchema(article.title, enhancedDescription, howToSteps)
+    : null;
 
   // Article structured data
   const articleSchema = {
@@ -143,6 +150,13 @@ export default function ArticlePage({ params }: PageProps) {
           id="faq-schema"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
+      {howToSchema && (
+        <Script
+          id="howto-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
         />
       )}
 

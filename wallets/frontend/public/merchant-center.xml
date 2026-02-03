@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
+  <channel>
+    <title>Wallet Radar Merchant Feed</title>
+    <link>https://walletradar.org</link>
+    <description>Wallet Radar product feed for hardware wallets.</description>
+    <item>
+      <g:id>hardware-trezor-safe-3</g:id>
+      <g:title>Trezor Safe 3</g:title>
+      <g:description>Trezor Safe 3 - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#trezor-safe-3</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>59 USD</g:price>
+      <g:brand>Trezor</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-blockstream-jade</g:id>
+      <g:title>Blockstream Jade</g:title>
+      <g:description>Blockstream Jade - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#blockstream-jade</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>79 USD</g:price>
+      <g:brand>Blockstream</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-onekey-pro</g:id>
+      <g:title>OneKey Pro</g:title>
+      <g:description>OneKey Pro - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#onekey-pro</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>278 USD</g:price>
+      <g:brand>OneKey</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-onekey-classic-1s-pure</g:id>
+      <g:title>OneKey Classic 1S Pure</g:title>
+      <g:description>OneKey Classic 1S Pure - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#onekey-classic-1s-pure</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>79 USD</g:price>
+      <g:brand>OneKey</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-onekey-classic-1s</g:id>
+      <g:title>OneKey Classic 1S</g:title>
+      <g:description>OneKey Classic 1S - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#onekey-classic-1s</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>99 USD</g:price>
+      <g:brand>OneKey</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-ledger-flex</g:id>
+      <g:title>Ledger Flex</g:title>
+      <g:description>Ledger Flex - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#ledger-flex</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>249 USD</g:price>
+      <g:brand>Ledger</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-ledger-nano-x</g:id>
+      <g:title>Ledger Nano X</g:title>
+      <g:description>Ledger Nano X - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#ledger-nano-x</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>99 USD</g:price>
+      <g:brand>Ledger</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-ledger-nano-gen5</g:id>
+      <g:title>Ledger Nano Gen5</g:title>
+      <g:description>Ledger Nano Gen5 - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#ledger-nano-gen5</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>179 USD</g:price>
+      <g:brand>Ledger</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+    <item>
+      <g:id>hardware-ledger-nano-s</g:id>
+      <g:title>Ledger Nano S+</g:title>
+      <g:description>Ledger Nano S+ - Hardware Wallet listed on Wallet Radar.</g:description>
+      <g:link>https://walletradar.org/docs/hardware-wallets#ledger-nano-s</g:link>
+      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>59 USD</g:price>
+      <g:brand>Ledger</g:brand>
+      <g:google_product_category>Electronics</g:google_product_category>
+      <g:product_type>Hardware Wallet</g:product_type>
+    </item>
+  </channel>
+</rss>

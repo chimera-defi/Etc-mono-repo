@@ -1,5 +1,8 @@
 # Hardware Wallet Comparison (Cold Storage Alternatives to Ledger)
 
+> **Merchant Center feed:** https://walletradar.org/merchant-center.xml  
+> Verified USD pricing and exclusions: `wallets/MERCHANT_FEED.md`
+
 ## Complete Hardware Wallet Comparison
 
 | Wallet | Score | GitHub | Air-Gap | Open Source | Secure Elem | Display | Price | Conn | Activity | Rec |
@@ -40,6 +43,28 @@
 *\* DIY wallets — price varies based on components purchased; requires self-assembly*
 
 **Note:** ~~Strikethrough~~ indicates discontinued/inactive wallets. Ledger Nano S was discontinued in 2023; limited storage (2-3 apps max) compared to Nano S+.
+
+## Pros & Cons (Top Picks)
+
+**Trezor Safe 7 (96)**
+- ✅ Highest overall score
+- ✅ Open-source firmware
+- ⚠️ Premium price
+
+**ColdCard Mk4 (91)**
+- ✅ Bitcoin-only security focus
+- ✅ Air-gap via MicroSD
+- ⚠️ Not ideal for multi-asset users
+
+**Keystone 3 Pro (91)**
+- ✅ Air-gap + multi-asset support
+- ✅ Strong security model
+- ⚠️ Larger device footprint
+
+**Ledger models (55–57)**
+- ✅ Broad ecosystem support
+- ❌ Recover capability trust tradeoff
+- ❌ Closed-source firmware components
 
 ### Legend
 

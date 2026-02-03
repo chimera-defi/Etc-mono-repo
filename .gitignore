@@ -1,5 +1,6 @@
 # Cursor artifacts
 .cursor/artifacts/
+wallets/artifacts/
 
 # OS files
 .DS_Store

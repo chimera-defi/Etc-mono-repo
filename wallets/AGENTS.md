@@ -2,6 +2,14 @@
 
 > **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `/token-reduce` skill
 
+## Git Discipline (Required)
+
+- One task = one PR (keep all commits on a single PR branch)
+- Never push directly to `main` or `master`
+- Create a branch/worktree before changes
+- Always use a feature branch + PR
+- Enable hooks: `git config core.hooksPath .githooks`
+
 ## Core Purpose
 
 **Goal:** Find stable MetaMask alternatives with **both desktop browser extension AND mobile apps** for **developer use**.
@@ -163,7 +171,11 @@ mcp-cli memory/search_nodes '{"query": "wallet name"}'
 1. Always open a PR for changes; do not push directly to main.
 2. Always pull latest `main` and rebase your branch on `main` at the start of each new request.
 3. After rebasing, force-push with lease if the branch diverges from the PR head.
-4. Activity status decays
+4. Keep one task in one PR; do not create multiple PRs for the same request.
+5. Always commit changes with a descriptive message and model attribution.
+6. Record research inputs in `wallets/artifacts/` (gitignored) and summarize durable notes in `wallets/MERCHANT_FEED.md` or other docs.
+7. Merchant feeds must use provider-site pricing; skip free categories (software wallets/ramps) and items without verified prices.
+8. Activity status decays
 
 **Multi-Pass Review:**
 1. Math verification - breakdowns must sum to totals
