@@ -6,6 +6,10 @@ on:
     # Run on all PRs - attribution is important for all changes
     # Paths filter removed to ensure attribution checks run on all PRs
 
+concurrency:
+  group: pr-attribution-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   check-pr-attribution:
     name: Check PR Attribution
