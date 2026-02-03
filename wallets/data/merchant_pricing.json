@@ -1,332 +1,82 @@
 {
-  "1inch Card": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://1inch.com/card"
-  },
-  "Amp Pay Black Card": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://getamp.pay"
-  },
-  "Arculus": {
-    "last_checked": "2026-02-03",
-    "price": "100 USD",
-    "source": "https://www.getarculus.com/"
-  },
-  "Avici Money": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://avici.money"
-  },
-  "Binance Card": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://www.binance.com/en/cards"
-  },
   "BitBox02": {
     "last_checked": "2026-02-03",
-    "price": "150 USD",
-    "source": "https://bitbox.swiss/"
+    "price": "149 EUR",
+    "source": "https://shop.bitbox.swiss/en/products/bitbox02-80/"
   },
   "BitBox02 Nova": {
     "last_checked": "2026-02-03",
-    "price": "150 USD",
-    "source": "https://bitbox.swiss/"
-  },
-  "BitPay Card": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://bitpay.com/card"
+    "price": "175 EUR",
+    "source": "https://shop.bitbox.swiss/en/products/bitbox02-nova-79/"
   },
   "Blockstream Jade": {
     "last_checked": "2026-02-03",
-    "price": "65 USD",
-    "source": "https://blockstream.com/jade/"
-  },
-  "Bybit Card": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://www.bybit.com/en/cards/"
-  },
-  "CoinJar Card": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://www.coinjar.com"
-  },
-  "Coinbase Card": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://www.coinbase.com/card"
-  },
-  "ColdCard Mk4": {
-    "last_checked": "2026-02-03",
-    "price": "150 USD",
-    "source": "https://coldcard.com/"
-  },
-  "Crypto.com Visa": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://crypto.com/cards"
-  },
-  "CryptoSpend": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://cryptospend.com.au"
-  },
-  "Ellipal Titan 2.0": {
-    "last_checked": "2026-02-03",
-    "price": "170 USD",
-    "source": "https://www.ellipal.com/"
-  },
-  "EtherFi Cash": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://ether.fi/cash"
-  },
-  "Fold Card": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://foldapp.com"
-  },
-  "Foundation Passport": {
-    "last_checked": "2026-02-03",
-    "price": "259 USD",
-    "source": "https://foundationdevices.com/"
-  },
-  "Fuse Wallet Card": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://fuse.io/wallet"
-  },
-  "Gemini Card": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://www.gemini.com/credit-card"
-  },
-  "Gnosis Pay": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://gnosispay.com"
-  },
-  "GridPlus Lattice1": {
-    "last_checked": "2026-02-03",
-    "price": "400 USD",
-    "source": "https://gridplus.io/"
-  },
-  "Hi Card": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://hi.com"
-  },
-  "Kast": {
-    "last_checked": "2026-02-03",
-    "price": "20 USD",
-    "source": "https://kast.xyz"
+    "price": "79 USD",
+    "source": "https://store.blockstream.com/product/blockstream-jade/"
   },
   "Keycard": {
     "last_checked": "2026-02-03",
-    "price": "29 USD",
-    "source": "https://keycard.tech/"
+    "price": "25 EUR",
+    "source": "https://get.keycard.tech/products/keycard"
   },
   "Keycard Shell": {
     "last_checked": "2026-02-03",
-    "price": "110 USD",
+    "price": "109 EUR",
     "source": "https://get.keycard.tech/products/keycard-shell"
-  },
-  "Keystone 3 Pro": {
-    "last_checked": "2026-02-03",
-    "price": "149 USD",
-    "source": "https://keyst.one/"
-  },
-  "Kraken Card": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://www.kraken.com"
-  },
-  "Krux": {
-    "last_checked": "2026-02-03",
-    "price": "30 USD",
-    "source": "https://selfcustody.github.io/krux/"
-  },
-  "KuCard": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://www.kucoin.com/kucard"
   },
   "Ledger Flex": {
     "last_checked": "2026-02-03",
-    "price": "199 USD",
-    "source": "https://www.ledger.com/"
+    "price": "249 USD",
+    "source": "https://shop.ledger.com/products/ledger-flex"
   },
   "Ledger Nano Gen5": {
     "last_checked": "2026-02-03",
-    "price": "79 USD",
-    "source": "https://www.ledger.com/"
+    "price": "179 USD",
+    "source": "https://shop.ledger.com/products/ledger-nano-gen5"
   },
   "Ledger Nano S+": {
     "last_checked": "2026-02-03",
-    "price": "80 USD",
-    "source": "https://www.ledger.com/"
+    "price": "59 USD",
+    "source": "https://shop.ledger.com/products/ledger-nano-s-plus"
   },
   "Ledger Nano X": {
     "last_checked": "2026-02-03",
-    "price": "150 USD",
-    "source": "https://www.ledger.com/"
+    "price": "99 USD",
+    "source": "https://shop.ledger.com/products/ledger-nano-x"
   },
   "Ledger Stax": {
     "last_checked": "2026-02-03",
-    "price": "280 USD",
-    "source": "https://www.ledger.com/"
-  },
-  "MetaMask Card": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://metamask.io/card"
-  },
-  "NGRAVE ZERO": {
-    "last_checked": "2026-02-03",
-    "price": "400 USD",
-    "source": "https://www.ngrave.io/"
-  },
-  "Nexo Card": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://nexo.com/card"
-  },
-  "OKX Card": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://www.okx.com"
+    "price": "399 USD",
+    "source": "https://shop.ledger.com/products/ledger-stax"
   },
   "OneKey Classic 1S": {
     "last_checked": "2026-02-03",
-    "price": "89 USD",
-    "source": "https://onekey.so/"
+    "price": "99 USD",
+    "source": "https://onekey.so/products/onekey-classic-1s-hardware-wallet/"
   },
   "OneKey Classic 1S Pure": {
     "last_checked": "2026-02-03",
-    "price": "99 USD",
-    "source": "https://onekey.so/"
+    "price": "79 USD",
+    "source": "https://onekey.so/products/onekey-classic-1s-hardware-wallet/#pure"
   },
   "OneKey Pro": {
     "last_checked": "2026-02-03",
-    "price": "199 USD",
-    "source": "https://onekey.so/"
-  },
-  "Payy": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://payy.link"
-  },
-  "Plutus Card": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://plutus.it"
-  },
-  "Ready Card": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://www.ready.co/card"
-  },
-  "Reap": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://reap.global"
-  },
-  "Redotpay": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://redotpay.com"
-  },
-  "Revolut Crypto": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://www.revolut.com/crypto/crypto-card/"
-  },
-  "SafePal S1": {
-    "last_checked": "2026-02-03",
-    "price": "50 USD",
-    "source": "https://www.safepal.com/"
-  },
-  "SecuX V20": {
-    "last_checked": "2026-02-03",
-    "price": "140 USD",
-    "source": "https://secuxtech.com/"
-  },
-  "SeedSigner": {
-    "last_checked": "2026-02-03",
-    "price": "50 USD",
-    "source": "https://seedsigner.com/"
-  },
-  "Shakepay Card": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://shakepay.com/card"
-  },
-  "Solflare Card": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://solflare.com/card"
-  },
-  "Specter DIY": {
-    "last_checked": "2026-02-03",
-    "price": "50 USD",
-    "source": "https://specter.solutions/hardware/"
-  },
-  "Spendly": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://www.usespendly.com"
-  },
-  "Swissborg Card": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://swissborg.com"
-  },
-  "Tangem Wallet": {
-    "last_checked": "2026-02-03",
-    "price": "55 USD",
-    "source": "https://tangem.com/"
-  },
-  "ThorWallet": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://thorwallet.org"
+    "price": "278 USD",
+    "source": "https://onekey.so/products/onekey-pro-hardware-wallet/"
   },
   "Trezor Safe 3": {
     "last_checked": "2026-02-03",
-    "price": "79 USD",
-    "source": "https://trezor.io/"
+    "price": "59 USD",
+    "source": "https://trezor.io/trezor-safe-3"
   },
   "Trezor Safe 5": {
     "last_checked": "2026-02-03",
-    "price": "169 USD",
-    "source": "https://trezor.io/"
+    "price": "129 USD",
+    "source": "https://trezor.io/trezor-safe-5"
   },
   "Trezor Safe 7": {
     "last_checked": "2026-02-03",
     "price": "249 USD",
-    "source": "https://trezor.io/"
-  },
-  "Tria": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://tria.so"
-  },
-  "Tuyo": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://tuyo.com/card"
-  },
-  "Uphold Card": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://uphold.com"
-  },
-  "Wirex Card": {
-    "last_checked": "2026-02-03",
-    "price": "0 USD",
-    "source": "https://wirexapp.com/card"
+    "source": "https://trezor.io/trezor-safe-7"
   }
 }

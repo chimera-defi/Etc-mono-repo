@@ -133,6 +133,9 @@ Brief description.
 - **Rebase discipline:** Pull latest `main` and rebase at the start of each new request
 - **One task = one PR:** Stack commits on a single branch/PR for the request
 - **Branch/worktree first:** Create a feature branch/worktree before making changes
+- **Always commit:** Self-authored commit messages with model attribution
+- **Preserve research context:** Store sources in `.cursor/artifacts/` or project artifacts
+- **Pricing verification:** Use provider sites for any pricing data; exclude free categories from merchant feeds
 
 ---
 

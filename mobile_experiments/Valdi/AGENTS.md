@@ -128,3 +128,6 @@ mcp-cli memory/create_entities '{"entities": [{"name": "Valdi Pattern", "entityT
 - Always open a PR for changes; do not push directly to main.
 - Always pull latest `main` and rebase your branch on `main` at the start of each new request.
 - After rebasing, force-push with lease if the branch diverges from the PR head.
+- Keep one task in one PR; do not create multiple PRs for the same request.
+- Always commit changes with a descriptive message and model attribution.
+- Record research inputs in `.cursor/artifacts/` or project artifacts to preserve source context.

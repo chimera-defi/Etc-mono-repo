@@ -25,21 +25,8 @@
       <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
       <g:availability>in stock</g:availability>
       <g:condition>new</g:condition>
-      <g:price>169 USD</g:price>
+      <g:price>129 USD</g:price>
       <g:brand>Trezor</g:brand>
-      <g:google_product_category>Electronics</g:google_product_category>
-      <g:product_type>Hardware Wallet</g:product_type>
-    </item>
-    <item>
-      <g:id>hardware-keystone-3-pro</g:id>
-      <g:title>Keystone 3 Pro</g:title>
-      <g:description>Keystone 3 Pro - Hardware Wallet listed on Wallet Radar.</g:description>
-      <g:link>https://walletradar.org/docs/hardware-wallets#keystone-3-pro</g:link>
-      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
-      <g:availability>in stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:price>149 USD</g:price>
-      <g:brand>Keystone</g:brand>
       <g:google_product_category>Electronics</g:google_product_category>
       <g:product_type>Hardware Wallet</g:product_type>
     </item>
@@ -51,21 +38,8 @@
       <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
       <g:availability>in stock</g:availability>
       <g:condition>new</g:condition>
-      <g:price>110 USD</g:price>
+      <g:price>109 EUR</g:price>
       <g:brand>Keycard</g:brand>
-      <g:google_product_category>Electronics</g:google_product_category>
-      <g:product_type>Hardware Wallet</g:product_type>
-    </item>
-    <item>
-      <g:id>hardware-coldcard-mk4</g:id>
-      <g:title>ColdCard Mk4</g:title>
-      <g:description>ColdCard Mk4 - Hardware Wallet listed on Wallet Radar.</g:description>
-      <g:link>https://walletradar.org/docs/hardware-wallets#coldcard-mk4</g:link>
-      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
-      <g:availability>in stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:price>150 USD</g:price>
-      <g:brand>ColdCard</g:brand>
       <g:google_product_category>Electronics</g:google_product_category>
       <g:product_type>Hardware Wallet</g:product_type>
     </item>
@@ -77,7 +51,7 @@
       <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
       <g:availability>in stock</g:availability>
       <g:condition>new</g:condition>
-      <g:price>79 USD</g:price>
+      <g:price>59 USD</g:price>
       <g:brand>Trezor</g:brand>
       <g:google_product_category>Electronics</g:google_product_category>
       <g:product_type>Hardware Wallet</g:product_type>
@@ -90,7 +64,7 @@
       <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
       <g:availability>in stock</g:availability>
       <g:condition>new</g:condition>
-      <g:price>150 USD</g:price>
+      <g:price>149 EUR</g:price>
       <g:brand>BitBox02</g:brand>
       <g:google_product_category>Electronics</g:google_product_category>
       <g:product_type>Hardware Wallet</g:product_type>
@@ -103,7 +77,7 @@
       <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
       <g:availability>in stock</g:availability>
       <g:condition>new</g:condition>
-      <g:price>150 USD</g:price>
+      <g:price>175 EUR</g:price>
       <g:brand>BitBox02</g:brand>
       <g:google_product_category>Electronics</g:google_product_category>
       <g:product_type>Hardware Wallet</g:product_type>
@@ -116,21 +90,8 @@
       <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
       <g:availability>in stock</g:availability>
       <g:condition>new</g:condition>
-      <g:price>65 USD</g:price>
+      <g:price>79 USD</g:price>
       <g:brand>Blockstream</g:brand>
-      <g:google_product_category>Electronics</g:google_product_category>
-      <g:product_type>Hardware Wallet</g:product_type>
-    </item>
-    <item>
-      <g:id>hardware-foundation-passport</g:id>
-      <g:title>Foundation Passport</g:title>
-      <g:description>Foundation Passport - Hardware Wallet listed on Wallet Radar.</g:description>
-      <g:link>https://walletradar.org/docs/hardware-wallets#foundation-passport</g:link>
-      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
-      <g:availability>in stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:price>259 USD</g:price>
-      <g:brand>Foundation</g:brand>
       <g:google_product_category>Electronics</g:google_product_category>
       <g:product_type>Hardware Wallet</g:product_type>
     </item>
@@ -142,7 +103,7 @@
       <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
       <g:availability>in stock</g:availability>
       <g:condition>new</g:condition>
-      <g:price>199 USD</g:price>
+      <g:price>278 USD</g:price>
       <g:brand>OneKey</g:brand>
       <g:google_product_category>Electronics</g:google_product_category>
       <g:product_type>Hardware Wallet</g:product_type>
@@ -155,7 +116,7 @@
       <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
       <g:availability>in stock</g:availability>
       <g:condition>new</g:condition>
-      <g:price>99 USD</g:price>
+      <g:price>79 USD</g:price>
       <g:brand>OneKey</g:brand>
       <g:google_product_category>Electronics</g:google_product_category>
       <g:product_type>Hardware Wallet</g:product_type>
@@ -168,73 +129,8 @@
       <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
       <g:availability>in stock</g:availability>
       <g:condition>new</g:condition>
-      <g:price>89 USD</g:price>
+      <g:price>99 USD</g:price>
       <g:brand>OneKey</g:brand>
-      <g:google_product_category>Electronics</g:google_product_category>
-      <g:product_type>Hardware Wallet</g:product_type>
-    </item>
-    <item>
-      <g:id>hardware-ngrave-zero</g:id>
-      <g:title>NGRAVE ZERO</g:title>
-      <g:description>NGRAVE ZERO - Hardware Wallet listed on Wallet Radar.</g:description>
-      <g:link>https://walletradar.org/docs/hardware-wallets#ngrave-zero</g:link>
-      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
-      <g:availability>in stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:price>400 USD</g:price>
-      <g:brand>NGRAVE</g:brand>
-      <g:google_product_category>Electronics</g:google_product_category>
-      <g:product_type>Hardware Wallet</g:product_type>
-    </item>
-    <item>
-      <g:id>hardware-specter-diy</g:id>
-      <g:title>Specter DIY</g:title>
-      <g:description>Specter DIY - Hardware Wallet listed on Wallet Radar.</g:description>
-      <g:link>https://walletradar.org/docs/hardware-wallets#specter-diy</g:link>
-      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
-      <g:availability>in stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:price>50 USD</g:price>
-      <g:brand>Specter</g:brand>
-      <g:google_product_category>Electronics</g:google_product_category>
-      <g:product_type>Hardware Wallet</g:product_type>
-    </item>
-    <item>
-      <g:id>hardware-krux</g:id>
-      <g:title>Krux</g:title>
-      <g:description>Krux - Hardware Wallet listed on Wallet Radar.</g:description>
-      <g:link>https://walletradar.org/docs/hardware-wallets#krux</g:link>
-      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
-      <g:availability>in stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:price>30 USD</g:price>
-      <g:brand>Krux</g:brand>
-      <g:google_product_category>Electronics</g:google_product_category>
-      <g:product_type>Hardware Wallet</g:product_type>
-    </item>
-    <item>
-      <g:id>hardware-seedsigner</g:id>
-      <g:title>SeedSigner</g:title>
-      <g:description>SeedSigner - Hardware Wallet listed on Wallet Radar.</g:description>
-      <g:link>https://walletradar.org/docs/hardware-wallets#seedsigner</g:link>
-      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
-      <g:availability>in stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:price>50 USD</g:price>
-      <g:brand>SeedSigner</g:brand>
-      <g:google_product_category>Electronics</g:google_product_category>
-      <g:product_type>Hardware Wallet</g:product_type>
-    </item>
-    <item>
-      <g:id>hardware-safepal-s1</g:id>
-      <g:title>SafePal S1</g:title>
-      <g:description>SafePal S1 - Hardware Wallet listed on Wallet Radar.</g:description>
-      <g:link>https://walletradar.org/docs/hardware-wallets#safepal-s1</g:link>
-      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
-      <g:availability>in stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:price>50 USD</g:price>
-      <g:brand>SafePal</g:brand>
       <g:google_product_category>Electronics</g:google_product_category>
       <g:product_type>Hardware Wallet</g:product_type>
     </item>
@@ -246,21 +142,8 @@
       <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
       <g:availability>in stock</g:availability>
       <g:condition>new</g:condition>
-      <g:price>29 USD</g:price>
+      <g:price>25 EUR</g:price>
       <g:brand>Keycard</g:brand>
-      <g:google_product_category>Electronics</g:google_product_category>
-      <g:product_type>Hardware Wallet</g:product_type>
-    </item>
-    <item>
-      <g:id>hardware-gridplus-lattice1</g:id>
-      <g:title>GridPlus Lattice1</g:title>
-      <g:description>GridPlus Lattice1 - Hardware Wallet listed on Wallet Radar.</g:description>
-      <g:link>https://walletradar.org/docs/hardware-wallets#gridplus-lattice1</g:link>
-      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
-      <g:availability>in stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:price>400 USD</g:price>
-      <g:brand>GridPlus</g:brand>
       <g:google_product_category>Electronics</g:google_product_category>
       <g:product_type>Hardware Wallet</g:product_type>
     </item>
@@ -272,7 +155,7 @@
       <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
       <g:availability>in stock</g:availability>
       <g:condition>new</g:condition>
-      <g:price>280 USD</g:price>
+      <g:price>399 USD</g:price>
       <g:brand>Ledger</g:brand>
       <g:google_product_category>Electronics</g:google_product_category>
       <g:product_type>Hardware Wallet</g:product_type>
@@ -285,7 +168,7 @@
       <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
       <g:availability>in stock</g:availability>
       <g:condition>new</g:condition>
-      <g:price>199 USD</g:price>
+      <g:price>249 USD</g:price>
       <g:brand>Ledger</g:brand>
       <g:google_product_category>Electronics</g:google_product_category>
       <g:product_type>Hardware Wallet</g:product_type>
@@ -298,7 +181,7 @@
       <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
       <g:availability>in stock</g:availability>
       <g:condition>new</g:condition>
-      <g:price>150 USD</g:price>
+      <g:price>99 USD</g:price>
       <g:brand>Ledger</g:brand>
       <g:google_product_category>Electronics</g:google_product_category>
       <g:product_type>Hardware Wallet</g:product_type>
@@ -311,7 +194,7 @@
       <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
       <g:availability>in stock</g:availability>
       <g:condition>new</g:condition>
-      <g:price>79 USD</g:price>
+      <g:price>179 USD</g:price>
       <g:brand>Ledger</g:brand>
       <g:google_product_category>Electronics</g:google_product_category>
       <g:product_type>Hardware Wallet</g:product_type>
@@ -324,60 +207,8 @@
       <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
       <g:availability>in stock</g:availability>
       <g:condition>new</g:condition>
-      <g:price>80 USD</g:price>
+      <g:price>59 USD</g:price>
       <g:brand>Ledger</g:brand>
-      <g:google_product_category>Electronics</g:google_product_category>
-      <g:product_type>Hardware Wallet</g:product_type>
-    </item>
-    <item>
-      <g:id>hardware-tangem-wallet</g:id>
-      <g:title>Tangem Wallet</g:title>
-      <g:description>Tangem Wallet - Hardware Wallet listed on Wallet Radar.</g:description>
-      <g:link>https://walletradar.org/docs/hardware-wallets#tangem-wallet</g:link>
-      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
-      <g:availability>in stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:price>55 USD</g:price>
-      <g:brand>Tangem</g:brand>
-      <g:google_product_category>Electronics</g:google_product_category>
-      <g:product_type>Hardware Wallet</g:product_type>
-    </item>
-    <item>
-      <g:id>hardware-ellipal-titan-2-0</g:id>
-      <g:title>Ellipal Titan 2.0</g:title>
-      <g:description>Ellipal Titan 2.0 - Hardware Wallet listed on Wallet Radar.</g:description>
-      <g:link>https://walletradar.org/docs/hardware-wallets#ellipal-titan-2-0</g:link>
-      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
-      <g:availability>in stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:price>170 USD</g:price>
-      <g:brand>Ellipal</g:brand>
-      <g:google_product_category>Electronics</g:google_product_category>
-      <g:product_type>Hardware Wallet</g:product_type>
-    </item>
-    <item>
-      <g:id>hardware-secux-v20</g:id>
-      <g:title>SecuX V20</g:title>
-      <g:description>SecuX V20 - Hardware Wallet listed on Wallet Radar.</g:description>
-      <g:link>https://walletradar.org/docs/hardware-wallets#secux-v20</g:link>
-      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
-      <g:availability>in stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:price>140 USD</g:price>
-      <g:brand>SecuX</g:brand>
-      <g:google_product_category>Electronics</g:google_product_category>
-      <g:product_type>Hardware Wallet</g:product_type>
-    </item>
-    <item>
-      <g:id>hardware-arculus</g:id>
-      <g:title>Arculus</g:title>
-      <g:description>Arculus - Hardware Wallet listed on Wallet Radar.</g:description>
-      <g:link>https://walletradar.org/docs/hardware-wallets#arculus</g:link>
-      <g:image_link>https://walletradar.org/og/wallets/hardware.png</g:image_link>
-      <g:availability>in stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:price>100 USD</g:price>
-      <g:brand>Arculus</g:brand>
       <g:google_product_category>Electronics</g:google_product_category>
       <g:product_type>Hardware Wallet</g:product_type>
     </item>

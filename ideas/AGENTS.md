@@ -145,3 +145,5 @@ mcp-cli memory/create_relations '{"relations": [
 - Verify repo contents before answering status questions; inspect the tree first to avoid incorrect claims.
 - Always pull latest `main` and rebase your branch on `main` at the start of each new request.
 - After rebasing, force-push with lease if the branch diverges from the PR head.
+- Keep one task in one PR; do not create multiple PRs for the same request.
+- Record research inputs in `.cursor/artifacts/` or project artifacts to preserve source context.

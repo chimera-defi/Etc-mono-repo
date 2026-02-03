@@ -28,7 +28,7 @@ This document tracks all SEO (Search Engine Optimization), AEO (Answer Engine Op
 - Output (public): `wallets/frontend/public/merchant-center.xml`
 - Output (artifact): `wallets/artifacts/merchant-center.xml`
 - Uses wallet tables as a data source and generates a basic XML feed.
-- Pricing source: `wallets/data/merchant_pricing.json` (hardware wallets and crypto cards only; cards use annual fee as price where applicable).
+- Pricing source: `wallets/data/merchant_pricing.json` (hardware wallets only; free categories like software wallets/ramps and most cards are excluded).
 
 ### 1. Enhanced Schema Generators (`lib/seo.ts`)
 

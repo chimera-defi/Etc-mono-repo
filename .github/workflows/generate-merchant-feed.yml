@@ -51,12 +51,12 @@ jobs:
           body: |
             ## Automated Merchant Center Feed Refresh
 
-            This PR updates `wallets/artifacts/merchant-center.xml` from the wallet tables.
+            This PR updates `wallets/artifacts/merchant-center.xml` from the hardware wallet table.
             The public feed is published at `wallets/frontend/public/merchant-center.xml`.
 
             ### Review Checklist
             - [ ] Validate feed XML structure
-            - [ ] Confirm item counts match table rows
+            - [ ] Confirm item counts match hardware wallet rows
             - [ ] Confirm pricing matches `wallets/data/merchant_pricing.json`
 
             ---

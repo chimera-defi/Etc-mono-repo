@@ -20,7 +20,6 @@ BASE_URL = os.environ.get("WALLET_BASE_URL", "https://walletradar.org")
 
 TABLE_FILES = {
     "hardware": "wallets/HARDWARE_WALLETS.md",
-    "cards": "wallets/CRYPTO_CARDS.md",
 }
 PRICING_FILE = Path("wallets/data/merchant_pricing.json")
 
@@ -133,7 +132,7 @@ def main() -> None:
         content = Path(path).read_text(encoding="utf-8").splitlines()
         rows = parse_table(content)
         for row in rows:
-            if not row.get("Wallet"):
+            if not (row.get("Wallet") or row.get("Card")):
                 continue
             item = build_item(row, category, pricing)
             if item:
