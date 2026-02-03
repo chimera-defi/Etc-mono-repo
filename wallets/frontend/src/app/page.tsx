@@ -3,6 +3,7 @@ import Script from 'next/script';
 import { ArrowRight, Shield, Cpu, BookOpen, Github, CheckCircle, GitCompare, ArrowLeftRight, FileText, Lock, Eye, UserX, Database, CreditCard, Sparkles, Smartphone, HardDrive, ArrowUpDown, Mail, TrendingUp, Calendar } from 'lucide-react';
 import { getAllDocuments, getWalletStats } from '@/lib/markdown';
 import { getAllArticles } from '@/lib/articles';
+import { getAllWalletData } from '@/lib/wallet-data';
 import { ArticleCard } from '@/components/ArticleCard';
 import { FAQ } from '@/components/FAQ';
 import { HeroSearch } from '@/components/HeroSearch';
@@ -120,12 +121,99 @@ export default function HomePage() {
   const articles = allArticles.slice(0, 3);
   const guideDocs = documents.filter(d => d.category === 'guide' || d.category === 'research').slice(0, 3);
   const walletStats = getWalletStats(documents);
+  const { software, hardware, cards, ramps } = getAllWalletData();
   const totalWallets =
     walletStats.softwareWallets +
     walletStats.hardwareWallets +
     walletStats.cryptoCards +
     walletStats.ramps;
   const totalContent = documents.length + allArticles.length;
+  const activityLabels: Record<string, { label: string; tone: string }> = {
+    active: { label: 'Active', tone: 'text-emerald-400' },
+    slow: { label: 'Slow', tone: 'text-amber-400' },
+    inactive: { label: 'Inactive', tone: 'text-rose-400' },
+    private: { label: 'Private', tone: 'text-slate-400' },
+  };
+  const openSourceLabels: Record<string, string> = {
+    full: 'Open',
+    partial: 'Partial',
+    closed: 'Closed',
+  };
+  const custodyLabels: Record<string, string> = {
+    self: 'Self',
+    exchange: 'Exchange',
+    cefi: 'CeFi',
+  };
+  const topSoftware = [...software].sort((a, b) => b.score - a.score).slice(0, 2);
+  const topHardware = [...hardware].sort((a, b) => b.score - a.score).slice(0, 2);
+  const topCards = [...cards].sort((a, b) => b.score - a.score).slice(0, 2);
+  const topRamps = [...ramps].sort((a, b) => b.score - a.score).slice(0, 2);
+  const featuredItems = [
+    ...topSoftware.map((wallet) => ({
+      id: `software-${wallet.id}`,
+      category: 'Software',
+      categoryTone: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30',
+      icon: <Smartphone className="h-4 w-4" />,
+      name: wallet.name,
+      description: wallet.bestFor,
+      href: `/wallets/software/${wallet.id}`,
+      score: wallet.score,
+      metrics: [
+        {
+          label: 'Activity',
+          value: activityLabels[wallet.active]?.label || 'Unknown',
+          tone: activityLabels[wallet.active]?.tone,
+        },
+        { label: 'Rel/Mo', value: wallet.releasesPerMonth ? `~${wallet.releasesPerMonth}` : '?' },
+        { label: 'License', value: wallet.licenseType || 'Unknown' },
+      ],
+    })),
+    ...topHardware.map((wallet) => ({
+      id: `hardware-${wallet.id}`,
+      category: 'Hardware',
+      categoryTone: 'bg-sky-500/20 text-sky-400 border border-sky-500/30',
+      icon: <HardDrive className="h-4 w-4" />,
+      name: wallet.name,
+      description: wallet.display,
+      href: `/wallets/hardware/${wallet.id}`,
+      score: wallet.score,
+      metrics: [
+        { label: 'Price', value: wallet.priceText || 'Varies' },
+        { label: 'Air-gap', value: wallet.airGap ? 'Yes' : 'No' },
+        { label: 'Open', value: openSourceLabels[wallet.openSource] || 'Unknown' },
+      ],
+    })),
+    ...topCards.map((card) => ({
+      id: `card-${card.id}`,
+      category: 'Cards',
+      categoryTone: 'bg-violet-500/20 text-violet-400 border border-violet-500/30',
+      icon: <CreditCard className="h-4 w-4" />,
+      name: card.name,
+      description: card.bestFor,
+      href: `/wallets/cards/${card.id}`,
+      score: card.score,
+      metrics: [
+        { label: 'Cashback', value: card.cashBack || '0%' },
+        { label: 'Custody', value: custodyLabels[card.custody] || 'Unknown' },
+        { label: 'Region', value: card.regionCode || 'Global' },
+      ],
+    })),
+    ...topRamps.map((ramp) => ({
+      id: `ramp-${ramp.id}`,
+      category: 'Ramps',
+      categoryTone: 'bg-amber-500/20 text-amber-400 border border-amber-500/30',
+      icon: <ArrowLeftRight className="h-4 w-4" />,
+      name: ramp.name,
+      description: ramp.bestFor,
+      href: `/wallets/ramps/${ramp.id}`,
+      score: ramp.score,
+      metrics: [
+        { label: 'Coverage', value: ramp.coverage || 'Global' },
+        { label: 'Fees', value: ramp.feeModel || 'Varies' },
+        { label: 'Dev UX', value: ramp.devUx || 'Good' },
+      ],
+    })),
+  ];
   const popularSearches = [
     { label: 'Rabby Wallet', href: '/explore?type=software&q=Rabby' },
     { label: 'MetaMask alternatives', href: '/explore?type=software&q=MetaMask' },
@@ -542,6 +630,64 @@ export default function HomePage() {
             icon={<ArrowLeftRight className="h-5 w-5" />}
             categoryColor="bg-amber-500/20 text-amber-400 border border-amber-500/30"
           />
+        </div>
+      </section>
+
+      {/* Featured Wallets */}
+      <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <div className="flex items-center gap-2 text-sm text-sky-400 mb-2">
+              <TrendingUp className="h-4 w-4" />
+              Featured Directory
+            </div>
+            <h2 className="text-2xl font-bold text-foreground">Top Wallets by Score</h2>
+            <p className="text-sm text-muted-foreground">
+              Snapshot of the highest scoring wallets and providers across categories.
+            </p>
+          </div>
+          <Link
+            href="/explore"
+            className="hidden sm:inline-flex items-center gap-1 text-sm text-sky-400 hover:text-sky-300 transition-colors"
+          >
+            View all
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featuredItems.map((item) => (
+            <Link key={item.id} href={item.href} className="glass-card-hover p-5 group">
+              <div className="flex items-center gap-2 mb-4">
+                <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${item.categoryTone}`}>
+                  {item.category}
+                </span>
+                <span className="text-muted-foreground">{item.icon}</span>
+              </div>
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h3 className="text-base font-semibold text-foreground mb-2 group-hover:text-sky-400 transition-colors">
+                    {item.name}
+                  </h3>
+                  <p className="text-sm text-muted-foreground line-clamp-2">{item.description}</p>
+                </div>
+                <div className="text-right">
+                  <div className="text-2xl font-bold text-sky-400">{item.score}</div>
+                  <div className="text-xs text-muted-foreground">Score</div>
+                </div>
+              </div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {item.metrics.map((metric) => (
+                  <span
+                    key={`${item.id}-${metric.label}`}
+                    className="px-2.5 py-1 rounded-full border border-border text-xs text-muted-foreground"
+                  >
+                    {metric.label}:{' '}
+                    <span className={metric.tone || 'text-foreground'}>{metric.value}</span>
+                  </span>
+                ))}
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 
