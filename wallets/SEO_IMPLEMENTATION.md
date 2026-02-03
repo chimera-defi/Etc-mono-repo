@@ -681,7 +681,7 @@ lynx -dump -nolist https://example.com/docs/page > /tmp/page.txt
 wc -c /tmp/page.html /tmp/page.txt
 ```
 
-### 7.1 Simulate AI Agent Consumption
+### 7.1 Test AI Agent Interaction
 
 **Goal:** test if an agent can answer questions from the cleaned content.
 
@@ -707,7 +707,7 @@ resp = openai.ChatCompletion.create(
 print(resp["choices"][0]["message"]["content"])
 ```
 
-### 7.2 Monitor for SEO Issues
+### 7.2 Monitor for SEO Issues Post-Implementation
 
 **Checklist:**
 - No duplicate canonical tags.
@@ -756,7 +756,7 @@ Raw HTML -> Extract Main -> Clean Markdown -> Agent Test -> SEO Validation
 - Add FAQ schema via plugin or custom HTML blocks.
 
 **Mintlify:**
-- Prefer built-in doc pages; automation handles structure.
+- Prefer built-in doc pages; automation handles structure and updates.
 - Validate that generated pages include structured data.
 
 **If this feels advanced:** use Readability.js for extraction or a managed SEO platform with built-in schema.
