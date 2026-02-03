@@ -41,6 +41,28 @@
 
 **Note:** ~~Strikethrough~~ indicates discontinued/inactive wallets. Ledger Nano S was discontinued in 2023; limited storage (2-3 apps max) compared to Nano S+.
 
+## Pros & Cons (Top Picks)
+
+**Trezor Safe 7 (96)**
+- ✅ Highest overall score
+- ✅ Open-source firmware
+- ⚠️ Premium price
+
+**ColdCard Mk4 (91)**
+- ✅ Bitcoin-only security focus
+- ✅ Air-gap via MicroSD
+- ⚠️ Not ideal for multi-asset users
+
+**Keystone 3 Pro (91)**
+- ✅ Air-gap + multi-asset support
+- ✅ Strong security model
+- ⚠️ Larger device footprint
+
+**Ledger models (55–57)**
+- ✅ Broad ecosystem support
+- ❌ Recover capability trust tradeoff
+- ❌ Closed-source firmware components
+
 ### Legend
 
 **Scoring & Recommendation:**

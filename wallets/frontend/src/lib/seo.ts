@@ -322,6 +322,57 @@ export function generateFAQSchema(faqs: Array<{ question: string; answer: string
 }
 
 /**
+ * Extract HowTo steps from markdown content.
+ * Looks for headings like "### Step 1: Title" or "### Step 1".
+ */
+export function extractHowToSteps(content: string): Array<{ name: string; text: string }> {
+  const lines = content.split('\n');
+  const steps: Array<{ name: string; text: string }> = [];
+
+  for (let i = 0; i < lines.length; i += 1) {
+    const line = lines[i].trim();
+    const match = line.match(/^###\s+Step\s+\d+\s*:?(\s+.*)?$/i);
+    if (match) {
+      const name = match[1]?.trim() || line.replace(/^###\s+/, '');
+      let text = '';
+      for (let j = i + 1; j < lines.length; j += 1) {
+        const next = lines[j].trim();
+        if (next.startsWith('### ')) break;
+        if (next.length > 0) {
+          text = next;
+          break;
+        }
+      }
+      steps.push({ name, text });
+    }
+  }
+
+  return steps;
+}
+
+/**
+ * Generate HowTo schema for step-based guides.
+ */
+export function generateHowToSchema(
+  title: string,
+  description: string,
+  steps: Array<{ name: string; text: string }>
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: title,
+    description,
+    step: steps.map((step, index) => ({
+      '@type': 'HowToStep',
+      position: index + 1,
+      name: step.name,
+      text: step.text || step.name,
+    })),
+  };
+}
+
+/**
  * Extract FAQ questions and answers from markdown content.
  * Parses "## Frequently Asked Questions" sections with H3 questions and paragraph answers.
  * Critical for converting markdown FAQs into FAQPage schema for AEO.
