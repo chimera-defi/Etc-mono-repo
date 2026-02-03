@@ -1,0 +1,67 @@
+name: Generate Merchant Center Feed
+
+on:
+  schedule:
+    - cron: '0 10 * * 1'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (do not create PR)'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate-feed:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate Merchant Center feed
+        run: |
+          chmod +x wallets/scripts/generate_merchant_feed.py
+          wallets/scripts/generate_merchant_feed.py
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          git add wallets/artifacts/merchant-center.xml
+          if git diff --cached --quiet; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "No changes detected"
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "Changes detected:"
+            git diff --cached --stat
+          fi
+
+      - name: Create Pull Request
+        if: steps.check_changes.outputs.changes == 'true' && github.event.inputs.dry_run != 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore(wallets): refresh merchant feed"
+          title: "[Auto] Refresh Merchant Center Feed"
+          body: |
+            ## Automated Merchant Center Feed Refresh
+
+            This PR updates `wallets/artifacts/merchant-center.xml` from the wallet tables.
+
+            ### Review Checklist
+            - [ ] Validate feed XML structure
+            - [ ] Confirm item counts match table rows
+            - [ ] Update pricing once structured price data exists
+
+            ---
+            *Generated automatically by GitHub Actions.*
+          branch: auto/refresh-merchant-feed
+          delete-branch: true
+          labels: |
+            automated
+            data-refresh
