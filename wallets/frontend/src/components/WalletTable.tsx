@@ -14,6 +14,7 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Tooltip, HeaderTooltip } from '@/components/Tooltip';
 import {
@@ -63,7 +64,7 @@ function ChainIcons({ chains }: { chains: SupportedChains }) {
       {chainIcons.map(({ key, src, alt, tooltip }) =>
         chains[key] && (
           <Tooltip key={key} content={tooltip}>
-            <img
+            <Image
               src={src}
               alt={alt}
               width={16}

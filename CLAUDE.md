@@ -37,7 +37,7 @@
 
 **Required PR Format:**
 ```markdown
-**Agent:** Claude Sonnet 4.5
+**Agent:** Claude Opus 4.5
 
 **Co-authored-by:** Chimera <chimera_defi@protonmail.com>
 
@@ -51,11 +51,31 @@
 - [List of changes]
 ```
 
-**Important:** Also add `Co-authored-by: Chimera <chimera_defi@protonmail.com>` to commit message body (separate from PR description).
+**Required Commit Format:**
+```
+feat(scope): description [Agent: Claude Opus 4.5]
 
-**Why Both?**
-- PR description Co-authored-by: Validated by CI (`.github/workflows/pr-attribution-check.yml`)
-- Commit message Co-authored-by: Shows in git history and GitHub commits
+Commit body with details.
+
+Co-authored-by: Claude <noreply@anthropic.com>
+```
+
+**Attribution Pattern (Who Goes Where):**
+
+| Location | Field | Value | Why |
+|----------|-------|-------|-----|
+| Commit | Author | Human (Chimera) | Human is responsible for merged code |
+| Commit | Co-authored-by | AI (Claude) | AI assisted in writing |
+| PR | Agent | AI model name | AI did the implementation work |
+| PR | Co-authored-by | Human (Chimera) | Human provided guidance/review |
+
+**Key Points:**
+- Commit Author ≠ Commit Co-authored-by (human authors, AI co-authors)
+- PR Agent ≠ PR Co-authored-by (AI is agent, human is co-author)
+- CI validates PR description only (not commit messages)
+- Both locations need attribution for proper tracking
+
+**Never include:** Session links (`https://claude.ai/code/session_*`) in commits or PR descriptions.
 
 ## Wallets Frontend
 
@@ -95,11 +115,11 @@ Before completing any task:
 | #24 | Run ALL verification tools |
 | #46 | No data loss on restructure |
 | #47 | Chains ≠ tokens |
-| #116 | Include model name in PRs |
-| #117 | Include model name in commits |
-| #122 | Include Co-authored-by: Name <email> in PRs AND commits |
-| #124 | Commit vs PR Co-authored-by are different (both required) |
-| #125 | CI checks PR description Co-authored-by (not just commit) |
+| #116 | Include model name in PRs (Agent field) |
+| #117 | Include model name in commits ([Agent: Model] in title) |
+| #122 | Commit: Human authors, AI co-authors. PR: AI is agent, Human co-authors |
+| #124 | Commit Co-authored-by = AI (Claude). PR Co-authored-by = Human (Chimera) |
+| #125 | CI checks PR description only (Agent + Co-authored-by + Original Request) |
 | #140 | Install MCP CLI before using |
 | #146 | Store knowledge in memory server |
 | #148 | Token reduction skill always active |
@@ -187,17 +207,44 @@ cd wallets/scripts && ./refresh-github-data.sh
 
 ### PR Attribution Check Failing?
 
-**Common causes:**
-1. **Missing Co-authored-by in PR description** (not commit)
-   - CI checks PR body, not git commit
-   - Add to PR description: `**Co-authored-by:** Chimera <chimera_defi@protonmail.com>`
-   - Also add to commit message body (different requirement)
+**CI validates PR description (not commits). Required fields:**
 
-2. **Missing Agent field**
-   - Add to PR description: `**Agent:** Claude Sonnet 4.5`
+| Field | Format | Example |
+|-------|--------|---------|
+| Agent | `**Agent:** [Model]` | `**Agent:** Claude Opus 4.5` |
+| Co-authored-by | `**Co-authored-by:** Name <email>` | `**Co-authored-by:** Chimera <chimera_defi@protonmail.com>` |
+| Original Request | `## Original Request` section | User's original prompt |
 
-3. **Missing Original Request section**
-   - Add to PR description: `## Original Request` with user's prompt
+**Common mistakes:**
+1. Missing `**Co-authored-by:**` in PR description (CI checks PR, not commits)
+2. Missing `**Agent:**` at start of PR body
+3. Missing `## Original Request` section
+4. Using wrong person in Co-authored-by (should be human in PR, AI in commits)
 
-**Quick fix:**
-Edit PR description to include all three required fields. CI re-runs automatically.
+**Quick fix:** Edit PR description to include all three required fields. CI re-runs automatically.
+
+**Remember the pattern:**
+- Commits: Human (Chimera) as Author, AI (Claude) as Co-authored-by
+- PR: AI as Agent, Human (Chimera) as Co-authored-by
+
+## Meta Learnings (Frontend/UI)
+
+### Theme-Aware Styling
+- **Never use hardcoded Tailwind colors** like `text-slate-100`, `bg-slate-800` for themed content
+- **Use CSS variables:** `text-foreground`, `text-muted-foreground`, `bg-muted`, `bg-card`, `border-border`
+- Hardcoded colors break light/dark mode toggle
+- Color variables defined in `globals.css` under `:root` and `.dark`
+
+### UI Best Practices
+- **Avoid redundancy:** Don't show same nav links in multiple formats (buttons AND grid)
+- **Use Next.js `<Image>`** instead of `<img>` for optimization and ESLint compliance
+- **Replace `alert()`** with inline state-based notifications (better UX)
+- **Placeholder components:** Remove fake data components before shipping
+
+### Multi-Pass Review Checklist
+1. `npm run lint` - No warnings or errors
+2. `npm run type-check` - TypeScript passes
+3. `npm run build` - Build succeeds
+4. Check for unused imports
+5. Verify theme works in both light and dark mode
+6. Test all interactive elements

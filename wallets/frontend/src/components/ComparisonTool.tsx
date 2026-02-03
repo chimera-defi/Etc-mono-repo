@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import {
   X,
   Download,
@@ -33,12 +34,12 @@ function ChainSupportDisplay({ chains }: { chains: SupportedChains }) {
     <div className="flex items-center gap-0.5 flex-wrap">
       {chainIcons.map(({ key, src, alt }) => 
         chains[key] && (
-          <img 
+          <Image
             key={key}
-            src={src} 
-            alt={alt} 
-            width={14} 
-            height={14} 
+            src={src}
+            alt={alt}
+            width={14}
+            height={14}
             className="inline-block"
             title={alt}
           />
@@ -741,9 +742,18 @@ export function ComparisonTool({
   onAdd,
 }: ComparisonToolProps) {
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showCopied, setShowCopied] = useState(false);
 
   const selectedIds = selectedWallets.map(w => w.id);
   const availableWallets = allWallets.filter(w => !selectedIds.includes(w.id));
+
+  // Auto-hide copied notification
+  useEffect(() => {
+    if (showCopied) {
+      const timer = setTimeout(() => setShowCopied(false), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [showCopied]);
 
   const handleExport = () => {
     const text = generateComparisonText(selectedWallets, type);
@@ -765,7 +775,7 @@ export function ComparisonTool({
       });
     } else {
       await navigator.clipboard.writeText(text);
-      alert('Comparison copied to clipboard!');
+      setShowCopied(true);
     }
   };
 
@@ -814,6 +824,11 @@ export function ComparisonTool({
             <Share2 className="h-4 w-4" />
             Share
           </button>
+          {showCopied && (
+            <span className="text-sm text-green-600 dark:text-green-400 animate-pulse">
+              Copied!
+            </span>
+          )}
           <button
             onClick={onClear}
             className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-red-600 border border-red-200 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
