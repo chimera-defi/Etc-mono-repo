@@ -37,6 +37,7 @@ This document summarizes patterns worth adapting from directory-style sites like
 - Added a "Submit" CTA in the navigation.
 - Added a Sponsorship & Data Licensing document and footer link.
 - Added a homepage sponsorship callout with data partner chips.
+- Added a featured directory grid with top wallets and key metrics.
 - Added Community & Support section to drive submissions and requests.
 - Added SearchAction schema for better SEO discovery.
 
