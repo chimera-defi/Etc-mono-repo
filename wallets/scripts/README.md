@@ -21,12 +21,6 @@ placeholder pricing. Items without verified pricing are skipped.
 
 - `wallets/frontend/public/merchant-center.xml` (public feed URL)
 
-Optional artifact output:
-
-```bash
-./generate_merchant_feed.py --artifact-output wallets/artifacts/merchant-center.xml
-```
-
 **Note:** Keep `wallets/data/merchant_pricing.json` updated with official
 provider pricing so the feed stays compliant. Files under `wallets/artifacts/`
 are gitignored and intended for local inspection only.

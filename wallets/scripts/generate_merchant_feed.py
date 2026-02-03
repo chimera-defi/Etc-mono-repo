@@ -119,7 +119,6 @@ def write_feed(items: List[Dict[str, str]], output_path: Path) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", default="wallets/frontend/public/merchant-center.xml")
-    parser.add_argument("--artifact-output", default="")
     args = parser.parse_args()
 
     items: List[Dict[str, str]] = []
@@ -138,10 +137,7 @@ def main() -> None:
 
     output_path = Path(args.output)
     write_feed(items, output_path)
-    if args.artifact_output:
-        artifact_path = Path(args.artifact_output)
-        if artifact_path.resolve() != output_path.resolve():
-            write_feed(items, artifact_path)
+
 
 
 if __name__ == "__main__":

@@ -27,8 +27,7 @@ This document tracks all SEO (Search Engine Optimization), AEO (Answer Engine Op
 - Script: `wallets/scripts/generate_merchant_feed.py`
 - Output (public): `wallets/frontend/public/merchant-center.xml`
 - Uses wallet tables as a data source and generates a basic XML feed.
-- Pricing source: `wallets/data/merchant_pricing.json` (hardware wallets only; free categories like software wallets/ramps and most cards are excluded).
-- Pricing and exclusions: `wallets/MERCHANT_FEED.md`
+- Pricing source and exclusions: `wallets/MERCHANT_FEED.md`
 
 ### 1. Enhanced Schema Generators (`lib/seo.ts`)
 
