@@ -96,13 +96,35 @@ jobs:
                 comment += '**Suggestions above are optional but recommended for better tracking.**';
               }
               
-              // Post as PR comment
-              github.rest.issues.createComment({
-                issue_number: context.payload.pull_request.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: comment
+              // Post as PR comment (update existing attribution comment if present)
+              const issue_number = context.payload.pull_request.number;
+              const { owner, repo } = context.repo;
+              const { data: comments } = await github.rest.issues.listComments({
+                issue_number,
+                owner,
+                repo,
+                per_page: 100
               });
+              const attributionComment = comments.find((c) =>
+                c.user && c.user.type === 'Bot' &&
+                typeof c.body === 'string' &&
+                c.body.startsWith('## PR Attribution Check')
+              );
+              if (attributionComment) {
+                await github.rest.issues.updateComment({
+                  owner,
+                  repo,
+                  comment_id: attributionComment.id,
+                  body: comment
+                });
+              } else {
+                await github.rest.issues.createComment({
+                  issue_number,
+                  owner,
+                  repo,
+                  body: comment
+                });
+              }
               
               // Exit with error if required fixes are missing
               if (errors.length > 0) {
