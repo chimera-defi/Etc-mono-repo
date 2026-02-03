@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Script from 'next/script';
-import { ArrowRight, Shield, Cpu, BookOpen, Github, CheckCircle, GitCompare, ArrowLeftRight, FileText, Lock, Eye, UserX, Database, CreditCard, Sparkles } from 'lucide-react';
+import { ArrowRight, Shield, Cpu, BookOpen, Github, CheckCircle, GitCompare, ArrowLeftRight, FileText, Lock, Eye, UserX, Database, CreditCard, Sparkles, Smartphone, HardDrive, ArrowUpDown } from 'lucide-react';
 import { getAllDocuments } from '@/lib/markdown';
 import { getAllArticles } from '@/lib/articles';
 import { ArticleCard } from '@/components/ArticleCard';
@@ -8,41 +8,6 @@ import { FAQ } from '@/components/FAQ';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
 
-// Score Breakdown Card Component
-function ScoreBreakdownCard() {
-  return (
-    <div className="glass-card p-6">
-      <div className="flex items-center gap-2 mb-4">
-        <div className="w-5 h-5 rounded border border-sky-400/50 flex items-center justify-center">
-          <div className="w-2.5 h-2.5 bg-sky-400 rounded-sm" />
-        </div>
-        <h3 className="text-lg font-semibold text-slate-100">Score Breakdown</h3>
-      </div>
-
-      {/* Score bars */}
-      <div className="space-y-3 mb-4">
-        <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
-          <div className="h-full w-[85%] bg-sky-400 rounded-full" />
-        </div>
-        <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
-          <div className="h-full w-[90%] bg-emerald-400 rounded-full" />
-        </div>
-        <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
-          <div className="h-full w-[75%] bg-amber-400 rounded-full" />
-        </div>
-      </div>
-
-      <p className="text-sm text-slate-400 mb-4">Security / Dev UX / Activity / Coverage</p>
-
-      {/* Source chips */}
-      <div className="flex flex-wrap gap-2">
-        <span className="px-3 py-1 text-xs border border-slate-600 rounded-full text-slate-300">GitHub</span>
-        <span className="px-3 py-1 text-xs border border-slate-600 rounded-full text-slate-300">WalletBeat</span>
-        <span className="px-3 py-1 text-xs border border-slate-600 rounded-full text-slate-300">Chain Data</span>
-      </div>
-    </div>
-  );
-}
 
 // Top Pick Card Component
 interface TopPickCardProps {
@@ -59,15 +24,15 @@ function TopPickCard({ category, name, score, badges, href, icon, categoryColor 
   return (
     <Link href={href} className="group glass-card-hover p-6">
       <div className="flex items-center gap-3 mb-4">
-        <div className="text-slate-400">{icon}</div>
+        <div className="text-muted-foreground">{icon}</div>
         <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${categoryColor}`}>
           {category}
         </span>
-        <span className="text-slate-100 font-semibold">{name}</span>
+        <span className="text-foreground font-semibold">{name}</span>
       </div>
 
       {/* Score bar */}
-      <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden mb-4">
+      <div className="h-1.5 bg-muted rounded-full overflow-hidden mb-4">
         <div
           className="h-full bg-gradient-to-r from-sky-400 to-indigo-500 rounded-full transition-all"
           style={{ width: `${score}%` }}
@@ -77,7 +42,7 @@ function TopPickCard({ category, name, score, badges, href, icon, categoryColor 
       {/* Proof badges */}
       <div className="flex flex-wrap gap-2">
         {badges.map((badge) => (
-          <span key={badge} className="px-3 py-1 text-xs border border-slate-600 rounded-full text-slate-300">
+          <span key={badge} className="px-3 py-1 text-xs border border-border rounded-full text-muted-foreground">
             {badge}
           </span>
         ))}
@@ -98,10 +63,10 @@ function ResourceCard({ title, description, href, icon }: ResourceCardProps) {
   return (
     <Link href={href} className="group glass-card-hover p-5">
       <div className="text-sky-400 mb-3">{icon}</div>
-      <h3 className="text-base font-semibold text-slate-100 mb-2 group-hover:text-sky-400 transition-colors">
+      <h3 className="text-base font-semibold text-foreground mb-2 group-hover:text-sky-400 transition-colors">
         {title}
       </h3>
-      <p className="text-sm text-slate-400 line-clamp-2">{description}</p>
+      <p className="text-sm text-muted-foreground line-clamp-2">{description}</p>
     </Link>
   );
 }
@@ -122,9 +87,9 @@ function SourceTile({ name, description, href, icon }: SourceTileProps) {
       rel="noopener noreferrer"
       className="glass-card-hover p-4"
     >
-      <div className="text-slate-300 mb-2">{icon}</div>
-      <h3 className="text-sm font-semibold text-slate-100 mb-1">{name}</h3>
-      <p className="text-xs text-slate-400">{description}</p>
+      <div className="text-muted-foreground mb-2">{icon}</div>
+      <h3 className="text-sm font-semibold text-foreground mb-1">{name}</h3>
+      <p className="text-xs text-muted-foreground">{description}</p>
     </a>
   );
 }
@@ -138,12 +103,12 @@ function MiniTableRow({ wallet, score, platforms, license, activity }: {
   activity: string;
 }) {
   return (
-    <tr className="border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors">
-      <td className="py-3 px-4 text-slate-100">{wallet}</td>
-      <td className="py-3 px-4 text-slate-300">{score}</td>
-      <td className="py-3 px-4 text-slate-300">{platforms}</td>
-      <td className="py-3 px-4 text-slate-300">{license}</td>
-      <td className="py-3 px-4 text-slate-300">{activity}</td>
+    <tr className="border-b border-border hover:bg-muted/30 transition-colors">
+      <td className="py-3 px-4 text-foreground">{wallet}</td>
+      <td className="py-3 px-4 text-muted-foreground">{score}</td>
+      <td className="py-3 px-4 text-muted-foreground">{platforms}</td>
+      <td className="py-3 px-4 text-muted-foreground">{license}</td>
+      <td className="py-3 px-4 text-muted-foreground">{activity}</td>
     </tr>
   );
 }
@@ -290,15 +255,15 @@ export default function HomePage() {
               Evidence-led UI
             </span>
 
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-100 mb-4 leading-tight">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 leading-tight">
               <span className="text-sky-400">Audit-grade</span> wallet comparisons for developers
             </h1>
 
-            <p className="text-lg text-slate-400 mb-8 max-w-xl">
+            <p className="text-lg text-muted-foreground mb-8 max-w-xl">
               Evidence-led scoring, transparent sources, and side-by-side tooling.
             </p>
 
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-3 mb-6">
               <Link
                 href="/explore"
                 className="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-400 text-slate-900 font-medium px-6 py-3 rounded-lg transition-colors"
@@ -306,43 +271,100 @@ export default function HomePage() {
                 Start Comparison
                 <ArrowRight className="h-4 w-4" />
               </Link>
+            </div>
+
+            {/* Direct Category Links */}
+            <div className="flex flex-wrap gap-3">
               <Link
-                href="/docs/about"
-                className="inline-flex items-center gap-2 border border-slate-600 hover:border-slate-500 text-slate-200 font-medium px-6 py-3 rounded-lg transition-colors"
+                href="/docs/software-wallets"
+                className="inline-flex items-center gap-2 border border-border hover:border-sky-500 hover:text-sky-400 text-foreground font-medium px-4 py-2 rounded-lg transition-colors"
               >
-                Read Methodology
+                <Smartphone className="h-4 w-4" />
+                Software
+              </Link>
+              <Link
+                href="/docs/hardware-wallets"
+                className="inline-flex items-center gap-2 border border-border hover:border-emerald-500 hover:text-emerald-400 text-foreground font-medium px-4 py-2 rounded-lg transition-colors"
+              >
+                <HardDrive className="h-4 w-4" />
+                Hardware
+              </Link>
+              <Link
+                href="/docs/crypto-cards"
+                className="inline-flex items-center gap-2 border border-border hover:border-amber-500 hover:text-amber-400 text-foreground font-medium px-4 py-2 rounded-lg transition-colors"
+              >
+                <CreditCard className="h-4 w-4" />
+                Cards
+              </Link>
+              <Link
+                href="/docs/ramps"
+                className="inline-flex items-center gap-2 border border-border hover:border-purple-500 hover:text-purple-400 text-foreground font-medium px-4 py-2 rounded-lg transition-colors"
+              >
+                <ArrowUpDown className="h-4 w-4" />
+                Ramps
               </Link>
             </div>
           </div>
 
-          {/* Hero Right - Score Breakdown Card */}
+          {/* Hero Right - Quick Stats Card */}
           <div className="lg:justify-self-end w-full lg:max-w-md">
-            <ScoreBreakdownCard />
+            <div className="glass-card p-6 md:p-8">
+              <h3 className="text-lg font-semibold text-foreground mb-6 text-center">Why Trust Our Data</h3>
+              <div className="grid grid-cols-2 gap-6">
+                <div className="text-center">
+                  <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-sky-500/10 flex items-center justify-center">
+                    <span className="text-2xl font-bold text-sky-400">25+</span>
+                  </div>
+                  <div className="text-sm text-muted-foreground">Wallets Compared</div>
+                </div>
+                <div className="text-center">
+                  <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                    <span className="text-2xl font-bold text-emerald-400">4</span>
+                  </div>
+                  <div className="text-sm text-muted-foreground">Categories</div>
+                </div>
+                <div className="text-center">
+                  <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-amber-500/10 flex items-center justify-center">
+                    <span className="text-2xl font-bold text-amber-400">50+</span>
+                  </div>
+                  <div className="text-sm text-muted-foreground">Data Points</div>
+                </div>
+                <div className="text-center">
+                  <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-purple-500/10 flex items-center justify-center">
+                    <span className="text-2xl font-bold text-purple-400">0</span>
+                  </div>
+                  <div className="text-sm text-muted-foreground">Affiliate Links</div>
+                </div>
+              </div>
+              <div className="mt-6 pt-6 border-t border-border text-center">
+                <p className="text-xs text-muted-foreground/70">All scores derived from GitHub data & verified sources</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Trust / Proof Band */}
       <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
-        <div className="bg-slate-900/50 border border-slate-700/40 rounded-xl px-6 py-4">
-          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 text-sm text-slate-400">
+        <div className="bg-card/50 border border-border rounded-xl px-6 py-4">
+          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 text-sm text-muted-foreground">
             <span className="flex items-center gap-2">
-              <Lock className="h-4 w-4 text-slate-500" />
+              <Lock className="h-4 w-4 text-muted-foreground/70" />
               No login
             </span>
-            <span className="hidden md:inline text-slate-700">/</span>
+            <span className="hidden md:inline text-border">/</span>
             <span className="flex items-center gap-2">
-              <Eye className="h-4 w-4 text-slate-500" />
+              <Eye className="h-4 w-4 text-muted-foreground/70" />
               No tracking
             </span>
-            <span className="hidden md:inline text-slate-700">/</span>
+            <span className="hidden md:inline text-border">/</span>
             <span className="flex items-center gap-2">
-              <UserX className="h-4 w-4 text-slate-500" />
+              <UserX className="h-4 w-4 text-muted-foreground/70" />
               No affiliates
             </span>
-            <span className="hidden md:inline text-slate-700">/</span>
+            <span className="hidden md:inline text-border">/</span>
             <span className="flex items-center gap-2">
-              <CheckCircle className="h-4 w-4 text-slate-500" />
+              <CheckCircle className="h-4 w-4 text-muted-foreground/70" />
               Verified sources
             </span>
           </div>
@@ -351,7 +373,7 @@ export default function HomePage() {
 
       {/* Top Picks Section */}
       <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
-        <h2 className="text-2xl font-bold text-slate-100 mb-6">Top Picks + Evidence</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-6">Top Picks + Evidence</h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <TopPickCard
@@ -395,39 +417,39 @@ export default function HomePage() {
 
       {/* Browse Categories */}
       <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
-        <h2 className="text-2xl font-bold text-slate-100 mb-6">Browse All Comparisons</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-6">Browse All Comparisons</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <Link
             href="/docs/software-wallets"
             className="glass-card-hover p-4 text-center group"
           >
             <GitCompare className="h-8 w-8 mx-auto mb-2 text-emerald-400" />
-            <h3 className="font-semibold text-slate-100 group-hover:text-sky-400 transition-colors">Software Wallets</h3>
-            <p className="text-xs text-slate-400 mt-1">Browser & mobile</p>
+            <h3 className="font-semibold text-foreground group-hover:text-sky-400 transition-colors">Software Wallets</h3>
+            <p className="text-xs text-muted-foreground mt-1">Browser & mobile</p>
           </Link>
           <Link
             href="/docs/hardware-wallets"
             className="glass-card-hover p-4 text-center group"
           >
             <Shield className="h-8 w-8 mx-auto mb-2 text-sky-400" />
-            <h3 className="font-semibold text-slate-100 group-hover:text-sky-400 transition-colors">Hardware Wallets</h3>
-            <p className="text-xs text-slate-400 mt-1">Cold storage</p>
+            <h3 className="font-semibold text-foreground group-hover:text-sky-400 transition-colors">Hardware Wallets</h3>
+            <p className="text-xs text-muted-foreground mt-1">Cold storage</p>
           </Link>
           <Link
             href="/docs/crypto-cards"
             className="glass-card-hover p-4 text-center group"
           >
             <CreditCard className="h-8 w-8 mx-auto mb-2 text-violet-400" />
-            <h3 className="font-semibold text-slate-100 group-hover:text-sky-400 transition-colors">Crypto Cards</h3>
-            <p className="text-xs text-slate-400 mt-1">Spend crypto</p>
+            <h3 className="font-semibold text-foreground group-hover:text-sky-400 transition-colors">Crypto Cards</h3>
+            <p className="text-xs text-muted-foreground mt-1">Spend crypto</p>
           </Link>
           <Link
             href="/docs/ramps"
             className="glass-card-hover p-4 text-center group"
           >
             <ArrowLeftRight className="h-8 w-8 mx-auto mb-2 text-amber-400" />
-            <h3 className="font-semibold text-slate-100 group-hover:text-sky-400 transition-colors">On/Off Ramps</h3>
-            <p className="text-xs text-slate-400 mt-1">Fiat ↔ Crypto</p>
+            <h3 className="font-semibold text-foreground group-hover:text-sky-400 transition-colors">On/Off Ramps</h3>
+            <p className="text-xs text-muted-foreground mt-1">Fiat ↔ Crypto</p>
           </Link>
         </div>
       </section>
@@ -435,10 +457,10 @@ export default function HomePage() {
       {/* Comparison Preview (Mini Table) */}
       <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-slate-100">Comparison Preview</h2>
+          <h2 className="text-2xl font-bold text-foreground">Comparison Preview</h2>
           <Link
             href="/explore"
-            className="inline-flex items-center gap-2 border border-slate-600 hover:border-sky-500 text-slate-200 hover:text-sky-400 text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+            className="inline-flex items-center gap-2 border border-border hover:border-sky-500 text-foreground hover:text-sky-400 text-sm font-medium px-4 py-2 rounded-lg transition-colors"
           >
             Open Explorer
             <ArrowRight className="h-4 w-4" />
@@ -448,13 +470,13 @@ export default function HomePage() {
         <div className="glass-card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-slate-800/50 border-b border-slate-700/50">
+              <thead className="bg-muted/50 border-b border-border">
                 <tr>
-                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-300">Wallet</th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-300">Score</th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-300">Platforms</th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-300">License</th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold text-slate-300">Activity</th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold text-muted-foreground">Wallet</th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold text-muted-foreground">Score</th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold text-muted-foreground">Platforms</th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold text-muted-foreground">License</th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold text-muted-foreground">Activity</th>
                 </tr>
               </thead>
               <tbody>
@@ -471,7 +493,7 @@ export default function HomePage() {
       {/* Latest Articles */}
       <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-slate-100">Latest Articles</h2>
+          <h2 className="text-2xl font-bold text-foreground">Latest Articles</h2>
           <Link
             href="/articles"
             className="inline-flex items-center gap-1 text-sm text-sky-400 hover:text-sky-300 transition-colors"
@@ -499,7 +521,7 @@ export default function HomePage() {
       {/* Resources & Guides */}
       <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-slate-100">Resources &amp; Guides</h2>
+          <h2 className="text-2xl font-bold text-foreground">Resources &amp; Guides</h2>
           <Link
             href="/docs"
             className="inline-flex items-center gap-1 text-sm text-sky-400 hover:text-sky-300 transition-colors"
@@ -557,8 +579,8 @@ export default function HomePage() {
               <span className="text-sm font-medium text-sky-400">Quick Start</span>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-100 mb-3">New to Crypto Wallets?</h2>
-            <p className="text-slate-400 mb-6 max-w-2xl">
+            <h2 className="text-2xl font-bold text-foreground mb-3">New to Crypto Wallets?</h2>
+            <p className="text-muted-foreground mb-6 max-w-2xl">
               A wallet is your gateway to Web3. It stores your keys, lets you sign transactions, and connects you to decentralized apps. Here&apos;s how to get started in 3 steps:
             </p>
 
@@ -566,22 +588,22 @@ export default function HomePage() {
               <div className="flex gap-3">
                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-400 font-bold text-sm">1</div>
                 <div>
-                  <h3 className="font-semibold text-slate-100 mb-1">Choose a Wallet</h3>
-                  <p className="text-sm text-slate-400">Pick based on your needs—Rabby for developers, Trust for multi-chain.</p>
+                  <h3 className="font-semibold text-foreground mb-1">Choose a Wallet</h3>
+                  <p className="text-sm text-muted-foreground">Pick based on your needs—Rabby for developers, Trust for multi-chain.</p>
                 </div>
               </div>
               <div className="flex gap-3">
                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-400 font-bold text-sm">2</div>
                 <div>
-                  <h3 className="font-semibold text-slate-100 mb-1">Secure Your Seed</h3>
-                  <p className="text-sm text-slate-400">Write down your 12-24 word phrase. Store it offline. Never share it.</p>
+                  <h3 className="font-semibold text-foreground mb-1">Secure Your Seed</h3>
+                  <p className="text-sm text-muted-foreground">Write down your 12-24 word phrase. Store it offline. Never share it.</p>
                 </div>
               </div>
               <div className="flex gap-3">
                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-400 font-bold text-sm">3</div>
                 <div>
-                  <h3 className="font-semibold text-slate-100 mb-1">Connect to dApps</h3>
-                  <p className="text-sm text-slate-400">Click &quot;Connect Wallet&quot; on any dApp and approve the connection.</p>
+                  <h3 className="font-semibold text-foreground mb-1">Connect to dApps</h3>
+                  <p className="text-sm text-muted-foreground">Click &quot;Connect Wallet&quot; on any dApp and approve the connection.</p>
                 </div>
               </div>
             </div>
@@ -594,10 +616,10 @@ export default function HomePage() {
                 Compare wallets
                 <ArrowRight className="h-4 w-4" />
               </Link>
-              <span className="text-slate-600">•</span>
+              <span className="text-muted-foreground/50">•</span>
               <a
                 href="#faq"
-                className="inline-flex items-center gap-2 text-sm font-medium text-slate-400 hover:text-slate-300 transition-colors"
+                className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-muted-foreground transition-colors"
               >
                 Read the FAQ below
                 <ArrowRight className="h-4 w-4" />
@@ -614,8 +636,8 @@ export default function HomePage() {
 
       {/* Sources & Transparency */}
       <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-16 md:pb-20">
-        <h2 className="text-2xl font-bold text-slate-100 mb-2">Sources &amp; Transparency</h2>
-        <p className="text-sm text-slate-400 mb-6">
+        <h2 className="text-2xl font-bold text-foreground mb-2">Sources &amp; Transparency</h2>
+        <p className="text-sm text-muted-foreground mb-6">
           All links are to official, verified sources. No shortened URLs or referral links.
         </p>
 
