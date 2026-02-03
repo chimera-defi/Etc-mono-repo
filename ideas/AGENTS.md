@@ -2,6 +2,13 @@
 
 > **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `/token-reduce` skill
 
+## Git Discipline (Required)
+
+- One task = one PR (keep all commits on a single PR branch)
+- Never push directly to `main` or `master`
+- Create a branch/worktree before changes
+- Enable hooks: `git config core.hooksPath .githooks`
+
 ## Projects
 
 ### Voice Coding Assistant (Cadence) - 🧪 Prototype
