@@ -28,6 +28,11 @@ jobs:
           chmod +x wallets/scripts/generate_merchant_feed.py
           wallets/scripts/generate_merchant_feed.py
 
+      - name: Validate Merchant Center feed
+        run: |
+          chmod +x wallets/scripts/validate_merchant_feed.py
+          wallets/scripts/validate_merchant_feed.py
+
       - name: Check for changes
         id: check_changes
         run: |

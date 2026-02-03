@@ -25,6 +25,19 @@ placeholder pricing. Items without verified pricing are skipped.
 provider pricing so the feed stays compliant. Files under `wallets/artifacts/`
 are gitignored and intended for local inspection only.
 
+### `validate_merchant_feed.py` (Merchant Center)
+
+Validates that:
+- pricing entries are USD-only with sources and valid `last_checked` dates
+- pricing entries map to hardware wallet anchors
+- feed items are hardware wallets with USD pricing
+
+#### Usage
+
+```bash
+./validate_merchant_feed.py
+```
+
 Pricing sources and exclusions are documented in `wallets/MERCHANT_FEED.md`.
 
 ### `refresh-github-data.sh` (Software Wallets)

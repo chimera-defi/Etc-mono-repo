@@ -29,6 +29,10 @@ This document tracks all SEO (Search Engine Optimization), AEO (Answer Engine Op
 - Uses wallet tables as a data source and generates a basic XML feed.
 - Pricing source and exclusions: `wallets/MERCHANT_FEED.md`
 
+**LLM discovery**
+- `wallets/frontend/public/llms.txt`
+- Added to sitemap for crawlability.
+
 ### 1. Enhanced Schema Generators (`lib/seo.ts`)
 
 **File:** `/home/user/Etc-mono-repo/wallets/frontend/src/lib/seo.ts`

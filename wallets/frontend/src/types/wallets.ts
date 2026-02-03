@@ -75,6 +75,7 @@ export interface HardwareWallet {
   display: string;
   price: number | null;
   priceText: string;
+  priceLastChecked: string | null;
   connectivity: string[];
   active: 'active' | 'slow' | 'inactive' | 'private';
   recommendation: 'recommended' | 'situational' | 'avoid';
@@ -132,4 +133,3 @@ export interface Ramp {
 }
 
 export type WalletData = SoftwareWallet | HardwareWallet | CryptoCard | Ramp;
-

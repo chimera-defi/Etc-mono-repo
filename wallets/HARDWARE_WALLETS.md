@@ -1,5 +1,8 @@
 # Hardware Wallet Comparison (Cold Storage Alternatives to Ledger)
 
+> **Merchant Center feed:** https://walletradar.org/merchant-center.xml  
+> Verified USD pricing and exclusions: `wallets/MERCHANT_FEED.md`
+
 ## Complete Hardware Wallet Comparison
 
 | Wallet | Score | GitHub | Air-Gap | Open Source | Secure Elem | Display | Price | Conn | Activity | Rec |

@@ -54,6 +54,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly' as const,
       priority: 0.2,
     },
+    {
+      url: `${baseUrl}/llms.txt`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly' as const,
+      priority: 0.2,
+    },
   ];
 
   // Article pages - high priority for SEO/AEO content
