@@ -4,6 +4,42 @@ Automation scripts for refreshing wallet comparison data.
 
 ## Scripts
 
+### `generate_merchant_feed.py` (Merchant Center)
+
+Generates a Google Merchant Center feed from the hardware wallet comparison
+table using verified pricing from `wallets/data/merchant_pricing.json`.
+Free categories (software wallets, ramps, and most cards) are excluded to avoid
+placeholder pricing. Items without verified pricing are skipped.
+
+#### Usage
+
+```bash
+./generate_merchant_feed.py
+```
+
+#### Output
+
+- `wallets/frontend/public/merchant-center.xml` (public feed URL)
+
+**Note:** Keep `wallets/data/merchant_pricing.json` updated with official
+provider pricing so the feed stays compliant. Files under `wallets/artifacts/`
+are gitignored and intended for local inspection only.
+
+### `validate_merchant_feed.py` (Merchant Center)
+
+Validates that:
+- pricing entries are USD-only with sources and valid `last_checked` dates
+- pricing entries map to hardware wallet anchors
+- feed items are hardware wallets with USD pricing
+
+#### Usage
+
+```bash
+./validate_merchant_feed.py
+```
+
+Pricing sources and exclusions are documented in `wallets/MERCHANT_FEED.md`.
+
 ### `refresh-github-data.sh` (Software Wallets)
 
 Queries GitHub for **EVM software wallet** activity.

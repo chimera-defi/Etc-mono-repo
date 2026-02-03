@@ -1,0 +1,11 @@
+# Wallet Radar - LLM Discovery
+
+Site: https://walletradar.org
+Docs: https://walletradar.org/docs
+Hardware wallets: https://walletradar.org/docs/hardware-wallets
+Merchant Center feed (hardware wallets): https://walletradar.org/merchant-center.xml
+Pricing/exclusions: https://github.com/chimera-defi/Etc-mono-repo/blob/main/wallets/MERCHANT_FEED.md
+
+Notes:
+- Merchant feed includes hardware wallets with verified USD pricing only.
+- Software wallets, ramps, and most cards are excluded from the feed.

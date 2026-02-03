@@ -72,6 +72,7 @@ Unlike consumer-focused wallet lists, Wallet Radar provides:
 - Weekly GitHub Activity monitoring
 - Automated PR creation with updated data
 - Manual verification for security-critical changes
+- Merchant Center feed generation for hardware wallets (see `wallets/MERCHANT_FEED.md`)
 
 ### 🎨 **Developer-Friendly Interface**
 - Clean, fast Next.js 14 application

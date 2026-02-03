@@ -248,3 +248,9 @@ cd wallets/scripts && ./refresh-github-data.sh
 4. Check for unused imports
 5. Verify theme works in both light and dark mode
 6. Test all interactive elements
+
+### Workflow Discipline
+- Always pull latest `main` and rebase before starting a new request.
+- Keep one task in one PR; do not split work across multiple PRs.
+- Always commit with a self-authored message and model attribution.
+- Store research sources in artifacts to preserve context.

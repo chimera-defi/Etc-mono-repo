@@ -128,7 +128,14 @@ Brief description.
 - **Model attribution:** Specific model (Claude Opus 4.5), not platform (Cursor)
 - **Math verification:** Breakdown values must sum to stated totals
 - **Cross-document consistency:** Data in multiple places must match
+- **No direct pushes to main:** Always use a PR branch
+- **Hooks required:** `git config core.hooksPath .githooks`
 - **Rebase discipline:** Pull latest `main` and rebase at the start of each new request
+- **One task = one PR:** Stack commits on a single branch/PR for the request
+- **Branch/worktree first:** Create a feature branch/worktree before making changes
+- **Always commit:** Self-authored commit messages with model attribution
+- **Preserve research context:** Store sources in `.cursor/artifacts/` or project artifacts
+- **Pricing verification:** Use provider sites for any pricing data; exclude free categories from merchant feeds
 
 ---
 
@@ -181,6 +188,13 @@ Rules are organized by domain. Reference by number in code reviews.
 - **#125** Meta learning: Co-authored-by in commit ≠ Co-authored-by in PR (need both for CI to pass)
 - **#129** CI checks must not skip - all checks enforced
 - **#134** Model attribution, not platform attribution
+
+### Git Discipline (135-139)
+- **#135** Never push directly to `main` or `master`
+- **#136** Use a feature branch + PR for all changes
+- **#137** Install hooks: `git config core.hooksPath .githooks`
+- **#138** One task = one PR; keep all related commits in the same PR branch
+- **#139** Create a branch/worktree before making changes
 
 ### MCP CLI & Token Efficiency (140-157)
 - **#140** Install MCP CLI before using
@@ -245,19 +259,11 @@ See `staking/AGENTS.md` for detailed patterns.
 
 ## Ideas Project Specifics
 
-**Current projects:** Voice Coding Assistant (Cadence), Automated Trading System, Birthday Bot
+**Current projects:** Voice Coding Assistant (Cadence), Birthday Bot
 
 **Focus:** Document exploration, prototype fast, store research
 
 See `ideas/AGENTS.md` for project details.
-
----
-
-## Project Status
-
-**Comprehensive tracking:** `.cursor/artifacts/PROJECT_STATUS.md`
-
-Categories: Active/Production, In Development, Research/Evaluation, Ideas Backlog
 
 ---
 
