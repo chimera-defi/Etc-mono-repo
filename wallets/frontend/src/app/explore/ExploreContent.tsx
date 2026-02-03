@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Shield, Cpu, CreditCard, ArrowLeftRight, LayoutGrid, List, GitCompare } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -93,9 +94,12 @@ export function ExploreContent({
   cryptoCards,
   ramps,
 }: ExploreContentProps) {
+  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<TabType>('software');
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [showComparison, setShowComparison] = useState(false);
+  const lastQueryRef = useRef<string | null>(null);
+  const lastTypeRef = useRef<string | null>(null);
 
   // Filter and sort states for each tab
   const [softwareFilters, setSoftwareFilters] = useState<FilterState>(initialFilterState);
@@ -115,6 +119,25 @@ export function ExploreContent({
   const [selectedHardware, setSelectedHardware] = useState<string[]>([]);
   const [selectedCards, setSelectedCards] = useState<string[]>([]);
   const [selectedRamps, setSelectedRamps] = useState<string[]>([]);
+
+  useEffect(() => {
+    const queryParam = (searchParams.get('q') || '').trim();
+    const typeParam = searchParams.get('type');
+    const validTabs: TabType[] = ['software', 'hardware', 'cards', 'ramps'];
+
+    if (typeParam && typeParam !== lastTypeRef.current && validTabs.includes(typeParam as TabType)) {
+      setActiveTab(typeParam as TabType);
+      lastTypeRef.current = typeParam;
+    }
+
+    if (queryParam !== lastQueryRef.current) {
+      setSoftwareFilters((prev) => ({ ...prev, search: queryParam }));
+      setHardwareFilters((prev) => ({ ...prev, search: queryParam }));
+      setCardFilters((prev) => ({ ...prev, search: queryParam }));
+      setRampFilters((prev) => ({ ...prev, search: queryParam }));
+      lastQueryRef.current = queryParam;
+    }
+  }, [searchParams]);
 
   // Filtered and sorted wallets
   const filteredSoftware = useMemo(
