@@ -19,7 +19,6 @@ from typing import List, Dict, Any
 BASE_URL = os.environ.get("WALLET_BASE_URL", "https://walletradar.org")
 
 TABLE_FILES = {
-    "software": "wallets/SOFTWARE_WALLETS.md",
     "hardware": "wallets/HARDWARE_WALLETS.md",
     "cards": "wallets/CRYPTO_CARDS.md",
 }
@@ -70,7 +69,10 @@ def load_pricing() -> Dict[str, Dict[str, Any]]:
 
 
 def build_item(row: Dict[str, str], category: str, pricing: Dict[str, Dict[str, Any]]) -> Dict[str, str] | None:
-    name = row.get("Wallet", "Unknown")
+    raw_name = row.get("Wallet") or row.get("Card") or "Unknown"
+    if "~~" in raw_name:
+        return None
+    name = raw_name.replace("~~", "").strip()
     price_entry = pricing.get(name)
     if not price_entry:
         return None
