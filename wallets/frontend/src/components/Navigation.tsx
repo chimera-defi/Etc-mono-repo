@@ -58,6 +58,12 @@ export function Navigation({ searchData = [] }: NavigationProps) {
 
           {/* Right side actions */}
           <div className="flex items-center space-x-2">
+            <Link
+              href="/docs/contributing"
+              className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium border border-sky-500/50 text-sky-400 rounded-lg hover:bg-sky-500/10 transition-colors"
+            >
+              Submit
+            </Link>
             {/* Site-wide search */}
             <SiteSearch searchData={searchData} />
 
@@ -116,6 +122,13 @@ export function Navigation({ searchData = [] }: NavigationProps) {
                   {item.label}
                 </Link>
               ))}
+              <Link
+                href="/docs/contributing"
+                className="px-3 py-2 text-sm font-medium rounded-lg transition-colors text-sky-400 bg-sky-500/10 hover:text-sky-300"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Submit
+              </Link>
               <div className="flex items-center gap-2 px-3 pt-2 mt-2 border-t border-slate-700/60">
                 <a
                   href="https://x.com/chimeradefi?utm_source=walletradar&utm_medium=comparison"
