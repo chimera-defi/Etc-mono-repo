@@ -4,7 +4,7 @@ import Script from 'next/script';
 import { ArrowLeft, Clock, User, Calendar, Tag } from 'lucide-react';
 import Link from 'next/link';
 import { getArticleBySlug, getArticleSlugs, getRelatedArticles } from '@/lib/articles';
-import { calculateReadingTime, formatReadingTime, optimizeMetaDescription, extractFAQsFromMarkdown, extractHowToSteps, generateFAQSchema, generateHowToSchema, generateBreadcrumbSchema } from '@/lib/seo';
+import { calculateReadingTime, formatReadingTime, optimizeMetaDescription, extractFAQsFromMarkdown, extractHowToSteps, generateFAQSchema, generateHowToSchema, generateBreadcrumbSchema, getOgImagePath } from '@/lib/seo';
 import { EnhancedMarkdownRenderer } from '@/components/EnhancedMarkdownRenderer';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SocialShare } from '@/components/SocialShare';
@@ -38,6 +38,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const pageUrl = `${baseUrl}/articles/${params.slug}/`;
   const enhancedDescription = optimizeMetaDescription(article.description);
 
+  const ogImagePath = getOgImagePath(article.slug);
+
   return {
     title: `${article.title} | Wallet Radar`,
     description: enhancedDescription,
@@ -52,7 +54,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       tags: article.tags,
       images: [
         {
-          url: `${baseUrl}/og-image.svg`,
+          url: `${baseUrl}${ogImagePath}`,
           width: 1200,
           height: 630,
           alt: article.title,
@@ -65,7 +67,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: enhancedDescription,
       creator: '@chimeradefi',
       site: '@chimeradefi',
-      images: [`${baseUrl}/og-image.svg`],
+      images: [`${baseUrl}${ogImagePath}`],
     },
     alternates: {
       canonical: pageUrl,

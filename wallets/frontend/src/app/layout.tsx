@@ -160,6 +160,38 @@ export default function RootLayout({
                 page_path: window.location.pathname,
                 anonymize_ip: true
               });
+              (function() {
+                try {
+                  var ref = document.referrer || '';
+                  var refUrl = ref ? new URL(ref) : null;
+                  var refHost = refUrl ? refUrl.hostname : 'direct';
+                  var refPath = refUrl ? refUrl.pathname : '';
+                  var url = new URL(window.location.href);
+                  var params = url.searchParams;
+                  var utmSource = params.get('utm_source');
+                  var utmMedium = params.get('utm_medium');
+                  var source = utmSource || refHost || 'direct';
+                  var medium = utmMedium || (ref ? 'referral' : 'direct');
+                  var aiHosts = [
+                    'chat.openai.com',
+                    'claude.ai',
+                    'perplexity.ai',
+                    'gemini.google.com',
+                    'copilot.microsoft.com',
+                    'bing.com'
+                  ];
+                  var isAi = aiHosts.includes(refHost) || (refHost === 'bing.com' && refPath.indexOf('/chat') === 0);
+                  gtag('event', 'referral_detected', {
+                    referrer_host: refHost,
+                    referrer_path: refPath,
+                    traffic_source: source,
+                    traffic_medium: medium,
+                    is_ai_referrer: isAi
+                  });
+                } catch (e) {
+                  // no-op
+                }
+              })();
             `,
           }}
         />
