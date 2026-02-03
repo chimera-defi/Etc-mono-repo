@@ -2,6 +2,12 @@
 
 > **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `/token-reduce` skill
 
+## Git Discipline (Required)
+
+- Never push directly to `main` or `master`
+- Always use a feature branch + PR
+- Enable hooks: `git config core.hooksPath .githooks`
+
 ## Overview
 
 Cross-platform UI framework (iOS, Android, macOS). TSX compiles to native views - no web views, no JS bridges.
