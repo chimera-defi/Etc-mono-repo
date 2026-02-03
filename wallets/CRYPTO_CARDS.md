@@ -18,13 +18,13 @@
 | [**Fold Card**](https://foldapp.com) | 77 🟢 | Debit | 📋 CeFi | ❌ | 🇺🇸 US | 3-5% | $0 | 0% | BTC | ✅ | Bitcoin rewards |
 | [**Fuse Wallet Card**](https://fuse.io/wallet) (@fusewallet) | 64 🟡 | Prepaid | 🔐 Self | ❌ | 🇺🇸 US* | 0% | $0 | 0% | USDC | ✅ | Solana stablecoins |
 | [**Gemini Card**](https://www.gemini.com/credit-card) | 76 🟢 | Credit | 🏦 Exch | ❌ | 🇺🇸 US | Up to 4% | $0 | 0% | BTC, ETH | ✅ | Credit building |
-| [**Gnosis Pay**](https://gnosispay.com) | 78 🟢 | Debit | 🔐 Self | ❌ | 🌍 Global | Up to 5% | €0 | 0% | GNO/SAFE | ✅ | DeFi-native |
+| [**Gnosis Pay**](https://gnosispay.com) | 78 🟢 | Debit | 🔐 Self | ❌ | 🌍 Global* | Up to 5% | €0 | 0% | GNO/SAFE | ✅ | DeFi-native |
 | [**Hi Card**](https://hi.com) | 79 🟢 | Debit | 📋 CeFi | ❌ | 🌍 Global | Up to 10% | $0 | 0% | HI | ⚠️ | High cashback |
 | [**Kast**](https://kast.xyz) (@kastxyz) | 71 🟡 | Debit | 🔐 Self | ❌ | 🌍 Global | 2-12% | $20-$1,000/yr | 2% | Kast Points | ✅ | Stablecoin banking |
 | ~~[**Kontigo**](https://kontigo.com)~~ | 38 🔴 | Debit | 🔐 Self | ⚠️ | 🌍 Global | 10% BTC | $0 | 0% | BTC | ❌ | ~~Crypto neobank~~ |
 | [**Kraken Card**](https://www.kraken.com) | 60 🟡 | Debit | 🏦 Exch | ⚠️ | 🇺🇸🇪🇺 US/EU | TBD | $0 | TBD | Multi | 🔄 | Kraken users |
 | [**KuCard**](https://www.kucoin.com/kucard) | 76 🟢 | Debit | 🏦 Exch | ❌ | 🌍 Global* | Up to 4% | $0 | 0% | Multi | ✅ | KuCoin users |
-| [**MetaMask Card**](https://metamask.io/card) (@MetaMask) | 76 🟢 | Debit | 🔐 Self | ❌ | 🌍 Global | 1% | $0-$199/yr | 0% | Multi | ✅ | Self-custodial spending |
+| [**MetaMask Card**](https://metamask.io/card) (@MetaMask) | 76 🟢 | Debit | 🔐 Self | ❌ | 🌍 Global* | 1-3% | $0-$199/yr | 0% | Multi | ✅ | Self-custodial spending |
 | ~~[**Mode Card**](https://modeapp.com)~~ | 69 🟡 | Debit | 📋 CeFi | ❌ | 🇬🇧 UK | Up to 10% | $0 | 0% | BTC | ❌ | ~~Bitcoin rewards~~ |
 | [**Nexo Card**](https://nexo.com/card) | 63 🟡 | Credit | 📋 CeFi | ✅ | 🇪🇺 EU/UK | Up to 2% | $0 | FX fees | NEXO | ✅ | Crypto credit |
 | [**OKX Card**](https://www.okx.com) | 50 🟡 | Debit | 🏦 Exch | ⚠️ | 🇪🇺 EU | TBD | $0 | TBD | Stables | 🔄 | Stablecoins |
@@ -107,8 +107,9 @@
 - **-3 to -5 pts** TBD/Unverified: OKX Card, Mode Card, Bybit Card (incomplete/unverified data)
 - **-20 pts** Crypto.com: Poor UX, customer service issues, 12-month staking lock-ups, 0% base tier
 
-**Key Corrections (January 2026):**
-- **Gnosis Pay**: Region expanded from EU/UK to **🌍 Global** (EEA, UK, Brazil, Argentina, Mexico, Colombia, Philippines, Thailand, Japan, Singapore) - verified via gnosispay.com January 2026
+**Key Corrections (February 2026):**
+- **Gnosis Pay**: Region expanded from EU/UK to **🌍 Global\*** (EEA, UK, Brazil, Argentina, Mexico, Colombia, Philippines, Thailand, Japan, Singapore) - verified via gnosispay.com January 2026. **Not available in US.**
+- **MetaMask Card**: Available in EU, UK, Switzerland, Canada, select LATAM. **US on waitlist only** (not yet available). Metal card ($199/yr) offers 3% cashback, virtual card is 1%.
 - **Binance Card**: Region changed from Global to **🇧🇷 Brazil only** - verified via binance.com January 2026; FX fee is 1-2%
 - Ready Card: Cash back verified at **3%** (was incorrectly listed as "Up to 10%")
 - Binance Card: Max cash back is **3%** (was incorrectly listed as "Up to 8%")

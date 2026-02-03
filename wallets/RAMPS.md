@@ -4,7 +4,7 @@
 
 | Provider | Score | Type | On-Ramp | Off-Ramp | Coverage | Fee Model | Min Fee | Dev UX | Status | Best For |
 |----------|-------|------|---------|----------|----------|-----------|---------|--------|--------|----------|
-| [**Transak**](https://transak.com/) | 92 🟢 | Both | ✅ | ✅ | ~160+ Countries | Medium (Spread + Fee) | ~$5.00 | Excellent (React SDK) | ✅ | Developers |
+| [**Transak**](https://transak.com/) | 92 🟢 | Both | ✅ | ✅ | ~64 Countries | Medium (Spread + Fee) | ~$5.00 | Excellent (React SDK) | ✅ | Developers |
 | [**MoonPay**](https://www.moonpay.com/) | 90 🟢 | Both | ✅ | ✅ | ~160+ Countries | High (Spread + Fee) | ~$3.99 | Great (Widget) | ✅ | Coverage |
 | [**Coinbase Pay**](https://www.coinbase.com/developers/pay-sdk) | 89 🟢 | Both | ✅ | ✅ | ~100+ Countries | Medium | ~$1.00 | Excellent (SDK) | ✅ | Coinbase users |
 | [**Ramp**](https://ramp.network/) | 88 🟢 | Both | ✅ | ✅ | ~150+ Countries | Low/Medium | ~€2.49 | Good (SDK) | ✅ | EU / Speed |
@@ -103,9 +103,9 @@
 
 ## Quick Summary
 
-> **TL;DR:** Use **Transak** (92) for best developer experience with React SDK, **MoonPay** (90) for widest coverage and token support, **Coinbase Pay** (89) for Coinbase ecosystem integration, **Ramp** (88) for lowest fees (especially EU bank transfers), **Sardine** (86) for US instant ACH and high-value transactions, **Stripe** (85) for mainstream brand trust, or **Modern Treasury** (83) for enterprise payment infrastructure. Most providers support both on-ramp and off-ramp; **Reap** (68) is off-ramp only, **Coinmama** (65) is on-ramp only.
+> **TL;DR:** Use **Transak** (92) for best developer experience with React SDK (64 countries), **MoonPay** (90) for widest coverage and token support (160+ countries), **Coinbase Pay** (89) for Coinbase ecosystem integration, **Ramp** (88) for lowest fees (especially EU bank transfers), **Sardine** (86) for US instant ACH and high-value transactions, **Stripe** (85) for mainstream brand trust, or **Modern Treasury** (83) for enterprise payment infrastructure. Most providers support both on-ramp and off-ramp; **Reap** (68) is off-ramp only, **Coinmama** (65) is on-ramp only.
 
-**Last Updated:** December 2025 | [Scoring Methodology](./RAMPS_DETAILS.md#scoring-methodology) | [Integration Guides](./RAMPS_DETAILS.md#integration-guides)
+**Last Updated:** February 2026 | [Scoring Methodology](./RAMPS_DETAILS.md#scoring-methodology) | [Integration Guides](./RAMPS_DETAILS.md#integration-guides)
 
 **Related:** See [Software Wallet Comparison](./SOFTWARE_WALLETS.md), [Hardware Wallet Comparison](./HARDWARE_WALLETS.md), and [Crypto Credit Card Comparison](./CRYPTO_CARDS.md) for wallet recommendations.
 
@@ -117,7 +117,7 @@
 
 ### What is the best crypto on-ramp for developers?
 
-**Transak** (92/100) is the top choice for developers with React SDK, excellent documentation, support for both on-ramp and off-ramp, and coverage in 160+ countries. It scores highest in developer UX with comprehensive integration guides and responsive API. **MoonPay** (90) is also excellent with React + Mobile SDKs and 160+ country support.
+**Transak** (92/100) is the top choice for developers with React SDK, excellent documentation, support for both on-ramp and off-ramp, and coverage in 64 countries. It scores highest in developer UX with comprehensive integration guides and responsive API. **MoonPay** (90) is also excellent with React + Mobile SDKs and 160+ country support.
 
 ### What is the difference between on-ramp and off-ramp?
 
@@ -137,7 +137,7 @@ Yes, all legitimate ramps require KYC/identity verification for regulatory compl
 
 ### Which ramps support the most countries?
 
-**Transak** (92) and **MoonPay** (90) both support 160+ countries. **Ramp** (88) covers 150+ countries. **Coinbase Pay** (89) availability depends on Coinbase country support. **Sardine** (86) focuses on US market. Always verify your country is supported before integrating—coverage changes frequently.
+**Transak** (92) supports 64 countries and **MoonPay** (90) supports 160+ countries. **Ramp** (88) covers 150+ countries. **Coinbase Pay** (89) availability depends on Coinbase country support. **Sardine** (86) focuses on US market. Always verify your country is supported before integrating—coverage changes frequently.
 
 ### Can I integrate a crypto ramp into my dApp?
 
