@@ -123,6 +123,11 @@ export default function RootLayout({
     name: siteName,
     url: baseUrl,
     description: defaultDescription,
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: `${baseUrl}/explore?type=software&q={search_term_string}`,
+      'query-input': 'required name=search_term_string',
+    },
   };
 
   // Script to prevent flash of wrong theme - runs before hydration

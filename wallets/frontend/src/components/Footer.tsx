@@ -69,6 +69,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/docs/sponsorship" className="text-slate-400 hover:text-sky-400 transition-colors">
+                  Sponsorship &amp; Data
+                </Link>
+              </li>
+              <li>
                 <a
                   href="https://walletbeat.fyi?utm_source=walletradar&utm_medium=comparison"
                   target="_blank"

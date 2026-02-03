@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import Script from 'next/script';
-import { ArrowRight, Shield, Cpu, BookOpen, Github, CheckCircle, GitCompare, ArrowLeftRight, FileText, Lock, Eye, UserX, Database, CreditCard, Sparkles, Smartphone, HardDrive, ArrowUpDown } from 'lucide-react';
-import { getAllDocuments } from '@/lib/markdown';
+import { ArrowRight, Shield, Cpu, BookOpen, Github, CheckCircle, GitCompare, ArrowLeftRight, FileText, Lock, Eye, UserX, Database, CreditCard, Sparkles, Smartphone, HardDrive, ArrowUpDown, Mail } from 'lucide-react';
+import { getAllDocuments, getWalletStats } from '@/lib/markdown';
 import { getAllArticles } from '@/lib/articles';
 import { ArticleCard } from '@/components/ArticleCard';
 import { FAQ } from '@/components/FAQ';
+import { HeroSearch } from '@/components/HeroSearch';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
 
@@ -115,8 +116,23 @@ function MiniTableRow({ wallet, score, platforms, license, activity }: {
 
 export default function HomePage() {
   const documents = getAllDocuments();
-  const articles = getAllArticles().slice(0, 3);
+  const allArticles = getAllArticles();
+  const articles = allArticles.slice(0, 3);
   const guideDocs = documents.filter(d => d.category === 'guide' || d.category === 'research').slice(0, 3);
+  const walletStats = getWalletStats(documents);
+  const totalWallets =
+    walletStats.softwareWallets +
+    walletStats.hardwareWallets +
+    walletStats.cryptoCards +
+    walletStats.ramps;
+  const totalContent = documents.length + allArticles.length;
+  const popularSearches = [
+    { label: 'Rabby Wallet', href: '/explore?type=software&q=Rabby' },
+    { label: 'MetaMask alternatives', href: '/explore?type=software&q=MetaMask' },
+    { label: 'Trezor hardware', href: '/explore?type=hardware&q=Trezor' },
+    { label: 'Gnosis Pay cards', href: '/explore?type=cards&q=Gnosis' },
+    { label: 'Transak ramps', href: '/explore?type=ramps&q=Transak' },
+  ];
 
   // FAQPage structured data
   const faqSchema = {
@@ -273,8 +289,10 @@ export default function HomePage() {
               </Link>
             </div>
 
+            <HeroSearch />
+
             {/* Direct Category Links */}
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3 mt-6">
               <Link
                 href="/docs/software-wallets"
                 className="inline-flex items-center gap-2 border border-border hover:border-sky-500 hover:text-sky-400 text-foreground font-medium px-4 py-2 rounded-lg transition-colors"
@@ -313,7 +331,7 @@ export default function HomePage() {
               <div className="grid grid-cols-2 gap-6">
                 <div className="text-center">
                   <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-sky-500/10 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-sky-400">25+</span>
+                    <span className="text-2xl font-bold text-sky-400">{totalWallets}</span>
                   </div>
                   <div className="text-sm text-muted-foreground">Wallets Compared</div>
                 </div>
@@ -325,9 +343,9 @@ export default function HomePage() {
                 </div>
                 <div className="text-center">
                   <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-amber-500/10 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-amber-400">50+</span>
+                    <span className="text-2xl font-bold text-amber-400">{totalContent}</span>
                   </div>
-                  <div className="text-sm text-muted-foreground">Data Points</div>
+                  <div className="text-sm text-muted-foreground">Docs + Articles</div>
                 </div>
                 <div className="text-center">
                   <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-purple-500/10 flex items-center justify-center">
@@ -336,8 +354,9 @@ export default function HomePage() {
                   <div className="text-sm text-muted-foreground">Affiliate Links</div>
                 </div>
               </div>
-              <div className="mt-6 pt-6 border-t border-border text-center">
-                <p className="text-xs text-muted-foreground/70">All scores derived from GitHub data & verified sources</p>
+              <div className="mt-6 pt-6 border-t border-border text-center space-y-2">
+                <p className="text-xs text-muted-foreground/70">All scores derived from GitHub data and verified sources</p>
+                <p className="text-xs text-muted-foreground/70">Last updated: {walletStats.lastUpdated}</p>
               </div>
             </div>
           </div>
@@ -412,6 +431,25 @@ export default function HomePage() {
             icon={<ArrowLeftRight className="h-5 w-5" />}
             categoryColor="bg-amber-500/20 text-amber-400 border border-amber-500/30"
           />
+        </div>
+      </section>
+
+      {/* Popular Searches */}
+      <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
+        <h2 className="text-2xl font-bold text-foreground mb-3">Popular Searches</h2>
+        <p className="text-sm text-muted-foreground mb-5">
+          Jump straight into the most requested wallet lookups and comparisons.
+        </p>
+        <div className="flex flex-wrap gap-3">
+          {popularSearches.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className="px-4 py-2 rounded-full border border-border text-sm text-muted-foreground hover:text-foreground hover:border-sky-500/50 transition-colors"
+            >
+              {item.label}
+            </Link>
+          ))}
         </div>
       </section>
 
@@ -625,6 +663,64 @@ export default function HomePage() {
                 <ArrowRight className="h-4 w-4" />
               </a>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Community & Support */}
+      <section className="container mx-auto max-w-7xl px-4 md:px-6 pb-12 md:pb-16">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold text-foreground">Community &amp; Support</h2>
+          <Link
+            href="/docs/contributing"
+            className="inline-flex items-center gap-1 text-sm text-sky-400 hover:text-sky-300 transition-colors"
+          >
+            Contribute data
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="glass-card-hover p-6">
+            <Github className="h-6 w-6 text-emerald-400 mb-3" />
+            <h3 className="text-base font-semibold text-foreground mb-2">Submit a Wallet</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Add a new wallet, fix data, or propose updates through our open source workflow.
+            </p>
+            <Link
+              href="/docs/contributing"
+              className="text-sm text-sky-400 hover:text-sky-300 inline-flex items-center gap-1"
+            >
+              Read contributing guide
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+          <div className="glass-card-hover p-6">
+            <FileText className="h-6 w-6 text-sky-400 mb-3" />
+            <h3 className="text-base font-semibold text-foreground mb-2">Request a Comparison</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Tell us which wallets or providers you want reviewed next.
+            </p>
+            <a
+              href="mailto:chimera_deFi@protonmail.com?subject=Wallet%20Radar%20Comparison%20Request"
+              className="text-sm text-sky-400 hover:text-sky-300 inline-flex items-center gap-1"
+            >
+              Email the team
+              <Mail className="h-4 w-4" />
+            </a>
+          </div>
+          <div className="glass-card-hover p-6">
+            <CreditCard className="h-6 w-6 text-amber-400 mb-3" />
+            <h3 className="text-base font-semibold text-foreground mb-2">Sponsorship &amp; Data</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Support Wallet Radar or license data while keeping research independent.
+            </p>
+            <Link
+              href="/docs/sponsorship"
+              className="text-sm text-sky-400 hover:text-sky-300 inline-flex items-center gap-1"
+            >
+              View sponsorship options
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         </div>
       </section>

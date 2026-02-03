@@ -77,6 +77,12 @@ const DOCUMENT_CONFIG: Record<string, Omit<MarkdownDocument, 'slug' | 'content'>
     category: 'guide',
     order: 5,
   },
+  'SPONSORSHIP.md': {
+    title: 'Sponsorship & Data Licensing',
+    description: 'How Wallet Radar is funded and how to sponsor or license data',
+    category: 'guide',
+    order: 5.5,
+  },
   'ABOUT.md': {
     title: 'About Wallet Radar',
     description: 'Educational research platform for wallet comparison. Independent, non-affiliated, and open source.',
