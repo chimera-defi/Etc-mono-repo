@@ -37,7 +37,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const rawDescription = document.description || 
     `Comprehensive ${document.category} guide for crypto wallet comparison. ${document.title.includes('Comparison') ? 'Compare wallets with detailed scoring, security audits, and developer experience metrics.' : 'Expert insights and analysis for developers.'}`;
   const enhancedDescription = optimizeMetaDescription(rawDescription);
-  const summaryText = document.description || enhancedDescription;
 
   // Generate dynamic keywords based on content
   const dynamicKeywords = generateKeywords(document.title, document.category, document.content);
@@ -104,6 +103,7 @@ export default function DocumentPage({ params }: PageProps) {
   const rawDescription = document.description || 
     `Comprehensive ${document.category} guide for crypto wallet comparison. ${document.title.includes('Comparison') ? 'Compare wallets with detailed scoring, security audits, and developer experience metrics.' : 'Expert insights and analysis for developers.'}`;
   const enhancedDescription = optimizeMetaDescription(rawDescription);
+  const summaryText = document.description || enhancedDescription;
 
   // Check if this is a table or details page and get the related one
   // New naming: software-wallets (table), software-wallets-details (details)
