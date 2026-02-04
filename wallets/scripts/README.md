@@ -40,6 +40,17 @@ Validates that:
 
 Pricing sources and exclusions are documented in `wallets/MERCHANT_FEED.md`.
 
+### `recompute_scores.py` (Score Totals)
+
+Recalculates totals in scoring breakdown tables for software and hardware
+wallets. This only updates totals where the per-category columns already exist.
+
+#### Usage
+
+```bash
+./recompute_scores.py
+```
+
 ### `refresh-github-data.sh` (Software Wallets)
 
 Queries GitHub for **EVM software wallet** activity.
