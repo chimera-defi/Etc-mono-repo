@@ -65,6 +65,7 @@
 | ³ | Enkrypt | <img src="/chains/kadena.svg" width="14"> Kadena, Massa |
 | ⁴ | Ledger Live | <img src="/chains/xrp.svg" width="14"> XRP, <img src="/chains/stellar.svg" width="14"> Stellar, <img src="/chains/tezos.svg" width="14"> Tezos, <img src="/chains/cardano.svg" width="14"> Cardano |
 | ⁵ | MetaMask | <img src="/chains/tron.svg" width="14"> TRON (Jan 2026), <img src="/chains/cosmos.svg" width="14"> Cosmos, <img src="/chains/cardano.svg" width="14"> Cardano, <img src="/chains/xrp.svg" width="14"> XRP, <img src="/chains/starknet.svg" width="14"> Starknet |
+<<<<<<< HEAD
 | ⁶ | Phantom | Limited EVM support (Ethereum, Base, Polygon only - not all EVM chains), <img src="/chains/sui.png" width="14"> Sui, Monad, HyperEVM. Bitcoin support uses Native Segwit/Taproot. |
 
 ### Legend
