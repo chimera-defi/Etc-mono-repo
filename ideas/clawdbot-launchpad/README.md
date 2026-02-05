@@ -1,14 +1,14 @@
-# Cloudbot Launchpad
+# Clawdbot Launchpad
 
 **Status**: Research Phase | **Last Updated**: Feb 5, 2026
 
 ## Problem Statement
 
-Cloudbot and Moldbot require a reliable, always-on environment. For many users, setting up a VPS, configuring Docker, managing secrets, and keeping services updated is too much friction. The result is drop-off after initial interest, inconsistent uptime, and support burden from setup issues.
+Clawdbot and Moltbot require a reliable, always-on environment. For many users, setting up a VPS, configuring Docker, managing secrets, and keeping services updated is too much friction. The result is drop-off after initial interest, inconsistent uptime, and support burden from setup issues.
 
 ## Solution Concept
 
-Create a paid "launchpad" that provisions a secure, persistent runtime (VPS or dedicated container) with Cloudbot or Moldbot pre-installed. Users can:
+Create a paid "launchpad" that provisions a secure, persistent runtime (VPS or dedicated container) with Clawdbot or Moltbot pre-installed. Users can:
 
 1. Pick a plan (shared container or dedicated VPS).
 2. Pay a small monthly fee.
@@ -27,21 +27,28 @@ Create a paid "launchpad" that provisions a secure, persistent runtime (VPS or d
 |---------|-------------------|-------|
 | VPS providers | DigitalOcean, Hetzner, Linode, Vultr, Lightsail | Raw infrastructure. More flexible but higher setup friction. |
 | PaaS / container hosting | Render, Railway, Fly.io, Koyeb, Northflank | Easier than VPS, but still requires deployment knowledge. |
-| Bot hosting providers | Discord/Telegram bot hosts, niche "bot hosting" services | Often lower-cost, but generic and not tailored to Cloudbot/Moldbot. |
+| Bot hosting providers | Discord/Telegram bot hosts, niche "bot hosting" services | Often lower-cost, but generic and not tailored to Clawdbot/Moltbot. |
 | Developer sandboxes | Replit Deployments, Hugging Face Spaces | Easy onramps, but limited control and not always persistent. |
+| Open-source bot stacks | [OpenClawd](https://github.com/liam798/docker-openclawd) | DIY hosting with community installers; still self-managed. |
 
-**Gap to exploit**: one-click, opinionated hosting designed specifically for Cloudbot/Moldbot with upgrades, backups, and support included.
+**Gap to exploit**: one-click, opinionated hosting designed specifically for Clawdbot/Moltbot with upgrades, backups, and support included.
+
+### Research Snapshot (GitHub, Feb 2026)
+
+- [liam798/docker-openclawd](https://github.com/liam798/docker-openclawd) - One-click Docker deployment for OpenClawd/Clawdbot.
+- [cloudflare/moltworker](https://github.com/cloudflare/moltworker) - OpenClaw (formerly Moltbot/Clawdbot) running on Cloudflare Workers.
+- [miaoxworld/OpenClawInstaller](https://github.com/miaoxworld/OpenClawInstaller) - One-click OpenClaw installer.
 
 ## Validity & Demand Signals
 
 **Why this could work**:
 - Hosting friction is the main barrier for non-technical users.
-- Cloudbot/Moldbot have clearer "hosted SaaS" value than most open-source bots.
+- Clawdbot/Moltbot have clearer "hosted SaaS" value than most open-source bots.
 - The hosting market is large; a niche, tailored solution can win on UX.
 
 **Validation plan**:
 1. Landing page with pricing + waitlist.
-2. Survey existing Cloudbot users about hosting pain and willingness to pay.
+2. Survey existing Clawdbot users about hosting pain and willingness to pay.
 3. Offer a concierge "done-for-you" hosting pilot to 10-20 users.
 4. Measure conversion from free self-hosting docs to paid managed hosting.
 
@@ -78,7 +85,7 @@ Upsell paths: paid support, custom domains, scheduled backups, higher uptime SLA
 4. **Runtime Layer**
    - Container orchestration (Kubernetes/ECS/Nomad) or VPS fleet
 5. **Image Registry**
-   - Signed Cloudbot/Moldbot images with versioning
+   - Signed Clawdbot/Moltbot images with versioning
 6. **Secrets Manager**
    - API keys, model tokens, user configs
 7. **Observability**
@@ -129,13 +136,13 @@ Upsell paths: paid support, custom domains, scheduled backups, higher uptime SLA
 
 **Phase 1 (Core Hosting)**
 1. Landing page + billing (Stripe)
-2. One-click deploy for Cloudbot (single version)
+2. One-click deploy for Clawdbot (single version)
 3. Shared container hosting only
 4. Basic dashboard: status, logs, restart, update
 5. Manual support workflow (email/Slack)
 
 **Phase 2 (Expansion)**
-1. Add Moldbot image + version switching
+1. Add Moltbot image + version switching
 2. Dedicated VPS tier
 3. Backups + restore
 4. Usage metrics + alerts

@@ -78,12 +78,12 @@ DeFi protocol concept for ERC-8004 agent credit with Ethos vouching + reverse-Ke
 
 ---
 
-## Cloudbot Launchpad
+## Clawdbot Launchpad
 
-**Concept**: A paid launchpad that provisions a persistent VPS or container with Cloudbot or Moldbot pre-installed. Users pay a small monthly fee and manage their bot via a simple dashboard.
+**Concept**: A paid launchpad that provisions a persistent VPS or container with Clawdbot or Moltbot pre-installed. Users pay a small monthly fee and manage their bot via a simple dashboard.
 
 **Key Features**:
-- One-click deploy (Cloudbot/Moldbot images)
+- One-click deploy (Clawdbot/Moltbot images)
 - Shared container tier + dedicated VPS tier
 - Basic dashboard (status, logs, restart, update)
 - Backups and support as paid add-ons
@@ -91,7 +91,7 @@ DeFi protocol concept for ERC-8004 agent credit with Ethos vouching + reverse-Ke
 **Status**: Research phase
 
 **Documentation**:
-- [Cloudbot Launchpad Overview](./cloudbot-launchpad/README.md)
+- [Clawdbot Launchpad Overview](./clawdbot-launchpad/README.md)
 
 ---
 
