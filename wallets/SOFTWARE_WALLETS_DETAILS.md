@@ -4,7 +4,7 @@
 
 > **TL;DR:** Use **Rabby** (92) for development (tx simulation + stability), **Trust** (85) or **Rainbow** (82) for production. Use **MetaMask** (73) last for compatibility only — it has ~8 releases/month which is too much churn. Only wallets with ✅ in the "Core" column have both mobile + browser extension.
 
-**Data Sources:** GitHub REST API (Nov 2024, activity Nov 2025), [WalletBeat](https://walletbeat.fyi) (Dec 2025)
+**Data Sources:** GitHub REST API (Feb 2026), [WalletBeat](https://walletbeat.fyi) (Dec 2025)
 
 **Related:** See [Hardware Wallet Comparison](./HARDWARE_WALLETS.md) for cold storage recommendations.
 
@@ -99,7 +99,7 @@
 
 MetaMask scores 73 (🟡 Situational) despite being the industry standard:
 - **~8 releases/month** — highest churn of any wallet
-- **19.3% issue/star ratio** — indicates maintenance challenges
+- **18.9% issue/star ratio** — indicates maintenance challenges
 - **Frequent breaking changes** — requires constant testing
 - **Positive:** Well-audited (Apr 2025 audit by Diligence, Cure53, Cyfrin)
 - **Use for:** Compatibility testing only (test with MetaMask last)
@@ -110,29 +110,29 @@ MetaMask scores 73 (🟡 Situational) despite being the industry standard:
 
 | Wallet | Last Commit | Stars | Issues | Ratio | Stability |
 |--------|-------------|-------|--------|-------|-----------|
-| **Rabby** | Dec 16, 2025 | 1,750 | 110 | 6.3% | ⭐⭐⭐⭐ |
-| **Trust** | Dec 5, 2025 | 3,386 | 69 | 2.0% | ⭐⭐⭐ |
-| **Rainbow** | Dec 2, 2025 | 4,256 | 16 | 0.4% | ⭐⭐⭐ |
-| **Brave** | Dec 15, 2025 | 20,875 | 10,093 | 48.4% | ⭐⭐⭐⭐ |
-| **Coinbase** | Jul 11, 2025 | 1,705 | 46 | 2.7% | ⭐⭐⭐⭐ |
-| **MetaMask** | Dec 15, 2025 | 12,974 | 2,391 | 18.4% | ⭐⭐ |
+| **Rabby** | Feb 3, 2026 | 1,787 | 129 | 7.2% | ⭐⭐⭐⭐ |
+| **Trust** | Feb 4, 2026 | 3,462 | 83 | 2.4% | ⭐⭐⭐ |
+| **Rainbow** | Feb 5, 2026 | 4,308 | 38 | 0.9% | ⭐⭐⭐ |
+| **Brave** | Feb 5, 2026 | 21,298 | 10,362 | 48.7% | ⭐⭐⭐⭐ |
+| **Coinbase** | Jul 11, 2025 | 1,722 | 70 | 4.1% | ⭐⭐⭐⭐ |
+| **MetaMask** | Feb 5, 2026 | 13,082 | 2,479 | 18.9% | ⭐⭐ |
 | **Phantom** | Private | - | - | - | ⭐⭐⭐ |
 | **OKX** | Private | - | - | - | ⭐⭐⭐⭐ |
-| **Safe** | Dec 15, 2025 | 528 | 105 | 19.9% | ⭐⭐⭐⭐ |
-| **Enkrypt** | Nov 27, 2025 | 413 | 25 | 6.1% | ⭐⭐⭐⭐ |
-| **Ambire** | Dec 10, 2025 | 60 | 1 | 1.7% | ⭐⭐⭐⭐ |
-| **Wigwam** | Dec 11, 2025 | 83 | 7 | 8.4% | ⭐⭐⭐⭐ |
-| **Ledger Live** | Dec 15, 2025 | 541 | 80 | 14.8% | ⭐⭐⭐⭐ |
-| **MEW** | Nov 27, 2025 | 1,570 | 52 | 3.3% | ⭐⭐⭐⭐ |
-| **Sequence** | Dec 14, 2025 | 312 | 25 | 8.0% | ⭐⭐⭐⭐ |
-| **Daimo** | Nov 30, 2025 | 408 | 227 | 55.6% | ⭐⭐⭐ |
+| **Safe** | Feb 4, 2026 | 542 | 122 | 22.5% | ⭐⭐⭐⭐ |
+| **Enkrypt** | Dec 18, 2025 | 427 | 29 | 6.8% | ⭐⭐⭐⭐ |
+| **Ambire** | Feb 4, 2026 | 60 | 1 | 1.7% | ⭐⭐⭐⭐ |
+| **Wigwam** | Jan 19, 2026 | 84 | 7 | 8.3% | ⭐⭐⭐⭐ |
+| **Ledger Live** | Feb 5, 2026 | 567 | 108 | 19.0% | ⭐⭐⭐⭐ |
+| **MEW** | Nov 27, 2025 | 1,574 | 35 | 2.2% | ⭐⭐⭐⭐ |
+| **Sequence** | Jan 30, 2026 | 313 | 27 | 8.6% | ⭐⭐⭐⭐ |
+| **Daimo** | Dec 1, 2025 | 410 | 227 | 55.4% | ⭐⭐⭐ |
 | **Zerion** | Private | - | - | - | ⭐⭐⭐ |
-| **Uniswap** | Dec 12, 2025 | 5,429 | 798 | 14.7% | ⭐⭐⭐ |
-| **Taho** | Dec 5, 2025 | 3,183 | 339 | 10.7% | ⭐⭐⭐ |
-| **imToken** | May 2025 | 800+ | 50+ | ~6% | ⭐⭐⭐ |
+| **Uniswap** | Dec 20, 2025 | 5,469 | 806 | 14.7% | ⭐⭐⭐ |
+| **Taho** | Jan 19, 2026 | 3,197 | 336 | 10.5% | ⭐⭐⭐ |
+| **imToken** | Dec 23, 2025 | 22 | 16 | 72.7% | ⭐⭐⭐ |
 | **1inch** | Private | - | - | - | ⭐⭐⭐ |
-| **Frame** | Feb 01, 2025 | 1,166 | 95 | 8.1% | ⭐⭐⭐⭐ |
-| **Argent** | Mar 14, 2025 | 642 | 95 | 14.8% | ⭐⭐⭐⭐ |
+| **Frame** | Feb 1, 2025 | 1,180 | 96 | 8.1% | ⭐⭐⭐⭐ |
+| **Argent** | Mar 14, 2025 | 644 | 95 | 14.8% | ⭐⭐⭐⭐ |
 | **Block** | Nov 27, 2024 | 96 | 45 | 46.9% | ⭐⭐⭐⭐ |
 | **Kohaku**∆ | Aug 12, 2025 | 62 | 14 | 22.6% | ⭐⭐ |
 
@@ -141,7 +141,7 @@ MetaMask scores 73 (🟡 Situational) despite being the industry standard:
 - **Stability:** ⭐⭐ = High churn (>6 rel/mo) | ⭐⭐⭐ = Medium | ⭐⭐⭐⭐ = Stable (<3 rel/mo)
 - **Private:** Closed-source repos have no public metrics
 
-**Data Sources:** GitHub REST API (verified Nov 2025), [WalletBeat](https://walletbeat.fyi) (Dec 2025)
+**Data Sources:** GitHub REST API (verified Feb 2026), [WalletBeat](https://walletbeat.fyi) (Dec 2025)
 
 ---
 

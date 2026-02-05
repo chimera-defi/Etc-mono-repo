@@ -2,13 +2,13 @@
 
 > **TL;DR:** **MoonPay** and **Transak** are the market leaders for general coverage. **Sardine** is the best choice for high-value transactions (Instant ACH). **Ramp Network** offers excellent performance for European/L2 users. **Stripe** is the safest bet for mainstream brand trust.
 
-**Data Sources:** Developer Documentation, Fee Schedules, Integration Guides (as of Dec 2025).
+**Data Sources:** Developer Documentation, Fee Schedules, Integration Guides (as of Feb 2026).
 
 **Verification Status:** Original 7 providers (Transak, MoonPay, Ramp, Sardine, Stripe, Banxa, Mercuryo) verified from PR 128 research. Additional 13 providers added based on industry knowledge and user request (Modern Treasury, onesafe, Reap specifically requested). All values marked with "~" are approximate and should be verified on official provider websites before integration. Automated URL verification logs live under `wallets/artifacts/ramps-url-checks.*` (gitignored).
 
 ### Ramps URL Verification (Automated)
 
-Ran `wallets/scripts/verify-ramps.py` to check direct URL access and `r.jina.ai` proxy fallback.
+Ran `wallets/scripts/verify-ramps.py` to check direct URL access and `r.jina.ai` proxy fallback (latest run Feb 2026).
 
 **Direct FAIL + proxy OK:** Coinbase Pay, Banxa, Reap  
 **Bot/Access flags:** Modern Treasury (access denied), Banxa (Cloudflare), Mercuryo (access denied)  

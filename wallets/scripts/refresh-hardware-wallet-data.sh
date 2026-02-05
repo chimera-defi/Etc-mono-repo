@@ -23,6 +23,10 @@ set -e
 # Configuration - Hardware Wallet Firmware Repositories
 REPOS=(
     "trezor/trezor-firmware"
+    "Blockstream/Jade"
+    "SeedSigner/seedsigner"
+    "cryptoadvance/specter-diy"
+    "selfcustody/krux"
     "KeystoneHQ/keystone3-firmware"
     "BitBoxSwiss/bitbox02-firmware"
     "Coldcard/firmware"
@@ -33,6 +37,10 @@ REPOS=(
 
 WALLET_NAMES=(
     "Trezor"
+    "Blockstream Jade"
+    "SeedSigner"
+    "Specter DIY"
+    "Krux"
     "Keystone"
     "BitBox02"
     "ColdCard"
