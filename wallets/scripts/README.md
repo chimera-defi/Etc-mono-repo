@@ -51,6 +51,22 @@ wallets. This only updates totals where the per-category columns already exist.
 ./recompute_scores.py
 ```
 
+### `verify-ramps.py` (Ramps)
+
+Verifies ramp provider URLs from `wallets/RAMPS.md` using a direct fetch plus
+`r.jina.ai` proxy as a fallback to detect bot challenges.
+
+#### Usage
+
+```bash
+./verify-ramps.py
+```
+
+#### Output
+
+- `wallets/artifacts/ramps-url-checks.json`
+- `wallets/artifacts/ramps-url-checks.txt`
+
 ### `refresh-github-data.sh` (Software Wallets)
 
 Queries GitHub for **EVM software wallet** activity.
