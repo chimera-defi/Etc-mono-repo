@@ -51,7 +51,7 @@ browser verification during full data audits:
 When direct checks are blocked, a text-only fetch via `r.jina.ai` can confirm
 the landing content is reachable. Results are logged in
 `wallets/artifacts/manual-url-checks.json`. Reap and Redotpay still require a
-browser check (Jina timed out).
+browser check (direct requests return 403).
 
 ---
 
