@@ -8,7 +8,7 @@ Clawdbot and Moltbot require a reliable, always-on environment. For many users, 
 
 ## Solution Concept
 
-Create a paid "launchpad" that provisions a secure, persistent runtime (VPS or dedicated container) with Clawdbot or Moltbot pre-installed. Users can:
+Create a paid "launchpad" that provisions a secure, persistent runtime (VPS or dedicated container) with Clawdbot or Moltbot (OpenClaw ecosystem) pre-installed. Users can:
 
 1. Pick a plan (shared container or dedicated VPS).
 2. Pay a small monthly fee.
@@ -29,15 +29,23 @@ Create a paid "launchpad" that provisions a secure, persistent runtime (VPS or d
 | PaaS / container hosting | Render, Railway, Fly.io, Koyeb, Northflank | Easier than VPS, but still requires deployment knowledge. |
 | Bot hosting providers | Discord/Telegram bot hosts, niche "bot hosting" services | Often lower-cost, but generic and not tailored to Clawdbot/Moltbot. |
 | Developer sandboxes | Replit Deployments, Hugging Face Spaces | Easy onramps, but limited control and not always persistent. |
-| Open-source bot stacks | [OpenClawd](https://github.com/liam798/docker-openclawd) | DIY hosting with community installers; still self-managed. |
+| Open-source bot stacks | [OpenClaw](https://github.com/openclaw/openclaw), [OpenClawd](https://github.com/liam798/docker-openclawd) | DIY hosting with community installers; still self-managed. |
 
 **Gap to exploit**: one-click, opinionated hosting designed specifically for Clawdbot/Moltbot with upgrades, backups, and support included.
 
 ### Research Snapshot (GitHub, Feb 2026)
 
-- [liam798/docker-openclawd](https://github.com/liam798/docker-openclawd) - One-click Docker deployment for OpenClawd/Clawdbot.
-- [cloudflare/moltworker](https://github.com/cloudflare/moltworker) - OpenClaw (formerly Moltbot/Clawdbot) running on Cloudflare Workers.
-- [miaoxworld/OpenClawInstaller](https://github.com/miaoxworld/OpenClawInstaller) - One-click OpenClaw installer.
+- [openclaw/openclaw](https://github.com/openclaw/openclaw) - Likely canonical OpenClaw repo (~164k stars).
+- [cloudflare/moltworker](https://github.com/cloudflare/moltworker) - OpenClaw running on Cloudflare Workers (~7.7k stars).
+- [miaoxworld/OpenClawInstaller](https://github.com/miaoxworld/OpenClawInstaller) - One-click OpenClaw installer (~1.2k stars).
+- [liam798/docker-openclawd](https://github.com/liam798/docker-openclawd) - One-click Docker deployment for OpenClawd/Clawdbot (~6 stars).
+- [VoltAgent/awesome-openclaw-skills](https://github.com/VoltAgent/awesome-openclaw-skills) - Ecosystem list (~9.1k stars).
+- [m1heng/clawdbot-feishu](https://github.com/m1heng/clawdbot-feishu) - Clawdbot integration (~2.4k stars).
+
+**What this suggests**:
+- There is a large, active OpenClaw ecosystem with multiple deployment options.
+- DIY installers exist, but they still require self-hosting and ongoing maintenance.
+- A managed, supported hosting layer can differentiate on reliability, updates, and safety.
 
 ## Validity & Demand Signals
 
@@ -105,6 +113,49 @@ Upsell paths: paid support, custom domains, scheduled backups, higher uptime SLA
 - **Shared Container**: multi-tenant cluster with strict isolation and quotas.
 - **Dedicated VPS**: per-user VM with Docker + systemd, longer setup but stronger isolation.
 
+### Architecture as a Managed Hosting Platform (Senior-Level View)
+
+**Control Plane (multi-tenant SaaS)**
+- Auth, billing, plan entitlements, provisioning queues, and audit logs.
+- Stripe (or equivalent) webhooks drive provisioning and lifecycle.
+- Admin console for support actions (restart, upgrade, restore, suspend).
+
+**Data Plane (runtime)**
+- **Shared container tier**: multi-tenant cluster with namespaces, quotas, and network policies.
+- **Dedicated tier**: per-user VM with Docker and systemd-managed services.
+- Persistent volumes per tenant (bot memory, logs, config).
+
+**Provisioning pipeline**
+- Idempotent job system (queue + workers).
+- Steps: allocate runtime -> attach storage -> inject secrets -> pull signed image -> health checks -> mark ready.
+- Rollback and cleanup on failure to avoid orphaned infra.
+
+**Networking**
+- Ingress via HTTPS with per-tenant routing (subdomain or path).
+- Egress control (allowlists or per-tenant egress policies).
+- Optional static IPs or outbound proxies for enterprise tiers.
+
+**Security**
+- Signed images + SBOM and vulnerability scanning.
+- Rootless containers, seccomp/AppArmor profiles, dropped capabilities.
+- Secrets in a managed KMS/Secrets Manager; short-lived tokens for runtime access.
+- Audit trails for user actions and admin access.
+
+**Observability**
+- Centralized logs with per-tenant scoping.
+- Metrics: uptime, restart count, CPU/memory usage, queue latency.
+- Alerting for failed deployments, crash loops, or cost anomalies.
+
+### Docker vs VPS vs Serverless (Tradeoffs)
+
+| Option | Pros | Cons | Best Use |
+|--------|------|------|---------|
+| Shared containers (K8s/ECS/Nomad) | Low cost per tenant, fast provisioning, strong automation | Harder isolation, noisy neighbor risk | MVP + hobby tiers |
+| Dedicated VPS per user | Strong isolation, predictable performance | Higher cost, slower provisioning | Pro/Team tiers, compliance-focused users |
+| Serverless/edge (Workers) | Very fast, minimal ops | Runtime limits, storage constraints | Lightweight bots or stateless gateways |
+
+**Recommendation**: start with shared containers for MVP, then add dedicated VPS for higher tiers and enterprise needs.
+
 ## Security, Safety, and Scalability
 
 **Isolation & containment**
@@ -154,6 +205,7 @@ Upsell paths: paid support, custom domains, scheduled backups, higher uptime SLA
 - Which cloud provider offers the best cost-to-reliability ratio?
 - Is "shared container" acceptable for security-sensitive users?
 - Do we need region selection at launch?
+- What is the definitive upstream repo and license for Clawdbot/Moltbot/OpenClaw?
 
 ## Next Steps
 
