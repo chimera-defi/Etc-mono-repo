@@ -176,6 +176,7 @@ mcp-cli memory/search_nodes '{"query": "wallet name"}'
 6. Record research inputs in `wallets/artifacts/` (gitignored) and summarize durable notes in `wallets/MERCHANT_FEED.md` or other docs.
 7. Merchant feeds must use provider-site pricing; skip free categories (software wallets/ramps) and items without verified prices.
 8. Activity status decays
+9. Use headless Chromium for bot-protected URL verification and store results in `wallets/artifacts/manual-browser-checks.json`.
 
 **Multi-Pass Review:**
 1. Math verification - breakdowns must sum to totals

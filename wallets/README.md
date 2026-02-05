@@ -50,8 +50,10 @@ browser verification during full data audits:
 
 When direct checks are blocked, a text-only fetch via `r.jina.ai` can confirm
 the landing content is reachable. Results are logged in
-`wallets/artifacts/manual-url-checks.json`. Reap and Redotpay still require a
-browser check (direct requests return 403).
+`wallets/artifacts/manual-url-checks.json`. A headless Chromium pass captures
+browser verification output in `wallets/artifacts/manual-browser-checks.json`.
+Most bot-protected URLs resolve in Chromium; Mode Card still times out in
+headless checks and remains flagged/discontinued until verified manually.
 
 ---
 
