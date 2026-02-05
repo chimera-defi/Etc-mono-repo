@@ -58,6 +58,7 @@ else
     echo "Warning: No GITHUB_TOKEN set. Rate limited to 60 requests/hour." >&2
     echo "Set GITHUB_TOKEN environment variable for higher limits." >&2
     echo "Falling back to GitHub Atom feeds for last-commit timestamps; stars/issues will be unavailable." >&2
+    echo "Attempting HTML scrape fallback for stars/issues (best effort)." >&2
 fi
 
 # Function to get activity status based on days since last commit
@@ -134,8 +135,10 @@ for i in "${!REPOS[@]}"; do
         STARS=$(echo "$REPO_RESPONSE" | jq -r '.stargazers_count // 0' 2>/dev/null)
         ISSUES=$(echo "$REPO_RESPONSE" | jq -r '.open_issues_count // 0' 2>/dev/null)
     else
-        STARS="?"
-        ISSUES="?"
+        STARS=$(curl -s "https://r.jina.ai/http://github.com/$REPO" 2>/dev/null | sed -n 's/.*stars[^0-9]*\\([0-9][0-9,]*\\).*/\\1/p' | head -n1 | tr -d ',' )
+        ISSUES=$(curl -s "https://r.jina.ai/http://github.com/$REPO/issues" 2>/dev/null | sed -n 's/.*Open[^0-9]*\\([0-9][0-9,]*\\).*/\\1/p' | head -n1 | tr -d ',' )
+        if [ -z "$STARS" ]; then STARS="?"; fi
+        if [ -z "$ISSUES" ]; then ISSUES="?"; fi
     fi
 
     # Calculate ratio (using awk for portability - bc not always available)

@@ -131,6 +131,7 @@ export GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxx
 ```
 
 If no token is set, the script uses Atom feeds for commit dates and skips API calls.
+It may attempt a best-effort HTML scrape for stars/issues where applicable.
 
 #### Activity Status Definitions
 
@@ -165,7 +166,7 @@ The `data/` directory contains:
 ### `refresh-hardware-wallet-data.sh` (Hardware Wallets)
 
 Queries GitHub for **hardware wallet firmware** activity. Includes stars, issues, and issue/star ratio when the API is available.
-If no token is set, the script falls back to Atom feeds for last-commit dates and leaves stars/issues blank.
+If no token is set, the script falls back to Atom feeds for last-commit dates and attempts a best-effort HTML scrape for stars/issues.
 
 #### Usage
 

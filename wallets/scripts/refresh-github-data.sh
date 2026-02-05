@@ -74,6 +74,7 @@ else
     echo "Warning: No GITHUB_TOKEN set. Rate limited to 60 requests/hour." >&2
     echo "Set GITHUB_TOKEN environment variable for higher limits." >&2
     echo "Falling back to GitHub Atom feeds for last-commit timestamps." >&2
+    echo "Attempting HTML scrape fallback for stars/issues (best effort)." >&2
 fi
 
 # Function to get activity status based on days since last commit
