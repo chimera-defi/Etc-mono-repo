@@ -6,20 +6,35 @@
 
 Clawdbot Launchpad is a multi-tenant control plane that provisions and manages Clawdbot/Moltbot runtimes on shared containers (MVP) and dedicated VPS (Phase 2).
 
-## MVP Decisions (Concrete Defaults)
+## Deployment Paths (Concrete Defaults)
 
-**Upstream**: openclaw/openclaw (MIT).  
-**Cloud**: AWS (single region for MVP).  
-**Runtime (MVP)**: ECS Fargate (shared containers).  
-**Dedicated tier**: EC2 + Docker + systemd (Phase 2).  
-**Database**: Postgres (RDS).  
-**Queue**: SQS (provisioning jobs).  
-**Secrets**: AWS Secrets Manager + KMS.  
-**Images**: ECR + image scanning + signing.  
-**Logs/Metrics**: CloudWatch Logs + CloudWatch Metrics.  
-**Object storage**: S3 (artifacts, backups).  
-**IaC**: Terraform.  
-**CI/CD**: GitHub Actions.
+**Upstream**: openclaw/openclaw (MIT).
+
+### Pilot (Startup-Simple)
+
+- **Cloud**: single VPS (Hetzner/DO/Vultr).  
+- **Runtime**: Docker + Compose + Caddy/Traefik.  
+- **Database**: Postgres (local or managed).  
+- **Queue**: Redis or lightweight job runner.  
+- **Secrets**: .env + file-based (short term).  
+- **Logs**: container logs + logrotate.  
+- **IaC**: simple Terraform or manual provisioning.  
+
+**When**: first 10-50 users or pilot cohort.
+
+### MVP (Managed Scale)
+
+- **Cloud**: AWS (single region for MVP).  
+- **Runtime (MVP)**: ECS Fargate (shared containers).  
+- **Dedicated tier**: EC2 + Docker + systemd (Phase 2).  
+- **Database**: Postgres (RDS).  
+- **Queue**: SQS (provisioning jobs).  
+- **Secrets**: AWS Secrets Manager + KMS.  
+- **Images**: ECR + image scanning + signing.  
+- **Logs/Metrics**: CloudWatch Logs + CloudWatch Metrics.  
+- **Object storage**: S3 (artifacts, backups).  
+- **IaC**: Terraform.  
+- **CI/CD**: GitHub Actions.
 
 ### Alternatives Considered (Summary)
 
@@ -102,6 +117,12 @@ User -> Web App -> Control Plane API -> Provisioning Queue -> Workers
 
 ## Runtime Details
 
+**Single VPS (Pilot)**
+- One Docker container per tenant.
+- CPU/memory limits via Docker run flags.
+- Per-tenant volume for config and bot memory.
+- Reverse proxy for subdomains and SSL.
+
 **Shared Containers (MVP)**
 - Namespace per tenant.
 - Resource limits (CPU, memory, storage).
@@ -155,7 +176,7 @@ User -> Web App -> Control Plane API -> Provisioning Queue -> Workers
 
 ## Open Decisions (Remaining)
 
-1. Confirm provider choice (AWS vs DO) before build.
+1. Confirm pilot path (single VPS) vs jump to managed MVP.
 2. Region strategy (single region vs multi-region at launch).
 3. Free trial policy and abuse controls for trials.
 4. Versioning strategy for upstream updates (auto vs pinned).

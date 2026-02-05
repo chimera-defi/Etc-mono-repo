@@ -25,6 +25,42 @@
 
 **Recommendation**: If ops headcount is small, choose managed services (AWS or DO).
 
+### 1a) SaaS/PaaS Hosting Options (Managed)
+
+| Option | Pros | Cons | Best When |
+|--------|------|------|-----------|
+| Render | Simple deploys, managed DB | Limited infra control | Small team, fast MVP |
+| Railway | Easy env + DB, fast setup | Cost at scale | Rapid prototyping |
+| Fly.io | Global regions, Machines | More infra knowledge | Latency-sensitive apps |
+| Koyeb | Serverless containers, autoscale | Smaller ecosystem | Simple stateless services |
+| Northflank | CI/CD, multi-env | Pricing complexity | Multi-service apps |
+| Cloud Run / App Runner | Fully managed | Vendor-specific constraints | Minimal ops |
+
+### 1b) Self-Hosted PaaS on One VPS
+
+| Option | Pros | Cons |
+|--------|------|------|
+| Coolify | One-click apps, SSL, DBs | Still requires ops |
+| CapRover | Simple Docker app deploys | Less enterprise tooling |
+| Dokku | Heroku-like workflows | Limited UI |
+| Portainer | UI for containers | Not a full PaaS |
+
+### 1c) Single VPS + Docker (Startup Path)
+
+**Approach**: One VPS runs Docker. Each Clawdbot is a container with its own volume and env config. A reverse proxy (Caddy/Traefik) handles subdomains.
+
+**Pros**:
+- Cheapest path to revenue.
+- Fastest to build and operate.
+- Easy to debug early issues.
+
+**Cons**:
+- Single point of failure.
+- Noisy neighbor risk.
+- Manual scaling and ops load.
+
+**When to use**: First 10-50 users or pilot cohort.
+
 ### 2) Orchestrator (Shared Containers)
 
 | Option | Pros | Cons | Best When |

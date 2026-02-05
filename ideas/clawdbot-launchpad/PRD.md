@@ -43,6 +43,11 @@ Clawdbot/Moltbot adoption stalls because users must set up, secure, and maintain
 
 ## MVP Scope
 
+**Phase 0 (Pilot)**:
+- Single VPS hosting with Docker + reverse proxy.
+- Manual provisioning + limited user count (10-50).
+- Basic logs and restart support.
+
 **Phase 1 (MVP)**:
 - One-click Clawdbot deploy (single image version).
 - Shared container runtime with basic isolation.
@@ -59,7 +64,8 @@ Clawdbot/Moltbot adoption stalls because users must set up, secure, and maintain
 
 ## MVP Defaults (Proposed)
 
-1. **Provider**: AWS ECS/Fargate (alt: DO DOKS).
+1. **Pilot**: single VPS (Hetzner/DO/Vultr) + Docker.
+1. **Provider**: AWS ECS/Fargate (alt: DO DOKS) for managed MVP.
 1. **Region**: single region at launch.
 2. **Trial**: $5 credit with card verification (no free tier).
 3. **Logs**: 7-day retention (30-day add-on).

@@ -24,6 +24,16 @@
 - Select secrets manager + KMS.
 - Define log retention policy.
 
+## Phase 0b - Pilot Build (Week 0-1)
+
+**Single VPS**
+- Provision VPS + harden (firewall, updates).
+- Install Docker + Compose.
+- Set up reverse proxy (Caddy/Traefik).
+- Define container template + volumes per tenant.
+- Script manual provisioning and cleanup.
+- Basic monitoring (uptime + disk alerts).
+
 ## Phase 1 - MVP Build (Weeks 1-6)
 
 **Backend / Control Plane**
