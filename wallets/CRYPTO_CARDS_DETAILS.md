@@ -491,7 +491,7 @@ The Plutus Card is a debit card available in EU and UK, offering PLU token rewar
 
 **Website:** [swissborg.com](https://swissborg.com)
 
-**Status:** ⚠️ **Verification Required** - No card page found; `/card` returns 404.
+**Status:** ⚠️ **Verification Required** - `/card` returns 404 in headless Chromium.
 
 **Overview:**
 The Swissborg Card is referenced in older materials, but the official site does not surface a card product page. Treat details as unverified until a current card page is published.
@@ -508,8 +508,8 @@ The Swissborg Card is referenced in older materials, but the official site does 
 - Rewards paid in CHSB token
 
 **Fees:**
-- Annual Fee: $0
-- Foreign Transaction Fee: 0%
+- Annual Fee: TBD
+- Foreign Transaction Fee: TBD
 
 **Requirements:**
 - EU residency
@@ -611,10 +611,10 @@ The BitPay Card is a prepaid debit card that allows spending Bitcoin, available 
 
 **Website:** [uphold.com](https://uphold.com)
 
-**Status:** ⚠️ **Verification Required** - `/card` and `/debit-card` return 404.
+**Status:** ⚠️ **Verification Required** - `/card` and `/debit-card` time out in headless Chromium.
 
 **Overview:**
-The Uphold Card has been listed historically, but current card landing pages return 404. Treat all card details as unverified until Uphold publishes an active card page.
+The Uphold Card has been listed historically, but current card landing pages time out in headless Chromium. Treat all card details as unverified until Uphold publishes an active card page.
 
 **Business Support:** ✅ Yes (Uphold Business accounts available)
 
@@ -630,8 +630,8 @@ The Uphold Card has been listed historically, but current card landing pages ret
 - Rewards paid in XRP, BTC, ETH, or other supported cryptos
 
 **Fees:**
-- Annual Fee: $0
-- Foreign Transaction Fee: 0%
+- Annual Fee: TBD
+- Foreign Transaction Fee: TBD
 
 **Requirements:**
 - Uphold account
@@ -1671,7 +1671,7 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 - Redotpay
 
 ### Regional Notes
-- Uphold Card - US, UK, EU regions ⚠️ (card pages return 404)
+- Uphold Card - US, UK, EU regions ⚠️ (card pages time out)
 
 *Note: Availability within "global" regions varies - verify on official websites before applying*
 
@@ -1838,7 +1838,7 @@ Score adjustments based on real-world user experiences and company reputation:
 
 **Penalties:**
 - **Crypto.com Visa: -20 points** - Poor UX, customer service issues, 12-month staking lock-ups, 0% base tier
-- **TBD/Unverified data: -3 to -5 points** - OKX Card, Kraken Card, Bybit Card (FX fee TBD), Uphold Card, Swissborg Card
+- **TBD/Unverified data: -3 to -5 points** - OKX Card, Kraken Card, Uphold Card, Swissborg Card
 - **Exchange custody risk: -3 points** - Coinbase, Binance, Gemini, KuCoin, OKX, CoinJar, Kraken, Crypto.com, Bybit
 
 **Bonuses:**
