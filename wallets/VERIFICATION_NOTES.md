@@ -284,7 +284,7 @@ The 1inch Card is classified as self-custody based on marketing ("tied to your c
 #### Swissborg Card
 - **Website:** https://swissborg.com/card
 - **Status:** ❌ 404 Error (headless Chromium)
-- **Issue:** Card URL returns 404; r.jina.ai only shows main site navigation. Swissborg app fees page exists but has no card-specific fee schedule.
+- **Issue:** Card URL returns 404; r.jina.ai only shows main site navigation. Swissborg app fees page exists but has no card-specific fee schedule. Help-center card article requires human verification.
 - **Action Required:** Confirm if a card product still exists; find a current card landing page before updating fees.
 - **Alternative URLs to Try:**
   - https://swissborg.com/products/card
@@ -294,7 +294,7 @@ The 1inch Card is classified as self-custody based on marketing ("tied to your c
 #### Uphold Card
 - **Website:** https://uphold.com/card
 - **Status:** ⚠️ Unverified
-- **Issue:** `/card` is reachable via r.jina.ai but only shows generic/fee transparency text; `/debit-card` times out in proxy and headless Chromium.
+- **Issue:** `/card` is reachable via r.jina.ai but only shows generic/fee transparency text; `/debit-card` times out in proxy and headless Chromium. Help-center eligibility/fees articles time out via proxy.
 - **Action Required:** Locate a live card landing page or help-center article with fee details before updating.
 - **Alternative URLs to Try:**
   - https://uphold.com/debit-card
