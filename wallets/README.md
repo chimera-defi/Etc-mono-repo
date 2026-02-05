@@ -38,6 +38,16 @@ Unlike consumer-focused wallet lists, Wallet Radar provides:
 | **Crypto Cards** | 27+ | Crypto-backed credit & debit cards |
 | **On/Off-Ramps** | 20+ | Fiat-to-crypto conversion providers |
 
+## 🔎 Manual URL Verification (Bot-Protected)
+
+Some provider sites block automated checks (403/timeout). These require manual
+browser verification during full data audits:
+
+- Software: Trust, Coinbase Wallet, MEW, imToken, Argent
+- Hardware: Arculus
+- Cards: Coinbase Card, Kraken Card, Mode Card, Reap, Redotpay, Revolut Crypto
+- Ramps: Coinbase Pay, Banxa, Reap
+
 ---
 
 ## 🖼️ Product Screenshots
