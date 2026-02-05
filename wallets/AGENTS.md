@@ -166,6 +166,7 @@ mcp-cli memory/search_nodes '{"query": "wallet name"}'
 1. Single table principle
 2. Changelog discipline
 3. Verify before trust
+4. Sync GitHub metrics across detail + summary docs after data refresh
 
 **Workflow:**
 1. Always open a PR for changes; do not push directly to main.
@@ -177,6 +178,7 @@ mcp-cli memory/search_nodes '{"query": "wallet name"}'
 7. Merchant feeds must use provider-site pricing; skip free categories (software wallets/ramps) and items without verified prices.
 8. Activity status decays
 9. Use headless Chromium for bot-protected URL verification and store results in `wallets/artifacts/manual-browser-checks.json`.
+10. If `GITHUB_TOKEN` is unavailable, use unauth GitHub API/Atom fallbacks and record that stars/issues are best-effort.
 
 **Multi-Pass Review:**
 1. Math verification - breakdowns must sum to totals
@@ -216,4 +218,4 @@ When renaming files:
 
 ---
 
-*Last updated: January 2026*
+*Last updated: February 2026*
