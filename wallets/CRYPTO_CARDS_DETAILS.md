@@ -89,7 +89,6 @@ This section accounts for real-world user experiences, company reputation, and p
 - **Plutus Card** - EU/UK debit card
 - **Swissborg Card** - EU debit card
 - **Fold Card** - Bitcoin rewards debit card
-- ~~**Mode Card**~~ - Bitcoin rewards debit card (Discontinued)
 - **CoinJar Card** - Australia Bitcoin rewards card
 - **CryptoSpend Card** - Australia multi-crypto rewards card
 - ~~**Kontigo Card**~~ - USDC neobank card (Discontinued Jan 2026)
@@ -105,7 +104,6 @@ This section accounts for real-world user experiences, company reputation, and p
 
 #### Bitcoin Rewards
 - Fold Card
-- ~~Mode Card~~ (Discontinued)
 - Shakepay Card
 - ~~Kontigo~~ (10% BTC - Discontinued)
 - BitPay Card (spending, not rewards)
@@ -442,14 +440,6 @@ The Fold Card is a Bitcoin rewards debit card available in the US, offering rota
 
 ---
 
-### ~~Mode Card~~
-
-**Website:** ~~[modeapp.com](https://modeapp.com)~~
-
-**Status:** ❌ **Discontinued / Unreachable** - modeapp.com timed out in headless Chromium checks (Feb 2026). Treat as inactive until verified.
-
-**Overview:**
-Mode Card previously advertised Bitcoin rewards debit card features, but the official site is unreachable and the product appears inactive.
 
 ---
 
@@ -1776,7 +1766,6 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 - Plutus Card
 - Swissborg Card
 - Fold Card
-- ~~Mode Card~~ (discontinued)
 - Shakepay Card
 - CoinJar Card
 - CryptoSpend Card

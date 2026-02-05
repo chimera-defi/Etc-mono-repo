@@ -25,7 +25,6 @@
 | [**Kraken Card**](https://www.kraken.com/kraken-card) | 60 🟡 | Debit | 🏦 Exch | ⚠️ | 🇺🇸🇪🇺 US/EU | TBD | $0 | TBD | Multi | 🔄 | Cloudflare-blocked |
 | [**KuCard**](https://www.kucoin.com/kucard) | 76 🟢 | Debit | 🏦 Exch | ❌ | 🌍 Global* | Up to 4% | $0 | 0% | Multi | ✅ | KuCoin users |
 | [**MetaMask Card**](https://metamask.io/card) (@MetaMask) | 76 🟢 | Debit | 🔐 Self | ❌ | 🌍 Global* | 1-3% | $0-$199/yr | 0% | Multi | ✅ | Self-custodial spending |
-| ~~[**Mode Card**](https://modeapp.com)~~ | 69 🟡 | Debit | 📋 CeFi | ❌ | 🇬🇧 UK | Up to 10% | $0 | 0% | BTC | ❌ | ~~Bitcoin rewards~~ |
 | [**Nexo Card**](https://nexo.com/card) | 63 🟡 | Credit | 📋 CeFi | ✅ | 🇪🇺 EU/UK | Up to 2% | $0 | FX fees | NEXO | ✅ | Crypto credit |
 | [**OKX Card**](https://www.okx.com) | 50 🟡 | Debit | 🏦 Exch | ⚠️ | 🇪🇺 EU | TBD | $0 | TBD | Stables | 🔄 | Card page not found |
 | [**Payy**](https://payy.link) (@payy_link) | 66 🟡 | Debit | 🔐 Self | ❌ | 🌍 Global | 0% | $0 | 0% | USDC | ✅ | Privacy-focused |
@@ -116,7 +115,6 @@
 - Crypto.com Visa: Base tier has **0%** cash back (requires $400+ CRO stake for rewards); US now has **Visa Signature® Credit Card** with different tier structure
 - Nexo Card: Has **FX fees on weekdays** (was listed as 0%)
 - **Hi Card**: Website shows 2021-2022 copyright, card product status uncertain ⚠️
-- **Mode Card**: ❌ Website (modeapp.com) unreachable as of January 2026 - company may be inactive/defunct. Note: mode.com is a different company (ThoughtSpot Mode, a BI tool).
 - **Kontigo**: ❌ Card program shut down by Rain in January 2026; company experienced $340K USDC hack affecting 1,005 users
 - **Tuyo**: Available in 41 countries (US, Spain, EU, LATAM) but NOT Australia; correct URL is tuyo.com/card
 - **Fuse Wallet Card**: US-only (except NY, LA, FL, AK); virtual Visa prepaid on Solana
