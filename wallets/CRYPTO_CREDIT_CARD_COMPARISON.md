@@ -1,8 +1,8 @@
 # Crypto-Backed Credit Card Comparison
 
-> **TL;DR:** Comprehensive comparison with scoring system (**27 cards**). Updated January 2026. Cards are grouped by provider/exchange for consistent scoring handicaps. Some cards marked ⚠️ require additional verification. Scores include Human Suggestions adjustments for UX and verification status.
+> **TL;DR:** Comprehensive comparison with scoring system (**27 cards**, **22 active**). Updated February 2026. Cards are grouped by provider/exchange for consistent scoring handicaps. Unverified/blocked cards are flagged. Scores include Human Suggestions adjustments for UX and verification status.
 
-**Data Sources:** Official card websites, terms of service, public announcements (as of December 2025)
+**Data Sources:** Official card websites, terms of service, public announcements (as of February 2026)
 
 **Related:** See [Software Wallet Comparison](./WALLET_COMPARISON_UNIFIED.md) and [Hardware Wallet Comparison](./HARDWARE_WALLET_COMPARISON.md) for crypto wallet recommendations.
 
@@ -26,17 +26,17 @@
 | **Coinbase Card** | 75 🟢 | 1-4% | $0 | BTC, ETH, others | ❌ | Coinbase Exchange | [coinbase.com/card](https://www.coinbase.com/card) | ✅ Active | Coinbase users (US) |
 | **Bybit Card** | 74 🟡 | Up to 10% | $0 | Multi-crypto | ✅ | Bybit Exchange | [bybit.com/cards](https://www.bybit.com/en/cards/) | ⚠️ Verify | High cashback (EEA/CH) |
 | **Plutus Card** | 73 🟡 | 3-9% | £0 | PLU | ❌ | Plutus | [plutus.it](https://plutus.it) | ✅ Active | EU/UK perks |
-| **Uphold Card** | 73 🟡 | 1-4% | $0 | XRP, BTC, ETH | ⚠️ Verify | Uphold | [uphold.com/card](https://uphold.com/card) | ⚠️ Verify | Multi-crypto (US/EU) |
+| **Uphold Card** | 73 🟡 | 1-4% | $0 | XRP, BTC, ETH | ⚠️ Unverified | Uphold | [uphold.com](https://uphold.com) | ⚠️ Unverified | Multi-crypto (US/EU) |
 | **CryptoSpend** | 71 🟡 | 1% | $0 | BTC, ETH, others | ❌ | CryptoSpend | [cryptospend.com.au](https://cryptospend.com.au) | ✅ Active | Australia (self-custody) |
 | **Shakepay Card** | 70 🟡 | 1.5% | $0 | BTC | ❌ | Shakepay | [shakepay.com/card](https://shakepay.com/card) | ✅ Active | Canada |
 | **1inch Card** | 70 🟡 | Up to 2% | $0 | 1INCH | ❌ | Baanx (1inch) | [1inch.com/card](https://1inch.com/card) | ✅ Active | DeFi users (EU/UK) |
 | ~~**Mode Card**~~ | 69 🟡 | Up to 10% | $0 | BTC | ❌ | Mode | ~~[modeapp.com](https://modeapp.com)~~ | ❌ Defunct | ~~Bitcoin rewards (UK)~~ |
 | **Binance Card** | 67 🟡 | Up to 3% | $0 | BNB | ⚠️ Verify | Binance Exchange | [binance.com/en/cards](https://www.binance.com/en/cards) | ✅ Active | Binance users (Brazil only) |
 | **Redotpay** | 67 🟡 | Up to 3% | $0-$100 | USDT, USDC | ✅ | Redotpay | [redotpay.com](https://redotpay.com) | ✅ Active | Multi-region (HK-based) |
-| **CoinJar Card** | 65 🟡 | 1% | $0 | BTC | ❌ | CoinJar Exchange | [coinjar.com/card](https://www.coinjar.com/card) | ⚠️ Verify | Australia |
+| **CoinJar Card** | 65 🟡 | 1% | $0 | BTC | ❌ | CoinJar Exchange | [coinjar.com/au/card](https://www.coinjar.com/au/card) | ✅ Active | Australia |
 | **Nexo Card** | 63 🟡 | Up to 2% | $0 | NEXO | ✅ | Nexo | [nexo.com/card](https://nexo.com/card) | ✅ Active | Crypto credit (EU/UK) |
-| **Kraken Card** | 60 🟡 | TBD | $0 | Multi-crypto | ⚠️ Verify | Kraken Exchange | [kraken.com](https://www.kraken.com) | 🔄 Limited | Kraken users |
-| **Swissborg Card** | 60 🟡 | 1-2% | $0 | CHSB | ❌ | Swissborg | [swissborg.com/card](https://swissborg.com/card) | ⚠️ Verify | EU users |
+| **Kraken Card** | 60 🟡 | TBD | $0 | Multi-crypto | ⚠️ Unverified | Kraken Exchange | [kraken.com](https://www.kraken.com) | ⚠️ Unverified | Kraken users |
+| **Swissborg Card** | 60 🟡 | 1-2% | $0 | CHSB | ❌ | Swissborg | [swissborg.com](https://swissborg.com) | ⚠️ Unverified | EU users |
 | **BitPay Card** | 56 🟡 | 1%* | $0 | None | ⚠️ Verify | BitPay | [bitpay.com/card](https://bitpay.com/card) | ✅ Active | Bitcoin spending (US) |
 | **OKX Card** | 50 🟡 | TBD | $0 | Stablecoins | ⚠️ Verify | OKX Exchange | [okx.com](https://www.okx.com) | 🔄 Launching | Stablecoin payments |
 | **Reap** | 47 🔴 | 0% | $0 | Stablecoins | ✅ | Reap | [reap.global](https://reap.global) | ✅ Active | Business cards |
