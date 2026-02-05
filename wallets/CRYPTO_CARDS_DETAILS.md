@@ -162,8 +162,8 @@ The Coinbase Card is a debit card that allows users to spend crypto and earn cry
 - Rewards paid in BTC, ETH, or other supported cryptos
 
 **Fees:**
-- Annual Fee: $0
-- Foreign Transaction Fee: 0%
+- Annual Fee: TBD
+- Foreign Transaction Fee: TBD
 - ATM Fee: Standard ATM fees may apply
 - Crypto Conversion: Spread fees apply
 
@@ -213,8 +213,8 @@ The Crypto.com Visa Card is a prepaid debit card with tiered rewards based on CR
 - Crypto.com Exchange fee discounts
 
 **Fees:**
-- Annual Fee: $0
-- Foreign Transaction Fee: 0%
+- Annual Fee: TBD
+- Foreign Transaction Fee: TBD
 - Staking Lock: 6 months (for staking tiers)
 
 **Requirements:**
@@ -442,44 +442,14 @@ The Fold Card is a Bitcoin rewards debit card available in the US, offering rota
 
 ---
 
-### Mode Card
+### ~~Mode Card~~
 
-**Website:** [modeapp.com](https://modeapp.com)
+**Website:** ~~[modeapp.com](https://modeapp.com)~~
 
-**Status:** ⚠️ **Verification Required** - Mode is a UK-based company. Availability claims need verification.
+**Status:** ❌ **Discontinued / Unreachable** - modeapp.com timed out in headless Chromium checks (Feb 2026). Treat as inactive until verified.
 
 **Overview:**
-The Mode Card is a Bitcoin rewards debit card with high cash back rates. Mode is a UK-based fintech company. ⚠️ Specific cash back rates (up to 10%) and geographic availability require verification on official website.
-
-**Business Support:** ❌ Personal only
-
-**Key Features:**
-- High Bitcoin rewards (up to 10% - ⚠️ verify)
-- UK/EU availability (⚠️ verify regions)
-- Debit card
-
-**Rewards Structure:**
-- Up to 10% cash back in Bitcoin (⚠️ verify current rates)
-- Rewards paid in BTC
-
-**Fees:**
-- Annual Fee: $0 (⚠️ verify)
-- Foreign Transaction Fee: 0% (⚠️ verify)
-
-**Requirements:**
-- UK/EU residency (⚠️ verify regions)
-- KYC verification
-
-**Best For:**
-- Bitcoin-focused users seeking high rewards
-- UK/EU residents (verify availability)
-- Those who want Bitcoin rewards
-
-**Limitations:**
-- Geographic availability unclear - verify
-- Bitcoin rewards only
-- Debit card (no credit building)
-- ⚠️ High cash back rate (10%) requires verification
+Mode Card previously advertised Bitcoin rewards debit card features, but the official site is unreachable and the product appears inactive.
 
 ---
 
@@ -529,12 +499,12 @@ The Plutus Card is a debit card available in EU and UK, offering PLU token rewar
 
 ### Swissborg Card
 
-**Website:** [swissborg.com/card](https://swissborg.com/card)
+**Website:** [swissborg.com](https://swissborg.com)
 
-**Status:** ⚠️ **Verification Required** - Website returns 404 error (December 2025)
+**Status:** ⚠️ **Verification Required** - No card page found; `/card` returns 404.
 
 **Overview:**
-The Swissborg Card is a debit card available in EU, offering CHSB token rewards. **⚠️ Card status needs verification** - website URL returns 404 error. May need to check alternative URLs or confirm if card product still exists.
+The Swissborg Card is referenced in older materials, but the official site does not surface a card product page. Treat details as unverified until a current card page is published.
 
 **Business Support:** ❌ Personal only
 
@@ -649,12 +619,12 @@ The BitPay Card is a prepaid debit card that allows spending Bitcoin, available 
 
 ### Uphold Card
 
-**Website:** [uphold.com/card](https://uphold.com/card)
+**Website:** [uphold.com](https://uphold.com)
 
-**Status:** ⚠️ **Verification Required** - Website returns 404 error (December 2025)
+**Status:** ⚠️ **Verification Required** - `/card` and `/debit-card` return 404.
 
 **Overview:**
-The Uphold Card is a debit card that offers crypto rewards, available in US, UK, and EU regions. **⚠️ Card status needs verification** - website URL returns 404 error. May need to check alternative URLs (e.g., /debit-card) or confirm if card product still exists.
+The Uphold Card has been listed historically, but current card landing pages return 404. Treat all card details as unverified until Uphold publishes an active card page.
 
 **Business Support:** ✅ Yes (Uphold Business accounts available)
 
@@ -692,27 +662,28 @@ The Uphold Card is a debit card that offers crypto rewards, available in US, UK,
 
 ### CoinJar Card
 
-**Website:** [coinjar.com/card](https://www.coinjar.com/card)
+**Website:** [coinjar.com/au/card](https://www.coinjar.com/au/card)
 
-**Status:** ⚠️ **Verification Required** - Website returns 404 error (December 2025)
+**Status:** ✅ Active (✅ Verified February 2026)
 
 **Overview:**
-The CoinJar Card is a Bitcoin rewards debit card available in Australia. **⚠️ Card status needs verification** - website URL returns 404 error. May need to check alternative URLs or confirm if card product still exists.
+The CoinJar Card is a crypto debit card for Australia. The official AU card page confirms no monthly fees and rewards points on spend.
 
 **Business Support:** ❌ Personal only
 
 **Key Features:**
-- Bitcoin-only rewards
+- Rewards points on every purchase (1% transaction fee returned)
 - Australia-only availability
-- Debit card
+- Mastercard debit card (digital + physical)
 
 **Rewards Structure:**
-- 1% cash back in Bitcoin
-- Rewards paid in BTC
+- 1% transaction fee returned as CoinJar Rewards points
 
 **Fees:**
 - Annual Fee: $0
-- Foreign Transaction Fee: 0%
+- Purchase fee: 1% (returned as Rewards points)
+- ATM withdrawal: 1%
+- Foreign Transaction Fee: 2.99%
 
 **Requirements:**
 - Australia residency
@@ -1608,16 +1579,15 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 
 ### Highest Cash Back Rates
 
-1. **Mode Card** - Up to 10% (Bitcoin)
-2. **Crypto.com Obsidian** - 8% (with $400k+ CRO stake)
-3. **Binance Card** - Up to 8% (with BNB holdings)
-4. **Wirex Card** - Up to 8% (WXT rewards)
-5. **Crypto.com Icy White/Frosted Rose Gold** - 5% (with $40k CRO stake)
-6. **Fold Card** - Up to 5% (Bitcoin, rotating categories)
-7. **Coinbase Card (with Coinbase One)** - Up to 4% (crypto rewards)
-8. **Crypto.com Royal Indigo/Jade Green** - 3% (with $4k CRO stake)
-9. **Plutus Card** - 3% (PLU rewards)
-10. **Gemini Card** - Up to 3% (category bonuses)
+1. **Crypto.com Obsidian** - 8% (with $400k+ CRO stake)
+2. **Binance Card** - Up to 8% (with BNB holdings)
+3. **Wirex Card** - Up to 8% (WXT rewards)
+4. **Crypto.com Icy White/Frosted Rose Gold** - 5% (with $40k CRO stake)
+5. **Fold Card** - Up to 5% (Bitcoin, rotating categories)
+6. **Coinbase Card (with Coinbase One)** - Up to 4% (crypto rewards)
+7. **Crypto.com Royal Indigo/Jade Green** - 3% (with $4k CRO stake)
+8. **Plutus Card** - 3% (PLU rewards)
+9. **Gemini Card** - Up to 3% (category bonuses)
 
 ### Base Cash Back Rates (No Staking)
 
@@ -1627,11 +1597,10 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 4. **Gemini Card** - 1% (up to 3% categories)
 5. **Crypto.com Midnight Blue** - 0.5%
 6. **Fold Card** - 1% base (up to 5% categories)
-7. **Mode Card** - Variable (up to 10%)
-8. **Shakepay Card** - Up to 1.5%
-9. **Swissborg Card** - 1-2%
-10. **CoinJar Card** - 1%
-11. **CryptoSpend Card** - 1%
+7. **Shakepay Card** - Up to 1.5%
+8. **Swissborg Card** - 1-2%
+9. **CoinJar Card** - 1% (rewards points)
+10. **CryptoSpend Card** - 1%
 
 ---
 
@@ -1712,8 +1681,7 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 - Redotpay
 
 ### Regional Notes
-- Mode Card - UK-based company, availability unclear ⚠️
-- Uphold Card - US, UK, EU regions ⚠️ (website timing out)
+- Uphold Card - US, UK, EU regions ⚠️ (card pages return 404)
 
 *Note: Availability within "global" regions varies - verify on official websites before applying*
 
@@ -1792,7 +1760,7 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 - **Notes:** BitPay Business accounts available
 
 **Uphold Card**
-- **Website:** [uphold.com/card](https://uphold.com/card)
+- **Website:** [uphold.com](https://uphold.com)
 - **Business Support:** ✅ Yes
 - **Notes:** Uphold Business accounts available
 
@@ -1808,7 +1776,7 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 - Plutus Card
 - Swissborg Card
 - Fold Card
-- Mode Card
+- ~~Mode Card~~ (discontinued)
 - Shakepay Card
 - CoinJar Card
 - CryptoSpend Card
@@ -1822,10 +1790,8 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 
 ### Best for High Cash Back (No Staking)
 - **Plutus Card** - 3% base (EU/UK)
-- **Mode Card** - Up to 10% (UK/EU ⚠️ Verify, Bitcoin)
 
 ### Best for Bitcoin Rewards
-- **Mode Card** - Up to 10% (UK/EU ⚠️ Verify)
 - **Fold Card** - Up to 5% (US)
 - **Shakepay Card** - Up to 1.5% (Canada)
 
@@ -1839,7 +1805,6 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 - **Gemini Card** - 1-3% (US)
 - **Plutus Card** - 3% (EU/UK)
 - **Fold Card** - Up to 5% (US)
-- **Mode Card** - Up to 10% (UK/EU ⚠️ Verify)
 
 ### Best for Staking Rewards
 - **Crypto.com Visa** - Up to 8% with CRO stake
@@ -1867,7 +1832,7 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 | Score Range | Count | Cards |
 |-------------|-------|-------|
 | 75+ 🟢 Highly Recommended | 10 | EtherFi Cash (85), Ready (83), Hi (79 ⚠️), Gnosis Pay (78), Wirex (78 ⚠️), Fold (77), Gemini (76), KuCard (76), Revolut (76), Coinbase (75) |
-| 50-74 🟡 Good Option | 15 | Bybit (74 ⚠️), Plutus (73), Uphold (73 ⚠️), CryptoSpend (71), Shakepay (70), 1inch (70), Mode (69 ⚠️), Binance (67), Redotpay (67), CoinJar (65 ⚠️), Nexo (63), Kraken (60), Swissborg (60 ⚠️), BitPay (56), OKX (50) |
+| 50-74 🟡 Good Option | 15 | Bybit (74 ⚠️), Plutus (73), Uphold (73 ⚠️), CryptoSpend (71), Shakepay (70), 1inch (70), ~~Mode (69)~~, Binance (67), Redotpay (67), CoinJar (65), Nexo (63), Kraken (60 ⚠️), Swissborg (60 ⚠️), BitPay (56), OKX (50 ⚠️) |
 | <50 🔴 Consider Alternatives | 2 | Reap (47), Crypto.com (41) |
 
 **Key Corrections (January 2026):**
@@ -1876,7 +1841,7 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 - Crypto.com Visa: **0% base tier** (requires $400+ CRO stake for any rewards, 12-month lock)
 - Nexo Card: Has **FX fees on weekdays** (was listed as 0% FX)
 
-**⚠️ Note:** Cards marked with ⚠️ have unverified data (website unreachable or incomplete info).
+**⚠️ Note:** Cards marked with ⚠️ have unverified data (website unreachable or incomplete info). Mode is discontinued/unreachable.
 
 ### Human Suggestions Scoring
 
@@ -1884,7 +1849,7 @@ Score adjustments based on real-world user experiences and company reputation:
 
 **Penalties:**
 - **Crypto.com Visa: -20 points** - Poor UX, customer service issues, 12-month staking lock-ups, 0% base tier
-- **TBD/Unverified data: -3 to -5 points** - OKX Card, Mode Card, Bybit Card (incomplete data)
+- **TBD/Unverified data: -3 to -5 points** - OKX Card, Kraken Card, Bybit Card (FX fee TBD), Uphold Card, Swissborg Card
 - **Exchange custody risk: -3 points** - Coinbase, Binance, Gemini, KuCoin, OKX, CoinJar, Kraken, Crypto.com, Bybit
 
 **Bonuses:**
