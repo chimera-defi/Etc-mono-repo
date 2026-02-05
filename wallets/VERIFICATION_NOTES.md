@@ -31,9 +31,9 @@ This document tracks verification status and potential inaccuracies in the crypt
 ### ⚠️ Cards Needing Status Verification
 
 1. **Hi Card** - Website shows 2021-2022 copyright, card product info minimal/unclear. Main site (hi.com) loads but card-specific features not prominent. High cashback claims (10%) unverified. Status uncertain ⚠️
-2. **Uphold Card** - Website returns "Sorry... there was an error" message on main domain. Card product status uncertain ⚠️
+2. **Uphold Card** - `/card` reachable via r.jina.ai but no card-specific details; `/debit-card` times out. Card product status uncertain ⚠️
 3. **Bybit Card** - HTTP2 protocol errors on ALL tested URLs (including en, en-GB, en-US, nl regional variants). May be heavily geo-restricted or undergoing service changes ⚠️
-4. **Swissborg Card** - Website navigation failures on all tested pages. Card-specific page (swissborg.com/card) returns 404. Company may exist but card product status unclear ⚠️
+4. **Swissborg Card** - Card-specific page (swissborg.com/card) returns 404 in headless Chromium. Swissborg fees page exists but is app-level, not card-specific. Product status unclear ⚠️
 
 ### Previous Verifications (December 2025)
 
@@ -44,8 +44,8 @@ This document tracks verification status and potential inaccuracies in the crypt
 
 ### ⚠️ Cards with Website Access Issues (404 Errors)
 
-1. **Swissborg Card** - https://swissborg.com/card returns 404
-2. **Uphold Card** - https://uphold.com/card returns 404
+1. **Swissborg Card** - https://swissborg.com/card returns 404 (headless Chromium)
+2. **Uphold Card** - https://uphold.com/card returns generic content via r.jina.ai; no card details
 3. **CoinJar Card** - https://www.coinjar.com/card returns 404
 
 **Action Required:** These cards need manual verification to confirm:
@@ -283,19 +283,19 @@ The 1inch Card is classified as self-custody based on marketing ("tied to your c
 
 #### Swissborg Card
 - **Website:** https://swissborg.com/card
-- **Status:** ❌ 404 Error
-- **Issue:** URL returns 404 page
-- **Action Required:** Verify correct URL or confirm if card product still exists
-- **Alternative URLs to Try:** 
+- **Status:** ❌ 404 Error (headless Chromium)
+- **Issue:** Card URL returns 404; r.jina.ai only shows main site navigation. Swissborg app fees page exists but has no card-specific fee schedule.
+- **Action Required:** Confirm if a card product still exists; find a current card landing page before updating fees.
+- **Alternative URLs to Try:**
   - https://swissborg.com/products/card
   - https://swissborg.com/crypto-card
-  - Check main website navigation
+  - https://swissborg.com/legal/swissborg-app-fees (app-level fees only)
 
 #### Uphold Card
 - **Website:** https://uphold.com/card
-- **Status:** ❌ 404 Error
-- **Issue:** URL returns 404 page
-- **Action Required:** Verify correct URL or confirm if card product still exists
+- **Status:** ⚠️ Unverified
+- **Issue:** `/card` is reachable via r.jina.ai but only shows generic/fee transparency text; `/debit-card` times out in proxy and headless Chromium.
+- **Action Required:** Locate a live card landing page or help-center article with fee details before updating.
 - **Alternative URLs to Try:**
   - https://uphold.com/debit-card
   - https://uphold.com/products/card
@@ -310,22 +310,6 @@ The 1inch Card is classified as self-custody based on marketing ("tied to your c
   - https://coinjar.com/products/card
   - Check main website navigation
   - Verify if card is still offered
-
-### Cards Needing Deeper Verification
-
-#### Mode Card
-- **Website:** https://modeapp.com
-- **Status:** ⚠️ Needs Verification
-- **Issue:** Mode is a UK-based fintech company (founded in London), but original documentation claimed "US only" availability
-- **Concerns:**
-  - "Up to 10%" cash back rate is exceptionally high - needs verification
-  - Geographic availability unclear (UK? EU? US?)
-  - Actual terms and conditions unknown
-- **Action Required:** Verify on official website:
-  - Actual cash back rates and any conditions/caps
-  - Geographic availability (which countries/regions served)
-  - Fee structure
-  - Current card status
 
 ### Cards Not Verified (No Website Access)
 
@@ -351,8 +335,8 @@ The 1inch Card is classified as self-custody based on marketing ("tied to your c
 
 #### Mode Card
 - **Website:** https://modeapp.com
-- **Status:** ⚠️ No specific data found in initial scrape
-- **Note:** Website exists but may require JavaScript or deeper page navigation.
+- **Status:** ❌ Defunct
+- **Note:** modeapp.com unreachable on repeated checks; remove from active verification queues.
 
 #### CryptoSpend Card
 - **Website:** https://cryptospend.com.au
