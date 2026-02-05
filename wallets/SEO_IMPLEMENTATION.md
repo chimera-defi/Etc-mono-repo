@@ -581,7 +581,7 @@ Same as above. Track citation frequency.
 ### Content Mistakes
 - ❌ Don't optimize for outdated info
 - ❌ Don't forget to update scores when they change
-- ❌ Don't use affiliate links (we're independent)
+- ❌ Don't hide affiliate links (disclose them clearly)
 - ✅ Always link to official wallet websites
 
 ---

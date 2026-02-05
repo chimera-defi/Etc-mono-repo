@@ -116,7 +116,7 @@
 
   <!-- Trust strip -->
   <rect class="glass" x="60" y="360" width="1280" height="36" rx="10" />
-  <text class="label" x="92" y="383">No login / No tracking / No affiliates / Verified sources</text>
+  <text class="label" x="92" y="383">No login / No tracking / Affiliate disclosures / Verified sources</text>
 
   <!-- Top picks -->
   <text class="h2" x="60" y="430">Top Picks + Evidence</text>

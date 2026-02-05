@@ -233,7 +233,7 @@ Comprehensive comparison tables and guides:
 ✅ **Transparent data sources** — All links and data sources verified and documented
 ✅ **Open source code** — View and audit our code on GitHub
 ✅ **Published methodology** — All scoring formulas documented and reproducible
-✅ **No affiliate links** — We don't profit from wallet recommendations
+✅ **Affiliate disclosures** — Affiliate links, when used, are disclosed and never affect scores
 
 ### Educational Purpose Only
 

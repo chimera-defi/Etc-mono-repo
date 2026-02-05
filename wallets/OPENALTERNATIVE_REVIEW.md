@@ -24,7 +24,7 @@ This document summarizes patterns worth adapting from directory-style sites like
 
 5. **Monetization with transparency**
    - Sponsorship and data licensing with clear disclosure.
-   - No affiliate links or pay-to-win ranking.
+   - Affiliate links allowed with disclosure; no pay-to-win ranking.
 
 ## Improvements Implemented (This Update)
 
