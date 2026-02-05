@@ -213,3 +213,22 @@ Upsell paths: paid support, custom domains, scheduled backups, higher uptime SLA
 2. Run a 10-user paid pilot
 3. Measure retention and support costs
 4. Decide MVP scope and provider
+
+---
+
+## Build Readiness (What Is Left)
+
+To one-shot build this with subagents, we still need four concrete artifacts and a short decision pass.
+
+**Artifacts to produce**:
+- [PRD](./PRD.md)
+- [Technical Spec](./SPEC.md)
+- [Task List](./TASKS.md)
+- [Subagent Handoff Prompts](./HANDOFF_PROMPTS.md)
+
+**Decision checklist (required before build)**:
+1. Canonical upstream repo + license for OpenClaw/Clawdbot/Moltbot.
+2. Hosting provider choice for MVP (cost + ops constraints).
+3. MVP runtime choice (shared containers only vs VPS tiers).
+4. Billing model (monthly vs usage caps, free trial or not).
+5. Data retention policy for logs and user secrets.
