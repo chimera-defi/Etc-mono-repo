@@ -6,6 +6,26 @@
 
 Clawdbot Launchpad is a multi-tenant control plane that provisions and manages Clawdbot/Moltbot runtimes on shared containers (MVP) and dedicated VPS (Phase 2).
 
+## MVP Decisions (Concrete Defaults)
+
+**Upstream**: openclaw/openclaw (MIT).  
+**Cloud**: AWS (single region for MVP).  
+**Runtime (MVP)**: ECS Fargate (shared containers).  
+**Dedicated tier**: EC2 + Docker + systemd (Phase 2).  
+**Database**: Postgres (RDS).  
+**Queue**: SQS (provisioning jobs).  
+**Secrets**: AWS Secrets Manager + KMS.  
+**Images**: ECR + image scanning + signing.  
+**Logs/Metrics**: CloudWatch Logs + CloudWatch Metrics.  
+**Object storage**: S3 (artifacts, backups).  
+**IaC**: Terraform.  
+**CI/CD**: GitHub Actions.
+
+### Alternatives Considered (Summary)
+
+- **DigitalOcean**: DOKS + Managed Postgres + Spaces (lower cost, fewer enterprise controls).
+- **Hetzner**: k3s + Postgres + MinIO (lowest cost, highest ops burden).
+
 ## Architecture (Text Diagram)
 
 ```
@@ -70,6 +90,16 @@ User -> Web App -> Control Plane API -> Provisioning Queue -> Workers
 4. Inject secrets + config.
 5. Pull signed image -> health check -> mark ready.
 
+## Provisioning State Machine (MVP)
+
+`requested` -> `provisioning` -> `configuring` -> `starting` -> `running`  
+`running` -> `updating` -> `running`  
+`running` -> `failed` (on crash loop or health check failure)  
+`failed` -> `restarting` -> `running` (auto-restart policy)  
+`running` -> `suspended` (billing delinquent)  
+`suspended` -> `running` (on payment)  
+`running` -> `terminated` (cancel + retention window)
+
 ## Runtime Details
 
 **Shared Containers (MVP)**
@@ -82,6 +112,14 @@ User -> Web App -> Control Plane API -> Provisioning Queue -> Workers
 - Per-tenant VM with Docker + systemd.
 - Encrypted disk + snapshot backups.
 - Optional static IP and custom domains.
+
+## Default Limits (Initial, adjust after pilot)
+
+| Plan | vCPU | Memory | Storage | Log Retention |
+|------|-----:|-------:|--------:|---------------|
+| Starter | 0.5 | 1GB | 10GB | 7 days |
+| Pro | 1.0 | 2GB | 25GB | 30 days |
+| Team (VPS) | 2.0 | 4GB | 50GB | 30 days |
 
 ## Security Model
 
@@ -115,10 +153,10 @@ User -> Web App -> Control Plane API -> Provisioning Queue -> Workers
 4. Regional failover plan for control plane.
 5. Runbook for incident response.
 
-## Open Decisions
+## Open Decisions (Remaining)
 
-1. Hosting provider selection for MVP.
-2. Cluster orchestrator (K8s vs ECS vs Nomad).
-3. Log retention window and storage costs.
-4. Versioning strategy for upstream updates.
-5. Support model (human vs automation).
+1. Confirm provider choice (AWS vs DO) before build.
+2. Region strategy (single region vs multi-region at launch).
+3. Free trial policy and abuse controls for trials.
+4. Versioning strategy for upstream updates (auto vs pinned).
+5. Support model (human-only vs automation + escalation).

@@ -225,6 +225,7 @@ To one-shot build this with subagents, we still need four concrete artifacts and
 - [Technical Spec](./SPEC.md)
 - [Task List](./TASKS.md)
 - [Subagent Handoff Prompts](./HANDOFF_PROMPTS.md)
+- [Research Notes](./RESEARCH_NOTES.md)
 
 **Decision checklist (required before build)**:
 1. Canonical upstream repo + license for OpenClaw/Clawdbot/Moltbot.
