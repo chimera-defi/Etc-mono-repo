@@ -1802,16 +1802,16 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 ### Best for EU/UK Users
 - **Nexo Card** - Crypto-backed credit (EU, UK)
 - **Plutus Card** - 3% PLU rewards (EU, UK)
-- **Swissborg Card** - 1-2% CHSB rewards (EU)
+- **Swissborg Card** - 1-2% CHSB rewards (EU ⚠️ unverified)
 
 ### Best for Global Users
 - **Crypto.com Visa** - Tiered rewards (Global)
 - **Binance Card** - BNB rewards (Global)
 - **Wirex Card** - Multi-crypto (Global)
-- **Uphold Card** - Multi-crypto (US, UK, EU)
+- **Uphold Card** - Multi-crypto (US, UK, EU ⚠️ unverified)
 
 ### Best for Australia
-- **CoinJar Card** - 1% Bitcoin rewards
+- **CoinJar Card** - 1% rewards points
 - **CryptoSpend Card** - 1% multi-crypto rewards
 
 ---
@@ -1821,7 +1821,7 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 | Score Range | Count | Cards |
 |-------------|-------|-------|
 | 75+ 🟢 Highly Recommended | 10 | EtherFi Cash (85), Ready (83), Hi (79 ⚠️), Gnosis Pay (78), Wirex (78 ⚠️), Fold (77), Gemini (76), KuCard (76), Revolut (76), Coinbase (75) |
-| 50-74 🟡 Good Option | 15 | Bybit (74 ⚠️), Plutus (73), Uphold (73 ⚠️), CryptoSpend (71), Shakepay (70), 1inch (70), ~~Mode (69)~~, Binance (67), Redotpay (67), CoinJar (65), Nexo (63), Kraken (60 ⚠️), Swissborg (60 ⚠️), BitPay (56), OKX (50 ⚠️) |
+| 50-74 🟡 Good Option | 14 | Bybit (74 ⚠️), Plutus (73), Uphold (73 ⚠️), CryptoSpend (71), Shakepay (70), 1inch (70), Binance (67), Redotpay (67), CoinJar (65), Nexo (63), Kraken (60 ⚠️), Swissborg (60 ⚠️), BitPay (56), OKX (50 ⚠️) |
 | <50 🔴 Consider Alternatives | 2 | Reap (47), Crypto.com (41) |
 
 **Key Corrections (January 2026):**
