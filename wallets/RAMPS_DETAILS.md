@@ -18,7 +18,7 @@
 | [**Ramp**](https://ramp.network/) | 88 | 🇪🇺 EU / Speed | ~150+ Countries | Low/Medium | Good (SDK) |
 | [**Sardine**](https://www.sardine.ai/) | 86 | 🇺🇸 US / Fraud | US + Select Global | Variable (Risk based) | Advanced (API/SDK) |
 | [**Stripe**](https://stripe.com/docs/crypto) | 85 | 🤝 Trust | Global | Usage Based | Excellent (Stripe style) |
-| [**Simplex**](https://www.simplex.com/) | 84 | 💳 High Limits | ~150+ Countries | Medium/High | Good (Widget) |
+| [**Simplex**](https://www.simplex.com/) | 84 | 💳 High Limits | ~190+ Countries | Medium/High | Good (Widget) |
 | [**Modern Treasury**](https://www.moderntreasury.com/) | 83 | 🏢 Enterprise | US + Select | Usage Based | Excellent (API) |
 | [**Banxa**](https://banxa.com/) | 80 | 🏦 Local Pay | Global | Variable | Good |
 | [**Mercuryo**](https://mercuryo.io/) | 78 | 💼 B2B | Global | Medium | Good |
