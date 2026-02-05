@@ -78,6 +78,19 @@ DeFi protocol concept for ERC-8004 agent credit with Ethos vouching + reverse-Ke
 
 ---
 
+## Idea Validation Bot (Voice → Interview → Adversarial Validation → PRD)
+
+**Concept**: A mobile “idea bot” that transcribes voice and runs a structured interview to refine and validate product ideas, including feasibility analysis and adversarial tests of business model and GTM, then outputs an **agent-ready PRD/spec** for coding agents.
+
+**Documentation**:
+- [Idea Validation Bot Overview](./idea-validation-bot/README.md)
+- [PRD](./idea-validation-bot/PRD.md)
+- [Technical Spec](./idea-validation-bot/SPEC.md)
+- [Question Flow](./idea-validation-bot/QUESTION_FLOW.md)
+- [Adversarial Tests](./idea-validation-bot/ADVERSARIAL_TESTS.md)
+
+---
+
 ## Clawdbot Launchpad
 
 **Concept**: A paid launchpad that provisions a persistent VPS or container with Clawdbot or Moltbot pre-installed. Users pay a small monthly fee and manage their bot via a simple dashboard.
