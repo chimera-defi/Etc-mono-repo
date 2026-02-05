@@ -78,6 +78,23 @@ DeFi protocol concept for ERC-8004 agent credit with Ethos vouching + reverse-Ke
 
 ---
 
+## Cloudbot Launchpad
+
+**Concept**: A paid launchpad that provisions a persistent VPS or container with Cloudbot or Moldbot pre-installed. Users pay a small monthly fee and manage their bot via a simple dashboard.
+
+**Key Features**:
+- One-click deploy (Cloudbot/Moldbot images)
+- Shared container tier + dedicated VPS tier
+- Basic dashboard (status, logs, restart, update)
+- Backups and support as paid add-ons
+
+**Status**: Research phase
+
+**Documentation**:
+- [Cloudbot Launchpad Overview](./cloudbot-launchpad/README.md)
+
+---
+
 ## Birthday Bot
 
 **Problem**: People frequently forget their friends' and family members' birthdays. Birthday data is scattered across Facebook, Instagram, Google Contacts, phone contacts, and calendar apps, with no unified way to manage, prioritize, and remember them.
