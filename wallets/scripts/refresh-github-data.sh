@@ -15,7 +15,7 @@
 #   - (optional) GITHUB_TOKEN environment variable for higher rate limits
 #
 # Rate limits:
-#   - Without token: 60 requests/hour
+#   - Without token: 60 requests/hour (API only)
 #   - With token: 5000 requests/hour
 
 set -e
@@ -68,13 +68,12 @@ WALLET_NAMES=(
 )
 
 # Set up authentication header if token is available
-AUTH_HEADER=""
 if [ -n "$GITHUB_TOKEN" ]; then
-    AUTH_HEADER="-H \"Authorization: token $GITHUB_TOKEN\""
     echo "Using GitHub token for API requests" >&2
 else
     echo "Warning: No GITHUB_TOKEN set. Rate limited to 60 requests/hour." >&2
     echo "Set GITHUB_TOKEN environment variable for higher limits." >&2
+    echo "Falling back to GitHub Atom feeds for last-commit timestamps." >&2
 fi
 
 # Function to get activity status based on days since last commit
@@ -136,22 +135,18 @@ for i in "${!REPOS[@]}"; do
     WALLET="${WALLET_NAMES[$i]}"
     
     # Get the default branch commits
-    API_URL="https://api.github.com/repos/$REPO/commits?per_page=1"
-    
     if [ -n "$GITHUB_TOKEN" ]; then
+        API_URL="https://api.github.com/repos/$REPO/commits?per_page=1"
         RESPONSE=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$API_URL" 2>/dev/null)
+        if echo "$RESPONSE" | grep -q "API rate limit exceeded"; then
+            echo "Error: GitHub API rate limit exceeded. Set GITHUB_TOKEN." >&2
+            exit 1
+        fi
+        LAST_COMMIT=$(echo "$RESPONSE" | jq -r '.[0].commit.committer.date // empty' 2>/dev/null)
     else
-        RESPONSE=$(curl -s "$API_URL" 2>/dev/null)
+        ATOM_URL="https://github.com/$REPO/commits/HEAD.atom"
+        LAST_COMMIT=$(curl -s "$ATOM_URL" 2>/dev/null | grep -m1 "<updated>" | sed -e 's/.*<updated>//' -e 's/<\/updated>.*//')
     fi
-    
-    # Check for rate limit or error
-    if echo "$RESPONSE" | grep -q "API rate limit exceeded"; then
-        echo "Error: GitHub API rate limit exceeded. Set GITHUB_TOKEN." >&2
-        exit 1
-    fi
-    
-    # Extract last commit date
-    LAST_COMMIT=$(echo "$RESPONSE" | jq -r '.[0].commit.committer.date // empty' 2>/dev/null)
     
     if [ -z "$LAST_COMMIT" ]; then
         LAST_COMMIT_DATE="Unknown"

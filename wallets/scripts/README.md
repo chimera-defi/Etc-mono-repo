@@ -72,6 +72,7 @@ Verifies ramp provider URLs from `wallets/RAMPS.md` using a direct fetch plus
 Queries GitHub for **EVM software wallet** activity.
 
 Queries the GitHub API to get the latest commit dates and activity status for all tracked wallet repositories.
+If no token is available, it falls back to GitHub Atom feeds for the last commit date.
 
 #### Usage
 
@@ -129,6 +130,8 @@ export GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxx
 ./refresh-github-data.sh
 ```
 
+If no token is set, the script uses Atom feeds for commit dates and skips API calls.
+
 #### Activity Status Definitions
 
 | Status | Days Since Last Commit | Meaning |
@@ -161,7 +164,8 @@ The `data/` directory contains:
 
 ### `refresh-hardware-wallet-data.sh` (Hardware Wallets)
 
-Queries GitHub for **hardware wallet firmware** activity. Includes stars, issues, and issue/star ratio.
+Queries GitHub for **hardware wallet firmware** activity. Includes stars, issues, and issue/star ratio when the API is available.
+If no token is set, the script falls back to Atom feeds for last-commit dates and leaves stars/issues blank.
 
 #### Usage
 
