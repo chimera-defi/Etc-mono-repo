@@ -72,33 +72,33 @@
 
 ### GitHub Metrics (Firmware Repositories)
 
-**Generated:** December 8, 2025 via `scripts/refresh-hardware-wallet-data.sh`
+**Generated:** February 5, 2026 via `scripts/refresh-hardware-wallet-data.sh`
 
 | Wallet | Repository | Last Commit | Stars | Issues | Ratio | Status |
 |--------|------------|-------------|-------|--------|-------|--------|
-| **Trezor** | [trezor/trezor-firmware](https://github.com/trezor/trezor-firmware) | Dec 5, 2025 | 1,626 | 545 | 33.5% | ✅ Active |
-| **Blockstream Jade** | [Blockstream/Jade](https://github.com/Blockstream/Jade) | Dec 8, 2025 | 438 | 88 | 20.1% | ✅ Active |
-| **SeedSigner** | [SeedSigner/seedsigner](https://github.com/SeedSigner/seedsigner) | Oct 23, 2025 | 965 | 217 | 22.5% | ⚠️ Slow |
-| **Specter DIY** | [cryptoadvance/specter-diy](https://github.com/cryptoadvance/specter-diy) | Dec 4, 2025 | 531 | 79 | 14.9% | ✅ Active |
-| **Krux** | [selfcustody/krux](https://github.com/selfcustody/krux) | Dec 4, 2025 | 291 | 48 | 16.5% | ✅ Active |
-| **Keystone** | [KeystoneHQ/keystone3-firmware](https://github.com/KeystoneHQ/keystone3-firmware) | Dec 2, 2025 | 188 | 77 | 41.0% | ✅ Active |
-| **BitBox02** | [BitBoxSwiss/bitbox02-firmware](https://github.com/BitBoxSwiss/bitbox02-firmware) | Dec 4, 2025 | 330 | 49 | 14.8% | ✅ Active |
-| **ColdCard** | [Coldcard/firmware](https://github.com/Coldcard/firmware) | Nov 27, 2025 | 689 | 6 | 0.9% | ✅ Active |
-| **Foundation Passport** | [Foundation-Devices/passport2](https://github.com/Foundation-Devices/passport2) | Oct 22, 2025 | 76 | 8 | 10.5% | ⚠️ Slow |
-| **OneKey** | [OneKeyHQ/firmware-pro](https://github.com/OneKeyHQ/firmware-pro) | Dec 3, 2025 | 17 | 14 | 82.4% | ✅ Active |
-| **KeepKey** | [keepkey/keepkey-firmware](https://github.com/keepkey/keepkey-firmware) | Feb 11, 2025 | 162 | 15 | 9.3% | ❌ Inactive |
+| **Trezor** | [trezor/trezor-firmware](https://github.com/trezor/trezor-firmware) | Feb 5, 2026 | 1,663 | 556 | 33.4% | ✅ Active |
+| **Blockstream Jade** | [Blockstream/Jade](https://github.com/Blockstream/Jade) | Feb 2, 2026 | 442 | 93 | 21.0% | ✅ Active |
+| **SeedSigner** | [SeedSigner/seedsigner](https://github.com/SeedSigner/seedsigner) | Jan 27, 2026 | 1,024 | 227 | 22.2% | ✅ Active |
+| **Specter DIY** | [cryptoadvance/specter-diy](https://github.com/cryptoadvance/specter-diy) | Jan 29, 2026 | 542 | 77 | 14.2% | ✅ Active |
+| **Krux** | [selfcustody/krux](https://github.com/selfcustody/krux) | Jan 13, 2026 | 308 | 59 | 19.2% | ✅ Active |
+| **Keystone** | [KeystoneHQ/keystone3-firmware](https://github.com/KeystoneHQ/keystone3-firmware) | Feb 5, 2026 | 197 | 92 | 46.7% | ✅ Active |
+| **BitBox02** | [BitBoxSwiss/bitbox02-firmware](https://github.com/BitBoxSwiss/bitbox02-firmware) | Feb 5, 2026 | 341 | 50 | 14.7% | ✅ Active |
+| **ColdCard** | [Coldcard/firmware](https://github.com/Coldcard/firmware) | Feb 2, 2026 | 692 | 8 | 1.2% | ✅ Active |
+| **Foundation Passport** | [Foundation-Devices/passport2](https://github.com/Foundation-Devices/passport2) | Dec 9, 2025 | 77 | 7 | 9.1% | ⚠️ Slow |
+| **OneKey** | [OneKeyHQ/firmware-pro](https://github.com/OneKeyHQ/firmware-pro) | Feb 3, 2026 | 19 | 15 | 78.9% | ✅ Active |
+| **KeepKey** | [keepkey/keepkey-firmware](https://github.com/keepkey/keepkey-firmware) | Feb 11, 2025 | 163 | 17 | 10.4% | ❌ Inactive |
 
 **Code Quality Notes:**
-- ✅ **ColdCard (0.9%):** Excellent code quality — minimal issues relative to community size
-- ✅ **BitBox02 (14.8%):** Good code quality
-- ✅ **Specter DIY (14.9%):** Good code quality for DIY project
-- ✅ **Krux (16.5%):** Good code quality
-- ✅ **Blockstream Jade (20.1%):** Good code quality, active development
-- ⚠️ **SeedSigner (22.5%):** Moderate — large community, many feature requests
-- ⚠️ **Trezor (33.5%):** Higher ratio reflects large feature set and user base
-- ⚠️ **Keystone (41.0%):** Moderate — newer project with active development
-- 🔴 **OneKey (82.4%):** High ratio — many open issues relative to stars
-- 🔴 **KeepKey:** No commits for 296 days — effectively abandoned
+- ✅ **ColdCard (1.2%):** Excellent code quality — minimal issues relative to community size
+- ✅ **BitBox02 (14.7%):** Good code quality
+- ✅ **Specter DIY (14.2%):** Good code quality for DIY project
+- ✅ **Krux (19.2%):** Good code quality
+- ✅ **Blockstream Jade (21.0%):** Good code quality, active development
+- ⚠️ **SeedSigner (22.2%):** Moderate — large community, many feature requests
+- ⚠️ **Trezor (33.4%):** Higher ratio reflects large feature set and user base
+- ⚠️ **Keystone (46.7%):** Moderate — newer project with active development
+- 🔴 **OneKey (78.9%):** High ratio — many open issues relative to stars
+- 🔴 **KeepKey:** No commits for 358 days — effectively abandoned
 
 **Closed Source (no public firmware repos):** Ledger, NGRAVE, Ellipal, SafePal, SecuX, Tangem, BC Vault, GridPlus
 
