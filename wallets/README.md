@@ -45,15 +45,15 @@ browser verification during full data audits:
 
 - Software: Trust, Coinbase Wallet, MEW, imToken, Argent
 - Hardware: Arculus
-- Cards: Coinbase Card, Kraken Card, Mode Card, Reap, Redotpay, Revolut Crypto
+- Cards: Coinbase Card, Kraken Card, Reap, Redotpay, Revolut Crypto
 - Ramps: Coinbase Pay, Banxa, Reap
 
 When direct checks are blocked, a text-only fetch via `r.jina.ai` can confirm
 the landing content is reachable. Results are logged in
 `wallets/artifacts/manual-url-checks.json`. A headless Chromium pass captures
 browser verification output in `wallets/artifacts/manual-browser-checks.json`.
-Most bot-protected URLs resolve in Chromium; Mode Card still times out in
-headless checks and remains flagged/discontinued until verified manually.
+Most bot-protected URLs resolve in Chromium; defunct products should be removed
+from active verification lists once confirmed.
 
 ---
 

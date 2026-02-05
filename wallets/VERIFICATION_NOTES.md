@@ -65,7 +65,6 @@ The following cards' websites exist but initial scraping didn't find specific ra
 - Binance Card - "Up to 8%" (high rate, verify if requires BNB staking)
 - Wirex Card - "Up to 8%" (high rate, verify if requires WXT staking)
 - Gemini Credit Card
-- Mode Card - "Up to 10%" ⚠️ **HIGH PRIORITY** (exceptionally high rate, UK-based company)
 - BitPay Card (cashback mentioned but no percentage found)
 - Fold Card (bitcoin rewards mentioned but no percentage found)
 - CryptoSpend Card
@@ -95,7 +94,7 @@ Exchange-based cards where funds are held on the exchange platform:
 ### 📋 CeFi Custody Cards
 
 Cards issued by centralized finance companies where the company holds funds:
-- Hi Card, Wirex Card, Fold Card, Plutus Card, Revolut Crypto, Shakepay Card, Mode Card, Redotpay, Nexo Card, Swissborg Card, BitPay Card, Reap, Uphold Card
+- Hi Card, Wirex Card, Fold Card, Plutus Card, Revolut Crypto, Shakepay Card, Redotpay, Nexo Card, Swissborg Card, BitPay Card, Reap, Uphold Card
 
 ### ⚠️ Notes on 1inch Card
 
@@ -413,7 +412,7 @@ All cards should be verified for:
 ## Verification Priority
 
 ### High Priority (Verify Immediately)
-- **Mode Card** - UK-based company, "up to 10%" rate needs verification, geographic availability unclear
+- **Mode Card** - ❌ Defunct (modeapp.com unreachable, remove from active verification queues)
 - ~~**EtherFi Cash** - Rates and fees TBD, requires deeper verification~~ ✅ **VERIFIED January 2026** - 2-3% cashback, $0 annual fee, 1% FX fee
 - Cards with "TBD" or "⚠️ Verify" markers
 - Cards with 404 errors (Swissborg, Uphold, CoinJar)

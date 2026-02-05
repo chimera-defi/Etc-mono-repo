@@ -128,45 +128,44 @@ Designed primarily for business/corporate use cases.
 
 ---
 
-## Currently Available Cards (24 Active Cards)
+## Currently Available Cards (22 Active Cards)
 
 ### Confirmed Active Cards
 
 **High Cashback (5%+):**
 1. **Hi Card** - Up to 10% HI token rewards (Global ⚠️ Verify)
 2. **Bybit Card** - Up to 10% multi-crypto rewards (EEA/CH ⚠️ Verify)
-3. **Mode Card** - Up to 10% Bitcoin rewards (UK ⚠️ Verify)
-4. **Wirex Card** - Up to 8% WXT rewards (Global ⚠️ Verify)
-5. **Gnosis Pay** - Up to 5% GNO/SAFE rewards (Global - EEA, UK, Brazil, Argentina, Mexico, Colombia, Philippines, Thailand, Japan, Singapore)
-6. **Fold Card** - 3-5% Bitcoin rewards (US)
+3. **Wirex Card** - Up to 8% WXT rewards (Global ⚠️ Verify)
+4. **Gnosis Pay** - Up to 5% GNO/SAFE rewards (Global - EEA, UK, Brazil, Argentina, Mexico, Colombia, Philippines, Thailand, Japan, Singapore)
+5. **Fold Card** - 3-5% Bitcoin rewards (US)
 
 **Medium Cashback (1-4%):**
-7. **Plutus Card** - 3-9% PLU rewards (EU, UK, base 3%)
-8. **Gemini Card** - Up to 4% crypto rewards (US)
-9. **KuCard** - Up to 4% multi-crypto rewards (Global*)
-10. **Coinbase Card** - 1-4% crypto rewards (US)
-11. **Uphold Card** - 1-4% multi-crypto rewards (US/EU ⚠️ Verify)
-12. **Binance Card** - Up to 3% BNB rewards (Brazil only)
-13. **Redotpay** - Up to 3% stablecoin rewards (HK-based, Global)
-14. **Ready Card** - 3% crypto rewards, self-custody (EU/UK)
-15. **Revolut Crypto Card** - 1-3% crypto rewards (Global)
-16. **EtherFi Cash** - 2-3% DeFi-native cashback, non-custodial (Global)
-17. **Nexo Card** - Up to 2% crypto-backed credit (EU, UK)
-18. **1inch Card** - Up to 2% DeFi rewards (EU/UK)
-19. **Swissborg Card** - 1-2% CHSB rewards (EU)
-20. **Shakepay Card** - 1.5% Bitcoin rewards (Canada)
-21. **CoinJar Card** - 1% Bitcoin rewards (Australia)
-22. **CryptoSpend** - 1% multi-crypto rewards (Australia, self-custody)
+6. **Plutus Card** - 3-9% PLU rewards (EU, UK, base 3%)
+7. **Gemini Card** - Up to 4% crypto rewards (US)
+8. **KuCard** - Up to 4% multi-crypto rewards (Global*)
+9. **Coinbase Card** - 1-4% crypto rewards (US)
+10. **Binance Card** - Up to 3% BNB rewards (Brazil only)
+11. **Redotpay** - Up to 3% stablecoin rewards (HK-based, Global)
+12. **Ready Card** - 3% crypto rewards, self-custody (EU/UK)
+13. **Revolut Crypto Card** - 1-3% crypto rewards (Global)
+14. **EtherFi Cash** - 2-3% DeFi-native cashback, non-custodial (Global)
+15. **Nexo Card** - Up to 2% crypto-backed credit (EU, UK)
+16. **1inch Card** - Up to 2% DeFi rewards (EU/UK)
+17. **Shakepay Card** - 1.5% Bitcoin rewards (Canada)
+18. **CoinJar Card** - 1% Bitcoin rewards (Australia)
+19. **CryptoSpend** - 1% multi-crypto rewards (Australia, self-custody)
 
 **Utility/Low Cashback:**
-23. **BitPay Card** - 1%* merchant cashback (US)
-24. **Crypto.com Visa** - 0-8% CRO rewards (base 0%, requires staking)
-25. **Reap** - 0% business stablecoin cards (APAC)
+20. **BitPay Card** - 1%* merchant cashback (US)
+21. **Crypto.com Visa** - 0-8% CRO rewards (base 0%, requires staking)
+22. **Reap** - 0% business stablecoin cards (APAC)
 
-### Cards Under Launch/Research
+### Cards Under Launch/Research (Unverified/Blocked Pages)
 
-1. **OKX Card** - 🔄 Launching with Mastercard stablecoin partnership
-2. **Kraken Card** - 🔄 Limited availability, expanding
+1. **OKX Card** - 🔄 Launching with Mastercard stablecoin partnership (card pages time out)
+2. **Kraken Card** - 🔄 Limited availability, expanding (Cloudflare-protected)
+3. **Uphold Card** - ⚠️ Card pages time out; details unverified
+4. **Swissborg Card** - ⚠️ Card page 404; details unverified
 
 ### Discontinued Cards
 
@@ -258,15 +257,17 @@ Designed primarily for business/corporate use cases.
 ### Cards Needing Business Support Verification
 
 - ⚠️ **Wirex Card** - Score: 78 🟢 - [wirexapp.com/card](https://wirexapp.com/card) - Verify business account availability
-- ⚠️ **Uphold Card** - Score: 73 🟡 - [uphold.com/card](https://uphold.com/card) - Verify business account availability
+- ⚠️ **Uphold Card** - Score: 73 🟡 - [uphold.com](https://uphold.com) - Card pages time out; business availability unverified
 - ⚠️ **Binance Card** - Score: 67 🟡 - [binance.com/en/cards](https://www.binance.com/en/cards) - Verify business account availability
 - ⚠️ **BitPay Card** - Score: 56 🟡 - [bitpay.com/card](https://bitpay.com/card) - Verify business account availability
 
 ### Personal Only
 
-- ❌ Coinbase Card, Gemini Card, Plutus Card, Swissborg Card, Fold Card, Mode Card, Shakepay Card, CoinJar Card, CryptoSpend, Hi Card, KuCard, Gnosis Pay, 1inch Card, Kraken Card
+- ❌ Coinbase Card, Gemini Card, Plutus Card, Fold Card, Shakepay Card, CoinJar Card, CryptoSpend, Hi Card, KuCard, Gnosis Pay, 1inch Card
+- ⚠️ **Unverified/Blocked:** Uphold Card, Swissborg Card, Kraken Card, OKX Card
+- ❌ ~~Mode Card~~ (defunct)
 
-**Last Updated:** December 2025
+**Last Updated:** February 2026 (moved unverified/blocked card pages to research list; marked Mode Card defunct)
 
 ---
 
