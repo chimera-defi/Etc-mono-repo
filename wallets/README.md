@@ -48,6 +48,11 @@ browser verification during full data audits:
 - Cards: Coinbase Card, Kraken Card, Mode Card, Reap, Redotpay, Revolut Crypto
 - Ramps: Coinbase Pay, Banxa, Reap
 
+When direct checks are blocked, a text-only fetch via `r.jina.ai` can confirm
+the landing content is reachable. Results are logged in
+`wallets/artifacts/manual-url-checks.json`. Reap and Redotpay still require a
+browser check (Jina timed out).
+
 ---
 
 ## 🖼️ Product Screenshots
