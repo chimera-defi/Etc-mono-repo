@@ -85,6 +85,22 @@ get_status_emoji() {
     fi
 }
 
+normalize_count() {
+    local raw="$1"
+    raw="${raw//,/}"
+    if [[ "$raw" =~ ^([0-9]+(\.[0-9]+)?)([kKmM])$ ]]; then
+        local num="${BASH_REMATCH[1]}"
+        local suffix="${BASH_REMATCH[3]}"
+        if [[ "$suffix" =~ [kK] ]]; then
+            awk "BEGIN {printf \"%d\", $num*1000}"
+        else
+            awk "BEGIN {printf \"%d\", $num*1000000}"
+        fi
+    else
+        echo "$raw"
+    fi
+}
+
 # Parse arguments
 OUTPUT_FORMAT="text"
 if [ "$1" == "--json" ]; then
@@ -135,8 +151,17 @@ for i in "${!REPOS[@]}"; do
         STARS=$(echo "$REPO_RESPONSE" | jq -r '.stargazers_count // 0' 2>/dev/null)
         ISSUES=$(echo "$REPO_RESPONSE" | jq -r '.open_issues_count // 0' 2>/dev/null)
     else
-        STARS=$(curl -s "https://r.jina.ai/http://github.com/$REPO" 2>/dev/null | sed -n 's/.*stars[^0-9]*\\([0-9][0-9,]*\\).*/\\1/p' | head -n1 | tr -d ',' )
-        ISSUES=$(curl -s "https://r.jina.ai/http://github.com/$REPO/issues" 2>/dev/null | sed -n 's/.*Open[^0-9]*\\([0-9][0-9,]*\\).*/\\1/p' | head -n1 | tr -d ',' )
+        REPO_URL="https://api.github.com/repos/$REPO"
+        REPO_RESPONSE=$(curl -s "$REPO_URL" 2>/dev/null)
+        if echo "$REPO_RESPONSE" | grep -q "API rate limit exceeded"; then
+            STAR_RAW=$(curl -s "https://r.jina.ai/http://github.com/$REPO" 2>/dev/null | grep -m1 "Star " | sed -n 's/.*Star[[:space:]]\\{1,\\}\\([0-9][0-9.,kKmM]*\\).*/\\1/p')
+            ISSUE_RAW=$(curl -s "https://r.jina.ai/http://github.com/$REPO/issues?q=is%3Aissue+is%3Aopen" 2>/dev/null | grep -m1 "Open[[:space:]]\\{1,\\}[0-9]" | sed -n 's/.*Open[[:space:]]\\{1,\\}\\([0-9][0-9.,kKmM]*\\).*/\\1/p')
+            STARS=$(normalize_count "$STAR_RAW")
+            ISSUES=$(normalize_count "$ISSUE_RAW")
+        else
+            STARS=$(echo "$REPO_RESPONSE" | jq -r '.stargazers_count // "?"' 2>/dev/null)
+            ISSUES=$(echo "$REPO_RESPONSE" | jq -r '.open_issues_count // "?"' 2>/dev/null)
+        fi
         if [ -z "$STARS" ]; then STARS="?"; fi
         if [ -z "$ISSUES" ]; then ISSUES="?"; fi
     fi

@@ -72,7 +72,7 @@ Verifies ramp provider URLs from `wallets/RAMPS.md` using a direct fetch plus
 Queries GitHub for **EVM software wallet** activity.
 
 Queries the GitHub API to get the latest commit dates and activity status for all tracked wallet repositories.
-If no token is available, it falls back to GitHub Atom feeds for the last commit date.
+If no token is available, it falls back to GitHub Atom feeds for the last commit date and attempts a best-effort HTML scrape for stars/issues.
 
 #### Usage
 
@@ -112,9 +112,9 @@ Rabby           RabbyHub/Rabby                        2025-11-21   10 days  ✅ 
 
 **Markdown (`--markdown`):**
 ```markdown
-| Wallet | Repository | Last Commit | Days Ago | Status |
-|--------|------------|-------------|----------|--------|
-| **MetaMask** | [MetaMask/metamask-extension](https://github.com/MetaMask/metamask-extension) | 2025-11-27 | 4 | ✅ Active |
+| Wallet | Repository | Last Commit | Days Ago | Stars | Issues | Status |
+|--------|------------|-------------|----------|-------|--------|--------|
+| **MetaMask** | [MetaMask/metamask-extension](https://github.com/MetaMask/metamask-extension) | 2025-11-27 | 4 | 12345 | 321 | ✅ Active |
 ...
 ```
 
