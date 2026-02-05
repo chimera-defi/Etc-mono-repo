@@ -59,6 +59,7 @@ Unified birthday reminder application:
 | OAuth Auto-Setup | AI-driven third-party service provisioning | 💭 Concept |
 | Self-Hosted Infra | Coolify evaluation, PaaS alternatives | 💭 Exploration |
 | Mobile AI Agent | Native app with camera, location, offline support | 💭 Concept |
+| Clawdbot Launchpad | Hosted Clawdbot/Moltbot on VPS or containers | 💭 Concept |
 
 ## Core Principles
 
