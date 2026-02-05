@@ -503,9 +503,9 @@ export default function HomePage() {
                 </div>
                 <div className="text-center">
                   <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-purple-500/10 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-purple-400">0</span>
+                    <span className="text-2xl font-bold text-purple-400">Yes</span>
                   </div>
-                  <div className="text-sm text-muted-foreground">Affiliate Links</div>
+                  <div className="text-sm text-muted-foreground">Affiliate Disclosure</div>
                 </div>
               </div>
               <div className="mt-6 pt-6 border-t border-border text-center space-y-2">
@@ -533,7 +533,7 @@ export default function HomePage() {
             <span className="hidden md:inline text-border">/</span>
             <span className="flex items-center gap-2">
               <UserX className="h-4 w-4 text-muted-foreground/70" />
-              No affiliates
+              Affiliate disclosures
             </span>
             <span className="hidden md:inline text-border">/</span>
             <span className="flex items-center gap-2">
@@ -552,7 +552,7 @@ export default function HomePage() {
               <p className="text-sm text-sky-400 mb-2">Supported by the community</p>
               <h2 className="text-2xl font-bold text-foreground mb-2">Keep Wallet Radar independent</h2>
               <p className="text-sm text-muted-foreground max-w-2xl">
-                We don&apos;t use affiliate links. Sponsorships and data licensing help fund research, data refreshes, and open source tooling.
+                Affiliate links, when used, are disclosed. Sponsorships and data licensing help fund research, data refreshes, and open source tooling.
               </p>
               <div className="flex flex-wrap items-center gap-2 mt-4 text-xs text-muted-foreground">
                 <span className="px-2.5 py-1 border border-border rounded-full inline-flex items-center gap-1">

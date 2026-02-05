@@ -2,7 +2,7 @@
 
 Last Updated: February 2026
 
-Wallet Radar is independent, open source research. We keep the site free and avoid affiliate links. Sponsorships and data licensing help us cover research time, hosting, and data maintenance while protecting editorial independence.
+Wallet Radar is independent, open source research. Affiliate links, when used, are disclosed. Sponsorships and data licensing help us cover research time, hosting, and data maintenance while protecting editorial independence.
 
 ## What We Do (and Do Not Do)
 
@@ -12,7 +12,6 @@ We do:
 - Offer data licensing for teams that need structured exports.
 
 We do not:
-- Add affiliate links or referral codes.
 - Sell rankings, scores, or placements.
 - Accept "pay to win" requests.
 

@@ -26,10 +26,11 @@ Our research draws from:
 
 ## Why Independence Matters
 
-The crypto wallet space is dominated by affiliate programs and sponsored content. Wallet Radar exists to provide a completely independent alternative:
+The crypto wallet space is dominated by affiliate programs and sponsored content. Wallet Radar exists to provide an independent alternative:
 
-- **Zero financial incentives** - We don't profit from wallet recommendations, affiliate commissions, or sponsorships
-- **No commercial relationships** - Completely independent of all wallet providers and financial institutions
+- **No pay-to-win** - Scores and rankings never change for sponsorships or affiliate links
+- **Disclosure first** - Affiliate links, when used, are clearly disclosed
+- **No commercial influence** - We do not accept compensation in exchange for recommendations
 - **Open source code** - Full transparency: view and audit our methodology on GitHub
 - **Community-driven** - Contribute corrections and improvements via public GitHub Issues
 - **Transparent scoring** - All comparison metrics are documented, reproducible, and auditable
@@ -62,7 +63,7 @@ Wallet Radar is **educational research only**. We explicitly do NOT:
 - Guarantee all information is 100% current (always verify independently)
 - Have login pages, wallet connections, or credential collection
 - Ask for passwords, seed phrases, or private keys
-- Profit from wallet recommendations or affiliate commissions
+- Sell rankings, placements, or recommendations
 - Collect personal data or track users
 
 **Always verify important information directly with official sources** before making security-critical decisions with your cryptocurrency.
@@ -70,7 +71,7 @@ Wallet Radar is **educational research only**. We explicitly do NOT:
 ## Common Questions
 
 **Q: Are you affiliated with any wallet providers?**
-A: No. We are completely independent and do not receive funding, sponsorship, or compensation from wallet providers.
+A: No. We are not affiliated with wallet providers. We may accept sponsorships or affiliate commissions with clear disclosure, but they never influence scoring or recommendations.
 
 **Q: Why was I warned about phishing?**
 A: This is a false positive. Chrome's Safe Browsing uses heuristics that sometimes incorrectly flag new educational sites about wallets and cryptocurrencies. This is NOT a security issue with our site. We do NOT phish for passwords, collect wallets, or have login pages. We are working to improve our domain reputation through backlinks, age, and transparency. See our [security information](/.well-known/security.txt) and [trust signals](/#why-were-not-phishing) for verification.

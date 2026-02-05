@@ -51,7 +51,7 @@ const faqData: FAQItem[] = [
   // Comparison
   {
     question: 'What is Wallet Radar?',
-    answer: 'Wallet Radar is a developer-focused platform for comparing crypto wallets. We provide evidence-based scoring using GitHub activity, security audits, release frequency, and developer experience metrics. All data is public, verifiable, and free from affiliate links.',
+    answer: 'Wallet Radar is a developer-focused platform for comparing crypto wallets. We provide evidence-based scoring using GitHub activity, security audits, release frequency, and developer experience metrics. All data is public, verifiable, and affiliate links (if used) are disclosed.',
     category: 'comparison',
   },
   {

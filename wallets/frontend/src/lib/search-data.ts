@@ -56,7 +56,7 @@ const faqItems = [
   },
   {
     question: 'What is Wallet Radar?',
-    answer: 'Wallet Radar is a developer-focused platform for comparing crypto wallets with evidence-based scoring using GitHub activity, security audits, and developer experience metrics.',
+    answer: 'Wallet Radar is a developer-focused platform for comparing crypto wallets with evidence-based scoring using GitHub activity, security audits, and developer experience metrics. Affiliate links (if used) are disclosed.',
     category: 'comparison',
   },
   {

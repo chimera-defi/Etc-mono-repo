@@ -45,7 +45,7 @@
 
 ### 2) Trust / Proof Band
 **Format**: single horizontal strip, 3–4 short proofs  
-Example: “No login” / “No tracking” / “No affiliates” / “Verified sources”
+Example: “No login” / “No tracking” / “Affiliate disclosures” / “Verified sources”
 
 **Rules**
 - Keep to one line on desktop; wrap to 2 lines on mobile.
