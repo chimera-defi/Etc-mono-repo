@@ -23,7 +23,7 @@
 
 **Session workflow (automatic):**
 1. Query knowledge graph before researching (`mcp-cli memory/search_nodes`)
-2. Use targeted file reads (head/tail, not full files)
+2. Use QMD first for docs/notes (if available), then targeted file reads (head/tail, not full files)
 3. Parallel tool calls when possible
 4. Store findings in knowledge graph
 5. Skip preambles and confirmations
@@ -31,7 +31,7 @@
 **MCP CLI required for bulk operations:** See `.cursor/MCP_CLI.md`
 - Install: `curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash`
 - Use for: 2+ file reads, directory trees, pattern searches, knowledge storage
-- **Benchmarked savings:** 91% (concise), 84% (knowledge graph), 44% (targeted reads)
+- **Benchmarked savings:** 89% (concise), 76% (knowledge graph), 33% (targeted reads)
 - Complete guide: `.cursor/TOKEN_REDUCTION.md`
 
 **Sub-agent delegation (prevents context compaction):**
@@ -202,7 +202,7 @@ Rules are organized by domain. Reference by number in code reviews.
 - **#146** Store knowledge in memory server
 - **#147** Query knowledge graph before searching
 - **#148** Token reduction skill always active (see .cursor/TOKEN_REDUCTION.md and /token-reduce)
-- **#149** Benchmarked token savings: 91% (concise), 84% (knowledge graph), 44% (targeted reads)
+- **#149** Benchmarked token savings: 89% (concise), 76% (knowledge graph), 33% (targeted reads)
 - **#150** Query knowledge graph before researching to avoid duplicate work
 - **#151** Use sub-agents for exploration (>5 files, uncertain locations, pattern matching)
 - **#152** Sub-agents return summaries - keeps main context lean, prevents compaction
