@@ -38,6 +38,23 @@ Unlike consumer-focused wallet lists, Wallet Radar provides:
 | **Crypto Cards** | 27+ | Crypto-backed credit & debit cards |
 | **On/Off-Ramps** | 20+ | Fiat-to-crypto conversion providers |
 
+## 🔎 Manual URL Verification (Bot-Protected)
+
+Some provider sites block automated checks (403/timeout). These require manual
+browser verification during full data audits:
+
+- Software: Trust, Coinbase Wallet, MEW, imToken, Argent
+- Hardware: Arculus
+- Cards: Coinbase Card, Kraken Card, Reap, Redotpay, Revolut Crypto
+- Ramps: Coinbase Pay, Banxa, Reap
+
+When direct checks are blocked, a text-only fetch via `r.jina.ai` can confirm
+the landing content is reachable. Results are logged in
+`wallets/artifacts/manual-url-checks.json`. A headless Chromium pass captures
+browser verification output in `wallets/artifacts/manual-browser-checks.json`.
+Most bot-protected URLs resolve in Chromium; defunct products should be removed
+from active verification lists once confirmed.
+
 ---
 
 ## 🖼️ Product Screenshots

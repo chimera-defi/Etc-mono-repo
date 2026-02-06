@@ -2,9 +2,17 @@
 
 > **TL;DR:** **MoonPay** and **Transak** are the market leaders for general coverage. **Sardine** is the best choice for high-value transactions (Instant ACH). **Ramp Network** offers excellent performance for European/L2 users. **Stripe** is the safest bet for mainstream brand trust.
 
-**Data Sources:** Developer Documentation, Fee Schedules, Integration Guides (as of Dec 2025).
+**Data Sources:** Developer Documentation, Fee Schedules, Integration Guides (as of Feb 2026).
 
-**Verification Status:** Original 7 providers (Transak, MoonPay, Ramp, Sardine, Stripe, Banxa, Mercuryo) verified from PR 128 research. Additional 13 providers added based on industry knowledge and user request (Modern Treasury, onesafe, Reap specifically requested). All values marked with "~" are approximate and should be verified on official provider websites before integration.
+**Verification Status:** Original 7 providers (Transak, MoonPay, Ramp, Sardine, Stripe, Banxa, Mercuryo) verified from PR 128 research. Additional 13 providers added based on industry knowledge and user request (Modern Treasury, onesafe, Reap specifically requested). All values marked with "~" are approximate and should be verified on official provider websites before integration. Automated URL verification logs live under `wallets/artifacts/ramps-url-checks.*` (gitignored).
+
+### Ramps URL Verification (Automated)
+
+Ran `wallets/scripts/verify-ramps.py` to check direct URL access and `r.jina.ai` proxy fallback (latest run Feb 2026).
+
+**Direct FAIL + proxy OK:** Coinbase Pay, Banxa, Reap  
+**Bot/Access flags:** Modern Treasury (access denied), Banxa (Cloudflare), Mercuryo (access denied)  
+**Other notable:** MoonPay homepage returns “page not found” in direct HTML while still loading (likely edge/bot behavior).
 
 ---
 
@@ -18,7 +26,7 @@
 | [**Ramp**](https://ramp.network/) | 88 | 🇪🇺 EU / Speed | ~150+ Countries | Low/Medium | Good (SDK) |
 | [**Sardine**](https://www.sardine.ai/) | 86 | 🇺🇸 US / Fraud | US + Select Global | Variable (Risk based) | Advanced (API/SDK) |
 | [**Stripe**](https://stripe.com/docs/crypto) | 85 | 🤝 Trust | Global | Usage Based | Excellent (Stripe style) |
-| [**Simplex**](https://www.simplex.com/) | 84 | 💳 High Limits | ~150+ Countries | Medium/High | Good (Widget) |
+| [**Simplex**](https://www.simplex.com/) | 84 | 💳 High Limits | ~190+ Countries | Medium/High | Good (Widget) |
 | [**Modern Treasury**](https://www.moderntreasury.com/) | 83 | 🏢 Enterprise | US + Select | Usage Based | Excellent (API) |
 | [**Banxa**](https://banxa.com/) | 80 | 🏦 Local Pay | Global | Variable | Good |
 | [**Mercuryo**](https://mercuryo.io/) | 78 | 💼 B2B | Global | Medium | Good |

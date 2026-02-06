@@ -5,29 +5,28 @@
 | Card | Score | Type | Custody | Biz | Region | Cash Back | Annual Fee | FX Fee | Rewards | Status | Best For |
 |------|-------|------|---------|-----|--------|-----------|------------|--------|---------|--------|----------|
 | [**1inch Card**](https://1inch.com/card) | 70 🟡 | Debit | 🔐 Self | ❌ | 🇪🇺 EU/UK | Up to 2% | $0 | 0% | 1INCH | ✅ | DeFi users |
-| [**Amp Pay Black Card**](https://getamp.pay) (@GetAmpPay) | 68 🟡 | Debit | 🔐 Self | ❌ | 🌍 Global | Up to 4% | $0 | 1% | USDC/SOL | ✅ | Solana payments |
+| [**Amp Pay Black Card**](https://ampay.com) (@GetAmpPay) | 68 🟡 | Debit | 🔐 Self | ❌ | 🌍 Global | Up to 4% | $0 | 1% | USDC/SOL | ✅ | Solana payments |
 | [**Avici Money**](https://avici.money) (@AviciMoney) | 59 🟡 | Credit | 🔐 Self | ⚠️ | 🌍 Global | 0% | $0 | 1-3% | Multi | ✅ | Collateral-backed |
 | [**Binance Card**](https://www.binance.com/en/cards) | 67 🟡 | Debit | 🏦 Exch | ⚠️ | 🇧🇷 Brazil | Up to 3% | $0 | 0-2% | BNB | ✅ | Binance users |
 | [**BitPay Card**](https://bitpay.com/card) | 56 🟡 | Prepaid | 📋 CeFi | ⚠️ | 🇺🇸 US | 1%* | $0 | 0% | None | ✅ | BTC spending |
-| [**Bybit Card**](https://www.bybit.com/en/cards/) | 74 🟡 | Debit | 🏦 Exch | ✅ | 🇪🇺 EEA/CH | Up to 10% | $0 | 0% | Multi | ⚠️ | High cashback |
+| [**Bybit Card**](https://www.bybit.com/en/cards/) | 74 🟡 | Debit | 🏦 Exch | ✅ | 🌍 Non-EEA | 2-10% | $0 | TBD | Multi | ⚠️ | $100 ATM free then 2% |
 | [**Coinbase Card**](https://www.coinbase.com/card) | 75 🟢 | Debit | 🏦 Exch | ❌ | 🇺🇸 US | 1-4% | $0 | 0% | BTC, ETH | ✅ | Coinbase users |
-| [**CoinJar Card**](https://www.coinjar.com) | 65 🟡 | Debit | 🏦 Exch | ❌ | 🇦🇺 AU | 1% | $0 | 0% | BTC | ⚠️ | Australia |
-| [**Crypto.com Visa**](https://crypto.com/cards) | 41 🔴 | Debit | 🏦 Exch | ✅ | 🌍 Global | 0-8% | $0 | 0% | CRO | ✅ | CRO stakers ⚠️ |
-| [**CryptoSpend**](https://cryptospend.com.au) | 71 🟡 | Debit | 🔐 Self | ❌ | 🇦🇺 AU | 1% | $0 | 0% | BTC, ETH | ✅ | Australia |
+| [**CoinJar Card**](https://www.coinjar.com/au/card) | 65 🟡 | Debit | 🏦 Exch | ❌ | 🇦🇺 AU | 1% rewards pts | $0 | 2.99% | BTC | ⚠️ | 1% fee returned |
+| [**Crypto.com Visa**](https://crypto.com/us/cards) | 41 🔴 | Debit | 🏦 Exch | ✅ | 🌍 Global | 0-8% | $0 | 0% | CRO | ✅ | CRO stakers ⚠️ |
+| [**CryptoSpend**](https://www.wayex.com/en-US/) | 71 🟡 | Debit | 🔐 Self | ❌ | 🇦🇺 AU | 1% | $0 | 0% | BTC, ETH | ✅ | Australia (Wayex) |
 | [**EtherFi Cash**](https://ether.fi/cash) | 85 🟢 | Credit | 🔐 Self | ✅ | 🌍 Global | 2-3% | $0 | 1% | ETH, BTC, Stables | ✅ | Non-custodial DeFi |
 | [**Fold Card**](https://foldapp.com) | 77 🟢 | Debit | 📋 CeFi | ❌ | 🇺🇸 US | 3-5% | $0 | 0% | BTC | ✅ | Bitcoin rewards |
-| [**Fuse Wallet Card**](https://fuse.io/wallet) (@fusewallet) | 64 🟡 | Prepaid | 🔐 Self | ❌ | 🇺🇸 US* | 0% | $0 | 0% | USDC | ✅ | Solana stablecoins |
+| [**Fuse Wallet Card**](https://www.fuse.io/) (@fusewallet) | 64 🟡 | Prepaid | 🔐 Self | ❌ | 🇺🇸 US* | 0% | $0 | 0% | USDC | ✅ | Solana stablecoins |
 | [**Gemini Card**](https://www.gemini.com/credit-card) | 76 🟢 | Credit | 🏦 Exch | ❌ | 🇺🇸 US | Up to 4% | $0 | 0% | BTC, ETH | ✅ | Credit building |
-| [**Gnosis Pay**](https://gnosispay.com) | 78 🟢 | Debit | 🔐 Self | ❌ | 🌍 Global | Up to 5% | €0 | 0% | GNO/SAFE | ✅ | DeFi-native |
+| [**Gnosis Pay**](https://gnosispay.com) | 78 🟢 | Debit | 🔐 Self | ❌ | 🌍 Global* | Up to 5% | €0 | 0% | GNO/SAFE | ✅ | DeFi-native |
 | [**Hi Card**](https://hi.com) | 79 🟢 | Debit | 📋 CeFi | ❌ | 🌍 Global | Up to 10% | $0 | 0% | HI | ⚠️ | High cashback |
 | [**Kast**](https://kast.xyz) (@kastxyz) | 71 🟡 | Debit | 🔐 Self | ❌ | 🌍 Global | 2-12% | $20-$1,000/yr | 2% | Kast Points | ✅ | Stablecoin banking |
 | ~~[**Kontigo**](https://kontigo.com)~~ | 38 🔴 | Debit | 🔐 Self | ⚠️ | 🌍 Global | 10% BTC | $0 | 0% | BTC | ❌ | ~~Crypto neobank~~ |
-| [**Kraken Card**](https://www.kraken.com) | 60 🟡 | Debit | 🏦 Exch | ⚠️ | 🇺🇸🇪🇺 US/EU | TBD | $0 | TBD | Multi | 🔄 | Kraken users |
+| [**Kraken Card**](https://www.kraken.com/kraken-card) | 60 🟡 | Debit | 🏦 Exch | ⚠️ | 🇺🇸🇪🇺 US/EU | TBD | $0 | TBD | Multi | 🔄 | Cloudflare-protected |
 | [**KuCard**](https://www.kucoin.com/kucard) | 76 🟢 | Debit | 🏦 Exch | ❌ | 🌍 Global* | Up to 4% | $0 | 0% | Multi | ✅ | KuCoin users |
-| [**MetaMask Card**](https://metamask.io/card) (@MetaMask) | 76 🟢 | Debit | 🔐 Self | ❌ | 🌍 Global | 1% | $0-$199/yr | 0% | Multi | ✅ | Self-custodial spending |
-| ~~[**Mode Card**](https://modeapp.com)~~ | 69 🟡 | Debit | 📋 CeFi | ❌ | 🇬🇧 UK | Up to 10% | $0 | 0% | BTC | ❌ | ~~Bitcoin rewards~~ |
+| [**MetaMask Card**](https://metamask.io/card) (@MetaMask) | 76 🟢 | Debit | 🔐 Self | ❌ | 🌍 Global* | 1-3% | $0-$199/yr | 0% | Multi | ✅ | Self-custodial spending |
 | [**Nexo Card**](https://nexo.com/card) | 63 🟡 | Credit | 📋 CeFi | ✅ | 🇪🇺 EU/UK | Up to 2% | $0 | FX fees | NEXO | ✅ | Crypto credit |
-| [**OKX Card**](https://www.okx.com) | 50 🟡 | Debit | 🏦 Exch | ⚠️ | 🇪🇺 EU | TBD | $0 | TBD | Stables | 🔄 | Stablecoins |
+| [**OKX Card**](https://www.okx.com) | 50 🟡 | Debit | 🏦 Exch | ⚠️ | 🇪🇺 EU | TBD | $0 | TBD | Stables | 🔄 | Card pages time out |
 | [**Payy**](https://payy.link) (@payy_link) | 66 🟡 | Debit | 🔐 Self | ❌ | 🌍 Global | 0% | $0 | 0% | USDC | ✅ | Privacy-focused |
 | [**Plutus Card**](https://plutus.it) | 73 🟡 | Debit | 📋 CeFi | ❌ | 🇪🇺 EU/UK | 3-9% | £0 | 0% | PLU | ✅ | EU/UK perks |
 | [**Ready Card**](https://www.ready.co/card) | 83 🟢 | Debit | 🔐 Self | ❌ | 🇪🇺 EU/UK | 3% | $0 | 0% | Crypto | ✅ | Self-custody EU/UK |
@@ -37,12 +36,12 @@
 | [**Shakepay Card**](https://shakepay.com/card) | 70 🟡 | Prepaid | 📋 CeFi | ❌ | 🇨🇦 CA | 1.5% | $0 | 0% | BTC | ✅ | Canada |
 | [**Solflare Card**](https://solflare.com/card) (@solflare_wallet) | 72 🟡 | Debit | 🔐 Self | ❌ | 🇪🇺 EU/UK | 0% | $0 | 0% | None | ✅ | Solana ecosystem |
 | [**Spendly**](https://www.usespendly.com) (@SpendlyCC) | 62 🟡 | Prepaid | 🔐 Self | ❌ | 🌍 Global | 0% | $0 | 0% | Multi | ✅ | No-KYC spending |
-| [**Swissborg Card**](https://swissborg.com) | 60 🟡 | Debit | 📋 CeFi | ❌ | 🇪🇺 EU | 1-2% | $0 | 0% | CHSB | ⚠️ | EU users |
+| [**Swissborg Card**](https://swissborg.com) | 60 🟡 | Debit | 📋 CeFi | ❌ | 🇪🇺 EU | 1-2% | $0 | TBD | CHSB | ⚠️ | Card page 404 |
 | [**ThorWallet**](https://thorwallet.org) (@THORWalletORG) | 70 🟡 | Debit | 🔐 Self | ❌ | 🌍 Global | 0% | $0+ | 0.25-1% | Multi | ✅ | Cross-chain DeFi |
 | [**Tria**](https://tria.so) (@useTria) | 72 🟡 | Credit | 🔐 Self | ❌ | 🌍 Global | Up to 6% | $0 | 1% | TRIA | ✅ | Token rewards |
 | [**Tuyo**](https://tuyo.com/card) (@itstuyo) | 65 🟡 | Prepaid | 🔐 Self | ❌ | 🌍 Global* | 0% | $0 | ~1% | TUYO | ✅ | USDC on Base |
-| [**Uphold Card**](https://uphold.com) | 73 🟡 | Debit | 📋 CeFi | ⚠️ | 🇺🇸🇪🇺 US/EU | 1-4% | $0 | 0% | XRP, BTC | ⚠️ | Multi-crypto |
-| [**Wirex Card**](https://wirexapp.com/card) | 78 🟢 | Debit | 📋 CeFi | ⚠️ | 🌍 Global | Up to 8% | $0 | 0% | WXT | ⚠️ | Multi-crypto |
+| [**Uphold Card**](https://uphold.com) | 73 🟡 | Debit | 📋 CeFi | ⚠️ | 🇺🇸🇪🇺 US/EU | 1-4% | $0 | TBD | XRP, BTC | ⚠️ | Card pages time out |
+| [**Wirex Card**](https://wirexapp.com) | 78 🟢 | Debit | 📋 CeFi | ⚠️ | 🌍 Global | Up to 8% | $0 | 0% | WXT | ⚠️ | Multi-crypto |
 
 ## Pros & Cons (Top Picks)
 
@@ -104,25 +103,25 @@
 **Scoring Adjustments:**
 - **+3 pts** Non-custodial bonus: Ready Card, EtherFi Cash, Gnosis Pay, 1inch Card, CryptoSpend (self-custody = lower risk)
 - **-3 pts** Exchange custody risk: Coinbase, Binance, Gemini, KuCoin, OKX, CoinJar, Kraken, Crypto.com, Bybit
-- **-3 to -5 pts** TBD/Unverified: OKX Card, Mode Card, Bybit Card (incomplete/unverified data)
+- **-3 to -5 pts** TBD/Unverified: OKX Card, Kraken Card, Uphold Card, Swissborg Card (card pages blocked/404)
 - **-20 pts** Crypto.com: Poor UX, customer service issues, 12-month staking lock-ups, 0% base tier
 
-**Key Corrections (January 2026):**
-- **Gnosis Pay**: Region expanded from EU/UK to **🌍 Global** (EEA, UK, Brazil, Argentina, Mexico, Colombia, Philippines, Thailand, Japan, Singapore) - verified via gnosispay.com January 2026
+**Key Corrections (February 2026):**
+- **Gnosis Pay**: Region expanded from EU/UK to **🌍 Global\*** (EEA, UK, Brazil, Argentina, Mexico, Colombia, Philippines, Thailand, Japan, Singapore) - verified via gnosispay.com January 2026. **Not available in US.**
+- **MetaMask Card**: Available in EU, UK, Switzerland, Canada, select LATAM. **US on waitlist only** (not yet available). Metal card ($199/yr) offers 3% cashback, virtual card is 1%.
 - **Binance Card**: Region changed from Global to **🇧🇷 Brazil only** - verified via binance.com January 2026; FX fee is 1-2%
 - Ready Card: Cash back verified at **3%** (was incorrectly listed as "Up to 10%")
 - Binance Card: Max cash back is **3%** (was incorrectly listed as "Up to 8%")
 - Crypto.com Visa: Base tier has **0%** cash back (requires $400+ CRO stake for rewards); US now has **Visa Signature® Credit Card** with different tier structure
 - Nexo Card: Has **FX fees on weekdays** (was listed as 0%)
 - **Hi Card**: Website shows 2021-2022 copyright, card product status uncertain ⚠️
-- **Mode Card**: ❌ Website (modeapp.com) unreachable as of January 2026 - company may be inactive/defunct. Note: mode.com is a different company (ThoughtSpot Mode, a BI tool).
 - **Kontigo**: ❌ Card program shut down by Rain in January 2026; company experienced $340K USDC hack affecting 1,005 users
 - **Tuyo**: Available in 41 countries (US, Spain, EU, LATAM) but NOT Australia; correct URL is tuyo.com/card
 - **Fuse Wallet Card**: US-only (except NY, LA, FL, AK); virtual Visa prepaid on Solana
 - **Solflare Card**: UK/EEA only (not global); no cashback, raffle rewards until Feb 2026
-- **Bybit Card**: Website returns HTTP2 errors from all regions tested - may be heavily geo-restricted
-- **Swissborg Card**: Website access issues, card product page (swissborg.com/card) returns 404
-- **Uphold Card**: Website showing errors, card product status uncertain
+- **Bybit Card**: Bybit card page lists 2-10% cashback, free issuance, $100 ATM withdrawals free then 2% fee; product is not available to EEA customers and supports USD fiat + BTC/ETH/XRP/TON/USDT/USDC/MNT/BNB.
+- **Swissborg Card**: Card page (swissborg.com/card) returns 404 in headless Chromium
+- **Uphold Card**: Card pages `/card` and `/debit-card` time out in headless Chromium; product status uncertain
 
 > ⚠️ **Data Accuracy Note:** Rates, fees, and availability change frequently. Always verify on official card websites before applying.
 
