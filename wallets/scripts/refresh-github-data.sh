@@ -15,7 +15,7 @@
 #   - (optional) GITHUB_TOKEN environment variable for higher rate limits
 #
 # Rate limits:
-#   - Without token: 60 requests/hour
+#   - Without token: 60 requests/hour (API only)
 #   - With token: 5000 requests/hour
 
 set -e
@@ -68,13 +68,13 @@ WALLET_NAMES=(
 )
 
 # Set up authentication header if token is available
-AUTH_HEADER=""
 if [ -n "$GITHUB_TOKEN" ]; then
-    AUTH_HEADER="-H \"Authorization: token $GITHUB_TOKEN\""
     echo "Using GitHub token for API requests" >&2
 else
     echo "Warning: No GITHUB_TOKEN set. Rate limited to 60 requests/hour." >&2
     echo "Set GITHUB_TOKEN environment variable for higher limits." >&2
+    echo "Falling back to GitHub Atom feeds for last-commit timestamps." >&2
+    echo "Attempting HTML scrape fallback for stars/issues (best effort)." >&2
 fi
 
 # Function to get activity status based on days since last commit
@@ -101,6 +101,22 @@ get_status_emoji() {
     fi
 }
 
+normalize_count() {
+    local raw="$1"
+    raw="${raw//,/}"
+    if [[ "$raw" =~ ^([0-9]+(\.[0-9]+)?)([kKmM])$ ]]; then
+        local num="${BASH_REMATCH[1]}"
+        local suffix="${BASH_REMATCH[3]}"
+        if [[ "$suffix" =~ [kK] ]]; then
+            awk "BEGIN {printf \"%d\", $num*1000}"
+        else
+            awk "BEGIN {printf \"%d\", $num*1000000}"
+        fi
+    else
+        echo "$raw"
+    fi
+}
+
 # Parse arguments
 OUTPUT_FORMAT="text"
 if [ "$1" == "--json" ]; then
@@ -121,8 +137,8 @@ if [ "$OUTPUT_FORMAT" == "json" ]; then
 elif [ "$OUTPUT_FORMAT" == "markdown" ]; then
     echo "## GitHub Activity Status (Generated: $TODAY)"
     echo ""
-    echo "| Wallet | Repository | Last Commit | Days Ago | Status |"
-    echo "|--------|------------|-------------|----------|--------|"
+    echo "| Wallet | Repository | Last Commit | Days Ago | Stars | Issues | Status |"
+    echo "|--------|------------|-------------|----------|-------|--------|--------|"
 else
     echo "=== Wallet GitHub Activity Check ==="
     echo "Generated: $TODAY"
@@ -135,23 +151,45 @@ for i in "${!REPOS[@]}"; do
     REPO="${REPOS[$i]}"
     WALLET="${WALLET_NAMES[$i]}"
     
-    # Get the default branch commits
-    API_URL="https://api.github.com/repos/$REPO/commits?per_page=1"
-    
+    # Get repository stats (stars/issues)
     if [ -n "$GITHUB_TOKEN" ]; then
-        RESPONSE=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$API_URL" 2>/dev/null)
+        REPO_URL="https://api.github.com/repos/$REPO"
+        REPO_RESPONSE=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$REPO_URL" 2>/dev/null)
+        if echo "$REPO_RESPONSE" | grep -q "API rate limit exceeded"; then
+            echo "Error: GitHub API rate limit exceeded. Set GITHUB_TOKEN." >&2
+            exit 1
+        fi
+        STARS=$(echo "$REPO_RESPONSE" | jq -r '.stargazers_count // 0' 2>/dev/null)
+        ISSUES=$(echo "$REPO_RESPONSE" | jq -r '.open_issues_count // 0' 2>/dev/null)
     else
-        RESPONSE=$(curl -s "$API_URL" 2>/dev/null)
+        REPO_URL="https://api.github.com/repos/$REPO"
+        REPO_RESPONSE=$(curl -s "$REPO_URL" 2>/dev/null)
+        if echo "$REPO_RESPONSE" | grep -q "API rate limit exceeded"; then
+            STAR_RAW=$(curl -s "https://r.jina.ai/http://github.com/$REPO" 2>/dev/null | grep -m1 "Star " | sed -n 's/.*Star[[:space:]]\\{1,\\}\\([0-9][0-9.,kKmM]*\\).*/\\1/p')
+            ISSUE_RAW=$(curl -s "https://r.jina.ai/http://github.com/$REPO/issues?q=is%3Aissue+is%3Aopen" 2>/dev/null | grep -m1 "Open[[:space:]]\\{1,\\}[0-9]" | sed -n 's/.*Open[[:space:]]\\{1,\\}\\([0-9][0-9.,kKmM]*\\).*/\\1/p')
+            STARS=$(normalize_count "$STAR_RAW")
+            ISSUES=$(normalize_count "$ISSUE_RAW")
+        else
+            STARS=$(echo "$REPO_RESPONSE" | jq -r '.stargazers_count // "?"' 2>/dev/null)
+            ISSUES=$(echo "$REPO_RESPONSE" | jq -r '.open_issues_count // "?"' 2>/dev/null)
+        fi
+        if [ -z "$STARS" ]; then STARS="?"; fi
+        if [ -z "$ISSUES" ]; then ISSUES="?"; fi
     fi
-    
-    # Check for rate limit or error
-    if echo "$RESPONSE" | grep -q "API rate limit exceeded"; then
-        echo "Error: GitHub API rate limit exceeded. Set GITHUB_TOKEN." >&2
-        exit 1
+
+    # Get the default branch commits
+    if [ -n "$GITHUB_TOKEN" ]; then
+        API_URL="https://api.github.com/repos/$REPO/commits?per_page=1"
+        RESPONSE=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$API_URL" 2>/dev/null)
+        if echo "$RESPONSE" | grep -q "API rate limit exceeded"; then
+            echo "Error: GitHub API rate limit exceeded. Set GITHUB_TOKEN." >&2
+            exit 1
+        fi
+        LAST_COMMIT=$(echo "$RESPONSE" | jq -r '.[0].commit.committer.date // empty' 2>/dev/null)
+    else
+        ATOM_URL="https://github.com/$REPO/commits/HEAD.atom"
+        LAST_COMMIT=$(curl -s "$ATOM_URL" 2>/dev/null | grep -m1 "<updated>" | sed -e 's/.*<updated>//' -e 's/<\/updated>.*//')
     fi
-    
-    # Extract last commit date
-    LAST_COMMIT=$(echo "$RESPONSE" | jq -r '.[0].commit.committer.date // empty' 2>/dev/null)
     
     if [ -z "$LAST_COMMIT" ]; then
         LAST_COMMIT_DATE="Unknown"
@@ -173,11 +211,11 @@ for i in "${!REPOS[@]}"; do
             echo ","
         fi
         FIRST=false
-        echo -n "    {\"wallet\": \"$WALLET\", \"repo\": \"$REPO\", \"lastCommit\": \"$LAST_COMMIT_DATE\", \"daysAgo\": $DAYS_AGO, \"status\": \"$STATUS_EMOJI\"}"
+        echo -n "    {\"wallet\": \"$WALLET\", \"repo\": \"$REPO\", \"lastCommit\": \"$LAST_COMMIT_DATE\", \"daysAgo\": $DAYS_AGO, \"stars\": \"$STARS\", \"issues\": \"$ISSUES\", \"status\": \"$STATUS_EMOJI\"}"
     elif [ "$OUTPUT_FORMAT" == "markdown" ]; then
-        echo "| **$WALLET** | [$REPO](https://github.com/$REPO) | $LAST_COMMIT_DATE | $DAYS_AGO | $STATUS |"
+        echo "| **$WALLET** | [$REPO](https://github.com/$REPO) | $LAST_COMMIT_DATE | $DAYS_AGO | $STARS | $ISSUES | $STATUS |"
     else
-        printf "%-15s %-40s %-12s %4s days  %s\n" "$WALLET" "$REPO" "$LAST_COMMIT_DATE" "$DAYS_AGO" "$STATUS"
+        printf "%-15s %-40s %-12s %4s days  %7s %7s  %s\n" "$WALLET" "$REPO" "$LAST_COMMIT_DATE" "$DAYS_AGO" "$STARS" "$ISSUES" "$STATUS"
     fi
     
     # Sleep to avoid rate limiting (be nice to GitHub)
