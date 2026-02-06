@@ -167,6 +167,12 @@ qmd query "question" --all --files --min-score 0.3
 .cursor/validate-token-reduction.sh  # Validate
 ```
 
+**Auto-install if missing:**
+```bash
+command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
+command -v mcp-cli >/dev/null 2>&1 || curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash
+```
+
 **Auto-invoke keywords:** token-reduce, token reduction, context limits
 
 ---

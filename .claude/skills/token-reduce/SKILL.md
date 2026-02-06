@@ -31,10 +31,18 @@ Reduce context usage for `$ARGUMENTS` using targeted retrieval and short summari
 
 ## Process
 
-1. If QMD is installed, search relevant docs first.
-2. Pull only top results and summarize in 5–10 bullets.
-3. If QMD is unavailable, do targeted reads only.
-4. Report: `Baseline → Optimized (X% saved)` and fixes.
+1. Ensure tools are installed (QMD + MCP CLI).
+2. If QMD is installed, search relevant docs first.
+3. Pull only top results and summarize in 5–10 bullets.
+4. If QMD is unavailable, do targeted reads only.
+5. Report: `Baseline → Optimized (X% saved)` and fixes.
+
+## Tool bootstrap (auto-install if missing)
+
+```bash
+command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
+command -v mcp-cli >/dev/null 2>&1 || curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash
+```
 
 ## QMD quickstart
 
