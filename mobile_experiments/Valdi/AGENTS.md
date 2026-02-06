@@ -144,3 +144,4 @@ command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
 - Always commit changes with a descriptive message and model attribution.
 - Record research inputs in `.cursor/artifacts/` or project artifacts to preserve source context.
 - Token reduction: bootstrap MCP CLI + QMD first, use QMD before targeted reads.
+- Use Bun by default (prefer `bun` over `node`/`npm`).

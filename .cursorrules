@@ -120,6 +120,7 @@ Brief description.
 - **Runability > syntax:** Code that can't run is worse than no code
 - **Multi-tool verify:** Run ALL checks (lint, types, tests, build)
 - **Scaffold before coding:** Use framework CLI first
+- **Use Bun by default:** Prefer `bun` over `node`/`npm` for scripts and installs
 
 ### Documentation
 - **Add, don't remove:** Consolidate means organize, not delete
