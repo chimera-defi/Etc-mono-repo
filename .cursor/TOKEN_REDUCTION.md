@@ -21,7 +21,7 @@
 
 ---
 
-## 1. Concise Communication (91%)
+## 1. Concise Communication (89%)
 
 ❌ Avoid: "I understand...", "Let me...", "Thank you...", "Would you like..."
 ✅ Use: `[uses tool]`, "Bug on line 47:", "Fixed.", "Results:"
@@ -34,7 +34,7 @@ Concise (13 tokens): [uses Read] Bug on line 47 - missing return.
 
 ---
 
-## 2. Knowledge Graph (84%)
+## 2. Knowledge Graph (76%)
 
 Store once, retrieve many times:
 
@@ -50,7 +50,7 @@ mcp-cli memory/search_nodes '{"query": "topic"}'
 
 ---
 
-## 3. Targeted Reads (44%)
+## 3. Targeted Reads (33%)
 
 ```bash
 head -50 file.md           # First 50 lines
@@ -282,9 +282,9 @@ Use: Edit specific sections with targeted old_string/new_string
 **Token reduction comes from HOW you communicate, not WHICH tools you use.**
 
 **Priority order:**
-1. Concise communication (91% - biggest win)
-2. Knowledge graph (84% - multi-session)
-3. Targeted reads (44% - consistent)
+1. Concise communication (89% - biggest win)
+2. Knowledge graph (76% - multi-session)
+3. Targeted reads (33% - consistent)
 4. Parallel ops (20% - reduces turns)
 5. Sub-agents (15-30% - complex tasks)
 6. MCP CLI (1-10% - ergonomic + scales)

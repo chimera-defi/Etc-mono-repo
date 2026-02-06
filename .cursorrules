@@ -30,6 +30,8 @@
 
 **MCP CLI required for bulk operations:** See `.cursor/MCP_CLI.md`
 - Install: `curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash`
+- QMD (docs/notes search): `bun install -g https://github.com/tobi/qmd`
+- Auto-install: `command -v mcp-cli >/dev/null 2>&1 || curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash; command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd`
 - Use for: 2+ file reads, directory trees, pattern searches, knowledge storage
 - **Benchmarked savings:** 89% (concise), 76% (knowledge graph), 33% (targeted reads)
 - Complete guide: `.cursor/TOKEN_REDUCTION.md`

@@ -96,6 +96,15 @@ mcp-cli memory/create_entities '{"entities": [{"name": "Competitors", "entityTyp
 mcp-cli memory/create_relations '{"relations": [{"from": "Idea", "to": "Component", "relationType": "composed_of"}]}'
 ```
 
+## Token Reduction Bootstrap
+
+```bash
+command -v mcp-cli >/dev/null 2>&1 || curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash
+command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
+```
+
+**Workflow:** Use QMD first for docs/notes, then targeted reads.
+
 ## Research Workflow
 
 1. **Query existing knowledge** - Check memory first
@@ -151,3 +160,4 @@ mcp-cli memory/create_relations '{"relations": [
 - After rebasing, force-push with lease if the branch diverges from the PR head.
 - Keep one task in one PR; do not create multiple PRs for the same request.
 - Record research inputs in `.cursor/artifacts/` or project artifacts to preserve source context.
+- Token reduction: bootstrap MCP CLI + QMD first, use QMD before targeted reads.
