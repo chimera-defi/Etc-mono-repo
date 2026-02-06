@@ -74,6 +74,9 @@ Unified birthday reminder application:
 **General patterns:** See `.cursor/MCP_CLI.md`
 
 ```bash
+# Use MCP CLI for bulk reads (10+ files)
+mcp-cli filesystem/read_multiple_files '{"paths": ["ideas/README.md", "ideas/voice-coding-assistant/README.md"]}'
+
 # Explore multi-component projects
 mcp-cli filesystem/directory_tree '{"path": "ideas/voice-coding-assistant"}'
 

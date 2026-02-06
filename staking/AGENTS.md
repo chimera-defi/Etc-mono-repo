@@ -70,6 +70,9 @@ Market analysis and opportunity research:
 **General patterns:** See `.cursor/MCP_CLI.md`
 
 ```bash
+# Use MCP CLI for bulk reads (10+ files)
+mcp-cli filesystem/read_multiple_files '{"paths": ["staking/README.md", "staking/aztec/README.md"]}'
+
 # Explore structure
 mcp-cli filesystem/directory_tree '{"path": "staking/aztec"}'
 
