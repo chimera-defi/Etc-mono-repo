@@ -96,6 +96,9 @@ class MyComponent extends Component {
 **General patterns:** See `.cursor/MCP_CLI.md`
 
 ```bash
+# Use MCP CLI for bulk reads (10+ files)
+mcp-cli filesystem/read_multiple_files '{"paths": ["mobile_experiments/Valdi/README.md", "mobile_experiments/README.md"]}'
+
 # Explore structure
 mcp-cli filesystem/directory_tree '{"path": "mobile_experiments/Valdi"}'
 

@@ -103,6 +103,9 @@ Rabby, Trust, Rainbow, Brave, Coinbase, MetaMask, Phantom, OKX, Wigwam, Zerion, 
 **Token optimization:** See `.cursor/TOKEN_REDUCTION.md` or use `/token-reduce` skill
 
 ```bash
+# Use MCP CLI for bulk reads (10+ files)
+mcp-cli filesystem/read_multiple_files '{"paths": ["wallets/README.md", "wallets/SOFTWARE_WALLETS.md"]}'
+
 # Bulk read wallet tables (reduces tool call overhead, provides structured data)
 mcp-cli filesystem/read_multiple_files '{"paths": ["wallets/SOFTWARE_WALLETS.md", "wallets/HARDWARE_WALLETS.md", "wallets/CRYPTO_CARDS.md"]}'
 
