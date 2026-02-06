@@ -161,3 +161,4 @@ mcp-cli memory/create_relations '{"relations": [
 - Keep one task in one PR; do not create multiple PRs for the same request.
 - Record research inputs in `.cursor/artifacts/` or project artifacts to preserve source context.
 - Token reduction: bootstrap MCP CLI + QMD first, use QMD before targeted reads.
+- Use Bun by default (prefer `bun` over `node`/`npm`).
