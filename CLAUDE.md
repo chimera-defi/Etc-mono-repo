@@ -257,3 +257,4 @@ cd wallets/scripts && ./refresh-github-data.sh
 - Always commit with a self-authored message and model attribution.
 - Store research sources in artifacts to preserve context.
 - Token reduction: bootstrap MCP CLI + QMD first, use QMD before targeted reads.
+- Use Bun by default (prefer `bun` over `node`/`npm` for scripts and installs).
