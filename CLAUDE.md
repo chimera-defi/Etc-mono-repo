@@ -23,9 +23,11 @@
 ## Quick Start
 
 1. **Read `.cursorrules`** - All AI rules apply to Claude Code
-2. **Install MCP CLI** before bulk operations: `curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash`
+2. **Install MCP CLI + QMD** (auto-install if missing):
+   - `command -v mcp-cli >/dev/null 2>&1 || curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash`
+   - `command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd`
 3. **Query knowledge** before researching: `mcp-cli memory/search_nodes '{"query": "topic"}'`
-4. **Use token reduction** - Auto-active via `/token-reduce` skill (91% concise, 84% knowledge graph, 44% targeted reads)
+4. **Use token reduction** - Auto-active via `/token-reduce` skill (89% concise, 76% knowledge graph, 33% targeted reads)
 5. **Verify before completing:** Run lint, build, tests
 
 ## Enforcement
@@ -123,7 +125,7 @@ Before completing any task:
 | #140 | Install MCP CLI before using |
 | #146 | Store knowledge in memory server |
 | #148 | Token reduction skill always active |
-| #149 | Benchmarked savings: 91% (concise), 84% (knowledge graph), 44% (targeted reads) |
+| #149 | Benchmarked savings: 89% (concise), 76% (knowledge graph), 33% (targeted reads) |
 | #150 | Query knowledge graph before researching |
 | #151 | Use sub-agents for exploration (>5 files, uncertain locations) |
 | #152 | Sub-agents return summaries - prevents context compaction |
@@ -254,3 +256,4 @@ cd wallets/scripts && ./refresh-github-data.sh
 - Keep one task in one PR; do not split work across multiple PRs.
 - Always commit with a self-authored message and model attribution.
 - Store research sources in artifacts to preserve context.
+- Token reduction: bootstrap MCP CLI + QMD first, use QMD before targeted reads.
