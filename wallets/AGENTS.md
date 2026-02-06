@@ -109,12 +109,21 @@ mcp-cli filesystem/read_multiple_files '{"paths": ["wallets/README.md", "wallets
 # Bulk read wallet tables (reduces tool call overhead, provides structured data)
 mcp-cli filesystem/read_multiple_files '{"paths": ["wallets/SOFTWARE_WALLETS.md", "wallets/HARDWARE_WALLETS.md", "wallets/CRYPTO_CARDS.md"]}'
 
-# Store wallet research (saves 84% tokens across multiple sessions)
+# Store wallet research (saves ~76% tokens across multiple sessions)
 mcp-cli memory/create_entities '{"entities": [{"name": "WalletName", "entityType": "wallet", "observations": ["feature1", "feature2"]}]}'
 
 # ALWAYS query before research (avoids duplicate work)
 mcp-cli memory/search_nodes '{"query": "wallet name"}'
 ```
+
+## Token Reduction Bootstrap
+
+```bash
+command -v mcp-cli >/dev/null 2>&1 || curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash
+command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
+```
+
+**Workflow:** Use QMD first for docs/notes, then targeted reads.
 
 **Token reduction for wallet work:**
 - Query knowledge graph for previously researched wallets
@@ -182,6 +191,7 @@ mcp-cli memory/search_nodes '{"query": "wallet name"}'
 8. Activity status decays
 9. Use headless Chromium for bot-protected URL verification and store results in `wallets/artifacts/manual-browser-checks.json`.
 10. If `GITHUB_TOKEN` is unavailable, use unauth GitHub API/Atom fallbacks and record that stars/issues are best-effort.
+11. Token reduction: bootstrap MCP CLI + QMD first, use QMD before targeted reads.
 
 **Multi-Pass Review:**
 1. Math verification - breakdowns must sum to totals

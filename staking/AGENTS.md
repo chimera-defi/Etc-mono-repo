@@ -86,6 +86,15 @@ mcp-cli filesystem/read_multiple_files '{"paths": ["staking/README.md", "staking
 mcp-cli memory/create_entities '{"entities": [{"name": "Contract Security Review", "entityType": "security", "observations": ["finding1", "finding2"]}]}'
 ```
 
+## Token Reduction Bootstrap
+
+```bash
+command -v mcp-cli >/dev/null 2>&1 || curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash
+command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
+```
+
+**Workflow:** Use QMD first for docs/notes, then targeted reads.
+
 ## Security Checklist
 
 - [ ] Reentrancy guards on withdraw
@@ -133,3 +142,4 @@ Never claim full completion for uncompiled code.
 - Keep one task in one PR; do not create multiple PRs for the same request.
 - Always commit changes with a descriptive message and model attribution.
 - Record research inputs in `.cursor/artifacts/` or project artifacts to preserve source context.
+- Token reduction: bootstrap MCP CLI + QMD first, use QMD before targeted reads.
