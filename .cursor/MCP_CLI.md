@@ -1,95 +1,62 @@
 # MCP CLI Reference
 
-> **Token Efficiency Tool** - Reduces context by 60-80% for file operations.
+> **Status:** Benchmarked 2026-02-07. Filesystem operations are **slower and larger** than native tools.
+> Knowledge graph is redundant with Claude Code built-in memory. See full results:
+> `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
 
 ## Installation
 
 ```bash
-# Check if installed
-which mcp-cli && mcp-cli --version
-
-# Install if needed (v0.1.3+)
 curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash
 ```
 
-## Core Patterns
+## Benchmark Results (Real, Measured)
 
-### Bulk File Reading
-```bash
-# Instead of multiple Read calls
-mcp-cli filesystem/read_multiple_files '{"paths": ["file1.md", "file2.md", "file3.md"]}'
+| Operation | Native Tool | MCP CLI | Verdict |
+|-----------|------------|---------|---------|
+| Single file read | 28ms, 2,221 tokens | 7,185ms (256x), 4,830 tokens (+117%) | **Native wins** |
+| 5 files sequential | 213ms | 16,458ms (77x) | **Native wins** |
+| File search | 76ms | 3,921ms (50x) | **Native wins** |
+| Memory store+retrieve | 0ms (file write) | ~4s per call | **Built-in memory wins** |
+
+## When MCP CLI Is Still Useful
+
+MCP CLI is designed for **Cursor** (IDE), where native filesystem tools aren't built in.
+For **Claude Code**, which has built-in Read, Grep, Glob, Write, and Edit tools, MCP CLI
+adds overhead without benefit.
+
+**Use MCP CLI if:**
+- You're in Cursor (not Claude Code) and need bulk file operations
+- You need a specific MCP server not available as a native tool
+
+**Don't use MCP CLI if:**
+- You're in Claude Code (use native tools instead)
+- You want to read files (117% more tokens due to JSON wrapping)
+- You want to search files (50x slower than grep)
+
+## Available Servers (from `mcp_servers.json`)
+
+```json
+{
+  "filesystem": "npx -y @modelcontextprotocol/server-filesystem",
+  "memory": "npx -y @modelcontextprotocol/server-memory",
+  "brave-search": "npx -y @modelcontextprotocol/server-brave-search"
+}
 ```
 
-### Directory Analysis
+## Command Reference (for Cursor users)
+
 ```bash
-mcp-cli filesystem/directory_tree '{"path": "/path/to/dir"}'
+mcp-cli                                    # List servers
+mcp-cli filesystem/read_file '{"path":"f"}'
+mcp-cli filesystem/search_files '{"path":".", "pattern":"*.ts"}'
+mcp-cli memory/create_entities '{"entities":[...]}'
+mcp-cli memory/search_nodes '{"query":"keyword"}'
 ```
-
-### File Search
-```bash
-mcp-cli filesystem/search_files '{"path": ".", "pattern": "**/*.ts"}'
-```
-
-### Large File Sections
-```bash
-mcp-cli filesystem/read_text_file '{"path": "large-file.md", "head": 100}'
-mcp-cli filesystem/read_text_file '{"path": "large-file.md", "tail": 50}'
-```
-
-## Knowledge Graph (Cross-Session Memory)
-
-### Store Knowledge
-```bash
-mcp-cli memory/create_entities '{"entities": [
-  {"name": "EntityName", "entityType": "type", "observations": ["fact1", "fact2"]}
-]}'
-```
-
-### Query Before Research
-```bash
-mcp-cli memory/search_nodes '{"query": "keyword"}'
-mcp-cli memory/open_nodes '{"names": ["EntityName"]}'
-mcp-cli memory/read_graph '{}'
-```
-
-### Create Relationships
-```bash
-mcp-cli memory/create_relations '{"relations": [
-  {"from": "Entity1", "to": "Entity2", "relationType": "uses"}
-]}'
-```
-
-## Tool Discovery
-```bash
-mcp-cli                          # List all servers
-mcp-cli grep "*file*"            # Find tools by keyword
-mcp-cli filesystem/tool_name     # Load specific tool schema
-mcp-cli --json ...               # JSON output for parsing
-```
-
-## When to Use MCP CLI
-
-| Use MCP CLI | Use Native Tools |
-|-------------|------------------|
-| Reading 2+ files | Single small file read |
-| Directory exploration | File writes/edits |
-| Pattern-based search | Git operations |
-| Knowledge storage | Simple grep |
-| Large file sections | - |
-
-## Token Savings
-
-| Operation | Savings |
-|-----------|---------|
-| Bulk reads (N files) | ~66% |
-| Directory tree | ~80% |
-| Pattern search | ~70% |
-| Large file head/tail | ~90% |
-| Knowledge retrieval | ~95% |
 
 ## Troubleshooting
 
 - **Exit code 127**: Install MCP CLI first
 - **Server not found**: Check `mcp_servers.json` exists
 - **JSON parse error**: Validate JSON syntax
-- **Fallback**: Use native tools if MCP fails
+- **Slow**: Each call spawns npx → downloads package → starts server → runs tool → exits (3-7s overhead)

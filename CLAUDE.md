@@ -1,6 +1,6 @@
 # Claude Code Instructions
 
-> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `/token-reduce` skill
+> **Master rules:** `.cursorrules` | **Token efficiency:** `/token-reduce` skill | **Benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
 
 ## Context Compaction Prevention (Critical)
 
@@ -23,11 +23,9 @@
 ## Quick Start
 
 1. **Read `.cursorrules`** - All AI rules apply to Claude Code
-2. **Install MCP CLI + QMD** (auto-install if missing):
-   - `command -v mcp-cli >/dev/null 2>&1 || curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash`
-   - `command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd`
-3. **Query knowledge** before researching: `mcp-cli memory/search_nodes '{"query": "topic"}'`
-4. **Use token reduction** - Auto-active via `/token-reduce` skill (89% concise, 76% knowledge graph, 33% targeted reads)
+2. **Install QMD** (BM25 only): `command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd`
+3. **Use QMD for search** before reading files: `qmd search "topic" -n 5 --files` (skip embed/vector)
+4. **Use token reduction** - Auto-active via `/token-reduce` skill (89% concise, 99% QMD search vs naive, 33% targeted reads)
 5. **Verify before completing:** Run lint, build, tests
 
 ## Enforcement
@@ -83,13 +81,13 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ```bash
 cd wallets/frontend
-npm install && npm run dev     # Development
-npm run build                  # Production build
-npm run lint                   # ESLint
-npm run type-check             # TypeScript
-npm test                       # Tests
-npm run generate-og            # Regenerate OG images
-npm run validate-cards         # Twitter Card validation
+bun install && bun run dev     # Development
+bun run build                  # Production build
+bun run lint                   # ESLint
+bun run type-check             # TypeScript
+bun test                       # Tests
+bun run generate-og            # Regenerate OG images
+bun run validate-cards         # Twitter Card validation
 ```
 
 **Key files:**
@@ -122,11 +120,9 @@ Before completing any task:
 | #122 | Commit: Human authors, AI co-authors. PR: AI is agent, Human co-authors |
 | #124 | Commit Co-authored-by = AI (Claude). PR Co-authored-by = Human (Chimera) |
 | #125 | CI checks PR description only (Agent + Co-authored-by + Original Request) |
-| #140 | Install MCP CLI before using |
-| #146 | Store knowledge in memory server |
+| #140 | Use QMD BM25 search before reading files (skip embed/vector) |
 | #148 | Token reduction skill always active |
-| #149 | Benchmarked savings: 89% (concise), 76% (knowledge graph), 33% (targeted reads) |
-| #150 | Query knowledge graph before researching |
+| #149 | Benchmarked savings: 89% (concise), 99% (QMD search vs naive), 33% (targeted reads) |
 | #151 | Use sub-agents for exploration (>5 files, uncertain locations) |
 | #152 | Sub-agents return summaries - prevents context compaction |
 | #153 | Hooks enforce: Read >300 lines, Grep content, Glob >50 files |
@@ -160,8 +156,8 @@ git rebase origin/main
 # 1. Token monitoring (optional but recommended)
 .cursor/token-monitor.sh init
 
-# 2. Query knowledge graph for context
-mcp-cli memory/search_nodes '{"query": "your topic"}'
+# 2. Use QMD BM25 to find relevant files before reading
+qmd search "your topic" -n 5 --files
 
 # 3. Token reduction auto-active (no action needed)
 # Skill auto-invokes when you mention: tokens, efficiency, optimize, costs
@@ -171,7 +167,7 @@ mcp-cli memory/search_nodes '{"query": "your topic"}'
 
 **Token reduction is always active:**
 - Responses use concise patterns (no preambles)
-- Knowledge graph queried before research
+- QMD BM25 search before reading files (when available)
 - Targeted file reads (head/tail, not full files)
 - Parallel tool calls when possible
 
@@ -244,9 +240,9 @@ cd wallets/scripts && ./refresh-github-data.sh
 - **Placeholder components:** Remove fake data components before shipping
 
 ### Multi-Pass Review Checklist
-1. `npm run lint` - No warnings or errors
-2. `npm run type-check` - TypeScript passes
-3. `npm run build` - Build succeeds
+1. `bun run lint` - No warnings or errors
+2. `bun run type-check` - TypeScript passes
+3. `bun run build` - Build succeeds
 4. Check for unused imports
 5. Verify theme works in both light and dark mode
 6. Test all interactive elements
@@ -256,6 +252,6 @@ cd wallets/scripts && ./refresh-github-data.sh
 - Keep one task in one PR; do not split work across multiple PRs.
 - Always commit with a self-authored message and model attribution.
 - Store research sources in artifacts to preserve context.
-- Token reduction: bootstrap MCP CLI + QMD first, use QMD before targeted reads.
-- Use Bun by default (prefer `bun` over `node`/`npm` for scripts and installs).
+- Token reduction: use QMD first and avoid MCP CLI for filesystem reads (see benchmark doc).
+- Use Bun by default (prefer `bun` over `node`/`npm`).
 - Always do 2-3 quick passes for extra optimization ideas.
