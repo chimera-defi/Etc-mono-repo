@@ -10,6 +10,15 @@ Clawdbot Launchpad is a multi-tenant control plane that provisions and manages C
 
 **Upstream**: openclaw/openclaw (MIT).
 
+## Infra Primitive Clarification (Hosting vs Workspaces)
+
+Launchpad has two distinct compute needs:
+
+1. **Production hosting (“data plane”)**: always-on customer bots with SLOs, stable ingress, persistent storage, quotas, secrets, backups, and strong isolation.
+2. **Ephemeral compute (“workspaces”)**: short-lived sandboxes to build images, run tests, reproduce issues, or validate untrusted plugins.
+
+**Daytona** fits (2) well, but is **not the default choice** for (1) unless proven by a POC (persistence, ingress, isolation, ops hooks).
+
 ### Pilot (Startup-Simple)
 
 - **Cloud**: single VPS (Hetzner/DO/Vultr).  
@@ -69,6 +78,18 @@ User -> Web App -> Control Plane API -> Provisioning Queue -> Workers
 4. `runtime_instances` (cluster/VPS metadata)
 5. `secrets` (encrypted payload + metadata)
 
+### Configuration as a First-Class Object (MVP Requirement)
+
+To support “configuration UX” and safe upgrades, deployments must have a versioned configuration history:
+
+- `config_versions` (deployment_id, version, created_at, created_by, payload_encrypted, status)
+- `deployments.current_config_version_id`
+- `deployments.last_known_good_config_version_id`
+
+**Operations**
+- Apply config: create new `config_version` -> validate -> rollout -> mark LKG on success.
+- Rollback: set `current_config_version_id` to LKG -> rollout -> health check.
+
 **Phase 2 Additions**:
 1. `backups` (snapshots + retention)
 2. `deployment_versions` (image tag history)
@@ -93,6 +114,11 @@ User -> Web App -> Control Plane API -> Provisioning Queue -> Workers
 - `GET /deployments/:id`
 - `POST /deployments/:id/restart`
 - `POST /deployments/:id/update`
+
+**Config**
+- `GET /deployments/:id/config`
+- `POST /deployments/:id/config` (create new config version + rollout)
+- `POST /deployments/:id/rollback` (rollback to last-known-good)
 
 **Logs**
 - `GET /deployments/:id/logs`
@@ -133,6 +159,19 @@ User -> Web App -> Control Plane API -> Provisioning Queue -> Workers
 - Per-tenant VM with Docker + systemd.
 - Encrypted disk + snapshot backups.
 - Optional static IP and custom domains.
+
+## Optional: Daytona for Ephemeral Workspaces (Non-Production)
+
+If adopted, Daytona is used for:
+- **Image build/test sandboxes** (reproducible, isolated runs).
+- **Support reproduction workspaces** (internal-only).
+- **Plugin/skill validation** (execute untrusted code with strict egress).
+
+**Explicit non-goal**: Daytona is not used as the customer bot hosting substrate in MVP unless a POC demonstrates:
+- persistent volumes per tenant
+- stable HTTPS ingress per tenant under our routing/TLS
+- quotas + hard isolation + egress restrictions
+- reliable restart/health checks + log export
 
 ## Default Limits (Initial, adjust after pilot)
 
