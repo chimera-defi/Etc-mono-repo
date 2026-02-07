@@ -152,3 +152,25 @@ qmd get filename.md -l 50 --from 100
 ```
 
 **Skip:** `qmd embed`, `qmd vsearch`, `qmd query` — too slow for interactive AI agent use.
+
+---
+
+## Local Verification (2026-02-08)
+
+**Environment:** Linux, repo path `/root/clawd/dev/Etc-mono-repo/.worktrees/main`
+**QMD collection:** 214 `.md` files indexed (BM25 only)
+**MCP CLI config:** temp config with root path set to current repo
+
+### Wall-clock timings (single run)
+
+| Operation | Command | Time |
+|-----------|---------|------|
+| Native file read | `cat CLAUDE.md > /dev/null` | ~0.00s |
+| MCP CLI read_file | `mcp-cli -c /tmp/mcp_servers.json call filesystem read_file '{"path":"CLAUDE.md"}'` | ~1.45s |
+| QMD search (BM25) | `qmd search "token reduction" -n 5 --files` | ~0.45s |
+| Native scoped search | `rg -g "*.md" "token reduction"` | ~0.01s |
+
+**Notes:**
+- MCP CLI is still substantially slower than native tools for file reads.
+- QMD BM25 search is slower than `rg` but returns ranked snippets/paths with low token payload.
+- Results align with the 2026-02-07 benchmark directionally (MCP CLI slower, QMD BM25 useful for narrowing scope).
