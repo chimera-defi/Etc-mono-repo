@@ -21,6 +21,7 @@
 - Cap tool output to ~120 lines; use `head/tail/sed` for longer content
 - Summarize multi-file reads; never paste full files unless asked
 - Provide a single summary per tool call; avoid per-file commentary
+- Avoid full reads for files >300 lines (use targeted reads)
 
 **Expand only when user says:** "Go deeper", "Expand", "Show reasoning", "Explore tradeoffs"
 
@@ -32,6 +33,7 @@
 5. Skip preambles and confirmations
 6. Avoid re-reading the same file in a session unless it changed
 7. Do 2-3 quick passes for extra optimization ideas on every request
+8. Prefer `rg --files -g` for structure scans before directory_tree
 
 **MCP CLI required for bulk operations:** See `.cursor/MCP_CLI.md`
 - Install: `curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash`
@@ -93,6 +95,7 @@ Brief description.
 - No security vulnerabilities (OWASP top 10)
 - Batch shell commands when possible to reduce tool calls
 - Use `rg -g` to scope searches; avoid broad scans
+- If `rg` unavailable, fallback to `git grep` and cap output lines
 
 ---
 
