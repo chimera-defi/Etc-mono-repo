@@ -38,7 +38,6 @@
 - Avoid full reads for files >300 lines
 - Prefer `rg --files -g` before directory_tree
 - Use `rg -g` scoped searches; fallback to `git grep` if `rg` missing
-- Do 2-3 quick passes for extra optimization ideas
 
 ---
 
@@ -159,5 +158,5 @@ pip3 install tiktoken
 
 ---
 
-**Version:** 4.0 (2026-02-07 — real benchmarks, removed fabricated numbers)
+**Version:** 4.1 (2026-02-08 — merged PR 197 guardrails with real benchmarks)
 **Validation:** `.cursor/validate-token-reduction.sh`

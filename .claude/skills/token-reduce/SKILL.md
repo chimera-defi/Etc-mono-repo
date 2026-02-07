@@ -5,7 +5,7 @@ description: |
   Uses QMD BM25 search when available for fast local search (skip embed/vsearch/query — too slow).
   Use when: context limits, high costs, large codebases. Enforcement via .cursorrules.
 author: Claude Code
-version: 4.0.0
+version: 4.1.0
 argument-hint: [file-or-directory]
 disable-model-invocation: false
 allowed-tools:
