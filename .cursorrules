@@ -26,7 +26,7 @@
 **Expand only when user says:** "Go deeper", "Expand", "Show reasoning", "Explore tradeoffs"
 
 **Session workflow (automatic):**
-1. Query knowledge graph before researching (`mcp-cli memory/search_nodes`)
+1. Query knowledge graph before researching (prefer built-in project memory; `mcp-cli memory/search_nodes` only if configured)
 2. Use QMD first for docs/notes (if available), then targeted file reads (head/tail, not full files)
 3. Parallel tool calls when possible
 4. Store findings in knowledge graph
@@ -35,11 +35,11 @@
 7. Do 2-3 quick passes for extra optimization ideas on every request
 8. Prefer `rg --files -g` for structure scans before directory_tree
 
-**MCP CLI required for bulk operations:** See `.cursor/MCP_CLI.md`
-- Install: `curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash`
-- QMD (docs/notes search): `bun install -g https://github.com/tobi/qmd`
-- Auto-install: `command -v mcp-cli >/dev/null 2>&1 || curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash; command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd`
-- Use for: 2+ file reads, directory trees, pattern searches, knowledge storage
+**Filesystem guidance:** Use QMD + native tools; avoid MCP CLI file reads (see benchmark doc).
+- Install QMD (docs/notes search): `bun install -g https://github.com/tobi/qmd`
+- Auto-install QMD: `command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd`
+- MCP CLI memory is optional and usually redundant with Claude Code built-in memory
+- Use for: QMD search/snippets before any file reads
 - **Benchmarked savings:** 89% (concise), 76% (knowledge graph), 33% (targeted reads)
 - Complete guide: `.cursor/TOKEN_REDUCTION.md`
 
