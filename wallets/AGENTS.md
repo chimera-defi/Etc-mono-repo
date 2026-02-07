@@ -1,6 +1,6 @@
 # Wallet Comparison Guidelines
 
-> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `/token-reduce` skill
+> **Master rules:** `.cursorrules` | **Token efficiency:** `/token-reduce` skill | **Benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
 
 ## Git Discipline (Required)
 
@@ -97,29 +97,33 @@ Rabby, Trust, Rainbow, Brave, Coinbase, MetaMask, Phantom, OKX, Wigwam, Zerion, 
 
 ---
 
-## MCP CLI Patterns (Wallet-Specific)
+## Search & Retrieval Patterns (Wallet-Specific)
 
-**General patterns:** See `.cursor/MCP_CLI.md`
-**Token optimization:** See `.cursor/TOKEN_REDUCTION.md` or use `/token-reduce` skill
+**General patterns:** See `.cursor/TOKEN_REDUCTION.md`
 
 ```bash
-# Use MCP CLI for bulk reads (10+ files)
-mcp-cli filesystem/read_multiple_files '{"paths": ["wallets/README.md", "wallets/SOFTWARE_WALLETS.md"]}'
+# Scope first with rg
+rg -g "*.md" "wallet name" wallets/
 
-# Bulk read wallet tables (reduces tool call overhead, provides structured data)
-mcp-cli filesystem/read_multiple_files '{"paths": ["wallets/SOFTWARE_WALLETS.md", "wallets/HARDWARE_WALLETS.md", "wallets/CRYPTO_CARDS.md"]}'
+# Ranked snippets when you need discovery
+qmd search "wallet name" -n 5 --files
+qmd search "wallet name" -n 5
 
-# Store wallet research (saves 84% tokens across multiple sessions)
-mcp-cli memory/create_entities '{"entities": [{"name": "WalletName", "entityType": "wallet", "observations": ["feature1", "feature2"]}]}'
-
-# ALWAYS query before research (avoids duplicate work)
-mcp-cli memory/search_nodes '{"query": "wallet name"}'
+# Targeted reads
+sed -n '120,200p' wallets/SOFTWARE_WALLETS.md
 ```
 
+## Token Reduction Bootstrap
+
+```bash
+command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
+```
+
+**Workflow:** Use QMD first for docs/notes, then targeted reads.
+
 **Token reduction for wallet work:**
-- Query knowledge graph for previously researched wallets
-- Use MCP CLI bulk reads for comparing multiple wallet tables
-- Store scoring methodology in memory server
+- Use `rg -g` scoped search first
+- Use QMD BM25 for ranked snippets/paths
 - Use targeted file reads (head/tail) for large wallet lists
 
 ---
@@ -182,6 +186,9 @@ mcp-cli memory/search_nodes '{"query": "wallet name"}'
 8. Activity status decays
 9. Use headless Chromium for bot-protected URL verification and store results in `wallets/artifacts/manual-browser-checks.json`.
 10. If `GITHUB_TOKEN` is unavailable, use unauth GitHub API/Atom fallbacks and record that stars/issues are best-effort.
+11. Token reduction: use QMD BM25 + `rg -g`; avoid MCP CLI filesystem reads.
+12. Use Bun by default (prefer `bun` over `node`/`npm`).
+13. Always do 2-3 quick passes for extra optimization ideas.
 
 **Multi-Pass Review:**
 1. Math verification - breakdowns must sum to totals

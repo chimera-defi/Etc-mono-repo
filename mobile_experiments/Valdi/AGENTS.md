@@ -1,6 +1,6 @@
 # Valdi Application Guide
 
-> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `/token-reduce` skill
+> **Master rules:** `.cursorrules` | **Token efficiency:** `/token-reduce` skill | **Benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
 
 ## Git Discipline (Required)
 
@@ -91,26 +91,30 @@ class MyComponent extends Component {
 4. Call `setState()` to trigger re-renders
 5. Try `bazel clean` if builds stuck
 
-## MCP CLI Patterns (Valdi-Specific)
+## Search & Retrieval Patterns (Valdi-Specific)
 
-**General patterns:** See `.cursor/MCP_CLI.md`
+**General patterns:** See `.cursor/TOKEN_REDUCTION.md`
 
 ```bash
-# Use MCP CLI for bulk reads (10+ files)
-mcp-cli filesystem/read_multiple_files '{"paths": ["mobile_experiments/Valdi/README.md", "mobile_experiments/README.md"]}'
+# Scope first with rg
+rg -g "*.md" "Valdi" mobile_experiments/Valdi/
+rg -g "BUILD.bazel" "target" mobile_experiments/Valdi/
 
-# Explore structure
-mcp-cli filesystem/directory_tree '{"path": "mobile_experiments/Valdi"}'
+# Ranked snippets when you need discovery
+qmd search "Valdi build" -n 5 --files
+qmd search "Valdi build" -n 5
 
-# Find BUILD files
-mcp-cli filesystem/search_files '{"path": "mobile_experiments/Valdi", "pattern": "**/BUILD.bazel"}'
-
-# Batch read configs
-mcp-cli filesystem/read_multiple_files '{"paths": ["mobile_experiments/Valdi/config.yaml", "mobile_experiments/Valdi/WORKSPACE"]}'
-
-# Store Valdi knowledge
-mcp-cli memory/create_entities '{"entities": [{"name": "Valdi Pattern", "entityType": "pattern", "observations": ["key insight"]}]}'
+# Targeted reads
+sed -n '1,160p' mobile_experiments/Valdi/README.md
 ```
+
+## Token Reduction Bootstrap
+
+```bash
+command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
+```
+
+**Workflow:** Use QMD first for docs/notes, then targeted reads.
 
 ## Key Points
 
@@ -134,3 +138,6 @@ mcp-cli memory/create_entities '{"entities": [{"name": "Valdi Pattern", "entityT
 - Keep one task in one PR; do not create multiple PRs for the same request.
 - Always commit changes with a descriptive message and model attribution.
 - Record research inputs in `.cursor/artifacts/` or project artifacts to preserve source context.
+- Token reduction: use QMD BM25 + `rg -g`; avoid MCP CLI filesystem reads.
+- Use Bun by default (prefer `bun` over `node`/`npm`).
+- Always do 2-3 quick passes for extra optimization ideas.
