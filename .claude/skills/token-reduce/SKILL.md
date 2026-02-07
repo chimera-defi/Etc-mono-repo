@@ -2,10 +2,10 @@
 name: token-reduce
 description: |
   Reduce token usage by retrieving only relevant context and summarizing it.
-  Uses QMD (Query Markup Documents) when available for local search.
+  Uses QMD BM25 search when available for fast local search (skip embed/vsearch/query — too slow).
   Use when: context limits, high costs, large codebases. Enforcement via .cursorrules.
 author: Claude Code
-version: 3.1.0
+version: 4.0.0
 argument-hint: [file-or-directory]
 disable-model-invocation: false
 allowed-tools:
@@ -19,32 +19,40 @@ allowed-tools:
 
 Reduce context usage for `$ARGUMENTS` using targeted retrieval and short summaries.
 
-## Strategies (by impact)
+## Strategies (by measured impact)
 
-| Strategy | Savings | Apply |
-|----------|---------|-------|
+| Strategy | Measured Savings | When |
+|----------|-----------------|------|
 | Concise responses | 89-91% | Always |
-| Knowledge graph | 76-84% | Multi-session |
-| Targeted reads | 33-44% | Large files |
-| QMD retrieval | 30-60% | Docs/notes |
-| Parallel calls | 20% | Multi-step |
+| QMD BM25 search | 99% vs naive reads | Finding which files to read |
+| Targeted reads | 33% | Large files |
+| Sub-agents | 15-30% | >5 files, broad exploration |
+| Parallel calls | 20% | Multi-step tasks |
 
 ## Process
 
-1. If QMD is installed, search relevant docs first.
-2. Pull only top results and summarize in 5–10 bullets.
-3. If QMD is unavailable, do targeted reads only.
+1. If QMD is installed, run `qmd search "topic" -n 5 --files` to find relevant files.
+2. Pull only top results via `qmd search "topic" -n 3` for snippets (512 tokens vs 52K naive).
+3. If QMD is unavailable, use `grep` + targeted reads with line limits.
 4. Report: `Baseline → Optimized (X% saved)` and fixes.
 
-## QMD quickstart
+## QMD quickstart (BM25 only — skip embed/vector)
 
+```bash
+# One-time setup (2 seconds, no model downloads needed)
+qmd collection add /path/to/repo --name my-repo
+
+# Find files by keyword (700ms-2.7s)
+qmd search "topic" -n 5 --files
+
+# Get ranked snippets
+qmd search "topic" -n 5
+
+# Read specific file section
+qmd get filename.md -l 50 --from 100
 ```
-bun install -g https://github.com/tobi/qmd
-qmd collection add <path> --name <name>
-qmd context add qmd://<name> "context"
-qmd embed
-qmd query "question" --all --files --min-score 0.3
-```
+
+**Do NOT use:** `qmd embed` (11 min), `qmd vsearch` (15-111s/query), `qmd query` (105-175s/query)
 
 ## Anti-patterns flagged
 
@@ -52,6 +60,7 @@ qmd query "question" --all --files --min-score 0.3
 - Narrating tool usage
 - Reading entire files
 - Re-researching stored knowledge
+- Using MCP CLI for file reads (117% more tokens due to JSON)
 
 ## Usage
 
@@ -63,4 +72,4 @@ qmd query "question" --all --files --min-score 0.3
 
 ---
 
-*Enforcement: .cursorrules + hooks | Analysis: this skill (on-demand)*
+*Enforcement: .cursorrules + hooks | Benchmarks: `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`*

@@ -1,6 +1,6 @@
 # Claude Code Instructions
 
-> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `/token-reduce` skill
+> **Master rules:** `.cursorrules` | **Token efficiency:** `/token-reduce` skill | **Benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
 
 ## Context Compaction Prevention (Critical)
 
@@ -23,10 +23,9 @@
 ## Quick Start
 
 1. **Read `.cursorrules`** - All AI rules apply to Claude Code
-2. **Install MCP CLI** before bulk operations: `curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash`
-3. **Query knowledge** before researching: `mcp-cli memory/search_nodes '{"query": "topic"}'`
-4. **Use token reduction** - Auto-active via `/token-reduce` skill (91% concise, 84% knowledge graph, 44% targeted reads)
-5. **Verify before completing:** Run lint, build, tests
+2. **Use QMD for search** before reading files: `qmd search "topic" -n 5 --files` (BM25 only, skip embed/vector)
+3. **Use token reduction** - Auto-active via `/token-reduce` skill (89% concise, 99% QMD search vs naive, 33% targeted reads)
+4. **Verify before completing:** Run lint, build, tests
 
 ## Enforcement
 
@@ -120,11 +119,9 @@ Before completing any task:
 | #122 | Commit: Human authors, AI co-authors. PR: AI is agent, Human co-authors |
 | #124 | Commit Co-authored-by = AI (Claude). PR Co-authored-by = Human (Chimera) |
 | #125 | CI checks PR description only (Agent + Co-authored-by + Original Request) |
-| #140 | Install MCP CLI before using |
-| #146 | Store knowledge in memory server |
+| #140 | Use QMD BM25 search before reading files (skip embed/vector) |
 | #148 | Token reduction skill always active |
-| #149 | Benchmarked savings: 91% (concise), 84% (knowledge graph), 44% (targeted reads) |
-| #150 | Query knowledge graph before researching |
+| #149 | Benchmarked savings: 89% (concise), 99% (QMD search vs naive), 33% (targeted reads) |
 | #151 | Use sub-agents for exploration (>5 files, uncertain locations) |
 | #152 | Sub-agents return summaries - prevents context compaction |
 | #153 | Hooks enforce: Read >300 lines, Grep content, Glob >50 files |
@@ -158,8 +155,8 @@ git rebase origin/main
 # 1. Token monitoring (optional but recommended)
 .cursor/token-monitor.sh init
 
-# 2. Query knowledge graph for context
-mcp-cli memory/search_nodes '{"query": "your topic"}'
+# 2. Use QMD BM25 to find relevant files before reading
+qmd search "your topic" -n 5 --files
 
 # 3. Token reduction auto-active (no action needed)
 # Skill auto-invokes when you mention: tokens, efficiency, optimize, costs
@@ -169,7 +166,7 @@ mcp-cli memory/search_nodes '{"query": "your topic"}'
 
 **Token reduction is always active:**
 - Responses use concise patterns (no preambles)
-- Knowledge graph queried before research
+- QMD BM25 search before reading files (when available)
 - Targeted file reads (head/tail, not full files)
 - Parallel tool calls when possible
 
