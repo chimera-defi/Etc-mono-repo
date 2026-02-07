@@ -131,6 +131,8 @@ Brief description.
 - **Multi-tool verify:** Run ALL checks (lint, types, tests, build)
 - **Scaffold before coding:** Use framework CLI first
 - **Use Bun by default:** Prefer `bun` over `node`/`npm` for scripts and installs
+- **Avoid duplicate reads:** Cache summaries in artifacts for long tasks
+- **Prefer scoped search:** `rg --files -g` before directory_tree; `rg -g` for queries
 
 ### Documentation
 - **Add, don't remove:** Consolidate means organize, not delete
