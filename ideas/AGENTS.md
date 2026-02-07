@@ -1,6 +1,6 @@
 # Ideas & Research Guide
 
-> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `/token-reduce` skill
+> **Master rules:** `.cursorrules` | **Token efficiency:** `/token-reduce` skill | **Benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
 
 ## Git Discipline (Required)
 
@@ -69,32 +69,30 @@ Unified birthday reminder application:
 4. **Track learnings** - Capture insights
 5. **Link concepts** - Connect related ideas
 
-## MCP CLI Patterns (Ideas-Specific)
+## Search & Retrieval Patterns (Ideas-Specific)
 
-**General patterns:** See `.cursor/MCP_CLI.md`
+**General patterns:** See `.cursor/TOKEN_REDUCTION.md`
 
 ```bash
-# Use MCP CLI for bulk reads (10+ files)
-mcp-cli filesystem/read_multiple_files '{"paths": ["ideas/README.md", "ideas/voice-coding-assistant/README.md"]}'
+# Scope first with rg
+rg -g "*.md" "SPEC" ideas/
+rg -g "*.md" "handoff" ideas/
 
-# Explore multi-component projects
-mcp-cli filesystem/directory_tree '{"path": "ideas/voice-coding-assistant"}'
+# Ranked snippets when you need discovery
+qmd search "idea validation" -n 5 --files
+qmd search "idea validation" -n 5
 
-# Find all package.json across components
-mcp-cli filesystem/search_files '{"path": "ideas/voice-coding-assistant", "pattern": "**/package.json"}'
-
-# Batch read docs
-mcp-cli filesystem/read_multiple_files '{"paths": ["ideas/README.md", "ideas/voice-coding-assistant/README.md"]}'
-
-# Store idea concepts
-mcp-cli memory/create_entities '{"entities": [{"name": "Idea Name", "entityType": "idea", "observations": ["concept", "target users", "key features"]}]}'
-
-# Store competitive analysis
-mcp-cli memory/create_entities '{"entities": [{"name": "Competitors", "entityType": "research", "observations": ["Competitor1: description", "Gap: opportunity"]}]}'
-
-# Link related concepts
-mcp-cli memory/create_relations '{"relations": [{"from": "Idea", "to": "Component", "relationType": "composed_of"}]}'
+# Targeted reads
+sed -n '1,160p' ideas/idea-validation-bot/README.md
 ```
+
+## Token Reduction Bootstrap
+
+```bash
+command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
+```
+
+**Workflow:** Use QMD first for docs/notes, then targeted reads.
 
 ## Research Workflow
 
@@ -122,16 +120,13 @@ For projects like Cadence:
 
 ```bash
 # 1. Get overview
-mcp-cli filesystem/directory_tree '{"path": "ideas/voice-coding-assistant"}'
+rg --files -g "*" ideas/voice-coding-assistant | head -50
 
 # 2. Find common files
-mcp-cli filesystem/search_files '{"path": "ideas/voice-coding-assistant", "pattern": "**/package.json"}'
+rg --files -g "package.json" ideas/voice-coding-assistant
 
 # 3. Store component relationships
-mcp-cli memory/create_relations '{"relations": [
-  {"from": "cadence-app", "to": "cadence-api", "relationType": "depends_on"},
-  {"from": "cadence-api", "to": "cadence-backend", "relationType": "depends_on"}
-]}'
+qmd search "cadence" -n 5 --files
 ```
 
 ## Best Practices
@@ -140,7 +135,7 @@ mcp-cli memory/create_relations '{"relations": [
 2. Store research immediately
 3. Link related concepts
 4. Track dead ends (prevent repeating mistakes)
-5. Iterate quickly with MCP CLI
+5. Iterate quickly with `rg` + QMD
 
 ## Meta Learnings
 
@@ -151,3 +146,6 @@ mcp-cli memory/create_relations '{"relations": [
 - After rebasing, force-push with lease if the branch diverges from the PR head.
 - Keep one task in one PR; do not create multiple PRs for the same request.
 - Record research inputs in `.cursor/artifacts/` or project artifacts to preserve source context.
+- Token reduction: use QMD BM25 + `rg -g`; avoid MCP CLI filesystem reads.
+- Use Bun by default (prefer `bun` over `node`/`npm`).
+- Always do 2-3 quick passes for extra optimization ideas.
