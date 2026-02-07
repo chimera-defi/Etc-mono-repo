@@ -24,6 +24,10 @@
 - Select secrets manager + KMS.
 - Define log retention policy.
 
+**Infra validation (redo)**
+- Validate “production hosting” substrate (ECS/Fargate vs managed K8s vs VPS-per-tenant) with a minimal deploy+update+logs flow.
+- Validate “ephemeral workspace” substrate (Daytona) for internal build/repro workflows.
+
 ## Phase 0b - Pilot Build (Week 0-1)
 
 **Single VPS**
@@ -56,6 +60,13 @@
 - Image registry + signing pipeline.
 - Secrets injection workflow.
 - Log aggregation and metrics.
+
+**Daytona (optional, non-prod)**
+- POC: deploy Daytona on a small K8s cluster.
+- Template a workspace that runs a long-lived process + writes to a mounted volume.
+- Add egress restrictions test (deny-by-default + allowlist).
+- Export logs/artifacts from workspace to object storage.
+- Decide: keep as internal tooling vs drop.
 
 **Security**
 - Threat model + risk register.
