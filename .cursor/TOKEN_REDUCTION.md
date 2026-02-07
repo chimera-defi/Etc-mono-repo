@@ -11,7 +11,7 @@
 
 | Strategy | Measured Savings | Use |
 |----------|-----------------|-----|
-| Concise responses | 89-91% | Always |
+| Concise responses | 89% | Always |
 | QMD BM25 search | 99% vs naive file reads | Finding which files to read |
 | Targeted reads | 33% | Large files |
 | Sub-agents | 15-30% | Complex exploration (>5 files) |
@@ -42,7 +42,7 @@
 
 ---
 
-## 1. Concise Communication (89-91%)
+## 1. Concise Communication (89%)
 
 Bad: "I understand you'd like me to check..."
 Good: `[uses Read]` Bug on line 47 — missing return.
