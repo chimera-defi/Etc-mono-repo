@@ -193,6 +193,7 @@ command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
 10. If `GITHUB_TOKEN` is unavailable, use unauth GitHub API/Atom fallbacks and record that stars/issues are best-effort.
 11. Token reduction: bootstrap MCP CLI + QMD first, use QMD before targeted reads.
 12. Use Bun by default (prefer `bun` over `node`/`npm`).
+13. Always do 2-3 quick passes for extra optimization ideas.
 
 **Multi-Pass Review:**
 1. Math verification - breakdowns must sum to totals

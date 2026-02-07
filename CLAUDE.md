@@ -258,3 +258,4 @@ cd wallets/scripts && ./refresh-github-data.sh
 - Store research sources in artifacts to preserve context.
 - Token reduction: bootstrap MCP CLI + QMD first, use QMD before targeted reads.
 - Use Bun by default (prefer `bun` over `node`/`npm` for scripts and installs).
+- Always do 2-3 quick passes for extra optimization ideas.
