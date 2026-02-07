@@ -1,6 +1,6 @@
 # Staking Projects Guide
 
-> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `/token-reduce` skill
+> **Master rules:** `.cursorrules` | **Token efficiency:** `/token-reduce` skill | **Benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
 
 ## Git Discipline (Required)
 
@@ -65,31 +65,26 @@ Market analysis and opportunity research:
 - `aztec-nargo` (Docker) for compilation
 - Separate pure math into testable modules
 
-## MCP CLI Patterns (Staking-Specific)
+## Search & Retrieval Patterns (Staking-Specific)
 
-**General patterns:** See `.cursor/MCP_CLI.md`
+**General patterns:** See `.cursor/TOKEN_REDUCTION.md`
 
 ```bash
-# Use MCP CLI for bulk reads (10+ files)
-mcp-cli filesystem/read_multiple_files '{"paths": ["staking/README.md", "staking/aztec/README.md"]}'
+# Scope first with rg
+rg -g "*.md" "staking" staking/
+rg -g "*.nr" "contract" staking/
 
-# Explore structure
-mcp-cli filesystem/directory_tree '{"path": "staking/aztec"}'
+# Ranked snippets when you need discovery
+qmd search "aztec staking" -n 5 --files
+qmd search "aztec staking" -n 5
 
-# Find contracts
-mcp-cli filesystem/search_files '{"path": "staking", "pattern": "**/*.nr"}'
-
-# Batch read docs
-mcp-cli filesystem/read_multiple_files '{"paths": ["staking/README.md", "staking/aztec/README.md"]}'
-
-# Store security findings
-mcp-cli memory/create_entities '{"entities": [{"name": "Contract Security Review", "entityType": "security", "observations": ["finding1", "finding2"]}]}'
+# Targeted reads
+sed -n '1,120p' staking/aztec/README.md
 ```
 
 ## Token Reduction Bootstrap
 
 ```bash
-command -v mcp-cli >/dev/null 2>&1 || curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash
 command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
 ```
 
@@ -142,6 +137,6 @@ Never claim full completion for uncompiled code.
 - Keep one task in one PR; do not create multiple PRs for the same request.
 - Always commit changes with a descriptive message and model attribution.
 - Record research inputs in `.cursor/artifacts/` or project artifacts to preserve source context.
-- Token reduction: bootstrap MCP CLI + QMD first, use QMD before targeted reads.
+- Token reduction: use QMD BM25 + `rg -g`; avoid MCP CLI filesystem reads.
 - Use Bun by default (prefer `bun` over `node`/`npm`).
 - Always do 2-3 quick passes for extra optimization ideas.
