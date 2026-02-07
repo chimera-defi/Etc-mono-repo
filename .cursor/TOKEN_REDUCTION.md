@@ -120,6 +120,12 @@ mcp-cli filesystem/search_files '{"path": ".", "pattern": "*.ts"}'
 
 **Scales:** 3 files = 1%, 10 files = 10%, 50 files = 30%
 
+**Search scoping:**
+```bash
+rg -g "*.md" "keyword" wallets/
+rg -g "*.ts" "pattern" src/
+```
+
 ---
 
 ## 7. QMD Retrieval (30-60%)
@@ -157,6 +163,8 @@ qmd query "question" --all --files --min-score 0.3
 - Tool output capped (~120 lines); use targeted reads
 - Multi-file reads require summaries, not full pastes
 - Avoid re-reading same file in one session unless it changed
+- Single summary per tool call; no per-file commentary
+- Always do 2-3 quick passes for extra optimization ideas
 
 **Hooks (`.claude/settings.json`):**
 - `enforce-targeted-read.py` - Blocks Read on files >300 lines without limit

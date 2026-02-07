@@ -162,3 +162,4 @@ mcp-cli memory/create_relations '{"relations": [
 - Record research inputs in `.cursor/artifacts/` or project artifacts to preserve source context.
 - Token reduction: bootstrap MCP CLI + QMD first, use QMD before targeted reads.
 - Use Bun by default (prefer `bun` over `node`/`npm`).
+- Always do 2-3 quick passes for extra optimization ideas.
