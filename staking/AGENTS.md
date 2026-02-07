@@ -68,30 +68,21 @@ Market analysis and opportunity research:
 - `aztec-nargo` (Docker) for compilation
 - Separate pure math into testable modules
 
-## Search & Retrieval Patterns (Staking-Specific)
-
-**General patterns:** See `.cursor/TOKEN_REDUCTION.md`
-
-```bash
-# Scope first with rg
-rg -g "*.md" "staking" staking/
-rg -g "*.nr" "contract" staking/
-
-# Ranked snippets when you need discovery
-qmd search "aztec staking" -n 5 --files
-qmd search "aztec staking" -n 5
-
-# Targeted reads
-sed -n '1,120p' staking/aztec/README.md
-```
-
 ## Token Reduction Bootstrap
 
 ```bash
+# Install QMD if missing (BM25 search — 99% fewer tokens than naive reads)
 command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
+
+# Find relevant staking docs before reading (700ms-2.7s)
+qmd search "liquid staking architecture" -n 5 --files
+
+# Scoped search within staking/
+rg -g "*.nr" "reentrancy" staking/
+rg -g "*.md" "slashing" staking/
 ```
 
-**Workflow:** Use QMD first for docs/notes, then targeted reads.
+**Skip:** `qmd embed`, `qmd vsearch`, `qmd query` (15-175s per query — impractical)
 
 ## Security Checklist
 
@@ -140,6 +131,3 @@ Never claim full completion for uncompiled code.
 - Keep one task in one PR; do not create multiple PRs for the same request.
 - Always commit changes with a descriptive message and model attribution.
 - Record research inputs in `.cursor/artifacts/` or project artifacts to preserve source context.
-- Token reduction: use QMD BM25 + `rg -g`; avoid MCP CLI filesystem reads.
-- Use Bun by default (prefer `bun` over `node`/`npm`).
-- Always do 2-3 quick passes for extra optimization ideas.

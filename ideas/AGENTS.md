@@ -69,30 +69,21 @@ Unified birthday reminder application:
 4. **Track learnings** - Capture insights
 5. **Link concepts** - Connect related ideas
 
-## Search & Retrieval Patterns (Ideas-Specific)
-
-**General patterns:** See `.cursor/TOKEN_REDUCTION.md`
-
-```bash
-# Scope first with rg
-rg -g "*.md" "SPEC" ideas/
-rg -g "*.md" "handoff" ideas/
-
-# Ranked snippets when you need discovery
-qmd search "idea validation" -n 5 --files
-qmd search "idea validation" -n 5
-
-# Targeted reads
-sed -n '1,160p' ideas/idea-validation-bot/README.md
-```
-
 ## Token Reduction Bootstrap
 
 ```bash
+# Install QMD if missing (BM25 search — 99% fewer tokens than naive reads)
 command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
+
+# Find relevant docs before reading (700ms-2.7s)
+qmd search "voice coding assistant architecture" -n 5 --files
+
+# Scoped search within ideas/
+rg -g "*.md" "birthday bot" ideas/
+rg -g "*.ts" "speech recognition" ideas/
 ```
 
-**Workflow:** Use QMD first for docs/notes, then targeted reads.
+**Skip:** `qmd embed`, `qmd vsearch`, `qmd query` (15-175s per query — impractical)
 
 ## Research Workflow
 
@@ -119,23 +110,23 @@ command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
 For projects like Cadence:
 
 ```bash
-# 1. Get overview
-rg --files -g "*" ideas/voice-coding-assistant | head -50
+# 1. Find relevant components
+qmd search "cadence architecture" -n 5 --files
 
-# 2. Find common files
-rg --files -g "package.json" ideas/voice-coding-assistant
+# 2. Scoped search for package files
+rg --files -g "**/package.json" ideas/voice-coding-assistant/
 
-# 3. Store component relationships
-qmd search "cadence" -n 5 --files
+# 3. Targeted read of specific component
+qmd get ideas/voice-coding-assistant/README.md -l 50
 ```
 
 ## Best Practices
 
 1. Document everything - ideas evolve
-2. Store research immediately
+2. Store research in project artifacts
 3. Link related concepts
 4. Track dead ends (prevent repeating mistakes)
-5. Iterate quickly with `rg` + QMD
+5. Use QMD BM25 search before reading files
 
 ## Meta Learnings
 
@@ -146,6 +137,3 @@ qmd search "cadence" -n 5 --files
 - After rebasing, force-push with lease if the branch diverges from the PR head.
 - Keep one task in one PR; do not create multiple PRs for the same request.
 - Record research inputs in `.cursor/artifacts/` or project artifacts to preserve source context.
-- Token reduction: use QMD BM25 + `rg -g`; avoid MCP CLI filesystem reads.
-- Use Bun by default (prefer `bun` over `node`/`npm`).
-- Always do 2-3 quick passes for extra optimization ideas.

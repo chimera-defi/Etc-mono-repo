@@ -18,32 +18,25 @@
 - Lists ≤5 items unless expansion requested
 - `[uses tool]` instead of narrating actions
 - ~100 tokens for simple answers, ~200 for diffs, ~300 for summaries
+
 - Cap tool output to ~120 lines; use `head/tail/sed` for longer content
-- Summarize multi-file reads; never paste full files unless asked
-- Provide a single summary per tool call; avoid per-file commentary
-- Avoid full reads for files >300 lines (use targeted reads)
+- Avoid re-reading the same file in a session unless it changed
+- Prefer `rg -g` scoped searches over broad directory scans
 
 **Expand only when user says:** "Go deeper", "Expand", "Show reasoning", "Explore tradeoffs"
 
 **Session workflow (automatic):**
-1. Query knowledge graph before researching (prefer built-in project memory; `mcp-cli memory/search_nodes` only if configured)
-2. Use QMD first for docs/notes (if available), then targeted file reads (head/tail, not full files)
+1. Use QMD BM25 to find relevant files first (`qmd search "topic" -n 5 --files`)
+2. Use targeted file reads (head/tail, not full files)
 3. Parallel tool calls when possible
-4. Store findings in knowledge graph
-5. Skip preambles and confirmations
-6. Avoid re-reading the same file in a session unless it changed
-7. Do 2-3 quick passes for extra optimization ideas on every request
-8. Prefer `rg --files -g` for structure scans before directory_tree
+4. Skip preambles and confirmations
+5. Prefer `rg --files -g` for structure scans before directory_tree
 
-**Filesystem guidance:** Use QMD + native tools; avoid MCP CLI file reads (see benchmark doc).
-- Install QMD (docs/notes search): `bun install -g https://github.com/tobi/qmd`
-- Auto-install QMD: `command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd`
-- MCP CLI memory is optional and usually redundant with Claude Code built-in memory
-- Use for: QMD search/snippets before any file reads
-- **Benchmarked savings:** 89% (concise), 76% (knowledge graph), 33% (targeted reads)
+**Token reduction tools:**
+- **QMD BM25 search** (recommended): `qmd search "topic" -n 5 --files` — 99% fewer tokens than naive reads
+- **MCP CLI** (Cursor only, not Claude Code): See `.cursor/MCP_CLI.md` — adds 117% overhead in Claude Code
+- **Benchmarked savings:** 89% (concise), 99% (QMD search vs naive), 33% (targeted reads)
 - Complete guide: `.cursor/TOKEN_REDUCTION.md`
-
-**Decision flow:** If you know the file/keyword → `rg -g` scoped search. If you need ranked snippets → QMD BM25. Never use MCP CLI for file reads.
 
 **Sub-agent delegation (prevents context compaction):**
 - **>5 files to read?** → `Task(subagent_type="Explore")`
@@ -96,8 +89,7 @@ Brief description.
 - Verify builds/lint/tests before completing
 - No security vulnerabilities (OWASP top 10)
 - Batch shell commands when possible to reduce tool calls
-- Use `rg -g` to scope searches; avoid broad scans
-- If `rg` unavailable, fallback to `git grep` and cap output lines
+- Use `rg -g` to scope searches; if `rg` unavailable, fallback to `git grep`
 
 ---
 
@@ -132,9 +124,6 @@ Brief description.
 - **Runability > syntax:** Code that can't run is worse than no code
 - **Multi-tool verify:** Run ALL checks (lint, types, tests, build)
 - **Scaffold before coding:** Use framework CLI first
-- **Use Bun by default:** Prefer `bun` over `node`/`npm` for scripts and installs
-- **Avoid duplicate reads:** Cache summaries in artifacts for long tasks
-- **Prefer scoped search:** `rg --files -g` before directory_tree; `rg -g` for queries
 
 ### Documentation
 - **Add, don't remove:** Consolidate means organize, not delete
@@ -213,14 +202,11 @@ Rules are organized by domain. Reference by number in code reviews.
 - **#138** One task = one PR; keep all related commits in the same PR branch
 - **#139** Create a branch/worktree before making changes
 
-### MCP CLI & Token Efficiency (140-157)
-- **#140** Install MCP CLI before using
-- **#142** Always prefer MCP CLI for bulk operations
-- **#146** Store knowledge in memory server
-- **#147** Query knowledge graph before searching
+### Token Efficiency (140-157)
+- **#140** Use QMD BM25 search before reading files (skip embed/vector — too slow)
+- **#142** MCP CLI is for Cursor only; Claude Code native tools are faster (benchmarked 77-256x)
 - **#148** Token reduction skill always active (see .cursor/TOKEN_REDUCTION.md and /token-reduce)
-- **#149** Benchmarked token savings: 89% (concise), 76% (knowledge graph), 33% (targeted reads)
-- **#150** Query knowledge graph before researching to avoid duplicate work
+- **#149** Benchmarked token savings: 89% (concise), 99% (QMD search vs naive), 33% (targeted reads)
 - **#151** Use sub-agents for exploration (>5 files, uncertain locations, pattern matching)
 - **#152** Sub-agents return summaries - keeps main context lean, prevents compaction
 - **#153** Hooks enforce: Read >300 lines blocked, Grep content warned, Glob >50 files warned
@@ -286,10 +272,10 @@ See `ideas/AGENTS.md` for project details.
 
 ## Best Practices Summary
 
-1. **Install MCP CLI** before bulk operations
-2. **Query knowledge graph** before researching
-3. **Store findings** in memory server
-4. **Verify builds** before completing tasks
-5. **Use model names** in PRs and commits
-6. **Check git diff** before major changes
-7. **Preserve data** - add, don't remove
+1. **Use QMD BM25 search** before reading files (`qmd search "topic" -n 5 --files`)
+2. **Verify builds** before completing tasks
+3. **Use model names** in PRs and commits
+4. **Check git diff** before major changes
+5. **Preserve data** - add, don't remove
+6. **Use `rg -g` scoped searches** over broad directory scans
+7. **Avoid full file reads** for files >300 lines (use targeted reads)

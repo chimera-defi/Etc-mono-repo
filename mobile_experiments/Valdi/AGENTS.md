@@ -91,30 +91,21 @@ class MyComponent extends Component {
 4. Call `setState()` to trigger re-renders
 5. Try `bazel clean` if builds stuck
 
-## Search & Retrieval Patterns (Valdi-Specific)
-
-**General patterns:** See `.cursor/TOKEN_REDUCTION.md`
-
-```bash
-# Scope first with rg
-rg -g "*.md" "Valdi" mobile_experiments/Valdi/
-rg -g "BUILD.bazel" "target" mobile_experiments/Valdi/
-
-# Ranked snippets when you need discovery
-qmd search "Valdi build" -n 5 --files
-qmd search "Valdi build" -n 5
-
-# Targeted reads
-sed -n '1,160p' mobile_experiments/Valdi/README.md
-```
-
 ## Token Reduction Bootstrap
 
 ```bash
+# Install QMD if missing (BM25 search — 99% fewer tokens than naive reads)
 command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
+
+# Find relevant Valdi docs before reading
+qmd search "Valdi component lifecycle" -n 5 --files
+
+# Scoped search within Valdi/
+rg -g "*.tsx" "onRender" mobile_experiments/Valdi/
+rg -g "BUILD.bazel" "target" mobile_experiments/Valdi/
 ```
 
-**Workflow:** Use QMD first for docs/notes, then targeted reads.
+**Skip:** `qmd embed`, `qmd vsearch`, `qmd query` (15-175s per query — impractical)
 
 ## Key Points
 
@@ -138,6 +129,3 @@ command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
 - Keep one task in one PR; do not create multiple PRs for the same request.
 - Always commit changes with a descriptive message and model attribution.
 - Record research inputs in `.cursor/artifacts/` or project artifacts to preserve source context.
-- Token reduction: use QMD BM25 + `rg -g`; avoid MCP CLI filesystem reads.
-- Use Bun by default (prefer `bun` over `node`/`npm`).
-- Always do 2-3 quick passes for extra optimization ideas.

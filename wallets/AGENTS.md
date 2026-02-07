@@ -97,34 +97,33 @@ Rabby, Trust, Rainbow, Brave, Coinbase, MetaMask, Phantom, OKX, Wigwam, Zerion, 
 
 ---
 
-## Search & Retrieval Patterns (Wallet-Specific)
+## MCP CLI Patterns (Wallet-Specific)
 
-**General patterns:** See `.cursor/TOKEN_REDUCTION.md`
-
-```bash
-# Scope first with rg
-rg -g "*.md" "wallet name" wallets/
-
-# Ranked snippets when you need discovery
-qmd search "wallet name" -n 5 --files
-qmd search "wallet name" -n 5
-
-# Targeted reads
-sed -n '120,200p' wallets/SOFTWARE_WALLETS.md
-```
+**General patterns:** See `.cursor/MCP_CLI.md`
+**Token optimization:** See `.cursor/TOKEN_REDUCTION.md` or use `/token-reduce` skill
 
 ## Token Reduction Bootstrap
 
 ```bash
+# Install QMD if missing (BM25 search — 99% fewer tokens than naive reads)
 command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
+
+# Index wallet docs (one-time, 2 seconds)
+qmd collection add wallets/ --name wallets
+
+# Find relevant files before reading (700ms-2.7s)
+qmd search "wallet scoring methodology" -n 5 --files
+
+# Get ranked snippets
+qmd search "hardware wallet security" -n 3
 ```
 
-**Workflow:** Use QMD first for docs/notes, then targeted reads.
+**Skip:** `qmd embed`, `qmd vsearch`, `qmd query` (15-175s per query — impractical)
 
 **Token reduction for wallet work:**
-- Use `rg -g` scoped search first
-- Use QMD BM25 for ranked snippets/paths
+- Use QMD BM25 to find relevant wallet docs before reading
 - Use targeted file reads (head/tail) for large wallet lists
+- Use `rg -g "*.md"` for scoped keyword searches within wallets/
 
 ---
 
@@ -173,7 +172,6 @@ command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
 1. Single table principle
 2. Changelog discipline
 3. Verify before trust
-4. Sync GitHub metrics across detail + summary docs after data refresh
 
 **Workflow:**
 1. Always open a PR for changes; do not push directly to main.
@@ -184,11 +182,6 @@ command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
 6. Record research inputs in `wallets/artifacts/` (gitignored) and summarize durable notes in `wallets/MERCHANT_FEED.md` or other docs.
 7. Merchant feeds must use provider-site pricing; skip free categories (software wallets/ramps) and items without verified prices.
 8. Activity status decays
-9. Use headless Chromium for bot-protected URL verification and store results in `wallets/artifacts/manual-browser-checks.json`.
-10. If `GITHUB_TOKEN` is unavailable, use unauth GitHub API/Atom fallbacks and record that stars/issues are best-effort.
-11. Token reduction: use QMD BM25 + `rg -g`; avoid MCP CLI filesystem reads.
-12. Use Bun by default (prefer `bun` over `node`/`npm`).
-13. Always do 2-3 quick passes for extra optimization ideas.
 
 **Multi-Pass Review:**
 1. Math verification - breakdowns must sum to totals
