@@ -10,6 +10,15 @@ Clawdbot Launchpad is a multi-tenant control plane that provisions and manages C
 
 **Upstream**: openclaw/openclaw (MIT).
 
+## Infra Primitive Clarification (Hosting vs Workspaces)
+
+Launchpad has two distinct compute needs:
+
+1. **Production hosting (“data plane”)**: always-on customer bots with SLOs, stable ingress, persistent storage, quotas, secrets, backups, and strong isolation.
+2. **Ephemeral compute (“workspaces”)**: short-lived sandboxes to build images, run tests, reproduce issues, or validate untrusted plugins.
+
+**Daytona** fits (2) well, but is **not the default choice** for (1) unless proven by a POC (persistence, ingress, isolation, ops hooks).
+
 ### Pilot (Startup-Simple)
 
 - **Cloud**: single VPS (Hetzner/DO/Vultr).  
@@ -133,6 +142,19 @@ User -> Web App -> Control Plane API -> Provisioning Queue -> Workers
 - Per-tenant VM with Docker + systemd.
 - Encrypted disk + snapshot backups.
 - Optional static IP and custom domains.
+
+## Optional: Daytona for Ephemeral Workspaces (Non-Production)
+
+If adopted, Daytona is used for:
+- **Image build/test sandboxes** (reproducible, isolated runs).
+- **Support reproduction workspaces** (internal-only).
+- **Plugin/skill validation** (execute untrusted code with strict egress).
+
+**Explicit non-goal**: Daytona is not used as the customer bot hosting substrate in MVP unless a POC demonstrates:
+- persistent volumes per tenant
+- stable HTTPS ingress per tenant under our routing/TLS
+- quotas + hard isolation + egress restrictions
+- reliable restart/health checks + log export
 
 ## Default Limits (Initial, adjust after pilot)
 

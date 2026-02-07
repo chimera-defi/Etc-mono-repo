@@ -65,12 +65,20 @@ Clawdbot/Moltbot adoption stalls because users must set up, secure, and maintain
 ## MVP Defaults (Proposed)
 
 1. **Pilot**: single VPS (Hetzner/DO/Vultr) + Docker.
-1. **Provider**: AWS ECS/Fargate (alt: DO DOKS) for managed MVP.
-1. **Region**: single region at launch.
-2. **Trial**: $5 credit with card verification (no free tier).
-3. **Logs**: 7-day retention (30-day add-on).
-4. **Versioning**: pinned tags + opt-in canary updates.
-5. **Support**: tiered (self-serve + human for paid tiers).
+2. **Provider**: AWS ECS/Fargate (alt: DO DOKS) for managed MVP.
+3. **Region**: single region at launch.
+4. **Trial**: $5 credit with card verification (no free tier).
+5. **Logs**: 7-day retention (30-day add-on).
+6. **Versioning**: pinned tags + opt-in canary updates.
+7. **Support**: tiered (self-serve + human for paid tiers).
+
+## Infra Validation (Redo)
+
+**We have two different infra needs**:
+- **Production hosting** (always-on bots): prioritize stability, isolation, secrets, ingress, and operability.
+- **Ephemeral workspaces** (build/test/support): prioritize fast, reproducible sandboxes.
+
+**Daytona** is a candidate for **ephemeral workspaces**, not the default for production hosting, unless proven by a short POC.
 
 ## Functional Requirements
 
