@@ -17,6 +17,9 @@
 - Decide pricing and trial policy.
 - Define MVP scope and success metrics.
 - Draft ToS and privacy notes.
+- Define “one-click” success criteria (wizard steps + health checks).
+- Decide migration packaging (price vs bundled; concierge scope).
+- Decide referral credits rules (caps, eligibility, abuse controls).
 
 **Technical**
 - Choose cloud provider.
@@ -53,6 +56,9 @@
 - Deployment status view.
 - Logs and restart actions.
 - Settings (plan, cancel).
+- Install wizard UX (keys validation, test action, health check, ready state).
+- Upgrade UX with release notes + rollback button.
+- Diagnostics bundle download/share flow (sanitized).
 
 **Runtime / Infra**
 - Shared container cluster setup.
@@ -81,6 +87,7 @@
 - Backup of config + secrets.
 - On-call + support workflow.
 - Pilot onboarding checklist.
+- Migration runbook + cutover/rollback checklist.
 
 ## Phase 2 - Expansion (Weeks 7-10)
 
