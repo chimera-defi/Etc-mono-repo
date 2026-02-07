@@ -43,6 +43,8 @@
 - **Benchmarked savings:** 89% (concise), 76% (knowledge graph), 33% (targeted reads)
 - Complete guide: `.cursor/TOKEN_REDUCTION.md`
 
+**Decision flow:** If you know the file/keyword → `rg -g` scoped search. If you need ranked snippets → QMD BM25. Never use MCP CLI for file reads.
+
 **Sub-agent delegation (prevents context compaction):**
 - **>5 files to read?** → `Task(subagent_type="Explore")`
 - **Uncertain where info lives?** → `Task(subagent_type="Explore")`
