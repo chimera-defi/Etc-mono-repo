@@ -174,3 +174,11 @@ qmd get filename.md -l 50 --from 100
 - MCP CLI is still substantially slower than native tools for file reads.
 - QMD BM25 search is slower than `rg` but returns ranked snippets/paths with low token payload.
 - Results align with the 2026-02-07 benchmark directionally (MCP CLI slower, QMD BM25 useful for narrowing scope).
+
+### Multi-Run Timing (3 runs, warm cache)
+
+| Operation | Runs (s) | Avg (s) |
+|-----------|----------|---------|
+| QMD BM25 search (`qmd search "token reduction" -n 5 --files`) | 0.38, 0.39, 0.42 | ~0.40 |
+| rg scoped search (`rg -g "*.md" "token reduction"`) | 0.01, 0.01, 0.02 | ~0.01 |
+| MCP CLI read_file (`mcp-cli ... read_file CLAUDE.md`) | 1.39, 1.49, 1.34 | ~1.41 |
