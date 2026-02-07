@@ -78,6 +78,18 @@ User -> Web App -> Control Plane API -> Provisioning Queue -> Workers
 4. `runtime_instances` (cluster/VPS metadata)
 5. `secrets` (encrypted payload + metadata)
 
+### Configuration as a First-Class Object (MVP Requirement)
+
+To support “configuration UX” and safe upgrades, deployments must have a versioned configuration history:
+
+- `config_versions` (deployment_id, version, created_at, created_by, payload_encrypted, status)
+- `deployments.current_config_version_id`
+- `deployments.last_known_good_config_version_id`
+
+**Operations**
+- Apply config: create new `config_version` -> validate -> rollout -> mark LKG on success.
+- Rollback: set `current_config_version_id` to LKG -> rollout -> health check.
+
 **Phase 2 Additions**:
 1. `backups` (snapshots + retention)
 2. `deployment_versions` (image tag history)
@@ -102,6 +114,11 @@ User -> Web App -> Control Plane API -> Provisioning Queue -> Workers
 - `GET /deployments/:id`
 - `POST /deployments/:id/restart`
 - `POST /deployments/:id/update`
+
+**Config**
+- `GET /deployments/:id/config`
+- `POST /deployments/:id/config` (create new config version + rollout)
+- `POST /deployments/:id/rollback` (rollback to last-known-good)
 
 **Logs**
 - `GET /deployments/:id/logs`

@@ -34,11 +34,32 @@ Clawdbot/Moltbot adoption stalls because users must set up, secure, and maintain
 - Reliable uptime without infrastructure knowledge.
 - Clear pricing with an upgrade path for higher tiers.
 
+## Configuration UX (MVP Definition)
+
+Launchpad’s moat is the **configuration UX**, not raw hosting. “One-click” should mean:
+- Guided install wizard (keys validated, safe defaults, test action, health checks).
+- A versioned config object per deployment (diff before apply, last-known-good).
+- Safe upgrades from the UI (release notes + rollback).
+
+## Migration (Primary Early Offer)
+
+Migration is an explicit go-to-market wedge:
+- Self-serve import (sanitized config + data export) with a dry-run boot.
+- Concierge migration (paid or bundled) for Pro/Team tiers.
+- Cutover gated by automated checks; rollback plan documented.
+
+## Distribution (Tokenized Credits)
+
+“Tokens” are implemented as **off-chain referral credits** in the billing ledger:
+- Referrers earn credits redeemable for free months/upgrades/migration fees.
+- Referred users receive a first-month discount or migration credit.
+- Credits are capped + abuse-protected; not a tradable crypto token in MVP.
+
 ## User Journeys (MVP)
 
 1. Visit landing page -> choose plan -> checkout.
-2. Connect keys/secrets -> deploy -> see "ready" status.
-3. View logs -> restart or update -> confirm health.
+2. Guided setup wizard -> connect keys/secrets -> deploy -> run test -> see "ready" status.
+3. View logs/diagnostics -> restart -> confirm health.
 4. Upgrade plan -> migrate runtime -> keep data.
 
 ## MVP Scope
