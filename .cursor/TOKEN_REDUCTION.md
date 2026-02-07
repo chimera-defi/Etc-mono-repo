@@ -165,6 +165,9 @@ qmd query "question" --all --files --min-score 0.3
 - Avoid re-reading same file in one session unless it changed
 - Single summary per tool call; no per-file commentary
 - Always do 2-3 quick passes for extra optimization ideas
+- Avoid full reads for files >300 lines (use targeted reads)
+- Prefer `rg --files -g` for structure scans before directory_tree
+- If `rg` unavailable, fallback to `git grep` and cap output lines
 
 **Hooks (`.claude/settings.json`):**
 - `enforce-targeted-read.py` - Blocks Read on files >300 lines without limit
