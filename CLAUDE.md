@@ -28,6 +28,8 @@
 4. **Use token reduction** - Auto-active via `/token-reduce` skill (89% concise, 99% QMD search vs naive, 33% targeted reads)
 5. **Verify before completing:** Run lint, build, tests
 
+**Decision flow:** If you know the file/keyword → `rg -g` scoped search. If you need ranked snippets → QMD BM25. Avoid MCP CLI for file reads.
+
 ## Enforcement
 
 | Check | Location | Action |

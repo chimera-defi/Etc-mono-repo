@@ -31,11 +31,12 @@ Reduce context usage for `$ARGUMENTS` using targeted retrieval and short summari
 
 ## Process
 
-1. If QMD is installed, run `qmd search "topic" -n 5 --files` to find relevant files.
-2. Pull only top results via `qmd search "topic" -n 3` for snippets (512 tokens vs 52K naive).
-3. If QMD is unavailable, use `rg -g` scoped searches + targeted reads with line limits (fallback `git grep` if `rg` missing).
-4. Avoid full reads >300 lines; use head/tail/sed.
-5. Report: `Baseline → Optimized (X% saved)` and fixes.
+1. **Know the path/keyword?** Use `rg -g` scoped search first.
+2. **Need ranked snippets/paths?** Use QMD BM25 (`qmd search "topic" -n 5 --files`).
+3. **Need context from a large file?** Use head/tail/sed with line limits.
+4. If QMD is unavailable, fall back to `rg -g` or `git grep`.
+5. Avoid full reads >300 lines.
+6. Report: `Baseline → Optimized (X% saved)` and fixes.
 
 ## Tool bootstrap (auto-install QMD if missing)
 

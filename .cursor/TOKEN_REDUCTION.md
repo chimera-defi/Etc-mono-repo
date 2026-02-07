@@ -24,6 +24,13 @@
 
 ---
 
+## Decision Tree (Fastest First)
+
+1. **Known file/keyword?** → `rg -g "*.md" "keyword"` then targeted read.
+2. **Need ranked snippets or file list?** → `qmd search "topic" -n 5 --files` (BM25 only).
+3. **Large file context?** → `head/tail/sed` (line-limited).
+4. **No `rg`?** → `git grep` scoped to path.
+
 ## Guardrails (Always On)
 
 - Cap tool output to ~120 lines; use head/tail/sed for longer content
