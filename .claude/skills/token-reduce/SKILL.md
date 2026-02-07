@@ -23,9 +23,9 @@ Reduce context usage for `$ARGUMENTS` using targeted retrieval and short summari
 
 | Strategy | Savings | Apply |
 |----------|---------|-------|
-| Concise responses | 89-91% | Always |
-| Knowledge graph | 76-84% | Multi-session |
-| Targeted reads | 33-44% | Large files |
+| Concise responses | 89% | Always |
+| Knowledge graph | 76% | Multi-session |
+| Targeted reads | 33% | Large files |
 | QMD retrieval | 30-60% | Docs/notes |
 | Parallel calls | 20% | Multi-step |
 
@@ -36,6 +36,8 @@ Reduce context usage for `$ARGUMENTS` using targeted retrieval and short summari
 3. Pull only top results and summarize in 5–10 bullets.
 4. If QMD is unavailable, do targeted reads only.
 5. Report: `Baseline → Optimized (X% saved)` and fixes.
+6. Avoid full reads >300 lines; use head/tail/sed.
+7. Prefer `rg -g` scoped searches; fallback to `git grep` if `rg` missing.
 
 ## Tool bootstrap (auto-install if missing)
 

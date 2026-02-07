@@ -187,6 +187,8 @@ command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
 command -v mcp-cli >/dev/null 2>&1 || curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash
 ```
 
+**Cache notes during long tasks:** store summaries in `.cursor/artifacts/` or project artifacts to avoid re-reading.
+
 **Auto-invoke keywords:** token-reduce, token reduction, context limits
 
 ---
