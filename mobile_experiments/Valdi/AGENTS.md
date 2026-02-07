@@ -1,6 +1,6 @@
 # Valdi Application Guide
 
-> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `/token-reduce` skill
+> **Master rules:** `.cursorrules` | **Token efficiency:** `/token-reduce` skill | **Benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
 
 ## Git Discipline (Required)
 
@@ -91,23 +91,21 @@ class MyComponent extends Component {
 4. Call `setState()` to trigger re-renders
 5. Try `bazel clean` if builds stuck
 
-## MCP CLI Patterns (Valdi-Specific)
-
-**General patterns:** See `.cursor/MCP_CLI.md`
+## Token Reduction Bootstrap
 
 ```bash
-# Explore structure
-mcp-cli filesystem/directory_tree '{"path": "mobile_experiments/Valdi"}'
+# Install QMD if missing (BM25 search — 99% fewer tokens than naive reads)
+command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
 
-# Find BUILD files
-mcp-cli filesystem/search_files '{"path": "mobile_experiments/Valdi", "pattern": "**/BUILD.bazel"}'
+# Find relevant Valdi docs before reading
+qmd search "Valdi component lifecycle" -n 5 --files
 
-# Batch read configs
-mcp-cli filesystem/read_multiple_files '{"paths": ["mobile_experiments/Valdi/config.yaml", "mobile_experiments/Valdi/WORKSPACE"]}'
-
-# Store Valdi knowledge
-mcp-cli memory/create_entities '{"entities": [{"name": "Valdi Pattern", "entityType": "pattern", "observations": ["key insight"]}]}'
+# Scoped search within Valdi/
+rg -g "*.tsx" "onRender" mobile_experiments/Valdi/
+rg -g "BUILD.bazel" "target" mobile_experiments/Valdi/
 ```
+
+**Skip:** `qmd embed`, `qmd vsearch`, `qmd query` (15-175s per query — impractical)
 
 ## Key Points
 

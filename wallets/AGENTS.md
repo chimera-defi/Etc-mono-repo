@@ -1,6 +1,6 @@
 # Wallet Comparison Guidelines
 
-> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `/token-reduce` skill
+> **Master rules:** `.cursorrules` | **Token efficiency:** `/token-reduce` skill | **Benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
 
 ## Git Discipline (Required)
 
@@ -102,22 +102,28 @@ Rabby, Trust, Rainbow, Brave, Coinbase, MetaMask, Phantom, OKX, Wigwam, Zerion, 
 **General patterns:** See `.cursor/MCP_CLI.md`
 **Token optimization:** See `.cursor/TOKEN_REDUCTION.md` or use `/token-reduce` skill
 
+## Token Reduction Bootstrap
+
 ```bash
-# Bulk read wallet tables (reduces tool call overhead, provides structured data)
-mcp-cli filesystem/read_multiple_files '{"paths": ["wallets/SOFTWARE_WALLETS.md", "wallets/HARDWARE_WALLETS.md", "wallets/CRYPTO_CARDS.md"]}'
+# Install QMD if missing (BM25 search — 99% fewer tokens than naive reads)
+command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
 
-# Store wallet research (saves 84% tokens across multiple sessions)
-mcp-cli memory/create_entities '{"entities": [{"name": "WalletName", "entityType": "wallet", "observations": ["feature1", "feature2"]}]}'
+# Index wallet docs (one-time, 2 seconds)
+qmd collection add wallets/ --name wallets
 
-# ALWAYS query before research (avoids duplicate work)
-mcp-cli memory/search_nodes '{"query": "wallet name"}'
+# Find relevant files before reading (700ms-2.7s)
+qmd search "wallet scoring methodology" -n 5 --files
+
+# Get ranked snippets
+qmd search "hardware wallet security" -n 3
 ```
 
+**Skip:** `qmd embed`, `qmd vsearch`, `qmd query` (15-175s per query — impractical)
+
 **Token reduction for wallet work:**
-- Query knowledge graph for previously researched wallets
-- Use MCP CLI bulk reads for comparing multiple wallet tables
-- Store scoring methodology in memory server
+- Use QMD BM25 to find relevant wallet docs before reading
 - Use targeted file reads (head/tail) for large wallet lists
+- Use `rg -g "*.md"` for scoped keyword searches within wallets/
 
 ---
 
@@ -215,4 +221,4 @@ When renaming files:
 
 ---
 
-*Last updated: January 2026*
+*Last updated: February 2026*

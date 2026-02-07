@@ -1,6 +1,6 @@
 # Staking Projects Guide
 
-> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `/token-reduce` skill
+> **Master rules:** `.cursorrules` | **Token efficiency:** `/token-reduce` skill | **Benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
 
 ## Git Discipline (Required)
 
@@ -65,23 +65,21 @@ Market analysis and opportunity research:
 - `aztec-nargo` (Docker) for compilation
 - Separate pure math into testable modules
 
-## MCP CLI Patterns (Staking-Specific)
-
-**General patterns:** See `.cursor/MCP_CLI.md`
+## Token Reduction Bootstrap
 
 ```bash
-# Explore structure
-mcp-cli filesystem/directory_tree '{"path": "staking/aztec"}'
+# Install QMD if missing (BM25 search — 99% fewer tokens than naive reads)
+command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
 
-# Find contracts
-mcp-cli filesystem/search_files '{"path": "staking", "pattern": "**/*.nr"}'
+# Find relevant staking docs before reading (700ms-2.7s)
+qmd search "liquid staking architecture" -n 5 --files
 
-# Batch read docs
-mcp-cli filesystem/read_multiple_files '{"paths": ["staking/README.md", "staking/aztec/README.md"]}'
-
-# Store security findings
-mcp-cli memory/create_entities '{"entities": [{"name": "Contract Security Review", "entityType": "security", "observations": ["finding1", "finding2"]}]}'
+# Scoped search within staking/
+rg -g "*.nr" "reentrancy" staking/
+rg -g "*.md" "slashing" staking/
 ```
+
+**Skip:** `qmd embed`, `qmd vsearch`, `qmd query` (15-175s per query — impractical)
 
 ## Security Checklist
 

@@ -1,6 +1,6 @@
 # Ideas & Research Guide
 
-> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `/token-reduce` skill
+> **Master rules:** `.cursorrules` | **Token efficiency:** `/token-reduce` skill | **Benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
 
 ## Git Discipline (Required)
 
@@ -69,29 +69,21 @@ Unified birthday reminder application:
 4. **Track learnings** - Capture insights
 5. **Link concepts** - Connect related ideas
 
-## MCP CLI Patterns (Ideas-Specific)
-
-**General patterns:** See `.cursor/MCP_CLI.md`
+## Token Reduction Bootstrap
 
 ```bash
-# Explore multi-component projects
-mcp-cli filesystem/directory_tree '{"path": "ideas/voice-coding-assistant"}'
+# Install QMD if missing (BM25 search — 99% fewer tokens than naive reads)
+command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
 
-# Find all package.json across components
-mcp-cli filesystem/search_files '{"path": "ideas/voice-coding-assistant", "pattern": "**/package.json"}'
+# Find relevant docs before reading (700ms-2.7s)
+qmd search "voice coding assistant architecture" -n 5 --files
 
-# Batch read docs
-mcp-cli filesystem/read_multiple_files '{"paths": ["ideas/README.md", "ideas/voice-coding-assistant/README.md"]}'
-
-# Store idea concepts
-mcp-cli memory/create_entities '{"entities": [{"name": "Idea Name", "entityType": "idea", "observations": ["concept", "target users", "key features"]}]}'
-
-# Store competitive analysis
-mcp-cli memory/create_entities '{"entities": [{"name": "Competitors", "entityType": "research", "observations": ["Competitor1: description", "Gap: opportunity"]}]}'
-
-# Link related concepts
-mcp-cli memory/create_relations '{"relations": [{"from": "Idea", "to": "Component", "relationType": "composed_of"}]}'
+# Scoped search within ideas/
+rg -g "*.md" "birthday bot" ideas/
+rg -g "*.ts" "speech recognition" ideas/
 ```
+
+**Skip:** `qmd embed`, `qmd vsearch`, `qmd query` (15-175s per query — impractical)
 
 ## Research Workflow
 
@@ -118,26 +110,23 @@ mcp-cli memory/create_relations '{"relations": [{"from": "Idea", "to": "Componen
 For projects like Cadence:
 
 ```bash
-# 1. Get overview
-mcp-cli filesystem/directory_tree '{"path": "ideas/voice-coding-assistant"}'
+# 1. Find relevant components
+qmd search "cadence architecture" -n 5 --files
 
-# 2. Find common files
-mcp-cli filesystem/search_files '{"path": "ideas/voice-coding-assistant", "pattern": "**/package.json"}'
+# 2. Scoped search for package files
+rg --files -g "**/package.json" ideas/voice-coding-assistant/
 
-# 3. Store component relationships
-mcp-cli memory/create_relations '{"relations": [
-  {"from": "cadence-app", "to": "cadence-api", "relationType": "depends_on"},
-  {"from": "cadence-api", "to": "cadence-backend", "relationType": "depends_on"}
-]}'
+# 3. Targeted read of specific component
+qmd get ideas/voice-coding-assistant/README.md -l 50
 ```
 
 ## Best Practices
 
 1. Document everything - ideas evolve
-2. Store research immediately
+2. Store research in project artifacts
 3. Link related concepts
 4. Track dead ends (prevent repeating mistakes)
-5. Iterate quickly with MCP CLI
+5. Use QMD BM25 search before reading files
 
 ## Meta Learnings
 
