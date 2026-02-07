@@ -18,6 +18,8 @@
 - Lists ≤5 items unless expansion requested
 - `[uses tool]` instead of narrating actions
 - ~100 tokens for simple answers, ~200 for diffs, ~300 for summaries
+- Cap tool output to ~120 lines; use `head/tail/sed` for longer content
+- Summarize multi-file reads; never paste full files unless asked
 
 **Expand only when user says:** "Go deeper", "Expand", "Show reasoning", "Explore tradeoffs"
 
@@ -27,6 +29,7 @@
 3. Parallel tool calls when possible
 4. Store findings in knowledge graph
 5. Skip preambles and confirmations
+6. Avoid re-reading the same file in a session unless it changed
 
 **MCP CLI required for bulk operations:** See `.cursor/MCP_CLI.md`
 - Install: `curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash`
@@ -86,6 +89,7 @@ Brief description.
 - Document assumptions in code comments
 - Verify builds/lint/tests before completing
 - No security vulnerabilities (OWASP top 10)
+- Batch shell commands when possible to reduce tool calls
 
 ---
 

@@ -154,6 +154,9 @@ qmd query "question" --all --files --min-score 0.3
 - `.cursorrules` enforces conciseness
 - `/token-reduce` auto-triggers on keywords
 - Knowledge graph auto-queried
+- Tool output capped (~120 lines); use targeted reads
+- Multi-file reads require summaries, not full pastes
+- Avoid re-reading same file in one session unless it changed
 
 **Hooks (`.claude/settings.json`):**
 - `enforce-targeted-read.py` - Blocks Read on files >300 lines without limit
