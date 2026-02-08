@@ -6,9 +6,10 @@
 - [ ] Ensure diagrams in `DESIGN.md` and `SPEC.md` align with verified flows.
 
 ## Script Inspection (Targeted)
-- [ ] eth2‑quickstart: inspect install scripts to confirm systemd unit behavior.
-- [ ] Monad: confirm monitoring stack (docker compose) expectations.
-- [ ] Aztec: confirm sandbox E2E flow in `local-sandbox-e2e.sh`.
+- [ ] eth2‑quickstart: inspect `install/security/*` and `install/web/*` for additional reusable primitives.
+- [ ] eth2‑quickstart: confirm NGINX/SSL install path and service names.
+- [ ] Monad: confirm monitoring stack (docker compose) expectations and ports.
+- [ ] Aztec: confirm sandbox E2E flow in `local-sandbox-e2e.sh` (already mapped).
 
 ## Architecture Refinement
 - [ ] Finalize shared primitive interfaces and name them consistently.
