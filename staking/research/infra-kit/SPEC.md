@@ -22,7 +22,9 @@ Key entrypoints (observed in repo):
 **Security/web scripts (verified):**
 - `install/security/consolidated_security.sh`: UFW rules + fail2ban + AIDE.
 - `install/web/install_nginx.sh`: installs/configures NGINX + hardening + systemd `nginx` service.
-- Caddy scripts exist (`install/web/install_caddy.sh`, `install/web/install_caddy_ssl.sh`) with helpers.
+- `install/web/install_nginx_ssl.sh`: enables SSL if `/etc/letsencrypt/live/$SERVER_NAME/*` exists.
+- `install/web/install_caddy.sh`: installs Caddy with auto‑HTTPS + hardening.
+- `install/web/install_caddy_ssl.sh`: uses manual SSL certs for Caddy (Let’s Encrypt path).
 
 **Flow (verified by script content):**
 - Phase 1 (root): OS update → SSH hardening → user creation → consolidated security.
@@ -56,6 +58,7 @@ These are the **common operations** we can safely reuse across chains:
 - Systemd unit install + env file management
 - Status endpoint/health checks
 - Preflight + smoke tests
+- Optional web proxy + SSL (NGINX or Caddy) for RPC exposure
 
 ## 3) Chain‑Specific Adapters (Thin by Design)
 
@@ -64,6 +67,7 @@ Adapter responsibilities based on existing scripts:
 - Wire `run_1.sh` (security baseline) and `run_2.sh` (client/MEV install) into shared primitives.
 - Keep client selection + install scripts under Ethereum adapter because they are chain‑specific.
 - Keep MEV configuration and relay lists in Ethereum adapter (chain‑specific economics).
+- Optional NGINX/Caddy TLS proxy for public RPC access.
 
 ### Monad
 Adapter responsibilities based on existing scripts:
@@ -86,6 +90,7 @@ staking/
       hardening/
       services/
       monitoring/
+      web/
     adapters/
       ethereum/
       monad/
@@ -122,7 +127,7 @@ flowchart TD
   R2 --> Clients[Execution + consensus install]
   Clients --> Services[systemd services: eth1 / cl / validator]
   MEV --> MevSvc[systemd service: mev]
-  R2 --> Web[install_nginx.sh / install_caddy.sh (optional)]
+  R2 --> Web[install_nginx.sh or install_caddy.sh (optional)]
 ```
 
 ### Aztec dev toolchain flow (current behavior)
@@ -138,12 +143,12 @@ flowchart TD
 
 ## 6) Reuse & Boundaries
 
-- **Reusable:** system hardening, systemd utilities, status endpoints, smoke tests.
+- **Reusable:** system hardening, systemd utilities, status endpoints, smoke tests, optional proxy + SSL.
 - **Chain‑specific:** client binaries/configs, MEV logic, role semantics (sequencer/prover/validator).
 - **Aztec validator roles:** not codified in current scripts; avoid assumptions until role scripts exist.
 
 ## 7) Open Items (No Hallucinations)
 
-- Inspect eth2‑quickstart SSL install scripts for exact behavior and ports.
+- Confirm certbot/acme SSL install scripts and any required cron/timers.
 - Decide whether the shared status server should be standard (Monad version is a candidate).
 - Define Aztec production role scripts once available.
