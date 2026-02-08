@@ -1,9 +1,9 @@
-# InfraKit Integration Plan (ETH2 Quickstart)
+# InfraKit Integration Plan (Shared Control Plane)
 
 ## Phase 0: Due Diligence
 
 1) Confirm licensing or obtain explicit permission for reuse.
-2) Inventory eth2-quickstart scripts and map them to our infra needs.
+2) Inventory eth2-quickstart scripts and map them to InfraKit modules.
 3) Identify overlap with staking/monad/infra scripts.
 
 ## Phase 1: Shared Infra Skeleton
@@ -39,7 +39,7 @@
 ## Deliverables
 
 - Shared infra modules (shell/Python) with clear interfaces.
-- Project adapters for staking/monad and eth2-quickstart based stacks.
+- Project adapters for staking/monad and future validator stacks.
 - Unified runbook, checklists, and smoke tests.
 
 ## Validator Similarities & Differences (High Level)
