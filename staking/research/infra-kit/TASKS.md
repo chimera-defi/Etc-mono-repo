@@ -1,27 +1,20 @@
-# InfraKit Tasks (Execution Checklist)
+# InfraKit Tasks (Next Agent)
 
-## Phase 0: Due Diligence
-- [ ] Confirm eth2-quickstart license or obtain written permission.
-- [ ] Inventory eth2-quickstart scripts (run_1.sh, run_2.sh, exports.sh, select_clients.sh).
-- [ ] Map scripts to InfraKit modules (provision/hardening/services/monitoring).
+## Documentation Pass
+- [ ] Review `SPEC.md` for accuracy vs scripts (eth2‑quickstart + Monad + Aztec).
+- [ ] Verify no claims about Aztec validator roles unless backed by scripts/docs.
+- [ ] Ensure diagrams in `DESIGN.md` and `SPEC.md` align with verified flows.
 
-## Phase 1: Shared Skeleton
-- [ ] Create `infra/shared/` structure with empty modules.
-- [ ] Add minimal shell helpers for: base packages, create user, ssh hardening, ufw, sysctl.
-- [ ] Add systemd + env install helpers.
-- [ ] Add monitoring helpers (status server + RPC probe).
+## Script Inspection (Targeted)
+- [ ] eth2‑quickstart: inspect install scripts to confirm systemd unit behavior.
+- [ ] Monad: confirm monitoring stack (docker compose) expectations.
+- [ ] Aztec: confirm sandbox E2E flow in `local-sandbox-e2e.sh`.
 
-## Phase 2: Refactor Adapters
-- [ ] Convert `staking/monad/infra/scripts/setup_server.sh` to call shared modules.
-- [ ] Create Ethereum adapter stub (exec/cons + mev-boost placeholders).
-- [ ] Create Aztec adapter stub (sequencer/prover placeholders).
+## Architecture Refinement
+- [ ] Finalize shared primitive interfaces and name them consistently.
+- [ ] Decide adapter boundaries (Ethereum vs Monad vs Aztec).
+- [ ] Produce a concise architecture diagram for human review (keep in DESIGN.md).
 
-## Phase 3: Standards
-- [ ] Add shared runbook template + project overrides.
-- [ ] Add smoke-test script that runs across adapters.
-- [ ] Document config path standards (`/etc/<project>` + `/opt/<project>`).
-
-## Phase 4: Validation
-- [ ] Clean VPS dry run (provision -> harden -> install -> status check).
-- [ ] Rollback test.
-- [ ] Record verified server profile + logs.
+## Implementation Prep (Future)
+- [ ] Propose `staking/infra-kit/` skeleton in a new PR.
+- [ ] Add runbook template + smoke test template.
