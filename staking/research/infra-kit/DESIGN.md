@@ -36,12 +36,32 @@ flowchart TB
   end
 ```
 
+ASCII fallback (for renderers without Mermaid):
+```
+Operator -> Adapter -> Shared Primitives -> Server OS
+                         |        |        |
+                         |        |        +-> Aztec dev/tooling (tests)
+                         |        +------------> Monad stack (monad-bft)
+                         +---------------------> Ethereum stack (exec/consensus/MEV)
+```
+
 ## Control Plane Evolution (Repo → Hosted)
 
 ```mermaid
 flowchart LR
   Repo[Repo-based control plane\n(scripts + runbooks)] --> Hosted[Hosted control plane\n(API/UI + orchestration)]
   Hosted --> Orchestrators[Kubernetes / fleet orchestration]
+```
+
+ASCII fallback:
+```
+Repo-based control plane (scripts + runbooks)
+        |
+        v
+Hosted control plane (API/UI + orchestration)
+        |
+        v
+Kubernetes / fleet orchestration
 ```
 
 ## Component Layers
@@ -51,6 +71,11 @@ flowchart TB
   A[Adapters\n(chain-specific)] --> B[Shared Primitives\n(provision/hardening/services/monitoring)]
   B --> C[OS & systemd]
   C --> D[Chain Binaries & Config]
+```
+
+ASCII fallback:
+```
+Adapters -> Shared Primitives -> OS/systemd -> Chain binaries/config
 ```
 
 ## Dependency Graph (Conceptual)
@@ -63,6 +88,12 @@ flowchart LR
   Services --> HealthChecks
 ```
 
+ASCII fallback:
+```
+Provision -> Hardening -> Services -> Monitoring -> HealthChecks
+Provision --------> Services
+Hardening --------> Monitoring
+```
 ## Proposed File Tree (Future `staking/infra-kit/`)
 
 ```text
