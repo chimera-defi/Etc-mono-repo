@@ -387,7 +387,7 @@ Execute in this order for optimal parallelization:
 | Financial Model | docs/ECONOMICS.md |
 | Assumptions | docs/ASSUMPTIONS.md |
 | Implementation Plan | docs/IMPLEMENTATION-PLAN.md |
-| Contract Handoff | contracts/AGENT_HANDOFF.md |
+| Contract Handoff | HANDOFF.md |
 | Technical Spec | docs/liquid-staking-analysis.md |
 | Fundraising | docs/FUNDRAISING.md |
 | Devnet | https://next.devnet.aztec-labs.com |
