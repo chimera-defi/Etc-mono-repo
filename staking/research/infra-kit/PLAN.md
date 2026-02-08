@@ -1,29 +1,33 @@
-# InfraKit Plan (Shared Staking Infra Layer)
+# InfraKit Research‑First Plan
 
-## Phase 0: Inventory (Now)
-- Confirm current script behaviors (eth2‑quickstart, Monad infra, Aztec dev scripts).
-- Capture verified flows in `SPEC.md`.
-- Align naming on **InfraKit**.
+## Step 0: Research Checklist (Do First)
+1) **eth2‑quickstart**
+   - Verify run_1/run_2/exports/common_functions flows.
+   - Inspect `install/security/*` and `install/web/*`.
+   - Confirm systemd services and firewall/SSL behavior.
+2) **Monad infra**
+   - Walk all scripts in `staking/monad/infra/scripts/` and mark shared vs Monad‑specific steps.
+   - Confirm monitoring stack usage and ports.
+3) **Aztec scripts**
+   - Review `setup-env`, `smoke-test`, `integration-test`, `local-sandbox-e2e`.
+   - Mark these as dev/test tooling only (no production roles).
 
-## Phase 1: Shared Primitive Library (Design‑First)
-- Define **shared primitives** (provision, hardening, systemd, monitoring).
-- Decide target code location: `staking/infra-kit/shared/`.
-- Draft minimal interfaces for each primitive.
+## Step 1: Extract Shared Primitives
+- Provision: base packages + user creation.
+- Hardening: SSH, UFW, fail2ban, unattended upgrades, sysctl.
+- Services: systemd install helpers + env file handling.
+- Monitoring: status endpoint + health checks.
 
-## Phase 2: Adapters (Chain‑Specific)
-- **Ethereum adapter**: wrap `run_1.sh` / `run_2.sh` into shared primitives.
-- **Monad adapter**: refactor `setup_server.sh` flow to call shared primitives.
-- **Aztec adapter**: start with dev/test tooling alignment; add production roles later.
+## Step 2: Define Adapters
+- Ethereum adapter: wrap run_1/run_2 and client installers (Geth, Prysm, MEV).
+- Monad adapter: wrap monad‑bft install + status service + optional Caddy/UFW.
+- Aztec adapter: dev/test tooling only until production roles exist.
 
-## Phase 3: Runbooks + Smoke Tests
-- Create per‑adapter runbooks and smoke tests.
-- Standardize env paths and systemd conventions.
+## Step 3: Architecture & Diagrams
+- Produce top‑level architecture (shared primitives → per‑chain stacks).
+- Produce flow diagrams for each adapter.
+- Produce a proposed file tree for the future `staking/infra-kit/` module layout.
 
-## Phase 4: Validation
-- Dry‑run on clean VPS for each adapter.
-- Verify idempotency and non‑destructive behavior.
-
-## Deliverables
-- Shared primitives library.
-- Adapters for Ethereum + Monad (Aztec dev tooling initially).
-- Runbooks + smoke tests.
+## Step 4: Validate
+- Ensure every diagram is grounded in verified scripts.
+- Remove unverified claims or placeholders.

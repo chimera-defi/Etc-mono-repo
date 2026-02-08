@@ -19,6 +19,11 @@ Key entrypoints (observed in repo):
 - `install/consensus/prysm.sh` creates systemd `cl` (beacon) and `validator` services.
 - `install/mev/install_mev_boost.sh` creates systemd `mev` service.
 
+**Security/web scripts (verified):**
+- `install/security/consolidated_security.sh`: UFW rules + fail2ban + AIDE.
+- `install/web/install_nginx.sh`: installs/configures NGINX + hardening + systemd `nginx` service.
+- Caddy scripts exist (`install/web/install_caddy.sh`, `install/web/install_caddy_ssl.sh`) with helpers.
+
 **Flow (verified by script content):**
 - Phase 1 (root): OS update → SSH hardening → user creation → consolidated security.
 - Phase 2 (non‑root): dependencies → MEV choice → client choice → install scripts → systemd services.
@@ -117,6 +122,7 @@ flowchart TD
   R2 --> Clients[Execution + consensus install]
   Clients --> Services[systemd services: eth1 / cl / validator]
   MEV --> MevSvc[systemd service: mev]
+  R2 --> Web[install_nginx.sh / install_caddy.sh (optional)]
 ```
 
 ### Aztec dev toolchain flow (current behavior)
@@ -138,6 +144,6 @@ flowchart TD
 
 ## 7) Open Items (No Hallucinations)
 
-- Inspect eth2‑quickstart security scripts for additional reusable primitives.
+- Inspect eth2‑quickstart SSL install scripts for exact behavior and ports.
 - Decide whether the shared status server should be standard (Monad version is a candidate).
 - Define Aztec production role scripts once available.
