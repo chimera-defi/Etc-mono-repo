@@ -64,34 +64,28 @@ Unified birthday reminder application:
 ## Core Principles
 
 1. **Document exploration** - Capture findings extensively
-2. **Store research** - Use knowledge graph
+2. **Store research** - Use project artifacts
 3. **Prototype fast** - Rapid iteration
 4. **Track learnings** - Capture insights
 5. **Link concepts** - Connect related ideas
 
-## Token Reduction Bootstrap
+## Token Reduction
 
+**Full guide:** `.cursor/TOKEN_REDUCTION.md` | **Skill:** `/token-reduce`
+
+**Ideas-specific searches:**
 ```bash
-# Install QMD if missing (BM25 search — 99% fewer tokens than naive reads)
-command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
-
-# Find relevant docs before reading (700ms-2.7s)
-qmd search "voice coding assistant architecture" -n 5 --files
-
-# Scoped search within ideas/
 rg -g "*.md" "birthday bot" ideas/
 rg -g "*.ts" "speech recognition" ideas/
 ```
 
-**Skip:** `qmd embed`, `qmd vsearch`, `qmd query` (15-175s per query — impractical)
-
 ## Research Workflow
 
-1. **Query existing knowledge** - Check memory first
-2. **Explore structure** - Use directory_tree
-3. **Batch read** - Use read_multiple_files
-4. **Store findings** - create_entities immediately
-5. **Link concepts** - create_relations to connect ideas
+1. **Check existing knowledge** - Read project memory/artifacts first
+2. **Explore structure** - Use Glob/Grep (or sub-agents for >5 files)
+3. **Targeted reads** - Read with offset/limit, not full files
+4. **Store findings** - Write to project artifacts immediately
+5. **Link concepts** - Cross-reference related docs
 6. **Track dead ends** - Store what didn't work
 
 ## Knowledge to Store
@@ -108,25 +102,17 @@ rg -g "*.ts" "speech recognition" ideas/
 ## Multi-Component Projects
 
 For projects like Cadence:
-
 ```bash
-# 1. Find relevant components
-qmd search "cadence architecture" -n 5 --files
-
-# 2. Scoped search for package files
 rg --files -g "**/package.json" ideas/voice-coding-assistant/
-
-# 3. Targeted read of specific component
-qmd get ideas/voice-coding-assistant/README.md -l 50
+rg -g "*.ts" "import.*cadence" ideas/voice-coding-assistant/
 ```
 
 ## Best Practices
 
 1. Document everything - ideas evolve
 2. Store research in project artifacts
-3. Link related concepts
-4. Track dead ends (prevent repeating mistakes)
-5. Use QMD BM25 search before reading files
+3. Track dead ends (prevent repeating mistakes)
+4. Use scoped searches (`rg -g`) before broad reads
 
 ## Meta Learnings
 

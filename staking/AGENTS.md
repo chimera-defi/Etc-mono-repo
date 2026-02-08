@@ -68,21 +68,15 @@ Market analysis and opportunity research:
 - `aztec-nargo` (Docker) for compilation
 - Separate pure math into testable modules
 
-## Token Reduction Bootstrap
+## Token Reduction
 
+**Full guide:** `.cursor/TOKEN_REDUCTION.md` | **Skill:** `/token-reduce`
+
+**Staking-specific searches:**
 ```bash
-# Install QMD if missing (BM25 search — 99% fewer tokens than naive reads)
-command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
-
-# Find relevant staking docs before reading (700ms-2.7s)
-qmd search "liquid staking architecture" -n 5 --files
-
-# Scoped search within staking/
 rg -g "*.nr" "reentrancy" staking/
 rg -g "*.md" "slashing" staking/
 ```
-
-**Skip:** `qmd embed`, `qmd vsearch`, `qmd query` (15-175s per query — impractical)
 
 ## Security Checklist
 

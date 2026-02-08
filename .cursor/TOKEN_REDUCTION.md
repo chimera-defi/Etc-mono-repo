@@ -26,9 +26,9 @@
 
 ## Decision Tree (Fastest First)
 
-1. **Known file/keyword?** → `rg -g "*.md" "keyword"` then targeted read.
+1. **Known file/keyword?** → `Grep` tool (or `rg -g`) then targeted read.
 2. **Need ranked snippets or file list?** → `qmd search "topic" -n 5 --files` (BM25 only).
-3. **Large file context?** → `head/tail/sed` (line-limited).
+3. **Large file context?** → `Read` with offset/limit (or `head/tail/sed` in Cursor).
 4. **No `rg`?** → `git grep` scoped to path.
 
 ## Guardrails (Always On)
@@ -158,5 +158,5 @@ pip3 install tiktoken
 
 ---
 
-**Version:** 4.1 (2026-02-08 — merged PR 197 guardrails with real benchmarks)
+**Version:** 4.2 (2026-02-08 — deduplication pass, Claude Code tool references)
 **Validation:** `.cursor/validate-token-reduction.sh`

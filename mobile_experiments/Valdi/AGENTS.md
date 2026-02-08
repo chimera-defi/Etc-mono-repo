@@ -91,21 +91,15 @@ class MyComponent extends Component {
 4. Call `setState()` to trigger re-renders
 5. Try `bazel clean` if builds stuck
 
-## Token Reduction Bootstrap
+## Token Reduction
 
+**Full guide:** `.cursor/TOKEN_REDUCTION.md` | **Skill:** `/token-reduce`
+
+**Valdi-specific searches:**
 ```bash
-# Install QMD if missing (BM25 search — 99% fewer tokens than naive reads)
-command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
-
-# Find relevant Valdi docs before reading
-qmd search "Valdi component lifecycle" -n 5 --files
-
-# Scoped search within Valdi/
 rg -g "*.tsx" "onRender" mobile_experiments/Valdi/
 rg -g "BUILD.bazel" "target" mobile_experiments/Valdi/
 ```
-
-**Skip:** `qmd embed`, `qmd vsearch`, `qmd query` (15-175s per query — impractical)
 
 ## Key Points
 

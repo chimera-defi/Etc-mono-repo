@@ -268,14 +268,3 @@ See `staking/AGENTS.md` for detailed patterns.
 
 See `ideas/AGENTS.md` for project details.
 
----
-
-## Best Practices Summary
-
-1. **Use QMD BM25 search** before reading files (`qmd search "topic" -n 5 --files`)
-2. **Verify builds** before completing tasks
-3. **Use model names** in PRs and commits
-4. **Check git diff** before major changes
-5. **Preserve data** - add, don't remove
-6. **Use `rg -g` scoped searches** over broad directory scans
-7. **Avoid full file reads** for files >300 lines (use targeted reads)

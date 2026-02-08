@@ -43,29 +43,22 @@ Reduce context usage for `$ARGUMENTS` using targeted retrieval and short summari
 4. **Broad exploration (>5 files)?** → `Task(subagent_type="Explore")` to keep main context clean.
 5. Report: `Baseline → Optimized (X% saved)` and fixes.
 
-## Tool bootstrap (auto-install QMD if missing)
+## QMD Reference (BM25 only — skip embed/vector)
 
 ```bash
+# Install if missing
 command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
-```
 
-## QMD quickstart (BM25 only — skip embed/vector)
-
-```bash
-# One-time setup (2 seconds, no model downloads needed)
+# One-time collection setup (2s, no model downloads)
 qmd collection add /path/to/repo --name my-repo
 
-# Find files by keyword (700ms-2.7s)
-qmd search "topic" -n 5 --files
-
-# Get ranked snippets
-qmd search "topic" -n 5
-
-# Read specific file section
-qmd get filename.md -l 50 --from 100
+# Search (700ms-2.7s)
+qmd search "topic" -n 5 --files    # paths + scores
+qmd search "topic" -n 5            # ranked snippets
+qmd get filename.md -l 50 --from 100  # file section
 ```
 
-**Do NOT use:** `qmd embed` (11 min), `qmd vsearch` (15-111s/query), `qmd query` (105-175s/query)
+**Skip:** `qmd embed` (11 min), `qmd vsearch` (15-111s), `qmd query` (105-175s)
 
 ## Anti-patterns flagged
 

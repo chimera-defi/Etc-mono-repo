@@ -97,33 +97,15 @@ Rabby, Trust, Rainbow, Brave, Coinbase, MetaMask, Phantom, OKX, Wigwam, Zerion, 
 
 ---
 
-## MCP CLI Patterns (Wallet-Specific)
+## Token Reduction
 
-**General patterns:** See `.cursor/MCP_CLI.md`
-**Token optimization:** See `.cursor/TOKEN_REDUCTION.md` or use `/token-reduce` skill
+**Full guide:** `.cursor/TOKEN_REDUCTION.md` | **Skill:** `/token-reduce` | **MCP CLI (Cursor only):** `.cursor/MCP_CLI.md`
 
-## Token Reduction Bootstrap
-
+**Wallet-specific searches:**
 ```bash
-# Install QMD if missing (BM25 search — 99% fewer tokens than naive reads)
-command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
-
-# Index wallet docs (one-time, 2 seconds)
-qmd collection add wallets/ --name wallets
-
-# Find relevant files before reading (700ms-2.7s)
-qmd search "wallet scoring methodology" -n 5 --files
-
-# Get ranked snippets
-qmd search "hardware wallet security" -n 3
+rg -g "*.md" "scoring methodology" wallets/
+rg -g "*.md" "hardware wallet" wallets/
 ```
-
-**Skip:** `qmd embed`, `qmd vsearch`, `qmd query` (15-175s per query — impractical)
-
-**Token reduction for wallet work:**
-- Use QMD BM25 to find relevant wallet docs before reading
-- Use targeted file reads (head/tail) for large wallet lists
-- Use `rg -g "*.md"` for scoped keyword searches within wallets/
 
 ---
 
