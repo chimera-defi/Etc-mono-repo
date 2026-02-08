@@ -163,3 +163,17 @@ local-sandbox-e2e.sh
 
 - Decide whether the shared status server should be standard (Monad version is a candidate).
 - Define Aztec production role scripts once available.
+
+## 8) Monitoring & Security (Script‑Grounded)
+
+**Security primitives present in scripts:**
+- SSH hardening (`run_1.sh` + `harden_ssh.sh`)
+- Firewall (UFW)
+- fail2ban
+- AIDE integrity checks
+- Unattended upgrades (Monad scripts)
+
+**Monitoring primitives present in scripts:**
+- Status endpoint (Monad `install_status_service.sh`)
+- RPC/health checks (Monad `check_rpc.sh`, `healthcheck.sh`)
+- systemd + journalctl for service health/logs

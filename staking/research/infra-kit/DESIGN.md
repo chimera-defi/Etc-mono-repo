@@ -33,6 +33,20 @@ Operator -> Adapter -> Shared Primitives -> Server OS
                          +---------------------> Ethereum stack (exec/consensus/MEV)
 ```
 
+## High‑Level Control Plane View (Now → Future)
+```
+Now (Phase 1)
+  Repo control plane (scripts + runbooks)
+    -> adapters (per chain)
+    -> shared primitives (ops)
+
+Future (Phase 2+)
+  Hosted control plane (API/UI)
+    -> orchestrator (fleet + secrets)
+    -> adapters (per chain)
+    -> shared primitives (ops)
+```
+
 ## Control Plane Evolution (Repo → Hosted)
 
 ```
@@ -49,6 +63,19 @@ Kubernetes / fleet orchestration
 
 ```
 Adapters -> Shared Primitives -> OS/systemd -> Chain binaries/config
+```
+
+## Chain Separation (Reality Check)
+```
+Shared layer (ops primitives only)
+  - user creation, SSH hardening, UFW, fail2ban, sysctl
+  - systemd helpers + env files
+  - status/health checks + optional web proxy + SSL
+
+Per-chain adapters
+  - Ethereum: geth + prysm + mev-boost + relay config
+  - Monad: monad-bft binary + validator config
+  - Aztec: dev/test tooling (no validator ops here yet)
 ```
 
 ## Dependency Graph (Conceptual)
@@ -102,11 +129,49 @@ Adapters:
   - role‑specific steps
 ```
 
+## Chain Onboarding Lifecycle (High Level)
+```
+Identify chain opportunity
+  -> ROI screen (stake, hardware, slashing, yield)
+  -> Draft adapter (chain-specific)
+  -> Reuse shared primitives
+  -> Runbook + smoke test
+  -> Deploy + monitor
+```
+
+## Ops Control Surface (What We Touch)
+```
+Server OS
+  -> systemd services
+  -> firewall/SSH
+  -> monitoring/status endpoint
+  -> optional web proxy + SSL
+```
+
 ## Technologies (Current, Script‑Grounded)
 - **OS:** Ubuntu (assumed by scripts).
 - **Service manager:** systemd.
 - **Web proxy:** NGINX or Caddy (optional).
 - **Monitoring:** status endpoint + RPC checks (shared primitive candidate).
+
+## Monitoring & Security (Now vs Future)
+```
+Now (script-grounded)
+  Security: SSH hardening + UFW + fail2ban + AIDE
+  Monitoring: status endpoint + RPC/health checks
+
+Future (optional)
+  Security: secrets management + fleet policy enforcement
+  Monitoring: metrics/logs stack if adopted (e.g., Prometheus/Loki)
+```
+
+## Monitoring Data Path (Phase 1)
+```
+Node (systemd services)
+  -> status endpoint (local HTTP)
+  -> rpc check scripts
+  -> journalctl logs (manual)
+```
 ## Proposed File Tree (Future `staking/infra-kit/`)
 
 ```text
