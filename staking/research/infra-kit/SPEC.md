@@ -120,6 +120,19 @@ flowchart TD
   A --> J[e2e_smoke_test.sh]
 ```
 
+ASCII fallback:
+```
+setup_server.sh
+  -> create_monad_user.sh
+  -> install_validator_binary.sh (optional)
+  -> install_sysctl.sh
+  -> install_validator_service.sh
+  -> install_status_service.sh
+  -> with-caddy? / with-firewall?
+  -> preflight_check.sh
+  -> e2e_smoke_test.sh
+```
+
 ### Ethereum quickstart flow (current behavior)
 ```mermaid
 flowchart TD
@@ -135,6 +148,20 @@ flowchart TD
   Web --> SSL[install_ssl_certbot.sh or install_acme_ssl.sh (optional)]
 ```
 
+ASCII fallback:
+```
+run_1.sh (root)
+  -> OS update + SSH hardening
+  -> Create user + sudo
+  -> Consolidated security
+run_2.sh (non-root)
+  -> install_dependencies.sh
+  -> MEV selection + install -> systemd: mev
+  -> Execution + consensus install -> systemd: eth1 / cl / validator
+  -> Optional web proxy (nginx/caddy)
+  -> Optional SSL issuance (certbot/acme)
+```
+
 ### Aztec dev toolchain flow (current behavior)
 ```mermaid
 flowchart TD
@@ -144,6 +171,19 @@ flowchart TD
   Smoke[smoke-test.sh] --> Unit[Run staking-math tests]
   Smoke --> CLI[Aztec CLI checks]
   Sandbox[local-sandbox-e2e.sh] --> Local[Local sandbox deploy + staking flow]
+```
+
+ASCII fallback:
+```
+setup-env.sh
+  -> standard nargo
+  -> optional Docker + aztec-nargo
+  -> cache aztec-packages
+smoke-test.sh
+  -> staking-math tests
+  -> aztec CLI checks
+local-sandbox-e2e.sh
+  -> local sandbox deploy + staking flow
 ```
 
 ## 6) Reuse & Boundaries
