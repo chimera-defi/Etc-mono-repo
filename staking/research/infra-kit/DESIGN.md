@@ -3,6 +3,17 @@
 ## One‑Sentence Summary
 InfraKit is a **shared staking infra layer** that standardizes server setup and operations across chains using shared shell primitives plus thin chain adapters.
 
+## High‑Level Architecture (Business View)
+```
+Market: New chains + validator demand
+        |
+        v
+InfraKit (shared ops layer) -> Faster chain onboarding -> Validator revenue
+        |
+        v
+Optional hosted control plane (later) -> Multi‑tenant ops -> Managed services
+```
+
 ## What It Is (MVP)
 - A **repository‑based control plane** (scripts + runbooks).
 - **Shared primitives** for provisioning, hardening, services, monitoring.
@@ -47,6 +58,28 @@ Provision -> Hardening -> Services -> Monitoring -> HealthChecks
 Provision --------> Services
 Hardening --------> Monitoring
 ```
+
+## Low‑Level Component Map (Files/Modules)
+```
+shared/
+  provision/   (base_packages, create_user)
+  hardening/   (ssh, firewall, fail2ban, sysctl)
+  services/    (systemd install, env files)
+  monitoring/  (status server, health checks)
+  web/         (nginx/caddy + SSL helpers)
+adapters/
+  ethereum/    (run_1/run_2 wrappers)
+  monad/       (setup_server wrapper)
+  aztec/       (dev tooling wrapper)
+runbooks/
+  ethereum.md, monad.md, aztec-dev.md
+```
+
+## Technologies (Current, Script‑Grounded)
+- **OS:** Ubuntu (assumed by scripts).
+- **Service manager:** systemd.
+- **Web proxy:** NGINX or Caddy (optional).
+- **Monitoring:** status endpoint + RPC checks (shared primitive candidate).
 ## Proposed File Tree (Future `staking/infra-kit/`)
 
 ```text
