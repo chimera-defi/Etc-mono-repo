@@ -2,13 +2,9 @@
 
 > **Master rules:** `.cursorrules` | **Token efficiency:** `/token-reduce` skill | **Benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
 
-## Git Discipline (Required)
+## Git & Workflow
 
-- One task = one PR (keep all commits on a single PR branch)
-- Never push directly to `main` or `master`
-- Create a branch/worktree before changes
-- Always use a feature branch + PR
-- Enable hooks: `git config core.hooksPath .githooks`
+See `.cursorrules` **Git Discipline** and **Meta Learnings** sections for shared rules (PRs, rebasing, attribution, hooks).
 
 ## Overview
 
@@ -115,11 +111,3 @@ rg -g "BUILD.bazel" "target" mobile_experiments/Valdi/
 - **Examples:** `/apps/` in Valdi repo
 - **GitHub:** [github.com/Snapchat/Valdi](https://github.com/Snapchat/Valdi)
 
-## Meta Learnings
-
-- Always open a PR for changes; do not push directly to main.
-- Always pull latest `main` and rebase your branch on `main` at the start of each new request.
-- After rebasing, force-push with lease if the branch diverges from the PR head.
-- Keep one task in one PR; do not create multiple PRs for the same request.
-- Always commit changes with a descriptive message and model attribution.
-- Record research inputs in `.cursor/artifacts/` or project artifacts to preserve source context.

@@ -2,13 +2,9 @@
 
 > **Master rules:** `.cursorrules` | **Token efficiency:** `/token-reduce` skill | **Benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
 
-## Git Discipline (Required)
+## Git & Workflow
 
-- One task = one PR (keep all commits on a single PR branch)
-- Never push directly to `main` or `master`
-- Create a branch/worktree before changes
-- Always use a feature branch + PR
-- Enable hooks: `git config core.hooksPath .githooks`
+See `.cursorrules` **Git Discipline** and **Meta Learnings** sections for shared rules (PRs, rebasing, attribution, hooks).
 
 ## Core Purpose
 
@@ -142,7 +138,7 @@ rg -g "*.md" "hardware wallet" wallets/
 
 ---
 
-## Meta Learnings
+## Wallet-Specific Learnings
 
 **From Third Review (Dec 2025):**
 1. Core criteria matter most - 12/24 wallets don't meet basic requirements
@@ -150,30 +146,16 @@ rg -g "*.md" "hardware wallet" wallets/
 3. Stability is undervalued
 4. Data exists but is scattered
 
-**Document Maintenance:**
-1. Single table principle
-2. Changelog discipline
-3. Verify before trust
+**Document Maintenance:** Single table principle, changelog discipline, verify before trust
 
-**Workflow:**
-1. Always open a PR for changes; do not push directly to main.
-2. Always pull latest `main` and rebase your branch on `main` at the start of each new request.
-3. After rebasing, force-push with lease if the branch diverges from the PR head.
-4. Keep one task in one PR; do not create multiple PRs for the same request.
-5. Always commit changes with a descriptive message and model attribution.
-6. Record research inputs in `wallets/artifacts/` (gitignored) and summarize durable notes in `wallets/MERCHANT_FEED.md` or other docs.
-7. Merchant feeds must use provider-site pricing; skip free categories (software wallets/ramps) and items without verified prices.
-8. Activity status decays
+**Wallet Workflow:**
+- Research inputs → `wallets/artifacts/` (gitignored), durable notes → `wallets/MERCHANT_FEED.md`
+- Merchant feeds: provider-site pricing only; skip free categories and items without verified prices
+- Activity status decays over time
 
-**Multi-Pass Review:**
-1. Math verification - breakdowns must sum to totals
-2. Values within bounds - no column exceeds maximum
-3. Cross-document consistency
-4. No data loss on restructure
+**Multi-Pass Review:** Math verification (breakdowns sum to totals), values within bounds, cross-doc consistency, no data loss on restructure
 
-**Data Columns (preserve):**
-- Chains, Rel/Mo, RPC, GitHub, Testnets, Audits
-- Last Commit, Stars, Issues, Ratio, Stability
+**Data Columns (preserve):** Chains, Rel/Mo, RPC, GitHub, Testnets, Audits, Last Commit, Stars, Issues, Ratio, Stability
 
 ---
 
