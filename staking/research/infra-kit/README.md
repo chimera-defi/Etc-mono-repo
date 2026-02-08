@@ -41,3 +41,4 @@ Phase 1 uses the repo as the control plane. A hosted API/UI is optional later.
 - `CONTEXT.md` — scratchpad for research notes and open questions.
 - `MASTER_PROMPT.md` — research→design master prompt.
 - `META_ENGINEERING.md` — prompt structure + anti‑hallucination rules.
+- `REVIEW_CHECKLIST.md` — multi‑pass review checklist.
