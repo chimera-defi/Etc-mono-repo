@@ -21,12 +21,9 @@ flowchart TB
   Adapter --> Shared[InfraKit Shared Primitives]
   Shared --> Host[Server OS]
 
-  Host --> EthStack[ETH L1 Stack
-Execution + Consensus + MEV]
-  Host --> MonadStack[Monad Stack
-monad-bft + configs]
-  Host --> AztecStack[Aztec Stack
-(dev/test now; prod roles TBD)]
+  Host --> EthStack[ETH L1 Stack\nExecution + Consensus + MEV]
+  Host --> MonadStack[Monad Stack\nmonad-bft + configs]
+  Host --> AztecStack[Aztec Stack\n(dev/test now; prod roles TBD)]
 
   EthStack --> EthServices[systemd units + env]
   MonadStack --> MonadServices[systemd units + env]
@@ -39,13 +36,19 @@ monad-bft + configs]
   end
 ```
 
+## Control Plane Evolution (Repo → Hosted)
+
+```mermaid
+flowchart LR
+  Repo[Repo-based control plane\n(scripts + runbooks)] --> Hosted[Hosted control plane\n(API/UI + orchestration)]
+  Hosted --> Orchestrators[Kubernetes / fleet orchestration]
+```
+
 ## Component Layers
 
 ```mermaid
 flowchart TB
-  A[Adapters
-(chain-specific)] --> B[Shared Primitives
-(provision/hardening/services/monitoring)]
+  A[Adapters\n(chain-specific)] --> B[Shared Primitives\n(provision/hardening/services/monitoring)]
   B --> C[OS & systemd]
   C --> D[Chain Binaries & Config]
 ```
@@ -80,6 +83,11 @@ staking/infra-kit/
       status_server.py
       check_rpc.sh
       uptime_probe.sh
+    web/
+      install_nginx.sh
+      install_caddy.sh
+      install_ssl_certbot.sh
+      install_acme_ssl.sh
   adapters/
     ethereum/
       run_1_adapter.sh
