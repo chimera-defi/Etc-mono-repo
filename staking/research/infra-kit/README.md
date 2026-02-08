@@ -38,3 +38,5 @@ In phase 1, the **control plane is the repo itself** (scripts + runbooks). A hos
 - `PROMPTS.md` — handoff prompts for future agents.
 - `EXECUTIVE_SUMMARY.md` — high‑level summary for quick review.
 - `DECISIONS.md` — key decisions and rationale.
+- `PRD.md` — product requirements (problem/solution/MVP).
+- `CONTEXT.md` — scratchpad for research notes and open questions.
