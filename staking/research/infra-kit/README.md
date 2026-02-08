@@ -4,6 +4,19 @@ This folder defines the **shared staking infra layer** for validator operations 
 (Ethereum, Monad, Aztec, etc.). The goal is to **reuse common server‑ops primitives** while
 keeping chain‑specific logic in thin adapters.
 
+## Problem Statement
+Validator infrastructure is duplicated across chains (provisioning, hardening, services, monitoring).
+That duplication causes drift, inconsistent security, and slow iteration.
+
+## Target Users
+- Internal DevOps/operators deploying validators across multiple chains.
+- Future contributors who need a standard layout and runbook.
+
+## MVP Scope
+- Repo‑based control plane (scripts + runbooks).
+- Shared primitives for common ops steps.
+- Thin per‑chain adapters for installs/config.
+
 Sources reviewed:
 - https://eth2quickstart.com/
 - https://github.com/chimera-defi/eth2-quickstart (default branch `master`)
@@ -23,3 +36,5 @@ In phase 1, the **control plane is the repo itself** (scripts + runbooks). A hos
 - `PLAN.md` — phased execution plan.
 - `TASKS.md` — checklist of concrete next steps.
 - `PROMPTS.md` — handoff prompts for future agents.
+- `EXECUTIVE_SUMMARY.md` — high‑level summary for quick review.
+- `DECISIONS.md` — key decisions and rationale.
