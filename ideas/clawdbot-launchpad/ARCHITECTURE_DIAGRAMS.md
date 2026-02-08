@@ -39,17 +39,17 @@ flowchart LR
   U[User] -->|Browser| WEB[Web App / Dashboard]
   WEB --> API[Control Plane API]
   API --> DB[(Postgres)]
-  API --> BILLING[Billing Provider<br/>e.g. Stripe]
+  API --> BILLING[Billing Provider\n(e.g. Stripe)]
   BILLING -->|webhooks| API
   API --> Q[(Provisioning Queue)]
   Q --> W[Provisioning Workers]
 
   subgraph DataPlane[Data Plane (Customer Runtime)]
-    RT[Runtime Orchestrator<br/>ECS/K8s/Nomad OR VPS Fleet]
-    REG[Image Registry<br/>signed images]
+    RT[Runtime Orchestrator\n(ECS/K8s/Nomad or VPS fleet)]
+    REG[Image Registry\n(signed images)]
     SEC[Secrets Manager / KMS]
     LOG[Logs/Metrics]
-    PV[(Persistent Storage<br/>volumes/snapshots)]
+    PV[(Persistent Storage\n(volumes/snapshots))]
   end
 
   W --> RT
@@ -85,12 +85,12 @@ flowchart TB
 
 ```mermaid
 flowchart TB
-  W[Workers] --> ORCH[Orchestrator<br/>ECS/Fargate or Managed K8s]
+  W[Workers] --> ORCH[Orchestrator\n(ECS/Fargate or managed K8s)]
   ORCH --> NS1[Tenant Namespace/Service A]
   ORCH --> NS2[Tenant Namespace/Service B]
   ORCH --> PV1[(Tenant PV A)]
   ORCH --> PV2[(Tenant PV B)]
-  ORCH --> OBS[Central Logs/Metrics<br/>per-tenant scoped]
+  ORCH --> OBS[Central Logs/Metrics\n(per-tenant scoped)]
   ORCH --> NET[Network Policies / Egress Controls]
 ```
 
@@ -238,13 +238,8 @@ flowchart TB
   TEN:::danger
   API:::safe
 
-  note right of TEN
-    Treat tenant runtime as hostile by default:
-    - signed images only (MVP)
-    - egress controls
-    - least-privilege secrets injection
-    - quotas + isolation
-  end note
+  NOTE["Tenant runtime is hostile by default:\n- signed images only (MVP)\n- egress controls\n- least-privilege secrets injection\n- quotas + isolation"]
+  NOTE -.-> TEN
 ```
 
 ## 8) Optional: Daytona for Ephemeral Workspaces (Non-Production)
@@ -253,8 +248,8 @@ flowchart TB
 flowchart LR
   API[Control Plane] --> Q[(Jobs)]
   Q --> W[Worker]
-  W --> D[Daytona Workspace<br/>ephemeral]
-  D --> A[Artifacts<br/>SBOM/test logs]
+  W --> D[Daytona Workspace\n(ephemeral)]
+  D --> A[Artifacts\n(SBOM/test logs)]
   A --> S3[(Object Storage)]
 ```
 
