@@ -26,6 +26,8 @@ any code reuse, confirm licensing or obtain explicit permission.
 
 - PLAN.md: phased migration + integration plan.
 - SPEC.md: target architecture + script interfaces + roles-by-chain summary.
+- TASKS.md: execution checklist for next agent.
+- PROMPTS.md: handoff prompts for sequential work.
 
 ## Diagram (High-Level)
 

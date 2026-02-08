@@ -58,3 +58,12 @@ Differences (adapter scope):
 - **Ethereum:** execution + consensus clients (beacon chain).
 - **Monad:** monad-bft validator (single L1 stack).
 - **Aztec:** L2 rollup roles (sequencer/prover/committee), different node types.
+
+## Diagram (Plan Flow)
+
+```
+Phase 0  ->  Phase 1  ->  Phase 2  ->  Phase 3  ->  Phase 4
+Licensing    Shared       Refactor     Standards    Validation
+Inventory    Modules      Adapters     Runbooks     Proof
+Overlap      Skeleton     Reuse         Smoke tests  VPS dry-run
+```
