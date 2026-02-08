@@ -2,13 +2,9 @@
 
 > **Master rules:** `.cursorrules` | **Token efficiency:** `/token-reduce` skill | **Benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
 
-## Git Discipline (Required)
+## Git & Workflow
 
-- One task = one PR (keep all commits on a single PR branch)
-- Never push directly to `main` or `master`
-- Create a branch/worktree before changes
-- Always use a feature branch + PR
-- Enable hooks: `git config core.hooksPath .githooks`
+See `.cursorrules` **Git Discipline** and **Meta Learnings** sections for shared rules (PRs, rebasing, attribution, hooks).
 
 ## Projects
 
@@ -68,30 +64,15 @@ Market analysis and opportunity research:
 - `aztec-nargo` (Docker) for compilation
 - Separate pure math into testable modules
 
-## Search & Retrieval Patterns (Staking-Specific)
+## Token Reduction
 
-**General patterns:** See `.cursor/TOKEN_REDUCTION.md`
+**Full guide:** `.cursor/TOKEN_REDUCTION.md` | **Skill:** `/token-reduce`
 
+**Staking-specific searches:**
 ```bash
-# Scope first with rg
-rg -g "*.md" "staking" staking/
-rg -g "*.nr" "contract" staking/
-
-# Ranked snippets when you need discovery
-qmd search "aztec staking" -n 5 --files
-qmd search "aztec staking" -n 5
-
-# Targeted reads
-sed -n '1,120p' staking/aztec/README.md
+rg -g "*.nr" "reentrancy" staking/
+rg -g "*.md" "slashing" staking/
 ```
-
-## Token Reduction Bootstrap
-
-```bash
-command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
-```
-
-**Workflow:** Use QMD first for docs/notes, then targeted reads.
 
 ## Security Checklist
 
@@ -132,14 +113,3 @@ Distinguish:
 
 Never claim full completion for uncompiled code.
 
-## Meta Learnings
-
-- Always open a PR for changes; do not push directly to main.
-- Always pull latest `main` and rebase your branch on `main` at the start of each new request.
-- After rebasing, force-push with lease if the branch diverges from the PR head.
-- Keep one task in one PR; do not create multiple PRs for the same request.
-- Always commit changes with a descriptive message and model attribution.
-- Record research inputs in `.cursor/artifacts/` or project artifacts to preserve source context.
-- Token reduction: use QMD BM25 + `rg -g`; avoid MCP CLI filesystem reads.
-- Use Bun by default (prefer `bun` over `node`/`npm`).
-- Always do 2-3 quick passes for extra optimization ideas.

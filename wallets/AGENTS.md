@@ -2,13 +2,9 @@
 
 > **Master rules:** `.cursorrules` | **Token efficiency:** `/token-reduce` skill | **Benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
 
-## Git Discipline (Required)
+## Git & Workflow
 
-- One task = one PR (keep all commits on a single PR branch)
-- Never push directly to `main` or `master`
-- Create a branch/worktree before changes
-- Always use a feature branch + PR
-- Enable hooks: `git config core.hooksPath .githooks`
+See `.cursorrules` **Git Discipline** and **Meta Learnings** sections for shared rules (PRs, rebasing, attribution, hooks).
 
 ## Core Purpose
 
@@ -97,34 +93,15 @@ Rabby, Trust, Rainbow, Brave, Coinbase, MetaMask, Phantom, OKX, Wigwam, Zerion, 
 
 ---
 
-## Search & Retrieval Patterns (Wallet-Specific)
+## Token Reduction
 
-**General patterns:** See `.cursor/TOKEN_REDUCTION.md`
+**Full guide:** `.cursor/TOKEN_REDUCTION.md` | **Skill:** `/token-reduce` | **MCP CLI (Cursor only):** `.cursor/MCP_CLI.md`
 
+**Wallet-specific searches:**
 ```bash
-# Scope first with rg
-rg -g "*.md" "wallet name" wallets/
-
-# Ranked snippets when you need discovery
-qmd search "wallet name" -n 5 --files
-qmd search "wallet name" -n 5
-
-# Targeted reads
-sed -n '120,200p' wallets/SOFTWARE_WALLETS.md
+rg -g "*.md" "scoring methodology" wallets/
+rg -g "*.md" "hardware wallet" wallets/
 ```
-
-## Token Reduction Bootstrap
-
-```bash
-command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
-```
-
-**Workflow:** Use QMD first for docs/notes, then targeted reads.
-
-**Token reduction for wallet work:**
-- Use `rg -g` scoped search first
-- Use QMD BM25 for ranked snippets/paths
-- Use targeted file reads (head/tail) for large wallet lists
 
 ---
 
@@ -161,7 +138,7 @@ command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
 
 ---
 
-## Meta Learnings
+## Wallet-Specific Learnings
 
 **From Third Review (Dec 2025):**
 1. Core criteria matter most - 12/24 wallets don't meet basic requirements
@@ -169,36 +146,16 @@ command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
 3. Stability is undervalued
 4. Data exists but is scattered
 
-**Document Maintenance:**
-1. Single table principle
-2. Changelog discipline
-3. Verify before trust
-4. Sync GitHub metrics across detail + summary docs after data refresh
+**Document Maintenance:** Single table principle, changelog discipline, verify before trust
 
-**Workflow:**
-1. Always open a PR for changes; do not push directly to main.
-2. Always pull latest `main` and rebase your branch on `main` at the start of each new request.
-3. After rebasing, force-push with lease if the branch diverges from the PR head.
-4. Keep one task in one PR; do not create multiple PRs for the same request.
-5. Always commit changes with a descriptive message and model attribution.
-6. Record research inputs in `wallets/artifacts/` (gitignored) and summarize durable notes in `wallets/MERCHANT_FEED.md` or other docs.
-7. Merchant feeds must use provider-site pricing; skip free categories (software wallets/ramps) and items without verified prices.
-8. Activity status decays
-9. Use headless Chromium for bot-protected URL verification and store results in `wallets/artifacts/manual-browser-checks.json`.
-10. If `GITHUB_TOKEN` is unavailable, use unauth GitHub API/Atom fallbacks and record that stars/issues are best-effort.
-11. Token reduction: use QMD BM25 + `rg -g`; avoid MCP CLI filesystem reads.
-12. Use Bun by default (prefer `bun` over `node`/`npm`).
-13. Always do 2-3 quick passes for extra optimization ideas.
+**Wallet Workflow:**
+- Research inputs → `wallets/artifacts/` (gitignored), durable notes → `wallets/MERCHANT_FEED.md`
+- Merchant feeds: provider-site pricing only; skip free categories and items without verified prices
+- Activity status decays over time
 
-**Multi-Pass Review:**
-1. Math verification - breakdowns must sum to totals
-2. Values within bounds - no column exceeds maximum
-3. Cross-document consistency
-4. No data loss on restructure
+**Multi-Pass Review:** Math verification (breakdowns sum to totals), values within bounds, cross-doc consistency, no data loss on restructure
 
-**Data Columns (preserve):**
-- Chains, Rel/Mo, RPC, GitHub, Testnets, Audits
-- Last Commit, Stars, Issues, Ratio, Stability
+**Data Columns (preserve):** Chains, Rel/Mo, RPC, GitHub, Testnets, Audits, Last Commit, Stars, Issues, Ratio, Stability
 
 ---
 
