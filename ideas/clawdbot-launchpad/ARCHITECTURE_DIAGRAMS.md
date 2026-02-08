@@ -4,7 +4,35 @@
 
 These diagrams explain how **Clawdbot Launchpad** is built and how it works at a high level. They are intentionally **implementation-agnostic**, but map cleanly to the current PRD/SPEC/TASKS.
 
+## If you can’t see the diagrams
+
+Some markdown viewers don’t render Mermaid (` ```mermaid `) and will show only the diagram source code.
+
+- **Best viewer**: GitHub file view usually renders Mermaid automatically.
+- **Fallback**: use the ASCII “picture” blocks below (and/or paste the Mermaid blocks into the [Mermaid Live Editor](https://mermaid.live/)).
+
 ## 1) System Overview (Control Plane vs Data Plane)
+
+### 1a) ASCII overview (fallback)
+
+```text
+                ┌─────────────────────────── Control Plane (SaaS) ───────────────────────────┐
+User/Browser →  │  Web/Dashboard → API → DB                                                 │
+                │                    │                                                       │
+                │                    ├→ Billing (webhooks)                                   │
+                │                    ├→ Provisioning Queue → Workers                         │
+                │                    └→ Audit Logs                                            │
+                └─────────────────────────────────────────────────────────────────────────────┘
+
+                                   Workers drive lifecycle actions
+
+                ┌────────────────────────── Data Plane (Customer Runtime) ───────────────────┐
+                │  Orchestrator/VPS Fleet → Tenant Bot Process → Tenant Volume/Storage        │
+                │                │                    │                                       │
+                │                ├→ Signed Images      ├→ Secrets injection (KMS/Secrets)     │
+                │                └→ Logs/Metrics       └→ Egress controls + quotas            │
+                └─────────────────────────────────────────────────────────────────────────────┘
+```
 
 ```mermaid
 flowchart LR
@@ -81,6 +109,14 @@ flowchart TB
 **Goal**: strongest isolation + predictable performance for Team/enterprise tiers.
 
 ## 3) Provisioning Sequence (One-click deploy)
+
+### 3a) ASCII provisioning sequence (fallback)
+
+```text
+User → Checkout → Billing webhook → Provisioning job queued → Worker allocates runtime/storage
+  → secrets stored/encrypted → signed image pulled → bot started w/ config+secrets
+  → health checks pass → deployment marked running + LKG set → user sees Ready + test action
+```
 
 ```mermaid
 sequenceDiagram
