@@ -31,3 +31,7 @@
 ## Step 4: Validate
 - Ensure every diagram is grounded in verified scripts.
 - Remove unverified claims or placeholders.
+
+## Migration Approach (Short)
+Start by **wrapping existing scripts** (eth2‑quickstart + Monad) with adapters that call shared primitives,
+then **extract duplicated logic** into shared modules. This keeps behavior stable while reducing drift.
