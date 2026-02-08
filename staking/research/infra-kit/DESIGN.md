@@ -14,29 +14,6 @@ InfraKit is a **shared staking infra layer** that standardizes server setup and 
 
 ## Top‑Level Architecture (Human Review)
 
-```mermaid
-flowchart TB
-  Operator[Operator / DevOps] --> Adapter[Chain Adapter Script]
-
-  Adapter --> Shared[InfraKit Shared Primitives]
-  Shared --> Host[Server OS]
-
-  Host --> EthStack[ETH L1 Stack\nExecution + Consensus + MEV]
-  Host --> MonadStack[Monad Stack\nmonad-bft + configs]
-  Host --> AztecStack[Aztec Stack\n(dev/test now; prod roles TBD)]
-
-  EthStack --> EthServices[systemd units + env]
-  MonadStack --> MonadServices[systemd units + env]
-  AztecStack --> AztecServices[toolchain/tests now]
-
-  subgraph InfraKit Repo (MVP control plane)
-    Adapter
-    Shared
-    Runbook[Runbooks / Checklists]
-  end
-```
-
-ASCII fallback (for renderers without Mermaid):
 ```
 Operator -> Adapter -> Shared Primitives -> Server OS
                          |        |        |
@@ -47,13 +24,6 @@ Operator -> Adapter -> Shared Primitives -> Server OS
 
 ## Control Plane Evolution (Repo → Hosted)
 
-```mermaid
-flowchart LR
-  Repo[Repo-based control plane\n(scripts + runbooks)] --> Hosted[Hosted control plane\n(API/UI + orchestration)]
-  Hosted --> Orchestrators[Kubernetes / fleet orchestration]
-```
-
-ASCII fallback:
 ```
 Repo-based control plane (scripts + runbooks)
         |
@@ -66,29 +36,12 @@ Kubernetes / fleet orchestration
 
 ## Component Layers
 
-```mermaid
-flowchart TB
-  A[Adapters\n(chain-specific)] --> B[Shared Primitives\n(provision/hardening/services/monitoring)]
-  B --> C[OS & systemd]
-  C --> D[Chain Binaries & Config]
-```
-
-ASCII fallback:
 ```
 Adapters -> Shared Primitives -> OS/systemd -> Chain binaries/config
 ```
 
 ## Dependency Graph (Conceptual)
 
-```mermaid
-flowchart LR
-  Provision --> Hardening --> Services --> Monitoring
-  Provision --> Services
-  Hardening --> Monitoring
-  Services --> HealthChecks
-```
-
-ASCII fallback:
 ```
 Provision -> Hardening -> Services -> Monitoring -> HealthChecks
 Provision --------> Services
@@ -136,6 +89,10 @@ staking/infra-kit/
 ## Reuse Strategy (80/20)
 - **Shared 80%:** OS updates, SSH hardening, firewall, fail2ban, sysctl, systemd install helpers, status/health endpoints.
 - **Adapter 20%:** chain binaries, configs, ports, RPC/metrics checks, role‑specific steps.
+
+## Hardware/Role Notes (High Level)
+- Ethereum, Monad, and Aztec are distinct chains and will require **different hardware profiles**.
+- The shared layer covers ops primitives; **hardware sizing remains chain‑specific** and lives in adapters/runbooks.
 
 ## Minimal Extensible Product (MEP)
 1) Shared primitives (shell + small Python helpers).
