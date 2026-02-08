@@ -1,167 +1,140 @@
-# InfraKit Integration Spec (Shared Control Plane)
+# InfraKit Spec (Verified Script‑Based)
 
-## Architecture (High Level)
+This spec is grounded in **scripts that currently exist** (eth2‑quickstart, Monad infra, Aztec dev tooling). It avoids unverified claims and notes unknowns explicitly.
 
-```
-           +---------------------------+
-           |       InfraKit Core       |
-           | shared modules (shell/py) |
-           +-------------+-------------+
-                         |
-        +----------------+----------------+
-        |                                 |
- +------v------+                  +------v------+
- | Ethereum    |                  | Monad       |
- | adapter     |                  | adapter     |
- +-------------+                  +-------------+
-        |                                 |
-        +----------------+----------------+
-                         |
-                 +-------v-------+
-                 | Aztec adapter |
-                 +---------------+
-```
+## 1) Verified Script Inventory
 
-## Architecture
+### eth2‑quickstart (Ethereum L1 bootstrap)
+Key entrypoints (observed in repo):
+- `run_1.sh` (root): OS updates, SSH hardening, user creation, consolidated security setup.
+- `run_2.sh` (non‑root): dependency install, MEV selection, client selection + install.
+- `exports.sh`: shared config (user, ports, MEV relays, client settings).
+- `lib/common_functions.sh`: helper functions used by the above.
+- `install/` sub‑scripts referenced by `run_2.sh`, including:
+  - `install/utils/install_dependencies.sh`
+  - `install/execution/geth.sh`
+  - `install/consensus/prysm.sh`
+  - `install/mev/install_mev_boost.sh`
+  - `install/mev/install_commit_boost.sh`
+  - `install/mev/install_ethgas.sh`
+  - SSL/NGINX install scripts (referenced in comments).
 
-```
-infra/
-  shared/
-    provision/
-      base_packages.sh
-      create_user.sh
-    hardening/
-      ssh_hardening.sh
-      firewall_ufw.sh
-      fail2ban.sh
-      sysctl.sh
-    services/
-      install_systemd_unit.sh
-      install_env.sh
-    monitoring/
-      status_server.py
-      check_rpc.sh
-      uptime_probe.sh
-  infra-kit/
-    README.md
-    PLAN.md
-    SPEC.md
+**Flow (verified by script content):**
+- Phase 1 (root): OS update → SSH hardening → user creation → consolidated security.
+- Phase 2 (non‑root): dependencies → MEV choice → client choice → install scripts.
+
+### Monad infra (production scripts in this repo)
+Entry points and critical steps (verified):
+- `setup_server.sh`: create user → install monad‑bft binary (if provided) → sysctl tuning → install systemd units → optional Caddy/UFW → preflight + e2e smoke tests.
+- `bootstrap_all.sh`: wraps `setup_server.sh` + optional monitoring (docker compose) + optional hardening (SSH, fail2ban, unattended upgrades).
+- `install_validator_binary.sh`: fetch binary/config from local path or URL.
+- `install_validator_service.sh`: installs systemd unit + env file.
+- `install_status_service.sh`: installs a Python status server + unit + env file.
+- Hardening utilities: `harden_ssh.sh`, `install_firewall_ufw.sh`, `install_fail2ban.sh`, `enable_unattended_upgrades.sh`.
+
+### Aztec scripts (dev + testing toolchain)
+These scripts are **developer toolchain and testing**, not validator ops:
+- `scripts/setup-env.sh`: installs standard `nargo`, optional `aztec-nargo` via Docker, caches aztec‑packages deps, optional compile.
+- `scripts/smoke-test.sh`: validates nargo + Aztec CLI + unit tests + optional sandbox E2E.
+- `scripts/integration-test.sh`: compile contracts + run tests against Aztec devnet container (TXE).
+
+## 2) InfraKit Shared Primitives (Derived from Scripts)
+
+These are the **common operations** we can safely reuse across chains:
+- OS update + base packages
+- SSH hardening
+- User creation + sudo setup
+- Firewall setup (UFW)
+- Fail2ban + unattended upgrades
+- Sysctl tuning
+- Systemd unit install + env file management
+- Status endpoint/health checks
+- Preflight + smoke tests
+
+## 3) Chain‑Specific Adapters (Thin by Design)
+
+### Ethereum (eth2‑quickstart)
+Adapter responsibilities based on existing scripts:
+- Wire `run_1.sh` (security baseline) and `run_2.sh` (client/MEV install) into shared primitives.
+- Keep client selection + install scripts under Ethereum adapter because they are chain‑specific.
+- Keep MEV configuration and relay lists in Ethereum adapter (chain‑specific economics).
+
+### Monad
+Adapter responsibilities based on existing scripts:
+- Use shared primitives for user, sysctl, firewall, SSH hardening, systemd.
+- Keep `monad-bft` binary/config install and validator service as Monad‑specific.
+- Keep status endpoint as the default shared pattern (can be reused as a shared primitive).
+
+### Aztec
+Current scripts are dev/test tooling, not validator‑role operations.
+- InfraKit can reuse **testing scaffolding** patterns (env setup, smoke tests).
+- **Validator/sequencer/prover ops** are TBD until production role scripts exist.
+
+## 4) Proposed Layout (Target, Not Yet Implemented)
+
+```text
 staking/
-  monad/
-    infra/
-      scripts/ -> wrappers calling infra/shared/*
+  infra-kit/                 # future shared library (code)
+    shared/
+      provision/
+      hardening/
+      services/
+      monitoring/
+    adapters/
+      ethereum/
+      monad/
+      aztec/
+    runbooks/
+  research/
+    infra-kit/               # current research/design docs (this folder)
 ```
 
-## Script Interfaces (Shared)
+## 5) Adapter Flows (Verified)
 
-- `provision/base_packages.sh`
-  - Installs core packages (curl, rg, python3, ufw, fail2ban).
-- `provision/create_user.sh [user] [group] [home]`
-  - Mirrors existing monad helper behavior.
-- `hardening/ssh_hardening.sh [port]`
-  - Disables root/password auth, sets SSH port.
-- `hardening/firewall_ufw.sh [ports]`
-  - Minimal inbound rules.
-- `hardening/sysctl.sh [profile]`
-  - Writes kernel tuning for validator workloads.
-- `services/install_systemd_unit.sh [src] [dest]`
-  - Generic unit installer.
-- `services/install_env.sh [src] [dest]`
-  - Env file installer with permissions.
-- `monitoring/status_server.py`
-  - Shared JSON status endpoint (RPC + node stats).
-- `monitoring/check_rpc.sh [rpc-url] [method]`
-- `monitoring/uptime_probe.sh [status-url]`
+### Monad adapter flow (current behavior)
+```mermaid
+flowchart TD
+  A[setup_server.sh] --> B[create_monad_user.sh]
+  A --> C[install_validator_binary.sh (optional)]
+  A --> D[install_sysctl.sh]
+  A --> E[install_validator_service.sh]
+  A --> F[install_status_service.sh]
+  A --> G{with-caddy?}
+  A --> H{with-firewall?}
+  A --> I[preflight_check.sh]
+  A --> J[e2e_smoke_test.sh]
+```
 
-## Mapping: eth2-quickstart -> shared
+### Ethereum quickstart flow (current behavior)
+```mermaid
+flowchart TD
+  R1[run_1.sh (root)] --> OS[OS update + SSH hardening]
+  R1 --> User[Create user + sudo]
+  R1 --> Sec[Consolidated security]
+  R2[run_2.sh (non-root)] --> Deps[install_dependencies.sh]
+  R2 --> MEV[MEV selection + install]
+  R2 --> Clients[Execution + consensus install]
+```
 
-- `run_1.sh` -> `provision/*` + `hardening/*`
-- `exports.sh` -> `services/install_env.sh`
-- `select_clients.sh` -> future `clients/select.sh` (optional module)
-- `run_2.sh` -> `services/install_systemd_unit.sh` + client installers
+### Aztec dev toolchain flow (current behavior)
+```mermaid
+flowchart TD
+  S[setup-env.sh] --> Nargo[Install standard nargo]
+  S --> Docker[Optional Docker + aztec-nargo]
+  S --> Deps[Cache aztec-packages]
+  Smoke[smoke-test.sh] --> Unit[Run staking-math tests]
+  Smoke --> CLI[Aztec CLI checks]
+  Int[integration-test.sh] --> Devnet[Run TXE tests]
+```
 
-## Project Adapters
+## 6) Reuse & Boundaries
 
-- `staking/monad/infra/scripts/setup_server.sh`
-  - Calls shared provision + hardening modules.
-  - Keeps monad-specific config, binary install, and status endpoints.
-- Any ETH2 validator project adapter
-  - Uses shared modules plus client-specific installers.
+- **Reusable:** system hardening, systemd utilities, status endpoints, smoke tests.
+- **Chain‑specific:** client binaries/configs, MEV logic, role semantics (sequencer/prover/validator).
+- **Aztec validator roles:** not codified in current scripts; avoid assumptions until role scripts exist.
 
-## Standards
+## 7) Open Items (No Hallucinations)
 
-- Idempotent scripts (safe to rerun).
-- No destructive defaults (explicit flags for firewall/ssh changes).
-- Consistent env paths:
-  - `/etc/<project>/` for config
-  - `/opt/<project>/` for app
-  - `/var/log/<project>/` for logs
-
-## Risks / Open Questions
-
-- Licensing is unknown (no license metadata). Confirm before reuse.
-- Client install flows vary across chains (need adapter layer).
-- Ensure all scripts are non-destructive and reversible.
-
-## Roles by Chain (InfraKit Context)
-
-References:
-- Ethereum nodes & clients: https://ethereum.org/developers/docs/nodes-and-clients/
-- Monad docs: https://docs.monad.xyz/
-- Aztec docs: https://docs.aztec.network/
-
-InfraKit covers the shared ops layer. Chain-specific roles live in adapters:
-
-### Ethereum (L1, execution + consensus split)
-
-Typical installed components (4–6):
-- Execution client (e.g., Geth/Nethermind/Besu/Erigon)
-- Consensus client (e.g., Prysm/Lighthouse/Teku/Nimbus)
-- Validator client (often bundled with consensus)
-- MEV-Boost (economically near-mandatory for competitive rewards)
-- Systemd units + env files
-- Monitoring (metrics + status endpoints)
-
-### Monad (L1, monad-bft)
-
-Typical installed components (3–5):
-- `monad-bft` validator node binary
-- Config + validator keys
-- Systemd unit + env file
-- Monitoring (status endpoint + metrics)
-- Optional reverse proxy (Caddy/Nginx) for public status
-
-### Aztec (L2 rollup roles)
-
-Sequencer role (3–5):
-- Aztec sequencer node/daemon
-- L1 connectivity (Ethereum RPC + contract addresses)
-- Systemd unit + env file
-- Monitoring
-- Optional bundler/relayer tooling (operator-dependent)
-
-Prover role (4–6):
-- Prover daemon
-- Proving toolchain (Noir/aztec-nargo + proving artifacts)
-- Systemd unit + env file
-- High-spec compute dependencies (GPU/CPU tuned)
-- Monitoring
-- Optional worker orchestration for scaled proving
-
-Validator/committee role (2–4):
-- Validator node
-- Systemd unit + env file
-- Monitoring
-- Optional L1 watcher
-
-### MEV vs Proving (Economic Analogy)
-
-- Ethereum MEV is optional by protocol but **near-mandatory economically** for competitive rewards.
-- Aztec proving is **core production work** for rollup validity. Revenue is from protocol incentives/fees,
-  not extractable ordering like MEV.
-
-## Next Agent Handoff
-
-See:
-- `TASKS.md` for the execution checklist.
-- `PROMPTS.md` for staged handoff prompts.
+- Identify which Ethereum install scripts create systemd units (needs inspection).
+- Decide whether InfraKit should include a shared status server (Monad’s version is a good candidate).
+- Define Aztec production role scripts once available.

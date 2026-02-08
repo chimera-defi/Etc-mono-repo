@@ -1,13 +1,13 @@
-# InfraKit Prompts (Next Agent Handoff)
+# InfraKit Handoff Prompts
 
-## Prompt 1: License & Inventory
-"Check the eth2-quickstart repo licensing and inventory the core scripts. Map each script to a shared InfraKit module (provision, hardening, services, monitoring)."
+## 1) Verify Ethereum Install Scripts
+"Inspect eth2‑quickstart install scripts referenced by run_2.sh. Confirm whether systemd units are installed, which config paths are used, and document the exact steps in SPEC.md. Avoid assumptions."
 
-## Prompt 2: Shared Module Skeleton
-"Create `infra/shared/` with minimal, idempotent shell modules for base packages, user creation, SSH hardening, UFW firewall, sysctl tuning, and systemd/env installers. Keep modules chain-agnostic."
+## 2) Validate Monad Monitoring Stack
+"Review staking/monad/infra/monitoring and docker compose usage from bootstrap_all.sh. Confirm ports, services, and any required env vars; update SPEC.md and DESIGN.md accordingly."
 
-## Prompt 3: Adapter Refactor
-"Refactor `staking/monad/infra` scripts to call shared modules. Add adapter stubs for Ethereum (exec/cons + MEV-Boost) and Aztec (sequencer/prover) with placeholders for binaries/config."
+## 3) Aztec Sandbox E2E
+"Inspect staking/aztec/scripts/local-sandbox-e2e.sh to document exact flows and dependencies. Add a short, verified flow diagram to SPEC.md."
 
-## Prompt 4: Runbook + Validation
-"Add a shared runbook template with per-project overrides, a cross-adapter smoke test, and a VPS dry-run checklist. Verify rollback steps." 
+## 4) InfraKit Skeleton Proposal
+"Propose a skeleton layout for staking/infra-kit/ (shared primitives + adapters + runbooks). Keep naming consistent with InfraKit and ensure it matches existing script behaviors."
