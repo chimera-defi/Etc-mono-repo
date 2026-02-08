@@ -9,19 +9,19 @@ Key entrypoints (observed in repo):
 - `run_1.sh` (root): OS updates, SSH hardening, user creation, consolidated security setup.
 - `run_2.sh` (non‑root): dependency install, MEV selection, client selection + install.
 - `exports.sh`: shared config (user, ports, MEV relays, client settings).
-- `lib/common_functions.sh`: helper functions used by the above.
-- `install/` sub‑scripts referenced by `run_2.sh`, including:
-  - `install/utils/install_dependencies.sh`
-  - `install/execution/geth.sh`
-  - `install/consensus/prysm.sh`
-  - `install/mev/install_mev_boost.sh`
-  - `install/mev/install_commit_boost.sh`
-  - `install/mev/install_ethgas.sh`
-  - SSL/NGINX install scripts (referenced in comments).
+- `lib/common_functions.sh`: helper functions (systemd creation, firewall helpers, downloads).
+
+**Systemd creation (verified):**
+- `create_systemd_service()` writes `/etc/systemd/system/<name>.service` and enables/starts via `systemctl`.
+
+**Client install scripts (verified examples):**
+- `install/execution/geth.sh` creates systemd `eth1` service.
+- `install/consensus/prysm.sh` creates systemd `cl` (beacon) and `validator` services.
+- `install/mev/install_mev_boost.sh` creates systemd `mev` service.
 
 **Flow (verified by script content):**
 - Phase 1 (root): OS update → SSH hardening → user creation → consolidated security.
-- Phase 2 (non‑root): dependencies → MEV choice → client choice → install scripts.
+- Phase 2 (non‑root): dependencies → MEV choice → client choice → install scripts → systemd services.
 
 ### Monad infra (production scripts in this repo)
 Entry points and critical steps (verified):
@@ -37,6 +37,7 @@ These scripts are **developer toolchain and testing**, not validator ops:
 - `scripts/setup-env.sh`: installs standard `nargo`, optional `aztec-nargo` via Docker, caches aztec‑packages deps, optional compile.
 - `scripts/smoke-test.sh`: validates nargo + Aztec CLI + unit tests + optional sandbox E2E.
 - `scripts/integration-test.sh`: compile contracts + run tests against Aztec devnet container (TXE).
+- `scripts/local-sandbox-e2e.sh`: local sandbox deploy + end‑to‑end staking flow.
 
 ## 2) InfraKit Shared Primitives (Derived from Scripts)
 
@@ -114,6 +115,8 @@ flowchart TD
   R2[run_2.sh (non-root)] --> Deps[install_dependencies.sh]
   R2 --> MEV[MEV selection + install]
   R2 --> Clients[Execution + consensus install]
+  Clients --> Services[systemd services: eth1 / cl / validator]
+  MEV --> MevSvc[systemd service: mev]
 ```
 
 ### Aztec dev toolchain flow (current behavior)
@@ -124,7 +127,7 @@ flowchart TD
   S --> Deps[Cache aztec-packages]
   Smoke[smoke-test.sh] --> Unit[Run staking-math tests]
   Smoke --> CLI[Aztec CLI checks]
-  Int[integration-test.sh] --> Devnet[Run TXE tests]
+  Sandbox[local-sandbox-e2e.sh] --> Local[Local sandbox deploy + staking flow]
 ```
 
 ## 6) Reuse & Boundaries
@@ -135,6 +138,6 @@ flowchart TD
 
 ## 7) Open Items (No Hallucinations)
 
-- Identify which Ethereum install scripts create systemd units (needs inspection).
-- Decide whether InfraKit should include a shared status server (Monad’s version is a good candidate).
+- Inspect eth2‑quickstart security scripts for additional reusable primitives.
+- Decide whether the shared status server should be standard (Monad version is a candidate).
 - Define Aztec production role scripts once available.
