@@ -97,7 +97,9 @@ bun run validate-cards         # Twitter Card validation
 - `src/app/layout.tsx` - Global metadata
 - `scripts/generate-og-images.js` - OG image generator
 
-**OG Image workflow:** Add function to script → Run `npm run generate-og` → Add metadata to page → Commit PNG
+**OG Image workflow:** Add function to script → Run `bun run generate-og` → Add metadata to page → Commit PNG
+
+**Note:** Use `bun` by default for this project (prefer `bun` over `node`/`npm`).
 
 ## Verification Checklist
 
@@ -148,50 +150,20 @@ Before completing any task:
 
 ## Session Workflow
 
-### Starting a Session
-
 ```bash
-# 0. Sync with main
-git fetch origin
-git rebase origin/main
+# Start: sync with main
+git fetch origin && git rebase origin/main
 
-# 1. Token monitoring (optional but recommended)
-.cursor/token-monitor.sh init
+# Optional: token monitoring
+.cursor/token-monitor.sh init          # start
+.cursor/token-monitor.sh summary       # end
 
-# 2. Use QMD BM25 to find relevant files before reading
-qmd search "your topic" -n 5 --files
-
-# 3. Token reduction auto-active (no action needed)
-# Skill auto-invokes when you mention: tokens, efficiency, optimize, costs
-```
-
-### During Session
-
-**Token reduction is always active:**
-- Responses use concise patterns (no preambles)
-- QMD BM25 search before reading files (when available)
-- Targeted file reads (head/tail, not full files)
-- Parallel tool calls when possible
-
-**Manual invocation available:**
-```bash
-/token-reduce src/app.ts          # Analyze file
-/token-reduce wallets/frontend    # Analyze directory
-/token-reduce                     # Analyze conversation
-```
-
-### Ending a Session
-
-```bash
-# 1. Review token savings (if monitoring)
-.cursor/token-monitor.sh summary
-
-# 2. Clean up temporary files
+# End: cleanup + verify
 .cursor/cleanup-workspace.sh
-
-# 3. Verify quality
-npm run lint && npm run build && npm test
+bun run lint && bun run build && bun test
 ```
+
+Token reduction is always active (see Quick Start + `.cursorrules` Token Efficiency section).
 
 ## Common Commands
 
@@ -249,11 +221,3 @@ cd wallets/scripts && ./refresh-github-data.sh
 5. Verify theme works in both light and dark mode
 6. Test all interactive elements
 
-### Workflow Discipline
-- Always pull latest `main` and rebase before starting a new request.
-- Keep one task in one PR; do not split work across multiple PRs.
-- Always commit with a self-authored message and model attribution.
-- Store research sources in artifacts to preserve context.
-- Token reduction: use QMD first and avoid MCP CLI for filesystem reads (see benchmark doc).
-- Use Bun by default (prefer `bun` over `node`/`npm`).
-- Always do 2-3 quick passes for extra optimization ideas.

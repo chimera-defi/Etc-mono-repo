@@ -2,13 +2,9 @@
 
 > **Master rules:** `.cursorrules` | **Token efficiency:** `/token-reduce` skill | **Benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
 
-## Git Discipline (Required)
+## Git & Workflow
 
-- One task = one PR (keep all commits on a single PR branch)
-- Never push directly to `main` or `master`
-- Create a branch/worktree before changes
-- Always use a feature branch + PR
-- Enable hooks: `git config core.hooksPath .githooks`
+See `.cursorrules` **Git Discipline** and **Meta Learnings** sections for shared rules (PRs, rebasing, attribution, hooks).
 
 ## Projects
 
@@ -64,43 +60,28 @@ Unified birthday reminder application:
 ## Core Principles
 
 1. **Document exploration** - Capture findings extensively
-2. **Store research** - Use knowledge graph
+2. **Store research** - Use project artifacts
 3. **Prototype fast** - Rapid iteration
 4. **Track learnings** - Capture insights
 5. **Link concepts** - Connect related ideas
 
-## Search & Retrieval Patterns (Ideas-Specific)
+## Token Reduction
 
-**General patterns:** See `.cursor/TOKEN_REDUCTION.md`
+**Full guide:** `.cursor/TOKEN_REDUCTION.md` | **Skill:** `/token-reduce`
 
+**Ideas-specific searches:**
 ```bash
-# Scope first with rg
-rg -g "*.md" "SPEC" ideas/
-rg -g "*.md" "handoff" ideas/
-
-# Ranked snippets when you need discovery
-qmd search "idea validation" -n 5 --files
-qmd search "idea validation" -n 5
-
-# Targeted reads
-sed -n '1,160p' ideas/idea-validation-bot/README.md
+rg -g "*.md" "birthday bot" ideas/
+rg -g "*.ts" "speech recognition" ideas/
 ```
-
-## Token Reduction Bootstrap
-
-```bash
-command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
-```
-
-**Workflow:** Use QMD first for docs/notes, then targeted reads.
 
 ## Research Workflow
 
-1. **Query existing knowledge** - Check memory first
-2. **Explore structure** - Use directory_tree
-3. **Batch read** - Use read_multiple_files
-4. **Store findings** - create_entities immediately
-5. **Link concepts** - create_relations to connect ideas
+1. **Check existing knowledge** - Read project memory/artifacts first
+2. **Explore structure** - Use Glob/Grep (or sub-agents for >5 files)
+3. **Targeted reads** - Read with offset/limit, not full files
+4. **Store findings** - Write to project artifacts immediately
+5. **Link concepts** - Cross-reference related docs
 6. **Track dead ends** - Store what didn't work
 
 ## Knowledge to Store
@@ -117,35 +98,19 @@ command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
 ## Multi-Component Projects
 
 For projects like Cadence:
-
 ```bash
-# 1. Get overview
-rg --files -g "*" ideas/voice-coding-assistant | head -50
-
-# 2. Find common files
-rg --files -g "package.json" ideas/voice-coding-assistant
-
-# 3. Store component relationships
-qmd search "cadence" -n 5 --files
+rg --files -g "**/package.json" ideas/voice-coding-assistant/
+rg -g "*.ts" "import.*cadence" ideas/voice-coding-assistant/
 ```
 
 ## Best Practices
 
 1. Document everything - ideas evolve
-2. Store research immediately
-3. Link related concepts
-4. Track dead ends (prevent repeating mistakes)
-5. Iterate quickly with `rg` + QMD
+2. Store research in project artifacts
+3. Track dead ends (prevent repeating mistakes)
+4. Use scoped searches (`rg -g`) before broad reads
 
-## Meta Learnings
+## Ideas-Specific Learnings
 
-- Always commit changes with a self-chosen message; do not ask for one.
-- Always open a PR for changes; do not push directly to main.
 - Verify repo contents before answering status questions; inspect the tree first to avoid incorrect claims.
-- Always pull latest `main` and rebase your branch on `main` at the start of each new request.
-- After rebasing, force-push with lease if the branch diverges from the PR head.
-- Keep one task in one PR; do not create multiple PRs for the same request.
-- Record research inputs in `.cursor/artifacts/` or project artifacts to preserve source context.
-- Token reduction: use QMD BM25 + `rg -g`; avoid MCP CLI filesystem reads.
-- Use Bun by default (prefer `bun` over `node`/`npm`).
-- Always do 2-3 quick passes for extra optimization ideas.
+- Always commit with a self-chosen message; do not ask for one.

@@ -5,7 +5,7 @@ description: |
   Uses QMD BM25 search when available for fast local search (skip embed/vsearch/query — too slow).
   Use when: context limits, high costs, large codebases. Enforcement via .cursorrules.
 author: Claude Code
-version: 4.0.0
+version: 4.2.0
 argument-hint: [file-or-directory]
 disable-model-invocation: false
 allowed-tools:
@@ -31,44 +31,45 @@ Reduce context usage for `$ARGUMENTS` using targeted retrieval and short summari
 
 ## Process
 
-1. **Know the path/keyword?** Use `rg -g` scoped search first.
-2. **Need ranked snippets/paths?** Use QMD BM25 (`qmd search "topic" -n 5 --files`).
-3. **Need context from a large file?** Use head/tail/sed with line limits.
-4. If QMD is unavailable, fall back to `rg -g` or `git grep`.
-5. Avoid full reads >300 lines.
-6. Report: `Baseline → Optimized (X% saved)` and fixes.
+0. **Check QMD availability** (once per session):
+   ```bash
+   command -v qmd >/dev/null 2>&1 && qmd collection list 2>/dev/null | head -1
+   ```
+   If missing or no collection, skip QMD steps — use Grep/Glob directly.
 
-## Tool bootstrap (auto-install QMD if missing)
+1. **Know the file/keyword?** → `Grep` tool (scoped with `glob: "*.md"` or `type: "ts"`), then `Read` with `offset`/`limit`.
+2. **Need ranked snippets/paths?** → QMD BM25: `qmd search "topic" -n 5 --files`.
+3. **Large file (>300 lines)?** → `Read` with `offset` and `limit` params (not head/tail/sed).
+4. **Broad exploration (>5 files)?** → `Task(subagent_type="Explore")` to keep main context clean.
+5. Report: `Baseline → Optimized (X% saved)` and fixes.
+
+## QMD Reference (BM25 only — skip embed/vector)
 
 ```bash
+# Install if missing
 command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd
-```
 
-## QMD quickstart (BM25 only — skip embed/vector)
-
-```bash
-# One-time setup (2 seconds, no model downloads needed)
+# One-time collection setup (2s, no model downloads)
 qmd collection add /path/to/repo --name my-repo
 
-# Find files by keyword (700ms-2.7s)
-qmd search "topic" -n 5 --files
-
-# Get ranked snippets
-qmd search "topic" -n 5
-
-# Read specific file section
-qmd get filename.md -l 50 --from 100
+# Search (700ms-2.7s)
+qmd search "topic" -n 5 --files    # paths + scores
+qmd search "topic" -n 5            # ranked snippets
+qmd get filename.md -l 50 --from 100  # file section
 ```
 
-**Do NOT use:** `qmd embed` (11 min), `qmd vsearch` (15-111s/query), `qmd query` (105-175s/query)
+**Skip:** `qmd embed` (11 min), `qmd vsearch` (15-111s), `qmd query` (105-175s)
 
 ## Anti-patterns flagged
 
 - Restating requests
-- Narrating tool usage
-- Reading entire files
+- Narrating tool usage ("Let me read the file...")
+- Reading entire files (use offset/limit for >300 lines)
 - Re-researching stored knowledge
+- Re-reading the same file in one session (unless it changed)
+- Per-file commentary instead of a single summary
 - Using MCP CLI for file reads (117% more tokens due to JSON)
+- Using Bash for file ops when Read/Grep/Glob exist
 
 ## Usage
 
