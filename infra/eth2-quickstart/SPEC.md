@@ -1,5 +1,27 @@
 # InfraKit Integration Spec (ETH2 Quickstart)
 
+## Architecture (High Level)
+
+```
+           +---------------------------+
+           |       InfraKit Core       |
+           | shared modules (shell/py) |
+           +-------------+-------------+
+                         |
+        +----------------+----------------+
+        |                                 |
+ +------v------+                  +------v------+
+ | Ethereum    |                  | Monad       |
+ | adapter     |                  | adapter     |
+ +-------------+                  +-------------+
+        |                                 |
+        +----------------+----------------+
+                         |
+                 +-------v-------+
+                 | Aztec adapter |
+                 +---------------+
+```
+
 ## Architecture
 
 ```
@@ -137,3 +159,9 @@ Validator/committee role (2–4):
 - Ethereum MEV is optional by protocol but **near-mandatory economically** for competitive rewards.
 - Aztec proving is **core production work** for rollup validity. Revenue is from protocol incentives/fees,
   not extractable ordering like MEV.
+
+## Next Agent Handoff
+
+See:
+- `TASKS.md` for the execution checklist.
+- `PROMPTS.md` for staged handoff prompts.
