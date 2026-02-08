@@ -1,6 +1,6 @@
 # Clawdbot Launchpad Task List
 
-**Status**: Draft | **Last Updated**: Feb 5, 2026
+**Status**: Draft | **Last Updated**: Feb 7, 2026
 
 ## Milestones
 
@@ -49,6 +49,7 @@
 - Deployment service + lifecycle API.
 - Provisioning queue + workers.
 - Audit log for admin actions.
+- Referral credits ledger + redemption rules (if shipping tokenized credits in MVP).
 
 **Frontend / Dashboard**
 - Landing page + pricing.

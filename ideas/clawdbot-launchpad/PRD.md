@@ -1,6 +1,6 @@
 # Clawdbot Launchpad PRD
 
-**Status**: Draft | **Last Updated**: Feb 5, 2026 | **Owner**: TBD
+**Status**: Draft | **Last Updated**: Feb 7, 2026 | **Owner**: TBD
 
 ## Problem
 
@@ -140,7 +140,7 @@ Migration is an explicit go-to-market wedge:
 
 ## Dependencies
 
-1. Upstream repo confirmed: openclaw/openclaw (MIT).
+1. Upstream repo + license to confirm (candidate: `openclaw/openclaw`, MIT — verify).
 2. Cloud provider selection for MVP.
 3. Container registry + signing pipeline.
 4. Billing provider (Stripe) integration.

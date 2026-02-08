@@ -1,6 +1,6 @@
 # Clawdbot Launchpad
 
-**Status**: Research Phase | **Last Updated**: Feb 5, 2026
+**Status**: Research Phase | **Last Updated**: Feb 7, 2026
 
 ## Problem Statement
 
@@ -35,12 +35,12 @@ Create a paid "launchpad" that provisions a secure, persistent runtime (VPS or d
 
 ### Research Snapshot (GitHub, Feb 2026)
 
-- [openclaw/openclaw](https://github.com/openclaw/openclaw) - Likely canonical OpenClaw repo (~164k stars).
-- [cloudflare/moltworker](https://github.com/cloudflare/moltworker) - OpenClaw running on Cloudflare Workers (~7.7k stars).
-- [miaoxworld/OpenClawInstaller](https://github.com/miaoxworld/OpenClawInstaller) - One-click OpenClaw installer (~1.2k stars).
-- [liam798/docker-openclawd](https://github.com/liam798/docker-openclawd) - One-click Docker deployment for OpenClawd/Clawdbot (~6 stars).
-- [VoltAgent/awesome-openclaw-skills](https://github.com/VoltAgent/awesome-openclaw-skills) - Ecosystem list (~9.1k stars).
-- [m1heng/clawdbot-feishu](https://github.com/m1heng/clawdbot-feishu) - Clawdbot integration (~2.4k stars).
+- [openclaw/openclaw](https://github.com/openclaw/openclaw) - Likely canonical OpenClaw repo (verify stars/license).
+- [cloudflare/moltworker](https://github.com/cloudflare/moltworker) - OpenClaw running on Cloudflare Workers (verify runtime fit).
+- [miaoxworld/OpenClawInstaller](https://github.com/miaoxworld/OpenClawInstaller) - One-click OpenClaw installer (unlicensed signal in notes; avoid bundling).
+- [liam798/docker-openclawd](https://github.com/liam798/docker-openclawd) - Docker deployment for OpenClawd/Clawdbot.
+- [VoltAgent/awesome-openclaw-skills](https://github.com/VoltAgent/awesome-openclaw-skills) - Ecosystem list.
+- [m1heng/clawdbot-feishu](https://github.com/m1heng/clawdbot-feishu) - Integration example.
 
 **What this suggests**:
 - There is a large, active OpenClaw ecosystem with multiple deployment options.

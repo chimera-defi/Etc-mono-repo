@@ -1,6 +1,6 @@
 # Clawdbot Launchpad Technical Spec
 
-**Status**: Draft | **Last Updated**: Feb 5, 2026 | **Owner**: TBD
+**Status**: Draft | **Last Updated**: Feb 7, 2026 | **Owner**: TBD
 
 ## System Overview
 
@@ -8,7 +8,7 @@ Clawdbot Launchpad is a multi-tenant control plane that provisions and manages C
 
 ## Deployment Paths (Concrete Defaults)
 
-**Upstream**: openclaw/openclaw (MIT).
+**Upstream**: candidate `openclaw/openclaw` (MIT — verify canonical repo + license).
 
 ## Infra Primitive Clarification (Hosting vs Workspaces)
 
@@ -77,6 +77,14 @@ User -> Web App -> Control Plane API -> Provisioning Queue -> Workers
 3. `deployments` (runtime config, status)
 4. `runtime_instances` (cluster/VPS metadata)
 5. `secrets` (encrypted payload + metadata)
+
+### Referral Credits Ledger (Optional in MVP, recommended for GTM)
+
+If we run “tokenized credits” referrals in MVP, model them explicitly:
+- `credits_ledger` (account_id, source, amount, currency="credits", created_at, expires_at, metadata)
+- `credits_redemptions` (account_id, amount, applied_to_invoice_id, created_at, metadata)
+
+**Rules**: non-transferable by default, capped, anti-abuse checks, and auditable.
 
 ### Configuration as a First-Class Object (MVP Requirement)
 
