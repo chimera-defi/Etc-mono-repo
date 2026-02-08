@@ -1,6 +1,6 @@
 # Clawdbot Launchpad Research Notes
 
-**Status**: Draft | **Last Updated**: Feb 5, 2026
+**Status**: Draft | **Last Updated**: Feb 8, 2026
 
 ## Upstream Repos and License Signals (GitHub)
 
@@ -24,6 +24,43 @@
 | Hetzner (k3s + managed DB) | Lowest cost, high margins | More ops burden, fewer managed services | Cost-sensitive MVP |
 
 **Recommendation**: If ops headcount is small, choose managed services (AWS or DO).
+
+### Daytona (daytona.io) Evaluation (Redo)
+
+**Key clarification**: Daytona is primarily a **developer workspace** platform (create isolated “workspaces” from a repo and run commands inside them). That maps extremely well to **ephemeral compute** (build/test/repro/support sandboxes), but it is not obviously the right primitive for **persistent, customer-facing bot hosting**.
+
+#### Where Daytona *does* fit Launchpad
+
+- **Build & release pipeline sandboxes**: reproducible environments to build Clawdbot/Moltbot images, run integration tests, and generate SBOMs.
+- **Support “repro workspace”** (internal-only): spin up a sealed environment using a customer’s sanitized config snapshot to reproduce bugs without touching prod.
+- **Safe plugin/skill validation** (if Launchpad ever supports user-provided skills): execute untrusted code in a tightly sandboxed workspace with strict egress rules.
+
+#### Where Daytona is risky as the *data plane* (hosting bots)
+
+To host bots for paying customers, the platform needs: always-on processes, stable ingress, per-tenant volumes, quotas, egress control, secrets injection/rotation, audit logs, and strong multi-tenant isolation.
+
+Daytona may support some of these depending on how it is deployed (e.g., on Kubernetes), but using it as the primary hosting substrate introduces uncertainty and extra glue:
+
+- **Always-on semantics**: workspaces are designed for “dev sessions”, not necessarily 24/7 daemons with uptime SLOs.
+- **Ingress & routing**: customer-friendly subdomains/custom domains + TLS + rate limits are core hosting needs; Daytona’s port-forwarding model may not match.
+- **Multi-tenant controls**: strict per-tenant isolation, network policies, and noisy-neighbor protections must be first-class, not bolted on.
+- **Secrets lifecycle**: “customer secrets” need KMS-backed storage, short-lived injection, rotation, and audit trails.
+- **Billing → enforcement**: suspend/resume, quota enforcement, and metering need to be deterministic and supportable.
+
+**Conclusion (current)**:
+- **Use Daytona for internal ephemeral environments** (build/repro/validation) if it saves time.
+- **Do not bet Launchpad production hosting on Daytona** unless a small POC proves: persistent volumes, stable ingress, hard multi-tenant isolation, and operational hooks (health checks, restarts, autoscaling, auditability).
+
+#### Minimal POC to validate Daytona (1–2 days)
+
+- Provision Daytona on a small Kubernetes cluster.
+- Create 3 “tenant” workspaces from a template that runs a long-lived process.
+- Verify:
+  - **Persistence**: per-tenant volume survives restart and upgrade.
+  - **Stability**: workspace stays up 24h without manual intervention.
+  - **Ingress**: stable HTTPS endpoint per workspace with routing you control (not developer port-forward UX).
+  - **Isolation**: CPU/mem quotas, network egress restrictions, and tenant separation.
+  - **Ops hooks**: restart, upgrade, log collection, health check.
 
 ### 1a) SaaS/PaaS Hosting Options (Managed)
 
