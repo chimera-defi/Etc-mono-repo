@@ -39,3 +39,5 @@ Phase 1 uses the repo as the control plane. A hosted API/UI is optional later.
 - `DECISIONS.md` — key decisions and rationale.
 - `PRD.md` — product requirements (problem/solution/MVP).
 - `CONTEXT.md` — scratchpad for research notes and open questions.
+- `MASTER_PROMPT.md` — research→design master prompt.
+- `META_ENGINEERING.md` — prompt structure + anti‑hallucination rules.
