@@ -217,6 +217,7 @@ Upsell paths: paid support, custom domains, scheduled backups, higher uptime SLA
 ## Current Decision Log
 
 - See `DECISIONS.md` for what is decided vs open.
+- See `ARCHITECTURE_DIAGRAMS.md` for human-friendly system diagrams.
 
 ---
 
