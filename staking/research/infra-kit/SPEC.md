@@ -26,6 +26,10 @@ Key entrypoints (observed in repo):
 - `install/web/install_caddy.sh`: installs Caddy with auto‑HTTPS + hardening.
 - `install/web/install_caddy_ssl.sh`: uses manual SSL certs for Caddy (Let’s Encrypt path).
 
+**SSL issuance scripts (verified):**
+- `install/ssl/install_ssl_certbot.sh`: installs NGINX, runs certbot manual DNS challenge, then `install_nginx_ssl.sh`.
+- `install/ssl/install_acme_ssl.sh`: installs NGINX, runs acme.sh issuance, then `install_nginx_ssl.sh`.
+
 **Flow (verified by script content):**
 - Phase 1 (root): OS update → SSH hardening → user creation → consolidated security.
 - Phase 2 (non‑root): dependencies → MEV choice → client choice → install scripts → systemd services.
@@ -128,6 +132,7 @@ flowchart TD
   Clients --> Services[systemd services: eth1 / cl / validator]
   MEV --> MevSvc[systemd service: mev]
   R2 --> Web[install_nginx.sh or install_caddy.sh (optional)]
+  Web --> SSL[install_ssl_certbot.sh or install_acme_ssl.sh (optional)]
 ```
 
 ### Aztec dev toolchain flow (current behavior)
@@ -149,6 +154,5 @@ flowchart TD
 
 ## 7) Open Items (No Hallucinations)
 
-- Confirm certbot/acme SSL install scripts and any required cron/timers.
 - Decide whether the shared status server should be standard (Monad version is a candidate).
 - Define Aztec production role scripts once available.
