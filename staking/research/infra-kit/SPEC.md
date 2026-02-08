@@ -79,10 +79,17 @@ Adapter responsibilities based on existing scripts:
 - Keep `monad-bft` binary/config install and validator service as Monad‑specific.
 - Keep status endpoint as the default shared pattern (can be reused as a shared primitive).
 
+### Shared software (Ethereum ↔ Monad)
+Based on current scripts, **shared software is operational tooling**, not protocol clients:
+- OS/hardening packages, systemd helpers, firewall, monitoring/status endpoints.
+- Optional web proxy (NGINX/Caddy) for RPC exposure.
+No shared consensus/execution software is used across Ethereum and Monad in the scripts reviewed.
+
 ### Aztec
 Current scripts are dev/test tooling, not validator‑role operations.
 - InfraKit can reuse **testing scaffolding** patterns (env setup, smoke tests).
 - **Validator/sequencer/prover ops** are TBD until production role scripts exist.
+Aztec scripts in this repo do **not** require running an Ethereum validator; they use a local sandbox or Aztec CLI.
 
 ## 4) Proposed Layout (Target, Not Yet Implemented)
 
@@ -107,20 +114,6 @@ staking/
 ## 5) Adapter Flows (Verified)
 
 ### Monad adapter flow (current behavior)
-```mermaid
-flowchart TD
-  A[setup_server.sh] --> B[create_monad_user.sh]
-  A --> C[install_validator_binary.sh (optional)]
-  A --> D[install_sysctl.sh]
-  A --> E[install_validator_service.sh]
-  A --> F[install_status_service.sh]
-  A --> G{with-caddy?}
-  A --> H{with-firewall?}
-  A --> I[preflight_check.sh]
-  A --> J[e2e_smoke_test.sh]
-```
-
-ASCII fallback:
 ```
 setup_server.sh
   -> create_monad_user.sh
@@ -134,21 +127,6 @@ setup_server.sh
 ```
 
 ### Ethereum quickstart flow (current behavior)
-```mermaid
-flowchart TD
-  R1[run_1.sh (root)] --> OS[OS update + SSH hardening]
-  R1 --> User[Create user + sudo]
-  R1 --> Sec[Consolidated security]
-  R2[run_2.sh (non-root)] --> Deps[install_dependencies.sh]
-  R2 --> MEV[MEV selection + install]
-  R2 --> Clients[Execution + consensus install]
-  Clients --> Services[systemd services: eth1 / cl / validator]
-  MEV --> MevSvc[systemd service: mev]
-  R2 --> Web[install_nginx.sh or install_caddy.sh (optional)]
-  Web --> SSL[install_ssl_certbot.sh or install_acme_ssl.sh (optional)]
-```
-
-ASCII fallback:
 ```
 run_1.sh (root)
   -> OS update + SSH hardening
@@ -163,17 +141,6 @@ run_2.sh (non-root)
 ```
 
 ### Aztec dev toolchain flow (current behavior)
-```mermaid
-flowchart TD
-  S[setup-env.sh] --> Nargo[Install standard nargo]
-  S --> Docker[Optional Docker + aztec-nargo]
-  S --> Deps[Cache aztec-packages]
-  Smoke[smoke-test.sh] --> Unit[Run staking-math tests]
-  Smoke --> CLI[Aztec CLI checks]
-  Sandbox[local-sandbox-e2e.sh] --> Local[Local sandbox deploy + staking flow]
-```
-
-ASCII fallback:
 ```
 setup-env.sh
   -> standard nargo
