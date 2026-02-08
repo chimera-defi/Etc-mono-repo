@@ -1,30 +1,38 @@
 # InfraKit Design (Concise)
 
 ## One‑Sentence Summary
-InfraKit is a shell‑first, shared infra kit that standardizes validator server setup (provisioning, hardening, services, monitoring) across chains, with thin chain‑specific adapters.
+InfraKit is a **shared staking infra layer** that standardizes server setup and operations across chains using shared shell primitives plus thin chain adapters.
 
 ## What It Is (MVP)
-- A **repo of scripts + runbooks** (not a hosted control plane).
-- **Shared primitives** for common ops tasks.
-- **Adapters** that stitch primitives into chain‑specific flows.
+- A **repository‑based control plane** (scripts + runbooks).
+- **Shared primitives** for provisioning, hardening, services, monitoring.
+- **Adapters** for chain‑specific installs/configs.
 
 ## What It Is Not (Yet)
-- No central UI/control plane service.
-- No Kubernetes orchestration (future optional phase).
-- No single “one‑size‑fits‑all” validator client install logic.
+- No hosted central UI/API control plane (optional future phase).
+- No Kubernetes orchestration (optional future phase).
 
 ## Top‑Level Architecture (Human Review)
 
 ```mermaid
 flowchart TB
-  Operator[Operator / DevOps] -->|runs| Adapter[Chain Adapter Script]
+  Operator[Operator / DevOps] --> Adapter[Chain Adapter Script]
+
   Adapter --> Shared[InfraKit Shared Primitives]
   Shared --> Host[Server OS]
-  Host --> Services[systemd services]
-  Services --> Node[Validator / Node Process]
-  Services --> Status[Status endpoint / health checks]
 
-  subgraph InfraKit Repo
+  Host --> EthStack[ETH L1 Stack
+Execution + Consensus + MEV]
+  Host --> MonadStack[Monad Stack
+monad-bft + configs]
+  Host --> AztecStack[Aztec Stack
+(dev/test now; prod roles TBD)]
+
+  EthStack --> EthServices[systemd units + env]
+  MonadStack --> MonadServices[systemd units + env]
+  AztecStack --> AztecServices[toolchain/tests now]
+
+  subgraph InfraKit Repo (MVP control plane)
     Adapter
     Shared
     Runbook[Runbooks / Checklists]
@@ -44,14 +52,14 @@ flowchart TB
 
 ## Reuse Strategy (80/20)
 - **Shared 80%:** OS updates, SSH hardening, firewall, fail2ban, sysctl, systemd install helpers, status/health endpoints.
-- **Adapter 20%:** chain binaries, configs, ports, RPC/metrics checks, role-specific steps.
+- **Adapter 20%:** chain binaries, configs, ports, RPC/metrics checks, role‑specific steps.
 
 ## Minimal Extensible Product (MEP)
 1) Shared primitives (shell + small Python helpers).
-2) One adapter per chain/role (Monad validator, Ethereum L1 validator, Aztec roles when finalized).
+2) One adapter per chain/role (Ethereum L1, Monad validator; Aztec dev tooling).
 3) A runbook + smoke test per adapter.
 
 ## Evolution Path
 - **Phase 1:** Shell/systemd (current target).
 - **Phase 2:** Container‑friendly wrappers (same primitives).
-- **Phase 3:** Optional orchestration (Kubernetes or control plane).
+- **Phase 3:** Optional orchestration (Kubernetes or hosted control plane).
