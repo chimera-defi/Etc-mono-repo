@@ -86,6 +86,22 @@ Input: chain choice + config (ports, keys, RPC)
 Output: running validator node + runbook
 ```
 
+## Adapter vs Shared Boundary (Quick View)
+```
+Shared primitives:
+  - OS updates, packages
+  - SSH hardening, firewall, fail2ban, sysctl
+  - systemd unit helpers, env files
+  - status/health checks
+  - web proxy + SSL helpers (optional)
+
+Adapters:
+  - client binaries + configs
+  - chain ports/flags
+  - MEV/relay config (Ethereum)
+  - role‑specific steps
+```
+
 ## Technologies (Current, Script‑Grounded)
 - **OS:** Ubuntu (assumed by scripts).
 - **Service manager:** systemd.
