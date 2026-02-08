@@ -75,6 +75,17 @@ runbooks/
   ethereum.md, monad.md, aztec-dev.md
 ```
 
+## Data/Control Flow (Ops Sequence)
+```
+Input: chain choice + config (ports, keys, RPC)
+  -> Adapter selects chain steps
+  -> Shared primitives apply OS + hardening
+  -> Services installed (systemd + env)
+  -> Optional web proxy + SSL
+  -> Health checks + status endpoint
+Output: running validator node + runbook
+```
+
 ## Technologies (Current, Script‑Grounded)
 - **OS:** Ubuntu (assumed by scripts).
 - **Service manager:** systemd.
