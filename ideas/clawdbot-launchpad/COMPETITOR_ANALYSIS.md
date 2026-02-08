@@ -1,6 +1,6 @@
 # Clawdbot Launchpad Competitor & Substitute Analysis
 
-**Last Updated**: Feb 7, 2026
+**Last Updated**: Feb 8, 2026
 
 Launchpad’s real competitors are mostly **substitutes**: generic PaaS, self-host PaaS-on-a-VPS, bot hosts, and “one-click” installers. The opportunity is to be **opinionated + bot-specific** with a configuration-first UX, safe upgrades/rollback, and migration.
 

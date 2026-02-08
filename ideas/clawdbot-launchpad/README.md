@@ -1,6 +1,6 @@
 # Clawdbot Launchpad
 
-**Status**: Research Phase | **Last Updated**: Feb 7, 2026
+**Status**: Research Phase | **Last Updated**: Feb 8, 2026
 
 ## Problem Statement
 
@@ -213,6 +213,10 @@ Upsell paths: paid support, custom domains, scheduled backups, higher uptime SLA
 2. Run a 10-user paid pilot
 3. Measure retention and support costs
 4. Decide MVP scope and provider
+
+## Current Decision Log
+
+- See `DECISIONS.md` for what is decided vs open.
 
 ---
 

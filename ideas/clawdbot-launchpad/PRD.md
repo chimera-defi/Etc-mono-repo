@@ -1,6 +1,6 @@
 # Clawdbot Launchpad PRD
 
-**Status**: Draft | **Last Updated**: Feb 7, 2026 | **Owner**: TBD
+**Status**: Draft | **Last Updated**: Feb 8, 2026 | **Owner**: TBD
 
 ## Problem
 
@@ -107,7 +107,7 @@ Migration is an explicit go-to-market wedge:
 2. Provisioning workflow with status updates.
 3. Dashboard for logs, restart, update actions.
 4. Secret injection for API keys and configs.
-5. Cancelation with cleanup and data retention rules.
+5. Cancellation with cleanup and data retention rules.
 
 ## Non-Functional Requirements
 

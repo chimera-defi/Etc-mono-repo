@@ -1,6 +1,6 @@
 # Clawdbot Launchpad Task List
 
-**Status**: Draft | **Last Updated**: Feb 7, 2026
+**Status**: Draft | **Last Updated**: Feb 8, 2026
 
 ## Milestones
 
@@ -20,6 +20,7 @@
 - Define “one-click” success criteria (wizard steps + health checks).
 - Decide migration packaging (price vs bundled; concierge scope).
 - Decide referral credits rules (caps, eligibility, abuse controls).
+- Publish `DECISIONS.md` as the canonical “decided vs open” page (keep updated weekly).
 
 **Technical**
 - Choose cloud provider.
