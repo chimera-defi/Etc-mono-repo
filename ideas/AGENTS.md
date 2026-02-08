@@ -6,6 +6,10 @@
 
 See `.cursorrules` **Git Discipline** and **Meta Learnings** sections for shared rules (PRs, rebasing, attribution, hooks).
 
+Quick reminder for Ideas PRs:
+- `**Agent:**` in PR descriptions must match the **actual model used** (don’t copy example model names).
+- `**Co-authored-by:**` in PR descriptions should be the **human** (Chimera).
+
 ## Projects
 
 ### Voice Coding Assistant (Cadence) - 🧪 Prototype

@@ -1,6 +1,6 @@
 # Clawdbot Launchpad Task List
 
-**Status**: Draft | **Last Updated**: Feb 5, 2026
+**Status**: Draft | **Last Updated**: Feb 8, 2026
 
 ## Milestones
 
@@ -17,12 +17,20 @@
 - Decide pricing and trial policy.
 - Define MVP scope and success metrics.
 - Draft ToS and privacy notes.
+- Define “one-click” success criteria (wizard steps + health checks).
+- Decide migration packaging (price vs bundled; concierge scope).
+- Decide referral credits rules (caps, eligibility, abuse controls).
+- Publish `DECISIONS.md` as the canonical “decided vs open” page (keep updated weekly).
 
 **Technical**
 - Choose cloud provider.
 - Choose orchestrator (K8s/ECS/Nomad).
 - Select secrets manager + KMS.
 - Define log retention policy.
+
+**Infra validation (redo)**
+- Validate “production hosting” substrate (ECS/Fargate vs managed K8s vs VPS-per-tenant) with a minimal deploy+update+logs flow.
+- Validate “ephemeral workspace” substrate (Daytona) for internal build/repro workflows.
 
 ## Phase 0b - Pilot Build (Week 0-1)
 
@@ -42,6 +50,7 @@
 - Deployment service + lifecycle API.
 - Provisioning queue + workers.
 - Audit log for admin actions.
+- Referral credits ledger + redemption rules (if shipping tokenized credits in MVP).
 
 **Frontend / Dashboard**
 - Landing page + pricing.
@@ -49,6 +58,9 @@
 - Deployment status view.
 - Logs and restart actions.
 - Settings (plan, cancel).
+- Install wizard UX (keys validation, test action, health check, ready state).
+- Upgrade UX with release notes + rollback button.
+- Diagnostics bundle download/share flow (sanitized).
 
 **Runtime / Infra**
 - Shared container cluster setup.
@@ -56,6 +68,13 @@
 - Image registry + signing pipeline.
 - Secrets injection workflow.
 - Log aggregation and metrics.
+
+**Daytona (optional, non-prod)**
+- POC: deploy Daytona on a small K8s cluster.
+- Template a workspace that runs a long-lived process + writes to a mounted volume.
+- Add egress restrictions test (deny-by-default + allowlist).
+- Export logs/artifacts from workspace to object storage.
+- Decide: keep as internal tooling vs drop.
 
 **Security**
 - Threat model + risk register.
@@ -70,6 +89,7 @@
 - Backup of config + secrets.
 - On-call + support workflow.
 - Pilot onboarding checklist.
+- Migration runbook + cutover/rollback checklist.
 
 ## Phase 2 - Expansion (Weeks 7-10)
 

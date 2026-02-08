@@ -57,7 +57,7 @@
 
 **Template:**
 ```markdown
-**Agent:** Claude Opus 4.5
+**Agent:** <MODEL NAME> <!-- e.g., GPT-5.2, GPT-4o, Claude Opus 4.5 -->
 
 ## Summary
 Brief description.
