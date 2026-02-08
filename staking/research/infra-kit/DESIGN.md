@@ -50,6 +50,50 @@ flowchart TB
   C --> D[Chain Binaries & Config]
 ```
 
+## Dependency Graph (Conceptual)
+
+```mermaid
+flowchart LR
+  Provision --> Hardening --> Services --> Monitoring
+  Provision --> Services
+  Hardening --> Monitoring
+  Services --> HealthChecks
+```
+
+## Proposed File Tree (Future `staking/infra-kit/`)
+
+```text
+staking/infra-kit/
+  shared/
+    provision/
+      base_packages.sh
+      create_user.sh
+    hardening/
+      harden_ssh.sh
+      firewall_ufw.sh
+      fail2ban.sh
+      sysctl.sh
+    services/
+      install_systemd.sh
+      install_env.sh
+    monitoring/
+      status_server.py
+      check_rpc.sh
+      uptime_probe.sh
+  adapters/
+    ethereum/
+      run_1_adapter.sh
+      run_2_adapter.sh
+    monad/
+      setup_server_adapter.sh
+    aztec/
+      dev_tooling_adapter.sh
+  runbooks/
+    ethereum.md
+    monad.md
+    aztec-dev.md
+```
+
 ## Reuse Strategy (80/20)
 - **Shared 80%:** OS updates, SSH hardening, firewall, fail2ban, sysctl, systemd install helpers, status/health endpoints.
 - **Adapter 20%:** chain binaries, configs, ports, RPC/metrics checks, role‑specific steps.
