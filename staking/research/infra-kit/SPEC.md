@@ -1,4 +1,4 @@
-# InfraKit Integration Spec (ETH2 Quickstart)
+# InfraKit Integration Spec (Shared Control Plane)
 
 ## Architecture (High Level)
 
@@ -42,7 +42,7 @@ infra/
       status_server.py
       check_rpc.sh
       uptime_probe.sh
-  eth2-quickstart/
+  infra-kit/
     README.md
     PLAN.md
     SPEC.md

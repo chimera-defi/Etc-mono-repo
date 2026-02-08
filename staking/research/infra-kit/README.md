@@ -1,8 +1,8 @@
-# InfraKit: Shared Infra Control Plane (ETH2 Quickstart Integration)
+# InfraKit: Shared Infra Control Plane
 
-This folder tracks the plan/spec to reuse the eth2-quickstart scripts as a shared
-infra layer for staking + related projects, under the shared control-plane name
-**InfraKit**.
+This folder defines the shared infra control plane for staking and validator
+operations across chains (Ethereum, Monad, Aztec, etc.). It starts by reusing
+selected eth2-quickstart scripts, but is chain-agnostic and extensible.
 
 Source site: https://eth2quickstart.com/
 Source repo (default branch `master`): https://github.com/chimera-defi/eth2-quickstart
