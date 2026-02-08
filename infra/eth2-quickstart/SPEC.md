@@ -89,6 +89,51 @@ References:
 - Aztec docs: https://docs.aztec.network/
 
 InfraKit covers the shared ops layer. Chain-specific roles live in adapters:
-- **Ethereum:** execution + consensus client services, validator key management.
-- **Monad:** monad-bft validator + RPC; single L1 stack.
-- **Aztec:** rollup roles (sequencer/prover/committee) and proving pipeline.
+
+### Ethereum (L1, execution + consensus split)
+
+Typical installed components (4–6):
+- Execution client (e.g., Geth/Nethermind/Besu/Erigon)
+- Consensus client (e.g., Prysm/Lighthouse/Teku/Nimbus)
+- Validator client (often bundled with consensus)
+- MEV-Boost (economically near-mandatory for competitive rewards)
+- Systemd units + env files
+- Monitoring (metrics + status endpoints)
+
+### Monad (L1, monad-bft)
+
+Typical installed components (3–5):
+- `monad-bft` validator node binary
+- Config + validator keys
+- Systemd unit + env file
+- Monitoring (status endpoint + metrics)
+- Optional reverse proxy (Caddy/Nginx) for public status
+
+### Aztec (L2 rollup roles)
+
+Sequencer role (3–5):
+- Aztec sequencer node/daemon
+- L1 connectivity (Ethereum RPC + contract addresses)
+- Systemd unit + env file
+- Monitoring
+- Optional bundler/relayer tooling (operator-dependent)
+
+Prover role (4–6):
+- Prover daemon
+- Proving toolchain (Noir/aztec-nargo + proving artifacts)
+- Systemd unit + env file
+- High-spec compute dependencies (GPU/CPU tuned)
+- Monitoring
+- Optional worker orchestration for scaled proving
+
+Validator/committee role (2–4):
+- Validator node
+- Systemd unit + env file
+- Monitoring
+- Optional L1 watcher
+
+### MEV vs Proving (Economic Analogy)
+
+- Ethereum MEV is optional by protocol but **near-mandatory economically** for competitive rewards.
+- Aztec proving is **core production work** for rollup validity. Revenue is from protocol incentives/fees,
+  not extractable ordering like MEV.
