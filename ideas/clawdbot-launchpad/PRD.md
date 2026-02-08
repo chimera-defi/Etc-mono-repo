@@ -1,6 +1,6 @@
 # Clawdbot Launchpad PRD
 
-**Status**: Draft | **Last Updated**: Feb 5, 2026 | **Owner**: TBD
+**Status**: Draft | **Last Updated**: Feb 8, 2026 | **Owner**: TBD
 
 ## Problem
 
@@ -34,11 +34,32 @@ Clawdbot/Moltbot adoption stalls because users must set up, secure, and maintain
 - Reliable uptime without infrastructure knowledge.
 - Clear pricing with an upgrade path for higher tiers.
 
+## Configuration UX (MVP Definition)
+
+Launchpad’s moat is the **configuration UX**, not raw hosting. “One-click” should mean:
+- Guided install wizard (keys validated, safe defaults, test action, health checks).
+- A versioned config object per deployment (diff before apply, last-known-good).
+- Safe upgrades from the UI (release notes + rollback).
+
+## Migration (Primary Early Offer)
+
+Migration is an explicit go-to-market wedge:
+- Self-serve import (sanitized config + data export) with a dry-run boot.
+- Concierge migration (paid or bundled) for Pro/Team tiers.
+- Cutover gated by automated checks; rollback plan documented.
+
+## Distribution (Tokenized Credits)
+
+“Tokens” are implemented as **off-chain referral credits** in the billing ledger:
+- Referrers earn credits redeemable for free months/upgrades/migration fees.
+- Referred users receive a first-month discount or migration credit.
+- Credits are capped + abuse-protected; not a tradable crypto token in MVP.
+
 ## User Journeys (MVP)
 
 1. Visit landing page -> choose plan -> checkout.
-2. Connect keys/secrets -> deploy -> see "ready" status.
-3. View logs -> restart or update -> confirm health.
+2. Guided setup wizard -> connect keys/secrets -> deploy -> run test -> see "ready" status.
+3. View logs/diagnostics -> restart -> confirm health.
 4. Upgrade plan -> migrate runtime -> keep data.
 
 ## MVP Scope
@@ -65,12 +86,20 @@ Clawdbot/Moltbot adoption stalls because users must set up, secure, and maintain
 ## MVP Defaults (Proposed)
 
 1. **Pilot**: single VPS (Hetzner/DO/Vultr) + Docker.
-1. **Provider**: AWS ECS/Fargate (alt: DO DOKS) for managed MVP.
-1. **Region**: single region at launch.
-2. **Trial**: $5 credit with card verification (no free tier).
-3. **Logs**: 7-day retention (30-day add-on).
-4. **Versioning**: pinned tags + opt-in canary updates.
-5. **Support**: tiered (self-serve + human for paid tiers).
+2. **Provider**: AWS ECS/Fargate (alt: DO DOKS) for managed MVP.
+3. **Region**: single region at launch.
+4. **Trial**: $5 credit with card verification (no free tier).
+5. **Logs**: 7-day retention (30-day add-on).
+6. **Versioning**: pinned tags + opt-in canary updates.
+7. **Support**: tiered (self-serve + human for paid tiers).
+
+## Infra Validation (Redo)
+
+**We have two different infra needs**:
+- **Production hosting** (always-on bots): prioritize stability, isolation, secrets, ingress, and operability.
+- **Ephemeral workspaces** (build/test/support): prioritize fast, reproducible sandboxes.
+
+**Daytona** is a candidate for **ephemeral workspaces**, not the default for production hosting, unless proven by a short POC.
 
 ## Functional Requirements
 
@@ -78,7 +107,7 @@ Clawdbot/Moltbot adoption stalls because users must set up, secure, and maintain
 2. Provisioning workflow with status updates.
 3. Dashboard for logs, restart, update actions.
 4. Secret injection for API keys and configs.
-5. Cancelation with cleanup and data retention rules.
+5. Cancellation with cleanup and data retention rules.
 
 ## Non-Functional Requirements
 
@@ -111,7 +140,7 @@ Clawdbot/Moltbot adoption stalls because users must set up, secure, and maintain
 
 ## Dependencies
 
-1. Upstream repo confirmed: openclaw/openclaw (MIT).
+1. Upstream repo + license to confirm (candidate: `openclaw/openclaw`, MIT — verify).
 2. Cloud provider selection for MVP.
 3. Container registry + signing pipeline.
 4. Billing provider (Stripe) integration.
