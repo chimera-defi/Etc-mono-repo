@@ -92,7 +92,7 @@ To verify your environment is set up correctly:
 aztec-nargo --version
 
 # Compile a contract
-cd staking/aztec/contracts/aztec-staking-pool
+cd staking/aztec/contracts/liquid-staking-core
 aztec-nargo compile
 ```
 

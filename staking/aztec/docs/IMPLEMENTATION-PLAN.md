@@ -456,7 +456,7 @@
 - **Aztec.nr:** https://docs.aztec.network/developers/docs/guides/smart_contracts
 - **Aztec Sandbox:** https://docs.aztec.network/developers/docs/getting_started/sandbox
 - **Testnet:** https://testnet.aztec.network/
-- **Internal Noir Guide:** `staking/aztec/contracts/NOIR_GUIDE.md`
+- **Internal Noir Guide:** `staking/aztec/docs/NOIR_GUIDE.md`
 
 ### Infrastructure
 - **Kubernetes:** EKS (AWS) or GKE (Google Cloud)

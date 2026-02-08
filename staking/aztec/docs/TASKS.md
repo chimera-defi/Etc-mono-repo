@@ -105,7 +105,7 @@ aztec-cli --version
   - Current block: 33404+ (actively producing)
 - ✅ Docker image pulled: `aztecprotocol/aztec:latest` (1.22GB)
 - ✅ **aztec-nargo extracted** from Docker image (v1.0.0-beta.11+aztec)
-- ✅ **Aztec contract COMPILED** at `staking/contracts/aztec-staking-pool/`
+- ✅ **Aztec contract COMPILED** at `staking/aztec/contracts/aztec-staking-pool/`
   - Artifact: `target/staking_pool-StakingPool.json` (759KB)
   - 15+ functions exposed (deposit, withdraw, add_rewards, etc.)
 - ✅ **Smoke test script** created: `scripts/smoke-test.sh`
@@ -396,7 +396,7 @@ await vault.stakeToValidator(validator, 200000); // Cost: $W
 **Depends On:** TASK-001
 
 **Completion Notes:**
-- Created `staking/contracts/staked-aztec-token/` with full contract
+- Created `staking/aztec/contracts/staked-aztec-token/` with full contract
 - Compiled artifact: 778KB, 16 functions
 - Includes: mint, burn, transfer, exchange_rate, balance_of, convert functions
 
@@ -867,7 +867,7 @@ where:
 **Depends On:** TASK-105
 
 **Completion Notes:**
-- Created `staking/contracts/withdrawal-queue/` with full contract
+- Created `staking/aztec/contracts/withdrawal-queue/` with full contract
 - Compiled artifact: 824KB, 19 functions
 - Includes: add_request, claim_withdrawal, is_claimable, time_until_claimable
 - FIFO queue with configurable unbonding period
@@ -918,7 +918,7 @@ struct Storage<Context> {
 **Depends On:** TASK-108
 
 **Completion Notes:**
-- Created `staking/contracts/validator-registry/` with full contract
+- Created `staking/aztec/contracts/validator-registry/` with full contract
 - Compiled artifact: 838KB, 23 functions
 - Includes: add/deactivate/reactivate validator, record_stake, record_unstake, record_slash
 - Status tracking: Active, Inactive, Slashed, Exiting, Exited

@@ -238,11 +238,11 @@ aztec-nargo requires the project to be under your home directory:
 
 ```bash
 # Won't work
-cd /workspace/staking/aztec/contracts/aztec-staking-pool
+cd /workspace/staking/aztec/contracts/liquid-staking-core
 ~/aztec-bin/nargo compile
 
 # Will work
-cp -r /workspace/staking/aztec/contracts/aztec-staking-pool ~/aztec-contracts
+cp -r /workspace/staking/aztec/contracts/liquid-staking-core ~/aztec-contracts
 cd ~/aztec-contracts
 ~/aztec-bin/nargo compile
 ```
@@ -288,9 +288,12 @@ jobs:
           aztec-up 3.0.0-devnet.20251212
       - name: Compile contracts
         run: |
-          cp -r staking/aztec/contracts/aztec-staking-pool ~/aztec-contracts
-          cd ~/aztec-contracts
-          ~/.aztec/bin/aztec-nargo compile
+          for contract in liquid-staking-core staked-aztec-token withdrawal-queue; do
+            cp -r staking/aztec/contracts/$contract ~/aztec-contracts/$contract
+            cd ~/aztec-contracts/$contract
+            ~/.aztec/bin/aztec-nargo compile
+            cd -
+          done
 ```
 
 ## Test Matrix
@@ -311,8 +314,8 @@ jobs:
 After setting up your environment:
 
 1. **Run smoke test**: `./staking/aztec/scripts/smoke-test.sh --minimal`
-2. **Review contracts**: Start with `contracts/aztec-staking-pool/src/main.nr`
-3. **Understand patterns**: Read `contracts/NOIR_GUIDE.md`
+2. **Review contracts**: Start with `contracts/liquid-staking-core/src/main.nr`
+3. **Understand patterns**: Read `docs/NOIR_GUIDE.md`
 4. **Check tasks**: See `docs/TASKS.md` for implementation status
 
 ## Resources
