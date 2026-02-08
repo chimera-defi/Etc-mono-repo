@@ -1,4 +1,4 @@
-# ETH2 Quickstart Integration Spec
+# InfraKit Integration Spec (ETH2 Quickstart)
 
 ## Architecture
 
@@ -81,3 +81,14 @@ staking/
 - Client install flows vary across chains (need adapter layer).
 - Ensure all scripts are non-destructive and reversible.
 
+## Roles by Chain (InfraKit Context)
+
+References:
+- Ethereum nodes & clients: https://ethereum.org/developers/docs/nodes-and-clients/
+- Monad docs: https://docs.monad.xyz/
+- Aztec docs: https://docs.aztec.network/
+
+InfraKit covers the shared ops layer. Chain-specific roles live in adapters:
+- **Ethereum:** execution + consensus client services, validator key management.
+- **Monad:** monad-bft validator + RPC; single L1 stack.
+- **Aztec:** rollup roles (sequencer/prover/committee) and proving pipeline.

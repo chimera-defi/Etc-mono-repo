@@ -1,4 +1,4 @@
-# ETH2 Quickstart Integration Plan
+# InfraKit Integration Plan (ETH2 Quickstart)
 
 ## Phase 0: Due Diligence
 
@@ -8,7 +8,7 @@
 
 ## Phase 1: Shared Infra Skeleton
 
-1) Create `infra/shared/` with reusable modules:
+1) Create `infra/shared/` with reusable modules (InfraKit core):
    - `provision/` (user creation, base packages, updates)
    - `hardening/` (ssh hardening, firewall, fail2ban, sysctl)
    - `services/` (systemd helpers, env templates)
@@ -42,3 +42,19 @@
 - Project adapters for staking/monad and eth2-quickstart based stacks.
 - Unified runbook, checklists, and smoke tests.
 
+## Validator Similarities & Differences (High Level)
+
+References:
+- Ethereum nodes & clients: https://ethereum.org/developers/docs/nodes-and-clients/
+- Monad docs: https://docs.monad.xyz/
+- Aztec docs: https://docs.aztec.network/
+
+Similarities (shared InfraKit scope):
+- Server provisioning, hardening, and monitoring.
+- Systemd service management and env config.
+- RPC health checks and status endpoints.
+
+Differences (adapter scope):
+- **Ethereum:** execution + consensus clients (beacon chain).
+- **Monad:** monad-bft validator (single L1 stack).
+- **Aztec:** L2 rollup roles (sequencer/prover/committee), different node types.
