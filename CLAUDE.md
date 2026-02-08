@@ -39,7 +39,7 @@
 
 **Required PR Format:**
 ```markdown
-**Agent:** Claude Opus 4.5
+**Agent:** <MODEL NAME> <!-- e.g. GPT-5.2, GPT-4o, Claude Opus 4.5 -->
 
 **Co-authored-by:** Chimera <chimera_defi@protonmail.com>
 
@@ -55,11 +55,11 @@
 
 **Required Commit Format:**
 ```
-feat(scope): description [Agent: Claude Opus 4.5]
+feat(scope): description [Agent: <MODEL NAME>]
 
 Commit body with details.
 
-Co-authored-by: Claude <noreply@anthropic.com>
+Co-authored-by: <MODEL NAME> <model@vendor.invalid>
 ```
 
 **Attribution Pattern (Who Goes Where):**
@@ -67,7 +67,7 @@ Co-authored-by: Claude <noreply@anthropic.com>
 | Location | Field | Value | Why |
 |----------|-------|-------|-----|
 | Commit | Author | Human (Chimera) | Human is responsible for merged code |
-| Commit | Co-authored-by | AI (Claude) | AI assisted in writing |
+| Commit | Co-authored-by | AI (model) | AI assisted in writing |
 | PR | Agent | AI model name | AI did the implementation work |
 | PR | Co-authored-by | Human (Chimera) | Human provided guidance/review |
 
@@ -76,6 +76,8 @@ Co-authored-by: Claude <noreply@anthropic.com>
 - PR Agent ≠ PR Co-authored-by (AI is agent, human is co-author)
 - CI validates PR description only (not commit messages)
 - Both locations need attribution for proper tracking
+
+**Important:** Do not copy example model names blindly. The `**Agent:**` field must match the actual model used in the run.
 
 **Never include:** Session links (`https://claude.ai/code/session_*`) in commits or PR descriptions.
 
@@ -183,7 +185,7 @@ cd wallets/scripts && ./refresh-github-data.sh
 
 | Field | Format | Example |
 |-------|--------|---------|
-| Agent | `**Agent:** [Model]` | `**Agent:** Claude Opus 4.5` |
+| Agent | `**Agent:** [Model]` | `**Agent:** GPT-5.2` |
 | Co-authored-by | `**Co-authored-by:** Name <email>` | `**Co-authored-by:** Chimera <chimera_defi@protonmail.com>` |
 | Original Request | `## Original Request` section | User's original prompt |
 
@@ -196,7 +198,7 @@ cd wallets/scripts && ./refresh-github-data.sh
 **Quick fix:** Edit PR description to include all three required fields. CI re-runs automatically.
 
 **Remember the pattern:**
-- Commits: Human (Chimera) as Author, AI (Claude) as Co-authored-by
+- Commits: Human (Chimera) as Author, AI (model) as Co-authored-by
 - PR: AI as Agent, Human (Chimera) as Co-authored-by
 
 ## Meta Learnings (Frontend/UI)
