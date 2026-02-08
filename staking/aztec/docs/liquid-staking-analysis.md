@@ -1,7 +1,7 @@
 # Aztec Liquid Staking Protocol - Technical Analysis & Architecture
 
 **Date:** December 22, 2025
-**Status:** Pre-implementation Analysis
+**Status:** Historical Pre-implementation Analysis (see aztec/PROGRESS.md for current status)
 **Priority:** 🔥 URGENT - Tier 1 Opportunity
 
 **Note:** Contract architecture has since been simplified to a 3-contract model

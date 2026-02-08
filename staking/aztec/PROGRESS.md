@@ -192,7 +192,7 @@ Test categories:
 
 ## Breaking Changes (v2.1.9 -> v3.0.x)
 
-See `contracts/NOIR_GUIDE.md` section 1.1 for full migration guide.
+See `docs/NOIR_GUIDE.md` section 1.1 for full migration guide.
 
 Key changes:
 - `#[public]` -> `#[external("public")]`

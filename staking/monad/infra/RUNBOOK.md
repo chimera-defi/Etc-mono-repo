@@ -28,7 +28,9 @@ cd /root/monad-bft/docker/single-node
 ./nets/run.sh --use-prebuilt
 ```
 
-## 2. Quick Health Checks
+## 2. Health Checks
+
+### 2.1 Quick Status Checks
 
 - Status JSON:
 
@@ -42,13 +44,21 @@ curl -fsS http://localhost:8787/status
 staking/monad/infra/scripts/check_rpc.sh http://localhost:8080 eth_blockNumber
 ```
 
-## 2.2 Binary + Config Install
+### 2.2 Daily Checks (5 minutes)
+
+1) `systemctl status monad-validator`
+2) `journalctl -u monad-validator -n 200 --no-pager`
+3) `staking/monad/infra/scripts/check_rpc.sh http://localhost:8080 eth_blockNumber`
+4) Disk: `df -h` (alert at 80%+)
+5) Time sync: `timedatectl status` (NTP active)
+
+## 3. Binary + Config Install
 
 ```bash
 sudo staking/monad/infra/scripts/install_validator_binary.sh /path/to/monad-bft /path/to/config.toml
 ```
 
-## 2.3 Firewall (UFW)
+## 4. Firewall (UFW)
 
 ```bash
 sudo staking/monad/infra/scripts/install_firewall_ufw.sh
@@ -60,15 +70,7 @@ sudo staking/monad/infra/scripts/install_firewall_ufw.sh
 staking/monad/infra/scripts/e2e_smoke_test.sh
 ```
 
-## 2.1 Daily Checks (5 minutes)
-
-1) `systemctl status monad-validator`
-2) `journalctl -u monad-validator -n 200 --no-pager`
-3) `staking/monad/infra/scripts/check_rpc.sh http://localhost:8080 eth_blockNumber`
-4) Disk: `df -h` (alert at 80%+)
-5) Time sync: `timedatectl status` (NTP active)
-
-## 3. Restart / Recovery
+## 5. Restart / Recovery
 
 - Restart status server:
 
@@ -82,11 +84,11 @@ sudo systemctl restart monad-status.service
 journalctl -u monad-status.service -n 200 --no-pager
 ```
 
-## 4. Rollback (MVP)
+## 6. Rollback (MVP)
 
 - If a new config breaks status checks, restore `/etc/monad/status.env` from backup and restart.
 
-## 4.1 Incident Log Template
+### 6.1 Incident Log Template
 
 ```
 Date:
@@ -97,6 +99,6 @@ Fix:
 Preventative action:
 ```
 
-## 5. Notes
+## 7. Notes
 
 - Local devnet requires hugepages; ensure >= 8–16 GiB RAM for reliable startup.
