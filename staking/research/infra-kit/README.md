@@ -27,8 +27,7 @@ Sources reviewed:
 **InfraKit** (tentative). Keep naming consistent in docs.
 
 ## Control Plane (MVP)
-In phase 1, the **control plane is the repo itself** (scripts + runbooks). A hosted control plane
-(API/UI) is optional in future phases.
+Phase 1 uses the repo as the control plane. A hosted API/UI is optional later.
 
 ## Docs
 - `DESIGN.md` — concise top‑level architecture for human review.
