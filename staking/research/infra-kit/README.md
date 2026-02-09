@@ -24,7 +24,7 @@ Sources reviewed:
 - `staking/aztec/scripts/` (Aztec dev + testing toolchain)
 
 ## Working Name
-**InfraKit** (tentative). Keep naming consistent in docs.
+**InfraKit**. Keep naming consistent in docs.
 
 ## Control Plane (MVP)
 Phase 1 uses the repo as the control plane. A hosted API/UI is optional later.
