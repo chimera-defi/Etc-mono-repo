@@ -124,13 +124,13 @@ compile_contract() {
     return 0
   fi
 
-  rm -rf "$AZTEC_LOCAL_DIR/$name" 2>/dev/null || true
+  rm -rf "${AZTEC_LOCAL_DIR:?}/$name" 2>/dev/null || true
   mkdir -p "$AZTEC_LOCAL_DIR"
   cp -r "$src" "$AZTEC_LOCAL_DIR/$name"
 
-  pushd "$AZTEC_LOCAL_DIR/$name" >/dev/null
+  pushd "$AZTEC_LOCAL_DIR/$name" >/dev/null || return 1
   "$AZTEC_BIN" compile >/dev/null
-  popd >/dev/null
+  popd >/dev/null || true
 }
 
 compile_token_contract() {
@@ -140,9 +140,9 @@ compile_token_contract() {
     return 0
   fi
 
-  pushd "$TOKEN_WORKSPACE_ROOT" >/dev/null
+  pushd "$TOKEN_WORKSPACE_ROOT" >/dev/null || return 1
   "$AZTEC_BIN" compile --package token_contract >/dev/null
-  popd >/dev/null
+  popd >/dev/null || true
 }
 
 get_address_from_output() {
