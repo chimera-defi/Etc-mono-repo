@@ -117,7 +117,7 @@ staking/
 ```
 setup_server.sh
   -> create_monad_user.sh
-  -> install_validator_binary.sh (optional)
+  -> install_validator_binary.sh (if URL/path provided)
   -> install_sysctl.sh
   -> install_validator_service.sh
   -> install_status_service.sh
@@ -144,7 +144,7 @@ run_2.sh (non-root)
 ```
 setup-env.sh
   -> standard nargo
-  -> optional Docker + aztec-nargo
+  -> Docker + aztec-nargo (if enabled)
   -> cache aztec-packages
 smoke-test.sh
   -> staking-math tests
