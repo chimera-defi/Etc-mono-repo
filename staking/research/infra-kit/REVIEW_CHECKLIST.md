@@ -13,6 +13,7 @@ Pass 2: Consistency
 
 Pass 3: Completeness
 - [ ] PRD present and scoped to MVP.
+- [ ] OVERVIEW present (newcomer‑friendly).
 - [ ] SPEC has verified script inventory.
 - [ ] PLAN + TASKS + PROMPTS present.
 - [ ] EXECUTIVE_SUMMARY + DECISIONS + CONTEXT present.
