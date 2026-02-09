@@ -177,3 +177,9 @@ local-sandbox-e2e.sh
 - Status endpoint (Monad `install_status_service.sh`)
 - RPC/health checks (Monad `check_rpc.sh`, `healthcheck.sh`)
 - systemd + journalctl for service health/logs
+
+**Shared monitoring candidates (explicit):**
+- status endpoint service (shared)
+- RPC/health check wrappers (shared, per‑chain endpoints)
+- systemd health + restart policy (shared)
+- log access via journalctl (shared)
