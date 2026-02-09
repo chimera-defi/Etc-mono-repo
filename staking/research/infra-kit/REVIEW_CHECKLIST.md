@@ -18,6 +18,7 @@ Pass 3: Completeness
 - [ ] EXECUTIVE_SUMMARY + DECISIONS + CONTEXT present.
 - [ ] EXACT_SUMMARY present (single paragraph).
 - [ ] MASTER_PROMPT + META_ENGINEERING present.
+- [ ] META_LEARNINGS present (process + content).
 
 Pass 4: Concision
 - [ ] No repeated sections or redundant bullets.
