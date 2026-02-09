@@ -31,6 +31,7 @@ Phase 1 uses the repo as the control plane. A hosted API/UI is optional later.
 
 ## Docs
 - `DESIGN.md` — concise top‑level architecture for human review.
+- `OVERVIEW.md` — newcomer‑friendly summary (high level → detailed).
 - `SPEC.md` — verified script inventory + mapping into shared primitives.
 - `PLAN.md` — phased execution plan.
 - `TASKS.md` — checklist of concrete next steps.
