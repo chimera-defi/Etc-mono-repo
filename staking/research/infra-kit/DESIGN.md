@@ -71,6 +71,7 @@ Shared layer (ops primitives only)
   - user creation, SSH hardening, UFW, fail2ban, sysctl
   - systemd helpers + env files
   - status/health checks + optional web proxy + SSL
+  - monitoring plumbing (status endpoint + RPC checks + log capture)
 
 Per-chain adapters
   - Ethereum: geth + prysm + mev-boost + relay config
@@ -158,7 +159,7 @@ Server OS
 ```
 Now (script-grounded)
   Security: SSH hardening + UFW + fail2ban + AIDE
-  Monitoring: status endpoint + RPC/health checks
+  Monitoring: status endpoint + RPC/health checks + systemd/journal
 
 Future (optional)
   Security: secrets management + fleet policy enforcement
@@ -171,6 +172,19 @@ Node (systemd services)
   -> status endpoint (local HTTP)
   -> rpc check scripts
   -> journalctl logs (manual)
+```
+
+## Shared Monitoring Components (Explicit)
+```
+Shared (Phase 1)
+  - status endpoint service
+  - rpc/health check scripts
+  - systemd service supervision
+  - log access via journalctl
+
+Adapter-specific
+  - chain metrics (ports/endpoints differ)
+  - chain client health semantics
 ```
 ## Proposed File Tree (Future `staking/infra-kit/`)
 
