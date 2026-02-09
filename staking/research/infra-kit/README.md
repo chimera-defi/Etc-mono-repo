@@ -20,8 +20,13 @@ That duplication causes drift, inconsistent security, and slow iteration.
 Sources reviewed:
 - https://eth2quickstart.com/
 - https://github.com/chimera-defi/eth2-quickstart (default branch `master`)
-- `staking/monad/infra/scripts/` (current production scripts)
-- `staking/aztec/scripts/` (Aztec dev + testing toolchain)
+- [`staking/monad/infra/scripts/`](../../monad/infra/scripts) (current production scripts)
+- [`staking/aztec/scripts/`](../../aztec/scripts) (Aztec dev + testing toolchain)
+
+Chain docs:
+- https://ethereum.org/staking/
+- https://docs.monad.xyz/
+- https://docs.aztec.network/
 
 ## Working Name
 **InfraKit**. Keep naming consistent in docs.
