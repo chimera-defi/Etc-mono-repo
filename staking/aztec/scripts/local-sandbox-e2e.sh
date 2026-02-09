@@ -1,5 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Local sandbox deploy + E2E flow (no devnet spend)
+#
+# Usage: ./scripts/local-sandbox-e2e.sh [--help]
 #
 # Steps:
 # - Start local sandbox (if not already running)
@@ -7,12 +9,30 @@
 # - Create admin + user accounts
 # - Deploy contracts and wire references
 # - Stake, request withdrawal, fund queue, claim
+#
+# Environment variables (all optional, sane defaults provided):
+#   AZTEC_BIN       Path to aztec CLI binary
+#   WALLET_BIN      Path to aztec-wallet binary
+#   NODE_URL        Local sandbox RPC URL (default: http://localhost:8080)
+#   DEPLOY_TIMEOUT  Seconds to wait for deploy tx (default: 300)
 
-set -euo pipefail
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/lib/common.sh"
 
-AZTEC_BIN="/root/.aztec/bin/aztec"
-WALLET_BIN="/root/.aztec/bin/aztec-wallet"
-NODE_URL="http://localhost:8080"
+USAGE="Usage: $0 [--help]
+
+Runs a full local sandbox E2E flow: compile, deploy, stake, withdraw, claim.
+  --help   Show this help message
+
+Environment variables:
+  AZTEC_BIN, WALLET_BIN, NODE_URL, DEPLOY_TIMEOUT"
+
+show_help_if_requested "$USAGE" "$@"
+
+# Resolve binaries from env or discover them
+AZTEC_BIN="${AZTEC_BIN:-$(find_aztec_cli)}"
+WALLET_BIN="${WALLET_BIN:-$(find_aztec_wallet)}"
+NODE_URL="${NODE_URL:-http://localhost:8080}"
 WALLET_NODE_URL="$NODE_URL"
 
 SANDBOX_STARTED=false
@@ -30,12 +50,13 @@ TOKEN_NAME="AztecToken"
 TOKEN_SYMBOL="AZTEC"
 DEPLOY_TIMEOUT=300
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ROOT_DIR="$(resolve_aztec_root "$SCRIPT_DIR")"
 CONTRACTS_DIR="$ROOT_DIR/contracts"
-AZTEC_LOCAL_DIR="$HOME/aztec-contracts-local"
-TOKEN_WORKSPACE_ROOT="/root/nargo/github.com/AztecProtocol/aztec-packages/v3.0.3/noir-projects/noir-contracts"
+AZTEC_LOCAL_DIR="${AZTEC_LOCAL_DIR:-$HOME/aztec-contracts-local}"
+AZTEC_PACKAGES_VERSION="${AZTEC_PACKAGES_VERSION:-v3.0.3}"
+TOKEN_WORKSPACE_ROOT="${TOKEN_WORKSPACE_ROOT:-$HOME/nargo/github.com/AztecProtocol/aztec-packages/$AZTEC_PACKAGES_VERSION/noir-projects/noir-contracts}"
 TOKEN_CONTRACT_SRC="$TOKEN_WORKSPACE_ROOT/contracts/app/token_contract"
-TOKEN_WORKSPACE_TARGET="/root/nargo/github.com/AztecProtocol/aztec-packages/v3.0.3/noir-projects/noir-contracts/target"
+TOKEN_WORKSPACE_TARGET="$TOKEN_WORKSPACE_ROOT/target"
 
 wallet() {
   "$WALLET_BIN" -n "$WALLET_NODE_URL" "$@"
@@ -69,16 +90,7 @@ require_node() {
   fi
 }
 
-artifact_has_bytecode() {
-  local artifact=$1
-
-  if command -v jq >/dev/null 2>&1; then
-    jq -e 'any(.functions[]?; (.bytecode != null) and (.bytecode | length > 0))' "$artifact" >/dev/null 2>&1
-    return $?
-  fi
-
-  grep -q '"bytecode"' "$artifact"
-}
+# artifact_has_bytecode is provided by lib/common.sh
 
 start_sandbox() {
   if wait_for_node; then

@@ -1,15 +1,16 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Aztec Liquid Staking Smoke Test Script
 #
 # This script verifies the development environment and toolchain are working.
 # Run this after setting up a new development environment.
 #
-# Usage: ./staking/aztec/scripts/smoke-test.sh [--minimal] [--sandbox-e2e]
+# Usage: ./staking/aztec/scripts/smoke-test.sh [--minimal] [--sandbox-e2e] [--help]
 #
 # Modes:
 #   Default:  All tests (Docker required for full pass)
 #   --minimal: Only test what works without Docker (unit tests, devnet, project structure)
 #   --sandbox-e2e: Run local sandbox deploy + end-to-end flow (requires Aztec CLI)
+#   --help: Show this help message
 #
 # Prerequisites:
 #   - noirup installed (Noir toolchain installer)
@@ -20,34 +21,29 @@
 #   - LiquidStakingCore: Main entry point for deposits/withdrawals
 #   - WithdrawalQueue: FIFO unbonding queue with 7-day period
 
-# Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
-
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-AZTEC_DIR="$(dirname "$SCRIPT_DIR")"
+source "$SCRIPT_DIR/lib/common.sh"
+
+AZTEC_DIR="$(resolve_aztec_root "$SCRIPT_DIR")"
 CONTRACTS_DIR="${AZTEC_DIR}/contracts"
 TESTS_DIR="${CONTRACTS_DIR}/staking-math-tests"
+
+USAGE="Usage: $0 [--minimal] [--sandbox-e2e] [--help]
+
+Verifies the Aztec development environment and toolchain.
+  --minimal       Only test Docker-independent features
+  --sandbox-e2e   Run local sandbox deploy + end-to-end flow
+  --help          Show this help message"
+
+show_help_if_requested "$USAGE" "$@"
 
 # Parse arguments
 MINIMAL_MODE=false
 SANDBOX_E2E=false
-for arg in "$@"; do
-    if [ "$arg" = "--minimal" ]; then
-        MINIMAL_MODE=true
-    fi
-    if [ "$arg" = "--sandbox-e2e" ]; then
-        SANDBOX_E2E=true
-    fi
-done
+if has_flag "--minimal" "$@"; then MINIMAL_MODE=true; fi
+if has_flag "--sandbox-e2e" "$@"; then SANDBOX_E2E=true; fi
 
-echo "========================================"
-echo "Aztec Liquid Staking Smoke Test"
-echo "========================================"
-echo ""
+print_banner "Aztec Liquid Staking Smoke Test"
 echo "Aztec directory: $AZTEC_DIR"
 if [ "$MINIMAL_MODE" = true ]; then
     echo -e "Mode: ${BLUE}Minimal${NC} (Docker-independent tests only)"
@@ -59,43 +55,6 @@ if [ "$SANDBOX_E2E" = true ]; then
 fi
 echo ""
 
-# Track test results
-TESTS_PASSED=0
-TESTS_FAILED=0
-TESTS_SKIPPED=0
-
-pass() {
-    echo -e "${GREEN}PASS${NC}: $1"
-    TESTS_PASSED=$((TESTS_PASSED + 1))
-}
-
-fail() {
-    echo -e "${RED}FAIL${NC}: $1"
-    TESTS_FAILED=$((TESTS_FAILED + 1))
-}
-
-warn() {
-    echo -e "${YELLOW}WARN${NC}: $1"
-}
-
-skip() {
-    echo -e "${BLUE}SKIP${NC}: $1"
-    TESTS_SKIPPED=$((TESTS_SKIPPED + 1))
-}
-
-# Detect environment type
-detect_environment() {
-    if grep -q "runsc" /proc/version 2>/dev/null || [ "$(uname -r)" = "4.4.0" ]; then
-        echo "sandboxed"
-    elif command -v docker &> /dev/null && docker info &> /dev/null 2>&1; then
-        echo "docker-available"
-    elif command -v docker &> /dev/null; then
-        echo "docker-installed"
-    else
-        echo "no-docker"
-    fi
-}
-
 ENV_TYPE=$(detect_environment)
 echo -e "Environment: ${BLUE}$ENV_TYPE${NC}"
 echo ""
@@ -104,12 +63,7 @@ echo ""
 # TEST 1: Standard Nargo (Required for unit tests)
 # ============================================================
 echo "Test 1: Checking standard nargo installation..."
-NARGO_BIN=""
-if [ -f "$HOME/.nargo/bin/nargo" ]; then
-    NARGO_BIN="$HOME/.nargo/bin/nargo"
-elif command -v nargo &> /dev/null; then
-    NARGO_BIN="$(command -v nargo)"
-fi
+NARGO_BIN="$(find_nargo)"
 
 if [ -n "$NARGO_BIN" ]; then
     NARGO_VERSION=$("$NARGO_BIN" --version 2>/dev/null | head -1)
@@ -127,13 +81,9 @@ echo ""
 echo "Test 2: Checking Aztec CLI installation..."
 
 AZTEC_CLI_FOUND=false
-AZTEC_CLI_BIN=""
+AZTEC_CLI_BIN="$(find_aztec_cli)"
 
-if [ -f "$HOME/.aztec/bin/aztec" ]; then
-    AZTEC_CLI_BIN="$HOME/.aztec/bin/aztec"
-    AZTEC_CLI_FOUND=true
-elif command -v aztec &> /dev/null; then
-    AZTEC_CLI_BIN="$(command -v aztec)"
+if [ -n "$AZTEC_CLI_BIN" ]; then
     AZTEC_CLI_FOUND=true
 fi
 
@@ -260,16 +210,10 @@ fi
 # ============================================================
 echo ""
 echo "Test 6: Checking Aztec devnet connectivity..."
-DEVNET_URL="https://next.devnet.aztec-labs.com"
-DEVNET_RESPONSE=$(curl -s -m 10 -X POST "$DEVNET_URL" \
-    -H "Content-Type: application/json" \
-    -d '{"jsonrpc":"2.0","method":"node_getVersion","params":[],"id":1}' 2>/dev/null)
-
-if echo "$DEVNET_RESPONSE" | grep -q "result"; then
-    VERSION=$(echo "$DEVNET_RESPONSE" | grep -oP '"result"\s*:\s*"\K[^"]+' || echo "connected")
-    pass "Devnet reachable: $VERSION"
+if DEVNET_VERSION=$(check_devnet_connectivity); then
+    pass "Devnet reachable: $DEVNET_VERSION"
 else
-    warn "Could not connect to devnet at $DEVNET_URL"
+    warn "Could not connect to devnet at $AZTEC_DEVNET_URL"
 fi
 
 # ============================================================
@@ -281,13 +225,7 @@ echo "Test 7: Checking contract projects..."
 check_contract() {
     local name=$1
     local dir=$2
-    if [ -d "$CONTRACTS_DIR/$dir" ] && [ -f "$CONTRACTS_DIR/$dir/Nargo.toml" ]; then
-        echo -e "  ${GREEN}✓${NC} $name"
-        return 0
-    else
-        echo -e "  ${YELLOW}✗${NC} $name (not found)"
-        return 1
-    fi
+    check_contract_project "$name" "$CONTRACTS_DIR/$dir"
 }
 
 CONTRACTS_FOUND=0
@@ -308,12 +246,8 @@ fi
 # TEST 8: Local Sandbox E2E (De-risks devnet deploy)
 # ============================================================
 RUN_SANDBOX_E2E=$SANDBOX_E2E
-AZTEC_CLI_BIN=""
-if [ -x "$HOME/.aztec/bin/aztec" ]; then
-    AZTEC_CLI_BIN="$HOME/.aztec/bin/aztec"
-elif command -v aztec &> /dev/null; then
-    AZTEC_CLI_BIN="$(command -v aztec)"
-fi
+# Re-resolve CLI for sandbox E2E check
+AZTEC_CLI_BIN="$(find_aztec_cli)"
 
 if [ "$MINIMAL_MODE" = false ] && [ "$RUN_SANDBOX_E2E" = false ] && [ -n "$AZTEC_CLI_BIN" ]; then
     RUN_SANDBOX_E2E=true
@@ -340,14 +274,7 @@ fi
 # ============================================================
 # Summary
 # ============================================================
-echo ""
-echo "========================================"
-echo "Smoke Test Summary"
-echo "========================================"
-echo -e "Passed:  ${GREEN}$TESTS_PASSED${NC}"
-echo -e "Failed:  ${RED}$TESTS_FAILED${NC}"
-echo -e "Skipped: ${BLUE}$TESTS_SKIPPED${NC}"
-echo ""
+print_test_summary "Smoke Test"
 
 if [ $TESTS_FAILED -eq 0 ]; then
     if [ "$MINIMAL_MODE" = true ]; then
