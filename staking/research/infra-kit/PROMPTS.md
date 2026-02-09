@@ -1,16 +1,21 @@
 # InfraKit Handoff Prompts
 
-## 1) Verify Ethereum Security & Web Scripts
-"Inspect eth2‑quickstart `install/security/*` and `install/web/*` scripts. Document any reusable primitives (SSH, firewall, nginx/ssl) and update SPEC.md."
+## Primary: Full Implementation Handoff
+**Use `HANDOFF_PROMPT.md`** -- This is the comprehensive, self-contained prompt for implementing the InfraKit skeleton. It includes context, what exists, what to build, constraints, and verification checklist.
 
-## 2) Validate Monad Monitoring Stack
-"Review staking/monad/infra/monitoring and docker compose usage from bootstrap_all.sh. Confirm ports, services, and required env vars; update SPEC.md and DESIGN.md accordingly."
+## Targeted Prompts (For Smaller Tasks)
 
-## 3) Aztec Sandbox E2E
-"Inspect staking/aztec/scripts/local-sandbox-e2e.sh to document exact flows and dependencies. Ensure SPEC.md diagram matches."
+### 1) Extract Shared Primitives from Monad Scripts
+"Read `staking/research/infra-kit/HANDOFF_PROMPT.md` Step 2. Extract shared primitives from `staking/monad/infra/scripts/` into `staking/infra-kit/shared/`. Parameterize user/group, ports, and paths via env vars. Each script must source `shared/lib/common.sh` and have a `--help` flag."
 
-## 4) InfraKit Skeleton Proposal
-"Propose a skeleton layout for staking/infra-kit/ (shared primitives + adapters + runbooks). Keep naming consistent with InfraKit and ensure it matches existing script behaviors."
+### 2) Create Shared Library (common.sh)
+"Read `staking/research/infra-kit/HANDOFF_PROMPT.md` Step 1. Create `staking/infra-kit/shared/lib/common.sh` by merging patterns from eth2-quickstart `lib/common_functions.sh`, Aztec `scripts/lib/common.sh`, and Monad scripts. Include the Reference section functions. Verify with `tests/test_shared.sh`."
 
-## 5) Final Review Pass
-"Run the multi‑pass `REVIEW_CHECKLIST.md` and resolve any gaps before handoff."
+### 3) Create Adapters
+"Read `staking/research/infra-kit/HANDOFF_PROMPT.md` Step 3. Create thin adapters in `staking/infra-kit/adapters/` for Monad, Ethereum, and Aztec. Each adapter sources the shared library and calls shared primitives with chain-specific args."
+
+### 4) Create Runbooks
+"Read `staking/research/infra-kit/HANDOFF_PROMPT.md` Step 4. Create runbooks in `staking/infra-kit/runbooks/` for each chain plus a template. Follow the structure: Prerequisites, Setup, Monitoring, Troubleshooting, Maintenance."
+
+### 5) Final Review Pass
+"Run the multi-pass `REVIEW_CHECKLIST.md` against the implemented `staking/infra-kit/` and resolve any gaps. Verify all scripts pass shellcheck. Ensure no duplicated logic between shared primitives and existing scripts."
