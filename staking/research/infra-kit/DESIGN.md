@@ -90,6 +90,14 @@ Per-chain adapters
   - Aztec: dev/test tooling (no validator ops here yet)
 ```
 
+## Shared Ops vs Chain Stacks (Hardware Profiles)
+```
+Shared ops layer
+  -> Ethereum host profile (chain-specific sizing)
+  -> Monad host profile (chain-specific sizing)
+  -> Aztec dev sandbox (local tooling only)
+```
+
 ## Dependency Graph (Conceptual)
 
 ```
