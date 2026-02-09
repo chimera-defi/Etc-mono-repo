@@ -43,3 +43,4 @@ Phase 1 uses the repo as the control plane. A hosted API/UI is optional later.
 - `MASTER_PROMPT.md` — research→design master prompt.
 - `META_ENGINEERING.md` — prompt structure + anti‑hallucination rules.
 - `REVIEW_CHECKLIST.md` — multi‑pass review checklist.
+- `META_LEARNINGS.md` — process + content learnings.
