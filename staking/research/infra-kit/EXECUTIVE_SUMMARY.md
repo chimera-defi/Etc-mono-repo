@@ -7,7 +7,7 @@ thin adapters for each chain.
 
 ## Business Value
 - Reduce time and cost to onboard new chains.
-- Standardize ops for reliability and security.
+- Standardize monitoring + security across deployments.
 - Enable a path to managed services later.
 
 ## Why It Exists
