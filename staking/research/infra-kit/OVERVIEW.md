@@ -56,7 +56,20 @@ Chain‑specific:
 - exact RPC/metrics endpoints
 - alert thresholds and dashboards
 
-## 7) Where to Read Next
+## 7) Optional Monitoring Stack (Addon)
+If operators want a richer monitoring layer, the Monad repo includes a **Docker
+compose stack** with Prometheus, Grafana, Loki, Promtail, Alertmanager, and
+node_exporter. It binds ports to localhost by default.
+
+## 8) Shared Security Checklist (High Level)
+- SSH hardening
+- UFW firewall rules
+- fail2ban
+- sysctl tuning
+- AIDE integrity checks
+- unattended upgrades (where used)
+
+## 9) Where to Read Next
 - `DESIGN.md` — architecture + diagrams
 - `SPEC.md` — verified scripts and flows
 - `PRD.md` — business framing and scope
