@@ -15,7 +15,7 @@ cp "$SSHD_CONFIG" "${SSHD_CONFIG}.bak"
 apply_setting() {
   local key="$1"
   local value="$2"
-  if rg -q "^${key}\\b" "$SSHD_CONFIG"; then
+  if grep -qE "^${key}\\b" "$SSHD_CONFIG"; then
     sed -i "s/^${key}.*/${key} ${value}/" "$SSHD_CONFIG"
   else
     echo "${key} ${value}" >> "$SSHD_CONFIG"
