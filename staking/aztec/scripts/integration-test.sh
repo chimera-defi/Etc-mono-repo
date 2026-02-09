@@ -75,20 +75,20 @@ if [ "$SKIP_COMPILE" = false ]; then
         local name=$1
         local dir=$2
 
-        rm -rf ~/aztec-contracts/$dir 2>/dev/null
+        rm -rf ~/aztec-contracts/"$dir" 2>/dev/null
         mkdir -p ~/aztec-contracts
         cp -r "$CONTRACTS_DIR/$dir" ~/aztec-contracts/
 
         ORIG_DIR=$(pwd)
-        cd ~/aztec-contracts/$dir
+        cd ~/aztec-contracts/"$dir" || return 1
 
         if $AZTEC_NARGO_BIN compile &> /dev/null; then
             echo -e "  ${GREEN}✓${NC} $name compiled"
-            cd "$ORIG_DIR"
+            cd "$ORIG_DIR" || true
             return 0
         else
             echo -e "  ${RED}✗${NC} $name compilation failed"
-            cd "$ORIG_DIR"
+            cd "$ORIG_DIR" || true
             return 1
         fi
     }
@@ -108,8 +108,9 @@ check_artifact() {
     local name=$1
     local dir=$2
 
-    if [ -d ~/aztec-contracts/$dir/target ]; then
-        local size=$(du -sh ~/aztec-contracts/$dir/target 2>/dev/null | cut -f1)
+    if [ -d ~/aztec-contracts/"$dir"/target ]; then
+        local size
+        size=$(du -sh ~/aztec-contracts/"$dir"/target 2>/dev/null | cut -f1)
         echo -e "  ${GREEN}✓${NC} $name artifact ($size)"
         return 0
     else
@@ -189,7 +190,7 @@ docker run -d --rm \
 
 # Wait for TXE to be ready
 TXE_READY=false
-for i in {1..30}; do
+for _i in {1..30}; do
     if curl -s "http://localhost:$TXE_PORT" &> /dev/null; then
         TXE_READY=true
         break
@@ -217,7 +218,7 @@ echo "Test 4: Running unit tests for verification..."
 NARGO_BIN="$(find_nargo)"
 if [ -n "$NARGO_BIN" ]; then
     ORIG_DIR=$(pwd)
-    cd "$CONTRACTS_DIR/staking-math-tests"
+    cd "$CONTRACTS_DIR/staking-math-tests" || exit 1
 
     TEST_OUTPUT=$("$NARGO_BIN" test 2>&1)
     if echo "$TEST_OUTPUT" | grep -q "tests passed"; then
@@ -228,7 +229,7 @@ if [ -n "$NARGO_BIN" ]; then
         echo "$TEST_OUTPUT" | tail -5
     fi
 
-    cd "$ORIG_DIR"
+    cd "$ORIG_DIR" || true
 else
     info "Standard nargo not found, skipping unit tests"
 fi
@@ -244,10 +245,12 @@ inspect_contract() {
     local artifact_dir=$2
 
     # Find the main artifact JSON file
-    local artifact_file=$(find ~/aztec-contracts/$artifact_dir/target -name "*.json" -type f 2>/dev/null | head -1)
+    local artifact_file
+    artifact_file=$(find ~/aztec-contracts/"$artifact_dir"/target -name "*.json" -type f 2>/dev/null | head -1)
 
     if [ -n "$artifact_file" ]; then
-        local func_count=$(python3 -c "import json; d=json.load(open('$artifact_file')); print(len(d.get('functions', [])))" 2>/dev/null || echo "?")
+        local func_count
+        func_count=$(python3 -c "import json; d=json.load(open('$artifact_file')); print(len(d.get('functions', [])))" 2>/dev/null || echo "?")
         echo -e "  ${GREEN}✓${NC} $name: $func_count functions"
         return 0
     else
@@ -279,7 +282,7 @@ echo ""
 # ============================================================
 print_test_summary "Integration Test"
 
-if [ $TESTS_FAILED -eq 0 ]; then
+if [ "$TESTS_FAILED" -eq 0 ]; then
     echo -e "${GREEN}All integration tests passed!${NC}"
     echo ""
     echo "Contract Status:"
