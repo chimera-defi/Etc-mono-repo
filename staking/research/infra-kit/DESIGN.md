@@ -61,6 +61,21 @@ Kubernetes / fleet orchestration
 Adapters -> Shared Primitives -> OS/systemd -> Chain binaries/config
 ```
 
+## Deployment Topology (Single Node)
+```
+Host
+  - systemd services (validator + status)
+  - firewall + SSH hardening
+  - optional web proxy + SSL
+```
+
+## Deployment Topology (Fleet / Future)
+```
+Control plane
+  -> applies shared primitives + adapters
+  -> fleet of hosts per chain
+```
+
 ## Chain Separation (Reality Check)
 ```
 Shared layer (ops primitives only)
