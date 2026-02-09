@@ -14,6 +14,16 @@ InfraKit (shared ops layer) -> Faster chain onboarding -> Validator revenue
 Optional hosted control plane (later) -> Multi‑tenant ops -> Managed services
 ```
 
+## Pitch Diagram (1‑Minute Explanation)
+```
+Operator
+  -> InfraKit (shared ops)
+     -> Adapter (chain-specific)
+        -> Validator node (Ethereum / Monad / Aztec dev)
+
+Value: reuse 80% ops, swap 20% chain logic
+```
+
 ## What It Is (MVP)
 - A **repository‑based control plane** (scripts + runbooks).
 - **Shared primitives** for provisioning, hardening, services, monitoring.
@@ -31,20 +41,6 @@ Operator -> Adapter -> Shared Primitives -> Server OS
                          |        |        +-> Aztec dev/tooling (tests)
                          |        +------------> Monad stack (monad-bft)
                          +---------------------> Ethereum stack (exec/consensus/MEV)
-```
-
-## High‑Level Control Plane View (Now → Future)
-```
-Now (Phase 1)
-  Repo control plane (scripts + runbooks)
-    -> adapters (per chain)
-    -> shared primitives (ops)
-
-Future (Phase 2+)
-  Hosted control plane (API/UI)
-    -> orchestrator (fleet + secrets)
-    -> adapters (per chain)
-    -> shared primitives (ops)
 ```
 
 ## Control Plane Evolution (Repo → Hosted)
@@ -85,6 +81,35 @@ Per-chain adapters
 Provision -> Hardening -> Services -> Monitoring -> HealthChecks
 Provision --------> Services
 Hardening --------> Monitoring
+```
+
+## Shared Components Inventory (Explicit)
+```
+Provisioning
+  - base packages, updates
+  - user + sudo
+
+Hardening
+  - SSH hardening
+  - UFW firewall
+  - fail2ban
+  - sysctl tuning
+  - AIDE (integrity checks)
+  - unattended upgrades (where used)
+
+Services
+  - systemd unit helpers
+  - env file helpers
+
+Monitoring
+  - status endpoint service
+  - rpc/health check wrappers
+  - service supervision (systemd)
+  - log access via journalctl
+
+Web Exposure (optional)
+  - NGINX/Caddy install
+  - SSL issuance helpers
 ```
 
 ## Low‑Level Component Map (Files/Modules)
@@ -172,19 +197,6 @@ Node (systemd services)
   -> status endpoint (local HTTP)
   -> rpc check scripts
   -> journalctl logs (manual)
-```
-
-## Shared Monitoring Components (Explicit)
-```
-Shared (Phase 1)
-  - status endpoint service
-  - rpc/health check scripts
-  - systemd service supervision
-  - log access via journalctl
-
-Adapter-specific
-  - chain metrics (ports/endpoints differ)
-  - chain client health semantics
 ```
 ## Proposed File Tree (Future `staking/infra-kit/`)
 
