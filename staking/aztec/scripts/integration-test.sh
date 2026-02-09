@@ -1,54 +1,37 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Aztec Liquid Staking Integration Test Script
 #
 # This script runs integration tests against an Aztec TXE (Testing eXecution Environment)
 # to verify cross-contract calls and full deposit/withdrawal flows.
 #
-# Usage: ./staking/aztec/scripts/integration-test.sh [--skip-compile]
+# Usage: ./staking/aztec/scripts/integration-test.sh [--skip-compile] [--help]
 #
 # Prerequisites:
 #   - Docker with aztecprotocol/aztec:devnet image
 #   - Contracts compiled (or will compile automatically)
 #   - aztec-nargo installed at ~/aztec-bin/aztec-nargo
 
-set -e
-
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m'
-
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-AZTEC_DIR="$(dirname "$SCRIPT_DIR")"
+source "$SCRIPT_DIR/lib/common.sh"
+
+AZTEC_DIR="$(resolve_aztec_root "$SCRIPT_DIR")"
 CONTRACTS_DIR="${AZTEC_DIR}/contracts"
+
+USAGE="Usage: $0 [--skip-compile] [--help]
+
+Runs integration tests against an Aztec TXE container.
+  --skip-compile  Skip contract compilation step
+  --help          Show this help message"
+
+show_help_if_requested "$USAGE" "$@"
 
 # Parse arguments
 SKIP_COMPILE=false
-if [ "$1" = "--skip-compile" ]; then
-    SKIP_COMPILE=true
-fi
+if has_flag "--skip-compile" "$@"; then SKIP_COMPILE=true; fi
 
-echo "========================================"
-echo "Aztec Liquid Staking Integration Tests"
-echo "========================================"
-echo ""
+print_banner "Aztec Liquid Staking Integration Tests"
 
-# Track results
-TESTS_PASSED=0
-TESTS_FAILED=0
-
-pass() {
-    echo -e "${GREEN}PASS${NC}: $1"
-    TESTS_PASSED=$((TESTS_PASSED + 1))
-}
-
-fail() {
-    echo -e "${RED}FAIL${NC}: $1"
-    TESTS_FAILED=$((TESTS_FAILED + 1))
-}
-
+# info helper (alias for log_info without prefix)
 info() {
     echo -e "${BLUE}INFO${NC}: $1"
 }
@@ -73,12 +56,7 @@ fi
 echo -e "  ${GREEN}✓${NC} Aztec devnet image available"
 
 # Check aztec-nargo
-AZTEC_NARGO_BIN=""
-if [ -f "$HOME/aztec-bin/aztec-nargo" ]; then
-    AZTEC_NARGO_BIN="$HOME/aztec-bin/aztec-nargo"
-elif [ -f "$HOME/aztec-bin/nargo" ]; then
-    AZTEC_NARGO_BIN="$HOME/aztec-bin/nargo"
-fi
+AZTEC_NARGO_BIN="$(find_aztec_nargo)"
 
 if [ -z "$AZTEC_NARGO_BIN" ]; then
     echo -e "${RED}ERROR${NC}: aztec-nargo not found"
@@ -236,8 +214,8 @@ echo ""
 # ============================================================
 echo "Test 4: Running unit tests for verification..."
 
-NARGO_BIN="$HOME/.nargo/bin/nargo"
-if [ -f "$NARGO_BIN" ]; then
+NARGO_BIN="$(find_nargo)"
+if [ -n "$NARGO_BIN" ]; then
     ORIG_DIR=$(pwd)
     cd "$CONTRACTS_DIR/staking-math-tests"
 
@@ -289,12 +267,7 @@ echo ""
 # ============================================================
 echo "Test 6: Checking Aztec devnet connectivity..."
 
-DEVNET_URL="https://next.devnet.aztec-labs.com"
-DEVNET_RESPONSE=$(curl -s -m 10 -X POST "$DEVNET_URL" \
-    -H "Content-Type: application/json" \
-    -d '{"jsonrpc":"2.0","method":"node_getVersion","params":[],"id":1}' 2>/dev/null)
-
-if echo "$DEVNET_RESPONSE" | grep -q "result"; then
+if check_devnet_connectivity >/dev/null; then
     pass "Devnet is reachable and responding"
 else
     info "Devnet not reachable (non-blocking for local testing)"
@@ -304,12 +277,7 @@ echo ""
 # ============================================================
 # Summary
 # ============================================================
-echo "========================================"
-echo "Integration Test Summary"
-echo "========================================"
-echo -e "Passed:  ${GREEN}$TESTS_PASSED${NC}"
-echo -e "Failed:  ${RED}$TESTS_FAILED${NC}"
-echo ""
+print_test_summary "Integration Test"
 
 if [ $TESTS_FAILED -eq 0 ]; then
     echo -e "${GREEN}All integration tests passed!${NC}"
