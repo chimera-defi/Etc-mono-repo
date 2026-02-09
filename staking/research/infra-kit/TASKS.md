@@ -4,6 +4,7 @@
 - [ ] Review `SPEC.md` for accuracy vs scripts (eth2‑quickstart + Monad + Aztec).
 - [ ] Verify no claims about Aztec validator roles unless backed by scripts/docs.
 - [ ] Ensure diagrams in `DESIGN.md` and `SPEC.md` align with verified flows.
+- [ ] Run `REVIEW_CHECKLIST.md` and resolve any gaps.
 
 ## Script Inspection (Targeted)
 - [ ] eth2‑quickstart: inspect `install/security/*` and `install/web/*` for additional reusable primitives.
