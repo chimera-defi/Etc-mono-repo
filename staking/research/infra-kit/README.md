@@ -36,6 +36,7 @@ Phase 1 uses the repo as the control plane. A hosted API/UI is optional later.
 - `TASKS.md` — checklist of concrete next steps.
 - `PROMPTS.md` — handoff prompts for future agents.
 - `EXECUTIVE_SUMMARY.md` — high‑level summary for quick review.
+- `EXACT_SUMMARY.md` — ultra‑concise summary (single paragraph).
 - `DECISIONS.md` — key decisions and rationale.
 - `PRD.md` — product requirements (problem/solution/MVP).
 - `CONTEXT.md` — scratchpad for research notes and open questions.

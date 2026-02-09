@@ -16,6 +16,7 @@ Pass 3: Completeness
 - [ ] SPEC has verified script inventory.
 - [ ] PLAN + TASKS + PROMPTS present.
 - [ ] EXECUTIVE_SUMMARY + DECISIONS + CONTEXT present.
+- [ ] EXACT_SUMMARY present (single paragraph).
 - [ ] MASTER_PROMPT + META_ENGINEERING present.
 
 Pass 4: Concision
