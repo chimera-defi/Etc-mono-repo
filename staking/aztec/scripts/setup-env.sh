@@ -182,7 +182,7 @@ if [ -f "$HOME/aztec-bin/nargo" ]; then
     cp -r "$CONTRACTS_DIR/aztec-staking-pool" ~/aztec-contracts
 
     ORIG_DIR=$(pwd)
-    cd ~/aztec-contracts
+    cd ~/aztec-contracts || exit 1
 
     if "$HOME/aztec-bin/nargo" compile 2>&1 | tail -3; then
         if [ -f "target/staking_pool-StakingPool.json" ]; then
@@ -195,7 +195,7 @@ if [ -f "$HOME/aztec-bin/nargo" ]; then
         echo -e "${YELLOW}[WARN] Contract compilation had issues${NC}"
     fi
 
-    cd "$ORIG_DIR"
+    cd "$ORIG_DIR" || true
     echo ""
 else
     echo -e "${BLUE}Step 5: Skipping compilation (aztec-nargo not available)${NC}"

@@ -109,9 +109,9 @@ echo ""
 echo "Test 3: Running staking math unit tests..."
 if [ -d "$TESTS_DIR" ] && [ -f "$TESTS_DIR/Nargo.toml" ] && [ -n "$NARGO_BIN" ]; then
     ORIG_DIR=$(pwd)
-    cd "$TESTS_DIR"
+    cd "$TESTS_DIR" || exit 1
     TEST_OUTPUT=$("$NARGO_BIN" test 2>&1)
-    cd "$ORIG_DIR"
+    cd "$ORIG_DIR" || true
     if echo "$TEST_OUTPUT" | grep -q "tests passed"; then
         PASSED=$(echo "$TEST_OUTPUT" | grep -oE '[0-9]+ tests passed' | grep -oE '[0-9]+')
         pass "Staking math tests: $PASSED tests passed"
@@ -134,20 +134,19 @@ echo "Test 4: Checking Aztec contract compilation..."
 compile_contract() {
     local contract_name=$1
     local contract_dir=$2
-    local artifact_name=$3
 
     echo "  Compiling $contract_name..."
-    rm -rf ~/aztec-contracts/$contract_dir 2>/dev/null
+    rm -rf ~/aztec-contracts/"$contract_dir" 2>/dev/null
     mkdir -p ~/aztec-contracts 2>/dev/null
     cp -r "$CONTRACTS_DIR/$contract_dir" ~/aztec-contracts/ 2>/dev/null
     ORIG_DIR=$(pwd)
-    cd ~/aztec-contracts/$contract_dir
+    cd ~/aztec-contracts/"$contract_dir" || return 1
     COMPILE_OUTPUT=$("$AZTEC_CLI_BIN" compile 2>&1)
     COMPILE_STATUS=$?
-    cd "$ORIG_DIR"
+    cd "$ORIG_DIR" || true
 
-    if [ $COMPILE_STATUS -eq 0 ] && [ -d ~/aztec-contracts/$contract_dir/target ]; then
-        ARTIFACT_SIZE=$(du -sh ~/aztec-contracts/$contract_dir/target 2>/dev/null | cut -f1)
+    if [ "$COMPILE_STATUS" -eq 0 ] && [ -d ~/aztec-contracts/"$contract_dir"/target ]; then
+        ARTIFACT_SIZE=$(du -sh ~/aztec-contracts/"$contract_dir"/target 2>/dev/null | cut -f1)
         echo -e "    ${GREEN}✓${NC} $contract_name compiled ($ARTIFACT_SIZE)"
         return 0
     else
@@ -162,9 +161,9 @@ if [ "$MINIMAL_MODE" = true ]; then
 elif [ "$AZTEC_CLI_FOUND" = true ]; then
     CONTRACTS_COMPILED=0
 
-    compile_contract "StakedAztecToken" "staked-aztec-token" "staked_aztec_token" && CONTRACTS_COMPILED=$((CONTRACTS_COMPILED + 1))
-    compile_contract "LiquidStakingCore" "liquid-staking-core" "liquid_staking_core" && CONTRACTS_COMPILED=$((CONTRACTS_COMPILED + 1))
-    compile_contract "WithdrawalQueue" "withdrawal-queue" "withdrawal_queue" && CONTRACTS_COMPILED=$((CONTRACTS_COMPILED + 1))
+    compile_contract "StakedAztecToken" "staked-aztec-token" && CONTRACTS_COMPILED=$((CONTRACTS_COMPILED + 1))
+    compile_contract "LiquidStakingCore" "liquid-staking-core" && CONTRACTS_COMPILED=$((CONTRACTS_COMPILED + 1))
+    compile_contract "WithdrawalQueue" "withdrawal-queue" && CONTRACTS_COMPILED=$((CONTRACTS_COMPILED + 1))
 
     if [ $CONTRACTS_COMPILED -eq 3 ]; then
         pass "All 3 contracts compiled successfully"
@@ -276,7 +275,7 @@ fi
 # ============================================================
 print_test_summary "Smoke Test"
 
-if [ $TESTS_FAILED -eq 0 ]; then
+if [ "$TESTS_FAILED" -eq 0 ]; then
     if [ "$MINIMAL_MODE" = true ]; then
         echo -e "${GREEN}All minimal tests passed!${NC}"
         echo ""
