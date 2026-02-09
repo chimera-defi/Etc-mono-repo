@@ -11,3 +11,6 @@
 
 ## 4) InfraKit Skeleton Proposal
 "Propose a skeleton layout for staking/infra-kit/ (shared primitives + adapters + runbooks). Keep naming consistent with InfraKit and ensure it matches existing script behaviors."
+
+## 5) Final Review Pass
+"Run the multi‑pass `REVIEW_CHECKLIST.md` and resolve any gaps before handoff."
