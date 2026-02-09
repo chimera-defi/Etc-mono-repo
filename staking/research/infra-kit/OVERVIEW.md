@@ -46,7 +46,17 @@ All chains require:
 
 Chain‑specific requirements (hardware sizing, stake, ports) live in adapters/runbooks.
 
-## 6) Where to Read Next
+## 6) Monitoring: What’s Shared vs Chain‑Specific
+Shared:
+- status endpoint
+- RPC/health checks (wrapper)
+- systemd supervision + journal logs
+
+Chain‑specific:
+- exact RPC/metrics endpoints
+- alert thresholds and dashboards
+
+## 7) Where to Read Next
 - `DESIGN.md` — architecture + diagrams
 - `SPEC.md` — verified scripts and flows
 - `PRD.md` — business framing and scope
