@@ -211,7 +211,7 @@ Now (script-grounded)
 
 Future (optional)
   Security: secrets management + fleet policy enforcement
-  Monitoring: metrics/logs stack if adopted (e.g., Prometheus/Loki)
+  Monitoring: metrics/logs stack if adopted (Prometheus + Grafana + Loki)
 ```
 
 ## Monitoring Data Path (Phase 1)
