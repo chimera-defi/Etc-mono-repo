@@ -183,3 +183,7 @@ local-sandbox-e2e.sh
 - RPC/health check wrappers (shared, per‑chain endpoints)
 - systemd health + restart policy (shared)
 - log access via journalctl (shared)
+
+**Optional monitoring stack (Monad repo, docker compose):**
+- Prometheus, Grafana, Loki, Promtail, Alertmanager, node_exporter.
+- Ports bound to localhost by default (9090/3000/9093/3100/9100).
