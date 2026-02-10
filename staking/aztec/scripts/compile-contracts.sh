@@ -71,12 +71,7 @@ compile_one() {
     cp -r "$src_dir" "$out_dir"
 
     pushd "$out_dir" >/dev/null || return 1
-
-    if [ "$COMPILER_NAME" = "aztec compile" ]; then
-        "$COMPILER" compile 2>&1 | tail -5
-    else
-        "$COMPILER" compile 2>&1 | tail -5
-    fi
+    "$COMPILER" compile 2>&1 | tail -5
     local status=$?
 
     popd >/dev/null || true
