@@ -59,6 +59,7 @@ Entry points and critical steps (verified):
 These scripts are **developer toolchain and testing**, not validator ops:
 - `scripts/setup-env.sh`: installs standard `nargo`, optional `aztec-nargo` via Docker, caches aztec-packages deps, optional compile.
 - `scripts/smoke-test.sh`: validates nargo + Aztec CLI + unit tests + optional sandbox E2E.
+- `scripts/compile-contracts.sh`: standalone compilation of one or all Aztec contracts (auto-detects compiler).
 - `scripts/integration-test.sh`: compile contracts + run tests against Aztec devnet container (TXE).
 - `scripts/local-sandbox-e2e.sh`: local sandbox deploy + end-to-end staking flow.
 - `scripts/query-devnet.mjs`: query Aztec L2 devnet info via AztecJS.
