@@ -222,7 +222,7 @@ Each runbook should follow this template:
 
 1. **Repo-based control plane (MVP):** Scripts + runbooks, no hosted UI.
 2. **Shared primitives + thin adapters:** Centralize common ops, keep chain logic in adapters.
-3. **Aztec scope = dev/test only:** No production validator roles until scripts exist.
+3. **Aztec has two layers:** Dev tooling (scripts/) for contracts + node infra (infra/) for node/sequencer/prover. Sequencer staking blocked on TGE.
 4. **Status server is shared:** Monad's `status_server.py` is the reference implementation.
 5. **Naming:** snake_case for shared scripts, InfraKit for the project name.
 

@@ -6,7 +6,8 @@
   - 7 execution clients, 6 consensus clients, 5 MEV scripts
   - `common_functions.sh` is ~1000 lines of shared utilities
 - Monad infra scripts: `staking/monad/infra/scripts/` (23 files)
-- Aztec dev tooling: `staking/aztec/scripts/` (5 scripts + lib/common.sh)
+- Aztec dev tooling: `staking/aztec/scripts/` (6 scripts + lib/common.sh)
+- Aztec node infra: `staking/aztec/infra/scripts/` (3 scripts: setup, bootstrap, healthcheck)
 
 ## Resolved Questions
 - **eth2-quickstart scope:** Much larger than originally noted. Includes 7 execution clients (not just geth), 6 consensus clients (not just prysm), Commit-Boost/ETHGas preconfirmation protocol, interactive TUI client selection (whiptail), hardware profile detection, CI/CD test suite.
@@ -18,7 +19,7 @@
 - Should the Monad status server become the default shared status endpoint?
   - **Recommendation:** Yes. It's clean, generic (uses RPC_URL env var), and has an e2e smoke test.
 - When will Aztec production role scripts exist (sequencer/prover/validator)?
-  - **Status:** Still TBD. Keep Aztec adapter scope at dev/test tooling only.
+  - **Resolved:** Node infra scripts built at `staking/aztec/infra/scripts/`. Roles verified from Aztec CLI source. Sequencer staking blocked on TGE + 200k AZTEC.
 
 ## Recent Changes (Feb 2026)
 - Aztec scripts now share a common library (`lib/common.sh`).
