@@ -4,6 +4,9 @@ Primary references:
 - `SPEC.md`
 - `IMPLEMENTATION-PLAN.md`
 
+Additional primers:
+- `OMS_PRIMER.md` (what an OMS is, typical components, why it matters for flip-flop safety)
+
 ## Architecture Notes (Current)
 
 This repo now includes a minimal OMS safety scaffold implementing flip-flop safeguards:

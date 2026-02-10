@@ -197,6 +197,40 @@ Decision -> Intent -> Order -> (Ack/Cancel) -> Fill -> Reconcile -> SafetyEvent
 - Define plug-in boundaries (strategies, adapters, risk policies) with versioned contracts.
 - Support horizontal scaling for ingestion + replay workers (stateless, sharded by venue/asset).
 
+## 4.6 OMS Primer (What it is and how it fits)
+
+An **Order Management System (OMS)** is the safety-critical boundary between “we want to trade” and “the venue actually executed something.”
+
+In practice (especially on volatile futures venues), *order placement is a state machine problem*, not a single API call. The OMS exists to:
+- own the **order state machine** (acks/rejects/partials/cancels)
+- maintain a **position/inventory SSOT** (running fill-sum + reconciliation)
+- apply **real-time safety gates** (dirty positions, WS health, rate limits, flip-flop detection)
+- provide deterministic **audit + replay** of order/fill/safety events
+
+Why we didn’t have it earlier: MVP bots often bake “order management” into strategy code or a thin execution router. That’s fragile once you add multiple async feeds (fills/orders/positions), retries, partial fills, and multi-strategy concurrency.
+
+### OMS internal sub-components (conceptual)
+
+```
+          Intents/Order plans
+ Strategy/Risk/Router  |
+                       v
+                 +-----------+
+                 |   OMS     |
+                 +-----------+
+   Safety gates: dirty flags, WS health, rate limits, flip-flop detector
+   State: order state machine + idempotency keys
+   SSOT: running fill-sum + (next step) open-order exposure projection
+   Reconcile: REST snapshots vs SSOT -> SAFE mode on mismatch
+   Outputs: orders/cancels to adapters + audited events + alerts
+                       |
+                       v
+                Venue Adapters (WS + REST)
+                       |
+                       v
+                     Venues
+```
+
 ## 4.7 Flip-Flop Bug Safeguards (Positions & Orders)
 
 Flip-flop bugs happen when the bot’s internal “position” view diverges from the venue’s true state due to:
@@ -241,7 +275,7 @@ Safeguards (minimum for LIVE futures market making):
 - Log every order placement, cancel, fill, dirty/clean transition, reconciliation result, and SAFE-mode trigger.
 - Logs must be append-only and replayable; do not log secrets.
 
-## 4.6 Arbitrage Loop (Cross-Venue)
+## 4.8 Arbitrage Loop (Cross-Venue)
 
 ```
 Price Gap Detector -> Inventory Check -> Risk Gate -> Execute Leg A
