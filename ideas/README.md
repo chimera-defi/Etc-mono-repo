@@ -108,6 +108,20 @@ DeFi protocol concept for ERC-8004 agent credit with Ethos vouching + reverse-Ke
 
 ---
 
+## Server Management Agent (Open Claw / Clawd Bot)
+
+**Concept**: An AI ops agent that provisions, manages, and maintains servers and fleets. Users control it via web console, CLI, or API, with strict guardrails and audit logs.
+
+**Key ideas**:
+- Safe automation (approve/deny sensitive actions)
+- Fleet‑level monitoring + incident playbooks
+- Reproducible changes + immutable audit trails
+
+**Documentation**:
+- [Server Management Agent Overview](./server-management-agent/README.md)
+
+---
+
 ## Birthday Bot
 
 **Problem**: People frequently forget their friends' and family members' birthdays. Birthday data is scattered across Facebook, Instagram, Google Contacts, phone contacts, and calendar apps, with no unified way to manage, prioritize, and remember them.
