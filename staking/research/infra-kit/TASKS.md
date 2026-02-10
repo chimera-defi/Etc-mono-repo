@@ -29,12 +29,19 @@
 - [x] Decide adapter boundaries (Ethereum vs Monad vs Aztec).
 - [x] Produce a concise architecture diagram for human review (keep in DESIGN.md).
 
+## Aztec Node Infra (Completed)
+- [x] Spec out Aztec network roles from CLI source (AZTEC_NODE_SPEC.md).
+- [x] Build `setup_aztec_node.sh` mirroring Monad `setup_server.sh`.
+- [x] Build `bootstrap_aztec.sh` mirroring Monad `bootstrap_all.sh`.
+- [x] Build `check_aztec_node.sh` health check.
+- [x] Add infra/README.md with usage docs.
+
 ## Implementation Prep (Future)
 - [ ] Propose `staking/infra-kit/` skeleton in a new PR.
 - [ ] Extract shared primitives from Monad scripts into `infra-kit/shared/`.
 - [ ] Create Ethereum adapter wrapping eth2-quickstart scripts.
 - [ ] Create Monad adapter wrapping monad infra scripts.
-- [ ] Create Aztec dev tooling adapter.
+- [ ] Create Aztec adapter wrapping infra + dev tooling scripts.
 - [ ] Add runbook template + smoke test template.
 - [ ] Add shellcheck CI for all shell scripts.
 - [ ] Standardize naming convention (snake_case) across shared primitives.

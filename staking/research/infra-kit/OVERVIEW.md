@@ -1,15 +1,15 @@
-# InfraKit Overview (From Zero → Detailed)
+# InfraKit Overview (From Zero to Detailed)
 
-## 1) What We’re Building (High Level)
+## 1) What We're Building (High Level)
 InfraKit is a **shared ops layer** for validator infrastructure. Instead of
-re‑writing server setup for every chain, we reuse the same **provisioning,
+re-writing server setup for every chain, we reuse the same **provisioning,
 hardening, services, and monitoring** steps, and plug in **thin chain adapters**
-for chain‑specific binaries/configs.
+for chain-specific binaries/configs.
 
 **Outcome:** faster onboarding of new chains with consistent security and ops.
 
-## 2) What “Shared” Means
-Shared primitives are **ops‑only**:
+## 2) What "Shared" Means
+Shared primitives are **ops-only**:
 - OS updates + base packages
 - SSH hardening + firewall (UFW) + fail2ban + sysctl
 - systemd helpers + env files
@@ -18,24 +18,25 @@ Shared primitives are **ops‑only**:
 
 These are used by **all chains**.
 
-## 3) What “Adapter” Means
-Adapters are **chain‑specific**:
+## 3) What "Adapter" Means
+Adapters are **chain-specific**:
 - Which binaries to install
 - Which ports/flags to run
-- Role‑specific services (validator, consensus, etc.)
-- Chain‑specific monitoring endpoints
+- Role-specific services (validator, consensus, sequencer, prover, etc.)
+- Chain-specific monitoring endpoints
 
 Adapters remain thin and auditable.
 
 ## 4) Chains Covered (Current Scope)
 **Ethereum (L1)**
-- Uses eth2‑quickstart scripts (geth + prysm + mev‑boost).
+- Uses eth2-quickstart scripts (7 EL + 6 CL clients + MEV-Boost/Commit-Boost).
 
 **Monad**
-- Uses monad infra scripts (monad‑bft + status service).
+- Uses monad infra scripts (monad-bft + status service). 23 production scripts.
 
 **Aztec**
-- Current scripts are **dev/test tooling only** (no production validator roles).
+- **Node infra:** setup scripts for node, sequencer, prover roles (devnet-ready, sequencer staking blocked on TGE).
+- **Dev tooling:** contract compilation, testing, sandbox E2E (6 scripts + shared lib).
 
 ## 5) Requirements: High Level
 All chains require:
@@ -44,15 +45,15 @@ All chains require:
 - firewall + SSH hardening
 - monitoring/health checks
 
-Chain‑specific requirements (hardware sizing, stake, ports) live in adapters/runbooks.
+Chain-specific requirements (hardware sizing, stake, ports) live in adapters/runbooks.
 
-## 6) Monitoring: What’s Shared vs Chain‑Specific
+## 6) Monitoring: What's Shared vs Chain-Specific
 Shared:
 - status endpoint
 - RPC/health checks (wrapper)
 - systemd supervision + journal logs
 
-Chain‑specific:
+Chain-specific:
 - exact RPC/metrics endpoints
 - alert thresholds and dashboards
 
@@ -70,6 +71,7 @@ node_exporter. It binds ports to localhost by default.
 - unattended upgrades (where used)
 
 ## 9) Where to Read Next
-- `DESIGN.md` — architecture + diagrams
-- `SPEC.md` — verified scripts and flows
-- `PRD.md` — business framing and scope
+- `DESIGN.md` -- architecture + diagrams
+- `SPEC.md` -- verified scripts and flows
+- `PRD.md` -- business framing and scope
+- `AZTEC_NODE_SPEC.md` -- Aztec node setup gap analysis

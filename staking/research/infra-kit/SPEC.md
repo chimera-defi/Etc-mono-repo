@@ -65,6 +65,12 @@ These scripts are **developer toolchain and testing**, not validator ops:
 - `scripts/query-devnet.mjs`: query Aztec L2 devnet info via AztecJS.
 - `scripts/lib/common.sh`: shared library (colors, logging, env detection, binary finders, contract helpers, devnet connectivity, argument parsing).
 
+### Aztec infra (node provisioning scripts in this repo)
+Entry points and critical steps (verified):
+- `setup_aztec_node.sh`: create user -> install Aztec CLI -> sysctl tuning -> install node/sequencer/prover systemd units -> optional Caddy/UFW -> preflight check.
+- `bootstrap_aztec.sh`: wraps `setup_aztec_node.sh` + optional monitoring (docker compose) + optional hardening (SSH, fail2ban, unattended upgrades) + L1 connectivity check.
+- `check_aztec_node.sh`: health check (node version + L2 tips via JSON-RPC).
+
 ## 2) InfraKit Shared Primitives (Derived from Scripts)
 
 These are the **common operations** we can safely reuse across chains:
@@ -102,11 +108,12 @@ Based on current scripts, **shared software is operational tooling**, not protoc
 No shared consensus/execution software is used across Ethereum and Monad in the scripts reviewed.
 
 ### Aztec
-Current scripts are dev/test tooling, not validator-role operations.
-- InfraKit can reuse **testing scaffolding** patterns (env setup, smoke tests).
-- **Validator/sequencer/prover ops** are TBD until production role scripts exist.
-- Aztec scripts now have a shared library (`lib/common.sh`) with env detection, binary finders, contract helpers.
-Aztec scripts in this repo do **not** require running an Ethereum validator; they use a local sandbox or Aztec CLI.
+Aztec now has **two script sets**: dev tooling and node infra.
+- **Dev tooling** (`staking/aztec/scripts/`): contract compilation, testing, sandbox E2E. Shared library at `lib/common.sh`.
+- **Node infra** (`staking/aztec/infra/scripts/`): server provisioning for node, sequencer, prover roles. Mirrors Monad pattern.
+- Adapter uses shared primitives for user creation, sysctl, firewall, SSH hardening, systemd.
+- Keeps Aztec CLI install, node/sequencer/prover services, and L1 connectivity checks as Aztec-specific.
+- Sequencer staking requires 200k AZTEC on L1 (post-TGE). Scripts target devnet until mainnet is stable.
 
 ## 4) Proposed Layout (Target, Not Yet Implemented)
 
@@ -159,6 +166,25 @@ run_2.sh (non-root)
   -> Security validation (validate_security_safe + server_security_validation)
 ```
 
+### Aztec node infra flow (current behavior)
+```
+setup_aztec_node.sh
+  -> create aztec user/group
+  -> install Aztec CLI (official installer or Docker extraction)
+  -> sysctl tuning (network buffers, file descriptors)
+  -> install node systemd unit + env file
+  -> with-sequencer? install sequencer unit + env
+  -> with-prover? install prover unit + env
+  -> with-caddy? / with-firewall?
+  -> preflight check (binary, config, L1 connectivity)
+
+bootstrap_aztec.sh
+  -> setup_aztec_node.sh (with forwarded flags)
+  -> with-monitoring? docker compose (prometheus + grafana)
+  -> with-hardening? SSH + fail2ban + unattended upgrades
+  -> L1 connectivity verification
+```
+
 ### Aztec dev toolchain flow (current behavior)
 ```
 setup-env.sh
@@ -178,13 +204,14 @@ local-sandbox-e2e.sh
 
 - **Reusable:** system hardening, systemd utilities, status endpoints, smoke tests, optional proxy + SSL.
 - **Chain-specific:** client binaries/configs, MEV logic, role semantics (sequencer/prover/validator).
-- **Aztec validator roles:** not codified in current scripts; avoid assumptions until role scripts exist.
+- **Aztec roles:** node, sequencer, prover agent now have setup scripts. Sequencer staking gated on TGE.
 
-## 7) Open Items (No Hallucinations)
+## 7) Open Items
 
 - Decide whether the shared status server should be standard (Monad version is a candidate).
-- Define Aztec production role scripts once available.
-- Decide naming convention for shared scripts (snake_case recommended, matching Monad pattern).
+- Naming convention decided: snake_case for shared primitives (matching Monad).
+- Aztec node infra scripts built; sequencer staking flow blocked on TGE + 200k AZTEC deposit.
+- Prover agent economics not finalized by Aztec team.
 
 ## 8) Monitoring & Security (Script-Grounded)
 

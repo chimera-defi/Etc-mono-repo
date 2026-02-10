@@ -2,8 +2,8 @@
 
 Development and testing toolchain for the Aztec liquid staking contracts.
 
-**Important:** These are **dev/test tooling only** -- not production validator operations.
-Aztec production roles (sequencer/prover/validator) are not yet codified.
+**Important:** These are **dev/test tooling only** -- not production node operations.
+For node/sequencer/prover provisioning, see `staking/aztec/infra/`.
 
 ## Scripts
 
