@@ -11,6 +11,7 @@ Aztec production roles (sequencer/prover/validator) are not yet codified.
 |--------|---------|-----------------|
 | `setup-env.sh` | Install nargo, aztec-nargo, dependencies | Optional (full mode) |
 | `smoke-test.sh` | Verify toolchain and run unit tests | Optional (full mode) |
+| `compile-contracts.sh` | Compile one or all Aztec contracts | Yes (Aztec CLI) |
 | `integration-test.sh` | Compile contracts, test TXE, verify selectors | Yes |
 | `local-sandbox-e2e.sh` | Full deploy + staking flow on local sandbox | Yes |
 | `query-devnet.mjs` | Query Aztec L2 devnet info via AztecJS | No |
@@ -40,6 +41,12 @@ All bash scripts source `lib/common.sh` which provides:
 # Run unit tests directly
 cd contracts/staking-math-tests && nargo test
 
+# Compile all contracts (Aztec CLI required)
+./scripts/compile-contracts.sh
+
+# Compile a single contract
+./scripts/compile-contracts.sh staked-aztec-token
+
 # Integration tests (Docker required)
 ./scripts/integration-test.sh
 
@@ -57,6 +64,7 @@ cd contracts/staking-math-tests && nargo test
 | `DEPLOY_TIMEOUT` | `300` | `local-sandbox-e2e.sh` |
 | `AZTEC_DEVNET_URL` | `https://next.devnet.aztec-labs.com` | `smoke-test.sh`, `integration-test.sh` |
 | `AZTEC_PACKAGES_VERSION` | `v3.0.3` | `local-sandbox-e2e.sh` |
+| `AZTEC_COMPILE_DIR` | `~/aztec-contracts` | `compile-contracts.sh` |
 
 ## Contract Architecture (v3.0.x)
 
