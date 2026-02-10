@@ -15,7 +15,7 @@ if SRC_DIR not in sys.path:
     sys.path.insert(0, SRC_DIR)
 
 from ats.trading.audit import AuditLogger
-from ats.trading.oms import OMS, OMSConfig, OrderBlocked
+from ats.trading.oms import OMS, OMSConfig, OrderBlocked, SafetyHalt
 from ats.trading.types import FillEvent, Mode, OrderRequest, OrderType, Side
 
 from fake_venue import FakeClock, FakeVenue
@@ -200,11 +200,21 @@ class OMSSafeguardsTests(unittest.IsolatedAsyncioTestCase):
         oms.mark_ws_event("BTC/USDT")
 
         try:
-            for _ in range(6):
-                ack = await oms.place_order(
-                    OrderRequest(asset="BTC/USDT", side=Side.BUY, qty=0.001, order_type=OrderType.LIMIT, limit_price=1.0)
-                )
-                await oms.cancel_order(ack.venue_order_id, asset="BTC/USDT")
+            try:
+                for _ in range(6):
+                    ack = await oms.place_order(
+                        OrderRequest(
+                            asset="BTC/USDT",
+                            side=Side.BUY,
+                            qty=0.001,
+                            order_type=OrderType.LIMIT,
+                            limit_price=1.0,
+                        )
+                    )
+                    await oms.cancel_order(ack.venue_order_id, asset="BTC/USDT")
+            except SafetyHalt:
+                # Expected: flip-flop can trip mid-loop and block subsequent orders.
+                pass
             self.assertTrue(oms.safe_mode)
             self.assertIn("FLIPFLOP_DETECTED", oms.halt_reason)
         finally:
