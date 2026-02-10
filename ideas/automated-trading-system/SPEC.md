@@ -31,6 +31,7 @@
 4. Market Data Adapter
 5. Risk + Guardrails
 6. Audit + Replay Store
+7. Order Management System (OMS) + Reconciliation
 
 ## 4.1 High-Level Architecture
 
@@ -48,7 +49,8 @@ Market Data -> Strategy Engine -> Intent Log -> Risk Engine -> Execution Router
 
 - Strategy Engine: generates intents only.
 - Risk Engine: enforces limits and safety gates.
-- Execution Router: stages orders, handles confirmation, routes to venues.
+- Execution Router: stages orders, handles confirmation, routes to venues (via OMS).
+- OMS + Reconciliation: maintain an internal running sum of fills, enforce flip-flop safeguards, and reconcile state vs venue.
 - Audit Store: append-only decision/intent/order/fill log.
 - Replay: deterministic re-run using stored logs + market data.
 
@@ -125,8 +127,8 @@ Decision -> Intent -> Order -> Fill
 ## 4.5 Architecture Refinements (Research-Driven)
 
 - Introduce a Market Data Ingestion service (normalize, timestamp, dedupe).
-- Add a Position/Portfolio service as a single source of truth.
-- Add a Reconciliation worker (orders/positions vs venue state).
+- Add a Position/Portfolio service as a single source of truth (SSOT), backed by a running sum of fills + reconciliation.
+- Add a Reconciliation worker (orders/positions vs venue state) that can fail-fast into SAFE mode.
 - Separate Execution Orchestrator from Venue Adapters (clean boundary).
 - Make Audit Store append-only with schema versioning.
 - Add an Order State Machine with idempotency keys.
@@ -136,6 +138,50 @@ Decision -> Intent -> Order -> Fill
 - Ship metrics to an Observability pipeline (latency, rejects, drift).
 - Define plug-in boundaries (strategies, adapters, risk policies) with versioned contracts.
 - Support horizontal scaling for ingestion + replay workers (stateless, sharded by venue/asset).
+
+## 4.7 Flip-Flop Bug Safeguards (Positions & Orders)
+
+Flip-flop bugs happen when the bot’s internal “position” view diverges from the venue’s true state due to:
+- delayed position updates (WS or REST)
+- missed fill events (sequence gaps, feed drop)
+- race conditions between order placement/cancel and fills
+
+Safeguards (minimum for LIVE futures market making):
+
+### 4.7.1 Running Sum of Fills (Internal Fast Truth)
+- Maintain `internal_pos_qty[asset]` as the signed cumulative sum of fills (BUY \(+\), SELL \(-\)).
+- Dedupe fills by `fill_id`.
+- Track optional exchange `fill_seq` (strictly increasing) to detect missed fills; a gap triggers SAFE mode.
+
+### 4.7.2 Dirty Position Flags (Block New Orders)
+- After any fill, mark `dirty[asset]=true`.
+- While dirty, block new order placements for that asset (cancels allowed) until:
+  - a confirmed position update arrives (WS position event) **or**
+  - a REST reconciliation snapshot matches within threshold.
+- If dirty persists beyond a max age, enter SAFE mode (assume feed/race issue).
+
+### 4.7.3 Reconciliation + Fail-Fast SAFE Mode
+- Take REST position snapshots every 5–10s, and/or sooner after an idle period with no fills.
+- Compare REST position vs internal running sum:
+  - Allow a small latency/grace window after fills (venue position pipelines lag).
+  - Allow a small mismatch threshold (e.g. 0.1% relative, configurable).
+- If mismatch persists beyond grace/threshold:
+  - enter SAFE mode: stop new orders, emit alert, require operator intervention/re-arming.
+
+### 4.7.4 Feed Health Gating (Avoid Over-Reliance on Polling)
+- Prefer WebSocket (fills/positions/orders) for low-latency state updates.
+- If WS is stale or disconnected:
+  - block new order placements (SAFE mode) until feed is healthy again.
+- REST is used for reconciliation and discrepancy resolution, not as the primary state feed.
+
+### 4.7.5 Order Spam Controls (Rate Limit + Flip-Flop Detector)
+- Enforce per-asset order rate limits (e.g. \(\le 5\) orders/sec).
+- Detect flip-flopping patterns such as repeated place/cancel cycles within a rolling window (e.g. 1 minute).
+- On breach: halt strategy (SAFE mode) to prevent account liquidation in volatility spikes.
+
+### 4.7.6 Audit Logging (Debuggability Under Incident)
+- Log every order placement, cancel, fill, dirty/clean transition, reconciliation result, and SAFE-mode trigger.
+- Logs must be append-only and replayable; do not log secrets.
 
 ## 4.6 Arbitrage Loop (Cross-Venue)
 
@@ -158,27 +204,38 @@ Adapters must implement:
 ```
 connect()
 subscribe_market_data(assets)
+subscribe_fills(assets)          # WS preferred; yields Fill events (with seq if available)
+subscribe_positions(assets)      # WS preferred; yields Position updates
 place_order(order)
 cancel_order(order_id)
 get_open_orders()
 get_positions()
 get_balances()
+fetch_position_snapshot(asset)   # REST snapshot for reconciliation
 ```
 
 Adapter outputs must include:
 - venue order id
 - standardized error codes
 - latency metrics (request/ack/fill)
+- sequence/ordering metadata where available (e.g., fill sequence numbers)
+- clear position quantity semantics (contracts vs base qty; signed long/short)
 
 ## 11. Error Taxonomy (Draft)
 
 - `MARKET_DATA_STALE`
+- `WS_STALE`
 - `INSUFFICIENT_BALANCE`
 - `ORDER_REJECTED`
 - `RATE_LIMITED`
+- `ORDER_RATE_LIMIT_BREACH`
 - `VENUE_UNAVAILABLE`
 - `INVALID_ORDER`
 - `RISK_BLOCKED`
+- `FILL_SEQ_GAP`
+- `POSITION_MISMATCH`
+- `FLIPFLOP_DETECTED`
+- `SAFE_MODE`
 
 ## 12. Risk Policy Matrix (Draft)
 
@@ -391,6 +448,7 @@ Where `Intent` includes:
 - Kill switch (global and per strategy).
 - Time-based cooldown after drawdown.
 - Prevent order spam (rate limits).
+- Prevent flip-flop liquidation events (dirty-position blocking + reconciliation + feed health gating).
 
 ## 8. Data + Logging
 
@@ -420,7 +478,7 @@ Order {
 
 Fill {
   id, ts, mode, venue, asset, side, qty,
-  price, fees, order_id, intent_id
+  price, fees, order_id, intent_id, seq?
 }
 ```
 
@@ -462,6 +520,7 @@ Fill {
 - Single config file per run.
 - Mode-specific overrides allowed but logged.
 - Secrets via env or vault; never in config files.
+- OMS safeguard thresholds must be configurable (reconcile interval, mismatch thresholds, dirty max age, WS staleness, per-asset rate limits).
 
 ## 8.8 Asset Model (Crypto First-Class)
 
@@ -491,6 +550,7 @@ The system is complete when:
 3. Strategies can be added without modifying execution code.
 4. Crypto trading functions as a first-class asset class.
 5. All decisions, intents, orders, and commands are auditable and replayable.
+6. Flip-flop safeguards are enforced (dirty-position gating, reconcile fail-fast, feed health gating, rate limiting, flip-flop detection) and covered by tests/chaos scenarios.
 
 ---
 
