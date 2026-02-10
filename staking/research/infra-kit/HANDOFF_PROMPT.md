@@ -49,7 +49,7 @@ Located at `github.com/chimera-defi/eth2-quickstart`:
 
 ### 3. Aztec Dev Tooling (5 scripts + shared lib)
 Located at `staking/aztec/scripts/`:
-- `setup-env.sh`, `smoke-test.sh`, `integration-test.sh`, `local-sandbox-e2e.sh`, `query-devnet.mjs`
+- `setup-env.sh`, `smoke-test.sh`, `compile-contracts.sh`, `integration-test.sh`, `local-sandbox-e2e.sh`, `query-devnet.mjs`
 - `lib/common.sh`: shared library with colors, logging, env detection, binary finders, contract helpers, devnet connectivity, argument parsing
 
 **Key pattern:** These are dev/test only -- NOT validator ops. Do not assume Aztec has production validator roles.
