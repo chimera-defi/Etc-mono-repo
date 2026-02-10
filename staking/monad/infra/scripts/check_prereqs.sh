@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-bins=(curl rg python3)
+bins=(curl grep python3)
 missing=0
 
 for bin in "${bins[@]}"; do
