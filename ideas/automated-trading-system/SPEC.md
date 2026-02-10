@@ -125,9 +125,10 @@ Market Data -> Strategy Engine -> Intent Log -> Risk Engine -> Execution Router 
                v                      v
      +-------------------+     +---------------+
      | Venue Adapters    |     |  Sim Engine   |
-     | (WS + REST)       |     | (deterministic|
-     +---------+---------+     |  fills/pos)   |
-               |               +-------+-------+
+     | (Order entry +    |     | (deterministic|
+     |  WS + REST)       |     |  fills/pos)   |
+     +---------+---------+     +-------+-------+
+               |                       |
                v                       |
             +-------+                  |
             | Venues|<-----------------+
@@ -142,30 +143,30 @@ The OMS is not a “dumb pipe”; it is the safety-critical boundary that:
 - halts (SAFE mode) on feed gaps / drift / flip-flop patterns
 
 ```
-            WS fills/positions/orders             REST snapshots (5-10s)
-                     |                                   |
-                     v                                   v
-              +--------------+                     +--------------+
-              | Venue Adapter|                     | Venue Adapter|
-              |   (WS)       |                     |    (REST)    |
-              +------+-------+                     +------+-------+
-                     |                                    |
-                     +-----------------+------------------+
-                                       |
-                                       v
-                                +--------------+
-                                |     OMS      |
-                                |  Position &  |
-                                |  Order SSOT  |
-                                | (fill-sum +  |
-                                | reconcile)   |
-                                +------+-------+
-                                       |
-                    SAFE-mode / blocks | context for risk/strategy
-                                       v
-               +-------------------+   +-------------------+
-               | Execution Router  |   |  Risk/Strategies  |
-               +-------------------+   +-------------------+
+ Orders/Cancels (REST/FIX)     WS fills/positions/orders        REST snapshots (5-10s)
+            |                          |                               |
+            v                          v                               v
+     +--------------+           +--------------+                +--------------+
+     | Venue Adapter|           | Venue Adapter|                | Venue Adapter|
+     | (Order entry)|           |    (WS)      |                |    (REST)    |
+     +------+-------+           +------+-------+                +------+-------+
+            |                          |                               |
+            +--------------------------+---------------+---------------+
+                                                   |
+                                                   v
+                                            +--------------+
+                                            |     OMS      |
+                                            |  Position &  |
+                                            |  Order SSOT  |
+                                            | (fill-sum +  |
+                                            | reconcile)   |
+                                            +------+-------+
+                                                   |
+                                SAFE-mode / blocks | context for risk/strategy
+                                                   v
+                   +-------------------+   +-------------------+
+                   | Execution Router  |   |  Risk/Strategies  |
+                   +-------------------+   +-------------------+
 ```
 
 ### Data Lineage (Audit + Replay)
@@ -209,6 +210,11 @@ In practice (especially on volatile futures venues), *order placement is a state
 
 Why we didn’t have it earlier: MVP bots often bake “order management” into strategy code or a thin execution router. That’s fragile once you add multiple async feeds (fills/orders/positions), retries, partial fills, and multi-strategy concurrency.
 
+### OMS vs EMS vs “OEMS” (terminology)
+- **OMS**: order lifecycle + state (accepted/rejected/working/canceled/filled).
+- **EMS**: execution logic (routing/slicing/algos); sometimes merged with OMS.
+- **OEMS**: “order + execution management system” (common term for OMS+EMS together).
+
 ### OMS internal sub-components (conceptual)
 
 ```
@@ -225,11 +231,19 @@ Why we didn’t have it earlier: MVP bots often bake “order management” into
    Outputs: orders/cancels to adapters + audited events + alerts
                        |
                        v
-                Venue Adapters (WS + REST)
+               Venue Adapters (order entry + WS + REST)
                        |
                        v
                      Venues
 ```
+
+### Note on real-world connectivity (multi-channel)
+Many production OEMS setups use multiple concurrent channels:
+- **Order entry** (sometimes FIX; often REST on crypto venues)
+- **Market data** (WS)
+- **Order/fill tracking** (WS + REST reconciliation)
+
+This multi-channel reality is exactly where flip-flop bugs emerge if the OMS does not own SSOT + reconciliation.
 
 ## 4.7 Flip-Flop Bug Safeguards (Positions & Orders)
 
@@ -298,8 +312,8 @@ connect()
 subscribe_market_data(assets)
 subscribe_fills(assets)          # WS preferred; yields Fill events (with seq if available)
 subscribe_positions(assets)      # WS preferred; yields Position updates
-place_order(order)
-cancel_order(order_id)
+place_order(order)               # order entry channel (REST or FIX, venue-dependent)
+cancel_order(order_id)           # order entry channel (REST or FIX, venue-dependent)
 get_open_orders()
 get_positions()
 get_balances()

@@ -9,6 +9,12 @@ An **Order Management System (OMS)** is the component that **owns the truth of o
 
 For volatile futures venues, the OMS is where you put safeguards that prevent “flip-flop” incidents: **dirty position gating**, **fill-sum vs snapshot reconciliation**, **sequence-gap detection**, and **order spam suppression**.
 
+### OMS vs EMS vs “OEMS” (terminology)
+You’ll see a few names in the wild:
+- **OMS**: order lifecycle + order state (accepted/rejected/working/canceled/filled).
+- **EMS**: execution-focused layer (routing/slicing/algos), often tightly coupled to OMS in practice.
+- **OEMS**: “order + execution management system” (common vendor phrasing), basically OMS+EMS together.
+
 ### Why didn’t we have an OMS “before”?
 Early-stage trading bots typically start with:
 - strategy code calling the venue API directly (e.g., `ccxt.create_order`)
@@ -27,8 +33,9 @@ At that point, “order placement” stops being a trivial RPC call and becomes 
 Common production pattern is **event-driven, single-writer state**:
 
 - **Event sources**
-  - WS streams: fills, order updates, position updates
-  - REST snapshots: positions/open orders (used for reconciliation)
+  - WS streams: market data, fills, order updates, position updates
+  - REST snapshots: positions/open orders (used for reconciliation and recovery)
+  - Optional order-entry session/protocol (FIX on some venues/brokers)
 - **State ownership**
   - OMS maintains an internal **Order State Machine** and **Position/Inventory SSOT**
   - Reconciliation worker corrects drift and triggers SAFE mode on mismatch
@@ -37,6 +44,13 @@ Common production pattern is **event-driven, single-writer state**:
   - kill switch / SAFE mode (stop new orders, allow cancels/hedges)
 - **Observability**
   - audit log (append-only), metrics, alerts
+
+### Common “real OMS” features you should expect
+Beyond place/cancel, many practical OEMS tools include:
+- **Order tracking via multiple channels** (e.g., an order-entry channel plus separate REST/WS for tracking and market data).
+- **Order preview / cost estimation**: estimate slippage/fees/commission before sending.
+- **Fat-finger protection**: notional caps, and blocking “overly marketable” limit orders.
+- **Local order book view** for strategies that depend on microstructure (best bid/ask and depth).
 
 ### Typical high-level components (what firms usually have)
 - **Market Data Ingestion**: normalize, dedupe, timestamps/sequence.
@@ -65,4 +79,9 @@ Common production pattern is **event-driven, single-writer state**:
 - **Adapter contract**: `src/ats/trading/venue.py`
 - **ccxt.pro adapter skeleton**: `src/ats/trading/ccxt_pro_adapter.py` (requires venue-specific position semantics verification)
 - **Safeguard tests**: `tests/test_oms_safeguards.py`
+
+### References (public)
+- Mark Best (Quantitative Trading), “Hidden Dangers of Writing an OMS” (flip-flop bugs, positions vs orders): `https://markrbest.github.io/positions-and-orders/`
+- FIX Trading Community standards (protocol ecosystem used broadly for order routing): `https://www.fixtrading.org/standards/`
+- Coinbase samples `trader-shell-go` README (example OEMS features: FIX trading, REST order tracking, WS order book, fat-finger protection): `https://github.com/coinbase-samples/trader-shell-go`
 
