@@ -36,13 +36,24 @@
 ## 4.1 High-Level Architecture
 
 ```
-Market Data -> Strategy Engine -> Intent Log -> Risk Engine -> Execution Router
-                                              |                 |
-                                              v                 v
-                                         Audit Store        Venue Adapters
-                                              |
-                                              v
-                                           Replay
+                                     +-------------------+
+                                     |    Audit Store    |
+                                     | (append-only log) |
+                                     +---------+---------+
+                                               |
+                                               v
+                                             Replay
+
+Market Data -> Strategy Engine -> Intent Log -> Risk Engine -> Execution Router -> OMS -> Venue Adapters -> Venues
+                          ^                           |           |
+                          |                           |           +--> REST position snapshots (reconcile)
+                          |                           |
+                          |                           +--> order acks/cancels/fills (audited)
+                          |
+                          +-------- Context (position SSOT + order state) <--------+
+                                  (running fill-sum + reconciliation)              |
+                                                                                   |
+                                              WS fills/positions/orders <----------+
 ```
 
 ### Responsibilities
@@ -50,7 +61,7 @@ Market Data -> Strategy Engine -> Intent Log -> Risk Engine -> Execution Router
 - Strategy Engine: generates intents only.
 - Risk Engine: enforces limits and safety gates.
 - Execution Router: stages orders, handles confirmation, routes to venues (via OMS).
-- OMS + Reconciliation: maintain an internal running sum of fills, enforce flip-flop safeguards, and reconcile state vs venue.
+- OMS + Reconciliation: maintain a position/order SSOT (running fill-sum + reconciliation), enforce flip-flop safeguards, and fail-fast into SAFE mode when state is unsafe.
 - Audit Store: append-only decision/intent/order/fill log.
 - Replay: deterministic re-run using stored logs + market data.
 
@@ -100,28 +111,75 @@ Market Data -> Strategy Engine -> Intent Log -> Risk Engine -> Execution Router
                     |
           +---------+---------+
           | Execution Router  |
+          +---------+---------+
+                    |
+                    v
+          +-------------------+
+          |       OMS         |
+          | + Reconciliation  |
+          | (SAFE-mode gates) |
           +----+---------+----+
                |         |
       LIVE ----+         +---- DRY_RUN/REPLAY
                |                      |
                v                      v
-        +-------------+        +---------------+
-        |  Venues     |        |  Sim Engine   |
-        +-------------+        +---------------+
+     +-------------------+     +---------------+
+     | Venue Adapters    |     |  Sim Engine   |
+     | (WS + REST)       |     | (deterministic|
+     +---------+---------+     |  fills/pos)   |
+               |               +-------+-------+
+               v                       |
+            +-------+                  |
+            | Venues|<-----------------+
+            +-------+
+```
+
+### OMS Feedback Loops (Critical Safety Integration)
+
+The OMS is not a “dumb pipe”; it is the safety-critical boundary that:
+- blocks new orders while positions are dirty
+- reconciles internal fill-sum vs REST snapshots
+- halts (SAFE mode) on feed gaps / drift / flip-flop patterns
+
+```
+            WS fills/positions/orders             REST snapshots (5-10s)
+                     |                                   |
+                     v                                   v
+              +--------------+                     +--------------+
+              | Venue Adapter|                     | Venue Adapter|
+              |   (WS)       |                     |    (REST)    |
+              +------+-------+                     +------+-------+
+                     |                                    |
+                     +-----------------+------------------+
+                                       |
+                                       v
+                                +--------------+
+                                |     OMS      |
+                                |  Position &  |
+                                |  Order SSOT  |
+                                | (fill-sum +  |
+                                | reconcile)   |
+                                +------+-------+
+                                       |
+                    SAFE-mode / blocks | context for risk/strategy
+                                       v
+               +-------------------+   +-------------------+
+               | Execution Router  |   |  Risk/Strategies  |
+               +-------------------+   +-------------------+
 ```
 
 ### Data Lineage (Audit + Replay)
 
 ```
-Decision -> Intent -> Order -> Fill
-    |         |         |        |
-    +---------+---------+--------+
-              |
-              v
-        Audit Store
-              |
-              v
-            Replay
+Decision -> Intent -> Order -> (Ack/Cancel) -> Fill -> Reconcile -> SafetyEvent
+    |         |         |            |          |         |          |
+    +---------+---------+------------+----------+---------+----------+
+                              |
+                              v
+                         Audit Store
+                              |
+                              v
+                            Replay
 ```
 
 ## 4.5 Architecture Refinements (Research-Driven)
