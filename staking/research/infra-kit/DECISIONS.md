@@ -23,3 +23,7 @@
 ## 2026-02-09 -- snake_case for shared primitive filenames
 **Decision:** Use snake_case for all shared primitive scripts (matching Monad convention).
 **Rationale:** Monad scripts (production-grade) already use snake_case. eth2-quickstart functions use snake_case. Aztec scripts use kebab-case but these are dev-only tooling.
+
+## 2026-02-09 -- Aztec infra scripts (node/sequencer/prover)
+**Decision:** Build Aztec node provisioning scripts mirroring Monad pattern (`setup_aztec_node.sh` + `bootstrap_aztec.sh`), initially targeting devnet.
+**Rationale:** Aztec had no server provisioning scripts despite the IMPLEMENTATION-PLAN.md calling for 3 validators. The roles (node, sequencer, prover) are verified in the Aztec CLI source. Sequencer staking requires TGE + 200k AZTEC, but the infra can be built and tested on devnet now.

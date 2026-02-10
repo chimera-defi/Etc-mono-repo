@@ -52,7 +52,15 @@ Located at `staking/aztec/scripts/`:
 - `setup-env.sh`, `smoke-test.sh`, `compile-contracts.sh`, `integration-test.sh`, `local-sandbox-e2e.sh`, `query-devnet.mjs`
 - `lib/common.sh`: shared library with colors, logging, env detection, binary finders, contract helpers, devnet connectivity, argument parsing
 
-**Key pattern:** These are dev/test only -- NOT validator ops. Do not assume Aztec has production validator roles.
+**Key pattern:** These are dev/test only -- NOT validator ops.
+
+### 4. Aztec Node Infra (3 scripts, skeleton)
+Located at `staking/aztec/infra/scripts/`:
+- `setup_aztec_node.sh`: Core setup -- create user, install CLI, sysctl, systemd units for node/sequencer/prover, firewall
+- `bootstrap_aztec.sh`: Full bootstrap -- wraps setup + monitoring + hardening + L1 connectivity check
+- `check_aztec_node.sh`: Health check -- queries node version and L2 tips
+
+**Key pattern:** These mirror the Monad `setup_server.sh`/`bootstrap_all.sh` pattern. Currently targeting devnet. Sequencer staking requires TGE + 200k AZTEC on L1. See `AZTEC_NODE_SPEC.md` for full gap analysis.
 
 ---
 
@@ -176,8 +184,9 @@ CHAIN_GROUP="${MONAD_GROUP:-monad}"
 - Delegates to eth2-quickstart client installers for run_2.sh equivalents.
 
 **Aztec adapter** (`adapters/aztec/adapter.sh`):
-- Wraps the existing Aztec dev tooling scripts.
-- Does NOT attempt to define validator roles.
+- Wraps the Aztec infra scripts (`staking/aztec/infra/scripts/`) for node/sequencer/prover setup.
+- Also wraps the dev tooling scripts (`staking/aztec/scripts/`) for contract development.
+- Sequencer staking is gated on TGE + 200k AZTEC deposit. See `AZTEC_NODE_SPEC.md`.
 
 #### Step 4: Create runbooks
 Each runbook should follow this template:
