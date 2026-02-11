@@ -14,6 +14,7 @@
     "price": { "type": "number" },
     "fees": { "type": "number" },
     "order_id": { "type": "string" },
-    "intent_id": { "type": "string" }
+    "intent_id": { "type": "string" },
+    "seq": { "type": "integer" }
   }
 }
