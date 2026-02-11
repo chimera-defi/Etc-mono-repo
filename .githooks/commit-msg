@@ -34,9 +34,10 @@ EOF
   exit 1
 fi
 
-if ! grep -Eq '^Co-authored-by: .+ <.+@.+>$' "$msg_file"; then
+parsed_trailers="$(git interpret-trailers --parse "$msg_file" || true)"
+if ! printf '%s\n' "$parsed_trailers" | grep -Eq '^Co-authored-by: .+ <.+@.+>$'; then
   cat >&2 <<'EOF'
-ERROR: Missing required Co-authored-by trailer in commit message body.
+ERROR: Missing required Co-authored-by trailer in commit message footer.
 
 Add this trailer at the end of your commit message:
   Co-authored-by: <MODEL NAME> <model@vendor.invalid>
@@ -49,4 +50,3 @@ hooks_path="$(git config --get core.hooksPath || true)"
 if [ "$hooks_path" != ".githooks" ]; then
   echo "WARNING: Configure git hooks path with: git config core.hooksPath .githooks" >&2
 fi
-

@@ -79,7 +79,7 @@ Install hooks path once per clone:
 **Key Points:**
 - Commit Author ≠ Commit Co-authored-by (human authors, AI co-authors)
 - PR Agent ≠ PR Co-authored-by (AI is agent, human is co-author)
-- CI validates PR description only (not commit messages)
+- CI validates both PR description attribution and PR commit message format (separate workflows)
 - Both locations need attribution for proper tracking
 
 **Important:** Do not copy example model names blindly. The `**Agent:**` field must match the actual model used in the run.
@@ -130,7 +130,7 @@ Before completing any task:
 | #117 | Include model name in commits ([Agent: Model] in title) |
 | #122 | Commit: Human authors, AI co-authors. PR: AI is agent, Human co-authors |
 | #124 | Commit Co-authored-by = AI (Claude). PR Co-authored-by = Human (Chimera) |
-| #125 | CI checks PR description only (Agent + Co-authored-by + Original Request) |
+| #125 | PR attribution CI checks PR description; commit-message CI checks PR commits |
 | #140 | Use QMD BM25 search before reading files (skip embed/vector) |
 | #148 | Token reduction skill always active |
 | #149 | Benchmarked savings: 89% (concise), 99% (QMD search vs naive), 33% (targeted reads) |
@@ -186,7 +186,7 @@ cd wallets/scripts && ./refresh-github-data.sh
 
 ### PR Attribution Check Failing?
 
-**CI validates PR description (not commits). Required fields:**
+**PR attribution CI validates PR description. Required fields:**
 
 | Field | Format | Example |
 |-------|--------|---------|

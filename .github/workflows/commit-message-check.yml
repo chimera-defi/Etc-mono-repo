@@ -2,7 +2,7 @@ name: Commit Message Check
 
 on:
   pull_request:
-    types: [opened, edited, synchronize, reopened]
+    types: [opened, edited, synchronize, reopened, ready_for_review]
 
 concurrency:
   group: commit-message-check-${{ github.event.pull_request.number || github.ref }}
@@ -29,9 +29,25 @@ jobs:
             );
 
             const headerPattern = /^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)\([a-z0-9._/-]+\): [^\s].* \[Agent: .+\]$/;
-            const trailerPattern = /^Co-authored-by: .+ <.+@.+>$/m;
+            const trailerLinePattern = /^[A-Za-z0-9-]+:\s+.+$/;
             const bypassPattern = /^(Merge |Revert |fixup! |squash! )/;
             const errors = [];
+
+            function getTrailingTrailers(message) {
+              const lines = message.split('\n');
+              let index = lines.length - 1;
+              while (index >= 0 && lines[index].trim() === '') {
+                index -= 1;
+              }
+
+              const trailers = [];
+              while (index >= 0 && trailerLinePattern.test(lines[index])) {
+                trailers.push(lines[index]);
+                index -= 1;
+              }
+
+              return trailers.reverse();
+            }
 
             for (const item of commits) {
               const message = item.commit.message || '';
@@ -46,8 +62,14 @@ jobs:
                 continue;
               }
 
-              if (!trailerPattern.test(message)) {
-                errors.push(`- ${item.sha.slice(0, 7)}: missing required \`Co-authored-by:\` trailer`);
+              const trailers = getTrailingTrailers(message);
+              const hasCoAuthoredByTrailer = trailers.some((line) =>
+                /^Co-authored-by: .+ <.+@.+>$/.test(line)
+              );
+              if (!hasCoAuthoredByTrailer) {
+                errors.push(
+                  `- ${item.sha.slice(0, 7)}: missing required trailing \`Co-authored-by:\` trailer`
+                );
               }
             }
 
@@ -69,4 +91,3 @@ jobs:
             } else {
               core.info(`Validated ${commits.length} commit message(s).`);
             }
-
