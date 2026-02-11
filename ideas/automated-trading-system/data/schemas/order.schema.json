@@ -16,6 +16,7 @@
     "tif": { "type": "string" },
     "status": { "type": "string" },
     "intent_id": { "type": "string" },
-    "correlation_id": { "type": "string" }
+    "correlation_id": { "type": "string" },
+    "client_order_id": { "type": "string" }
   }
 }

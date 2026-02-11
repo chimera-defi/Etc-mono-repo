@@ -13,6 +13,10 @@
 - Strategy interface scaffolding
 - Intent logging (append-only)
 - Order state machine + idempotency keys
+- OMS safety core:
+  - running sum of fills (dedupe + optional seq tracking)
+  - dirty-position gating (block new orders until confirmed)
+  - SAFE mode and recovery hooks
 - Risk engine with basic limits
 - DRY_RUN pipeline with simulated fills
 - REPLAY runner using stored logs
@@ -22,6 +26,10 @@
 - Data retention + replay dataset management
 - Time sync + latency budget definition
 - Observability: SLIs/SLOs, alerts, dashboards
+- Reconciliation worker:
+  - REST snapshots vs internal fill-sum
+  - mismatch thresholds + grace windows
+  - fail-fast SAFE mode + alerts
 - Security ops: key rotation + access reviews
 - Runbooks: incident, kill-switch, recovery
 - Validation gates for new strategy/venue
@@ -45,7 +53,8 @@
 - Implement first adapter with:
   - order placement
   - cancels
-  - fills
+  - fills (WS preferred; include sequence metadata if available)
+  - positions (WS updates + REST snapshots)
   - balances
 - Error mapping + rate limiting
 - Latency metrics
@@ -53,6 +62,7 @@
 ## Phase 6: Hardening (Week 7-8)
 
 - Chaos tests: timeouts, stale data, partial fills
+- Flip-flop scenarios: delayed positions, missed fill sequence gaps, place/cancel storms
 - Determinism checks across REPLAY runs
 - Risk matrix review
 - Shadow mode validation against LIVE feeds
