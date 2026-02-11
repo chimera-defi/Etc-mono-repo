@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "release:notes": "python3 scripts/draft_release_notes.py"
+  },
   "devDependencies": {
     "playwright": "^1.57.0"
   }
