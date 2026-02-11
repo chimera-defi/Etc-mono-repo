@@ -112,15 +112,13 @@ Provisioning
   - base packages, updates
   - user + sudo
 
-Hardening
-  - SSH hardening (with lockout prevention: verify key-auth before disabling password)
+Hardening (imported from eth2-quickstart common_functions.sh)
+  - SSH hardening
   - UFW firewall (parameterized ports per chain)
   - fail2ban (parameterized jail config)
   - sysctl tuning (chain-specific values via args)
   - AIDE (integrity checks)
   - unattended upgrades
-  - secure_env_file (pre-create with 0600 perms for secrets, no TOCTOU)
-  - safe_download_and_run (download installer to temp, verify, execute -- never curl|bash)
 
 Services
   - systemd unit helpers
@@ -140,7 +138,7 @@ Web Exposure (optional)
 ## Low-Level Component Map (Files/Modules)
 ```
 shared/
-  lib/           (common.sh - logging to stderr, systemd, download, firewall, security helpers)
+  lib/           (common.sh - from eth2-quickstart + Aztec/Monad patterns)
   provision/     (base_packages, create_user)
   hardening/     (ssh, firewall, fail2ban, sysctl, unattended_upgrades)
   services/      (systemd install, env files)
@@ -233,7 +231,7 @@ Node (systemd services)
 staking/infra-kit/
   shared/
     lib/
-      common.sh               # Shared functions (logging to stderr, systemd, download, firewall, security helpers)
+      common.sh               # Shared functions (from eth2-quickstart common_functions.sh + Aztec/Monad patterns)
     provision/
       base_packages.sh
       create_user.sh

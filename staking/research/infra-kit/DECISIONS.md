@@ -29,14 +29,9 @@
 **Decision:** Build Aztec node provisioning scripts mirroring Monad pattern (`setup_aztec_node.sh` + `bootstrap_aztec.sh`), initially targeting devnet.
 **Rationale:** Aztec had no server provisioning scripts despite the IMPLEMENTATION-PLAN.md calling for 3 validators. The roles (node, sequencer, prover) are verified in the Aztec CLI source. Sequencer staking requires TGE + 200k AZTEC, but the infra can be built and tested on devnet now.
 
-## 2026-02-11 -- Security primitives belong at the shared level
-**Decision:** All security operations (SSH hardening, firewall, fail2ban, secrets file management, installer verification) are shared primitives in `shared/hardening/` and `shared/lib/common.sh`. Chain adapters call them with chain-specific arguments (ports, users, jail names).
-**Rationale:** Security patterns are identical across chains. Duplicating them in each adapter leads to drift and increases the surface for mistakes. Specific patterns enforced:
-- `secure_env_file()` for any env file containing secrets (pre-create with `install -m 0600`, prevents TOCTOU exposure)
-- `safe_download_and_run()` for binary installers (download to temp, verify, execute -- never `curl | bash`)
-- `require_root()` at script entry for scripts that use `sudo`
-- `verify_ssh_key_auth()` before disabling password auth (prevents operator lockout)
-- All logging to stderr (`>&2`) so stdout stays clean for data
+## 2026-02-11 -- Security primitives from eth2-quickstart, not rebuilt
+**Decision:** Import eth2-quickstart's `lib/common_functions.sh` (~1000 lines) as the security foundation. Don't rebuild SSH hardening, firewall, fail2ban, AIDE, etc. Chain adapters call shared functions with chain-specific arguments (ports, users, jail names).
+**Rationale:** eth2-quickstart already has battle-tested implementations of all security primitives. Duplicating them leads to drift.
 
 ## 2026-02-11 -- Portable grep only (no PCRE)
 **Decision:** No `grep -oP` (Perl-compatible regex). Use `sed -n 's/.../\1/p'` or `awk` for extraction.
