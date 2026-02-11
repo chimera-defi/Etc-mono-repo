@@ -121,7 +121,19 @@ Each directory contains a detailed README with setup instructions and findings.
 
 **PR Attribution:** Required for all AI-generated PRs. See `.cursorrules` "PR Attribution Requirements" section at the top for the complete guide.
 
-**Enforcement:** PR template (`.github/pull_request_template.md`), git hook (`.git/hooks/commit-msg`), and CI check (`.github/workflows/pr-attribution-check.yml`) provide reminders and validation.
+**Commit format (new commits only):**
+`type(scope): subject [Agent: <MODEL NAME>]`
+
+Required commit trailer:
+`Co-authored-by: <MODEL NAME> <model@vendor.invalid>`
+
+**Enforcement:**
+- Local hook: `.githooks/commit-msg`
+- PR commit CI: `.github/workflows/commit-message-check.yml`
+- PR description CI: `.github/workflows/pr-attribution-check.yml`
+
+Set hooks path once per clone:
+`git config core.hooksPath .githooks`
 
 ## Shared Guidance
 
