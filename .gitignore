@@ -1,3 +1,6 @@
+__pycache__/
+*.py[cod]
+*.pyo
 # Cursor artifacts
 .cursor/artifacts/
 wallets/artifacts/
