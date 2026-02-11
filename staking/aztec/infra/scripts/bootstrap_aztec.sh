@@ -69,7 +69,7 @@ if [[ "$WITH_PROVER" == "true" ]];    then setup_args+=(--with-prover); fi
 if [[ "$WITH_CADDY" == "true" ]];     then setup_args+=(--with-caddy); fi
 if [[ "$WITH_FIREWALL" == "true" ]];  then setup_args+=(--with-firewall); fi
 
-"$SCRIPTS_DIR/setup_aztec_node.sh" "${setup_args[@]}"
+"$SCRIPTS_DIR/setup_aztec_node.sh" ${setup_args[@]+"${setup_args[@]}"}
 
 # ============================================================
 # Step 2: Optional monitoring stack
@@ -94,6 +94,7 @@ if [[ "$WITH_HARDENING" == "true" ]]; then
   log_info "Step 3: Applying security hardening..."
 
   # SSH hardening (use Monad's shared script if available, otherwise inline)
+  # SAFETY: verify key-based auth is configured before disabling password auth
   MONAD_SCRIPTS="${ROOT_DIR}/../../monad/infra/scripts"
   if [[ -x "$MONAD_SCRIPTS/harden_ssh.sh" ]]; then
     sudo "$MONAD_SCRIPTS/harden_ssh.sh"
@@ -101,17 +102,30 @@ if [[ "$WITH_HARDENING" == "true" ]]; then
     log_info "Hardening SSH inline..."
     SSHD_CONFIG="/etc/ssh/sshd_config"
     if [[ -f "$SSHD_CONFIG" ]]; then
-      sudo cp "$SSHD_CONFIG" "${SSHD_CONFIG}.bak"
-      for setting in "PasswordAuthentication no" "PermitRootLogin no" "PubkeyAuthentication yes"; do
-        key=$(echo "$setting" | awk '{print $1}')
-        if grep -qE "^${key}\b" "$SSHD_CONFIG"; then
-          sudo sed -i "s/^${key}.*/${setting}/" "$SSHD_CONFIG"
-        else
-          echo "$setting" | sudo tee -a "$SSHD_CONFIG" >/dev/null
+      # Check that at least one authorized_keys file exists for a non-root user
+      HAS_SSH_KEY=false
+      for user_home in /home/*/; do
+        if [[ -f "${user_home}.ssh/authorized_keys" ]] && [[ -s "${user_home}.ssh/authorized_keys" ]]; then
+          HAS_SSH_KEY=true
+          break
         fi
       done
-      sudo sshd -t && sudo systemctl reload sshd
-      log_info "SSH hardened."
+      if [[ "$HAS_SSH_KEY" != "true" ]]; then
+        log_warn "No SSH authorized_keys found for any user. Skipping PasswordAuthentication=no to prevent lockout."
+        log_warn "Add your SSH public key first, then re-run with --with-hardening."
+      else
+        sudo cp "$SSHD_CONFIG" "${SSHD_CONFIG}.bak"
+        for setting in "PasswordAuthentication no" "PermitRootLogin no" "PubkeyAuthentication yes"; do
+          key=$(echo "$setting" | awk '{print $1}')
+          if grep -qE "^${key}\b" "$SSHD_CONFIG"; then
+            sudo sed -i "s/^${key}.*/${setting}/" "$SSHD_CONFIG"
+          else
+            echo "$setting" | sudo tee -a "$SSHD_CONFIG" >/dev/null
+          fi
+        done
+        sudo sshd -t && sudo systemctl reload sshd
+        log_info "SSH hardened."
+      fi
     fi
   fi
 

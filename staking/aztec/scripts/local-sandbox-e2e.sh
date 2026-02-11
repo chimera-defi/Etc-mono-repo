@@ -55,7 +55,6 @@ CONTRACTS_DIR="$ROOT_DIR/contracts"
 AZTEC_LOCAL_DIR="${AZTEC_LOCAL_DIR:-$HOME/aztec-contracts-local}"
 AZTEC_PACKAGES_VERSION="${AZTEC_PACKAGES_VERSION:-v3.0.3}"
 TOKEN_WORKSPACE_ROOT="${TOKEN_WORKSPACE_ROOT:-$HOME/nargo/github.com/AztecProtocol/aztec-packages/$AZTEC_PACKAGES_VERSION/noir-projects/noir-contracts}"
-TOKEN_CONTRACT_SRC="$TOKEN_WORKSPACE_ROOT/contracts/app/token_contract"
 TOKEN_WORKSPACE_TARGET="$TOKEN_WORKSPACE_ROOT/target"
 
 wallet() {

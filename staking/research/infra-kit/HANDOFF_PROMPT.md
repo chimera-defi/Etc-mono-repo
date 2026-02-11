@@ -11,7 +11,7 @@ You are implementing **InfraKit**, a shared staking infrastructure layer that ex
 **Workspace rules:** Read `.cursorrules` and `CLAUDE.md` at the workspace root before starting. Follow all PR attribution, commit format, and coding guidelines described there.
 
 **Project docs:**
-- Research docs: `staking/research/infra-kit/` (16 files -- SPEC.md is the ground truth)
+- Research docs: `staking/research/infra-kit/` (18 files -- SPEC.md is the ground truth)
 - Monad scripts: `staking/monad/infra/scripts/` (23 production scripts)
 - Aztec scripts: `staking/aztec/scripts/` (6 scripts + lib/common.sh)
 - eth2-quickstart: `github.com/chimera-defi/eth2-quickstart` (clone from master branch)
@@ -54,7 +54,7 @@ Located at `staking/aztec/scripts/`:
 
 **Key pattern:** These are dev/test only -- NOT validator ops.
 
-### 4. Aztec Node Infra (3 scripts, skeleton)
+### 4. Aztec Node Infra (3 scripts, functional)
 Located at `staking/aztec/infra/scripts/`:
 - `setup_aztec_node.sh`: Core setup -- create user, install CLI, sysctl, systemd units for node/sequencer/prover, firewall
 - `bootstrap_aztec.sh`: Full bootstrap -- wraps setup + monitoring + hardening + L1 connectivity check

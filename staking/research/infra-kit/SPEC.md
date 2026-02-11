@@ -176,7 +176,7 @@ setup_aztec_node.sh
   -> with-sequencer? install sequencer unit + env
   -> with-prover? install prover unit + env
   -> with-caddy? / with-firewall?
-  -> preflight check (binary, config, L1 connectivity)
+  -> preflight check (binary, config, data dir; L1 connectivity is in bootstrap)
 
 bootstrap_aztec.sh
   -> setup_aztec_node.sh (with forwarded flags)

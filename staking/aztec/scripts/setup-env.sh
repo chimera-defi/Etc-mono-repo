@@ -94,8 +94,9 @@ if [ "$MINIMAL_MODE" = false ]; then
             fi
         else
             # Try alternative startup for non-systemd environments
+            # shellcheck disable=SC2024
             if sudo dockerd --storage-driver=vfs --data-root=/tmp/docker-data \
-                --host unix:///var/run/docker.sock --bridge=none --iptables=false &> /tmp/docker.log &
+                --host unix:///var/run/docker.sock --bridge=none --iptables=false > /tmp/docker.log 2>&1 &
             then
                 sleep 5
                 if docker info &>/dev/null 2>&1; then

@@ -53,6 +53,7 @@ Env vars:
   AZTEC_DATA_DIR          Node data directory (default: /var/lib/aztec)
   SEQ_PUBLISHER_PRIVATE_KEY  L1 private key (required if --with-sequencer)
   COINBASE                Block reward recipient (required if --with-sequencer)
+  FEE_RECIPIENT           Fee recipient address (required if --with-sequencer)
 EOFMSG
 }
 
