@@ -1,0 +1,72 @@
+name: Commit Message Check
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+concurrency:
+  group: commit-message-check-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-commit-messages:
+    name: Check Commit Messages
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Validate commit messages in PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const pull_number = context.payload.pull_request.number;
+            const commits = await github.paginate(
+              github.rest.pulls.listCommits,
+              { owner, repo, pull_number, per_page: 100 }
+            );
+
+            const headerPattern = /^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)\([a-z0-9._/-]+\): [^\s].* \[Agent: .+\]$/;
+            const trailerPattern = /^Co-authored-by: .+ <.+@.+>$/m;
+            const bypassPattern = /^(Merge |Revert |fixup! |squash! )/;
+            const errors = [];
+
+            for (const item of commits) {
+              const message = item.commit.message || '';
+              const [header = ''] = message.split('\n');
+
+              if (bypassPattern.test(header)) {
+                continue;
+              }
+
+              if (!headerPattern.test(header)) {
+                errors.push(`- ${item.sha.slice(0, 7)}: invalid header \`${header}\``);
+                continue;
+              }
+
+              if (!trailerPattern.test(message)) {
+                errors.push(`- ${item.sha.slice(0, 7)}: missing required \`Co-authored-by:\` trailer`);
+              }
+            }
+
+            if (errors.length > 0) {
+              core.setFailed(
+                [
+                  'Commit message validation failed.',
+                  '',
+                  'Required format:',
+                  '  type(scope): subject [Agent: <MODEL NAME>]',
+                  '',
+                  'Required trailer:',
+                  '  Co-authored-by: <MODEL NAME> <model@vendor.invalid>',
+                  '',
+                  'Violations:',
+                  ...errors
+                ].join('\n')
+              );
+            } else {
+              core.info(`Validated ${commits.length} commit message(s).`);
+            }
+

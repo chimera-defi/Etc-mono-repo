@@ -35,7 +35,9 @@
 | Check | Location | Action |
 |-------|----------|--------|
 | CI check | `.github/workflows/pr-attribution-check.yml` | Validates PR has **Agent:**, **Co-authored-by:**, and **## Original Request** |
+| CI check | `.github/workflows/commit-message-check.yml` | Validates commit header format and required commit trailer on PR commits |
 | PR template | `.github/pull_request_template.md` | Auto-fills required attribution fields |
+| Git hook | `.githooks/commit-msg` | Validates local commit header format and required commit trailer |
 
 **Required PR Format:**
 ```markdown
@@ -61,6 +63,9 @@ Commit body with details.
 
 Co-authored-by: <MODEL NAME> <model@vendor.invalid>
 ```
+
+Install hooks path once per clone:
+`git config core.hooksPath .githooks`
 
 **Attribution Pattern (Who Goes Where):**
 
@@ -222,4 +227,3 @@ cd wallets/scripts && ./refresh-github-data.sh
 4. Check for unused imports
 5. Verify theme works in both light and dark mode
 6. Test all interactive elements
-
