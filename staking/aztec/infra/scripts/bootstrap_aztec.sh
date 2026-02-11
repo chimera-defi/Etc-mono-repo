@@ -14,11 +14,11 @@ set -euo pipefail
 ROOT_DIR=$(cd "$(dirname "$0")/.." && pwd)
 SCRIPTS_DIR="$ROOT_DIR/scripts"
 
-# Logging
+# Logging (writes to stderr so stdout stays clean)
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; NC='\033[0m'
-log_info()  { echo -e "${GREEN}[INFO]${NC} $1"; }
-log_warn()  { echo -e "${YELLOW}[WARN]${NC} $1"; }
-log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
+log_info()  { echo -e "${GREEN}[INFO]${NC} $*" >&2; }
+log_warn()  { echo -e "${YELLOW}[WARN]${NC} $*" >&2; }
+log_error() { echo -e "${RED}[ERROR]${NC} $*" >&2; }
 
 usage() {
   cat <<EOFMSG
@@ -152,7 +152,8 @@ if [[ -n "$ETHEREUM_HOSTS" ]]; then
     -d '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}' 2>/dev/null || true)
 
   if echo "$L1_RESPONSE" | grep -q "result"; then
-    BLOCK_HEX=$(echo "$L1_RESPONSE" | grep -oP '"result"\s*:\s*"\K[^"]+' 2>/dev/null || echo "unknown")
+    BLOCK_HEX=$(echo "$L1_RESPONSE" | sed -n 's/.*"result"\s*:\s*"\([^"]*\)".*/\1/p' 2>/dev/null)
+    BLOCK_HEX="${BLOCK_HEX:-unknown}"
     log_info "L1 reachable at $FIRST_HOST (block: $BLOCK_HEX)"
   else
     log_warn "L1 not reachable at $FIRST_HOST. Check ETHEREUM_HOSTS."

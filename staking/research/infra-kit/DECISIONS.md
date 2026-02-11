@@ -11,6 +11,7 @@
 ## 2026-02-XX -- Aztec scope limited to dev/test tooling
 **Decision:** Do not define production validator roles until scripts exist.
 **Rationale:** Avoid unverified assumptions; keep spec grounded in code.
+**Status:** Superseded by "2026-02-09 -- Aztec infra scripts" below. Aztec now has node/sequencer/prover infra scripts targeting devnet.
 
 ## 2026-02-09 -- Aztec scripts shared library
 **Decision:** Create `scripts/lib/common.sh` for Aztec dev tooling with shared colors, env detection, binary finders, test tracking.
@@ -27,3 +28,16 @@
 ## 2026-02-09 -- Aztec infra scripts (node/sequencer/prover)
 **Decision:** Build Aztec node provisioning scripts mirroring Monad pattern (`setup_aztec_node.sh` + `bootstrap_aztec.sh`), initially targeting devnet.
 **Rationale:** Aztec had no server provisioning scripts despite the IMPLEMENTATION-PLAN.md calling for 3 validators. The roles (node, sequencer, prover) are verified in the Aztec CLI source. Sequencer staking requires TGE + 200k AZTEC, but the infra can be built and tested on devnet now.
+
+## 2026-02-11 -- Security primitives belong at the shared level
+**Decision:** All security operations (SSH hardening, firewall, fail2ban, secrets file management, installer verification) are shared primitives in `shared/hardening/` and `shared/lib/common.sh`. Chain adapters call them with chain-specific arguments (ports, users, jail names).
+**Rationale:** Security patterns are identical across chains. Duplicating them in each adapter leads to drift and increases the surface for mistakes. Specific patterns enforced:
+- `secure_env_file()` for any env file containing secrets (pre-create with `install -m 0600`, prevents TOCTOU exposure)
+- `safe_download_and_run()` for binary installers (download to temp, verify, execute -- never `curl | bash`)
+- `require_root()` at script entry for scripts that use `sudo`
+- `verify_ssh_key_auth()` before disabling password auth (prevents operator lockout)
+- All logging to stderr (`>&2`) so stdout stays clean for data
+
+## 2026-02-11 -- Portable grep only (no PCRE)
+**Decision:** No `grep -oP` (Perl-compatible regex). Use `sed -n 's/.../\1/p'` or `awk` for extraction.
+**Rationale:** `grep -P` requires GNU grep built with PCRE support. Fails silently on macOS and minimal Linux images (Alpine, BusyBox). `sed` is universally available.

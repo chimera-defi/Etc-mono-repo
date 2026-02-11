@@ -6,6 +6,10 @@
 #   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 #   source "$SCRIPT_DIR/lib/common.sh"
 
+# Source guard -- prevent double-sourcing
+if [[ "${_AZTEC_COMMON_SH_LOADED:-}" == "1" ]]; then return 0 2>/dev/null || true; fi
+_AZTEC_COMMON_SH_LOADED=1
+
 # Safety defaults (scripts can override after sourcing)
 set -euo pipefail
 
@@ -19,11 +23,11 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 # ============================================================
-# Logging
+# Logging (writes to stderr so stdout stays clean for data)
 # ============================================================
-log_info()  { echo -e "${GREEN}[INFO]${NC} $1"; }
-log_warn()  { echo -e "${YELLOW}[WARN]${NC} $1"; }
-log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
+log_info()  { echo -e "${GREEN}[INFO]${NC} $*" >&2; }
+log_warn()  { echo -e "${YELLOW}[WARN]${NC} $*" >&2; }
+log_error() { echo -e "${RED}[ERROR]${NC} $*" >&2; }
 
 # ============================================================
 # Test result tracking
@@ -33,21 +37,21 @@ TESTS_FAILED=0
 TESTS_SKIPPED=0
 
 pass() {
-    echo -e "${GREEN}PASS${NC}: $1"
+    echo -e "${GREEN}PASS${NC}: $*"
     TESTS_PASSED=$((TESTS_PASSED + 1))
 }
 
 fail() {
-    echo -e "${RED}FAIL${NC}: $1"
+    echo -e "${RED}FAIL${NC}: $*"
     TESTS_FAILED=$((TESTS_FAILED + 1))
 }
 
 warn() {
-    echo -e "${YELLOW}WARN${NC}: $1"
+    echo -e "${YELLOW}WARN${NC}: $*"
 }
 
 skip() {
-    echo -e "${BLUE}SKIP${NC}: $1"
+    echo -e "${BLUE}SKIP${NC}: $*"
     TESTS_SKIPPED=$((TESTS_SKIPPED + 1))
 }
 
@@ -69,7 +73,7 @@ print_test_summary() {
 detect_environment() {
     if grep -q "runsc" /proc/version 2>/dev/null || [ "$(uname -r)" = "4.4.0" ]; then
         echo "sandboxed"
-    elif command -v docker &>/dev/null && docker info &>/dev/null 2>&1; then
+    elif command -v docker &>/dev/null && docker info &>/dev/null; then
         echo "docker-available"
     elif command -v docker &>/dev/null; then
         echo "docker-installed"
@@ -83,9 +87,10 @@ detect_environment() {
 # ============================================================
 
 # Resolve the Aztec project root (parent of scripts/)
+# Uses a subshell to avoid changing the caller's working directory.
 resolve_aztec_root() {
     local script_dir="${1:-.}"
-    cd "$script_dir/.." && pwd
+    (cd "$script_dir/.." && pwd)
 }
 
 # Find nargo binary (standard)
@@ -138,8 +143,8 @@ find_aztec_wallet() {
 
 # Check if a contract project exists (has Nargo.toml)
 check_contract_project() {
-    local name=$1
-    local dir=$2
+    local name="$1"
+    local dir="$2"
     if [ -d "$dir" ] && [ -f "$dir/Nargo.toml" ]; then
         echo -e "  ${GREEN}✓${NC} $name"
         return 0
@@ -151,11 +156,11 @@ check_contract_project() {
 
 # Check if a compiled artifact has bytecode
 artifact_has_bytecode() {
-    local artifact=$1
+    local artifact="$1"
 
     if command -v jq >/dev/null 2>&1; then
         jq -e 'any(.functions[]?; (.bytecode != null) and (.bytecode | length > 0))' "$artifact" >/dev/null 2>&1
-        return $?
+        return
     fi
 
     grep -q '"bytecode"' "$artifact"
@@ -176,8 +181,8 @@ check_devnet_connectivity() {
 
     if echo "$resp" | grep -q "result"; then
         local version
-        version=$(echo "$resp" | grep -oP '"result"\s*:\s*"\K[^"]+' 2>/dev/null || echo "connected")
-        echo "$version"
+        version=$(echo "$resp" | sed -n 's/.*"result"\s*:\s*"\([^"]*\)".*/\1/p' 2>/dev/null)
+        echo "${version:-connected}"
         return 0
     else
         return 1

@@ -19,7 +19,7 @@ Optional hosted control plane (later) -> Multi-tenant ops -> Managed services
 Operator
   -> InfraKit (shared ops)
      -> Adapter (chain-specific)
-        -> Validator node (Ethereum / Monad / Aztec dev)
+        -> Validator node (Ethereum / Monad / Aztec)
 
 Value: reuse 80% ops, swap 20% chain logic
 ```
@@ -38,7 +38,7 @@ Value: reuse 80% ops, swap 20% chain logic
 ```
 Operator -> Adapter -> Shared Primitives -> Server OS
                          |        |        |
-                         |        |        +-> Aztec dev/tooling (tests)
+                         |        |        +-> Aztec stack (node/sequencer/prover + dev tooling)
                          |        +------------> Monad stack (monad-bft)
                          +---------------------> Ethereum stack (exec/consensus/MEV)
 ```
@@ -87,7 +87,7 @@ Shared layer (ops primitives only)
 Per-chain adapters
   - Ethereum: geth/reth/etc + prysm/lighthouse/etc + mev-boost/commit-boost + relay config
   - Monad: monad-bft binary + validator config
-  - Aztec: dev/test tooling (no validator ops here yet)
+  - Aztec: node/sequencer/prover infra (devnet) + dev/test tooling for contracts
 ```
 
 ## Shared Ops vs Chain Stacks (Hardware Profiles)
@@ -95,7 +95,7 @@ Per-chain adapters
 Shared ops layer
   -> Ethereum host profile (chain-specific sizing)
   -> Monad host profile (chain-specific sizing)
-  -> Aztec dev sandbox (local tooling only)
+  -> Aztec host profile (node/sequencer/prover, devnet + dev tooling)
 ```
 
 ## Dependency Graph (Conceptual)
@@ -113,12 +113,14 @@ Provisioning
   - user + sudo
 
 Hardening
-  - SSH hardening
-  - UFW firewall
-  - fail2ban
-  - sysctl tuning
+  - SSH hardening (with lockout prevention: verify key-auth before disabling password)
+  - UFW firewall (parameterized ports per chain)
+  - fail2ban (parameterized jail config)
+  - sysctl tuning (chain-specific values via args)
   - AIDE (integrity checks)
-  - unattended upgrades (where used)
+  - unattended upgrades
+  - secure_env_file (pre-create with 0600 perms for secrets, no TOCTOU)
+  - safe_download_and_run (download installer to temp, verify, execute -- never curl|bash)
 
 Services
   - systemd unit helpers
@@ -138,7 +140,7 @@ Web Exposure (optional)
 ## Low-Level Component Map (Files/Modules)
 ```
 shared/
-  lib/           (common.sh - logging, systemd, download, firewall helpers)
+  lib/           (common.sh - logging to stderr, systemd, download, firewall, security helpers)
   provision/     (base_packages, create_user)
   hardening/     (ssh, firewall, fail2ban, sysctl, unattended_upgrades)
   services/      (systemd install, env files)
@@ -231,7 +233,7 @@ Node (systemd services)
 staking/infra-kit/
   shared/
     lib/
-      common.sh               # Shared functions (logging, systemd, download, firewall)
+      common.sh               # Shared functions (logging to stderr, systemd, download, firewall, security helpers)
     provision/
       base_packages.sh
       create_user.sh
@@ -288,7 +290,7 @@ staking/infra-kit/
 
 ## Minimal Extensible Product (MEP)
 1) Shared primitives (shell + small Python helpers).
-2) One adapter per chain/role (Ethereum L1, Monad validator; Aztec dev tooling).
+2) One adapter per chain/role (Ethereum L1, Monad validator, Aztec node/sequencer/prover + dev tooling).
 3) A runbook + smoke test per adapter.
 
 ## Evolution Path

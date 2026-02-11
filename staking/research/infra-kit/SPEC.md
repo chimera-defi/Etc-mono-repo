@@ -224,6 +224,14 @@ local-sandbox-e2e.sh
 - Network security sysctl (eth2-quickstart: ICMP, TCP syncookies, redirect filtering)
 - Security monitoring cron (eth2-quickstart: failed logins, suspicious processes, disk usage)
 
+**Security patterns to enforce in shared lib (learned from review):**
+- `secure_env_file(path, user, group)` -- pre-create files with `install -m 0600` before writing secrets (prevents TOCTOU race where private keys are world-readable between `tee` and `chmod`)
+- `safe_download_and_run(url)` -- download installer to temp file, verify HTTP status, execute (never `curl | bash` or `curl | bash -i`)
+- `require_root()` -- fail-fast at script entry if not root and sudo unavailable
+- `verify_ssh_key_auth(user)` -- check key-based auth is configured before disabling password auth (prevents operator lockout)
+- All logging to stderr (`>&2`) -- prevents log messages from contaminating function return values captured via `$(func)`
+- No `grep -oP` -- use `sed`/`awk` for portable text extraction (PCRE not available on macOS/Alpine/BusyBox)
+
 **Monitoring primitives present in scripts:**
 - Status endpoint (Monad `install_status_service.sh` + `status_server.py`)
 - RPC/health checks (Monad `check_rpc.sh`, `healthcheck.sh`, `uptime_probe.sh`)

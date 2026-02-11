@@ -13,7 +13,7 @@ You are implementing **InfraKit**, a shared staking infrastructure layer that ex
 **Project docs:**
 - Research docs: `staking/research/infra-kit/` (16 files -- SPEC.md is the ground truth)
 - Monad scripts: `staking/monad/infra/scripts/` (23 production scripts)
-- Aztec scripts: `staking/aztec/scripts/` (5 scripts + lib/common.sh)
+- Aztec scripts: `staking/aztec/scripts/` (6 scripts + lib/common.sh)
 - eth2-quickstart: `github.com/chimera-defi/eth2-quickstart` (clone from master branch)
 
 ---
@@ -47,7 +47,7 @@ Located at `github.com/chimera-defi/eth2-quickstart`:
 
 **Key patterns:** `common_functions.sh` has logging (`log_info`/`log_warn`/`log_error`), `create_systemd_service()`, `download_file()`, `extract_archive()`, `setup_firewall_rules()`, `configure_ssh()`, `setup_secure_user()`, `check_system_compatibility()`, hardware profile detection.
 
-### 3. Aztec Dev Tooling (5 scripts + shared lib)
+### 3. Aztec Dev Tooling (6 scripts + shared lib)
 Located at `staking/aztec/scripts/`:
 - `setup-env.sh`, `smoke-test.sh`, `compile-contracts.sh`, `integration-test.sh`, `local-sandbox-e2e.sh`, `query-devnet.mjs`
 - `lib/common.sh`: shared library with colors, logging, env detection, binary finders, contract helpers, devnet connectivity, argument parsing
@@ -72,7 +72,7 @@ Located at `staking/aztec/infra/scripts/`:
 staking/infra-kit/
   shared/
     lib/
-      common.sh           # Shared functions (logging, colors, arg parsing)
+      common.sh           # Shared functions (logging to stderr, colors, arg parsing, require_root, secure_env_file, safe_download_and_run)
     provision/
       base_packages.sh    # apt update + essential packages
       create_user.sh      # Create system user + group + sudo
@@ -107,7 +107,7 @@ staking/infra-kit/
       adapter.sh          # Thin wrapper calling shared primitives + monad scripts
     aztec/
       README.md
-      adapter.sh          # Dev tooling wrapper
+      adapter.sh          # Node infra (devnet) + dev tooling wrapper
   runbooks/
     ethereum.md
     monad.md
@@ -129,7 +129,8 @@ staking/infra-kit/
    - Monad scripts (portable patterns, env var defaults)
 
 The shared library should include:
-- Color constants + logging (`log_info`, `log_warn`, `log_error`)
+- Color constants + logging to stderr (`log_info`, `log_warn`, `log_error` with `>&2`)
+- Source guard (`_INFRAKIT_COMMON_SH_LOADED`) to prevent double-sourcing
 - `set -euo pipefail` by default
 - `show_help_if_requested()` and `has_flag()` from Aztec common.sh
 - `create_systemd_service()` from eth2-quickstart common_functions.sh
@@ -138,6 +139,9 @@ The shared library should include:
 - `check_system_compatibility()` from eth2-quickstart
 - `command_exists()`, `ensure_directory()`, `check_port()` from eth2-quickstart
 - `detect_hardware_profile()` from eth2-quickstart
+- `require_root()` -- checks `EUID == 0` or `sudo` available
+- `secure_env_file()` -- creates env files with restrictive permissions (`install -m 0600`) to prevent TOCTOU exposure windows for secrets like L1 private keys
+- `safe_download_and_run()` -- downloads installer to temp file, verifies HTTP status, then executes (never pipe `curl | bash`)
 
 #### Step 2: Extract shared primitives from Monad scripts
 For each script in `staking/monad/infra/scripts/`, create a corresponding shared primitive:
@@ -208,13 +212,15 @@ Each runbook should follow this template:
 ## Constraints
 
 1. **No hosted control plane** in this phase. Scripts + runbooks only.
-2. **No Aztec production roles.** Aztec adapter is dev/test tooling only.
+2. **Aztec has two layers.** Dev tooling (scripts/) for contracts + node infra (infra/) for node/sequencer/prover. Sequencer staking gated on TGE + 200k AZTEC. See `AZTEC_NODE_SPEC.md`.
 3. **Ground every claim in a verified script.** If unsure, mark as TBD.
 4. **Use ASCII diagrams only** (no Mermaid) for GitHub compatibility.
 5. **snake_case** for all shared primitive filenames and function names.
 6. **set -euo pipefail** in every bash script.
-7. **Portable commands only** -- use `grep` not `rg`, standard coreutils.
+7. **Portable commands only** -- use `grep` not `rg`, standard coreutils. No `grep -oP` (PCRE) -- use `sed` for extraction.
 8. **Parameterize via env vars** with sane defaults (${VAR:-default} pattern).
+9. **Security primitives are shared, not per-chain.** SSH hardening, firewall, fail2ban, secrets management, file permissions all belong in `shared/hardening/`. Chain adapters call them with chain-specific args.
+10. **Logging to stderr.** All `log_info`/`log_warn`/`log_error` must write to stderr (`>&2`) so stdout stays clean for data output.
 
 ---
 
@@ -237,12 +243,16 @@ Each runbook should follow this template:
 - [ ] No `rg` usage -- use `grep` for portability.
 - [ ] Monad adapter reproduces the behavior of `setup_server.sh` and `bootstrap_all.sh`.
 - [ ] Ethereum adapter documents how to wire in eth2-quickstart.
-- [ ] Aztec adapter wraps existing dev tooling without assuming production roles.
+- [ ] Aztec adapter wraps node infra (devnet) + dev tooling. Sequencer staking gated on TGE.
 - [ ] Each adapter has a runbook.
 - [ ] `tests/test_shared.sh` passes.
 - [ ] README.md documents the project structure and usage.
 - [ ] shellcheck passes on all .sh files (if available).
 - [ ] No duplicated logic between shared primitives and existing scripts.
+- [ ] Env files with secrets use `secure_env_file()` (pre-create with 0600, no TOCTOU window).
+- [ ] No `curl | bash` patterns. Use `safe_download_and_run()` (download, verify, execute).
+- [ ] All logging functions write to stderr (`>&2`), not stdout.
+- [ ] No `grep -oP` (PCRE). Use `sed` or `awk` for portable extraction.
 
 ---
 
@@ -255,6 +265,12 @@ These functions from eth2-quickstart's `lib/common_functions.sh` are strong cand
 **Download:** `get_latest_release()`, `download_file()` / `secure_download()`, `extract_archive()`
 **Systemd:** `create_systemd_service()`, `enable_systemd_service()`, `enable_and_start_systemd_service()`, `stop_all_services()`
 **Security:** `generate_secure_password()`, `setup_secure_user()`, `configure_ssh()`, `configure_sudo_nopasswd()`, `setup_firewall_rules()`, `secure_config_files()`, `apply_network_security()`, `setup_security_monitoring()`, `setup_intrusion_detection()`
+
+**InfraKit security functions to create (not in eth2-quickstart):**
+- `require_root()` -- fail-fast if not root and sudo unavailable
+- `secure_env_file()` -- `install -m 0600 -o $user -g $group /dev/null $path` then write content (prevents TOCTOU for secrets)
+- `safe_download_and_run()` -- `curl -fsSL $url -o $tmpfile && chmod +x $tmpfile && bash $tmpfile` (never `curl | bash`)
+- `verify_ssh_key_auth()` -- check that key-based auth is configured before disabling password auth (prevents lockout)
 **Validation:** `validate_menu_choice()`, `validate_user_input()`
 **Config:** `merge_client_config()`, `append_once()`
 **UI:** `whiptail_msg()`, `whiptail_yesno()` (optional, for interactive setups)
@@ -265,7 +281,10 @@ These functions from eth2-quickstart's `lib/common_functions.sh` are strong cand
 
 1. **Don't duplicate scripts.** Extract, parameterize, and call from adapters.
 2. **Don't assume chain binaries are shared.** Only ops tooling is shared.
-3. **Don't define Aztec validator roles.** Dev/test only until production scripts exist.
+3. **Don't duplicate security.** SSH hardening, firewall, fail2ban, secrets management live in shared primitives. Adapters pass chain-specific args (ports, users, jail names).
 4. **Don't use Mermaid diagrams.** ASCII only for GitHub compatibility.
 5. **Don't hardcode paths.** Always use env vars with `${VAR:-default}`.
 6. **Don't break existing scripts.** Adapters wrap existing behavior; they don't replace it.
+7. **Don't pipe curl to bash.** Download to temp file, verify, then execute.
+8. **Don't write secrets then chmod.** Pre-create files with restrictive perms via `install -m 0600`.
+9. **Don't log to stdout.** Use stderr for all log output so stdout can carry data (JSON, function returns).
