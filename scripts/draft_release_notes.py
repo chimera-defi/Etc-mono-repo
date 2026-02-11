@@ -146,13 +146,18 @@ def filter_by_areas(commits: Sequence[Commit], allowed_areas: Set[str] | None) -
     return [commit for commit in commits if normalized.intersection(commit.areas)]
 
 
-def group_commits(commits: Sequence[Commit]) -> Dict[str, Dict[str, List[Commit]]]:
+def group_commits(
+    commits: Sequence[Commit], allowed_areas: Set[str] | None = None
+) -> Dict[str, Dict[str, List[Commit]]]:
     grouped: Dict[str, Dict[str, List[Commit]]] = {
         commit_type: collections.defaultdict(list) for commit_type in COMMIT_TYPES
     }
+    normalized_areas = {area.strip() for area in (allowed_areas or set()) if area.strip()}
     for commit in commits:
         target_type = commit.commit_type if commit.commit_type in grouped else "other"
         for area in commit.areas:
+            if normalized_areas and area not in normalized_areas:
+                continue
             grouped[target_type][area].append(commit)
     return grouped
 
@@ -245,7 +250,7 @@ def main(argv: Sequence[str]) -> int:
     range_arg, from_label = commit_range(args.from_ref, args.to_ref)
     commits = load_commits(range_arg)
     filtered = filter_by_areas(commits, areas_filter if areas_filter else None)
-    grouped = group_commits(filtered)
+    grouped = group_commits(filtered, areas_filter if areas_filter else None)
     markdown = build_markdown(
         commits=filtered,
         grouped=grouped,
