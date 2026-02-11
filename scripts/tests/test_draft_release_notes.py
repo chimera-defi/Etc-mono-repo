@@ -63,12 +63,27 @@ class DraftReleaseNotesTests(unittest.TestCase):
                 is_breaking=False,
                 areas=("staking",),
             ),
+            Commit(
+                sha="c" * 40,
+                short_sha="cccccccc",
+                subject="docs(wallets): update release process",
+                body="",
+                author="dev3",
+                date="2026-02-11",
+                files=("docs/release-notes.md", "wallets/README.md"),
+                commit_type="docs",
+                description="update release process",
+                is_breaking=False,
+                areas=("docs", "wallets"),
+            ),
         ]
         filtered = filter_by_areas(commits, {"wallets"})
-        self.assertEqual(len(filtered), 1)
-        grouped = group_commits(filtered)
+        self.assertEqual(len(filtered), 2)
+        grouped = group_commits(filtered, {"wallets"})
         self.assertIn("wallets", grouped["feat"])
         self.assertEqual(grouped["feat"]["wallets"][0].description, "add swap")
+        self.assertIn("wallets", grouped["docs"])
+        self.assertNotIn("docs", grouped["docs"])
 
 
 if __name__ == "__main__":
