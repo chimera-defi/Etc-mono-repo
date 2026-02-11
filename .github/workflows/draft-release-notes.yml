@@ -1,0 +1,51 @@
+name: Draft Release Notes
+
+on:
+  workflow_dispatch:
+    inputs:
+      from:
+        description: "Start ref/tag (exclusive)"
+        required: false
+        type: string
+      to:
+        description: "End ref/tag (inclusive)"
+        required: false
+        default: "HEAD"
+        type: string
+      area:
+        description: "Optional area filter (comma-separated top-level paths)"
+        required: false
+        type: string
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set output filename
+        run: echo "OUT_FILE=release-notes-draft-${GITHUB_RUN_ID}.md" >> "$GITHUB_ENV"
+
+      - name: Generate release notes draft
+        shell: bash
+        run: |
+          set -euo pipefail
+          cmd=(python3 scripts/draft_release_notes.py --to "${{ inputs.to }}" --output "$OUT_FILE")
+          if [[ -n "${{ inputs.from }}" ]]; then
+            cmd+=(--from "${{ inputs.from }}")
+          fi
+          if [[ -n "${{ inputs.area }}" ]]; then
+            cmd+=(--area "${{ inputs.area }}")
+          fi
+          "${cmd[@]}"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-notes-draft
+          path: ${{ env.OUT_FILE }}
