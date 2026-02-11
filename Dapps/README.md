@@ -12,6 +12,12 @@ Build identical smart contracts in both frameworks, then compare.
 
 > 💡 **Recommended**: Use the [Hybrid template](./Hybrid/) for new projects - combines Foundry (testing) + Hardhat (deployment)
 
+## App-Level Docs
+
+- [Foundry app README](./Foundry/app/README.md)
+- [Hardhat app README](./Hardhat/app/README.md)
+- [Hybrid app README](./Hybrid/app/README.md)
+
 ## 📊 Results Summary
 
 | Metric | Foundry | Hardhat | Winner |
