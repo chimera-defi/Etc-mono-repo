@@ -1,4 +1,8 @@
 {
+  "packageManager": "npm@10",
+  "scripts": {
+    "deps:install": "bash scripts/install-deps.sh"
+  },
   "devDependencies": {
     "playwright": "^1.57.0"
   }
