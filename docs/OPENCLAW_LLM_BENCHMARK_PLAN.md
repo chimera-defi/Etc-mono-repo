@@ -31,8 +31,10 @@ This spec is written to avoid reruns: we capture **latency distribution + failur
 - **OpenAI Codex**
   - `openai-codex/gpt-5.3-codex` thinking=`low`
   - `openai-codex/gpt-5.3-codex` thinking=`high` (and optional `xhigh`)
-- **Claude**
-  - (pin exact model after you confirm)
+- **Claude (Claude Code)**
+  - `claude-haiku` (exact ID TBD)
+  - `claude-opus-4.6` (exact ID TBD)
+  - Note: availability/credits may be transient; we allow partial runs and fill missing cells on later reruns.
 - **Gemini Flash**
   - flash variant (pin exact: e.g. `gemini-*-flash`)
 - **GLM 4.7**
@@ -78,6 +80,8 @@ We run **one fixed suite** across all models.
 
 These are designed to be **objectively gradable** and to expose “format drift”. Each prompt has a validator.
 
+We also include **one long prompt** comparable to real operator instructions (multi-paragraph, constraints, and multiple asks) to measure latency scaling and degradation under longer inputs.
+
 **P0 (sanity):** Reply with exactly `HEARTBEAT_OK`
 
 **P1 (router JSON):**
@@ -98,6 +102,13 @@ Return ONLY JSON: `{ "route":"local|premium", "reason":"..." }` for: debug inter
 **P8 (binary):** Answer ONLY `yes` or `no`: Is 1% disk usage safe?
 
 **P9 (date normalize):** Convert to ISO date only (YYYY-MM-DD): Friday, February 13th, 2026.
+
+**P10 (long operator prompt, mixed objective+subjective):**
+You are assisting with a production incident. We just migrated to a new server and are seeing intermittent 502s on nginx with TLS upstream checks. I need you to do *three* things:
+1) Propose a step-by-step debug plan with exactly 7 steps, each step must be one sentence.
+2) Provide a command-only block with exactly 5 commands (no explanations) to gather evidence on Ubuntu.
+3) End with a short risk assessment (max 40 words) that explicitly mentions whether to escalate to a premium model.
+Constraints: do not use markdown headers, do not include code fences, and keep the total response under 220 words.
 
 ### Long-context stress variants
 For 3 chosen prompts above (router JSON, typed JSON, bullet list):
@@ -135,6 +146,7 @@ Legend: ✅ = must capture; (opt) = only if we run streaming for that model.
 
 ### Reliability
 - **Success rate** per prompt + per model
+- **Availability state** per provider at run time (e.g., Claude credits exhausted → mark prompts as `skipped_unavailable` rather than failing the whole run)
 - **Failure type** taxonomy:
   - timeout
   - tool error
@@ -207,6 +219,7 @@ Each **run** produces:
 
 `results.jsonl` record fields (minimum):
 - provider, model, thinking_level
+- availability_status: `ok|skipped_unavailable|rate_limited|auth_error`
 - prompt_id
 - started_at_ms, ended_at_ms, e2e_ms
 - ttft_ms (nullable)
@@ -270,7 +283,15 @@ Workflow:
 
 ## 8) Open questions (need your answers once)
 
-1) Which **Claude** model(s) exactly?
-2) Which provider endpoint for **GLM 4.7** and **Gemini Flash** (direct vs via LiteLLM)?
+1) Confirm exact Claude model IDs for **Haiku** and **Opus 4.6** as they appear in Claude Code.
+2) Confirm which provider endpoint for **Gemini Flash** (direct vs via LiteLLM).
 3) Should we include streaming TTFT measurement, or keep it non-streaming only?
 4) Target prompt suite size: 10 (fast iteration) vs 25+ (more coverage)?
+
+## 9) Rerun strategy (don’t waste runs)
+
+We will run the suite multiple times. Each run appends to the same results corpus; missing provider/model cells remain empty until that provider becomes available again.
+
+- If a provider is unavailable (e.g. **Claude credits**), record `availability_status=skipped_unavailable` for those prompts.
+- Do **not** rerun unaffected providers just to fill the missing cells.
+- Summary generation should be able to aggregate across runs and show “coverage”: which model×prompt pairs have results.
