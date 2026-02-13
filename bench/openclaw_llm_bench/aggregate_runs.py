@@ -154,10 +154,10 @@ def main() -> int:
     lines.append("# Aggregate Benchmark Progress\n")
     lines.append("This file is auto-generated from `runs/*/results.jsonl`.\n")
     lines.append(
-        "| Provider | Model | Thinking | Runs | n(total) | n(ok) | ok% (total) | n(success) | succ% (ok) | succ% (total) | n(error) | n(rate) | n(skipped) | e2e p50 | e2e p95 | suite wall p50 |"
+        "| Model | Thinking | Runs | n(total) | n(ok) | ok% (total) | n(success) | succ% (ok) | succ% (total) | n(error) | n(rate) | n(skipped) | e2e p50 | e2e p95 | suite wall p50 | Type |"
     )
     # 16 columns
-    lines.append("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|")
+    lines.append("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|")
 
     for k, a in sorted(agg.items(), key=lambda kv: (kv[0][0] or "", kv[0][1] or "", str(kv[0][2] or ""))):
         nt = a["n_total"]
@@ -168,9 +168,9 @@ def main() -> int:
         succ_rate_total = (succ / nt) if nt else None
         e2e = a["e2e_success"]
         wall = a["wall_ms_spans"]
+        prov_type = "local" if a["provider"] == "ollama_openai" else "remote"
         lines.append(
-            "| {prov} | {model} | {think} | {runs} | {nt} | {nok} | {okr} | {ns} | {srok} | {srt} | {ne} | {nr} | {nsk} | {p50} | {p95} | {w50} |".format(
-                prov=a["provider"],
+            "| {model} | {think} | {runs} | {nt} | {nok} | {okr} | {ns} | {srok} | {srt} | {ne} | {nr} | {nsk} | {p50} | {p95} | {w50} | {ptype} |".format(
                 model=a["model"],
                 think=a["thinking"] or "",
                 runs=str(len(set(a["runs"]))),
@@ -186,6 +186,7 @@ def main() -> int:
                 p50=fmt(percentile(e2e, 50)),
                 p95=fmt(percentile(e2e, 95)),
                 w50=fmt(percentile([float(x) for x in wall], 50) if wall else None),
+                ptype=prov_type,
             )
         )
 
