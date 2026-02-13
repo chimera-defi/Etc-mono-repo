@@ -1,0 +1,53 @@
+{
+  "schema": "ai-memory-export/v1",
+  "export_id": "repo-bootstrap-seed",
+  "description": "Clone/sync and initialize required repos for OpenClaw + Takopi workflows",
+  "base_dir": "/root/clawd/dev",
+  "repos": [
+    {
+      "id": "etc-mono-repo",
+      "path": "/root/clawd/dev/Etc-mono-repo",
+      "clone": "https://github.com/chimera-defi/Etc-mono-repo.git",
+      "branch": "main",
+      "sync": "git fetch --all --prune && git checkout main && git pull --ff-only",
+      "setup": [
+        "git config core.hooksPath .githooks || true"
+      ]
+    },
+    {
+      "id": "openclaw",
+      "path": "/root/openclaw",
+      "clone": "https://github.com/openclaw/openclaw.git",
+      "branch": "main",
+      "sync": "git fetch --all --prune && git checkout main && git pull --ff-only",
+      "setup": [
+        "bun install",
+        "bun run build"
+      ]
+    },
+    {
+      "id": "takopi",
+      "path": "/root/clawd/dev/takopi",
+      "clone": "https://github.com/banteg/takopi.git",
+      "branch": "main",
+      "sync": "git fetch --all --prune && git checkout main && git pull --ff-only",
+      "setup": [
+        "uv sync"
+      ]
+    },
+    {
+      "id": "sharedstake-ui",
+      "path": "/root/clawd/dev/SharedStake-ui",
+      "clone": "git@github.com:SharedStake/SharedStake-ui.git",
+      "branch": "main",
+      "sync": "git fetch --all --prune && git checkout main && git pull --ff-only",
+      "setup": [
+        "bun install",
+        "bun run setup"
+      ],
+      "notes": [
+        "Requires SSH key access to git@github.com:SharedStake/SharedStake-ui.git."
+      ]
+    }
+  ]
+}
