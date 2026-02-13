@@ -6,3 +6,4 @@
 | 2026-02-08 | self | New memory folders can be hard to discover without index links | Add backlinks in top-level README and relevant project README when introducing persistent artifacts |
 | 2026-02-13 | user | Asked to back up OpenClaw/Clawdbot/Takopi memory from root installs | Track canonical runtime paths (`/root/.openclaw`, `/root/.takopi`, `/root/clawd`) in `ai_memory/` with sanitized snapshots |
 | 2026-02-13 | self | Root runtime configs contained live tokens | Never copy raw secrets into repo; summarize/redact sensitive fields in backups |
+| 2026-02-13 | user | Called out that references alone were insufficient for restore | Always include a portable seed bundle (actual files + installer), not just path references |
