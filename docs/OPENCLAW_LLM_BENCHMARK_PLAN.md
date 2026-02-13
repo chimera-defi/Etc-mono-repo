@@ -18,12 +18,19 @@ This spec is written to avoid reruns: we capture **latency distribution + failur
 
 ## 1) Providers / models to include
 
-### Local (Ollama) — baseline set (already present)
+### Local (Ollama) — baseline set
 - `qwen2.5:3b`
 - `qwen3:4b`
+- `qwen3:8b`
+- `qwen3:14b`
 - `llama3.2:3b`
 - `gemma2:2b`
 - `phi3:3.8b`
+- `glm-4.7-flash:latest`
+- `gpt-oss:latest`
+- `devstral-small-2` (tag TBD)
+- `ministral-3` (tag TBD)
+- `mistral-small3.2` (tag TBD)
 
 ### Online (API) — baseline set
 > You specified: **GLM 4.7** + **Gemini Flash** (flash variant). We’ll pin exact provider model IDs in the harness config.
@@ -132,9 +139,16 @@ This table is the “don’t rerun” checklist: we aim to fill every cell at le
 |---|---|---:|---:|---:|---|---:|---:|---:|---|
 | qwen2.5:3b | Ollama local | ✅ | (opt) | ✅ | ✅ | ✅ | ✅ | n/a | baseline local small model |
 | qwen3:4b | Ollama local | ✅ | (opt) | ✅ | ✅ | ✅ | ✅ | n/a | baseline local |
+| qwen3:8b | Ollama local | ✅ | (opt) | ✅ | ✅ | ✅ | ✅ | n/a | added |
+| qwen3:14b | Ollama local | ✅ | (opt) | ✅ | ✅ | ✅ | ✅ | n/a | added |
 | llama3.2:3b | Ollama local | ✅ | (opt) | ✅ | ✅ | ✅ | ✅ | n/a | baseline local |
 | gemma2:2b | Ollama local | ✅ | (opt) | ✅ | ✅ | ✅ | ✅ | n/a | baseline local |
 | phi3:3.8b | Ollama local | ✅ | (opt) | ✅ | ✅ | ✅ | ✅ | n/a | baseline local |
+| GLM 4.7 flash | Ollama local | ✅ | (opt) | ✅ | ✅ | ✅ | ✅ | n/a | glm-4.7-flash:latest |
+| gpt-oss | Ollama local | ✅ | (opt) | ✅ | ✅ | ✅ | ✅ | n/a | gpt-oss:latest |
+| devstral-small-2 | Ollama local | ✅ | (opt) | ✅ | ✅ | ✅ | ✅ | n/a | tag TBD |
+| ministral-3 | Ollama local | ✅ | (opt) | ✅ | ✅ | ✅ | ✅ | n/a | tag TBD |
+| mistral-small3.2 | Ollama local | ✅ | (opt) | ✅ | ✅ | ✅ | ✅ | n/a | tag TBD |
 | gpt-5.3-codex (low) | OpenAI Codex | ✅ (ms precise) | ✅/null | ✅ | ✅ | ✅ | ✅ | ✅ | low thinking |
 | gpt-5.3-codex (high) | OpenAI Codex | ✅ (ms precise) | ✅/null | ✅ | ✅ | ✅ | ✅ | ✅ | high thinking |
 | Claude (TBD) | Anthropic | ✅ | ✅/null | ✅ | ✅ | ✅ | ✅ | ✅ | pin model |
@@ -202,6 +216,13 @@ For each strict prompt:
 | llama3.2:3b | 2.0 |
 | qwen2.5:3b | 1.9 |
 | qwen3:4b | 2.5 |
+| qwen3:8b | 5.2 |
+| qwen3:14b | (pulling) |
+| glm-4.7-flash:latest | (pulling) |
+| gpt-oss:latest | (pulling) |
+| devstral-small-2 | (pulling) |
+| ministral-3 | (pulling) |
+| mistral-small3.2 | (pulling) |
 | glm4:9b-chat-q4_K_M | 6.3 |
 
 ---
@@ -293,9 +314,8 @@ Workflow:
 ## 8) Open questions (need your answers once)
 
 1) Confirm exact Claude model IDs for **Haiku** and **Opus 4.6** as they appear in Claude Code.
-2) Confirm which provider endpoint for **Gemini Flash** (direct vs via LiteLLM).
-3) Should we include streaming TTFT measurement, or keep it non-streaming only?
-4) Target prompt suite size: 10 (fast iteration) vs 25+ (more coverage)?
+2) Streaming TTFT is **conditional** (stream only if all models in the run can stream). Confirm that’s acceptable.
+3) Confirm prompt suite target stays at **25+**.
 
 ## 9) Resource hygiene during benchmarking (big local models)
 
