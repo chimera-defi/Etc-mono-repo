@@ -1,0 +1,51 @@
+{
+  "auth": {
+    "profiles": {
+      "openai-codex:default": {
+        "provider": "openai-codex",
+        "mode": "oauth"
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "openai-codex/gpt-5.2-codex"
+      },
+      "workspace": "/root/clawd",
+      "heartbeat": {
+        "every": "24h",
+        "target": "none"
+      }
+    },
+    "list": [
+      {
+        "id": "main",
+        "identity": {
+          "name": "Clawdie1",
+          "theme": "octopus-minimalist",
+          "emoji": "🐙"
+        }
+      }
+    ]
+  },
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "dmPolicy": "allowlist",
+      "botToken": "${CLAWDBOT_TELEGRAM_BOT_TOKEN}",
+      "allowFrom": ["${CLAWDBOT_TELEGRAM_ALLOWED_USER_ID}"],
+      "groupPolicy": "allowlist",
+      "streamMode": "partial"
+    }
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "loopback",
+    "auth": {
+      "mode": "token",
+      "token": "${CLAWDBOT_GATEWAY_TOKEN}"
+    }
+  }
+}

@@ -25,15 +25,19 @@ similar feel and memory profile.
 - `AGENTS.md` preserves startup/operating workflow.
 - `memory/*.md` carries recent durable context.
 
-## Usage
+## Agent-first Usage
 
-Run from this repo root:
+Primary path is manifest-driven import by another agent:
+
+- `ai_memory/bootstrap/openclaw_clawdbot_seed/export.manifest.json`
+
+Optional fallback for local ops:
 
 ```bash
 bash ai_memory/bootstrap/openclaw_clawdbot_seed/install_seed.sh /path/to/new/workspace
 ```
 
-Then configure platform-specific secrets/tokens using:
+Then resolve placeholders in runtime templates:
 
 - `ai_memory/openclaw_clawdbot_runtime_backup.md`
 - `ai_memory/takopi_runtime_backup.md`
