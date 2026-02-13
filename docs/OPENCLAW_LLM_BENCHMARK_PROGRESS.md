@@ -8,6 +8,11 @@ This is a living progress report generated from local run folders under:
 
 ## Aggregate table (all runs so far)
 
+<!-- BEGIN AUTO: aggregate_runs.py -->
+# Aggregate Benchmark Progress
+
+This file is auto-generated from `runs/*/results.jsonl`.
+
 | Provider | Model | Thinking | Runs | n(total) | n(ok) | ok% (total) | n(success) | succ% (ok) | succ% (total) | n(error) | n(rate) | n(skipped) | e2e p50 | e2e p95 | suite wall p50 |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | ollama_openai | devstral-small-2:latest |  | 1 | 5 | 4 | 80.0% | 4 | 100.0% | 80.0% | 1 | 0 | 0 | 14108 | 26093 | 89638 |
@@ -27,9 +32,4 @@ This is a living progress report generated from local run folders under:
 | openai_responses | gpt-5-codex | low | 1 | 5 | 0 | 0.0% | 0 |  | 0.0% | 0 | 5 | 0 |  |  | 2645 |
 | openai_responses | openai-codex/gpt-5.3-codex | high | 1 | 5 | 0 | 0.0% | 0 |  | 0.0% | 5 | 0 | 0 |  |  | 2198 |
 | openai_responses | openai-codex/gpt-5.3-codex | low | 1 | 5 | 0 | 0.0% | 0 |  | 0.0% | 5 | 0 | 0 |  |  | 2742 |
-### Notes
-- `ok% (total)` = `n(ok) / n(total)`; this is the most intuitive “did it finish?” rate.
-- `succ% (ok)` = `n(success) / n(ok)` (usually 100% because `ok` implies a completed call; kept for completeness).
-- `succ% (total)` = `n(success) / n(total)`.
-- `n(rate)` includes OpenAI `insufficient_quota` (HTTP 429) outcomes.
-- `suite wall` is the wall-clock span for the entire provider×model×thinking suite in that run (min started_at_ms to max ended_at_ms).
+<!-- END AUTO: aggregate_runs.py -->
