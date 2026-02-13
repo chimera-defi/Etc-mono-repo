@@ -616,6 +616,11 @@ def main() -> int:
     ap.add_argument("--run-id", default=None, help="Run id folder name (default: timestamp)")
     ap.add_argument("--prompts", default="prompts_v1.json", help="Path to prompts JSON")
     ap.add_argument(
+        "--prompt-ids",
+        default=None,
+        help="Comma-separated prompt ids to run (e.g., P0,P1,P2). Default: run all prompts in the suite.",
+    )
+    ap.add_argument(
         "--targets",
         default="ollama,openai_low,openai_high,claude_haiku,claude_opus",
         help="Comma-separated targets to run (subset allowed)",
@@ -649,6 +654,14 @@ def main() -> int:
         prompts_path = os.path.join(here, prompts_path)
 
     prompts = read_json(prompts_path)
+
+    if args.prompt_ids:
+        want = [x.strip() for x in args.prompt_ids.split(",") if x.strip()]
+        want_set = set(want)
+        prompts = [p for p in prompts if p.get("id") in want_set]
+        missing = [pid for pid in want if pid not in {p.get('id') for p in prompts}]
+        if missing:
+            raise SystemExit(f"Unknown prompt ids in --prompt-ids: {', '.join(missing)}")
 
     run_id = args.run_id or _dt.datetime.now().strftime("%Y%m%d_%H%M%S")
     runs_root = os.path.join(here, "runs")
