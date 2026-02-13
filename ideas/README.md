@@ -2,6 +2,8 @@
 
 High-level ideas and concepts for future exploration and implementation.
 
+Related persistent memory snapshots: [`../ai_memory/`](../ai_memory/README.md)
+
 ## OAuth-Based Automated Provider Setup
 
 **Problem**: Manual setup of third-party services (Google Analytics, authentication providers, etc.) requires copying API keys, configuring environment variables, and updating multiple files—a tedious, error-prone process.
