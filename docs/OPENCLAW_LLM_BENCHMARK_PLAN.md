@@ -181,7 +181,7 @@ For each strict prompt:
 | llama3.2:3b | 2.0 |
 | qwen2.5:3b | 1.9 |
 | qwen3:4b | 2.5 |
-| glm4:9b-chat-q4_K_M | (pending pull) |
+| glm4:9b-chat-q4_K_M | 6.3 |
 
 ---
 
