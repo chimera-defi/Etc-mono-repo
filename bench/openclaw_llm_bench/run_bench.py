@@ -645,6 +645,11 @@ def main() -> int:
         action="store_true",
         help="Enable streaming + TTFT capture. Aborts unless *all* targets in the run support streaming.",
     )
+    ap.add_argument(
+        "--allow-concurrent-ollama",
+        action="store_true",
+        help="Do NOT stop other Ollama runners between model suites. Use only for contention-mode experiments.",
+    )
 
     args = ap.parse_args()
 
@@ -764,7 +769,7 @@ def main() -> int:
         model_tag_safe = re.sub(r"[^A-Za-z0-9_.-]+", "_", model_tag)
 
         # Prevent cross-model interference: stop any old Ollama runners before starting a new model suite.
-        if provider_name == "ollama_openai":
+        if provider_name == "ollama_openai" and (not args.allow_concurrent_ollama):
             ensure_ollama_idle(out_dir, tag=f"{model_tag_safe}_pre")
 
         capture_resources(out_dir, f"{model_tag_safe}_before")
