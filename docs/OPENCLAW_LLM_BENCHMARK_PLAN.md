@@ -35,10 +35,10 @@ This spec is written to avoid reruns: we capture **latency distribution + failur
   - `claude-haiku` (exact ID TBD)
   - `claude-opus-4.6` (exact ID TBD)
   - Note: availability/credits may be transient; we allow partial runs and fill missing cells on later reruns.
-- **Gemini Flash**
-  - flash variant (pin exact: e.g. `gemini-*-flash`)
-- **GLM 4.7**
-  - pin exact: e.g. `glm-4.7` / `glm-4.7-*` depending on provider
+- **GLM 4.7 (local via Ollama)**
+  - `glm-4.7-flash:latest`
+
+(We are *not* benchmarking Gemini Flash.)
 
 ### Optional / stretch
 - LiteLLM fronted providers (single unified endpoint) if we want to normalize request/response logging.
@@ -73,10 +73,17 @@ We run **one fixed suite** across all models.
 - rewrite shorter with constraints
 
 **Run shape:**
-- 10–20 core prompts (like your existing p1..p10 set)
-- + 3 long-context variants of 3 prompts (to isolate prompt-length latency scaling)
+- **25+ core prompts** (objective + ops + long prompt + tool-usage)
+- + long-context variants (2k / 8k / 32k) for a subset to isolate prompt-length latency scaling
 
 ### Canonical prompt set (v1)
+
+> TODO: expand from the 11 prompts below to **25+ prompts** before first full run. Keep a balanced mix:
+> - strict objective format checks (JSON/single-token/extraction)
+> - ops/routing triage
+> - long operator handoff prompt
+> - tool-like reasoning (commands, log triage)
+> - 2–3 “gotcha” prompts (ambiguous token vs crypto token; nested JSON escaping)
 
 These are designed to be **objectively gradable** and to expose “format drift”. Each prompt has a validator.
 
@@ -131,8 +138,8 @@ This table is the “don’t rerun” checklist: we aim to fill every cell at le
 | gpt-5.3-codex (low) | OpenAI Codex | ✅ (ms precise) | ✅/null | ✅ | ✅ | ✅ | ✅ | ✅ | low thinking |
 | gpt-5.3-codex (high) | OpenAI Codex | ✅ (ms precise) | ✅/null | ✅ | ✅ | ✅ | ✅ | ✅ | high thinking |
 | Claude (TBD) | Anthropic | ✅ | ✅/null | ✅ | ✅ | ✅ | ✅ | ✅ | pin model |
-| Gemini Flash (flash) | Google | ✅ | ✅/null | ✅ | ✅ | ✅ | ✅ | ✅ | pin model |
-| GLM 4.7 | Zhipu/other | ✅ | ✅/null | ✅ | ✅ | ✅ | ✅ | ✅ | pin model |
+| Gemini Flash | — | — | — | — | — | — | — | — | not benchmarking |
+| GLM 4.7 flash | Ollama local | ✅ | (opt) | ✅ | ✅ | ✅ | ✅ | n/a | glm-4.7-flash:latest |
 
 Legend: ✅ = must capture; (opt) = only if we run streaming for that model.
 
@@ -140,7 +147,9 @@ Legend: ✅ = must capture; (opt) = only if we run streaming for that model.
 
 ### Latency (critical)
 - **E2E latency** per prompt (ms, not seconds)
-- **TTFT** (time-to-first-token) when streaming is available; otherwise mark `null`
+- **TTFT** (time-to-first-token):
+  - If **all models in the run support streaming**, run streaming and capture TTFT.
+  - Otherwise, run **non-streaming only** and set TTFT=`null` for everything.
 - **Throughput**: output tokens / second (if token counts available)
 - **Queue delay** (if we can observe it): time spent waiting before model starts
 
