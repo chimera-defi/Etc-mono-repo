@@ -2,6 +2,9 @@
   "schema": "ai-memory-export/v1",
   "export_id": "openclaw-clawdbot-seed",
   "description": "Portable OpenClaw/Clawdbot persona + memory + runtime templates",
+  "prerequisites": [
+    "Apply ai_memory/bootstrap/repo_bootstrap/export.manifest.json first."
+  ],
   "target_workspace_root": "/root/clawd",
   "steps": [
     { "op": "copy", "source": "AGENTS.md", "target": "AGENTS.md" },
