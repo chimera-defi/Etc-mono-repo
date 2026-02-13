@@ -531,9 +531,11 @@ def parse_ollama_ps_models(ollama_ps_output: str) -> List[str]:
 
 def ensure_ollama_idle(out_dir: str, tag: str) -> None:
     """Best-effort: ensure no old model is still running before we start a new suite."""
+    results_path = os.path.join(out_dir, "results.jsonl")
+
     rc, ps_out, ps_err = run_cmd(["ollama", "ps"], timeout_s=10)
     if rc != 0:
-        append_jsonl(os.path.join(out_dir, "results.jsonl"), {
+        append_jsonl(results_path, {
             "record_type": "event",
             "tag": tag,
             "event": "ollama_ps_failed",
@@ -548,7 +550,7 @@ def ensure_ollama_idle(out_dir: str, tag: str) -> None:
     # Try stopping each running model.
     for m in running:
         rc2, _, err2 = run_cmd(["ollama", "stop", m], timeout_s=30)
-        append_jsonl(os.path.join(out_dir, "results.jsonl"), {
+        append_jsonl(results_path, {
             "record_type": "event",
             "tag": tag,
             "event": "ollama_stop",
@@ -557,16 +559,35 @@ def ensure_ollama_idle(out_dir: str, tag: str) -> None:
             "error": err2.strip() if rc2 != 0 else None,
         })
 
-    # Re-check once.
-    rc3, ps2_out, _ = run_cmd(["ollama", "ps"], timeout_s=10)
-    still = parse_ollama_ps_models(ps2_out) if rc3 == 0 else []
-    if still:
-        append_jsonl(os.path.join(out_dir, "results.jsonl"), {
-            "record_type": "event",
-            "tag": tag,
-            "event": "ollama_still_running",
-            "models": still,
-        })
+    # Re-check with a short backoff loop: stop may be asynchronous.
+    for attempt in range(1, 6):
+        time.sleep(0.5 * attempt)
+        rc3, ps2_out, ps2_err = run_cmd(["ollama", "ps"], timeout_s=10)
+        if rc3 != 0:
+            append_jsonl(results_path, {
+                "record_type": "event",
+                "tag": tag,
+                "event": "ollama_ps_failed_after_stop",
+                "attempt": attempt,
+                "error": ps2_err.strip(),
+            })
+            return
+        still = parse_ollama_ps_models(ps2_out)
+        if not still:
+            append_jsonl(results_path, {
+                "record_type": "event",
+                "tag": tag,
+                "event": "ollama_idle_confirmed",
+                "attempt": attempt,
+            })
+            return
+
+    append_jsonl(results_path, {
+        "record_type": "event",
+        "tag": tag,
+        "event": "ollama_still_running",
+        "models": still,
+    })
 
 
 def capture_resources(out_dir: str, tag: str) -> Dict[str, str]:
