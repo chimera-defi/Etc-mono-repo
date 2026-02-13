@@ -53,3 +53,8 @@ Redacted secrets:
 - Preserve concrete runtime defaults for Takopi continuity.
 - Keep root-path references visible from this repo.
 - Avoid losing operational context during config churn.
+
+## Bootstrap Bundle
+
+- `ai_memory/bootstrap/takopi_seed/README.md`
+- `ai_memory/bootstrap/takopi_seed/export.manifest.json`

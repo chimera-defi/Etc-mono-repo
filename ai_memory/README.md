@@ -8,7 +8,9 @@ Persistent memory backups for high-signal context we want available across sessi
 - `ai_memory/openclaw_clawdbot.md` — distilled research and expansion paths for the OpenClaw/Clawdbot server-management idea.
 - `ai_memory/takopi_runtime_backup.md` — sanitized backup of Takopi runtime memory/config paths from root install.
 - `ai_memory/openclaw_clawdbot_runtime_backup.md` — sanitized backup of OpenClaw/Clawdbot memory, soul, and skills/tooling paths from root install.
-- `ai_memory/bootstrap/openclaw_clawdbot_seed/` — portable seed bundle (persona + memory + installer) for spinning up a new server/agent with similar feel.
+- `ai_memory/bootstrap/AGENT_EXPORTS.md` — manifest-based import contract for agents.
+- `ai_memory/bootstrap/openclaw_clawdbot_seed/` — OpenClaw/Clawdbot seed (persona + memory + runtime templates + export manifest).
+- `ai_memory/bootstrap/takopi_seed/` — Takopi seed (config template + memory defaults + export manifest).
 
 ## Usage
 
