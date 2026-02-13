@@ -132,6 +132,60 @@ def _strip(s: str) -> str:
     return s.strip(" \t\r\n")
 
 
+def detect_tool_calls(text: str, expected_tools: Optional[List[str]] = None) -> Tuple[List[str], int, bool]:
+    """Detect tool invocations in LLM output.
+    
+    Returns (tool_calls_list, tool_call_count, tool_use_success).
+    
+    Looks for patterns:
+    - Command-like patterns: `command`, "command", or 'command'
+    - Shell invocation: $ command, sh: command
+    - Tool markers: <tool>name</tool>, [tool: name]
+    """
+    if not text:
+        return [], 0, False
+    
+    detected_tools = []
+    
+    # Pattern 1: Backtick commands like `free -h`
+    backtick_matches = re.findall(r'`([a-z0-9\-_.]+)', text, re.IGNORECASE)
+    detected_tools.extend([m.split()[0] for m in backtick_matches])
+    
+    # Pattern 2: Quoted commands "command ..." or 'command ...'
+    quoted_matches = re.findall(r'["\']([a-z0-9\-_.]+)\s', text)
+    detected_tools.extend([m for m in quoted_matches])
+    
+    # Pattern 3: Shell prompt-like $ command
+    shell_matches = re.findall(r'[$#]\s+([a-z0-9\-_.]+)', text)
+    detected_tools.extend([m for m in shell_matches])
+    
+    # Pattern 4: XML-like tool markers <tool>name</tool>
+    xml_matches = re.findall(r'<tool>([a-z0-9\-_.]+)</tool>', text, re.IGNORECASE)
+    detected_tools.extend(xml_matches)
+    
+    # Pattern 5: Bracket markers [tool: name] or [TOOL: name]
+    bracket_matches = re.findall(r'\[(?:tool|TOOL):\s*([a-z0-9\-_.]+)\]', text)
+    detected_tools.extend(bracket_matches)
+    
+    # Normalize tool names (extract first word if it's a full command)
+    normalized = []
+    for tool in detected_tools:
+        base = tool.split()[0].lower() if tool else ""
+        if base and base not in normalized:
+            normalized.append(base)
+    
+    # Check if any expected tools were found
+    success = False
+    if expected_tools:
+        expected_set = {t.lower() for t in expected_tools}
+        found_set = {t.lower() for t in normalized}
+        success = bool(found_set & expected_set)
+    else:
+        success = len(normalized) > 0
+    
+    return normalized, len(normalized), success
+
+
 def validate_output(text: str, validator: Dict[str, Any]) -> Tuple[Optional[bool], Optional[str], Optional[Any]]:
     """Returns (objective_pass, violation, parsed_output)."""
     vtype = (validator or {}).get("type", "noop")
@@ -201,6 +255,11 @@ def validate_output(text: str, validator: Dict[str, Any]) -> Tuple[Optional[bool
                 if not isinstance(parsed[k], (int, float)) or isinstance(parsed[k], bool):
                     return False, f"key_rule_number_failed:{k}", parsed
         return True, None, parsed
+
+    if vtype == "tool_invocation":
+        expected_tools = validator.get("expected_tools", [])
+        detected, count, success = detect_tool_calls(text, expected_tools)
+        return success, None if success else f"no_tool_invocation expected={expected_tools}", {"detected_tools": detected, "count": count}
 
     return None, f"unknown_validator:{vtype}", None
 
@@ -824,6 +883,10 @@ def main() -> int:
 
             objective_pass, violation, parsed = validate_output(call_res.raw_output, p.get("validator") or {})
 
+            # Detect tool calls in output
+            expected_tools = p.get("expected_tool_calls", [])
+            tool_calls, tool_call_count, tool_use_success = detect_tool_calls(call_res.raw_output, expected_tools)
+
             rec = {
                 "record_type": "result",
                 "run_id": run_id,
@@ -845,6 +908,9 @@ def main() -> int:
                 "output_tokens": call_res.output_tokens,
                 "raw_output": call_res.raw_output,
                 "parsed_output": parsed,
+                "tool_calls": tool_calls,
+                "tool_call_count": tool_call_count,
+                "tool_use_success": tool_use_success,
             }
             append_jsonl(results_path, rec)
 
