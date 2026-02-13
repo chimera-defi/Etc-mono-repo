@@ -46,3 +46,9 @@ Control surfaces:
 2. Specify runbook taxonomy (patch, backup, deploy, incident triage).
 3. Implement minimal control plane + agent daemon with audit log.
 4. Pilot with constrained environments and measure MTTR/reliability deltas.
+
+## Global AI Tools & Skills (For This Domain)
+
+- **Primary tools:** `rg` for code/doc search, QMD BM25 for ranked discovery, targeted reads for large specs.
+- **Reusable skills:** `napkin` (continuous mistake/preference log), `token-reduce` (low-context retrieval flow).
+- **Agent surfaces to plan for:** web console copilot, CLI copilot, API-triggered runbook automation.
