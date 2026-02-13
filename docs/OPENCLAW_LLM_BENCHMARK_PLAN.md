@@ -297,7 +297,42 @@ Workflow:
 3) Should we include streaming TTFT measurement, or keep it non-streaming only?
 4) Target prompt suite size: 10 (fast iteration) vs 25+ (more coverage)?
 
-## 9) Rerun strategy (don’t waste runs)
+## 9) Resource hygiene during benchmarking (big local models)
+
+Some local Ollama models are large; to keep benchmarks reliable we need to avoid memory/disk pressure and avoid accidental concurrent inference.
+
+### Before each model suite
+- Confirm nothing is currently running in Ollama:
+  - `ollama ps` should be empty
+- Capture baseline resources:
+  - `free -h`
+  - `df -h /`
+
+### After each model suite
+- Re-check:
+  - `ollama ps`
+  - `free -h`
+  - `df -h /`
+- If anything is still running, stop it (best-effort):
+  - `ollama stop <model>` (if supported)
+
+### Disk eviction policy (if needed)
+If disk usage becomes a concern mid-run, we may delete models we’ve already benchmarked.
+
+Rules:
+- Only delete **after** the model’s results are safely written to `results.jsonl`.
+- Record deletions in the run artifacts:
+  - which model tag was removed
+  - `df -h /` before/after
+  - reason (disk pressure / no longer needed)
+
+Commands:
+- List installed: `ollama list`
+- Remove a model: `ollama rm <model>`
+
+(If we ever need to re-run a removed model, we can `ollama pull <model>` again, but we should avoid doing that unless necessary.)
+
+## 10) Rerun strategy (don’t waste runs)
 
 We will run the suite multiple times. Each run appends to the same results corpus; missing provider/model cells remain empty until that provider becomes available again.
 
