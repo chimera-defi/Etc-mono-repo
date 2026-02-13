@@ -12,6 +12,7 @@ Control surfaces:
 ## What We Already Have In Repo
 
 - Concept and expansion draft: `ideas/server-management-agent/README.md`
+- Runtime backup (root install references): `ai_memory/openclaw_clawdbot_runtime_backup.md`
 - Launchpad research pack:
   - `ideas/clawdbot-launchpad/README.md`
   - `ideas/clawdbot-launchpad/PRD.md`

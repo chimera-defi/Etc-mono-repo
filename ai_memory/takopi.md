@@ -28,6 +28,7 @@
 - `.claude/skills/token-reduce/SKILL.md`
 - `.cursorrules`
 - `CLAUDE.md`
+- `ai_memory/takopi_runtime_backup.md`
 
 ## Global AI Tools & Skills
 
