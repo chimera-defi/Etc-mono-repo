@@ -28,3 +28,9 @@
 - `.claude/skills/token-reduce/SKILL.md`
 - `.cursorrules`
 - `CLAUDE.md`
+
+## Global AI Tools & Skills
+
+- **Primary tools:** `rg`/`rg --files`, `qmd` BM25 search, targeted reads (`head`/`tail`/`sed`), `apply_patch`.
+- **Global skills in use:** `napkin`, `token-reduce`.
+- **Operational policy:** QMD + `rg` for retrieval, avoid MCP CLI filesystem reads in this repo unless re-benchmarked.
