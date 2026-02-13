@@ -87,3 +87,4 @@ Themes in these notes:
 Use this with the portable seed in:
 
 - `ai_memory/bootstrap/openclaw_clawdbot_seed/README.md`
+- `ai_memory/bootstrap/openclaw_clawdbot_seed/export.manifest.json`
