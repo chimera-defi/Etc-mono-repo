@@ -9,7 +9,7 @@ This is a living progress report generated from local run folders under:
 ## Aggregate table (all runs so far)
 
 | Provider | Model | Thinking | Runs | n(total) | n(ok) | ok% (total) | n(success) | succ% (ok) | succ% (total) | n(error) | n(rate) | n(skipped) | e2e p50 | e2e p95 | suite wall p50 |
-|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | ollama_openai | devstral-small-2:latest |  | 1 | 5 | 4 | 80.0% | 4 | 100.0% | 80.0% | 1 | 0 | 0 | 14108 | 26093 | 89638 |
 | ollama_openai | gemma2:2b |  | 1 | 5 | 5 | 100.0% | 5 | 100.0% | 100.0% | 0 | 0 | 0 | 2919 | 16961 | 38423 |
 | ollama_openai | glm-4.7-flash:latest |  | 1 | 5 | 2 | 40.0% | 2 | 100.0% | 40.0% | 3 | 0 | 0 | 14074 | 18229 | 118239 |
