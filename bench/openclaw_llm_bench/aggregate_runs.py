@@ -137,29 +137,34 @@ def main() -> int:
     lines.append("# Aggregate Benchmark Progress\n")
     lines.append("This file is auto-generated from `runs/*/results.jsonl`.\n")
     lines.append(
-        "| Provider | Model | Thinking | Runs | n(total) | n(ok) | n(success) | n(error) | n(rate) | n(skipped) | succ% (ok) | e2e p50 | e2e p95 | suite wall p50 |"
+        "| Provider | Model | Thinking | Runs | n(total) | n(ok) | ok% (total) | n(success) | succ% (ok) | succ% (total) | n(error) | n(rate) | n(skipped) | e2e p50 | e2e p95 | suite wall p50 |"
     )
-    lines.append("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|")
+    lines.append("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|")
 
     for k, a in sorted(agg.items(), key=lambda kv: (kv[0][0] or "", kv[0][1] or "", str(kv[0][2] or ""))):
+        nt = a["n_total"]
         ok = a["n_ok"]
         succ = a["n_success"]
-        succ_rate = (succ / ok) if ok else None
+        ok_rate_total = (ok / nt) if nt else None
+        succ_rate_ok = (succ / ok) if ok else None
+        succ_rate_total = (succ / nt) if nt else None
         e2e = a["e2e_success"]
         wall = a["wall_ms_spans"]
         lines.append(
-            "| {prov} | {model} | {think} | {runs} | {nt} | {nok} | {ns} | {ne} | {nr} | {nsk} | {sr} | {p50} | {p95} | {w50} |".format(
+            "| {prov} | {model} | {think} | {runs} | {nt} | {nok} | {okr} | {ns} | {srok} | {srt} | {ne} | {nr} | {nsk} | {p50} | {p95} | {w50} |".format(
                 prov=a["provider"],
                 model=a["model"],
                 think=a["thinking"] or "",
                 runs=str(len(set(a["runs"]))),
-                nt=a["n_total"],
-                nok=a["n_ok"],
-                ns=a["n_success"],
+                nt=nt,
+                nok=ok,
+                okr=pct(ok_rate_total),
+                ns=succ,
+                srok=pct(succ_rate_ok),
+                srt=pct(succ_rate_total),
                 ne=a["n_error"],
                 nr=a["n_rate_limited"],
                 nsk=a["n_skipped"],
-                sr=pct(succ_rate),
                 p50=fmt(percentile(e2e, 50)),
                 p95=fmt(percentile(e2e, 95)),
                 w50=fmt(percentile([float(x) for x in wall], 50) if wall else None),
