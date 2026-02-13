@@ -8,7 +8,7 @@ This spec is written to avoid reruns: we capture **latency distribution + failur
 
 ## 0) Guiding principles
 
-- **Measure end-to-end**: wall-clock from “request submitted” → “final response received”, plus finer-grained latencies when available.
+- **Measure end-to-end (E2E)**: *wall-clock* from the moment the client submits the request (right before the HTTP call / CLI invocation) → the moment the full final response is received (after last byte). Record this as `e2e_ms` (milliseconds).
 - **Strict correctness** for objective prompts (JSON/one-word/etc.) + **subjective rating** for open-ended prompts.
 - **Track tails**: p50/p90/p95/p99 matter more than averages.
 - **Keep runs reproducible**: fixed prompt set, fixed concurrency, fixed thinking level.
@@ -83,50 +83,156 @@ We run **one fixed suite** across all models.
 - **25+ core prompts** (objective + ops + long prompt + tool-usage)
 - + long-context variants (2k / 8k / 32k) for a subset to isolate prompt-length latency scaling
 
-### Canonical prompt set (v1)
+### Canonical prompt set (v2, 28 prompts)
 
-> TODO: expand from the 11 prompts below to **25+ prompts** before first full run. Keep a balanced mix:
-> - strict objective format checks (JSON/single-token/extraction)
-> - ops/routing triage
-> - long operator handoff prompt
-> - tool-like reasoning (commands, log triage)
-> - 2–3 “gotcha” prompts (ambiguous token vs crypto token; nested JSON escaping)
+This suite is designed to be **objectively gradable** and to expose common failure modes: format drift, extra prose, wrong types, missing escaping, and “helpful” additions.
 
-These are designed to be **objectively gradable** and to expose “format drift”. Each prompt has a validator.
+**Harness rule (global):** unless explicitly allowed, **no surrounding text**. If a prompt says “Return ONLY JSON”, the full response must parse as a single JSON value and nothing else.
 
-We also include **one long prompt** comparable to real operator instructions (multi-paragraph, constraints, and multiple asks) to measure latency scaling and degradation under longer inputs.
+Each prompt below includes a suggested validator.
 
-**P0 (sanity):** Reply with exactly `HEARTBEAT_OK`
+#### Objective / hard-format prompts
 
-**P1 (router JSON):**
-Return ONLY JSON: `{ "route":"local|premium", "reason":"..." }` for: debug intermittent nginx 502 with TLS upstream checks.
+**P0 (sanity / exact):**
+Prompt: Reply with exactly `HEARTBEAT_OK`
+- Validator: exact match `HEARTBEAT_OK`
 
-**P2 (one-sentence summary):** Summarize in one sentence: RAM 7.6/62 GiB, disk 16G/2.8T, load avg 1.05.
+**P1 (router JSON / enum):**
+Prompt: Return ONLY JSON: `{ "route":"local"|"premium", "reason":"..." }` for: debug intermittent nginx 502 with TLS upstream checks.
+- Validator: JSON schema
+  - `type=object`, required: `route` (enum: `local|premium`), `reason` (string, minLen 3)
 
-**P3 (single token):** Output only one word: `high` or `low`. Task criticality: restart failed production gateway.
+**P2 (one-sentence summary):**
+Prompt: Summarize in exactly one sentence: `RAM 7.6/62 GiB, disk 16G/2.8T, load avg 1.05.`
+- Validator: regex (single sentence): `^[A-Z].*[.!?]$` AND must not contain `\n`
 
-**P4 (extraction):** Extract only the integer from: `Disk usage is 16G`
+**P3 (single token / exact set):**
+Prompt: Output only one word: `high` or `low`. Task criticality: restart failed production gateway.
+- Validator: exact match `high` OR exact match `low`
 
-**P5 (rewrite constraint):** Rewrite shorter (max 8 words): `Please verify whether the service is currently operational.`
+**P4 (extraction / integer):**
+Prompt: Extract only the integer from: `Disk usage is 16G`
+- Validator: regex `^\d+$`
 
-**P6 (exact bullet count):** Give exactly 3 bullet points for heartbeat checks.
+**P5 (rewrite constraint / word count):**
+Prompt: Rewrite shorter (max 8 words): `Please verify whether the service is currently operational.`
+- Validator: word count `<= 8` AND must not include quotes
 
-**P7 (typed JSON):** Return ONLY JSON: `{ "ram_used_gib":7.6, "disk_used_gb":16 }`
+**P6 (exact bullet count):**
+Prompt: Give exactly 3 bullet points for heartbeat checks. Use `- ` bullets.
+- Validator: regex/count: exactly 3 lines matching `^- .+` and no extra lines
 
-**P8 (binary):** Answer ONLY `yes` or `no`: Is 1% disk usage safe?
+**P7 (typed JSON / numeric types):**
+Prompt: Return ONLY JSON: `{ "ram_used_gib":7.6, "disk_used_gb":16 }`
+- Validator: JSON schema
+  - `ram_used_gib`: number (must be `7.6` exactly), `disk_used_gb`: integer (must be `16` exactly)
 
-**P9 (date normalize):** Convert to ISO date only (YYYY-MM-DD): Friday, February 13th, 2026.
+**P8 (binary / exact):**
+Prompt: Answer ONLY `yes` or `no`: Is 1% disk usage safe?
+- Validator: exact match `yes` OR exact match `no`
 
-**P10 (long operator prompt, mixed objective+subjective):**
-You are assisting with a production incident. We just migrated to a new server and are seeing intermittent 502s on nginx with TLS upstream checks. I need you to do *three* things:
-1) Propose a step-by-step debug plan with exactly 7 steps, each step must be one sentence.
-2) Provide a command-only block with exactly 5 commands (no explanations) to gather evidence on Ubuntu.
-3) End with a short risk assessment (max 40 words) that explicitly mentions whether to escalate to a premium model.
-Constraints: do not use markdown headers, do not include code fences, and keep the total response under 220 words.
+**P9 (date normalize / exact format):**
+Prompt: Convert to ISO date only (YYYY-MM-DD): `Friday, February 13th, 2026.`
+- Validator: exact match `2026-02-13`
+
+**P10 (exact token output / whitespace sensitivity):**
+Prompt: Output EXACTLY the following 9 characters (no newline): `aB3_9xZ0!`
+- Validator: exact match `aB3_9xZ0!`
+
+**P11 (strict JSON array / ordering):**
+Prompt: Return ONLY JSON array of strings, in this exact order: `restart`, `rollback`, `investigate`.
+- Validator: exact JSON match `["restart","rollback","investigate"]`
+
+**P12 (JSON with null + booleans):**
+Prompt: Return ONLY JSON: `{ "ttft_ms": null, "streaming": false, "ok": true }`
+- Validator: exact JSON match (after parsing) with types: null/bool/bool and same keys present
+
+**P13 (nested JSON escaping / JSON-as-string gotcha):**
+Prompt: Return ONLY JSON with this shape: `{ "payload_json": "<string>" }`. The `payload_json` string must itself be valid JSON and must equal: `{ "a": 1, "b": "x\n y" }` (note: includes a newline escape).
+- Validator: two-stage parse
+  1) outer is JSON object with `payload_json` string
+  2) parse `payload_json` as JSON; it must equal object `{a:1,b:"x\n y"}`
+
+**P14 (JSON escaping / quotes):**
+Prompt: Return ONLY JSON: `{ "text": "She said: \"deploy now\"" }`
+- Validator: parse JSON, assert `text` exactly equals `She said: "deploy now"`
+
+**P15 (CSV extraction / exact header + 2 rows):**
+Prompt: Output CSV with header `service,latency_ms` and exactly 2 data rows for: gateway=120ms, api=45ms.
+- Validator: exact 3 lines; header exact; rows match regex `^(gateway|api),\d+$` and latencies match 120 and 45
+
+**P16 (YAML output / strict keys):**
+Prompt: Output ONLY YAML with exactly these keys: `route`, `severity`, `next_step`. Values: route=`local`, severity=`sev2`, next_step=`collect_logs`.
+- Validator: YAML parse + exact key set + exact values
+
+**P17 (regex-safe log line extraction):**
+Prompt: From the text below, output ONLY the request id (the `rid=` value):
+`2026-02-13T19:02:11Z nginx[123]: upstream timeout rid=9f12ab34 user=42`
+- Validator: exact match `9f12ab34`
+
+#### Ops triage / log parsing / tool planning
+
+**P18 (ops triage classification JSON):**
+Prompt: Return ONLY JSON: `{ "severity":"sev1"|"sev2"|"sev3", "action":"rollback"|"restart"|"observe" }` for: 30% 502s for 12 minutes, checkout failures increasing, no data loss confirmed.
+- Validator: JSON schema with enums; no extra keys
+
+**P19 (log parsing → structured JSON list):**
+Prompt: Return ONLY JSON array of objects `{ "ts":"<iso>", "level":"ERROR"|"WARN", "msg":"..." }` extracted from these lines (ignore INFO):
+1) `2026-02-13T20:01:00Z INFO ok`
+2) `2026-02-13T20:01:02Z WARN redis slow`
+3) `2026-02-13T20:01:05Z ERROR db timeout`
+- Validator: JSON schema; array length 2; ts values exactly lines 2+3; levels WARN/ERROR
+
+**P20 (command planning / command-only block):**
+Prompt: Provide exactly 6 Ubuntu commands to diagnose intermittent nginx 502s with upstream TLS. Output commands only, one per line, no explanations.
+- Validator: exactly 6 non-empty lines; each begins with `[a-z]` and contains no `#` comments
+
+**P21 (tool orchestration plan JSON):**
+Prompt: Return ONLY JSON: `{ "steps": [ {"cmd":"...","purpose":"..."} ] }` with exactly 4 steps to verify disk pressure and RAM pressure on Linux.
+- Validator: JSON schema; steps length=4; each has `cmd` and `purpose` strings; purposes non-empty
+
+**P22 (routing + budget constraint / escalation rule):**
+Prompt: Return ONLY JSON: `{ "route":"local"|"premium", "max_seconds": <int> }` for: “User is waiting on-call; give best effort in under 10 seconds.” Choose `max_seconds` between 1 and 10.
+- Validator: JSON schema; `max_seconds` integer 1..10
+
+**P23 (incident status update / word cap + sections without headers):**
+Prompt: Write an operator update with exactly 3 paragraphs: (1) What happened, (2) What we did, (3) Next. Total <= 90 words. No markdown headers.
+- Validator: exactly 3 paragraphs (split by blank lines); total word count <= 90; must not contain `#`
+
+**P24 (handoff note / long operator handoff):**
+Prompt:
+You are handing off to the next on-call. Write a handoff note that includes:
+- a 5-item checklist (use `- ` bullets)
+- one “current hypothesis” sentence
+- one “rollback criteria” sentence
+Constraints: no code fences; total <= 160 words.
+- Validator: bullet count exactly 5; contains substring `hypothesis` (case-insensitive) and `rollback` (case-insensitive); word count <= 160; must not contain ```
+
+**P25 (log-forensics gotcha / time window ambiguity):**
+Prompt: We saw errors “around 20:01”. Using ONLY the lines below, output ONLY JSON: `{ "first_error_ts":"<iso>", "last_error_ts":"<iso>" }` where “around 20:01” means timestamps with minute == `20:01`.
+Lines:
+- `2026-02-13T20:00:59Z ERROR x`
+- `2026-02-13T20:01:00Z ERROR y`
+- `2026-02-13T20:01:59Z ERROR z`
+- `2026-02-13T20:02:00Z ERROR w`
+- Validator: exact JSON values: first=`2026-02-13T20:01:00Z`, last=`2026-02-13T20:01:59Z`
+
+#### Ambiguity / gotcha prompts (intended to catch wrong interpretation)
+
+**P26 (token ambiguity: auth token vs crypto token):**
+Prompt: In one line, output ONLY `auth` or `crypto`. Sentence: `Rotate the token used by the CI runner to access GitHub.`
+- Validator: exact match `auth`
+
+**P27 (unit gotcha / GiB vs GB):**
+Prompt: Return ONLY JSON: `{ "ram_used_gib": <number> }` for: `RAM used is 7.6 GiB` (do not convert units).
+- Validator: JSON parse + `ram_used_gib` equals 7.6 (number)
+
+---
 
 ### Long-context stress variants
-For 3 chosen prompts above (router JSON, typed JSON, bullet list):
-- prepend 2k / 8k / 32k tokens of neutral filler + a small relevant nugget at the end
+Pick 4 prompts above (router JSON, nested JSON escaping, command-only, bullet list) and create variants:
+- prepend 2k / 8k / 32k tokens of neutral filler
+- insert a small relevant nugget near the end (e.g., the enum set or the exact id to extract)
 - measure latency scaling + constraint adherence
 
 ---
@@ -251,7 +357,7 @@ Each **run** produces:
 - provider, model, thinking_level
 - availability_status: `ok|skipped_unavailable|rate_limited|auth_error`
 - prompt_id
-- started_at_ms, ended_at_ms, e2e_ms
+- started_at_ms, ended_at_ms, e2e_ms (ended-started; see E2E definition above)
 - ttft_ms (nullable)
 - input_tokens, output_tokens (nullable)
 - success (bool)
