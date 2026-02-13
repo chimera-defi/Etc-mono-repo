@@ -1,0 +1,8 @@
+# Local clones / worktrees
+/dev/
+
+# Common
+node_modules/
+__pycache__/
+*.log
+.DS_Store

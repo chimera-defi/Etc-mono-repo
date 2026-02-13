@@ -1,0 +1,28 @@
+model_list:
+- model_name: local_qwen25_3b
+  litellm_params:
+    model: ollama/qwen2.5:3b
+    api_base: http://127.0.0.1:11434
+- model_name: local_qwen3_4b
+  litellm_params:
+    model: ollama/qwen3:4b
+    api_base: http://127.0.0.1:11434
+- model_name: codex_primary
+  litellm_params:
+    # Codex via OpenAI-compatible API key (set OPENAI_API_KEY in /etc/default/litellm)
+    model: openai/gpt-5.3-codex
+    api_key: os.environ/OPENAI_API_KEY
+- model_name: claudy_primary
+  litellm_params:
+    model: anthropic/claude-3-5-sonnet-latest
+    api_key: os.environ/ANTHROPIC_API_KEY
+router_settings:
+  routing_strategy: simple-shuffle
+  model_group_alias:
+    heartbeat_micro:
+    - local_qwen25_3b
+    premium_fallback:
+    - claudy_primary
+    - codex_primary
+general_settings:
+  master_key: 6c85ab4e983997a535fcbeabacf6f43dfdaa759e324913a6
