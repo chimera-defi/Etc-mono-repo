@@ -8,3 +8,4 @@
 | 2026-02-13 | self | Root runtime configs contained live tokens | Never copy raw secrets into repo; summarize/redact sensitive fields in backups |
 | 2026-02-13 | user | Called out that references alone were insufficient for restore | Always include a portable seed bundle (actual files + installer), not just path references |
 | 2026-02-13 | user | Requested agent-run import path instead of human shell workflow | Provide machine-readable export manifests (`export.manifest.json`) with copy/template operations |
+| 2026-02-13 | user | Asked to ensure future agent downloads and sets repos up correctly | Include a dedicated repo-bootstrap manifest (clone/sync/setup) as a prerequisite for memory seeds |

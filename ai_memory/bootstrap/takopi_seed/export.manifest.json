@@ -2,6 +2,9 @@
   "schema": "ai-memory-export/v1",
   "export_id": "takopi-seed",
   "description": "Portable Takopi config + memory defaults",
+  "prerequisites": [
+    "Apply ai_memory/bootstrap/repo_bootstrap/export.manifest.json first."
+  ],
   "steps": [
     { "op": "write_template", "source": "takopi.toml.template", "target": "/root/.takopi/takopi.toml" },
     { "op": "copy", "source": "MEMORY.md", "target": "/root/clawd/MEMORY.md" },

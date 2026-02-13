@@ -5,8 +5,10 @@ new server without requiring a human to run shell scripts.
 
 ## Export Sets
 
+- Repo bootstrap: `ai_memory/bootstrap/repo_bootstrap/export.manifest.json`
 - OpenClaw/Clawdbot: `ai_memory/bootstrap/openclaw_clawdbot_seed/export.manifest.json`
 - Takopi: `ai_memory/bootstrap/takopi_seed/export.manifest.json`
+- Repo bootstrap runbook: `ai_memory/bootstrap/repo_bootstrap/AGENT_IMPORT.md`
 - OpenClaw/Clawdbot runbook: `ai_memory/bootstrap/openclaw_clawdbot_seed/AGENT_IMPORT.md`
 - Takopi runbook: `ai_memory/bootstrap/takopi_seed/AGENT_IMPORT.md`
 
