@@ -6,6 +6,48 @@ This is a living progress report generated from local run folders under:
 
 > Note: run folders themselves are ignored by git (`runs/`), so this report is the artifact intended for sharing/review in PRs.
 
+## Tool-Use Benchmark (2026-02-13)
+
+**Status**: In progress / Completed
+
+New benchmark suite added to measure LLM tool-invocation capability. Models are classified into tiers based on their success rate at calling shell commands or tools in responses.
+
+### Run Details
+- **Run ID**: `tool_use_benchmark_2026-02-13`
+- **Prompts**: Tool-use prompts (P0-P5), each expecting specific command invocations
+  - P0: `free` command (server stats)
+  - P1: `du` command (folder stats)
+  - P2: `ps` command (process list)
+  - P3: `grep` command (file search)
+  - P4: `ping` command (network check)
+  - P5: Multiple commands (uptime, whoami, date)
+- **Models tested**: llama3.2:3b, phi3:3.8b, qwen2.5:3b, mistral:7b, ministral-3, tinyllama:1.1b, smollm:1.7b
+- **Timeout**: 30s per prompt
+- **Detection method**: Regex patterns in output (backticks, quotes, shell prompts, XML tags)
+
+### Tool-Use Tier Classification
+
+**Tier 1 (Tool-Capable ≥80%)**: Models safe for subagent routing with tool access
+- *Results pending - benchmark running*
+
+**Tier 2 (Tool-Capable but Inconsistent 50-79%)**: Limited tool reliability
+- *Results pending - benchmark running*
+
+**Tier 3 (Tool-Incapable <50%)**: Should not be routed with tool access
+- *Results pending - benchmark running*
+
+**Progress**: 3/42 test cases completed (see `runs/tool_use_benchmark_2026-02-13/results.jsonl`)
+
+### Schema Extension
+Results now include three new fields per test:
+- `tool_calls`: Array of detected tool names (e.g., ["du", "bash"])
+- `tool_call_count`: Integer count of invocations
+- `tool_use_success`: Boolean indicating if expected tools were detected
+
+See `SCHEMA.md` for full documentation.
+
+---
+
 ## Aggregate table (all runs so far)
 
 <!-- BEGIN AUTO: aggregate_runs.py -->
