@@ -74,6 +74,36 @@ We run **one fixed suite** across all models.
 - 10–20 core prompts (like your existing p1..p10 set)
 - + 3 long-context variants of 3 prompts (to isolate prompt-length latency scaling)
 
+### Canonical prompt set (v1)
+
+These are designed to be **objectively gradable** and to expose “format drift”. Each prompt has a validator.
+
+**P0 (sanity):** Reply with exactly `HEARTBEAT_OK`
+
+**P1 (router JSON):**
+Return ONLY JSON: `{ "route":"local|premium", "reason":"..." }` for: debug intermittent nginx 502 with TLS upstream checks.
+
+**P2 (one-sentence summary):** Summarize in one sentence: RAM 7.6/62 GiB, disk 16G/2.8T, load avg 1.05.
+
+**P3 (single token):** Output only one word: `high` or `low`. Task criticality: restart failed production gateway.
+
+**P4 (extraction):** Extract only the integer from: `Disk usage is 16G`
+
+**P5 (rewrite constraint):** Rewrite shorter (max 8 words): `Please verify whether the service is currently operational.`
+
+**P6 (exact bullet count):** Give exactly 3 bullet points for heartbeat checks.
+
+**P7 (typed JSON):** Return ONLY JSON: `{ "ram_used_gib":7.6, "disk_used_gb":16 }`
+
+**P8 (binary):** Answer ONLY `yes` or `no`: Is 1% disk usage safe?
+
+**P9 (date normalize):** Convert to ISO date only (YYYY-MM-DD): Friday, February 13th, 2026.
+
+### Long-context stress variants
+For 3 chosen prompts above (router JSON, typed JSON, bullet list):
+- prepend 2k / 8k / 32k tokens of neutral filler + a small relevant nugget at the end
+- measure latency scaling + constraint adherence
+
 ---
 
 ## 3) Models × metrics matrix (review checklist)
@@ -137,11 +167,36 @@ For each strict prompt:
 
 ### System context
 - host load avg / free mem at run start and end
-- Ollama model size / quantization (from `ollama list`)
+- **Disk usage before/after** each model suite (`df -h /`)
+- **RAM usage before/after** each model suite (`free -h`)
+- **Ollama model size / quantization** (from `ollama list`)
+- (optional) Ollama server RSS during run (`ps -o pid,rss,cmd -C ollama`)
+
+### Current local model inventory (captured from this box)
+
+| Local model | Size (GB) |
+|---|---:|
+| phi3:3.8b | 2.2 |
+| gemma2:2b | 1.6 |
+| llama3.2:3b | 2.0 |
+| qwen2.5:3b | 1.9 |
+| qwen3:4b | 2.5 |
+| glm4:9b-chat-q4_K_M | (pending pull) |
 
 ---
 
 ## 4) Harness design (implementation outline)
+
+### Auth prerequisites (do before running)
+
+- **Claude (Claude Code):** ensure Claude Code is logged in (we’ll use it for the Claude provider run). For example:
+  - `claude auth login`
+  - verify: `claude auth status`
+
+- **Ollama GLM:** pull the target GLM model first and verify it runs:
+  - `ollama pull glm4:9b-chat-q4_K_M`
+  - quick sanity: `ollama run glm4:9b-chat-q4_K_M "Say only: OK"`
+
 
 ### Data model
 Each **run** produces:
