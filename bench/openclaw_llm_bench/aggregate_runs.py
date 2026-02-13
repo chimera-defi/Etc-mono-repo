@@ -19,6 +19,9 @@ from typing import Any, Dict, List, Optional, Tuple
 HERE = os.path.dirname(os.path.abspath(__file__))
 RUNS_DIR = os.path.join(HERE, "runs")
 OUT_MD = os.path.join(RUNS_DIR, "AGGREGATE_SUMMARY.md")
+DOCS_PROGRESS_MD = os.path.abspath(os.path.join(HERE, "..", "..", "docs", "OPENCLAW_LLM_BENCHMARK_PROGRESS.md"))
+AUTO_BEGIN = "<!-- BEGIN AUTO: aggregate_runs.py -->"
+AUTO_END = "<!-- END AUTO: aggregate_runs.py -->"
 
 
 def read_json(path: str) -> Any:
@@ -74,6 +77,20 @@ def pct(x: Any) -> str:
         return f"{100.0*float(x):.1f}%"
     except Exception:
         return ""
+
+
+def sync_progress_doc(markdown_block: str) -> None:
+    """Replace the AUTO block in docs/OPENCLAW_LLM_BENCHMARK_PROGRESS.md."""
+    if not os.path.exists(DOCS_PROGRESS_MD):
+        return
+    doc = open(DOCS_PROGRESS_MD, "r", encoding="utf-8").read()
+    if AUTO_BEGIN not in doc or AUTO_END not in doc:
+        return
+    pre, rest = doc.split(AUTO_BEGIN, 1)
+    _, post = rest.split(AUTO_END, 1)
+    new_doc = pre + AUTO_BEGIN + "\n" + markdown_block.strip() + "\n" + AUTO_END + post
+    with open(DOCS_PROGRESS_MD, "w", encoding="utf-8") as f:
+        f.write(new_doc)
 
 
 def main() -> int:
@@ -173,9 +190,12 @@ def main() -> int:
         )
 
     os.makedirs(RUNS_DIR, exist_ok=True)
+    md = "\n".join(lines).rstrip() + "\n"
     with open(OUT_MD, "w", encoding="utf-8") as f:
-        f.write("\n".join(lines))
-        f.write("\n")
+        f.write(md)
+
+    # Also sync into docs progress file (keeps PR table unbroken).
+    sync_progress_doc(md)
 
     print(OUT_MD)
     return 0
