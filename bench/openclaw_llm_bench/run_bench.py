@@ -835,6 +835,74 @@ def main() -> int:
     return 0
 
 
+def parse_free_h(text: str) -> Dict[str, Any]:
+    # Expect line starting with "Mem:"
+    for ln in (text or "").splitlines():
+        ln = ln.strip()
+        if not ln.startswith("Mem:"):
+            continue
+        parts = [p for p in re.split(r"\s+", ln) if p]
+        # Mem: total used free shared buff/cache available
+        if len(parts) >= 7:
+            return {
+                "mem_total": parts[1],
+                "mem_used": parts[2],
+                "mem_free": parts[3],
+                "mem_shared": parts[4],
+                "mem_buff_cache": parts[5],
+                "mem_available": parts[6],
+            }
+    return {}
+
+
+def parse_df_h_root(text: str) -> Dict[str, Any]:
+    for ln in (text or "").splitlines():
+        ln = ln.strip()
+        if not ln or ln.startswith("Filesystem"):
+            continue
+        parts = [p for p in re.split(r"\s+", ln) if p]
+        # Filesystem Size Used Avail Use% Mounted
+        if len(parts) >= 6 and parts[-1] == "/":
+            return {
+                "fs": parts[0],
+                "size": parts[1],
+                "used": parts[2],
+                "avail": parts[3],
+                "use_pct": parts[4],
+            }
+    return {}
+
+
+def parse_resources_file(path: str) -> Dict[str, Any]:
+    if not os.path.exists(path):
+        return {}
+    txt = open(path, "r", encoding="utf-8").read()
+    # split by headers we wrote
+    chunks = {}
+    cur = None
+    buf: List[str] = []
+    for ln in txt.splitlines():
+        if ln.startswith("# "):
+            if cur is not None:
+                chunks[cur] = "\n".join(buf).strip() + "\n"
+            cur = ln[2:].strip()
+            buf = []
+        else:
+            buf.append(ln)
+    if cur is not None:
+        chunks[cur] = "\n".join(buf).strip() + "\n"
+
+    res: Dict[str, Any] = {"path": os.path.basename(path)}
+    if "free -h" in chunks:
+        res.update(parse_free_h(chunks.get("free -h", "")))
+    if "df -h /" in chunks:
+        res["disk_root"] = parse_df_h_root(chunks.get("df -h /", ""))
+    if "ollama ps" in chunks:
+        # keep raw, but trimmed
+        res["ollama_ps"] = "\n".join((chunks.get("ollama ps", "") or "").splitlines()[:6]).strip()
+    return res
+
+
 def summarize(out_dir: str) -> None:
     results_path = os.path.join(out_dir, "results.jsonl")
     rows: List[Dict[str, Any]] = []
@@ -859,9 +927,24 @@ def summarize(out_dir: str) -> None:
         succ = [r for r in rs if r.get("availability_status") == "ok" and r.get("success")]
         ok = [r for r in rs if r.get("availability_status") == "ok"]
         skipped = [r for r in rs if r.get("availability_status") == "skipped_unavailable"]
+        rate_limited = [r for r in rs if r.get("availability_status") == "rate_limited"]
+        errors = [r for r in rs if r.get("availability_status") == "error"]
 
         obj_checked = [r for r in rs if r.get("objective_pass") is not None and r.get("availability_status") == "ok" and r.get("success")]
         obj_pass = [r for r in obj_checked if r.get("objective_pass") is True]
+
+        # Wall-clock for this provider/model suite: min(started_at_ms) .. max(ended_at_ms)
+        starts = [r.get("started_at_ms") for r in rs if r.get("started_at_ms") is not None]
+        ends = [r.get("ended_at_ms") for r in rs if r.get("ended_at_ms") is not None]
+        wall_ms = (max(ends) - min(starts)) if starts and ends else None
+
+        # Attach parsed before/after resource snapshots if present
+        model_tag = f"{prov}__{model}__{thinking or 'none'}"
+        model_tag_safe = re.sub(r"[^A-Za-z0-9_.-]+", "_", model_tag)
+        before_path = os.path.join(out_dir, f"resources_{model_tag_safe}_before.txt")
+        after_path = os.path.join(out_dir, f"resources_{model_tag_safe}_after.txt")
+        resources_before = parse_resources_file(before_path) if os.path.exists(before_path) else None
+        resources_after = parse_resources_file(after_path) if os.path.exists(after_path) else None
 
         m = {
             "provider": prov,
@@ -871,20 +954,30 @@ def summarize(out_dir: str) -> None:
             "n_ok": len(ok),
             "n_success": len(succ),
             "n_skipped_unavailable": len(skipped),
+            "n_rate_limited": len(rate_limited),
+            "n_error": len(errors),
             "success_rate_ok": (len(succ) / len(ok)) if ok else None,
             "objective_pass_rate": (len(obj_pass) / len(obj_checked)) if obj_checked else None,
+            "wall_clock_ms": wall_ms,
             "latency_ms": {
                 "p50": percentile(e2es, 50),
                 "p95": percentile(e2es, 95),
                 "p99": percentile(e2es, 99),
                 "mean": (statistics.mean(e2es) if e2es else None),
             },
+            "resources_before": resources_before,
+            "resources_after": resources_after,
         }
         summary_models.append(m)
+
+    run_starts = [r.get("started_at_ms") for r in rows if r.get("started_at_ms") is not None]
+    run_ends = [r.get("ended_at_ms") for r in rows if r.get("ended_at_ms") is not None]
+    run_wall_ms = (max(run_ends) - min(run_starts)) if run_starts and run_ends else None
 
     summary = {
         "generated_at": _dt.datetime.now(_dt.timezone.utc).isoformat(),
         "run_dir": os.path.abspath(out_dir),
+        "run_wall_clock_ms": run_wall_ms,
         "models": summary_models,
     }
 
@@ -894,8 +987,9 @@ def summarize(out_dir: str) -> None:
     md_lines = []
     md_lines.append(f"# OpenClaw LLM Bench Summary\n")
     md_lines.append(f"Run: `{os.path.basename(out_dir)}`\n")
-    md_lines.append("\n| Provider | Model | Thinking | n(ok) | success% (ok) | obj pass% | p50 ms | p95 ms | p99 ms |")
-    md_lines.append("|---|---|---:|---:|---:|---:|---:|---:|---:|")
+    md_lines.append(f"Run wall-clock (ms): {summary.get('run_wall_clock_ms') or ''}")
+    md_lines.append("\n| Provider | Model | Thinking | n(total) | n(ok) | n(err) | n(rate) | success% (ok) | obj pass% | wall ms | p50 ms | p95 ms | p99 ms | RAM used (before→after) | Disk used% (before→after) |")
+    md_lines.append("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---|")
     for m in summary_models:
         lat = m["latency_ms"]
         def fmt(x: Any) -> str:
@@ -910,17 +1004,29 @@ def summarize(out_dir: str) -> None:
                 return ""
             return f"{100.0 * float(x):.1f}%"
 
+        rb = m.get("resources_before") or {}
+        ra = m.get("resources_after") or {}
+        ram_before = rb.get("mem_used")
+        ram_after = ra.get("mem_used")
+        disk_before = (rb.get("disk_root") or {}).get("use_pct") if isinstance(rb.get("disk_root"), dict) else None
+        disk_after = (ra.get("disk_root") or {}).get("use_pct") if isinstance(ra.get("disk_root"), dict) else None
         md_lines.append(
-            "| {prov} | {model} | {think} | {n_ok} | {succ} | {obj} | {p50} | {p95} | {p99} |".format(
+            "| {prov} | {model} | {think} | {n_total} | {n_ok} | {n_err} | {n_rate} | {succ} | {obj} | {wall} | {p50} | {p95} | {p99} | {ram} | {disk} |".format(
                 prov=m["provider"],
                 model=m["model"],
                 think=(m["thinking_level"] or ""),
-                n_ok=m["n_ok"],
-                succ=pct(m["success_rate_ok"]),
-                obj=pct(m["objective_pass_rate"]),
+                n_total=m.get("n_total", ""),
+                n_ok=m.get("n_ok", ""),
+                n_err=m.get("n_error", ""),
+                n_rate=m.get("n_rate_limited", ""),
+                succ=pct(m.get("success_rate_ok")),
+                obj=pct(m.get("objective_pass_rate")),
+                wall=fmt(m.get("wall_clock_ms")),
                 p50=fmt(lat["p50"]),
                 p95=fmt(lat["p95"]),
                 p99=fmt(lat["p99"]),
+                ram=(f"{ram_before}->{ram_after}" if ram_before or ram_after else ""),
+                disk=(f"{disk_before}->{disk_after}" if disk_before or disk_after else ""),
             )
         )
 
