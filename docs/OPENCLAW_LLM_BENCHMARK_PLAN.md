@@ -28,9 +28,9 @@ This spec is written to avoid reruns: we capture **latency distribution + failur
 - `phi3:3.8b`
 - `glm-4.7-flash:latest`
 - `gpt-oss:latest`
-- `devstral-small-2` (tag TBD)
-- `ministral-3` (tag TBD)
-- `mistral-small3.2` (tag TBD)
+- `devstral-small-2:latest`
+- `ministral-3:latest`
+- `mistral-small3.2:latest`
 
 ### Online (API) — baseline set
 > You specified: **GLM 4.7** + **Gemini Flash** (flash variant). We’ll pin exact provider model IDs in the harness config.
@@ -83,7 +83,7 @@ We run **one fixed suite** across all models.
 - **25+ core prompts** (objective + ops + long prompt + tool-usage)
 - + long-context variants (2k / 8k / 32k) for a subset to isolate prompt-length latency scaling
 
-### Canonical prompt set (v2, 28 prompts)
+### Canonical prompt set (v2, 29 prompts)
 
 This suite is designed to be **objectively gradable** and to expose common failure modes: format drift, extra prose, wrong types, missing escaping, and “helpful” additions.
 
@@ -227,6 +227,19 @@ Prompt: In one line, output ONLY `auth` or `crypto`. Sentence: `Rotate the token
 Prompt: Return ONLY JSON: `{ "ram_used_gib": <number> }` for: `RAM used is 7.6 GiB` (do not convert units).
 - Validator: JSON parse + `ram_used_gib` equals 7.6 (number)
 
+**P28 (long operator prompt / mixed constraints):**
+Prompt:
+You are assisting with a production incident. We just migrated to a new server and are seeing intermittent 502s on nginx with TLS upstream checks. Do three things:
+1) Propose a step-by-step debug plan with exactly 7 steps; each step must be one sentence.
+2) Provide commands only (no explanations) with exactly 5 Ubuntu commands, one per line.
+3) End with a short risk assessment (<= 40 words) that explicitly states whether to escalate to a premium model.
+Constraints: no markdown headers, no code fences, total response <= 220 words.
+- Validator: composite
+  - total word count <= 220
+  - contains exactly 7 numbered steps (lines starting with `1)`..`7)`)
+  - contains a block of exactly 5 command lines (non-empty, no backticks)
+  - final segment <= 40 words and matches regex `(?i)premium`
+
 ---
 
 ### Long-context stress variants
@@ -252,9 +265,9 @@ This table is the “don’t rerun” checklist: we aim to fill every cell at le
 | phi3:3.8b | Ollama local | ✅ | (opt) | ✅ | ✅ | ✅ | ✅ | n/a | baseline local |
 | GLM 4.7 flash | Ollama local | ✅ | (opt) | ✅ | ✅ | ✅ | ✅ | n/a | glm-4.7-flash:latest |
 | gpt-oss | Ollama local | ✅ | (opt) | ✅ | ✅ | ✅ | ✅ | n/a | gpt-oss:latest |
-| devstral-small-2 | Ollama local | ✅ | (opt) | ✅ | ✅ | ✅ | ✅ | n/a | tag TBD |
-| ministral-3 | Ollama local | ✅ | (opt) | ✅ | ✅ | ✅ | ✅ | n/a | tag TBD |
-| mistral-small3.2 | Ollama local | ✅ | (opt) | ✅ | ✅ | ✅ | ✅ | n/a | tag TBD |
+| devstral-small-2:latest | Ollama local | ✅ | (opt) | ✅ | ✅ | ✅ | ✅ | n/a | pulled |
+| ministral-3:latest | Ollama local | ✅ | (opt) | ✅ | ✅ | ✅ | ✅ | n/a | pulled |
+| mistral-small3.2:latest | Ollama local | ✅ | (opt) | ✅ | ✅ | ✅ | ✅ | n/a | pulled |
 | gpt-5.3-codex (low) | OpenAI Codex | ✅ (ms precise) | ✅/null | ✅ | ✅ | ✅ | ✅ | ✅ | low thinking |
 | gpt-5.3-codex (high) | OpenAI Codex | ✅ (ms precise) | ✅/null | ✅ | ✅ | ✅ | ✅ | ✅ | high thinking |
 | Claude (TBD) | Anthropic | ✅ | ✅/null | ✅ | ✅ | ✅ | ✅ | ✅ | pin model |
@@ -323,12 +336,12 @@ For each strict prompt:
 | qwen2.5:3b | 1.9 |
 | qwen3:4b | 2.5 |
 | qwen3:8b | 5.2 |
-| qwen3:14b | (pulling) |
-| glm-4.7-flash:latest | (pulling) |
-| gpt-oss:latest | (pulling) |
-| devstral-small-2 | (pulling) |
-| ministral-3 | (pulling) |
-| mistral-small3.2 | (pulling) |
+| qwen3:14b | 9.3 |
+| glm-4.7-flash:latest | 19 |
+| gpt-oss:latest | 13 |
+| devstral-small-2:latest | 15 |
+| ministral-3:latest | 6.0 |
+| mistral-small3.2:latest | 15 |
 | glm4:9b-chat-q4_K_M | 6.3 |
 
 ---
