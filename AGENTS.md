@@ -125,6 +125,17 @@ Skills provide your tools. When you need one, check its `SKILL.md`. Keep local n
 - **Discord links:** Wrap multiple links in `<>` to suppress embeds: `<https://example.com>`
 - **WhatsApp:** No headers — use **bold** or CAPS for emphasis
 
+## OpenClaw Ops (Token Reduction, Subagents, Routing)
+
+- **Token reduction is default:** answer directly; don’t restate prompts; keep reasoning implicit; prefer **diffs** over full-file dumps.
+- **Find → then read:** search first (QMD BM25 if available, otherwise `rg`/`git grep`), then do targeted reads (offset/limit, head/tail).
+- **Output caps:** keep tool output ~**120 lines**; avoid reading files **>300 lines** without limits.
+- **No redundant reads:** don’t re-read the same file in-session unless it changed.
+- **Subagent by default for big work:** **>5 files**, uncertain where info lives, broad pattern-matching, or multi-step research → spawn a subagent and return **summaries only**.
+- **Parallelize:** batch independent tool calls when possible.
+- **Scoped search:** prefer `rg -g` / `git grep`; avoid “glob explosions” (>50 files) → use a subagent.
+- **Routing tiers:** microtasks local-first; complex tasks via subagents/xhigh; reserve Codex for tool-heavy config/debug/security.
+
 ## 💓 Heartbeats - Be Proactive!
 
 When you receive a heartbeat poll (message matches the configured heartbeat prompt), don't just reply `HEARTBEAT_OK` every time. Use heartbeats productively!
