@@ -627,7 +627,11 @@ def main() -> int:
     )
     ap.add_argument("--ollama-base", default=os.environ.get("OLLAMA_OPENAI_BASE", "http://localhost:11434/v1"))
     ap.add_argument("--openai-base", default=os.environ.get("OPENAI_BASE_URL", "https://api.openai.com/v1"))
-    ap.add_argument("--openai-model", default=os.environ.get("OPENAI_CODEX_MODEL", "openai-codex/gpt-5.3-codex"))
+    ap.add_argument(
+        "--openai-model",
+        default=os.environ.get("OPENAI_CODEX_MODEL", "gpt-5-codex"),
+        help="OpenAI model id for Responses API (default: gpt-5-codex)",
+    )
     ap.add_argument("--claude-haiku-model", default=os.environ.get("CLAUDE_HAIKU_MODEL", "claude-haiku"))
     ap.add_argument("--claude-opus-model", default=os.environ.get("CLAUDE_OPUS_MODEL", "claude-opus-4.6"))
     ap.add_argument(
