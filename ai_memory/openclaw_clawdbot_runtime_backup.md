@@ -81,3 +81,9 @@ Themes in these notes:
 - Preserve where memory and soul state actually lives on this machine.
 - Preserve model/tooling defaults needed for continuity.
 - Keep durable references in-repo without leaking runtime secrets.
+
+## Bootstrap Bundle
+
+Use this with the portable seed in:
+
+- `ai_memory/bootstrap/openclaw_clawdbot_seed/README.md`
