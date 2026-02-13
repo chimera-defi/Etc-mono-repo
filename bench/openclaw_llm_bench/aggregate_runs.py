@@ -139,7 +139,8 @@ def main() -> int:
     lines.append(
         "| Provider | Model | Thinking | Runs | n(total) | n(ok) | ok% (total) | n(success) | succ% (ok) | succ% (total) | n(error) | n(rate) | n(skipped) | e2e p50 | e2e p95 | suite wall p50 |"
     )
-    lines.append("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|")
+    # 16 columns
+    lines.append("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|")
 
     for k, a in sorted(agg.items(), key=lambda kv: (kv[0][0] or "", kv[0][1] or "", str(kv[0][2] or ""))):
         nt = a["n_total"]
