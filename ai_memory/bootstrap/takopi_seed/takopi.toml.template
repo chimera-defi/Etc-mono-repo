@@ -1,0 +1,31 @@
+watch_config = true
+transport = "telegram"
+default_engine = "codex"
+
+[transports.telegram]
+bot_token = "${TAKOPI_TELEGRAM_BOT_TOKEN}"
+chat_id = ${TAKOPI_TELEGRAM_CHAT_ID}
+session_mode = "chat"
+show_resume_line = false
+message_overflow = "split"
+
+[transports.telegram.topics]
+enabled = true
+scope = "auto"
+
+[projects.etc-mono-repo]
+path = "/root/clawd/dev/Etc-mono-repo"
+
+[projects.sharedstake-ui]
+path = "/root/clawd/dev/SharedStake-ui"
+
+[projects.takopi]
+path = "/root/clawd/dev/takopi"
+
+[transports.telegram.files]
+enabled = false
+allowed_user_ids = [${TAKOPI_TELEGRAM_ALLOWED_USER_ID}]
+
+[codex]
+model = "gpt-5.3-codex"
+extra_args = ["--dangerously-bypass-approvals-and-sandbox"]
