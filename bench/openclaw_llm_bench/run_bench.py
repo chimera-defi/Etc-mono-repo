@@ -597,6 +597,7 @@ def capture_resources(out_dir: str, tag: str) -> Dict[str, str]:
     rc, free_out, _ = run_cmd(["free", "-h"], timeout_s=10)
     rc2, df_out, _ = run_cmd(["df", "-h", "/"], timeout_s=10)
     rc3, ollama_out, _ = run_cmd(["ollama", "ps"], timeout_s=10)
+    rc4, du_out, _ = run_cmd(["du", "-sh", os.path.expanduser("~/.ollama")], timeout_s=30)
 
     res_path = os.path.join(out_dir, f"resources_{tag}.txt")
     with open(res_path, "w", encoding="utf-8") as f:
@@ -604,6 +605,8 @@ def capture_resources(out_dir: str, tag: str) -> Dict[str, str]:
         f.write(free_out if rc == 0 else "(free failed)\n")
         f.write("\n# df -h /\n")
         f.write(df_out if rc2 == 0 else "(df failed)\n")
+        f.write("\n# du -sh ~/.ollama\n")
+        f.write(du_out if rc4 == 0 else "(du failed)\n")
         f.write("\n# ollama ps\n")
         f.write(ollama_out if rc3 == 0 else "(ollama ps failed)\n")
 
@@ -741,6 +744,23 @@ def main() -> int:
     }
     rc, ollama_list_out, ollama_list_err = run_cmd(["ollama", "list"], timeout_s=30)
     inv["ollama_list"] = ollama_list_out if rc == 0 else {"error": ollama_list_err.strip()}
+
+    # Parse model sizes from `ollama list` output for easy summary rendering.
+    parsed_models = []
+    if rc == 0:
+        lines = [ln.rstrip() for ln in (ollama_list_out or "").splitlines() if ln.strip()]
+        if lines and lines[0].lower().startswith("name"):
+            lines = lines[1:]
+        for ln in lines:
+            parts = ln.split()
+            # NAME ID SIZE MODIFIED
+            if len(parts) >= 3:
+                parsed_models.append({"name": parts[0], "size": parts[2]})
+    inv["ollama_models"] = parsed_models
+
+    # Store size on disk of Ollama model store
+    rc_du, du_out, du_err = run_cmd(["du", "-sh", os.path.expanduser("~/.ollama")], timeout_s=30)
+    inv["ollama_store_du"] = du_out.strip() if rc_du == 0 else {"error": du_err.strip()}
     rc, claude_ver, claude_ver_err = run_cmd(["claude", "--version"], timeout_s=10)
     inv["claude_version"] = claude_ver.strip() if rc == 0 else {"error": claude_ver_err.strip()}
     write_json(os.path.join(out_dir, "inventory.json"), inv)
@@ -897,6 +917,11 @@ def parse_resources_file(path: str) -> Dict[str, Any]:
         res.update(parse_free_h(chunks.get("free -h", "")))
     if "df -h /" in chunks:
         res["disk_root"] = parse_df_h_root(chunks.get("df -h /", ""))
+    if "du -sh ~/.ollama" in chunks:
+        # output is like: "94G\t/root/.ollama"
+        first = (chunks.get("du -sh ~/.ollama", "") or "").strip().splitlines()[:1]
+        if first:
+            res["ollama_store_du"] = first[0].strip()
     if "ollama ps" in chunks:
         # keep raw, but trimmed
         res["ollama_ps"] = "\n".join((chunks.get("ollama ps", "") or "").splitlines()[:6]).strip()
@@ -988,8 +1013,15 @@ def summarize(out_dir: str) -> None:
     md_lines.append(f"# OpenClaw LLM Bench Summary\n")
     md_lines.append(f"Run: `{os.path.basename(out_dir)}`\n")
     md_lines.append(f"Run wall-clock (ms): {summary.get('run_wall_clock_ms') or ''}")
-    md_lines.append("\n| Provider | Model | Thinking | n(total) | n(ok) | n(err) | n(rate) | success% (ok) | obj pass% | wall ms | p50 ms | p95 ms | p99 ms | RAM used (before→after) | Disk used% (before→after) |")
-    md_lines.append("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---|")
+    inv_path = os.path.join(out_dir, "inventory.json")
+    try:
+        inv = read_json(inv_path)
+    except Exception:
+        inv = {}
+    if inv.get("ollama_store_du"):
+        md_lines.append(f"Ollama store (du -sh ~/.ollama): {inv.get('ollama_store_du')}")
+    md_lines.append("\n| Provider | Model | Model size | Thinking | n(total) | n(ok) | n(err) | n(rate) | success% (ok) | obj pass% | wall ms | p50 ms | p95 ms | p99 ms | RAM used (before→after) | Disk used% (before→after) | Ollama store (before→after) |")
+    md_lines.append("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---|---|")
     for m in summary_models:
         lat = m["latency_ms"]
         def fmt(x: Any) -> str:
@@ -1010,10 +1042,25 @@ def summarize(out_dir: str) -> None:
         ram_after = ra.get("mem_used")
         disk_before = (rb.get("disk_root") or {}).get("use_pct") if isinstance(rb.get("disk_root"), dict) else None
         disk_after = (ra.get("disk_root") or {}).get("use_pct") if isinstance(ra.get("disk_root"), dict) else None
+        store_before = rb.get("ollama_store_du")
+        store_after = ra.get("ollama_store_du")
+
+        # Model size (best-effort from inventory.json's parsed ollama list)
+        model_size = ""
+        if isinstance(inv, dict):
+            for it in inv.get("ollama_models", []) or []:
+                try:
+                    if it.get("name") == m.get("model"):
+                        model_size = it.get("size") or ""
+                        break
+                except Exception:
+                    pass
+
         md_lines.append(
-            "| {prov} | {model} | {think} | {n_total} | {n_ok} | {n_err} | {n_rate} | {succ} | {obj} | {wall} | {p50} | {p95} | {p99} | {ram} | {disk} |".format(
+            "| {prov} | {model} | {msize} | {think} | {n_total} | {n_ok} | {n_err} | {n_rate} | {succ} | {obj} | {wall} | {p50} | {p95} | {p99} | {ram} | {disk} | {store} |".format(
                 prov=m["provider"],
                 model=m["model"],
+                msize=model_size,
                 think=(m["thinking_level"] or ""),
                 n_total=m.get("n_total", ""),
                 n_ok=m.get("n_ok", ""),
@@ -1027,6 +1074,7 @@ def summarize(out_dir: str) -> None:
                 p99=fmt(lat["p99"]),
                 ram=(f"{ram_before}->{ram_after}" if ram_before or ram_after else ""),
                 disk=(f"{disk_before}->{disk_after}" if disk_before or disk_after else ""),
+                store=(f"{store_before}->{store_after}" if store_before or store_after else ""),
             )
         )
 
