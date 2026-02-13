@@ -11,7 +11,7 @@ You are responsible for executing the benchmark described in:
 Run the benchmark across all listed models/providers and produce a results corpus that we can extend across reruns **without re-running completed model×prompt pairs**.
 
 ## Hard requirements
-1) **E2E timing in milliseconds** for every prompt execution (`e2e_ms`).
+1) **E2E wall-clock timing in milliseconds** for every prompt execution (`e2e_ms`), measured from immediately before the request/CLI invocation starts until the complete final response is received.
 2) Streaming rule:
    - If **all models in the run support streaming**, use streaming and capture **TTFT ms**.
    - Otherwise run **non-streaming only** and set TTFT to null.
