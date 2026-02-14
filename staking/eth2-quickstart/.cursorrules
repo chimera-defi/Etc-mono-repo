@@ -1,0 +1,1044 @@
+# Ethereum Node Setup - Agent Context
+
+## READ THIS FIRST - MANDATORY AGENT CHECKLIST
+
+**These rules are non-negotiable. Every agent session MUST follow them.**
+
+### 1. Multi-Pass Code Review (MANDATORY)
+Every task requires minimum 3 review passes BEFORE final push:
+- **Pass 1**: Build/test/lint all pass with zero errors
+- **Pass 2**: Architecture compliance (Bun not npm, correct user context, etc.)
+- **Pass 3**: Code quality (no duplication, consistent patterns, no dead code)
+See `.cursor/rules/code-review.mdc` for full checklist.
+
+### 2. Frontend Uses Bun, NEVER npm
+- `bun install`, `bun run build`, `bun run test`, `bunx` -- ALWAYS
+- `npm`, `npx`, `package-lock.json` -- NEVER
+- See `.cursor/rules/frontend.mdc` for complete frontend rules.
+
+### 3. Conventional Commits Required
+Format: `type(scope): description` (e.g. `feat(frontend): add mobile nav`)
+Types: feat, fix, refactor, docs, test, chore, style, perf
+
+### 4. Scoped Rules in `.cursor/rules/`
+This project has focused rule files that auto-apply by file type:
+- `.cursor/rules/frontend.mdc` -- Bun, responsive design, testing
+- `.cursor/rules/shell-scripts.mdc` -- common_functions, shellcheck, security
+- `.cursor/rules/code-review.mdc` -- multi-pass review process (always applies)
+
+---
+
+## ⚠️ CRITICAL: TWO-PHASE SECURITY MODEL ⚠️
+
+**THIS IS THE MOST IMPORTANT RULE - READ FIRST**
+
+This project handles REAL MONEY (ETH validators). The installation MUST follow a TWO-PHASE model:
+
+| Phase | User | Scripts | Ends With |
+|-------|------|---------|-----------|
+| **Phase 1** | root | `run_1.sh`, `install_phase1.sh` | **MANDATORY REBOOT** |
+| **Phase 2** | new user (NOT root) | `run_2.sh`, `install_phase2.sh` | Client running |
+
+### Why This Matters
+- Phase 1 hardens SSH (changes port, disables root login)
+- User MUST verify SSH access with new credentials before Phase 2
+- Security changes require reboot to take effect
+- Phase 2 REFUSES to run as root for privilege separation
+
+### NEVER Combine Phases
+```bash
+# ❌ DANGEROUS - Skips security verification
+./run_1.sh && ./run_2.sh
+
+# ✅ CORRECT - Mandatory reboot between phases
+sudo ./install_phase1.sh
+sudo reboot
+# SSH as new user
+./install_phase2.sh
+```
+
+### Before Modifying Installation Flow
+1. Read `run_1.sh` AND `run_2.sh` to understand the security boundary
+2. Verify your changes preserve Phase 1 → REBOOT → Phase 2
+3. Test that generated scripts refuse wrong user context
+4. See `docs/AGENT_HANDOFF.md` for full documentation
+
+---
+
+## Documentation Structure
+This project contains comprehensive documentation organized in the `docs/` folder:
+
+### Core Documentation
+- `docs/README.md` - Main project overview and quickstart guide
+- `docs/SCRIPTS.md` - Detailed script reference and usage
+- `docs/WORKFLOW.md` - Setup workflow and process documentation
+- `docs/GLOSSARY.md` - Technical terminology and definitions
+
+### Configuration & Architecture
+- `docs/CONFIGURATION_GUIDE.md` - Configuration architecture and conventions
+- `docs/REFACTORING_CONFIGS.md` - Configuration refactoring details
+- `docs/REFACTORING_SUMMARY.md` - Overall refactoring summary and changes
+
+### Development & Testing
+- `docs/SHELL_SCRIPTING_BEST_PRACTICES_AND_LINTING_GUIDE.md` - Shell scripting standards
+- `docs/SHELL_SCRIPT_TEST_RESULTS.md` - Test results and validation
+- `docs/COMPREHENSIVE_SCRIPT_TESTING_REPORT.md` - Comprehensive testing documentation
+
+### Project Management
+- `docs/CONSOLIDATED_PR.md` - Pull request consolidation details
+- `docs/FINAL_VERIFICATION.md` - Final verification and validation
+- `docs/COMMIT_MESSAGES.md` - Commit message conventions
+- `docs/progress.md` - Development progress tracking
+
+## Key Architecture Patterns
+- **Centralized Configuration**: All variables in `exports.sh`
+- **Template + Custom Pattern**: Base configs + user customizations
+- **Common Functions**: Shared utilities in `lib/common_functions.sh`
+- **Client Diversity**: Support for 5 execution + 6 consensus clients
+
+## Agent Guidelines
+When working with this codebase:
+1. Follow shell scripting best practices from `docs/SHELL_SCRIPTING_BEST_PRACTICES_AND_LINTING_GUIDE.md`
+2. Maintain configuration consistency per `docs/CONFIGURATION_GUIDE.md`
+3. Use common functions from `lib/common_functions.sh` to avoid duplication
+4. Reference appropriate documentation for context and standards
+
+## Common Functions Library
+The `lib/common_functions.sh` contains 35 centralized functions for:
+- **Logging**: `log_info()`, `log_warn()`, `log_error()`
+- **Installation**: `log_installation_start()`, `log_installation_complete()`
+- **Directory Management**: `get_script_directories()`, `ensure_directory()`, `create_temp_config_dir()`
+- **Configuration**: `merge_client_config()` (supports JSON, YAML, TOML)
+- **Security**: `setup_secure_user()`, `configure_ssh()`, `setup_fail2ban()`
+- **System Services**: `create_systemd_service()`, `enable_and_start_systemd_service()`
+- **File Operations**: `download_file()`, `secure_download()`
+- **System Checks**: `check_system_requirements()`, `check_system_compatibility()`
+
+## Refactoring Status
+- ✅ **REFACTORING COMPLETE**: All 35 functions implemented and tested
+- ✅ **Code Duplication**: Reduced by ~40% through centralized functions
+- ✅ **Shellcheck Compliance**: 100% compliance achieved
+- ✅ **Architecture**: Centralized configuration and function patterns maintained
+
+## Code Review Process
+
+### Required Review Passes (Minimum 3, Maximum 5)
+
+**Pass 1: Functionality Verification**
+- Verify all function calls work correctly
+- Check for missing functions that are being called
+- Ensure no broken function references
+- Test that all added functions are properly defined
+
+**Pass 2: Architecture Compliance** 
+- Verify scripts run with correct user privileges (root vs non-root)
+- Check that changes align with codebase architecture
+- Ensure security functions are properly integrated
+- Validate that client install scripts run as non-root users
+
+**Pass 3: Code Quality**
+- Remove duplicate functions
+- Verify function signatures match usage
+- Check for unused functions that can be removed
+- Ensure consistent error handling patterns
+
+**Pass 4: Edge Cases (if issues found in Pass 3)**
+- Test critical paths and error conditions
+- Verify all function parameters are handled correctly
+- Check for any remaining hardcoded patterns
+
+**Pass 5: Final Validation (if issues found in Pass 4)**
+- Comprehensive end-to-end validation
+- Final cleanup and documentation
+- Verify all changes follow security best practices
+
+### Review Completion Criteria
+- All function calls work without errors
+- No missing or broken function references
+- Architecture compliance maintained (root vs non-root execution)
+- Code quality standards met
+- No functionality removed or broken
+
+## Rule Enforcement Mechanisms
+
+### Mandatory Compliance Checks
+Before any code changes are considered complete, the following must be verified:
+
+1. **Function Reference Validation**
+   - All function calls must reference existing functions in `lib/common_functions.sh`
+   - Use `grep` to verify function definitions exist before calling them
+   - Replace any hardcoded patterns with centralized function calls
+
+2. **Architecture Pattern Compliance**
+   - Install scripts MUST call `require_root()` for privileged operations
+   - Non-install scripts MUST NOT call `require_root()`
+   - All scripts MUST call `get_script_directories()` for path management
+   - Use `log_installation_start()` and `log_installation_complete()` for install scripts
+
+3. **Security Function Integration**
+   - Security functions MUST be called in `run_1.sh` for comprehensive setup
+   - All configuration files MUST use `secure_config_files()` for proper permissions
+   - Network security functions MUST be applied via `apply_network_security()`
+
+4. **Code Quality Enforcement**
+   - Run `shellcheck` on all modified scripts before committing
+   - Remove any duplicate or unused functions
+   - Ensure consistent error handling using `log_error()` and proper exit codes
+   - Verify all function signatures match their usage patterns
+
+### Validation Requirements
+
+**Pre-Commit Validation Checklist:**
+- [ ] All function calls verified to exist in `lib/common_functions.sh`
+- [ ] Script execution privileges correctly implemented (root vs non-root)
+- [ ] Security functions properly integrated where required
+- [ ] Shellcheck compliance achieved (0 warnings/errors)
+- [ ] No duplicate or unused functions remain
+- [ ] Error handling patterns consistent across all modified files
+- [ ] Documentation updated to reflect any new functions or changes
+
+**Automated Validation Commands:**
+```bash
+# Verify function references
+grep -r "function_name" install/ | grep -v "lib/common_functions.sh"
+
+# Check shellcheck compliance
+find install/ -name "*.sh" -exec shellcheck {} \;
+
+# Verify root privilege usage
+grep -r "require_root" install/ | wc -l  # Should match expected count
+```
+
+### Rule Violation Prevention
+
+**Common Violations to Avoid:**
+1. **Missing Function Calls** - Always verify functions exist before calling
+2. **Incorrect Privilege Usage** - Install scripts need root, others don't
+3. **Hardcoded Patterns** - Use centralized functions instead of duplicating code
+4. **Inconsistent Error Handling** - Always use `log_error()` and proper exit codes
+5. **Security Function Neglect** - Ensure security functions are properly integrated
+
+**Enforcement Actions:**
+- If any rule violation is detected, the code change MUST be rejected
+- All violations MUST be fixed before proceeding to the next review pass
+- Additional review passes MUST be performed until all rules are satisfied
+
+## Consistency Maintenance Guidelines
+
+### Code Pattern Standards
+1. **Script Structure** - All scripts MUST follow the established pattern:
+   ```bash
+   #!/bin/bash
+   source ../../exports.sh
+   source ../../lib/common_functions.sh
+   get_script_directories
+   # [require_root for install scripts only]
+   log_installation_start "ComponentName"
+   # [script logic using common functions]
+   log_installation_complete "ComponentName" "service_name"
+   ```
+
+2. **Function Usage** - Always prefer common functions over custom implementations:
+   - Use `log_info()`, `log_warn()`, `log_error()` for all logging
+   - Use `secure_download()` instead of `wget` or `curl` directly
+   - Use `ensure_directory()` for directory creation
+   - Use `create_systemd_service()` for service management
+
+3. **Error Handling** - Consistent error handling pattern:
+   ```bash
+   if ! function_call; then
+       log_error "Descriptive error message"
+       exit 1
+   fi
+   ```
+
+### Documentation Requirements
+- All new functions MUST be documented in the appropriate section of this file
+- Function usage examples MUST be provided in comments
+- Architecture changes MUST be reflected in the relevant documentation files
+- Security implications MUST be documented and validated
+
+### Quality Assurance Process
+1. **Before Making Changes** - Read and understand existing patterns
+2. **During Development** - Follow established patterns and use common functions
+3. **After Changes** - Run all validation checks and review passes
+4. **Before Committing** - Ensure all rules are satisfied and documentation is updated
+
+## MEV Implementation Guidelines
+
+### Overview
+This project supports TWO mutually exclusive MEV (Maximal Extractable Value) solutions:
+- **MEV-Boost**: Industry-standard relay-based solution (RECOMMENDED)
+- **Commit-Boost**: Modular sidecar that REPLACES MEV-Boost (experimental)
+
+### MEV Implementation Architecture
+
+**Key Principles:**
+1. **Mutual Exclusivity**: Choose ONE - either MEV-Boost OR Commit-Boost, never both
+2. **Binary Installation**: All MEV solutions installed as binaries (NO Docker)
+3. **Consistency**: Follow same pattern as other client installations (git clone → build → systemd)
+4. **Configuration Centralization**: All MEV variables in `exports.sh`
+5. **Clear Guidance**: `run_2.sh` provides interactive MEV selection with recommendations
+
+### MEV Configuration Standards
+
+**Port Allocation:**
+- MEV-Boost: Port 18550
+- Commit-Boost: Port 18551 (PBS), 18552 (Signer), 18553 (Metrics)
+
+**Configuration Variables (exports.sh):**
+```bash
+# Shared MEV settings
+MEV_RELAYS='...'              # Comma-separated relay endpoints
+MIN_BID=0.002                 # Minimum bid for block proposals
+MEVGETHEADERT=950             # Timeout: getHeader (ms)
+MEVGETPAYLOADT=4000           # Timeout: getPayload (ms)
+MEVREGVALT=6000               # Timeout: registerValidator (ms)
+
+# Commit-Boost specific (alternative to MEV-Boost)
+COMMIT_BOOST_PORT=18551
+COMMIT_BOOST_HOST='127.0.0.1'
+```
+
+### MEV Installation Script Patterns
+
+**Required Elements:**
+1. Download pre-built binaries OR build from source (NO Docker)
+2. Extract binaries to installation directory
+3. Firewall rules setup via `setup_firewall_rules()`
+4. JWT secret verification via `ensure_jwt_secret()`
+5. Configuration file generation with proper variable substitution
+6. Systemd service creation via `create_systemd_service()`
+7. Comprehensive status/verification output
+8. Clear warning that solution replaces other MEV solutions (mutually exclusive)
+
+**MEV-Boost Pattern:**
+- Clone GitHub repository
+- Build with `make build`
+- Single binary execution
+- Direct systemd service
+
+**Commit-Boost Pattern:**
+- Download pre-built binaries from GitHub releases
+- Multiple binaries (pbs, signer)
+- TOML configuration format
+- Separate systemd services for each component
+- MEV-Boost relay compatibility
+- Support for additional protocols (preconfirmations, inclusion lists)
+
+### MEV Testing Requirements
+
+**Test Coverage:**
+1. **Installation Tests**: Verify directories, binaries, services
+2. **Configuration Tests**: Validate TOML/YAML/JSON syntax and content
+3. **Service Tests**: Check systemd service status and enablement
+4. **Docker Tests**: Verify container existence and health (for Commit-Boost/ETHGas)
+5. **API Tests**: Test endpoint availability and responses
+6. **Port Tests**: Verify no conflicts and proper bindings
+7. **Firewall Tests**: Ensure UFW rules configured
+8. **Dependency Tests**: Verify JWT secrets, Commit-Boost for ETHGas
+
+**Testing Script Pattern:**
+```bash
+record_test() {
+    local test_name="$1"
+    local result="$2"  # PASS, FAIL, SKIP
+    local details="$3"
+    # Track results and display formatted output
+}
+```
+
+### MEV Integration with Consensus Clients
+
+**Configuration Updates:**
+All consensus client base configs include MEV builder endpoint variables:
+- Prysm: `http-mev-relay: http://$MEV_HOST:$MEV_PORT`
+- Teku: `builder-endpoint: "http://$MEV_HOST:$MEV_PORT"`
+- Lighthouse: CLI flag `--builder http://$MEV_HOST:$MEV_PORT`
+- Lodestar: `builder.urls: ["http://$MEV_HOST:$MEV_PORT"]`
+- Nimbus: `payload-builder-url = "http://$MEV_HOST:$MEV_PORT"`
+- Grandine: `builder_endpoint = "http://$MEV_HOST:$MEV_PORT"`
+
+**Builder Enablement:**
+- Default: Builder disabled (`enable-builder: false` or equivalent)
+- Users must manually enable after MEV solution is running
+- Requires validator registration with fee recipient
+
+### MEV Selection Pattern (run_2.sh)
+
+**Interactive Selection:**
+```bash
+# Present MEV options with clear guidance
+1. MEV-Boost (RECOMMENDED - stable, production-proven)
+2. Commit-Boost (EXPERIMENTAL - for early adopters)
+3. Skip (install later)
+
+# IMPORTANT: Clearly state these are MUTUALLY EXCLUSIVE
+# Provide descriptions of what each does
+# Recommend MEV-Boost for most users
+# Create install_mev_solution() function
+# Provide clear user feedback and warnings
+```
+
+### MEV Documentation Standards
+
+**Required Documentation Elements:**
+1. **Overview**: What the MEV solution does and key features
+2. **Installation**: Step-by-step installation process
+3. **Configuration**: All configuration options and variables
+4. **Service Management**: Start, stop, status, logs commands
+5. **Verification**: How to verify the solution is working
+6. **Integration**: How to integrate with consensus clients
+7. **Troubleshooting**: Common issues and solutions
+8. **Resources**: Links to official docs, repos, community
+
+### MEV Security Considerations
+
+**Security Best Practices:**
+1. **JWT Authentication**: Always use JWT secrets for authenticated connections
+2. **Firewall Rules**: Configure UFW for all MEV ports
+3. **Local Binding**: Bind to 127.0.0.1 by default (not 0.0.0.0)
+4. **Service Isolation**: Run services as non-root user
+5. **Docker Security**: Use proper volume mounts and network isolation
+6. **Credential Management**: Store sensitive data in `$HOME/secrets/`
+7. **Collateral Monitoring**: For ETHGas, monitor collateral contract balances
+
+### MEV Implementation Checklist
+
+When implementing new MEV solutions:
+- [ ] Create installation script in `install/mev/` following binary pattern
+- [ ] Download pre-built binaries OR build from source (NO Docker)
+- [ ] Add configuration variables to `exports.sh`
+- [ ] Update `run_2.sh` with new MEV option
+- [ ] Add clear warning that solutions are mutually exclusive
+- [ ] Update test script to include new solution
+- [ ] Update consensus client configurations (if needed)
+- [ ] Add firewall rules via `setup_firewall_rules()`
+- [ ] Ensure JWT secret handling via `ensure_jwt_secret()`
+- [ ] Create systemd service via `create_systemd_service()`
+- [ ] Document in MEV guides (`docs/MEV_*.md`)
+- [ ] Perform 3-pass review (functionality, architecture, quality)
+- [ ] Test integration with all consensus clients
+- [ ] Verify NO Docker dependencies (maintain consistency)
+- [ ] Include comprehensive status output and verification steps
+- [ ] Provide recommendation guidance for users
+
+### Lessons Learned from MEV Implementation
+
+**Key Insights:**
+1. **Consistency First**: NEVER introduce Docker if the project doesn't use it elsewhere
+2. **Binary Installation**: Always check for pre-built binaries before considering Docker
+3. **Mutual Exclusivity**: Make it crystal clear when solutions are mutually exclusive
+4. **Recommendation Guidance**: Always recommend the stable, proven option (MEV-Boost)
+5. **Port Management**: Reserve sequential ports for multi-component solutions
+6. **Service Dependencies**: Use systemd Requires/After for service dependencies
+7. **Testing Granularity**: Test at multiple levels (file, service, binary, API, integration)
+8. **User Guidance**: Provide clear next steps, warnings, and verification commands
+9. **Pattern Matching**: Follow existing installation patterns (git clone → build OR download → extract)
+10. **Simplicity**: Remove experimental/niche features that break project consistency
+11. **Configuration Clarity**: Use TOML for Rust, YAML for Java, maintain variable substitution
+12. **Backward Compatibility**: Ensure new MEV options don't break existing MEV-Boost setups
+
+## Testing Framework Guidelines
+
+### Testing Approaches (In Order of Preference)
+
+1. **Docker-Based Testing (RECOMMENDED for integration tests)**
+   - Run tests inside isolated containers with REAL system calls
+   - No risk to host system
+   - Tests actual installation behavior
+   - Use `docker-compose up --build test` from `test/` directory
+
+2. **Local Testing with Mocks (for quick checks)**
+   - Use mock functions to intercept system calls
+   - Safe for local development
+   - Run with `USE_MOCKS=true ./test/run_tests.sh`
+
+3. **Lint-Only Testing (for CI)**
+   - Shellcheck and syntax validation
+   - No system calls needed
+   - Run with `./test/run_tests.sh --lint-only`
+
+### Testing File Structure
+```
+test/
+├── Dockerfile           # Ubuntu container for isolated testing
+├── docker-compose.yml   # Container orchestration
+├── docker_test.sh       # Real system calls inside Docker
+├── run_tests.sh         # Local test runner (supports mocks)
+├── lib/
+│   └── mock_functions.sh  # Mock implementations
+└── results/             # Test output (gitignored)
+```
+
+### Critical Testing Rules
+
+1. **Always use `|| true` for grep in pipelines** when using `set -Eeuo pipefail`
+   - `grep` returns exit code 1 when no matches found
+   - With `pipefail`, this causes script to exit
+   - Fix: `grep pattern file | process || true`
+
+2. **Mock functions must be sourced BEFORE the code under test**
+   - Mocks override functions by redefining them
+   - Order matters: source common_functions.sh, THEN mock_functions.sh
+
+3. **Separate bash processes don't inherit mocks**
+   - Running `bash script.sh` creates new process without mocks
+   - Scripts that need mocks must source them internally
+   - Use `USE_MOCKS` environment variable for conditional loading
+
+4. **Test files should be self-contained**
+   - Each test file should source its own dependencies
+   - Don't rely on parent process having sourced files
+
+### Lessons Learned from Testing Implementation
+
+**Key Insights:**
+1. **Docker over Mocks for Integration Tests**: Docker provides real system behavior without risk
+2. **Mocks for Unit Tests Only**: Use mocks for quick, isolated function testing
+3. **Pipefail Gotcha**: `set -Eeuo pipefail` + `grep` = potential silent failures
+4. **Process Isolation**: Child bash processes don't inherit function overrides
+5. **Test Independence**: Each test file must be runnable standalone
+6. **Exit Code Verification**: Always check actual exit codes, not just output
+7. **Clean Up After Tests**: Remove test artifacts (temp dirs, files)
+8. **CI Exclusions**: Document why shellcheck rules are excluded (SC1090, SC1091, SC2031, etc.)
+
+### Critical Path Resolution Rules for Test Scripts
+
+**Problem:** CI dependency validators check sourced file paths relative to the script's directory, NOT from where `cd` commands move to. This causes false "file not found" errors.
+
+**Anti-Pattern (NEVER DO THIS):**
+```bash
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+cd "$PROJECT_ROOT"
+source ./exports.sh  # ❌ CI resolves from $SCRIPT_DIR, not $PROJECT_ROOT
+source ./lib/common_functions.sh  # ❌ Same problem
+```
+
+**Correct Pattern (ALWAYS DO THIS):**
+```bash
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+cd "$PROJECT_ROOT"
+# shellcheck source=../exports.sh
+source "$PROJECT_ROOT/exports.sh"  # ✅ Absolute path works everywhere
+# shellcheck source=../lib/common_functions.sh
+source "$PROJECT_ROOT/lib/common_functions.sh"  # ✅ Absolute path
+```
+
+**Key Rules:**
+1. **Always use `$PROJECT_ROOT` for source statements**, not relative paths
+2. **Add `# shellcheck source=` directives** to help static analysis
+3. **Use `$PROJECT_ROOT` for file existence checks** in tests
+4. **Use `$PROJECT_ROOT` for running scripts**: `"$PROJECT_ROOT/install/script.sh"`
+
+### Function Call Verification
+
+**Problem:** With `set -Eeuo pipefail`, calling functions without required arguments causes silent crashes due to unbound variable errors.
+
+**Anti-Pattern:**
+```bash
+ensure_jwt_secret  # ❌ Function requires $1 (path argument)
+# Script silently exits with error
+```
+
+**Correct Pattern:**
+```bash
+jwt_file="$HOME/secrets/jwt.hex"
+ensure_jwt_secret "$jwt_file"  # ✅ Pass required argument
+```
+
+**Key Rules:**
+1. **Always check function signatures** in `lib/common_functions.sh` before calling
+2. **Verify required vs optional parameters** - required params have no default (`$1`)
+3. **Test function calls locally** before committing
+4. **With `set -u`**, ALL positional parameters must be provided
+
+### Test Output Format Verification
+
+**Problem:** Tests may expect a different output format than what functions actually produce.
+
+**Example:** `ensure_jwt_secret` uses `openssl rand -hex 32` which produces 64 hex chars WITHOUT `0x` prefix. Tests expecting 66 chars with `0x` will fail.
+
+**Anti-Pattern:**
+```bash
+# Assuming format without checking
+if [[ ${#jwt_content} -eq 66 ]] && [[ "$jwt_content" =~ ^0x ]]; then  # ❌ Wrong format
+```
+
+**Correct Pattern:**
+```bash
+# Match actual output format (64 hex chars, no prefix)
+if [[ ${#jwt_content} -eq 64 ]] && [[ "$jwt_content" =~ ^[a-fA-F0-9]+$ ]]; then  # ✅
+```
+
+**Key Rules:**
+1. **Inspect function implementation** before writing validation tests
+2. **Test actual output** by running the function locally first
+3. **Document expected formats** in comments
+4. **Update tests when function behavior changes**
+
+### Pre-Commit CI Simulation
+
+**Always run these checks locally before pushing:**
+```bash
+# 1. Shellcheck all scripts
+find . -name "*.sh" -type f ! -path "./.git/*" -exec shellcheck -x --exclude=SC2317,SC1091,SC1090,SC2034,SC2031 {} \;
+
+# 2. Syntax validation
+find . -name "*.sh" -type f ! -path "./.git/*" -exec bash -n {} \;
+
+# 3. Dependency validation (simulates CI)
+# Check that all 'source ./path' statements resolve correctly from script's directory
+
+# 4. Function unit tests
+bash install/test/test_common_functions.sh
+
+# 5. Full lint tests
+./test/run_tests.sh --lint-only
+```
+
+### Shellcheck CI Exclusions (with rationale)
+```bash
+# In .github/workflows/shellcheck.yml
+--exclude=SC2317  # Unreachable code (false positive in test scripts)
+--exclude=SC1091  # Not following source (relative paths)
+--exclude=SC1090  # Non-constant source (variable paths)
+--exclude=SC2034  # Unused variables (template scripts)
+--exclude=SC2031  # Subshell variable modification (testing pattern)
+```
+
+## Code Reuse Guidelines
+
+### DRY Principle Enforcement
+
+**Rule: Never duplicate code that can be shared**
+
+1. **Test Utilities** - All test scripts MUST source `test/lib/test_utils.sh`:
+   ```bash
+   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+   LOG_PREFIX="CI"  # Optional: customize log prefix
+   source "$SCRIPT_DIR/lib/test_utils.sh"
+   ```
+
+2. **Shellcheck Configuration** - Use centralized exclusions from `test_utils.sh`:
+   ```bash
+   # Use the shared function instead of inline shellcheck calls
+   check_shellcheck "$script"  # Returns true/false
+   run_shellcheck "$script"    # Shows output
+   ```
+
+3. **Common Functions** - All scripts MUST use `lib/common_functions.sh`:
+   - Logging: `log_info`, `log_warn`, `log_error`
+   - File ops: `ensure_directory`, `secure_download`, `extract_archive`
+   - Services: `create_systemd_service`, `enable_and_start_systemd_service`
+   - Security: `setup_secure_user`, `configure_ssh`, `ensure_jwt_secret`
+
+### Centralized Dependency Management
+
+**Single Source of Truth:** `install/utils/install_dependencies.sh`
+
+This script supports multiple modes:
+```bash
+./install_dependencies.sh --test       # Minimal test dependencies
+./install_dependencies.sh --base       # Base packages only  
+./install_dependencies.sh --production # Full production (default)
+```
+
+**Package Groups (defined in `install/utils/install_dependencies.sh`):**
+- `BASE_PACKAGES` - Core utilities
+- `TEST_PACKAGES` - Test infra (shellcheck, systemd, aide, cron, fail2ban)
+- `PRODUCTION_PACKAGES` - Build tools, languages, services (includes aide, cron, fail2ban)
+
+**Docker Usage:**
+```dockerfile
+# In test/Dockerfile - uses centralized script
+RUN /workspace/install/utils/install_dependencies.sh --test
+```
+
+**Key Features:**
+- Detects Docker environment and skips incompatible tools (snap, timedatectl)
+- Works as both root (Docker) and non-root (production)
+- Provides `--help` to show all package groups
+
+**Package definitions:** Single source in `install/utils/install_dependencies.sh`. One package per line for readability.
+
+**Local Docker build test:** `docker build -t eth-node-test -f test/Dockerfile .` — run before push to catch build failures.
+
+### Shared Test Utilities (`test/lib/test_utils.sh`)
+
+Provides:
+- `SHELLCHECK_EXCLUDES` - Centralized shellcheck configuration
+- `LOG_PREFIX` - Customizable log prefix
+- `log_info/warn/error/header` - Colored logging
+- `record_test` / `print_test_summary` - Test result tracking
+- `is_docker` / `is_root` - Environment detection
+- `assert_file_exists` / `assert_command_exists` / `assert_valid_syntax` - Common assertions
+- `source_exports` / `source_common_functions` - Proper project file sourcing
+- `check_shellcheck` / `run_shellcheck` - Shellcheck with standard exclusions
+
+### Anti-Patterns to Avoid
+
+1. **Don't redefine colors in every script:**
+   ```bash
+   # BAD: Duplicates definition
+   RED='\033[0;31m'
+   GREEN='\033[0;32m'
+   
+   # GOOD: Source shared utilities
+   source "$SCRIPT_DIR/lib/test_utils.sh"
+   ```
+
+2. **Don't hardcode shellcheck exclusions:**
+   ```bash
+   # BAD: Duplicates exclusion list
+   shellcheck --exclude=SC2317,SC1091,SC1090... "$script"
+   
+   # GOOD: Use shared config
+   check_shellcheck "$script"
+   ```
+
+3. **Don't duplicate logging functions:**
+   ```bash
+   # BAD: Redefines function
+   log_info() { echo "[INFO] $1"; }
+   
+   # GOOD: Use from common_functions.sh or test_utils.sh
+   source_common_functions
+   ```
+
+4. **Don't duplicate color definitions if sourcing common_functions.sh:**
+   ```bash
+   # BAD: Already defined in common_functions.sh
+   RED='\033[0;31m'
+   GREEN='\033[0;32m'
+   
+   # GOOD: Just use them (they're exported by common_functions.sh)
+   # Colors available: RED, GREEN, YELLOW, BLUE, NC
+   ```
+
+### Standalone vs Integrated Scripts
+
+**Standalone Scripts** (don't source common_functions.sh):
+- `docs/server_security_validation.sh` - For running on production servers
+- `docs/verify_security.sh` - Portable security verification
+- `docs/validate_security_safe.sh` - Safe validation without root
+
+These scripts intentionally duplicate colors/logging for portability - they should work when copied to any server without the full project.
+
+**Integrated Scripts** (MUST source common_functions.sh):
+- All `install/**/*.sh` scripts
+- All `test/*.sh` scripts (via test_utils.sh or directly)
+- `run_1.sh`, `run_2.sh`
+
+### Code Consolidation Lessons Learned
+
+1. **Create shared utility files early** - `test/lib/test_utils.sh` eliminated ~75 lines of duplicate code across 3 test files
+
+2. **Add to common libraries proactively** - When adding a feature like BLUE color, add it to `common_functions.sh` so all scripts benefit
+
+3. **Document intentional duplication** - Standalone scripts may need their own definitions; document why
+
+4. **Use comments for removed code** - When removing duplicate definitions, leave a comment pointing to the source:
+   ```bash
+   # Colors are defined in common_functions.sh (RED, GREEN, YELLOW, BLUE, NC)
+   ```
+
+5. **Centralize configuration** - Shellcheck exclusions, test patterns, and other config should have a single source of truth
+
+6. **Don't over-consolidate** - Some duplication is acceptable for:
+   - Standalone/portable scripts
+   - Scripts with specialized needs (run_tests.sh has CYAN, BOLD)
+   - Generated scripts inside heredocs (aide_check.sh)
+
+7. **Centralize environment-aware scripts** - Scripts like `install_dependencies.sh` should:
+   - Detect their environment (Docker, root/non-root, snap availability)
+   - Support multiple modes via flags (--test, --production)
+   - Define package lists as arrays for easy modification
+   - Skip incompatible operations gracefully with warnings
+
+8. **Dockerfile should use project scripts** - Instead of duplicating package lists:
+   ```dockerfile
+   # BAD: Duplicates package list
+   RUN apt-get install -y curl wget git shellcheck...
+
+   # GOOD: Uses centralized script
+   RUN /workspace/install/utils/install_dependencies.sh --test
+   ```
+
+9. **Bootstrap scripts need local colors, then source after cloning** - For scripts that run via `curl | bash` before the repo exists:
+   ```bash
+   # Colors - defined locally because this runs before repo is cloned
+   GREEN='\033[0;32m'
+   RED='\033[0;31m'
+   NC='\033[0m'
+
+   # ... bootstrap logic (clone repo) ...
+
+   # After cloning, source common_functions.sh for remaining operations
+   source "$INSTALL_DIR/lib/common_functions.sh"
+   ```
+   See `install.sh` for the reference implementation.
+
+## One-Liner/Flywheel Implementation Guidelines
+
+### Overview
+The project supports a "one-liner" installation experience via `curl | bash`:
+```bash
+curl -sSL https://raw.githubusercontent.com/chimera-defi/eth2-quickstart/master/install.sh | bash
+```
+
+This kicks off a flywheel of automated setup via the TUI wizard (`configure.sh`).
+
+### Key Components
+- **`install.sh`** - Bootstrap script (runs before repo exists)
+- **`install/utils/configure.sh`** - TUI wizard using whiptail
+- **`install/utils/doctor.sh`** - Health verification and diagnostics
+- **`install/utils/run_manifest.sh`** - Phase-aware manifest runner
+- **`config/user_config.env`** - User-specific configuration overrides
+
+### Whiptail TUI Patterns
+
+**Exit Code Handling with Whiptail:**
+Whiptail returns user input via stdout and exit code via `$?`. Since we capture output with `$()`, we must check `$?` separately:
+```bash
+CHOICE=$(whiptail --menu "Select option:" 20 60 10 \
+    "1" "Option 1" \
+    "2" "Option 2" 3>&1 1>&2 2>&3)
+if [[ $? -ne 0 ]]; then
+    # User cancelled
+    exit 0
+fi
+```
+
+**SC2181 Exclusion:** This pattern triggers SC2181 ("Check exit code directly"). It's excluded in CI because there's no cleaner way to capture both stdout AND exit code from whiptail.
+
+### Generated Script Patterns
+
+When generating scripts via heredocs, be careful with variable expansion:
+
+**Problem: `$(pwd)` evaluates at generation time, not execution time:**
+```bash
+# ❌ BAD - pwd evaluates when configure.sh runs
+cat > install_phase1.sh << 'EOF'
+echo "Run: cd $(pwd) && ./install_phase2.sh"
+EOF
+
+# ✅ GOOD - pwd evaluates when install_phase1.sh runs
+cat > install_phase1.sh << 'EOF'
+echo "Run: cd \$(pwd) && ./install_phase2.sh"
+EOF
+```
+
+**Generated scripts MUST source exports.sh:**
+```bash
+# ✅ GOOD - includes exports.sh for safety settings
+cat > install_phase1.sh << 'EOF'
+#!/bin/bash
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR" || exit 1
+source "$SCRIPT_DIR/exports.sh"
+source "$SCRIPT_DIR/lib/common_functions.sh"
+# ... rest of script
+EOF
+```
+
+### Argument Parsing Gotchas
+
+**`shift` is ineffective in `for` loops:**
+```bash
+# ❌ BAD - shift doesn't affect the for loop
+for arg in "$@"; do
+    case "$arg" in
+        --phase1) PHASE=1; shift ;;  # shift does nothing here!
+    esac
+done
+
+# ✅ GOOD - either use while loop or don't shift
+for arg in "$@"; do
+    case "$arg" in
+        --phase1) PHASE=1 ;;  # no shift needed
+    esac
+done
+```
+
+### User Configuration Override Pattern
+
+User-specific settings are stored in `config/user_config.env` and loaded at the end of `exports.sh`:
+```bash
+# In exports.sh (at the end)
+if [[ -f "$SCRIPT_SOURCE_DIR/config/user_config.env" ]]; then
+    source "$SCRIPT_SOURCE_DIR/config/user_config.env"
+fi
+```
+
+This allows the TUI wizard to save settings without modifying `exports.sh` directly.
+
+### CI Testing Best Practices
+
+**Always run CI checks locally before pushing:**
+```bash
+# 1. Shellcheck with project exclusions
+find . -name "*.sh" -type f ! -path "./.git/*" \
+    -exec shellcheck -x --exclude=SC2317,SC1091,SC1090,SC2034,SC2031,SC2181 {} \;
+
+# 2. Syntax validation
+find . -name "*.sh" -type f ! -path "./.git/*" -exec bash -n {} \;
+
+# 3. Run lint-only tests
+./test/run_tests.sh --lint-only
+```
+
+**When CI fails unexpectedly:**
+1. Check `gh run view <run-id> --log-failed` for actual error
+2. Compare CI shellcheck exclusions with local command
+3. Verify all shellcheck exclusions are in BOTH workflow files:
+   - `.github/workflows/shellcheck.yml`
+   - `.github/workflows/ci.yml` (has its own shellcheck step)
+
+### Lessons Learned from Flywheel Implementation
+
+1. **Phase Scripts Must Be Complete** - Generated phase scripts must source all dependencies (exports.sh, common_functions.sh) to inherit safety settings
+
+2. **Escape Variables in Heredocs** - When generating scripts, escape `$()` if you want runtime evaluation
+
+3. **Whiptail Requires $? Pattern** - No way to avoid SC2181 with whiptail; add to exclusions
+
+4. **Don't Over-Engineer Fallbacks** - If a script runs after repo clone, common_functions.sh will exist; no fallback needed
+
+5. **Remove Unused Features** - Verbose flags and debug functions that aren't used are code bloat
+
+6. **Sync CI Workflow Exclusions** - Both shellcheck.yml and ci.yml need the same shellcheck exclusions
+
+7. **Test Generated Scripts** - Generated scripts should be tested for:
+   - Correct shebang
+   - Proper sourcing of exports.sh and common_functions.sh
+   - Correct variable escaping
+   - Proper error handling
+
+8. **User Config Should Use Real Defaults** - Example configs should show actual defaults from exports.sh, not placeholder values
+
+## Frontend Development with Bun
+
+### ⚠️ CRITICAL: Frontend Uses Bun, NOT npm ⚠️
+
+**THIS PROJECT USES BUN FOR FRONTEND DEVELOPMENT - NEVER USE npm**
+
+The frontend has been migrated from npm to [Bun](https://bun.sh) for significantly faster performance. This is a **hard requirement** and must be maintained.
+
+### Bun Migration Rules
+
+**Date Migrated:** 2024-12-19  
+**Reason:** Bun provides 2-3x faster package installation, builds, and test execution compared to npm.
+
+### Required Commands
+
+| Task | ❌ NEVER Use | ✅ ALWAYS Use |
+|------|-------------|---------------|
+| Install dependencies | `npm install` | `bun install` |
+| CI install | `npm ci` | `bun install --frozen-lockfile` |
+| Run scripts | `npm run <script>` | `bun run <script>` |
+| Run tools | `npx <tool>` | `bunx <tool>` |
+| Test | `npm test` | `bun run test` (uses Jest) |
+| Build | `npm run build` | `bun run build` |
+
+### Lock Files
+
+- **Removed:** `package-lock.json` (npm lock file)
+- **Required:** `bun.lock` or `bun.lockb` (Bun lock file - format depends on Bun version)
+  - Bun 1.3.x uses `bun.lock` (JSON format)
+  - Newer versions may use `bun.lockb` (binary format)
+  - **MUST commit:** Whichever format Bun creates
+- **Never commit:** `package-lock.json` if accidentally created
+
+### CI/CD Configuration
+
+**Frontend CI Workflow:** `.github/workflows/frontend.yml`
+- Uses `oven-sh/setup-bun@v2` action (NOT `setup-node`)
+- Runs `bun install --frozen-lockfile` for reproducible builds
+- Uses `bunx` for running tools like TypeScript compiler
+- All scripts run via `bun run <script>`
+
+### Package Manager Declaration
+
+**Required in `package.json`:**
+```json
+{
+  "packageManager": "bun@latest"
+}
+```
+
+This field ensures tools like Corepack recognize Bun as the package manager.
+
+### Testing with Bun
+
+**Important:** React component tests still use Jest (not Bun's test runner):
+- Use `bun run test` (runs Jest via package.json script)
+- Do NOT use `bun test` directly (Bun's test runner doesn't support jsdom)
+- Jest configuration remains unchanged (`jest.config.js`, `jest.setup.js`)
+
+### Installation
+
+**Installing Bun:**
+```bash
+curl -fsSL https://bun.sh/install | bash
+source ~/.bashrc  # or restart terminal
+bun --version     # Verify installation
+```
+
+### Verification Checklist
+
+Before committing frontend changes:
+- [ ] Used `bun install` (not npm)
+- [ ] `bun.lock` or `bun.lockb` is committed (not package-lock.json)
+- [ ] CI workflow uses `oven-sh/setup-bun@v2`
+- [ ] All commands use `bun run` or `bunx`
+- [ ] `package.json` has `"packageManager": "bun@latest"`
+- [ ] Tests run with `bun run test` (Jest via Bun, NOT `bun test`)
+
+### Common Mistakes to Avoid
+
+1. **❌ DON'T:** Use `npm install` or `npm ci`
+   - **✅ DO:** Use `bun install` or `bun install --frozen-lockfile`
+
+2. **❌ DON'T:** Commit `package-lock.json`
+   - **✅ DO:** Commit `bun.lock` or `bun.lockb` (whichever Bun creates)
+
+3. **❌ DON'T:** Use `setup-node@v4` in CI workflows
+   - **✅ DO:** Use `oven-sh/setup-bun@v2`
+
+4. **❌ DON'T:** Use `npx` for running tools
+   - **✅ DO:** Use `bunx` instead
+
+5. **❌ DON'T:** Use `bun test` for React component tests
+   - **✅ DO:** Use `bun run test` (runs Jest)
+
+6. **❌ DON'T:** Remove `packageManager` field from package.json
+   - **✅ DO:** Keep `"packageManager": "bun@latest"`
+
+### Performance Benefits
+
+- **Installation:** 2-3x faster than npm
+- **Builds:** Faster Next.js builds
+- **CI/CD:** Reduced CI time for frontend jobs
+- **Developer Experience:** Faster feedback loops
+
+### Documentation
+
+- Migration guide: `docs/FRONTEND_BUN_MIGRATION.md`
+- Frontend README: `frontend/README.md` (updated with Bun commands)
+
+### Regression Prevention
+
+**To prevent regression back to npm:**
+1. Always check `.github/workflows/frontend.yml` uses Bun
+2. Verify `package.json` has `packageManager` field
+3. Check that `bun.lock` or `bun.lockb` exists (not `package-lock.json`)
+4. Review any PRs that mention npm in frontend context
+5. Run `grep -r "npm" frontend/` before committing to catch accidental npm usage
+6. Verify CI test job uses `bun run test` (not `bun test`)
+
+**If you see npm commands in frontend context, STOP and convert to Bun.**
+
+This comprehensive rule set ensures consistent, maintainable, and secure code across the entire Ethereum node setup project.

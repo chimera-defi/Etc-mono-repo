@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --background: #09090b;
+  --foreground: #fafafa;
+  --primary: #a855f7;
+  --muted: #18181b;
+  --muted-foreground: #a1a1aa;
+  --border: rgba(255, 255, 255, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  position: relative;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-width: 320px;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    radial-gradient(circle at top, rgba(168, 85, 247, 0.12), transparent 55%),
+    radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.08), transparent 45%);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #a855f7 0%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+::selection {
+  background-color: rgba(168, 85, 247, 0.2);
+}
+
+:focus-visible {
+  outline: 1px solid var(--primary);
+  outline-offset: 2px;
+}
+
+code {
+  font-family: 'JetBrains Mono', 'SF Mono', monospace;
+}
+
+/* Inline code - allow wrapping at word boundaries to prevent overflow */
+:not(pre) > code {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Code blocks inside pre - rely on overflow-x-auto for horizontal scroll */
+pre {
+  white-space: pre;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+/* Touch targets - ensure minimum 44px for interactive elements on mobile */
+@media (pointer: coarse) {
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  nav a, nav button {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+/* Smooth transitions for mobile menu */
+.mobile-menu-enter {
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

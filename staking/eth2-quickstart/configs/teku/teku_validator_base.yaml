@@ -1,0 +1,23 @@
+# Teku Validator Client Base Configuration
+
+# Beacon node connection
+beacon-node-api-endpoint: "http://$CONSENSUS_HOST:$TEKU_REST_PORT"
+
+# Metrics
+metrics-enabled: true
+metrics-host-allowlist: ["$CONSENSUS_HOST", "localhost"]
+
+# Logging
+log-destination: "CONSOLE"
+log-level: "INFO"
+
+# Performance
+validators-early-attestations-enabled: true
+validators-proposer-blinded-blocks-enabled: true
+
+# Monitoring
+metrics-port: 8009
+metrics-interface: "$CONSENSUS_HOST"
+
+# Safety
+validators-doppelganger-detection-enabled: true

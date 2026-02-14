@@ -1,0 +1,99 @@
+{
+    # Global options
+    auto_https off
+    servers {
+        protocols h1 h2 h3
+    }
+}
+
+# HTTP to HTTPS redirect
+http://<site> {
+    redir https://<site>{uri} permanent
+}
+
+# Main HTTPS site with manual SSL
+https://<site> {
+    # Manual SSL certificate configuration
+    tls /etc/letsencrypt/live/<site>/fullchain.pem /etc/letsencrypt/live/<site>/privkey.pem
+    
+    # WebSocket proxy for Ethereum WebSocket API
+    handle /ws* {
+        reverse_proxy $LH:$NETHERMIND_WS_PORT {
+            header_up Host {host}
+            header_up X-Real-IP {remote}
+            header_up X-Forwarded-For {remote}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+    
+    # HTTP proxy for Ethereum RPC API
+    handle /rpc* {
+        reverse_proxy $LH:$NETHERMIND_HTTP_PORT {
+            header_up Host {host}
+            header_up X-Real-IP {remote}
+            header_up X-Forwarded-For {remote}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+    
+    # Prysm checkpoint sync endpoint
+    handle /prysm/checkpt_sync* {
+        reverse_proxy $LH:3500 {
+            header_up Host {host}
+            header_up X-Real-IP {remote}
+            header_up X-Forwarded-For {remote}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+    
+    # Prysm web interface
+    handle /prysm/web* {
+        reverse_proxy $LH:7500 {
+            header_up Host {host}
+            header_up X-Real-IP {remote}
+            header_up X-Forwarded-For {remote}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+    
+    # Security headers
+    header {
+        # Enable HSTS
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        
+        # Prevent clickjacking
+        X-Frame-Options "DENY"
+        
+        # Prevent MIME type sniffing
+        X-Content-Type-Options "nosniff"
+        
+        # XSS protection
+        X-XSS-Protection "1; mode=block"
+        
+        # Referrer policy
+        Referrer-Policy "strict-origin-when-cross-origin"
+        
+        # Content Security Policy
+        Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' wss: https:; font-src 'self' data:; object-src 'none'; media-src 'self'; frame-src 'none';"
+    }
+    
+    # Rate limiting
+    rate_limit {
+        zone static {
+            key {remote_host}
+            events 100
+            window 1m
+        }
+    }
+    
+    # Logging
+    log {
+        output file /var/log/caddy/access.log {
+            roll_size 100mb
+            roll_keep 5
+            roll_keep_for 720h
+        }
+        format json
+        level INFO
+    }
+}

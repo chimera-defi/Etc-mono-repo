@@ -1,0 +1,36 @@
+# Teku Beacon Node Base Configuration
+
+# Network
+network: "mainnet"
+p2p-enabled: true
+p2p-port: 9000
+p2p-discovery-enabled: true
+p2p-peer-lower-bound: 64
+
+# Data storage
+data-storage-mode: "prune"
+
+# Execution layer connection
+ee-endpoint: "http://$LH:$ENGINE_PORT"
+
+# REST API
+rest-api-enabled: true
+rest-api-host-allowlist: ["$CONSENSUS_HOST", "localhost"]
+rest-api-cors-origins: ["*"]
+
+# Logging
+log-destination: "CONSOLE"
+log-level: "INFO"
+
+# Builder/MEV settings
+builder-endpoint: "http://$MEV_HOST:$MEV_PORT"
+builder-registration-default-enabled: false
+
+# Performance optimizations
+validators-early-attestations-enabled: true
+validators-proposer-blinded-blocks-enabled: true
+
+# Monitoring
+metrics-enabled: true
+metrics-port: 8008
+metrics-interface: "$CONSENSUS_HOST"

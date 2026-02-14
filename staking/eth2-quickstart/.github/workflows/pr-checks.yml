@@ -1,0 +1,131 @@
+name: PR Rule Enforcement
+
+on:
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+  commit-conventions:
+    name: Commit Message Format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # Validate only authored PR commits, not GitHub's synthetic merge commit.
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Check conventional commit format
+        run: |
+          echo "Checking commit messages follow conventional commit format..."
+          FAILED=0
+          
+          # Get commits in this PR
+          COMMITS=$(git log --format="%s" origin/${{ github.base_ref }}..HEAD 2>/dev/null || git log --format="%s" -20)
+          
+          while IFS= read -r msg; do
+            if [[ -z "$msg" ]]; then
+              continue
+            fi
+            # Skip merge commits (auto-generated or manual) for conventional checks.
+            if [[ "$msg" =~ ^Merge[[:space:]] ]]; then
+              echo "  SKIP: $msg"
+              continue
+            fi
+            # Check for conventional commit pattern: type(scope): description
+            # or type: description (scope optional)
+            if echo "$msg" | grep -qE "^(feat|fix|refactor|docs|test|chore|style|perf|ci|build|revert)(\([a-z0-9_-]+\))?: .+"; then
+              echo "  PASS: $msg"
+            else
+              echo "  FAIL: $msg"
+              echo "    Expected: type(scope): description"
+              echo "    Types: feat, fix, refactor, docs, test, chore, style, perf, ci, build, revert"
+              FAILED=1
+            fi
+          done <<< "$COMMITS"
+          
+          if [[ $FAILED -eq 1 ]]; then
+            echo ""
+            echo "::error::Some commit messages don't follow conventional commit format."
+            echo "Fix with: git rebase -i and edit commit messages."
+            exit 1
+          fi
+          
+          echo "All commit messages follow conventional commit format."
+
+  no-npm-in-frontend:
+    name: No npm in Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check for npm usage in frontend
+        run: |
+          echo "Checking for accidental npm usage in frontend..."
+          FAILED=0
+          
+          # Check for package-lock.json
+          if [[ -f frontend/package-lock.json ]]; then
+            echo "::error::frontend/package-lock.json exists. This project uses Bun, not npm."
+            echo "  Remove it: rm frontend/package-lock.json"
+            FAILED=1
+          fi
+          
+          # Check for npm references in frontend source (excluding node_modules)
+          if grep -r "npm " frontend/package.json 2>/dev/null | grep -v '"packageManager"' | grep -v "node_modules" | grep -q .; then
+            echo "::error::Found 'npm' references in frontend/package.json scripts."
+            FAILED=1
+          fi
+          
+          # Check that bun.lock exists
+          if [[ ! -f frontend/bun.lock ]] && [[ ! -f frontend/bun.lockb ]]; then
+            echo "::error::No bun.lock or bun.lockb found. Run 'bun install' in frontend/."
+            FAILED=1
+          fi
+          
+          # Check packageManager field
+          if ! grep -q '"packageManager"' frontend/package.json 2>/dev/null; then
+            echo "::error::frontend/package.json missing \"packageManager\": \"bun@latest\" field."
+            FAILED=1
+          fi
+          
+          # Check CI workflow uses Bun
+          if grep -q "setup-node" .github/workflows/frontend.yml 2>/dev/null; then
+            echo "::error::.github/workflows/frontend.yml uses setup-node instead of setup-bun."
+            FAILED=1
+          fi
+          
+          if [[ $FAILED -eq 1 ]]; then
+            exit 1
+          fi
+          
+          echo "Frontend Bun compliance verified."
+
+  review-checklist:
+    name: PR Description Checklist
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify changes were tested
+        run: |
+          echo "Checking that modified areas have been validated..."
+          
+          # Check if frontend was modified
+          FRONTEND_CHANGED=$(git diff --name-only origin/${{ github.base_ref }}..HEAD 2>/dev/null | grep "^frontend/" | head -1 || true)
+          SHELL_CHANGED=$(git diff --name-only origin/${{ github.base_ref }}..HEAD 2>/dev/null | grep "\.sh$" | head -1 || true)
+          
+          if [[ -n "$FRONTEND_CHANGED" ]]; then
+            echo "Frontend files changed - CI will run build/test/lint via frontend.yml"
+          fi
+          
+          if [[ -n "$SHELL_CHANGED" ]]; then
+            echo "Shell scripts changed - CI will run shellcheck via ci.yml"
+          fi
+          
+          echo "Review checklist passed."
