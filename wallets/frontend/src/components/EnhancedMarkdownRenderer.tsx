@@ -686,17 +686,24 @@ function MarkdownContent({ content, className, enableTableSearch = false }: { co
 // Shared markdown components
 function getMarkdownComponents() {
   return {
-    img: ({ src, alt, ...props }: { src?: string; alt?: string }) => (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={src}
-        alt={alt || 'Image'}
-        loading="lazy"
-        decoding="async"
-        className="max-w-full h-auto rounded-lg"
-        {...props}
-      />
-    ),
+    img: ({ src, alt, ...props }: { src?: string; alt?: string }) => {
+      // Restrict to same-origin: only / or relative paths (blocks external URLs from markdown)
+      const safeSrc =
+        src && (src.startsWith('/') || src.startsWith('./') || !/^https?:/i.test(src))
+          ? src
+          : undefined;
+      return (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={safeSrc}
+          alt={alt || 'Image'}
+          loading="lazy"
+          decoding="async"
+          className="max-w-full h-auto rounded-lg"
+          {...props}
+        />
+      );
+    },
     table: ({ children }: { children?: React.ReactNode }) => (
       <div className="table-wrapper">
         <table>{children}</table>
