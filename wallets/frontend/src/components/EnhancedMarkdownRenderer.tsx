@@ -206,11 +206,10 @@ const COLLAPSIBLE_SECTIONS: { pattern: RegExp; icon: LucideIcon }[] = [
 
 // Patterns for primary content that should NEVER be collapsed
 const PRIMARY_SECTIONS = [
+  /^#{1,2}\s+Complete.*Comparison.*$/im,
+  /^#{1,2}\s+Complete.*Hardware.*$/im,
   /^#{1,2}\s+.*Which.*Wallet.*Should.*$/im,
 ];
-
-// Main table section - only this is primary on category pages; everything after is collapsible
-const MAIN_TABLE_PATTERN = /^#{1,2}\s+Complete\s+(?:Wallet|Hardware|Card|Ramp)/im;
 
 interface ContentSegment {
   type: 'regular' | 'collapsible';
@@ -237,8 +236,6 @@ function parseInlineCollapsibleSections(content: string): ContentSegment[] {
   let currentSegment: ContentSegment = { type: 'regular', content: '' };
   let isInContainerSection = false;
   let containerLevel = 0;
-  let hasSeenMainTable = false;
-  let hasPassedMainTable = false;
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
@@ -248,19 +245,9 @@ function parseInlineCollapsibleSections(content: string): ContentSegment[] {
       const level = headingMatch[1].length;
       const headingText = headingMatch[2];
 
-      const isMainTable = MAIN_TABLE_PATTERN.test(line);
       const collapsibleMatch = COLLAPSIBLE_SECTIONS.find(s => s.pattern.test(line));
-      const isPrimaryFromPattern = PRIMARY_SECTIONS.some(p => p.test(line));
+      const isPrimary = PRIMARY_SECTIONS.some(p => p.test(line));
       const isContainer = CONTAINER_SECTIONS.some(p => p.test(line));
-
-      // Structural rule: all sections after the main table are collapsible
-      if (isMainTable) {
-        hasSeenMainTable = true;
-        hasPassedMainTable = false;
-      } else if (hasSeenMainTable) {
-        hasPassedMainTable = true;
-      }
-      const isPrimary = isMainTable || (isPrimaryFromPattern && !hasPassedMainTable);
 
       // If we're in a container section (like FAQ), include child headings in the content
       if (isInContainerSection && currentSegment.type === 'collapsible') {
@@ -276,20 +263,19 @@ function parseInlineCollapsibleSections(content: string): ContentSegment[] {
         }
       }
 
-      const shouldBeCollapsible = hasPassedMainTable || (collapsibleMatch && !isPrimary);
-      if (shouldBeCollapsible && !isPrimary) {
+      if (collapsibleMatch && !isPrimary) {
         // Save previous segment if it has content
         if (currentSegment.content.trim()) {
           segments.push(currentSegment);
         }
 
-        // Start a new collapsible segment (all sections after main table are collapsible)
+        // Start a new collapsible segment
         currentSegment = {
           type: 'collapsible',
           content: '',
           heading: headingText,
           headingLevel: level,
-          icon: collapsibleMatch?.icon ?? BookOpen,
+          icon: collapsibleMatch.icon,
           id: headingText.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
         };
 
