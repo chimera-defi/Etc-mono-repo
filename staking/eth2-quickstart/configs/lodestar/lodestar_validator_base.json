@@ -1,0 +1,17 @@
+{
+  "network": "mainnet",
+  "beaconNodes": ["http://$CONSENSUS_HOST:$LODESTAR_REST_PORT"],
+  "metrics": {
+    "enabled": true,
+    "host": "$CONSENSUS_HOST",
+    "port": 8009
+  },
+  "builder": {
+    "enabled": false
+  },
+  "doppelgangerProtection": {
+    "enabled": true
+  },
+  "logLevel": "info",
+  "attestationAggregationStrategy": "optimized"
+}

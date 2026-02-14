@@ -1,0 +1,40 @@
+# Prysm Beacon Node Sync Configuration
+# Aggressive settings for faster initial sync - use for checkpoint sync
+# See docs/PRYSM_FLAGS_ANALYSIS.md for flag documentation
+#
+# Note: This config uses HIGHER than default values for faster sync.
+# Switch to prysm_beacon_conf.yaml after initial sync completes.
+
+# Core Configuration
+execution-endpoint: http://$LH:$ENGINE_PORT
+accept-terms-of-use: true
+
+# P2P Networking - more peers for faster sync
+p2p-udp-port: 12000
+p2p-tcp-port: 13000
+p2p-max-peers: 200
+p2p-allowlist: public
+
+# Aggressive Sync Performance (ABOVE defaults for faster sync)
+max-goroutines: 10000
+block-batch-limit: 128
+block-batch-limit-burst-factor: 4
+slots-per-archive-point: 4096
+
+# Aggressive Blob Handling (ABOVE defaults)
+blob-batch-limit: 512
+blob-batch-limit-burst-factor: 4
+blob-save-fsync: true
+
+# Backfill for Checkpoint Sync (non-default)
+enable-backfill: true
+backfill-batch-size: 64
+backfill-worker-count: 4
+
+# MEV/Builder Configuration
+http-mev-relay: http://$MEV_HOST:$MEV_PORT
+
+# Security & Reliability
+disable-broadcast-slashings: true
+enable-discovery-reboot: true
+ignore-unviable-attestations: true

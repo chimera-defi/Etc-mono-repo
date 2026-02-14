@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  test:
+    build:
+      context: ..
+      dockerfile: test/Dockerfile
+    container_name: eth-node-setup-test
+    # Required for systemd to work inside the container
+    privileged: true
+    volumes:
+      # Mount cgroup for systemd
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      # Optional: mount results directory to persist test results
+      - ./results:/workspace/test/results
+    environment:
+      - TERM=xterm-256color
+      # Run tests without mocks - use real system calls
+      - USE_MOCKS=false
+    # Use systemd as init
+    command: ["/workspace/test/docker_test.sh"]
+    
+  # Alternative: run specific test modes
+  lint:
+    build:
+      context: ..
+      dockerfile: test/Dockerfile
+    container_name: eth-node-setup-lint
+    command: ["/workspace/test/run_tests.sh", "--lint-only"]
+    
+  unit:
+    build:
+      context: ..
+      dockerfile: test/Dockerfile
+    container_name: eth-node-setup-unit
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    environment:
+      - USE_MOCKS=false
+    command: ["/workspace/test/docker_test.sh", "--unit"]

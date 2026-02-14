@@ -1,0 +1,34 @@
+# Nimbus Base Configuration File
+
+# Network settings
+network = "mainnet"
+tcp-port = 9000
+udp-port = 9000
+
+# Execution layer
+web3-url = "http://$LH:$ENGINE_PORT"
+
+# REST API
+rest = true
+rest-address = "$CONSENSUS_HOST"
+rest-allow-origin = "*"
+
+# Metrics
+metrics = true
+metrics-address = "$CONSENSUS_HOST"
+metrics-port = 8008
+
+# Logging
+log-level = "INFO"
+
+# Performance
+in-process-validators = false
+max-peers = 100
+sync-committee-message-aggregation-enabled = true
+
+# Builder/MEV
+payload-builder = false
+payload-builder-url = "http://$MEV_HOST:$MEV_PORT"
+
+# Safety
+doppelganger-detection = true

@@ -1,0 +1,28 @@
+# Grandine Base Configuration File
+
+# Network settings
+network = "mainnet"
+listen_address = "127.0.0.1:9000"
+discovery_port = 9000
+
+# Execution layer
+execution_endpoint = "http://$LH:$ENGINE_PORT"
+
+# HTTP API
+http_api_enabled = true
+http_api_listen_address = "$CONSENSUS_HOST:$GRANDINE_REST_PORT"
+
+# Metrics
+metrics_enabled = true
+metrics_listen_address = "$CONSENSUS_HOST:8008"
+
+# Builder/MEV
+builder_boost_factor = 90
+builder_endpoint = "http://$MEV_HOST:$MEV_PORT"
+
+# Logging
+log_level = "info"
+
+# Performance optimizations
+max_empty_slots = 50
+attestation_propagation_slot_range = 32

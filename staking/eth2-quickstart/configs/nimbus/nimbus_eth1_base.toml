@@ -1,0 +1,42 @@
+# Nimbus-eth1 Base Configuration File
+
+# Network settings
+network = "mainnet"
+tcp-port = 30303
+udp-port = 30303
+
+# JSON-RPC settings
+rpc-enabled = true
+rpc-address = "$LH"
+rpc-api = ["eth", "net", "web3", "engine", "admin"]
+
+# WebSocket settings
+ws-enabled = true
+ws-address = "$LH"
+ws-api = ["eth", "net", "web3", "engine"]
+
+# Engine API (JWT-secured)
+engine-api-enabled = true
+engine-api-address = "$LH"
+jwt-secret = "$HOME/secrets/jwt.hex"
+
+# Mining settings (disabled for staking)
+miner-enabled = false
+
+# Performance
+max-peers = 100
+cache-size = 4096
+
+# Sync settings
+sync-mode = "snap"
+
+# Metrics
+metrics-enabled = true
+metrics-address = "$LH"
+metrics-port = 6060
+
+# Logging
+log-level = "INFO"
+
+# Safety
+prune-mode = false
