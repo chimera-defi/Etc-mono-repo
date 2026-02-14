@@ -41,6 +41,8 @@ Phase 1 uses the repo as the control plane. A hosted API/UI is optional later.
 - `PLAN.md` — phased execution plan.
 - `TASKS.md` — checklist of concrete next steps.
 - `PROMPTS.md` — handoff prompts for future agents.
+- `HANDOFF_PROMPT.md` — comprehensive implementation handoff (self‑contained).
+- `AZTEC_NODE_SPEC.md` — gap analysis + spec for Aztec node setup scripts.
 - `EXECUTIVE_SUMMARY.md` — high‑level summary for quick review.
 - `EXACT_SUMMARY.md` — ultra‑concise summary (single paragraph).
 - `DECISIONS.md` — key decisions and rationale.
