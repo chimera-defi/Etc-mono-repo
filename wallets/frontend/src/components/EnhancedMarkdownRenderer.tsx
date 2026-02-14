@@ -36,6 +36,7 @@ import {
   BookOpen,
   Target,
   HelpCircle,
+  ListChecks,
   type LucideIcon
 } from 'lucide-react';
 
@@ -190,6 +191,8 @@ const COLLAPSIBLE_SECTIONS: { pattern: RegExp; icon: LucideIcon }[] = [
   // Table-specific sections (often h3 headers)
   { pattern: /^#{1,3}\s+.*Additional.*Chains.*$/im, icon: Layers },
   { pattern: /^#{1,3}\s+.*Legend.*$/im, icon: BookOpen },
+  // Pros & Cons (Top Picks) - collapsible for consistency with Legend
+  { pattern: /^#{1,3}\s+.*Pros.*Cons.*$/im, icon: ListChecks },
   // Quick Summary should be collapsible
   { pattern: /^#{1,3}\s+.*Quick.*Summary.*$/im, icon: Info },
   // GitHub Metrics

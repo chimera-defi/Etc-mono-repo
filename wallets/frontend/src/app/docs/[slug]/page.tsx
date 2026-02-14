@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Script from 'next/script';
-import { ArrowLeft, Clock, BookOpen, ExternalLink, FileText, Table } from 'lucide-react';
+import { ArrowLeft, Clock, BookOpen, ExternalLink, FileText, Table, Rss } from 'lucide-react';
 import Link from 'next/link';
 import { getAllDocuments, getDocumentBySlug, getDocumentSlugs, extractTableOfContents, getRelatedDocument } from '@/lib/markdown';
 import { calculateReadingTime, formatReadingTime, optimizeMetaDescription, generateKeywords, getOgImagePath, markdownToPlainText, extractFAQsFromMarkdown, generateFAQSchema, generateBreadcrumbSchema } from '@/lib/seo';
@@ -378,6 +378,44 @@ export default function DocumentPage({ params }: PageProps) {
             showExpandableSections={true}
             skipFirstH1={true}
           />
+
+          {/* Merchant Feed (collapsible, for SEO agents - near footer) */}
+          {(isTablePage || (isDetailsPage && ['software-wallets', 'hardware-wallets', 'crypto-cards', 'ramps'].some(s => document.slug.startsWith(s)))) && (
+            <details className="mt-8 rounded-lg border border-slate-700/60 bg-slate-900/50 overflow-hidden" id="merchant-feed">
+              <summary className="flex items-center gap-3 p-3 cursor-pointer list-none bg-muted/30 hover:bg-muted/50 transition-colors [&::-webkit-details-marker]:hidden">
+                <Rss className="h-5 w-5 text-muted-foreground flex-shrink-0" aria-hidden />
+                <span className="font-semibold text-slate-200">Merchant Feed (SEO agents)</span>
+                <span className="text-xs text-muted-foreground ml-auto">Click to expand</span>
+              </summary>
+              <div className="p-4 border-t border-slate-700/60 text-sm text-muted-foreground space-y-2">
+                {(document.slug === 'hardware-wallets' || document.slug === 'hardware-wallets-details') ? (
+                  <>
+                    <p>
+                      <a href={`${baseUrl}/merchant-center.xml`} className="text-sky-400 hover:text-sky-300 underline">
+                        merchant-center.xml
+                      </a>
+                      {' — Verified USD pricing for hardware wallets. Exclusions: '}
+                      <a href="https://github.com/chimera-defi/Etc-mono-repo/blob/main/wallets/MERCHANT_FEED.md" className="text-sky-400 hover:text-sky-300 underline" target="_blank" rel="noopener noreferrer">
+                        MERCHANT_FEED.md
+                      </a>
+                    </p>
+                  </>
+                ) : (
+                  <p>
+                    Merchant feed not available for this category. The feed covers hardware wallets only.{' '}
+                    <Link href="/docs/hardware-wallets#merchant-feed" className="text-sky-400 hover:text-sky-300 underline">
+                      See Hardware Wallets
+                    </Link>
+                    {' for '}
+                    <a href={`${baseUrl}/merchant-center.xml`} className="text-sky-400 hover:text-sky-300 underline">
+                      merchant-center.xml
+                    </a>
+                    .
+                  </p>
+                )}
+              </div>
+            </details>
+          )}
 
           {/* Footer Navigation */}
           <footer className="mt-12 pt-8 border-t border-slate-700/60">
