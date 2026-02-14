@@ -1,0 +1,12 @@
+
+[Eth]
+NetworkId = 1
+cache = 4096
+
+[http]
+addr = "127.0.0.1"
+port = 8545
+api=["eth","net","web3","engine","admin","personal"]
+
+[authrpc]
+jwtsecret=./secrets/jwt.hex

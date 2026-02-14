@@ -1,0 +1,21 @@
+# Prysm Validator Client Configuration
+# Base configuration - custom settings are merged during installation
+# See docs/PRYSM_FLAGS_ANALYSIS.md for flag documentation
+#
+# Philosophy: Only set flags that differ from Prysm defaults.
+
+# Security (non-default - explicitly enabled for safety)
+enable-doppelganger: true
+enable-slashing-protection-history-pruning: true
+
+# MEV/Builder Registration (non-default)
+# Enables periodic validator registration with builder network
+enable-builder: true
+
+# Note on defaults we're NOT overriding:
+# - suggested-gas-limit: 60M (intentionally high = "use max available")
+# - dynamic-key-reload-debounce-interval: 1s (good default)
+# - web: false (good default for security)
+
+# Future: REST API will replace gRPC after Prysm v8 (2026)
+# Uncomment when ready: enable-beacon-rest-api: true

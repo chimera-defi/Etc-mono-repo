@@ -1,0 +1,174 @@
+# This is the sshd server system-wide configuration file.  See
+# sshd_config(5) for more information.
+
+# This sshd was compiled with PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games
+
+# The strategy used for options in the default sshd_config shipped with
+# OpenSSH is to specify options with their default value where
+# possible, but leave them commented.  Uncommented options override the
+# default value.
+
+Include /etc/ssh/sshd_config.d/*.conf
+
+# =============================================================================
+# NETWORK CONFIGURATION
+# =============================================================================
+
+# Port: Use non-default port for security through obscurity
+# Note: Port will be replaced by script with YourSSHPortNumber from exports.sh
+Port 22
+
+# AddressFamily: Only use IPv4 to reduce attack surface
+AddressFamily inet
+
+# ListenAddress: Listen on all interfaces (controlled by firewall)
+ListenAddress 0.0.0.0
+
+# =============================================================================
+# CRYPTOGRAPHIC CONFIGURATION
+# =============================================================================
+
+# HostKey: Specify host key algorithms (Ed25519 preferred)
+HostKey /etc/ssh/ssh_host_ed25519_key
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
+
+# KexAlgorithms: Key exchange algorithms (prefer modern curves)
+KexAlgorithms curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group14-sha256
+
+# Ciphers: Encryption algorithms (AEAD ciphers with built-in authentication)
+Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com
+
+# MACs: Message authentication codes (only used with non-AEAD ciphers)
+MACs hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha2-256,hmac-sha2-512
+
+# RekeyLimit: Force rekeying after data limit or time limit
+RekeyLimit 1G 1h
+
+# =============================================================================
+# LOGGING CONFIGURATION
+# =============================================================================
+
+# SyslogFacility: Send logs to AUTH facility for security monitoring
+SyslogFacility AUTH
+
+# LogLevel: Enhanced logging for security analysis
+LogLevel VERBOSE
+
+# =============================================================================
+# AUTHENTICATION CONFIGURATION
+# =============================================================================
+
+# LoginGraceTime: Time allowed for authentication (reduces brute force window)
+LoginGraceTime 30s
+
+# PasswordAuthentication: Disable password-based authentication
+PasswordAuthentication no
+
+# PermitEmptyPasswords: Disable empty passwords
+PermitEmptyPasswords no
+
+# PermitRootLogin: Allow root login only with keys
+PermitRootLogin prohibit-password
+
+# StrictModes: Check file permissions strictly
+StrictModes yes
+
+# MaxAuthTries: Maximum authentication attempts per connection (CIS: 4 or fewer)
+MaxAuthTries 4
+
+# MaxSessions: Maximum concurrent sessions per connection
+MaxSessions 10
+
+# PubkeyAuthentication: Enable public key authentication
+PubkeyAuthentication yes
+
+# KbdInteractiveAuthentication: Disable keyboard-interactive auth
+KbdInteractiveAuthentication no
+
+# UsePAM: Enable PAM for account/session management
+UsePAM yes
+
+# =============================================================================
+# CONNECTION MANAGEMENT
+# =============================================================================
+
+# MaxStartups: Connection limits (max:drop_rate:max_connections)
+MaxStartups 10:30:60
+
+# ClientAliveInterval: Send keepalive messages every 300 seconds
+ClientAliveInterval 300
+
+# ClientAliveCountMax: Maximum keepalive messages before disconnect
+ClientAliveCountMax 2
+
+# =============================================================================
+# FEATURE RESTRICTIONS
+# =============================================================================
+
+# X11Forwarding: Disable X11 forwarding (not needed for server)
+X11Forwarding no
+
+# AllowTcpForwarding: Allow local port forwarding only
+AllowTcpForwarding local
+
+# AllowAgentForwarding: Allow SSH agent forwarding for multi-server access
+AllowAgentForwarding yes
+
+# PermitTunnel: Disable SSH tunneling
+PermitTunnel no
+
+# GatewayPorts: Disable gateway ports
+GatewayPorts no
+
+# Compression: Disable compression (prevents timing attacks)
+Compression no
+
+# PermitUserEnvironment: Disable user environment processing
+PermitUserEnvironment no
+
+# UseDNS: Disable DNS lookups (prevents delays and leaks)
+UseDNS no
+
+# =============================================================================
+# AUTHENTICATION METHOD RESTRICTIONS
+# =============================================================================
+
+# Disable unused authentication methods
+GSSAPIAuthentication no
+KerberosAuthentication no
+HostbasedAuthentication no
+
+# =============================================================================
+# FILE TRANSFER AND SUBSYSTEMS
+# =============================================================================
+
+# Subsystem sftp: Enable SFTP for file operations
+Subsystem sftp	/usr/lib/openssh/sftp-server
+
+# =============================================================================
+# ENVIRONMENT AND BANNER
+# =============================================================================
+
+# AcceptEnv: Allow only essential environment variables
+AcceptEnv LANG LC_*
+
+# Banner: Display security warning
+Banner /etc/ssh/ssh_banner
+
+# =============================================================================
+# LEGACY SETTINGS
+# =============================================================================
+
+# PrintMotd: Disable message of the day
+PrintMotd no
+
+# Note: ChallengeResponseAuthentication is deprecated in OpenSSH 8.7+
+# KbdInteractiveAuthentication (set above) is the modern replacement
+
+# Example of overriding settings on a per-user basis
+#Match User anoncvs
+#	X11Forwarding no
+#	AllowTcpForwarding no
+#	PermitTTY no
+#	ForceCommand cvs server

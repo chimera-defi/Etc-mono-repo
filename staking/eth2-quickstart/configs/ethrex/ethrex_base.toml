@@ -1,0 +1,136 @@
+# Ethrex Base Configuration Reference
+# =====================================
+# Ethrex is a minimalist, fast and modular Ethereum execution client
+# written in Rust by Lambda Class.
+#
+# NOTE: Ethrex currently uses command-line arguments rather than a config file.
+# This file serves as a reference for available options and their defaults.
+# The install script converts these to CLI arguments.
+#
+# GitHub: https://github.com/lambdaclass/ethrex
+# Docs:   https://docs.ethrex.xyz/
+
+# =============================================================================
+# Network Options
+# =============================================================================
+[network]
+# Network to connect to: mainnet, holesky, sepolia, hoodi, or path to genesis file
+network = "mainnet"
+
+# Data directory for blockchain data
+datadir = "$HOME/ethrex/data"
+
+# Sync mode: "snap" (default, faster) or "full"
+syncmode = "snap"
+
+# =============================================================================
+# HTTP RPC Options
+# =============================================================================
+[rpc.http]
+# HTTP RPC listening address
+addr = "$LH"
+
+# HTTP RPC listening port
+port = 8545
+
+# =============================================================================
+# WebSocket RPC Options
+# =============================================================================
+[rpc.ws]
+# Enable WebSocket RPC server
+enabled = true
+
+# WebSocket RPC listening address
+addr = "$LH"
+
+# WebSocket RPC listening port
+port = 8546
+
+# =============================================================================
+# Engine API Options (Consensus Client Communication)
+# =============================================================================
+[rpc.authrpc]
+# Auth RPC listening address (for consensus client)
+addr = "$LH"
+
+# Auth RPC listening port (Engine API)
+port = "$ENGINE_PORT"
+
+# Path to JWT secret file for authentication
+jwtsecret = "$HOME/secrets/jwt.hex"
+
+# =============================================================================
+# P2P Network Options
+# =============================================================================
+[p2p]
+# Enable/disable P2P networking
+disabled = false
+
+# P2P TCP port
+port = 30303
+
+# Discovery UDP port
+discovery_port = 30303
+
+# Maximum number of connected peers
+target_peers = "$MAX_PEERS"
+
+# Bootnode ENR URLs (comma-separated)
+# bootnodes = "enode://..."
+
+# Transaction broadcasting interval in milliseconds
+tx_broadcasting_interval = 100
+
+# =============================================================================
+# Metrics Options
+# =============================================================================
+[metrics]
+# Enable Prometheus metrics collection
+enabled = true
+
+# Metrics listening address
+addr = "$LH"
+
+# Metrics listening port
+port = "$METRICS_PORT"
+
+# =============================================================================
+# Block Building Options
+# =============================================================================
+[builder]
+# Extra data to include in mined blocks
+extra_data = "$GRAFITTI"
+
+# Target block gas limit (default: 30000000)
+gas_limit = 30000000
+
+# =============================================================================
+# Mempool Options
+# =============================================================================
+[mempool]
+# Maximum number of transactions in mempool
+max_size = 10000
+
+# =============================================================================
+# Logging Options
+# =============================================================================
+[logging]
+# Log level: trace, debug, info, warn, error
+level = "info"
+
+# Log color output: auto, always, never
+color = "auto"
+
+# =============================================================================
+# Environment Variables (Alternative Configuration)
+# =============================================================================
+# Ethrex also supports configuration via environment variables:
+#
+# ETHREX_NETWORK       - Network name or genesis file path
+# ETHREX_DATADIR       - Data directory path
+# ETHREX_METRICS_PORT  - Prometheus metrics port
+# ETHREX_HTTP_ADDR     - HTTP RPC address
+# ETHREX_HTTP_PORT     - HTTP RPC port
+# ETHREX_ENABLE_WS     - Enable WebSocket RPC
+# ETHREX_WS_ADDR       - WebSocket RPC address
+# ETHREX_WS_PORT       - WebSocket RPC port

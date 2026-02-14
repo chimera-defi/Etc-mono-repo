@@ -1,0 +1,48 @@
+---
+description: Frontend rules - Bun only, no npm, test before commit
+globs: frontend/**
+---
+
+# Frontend Rules (Auto-Applied)
+
+## Package Manager: Bun ONLY
+
+| Action | Command |
+|--------|---------|
+| Install | `bun install` |
+| CI install | `bun install --frozen-lockfile` |
+| Run scripts | `bun run <script>` |
+| Run tools | `bunx <tool>` |
+| Test | `bun run test` (Jest via Bun) |
+| Build | `bun run build` |
+
+**NEVER use npm, npx, or yarn. NEVER create package-lock.json.**
+
+- Lock file: `bun.lock` (must be committed)
+- `package.json` must have `"packageManager": "bun@latest"`
+- CI workflow uses `oven-sh/setup-bun@v2` (not setup-node)
+
+## Before Committing Frontend Changes
+
+Run these checks and fix any failures before committing:
+
+```bash
+cd frontend
+bun run build   # Must compile with zero errors
+bun run test    # All tests must pass
+bun run lint    # Zero ESLint warnings/errors
+bunx tsc --noEmit  # Zero TypeScript errors
+```
+
+## Responsive Design Standards
+
+All frontend components must be mobile-first responsive:
+
+- Horizontal padding: `px-4 sm:px-6` (never bare `px-6`)
+- Section vertical padding: `py-12 sm:py-16 md:py-20 lg:py-24`
+- Headings: `text-2xl sm:text-3xl md:text-4xl` (progressive scale)
+- Hero heading: `text-3xl sm:text-4xl md:text-5xl lg:text-6xl`
+- Buttons: `flex-col sm:flex-row` for stacking on mobile
+- Code blocks: wrap in `overflow-x-auto` container
+- Icons next to text: add `shrink-0` to icon, `min-w-0` to text container
+- Tables: provide mobile card alternative with `hidden sm:block` / `sm:hidden`

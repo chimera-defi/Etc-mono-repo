@@ -1,0 +1,48 @@
+---
+description: Shell script rules - common functions, shellcheck, two-phase security
+globs: "**/*.sh"
+---
+
+# Shell Script Rules (Auto-Applied)
+
+## Two-Phase Security Model - NEVER VIOLATE
+
+| Phase | User | Scripts | Ends With |
+|-------|------|---------|-----------|
+| Phase 1 | root | `run_1.sh`, `install_phase1.sh` | MANDATORY REBOOT |
+| Phase 2 | new user (NOT root) | `run_2.sh`, `install_phase2.sh` | Client running |
+
+**NEVER combine phases. NEVER skip the reboot.**
+
+## Script Structure
+
+All scripts MUST follow this pattern:
+
+```bash
+#!/bin/bash
+source ../../exports.sh
+source ../../lib/common_functions.sh
+get_script_directories
+# [require_root for install scripts only]
+log_installation_start "ComponentName"
+# [script logic using common functions]
+log_installation_complete "ComponentName" "service_name"
+```
+
+## Required: Use Common Functions
+
+- Logging: `log_info()`, `log_warn()`, `log_error()`
+- Downloads: `secure_download()` (never raw curl/wget)
+- Directories: `ensure_directory()` (never raw mkdir)
+- Services: `create_systemd_service()`
+- Security: `setup_secure_user()`, `configure_ssh()`
+
+## Before Committing Shell Changes
+
+```bash
+# Shellcheck all modified scripts
+shellcheck -x --exclude=SC2317,SC1091,SC1090,SC2034,SC2031,SC2181 <file>
+
+# Syntax validation
+bash -n <file>
+```

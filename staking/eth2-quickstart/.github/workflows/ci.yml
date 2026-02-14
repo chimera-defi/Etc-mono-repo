@@ -1,0 +1,63 @@
+name: CI - Docker Integration Tests
+
+on:
+  push:
+    branches: [ main, master, develop, 'cursor/**' ]
+  pull_request:
+    branches: [ main, master, develop, 'cursor/**' ]
+  workflow_dispatch:  # Allow manual trigger for testing
+
+# Cancel in-progress runs when new push/PR (avoids 2 runs from push+PR on same branch)
+concurrency:
+  group: ci-${{ github.event.pull_request.head.sha || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  docker-integration:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+      
+    - name: Build test Docker image
+      run: |
+        docker build -t eth-node-test -f test/Dockerfile .
+        
+    - name: Run lint tests in Docker
+      run: |
+        docker run --rm eth-node-test /workspace/test/run_tests.sh --lint-only
+        
+    - name: Run unit tests in Docker
+      run: |
+        docker run --rm --privileged \
+          -e USE_MOCKS=false \
+          eth-node-test /workspace/test/docker_test.sh
+          
+    # run_1.sh = Phase 1 (system setup). run_2.sh = Phase 2 (client install).
+    - name: "run_1.sh - Structure"
+      run: |
+        docker run --rm --privileged \
+          --user root \
+          -e DEBIAN_FRONTEND=noninteractive -e DEBIAN_PRIORITY=critical \
+          eth-node-test /workspace/test/ci_test_run_1.sh
+
+    - name: "run_1.sh - E2E"
+      timeout-minutes: 5
+      run: |
+        SKIP_BUILD=true ./test/run_e2e.sh --phase=1
+
+    - name: "run_2.sh - Structure"
+      run: |
+        docker run --rm --privileged \
+          --user testuser \
+          -e DEBIAN_FRONTEND=noninteractive -e DEBIAN_PRIORITY=critical \
+          eth-node-test /workspace/test/ci_test_run_2.sh
+
+    - name: "run_2.sh - E2E"
+      timeout-minutes: 15
+      run: |
+        SKIP_BUILD=true ./test/run_e2e.sh --phase=2

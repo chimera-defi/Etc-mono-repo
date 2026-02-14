@@ -1,0 +1,47 @@
+---
+description: Mandatory multi-pass code review before completing any task
+alwaysApply: true
+---
+
+# Mandatory Code Review Process
+
+**Every task MUST include a multi-pass review before final commit/push.**
+
+Do NOT skip this. Do NOT wait to be asked. Run the review automatically.
+
+## Required Review Passes (Minimum 3)
+
+### Pass 1: Functionality
+- Build/compile passes with zero errors
+- All existing tests still pass
+- Lint checks pass with zero warnings
+- No broken imports or references
+
+### Pass 2: Architecture Compliance
+- Frontend changes use Bun (never npm)
+- Shell script changes follow common_functions.sh patterns
+- No security model violations (Phase 1/Phase 2 boundary)
+- File structure matches existing conventions
+
+### Pass 3: Code Quality
+- No code duplication that should use shared utilities
+- Consistent naming and styling patterns
+- Error handling is present where needed
+- No unused imports, variables, or dead code
+
+### Pass 4+ (if issues found in Pass 3)
+- Fix all issues, then re-verify Passes 1-3
+
+## Commit Message Format
+
+All commits MUST use conventional commit format:
+
+```
+type(scope): short description
+
+- Detail 1
+- Detail 2
+```
+
+Types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`, `style`, `perf`
+Scopes: `frontend`, `install`, `security`, `ci`, `docs`, `test`
