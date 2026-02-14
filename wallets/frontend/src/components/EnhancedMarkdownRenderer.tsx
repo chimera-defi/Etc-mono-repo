@@ -205,10 +205,11 @@ const COLLAPSIBLE_SECTIONS: { pattern: RegExp; icon: LucideIcon }[] = [
 ];
 
 // Patterns for primary content that should NEVER be collapsed
+// Note: "Pros & Cons (Top Picks)" must NOT match - it should be collapsible
 const PRIMARY_SECTIONS = [
   /^#{1,2}\s+Complete.*Comparison.*$/im,
   /^#{1,2}\s+Complete.*Hardware.*$/im,
-  /^#{1,2}\s+.*Top.*Picks.*$/im,
+  /^#{1,2}\s+(?!.*Pros\s*&?\s*Cons).*Top.*Picks.*$/im, // Exclude "Pros & Cons (Top Picks)"
   /^#{1,2}\s+.*Which.*Wallet.*Should.*$/im,
 ];
 
