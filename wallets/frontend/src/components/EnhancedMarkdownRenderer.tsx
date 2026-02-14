@@ -8,6 +8,7 @@ import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
 import { cn } from '@/lib/utils';
 import { addReferrerTracking, isExternalLink, getExternalLinkTitle } from '@/lib/link-utils';
+import { OutboundLink } from '@/components/OutboundLink';
 import { Search, X, ChevronDown, ChevronUp, ChevronRight } from 'lucide-react';
 import { HeaderTooltip } from '@/components/Tooltip';
 import {
@@ -686,17 +687,24 @@ function MarkdownContent({ content, className, enableTableSearch = false }: { co
 // Shared markdown components
 function getMarkdownComponents() {
   return {
-    img: ({ src, alt, ...props }: { src?: string; alt?: string }) => (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={src}
-        alt={alt || 'Image'}
-        loading="lazy"
-        decoding="async"
-        className="max-w-full h-auto rounded-lg"
-        {...props}
-      />
-    ),
+    img: ({ src, alt, ...props }: { src?: string; alt?: string }) => {
+      // Restrict to same-origin: only / or relative paths (blocks external URLs from markdown)
+      const safeSrc =
+        src && (src.startsWith('/') || src.startsWith('./') || !/^https?:/i.test(src))
+          ? src
+          : undefined;
+      return (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={safeSrc}
+          alt={alt || 'Image'}
+          loading="lazy"
+          decoding="async"
+          className="max-w-full h-auto rounded-lg"
+          {...props}
+        />
+      );
+    },
     table: ({ children }: { children?: React.ReactNode }) => (
       <div className="table-wrapper">
         <table>{children}</table>
@@ -730,15 +738,16 @@ function getMarkdownComponents() {
       }
 
       return (
-        <a
-          href={transformedHref}
-          target={external ? '_blank' : undefined}
-          rel={external ? 'noopener noreferrer' : undefined}
-          title={external ? getExternalLinkTitle(href || '') : undefined}
-          className={cn(external && 'text-primary hover:underline')}
+        <OutboundLink
+          href={transformedHref || href || '#'}
+          trackLabel={typeof children === 'string' ? children : undefined}
+          target="_blank"
+          rel="noopener noreferrer"
+          title={getExternalLinkTitle(href || '')}
+          className="text-primary hover:underline"
         >
           {children}
-        </a>
+        </OutboundLink>
       );
     },
     pre: ({ children }: { children?: React.ReactNode }) => (
