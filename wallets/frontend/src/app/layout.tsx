@@ -4,6 +4,7 @@ import './globals.css';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { GoogleAnalytics } from '@/components/GoogleAnalytics';
 import { getSearchData } from '@/lib/search-data';
 
 // Google Analytics Measurement ID - hardcoded for static export reliability
@@ -162,6 +163,7 @@ export default function RootLayout({
           {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_MEASUREMENT_ID}',{page_path:window.location.pathname,anonymize_ip:true});try{var r=document.referrer||'',u=r?new URL(r):null,h=u?u.hostname:'direct',p=u?u.pathname:'',s=new URL(location.href).searchParams,src=s.get('utm_source')||h,med=s.get('utm_medium')||(r?'referral':'direct'),ai=['chat.openai.com','claude.ai','perplexity.ai','gemini.google.com','copilot.microsoft.com','bing.com'],isAi=ai.includes(h)||(h==='bing.com'&&p.startsWith('/chat'));gtag('event','referral_detected',{referrer_host:h,referrer_path:p,traffic_source:src,traffic_medium:med,is_ai_referrer:isAi});}catch(e){}`}
         </Script>
         <ThemeProvider defaultTheme="dark">
+          <GoogleAnalytics />
           <div className="min-h-screen flex flex-col">
             <Navigation searchData={searchData} />
             <main className="flex-1">

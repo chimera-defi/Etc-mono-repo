@@ -8,6 +8,7 @@ import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
 import { cn } from '@/lib/utils';
 import { addReferrerTracking, isExternalLink, getExternalLinkTitle } from '@/lib/link-utils';
+import { trackOutboundLink } from '@/lib/analytics';
 import { Search, X, ChevronDown, ChevronUp, ChevronRight } from 'lucide-react';
 import { HeaderTooltip } from '@/components/Tooltip';
 import {
@@ -743,6 +744,11 @@ function getMarkdownComponents() {
           rel={external ? 'noopener noreferrer' : undefined}
           title={external ? getExternalLinkTitle(href || '') : undefined}
           className={cn(external && 'text-primary hover:underline')}
+          onClick={
+            external && transformedHref
+              ? () => trackOutboundLink(transformedHref, typeof children === 'string' ? children : undefined)
+              : undefined
+          }
         >
           {children}
         </a>
