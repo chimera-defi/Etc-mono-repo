@@ -1,9 +1,9 @@
 # InfraKit Design (Concise)
 
-## One‑Sentence Summary
+## One-Sentence Summary
 InfraKit is a **shared staking infra layer** that standardizes server setup and operations across chains using shared shell primitives plus thin chain adapters.
 
-## High‑Level Architecture (Business View)
+## High-Level Architecture (Business View)
 ```
 Market: New chains + validator demand
         |
@@ -11,39 +11,39 @@ Market: New chains + validator demand
 InfraKit (shared ops layer) -> Faster chain onboarding -> Validator revenue
         |
         v
-Optional hosted control plane (later) -> Multi‑tenant ops -> Managed services
+Optional hosted control plane (later) -> Multi-tenant ops -> Managed services
 ```
 
-## Pitch Diagram (1‑Minute Explanation)
+## Pitch Diagram (1-Minute Explanation)
 ```
 Operator
   -> InfraKit (shared ops)
      -> Adapter (chain-specific)
-        -> Validator node (Ethereum / Monad / Aztec dev)
+        -> Validator node (Ethereum / Monad / Aztec)
 
 Value: reuse 80% ops, swap 20% chain logic
 ```
 
 ## What It Is (MVP)
-- A **repository‑based control plane** (scripts + runbooks).
+- A **repository-based control plane** (scripts + runbooks).
 - **Shared primitives** for provisioning, hardening, services, monitoring.
-- **Adapters** for chain‑specific installs/configs.
+- **Adapters** for chain-specific installs/configs.
 
 ## What It Is Not (Yet)
 - No hosted central UI/API control plane (optional future phase).
 - No Kubernetes orchestration (optional future phase).
 
-## Top‑Level Architecture (Human Review)
+## Top-Level Architecture (Human Review)
 
 ```
 Operator -> Adapter -> Shared Primitives -> Server OS
                          |        |        |
-                         |        |        +-> Aztec dev/tooling (tests)
+                         |        |        +-> Aztec stack (node/sequencer/prover + dev tooling)
                          |        +------------> Monad stack (monad-bft)
                          +---------------------> Ethereum stack (exec/consensus/MEV)
 ```
 
-## Control Plane Evolution (Repo → Hosted)
+## Control Plane Evolution (Repo -> Hosted)
 
 ```
 Repo-based control plane (scripts + runbooks)
@@ -85,9 +85,9 @@ Shared layer (ops primitives only)
   - monitoring plumbing (status endpoint + RPC checks + log capture)
 
 Per-chain adapters
-  - Ethereum: geth + prysm + mev-boost + relay config
+  - Ethereum: geth/reth/etc + prysm/lighthouse/etc + mev-boost/commit-boost + relay config
   - Monad: monad-bft binary + validator config
-  - Aztec: dev/test tooling (no validator ops here yet)
+  - Aztec: node/sequencer/prover infra (devnet) + dev/test tooling for contracts
 ```
 
 ## Shared Ops vs Chain Stacks (Hardware Profiles)
@@ -95,7 +95,7 @@ Per-chain adapters
 Shared ops layer
   -> Ethereum host profile (chain-specific sizing)
   -> Monad host profile (chain-specific sizing)
-  -> Aztec dev sandbox (local tooling only)
+  -> Aztec host profile (node/sequencer/prover, devnet + dev tooling)
 ```
 
 ## Dependency Graph (Conceptual)
@@ -112,13 +112,13 @@ Provisioning
   - base packages, updates
   - user + sudo
 
-Hardening
+Hardening (imported from eth2-quickstart common_functions.sh)
   - SSH hardening
-  - UFW firewall
-  - fail2ban
-  - sysctl tuning
+  - UFW firewall (parameterized ports per chain)
+  - fail2ban (parameterized jail config)
+  - sysctl tuning (chain-specific values via args)
   - AIDE (integrity checks)
-  - unattended upgrades (where used)
+  - unattended upgrades
 
 Services
   - systemd unit helpers
@@ -135,20 +135,23 @@ Web Exposure (optional)
   - SSL issuance helpers
 ```
 
-## Low‑Level Component Map (Files/Modules)
+## Low-Level Component Map (Files/Modules)
 ```
 shared/
-  provision/   (base_packages, create_user)
-  hardening/   (ssh, firewall, fail2ban, sysctl)
-  services/    (systemd install, env files)
-  monitoring/  (status server, health checks)
-  web/         (nginx/caddy + SSL helpers)
+  lib/           (common.sh - from eth2-quickstart + Aztec/Monad patterns)
+  provision/     (base_packages, create_user)
+  hardening/     (ssh, firewall, fail2ban, sysctl, unattended_upgrades)
+  services/      (systemd install, env files)
+  monitoring/    (status server, health checks, preflight, uptime probe)
+  web/           (nginx/caddy + SSL helpers)
 adapters/
-  ethereum/    (run_1/run_2 wrappers)
-  monad/       (setup_server wrapper)
-  aztec/       (dev tooling wrapper)
+  ethereum/      (adapter.sh + README)
+  monad/         (adapter.sh + README)
+  aztec/         (adapter.sh + README)
 runbooks/
-  ethereum.md, monad.md, aztec-dev.md
+  ethereum.md, monad.md, aztec-dev.md, template.md
+tests/
+  test_shared.sh, smoke_template.sh
 ```
 
 ## Data/Control Flow (Ops Sequence)
@@ -175,7 +178,7 @@ Adapters:
   - client binaries + configs
   - chain ports/flags
   - MEV/relay config (Ethereum)
-  - role‑specific steps
+  - role-specific steps
 ```
 
 ## Chain Onboarding Lifecycle (High Level)
@@ -197,7 +200,7 @@ Server OS
   -> optional web proxy + SSL
 ```
 
-## Technologies (Current, Script‑Grounded)
+## Technologies (Current, Script-Grounded)
 - **OS:** Ubuntu (assumed by scripts).
 - **Service manager:** systemd.
 - **Web proxy:** NGINX or Caddy (optional).
@@ -206,7 +209,7 @@ Server OS
 ## Monitoring & Security (Now vs Future)
 ```
 Now (script-grounded)
-  Security: SSH hardening + UFW + fail2ban + AIDE
+  Security: SSH hardening + UFW + fail2ban + AIDE + sysctl + security monitoring cron
   Monitoring: status endpoint + RPC/health checks + systemd/journal
 
 Future (optional)
@@ -221,11 +224,14 @@ Node (systemd services)
   -> rpc check scripts
   -> journalctl logs (manual)
 ```
+
 ## Proposed File Tree (Future `staking/infra-kit/`)
 
 ```text
 staking/infra-kit/
   shared/
+    lib/
+      common.sh               # Shared functions (from eth2-quickstart common_functions.sh + Aztec/Monad patterns)
     provision/
       base_packages.sh
       create_user.sh
@@ -234,46 +240,58 @@ staking/infra-kit/
       firewall_ufw.sh
       fail2ban.sh
       sysctl.sh
+      unattended_upgrades.sh
     services/
       install_systemd.sh
       install_env.sh
     monitoring/
       status_server.py
       check_rpc.sh
+      healthcheck.sh
       uptime_probe.sh
+      preflight_check.sh
     web/
       install_nginx.sh
       install_caddy.sh
       install_ssl_certbot.sh
-      install_acme_ssl.sh
+      install_ssl_acme.sh
+      nginx_helpers.sh
+      caddy_helpers.sh
   adapters/
     ethereum/
-      run_1_adapter.sh
-      run_2_adapter.sh
+      adapter.sh
+      README.md
     monad/
-      setup_server_adapter.sh
+      adapter.sh
+      README.md
     aztec/
-      dev_tooling_adapter.sh
+      adapter.sh
+      README.md
   runbooks/
     ethereum.md
     monad.md
     aztec-dev.md
+    template.md
+  tests/
+    test_shared.sh
+    smoke_template.sh
+  README.md
 ```
 
 ## Reuse Strategy (80/20)
 - **Shared 80%:** OS updates, SSH hardening, firewall, fail2ban, sysctl, systemd install helpers, status/health endpoints.
-- **Adapter 20%:** chain binaries, configs, ports, RPC/metrics checks, role‑specific steps.
+- **Adapter 20%:** chain binaries, configs, ports, RPC/metrics checks, role-specific steps.
 
 ## Hardware/Role Notes (High Level)
 - Ethereum, Monad, and Aztec are distinct chains and will require **different hardware profiles**.
-- The shared layer covers ops primitives; **hardware sizing remains chain‑specific** and lives in adapters/runbooks.
+- The shared layer covers ops primitives; **hardware sizing remains chain-specific** and lives in adapters/runbooks.
 
 ## Minimal Extensible Product (MEP)
 1) Shared primitives (shell + small Python helpers).
-2) One adapter per chain/role (Ethereum L1, Monad validator; Aztec dev tooling).
+2) One adapter per chain/role (Ethereum L1, Monad validator, Aztec node/sequencer/prover + dev tooling).
 3) A runbook + smoke test per adapter.
 
 ## Evolution Path
 - **Phase 1:** Shell/systemd (current target).
-- **Phase 2:** Container‑friendly wrappers (same primitives).
+- **Phase 2:** Container-friendly wrappers (same primitives).
 - **Phase 3:** Optional orchestration (Kubernetes or hosted control plane).
