@@ -1,0 +1,29 @@
+# Benchmark Aggregation Daemon - Status
+
+**Status:** Running ✓
+**Session:** tidal-summit
+**PID:** 517929
+
+## Latest Run
+
+Merged: 18 benchmark results
+Total Tests: 468 executions
+Models Covered: 18 unique models
+Last Update: 2026-02-14 08:25:43 UTC
+
+## Key Metrics
+
+- Best Performer: haiku (100.0% success rate)
+- Avg Success Rate: 44.9%
+- Avg Objective Pass: 27.0%
+- Top Provider: claude_code_cli (100.0% avg)
+
+## Polling
+
+- Interval: Every 2 minutes
+- Directory: /root/.openclaw/workspace/dev/Etc-mono-repo/bench/openclaw_llm_bench/runs/
+- Output: /root/.openclaw/workspace/AGGREGATE_SUMMARY.md
+- Log: /tmp/aggregation_daemon.log
+
+---
+Next check: ~2 minutes
