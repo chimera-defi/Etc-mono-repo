@@ -113,4 +113,4 @@ router_settings:
     - qwen-fast
     - gemma-perfect
 general_settings:
-  master_key: 6c85ab4e983997a535fcbeabacf6f43dfdaa759e324913a6
+  master_key: REDACTED_MASTER_KEY_USE_ENV_VAR
