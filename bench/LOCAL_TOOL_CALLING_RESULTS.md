@@ -59,11 +59,19 @@ Document + version per-model harness in `bench/harness/`
 Re-benchmark Phase 1 survivors with Phase 2 harness improvements.
 Compare atomic + extended scores before/after harness tuning.
 
+## Full Benchmark Results (Feb 19)
+
+| Model | P1-P12 | Restraint | Notes |
+|-------|--------|-----------|-------|
+| **mistral:7b** | **8/12 (66.7%)** | 0.83 | Pass atomic threshold (>50%). Proceed to P13-P30. Failed P7 (multi-tool), P10-P12 (judgment) |
+| **gpt-oss:latest** | 7/8 partial | ? | **Hung on P9** (206s timeout). Re-run with safeguard. Scored 87.5% before hang |
+| **LFM2.5-1.2B** | 11/12 (95.55%) | 1.0 ✅ | ✅ Locked in. Perfect restraint. Only P7 fail |
+
 ## Current Status
-1. ⏳ mistral:7b atomic run (debug logging in progress)
-2. ⏳ gpt-oss:latest atomic run (queued after mistral)
-3. ⏳ Extended prompt suite design (add P13-P30 to harness)
-4. 🔄 Harness adaptation (iterate per-model feedback)
+1. ✅ mistral:7b atomic complete → Qualify for Phase 1 extended (P13-P30)
+2. ⏳ gpt-oss:latest retry with timeout safeguard (60s max/prompt)
+3. ✅ Extended prompt suite designed (18 new prompts P13-P30)
+4. ✅ Per-model harness variants documented (4 models)
 
 ## Files
 

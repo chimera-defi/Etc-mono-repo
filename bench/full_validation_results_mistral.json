@@ -1,0 +1,21 @@
+{
+  "mistral:7b": {
+    "model": "mistral:7b",
+    "accuracy": 0.6667,
+    "avg_latency_ms": 21380,
+    "results": [
+      {"prompt_id": "P1", "expected": ["get_weather"], "got": ["get_weather"], "correct": true, "latency_ms": 23953},
+      {"prompt_id": "P2", "expected": ["search_files"], "got": ["search_files"], "correct": true, "latency_ms": 10219},
+      {"prompt_id": "P3", "expected": ["schedule_meeting"], "got": ["schedule_meeting"], "correct": true, "latency_ms": 17868},
+      {"prompt_id": "P4", "expected": ["get_weather"], "got": ["get_weather"], "correct": true, "latency_ms": 16335},
+      {"prompt_id": "P5", "expected": [], "got": [], "correct": true, "latency_ms": 20796},
+      {"prompt_id": "P6", "expected": [], "got": [], "correct": true, "latency_ms": 35660},
+      {"prompt_id": "P7", "expected": ["schedule_meeting"], "got": [], "correct": false, "latency_ms": 14517},
+      {"prompt_id": "P8", "expected": ["search_files", "get_weather"], "got": ["search_files", "get_weather"], "correct": true, "latency_ms": 6727},
+      {"prompt_id": "P9", "expected": [], "got": [], "correct": true, "latency_ms": 49454},
+      {"prompt_id": "P10", "expected": ["get_weather"], "got": [], "correct": false, "latency_ms": 20952},
+      {"prompt_id": "P11", "expected": ["search_files"], "got": [], "correct": false, "latency_ms": 17497},
+      {"prompt_id": "P12", "expected": ["schedule_meeting"], "got": [], "correct": false, "latency_ms": 22582}
+    ]
+  }
+}
