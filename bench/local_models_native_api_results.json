@@ -1,0 +1,629 @@
+{
+  "lfm2.5-thinking:1.2b": {
+    "model": "lfm2.5-thinking:1.2b",
+    "action_score": 0.8888888888888888,
+    "restraint_score": 1.0,
+    "agent_score": 0.9555555555555555,
+    "avg_latency_ms": 31973.465361254057,
+    "results": [
+      {
+        "prompt_id": "P1",
+        "expected": "get_weather",
+        "got": [
+          "get_weather"
+        ],
+        "correct": true,
+        "latency_ms": 81526.46813500905
+      },
+      {
+        "prompt_id": "P2",
+        "expected": "search_files",
+        "got": [
+          "search_files"
+        ],
+        "correct": true,
+        "latency_ms": 19156.914184975903
+      },
+      {
+        "prompt_id": "P3",
+        "expected": "schedule_meeting",
+        "got": [
+          "schedule_meeting"
+        ],
+        "correct": true,
+        "latency_ms": 40989.003084017895
+      },
+      {
+        "prompt_id": "P4",
+        "expected": "get_weather",
+        "got": [
+          "get_weather"
+        ],
+        "correct": true,
+        "latency_ms": 31213.753892981913
+      },
+      {
+        "prompt_id": "P5",
+        "expected": null,
+        "got": [],
+        "correct": true,
+        "latency_ms": 25883.857090957463
+      },
+      {
+        "prompt_id": "P9",
+        "expected": null,
+        "got": [],
+        "correct": true,
+        "latency_ms": 62967.63347403612
+      },
+      {
+        "prompt_id": "P6",
+        "expected": null,
+        "got": [],
+        "correct": true,
+        "latency_ms": 10600.396761030424
+      },
+      {
+        "prompt_id": "P7",
+        "expected": "schedule_meeting",
+        "got": [],
+        "correct": false,
+        "latency_ms": 28965.92976397369
+      },
+      {
+        "prompt_id": "P8",
+        "expected": [
+          "search_files",
+          "get_weather"
+        ],
+        "got": [
+          "search_files",
+          "get_weather"
+        ],
+        "correct": true,
+        "latency_ms": 11241.26837903168
+      },
+      {
+        "prompt_id": "P10",
+        "expected": "get_weather",
+        "got": [
+          "get_weather"
+        ],
+        "correct": true,
+        "latency_ms": 33161.73744900152
+      },
+      {
+        "prompt_id": "P11",
+        "expected": "search_files",
+        "got": [
+          "search_files"
+        ],
+        "correct": true,
+        "latency_ms": 19058.198956015985
+      },
+      {
+        "prompt_id": "P12",
+        "expected": "schedule_meeting",
+        "got": [
+          "schedule_meeting"
+        ],
+        "correct": true,
+        "latency_ms": 18916.423164017033
+      }
+    ]
+  },
+  "qwen2.5:3b": {
+    "model": "qwen2.5:3b",
+    "action_score": 0.5555555555555556,
+    "restraint_score": 0.3333333333333333,
+    "agent_score": 0.6222222222222222,
+    "avg_latency_ms": 6303.6089275944205,
+    "results": [
+      {
+        "prompt_id": "P1",
+        "expected": "get_weather",
+        "got": [
+          "get_weather"
+        ],
+        "correct": true,
+        "latency_ms": 9207.068332005292
+      },
+      {
+        "prompt_id": "P2",
+        "expected": "search_files",
+        "got": [
+          "search_files"
+        ],
+        "correct": true,
+        "latency_ms": 1651.423353003338
+      },
+      {
+        "prompt_id": "P3",
+        "expected": "schedule_meeting",
+        "got": [
+          "schedule_meeting"
+        ],
+        "correct": true,
+        "latency_ms": 2512.73965096334
+      },
+      {
+        "prompt_id": "P4",
+        "expected": "get_weather",
+        "got": [],
+        "correct": false,
+        "latency_ms": 6001.301531039644
+      },
+      {
+        "prompt_id": "P5",
+        "expected": null,
+        "got": [],
+        "correct": true,
+        "latency_ms": 5352.0271349698305
+      },
+      {
+        "prompt_id": "P9",
+        "expected": null,
+        "got": [
+          "get_weather",
+          "get_weather",
+          "get_weather",
+          "get_weather"
+        ],
+        "correct": false,
+        "latency_ms": 21802.11844702717
+      },
+      {
+        "prompt_id": "P6",
+        "expected": null,
+        "got": [
+          "schedule_meeting"
+        ],
+        "correct": false,
+        "latency_ms": 4535.052127030212
+      },
+      {
+        "prompt_id": "P7",
+        "expected": "schedule_meeting",
+        "got": [
+          "schedule_meeting",
+          "get_weather"
+        ],
+        "correct": true,
+        "latency_ms": 4368.975046032574
+      },
+      {
+        "prompt_id": "P8",
+        "expected": [
+          "search_files",
+          "get_weather"
+        ],
+        "got": [
+          "search_files"
+        ],
+        "correct": false,
+        "latency_ms": 3643.6442780541256
+      },
+      {
+        "prompt_id": "P10",
+        "expected": "get_weather",
+        "got": [],
+        "correct": false,
+        "latency_ms": 6052.223647013307
+      },
+      {
+        "prompt_id": "P11",
+        "expected": "search_files",
+        "got": [],
+        "correct": false,
+        "latency_ms": 4163.714537979104
+      },
+      {
+        "prompt_id": "P12",
+        "expected": "schedule_meeting",
+        "got": [
+          "get_weather",
+          "schedule_meeting"
+        ],
+        "correct": true,
+        "latency_ms": 6353.019046015106
+      }
+    ]
+  },
+  "qwen2.5:1.5b": {
+    "model": "qwen2.5:1.5b",
+    "action_score": 0.0,
+    "restraint_score": 0.0,
+    "agent_score": 0.3,
+    "avg_latency_ms": 0.0,
+    "results": [
+      {
+        "prompt_id": "P1",
+        "error": "model 'qwen2.5:1.5b' not found (status code: 404)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P2",
+        "error": "model 'qwen2.5:1.5b' not found (status code: 404)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P3",
+        "error": "model 'qwen2.5:1.5b' not found (status code: 404)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P4",
+        "error": "model 'qwen2.5:1.5b' not found (status code: 404)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P5",
+        "error": "model 'qwen2.5:1.5b' not found (status code: 404)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P9",
+        "error": "model 'qwen2.5:1.5b' not found (status code: 404)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P6",
+        "error": "model 'qwen2.5:1.5b' not found (status code: 404)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P7",
+        "error": "model 'qwen2.5:1.5b' not found (status code: 404)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P8",
+        "error": "model 'qwen2.5:1.5b' not found (status code: 404)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P10",
+        "error": "model 'qwen2.5:1.5b' not found (status code: 404)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P11",
+        "error": "model 'qwen2.5:1.5b' not found (status code: 404)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P12",
+        "error": "model 'qwen2.5:1.5b' not found (status code: 404)",
+        "correct": false
+      }
+    ]
+  },
+  "llama3.2:3b": {
+    "model": "llama3.2:3b",
+    "action_score": 0.7777777777777778,
+    "restraint_score": 0.0,
+    "agent_score": 0.6111111111111112,
+    "avg_latency_ms": 2703.4828130757282,
+    "results": [
+      {
+        "prompt_id": "P1",
+        "expected": "get_weather",
+        "got": [
+          "get_weather"
+        ],
+        "correct": true,
+        "latency_ms": 8045.649932988454
+      },
+      {
+        "prompt_id": "P2",
+        "expected": "search_files",
+        "got": [
+          "search_files"
+        ],
+        "correct": true,
+        "latency_ms": 1760.0129419588484
+      },
+      {
+        "prompt_id": "P3",
+        "expected": "schedule_meeting",
+        "got": [
+          "schedule_meeting"
+        ],
+        "correct": true,
+        "latency_ms": 2528.6014529992826
+      },
+      {
+        "prompt_id": "P4",
+        "expected": "get_weather",
+        "got": [
+          "get_weather"
+        ],
+        "correct": true,
+        "latency_ms": 1741.2192670162767
+      },
+      {
+        "prompt_id": "P5",
+        "expected": null,
+        "got": [
+          "get_weather"
+        ],
+        "correct": false,
+        "latency_ms": 1586.6130890208296
+      },
+      {
+        "prompt_id": "P9",
+        "expected": null,
+        "got": [
+          "search_files"
+        ],
+        "correct": false,
+        "latency_ms": 1838.5957799619064
+      },
+      {
+        "prompt_id": "P6",
+        "expected": null,
+        "got": [
+          "get_weather"
+        ],
+        "correct": false,
+        "latency_ms": 2012.669002986513
+      },
+      {
+        "prompt_id": "P7",
+        "expected": "schedule_meeting",
+        "got": [
+          "schedule_meeting"
+        ],
+        "correct": true,
+        "latency_ms": 4051.573452015873
+      },
+      {
+        "prompt_id": "P8",
+        "expected": [
+          "search_files",
+          "get_weather"
+        ],
+        "got": [
+          "search_files",
+          "get_weather"
+        ],
+        "correct": true,
+        "latency_ms": 2920.43338395888
+      },
+      {
+        "prompt_id": "P10",
+        "expected": "get_weather",
+        "got": [
+          "search_files"
+        ],
+        "correct": false,
+        "latency_ms": 2403.291927999817
+      },
+      {
+        "prompt_id": "P11",
+        "expected": "search_files",
+        "got": [
+          "search_files"
+        ],
+        "correct": true,
+        "latency_ms": 1729.8834929824807
+      },
+      {
+        "prompt_id": "P12",
+        "expected": "schedule_meeting",
+        "got": [
+          "get_weather"
+        ],
+        "correct": false,
+        "latency_ms": 1823.2500330195762
+      }
+    ]
+  },
+  "phi3:3.8b": {
+    "model": "phi3:3.8b",
+    "action_score": 0.0,
+    "restraint_score": 0.0,
+    "agent_score": 0.3,
+    "avg_latency_ms": 0.0,
+    "results": [
+      {
+        "prompt_id": "P1",
+        "error": "registry.ollama.ai/library/phi3:3.8b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P2",
+        "error": "registry.ollama.ai/library/phi3:3.8b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P3",
+        "error": "registry.ollama.ai/library/phi3:3.8b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P4",
+        "error": "registry.ollama.ai/library/phi3:3.8b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P5",
+        "error": "registry.ollama.ai/library/phi3:3.8b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P9",
+        "error": "registry.ollama.ai/library/phi3:3.8b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P6",
+        "error": "registry.ollama.ai/library/phi3:3.8b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P7",
+        "error": "registry.ollama.ai/library/phi3:3.8b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P8",
+        "error": "registry.ollama.ai/library/phi3:3.8b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P10",
+        "error": "registry.ollama.ai/library/phi3:3.8b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P11",
+        "error": "registry.ollama.ai/library/phi3:3.8b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P12",
+        "error": "registry.ollama.ai/library/phi3:3.8b does not support tools (status code: 400)",
+        "correct": false
+      }
+    ]
+  },
+  "gemma2:2b": {
+    "model": "gemma2:2b",
+    "action_score": 0.0,
+    "restraint_score": 0.0,
+    "agent_score": 0.3,
+    "avg_latency_ms": 0.0,
+    "results": [
+      {
+        "prompt_id": "P1",
+        "error": "registry.ollama.ai/library/gemma2:2b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P2",
+        "error": "registry.ollama.ai/library/gemma2:2b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P3",
+        "error": "registry.ollama.ai/library/gemma2:2b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P4",
+        "error": "registry.ollama.ai/library/gemma2:2b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P5",
+        "error": "registry.ollama.ai/library/gemma2:2b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P9",
+        "error": "registry.ollama.ai/library/gemma2:2b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P6",
+        "error": "registry.ollama.ai/library/gemma2:2b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P7",
+        "error": "registry.ollama.ai/library/gemma2:2b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P8",
+        "error": "registry.ollama.ai/library/gemma2:2b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P10",
+        "error": "registry.ollama.ai/library/gemma2:2b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P11",
+        "error": "registry.ollama.ai/library/gemma2:2b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P12",
+        "error": "registry.ollama.ai/library/gemma2:2b does not support tools (status code: 400)",
+        "correct": false
+      }
+    ]
+  },
+  "gemma2:9b": {
+    "model": "gemma2:9b",
+    "action_score": 0.0,
+    "restraint_score": 0.0,
+    "agent_score": 0.3,
+    "avg_latency_ms": 0.0,
+    "results": [
+      {
+        "prompt_id": "P1",
+        "error": "registry.ollama.ai/library/gemma2:9b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P2",
+        "error": "registry.ollama.ai/library/gemma2:9b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P3",
+        "error": "registry.ollama.ai/library/gemma2:9b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P4",
+        "error": "registry.ollama.ai/library/gemma2:9b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P5",
+        "error": "registry.ollama.ai/library/gemma2:9b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P9",
+        "error": "registry.ollama.ai/library/gemma2:9b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P6",
+        "error": "registry.ollama.ai/library/gemma2:9b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P7",
+        "error": "registry.ollama.ai/library/gemma2:9b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P8",
+        "error": "registry.ollama.ai/library/gemma2:9b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P10",
+        "error": "registry.ollama.ai/library/gemma2:9b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P11",
+        "error": "registry.ollama.ai/library/gemma2:9b does not support tools (status code: 400)",
+        "correct": false
+      },
+      {
+        "prompt_id": "P12",
+        "error": "registry.ollama.ai/library/gemma2:9b does not support tools (status code: 400)",
+        "correct": false
+      }
+    ]
+  }
+}
