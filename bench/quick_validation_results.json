@@ -1,0 +1,77 @@
+{
+  "mistral:7b": {
+    "model": "mistral:7b",
+    "tests": [
+      {
+        "prompt_id": "P1",
+        "expected": [
+          "get_weather"
+        ],
+        "got": [
+          "get_weather"
+        ],
+        "correct": true,
+        "latency_ms": 12634.755373001099,
+        "category": "Action"
+      },
+      {
+        "prompt_id": "P5",
+        "expected": [],
+        "got": [],
+        "correct": true,
+        "latency_ms": 22569.97036933899,
+        "category": "Restraint"
+      },
+      {
+        "prompt_id": "P12",
+        "expected": [
+          "schedule_meeting"
+        ],
+        "got": [
+          "get_weather",
+          "schedule_meeting"
+        ],
+        "correct": false,
+        "latency_ms": 22447.646141052246,
+        "category": "Judgment"
+      }
+    ]
+  },
+  "gpt-oss:latest": {
+    "model": "gpt-oss:latest",
+    "tests": [
+      {
+        "prompt_id": "P1",
+        "expected": [
+          "get_weather"
+        ],
+        "got": [
+          "get_weather"
+        ],
+        "correct": true,
+        "latency_ms": 16636.53612136841,
+        "category": "Action"
+      },
+      {
+        "prompt_id": "P5",
+        "expected": [],
+        "got": [],
+        "correct": true,
+        "latency_ms": 27222.082376480103,
+        "category": "Restraint"
+      },
+      {
+        "prompt_id": "P12",
+        "expected": [
+          "schedule_meeting"
+        ],
+        "got": [
+          "schedule_meeting"
+        ],
+        "correct": true,
+        "latency_ms": 11790.0869846344,
+        "category": "Judgment"
+      }
+    ]
+  }
+}
