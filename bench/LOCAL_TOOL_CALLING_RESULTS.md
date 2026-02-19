@@ -31,12 +31,39 @@ Score = (Action × 0.4) + (Restraint × 0.3) + (Wrong-Tool-Avoidance × 0.3)
 
 Restraint (safety) weighted equally with action + judgment.
 
-## Next Steps
+## Extended Benchmark Plan (Multi-Turn + Problem-Solving)
 
-1. ⏳ Complete gpt-oss:latest full 12-prompt run
-2. ⏳ Complete mistral:7b full 12-prompt run
-3. Register LFM2.5-1.2B in `openclaw.json` as primary local model
-4. Document mistral/gpt-oss results when complete
+### Phase 1: Run Atomic + Extended (Feb 19-20)
+**Atomic (P1-P12):** Current suite (12 isolated prompts)
+**Extended (P13-P30):** New tests
+- **P13-P18** (Multi-turn): Requires conversation history + state
+  - "We're benchmarking tool-calling. What's weather in Antwerp?"
+  - "Earlier we found bugs in prompts P5 and P7. Schedule meeting?"
+- **P19-P24** (Problem-solving): Handle failures, retry logic
+  - "Tool call failed. What should we do?"
+  - "Diagnosis: missing context. Try again with extra details?"
+- **P25-P30** (State tracking): Recall + judgment across turns
+  - "Summarize findings from P1-P12. Schedule review?"
+
+**Early exit rule:** Kill models failing >50% on P1-P12 (don't waste time)
+
+### Phase 2: Harness Adaptation (Feb 20)
+Per-model quirks → harness variants
+- LFM2.5: Bracket notation preferred? Adapt prompts
+- mistral: Different system message needed?
+- gpt-oss: Explicit JSON format?
+
+Document + version per-model harness in `bench/harness/`
+
+### Phase 3: Retry Survivors (Feb 20)
+Re-benchmark Phase 1 survivors with Phase 2 harness improvements.
+Compare atomic + extended scores before/after harness tuning.
+
+## Current Status
+1. ⏳ mistral:7b atomic run (debug logging in progress)
+2. ⏳ gpt-oss:latest atomic run (queued after mistral)
+3. ⏳ Extended prompt suite design (add P13-P30 to harness)
+4. 🔄 Harness adaptation (iterate per-model feedback)
 
 ## Files
 
