@@ -127,8 +127,30 @@ def run_benchmark(model, variant):
                 options={"temperature": 0.0}
             )
             
-            msg = response.get("message", {})
-            got = [tc["function"]["name"] for tc in msg.get("tool_calls", []) if "function" in tc]
+            msg = response.get("message")
+            
+            # ROBUST EXTRACTION: Validates response structure before iteration
+            if not isinstance(msg, dict):
+                got = []
+            else:
+                tool_calls = msg.get("tool_calls")
+                
+                # Handle None (expected for non-tool prompts)
+                if tool_calls is None:
+                    got = []
+                # Validate tool_calls is a list/tuple (not dict or string)
+                elif not isinstance(tool_calls, (list, tuple)):
+                    got = []
+                # Safely extract tool names with type validation
+                else:
+                    got = []
+                    for tc in tool_calls:
+                        if isinstance(tc, dict) and "function" in tc:
+                            func = tc["function"]
+                            if isinstance(func, dict):
+                                name = func.get("name")
+                                if isinstance(name, str) and name:
+                                    got.append(name)
             
         except TimeoutError:
             err = f"TIMEOUT({TIMEOUT_SECONDS}s)"
