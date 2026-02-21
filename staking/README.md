@@ -51,6 +51,21 @@ staking/
 │       ├── spec.md                        # MVP requirements
 │       ├── ops.md                         # Operational responsibilities
 │       └── interfaces.md                  # Integration points
+├── mega-eth/                              # MegaETH liquid staking infrastructure
+│   ├── README.md                          # Project overview (START HERE)
+│   ├── SETUP.md                           # Local development setup (5-10 min)
+│   ├── RUNBOOK.md                         # Operational procedures & troubleshooting
+│   ├── DESIGN.md                          # Technical architecture & smart contracts
+│   ├── SMOKE_TEST.md                      # Validation test suite documentation
+│   ├── scripts/                           # Executable scripts (no external deps)
+│   │   ├── setup-env.sh                   # Initialize environment
+│   │   ├── smoke-test.sh                  # Validate setup locally
+│   │   ├── validate-config.sh             # Configuration value checking
+│   │   └── check-endpoints.sh             # RPC connectivity check
+│   ├── config/                            # Configuration templates
+│   │   └── .env.example                   # Environment variables reference
+│   ├── monitoring/                        # Prometheus + Grafana setup (future)
+│   └── docs/                              # Reference documentation (future)
 └── research/                              # General staking research
     ├── OPPORTUNITIES.md                   # Priority-ranked opportunities
     ├── liquid-staking-landscape-2025.md   # Market research
@@ -91,6 +106,36 @@ Validator ops scripts, runbook, monitoring stack, and deployment checklist for M
 - Start here: [monad/infra/README.md](./monad/infra/README.md)
 - Setup guide: [monad/infra/SETUP.md](./monad/infra/SETUP.md)
 - Runbook: [monad/infra/RUNBOOK.md](./monad/infra/RUNBOOK.md)
+
+### [MegaETH Liquid Staking](./mega-eth/README.md) - Phase 1 Foundation Complete
+
+SLA-enforced liquid staking with Validator-as-a-Service (NaaS) for horizontal scaling.
+
+**Quick Links:**
+- Start here: [mega-eth/README.md](./mega-eth/README.md)
+- Setup guide: [mega-eth/SETUP.md](./mega-eth/SETUP.md) (5-10 minutes)
+- Operations: [mega-eth/RUNBOOK.md](./mega-eth/RUNBOOK.md)
+- Architecture: [mega-eth/DESIGN.md](./mega-eth/DESIGN.md)
+- Testing: [mega-eth/SMOKE_TEST.md](./mega-eth/SMOKE_TEST.md)
+
+**Status:**
+- ✅ Phase 1 (Foundation): Local setup + documentation complete
+- 🚀 Phase 2 (Testnet): Ready for Sepolia/Goerli deployment
+- ⏳ Phase 3 (Mainnet): Planned after security audit
+
+**Key Features:**
+- **SLA Enforcement:** On-chain penalties for validator downtime
+- **NaaS:** Validator-as-a-Service for operator onboarding
+- **Conservative Fees:** 5-7% (undercut Lido's 10%)
+- **Full Stack:** Contracts + validator infra + monitoring
+
+**Quick Start:**
+```bash
+cd staking/mega-eth
+./scripts/setup-env.sh      # Initialize environment
+./scripts/smoke-test.sh     # Validate setup
+cat SETUP.md                # Read full guide
+```
 
 ### [Liquid Staking Landscape 2025](./research/liquid-staking-landscape-2025.md)
 
