@@ -7,7 +7,7 @@
 
 | Model | Score | Restraint | Status |
 |-------|-------|-----------|--------|
-| **LFM2.5-1.2B** | 11/12 (95.55%) | 1.0 ✅ | Production |
+| **LFM2.5-1.2B** | 11/12 (91.67%) | 1.0 ✅ | Production |
 | mistral:7b | 8/12 (66.7%) | 0.83 | Extended testing |
 | gpt-oss:latest | 7/8 (87.5%) partial | ? | Retry needed (hung P9) |
 | qwen2.5:3b | 7/12 (62.2%) | 0.33 ⚠️ | Unsafe (false positives) |

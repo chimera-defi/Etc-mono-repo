@@ -463,6 +463,24 @@ ollama list
 - Check `raw_content` field in results to see actual output
 - May be output format mismatch (expecting native_tools_api but model uses bracket notation)
 
+### Tool-Call Parsing Strategies
+
+The benchmark supports **5 different tool-call formats**. Each model naturally outputs one format; the harness auto-detects it using a fallback chain.
+
+**Formats:**
+1. **Native Tools API** — `{"name": "get_weather", "arguments": {"city": "Antwerp"}}` (Ollama, OpenAI)
+2. **Tag-based** — `<tool_call>{"name": "get_weather", ...}</tool_call>`
+3. **Bare JSON** — Standalone JSON objects in text
+4. **Bracket notation** — `[get_weather(city="Antwerp")]` (state-space models like LFM2.5)
+5. **Bare function calls** — `get_weather(city: Antwerp)` or `get_weather("Antwerp")`
+
+**For detailed format specifications and implementation**, see:
+📖 **[PARSER_GUIDE.md](parsers/PARSER_GUIDE.md)** — Complete guide with examples for each format
+
+**Reference implementation:** `parsers/tool_call_parsers.py` (855 lines, all 5 strategies)
+
+---
+
 ### Harness Fixes
 
 **If you modify phase2_harness.py:**
@@ -471,15 +489,10 @@ ollama list
 3. Run full suite: `python3 phase2_harness.py --model "lfm2.5:1.2b" --runs 1`
 
 **Adding support for new output formats:**
-```python
-# In phase2_harness.py, add parser for your format
-def parse_bracket_notation(response_text):
-    """Extract tool calls from [tool_name(arg="value")] format"""
-    import re
-    pattern = r'\[(\w+)\((.*?)\)\]'
-    matches = re.findall(pattern, response_text)
-    # Return structured tool calls
-```
+- Check [`parsers/PARSER_GUIDE.md`](parsers/PARSER_GUIDE.md) to see if your format is already supported
+- If not, implement a new strategy in [`parsers/tool_call_parsers.py`](parsers/tool_call_parsers.py)
+- Fallback chain automatically tries all 5 strategies in order
+- **Test your parser:** Run on P1-P3 (should 100% pass), then P5-P12 (should handle edge cases)
 
 ---
 

@@ -42,7 +42,7 @@ This PR delivers a **production-grade benchmark** to solve that problem.
 
 | Model | Score | Restraint | Status |
 |-------|-------|-----------|--------|
-| **LFM2.5-1.2B** | 12/12 (100%) | 1.0 ✅ | **PRODUCTION-READY** |
+| **LFM2.5-1.2B** | 11/12 (91.67%) | 1.0 ✅ | **PRODUCTION-READY** |
 | mistral:7b | 8/12 (66.7%) | 0.83 | Extended-qualified |
 | gpt-oss:latest | 7/8 (87.5%)* | ? | Incomplete (timeout on P9) |
 | qwen2.5:3b | 7/12 (62.2%) | 0.33 ⚠️ | Unsafe (excessive false positives) |
@@ -66,7 +66,7 @@ Per-model system prompts tuned to architecture:
 LFM2.5-1.2B:
   - Native Ollama tools API (NOT bracket notation)
   - Context awareness for multi-turn
-  - Result: 12/12 (100%) with native API ✅
+  - Result: 11/12 (91.67%) with native API ✅ [P7: Called extra tool; see Details]
 
 mistral:7b:
   - Conciseness instruction (model tends to be verbose)
@@ -114,10 +114,11 @@ gpt-oss:latest & ministral:latest:
 **Recommendation:** Lock LFM2.5-1.2B as PRIMARY fallback for OpenClaw
 
 ```
-Accuracy:    12/12 (100%) ⭐⭐⭐⭐⭐
+Accuracy:    11/12 (91.67%) ⭐⭐⭐⭐⭐
 Restraint:   1.0 (perfect)
 Latency:     ~10s/prompt (reasonable)
 Safety:      Perfect (never calls tools unnecessarily)
+Note:        P7 called extra tool (get_weather) when only schedule_meeting expected
 ```
 
 **Why LFM wins:**
@@ -145,11 +146,21 @@ Safety:      Perfect (never calls tools unnecessarily)
 
 ### 4. Phase 2 Variant Testing Insight
 
+⚠️ **Phase 2 Status:** Experimental/Incomplete (2 of 5 models tested)
+
 Initial hypothesis: "Per-model system prompts will improve performance"
 
 **Result:** Mixed. LFM2.5 bracket variant actually regressed:
-- Phase 1 native API: 12/12 ✅
-- Phase 2 bracket variant: 11/12 ✗
+- Phase 1 native API: 11/12 (91.67%) ✅ AUTHORITATIVE
+- Phase 2 bracket variant: 11/12 (91.67%) ← No improvement, not recommended
+
+mistral7b variant also showed regression:
+- Phase 1: 8/12 (66.7%)
+- Phase 2: 7/12 (58.3%) ← Need revalidation
+
+Incomplete: gpt-oss:latest, qwen2.5:3b, ministral:latest variants not yet tested.
+
+**Recommendation:** Use Phase 1 native API results as authoritative benchmark. Phase 2 variants are experimental and showed no improvement.
 
 **Lesson:** Sometimes the simpler approach wins. Don't force architectural "best practices" if they break what's already working.
 

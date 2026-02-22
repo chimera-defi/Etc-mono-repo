@@ -58,13 +58,13 @@
   {
     "id": "P7",
     "prompt": "Next Tuesday at 2pm, I need a meeting with the tea",
-    "expected": "schedule_meeting",
+    "expected": ["schedule_meeting"],
     "got": [
       "schedule_meeting",
       "get_weather"
     ],
     "latency_ms": 111906.09998401487,
-    "correct": true
+    "correct": false
   },
   {
     "id": "P8",
