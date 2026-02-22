@@ -53,12 +53,23 @@ for arg in "$@"; do
   esac
 done
 
+if [[ $EUID -ne 0 ]]; then
+  log_error "This script requires root privileges"
+  log_error "Run: sudo $(basename "$0") $*"
+  exit 1
+fi
+
+if ! [[ "$TIMEOUT" =~ ^[0-9]+$ ]]; then
+  log_error "Invalid timeout value: $TIMEOUT (must be positive integer)"
+  exit 2
+fi
+
 SERVICE_NAME="${STACK_SERVICE_NAME:-aztec-node}"
 
 log_info "Starting service: $SERVICE_NAME"
 
 # Start service
-sudo systemctl start "$SERVICE_NAME" || {
+systemctl start "$SERVICE_NAME" || {
   log_error "Failed to start service"
   exit 1
 }
@@ -70,7 +81,7 @@ fi
 
 # Wait for service to become active
 log_info "Waiting for service to become active (timeout: ${TIMEOUT}s)..."
-local elapsed=0
+elapsed=0
 while true; do
   STATUS=$(systemctl is-active "$SERVICE_NAME" 2>/dev/null || echo "inactive")
   
