@@ -57,6 +57,11 @@ for arg in "$@"; do
   esac
 done
 
+if ! [[ "$TAIL_LINES" =~ ^[0-9]+$ ]]; then
+  log_error "Invalid tail value: $TAIL_LINES (must be positive integer)"
+  exit 2
+fi
+
 SERVICE_NAME="${STACK_SERVICE_NAME:-monad-validator}"
 
 # Verify service exists

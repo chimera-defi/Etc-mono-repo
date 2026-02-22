@@ -185,9 +185,16 @@ case "$STACK_NAME" in
     ;;
   ethereum)
     # eth2-quickstart is in a sibling directory
-    IMPL_DIR="$REPO_ROOT/../eth2-quickstart/scripts"
+    ETH_ROOT="$REPO_ROOT/../eth2-quickstart"
+    IMPL_DIR="$ETH_ROOT/scripts"
+    if [[ ! -d "$ETH_ROOT" ]]; then
+      log_error "Ethereum stack repository not found: $ETH_ROOT"
+      log_error "Clone it first: git clone https://github.com/chimera-defi/eth2-quickstart "$ETH_ROOT""
+      log_error "Ethereum integration is partial and requires eth2-quickstart present."
+      exit 1
+    fi
     if [[ ! -d "$IMPL_DIR" ]]; then
-      IMPL_DIR="$REPO_ROOT/../eth2-quickstart"
+      IMPL_DIR="$ETH_ROOT"
     fi
     IMPL_SCRIPT=$(find_script "ethereum" "$COMMAND" "$IMPL_DIR" || echo "")
     ;;
