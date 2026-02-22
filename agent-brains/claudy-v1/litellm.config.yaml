@@ -1,0 +1,116 @@
+model_list:
+# ============= TOP PERFORMERS (from benchmark) =============
+- model_name: qwen-fast
+  litellm_params:
+    model: ollama/qwen2.5:3b
+    api_base: http://127.0.0.1:11434
+  fallbacks:
+    - gemma-perfect
+    - qwen-balanced
+
+- model_name: gemma-perfect
+  litellm_params:
+    model: ollama/gemma2:9b
+    api_base: http://127.0.0.1:11434
+  fallbacks:
+    - qwen-balanced
+
+- model_name: qwen-balanced
+  litellm_params:
+    model: ollama/qwen2.5:14b
+    api_base: http://127.0.0.1:11434
+
+# ============= LEGACY MODELS (kept for compatibility) =============
+- model_name: local_qwen25_3b
+  litellm_params:
+    model: ollama/qwen2.5:3b
+    api_base: http://127.0.0.1:11434
+
+- model_name: local_qwen3_4b
+  litellm_params:
+    model: ollama/qwen3:4b
+    api_base: http://127.0.0.1:11434
+
+- model_name: local_gemma2_2b
+  litellm_params:
+    model: ollama/gemma2:2b
+    api_base: http://127.0.0.1:11434
+
+- model_name: local_llama32_3b
+  litellm_params:
+    model: ollama/llama3.2:3b
+    api_base: http://127.0.0.1:11434
+
+- model_name: codex_primary
+  litellm_params:
+    # Codex via OpenAI-compatible API key (set OPENAI_API_KEY in /etc/default/litellm)
+    model: openai/gpt-5.3-codex
+    api_key: os.environ/OPENAI_API_KEY
+  fallbacks:
+    - qwen-fast
+    - gemma-perfect
+
+- model_name: claudy_primary
+  litellm_params:
+    model: anthropic/claude-3-5-sonnet-latest
+    api_key: os.environ/ANTHROPIC_API_KEY
+  fallbacks:
+    - qwen-fast
+    - gemma-perfect
+router_settings:
+  routing_strategy: simple-shuffle
+  enable_fallbacks: true
+  allowed_fails: 2
+  num_retries: 2
+  retry_after: 1
+  
+  model_group_alias:
+    # Fast path: speed critical (heartbeat, status queries)
+    heartbeat_fast:
+    - qwen-fast
+    
+    # Standard path: balanced speed + accuracy
+    standard_ops:
+    - qwen-fast
+    - gemma-perfect
+    
+    # Accuracy critical: routing, decisions, complex reasoning
+    accuracy_critical:
+    - gemma-perfect
+    - qwen-balanced
+    - qwen-fast
+    
+    # Premium fallback: use when local exhausted
+    premium_fallback:
+    - claudy_primary
+    - codex_primary
+    
+    # All local models (for fallback chains)
+    local_all:
+    - qwen-fast
+    - gemma-perfect
+    - qwen-balanced
+    - local_gemma2_2b
+    - local_llama32_3b
+    
+  fallbacks:
+  # Primary models fall back to each other
+  - qwen-fast:
+    - gemma-perfect
+    - qwen-balanced
+  - gemma-perfect:
+    - qwen-balanced
+    - qwen-fast
+  - qwen-balanced:
+    - gemma-perfect
+    - qwen-fast
+  
+  # Remote models fall back to local consensus
+  - codex_primary:
+    - qwen-fast
+    - gemma-perfect
+  - claudy_primary:
+    - qwen-fast
+    - gemma-perfect
+general_settings:
+  master_key: REDACTED_MASTER_KEY_USE_ENV_VAR
