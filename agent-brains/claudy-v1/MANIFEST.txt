@@ -1,0 +1,118 @@
+================================================================================
+CLAUDY AGENT BRAIN BACKUP
+================================================================================
+
+Created:       2026-02-15 (Sunday)
+Purpose:       Complete agent genesis kit for restoration and cloning
+Status:        ✅ Ready for eth-mono-repo
+
+================================================================================
+CONTENTS
+================================================================================
+
+ROOT DIRECTORY (Core Identity):
+  - README.md              Complete overview & quick start guide
+  - INVENTORY.md          Detailed file inventory
+  - RESTORATION.md        Step-by-step restoration instructions
+  - SOUL.md               Agent identity & principles
+  - USER.md               User context (God - the human)
+  - IDENTITY.md           Name, creature, vibe, emoji, avatar
+  - MEMORY.md             Long-term curated memory (weekly updated)
+  - AGENTS.md             Quick reference table of contents
+  - HEARTBEAT.md          Health check procedures
+  - TOOLS.md              Local environment notes
+  - ROUTER_POLICY.md      Model selection strategy
+  - litellm.config.yaml   Model routing config
+
+DOCS/ DIRECTORY (System of Record):
+  - README.md             Navigation hub
+  - PRINCIPLES.md         Golden rules (6 core + 3 domain-specific)
+  - ARCHITECTURE.md       System design & layering rules
+  - DOMAIN.md             Eth2/staking knowledge base
+  - OPERATIONS.md         Infrastructure & deployment
+  - MEMORY_MAP.md         Memory organization & maintenance
+
+SCRIPTS/ DIRECTORY (Automation):
+  - verify_setup.sh       System verification & pre-flight checks
+  - memory_search_local.sh Local memory search utility
+  - cron_daily_recap.sh   Daily summary task
+  - cron_weekly_review.sh Weekly memory curation
+  - cron_*_batch.sh       Automated batch tasks
+  - session_hygiene.sh    Session cleanup & maintenance
+
+LINTERS/ DIRECTORY (Validation):
+  - doc_freshness.sh      Ensures docs are up to date (CI check)
+
+MEMORY/ DIRECTORY (Context History):
+  - 2026-02-15.md         Today's session log
+  - 2026-02-13.md         Prior session context
+  - eth2-quickstart-context.md  Project-specific notes
+  - active-tasks.md       Current work tracking
+  - project-status.md     Overall project status
+  - mistakes.md           Lessons learned
+  - self-review.md        Self-assessment
+
+================================================================================
+KEY STATISTICS
+================================================================================
+
+Total Files:           37
+Total Lines:           ~10,000
+Documentation Files:   18
+Script/Linter Files:   11
+Memory/Context Files:  8
+Size:                  ~500 KB
+
+Knowledge Domains:
+  - Agent-first design principles
+  - Eth2/staking deployment & operations
+  - Infrastructure management
+  - Memory curation workflows
+  - Mechanical constraint enforcement
+
+================================================================================
+HOW TO USE THIS BACKUP
+================================================================================
+
+1. READ FIRST:
+   - README.md (overview)
+   - INVENTORY.md (what's included)
+
+2. FOR RESTORATION:
+   - Follow RESTORATION.md (3 options provided)
+
+3. FOR UNDERSTANDING:
+   - Read SOUL.md (who is Claudy?)
+   - Read AGENTS.md (navigation guide)
+   - Browse docs/ (system design)
+   - Check memory/ (what we've learned)
+
+4. FOR CLONING:
+   - Option 1: Fresh agent with Claudy's brain
+   - Option 2: Merge into existing agent
+   - Option 3: Import selective components
+
+================================================================================
+PRINCIPLES EMBODIED
+================================================================================
+
+✅ Git as single source of truth
+✅ Agent legibility optimization
+✅ Mechanical enforcement of constraints
+✅ Progressive disclosure (map → details)
+✅ Continuous maintenance & curation
+✅ Recovery procedures documented
+✅ Domain knowledge encoded as schemas
+✅ Architecture strictly layered
+
+================================================================================
+NEXT STEPS
+================================================================================
+
+1. Transfer this backup to eth-mono-repo
+2. Tag as "claudy-agent-brain-v1"
+3. Include link in main README
+4. Use for agent restoration/cloning as needed
+5. Periodically sync with live agent to keep current
+
+================================================================================
