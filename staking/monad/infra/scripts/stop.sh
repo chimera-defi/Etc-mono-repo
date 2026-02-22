@@ -52,6 +52,17 @@ for arg in "$@"; do
   esac
 done
 
+if [[ $EUID -ne 0 ]]; then
+  log_error "This script requires root privileges"
+  log_error "Run: sudo $(basename "$0") $*"
+  exit 1
+fi
+
+if ! [[ "$TIMEOUT" =~ ^[0-9]+$ ]]; then
+  log_error "Invalid timeout value: $TIMEOUT (must be positive integer)"
+  exit 2
+fi
+
 SERVICE_NAME="${STACK_SERVICE_NAME:-monad-validator}"
 
 log_info "Stopping service: $SERVICE_NAME"
@@ -72,18 +83,18 @@ fi
 # Stop service
 if [[ "$FORCE" == "true" ]]; then
   log_info "Force-killing service..."
-  sudo systemctl kill --kill-who=all --signal=SIGKILL "$SERVICE_NAME" 2>/dev/null || true
+  systemctl kill --kill-who=all --signal=SIGKILL "$SERVICE_NAME" 2>/dev/null || true
 else
   log_info "Stopping service gracefully (timeout: ${TIMEOUT}s)..."
-  sudo systemctl stop "$SERVICE_NAME" &
-  local PID=$!
+  systemctl stop "$SERVICE_NAME" &
+  PID=$!
   
   # Wait with timeout
-  local elapsed=0
+  elapsed=0
   while kill -0 "$PID" 2>/dev/null; do
     if [[ $elapsed -ge $TIMEOUT ]]; then
       log_warn "Graceful shutdown timeout, force-killing..."
-      sudo systemctl kill --kill-who=all --signal=SIGKILL "$SERVICE_NAME" 2>/dev/null || true
+      systemctl kill --kill-who=all --signal=SIGKILL "$SERVICE_NAME" 2>/dev/null || true
       break
     fi
     sleep 1
