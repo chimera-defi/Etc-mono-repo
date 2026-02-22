@@ -35,9 +35,10 @@ Chain docs:
 Phase 1 uses the repo as the control plane. A hosted API/UI is optional later.
 
 ## Core Operational Docs
-- `COMMAND_CONTRACT.md` — **NEW** normalized command interface across all stacks (bootstrap, status, logs, etc.)
+- `COMMAND_CONTRACT.md` — normalized command interface across all stacks (bootstrap, status, logs, etc.)
 - `ENV_CONTRACT.md` — shared environment-variable contract + per-stack mappings.
 - `PORT_REGISTRY.md` — cross-stack default port registry and collision guardrails.
+- `STACK_AUDIT_2026-02-21.md` — audit findings, implementation status, blockers.
 
 ## Design & Research
 - `DESIGN.md` — concise top‑level architecture for human review.

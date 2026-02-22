@@ -87,7 +87,7 @@ All scripts respect the **Environment Contract** defined in `staking/research/in
 ### Stack-Specific
 - **Aztec**: `AZTEC_NODE_URL`, `AZTEC_DATA_DIR`, `ETHEREUM_HOSTS`
 - **Monad**: `RPC_URL`, `STATUS_PORT`, `MONAD_BFT_BIN_SRC`
-- **Ethereum**: `GETH_DATADIR`, `NETHERMIND_*`, `ETHREX_P2P_PORT`
+- **Ethereum**: `ETH2_QUICKSTART_PATH` (override default `../eth2-quickstart`), `GETH_DATADIR`, `NETHERMIND_*`, `ETHREX_P2P_PORT`
 
 ## Flags Reference
 
@@ -192,6 +192,7 @@ Monitor stack health periodically:
 - **Command Contract**: `staking/research/infra-kit/COMMAND_CONTRACT.md`
 - **Environment Contract**: `staking/research/infra-kit/ENV_CONTRACT.md`
 - **Port Registry**: `staking/research/infra-kit/PORT_REGISTRY.md`
+- **Stack Audit**: `staking/research/infra-kit/STACK_AUDIT_2026-02-21.md`
 - **InfraKit Overview**: `staking/research/infra-kit/README.md`
 
 ## Troubleshooting
@@ -204,6 +205,13 @@ Explicitly specify the stack:
 
 ### "Command not found for stack"
 Not all stacks support all commands yet. Check `COMMAND_CONTRACT.md` for implementation status.
+
+### "Ethereum (eth2-quickstart) repository not found"
+Clone eth2-quickstart as a sibling of the repo root, or set `ETH2_QUICKSTART_PATH`:
+```bash
+git clone https://github.com/chimera-defi/eth2-quickstart
+# Or: export ETH2_QUICKSTART_PATH=/path/to/eth2-quickstart
+```
 
 ### Permission denied
 Some commands require root (e.g., `bootstrap`, `start`, `stop`). Use `sudo`:

@@ -184,13 +184,16 @@ case "$STACK_NAME" in
     IMPL_SCRIPT=$(find_script "monad" "$COMMAND" "$IMPL_DIR" || echo "")
     ;;
   ethereum)
-    # eth2-quickstart is in a sibling directory
-    ETH_ROOT="$REPO_ROOT/../eth2-quickstart"
+    # eth2-quickstart expected as sibling of repo root
+    ETH_ROOT="${ETH2_QUICKSTART_PATH:-$REPO_ROOT/../eth2-quickstart}"
     IMPL_DIR="$ETH_ROOT/scripts"
     if [[ ! -d "$ETH_ROOT" ]]; then
-      log_error "Ethereum stack repository not found: $ETH_ROOT"
-      log_error "Clone it first: git clone https://github.com/chimera-defi/eth2-quickstart "$ETH_ROOT""
-      log_error "Ethereum integration is partial and requires eth2-quickstart present."
+      log_error "Ethereum (eth2-quickstart) repository not found."
+      log_error "Expected path: $ETH_ROOT"
+      log_error "To fix: clone into a sibling directory of the repo root:"
+      log_error "  git clone https://github.com/chimera-defi/eth2-quickstart"
+      log_error "Or set ETH2_QUICKSTART_PATH to the clone path."
+      log_error "Note: Ethereum integration is partial (P1 task for full unification)."
       exit 1
     fi
     if [[ ! -d "$IMPL_DIR" ]]; then
