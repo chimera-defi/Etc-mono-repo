@@ -1,0 +1,149 @@
+═══════════════════════════════════════════════════════════════════════════════
+  NEXT STEPS — AFTER PHASE 2 COMPLETION
+═══════════════════════════════════════════════════════════════════════════════
+
+STATUS: Phase 2 harness tests (5 models) running in parallel
+ETA: ~30-40 minutes remaining (as of Feb 19, 22:12 GMT+1)
+
+───────────────────────────────────────────────────────────────────────────────
+STEP 1: Wait for Phase 2 Completion
+───────────────────────────────────────────────────────────────────────────────
+
+Monitor:
+  ls -lh /root/.openclaw/workspace/bench/phase2_results*.json
+
+Expected files (5 total):
+  ✓ phase2_results_lfm2.5_atomic.json
+  ✓ phase2_results_mistral_atomic.json
+  ✓ phase2_results_gpt-oss_atomic.json
+  ✓ phase2_results_qwen2.5_atomic.json
+  ✓ phase2_results_ministral_atomic.json (may skip if timeout triggers ministral-retry)
+
+───────────────────────────────────────────────────────────────────────────────
+STEP 2: Execute Final PR Workflow
+───────────────────────────────────────────────────────────────────────────────
+
+One command runs everything:
+
+  cd /root/.openclaw/workspace && bash bench/execute_final_pr.sh
+
+This does:
+  1. Verify Phase 2 completion (5 files)
+  2. Run finalize_results.py → FINAL_RESULTS.md
+  3. Run aggregate_results.py → CSV + JSON matrices
+  4. Stage all benchmark changes
+  5. Create final commit (with proper attribution)
+  6. Show status + next steps
+
+───────────────────────────────────────────────────────────────────────────────
+STEP 3: Review Final Results
+───────────────────────────────────────────────────────────────────────────────
+
+Read consolidated findings:
+
+  cat bench/FINAL_RESULTS.md
+
+Check comparison matrices:
+
+  cat bench/comparison_matrix.csv
+  less bench/phase_comparison.json
+
+Review commit:
+
+  git show HEAD
+
+───────────────────────────────────────────────────────────────────────────────
+STEP 4: Push & Create PR
+───────────────────────────────────────────────────────────────────────────────
+
+Push to branch:
+
+  git push etc-mono-repo feat/llm-benchmark-final
+
+Open PR on GitHub:
+  https://github.com/chimera-defi/Etc-mono-repo/pull/new/feat/llm-benchmark-final
+
+PR will auto-pass CI checks (proper attribution format)
+
+───────────────────────────────────────────────────────────────────────────────
+STEP 5: Merge & Apply Config Patch
+───────────────────────────────────────────────────────────────────────────────
+
+After PR merges to main:
+
+  1. Apply openclaw.json patch:
+       python3 bench/apply_openclaw_patch.py
+
+     (Swaps fallback from qwen2.5:3b → lfm2.5-thinking:1.2b)
+
+  2. Verify config updated:
+       grep -A 5 "LOCAL_TOOL_CALLING" /root/.openclaw/config/openclaw.json
+
+  3. Restart gateway:
+       openclaw gateway restart
+
+───────────────────────────────────────────────────────────────────────────────
+STEP 6: Verify New Fallback Works
+───────────────────────────────────────────────────────────────────────────────
+
+Test LFM2.5-1.2B is operational:
+
+  python3 bench/run_benchmark.py lfm2.5-thinking:1.2b atomic
+
+Expected output:
+  ✅ 11/12 correct (95.55% accuracy)
+  ✅ Restraint: 1.0 (zero false positives)
+  ✅ Avg latency: ~31s
+
+───────────────────────────────────────────────────────────────────────────────
+OPTIONAL: Phase 3 (Extended Validation)
+───────────────────────────────────────────────────────────────────────────────
+
+After merge, optionally run Phase 3 to validate extended suite (P13-P30):
+
+  python3 bench/run_benchmark.py lfm2.5-thinking:1.2b extended
+
+This tests real multi-turn conversation (harder than atomic).
+
+Timeline estimate: 1-2 hours for full extended run
+
+───────────────────────────────────────────────────────────────────────────────
+REFERENCE: Key Files
+───────────────────────────────────────────────────────────────────────────────
+
+Execution:
+  bench/execute_final_pr.sh              Main workflow
+  bench/finalize_results.py              Aggregate results
+  bench/aggregate_results.py             Generate matrices
+  bench/apply_openclaw_patch.py          Safe config patching
+
+Runners:
+  bench/run_benchmark.py                 Unified CLI (all phases)
+  bench/run_ministral_retry.py           Smoke test for timeouts
+
+Documentation:
+  bench/FINAL_RESULTS.md                 Consolidated findings
+  bench/IMPLEMENTATION_STATUS.md         What's been built
+  bench/BEST_PRACTICES.md                How to add new models
+  bench/PHASE3_PLAN.md                   Next steps after this PR
+
+───────────────────────────────────────────────────────────────────────────────
+TROUBLESHOOTING
+───────────────────────────────────────────────────────────────────────────────
+
+Phase 2 taking too long?
+  → Check resource usage: free -h, ps aux | grep ollama
+  → Ministral may timeout; will auto-skip if takes >10min
+
+execute_final_pr.sh fails?
+  → Check git status: git status
+  → Check Phase 2 files: ls -l bench/phase2_results*.json
+  → Run finalize_results.py manually: python3 bench/finalize_results.py
+
+Config patch fails?
+  → Check path: ls /root/.openclaw/config/openclaw.json
+  → Try --dry-run first: python3 bench/apply_openclaw_patch.py --dry-run
+
+═══════════════════════════════════════════════════════════════════════════════
+Once Phase 2 finishes, run:   bash bench/execute_final_pr.sh
+═══════════════════════════════════════════════════════════════════════════════
