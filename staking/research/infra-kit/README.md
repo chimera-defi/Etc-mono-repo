@@ -34,7 +34,12 @@ Chain docs:
 ## Control Plane (MVP)
 Phase 1 uses the repo as the control plane. A hosted API/UI is optional later.
 
-## Docs
+## Core Operational Docs
+- `COMMAND_CONTRACT.md` — **NEW** normalized command interface across all stacks (bootstrap, status, logs, etc.)
+- `ENV_CONTRACT.md` — shared environment-variable contract + per-stack mappings.
+- `PORT_REGISTRY.md` — cross-stack default port registry and collision guardrails.
+
+## Design & Research
 - `DESIGN.md` — concise top‑level architecture for human review.
 - `OVERVIEW.md` — newcomer‑friendly summary (high level → detailed).
 - `SPEC.md` — verified script inventory + mapping into shared primitives.
@@ -43,6 +48,8 @@ Phase 1 uses the repo as the control plane. A hosted API/UI is optional later.
 - `PROMPTS.md` — handoff prompts for future agents.
 - `HANDOFF_PROMPT.md` — comprehensive implementation handoff (self‑contained).
 - `AZTEC_NODE_SPEC.md` — gap analysis + spec for Aztec node setup scripts.
+
+## Reference & Process
 - `EXECUTIVE_SUMMARY.md` — high‑level summary for quick review.
 - `EXACT_SUMMARY.md` — ultra‑concise summary (single paragraph).
 - `DECISIONS.md` — key decisions and rationale.
@@ -52,3 +59,20 @@ Phase 1 uses the repo as the control plane. A hosted API/UI is optional later.
 - `META_ENGINEERING.md` — prompt structure + anti‑hallucination rules.
 - `REVIEW_CHECKLIST.md` — multi‑pass review checklist.
 - `META_LEARNINGS.md` — process + content learnings.
+
+## Quick Start: Stack Operations
+
+Use the unified CLI to manage all stacks:
+
+```bash
+# Auto-detect and show status
+./scripts/stack-ops/stack-cli.sh status
+
+# Bootstrap with monitoring
+sudo ./scripts/stack-ops/stack-cli.sh --stack=aztec bootstrap --with-monitoring
+
+# Check health with JSON output
+./scripts/stack-ops/stack-cli.sh --stack=monad preflight --json
+```
+
+See [`scripts/stack-ops/README.md`](../../scripts/stack-ops/README.md) for full usage guide.
