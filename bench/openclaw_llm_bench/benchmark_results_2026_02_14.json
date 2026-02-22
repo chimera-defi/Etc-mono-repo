@@ -1,0 +1,108 @@
+{
+  "timestamp": "2026-02-14T09:33:40.614803",
+  "total_results": 43,
+  "expected_results": 55,
+  "models": {
+    "gemma2:9b": {
+      "count": 1,
+      "coverage_pct": 9.1,
+      "latency_ms": {
+        "min": 23407,
+        "max": 23407,
+        "mean": 23407,
+        "median": 23407,
+        "stdev": 0
+      },
+      "success_rate": 100.0,
+      "objective_pass_rate": 100.0,
+      "prompts_tested": [
+        "P0"
+      ]
+    },
+    "mistral:7b": {
+      "count": 11,
+      "coverage_pct": 100.0,
+      "latency_ms": {
+        "min": 4800,
+        "max": 30031,
+        "mean": 27019.6,
+        "median": 30030,
+        "stdev": 7739.8
+      },
+      "success_rate": 18.2,
+      "objective_pass_rate": 18.2,
+      "prompts_tested": [
+        "P0",
+        "P1",
+        "P10",
+        "P2",
+        "P3",
+        "P4",
+        "P5"
+      ]
+    },
+    "phi:latest": {
+      "count": 5,
+      "coverage_pct": 45.5,
+      "latency_ms": {
+        "min": 30030,
+        "max": 30080,
+        "mean": 30040,
+        "median": 30030,
+        "stdev": 22.4
+      },
+      "success_rate": 0.0,
+      "objective_pass_rate": 20.0,
+      "prompts_tested": [
+        "P0",
+        "P1",
+        "P10",
+        "P2",
+        "P3"
+      ]
+    },
+    "qwen2.5:14b": {
+      "count": 3,
+      "coverage_pct": 27.3,
+      "latency_ms": {
+        "min": 10171,
+        "max": 24958,
+        "mean": 17520,
+        "median": 17431,
+        "stdev": 7393.9
+      },
+      "success_rate": 100.0,
+      "objective_pass_rate": 66.7,
+      "prompts_tested": [
+        "P0",
+        "P1"
+      ]
+    },
+    "qwen3:4b": {
+      "count": 23,
+      "coverage_pct": 209.1,
+      "latency_ms": {
+        "min": 12854,
+        "max": 300100,
+        "mean": 107670.4,
+        "median": 120100,
+        "stdev": 81285.0
+      },
+      "success_rate": 39.1,
+      "objective_pass_rate": 52.2,
+      "prompts_tested": [
+        "P0",
+        "P1",
+        "P10",
+        "P2",
+        "P3",
+        "P4",
+        "P5",
+        "P6",
+        "P7",
+        "P8",
+        "P9"
+      ]
+    }
+  }
+}

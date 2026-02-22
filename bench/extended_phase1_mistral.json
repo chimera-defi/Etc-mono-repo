@@ -1,0 +1,562 @@
+{
+  "model": "mistral:7b",
+  "timestamp": 1771535070.237632,
+  "suite": "extended_phase1",
+  "source": "/root/.openclaw/workspace/bench/extended_benchmark_suite.json",
+  "results": [
+    {
+      "prompt_id": "P13",
+      "category": "multi_turn",
+      "category_label": "Multi-turn context",
+      "turns": [
+        {
+          "role": "user",
+          "content": "We're benchmarking tool-calling. What's the weather in Antwerp?"
+        },
+        {
+          "role": "assistant",
+          "content": "I'll check that for you."
+        },
+        {
+          "role": "user",
+          "content": "And can you search for Q1 reports while you're at it?"
+        }
+      ],
+      "expected": [
+        "get_weather",
+        "search_files"
+      ],
+      "got": [
+        "search_files"
+      ],
+      "correct": false,
+      "latency_ms": 6869.565963745117,
+      "assistant_content": "",
+      "error": null,
+      "notes": "Needs to maintain context: weather for Antwerp + search reports"
+    },
+    {
+      "prompt_id": "P14",
+      "category": "multi_turn",
+      "category_label": "State recall",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Earlier we found bugs in prompts P5 and P7."
+        },
+        {
+          "role": "assistant",
+          "content": "Got it, I've noted the bugs."
+        },
+        {
+          "role": "user",
+          "content": "Can you schedule a meeting to discuss them?"
+        }
+      ],
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [
+        "schedule_meeting"
+      ],
+      "correct": true,
+      "latency_ms": 26595.74294090271,
+      "assistant_content": "",
+      "error": null,
+      "notes": "Must recall that bugs were identified, context matters"
+    },
+    {
+      "prompt_id": "P15",
+      "category": "multi_turn",
+      "category_label": "Restraint + action",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Don't check the weather tomorrow."
+        },
+        {
+          "role": "assistant",
+          "content": "Understood, won't check weather."
+        },
+        {
+          "role": "user",
+          "content": "But can you find files about tomorrow's meeting?"
+        }
+      ],
+      "expected": [
+        "search_files"
+      ],
+      "got": [
+        "search_files"
+      ],
+      "correct": true,
+      "latency_ms": 24958.67919921875,
+      "assistant_content": "",
+      "error": null,
+      "notes": "Earlier instruction (don't check weather) must persist"
+    },
+    {
+      "prompt_id": "P16",
+      "category": "multi_turn",
+      "category_label": "Context-aware judgment",
+      "turns": [
+        {
+          "role": "user",
+          "content": "We have 3 stakeholders attending. The weather is important."
+        },
+        {
+          "role": "assistant",
+          "content": "Noted: 3 stakeholders, weather matters."
+        },
+        {
+          "role": "user",
+          "content": "Now schedule the meeting."
+        }
+      ],
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [
+        "schedule_meeting"
+      ],
+      "correct": true,
+      "latency_ms": 26933.86745452881,
+      "assistant_content": "",
+      "error": null,
+      "notes": "Context (stakeholders, weather) shouldn't trigger get_weather. Should call schedule only."
+    },
+    {
+      "prompt_id": "P17",
+      "category": "multi_turn",
+      "category_label": "Multi-tool with context",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Last time we searched for budget files, remember?"
+        },
+        {
+          "role": "assistant",
+          "content": "Yes, I remember."
+        },
+        {
+          "role": "user",
+          "content": "Can you search again? And what's the weather?"
+        }
+      ],
+      "expected": [
+        "search_files",
+        "get_weather"
+      ],
+      "got": [
+        "search_files",
+        "get_weather"
+      ],
+      "correct": true,
+      "latency_ms": 34677.584409713745,
+      "assistant_content": "",
+      "error": null,
+      "notes": "Conversation implies continuation of earlier task"
+    },
+    {
+      "prompt_id": "P18",
+      "category": "multi_turn",
+      "category_label": "Instruction persistence",
+      "turns": [
+        {
+          "role": "user",
+          "content": "I said earlier: don't call any tools without asking first."
+        },
+        {
+          "role": "assistant",
+          "content": "Understood, I'll ask before using tools."
+        },
+        {
+          "role": "user",
+          "content": "What's the weather? Should I schedule a meeting?"
+        }
+      ],
+      "expected": [],
+      "got": [],
+      "correct": true,
+      "latency_ms": 53740.3130531311,
+      "assistant_content": " To get the current weather, please provide me with a city. As for scheduling a meeting, I can help with that too. Just let me know the title and time.\n\nHere are the functions available:\n\n1. `get_weather(city)` - Get the current weather for a given city.\n2. `search_files(pattern)` - Search for files matching a pattern.\n3. `schedule_meeting(title, time)` - Schedule a meeting with the provided title and time.",
+      "error": null,
+      "notes": "Earlier meta-instruction (ask before calling tools) should prevent calling"
+    },
+    {
+      "prompt_id": "P19",
+      "category": "problem_solving",
+      "category_label": "Error handling",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Call get_weather for Paris"
+        },
+        {
+          "role": "assistant",
+          "content": "[Calling get_weather]"
+        },
+        {
+          "role": "user",
+          "content": "That returned an error. What should we do?"
+        }
+      ],
+      "expected": [],
+      "got": [],
+      "correct": false,
+      "latency_ms": 60244.754791259766,
+      "assistant_content": null,
+      "error": "Traceback (most recent call last):\n  File \"/usr/lib/python3/dist-packages/urllib3/connectionpool.py\", line 537, in _make_request\n    response = conn.getresponse()\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3/dist-packages/urllib3/connection.py\", line 461, in getresponse\n    httplib_res",
+      "notes": "Should suggest retry or alternative, not blindly re-call"
+    },
+    {
+      "prompt_id": "P20",
+      "category": "problem_solving",
+      "category_label": "Intelligent retry",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Schedule a meeting with the team"
+        },
+        {
+          "role": "assistant",
+          "content": "[Calling schedule_meeting]"
+        },
+        {
+          "role": "user",
+          "content": "Missing person name and time. Can you retry with better data?"
+        }
+      ],
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 60247.246980667114,
+      "assistant_content": null,
+      "error": "Traceback (most recent call last):\n  File \"/usr/lib/python3/dist-packages/urllib3/connectionpool.py\", line 537, in _make_request\n    response = conn.getresponse()\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3/dist-packages/urllib3/connection.py\", line 461, in getresponse\n    httplib_res",
+      "notes": "Must call schedule_meeting again with corrected parameters"
+    },
+    {
+      "prompt_id": "P21",
+      "category": "problem_solving",
+      "category_label": "Course correction",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Check weather and schedule a meeting"
+        },
+        {
+          "role": "assistant",
+          "content": "[Calling both]"
+        },
+        {
+          "role": "user",
+          "content": "Oops, we don't need weather for this meeting. What should change?"
+        }
+      ],
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 60307.382345199585,
+      "assistant_content": null,
+      "error": "Traceback (most recent call last):\n  File \"/usr/lib/python3/dist-packages/urllib3/connectionpool.py\", line 537, in _make_request\n    response = conn.getresponse()\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3/dist-packages/urllib3/connection.py\", line 461, in getresponse\n    httplib_res",
+      "notes": "Should recognize unnecessary tool call and adjust"
+    },
+    {
+      "prompt_id": "P22",
+      "category": "problem_solving",
+      "category_label": "Refinement",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Search for files matching 'quarterly'"
+        },
+        {
+          "role": "assistant",
+          "content": "[Searching]"
+        },
+        {
+          "role": "user",
+          "content": "Results are incomplete. Try a broader search?"
+        }
+      ],
+      "expected": [
+        "search_files"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 60260.552167892456,
+      "assistant_content": null,
+      "error": "Traceback (most recent call last):\n  File \"/usr/lib/python3/dist-packages/urllib3/connectionpool.py\", line 537, in _make_request\n    response = conn.getresponse()\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3/dist-packages/urllib3/connection.py\", line 461, in getresponse\n    httplib_res",
+      "notes": "Must adjust search parameters based on feedback"
+    },
+    {
+      "prompt_id": "P23",
+      "category": "problem_solving",
+      "category_label": "Changed mind",
+      "turns": [
+        {
+          "role": "user",
+          "content": "What tools do you have?"
+        },
+        {
+          "role": "assistant",
+          "content": "I have get_weather, search_files, schedule_meeting"
+        },
+        {
+          "role": "user",
+          "content": "Now get the weather. But wait, actually just find files instead."
+        }
+      ],
+      "expected": [
+        "search_files"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 60261.81483268738,
+      "assistant_content": null,
+      "error": "Traceback (most recent call last):\n  File \"/usr/lib/python3/dist-packages/urllib3/connectionpool.py\", line 537, in _make_request\n    response = conn.getresponse()\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3/dist-packages/urllib3/connection.py\", line 461, in getresponse\n    httplib_res",
+      "notes": "Should call the new instruction, not the old one"
+    },
+    {
+      "prompt_id": "P24",
+      "category": "problem_solving",
+      "category_label": "Partial cancellation",
+      "turns": [
+        {
+          "role": "user",
+          "content": "We need both weather and a meeting scheduled."
+        },
+        {
+          "role": "assistant",
+          "content": "[Calling both]"
+        },
+        {
+          "role": "user",
+          "content": "Actually the meeting is already scheduled. Just get weather."
+        }
+      ],
+      "expected": [
+        "get_weather"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 60265.41805267334,
+      "assistant_content": null,
+      "error": "Traceback (most recent call last):\n  File \"/usr/lib/python3/dist-packages/urllib3/connectionpool.py\", line 537, in _make_request\n    response = conn.getresponse()\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3/dist-packages/urllib3/connection.py\", line 461, in getresponse\n    httplib_res",
+      "notes": "Should recognize one call succeeded, other should be cancelled"
+    },
+    {
+      "prompt_id": "P25",
+      "category": "state_tracking",
+      "category_label": "Context-aware judgment",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Remember: we found bugs in 5 areas during testing."
+        },
+        {
+          "role": "assistant",
+          "content": "Noted: 5 areas with bugs."
+        },
+        {
+          "role": "user",
+          "content": "Schedule a meeting to address them. Also check the weather."
+        }
+      ],
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 60227.04577445984,
+      "assistant_content": null,
+      "error": "Traceback (most recent call last):\n  File \"/usr/lib/python3/dist-packages/urllib3/connectionpool.py\", line 537, in _make_request\n    response = conn.getresponse()\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3/dist-packages/urllib3/connection.py\", line 461, in getresponse\n    httplib_res",
+      "notes": "Bug context shouldn't trigger extra tools. Only schedule."
+    },
+    {
+      "prompt_id": "P26",
+      "category": "state_tracking",
+      "category_label": "History recall",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Earlier run: P1\u2713 P2\u2713 P3\u2713 P4\u2717 P5\u2713"
+        },
+        {
+          "role": "assistant",
+          "content": "I see: 4/5 passed on atomic tests."
+        },
+        {
+          "role": "user",
+          "content": "Now let's test multi-turn. What's weather and schedule a meeting?"
+        }
+      ],
+      "expected": [
+        "get_weather",
+        "schedule_meeting"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 60222.91088104248,
+      "assistant_content": null,
+      "error": "Traceback (most recent call last):\n  File \"/usr/lib/python3/dist-packages/urllib3/connectionpool.py\", line 537, in _make_request\n    response = conn.getresponse()\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3/dist-packages/urllib3/connection.py\", line 461, in getresponse\n    httplib_res",
+      "notes": "Recall of benchmark history shouldn't affect current decisions"
+    },
+    {
+      "prompt_id": "P27",
+      "category": "state_tracking",
+      "category_label": "Task awareness",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Status: 3 models tested (LFM\u2713 mistral\u23f3 gpt-oss\u23f3)"
+        },
+        {
+          "role": "assistant",
+          "content": "I see: 1 done, 2 pending."
+        },
+        {
+          "role": "user",
+          "content": "While we wait, can you search for budget files?"
+        }
+      ],
+      "expected": [
+        "search_files"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 60237.35165596008,
+      "assistant_content": null,
+      "error": "Traceback (most recent call last):\n  File \"/usr/lib/python3/dist-packages/urllib3/connectionpool.py\", line 537, in _make_request\n    response = conn.getresponse()\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3/dist-packages/urllib3/connection.py\", line 461, in getresponse\n    httplib_res",
+      "notes": "Know we're in benchmark work, but independent request"
+    },
+    {
+      "prompt_id": "P28",
+      "category": "state_tracking",
+      "category_label": "Stateful constraint",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Key constraint: Don't call get_weather for cities we've already checked."
+        },
+        {
+          "role": "assistant",
+          "content": "Understood: skip weather for known cities."
+        },
+        {
+          "role": "user",
+          "content": "Check weather in Amsterdam. (We checked Antwerp already.)"
+        }
+      ],
+      "expected": [
+        "get_weather"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 60293.95008087158,
+      "assistant_content": null,
+      "error": "Traceback (most recent call last):\n  File \"/usr/lib/python3/dist-packages/urllib3/connectionpool.py\", line 537, in _make_request\n    response = conn.getresponse()\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3/dist-packages/urllib3/connection.py\", line 461, in getresponse\n    httplib_res",
+      "notes": "Must track checked cities, but Amsterdam is new"
+    },
+    {
+      "prompt_id": "P29",
+      "category": "state_tracking",
+      "category_label": "Call tracking",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Successful calls so far: weather\u00d72, search\u00d71, schedule\u00d70"
+        },
+        {
+          "role": "assistant",
+          "content": "Tracking: 2 weather, 1 search, 0 schedule calls."
+        },
+        {
+          "role": "user",
+          "content": "Now schedule a meeting and check weather again."
+        }
+      ],
+      "expected": [
+        "schedule_meeting",
+        "get_weather"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 60262.730836868286,
+      "assistant_content": null,
+      "error": "Traceback (most recent call last):\n  File \"/usr/lib/python3/dist-packages/urllib3/connectionpool.py\", line 537, in _make_request\n    response = conn.getresponse()\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3/dist-packages/urllib3/connection.py\", line 461, in getresponse\n    httplib_res",
+      "notes": "Should know call history but not let it prevent new calls"
+    },
+    {
+      "prompt_id": "P30",
+      "category": "state_tracking",
+      "category_label": "Background awareness",
+      "turns": [
+        {
+          "role": "user",
+          "content": "Progress: Fixed P7 bug, still debugging P12."
+        },
+        {
+          "role": "assistant",
+          "content": "Got it: P7 fixed, P12 in progress."
+        },
+        {
+          "role": "user",
+          "content": "While debugging, can you search for error logs and schedule a debug session?"
+        }
+      ],
+      "expected": [
+        "search_files",
+        "schedule_meeting"
+      ],
+      "got": [
+        "search_files",
+        "schedule_meeting"
+      ],
+      "correct": true,
+      "latency_ms": 34909.64221954346,
+      "assistant_content": "",
+      "error": null,
+      "notes": "Parallel debugging context shouldn't affect current requests"
+    }
+  ],
+  "passed": 6,
+  "total": 18,
+  "accuracy": 0.3333333333333333,
+  "avg_latency_ms": 48417.58631335365,
+  "by_category": {
+    "multi_turn": {
+      "passed": 5,
+      "total": 6,
+      "accuracy": 0.8333333333333334
+    },
+    "problem_solving": {
+      "passed": 0,
+      "total": 6,
+      "accuracy": 0.0
+    },
+    "state_tracking": {
+      "passed": 1,
+      "total": 6,
+      "accuracy": 0.16666666666666666
+    }
+  },
+  "failed_prompts": [
+    "P13",
+    "P19",
+    "P20",
+    "P21",
+    "P22",
+    "P23",
+    "P24",
+    "P25",
+    "P26",
+    "P27",
+    "P28",
+    "P29"
+  ]
+}
