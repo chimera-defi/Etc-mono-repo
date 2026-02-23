@@ -242,15 +242,15 @@ Infrastructure as Code requires re-running bootstrap on the same host without si
 
 ## Implementation Status
 
-| Command | Ethereum (eth2-quickstart) | Aztec | Monad | MegaETH |
+| Command | Ethereum (eth2-quickstart → adapter) | Aztec | Monad | MegaETH |
 |---|---|---|---|---|
-| `bootstrap` | Partial (run_1.sh + run_2.sh) | ✅ bootstrap_aztec.sh | ✅ bootstrap_all.sh | — |
-| `preflight` | — | — | ✅ preflight_check.sh | — |
-| `smoke` | — | — | ✅ e2e_smoke_test.sh | — |
-| `status` | — | — | ⚠️ status.py (Python) | — |
-| `stop` | — | — | — | — |
-| `start` | — | — | — | — |
-| `logs` | — | — | — | — |
+| `bootstrap` | ✅ bootstrap.sh (wraps run_1 + run_2) | ✅ bootstrap_aztec.sh | ✅ bootstrap_all.sh | — |
+| `preflight` | ✅ preflight.sh | — | ✅ preflight_check.sh | — |
+| `smoke` | ✅ smoke.sh | — | ✅ e2e_smoke_test.sh | — |
+| `status` | ✅ status.sh | — | ⚠️ status.py (Python) | — |
+| `stop` | ✅ stop.sh | — | — | — |
+| `start` | ✅ start.sh | — | — | — |
+| `logs` | ✅ logs.sh | — | — | — |
 
 **Note**: Cells marked `—` require creation. Cells marked `⚠️` exist but may need wrapper for consistency.
 
