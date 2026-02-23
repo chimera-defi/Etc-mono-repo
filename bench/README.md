@@ -42,6 +42,38 @@ run_benchmark → supervisor (detect variance) → policy gates (pass/fail)
     → feedback loop (recommendations) → routing enforcer (apply rules) → repeat
 ```
 
+### Regression Baseline Tracking
+
+The system automatically tracks performance baselines and detects regressions:
+
+| File | Purpose |
+|------|---------|
+| `baseline_tracker.py` | Core tracking module: saves baselines, checks regression, calculates accuracy change |
+| `baseline.json` | Current baselines per model/phase/variant |
+| `baseline_history.json` | Historical record of all baseline updates |
+
+**How it works:**
+- After each run, results are compared against the stored baseline
+- Calculates accuracy change and regression percentage
+- Alerts if regression exceeds **10%** threshold
+- Updates baseline with new results after each run
+
+**Usage:**
+```bash
+# Check for regression
+python3 baseline_tracker.py check --model lfm2.5-thinking:1.2b --phase atomic --accuracy 0.85
+
+# Update baseline
+python3 baseline_tracker.py update --model lfm2.5-thinking:1.2b --phase atomic --accuracy 0.85 --passed 85 --total 100
+
+# List all baselines
+python3 baseline_tracker.py list
+```
+
+**Integration:**
+- `benchmark_supervisor.py` automatically checks for regressions after each job and logs to `baseline_history.json`
+- `self_optimizing_policy.py` includes a regression gate that fails if accuracy drops > 10% (configurable via `--max-regression-pct`)
+
 For detailed architecture and configuration, see **[ARCHITECTURE.md](ARCHITECTURE.md)**.
 
 ---
