@@ -1,0 +1,155 @@
+{
+  "model": "claude-haiku",
+  "phase": "extended",
+  "variant": "extended",
+  "timestamp": 1771858570.3765898,
+  "config_name": "Claude Haiku",
+  "system_prompt": "You are a helpful assistant. Pay attention to conversation context. Maintain state across turns. Call tools when needed.",
+  "summary": {
+    "passed": 0,
+    "total": 9,
+    "accuracy": 0.0,
+    "restraint_score": null
+  },
+  "by_category": {
+    "multi_turn": {
+      "passed": 0,
+      "total": 3,
+      "accuracy": 0.0
+    },
+    "problem_solving": {
+      "passed": 0,
+      "total": 3,
+      "accuracy": 0.0
+    },
+    "state_tracking": {
+      "passed": 0,
+      "total": 3,
+      "accuracy": 0.0
+    }
+  },
+  "failed_prompts": [
+    "P14",
+    "P16",
+    "P17",
+    "P20",
+    "P21",
+    "P24",
+    "P25",
+    "P26",
+    "P29"
+  ],
+  "results": [
+    {
+      "prompt_id": "P14",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 3.919839859008789,
+      "error": "model 'claude-haiku' not found (status code: 404)",
+      "timeout": false,
+      "assistant_content": null
+    },
+    {
+      "prompt_id": "P16",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 2.6102066040039062,
+      "error": "model 'claude-haiku' not found (status code: 404)",
+      "timeout": false,
+      "assistant_content": null
+    },
+    {
+      "prompt_id": "P17",
+      "expected": [
+        "search_files",
+        "get_weather"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 2.324819564819336,
+      "error": "model 'claude-haiku' not found (status code: 404)",
+      "timeout": false,
+      "assistant_content": null
+    },
+    {
+      "prompt_id": "P20",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 2.4557113647460938,
+      "error": "model 'claude-haiku' not found (status code: 404)",
+      "timeout": false,
+      "assistant_content": null
+    },
+    {
+      "prompt_id": "P21",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 2.399921417236328,
+      "error": "model 'claude-haiku' not found (status code: 404)",
+      "timeout": false,
+      "assistant_content": null
+    },
+    {
+      "prompt_id": "P24",
+      "expected": [
+        "get_weather"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 2.855062484741211,
+      "error": "model 'claude-haiku' not found (status code: 404)",
+      "timeout": false,
+      "assistant_content": null
+    },
+    {
+      "prompt_id": "P25",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 2.3374557495117188,
+      "error": "model 'claude-haiku' not found (status code: 404)",
+      "timeout": false,
+      "assistant_content": null
+    },
+    {
+      "prompt_id": "P26",
+      "expected": [
+        "get_weather",
+        "schedule_meeting"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 2.3005008697509766,
+      "error": "model 'claude-haiku' not found (status code: 404)",
+      "timeout": false,
+      "assistant_content": null
+    },
+    {
+      "prompt_id": "P29",
+      "expected": [
+        "schedule_meeting",
+        "get_weather"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 2.326488494873047,
+      "error": "model 'claude-haiku' not found (status code: 404)",
+      "timeout": false,
+      "assistant_content": null
+    }
+  ]
+}

@@ -16,10 +16,16 @@ import argparse
 import json
 import statistics
 import subprocess
+import sys
 import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
+
+# Import routing enforcer for auto-enforcement
+sys.path.insert(0, str(BENCH))
+from routing_enforcer import enforce_recommendations
+import harness_feedback_loop
 
 WORKDIR = Path('/root/.openclaw/workspace')
 BENCH = WORKDIR / 'bench'
@@ -379,6 +385,15 @@ def main() -> int:
         history.append(cycle)
         recent_cycles.append(cycle)
         _save_history(history)
+        
+        # Auto-routing enforcement after each cycle
+        # Generate feedback and apply routing rules
+        try:
+            harness_feedback_loop.main()
+            enforce_recommendations()
+            print(f"🔄 Cycle {i+1}: Routing enforcement applied")
+        except Exception as e:
+            print(f"⚠️  Cycle {i+1}: Routing enforcement failed: {e}")
 
     all_stats = _aggregate_stats(history)
     baseline_stats = all_stats.get(baseline_spec.slug, {'samples': 0, 'median_accuracy': None, 'median_restraint': None})
