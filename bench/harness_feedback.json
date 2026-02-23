@@ -1,0 +1,102 @@
+{
+  "generated_at": 1771849561.505838,
+  "recent_runs": 8,
+  "model_phase_accuracy": {
+    "lfm2.5-thinking:1.2b::atomic": {
+      "passed": 27,
+      "total": 36,
+      "accuracy": 0.75
+    },
+    "lfm2.5-thinking:1.2b::extended": {
+      "passed": 0,
+      "total": 27,
+      "accuracy": 0.0
+    },
+    "qwen2.5:3b::atomic": {
+      "passed": 8,
+      "total": 10,
+      "accuracy": 0.8
+    },
+    "ministral-3:latest::atomic": {
+      "passed": 4,
+      "total": 6,
+      "accuracy": 0.6667
+    }
+  },
+  "hot_failures": [
+    {
+      "key": "lfm2.5-thinking:1.2b::atomic::P10",
+      "count": 3
+    },
+    {
+      "key": "lfm2.5-thinking:1.2b::extended::P14",
+      "count": 3
+    },
+    {
+      "key": "lfm2.5-thinking:1.2b::extended::P16",
+      "count": 3
+    },
+    {
+      "key": "lfm2.5-thinking:1.2b::extended::P17",
+      "count": 3
+    },
+    {
+      "key": "lfm2.5-thinking:1.2b::extended::P20",
+      "count": 3
+    },
+    {
+      "key": "lfm2.5-thinking:1.2b::extended::P21",
+      "count": 3
+    },
+    {
+      "key": "lfm2.5-thinking:1.2b::extended::P24",
+      "count": 3
+    },
+    {
+      "key": "lfm2.5-thinking:1.2b::extended::P25",
+      "count": 3
+    },
+    {
+      "key": "lfm2.5-thinking:1.2b::extended::P26",
+      "count": 3
+    },
+    {
+      "key": "lfm2.5-thinking:1.2b::extended::P29",
+      "count": 3
+    },
+    {
+      "key": "lfm2.5-thinking:1.2b::atomic::P6",
+      "count": 2
+    },
+    {
+      "key": "lfm2.5-thinking:1.2b::atomic::P7",
+      "count": 2
+    },
+    {
+      "key": "lfm2.5-thinking:1.2b::atomic::P9",
+      "count": 2
+    },
+    {
+      "key": "qwen2.5:3b::atomic::P5",
+      "count": 2
+    },
+    {
+      "key": "ministral-3:latest::atomic::P3",
+      "count": 2
+    }
+  ],
+  "recommendations": [
+    {
+      "type": "routing",
+      "target": "lfm2.5-thinking:1.2b::extended",
+      "action": "disable_for_stateful",
+      "reason": "low extended accuracy 0.00%"
+    },
+    {
+      "type": "routing",
+      "target": "qwen2.5:3b::atomic",
+      "action": "allow_for_bounded_tasks",
+      "reason": "strong atomic accuracy 80.00%"
+    }
+  ]
+}
