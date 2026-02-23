@@ -4,7 +4,7 @@ Small, safe helpers to validate RPC, uptime endpoints, and local devnet runs. Th
 
 ## Canonical Path
 
-All Monad infra assets now live under `staking/monad/infra/`. Legacy `staking/impl/monad/infra` has been removed.
+All Monad infra assets live under `staking/monad/infra/`.
 
 ## Quickstart
 

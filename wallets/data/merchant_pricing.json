@@ -1,0 +1,47 @@
+{
+  "Blockstream Jade": {
+    "last_checked": "2026-02-03",
+    "price": "79 USD",
+    "source": "https://store.blockstream.com/product/blockstream-jade/"
+  },
+  "Ledger Flex": {
+    "last_checked": "2026-02-03",
+    "price": "249 USD",
+    "source": "https://shop.ledger.com/products/ledger-flex"
+  },
+  "Ledger Nano Gen5": {
+    "last_checked": "2026-02-03",
+    "price": "179 USD",
+    "source": "https://shop.ledger.com/products/ledger-nano-gen5"
+  },
+  "Ledger Nano S+": {
+    "last_checked": "2026-02-03",
+    "price": "59 USD",
+    "source": "https://shop.ledger.com/products/ledger-nano-s-plus"
+  },
+  "Ledger Nano X": {
+    "last_checked": "2026-02-03",
+    "price": "99 USD",
+    "source": "https://shop.ledger.com/products/ledger-nano-x"
+  },
+  "OneKey Classic 1S": {
+    "last_checked": "2026-02-03",
+    "price": "99 USD",
+    "source": "https://onekey.so/products/onekey-classic-1s-hardware-wallet/"
+  },
+  "OneKey Classic 1S Pure": {
+    "last_checked": "2026-02-03",
+    "price": "79 USD",
+    "source": "https://onekey.so/products/onekey-classic-1s-hardware-wallet/#pure"
+  },
+  "OneKey Pro": {
+    "last_checked": "2026-02-03",
+    "price": "278 USD",
+    "source": "https://onekey.so/products/onekey-pro-hardware-wallet/"
+  },
+  "Trezor Safe 3": {
+    "last_checked": "2026-02-03",
+    "price": "59 USD",
+    "source": "https://trezor.io/trezor-safe-3"
+  }
+}

@@ -7,35 +7,54 @@ This folder contains research, analysis, and development work related to liquid 
 ```
 staking/
 ├── README.md                              # This file
-├── aztec/                                 # Aztec liquid staking (consolidated)
+├── AGENTS.md                              # Agent guidelines & workflow rules
+├── aztec/                                 # Aztec liquid staking protocol
 │   ├── README.md                          # Aztec project index (START HERE)
-│   ├── docs/                              # Research and planning documentation
+│   ├── PROGRESS.md                        # Current phase status
+│   ├── HANDOFF.md                         # Latest agent handoff
+│   ├── PARALLEL_WORK_HANDOFF.md           # Frontend & bot parallel work specs
+│   ├── AGENT_INDEX.md                     # Quick-start matrix for agents
+│   ├── docs/                              # Research, planning, and guides
 │   │   ├── EXECUTIVE-SUMMARY.md           # 1-page strategic overview
 │   │   ├── ECONOMICS.md                   # Source of truth for numbers
 │   │   ├── ASSUMPTIONS.md                 # Assumptions + competitor tracker
 │   │   ├── IMPLEMENTATION-PLAN.md         # 6-month build plan
+│   │   ├── NOIR_GUIDE.md                  # Noir language patterns & migration
 │   │   ├── FUNDRAISING.md                 # Seed deck outline
 │   │   ├── TASKS.md                       # Discrete task breakdown
-│   │   └── liquid-staking-analysis.md     # Technical architecture reference
+│   │   └── liquid-staking-analysis.md     # Historical architecture reference
 │   ├── contracts/                         # Noir smart contracts
-│   │   ├── aztec-staking-pool/            # Base staking pool (760KB)
-│   │   ├── staked-aztec-token/            # stAZTEC token (778KB)
-│   │   ├── withdrawal-queue/              # Withdrawal queue (824KB)
-│   │   ├── validator-registry/            # Validator tracking (838KB)
-│   │   ├── staking-math-tests/            # Unit tests (34 tests)
-│   │   └── AGENT_HANDOFF.md               # Development handoff notes
-│   └── scripts/                           # Development scripts
-│       ├── smoke-test.sh                  # Environment verification
-│       ├── setup-env.sh                   # Environment setup
-│       └── query-devnet.mjs               # Devnet query utility
+│   │   ├── liquid-staking-core/           # Main staking logic (deposit, withdraw, fees)
+│   │   ├── staked-aztec-token/            # stAZTEC ERC20-like token
+│   │   ├── withdrawal-queue/              # FIFO unbonding queue
+│   │   └── staking-math-tests/            # Unit test suite (74 tests)
+│   ├── scripts/                           # Development scripts
+│   │   ├── smoke-test.sh                  # Environment verification
+│   │   ├── setup-env.sh                   # Environment setup
+│   │   ├── integration-test.sh            # Integration tests
+│   │   └── query-devnet.mjs              # Devnet query utility
+│   ├── frontend/                          # Next.js frontend scaffold
+│   └── archive/                           # Superseded handoff documents
+├── monad/                                 # Monad validator infra + liquid staking
+│   ├── README.md                          # Monad project entrypoint
+│   ├── infra/                             # Validator setup, ops, monitoring
+│   │   ├── README.md                      # Scripts index (START HERE)
+│   │   ├── SETUP.md                       # End-to-end host setup guide
+│   │   ├── RUNBOOK.md                     # Operational runbook
+│   │   ├── DEPLOY_CHECKLIST.md            # Production deployment checklist
+│   │   ├── scripts/                       # 26+ operational scripts
+│   │   ├── config/                        # Configuration templates
+│   │   ├── systemd/                       # Systemd overrides
+│   │   ├── monitoring/                    # Prometheus + Grafana + Loki stack
+│   │   └── landing/                       # Static landing page
+│   └── liquid/                            # Liquid staking MVP skeleton
+│       ├── spec.md                        # MVP requirements
+│       ├── ops.md                         # Operational responsibilities
+│       └── interfaces.md                  # Integration points
 └── research/                              # General staking research
+    ├── OPPORTUNITIES.md                   # Priority-ranked opportunities
     ├── liquid-staking-landscape-2025.md   # Market research
-    └── OPPORTUNITIES.md                   # Priority-ranked opportunities
-└── monad/                                 # Monad validator infra + liquid staking
-    ├── README.md                          # Monad infra entrypoint
-    ├── RUNBOOK.md                         # Ops runbook
-    ├── DEPLOY_CHECKLIST.md                # Production checklist
-    └── liquid/                            # Liquid staking skeleton
+    └── monad-validator-plan.md            # Monad strategy document
 ```
 
 ## Purpose
@@ -48,20 +67,30 @@ This research aims to identify opportunities in the liquid staking ecosystem acr
 
 ## Key Research Documents
 
-### [Aztec Liquid Staking](./aztec/README.md) (Consolidated)
+### [Aztec Liquid Staking](./aztec/README.md) - Phase 2 Complete
 
-Complete Aztec liquid staking project including research, contracts, and development infrastructure.
+Privacy-focused liquid staking using Aztec Network and Noir smart contracts.
 
 **Quick Links:**
 - Start here: [aztec/README.md](./aztec/README.md)
 - Executive summary: [aztec/docs/EXECUTIVE-SUMMARY.md](./aztec/docs/EXECUTIVE-SUMMARY.md)
 - Source of truth for numbers: [aztec/docs/ECONOMICS.md](./aztec/docs/ECONOMICS.md)
-- Continue development: [aztec/contracts/AGENT_HANDOFF.md](./aztec/contracts/AGENT_HANDOFF.md)
+- Current status: [aztec/PROGRESS.md](./aztec/PROGRESS.md)
+- Continue development: [aztec/HANDOFF.md](./aztec/HANDOFF.md)
 
 **Status:**
-- 4 contracts compiled and verified (StakingPool, StakedAztecToken, WithdrawalQueue, ValidatorRegistry)
-- 34 unit tests passing
-- CI/CD pipeline active
+- 3 production contracts (LiquidStakingCore, StakedAztecToken, WithdrawalQueue)
+- 74 unit tests passing
+- Phase 3 (devnet deployment) starting
+
+### [Monad Validator Infra](./monad/README.md) - Operational
+
+Validator ops scripts, runbook, monitoring stack, and deployment checklist for Monad.
+
+**Quick Links:**
+- Start here: [monad/infra/README.md](./monad/infra/README.md)
+- Setup guide: [monad/infra/SETUP.md](./monad/infra/SETUP.md)
+- Runbook: [monad/infra/RUNBOOK.md](./monad/infra/RUNBOOK.md)
 
 ### [Liquid Staking Landscape 2025](./research/liquid-staking-landscape-2025.md)
 
@@ -73,10 +102,6 @@ Comprehensive analysis of the current liquid staking ecosystem including:
 - Competitive analysis matrix
 
 ### [Opportunities](./research/OPPORTUNITIES.md)
-
-### [Monad Validator Infra](./monad/README.md)
-
-Validator ops scripts, runbook, and deployment checklist for Monad.
 
 Priority-ranked list of market opportunities with actionable next steps:
 - **Tier 1:** Aztec liquid staking, Bitcoin staking, Institutional infrastructure
@@ -117,4 +142,4 @@ cd staking/aztec/contracts/staking-math-tests
 
 ---
 
-**Last Updated:** December 27, 2025
+**Last Updated:** February 2026

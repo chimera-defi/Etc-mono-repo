@@ -1,0 +1,16 @@
+{
+  "schema": "ai-memory-export/v1",
+  "export_id": "takopi-seed",
+  "description": "Portable Takopi config + memory defaults",
+  "steps": [
+    { "op": "write_template", "source": "takopi.toml.template", "target": "/root/.takopi/takopi.toml" },
+    { "op": "copy", "source": "MEMORY.md", "target": "/root/clawd/MEMORY.md" },
+    { "op": "copy", "source": "memory/2026-02-11.md", "target": "/root/clawd/memory/2026-02-11.md" },
+    { "op": "copy", "source": "memory/2026-02-12.md", "target": "/root/clawd/memory/2026-02-12.md" }
+  ],
+  "required_placeholders": [
+    "TAKOPI_TELEGRAM_BOT_TOKEN",
+    "TAKOPI_TELEGRAM_CHAT_ID",
+    "TAKOPI_TELEGRAM_ALLOWED_USER_ID"
+  ]
+}

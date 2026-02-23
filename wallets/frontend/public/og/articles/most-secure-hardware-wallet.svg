@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0B1020" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <text x="80" y="120" fill="#38BDF8" font-size="24" font-family="Arial, sans-serif" font-weight="600">Wallet Radar</text>
+  <text x="80" y="220" fill="#E2E8F0" font-size="48" font-family="Arial, sans-serif" font-weight="700">Most Secure Hardware Wallet in</text>
+<text x="80" y="284" fill="#E2E8F0" font-size="48" font-family="Arial, sans-serif" font-weight="700">2026: Top 3 Ultra-Secure Picks</text>
+  <rect x="80" y="520" width="220" height="36" rx="18" fill="#0EA5E9" opacity="0.2" />
+  <text x="95" y="545" fill="#7DD3FC" font-size="18" font-family="Arial, sans-serif">wallet comparison</text>
+</svg>

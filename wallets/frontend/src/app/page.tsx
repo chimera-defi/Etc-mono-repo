@@ -218,6 +218,16 @@ export default function HomePage() {
     ],
   };
 
+  const speakableSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Wallet Radar',
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['.speakable-summary'],
+    },
+  };
+
   return (
     <>
       <Script
@@ -229,6 +239,11 @@ export default function HomePage() {
         id="top-picks-schema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(topPicksSchema) }}
+      />
+      <Script
+        id="speakable-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableSchema) }}
       />
 
       {/* Disclaimer Banner */}
@@ -258,6 +273,10 @@ export default function HomePage() {
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 leading-tight">
               <span className="text-sky-400">Audit-grade</span> wallet comparisons for developers
             </h1>
+
+            <p className="text-lg text-muted-foreground mb-3 max-w-xl speakable-summary">
+              Wallet Radar ranks crypto wallets for developers using transparent scoring, verifiable sources, and side-by-side comparisons.
+            </p>
 
             <p className="text-lg text-muted-foreground mb-8 max-w-xl">
               Evidence-led scoring, transparent sources, and side-by-side tooling.

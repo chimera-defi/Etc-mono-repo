@@ -1,6 +1,10 @@
 # Valdi Application Guide
 
-> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `/token-reduce` skill
+> **Master rules:** `.cursorrules` | **Token efficiency:** `/token-reduce` skill | **Benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
+
+## Git & Workflow
+
+See `.cursorrules` **Git Discipline** and **Meta Learnings** sections for shared rules (PRs, rebasing, attribution, hooks).
 
 ## Overview
 
@@ -83,22 +87,14 @@ class MyComponent extends Component {
 4. Call `setState()` to trigger re-renders
 5. Try `bazel clean` if builds stuck
 
-## MCP CLI Patterns (Valdi-Specific)
+## Token Reduction
 
-**General patterns:** See `.cursor/MCP_CLI.md`
+**Full guide:** `.cursor/TOKEN_REDUCTION.md` | **Skill:** `/token-reduce`
 
+**Valdi-specific searches:**
 ```bash
-# Explore structure
-mcp-cli filesystem/directory_tree '{"path": "mobile_experiments/Valdi"}'
-
-# Find BUILD files
-mcp-cli filesystem/search_files '{"path": "mobile_experiments/Valdi", "pattern": "**/BUILD.bazel"}'
-
-# Batch read configs
-mcp-cli filesystem/read_multiple_files '{"paths": ["mobile_experiments/Valdi/config.yaml", "mobile_experiments/Valdi/WORKSPACE"]}'
-
-# Store Valdi knowledge
-mcp-cli memory/create_entities '{"entities": [{"name": "Valdi Pattern", "entityType": "pattern", "observations": ["key insight"]}]}'
+rg -g "*.tsx" "onRender" mobile_experiments/Valdi/
+rg -g "BUILD.bazel" "target" mobile_experiments/Valdi/
 ```
 
 ## Key Points
@@ -115,8 +111,3 @@ mcp-cli memory/create_entities '{"entities": [{"name": "Valdi Pattern", "entityT
 - **Examples:** `/apps/` in Valdi repo
 - **GitHub:** [github.com/Snapchat/Valdi](https://github.com/Snapchat/Valdi)
 
-## Meta Learnings
-
-- Always open a PR for changes; do not push directly to main.
-- Always pull latest `main` and rebase your branch on `main` at the start of each new request.
-- After rebasing, force-push with lease if the branch diverges from the PR head.

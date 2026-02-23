@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Script from 'next/script';
-import { ArrowLeft, Clock, BookOpen, ExternalLink, FileText, Table } from 'lucide-react';
+import { ArrowLeft, Clock, BookOpen, ExternalLink, FileText, Table, Rss } from 'lucide-react';
 import Link from 'next/link';
 import { getAllDocuments, getDocumentBySlug, getDocumentSlugs, extractTableOfContents, getRelatedDocument } from '@/lib/markdown';
 import { calculateReadingTime, formatReadingTime, optimizeMetaDescription, generateKeywords, getOgImagePath, markdownToPlainText, extractFAQsFromMarkdown, generateFAQSchema, generateBreadcrumbSchema } from '@/lib/seo';
@@ -103,6 +103,7 @@ export default function DocumentPage({ params }: PageProps) {
   const rawDescription = document.description || 
     `Comprehensive ${document.category} guide for crypto wallet comparison. ${document.title.includes('Comparison') ? 'Compare wallets with detailed scoring, security audits, and developer experience metrics.' : 'Expert insights and analysis for developers.'}`;
   const enhancedDescription = optimizeMetaDescription(rawDescription);
+  const summaryText = document.description || enhancedDescription;
 
   // Check if this is a table or details page and get the related one
   // New naming: software-wallets (table), software-wallets-details (details)
@@ -142,6 +143,16 @@ export default function DocumentPage({ params }: PageProps) {
   // Extract FAQs from markdown content and generate FAQ schema
   const faqs = extractFAQsFromMarkdown(document.content);
   const faqSchema = faqs.length > 0 ? generateFAQSchema(faqs) : null;
+
+  const speakableSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: document.title,
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['.speakable-summary'],
+    },
+  };
 
   // Article structured data for comparison pages
   const articleSchema = document.category === 'comparison' ? {
@@ -278,6 +289,11 @@ export default function DocumentPage({ params }: PageProps) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       )}
+      <Script
+        id="speakable-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableSchema) }}
+      />
       <div className="container mx-auto px-4 py-8">
       {/* Breadcrumb Navigation */}
       <Breadcrumbs
@@ -343,7 +359,10 @@ export default function DocumentPage({ params }: PageProps) {
               <span>{formatReadingTime(calculateReadingTime(document.content))}</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-4 text-slate-100">{document.title}</h1>
-            <p className="text-lg text-slate-400 mb-4">{document.description}</p>
+            <p className="text-lg text-slate-400 mb-3 speakable-summary">{summaryText}</p>
+            <p className="text-sm text-slate-500 mb-4">
+              Summary: {enhancedDescription}
+            </p>
             {/* Social Sharing - Header */}
             <SocialShare
               url={pageUrl}
@@ -359,6 +378,44 @@ export default function DocumentPage({ params }: PageProps) {
             showExpandableSections={true}
             skipFirstH1={true}
           />
+
+          {/* Merchant Feed (collapsible, for SEO agents - near footer) */}
+          {(isTablePage || (isDetailsPage && ['software-wallets', 'hardware-wallets', 'crypto-cards', 'ramps'].some(s => document.slug.startsWith(s)))) && (
+            <details className="mt-8 rounded-lg border border-slate-700/60 bg-slate-900/50 overflow-hidden" id="merchant-feed">
+              <summary className="flex items-center gap-3 p-3 cursor-pointer list-none bg-muted/30 hover:bg-muted/50 transition-colors [&::-webkit-details-marker]:hidden">
+                <Rss className="h-5 w-5 text-muted-foreground flex-shrink-0" aria-hidden />
+                <span className="font-semibold text-slate-200">Merchant Feed (SEO agents)</span>
+                <span className="text-xs text-muted-foreground ml-auto">Click to expand</span>
+              </summary>
+              <div className="p-4 border-t border-slate-700/60 text-sm text-muted-foreground space-y-2">
+                {(document.slug === 'hardware-wallets' || document.slug === 'hardware-wallets-details') ? (
+                  <>
+                    <p>
+                      <a href={`${baseUrl}/merchant-center.xml`} className="text-sky-400 hover:text-sky-300 underline">
+                        merchant-center.xml
+                      </a>
+                      {' — Verified USD pricing for hardware wallets. Exclusions: '}
+                      <a href="https://github.com/chimera-defi/Etc-mono-repo/blob/main/wallets/MERCHANT_FEED.md" className="text-sky-400 hover:text-sky-300 underline" target="_blank" rel="noopener noreferrer">
+                        MERCHANT_FEED.md
+                      </a>
+                    </p>
+                  </>
+                ) : (
+                  <p>
+                    Merchant feed not available for this category. The feed covers hardware wallets only.{' '}
+                    <Link href="/docs/hardware-wallets#merchant-feed" className="text-sky-400 hover:text-sky-300 underline">
+                      See Hardware Wallets
+                    </Link>
+                    {' for '}
+                    <a href={`${baseUrl}/merchant-center.xml`} className="text-sky-400 hover:text-sky-300 underline">
+                      merchant-center.xml
+                    </a>
+                    .
+                  </p>
+                )}
+              </div>
+            </details>
+          )}
 
           {/* Footer Navigation */}
           <footer className="mt-12 pt-8 border-t border-slate-700/60">

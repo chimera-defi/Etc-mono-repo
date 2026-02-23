@@ -1,6 +1,14 @@
 # Ideas & Research Guide
 
-> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `/token-reduce` skill
+> **Master rules:** `.cursorrules` | **Token efficiency:** `/token-reduce` skill | **Benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
+
+## Git & Workflow
+
+See `.cursorrules` **Git Discipline** and **Meta Learnings** sections for shared rules (PRs, rebasing, attribution, hooks).
+
+Quick reminder for Ideas PRs:
+- `**Agent:**` in PR descriptions must match the **actual model used** (don’t copy example model names).
+- `**Co-authored-by:**` in PR descriptions should be the **human** (Chimera).
 
 ## Projects
 
@@ -51,46 +59,33 @@ Unified birthday reminder application:
 | OAuth Auto-Setup | AI-driven third-party service provisioning | 💭 Concept |
 | Self-Hosted Infra | Coolify evaluation, PaaS alternatives | 💭 Exploration |
 | Mobile AI Agent | Native app with camera, location, offline support | 💭 Concept |
+| Clawdbot Launchpad | Hosted Clawdbot/Moltbot on VPS or containers | 💭 Concept |
 
 ## Core Principles
 
 1. **Document exploration** - Capture findings extensively
-2. **Store research** - Use knowledge graph
+2. **Store research** - Use project artifacts
 3. **Prototype fast** - Rapid iteration
 4. **Track learnings** - Capture insights
 5. **Link concepts** - Connect related ideas
 
-## MCP CLI Patterns (Ideas-Specific)
+## Token Reduction
 
-**General patterns:** See `.cursor/MCP_CLI.md`
+**Full guide:** `.cursor/TOKEN_REDUCTION.md` | **Skill:** `/token-reduce`
 
+**Ideas-specific searches:**
 ```bash
-# Explore multi-component projects
-mcp-cli filesystem/directory_tree '{"path": "ideas/voice-coding-assistant"}'
-
-# Find all package.json across components
-mcp-cli filesystem/search_files '{"path": "ideas/voice-coding-assistant", "pattern": "**/package.json"}'
-
-# Batch read docs
-mcp-cli filesystem/read_multiple_files '{"paths": ["ideas/README.md", "ideas/voice-coding-assistant/README.md"]}'
-
-# Store idea concepts
-mcp-cli memory/create_entities '{"entities": [{"name": "Idea Name", "entityType": "idea", "observations": ["concept", "target users", "key features"]}]}'
-
-# Store competitive analysis
-mcp-cli memory/create_entities '{"entities": [{"name": "Competitors", "entityType": "research", "observations": ["Competitor1: description", "Gap: opportunity"]}]}'
-
-# Link related concepts
-mcp-cli memory/create_relations '{"relations": [{"from": "Idea", "to": "Component", "relationType": "composed_of"}]}'
+rg -g "*.md" "birthday bot" ideas/
+rg -g "*.ts" "speech recognition" ideas/
 ```
 
 ## Research Workflow
 
-1. **Query existing knowledge** - Check memory first
-2. **Explore structure** - Use directory_tree
-3. **Batch read** - Use read_multiple_files
-4. **Store findings** - create_entities immediately
-5. **Link concepts** - create_relations to connect ideas
+1. **Check existing knowledge** - Read project memory/artifacts first
+2. **Explore structure** - Use Glob/Grep (or sub-agents for >5 files)
+3. **Targeted reads** - Read with offset/limit, not full files
+4. **Store findings** - Write to project artifacts immediately
+5. **Link concepts** - Cross-reference related docs
 6. **Track dead ends** - Store what didn't work
 
 ## Knowledge to Store
@@ -107,33 +102,19 @@ mcp-cli memory/create_relations '{"relations": [{"from": "Idea", "to": "Componen
 ## Multi-Component Projects
 
 For projects like Cadence:
-
 ```bash
-# 1. Get overview
-mcp-cli filesystem/directory_tree '{"path": "ideas/voice-coding-assistant"}'
-
-# 2. Find common files
-mcp-cli filesystem/search_files '{"path": "ideas/voice-coding-assistant", "pattern": "**/package.json"}'
-
-# 3. Store component relationships
-mcp-cli memory/create_relations '{"relations": [
-  {"from": "cadence-app", "to": "cadence-api", "relationType": "depends_on"},
-  {"from": "cadence-api", "to": "cadence-backend", "relationType": "depends_on"}
-]}'
+rg --files -g "**/package.json" ideas/voice-coding-assistant/
+rg -g "*.ts" "import.*cadence" ideas/voice-coding-assistant/
 ```
 
 ## Best Practices
 
 1. Document everything - ideas evolve
-2. Store research immediately
-3. Link related concepts
-4. Track dead ends (prevent repeating mistakes)
-5. Iterate quickly with MCP CLI
+2. Store research in project artifacts
+3. Track dead ends (prevent repeating mistakes)
+4. Use scoped searches (`rg -g`) before broad reads
 
-## Meta Learnings
+## Ideas-Specific Learnings
 
-- Always commit changes with a self-chosen message; do not ask for one.
-- Always open a PR for changes; do not push directly to main.
 - Verify repo contents before answering status questions; inspect the tree first to avoid incorrect claims.
-- Always pull latest `main` and rebase your branch on `main` at the start of each new request.
-- After rebasing, force-push with lease if the branch diverges from the PR head.
+- Always commit with a self-chosen message; do not ask for one.

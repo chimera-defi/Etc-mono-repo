@@ -3,6 +3,7 @@
 import { Twitter, Facebook, Linkedin, Mail, Link2, Check } from 'lucide-react';
 import { useState } from 'react';
 import { getSocialShareUrls } from '@/lib/seo';
+import { trackShare, trackCopyLink } from '@/lib/analytics';
 
 interface SocialShareProps {
   url: string;
@@ -23,6 +24,7 @@ export function SocialShare({ url, title, description, className = '', size = 'd
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(url);
+      trackCopyLink(url);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
@@ -31,6 +33,7 @@ export function SocialShare({ url, title, description, className = '', size = 'd
   };
 
   const handleShare = (platform: keyof typeof shareUrls) => {
+    trackShare(platform, 'page', url);
     const shareUrl = shareUrls[platform];
     if (platform === 'email') {
       window.location.href = shareUrl;
