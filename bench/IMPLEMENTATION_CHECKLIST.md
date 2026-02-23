@@ -1,8 +1,46 @@
-# Implementation Checklist: Self-Improving Harness
+# Self-Optimizing Harness: Implementation Guide
 
 **Status:** Ready for parallel implementation  
 **Timeline:** 3-5 days to production  
 **Effort:** Low (mostly stubs provided)
+
+---
+
+## Quick Overview
+
+This document consolidates the implementation plan and execution strategy for the self-improving benchmark harness. The goal is to close the optimization loop + implement improvements + ship PR.
+
+## Execution Phases
+
+```
+PHASE 0: Loop Closure (Foundation)
+  ├─ Task 0.1 → config_manager.py
+  ├─ Task 0.2 → routing_config.json schema
+  ├─ Task 0.3 → routing_enforcer.py (complete)
+  └─ Task 0.4 → meta_harness_loop.py (add enforcer call)
+
+PHASE 1: Features (Parallel after 0.1 complete)
+  ├─ Task 1.1 → warm_up integration
+  ├─ Task 1.2 → extended suite safety
+  ├─ Task 1.3 → lock file PID check
+  └─ Task 1.4 → benchmark_supervisor.py config reading
+
+PHASE 2: Tests (Parallel after features done)
+  ├─ Task 2.1 → config_manager tests
+  ├─ Task 2.2 → routing_enforcer tests
+  ├─ Task 2.3 → run_benchmark.py feature tests
+  ├─ Task 2.4 → meta_harness_loop tests
+  └─ Task 2.5 → integration tests (warm-up + routing)
+
+PHASE 3: Integration (Serial, after tests)
+  ├─ Task 3.1 → Full loop dry-run
+  └─ Task 3.2 → Verify loop closes
+
+PHASE 4: PR & Docs (After integration passes)
+  ├─ Task 4.1 → Update docs + MEMORY.md
+  ├─ Task 4.2 → Create PR
+  └─ Task 4.3 → Run final checks
+```
 
 ---
 
@@ -272,7 +310,7 @@ Run these before marking complete.
 - [ ] All routing decisions logged
 
 ### Documentation Verification
-- [ ] ARCHITECTURE.md explains system
+- [ ] ARCHITECTURE_V2_SELF_OPTIMIZING.md explains system
 - [ ] META_LEARNINGS.md captures discoveries
 - [ ] Implementation docs provided for each improvement
 - [ ] All decisions traceable to run data
@@ -348,6 +386,40 @@ git commit -m "docs: update architecture with Feb 23-24 improvements
 - Check: Is `routing_enforcer.py` being called?
 - Debug: Does it read `harness_feedback.json` correctly?
 - Fallback: Apply routing rules manually
+
+---
+
+## Core Files (Working)
+
+### Python Scripts
+```
+run_benchmark.py           # Main runner
+benchmark_supervisor.py    # Variance detection
+meta_harness_loop.py      # Cycle orchestration
+config_manager.py          # Config system
+routing_enforcer.py        # Auto-apply recommendations
+harness_feedback_loop.py  # Recommendations
+self_optimizing_policy.py # Decision gates
+lock_manager.py           # Stale lock handling
+routing_log.py           # Audit trail
+```
+
+### Tests
+```
+test_config_manager.py
+test_integration_loop.py  
+test_warmup_invoked_when_config_enabled.py
+```
+
+### Reference Docs
+```
+ARCHITECTURE_V2_SELF_OPTIMIZING.md  # System architecture
+EXECUTE_LOCALLY.md                  # How to run
+EXECUTION_SUMMARY.md               # Results summary
+META_LEARNINGS.md                  # Learnings
+ROUTING_DECISIONS.md               # Routing logic
+WARM_UP_INTEGRATION.md             # Warm-up details
+```
 
 ---
 
