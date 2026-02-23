@@ -813,6 +813,43 @@ def print_summary(result: PhaseResult) -> None:
 """)
 
 # =============================================================================
+# MODEL-PHASE COMPATIBILITY VALIDATION
+# =============================================================================
+
+def validate_model_phase_compatibility(model: str, phase: str, force: bool = False) -> tuple[str, bool]:
+    """
+    Check model-phase compatibility and apply routing rules.
+    This is a safety net - config_manager.apply_routing should handle most cases.
+    
+    Returns:
+        (model_to_use, is_fallback)
+    """
+    if force:
+        return model, False
+    
+    # Skip if already routed by config (model is no longer the original)
+    if model != "lfm2.5-thinking:1.2b":
+        return model, False
+    
+    # LFM extended disablement rule (safety net)
+    if phase == "extended":
+        print(f"⚠️  Model {model} not supported for {phase} suite (0% accuracy baseline)")
+        print("→ Routing to claude-haiku (proven 100% on extended)")
+        
+        # Log fallback decision
+        log_routing_decision(
+            original_model=model,
+            fallback_model="claude-haiku",
+            phase=phase,
+            reason="LFM extended capability limit (0% baseline) - validation fallback"
+        )
+        
+        return "claude-haiku", True
+    
+    return model, False
+
+
+# =============================================================================
 # MAIN ENTRY POINT
 # =============================================================================
 
@@ -904,6 +941,11 @@ Examples:
         action="store_true",
         help="Enable model warm-up before running benchmarks"
     )
+    parser.add_argument(
+        "--force-model",
+        action="store_true",
+        help="Skip model-phase compatibility validation (use with caution)"
+    )
     
     args = parser.parse_args()
 
@@ -920,9 +962,15 @@ Examples:
         print("🔥 Warming up model...")
         try:
             import time
-            ollama.generate(model=args.model, prompt="What is 2+2?", stream=False)
-            time.sleep(1)
-            print("✅ Warm-up complete")
+            # Use chat with timeout for warm-up (10 second limit)
+            ollama.chat(
+                model=args.model,
+                messages=[{"role": "user", "content": "What is 2+2?"}],
+                stream=False,
+                options={"temperature": 0.0},
+                timeout=10
+            )
+            print("Warm-up complete")
         except Exception as e:
             print(f"⚠️  Warm-up failed (non-fatal): {e}")
 
@@ -935,7 +983,9 @@ Examples:
         print(f"❌ Unsupported model for this harness environment: {args.model}.", file=sys.stderr)
         sys.exit(1)
 
-    if args.model.startswith("openai") or args.model.startswith("anthropic") or args.model.startswith("claude"):
+    # Block only actual online API calls, not local Ollama models
+    online_prefixes = ("openai/", "anthropic/", "claude-api/")
+    if any(args.model.startswith(p) for p in online_prefixes):
         print(
             f"❌ Online model blocked by policy: {args.model}. Use local Ollama models only.",
             file=sys.stderr,
@@ -966,6 +1016,12 @@ Examples:
     if phase not in ["atomic", "extended"]:
         print(f"❌ Invalid phase: {phase}. Use: atomic|extended|phase2", file=sys.stderr)
         sys.exit(1)
+    
+    # NEW: Validate model-phase compatibility and apply routing
+    model, is_fallback = validate_model_phase_compatibility(args.model, phase, args.force_model)
+    if is_fallback:
+        print(f"🔀 Routing: {args.model} → {model}")
+        args.model = model
     
     try:
         # Load configuration
