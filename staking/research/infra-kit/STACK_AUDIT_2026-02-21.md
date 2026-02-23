@@ -11,7 +11,7 @@
 
 | Stack | Bootstrap | Preflight | Smoke | Status | Start | Stop | Logs |
 |-------|-----------|-----------|-------|--------|-------|------|------|
-| eth2-quickstart | Partial (run_1/2.sh) | — | — | — | — | — | — |
+| eth2-quickstart | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Aztec | ✅ | — | — | ✅ | ✅ | ✅ | ✅ |
 | Monad | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | MegaETH | — | — | — | — | — | — | — |
