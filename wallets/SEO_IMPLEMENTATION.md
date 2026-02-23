@@ -17,6 +17,22 @@ This document tracks all SEO (Search Engine Optimization), AEO (Answer Engine Op
 
 ## What Was Implemented
 
+### 0. SpeakableSpecification + Merchant Center Feed (February 2026)
+
+**SpeakableSpecification**
+- Added a short `.speakable-summary` block and JSON-LD Speakable schema on homepage and docs pages.
+- Purpose: improve voice assistant read-outs for short summaries (not full tables).
+
+**Merchant Center Feed**
+- Script: `wallets/scripts/generate_merchant_feed.py`
+- Output (public): `wallets/frontend/public/merchant-center.xml`
+- Uses wallet tables as a data source and generates a basic XML feed.
+- Pricing source and exclusions: `wallets/MERCHANT_FEED.md`
+
+**LLM discovery**
+- `wallets/frontend/public/llms.txt`
+- Added to sitemap for crawlability.
+
 ### 1. Enhanced Schema Generators (`lib/seo.ts`)
 
 **File:** `/home/user/Etc-mono-repo/wallets/frontend/src/lib/seo.ts`
@@ -341,11 +357,11 @@ Home → Articles → Article Title
 
 ### Priority Order
 
-**Week 2-3: Content Expansion** 🟡 PENDING
-- [x] ~~Add 10 "X vs Y" comparison articles~~ (3 articles created, 7 more to go)
-- [x] ~~Add 5 "best wallet for [use case]" pages~~ (2 guides created, 3 more to go)
+**Week 2-3: Content Expansion** ✅ COMPLETE
+- [x] ~~Add 10 "X vs Y" comparison articles~~ (10 total created)
+- [x] ~~Add 5 "best wallet for [use case]" pages~~ (5 total created)
 - [ ] Add articles navigation to homepage/navbar
-- [ ] Create 7 more comparison articles:
+- [x] Create 7 more comparison articles:
   - "Trezor vs Ledger"
   - "MetaMask vs Rainbow"
   - "Trust Wallet vs Rabby"
@@ -353,24 +369,24 @@ Home → Articles → Article Title
   - "ColdCard vs Trezor Safe 7"
   - "Coinbase Wallet vs MetaMask"
   - "Best Ethereum Wallet: Comprehensive Guide"
-- [ ] Create 3 more guide articles:
+- [x] Create 3 more guide articles:
   - "Best Wallet for DeFi"
   - "Best Wallet for NFT Collectors"
   - "Best Multi-Chain Wallet"
-- [ ] Create glossary page (`/glossary`) with DefinedTerm schema
-- [ ] Create wallet setup guides with HowTo schema
+- [x] Create glossary page (`/glossary`) with DefinedTerm schema
+- [x] Create wallet setup guides with HowTo schema
 
-**Week 4-6: Advanced Content** 🟡 PENDING
-- [ ] Add video transcripts with VideoObject schema (if videos exist)
-- [ ] Create "Best Crypto Card" comparison article
-- [ ] Create "Best Crypto On-Ramp" comparison article
-- [ ] Add Pros/Cons sections to comparison tables
-- [ ] Enhance comparison articles with detailed feature tables
+**Week 4-6: Advanced Content** 🟡 IN PROGRESS
+- [x] Add video transcript template with VideoObject schema (awaiting real videos)
+- [x] Create "Best Crypto Card" comparison article
+- [x] Create "Best Crypto On-Ramp" comparison article
+- [x] Add Pros/Cons sections to comparison tables
+- [x] Enhance comparison articles with detailed feature tables
 
 **Month 2-3: Analytics & Monitoring** 🟡 PENDING
-- [ ] Implement AI referral tracking (detect ChatGPT/Copilot traffic in Google Analytics 4)
-- [ ] Set up weekly LLM citation monitoring (manual ChatGPT/Perplexity tests)
-- [ ] Add product feeds for Google Merchant Center
+- [x] Implement AI referral tracking (detect ChatGPT/Copilot traffic in Google Analytics 4)
+- [x] Set up weekly LLM citation monitoring (manual ChatGPT/Perplexity tests)
+- [x] Add product feeds for Google Merchant Center
 - [ ] Create voice search optimization (SpeakableSpecification)
 - [ ] Multi-modal content (videos + transcripts)
 
@@ -681,7 +697,7 @@ lynx -dump -nolist https://example.com/docs/page > /tmp/page.txt
 wc -c /tmp/page.html /tmp/page.txt
 ```
 
-### 7.1 Simulate AI Agent Consumption
+### 7.1 Test AI Agent Interaction
 
 **Goal:** test if an agent can answer questions from the cleaned content.
 
@@ -691,7 +707,7 @@ from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage
 
 content = open("/tmp/page.txt", "r", encoding="utf-8").read()
-prompt = f"Answer: What is the page about?\\n\\nContent:\\n{content}"
+prompt = f"Answer: What is the page about?\n\nContent:\n{content}"
 model = ChatOpenAI(model="gpt-4o-mini")
 print(model.invoke([HumanMessage(content=prompt)]).content)
 ```
@@ -702,12 +718,12 @@ import openai
 content = open("/tmp/page.txt", "r", encoding="utf-8").read()
 resp = openai.ChatCompletion.create(
   model="gpt-4o-mini",
-  messages=[{"role":"user","content":"Summarize:\\n"+content}]
+  messages=[{"role":"user","content":"Summarize:\n"+content}]
 )
 print(resp["choices"][0]["message"]["content"])
 ```
 
-### 7.2 Monitor for SEO Issues
+### 7.2 Monitor for SEO Issues Post-Implementation
 
 **Checklist:**
 - No duplicate canonical tags.
@@ -719,6 +735,16 @@ print(resp["choices"][0]["message"]["content"])
 ```bash
 curl -sSL https://example.com/docs/page | rg -n "canonical|noindex|schema.org"
 ```
+
+### 7.3 Diagram (Textual Description)
+
+Use this diagram to explain the pipeline in docs or presentations:
+
+```
+Raw HTML -> Extract Main -> Clean Markdown -> Agent Test -> SEO Validation
+```
+
+**Caption:** One canonical URL, multiple consumers (humans + agents), one validation loop.
 
 ---
 
@@ -746,8 +772,10 @@ curl -sSL https://example.com/docs/page | rg -n "canonical|noindex|schema.org"
 - Add FAQ schema via plugin or custom HTML blocks.
 
 **Mintlify:**
-- Prefer built-in doc pages; automation handles structure.
+- Prefer built-in doc pages; automation handles structure and updates.
 - Validate that generated pages include structured data.
+
+**If this feels advanced:** use Readability.js for extraction or a managed SEO platform with built-in schema.
 
 ---
 

@@ -16,6 +16,24 @@ export function getOgImagePath(slug: string): string {
     'crypto-cards-details': '/og-image.svg',
     'ramps': '/og-image.svg',
     'ramps-details': '/og-image.svg',
+    'rabby-vs-metamask': '/og/articles/rabby-vs-metamask.svg',
+    'best-wallet-for-ethereum-developers': '/og/articles/best-wallet-for-ethereum-developers.svg',
+    'most-secure-hardware-wallet': '/og/articles/most-secure-hardware-wallet.svg',
+    'trezor-vs-ledger': '/og/articles/trezor-vs-ledger.svg',
+    'metamask-vs-rainbow': '/og/articles/metamask-vs-rainbow.svg',
+    'trust-wallet-vs-rabby': '/og/articles/trust-wallet-vs-rabby.svg',
+    'hardware-vs-software-wallets': '/og/articles/hardware-vs-software-wallets.svg',
+    'coldcard-vs-trezor-safe-7': '/og/articles/coldcard-vs-trezor-safe-7.svg',
+    'coinbase-wallet-vs-metamask': '/og/articles/coinbase-wallet-vs-metamask.svg',
+    'best-ethereum-wallet': '/og/articles/best-ethereum-wallet.svg',
+    'best-wallet-for-defi': '/og/articles/best-wallet-for-defi.svg',
+    'best-wallet-for-nft-collectors': '/og/articles/best-wallet-for-nft-collectors.svg',
+    'best-multi-chain-wallet': '/og/articles/best-multi-chain-wallet.svg',
+    'best-crypto-card': '/og/articles/best-crypto-card.svg',
+    'best-crypto-onramp': '/og/articles/best-crypto-onramp.svg',
+    'hardware-wallet-setup-guide': '/og/articles/hardware-wallet-setup-guide.svg',
+    'software-wallet-setup-guide': '/og/articles/software-wallet-setup-guide.svg',
+    'video-transcripts': '/og/articles/video-transcripts.svg',
   };
   return imageMap[slug] || '/og-image.svg';
 }
@@ -317,6 +335,57 @@ export function generateFAQSchema(faqs: Array<{ question: string; answer: string
         '@type': 'Answer',
         text: faq.answer,
       },
+    })),
+  };
+}
+
+/**
+ * Extract HowTo steps from markdown content.
+ * Looks for headings like "### Step 1: Title" or "### Step 1".
+ */
+export function extractHowToSteps(content: string): Array<{ name: string; text: string }> {
+  const lines = content.split('\n');
+  const steps: Array<{ name: string; text: string }> = [];
+
+  for (let i = 0; i < lines.length; i += 1) {
+    const line = lines[i].trim();
+    const match = line.match(/^###\s+Step\s+\d+\s*:?(\s+.*)?$/i);
+    if (match) {
+      const name = match[1]?.trim() || line.replace(/^###\s+/, '');
+      let text = '';
+      for (let j = i + 1; j < lines.length; j += 1) {
+        const next = lines[j].trim();
+        if (next.startsWith('### ')) break;
+        if (next.length > 0) {
+          text = next;
+          break;
+        }
+      }
+      steps.push({ name, text });
+    }
+  }
+
+  return steps;
+}
+
+/**
+ * Generate HowTo schema for step-based guides.
+ */
+export function generateHowToSchema(
+  title: string,
+  description: string,
+  steps: Array<{ name: string; text: string }>
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: title,
+    description,
+    step: steps.map((step, index) => ({
+      '@type': 'HowToStep',
+      position: index + 1,
+      name: step.name,
+      text: step.text || step.name,
     })),
   };
 }

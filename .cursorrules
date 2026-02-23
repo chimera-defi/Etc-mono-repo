@@ -19,19 +19,23 @@
 - `[uses tool]` instead of narrating actions
 - ~100 tokens for simple answers, ~200 for diffs, ~300 for summaries
 
+- Cap tool output to ~120 lines; use `head/tail/sed` for longer content
+- Avoid re-reading the same file in a session unless it changed
+- Prefer `rg -g` scoped searches over broad directory scans
+
 **Expand only when user says:** "Go deeper", "Expand", "Show reasoning", "Explore tradeoffs"
 
 **Session workflow (automatic):**
-1. Query knowledge graph before researching (`mcp-cli memory/search_nodes`)
+1. Use QMD BM25 to find relevant files first (`qmd search "topic" -n 5 --files`)
 2. Use targeted file reads (head/tail, not full files)
 3. Parallel tool calls when possible
-4. Store findings in knowledge graph
-5. Skip preambles and confirmations
+4. Skip preambles and confirmations
+5. Prefer `rg --files -g` for structure scans before directory_tree
 
-**MCP CLI required for bulk operations:** See `.cursor/MCP_CLI.md`
-- Install: `curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash`
-- Use for: 2+ file reads, directory trees, pattern searches, knowledge storage
-- **Benchmarked savings:** 91% (concise), 84% (knowledge graph), 44% (targeted reads)
+**Token reduction tools:**
+- **QMD BM25 search** (recommended): `qmd search "topic" -n 5 --files` — 99% fewer tokens than naive reads
+- **MCP CLI** (Cursor only, not Claude Code): See `.cursor/MCP_CLI.md` — adds 117% overhead in Claude Code
+- **Benchmarked savings:** 89% (concise), 99% (QMD search vs naive), 33% (targeted reads)
 - Complete guide: `.cursor/TOKEN_REDUCTION.md`
 
 **Sub-agent delegation (prevents context compaction):**
@@ -53,7 +57,7 @@
 
 **Template:**
 ```markdown
-**Agent:** Claude Opus 4.5
+**Agent:** <MODEL NAME> <!-- e.g., GPT-5.2, GPT-4o, Claude Opus 4.5 -->
 
 ## Summary
 Brief description.
@@ -84,6 +88,8 @@ Brief description.
 - Document assumptions in code comments
 - Verify builds/lint/tests before completing
 - No security vulnerabilities (OWASP top 10)
+- Batch shell commands when possible to reduce tool calls
+- Use `rg -g` to scope searches; if `rg` unavailable, fallback to `git grep`
 
 ---
 
@@ -128,7 +134,14 @@ Brief description.
 - **Model attribution:** Specific model (Claude Opus 4.5), not platform (Cursor)
 - **Math verification:** Breakdown values must sum to stated totals
 - **Cross-document consistency:** Data in multiple places must match
+- **No direct pushes to main:** Always use a PR branch
+- **Hooks required:** `git config core.hooksPath .githooks`
 - **Rebase discipline:** Pull latest `main` and rebase at the start of each new request
+- **One task = one PR:** Stack commits on a single branch/PR for the request
+- **Branch/worktree first:** Create a feature branch/worktree before making changes
+- **Always commit:** Self-authored commit messages with model attribution
+- **Preserve research context:** Store sources in `.cursor/artifacts/` or project artifacts
+- **Pricing verification:** Use provider sites for any pricing data; exclude free categories from merchant feeds
 
 ---
 
@@ -182,14 +195,18 @@ Rules are organized by domain. Reference by number in code reviews.
 - **#129** CI checks must not skip - all checks enforced
 - **#134** Model attribution, not platform attribution
 
-### MCP CLI & Token Efficiency (140-157)
-- **#140** Install MCP CLI before using
-- **#142** Always prefer MCP CLI for bulk operations
-- **#146** Store knowledge in memory server
-- **#147** Query knowledge graph before searching
+### Git Discipline (135-139)
+- **#135** Never push directly to `main` or `master`
+- **#136** Use a feature branch + PR for all changes
+- **#137** Install hooks: `git config core.hooksPath .githooks`
+- **#138** One task = one PR; keep all related commits in the same PR branch
+- **#139** Create a branch/worktree before making changes
+
+### Token Efficiency (140-157)
+- **#140** Use QMD BM25 search before reading files (skip embed/vector — too slow)
+- **#142** MCP CLI is for Cursor only; Claude Code native tools are faster (benchmarked 77-256x)
 - **#148** Token reduction skill always active (see .cursor/TOKEN_REDUCTION.md and /token-reduce)
-- **#149** Benchmarked token savings: 91% (concise), 84% (knowledge graph), 44% (targeted reads)
-- **#150** Query knowledge graph before researching to avoid duplicate work
+- **#149** Benchmarked token savings: 89% (concise), 99% (QMD search vs naive), 33% (targeted reads)
 - **#151** Use sub-agents for exploration (>5 files, uncertain locations, pattern matching)
 - **#152** Sub-agents return summaries - keeps main context lean, prevents compaction
 - **#153** Hooks enforce: Read >300 lines blocked, Grep content warned, Glob >50 files warned
@@ -245,28 +262,9 @@ See `staking/AGENTS.md` for detailed patterns.
 
 ## Ideas Project Specifics
 
-**Current projects:** Voice Coding Assistant (Cadence), Automated Trading System, Birthday Bot
+**Current projects:** Voice Coding Assistant (Cadence), Birthday Bot
 
 **Focus:** Document exploration, prototype fast, store research
 
 See `ideas/AGENTS.md` for project details.
 
----
-
-## Project Status
-
-**Comprehensive tracking:** `.cursor/artifacts/PROJECT_STATUS.md`
-
-Categories: Active/Production, In Development, Research/Evaluation, Ideas Backlog
-
----
-
-## Best Practices Summary
-
-1. **Install MCP CLI** before bulk operations
-2. **Query knowledge graph** before researching
-3. **Store findings** in memory server
-4. **Verify builds** before completing tasks
-5. **Use model names** in PRs and commits
-6. **Check git diff** before major changes
-7. **Preserve data** - add, don't remove

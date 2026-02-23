@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import { Wallet, Github, ExternalLink, Mail, Twitter } from 'lucide-react';
+import { trackOutboundLink } from '@/lib/analytics';
 
 export function Footer() {
   return (
@@ -73,6 +76,7 @@ export function Footer() {
                   href="https://walletbeat.fyi?utm_source=walletradar&utm_medium=comparison"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackOutboundLink('https://walletbeat.fyi', 'WalletBeat')}
                   className="text-slate-400 hover:text-sky-400 transition-colors inline-flex items-center gap-1"
                 >
                   WalletBeat <ExternalLink className="h-3 w-3" />
@@ -90,6 +94,7 @@ export function Footer() {
                   href="https://ethereum.org/en/wallets/find-wallet/?utm_source=walletradar&utm_medium=comparison"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackOutboundLink('https://ethereum.org/en/wallets/find-wallet/', 'Ethereum.org Wallets')}
                   className="text-slate-400 hover:text-sky-400 transition-colors inline-flex items-center gap-1"
                 >
                   Ethereum.org Wallets <ExternalLink className="h-3 w-3" />
@@ -100,6 +105,7 @@ export function Footer() {
                   href="https://chainlist.org?utm_source=walletradar&utm_medium=comparison"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackOutboundLink('https://chainlist.org', 'ChainList')}
                   className="text-slate-400 hover:text-sky-400 transition-colors inline-flex items-center gap-1"
                 >
                   ChainList <ExternalLink className="h-3 w-3" />
@@ -123,8 +129,8 @@ export function Footer() {
           </p>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div className="text-sm text-slate-400">
-              <p><strong className="text-slate-300">Open Source:</strong> <a href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets?utm_source=walletradar&utm_medium=comparison" target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:text-sky-300 transition-colors">View on GitHub</a></p>
-              <p><strong className="text-slate-300">Found an issue?</strong> <a href="https://github.com/chimera-defi/Etc-mono-repo/issues?utm_source=walletradar&utm_medium=comparison" target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:text-sky-300 transition-colors">Report on GitHub Issues</a></p>
+              <p><strong className="text-slate-300">Open Source:</strong> <a href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets?utm_source=walletradar&utm_medium=comparison" target="_blank" rel="noopener noreferrer" onClick={() => trackOutboundLink('https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets', 'View on GitHub')} className="text-sky-400 hover:text-sky-300 transition-colors">View on GitHub</a></p>
+              <p><strong className="text-slate-300">Found an issue?</strong> <a href="https://github.com/chimera-defi/Etc-mono-repo/issues?utm_source=walletradar&utm_medium=comparison" target="_blank" rel="noopener noreferrer" onClick={() => trackOutboundLink('https://github.com/chimera-defi/Etc-mono-repo/issues', 'Report on GitHub Issues')} className="text-sky-400 hover:text-sky-300 transition-colors">Report on GitHub Issues</a></p>
             </div>
             <div className="flex items-center gap-6">
               <a
@@ -138,6 +144,7 @@ export function Footer() {
                 href="https://x.com/chimeradefi?utm_source=walletradar&utm_medium=comparison"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackOutboundLink('https://x.com/chimeradefi', 'Twitter')}
                 className="flex items-center gap-2 text-sm text-slate-400 hover:text-sky-400 transition-colors"
               >
                 <Twitter className="h-4 w-4" />
@@ -147,6 +154,7 @@ export function Footer() {
                 href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets?utm_source=walletradar&utm_medium=comparison"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackOutboundLink('https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets', 'Source Code')}
                 className="flex items-center gap-2 text-sm text-slate-400 hover:text-sky-400 transition-colors"
               >
                 <Github className="h-4 w-4" />

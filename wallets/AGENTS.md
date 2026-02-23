@@ -1,6 +1,10 @@
 # Wallet Comparison Guidelines
 
-> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `/token-reduce` skill
+> **Master rules:** `.cursorrules` | **Token efficiency:** `/token-reduce` skill | **Benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
+
+## Git & Workflow
+
+See `.cursorrules` **Git Discipline** and **Meta Learnings** sections for shared rules (PRs, rebasing, attribution, hooks).
 
 ## Core Purpose
 
@@ -89,27 +93,15 @@ Rabby, Trust, Rainbow, Brave, Coinbase, MetaMask, Phantom, OKX, Wigwam, Zerion, 
 
 ---
 
-## MCP CLI Patterns (Wallet-Specific)
+## Token Reduction
 
-**General patterns:** See `.cursor/MCP_CLI.md`
-**Token optimization:** See `.cursor/TOKEN_REDUCTION.md` or use `/token-reduce` skill
+**Full guide:** `.cursor/TOKEN_REDUCTION.md` | **Skill:** `/token-reduce` | **MCP CLI (Cursor only):** `.cursor/MCP_CLI.md`
 
+**Wallet-specific searches:**
 ```bash
-# Bulk read wallet tables (reduces tool call overhead, provides structured data)
-mcp-cli filesystem/read_multiple_files '{"paths": ["wallets/SOFTWARE_WALLETS.md", "wallets/HARDWARE_WALLETS.md", "wallets/CRYPTO_CARDS.md"]}'
-
-# Store wallet research (saves 84% tokens across multiple sessions)
-mcp-cli memory/create_entities '{"entities": [{"name": "WalletName", "entityType": "wallet", "observations": ["feature1", "feature2"]}]}'
-
-# ALWAYS query before research (avoids duplicate work)
-mcp-cli memory/search_nodes '{"query": "wallet name"}'
+rg -g "*.md" "scoring methodology" wallets/
+rg -g "*.md" "hardware wallet" wallets/
 ```
-
-**Token reduction for wallet work:**
-- Query knowledge graph for previously researched wallets
-- Use MCP CLI bulk reads for comparing multiple wallet tables
-- Store scoring methodology in memory server
-- Use targeted file reads (head/tail) for large wallet lists
 
 ---
 
@@ -146,7 +138,7 @@ mcp-cli memory/search_nodes '{"query": "wallet name"}'
 
 ---
 
-## Meta Learnings
+## Wallet-Specific Learnings
 
 **From Third Review (Dec 2025):**
 1. Core criteria matter most - 12/24 wallets don't meet basic requirements
@@ -154,26 +146,16 @@ mcp-cli memory/search_nodes '{"query": "wallet name"}'
 3. Stability is undervalued
 4. Data exists but is scattered
 
-**Document Maintenance:**
-1. Single table principle
-2. Changelog discipline
-3. Verify before trust
+**Document Maintenance:** Single table principle, changelog discipline, verify before trust
 
-**Workflow:**
-1. Always open a PR for changes; do not push directly to main.
-2. Always pull latest `main` and rebase your branch on `main` at the start of each new request.
-3. After rebasing, force-push with lease if the branch diverges from the PR head.
-4. Activity status decays
+**Wallet Workflow:**
+- Research inputs → `wallets/artifacts/` (gitignored), durable notes → `wallets/MERCHANT_FEED.md`
+- Merchant feeds: provider-site pricing only; skip free categories and items without verified prices
+- Activity status decays over time
 
-**Multi-Pass Review:**
-1. Math verification - breakdowns must sum to totals
-2. Values within bounds - no column exceeds maximum
-3. Cross-document consistency
-4. No data loss on restructure
+**Multi-Pass Review:** Math verification (breakdowns sum to totals), values within bounds, cross-doc consistency, no data loss on restructure
 
-**Data Columns (preserve):**
-- Chains, Rel/Mo, RPC, GitHub, Testnets, Audits
-- Last Commit, Stars, Issues, Ratio, Stability
+**Data Columns (preserve):** Chains, Rel/Mo, RPC, GitHub, Testnets, Audits, Last Commit, Stars, Issues, Ratio, Stability
 
 ---
 
@@ -203,4 +185,4 @@ When renaming files:
 
 ---
 
-*Last updated: January 2026*
+*Last updated: February 2026*

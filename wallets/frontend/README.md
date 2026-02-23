@@ -167,13 +167,22 @@ Update `navItems` in `src/components/Navigation.tsx` to change the header menu.
 
 ### Google Analytics 4
 
-Google Analytics 4 (GA4) is integrated via standard inline scripts in the HTML `<head>`:
+Google Analytics 4 (GA4) is integrated with lazy-loaded scripts and event tracking:
 
-- **Measurement ID**: `G-L6ZV569CMN` (hardcoded in `layout.tsx` for static export reliability)
-- **Location**: Inline scripts in `src/app/layout.tsx`
-- **Implementation**: Standard Google-recommended approach for static sites
+- **Measurement ID**: `G-L6ZV569CMN` (in `layout.tsx` and `lib/analytics.ts`)
+- **Config**: `layout.tsx` — gtag + config with `lazyOnload`; initial page_view + `referral_detected` event
+- **Route tracking**: `GoogleAnalytics.tsx` — page_view on client-side navigation (SPA)
+- **Events**: `lib/analytics.ts` — search, outbound link clicks, share, copy_link
 
-The GA script is included directly in the HTML head (not via React components) to ensure tracking works reliably on statically exported sites.
+**Tracked events:**
+| Event | Trigger | Params |
+|-------|---------|--------|
+| page_view | Initial load (config) + route change | page_path |
+| referral_detected | Initial load | referrer_host, traffic_source, is_ai_referrer |
+| search | User selects search result | search_term |
+| click (outbound) | External link click | link_url, event_label |
+| share | Social share button | method, content_type |
+| copy_link | Copy link button | link_url |
 
 ## SEO Features
 

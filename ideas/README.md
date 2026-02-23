@@ -2,6 +2,8 @@
 
 High-level ideas and concepts for future exploration and implementation.
 
+Related persistent memory snapshots: [`../ai_memory/`](../ai_memory/README.md)
+
 ## OAuth-Based Automated Provider Setup
 
 **Problem**: Manual setup of third-party services (Google Analytics, authentication providers, etc.) requires copying API keys, configuring environment variables, and updating multiple files—a tedious, error-prone process.
@@ -75,6 +77,50 @@ DeFi protocol concept for ERC-8004 agent credit with Ethos vouching + reverse-Ke
 - Cross-platform vs. platform-specific features
 
 **Differentiators**: Native mobile experience with AI capabilities that web apps can't match (camera, offline, notifications).
+
+---
+
+## Idea Validation Bot (Voice → Interview → Adversarial Validation → PRD)
+
+**Concept**: A mobile “idea bot” that transcribes voice and runs a structured interview to refine and validate product ideas, including feasibility analysis and adversarial tests of business model and GTM, then outputs an **agent-ready PRD/spec** for coding agents.
+
+**Documentation**:
+- [Idea Validation Bot Overview](./idea-validation-bot/README.md)
+- [PRD](./idea-validation-bot/PRD.md)
+- [Technical Spec](./idea-validation-bot/SPEC.md)
+- [Question Flow](./idea-validation-bot/QUESTION_FLOW.md)
+- [Adversarial Tests](./idea-validation-bot/ADVERSARIAL_TESTS.md)
+
+---
+
+## Clawdbot Launchpad
+
+**Concept**: A paid launchpad that provisions a persistent VPS or container with Clawdbot or Moltbot pre-installed. Users pay a small monthly fee and manage their bot via a simple dashboard.
+
+**Key Features**:
+- One-click deploy (Clawdbot/Moltbot images)
+- Shared container tier + dedicated VPS tier
+- Basic dashboard (status, logs, restart, update)
+- Backups and support as paid add-ons
+
+**Status**: Research phase
+
+**Documentation**:
+- [Clawdbot Launchpad Overview](./clawdbot-launchpad/README.md)
+
+---
+
+## Server Management Agent (Open Claw / Clawd Bot)
+
+**Concept**: An AI ops agent that provisions, manages, and maintains servers and fleets. Users control it via web console, CLI, or API, with strict guardrails and audit logs.
+
+**Key ideas**:
+- Safe automation (approve/deny sensitive actions)
+- Fleet‑level monitoring + incident playbooks
+- Reproducible changes + immutable audit trails
+
+**Documentation**:
+- [Server Management Agent Overview](./server-management-agent/README.md)
 
 ---
 

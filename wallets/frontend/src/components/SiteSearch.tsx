@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { SearchItem, SearchResultType, searchItems } from '@/lib/search-data';
+import { trackSearch } from '@/lib/analytics';
 
 interface SiteSearchProps {
   searchData: SearchItem[];
@@ -146,6 +147,7 @@ export function SiteSearch({ searchData }: SiteSearchProps) {
 
   const navigateToResult = useCallback(
     (item: SearchItem) => {
+      if (query.trim()) trackSearch(query.trim());
       saveRecentSearch(query);
       setIsOpen(false);
       router.push(item.url);

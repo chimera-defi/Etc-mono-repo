@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Aztec Development Environment Setup Script
 #
 # This script sets up the Aztec development environment including:
@@ -6,51 +6,38 @@
 # - Aztec-specific compiler (aztec-nargo) - requires Docker
 # - Dependencies (aztec-packages v2.1.9)
 #
-# Usage: ./scripts/setup-env.sh [--minimal]
+# Usage: ./scripts/setup-env.sh [--minimal] [--help]
 #
 # Options:
 #   --minimal   Skip Docker-dependent steps (for sandboxed environments)
+#   --help      Show this help message
 #
 # After running this script, run smoke-test.sh to verify everything works.
 
-set -e
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/lib/common.sh"
 
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m'
+USAGE="Usage: $0 [--minimal] [--help]
+
+Sets up the Aztec development environment:
+  --minimal   Skip Docker-dependent steps (for sandboxed environments)
+  --help      Show this help message"
+
+show_help_if_requested "$USAGE" "$@"
 
 # Parse arguments
 MINIMAL_MODE=false
-if [ "$1" = "--minimal" ]; then
+if has_flag "--minimal" "$@"; then
     MINIMAL_MODE=true
 fi
 
-echo "========================================"
-echo "Aztec Development Environment Setup"
-echo "========================================"
-echo ""
+print_banner "Aztec Development Environment Setup"
 if [ "$MINIMAL_MODE" = true ]; then
     echo -e "Mode: ${BLUE}Minimal${NC} (no Docker required)"
 else
     echo -e "Mode: ${BLUE}Full${NC} (Docker required for aztec-nargo)"
 fi
 echo ""
-
-# Detect environment
-detect_environment() {
-    if grep -q "runsc" /proc/version 2>/dev/null || [ "$(uname -r)" = "4.4.0" ]; then
-        echo "sandboxed"
-    elif command -v docker &> /dev/null && docker info &> /dev/null 2>&1; then
-        echo "docker-available"
-    elif command -v docker &> /dev/null; then
-        echo "docker-installed"
-    else
-        echo "no-docker"
-    fi
-}
 
 ENV_TYPE=$(detect_environment)
 echo -e "Environment detected: ${BLUE}$ENV_TYPE${NC}"
@@ -107,8 +94,9 @@ if [ "$MINIMAL_MODE" = false ]; then
             fi
         else
             # Try alternative startup for non-systemd environments
+            # shellcheck disable=SC2024
             if sudo dockerd --storage-driver=vfs --data-root=/tmp/docker-data \
-                --host unix:///var/run/docker.sock --bridge=none --iptables=false &> /tmp/docker.log &
+                --host unix:///var/run/docker.sock --bridge=none --iptables=false > /tmp/docker.log 2>&1 &
             then
                 sleep 5
                 if docker info &>/dev/null 2>&1; then
@@ -195,7 +183,7 @@ if [ -f "$HOME/aztec-bin/nargo" ]; then
     cp -r "$CONTRACTS_DIR/aztec-staking-pool" ~/aztec-contracts
 
     ORIG_DIR=$(pwd)
-    cd ~/aztec-contracts
+    cd ~/aztec-contracts || exit 1
 
     if "$HOME/aztec-bin/nargo" compile 2>&1 | tail -3; then
         if [ -f "target/staking_pool-StakingPool.json" ]; then
@@ -208,7 +196,7 @@ if [ -f "$HOME/aztec-bin/nargo" ]; then
         echo -e "${YELLOW}[WARN] Contract compilation had issues${NC}"
     fi
 
-    cd "$ORIG_DIR"
+    cd "$ORIG_DIR" || true
     echo ""
 else
     echo -e "${BLUE}Step 5: Skipping compilation (aztec-nargo not available)${NC}"

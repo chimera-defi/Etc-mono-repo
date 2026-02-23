@@ -1,225 +1,153 @@
 # Token Reduction Guide
 
-**Benchmarked:** 89% concise, 76% knowledge graph, 33% targeted reads (real token count, 2026-01-30)
+**Benchmarked:** 2026-02-07 with tiktoken on real repo content (642 files, 234 .md)
 **Auto-active:** Via `.cursorrules` + `/token-reduce` skill
 **Validated:** `.cursor/validate-token-reduction.sh`
-**QMD:** Optional local search for docs/notes (https://github.com/tobi/qmd)
+**Full benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
 
 ---
 
 ## Quick Reference
 
-| Strategy | Savings | Use |
-|----------|---------|-----|
+| Strategy | Measured Savings | Use |
+|----------|-----------------|-----|
 | Concise responses | 89% | Always |
-| Knowledge graph | 76% | Multi-session |
+| QMD BM25 search | 99% vs naive file reads | Finding which files to read |
 | Targeted reads | 33% | Large files |
-| Parallel ops | 20% | Multi-step |
-| Sub-agents | 15-30% | Complex tasks |
-| MCP CLI bulk | 1-10% | 10+ files |
-| QMD retrieval | 30-60% | Docs/notes |
+| Sub-agents | 15-30% | Complex exploration (>5 files) |
+| Parallel ops | 20% | Multi-step tasks |
+
+**Removed (benchmarked, not effective):**
+- ~~MCP CLI bulk file reads~~ — adds 117% token overhead (JSON wrapping)
+- ~~MCP CLI memory~~ — redundant with Claude Code built-in memory (`~/.claude/projects/*/memory/`)
+- ~~QMD vector/combined search~~ — 15-175 seconds per query, impractical
 
 ---
 
-## 1. Concise Communication (91%)
+## Decision Tree (Fastest First)
 
-❌ Avoid: "I understand...", "Let me...", "Thank you...", "Would you like..."
-✅ Use: `[uses tool]`, "Bug on line 47:", "Fixed.", "Results:"
+1. **Known file/keyword?** → `Grep` tool (or `rg -g`) then targeted read.
+2. **Need ranked snippets or file list?** → `qmd search "topic" -n 5 --files` (BM25 only).
+3. **Large file context?** → `Read` with offset/limit (or `head/tail/sed` in Cursor).
+4. **No `rg`?** → `git grep` scoped to path.
 
-**Example:**
-```
-Verbose (142 tokens): I understand you'd like me to check...
-Concise (13 tokens): [uses Read] Bug on line 47 - missing return.
-```
+## Guardrails (Always On)
+
+- Cap tool output to ~120 lines; use head/tail/sed for longer content
+- Summarize multi-file reads; never paste full files unless asked
+- Avoid full reads for files >300 lines
+- Prefer `rg --files -g` before directory_tree
+- Use `rg -g` scoped searches; fallback to `git grep` if `rg` missing
 
 ---
 
-## 2. Knowledge Graph (84%)
+## 1. Concise Communication (89%)
 
-Store once, retrieve many times:
+Bad: "I understand you'd like me to check..."
+Good: `[uses Read]` Bug on line 47 — missing return.
+
+**Measured:** 142 tokens → 13 tokens
+
+---
+
+## 2. QMD BM25 Search (99% vs naive)
+
+Find which files to read before loading them into context.
 
 ```bash
-# Store
-mcp-cli memory/create_entities '{"entities": [{"name": "Topic", "entityType": "knowledge", "observations": ["fact1", "fact2"]}]}'
+# One-time setup (2 seconds for 212 md files, no embeddings needed)
+qmd collection add /path/to/repo --name my-repo
 
-# Query before researching
-mcp-cli memory/search_nodes '{"query": "topic"}'
+# Find relevant files (700ms-2.7s, returns paths + scores)
+qmd search "topic" -n 5 --files           # 178 tokens
+
+# Get ranked snippets (700ms-2.7s)
+qmd search "topic" -n 5                    # 512 tokens
+
+# Read specific sections of found files
+qmd get filename.md -l 50 --from 100       # 748ms
+
+# Multi-file snippet retrieval
+qmd multi-get "file1.md,file2.md" -l 30    # 710ms, 373 tokens
 ```
 
-**Impact:** 6,500 tokens → 400 tokens (10 sessions)
+**Measured:** 52,604 tokens (naive grep+cat 10 files) → 512 tokens (QMD top 5 snippets)
+
+**Skip these modes (too slow):**
+- `qmd embed` — 11 min setup, 340MB model download
+- `qmd vsearch` — 15-111 seconds per query
+- `qmd query` — 105-175 seconds per query, downloads 1.28GB model
+
+**Relevance caveat:** BM25 is keyword-based. It struggles with ambiguous terms (e.g., "token" matches both crypto tokens and LLM tokens). For precise searches, use `grep` directly.
 
 ---
 
-## 3. Targeted Reads (44%)
+## 3. Targeted Reads (33%)
 
 ```bash
-head -50 file.md           # First 50 lines
-tail -100 file.md          # Last 100 lines
-sed -n '100,150p' file.md  # Lines 100-150
+Read file with offset/limit    # Lines 100-150 only
+head -50 file.md               # First 50 lines
+tail -100 file.md              # Last 100 lines
 ```
 
-**Impact:** 4,525 tokens → 2,573 tokens
+**Measured:** 4,525 tokens → 2,573 tokens
 
 ---
 
-## 4. Parallel Operations (20%)
+## 4. Sub-Agents (15-30%)
 
-**Sequential (3 turns):**
-```
-Turn 1: Search files
-Turn 2: Read files
-Turn 3: Analyze
-Total: 3,400 tokens
-```
+Use `Task(subagent_type="Explore")` for:
+- Complex research requiring >5 file reads
+- Pattern matching across codebase
+- Uncertain where information lives
 
-**Parallel (1 turn):**
-```
-Single turn: Glob + Read + Grep in parallel
-Total: 2,700 tokens
-```
-
-**Git example:**
-```bash
-git add -A && git status && git diff --stat  # All at once
-```
+Agent handles file discovery, reading, and analysis — returns only a summary to the main context.
 
 ---
 
-## 5. Sub-Agents (15-30%)
-
-Use Task tool for:
-- Complex research (Explore agent)
-- Multi-file analysis
-- Pattern detection
+## 5. Parallel Operations (20%)
 
 ```
-Instead of: Multiple Read/Grep calls manually
-Use: Task(subagent_type="Explore", prompt="Find auth patterns")
-```
-
-**Savings:** Agent handles file discovery, reading, analysis in optimized way
-
----
-
-## 6. MCP CLI Bulk Ops (1-10%)
-
-**Single file:** Use native Read
-**2-9 files:** Marginal benefit
-**10+ files:** Use MCP CLI
-
-```bash
-# Bulk read (10+ files)
-mcp-cli filesystem/read_multiple_files '{"paths": [...]}'
-
-# Directory tree (structure only)
-mcp-cli filesystem/directory_tree '{"path": "."}'
-
-# Pattern search
-mcp-cli filesystem/search_files '{"path": ".", "pattern": "*.ts"}'
-```
-
-**Scales:** 3 files = 1%, 10 files = 10%, 50 files = 30%
-
----
-
-## 7. QMD Retrieval (30-60%)
-
-Use QMD to search large notes/doc sets before reading files into context.
-
-```bash
-bun install -g https://github.com/tobi/qmd
-qmd collection add <path> --name <name>
-qmd context add qmd://<name> "context"
-qmd embed
-qmd query "question" --all --files --min-score 0.3
+Sequential (3 turns): 3,400 tokens
+Parallel (1 turn):    2,700 tokens
 ```
 
 ---
 
 ## Anti-Patterns
 
-🚫 Restating user requests
-🚫 Apologizing for brevity
-🚫 Narrating tool usage
-🚫 Explaining obvious things
-🚫 Asking permission for standard actions
-🚫 Reading entire files
-🚫 Re-researching stored knowledge
+- Restating user requests
+- Narrating tool usage ("Let me read the file...")
+- Reading entire files without line limits
+- Re-researching what's already known
+- Using MCP CLI for file reads (adds JSON overhead)
+- Re-reading the same file in one session unless it changed
+- Per-file commentary instead of a single summary
 
 ---
 
-## Workflow Integration
+## Hooks (`.claude/settings.json`)
 
-**Already active:**
-- `.cursorrules` enforces conciseness
-- `/token-reduce` auto-triggers on keywords
-- Knowledge graph auto-queried
-
-**Hooks (`.claude/settings.json`):**
-- `enforce-targeted-read.py` - Blocks Read on files >300 lines without limit
-- `enforce-grep-limits.py` - Warns when Grep content mode used without head_limit
-- `warn-glob-explosion.py` - Warns when Glob returns >50 files (suggests sub-agent)
-
-**Manual tools:**
-```bash
-/token-reduce [file]           # Analyze & optimize
-.cursor/token-monitor.sh       # Track savings
-.cursor/validate-token-reduction.sh  # Validate
-```
-
-**Auto-invoke keywords:** token-reduce, token reduction, context limits
+- `enforce-targeted-read.py` — Blocks Read on files >300 lines without limit
+- `enforce-grep-limits.py` — Warns when Grep content mode used without head_limit
+- `warn-glob-explosion.py` — Warns when Glob returns >50 files (suggests sub-agent)
 
 ---
 
-## Real-World Impact
+## Validation & Monitoring
 
-| Task | Baseline | Optimized | Savings |
-|------|----------|-----------|---------|
-| Simple (1-2 files) | 1,000 | 750 | 25% |
-| Complex (5+ files) | 4,000 | 2,500 | 37% |
-| Multi-session (10x) | 30,000 | 8,000 | 73% |
+```bash
+.cursor/validate-token-reduction.sh    # 32 automated checks
+.cursor/benchmark-real-tokens.sh       # Tiktoken measurement
+.cursor/token-monitor.sh init          # Start session tracking
+.cursor/token-monitor.sh summary       # End-of-session report
+```
+
+**Local benchmark note:** `.cursor/benchmark-real-tokens.sh` measures token overhead in simulated tool-call flows, not wall-clock latency. Use the 2026-02-07 benchmark doc as the authority for MCP CLI vs QMD performance.
 
 ---
 
-## Advanced Techniques
-
-### Parallel File Ops
-```bash
-# Read multiple files in parallel
-(cat file1.md & cat file2.md & cat file3.md) | process
-
-# MCP CLI bulk (better)
-mcp-cli filesystem/read_multiple_files '{"paths": ["file1.md", "file2.md", "file3.md"]}'
-```
-
-### Sub-Agent Delegation
-```
-Complex research task → Explore agent (optimized file discovery)
-Multi-repo analysis → General-purpose agent (handles batching)
-Pattern extraction → Grep + analysis in single agent call
-```
-
-**When to use sub-agents:**
-- Task requires >5 file reads
-- Pattern matching across codebase
-- Uncertain where information lives
-- Need comprehensive analysis
-
-### Knowledge Graph Advanced
-```bash
-# Create relations
-mcp-cli memory/create_relations '{"relations": [{"from": "entityId1", "to": "entityId2", "relationType": "implements"}]}'
-
-# Search with context
-mcp-cli memory/search_nodes '{"query": "topic", "relationType": "related"}'
-
-# Batch storage (after major research)
-Store multiple findings at once, retrieve as needed
-```
-
-## Benchmark dependencies
-
-The benchmark script uses `tiktoken` via `pip3`. On Debian/Ubuntu, you may need:
+## Benchmark Dependencies
 
 ```bash
 apt install python3-venv
@@ -228,64 +156,7 @@ source /tmp/token-venv/bin/activate
 pip3 install tiktoken
 ```
 
-### Differential Updates
-```
-Instead of: Regenerating 500-line file
-Use: Edit specific sections with targeted old_string/new_string
-```
-
 ---
 
-## Monitoring
-
-**Session start:**
-```bash
-.cursor/token-monitor.sh init
-```
-
-**During work:**
-- Auto-logs via skill invocation
-- Manual: `token-monitor.sh saved "strategy" 150`
-
-**Session end:**
-```bash
-.cursor/token-monitor.sh summary
-# Shows: Total saved, missed opportunities, patterns
-```
-
----
-
-## Validation
-
-**Check implementation:**
-```bash
-.cursor/validate-token-reduction.sh
-# 32 automated checks
-```
-
-**Benchmark:**
-```bash
-.cursor/benchmark-real-tokens.sh
-# Tiktoken measurement
-```
-
----
-
-## Key Insight
-
-**Token reduction comes from HOW you communicate, not WHICH tools you use.**
-
-**Priority order:**
-1. Concise communication (91% - biggest win)
-2. Knowledge graph (84% - multi-session)
-3. Targeted reads (44% - consistent)
-4. Parallel ops (20% - reduces turns)
-5. Sub-agents (15-30% - complex tasks)
-6. MCP CLI (1-10% - ergonomic + scales)
-
----
-
-**Version:** 3.1
-**Status:** Production-ready
+**Version:** 4.2 (2026-02-08 — deduplication pass, Claude Code tool references)
 **Validation:** `.cursor/validate-token-reduction.sh`
-**Context compaction prevention:** Hooks + sub-agent delegation (Rules #151-153)

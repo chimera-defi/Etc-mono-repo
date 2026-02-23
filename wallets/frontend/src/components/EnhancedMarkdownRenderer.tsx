@@ -8,6 +8,7 @@ import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
 import { cn } from '@/lib/utils';
 import { addReferrerTracking, isExternalLink, getExternalLinkTitle } from '@/lib/link-utils';
+import { OutboundLink } from '@/components/OutboundLink';
 import { Search, X, ChevronDown, ChevronUp, ChevronRight } from 'lucide-react';
 import { HeaderTooltip } from '@/components/Tooltip';
 import {
@@ -35,6 +36,7 @@ import {
   BookOpen,
   Target,
   HelpCircle,
+  ListChecks,
   type LucideIcon
 } from 'lucide-react';
 
@@ -189,6 +191,8 @@ const COLLAPSIBLE_SECTIONS: { pattern: RegExp; icon: LucideIcon }[] = [
   // Table-specific sections (often h3 headers)
   { pattern: /^#{1,3}\s+.*Additional.*Chains.*$/im, icon: Layers },
   { pattern: /^#{1,3}\s+.*Legend.*$/im, icon: BookOpen },
+  // Pros & Cons (Top Picks) - collapsible for consistency with Legend
+  { pattern: /^#{1,3}\s+.*Pros.*Cons.*$/im, icon: ListChecks },
   // Quick Summary should be collapsible
   { pattern: /^#{1,3}\s+.*Quick.*Summary.*$/im, icon: Info },
   // GitHub Metrics
@@ -204,7 +208,6 @@ const COLLAPSIBLE_SECTIONS: { pattern: RegExp; icon: LucideIcon }[] = [
 const PRIMARY_SECTIONS = [
   /^#{1,2}\s+Complete.*Comparison.*$/im,
   /^#{1,2}\s+Complete.*Hardware.*$/im,
-  /^#{1,2}\s+.*Top.*Picks.*$/im,
   /^#{1,2}\s+.*Which.*Wallet.*Should.*$/im,
 ];
 
@@ -242,7 +245,6 @@ function parseInlineCollapsibleSections(content: string): ContentSegment[] {
       const level = headingMatch[1].length;
       const headingText = headingMatch[2];
 
-      // Check if this heading should be collapsible
       const collapsibleMatch = COLLAPSIBLE_SECTIONS.find(s => s.pattern.test(line));
       const isPrimary = PRIMARY_SECTIONS.some(p => p.test(line));
       const isContainer = CONTAINER_SECTIONS.some(p => p.test(line));
@@ -686,17 +688,24 @@ function MarkdownContent({ content, className, enableTableSearch = false }: { co
 // Shared markdown components
 function getMarkdownComponents() {
   return {
-    img: ({ src, alt, ...props }: { src?: string; alt?: string }) => (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={src}
-        alt={alt || 'Image'}
-        loading="lazy"
-        decoding="async"
-        className="max-w-full h-auto rounded-lg"
-        {...props}
-      />
-    ),
+    img: ({ src, alt, ...props }: { src?: string; alt?: string }) => {
+      // Restrict to same-origin: only / or relative paths (blocks external URLs from markdown)
+      const safeSrc =
+        src && (src.startsWith('/') || src.startsWith('./') || !/^https?:/i.test(src))
+          ? src
+          : undefined;
+      return (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={safeSrc}
+          alt={alt || 'Image'}
+          loading="lazy"
+          decoding="async"
+          className="max-w-full h-auto rounded-lg"
+          {...props}
+        />
+      );
+    },
     table: ({ children }: { children?: React.ReactNode }) => (
       <div className="table-wrapper">
         <table>{children}</table>
@@ -730,15 +739,16 @@ function getMarkdownComponents() {
       }
 
       return (
-        <a
-          href={transformedHref}
-          target={external ? '_blank' : undefined}
-          rel={external ? 'noopener noreferrer' : undefined}
-          title={external ? getExternalLinkTitle(href || '') : undefined}
-          className={cn(external && 'text-primary hover:underline')}
+        <OutboundLink
+          href={transformedHref || href || '#'}
+          trackLabel={typeof children === 'string' ? children : undefined}
+          target="_blank"
+          rel="noopener noreferrer"
+          title={getExternalLinkTitle(href || '')}
+          className="text-primary hover:underline"
         >
           {children}
-        </a>
+        </OutboundLink>
       );
     },
     pre: ({ children }: { children?: React.ReactNode }) => (

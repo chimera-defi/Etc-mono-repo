@@ -42,7 +42,7 @@ REQUIRED_FILES=(
   ".cursor/benchmark-real-tokens.sh"
   ".cursor/token-monitor.sh"
   ".cursor/cleanup-workspace.sh"
-  ".cursor/BENCHMARK_RESULTS.md"
+  "docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md"
 )
 
 for file in "${REQUIRED_FILES[@]}"; do
@@ -217,7 +217,7 @@ else
 fi
 
 # Check benchmark methodology is documented
-if grep -q "tiktoken" .cursor/BENCHMARK_RESULTS.md; then
+if grep -q "tiktoken" docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md; then
   pass "Benchmark methodology documented"
 else
   warn "Should document tiktoken usage"

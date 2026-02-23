@@ -13,7 +13,7 @@
 | Bots | `PARALLEL_WORK_HANDOFF.md` §Part 2 | `cd bots/staking-keeper && npm run dev` |
 | Security | `docs/AGENT-PROMPTS-QUICKREF.md` Prompt 4 | Read contracts first |
 | Integration Tests | `docs/TASKS.md` TASK-201+ | Needs aztec-nargo |
-| Contracts (review) | `contracts/AGENT_HANDOFF.md` | `nargo test` |
+| Contracts (review) | `HANDOFF.md` | `nargo test` |
 
 ---
 
@@ -41,8 +41,8 @@ contracts/
 | Document | Purpose |
 |----------|---------|
 | `PARALLEL_WORK_HANDOFF.md` | **START HERE** - Agent prompts for frontend + bots |
-| `contracts/AGENT_HANDOFF.md` | Contract status and next steps |
-| `contracts/HANDOFF_SUMMARY_2025-12-30.md` | Detailed contract review results |
+| `HANDOFF.md` | Contract status and next steps |
+| `archive/HANDOFF_SUMMARY_2025-12-30.md` | Historical contract review results |
 | `docs/TASKS.md` | Task tracking (TASK-XXX references) |
 | `docs/FRONTEND_HANDOFF.md` | Frontend design requirements |
 | `docs/AGENT-PROMPTS-QUICKREF.md` | All agent prompts (8 total) |

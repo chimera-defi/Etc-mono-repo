@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+msg_file="${1:-}"
+if [ -z "$msg_file" ] || [ ! -f "$msg_file" ]; then
+  echo "ERROR: commit-msg hook expected a commit message file path." >&2
+  exit 1
+fi
+
+header="$(sed -n '1p' "$msg_file")"
+
+# Allow auto-generated merge/revert/fixup/squash commits.
+case "$header" in
+  Merge\ *|Revert\ *|fixup!\ *|squash!\ *)
+    exit 0
+    ;;
+esac
+
+header_pattern='^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)\([a-z0-9._/-]+\): [^[:space:]].* \[Agent: .+\]$'
+
+if ! printf '%s\n' "$header" | grep -Eq "$header_pattern"; then
+  cat >&2 <<'EOF'
+ERROR: Invalid commit header format.
+
+Expected:
+  type(scope): subject [Agent: <MODEL NAME>]
+
+Example:
+  chore(repo): normalize commit message checks [Agent: GPT-5]
+
+Allowed types:
+  feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
+EOF
+  exit 1
+fi
+
+parsed_trailers="$(git interpret-trailers --parse "$msg_file" || true)"
+if ! printf '%s\n' "$parsed_trailers" | grep -Eq '^Co-authored-by: .+ <.+@.+>$'; then
+  cat >&2 <<'EOF'
+ERROR: Missing required Co-authored-by trailer in commit message footer.
+
+Add this trailer at the end of your commit message:
+  Co-authored-by: <MODEL NAME> <model@vendor.invalid>
+EOF
+  exit 1
+fi
+
+# Reminder if hooksPath is not configured; do not block commits.
+hooks_path="$(git config --get core.hooksPath || true)"
+if [ "$hooks_path" != ".githooks" ]; then
+  echo "WARNING: Configure git hooks path with: git config core.hooksPath .githooks" >&2
+fi

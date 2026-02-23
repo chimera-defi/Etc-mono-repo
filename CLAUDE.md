@@ -1,6 +1,6 @@
 # Claude Code Instructions
 
-> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `/token-reduce` skill
+> **Master rules:** `.cursorrules` | **Token efficiency:** `/token-reduce` skill | **Benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
 
 ## Context Compaction Prevention (Critical)
 
@@ -23,21 +23,25 @@
 ## Quick Start
 
 1. **Read `.cursorrules`** - All AI rules apply to Claude Code
-2. **Install MCP CLI** before bulk operations: `curl -fsSL https://raw.githubusercontent.com/philschmid/mcp-cli/main/install.sh | bash`
-3. **Query knowledge** before researching: `mcp-cli memory/search_nodes '{"query": "topic"}'`
-4. **Use token reduction** - Auto-active via `/token-reduce` skill (91% concise, 84% knowledge graph, 44% targeted reads)
+2. **Install QMD** (BM25 only): `command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd`
+3. **Use QMD for search** before reading files: `qmd search "topic" -n 5 --files` (skip embed/vector)
+4. **Use token reduction** - Auto-active via `/token-reduce` skill (89% concise, 99% QMD search vs naive, 33% targeted reads)
 5. **Verify before completing:** Run lint, build, tests
+
+**Decision flow:** If you know the file/keyword → `rg -g` scoped search. If you need ranked snippets → QMD BM25. Avoid MCP CLI for file reads.
 
 ## Enforcement
 
 | Check | Location | Action |
 |-------|----------|--------|
 | CI check | `.github/workflows/pr-attribution-check.yml` | Validates PR has **Agent:**, **Co-authored-by:**, and **## Original Request** |
+| CI check | `.github/workflows/commit-message-check.yml` | Validates commit header format and required commit trailer on PR commits |
 | PR template | `.github/pull_request_template.md` | Auto-fills required attribution fields |
+| Git hook | `.githooks/commit-msg` | Validates local commit header format and required commit trailer |
 
 **Required PR Format:**
 ```markdown
-**Agent:** Claude Opus 4.5
+**Agent:** <MODEL NAME> <!-- e.g. GPT-5.2, GPT-4o, Claude Opus 4.5 -->
 
 **Co-authored-by:** Chimera <chimera_defi@protonmail.com>
 
@@ -53,27 +57,32 @@
 
 **Required Commit Format:**
 ```
-feat(scope): description [Agent: Claude Opus 4.5]
+feat(scope): description [Agent: <MODEL NAME>]
 
 Commit body with details.
 
-Co-authored-by: Claude <noreply@anthropic.com>
+Co-authored-by: <MODEL NAME> <model@vendor.invalid>
 ```
+
+Install hooks path once per clone:
+`git config core.hooksPath .githooks`
 
 **Attribution Pattern (Who Goes Where):**
 
 | Location | Field | Value | Why |
 |----------|-------|-------|-----|
 | Commit | Author | Human (Chimera) | Human is responsible for merged code |
-| Commit | Co-authored-by | AI (Claude) | AI assisted in writing |
+| Commit | Co-authored-by | AI (model) | AI assisted in writing |
 | PR | Agent | AI model name | AI did the implementation work |
 | PR | Co-authored-by | Human (Chimera) | Human provided guidance/review |
 
 **Key Points:**
 - Commit Author ≠ Commit Co-authored-by (human authors, AI co-authors)
 - PR Agent ≠ PR Co-authored-by (AI is agent, human is co-author)
-- CI validates PR description only (not commit messages)
+- CI validates both PR description attribution and PR commit message format (separate workflows)
 - Both locations need attribution for proper tracking
+
+**Important:** Do not copy example model names blindly. The `**Agent:**` field must match the actual model used in the run.
 
 **Never include:** Session links (`https://claude.ai/code/session_*`) in commits or PR descriptions.
 
@@ -81,13 +90,13 @@ Co-authored-by: Claude <noreply@anthropic.com>
 
 ```bash
 cd wallets/frontend
-npm install && npm run dev     # Development
-npm run build                  # Production build
-npm run lint                   # ESLint
-npm run type-check             # TypeScript
-npm test                       # Tests
-npm run generate-og            # Regenerate OG images
-npm run validate-cards         # Twitter Card validation
+bun install && bun run dev     # Development
+bun run build                  # Production build
+bun run lint                   # ESLint
+bun run type-check             # TypeScript
+bun test                       # Tests
+bun run generate-og            # Regenerate OG images
+bun run validate-cards         # Twitter Card validation
 ```
 
 **Key files:**
@@ -95,7 +104,9 @@ npm run validate-cards         # Twitter Card validation
 - `src/app/layout.tsx` - Global metadata
 - `scripts/generate-og-images.js` - OG image generator
 
-**OG Image workflow:** Add function to script → Run `npm run generate-og` → Add metadata to page → Commit PNG
+**OG Image workflow:** Add function to script → Run `bun run generate-og` → Add metadata to page → Commit PNG
+
+**Note:** Use `bun` by default for this project (prefer `bun` over `node`/`npm`).
 
 ## Verification Checklist
 
@@ -119,12 +130,10 @@ Before completing any task:
 | #117 | Include model name in commits ([Agent: Model] in title) |
 | #122 | Commit: Human authors, AI co-authors. PR: AI is agent, Human co-authors |
 | #124 | Commit Co-authored-by = AI (Claude). PR Co-authored-by = Human (Chimera) |
-| #125 | CI checks PR description only (Agent + Co-authored-by + Original Request) |
-| #140 | Install MCP CLI before using |
-| #146 | Store knowledge in memory server |
+| #125 | PR attribution CI checks PR description; commit-message CI checks PR commits |
+| #140 | Use QMD BM25 search before reading files (skip embed/vector) |
 | #148 | Token reduction skill always active |
-| #149 | Benchmarked savings: 91% (concise), 84% (knowledge graph), 44% (targeted reads) |
-| #150 | Query knowledge graph before researching |
+| #149 | Benchmarked savings: 89% (concise), 99% (QMD search vs naive), 33% (targeted reads) |
 | #151 | Use sub-agents for exploration (>5 files, uncertain locations) |
 | #152 | Sub-agents return summaries - prevents context compaction |
 | #153 | Hooks enforce: Read >300 lines, Grep content, Glob >50 files |
@@ -148,50 +157,20 @@ Before completing any task:
 
 ## Session Workflow
 
-### Starting a Session
-
 ```bash
-# 0. Sync with main
-git fetch origin
-git rebase origin/main
+# Start: sync with main
+git fetch origin && git rebase origin/main
 
-# 1. Token monitoring (optional but recommended)
-.cursor/token-monitor.sh init
+# Optional: token monitoring
+.cursor/token-monitor.sh init          # start
+.cursor/token-monitor.sh summary       # end
 
-# 2. Query knowledge graph for context
-mcp-cli memory/search_nodes '{"query": "your topic"}'
-
-# 3. Token reduction auto-active (no action needed)
-# Skill auto-invokes when you mention: tokens, efficiency, optimize, costs
-```
-
-### During Session
-
-**Token reduction is always active:**
-- Responses use concise patterns (no preambles)
-- Knowledge graph queried before research
-- Targeted file reads (head/tail, not full files)
-- Parallel tool calls when possible
-
-**Manual invocation available:**
-```bash
-/token-reduce src/app.ts          # Analyze file
-/token-reduce wallets/frontend    # Analyze directory
-/token-reduce                     # Analyze conversation
-```
-
-### Ending a Session
-
-```bash
-# 1. Review token savings (if monitoring)
-.cursor/token-monitor.sh summary
-
-# 2. Clean up temporary files
+# End: cleanup + verify
 .cursor/cleanup-workspace.sh
-
-# 3. Verify quality
-npm run lint && npm run build && npm test
+bun run lint && bun run build && bun test
 ```
+
+Token reduction is always active (see Quick Start + `.cursorrules` Token Efficiency section).
 
 ## Common Commands
 
@@ -207,11 +186,11 @@ cd wallets/scripts && ./refresh-github-data.sh
 
 ### PR Attribution Check Failing?
 
-**CI validates PR description (not commits). Required fields:**
+**PR attribution CI validates PR description. Required fields:**
 
 | Field | Format | Example |
 |-------|--------|---------|
-| Agent | `**Agent:** [Model]` | `**Agent:** Claude Opus 4.5` |
+| Agent | `**Agent:** [Model]` | `**Agent:** GPT-5.2` |
 | Co-authored-by | `**Co-authored-by:** Name <email>` | `**Co-authored-by:** Chimera <chimera_defi@protonmail.com>` |
 | Original Request | `## Original Request` section | User's original prompt |
 
@@ -224,7 +203,7 @@ cd wallets/scripts && ./refresh-github-data.sh
 **Quick fix:** Edit PR description to include all three required fields. CI re-runs automatically.
 
 **Remember the pattern:**
-- Commits: Human (Chimera) as Author, AI (Claude) as Co-authored-by
+- Commits: Human (Chimera) as Author, AI (model) as Co-authored-by
 - PR: AI as Agent, Human (Chimera) as Co-authored-by
 
 ## Meta Learnings (Frontend/UI)
@@ -242,9 +221,9 @@ cd wallets/scripts && ./refresh-github-data.sh
 - **Placeholder components:** Remove fake data components before shipping
 
 ### Multi-Pass Review Checklist
-1. `npm run lint` - No warnings or errors
-2. `npm run type-check` - TypeScript passes
-3. `npm run build` - Build succeeds
+1. `bun run lint` - No warnings or errors
+2. `bun run type-check` - TypeScript passes
+3. `bun run build` - Build succeeds
 4. Check for unused imports
 5. Verify theme works in both light and dark mode
 6. Test all interactive elements

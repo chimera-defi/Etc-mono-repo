@@ -31,24 +31,37 @@
 4. Market Data Adapter
 5. Risk + Guardrails
 6. Audit + Replay Store
+7. Order Management System (OMS) + Reconciliation
 
 ## 4.1 High-Level Architecture
 
 ```
-Market Data -> Strategy Engine -> Intent Log -> Risk Engine -> Execution Router
-                                              |                 |
-                                              v                 v
-                                         Audit Store        Venue Adapters
-                                              |
-                                              v
-                                           Replay
+                                     +-------------------+
+                                     |    Audit Store    |
+                                     | (append-only log) |
+                                     +---------+---------+
+                                               |
+                                               v
+                                             Replay
+
+Market Data -> Strategy Engine -> Intent Log -> Risk Engine -> Execution Router -> OMS -> Venue Adapters -> Venues
+                          ^                           |           |
+                          |                           |           +--> REST position snapshots (reconcile)
+                          |                           |
+                          |                           +--> order acks/cancels/fills (audited)
+                          |
+                          +-------- Context (position SSOT + order state) <--------+
+                                  (running fill-sum + reconciliation)              |
+                                                                                   |
+                                              WS fills/positions/orders <----------+
 ```
 
 ### Responsibilities
 
 - Strategy Engine: generates intents only.
 - Risk Engine: enforces limits and safety gates.
-- Execution Router: stages orders, handles confirmation, routes to venues.
+- Execution Router: stages orders, handles confirmation, routes to venues (via OMS).
+- OMS + Reconciliation: maintain a position/order SSOT (running fill-sum + reconciliation), enforce flip-flop safeguards, and fail-fast into SAFE mode when state is unsafe.
 - Audit Store: append-only decision/intent/order/fill log.
 - Replay: deterministic re-run using stored logs + market data.
 
@@ -98,35 +111,83 @@ Market Data -> Strategy Engine -> Intent Log -> Risk Engine -> Execution Router
                     |
           +---------+---------+
           | Execution Router  |
+          +---------+---------+
+                    |
+                    v
+          +-------------------+
+          |       OMS         |
+          | + Reconciliation  |
+          | (SAFE-mode gates) |
           +----+---------+----+
                |         |
       LIVE ----+         +---- DRY_RUN/REPLAY
                |                      |
                v                      v
-        +-------------+        +---------------+
-        |  Venues     |        |  Sim Engine   |
-        +-------------+        +---------------+
+     +-------------------+     +---------------+
+     | Venue Adapters    |     |  Sim Engine   |
+     | (Order entry +    |     | (deterministic|
+     |  WS + REST)       |     |  fills/pos)   |
+     +---------+---------+     +-------+-------+
+               |                       |
+               v                       |
+            +-------+                  |
+            | Venues|<-----------------+
+            +-------+
+```
+
+### OMS Feedback Loops (Critical Safety Integration)
+
+The OMS is not a “dumb pipe”; it is the safety-critical boundary that:
+- blocks new orders while positions are dirty
+- reconciles internal fill-sum vs REST snapshots
+- halts (SAFE mode) on feed gaps / drift / flip-flop patterns
+
+```
+ Orders/Cancels (REST/FIX)     WS fills/positions/orders        REST snapshots (5-10s)
+            |                          |                               |
+            v                          v                               v
+     +--------------+           +--------------+                +--------------+
+     | Venue Adapter|           | Venue Adapter|                | Venue Adapter|
+     | (Order entry)|           |    (WS)      |                |    (REST)    |
+     +------+-------+           +------+-------+                +------+-------+
+            |                          |                               |
+            +--------------------------+---------------+---------------+
+                                                   |
+                                                   v
+                                            +--------------+
+                                            |     OMS      |
+                                            |  Position &  |
+                                            |  Order SSOT  |
+                                            | (fill-sum +  |
+                                            | reconcile)   |
+                                            +------+-------+
+                                                   |
+                                SAFE-mode / blocks | context for risk/strategy
+                                                   v
+                   +-------------------+   +-------------------+
+                   | Execution Router  |   |  Risk/Strategies  |
+                   +-------------------+   +-------------------+
 ```
 
 ### Data Lineage (Audit + Replay)
 
 ```
-Decision -> Intent -> Order -> Fill
-    |         |         |        |
-    +---------+---------+--------+
-              |
-              v
-        Audit Store
-              |
-              v
-            Replay
+Decision -> Intent -> Order -> (Ack/Cancel) -> Fill -> Reconcile -> SafetyEvent
+    |         |         |            |          |         |          |
+    +---------+---------+------------+----------+---------+----------+
+                              |
+                              v
+                         Audit Store
+                              |
+                              v
+                            Replay
 ```
 
 ## 4.5 Architecture Refinements (Research-Driven)
 
 - Introduce a Market Data Ingestion service (normalize, timestamp, dedupe).
-- Add a Position/Portfolio service as a single source of truth.
-- Add a Reconciliation worker (orders/positions vs venue state).
+- Add a Position/Portfolio service as a single source of truth (SSOT), backed by a running sum of fills + reconciliation.
+- Add a Reconciliation worker (orders/positions vs venue state) that can fail-fast into SAFE mode.
 - Separate Execution Orchestrator from Venue Adapters (clean boundary).
 - Make Audit Store append-only with schema versioning.
 - Add an Order State Machine with idempotency keys.
@@ -137,7 +198,98 @@ Decision -> Intent -> Order -> Fill
 - Define plug-in boundaries (strategies, adapters, risk policies) with versioned contracts.
 - Support horizontal scaling for ingestion + replay workers (stateless, sharded by venue/asset).
 
-## 4.6 Arbitrage Loop (Cross-Venue)
+## 4.6 OMS Primer (What it is and how it fits)
+
+An **Order Management System (OMS)** is the safety-critical boundary between “we want to trade” and “the venue actually executed something.”
+
+In practice (especially on volatile futures venues), *order placement is a state machine problem*, not a single API call. The OMS exists to:
+- own the **order state machine** (acks/rejects/partials/cancels)
+- maintain a **position/inventory SSOT** (running fill-sum + reconciliation)
+- apply **real-time safety gates** (dirty positions, WS health, rate limits, flip-flop detection)
+- provide deterministic **audit + replay** of order/fill/safety events
+
+Why we didn’t have it earlier: MVP bots often bake “order management” into strategy code or a thin execution router. That’s fragile once you add multiple async feeds (fills/orders/positions), retries, partial fills, and multi-strategy concurrency.
+
+### OMS vs EMS vs “OEMS” (terminology)
+- **OMS**: order lifecycle + state (accepted/rejected/working/canceled/filled).
+- **EMS**: execution logic (routing/slicing/algos); sometimes merged with OMS.
+- **OEMS**: “order + execution management system” (common term for OMS+EMS together).
+
+### OMS internal sub-components (conceptual)
+
+```
+          Intents/Order plans
+ Strategy/Risk/Router  |
+                       v
+                 +-----------+
+                 |   OMS     |
+                 +-----------+
+   Safety gates: dirty flags, WS health, rate limits, flip-flop detector
+   State: order state machine + idempotency keys
+   SSOT: running fill-sum + (next step) open-order exposure projection
+   Reconcile: REST snapshots vs SSOT -> SAFE mode on mismatch
+   Outputs: orders/cancels to adapters + audited events + alerts
+                       |
+                       v
+               Venue Adapters (order entry + WS + REST)
+                       |
+                       v
+                     Venues
+```
+
+### Note on real-world connectivity (multi-channel)
+Many production OEMS setups use multiple concurrent channels:
+- **Order entry** (sometimes FIX; often REST on crypto venues)
+- **Market data** (WS)
+- **Order/fill tracking** (WS + REST reconciliation)
+
+This multi-channel reality is exactly where flip-flop bugs emerge if the OMS does not own SSOT + reconciliation.
+
+## 4.7 Flip-Flop Bug Safeguards (Positions & Orders)
+
+Flip-flop bugs happen when the bot’s internal “position” view diverges from the venue’s true state due to:
+- delayed position updates (WS or REST)
+- missed fill events (sequence gaps, feed drop)
+- race conditions between order placement/cancel and fills
+
+Safeguards (minimum for LIVE futures market making):
+
+### 4.7.1 Running Sum of Fills (Internal Fast Truth)
+- Maintain `internal_pos_qty[asset]` as the signed cumulative sum of fills (BUY \(+\), SELL \(-\)).
+- Dedupe fills by `fill_id`.
+- Track optional exchange `fill_seq` (strictly increasing) to detect missed fills; a gap triggers SAFE mode.
+
+### 4.7.2 Dirty Position Flags (Block New Orders)
+- After any fill, mark `dirty[asset]=true`.
+- While dirty, block new order placements for that asset (cancels allowed) until:
+  - a confirmed position update arrives (WS position event) **or**
+  - a REST reconciliation snapshot matches within threshold.
+- If dirty persists beyond a max age, enter SAFE mode (assume feed/race issue).
+
+### 4.7.3 Reconciliation + Fail-Fast SAFE Mode
+- Take REST position snapshots every 5–10s, and/or sooner after an idle period with no fills.
+- Compare REST position vs internal running sum:
+  - Allow a small latency/grace window after fills (venue position pipelines lag).
+  - Allow a small mismatch threshold (e.g. 0.1% relative, configurable).
+- If mismatch persists beyond grace/threshold:
+  - enter SAFE mode: stop new orders, emit alert, require operator intervention/re-arming.
+
+### 4.7.4 Feed Health Gating (Avoid Over-Reliance on Polling)
+- Prefer WebSocket (fills/positions/orders) for low-latency state updates.
+- If WS is stale or disconnected:
+  - block new order placements (SAFE mode) until feed is healthy again.
+- REST is used for reconciliation and discrepancy resolution, not as the primary state feed.
+
+### 4.7.5 Order Spam Controls (Rate Limit + Flip-Flop Detector)
+- Enforce per-asset order rate limits (e.g. \(\le 5\) orders/sec).
+- Detect flip-flopping patterns such as repeated place/cancel cycles within a rolling window (e.g. 1 minute).
+- On breach: halt strategy (SAFE mode) to prevent account liquidation in volatility spikes.
+
+### 4.7.6 Audit Logging (Debuggability Under Incident)
+- Log every order placement, cancel, fill, dirty/clean transition, reconciliation result, and SAFE-mode trigger.
+- Logs must be append-only and replayable; do not log secrets.
+
+## 4.8 Arbitrage Loop (Cross-Venue)
 
 ```
 Price Gap Detector -> Inventory Check -> Risk Gate -> Execute Leg A
@@ -158,27 +310,38 @@ Adapters must implement:
 ```
 connect()
 subscribe_market_data(assets)
-place_order(order)
-cancel_order(order_id)
+subscribe_fills(assets)          # WS preferred; yields Fill events (with seq if available)
+subscribe_positions(assets)      # WS preferred; yields Position updates
+place_order(order)               # order entry channel (REST or FIX, venue-dependent)
+cancel_order(order_id)           # order entry channel (REST or FIX, venue-dependent)
 get_open_orders()
 get_positions()
 get_balances()
+fetch_position_snapshot(asset)   # REST snapshot for reconciliation
 ```
 
 Adapter outputs must include:
 - venue order id
 - standardized error codes
 - latency metrics (request/ack/fill)
+- sequence/ordering metadata where available (e.g., fill sequence numbers)
+- clear position quantity semantics (contracts vs base qty; signed long/short)
 
 ## 11. Error Taxonomy (Draft)
 
 - `MARKET_DATA_STALE`
+- `WS_STALE`
 - `INSUFFICIENT_BALANCE`
 - `ORDER_REJECTED`
 - `RATE_LIMITED`
+- `ORDER_RATE_LIMIT_BREACH`
 - `VENUE_UNAVAILABLE`
 - `INVALID_ORDER`
 - `RISK_BLOCKED`
+- `FILL_SEQ_GAP`
+- `POSITION_MISMATCH`
+- `FLIPFLOP_DETECTED`
+- `SAFE_MODE`
 
 ## 12. Risk Policy Matrix (Draft)
 
@@ -391,6 +554,7 @@ Where `Intent` includes:
 - Kill switch (global and per strategy).
 - Time-based cooldown after drawdown.
 - Prevent order spam (rate limits).
+- Prevent flip-flop liquidation events (dirty-position blocking + reconciliation + feed health gating).
 
 ## 8. Data + Logging
 
@@ -420,7 +584,7 @@ Order {
 
 Fill {
   id, ts, mode, venue, asset, side, qty,
-  price, fees, order_id, intent_id
+  price, fees, order_id, intent_id, seq?
 }
 ```
 
@@ -462,6 +626,7 @@ Fill {
 - Single config file per run.
 - Mode-specific overrides allowed but logged.
 - Secrets via env or vault; never in config files.
+- OMS safeguard thresholds must be configurable (reconcile interval, mismatch thresholds, dirty max age, WS staleness, per-asset rate limits).
 
 ## 8.8 Asset Model (Crypto First-Class)
 
@@ -491,6 +656,7 @@ The system is complete when:
 3. Strategies can be added without modifying execution code.
 4. Crypto trading functions as a first-class asset class.
 5. All decisions, intents, orders, and commands are auditable and replayable.
+6. Flip-flop safeguards are enforced (dirty-position gating, reconcile fail-fast, feed health gating, rate limiting, flip-flop detection) and covered by tests/chaos scenarios.
 
 ---
 
