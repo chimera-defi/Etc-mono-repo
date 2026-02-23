@@ -1,0 +1,71 @@
+{
+  "version": "1.1",
+  "generated_at": "2026-02-23T18:10:00.000000",
+  "strategy": {
+    "tier_1": "online_models",
+    "tier_2": "local_models",
+    "note": "Online models (Minimax, Claude, Codex) first. LFM as fallback for offline/low-cost scenarios."
+  },
+  "tier_1_online": [
+    {
+      "model": "minimax/MiniMax-M2.5",
+      "priority": 1,
+      "phases": ["atomic", "extended"],
+      "reason": "200k context, reasoning, best overall"
+    },
+    {
+      "model": "anthropic/claude-haiku",
+      "priority": 2,
+      "phases": ["atomic", "extended"],
+      "reason": "Fast, reliable for atomic tasks"
+    },
+    {
+      "model": "anthropic/claude-sonnet-4",
+      "priority": 3,
+      "phases": ["atomic", "extended"],
+      "reason": "Higher capability for complex tasks"
+    },
+    {
+      "model": "openai-codex/gpt-5.3-codex",
+      "priority": 4,
+      "phases": ["atomic", "extended"],
+      "reason": "Code-specific tasks"
+    }
+  ],
+  "tier_2_local_fallback": [
+    {
+      "model": "lfm2.5-thinking:1.2b",
+      "phases": ["atomic"],
+      "enable_warmup": true,
+      "fallback_model": "mistral:7b",
+      "reason": "Best local for atomic when online unavailable"
+    },
+    {
+      "model": "mistral:7b",
+      "phases": ["extended"],
+      "reason": "Fallback for extended when online unavailable"
+    }
+  ],
+  "rules": [
+    {
+      "model": "lfm2.5-thinking:1.2b",
+      "phase": "atomic",
+      "enable_warmup": true,
+      "fallback_model": "minimax/MiniMax-M2.5",
+      "reason": "LFM as final fallback - online models preferred",
+      "tier": 2,
+      "source": "user_preference",
+      "timestamp": 1771866000
+    },
+    {
+      "model": "lfm2.5-thinking:1.2b",
+      "phase": "extended",
+      "enable_warmup": false,
+      "fallback_model": "minimax/MiniMax-M2.5",
+      "reason": "LFM doesn't handle extended - route to online",
+      "tier": 2,
+      "source": "user_preference",
+      "timestamp": 1771866000
+    }
+  ]
+}
