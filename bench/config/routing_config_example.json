@@ -1,0 +1,30 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-02-23T10:00:00Z",
+  "rules": [
+    {
+      "model": "lfm2.5-thinking:1.2b",
+      "phase": "atomic",
+      "enable_warmup": true,
+      "reason": "Cold-start pattern detected [F,F,P,P,P,P,P]",
+      "source": "harness_feedback cycle 1",
+      "timestamp": 1708686000
+    },
+    {
+      "model": "lfm2.5-thinking:1.2b",
+      "phase": "extended",
+      "fallback_model": "claude-haiku",
+      "reason": "0% accuracy (capability limit)",
+      "source": "harness_feedback cycle 1",
+      "timestamp": 1708686000
+    },
+    {
+      "model": "claude-haiku",
+      "phase": "extended",
+      "enable_warmup": false,
+      "reason": "No warm-up needed, already optimal",
+      "source": "baseline",
+      "timestamp": 1708686000
+    }
+  ]
+}
