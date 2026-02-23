@@ -11,6 +11,7 @@ Purpose: reduce accidental collisions when multiple stacks share one host/VPC.
 | 8546 | TCP | Ethereum WS-RPC (common EL default) | `eth2-quickstart/exports.sh` |
 | 8551 | TCP | Ethereum Engine API (JWT) | `eth2-quickstart/exports.sh` |
 | 30303 | TCP/UDP | Ethereum P2P (common) | `eth2-quickstart/exports.sh` |
+| 30304 | TCP/UDP | Ethereum P2P (alternate) | `eth2-quickstart/exports.sh` |
 | 5051 | TCP | Teku REST | `eth2-quickstart/exports.sh` |
 | 5052 | TCP | Nimbus/Grandine REST | `eth2-quickstart/exports.sh` |
 | 9596 | TCP | Lodestar REST | `eth2-quickstart/exports.sh` |
@@ -18,6 +19,8 @@ Purpose: reduce accidental collisions when multiple stacks share one host/VPC.
 | 18551 | TCP | Commit-Boost | `eth2-quickstart/exports.sh` |
 | 18552 | TCP | ETHGas | `eth2-quickstart/exports.sh` |
 | 18553 | TCP | ETHGas metrics | `eth2-quickstart/exports.sh` |
+| 6060 | TCP | Ethereum EL Metrics (Geth/Nethermind) | `eth2-quickstart/exports.sh` |
+| 8008 | TCP | Ethereum CL Metrics (Prometheus) | `eth2-quickstart/exports.sh` |
 | 8080 | TCP | Aztec node RPC / Monad default RPC examples | Aztec infra + Monad docs |
 | 8880 | TCP | Aztec admin API | `setup_aztec_node.sh` |
 | 40400 | TCP/UDP | Aztec P2P | `setup_aztec_node.sh` |

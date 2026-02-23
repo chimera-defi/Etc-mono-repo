@@ -29,6 +29,10 @@ Optional logical keys:
 - `STACK_P2P_PORT=${ETHREX_P2P_PORT:-30303}` (example; client-dependent)
 - `STACK_METRICS_PORT=${METRICS_PORT:-6060}`
 - `STACK_SERVICE_NAME=eth1` (legacy naming in current scripts)
+- `EL_CLIENT` — execution layer client (`geth`, `nethermind`, `reth`, `besu`, `erigon`, `ethereumjs`)
+- `CL_CLIENT` — consensus layer client (`teku`, `nimbus`, `prysm`, `lodestar`, `grandine`, `reth`)
+- `MEV_BOOST_ENABLED` — whether MEV-Boost is enabled (`true`/`false`)
+- `NETWORK` — Ethereum network (`mainnet`, `holesky`, `sepolia`)
 
 ### Aztec infra
 - `STACK_NAME=aztec`

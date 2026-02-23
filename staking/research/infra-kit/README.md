@@ -68,11 +68,25 @@ Use the unified CLI to manage all stacks:
 # Auto-detect and show status
 ./scripts/stack-ops/stack-cli.sh status
 
-# Bootstrap with monitoring
+# Ethereum: Check preflight
+./scripts/stack-ops/stack-cli.sh --stack=ethereum preflight
+
+# Ethereum: Bootstrap with monitoring
+sudo ./scripts/stack-ops/stack-cli.sh --stack=ethereum bootstrap --with-monitoring
+
+# Aztec: Bootstrap with monitoring
 sudo ./scripts/stack-ops/stack-cli.sh --stack=aztec bootstrap --with-monitoring
 
-# Check health with JSON output
+# Monad: Check health with JSON output
 ./scripts/stack-ops/stack-cli.sh --stack=monad preflight --json
 ```
+
+### Supported Stacks
+
+| Stack | Adapter | Commands |
+|-------|---------|----------|
+| **Ethereum** | `adapters/ethereum/` | bootstrap, preflight, smoke, status, start, stop, logs |
+| **Aztec** | `adapters/aztec/` | bootstrap |
+| **Monad** | `adapters/monad/` | bootstrap, preflight, smoke, status |
 
 See [`scripts/stack-ops/README.md`](../../scripts/stack-ops/README.md) for full usage guide.
