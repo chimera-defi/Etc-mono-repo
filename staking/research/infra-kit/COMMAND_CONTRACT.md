@@ -244,13 +244,13 @@ Infrastructure as Code requires re-running bootstrap on the same host without si
 
 | Command | Ethereum (eth2-quickstart) | Aztec | Monad | MegaETH |
 |---|---|---|---|---|
-| `bootstrap` | Partial (run_1.sh + run_2.sh) | ✅ bootstrap_aztec.sh | ✅ bootstrap_all.sh | — |
-| `preflight` | — | — | ✅ preflight_check.sh | — |
-| `smoke` | — | — | ✅ e2e_smoke_test.sh | — |
-| `status` | — | — | ⚠️ status.py (Python) | — |
-| `stop` | — | — | — | — |
-| `start` | — | — | — | — |
-| `logs` | — | — | — | — |
+| `bootstrap` | ✅ adapters/ethereum/bootstrap.sh | ✅ bootstrap_aztec.sh | ✅ bootstrap_all.sh | — |
+| `preflight` | ✅ adapters/ethereum/preflight.sh | — | ✅ preflight_check.sh | — |
+| `smoke` | ✅ adapters/ethereum/smoke.sh | — | ✅ e2e_smoke_test.sh | — |
+| `status` | ✅ adapters/ethereum/status.sh | — | ⚠️ status.py (Python) | — |
+| `stop` | ✅ adapters/ethereum/stop.sh | — | — | — |
+| `start` | ✅ adapters/ethereum/start.sh | — | — | — |
+| `logs` | ✅ adapters/ethereum/logs.sh | — | — | — |
 
 **Note**: Cells marked `—` require creation. Cells marked `⚠️` exist but may need wrapper for consistency.
 
