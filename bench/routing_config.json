@@ -1,0 +1,59 @@
+{
+  "version": "1.0",
+  "rules": [
+    {
+      "model": "test",
+      "phase": "atomic",
+      "enable_warmup": true,
+      "fallback_model": null,
+      "reason": "",
+      "source": "manual_test",
+      "timestamp": 1771843719.5427253
+    },
+    {
+      "model": "test-model",
+      "phase": "atomic",
+      "enable_warmup": true,
+      "fallback_model": null,
+      "reason": "test",
+      "source": "test",
+      "timestamp": 1771843742.1831799
+    },
+    {
+      "model": "lfm",
+      "phase": "atomic",
+      "enable_warmup": true,
+      "fallback_model": null,
+      "reason": "",
+      "source": "test",
+      "timestamp": 1771843742.183499
+    },
+    {
+      "model": "lfm",
+      "phase": "extended",
+      "enable_warmup": false,
+      "fallback_model": "claude-haiku",
+      "reason": "",
+      "source": "test",
+      "timestamp": 1771843742.1916077
+    },
+    {
+      "model": "lfm2.5-thinking:1.2b",
+      "phase": "extended",
+      "enable_warmup": false,
+      "fallback_model": "claude-haiku",
+      "reason": "low extended accuracy 0.00%",
+      "source": "harness_feedback",
+      "timestamp": 1771849563.9365308
+    },
+    {
+      "model": "qwen2.5:3b",
+      "phase": "atomic",
+      "enable_warmup": false,
+      "fallback_model": null,
+      "reason": "strong atomic accuracy 80.00%",
+      "source": "harness_feedback",
+      "timestamp": 1771849563.9368432
+    }
+  ]
+}
