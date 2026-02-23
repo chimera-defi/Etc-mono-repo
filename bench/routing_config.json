@@ -1,10 +1,31 @@
 {
-  "version": "1.1",
-  "generated_at": "2026-02-23T18:10:00.000000",
+  "version": "1.2",
+  "generated_at": "2026-02-23T20:13:00.000000",
   "strategy": {
     "tier_1": "online_models",
     "tier_2": "local_models",
-    "note": "Online models (Minimax, Claude, Codex) first. LFM as fallback for offline/low-cost scenarios."
+    "prompt_complexity_routing": "enabled",
+    "note": "Online models (Minimax, Claude, Codex) first. LFM as fallback for offline/low-cost scenarios. Prompt complexity routing enabled."
+  },
+  "prompt_complexity": {
+    "P1_P6": {
+      "description": "Simple prompts - factual questions, short tasks",
+      "target_model": "lfm2.5-thinking:1.2b",
+      "phase": "atomic",
+      "reason": "LFM fast for simple prompts, cost-effective"
+    },
+    "P7_P12": {
+      "description": "Complex prompts - multi-step reasoning, analysis",
+      "target_model": "anthropic/claude-sonnet-4",
+      "phase": "extended",
+      "reason": "Claude reliable for complex reasoning tasks"
+    },
+    "P13_P30": {
+      "description": "Multi-turn conversations - context-heavy, ongoing",
+      "target_model": "mistral:7b",
+      "phase": "extended",
+      "reason": "Mistral handles context well for multi-turn"
+    }
   },
   "tier_1_online": [
     {
@@ -66,6 +87,39 @@
       "tier": 2,
       "source": "user_preference",
       "timestamp": 1771866000
+    },
+    {
+      "model": "lfm2.5-thinking:1.2b",
+      "phase": "simple",
+      "complexity": "P1_P6",
+      "enable_warmup": true,
+      "fallback_model": "anthropic/claude-haiku",
+      "reason": "Simple prompts route to LFM for speed",
+      "tier": 2,
+      "source": "prompt_complexity_routing",
+      "timestamp": 1737663180
+    },
+    {
+      "model": "anthropic/claude-sonnet-4",
+      "phase": "complex",
+      "complexity": "P7_P12",
+      "enable_warmup": false,
+      "fallback_model": "minimax/MiniMax-M2.5",
+      "reason": "Complex prompts route to Claude for reliability",
+      "tier": 1,
+      "source": "prompt_complexity_routing",
+      "timestamp": 1737663180
+    },
+    {
+      "model": "mistral:7b",
+      "phase": "multi_turn",
+      "complexity": "P13_P30",
+      "enable_warmup": false,
+      "fallback_model": "minimax/MiniMax-M2.5",
+      "reason": "Multi-turn routes to Mistral for context handling",
+      "tier": 2,
+      "source": "prompt_complexity_routing",
+      "timestamp": 1737663180
     }
   ]
 }
