@@ -30,6 +30,13 @@ Optional logical keys:
 - `STACK_METRICS_PORT=${METRICS_PORT:-6060}`
 - `STACK_SERVICE_NAME=eth1` (legacy naming in current scripts)
 
+**Additional env vars (adapter):**
+- `EL_CLIENT` — execution client (geth/nethermind/esu/nimbus/erigon/bethrex)
+- `CL_CLIENT` — consensus client (lighthouse/teku/prysm/nimbus/lodestar/grandine)
+- `NETWORK` — network (mainnet/sepolia/holesky)
+- `MEV_BOOST_ENABLED` — true/false
+- `VALIDATOR_MODE` — validator/light/full
+
 ### Aztec infra
 - `STACK_NAME=aztec`
 - `STACK_USER=aztec`
