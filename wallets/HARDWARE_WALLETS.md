@@ -8,12 +8,12 @@
 | [**Trezor Safe 5**](https://trezor.io/) | 92 | [trezor-firmware](https://github.com/trezor/trezor-firmware) | ❌ | ✅ Full | ✅ Optiga | Touch Color | ~$169 | USB-C | ✅ Active | 🟢 |
 | [**Keystone 3 Pro**](https://keyst.one/) | 91 | [keystone3-firmware](https://github.com/KeystoneHQ/keystone3-firmware) | ✅ Full | ✅ Full | ✅ 3× SE | Touch Color | ~$149 | QR | ✅ Active | 🟢 |
 | [**Keycard Shell**](https://get.keycard.tech/products/keycard-shell) | 91 | [keycard-shell](https://github.com/keycard-tech/keycard-shell) | ✅ Full | ✅ Full | ✅ SE | Touch Keypad | ~$110 | QR/USB | ✅ Active | 🟢 |
-| [**ColdCard Mk4**](https://coldcard.com/) | 91 | [firmware](https://github.com/Coldcard/firmware) | ✅ Full | ✅ Full | ✅ Dual SE | Mono LCD | ~$150 | MicroSD | ✅ Active | 🟢 |
+| [**ColdCard Mk4**](https://coldcard.com/) | 91 | [firmware](https://github.com/Coldcard/firmware) | ✅ Full | ✅ Full | ✅ Dual SE | Mono LCD | ~$160 | MicroSD | ✅ Active | 🟢 |
 | [**Trezor Safe 3**](https://trezor.io/) | 91 | [trezor-firmware](https://github.com/trezor/trezor-firmware) | ❌ | ✅ Full | ✅ Optiga | Mono OLED | ~$79 | USB-C | ✅ Active | 🟢 |
 | [**BitBox02**](https://bitbox.swiss/) | 88 | [bitbox02-firmware](https://github.com/BitBoxSwiss/bitbox02-firmware) | ❌ | ✅ Full | ✅ ATECC | Touch Edge | ~$150 | USB-C | ✅ Active | 🟢 |
 | [**BitBox02 Nova**](https://bitbox.swiss/) | 88 | [bitbox02-firmware](https://github.com/BitBoxSwiss/bitbox02-firmware) | ❌ | ✅ Full | ✅ ATECC | Touch Edge | ~$150 | USB-C | ✅ Active | 🟢 |
-| [**Blockstream Jade**](https://blockstream.com/jade/) | 81 | [Jade](https://github.com/Blockstream/Jade) | ❌ | ✅ Full | ✅ SE | Color LCD | ~$65 | USB/BT | ✅ Active | 🟢 |
-| [**Foundation Passport**](https://foundationdevices.com/) | 81 | [passport2](https://github.com/Foundation-Devices/passport2) | ✅ Full | ✅ Full | ✅ ATECC | Color LCD | ~$259 | MicroSD/QR | ⚠️ Slow | 🟢 |
+| [**Blockstream Jade**](https://blockstream.com/jade/) | 81 | [Jade](https://github.com/Blockstream/Jade) | ❌ | ✅ Full | ✅ SE | Color LCD | ~$79 | USB/BT | ✅ Active | 🟢 |
+| [**Foundation Passport**](https://foundationdevices.com/) | 81 | [passport2](https://github.com/Foundation-Devices/passport2) | ✅ Full | ✅ Full | ✅ ATECC | Color LCD | ~$199 | MicroSD/QR | ⚠️ Slow | 🟢 |
 | [**OneKey Pro**](https://onekey.so/) | 77 | [firmware-pro](https://github.com/OneKeyHQ/firmware-pro) | ❌ | ✅ Full | ✅ SE | Touch Color | ~$199 | USB/BT | ✅ Active | 🟢 |
 | [**OneKey Classic 1S Pure**](https://onekey.so/) | 75 | [firmware](https://github.com/OneKeyHQ/firmware) | ❌ | ✅ Full | ✅ SE | Mono OLED | ~$99 | USB | ✅ Active | 🟢 |
 | [**OneKey Classic 1S**](https://onekey.so/) | 74 | [firmware](https://github.com/OneKeyHQ/firmware) | ❌ | ✅ Full | ✅ SE | Mono OLED | ~$89 | USB | ✅ Active | 🟢 |
@@ -34,12 +34,34 @@
 | [**Ellipal Titan 2.0**](https://www.ellipal.com/) | 48 | Private | ✅ Full | ❌ Closed | ❌ None | Touch Color | ~$170 | QR | 🔒 Private | 🔴 |
 | [**SecuX V20**](https://secuxtech.com/) | 47 | Private | ❌ | ❌ Closed | ✅ SE | Touch Color | ~$140 | USB/BT | 🔒 Private | 🔴 |
 | [**Arculus**](https://www.getarculus.com/) | 42 | Private | ❌ | ❌ Closed | ✅ SE | None | ~$100 | NFC | 🔒 Private | 🔴 |
-| ~~[**KeepKey**](https://shapeshift.com/keepkey)~~ | 39 | [keepkey-firmware](https://github.com/keepkey/keepkey-firmware) | ❌ | ✅ Full | ❌ None | OLED | ~$50 | USB | ❌ Inactive | 🔴 |
+| ~~[**KeepKey**](https://keepkey.com/)~~ | 39 | [keepkey-firmware](https://github.com/keepkey/keepkey-firmware) | ❌ | ✅ Full | ❌ None | OLED | ~$50 | USB | ❌ Inactive | 🔴 |
 | [**BC Vault**](https://bc-vault.com/) | 33 | Private | ❌ Closed | ❌ None | OLED | ~$140 | USB | 🔒 Private | 🔴 |
 
 *\* DIY wallets — price varies based on components purchased; requires self-assembly*
 
 **Note:** ~~Strikethrough~~ indicates discontinued/inactive wallets. Ledger Nano S was discontinued in 2023; limited storage (2-3 apps max) compared to Nano S+.
+
+## Pros & Cons (Top Picks)
+
+**Trezor Safe 7 (96)**
+- ✅ Highest overall score
+- ✅ Open-source firmware
+- ⚠️ Premium price
+
+**ColdCard Mk4 (91)**
+- ✅ Bitcoin-only security focus
+- ✅ Air-gap via MicroSD
+- ⚠️ Not ideal for multi-asset users
+
+**Keystone 3 Pro (91)**
+- ✅ Air-gap + multi-asset support
+- ✅ Strong security model
+- ⚠️ Larger device footprint
+
+**Ledger models (55–57)**
+- ✅ Broad ecosystem support
+- ❌ Recover capability trust tradeoff
+- ❌ Closed-source firmware components
 
 ### Legend
 
@@ -81,9 +103,9 @@
 
 ## Quick Summary
 
-> **TL;DR:** Use **Trezor Safe 7** (96) for quantum-ready security, **Trezor Safe 5** (92) for best security + UX, **ColdCard Mk4** (91) for Bitcoin maximalists, **Keystone 3 Pro** (91) for air-gapped security, or **Trezor Safe 3** (91) for best value at $79. **Blockstream Jade** (81) is a great budget option. For DIY enthusiasts: **Specter DIY** (72) or **SeedSigner** (65). **Ledger** (55-57) is penalized for Ledger Recover. See [Why Look Beyond Ledger?](./HARDWARE_WALLET_COMPARISON_DETAILS.md#-why-look-beyond-ledger) for details.
+> **TL;DR:** Use **Trezor Safe 7** (96) for quantum-ready security, **Trezor Safe 5** (92) for best security + UX, **ColdCard Mk4** (91) for Bitcoin maximalists, **Keystone 3 Pro** (91) for air-gapped security, or **Trezor Safe 3** (91) for best value at $79. **Blockstream Jade** (81) is a great budget option at ~$79. For DIY enthusiasts: **Specter DIY** (72) or **SeedSigner** (65). **Ledger** (55-57) is penalized for Ledger Recover. See [Why Look Beyond Ledger?](./HARDWARE_WALLET_COMPARISON_DETAILS.md#-why-look-beyond-ledger) for details.
 
-**Last Updated:** December 2025 | [Scoring Methodology](./HARDWARE_WALLET_COMPARISON_DETAILS.md#-scoring-methodology) | [GitHub Activity Data](./HARDWARE_WALLET_COMPARISON_DETAILS.md#github-metrics-firmware-repositories) | [View Company Aggregates](./HARDWARE_WALLET_COMPANIES.md)
+**Last Updated:** February 2026 | [Scoring Methodology](./HARDWARE_WALLET_COMPARISON_DETAILS.md#-scoring-methodology) | [GitHub Activity Data](./HARDWARE_WALLET_COMPARISON_DETAILS.md#github-metrics-firmware-repositories) | [View Company Aggregates](./HARDWARE_WALLET_COMPANIES.md)
 
 **Related:** See [Software Wallet Comparison](./SOFTWARE_WALLETS.md) for EVM wallet recommendations and integration details.
 **Companies:** See [Hardware Wallet Companies](./HARDWARE_WALLET_COMPANIES.md) for aggregated scores and wallet counts by manufacturer.
@@ -108,7 +130,7 @@ Trezor wallets score significantly higher (91-96) than Ledger (55-57) due to ful
 
 ### What is the best budget hardware wallet?
 
-**Trezor Safe 3** (91/100) at ~$79 is the best budget option with Optiga Secure Element, fully open source firmware, and active development. **Blockstream Jade** (81) at ~$65 is also excellent for Bitcoin-focused users. For DIY enthusiasts, **Krux** (67) costs ~$30-100 but requires self-assembly and lacks a Secure Element.
+**Trezor Safe 3** (91/100) at ~$79 is the best budget option with Optiga Secure Element, fully open source firmware, and active development. **Blockstream Jade** (81) at ~$79 is also excellent for Bitcoin-focused users. For DIY enthusiasts, **Krux** (67) costs ~$30-100 but requires self-assembly and lacks a Secure Element.
 
 ### Do I need a Secure Element in my hardware wallet?
 

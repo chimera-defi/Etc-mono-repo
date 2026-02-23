@@ -16,7 +16,7 @@ JSON
 
 resp=$(curl -fsS -H "Content-Type: application/json" --data "$payload" "$RPC_URL")
 
-if echo "$resp" | rg -q '"error"'; then
+if echo "$resp" | grep -q '"error"'; then
   echo "RPC error: $resp" >&2
   exit 1
 fi

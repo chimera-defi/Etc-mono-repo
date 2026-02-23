@@ -14,8 +14,8 @@ This file contains 8 self-contained prompts for parallel agent execution. Each p
 - **Validation requirements** - All deliverables must be tested and verified
 
 **Current Status (2025-12-30):**
-- ✅ **Phase 2 COMPLETE:** All 7 contracts implemented (176 functions)
-- ✅ **Tests:** 64/64 passing
+- ✅ **Phase 2 COMPLETE:** 3 production contracts (liquid-staking-core, staked-aztec-token, withdrawal-queue) + 1 test suite (staking-math-tests)
+- ✅ **Tests:** 74 passing
 - 🚀 **Ready:** Frontend (mock), Bots, Security docs can start immediately
 
 **Parallelization Map:**
@@ -118,21 +118,18 @@ git diff                          # Review changes
 ## PROMPT 1: Smart Contract Agent
 
 **Status:** ✅ COMPLETE (2025-12-30)
-**Result:** All contracts implemented, 64/64 tests passing
+**Result:** Production contracts implemented, 74 tests passing
 
 ```text
 ## COMPLETED WORK
 
-All 7 contracts fully implemented:
+3 production contracts + 1 test suite:
 - liquid-staking-core (37 functions) - Main entry point
-- rewards-manager (33 functions) - Exchange rate updates
-- vault-manager (28 functions) - Batch staking, round-robin
-- withdrawal-queue (24 functions) - FIFO with unbonding
-- aztec-staking-pool (21 functions) - Base staking logic
-- validator-registry (20 functions) - Validator tracking
 - staked-aztec-token (13 functions) - stAZTEC token
+- withdrawal-queue (24 functions) - FIFO with unbonding
+- staking-math-tests - Pure math test suite
 
-Tests: 64/64 passing in staking-math-tests/
+Tests: 74 passing in staking-math-tests/
 Verification: ~/.nargo/bin/nargo test
 
 ## NEXT STEPS FOR CONTRACTS
@@ -152,7 +149,7 @@ cd ~/liquid-staking-core
 ~/aztec-bin/nargo compile
 ```
 
-See: /workspace/staking/aztec/contracts/AGENT_HANDOFF.md
+See: staking/aztec/HANDOFF.md
 ```
 
 ---
@@ -759,7 +756,7 @@ Report back with:
 When completing work, update these files:
 1. **TASKS.md** - Mark completed tasks
 2. **ASSUMPTIONS.md** - Add validation results
-3. **contracts/AGENT_HANDOFF.md** - Update for contract work
+3. **HANDOFF.md** - Update for contract work
 
 ### Conflict Resolution
 

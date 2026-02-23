@@ -436,6 +436,11 @@ function HardwareWalletItem({
                 {wallet.name}
               </Link>
               <div className="text-sm text-muted-foreground">{wallet.priceText}</div>
+              {wallet.priceLastChecked && (
+                <div className="text-xs text-muted-foreground">
+                  Price checked {wallet.priceLastChecked}
+                </div>
+              )}
             </div>
           </div>
         </td>
@@ -528,7 +533,10 @@ function HardwareWalletItem({
         </button>
       </div>
 
-      <p className="text-lg font-semibold text-primary mb-2">{wallet.priceText}</p>
+      <p className="text-lg font-semibold text-primary mb-1">{wallet.priceText}</p>
+      {wallet.priceLastChecked && (
+        <p className="text-xs text-muted-foreground mb-2">Price checked {wallet.priceLastChecked}</p>
+      )}
 
       <div className="flex flex-wrap gap-2 mb-3">
         {wallet.airGap && (

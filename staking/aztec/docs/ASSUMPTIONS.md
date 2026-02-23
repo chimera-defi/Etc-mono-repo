@@ -374,12 +374,12 @@ node_getContractInstance # Not exposed on public node
    - **Docker**: 28.2.2 (for image extraction, not running sandbox)
 
 2. **Staking Math Tests**: ✅ **20/20 PASS**
-   - Location: `staking/contracts/staking-math-tests/`
+   - Location: `staking/aztec/contracts/staking-math-tests/`
    - Tests cover: deposits, withdrawals, fees, share value calculations
    - Runs with standard nargo (no Aztec tooling required)
 
 3. **Aztec Contract Compilation**: ✅ **SUCCESS**
-   - Location: `staking/contracts/aztec-staking-pool/`
+   - Location: `staking/aztec/contracts/aztec-staking-pool/`
    - Compiler: aztec-nargo 1.0.0-beta.11 (Aztec v2.1.9)
    - Artifact: `target/staking_pool-StakingPool.json` (759KB)
    - Functions exposed: 15+ (deposit, withdraw, add_rewards, etc.)
@@ -391,7 +391,7 @@ node_getContractInstance # Not exposed on public node
 
 #### Smoke Test Script Created
 
-Location: `staking/contracts/aztec-staking-pool/scripts/smoke-test.sh`
+Location: `staking/aztec/contracts/aztec-staking-pool/scripts/smoke-test.sh`
 
 This script verifies:
 - Standard nargo installation
@@ -431,7 +431,7 @@ cp -r /tmp/AztecProtocol-aztec-packages-*/* \
     ~/nargo/github.com/AztecProtocol/aztec-packages/v2.1.9/
 
 # 5. Compile contract
-cd staking/contracts/aztec-staking-pool
+cd staking/aztec/contracts/aztec-staking-pool
 ~/aztec-bin/nargo compile
 ```
 

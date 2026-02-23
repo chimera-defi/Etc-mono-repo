@@ -1,0 +1,121 @@
+[
+  {
+    "id": "P1",
+    "prompt": "What's the weather in Antwerp?",
+    "expected": "get_weather",
+    "got": [
+      "get_weather"
+    ],
+    "latency_ms": 9626.57937896438,
+    "correct": true
+  },
+  {
+    "id": "P2",
+    "prompt": "Search for all Python files in the project.",
+    "expected": "search_files",
+    "got": [
+      "search_files"
+    ],
+    "latency_ms": 9740.290948015172,
+    "correct": true
+  },
+  {
+    "id": "P3",
+    "prompt": "Schedule a meeting with John at 3 PM tomorrow.",
+    "expected": "schedule_meeting",
+    "got": [
+      "schedule_meeting"
+    ],
+    "latency_ms": 8771.972612012178,
+    "correct": true
+  },
+  {
+    "id": "P4",
+    "prompt": "I'm heading to Brussels tomorrow, anything I shoul",
+    "expected": "get_weather",
+    "got": [
+      "get_weather"
+    ],
+    "latency_ms": 22516.94043999305,
+    "correct": true
+  },
+  {
+    "id": "P5",
+    "prompt": "What tools do you have access to?",
+    "expected": null,
+    "got": [],
+    "latency_ms": 12196.088836004492,
+    "correct": true
+  },
+  {
+    "id": "P6",
+    "prompt": "What's the weather in the city where we have our n",
+    "expected": null,
+    "got": [],
+    "latency_ms": 11296.03958997177,
+    "correct": true
+  },
+  {
+    "id": "P7",
+    "prompt": "Next Tuesday at 2pm, I need a meeting with the tea",
+    "expected": ["schedule_meeting"],
+    "got": [
+      "schedule_meeting",
+      "get_weather"
+    ],
+    "latency_ms": 111906.09998401487,
+    "correct": false
+  },
+  {
+    "id": "P8",
+    "prompt": "Search for the budget files and also tell me the w",
+    "expected": [
+      "search_files",
+      "get_weather"
+    ],
+    "got": [
+      "search_files",
+      "get_weather"
+    ],
+    "latency_ms": 18010.779574979097,
+    "correct": true
+  },
+  {
+    "id": "P9",
+    "prompt": "Can you write a Python script that checks the weat",
+    "expected": null,
+    "got": [],
+    "latency_ms": 40928.58890601201,
+    "correct": true
+  },
+  {
+    "id": "P10",
+    "prompt": "I have a meeting with a client in Bruges next Thur",
+    "expected": "get_weather",
+    "got": [
+      "get_weather"
+    ],
+    "latency_ms": 26373.062723025214,
+    "correct": true
+  },
+  {
+    "id": "P11",
+    "prompt": "Don't check the weather in Antwerp, just find me t",
+    "expected": "search_files",
+    "got": [
+      "search_files"
+    ],
+    "latency_ms": 30176.312274998054,
+    "correct": true
+  },
+  {
+    "id": "P12",
+    "prompt": "The weather in Antwerp is 8\u00b0C and rainy. Should I ",
+    "expected": "schedule_meeting",
+    "got": [
+      "schedule_meeting"
+    ],
+    "latency_ms": 49277.475801005494,
+    "correct": true
+  }
+]

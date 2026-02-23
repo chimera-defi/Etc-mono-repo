@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import { ThemeToggle } from './ThemeToggle';
 import { SiteSearch } from './SiteSearch';
 import type { SearchItem } from '@/lib/search-data';
+import { trackOutboundLink } from '@/lib/analytics';
 
 const navItems = [
   { href: '/', label: 'Home' },
@@ -67,6 +68,7 @@ export function Navigation({ searchData = [] }: NavigationProps) {
               href="https://x.com/chimeradefi?utm_source=walletradar&utm_medium=comparison"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackOutboundLink('https://x.com/chimeradefi', 'Twitter')}
               className="hidden sm:block text-slate-400 hover:text-slate-100 transition-colors p-2"
               aria-label="Twitter"
             >
@@ -76,6 +78,7 @@ export function Navigation({ searchData = [] }: NavigationProps) {
               href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets?utm_source=walletradar&utm_medium=comparison"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackOutboundLink('https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets', 'GitHub')}
               className="hidden sm:block text-slate-400 hover:text-slate-100 transition-colors p-2"
               aria-label="GitHub"
             >
@@ -121,6 +124,7 @@ export function Navigation({ searchData = [] }: NavigationProps) {
                   href="https://x.com/chimeradefi?utm_source=walletradar&utm_medium=comparison"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackOutboundLink('https://x.com/chimeradefi', 'Twitter')}
                   className="text-slate-400 hover:text-slate-100 transition-colors p-2"
                   aria-label="Twitter"
                 >
@@ -130,6 +134,7 @@ export function Navigation({ searchData = [] }: NavigationProps) {
                   href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets?utm_source=walletradar&utm_medium=comparison"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackOutboundLink('https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets', 'GitHub')}
                   className="text-slate-400 hover:text-slate-100 transition-colors p-2"
                   aria-label="GitHub"
                 >

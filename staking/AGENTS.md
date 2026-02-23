@@ -1,30 +1,37 @@
 # Staking Projects Guide
 
-> **Master rules:** `.cursorrules` | **MCP CLI:** `.cursor/MCP_CLI.md` | **Token efficiency:** `/token-reduce` skill
+> **Master rules:** `.cursorrules` | **Token efficiency:** `/token-reduce` skill | **Benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
+
+## Git & Workflow
+
+See `.cursorrules` **Git Discipline** and **Meta Learnings** sections for shared rules (PRs, rebasing, attribution, hooks).
 
 ## Projects
 
 ### Monad Validator (`staking/monad/`) - ✅ Operational
 Production validator infrastructure for Monad network:
-- **infra/** - Validator setup, systemd configs, monitoring
-- **runbook/** - Operations manual
-- **scripts/** - Health checks, deployment automation
-- **watchers/** - Monitoring infrastructure
+- **infra/scripts/** - 26+ operational scripts (setup, health checks, hardening)
+- **infra/config/** - Configuration templates (validator, systemd, reverse proxy)
+- **infra/monitoring/** - Prometheus + Grafana + Loki stack
+- **infra/RUNBOOK.md** - Operations manual
+- **liquid/** - Liquid staking MVP skeleton
 
 **Commands:**
 ```bash
 cd staking/monad/infra
 ./scripts/healthcheck.sh  # Check validator status
+./scripts/check_rpc.sh http://localhost:8080 eth_blockNumber  # RPC check
 ```
 
-### Aztec Liquid Staking (`staking/aztec/`) - 🔧 Development
+### Aztec Liquid Staking (`staking/aztec/`) - 🔧 Phase 2 Complete
 Privacy-focused liquid staking using Aztec Network:
-- 4 smart contracts (Noir): staking-pool, staked-token, withdrawal-queue, validator-registry
-- 34 unit tests passing
+- 3 production contracts (Noir): liquid-staking-core, staked-aztec-token, withdrawal-queue
+- 1 test suite: staking-math-tests (74 tests passing)
 - 6-month implementation plan documented
 - Zero-knowledge proofs for private staking
 
 **Key docs:** `EXECUTIVE-SUMMARY.md`, `ECONOMICS.md`, `IMPLEMENTATION-PLAN.md`
+**Current status:** `aztec/PROGRESS.md` | **Handoff:** `aztec/HANDOFF.md`
 
 ### Staking Research (`staking/research/`) - 📚 Active
 Market analysis and opportunity research:
@@ -57,22 +64,14 @@ Market analysis and opportunity research:
 - `aztec-nargo` (Docker) for compilation
 - Separate pure math into testable modules
 
-## MCP CLI Patterns (Staking-Specific)
+## Token Reduction
 
-**General patterns:** See `.cursor/MCP_CLI.md`
+**Full guide:** `.cursor/TOKEN_REDUCTION.md` | **Skill:** `/token-reduce`
 
+**Staking-specific searches:**
 ```bash
-# Explore structure
-mcp-cli filesystem/directory_tree '{"path": "staking/aztec"}'
-
-# Find contracts
-mcp-cli filesystem/search_files '{"path": "staking", "pattern": "**/*.nr"}'
-
-# Batch read docs
-mcp-cli filesystem/read_multiple_files '{"paths": ["staking/README.md", "staking/aztec/README.md"]}'
-
-# Store security findings
-mcp-cli memory/create_entities '{"entities": [{"name": "Contract Security Review", "entityType": "security", "observations": ["finding1", "finding2"]}]}'
+rg -g "*.nr" "reentrancy" staking/
+rg -g "*.md" "slashing" staking/
 ```
 
 ## Security Checklist
@@ -114,8 +113,3 @@ Distinguish:
 
 Never claim full completion for uncompiled code.
 
-## Meta Learnings
-
-- Always open a PR for changes; do not push directly to main.
-- Always pull latest `main` and rebase your branch on `main` at the start of each new request.
-- After rebasing, force-push with lease if the branch diverges from the PR head.

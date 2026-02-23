@@ -344,10 +344,10 @@ flowchart TD
 ### 3.4 Config Layout (No Rework Later)
 
 1) **Single source of truth**
-   - `staking/impl/monad/infra/config/` (base config + env templates).
+   - `staking/monad/infra/config/` (base config + env templates).
 2) **Per‑node overrides**
-   - `staking/impl/monad/infra/config/nodes/validator-1/`
-   - `staking/impl/monad/infra/config/nodes/validator-2/`
+   - `staking/monad/infra/config/nodes/validator-1/`
+   - `staking/monad/infra/config/nodes/validator-2/`
 3) **Rule**
    - Keep base config immutable; only override node‑specific values.
 

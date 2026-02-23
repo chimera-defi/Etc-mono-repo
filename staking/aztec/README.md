@@ -36,7 +36,7 @@ cd staking/aztec/contracts/staking-math-tests
 | File | Purpose |
 |------|---------|
 | [docs/INTEGRATION-TESTING.md](docs/INTEGRATION-TESTING.md) | Environment setup guide |
-| [contracts/AGENT_HANDOFF.md](contracts/AGENT_HANDOFF.md) | Contract development notes |
+| [HANDOFF.md](HANDOFF.md) | Latest agent handoff notes |
 | [docs/EXECUTIVE-SUMMARY.md](docs/EXECUTIVE-SUMMARY.md) | Business overview |
 | [docs/liquid-staking-analysis.md](docs/liquid-staking-analysis.md) | Technical architecture |
 

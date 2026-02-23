@@ -4,11 +4,75 @@ Automation scripts for refreshing wallet comparison data.
 
 ## Scripts
 
+### `generate_merchant_feed.py` (Merchant Center)
+
+Generates a Google Merchant Center feed from the hardware wallet comparison
+table using verified pricing from `wallets/data/merchant_pricing.json`.
+Free categories (software wallets, ramps, and most cards) are excluded to avoid
+placeholder pricing. Items without verified pricing are skipped.
+
+#### Usage
+
+```bash
+./generate_merchant_feed.py
+```
+
+#### Output
+
+- `wallets/frontend/public/merchant-center.xml` (public feed URL)
+
+**Note:** Keep `wallets/data/merchant_pricing.json` updated with official
+provider pricing so the feed stays compliant. Files under `wallets/artifacts/`
+are gitignored and intended for local inspection only.
+
+### `validate_merchant_feed.py` (Merchant Center)
+
+Validates that:
+- pricing entries are USD-only with sources and valid `last_checked` dates
+- pricing entries map to hardware wallet anchors
+- feed items are hardware wallets with USD pricing
+
+#### Usage
+
+```bash
+./validate_merchant_feed.py
+```
+
+Pricing sources and exclusions are documented in `wallets/MERCHANT_FEED.md`.
+
+### `recompute_scores.py` (Score Totals)
+
+Recalculates totals in scoring breakdown tables for software and hardware
+wallets. This only updates totals where the per-category columns already exist.
+
+#### Usage
+
+```bash
+./recompute_scores.py
+```
+
+### `verify-ramps.py` (Ramps)
+
+Verifies ramp provider URLs from `wallets/RAMPS.md` using a direct fetch plus
+`r.jina.ai` proxy as a fallback to detect bot challenges.
+
+#### Usage
+
+```bash
+./verify-ramps.py
+```
+
+#### Output
+
+- `wallets/artifacts/ramps-url-checks.json`
+- `wallets/artifacts/ramps-url-checks.txt`
+
 ### `refresh-github-data.sh` (Software Wallets)
 
 Queries GitHub for **EVM software wallet** activity.
 
 Queries the GitHub API to get the latest commit dates and activity status for all tracked wallet repositories.
+If no token is available, it falls back to GitHub Atom feeds for the last commit date and attempts a best-effort HTML scrape for stars/issues.
 
 #### Usage
 
@@ -48,9 +112,9 @@ Rabby           RabbyHub/Rabby                        2025-11-21   10 days  ✅ 
 
 **Markdown (`--markdown`):**
 ```markdown
-| Wallet | Repository | Last Commit | Days Ago | Status |
-|--------|------------|-------------|----------|--------|
-| **MetaMask** | [MetaMask/metamask-extension](https://github.com/MetaMask/metamask-extension) | 2025-11-27 | 4 | ✅ Active |
+| Wallet | Repository | Last Commit | Days Ago | Stars | Issues | Status |
+|--------|------------|-------------|----------|-------|--------|--------|
+| **MetaMask** | [MetaMask/metamask-extension](https://github.com/MetaMask/metamask-extension) | 2025-11-27 | 4 | 12345 | 321 | ✅ Active |
 ...
 ```
 
@@ -65,6 +129,9 @@ Set the `GITHUB_TOKEN` environment variable for higher rate limits:
 export GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxx
 ./refresh-github-data.sh
 ```
+
+If no token is set, the script uses Atom feeds for commit dates and skips API calls.
+It may attempt a best-effort HTML scrape for stars/issues where applicable.
 
 #### Activity Status Definitions
 
@@ -98,7 +165,8 @@ The `data/` directory contains:
 
 ### `refresh-hardware-wallet-data.sh` (Hardware Wallets)
 
-Queries GitHub for **hardware wallet firmware** activity. Includes stars, issues, and issue/star ratio.
+Queries GitHub for **hardware wallet firmware** activity. Includes stars, issues, and issue/star ratio when the API is available.
+If no token is set, the script falls back to Atom feeds for last-commit dates and attempts a best-effort HTML scrape for stars/issues.
 
 #### Usage
 

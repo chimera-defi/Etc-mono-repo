@@ -4,6 +4,7 @@ import './globals.css';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { GoogleAnalytics } from '@/components/GoogleAnalytics';
 import { getSearchData } from '@/lib/search-data';
 
 // Google Analytics Measurement ID - hardcoded for static export reliability
@@ -125,50 +126,15 @@ export default function RootLayout({
     description: defaultDescription,
   };
 
-  // Script to prevent flash of wrong theme - runs before hydration
-  const themeScript = `
-    (function() {
-      const savedTheme = localStorage.getItem('theme');
-      const theme = savedTheme || 'dark';
-      if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    })();
-  `;
+  // Minified theme init - runs before hydration to prevent FOUC
+  const themeScript = '(function(){var t=localStorage.getItem("theme")||"dark";document.documentElement.classList.toggle("dark",t==="dark");})();';
 
   return (
     <html lang="en" className="scroll-smooth dark" suppressHydrationWarning>
       <head>
-        {/* Theme initialization script - must run before render to prevent FOUC */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-        
-        {/* Google Analytics - Standard implementation for static export sites */}
-        {/* This MUST be in <head> for reliable tracking on static sites */}
-        <script
-          async
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${GA_MEASUREMENT_ID}', {
-                page_path: window.location.pathname,
-                anonymize_ip: true
-              });
-            `,
-          }}
-        />
-        
-        {/* Preconnect for performance (keeping for other Google services) */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-        
-        {/* PWA and icons */}
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.svg" />
@@ -189,7 +155,15 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
+        <Script
+          strategy="lazyOnload"
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+        />
+        <Script id="ga-config" strategy="lazyOnload">
+          {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_MEASUREMENT_ID}',{page_path:window.location.pathname,anonymize_ip:true});try{var r=document.referrer||'',u=r?new URL(r):null,h=u?u.hostname:'direct',p=u?u.pathname:'',s=new URL(location.href).searchParams,src=s.get('utm_source')||h,med=s.get('utm_medium')||(r?'referral':'direct'),ai=['chat.openai.com','claude.ai','perplexity.ai','gemini.google.com','copilot.microsoft.com','bing.com'],isAi=ai.includes(h)||(h==='bing.com'&&p.startsWith('/chat'));gtag('event','referral_detected',{referrer_host:h,referrer_path:p,traffic_source:src,traffic_medium:med,is_ai_referrer:isAi});}catch(e){}`}
+        </Script>
         <ThemeProvider defaultTheme="dark">
+          <GoogleAnalytics />
           <div className="min-h-screen flex flex-col">
             <Navigation searchData={searchData} />
             <main className="flex-1">
