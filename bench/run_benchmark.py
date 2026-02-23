@@ -33,6 +33,9 @@ from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass, asdict
 import ollama
 
+# Import cache module
+from result_cache import ResultCache, get_cache, get_prompts_for_phase
+
 # Constants
 TIMEOUT_SECONDS = 60
 WORKSPACE = Path("/root/.openclaw/workspace/bench")
@@ -567,6 +570,16 @@ Examples:
         action="store_true",
         help="Don't save output file (only print)"
     )
+    parser.add_argument(
+        "--no-cache",
+        action="store_true",
+        help="Disable result cache (always run benchmark)"
+    )
+    parser.add_argument(
+        "--clear-cache",
+        action="store_true",
+        help="Clear all cached results before running"
+    )
     
     args = parser.parse_args()
     
@@ -585,6 +598,61 @@ Examples:
         config = load_harness_config()
         print(f"   ✅ Loaded {len(config['models'])} models")
         
+        # Initialize cache
+        cache = get_cache()
+        
+        # Handle cache clearing
+        if args.clear_cache:
+            cache.clear()
+        
+        # Get prompts for caching
+        prompts = get_prompts_for_phase(phase)
+        
+        # Check cache (unless disabled)
+        cached_result = None
+        if not args.no_cache:
+            is_cached, cached_result, time_saved = cache.check(
+                args.model, phase, args.variant, prompts
+            )
+            
+            if cached_result:
+                # Reconstruct Phase is_cached andResult from cache
+                from dataclasses import dataclass
+                
+                result = PhaseResult(
+                    model=cached_result["model"],
+                    phase=cached_result["phase"],
+                    variant=cached_result["variant"],
+                    timestamp=cached_result.get("timestamp", time.time()),
+                    config_name=cached_result.get("config_name", args.model),
+                    system_prompt="",  # Not stored in cache
+                    passed=cached_result.get("summary", {}).get("passed", 0),
+                    total=cached_result.get("summary", {}).get("total", 0),
+                    accuracy=cached_result.get("summary", {}).get("accuracy", 0.0),
+                    results=[],  # Not needed for summary
+                    failed_prompts=cached_result.get("failed_prompts", []),
+                    restraint_score=cached_result.get("summary", {}).get("restraint_score"),
+                    by_category=cached_result.get("by_category")
+                )
+                
+                print_summary(result)
+                cache.print_stats()
+                
+                if not args.no_save:
+                    if args.output == "json":
+                        output_path = WORKSPACE / f"{phase}_result_{args.model.split(':')[0]}_{args.variant}.json"
+                    else:
+                        output_path = WORKSPACE / f"{phase}_result_{args.model.split(':')[0]}_{args.variant}.csv"
+                    
+                    if args.output == "json":
+                        save_json_output(result, output_path)
+                    else:
+                        save_csv_output(result, output_path)
+                    
+                    print(f"💾 Saved: {output_path}")
+                
+                return  # Exit early with cached result
+        
         # Run benchmark
         print(f"\n🚀 Starting {phase.upper()} phase benchmark...")
         
@@ -595,8 +663,28 @@ Examples:
             print(f"   ✅ Loaded extended suite ({len(suite)} categories)")
             result = run_extended_phase(args.model, args.variant, config, suite)
         
+        # Save to cache (unless disabled)
+        if not args.no_cache:
+            # Build result dict for cache
+            result_dict = {
+                "summary": {
+                    "passed": result.passed,
+                    "total": result.total,
+                    "accuracy": result.accuracy,
+                    "restraint_score": result.restraint_score
+                },
+                "results": [asdict(r) for r in result.results],
+                "failed_prompts": result.failed_prompts,
+                "by_category": result.by_category,
+            }
+            cache.save(args.model, phase, args.variant, prompts, result_dict)
+        
         # Print summary
         print_summary(result)
+        
+        # Print cache stats (if cache was used)
+        if not args.no_cache:
+            cache.print_stats()
         
         # Save output
         if not args.no_save:
