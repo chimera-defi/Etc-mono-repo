@@ -47,4 +47,5 @@
 1. **Use LFM for atomic only** - 91.7% success
 2. **Use mistral for extended** - Only option that works
 3. **Consider warm-up** - Could improve LFM further
-4. **Test more models** - Qwen2.5:14b showed 100% early results
+4. **Test more models** - Qwen2.5:14b showed 100% early results but not fully tested
+5. **Avoid large models** - qwen2.5:14b (9GB), gpt-oss (13GB) clog system; use small models (lfm 731MB) for testing

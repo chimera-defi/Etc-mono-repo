@@ -39,6 +39,7 @@ Applies routing rules automatically:
 Defines routing strategy:
 - Tier 1: Online models (Minimax, Claude) - use cloud credits first
 - Tier 2: Local models (LFM, mistral) - fallback when offline
+- **Prompt-complexity routing**: Routes simple prompts (P1-P6) to fast LFM, complex (P7-P12) to Claude, multi-turn (P13-P30) to mistral
 
 ### 8. config_manager.py
 Reads/writes configuration files.
