@@ -33,6 +33,7 @@ class PolicyConfig:
     restraint_floor: float = 0.80
     max_accuracy_variance: float = 0.0025
     extended_phase_min_accuracy: float = 0.30  # Safety gate for extended phase
+    max_regression_pct: float = 0.10  # Max allowed regression (10%)
 
 
 @dataclass
@@ -126,6 +127,25 @@ def evaluate_policy(payload: dict[str, Any], config: PolicyConfig, phase: str = 
     if not no_regression_pass:
         reason_codes.append("ACCURACY_REGRESSION")
 
+    # NEW: Regression threshold gate (fail if accuracy drops > max_regression_pct)
+    regression_gate_pass = True
+    if cand_median_acc is not None and baseline_median_accuracy > 0:
+        accuracy_drop = baseline_median_accuracy - cand_median_acc
+        regression_pct = accuracy_drop / baseline_median_accuracy
+        regression_gate_pass = regression_pct <= config.max_regression_pct
+        gates.append(
+            GateResult(
+                name="max_regression_threshold",
+                passed=regression_gate_pass,
+                observed=regression_pct,
+                threshold=config.max_regression_pct,
+                operator="<=",
+                message=f"Accuracy drop must not exceed {config.max_regression_pct:.0%} vs baseline",
+            )
+        )
+        if not regression_gate_pass:
+            reason_codes.append("REGRESSION_EXCEEDS_THRESHOLD")
+
     restraint_pass = (
         cand_median_restraint is not None
         and cand_median_restraint >= config.restraint_floor
@@ -181,10 +201,12 @@ def evaluate_policy(payload: dict[str, Any], config: PolicyConfig, phase: str = 
     if not min_runs_pass:
         decision = "hold"
         rationale = "Insufficient run count; collect more evidence before promoting."
-    elif not no_regression_pass or not restraint_pass or not extended_phase_pass:
+    elif not no_regression_pass or not regression_gate_pass or not restraint_pass or not extended_phase_pass:
         decision = "reject"
         if not extended_phase_pass:
             rationale = f"Extended phase minimum accuracy not met ({cand_median_acc:.1%} < {config.extended_phase_min_accuracy:.1%})"
+        elif not regression_gate_pass:
+            rationale = f"Regression exceeds threshold ({regression_pct:.1%} > {config.max_regression_pct:.0%})"
         else:
             rationale = "Candidate fails quality/safety hard gates."
     elif not variance_pass:
@@ -223,6 +245,10 @@ def main() -> int:
         "--phase", type=str, default=None, help="Phase: atomic|extended (enables phase-specific gates)"
     )
     parser.add_argument(
+        "--max-regression-pct", type=float, default=0.10,
+        help="Max allowed regression percentage (default: 0.10 = 10%%)"
+    )
+    parser.add_argument(
         "--output", help="Optional path to write policy decision JSON (prints to stdout regardless)"
     )
     args = parser.parse_args()
@@ -233,6 +259,7 @@ def main() -> int:
         restraint_floor=args.restraint_floor,
         max_accuracy_variance=args.max_accuracy_variance,
         extended_phase_min_accuracy=args.extended_phase_min_accuracy,
+        max_regression_pct=args.max_regression_pct,
     )
 
     decision = evaluate_policy(payload, config, phase=args.phase)
