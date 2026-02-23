@@ -1,0 +1,25 @@
+{
+  "generated": "2026-02-23",
+  "wallets": [
+    {"wallet": "MetaMask", "repo": "MetaMask/metamask-extension", "lastCommit": "2026-02-20", "daysAgo": 2, "stars": "13082", "issues": "2577", "status": "✅"},
+    {"wallet": "Rabby", "repo": "RabbyHub/Rabby", "lastCommit": "2026-02-11", "daysAgo": 11, "stars": "1794", "issues": "124", "status": "✅"},
+    {"wallet": "Coinbase", "repo": "coinbase/coinbase-wallet-sdk", "lastCommit": "2025-07-11", "daysAgo": 226, "stars": "1729", "issues": "72", "status": "❌"},
+    {"wallet": "Trust Wallet", "repo": "trustwallet/wallet-core", "lastCommit": "2026-02-12", "daysAgo": 10, "stars": "3475", "issues": "93", "status": "✅"},
+    {"wallet": "Rainbow", "repo": "rainbow-me/rainbow", "lastCommit": "2026-02-20", "daysAgo": 2, "stars": "4311", "issues": "33", "status": "✅"},
+    {"wallet": "Safe", "repo": "safe-global/safe-wallet-monorepo", "lastCommit": "2026-02-23", "daysAgo": 0, "stars": "544", "issues": "97", "status": "✅"},
+    {"wallet": "Ambire", "repo": "AmbireTech/extension", "lastCommit": "2026-02-20", "daysAgo": 2, "stars": "60", "issues": "1", "status": "✅"},
+    {"wallet": "MEW", "repo": "MyEtherWallet/MyEtherWallet", "lastCommit": "2025-11-27", "daysAgo": 88, "stars": "1573", "issues": "33", "status": "⚠️"},
+    {"wallet": "Taho", "repo": "tahowallet/extension", "lastCommit": "2026-01-19", "daysAgo": 34, "stars": "3203", "issues": "337", "status": "⚠️"},
+    {"wallet": "Frame", "repo": "floating/frame", "lastCommit": "2025-02-01", "daysAgo": 387, "stars": "1184", "issues": "97", "status": "❌"},
+    {"wallet": "Brave", "repo": "brave/brave-browser", "lastCommit": "2026-02-23", "daysAgo": 0, "stars": "21719", "issues": "10422", "status": "✅"},
+    {"wallet": "Enkrypt", "repo": "enkryptcom/enKrypt", "lastCommit": "2025-12-18", "daysAgo": 66, "stars": "430", "issues": "6", "status": "⚠️"},
+    {"wallet": "imToken", "repo": "consenlabs/token-core-monorepo", "lastCommit": "2025-12-23", "daysAgo": 62, "stars": "24", "issues": "16", "status": "⚠️"},
+    {"wallet": "Daimo", "repo": "daimo-eth/daimo", "lastCommit": "2026-02-18", "daysAgo": 4, "stars": "410", "issues": "227", "status": "✅"},
+    {"wallet": "Argent", "repo": "argentlabs/argent-x", "lastCommit": "2025-03-14", "daysAgo": 345, "stars": "643", "issues": "95", "status": "❌"},
+    {"wallet": "Block Wallet", "repo": "block-wallet/extension", "lastCommit": "2024-11-27", "daysAgo": 452, "stars": "96", "issues": "45", "status": "❌"},
+    {"wallet": "Wigwam", "repo": "wigwamapp/wigwam", "lastCommit": "2026-01-19", "daysAgo": 34, "stars": "85", "issues": "7", "status": "⚠️"},
+    {"wallet": "Ledger Live", "repo": "LedgerHQ/ledger-live", "lastCommit": "2026-02-23", "daysAgo": 0, "stars": "566", "issues": "121", "status": "✅"},
+    {"wallet": "Sequence", "repo": "0xsequence/sequence.js", "lastCommit": "2026-02-17", "daysAgo": 5, "stars": "313", "issues": "23", "status": "✅"},
+    {"wallet": "Uniswap", "repo": "Uniswap/interface", "lastCommit": "2025-12-20", "daysAgo": 64, "stars": "5470", "issues": "809", "status": "⚠️"}
+  ]
+}
