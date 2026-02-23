@@ -6,6 +6,78 @@ This benchmark measures **judgment** (whether a model knows when to call a tool)
 
 ---
 
+## Self-Optimizing Mode (Alpha)
+
+The benchmark includes a **self-optimizing system** that automatically improves model performance through continuous feedback loops.
+
+### What It Does
+
+The system runs benchmark cycles, analyzes results, applies safety policies, generates recommendations, and routes models to optimal configurations — automatically improving performance over time without manual intervention.
+
+### Components
+
+| Component | Purpose |
+|-----------|---------|
+| `meta_harness_loop.py` | Main optimization loop: runs benchmarks → detects variance → applies policies → generates recommendations → enforces routing → repeats |
+| `benchmark_supervisor.py` | Orchestrates multiple runs, aggregates results, detects performance variance |
+| `self_optimizing_policy.py` | Decision gates: restraint floor, variance threshold, regression detection, extended phase minimums |
+| `routing_enforcer.py` | Applies routing rules automatically: routes models to appropriate phases, falls back to backup models |
+| `harness_feedback_loop.py` | Generates recommendations based on results |
+
+### Quick Start
+
+```bash
+# Full self-optimizing cycle (run → analyze → optimize → repeat)
+python3 meta_harness_loop.py
+
+# Or run individual components:
+python3 benchmark_supervisor.py              # Multiple benchmark runs with variance detection
+python3 routing_enforcer.py                   # Apply routing rules to results
+```
+
+### How It Works
+
+```
+run_benchmark → supervisor (detect variance) → policy gates (pass/fail)
+    → feedback loop (recommendations) → routing enforcer (apply rules) → repeat
+```
+
+### Regression Baseline Tracking
+
+The system automatically tracks performance baselines and detects regressions:
+
+| File | Purpose |
+|------|---------|
+| `baseline_tracker.py` | Core tracking module: saves baselines, checks regression, calculates accuracy change |
+| `baseline.json` | Current baselines per model/phase/variant |
+| `baseline_history.json` | Historical record of all baseline updates |
+
+**How it works:**
+- After each run, results are compared against the stored baseline
+- Calculates accuracy change and regression percentage
+- Alerts if regression exceeds **10%** threshold
+- Updates baseline with new results after each run
+
+**Usage:**
+```bash
+# Check for regression
+python3 baseline_tracker.py check --model lfm2.5-thinking:1.2b --phase atomic --accuracy 0.85
+
+# Update baseline
+python3 baseline_tracker.py update --model lfm2.5-thinking:1.2b --phase atomic --accuracy 0.85 --passed 85 --total 100
+
+# List all baselines
+python3 baseline_tracker.py list
+```
+
+**Integration:**
+- `benchmark_supervisor.py` automatically checks for regressions after each job and logs to `baseline_history.json`
+- `self_optimizing_policy.py` includes a regression gate that fails if accuracy drops > 10% (configurable via `--max-regression-pct`)
+
+For detailed architecture and configuration, see **[ARCHITECTURE.md](ARCHITECTURE.md)**.
+
+---
+
 ## Quick Start
 
 **1. Clone and setup**
