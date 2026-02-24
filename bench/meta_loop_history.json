@@ -1,0 +1,540 @@
+[
+  {
+    "ts": 1771909453,
+    "cycle_index": 1,
+    "baseline": {
+      "spec": {
+        "model": "lfm2.5-thinking:1.2b",
+        "phase": "atomic",
+        "variant": "native_api",
+        "timeout": 60,
+        "retries": 1,
+        "isolate": false
+      },
+      "ok": false,
+      "rc": 1,
+      "elapsed_s": 0.31,
+      "stdout_tail": "\ud83d\udccb Loading configuration...\n   \u2705 Loaded 10 models\n\ud83d\udd04 Cache MISS. Running benchmark...\n\n\ud83d\ude80 Starting ATOMIC phase benchmark...",
+      "stderr_tail": "\u274c Invalid argument: Variant 'native_api' not found for lfm2.5-thinking:1.2b. Available: ['atomic', 'extended']",
+      "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_native_api.json",
+      "parsed": null
+    },
+    "rows": [
+      {
+        "spec": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "native_api",
+          "timeout": 60,
+          "retries": 1,
+          "isolate": true
+        },
+        "ok": false,
+        "rc": 1,
+        "elapsed_s": 0.3,
+        "stdout_tail": "\ud83d\udccb Loading configuration...\n   \u2705 Loaded 10 models\n\ud83d\udd04 Cache MISS. Running benchmark...\n\n\ud83d\ude80 Starting ATOMIC phase benchmark...",
+        "stderr_tail": "\u274c Invalid argument: Variant 'native_api' not found for lfm2.5-thinking:1.2b. Available: ['atomic', 'extended']",
+        "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_native_api.json",
+        "parsed": null
+      },
+      {
+        "spec": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "native_api",
+          "timeout": 60,
+          "retries": 2,
+          "isolate": true
+        },
+        "ok": false,
+        "rc": 1,
+        "elapsed_s": 0.31,
+        "stdout_tail": "\ud83d\udccb Loading configuration...\n   \u2705 Loaded 10 models\n\ud83d\udd04 Cache MISS. Running benchmark...\n\n\ud83d\ude80 Starting ATOMIC phase benchmark...",
+        "stderr_tail": "\u274c Invalid argument: Variant 'native_api' not found for lfm2.5-thinking:1.2b. Available: ['atomic', 'extended']",
+        "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_native_api.json",
+        "parsed": null
+      },
+      {
+        "spec": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timeout": 60,
+          "retries": 1,
+          "isolate": true
+        },
+        "ok": true,
+        "rc": 0,
+        "elapsed_s": 192.12,
+        "stdout_tail": "\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n\u2551 CACHE STATISTICS                                                           \u2551\n\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n\u2551 Hits:            0                                                     \u2551\n\u2551 Misses:          1                                                     \u2551\n\u2551 Hit Rate:      0.0%                                                   \u2551\n\u2551 Time Saved:    0.0s                                                   \u2551\n\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d\n\n\ud83d\udcbe Saved: /root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_atomic.json",
+        "stderr_tail": "",
+        "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_atomic.json",
+        "parsed": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timestamp": 1771909453.4977772,
+          "config_name": "LFM2.5-1.2B",
+          "system_prompt": "When you need a tool, use: [tool_name(arg=\"value\")]",
+          "summary": {
+            "passed": 11,
+            "total": 12,
+            "accuracy": 0.9166666666666666,
+            "restraint_score": 1.0
+          },
+          "by_category": null,
+          "failed_prompts": [
+            "P10"
+          ],
+          "results": [
+            {
+              "prompt_id": "P1",
+              "expected": [
+                "get_weather"
+              ],
+              "got": [
+                "get_weather"
+              ],
+              "correct": true,
+              "latency_ms": 7141.031503677368,
+              "error": null,
+              "timeout": false,
+              "assistant_content": ""
+            },
+            {
+              "prompt_id": "P2",
+              "expected": [
+                "search_files"
+              ],
+              "got": [
+                "search_files"
+              ],
+              "correct": true,
+              "latency_ms": 9750.05555152893,
+              "error": null,
+              "timeout": false,
+              "assistant_content": ""
+            },
+            {
+              "prompt_id": "P3",
+              "expected": [
+                "schedule_meeting"
+              ],
+              "got": [
+                "schedule_meeting"
+              ],
+              "correct": true,
+              "latency_ms": 8335.673332214355,
+              "error": null,
+              "timeout": false,
+              "assistant_content": ""
+            },
+            {
+              "prompt_id": "P4",
+              "expected": [
+                "get_weather"
+              ],
+              "got": [
+                "get_weather"
+              ],
+              "correct": true,
+              "latency_ms": 7441.926002502441,
+              "error": null,
+              "timeout": false,
+              "assistant_content": ""
+            },
+            {
+              "prompt_id": "P5",
+              "expected": [],
+              "got": [],
+              "correct": true,
+              "latency_ms": 14525.537490844727,
+              "error": null,
+              "timeout": false,
+              "assistant_content": "The available tools are:  \n1. **get_weather**: Retrieves current weather for a specified city.  \n2. **search_files**: Finds files matching a pattern.  \n3. **schedule_meeting**: Schedules a meeting with a title and time.  \n\nLet me know if you'd like assistance with any of these!"
+            },
+            {
+              "prompt_id": "P6",
+              "expected": [],
+              "got": [],
+              "correct": true,
+              "latency_ms": 12494.275331497192,
+              "error": null,
+              "timeout": false,
+              "assistant_content": "The weather for the city where your next sprint review is taking place cannot be determined without knowing the specific city name. Could you please provide the city name? \n\nFor example: \"What's the weather in New York?\" \n\nOnce you specify the city, I can retrieve the current weather for you!"
+            },
+            {
+              "prompt_id": "P7",
+              "expected": [
+                "schedule_meeting"
+              ],
+              "got": [
+                "schedule_meeting"
+              ],
+              "correct": true,
+              "latency_ms": 36366.83917045593,
+              "error": null,
+              "timeout": false,
+              "assistant_content": ""
+            },
+            {
+              "prompt_id": "P8",
+              "expected": [
+                "search_files",
+                "get_weather"
+              ],
+              "got": [
+                "search_files",
+                "get_weather"
+              ],
+              "correct": true,
+              "latency_ms": 12930.598974227905,
+              "error": null,
+              "timeout": false,
+              "assistant_content": ""
+            },
+            {
+              "prompt_id": "P9",
+              "expected": [],
+              "got": [],
+              "correct": true,
+              "latency_ms": 30661.181449890137,
+              "error": null,
+              "timeout": false,
+              "assistant_content": "I'll help you create a simple Python script using the `get_weather` tool. Here's an example:\n\n```python\nimport get_weather  # Assuming this is available\n\n# Replace 'your_city' with the city name you want to check\ncity = \"New York\"\ntry:\n    weather = get_weather(city=city)\n    print(f\"Weather in {city}: {weather}\")\nexcept KeyError:\n    print(\"City not found!\")\n```\n\nTo use this:\n1. Replace \"your_city\" with the actual city name\n2. Run the script\n3. It will display the current weather for that city\n\nNote: This assumes the `get_weather` function is available in your environment. If you need a different API, let me know!"
+            },
+            {
+              "prompt_id": "P10",
+              "expected": [
+                "get_weather"
+              ],
+              "got": [],
+              "correct": false,
+              "latency_ms": 20278.759241104126,
+              "error": null,
+              "timeout": false,
+              "assistant_content": "I don't have access to real-time transportation data or local transit options in Bruges. However, cycling is often popular in European cities like Bruges for short trips due to its compact center and scenic routes. Consider factors like distance, time, and personal preference (e.g., cost, comfort). If you'd like help with another task, let me know!"
+            },
+            {
+              "prompt_id": "P11",
+              "expected": [
+                "search_files"
+              ],
+              "got": [
+                "search_files"
+              ],
+              "correct": true,
+              "latency_ms": 18862.70499229431,
+              "error": null,
+              "timeout": false,
+              "assistant_content": ""
+            },
+            {
+              "prompt_id": "P12",
+              "expected": [
+                "schedule_meeting"
+              ],
+              "got": [
+                "schedule_meeting"
+              ],
+              "correct": true,
+              "latency_ms": 12991.515159606934,
+              "error": null,
+              "timeout": false,
+              "assistant_content": ""
+            }
+          ]
+        }
+      },
+      {
+        "spec": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timeout": 60,
+          "retries": 2,
+          "isolate": true
+        },
+        "ok": true,
+        "rc": 0,
+        "elapsed_s": 0.31,
+        "stdout_tail": "\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n\u2551 CACHE STATISTICS                                                           \u2551\n\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n\u2551 Hits:            1                                                     \u2551\n\u2551 Misses:          0                                                     \u2551\n\u2551 Hit Rate:    100.0%                                                   \u2551\n\u2551 Time Saved:  191.8s                                                   \u2551\n\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d\n\n\ud83d\udcbe Saved: /root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_atomic.json",
+        "stderr_tail": "",
+        "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_atomic.json",
+        "parsed": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timestamp": 1771909453.819461,
+          "config_name": "lfm2.5-thinking:1.2b",
+          "system_prompt": "",
+          "summary": {
+            "passed": 11,
+            "total": 12,
+            "accuracy": 0.9166666666666666,
+            "restraint_score": 1.0
+          },
+          "by_category": null,
+          "failed_prompts": [
+            "P10"
+          ],
+          "results": []
+        }
+      }
+    ]
+  },
+  {
+    "ts": 1771909455,
+    "cycle_index": 2,
+    "baseline": {
+      "spec": {
+        "model": "lfm2.5-thinking:1.2b",
+        "phase": "atomic",
+        "variant": "native_api",
+        "timeout": 60,
+        "retries": 1,
+        "isolate": false
+      },
+      "ok": false,
+      "rc": 1,
+      "elapsed_s": 0.31,
+      "stdout_tail": "\ud83d\udccb Loading configuration...\n   \u2705 Loaded 10 models\n\ud83d\udd04 Cache MISS. Running benchmark...\n\n\ud83d\ude80 Starting ATOMIC phase benchmark...",
+      "stderr_tail": "\u274c Invalid argument: Variant 'native_api' not found for lfm2.5-thinking:1.2b. Available: ['atomic', 'extended']",
+      "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_native_api.json",
+      "parsed": null
+    },
+    "rows": [
+      {
+        "spec": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "native_api",
+          "timeout": 60,
+          "retries": 1,
+          "isolate": true
+        },
+        "ok": false,
+        "rc": 1,
+        "elapsed_s": 0.31,
+        "stdout_tail": "\ud83d\udccb Loading configuration...\n   \u2705 Loaded 10 models\n\ud83d\udd04 Cache MISS. Running benchmark...\n\n\ud83d\ude80 Starting ATOMIC phase benchmark...",
+        "stderr_tail": "\u274c Invalid argument: Variant 'native_api' not found for lfm2.5-thinking:1.2b. Available: ['atomic', 'extended']",
+        "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_native_api.json",
+        "parsed": null
+      },
+      {
+        "spec": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "native_api",
+          "timeout": 60,
+          "retries": 2,
+          "isolate": true
+        },
+        "ok": false,
+        "rc": 1,
+        "elapsed_s": 0.31,
+        "stdout_tail": "\ud83d\udccb Loading configuration...\n   \u2705 Loaded 10 models\n\ud83d\udd04 Cache MISS. Running benchmark...\n\n\ud83d\ude80 Starting ATOMIC phase benchmark...",
+        "stderr_tail": "\u274c Invalid argument: Variant 'native_api' not found for lfm2.5-thinking:1.2b. Available: ['atomic', 'extended']",
+        "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_native_api.json",
+        "parsed": null
+      },
+      {
+        "spec": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timeout": 60,
+          "retries": 1,
+          "isolate": true
+        },
+        "ok": true,
+        "rc": 0,
+        "elapsed_s": 0.31,
+        "stdout_tail": "\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n\u2551 CACHE STATISTICS                                                           \u2551\n\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n\u2551 Hits:            1                                                     \u2551\n\u2551 Misses:          0                                                     \u2551\n\u2551 Hit Rate:    100.0%                                                   \u2551\n\u2551 Time Saved:  191.8s                                                   \u2551\n\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d\n\n\ud83d\udcbe Saved: /root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_atomic.json",
+        "stderr_tail": "",
+        "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_atomic.json",
+        "parsed": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timestamp": 1771909455.058355,
+          "config_name": "lfm2.5-thinking:1.2b",
+          "system_prompt": "",
+          "summary": {
+            "passed": 11,
+            "total": 12,
+            "accuracy": 0.9166666666666666,
+            "restraint_score": 1.0
+          },
+          "by_category": null,
+          "failed_prompts": [
+            "P10"
+          ],
+          "results": []
+        }
+      },
+      {
+        "spec": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timeout": 60,
+          "retries": 2,
+          "isolate": true
+        },
+        "ok": true,
+        "rc": 0,
+        "elapsed_s": 0.31,
+        "stdout_tail": "\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n\u2551 CACHE STATISTICS                                                           \u2551\n\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n\u2551 Hits:            1                                                     \u2551\n\u2551 Misses:          0                                                     \u2551\n\u2551 Hit Rate:    100.0%                                                   \u2551\n\u2551 Time Saved:  191.8s                                                   \u2551\n\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d\n\n\ud83d\udcbe Saved: /root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_atomic.json",
+        "stderr_tail": "",
+        "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_atomic.json",
+        "parsed": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timestamp": 1771909455.3698654,
+          "config_name": "lfm2.5-thinking:1.2b",
+          "system_prompt": "",
+          "summary": {
+            "passed": 11,
+            "total": 12,
+            "accuracy": 0.9166666666666666,
+            "restraint_score": 1.0
+          },
+          "by_category": null,
+          "failed_prompts": [
+            "P10"
+          ],
+          "results": []
+        }
+      }
+    ]
+  },
+  {
+    "ts": 1771909456,
+    "cycle_index": 3,
+    "baseline": {
+      "spec": {
+        "model": "lfm2.5-thinking:1.2b",
+        "phase": "atomic",
+        "variant": "native_api",
+        "timeout": 60,
+        "retries": 1,
+        "isolate": false
+      },
+      "ok": false,
+      "rc": 1,
+      "elapsed_s": 0.3,
+      "stdout_tail": "\ud83d\udccb Loading configuration...\n   \u2705 Loaded 10 models\n\ud83d\udd04 Cache MISS. Running benchmark...\n\n\ud83d\ude80 Starting ATOMIC phase benchmark...",
+      "stderr_tail": "\u274c Invalid argument: Variant 'native_api' not found for lfm2.5-thinking:1.2b. Available: ['atomic', 'extended']",
+      "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_native_api.json",
+      "parsed": null
+    },
+    "rows": [
+      {
+        "spec": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "native_api",
+          "timeout": 60,
+          "retries": 1,
+          "isolate": true
+        },
+        "ok": false,
+        "rc": 1,
+        "elapsed_s": 0.31,
+        "stdout_tail": "\ud83d\udccb Loading configuration...\n   \u2705 Loaded 10 models\n\ud83d\udd04 Cache MISS. Running benchmark...\n\n\ud83d\ude80 Starting ATOMIC phase benchmark...",
+        "stderr_tail": "\u274c Invalid argument: Variant 'native_api' not found for lfm2.5-thinking:1.2b. Available: ['atomic', 'extended']",
+        "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_native_api.json",
+        "parsed": null
+      },
+      {
+        "spec": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "native_api",
+          "timeout": 60,
+          "retries": 2,
+          "isolate": true
+        },
+        "ok": false,
+        "rc": 1,
+        "elapsed_s": 0.31,
+        "stdout_tail": "\ud83d\udccb Loading configuration...\n   \u2705 Loaded 10 models\n\ud83d\udd04 Cache MISS. Running benchmark...\n\n\ud83d\ude80 Starting ATOMIC phase benchmark...",
+        "stderr_tail": "\u274c Invalid argument: Variant 'native_api' not found for lfm2.5-thinking:1.2b. Available: ['atomic', 'extended']",
+        "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_native_api.json",
+        "parsed": null
+      },
+      {
+        "spec": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timeout": 60,
+          "retries": 1,
+          "isolate": true
+        },
+        "ok": true,
+        "rc": 0,
+        "elapsed_s": 0.31,
+        "stdout_tail": "\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n\u2551 CACHE STATISTICS                                                           \u2551\n\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n\u2551 Hits:            1                                                     \u2551\n\u2551 Misses:          0                                                     \u2551\n\u2551 Hit Rate:    100.0%                                                   \u2551\n\u2551 Time Saved:  191.8s                                                   \u2551\n\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d\n\n\ud83d\udcbe Saved: /root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_atomic.json",
+        "stderr_tail": "",
+        "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_atomic.json",
+        "parsed": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timestamp": 1771909456.6144614,
+          "config_name": "lfm2.5-thinking:1.2b",
+          "system_prompt": "",
+          "summary": {
+            "passed": 11,
+            "total": 12,
+            "accuracy": 0.9166666666666666,
+            "restraint_score": 1.0
+          },
+          "by_category": null,
+          "failed_prompts": [
+            "P10"
+          ],
+          "results": []
+        }
+      },
+      {
+        "spec": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timeout": 60,
+          "retries": 2,
+          "isolate": true
+        },
+        "ok": true,
+        "rc": 0,
+        "elapsed_s": 0.31,
+        "stdout_tail": "\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n\u2551 CACHE STATISTICS                                                           \u2551\n\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n\u2551 Hits:            1                                                     \u2551\n\u2551 Misses:          0                                                     \u2551\n\u2551 Hit Rate:    100.0%                                                   \u2551\n\u2551 Time Saved:  191.8s                                                   \u2551\n\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d\n\n\ud83d\udcbe Saved: /root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_atomic.json",
+        "stderr_tail": "",
+        "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_atomic.json",
+        "parsed": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timestamp": 1771909456.9225497,
+          "config_name": "lfm2.5-thinking:1.2b",
+          "system_prompt": "",
+          "summary": {
+            "passed": 11,
+            "total": 12,
+            "accuracy": 0.9166666666666666,
+            "restraint_score": 1.0
+          },
+          "by_category": null,
+          "failed_prompts": [
+            "P10"
+          ],
+          "results": []
+        }
+      }
+    ]
+  }
+]

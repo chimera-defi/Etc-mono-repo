@@ -178,12 +178,12 @@ def _build_candidates(args: argparse.Namespace) -> list[RunSpec]:
     presets: dict[str, list[RunSpec]] = {
         'default': [],
         'stability': [
-            RunSpec(args.baseline_model, args.phase, 'native_api', args.baseline_timeout, 2, True),
+            RunSpec(args.baseline_model, args.phase, 'atomic', args.baseline_timeout, 2, True),
             RunSpec(args.baseline_model, args.phase, 'atomic', args.baseline_timeout, 2, True),
         ],
         'explore': [
-            RunSpec(args.baseline_model, args.phase, 'native_api', max(30, args.baseline_timeout // 2), 1, True),
-            RunSpec(args.baseline_model, args.phase, 'native_api', args.baseline_timeout, 3, True),
+            RunSpec(args.baseline_model, args.phase, 'atomic', max(30, args.baseline_timeout // 2), 1, True),
+            RunSpec(args.baseline_model, args.phase, 'atomic', args.baseline_timeout, 3, True),
             RunSpec(args.baseline_model, args.phase, 'atomic', args.baseline_timeout, 3, True),
         ],
     }
@@ -342,14 +342,14 @@ def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument('--baseline-model', default='lfm2.5-thinking:1.2b')
     p.add_argument('--baseline-phase', default='atomic')
-    p.add_argument('--baseline-variant', default='native_api')
+    p.add_argument('--baseline-variant', default='atomic')
     p.add_argument('--baseline-timeout', type=int, default=60)
     p.add_argument('--baseline-retries', type=int, default=1)
     p.add_argument('--baseline-isolate', action='store_true')
 
     p.add_argument('--models', nargs='+', default=['lfm2.5-thinking:1.2b'])
     p.add_argument('--phase', default='atomic')
-    p.add_argument('--variants', nargs='+', default=['native_api', 'atomic'])
+    p.add_argument('--variants', nargs='+', default=['atomic', 'atomic'])
     p.add_argument('--timeouts', nargs='+', type=int, default=[60])
     p.add_argument('--retries-list', nargs='+', type=int, default=[1, 2])
     p.add_argument('--isolate-modes', nargs='+', type=int, default=[1])
