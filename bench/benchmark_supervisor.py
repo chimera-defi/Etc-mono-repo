@@ -277,6 +277,8 @@ def main():
     parser.add_argument('--health-check', action='store_true', default=True, help='Verify Ollama is healthy before running (default: true)')
     parser.add_argument('--no-health-check', dest='health_check', action='store_false', help='Skip Ollama health check')
     args = parser.parse_args()
+    # Alias max_retries to retries for backward compatibility
+    args.retries = args.max_retries
 
     # Health check: verify Ollama is running before starting
     if args.health_check:
@@ -376,7 +378,7 @@ def main():
             enable_warmup = args.enable_warmup and (i == 1)
             
             # Run with retry with backoff
-            retry_config = RetryConfig(max_retries=max(args.retries, 1), backoff_base=2.0, backoff_max=30.0)
+            retry_config = RetryConfig(max_retries=max(args.max_retries, 1), backoff_base=2.0, backoff_max=30.0)
             
             try:
                 res = retry_with_backoff(
