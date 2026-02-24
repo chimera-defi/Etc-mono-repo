@@ -5,7 +5,7 @@ Saves baseline results after each run, compares new results vs baseline,
 calculates accuracy change and regression %, and alerts if regression > 10%.
 
 Usage:
-    from bench.baseline_tracker import BaselineTracker
+    from selfopt.baseline_tracker import BaselineTracker
     
     tracker = BaselineTracker()
     

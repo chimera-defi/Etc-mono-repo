@@ -23,6 +23,10 @@ Variants:
 """
 
 import sys
+import os
+
+# Add parent directory to path for imports
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import json
 import time
 import signal
@@ -34,10 +38,10 @@ from dataclasses import dataclass, asdict
 import ollama
 
 # Import cache module
-from result_cache import ResultCache, get_cache, get_prompts_for_phase
+from utils.result_cache import ResultCache, get_cache, get_prompts_for_phase
 
 # Import error recovery module
-from error_recovery import (
+from utils.error_recovery import (
     Checkpoint, RetryConfig, retry_with_backoff, is_retryable_error,
     load_checkpoint, save_checkpoint, clear_checkpoint,
     save_partial_results, load_partial_results, register_crash_handler,
@@ -47,7 +51,7 @@ from error_recovery import (
 # Constants
 TIMEOUT_SECONDS = 60
 WORKSPACE = Path("/root/.openclaw/workspace/bench")
-CONFIG_PATH = WORKSPACE / "phase2_config.json"
+CONFIG_PATH = WORKSPACE / "config" / "phase2_config.json"
 SUITE_PATH = WORKSPACE / "extended_benchmark_suite.json"
 
 # =============================================================================

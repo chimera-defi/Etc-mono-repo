@@ -13,8 +13,8 @@ from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Any, Optional
 
-from baseline_tracker import BaselineTracker
-from error_recovery import (
+from selfopt.baseline_tracker import BaselineTracker
+from utils.error_recovery import (
     RetryConfig,
     Checkpoint,
     HealthStatus,
