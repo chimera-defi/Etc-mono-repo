@@ -47,7 +47,7 @@ from error_recovery import (
 # Constants
 TIMEOUT_SECONDS = 60
 WORKSPACE = Path("/root/.openclaw/workspace/bench")
-CONFIG_PATH = WORKSPACE / "harness" / "phase2_config.json"
+CONFIG_PATH = WORKSPACE / "phase2_config.json"
 SUITE_PATH = WORKSPACE / "extended_benchmark_suite.json"
 
 # =============================================================================
