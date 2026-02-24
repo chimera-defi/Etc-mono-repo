@@ -198,6 +198,11 @@
           "system": "You are a helpful assistant. Call tools when the user asks. Be concise.",
           "max_tokens": 500,
           "description": "Baseline with conciseness instruction"
+        },
+        "extended": {
+          "system": "You are a helpful assistant. Pay attention to conversation context. Maintain state across turns. Call tools only when truly needed. Be concise.",
+          "max_tokens": 1000,
+          "description": "Extended with explicit state awareness + restraint reminder"
         }
       }
     }
