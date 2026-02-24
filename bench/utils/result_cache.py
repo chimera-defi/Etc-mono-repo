@@ -18,8 +18,8 @@ from datetime import datetime
 # =============================================================================
 
 CACHE_DIR = Path("/root/.openclaw/workspace/bench/.cache")
-CONFIG_PATH = Path("/root/.openclaw/workspace/bench/harness/phase2_config.json")
-SUITE_PATH = Path("/root/.openclaw/workspace/bench/extended_benchmark_suite.json")
+CONFIG_PATH = Path("/root/.openclaw/workspace/bench/config/phase2_config.json")
+SUITE_PATH = Path("/root/.openclaw/workspace/bench/config/extended_benchmark_suite.json")
 
 # Ensure cache directory exists
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
