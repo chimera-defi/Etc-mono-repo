@@ -1,13 +1,8 @@
 #!/bin/bash
-# Ethereum Logs - View service logs
-# Usage: ./logs.sh [service] [lines]
-# Default: show last 100 lines from all services
+# Ethereum Adapter - Logs
+# Delegates to eth2-quickstart view_logs.sh
 
-LINES="${2:-100}"
-SERVICE="${1:-}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ETH2_PATH="$(cat "$SCRIPT_DIR/ETH2_QUICKSTART")"
 
-if [[ -z "$SERVICE" ]]; then
-    journalctl -n ${LINES} -u eth1 -u beacon-chain -u validator --no-pager
-else
-    journalctl -n ${LINES} -u ${SERVICE} --no-pager
-fi
+exec "$ETH2_PATH/install/utils/view_logs.sh" "$@"
