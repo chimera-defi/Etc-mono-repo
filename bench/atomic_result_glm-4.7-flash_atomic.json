@@ -1,0 +1,179 @@
+{
+  "model": "glm-4.7-flash:latest",
+  "phase": "atomic",
+  "variant": "atomic",
+  "timestamp": 1771907268.8893898,
+  "config_name": "GLM-4.7-Flash",
+  "system_prompt": "You are a helpful assistant. Call tools when the user asks. Be concise.",
+  "summary": {
+    "passed": 8,
+    "total": 12,
+    "accuracy": 0.6666666666666666,
+    "restraint_score": 0.0
+  },
+  "by_category": null,
+  "failed_prompts": [
+    "P5",
+    "P6",
+    "P9",
+    "P12"
+  ],
+  "results": [
+    {
+      "prompt_id": "P1",
+      "expected": [
+        "get_weather"
+      ],
+      "got": [
+        "get_weather"
+      ],
+      "correct": true,
+      "latency_ms": 13024.405241012573,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    },
+    {
+      "prompt_id": "P2",
+      "expected": [
+        "search_files"
+      ],
+      "got": [
+        "search_files"
+      ],
+      "correct": true,
+      "latency_ms": 6327.476739883423,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    },
+    {
+      "prompt_id": "P3",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [
+        "schedule_meeting"
+      ],
+      "correct": true,
+      "latency_ms": 13609.29012298584,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "I'll schedule a meeting with John at 3 PM tomorrow."
+    },
+    {
+      "prompt_id": "P4",
+      "expected": [
+        "get_weather"
+      ],
+      "got": [
+        "get_weather"
+      ],
+      "correct": true,
+      "latency_ms": 8238.09838294983,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "I'll check the weather for Brussels to help you plan for tomorrow."
+    },
+    {
+      "prompt_id": "P5",
+      "expected": [],
+      "got": [],
+      "correct": false,
+      "latency_ms": 15317.503213882446,
+      "error": "'NoneType' object is not iterable",
+      "timeout": false,
+      "assistant_content": "I have access to three tools:\n\n1. **get_weather** - Get the current weather for a given city\n2. **search_files** - Search for files matching a pattern\n3. **schedule_meeting** - Schedule a meeting\n\nWould you like me to demonstrate how any of these tools work?"
+    },
+    {
+      "prompt_id": "P6",
+      "expected": [],
+      "got": [],
+      "correct": false,
+      "latency_ms": 9294.818639755249,
+      "error": "'NoneType' object is not iterable",
+      "timeout": false,
+      "assistant_content": "I'd be happy to check the weather for your sprint review city! However, I need to know which city you're referring to. Could you please tell me the city name?"
+    },
+    {
+      "prompt_id": "P7",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [
+        "schedule_meeting"
+      ],
+      "correct": true,
+      "latency_ms": 12047.019243240356,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "I'll schedule that meeting for you."
+    },
+    {
+      "prompt_id": "P8",
+      "expected": [
+        "search_files",
+        "get_weather"
+      ],
+      "got": [
+        "search_files",
+        "get_weather"
+      ],
+      "correct": true,
+      "latency_ms": 13079.932928085327,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "I'll search for budget files and get the weather in Amsterdam for you."
+    },
+    {
+      "prompt_id": "P9",
+      "expected": [],
+      "got": [],
+      "correct": false,
+      "latency_ms": 60000.242710113525,
+      "error": "TIMEOUT(60s)",
+      "timeout": true,
+      "assistant_content": null
+    },
+    {
+      "prompt_id": "P10",
+      "expected": [
+        "get_weather"
+      ],
+      "got": [
+        "get_weather"
+      ],
+      "correct": true,
+      "latency_ms": 9365.931034088135,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "I'll check the weather in Bruges to help you decide between train and cycling."
+    },
+    {
+      "prompt_id": "P11",
+      "expected": [
+        "search_files"
+      ],
+      "got": [
+        "search_files"
+      ],
+      "correct": true,
+      "latency_ms": 10742.749691009521,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "I'll search for quarterly reports for you."
+    },
+    {
+      "prompt_id": "P12",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 26469.440698623657,
+      "error": "'NoneType' object is not iterable",
+      "timeout": false,
+      "assistant_content": "I can schedule that meeting for you. What would you like to title the meeting?"
+    }
+  ]
+}
