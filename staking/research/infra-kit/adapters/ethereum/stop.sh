@@ -1,5 +1,8 @@
 #!/bin/bash
-# Ethereum Stop - Stop services
-for svc in validator mev-boost beacon-chain eth1; do
-    systemctl stop ${svc} 2>/dev/null && echo "Stopped: ${svc}" || echo "Failed: ${svc}"
-done
+# Ethereum Adapter - Stop
+# Delegates to eth2-quickstart stop.sh
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ETH2_PATH="$(cat "$SCRIPT_DIR/ETH2_QUICKSTART")"
+
+exec "$ETH2_PATH/install/utils/stop.sh" "$@"
