@@ -21,7 +21,7 @@ import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
-import harness_feedback_loop
+import selfopt.harness_feedback_loop
 
 WORKDIR = Path('/root/.openclaw/workspace')
 BENCH = WORKDIR / 'bench'
@@ -29,8 +29,8 @@ RUNNER = BENCH / 'run_benchmark.py'
 WORKDIR = Path('/root/.openclaw/workspace')
 BENCH = WORKDIR / 'bench'
 sys.path.insert(0, str(BENCH))
-from routing_enforcer import enforce_recommendations
-import harness_feedback_loop
+from routing.routing_enforcer import enforce_recommendations
+import selfopt.harness_feedback_loop
 REPORT = BENCH / 'SELF_OPTIMIZING_REPORT.md'
 HISTORY = BENCH / 'meta_loop_history.json'
 PARSER_BAKEOFF = BENCH / 'parsers' / 'parser_candidate_bakeoff.py'
