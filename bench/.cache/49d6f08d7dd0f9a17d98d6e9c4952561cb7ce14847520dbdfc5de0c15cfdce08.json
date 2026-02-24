@@ -2,33 +2,13 @@
   "model": "glm-4.7-flash:latest",
   "phase": "extended",
   "variant": "extended",
-  "timestamp": 1771908978.2206223,
-  "config_name": "GLM-4.7-Flash",
-  "system_prompt": "You are a helpful assistant. Pay attention to conversation context. Maintain state across turns. Call tools only when truly needed. Be concise.",
+  "prompt_hash": "4b4778a84f6aace0",
   "summary": {
     "passed": 9,
     "total": 18,
     "accuracy": 0.5,
     "restraint_score": null
   },
-  "by_category": {
-    "prompts": {
-      "passed": 9,
-      "total": 18,
-      "accuracy": 0.5
-    }
-  },
-  "failed_prompts": [
-    "P13",
-    "P16",
-    "P18",
-    "P19",
-    "P22",
-    "P23",
-    "P25",
-    "P26",
-    "P29"
-  ],
   "results": [
     {
       "prompt_id": "P13",
@@ -263,5 +243,25 @@
       "timeout": false,
       "assistant_content": ""
     }
-  ]
+  ],
+  "failed_prompts": [
+    "P13",
+    "P16",
+    "P18",
+    "P19",
+    "P22",
+    "P23",
+    "P25",
+    "P26",
+    "P29"
+  ],
+  "by_category": {
+    "prompts": {
+      "passed": 9,
+      "total": 18,
+      "accuracy": 0.5
+    }
+  },
+  "cached_at": 1771908978.2209215,
+  "config_hash": "extended_benchmark_suite.json=04b939b3090b1f2c"
 }
