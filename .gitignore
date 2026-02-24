@@ -1,42 +1,10 @@
-__pycache__/
-*.py[cod]
-*.pyo
-# Cursor artifacts
-.cursor/artifacts/
-wallets/artifacts/
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Logs
+.openclaw/
+AGENTS.md
+HEARTBEAT.md
+IDENTITY.md
+SOUL.md
+TOOLS.md
+USER.md
+MEMORY.md
+memory/
 *.log
-
-# Environment
-.env
-.env.local
-
-# Mobile development
-node_modules/
-*.apk
-*.aab
-*.ipa
-*.dSYM.zip
-*.dSYM
-DerivedData/
-.gradle/
-build/
-dist/
-.dart_tool/
-.pub-cache/
-Pods/
-*.xcuserstate
-core
-core.*
-.worktrees/
