@@ -185,6 +185,21 @@
           "description": "Extended context variant"
         }
       }
+    },
+    "glm-4.7-flash:latest": {
+      "name": "GLM-4.7-Flash",
+      "arch": "GLM-4 (19GB)",
+      "system_prompt": "You are a helpful assistant with access to tools.",
+      "temperature": 0.0,
+      "output_format": "native_tools_api",
+      "notes": "GLM model from Zhipu AI. Fast inference.",
+      "variants": {
+        "atomic": {
+          "system": "You are a helpful assistant. Call tools when the user asks. Be concise.",
+          "max_tokens": 500,
+          "description": "Baseline with conciseness instruction"
+        }
+      }
     }
   },
   "online_models": {
