@@ -105,7 +105,7 @@ def _run_spec(spec: RunSpec) -> dict[str, Any]:
         spec.phase,
         spec.variant,
         '--timeout', str(spec.timeout),
-        '--retries', str(spec.retries),
+        '--max-retries', str(spec.retries),
     ]
     if spec.isolate:
         cmd.append('--isolate-call')

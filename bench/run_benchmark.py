@@ -684,6 +684,12 @@ Examples:
         help="Maximum retries per failed prompt (default: 1)"
     )
     
+    parser.add_argument(
+        "--isolate-call",
+        action="store_true",
+        help="Execute each tool call in isolation (default: False)"
+    )
+    
     args = parser.parse_args()
     
     # Normalize phase
