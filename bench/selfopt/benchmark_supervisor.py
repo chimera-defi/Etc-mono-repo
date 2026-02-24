@@ -36,7 +36,7 @@ from utils.error_recovery import (
 )
 
 ROOT = Path('/root/.openclaw/workspace/bench')
-RUNNER = ROOT / 'run_benchmark.py'
+RUNNER = ROOT / 'core' / 'run_benchmark.py'
 RUNS = ROOT / 'supervisor_runs'
 ARCHIVE = RUNS / '.archive'
 INDEX_PATH = RUNS / 'index.json'

@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from typing import Optional
 import time
 
-CONFIG_FILE = Path('/root/.openclaw/workspace/bench/routing_config.json')
+CONFIG_FILE = Path('/root/.openclaw/workspace/bench/config/routing_config.json')
 
 @dataclass
 class RoutingRule:

@@ -7,7 +7,7 @@ from datetime import datetime
 from utils.config_manager import ConfigManager, RoutingRule
 
 FEEDBACK = Path('/root/.openclaw/workspace/bench/harness_feedback.json')
-OUTPUT_CONFIG = Path('/root/.openclaw/workspace/bench/routing_config.json')
+OUTPUT_CONFIG = Path('/root/.openclaw/workspace/bench/config/routing_config.json')
 AUDIT_LOG = Path('/root/.openclaw/workspace/bench/routing_decisions.log')
 
 
