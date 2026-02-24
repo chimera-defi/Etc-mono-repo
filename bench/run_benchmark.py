@@ -264,7 +264,10 @@ def run_atomic_phase(
                     
                     msg = response.get("message", {})
                     txt = msg.get("content")
-                    got = [tc["function"]["name"] for tc in msg.get("tool_calls", []) if "function" in tc]
+                    tool_calls = msg.get("tool_calls", [])
+                    if not isinstance(tool_calls, list):
+                        tool_calls = []
+                    got = [tc["function"]["name"] for tc in tool_calls if "function" in tc]
                     
                 except TimeoutError:
                     err = f"TIMEOUT({TIMEOUT_SECONDS}s)"
@@ -428,7 +431,10 @@ def run_extended_phase(
                 
                 msg = response.get("message", {})
                 txt = msg.get("content")
-                got = [tc["function"]["name"] for tc in msg.get("tool_calls", []) if "function" in tc]
+                tool_calls = msg.get("tool_calls", [])
+                if not isinstance(tool_calls, list):
+                    tool_calls = []
+                got = [tc["function"]["name"] for tc in tool_calls if "function" in tc]
                 
             except TimeoutError:
                 err = f"TIMEOUT({TIMEOUT_SECONDS}s)"

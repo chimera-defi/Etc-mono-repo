@@ -2,25 +2,24 @@
   "model": "glm-4.7-flash:latest",
   "phase": "extended",
   "variant": "extended",
-  "timestamp": 1771907816.9544067,
+  "timestamp": 1771908978.2206223,
   "config_name": "GLM-4.7-Flash",
   "system_prompt": "You are a helpful assistant. Pay attention to conversation context. Maintain state across turns. Call tools only when truly needed. Be concise.",
   "summary": {
-    "passed": 8,
+    "passed": 9,
     "total": 18,
-    "accuracy": 0.4444444444444444,
+    "accuracy": 0.5,
     "restraint_score": null
   },
   "by_category": {
     "prompts": {
-      "passed": 8,
+      "passed": 9,
       "total": 18,
-      "accuracy": 0.4444444444444444
+      "accuracy": 0.5
     }
   },
   "failed_prompts": [
     "P13",
-    "P14",
     "P16",
     "P18",
     "P19",
@@ -38,8 +37,8 @@
       ],
       "got": [],
       "correct": false,
-      "latency_ms": 9526.768207550049,
-      "error": "'NoneType' object is not iterable",
+      "latency_ms": 10187.058210372925,
+      "error": null,
       "timeout": false,
       "assistant_content": "Hi Bob! I'd be happy to check the weather for you, but I need to know which city you'd like the weather information for. Could you please tell me the city name?"
     },
@@ -47,9 +46,9 @@
       "prompt_id": "P14",
       "expected": [],
       "got": [],
-      "correct": false,
-      "latency_ms": 7701.282978057861,
-      "error": "'NoneType' object is not iterable",
+      "correct": true,
+      "latency_ms": 7693.7525272369385,
+      "error": null,
       "timeout": false,
       "assistant_content": "I don't have access to your personal information or name. Could you please tell me your name?"
     },
@@ -62,7 +61,7 @@
         "get_weather"
       ],
       "correct": true,
-      "latency_ms": 6249.916315078735,
+      "latency_ms": 6235.307455062866,
       "error": null,
       "timeout": false,
       "assistant_content": ""
@@ -74,8 +73,8 @@
       ],
       "got": [],
       "correct": false,
-      "latency_ms": 10743.81160736084,
-      "error": "'NoneType' object is not iterable",
+      "latency_ms": 10691.065311431885,
+      "error": null,
       "timeout": false,
       "assistant_content": "I can schedule a meeting for 3pm, but I need a title for the meeting. Could you please provide a title for the meeting?"
     },
@@ -88,7 +87,7 @@
         "search_files"
       ],
       "correct": true,
-      "latency_ms": 5366.746187210083,
+      "latency_ms": 5442.757606506348,
       "error": null,
       "timeout": false,
       "assistant_content": ""
@@ -100,8 +99,8 @@
       ],
       "got": [],
       "correct": false,
-      "latency_ms": 9068.238973617554,
-      "error": "'NoneType' object is not iterable",
+      "latency_ms": 9131.736040115356,
+      "error": null,
       "timeout": false,
       "assistant_content": "I'd be happy to check the weather for you! However, I need to know which city you'd like the weather information for. Could you please tell me the city name?"
     },
@@ -112,8 +111,8 @@
       ],
       "got": [],
       "correct": false,
-      "latency_ms": 10219.43998336792,
-      "error": "'NoneType' object is not iterable",
+      "latency_ms": 10294.222831726074,
+      "error": null,
       "timeout": false,
       "assistant_content": "To schedule a meeting, I need two required pieces of information:\n\n1. **Meeting title** - What would you like to call the meeting?\n2. **Meeting time** - When would you like to schedule it?\n\nPlease provide these details and I'll schedule the meeting for you."
     },
@@ -126,7 +125,7 @@
         "search_files"
       ],
       "correct": true,
-      "latency_ms": 3987.720489501953,
+      "latency_ms": 3975.095748901367,
       "error": null,
       "timeout": false,
       "assistant_content": ""
@@ -140,7 +139,7 @@
         "get_weather"
       ],
       "correct": true,
-      "latency_ms": 6205.281972885132,
+      "latency_ms": 6150.34031867981,
       "error": null,
       "timeout": false,
       "assistant_content": ""
@@ -152,8 +151,8 @@
       ],
       "got": [],
       "correct": false,
-      "latency_ms": 15801.79214477539,
-      "error": "'NoneType' object is not iterable",
+      "latency_ms": 15798.535346984863,
+      "error": null,
       "timeout": false,
       "assistant_content": "I'd be happy to help with Paris too! Could you clarify what you'd like me to do? For example, are you asking about the weather in Paris, or is there something else you need help with?"
     },
@@ -164,8 +163,8 @@
       ],
       "got": [],
       "correct": false,
-      "latency_ms": 10411.29446029663,
-      "error": "'NoneType' object is not iterable",
+      "latency_ms": 10382.490873336792,
+      "error": null,
       "timeout": false,
       "assistant_content": "I can schedule a meeting at 4pm, but I need a title for the meeting. Could you please provide a title?"
     },
@@ -178,7 +177,7 @@
         "search_files"
       ],
       "correct": true,
-      "latency_ms": 4458.6639404296875,
+      "latency_ms": 4487.359046936035,
       "error": null,
       "timeout": false,
       "assistant_content": ""
@@ -193,7 +192,7 @@
         "get_weather"
       ],
       "correct": false,
-      "latency_ms": 15739.457845687866,
+      "latency_ms": 15842.948198318481,
       "error": null,
       "timeout": false,
       "assistant_content": "I'll check the weather in London for you first, then I'll need some additional information to schedule the meeting."
@@ -205,8 +204,8 @@
       ],
       "got": [],
       "correct": false,
-      "latency_ms": 9066.14089012146,
-      "error": "'NoneType' object is not iterable",
+      "latency_ms": 9144.848823547363,
+      "error": null,
       "timeout": false,
       "assistant_content": "I'd be happy to check the weather for you! However, I need to know which city you'd like the weather information for. Could you please tell me the city name?"
     },
@@ -219,7 +218,7 @@
         "search_files"
       ],
       "correct": true,
-      "latency_ms": 4795.627593994141,
+      "latency_ms": 4755.632638931274,
       "error": null,
       "timeout": false,
       "assistant_content": ""
@@ -233,7 +232,7 @@
         "get_weather"
       ],
       "correct": true,
-      "latency_ms": 6381.989479064941,
+      "latency_ms": 6418.610095977783,
       "error": null,
       "timeout": false,
       "assistant_content": ""
@@ -245,8 +244,8 @@
       ],
       "got": [],
       "correct": false,
-      "latency_ms": 10390.717029571533,
-      "error": "'NoneType' object is not iterable",
+      "latency_ms": 10396.22163772583,
+      "error": null,
       "timeout": false,
       "assistant_content": "I can schedule a meeting for 5pm, but I need a title for the meeting. Could you please provide a title?"
     },
@@ -259,7 +258,7 @@
         "search_files"
       ],
       "correct": true,
-      "latency_ms": 5387.123107910156,
+      "latency_ms": 5390.604734420776,
       "error": null,
       "timeout": false,
       "assistant_content": ""
