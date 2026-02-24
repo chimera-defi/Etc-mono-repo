@@ -1,3 +1,0 @@
-# HEARTBEAT.md
-
-Disabled.
