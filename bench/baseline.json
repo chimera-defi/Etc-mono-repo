@@ -1,0 +1,42 @@
+{
+  "lfm2.5-thinking:1.2b:atomic:native_api": {
+    "model": "lfm2.5-thinking:1.2b",
+    "phase": "atomic",
+    "variant": "native_api",
+    "accuracy": 0.0,
+    "passed": 0,
+    "total": 0,
+    "timestamp": 1771909252.9619205,
+    "run_id": "7ea0e1b333"
+  },
+  "lfm2.5-thinking:1.2b:extended:extended": {
+    "model": "lfm2.5-thinking:1.2b",
+    "phase": "extended",
+    "variant": "extended",
+    "accuracy": 0.0,
+    "passed": 0,
+    "total": 0,
+    "timestamp": 1771909253.2753367,
+    "run_id": "7ea0e1b333"
+  },
+  "qwen2.5:3b:atomic:atomic": {
+    "model": "qwen2.5:3b",
+    "phase": "atomic",
+    "variant": "atomic",
+    "accuracy": 0.0,
+    "passed": 0,
+    "total": 0,
+    "timestamp": 1771909253.5956652,
+    "run_id": "7ea0e1b333"
+  },
+  "ministral-3:latest:atomic:atomic": {
+    "model": "ministral-3:latest",
+    "phase": "atomic",
+    "variant": "atomic",
+    "accuracy": 0.0,
+    "passed": 0,
+    "total": 0,
+    "timestamp": 1771909253.9094517,
+    "run_id": "7ea0e1b333"
+  }
+}
