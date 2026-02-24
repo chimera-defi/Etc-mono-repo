@@ -1,0 +1,22 @@
+{
+  "prompts": [
+    {"id": "P13", "turns": [{"role": "user", "content": "What's the weather like? Also, my name is Bob."}], "expected": ["get_weather"]},
+    {"id": "P14", "turns": [{"role": "user", "content": "Great, thanks! What's my name?"}], "expected": []},
+    {"id": "P15", "turns": [{"role": "user", "content": "Check the weather in Tokyo."}], "expected": ["get_weather"]},
+    {"id": "P16", "turns": [{"role": "user", "content": "Now schedule a meeting for 3pm."}], "expected": ["schedule_meeting"]},
+    {"id": "P17", "turns": [{"role": "user", "content": "Actually, cancel that and just search for 'Ethereum'."}], "expected": ["search_files"]},
+    {"id": "P18", "turns": [{"role": "user", "content": "What's the weather?"}], "expected": ["get_weather"]},
+    {"id": "P19", "turns": [{"role": "user", "content": "Try to schedule a meeting."}], "expected": ["schedule_meeting"]},
+    {"id": "P20", "turns": [{"role": "user", "content": "Search for 'Bitcoin'."}], "expected": ["search_files"]},
+    {"id": "P21", "turns": [{"role": "user", "content": "What's the weather in Berlin?"}], "expected": ["get_weather"]},
+    {"id": "P22", "turns": [{"role": "user", "content": "And in Paris too."}], "expected": ["get_weather"]},
+    {"id": "P23", "turns": [{"role": "user", "content": "Schedule a meeting at 4pm."}], "expected": ["schedule_meeting"]},
+    {"id": "P24", "turns": [{"role": "user", "content": "Search for 'DeFi'."}], "expected": ["search_files"]},
+    {"id": "P25", "turns": [{"role": "user", "content": "Check weather in London, then schedule a meeting."}], "expected": ["get_weather", "schedule_meeting"]},
+    {"id": "P26", "turns": [{"role": "user", "content": "What's the weather?"}], "expected": ["get_weather"]},
+    {"id": "P27", "turns": [{"role": "user", "content": "Search for 'NFTs'."}], "expected": ["search_files"]},
+    {"id": "P28", "turns": [{"role": "user", "content": "What's the weather in Madrid?"}], "expected": ["get_weather"]},
+    {"id": "P29", "turns": [{"role": "user", "content": "Schedule a meeting for 5pm."}], "expected": ["schedule_meeting"]},
+    {"id": "P30", "turns": [{"role": "user", "content": "Search for 'Ethereum whitepaper'."}], "expected": ["search_files"]}
+  ]
+}

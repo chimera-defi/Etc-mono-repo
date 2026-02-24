@@ -1,0 +1,15 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-02-24T06:04:16.958000",
+  "rules": [
+    {
+      "model": "lfm2.5-thinking:1.2b",
+      "phase": "extended",
+      "enable_warmup": false,
+      "fallback_model": "mistral:7b",
+      "reason": "low extended accuracy 0.00%",
+      "source": "harness_feedback",
+      "timestamp": 1771909456.9581685
+    }
+  ]
+}

@@ -1,0 +1,270 @@
+{
+  "model": "lfm2.5-thinking:1.2b",
+  "phase": "extended",
+  "variant": "extended",
+  "timestamp": 1771913362.8171175,
+  "config_name": "LFM2.5-1.2B",
+  "system_prompt": "You are a helpful assistant. Remember conversation context. When tools are needed, use: [tool_name(arg=\"value\")]",
+  "summary": {
+    "passed": 12,
+    "total": 18,
+    "accuracy": 0.6666666666666666,
+    "restraint_score": null
+  },
+  "by_category": {
+    "prompts": {
+      "passed": 12,
+      "total": 18,
+      "accuracy": 0.6666666666666666
+    }
+  },
+  "failed_prompts": [
+    "P13",
+    "P16",
+    "P18",
+    "P19",
+    "P25",
+    "P26"
+  ],
+  "results": [
+    {
+      "prompt_id": "P13",
+      "expected": [
+        "get_weather"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 13700.146675109863,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "Sure, Bob! Could you tell me which city you'd like the weather checked for? The weather can vary by location. Let me know! \u2600\ufe0f\ud83c\udf27\ufe0f"
+    },
+    {
+      "prompt_id": "P14",
+      "expected": [],
+      "got": [],
+      "correct": true,
+      "latency_ms": 8835.144996643066,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "I don't have access to personal information like your name unless provided. Could you please share your name so I can assist you further?"
+    },
+    {
+      "prompt_id": "P15",
+      "expected": [
+        "get_weather"
+      ],
+      "got": [
+        "get_weather"
+      ],
+      "correct": true,
+      "latency_ms": 4606.155872344971,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    },
+    {
+      "prompt_id": "P16",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 27976.475715637207,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "The meeting title is required to schedule it. Please provide the meeting title so I can proceed."
+    },
+    {
+      "prompt_id": "P17",
+      "expected": [
+        "search_files"
+      ],
+      "got": [
+        "search_files"
+      ],
+      "correct": true,
+      "latency_ms": 9336.113214492798,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    },
+    {
+      "prompt_id": "P18",
+      "expected": [
+        "get_weather"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 7328.22322845459,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "The weather varies by city, so could you let me know which city you're interested in? For example: \"What's the weather in New York?\" \n\nOnce you specify the city, I'll retrieve the current weather for you! \ud83c\udf24\ufe0f"
+    },
+    {
+      "prompt_id": "P19",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 10751.216888427734,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "To schedule a meeting, I'll need the meeting title and time. Please provide these details so I can use the scheduling tool for you! \n\nFor example:  \n**Title:** \"Project Review\"  \n**Time:** \"10:00 AM\"  \n\nLet me know! \ud83d\ude0a"
+    },
+    {
+      "prompt_id": "P20",
+      "expected": [
+        "search_files"
+      ],
+      "got": [
+        "search_files"
+      ],
+      "correct": true,
+      "latency_ms": 3613.1844520568848,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    },
+    {
+      "prompt_id": "P21",
+      "expected": [
+        "get_weather"
+      ],
+      "got": [
+        "get_weather"
+      ],
+      "correct": true,
+      "latency_ms": 4145.310640335083,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    },
+    {
+      "prompt_id": "P22",
+      "expected": [
+        "get_weather"
+      ],
+      "got": [
+        "get_weather"
+      ],
+      "correct": true,
+      "latency_ms": 7914.556264877319,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    },
+    {
+      "prompt_id": "P23",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [
+        "schedule_meeting"
+      ],
+      "correct": true,
+      "latency_ms": 12629.770040512085,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    },
+    {
+      "prompt_id": "P24",
+      "expected": [
+        "search_files"
+      ],
+      "got": [
+        "search_files"
+      ],
+      "correct": true,
+      "latency_ms": 5016.51930809021,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    },
+    {
+      "prompt_id": "P25",
+      "expected": [
+        "get_weather",
+        "schedule_meeting"
+      ],
+      "got": [
+        "get_weather"
+      ],
+      "correct": false,
+      "latency_ms": 14512.784481048584,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    },
+    {
+      "prompt_id": "P26",
+      "expected": [
+        "get_weather"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 7309.250831604004,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "The weather varies by city, so could you let me know which city you're interested in? For example: \"What's the weather in New York?\" \n\nOnce you specify the city, I'll retrieve the current weather for you! \ud83c\udf24\ufe0f"
+    },
+    {
+      "prompt_id": "P27",
+      "expected": [
+        "search_files"
+      ],
+      "got": [
+        "search_files"
+      ],
+      "correct": true,
+      "latency_ms": 3442.790985107422,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    },
+    {
+      "prompt_id": "P28",
+      "expected": [
+        "get_weather"
+      ],
+      "got": [
+        "get_weather"
+      ],
+      "correct": true,
+      "latency_ms": 2833.768129348755,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    },
+    {
+      "prompt_id": "P29",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [
+        "schedule_meeting"
+      ],
+      "correct": true,
+      "latency_ms": 8423.621892929077,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    },
+    {
+      "prompt_id": "P30",
+      "expected": [
+        "search_files"
+      ],
+      "got": [
+        "search_files"
+      ],
+      "correct": true,
+      "latency_ms": 3367.38920211792,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    }
+  ]
+}
