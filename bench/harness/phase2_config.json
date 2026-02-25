@@ -129,6 +129,26 @@
           "max_tokens": 1000
         }
       }
+    },
+    "qwen3.5:35b": {
+      "name": "Qwen3.5 35B",
+      "arch": "Transformer (35B)",
+      "system_prompt": "You are a helpful assistant. Call tools when the user asks.",
+      "temperature": 0.0,
+      "output_format": "native_tools_api",
+      "notes": "New qwen3.5 model for testing",
+      "variants": {
+        "atomic": {
+          "system": "You are a helpful assistant. Call tools when the user asks. Be concise.",
+          "max_tokens": 500,
+          "description": "Baseline variant"
+        },
+        "extended": {
+          "system": "You are a helpful assistant. Track conversation context. Call tools sparingly.",
+          "max_tokens": 1000,
+          "description": "Extended variant"
+        }
+      }
     }
   },
   "early_exit": {
@@ -155,5 +175,8 @@
       }
     ]
   },
-  "timeout_seconds": 60
+  "timeout_seconds": 60,
+  "default_models": [
+    "qwen3.5:35b"
+  ]
 }
