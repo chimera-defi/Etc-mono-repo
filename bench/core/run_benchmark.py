@@ -700,7 +700,7 @@ Examples:
         help="Execute each tool call in isolation (default: False)"
     )
     
-    args = parser.parse_args()
+    args, extra = parser.parse_known_args()
     
     # Normalize phase
     phase = (args.phase or "atomic").lower()
