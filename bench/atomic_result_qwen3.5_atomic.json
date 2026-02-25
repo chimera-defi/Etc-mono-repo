@@ -1,0 +1,170 @@
+{
+  "model": "qwen3.5:35b",
+  "phase": "atomic",
+  "variant": "atomic",
+  "timestamp": 1772036704.0704007,
+  "config_name": "Qwen3.5 35B",
+  "system_prompt": "You are a helpful assistant. Call tools when the user asks. Be concise.",
+  "summary": {
+    "passed": 0,
+    "total": 12,
+    "accuracy": 0.0,
+    "restraint_score": 0.0
+  },
+  "by_category": null,
+  "failed_prompts": [
+    "P1",
+    "P2",
+    "P3",
+    "P4",
+    "P5",
+    "P6",
+    "P7",
+    "P8",
+    "P9",
+    "P10",
+    "P11",
+    "P12"
+  ],
+  "results": [
+    {
+      "prompt_id": "P1",
+      "expected": [
+        "get_weather"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 468.51634979248047,
+      "error": "unable to load model: /root/.ollama/models/blobs/sha256-d838916ba05b9d908e9c3fecf16273b942a99aae94d1",
+      "timeout": false,
+      "assistant_content": null
+    },
+    {
+      "prompt_id": "P2",
+      "expected": [
+        "search_files"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 464.85233306884766,
+      "error": "unable to load model: /root/.ollama/models/blobs/sha256-d838916ba05b9d908e9c3fecf16273b942a99aae94d1",
+      "timeout": false,
+      "assistant_content": null
+    },
+    {
+      "prompt_id": "P3",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 459.6822261810303,
+      "error": "unable to load model: /root/.ollama/models/blobs/sha256-d838916ba05b9d908e9c3fecf16273b942a99aae94d1",
+      "timeout": false,
+      "assistant_content": null
+    },
+    {
+      "prompt_id": "P4",
+      "expected": [
+        "get_weather"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 458.03046226501465,
+      "error": "unable to load model: /root/.ollama/models/blobs/sha256-d838916ba05b9d908e9c3fecf16273b942a99aae94d1",
+      "timeout": false,
+      "assistant_content": null
+    },
+    {
+      "prompt_id": "P5",
+      "expected": [],
+      "got": [],
+      "correct": false,
+      "latency_ms": 471.49014472961426,
+      "error": "unable to load model: /root/.ollama/models/blobs/sha256-d838916ba05b9d908e9c3fecf16273b942a99aae94d1",
+      "timeout": false,
+      "assistant_content": null
+    },
+    {
+      "prompt_id": "P6",
+      "expected": [],
+      "got": [],
+      "correct": false,
+      "latency_ms": 479.47144508361816,
+      "error": "unable to load model: /root/.ollama/models/blobs/sha256-d838916ba05b9d908e9c3fecf16273b942a99aae94d1",
+      "timeout": false,
+      "assistant_content": null
+    },
+    {
+      "prompt_id": "P7",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 468.24073791503906,
+      "error": "unable to load model: /root/.ollama/models/blobs/sha256-d838916ba05b9d908e9c3fecf16273b942a99aae94d1",
+      "timeout": false,
+      "assistant_content": null
+    },
+    {
+      "prompt_id": "P8",
+      "expected": [
+        "search_files",
+        "get_weather"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 461.6737365722656,
+      "error": "unable to load model: /root/.ollama/models/blobs/sha256-d838916ba05b9d908e9c3fecf16273b942a99aae94d1",
+      "timeout": false,
+      "assistant_content": null
+    },
+    {
+      "prompt_id": "P9",
+      "expected": [],
+      "got": [],
+      "correct": false,
+      "latency_ms": 467.1206474304199,
+      "error": "unable to load model: /root/.ollama/models/blobs/sha256-d838916ba05b9d908e9c3fecf16273b942a99aae94d1",
+      "timeout": false,
+      "assistant_content": null
+    },
+    {
+      "prompt_id": "P10",
+      "expected": [
+        "get_weather"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 463.4838104248047,
+      "error": "unable to load model: /root/.ollama/models/blobs/sha256-d838916ba05b9d908e9c3fecf16273b942a99aae94d1",
+      "timeout": false,
+      "assistant_content": null
+    },
+    {
+      "prompt_id": "P11",
+      "expected": [
+        "search_files"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 465.06571769714355,
+      "error": "unable to load model: /root/.ollama/models/blobs/sha256-d838916ba05b9d908e9c3fecf16273b942a99aae94d1",
+      "timeout": false,
+      "assistant_content": null
+    },
+    {
+      "prompt_id": "P12",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 464.3735885620117,
+      "error": "unable to load model: /root/.ollama/models/blobs/sha256-d838916ba05b9d908e9c3fecf16273b942a99aae94d1",
+      "timeout": false,
+      "assistant_content": null
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "model": "lfm2.5-thinking:1.2b",
+  "phase": "atomic",
+  "variant": "atomic",
+  "timestamp": 1772033475.7911725,
+  "config_name": "lfm2.5-thinking:1.2b",
+  "system_prompt": "",
+  "summary": {
+    "passed": 8,
+    "total": 12,
+    "accuracy": 0.6666666666666666,
+    "restraint_score": 0.6666666666666666
+  },
+  "by_category": null,
+  "failed_prompts": [
+    "P2",
+    "P7",
+    "P9",
+    "P10"
+  ],
+  "results": []
+}
