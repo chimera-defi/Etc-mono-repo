@@ -1,5 +1,17 @@
-{
-  "lfm2.5-thinking:1.2b:atomic:native_api": {
+[
+  {
+    "key": "lfm2.5-thinking:1.2b:atomic:native_api",
+    "model": "lfm2.5-thinking:1.2b",
+    "phase": "atomic",
+    "variant": "native_api",
+    "accuracy": 0.0,
+    "passed": 0,
+    "total": 0,
+    "timestamp": 1772032525.4836247,
+    "run_id": "adcc60ba79"
+  },
+  {
+    "key": "lfm2.5-thinking:1.2b:atomic:native_api",
     "model": "lfm2.5-thinking:1.2b",
     "phase": "atomic",
     "variant": "native_api",
@@ -9,7 +21,8 @@
     "timestamp": 1772033359.1466427,
     "run_id": "676cb6f952"
   },
-  "lfm2.5-thinking:1.2b:atomic:atomic": {
+  {
+    "key": "lfm2.5-thinking:1.2b:atomic:atomic",
     "model": "lfm2.5-thinking:1.2b",
     "phase": "atomic",
     "variant": "atomic",
@@ -19,4 +32,4 @@
     "timestamp": 1772033475.8750584,
     "run_id": "16b75ac96c"
   }
-}
+]
