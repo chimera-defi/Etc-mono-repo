@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """
 Quick Benchmark Supervisor - lightweight version for fast execution
+
+Attribution:
+  - Current Model: lfm2.5-thinking:1.2b (OpenClaw agent)
+  - Human: Owner/operator of this OpenClaw instance
+  - Date: 2026-02-25
 """
 
 import json
