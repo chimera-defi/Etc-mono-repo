@@ -1,0 +1,31 @@
+{
+  "runs": [
+    {
+      "run_id": "16b75ac96c",
+      "run_dir": "/root/.openclaw/workspace/bench/supervisor_runs/16b75ac96c",
+      "started_at": 1772033475.2518218,
+      "ended_at": 1772033475.8760045,
+      "status": "completed",
+      "job_count": 1,
+      "suite": null
+    },
+    {
+      "run_id": "676cb6f952",
+      "run_dir": "/root/.openclaw/workspace/bench/supervisor_runs/676cb6f952",
+      "started_at": 1772033358.5238736,
+      "ended_at": 1772033359.154407,
+      "status": "completed",
+      "job_count": 1,
+      "suite": null
+    },
+    {
+      "run_id": "adcc60ba79",
+      "run_dir": "/root/.openclaw/workspace/bench/supervisor_runs/adcc60ba79",
+      "started_at": 1772032524.8597336,
+      "ended_at": 1772032525.4932036,
+      "status": "completed",
+      "job_count": 1,
+      "suite": null
+    }
+  ]
+}
