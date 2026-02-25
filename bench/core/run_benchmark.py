@@ -3,6 +3,11 @@
 Consolidated Benchmark Runner - Phase 1 (Atomic + Extended) & Phase 2
 Single CLI for all benchmark phases, models, and variants
 
+Attribution:
+  - Current Model: lfm2.5-thinking:1.2b (OpenClaw agent)
+  - Human: Owner/operator of this OpenClaw instance
+  - Date: 2026-02-25
+
 Usage:
   python3 run_benchmark.py <model> [phase] [variant] [--output json|csv]
 
@@ -191,6 +196,7 @@ class PhaseResult:
     failed_prompts: List[str]
     restraint_score: Optional[float] = None  # For atomic phase
     by_category: Optional[Dict] = None  # For extended phase
+    avg_latency_ms: Optional[float] = None  # Average latency across prompts
     notes: str = ""
 
 # =============================================================================
@@ -338,8 +344,12 @@ def run_atomic_phase(
     accuracy = passed / total if total else 0
     restraint_score = restraint_passed / restraint_total if restraint_total else 0
     
+    # Calculate average latency
+    latencies = [r.latency_ms for r in results if r.latency_ms > 0]
+    avg_latency_ms = sum(latencies) / len(latencies) if latencies else 0
+    
     print("=" * 80)
-    print(f"RESULT: {passed}/{total} passed ({accuracy*100:.1f}%) | Restraint: {restraint_score:.2f}")
+    print(f"RESULT: {passed}/{total} passed ({accuracy*100:.1f}%) | Restraint: {restraint_score:.2f} | Avg Latency: {avg_latency_ms:.0f}ms")
     print("=" * 80)
     
     return PhaseResult(
@@ -354,7 +364,8 @@ def run_atomic_phase(
         accuracy=accuracy,
         results=results,
         failed_prompts=failed,
-        restraint_score=restraint_score
+        restraint_score=restraint_score,
+        avg_latency_ms=avg_latency_ms
     )
 
 def run_extended_phase(
