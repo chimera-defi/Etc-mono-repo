@@ -49,7 +49,7 @@ RUNS.mkdir(parents=True, exist_ok=True)
 ARCHIVE.mkdir(parents=True, exist_ok=True)
 
 DEFAULT_JOBS = [
-    ("lfm2.5-thinking:1.2b", "atomic", "native_api", [""]),
+    ("lfm2.5-thinking:1.2b", "atomic", "atomic", [""]),
     ("lfm2.5-thinking:1.2b", "extended", "extended", [""]),
     ("qwen2.5:3b", "atomic", "atomic", [""]),
     ("ministral-3:latest", "atomic", "atomic", [""]),
