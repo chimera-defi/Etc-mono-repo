@@ -4,7 +4,7 @@
 import json
 from pathlib import Path
 from datetime import datetime
-from utils.config_manager import ConfigManager, RoutingRule
+from config_manager import ConfigManager, RoutingRule
 
 FEEDBACK = Path('/root/.openclaw/workspace/bench/harness_feedback.json')
 OUTPUT_CONFIG = Path('/root/.openclaw/workspace/bench/routing_config.json')
