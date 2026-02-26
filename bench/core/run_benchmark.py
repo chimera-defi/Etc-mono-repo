@@ -197,6 +197,9 @@ class PhaseResult:
     restraint_score: Optional[float] = None  # For atomic phase
     by_category: Optional[Dict] = None  # For extended phase
     avg_latency_ms: Optional[float] = None  # Average latency across prompts
+    median_latency_ms: Optional[float] = None  # Median latency
+    max_latency_ms: Optional[float] = None  # Max latency
+    min_latency_ms: Optional[float] = None  # Min latency
     notes: str = ""
 
 # =============================================================================
@@ -349,7 +352,7 @@ def run_atomic_phase(
     avg_latency_ms = sum(latencies) / len(latencies) if latencies else 0
     
     print("=" * 80)
-    print(f"RESULT: {passed}/{total} passed ({accuracy*100:.1f}%) | Restraint: {restraint_score:.2f} | Avg Latency: {avg_latency_ms:.0f}ms")
+    print(f"RESULT: {passed}/{total} passed ({accuracy*100:.1f}%) | Restraint: {restraint_score:.2f} | Latency: avg={avg_latency_ms:.0f}ms med={median_latency_ms:.0f}ms max={max_latency_ms:.0f}ms")
     print("=" * 80)
     
     return PhaseResult(
@@ -365,7 +368,10 @@ def run_atomic_phase(
         results=results,
         failed_prompts=failed,
         restraint_score=restraint_score,
-        avg_latency_ms=avg_latency_ms
+        avg_latency_ms=avg_latency_ms,
+        median_latency_ms=median_latency_ms,
+        max_latency_ms=max_latency_ms,
+        min_latency_ms=min_latency_ms
     )
 
 def run_extended_phase(
@@ -509,8 +515,19 @@ def run_extended_phase(
     # Overall
     total_accuracy = passed / total if total else 0
     
+    # Calculate latency statistics for extended phase
+    latencies = [r.latency_ms for r in results if r.latency_ms > 0]
+    if latencies:
+        latencies_sorted = sorted(latencies)
+        avg_latency_ms = sum(latencies) / len(latencies)
+        median_latency_ms = latencies_sorted[len(latencies_sorted) // 2]
+        max_latency_ms = max(latencies)
+        min_latency_ms = min(latencies)
+    else:
+        avg_latency_ms = median_latency_ms = max_latency_ms = min_latency_ms = 0
+    
     print("\n" + "=" * 80)
-    print(f"RESULT: {passed}/{total} passed ({total_accuracy*100:.1f}%)")
+    print(f"RESULT: {passed}/{total} passed ({total_accuracy*100:.1f}%) | Latency: avg={avg_latency_ms:.0f}ms med={median_latency_ms:.0f}ms max={max_latency_ms:.0f}ms")
     print("=" * 80)
     
     # Clear checkpoint on successful completion
@@ -529,7 +546,11 @@ def run_extended_phase(
         accuracy=total_accuracy,
         results=results,
         failed_prompts=failed,
-        by_category=by_category
+        by_category=by_category,
+        avg_latency_ms=avg_latency_ms,
+        median_latency_ms=median_latency_ms,
+        max_latency_ms=max_latency_ms,
+        min_latency_ms=min_latency_ms
     )
 
 # =============================================================================
