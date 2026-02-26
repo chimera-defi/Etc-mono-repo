@@ -1,0 +1,362 @@
+[
+  {
+    "ts": 1772033529,
+    "cycle_index": 1,
+    "baseline": {
+      "spec": {
+        "model": "lfm2.5-thinking:1.2b",
+        "phase": "atomic",
+        "variant": "atomic",
+        "timeout": 60,
+        "retries": 1,
+        "isolate": false
+      },
+      "ok": false,
+      "rc": 2,
+      "elapsed_s": 0.03,
+      "stdout_tail": "",
+      "stderr_tail": "python3: can't open file '/root/.openclaw/workspace/bench/run_benchmark.py': [Errno 2] No such file or directory",
+      "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_atomic.json",
+      "parsed": {
+        "model": "lfm2.5-thinking:1.2b",
+        "phase": "atomic",
+        "variant": "atomic",
+        "timestamp": 1772033475.7911725,
+        "config_name": "lfm2.5-thinking:1.2b",
+        "system_prompt": "",
+        "summary": {
+          "passed": 8,
+          "total": 12,
+          "accuracy": 0.6666666666666666,
+          "restraint_score": 0.6666666666666666
+        },
+        "by_category": null,
+        "failed_prompts": [
+          "P2",
+          "P7",
+          "P9",
+          "P10"
+        ],
+        "results": []
+      }
+    },
+    "rows": [
+      {
+        "spec": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timeout": 60,
+          "retries": 1,
+          "isolate": true
+        },
+        "ok": false,
+        "rc": 2,
+        "elapsed_s": 0.03,
+        "stdout_tail": "",
+        "stderr_tail": "python3: can't open file '/root/.openclaw/workspace/bench/run_benchmark.py': [Errno 2] No such file or directory",
+        "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_atomic.json",
+        "parsed": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timestamp": 1772033475.7911725,
+          "config_name": "lfm2.5-thinking:1.2b",
+          "system_prompt": "",
+          "summary": {
+            "passed": 8,
+            "total": 12,
+            "accuracy": 0.6666666666666666,
+            "restraint_score": 0.6666666666666666
+          },
+          "by_category": null,
+          "failed_prompts": [
+            "P2",
+            "P7",
+            "P9",
+            "P10"
+          ],
+          "results": []
+        }
+      },
+      {
+        "spec": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timeout": 60,
+          "retries": 2,
+          "isolate": true
+        },
+        "ok": false,
+        "rc": 2,
+        "elapsed_s": 0.03,
+        "stdout_tail": "",
+        "stderr_tail": "python3: can't open file '/root/.openclaw/workspace/bench/run_benchmark.py': [Errno 2] No such file or directory",
+        "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_atomic.json",
+        "parsed": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timestamp": 1772033475.7911725,
+          "config_name": "lfm2.5-thinking:1.2b",
+          "system_prompt": "",
+          "summary": {
+            "passed": 8,
+            "total": 12,
+            "accuracy": 0.6666666666666666,
+            "restraint_score": 0.6666666666666666
+          },
+          "by_category": null,
+          "failed_prompts": [
+            "P2",
+            "P7",
+            "P9",
+            "P10"
+          ],
+          "results": []
+        }
+      }
+    ]
+  },
+  {
+    "ts": 1772033529,
+    "cycle_index": 2,
+    "baseline": {
+      "spec": {
+        "model": "lfm2.5-thinking:1.2b",
+        "phase": "atomic",
+        "variant": "atomic",
+        "timeout": 60,
+        "retries": 1,
+        "isolate": false
+      },
+      "ok": false,
+      "rc": 2,
+      "elapsed_s": 0.03,
+      "stdout_tail": "",
+      "stderr_tail": "python3: can't open file '/root/.openclaw/workspace/bench/run_benchmark.py': [Errno 2] No such file or directory",
+      "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_atomic.json",
+      "parsed": {
+        "model": "lfm2.5-thinking:1.2b",
+        "phase": "atomic",
+        "variant": "atomic",
+        "timestamp": 1772033475.7911725,
+        "config_name": "lfm2.5-thinking:1.2b",
+        "system_prompt": "",
+        "summary": {
+          "passed": 8,
+          "total": 12,
+          "accuracy": 0.6666666666666666,
+          "restraint_score": 0.6666666666666666
+        },
+        "by_category": null,
+        "failed_prompts": [
+          "P2",
+          "P7",
+          "P9",
+          "P10"
+        ],
+        "results": []
+      }
+    },
+    "rows": [
+      {
+        "spec": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timeout": 60,
+          "retries": 1,
+          "isolate": true
+        },
+        "ok": false,
+        "rc": 2,
+        "elapsed_s": 0.02,
+        "stdout_tail": "",
+        "stderr_tail": "python3: can't open file '/root/.openclaw/workspace/bench/run_benchmark.py': [Errno 2] No such file or directory",
+        "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_atomic.json",
+        "parsed": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timestamp": 1772033475.7911725,
+          "config_name": "lfm2.5-thinking:1.2b",
+          "system_prompt": "",
+          "summary": {
+            "passed": 8,
+            "total": 12,
+            "accuracy": 0.6666666666666666,
+            "restraint_score": 0.6666666666666666
+          },
+          "by_category": null,
+          "failed_prompts": [
+            "P2",
+            "P7",
+            "P9",
+            "P10"
+          ],
+          "results": []
+        }
+      },
+      {
+        "spec": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timeout": 60,
+          "retries": 2,
+          "isolate": true
+        },
+        "ok": false,
+        "rc": 2,
+        "elapsed_s": 0.02,
+        "stdout_tail": "",
+        "stderr_tail": "python3: can't open file '/root/.openclaw/workspace/bench/run_benchmark.py': [Errno 2] No such file or directory",
+        "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_atomic.json",
+        "parsed": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timestamp": 1772033475.7911725,
+          "config_name": "lfm2.5-thinking:1.2b",
+          "system_prompt": "",
+          "summary": {
+            "passed": 8,
+            "total": 12,
+            "accuracy": 0.6666666666666666,
+            "restraint_score": 0.6666666666666666
+          },
+          "by_category": null,
+          "failed_prompts": [
+            "P2",
+            "P7",
+            "P9",
+            "P10"
+          ],
+          "results": []
+        }
+      }
+    ]
+  },
+  {
+    "ts": 1772033529,
+    "cycle_index": 3,
+    "baseline": {
+      "spec": {
+        "model": "lfm2.5-thinking:1.2b",
+        "phase": "atomic",
+        "variant": "atomic",
+        "timeout": 60,
+        "retries": 1,
+        "isolate": false
+      },
+      "ok": false,
+      "rc": 2,
+      "elapsed_s": 0.03,
+      "stdout_tail": "",
+      "stderr_tail": "python3: can't open file '/root/.openclaw/workspace/bench/run_benchmark.py': [Errno 2] No such file or directory",
+      "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_atomic.json",
+      "parsed": {
+        "model": "lfm2.5-thinking:1.2b",
+        "phase": "atomic",
+        "variant": "atomic",
+        "timestamp": 1772033475.7911725,
+        "config_name": "lfm2.5-thinking:1.2b",
+        "system_prompt": "",
+        "summary": {
+          "passed": 8,
+          "total": 12,
+          "accuracy": 0.6666666666666666,
+          "restraint_score": 0.6666666666666666
+        },
+        "by_category": null,
+        "failed_prompts": [
+          "P2",
+          "P7",
+          "P9",
+          "P10"
+        ],
+        "results": []
+      }
+    },
+    "rows": [
+      {
+        "spec": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timeout": 60,
+          "retries": 1,
+          "isolate": true
+        },
+        "ok": false,
+        "rc": 2,
+        "elapsed_s": 0.03,
+        "stdout_tail": "",
+        "stderr_tail": "python3: can't open file '/root/.openclaw/workspace/bench/run_benchmark.py': [Errno 2] No such file or directory",
+        "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_atomic.json",
+        "parsed": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timestamp": 1772033475.7911725,
+          "config_name": "lfm2.5-thinking:1.2b",
+          "system_prompt": "",
+          "summary": {
+            "passed": 8,
+            "total": 12,
+            "accuracy": 0.6666666666666666,
+            "restraint_score": 0.6666666666666666
+          },
+          "by_category": null,
+          "failed_prompts": [
+            "P2",
+            "P7",
+            "P9",
+            "P10"
+          ],
+          "results": []
+        }
+      },
+      {
+        "spec": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timeout": 60,
+          "retries": 2,
+          "isolate": true
+        },
+        "ok": false,
+        "rc": 2,
+        "elapsed_s": 0.03,
+        "stdout_tail": "",
+        "stderr_tail": "python3: can't open file '/root/.openclaw/workspace/bench/run_benchmark.py': [Errno 2] No such file or directory",
+        "output_file": "/root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_atomic.json",
+        "parsed": {
+          "model": "lfm2.5-thinking:1.2b",
+          "phase": "atomic",
+          "variant": "atomic",
+          "timestamp": 1772033475.7911725,
+          "config_name": "lfm2.5-thinking:1.2b",
+          "system_prompt": "",
+          "summary": {
+            "passed": 8,
+            "total": 12,
+            "accuracy": 0.6666666666666666,
+            "restraint_score": 0.6666666666666666
+          },
+          "by_category": null,
+          "failed_prompts": [
+            "P2",
+            "P7",
+            "P9",
+            "P10"
+          ],
+          "results": []
+        }
+      }
+    ]
+  }
+]

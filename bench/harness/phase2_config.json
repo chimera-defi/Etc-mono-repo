@@ -99,6 +99,22 @@
           "description": "Extended variant"
         }
       }
+    },
+    "qwen3.5:35b": {
+      "name": "Qwen3.5-35B",
+      "arch": "Transformer (Qwen3.5)",
+      "system_prompt": "You are a helpful assistant with access to tools.",
+      "temperature": 0.0,
+      "output_format": "native_tools",
+      "notes": "35B model - uses native Ollama tools API, not bracket notation. High latency (~35s), needs 120s timeout.",
+      "variants": {
+        "atomic": {
+          "system": "When you need a tool, use: [tool_name(arg=\"value\")]",
+          "max_tokens": 500,
+          "description": "Bracket format for atomic prompts"
+        }
+      },
+      "timeout_seconds": 120
     }
   },
   "early_exit": {
