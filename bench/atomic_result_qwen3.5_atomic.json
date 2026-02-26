@@ -1,0 +1,181 @@
+{
+  "model": "qwen3.5:35b",
+  "phase": "atomic",
+  "variant": "atomic",
+  "timestamp": 1772103629.6627374,
+  "config_name": "Qwen3.5-35B",
+  "system_prompt": "When you need a tool, use: [tool_name(arg=\"value\")]",
+  "summary": {
+    "passed": 10,
+    "total": 12,
+    "accuracy": 0.8333333333333334,
+    "restraint_score": 0.3333333333333333
+  },
+  "by_category": null,
+  "failed_prompts": [
+    "P6",
+    "P9"
+  ],
+  "results": [
+    {
+      "prompt_id": "P1",
+      "expected": [
+        "get_weather"
+      ],
+      "got": [
+        "get_weather"
+      ],
+      "correct": true,
+      "latency_ms": 44341.28141403198,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    },
+    {
+      "prompt_id": "P2",
+      "expected": [
+        "search_files"
+      ],
+      "got": [
+        "search_files"
+      ],
+      "correct": true,
+      "latency_ms": 36357.95998573303,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    },
+    {
+      "prompt_id": "P3",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [
+        "schedule_meeting"
+      ],
+      "correct": true,
+      "latency_ms": 50916.34249687195,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    },
+    {
+      "prompt_id": "P4",
+      "expected": [
+        "get_weather"
+      ],
+      "got": [
+        "get_weather"
+      ],
+      "correct": true,
+      "latency_ms": 24321.740865707397,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    },
+    {
+      "prompt_id": "P5",
+      "expected": [],
+      "got": [],
+      "correct": true,
+      "latency_ms": 42996.867179870605,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "I have access to three tools:\n\n1. **get_weather** - Get the current weather for a given city\n   - Required parameter: `city` (string)\n\n2. **search_files** - Search for files matching a pattern\n   - Required parameter: `pattern` (string, glob pattern)\n\n3. **schedule_meeting** - Schedule a meeting\n   - Required parameters: `title` (string), `time` (string)\n\nIf you need help with any of these tasks, just let me know and I can use the appropriate tool for you!"
+    },
+    {
+      "prompt_id": "P6",
+      "expected": [],
+      "got": [
+        "search_files"
+      ],
+      "correct": false,
+      "latency_ms": 28396.873474121094,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    },
+    {
+      "prompt_id": "P7",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [
+        "schedule_meeting"
+      ],
+      "correct": true,
+      "latency_ms": 31149.914979934692,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    },
+    {
+      "prompt_id": "P8",
+      "expected": [
+        "search_files",
+        "get_weather"
+      ],
+      "got": [
+        "search_files",
+        "get_weather"
+      ],
+      "correct": true,
+      "latency_ms": 27432.774305343628,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    },
+    {
+      "prompt_id": "P9",
+      "expected": [],
+      "got": [],
+      "correct": false,
+      "latency_ms": 60000.32567977905,
+      "error": "TIMEOUT(60s)",
+      "timeout": true,
+      "assistant_content": null
+    },
+    {
+      "prompt_id": "P10",
+      "expected": [
+        "get_weather"
+      ],
+      "got": [
+        "get_weather"
+      ],
+      "correct": true,
+      "latency_ms": 26307.869911193848,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    },
+    {
+      "prompt_id": "P11",
+      "expected": [
+        "search_files"
+      ],
+      "got": [
+        "search_files"
+      ],
+      "correct": true,
+      "latency_ms": 21925.288915634155,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    },
+    {
+      "prompt_id": "P12",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [
+        "schedule_meeting"
+      ],
+      "correct": true,
+      "latency_ms": 29620.29528617859,
+      "error": null,
+      "timeout": false,
+      "assistant_content": ""
+    }
+  ]
+}
