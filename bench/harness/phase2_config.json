@@ -99,6 +99,21 @@
           "description": "Extended variant"
         }
       }
+    },
+    "qwen3.5:35b": {
+      "name": "Qwen3.5-35B",
+      "arch": "Transformer (Qwen3.5)",
+      "system_prompt": "You are a helpful assistant with access to tools.",
+      "temperature": 0.0,
+      "output_format": "bracket_notation",
+      "notes": "Newly downloaded 35B model with tools support",
+      "variants": {
+        "atomic": {
+          "system": "When you need a tool, use: [tool_name(arg=\"value\")]",
+          "max_tokens": 500,
+          "description": "Bracket format for atomic prompts"
+        }
+      }
     }
   },
   "early_exit": {
