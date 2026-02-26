@@ -25,7 +25,7 @@ import selfopt.harness_feedback_loop
 
 WORKDIR = Path('/root/.openclaw/workspace')
 BENCH = WORKDIR / 'bench'
-RUNNER = BENCH / 'run_benchmark.py'
+RUNNER = BENCH / 'core' / 'run_benchmark.py'
 WORKDIR = Path('/root/.openclaw/workspace')
 BENCH = WORKDIR / 'bench'
 sys.path.insert(0, str(BENCH))
