@@ -1,0 +1,24 @@
+{
+  "lfm2.5-thinking:1.2b": {
+    "accuracy": 0.82,
+    "restraint_score": 0.75,
+    "latencies": [
+      1450,
+      1520,
+      1480
+    ],
+    "variant": "atomic",
+    "status": "canonical"
+  },
+  "mistral:7b": {
+    "accuracy": 0.78,
+    "restraint_score": 0.68,
+    "latencies": [
+      3200,
+      3400,
+      3100
+    ],
+    "variant": "atomic",
+    "status": "canonical"
+  }
+}
