@@ -3,6 +3,11 @@
 Consolidated Benchmark Runner - Phase 1 (Atomic + Extended) & Phase 2
 Single CLI for all benchmark phases, models, and variants
 
+Attribution:
+  - Current Model: lfm2.5-thinking:1.2b (OpenClaw agent)
+  - Human: Owner/operator of this OpenClaw instance
+  - Date: 2026-02-25
+
 Usage:
   python3 run_benchmark.py <model> [phase] [variant] [--output json|csv]
 
@@ -23,6 +28,10 @@ Variants:
 """
 
 import sys
+import os
+
+# Add parent directory to path for imports
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import json
 import time
 import signal
@@ -32,6 +41,17 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass, asdict
 import ollama
+
+# Import cache module
+from utils.result_cache import ResultCache, get_cache, get_prompts_for_phase
+
+# Import error recovery module
+from utils.error_recovery import (
+    Checkpoint, RetryConfig, retry_with_backoff, is_retryable_error,
+    load_checkpoint, save_checkpoint, clear_checkpoint,
+    save_partial_results, load_partial_results, register_crash_handler,
+    add_resume_parser, get_resume_info, TimeoutHandler
+)
 
 # Constants
 TIMEOUT_SECONDS = 60
@@ -176,14 +196,36 @@ class PhaseResult:
     failed_prompts: List[str]
     restraint_score: Optional[float] = None  # For atomic phase
     by_category: Optional[Dict] = None  # For extended phase
+    avg_latency_ms: Optional[float] = None  # Average latency across prompts
+    median_latency_ms: Optional[float] = None  # Median latency
+    max_latency_ms: Optional[float] = None  # Max latency
+    min_latency_ms: Optional[float] = None  # Min latency
     notes: str = ""
 
 # =============================================================================
 # PHASE IMPLEMENTATIONS
 # =============================================================================
 
-def run_atomic_phase(model: str, variant: str, config: Dict, max_retries: int = 1) -> PhaseResult:
-    """Run atomic phase (P1-P12)"""
+def run_atomic_phase(
+    model: str, variant: str, config: Dict,
+    start_index: int = 0,
+    checkpoint: Optional[Checkpoint] = None,
+    run_dir: Optional[Path] = None,
+    timeout_s: int = TIMEOUT_SECONDS,
+    max_retries: int = 1
+) -> PhaseResult:
+    """Run atomic phase (P1-P12)
+    
+    Args:
+        model: Model name
+        variant: Variant config
+        config: Full config dict
+        start_index: Prompt index to start from (for resume)
+        checkpoint: Checkpoint object for state tracking
+        run_dir: Directory for saving checkpoints
+        timeout_s: Timeout per prompt in seconds
+        max_retries: Max retries per prompt
+    """
     
     model_cfg = get_model_config(model, config)
     variant_cfg = get_variant_config(model, variant, config)
@@ -198,7 +240,15 @@ def run_atomic_phase(model: str, variant: str, config: Dict, max_retries: int = 
     print(f"\n🔄 ATOMIC PHASE: {model_cfg['name']} ({variant} variant)")
     print("=" * 80)
     
+    # Track current prompt index for checkpointing
+    prompt_idx = 0
+    
     for prompt_id, prompt_text, expected in ATOMIC_PROMPTS:
+        # Skip already completed prompts if resuming
+        if prompt_idx < start_index:
+            prompt_idx += 1
+            continue
+        
         latency_ms = 0
         got = []
         err = None
@@ -227,7 +277,10 @@ def run_atomic_phase(model: str, variant: str, config: Dict, max_retries: int = 
                     
                     msg = response.get("message", {})
                     txt = msg.get("content")
-                    got = [tc["function"]["name"] for tc in msg.get("tool_calls", []) if "function" in tc]
+                    tool_calls = msg.get("tool_calls", [])
+                    if not isinstance(tool_calls, list):
+                        tool_calls = []
+                    got = [tc["function"]["name"] for tc in tool_calls if "function" in tc]
                     
                 except TimeoutError:
                     err = f"TIMEOUT({TIMEOUT_SECONDS}s)"
@@ -277,14 +330,29 @@ def run_atomic_phase(model: str, variant: str, config: Dict, max_retries: int = 
             timeout=timed_out,
             assistant_content=txt
         ))
+        
+        # Save checkpoint after each prompt
+        if checkpoint and run_dir:
+            checkpoint.prompt_index = prompt_idx + 1
+            checkpoint.completed_prompts.append(prompt_id)
+            checkpoint.partial_results.append(asdict(results[-1]))
+            save_checkpoint(run_dir, checkpoint)
+        
+        prompt_idx += 1
     
-    # Calculate scores
+    # Clear checkpoint on successful completion
+    if checkpoint and run_dir:
+        clear_checkpoint(run_dir)
     total = len(ATOMIC_PROMPTS)
     accuracy = passed / total if total else 0
     restraint_score = restraint_passed / restraint_total if restraint_total else 0
     
+    # Calculate average latency
+    latencies = [r.latency_ms for r in results if r.latency_ms > 0]
+    avg_latency_ms = sum(latencies) / len(latencies) if latencies else 0
+    
     print("=" * 80)
-    print(f"RESULT: {passed}/{total} passed ({accuracy*100:.1f}%) | Restraint: {restraint_score:.2f}")
+    print(f"RESULT: {passed}/{total} passed ({accuracy*100:.1f}%) | Restraint: {restraint_score:.2f} | Latency: avg={avg_latency_ms:.0f}ms med={median_latency_ms:.0f}ms max={max_latency_ms:.0f}ms")
     print("=" * 80)
     
     return PhaseResult(
@@ -299,11 +367,34 @@ def run_atomic_phase(model: str, variant: str, config: Dict, max_retries: int = 
         accuracy=accuracy,
         results=results,
         failed_prompts=failed,
-        restraint_score=restraint_score
+        restraint_score=restraint_score,
+        avg_latency_ms=avg_latency_ms,
+        median_latency_ms=median_latency_ms,
+        max_latency_ms=max_latency_ms,
+        min_latency_ms=min_latency_ms
     )
 
-def run_extended_phase(model: str, variant: str, config: Dict, suite: Dict) -> PhaseResult:
-    """Run extended phase (P13-P30, multi-turn)"""
+def run_extended_phase(
+    model: str, variant: str, config: Dict, suite: Dict,
+    start_index: int = 0,
+    checkpoint: Optional[Checkpoint] = None,
+    run_dir: Optional[Path] = None,
+    timeout_s: int = TIMEOUT_SECONDS,
+    max_retries: int = 1
+) -> PhaseResult:
+    """Run extended phase (P13-P30, multi-turn)
+    
+    Args:
+        model: Model name
+        variant: Variant config
+        config: Full config dict
+        suite: Extended benchmark suite
+        start_index: Prompt index to start from (for resume)
+        checkpoint: Checkpoint object for state tracking
+        run_dir: Directory for saving checkpoints
+        timeout_s: Timeout per prompt in seconds
+        max_retries: Max retries per prompt
+    """
     
     model_cfg = get_model_config(model, config)
     variant_cfg = get_variant_config(model, variant, config)
@@ -318,6 +409,9 @@ def run_extended_phase(model: str, variant: str, config: Dict, suite: Dict) -> P
     print(f"\n🔄 EXTENDED PHASE: {model_cfg['name']} ({variant} variant)")
     print("=" * 80)
     
+    # Track current prompt index for checkpointing
+    prompt_idx = 0
+    
     for category, items in suite.items():
         cat_passed = 0
         cat_total = len(items)
@@ -326,6 +420,11 @@ def run_extended_phase(model: str, variant: str, config: Dict, suite: Dict) -> P
         print(f"\n  📚 {cat_name}")
         
         for item in items:
+            # Skip already completed prompts if resuming
+            if prompt_idx < start_index:
+                prompt_idx += 1
+                continue
+            
             prompt_id = item["id"]
             total += 1
             
@@ -353,7 +452,10 @@ def run_extended_phase(model: str, variant: str, config: Dict, suite: Dict) -> P
                 
                 msg = response.get("message", {})
                 txt = msg.get("content")
-                got = [tc["function"]["name"] for tc in msg.get("tool_calls", []) if "function" in tc]
+                tool_calls = msg.get("tool_calls", [])
+                if not isinstance(tool_calls, list):
+                    tool_calls = []
+                got = [tc["function"]["name"] for tc in tool_calls if "function" in tc]
                 
             except TimeoutError:
                 err = f"TIMEOUT({TIMEOUT_SECONDS}s)"
@@ -391,6 +493,15 @@ def run_extended_phase(model: str, variant: str, config: Dict, suite: Dict) -> P
                 timeout=timed_out,
                 assistant_content=txt
             ))
+            
+            # Save checkpoint after each prompt
+            if checkpoint and run_dir:
+                checkpoint.prompt_index = prompt_idx + 1
+                checkpoint.completed_prompts.append(prompt_id)
+                checkpoint.partial_results.append(asdict(results[-1]))
+                save_checkpoint(run_dir, checkpoint)
+            
+            prompt_idx += 1
         
         # Category summary
         cat_acc = cat_passed / cat_total if cat_total else 0
@@ -404,9 +515,24 @@ def run_extended_phase(model: str, variant: str, config: Dict, suite: Dict) -> P
     # Overall
     total_accuracy = passed / total if total else 0
     
+    # Calculate latency statistics for extended phase
+    latencies = [r.latency_ms for r in results if r.latency_ms > 0]
+    if latencies:
+        latencies_sorted = sorted(latencies)
+        avg_latency_ms = sum(latencies) / len(latencies)
+        median_latency_ms = latencies_sorted[len(latencies_sorted) // 2]
+        max_latency_ms = max(latencies)
+        min_latency_ms = min(latencies)
+    else:
+        avg_latency_ms = median_latency_ms = max_latency_ms = min_latency_ms = 0
+    
     print("\n" + "=" * 80)
-    print(f"RESULT: {passed}/{total} passed ({total_accuracy*100:.1f}%)")
+    print(f"RESULT: {passed}/{total} passed ({total_accuracy*100:.1f}%) | Latency: avg={avg_latency_ms:.0f}ms med={median_latency_ms:.0f}ms max={max_latency_ms:.0f}ms")
     print("=" * 80)
+    
+    # Clear checkpoint on successful completion
+    if checkpoint and run_dir:
+        clear_checkpoint(run_dir)
     
     return PhaseResult(
         model=model,
@@ -420,7 +546,11 @@ def run_extended_phase(model: str, variant: str, config: Dict, suite: Dict) -> P
         accuracy=total_accuracy,
         results=results,
         failed_prompts=failed,
-        by_category=by_category
+        by_category=by_category,
+        avg_latency_ms=avg_latency_ms,
+        median_latency_ms=median_latency_ms,
+        max_latency_ms=max_latency_ms,
+        min_latency_ms=min_latency_ms
     )
 
 # =============================================================================
@@ -567,8 +697,42 @@ Examples:
         action="store_true",
         help="Don't save output file (only print)"
     )
+    parser.add_argument(
+        "--no-cache",
+        action="store_true",
+        help="Disable result cache (always run benchmark)"
+    )
+    parser.add_argument(
+        "--clear-cache",
+        action="store_true",
+        help="Clear all cached results before running"
+    )
+    parser.add_argument(
+        "--resume",
+        type=str,
+        default='',
+        help="Resume an interrupted run from the specified run directory"
+    )
+    parser.add_argument(
+        "--timeout",
+        type=int,
+        default=TIMEOUT_SECONDS,
+        help=f"Timeout per prompt in seconds (default: {TIMEOUT_SECONDS})"
+    )
+    parser.add_argument(
+        "--max-retries",
+        type=int,
+        default=1,
+        help="Maximum retries per failed prompt (default: 1)"
+    )
     
-    args = parser.parse_args()
+    parser.add_argument(
+        "--isolate-call",
+        action="store_true",
+        help="Execute each tool call in isolation (default: False)"
+    )
+    
+    args, extra = parser.parse_known_args()
     
     # Normalize phase
     phase = (args.phase or "atomic").lower()
@@ -585,18 +749,149 @@ Examples:
         config = load_harness_config()
         print(f"   ✅ Loaded {len(config['models'])} models")
         
+        # Initialize cache
+        cache = get_cache()
+        
+        # Handle cache clearing
+        if args.clear_cache:
+            cache.clear()
+        
+        # Get prompts for caching
+        prompts = get_prompts_for_phase(phase)
+        
+        # Check cache (unless disabled)
+        cached_result = None
+        if not args.no_cache:
+            is_cached, cached_result, time_saved = cache.check(
+                args.model, phase, args.variant, prompts
+            )
+            
+            if cached_result:
+                # Reconstruct Phase is_cached andResult from cache
+                from dataclasses import dataclass
+                
+                result = PhaseResult(
+                    model=cached_result["model"],
+                    phase=cached_result["phase"],
+                    variant=cached_result["variant"],
+                    timestamp=cached_result.get("timestamp", time.time()),
+                    config_name=cached_result.get("config_name", args.model),
+                    system_prompt="",  # Not stored in cache
+                    passed=cached_result.get("summary", {}).get("passed", 0),
+                    total=cached_result.get("summary", {}).get("total", 0),
+                    accuracy=cached_result.get("summary", {}).get("accuracy", 0.0),
+                    results=[],  # Not needed for summary
+                    failed_prompts=cached_result.get("failed_prompts", []),
+                    restraint_score=cached_result.get("summary", {}).get("restraint_score"),
+                    by_category=cached_result.get("by_category")
+                )
+                
+                print_summary(result)
+                cache.print_stats()
+                
+                if not args.no_save:
+                    if args.output == "json":
+                        output_path = WORKSPACE / f"{phase}_result_{args.model.split(':')[0]}_{args.variant}.json"
+                    else:
+                        output_path = WORKSPACE / f"{phase}_result_{args.model.split(':')[0]}_{args.variant}.csv"
+                    
+                    if args.output == "json":
+                        save_json_output(result, output_path)
+                    else:
+                        save_csv_output(result, output_path)
+                    
+                    print(f"💾 Saved: {output_path}")
+                
+                return  # Exit early with cached result
+        
         # Run benchmark
         print(f"\n🚀 Starting {phase.upper()} phase benchmark...")
         
+        # Handle resume from checkpoint
+        resume_from = 0
+        run_dir = None
+        checkpoint = None
+        
+        if args.resume:
+            run_dir = Path(args.resume)
+            if not run_dir.exists():
+                print(f"❌ Resume directory not found: {run_dir}", file=sys.stderr)
+                sys.exit(1)
+            
+            checkpoint = load_checkpoint(run_dir)
+            if checkpoint:
+                resume_from = checkpoint.prompt_index
+                print(f"🔄 Resuming from prompt index {resume_from}")
+                print(f"   Completed prompts: {len(checkpoint.completed_prompts)}")
+            else:
+                print(f"⚠️ No checkpoint found in {run_dir}, starting fresh")
+        
+        # Create run directory for checkpointing
+        if not run_dir:
+            timestamp = time.strftime("%Y%m%d_%H%M%S")
+            run_dir = WORKSPACE / f"run_{args.model.split(':')[0]}_{phase}_{timestamp}"
+            run_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Initialize checkpoint for new runs
+        if not checkpoint:
+            checkpoint = Checkpoint(
+                run_id=str(run_dir.name),
+                prompt_index=0,
+                completed_prompts=[],
+                partial_results=[],
+                metadata={
+                    "model": args.model,
+                    "phase": phase,
+                    "variant": args.variant
+                }
+            )
+        
+        # Register crash handler
+        register_crash_handler(run_dir, checkpoint)
+        
         if phase == "atomic":
-            result = run_atomic_phase(args.model, args.variant, config)
+            result = run_atomic_phase(
+                args.model, args.variant, config,
+                start_index=resume_from,
+                checkpoint=checkpoint,
+                run_dir=run_dir,
+                timeout_s=args.timeout,
+                max_retries=args.max_retries
+            )
         else:  # extended
             suite = load_extended_suite()
             print(f"   ✅ Loaded extended suite ({len(suite)} categories)")
-            result = run_extended_phase(args.model, args.variant, config, suite)
+            result = run_extended_phase(
+                args.model, args.variant, config, suite,
+                start_index=resume_from,
+                checkpoint=checkpoint,
+                run_dir=run_dir,
+                timeout_s=args.timeout,
+                max_retries=args.max_retries
+            )
+        
+        # Save to cache (unless disabled)
+        if not args.no_cache:
+            # Build result dict for cache
+            result_dict = {
+                "summary": {
+                    "passed": result.passed,
+                    "total": result.total,
+                    "accuracy": result.accuracy,
+                    "restraint_score": result.restraint_score
+                },
+                "results": [asdict(r) for r in result.results],
+                "failed_prompts": result.failed_prompts,
+                "by_category": result.by_category,
+            }
+            cache.save(args.model, phase, args.variant, prompts, result_dict)
         
         # Print summary
         print_summary(result)
+        
+        # Print cache stats (if cache was used)
+        if not args.no_cache:
+            cache.print_stats()
         
         # Save output
         if not args.no_save:
