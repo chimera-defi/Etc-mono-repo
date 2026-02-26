@@ -3,13 +3,16 @@
 Consolidated Benchmark Runner - Phase 1 (Atomic + Extended) & Phase 2
 Single CLI for all benchmark phases, models, and variants
 
+Attribution:
+  - Current Model: lfm2.5-thinking:1.2b (OpenClaw agent)
+  - Human: Owner/operator of this OpenClaw instance
+  - Date: 2026-02-25
+
 Usage:
   python3 run_benchmark.py <model> [phase] [variant] [--output json|csv]
 
-Examples:
-  python3 run_benchmark.py lfm2.5-thinking:1.2b atomic atomic
-  python3 run_benchmark.py mistral:7b extended atomic --output csv
-  python3 run_benchmark.py gpt-oss:latest phase2 atomic
+Tracing: This script logs model calls to trace phi errors
+"""
 
 Phases:
   - atomic     : P1-P12 (core tool-calling validation)
@@ -889,3 +892,24 @@ Examples:
 
 if __name__ == "__main__":
     main()
+
+# === PHI ERROR TRACING ===
+import sys
+import traceback as tb
+
+# Monkey-patch subprocess to trace model calls
+import subprocess
+_original_popen = subprocess.Popen
+
+class TracedPopen(_original_popen):
+    def __init__(self, args, **kwargs):
+        model_arg = args[1] if len(args) > 1 else ""
+        if 'phi' in str(model_arg).lower():
+            print(f"[PHI_TRACE] ⚠️ PHI MODEL DETECTED: {model_arg}", file=sys.stderr)
+            print(f"[PHI_TRACE] Stack trace:", file=sys.stderr)
+            for line in tb.format_stack()[-5:]:
+                print(f"  {line}", file=sys.stderr)
+        super().__init__(args, **kwargs)
+
+subprocess.Popen = TracedPopen
+# === END PHI TRACING ===
