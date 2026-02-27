@@ -164,6 +164,33 @@ def get_variant_config(model: str, variant: str, config: Dict) -> Dict:
         raise ValueError(f"Variant '{variant}' not found for {model}. Available: {available}")
     return model_cfg["variants"][variant]
 
+
+def extract_ollama_metrics(response: Dict) -> Dict:
+    """Extract Ollama-native token/timing metrics from chat response.
+
+    Durations from Ollama are in nanoseconds.
+    """
+    eval_count = response.get("eval_count")
+    eval_duration_ns = response.get("eval_duration")
+    prompt_eval_count = response.get("prompt_eval_count")
+    prompt_eval_duration_ns = response.get("prompt_eval_duration")
+    total_duration_ns = response.get("total_duration")
+
+    tokens_per_second = None
+    if isinstance(eval_count, int) and eval_count >= 0 and isinstance(eval_duration_ns, (int, float)) and eval_duration_ns > 0:
+        tokens_per_second = eval_count / (eval_duration_ns / 1e9)
+
+    return {
+        "tokens_generated": eval_count if isinstance(eval_count, int) else None,
+        "prompt_tokens": prompt_eval_count if isinstance(prompt_eval_count, int) else None,
+        "tokens_per_second": tokens_per_second,
+        "ttft_ms": (prompt_eval_duration_ns / 1e6) if isinstance(prompt_eval_duration_ns, (int, float)) else None,
+        "eval_duration_ms": (eval_duration_ns / 1e6) if isinstance(eval_duration_ns, (int, float)) else None,
+        "prompt_eval_duration_ms": (prompt_eval_duration_ns / 1e6) if isinstance(prompt_eval_duration_ns, (int, float)) else None,
+        "total_duration_ms": (total_duration_ns / 1e6) if isinstance(total_duration_ns, (int, float)) else None,
+    }
+
+
 # =============================================================================
 # DATA MODELS
 # =============================================================================
@@ -179,6 +206,14 @@ class PromptResult:
     error: Optional[str] = None
     timeout: bool = False
     assistant_content: Optional[str] = None
+    # Ollama-native token/timing metrics (when available)
+    tokens_generated: Optional[int] = None
+    prompt_tokens: Optional[int] = None
+    tokens_per_second: Optional[float] = None
+    ttft_ms: Optional[float] = None
+    eval_duration_ms: Optional[float] = None
+    prompt_eval_duration_ms: Optional[float] = None
+    total_duration_ms: Optional[float] = None
 
 @dataclass
 class PhaseResult:
@@ -200,6 +235,12 @@ class PhaseResult:
     median_latency_ms: Optional[float] = None  # Median latency
     max_latency_ms: Optional[float] = None  # Max latency
     min_latency_ms: Optional[float] = None  # Min latency
+    avg_tps: Optional[float] = None
+    median_tps: Optional[float] = None
+    max_tps: Optional[float] = None
+    min_tps: Optional[float] = None
+    total_tokens_generated: Optional[int] = None
+    total_prompt_tokens: Optional[int] = None
     notes: str = ""
 
 # =============================================================================
@@ -254,6 +295,15 @@ def run_atomic_phase(
         err = None
         timed_out = False
         txt = None
+        metrics = {
+            "tokens_generated": None,
+            "prompt_tokens": None,
+            "tokens_per_second": None,
+            "ttft_ms": None,
+            "eval_duration_ms": None,
+            "prompt_eval_duration_ms": None,
+            "total_duration_ms": None,
+        }
         retry_count = 0
         
         while retry_count < max_retries:
@@ -281,6 +331,7 @@ def run_atomic_phase(
                     if not isinstance(tool_calls, list):
                         tool_calls = []
                     got = [tc["function"]["name"] for tc in tool_calls if "function" in tc]
+                    metrics = extract_ollama_metrics(response)
                     
                 except TimeoutError:
                     err = f"TIMEOUT({TIMEOUT_SECONDS}s)"
@@ -315,7 +366,9 @@ def run_atomic_phase(
         status = "✅" if correct else "❌"
         exp_str = f"exp={expected}" if expected else "exp=[]"
         got_str = f"got={got}" if got else "got=[]"
-        print(f"{status} {prompt_id}: {latency_ms:6.0f}ms | {exp_str:30s} {got_str}")
+        tps = metrics.get("tokens_per_second")
+        tps_str = f" | {tps:5.2f} tok/s" if isinstance(tps, (int, float)) else ""
+        print(f"{status} {prompt_id}: {latency_ms:6.0f}ms{tps_str} | {exp_str:30s} {got_str}")
         
         if err:
             print(f"   └─ ERROR: {err}")
@@ -328,7 +381,14 @@ def run_atomic_phase(
             latency_ms=latency_ms,
             error=err,
             timeout=timed_out,
-            assistant_content=txt
+            assistant_content=txt,
+            tokens_generated=metrics.get("tokens_generated"),
+            prompt_tokens=metrics.get("prompt_tokens"),
+            tokens_per_second=metrics.get("tokens_per_second"),
+            ttft_ms=metrics.get("ttft_ms"),
+            eval_duration_ms=metrics.get("eval_duration_ms"),
+            prompt_eval_duration_ms=metrics.get("prompt_eval_duration_ms"),
+            total_duration_ms=metrics.get("total_duration_ms"),
         ))
         
         # Save checkpoint after each prompt
@@ -347,12 +407,35 @@ def run_atomic_phase(
     accuracy = passed / total if total else 0
     restraint_score = restraint_passed / restraint_total if restraint_total else 0
     
-    # Calculate average latency
+    # Calculate latency statistics
     latencies = [r.latency_ms for r in results if r.latency_ms > 0]
-    avg_latency_ms = sum(latencies) / len(latencies) if latencies else 0
-    
+    if latencies:
+        latencies_sorted = sorted(latencies)
+        avg_latency_ms = sum(latencies) / len(latencies)
+        median_latency_ms = latencies_sorted[len(latencies_sorted) // 2]
+        max_latency_ms = max(latencies)
+        min_latency_ms = min(latencies)
+    else:
+        avg_latency_ms = median_latency_ms = max_latency_ms = min_latency_ms = 0
+
+    # Calculate throughput statistics
+    tps_values = [r.tokens_per_second for r in results if isinstance(r.tokens_per_second, (int, float)) and r.tokens_per_second > 0]
+    if tps_values:
+        tps_sorted = sorted(tps_values)
+        avg_tps = sum(tps_values) / len(tps_values)
+        median_tps = tps_sorted[len(tps_sorted) // 2]
+        max_tps = max(tps_values)
+        min_tps = min(tps_values)
+    else:
+        avg_tps = median_tps = max_tps = min_tps = None
+
+    total_tokens_generated = sum(r.tokens_generated for r in results if isinstance(r.tokens_generated, int))
+    total_prompt_tokens = sum(r.prompt_tokens for r in results if isinstance(r.prompt_tokens, int))
+
     print("=" * 80)
     print(f"RESULT: {passed}/{total} passed ({accuracy*100:.1f}%) | Restraint: {restraint_score:.2f} | Latency: avg={avg_latency_ms:.0f}ms med={median_latency_ms:.0f}ms max={max_latency_ms:.0f}ms")
+    if avg_tps is not None:
+        print(f"THROUGHPUT: avg={avg_tps:.2f} tok/s med={median_tps:.2f} max={max_tps:.2f} | tokens={total_tokens_generated}")
     print("=" * 80)
     
     return PhaseResult(
@@ -371,7 +454,13 @@ def run_atomic_phase(
         avg_latency_ms=avg_latency_ms,
         median_latency_ms=median_latency_ms,
         max_latency_ms=max_latency_ms,
-        min_latency_ms=min_latency_ms
+        min_latency_ms=min_latency_ms,
+        avg_tps=avg_tps,
+        median_tps=median_tps,
+        max_tps=max_tps,
+        min_tps=min_tps,
+        total_tokens_generated=total_tokens_generated,
+        total_prompt_tokens=total_prompt_tokens,
     )
 
 def run_extended_phase(
@@ -437,6 +526,15 @@ def run_extended_phase(
             err = None
             txt = None
             timed_out = False
+            metrics = {
+                "tokens_generated": None,
+                "prompt_tokens": None,
+                "tokens_per_second": None,
+                "ttft_ms": None,
+                "eval_duration_ms": None,
+                "prompt_eval_duration_ms": None,
+                "total_duration_ms": None,
+            }
             
             signal.signal(signal.SIGALRM, timeout_handler)
             signal.alarm(TIMEOUT_SECONDS)
@@ -456,6 +554,7 @@ def run_extended_phase(
                 if not isinstance(tool_calls, list):
                     tool_calls = []
                 got = [tc["function"]["name"] for tc in tool_calls if "function" in tc]
+                metrics = extract_ollama_metrics(response)
                 
             except TimeoutError:
                 err = f"TIMEOUT({TIMEOUT_SECONDS}s)"
@@ -478,7 +577,9 @@ def run_extended_phase(
             status = "✅" if correct else "❌"
             exp_str = f"exp={expected}" if expected else "exp=[]"
             got_str = f"got={got}" if got else "got=[]"
-            print(f"    {status} {prompt_id}: {latency_ms:6.0f}ms | {exp_str:30s} {got_str}")
+            tps = metrics.get("tokens_per_second")
+            tps_str = f" | {tps:5.2f} tok/s" if isinstance(tps, (int, float)) else ""
+            print(f"    {status} {prompt_id}: {latency_ms:6.0f}ms{tps_str} | {exp_str:30s} {got_str}")
             
             if err:
                 print(f"       └─ ERROR: {err}")
@@ -491,7 +592,14 @@ def run_extended_phase(
                 latency_ms=latency_ms,
                 error=err,
                 timeout=timed_out,
-                assistant_content=txt
+                assistant_content=txt,
+                tokens_generated=metrics.get("tokens_generated"),
+                prompt_tokens=metrics.get("prompt_tokens"),
+                tokens_per_second=metrics.get("tokens_per_second"),
+                ttft_ms=metrics.get("ttft_ms"),
+                eval_duration_ms=metrics.get("eval_duration_ms"),
+                prompt_eval_duration_ms=metrics.get("prompt_eval_duration_ms"),
+                total_duration_ms=metrics.get("total_duration_ms"),
             ))
             
             # Save checkpoint after each prompt
@@ -525,9 +633,25 @@ def run_extended_phase(
         min_latency_ms = min(latencies)
     else:
         avg_latency_ms = median_latency_ms = max_latency_ms = min_latency_ms = 0
-    
+
+    # Calculate throughput statistics
+    tps_values = [r.tokens_per_second for r in results if isinstance(r.tokens_per_second, (int, float)) and r.tokens_per_second > 0]
+    if tps_values:
+        tps_sorted = sorted(tps_values)
+        avg_tps = sum(tps_values) / len(tps_values)
+        median_tps = tps_sorted[len(tps_sorted) // 2]
+        max_tps = max(tps_values)
+        min_tps = min(tps_values)
+    else:
+        avg_tps = median_tps = max_tps = min_tps = None
+
+    total_tokens_generated = sum(r.tokens_generated for r in results if isinstance(r.tokens_generated, int))
+    total_prompt_tokens = sum(r.prompt_tokens for r in results if isinstance(r.prompt_tokens, int))
+
     print("\n" + "=" * 80)
     print(f"RESULT: {passed}/{total} passed ({total_accuracy*100:.1f}%) | Latency: avg={avg_latency_ms:.0f}ms med={median_latency_ms:.0f}ms max={max_latency_ms:.0f}ms")
+    if avg_tps is not None:
+        print(f"THROUGHPUT: avg={avg_tps:.2f} tok/s med={median_tps:.2f} max={max_tps:.2f} | tokens={total_tokens_generated}")
     print("=" * 80)
     
     # Clear checkpoint on successful completion
@@ -550,7 +674,13 @@ def run_extended_phase(
         avg_latency_ms=avg_latency_ms,
         median_latency_ms=median_latency_ms,
         max_latency_ms=max_latency_ms,
-        min_latency_ms=min_latency_ms
+        min_latency_ms=min_latency_ms,
+        avg_tps=avg_tps,
+        median_tps=median_tps,
+        max_tps=max_tps,
+        min_tps=min_tps,
+        total_tokens_generated=total_tokens_generated,
+        total_prompt_tokens=total_prompt_tokens,
     )
 
 # =============================================================================
@@ -570,7 +700,17 @@ def save_json_output(result: PhaseResult, output_path: Path) -> None:
             "passed": result.passed,
             "total": result.total,
             "accuracy": result.accuracy,
-            "restraint_score": result.restraint_score
+            "restraint_score": result.restraint_score,
+            "avg_latency_ms": result.avg_latency_ms,
+            "median_latency_ms": result.median_latency_ms,
+            "max_latency_ms": result.max_latency_ms,
+            "min_latency_ms": result.min_latency_ms,
+            "avg_tps": result.avg_tps,
+            "median_tps": result.median_tps,
+            "max_tps": result.max_tps,
+            "min_tps": result.min_tps,
+            "total_tokens_generated": result.total_tokens_generated,
+            "total_prompt_tokens": result.total_prompt_tokens,
         },
         "by_category": result.by_category,
         "failed_prompts": result.failed_prompts,
@@ -593,6 +733,9 @@ def save_csv_output(result: PhaseResult, output_path: Path) -> None:
             "Total",
             "Accuracy %",
             "Restraint Score",
+            "Avg Latency (ms)",
+            "Avg TPS",
+            "Total Tokens",
             "Failed Prompts"
         ])
         
@@ -605,6 +748,9 @@ def save_csv_output(result: PhaseResult, output_path: Path) -> None:
             result.total,
             f"{result.accuracy*100:.1f}",
             restraint,
+            f"{result.avg_latency_ms:.0f}" if result.avg_latency_ms is not None else "N/A",
+            f"{result.avg_tps:.2f}" if result.avg_tps is not None else "N/A",
+            result.total_tokens_generated if result.total_tokens_generated is not None else "N/A",
             ",".join(result.failed_prompts) if result.failed_prompts else "None"
         ])
         
@@ -616,6 +762,10 @@ def save_csv_output(result: PhaseResult, output_path: Path) -> None:
             "Got",
             "Correct",
             "Latency (ms)",
+            "Tokens Generated",
+            "Prompt Tokens",
+            "TPS",
+            "TTFT (ms)",
             "Error",
             "Timeout"
         ])
@@ -627,6 +777,10 @@ def save_csv_output(result: PhaseResult, output_path: Path) -> None:
                 ",".join(r.got) if r.got else "[]",
                 "YES" if r.correct else "NO",
                 f"{r.latency_ms:.0f}",
+                r.tokens_generated if r.tokens_generated is not None else "",
+                r.prompt_tokens if r.prompt_tokens is not None else "",
+                f"{r.tokens_per_second:.2f}" if r.tokens_per_second is not None else "",
+                f"{r.ttft_ms:.2f}" if r.ttft_ms is not None else "",
                 r.error or "",
                 "YES" if r.timeout else "NO"
             ])
@@ -648,6 +802,10 @@ def print_summary(result: PhaseResult) -> None:
     if result.restraint_score is not None:
         print(f"║ Restraint Score:    {result.restraint_score:.2f}                        {' '*38}║")
     
+    if result.avg_tps is not None:
+        print(f"║ Throughput:         avg={result.avg_tps:>6.2f} tok/s (med={result.median_tps:>6.2f}, max={result.max_tps:>6.2f}){' '*11}║")
+        print(f"║ Tokens:             gen={result.total_tokens_generated or 0}, prompt={result.total_prompt_tokens or 0}{' '*31}║")
+
     if result.by_category:
         print("║ By Category:                                                           ║")
         for category, stats in result.by_category.items():
