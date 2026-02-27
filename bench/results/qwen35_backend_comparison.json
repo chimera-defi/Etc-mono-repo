@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-27T03:26:08.368477",
+  "timestamp": "2026-02-27T08:12:24.150120",
   "configuration": {
     "ollama_model": "qwen3.5:35b",
     "llama_cpp_path": "/root/llama.cpp/build/bin/llama-cli",
@@ -15,27 +15,27 @@
         "Paris"
       ],
       "ollama": {
-        "text": "Thinking Process:\n\n1.  **Identify the core question:** The user is asking \"What is the capital of France?\"\n2.  **Access knowledge base:** Retrieve information about France and its capital.\n3.  **Verify information\n\n",
+        "text": "Thinking Process:\n\n1.  **Identify the core question:** The user is asking for the capital of France.\n2.  **Access knowledge base:** Retrieve information about France and its capital.\n3.  **Verify information:** The\n\n",
         "tokens_generated": 50,
-        "total_time_seconds": 16.15,
-        "first_token_time_seconds": 1.615,
-        "tokens_per_second": 3.1,
+        "total_time_seconds": 14.018,
+        "first_token_time_seconds": 1.402,
+        "tokens_per_second": 3.57,
         "quality": {
           "is_qualitative_pass": false,
           "keyword_match_ratio": 0.0,
           "found_keywords": [],
           "is_coherent": true,
-          "output_length": 215
+          "output_length": 216
         },
         "tool_calling": {},
         "success": true
       },
       "llama_cpp": {
-        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588",
+        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588\u2588\n\u2588\u2588 \u2588\u2588  \u2580\u2580\u2588\u2584 ",
         "tokens_generated": 161,
-        "total_time_seconds": 22.42,
-        "first_token_time_seconds": 3.363,
-        "tokens_per_second": 7.18,
+        "total_time_seconds": 21.512,
+        "first_token_time_seconds": 3.227,
+        "tokens_per_second": 7.48,
         "quality": {
           "is_qualitative_pass": false,
           "keyword_match_ratio": 0.0,
@@ -58,11 +58,11 @@
         "convert"
       ],
       "ollama": {
-        "text": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Topic: Photosynthesis.\n    *   Constraint: Explain in one sentence.\n\n2.  **Identify Key Concepts of Photosynthesis:**\n    *   Who/What does it? Plants (and some\n\n",
+        "text": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Topic: Photosynthesis.\n    *   Constraint: Explain it in exactly one sentence.\n\n2.  **Identify Key Concepts of Photosynthesis:**\n    *   Who: Plants, algae, some bacteria\n\n",
         "tokens_generated": 60,
-        "total_time_seconds": 11.423,
-        "first_token_time_seconds": 1.142,
-        "tokens_per_second": 5.25,
+        "total_time_seconds": 11.199,
+        "first_token_time_seconds": 1.12,
+        "tokens_per_second": 5.36,
         "quality": {
           "is_qualitative_pass": false,
           "keyword_match_ratio": 0.25,
@@ -70,17 +70,17 @@
             "plant"
           ],
           "is_coherent": true,
-          "output_length": 218
+          "output_length": 228
         },
         "tool_calling": {},
         "success": true
       },
       "llama_cpp": {
-        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588\u2588\n\u2588\u2588 \u2588\u2588  \u2580\u2580\u2588\u2584 \u2588\u2588\u2588\u2584\u2588\u2588",
-        "tokens_generated": 156,
-        "total_time_seconds": 22.95,
-        "first_token_time_seconds": 3.443,
-        "tokens_per_second": 6.8,
+        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b \b\n\n\n\u2584\u2584 \u2584\u2584\n",
+        "tokens_generated": 157,
+        "total_time_seconds": 24.224,
+        "first_token_time_seconds": 3.634,
+        "tokens_per_second": 6.48,
         "quality": {
           "is_qualitative_pass": false,
           "keyword_match_ratio": 0.0,
@@ -104,11 +104,11 @@
         "fade"
       ],
       "ollama": {
-        "text": "Here's a thinking process that leads to the suggested answer:\n\n1.  **Analyze the Request:**\n    *   Premise 1: All roses are flowers. ($R \\subseteq F$)\n    *   Premise 2: Some flowers fade quickly. ($F \\cap Q \\neq \\emptyset$, where $Q$ is the set of things that fade\n\n",
+        "text": "Here's a thinking process that leads to the suggested answer:\n\n1.  **Analyze the Request:**\n    *   Premise 1: All roses are flowers. (Universal Affirmative: All $R$ are $F$)\n    *   Premise 2: Some flowers fade quickly. (Particular Affirmative: Some $F$ are $Q$\n\n",
         "tokens_generated": 80,
-        "total_time_seconds": 14.474,
-        "first_token_time_seconds": 1.447,
-        "tokens_per_second": 5.53,
+        "total_time_seconds": 14.178,
+        "first_token_time_seconds": 1.418,
+        "tokens_per_second": 5.64,
         "quality": {
           "is_qualitative_pass": true,
           "keyword_match_ratio": 0.4,
@@ -117,17 +117,17 @@
             "fade"
           ],
           "is_coherent": true,
-          "output_length": 268
+          "output_length": 264
         },
         "tool_calling": {},
         "success": true
       },
       "llama_cpp": {
-        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588\u2588\n",
-        "tokens_generated": 188,
-        "total_time_seconds": 27.13,
-        "first_token_time_seconds": 4.07,
-        "tokens_per_second": 6.93,
+        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588\u2588\n\u2588\u2588 \u2588\u2588 ",
+        "tokens_generated": 191,
+        "total_time_seconds": 26.818,
+        "first_token_time_seconds": 4.023,
+        "tokens_per_second": 7.12,
         "quality": {
           "is_qualitative_pass": false,
           "keyword_match_ratio": 0.0,
@@ -149,11 +149,11 @@
         "2 hours"
       ],
       "ollama": {
-        "text": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Train A speed: 60 mph.\n    *   Train B speed: 80 mph.\n    *   Initial distance: 280 miles.\n    *   Direction: Heading toward\n\n",
+        "text": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Train 1 speed: 60 mph\n    *   Train 2 speed: 80 mph\n    *   Initial distance apart: 280 miles\n    *   Direction: Heading toward\n\n",
         "tokens_generated": 60,
-        "total_time_seconds": 11.287,
-        "first_token_time_seconds": 1.129,
-        "tokens_per_second": 5.32,
+        "total_time_seconds": 11.438,
+        "first_token_time_seconds": 1.144,
+        "tokens_per_second": 5.25,
         "quality": {
           "is_qualitative_pass": true,
           "keyword_match_ratio": 0.3333333333333333,
@@ -161,17 +161,17 @@
             "2"
           ],
           "is_coherent": true,
-          "output_length": 182
+          "output_length": 185
         },
         "tool_calling": {},
         "success": true
       },
       "llama_cpp": {
-        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588\u2588\n\u2588\u2588 \u2588\u2588 ",
-        "tokens_generated": 189,
-        "total_time_seconds": 25.038,
-        "first_token_time_seconds": 3.756,
-        "tokens_per_second": 7.55,
+        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588\u2588\n\u2588\u2588 \u2588\u2588  \u2580",
+        "tokens_generated": 187,
+        "total_time_seconds": 25.076,
+        "first_token_time_seconds": 3.761,
+        "tokens_per_second": 7.46,
         "quality": {
           "is_qualitative_pass": false,
           "keyword_match_ratio": 0.0,
@@ -193,11 +193,11 @@
         "calculator"
       ],
       "ollama": {
-        "text": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Task: Compute $1234 \\times 5678$.\n    *   Tool: Calculator (implied, I need to perform the multiplication\n\n",
+        "text": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Task: Compute $1234 \\times 5678$.\n    *   Tool: Calculator (simulated).\n    *   Output Format\n\n",
         "tokens_generated": 50,
-        "total_time_seconds": 10.229,
-        "first_token_time_seconds": 1.023,
-        "tokens_per_second": 4.89,
+        "total_time_seconds": 10.465,
+        "first_token_time_seconds": 1.047,
+        "tokens_per_second": 4.78,
         "quality": {
           "is_qualitative_pass": true,
           "keyword_match_ratio": 0.6666666666666666,
@@ -206,7 +206,7 @@
             "calculator"
           ],
           "is_coherent": true,
-          "output_length": 163
+          "output_length": 151
         },
         "tool_calling": {
           "demonstrates_tool_calling": false,
@@ -217,11 +217,11 @@
         "success": true
       },
       "llama_cpp": {
-        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588\u2588\n\u2588\u2588 \u2588\u2588  \u2580\u2580\u2588\u2584 \u2588\u2588\u2588\u2584\u2588\u2588\u2588\u2584  \u2580\u2580\u2588\u2584    \u2584\u2588\u2588\u2588\u2588 \u2588\u2588\u2588\u2588\u2584 ",
-        "tokens_generated": 172,
-        "total_time_seconds": 23.506,
-        "first_token_time_seconds": 3.526,
-        "tokens_per_second": 7.32,
+        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588\u2588\n\u2588\u2588 \u2588\u2588  \u2580\u2580\u2588\u2584 \u2588\u2588\u2588\u2584\u2588\u2588\u2588\u2584  \u2580\u2580\u2588\u2584    ",
+        "tokens_generated": 175,
+        "total_time_seconds": 24.233,
+        "first_token_time_seconds": 3.635,
+        "tokens_per_second": 7.22,
         "quality": {
           "is_qualitative_pass": false,
           "keyword_match_ratio": 0.0,
@@ -250,9 +250,9 @@
       "ollama": {
         "text": "Thinking Process:\n\n1.  **Analyze the Request:** The user wants me to calculate $999 \\times 999$ using a calculator tool and respond in a specific JSON\n\n",
         "tokens_generated": 40,
-        "total_time_seconds": 8.114,
-        "first_token_time_seconds": 0.811,
-        "tokens_per_second": 4.93,
+        "total_time_seconds": 8.16,
+        "first_token_time_seconds": 0.816,
+        "tokens_per_second": 4.9,
         "quality": {
           "is_qualitative_pass": true,
           "keyword_match_ratio": 0.6666666666666666,
@@ -272,11 +272,11 @@
         "success": true
       },
       "llama_cpp": {
-        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588\u2588\n\u2588\u2588 \u2588\u2588  \u2580\u2580\u2588\u2584 \u2588\u2588\u2588\u2584\u2588\u2588\u2588\u2584  \u2580\u2580\u2588\u2584    \u2584\u2588\u2588\u2588\u2588 \u2588\u2588\u2588\u2588\u2584 \u2588\u2588\u2588\u2588\u2584\n\u2588\u2588",
-        "tokens_generated": 165,
-        "total_time_seconds": 20.416,
-        "first_token_time_seconds": 3.062,
-        "tokens_per_second": 8.08,
+        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588\u2588\n\u2588\u2588 \u2588\u2588  \u2580",
+        "tokens_generated": 169,
+        "total_time_seconds": 22.611,
+        "first_token_time_seconds": 3.392,
+        "tokens_per_second": 7.47,
         "quality": {
           "is_qualitative_pass": false,
           "keyword_match_ratio": 0.0,
@@ -305,29 +305,31 @@
         "transformer"
       ],
       "ollama": {
-        "text": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Task: Summarize key points from the provided text.\n    *   Constraint: 2-3 sentences.\n    *   Input Text: A paragraph describing the evolution of AI from the 1950s to present day, including specific milestones and current challenges.\n\n2.  **An\n",
+        "text": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Task: Summarize the key points from the provided text.\n    *   Constraint: 2-3 sentences.\n    *   Input Text: A paragraph about the evolution of artificial intelligence (AI) from the 1950s to present day, including specific technologies and cur",
         "tokens_generated": 80,
-        "total_time_seconds": 18.043,
-        "first_token_time_seconds": 1.804,
-        "tokens_per_second": 4.43,
+        "total_time_seconds": 18.091,
+        "first_token_time_seconds": 1.809,
+        "tokens_per_second": 4.42,
         "quality": {
-          "is_qualitative_pass": false,
-          "keyword_match_ratio": 0.2,
+          "is_qualitative_pass": true,
+          "keyword_match_ratio": 0.6,
           "found_keywords": [
-            "ai"
+            "ai",
+            "artificial",
+            "intelligence"
           ],
           "is_coherent": true,
-          "output_length": 301
+          "output_length": 318
         },
         "tool_calling": {},
         "success": true
       },
       "llama_cpp": {
-        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b \b\n\n\n\u2584\u2584",
-        "tokens_generated": 260,
-        "total_time_seconds": 34.489,
-        "first_token_time_seconds": 5.173,
-        "tokens_per_second": 7.54,
+        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588",
+        "tokens_generated": 263,
+        "total_time_seconds": 34.203,
+        "first_token_time_seconds": 5.13,
+        "tokens_per_second": 7.69,
         "quality": {
           "is_qualitative_pass": false,
           "keyword_match_ratio": 0.0,
@@ -351,30 +353,29 @@
         "range"
       ],
       "ollama": {
-        "text": "The user wants a Python function to check if a number is prime, with comments included. I should:\n\n1. Create a function that takes a number as input\n2. Handle edge cases (numbers less than 2, even numbers, etc.)\n3. Implement an efficient algorithm to check for primality\n4. Add clear comments explain",
+        "text": "The user wants me to write a Python function to check if a number is prime, with comments. I should create a clear, efficient function with proper comments explaining what each part does.\n\nKey considerations for a prime number checker:\n1. Numbers less than 2 are not prime\n2. 2 is prime (the only eve",
         "tokens_generated": 100,
-        "total_time_seconds": 17.485,
-        "first_token_time_seconds": 1.748,
-        "tokens_per_second": 5.72,
+        "total_time_seconds": 17.654,
+        "first_token_time_seconds": 1.765,
+        "tokens_per_second": 5.66,
         "quality": {
-          "is_qualitative_pass": true,
-          "keyword_match_ratio": 0.4,
+          "is_qualitative_pass": false,
+          "keyword_match_ratio": 0.2,
           "found_keywords": [
-            "def",
             "prime"
           ],
           "is_coherent": true,
-          "output_length": 413
+          "output_length": 430
         },
         "tool_calling": {},
         "success": true
       },
       "llama_cpp": {
-        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588\u2588\n\u2588\u2588 \u2588\u2588  \u2580\u2580\u2588\u2584 \u2588\u2588\u2588\u2584\u2588\u2588",
-        "tokens_generated": 228,
-        "total_time_seconds": 28.724,
-        "first_token_time_seconds": 4.309,
-        "tokens_per_second": 7.94,
+        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588",
+        "tokens_generated": 222,
+        "total_time_seconds": 29.931,
+        "first_token_time_seconds": 4.49,
+        "tokens_per_second": 7.42,
         "quality": {
           "is_qualitative_pass": false,
           "keyword_match_ratio": 0.0,
@@ -398,11 +399,11 @@
         "join"
       ],
       "ollama": {
-        "text": "The user wants a simple JavaScript function to reverse a string. This is a straightforward task. I'll provide a clear, simple solution with a few different approaches.\n\nThe most common ways to reverse a string in JavaScript are:\n1. Using split(), reverse(), and join()\n2. Using a loop\n3. Using reduce",
+        "text": "The user wants a simple JavaScript function that reverses a string. This is a common beginner task. I'll provide a clear, simple solution with explanation.\n\nThere are multiple ways to reverse a string in JavaScript:\n1. Using split(), reverse(), join()\n2. Using a loop\n3. Using recursion\n\nI'll show th",
         "tokens_generated": 80,
-        "total_time_seconds": 14.168,
-        "first_token_time_seconds": 1.417,
-        "tokens_per_second": 5.65,
+        "total_time_seconds": 14.142,
+        "first_token_time_seconds": 1.414,
+        "tokens_per_second": 5.66,
         "quality": {
           "is_qualitative_pass": true,
           "keyword_match_ratio": 0.8,
@@ -413,17 +414,17 @@
             "join"
           ],
           "is_coherent": true,
-          "output_length": 363
+          "output_length": 383
         },
         "tool_calling": {},
         "success": true
       },
       "llama_cpp": {
-        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588\u2588\n\u2588\u2588 \u2588\u2588  \u2580\u2580\u2588\u2584 \u2588\u2588",
-        "tokens_generated": 210,
-        "total_time_seconds": 26.003,
-        "first_token_time_seconds": 3.9,
-        "tokens_per_second": 8.08,
+        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588\u2588\n\u2588\u2588 \u2588\u2588  \u2580\u2580\u2588\u2584 \u2588\u2588\u2588\u2584\u2588\u2588",
+        "tokens_generated": 198,
+        "total_time_seconds": 25.804,
+        "first_token_time_seconds": 3.871,
+        "tokens_per_second": 7.67,
         "quality": {
           "is_qualitative_pass": false,
           "keyword_match_ratio": 0.0,
@@ -445,9 +446,9 @@
       "ollama": {
         "text": "Thinking Process:\n\n1.  **Identify the core question:** The user is asking for the square root of 144.\n2\n\n",
         "tokens_generated": 30,
-        "total_time_seconds": 5.752,
-        "first_token_time_seconds": 0.575,
-        "tokens_per_second": 5.22,
+        "total_time_seconds": 5.842,
+        "first_token_time_seconds": 0.584,
+        "tokens_per_second": 5.14,
         "quality": {
           "is_qualitative_pass": false,
           "keyword_match_ratio": 0.0,
@@ -459,11 +460,11 @@
         "success": true
       },
       "llama_cpp": {
-        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588\u2588\n",
-        "tokens_generated": 145,
-        "total_time_seconds": 19.758,
-        "first_token_time_seconds": 2.964,
-        "tokens_per_second": 7.34,
+        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588\u2588\n\u2588\u2588 \u2588\u2588  \u2580",
+        "tokens_generated": 144,
+        "total_time_seconds": 19.248,
+        "first_token_time_seconds": 2.887,
+        "tokens_per_second": 7.48,
         "quality": {
           "is_qualitative_pass": false,
           "keyword_match_ratio": 0.0,
@@ -478,24 +479,24 @@
   ],
   "summary": {
     "ollama": {
-      "mean_tokens_per_second": 5.0,
-      "median_tokens_per_second": 5.23,
-      "max_tokens_per_second": 5.72,
-      "min_tokens_per_second": 3.1
+      "mean_tokens_per_second": 5.04,
+      "median_tokens_per_second": 5.19,
+      "max_tokens_per_second": 5.66,
+      "min_tokens_per_second": 3.57
     },
     "llama_cpp": {
-      "mean_tokens_per_second": 7.47,
-      "median_tokens_per_second": 7.44,
-      "max_tokens_per_second": 8.08,
-      "min_tokens_per_second": 6.8
+      "mean_tokens_per_second": 7.35,
+      "median_tokens_per_second": 7.47,
+      "max_tokens_per_second": 7.69,
+      "min_tokens_per_second": 6.48
     }
   },
-  "qualitative_assessment": "Ollama averages 5.0 tok/s, llama.cpp averages 7.5 tok/s. Llama.Cpp is approximately 33.1% faster. Ollama provides easier API integration and model management. llama.cpp offers more direct control and potentially lower overhead. Tool-calling depends on prompt engineering and model training, not backend.",
+  "qualitative_assessment": "Ollama averages 5.0 tok/s, llama.cpp averages 7.3 tok/s. Llama.Cpp is approximately 31.4% faster. Ollama provides easier API integration and model management. llama.cpp offers more direct control and potentially lower overhead. Tool-calling depends on prompt engineering and model training, not backend.",
   "attribution": {
     "benchmark": "Qwen3.5-35B Backend Comparison",
     "model": "Qwen3.5-35B-A3B-Q3_K_S (GGUF)",
     "ollama_version": "native",
     "llama_cpp_path": "/root/llama.cpp/build/bin/llama-cli",
-    "generated_at": "2026-02-27T03:32:25.941936"
+    "generated_at": "2026-02-27T08:18:43.008624"
   }
 }

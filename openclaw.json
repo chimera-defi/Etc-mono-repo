@@ -149,7 +149,7 @@
   "agents": {
     "defaults": {
       "model": {
-        "primary": "minimax/MiniMax-M2.5",
+        "primary": "anthropic/claude-haiku-4-5-20251001",
         "fallbacks": [
           "anthropic/claude-opus-4-6",
           "anthropic/claude-opus-4",
