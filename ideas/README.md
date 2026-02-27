@@ -159,3 +159,9 @@ DeFi protocol concept for ERC-8004 agent credit with Ethos vouching + reverse-Ke
 
 - **Coolify**: Self-hosted PaaS for VPS management
 - Self-hosted reseller platforms (alternatives to WHMCS)
+
+---
+
+## Research Notes
+
+- **Manus (A‑I‑M‑A‑N‑U‑S) acquisition + product assessment**: see `ideas/manus/README.md`
