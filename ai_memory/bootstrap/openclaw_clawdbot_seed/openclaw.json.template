@@ -10,6 +10,27 @@
       }
     }
   },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "ollama": {
+        "baseUrl": "http://127.0.0.1:11434/v1",
+        "apiKey": "ollama-local",
+        "api": "openai-completions"
+      },
+      "llama-server": {
+        "baseUrl": "http://127.0.0.1:8081/v1",
+        "apiKey": "llama-server-local",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "qwen3.5:35b",
+            "name": "Qwen3.5 35B (llama-server)"
+          }
+        ]
+      }
+    }
+  },
   "agents": {
     "defaults": {
       "model": {
