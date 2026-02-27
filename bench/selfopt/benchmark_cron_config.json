@@ -1,0 +1,49 @@
+{
+  "name": "Benchmark new models (qwen3.5 + glm)",
+  "description": "Runs qwen3.5:35b and glm-4.7-flash benchmark with lock checking and PR backup",
+  "schedule": [
+    {
+      "day": "tuesday",
+      "time": "09:00",
+      "description": "Tuesday 3 PM Berlin time (9 AM UTC)"
+    },
+    {
+      "day": "friday",
+      "time": "00:00",
+      "description": "Friday 6 PM Berlin time (Saturday 12 AM UTC next day)"
+    }
+  ],
+  "cron_expression": "0 9 * * 2,0 0 * * 6",
+  "command": "python3 /root/.openclaw/workspace/bench/selfopt/benchmark_with_lock.py",
+  "environment": {
+    "BENCHMARK_CREATE_PR": "true",
+    "BENCHMARK_REPO": "etc-mono-repo"
+  },
+  "working_directory": "/root/.openclaw/workspace",
+  "lock_mechanism": {
+    "type": "file_based",
+    "lock_file": "/tmp/benchmark_qwen_glm.lock",
+    "check_processes": true,
+    "check_supervisor_runs": true,
+    "timeout_seconds": 5
+  },
+  "models": [
+    "qwen3.5:35b",
+    "glm-4.7-flash"
+  ],
+  "phases": [
+    "atomic",
+    "extended"
+  ],
+  "outputs": {
+    "timestamped_results": "bench/results/qwen35_glm_comparison_<timestamp>.json",
+    "canonical_results": "bench/results/canonical.json"
+  },
+  "pr_config": {
+    "auto_create": true,
+    "repo": "etc-mono-repo",
+    "include_comparison": true,
+    "baseline_model": "lfm2.5-thinking:1.2b",
+    "attribution": "OpenClaw (qwen3.5 + glm benchmark runner)"
+  }
+}
