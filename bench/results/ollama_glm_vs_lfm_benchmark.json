@@ -1,95 +1,98 @@
 {
-  "timestamp": "2026-02-27T08:51:21",
+  "timestamp": "2026-02-27T08:59:31",
   "models": [
-    "ollama/glm-4.7-flash:latest",
-    "ollama/lfm2.5-thinking:1.2b"
+    "glm-4.7-flash:latest",
+    "lfm2.5-thinking:1.2b"
   ],
   "prompts": [
     {
       "prompt_id": "qa1",
       "prompt": "What is the capital of France?",
       "glm": {
-        "tokens": 91,
-        "time_seconds": 13.41,
-        "tokens_per_second": 6.78,
-        "success": true
+        "tokens": 193,
+        "time_s": 17.56,
+        "tok_s": 10.99,
+        "ok": true
       },
       "lfm": {
         "tokens": 225,
-        "time_seconds": 5.8,
-        "tokens_per_second": 38.82,
-        "success": true
+        "time_s": 5.81,
+        "tok_s": 38.75,
+        "ok": true
       }
     },
     {
       "prompt_id": "qa2",
       "prompt": "Explain photosynthesis in one sentence.",
       "glm": {
-        "tokens": 494,
-        "time_seconds": 45.98,
-        "tokens_per_second": 10.74,
-        "success": true
+        "tokens": 519,
+        "time_s": 48.25,
+        "tok_s": 10.76,
+        "ok": true
       },
       "lfm": {
-        "tokens": 1421,
-        "time_seconds": 37.15,
-        "tokens_per_second": 38.25,
-        "success": true
+        "tokens": 482,
+        "time_s": 12.32,
+        "tok_s": 39.14,
+        "ok": true
       }
     },
     {
       "prompt_id": "reasoning",
       "prompt": "If all cats are animals and Fluffy is a cat, is Fluffy an animal?",
       "glm": {
-        "tokens": 312,
-        "time_seconds": 28.99,
-        "tokens_per_second": 10.76,
-        "success": true
+        "tokens": 504,
+        "time_s": 47.15,
+        "tok_s": 10.69,
+        "ok": true
       },
       "lfm": {
-        "tokens": 818,
-        "time_seconds": 21.13,
-        "tokens_per_second": 38.71,
-        "success": true
+        "tokens": 782,
+        "time_s": 20.39,
+        "tok_s": 38.36,
+        "ok": true
       }
     },
     {
       "prompt_id": "math",
       "prompt": "What is 25 * 4?",
       "glm": {
-        "tokens": 125,
-        "time_seconds": 11.41,
-        "tokens_per_second": 10.95,
-        "success": true
+        "tokens": 183,
+        "time_s": 16.62,
+        "tok_s": 11.01,
+        "ok": true
       },
       "lfm": {
-        "tokens": 207,
-        "time_seconds": 5.48,
-        "tokens_per_second": 37.75,
-        "success": true
+        "tokens": 295,
+        "time_s": 7.59,
+        "tok_s": 38.86,
+        "ok": true
       }
     },
     {
       "prompt_id": "code",
       "prompt": "Write a Python function to reverse a string.",
       "glm": {
-        "tokens": 344,
-        "time_seconds": 31.61,
-        "tokens_per_second": 10.88,
-        "success": true
+        "tokens": 405,
+        "time_s": 37.56,
+        "tok_s": 10.78,
+        "ok": true
       },
       "lfm": {
-        "tokens": 637,
-        "time_seconds": 16.38,
-        "tokens_per_second": 38.88,
-        "success": true
+        "tokens": 843,
+        "time_s": 21.75,
+        "tok_s": 38.75,
+        "ok": true
       }
     }
   ],
   "summary": {
-    "glm_avg_tps": 10.02,
-    "lfm_avg_tps": 38.48,
+    "glm_avg_tok_s": 10.85,
+    "lfm_avg_tok_s": 38.77,
+    "prompts_tested": 5,
+    "glm_successful": 5,
+    "lfm_successful": 5,
     "winner": "lfm",
-    "delta_pct": 283.9
+    "delta_pct": 257.5
   }
 }
