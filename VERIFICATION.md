@@ -110,3 +110,21 @@ If verification fails, report the exact error.
 ---
 
 **This is non-negotiable.** Every completion claim must be backed by verified evidence.
+
+## Meta Learnings (Feb 27, 2026 — Phases A/B/C)
+
+1. **Single-entrypoint enforcement works**
+   - Consolidating benchmark flows into `bench/core/run_benchmark.py` reduced drift from side scripts.
+   - Side scripts should be wrappers/deprecated shims, not alternate sources of truth.
+
+2. **Schema + artifact verification gate is mandatory**
+   - Every phase claim must be backed by actual output files, parse checks, and timestamp sanity.
+   - PR comments should include explicit validation steps and observed outputs.
+
+3. **Backend benchmarking on CPU-only hosts requires exclusive windows**
+   - Running Ollama and llama.cpp concurrently skews/invalidates numbers due to shared CPU saturation.
+   - Use dedicated windows or stop competing local inference workloads before backend A/B comparison.
+
+4. **Subagent/Codex execution policy**
+   - Long, multi-step coding work can run in ACP/Codex subagents.
+   - Final truth still comes from main-session verification after subagent completion.

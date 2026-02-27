@@ -220,13 +220,15 @@ Co-authored-by: ModelName <model@vendor.invalid>
 7. **Use hooks:** `git config core.hooksPath .githooks` (validates commits locally)
 
 ### Benchmark-Specific Rules
-1. **Run benchmarks directly** (not in subagents)
-2. **Capture visible output** (stdout + stderr)
-3. **Log progress** as code executes
-4. **Validate results** before committing
-5. **Compare metrics** against previous runs (check for regressions)
-6. **No token tracking in code?** Don't claim tok/s metrics
-7. **Extended phase (P13-P30)** must be defined before testing
+1. **Prefer ACP/Codex subagents for long benchmark workflows** to keep main session responsive
+2. **Always verify artifacts in main session after subagent completion** (existence, timestamp, schema, metric traceability)
+3. **Capture visible output** (stdout + stderr)
+4. **Log progress** as code executes
+5. **Validate results** before committing
+6. **Compare metrics** against previous runs (check for regressions)
+7. **No token tracking in code?** Don't claim tok/s metrics
+8. **Extended phase (P13-P30)** must be defined before testing
+9. **CPU contention rule:** do not run Ollama and llama.cpp backend perf tests concurrently on this host; use exclusive benchmark windows
 
 ---
 
