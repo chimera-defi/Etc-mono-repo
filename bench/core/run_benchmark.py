@@ -279,6 +279,7 @@ def run_atomic_phase(
     model_cfg = get_model_config(model, config)
     variant_cfg = get_variant_config(model, variant, config)
     system_prompt = variant_cfg.get("system", model_cfg.get("system_prompt"))
+    effective_timeout_s = model_cfg.get("timeout_seconds", timeout_s)
     
     results = []
     passed = 0
@@ -319,7 +320,7 @@ def run_atomic_phase(
                 start = time.time()
                 
                 signal.signal(signal.SIGALRM, timeout_handler)
-                signal.alarm(TIMEOUT_SECONDS)
+                signal.alarm(effective_timeout_s)
                 
                 try:
                     response = ollama.chat(
@@ -342,7 +343,7 @@ def run_atomic_phase(
                     metrics = extract_ollama_metrics(response)
                     
                 except TimeoutError:
-                    err = f"TIMEOUT({TIMEOUT_SECONDS}s)"
+                    err = f"TIMEOUT({effective_timeout_s}s)"
                     timed_out = True
                 except Exception as e:
                     err = str(e)[:100]
@@ -496,6 +497,7 @@ def run_extended_phase(
     model_cfg = get_model_config(model, config)
     variant_cfg = get_variant_config(model, variant, config)
     system_prompt = variant_cfg.get("system", model_cfg.get("system_prompt"))
+    effective_timeout_s = model_cfg.get("timeout_seconds", timeout_s)
     
     results = []
     by_category = {}
@@ -545,7 +547,7 @@ def run_extended_phase(
             }
             
             signal.signal(signal.SIGALRM, timeout_handler)
-            signal.alarm(TIMEOUT_SECONDS)
+            signal.alarm(effective_timeout_s)
             
             try:
                 response = ollama.chat(
@@ -565,7 +567,7 @@ def run_extended_phase(
                 metrics = extract_ollama_metrics(response)
                 
             except TimeoutError:
-                err = f"TIMEOUT({TIMEOUT_SECONDS}s)"
+                err = f"TIMEOUT({effective_timeout_s}s)"
                 timed_out = True
             except Exception as e:
                 err = str(e)[:100]

@@ -103,15 +103,20 @@
     "qwen3.5:35b": {
       "name": "Qwen3.5-35B",
       "arch": "Transformer (Qwen3.5)",
-      "system_prompt": "You are a helpful assistant with access to tools.",
+      "system_prompt": "You are a helpful assistant. Use tool calls only when needed to satisfy the user request.",
       "temperature": 0.0,
-      "output_format": "native_tools",
+      "output_format": "native_tools_api",
       "notes": "35B model - uses native Ollama tools API, not bracket notation. High latency (~35s), needs 120s timeout.",
       "variants": {
         "atomic": {
-          "system": "When you need a tool, use: [tool_name(arg=\"value\")]",
+          "system": "You are a helpful assistant. Call tools when required by the user request. Avoid unnecessary tool calls.",
           "max_tokens": 500,
-          "description": "Bracket format for atomic prompts"
+          "description": "Native tool-calling variant for Qwen3.5 atomic prompts"
+        },
+        "extended": {
+          "system": "You are a helpful assistant. Track conversation context and call tools only when necessary for the user request.",
+          "max_tokens": 1000,
+          "description": "Native tool-calling variant for Qwen3.5 extended prompts"
         }
       },
       "timeout_seconds": 120
