@@ -1,5 +1,5 @@
 [Unit]
-Description=llama.cpp OpenAI-compatible server
+Description=llama.cpp OpenAI-compatible server (Qwen3.5-35B-A3B Q3_K_S)
 After=network-online.target
 Wants=network-online.target
 
@@ -7,13 +7,16 @@ Wants=network-online.target
 Type=simple
 User=root
 Group=root
-Environment=LLAMA_MODEL_PATH=/models/qwen3.5-35b-instruct.gguf
+Environment=LLAMA_MODEL_PATH=/root/.openclaw/models/Qwen3.5-35B-A3B-Q3_K_S.gguf
+Environment=LLAMA_SERVER_BIN=/root/llama.cpp/build/bin/llama-server
 Environment=LLAMA_HOST=127.0.0.1
 Environment=LLAMA_PORT=8081
-Environment=LLAMA_CTX=8192
-Environment=LLAMA_THREADS=8
+Environment=LLAMA_CTX=65536
+Environment=LLAMA_THREADS=4
 Environment=LLAMA_GPU_LAYERS=0
-ExecStart=/tmp/pr245-codex-ajhl/repo/bench/ops/start-llama-server.sh
+Environment=LLAMA_REASONING_BUDGET=0
+Environment=LLAMA_TEMP=0
+ExecStart=/root/.openclaw/workspace/bench/ops/start-llama-server.sh
 Restart=always
 RestartSec=5
 LimitNOFILE=65535
