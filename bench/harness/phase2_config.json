@@ -115,6 +115,27 @@
         }
       },
       "timeout_seconds": 120
+    },
+    "glm-4.7-flash:latest": {
+      "name": "GLM-4.7 Flash",
+      "arch": "Transformer (GLM 4.7 Flash)",
+      "system_prompt": "You are a helpful assistant. Call tools only when needed.",
+      "temperature": 0.0,
+      "output_format": "native_tools_api",
+      "notes": "Local Ollama model. Added for core harness compatibility and tok/s tracking.",
+      "variants": {
+        "atomic": {
+          "system": "You are a helpful assistant. Call tools only when the user request requires them.",
+          "max_tokens": 500,
+          "description": "Baseline atomic variant for GLM tool-calling"
+        },
+        "extended": {
+          "system": "You are a helpful assistant. Track conversation context. Call tools only when explicitly useful and necessary.",
+          "max_tokens": 1000,
+          "description": "Extended variant with context + restraint reminders"
+        }
+      },
+      "timeout_seconds": 90
     }
   },
   "early_exit": {
