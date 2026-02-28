@@ -331,7 +331,12 @@ def run_atomic_phase(
                         ],
                         tools=TOOLS,
                         stream=False,
-                        options={"temperature": 0.0}
+                        options={
+                            "temperature": 0.0,
+                            "num_predict": 512,  # Limit output tokens to prevent hangs
+                            "top_p": 0.9,
+                            "top_k": 40
+                        }
                     )
                     
                     msg = response.get("message", {})
@@ -555,7 +560,12 @@ def run_extended_phase(
                     messages=messages,
                     tools=TOOLS,
                     stream=False,
-                    options={"temperature": 0.0}
+                    options={
+                        "temperature": 0.0,
+                        "num_predict": 512,  # Limit output tokens to prevent hangs
+                        "top_p": 0.9,
+                        "top_k": 40
+                    }
                 )
                 
                 msg = response.get("message", {})
