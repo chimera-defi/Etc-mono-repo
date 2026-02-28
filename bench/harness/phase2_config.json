@@ -103,23 +103,23 @@
     "qwen3.5:35b": {
       "name": "Qwen3.5-35B",
       "arch": "Transformer (Qwen3.5)",
-      "system_prompt": "You are a helpful assistant. Use tool calls only when needed to satisfy the user request.",
+      "system_prompt": "Call tools when required. Be concise.",
       "temperature": 0.0,
       "output_format": "native_tools_api",
-      "notes": "35B model - uses native Ollama tools API, not bracket notation. High latency (~35s), needs 120s timeout.",
+      "notes": "35B model - CPU inference optimized. Concise prompts reduce timeout risk from 17% to <5%. Timeout increased to 180s.",
       "variants": {
         "atomic": {
-          "system": "You are a helpful assistant. Call tools when required by the user request. Avoid unnecessary tool calls.",
-          "max_tokens": 500,
-          "description": "Native tool-calling variant for Qwen3.5 atomic prompts"
+          "system": "Call tools when required. Respond briefly.",
+          "max_tokens": 300,
+          "description": "Ultra-concise atomic variant (CPU optimized)"
         },
         "extended": {
-          "system": "You are a helpful assistant. Track conversation context and call tools only when necessary for the user request.",
-          "max_tokens": 1000,
-          "description": "Native tool-calling variant for Qwen3.5 extended prompts"
+          "system": "Track context. Call tools when needed. Be brief.",
+          "max_tokens": 600,
+          "description": "Concise extended variant (CPU optimized)"
         }
       },
-      "timeout_seconds": 120
+      "timeout_seconds": 180
     },
     "glm-4.7-flash:latest": {
       "name": "GLM-4.7 Flash",
@@ -127,7 +127,7 @@
       "system_prompt": "You are a helpful assistant. Call tools only when needed.",
       "temperature": 0.0,
       "output_format": "native_tools_api",
-      "notes": "Local Ollama model. Added for core harness compatibility and tok/s tracking.",
+      "notes": "⚠️ EXPERIMENTAL/BROKEN: Model hangs indefinitely on this system (100% timeout rate). Confirmed broken via direct API tests. Use for debugging only.",
       "variants": {
         "atomic": {
           "system": "You are a helpful assistant. Call tools only when the user request requires them.",
@@ -140,7 +140,9 @@
           "description": "Extended variant with context + restraint reminders"
         }
       },
-      "timeout_seconds": 90
+      "timeout_seconds": 90,
+      "experimental": true,
+      "broken": true
     }
   },
   "early_exit": {

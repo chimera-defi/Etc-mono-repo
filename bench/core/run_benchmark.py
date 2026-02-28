@@ -323,6 +323,12 @@ def run_atomic_phase(
                 signal.alarm(effective_timeout_s)
                 
                 try:
+                    # Model-specific generation limits
+                    opts = {"temperature": 0.0}
+                    if "qwen3.5" in model.lower() or "glm" in model.lower():
+                        # Large/flaky models need token limits to prevent hangs
+                        opts.update({"num_predict": 1024, "top_p": 0.9, "top_k": 40})
+                    
                     response = ollama.chat(
                         model=model,
                         messages=[
@@ -331,12 +337,7 @@ def run_atomic_phase(
                         ],
                         tools=TOOLS,
                         stream=False,
-                        options={
-                            "temperature": 0.0,
-                            "num_predict": 512,  # Limit output tokens to prevent hangs
-                            "top_p": 0.9,
-                            "top_k": 40
-                        }
+                        options=opts
                     )
                     
                     msg = response.get("message", {})
@@ -555,17 +556,18 @@ def run_extended_phase(
             signal.alarm(effective_timeout_s)
             
             try:
+                # Model-specific generation limits
+                opts = {"temperature": 0.0}
+                if "qwen3.5" in model.lower() or "glm" in model.lower():
+                    # Large/flaky models need token limits to prevent hangs
+                    opts.update({"num_predict": 1024, "top_p": 0.9, "top_k": 40})
+                
                 response = ollama.chat(
                     model=model,
                     messages=messages,
                     tools=TOOLS,
                     stream=False,
-                    options={
-                        "temperature": 0.0,
-                        "num_predict": 512,  # Limit output tokens to prevent hangs
-                        "top_p": 0.9,
-                        "top_k": 40
-                    }
+                    options=opts
                 )
                 
                 msg = response.get("message", {})
