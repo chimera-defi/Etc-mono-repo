@@ -29,6 +29,8 @@ GEN_OUTPUT = BENCH_ROOT / "model_compare_generation_qwen3.5_vs_glm-4.7-flash.jso
 QWEN_ATOMIC_OUTPUT = BENCH_ROOT / "atomic_result_qwen3.5_atomic.json"
 GLM_ATOMIC_OUTPUT = BENCH_ROOT / "atomic_result_glm-4.7-flash_atomic.json"
 
+REQUIRED_LOCAL_MODELS = ["qwen3.5:35b", "glm-4.7-flash:latest"]
+
 SIGNATURE_INPUTS = [
     BENCH_ROOT / "core" / "run_benchmark.py",
     BENCH_ROOT / "harness" / "phase2_config.json",
@@ -76,6 +78,31 @@ def save_state(state: Dict) -> None:
     STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
     state["last_update"] = time.time()
     STATE_PATH.write_text(json.dumps(state, indent=2))
+
+
+def check_local_ollama_models() -> bool:
+    """Hard guard: ensure required local Ollama models exist before running benchmark."""
+    p = sh(["ollama", "list"])
+    if p.returncode != 0:
+        log("LOCAL_ONLY_GUARD: failed to query ollama list")
+        if p.stderr:
+            log(p.stderr[-800:])
+        return False
+
+    listed = set()
+    for line in (p.stdout or "").splitlines()[1:]:
+        line = line.strip()
+        if not line:
+            continue
+        listed.add(line.split()[0])
+
+    missing = [m for m in REQUIRED_LOCAL_MODELS if m not in listed]
+    if missing:
+        log(f"LOCAL_ONLY_GUARD: missing required local models: {missing}")
+        return False
+
+    log(f"LOCAL_ONLY_GUARD: required local models available: {REQUIRED_LOCAL_MODELS}")
+    return True
 
 
 def find_resume_dir(model: str, phase: str) -> Optional[str]:
@@ -137,7 +164,7 @@ def run_generation_part() -> bool:
     return valid_generation_output()
 
 
-def run_atomic_part(model: str, output_path: Path, timeout_s: int, resume_dir: Optional[str]) -> tuple[bool, Optional[str]]:
+def run_atomic_part(model: str, output_path: Path, timeout_s: int, resume_dir: Optional[str]) -> tuple[bool, bool, Optional[str]]:
     label = f"{model} atomic"
     log(f"Part: {label}")
     cmd = [
@@ -154,6 +181,7 @@ def run_atomic_part(model: str, output_path: Path, timeout_s: int, resume_dir: O
 
     # Resume only when checkpoint exists
     resume_candidate = resume_dir if (resume_dir and Path(resume_dir, "checkpoint.json").exists()) else find_resume_dir(model, "atomic")
+    resumed = bool(resume_candidate)
     if resume_candidate:
         cmd += ["--resume", resume_candidate]
         log(f"Resuming {label} from {resume_candidate}")
@@ -164,13 +192,13 @@ def run_atomic_part(model: str, output_path: Path, timeout_s: int, resume_dir: O
         log((p.stderr or p.stdout)[-1200:])
         # Store latest checkpoint dir if any
         latest_resume = find_resume_dir(model, "atomic")
-        return False, latest_resume
+        return False, resumed, latest_resume
 
     ok = valid_atomic_output(output_path)
-    return ok, None
+    return ok, resumed, None
 
 
-def report_outputs() -> None:
+def report_outputs(skipped_parts: List[str], resumed_parts: List[str]) -> None:
     def summarize(path: Path, name: str):
         if not path.exists():
             print(f"- {name}: MISSING ({path})")
@@ -196,10 +224,27 @@ def report_outputs() -> None:
     summarize(QWEN_ATOMIC_OUTPUT, "qwen atomic")
     summarize(GLM_ATOMIC_OUTPUT, "glm atomic")
 
+    print("\nOutput file paths:")
+    print(f"- generation compare: {GEN_OUTPUT}")
+    print(f"- qwen atomic: {QWEN_ATOMIC_OUTPUT}")
+    print(f"- glm atomic: {GLM_ATOMIC_OUTPUT}")
+
+    skipped = skipped_parts if skipped_parts else ["none"]
+    resumed = resumed_parts if resumed_parts else ["none"]
+    print("\nResume/caching status:")
+    print(f"- skipped_cached_parts: {', '.join(skipped)}")
+    print(f"- resumed_from_checkpoint: {', '.join(resumed)}")
+
 
 def main() -> int:
     sig = compute_signature()
     state = load_state()
+    skipped_parts: List[str] = []
+    resumed_parts: List[str] = []
+
+    if not check_local_ollama_models():
+        log("Aborting: local model guard failed")
+        return 2
 
     if state.get("harness_signature") != sig:
         log("Harness signature changed: resetting part status to pending")
@@ -216,12 +261,13 @@ def main() -> int:
         if valid_generation_output():
             log("Skipping generation compare (cached output valid)")
             state["parts"]["generation_compare"]["status"] = "done"
+            skipped_parts.append("generation_compare")
         else:
             ok = run_generation_part()
             state["parts"]["generation_compare"]["status"] = "done" if ok else "failed"
             save_state(state)
             if not ok:
-                report_outputs()
+                report_outputs(skipped_parts, resumed_parts)
                 return 1
 
     # Part 2: qwen atomic
@@ -230,18 +276,21 @@ def main() -> int:
             log("Skipping qwen atomic (cached output valid)")
             state["parts"]["qwen_atomic"]["status"] = "done"
             state["parts"]["qwen_atomic"]["resume_dir"] = ""
+            skipped_parts.append("qwen_atomic")
         else:
-            ok, resume_dir = run_atomic_part(
+            ok, resumed, resume_dir = run_atomic_part(
                 "qwen3.5:35b",
                 QWEN_ATOMIC_OUTPUT,
                 timeout_s=120,
                 resume_dir=state["parts"]["qwen_atomic"].get("resume_dir") or None,
             )
+            if resumed:
+                resumed_parts.append("qwen_atomic")
             state["parts"]["qwen_atomic"]["status"] = "done" if ok else "failed"
             state["parts"]["qwen_atomic"]["resume_dir"] = resume_dir or ""
             save_state(state)
             if not ok:
-                report_outputs()
+                report_outputs(skipped_parts, resumed_parts)
                 return 1
 
     # Part 3: glm atomic
@@ -250,22 +299,25 @@ def main() -> int:
             log("Skipping glm atomic (cached output valid)")
             state["parts"]["glm_atomic"]["status"] = "done"
             state["parts"]["glm_atomic"]["resume_dir"] = ""
+            skipped_parts.append("glm_atomic")
         else:
-            ok, resume_dir = run_atomic_part(
+            ok, resumed, resume_dir = run_atomic_part(
                 "glm-4.7-flash:latest",
                 GLM_ATOMIC_OUTPUT,
                 timeout_s=90,
                 resume_dir=state["parts"]["glm_atomic"].get("resume_dir") or None,
             )
+            if resumed:
+                resumed_parts.append("glm_atomic")
             state["parts"]["glm_atomic"]["status"] = "done" if ok else "failed"
             state["parts"]["glm_atomic"]["resume_dir"] = resume_dir or ""
             save_state(state)
             if not ok:
-                report_outputs()
+                report_outputs(skipped_parts, resumed_parts)
                 return 1
 
     save_state(state)
-    report_outputs()
+    report_outputs(skipped_parts, resumed_parts)
     print("\nMULTIPART_BENCHMARK_DONE")
     return 0
 
