@@ -37,10 +37,17 @@ import time
 import signal
 import csv
 import argparse
+import hashlib
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
-from dataclasses import dataclass, asdict
+from typing import Dict, List, Optional, Tuple, Any
+from dataclasses import dataclass, asdict, field
+import statistics as stats_mod
 import ollama
+
+try:
+    import requests
+except ImportError:
+    requests = None  # Only needed for compare mode
 
 # Import cache module
 from utils.result_cache import ResultCache, get_cache, get_prompts_for_phase
@@ -58,6 +65,16 @@ TIMEOUT_SECONDS = 60
 WORKSPACE = Path("/root/.openclaw/workspace/bench")
 CONFIG_PATH = WORKSPACE / "harness" / "phase2_config.json"
 SUITE_PATH = WORKSPACE / "extended_benchmark_suite.json"
+OLLAMA_BASE_URL = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
+LLAMA_SERVER_URL = os.environ.get("LLAMA_SERVER_URL", "http://127.0.0.1:8081")
+CACHE_DIR = WORKSPACE / ".cache"
+
+# Files to include in signature hash (changes invalidate cache)
+SIGNATURE_INPUTS = [
+    Path(__file__),  # This script
+    CONFIG_PATH,  # phase2_config.json
+    SUITE_PATH,  # extended_benchmark_suite.json
+]
 
 # =============================================================================
 # ATOMIC PHASE PROMPTS (P1-P12)
@@ -135,6 +152,55 @@ def timeout_handler(signum, frame):
     raise TimeoutError(f"Prompt exceeded {TIMEOUT_SECONDS}s")
 
 # =============================================================================
+# SIGNATURE-BASED CACHING
+# =============================================================================
+
+def compute_signature() -> str:
+    """Compute SHA256 hash of all signature inputs (scripts, configs, prompts)."""
+    h = hashlib.sha256()
+    for p in SIGNATURE_INPUTS:
+        h.update(str(p).encode())
+        if p.exists():
+            h.update(p.read_bytes())
+    return h.hexdigest()
+
+def get_cache_key(model: str, phase: str, variant: str) -> str:
+    """Generate cache key for a specific benchmark run."""
+    return f"{model}_{phase}_{variant}".replace("/", "_").replace(":", "_")
+
+def check_cache(model: str, phase: str, variant: str, signature: str) -> Optional[Dict]:
+    """Check if valid cached result exists for this run."""
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    cache_key = get_cache_key(model, phase, variant)
+    cache_file = CACHE_DIR / f"{cache_key}.json"
+    
+    if not cache_file.exists():
+        return None
+    
+    try:
+        cached = json.loads(cache_file.read_text())
+        if cached.get("harness_signature") == signature:
+            return cached.get("result")
+    except Exception:
+        pass
+    
+    return None
+
+def save_cache(model: str, phase: str, variant: str, signature: str, result: Dict) -> None:
+    """Save benchmark result to cache with signature."""
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    cache_key = get_cache_key(model, phase, variant)
+    cache_file = CACHE_DIR / f"{cache_key}.json"
+    
+    cache_data = {
+        "harness_signature": signature,
+        "cached_at": time.time(),
+        "result": result
+    }
+    
+    cache_file.write_text(json.dumps(cache_data, indent=2))
+
+# =============================================================================
 # CONFIG LOADING
 # =============================================================================
 
@@ -164,6 +230,33 @@ def get_variant_config(model: str, variant: str, config: Dict) -> Dict:
         raise ValueError(f"Variant '{variant}' not found for {model}. Available: {available}")
     return model_cfg["variants"][variant]
 
+
+def extract_ollama_metrics(response: Dict) -> Dict:
+    """Extract Ollama-native token/timing metrics from chat response.
+
+    Durations from Ollama are in nanoseconds.
+    """
+    eval_count = response.get("eval_count")
+    eval_duration_ns = response.get("eval_duration")
+    prompt_eval_count = response.get("prompt_eval_count")
+    prompt_eval_duration_ns = response.get("prompt_eval_duration")
+    total_duration_ns = response.get("total_duration")
+
+    tokens_per_second = None
+    if isinstance(eval_count, int) and eval_count >= 0 and isinstance(eval_duration_ns, (int, float)) and eval_duration_ns > 0:
+        tokens_per_second = eval_count / (eval_duration_ns / 1e9)
+
+    return {
+        "tokens_generated": eval_count if isinstance(eval_count, int) else None,
+        "prompt_tokens": prompt_eval_count if isinstance(prompt_eval_count, int) else None,
+        "tokens_per_second": tokens_per_second,
+        "ttft_ms": (prompt_eval_duration_ns / 1e6) if isinstance(prompt_eval_duration_ns, (int, float)) else None,
+        "eval_duration_ms": (eval_duration_ns / 1e6) if isinstance(eval_duration_ns, (int, float)) else None,
+        "prompt_eval_duration_ms": (prompt_eval_duration_ns / 1e6) if isinstance(prompt_eval_duration_ns, (int, float)) else None,
+        "total_duration_ms": (total_duration_ns / 1e6) if isinstance(total_duration_ns, (int, float)) else None,
+    }
+
+
 # =============================================================================
 # DATA MODELS
 # =============================================================================
@@ -179,6 +272,14 @@ class PromptResult:
     error: Optional[str] = None
     timeout: bool = False
     assistant_content: Optional[str] = None
+    # Ollama-native token/timing metrics (when available)
+    tokens_generated: Optional[int] = None
+    prompt_tokens: Optional[int] = None
+    tokens_per_second: Optional[float] = None
+    ttft_ms: Optional[float] = None
+    eval_duration_ms: Optional[float] = None
+    prompt_eval_duration_ms: Optional[float] = None
+    total_duration_ms: Optional[float] = None
 
 @dataclass
 class PhaseResult:
@@ -200,6 +301,12 @@ class PhaseResult:
     median_latency_ms: Optional[float] = None  # Median latency
     max_latency_ms: Optional[float] = None  # Max latency
     min_latency_ms: Optional[float] = None  # Min latency
+    avg_tps: Optional[float] = None
+    median_tps: Optional[float] = None
+    max_tps: Optional[float] = None
+    min_tps: Optional[float] = None
+    total_tokens_generated: Optional[int] = None
+    total_prompt_tokens: Optional[int] = None
     notes: str = ""
 
 # =============================================================================
@@ -230,6 +337,7 @@ def run_atomic_phase(
     model_cfg = get_model_config(model, config)
     variant_cfg = get_variant_config(model, variant, config)
     system_prompt = variant_cfg.get("system", model_cfg.get("system_prompt"))
+    effective_timeout_s = model_cfg.get("timeout_seconds", timeout_s)
     
     results = []
     passed = 0
@@ -254,6 +362,15 @@ def run_atomic_phase(
         err = None
         timed_out = False
         txt = None
+        metrics = {
+            "tokens_generated": None,
+            "prompt_tokens": None,
+            "tokens_per_second": None,
+            "ttft_ms": None,
+            "eval_duration_ms": None,
+            "prompt_eval_duration_ms": None,
+            "total_duration_ms": None,
+        }
         retry_count = 0
         
         while retry_count < max_retries:
@@ -261,9 +378,15 @@ def run_atomic_phase(
                 start = time.time()
                 
                 signal.signal(signal.SIGALRM, timeout_handler)
-                signal.alarm(TIMEOUT_SECONDS)
+                signal.alarm(effective_timeout_s)
                 
                 try:
+                    # Model-specific generation limits
+                    opts = {"temperature": 0.0}
+                    if "qwen3.5" in model.lower() or "glm" in model.lower():
+                        # Large/flaky models need token limits to prevent hangs
+                        opts.update({"num_predict": 1024, "top_p": 0.9, "top_k": 40})
+                    
                     response = ollama.chat(
                         model=model,
                         messages=[
@@ -272,7 +395,7 @@ def run_atomic_phase(
                         ],
                         tools=TOOLS,
                         stream=False,
-                        options={"temperature": 0.0}
+                        options=opts
                     )
                     
                     msg = response.get("message", {})
@@ -281,9 +404,10 @@ def run_atomic_phase(
                     if not isinstance(tool_calls, list):
                         tool_calls = []
                     got = [tc["function"]["name"] for tc in tool_calls if "function" in tc]
+                    metrics = extract_ollama_metrics(response)
                     
                 except TimeoutError:
-                    err = f"TIMEOUT({TIMEOUT_SECONDS}s)"
+                    err = f"TIMEOUT({effective_timeout_s}s)"
                     timed_out = True
                 except Exception as e:
                     err = str(e)[:100]
@@ -315,7 +439,9 @@ def run_atomic_phase(
         status = "✅" if correct else "❌"
         exp_str = f"exp={expected}" if expected else "exp=[]"
         got_str = f"got={got}" if got else "got=[]"
-        print(f"{status} {prompt_id}: {latency_ms:6.0f}ms | {exp_str:30s} {got_str}")
+        tps = metrics.get("tokens_per_second")
+        tps_str = f" | {tps:5.2f} tok/s" if isinstance(tps, (int, float)) else ""
+        print(f"{status} {prompt_id}: {latency_ms:6.0f}ms{tps_str} | {exp_str:30s} {got_str}")
         
         if err:
             print(f"   └─ ERROR: {err}")
@@ -328,7 +454,14 @@ def run_atomic_phase(
             latency_ms=latency_ms,
             error=err,
             timeout=timed_out,
-            assistant_content=txt
+            assistant_content=txt,
+            tokens_generated=metrics.get("tokens_generated"),
+            prompt_tokens=metrics.get("prompt_tokens"),
+            tokens_per_second=metrics.get("tokens_per_second"),
+            ttft_ms=metrics.get("ttft_ms"),
+            eval_duration_ms=metrics.get("eval_duration_ms"),
+            prompt_eval_duration_ms=metrics.get("prompt_eval_duration_ms"),
+            total_duration_ms=metrics.get("total_duration_ms"),
         ))
         
         # Save checkpoint after each prompt
@@ -347,12 +480,35 @@ def run_atomic_phase(
     accuracy = passed / total if total else 0
     restraint_score = restraint_passed / restraint_total if restraint_total else 0
     
-    # Calculate average latency
+    # Calculate latency statistics
     latencies = [r.latency_ms for r in results if r.latency_ms > 0]
-    avg_latency_ms = sum(latencies) / len(latencies) if latencies else 0
-    
+    if latencies:
+        latencies_sorted = sorted(latencies)
+        avg_latency_ms = sum(latencies) / len(latencies)
+        median_latency_ms = latencies_sorted[len(latencies_sorted) // 2]
+        max_latency_ms = max(latencies)
+        min_latency_ms = min(latencies)
+    else:
+        avg_latency_ms = median_latency_ms = max_latency_ms = min_latency_ms = 0
+
+    # Calculate throughput statistics
+    tps_values = [r.tokens_per_second for r in results if isinstance(r.tokens_per_second, (int, float)) and r.tokens_per_second > 0]
+    if tps_values:
+        tps_sorted = sorted(tps_values)
+        avg_tps = sum(tps_values) / len(tps_values)
+        median_tps = tps_sorted[len(tps_sorted) // 2]
+        max_tps = max(tps_values)
+        min_tps = min(tps_values)
+    else:
+        avg_tps = median_tps = max_tps = min_tps = None
+
+    total_tokens_generated = sum(r.tokens_generated for r in results if isinstance(r.tokens_generated, int))
+    total_prompt_tokens = sum(r.prompt_tokens for r in results if isinstance(r.prompt_tokens, int))
+
     print("=" * 80)
     print(f"RESULT: {passed}/{total} passed ({accuracy*100:.1f}%) | Restraint: {restraint_score:.2f} | Latency: avg={avg_latency_ms:.0f}ms med={median_latency_ms:.0f}ms max={max_latency_ms:.0f}ms")
+    if avg_tps is not None:
+        print(f"THROUGHPUT: avg={avg_tps:.2f} tok/s med={median_tps:.2f} max={max_tps:.2f} | tokens={total_tokens_generated}")
     print("=" * 80)
     
     return PhaseResult(
@@ -371,7 +527,13 @@ def run_atomic_phase(
         avg_latency_ms=avg_latency_ms,
         median_latency_ms=median_latency_ms,
         max_latency_ms=max_latency_ms,
-        min_latency_ms=min_latency_ms
+        min_latency_ms=min_latency_ms,
+        avg_tps=avg_tps,
+        median_tps=median_tps,
+        max_tps=max_tps,
+        min_tps=min_tps,
+        total_tokens_generated=total_tokens_generated,
+        total_prompt_tokens=total_prompt_tokens,
     )
 
 def run_extended_phase(
@@ -399,6 +561,7 @@ def run_extended_phase(
     model_cfg = get_model_config(model, config)
     variant_cfg = get_variant_config(model, variant, config)
     system_prompt = variant_cfg.get("system", model_cfg.get("system_prompt"))
+    effective_timeout_s = model_cfg.get("timeout_seconds", timeout_s)
     
     results = []
     by_category = {}
@@ -437,17 +600,32 @@ def run_extended_phase(
             err = None
             txt = None
             timed_out = False
+            metrics = {
+                "tokens_generated": None,
+                "prompt_tokens": None,
+                "tokens_per_second": None,
+                "ttft_ms": None,
+                "eval_duration_ms": None,
+                "prompt_eval_duration_ms": None,
+                "total_duration_ms": None,
+            }
             
             signal.signal(signal.SIGALRM, timeout_handler)
-            signal.alarm(TIMEOUT_SECONDS)
+            signal.alarm(effective_timeout_s)
             
             try:
+                # Model-specific generation limits
+                opts = {"temperature": 0.0}
+                if "qwen3.5" in model.lower() or "glm" in model.lower():
+                    # Large/flaky models need token limits to prevent hangs
+                    opts.update({"num_predict": 1024, "top_p": 0.9, "top_k": 40})
+                
                 response = ollama.chat(
                     model=model,
                     messages=messages,
                     tools=TOOLS,
                     stream=False,
-                    options={"temperature": 0.0}
+                    options=opts
                 )
                 
                 msg = response.get("message", {})
@@ -456,9 +634,10 @@ def run_extended_phase(
                 if not isinstance(tool_calls, list):
                     tool_calls = []
                 got = [tc["function"]["name"] for tc in tool_calls if "function" in tc]
+                metrics = extract_ollama_metrics(response)
                 
             except TimeoutError:
-                err = f"TIMEOUT({TIMEOUT_SECONDS}s)"
+                err = f"TIMEOUT({effective_timeout_s}s)"
                 timed_out = True
             except Exception as e:
                 err = str(e)[:100]
@@ -478,7 +657,9 @@ def run_extended_phase(
             status = "✅" if correct else "❌"
             exp_str = f"exp={expected}" if expected else "exp=[]"
             got_str = f"got={got}" if got else "got=[]"
-            print(f"    {status} {prompt_id}: {latency_ms:6.0f}ms | {exp_str:30s} {got_str}")
+            tps = metrics.get("tokens_per_second")
+            tps_str = f" | {tps:5.2f} tok/s" if isinstance(tps, (int, float)) else ""
+            print(f"    {status} {prompt_id}: {latency_ms:6.0f}ms{tps_str} | {exp_str:30s} {got_str}")
             
             if err:
                 print(f"       └─ ERROR: {err}")
@@ -491,7 +672,14 @@ def run_extended_phase(
                 latency_ms=latency_ms,
                 error=err,
                 timeout=timed_out,
-                assistant_content=txt
+                assistant_content=txt,
+                tokens_generated=metrics.get("tokens_generated"),
+                prompt_tokens=metrics.get("prompt_tokens"),
+                tokens_per_second=metrics.get("tokens_per_second"),
+                ttft_ms=metrics.get("ttft_ms"),
+                eval_duration_ms=metrics.get("eval_duration_ms"),
+                prompt_eval_duration_ms=metrics.get("prompt_eval_duration_ms"),
+                total_duration_ms=metrics.get("total_duration_ms"),
             ))
             
             # Save checkpoint after each prompt
@@ -525,9 +713,25 @@ def run_extended_phase(
         min_latency_ms = min(latencies)
     else:
         avg_latency_ms = median_latency_ms = max_latency_ms = min_latency_ms = 0
-    
+
+    # Calculate throughput statistics
+    tps_values = [r.tokens_per_second for r in results if isinstance(r.tokens_per_second, (int, float)) and r.tokens_per_second > 0]
+    if tps_values:
+        tps_sorted = sorted(tps_values)
+        avg_tps = sum(tps_values) / len(tps_values)
+        median_tps = tps_sorted[len(tps_sorted) // 2]
+        max_tps = max(tps_values)
+        min_tps = min(tps_values)
+    else:
+        avg_tps = median_tps = max_tps = min_tps = None
+
+    total_tokens_generated = sum(r.tokens_generated for r in results if isinstance(r.tokens_generated, int))
+    total_prompt_tokens = sum(r.prompt_tokens for r in results if isinstance(r.prompt_tokens, int))
+
     print("\n" + "=" * 80)
     print(f"RESULT: {passed}/{total} passed ({total_accuracy*100:.1f}%) | Latency: avg={avg_latency_ms:.0f}ms med={median_latency_ms:.0f}ms max={max_latency_ms:.0f}ms")
+    if avg_tps is not None:
+        print(f"THROUGHPUT: avg={avg_tps:.2f} tok/s med={median_tps:.2f} max={max_tps:.2f} | tokens={total_tokens_generated}")
     print("=" * 80)
     
     # Clear checkpoint on successful completion
@@ -550,7 +754,13 @@ def run_extended_phase(
         avg_latency_ms=avg_latency_ms,
         median_latency_ms=median_latency_ms,
         max_latency_ms=max_latency_ms,
-        min_latency_ms=min_latency_ms
+        min_latency_ms=min_latency_ms,
+        avg_tps=avg_tps,
+        median_tps=median_tps,
+        max_tps=max_tps,
+        min_tps=min_tps,
+        total_tokens_generated=total_tokens_generated,
+        total_prompt_tokens=total_prompt_tokens,
     )
 
 # =============================================================================
@@ -570,7 +780,17 @@ def save_json_output(result: PhaseResult, output_path: Path) -> None:
             "passed": result.passed,
             "total": result.total,
             "accuracy": result.accuracy,
-            "restraint_score": result.restraint_score
+            "restraint_score": result.restraint_score,
+            "avg_latency_ms": result.avg_latency_ms,
+            "median_latency_ms": result.median_latency_ms,
+            "max_latency_ms": result.max_latency_ms,
+            "min_latency_ms": result.min_latency_ms,
+            "avg_tps": result.avg_tps,
+            "median_tps": result.median_tps,
+            "max_tps": result.max_tps,
+            "min_tps": result.min_tps,
+            "total_tokens_generated": result.total_tokens_generated,
+            "total_prompt_tokens": result.total_prompt_tokens,
         },
         "by_category": result.by_category,
         "failed_prompts": result.failed_prompts,
@@ -593,6 +813,9 @@ def save_csv_output(result: PhaseResult, output_path: Path) -> None:
             "Total",
             "Accuracy %",
             "Restraint Score",
+            "Avg Latency (ms)",
+            "Avg TPS",
+            "Total Tokens",
             "Failed Prompts"
         ])
         
@@ -605,6 +828,9 @@ def save_csv_output(result: PhaseResult, output_path: Path) -> None:
             result.total,
             f"{result.accuracy*100:.1f}",
             restraint,
+            f"{result.avg_latency_ms:.0f}" if result.avg_latency_ms is not None else "N/A",
+            f"{result.avg_tps:.2f}" if result.avg_tps is not None else "N/A",
+            result.total_tokens_generated if result.total_tokens_generated is not None else "N/A",
             ",".join(result.failed_prompts) if result.failed_prompts else "None"
         ])
         
@@ -616,6 +842,10 @@ def save_csv_output(result: PhaseResult, output_path: Path) -> None:
             "Got",
             "Correct",
             "Latency (ms)",
+            "Tokens Generated",
+            "Prompt Tokens",
+            "TPS",
+            "TTFT (ms)",
             "Error",
             "Timeout"
         ])
@@ -627,6 +857,10 @@ def save_csv_output(result: PhaseResult, output_path: Path) -> None:
                 ",".join(r.got) if r.got else "[]",
                 "YES" if r.correct else "NO",
                 f"{r.latency_ms:.0f}",
+                r.tokens_generated if r.tokens_generated is not None else "",
+                r.prompt_tokens if r.prompt_tokens is not None else "",
+                f"{r.tokens_per_second:.2f}" if r.tokens_per_second is not None else "",
+                f"{r.ttft_ms:.2f}" if r.ttft_ms is not None else "",
                 r.error or "",
                 "YES" if r.timeout else "NO"
             ])
@@ -648,6 +882,10 @@ def print_summary(result: PhaseResult) -> None:
     if result.restraint_score is not None:
         print(f"║ Restraint Score:    {result.restraint_score:.2f}                        {' '*38}║")
     
+    if result.avg_tps is not None:
+        print(f"║ Throughput:         avg={result.avg_tps:>6.2f} tok/s (med={result.median_tps:>6.2f}, max={result.max_tps:>6.2f}){' '*11}║")
+        print(f"║ Tokens:             gen={result.total_tokens_generated or 0}, prompt={result.total_prompt_tokens or 0}{' '*31}║")
+
     if result.by_category:
         print("║ By Category:                                                           ║")
         for category, stats in result.by_category.items():
@@ -657,6 +895,269 @@ def print_summary(result: PhaseResult) -> None:
     print(f"""║ Failed:             {",".join(result.failed_prompts) if result.failed_prompts else "None":<60s} ║
 ╚════════════════════════════════════════════════════════════════════════════╝
 """)
+
+# =============================================================================
+# COMPARE MODE — Backend comparison (Ollama vs llama-server)
+# =============================================================================
+
+COMPARE_PROMPTS = [
+    {"id": "simple_qa_1", "category": "simple_qa", "prompt": "What is the capital of France?", "expected_keywords": ["paris", "Paris"], "max_tokens": 50},
+    {"id": "simple_qa_2", "category": "simple_qa", "prompt": "Explain what photosynthesis is in one sentence.", "expected_keywords": ["light", "plant", "energy", "convert"], "max_tokens": 60},
+    {"id": "reasoning_1", "category": "reasoning", "prompt": "If all roses are flowers and some flowers fade quickly, what can we conclude about roses?", "expected_keywords": ["may", "might", "some", "could", "fade"], "max_tokens": 80},
+    {"id": "reasoning_2", "category": "reasoning", "prompt": "A train travels 60 mph. Another train travels 80 mph. They start 280 miles apart heading toward each other. How long until they meet?", "expected_keywords": ["2", "hours"], "max_tokens": 60},
+    {"id": "coding_1", "category": "coding", "prompt": "Write a Python function to check if a number is prime. Include comments.", "expected_keywords": ["def", "prime", "return", "%", "range"], "max_tokens": 100},
+    {"id": "coding_2", "category": "coding", "prompt": "Write a simple JavaScript function that reverses a string.", "expected_keywords": ["function", "return", "reverse"], "max_tokens": 80},
+    {"id": "math_1", "category": "math", "prompt": "What is the square root of 144?", "expected_keywords": ["12"], "max_tokens": 30},
+    {"id": "long_context_1", "category": "long_context", "prompt": "Summarize: AI evolved from 1950s symbolic systems to ML in the 1990s, deep learning in the 2010s, and transformers in 2017. LLMs now demonstrate emergent reasoning. Challenges: efficiency, hallucination, AGI.", "expected_keywords": ["ai", "deep learning", "transformer"], "max_tokens": 80},
+]
+
+
+def _call_openai_compat(base_url: str, model: str, prompt: str, max_tokens: int, timeout: int = 120) -> Dict[str, Any]:
+    """Call an OpenAI-compatible endpoint (Ollama /v1 or llama-server) and return metrics."""
+    if requests is None:
+        raise ImportError("requests is required for compare mode: pip install requests")
+    url = f"{base_url}/v1/chat/completions"
+    payload = {
+        "model": model,
+        "messages": [{"role": "user", "content": prompt}],
+        "max_tokens": max_tokens,
+        "temperature": 0.7,
+        "stream": False,
+    }
+    start = time.time()
+    resp = requests.post(url, json=payload, timeout=timeout)
+    resp.raise_for_status()
+    elapsed = time.time() - start
+    data = resp.json()
+    choice = data.get("choices", [{}])[0]
+    text = choice.get("message", {}).get("content", "")
+    usage = data.get("usage", {})
+    completion_tokens = usage.get("completion_tokens", 0)
+    prompt_tokens = usage.get("prompt_tokens", 0)
+    tps = completion_tokens / elapsed if elapsed > 0 and completion_tokens > 0 else 0
+    return {
+        "text": text,
+        "tokens_generated": completion_tokens,
+        "prompt_tokens": prompt_tokens,
+        "total_time": elapsed,
+        "tokens_per_second": tps,
+    }
+
+
+def _keyword_check(text: str, keywords: List[str]) -> float:
+    """Return fraction of keywords found in text (case-insensitive)."""
+    if not keywords:
+        return 1.0
+    text_lower = text.lower()
+    found = sum(1 for kw in keywords if kw.lower() in text_lower)
+    return found / len(keywords)
+
+
+def run_compare_mode(
+    model: str,
+    backends: List[Dict[str, str]],
+    timeout_s: int = 120,
+) -> Dict[str, Any]:
+    """Run backend comparison benchmark.
+
+    Args:
+        model: model name for Ollama (e.g. 'qwen3.5:35b')
+        backends: list of dicts with keys 'name' and 'base_url'
+                  e.g. [{"name": "ollama", "base_url": "http://localhost:11434"},
+                        {"name": "llama-server", "base_url": "http://127.0.0.1:8081"}]
+        timeout_s: per-prompt timeout
+
+    Returns:
+        dict with prompt_results, summary, and qualitative_assessment
+    """
+    from datetime import datetime
+
+    results: Dict[str, Any] = {
+        "timestamp": datetime.now().isoformat(),
+        "model": model,
+        "backends": [b["name"] for b in backends],
+        "prompt_results": [],
+        "summary": {},
+    }
+
+    backend_metrics: Dict[str, List[float]] = {b["name"]: [] for b in backends}
+
+    for tp in COMPARE_PROMPTS:
+        print(f"\n{'='*60}")
+        print(f"  {tp['id']} ({tp['category']})")
+        print(f"{'='*60}")
+
+        prompt_result: Dict[str, Any] = {
+            "prompt_id": tp["id"],
+            "category": tp["category"],
+        }
+
+        for backend in backends:
+            bname = backend["name"]
+            burl = backend["base_url"]
+            print(f"  → {bname}...", end=" ", flush=True)
+            try:
+                r = _call_openai_compat(burl, model, tp["prompt"], tp["max_tokens"], timeout=timeout_s)
+                kw_score = _keyword_check(r["text"], tp["expected_keywords"])
+                r["keyword_match_ratio"] = round(kw_score, 2)
+                r["qualitative_pass"] = kw_score >= 0.3 and len(r["text"]) > 10
+                backend_metrics[bname].append(r["tokens_per_second"])
+                print(f"✓ {r['tokens_generated']} tok in {r['total_time']:.2f}s = {r['tokens_per_second']:.2f} tok/s")
+                prompt_result[bname] = {k: (round(v, 3) if isinstance(v, float) else v) for k, v in r.items() if k != "text"}
+                prompt_result[bname]["text_preview"] = r["text"][:200]
+                prompt_result[bname]["success"] = True
+            except Exception as e:
+                print(f"✗ {e}")
+                prompt_result[bname] = {"success": False, "error": str(e)}
+
+        results["prompt_results"].append(prompt_result)
+
+    # Summaries
+    for bname, tps_list in backend_metrics.items():
+        if tps_list:
+            results["summary"][bname] = {
+                "mean_tps": round(stats_mod.mean(tps_list), 2),
+                "median_tps": round(stats_mod.median(tps_list), 2),
+                "max_tps": round(max(tps_list), 2),
+                "min_tps": round(min(tps_list), 2),
+                "prompts_succeeded": len(tps_list),
+            }
+
+    # Qualitative assessment
+    names = list(backend_metrics.keys())
+    if len(names) >= 2:
+        means = {n: results["summary"].get(n, {}).get("mean_tps", 0) for n in names}
+        sorted_names = sorted(means, key=means.get, reverse=True)
+        if means[sorted_names[1]] > 0:
+            pct = (means[sorted_names[0]] - means[sorted_names[1]]) / means[sorted_names[1]] * 100
+            results["qualitative_assessment"] = (
+                f"{sorted_names[0]} averages {means[sorted_names[0]]:.1f} tok/s vs "
+                f"{sorted_names[1]} at {means[sorted_names[1]]:.1f} tok/s "
+                f"({pct:.1f}% faster)."
+            )
+
+    return results
+
+
+# =============================================================================
+# MODEL-VS-MODEL COMPARE (same backend, different models)
+# =============================================================================
+
+def run_model_compare(
+    models: List[str],
+    config: Dict,
+    phase: str = "atomic",
+    variant: str = "atomic",
+    timeout_s: int = 60,
+    max_retries: int = 1,
+) -> List[PhaseResult]:
+    """Run tool-calling benchmark for multiple models and return list of PhaseResults."""
+    all_results = []
+    for model in models:
+        print(f"\n{'#'*70}")
+        print(f"# MODEL: {model}")
+        print(f"{'#'*70}")
+        if phase == "atomic":
+            result = run_atomic_phase(model, variant, config, timeout_s=timeout_s, max_retries=max_retries)
+        else:
+            suite = load_extended_suite()
+            result = run_extended_phase(model, variant, config, suite, timeout_s=timeout_s, max_retries=max_retries)
+        print_summary(result)
+        all_results.append(result)
+
+    # Print comparison table
+    if len(all_results) > 1:
+        print(f"\n{'='*80}")
+        print("MODEL COMPARISON (TOOL-CALLING)")
+        print(f"{'='*80}")
+        print(f"{'Model':<30s} {'Accuracy':>10s} {'Restraint':>10s} {'Avg TPS':>10s} {'Med TPS':>10s} {'Avg Lat(ms)':>12s}")
+        print("-" * 82)
+        for r in all_results:
+            rest = f"{r.restraint_score:.2f}" if r.restraint_score is not None else "N/A"
+            atps = f"{r.avg_tps:.2f}" if r.avg_tps is not None else "N/A"
+            mtps = f"{r.median_tps:.2f}" if r.median_tps is not None else "N/A"
+            alat = f"{r.avg_latency_ms:.0f}" if r.avg_latency_ms is not None else "N/A"
+            print(f"{r.model:<30s} {r.accuracy*100:>9.1f}% {rest:>10s} {atps:>10s} {mtps:>10s} {alat:>12s}")
+        print("=" * 82)
+
+    return all_results
+
+
+def run_generation_model_compare(models: List[str], backend_url: str, timeout_s: int = 120) -> Dict[str, Any]:
+    """Compare multiple models on the same backend using shared generation prompts.
+
+    This replaces standalone GLM-vs-LFM style speed/quality scripts.
+    """
+    from datetime import datetime
+
+    results: Dict[str, Any] = {
+        "timestamp": datetime.now().isoformat(),
+        "backend_url": backend_url,
+        "models": models,
+        "prompt_results": [],
+        "summary": {},
+    }
+
+    metrics: Dict[str, List[float]] = {m: [] for m in models}
+
+    for tp in COMPARE_PROMPTS:
+        print(f"\n{'='*60}")
+        print(f"  {tp['id']} ({tp['category']})")
+        print(f"{'='*60}")
+
+        row: Dict[str, Any] = {
+            "prompt_id": tp["id"],
+            "category": tp["category"],
+        }
+
+        for model in models:
+            print(f"  → {model}...", end=" ", flush=True)
+            try:
+                r = _call_openai_compat(backend_url, model, tp["prompt"], tp["max_tokens"], timeout=timeout_s)
+                kw = _keyword_check(r["text"], tp["expected_keywords"])
+                r["keyword_match_ratio"] = round(kw, 2)
+                r["qualitative_pass"] = kw >= 0.3 and len(r["text"]) > 10
+                metrics[model].append(r["tokens_per_second"])
+                print(f"✓ {r['tokens_generated']} tok in {r['total_time']:.2f}s = {r['tokens_per_second']:.2f} tok/s")
+                row[model] = {
+                    "success": True,
+                    "tokens_generated": r["tokens_generated"],
+                    "prompt_tokens": r["prompt_tokens"],
+                    "tokens_per_second": round(r["tokens_per_second"], 2),
+                    "total_time_seconds": round(r["total_time"], 3),
+                    "keyword_match_ratio": r["keyword_match_ratio"],
+                    "text_preview": r["text"][:180],
+                }
+            except Exception as e:
+                print(f"✗ {e}")
+                row[model] = {"success": False, "error": str(e)}
+
+        results["prompt_results"].append(row)
+
+    for model, tps_list in metrics.items():
+        if tps_list:
+            results["summary"][model] = {
+                "mean_tps": round(stats_mod.mean(tps_list), 2),
+                "median_tps": round(stats_mod.median(tps_list), 2),
+                "max_tps": round(max(tps_list), 2),
+                "min_tps": round(min(tps_list), 2),
+                "prompts_succeeded": len(tps_list),
+            }
+
+    # Console comparison
+    if len(models) > 1:
+        print(f"\n{'='*80}")
+        print("MODEL COMPARISON (GENERATION)")
+        print(f"{'='*80}")
+        print(f"{'Model':<30s} {'Mean TPS':>10s} {'Median TPS':>12s} {'Max TPS':>10s} {'Succeeded':>10s}")
+        print("-" * 80)
+        for model in models:
+            s = results["summary"].get(model, {})
+            print(f"{model:<30s} {s.get('mean_tps',0):>10.2f} {s.get('median_tps',0):>12.2f} {s.get('max_tps',0):>10.2f} {s.get('prompts_succeeded',0):>10d}")
+        print("=" * 80)
+
+    return results
+
 
 # =============================================================================
 # MAIN ENTRY POINT
@@ -670,10 +1171,12 @@ Examples:
   python3 run_benchmark.py lfm2.5-thinking:1.2b atomic atomic
   python3 run_benchmark.py mistral:7b extended atomic --output csv
   python3 run_benchmark.py gpt-oss:latest phase2 atomic --output json
+  python3 run_benchmark.py qwen3.5:35b --mode compare --backends ollama,llama-server
+  python3 run_benchmark.py lfm2.5-thinking:1.2b,glm-4.7-flash:latest --mode model-compare
         """
     )
     
-    parser.add_argument("model", help="Model name (e.g., lfm2.5-thinking:1.2b)")
+    parser.add_argument("model", help="Model name(s), comma-separated for model-compare mode")
     parser.add_argument(
         "phase",
         nargs='?',
@@ -685,6 +1188,36 @@ Examples:
         nargs='?',
         default="atomic",
         help="Variant: atomic|extended (default: atomic)"
+    )
+    parser.add_argument(
+        "--mode",
+        choices=["standard", "compare", "model-compare"],
+        default="standard",
+        help="Mode: standard (tool-calling), compare (backend A/B), model-compare (multi-model)"
+    )
+    parser.add_argument(
+        "--backends",
+        type=str,
+        default="ollama,llama-server",
+        help="Comma-separated backend names for compare mode (default: ollama,llama-server)"
+    )
+    parser.add_argument(
+        "--llama-server-url",
+        type=str,
+        default=LLAMA_SERVER_URL,
+        help=f"llama-server base URL (default: {LLAMA_SERVER_URL})"
+    )
+    parser.add_argument(
+        "--backend-url",
+        type=str,
+        default=OLLAMA_BASE_URL,
+        help=f"Backend URL for generation-style model-compare (default: {OLLAMA_BASE_URL})"
+    )
+    parser.add_argument(
+        "--model-compare-style",
+        choices=["tool-calling", "generation"],
+        default="tool-calling",
+        help="model-compare style: tool-calling (harness phases) or generation (shared prompts)"
     )
     parser.add_argument(
         "--output",
@@ -733,7 +1266,58 @@ Examples:
     )
     
     args, extra = parser.parse_known_args()
-    
+
+    # ── Compare mode (backend A/B) ────────────────────────────────────────
+    if args.mode == "compare":
+        backend_names = [b.strip() for b in args.backends.split(",")]
+        backend_urls = {
+            "ollama": OLLAMA_BASE_URL,
+            "llama-server": args.llama_server_url,
+        }
+        backends = []
+        for bn in backend_names:
+            url = backend_urls.get(bn, bn)  # allow raw URLs too
+            backends.append({"name": bn, "base_url": url})
+        print(f"🔀 Compare mode: {args.model} across {[b['name'] for b in backends]}")
+        result = run_compare_mode(args.model, backends, timeout_s=args.timeout)
+        if not args.no_save:
+            outpath = WORKSPACE / f"compare_{args.model.split(':')[0]}_{'_vs_'.join(backend_names)}.json"
+            outpath.write_text(json.dumps(result, indent=2))
+            print(f"\n💾 Saved: {outpath}")
+        # Print summary
+        for bname, bstats in result.get("summary", {}).items():
+            print(f"\n{bname}: mean={bstats.get('mean_tps',0):.2f} tok/s  median={bstats.get('median_tps',0):.2f}")
+        if "qualitative_assessment" in result:
+            print(f"\n{result['qualitative_assessment']}")
+        return
+
+    # ── Model-compare mode (multi-model, same backend) ────────────────────
+    if args.mode == "model-compare":
+        models = [m.strip() for m in args.model.split(",")]
+        phase = (args.phase or "atomic").lower()
+        if phase == "phase2":
+            phase = "atomic"
+        print(f"🔀 Model-compare mode: {models} ({args.model_compare_style})")
+
+        if args.model_compare_style == "generation":
+            result = run_generation_model_compare(models, backend_url=args.backend_url, timeout_s=args.timeout)
+            if not args.no_save:
+                slug = "_vs_".join(m.split(":")[0] for m in models)
+                outpath = WORKSPACE / f"model_compare_generation_{slug}.json"
+                outpath.write_text(json.dumps(result, indent=2))
+                print(f"💾 Saved: {outpath}")
+        else:
+            config = load_harness_config()
+            all_results = run_model_compare(models, config, phase=phase, variant=args.variant,
+                                            timeout_s=args.timeout, max_retries=args.max_retries)
+            if not args.no_save:
+                for r in all_results:
+                    outpath = WORKSPACE / f"{phase}_result_{r.model.split(':')[0]}_{args.variant}.json"
+                    save_json_output(r, outpath)
+                    print(f"💾 Saved: {outpath}")
+        return
+
+    # ── Standard mode (tool-calling benchmark) ────────────────────────────
     # Normalize phase
     phase = (args.phase or "atomic").lower()
     if phase == "phase2":
