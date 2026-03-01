@@ -37,6 +37,7 @@ import time
 import signal
 import csv
 import argparse
+import hashlib
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Any
 from dataclasses import dataclass, asdict, field
@@ -66,6 +67,14 @@ CONFIG_PATH = WORKSPACE / "harness" / "phase2_config.json"
 SUITE_PATH = WORKSPACE / "extended_benchmark_suite.json"
 OLLAMA_BASE_URL = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
 LLAMA_SERVER_URL = os.environ.get("LLAMA_SERVER_URL", "http://127.0.0.1:8081")
+CACHE_DIR = WORKSPACE / ".cache"
+
+# Files to include in signature hash (changes invalidate cache)
+SIGNATURE_INPUTS = [
+    Path(__file__),  # This script
+    CONFIG_PATH,  # phase2_config.json
+    SUITE_PATH,  # extended_benchmark_suite.json
+]
 
 # =============================================================================
 # ATOMIC PHASE PROMPTS (P1-P12)
@@ -141,6 +150,55 @@ class TimeoutError(Exception):
 
 def timeout_handler(signum, frame):
     raise TimeoutError(f"Prompt exceeded {TIMEOUT_SECONDS}s")
+
+# =============================================================================
+# SIGNATURE-BASED CACHING
+# =============================================================================
+
+def compute_signature() -> str:
+    """Compute SHA256 hash of all signature inputs (scripts, configs, prompts)."""
+    h = hashlib.sha256()
+    for p in SIGNATURE_INPUTS:
+        h.update(str(p).encode())
+        if p.exists():
+            h.update(p.read_bytes())
+    return h.hexdigest()
+
+def get_cache_key(model: str, phase: str, variant: str) -> str:
+    """Generate cache key for a specific benchmark run."""
+    return f"{model}_{phase}_{variant}".replace("/", "_").replace(":", "_")
+
+def check_cache(model: str, phase: str, variant: str, signature: str) -> Optional[Dict]:
+    """Check if valid cached result exists for this run."""
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    cache_key = get_cache_key(model, phase, variant)
+    cache_file = CACHE_DIR / f"{cache_key}.json"
+    
+    if not cache_file.exists():
+        return None
+    
+    try:
+        cached = json.loads(cache_file.read_text())
+        if cached.get("harness_signature") == signature:
+            return cached.get("result")
+    except Exception:
+        pass
+    
+    return None
+
+def save_cache(model: str, phase: str, variant: str, signature: str, result: Dict) -> None:
+    """Save benchmark result to cache with signature."""
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    cache_key = get_cache_key(model, phase, variant)
+    cache_file = CACHE_DIR / f"{cache_key}.json"
+    
+    cache_data = {
+        "harness_signature": signature,
+        "cached_at": time.time(),
+        "result": result
+    }
+    
+    cache_file.write_text(json.dumps(cache_data, indent=2))
 
 # =============================================================================
 # CONFIG LOADING
