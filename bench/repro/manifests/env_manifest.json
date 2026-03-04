@@ -1,0 +1,25 @@
+{
+  "captured_at_utc": "2026-03-04T12:54:56Z",
+  "epoch_utc": 1772628896,
+  "repo_root": ".",
+  "branch": "bench-qwen35-final-setup",
+  "git_sha": "c555f8c6a550588990e67adf3f6a3d80aae597b6",
+  "git_short_sha": "c555f8c",
+  "git_dirty": true,
+  "host": {
+    "hostname": "ethbig",
+    "uname": "Linux ethbig 6.8.0-90-generic #91-Ubuntu SMP PREEMPT_DYNAMIC Tue Nov 18 14:14:30 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux",
+    "shell": "/usr/bin/bash"
+  },
+  "tool_versions": {
+    "bash": "GNU bash, version 5.2.21(1)-release (x86_64-pc-linux-gnu)",
+    "git": "git version 2.43.0",
+    "python3": "Python 3.12.3",
+    "ollama": "ollama version is 0.17.1",
+    "curl": "curl 8.5.0 (x86_64-pc-linux-gnu) libcurl/8.5.0 OpenSSL/3.0.13 zlib/1.3 brotli/1.1.0 zstd/1.5.5 libidn2/2.3.7 libpsl/0.21.2 (+libidn2/2.3.7) libssh/0.10.6/openssl/zlib nghttp2/1.59.0 librtmp/2.3 OpenLDAP/2.6.10"
+  },
+  "env": {
+    "OLLAMA_HOST": "",
+    "LLAMA_SERVER_URL": ""
+  }
+}

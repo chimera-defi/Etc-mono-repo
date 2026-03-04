@@ -1,0 +1,22 @@
+{
+  "run_id": "pr245-repro-1772628896",
+  "pr": 245,
+  "captured_at_utc": "2026-03-04T12:54:56Z",
+  "repo_root": ".",
+  "branch": "bench-qwen35-final-setup",
+  "git_sha": "c555f8c6a550588990e67adf3f6a3d80aae597b6",
+  "git_short_sha": "c555f8c",
+  "git_dirty": true,
+  "git_status_porcelain_file": "bench/repro/manifests/git_status_pr245.txt",
+  "git_diff_stat_file": "bench/repro/manifests/git_diff_stat_pr245.txt",
+  "env_manifest_file": "bench/repro/manifests/env_manifest.json",
+  "model_inventory_file": "bench/repro/manifests/model_inventory_pr245.json",
+  "checksums_file": "bench/repro/checksums/sha256sums.txt",
+  "fallback_trace_file": "",
+  "smoke": {
+    "requested": false,
+    "status": "not_requested",
+    "command": "",
+    "log_file": ""
+  }
+}

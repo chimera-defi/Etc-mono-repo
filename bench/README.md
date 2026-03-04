@@ -32,6 +32,18 @@ cat results/lfm2.5-1.2b-atomic-results.json
 
 Done. Results show accuracy, restraint score, latency, and per-prompt details in `results/`.
 
+## Reproducibility (PR245)
+
+For PR245 benchmark/fallback reproducibility packaging, use:
+
+```bash
+bash bench/ops/reproduce_pr245.sh
+# optional smoke benchmark:
+bash bench/ops/reproduce_pr245.sh --smoke
+```
+
+Full replication steps and artifact descriptions are in `bench/REPRODUCE.md`.
+
 ---
 
 ## What We Test
