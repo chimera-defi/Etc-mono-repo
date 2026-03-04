@@ -19,7 +19,6 @@ future InfraKit shared primitives layer.
 ```bash
 # Required testnet endpoints (Sepolia execution + consensus)
 export AZTEC_NETWORK="testnet"
-export AZTEC_IMAGE_TAG="4.0.3"
 export ETHEREUM_HOSTS="https://ethereum-sepolia-rpc.publicnode.com"
 export L1_CONSENSUS_HOST_URLS="https://ethereum-sepolia-beacon-api.publicnode.com"
 export P2P_IP="127.0.0.1"
@@ -34,14 +33,30 @@ sudo ./scripts/setup_aztec_node.sh --with-sequencer --with-firewall --with-caddy
 sudo ./scripts/bootstrap_aztec.sh --with-sequencer --with-firewall --with-hardening --with-monitoring
 ```
 
+## Quick Start (mainnet)
+
+```bash
+export AZTEC_NETWORK="mainnet"
+# Optional override; defaults to 2.1.11 for mainnet if omitted
+export AZTEC_IMAGE_TAG="2.1.11"
+export ETHEREUM_HOSTS="https://ethereum-rpc.publicnode.com"
+export L1_CONSENSUS_HOST_URLS="https://ethereum-beacon-api.publicnode.com"
+export P2P_IP="127.0.0.1"
+sudo ./scripts/setup_aztec_node.sh --with-firewall
+```
+
 ## Quick Start (devnet)
 
 ```bash
 export AZTEC_NETWORK="devnet"
-export AZTEC_IMAGE_TAG="4.0.3"
 export P2P_IP="127.0.0.1"
 sudo ./scripts/setup_aztec_node.sh --with-firewall
 ```
+
+`AZTEC_IMAGE_TAG` defaults:
+- `testnet`: `4.0.3`
+- `mainnet`: `2.1.11`
+- others (including `devnet`): `latest`
 
 ## Quick Start (local sandbox)
 

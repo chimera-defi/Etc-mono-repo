@@ -9,9 +9,9 @@ set -euo pipefail
 #
 # Env vars:
 #   AZTEC_NETWORK         Network to join (default: devnet)
-#   AZTEC_IMAGE_TAG       Aztec docker image tag used by CLI (default: latest; testnet recommended: 4.0.3)
+#   AZTEC_IMAGE_TAG       Aztec docker image tag used by CLI (default: network-based: testnet=4.0.3, mainnet=2.1.11, otherwise latest)
 #   ETHEREUM_HOSTS        L1 execution RPC endpoints, comma-separated (required for non-devnet)
-#   L1_CONSENSUS_HOST_URLS L1 consensus endpoints, comma-separated (required for testnet)
+#   L1_CONSENSUS_HOST_URLS L1 consensus endpoints, comma-separated (required for non-devnet)
 #   AZTEC_DATA_DIR        Node data directory (default: /var/lib/aztec)
 #   AZTEC_PORT            Node RPC port (default: 8080)
 #   AZTEC_ADMIN_PORT      Admin API port (default: 8880)
@@ -52,9 +52,9 @@ Sets up an Aztec network node:
 
 Env vars:
   AZTEC_NETWORK           Network to join (default: devnet)
-  AZTEC_IMAGE_TAG         Aztec docker image tag used by CLI (default: latest; testnet recommended: 4.0.3)
+  AZTEC_IMAGE_TAG         Aztec docker image tag used by CLI (default: network-based: testnet=4.0.3, mainnet=2.1.11, otherwise latest)
   ETHEREUM_HOSTS          L1 execution RPC endpoints, comma-separated (required for non-devnet)
-  L1_CONSENSUS_HOST_URLS  L1 consensus endpoints, comma-separated (required for testnet)
+  L1_CONSENSUS_HOST_URLS  L1 consensus endpoints, comma-separated (required for non-devnet)
   AZTEC_DATA_DIR          Node data directory (default: /var/lib/aztec)
   P2P_IP                  P2P announce IP (default: 127.0.0.1)
   SEQ_PUBLISHER_PRIVATE_KEY  L1 private key (required if --with-sequencer)
@@ -86,13 +86,21 @@ done
 # Defaults
 # ============================================================
 AZTEC_NETWORK="${AZTEC_NETWORK:-devnet}"
-AZTEC_IMAGE_TAG="${AZTEC_IMAGE_TAG:-latest}"
+AZTEC_IMAGE_TAG="${AZTEC_IMAGE_TAG:-}"
 AZTEC_DATA_DIR="${AZTEC_DATA_DIR:-/var/lib/aztec}"
 AZTEC_PORT="${AZTEC_PORT:-8080}"
 AZTEC_ADMIN_PORT="${AZTEC_ADMIN_PORT:-8880}"
 AZTEC_P2P_PORT="${AZTEC_P2P_PORT:-40400}"
 P2P_IP="${P2P_IP:-127.0.0.1}"
 SSH_PORT="${SSH_PORT:-22}"
+
+if [[ -z "$AZTEC_IMAGE_TAG" ]]; then
+  case "$AZTEC_NETWORK" in
+    testnet) AZTEC_IMAGE_TAG="4.0.3" ;;
+    mainnet) AZTEC_IMAGE_TAG="2.1.11" ;;
+    *)       AZTEC_IMAGE_TAG="latest" ;;
+  esac
+fi
 
 log_info "=== Aztec Node Setup ==="
 log_info "Network:    $AZTEC_NETWORK"
@@ -110,8 +118,8 @@ if [[ "$AZTEC_NETWORK" != "devnet" && -z "${ETHEREUM_HOSTS:-}" ]]; then
   exit 1
 fi
 
-if [[ "$AZTEC_NETWORK" == "testnet" && -z "${L1_CONSENSUS_HOST_URLS:-}" ]]; then
-  log_error "L1_CONSENSUS_HOST_URLS is required when AZTEC_NETWORK=testnet."
+if [[ "$AZTEC_NETWORK" != "devnet" && -z "${L1_CONSENSUS_HOST_URLS:-}" ]]; then
+  log_error "L1_CONSENSUS_HOST_URLS is required when AZTEC_NETWORK=${AZTEC_NETWORK}."
   exit 1
 fi
 
