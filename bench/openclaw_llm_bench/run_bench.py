@@ -186,6 +186,31 @@ def detect_tool_calls(text: str, expected_tools: Optional[List[str]] = None) -> 
     return normalized, len(normalized), success
 
 
+def _extract_json_candidate(out: str) -> str:
+    """Best-effort extraction for JSON outputs.
+
+    Handles common LLM wrappers:
+    - fenced blocks: ```json ... ```
+    - stray prose before/after JSON object
+    """
+    s = (out or "").strip()
+    if not s:
+        return s
+
+    # Prefer fenced json block if present.
+    m = re.search(r"```(?:json)?\s*(\{[\s\S]*?\})\s*```", s, re.IGNORECASE)
+    if m:
+        return m.group(1).strip()
+
+    # Fallback: first balanced-looking object span.
+    start = s.find("{")
+    end = s.rfind("}")
+    if start != -1 and end != -1 and end > start:
+        return s[start : end + 1].strip()
+
+    return s
+
+
 def validate_output(text: str, validator: Dict[str, Any]) -> Tuple[Optional[bool], Optional[str], Optional[Any]]:
     """Returns (objective_pass, violation, parsed_output)."""
     vtype = (validator or {}).get("type", "noop")
@@ -231,10 +256,11 @@ def validate_output(text: str, validator: Dict[str, Any]) -> Tuple[Optional[bool
         return ok, None if ok else f"bullet_count got={len(bullets)} want={n}", {"bullets": len(bullets), "lines": lines[:20]}
 
     if vtype == "json_keys":
+        candidate = _extract_json_candidate(out)
         try:
-            parsed = json.loads(out)
+            parsed = json.loads(candidate)
         except Exception as e:
-            return False, f"json_parse_error: {e}", None
+            return False, f"json_parse_error: {e}", {"raw": out[:500], "candidate": candidate[:500]}
         if not isinstance(parsed, dict):
             return False, "json_not_object", parsed
 
