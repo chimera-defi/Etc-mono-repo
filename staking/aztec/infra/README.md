@@ -30,6 +30,20 @@ sudo ./scripts/setup_aztec_node.sh --with-sequencer --with-firewall --with-caddy
 sudo ./scripts/bootstrap_aztec.sh --with-sequencer --with-firewall --with-hardening --with-monitoring
 ```
 
+## Quick Start (local sandbox)
+
+For local development without systemd services, run the Aztec sandbox directly:
+
+```bash
+# Terminal 1
+aztec start --sandbox
+
+# Terminal 2 (health check)
+./scripts/check_aztec_node.sh http://localhost:8080
+```
+
+If healthy, `check_aztec_node.sh` exits `0` and returns JSON with `"status":"ok"`.
+
 ## Roles
 
 | Role | Flag | systemd Unit | Requires |
