@@ -297,6 +297,24 @@ class Provider:
         raise NotImplementedError
 
 
+def ollama_reasoning_profile(model: str, thinking_level: Optional[str]) -> Dict[str, Any]:
+    """Model-specific Ollama knobs.
+
+    - Default to deterministic output (`temperature=0`).
+    - For GLM/Qwen3.5 families, keep think-mode off by default for structured-output stability.
+    - Allow explicit high/xhigh thinking_level to override and enable think-mode experiments.
+    """
+    m = (model or "").lower()
+    prof: Dict[str, Any] = {"options": {"temperature": 0}}
+    if "glm" in m or "qwen3.5" in m:
+        prof["think"] = False
+        # Keep responses bounded for strict validators.
+        prof["options"].update({"num_predict": 512})
+    if thinking_level in ("high", "xhigh"):
+        prof["think"] = True
+    return prof
+
+
 class OllamaOpenAIProvider(Provider):
     name = "ollama_openai"
 
@@ -316,15 +334,19 @@ class OllamaOpenAIProvider(Provider):
         stream: bool,
     ) -> CallResult:
         url = f"{self.base_url}/chat/completions"
+        profile = ollama_reasoning_profile(model, thinking_level)
         payload = {
             "model": model,
             "messages": [
                 {"role": "system", "content": "You are a helpful assistant. Follow instructions exactly."},
                 {"role": "user", "content": prompt},
             ],
-            "temperature": 0,
+            "temperature": profile.get("options", {}).get("temperature", 0),
             "stream": False,
         }
+        # OpenAI-compat endpoint may ignore these, but include for forward-compat wrappers.
+        if "think" in profile:
+            payload["think"] = profile["think"]
         try:
             payload["stream"] = bool(stream)
             if not stream:
@@ -364,6 +386,65 @@ class OllamaOpenAIProvider(Provider):
             status = "error"
             failure = f"http_{getattr(e, 'code', 'unknown')}"
             return CallResult(status, False, failure, body)
+        except Exception as e:
+            return CallResult("error", False, "exception", str(e))
+
+
+class OllamaNativeProvider(Provider):
+    name = "ollama_native"
+
+    def __init__(self, base_url: str):
+        self.base_url = base_url.rstrip("/")
+
+    def supports_streaming(self) -> bool:
+        # /api/chat streaming is NDJSON and not parsed in this harness yet.
+        return False
+
+    def call(
+        self,
+        *,
+        model: str,
+        prompt: str,
+        thinking_level: Optional[str],
+        timeout_s: int,
+        stream: bool,
+    ) -> CallResult:
+        if stream:
+            return CallResult("error", False, "stream_not_supported_for_ollama_native", "")
+
+        url = f"{self.base_url}/api/chat"
+        profile = ollama_reasoning_profile(model, thinking_level)
+        payload = {
+            "model": model,
+            "messages": [
+                {"role": "system", "content": "You are a helpful assistant. Follow instructions exactly."},
+                {"role": "user", "content": prompt},
+            ],
+            "stream": False,
+            "options": profile.get("options", {"temperature": 0}),
+        }
+        if "think" in profile:
+            payload["think"] = profile["think"]
+
+        try:
+            resp = http_json(url, payload, headers={}, timeout_s=timeout_s)
+            msg = resp.get("message") or {}
+            content = msg.get("content")
+            if content is None:
+                return CallResult("error", False, "empty_response", "")
+            return CallResult(
+                "ok",
+                True,
+                None,
+                str(content),
+                ttft_ms=None,
+                input_tokens=resp.get("prompt_eval_count"),
+                output_tokens=resp.get("eval_count"),
+            )
+        except urllib.error.HTTPError as e:
+            body = e.read().decode("utf-8", errors="replace") if hasattr(e, "read") else str(e)
+            failure = f"http_{getattr(e, 'code', 'unknown')}"
+            return CallResult("error", False, failure, body)
         except Exception as e:
             return CallResult("error", False, "exception", str(e))
 
@@ -688,6 +769,12 @@ def main() -> int:
         help="Comma-separated targets to run (subset allowed)",
     )
     ap.add_argument("--ollama-base", default=os.environ.get("OLLAMA_OPENAI_BASE", "http://localhost:11434/v1"))
+    ap.add_argument(
+        "--ollama-api",
+        choices=["openai", "native"],
+        default=os.environ.get("OLLAMA_API_MODE", "openai"),
+        help="Use OpenAI-compatible (/v1/chat/completions) or native Ollama (/api/chat) endpoint",
+    )
     ap.add_argument("--openai-base", default=os.environ.get("OPENAI_BASE_URL", "https://api.openai.com/v1"))
     ap.add_argument(
         "--openai-model",
@@ -749,8 +836,9 @@ def main() -> int:
     # Ollama models
     ollama_models = [m.strip() for m in args.ollama_models.split(",") if m.strip()]
     if "ollama" in targets:
+        ollama_provider_name = "ollama_native" if args.ollama_api == "native" else "ollama_openai"
         for m in ollama_models:
-            tasks.append({"provider": "ollama_openai", "model": m, "thinking_level": None})
+            tasks.append({"provider": ollama_provider_name, "model": m, "thinking_level": None})
 
     # OpenAI Codex
     if "openai_low" in targets:
@@ -765,8 +853,15 @@ def main() -> int:
         tasks.append({"provider": "claude_code_cli", "model": args.claude_opus_model, "thinking_level": None})
 
     # Provider instances
+    ollama_base = args.ollama_base.rstrip("/")
+    if args.ollama_api == "native" and ollama_base.endswith("/v1"):
+        ollama_base = ollama_base[:-3]
+    if args.ollama_api == "openai" and not ollama_base.endswith("/v1"):
+        ollama_base = ollama_base + "/v1"
+
     providers: Dict[str, Provider] = {
-        "ollama_openai": OllamaOpenAIProvider(args.ollama_base),
+        "ollama_openai": OllamaOpenAIProvider(ollama_base),
+        "ollama_native": OllamaNativeProvider(ollama_base),
         "claude_code_cli": ClaudeCodeCLIProvider(),
     }
 
@@ -828,7 +923,8 @@ def main() -> int:
         "run_id": run_id,
         "prompts_path": os.path.relpath(prompts_path, out_dir),
         "targets": targets,
-        "ollama_base": args.ollama_base,
+        "ollama_base": ollama_base,
+        "ollama_api": args.ollama_api,
         "openai_base": args.openai_base,
         "openai_model": args.openai_model,
         "ollama_models": ollama_models,
@@ -852,7 +948,7 @@ def main() -> int:
         model_tag_safe = re.sub(r"[^A-Za-z0-9_.-]+", "_", model_tag)
 
         # Prevent cross-model interference: stop any old Ollama runners before starting a new model suite.
-        if provider_name == "ollama_openai" and (not args.allow_concurrent_ollama):
+        if provider_name.startswith("ollama_") and (not args.allow_concurrent_ollama):
             ensure_ollama_idle(out_dir, tag=f"{model_tag_safe}_pre")
 
         capture_resources(out_dir, f"{model_tag_safe}_before")
@@ -881,9 +977,12 @@ def main() -> int:
             ended_perf_ms = perf_ms()
             e2e_ms = max(0, ended_perf_ms - started_perf_ms)
 
-            objective_pass, violation, parsed = validate_output(call_res.raw_output, p.get("validator") or {})
+            if call_res.availability_status == "ok" and call_res.success:
+                objective_pass, violation, parsed = validate_output(call_res.raw_output, p.get("validator") or {})
+            else:
+                objective_pass, violation, parsed = None, call_res.failure_type, None
 
-            # Detect tool calls in output
+            # Detect tool calls in output (best-effort; on failed calls this may be empty)
             expected_tools = p.get("expected_tool_calls", [])
             tool_calls, tool_call_count, tool_use_success = detect_tool_calls(call_res.raw_output, expected_tools)
 
