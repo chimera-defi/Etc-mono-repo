@@ -33,7 +33,8 @@ Runs full Aztec infra bootstrap:
 
 Env vars:
   AZTEC_NETWORK           Network to join (default: devnet)
-  ETHEREUM_HOSTS          L1 RPC endpoints (required)
+  ETHEREUM_HOSTS          L1 execution RPC endpoints (required for non-devnet)
+  L1_CONSENSUS_HOST_URLS  L1 consensus endpoints (required for testnet)
   See setup_aztec_node.sh for full list.
 EOFMSG
 }
