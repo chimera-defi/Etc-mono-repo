@@ -37,9 +37,9 @@
     "mode": "merge",
     "providers": {
       "ollama": {
-        "baseUrl": "http://127.0.0.1:11434/v1",
+        "baseUrl": "http://127.0.0.1:11434",
         "apiKey": "ollama-local",
-        "api": "openai-completions",
+        "api": "ollama",
         "models": [
           {
             "id": "lfm2.5-thinking:1.2b",
@@ -154,7 +154,6 @@
           "anthropic/claude-opus-4-6",
           "anthropic/claude-opus-4",
           "anthropic/claude-sonnet-4-5-20250929",
-          "anthropic/claude-sonnet-4",
           "anthropic/claude-haiku-4-5-20251001",
           "anthropic/claude-haiku",
           "openai-codex/gpt-5.3-codex",
@@ -205,9 +204,6 @@
         },
         "anthropic/claude-sonnet-4-5-20250929": {
           "alias": "Claude Sonnet 4.5"
-        },
-        "anthropic/claude-sonnet-4": {
-          "alias": "Claude Sonnet 4"
         },
         "anthropic/claude-haiku-4-5-20251001": {
           "alias": "Claude Haiku 4.5"
@@ -280,7 +276,11 @@
         },
         "ollama/glm-4.7-flash:latest": {
           "alias": "GLM-4.7 Flash (local)",
-          "streaming": false
+          "streaming": false,
+          "params": {
+            "temperature": 0,
+            "think": false
+          }
         },
         "ollama/qwen3:14b": {
           "alias": "Qwen3 14B (local)",

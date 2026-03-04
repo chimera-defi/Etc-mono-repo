@@ -69,6 +69,33 @@ OLLAMA_BASE_URL = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
 LLAMA_SERVER_URL = os.environ.get("LLAMA_SERVER_URL", "http://127.0.0.1:8081")
 CACHE_DIR = WORKSPACE / ".cache"
 
+
+def build_ollama_options(model: str) -> dict:
+    """Model-specific Ollama options.
+
+    GLM/Qwen families can drift into long reasoning or unstable generation with
+    tools enabled. We keep deterministic temperature and bound generation.
+    """
+    model_l = model.lower()
+    opts: dict[str, Any] = {"temperature": 0.0}
+    if "qwen3.5" in model_l or "glm" in model_l:
+        opts.update({"num_predict": 1024, "top_p": 0.9, "top_k": 40})
+    return opts
+
+
+def build_ollama_chat_kwargs(model: str, messages: list[dict], tools: list[dict]) -> dict:
+    kwargs: dict[str, Any] = {
+        "model": model,
+        "messages": messages,
+        "tools": tools,
+        "stream": False,
+        "options": build_ollama_options(model),
+    }
+    # GLM-4.7 Flash can return empty content with long hidden reasoning unless think is disabled.
+    if "glm" in model.lower():
+        kwargs["think"] = False
+    return kwargs
+
 # Files to include in signature hash (changes invalidate cache)
 SIGNATURE_INPUTS = [
     Path(__file__),  # This script
@@ -381,22 +408,14 @@ def run_atomic_phase(
                 signal.alarm(effective_timeout_s)
                 
                 try:
-                    # Model-specific generation limits
-                    opts = {"temperature": 0.0}
-                    if "qwen3.5" in model.lower() or "glm" in model.lower():
-                        # Large/flaky models need token limits to prevent hangs
-                        opts.update({"num_predict": 1024, "top_p": 0.9, "top_k": 40})
-                    
-                    response = ollama.chat(
+                    response = ollama.chat(**build_ollama_chat_kwargs(
                         model=model,
                         messages=[
                             {"role": "system", "content": system_prompt},
                             {"role": "user", "content": prompt_text}
                         ],
                         tools=TOOLS,
-                        stream=False,
-                        options=opts
-                    )
+                    ))
                     
                     msg = response.get("message", {})
                     txt = msg.get("content")
@@ -614,19 +633,11 @@ def run_extended_phase(
             signal.alarm(effective_timeout_s)
             
             try:
-                # Model-specific generation limits
-                opts = {"temperature": 0.0}
-                if "qwen3.5" in model.lower() or "glm" in model.lower():
-                    # Large/flaky models need token limits to prevent hangs
-                    opts.update({"num_predict": 1024, "top_p": 0.9, "top_k": 40})
-                
-                response = ollama.chat(
+                response = ollama.chat(**build_ollama_chat_kwargs(
                     model=model,
                     messages=messages,
                     tools=TOOLS,
-                    stream=False,
-                    options=opts
-                )
+                ))
                 
                 msg = response.get("message", {})
                 txt = msg.get("content")
