@@ -45,6 +45,29 @@ export P2P_IP="127.0.0.1"
 sudo ./scripts/setup_aztec_node.sh --with-firewall
 ```
 
+## Verified Mainnet Sync (2026-03-04 UTC)
+
+Validated locally with:
+
+```bash
+VERSION=2.1.11 aztec start --node --archiver --network mainnet \
+  --l1-rpc-urls https://ethereum-rpc.publicnode.com \
+  --l1-consensus-host-urls https://ethereum-beacon-api.publicnode.com \
+  --p2p.p2pIp 127.0.0.1
+```
+
+Observed proof points:
+- `Initial archiver sync to L1 block 24584575 complete` at `14:04:47Z`
+- `Aztec Node version: 2.1.11` at `14:04:52Z`
+- `Aztec Server listening on port 8080` at `14:04:53Z`
+- `node_getNodeInfo` returned `l1ChainId: 1`, `nodeVersion: 2.1.11`
+- `node_getL2Tips` returned live head data (latest block `112280` during validation)
+
+Measured startup timing from this run:
+- Archiver catch-up to initial sync complete: about `2m 06s`
+- Initial sync complete to RPC serving: about `6s`
+- Total to serving RPC: about `2m 12s`
+
 ## Quick Start (devnet)
 
 ```bash
