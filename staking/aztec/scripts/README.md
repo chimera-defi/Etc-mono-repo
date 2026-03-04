@@ -64,6 +64,7 @@ cd contracts/staking-math-tests && nargo test
 | `DEPLOY_TIMEOUT` | `300` | `local-sandbox-e2e.sh` |
 | `AZTEC_DEVNET_URL` | `https://next.devnet.aztec-labs.com` | `smoke-test.sh`, `integration-test.sh` |
 | `AZTEC_PACKAGES_VERSION` | `v3.0.3` | `local-sandbox-e2e.sh` |
+| `AZTEC_IMAGE_TAG` | `3.0.0-devnet.20251212` | `local-sandbox-e2e.sh` |
 | `AZTEC_COMPILE_DIR` | `~/aztec-contracts` | `compile-contracts.sh` |
 
 ## Contract Architecture (v3.0.x)
