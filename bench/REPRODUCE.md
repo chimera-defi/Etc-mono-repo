@@ -57,6 +57,8 @@ cat bench/repro/checksums/sha256sums.txt
 
 ## Output Files
 
+Generated locally by the script (not intended to be committed):
+
 - `bench/repro/manifests/env_manifest.json`
 - `bench/repro/manifests/run_manifest_pr245.json`
 - `bench/repro/manifests/model_inventory_pr245.json`
