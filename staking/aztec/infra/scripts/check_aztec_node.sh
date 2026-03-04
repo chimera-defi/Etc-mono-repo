@@ -30,7 +30,15 @@ VERSION_RESP=$(curl -s -m "$TIMEOUT" -X POST "$NODE_URL" \
   -H "Content-Type: application/json" \
   -d '{"jsonrpc":"2.0","method":"node_getVersion","params":[],"id":1}' 2>/dev/null || echo '{}')
 
-VERSION=$(echo "$VERSION_RESP" | sed -n 's/.*"result"\s*:\s*"\([^"]*\)".*/\1/p' 2>/dev/null || echo "")
+VERSION=""
+if command -v jq >/dev/null 2>&1; then
+  VERSION=$(echo "$VERSION_RESP" | jq -r 'if .result == null then "" else (.result|tostring) end' 2>/dev/null || echo "")
+else
+  VERSION=$(echo "$VERSION_RESP" | sed -n 's/.*"result"\s*:\s*"\([^"]*\)".*/\1/p' 2>/dev/null || echo "")
+  if [[ -z "$VERSION" ]]; then
+    VERSION=$(echo "$VERSION_RESP" | sed -n 's/.*"result"\s*:\s*\([0-9][0-9]*\).*/\1/p' 2>/dev/null || echo "")
+  fi
+fi
 
 # Query L2 tips (block height)
 TIPS_RESP=$(curl -s -m "$TIMEOUT" -X POST "$NODE_URL" \
