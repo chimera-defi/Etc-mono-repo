@@ -15,6 +15,7 @@
 #   WALLET_BIN      Path to aztec-wallet binary
 #   NODE_URL        Local sandbox RPC URL (default: http://localhost:8080)
 #   DEPLOY_TIMEOUT  Seconds to wait for deploy tx (default: 300)
+#   AZTEC_IMAGE_TAG Docker image tag used by aztec/wallet + nargo compile
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/lib/common.sh"
@@ -25,7 +26,7 @@ Runs a full local sandbox E2E flow: compile, deploy, stake, withdraw, claim.
   --help   Show this help message
 
 Environment variables:
-  AZTEC_BIN, WALLET_BIN, NODE_URL, DEPLOY_TIMEOUT"
+  AZTEC_BIN, WALLET_BIN, NODE_URL, DEPLOY_TIMEOUT, AZTEC_IMAGE_TAG"
 
 show_help_if_requested "$USAGE" "$@"
 
@@ -34,10 +35,13 @@ AZTEC_BIN="${AZTEC_BIN:-$(find_aztec_cli)}"
 WALLET_BIN="${WALLET_BIN:-$(find_aztec_wallet)}"
 NODE_URL="${NODE_URL:-http://localhost:8080}"
 WALLET_NODE_URL="$NODE_URL"
+AZTEC_IMAGE_TAG="${AZTEC_IMAGE_TAG:-3.0.0-devnet.20251212}"
 
 SANDBOX_STARTED=false
+ANVIL_STARTED=false
 PID_FILE="/tmp/aztec-local.pid"
 LOG_FILE="/tmp/aztec-local.log"
+ANVIL_CONTAINER_NAME="aztec-local-anvil"
 
 UNBONDING_PERIOD=604800
 DEPOSIT_AMOUNT=10000000000000000000
@@ -49,6 +53,7 @@ USER_ALIAS="test1"
 TOKEN_NAME="AztecToken"
 TOKEN_SYMBOL="AZTEC"
 DEPLOY_TIMEOUT=300
+DEPLOY_TIMEOUT="${DEPLOY_TIMEOUT:-300}"
 
 ROOT_DIR="$(resolve_aztec_root "$SCRIPT_DIR")"
 CONTRACTS_DIR="$ROOT_DIR/contracts"
@@ -57,8 +62,12 @@ AZTEC_PACKAGES_VERSION="${AZTEC_PACKAGES_VERSION:-v3.0.3}"
 TOKEN_WORKSPACE_ROOT="${TOKEN_WORKSPACE_ROOT:-$HOME/nargo/github.com/AztecProtocol/aztec-packages/$AZTEC_PACKAGES_VERSION/noir-projects/noir-contracts}"
 TOKEN_WORKSPACE_TARGET="$TOKEN_WORKSPACE_ROOT/target"
 
+aztec_cmd() {
+  VERSION="$AZTEC_IMAGE_TAG" "$AZTEC_BIN" "$@"
+}
+
 wallet() {
-  "$WALLET_BIN" -n "$WALLET_NODE_URL" "$@"
+  VERSION="$AZTEC_IMAGE_TAG" "$WALLET_BIN" -n "$WALLET_NODE_URL" "$@"
 }
 
 check_bin() {
@@ -70,14 +79,17 @@ check_bin() {
 }
 
 wait_for_node() {
-  for _ in $(seq 1 60); do
+  local attempts="${1:-60}"
+  local sleep_seconds="${2:-2}"
+
+  for _ in $(seq 1 "$attempts"); do
     if curl -s -X POST "$NODE_URL" \
       -H "Content-Type: application/json" \
       -d '{"jsonrpc":"2.0","method":"node_getVersion","params":[],"id":1}' \
       | grep -q '"result"'; then
       return 0
     fi
-    sleep 2
+    sleep "$sleep_seconds"
   done
   return 1
 }
@@ -92,17 +104,35 @@ require_node() {
 # artifact_has_bytecode is provided by lib/common.sh
 
 start_sandbox() {
-  if wait_for_node; then
+  local local_flag="--sandbox"
+
+  if aztec_cmd start --help 2>/dev/null | grep -q -- '--local-network'; then
+    local_flag="--local-network"
+  fi
+
+  if [ "$local_flag" = "--local-network" ] && [ -z "${ETHEREUM_HOSTS:-}" ]; then
+    docker rm -f "$ANVIL_CONTAINER_NAME" >/dev/null 2>&1 || true
+    docker run -d --rm \
+      --name "$ANVIL_CONTAINER_NAME" \
+      -p 8545:8545 \
+      --entrypoint anvil \
+      "aztecprotocol/aztec:$AZTEC_IMAGE_TAG" \
+      --host 0.0.0.0 --silent >/dev/null
+    ANVIL_STARTED=true
+    ETHEREUM_HOSTS="http://localhost:8545"
+  fi
+
+  if wait_for_node 2 1; then
     return 0
   fi
 
   : > "$LOG_FILE"
   : > "$PID_FILE"
-  PORTS_TO_EXPOSE="8080 8880" "$AZTEC_BIN" start --local-network > "$LOG_FILE" 2>&1 &
+  ETHEREUM_HOSTS="${ETHEREUM_HOSTS:-}" PORTS_TO_EXPOSE="8080 8880" aztec_cmd start "$local_flag" > "$LOG_FILE" 2>&1 &
   echo $! > "$PID_FILE"
   SANDBOX_STARTED=true
 
-  if ! wait_for_node; then
+  if ! wait_for_node 120 2; then
     echo "Local sandbox did not become ready. Check $LOG_FILE" >&2
     exit 1
   fi
@@ -112,6 +142,31 @@ stop_sandbox() {
   if [ "$SANDBOX_STARTED" = true ] && [ -s "$PID_FILE" ]; then
     kill "$(cat "$PID_FILE")" >/dev/null 2>&1 || true
   fi
+  if [ "$ANVIL_STARTED" = true ]; then
+    docker rm -f "$ANVIL_CONTAINER_NAME" >/dev/null 2>&1 || true
+  fi
+  docker rm -f aztec >/dev/null 2>&1 || true
+}
+
+compile_noir_project() {
+  local dir="$1"
+  docker run --rm \
+    --entrypoint /usr/src/noir/noir-repo/target/release/nargo \
+    -v "$HOME:$HOME" \
+    -w "$dir" \
+    "aztecprotocol/aztec:$AZTEC_IMAGE_TAG" \
+    compile --silence-warnings >/dev/null
+}
+
+compile_noir_package() {
+  local dir="$1"
+  local pkg="$2"
+  docker run --rm \
+    --entrypoint /usr/src/noir/noir-repo/target/release/nargo \
+    -v "$HOME:$HOME" \
+    -w "$dir" \
+    "aztecprotocol/aztec:$AZTEC_IMAGE_TAG" \
+    compile --package "$pkg" --silence-warnings >/dev/null
 }
 
 compile_contract() {
@@ -128,7 +183,7 @@ compile_contract() {
   cp -r "$src" "$AZTEC_LOCAL_DIR/$name"
 
   pushd "$AZTEC_LOCAL_DIR/$name" >/dev/null || return 1
-  "$AZTEC_BIN" compile >/dev/null
+  compile_noir_project "$AZTEC_LOCAL_DIR/$name"
   popd >/dev/null || true
 }
 
@@ -140,7 +195,7 @@ compile_token_contract() {
   fi
 
   pushd "$TOKEN_WORKSPACE_ROOT" >/dev/null || return 1
-  "$AZTEC_BIN" compile --package token_contract >/dev/null
+  compile_noir_package "$TOKEN_WORKSPACE_ROOT" "token_contract"
   popd >/dev/null || true
 }
 
@@ -163,6 +218,11 @@ trap stop_sandbox EXIT
 
 check_bin "$AZTEC_BIN"
 check_bin "$WALLET_BIN"
+command -v docker >/dev/null 2>&1 || { echo "Missing required dependency: docker" >&2; exit 1; }
+docker info >/dev/null 2>&1 || { echo "Docker daemon is not running" >&2; exit 1; }
+
+# Clean up stale aztec CLI container name from interrupted prior runs.
+docker rm -f aztec >/dev/null 2>&1 || true
 
 # Compile staking contracts
 echo "Compiling staking contracts..."

@@ -30,6 +30,21 @@ sudo ./scripts/setup_aztec_node.sh --with-sequencer --with-firewall --with-caddy
 sudo ./scripts/bootstrap_aztec.sh --with-sequencer --with-firewall --with-hardening --with-monitoring
 ```
 
+## Quick Start (local sandbox)
+
+For local development without systemd services:
+
+```bash
+# Terminal 1
+AZTEC_IMAGE_TAG=3.0.0-devnet.20251212 aztec start --sandbox
+
+# Terminal 2
+./scripts/check_aztec_node.sh http://localhost:8080
+aztec get-node-info --node-url http://localhost:8080 --json
+```
+
+`--sandbox` runs a full local stack (node + sequencer + prover + PXE + local anvil).
+
 ## Roles
 
 | Role | Flag | systemd Unit | Requires |
