@@ -11,9 +11,16 @@ The direct "unused subscription/credit resale" version is mostly blocked by prov
 ### Docs
 - `PRD.md`: business model, GTM, TAM framing, risks
 - `SPEC.md`: technical architecture and execution plan
+- `FEASIBILITY_ANALYSIS.md`: execution and operational feasibility
+- `ADVERSARIAL_TESTS.md`: explicit red-team tests and kill conditions
 - `VALIDATION_PLAN.md`: phased discovery and pilot plan (broad to deep)
 - `UX_AND_PAYMENTS_FLOW.md`: buyer/seller UX and payment rail design
 - `ALTERNATIVES_AND_VARIANTS.md`: strategic alternatives and phased variants
+- `RESEARCH_PROMPT.md`: focused prompt for evidence refresh
+- `AGENT_HANDOFF.md`: implementation handoff guidance
+- `TASKS.md`: milestone and phase checklist
+- `DECISIONS.md`: locked choices and rationale
+- `SPEC_STAGE_CHECKLIST.md`: depth checklist for this pack
 
 ### Primary Sources
 - OpenAI Service Credit Terms (non-transferability): https://openai.com/policies/service-credit-terms/
