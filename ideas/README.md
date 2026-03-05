@@ -93,6 +93,21 @@ DeFi protocol concept for ERC-8004 agent credit with Ethos vouching + reverse-Ke
 
 ---
 
+## Intelligence Exchange (Compliant AI Capacity Marketplace)
+
+**Concept**: Marketplace for buying/selling **compliant inference execution capacity** (not transferable model credits/subscriptions), with policy-aware routing, metering, and settlement.
+
+**Why now**:
+- AI teams face volatile spend and reliability fragmentation.
+- Direct credit resale is commonly restricted by provider terms, creating a compliance gap that can be productized.
+
+**Documentation**:
+- [Overview](./intelligence-exchange/README.md)
+- [PRD](./intelligence-exchange/PRD.md)
+- [Technical Spec](./intelligence-exchange/SPEC.md)
+
+---
+
 ## Clawdbot Launchpad
 
 **Concept**: A paid launchpad that provisions a persistent VPS or container with Clawdbot or Moltbot pre-installed. Users pay a small monthly fee and manage their bot via a simple dashboard.
