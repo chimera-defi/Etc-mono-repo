@@ -32,12 +32,18 @@ Build a real-time collaborative Markdown editor with agent patch workflows and s
   - `TASKS.md`
   - `agent_spec.json`
 
+### 6) Repo Scaffold Generator (Phase 2)
+- Generates a starter GitHub repository from approved spec bundle.
+- Supports template packs (frontend, API backend, docs-first starter).
+- Embeds trace links from generated files/issues back to spec sections.
+
 ### Architecture
 - Frontend: web app (editor + collaboration UI + agent panel).
 - Collaboration service: websocket + CRDT sync.
 - API backend: auth, document metadata, version history, permissions.
 - AI orchestration: prompt templates + tool-calling adapters.
 - Storage: document snapshots + patch logs + audit trail.
+- Repo generation service: template engine + Git provider integration.
 
 ### Data Model (MVP)
 - `Workspace`
@@ -55,6 +61,11 @@ Build a real-time collaborative Markdown editor with agent patch workflows and s
 4. `POST /patches/:id/decision` (accept/reject/cherry-pick)
 5. `GET /documents/:id/versions`
 6. `POST /documents/:id/export`
+
+### APIs (Phase 2)
+1. `POST /documents/:id/create-repo`
+2. `GET /repos/:id/scaffold-status`
+3. `POST /repos/:id/sync-tasks`
 
 ### Permissions (MVP)
 1. Owner: full control.
@@ -82,7 +93,13 @@ Build a real-time collaborative Markdown editor with agent patch workflows and s
 ### Phase Plan
 1. Phase 1: core realtime markdown + comments + version history.
 2. Phase 2: agent patch queue + approvals + provenance tags.
-3. Phase 3: section branching/merge + integrations + advanced governance.
+3. Phase 3: section branching/merge + repo scaffolding + integrations + advanced governance.
 
 ### Key Technical Choice
 Use CRDT-backed editing for robust multiplayer behavior and offline/reconnect tolerance.
+
+### Related Docs
+1. `VISION_AND_FLOW.md`
+2. `VALIDATION_PLAN.md`
+3. `ALTERNATIVES_AND_VARIANTS.md`
+4. `NAME_OPTIONS.md`
