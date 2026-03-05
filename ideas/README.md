@@ -93,6 +93,21 @@ DeFi protocol concept for ERC-8004 agent credit with Ethos vouching + reverse-Ke
 
 ---
 
+## Collaborative Markdown Spec Studio
+
+**Concept**: Multiplayer Markdown editor for humans + AI agents with section-level patch proposals, merge controls, provenance, and exportable build-ready spec bundles.
+
+**Why now**:
+- Collaborative docs are mature, but AI-native spec workflows are still fragmented.
+- Teams need auditable, merge-safe agent edits rather than raw chat copy/paste.
+
+**Documentation**:
+- [Overview](./collab-markdown-spec-studio/README.md)
+- [PRD](./collab-markdown-spec-studio/PRD.md)
+- [Technical Spec](./collab-markdown-spec-studio/SPEC.md)
+
+---
+
 ## Clawdbot Launchpad
 
 **Concept**: A paid launchpad that provisions a persistent VPS or container with Clawdbot or Moltbot pre-installed. Users pay a small monthly fee and manage their bot via a simple dashboard.
