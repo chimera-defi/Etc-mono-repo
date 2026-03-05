@@ -9,8 +9,10 @@ A multiplayer Markdown editor for humans + AI agents to co-author PRDs/specs/des
 Collaborative editors exist, but a focused "spec studio" with multi-agent workflows, provenance, and merge-safe AI edits can still be differentiated for startup/engineering teams.
 
 ### Docs
+- `EXECUTIVE_SUMMARY.md`: concise human-readable overview
 - `PRD.md`: product framing, GTM, TAM, risk model
 - `SPEC.md`: technical architecture and execution plan
+- `ARCHITECTURE_DIAGRAMS.md`: human-readable architecture diagrams
 - `FEASIBILITY_ANALYSIS.md`: execution and product feasibility
 - `ADVERSARIAL_TESTS.md`: red-team tests and kill conditions
 - `VISION_AND_FLOW.md`: stepwise flow from collaborative spec to starter repo
@@ -22,6 +24,17 @@ Collaborative editors exist, but a focused "spec studio" with multi-agent workfl
 - `TASKS.md`: milestone and phase checklist
 - `DECISIONS.md`: locked choices and rationale
 - `SPEC_STAGE_CHECKLIST.md`: depth checklist for this pack
+- `REFINEMENTS.md`: iteration history and next refinement targets
+- `MULTIPASS_REVIEW.md`: review passes and findings
+- `META_LEARNINGS.md`: reusable learnings for future idea packs
+
+### Recommended Read Order (Low Context -> Deep Context)
+1. `EXECUTIVE_SUMMARY.md`
+2. `PRD.md`
+3. `SPEC.md`
+4. `ARCHITECTURE_DIAGRAMS.md`
+5. `VALIDATION_PLAN.md`
+6. remaining deep-dive docs as needed
 
 ### Primary Sources
 - Google Docs collaborative editing context: https://workspace.google.com/products/docs/
