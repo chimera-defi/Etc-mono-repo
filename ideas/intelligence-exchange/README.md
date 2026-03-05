@@ -9,8 +9,10 @@ A marketplace where teams and agents buy/sell **compliant inference capacity** a
 The direct "unused subscription/credit resale" version is mostly blocked by provider terms. The viable product is a compliance-first exchange for metered AI workload execution with routing, settlement, and SLA.
 
 ### Docs
+- `EXECUTIVE_SUMMARY.md`: concise human-readable overview
 - `PRD.md`: business model, GTM, TAM framing, risks
 - `SPEC.md`: technical architecture and execution plan
+- `ARCHITECTURE_DIAGRAMS.md`: human-readable architecture diagrams
 - `FEASIBILITY_ANALYSIS.md`: execution and operational feasibility
 - `ADVERSARIAL_TESTS.md`: explicit red-team tests and kill conditions
 - `VALIDATION_PLAN.md`: phased discovery and pilot plan (broad to deep)
@@ -21,6 +23,17 @@ The direct "unused subscription/credit resale" version is mostly blocked by prov
 - `TASKS.md`: milestone and phase checklist
 - `DECISIONS.md`: locked choices and rationale
 - `SPEC_STAGE_CHECKLIST.md`: depth checklist for this pack
+- `REFINEMENTS.md`: iteration history and next refinement targets
+- `MULTIPASS_REVIEW.md`: review passes and findings
+- `META_LEARNINGS.md`: reusable learnings for future idea packs
+
+### Recommended Read Order (Low Context -> Deep Context)
+1. `EXECUTIVE_SUMMARY.md`
+2. `PRD.md`
+3. `SPEC.md`
+4. `ARCHITECTURE_DIAGRAMS.md`
+5. `VALIDATION_PLAN.md`
+6. remaining deep-dive docs as needed
 
 ### Primary Sources
 - OpenAI Service Credit Terms (non-transferability): https://openai.com/policies/service-credit-terms/
