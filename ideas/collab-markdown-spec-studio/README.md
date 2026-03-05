@@ -17,9 +17,14 @@ Collaborative editors exist, but a focused "spec studio" with multi-agent workfl
 - `COMPETITOR_ANALYSIS.md`: category-level competitive framing and wedge
 - `FEASIBILITY_ANALYSIS.md`: execution and product feasibility
 - `ADVERSARIAL_TESTS.md`: red-team tests and kill conditions
+- `RESEARCH_NOTES.md`: sourced notes and open evidence gaps
 - `VISION_AND_FLOW.md`: stepwise flow from collaborative spec to starter repo
 - `VALIDATION_PLAN.md`: broad-to-deep validation sequence
 - `GO_NO_GO_SCORECARD.md`: final stage gate before build commitment
+- `PILOT_SCORECARD_TEMPLATE.md`: per-pilot measurement template
+- `FINANCIAL_MODEL.md`: scenario economics model and thresholds
+- `RISK_REGISTER.md`: likelihood/impact risk table with mitigations
+- `90_DAY_EXECUTION_PLAN.md`: phased execution plan and deliverables
 - `ALTERNATIVES_AND_VARIANTS.md`: product and GTM option space
 - `NAME_OPTIONS.md`: naming shortlist for iteration
 - `RESEARCH_PROMPT.md`: targeted evidence-refresh prompt
