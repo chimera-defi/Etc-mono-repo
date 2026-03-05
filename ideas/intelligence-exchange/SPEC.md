@@ -14,6 +14,7 @@ Build a policy-aware AI execution exchange with:
 - OpenAI-compatible and native APIs.
 - Request metadata: latency budget, cost ceiling, policy profile, required model class.
 - Returns: result + route + cost + provider trace ID.
+- Billing metadata hooks for card/invoice and agentic checkout rails.
 
 ### 2) Seller Node / Adapter
 - Declares capabilities and prices.
@@ -29,11 +30,13 @@ Build a policy-aware AI execution exchange with:
 - Immutable usage records per request.
 - Netting window (daily/weekly) and payout orchestration.
 - Dispute workflow with replayable traces.
+- Multi-rail settlement abstraction (fiat first, optional agentic and crypto rails).
 
 ### 5) Risk/Compliance Layer
 - Account and workload risk scoring.
 - Abuse filters and rate controls.
 - Policy engine for prohibited resale/account-sharing patterns.
+- Payment-risk checks (funding source, velocity spikes, dispute anomaly flags).
 
 ### Data Model (MVP)
 - `BuyerAccount`
@@ -50,6 +53,8 @@ Build a policy-aware AI execution exchange with:
 4. `GET /v1/executions/:id`
 5. `GET /v1/settlements/:batchId`
 6. `POST /v1/disputes`
+7. `POST /v1/funding-methods`
+8. `POST /v1/funding-guards`
 
 ### Security
 1. Signed request and response envelopes.
@@ -75,3 +80,8 @@ Build a policy-aware AI execution exchange with:
 
 ### Decision Note
 Do not implement credit resale primitives. Keep architecture anchored to compliant execution supply.
+
+### Related Docs
+1. `UX_AND_PAYMENTS_FLOW.md`
+2. `VALIDATION_PLAN.md`
+3. `ALTERNATIVES_AND_VARIANTS.md`
