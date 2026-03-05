@@ -1,4 +1,4 @@
-## Collaborative Markdown Spec Studio PRD
+## Collaborative Spec-to-Ship Workspace PRD
 
 **Status**: Draft | **Last Updated**: 2026-03-05 | **Owner**: TBD
 
@@ -15,6 +15,7 @@ Create a focused collaborative Markdown workspace for humans and AI agents where
 2. attributable,
 3. merge-safe,
 4. workflow-linked to implementation.
+5. convertible into a starter GitHub repository flow.
 
 ### What Exists Already (Reality Check)
 - Real-time collaborative docs are mature (Google Docs, Notion, Coda).
@@ -44,6 +45,11 @@ Create a focused collaborative Markdown workspace for humans and AI agents where
 4. Version history + per-edit attribution (human/agent).
 5. Export to markdown + JSON spec bundle.
 
+### Phase 2 Scope (If MVP Validates)
+1. One-click starter repository generation from approved spec bundle.
+2. Template-driven scaffolds (web app/API/docs-first presets).
+3. Traceability from generated tasks/issues back to spec sections.
+
 ### Business Model
 1. Team subscription by seats + AI usage credits.
 2. Premium for advanced governance/workflow controls.
@@ -65,6 +71,7 @@ Add-on AI usage and enterprise governance can expand this if retention is strong
 2. Integrate with GitHub/Jira/Linear to connect spec -> execution.
 3. Content-led growth via templates and "good spec" playbooks.
 4. Viral loop: shared docs with guest review + easy import/export.
+5. Expand from \"spec editor\" narrative to \"spec-to-ship\" narrative once repo generation is stable.
 
 ### Success Metrics
 1. Activation: first collaborative spec completed.
@@ -85,3 +92,6 @@ Add-on AI usage and enterprise governance can expand this if retention is strong
 
 ### Why This Could Work
 A narrow, workflow-native product for "specs that lead to code" can win even in a crowded editor market if it materially reduces planning-to-build cycle time.
+
+### Naming Direction
+See `NAME_OPTIONS.md`. Current preferred names: `SpecForge` or `ShipSpec`.
