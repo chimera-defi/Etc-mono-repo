@@ -93,9 +93,9 @@ DeFi protocol concept for ERC-8004 agent credit with Ethos vouching + reverse-Ke
 
 ---
 
-## Collaborative Markdown Spec Studio
+## SpecForge (Working Name): Collaborative Spec-to-Ship Workspace
 
-**Concept**: Multiplayer Markdown editor for humans + AI agents with section-level patch proposals, merge controls, provenance, and exportable build-ready spec bundles.
+**Concept**: Multiplayer Markdown workspace for humans + AI agents with section-level patch proposals, merge controls, provenance, and a path from approved spec bundle to starter GitHub repo.
 
 **Why now**:
 - Collaborative docs are mature, but AI-native spec workflows are still fragmented.
@@ -105,6 +105,7 @@ DeFi protocol concept for ERC-8004 agent credit with Ethos vouching + reverse-Ke
 - [Overview](./collab-markdown-spec-studio/README.md)
 - [PRD](./collab-markdown-spec-studio/PRD.md)
 - [Technical Spec](./collab-markdown-spec-studio/SPEC.md)
+- [Name Options](./collab-markdown-spec-studio/NAME_OPTIONS.md)
 
 ---
 
