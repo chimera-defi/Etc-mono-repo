@@ -11,10 +11,17 @@ Collaborative editors exist, but a focused "spec studio" with multi-agent workfl
 ### Docs
 - `PRD.md`: product framing, GTM, TAM, risk model
 - `SPEC.md`: technical architecture and execution plan
+- `FEASIBILITY_ANALYSIS.md`: execution and product feasibility
+- `ADVERSARIAL_TESTS.md`: red-team tests and kill conditions
 - `VISION_AND_FLOW.md`: stepwise flow from collaborative spec to starter repo
 - `VALIDATION_PLAN.md`: broad-to-deep validation sequence
 - `ALTERNATIVES_AND_VARIANTS.md`: product and GTM option space
 - `NAME_OPTIONS.md`: naming shortlist for iteration
+- `RESEARCH_PROMPT.md`: targeted evidence-refresh prompt
+- `AGENT_HANDOFF.md`: implementation handoff guidance
+- `TASKS.md`: milestone and phase checklist
+- `DECISIONS.md`: locked choices and rationale
+- `SPEC_STAGE_CHECKLIST.md`: depth checklist for this pack
 
 ### Primary Sources
 - Google Docs collaborative editing context: https://workspace.google.com/products/docs/
