@@ -13,6 +13,20 @@ future InfraKit shared primitives layer.
 | `setup_aztec_node.sh` | Core setup: user, CLI, sysctl, systemd services, firewall | root |
 | `bootstrap_aztec.sh` | Full bootstrap: wraps setup + monitoring + hardening + L1 check | root |
 | `check_aztec_node.sh` | Health check: node version + L2 tips | any |
+| `cleanup_local_aztec.sh` | Cleanup local Aztec runtime data + test containers/images | any |
+
+## Local Cleanup
+
+```bash
+# Preview what would be cleaned
+./scripts/cleanup_local_aztec.sh --dry-run
+
+# Clean Aztec-local artifacts (data, aztec containers/images)
+./scripts/cleanup_local_aztec.sh --yes
+
+# Also include broader blockchain test containers/images
+./scripts/cleanup_local_aztec.sh --yes --include-blockchain
+```
 
 ## Quick Start (testnet)
 
