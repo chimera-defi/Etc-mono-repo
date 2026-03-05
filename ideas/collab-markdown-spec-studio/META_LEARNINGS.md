@@ -5,3 +5,4 @@
 3. Add phase gates so complexity (repo generation) does not bloat MVP.
 4. Keep concise executive docs for humans and deep docs for builders.
 5. Multi-pass review logs improve clarity and iteration quality.
+6. Use scorecards and financial/risk templates to convert idea docs into decision-ready assets.
