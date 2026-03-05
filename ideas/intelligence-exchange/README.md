@@ -17,8 +17,13 @@ The direct "unused subscription/credit resale" version is mostly blocked by prov
 - `COMPETITOR_ANALYSIS.md`: category-level competitive framing and wedge
 - `FEASIBILITY_ANALYSIS.md`: execution and operational feasibility
 - `ADVERSARIAL_TESTS.md`: explicit red-team tests and kill conditions
+- `RESEARCH_NOTES.md`: sourced notes and open evidence gaps
 - `VALIDATION_PLAN.md`: phased discovery and pilot plan (broad to deep)
 - `GO_NO_GO_SCORECARD.md`: final stage gate before build commitment
+- `PILOT_SCORECARD_TEMPLATE.md`: per-pilot measurement template
+- `FINANCIAL_MODEL.md`: scenario economics model and thresholds
+- `RISK_REGISTER.md`: likelihood/impact risk table with mitigations
+- `90_DAY_EXECUTION_PLAN.md`: phased execution plan and deliverables
 - `UX_AND_PAYMENTS_FLOW.md`: buyer/seller UX and payment rail design
 - `ALTERNATIVES_AND_VARIANTS.md`: strategic alternatives and phased variants
 - `RESEARCH_PROMPT.md`: focused prompt for evidence refresh
