@@ -40,6 +40,11 @@ Create an exchange that trades **execution capacity and routed inference outcome
 2. Premium plan for SLA guarantees and enterprise controls.
 3. Optional managed routing fee for BYOK users.
 
+### Payments and Commerce Rails
+1. **Default rail:** card/invoice billing for mainstream buyer onboarding.
+2. **Agentic rail:** ACP-style delegated payment flows for machine-to-machine commerce.
+3. **Optional crypto rail:** Strike-style/BTC settlement as additive path, not core dependency.
+
 ### TAM/SAM/SOM Framing (Bottom-Up)
 Use execution-based TAM modeling instead of top-down market reports:
 
@@ -56,6 +61,7 @@ This model is intentionally conservative and should be replaced with real pipeli
 2. Offer migration SDK and drop-in gateway.
 3. Publish cost/reliability benchmarks for trust.
 4. Expand into enterprise platform teams with compliance/audit features.
+5. Land via Stripe-first checkout, then add agentic and crypto rails for specific segments.
 
 ### Risks
 1. Thin differentiation vs existing routers.
@@ -70,3 +76,8 @@ This model is intentionally conservative and should be replaced with real pipeli
 
 ### Why This Could Work
 If positioned as a **trusted execution exchange** with measurable reliability and compliance, it can win as infrastructure plumbing rather than as a speculative token product.
+
+### References in this Pack
+1. `VALIDATION_PLAN.md` for interview/pilot sequence.
+2. `UX_AND_PAYMENTS_FLOW.md` for product and checkout flow.
+3. `ALTERNATIVES_AND_VARIANTS.md` for strategic options.
