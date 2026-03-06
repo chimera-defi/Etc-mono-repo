@@ -2,23 +2,38 @@
 
 ## Buyer UX (Happy Path)
 1. Buyer signs in and creates a workspace.
-2. Buyer connects routing profile:
+2. Buyer defines job profile:
    - budget limits
-   - latency/SLA targets
-   - policy profile
+   - turnaround/SLA target
+   - quality threshold
+   - policy/risk profile
 3. Buyer selects payment rails and funding limits.
-4. Buyer points SDK/API base URL to the exchange gateway.
+4. Buyer submits jobs via UI or API queue endpoint.
 5. Buyer gets real-time dashboard:
-   - spend
-   - route quality
-   - failure/fallback events
+   - queue status
+   - acceptance/rework rates
+   - spend and payout ledger
+   - failure/retry events
 
-## Seller UX (Happy Path)
-1. Seller creates provider profile and verifies identity/business details.
-2. Seller installs lightweight adapter and declares capabilities.
-3. Seller configures pricing, quotas, and SLA commitments.
-4. Seller passes compliance checks and goes live in marketplace.
-5. Seller receives usage + settlement reports and payouts.
+## Worker Operator UX (Happy Path)
+1. Worker operator creates account and verifies identity.
+2. Worker operator installs worker app (desktop/server).
+3. Worker config setup:
+   - execution mode (`manual`, `scheduled`, `autonomous`)
+   - backend connector (`local CLI` or `API key`)
+   - allowed task classes
+   - budget and runtime guardrails
+4. Worker starts heartbeat and begins pulling eligible jobs.
+5. Worker receives job bundle, executes, and submits outputs automatically.
+6. Worker operator tracks:
+   - accepted jobs
+   - rejection/rework reasons
+   - earnings and payout schedule
+
+## MVP Execution Cadence
+1. Manual mode first for onboarding and trust calibration.
+2. Scheduled mode next (night/weekend windows).
+3. Autonomous mode after quality and abuse thresholds stabilize.
 
 ## Payment Rails Strategy (MVP -> Phase 2)
 
@@ -38,15 +53,17 @@
 1. Buyer chooses one or more payment methods.
 2. Buyer configures guardrails:
    - daily cap
-   - per-request cap
-   - approved policy profile
+   - per-job cap
+   - approved job categories
+   - required minimum quality score
 3. Buyer confirms funding and receives route token/credentials.
-4. Gateway starts metering and displays running budget burn.
+4. Broker starts metering and displays running budget burn.
 
 ## Risk Controls in UX
-1. Explicit warnings when route violates policy profile.
-2. Auto-pause toggles on anomalous spend spikes.
-3. Required approval gates for higher-risk seller pools.
+1. Explicit warnings when job type exceeds worker trust tier.
+2. Auto-pause toggles on anomalous spend or rejection spikes.
+3. Review gates for high-risk categories and new workers.
+4. Kill switch for buyers and workers.
 
 ## Notes
-As of 2026-03-05, direct resale of provider credits is frequently restricted by provider terms. This flow is designed around compliant execution and settlement, not credit transfer.
+This flow is designed around fulfillment of execution jobs and measured output acceptance, not tokenized credit transfers.
