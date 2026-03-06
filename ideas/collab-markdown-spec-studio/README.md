@@ -9,6 +9,7 @@ A multiplayer Markdown editor for humans + AI agents to co-author PRDs/specs/des
 Collaborative editors exist, but a focused "spec studio" with multi-agent workflows, provenance, and merge-safe AI edits can still be differentiated for startup/engineering teams.
 
 ### Key Docs (Review Path)
+0. `README_REVIEW_GUIDE.md`
 1. `EXECUTIVE_SUMMARY.md`
 2. `PRD.md`
 3. `SPEC.md`
