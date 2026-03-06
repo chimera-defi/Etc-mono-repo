@@ -111,5 +111,9 @@ Do not model tradable credits in core architecture. Keep the platform anchored t
 
 ### Related Docs
 1. `UX_AND_PAYMENTS_FLOW.md`
-2. `VALIDATION_PLAN.md`
-3. `ALTERNATIVES_AND_VARIANTS.md`
+2. `UX_PRINCIPLES.md`
+3. `USER_FLOWS.md`
+4. `FRONTEND_VISION.md`
+5. `WIREFRAMES.md`
+6. `VALIDATION_PLAN.md`
+7. `ALTERNATIVES_AND_VARIANTS.md`
