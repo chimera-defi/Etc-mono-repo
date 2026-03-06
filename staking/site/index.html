@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cenote Staking</title>
+    <meta
+      name="description"
+      content="Cenote Staking — research, docs, and implementation notes (hosted from a monorepo)."
+    />
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #0b1020;
+        --card: rgba(255, 255, 255, 0.06);
+        --text: rgba(255, 255, 255, 0.92);
+        --muted: rgba(255, 255, 255, 0.7);
+        --link: #7dd3fc;
+        --border: rgba(255, 255, 255, 0.12);
+      }
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg: #f7f7fb;
+          --card: rgba(0, 0, 0, 0.04);
+          --text: rgba(0, 0, 0, 0.9);
+          --muted: rgba(0, 0, 0, 0.65);
+          --link: #0369a1;
+          --border: rgba(0, 0, 0, 0.12);
+        }
+      }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+          Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        background: var(--bg);
+        color: var(--text);
+      }
+      .wrap {
+        max-width: 920px;
+        margin: 0 auto;
+        padding: 56px 20px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 24px;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 28px;
+        letter-spacing: -0.02em;
+      }
+      p {
+        margin: 10px 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      a {
+        color: var(--link);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      ul {
+        margin: 14px 0 0;
+        padding-left: 18px;
+      }
+      li {
+        margin: 8px 0;
+        color: var(--muted);
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+          "Courier New", monospace;
+        font-size: 0.95em;
+        padding: 2px 6px;
+        border-radius: 8px;
+        background: rgba(0, 0, 0, 0.18);
+      }
+      @media (prefers-color-scheme: light) {
+        code {
+          background: rgba(0, 0, 0, 0.06);
+        }
+      }
+      .footer {
+        margin-top: 14px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <h1>Cenote Staking</h1>
+        <p>
+          This is a lightweight static landing page hosted from the monorepo. It’s intended as the
+          target for a subdomain like <code>cenote-staking.&lt;your-domain&gt;</code>.
+        </p>
+
+        <ul>
+          <li>
+            <strong>Aztec staking project</strong>:
+            <a href="https://github.com/" rel="noreferrer">Aztec staking docs</a>
+            (update to your repo URL or your Aztec subdomain once created).
+          </li>
+          <li>
+            <strong>Repository docs</strong>:
+            <a href="https://github.com/" rel="noreferrer">GitHub repo</a>
+            (update this link to your actual repo URL).
+          </li>
+        </ul>
+
+        <p class="footer">
+          Tip: Map this Amplify “app” to <code>cenote-staking</code> in Amplify → Domain management.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
+
