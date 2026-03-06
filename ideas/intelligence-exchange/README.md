@@ -25,6 +25,10 @@ The direct "unused subscription/credit resale" framing is weak and fragile. The 
 - `RISK_REGISTER.md`: likelihood/impact risk table with mitigations
 - `90_DAY_EXECUTION_PLAN.md`: phased execution plan and deliverables
 - `UX_AND_PAYMENTS_FLOW.md`: buyer/seller UX and payment rail design
+- `UX_PRINCIPLES.md`: explicit UX principles and constraints
+- `USER_FLOWS.md`: primary and failure user-flow coverage
+- `FRONTEND_VISION.md`: dashboard/screen map and interaction model
+- `WIREFRAMES.md`: low-fidelity text wireframes for key screens
 - `ALTERNATIVES_AND_VARIANTS.md`: strategic alternatives and phased variants
 - `RESEARCH_PROMPT.md`: focused prompt for evidence refresh
 - `AGENT_HANDOFF.md`: implementation handoff guidance
