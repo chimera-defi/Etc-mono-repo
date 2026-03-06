@@ -4,6 +4,21 @@ High-level ideas and concepts for future exploration and implementation.
 
 Related persistent memory snapshots: [`../ai_memory/`](../ai_memory/README.md)
 
+## Default Ideation Standard
+
+For new idea packs, default to a decision-ready spec stage instead of lightweight notes.
+
+Required baseline:
+1. Core pack: `EXECUTIVE_SUMMARY`, `PRD`, `SPEC`, `ARCHITECTURE_DIAGRAMS`, `VALIDATION_PLAN`, `RISK_REGISTER`, `FINANCIAL_MODEL`, `GO_NO_GO_SCORECARD`, `AGENT_HANDOFF`.
+2. UX pack: `UX_PRINCIPLES`, `USER_FLOWS`, `FRONTEND_VISION`, `WIREFRAMES` (lo-fi is acceptable).
+3. Review ergonomics: include `README_REVIEW_GUIDE.md` with 10-minute and 25-minute read paths.
+4. Iteration quality: keep `META_LEARNINGS` and `MULTIPASS_REVIEW` updated to capture what changed and why.
+
+Process expectations:
+1. If detail is missing, ask targeted continuation questions instead of ending early.
+2. End major iterations with a recap: current thesis, what changed, open decisions, go/no-go posture.
+3. Keep docs concise and grouped for fast human review.
+
 ## OAuth-Based Automated Provider Setup
 
 **Problem**: Manual setup of third-party services (Google Analytics, authentication providers, etc.) requires copying API keys, configuring environment variables, and updating multiple files—a tedious, error-prone process.
