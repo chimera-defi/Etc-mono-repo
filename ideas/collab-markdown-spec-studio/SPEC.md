@@ -37,6 +37,12 @@ Build a real-time collaborative Markdown editor with agent patch workflows and s
 - Supports template packs (frontend, API backend, docs-first starter).
 - Embeds trace links from generated files/issues back to spec sections.
 
+### 7) Idea-Depth Orchestrator (Wizard Layer)
+- Tracks completion state for required artifacts and section quality thresholds.
+- Issues targeted agent prompts when artifacts are missing or weak.
+- Maintains "idea drift" view between initial thesis and current docs.
+- Enforces end-of-iteration summary payload before milestone close.
+
 ### Architecture
 - Frontend: web app (editor + collaboration UI + agent panel).
 - Collaboration service: websocket + CRDT sync.
@@ -66,6 +72,8 @@ Build a real-time collaborative Markdown editor with agent patch workflows and s
 1. `POST /documents/:id/create-repo`
 2. `GET /repos/:id/scaffold-status`
 3. `POST /repos/:id/sync-tasks`
+4. `POST /documents/:id/depth-check`
+5. `GET /documents/:id/recap`
 
 ### Permissions (MVP)
 1. Owner: full control.
@@ -78,6 +86,7 @@ Build a real-time collaborative Markdown editor with agent patch workflows and s
 2. Idempotent patch processing.
 3. Role-based guardrails for agent actions.
 4. Rollback to any prior snapshot.
+5. Required recap/audit events for major idea-state transitions.
 
 ### Initial NFR Targets
 1. P95 collaborative update latency < 250ms (same region).
@@ -98,8 +107,12 @@ Build a real-time collaborative Markdown editor with agent patch workflows and s
 ### Key Technical Choice
 Use CRDT-backed editing for robust multiplayer behavior and offline/reconnect tolerance.
 
+### Depth Enforcement Choice
+Treat idea depth as first-class product state (not optional guidance) via required gates and recap checkpoints.
+
 ### Related Docs
 1. `VISION_AND_FLOW.md`
-2. `VALIDATION_PLAN.md`
-3. `ALTERNATIVES_AND_VARIANTS.md`
-4. `NAME_OPTIONS.md`
+2. `IDEA_DEVELOPMENT_FRAMEWORK.md`
+3. `VALIDATION_PLAN.md`
+4. `ALTERNATIVES_AND_VARIANTS.md`
+5. `NAME_OPTIONS.md`

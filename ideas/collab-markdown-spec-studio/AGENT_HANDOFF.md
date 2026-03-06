@@ -15,8 +15,14 @@ Validate whether a collaborative markdown + agent patch flow can reliably improv
 3. Measure patch acceptance and perceived trust.
 4. Test export bundle -> repo scaffold handoff.
 5. Produce MVP milestone plan and scope cuts.
+6. Implement depth-check protocol:
+   - detect missing required artifacts
+   - trigger targeted continuation questions
+   - block completion until recap is delivered
 
 ### Acceptance Criteria
 1. Spec includes measurable "spec-to-first-commit" targets.
 2. Spec includes reliability and safety guardrails for collaboration.
 3. Spec includes clear phase gates for repo generation rollout.
+4. Agent always outputs end-of-iteration recap with thesis changes and open decisions.
+5. User confirms recap alignment before phase completion.
