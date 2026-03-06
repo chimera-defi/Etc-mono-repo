@@ -10,3 +10,4 @@
 8. Use phase gates and kill criteria to prevent architecture overgrowth before validation.
 9. Prefer prototype-first testing for highest-risk assumptions.
 10. Keep paired artifacts: concise executive summary for humans and deep implementation docs for agents.
+11. CI should skip irrelevant jobs on docs-only PRs to reduce false-fail review noise.
