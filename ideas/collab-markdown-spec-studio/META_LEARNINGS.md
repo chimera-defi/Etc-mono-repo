@@ -15,3 +15,4 @@
 13. Explicit phase gates and kill criteria reduce speculative complexity and keep roadmap honest.
 14. Prototype-first on highest-risk assumptions before scaling architecture depth.
 15. Standardized artifact bundles improve parallel sub-agent throughput and reduce merge conflicts.
+16. Add a "parallel execution pack" (workstream split, dependencies, verification commands, prompt templates) before build kickoff.

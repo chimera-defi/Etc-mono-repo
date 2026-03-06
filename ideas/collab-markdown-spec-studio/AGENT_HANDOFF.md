@@ -26,3 +26,8 @@ Validate whether a collaborative markdown + agent patch flow can reliably improv
 3. Spec includes clear phase gates for repo generation rollout.
 4. Agent always outputs end-of-iteration recap with thesis changes and open decisions.
 5. User confirms recap alignment before phase completion.
+6. Handoff includes parallel execution pack:
+   - workstream split
+   - dependency ordering
+   - verification commands
+   - bounded sub-agent prompt templates
