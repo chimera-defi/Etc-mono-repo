@@ -59,6 +59,14 @@ At the end of each major iteration, the agent must provide:
 4. Produce implementation-oriented artifacts that parallel agents can execute from.
 5. Preserve a concise executive layer for humans and a deep build layer for agents.
 
+### Parallel Execution Pack Standard
+For implementation-ready handoff, include:
+1. Workstream split (`frontend`, `backend`, `data`, `infra`, `qa`).
+2. Dependency map for task ordering (what must land first).
+3. Acceptance criteria per task with objective checks.
+4. Verification commands (lint/test/smoke) per workstream.
+5. Prompt templates for sub-agents with bounded scope and output format.
+
 ### Productization in SpecForge
 This framework can become a guided wizard in SpecForge:
 1. Stepwise prompts with required-field checks.
