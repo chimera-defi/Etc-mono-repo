@@ -91,6 +91,46 @@ def _load_jsonl(path: Path) -> list[dict[str, Any]]:
     return rows
 
 
+def _append_jsonl(path: Path, payload: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open('a', encoding='utf-8') as f:
+        f.write(json.dumps(payload, ensure_ascii=False) + "\n")
+
+
+def _trace_fallback_event(
+    trace_path: Path,
+    *,
+    run_id: str,
+    job_index: int,
+    phase: str,
+    variant: str,
+    event: str,
+    primary_model: str,
+    mapped_fallback: Optional[str] = None,
+    selected_fallback: Optional[str] = None,
+    reason: Optional[str] = None,
+    extra: Optional[dict[str, Any]] = None,
+) -> None:
+    row: dict[str, Any] = {
+        "ts": time.time(),
+        "run_id": run_id,
+        "job_index": job_index,
+        "phase": phase,
+        "variant": variant,
+        "event": event,
+        "primary_model": primary_model,
+    }
+    if mapped_fallback is not None:
+        row["mapped_fallback"] = mapped_fallback
+    if selected_fallback is not None:
+        row["selected_fallback"] = selected_fallback
+    if reason is not None:
+        row["reason"] = reason
+    if extra:
+        row.update(extra)
+    _append_jsonl(trace_path, row)
+
+
 def _is_retryable_failure(stderr_tail: str) -> bool:
     text = (stderr_tail or '').lower()
     tokens = ('timeout', 'timed out', 'connection reset', 'connection refused', 'unavailable', 'broken pipe')
@@ -337,6 +377,7 @@ def main():
         'jobs': [],
     }
     manifest_path.write_text(json.dumps(manifest, indent=2))
+    fallback_trace_path = run_dir / 'fallback_trace.jsonl'
 
     jobs = [JobSpec(*j) for j in DEFAULT_JOBS]
 
@@ -404,12 +445,38 @@ def main():
             except Exception as job_error:
                 # If job fails with retryable error, try fallback model
                 fallback_model = get_fallback_model(spec.model)
+                _trace_fallback_event(
+                    fallback_trace_path,
+                    run_id=run_id,
+                    job_index=i,
+                    phase=spec.phase,
+                    variant=spec.variant,
+                    event='primary_failed',
+                    primary_model=spec.model,
+                    mapped_fallback=fallback_model if fallback_model else None,
+                    reason=str(job_error),
+                )
+
                 if fallback_model:
                     print(f"[fallback] Primary model {spec.model} failed, trying fallback: {fallback_model}", file=sys.stderr)
                     health = check_ollama_health()
                     available = find_available_model(fallback_model, health.available_models)
-                    
+
                     if available:
+                        _trace_fallback_event(
+                            fallback_trace_path,
+                            run_id=run_id,
+                            job_index=i,
+                            phase=spec.phase,
+                            variant=spec.variant,
+                            event='fallback_selected',
+                            primary_model=spec.model,
+                            mapped_fallback=fallback_model,
+                            selected_fallback=available,
+                            extra={
+                                'available_models': health.available_models,
+                            },
+                        )
                         fallback_spec = JobSpec(available, spec.phase, spec.variant, spec.extra)
                         try:
                             res = _run_job_with_recovery(
@@ -426,8 +493,31 @@ def main():
                             res['used_fallback'] = True
                             res['original_model'] = spec.model
                             res['fallback_model'] = available
+                            _trace_fallback_event(
+                                fallback_trace_path,
+                                run_id=run_id,
+                                job_index=i,
+                                phase=spec.phase,
+                                variant=spec.variant,
+                                event='fallback_succeeded',
+                                primary_model=spec.model,
+                                mapped_fallback=fallback_model,
+                                selected_fallback=available,
+                            )
                         except Exception as fallback_error:
                             print(f"[fallback] Fallback also failed: {fallback_error}", file=sys.stderr)
+                            _trace_fallback_event(
+                                fallback_trace_path,
+                                run_id=run_id,
+                                job_index=i,
+                                phase=spec.phase,
+                                variant=spec.variant,
+                                event='fallback_failed',
+                                primary_model=spec.model,
+                                mapped_fallback=fallback_model,
+                                selected_fallback=available,
+                                reason=str(fallback_error),
+                            )
                             res = {
                                 'job_index': i,
                                 'model': spec.model,
@@ -440,6 +530,20 @@ def main():
                                 'attempts': args.retries + 1,
                             }
                     else:
+                        _trace_fallback_event(
+                            fallback_trace_path,
+                            run_id=run_id,
+                            job_index=i,
+                            phase=spec.phase,
+                            variant=spec.variant,
+                            event='fallback_unavailable',
+                            primary_model=spec.model,
+                            mapped_fallback=fallback_model,
+                            reason='No installed model matched fallback mapping',
+                            extra={
+                                'available_models': health.available_models,
+                            },
+                        )
                         res = {
                             'job_index': i,
                             'model': spec.model,
@@ -452,6 +556,16 @@ def main():
                             'attempts': args.retries + 1,
                         }
                 else:
+                    _trace_fallback_event(
+                        fallback_trace_path,
+                        run_id=run_id,
+                        job_index=i,
+                        phase=spec.phase,
+                        variant=spec.variant,
+                        event='no_fallback_mapping',
+                        primary_model=spec.model,
+                        reason='No fallback mapping configured',
+                    )
                     res = {
                         'job_index': i,
                         'model': spec.model,
