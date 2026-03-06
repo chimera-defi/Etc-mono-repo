@@ -12,6 +12,11 @@ An idea is "fleshed out" only when all of the following exist:
 5. `VALIDATION_PLAN` plus measurable go/no-go scorecard.
 6. `RISK_REGISTER` and baseline `FINANCIAL_MODEL`.
 7. `AGENT_HANDOFF` with implementation readiness criteria.
+8. UX pack:
+   - `UX_PRINCIPLES.md`
+   - `USER_FLOWS.md`
+   - `FRONTEND_VISION.md`
+   - `WIREFRAMES.md` (lo-fi text/ASCII acceptable)
 
 ### Agent Flow (Broad -> Deep)
 1. Frame: restate idea, non-goals, and success condition in plain language.
@@ -38,12 +43,21 @@ At the end of each major iteration, the agent must provide:
 2. "What changed" from prior iteration.
 3. Open decisions requiring user input.
 4. Current go/no-go posture and why.
+5. UX drift note: what changed in user journey/screens and why.
 
 ### Exit Gates Before Build
 1. Spec completeness gate: all depth-standard artifacts present.
 2. Consistency gate: no contradiction across PRD/SPEC/financial/risk docs.
 3. Validation gate: pilot plan has measurable pass/fail thresholds.
 4. Alignment gate: user confirms final summary matches intended vision.
+5. UX gate: user flows and wireframes cover primary and failure paths.
+
+### Meta Learnings to Propagate (From Prior Idea Evolution)
+1. Phase-gate scope early (MVP, Phase 2, later) to avoid architecture sprawl.
+2. Keep explicit decision gates with kill criteria tied to measurable outcomes.
+3. Prefer prototype-first validation for highest-risk assumptions.
+4. Produce implementation-oriented artifacts that parallel agents can execute from.
+5. Preserve a concise executive layer for humans and a deep build layer for agents.
 
 ### Productization in SpecForge
 This framework can become a guided wizard in SpecForge:
