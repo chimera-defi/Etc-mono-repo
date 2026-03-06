@@ -9,6 +9,7 @@ A marketplace where teams and agents buy/sell **AI job execution capacity** usin
 The direct "unused subscription/credit resale" framing is weak and fragile. The viable product is a brokered execution marketplace: workers fulfill jobs, platform scores outputs, and settlement is based on accepted work.
 
 ### Key Docs (Review Path)
+0. `README_REVIEW_GUIDE.md`
 1. `EXECUTIVE_SUMMARY.md`
 2. `PRD.md`
 3. `SPEC.md`
