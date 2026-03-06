@@ -47,9 +47,8 @@ applications:
                     echo "=============================================="
                     echo "This PR does not modify wallets/frontend/, wallets/*.md, or amplify.yml"
                     echo "Skipping Amplify preview build to save resources."
-                    echo "Exiting successfully so docs-only PRs are not marked failed."
                     echo ""
-                    exit 0
+                    exit 1
                   fi
 
                   echo ""
