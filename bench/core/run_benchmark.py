@@ -366,6 +366,10 @@ def run_atomic_phase(
     system_prompt = variant_cfg.get("system", model_cfg.get("system_prompt"))
     effective_timeout_s = model_cfg.get("timeout_seconds", timeout_s)
     
+    # Always allow at least one inference attempt per prompt.
+    # max_retries=0 should mean "no retries after the first attempt", not "skip inference".
+    attempt_limit = max(1, max_retries)
+
     results = []
     passed = 0
     restraint_passed = 0
@@ -400,7 +404,7 @@ def run_atomic_phase(
         }
         retry_count = 0
         
-        while retry_count < max_retries:
+        while retry_count < attempt_limit:
             try:
                 start = time.time()
                 
@@ -438,8 +442,8 @@ def run_atomic_phase(
                 
             except Exception as e:
                 retry_count += 1
-                if retry_count >= max_retries:
-                    err = f"Failed after {max_retries} retries: {str(e)[:80]}"
+                if retry_count >= attempt_limit:
+                    err = f"Failed after {attempt_limit} attempts: {str(e)[:80]}"
         
         # Evaluate
         correct = (set(got) == set(expected)) if not err else False
