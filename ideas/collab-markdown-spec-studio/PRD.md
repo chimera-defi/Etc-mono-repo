@@ -1,6 +1,6 @@
 ## Collaborative Spec-to-Ship Workspace PRD
 
-**Status**: Draft | **Last Updated**: 2026-03-05 | **Owner**: TBD
+**Status**: Draft | **Last Updated**: 2026-03-06 | **Owner**: TBD
 
 ### Problem
 Teams doing startup/product planning often draft PRD/spec/design docs in fragmented tools:
@@ -49,6 +49,16 @@ Create a focused collaborative Markdown workspace for humans and AI agents where
 1. One-click starter repository generation from approved spec bundle.
 2. Template-driven scaffolds (web app/API/docs-first presets).
 3. Traceability from generated tasks/issues back to spec sections.
+
+### Guided Idea-Depth Assistant (SpecForge Productization)
+1. Built-in broad-to-deep wizard with required gates for PRD/SPEC/risk/validation/economics.
+2. Agent asks targeted continuation questions when required detail is missing.
+3. Agent must produce end-of-iteration recap:
+   - thesis now
+   - what changed
+   - open decisions
+   - current go/no-go posture
+4. Goal: prevent shallow specs and reduce idea drift between user intent and produced artifacts.
 
 ### Business Model
 1. Team subscription by seats + AI usage credits.

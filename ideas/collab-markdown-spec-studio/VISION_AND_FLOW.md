@@ -8,17 +8,22 @@ Help teams build better software rapidly by turning collaborative specs into exe
    - Team and agents co-edit PRD/spec in real time.
 2. **Converge on decisions**
    - Resolve open questions and approve section-level patches.
-3. **Generate execution bundle**
+3. **Run depth checks**
+   - Assistant verifies required artifacts and asks targeted continuation questions where detail is missing.
+4. **Generate iteration recap**
+   - Assistant summarizes current thesis, what changed, open decisions, and go/no-go posture.
+5. **Generate execution bundle**
    - Produce tasks, acceptance criteria, API/data model artifacts.
-4. **Generate starter repository**
+6. **Generate starter repository**
    - Create GitHub repo scaffold from approved spec bundle.
-5. **Developer takeover**
+7. **Developer takeover**
    - Engineers continue in repo with traceability back to spec sections.
 
 ## UX Journey (MVP to Phase 2)
 ### MVP
 1. Multiplayer markdown + comments + agent patches.
 2. Structured exports (`PRD.md`, `SPEC.md`, `TASKS.md`, `agent_spec.json`).
+3. Required depth-gate and recap checkpoints before milestone close.
 
 ### Phase 2
 1. One-click "Create Repo" from approved spec.

@@ -19,6 +19,7 @@ Collaborative editors exist, but a focused "spec studio" with multi-agent workfl
 - `ADVERSARIAL_TESTS.md`: red-team tests and kill conditions
 - `RESEARCH_NOTES.md`: sourced notes and open evidence gaps
 - `VISION_AND_FLOW.md`: stepwise flow from collaborative spec to starter repo
+- `IDEA_DEVELOPMENT_FRAMEWORK.md`: reusable broad-to-deep framework and recap protocol
 - `VALIDATION_PLAN.md`: broad-to-deep validation sequence
 - `GO_NO_GO_SCORECARD.md`: final stage gate before build commitment
 - `PILOT_SCORECARD_TEMPLATE.md`: per-pilot measurement template
