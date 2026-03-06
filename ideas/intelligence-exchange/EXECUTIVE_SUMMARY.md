@@ -1,31 +1,34 @@
 ## Intelligence Exchange Executive Summary
 
 ### One-Liner
-A compliance-first exchange for buying and selling AI **execution capacity** (not credits), optimized for reliability, cost control, and auditable settlement.
+A marketplace where users run a local or cloud worker using their own AI access and sell completed AI jobs through a central broker.
 
 ### Why It Matters
-1. Buyers need lower cost and better uptime than fragmented single-provider setups.
-2. Sellers have idle capacity they want to monetize safely.
-3. Existing options cover routing or raw compute, but often not compliance + settlement + SLA together.
+1. Buyers need reliable, low-cost completion of queued AI work.
+2. Many users and teams have underutilized AI access and spare workflow capacity.
+3. A brokered market can aggregate this long-tail supply into usable execution capacity.
 
 ### Wedge
-- Trusted execution marketplace with policy-aware routing, metering, and settlement.
-- Start with constrained workloads and curated supply.
+- Worker-first supply model: contributors run a standardized worker app.
+- Broker-managed routing, quality scoring, metering, and settlement.
+- Start with constrained tasks where outputs are easy to score.
 
 ### MVP
-1. Gateway routing API.
-2. Seller offer registry.
-3. Usage ledger + settlement.
-4. Compliance/risk controls.
+1. Central job broker with queueing and matching.
+2. Worker daemon (local app + optional hosted runner mode).
+3. Prompt packaging, execution tracing, and quality scoring.
+4. Usage ledger + payouts.
 
 ### GTM
-- Start with AI-agent-heavy startup teams and platform teams.
-- Sell savings + reliability + auditability.
+- Start with founder/dev teams that already run agents and need overflow execution.
+- Acquire supply via "earn from idle setup" onboarding and simple worker install.
+- Acquire demand via API-first "submit jobs, get scored outputs" workflow.
 
 ### Biggest Risks
-1. Supply quality and policy compliance.
-2. Cold-start liquidity.
-3. Margin pressure from commoditized routing.
+1. Output quality variance across heterogeneous workers.
+2. Cold-start liquidity on both demand and supply.
+3. Abuse/spam/Sybil behavior from low-trust contributors.
+4. Margin compression if broker value-add is weak.
 
 ### Decision Rule
-Proceed only if pilot demonstrates: reliable compliant supply, real buyer switching, and healthy post-risk margins.
+Proceed only if pilot demonstrates: enough retained worker supply, acceptable quality/rework rates, and positive unit economics after risk costs.

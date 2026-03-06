@@ -1,12 +1,12 @@
-## Intelligence Exchange (Compliant AI Capacity Marketplace)
+## Intelligence Exchange (Worker-Driven AI Job Marketplace)
 
 **Status**: Exploration (docs-first)
 
 ### Concept
-A marketplace where teams and agents buy/sell **compliant inference capacity** and routed model access, without reselling provider credits or sharing prohibited accounts.
+A marketplace where teams and agents buy/sell **AI job execution capacity** using contributor workers (local or hosted) that fulfill jobs through a central broker.
 
 ### Thesis
-The direct "unused subscription/credit resale" version is mostly blocked by provider terms. The viable product is a compliance-first exchange for metered AI workload execution with routing, settlement, and SLA.
+The direct "unused subscription/credit resale" framing is weak and fragile. The viable product is a brokered execution marketplace: workers fulfill jobs, platform scores outputs, and settlement is based on accepted work.
 
 ### Docs
 - `EXECUTIVE_SUMMARY.md`: concise human-readable overview
