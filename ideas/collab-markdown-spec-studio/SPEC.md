@@ -113,6 +113,10 @@ Treat idea depth as first-class product state (not optional guidance) via requir
 ### Related Docs
 1. `VISION_AND_FLOW.md`
 2. `IDEA_DEVELOPMENT_FRAMEWORK.md`
-3. `VALIDATION_PLAN.md`
-4. `ALTERNATIVES_AND_VARIANTS.md`
-5. `NAME_OPTIONS.md`
+3. `UX_PRINCIPLES.md`
+4. `USER_FLOWS.md`
+5. `FRONTEND_VISION.md`
+6. `WIREFRAMES.md`
+7. `VALIDATION_PLAN.md`
+8. `ALTERNATIVES_AND_VARIANTS.md`
+9. `NAME_OPTIONS.md`
