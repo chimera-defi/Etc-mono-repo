@@ -1,5 +1,7 @@
 ## User Flows (Intelligence Exchange)
 
+State labels follow `STATE_MODEL.md`.
+
 ## 1) Buyer Happy Path
 1. Buyer creates workspace and funding profile.
 2. Buyer configures job policy: budget, SLA, quality threshold, allowed categories.
