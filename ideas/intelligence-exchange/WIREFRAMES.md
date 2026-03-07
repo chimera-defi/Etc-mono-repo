@@ -5,6 +5,8 @@ Legend:
 - `[R:*]` = risk level
 - `[T:*]` = trust tier
 
+Canonical values are defined in `STATE_MODEL.md`.
+
 ## 1) Buyer Console (Queue + Controls)
 
 ```text
