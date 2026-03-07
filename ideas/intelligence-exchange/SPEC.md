@@ -131,6 +131,8 @@ All autonomous workers follow:
 4. `action_result` appended to state
 5. repeat until terminal state (`accepted`, `rejected`, `expired`)
 
+Canonical lifecycle states are defined in `STATE_MODEL.md`.
+
 ### Phase Plan
 1. Phase 1: centralized broker + local worker beta + constrained task set.
 2. Phase 2: always-on worker daemon + stronger quality scoring + explicit task market modes.
@@ -151,6 +153,7 @@ Do not model tradable credits in core architecture. Keep the platform anchored t
 3. `USER_FLOWS.md`
 4. `FRONTEND_VISION.md`
 5. `WIREFRAMES.md`
-6. `TASKMARKET_COMPATIBILITY.md`
-7. `VALIDATION_PLAN.md`
-8. `ALTERNATIVES_AND_VARIANTS.md`
+6. `STATE_MODEL.md`
+7. `TASKMARKET_COMPATIBILITY.md`
+8. `VALIDATION_PLAN.md`
+9. `ALTERNATIVES_AND_VARIANTS.md`
