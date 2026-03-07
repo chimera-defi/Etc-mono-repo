@@ -8,6 +8,11 @@ AI teams have growing backlogs of AI jobs (coding, analysis, content, support op
 ### Product Thesis
 Build a brokered exchange for **AI job execution capacity**. Demand side submits jobs. Supply side runs a worker app using their own AI setup (local tools or API-backed execution). The platform handles matching, packaging, scoring, payouts, and reputation.
 
+Agent-first interpretation:
+1. Platform value is in task routing, trust, and settlement.
+2. Worker-side execution can remain a user-owned black-box agent.
+3. This reduces platform exposure to provider-specific execution internals.
+
 ### What Exists Already (Reality Check)
 - Model routing/BYOK products already exist (e.g., OpenRouter).
 - Compute marketplaces already exist (e.g., Vast.ai, TensorDock).
@@ -28,6 +33,11 @@ Build a brokered exchange for **AI job execution capacity**. Demand side submits
 1. **Buyer**: queue work once, receive scored outputs at predictable turnaround and cost.
 2. **Worker operator**: earn by running a standard worker runtime against available jobs.
 3. **Platform**: capture take-rate by providing trust, routing, observability, and settlement.
+
+### Strategic Delta (Daydreams-Informed)
+1. Evolve from pure broker to protocol-compatible broker.
+2. Add explicit task market modes (`claim`, `bounty`, `benchmark`, `auction`).
+3. Keep fiat onboarding first, but support adapter path for crypto-native and A2A flows.
 
 ### MVP Scope
 1. Buyer job submission API + dashboard.
@@ -81,6 +91,12 @@ This model is intentionally conservative and should be replaced with real pipeli
 2. V1: always-on daemon with pause/limit controls.
 3. V2: autonomous "idle detection + budget-aware auto-run" mode.
 
+### Agent-First V2 Scope (Post-MVP)
+1. Protocol adapter layer for payment, identity, and agent messaging.
+2. Agent manifest ingestion for interoperable discoverability.
+3. Deterministic state/action execution contract for autonomous workers.
+4. Trust registry split (identity/reputation/validation).
+
 ### Risks
 1. Thin differentiation vs router or freelancer alternatives.
 2. Quality drift and rework costs.
@@ -99,4 +115,5 @@ If positioned as a **trusted execution network** with measurable output quality,
 ### References in this Pack
 1. `VALIDATION_PLAN.md` for interview/pilot sequence.
 2. `UX_AND_PAYMENTS_FLOW.md` for product and checkout flow.
-3. `ALTERNATIVES_AND_VARIANTS.md` for strategic options.
+3. `TASKMARKET_COMPATIBILITY.md` for Daydreams comparison and upgrade deltas.
+4. `ALTERNATIVES_AND_VARIANTS.md` for strategic options.
