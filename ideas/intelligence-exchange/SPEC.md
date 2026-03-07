@@ -8,6 +8,11 @@ Build a brokered AI job execution exchange with:
 4. quality scoring and acceptance,
 5. metering, settlement, and reputation.
 
+Agent-first v2 direction:
+1. protocol-compatible task-market modes,
+2. adapter-based payment/identity/messaging layer,
+3. deterministic state/action loop for autonomous agents.
+
 ### System Components
 
 ### 1) Buyer API + Job Ingress
@@ -21,6 +26,12 @@ Build a brokered AI job execution exchange with:
 - Pull-based claim flow: workers request claim tokens for eligible jobs.
 - Multi-objective matching: quality history, latency, task fit, and effective cost.
 - Broker can replicate jobs to shadow workers for quality calibration.
+
+Task market modes:
+- `claim`: exclusive lease for one worker.
+- `bounty`: first valid completion wins.
+- `benchmark`: replicate to multiple workers for scoring.
+- `auction`: workers submit price/SLA bids under policy constraints.
 
 ### 3) Worker Runtime (Contributor Node)
 - Runs as local daemon (desktop/server) with optional hosted runner mode.
@@ -47,11 +58,21 @@ Build a brokered AI job execution exchange with:
 - Reputation engine for workers and buyers.
 - Abuse controls: Sybil heuristics, anomaly detection, staged trust limits.
 
+Trust registries (v2):
+- `IdentityRegistry`: worker identity and attestation history.
+- `ReputationRegistry`: quality, reliability, dispute-adjusted score.
+- `ValidationRegistry`: benchmark performance on canonical tasks.
+
 ### 6) Ledger + Settlement
 - Immutable records for claims, execution, acceptance, and payout state.
 - Daily/weekly netting windows.
 - Payment rails abstraction (fiat first, optional agentic and crypto rails).
 - Dispute workflow with replayable artifacts.
+
+Protocol adapters (v2):
+- Payment adapter interface (`fiat`, `x402-style`, optional `onchain`).
+- Agent manifest adapter (agent card metadata ingestion).
+- A2A messaging adapter for agent-to-agent negotiation and delegation.
 
 ### Data Model (MVP Core)
 - `BuyerAccount`
@@ -75,6 +96,13 @@ Build a brokered AI job execution exchange with:
 8. `GET /v1/settlements/:batchId`
 9. `POST /v1/disputes`
 
+### APIs (Agent-First V2)
+1. `POST /v1/taskmarkets/:mode/jobs`
+2. `POST /v1/jobs/:id/bids`
+3. `POST /v1/agents/manifests`
+4. `POST /v1/a2a/messages`
+5. `POST /v1/jobs/:id/state-transition`
+
 ### Security
 1. Signed request and response envelopes.
 2. Strict tenant isolation.
@@ -95,10 +123,18 @@ Build a brokered AI job execution exchange with:
 
 MVP defaults to `manual` and `scheduled`; `autonomous` is phase-gated.
 
+### Deterministic Orchestration Contract (V2)
+All autonomous workers follow:
+1. `state` (job + context + policy)
+2. `pending_actions` (machine-readable next steps)
+3. worker executes one action
+4. `action_result` appended to state
+5. repeat until terminal state (`accepted`, `rejected`, `expired`)
+
 ### Phase Plan
 1. Phase 1: centralized broker + local worker beta + constrained task set.
-2. Phase 2: always-on worker daemon + stronger quality scoring + enterprise queue APIs.
-3. Phase 3: advanced SLA tiers, managed worker pools, deeper agent commerce rails.
+2. Phase 2: always-on worker daemon + stronger quality scoring + explicit task market modes.
+3. Phase 3: protocol adapters (payment/identity/A2A) + advanced SLA tiers + managed pools.
 
 ### Build Cost Categories
 1. Core broker engineering (queue, matching, claims, ledger).
@@ -115,5 +151,6 @@ Do not model tradable credits in core architecture. Keep the platform anchored t
 3. `USER_FLOWS.md`
 4. `FRONTEND_VISION.md`
 5. `WIREFRAMES.md`
-6. `VALIDATION_PLAN.md`
-7. `ALTERNATIVES_AND_VARIANTS.md`
+6. `TASKMARKET_COMPATIBILITY.md`
+7. `VALIDATION_PLAN.md`
+8. `ALTERNATIVES_AND_VARIANTS.md`

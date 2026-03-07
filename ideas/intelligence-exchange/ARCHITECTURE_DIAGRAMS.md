@@ -75,3 +75,29 @@ Phase 1: Stripe/Card/Invoice (default)
 Phase 2: Agent commerce delegated payments (ACP-style)
 Phase 3: Optional crypto/BTC settlement
 ```
+
+## 8) Agent-First Protocol Overlay (V2)
+
+```text
+                [Protocol Adapters]
+  [Payment Adapter] [Identity Adapter] [A2A Adapter]
+            \            |             /
+             \           |            /
+              ---- [Task Market Core] ----
+                     modes: claim/bounty/auction/benchmark
+                             |
+                     [Broker + Scoring + Ledger]
+                             |
+                        [Worker Agents]
+```
+
+## 9) Deterministic Agent Loop
+
+```text
+state snapshot
+   -> pending_actions
+      -> agent executes selected action
+         -> action_result appended
+            -> new state snapshot
+               -> repeat until accepted/rejected/expired
+```

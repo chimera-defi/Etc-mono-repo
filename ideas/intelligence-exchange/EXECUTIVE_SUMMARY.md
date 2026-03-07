@@ -11,6 +11,7 @@ A marketplace where users run a local or cloud worker using their own AI access 
 ### Wedge
 - Worker-first supply model: contributors run a standardized worker app.
 - Broker-managed routing, quality scoring, metering, and settlement.
+- Agent-first compatibility: user-owned black-box agents with protocol adapters in v2.
 - Start with constrained tasks where outputs are easy to score.
 
 ### MVP
