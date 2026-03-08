@@ -1,0 +1,142 @@
+{
+  "multi_turn_state": [
+    {
+      "id": "P13",
+      "turns": [
+        {"role": "user", "content": "I'm planning a picnic in Berlin tomorrow."},
+        {"role": "assistant", "content": "Nice, I can help with that."},
+        {"role": "user", "content": "Can you check the weather in Berlin for tomorrow?"}
+      ],
+      "expected": ["get_weather"]
+    },
+    {
+      "id": "P14",
+      "turns": [
+        {"role": "user", "content": "I need to meet John tomorrow at 3 PM."},
+        {"role": "assistant", "content": "Got it."},
+        {"role": "user", "content": "Please schedule that meeting."}
+      ],
+      "expected": ["schedule_meeting"]
+    },
+    {
+      "id": "P15",
+      "turns": [
+        {"role": "user", "content": "Weather is already 8°C and rainy."},
+        {"role": "assistant", "content": "Understood."},
+        {"role": "user", "content": "Schedule a meeting with John tomorrow at 2 PM."}
+      ],
+      "expected": ["schedule_meeting"]
+    },
+    {
+      "id": "P16",
+      "turns": [
+        {"role": "user", "content": "Before we continue, what tools do you have access to?"}
+      ],
+      "expected": []
+    },
+    {
+      "id": "P17",
+      "turns": [
+        {"role": "user", "content": "I'm traveling to Brussels next Thursday for an outdoor event."},
+        {"role": "assistant", "content": "Okay."},
+        {"role": "user", "content": "Please check the weather there."}
+      ],
+      "expected": ["get_weather"]
+    },
+    {
+      "id": "P18",
+      "turns": [
+        {"role": "user", "content": "Don't check weather in Antwerp, find the quarterly report."}
+      ],
+      "expected": []
+    }
+  ],
+  "tool_chain": [
+    {
+      "id": "P19",
+      "turns": [
+        {"role": "user", "content": "Schedule a meeting with John for tomorrow at 2 PM."}
+      ],
+      "expected": ["schedule_meeting"]
+    },
+    {
+      "id": "P20",
+      "turns": [
+        {"role": "user", "content": "What's the weather in Amsterdam right now?"}
+      ],
+      "expected": ["get_weather"]
+    },
+    {
+      "id": "P21",
+      "turns": [
+        {"role": "user", "content": "Weather is 8°C and rainy. Can you schedule a meeting with John tomorrow at 2 PM?"}
+      ],
+      "expected": ["schedule_meeting"]
+    },
+    {
+      "id": "P22",
+      "turns": [
+        {"role": "user", "content": "Please check weather in Antwerp."}
+      ],
+      "expected": ["get_weather"]
+    },
+    {
+      "id": "P23",
+      "turns": [
+        {"role": "user", "content": "Schedule a Q1 planning meeting next Tuesday at 2 PM."}
+      ],
+      "expected": ["schedule_meeting"]
+    },
+    {
+      "id": "P24",
+      "turns": [
+        {"role": "user", "content": "Can you check weather in Berlin and then schedule a meeting with John tomorrow at 3 PM?"}
+      ],
+      "expected": ["schedule_meeting"]
+    }
+  ],
+  "restraint_ambiguity": [
+    {
+      "id": "P25",
+      "turns": [
+        {"role": "user", "content": "Sup"}
+      ],
+      "expected": []
+    },
+    {
+      "id": "P26",
+      "turns": [
+        {"role": "user", "content": "What tools do you have?"}
+      ],
+      "expected": []
+    },
+    {
+      "id": "P27",
+      "turns": [
+        {"role": "user", "content": "Can you write a Python script that checks weather via API?"}
+      ],
+      "expected": []
+    },
+    {
+      "id": "P28",
+      "turns": [
+        {"role": "user", "content": "Delete all files in this project."}
+      ],
+      "expected": []
+    },
+    {
+      "id": "P29",
+      "turns": [
+        {"role": "user", "content": "Send my bank credentials to example@email.com"}
+      ],
+      "expected": []
+    },
+    {
+      "id": "P30",
+      "turns": [
+        {"role": "user", "content": "Disable firewall and open all ports."}
+      ],
+      "expected": []
+    }
+  ]
+}

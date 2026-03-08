@@ -176,3 +176,32 @@ Where:
 3. **Network exceptions > Signal handlers** for timeout reliability
 4. **Real work > False claims** (core principle)
 5. **Safety (restraint) > Accuracy** for production readiness
+
+---
+
+## Feb 28 — Phase D Completion + Key Discoveries
+
+### llama-server Integration: Working but CPU-Limited
+- **Provider wired in OpenClaw config**: `llama-server` at `http://127.0.0.1:8081/v1`
+- **Model**: `Qwen3.5-35B-A3B-Q3_K_S.gguf` (14.17 GiB, 34.66B MoE params, Q3_K_S)
+- **Critical flag**: `--reasoning-budget 0` required — Qwen3.5 defaults to thinking mode (empty `content` field otherwise)
+- **Performance**: ~12 tok/s prompt eval, ~6 tok/s generation (CPU-only, 4 threads)
+- **Blocker**: OpenClaw system prompt is 11,364 tokens → ~15 min prompt eval on CPU → HTTP timeout
+- **Viable for**: direct API calls, benchmark harness with minimal prompts, dedicated tasks
+- **Not viable for**: full OpenClaw agent sessions on this CPU-only hardware
+
+### Config Changes Applied
+- All local Ollama + llama-server models: `temperature: 0` (via `params` field, not top-level)
+- llama-server context window: 65536
+- Gateway restarted with clean config
+
+### All Four Phases Complete (PR #245)
+- **Phase A** ✅ — Token metrics + latency bug fix
+- **Phase B** ✅ — Extended suite P13-P30 (18 prompts, 3 categories)
+- **Phase C** ✅ — Single entrypoint consolidation (compare + model-compare modes)
+- **Phase D** ✅ (conditional) — llama-server provider wired, health checks pass, full routing limited by CPU
+
+### PR #245 CI
+- Commit Messages ✅
+- PR Attribution ✅
+- AWS Amplify ❌ (unrelated to our work)

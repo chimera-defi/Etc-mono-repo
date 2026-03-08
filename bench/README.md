@@ -32,6 +32,26 @@ cat results/lfm2.5-1.2b-atomic-results.json
 
 Done. Results show accuracy, restraint score, latency, and per-prompt details in `results/`.
 
+## Reproducibility (PR245)
+
+For PR245 benchmark/fallback reproducibility packaging, use:
+
+```bash
+bash bench/ops/reproduce_pr245.sh
+# optional smoke benchmark:
+bash bench/ops/reproduce_pr245.sh --smoke
+```
+
+Full replication steps and artifact descriptions are in `bench/REPRODUCE.md`.
+Generated repro artifacts are local outputs (kept out of git except directory placeholders).
+
+For routing/fallback proof after a supervisor run:
+
+```bash
+python3 bench/ops/route_trace_report.py
+python3 bench/ops/route_trace_report.py --one-line
+```
+
 ---
 
 ## What We Test
