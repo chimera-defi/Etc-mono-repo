@@ -61,7 +61,7 @@ feat(scope): description [Agent: <MODEL NAME>]
 
 Commit body with details.
 
-Co-authored-by: <MODEL NAME> <model@vendor.invalid>
+Co-authored-by: Chimera <chimera_defi@protonmail.com>
 ```
 
 Install hooks path once per clone:
@@ -71,13 +71,14 @@ Install hooks path once per clone:
 
 | Location | Field | Value | Why |
 |----------|-------|-------|-----|
-| Commit | Author | Human (Chimera) | Human is responsible for merged code |
-| Commit | Co-authored-by | AI (model) | AI assisted in writing |
+| Commit | Author | AI model identity | Agent performed the implementation work |
+| Commit | Co-authored-by | Human (Chimera) | Human requested/reviewed the work |
 | PR | Agent | AI model name | AI did the implementation work |
 | PR | Co-authored-by | Human (Chimera) | Human provided guidance/review |
 
 **Key Points:**
-- Commit Author ≠ Commit Co-authored-by (human authors, AI co-authors)
+- Commit Author = AI model identity
+- Commit Co-authored-by = Human (Chimera)
 - PR Agent ≠ PR Co-authored-by (AI is agent, human is co-author)
 - CI validates both PR description attribution and PR commit message format (separate workflows)
 - Both locations need attribution for proper tracking
@@ -128,8 +129,8 @@ Before completing any task:
 | #47 | Chains ≠ tokens |
 | #116 | Include model name in PRs (Agent field) |
 | #117 | Include model name in commits ([Agent: Model] in title) |
-| #122 | Commit: Human authors, AI co-authors. PR: AI is agent, Human co-authors |
-| #124 | Commit Co-authored-by = AI (Claude). PR Co-authored-by = Human (Chimera) |
+| #122 | Co-authored-by must include Human (Chimera) in commits and PR description |
+| #124 | Commit Author = AI model, Commit Co-authored-by = Human; PR Agent = AI, PR Co-authored-by = Human |
 | #125 | PR attribution CI checks PR description; commit-message CI checks PR commits |
 | #140 | Use QMD BM25 search before reading files (skip embed/vector) |
 | #148 | Token reduction skill always active |
@@ -198,12 +199,12 @@ cd wallets/scripts && ./refresh-github-data.sh
 1. Missing `**Co-authored-by:**` in PR description (CI checks PR, not commits)
 2. Missing `**Agent:**` at start of PR body
 3. Missing `## Original Request` section
-4. Using wrong person in Co-authored-by (should be human in PR, AI in commits)
+4. Using non-canonical human email in Co-authored-by (`protomail` typo breaks attribution)
 
 **Quick fix:** Edit PR description to include all three required fields. CI re-runs automatically.
 
 **Remember the pattern:**
-- Commits: Human (Chimera) as Author, AI (model) as Co-authored-by
+- Commits: AI model as Author, Human (Chimera) as Co-authored-by
 - PR: AI as Agent, Human (Chimera) as Co-authored-by
 
 ## Meta Learnings (Frontend/UI)

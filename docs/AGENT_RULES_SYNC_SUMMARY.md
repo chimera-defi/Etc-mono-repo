@@ -14,11 +14,11 @@ Sources reviewed: `.cursorrules`, `CLAUDE.md`, `.cursor/TOKEN_REDUCTION.md`, wor
 - Header format with model tag, e.g.:
   - `feat(scope): short description [Agent: <MODEL NAME>]`
 - Commit trailer in body:
-  - `Co-authored-by: <MODEL NAME> <model@vendor.invalid>`
+  - `Co-authored-by: Chimera <chimera_defi@protonmail.com>`
 
 ### Attribution mapping (non-optional)
-- **Commit author:** Human (Chimera)
-- **Commit Co-authored-by:** AI model
+- **Commit author:** AI model identity
+- **Commit Co-authored-by:** Human (Chimera)
 - **PR Agent field:** AI model
 - **PR Co-authored-by field:** Human (Chimera)
 
@@ -89,6 +89,6 @@ Sources reviewed: `.cursorrules`, `CLAUDE.md`, `.cursor/TOKEN_REDUCTION.md`, wor
 - [ ] Use sub-agent when >5 files or discovery is broad.
 - [ ] Keep artifacts/context files in `.cursor/artifacts/`.
 - [ ] Run required project verification (lint/type/build/tests).
-- [ ] Commit with `[Agent: <MODEL>]` in header + AI `Co-authored-by` trailer.
+- [ ] Commit with `[Agent: <MODEL>]` in header + human `Co-authored-by` trailer.
 - [ ] Open/update PR with required `Agent`, human `Co-authored-by`, and `## Original Request`.
 - [ ] Final pass: check attribution fields, no direct-main push, no session-link leakage.

@@ -127,7 +127,7 @@ Each directory contains a detailed README with setup instructions and findings.
 `type(scope): subject [Agent: <MODEL NAME>]`
 
 Required commit trailer:
-`Co-authored-by: <MODEL NAME> <model@vendor.invalid>`
+`Co-authored-by: Chimera <chimera_defi@protonmail.com>`
 
 **Enforcement:**
 - Local hook: `.githooks/commit-msg`
