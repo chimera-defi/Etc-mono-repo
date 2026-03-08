@@ -175,13 +175,17 @@ def call_model_with_timeout(
     signal.alarm(TIMEOUT_SECONDS)
     
     try:
-        response = ollama.chat(
-            model=model,
-            messages=messages_with_system,
-            tools=tools,
-            stream=False,
-            options={"temperature": config.get("temperature", 0.0)}
-        )
+        chat_kwargs = {
+            "model": model,
+            "messages": messages_with_system,
+            "tools": tools,
+            "stream": False,
+            "options": {"temperature": config.get("temperature", 0.0)},
+        }
+        if "glm" in model.lower():
+            chat_kwargs["think"] = False
+
+        response = ollama.chat(**chat_kwargs)
         
         msg = response.get("message", {})
         txt = msg.get("content")
