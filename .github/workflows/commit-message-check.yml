@@ -30,6 +30,8 @@ jobs:
 
             const headerPattern = /^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)\([a-z0-9._/-]+\): [^\s].* \[Agent: .+\]$/;
             const trailerLinePattern = /^[A-Za-z0-9-]+:\s+.+$/;
+            const humanCoauthorPattern =
+              /^Co-authored-by:\s+(Chimera|ChimeraDeFi)\s+<chimera_defi@protonmail\.com>$/i;
             const bypassPattern = /^(Merge |Revert |fixup! |squash! )/;
             const errors = [];
 
@@ -63,12 +65,12 @@ jobs:
               }
 
               const trailers = getTrailingTrailers(message);
-              const hasCoAuthoredByTrailer = trailers.some((line) =>
-                /^Co-authored-by: .+ <.+@.+>$/.test(line)
+              const hasHumanCoauthorTrailer = trailers.some((line) =>
+                humanCoauthorPattern.test(line.trim())
               );
-              if (!hasCoAuthoredByTrailer) {
+              if (!hasHumanCoauthorTrailer) {
                 errors.push(
-                  `- ${item.sha.slice(0, 7)}: missing required trailing \`Co-authored-by:\` trailer`
+                  `- ${item.sha.slice(0, 7)}: missing required trailing human \`Co-authored-by:\` trailer`
                 );
               }
             }
@@ -81,8 +83,8 @@ jobs:
                   'Required format:',
                   '  type(scope): subject [Agent: <MODEL NAME>]',
                   '',
-                  'Required trailer:',
-                  '  Co-authored-by: <MODEL NAME> <model@vendor.invalid>',
+                  'Required trailer (human):',
+                  '  Co-authored-by: Chimera <chimera_defi@protonmail.com>',
                   '',
                   'Violations:',
                   ...errors

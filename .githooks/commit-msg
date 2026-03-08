@@ -35,12 +35,12 @@ EOF
 fi
 
 parsed_trailers="$(git interpret-trailers --parse "$msg_file" || true)"
-if ! printf '%s\n' "$parsed_trailers" | grep -Eq '^Co-authored-by: .+ <.+@.+>$'; then
+if ! printf '%s\n' "$parsed_trailers" | grep -Eiq '^Co-authored-by:\s+(Chimera|ChimeraDeFi)\s+<chimera_defi@protonmail\.com>$'; then
   cat >&2 <<'EOF'
 ERROR: Missing required Co-authored-by trailer in commit message footer.
 
 Add this trailer at the end of your commit message:
-  Co-authored-by: <MODEL NAME> <model@vendor.invalid>
+  Co-authored-by: Chimera <chimera_defi@protonmail.com>
 EOF
   exit 1
 fi
