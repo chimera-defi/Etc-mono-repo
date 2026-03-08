@@ -52,12 +52,15 @@
 **Required for all PRs:**
 1. **Description:** `**Agent:** [Model Name]` (e.g., Claude Opus 4.5, not Claude Code)
 2. **Commits:** Include `[Agent: ModelName]`
-3. **Title:** Describe what's done, not the prompt
-4. **Include:** Original prompt in `## Original Request`
+3. **Commit trailer:** `Co-authored-by: Chimera <chimera_defi@protonmail.com>`
+4. **PR description:** Include `**Co-authored-by:** Chimera <chimera_defi@protonmail.com>`
+5. **Title:** Describe what's done, not the prompt
+6. **Include:** Original prompt in `## Original Request`
 
 **Template:**
 ```markdown
 **Agent:** <MODEL NAME> <!-- e.g., GPT-5.2, GPT-4o, Claude Opus 4.5 -->
+**Co-authored-by:** Chimera <chimera_defi@protonmail.com>
 
 ## Summary
 Brief description.
@@ -190,8 +193,8 @@ Rules are organized by domain. Reference by number in code reviews.
 - **#120** Create `.cursor/artifacts/` prompt file for complex requests
 - **#121** PR structure: Agent → Summary → Original Request → Changes → Testing
 - **#122** Include `Co-authored-by: Name <email>` in BOTH commit messages AND PR descriptions (CI validates PR description)
-- **#124** Commit Co-authored-by goes in commit message body; PR Co-authored-by goes in PR description (both required)
-- **#125** Meta learning: Co-authored-by in commit ≠ Co-authored-by in PR (need both for CI to pass)
+- **#124** Commit Author should be agent model identity; commit and PR Co-authored-by should use canonical human attribution
+- **#125** Co-authored-by must use `Chimera <chimera_defi@protonmail.com>` to ensure GitHub attribution links correctly
 - **#129** CI checks must not skip - all checks enforced
 - **#134** Model attribution, not platform attribution
 
@@ -267,4 +270,3 @@ See `staking/AGENTS.md` for detailed patterns.
 **Focus:** Document exploration, prototype fast, store research
 
 See `ideas/AGENTS.md` for project details.
-

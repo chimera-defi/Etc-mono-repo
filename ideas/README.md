@@ -108,6 +108,19 @@ DeFi protocol concept for ERC-8004 agent credit with Ethos vouching + reverse-Ke
 
 ---
 
+## Intelligence Exchange (Compliant AI Capacity Marketplace)
+
+**Concept**: Marketplace for buying/selling **compliant inference execution capacity** (not transferable model credits/subscriptions), with policy-aware routing, metering, and settlement.
+
+**Why now**:
+- AI teams face volatile spend and reliability fragmentation.
+- Direct credit resale is commonly restricted by provider terms, creating a compliance gap that can be productized.
+
+**Documentation**:
+- [Overview](./intelligence-exchange/README.md)
+- [PRD](./intelligence-exchange/PRD.md)
+- [Technical Spec](./intelligence-exchange/SPEC.md)
+
 ## SpecForge (Working Name): Collaborative Spec-to-Ship Workspace
 
 **Concept**: Multiplayer Markdown workspace for humans + AI agents with section-level patch proposals, merge controls, provenance, and a path from approved spec bundle to starter GitHub repo.
