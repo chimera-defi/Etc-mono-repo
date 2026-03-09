@@ -41,7 +41,8 @@ from utils.error_recovery import (
     DEFAULT_TIMEOUT_S,
 )
 
-ROOT = Path('/root/.openclaw/workspace/bench')
+ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = ROOT.parent
 RUNNER = ROOT / 'core' / 'run_benchmark.py'
 RUNS = ROOT / 'supervisor_runs'
 ARCHIVE = RUNS / '.archive'
@@ -213,7 +214,7 @@ def _run_once(run_dir: Path, run_id: str, idx: int, spec: JobSpec, timeout_s: in
 
     started = time.time()
     hb.write_text(str(started))
-    cp = subprocess.run(cmd, cwd='/root/.openclaw/workspace', capture_output=True, text=True)
+    cp = subprocess.run(cmd, cwd=str(REPO_ROOT), capture_output=True, text=True)
     ended = time.time()
     hb.write_text(str(ended))
     stdout_path.write_text(cp.stdout)
