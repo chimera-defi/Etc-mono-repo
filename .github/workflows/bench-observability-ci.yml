@@ -1,0 +1,36 @@
+name: Bench Observability CI
+
+on:
+  pull_request:
+    paths:
+      - 'bench/**'
+      - 'Makefile'
+      - '.github/workflows/bench-observability-ci.yml'
+
+jobs:
+  bench-observability:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Shell syntax check
+        run: bash -n bench/ops/reproduce_pr245.sh
+
+      - name: Python compile checks
+        run: |
+          python -m py_compile \
+            bench/ops/route_trace_report.py \
+            bench/selfopt/baseline_tracker.py \
+            bench/selfopt/benchmark_supervisor.py
+
+      - name: Unit tests (route/supervisor parser)
+        run: |
+          python bench/ops/test_route_trace_report.py
+          python bench/selfopt/test_supervisor_parsing.py

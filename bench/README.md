@@ -55,6 +55,12 @@ python3 bench/ops/route_trace_report.py
 python3 bench/ops/route_trace_report.py --one-line
 ```
 
+Quick local validation target from repo root:
+
+```bash
+make bench-smoke
+```
+
 ---
 
 ## What We Test
