@@ -45,6 +45,9 @@ bash bench/ops/reproduce_pr245.sh --smoke
 Full replication steps and artifact descriptions are in `bench/REPRODUCE.md`.
 Generated repro artifacts are local outputs (kept out of git except directory placeholders).
 
+Architecture overview for supervisor/repro/routing flow:
+- `bench/ARCHITECTURE.md`
+
 For routing/fallback proof after a supervisor run:
 
 ```bash
