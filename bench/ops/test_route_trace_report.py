@@ -17,7 +17,11 @@ BENCH_ROOT = os.path.abspath(os.path.join(HERE, ".."))
 if BENCH_ROOT not in sys.path:
     sys.path.insert(0, BENCH_ROOT)
 
-from ops.route_trace_report import _print_one_line_from_manifest, latest_manifest  # noqa: E402
+from ops.route_trace_report import (  # noqa: E402
+    _print_one_line_from_manifest,
+    latest_manifest,
+    summarize,
+)
 
 
 class TestRouteTraceReport(unittest.TestCase):
@@ -56,6 +60,50 @@ class TestRouteTraceReport(unittest.TestCase):
             line = buf.getvalue().strip()
             self.assertIn("served_by=lfm2.5-thinking:1.2b", line)
             self.assertIn("fallback_used=false", line)
+
+    def test_summarize_counts_latest_per_job_once(self) -> None:
+        rows = [
+            {
+                "ts": 1,
+                "run_id": "r1",
+                "job_index": 1,
+                "event": "primary_failed",
+                "primary_model": "glm",
+                "mapped_fallback": "qwen",
+            },
+            {
+                "ts": 2,
+                "run_id": "r1",
+                "job_index": 1,
+                "event": "fallback_selected",
+                "primary_model": "glm",
+                "selected_fallback": "qwen",
+            },
+            {
+                "ts": 3,
+                "run_id": "r1",
+                "job_index": 1,
+                "event": "fallback_succeeded",
+                "primary_model": "glm",
+                "selected_fallback": "qwen",
+            },
+            {
+                "ts": 4,
+                "run_id": "r1",
+                "job_index": 2,
+                "event": "no_fallback_mapping",
+                "primary_model": "lfm",
+            },
+        ]
+
+        summary = summarize(rows)
+        self.assertEqual(summary["unique_jobs_with_trace"], 2)
+        self.assertEqual(summary["final_outcomes"]["fallback_succeeded"], 1)
+        self.assertEqual(summary["final_outcomes"]["no_fallback_mapping"], 1)
+        self.assertEqual(len(summary["fallback_edges"]), 1)
+        self.assertEqual(summary["fallback_edges"][0]["from"], "glm")
+        self.assertEqual(summary["fallback_edges"][0]["to"], "qwen")
+        self.assertEqual(summary["fallback_edges"][0]["count"], 1)
 
 
 if __name__ == "__main__":
