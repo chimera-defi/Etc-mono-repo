@@ -25,37 +25,46 @@ applications:
 
                 # Fetch main branch for comparison
                 echo "Fetching main branch..."
-                if ! git fetch origin main --depth=50 2>&1; then
-                  echo "Warning: Could not fetch main branch. Proceeding with build."
-                else
-                  # Check what files changed between main and current HEAD
+                git fetch origin main --depth=100 2>&1 || true
+
+                # Determine changed files with graceful fallback logic.
+                CHANGED_FILES=""
+                if git rev-parse --verify origin/main >/dev/null 2>&1; then
                   echo "Comparing with origin/main..."
                   CHANGED_FILES=$(git diff --name-only origin/main...HEAD 2>&1) || CHANGED_FILES=""
-
-                  echo "Changed files in this PR:"
-                  echo "$CHANGED_FILES" | head -20
-
-                  # Check if any wallet frontend files changed
-                  # Include markdown files in wallets/ since they generate the frontend data
-                  # Pattern matches: wallets/frontend/** OR wallets/*.md (root level only) OR amplify.yml
-                  WALLET_CHANGES=$(echo "$CHANGED_FILES" | grep -E "^(wallets/frontend/|wallets/[^/]*\.md|amplify\.yml)" || true)
-
-                  if [ -z "$WALLET_CHANGES" ]; then
-                    echo ""
-                    echo "=============================================="
-                    echo "NO WALLET FRONTEND CHANGES DETECTED"
-                    echo "=============================================="
-                    echo "This PR does not modify wallets/frontend/, wallets/*.md, or amplify.yml"
-                    echo "Skipping Amplify preview build to save resources."
-                    echo "Exiting successfully so docs-only PRs are not marked failed."
-                    echo ""
-                    exit 0
+                else
+                  echo "origin/main not available; using local history fallback."
+                  BASE_CANDIDATE=$(git rev-list --max-count=1 --skip=30 HEAD 2>/dev/null || true)
+                  if [ -n "$BASE_CANDIDATE" ]; then
+                    CHANGED_FILES=$(git diff --name-only "$BASE_CANDIDATE"...HEAD 2>&1) || CHANGED_FILES=""
+                  else
+                    CHANGED_FILES=$(git show --pretty="" --name-only HEAD 2>&1) || CHANGED_FILES=""
                   fi
-
-                  echo ""
-                  echo "Wallet frontend changes detected:"
-                  echo "$WALLET_CHANGES"
                 fi
+
+                echo "Changed files (sample):"
+                echo "$CHANGED_FILES" | head -40
+
+                # Check if any wallet frontend files changed
+                # Include markdown files in wallets/ since they generate the frontend data
+                # Pattern matches: wallets/frontend/** OR wallets/*.md (root level only) OR amplify.yml
+                WALLET_CHANGES=$(echo "$CHANGED_FILES" | grep -E "^(wallets/frontend/|wallets/[^/]*\.md|amplify\.yml)" || true)
+
+                if [ -z "$WALLET_CHANGES" ]; then
+                  echo ""
+                  echo "=============================================="
+                  echo "NO WALLET FRONTEND CHANGES DETECTED"
+                  echo "=============================================="
+                  echo "This PR does not modify wallets/frontend/, wallets/*.md, or amplify.yml"
+                  echo "Skipping Amplify preview build to save resources."
+                  echo "Exiting successfully so docs-only PRs are not marked failed."
+                  echo ""
+                  exit 0
+                fi
+
+                echo ""
+                echo "Wallet frontend changes detected:"
+                echo "$WALLET_CHANGES"
 
                 # Return to app directory
                 cd wallets/frontend
