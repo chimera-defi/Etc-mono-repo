@@ -1,5 +1,7 @@
 ## Competitor Analysis (Intelligence Exchange)
 
+See `COMPETITOR_MATRIX.md` for named competitors and side-by-side scoring.
+
 ## Categories
 1. API routers (cost/perf routing, BYOK support)
 2. Compute marketplaces (raw GPU/infra capacity)

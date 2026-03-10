@@ -11,6 +11,7 @@
 3. `UX_AND_PAYMENTS_FLOW.md`
 4. `USER_FLOWS.md`
 5. `WIREFRAMES.md`
+6. `COMPETITOR_MATRIX.md`
 
 ## Deep Validation Pass
 1. `VALIDATION_PLAN.md`

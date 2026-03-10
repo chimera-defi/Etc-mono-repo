@@ -9,6 +9,9 @@ Teams doing startup/product planning often draft PRD/spec/design docs in fragmen
 3. AI output pasted manually,
 4. poor provenance and messy merges.
 
+### PRD Note
+`PRD` means **Product Requirements Document**: the canonical statement of user problem, scope, success criteria, and delivery constraints.
+
 ### Product Thesis
 Create a focused collaborative Markdown workspace for humans and AI agents where edits are:
 1. real-time,
@@ -59,6 +62,12 @@ Create a focused collaborative Markdown workspace for humans and AI agents where
    - open decisions
    - current go/no-go posture
 4. Goal: prevent shallow specs and reduce idea drift between user intent and produced artifacts.
+
+### Guided Clarification UX (Ask-User Pattern)
+1. When confidence is low, assistant pauses and asks a focused clarification question.
+2. User gets 2-3 constrained options with tradeoffs.
+3. Selected answer is written into PRD/spec sections and decision log.
+4. Agent generation continues only after required clarifications are resolved.
 
 ### Business Model
 1. Team subscription by seats + AI usage credits.

@@ -6,17 +6,20 @@ Help teams build better software rapidly by turning collaborative specs into exe
 ## Stepwise Flow (Human + Agent)
 1. **Collaborate on spec**
    - Team and agents co-edit PRD/spec in real time.
-2. **Converge on decisions**
+2. **Run clarification walkthrough**
+   - Assistant asks focused questions when intent/scope is ambiguous.
+   - User selects options or answers directly; decisions are logged.
+3. **Converge on decisions**
    - Resolve open questions and approve section-level patches.
-3. **Run depth checks**
+4. **Run depth checks**
    - Assistant verifies required artifacts and asks targeted continuation questions where detail is missing.
-4. **Generate iteration recap**
+5. **Generate iteration recap**
    - Assistant summarizes current thesis, what changed, open decisions, and go/no-go posture.
-5. **Generate execution bundle**
+6. **Generate execution bundle**
    - Produce tasks, acceptance criteria, API/data model artifacts.
-6. **Generate starter repository**
+7. **Generate starter repository**
    - Create GitHub repo scaffold from approved spec bundle.
-7. **Developer takeover**
+8. **Developer takeover**
    - Engineers continue in repo with traceability back to spec sections.
 
 ## UX Journey (MVP to Phase 2)

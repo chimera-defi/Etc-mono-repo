@@ -61,3 +61,29 @@
 | [Reject] [Comment] [Accept]  |
 +------------------------------+
 ```
+
+## 5) Clarification Card (Ask-User)
+
+```text
++--------------------------------------------------------------+
+| Clarification Needed                                          |
+|--------------------------------------------------------------|
+| Section: PRD > Pricing Strategy                              |
+| Confidence: Low                                               |
+| Question: Which pricing model should MVP use?                |
+|--------------------------------------------------------------|
+| Option A: Seat-based                                          |
+| - Predictable revenue                                         |
+| - Harder for usage-heavy teams                                |
+|                                                              |
+| Option B: Seat + Usage (Recommended)                          |
+| - Better margin alignment                                     |
+| - Slightly higher UX complexity                               |
+|                                                              |
+| Option C: Usage-only                                          |
+| - Simple for trial/start                                      |
+| - Revenue volatility risk                                     |
+|--------------------------------------------------------------|
+| [Choose A] [Choose B] [Choose C] [Custom Answer]             |
++--------------------------------------------------------------+
+```
