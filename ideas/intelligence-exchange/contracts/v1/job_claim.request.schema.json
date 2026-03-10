@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "intelligence-exchange/v1/job_claim.request.schema.json",
+  "title": "JobClaimRequest",
+  "type": "object",
+  "required": ["worker_id", "job_id", "mode"],
+  "properties": {
+    "worker_id": { "type": "string", "minLength": 1 },
+    "job_id": { "type": "string", "minLength": 1 },
+    "mode": { "type": "string", "enum": ["claim", "bounty", "benchmark", "auction"] },
+    "bid_usd": { "type": "number", "minimum": 0.01 },
+    "eta_minutes": { "type": "integer", "minimum": 1 }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,11 @@
+{
+  "event_id": "evt_job_981_004",
+  "job_id": "job_981",
+  "state": "completed",
+  "timestamp": "2026-03-10T13:12:00Z",
+  "payload": {
+    "worker_id": "worker_77",
+    "quality_score": 0.93,
+    "review_status": "pending_buyer_acceptance"
+  }
+}

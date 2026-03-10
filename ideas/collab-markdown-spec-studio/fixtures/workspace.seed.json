@@ -1,0 +1,11 @@
+{
+  "workspace_id": "ws_01",
+  "document_id": "doc_123",
+  "title": "SpecForge MVP",
+  "version": 1,
+  "markdown": "# PRD\n\n## Goals\nTBD\n\n## Scope\nTBD\n",
+  "sections": [
+    {"section_id": "sec_goals", "heading": "Goals"},
+    {"section_id": "sec_scope", "heading": "Scope"}
+  ]
+}

@@ -1,4 +1,4 @@
-## Spec-to-Ship Workspace Multi-Pass Review
+## SpecForge Multi-Pass Review
 
 ## Pass 1: Strategic Positioning
 - Check: Is this just another editor?
@@ -19,3 +19,7 @@
 ## Pass 5: Readability and Bloat
 - Check: Is there concise top-level context for humans?
 - Result: Added executive summary, diagrams, and read-order guidance.
+
+## Pass 6: One-Shot Readiness
+- Check: Can a fresh agent start build execution with minimal interpretation?
+- Result: Added contracts, fixtures, acceptance matrix, first-60-minute runbook, and bounded sub-agent prompts.
