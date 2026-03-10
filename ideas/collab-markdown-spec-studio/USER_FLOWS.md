@@ -2,23 +2,13 @@
 
 ## 1) Happy Path: Idea -> Build-Ready Spec
 1. User creates workspace and enters high-level idea.
-2. Assistant runs clarification pass and asks targeted questions with options/tradeoffs.
+2. Assistant runs depth check and asks targeted clarifying questions.
 3. Team and agents co-edit PRD/SPEC with patch proposals.
 4. Reviewer accepts/rejects patches at section level.
 5. System generates recap (thesis, changes, open decisions, go/no-go posture).
 6. System validates artifact completeness + consistency.
 7. User exports build-ready bundle (`PRD`, `SPEC`, `TASKS`, `agent_spec.json`).
 8. Optional: create starter repo from approved bundle.
-
-## 5) Clarification Path: Ambiguous Requirements
-1. System detects low-confidence section (example: pricing model unclear).
-2. Assistant opens question card with 2-3 option paths and tradeoffs.
-3. User answers/selects option.
-4. System updates:
-   - PRD section
-   - assumptions log
-   - decision record
-5. Generation resumes with clarified constraints.
 
 ## 2) Failure Path: Low-Quality Agent Output
 1. Agent proposes patch with low confidence/risk flag.

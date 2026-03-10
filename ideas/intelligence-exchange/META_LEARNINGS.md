@@ -12,4 +12,3 @@
 10. Keep paired artifacts: concise executive summary for humans and deep implementation docs for agents.
 11. CI should skip irrelevant jobs on docs-only PRs to reduce false-fail review noise.
 12. Design the market as broker-first now but protocol-compatible later to preserve distribution optionality.
-13. Keep competitor tracking concrete with a named, scored matrix (including direct competitors like Daydreams).
