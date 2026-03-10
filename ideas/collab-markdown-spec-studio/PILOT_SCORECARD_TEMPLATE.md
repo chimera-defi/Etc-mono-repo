@@ -1,4 +1,4 @@
-## Pilot Scorecard Template (Spec-to-Ship Workspace)
+## Pilot Scorecard Template (SpecForge)
 
 ### Team Summary
 - Team:

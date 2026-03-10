@@ -1,4 +1,4 @@
-## Financial Model (Spec-to-Ship Workspace)
+## Financial Model (SpecForge)
 
 ## Modeling Principle
 Model as team SaaS + usage expansion, with outcome metrics tied to retained teams.

@@ -1,4 +1,4 @@
-## Spec-to-Ship Workspace Executive Summary
+## SpecForge Executive Summary
 
 ### One-Liner
 A multiplayer markdown workspace where humans and AI agents co-author specs, approve patch-level edits, and generate execution-ready outputs that can become starter repos.

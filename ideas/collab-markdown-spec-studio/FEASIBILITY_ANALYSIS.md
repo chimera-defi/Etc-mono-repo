@@ -1,4 +1,4 @@
-## Feasibility Analysis (Spec-to-Ship Workspace)
+## Feasibility Analysis (SpecForge)
 
 ### Technical Feasibility
 **Verdict:** Feasible with existing realtime collaboration and AI patching patterns.

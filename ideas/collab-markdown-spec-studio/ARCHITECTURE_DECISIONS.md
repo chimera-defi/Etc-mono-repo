@@ -1,4 +1,4 @@
-## Architecture Decisions (Spec-to-Ship Workspace)
+## Architecture Decisions (SpecForge)
 
 ## Decision 1: CRDT Collaboration Core
 - Choice: CRDT-backed real-time editing.

@@ -1,4 +1,4 @@
-## Spec-to-Ship Workspace Refinements (Iteration Log)
+## SpecForge Refinements (Iteration Log)
 
 ## Iteration 1
 - Added baseline PRD/SPEC for collaborative markdown + agent edits.

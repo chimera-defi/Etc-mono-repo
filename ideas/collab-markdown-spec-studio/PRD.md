@@ -1,4 +1,4 @@
-## Collaborative Spec-to-Ship Workspace PRD
+## SpecForge PRD
 
 **Status**: Draft | **Last Updated**: 2026-03-06 | **Owner**: TBD
 
