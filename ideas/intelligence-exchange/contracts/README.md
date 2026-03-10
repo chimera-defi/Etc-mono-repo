@@ -1,6 +1,6 @@
 # Intelligence Exchange Contracts
 
-Versioned protocol contracts for one-shot implementation.
+Template basis: `ideas/_templates/CONTRACTS_README.template.md`
 
 ## Version
 - Current: `v1`

@@ -1,6 +1,6 @@
 # SpecForge Fixtures
 
-Deterministic fixture pack for local development and acceptance testing.
+Template basis: `ideas/_templates/FIXTURES_README.template.md`
 
 ## Files
 - `workspace.seed.json`: baseline workspace/doc seed.
