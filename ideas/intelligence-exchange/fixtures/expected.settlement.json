@@ -1,0 +1,11 @@
+{
+  "batch_id": "settle_2026_03_10",
+  "total_jobs": 2,
+  "gross_usd": 15.0,
+  "platform_fee_usd": 1.5,
+  "net_payout_usd": 13.5,
+  "line_items": [
+    {"job_id": "job_981", "worker_id": "worker_77", "payout_usd": 9.18},
+    {"job_id": "job_982", "worker_id": "worker_88", "payout_usd": 4.32}
+  ]
+}

@@ -29,6 +29,7 @@ Collaborative editors exist, but a focused "spec studio" with multi-agent workfl
 - Validation and economics: `VALIDATION_PLAN`, `GO_NO_GO_SCORECARD`, `PILOT_SCORECARD_TEMPLATE`, `FINANCIAL_MODEL`, `RISK_REGISTER`
 - Execution and governance: `90_DAY_EXECUTION_PLAN`, `TASKS`, `DECISIONS`, `AGENT_HANDOFF`, `SPEC_STAGE_CHECKLIST`
 - Iteration history: `REFINEMENTS`, `MULTIPASS_REVIEW`, `META_LEARNINGS`, `IDEA_DEVELOPMENT_FRAMEWORK`
+- One-shot build assets: `contracts/`, `fixtures/`, `ACCEPTANCE_TEST_MATRIX.md`, `FIRST_60_MINUTES.md`, `SUBAGENT_PROMPT_PACK.md`
 
 ### Source Notes
 Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid duplication.

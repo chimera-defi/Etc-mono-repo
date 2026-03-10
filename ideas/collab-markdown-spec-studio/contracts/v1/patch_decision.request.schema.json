@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "specforge/v1/patch_decision.request.schema.json",
+  "title": "PatchDecisionRequest",
+  "type": "object",
+  "required": ["patch_id", "decision", "reviewer_id"],
+  "properties": {
+    "patch_id": { "type": "string", "minLength": 1 },
+    "decision": { "type": "string", "enum": ["accept", "reject", "cherry_pick"] },
+    "reviewer_id": { "type": "string", "minLength": 1 },
+    "reason": { "type": "string", "maxLength": 1000 },
+    "cherry_pick_ranges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["start", "end"],
+        "properties": {
+          "start": { "type": "integer", "minimum": 0 },
+          "end": { "type": "integer", "minimum": 0 }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
