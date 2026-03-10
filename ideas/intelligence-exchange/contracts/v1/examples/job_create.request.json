@@ -1,0 +1,14 @@
+{
+  "buyer_id": "buyer_100",
+  "task_type": "coding",
+  "prompt": "Refactor this TypeScript module for testability.",
+  "attachments": [
+    {
+      "uri": "s3://jobs/inputs/repo_bundle_42.tar.gz",
+      "kind": "repo"
+    }
+  ],
+  "budget_usd_max": 12.5,
+  "sla_minutes": 45,
+  "quality_profile": "balanced"
+}

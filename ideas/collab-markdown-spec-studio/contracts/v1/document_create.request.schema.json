@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "specforge/v1/document_create.request.schema.json",
+  "title": "DocumentCreateRequest",
+  "type": "object",
+  "required": ["workspace_id", "title", "initial_markdown"],
+  "properties": {
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "initial_markdown": { "type": "string" },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}
