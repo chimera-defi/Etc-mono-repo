@@ -12,7 +12,7 @@ Constraints: no speculative integrations; keep MVP strict.
 You own `SPEC.md` and `contracts/v1/*`.
 Task: define event/state contracts and ensure concurrent edit behavior is deterministic.
 Output: versioned schemas + payload examples + invariants list.
-Constraints: no breaking changes without `v2`.
+Constraints: `v1` may break while iterating; enforce backward compatibility from `v2` onward.
 
 ## Prompt C: Governance/Safety Agent
 You own `ADVERSARIAL_TESTS.md` and `RISK_REGISTER.md`.
