@@ -22,6 +22,6 @@ Versioned interface contracts for one-shot implementation.
 - `v1/examples/document_event.json`
 
 ## Contract Rules
-1. Backward-compatible additions are allowed within `v1`.
-2. Breaking changes require a new version directory.
+1. `v1` is pre-compatibility and may include breaking changes until frozen.
+2. Backward compatibility is required starting from `v2` onward.
 3. Every schema change must include an updated example payload.
