@@ -2,6 +2,8 @@
 
 See `COMPETITOR_MATRIX.md` for named competitors and side-by-side scoring.
 
+See `COMPETITOR_MATRIX.md` for named competitors and side-by-side capability scoring.
+
 ## Categories
 1. Collaborative docs suites (Notion/Google Docs/Coda)
 2. Collaborative markdown tools (HackMD/HedgeDoc)
