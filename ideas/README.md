@@ -21,6 +21,15 @@ Process expectations:
 3. Use a guided clarification loop for ambiguous sections (ask, answer, commit to decisions).
 4. Keep docs concise and grouped for fast human review.
 
+## Build-Ready Addendum (For Parallel Agent Execution)
+
+To make an idea one-shot buildable by Codex/AgentCon, each idea pack should also include:
+1. A dependency-ordered `TASKS.md` with named parallel workstreams and explicit done criteria.
+2. An `AGENT_HANDOFF.md` with bounded sub-agent prompts (clear file scope + objective).
+3. Versioned interface contracts in `SPEC.md` (schema, events, errors, and example payloads).
+4. A local-run bootstrap checklist (first 60 minutes) with fixtures and validation checks.
+5. A merge contract requiring recap + unresolved-question surfacing before each pass closes.
+
 ## OAuth-Based Automated Provider Setup
 
 **Problem**: Manual setup of third-party services (Google Analytics, authentication providers, etc.) requires copying API keys, configuring environment variables, and updating multiple files—a tedious, error-prone process.
