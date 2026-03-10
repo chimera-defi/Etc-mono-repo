@@ -1,4 +1,4 @@
-## Adversarial Tests (SpecForge)
+## Adversarial Tests (Spec-to-Ship Workspace)
 
 ### 1) Incumbent Gravity Attack
 **Attack:** Teams stay in Notion/Docs and never migrate core workflow.
