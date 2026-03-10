@@ -31,6 +31,18 @@ See `COMPETITOR_MATRIX.md` for named competitors and side-by-side scoring.
 - Weaknesses: weak multi-user merge/provenance controls.
 - Opportunity for us: collaborative trust and auditability.
 
+### AI PM/PRD Platform (ChatPRD)
+- Strengths: strong PM workflow UX, good AI-authoring ergonomics, and strong handoff integrations (Cursor/Replit/v0) plus connector ecosystem (MCP).
+- Weaknesses: limited merge-safe patch governance semantics compared to section-level accept/reject/cherry-pick workflows.
+- Opportunity for us: lead on high-trust governance and auditable agent collaboration while matching fast handoff UX.
+
+## Product Upgrades Triggered by ChatPRD Research
+1. Add one-click "Open in <coding tool>" handoff actions with compressed context bundles.
+2. Add connector/tool selector UX to pick active MCP tools per workspace or task.
+3. Add project knowledge spaces with reusable template packs for teams.
+4. Add PM workflow integration mode (e.g., Linear/Jira issue drafting and sync hints).
+5. Keep governance as the core wedge: every AI edit remains patch-reviewed and audit-linked.
+
 ### Repo Scaffolding Tools
 - Strengths: fast project bootstrapping.
 - Weaknesses: weak upstream spec traceability.

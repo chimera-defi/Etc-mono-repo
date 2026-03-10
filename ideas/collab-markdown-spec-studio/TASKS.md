@@ -11,6 +11,7 @@
 - [ ] Finalize MVP boundaries vs phase-2 scope.
 - [ ] Finalize pilot success/kill thresholds.
 - [ ] Finalize core integrations priority.
+- [ ] Define ChatPRD-parity baseline for handoff UX (Cursor/Replit/v0-style launch points) and where SpecForge intentionally differs.
 
 ## Parallel Workstreams (AgentCon Kickoff)
 
@@ -39,6 +40,7 @@
 - [ ] Define export bundle contract (spec artifacts -> scaffold input).
 - [ ] Define generation templates, guardrails, and confidence reporting.
 - [ ] Define "handoff complete" checklist for engineering teams.
+- [ ] Define one-click handoff actions to external coding tools with context compression.
 - Deliverables: updated `VISION_AND_FLOW.md`, `AGENT_HANDOFF.md`.
 - Done when: export contract can be consumed without manual interpretation.
 
