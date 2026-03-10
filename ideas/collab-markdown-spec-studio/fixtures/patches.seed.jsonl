@@ -1,0 +1,2 @@
+{"patch_id":"patch_1","section_id":"sec_goals","operation":"replace","content":"## Goals\n1. Reduce spec-to-first-commit by 40%."}
+{"patch_id":"patch_2","section_id":"sec_scope","operation":"replace","content":"## Scope\nMVP includes editor, patch queue, export."}

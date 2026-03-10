@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "intelligence-exchange/v1/job_create.request.schema.json",
+  "title": "JobCreateRequest",
+  "type": "object",
+  "required": ["buyer_id", "task_type", "prompt", "budget_usd_max", "sla_minutes"],
+  "properties": {
+    "buyer_id": { "type": "string", "minLength": 1 },
+    "task_type": { "type": "string", "enum": ["analysis", "coding", "research", "summarization"] },
+    "prompt": { "type": "string", "minLength": 1 },
+    "attachments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["uri", "kind"],
+        "properties": {
+          "uri": { "type": "string", "minLength": 1 },
+          "kind": { "type": "string", "enum": ["text", "image", "repo", "pdf"] }
+        },
+        "additionalProperties": false
+      }
+    },
+    "budget_usd_max": { "type": "number", "minimum": 0.01 },
+    "sla_minutes": { "type": "integer", "minimum": 1 },
+    "quality_profile": { "type": "string", "enum": ["fast", "balanced", "strict"] }
+  },
+  "additionalProperties": false
+}

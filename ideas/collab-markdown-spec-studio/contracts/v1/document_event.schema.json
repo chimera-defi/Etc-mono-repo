@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "specforge/v1/document_event.schema.json",
+  "title": "DocumentEvent",
+  "type": "object",
+  "required": ["event_id", "document_id", "event_type", "version", "timestamp", "payload"],
+  "properties": {
+    "event_id": { "type": "string", "minLength": 1 },
+    "document_id": { "type": "string", "minLength": 1 },
+    "event_type": {
+      "type": "string",
+      "enum": ["document.created", "patch.proposed", "patch.accepted", "patch.rejected", "snapshot.created"]
+    },
+    "version": { "type": "integer", "minimum": 1 },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "payload": { "type": "object" }
+  },
+  "additionalProperties": false
+}

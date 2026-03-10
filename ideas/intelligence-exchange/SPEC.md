@@ -157,3 +157,6 @@ Do not model tradable credits in core architecture. Keep the platform anchored t
 7. `TASKMARKET_COMPATIBILITY.md`
 8. `VALIDATION_PLAN.md`
 9. `ALTERNATIVES_AND_VARIANTS.md`
+10. `contracts/README.md`
+11. `ACCEPTANCE_TEST_MATRIX.md`
+12. `FIRST_60_MINUTES.md`

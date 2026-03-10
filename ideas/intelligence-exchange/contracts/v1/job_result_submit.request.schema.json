@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "intelligence-exchange/v1/job_result_submit.request.schema.json",
+  "title": "JobResultSubmitRequest",
+  "type": "object",
+  "required": ["job_id", "worker_id", "status", "artifact_uri", "duration_ms"],
+  "properties": {
+    "job_id": { "type": "string", "minLength": 1 },
+    "worker_id": { "type": "string", "minLength": 1 },
+    "status": { "type": "string", "enum": ["completed", "failed", "expired"] },
+    "artifact_uri": { "type": "string", "minLength": 1 },
+    "summary": { "type": "string", "maxLength": 5000 },
+    "duration_ms": { "type": "integer", "minimum": 1 },
+    "telemetry": {
+      "type": "object",
+      "properties": {
+        "input_tokens": { "type": "integer", "minimum": 0 },
+        "output_tokens": { "type": "integer", "minimum": 0 },
+        "tool_calls": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
