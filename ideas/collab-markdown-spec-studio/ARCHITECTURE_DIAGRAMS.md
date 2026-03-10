@@ -1,4 +1,4 @@
-## SpecForge Architecture Diagrams
+## Spec-to-Ship Workspace Architecture Diagrams
 
 ## 1) Human + Agent Collaboration Flow
 
