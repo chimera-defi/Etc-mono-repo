@@ -1,6 +1,6 @@
 # SpecForge Contracts
 
-Versioned interface contracts for one-shot implementation.
+Template basis: `ideas/_templates/CONTRACTS_README.template.md`
 
 ## Version
 - Current: `v1`

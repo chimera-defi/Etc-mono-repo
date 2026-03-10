@@ -30,6 +30,8 @@ To make an idea one-shot buildable by Codex/AgentCon, each idea pack should also
 4. A local-run bootstrap checklist (first 60 minutes) with fixtures and validation checks.
 5. A merge contract requiring recap + unresolved-question surfacing before each pass closes.
 
+Use `ideas/_templates/` to avoid duplicating boilerplate across idea packs.
+
 ## OAuth-Based Automated Provider Setup
 
 **Problem**: Manual setup of third-party services (Google Analytics, authentication providers, etc.) requires copying API keys, configuring environment variables, and updating multiple files—a tedious, error-prone process.
