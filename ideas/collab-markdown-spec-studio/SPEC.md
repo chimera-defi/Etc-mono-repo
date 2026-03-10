@@ -129,3 +129,6 @@ Treat idea depth as first-class product state (not optional guidance) via requir
 8. `VALIDATION_PLAN.md`
 9. `ALTERNATIVES_AND_VARIANTS.md`
 10. `NAME_OPTIONS.md`
+11. `contracts/README.md`
+12. `ACCEPTANCE_TEST_MATRIX.md`
+13. `FIRST_60_MINUTES.md`

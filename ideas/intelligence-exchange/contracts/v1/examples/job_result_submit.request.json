@@ -1,0 +1,13 @@
+{
+  "job_id": "job_981",
+  "worker_id": "worker_77",
+  "status": "completed",
+  "artifact_uri": "s3://jobs/results/job_981/result.json",
+  "summary": "Refactor completed with 12 passing tests.",
+  "duration_ms": 1203450,
+  "telemetry": {
+    "input_tokens": 18000,
+    "output_tokens": 7200,
+    "tool_calls": 11
+  }
+}

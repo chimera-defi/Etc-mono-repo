@@ -1,0 +1,13 @@
+{
+  "document_id": "doc_123",
+  "section_id": "sec_goals",
+  "operation": "replace",
+  "content": "## Goals\n1. Reduce spec-to-first-commit by 40%.",
+  "rationale": "Clarifies measurable outcome.",
+  "proposed_by": {
+    "actor_type": "agent",
+    "actor_id": "agent_writer_1"
+  },
+  "base_version": 4,
+  "confidence": 0.82
+}
