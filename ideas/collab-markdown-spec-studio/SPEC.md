@@ -43,6 +43,12 @@ Build a real-time collaborative Markdown editor with agent patch workflows and s
 - Maintains "idea drift" view between initial thesis and current docs.
 - Enforces end-of-iteration summary payload before milestone close.
 
+### 8) Clarification Orchestrator (Ask-User Engine)
+- Detects ambiguity/low-confidence sections in PRD/spec drafts.
+- Generates concise clarifying questions with option sets and tradeoffs.
+- Blocks irreversible generation steps until required questions are answered.
+- Writes accepted answers back into canonical doc sections and decision log.
+
 ### Architecture
 - Frontend: web app (editor + collaboration UI + agent panel).
 - Collaboration service: websocket + CRDT sync.
@@ -74,6 +80,8 @@ Build a real-time collaborative Markdown editor with agent patch workflows and s
 3. `POST /repos/:id/sync-tasks`
 4. `POST /documents/:id/depth-check`
 5. `GET /documents/:id/recap`
+6. `POST /documents/:id/clarifications`
+7. `POST /clarifications/:id/answer`
 
 ### Permissions (MVP)
 1. Owner: full control.
@@ -113,10 +121,11 @@ Treat idea depth as first-class product state (not optional guidance) via requir
 ### Related Docs
 1. `VISION_AND_FLOW.md`
 2. `IDEA_DEVELOPMENT_FRAMEWORK.md`
-3. `UX_PRINCIPLES.md`
-4. `USER_FLOWS.md`
-5. `FRONTEND_VISION.md`
-6. `WIREFRAMES.md`
-7. `VALIDATION_PLAN.md`
-8. `ALTERNATIVES_AND_VARIANTS.md`
-9. `NAME_OPTIONS.md`
+3. `COMPETITOR_MATRIX.md`
+4. `UX_PRINCIPLES.md`
+5. `USER_FLOWS.md`
+6. `FRONTEND_VISION.md`
+7. `WIREFRAMES.md`
+8. `VALIDATION_PLAN.md`
+9. `ALTERNATIVES_AND_VARIANTS.md`
+10. `NAME_OPTIONS.md`

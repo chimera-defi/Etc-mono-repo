@@ -3,6 +3,15 @@
 ### Objective
 Standardize how an agent takes a rough idea to a decision-ready spec pack with consistent depth, explicit gaps, and user alignment checkpoints.
 
+### PRD Definition
+PRD = **Product Requirements Document**.
+It defines:
+1. user problem and target users,
+2. scope (MVP vs non-goals),
+3. success metrics and acceptance criteria,
+4. key constraints/risks,
+5. rollout assumptions.
+
 ### Depth Standard (Definition of "Fleshed Out")
 An idea is "fleshed out" only when all of the following exist:
 1. `EXECUTIVE_SUMMARY` with one-line thesis, wedge, top risks.
@@ -17,6 +26,9 @@ An idea is "fleshed out" only when all of the following exist:
    - `USER_FLOWS.md`
    - `FRONTEND_VISION.md`
    - `WIREFRAMES.md` (lo-fi text/ASCII acceptable)
+9. Competitor tracking:
+   - `COMPETITOR_ANALYSIS.md`
+   - `COMPETITOR_MATRIX.md` (named + scored)
 
 ### Agent Flow (Broad -> Deep)
 1. Frame: restate idea, non-goals, and success condition in plain language.
@@ -36,6 +48,16 @@ Priority question categories:
 4. Architecture: control points, failure handling, trust boundaries.
 5. GTM: first segment, acquisition channel, validation signal.
 6. Risks: legal/policy/abuse/reliability failure modes.
+7. Competition: named alternatives and explicit differentiation evidence.
+
+### Clarification Engine Pattern ("Ask User")
+When confidence is low or requirements are ambiguous:
+1. pause generation,
+2. ask a short, high-leverage clarifying question,
+3. present 2-3 concrete options with tradeoffs,
+4. proceed only after explicit user choice/answer.
+
+This should be modeled as first-class product behavior in SpecForge, not ad hoc chat style.
 
 ### End-of-Iteration Recap Protocol
 At the end of each major iteration, the agent must provide:

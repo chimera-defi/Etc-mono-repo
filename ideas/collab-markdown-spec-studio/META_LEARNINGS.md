@@ -17,3 +17,5 @@
 15. Standardized artifact bundles improve parallel sub-agent throughput and reduce merge conflicts.
 16. Add a "parallel execution pack" (workstream split, dependencies, verification commands, prompt templates) before build kickoff.
 17. CI should skip irrelevant jobs on docs-only PRs to reduce false-fail review noise.
+18. Track named competitors in a scored matrix, not only narrative category notes.
+19. Treat clarifying-question UX as core product logic; block low-confidence generation until answers are captured.

@@ -11,13 +11,15 @@ For new idea packs, default to a decision-ready spec stage instead of lightweigh
 Required baseline:
 1. Core pack: `EXECUTIVE_SUMMARY`, `PRD`, `SPEC`, `ARCHITECTURE_DIAGRAMS`, `VALIDATION_PLAN`, `RISK_REGISTER`, `FINANCIAL_MODEL`, `GO_NO_GO_SCORECARD`, `AGENT_HANDOFF`.
 2. UX pack: `UX_PRINCIPLES`, `USER_FLOWS`, `FRONTEND_VISION`, `WIREFRAMES` (lo-fi is acceptable).
-3. Review ergonomics: include `README_REVIEW_GUIDE.md` with 10-minute and 25-minute read paths.
-4. Iteration quality: keep `META_LEARNINGS` and `MULTIPASS_REVIEW` updated to capture what changed and why.
+3. Competition pack: `COMPETITOR_ANALYSIS`, `COMPETITOR_MATRIX` (named + scored).
+4. Review ergonomics: include `README_REVIEW_GUIDE.md` with 10-minute and 25-minute read paths.
+5. Iteration quality: keep `META_LEARNINGS` and `MULTIPASS_REVIEW` updated to capture what changed and why.
 
 Process expectations:
 1. If detail is missing, ask targeted continuation questions instead of ending early.
 2. End major iterations with a recap: current thesis, what changed, open decisions, go/no-go posture.
-3. Keep docs concise and grouped for fast human review.
+3. Use a guided clarification loop for ambiguous sections (ask, answer, commit to decisions).
+4. Keep docs concise and grouped for fast human review.
 
 ## OAuth-Based Automated Provider Setup
 

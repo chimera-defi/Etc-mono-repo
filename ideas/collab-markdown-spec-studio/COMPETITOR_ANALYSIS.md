@@ -1,10 +1,13 @@
 ## Competitor Analysis (Spec-to-Ship Workspace)
 
+See `COMPETITOR_MATRIX.md` for named competitors and side-by-side scoring.
+
 ## Categories
 1. Collaborative docs suites (Notion/Google Docs/Coda)
 2. Collaborative markdown tools (HackMD/HedgeDoc)
-3. AI writing/assistant tools
-4. Repo scaffolding/project generators
+3. Product/PRD tools (Productboard/Jira Product Discovery/Aha!)
+4. AI writing/assistant tools
+5. Repo scaffolding/project generators
 
 ## Competitive Snapshot
 
@@ -17,6 +20,11 @@
 - Strengths: markdown-native collaboration simplicity.
 - Weaknesses: limited AI governance and execution handoff capabilities.
 - Opportunity for us: structured agent patch review + build artifact exports.
+
+### Product/PRD Tools
+- Strengths: strong requirements capture and portfolio workflows.
+- Weaknesses: weaker multiplayer agent patch governance and spec-to-code handoff.
+- Opportunity for us: merge-safe human+agent authoring tied directly to implementation artifacts.
 
 ### AI Writing Tools
 - Strengths: strong generation speed.

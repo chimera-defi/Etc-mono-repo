@@ -7,6 +7,7 @@
 4. Decision and recap panel
 5. Export/repo generation panel
 6. Audit/history viewer
+7. Clarification queue (ask-user panel)
 
 ## Primary Screen Model
 1. Left rail: section tree + status badges (draft/review/blocked/final).
@@ -24,6 +25,7 @@
    - rationale
    - confidence/risk signal
 3. Recap updates are generated on major state transitions.
+4. Ambiguous/low-confidence sections trigger clarification cards before generation continues.
 
 ## MVP Frontend Scope
 1. Desktop-first web app.
