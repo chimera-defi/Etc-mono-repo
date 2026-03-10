@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "intelligence-exchange/v1/job_state_event.schema.json",
+  "title": "JobStateEvent",
+  "type": "object",
+  "required": ["event_id", "job_id", "state", "timestamp", "payload"],
+  "properties": {
+    "event_id": { "type": "string", "minLength": 1 },
+    "job_id": { "type": "string", "minLength": 1 },
+    "state": {
+      "type": "string",
+      "enum": ["submitted", "queued", "claimed", "running", "completed", "rejected", "disputed", "settled"]
+    },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "payload": { "type": "object" }
+  },
+  "additionalProperties": false
+}

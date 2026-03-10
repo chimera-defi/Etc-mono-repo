@@ -1,0 +1,2 @@
+{"job_id":"job_981","buyer_id":"buyer_100","task_type":"coding","budget_usd_max":12.5,"sla_minutes":45,"quality_profile":"balanced"}
+{"job_id":"job_982","buyer_id":"buyer_101","task_type":"analysis","budget_usd_max":6.0,"sla_minutes":20,"quality_profile":"fast"}

@@ -1,0 +1,6 @@
+{
+  "workers": [
+    {"worker_id": "worker_77", "task_types": ["coding", "analysis"], "score": 0.92, "mode": "manual"},
+    {"worker_id": "worker_88", "task_types": ["analysis"], "score": 0.87, "mode": "scheduled"}
+  ]
+}

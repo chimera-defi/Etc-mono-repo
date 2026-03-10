@@ -1,0 +1,12 @@
+{
+  "event_id": "evt_001",
+  "document_id": "doc_123",
+  "event_type": "patch.accepted",
+  "version": 5,
+  "timestamp": "2026-03-10T13:00:00Z",
+  "payload": {
+    "patch_id": "patch_987",
+    "section_id": "sec_goals",
+    "reviewer_id": "user_42"
+  }
+}
