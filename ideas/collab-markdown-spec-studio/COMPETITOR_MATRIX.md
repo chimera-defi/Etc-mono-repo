@@ -24,19 +24,6 @@ Scoring legend:
 2. Matrix now tracks ChatPRD as a first-class competitor.
 
 ## Sources
-1. Notion docs: https://www.notion.com/help/guides/category/documentation
-2. Google Docs: https://workspace.google.com/products/docs/
-3. Confluence: https://www.atlassian.com/software/confluence
-4. Productboard PRD guide: https://www.productboard.com/blog/product-requirements-document-guide/
-5. Jira Product Discovery: https://www.atlassian.com/software/jira/product-discovery
-6. Aha! requirements: https://www.aha.io/roadmaps/requirements
-7. Coda docs: https://help.coda.io/en/articles/2789513-getting-started-with-docs
-8. HackMD: https://hackmd.io/
-9. HedgeDoc docs: https://docs.hedgedoc.org/
-10. ChatPRD home: https://www.chatprd.ai/
-11. ChatPRD team collaboration: https://www.chatprd.ai/docs/team-collaboration
-12. ChatPRD MCP connectors: https://www.chatprd.ai/docs/mcp-connectors
-13. ChatPRD Cursor integration: https://www.chatprd.ai/docs/cursor-integration
-14. ChatPRD Replit integration: https://www.chatprd.ai/docs/replit-integration
-15. ChatPRD v0 integration: https://www.chatprd.ai/docs/v0-integration
-16. ChatPRD pricing: https://www.chatprd.ai/pricing
+1. Consolidated source list: `RESEARCH_NOTES.md`
+2. ChatPRD home: https://www.chatprd.ai/
+3. ChatPRD docs index: https://www.chatprd.ai/docs

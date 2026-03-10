@@ -19,3 +19,7 @@
 ## Pass 5: Readability and Bloat
 - Check: Is there a concise summary for human reviewers?
 - Result: Added `EXECUTIVE_SUMMARY.md` + `ARCHITECTURE_DIAGRAMS.md` and consolidated read order.
+
+## Pass 6: One-Shot Readiness
+- Check: Can a fresh agent execute core implementation loops without clarifying passes?
+- Result: Added versioned contracts, deterministic fixtures, acceptance matrix, first-60-minute runbook, and bounded sub-agent prompts.

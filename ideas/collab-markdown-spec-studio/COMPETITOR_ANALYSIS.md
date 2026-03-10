@@ -1,4 +1,4 @@
-## Competitor Analysis (Spec-to-Ship Workspace)
+## Competitor Analysis (SpecForge)
 
 See `COMPETITOR_MATRIX.md` for named competitors and side-by-side scoring.
 

@@ -1,4 +1,4 @@
-## Research Notes (Spec-to-Ship Workspace)
+## Research Notes (SpecForge)
 
 ### Sources Reviewed
 1. Google Docs product page: https://workspace.google.com/products/docs/

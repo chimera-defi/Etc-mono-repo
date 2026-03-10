@@ -1,4 +1,4 @@
-## Risk Register (Spec-to-Ship Workspace)
+## Risk Register (SpecForge)
 
 | Risk | Likelihood | Impact | Owner | Mitigation | Trigger |
 |---|---|---|---|---|---|

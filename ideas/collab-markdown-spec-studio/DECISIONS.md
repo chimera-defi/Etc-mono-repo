@@ -1,4 +1,4 @@
-# Spec-to-Ship Workspace Decisions
+# SpecForge Decisions
 
 ## 2026-03-05 -- Wedge is workflow, not generic editing
 **Decision:** Position around spec-to-ship outcomes and agent patch governance.
