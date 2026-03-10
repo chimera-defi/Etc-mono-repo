@@ -1,6 +1,6 @@
 # Intelligence Exchange Fixtures
 
-Deterministic fixture pack for local protocol and routing tests.
+Template basis: `ideas/_templates/FIXTURES_README.template.md`
 
 ## Files
 - `jobs.seed.jsonl`: canonical job submissions.
