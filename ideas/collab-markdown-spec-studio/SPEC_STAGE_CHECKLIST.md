@@ -11,6 +11,8 @@
 - [x] User flows
 - [x] Frontend vision
 - [x] Wireframes (lo-fi acceptable)
+- [x] Competitor analysis
+- [x] Competitor matrix (named + scored)
 - [x] Alternatives and variants
 - [x] Name options
 - [x] Research prompt
