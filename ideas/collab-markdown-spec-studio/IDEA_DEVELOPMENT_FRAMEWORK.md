@@ -17,6 +17,9 @@ An idea is "fleshed out" only when all of the following exist:
    - `USER_FLOWS.md`
    - `FRONTEND_VISION.md`
    - `WIREFRAMES.md` (lo-fi text/ASCII acceptable)
+9. Competitor tracking:
+   - `COMPETITOR_ANALYSIS.md`
+   - `COMPETITOR_MATRIX.md` with named competitors and capability scoring
 
 ### Agent Flow (Broad -> Deep)
 1. Frame: restate idea, non-goals, and success condition in plain language.
@@ -36,6 +39,7 @@ Priority question categories:
 4. Architecture: control points, failure handling, trust boundaries.
 5. GTM: first segment, acquisition channel, validation signal.
 6. Risks: legal/policy/abuse/reliability failure modes.
+7. Competition: named alternatives, why we still win, and where we are weaker.
 
 ### End-of-Iteration Recap Protocol
 At the end of each major iteration, the agent must provide:
