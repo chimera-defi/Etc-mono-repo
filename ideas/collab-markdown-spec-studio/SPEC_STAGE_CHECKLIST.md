@@ -11,6 +11,8 @@
 - [x] User flows
 - [x] Frontend vision
 - [x] Wireframes (lo-fi acceptable)
+- [x] Competitor analysis
+- [x] Competitor matrix (named + scored)
 - [x] Alternatives and variants
 - [x] Name options
 - [x] Research prompt
@@ -24,3 +26,4 @@
 3. Must include phased rollout and scope cuts.
 4. Must include adversarial and kill criteria.
 5. Must include UX primary path + failure path coverage.
+6. Must include guided clarification ("ask user") path for ambiguous sections.
