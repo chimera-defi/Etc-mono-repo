@@ -134,7 +134,7 @@ DeFi protocol concept for ERC-8004 agent credit with Ethos vouching + reverse-Ke
 - [PRD](./intelligence-exchange/PRD.md)
 - [Technical Spec](./intelligence-exchange/SPEC.md)
 
-## SpecForge (Working Name): Collaborative Spec-to-Ship Workspace
+## SpecForge (Working Name): Collaborative Spec Workspace
 
 **Concept**: Multiplayer Markdown workspace for humans + AI agents with section-level patch proposals, merge controls, provenance, and a path from approved spec bundle to starter GitHub repo.
 

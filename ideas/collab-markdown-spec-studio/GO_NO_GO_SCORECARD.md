@@ -1,4 +1,4 @@
-## Go / No-Go Scorecard (Spec-to-Ship Workspace)
+## Go / No-Go Scorecard (SpecForge)
 
 Score each item 0-2. Proceed only if total >= 12/16 and no critical 0 in retention or reliability.
 

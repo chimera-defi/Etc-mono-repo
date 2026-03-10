@@ -1,4 +1,4 @@
-## Meta Learnings (Spec-to-Ship Workspace)
+## Meta Learnings (SpecForge)
 
 1. Strong naming and positioning matter early in crowded categories.
 2. Separate collaboration value from execution value; connect them with explicit flow.

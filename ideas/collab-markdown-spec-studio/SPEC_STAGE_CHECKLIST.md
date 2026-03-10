@@ -1,4 +1,4 @@
-# Spec Stage Checklist (Spec-to-Ship Workspace)
+# Spec Stage Checklist (SpecForge)
 
 - [x] README
 - [x] PRD
