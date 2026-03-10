@@ -1,4 +1,4 @@
-## 90-Day Execution Plan (SpecForge)
+## 90-Day Execution Plan (Spec-to-Ship Workspace)
 
 ## Days 0-30: Discovery + Workflow Baseline
 1. Conduct 15 interviews across founder/product/engineering roles.
