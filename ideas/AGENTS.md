@@ -17,11 +17,11 @@ Quick reminder for Ideas PRs:
 
 Multiplayer Markdown workspace for humans + AI agents to co-author PRDs/specs with section-level patch proposals, merge controls, and provenance. Phase 2: one-click starter repo generation.
 
-**Key docs:** `EXECUTIVE_SUMMARY.md`, `PRD.md`, `SPEC.md`, `ARCHITECTURE_DECISIONS.md`, `OPEN_QUESTIONS.md`
+**Key docs:** `EXECUTIVE_SUMMARY.md`, `PRD.md`, `SPEC.md`, `ARCHITECTURE_DECISIONS.md`, `STATE_MODEL.md`, `OPEN_QUESTIONS.md`
 
 **Tech stack (decided):** Yjs (CRDT) + Next.js 15 + CodeMirror 6 + Hono/Bun API + Postgres + Clerk auth + Claude API
 
-**Open questions before build:** 9 questions in `OPEN_QUESTIONS.md` — section granularity, patch format, auth provider, self-host story, CRDT sync host, context-window handling, AI cost model, patch acceptance state, multi-workspace MVP requirement.
+**Open questions before build:** 8 open questions in `OPEN_QUESTIONS.md` — section granularity, patch format (text diff vs AST ops), auth provider, self-host story, CRDT sync host (PartyKit vs y-websocket), context-window strategy for large docs, AI cost model, patch acceptance state machine.
 
 **Status:** Spec-ready; awaiting open question resolution before one-shot build.
 

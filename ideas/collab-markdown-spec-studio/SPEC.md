@@ -3,27 +3,27 @@
 ### Summary
 Build a real-time collaborative Markdown editor with agent patch workflows and section-level merge controls.
 
-### Core Components
+### Core Components (MVP)
 
 ### 1) Realtime Editor Layer
-- Markdown editor with operational collaboration (CRDT/OT).
+- Markdown editor with CRDT collaboration via **Yjs** (see ARCHITECTURE_DECISIONS.md D1).
 - Presence: cursors, selections, user states.
 - Comment threads anchored to document ranges.
 
 ### 2) Agent Patch Engine
-- Agents propose structured patches (insert/replace/delete) against section IDs.
+- Agents propose structured patches (insert/replace/delete) against stable section IDs (UUID comment markers — see ARCHITECTURE_DECISIONS.md D7).
 - Patch review queue with accept/reject/cherry-pick.
-- Optional auto-apply policy for low-risk edits.
+- Optional auto-apply policy for low-risk edits from trusted agents.
 
 ### 3) Document Model
 - Canonical markdown + section AST index.
-- Stable section IDs for patching and history.
+- Stable section IDs via UUID comment markers (stripped on export).
 - Metadata per block: author type, timestamp, provenance, confidence.
 
 ### 4) Versioning + Merge
 - Snapshot versions per save checkpoint.
-- Section-level branch and merge.
-- Conflict resolver for overlapping patches.
+- Section-level conflict detection for overlapping patches.
+- Conflict resolver routes to manual reviewer when needed.
 
 ### 5) Spec Export Layer
 - Export bundle:
@@ -32,7 +32,9 @@ Build a real-time collaborative Markdown editor with agent patch workflows and s
   - `TASKS.md`
   - `agent_spec.json`
 
-### 6) Repo Scaffold Generator (Phase 2)
+### Phase 2 Extensions (Not MVP)
+
+### 6) Repo Scaffold Generator
 - Generates a starter GitHub repository from approved spec bundle.
 - Supports template packs (frontend, API backend, docs-first starter).
 - Embeds trace links from generated files/issues back to spec sections.
@@ -42,12 +44,14 @@ Build a real-time collaborative Markdown editor with agent patch workflows and s
 - Issues targeted agent prompts when artifacts are missing or weak.
 - Maintains "idea drift" view between initial thesis and current docs.
 - Enforces end-of-iteration summary payload before milestone close.
+- **Scope:** Phase 2 only. MVP must validate core collaboration + patch review value first. See ARCHITECTURE_DECISIONS.md D11.
 
 ### 8) Clarification Orchestrator (Ask-User Engine)
 - Detects ambiguity/low-confidence sections in PRD/spec drafts.
 - Generates concise clarifying questions with option sets and tradeoffs.
 - Blocks irreversible generation steps until required questions are answered.
 - Writes accepted answers back into canonical doc sections and decision log.
+- **Scope:** Phase 2 only. Bundled with the depth orchestrator.
 
 ### Architecture
 - Frontend: web app (editor + collaboration UI + agent panel).
@@ -112,11 +116,13 @@ Build a real-time collaborative Markdown editor with agent patch workflows and s
 2. Phase 2: agent patch queue + approvals + provenance tags.
 3. Phase 3: section branching/merge + repo scaffolding + integrations + advanced governance.
 
-### Key Technical Choice
-Use CRDT-backed editing for robust multiplayer behavior and offline/reconnect tolerance.
-
-### Depth Enforcement Choice
-Treat idea depth as first-class product state (not optional guidance) via required gates and recap checkpoints.
+### Key Technical Choices
+- **CRDT library:** Yjs (y-websocket or PartyKit as sync server) — see ARCHITECTURE_DECISIONS.md D1.
+- **Frontend:** Next.js 15 + CodeMirror 6 — see ARCHITECTURE_DECISIONS.md D2.
+- **API:** Hono + Bun — see ARCHITECTURE_DECISIONS.md D3.
+- **Database:** Postgres (metadata/events) + R2 (snapshots) — see ARCHITECTURE_DECISIONS.md D4.
+- **Auth:** Clerk — see ARCHITECTURE_DECISIONS.md D5.
+- **AI:** Claude API (provider-pluggable) — see ARCHITECTURE_DECISIONS.md D6.
 
 ### Related Docs
 1. `VISION_AND_FLOW.md`
