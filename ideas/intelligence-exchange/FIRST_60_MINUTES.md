@@ -2,6 +2,25 @@
 
 Template basis: `ideas/_templates/FIRST_60_MINUTES.template.md`
 
+> **Pre-build status:** No implementation exists yet. This runbook defines the target acceptance surface for when a build agent scaffolds the project. Use the Stack Bootstrap section first.
+
+## Stack Bootstrap (run once before first `pnpm dev:up`)
+```bash
+# Broker API (Hono + Bun)
+mkdir iex-broker && cd iex-broker
+bun create hono .
+bun add drizzle-orm postgres bullmq ioredis stripe
+
+# Worker CLI (Node + TypeScript)
+mkdir ../iex-worker && cd ../iex-worker
+bun init -y
+bun add @anthropic-ai/sdk openai axios commander dotenv  # connectors
+
+# Local deps
+docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=dev postgres:16
+docker run -d -p 6379:6379 redis:7  # for job queue (BullMQ)
+```
+
 ## Goal
 Run local broker + worker simulation, process seed jobs, and verify deterministic settlement.
 
