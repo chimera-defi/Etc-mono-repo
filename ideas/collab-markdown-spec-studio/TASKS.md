@@ -23,10 +23,12 @@
 - Done when: each critical flow has measurable start/end conditions.
 
 ### WS-2 Realtime Collaboration Core
-- [ ] Define CRDT/OT choice and conflict-resolution invariants.
+- CRDT library: **Yjs** (decided — see ARCHITECTURE_DECISIONS.md D1). Sync server: PartyKit (cloud) or y-websocket (self-hosted) — see OPEN_QUESTIONS.md Q4/Q5.
+- [ ] Implement Yjs document binding with CodeMirror 6 (use `@codemirror/collab`).
 - [ ] Define session lifecycle, presence model, and permission model.
 - [ ] Define document event schema and replay semantics.
-- Deliverables: `SPEC.md` architecture section + event contract appendix.
+- [ ] Implement conflict resolver for overlapping section patches.
+- Deliverables: `SPEC.md` architecture section + event contract appendix + `STATE_MODEL.md` patch states.
 - Done when: two clients can produce deterministic merged state in adversarial test scenarios.
 
 ### WS-3 Agent Patch Governance

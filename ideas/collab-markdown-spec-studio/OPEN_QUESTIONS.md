@@ -108,16 +108,6 @@ A user accepts a patch. What state transitions happen?
 
 ---
 
-### Q9: Does the MVP need multi-workspace support (teams) from day one?
-
-Options:
-1. Single-tenant personal workspaces only at MVP (fastest build).
-2. Multi-user shared workspaces from day one (required for the core value prop).
-
-**Why it matters:** Real-time collaboration requires shared workspaces. If the MVP is single-user with AI patch suggestions, it's a different product than multi-user collab. The thesis requires multi-user.
-
-**Recommendation:** Multi-user shared workspaces are required from day one; this is not optional.
-
 ---
 
 ## Resolved Decisions
@@ -131,3 +121,5 @@ Options:
 | AI provider | Claude API (pluggable) | ARCHITECTURE_DECISIONS.md D6 |
 | Section ID scheme | UUID comment markers | ARCHITECTURE_DECISIONS.md D7 |
 | Depth wizard scope | Phase 2 only | ARCHITECTURE_DECISIONS.md D11 |
+| Multi-workspace | Required from day one — single-user is a different product | Core thesis: real-time collab |
+| Patch agent permissions | Agent = patch-proposal only; no direct write access | ARCHITECTURE_DECISIONS.md D8 |

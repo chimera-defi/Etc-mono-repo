@@ -1,15 +1,18 @@
-## Collaborative Markdown Spec Studio
+## SpecForge (Collaborative Markdown Spec Studio)
 
-**Status**: Exploration (docs-first)
+**Status**: Spec-ready — 9 open questions before build (see `OPEN_QUESTIONS.md`)
+**Product name:** SpecForge (alt: ShipSpec — see `NAME_OPTIONS.md`)
+**Tech stack:** Yjs + Next.js 15 + CodeMirror 6 + Hono/Bun + Postgres + Clerk + Claude API
 
 ### Concept
-A multiplayer Markdown editor for humans + AI agents to co-author PRDs/specs/design docs with branch/merge semantics and chat-to-document operations.
+A multiplayer Markdown editor for humans + AI agents to co-author PRDs/specs/design docs with branch/merge semantics and AI patch governance. Outputs a build-ready spec bundle that can scaffold a starter repository (Phase 2).
 
 ### Thesis
-Collaborative editors exist, but a focused "spec studio" with multi-agent workflows, provenance, and merge-safe AI edits can still be differentiated for startup/engineering teams.
+Collaborative editors exist, but a focused "spec studio" with agent patch governance, section-level provenance, and merge-safe AI edits can win for startup/engineering teams focused on spec-to-ship workflows.
 
 ### Key Docs (Review Path)
 0. `README_REVIEW_GUIDE.md`
+0b. `OPEN_QUESTIONS.md` ← **start here before building**
 1. `EXECUTIVE_SUMMARY.md`
 2. `PRD.md`
 3. `SPEC.md`
