@@ -34,10 +34,15 @@ Agent-first interpretation:
 2. **Worker operator**: earn by running a standard worker runtime against available jobs.
 3. **Platform**: capture take-rate by providing trust, routing, observability, and settlement.
 
-### Strategic Delta (Daydreams-Informed)
-1. Evolve from pure broker to protocol-compatible broker.
-2. Add explicit task market modes (`claim`, `bounty`, `benchmark`, `auction`).
-3. Keep fiat onboarding first, but support adapter path for crypto-native and A2A flows.
+### Strategic Delta vs Daydreams (Primary Competitor)
+Daydreams is the closest competitor (see `COMPETITOR_MATRIX.md`). Key differences:
+
+1. **Fiat-first supply**: Daydreams requires crypto wallet setup. Intelligence Exchange uses Stripe Connect — accessible to developers without on-chain experience.
+2. **Active quality enforcement**: Daydreams treats workers as black boxes. Intelligence Exchange scores every output with automated rubrics and enforces acceptance thresholds.
+3. **Compliance posture**: Daydreams is open protocol. Intelligence Exchange targets regulated buyers (enterprises, fintech) who need auditable execution chains and dispute trails.
+4. **Constrained task types first**: Intelligence Exchange starts with code-scorable tasks (code review, test gen, PR summary) where quality can be verified objectively. This builds trust before expanding.
+
+V2 protocol upgrade path: add `claim`, `bounty`, `benchmark`, `auction` modes and A2A adapters after MVP trust metrics are proven (see OPEN_QUESTIONS.md Q4).
 
 ### MVP Scope
 1. Buyer job submission API + dashboard.
@@ -63,16 +68,12 @@ Use execution-based TAM modeling instead of top-down market reports:
 
 - `Active buyers x monthly job volume x avg accepted job value x take-rate`
 
-Example planning math (illustrative, not market claim):
-- 2,500 buyers x 1,200 jobs/month x $0.40 net job value x 12% take-rate
-- = ~$1.7M annualized take-rate revenue
-
-This model is intentionally conservative and should be replaced with real pipeline data.
+See `FINANCIAL_MODEL.md` for scenario modeling with variable definitions. Do not use standalone numbers here as they go stale and risk being treated as commitments. Replace the financial model with observed pilot data before any build-scale decision.
 
 ### GTM
-1. Start with constrained workload verticals: code review batches, QA triage, spec drafting transforms, support-ticket classification.
-2. Launch supply side via worker install campaign: "connect your setup, earn on idle windows."
-3. Publish job quality and latency scorecards by task type.
+1. Start with constrained workload verticals: code review, test generation, PR summarization (all auto-scorable — see ARCHITECTURE_DECISIONS.md D10).
+2. Launch supply side via worker CLI campaign: "install, connect your API key, earn on idle hours."
+3. Publish job quality and latency scorecards per task type as a trust signal.
 4. Expand to API-first B2B buyers with batch endpoints and SLA tiers.
 5. Introduce optional agentic and crypto rails after baseline fiat path is proven.
 
