@@ -23,3 +23,7 @@
 ## Pass 6: One-Shot Readiness
 - Check: Can a fresh agent execute core implementation loops without clarifying passes?
 - Result: Added versioned contracts, deterministic fixtures, acceptance matrix, first-60-minute runbook, and bounded sub-agent prompts.
+
+## Pass 7: Architecture Concreteness
+- Check: Are tech stack, task types, worker economics, and ToS compliance addressed?
+- Result: Added concrete tech stack (Hono+Bun broker, BullMQ queue, TypeScript CLI worker, Stripe Connect), constrained MVP task set to code-scorable types, documented BYOK economics tension, and surfaced ToS legal question as a potential go/no-go blocker in OPEN_QUESTIONS.md. First-60-minutes now includes actual bootstrap commands.
