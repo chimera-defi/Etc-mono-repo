@@ -283,13 +283,23 @@ export default async function Home({ searchParams }: Props) {
 
   return (
     <div className={styles.shell}>
+      <div className={styles.brandBar}>
+        <div>
+          <span className={styles.brandMark}>SpecForge</span>
+          <p className={styles.brandTagline}>
+            Multiplayer specs for one-shot builds
+          </p>
+        </div>
+      </div>
+
       <header className={styles.hero}>
         <div>
-          <p className={styles.eyebrow}>SpecForge MVP kickoff</p>
-          <h1>Shared authoring, guided review, and export in one workspace.</h1>
+          <p className={styles.eyebrow}>Build-ready specs, not scattered docs</p>
+          <h1>SpecForge turns multiplayer specs into one-shot build handoffs.</h1>
           <p className={styles.subhead}>
-            The flow is now intentionally staged so a user can move from draft
-            to review to handoff without scanning every tool at once.
+            Draft with humans and agents on the same canvas, review attributed
+            patches, and export a clean bundle that a coding agent can build
+            from without extra interpretation.
           </p>
         </div>
         <div className={styles.stats}>
