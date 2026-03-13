@@ -15,7 +15,7 @@ Validate whether a collaborative spec IDE with depth gates and governed agent pa
    - Scope: `PRD.md`, `USER_FLOWS.md`, `WIREFRAMES.md`
    - Prompt: "Lock the primary JTBD as a spec IDE with depth gates, map critical authoring flows, and convert each flow into measurable acceptance criteria with explicit failure/recovery paths."
 2. Collaboration-Core Agent
-   - Scope: `SPEC.md`, `TECH_STACK.md`
+   - Scope: `SPEC.md`, `TECH_STACK.md`, `EVENT_MODEL.md`
    - Prompt: "Define realtime collaboration state model, CRDT/editor boundary, recommended stack, event contracts, and merge invariants that are deterministic under concurrent edits."
 3. Governance/Safety Agent
    - Scope: `SPEC.md`, `ADVERSARIAL_TESTS.md`, `RISK_REGISTER.md`
