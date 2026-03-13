@@ -4,14 +4,17 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 
 import {
+  createCommentThread,
   createDocument,
   decidePatch,
   createPatchProposal,
   exportDocument,
   getDocument,
   listAuditEvents,
+  listCommentThreads,
   listDocuments,
   listPatches,
+  resolveCommentThread,
   updateDocument,
 } from "./store";
 
@@ -164,5 +167,34 @@ describe("specforge store", () => {
     expect(updatedDocument?.version).toBe(document!.version + 1);
     expect(updatedDocument?.markdown).toContain("Ship patch review.");
     expect(auditEvents.some((event) => event.event_type === "patch.decided")).toBe(true);
+  });
+
+  it("creates and resolves anchored comment threads", async () => {
+    const options = await makeOptions();
+    const [document] = await listDocuments(options);
+    const created = await createCommentThread(
+      {
+        document_id: document!.document_id,
+        block_id: document!.blocks[0]!.block_id,
+        body: "Clarify the rollout constraints.",
+        created_by: { actor_type: "human", actor_id: "reviewer" },
+      },
+      options,
+    );
+
+    expect(created.status).toBe("open");
+
+    const resolved = await resolveCommentThread(
+      {
+        document_id: document!.document_id,
+        thread_id: created.thread_id,
+        resolved_by: { actor_type: "human", actor_id: "reviewer" },
+      },
+      options,
+    );
+    const threads = await listCommentThreads(document!.document_id, options);
+
+    expect(resolved.status).toBe("resolved");
+    expect(threads[0]?.thread_id).toBe(created.thread_id);
   });
 });

@@ -5,10 +5,14 @@ import { randomUUID } from "node:crypto";
 import { PGlite } from "@electric-sql/pglite";
 
 import {
+  commentThreadCreateSchema,
+  commentThreadResolveSchema,
   documentCreateSchema,
   documentUpdateSchema,
   patchDecisionSchema,
   patchProposalSchema,
+  type CommentThreadCreateInput,
+  type CommentThreadResolveInput,
   type DocumentCreateInput,
   type DocumentRecord,
   type PatchDecisionInput,
@@ -74,6 +78,38 @@ export type AuditEventRecord = {
   actor_id: string;
   payload: Record<string, unknown>;
   created_at: string;
+};
+
+type CommentThreadRow = {
+  thread_id: string;
+  document_id: string;
+  block_id: string;
+  body: string;
+  status: "open" | "resolved";
+  created_by_actor_type: "human" | "agent";
+  created_by_actor_id: string;
+  resolved_by_actor_type: "human" | "agent" | null;
+  resolved_by_actor_id: string | null;
+  created_at: string;
+  resolved_at: string | null;
+};
+
+export type CommentThreadRecord = {
+  thread_id: string;
+  document_id: string;
+  block_id: string;
+  body: string;
+  status: "open" | "resolved";
+  created_by: {
+    actor_type: "human" | "agent";
+    actor_id: string;
+  };
+  resolved_by?: {
+    actor_type: "human" | "agent";
+    actor_id: string;
+  };
+  created_at: string;
+  resolved_at?: string;
 };
 
 const databaseCache = new Map<string, Promise<PGlite>>();
@@ -143,6 +179,29 @@ function mapAuditEventRow(row: AuditEventRow): AuditEventRecord {
   };
 }
 
+function mapCommentThreadRow(row: CommentThreadRow): CommentThreadRecord {
+  return {
+    thread_id: row.thread_id,
+    document_id: row.document_id,
+    block_id: row.block_id,
+    body: row.body,
+    status: row.status,
+    created_by: {
+      actor_type: row.created_by_actor_type,
+      actor_id: row.created_by_actor_id,
+    },
+    resolved_by:
+      row.resolved_by_actor_type && row.resolved_by_actor_id
+        ? {
+            actor_type: row.resolved_by_actor_type,
+            actor_id: row.resolved_by_actor_id,
+          }
+        : undefined,
+    created_at: row.created_at,
+    resolved_at: row.resolved_at ?? undefined,
+  };
+}
+
 async function createSchema(database: PGlite) {
   await database.exec(`
     CREATE TABLE IF NOT EXISTS documents (
@@ -193,6 +252,20 @@ async function createSchema(database: PGlite) {
       actor_id TEXT NOT NULL,
       payload_json JSONB NOT NULL DEFAULT '{}'::jsonb,
       created_at TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS comment_threads (
+      thread_id TEXT PRIMARY KEY,
+      document_id TEXT NOT NULL REFERENCES documents(document_id) ON DELETE CASCADE,
+      block_id TEXT NOT NULL,
+      body TEXT NOT NULL,
+      status TEXT NOT NULL,
+      created_by_actor_type TEXT NOT NULL,
+      created_by_actor_id TEXT NOT NULL,
+      resolved_by_actor_type TEXT,
+      resolved_by_actor_id TEXT,
+      created_at TEXT NOT NULL,
+      resolved_at TEXT
     );
   `);
 }
@@ -510,6 +583,30 @@ export async function listAuditEvents(documentId: string, options?: StoreOptions
   );
 
   return result.rows.map(mapAuditEventRow);
+}
+
+export async function listCommentThreads(documentId: string, options?: StoreOptions) {
+  const database = await getDatabase(options);
+  const result = await database.query<CommentThreadRow>(
+    `SELECT
+      thread_id,
+      document_id,
+      block_id,
+      body,
+      status,
+      created_by_actor_type,
+      created_by_actor_id,
+      resolved_by_actor_type,
+      resolved_by_actor_id,
+      created_at,
+      resolved_at
+    FROM comment_threads
+    WHERE document_id = $1
+    ORDER BY created_at DESC`,
+    [documentId],
+  );
+
+  return result.rows.map(mapCommentThreadRow);
 }
 
 export async function createDocument(input: DocumentCreateInput, options?: StoreOptions) {
@@ -859,6 +956,103 @@ export async function decidePatch(
   );
 
   return mapPatchRow(updatedResult.rows[0]!);
+}
+
+export async function createCommentThread(
+  input: CommentThreadCreateInput,
+  options?: StoreOptions,
+) {
+  const payload = commentThreadCreateSchema.parse(input);
+  const database = await getDatabase(options);
+  const threadId = `thread_${randomUUID()}`;
+  const createdAt = new Date().toISOString();
+
+  await database.transaction(async (tx) => {
+    await tx.query(
+      `INSERT INTO comment_threads (
+        thread_id,
+        document_id,
+        block_id,
+        body,
+        status,
+        created_by_actor_type,
+        created_by_actor_id,
+        resolved_by_actor_type,
+        resolved_by_actor_id,
+        created_at,
+        resolved_at
+      ) VALUES ($1, $2, $3, $4, 'open', $5, $6, NULL, NULL, $7, NULL)`,
+      [
+        threadId,
+        payload.document_id,
+        payload.block_id,
+        payload.body,
+        payload.created_by.actor_type,
+        payload.created_by.actor_id,
+        createdAt,
+      ],
+    );
+    await insertAuditEvent(tx, {
+      document_id: payload.document_id,
+      event_type: "comment.created",
+      actor_type: payload.created_by.actor_type,
+      actor_id: payload.created_by.actor_id,
+      payload: {
+        thread_id: threadId,
+        block_id: payload.block_id,
+      },
+      created_at: createdAt,
+    });
+  });
+
+  const threads = await listCommentThreads(payload.document_id, options);
+  return threads.find((thread) => thread.thread_id === threadId)!;
+}
+
+export async function resolveCommentThread(
+  input: CommentThreadResolveInput,
+  options?: StoreOptions,
+) {
+  const payload = commentThreadResolveSchema.parse(input);
+  const database = await getDatabase(options);
+  const resolvedAt = new Date().toISOString();
+
+  await database.transaction(async (tx) => {
+    await tx.query(
+      `UPDATE comment_threads
+      SET
+        status = 'resolved',
+        resolved_by_actor_type = $3,
+        resolved_by_actor_id = $4,
+        resolved_at = $5
+      WHERE thread_id = $1 AND document_id = $2`,
+      [
+        payload.thread_id,
+        payload.document_id,
+        payload.resolved_by.actor_type,
+        payload.resolved_by.actor_id,
+        resolvedAt,
+      ],
+    );
+    await insertAuditEvent(tx, {
+      document_id: payload.document_id,
+      event_type: "comment.resolved",
+      actor_type: payload.resolved_by.actor_type,
+      actor_id: payload.resolved_by.actor_id,
+      payload: {
+        thread_id: payload.thread_id,
+      },
+      created_at: resolvedAt,
+    });
+  });
+
+  const threads = await listCommentThreads(payload.document_id, options);
+  const thread = threads.find((candidate) => candidate.thread_id === payload.thread_id);
+  if (!thread) {
+    throw new Error(`Comment thread ${payload.thread_id} not found`);
+  }
+
+  return thread;
 }
 
 export async function exportDocument(documentId: string, options?: StoreOptions) {
