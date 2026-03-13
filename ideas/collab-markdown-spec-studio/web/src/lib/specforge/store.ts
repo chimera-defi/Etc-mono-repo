@@ -133,13 +133,21 @@ function normalizePathLike(value: unknown) {
 }
 
 const currentWorkingDirectory = normalizePathLike(process.cwd());
+const envDbPath = process.env.SPECFORGE_DB_PATH;
+const envFixturesDir = process.env.SPECFORGE_FIXTURES_DIR;
 const defaultDbPath = path.resolve(currentWorkingDirectory, ".data", "specforge-db");
 const defaultFixturesDir = path.resolve(currentWorkingDirectory, "..", "fixtures");
 
 function resolveOptions(options: StoreOptions = {}) {
   return {
-    dbPath: options.dbPath ?? defaultDbPath,
-    fixturesDir: options.fixturesDir ?? defaultFixturesDir,
+    dbPath:
+      options.dbPath ??
+      (envDbPath ? path.resolve(currentWorkingDirectory, envDbPath) : defaultDbPath),
+    fixturesDir:
+      options.fixturesDir ??
+      (envFixturesDir
+        ? path.resolve(currentWorkingDirectory, envFixturesDir)
+        : defaultFixturesDir),
   };
 }
 
