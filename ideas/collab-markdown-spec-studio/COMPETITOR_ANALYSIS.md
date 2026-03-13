@@ -16,7 +16,7 @@ See `COMPETITOR_MATRIX.md` for named competitors and side-by-side capability sco
 ### Collaborative Docs Suites
 - Strengths: distribution, polish, team habits.
 - Weaknesses: weak spec-to-code execution flow, limited patch-governance semantics.
-- Opportunity for us: workflow-native spec-to-ship pipeline.
+- Opportunity for us: workflow-native spec IDE with governed human+agent authoring.
 
 ### Collaborative Markdown Tools
 - Strengths: markdown-native collaboration simplicity.
@@ -51,4 +51,4 @@ See `COMPETITOR_MATRIX.md` for named competitors and side-by-side capability sco
 - Opportunity for us: spec-linked generation and feedback loop.
 
 ## Positioning Statement
-"Not a docs replacement; a spec-to-ship workflow system with human+agent governance."
+"Not a docs replacement; a spec IDE with human+agent governance and execution handoff."
