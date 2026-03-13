@@ -1,5 +1,96 @@
 # SpecForge Task List (Build-Ready)
 
+## Current Implementation Status
+- [x] Next.js MVP shell exists under `web/`.
+- [x] Local seeded document store supports create/load/update/export.
+- [x] Patch proposal ingestion exists with stale detection.
+- [x] Tiptap authoring workspace exists.
+- [x] Browser editor connects to per-document Hocuspocus rooms over Yjs.
+- [x] Hocuspocus collaboration server scaffold is runnable.
+- [ ] Shared cursor presence and awareness UI.
+- [ ] Real database-backed persistence for documents, patches, comments, and audit events.
+- [ ] Patch review decisions and audit trail UI.
+- [ ] Anchored comments and attribution overlays.
+- [ ] Depth gates, recap generation, and implementation-readiness scoring.
+- [ ] Deterministic export/handoff flow beyond the current local bundle preview.
+- [ ] Playwright-based end-to-end and screenshot coverage.
+
+## Remaining MVP Build Backlog
+
+### Track A: Collaboration Runtime and Persistence
+- [ ] Replace the local JSON store with a real persistence layer.
+- [ ] Define and implement the first app data model:
+  - workspaces
+  - documents
+  - document snapshots
+  - patch proposals
+  - patch decisions
+  - audit events
+  - comment threads
+- [ ] Persist collaboration snapshots or Yjs updates so rooms survive server restarts.
+- [ ] Add reconnect, replay, and stale-room recovery handling.
+- [ ] Add auth hooks between the web app and collaboration server.
+- [ ] Add a local dev bootstrap for the persistence layer.
+
+### Track B: Shared Canvas UX
+- [ ] Add shared cursor presence and collaborator identity chips.
+- [ ] Add document switch/create/open flow without relying on a single active document.
+- [ ] Add better save, sync, and offline status states.
+- [ ] Add empty, error, reconnect, and conflict-recovery UI states.
+- [ ] Tighten the layout into the intended shared-canvas experience instead of a dashboard-first shell.
+
+### Track C: Patch Review and Attribution
+- [ ] Implement patch decision APIs:
+  - accept
+  - reject
+  - cherry-pick
+- [ ] Apply accepted patches back to canonical document state.
+- [ ] Record immutable audit events for proposal and decision actions.
+- [ ] Add patch diff/review UI with risk/status chips.
+- [ ] Show who changed what at block level for both humans and agents.
+- [ ] Handle stale, conflicted, superseded, and terminal patch states in the UI.
+
+### Track D: Comments, Depth Gates, and Recap
+- [ ] Implement anchored comment threads.
+- [ ] Implement simple resolve/reopen comment state.
+- [ ] Add depth-gate rules for required sections and missing detail.
+- [ ] Add recap generation and build-readiness summaries.
+- [ ] Add implementation-readiness scoring that can be shown in the workspace.
+
+### Track E: Export, Handoff, and Example Builds
+- [ ] Harden export bundle generation around canonical editor state.
+- [ ] Add `agent_spec.json` validation against the intended handoff contract.
+- [ ] Build the first curated TypeScript example template from export output.
+- [ ] Run the flow against selected `ideas/` examples.
+- [ ] Add “handoff complete” checks and confidence reporting.
+
+### Track F: Demo, Testing, and Ops
+- [ ] Add Playwright coverage for:
+  - create document
+  - live collaboration between two clients
+  - patch review path
+  - export flow
+- [ ] Add screenshot capture flow for demo-ready states.
+- [ ] Add observability basics:
+  - request logging
+  - collaboration room events
+  - patch decision events
+- [ ] Add a top-5 failure mode runbook for local/demo environments.
+
+## Recommended Parallel Execution Now
+1. Track A: Collaboration runtime and persistence.
+2. Track C: Patch review and attribution.
+3. Track B: Shared canvas UX.
+4. Track F: Demo, testing, and ops.
+
+## Dependency Order for the Remaining Build
+1. Finish Track A first enough to stop depending on the JSON file store.
+2. Run Track C in parallel once the data model for patches, decisions, and audit events is stable.
+3. Run Track B in parallel with Track C after the persistence contract is clear.
+4. Start Track D after Track C exposes stable patch/comment primitives.
+5. Start Track E after canonical persistence and export inputs are stable.
+6. Keep Track F running continuously, but full screenshot/demo work should follow Tracks B and C.
+
 ## Milestones
 1. Spec package approved.
 2. Design-partner validation complete.
