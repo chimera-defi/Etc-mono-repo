@@ -62,6 +62,7 @@ Generated repro artifacts are local outputs (kept out of git except directory pl
 
 Architecture overview for supervisor/repro/routing flow:
 - `bench/ARCHITECTURE.md`
+- `bench/HANDOFF.md` — durable cleanup log, canonical-vs-legacy map, and future-agent notes
 
 For routing/fallback proof after a supervisor run:
 
