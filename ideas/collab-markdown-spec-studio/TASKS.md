@@ -2,13 +2,14 @@
 
 ## Current Implementation Status
 - [x] Next.js MVP shell exists under `web/`.
-- [x] Local seeded document store supports create/load/update/export.
+- [x] Embedded SQL persistence supports create/load/update/export.
 - [x] Patch proposal ingestion exists with stale detection.
 - [x] Tiptap authoring workspace exists.
 - [x] Browser editor connects to per-document Hocuspocus rooms over Yjs.
 - [x] Hocuspocus collaboration server scaffold is runnable.
+- [x] Documents, patches, snapshots, and audit events are stored in the local PGlite database.
 - [ ] Shared cursor presence and awareness UI.
-- [ ] Real database-backed persistence for documents, patches, comments, and audit events.
+- [ ] Comment threads are stored in the main persistence layer.
 - [ ] Patch review decisions and audit trail UI.
 - [ ] Anchored comments and attribution overlays.
 - [ ] Depth gates, recap generation, and implementation-readiness scoring.
@@ -18,19 +19,19 @@
 ## Remaining MVP Build Backlog
 
 ### Track A: Collaboration Runtime and Persistence
-- [ ] Replace the local JSON store with a real persistence layer.
-- [ ] Define and implement the first app data model:
-  - workspaces
-  - documents
-  - document snapshots
-  - patch proposals
-  - patch decisions
-  - audit events
-  - comment threads
+- [x] Replace the local JSON store with a real persistence layer.
+- [ ] Finish the first app data model:
+  - [ ] workspaces
+  - [x] documents
+  - [x] document snapshots
+  - [x] patch proposals
+  - [ ] patch decisions
+  - [x] audit events
+  - [ ] comment threads
 - [ ] Persist collaboration snapshots or Yjs updates so rooms survive server restarts.
 - [ ] Add reconnect, replay, and stale-room recovery handling.
 - [ ] Add auth hooks between the web app and collaboration server.
-- [ ] Add a local dev bootstrap for the persistence layer.
+- [x] Add a local dev bootstrap for the persistence layer.
 
 ### Track B: Shared Canvas UX
 - [ ] Add shared cursor presence and collaborator identity chips.
@@ -84,7 +85,7 @@
 4. Track F: Demo, testing, and ops.
 
 ## Dependency Order for the Remaining Build
-1. Finish Track A first enough to stop depending on the JSON file store.
+1. Finish the remaining Track A items around collaboration persistence, auth, and recovery.
 2. Run Track C in parallel once the data model for patches, decisions, and audit events is stable.
 3. Run Track B in parallel with Track C after the persistence contract is clear.
 4. Start Track D after Track C exposes stable patch/comment primitives.
