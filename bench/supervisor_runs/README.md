@@ -53,12 +53,23 @@ That means the intended policy is:
 - **Cold storage:** completed older runs belong in `.archive/`, not in the trash.
 - **Manual cleanup:** only do it in batches and document it.
 
+## Read-only status helper
+
+For a quick current snapshot before making any retention decision:
+
+```bash
+python3 bench/ops/retention_status.py
+```
+
+This does **not** modify run directories; it just reports top-level run ages, archive candidates under the current threshold, and archived entries already present in `.archive/`.
+
 ## If you are a future agent
 
 Before changing retention here:
 
 1. check `bench/selfopt/benchmark_supervisor.py` so policy and implementation still match
 2. inspect `index.json` and the latest run dirs
-3. verify completion state before moving anything
-4. prefer documentation or scripted archival over ad hoc deletion
-5. record any manual archival decision in `bench/HANDOFF.md`
+3. run `python3 bench/ops/retention_status.py` for a quick current-state snapshot
+4. verify completion state before moving anything
+5. prefer documentation or scripted archival over ad hoc deletion
+6. record any manual archival decision in `bench/HANDOFF.md`

@@ -115,6 +115,8 @@ The active path is now reasonably clear:
 - Retention guidance now lives next to the artifact directories:
   - `bench/results/README.md`
   - `bench/supervisor_runs/README.md`
+- Added a read-only snapshot helper: `bench/ops/retention_status.py`
+  - Purpose: quickly show current `results/` classes, top-level supervisor run ages, archive candidates under a chosen threshold, and existing `.archive/` entries without moving anything.
 
 ## Retention policy snapshot
 
@@ -159,4 +161,5 @@ The active path is now reasonably clear:
 - Do not remove `openclaw_llm_bench/` or `CONSOLIDATION/` casually; both still encode useful history.
 - Prefer adding new operator docs next to the canonical path, not inside historical trees.
 - Prefer archiving loose root/result artifacts in batches rather than piecemeal moves.
+- Before deciding whether to archive, run `python3 bench/ops/retention_status.py` for a read-only snapshot.
 - If you need to make structural moves later, update `README.md`, `ARCHITECTURE.md`, and this file in the same change.
