@@ -10,18 +10,36 @@ import {
   decidePatch,
   resolveCommentThread,
 } from "@/lib/specforge/store";
+import { buildGuidedSpecMarkdown, buildGuidedSpecMetadata } from "@/lib/specforge/guided";
 
 export async function createDocumentAction(formData: FormData) {
   const title = String(formData.get("title") ?? "Untitled SpecForge Doc");
-  const initial_markdown = String(
-    formData.get("initial_markdown") ??
-      "# PRD\n\n## Problem\nTBD\n\n## Goals\nTBD\n",
-  );
+  const mode = String(formData.get("mode") ?? "guided");
+  const guidedInput = {
+    title,
+    problem: String(formData.get("problem") ?? ""),
+    goals: String(formData.get("goals") ?? ""),
+    users: String(formData.get("users") ?? ""),
+    scope: String(formData.get("scope") ?? ""),
+    constraints: String(formData.get("constraints") ?? ""),
+    successSignals: String(formData.get("success_signals") ?? ""),
+    tasks: String(formData.get("tasks") ?? ""),
+    nonGoals: String(formData.get("non_goals") ?? ""),
+  };
+  const initial_markdown =
+    mode === "guided"
+      ? buildGuidedSpecMarkdown(guidedInput)
+      : String(
+          formData.get("initial_markdown") ??
+            "# PRD\n\n## Problem\nTBD\n\n## Goals\nTBD\n",
+        );
+  const metadata = mode === "guided" ? buildGuidedSpecMetadata(guidedInput) : undefined;
 
   const created = await createDocument({
     workspace_id: "ws_demo",
     title,
     initial_markdown,
+    metadata,
   });
 
   revalidatePath("/");
