@@ -119,4 +119,4 @@ Add-on AI usage and enterprise governance can expand this if retention is strong
 A narrow, workflow-native product for "specs that lead to code" can win even in a crowded editor market if it makes collaborative authoring trustworthy, forces better decisions, and materially reduces planning-to-build rework.
 
 ### Naming Direction
-See `NAME_OPTIONS.md`. Current preferred names: `SpecForge` or `ShipSpec`.
+See `archive/NAME_OPTIONS.md`. Current preferred names: `SpecForge` or `ShipSpec`.

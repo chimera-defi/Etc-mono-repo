@@ -29,7 +29,7 @@ Collaborative editors already exist. The wedge is not generic editing; it is a s
 - UX and product surface: `VISION_AND_FLOW`, `UX_PRINCIPLES`, `USER_FLOWS`, `FRONTEND_VISION`, `WIREFRAMES`
 - Validation and economics: `VALIDATION_PLAN`, `GO_NO_GO_SCORECARD`, `PILOT_SCORECARD_TEMPLATE`, `FINANCIAL_MODEL`, `RISK_REGISTER`
 - Execution and governance: `90_DAY_EXECUTION_PLAN`, `TASKS`, `DECISIONS`, `AGENT_HANDOFF`, `SPEC_STAGE_CHECKLIST`
-- Iteration history: `REFINEMENTS`, `MULTIPASS_REVIEW`, `META_LEARNINGS`, `IDEA_DEVELOPMENT_FRAMEWORK`
+- Iteration history: `archive/REFINEMENTS`, `archive/MULTIPASS_REVIEW`, `archive/META_LEARNINGS`, `IDEA_DEVELOPMENT_FRAMEWORK`
 - One-shot build assets: `contracts/`, `fixtures/`, `ACCEPTANCE_TEST_MATRIX.md`, `FIRST_60_MINUTES.md`, `SUBAGENT_PROMPT_PACK.md`
 
 ### Source Notes
