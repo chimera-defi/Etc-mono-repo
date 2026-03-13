@@ -2,6 +2,8 @@
 
 This document describes the current benchmark orchestration architecture after the PR245 refactor/consolidation.
 
+> Note: some root-level historical scripts and docs were archived under `bench/archive/2026-03-cleanup-pass1/` to make the canonical workflow clearer. The large `openclaw_llm_bench/` and `CONSOLIDATION/` trees remain in place as non-canonical historical material and are not part of the active architecture described below.
+
 ## Goals
 
 1. Reproducible benchmark runs
