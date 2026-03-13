@@ -1,11 +1,14 @@
 # SpecForge Collaboration Server
 
-This is the dedicated collaboration runtime scaffold for the SpecForge MVP.
+This is the dedicated collaboration runtime for the SpecForge MVP.
 
-The current vertical slice keeps persistence and patch/export behavior inside the
-Next.js app while leaving a clean place to wire:
+Current state:
+- Hocuspocus server scaffold is runnable
+- default port is `4321`
+- document rooms are created on demand by Hocuspocus
 
-- Hocuspocus
-- Yjs document rooms
-- awareness/presence
-- websocket authentication
+Planned next slice:
+- authentication hooks
+- awareness/presence wiring
+- document persistence hooks
+- integration with the web app editor client
