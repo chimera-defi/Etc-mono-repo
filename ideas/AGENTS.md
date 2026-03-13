@@ -21,9 +21,9 @@ Multiplayer Markdown workspace for humans + AI agents to co-author PRDs/specs wi
 
 **Tech stack (decided):** Yjs (CRDT) + Next.js 15 + CodeMirror 6 + Hono/Bun API + Postgres + Clerk auth + Claude API
 
-**Open questions before build:** 8 open questions in `OPEN_QUESTIONS.md` — section granularity, patch format (text diff vs AST ops), auth provider, self-host story, CRDT sync host (PartyKit vs y-websocket), context-window strategy for large docs, AI cost model, patch acceptance state machine.
+**All decisions resolved.** Key choices: heading-level section granularity (D12), AST ops canonical + text diff review UI (D13), Clerk auth (D5), SaaS-only launch (D14), PartyKit CRDT sync (D15), section-level prompting for large docs (D16), hybrid AI cost model — N patches/month included + metered overage (D17), optimistic patch apply with CRDT rollback on conflict (D18).
 
-**Status:** Spec-ready; awaiting open question resolution before one-shot build.
+**Status:** Build-ready — one-shot execution unblocked. See `FIRST_60_MINUTES.md` to start.
 
 ### Intelligence Exchange - 🏪 Spec-Ready
 **Location:** `ideas/intelligence-exchange/`
