@@ -1,16 +1,16 @@
-## Adversarial Tests (Spec-to-Ship Workspace)
+## Adversarial Tests (SpecForge)
 
 ### 1) Incumbent Gravity Attack
 **Attack:** Teams stay in Notion/Docs and never migrate core workflow.
 
-**Mitigation:** Win on execution outcomes (spec-to-ship speed), not generic editing.
+**Mitigation:** Win on better authoring outcomes and trustworthy execution handoff, not generic editing.
 
 **Kill Criterion:** Teams use tool only for drafts and finalize elsewhere.
 
 ### 2) AI Trust Attack
 **Attack:** Agent edits are noisy and ignored.
 
-**Mitigation:** Patch-level approval, provenance labels, section-level control.
+**Mitigation:** Patch-level approval, provenance labels, and governed block/section control.
 
 **Kill Criterion:** Persistently low patch acceptance and poor retention.
 
@@ -29,8 +29,8 @@
 **Kill Criterion:** Recurring reliability incidents during pilot.
 
 ### 5) Weak Outcome Attack
-**Attack:** Repo generation does not materially reduce build time.
+**Attack:** Better authoring does not materially reduce ambiguity or downstream build time.
 
-**Mitigation:** Track spec-to-first-commit delta and optimize templates.
+**Mitigation:** Track rework reduction, spec-to-first-commit delta, and optimize curated example templates before broader rollout.
 
-**Kill Criterion:** No meaningful throughput gain in pilot cohorts.
+**Kill Criterion:** No meaningful quality or throughput gain in pilot cohorts.
