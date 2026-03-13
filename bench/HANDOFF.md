@@ -167,3 +167,13 @@ The active path is now reasonably clear:
 - Prefer archiving loose root/result artifacts in batches rather than piecemeal moves.
 - Before deciding whether to archive, run `python3 bench/ops/retention_status.py` for a read-only snapshot.
 - If you need to make structural moves later, update `README.md`, `ARCHITECTURE.md`, and this file in the same change.
+
+## Next benchmark pass note (2026-03-13)
+
+For a real **current-truth refresh** on the cleaned canonical path, prefer a supervisor-managed run for the full matrix but force fresh execution at the runner layer (`bench/core/run_benchmark.py --no-cache`, or clear `bench/.cache` first). Recent supervisor runs under `bench/supervisor_runs/` show route attribution working, but at least the latest `lfm2.5-thinking:1.2b` atomic pass (`c13bf2c0ac`) was a cache hit, so it is not sufficient by itself as a new benchmark truth point.
+
+Recommended next pass:
+- **Primary refresh set:** `lfm2.5-thinking:1.2b` (atomic + extended), `qwen3.5:35b` (atomic, then extended only if atomic is healthy), `mistral:7b` (atomic), `qwen2.5:3b` (atomic), `ministral-3:latest` (atomic).
+- **Do not include `glm-4.7-flash:latest` in the truth-refresh matrix by default** until its documented hang/timeout state is disproven on this machine; treat it as a separate debugging target.
+- Use supervisor for attribution/auditability and resumability; use direct runner only for one-off validation or targeted reproduction.
+- After the run, inspect: `bench/supervisor_runs/<run_id>/manifest.json`, `summary.json`, `jobs/*.stdout.log`, and `python3 bench/ops/route_trace_report.py --one-line` (plus `--json` if fallback occurred). Update durable summary files only from non-cached runs.
