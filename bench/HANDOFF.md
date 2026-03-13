@@ -177,3 +177,14 @@ Recommended next pass:
 - **Do not include `glm-4.7-flash:latest` in the truth-refresh matrix by default** until its documented hang/timeout state is disproven on this machine; treat it as a separate debugging target.
 - Use supervisor for attribution/auditability and resumability; use direct runner only for one-off validation or targeted reproduction.
 - After the run, inspect: `bench/supervisor_runs/<run_id>/manifest.json`, `summary.json`, `jobs/*.stdout.log`, and `python3 bench/ops/route_trace_report.py --one-line` (plus `--json` if fallback occurred). Update durable summary files only from non-cached runs.
+
+### Qwen 3.5:35B host-readiness note (2026-03-13 evening)
+
+A host-health pass found that **RAM is not the current blocker** for `qwen3.5:35b`, but **CPU contention/noise is** on this machine:
+
+- Host has `62 GiB` RAM with roughly `40-45 GiB` free/available and ~`21 GiB` free swap.
+- `ollama ps` was empty at check time, so there was **no stale model runner to unload**.
+- `ollama.service` was healthy, and same-day logs showed `qwen3.5:35b` still loads under Ollama 0.17.1.
+- The machine was already busy with long-lived heavy non-benchmark workloads (`geth`, `prysm`) plus transient Node/test/build activity, on a 12-thread i7-8700.
+
+Practical implication: retrying Qwen is reasonable **only after a quieter host window**. For a meaningful benchmark pass, wait until transient build/test jobs are gone and avoid overlapping with other high-CPU work; if latency numbers matter, do not benchmark while `geth`/`prysm` are actively chewing multiple cores unless you intentionally want “busy-host” measurements.
