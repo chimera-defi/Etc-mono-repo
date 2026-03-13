@@ -1,5 +1,23 @@
 import { expect, test } from "@playwright/test";
 
+const heroVariants = [
+  {
+    id: "handoff",
+    headline: "SpecForge turns multiplayer specs into one-shot build handoffs.",
+    screenshot: "artifacts/screenshots/specforge-variant-handoff.png",
+  },
+  {
+    id: "multiplayer",
+    headline: "SpecForge is multiplayer spec writing that stays build-ready.",
+    screenshot: "artifacts/screenshots/specforge-variant-multiplayer.png",
+  },
+  {
+    id: "ship",
+    headline: "SpecForge helps teams write specs that agents can ship from in one shot.",
+    screenshot: "artifacts/screenshots/specforge-variant-ship.png",
+  },
+] as const;
+
 test("renders the integrated SpecForge demo and captures a screenshot", async ({
   page,
 }) => {
@@ -19,6 +37,19 @@ test("renders the integrated SpecForge demo and captures a screenshot", async ({
     path: "artifacts/screenshots/specforge-demo-home.png",
     fullPage: true,
   });
+});
+
+test("captures north-star copy variants for review", async ({ page }) => {
+  for (const variant of heroVariants) {
+    await page.goto(`/?variant=${variant.id}`);
+    await expect(page.getByText("SpecForge", { exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: variant.headline })).toBeVisible();
+
+    await page.screenshot({
+      path: variant.screenshot,
+      fullPage: true,
+    });
+  }
 });
 
 test("creates a document, queues a patch, and exposes export JSON", async ({ page }) => {
