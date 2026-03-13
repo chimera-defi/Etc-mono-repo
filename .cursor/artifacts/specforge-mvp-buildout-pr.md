@@ -2,7 +2,7 @@
 **Co-authored-by:** Chimera <chimera_defi@protonmail.com>
 
 ## Summary
-Kick off the SpecForge MVP build from the merged spec pack with a real web app, local document/persist/export slice, a runnable collaboration server scaffold, and the first real authoring workspace.
+Kick off the SpecForge MVP build from the merged spec pack with a real web app, local document/persist/export slice, a runnable collaboration server, a Tiptap authoring workspace, and the first live Yjs/Hocuspocus collaboration path.
 
 ## Original Request
 > Cool let’s kick it off
@@ -15,6 +15,7 @@ Kick off the SpecForge MVP build from the merged spec pack with a real web app, 
   - seeded document loading from SpecForge fixtures,
   - document creation,
   - document updates through a Tiptap-backed workspace,
+  - per-document live collaboration rooms over Hocuspocus + Yjs,
   - patch proposal ingestion with stale detection,
   - deterministic export bundle generation,
   - local dashboard UI for the slice.
