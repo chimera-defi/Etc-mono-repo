@@ -25,6 +25,7 @@ export default defineConfig({
       timeout: 180_000,
       env: {
         NEXT_PUBLIC_COLLAB_URL: "ws://127.0.0.1:4321",
+        SPECFORGE_DB_PATH: ".data/specforge-db-playwright",
       },
     },
     {

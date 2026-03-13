@@ -20,8 +20,10 @@ import { evaluateReadiness } from "@/lib/specforge/readiness";
 
 export const dynamic = "force-dynamic";
 
+type Stage = "start" | "draft" | "review" | "decide" | "export";
+
 type Props = {
-  searchParams?: Promise<{ document?: string }>;
+  searchParams?: Promise<{ document?: string; stage?: string }>;
 };
 
 type BlockSummary = {
@@ -34,11 +36,13 @@ type BlockSummary = {
 
 type GuidedStep = {
   id: string;
+  stage: Stage;
   title: string;
   description: string;
-  href: string;
   status: "completed" | "current" | "upcoming";
 };
+
+const stageOrder: Stage[] = ["start", "draft", "review", "decide", "export"];
 
 function getPatchRiskLabel(patchType: string) {
   switch (patchType) {
@@ -137,37 +141,37 @@ function buildGuidedSteps(input: {
   const baseSteps = [
     {
       id: "create",
+      stage: "start" as const,
       title: "Create or open a spec",
-      description: "Start with a seeded document or create a fresh draft.",
-      href: "#create-document",
+      description: "Start from a seeded document or open a fresh draft.",
       completed: input.hasDocument,
     },
     {
       id: "draft",
+      stage: "draft" as const,
       title: "Draft on the shared canvas",
-      description: "Edit the spec live and save a canonical snapshot.",
-      href: "#document-workspace",
+      description: "Edit live, collaborate, and save a canonical snapshot.",
       completed: input.hasDraft,
     },
     {
-      id: "patch",
-      title: "Queue agent patches",
-      description: "Propose a targeted patch against a specific block.",
-      href: "#patch-proposal",
-      completed: input.hasPatches,
+      id: "review",
+      stage: "review" as const,
+      title: "Queue review work",
+      description: "Open comments, activity, and targeted patch proposals.",
+      completed: input.hasPatches || input.hasOpenComments,
     },
     {
-      id: "review",
-      title: "Resolve review feedback",
-      description: "Work through pending patches and open comment threads.",
-      href: "#comments",
+      id: "decide",
+      stage: "decide" as const,
+      title: "Resolve the patch queue",
+      description: "Accept, cherry-pick, or reject proposed changes.",
       completed: !input.hasOpenComments && !input.hasPendingPatches && input.hasPatches,
     },
     {
       id: "export",
+      stage: "export" as const,
       title: "Export the handoff bundle",
-      description: "Open the deterministic JSON export once the draft is ready.",
-      href: "#export-preview",
+      description: "Open the deterministic JSON bundle when the draft is ready.",
       completed: input.isReadyToExport,
     },
   ];
@@ -176,9 +180,9 @@ function buildGuidedSteps(input: {
 
   return baseSteps.map<GuidedStep>((step, index) => ({
     id: step.id,
+    stage: step.stage,
     title: step.title,
     description: step.description,
-    href: step.href,
     status:
       currentIndex === -1 || index < currentIndex
         ? "completed"
@@ -188,20 +192,63 @@ function buildGuidedSteps(input: {
   }));
 }
 
+function buildStageHref(documentId: string | null, stage: Stage) {
+  const params = new URLSearchParams();
+  if (documentId) {
+    params.set("document", documentId);
+  }
+  params.set("stage", stage);
+  return `/?${params.toString()}`;
+}
+
+function getStageMeta(stage: Stage) {
+  switch (stage) {
+    case "start":
+      return {
+        title: "Start the spec",
+        description: "Choose an existing draft or create a fresh document to work on.",
+      };
+    case "draft":
+      return {
+        title: "Draft on the canvas",
+        description: "Use the shared editor as the canonical source of truth.",
+      };
+    case "review":
+      return {
+        title: "Prepare review work",
+        description: "Open comments, inspect activity, and queue targeted patch proposals.",
+      };
+    case "decide":
+      return {
+        title: "Resolve proposed changes",
+        description: "Make human decisions on the patch queue and keep an audit trail.",
+      };
+    case "export":
+      return {
+        title: "Ship the handoff bundle",
+        description: "Check readiness and open the deterministic export payload.",
+      };
+  }
+}
+
 export default async function Home({ searchParams }: Props) {
   const resolvedSearchParams = (await searchParams) ?? {};
   const requestedDocumentId =
     typeof resolvedSearchParams.document === "string"
       ? resolvedSearchParams.document
       : undefined;
+  const requestedStage =
+    typeof resolvedSearchParams.stage === "string" &&
+    stageOrder.includes(resolvedSearchParams.stage as Stage)
+      ? (resolvedSearchParams.stage as Stage)
+      : undefined;
+
   const documents = await listDocuments();
   const activeDocument =
     documents.find((document) => document.document_id === requestedDocumentId) ??
     documents[0] ??
     null;
-  const patches = activeDocument
-    ? await listPatches(activeDocument.document_id)
-    : [];
+  const patches = activeDocument ? await listPatches(activeDocument.document_id) : [];
   const auditEvents = activeDocument
     ? await listAuditEvents(activeDocument.document_id)
     : [];
@@ -230,17 +277,19 @@ export default async function Home({ searchParams }: Props) {
     hasPendingPatches: patches.some((patch) => ["proposed", "stale"].includes(patch.status)),
     isReadyToExport: Boolean(readinessReport && readinessReport.score >= 70),
   });
+  const activeStage =
+    requestedStage ?? (activeDocument ? "draft" : "start");
+  const stageMeta = getStageMeta(activeStage);
 
   return (
     <div className={styles.shell}>
       <header className={styles.hero}>
         <div>
           <p className={styles.eyebrow}>SpecForge MVP kickoff</p>
-          <h1>Authoring, patches, and export in one local slice.</h1>
+          <h1>Shared authoring, guided review, and export in one workspace.</h1>
           <p className={styles.subhead}>
-            This first implementation is intentionally narrow: seeded documents,
-            governed patch proposals, and deterministic exports from the local
-            store.
+            The flow is now intentionally staged so a user can move from draft
+            to review to handoff without scanning every tool at once.
           </p>
         </div>
         <div className={styles.stats}>
@@ -255,18 +304,18 @@ export default async function Home({ searchParams }: Props) {
         </div>
       </header>
 
-      <main className={styles.workspaceLayout}>
-        <aside className={styles.sidebarColumn}>
-          <section className={styles.panel} id="comments">
+      <main className={styles.focusLayout}>
+        <aside className={styles.focusSidebar}>
+          <section className={styles.panel}>
             <div className={styles.panelHeader}>
-              <h2>Guided flow</h2>
-              <span>Recommended path</span>
+              <h2>Workflow</h2>
+              <span>Guided path</span>
             </div>
-            <div className={styles.stepGrid}>
+            <nav className={styles.stepGrid}>
               {guidedSteps.map((step, index) => (
                 <Link
                   key={step.id}
-                  href={step.href}
+                  href={buildStageHref(activeDocument?.document_id ?? null, step.stage)}
                   className={`${styles.stepCard} ${styles[step.status]}`}
                 >
                   <span className={styles.stepNumber}>Step {index + 1}</span>
@@ -274,58 +323,38 @@ export default async function Home({ searchParams }: Props) {
                   <p>{step.description}</p>
                 </Link>
               ))}
-            </div>
+            </nav>
           </section>
 
-          <section className={styles.panel} id="create-document">
-            <div className={styles.panelHeader}>
-              <h2>Create document</h2>
-              <span>Server action</span>
+          <details className={styles.panel} open>
+            <summary className={styles.disclosureSummary}>
+              <span>Document library</span>
+              <span>{documents.length} total</span>
+            </summary>
+            <div className={styles.disclosureBody}>
+              <ul className={styles.documentList} data-testid="document-list">
+                {documents.map((document) => (
+                  <li key={document.document_id} className={styles.documentItem}>
+                    <Link
+                      href={buildStageHref(document.document_id, activeStage)}
+                      className={styles.documentLink}
+                    >
+                      <strong>{document.title}</strong>
+                      <span>{document.document_id}</span>
+                      <span>v{document.version}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <form action={createDocumentAction} className={styles.form} data-testid="create-document-form">
-              <label>
-                Title
-                <input name="title" defaultValue="New SpecForge Draft" data-testid="create-document-title" />
-              </label>
-              <label>
-                Initial markdown
-                <textarea
-                  name="initial_markdown"
-                  rows={8}
-                  defaultValue={"# PRD\n\n## Problem\nTBD\n\n## Goals\nTBD\n"}
-                />
-              </label>
-              <button type="submit">Create document</button>
-            </form>
-          </section>
+          </details>
 
-          <section className={styles.panel}>
-            <div className={styles.panelHeader}>
-              <h2>Document list</h2>
-              <span>Seeded from fixtures</span>
-            </div>
-            <ul className={styles.documentList} data-testid="document-list">
-              {documents.map((document) => (
-                <li key={document.document_id} className={styles.documentItem}>
-                  <Link
-                    href={`/?document=${document.document_id}`}
-                    className={styles.documentLink}
-                  >
-                    <strong>{document.title}</strong>
-                    <span>{document.document_id}</span>
-                    <span>v{document.version}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          <section className={styles.panel}>
-            <div className={styles.panelHeader}>
-              <h2>Readiness</h2>
-              <span>Depth gate</span>
-            </div>
-            {readinessReport ? (
+          {readinessReport ? (
+            <section className={styles.panel}>
+              <div className={styles.panelHeader}>
+                <h2>Readiness</h2>
+                <span>Live status</span>
+              </div>
               <div className={styles.readinessCard}>
                 <strong>{readinessReport.score}/100</strong>
                 <span className={styles.status}>{readinessReport.status}</span>
@@ -335,337 +364,463 @@ export default async function Home({ searchParams }: Props) {
                   ))}
                 </ul>
               </div>
-            ) : (
-              <p className={styles.empty}>Create a document first.</p>
-            )}
-          </section>
+            </section>
+          ) : null}
         </aside>
 
-        <section className={styles.canvasColumn}>
-          <section className={`${styles.panel} ${styles.editorPanel}`} id="document-workspace">
-            <div className={styles.panelHeader}>
-              <h2>Document workspace</h2>
-              <span>Tiptap-backed local editor</span>
-            </div>
-            {activeDocument ? (
-              <DocumentWorkspace
-                key={`${activeDocument.document_id}:${activeDocument.version}`}
-                document={activeDocument}
-              />
-            ) : (
-              <p className={styles.empty}>Create a document first.</p>
-            )}
-          </section>
-
-          <section className={styles.panel} id="patch-proposal">
-            <div className={styles.panelHeader}>
-              <h2>Patch proposal</h2>
-              <span>Against any block</span>
-            </div>
-            {activeDocument && activeBlock ? (
-              <form action={createPatchAction} className={styles.form} data-testid="patch-proposal-form">
-                <input type="hidden" name="document_id" value={activeDocument.document_id} />
-                <input type="hidden" name="base_version" value={activeDocument.version} />
-                <p className={styles.context}>
-                  Default target: <code>{activeBlock.block_id}</code> in{" "}
-                  <code>{activeDocument.title}</code>
-                </p>
-                <label>
-                  Target block
-                  <select
-                    name="target_descriptor"
-                    className={styles.selectInput}
-                    defaultValue={`${activeBlock.block_id}||${activeBlock.section_id}||${activeBlock.target_fingerprint}`}
-                    data-testid="patch-target-select"
-                  >
-                    {activeDocument.blocks.map((block) => (
-                      <option
-                        key={block.block_id}
-                        value={`${block.block_id}||${block.section_id}||${block.target_fingerprint}`}
-                      >
-                        {block.heading} · {block.block_id}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label>
-                  Patch type
-                  <select
-                    name="patch_type"
-                    className={styles.selectInput}
-                    defaultValue="requirement_change"
-                    data-testid="patch-type-select"
-                  >
-                    <option value="requirement_change">Requirement change</option>
-                    <option value="structural_edit">Structural edit</option>
-                    <option value="task_export_change">Task/export change</option>
-                    <option value="wording_formatting">Wording / formatting</option>
-                  </select>
-                </label>
-                <label>
-                  Replacement content
-                  <textarea
-                    name="content"
-                    rows={6}
-                    defaultValue={`${activeBlock.content}\n\n- Added from the MVP dashboard.`}
-                    data-testid="patch-content-input"
-                  />
-                </label>
-                <button type="submit">Queue patch</button>
-              </form>
-            ) : (
-              <p className={styles.empty}>Create a document first.</p>
-            )}
-          </section>
-
+        <section className={styles.focusMain}>
           <section className={styles.panel}>
             <div className={styles.panelHeader}>
-              <h2>Comments</h2>
-              <span>Anchored threads</span>
+              <h2>{stageMeta.title}</h2>
+              <span>{activeDocument ? activeDocument.title : "No active document"}</span>
             </div>
-            {activeDocument ? (
-              <div className={styles.commentPanel}>
-                <form action={createCommentThreadAction} className={styles.form}>
-                  <input type="hidden" name="document_id" value={activeDocument.document_id} />
+            <p className={styles.stageDescription}>{stageMeta.description}</p>
+          </section>
+
+          {activeStage === "start" ? (
+            <>
+              <section className={styles.panel} id="create-document">
+                <div className={styles.panelHeader}>
+                  <h2>Create document</h2>
+                  <span>Server action</span>
+                </div>
+                <form
+                  action={createDocumentAction}
+                  className={styles.form}
+                  data-testid="create-document-form"
+                >
                   <label>
-                    Block
-                    <select name="block_id" className={styles.selectInput} defaultValue={activeBlock?.block_id}>
-                      {activeDocument.blocks.map((block) => (
-                        <option key={block.block_id} value={block.block_id}>
-                          {block.heading} · {block.block_id}
-                        </option>
-                      ))}
-                    </select>
+                    Title
+                    <input
+                      name="title"
+                      defaultValue="New SpecForge Draft"
+                      data-testid="create-document-title"
+                    />
                   </label>
                   <label>
-                    Comment
-                    <textarea name="body" rows={4} placeholder="Call out ambiguity, risk, or missing detail." />
+                    Initial markdown
+                    <textarea
+                      name="initial_markdown"
+                      rows={10}
+                      defaultValue={"# PRD\n\n## Problem\nTBD\n\n## Goals\nTBD\n"}
+                    />
                   </label>
-                  <button type="submit">Add comment</button>
+                  <button type="submit">Create document</button>
                 </form>
-                <ul className={styles.patchList}>
-                  {commentThreads.map((thread) => (
-                    <li key={thread.thread_id} className={styles.patchItem}>
-                      <strong>{thread.block_id}</strong>
-                      <span>{thread.status}</span>
-                      <span>{thread.body}</span>
-                      {thread.status === "open" ? (
-                        <form action={resolveCommentThreadAction}>
-                          <input type="hidden" name="document_id" value={thread.document_id} />
-                          <input type="hidden" name="thread_id" value={thread.thread_id} />
-                          <button type="submit">Resolve</button>
-                        </form>
-                      ) : null}
-                    </li>
-                  ))}
-                </ul>
+              </section>
+
+              {activeDocument ? (
+                <section className={styles.panel}>
+                  <div className={styles.panelHeader}>
+                    <h2>Current draft</h2>
+                    <span>Continue where you left off</span>
+                  </div>
+                  <p className={styles.context}>
+                    Active document: <strong>{activeDocument.title}</strong>
+                  </p>
+                  <div className={styles.inlineActions}>
+                    <Link
+                      href={buildStageHref(activeDocument.document_id, "draft")}
+                      className={styles.exportLink}
+                    >
+                      Open draft workspace
+                    </Link>
+                    <Link
+                      href={buildStageHref(activeDocument.document_id, "review")}
+                      className={styles.secondaryLink}
+                    >
+                      Jump to review prep
+                    </Link>
+                  </div>
+                </section>
+              ) : null}
+            </>
+          ) : null}
+
+          {activeStage === "draft" ? (
+            <section className={`${styles.panel} ${styles.editorPanel}`} id="document-workspace">
+              <div className={styles.panelHeader}>
+                <h2>Document workspace</h2>
+                <span>Tiptap-backed local editor</span>
               </div>
-            ) : (
-              <p className={styles.empty}>Create a document first.</p>
-            )}
-          </section>
-        </section>
+              {activeDocument ? (
+                <DocumentWorkspace
+                  key={`${activeDocument.document_id}:${activeDocument.version}`}
+                  document={activeDocument}
+                />
+              ) : (
+                <p className={styles.empty}>Create a document first.</p>
+              )}
+            </section>
+          ) : null}
 
-        <aside className={styles.reviewColumn}>
-          <section className={styles.panel}>
-            <div className={styles.panelHeader}>
-              <h2>Block activity</h2>
-              <span>Attribution rail</span>
-            </div>
-            {activeDocument ? (
-              <ul className={styles.blockSummaryList}>
-                {blockSummaries.map((block) => (
-                  <li key={block.block_id} className={styles.blockSummaryItem}>
-                    <div className={styles.patchHeader}>
-                      <strong>{block.heading}</strong>
-                      <span className={styles.badge}>{block.block_id}</span>
-                    </div>
-                    <div className={styles.blockSummaryMeta}>
-                      <span
-                        className={`${styles.badge} ${
-                          block.pendingPatches > 0 ? styles.warning : styles.neutral
-                        }`}
+          {activeStage === "review" ? (
+            <>
+              <section className={styles.panel} id="patch-proposal">
+                <div className={styles.panelHeader}>
+                  <h2>Patch proposal</h2>
+                  <span>Against any block</span>
+                </div>
+                {activeDocument && activeBlock ? (
+                  <form
+                    action={createPatchAction}
+                    className={styles.form}
+                    data-testid="patch-proposal-form"
+                  >
+                    <input type="hidden" name="document_id" value={activeDocument.document_id} />
+                    <input type="hidden" name="base_version" value={activeDocument.version} />
+                    <p className={styles.context}>
+                      Default target: <code>{activeBlock.block_id}</code> in{" "}
+                      <code>{activeDocument.title}</code>
+                    </p>
+                    <label>
+                      Target block
+                      <select
+                        name="target_descriptor"
+                        className={styles.selectInput}
+                        defaultValue={`${activeBlock.block_id}||${activeBlock.section_id}||${activeBlock.target_fingerprint}`}
+                        data-testid="patch-target-select"
                       >
-                        {block.pendingPatches} pending patches
-                      </span>
-                      <span
-                        className={`${styles.badge} ${
-                          block.openComments > 0 ? styles.warning : styles.neutral
-                        }`}
+                        {activeDocument.blocks.map((block) => (
+                          <option
+                            key={block.block_id}
+                            value={`${block.block_id}||${block.section_id}||${block.target_fingerprint}`}
+                          >
+                            {block.heading} · {block.block_id}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <label>
+                      Patch type
+                      <select
+                        name="patch_type"
+                        className={styles.selectInput}
+                        defaultValue="requirement_change"
+                        data-testid="patch-type-select"
                       >
-                        {block.openComments} open comments
-                      </span>
-                    </div>
-                    <span className={styles.blockSummaryActors}>
-                      {block.touchedBy.length > 0
-                        ? `Touched by ${block.touchedBy.join(", ")}`
-                        : "No review activity yet."}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className={styles.empty}>Create a document first.</p>
-            )}
-          </section>
+                        <option value="requirement_change">Requirement change</option>
+                        <option value="structural_edit">Structural edit</option>
+                        <option value="task_export_change">Task/export change</option>
+                        <option value="wording_formatting">Wording / formatting</option>
+                      </select>
+                    </label>
+                    <label>
+                      Replacement content
+                      <textarea
+                        name="content"
+                        rows={6}
+                        defaultValue={`${activeBlock.content}\n\n- Added from the MVP dashboard.`}
+                        data-testid="patch-content-input"
+                      />
+                    </label>
+                    <button type="submit">Queue patch</button>
+                  </form>
+                ) : (
+                  <p className={styles.empty}>Create a document first.</p>
+                )}
+              </section>
 
-          <section className={styles.panel}>
-            <div className={styles.panelHeader}>
-              <h2>Patch queue</h2>
-              <span>Current document</span>
-            </div>
-            <ul className={styles.patchList} data-testid="patch-queue">
-              {patches.map((patch) => {
-                const targetBlock =
-                  activeDocument?.blocks.find((block) => block.block_id === patch.block_id) ??
-                  null;
-                const originalContent = targetBlock?.content ?? "";
-                const reviewedContent = patch.content ?? "";
-                const diffLines = renderDiffLines(originalContent, reviewedContent);
-
-                return (
-                  <li key={patch.patch_id} className={styles.patchItem}>
-                    <div className={styles.patchHeader}>
-                      <strong>{patch.patch_type}</strong>
-                      <div className={styles.patchMeta}>
-                        <span
-                          className={`${styles.badge} ${styles[getPatchStatusTone(patch.status)]}`}
-                        >
-                          {patch.status}
-                        </span>
-                        <span className={styles.badge}>{getPatchRiskLabel(patch.patch_type)}</span>
-                      </div>
-                    </div>
-                    <span>{patch.patch_id}</span>
-                    <span>
-                      {patch.proposed_by.actor_type}:{patch.proposed_by.actor_id} on{" "}
-                      <code>{patch.block_id}</code>
-                    </span>
-                    <span>
-                      base v{patch.base_version}
-                      {patch.confidence ? ` · confidence ${Math.round(patch.confidence * 100)}%` : ""}
-                    </span>
-                    <div className={styles.diffGrid}>
-                      <article className={styles.diffCard}>
-                        <h3>Current block</h3>
-                        <div className={styles.diffBody}>
-                          {diffLines.map((line) => (
-                            <div
-                              key={`${patch.patch_id}-before-${line.key}`}
-                              className={`${styles.diffLine} ${
-                                line.tone === "changed" ? styles.diffRemoved : ""
-                              }`}
-                            >
-                              <span className={styles.diffMarker}>
-                                {line.tone === "changed" ? "-" : " "}
-                              </span>
-                              <code>{line.before || " "}</code>
-                            </div>
-                          ))}
-                        </div>
-                      </article>
-                      <article className={styles.diffCard}>
-                        <h3>Proposed block</h3>
-                        <div className={styles.diffBody}>
-                          {diffLines.map((line) => (
-                            <div
-                              key={`${patch.patch_id}-after-${line.key}`}
-                              className={`${styles.diffLine} ${
-                                line.tone === "changed" ? styles.diffAdded : ""
-                              }`}
-                            >
-                              <span className={styles.diffMarker}>
-                                {line.tone === "changed" ? "+" : " "}
-                              </span>
-                              <code>{line.after || " "}</code>
-                            </div>
-                          ))}
-                        </div>
-                      </article>
-                    </div>
-                    {["proposed", "stale"].includes(patch.status) ? (
-                      <form action={decidePatchAction} className={styles.patchActionForm}>
-                        <input type="hidden" name="document_id" value={patch.document_id} />
-                        <input type="hidden" name="patch_id" value={patch.patch_id} />
+              <details className={styles.panel} open id="comments">
+                <summary className={styles.disclosureSummary}>
+                  <span>Comments</span>
+                  <span>{commentThreads.filter((thread) => thread.status === "open").length} open</span>
+                </summary>
+                <div className={styles.disclosureBody}>
+                  {activeDocument ? (
+                    <div className={styles.commentPanel}>
+                      <form action={createCommentThreadAction} className={styles.form}>
+                        <input type="hidden" name="document_id" value={activeDocument.document_id} />
                         <label>
-                          Reviewed content
+                          Block
+                          <select
+                            name="block_id"
+                            className={styles.selectInput}
+                            defaultValue={activeBlock?.block_id}
+                          >
+                            {activeDocument.blocks.map((block) => (
+                              <option key={block.block_id} value={block.block_id}>
+                                {block.heading} · {block.block_id}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                        <label>
+                          Comment
                           <textarea
-                            name="resolved_content"
-                            rows={5}
-                            defaultValue={patch.content ?? ""}
-                            className={styles.patchTextarea}
+                            name="body"
+                            rows={4}
+                            placeholder="Call out ambiguity, risk, or missing detail."
                           />
                         </label>
-                        <div className={styles.patchActions}>
-                          <button type="submit" name="decision" value="accept">
-                            Accept
-                          </button>
-                          <button type="submit" name="decision" value="cherry_pick">
-                            Cherry-pick
-                          </button>
-                          <button type="submit" name="decision" value="reject">
-                            Reject
-                          </button>
-                        </div>
+                        <button type="submit">Add comment</button>
                       </form>
-                    ) : null}
-                  </li>
-                );
-              })}
-            </ul>
-          </section>
-
-          <section className={styles.panel}>
-            <div className={styles.panelHeader}>
-              <h2>Audit trail</h2>
-              <span>Recent actions</span>
-            </div>
-            <ul className={styles.patchList}>
-              {auditEvents.map((event) => (
-                <li key={event.event_id} className={styles.patchItem}>
-                  <strong>{event.event_type}</strong>
-                  <span>
-                    {event.actor_type}:{event.actor_id}
-                  </span>
-                  <span>{event.created_at}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          <section className={styles.panel} id="export-preview">
-            <div className={styles.panelHeader}>
-              <h2>Export preview</h2>
-              <span>Deterministic bundle</span>
-            </div>
-            {exportBundle ? (
-              <>
-                <div className={styles.exportActions}>
-                  <Link
-                    href={`/api/documents/${activeDocument?.document_id}/export`}
-                    className={styles.exportLink}
-                    target="_blank"
-                    rel="noreferrer"
-                    data-testid="open-export-json"
-                  >
-                    Open export JSON
-                  </Link>
-                  <span>{Object.keys(exportBundle.files).length} files ready for handoff</span>
+                      <ul className={styles.patchList}>
+                        {commentThreads.map((thread) => (
+                          <li key={thread.thread_id} className={styles.patchItem}>
+                            <strong>{thread.block_id}</strong>
+                            <span>{thread.status}</span>
+                            <span>{thread.body}</span>
+                            {thread.status === "open" ? (
+                              <form action={resolveCommentThreadAction}>
+                                <input type="hidden" name="document_id" value={thread.document_id} />
+                                <input type="hidden" name="thread_id" value={thread.thread_id} />
+                                <button type="submit">Resolve</button>
+                              </form>
+                            ) : null}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : (
+                    <p className={styles.empty}>Create a document first.</p>
+                  )}
                 </div>
-                <div className={styles.exportGrid}>
-                  {Object.entries(exportBundle.files).map(([name, content]) => (
-                    <article key={name} className={styles.exportCard}>
-                      <h3>{name}</h3>
-                      <pre>{content}</pre>
-                    </article>
-                  ))}
+              </details>
+
+              <details className={styles.panel}>
+                <summary className={styles.disclosureSummary}>
+                  <span>Block activity</span>
+                  <span>{blockSummaries.length} tracked blocks</span>
+                </summary>
+                <div className={styles.disclosureBody}>
+                  {activeDocument ? (
+                    <ul className={styles.blockSummaryList}>
+                      {blockSummaries.map((block) => (
+                        <li key={block.block_id} className={styles.blockSummaryItem}>
+                          <div className={styles.patchHeader}>
+                            <strong>{block.heading}</strong>
+                            <span className={styles.badge}>{block.block_id}</span>
+                          </div>
+                          <div className={styles.blockSummaryMeta}>
+                            <span
+                              className={`${styles.badge} ${
+                                block.pendingPatches > 0 ? styles.warning : styles.neutral
+                              }`}
+                            >
+                              {block.pendingPatches} pending patches
+                            </span>
+                            <span
+                              className={`${styles.badge} ${
+                                block.openComments > 0 ? styles.warning : styles.neutral
+                              }`}
+                            >
+                              {block.openComments} open comments
+                            </span>
+                          </div>
+                          <span className={styles.blockSummaryActors}>
+                            {block.touchedBy.length > 0
+                              ? `Touched by ${block.touchedBy.join(", ")}`
+                              : "No review activity yet."}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className={styles.empty}>Create a document first.</p>
+                  )}
                 </div>
-              </>
-            ) : (
-              <p className={styles.empty}>No export available yet.</p>
-            )}
-          </section>
-        </aside>
+              </details>
+            </>
+          ) : null}
+
+          {activeStage === "decide" ? (
+            <>
+              <section className={styles.panel}>
+                <div className={styles.panelHeader}>
+                  <h2>Patch queue</h2>
+                  <span>Current document</span>
+                </div>
+                <ul className={styles.patchList} data-testid="patch-queue">
+                  {patches.map((patch) => {
+                    const targetBlock =
+                      activeDocument?.blocks.find((block) => block.block_id === patch.block_id) ??
+                      null;
+                    const originalContent = targetBlock?.content ?? "";
+                    const reviewedContent = patch.content ?? "";
+                    const diffLines = renderDiffLines(originalContent, reviewedContent);
+
+                    return (
+                      <li key={patch.patch_id} className={styles.patchItem}>
+                        <div className={styles.patchHeader}>
+                          <strong>{patch.patch_type}</strong>
+                          <div className={styles.patchMeta}>
+                            <span
+                              className={`${styles.badge} ${styles[getPatchStatusTone(patch.status)]}`}
+                            >
+                              {patch.status}
+                            </span>
+                            <span className={styles.badge}>{getPatchRiskLabel(patch.patch_type)}</span>
+                          </div>
+                        </div>
+                        <span>{patch.patch_id}</span>
+                        <span>
+                          {patch.proposed_by.actor_type}:{patch.proposed_by.actor_id} on{" "}
+                          <code>{patch.block_id}</code>
+                        </span>
+                        <span>
+                          base v{patch.base_version}
+                          {patch.confidence
+                            ? ` · confidence ${Math.round(patch.confidence * 100)}%`
+                            : ""}
+                        </span>
+                        <div className={styles.diffGrid}>
+                          <article className={styles.diffCard}>
+                            <h3>Current block</h3>
+                            <div className={styles.diffBody}>
+                              {diffLines.map((line) => (
+                                <div
+                                  key={`${patch.patch_id}-before-${line.key}`}
+                                  className={`${styles.diffLine} ${
+                                    line.tone === "changed" ? styles.diffRemoved : ""
+                                  }`}
+                                >
+                                  <span className={styles.diffMarker}>
+                                    {line.tone === "changed" ? "-" : " "}
+                                  </span>
+                                  <code>{line.before || " "}</code>
+                                </div>
+                              ))}
+                            </div>
+                          </article>
+                          <article className={styles.diffCard}>
+                            <h3>Proposed block</h3>
+                            <div className={styles.diffBody}>
+                              {diffLines.map((line) => (
+                                <div
+                                  key={`${patch.patch_id}-after-${line.key}`}
+                                  className={`${styles.diffLine} ${
+                                    line.tone === "changed" ? styles.diffAdded : ""
+                                  }`}
+                                >
+                                  <span className={styles.diffMarker}>
+                                    {line.tone === "changed" ? "+" : " "}
+                                  </span>
+                                  <code>{line.after || " "}</code>
+                                </div>
+                              ))}
+                            </div>
+                          </article>
+                        </div>
+                        {["proposed", "stale"].includes(patch.status) ? (
+                          <form action={decidePatchAction} className={styles.patchActionForm}>
+                            <input type="hidden" name="document_id" value={patch.document_id} />
+                            <input type="hidden" name="patch_id" value={patch.patch_id} />
+                            <label>
+                              Reviewed content
+                              <textarea
+                                name="resolved_content"
+                                rows={5}
+                                defaultValue={patch.content ?? ""}
+                                className={styles.patchTextarea}
+                              />
+                            </label>
+                            <div className={styles.patchActions}>
+                              <button type="submit" name="decision" value="accept">
+                                Accept
+                              </button>
+                              <button type="submit" name="decision" value="cherry_pick">
+                                Cherry-pick
+                              </button>
+                              <button type="submit" name="decision" value="reject">
+                                Reject
+                              </button>
+                            </div>
+                          </form>
+                        ) : null}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
+
+              <details className={styles.panel}>
+                <summary className={styles.disclosureSummary}>
+                  <span>Audit trail</span>
+                  <span>{auditEvents.length} recent events</span>
+                </summary>
+                <div className={styles.disclosureBody}>
+                  <ul className={styles.patchList}>
+                    {auditEvents.map((event) => (
+                      <li key={event.event_id} className={styles.patchItem}>
+                        <strong>{event.event_type}</strong>
+                        <span>
+                          {event.actor_type}:{event.actor_id}
+                        </span>
+                        <span>{event.created_at}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </details>
+            </>
+          ) : null}
+
+          {activeStage === "export" ? (
+            <>
+              <section className={styles.panel}>
+                <div className={styles.panelHeader}>
+                  <h2>Readiness summary</h2>
+                  <span>Pre-handoff check</span>
+                </div>
+                {readinessReport ? (
+                  <div className={styles.readinessCard}>
+                    <strong>{readinessReport.score}/100</strong>
+                    <span className={styles.status}>{readinessReport.status}</span>
+                    <ul className={styles.readinessList}>
+                      {readinessReport.recap.map((line) => (
+                        <li key={line}>{line}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : (
+                  <p className={styles.empty}>Create a document first.</p>
+                )}
+              </section>
+
+              <section className={styles.panel} id="export-preview">
+                <div className={styles.panelHeader}>
+                  <h2>Export preview</h2>
+                  <span>Deterministic bundle</span>
+                </div>
+                {exportBundle ? (
+                  <>
+                    <div className={styles.exportActions}>
+                      <Link
+                        href={`/api/documents/${activeDocument?.document_id}/export`}
+                        className={styles.exportLink}
+                        target="_blank"
+                        rel="noreferrer"
+                        data-testid="open-export-json"
+                      >
+                        Open export JSON
+                      </Link>
+                      <span>{Object.keys(exportBundle.files).length} files ready for handoff</span>
+                    </div>
+                    <details className={styles.exportDisclosure} open>
+                      <summary className={styles.disclosureSummary}>
+                        <span>Bundle contents</span>
+                        <span>{Object.keys(exportBundle.files).length} files</span>
+                      </summary>
+                      <div className={styles.disclosureBody}>
+                        <div className={styles.exportGrid}>
+                          {Object.entries(exportBundle.files).map(([name, content]) => (
+                            <article key={name} className={styles.exportCard}>
+                              <h3>{name}</h3>
+                              <pre>{content}</pre>
+                            </article>
+                          ))}
+                        </div>
+                      </div>
+                    </details>
+                  </>
+                ) : (
+                  <p className={styles.empty}>No export available yet.</p>
+                )}
+              </section>
+            </>
+          ) : null}
+        </section>
       </main>
     </div>
   );

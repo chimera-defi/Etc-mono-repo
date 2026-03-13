@@ -70,18 +70,22 @@
   color: #7a6d5e;
 }
 
-.workspaceLayout {
+.focusLayout {
   display: grid;
-  grid-template-columns: 280px minmax(0, 1.5fr) minmax(320px, 1fr);
+  grid-template-columns: 300px minmax(0, 1fr);
   gap: 18px;
   align-items: start;
 }
 
-.sidebarColumn,
-.canvasColumn,
-.reviewColumn {
+.focusSidebar,
+.focusMain {
   display: grid;
   gap: 18px;
+}
+
+.focusSidebar {
+  position: sticky;
+  top: 24px;
 }
 
 .panel {
@@ -361,6 +365,11 @@
   line-height: 1.5;
 }
 
+.stageDescription {
+  color: #5e554a;
+  line-height: 1.6;
+}
+
 .status {
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -407,6 +416,46 @@
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: #7a6d5e;
+}
+
+.disclosureSummary {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  cursor: pointer;
+  list-style: none;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.disclosureSummary::-webkit-details-marker {
+  display: none;
+}
+
+.disclosureBody {
+  display: grid;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.inlineActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.secondaryLink {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  border-radius: 999px;
+  padding: 10px 14px;
+  text-decoration: none;
+  border: 1px solid rgba(28, 26, 23, 0.12);
+  color: #1c1a17;
+  background: rgba(255, 255, 255, 0.55);
 }
 
 .editorPanel :global(.editorToolbar) {
@@ -547,13 +596,13 @@
   }
 
   .hero,
-  .workspaceLayout,
+  .focusLayout,
   .exportGrid {
     grid-template-columns: 1fr;
   }
 
-  .stepGrid {
-    grid-template-columns: 1fr;
+  .focusSidebar {
+    position: static;
   }
 
   .hero {

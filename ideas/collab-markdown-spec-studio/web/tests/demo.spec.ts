@@ -7,12 +7,11 @@ test("renders the integrated SpecForge demo and captures a screenshot", async ({
 
   await expect(
     page.getByRole("heading", {
-      name: "Authoring, patches, and export in one local slice.",
+      name: "Shared authoring, guided review, and export in one workspace.",
     }),
   ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Workflow" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Document workspace" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Patch queue" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Export preview" })).toBeVisible();
   await expect(page.getByText("Live collaborators")).toBeVisible();
 
   await page.screenshot({
@@ -24,21 +23,24 @@ test("renders the integrated SpecForge demo and captures a screenshot", async ({
 test("creates a document, queues a patch, and exposes export JSON", async ({ page }) => {
   const title = `Demo Spec ${Date.now()}`;
 
-  await page.goto("/");
+  await page.goto("/?stage=start");
   await page.getByTestId("create-document-title").fill(title);
   await page.getByRole("button", { name: "Create document" }).click();
 
   await expect(page.getByRole("heading", { name: "Document workspace" })).toBeVisible();
   await expect(page.locator(".editorToolbar strong")).toContainText(title);
 
+  await page.goto(`${page.url().split("?")[0]}?document=${new URL(page.url()).searchParams.get("document")}&stage=review`);
   await page.getByTestId("patch-type-select").selectOption("task_export_change");
   await page
     .getByTestId("patch-content-input")
     .fill("## Goals\n\n- Export this draft as a clean handoff bundle.");
   await page.getByRole("button", { name: "Queue patch" }).click();
 
+  await page.goto(`${page.url().split("?")[0]}?document=${new URL(page.url()).searchParams.get("document")}&stage=decide`);
   await expect(page.getByTestId("patch-queue")).toContainText("task_export_change");
 
+  await page.goto(`${page.url().split("?")[0]}?document=${new URL(page.url()).searchParams.get("document")}&stage=export`);
   const exportHref = await page.getByTestId("open-export-json").getAttribute("href");
   expect(exportHref).toBeTruthy();
   const exportResponse = await page.request.get(`http://127.0.0.1:3000${exportHref}`);
