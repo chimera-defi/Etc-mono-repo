@@ -65,6 +65,21 @@ Build a real-time collaborative spec IDE with:
 - Storage: canonical doc state, snapshots, patch logs, audit trail.
 - Repo generation service: template engine + Git provider integration.
 
+### Default Implementation Topology
+1. Single TypeScript web app for UI, auth, HTTP APIs, and export orchestration.
+2. Dedicated collaboration service for CRDT websocket sync.
+3. Lightweight background worker for recap/export/repo-generation jobs.
+4. Shared Postgres database for application state, audit logs, comments, and exports.
+5. Local object/blob storage only if snapshots or exports outgrow Postgres storage ergonomics.
+
+### Default Stack
+1. Next.js + React + TypeScript for the application shell.
+2. Tiptap for the editor UI.
+3. Yjs for CRDT sync.
+4. Hocuspocus for the collaboration server.
+5. Postgres for primary persistence.
+6. Vitest for contract/unit tests and Playwright for end-to-end tests.
+
 ### Data Model (MVP)
 - `Workspace`
 - `Document`
@@ -77,6 +92,16 @@ Build a real-time collaborative spec IDE with:
 - `MilestoneGate`
 - `Recap`
 
+### Canonical Data Model Default
+1. Canonical editing state is Tiptap/ProseMirror JSON stored per document version.
+2. A derived block index is extracted from canonical editor JSON for:
+   - patch targeting
+   - export shaping
+   - comment anchoring
+   - traceability
+3. Markdown is a deterministic export artifact, not the source of truth.
+4. Avoid dual-write canonical models in v1.
+
 ### APIs (MVP)
 1. `POST /documents`
 2. `GET /documents/:id`
@@ -86,6 +111,23 @@ Build a real-time collaborative spec IDE with:
 6. `POST /documents/:id/depth-check`
 7. `GET /documents/:id/recap`
 8. `POST /documents/:id/export`
+
+### Patch Contract Default
+1. Primary target key is `block_id`.
+2. `section_id` is optional context for UI grouping and analytics, not the primary integrity key.
+3. A patch proposal must include:
+   - `document_id`
+   - `block_id`
+   - `base_version`
+   - `target_fingerprint`
+   - `patch_type`
+   - operation payload
+   - rationale
+   - actor identity
+4. If `base_version` or `target_fingerprint` is stale, v1 does not auto-rebase:
+   - mark proposal `stale`
+   - require regeneration or manual review
+5. Cherry-pick behavior in v1 should operate on patch hunks or block-level fragments, not arbitrary raw character ranges.
 
 ### APIs (Phase 2)
 1. `POST /documents/:id/create-repo`
@@ -99,6 +141,18 @@ Build a real-time collaborative spec IDE with:
 2. Editor: direct edits + patch review.
 3. Agent: patch proposal only (default).
 4. Viewer: read/comment.
+
+### Auth Default
+1. Local demo mode supports a simple dev bypass identity.
+2. Pilot mode uses GitHub OAuth for human users.
+3. Agent actors use workspace-scoped service identities, not human sessions.
+4. Defer SSO, SCIM, and complex enterprise role models until post-pilot.
+
+### Comments Default
+1. v1 ships simple anchored comment threads.
+2. Comments attach to `block_id` plus optional text range metadata.
+3. UI favors a side-panel review experience over deep inline multiplayer comment UX.
+4. Do not overbuild comment features ahead of patch review and depth gates.
 
 ### Reliability and Safety
 1. Durable patch log before apply.
@@ -147,6 +201,22 @@ Use CRDT for live human collaboration, but keep agent governance above the CRDT 
 2. Phase 2: agent patch queue + approvals + provenance tags + depth gates.
 3. Phase 3: curated example exports + repo scaffolding + integrations.
 4. Phase 4: broader repo generation and advanced governance policies.
+
+### Benchmark Corpus Default
+Use three packs from `ideas/` as the initial end-to-end benchmark set:
+1. Rough: `ideas/server-management-agent/README.md`
+2. Mid-fidelity: `ideas/birthday-bot/`
+3. Mature: `ideas/idea-validation-bot/`
+
+### Repo Generation Default Boundary
+1. Always support docs/export-only output.
+2. Limit example repo generation to one curated TypeScript template family in the first implementation.
+3. Default generated app shape:
+   - Next.js application shell
+   - Postgres-ready data layer
+   - Auth scaffold
+   - docs and task artifacts
+4. Do not support arbitrary frameworks, multi-service monorepos, mobile apps, or chain-specific starters in the first repo-generation phase.
 
 ### Key Technical Choice
 Use CRDT-backed editing for robust multiplayer behavior and offline/reconnect tolerance.
