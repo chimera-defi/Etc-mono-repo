@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "screenshot:demo": "playwright test tests/demo.spec.ts --project=chromium"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.3.16",
@@ -25,6 +27,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@playwright/test": "^1.55.1",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "typescript": "^5",

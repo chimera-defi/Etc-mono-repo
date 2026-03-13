@@ -14,9 +14,9 @@
 - [ ] Shared cursor rendering is still pending, but collaborator awareness UI is live.
 - [ ] Rich patch diff/review UI and attribution overlays.
 - [ ] Inline attribution overlays are still pending.
-- [ ] Depth gates, recap generation, and implementation-readiness scoring.
-- [ ] Deterministic export/handoff flow beyond the current local bundle preview.
-- [ ] Playwright-based end-to-end and screenshot coverage.
+- [x] Depth gates, recap generation, and implementation-readiness scoring.
+- [x] Deterministic export/handoff flow exists for the local bundle preview, but curated template handoff is still pending.
+- [x] Playwright-based end-to-end and screenshot coverage for the local integrated demo.
 
 ## Remaining MVP Build Backlog
 
@@ -30,7 +30,7 @@
   - [x] patch decisions
   - [x] audit events
   - [x] comment threads
-- [ ] Persist collaboration snapshots or Yjs updates so rooms survive server restarts.
+- [x] Persist collaboration snapshots or Yjs updates so rooms survive server restarts.
 - [ ] Add reconnect, replay, and stale-room recovery handling.
 - [ ] Add auth hooks between the web app and collaboration server.
 - [x] Add a local dev bootstrap for the persistence layer.
@@ -49,7 +49,7 @@
   - [x] cherry-pick
 - [x] Apply accepted patches back to canonical document state.
 - [x] Record immutable audit events for proposal and decision actions.
-- [ ] Add richer patch diff/review UI with risk/status chips.
+- [x] Add richer patch diff/review UI with risk/status chips.
 - [ ] Show who changed what at block level for both humans and agents.
 - [ ] Handle stale, conflicted, superseded, and terminal patch states in the UI.
 
@@ -69,11 +69,11 @@
 
 ### Track F: Demo, Testing, and Ops
 - [ ] Add Playwright coverage for:
-  - create document
-  - live collaboration between two clients
-  - patch review path
-  - export flow
-- [ ] Add screenshot capture flow for demo-ready states.
+  - [ ] create document
+  - [ ] live collaboration between two clients
+  - [ ] patch review path
+  - [ ] export flow
+- [x] Add screenshot capture flow for demo-ready states.
 - [ ] Add observability basics:
   - request logging
   - collaboration room events

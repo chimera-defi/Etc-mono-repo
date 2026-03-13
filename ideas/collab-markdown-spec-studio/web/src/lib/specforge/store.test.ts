@@ -3,6 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 
+import { agentSpecExportSchema } from "./contracts";
 import {
   createCommentThread,
   createDocument,
@@ -116,11 +117,15 @@ describe("specforge store", () => {
     const [document] = await listDocuments(options);
 
     const bundle = await exportDocument(document!.document_id, options);
+    const agentSpec = agentSpecExportSchema.parse(
+      JSON.parse(bundle.files["agent_spec.json"] ?? "{}"),
+    );
 
     expect(bundle.files["PRD.md"]).toContain("# PRD");
     expect(bundle.files["SPEC.md"]).toContain("## Patch Queue");
     expect(bundle.files["TASKS.md"]).toContain("Review Goals");
-    expect(bundle.files["agent_spec.json"]).toContain(document!.document_id);
+    expect(agentSpec.document_id).toBe(document!.document_id);
+    expect(agentSpec.sections.length).toBeGreaterThan(0);
   });
 
   it("lists patches for the active document", async () => {
