@@ -74,10 +74,12 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
+  scroll-behavior: smooth;
 }
 
 .panel {
   padding: 20px;
+  scroll-margin-top: 20px;
 }
 
 .panelHeader {
@@ -361,6 +363,50 @@
   grid-column: 1 / -1;
 }
 
+.stepGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.stepCard {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 18px;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid rgba(28, 26, 23, 0.08);
+  background: #fffdf9;
+}
+
+.completed {
+  background: rgba(33, 122, 69, 0.08);
+  border-color: rgba(33, 122, 69, 0.22);
+}
+
+.current {
+  background: rgba(17, 106, 138, 0.1);
+  border-color: rgba(17, 106, 138, 0.24);
+}
+
+.upcoming {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.stepCard p {
+  color: #6f6559;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.stepNumber {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #7a6d5e;
+}
+
 .wide :global(.editorToolbar) {
   display: flex;
   align-items: center;
@@ -501,6 +547,10 @@
   .hero,
   .grid,
   .exportGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .stepGrid {
     grid-template-columns: 1fr;
   }
 
