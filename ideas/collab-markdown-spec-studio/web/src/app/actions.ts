@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 
-import { createDocument, createPatchProposal } from "@/lib/specforge/store";
+import { createDocument, createPatchProposal, decidePatch } from "@/lib/specforge/store";
 
 export async function createDocumentAction(formData: FormData) {
   const title = String(formData.get("title") ?? "Untitled SpecForge Doc");
@@ -36,6 +36,22 @@ export async function createPatchAction(formData: FormData) {
     base_version: Number(formData.get("base_version") ?? 1),
     target_fingerprint: String(formData.get("target_fingerprint")),
     confidence: 0.82,
+  });
+
+  revalidatePath("/");
+}
+
+export async function decidePatchAction(formData: FormData) {
+  await decidePatch({
+    document_id: String(formData.get("document_id")),
+    patch_id: String(formData.get("patch_id")),
+    decision:
+      (String(formData.get("decision") ?? "reject") as "accept" | "reject" | "cherry_pick"),
+    resolved_content: String(formData.get("resolved_content") ?? ""),
+    decided_by: {
+      actor_type: "human",
+      actor_id: "dashboard_reviewer",
+    },
   });
 
   revalidatePath("/");
