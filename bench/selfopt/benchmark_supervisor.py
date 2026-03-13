@@ -51,8 +51,11 @@ RUNS.mkdir(parents=True, exist_ok=True)
 ARCHIVE.mkdir(parents=True, exist_ok=True)
 
 DEFAULT_JOBS = [
+    # Keep this aligned with bench/HANDOFF.md's truth-refresh matrix.
     ("lfm2.5-thinking:1.2b", "atomic", "atomic", [""]),
     ("lfm2.5-thinking:1.2b", "extended", "extended", [""]),
+    ("qwen3.5:35b", "atomic", "atomic", [""]),
+    ("mistral:7b", "atomic", "atomic", [""]),
     ("qwen2.5:3b", "atomic", "atomic", [""]),
     ("ministral-3:latest", "atomic", "atomic", [""]),
 ]
