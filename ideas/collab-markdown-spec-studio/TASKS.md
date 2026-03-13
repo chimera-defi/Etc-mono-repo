@@ -9,7 +9,7 @@
 - [x] Hocuspocus collaboration server scaffold is runnable.
 - [x] Documents, patches, snapshots, and audit events are stored in the local PGlite database.
 - [x] Patch review decisions mutate canonical document state and are shown in the workspace.
-- [ ] Shared cursor presence and awareness UI.
+- [ ] Shared cursor rendering is still pending, but collaborator awareness UI is live.
 - [ ] Comment threads are stored in the main persistence layer.
 - [ ] Rich patch diff/review UI and attribution overlays.
 - [ ] Anchored comments and attribution overlays.
@@ -35,7 +35,7 @@
 - [x] Add a local dev bootstrap for the persistence layer.
 
 ### Track B: Shared Canvas UX
-- [ ] Add shared cursor presence and collaborator identity chips.
+- [ ] Finish shared cursor presence; collaborator identity chips are live.
 - [ ] Add document switch/create/open flow without relying on a single active document.
 - [ ] Add better save, sync, and offline status states.
 - [ ] Add empty, error, reconnect, and conflict-recovery UI states.
