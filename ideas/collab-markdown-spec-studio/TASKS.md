@@ -34,7 +34,7 @@
 - [ ] Define session lifecycle, presence model, and permission model.
 - [ ] Define document event schema and replay semantics.
 - [ ] Define stable `block_id` extraction and fingerprint generation rules.
-- Deliverables: `SPEC.md` architecture section + event contract appendix.
+- Deliverables: `SPEC.md` architecture section + `EVENT_MODEL.md`.
 - Done when: two clients can produce deterministic merged state in adversarial test scenarios.
 
 ### WS-3 Agent Patch Governance

@@ -240,7 +240,8 @@ Use off-the-shelf collaboration libraries where possible:
 8. `TECH_STACK.md`
 9. `VALIDATION_PLAN.md`
 10. `ALTERNATIVES_AND_VARIANTS.md`
-11. `NAME_OPTIONS.md`
-12. `contracts/README.md`
-13. `ACCEPTANCE_TEST_MATRIX.md`
-14. `FIRST_60_MINUTES.md`
+11. `archive/NAME_OPTIONS.md`
+12. `EVENT_MODEL.md`
+13. `contracts/README.md`
+14. `ACCEPTANCE_TEST_MATRIX.md`
+15. `FIRST_60_MINUTES.md`
