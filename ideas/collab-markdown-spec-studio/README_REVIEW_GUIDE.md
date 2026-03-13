@@ -19,8 +19,8 @@
 4. `AGENT_HANDOFF.md`
 
 ## What To Ignore On First Read
-1. `REFINEMENTS.md`
-2. `MULTIPASS_REVIEW.md`
-3. `META_LEARNINGS.md`
+1. `archive/REFINEMENTS.md`
+2. `archive/MULTIPASS_REVIEW.md`
+3. `archive/META_LEARNINGS.md`
 
 Use these only after core product/architecture review.

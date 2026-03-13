@@ -1,38 +1,44 @@
-## SpecForge (Collaborative Markdown Spec Studio)
+## SpecForge
 
-**Status**: Build-ready — all open questions resolved (see `OPEN_QUESTIONS.md`)
-**Product name:** SpecForge (alt: ShipSpec — see `NAME_OPTIONS.md`)
-**Tech stack:** Yjs + Next.js 15 + CodeMirror 6 + Hono/Bun + Postgres + Clerk + Claude API
+**Status**: Exploration (docs-first)
 
 ### Concept
-A multiplayer Markdown editor for humans + AI agents to co-author PRDs/specs/design docs with branch/merge semantics and AI patch governance. Outputs a build-ready spec bundle that can scaffold a starter repository (Phase 2).
+A collaborative spec IDE where humans and AI agents work on the same markdown canvas with depth gates, governed patch review, and attributable changes.
 
 ### Thesis
-Collaborative editors exist, but a focused "spec studio" with agent patch governance, section-level provenance, and merge-safe AI edits can win for startup/engineering teams focused on spec-to-ship workflows.
+Collaborative editors already exist. The wedge is not generic editing; it is a spec-native workspace that keeps humans and agents on one canvas, enforces decision depth, and turns approved specs into execution-ready outputs.
 
 ### Key Docs (Review Path)
 0. `README_REVIEW_GUIDE.md`
-0b. `OPEN_QUESTIONS.md` ← decisions index (all resolved)
 1. `EXECUTIVE_SUMMARY.md`
 2. `PRD.md`
 3. `SPEC.md`
-4. `ARCHITECTURE_DIAGRAMS.md`
-5. `UX_PRINCIPLES.md`
-6. `USER_FLOWS.md`
-7. `FRONTEND_VISION.md`
-8. `WIREFRAMES.md`
-9. `COMPETITOR_MATRIX.md`
-10. `VALIDATION_PLAN.md`
-11. `GO_NO_GO_SCORECARD.md`
+4. `TECH_STACK.md`
+5. `ARCHITECTURE_DIAGRAMS.md`
+6. `UX_PRINCIPLES.md`
+7. `USER_FLOWS.md`
+8. `FRONTEND_VISION.md`
+9. `WIREFRAMES.md`
+10. `COMPETITOR_MATRIX.md`
+11. `VALIDATION_PLAN.md`
+12. `GO_NO_GO_SCORECARD.md`
 
 ### Full Pack (Grouped)
 - Strategy and product: `EXECUTIVE_SUMMARY`, `PRD`, `ALTERNATIVES_AND_VARIANTS`, `COMPETITOR_ANALYSIS`, `COMPETITOR_MATRIX`
-- Technical design: `SPEC`, `ARCHITECTURE_DIAGRAMS`, `ARCHITECTURE_DECISIONS`
+- Technical design: `SPEC`, `TECH_STACK`, `ARCHITECTURE_DIAGRAMS`, `ARCHITECTURE_DECISIONS`
 - UX and product surface: `VISION_AND_FLOW`, `UX_PRINCIPLES`, `USER_FLOWS`, `FRONTEND_VISION`, `WIREFRAMES`
 - Validation and economics: `VALIDATION_PLAN`, `GO_NO_GO_SCORECARD`, `PILOT_SCORECARD_TEMPLATE`, `FINANCIAL_MODEL`, `RISK_REGISTER`
 - Execution and governance: `90_DAY_EXECUTION_PLAN`, `TASKS`, `DECISIONS`, `AGENT_HANDOFF`, `SPEC_STAGE_CHECKLIST`
-- Iteration history: `REFINEMENTS`, `MULTIPASS_REVIEW`, `META_LEARNINGS`, `IDEA_DEVELOPMENT_FRAMEWORK`
+- Iteration history: `archive/REFINEMENTS`, `archive/MULTIPASS_REVIEW`, `archive/META_LEARNINGS`, `IDEA_DEVELOPMENT_FRAMEWORK`
 - One-shot build assets: `contracts/`, `fixtures/`, `ACCEPTANCE_TEST_MATRIX.md`, `FIRST_60_MINUTES.md`, `SUBAGENT_PROMPT_PACK.md`
 
 ### Source Notes
 Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid duplication.
+
+### Current Product Position
+1. Validate authoring behavior first:
+   - repeat collaborative use
+   - trust in governed agent patches
+   - ability to reach a build-ready spec
+2. Use selected `ideas/` packs as example corpora and end-to-end benchmarks.
+3. Treat repo generation as a downstream proof surface, not the initial product gate.
