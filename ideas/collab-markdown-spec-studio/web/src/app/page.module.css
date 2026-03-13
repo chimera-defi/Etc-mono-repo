@@ -8,6 +8,32 @@
   color: #1c1a17;
 }
 
+.brandBar {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.brandMark {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 8px 14px;
+  background: #1c1a17;
+  color: #fff9f3;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.76rem;
+}
+
+.brandTagline {
+  margin-top: 10px;
+  color: #5e554a;
+  font-size: 0.95rem;
+}
+
 .hero {
   display: flex;
   justify-content: space-between;
@@ -603,6 +629,10 @@
 
   .focusSidebar {
     position: static;
+  }
+
+  .brandBar {
+    align-items: flex-start;
   }
 
   .hero {
