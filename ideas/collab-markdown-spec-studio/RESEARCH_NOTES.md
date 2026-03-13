@@ -19,7 +19,7 @@
 
 ### Working Observations
 1. Real-time collaboration and markdown editing are mature and accessible.
-2. Competitive wedge must focus on execution pipeline (spec-to-ship), not core editing.
+2. Competitive wedge must focus on governed spec authoring and execution handoff, not core editing.
 3. Provenance and patch governance are trust multipliers for AI collaboration.
 4. Repo generation should be phased to avoid over-scope before core workflow fit.
 5. Integration speed matters: ChatPRD emphasizes one-click handoff into coding tools.

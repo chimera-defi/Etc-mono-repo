@@ -21,7 +21,10 @@ docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=dev postgres:16
 ```
 
 ## Goal
-Bring up local services, load deterministic fixtures, and pass core acceptance checks.
+Define the target local bring-up path for the first runnable implementation.
+
+## Status
+This is a target implementation checklist, not a claim that the current idea pack already contains the referenced services and commands.
 
 ## Commands
 ```bash
@@ -47,3 +50,4 @@ pnpm dev:down
 1. Services boot without manual config edits.
 2. Fixtures load and final markdown matches `fixtures/expected.final.md`.
 3. Critical acceptance checks pass.
+4. The first runnable implementation preserves governed patch review, attribution, and depth-gate behavior.

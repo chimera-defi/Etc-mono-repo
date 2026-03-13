@@ -2,7 +2,7 @@
 
 ## Pass 1: Strategic Positioning
 - Check: Is this just another editor?
-- Result: Repositioned to execution outcome (spec-to-ship).
+- Result: Repositioned to a spec IDE with governed human+agent authoring and execution handoff.
 
 ## Pass 2: Workflow Value
 - Check: Does it improve handoff to implementation?
@@ -23,7 +23,3 @@
 ## Pass 6: One-Shot Readiness
 - Check: Can a fresh agent start build execution with minimal interpretation?
 - Result: Added contracts, fixtures, acceptance matrix, first-60-minute runbook, and bounded sub-agent prompts.
-
-## Pass 7: Architecture Concreteness and Slop Removal
-- Check: Are CRDT library, section ID scheme, auth, AI provider, and database specified? Is Idea-Depth Orchestrator correctly scoped?
-- Result: ARCHITECTURE_DECISIONS.md updated with concrete tech choices (Yjs, Next.js 15 + CodeMirror 6, Hono+Bun API, Postgres+R2, Clerk auth, Claude API). Section ID scheme defined (UUID comment markers). Depth Orchestrator explicitly moved to Phase 2 — it was conflating the editor product with AI meta-tooling. OPEN_QUESTIONS.md created with 9 questions that must be resolved before build. FIRST_60_MINUTES.md updated with actual bootstrap commands.
