@@ -17,18 +17,19 @@ type Props = {
 export function DocumentWorkspace({ document }: Props) {
   const collabUrl =
     process.env.NEXT_PUBLIC_COLLAB_URL?.trim() || "ws://127.0.0.1:4321";
-  const [status, setStatus] = useState(`Connecting to ${document.document_id}`);
+  const roomName = `${document.document_id}:v${document.version}`;
+  const [status, setStatus] = useState(`Connecting to ${roomName}`);
   const [isPending, startTransition] = useTransition();
   const collab = useMemo(() => {
     const ydoc = new Y.Doc();
     const provider = new HocuspocusProvider({
       url: collabUrl,
-      name: document.document_id,
+      name: roomName,
       document: ydoc,
     });
 
     return { ydoc, provider };
-  }, [collabUrl, document.document_id]);
+  }, [collabUrl, roomName]);
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
@@ -61,8 +62,8 @@ export function DocumentWorkspace({ document }: Props) {
     const handleStatus = ({ status: nextStatus }: { status: string }) => {
       setStatus(
         nextStatus === "connected"
-          ? `Live room connected: ${document.document_id}`
-          : `Collab ${nextStatus}: ${document.document_id}`,
+          ? `Live room connected: ${roomName}`
+          : `Collab ${nextStatus}: ${roomName}`,
       );
     };
 
@@ -72,11 +73,11 @@ export function DocumentWorkspace({ document }: Props) {
 
       if (!hasContent) {
         editor.commands.setContent(markdownToEditorHtml(document.markdown));
-        setStatus(`Seeded live room: ${document.document_id}`);
+        setStatus(`Seeded live room: ${roomName}`);
         return;
       }
 
-      setStatus(`Live room synced: ${document.document_id}`);
+      setStatus(`Live room synced: ${roomName}`);
     };
 
     collab.provider.on("status", handleStatus);
@@ -86,7 +87,7 @@ export function DocumentWorkspace({ document }: Props) {
       collab.provider.off("status", handleStatus);
       collab.provider.off("synced", handleSynced);
     };
-  }, [collab.provider, document.document_id, document.markdown, editor]);
+  }, [collab.provider, document.markdown, editor, roomName]);
 
   async function saveDocument() {
     if (!editor) {
@@ -115,7 +116,7 @@ export function DocumentWorkspace({ document }: Props) {
         return;
       }
 
-      setStatus(`Saved snapshot for ${document.document_id}`);
+      setStatus(`Saved snapshot for ${roomName}`);
     });
   }
 

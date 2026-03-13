@@ -1,7 +1,7 @@
-import { createDocumentAction, createPatchAction } from "./actions";
+import { createDocumentAction, createPatchAction, decidePatchAction } from "./actions";
 import { DocumentWorkspace } from "./document-workspace";
 import styles from "./page.module.css";
-import { exportDocument, listDocuments, listPatches } from "@/lib/specforge/store";
+import { exportDocument, listAuditEvents, listDocuments, listPatches } from "@/lib/specforge/store";
 
 export const dynamic = "force-dynamic";
 
@@ -10,6 +10,9 @@ export default async function Home() {
   const activeDocument = documents[0] ?? null;
   const patches = activeDocument
     ? await listPatches(activeDocument.document_id)
+    : [];
+  const auditEvents = activeDocument
+    ? await listAuditEvents(activeDocument.document_id)
     : [];
   const exportBundle = activeDocument
     ? await exportDocument(activeDocument.document_id)
@@ -140,6 +143,50 @@ export default async function Home() {
                 <strong>{patch.patch_type}</strong>
                 <span>{patch.patch_id}</span>
                 <span className={styles.status}>{patch.status}</span>
+                {["proposed", "stale"].includes(patch.status) ? (
+                  <form action={decidePatchAction} className={styles.patchActionForm}>
+                    <input type="hidden" name="document_id" value={patch.document_id} />
+                    <input type="hidden" name="patch_id" value={patch.patch_id} />
+                    <label>
+                      Reviewed content
+                      <textarea
+                        name="resolved_content"
+                        rows={5}
+                        defaultValue={patch.content ?? ""}
+                        className={styles.patchTextarea}
+                      />
+                    </label>
+                    <div className={styles.patchActions}>
+                      <button type="submit" name="decision" value="accept">
+                        Accept
+                      </button>
+                      <button type="submit" name="decision" value="cherry_pick">
+                        Cherry-pick
+                      </button>
+                      <button type="submit" name="decision" value="reject">
+                        Reject
+                      </button>
+                    </div>
+                  </form>
+                ) : null}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className={styles.panel}>
+          <div className={styles.panelHeader}>
+            <h2>Audit trail</h2>
+            <span>Recent actions</span>
+          </div>
+          <ul className={styles.patchList}>
+            {auditEvents.map((event) => (
+              <li key={event.event_id} className={styles.patchItem}>
+                <strong>{event.event_type}</strong>
+                <span>
+                  {event.actor_type}:{event.actor_id}
+                </span>
+                <span>{event.created_at}</span>
               </li>
             ))}
           </ul>
