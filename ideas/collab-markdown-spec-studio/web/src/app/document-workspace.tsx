@@ -1,8 +1,11 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
+import { HocuspocusProvider } from "@hocuspocus/provider";
+import Collaboration from "@tiptap/extension-collaboration";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import * as Y from "yjs";
 
 import type { DocumentRecord } from "@/lib/specforge/contracts";
 import { markdownToEditorHtml, tiptapJsonToMarkdown } from "@/lib/specforge/editor";
@@ -12,18 +15,78 @@ type Props = {
 };
 
 export function DocumentWorkspace({ document }: Props) {
-  const [status, setStatus] = useState(`Loaded ${document.title}`);
+  const collabUrl =
+    process.env.NEXT_PUBLIC_COLLAB_URL?.trim() || "ws://127.0.0.1:4321";
+  const [status, setStatus] = useState(`Connecting to ${document.document_id}`);
   const [isPending, startTransition] = useTransition();
+  const collab = useMemo(() => {
+    const ydoc = new Y.Doc();
+    const provider = new HocuspocusProvider({
+      url: collabUrl,
+      name: document.document_id,
+      document: ydoc,
+    });
+
+    return { ydoc, provider };
+  }, [collabUrl, document.document_id]);
   const editor = useEditor({
     immediatelyRender: false,
-    extensions: [StarterKit],
-    content: markdownToEditorHtml(document.markdown),
+    extensions: [
+      StarterKit.configure({
+        undoRedo: false,
+      }),
+      Collaboration.configure({
+        document: collab.ydoc,
+      }),
+    ],
     editorProps: {
       attributes: {
         class: "specforgeEditor",
       },
     },
   });
+
+  useEffect(() => {
+    return () => {
+      collab.provider.destroy();
+      collab.ydoc.destroy();
+    };
+  }, [collab]);
+
+  useEffect(() => {
+    if (!editor) {
+      return;
+    }
+
+    const handleStatus = ({ status: nextStatus }: { status: string }) => {
+      setStatus(
+        nextStatus === "connected"
+          ? `Live room connected: ${document.document_id}`
+          : `Collab ${nextStatus}: ${document.document_id}`,
+      );
+    };
+
+    const handleSynced = () => {
+      const current = editor.getJSON();
+      const hasContent = Array.isArray(current.content) && current.content.length > 0;
+
+      if (!hasContent) {
+        editor.commands.setContent(markdownToEditorHtml(document.markdown));
+        setStatus(`Seeded live room: ${document.document_id}`);
+        return;
+      }
+
+      setStatus(`Live room synced: ${document.document_id}`);
+    };
+
+    collab.provider.on("status", handleStatus);
+    collab.provider.on("synced", handleSynced);
+
+    return () => {
+      collab.provider.off("status", handleStatus);
+      collab.provider.off("synced", handleSynced);
+    };
+  }, [collab.provider, document.document_id, document.markdown, editor]);
 
   async function saveDocument() {
     if (!editor) {
@@ -52,7 +115,7 @@ export function DocumentWorkspace({ document }: Props) {
         return;
       }
 
-      setStatus("Saved. Refresh to sync the dashboard snapshot.");
+      setStatus(`Saved snapshot for ${document.document_id}`);
     });
   }
 
