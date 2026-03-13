@@ -13,6 +13,7 @@ Current slice:
 - patch proposal ingestion with stale detection
 - patch acceptance/rejection/cherry-pick flow with audit trail
 - anchored comment threads with resolve flow
+- readiness scoring and recap panel
 - deterministic export bundle preview
 - dashboard UI for the local MVP flow
 

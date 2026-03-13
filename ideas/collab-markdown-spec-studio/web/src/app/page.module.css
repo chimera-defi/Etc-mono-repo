@@ -128,6 +128,23 @@
   gap: 16px;
 }
 
+.readinessCard {
+  display: grid;
+  gap: 10px;
+}
+
+.readinessCard strong {
+  font-size: 2rem;
+}
+
+.readinessList {
+  list-style: disc;
+  padding-left: 1.2rem;
+  color: #5d5145;
+  display: grid;
+  gap: 8px;
+}
+
 .form button {
   width: fit-content;
   border: 0;
