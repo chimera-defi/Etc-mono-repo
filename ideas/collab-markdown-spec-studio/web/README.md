@@ -22,14 +22,16 @@ Current slice:
 ```bash
 npm install
 npm run dev
+npm run test
+npm run lint
+npm run build
+npm run test:e2e
+npm run screenshot:demo
 
 # separately
 cd ../collab-server
 npm install
 npm run dev
-npm run test
-npm run lint
-npm run build
 ```
 
 ## Notes

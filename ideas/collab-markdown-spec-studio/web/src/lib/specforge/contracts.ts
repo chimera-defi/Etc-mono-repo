@@ -98,6 +98,21 @@ export const storedPatchSchema = patchProposalSchema.extend({
   created_at: z.string().min(1),
 });
 
+export const agentSpecExportSchema = z.object({
+  document_id: z.string().min(1),
+  title: z.string().min(1),
+  version: z.number().int().min(1),
+  sections: z.array(sectionSchema),
+  patch_queue: z.array(
+    z.object({
+      patch_id: z.string().min(1),
+      block_id: z.string().min(1),
+      patch_type: patchProposalSchema.shape.patch_type,
+      status: storedPatchSchema.shape.status,
+    }),
+  ),
+});
+
 export const storeSchema = z.object({
   documents: z.array(documentRecordSchema),
   patches: z.array(storedPatchSchema),
@@ -112,3 +127,4 @@ export type CommentThreadResolveInput = z.infer<typeof commentThreadResolveSchem
 export type DocumentRecord = z.infer<typeof documentRecordSchema>;
 export type StoredPatch = z.infer<typeof storedPatchSchema>;
 export type StoreData = z.infer<typeof storeSchema>;
+export type AgentSpecExport = z.infer<typeof agentSpecExportSchema>;
