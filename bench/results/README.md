@@ -49,11 +49,22 @@ Be conservative. Preserve reproducibility and audit value.
 - **Archive later:** older ad hoc experiment outputs once they are superseded, summarized elsewhere, and no longer part of active debugging.
 - **Avoid deleting:** if unsure, archive manually later instead of removing.
 
+## Read-only status helper
+
+For a quick current snapshot before making any retention decision:
+
+```bash
+python3 bench/ops/retention_status.py
+```
+
+This does **not** move or delete anything; it only summarizes `results/` and `supervisor_runs/` so you can see what looks durable vs experimental before acting.
+
 ## If you are a future agent
 
 Before moving anything out of here:
 
 1. grep for references in `bench/`, PR notes, and reproducibility docs
 2. check whether the result has been summarized into `canonical.json`, a report, or a handoff note
-3. move related files together
-4. record the move in `bench/HANDOFF.md`
+3. run `python3 bench/ops/retention_status.py` for a quick current-state snapshot
+4. move related files together
+5. record the move in `bench/HANDOFF.md`
