@@ -1,18 +1,15 @@
-## SpecForge (Collaborative Markdown Spec Studio)
+## SpecForge
 
-**Status**: Build-ready — all open questions resolved (see `OPEN_QUESTIONS.md`)
-**Product name:** SpecForge (alt: ShipSpec — see `NAME_OPTIONS.md`)
-**Tech stack:** Yjs + Next.js 15 + CodeMirror 6 + Hono/Bun + Postgres + Clerk + Claude API
+**Status**: Exploration (docs-first)
 
 ### Concept
-A multiplayer Markdown editor for humans + AI agents to co-author PRDs/specs/design docs with branch/merge semantics and AI patch governance. Outputs a build-ready spec bundle that can scaffold a starter repository (Phase 2).
+A collaborative spec IDE where humans and AI agents work on the same markdown canvas with depth gates, governed patch review, and attributable changes.
 
 ### Thesis
-Collaborative editors exist, but a focused "spec studio" with agent patch governance, section-level provenance, and merge-safe AI edits can win for startup/engineering teams focused on spec-to-ship workflows.
+Collaborative editors already exist. The wedge is not generic editing; it is a spec-native workspace that keeps humans and agents on one canvas, enforces decision depth, and turns approved specs into execution-ready outputs.
 
 ### Key Docs (Review Path)
 0. `README_REVIEW_GUIDE.md`
-0b. `OPEN_QUESTIONS.md` ← decisions index (all resolved)
 1. `EXECUTIVE_SUMMARY.md`
 2. `PRD.md`
 3. `SPEC.md`
@@ -36,3 +33,11 @@ Collaborative editors exist, but a focused "spec studio" with agent patch govern
 
 ### Source Notes
 Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid duplication.
+
+### Current Product Position
+1. Validate authoring behavior first:
+   - repeat collaborative use
+   - trust in governed agent patches
+   - ability to reach a build-ready spec
+2. Use selected `ideas/` packs as example corpora and end-to-end benchmarks.
+3. Treat repo generation as a downstream proof surface, not the initial product gate.

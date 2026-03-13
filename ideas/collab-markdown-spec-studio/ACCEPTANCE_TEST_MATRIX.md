@@ -2,6 +2,8 @@
 
 Template basis: `ideas/_templates/ACCEPTANCE_TEST_MATRIX.template.md`
 
+Target matrix for the first runnable implementation. Current idea-pack contracts and fixtures define the intended behavior, not a fully implemented local stack.
+
 | Flow | Fixture(s) | Contract(s) | Verification Command | Pass Condition |
 |---|---|---|---|---|
 | Create document | `fixtures/workspace.seed.json` | `contracts/v1/document_create.request.schema.json` | `pnpm test:acceptance --filter specforge:create-document` | Document persists with `version=1` |
