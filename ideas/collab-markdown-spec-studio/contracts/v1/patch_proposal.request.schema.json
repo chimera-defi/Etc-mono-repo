@@ -3,9 +3,10 @@
   "$id": "specforge/v1/patch_proposal.request.schema.json",
   "title": "PatchProposalRequest",
   "type": "object",
-  "required": ["document_id", "section_id", "operation", "proposed_by", "base_version", "target_fingerprint", "patch_type"],
+  "required": ["document_id", "block_id", "operation", "proposed_by", "base_version", "target_fingerprint", "patch_type"],
   "properties": {
     "document_id": { "type": "string", "minLength": 1 },
+    "block_id": { "type": "string", "minLength": 1 },
     "section_id": { "type": "string", "minLength": 1 },
     "operation": { "type": "string", "enum": ["insert", "replace", "delete"] },
     "content": { "type": "string" },

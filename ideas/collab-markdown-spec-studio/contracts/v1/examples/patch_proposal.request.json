@@ -1,5 +1,6 @@
 {
   "document_id": "doc_123",
+  "block_id": "blk_goals_1",
   "section_id": "sec_goals",
   "operation": "replace",
   "content": "## Goals\n1. Reduce spec-to-first-commit by 40%.",
