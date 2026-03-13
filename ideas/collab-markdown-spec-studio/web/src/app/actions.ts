@@ -25,7 +25,7 @@ export async function createDocumentAction(formData: FormData) {
   });
 
   revalidatePath("/");
-  redirect(`/?document=${created.document_id}`);
+  redirect(`/?document=${created.document_id}&stage=draft`);
 }
 
 export async function createPatchAction(formData: FormData) {
