@@ -16,6 +16,7 @@ import {
   listDocuments,
   listPatches,
 } from "@/lib/specforge/store";
+import { evaluateReadiness } from "@/lib/specforge/readiness";
 
 export const dynamic = "force-dynamic";
 
@@ -47,6 +48,13 @@ export default async function Home({ searchParams }: Props) {
     ? await exportDocument(activeDocument.document_id)
     : null;
   const activeBlock = activeDocument?.blocks[0] ?? null;
+  const readinessReport = activeDocument
+    ? evaluateReadiness({
+        document: activeDocument,
+        patches,
+        comments: commentThreads,
+      })
+    : null;
 
   return (
     <div className={styles.shell}>
@@ -129,6 +137,26 @@ export default async function Home({ searchParams }: Props) {
               </li>
             ))}
           </ul>
+        </section>
+
+        <section className={styles.panel}>
+          <div className={styles.panelHeader}>
+            <h2>Readiness</h2>
+            <span>Depth gate</span>
+          </div>
+          {readinessReport ? (
+            <div className={styles.readinessCard}>
+              <strong>{readinessReport.score}/100</strong>
+              <span className={styles.status}>{readinessReport.status}</span>
+              <ul className={styles.readinessList}>
+                {readinessReport.recap.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <p className={styles.empty}>Create a document first.</p>
+          )}
         </section>
 
         <section className={styles.panel}>
