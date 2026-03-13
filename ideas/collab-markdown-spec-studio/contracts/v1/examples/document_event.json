@@ -6,6 +6,7 @@
   "timestamp": "2026-03-10T13:00:00Z",
   "payload": {
     "patch_id": "patch_987",
+    "block_id": "blk_goals_1",
     "section_id": "sec_goals",
     "reviewer_id": "user_42"
   }
