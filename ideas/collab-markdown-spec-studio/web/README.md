@@ -9,6 +9,7 @@ Current slice:
 - patch decision API route
 - Tiptap-backed document workspace
 - Yjs/Hocuspocus live room wiring per active document
+- collaborator awareness chips in the shared editor
 - patch proposal ingestion with stale detection
 - patch acceptance/rejection/cherry-pick flow with audit trail
 - deterministic export bundle preview
