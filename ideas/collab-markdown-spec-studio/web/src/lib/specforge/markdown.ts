@@ -8,6 +8,11 @@ type ParsedSection = {
   markdownLines: string[];
 };
 
+type ParsedDocument = {
+  preambleLines: string[];
+  sections: ParsedSection[];
+};
+
 export function fingerprintFor(content: string): string {
   return `sha256:${createHash("sha256").update(content).digest("hex")}`;
 }
@@ -19,8 +24,9 @@ function slugify(value: string): string {
     .replace(/^_+|_+$/g, "") || "section";
 }
 
-function parseSections(markdown: string): ParsedSection[] {
+function parseMarkdownStructure(markdown: string): ParsedDocument {
   const lines = markdown.split("\n");
+  const preambleLines: string[] = [];
   const sections: ParsedSection[] = [];
   let current: ParsedSection | null = null;
   let sawExplicitSection = false;
@@ -44,6 +50,7 @@ function parseSections(markdown: string): ParsedSection[] {
     }
 
     if (!current && !sawExplicitSection) {
+      preambleLines.push(line);
       continue;
     }
 
@@ -66,15 +73,39 @@ function parseSections(markdown: string): ParsedSection[] {
     sections.push({
       section_id: "sec_overview",
       heading: "Overview",
-      markdownLines: ["## Overview", markdown],
+      markdownLines: ["## Overview", ...preambleLines.filter((line) => line.length > 0)],
     });
+    return {
+      preambleLines: [],
+      sections,
+    };
   }
 
-  return sections;
+  return {
+    preambleLines,
+    sections,
+  };
+}
+
+function rebuildMarkdown(parsed: ParsedDocument) {
+  const parts: string[] = [];
+  const preamble = parsed.preambleLines.join("\n").trim();
+
+  if (preamble.length > 0) {
+    parts.push(preamble);
+  }
+
+  parts.push(
+    ...parsed.sections
+      .map((section) => section.markdownLines.join("\n").trim())
+      .filter((section) => section.length > 0),
+  );
+
+  return parts.join("\n\n").trim();
 }
 
 export function deriveDocumentShape(markdown: string) {
-  const sections = parseSections(markdown).map((section, index) => {
+  const sections = parseMarkdownStructure(markdown).sections.map((section, index) => {
     const content = section.markdownLines.join("\n").trim();
     const blockContent = content.length > 0 ? content : `## ${section.heading}`;
     const block_id = `blk_${slugify(section.heading)}_${index + 1}`;
@@ -99,6 +130,48 @@ export function deriveDocumentShape(markdown: string) {
     }),
     blocks: sections.map((section) => section.block),
   };
+}
+
+export function applyPatchToMarkdown(input: {
+  markdown: string;
+  block_id: string;
+  operation: "insert" | "replace" | "delete";
+  content?: string;
+}) {
+  const parsed = parseMarkdownStructure(input.markdown);
+  const locatedSections = parsed.sections.map((section, index) => ({
+    index,
+    section,
+    block_id: `blk_${slugify(section.heading)}_${index + 1}`,
+  }));
+  const target = locatedSections.find((candidate) => candidate.block_id === input.block_id);
+
+  if (!target) {
+    throw new Error(`Block ${input.block_id} not found for patch application`);
+  }
+
+  const incomingSections =
+    input.content && input.content.trim().length > 0
+      ? parseMarkdownStructure(input.content).sections
+      : [];
+
+  if (input.operation !== "delete" && incomingSections.length === 0) {
+    throw new Error(`Patch ${input.operation} requires replacement content`);
+  }
+
+  switch (input.operation) {
+    case "replace":
+      parsed.sections.splice(target.index, 1, ...incomingSections);
+      break;
+    case "insert":
+      parsed.sections.splice(target.index + 1, 0, ...incomingSections);
+      break;
+    case "delete":
+      parsed.sections.splice(target.index, 1);
+      break;
+  }
+
+  return rebuildMarkdown(parsed);
 }
 
 export function makeDocumentRecord(input: {

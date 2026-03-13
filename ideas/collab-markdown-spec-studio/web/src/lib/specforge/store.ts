@@ -7,15 +7,17 @@ import { PGlite } from "@electric-sql/pglite";
 import {
   documentCreateSchema,
   documentUpdateSchema,
+  patchDecisionSchema,
   patchProposalSchema,
   type DocumentCreateInput,
   type DocumentRecord,
+  type PatchDecisionInput,
   type DocumentUpdateInput,
   type PatchProposalInput,
   type StoredPatch,
 } from "./contracts";
 import { exportDocumentBundle } from "./export";
-import { deriveDocumentShape, makeDocumentRecord } from "./markdown";
+import { applyPatchToMarkdown, deriveDocumentShape, makeDocumentRecord } from "./markdown";
 
 type StoreOptions = {
   dbPath?: string;
@@ -49,6 +51,28 @@ type PatchRow = {
   target_fingerprint: string;
   confidence: number | null;
   status: StoredPatch["status"];
+  created_at: string;
+};
+
+type AuditEventRow = {
+  event_id: string;
+  document_id: string | null;
+  patch_id: string | null;
+  event_type: string;
+  actor_type: "human" | "agent" | "system";
+  actor_id: string;
+  payload_json: Record<string, unknown> | null;
+  created_at: string;
+};
+
+export type AuditEventRecord = {
+  event_id: string;
+  document_id?: string;
+  patch_id?: string;
+  event_type: string;
+  actor_type: "human" | "agent" | "system";
+  actor_id: string;
+  payload: Record<string, unknown>;
   created_at: string;
 };
 
@@ -102,6 +126,19 @@ function mapPatchRow(row: PatchRow): StoredPatch {
     target_fingerprint: row.target_fingerprint,
     confidence: row.confidence ?? undefined,
     status: row.status,
+    created_at: row.created_at,
+  };
+}
+
+function mapAuditEventRow(row: AuditEventRow): AuditEventRecord {
+  return {
+    event_id: row.event_id,
+    document_id: row.document_id ?? undefined,
+    patch_id: row.patch_id ?? undefined,
+    event_type: row.event_type,
+    actor_type: row.actor_type,
+    actor_id: row.actor_id,
+    payload: row.payload_json ?? {},
     created_at: row.created_at,
   };
 }
@@ -453,6 +490,28 @@ export async function listPatches(documentId: string, options?: StoreOptions) {
   return result.rows.map(mapPatchRow);
 }
 
+export async function listAuditEvents(documentId: string, options?: StoreOptions) {
+  const database = await getDatabase(options);
+  const result = await database.query<AuditEventRow>(
+    `SELECT
+      event_id,
+      document_id,
+      patch_id,
+      event_type,
+      actor_type,
+      actor_id,
+      payload_json,
+      created_at
+    FROM audit_events
+    WHERE document_id = $1
+    ORDER BY created_at DESC
+    LIMIT 20`,
+    [documentId],
+  );
+
+  return result.rows.map(mapAuditEventRow);
+}
+
 export async function createDocument(input: DocumentCreateInput, options?: StoreOptions) {
   const payload = documentCreateSchema.parse(input);
   const database = await getDatabase(options);
@@ -650,6 +709,156 @@ export async function createPatchProposal(
   });
 
   return patch;
+}
+
+export async function decidePatch(
+  input: PatchDecisionInput,
+  options?: StoreOptions,
+) {
+  const payload = patchDecisionSchema.parse(input);
+  const database = await getDatabase(options);
+  const patchResult = await database.query<PatchRow>(
+    `SELECT
+      patch_id,
+      document_id,
+      block_id,
+      section_id,
+      operation,
+      content,
+      patch_type,
+      rationale,
+      proposed_by_actor_type,
+      proposed_by_actor_id,
+      base_version,
+      target_fingerprint,
+      confidence,
+      status,
+      created_at
+    FROM patches
+    WHERE patch_id = $1 AND document_id = $2
+    LIMIT 1`,
+    [payload.patch_id, payload.document_id],
+  );
+  const patchRow = patchResult.rows[0];
+
+  if (!patchRow) {
+    throw new Error(`Patch ${payload.patch_id} not found`);
+  }
+
+  const patch = mapPatchRow(patchRow);
+  if (!["proposed", "stale"].includes(patch.status)) {
+    throw new Error(`Patch ${patch.patch_id} is already ${patch.status}`);
+  }
+
+  const document = await getDocument(payload.document_id, options);
+  if (!document) {
+    throw new Error(`Document ${payload.document_id} not found`);
+  }
+
+  const resolvedContent = payload.resolved_content?.trim() || patch.content;
+  const nextStatus: StoredPatch["status"] =
+    payload.decision === "accept"
+      ? "accepted"
+      : payload.decision === "reject"
+        ? "rejected"
+        : "cherry_picked";
+  const decisionAt = new Date().toISOString();
+
+  await database.transaction(async (tx) => {
+    if (payload.decision !== "reject") {
+      const nextMarkdown = applyPatchToMarkdown({
+        markdown: document.markdown,
+        block_id: patch.block_id,
+        operation: patch.operation,
+        content: resolvedContent,
+      });
+      const nextVersion = document.version + 1;
+
+      await tx.query(
+        `UPDATE documents
+        SET
+          version = $2,
+          markdown = $3,
+          editor_json = $4::jsonb,
+          updated_at = $5
+        WHERE document_id = $1`,
+        [
+          document.document_id,
+          nextVersion,
+          nextMarkdown,
+          JSON.stringify(null),
+          decisionAt,
+        ],
+      );
+      await insertSnapshot(
+        tx,
+        {
+          document_id: document.document_id,
+          version: nextVersion,
+          markdown: nextMarkdown,
+          editor_json: undefined,
+        },
+        decisionAt,
+      );
+      await insertAuditEvent(tx, {
+        document_id: document.document_id,
+        patch_id: patch.patch_id,
+        event_type: "document.updated_from_patch",
+        actor_type: payload.decided_by.actor_type,
+        actor_id: payload.decided_by.actor_id,
+        payload: {
+          decision: payload.decision,
+          from_version: document.version,
+          to_version: nextVersion,
+        },
+        created_at: decisionAt,
+      });
+    }
+
+    await tx.query(
+      `UPDATE patches
+      SET status = $3
+      WHERE patch_id = $1 AND document_id = $2`,
+      [patch.patch_id, patch.document_id, nextStatus],
+    );
+    await insertAuditEvent(tx, {
+      document_id: patch.document_id,
+      patch_id: patch.patch_id,
+      event_type: "patch.decided",
+      actor_type: payload.decided_by.actor_type,
+      actor_id: payload.decided_by.actor_id,
+      payload: {
+        decision: payload.decision,
+        status: nextStatus,
+      },
+      created_at: decisionAt,
+    });
+  });
+
+  const updatedResult = await database.query<PatchRow>(
+    `SELECT
+      patch_id,
+      document_id,
+      block_id,
+      section_id,
+      operation,
+      content,
+      patch_type,
+      rationale,
+      proposed_by_actor_type,
+      proposed_by_actor_id,
+      base_version,
+      target_fingerprint,
+      confidence,
+      status,
+      created_at
+    FROM patches
+    WHERE patch_id = $1
+    LIMIT 1`,
+    [patch.patch_id],
+  );
+
+  return mapPatchRow(updatedResult.rows[0]!);
 }
 
 export async function exportDocument(documentId: string, options?: StoreOptions) {

@@ -5,9 +5,11 @@ import { describe, expect, it } from "vitest";
 
 import {
   createDocument,
+  decidePatch,
   createPatchProposal,
   exportDocument,
   getDocument,
+  listAuditEvents,
   listDocuments,
   listPatches,
   updateDocument,
@@ -124,5 +126,43 @@ describe("specforge store", () => {
     const patches = await listPatches(document!.document_id, options);
 
     expect(patches.length).toBeGreaterThan(0);
+  });
+
+  it("accepts a patch, updates the document, and writes audit events", async () => {
+    const options = await makeOptions();
+    const [document] = await listDocuments(options);
+    const createdPatch = await createPatchProposal(
+      {
+        document_id: document!.document_id,
+        block_id: document!.blocks[0]!.block_id,
+        section_id: document!.blocks[0]!.section_id,
+        operation: "replace",
+        patch_type: "requirement_change",
+        content: "## Goals\n- Ship patch review.\n- Keep attribution.\n",
+        rationale: "Acceptable change.",
+        proposed_by: { actor_type: "agent", actor_id: "review-bot" },
+        base_version: document!.version,
+        target_fingerprint: document!.blocks[0]!.target_fingerprint,
+        confidence: 0.92,
+      },
+      options,
+    );
+
+    const decided = await decidePatch(
+      {
+        document_id: document!.document_id,
+        patch_id: createdPatch.patch_id,
+        decision: "accept",
+        decided_by: { actor_type: "human", actor_id: "reviewer" },
+      },
+      options,
+    );
+    const updatedDocument = await getDocument(document!.document_id, options);
+    const auditEvents = await listAuditEvents(document!.document_id, options);
+
+    expect(decided.status).toBe("accepted");
+    expect(updatedDocument?.version).toBe(document!.version + 1);
+    expect(updatedDocument?.markdown).toContain("Ship patch review.");
+    expect(auditEvents.some((event) => event.event_type === "patch.decided")).toBe(true);
   });
 });
