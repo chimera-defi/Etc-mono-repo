@@ -10,6 +10,7 @@ import {
   getDocument,
   listDocuments,
   listPatches,
+  updateDocument,
 } from "./store";
 
 async function makeOptions() {
@@ -71,6 +72,38 @@ describe("specforge store", () => {
     );
 
     expect(patch.status).toBe("stale");
+  });
+
+  it("updates a document, derives new blocks, and increments the version", async () => {
+    const options = await makeOptions();
+    const [document] = await listDocuments(options);
+
+    const updated = await updateDocument(
+      document!.document_id,
+      {
+        markdown: "# PRD\n\n## Problem\nConfusing reviews.\n\n## Goals\n- Shorten loops.\n",
+        editor_json: {
+          type: "doc",
+          content: [
+            { type: "heading", attrs: { level: 1 }, content: [{ type: "text", text: "PRD" }] },
+            {
+              type: "heading",
+              attrs: { level: 2 },
+              content: [{ type: "text", text: "Problem" }],
+            },
+            {
+              type: "paragraph",
+              content: [{ type: "text", text: "Confusing reviews." }],
+            },
+          ],
+        },
+      },
+      options,
+    );
+
+    expect(updated.version).toBe(document!.version + 1);
+    expect(updated.blocks[0]?.block_id).toBe("blk_problem_1");
+    expect(updated.editor_json).toBeTruthy();
   });
 
   it("exports a deterministic bundle for a document", async () => {
