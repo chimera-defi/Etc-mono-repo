@@ -4,7 +4,7 @@
 - Added baseline PRD/SPEC for collaborative markdown + agent edits.
 
 ## Iteration 2
-- Reframed from generic editor to "spec-to-ship" workflow.
+- Reframed from generic editor to a governed spec-authoring workflow.
 - Added naming options and repo-generation phase.
 
 ## Iteration 3
