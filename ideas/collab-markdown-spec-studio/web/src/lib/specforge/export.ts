@@ -1,4 +1,9 @@
-import type { DocumentRecord, StoredPatch } from "./contracts";
+import {
+  agentSpecExportSchema,
+  type AgentSpecExport,
+  type DocumentRecord,
+  type StoredPatch,
+} from "./contracts";
 
 export function exportDocumentBundle(
   document: DocumentRecord,
@@ -6,6 +11,18 @@ export function exportDocumentBundle(
 ) {
   const proposed = patches.filter((patch) => patch.status === "proposed");
   const sections = document.sections.map((section) => `- ${section.heading}`).join("\n");
+  const agentSpec: AgentSpecExport = agentSpecExportSchema.parse({
+    document_id: document.document_id,
+    title: document.title,
+    version: document.version,
+    sections: document.sections,
+    patch_queue: proposed.map((patch) => ({
+      patch_id: patch.patch_id,
+      block_id: patch.block_id,
+      patch_type: patch.patch_type,
+      status: patch.status,
+    })),
+  });
 
   const tasks = [
     "# TASKS",
@@ -39,22 +56,7 @@ export function exportDocumentBundle(
       "PRD.md": document.markdown,
       "SPEC.md": spec,
       "TASKS.md": tasks,
-      "agent_spec.json": JSON.stringify(
-        {
-          document_id: document.document_id,
-          title: document.title,
-          version: document.version,
-          sections: document.sections,
-          patch_queue: proposed.map((patch) => ({
-            patch_id: patch.patch_id,
-            block_id: patch.block_id,
-            patch_type: patch.patch_type,
-            status: patch.status,
-          })),
-        },
-        null,
-        2,
-      ),
+      "agent_spec.json": JSON.stringify(agentSpec, null, 2),
     },
   };
 }

@@ -206,11 +206,109 @@
 .documentItem,
 .patchItem {
   display: grid;
-  gap: 4px;
+  gap: 8px;
   border-radius: 16px;
   padding: 14px;
   background: #fffdf9;
   border: 1px solid rgba(28, 26, 23, 0.08);
+}
+
+.patchHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.patchMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: rgba(28, 26, 23, 0.08);
+  color: #433a31;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.neutral {
+  background: rgba(28, 26, 23, 0.08);
+}
+
+.success {
+  background: rgba(33, 122, 69, 0.12);
+  color: #1b6a3d;
+}
+
+.warning {
+  background: rgba(183, 106, 18, 0.14);
+  color: #8a5310;
+}
+
+.danger {
+  background: rgba(163, 43, 43, 0.12);
+  color: #8c1f1f;
+}
+
+.diffGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.diffCard {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid rgba(28, 26, 23, 0.08);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.diffCard h3 {
+  font-size: 0.86rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #7a6d5e;
+}
+
+.diffBody {
+  display: grid;
+  gap: 4px;
+}
+
+.diffLine {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr);
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  font-size: 0.84rem;
+}
+
+.diffLine code {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.diffMarker {
+  color: #7a6d5e;
+}
+
+.diffAdded {
+  background: rgba(33, 122, 69, 0.08);
+}
+
+.diffRemoved {
+  background: rgba(163, 43, 43, 0.08);
 }
 
 .documentLink {
@@ -366,5 +464,14 @@
 
   .hero {
     align-items: stretch;
+  }
+
+  .patchHeader,
+  .patchMeta {
+    align-items: flex-start;
+  }
+
+  .diffGrid {
+    grid-template-columns: 1fr;
   }
 }
