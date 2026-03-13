@@ -4,10 +4,12 @@ import { randomUUID } from "node:crypto";
 
 import {
   documentCreateSchema,
+  documentUpdateSchema,
   patchProposalSchema,
   storeSchema,
   type DocumentCreateInput,
   type DocumentRecord,
+  type DocumentUpdateInput,
   type PatchProposalInput,
   type StoreData,
   type StoredPatch,
@@ -54,6 +56,7 @@ async function loadSeedStore(fixturesDir: string): Promise<StoreData> {
     title: workspace.title,
     version: workspace.version,
     markdown: workspace.markdown,
+    editor_json: undefined,
     sections: derived.sections,
     blocks: derived.blocks,
     metadata: {},
@@ -135,6 +138,7 @@ export async function createDocument(input: DocumentCreateInput, options?: Store
     title: payload.title,
     version: 1,
     markdown: payload.initial_markdown,
+    editor_json: undefined,
     sections: shape.sections,
     blocks: shape.blocks,
     metadata: payload.metadata ?? {},
@@ -143,6 +147,32 @@ export async function createDocument(input: DocumentCreateInput, options?: Store
   };
 
   store.documents.unshift(document);
+  await saveStore(store, options);
+  return document;
+}
+
+export async function updateDocument(
+  documentId: string,
+  input: DocumentUpdateInput,
+  options?: StoreOptions,
+) {
+  const payload = documentUpdateSchema.parse(input);
+  const store = await ensureStore(options);
+  const document = store.documents.find((candidate) => candidate.document_id === documentId);
+
+  if (!document) {
+    throw new Error(`Document ${documentId} not found`);
+  }
+
+  const shape = deriveDocumentShape(payload.markdown);
+  document.title = payload.title ?? document.title;
+  document.markdown = payload.markdown;
+  document.editor_json = payload.editor_json;
+  document.sections = shape.sections;
+  document.blocks = shape.blocks;
+  document.version += 1;
+  document.updated_at = new Date().toISOString();
+
   await saveStore(store, options);
   return document;
 }
