@@ -5,9 +5,10 @@ test("renders the integrated SpecForge demo and captures a screenshot", async ({
 }) => {
   await page.goto("/");
 
+  await expect(page.getByText("SpecForge", { exact: true })).toBeVisible();
   await expect(
     page.getByRole("heading", {
-      name: "Shared authoring, guided review, and export in one workspace.",
+      name: "SpecForge turns multiplayer specs into one-shot build handoffs.",
     }),
   ).toBeVisible();
   await expect(page.getByRole("heading", { name: "Workflow" })).toBeVisible();
