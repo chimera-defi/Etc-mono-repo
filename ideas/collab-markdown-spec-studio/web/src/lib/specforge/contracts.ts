@@ -7,6 +7,12 @@ export const documentCreateSchema = z.object({
   metadata: z.record(z.string(), z.string()).optional(),
 });
 
+export const documentUpdateSchema = z.object({
+  title: z.string().min(1).max(200).optional(),
+  markdown: z.string().min(1),
+  editor_json: z.unknown().optional(),
+});
+
 export const patchProposalSchema = z.object({
   document_id: z.string().min(1),
   block_id: z.string().min(1),
@@ -48,6 +54,7 @@ export const documentRecordSchema = z.object({
   title: z.string().min(1),
   version: z.number().int().min(1),
   markdown: z.string(),
+  editor_json: z.unknown().optional(),
   sections: z.array(sectionSchema),
   blocks: z.array(blockSchema),
   metadata: z.record(z.string(), z.string()).default({}),
@@ -67,6 +74,7 @@ export const storeSchema = z.object({
 });
 
 export type DocumentCreateInput = z.infer<typeof documentCreateSchema>;
+export type DocumentUpdateInput = z.infer<typeof documentUpdateSchema>;
 export type PatchProposalInput = z.infer<typeof patchProposalSchema>;
 export type DocumentRecord = z.infer<typeof documentRecordSchema>;
 export type StoredPatch = z.infer<typeof storedPatchSchema>;

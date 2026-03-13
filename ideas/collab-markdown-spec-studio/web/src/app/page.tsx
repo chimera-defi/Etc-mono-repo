@@ -1,4 +1,5 @@
 import { createDocumentAction, createPatchAction } from "./actions";
+import { DocumentWorkspace } from "./document-workspace";
 import styles from "./page.module.css";
 import { exportDocument, listDocuments, listPatches } from "@/lib/specforge/store";
 
@@ -38,6 +39,21 @@ export default async function Home() {
       </header>
 
       <main className={styles.grid}>
+        <section className={`${styles.panel} ${styles.wide}`}>
+          <div className={styles.panelHeader}>
+            <h2>Document workspace</h2>
+            <span>Tiptap-backed local editor</span>
+          </div>
+          {activeDocument ? (
+            <DocumentWorkspace
+              key={`${activeDocument.document_id}:${activeDocument.version}`}
+              document={activeDocument}
+            />
+          ) : (
+            <p className={styles.empty}>Create a document first.</p>
+          )}
+        </section>
+
         <section className={styles.panel}>
           <div className={styles.panelHeader}>
             <h2>Create document</h2>
