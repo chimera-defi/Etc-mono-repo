@@ -10,6 +10,27 @@
       }
     }
   },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "ollama": {
+        "baseUrl": "http://127.0.0.1:11434",
+        "apiKey": "ollama-local",
+        "api": "ollama"
+      },
+      "llama-server": {
+        "baseUrl": "http://127.0.0.1:8081/v1",
+        "apiKey": "llama-server-local",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "qwen3.5:35b",
+            "name": "Qwen3.5 35B (llama-server)"
+          }
+        ]
+      }
+    }
+  },
   "agents": {
     "defaults": {
       "model": {
@@ -34,7 +55,7 @@
         "identity": {
           "name": "Clawdie1",
           "theme": "octopus-minimalist",
-          "emoji": "🐙"
+          "emoji": "\ud83d\udc19"
         }
       }
     ]
@@ -43,9 +64,15 @@
     "internal": {
       "enabled": true,
       "entries": {
-        "boot-md": { "enabled": true },
-        "command-logger": { "enabled": true },
-        "session-memory": { "enabled": true }
+        "boot-md": {
+          "enabled": true
+        },
+        "command-logger": {
+          "enabled": true
+        },
+        "session-memory": {
+          "enabled": true
+        }
       }
     }
   },
@@ -54,7 +81,9 @@
       "enabled": true,
       "dmPolicy": "allowlist",
       "botToken": "${OPENCLAW_TELEGRAM_BOT_TOKEN}",
-      "allowFrom": ["${OPENCLAW_TELEGRAM_ALLOWED_USER_ID}"],
+      "allowFrom": [
+        "${OPENCLAW_TELEGRAM_ALLOWED_USER_ID}"
+      ],
       "groupPolicy": "allowlist",
       "streamMode": "partial"
     }

@@ -1,0 +1,502 @@
+{
+  "timestamp": "2026-02-27T08:12:24.150120",
+  "configuration": {
+    "ollama_model": "qwen3.5:35b",
+    "llama_cpp_path": "/root/llama.cpp/build/bin/llama-cli",
+    "gguf_model_path": "/root/.openclaw/models/Qwen3.5-35B-A3B-Q3_K_S.gguf"
+  },
+  "prompt_results": [
+    {
+      "prompt_id": "simple_qa_1",
+      "category": "simple_qa",
+      "prompt": "What is the capital of France?",
+      "expected_keywords": [
+        "paris",
+        "Paris"
+      ],
+      "ollama": {
+        "text": "Thinking Process:\n\n1.  **Identify the core question:** The user is asking for the capital of France.\n2.  **Access knowledge base:** Retrieve information about France and its capital.\n3.  **Verify information:** The\n\n",
+        "tokens_generated": 50,
+        "total_time_seconds": 14.018,
+        "first_token_time_seconds": 1.402,
+        "tokens_per_second": 3.57,
+        "quality": {
+          "is_qualitative_pass": false,
+          "keyword_match_ratio": 0.0,
+          "found_keywords": [],
+          "is_coherent": true,
+          "output_length": 216
+        },
+        "tool_calling": {},
+        "success": true
+      },
+      "llama_cpp": {
+        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588\u2588\n\u2588\u2588 \u2588\u2588  \u2580\u2580\u2588\u2584 ",
+        "tokens_generated": 161,
+        "total_time_seconds": 21.512,
+        "first_token_time_seconds": 3.227,
+        "tokens_per_second": 7.48,
+        "quality": {
+          "is_qualitative_pass": false,
+          "keyword_match_ratio": 0.0,
+          "found_keywords": [],
+          "is_coherent": true,
+          "output_length": 500
+        },
+        "tool_calling": {},
+        "success": true
+      }
+    },
+    {
+      "prompt_id": "simple_qa_2",
+      "category": "simple_qa",
+      "prompt": "Explain what photosynthesis is in one sentence.",
+      "expected_keywords": [
+        "light",
+        "plant",
+        "energy",
+        "convert"
+      ],
+      "ollama": {
+        "text": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Topic: Photosynthesis.\n    *   Constraint: Explain it in exactly one sentence.\n\n2.  **Identify Key Concepts of Photosynthesis:**\n    *   Who: Plants, algae, some bacteria\n\n",
+        "tokens_generated": 60,
+        "total_time_seconds": 11.199,
+        "first_token_time_seconds": 1.12,
+        "tokens_per_second": 5.36,
+        "quality": {
+          "is_qualitative_pass": false,
+          "keyword_match_ratio": 0.25,
+          "found_keywords": [
+            "plant"
+          ],
+          "is_coherent": true,
+          "output_length": 228
+        },
+        "tool_calling": {},
+        "success": true
+      },
+      "llama_cpp": {
+        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b \b\n\n\n\u2584\u2584 \u2584\u2584\n",
+        "tokens_generated": 157,
+        "total_time_seconds": 24.224,
+        "first_token_time_seconds": 3.634,
+        "tokens_per_second": 6.48,
+        "quality": {
+          "is_qualitative_pass": false,
+          "keyword_match_ratio": 0.0,
+          "found_keywords": [],
+          "is_coherent": true,
+          "output_length": 500
+        },
+        "tool_calling": {},
+        "success": true
+      }
+    },
+    {
+      "prompt_id": "reasoning_1",
+      "category": "reasoning",
+      "prompt": "If all roses are flowers and some flowers fade quickly, what can we conclude about roses?",
+      "expected_keywords": [
+        "may",
+        "might",
+        "some",
+        "could",
+        "fade"
+      ],
+      "ollama": {
+        "text": "Here's a thinking process that leads to the suggested answer:\n\n1.  **Analyze the Request:**\n    *   Premise 1: All roses are flowers. (Universal Affirmative: All $R$ are $F$)\n    *   Premise 2: Some flowers fade quickly. (Particular Affirmative: Some $F$ are $Q$\n\n",
+        "tokens_generated": 80,
+        "total_time_seconds": 14.178,
+        "first_token_time_seconds": 1.418,
+        "tokens_per_second": 5.64,
+        "quality": {
+          "is_qualitative_pass": true,
+          "keyword_match_ratio": 0.4,
+          "found_keywords": [
+            "some",
+            "fade"
+          ],
+          "is_coherent": true,
+          "output_length": 264
+        },
+        "tool_calling": {},
+        "success": true
+      },
+      "llama_cpp": {
+        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588\u2588\n\u2588\u2588 \u2588\u2588 ",
+        "tokens_generated": 191,
+        "total_time_seconds": 26.818,
+        "first_token_time_seconds": 4.023,
+        "tokens_per_second": 7.12,
+        "quality": {
+          "is_qualitative_pass": false,
+          "keyword_match_ratio": 0.0,
+          "found_keywords": [],
+          "is_coherent": true,
+          "output_length": 500
+        },
+        "tool_calling": {},
+        "success": true
+      }
+    },
+    {
+      "prompt_id": "reasoning_2",
+      "category": "reasoning",
+      "prompt": "A train travels 60 mph. Another train travels 80 mph. They start 280 miles apart heading toward each other. How long until they meet?",
+      "expected_keywords": [
+        "2",
+        "hours",
+        "2 hours"
+      ],
+      "ollama": {
+        "text": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Train 1 speed: 60 mph\n    *   Train 2 speed: 80 mph\n    *   Initial distance apart: 280 miles\n    *   Direction: Heading toward\n\n",
+        "tokens_generated": 60,
+        "total_time_seconds": 11.438,
+        "first_token_time_seconds": 1.144,
+        "tokens_per_second": 5.25,
+        "quality": {
+          "is_qualitative_pass": true,
+          "keyword_match_ratio": 0.3333333333333333,
+          "found_keywords": [
+            "2"
+          ],
+          "is_coherent": true,
+          "output_length": 185
+        },
+        "tool_calling": {},
+        "success": true
+      },
+      "llama_cpp": {
+        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588\u2588\n\u2588\u2588 \u2588\u2588  \u2580",
+        "tokens_generated": 187,
+        "total_time_seconds": 25.076,
+        "first_token_time_seconds": 3.761,
+        "tokens_per_second": 7.46,
+        "quality": {
+          "is_qualitative_pass": false,
+          "keyword_match_ratio": 0.0,
+          "found_keywords": [],
+          "is_coherent": true,
+          "output_length": 500
+        },
+        "tool_calling": {},
+        "success": true
+      }
+    },
+    {
+      "prompt_id": "tool_calling_1",
+      "category": "tool_calling",
+      "prompt": "Use the calculator to compute: What is 1234 * 5678?\nRespond with just the answer in this JSON format:\n{\"tool\": \"calculator\", \"expression\": \"1234 * 5678\", \"result\": RESULT}",
+      "expected_keywords": [
+        "7006652",
+        "tool",
+        "calculator"
+      ],
+      "ollama": {
+        "text": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Task: Compute $1234 \\times 5678$.\n    *   Tool: Calculator (simulated).\n    *   Output Format\n\n",
+        "tokens_generated": 50,
+        "total_time_seconds": 10.465,
+        "first_token_time_seconds": 1.047,
+        "tokens_per_second": 4.78,
+        "quality": {
+          "is_qualitative_pass": true,
+          "keyword_match_ratio": 0.6666666666666666,
+          "found_keywords": [
+            "tool",
+            "calculator"
+          ],
+          "is_coherent": true,
+          "output_length": 151
+        },
+        "tool_calling": {
+          "demonstrates_tool_calling": false,
+          "has_json_format": false,
+          "has_tool_keyword": true,
+          "has_structured_call": false
+        },
+        "success": true
+      },
+      "llama_cpp": {
+        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588\u2588\n\u2588\u2588 \u2588\u2588  \u2580\u2580\u2588\u2584 \u2588\u2588\u2588\u2584\u2588\u2588\u2588\u2584  \u2580\u2580\u2588\u2584    ",
+        "tokens_generated": 175,
+        "total_time_seconds": 24.233,
+        "first_token_time_seconds": 3.635,
+        "tokens_per_second": 7.22,
+        "quality": {
+          "is_qualitative_pass": false,
+          "keyword_match_ratio": 0.0,
+          "found_keywords": [],
+          "is_coherent": true,
+          "output_length": 500
+        },
+        "tool_calling": {
+          "demonstrates_tool_calling": false,
+          "has_json_format": false,
+          "has_tool_keyword": false,
+          "has_structured_call": false
+        },
+        "success": true
+      }
+    },
+    {
+      "prompt_id": "tool_calling_2",
+      "category": "tool_calling",
+      "prompt": "Use the calculator to find: 999 * 999\nRespond with: {\"tool\": \"calculator\", \"expression\": \"999 * 999\", \"result\": VALUE}",
+      "expected_keywords": [
+        "998001",
+        "tool",
+        "calculator"
+      ],
+      "ollama": {
+        "text": "Thinking Process:\n\n1.  **Analyze the Request:** The user wants me to calculate $999 \\times 999$ using a calculator tool and respond in a specific JSON\n\n",
+        "tokens_generated": 40,
+        "total_time_seconds": 8.16,
+        "first_token_time_seconds": 0.816,
+        "tokens_per_second": 4.9,
+        "quality": {
+          "is_qualitative_pass": true,
+          "keyword_match_ratio": 0.6666666666666666,
+          "found_keywords": [
+            "tool",
+            "calculator"
+          ],
+          "is_coherent": true,
+          "output_length": 152
+        },
+        "tool_calling": {
+          "demonstrates_tool_calling": false,
+          "has_json_format": false,
+          "has_tool_keyword": true,
+          "has_structured_call": false
+        },
+        "success": true
+      },
+      "llama_cpp": {
+        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588\u2588\n\u2588\u2588 \u2588\u2588  \u2580",
+        "tokens_generated": 169,
+        "total_time_seconds": 22.611,
+        "first_token_time_seconds": 3.392,
+        "tokens_per_second": 7.47,
+        "quality": {
+          "is_qualitative_pass": false,
+          "keyword_match_ratio": 0.0,
+          "found_keywords": [],
+          "is_coherent": true,
+          "output_length": 500
+        },
+        "tool_calling": {
+          "demonstrates_tool_calling": false,
+          "has_json_format": false,
+          "has_tool_keyword": false,
+          "has_structured_call": false
+        },
+        "success": true
+      }
+    },
+    {
+      "prompt_id": "long_context_1",
+      "category": "long_context",
+      "prompt": "Summarize the key points from this text in 2-3 sentences:\n\nThe field of artificial intelligence has evolved dramatically since its inception in the 1950s. Early symbolic AI systems focused on rule-based reasoning and expert systems. The emergence of machine learning in the 1990s shifted paradigm toward statistical methods. Deep learning breakthroughs in the 2010s, particularly convolutional and recurrent neural networks, enabled unprecedented advances in image recognition, speech processing, and natural language understanding. Transformers architecture in 2017 revolutionized NLP through self-attention mechanisms. Large language models like GPT, Claude, and Qwen now demonstrate emergent capabilities in reasoning, coding, and multimodal understanding. Current challenges include improving efficiency, reducing hallucinations, enhancing factual accuracy, and achieving artificial general intelligence.\n\nKey points:",
+      "expected_keywords": [
+        "ai",
+        "artificial",
+        "intelligence",
+        "deep learning",
+        "transformer"
+      ],
+      "ollama": {
+        "text": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Task: Summarize the key points from the provided text.\n    *   Constraint: 2-3 sentences.\n    *   Input Text: A paragraph about the evolution of artificial intelligence (AI) from the 1950s to present day, including specific technologies and cur",
+        "tokens_generated": 80,
+        "total_time_seconds": 18.091,
+        "first_token_time_seconds": 1.809,
+        "tokens_per_second": 4.42,
+        "quality": {
+          "is_qualitative_pass": true,
+          "keyword_match_ratio": 0.6,
+          "found_keywords": [
+            "ai",
+            "artificial",
+            "intelligence"
+          ],
+          "is_coherent": true,
+          "output_length": 318
+        },
+        "tool_calling": {},
+        "success": true
+      },
+      "llama_cpp": {
+        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588",
+        "tokens_generated": 263,
+        "total_time_seconds": 34.203,
+        "first_token_time_seconds": 5.13,
+        "tokens_per_second": 7.69,
+        "quality": {
+          "is_qualitative_pass": false,
+          "keyword_match_ratio": 0.0,
+          "found_keywords": [],
+          "is_coherent": true,
+          "output_length": 500
+        },
+        "tool_calling": {},
+        "success": true
+      }
+    },
+    {
+      "prompt_id": "coding_1",
+      "category": "coding",
+      "prompt": "Write a Python function to check if a number is prime. Include comments.",
+      "expected_keywords": [
+        "def",
+        "prime",
+        "return",
+        "%",
+        "range"
+      ],
+      "ollama": {
+        "text": "The user wants me to write a Python function to check if a number is prime, with comments. I should create a clear, efficient function with proper comments explaining what each part does.\n\nKey considerations for a prime number checker:\n1. Numbers less than 2 are not prime\n2. 2 is prime (the only eve",
+        "tokens_generated": 100,
+        "total_time_seconds": 17.654,
+        "first_token_time_seconds": 1.765,
+        "tokens_per_second": 5.66,
+        "quality": {
+          "is_qualitative_pass": false,
+          "keyword_match_ratio": 0.2,
+          "found_keywords": [
+            "prime"
+          ],
+          "is_coherent": true,
+          "output_length": 430
+        },
+        "tool_calling": {},
+        "success": true
+      },
+      "llama_cpp": {
+        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588",
+        "tokens_generated": 222,
+        "total_time_seconds": 29.931,
+        "first_token_time_seconds": 4.49,
+        "tokens_per_second": 7.42,
+        "quality": {
+          "is_qualitative_pass": false,
+          "keyword_match_ratio": 0.0,
+          "found_keywords": [],
+          "is_coherent": true,
+          "output_length": 500
+        },
+        "tool_calling": {},
+        "success": true
+      }
+    },
+    {
+      "prompt_id": "coding_2",
+      "category": "coding",
+      "prompt": "Write a simple JavaScript function that reverses a string.",
+      "expected_keywords": [
+        "function",
+        "return",
+        "split",
+        "reverse",
+        "join"
+      ],
+      "ollama": {
+        "text": "The user wants a simple JavaScript function that reverses a string. This is a common beginner task. I'll provide a clear, simple solution with explanation.\n\nThere are multiple ways to reverse a string in JavaScript:\n1. Using split(), reverse(), join()\n2. Using a loop\n3. Using recursion\n\nI'll show th",
+        "tokens_generated": 80,
+        "total_time_seconds": 14.142,
+        "first_token_time_seconds": 1.414,
+        "tokens_per_second": 5.66,
+        "quality": {
+          "is_qualitative_pass": true,
+          "keyword_match_ratio": 0.8,
+          "found_keywords": [
+            "function",
+            "split",
+            "reverse",
+            "join"
+          ],
+          "is_coherent": true,
+          "output_length": 383
+        },
+        "tool_calling": {},
+        "success": true
+      },
+      "llama_cpp": {
+        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588\u2588\n\u2588\u2588 \u2588\u2588  \u2580\u2580\u2588\u2584 \u2588\u2588\u2588\u2584\u2588\u2588",
+        "tokens_generated": 198,
+        "total_time_seconds": 25.804,
+        "first_token_time_seconds": 3.871,
+        "tokens_per_second": 7.67,
+        "quality": {
+          "is_qualitative_pass": false,
+          "keyword_match_ratio": 0.0,
+          "found_keywords": [],
+          "is_coherent": true,
+          "output_length": 500
+        },
+        "tool_calling": {},
+        "success": true
+      }
+    },
+    {
+      "prompt_id": "math_1",
+      "category": "math",
+      "prompt": "What is the square root of 144?",
+      "expected_keywords": [
+        "12"
+      ],
+      "ollama": {
+        "text": "Thinking Process:\n\n1.  **Identify the core question:** The user is asking for the square root of 144.\n2\n\n",
+        "tokens_generated": 30,
+        "total_time_seconds": 5.842,
+        "first_token_time_seconds": 0.584,
+        "tokens_per_second": 5.14,
+        "quality": {
+          "is_qualitative_pass": false,
+          "keyword_match_ratio": 0.0,
+          "found_keywords": [],
+          "is_coherent": true,
+          "output_length": 105
+        },
+        "tool_calling": {},
+        "success": true
+      },
+      "llama_cpp": {
+        "text": "Loading model... |\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b-\b\\\b|\b/\b \b\n\n\n\u2584\u2584 \u2584\u2584\n\u2588\u2588 \u2588\u2588\n\u2588\u2588 \u2588\u2588  \u2580",
+        "tokens_generated": 144,
+        "total_time_seconds": 19.248,
+        "first_token_time_seconds": 2.887,
+        "tokens_per_second": 7.48,
+        "quality": {
+          "is_qualitative_pass": false,
+          "keyword_match_ratio": 0.0,
+          "found_keywords": [],
+          "is_coherent": true,
+          "output_length": 500
+        },
+        "tool_calling": {},
+        "success": true
+      }
+    }
+  ],
+  "summary": {
+    "ollama": {
+      "mean_tokens_per_second": 5.04,
+      "median_tokens_per_second": 5.19,
+      "max_tokens_per_second": 5.66,
+      "min_tokens_per_second": 3.57
+    },
+    "llama_cpp": {
+      "mean_tokens_per_second": 7.35,
+      "median_tokens_per_second": 7.47,
+      "max_tokens_per_second": 7.69,
+      "min_tokens_per_second": 6.48
+    }
+  },
+  "qualitative_assessment": "Ollama averages 5.0 tok/s, llama.cpp averages 7.3 tok/s. Llama.Cpp is approximately 31.4% faster. Ollama provides easier API integration and model management. llama.cpp offers more direct control and potentially lower overhead. Tool-calling depends on prompt engineering and model training, not backend.",
+  "attribution": {
+    "benchmark": "Qwen3.5-35B Backend Comparison",
+    "model": "Qwen3.5-35B-A3B-Q3_K_S (GGUF)",
+    "ollama_version": "native",
+    "llama_cpp_path": "/root/llama.cpp/build/bin/llama-cli",
+    "generated_at": "2026-02-27T08:18:43.008624"
+  }
+}

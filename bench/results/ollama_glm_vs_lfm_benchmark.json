@@ -1,0 +1,98 @@
+{
+  "timestamp": "2026-02-27T08:59:31",
+  "models": [
+    "glm-4.7-flash:latest",
+    "lfm2.5-thinking:1.2b"
+  ],
+  "prompts": [
+    {
+      "prompt_id": "qa1",
+      "prompt": "What is the capital of France?",
+      "glm": {
+        "tokens": 193,
+        "time_s": 17.56,
+        "tok_s": 10.99,
+        "ok": true
+      },
+      "lfm": {
+        "tokens": 225,
+        "time_s": 5.81,
+        "tok_s": 38.75,
+        "ok": true
+      }
+    },
+    {
+      "prompt_id": "qa2",
+      "prompt": "Explain photosynthesis in one sentence.",
+      "glm": {
+        "tokens": 519,
+        "time_s": 48.25,
+        "tok_s": 10.76,
+        "ok": true
+      },
+      "lfm": {
+        "tokens": 482,
+        "time_s": 12.32,
+        "tok_s": 39.14,
+        "ok": true
+      }
+    },
+    {
+      "prompt_id": "reasoning",
+      "prompt": "If all cats are animals and Fluffy is a cat, is Fluffy an animal?",
+      "glm": {
+        "tokens": 504,
+        "time_s": 47.15,
+        "tok_s": 10.69,
+        "ok": true
+      },
+      "lfm": {
+        "tokens": 782,
+        "time_s": 20.39,
+        "tok_s": 38.36,
+        "ok": true
+      }
+    },
+    {
+      "prompt_id": "math",
+      "prompt": "What is 25 * 4?",
+      "glm": {
+        "tokens": 183,
+        "time_s": 16.62,
+        "tok_s": 11.01,
+        "ok": true
+      },
+      "lfm": {
+        "tokens": 295,
+        "time_s": 7.59,
+        "tok_s": 38.86,
+        "ok": true
+      }
+    },
+    {
+      "prompt_id": "code",
+      "prompt": "Write a Python function to reverse a string.",
+      "glm": {
+        "tokens": 405,
+        "time_s": 37.56,
+        "tok_s": 10.78,
+        "ok": true
+      },
+      "lfm": {
+        "tokens": 843,
+        "time_s": 21.75,
+        "tok_s": 38.75,
+        "ok": true
+      }
+    }
+  ],
+  "summary": {
+    "glm_avg_tok_s": 10.85,
+    "lfm_avg_tok_s": 38.77,
+    "prompts_tested": 5,
+    "glm_successful": 5,
+    "lfm_successful": 5,
+    "winner": "lfm",
+    "delta_pct": 257.5
+  }
+}
