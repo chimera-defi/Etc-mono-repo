@@ -3,7 +3,7 @@
 Next.js application for the SpecForge MVP.
 
 Current slice:
-- local seeded document store
+- embedded SQL persistence via PGlite
 - document create/load API routes
 - document update API route
 - Tiptap-backed document workspace
@@ -29,6 +29,6 @@ npm run build
 
 ## Notes
 
-- The local store persists under `.data/` and is seeded from `../fixtures/`.
+- The local database persists under `.data/specforge-db/` and is seeded from `../fixtures/`.
 - The collaboration runtime lives in `../collab-server/`.
 - The web client connects to `NEXT_PUBLIC_COLLAB_URL` and defaults to `ws://127.0.0.1:4321`.
