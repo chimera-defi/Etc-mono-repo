@@ -23,9 +23,8 @@
 
 ## Decision 5: Auth — Clerk (GitHub/Google OAuth)
 - Choice: Clerk for authentication; GitHub OAuth as primary identity for the dev-team audience.
-- Why: Clerk covers auth, teams/orgs, and invitations without building it. GitHub OAuth matches the developer persona.
-- Tradeoff: Clerk is a paid SaaS dependency; replaceable with Auth.js if needed.
-- Open: see OPEN_QUESTIONS.md Q3.
+- Why: Clerk covers auth, teams/orgs, and invitations without building it. GitHub OAuth matches the developer persona. Multi-tenant workspace isolation requires org/team primitives before the first API route is written — Auth.js needs a week of manual org table wiring.
+- Tradeoff: Clerk is a paid SaaS dependency; replaceable with Auth.js if self-hosting is required later.
 
 ## Decision 6: AI Patch Engine — Claude API (provider-pluggable)
 - Choice: Claude API (claude-sonnet-4-6 minimum) for patch generation; provider abstracted behind an adapter interface.
@@ -56,3 +55,40 @@
 - Choice: The depth wizard and clarification engine are NOT in MVP scope.
 - Why: The wizard conflates the editor product with AI meta-tooling. MVP must prove the core collaboration + patch review value first.
 - Tradeoff: The "SpecForge built with SpecForge" narrative is deferred.
+
+## Decision 12: Section Granularity — Heading-Level Only
+- Choice: A "section" is defined as a heading block (H1/H2/H3) and its content until the next heading.
+- Why: Heading-level is the natural unit teams think in when writing specs. Paragraph-level granularity explodes the patch target count, makes the review queue unmanageable, and adds UUID marker noise to every paragraph.
+- Tradeoff: Cannot propose patches at sub-section resolution. V2 can add paragraph-level as an opt-in per document type.
+
+## Decision 13: Patch Format — AST Operations (canonical) + Text Diff (review UI)
+- Choice: Agent patches are stored and transmitted as AST operations (`replace-section`, `insert-section`, `delete-section`, `insert-paragraph`). The review UI renders them as a human-readable text diff.
+- Why: Text diff alone breaks on structural moves (section rename, reorder). AST ops are the correct protocol for a machine-readable system. Humans review a rendered diff — they don't read JSON.
+- Tradeoff: AST schema must be locked before agent prompt templates are written. Schema changes are breaking.
+- Action: Lock `patch_proposal.request.schema.json` in `contracts/v1/` before starting agent prompt work.
+
+## Decision 14: Deployment — SaaS-Only at Launch
+- Choice: Cloud-hosted SaaS only at launch. No Docker self-hosted tier in MVP.
+- Why: Self-hosting requires documented ops runbooks, update paths, and alternative CRDT sync (no PartyKit). This blocks MVP without a single paying customer to justify it.
+- Tradeoff: Enterprise buyers who require on-prem are excluded at launch. Open-source path deferred until adoption warrants the investment.
+
+## Decision 15: CRDT Sync Host — PartyKit
+- Choice: PartyKit as the managed WebSocket sync server for Yjs.
+- Why: SaaS-only deployment (D14) removes the self-hosting constraint. `npx partykit create` + Yjs provider is the fastest path to a working multiplayer editor. Eliminates the need to run, monitor, and scale a WebSocket server.
+- Tradeoff: PartyKit is a cloud vendor dependency. Migration to self-hosted y-websocket is possible if needed (same Yjs protocol).
+
+## Decision 16: Large Document AI Strategy — Section-Level Prompting
+- Choice: Agent sees the target section + 2 adjacent sections + the document's heading outline. Never the full document.
+- Why: Real PRDs/specs easily exceed 50K tokens. Full-doc context is not viable. Section-level prompting handles 95%+ of real patch requests well. RAG is over-engineered for MVP.
+- Tradeoff: Agent lacks full document context; may produce patches inconsistent with distant sections. Mitigate with the heading outline providing structural awareness.
+- Action: Document outline (heading tree) must be included in every agent patch request as a compact context anchor.
+
+## Decision 17: AI Cost Model — Hybrid (Included + Metered Overage)
+- Choice: Subscription tier includes N AI patches/month per team (e.g. 200). Usage above that is metered overage billed at cost + margin.
+- Why: Pure subscription is a COGS time bomb — one heavy team can destroy margin. Pure metered billing creates friction at every AI interaction and kills flow. Hybrid gives users predictable cost and protects platform margin.
+- Tradeoff: Billing metering logic must be built before launch. Start with a generous included limit so most teams never see an overage bill.
+
+## Decision 18: Patch Acceptance UX — Optimistic Apply with Rollback on Conflict
+- Choice: When a user accepts a patch, it is applied immediately and optimistically to the canonical document via CRDT. If a conflict is detected (concurrent edit on the same section), the patch is surfaced in the conflict resolver — it does not auto-apply.
+- Why: Staged preview adds a modal/save step that breaks collaborative flow. The mental model users already have (Google Docs suggestions, GitHub PR reviews) is inline accept/reject without a separate publish step. CRDT guarantees safe rollback on conflict.
+- Tradeoff: Users may accept a patch and see it briefly rolled back if a conflict fires. Conflict rate should be low for heading-level granularity (D12). Surface conflicts clearly in the review queue with both versions visible.
