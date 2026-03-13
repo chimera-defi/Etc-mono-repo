@@ -1,4 +1,4 @@
-## Collaborative Spec-to-Ship Workspace PRD
+## SpecForge PRD
 
 **Status**: Draft | **Last Updated**: 2026-03-06 | **Owner**: TBD
 
@@ -10,23 +10,25 @@ Teams doing startup/product planning often draft PRD/spec/design docs in fragmen
 4. poor provenance and messy merges.
 
 ### Product Thesis
-Create a focused collaborative Markdown workspace for humans and AI agents where edits are:
+Create a focused collaborative spec IDE for humans and AI agents where work happens on the same markdown canvas and edits are:
 1. real-time,
 2. attributable,
 3. merge-safe,
-4. workflow-linked to implementation.
-5. convertible into a starter GitHub repository flow.
+4. depth-gated before milestone close,
+5. workflow-linked to implementation.
+6. optionally convertible into a starter GitHub repository flow.
 
 ### What Exists Already (Reality Check)
 - Real-time collaborative docs are mature (Google Docs, Notion, Coda).
 - Collaborative Markdown tools exist (HackMD, HedgeDoc).
-- Therefore the wedge is not "another editor"; it is **agent-native specification workflow**.
+- Therefore the wedge is not "another editor"; it is **agent-native specification workflow on a shared human+agent canvas**.
 
 ### Differentiation Wedge
 1. AI agent edits as patch proposals (not silent overwrites).
-2. Section-level branch/merge with approval gates.
-3. Citation/provenance tagging per generated block.
-4. "Spec-to-build" outputs (tasks, acceptance criteria, agent handoff bundles).
+2. Section/block-level attribution, review, and approval gates.
+3. Depth gates that force missing decisions, risks, and recap before phase close.
+4. Citation/provenance tagging per generated block.
+5. "Spec-to-build" outputs (tasks, acceptance criteria, agent handoff bundles).
 
 ### Core Users (MVP)
 1. Startup teams writing PRD/specs with AI assistance.
@@ -41,15 +43,32 @@ Create a focused collaborative Markdown workspace for humans and AI agents where
 ### MVP Scope
 1. Multiplayer Markdown editor with presence/cursors/comments.
 2. AI side panel that proposes doc patches.
-3. Accept/reject/cherry-pick AI edits at section granularity.
+3. Accept/reject/cherry-pick AI edits at block or section granularity.
 4. Version history + per-edit attribution (human/agent).
-5. Export to markdown + JSON spec bundle.
+5. Depth gates + recap required before milestone close.
+6. Export to markdown + JSON spec bundle.
 
 ### Phase 2 Scope (If MVP Validates)
-1. One-click starter repository generation from approved spec bundle.
+1. Starter repository generation from approved spec bundle.
 2. Template-driven scaffolds (web app/API/docs-first presets).
 3. Traceability from generated tasks/issues back to spec sections.
-4. **Idea-Depth Orchestrator (Wizard Layer):** built-in broad-to-deep wizard with required gates for PRD/SPEC/risk/validation/economics. Agent asks targeted continuation questions when required detail is missing and produces end-of-iteration recaps. Deferred from MVP to avoid conflating the editor product with AI meta-tooling before collaboration fit is validated.
+4. Roll out on curated `ideas/` examples before opening arbitrary project generation.
+
+### Guided Idea-Depth Assistant (SpecForge Productization)
+1. Built-in broad-to-deep wizard with required gates for PRD/SPEC/risk/validation/economics.
+2. Agent asks targeted continuation questions when required detail is missing.
+3. Agent must produce end-of-iteration recap:
+   - thesis now
+   - what changed
+   - open decisions
+   - current go/no-go posture
+4. Goal: prevent shallow specs and reduce idea drift between user intent and produced artifacts.
+
+### Example Corpus Strategy
+Use selected packs under `ideas/` as:
+1. internal fixtures for regression and end-to-end evaluation,
+2. proof that authored specs can become executable downstream outputs,
+3. a benchmark corpus across rough, mid-fidelity, and mature idea stages.
 
 ### Business Model
 1. Team subscription by seats + AI usage credits.
@@ -61,34 +80,43 @@ Use workflow-based TAM, not broad "document software" TAM:
 
 - `target teams x monthly willingness-to-pay x attach rate`
 
-See `FINANCIAL_MODEL.md` for scenario modeling with variable definitions. Do not use standalone numbers here — they go stale and risk being treated as commitments. Replace the financial model with observed pilot data before any build-scale decision.
+Illustrative planning model:
+- 25,000 target startup/eng teams x $40/team/mo x 20% reachable attach
+- = ~$2.4M ARR initial reachable segment
+
+Add-on AI usage and enterprise governance can expand this if retention is strong.
 
 ### GTM
 1. Wedge into AI-heavy startup teams and dev shops.
-2. Integrate with GitHub/Jira/Linear to connect spec -> execution.
-3. Content-led growth via templates and "good spec" playbooks.
-4. Viral loop: shared docs with guest review + easy import/export.
-5. Expand from \"spec editor\" narrative to \"spec-to-ship\" narrative once repo generation is stable.
+2. Lead with authoring and governance value before broad repo-generation claims.
+3. Integrate with GitHub/Jira/Linear to connect spec -> execution.
+4. Content-led growth via templates and "good spec" playbooks.
+5. Viral loop: shared docs with guest review + easy import/export.
+6. Expand from "spec IDE" narrative to "spec-to-code" narrative once example-backed generation is stable.
 
 ### Success Metrics
-1. Activation: first collaborative spec completed.
-2. Value: percentage of AI patch suggestions accepted.
+1. Activation: first collaborative spec reaches milestone-close recap.
+2. Value: percentage of AI patch suggestions accepted, segmented by patch type.
 3. Retention: weekly active teams writing/updating specs.
 4. Throughput: time from initial draft to implementation-ready spec.
+5. Quality: reduction in downstream rework for instrumented example builds.
+6. Trust: reviewer-rated confidence in accepted agent patches.
 
 ### Risks
 1. Crowded doc market with strong incumbents.
 2. AI patch quality may reduce trust if noisy.
 3. Multiplayer consistency and merge UX complexity.
 4. Cost control for AI-heavy sessions.
+5. Repo generation can distract from proving authoring behavior.
 
 ### Kill Criteria
 1. Teams use it once for ideation but return to incumbent docs for final specs.
 2. AI patch acceptance is persistently low.
 3. Collaboration reliability issues (conflicts/data loss) hurt trust.
+4. Example builds show little quality improvement despite heavier authoring flow.
 
 ### Why This Could Work
-A narrow, workflow-native product for "specs that lead to code" can win even in a crowded editor market if it materially reduces planning-to-build cycle time.
+A narrow, workflow-native product for "specs that lead to code" can win even in a crowded editor market if it makes collaborative authoring trustworthy, forces better decisions, and materially reduces planning-to-build rework.
 
 ### Naming Direction
-See `NAME_OPTIONS.md`. Current preferred names: `SpecForge` or `ShipSpec`.
+See `archive/NAME_OPTIONS.md`. Current preferred names: `SpecForge` or `ShipSpec`.
