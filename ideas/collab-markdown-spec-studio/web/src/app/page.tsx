@@ -9,6 +9,7 @@ import {
 } from "./actions";
 import { DocumentWorkspace } from "./document-workspace";
 import styles from "./page.module.css";
+import { buildExecutionBrief } from "@/lib/specforge/execution";
 import { buildStarterTemplate } from "@/lib/specforge/handoff";
 import {
   exportDocument,
@@ -205,8 +206,8 @@ function buildGuidedSteps(input: {
     {
       id: "export",
       stage: "export" as const,
-      title: "Export the handoff bundle",
-      description: "Open the deterministic JSON bundle when the draft is ready.",
+      title: "Launch the build handoff",
+      description: "Review the export, starter output, and execution brief together.",
       completed: input.isReadyToExport,
     },
   ];
@@ -260,8 +261,9 @@ function getStageMeta(stage: Stage) {
       };
     case "export":
       return {
-        title: "Ship the handoff bundle",
-        description: "Check readiness and open the deterministic export payload.",
+        title: "Launch the build handoff",
+        description:
+          "Check readiness, inspect the starter output, and package one-shot build context.",
       };
   }
 }
@@ -310,6 +312,17 @@ export default async function Home({ searchParams }: Props) {
   const handoffBundle =
     activeDocument && exportBundle
       ? buildStarterTemplate(activeDocument, exportBundle, readinessReport)
+      : null;
+  const executionBrief =
+    activeDocument && exportBundle && handoffBundle && readinessReport
+      ? buildExecutionBrief({
+          document: activeDocument,
+          exportBundle,
+          starterBundle: handoffBundle,
+          readiness: readinessReport,
+          patches,
+          comments: commentThreads,
+        })
       : null;
   const blockSummaries = activeDocument
     ? summarizeBlocks(activeDocument, patches, commentThreads)
@@ -880,8 +893,8 @@ export default async function Home({ searchParams }: Props) {
             <>
               <section className={styles.panel}>
                 <div className={styles.panelHeader}>
-                  <h2>Readiness summary</h2>
-                  <span>Pre-handoff check</span>
+                  <h2>Run readiness</h2>
+                  <span>Pre-build check</span>
                 </div>
                 {readinessReport ? (
                   <div className={styles.readinessCard}>
@@ -985,6 +998,70 @@ export default async function Home({ searchParams }: Props) {
                   </>
                 ) : (
                   <p className={styles.empty}>No starter handoff available yet.</p>
+                )}
+              </section>
+
+              <section className={styles.panel} id="execution-brief">
+                <div className={styles.panelHeader}>
+                  <h2>Execution brief</h2>
+                  <span>One-shot build context</span>
+                </div>
+                {executionBrief ? (
+                  <>
+                    <div className={styles.exportActions}>
+                      <Link
+                        href={`/api/documents/${activeDocument?.document_id}/execution`}
+                        className={styles.exportLink}
+                        target="_blank"
+                        rel="noreferrer"
+                        data-testid="open-execution-json"
+                      >
+                        Open execution JSON
+                      </Link>
+                      <span>{executionBrief.run_ready ? "Run ready" : "Needs review"}</span>
+                    </div>
+                    <ul className={styles.readinessList}>
+                      <li>Primary goal: {executionBrief.primary_goal}</li>
+                      <li>
+                        Provenance: v{executionBrief.provenance.version} ·{" "}
+                        {executionBrief.provenance.approved_patch_count} approved patches
+                      </li>
+                      <li>
+                        Pending review: {executionBrief.provenance.pending_patch_count} patches ·{" "}
+                        {executionBrief.provenance.open_comment_count} comments
+                      </li>
+                    </ul>
+                    <details className={styles.exportDisclosure}>
+                      <summary className={styles.disclosureSummary}>
+                        <span>Agent run instructions</span>
+                        <span>{executionBrief.agent_instructions.length} steps</span>
+                      </summary>
+                      <div className={styles.disclosureBody}>
+                        <ul className={styles.readinessList}>
+                          {executionBrief.agent_instructions.map((instruction) => (
+                            <li key={instruction}>{instruction}</li>
+                          ))}
+                        </ul>
+                        <div className={styles.exportGrid}>
+                          <article className={styles.exportCard}>
+                            <h3>Suggested commands</h3>
+                            <pre>{executionBrief.commands.join("\n")}</pre>
+                          </article>
+                          <article className={styles.exportCard}>
+                            <h3>Blockers</h3>
+                            <pre>
+                              {(executionBrief.blockers.length > 0
+                                ? executionBrief.blockers
+                                : ["No blockers"])
+                                .join("\n")}
+                            </pre>
+                          </article>
+                        </div>
+                      </div>
+                    </details>
+                  </>
+                ) : (
+                  <p className={styles.empty}>No execution brief available yet.</p>
                 )}
               </section>
             </>
