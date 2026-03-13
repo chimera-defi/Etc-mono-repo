@@ -6,9 +6,11 @@ Current slice:
 - embedded SQL persistence via PGlite
 - document create/load API routes
 - document update API route
+- patch decision API route
 - Tiptap-backed document workspace
 - Yjs/Hocuspocus live room wiring per active document
 - patch proposal ingestion with stale detection
+- patch acceptance/rejection/cherry-pick flow with audit trail
 - deterministic export bundle preview
 - dashboard UI for the local MVP flow
 
