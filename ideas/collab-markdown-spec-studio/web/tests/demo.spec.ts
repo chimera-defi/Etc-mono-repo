@@ -75,13 +75,17 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
   await page.goto(`${page.url().split("?")[0]}?document=${new URL(page.url()).searchParams.get("document")}&stage=export`);
   const exportHref = await page.getByTestId("open-export-json").getAttribute("href");
   const handoffHref = await page.getByTestId("open-handoff-json").getAttribute("href");
+  const executionHref = await page.getByTestId("open-execution-json").getAttribute("href");
   expect(exportHref).toBeTruthy();
   expect(handoffHref).toBeTruthy();
+  expect(executionHref).toBeTruthy();
   const exportResponse = await page.request.get(`http://127.0.0.1:3000${exportHref}`);
   const handoffResponse = await page.request.get(`http://127.0.0.1:3000${handoffHref}`);
+  const executionResponse = await page.request.get(`http://127.0.0.1:3000${executionHref}`);
 
   expect(exportResponse.ok()).toBeTruthy();
   expect(handoffResponse.ok()).toBeTruthy();
+  expect(executionResponse.ok()).toBeTruthy();
   expect(await exportResponse.json()).toMatchObject({
     files: expect.objectContaining({
       "agent_spec.json": expect.any(String),
@@ -93,6 +97,10 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
       "package.json": expect.any(String),
       "src/main.ts": expect.any(String),
     }),
+  });
+  expect(await executionResponse.json()).toMatchObject({
+    run_ready: expect.any(Boolean),
+    commands: expect.arrayContaining(["npm install", "npm run dev", "npm run build"]),
   });
 });
 
