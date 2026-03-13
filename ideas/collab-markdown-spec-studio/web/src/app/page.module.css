@@ -112,7 +112,8 @@
 }
 
 .form input,
-.form textarea {
+.form textarea,
+.selectInput {
   width: 100%;
   border: 1px solid rgba(28, 26, 23, 0.16);
   border-radius: 16px;
@@ -120,6 +121,11 @@
   color: #1c1a17;
   padding: 12px 14px;
   font: inherit;
+}
+
+.commentPanel {
+  display: grid;
+  gap: 16px;
 }
 
 .form button {
