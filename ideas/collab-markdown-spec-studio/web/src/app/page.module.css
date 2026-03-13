@@ -190,6 +190,13 @@
   border: 1px solid rgba(28, 26, 23, 0.08);
 }
 
+.documentLink {
+  display: grid;
+  gap: 4px;
+  color: inherit;
+  text-decoration: none;
+}
+
 .documentItem span,
 .patchItem span {
   color: #6f6559;
