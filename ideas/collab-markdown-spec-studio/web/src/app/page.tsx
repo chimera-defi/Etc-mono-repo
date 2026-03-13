@@ -21,9 +21,10 @@ import { evaluateReadiness } from "@/lib/specforge/readiness";
 export const dynamic = "force-dynamic";
 
 type Stage = "start" | "draft" | "review" | "decide" | "export";
+type HeroVariant = "handoff" | "multiplayer" | "ship";
 
 type Props = {
-  searchParams?: Promise<{ document?: string; stage?: string }>;
+  searchParams?: Promise<{ document?: string; stage?: string; variant?: string }>;
 };
 
 type BlockSummary = {
@@ -43,6 +44,39 @@ type GuidedStep = {
 };
 
 const stageOrder: Stage[] = ["start", "draft", "review", "decide", "export"];
+const heroVariantOrder: HeroVariant[] = ["handoff", "multiplayer", "ship"];
+
+const heroVariants: Record<
+  HeroVariant,
+  {
+    eyebrow: string;
+    headline: string;
+    subhead: string;
+    tagline: string;
+  }
+> = {
+  handoff: {
+    eyebrow: "Build-ready specs, not scattered docs",
+    headline: "SpecForge turns multiplayer specs into one-shot build handoffs.",
+    subhead:
+      "Draft with humans and agents on the same canvas, review attributed patches, and export a clean bundle that a coding agent can build from without extra interpretation.",
+    tagline: "Multiplayer specs for one-shot builds",
+  },
+  multiplayer: {
+    eyebrow: "One canvas for humans and agents",
+    headline: "SpecForge is multiplayer spec writing that stays build-ready.",
+    subhead:
+      "Write together, review attributed changes, and keep the handoff bundle clean enough for a coding agent to execute without another planning pass.",
+    tagline: "Shared specs, shared context, cleaner buildouts",
+  },
+  ship: {
+    eyebrow: "From idea to build without losing the thread",
+    headline: "SpecForge helps teams write specs that agents can ship from in one shot.",
+    subhead:
+      "Keep authors, reviewers, and coding agents in the same workflow so the final spec is readable, attributable, and ready to turn into working code.",
+    tagline: "Specs that move straight into build mode",
+  },
+};
 
 function getPatchRiskLabel(patchType: string) {
   switch (patchType) {
@@ -242,6 +276,12 @@ export default async function Home({ searchParams }: Props) {
     stageOrder.includes(resolvedSearchParams.stage as Stage)
       ? (resolvedSearchParams.stage as Stage)
       : undefined;
+  const heroVariant =
+    typeof resolvedSearchParams.variant === "string" &&
+    heroVariantOrder.includes(resolvedSearchParams.variant as HeroVariant)
+      ? (resolvedSearchParams.variant as HeroVariant)
+      : "handoff";
+  const heroCopy = heroVariants[heroVariant];
 
   const documents = await listDocuments();
   const activeDocument =
@@ -286,21 +326,15 @@ export default async function Home({ searchParams }: Props) {
       <div className={styles.brandBar}>
         <div>
           <span className={styles.brandMark}>SpecForge</span>
-          <p className={styles.brandTagline}>
-            Multiplayer specs for one-shot builds
-          </p>
+          <p className={styles.brandTagline}>{heroCopy.tagline}</p>
         </div>
       </div>
 
       <header className={styles.hero}>
         <div>
-          <p className={styles.eyebrow}>Build-ready specs, not scattered docs</p>
-          <h1>SpecForge turns multiplayer specs into one-shot build handoffs.</h1>
-          <p className={styles.subhead}>
-            Draft with humans and agents on the same canvas, review attributed
-            patches, and export a clean bundle that a coding agent can build
-            from without extra interpretation.
-          </p>
+          <p className={styles.eyebrow}>{heroCopy.eyebrow}</p>
+          <h1>{heroCopy.headline}</h1>
+          <p className={styles.subhead}>{heroCopy.subhead}</p>
         </div>
         <div className={styles.stats}>
           <div>
