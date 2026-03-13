@@ -1,0 +1,164 @@
+{
+  "model": "lfm2.5-thinking:1.2b",
+  "variant": "atomic",
+  "timestamp": 1772136147.2998793,
+  "config_name": "LFM2.5-1.2B",
+  "arch": "State-space hybrid",
+  "system_prompt": "When you need a tool, use: [tool_name(arg=\"value\")]",
+  "results": [
+    {
+      "prompt_id": "P1",
+      "expected": [
+        "get_weather"
+      ],
+      "got": [
+        "get_weather"
+      ],
+      "correct": true,
+      "latency_ms": 5832.126140594482,
+      "error": null,
+      "timeout": false
+    },
+    {
+      "prompt_id": "P2",
+      "expected": [
+        "search_files"
+      ],
+      "got": [
+        "search_files"
+      ],
+      "correct": true,
+      "latency_ms": 14446.253538131714,
+      "error": null,
+      "timeout": false
+    },
+    {
+      "prompt_id": "P3",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [
+        "schedule_meeting"
+      ],
+      "correct": true,
+      "latency_ms": 12082.11374282837,
+      "error": null,
+      "timeout": false
+    },
+    {
+      "prompt_id": "P4",
+      "expected": [
+        "get_weather"
+      ],
+      "got": [
+        "get_weather"
+      ],
+      "correct": true,
+      "latency_ms": 14236.452341079712,
+      "error": null,
+      "timeout": false
+    },
+    {
+      "prompt_id": "P5",
+      "expected": [],
+      "got": [],
+      "correct": false,
+      "latency_ms": 11517.719745635986,
+      "error": "'NoneType' object is not iterable",
+      "timeout": false
+    },
+    {
+      "prompt_id": "P6",
+      "expected": [],
+      "got": [],
+      "correct": false,
+      "latency_ms": 9269.117832183838,
+      "error": "'NoneType' object is not iterable",
+      "timeout": false
+    },
+    {
+      "prompt_id": "P7",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [
+        "schedule_meeting"
+      ],
+      "correct": true,
+      "latency_ms": 15623.632192611694,
+      "error": null,
+      "timeout": false
+    },
+    {
+      "prompt_id": "P8",
+      "expected": [
+        "search_files",
+        "get_weather"
+      ],
+      "got": [
+        "search_files",
+        "get_weather"
+      ],
+      "correct": true,
+      "latency_ms": 10733.089923858643,
+      "error": null,
+      "timeout": false
+    },
+    {
+      "prompt_id": "P9",
+      "expected": [],
+      "got": [],
+      "correct": false,
+      "latency_ms": 39548.6958026886,
+      "error": "'NoneType' object is not iterable",
+      "timeout": false
+    },
+    {
+      "prompt_id": "P10",
+      "expected": [
+        "get_weather"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 37055.72414398193,
+      "error": "'NoneType' object is not iterable",
+      "timeout": false
+    },
+    {
+      "prompt_id": "P11",
+      "expected": [
+        "search_files"
+      ],
+      "got": [
+        "search_files"
+      ],
+      "correct": true,
+      "latency_ms": 17313.706398010254,
+      "error": null,
+      "timeout": false
+    },
+    {
+      "prompt_id": "P12",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [
+        "schedule_meeting"
+      ],
+      "correct": true,
+      "latency_ms": 20844.2165851593,
+      "error": null,
+      "timeout": false
+    }
+  ],
+  "failed_prompts": [
+    "P5",
+    "P6",
+    "P9",
+    "P10"
+  ],
+  "passed": 8,
+  "total": 12,
+  "accuracy": 0.6666666666666666,
+  "restraint_score": 0.0
+}

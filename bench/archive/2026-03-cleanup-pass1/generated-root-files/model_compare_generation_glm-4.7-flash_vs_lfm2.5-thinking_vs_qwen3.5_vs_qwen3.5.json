@@ -1,0 +1,362 @@
+{
+  "timestamp": "2026-03-07T14:01:25.229921",
+  "backend_url": "http://localhost:11434",
+  "models": [
+    "glm-4.7-flash:latest",
+    "lfm2.5-thinking:1.2b",
+    "qwen3.5:4b",
+    "qwen3.5:9b"
+  ],
+  "prompt_results": [
+    {
+      "prompt_id": "simple_qa_1",
+      "category": "simple_qa",
+      "glm-4.7-flash:latest": {
+        "success": true,
+        "tokens_generated": 50,
+        "prompt_tokens": 12,
+        "tokens_per_second": 5.48,
+        "total_time_seconds": 9.132,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "lfm2.5-thinking:1.2b": {
+        "success": true,
+        "tokens_generated": 50,
+        "prompt_tokens": 17,
+        "tokens_per_second": 34.35,
+        "total_time_seconds": 1.456,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "qwen3.5:4b": {
+        "success": true,
+        "tokens_generated": 50,
+        "prompt_tokens": 17,
+        "tokens_per_second": 4.22,
+        "total_time_seconds": 11.854,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "qwen3.5:9b": {
+        "success": true,
+        "tokens_generated": 50,
+        "prompt_tokens": 17,
+        "tokens_per_second": 3.03,
+        "total_time_seconds": 16.528,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      }
+    },
+    {
+      "prompt_id": "simple_qa_2",
+      "category": "simple_qa",
+      "glm-4.7-flash:latest": {
+        "success": true,
+        "tokens_generated": 60,
+        "prompt_tokens": 15,
+        "tokens_per_second": 10.26,
+        "total_time_seconds": 5.849,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "lfm2.5-thinking:1.2b": {
+        "success": true,
+        "tokens_generated": 60,
+        "prompt_tokens": 19,
+        "tokens_per_second": 34.9,
+        "total_time_seconds": 1.719,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "qwen3.5:4b": {
+        "success": true,
+        "tokens_generated": 60,
+        "prompt_tokens": 20,
+        "tokens_per_second": 4.11,
+        "total_time_seconds": 14.601,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "qwen3.5:9b": {
+        "success": true,
+        "tokens_generated": 60,
+        "prompt_tokens": 20,
+        "tokens_per_second": 3.92,
+        "total_time_seconds": 15.288,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      }
+    },
+    {
+      "prompt_id": "reasoning_1",
+      "category": "reasoning",
+      "glm-4.7-flash:latest": {
+        "success": true,
+        "tokens_generated": 80,
+        "prompt_tokens": 23,
+        "tokens_per_second": 7.74,
+        "total_time_seconds": 10.337,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "lfm2.5-thinking:1.2b": {
+        "success": true,
+        "tokens_generated": 80,
+        "prompt_tokens": 28,
+        "tokens_per_second": 34.89,
+        "total_time_seconds": 2.293,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "qwen3.5:4b": {
+        "success": true,
+        "tokens_generated": 80,
+        "prompt_tokens": 28,
+        "tokens_per_second": 4.61,
+        "total_time_seconds": 17.363,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "qwen3.5:9b": {
+        "success": true,
+        "tokens_generated": 80,
+        "prompt_tokens": 28,
+        "tokens_per_second": 3.88,
+        "total_time_seconds": 20.608,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      }
+    },
+    {
+      "prompt_id": "reasoning_2",
+      "category": "reasoning",
+      "glm-4.7-flash:latest": {
+        "success": true,
+        "tokens_generated": 60,
+        "prompt_tokens": 36,
+        "tokens_per_second": 6.76,
+        "total_time_seconds": 8.872,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "lfm2.5-thinking:1.2b": {
+        "success": true,
+        "tokens_generated": 60,
+        "prompt_tokens": 41,
+        "tokens_per_second": 32.71,
+        "total_time_seconds": 1.834,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "qwen3.5:4b": {
+        "success": true,
+        "tokens_generated": 60,
+        "prompt_tokens": 45,
+        "tokens_per_second": 4.11,
+        "total_time_seconds": 14.596,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "qwen3.5:9b": {
+        "success": true,
+        "tokens_generated": 60,
+        "prompt_tokens": 45,
+        "tokens_per_second": 3.66,
+        "total_time_seconds": 16.376,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      }
+    },
+    {
+      "prompt_id": "coding_1",
+      "category": "coding",
+      "glm-4.7-flash:latest": {
+        "success": true,
+        "tokens_generated": 100,
+        "prompt_tokens": 20,
+        "tokens_per_second": 8.34,
+        "total_time_seconds": 11.991,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "lfm2.5-thinking:1.2b": {
+        "success": true,
+        "tokens_generated": 100,
+        "prompt_tokens": 25,
+        "tokens_per_second": 36.7,
+        "total_time_seconds": 2.725,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "qwen3.5:4b": {
+        "success": true,
+        "tokens_generated": 100,
+        "prompt_tokens": 25,
+        "tokens_per_second": 4.81,
+        "total_time_seconds": 20.77,
+        "keyword_match_ratio": 0.2,
+        "text_preview": "Here's a well-documented, efficient Python function to determine whether a given integer is prime, along with"
+      },
+      "qwen3.5:9b": {
+        "success": true,
+        "tokens_generated": 100,
+        "prompt_tokens": 25,
+        "tokens_per_second": 3.99,
+        "total_time_seconds": 25.062,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      }
+    },
+    {
+      "prompt_id": "coding_2",
+      "category": "coding",
+      "glm-4.7-flash:latest": {
+        "success": true,
+        "tokens_generated": 80,
+        "prompt_tokens": 16,
+        "tokens_per_second": 7.84,
+        "total_time_seconds": 10.202,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "lfm2.5-thinking:1.2b": {
+        "success": true,
+        "tokens_generated": 80,
+        "prompt_tokens": 21,
+        "tokens_per_second": 36.14,
+        "total_time_seconds": 2.214,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "qwen3.5:4b": {
+        "success": true,
+        "tokens_generated": 80,
+        "prompt_tokens": 21,
+        "tokens_per_second": 4.56,
+        "total_time_seconds": 17.545,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "qwen3.5:9b": {
+        "success": true,
+        "tokens_generated": 80,
+        "prompt_tokens": 21,
+        "tokens_per_second": 3.97,
+        "total_time_seconds": 20.136,
+        "keyword_match_ratio": 0.33,
+        "text_preview": "Here's a simple JavaScript function"
+      }
+    },
+    {
+      "prompt_id": "math_1",
+      "category": "math",
+      "glm-4.7-flash:latest": {
+        "success": true,
+        "tokens_generated": 30,
+        "prompt_tokens": 14,
+        "tokens_per_second": 5.12,
+        "total_time_seconds": 5.86,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "lfm2.5-thinking:1.2b": {
+        "success": true,
+        "tokens_generated": 30,
+        "prompt_tokens": 19,
+        "tokens_per_second": 31.98,
+        "total_time_seconds": 0.938,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "qwen3.5:4b": {
+        "success": true,
+        "tokens_generated": 30,
+        "prompt_tokens": 21,
+        "tokens_per_second": 3.32,
+        "total_time_seconds": 9.037,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "qwen3.5:9b": {
+        "success": true,
+        "tokens_generated": 30,
+        "prompt_tokens": 21,
+        "tokens_per_second": 3.65,
+        "total_time_seconds": 8.212,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      }
+    },
+    {
+      "prompt_id": "long_context_1",
+      "category": "long_context",
+      "glm-4.7-flash:latest": {
+        "success": true,
+        "tokens_generated": 80,
+        "prompt_tokens": 62,
+        "tokens_per_second": 6.87,
+        "total_time_seconds": 11.651,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "lfm2.5-thinking:1.2b": {
+        "success": true,
+        "tokens_generated": 80,
+        "prompt_tokens": 67,
+        "tokens_per_second": 30.86,
+        "total_time_seconds": 2.592,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "qwen3.5:4b": {
+        "success": true,
+        "tokens_generated": 80,
+        "prompt_tokens": 75,
+        "tokens_per_second": 4.24,
+        "total_time_seconds": 18.872,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "qwen3.5:9b": {
+        "success": true,
+        "tokens_generated": 80,
+        "prompt_tokens": 75,
+        "tokens_per_second": 3.52,
+        "total_time_seconds": 22.74,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      }
+    }
+  ],
+  "summary": {
+    "glm-4.7-flash:latest": {
+      "mean_tps": 7.3,
+      "median_tps": 7.3,
+      "max_tps": 10.26,
+      "min_tps": 5.12,
+      "prompts_succeeded": 8
+    },
+    "lfm2.5-thinking:1.2b": {
+      "mean_tps": 34.07,
+      "median_tps": 34.62,
+      "max_tps": 36.7,
+      "min_tps": 30.86,
+      "prompts_succeeded": 8
+    },
+    "qwen3.5:4b": {
+      "mean_tps": 4.25,
+      "median_tps": 4.23,
+      "max_tps": 4.81,
+      "min_tps": 3.32,
+      "prompts_succeeded": 8
+    },
+    "qwen3.5:9b": {
+      "mean_tps": 3.7,
+      "median_tps": 3.77,
+      "max_tps": 3.99,
+      "min_tps": 3.03,
+      "prompts_succeeded": 8
+    }
+  }
+}
