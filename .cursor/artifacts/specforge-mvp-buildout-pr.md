@@ -2,7 +2,7 @@
 **Co-authored-by:** Chimera <chimera_defi@protonmail.com>
 
 ## Summary
-Kick off the SpecForge MVP build from the merged spec pack with a real web app, embedded SQL persistence, a runnable collaboration server, a Tiptap authoring workspace, live Yjs/Hocuspocus collaboration, integrated patch review, collaborator awareness, multi-document navigation, and anchored comments.
+Kick off the SpecForge MVP build from the merged spec pack with a real web app, embedded SQL persistence, a runnable collaboration server, a Tiptap authoring workspace, live Yjs/Hocuspocus collaboration, integrated patch review, collaborator awareness, multi-document navigation, anchored comments, and readiness gates.
 
 ## Original Request
 > Cool let’s kick it off
@@ -21,6 +21,7 @@ Kick off the SpecForge MVP build from the merged spec pack with a real web app, 
   - collaborator awareness chips in the live editor,
   - multi-document navigation from the workspace shell,
   - anchored comment threads with resolve flow,
+  - readiness scoring and recap output in the workspace,
   - patch proposal ingestion with stale detection,
   - deterministic export bundle generation,
   - local dashboard UI for the slice.
