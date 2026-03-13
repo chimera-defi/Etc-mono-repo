@@ -56,6 +56,13 @@ def latest_manifest(runs_dir: Path) -> Path | None:
     return candidates[0] if candidates else None
 
 
+def load_manifest(path: Path) -> dict[str, Any]:
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        raise ValueError("manifest root must be a JSON object")
+    return data
+
+
 def summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
     event_counts = Counter(r.get("event", "unknown") for r in rows)
 
@@ -111,6 +118,64 @@ def summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
+def summarize_manifest(data: dict[str, Any], source: Path) -> dict[str, Any]:
+    jobs = data.get("jobs")
+    if not isinstance(jobs, list):
+        jobs = []
+
+    event_counts = Counter()
+    final_outcomes = Counter()
+    fallback_edges = Counter()
+    latest_per_job: list[dict[str, Any]] = []
+
+    for job in jobs:
+        if not isinstance(job, dict):
+            continue
+
+        fallback_used = bool(job.get("used_fallback", False))
+        event = "fallback_succeeded" if fallback_used else "primary_succeeded"
+        primary = job.get("original_model") or job.get("model")
+        selected = job.get("fallback_model")
+        served_by = job.get("served_by") or primary or "unknown"
+
+        event_counts[event] += 1
+        final_outcomes[event] += 1
+        if primary and selected:
+            fallback_edges[(str(primary), str(selected))] += 1
+
+        latest_per_job.append(
+            {
+                "run_id": data.get("run_id", "unknown"),
+                "job_index": job.get("job_index", "unknown"),
+                "phase": job.get("phase"),
+                "variant": job.get("variant"),
+                "event": event,
+                "primary_model": primary,
+                "mapped_fallback": selected,
+                "selected_fallback": selected,
+                "served_by": served_by,
+                "used_fallback": fallback_used,
+            }
+        )
+
+    latest_per_job.sort(key=lambda x: (str(x["run_id"]), int(x["job_index"]) if str(x["job_index"]).isdigit() else str(x["job_index"])))
+
+    return {
+        "source": "manifest",
+        "manifest": str(source),
+        "run_id": data.get("run_id"),
+        "total_events": len(latest_per_job),
+        "event_counts": dict(event_counts),
+        "unique_jobs_with_trace": len(latest_per_job),
+        "final_outcomes": dict(final_outcomes),
+        "fallback_edges": [
+            {"from": frm, "to": to, "count": c}
+            for (frm, to), c in fallback_edges.most_common()
+        ],
+        "latest_per_job": latest_per_job,
+    }
+
+
 def _latest_event(rows: list[dict[str, Any]]) -> dict[str, Any] | None:
     if not rows:
         return None
@@ -147,7 +212,7 @@ def print_one_line(rows: list[dict[str, Any]], source: Path) -> None:
 
 def _print_one_line_from_manifest(manifest_path: Path) -> bool:
     try:
-        data = json.loads(manifest_path.read_text(encoding="utf-8"))
+        data = load_manifest(manifest_path)
     except Exception:
         return False
 
@@ -177,7 +242,7 @@ def _print_one_line_from_manifest(manifest_path: Path) -> bool:
 
 
 def print_human(summary: dict[str, Any], source: Path) -> None:
-    print(f"trace: {source}")
+    print(f"source: {source}")
     print(f"events: {summary['total_events']}")
     print(f"jobs with fallback trace: {summary['unique_jobs_with_trace']}")
 
@@ -226,13 +291,25 @@ def main() -> int:
 
     trace = args.trace or latest_trace(args.runs_dir)
     if trace is None:
-        # No fallback trace exists (common when no fallback happened). For
-        # one-line ops checks, fall back to latest supervisor manifest.
+        # No fallback trace exists (common when no fallback happened). Fall back
+        # to latest supervisor manifest so operator views still expose route
+        # attribution for no-fallback runs.
+        manifest = latest_manifest(args.runs_dir)
+        if manifest is None:
+            raise SystemExit("No fallback_trace.jsonl or manifest.json found. Run benchmark_supervisor first.")
+
         if args.one_line:
-            manifest = latest_manifest(args.runs_dir)
-            if manifest and _print_one_line_from_manifest(manifest):
+            if _print_one_line_from_manifest(manifest):
                 return 0
-        raise SystemExit("No fallback_trace.jsonl found. Run benchmark_supervisor first.")
+            raise SystemExit(f"Failed to read manifest fallback: {manifest}")
+
+        data = load_manifest(manifest)
+        summary = summarize_manifest(data, manifest)
+        if args.json:
+            print(json.dumps(summary, indent=2, ensure_ascii=False))
+        else:
+            print_human(summary, manifest)
+        return 0
 
     rows = load_rows(trace)
     summary = summarize(rows)
@@ -240,7 +317,7 @@ def main() -> int:
     if args.one_line:
         print_one_line(rows, trace)
     elif args.json:
-        print(json.dumps(summary, indent=2, ensure_ascii=False))
+        print(json.dumps({"source": "trace", "trace": str(trace), **summary}, indent=2, ensure_ascii=False))
     else:
         print_human(summary, trace)
 
