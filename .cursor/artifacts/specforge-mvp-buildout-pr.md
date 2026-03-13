@@ -2,7 +2,7 @@
 **Co-authored-by:** Chimera <chimera_defi@protonmail.com>
 
 ## Summary
-Kick off the SpecForge MVP build from the merged spec pack with a real web app, embedded SQL persistence, a runnable collaboration server, a Tiptap authoring workspace, and the first live Yjs/Hocuspocus collaboration path.
+Kick off the SpecForge MVP build from the merged spec pack with a real web app, embedded SQL persistence, a runnable collaboration server, a Tiptap authoring workspace, live Yjs/Hocuspocus collaboration, and the first integrated patch review loop.
 
 ## Original Request
 > Cool let’s kick it off
@@ -17,6 +17,7 @@ Kick off the SpecForge MVP build from the merged spec pack with a real web app, 
   - document updates through a Tiptap-backed workspace,
   - PGlite-backed persistence for documents, patches, snapshots, and audit events,
   - per-document live collaboration rooms over Hocuspocus + Yjs,
+  - integrated patch accept/reject/cherry-pick decisions with canonical doc updates,
   - patch proposal ingestion with stale detection,
   - deterministic export bundle generation,
   - local dashboard UI for the slice.
