@@ -240,6 +240,43 @@
   cursor: pointer;
 }
 
+.wide :global(.presenceBar) {
+  display: grid;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+}
+
+.wide :global(.presenceBar > span) {
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #7a6d5e;
+}
+
+.wide :global(.presenceList) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.wide :global(.presenceChip) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid rgba(28, 26, 23, 0.16);
+  border-radius: 999px;
+  padding: 0.45rem 0.7rem;
+  background: #fffdfa;
+  color: #1c1a17;
+  font-size: 0.85rem;
+}
+
+.wide :global(.presenceChip i) {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 999px;
+}
+
 .wide :global(.specforgeEditor) {
   min-height: 20rem;
   border: 1px solid rgba(28, 26, 23, 0.16);
