@@ -24,6 +24,14 @@ type Props = {
   searchParams?: Promise<{ document?: string }>;
 };
 
+type BlockSummary = {
+  block_id: string;
+  heading: string;
+  openComments: number;
+  pendingPatches: number;
+  touchedBy: string[];
+};
+
 function getPatchRiskLabel(patchType: string) {
   switch (patchType) {
     case "requirement_change":
@@ -73,6 +81,43 @@ function renderDiffLines(before: string, after: string) {
   });
 }
 
+function summarizeBlocks(
+  activeDocument: NonNullable<Awaited<ReturnType<typeof listDocuments>>[number]>,
+  patches: Awaited<ReturnType<typeof listPatches>>,
+  commentThreads: Awaited<ReturnType<typeof listCommentThreads>>,
+) {
+  const summaries = activeDocument.blocks.map<BlockSummary>((block) => {
+    const blockPatches = patches.filter((patch) => patch.block_id === block.block_id);
+    const blockComments = commentThreads.filter((thread) => thread.block_id === block.block_id);
+    const touchedBy = Array.from(
+      new Set([
+        ...blockPatches.map(
+          (patch) => `${patch.proposed_by.actor_type}:${patch.proposed_by.actor_id}`,
+        ),
+        ...blockComments.map(
+          (thread) => `${thread.created_by.actor_type}:${thread.created_by.actor_id}`,
+        ),
+      ]),
+    );
+
+    return {
+      block_id: block.block_id,
+      heading: block.heading,
+      openComments: blockComments.filter((thread) => thread.status === "open").length,
+      pendingPatches: blockPatches.filter((patch) =>
+        ["proposed", "stale"].includes(patch.status),
+      ).length,
+      touchedBy,
+    };
+  });
+
+  return summaries.sort((left, right) => {
+    const leftWeight = left.openComments + left.pendingPatches;
+    const rightWeight = right.openComments + right.pendingPatches;
+    return rightWeight - leftWeight;
+  });
+}
+
 export default async function Home({ searchParams }: Props) {
   const resolvedSearchParams = (await searchParams) ?? {};
   const requestedDocumentId =
@@ -104,6 +149,9 @@ export default async function Home({ searchParams }: Props) {
         comments: commentThreads,
       })
     : null;
+  const blockSummaries = activeDocument
+    ? summarizeBlocks(activeDocument, patches, commentThreads)
+    : [];
 
   return (
     <div className={styles.shell}>
@@ -203,6 +251,48 @@ export default async function Home({ searchParams }: Props) {
                 ))}
               </ul>
             </div>
+          ) : (
+            <p className={styles.empty}>Create a document first.</p>
+          )}
+        </section>
+
+        <section className={styles.panel}>
+          <div className={styles.panelHeader}>
+            <h2>Block activity</h2>
+            <span>Attribution rail</span>
+          </div>
+          {activeDocument ? (
+            <ul className={styles.blockSummaryList}>
+              {blockSummaries.map((block) => (
+                <li key={block.block_id} className={styles.blockSummaryItem}>
+                  <div className={styles.patchHeader}>
+                    <strong>{block.heading}</strong>
+                    <span className={styles.badge}>{block.block_id}</span>
+                  </div>
+                  <div className={styles.blockSummaryMeta}>
+                    <span
+                      className={`${styles.badge} ${
+                        block.pendingPatches > 0 ? styles.warning : styles.neutral
+                      }`}
+                    >
+                      {block.pendingPatches} pending patches
+                    </span>
+                    <span
+                      className={`${styles.badge} ${
+                        block.openComments > 0 ? styles.warning : styles.neutral
+                      }`}
+                    >
+                      {block.openComments} open comments
+                    </span>
+                  </div>
+                  <span className={styles.blockSummaryActors}>
+                    {block.touchedBy.length > 0
+                      ? `Touched by ${block.touchedBy.join(", ")}`
+                      : "No review activity yet."}
+                  </span>
+                </li>
+              ))}
+            </ul>
           ) : (
             <p className={styles.empty}>Create a document first.</p>
           )}
