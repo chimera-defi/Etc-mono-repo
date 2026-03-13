@@ -3,6 +3,8 @@ import { DocumentWorkspace } from "./document-workspace";
 import styles from "./page.module.css";
 import { exportDocument, listDocuments, listPatches } from "@/lib/specforge/store";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const documents = await listDocuments();
   const activeDocument = documents[0] ?? null;
