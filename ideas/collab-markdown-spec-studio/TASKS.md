@@ -8,9 +8,10 @@
 - [x] Browser editor connects to per-document Hocuspocus rooms over Yjs.
 - [x] Hocuspocus collaboration server scaffold is runnable.
 - [x] Documents, patches, snapshots, and audit events are stored in the local PGlite database.
+- [x] Patch review decisions mutate canonical document state and are shown in the workspace.
 - [ ] Shared cursor presence and awareness UI.
 - [ ] Comment threads are stored in the main persistence layer.
-- [ ] Patch review decisions and audit trail UI.
+- [ ] Rich patch diff/review UI and attribution overlays.
 - [ ] Anchored comments and attribution overlays.
 - [ ] Depth gates, recap generation, and implementation-readiness scoring.
 - [ ] Deterministic export/handoff flow beyond the current local bundle preview.
@@ -25,7 +26,7 @@
   - [x] documents
   - [x] document snapshots
   - [x] patch proposals
-  - [ ] patch decisions
+  - [x] patch decisions
   - [x] audit events
   - [ ] comment threads
 - [ ] Persist collaboration snapshots or Yjs updates so rooms survive server restarts.
@@ -41,13 +42,13 @@
 - [ ] Tighten the layout into the intended shared-canvas experience instead of a dashboard-first shell.
 
 ### Track C: Patch Review and Attribution
-- [ ] Implement patch decision APIs:
-  - accept
-  - reject
-  - cherry-pick
-- [ ] Apply accepted patches back to canonical document state.
-- [ ] Record immutable audit events for proposal and decision actions.
-- [ ] Add patch diff/review UI with risk/status chips.
+- [x] Implement patch decision APIs:
+  - [x] accept
+  - [x] reject
+  - [x] cherry-pick
+- [x] Apply accepted patches back to canonical document state.
+- [x] Record immutable audit events for proposal and decision actions.
+- [ ] Add richer patch diff/review UI with risk/status chips.
 - [ ] Show who changed what at block level for both humans and agents.
 - [ ] Handle stale, conflicted, superseded, and terminal patch states in the UI.
 
