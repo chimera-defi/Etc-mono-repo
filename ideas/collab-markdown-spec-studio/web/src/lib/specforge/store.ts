@@ -1,5 +1,6 @@
 import { mkdir, readFile } from "node:fs/promises";
 import path from "node:path";
+import process from "node:process";
 import { randomUUID } from "node:crypto";
 
 import { PGlite } from "@electric-sql/pglite";
@@ -114,10 +115,31 @@ export type CommentThreadRecord = {
 
 const databaseCache = new Map<string, Promise<PGlite>>();
 
+function normalizePathLike(value: unknown) {
+  if (typeof value === "string") {
+    return value;
+  }
+
+  if (
+    value &&
+    typeof value === "object" &&
+    "pathname" in value &&
+    typeof value.pathname === "string"
+  ) {
+    return value.pathname;
+  }
+
+  return String(value);
+}
+
+const currentWorkingDirectory = normalizePathLike(process.cwd());
+const defaultDbPath = path.resolve(currentWorkingDirectory, ".data", "specforge-db");
+const defaultFixturesDir = path.resolve(currentWorkingDirectory, "..", "fixtures");
+
 function resolveOptions(options: StoreOptions = {}) {
   return {
-    dbPath: options.dbPath ?? path.join(process.cwd(), ".data", "specforge-db"),
-    fixturesDir: options.fixturesDir ?? path.resolve(process.cwd(), "..", "fixtures"),
+    dbPath: options.dbPath ?? defaultDbPath,
+    fixturesDir: options.fixturesDir ?? defaultFixturesDir,
   };
 }
 
