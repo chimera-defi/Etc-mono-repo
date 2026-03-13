@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { getDocument, listPatches } from "@/lib/specforge/store";
+import { getDocument, listPatches, updateDocument } from "@/lib/specforge/store";
 
 type Params = {
   params: Promise<{ id: string }>;
@@ -16,4 +16,19 @@ export async function GET(_request: Request, { params }: Params) {
 
   const patches = await listPatches(id);
   return NextResponse.json({ document, patches });
+}
+
+export async function PATCH(request: Request, { params }: Params) {
+  const { id } = await params;
+  const payload = await request.json();
+
+  try {
+    const document = await updateDocument(id, payload);
+    return NextResponse.json({ document });
+  } catch (error) {
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "Unable to update document" },
+      { status: 400 },
+    );
+  }
 }
