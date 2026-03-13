@@ -155,6 +155,10 @@ The active path is now reasonably clear:
 
 4. **Small utility scripts**
    - `weather_check.py` and `run_qwen_glm_multipart.sh` are fine to keep, but future cleanup may move them into an `experiments/` or `ops/local/` area if more scripts like these accumulate.
+   - Review outcome (2026-03-13, odd-files pass):
+     - `selfopt/run_qwen_glm_multipart.sh` is worth keeping as a tiny operator wrapper because it is explicit and low-risk.
+     - Its paired runner (`selfopt/qwen_glm_multipart_resume_runner.py`) still writes benchmark JSON outputs to legacy top-level `bench/*.json` paths while log/state artifacts live under `bench/results/`; treat that pair as preserved experiment plumbing, not as a model for new output placement.
+     - `utils/weather_check.py` appears to be an isolated convenience/demo script with no live in-repo imports; keep it only as a harmless utility unless bench-specific helpers start getting curated more formally.
 
 ## Practical recommendations for future agents
 
