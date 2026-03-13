@@ -61,6 +61,26 @@ Quick local validation target from repo root:
 make bench-smoke
 ```
 
+### Route Attribution Verification
+
+After running `benchmark_supervisor.py`, verify which model actually served each job:
+
+```bash
+# One-line operator view (route + fallback state)
+python3 bench/ops/route_trace_report.py --one-line
+
+# JSON report (full attribution fields)
+python3 bench/ops/route_trace_report.py --json
+```
+
+**Interpretation (key fields):**
+- `served_by`: model that produced the final output (primary or fallback)
+- `original_model`: requested primary model for the job
+- `fallback_model`: fallback model used/selected (or `null` when not used)
+- `used_fallback`: `true` if fallback path was taken, else `false`
+
+**No-fallback runs:** If `fallback_trace.jsonl` is absent, `route_trace_report.py` uses `manifest.json` attribution (`served_by`, `original_model`, `fallback_model`, `used_fallback`).
+
 ---
 
 ## What We Test
