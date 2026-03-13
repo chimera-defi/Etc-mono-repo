@@ -1,6 +1,6 @@
 ## SpecForge (Collaborative Markdown Spec Studio)
 
-**Status**: Spec-ready — 9 open questions before build (see `OPEN_QUESTIONS.md`)
+**Status**: Build-ready — all open questions resolved (see `OPEN_QUESTIONS.md`)
 **Product name:** SpecForge (alt: ShipSpec — see `NAME_OPTIONS.md`)
 **Tech stack:** Yjs + Next.js 15 + CodeMirror 6 + Hono/Bun + Postgres + Clerk + Claude API
 
