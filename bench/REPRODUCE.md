@@ -2,6 +2,17 @@
 
 This document reproduces the benchmark/fallback packaging work for PR #245 without fabricating new benchmark claims.
 
+## Canonical flow
+
+Use the current repro/verification path in this order:
+
+1. `bench/core/run_benchmark.py` for direct benchmark execution
+2. `bench/selfopt/benchmark_supervisor.py` for managed multi-job runs with retry/fallback handling
+3. `bench/ops/reproduce_pr245.sh` for packaging manifests/checksums
+4. `bench/ops/route_trace_report.py` and `bench/ops/validate_route_attribution.py` for attribution verification
+
+Older root-level scripts/docs were archived during cleanup so the supervisor/ops flow is the default path.
+
 ## Scope
 
 - Captures run-time environment and git state

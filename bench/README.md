@@ -1,5 +1,17 @@
 # Benchmark: Tool-Calling Decision-Making
 
+## Canonical entrypoints
+
+The active benchmark/supervisor workflow is rooted in these entrypoints:
+
+- `core/run_benchmark.py`
+- `selfopt/benchmark_supervisor.py`
+- `ops/reproduce_pr245.sh`
+- `ops/route_trace_report.py`
+- `ops/validate_route_attribution.py`
+
+Root-level historical scripts and notes have been archived under `archive/2026-03-cleanup-pass1/`. Older harness-first material still exists for reference, but it is no longer the primary architecture for running or validating current benchmark work.
+
 **Can open-weight LLMs reliably decide *when* to use tools -- and more importantly, when NOT to?**
 
 This benchmark measures **judgment** (whether a model knows when to call a tool) rather than just **execution** (whether it can format a tool call correctly). It tests 12 atomic prompts escalating in difficulty, with per-model variants to improve performance.
@@ -23,7 +35,10 @@ ollama pull mistral:7b    # Strong transformer baseline
 
 **3. Run your first benchmark**
 ```bash
-# Run P1-P12 (atomic prompts) on one model
+# Canonical benchmark runner
+python3 core/run_benchmark.py --help
+
+# Legacy harness flow (still present for historical comparison only)
 python3 harness/phase2_harness.py --model "lfm2.5:1.2b" --variant atomic --runs 3
 
 # View results
