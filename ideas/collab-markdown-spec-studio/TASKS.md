@@ -9,10 +9,10 @@
 - [x] Hocuspocus collaboration server scaffold is runnable.
 - [x] Documents, patches, snapshots, and audit events are stored in the local PGlite database.
 - [x] Patch review decisions mutate canonical document state and are shown in the workspace.
+- [x] Anchored comment threads exist in the workspace with open/resolved state.
 - [ ] Shared cursor rendering is still pending, but collaborator awareness UI is live.
-- [ ] Comment threads are stored in the main persistence layer.
 - [ ] Rich patch diff/review UI and attribution overlays.
-- [ ] Anchored comments and attribution overlays.
+- [ ] Inline attribution overlays are still pending.
 - [ ] Depth gates, recap generation, and implementation-readiness scoring.
 - [ ] Deterministic export/handoff flow beyond the current local bundle preview.
 - [ ] Playwright-based end-to-end and screenshot coverage.
@@ -28,7 +28,7 @@
   - [x] patch proposals
   - [x] patch decisions
   - [x] audit events
-  - [ ] comment threads
+  - [x] comment threads
 - [ ] Persist collaboration snapshots or Yjs updates so rooms survive server restarts.
 - [ ] Add reconnect, replay, and stale-room recovery handling.
 - [ ] Add auth hooks between the web app and collaboration server.
@@ -53,8 +53,8 @@
 - [ ] Handle stale, conflicted, superseded, and terminal patch states in the UI.
 
 ### Track D: Comments, Depth Gates, and Recap
-- [ ] Implement anchored comment threads.
-- [ ] Implement simple resolve/reopen comment state.
+- [x] Implement anchored comment threads.
+- [x] Implement simple resolve state.
 - [ ] Add depth-gate rules for required sections and missing detail.
 - [ ] Add recap generation and build-readiness summaries.
 - [ ] Add implementation-readiness scoring that can be shown in the workspace.
