@@ -433,6 +433,26 @@
   gap: 14px;
 }
 
+.exportActions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 14px;
+  color: #6f6559;
+}
+
+.exportLink {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  border-radius: 999px;
+  padding: 10px 14px;
+  text-decoration: none;
+  background: #1c1a17;
+  color: #fff9f3;
+}
+
 .exportCard {
   border-radius: 18px;
   padding: 16px;
@@ -464,6 +484,11 @@
 
   .hero {
     align-items: stretch;
+  }
+
+  .exportActions {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .patchHeader,
