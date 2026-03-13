@@ -70,11 +70,18 @@
   color: #7a6d5e;
 }
 
-.grid {
+.workspaceLayout {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 280px minmax(0, 1.5fr) minmax(320px, 1fr);
   gap: 18px;
-  scroll-behavior: smooth;
+  align-items: start;
+}
+
+.sidebarColumn,
+.canvasColumn,
+.reviewColumn {
+  display: grid;
+  gap: 18px;
 }
 
 .panel {
@@ -359,13 +366,8 @@
   letter-spacing: 0.1em;
 }
 
-.wide {
-  grid-column: 1 / -1;
-}
-
 .stepGrid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -407,7 +409,7 @@
   color: #7a6d5e;
 }
 
-.wide :global(.editorToolbar) {
+.editorPanel :global(.editorToolbar) {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -415,17 +417,17 @@
   margin-bottom: 1rem;
 }
 
-.wide :global(.editorToolbar div) {
+.editorPanel :global(.editorToolbar div) {
   display: grid;
   gap: 0.2rem;
 }
 
-.wide :global(.editorToolbar span) {
+.editorPanel :global(.editorToolbar span) {
   color: #7a6d5e;
   font-size: 0.9rem;
 }
 
-.wide :global(.editorToolbar button) {
+.editorPanel :global(.editorToolbar button) {
   width: fit-content;
   border: 0;
   border-radius: 999px;
@@ -436,26 +438,26 @@
   cursor: pointer;
 }
 
-.wide :global(.presenceBar) {
+.editorPanel :global(.presenceBar) {
   display: grid;
   gap: 0.7rem;
   margin-bottom: 1rem;
 }
 
-.wide :global(.presenceBar > span) {
+.editorPanel :global(.presenceBar > span) {
   font-size: 0.78rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #7a6d5e;
 }
 
-.wide :global(.presenceList) {
+.editorPanel :global(.presenceList) {
   display: flex;
   flex-wrap: wrap;
   gap: 0.55rem;
 }
 
-.wide :global(.presenceChip) {
+.editorPanel :global(.presenceChip) {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
@@ -467,13 +469,13 @@
   font-size: 0.85rem;
 }
 
-.wide :global(.presenceChip i) {
+.editorPanel :global(.presenceChip i) {
   width: 0.6rem;
   height: 0.6rem;
   border-radius: 999px;
 }
 
-.wide :global(.specforgeEditor) {
+.editorPanel :global(.specforgeEditor) {
   min-height: 20rem;
   border: 1px solid rgba(28, 26, 23, 0.16);
   border-radius: 16px;
@@ -483,15 +485,15 @@
   outline: none;
 }
 
-.wide :global(.specforgeEditor p),
-.wide :global(.specforgeEditor h1),
-.wide :global(.specforgeEditor h2),
-.wide :global(.specforgeEditor h3),
-.wide :global(.specforgeEditor ul) {
+.editorPanel :global(.specforgeEditor p),
+.editorPanel :global(.specforgeEditor h1),
+.editorPanel :global(.specforgeEditor h2),
+.editorPanel :global(.specforgeEditor h3),
+.editorPanel :global(.specforgeEditor ul) {
   margin: 0 0 0.85rem;
 }
 
-.wide :global(.specforgeEditor ul) {
+.editorPanel :global(.specforgeEditor ul) {
   padding-left: 1.25rem;
 }
 
@@ -545,7 +547,7 @@
   }
 
   .hero,
-  .grid,
+  .workspaceLayout,
   .exportGrid {
     grid-template-columns: 1fr;
   }
