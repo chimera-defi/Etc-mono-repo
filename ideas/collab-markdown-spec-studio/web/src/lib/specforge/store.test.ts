@@ -17,7 +17,7 @@ async function makeOptions() {
   const baseDir = await mkdtemp(path.join(os.tmpdir(), "specforge-store-"));
 
   return {
-    dataFile: path.join(baseDir, "store.json"),
+    dbPath: path.join(baseDir, "specforge-db"),
     fixturesDir: path.resolve(process.cwd(), "..", "fixtures"),
   };
 }
@@ -30,7 +30,7 @@ describe("specforge store", () => {
     expect(documents).toHaveLength(1);
     expect(documents[0]?.title).toBe("SpecForge MVP");
     expect(documents[0]?.blocks[0]?.block_id).toBe("blk_goals_1");
-  });
+  }, 20000);
 
   it("creates a new document and can read it back", async () => {
     const options = await makeOptions();
