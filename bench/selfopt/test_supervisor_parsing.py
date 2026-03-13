@@ -17,6 +17,7 @@ if BENCH_ROOT not in sys.path:
     sys.path.insert(0, BENCH_ROOT)
 
 from selfopt.benchmark_supervisor import (  # noqa: E402
+    DEFAULT_JOBS,
     JobSpec,
     _parse_summary_from_stdout,
     _run_once,
@@ -24,6 +25,14 @@ from selfopt.benchmark_supervisor import (  # noqa: E402
 
 
 class TestSupervisorSummaryParsing(unittest.TestCase):
+    def test_default_jobs_include_truth_refresh_models(self) -> None:
+        default_models = [job[0] for job in DEFAULT_JOBS]
+
+        self.assertIn("mistral:7b", default_models)
+        self.assertIn("qwen3.5:35b", default_models)
+        self.assertEqual(default_models.count("qwen3.5:35b"), 1)
+        self.assertNotIn("glm-4.7-flash:latest", default_models)
+
     def test_parse_results_and_failed_prompt(self) -> None:
         sample = """
 ╔════════════════════════════════════════════════════════════════════════════╗
