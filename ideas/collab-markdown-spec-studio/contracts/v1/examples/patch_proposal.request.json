@@ -3,11 +3,13 @@
   "section_id": "sec_goals",
   "operation": "replace",
   "content": "## Goals\n1. Reduce spec-to-first-commit by 40%.",
+  "patch_type": "requirement_change",
   "rationale": "Clarifies measurable outcome.",
   "proposed_by": {
     "actor_type": "agent",
     "actor_id": "agent_writer_1"
   },
   "base_version": 4,
+  "target_fingerprint": "sha256:sec_goals:v4:abc123",
   "confidence": 0.82
 }
