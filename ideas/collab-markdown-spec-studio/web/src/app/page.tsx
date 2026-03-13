@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { createDocumentAction, createPatchAction, decidePatchAction } from "./actions";
 import { DocumentWorkspace } from "./document-workspace";
 import styles from "./page.module.css";
@@ -5,9 +7,21 @@ import { exportDocument, listAuditEvents, listDocuments, listPatches } from "@/l
 
 export const dynamic = "force-dynamic";
 
-export default async function Home() {
+type Props = {
+  searchParams?: Promise<{ document?: string }>;
+};
+
+export default async function Home({ searchParams }: Props) {
+  const resolvedSearchParams = (await searchParams) ?? {};
+  const requestedDocumentId =
+    typeof resolvedSearchParams.document === "string"
+      ? resolvedSearchParams.document
+      : undefined;
   const documents = await listDocuments();
-  const activeDocument = documents[0] ?? null;
+  const activeDocument =
+    documents.find((document) => document.document_id === requestedDocumentId) ??
+    documents[0] ??
+    null;
   const patches = activeDocument
     ? await listPatches(activeDocument.document_id)
     : [];
@@ -89,9 +103,14 @@ export default async function Home() {
           <ul className={styles.documentList}>
             {documents.map((document) => (
               <li key={document.document_id} className={styles.documentItem}>
-                <strong>{document.title}</strong>
-                <span>{document.document_id}</span>
-                <span>v{document.version}</span>
+                <Link
+                  href={`/?document=${document.document_id}`}
+                  className={styles.documentLink}
+                >
+                  <strong>{document.title}</strong>
+                  <span>{document.document_id}</span>
+                  <span>v{document.version}</span>
+                </Link>
               </li>
             ))}
           </ul>
