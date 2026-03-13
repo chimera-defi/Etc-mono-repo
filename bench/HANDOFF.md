@@ -142,6 +142,9 @@ The active path is now reasonably clear:
 
 2. **`CONSOLIDATION/`**
    - Keep for now as historical decision support.
+   - Review outcome (2026-03-13): keep the directory directly accessible because it still contains useful methodology review, model-selection rationale, and a compact record of what the benchmark branch believed it was shipping.
+   - Treat `INDEX.md` as the preferred entrypoint there; it now explicitly frames the tree as historical context and points readers back to canonical docs.
+   - Treat `FINAL_BRANCH_CHECKLIST.md` and `FINAL_PR_DESCRIPTION.md` as dated snapshot artifacts unless their claims are revalidated against the current tree.
    - If repo wants a stricter separation later, move under `archive/` and leave a small pointer file.
 
 3. **`results/` contents**
