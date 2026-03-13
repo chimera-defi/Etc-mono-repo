@@ -10,6 +10,7 @@
 - [x] Documents, patches, snapshots, and audit events are stored in the local PGlite database.
 - [x] Patch review decisions mutate canonical document state and are shown in the workspace.
 - [x] Anchored comment threads exist in the workspace with open/resolved state.
+- [x] Readiness scoring and recap output exist in the workspace.
 - [ ] Shared cursor rendering is still pending, but collaborator awareness UI is live.
 - [ ] Rich patch diff/review UI and attribution overlays.
 - [ ] Inline attribution overlays are still pending.
@@ -55,9 +56,9 @@
 ### Track D: Comments, Depth Gates, and Recap
 - [x] Implement anchored comment threads.
 - [x] Implement simple resolve state.
-- [ ] Add depth-gate rules for required sections and missing detail.
-- [ ] Add recap generation and build-readiness summaries.
-- [ ] Add implementation-readiness scoring that can be shown in the workspace.
+- [x] Add depth-gate rules for required sections and missing detail.
+- [x] Add recap generation and build-readiness summaries.
+- [x] Add implementation-readiness scoring that can be shown in the workspace.
 
 ### Track E: Export, Handoff, and Example Builds
 - [ ] Harden export bundle generation around canonical editor state.
