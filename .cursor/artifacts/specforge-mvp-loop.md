@@ -12,14 +12,14 @@
 - Track C: Patch review, attribution, and export parity.
 
 ## Current Pass
-- Goal: replace the static dashboard-only experience with a real editable document workspace.
+- Goal: replace the local-only editor with the first live collaboration path.
 - Definition of done:
-  - Tiptap-backed editor renders the active document.
-  - Users can save canonical content updates through the app API.
-  - Patch queue and export preview remain visible beside the editor.
-  - Tests cover the new document-update path.
+  - Tiptap editor connects to a per-document Hocuspocus room.
+  - The active document seeds the room when it is empty.
+  - Users can still save canonical content updates through the app API.
+  - Local bring-up docs mention the collaboration runtime.
 
 ## Deferred Until Next Pass
-- Yjs provider wiring from the browser to Hocuspocus.
 - Shared cursor presence.
 - Persisting collaboration state outside the local JSON-backed store.
+- Multi-user comments and patch review inline overlays.
