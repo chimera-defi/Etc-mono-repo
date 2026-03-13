@@ -62,10 +62,15 @@ This guarantees route attribution even when no fallback trace file is emitted.
 1. Supervisor starts → health check
 2. Job executed via core runner
 3. If primary fails, fallback mapping path is attempted and traced
-4. Job summary persisted to manifest
-5. `route_trace_report.py --one-line` provides auditable route status:
-   - trace-based when fallback trace exists
-   - manifest-based fallback when it does not
+4. Job summary persisted to manifest (always includes attribution fields)
+5. `route_trace_report.py --one-line` / `--json` provides auditable route status:
+   - trace-first when `fallback_trace.jsonl` exists
+   - manifest attribution when trace is absent (typical no-fallback run)
+
+**Attribution capture points:**
+- `fallback_trace.jsonl`: Event-level trace of primary→fallback transitions (only when fallback occurs)
+- `manifest.json`: Job-level attribution (`used_fallback`, `served_by`, `original_model`, `fallback_model`) persisted after each job
+- `route_trace_report.py`: Merges trace+manifest (or manifest-only) into operator-facing attribution output
 
 ## Validation Surface
 
