@@ -197,7 +197,8 @@
 }
 
 .documentList,
-.patchList {
+.patchList,
+.blockSummaryList {
   list-style: none;
   display: grid;
   gap: 10px;
@@ -309,6 +310,27 @@
 
 .diffRemoved {
   background: rgba(163, 43, 43, 0.08);
+}
+
+.blockSummaryItem {
+  display: grid;
+  gap: 10px;
+  border-radius: 16px;
+  padding: 14px;
+  background: #fffdf9;
+  border: 1px solid rgba(28, 26, 23, 0.08);
+}
+
+.blockSummaryMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.blockSummaryActors {
+  color: #6f6559;
+  font-size: 0.88rem;
+  line-height: 1.5;
 }
 
 .documentLink {
