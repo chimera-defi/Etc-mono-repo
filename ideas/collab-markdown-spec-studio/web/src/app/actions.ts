@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 import {
   createCommentThread,
@@ -17,22 +18,31 @@ export async function createDocumentAction(formData: FormData) {
       "# PRD\n\n## Problem\nTBD\n\n## Goals\nTBD\n",
   );
 
-  await createDocument({
+  const created = await createDocument({
     workspace_id: "ws_demo",
     title,
     initial_markdown,
   });
 
   revalidatePath("/");
+  redirect(`/?document=${created.document_id}`);
 }
 
 export async function createPatchAction(formData: FormData) {
+  const [block_id = "", section_id = "", target_fingerprint = ""] = String(
+    formData.get("target_descriptor") ?? "",
+  ).split("||");
+
   await createPatchProposal({
     document_id: String(formData.get("document_id")),
-    block_id: String(formData.get("block_id")),
-    section_id: String(formData.get("section_id") ?? ""),
+    block_id,
+    section_id,
     operation: "replace",
-    patch_type: "requirement_change",
+    patch_type: String(formData.get("patch_type") ?? "requirement_change") as
+      | "wording_formatting"
+      | "structural_edit"
+      | "requirement_change"
+      | "task_export_change",
     content: String(formData.get("content") ?? ""),
     rationale: "Created from the local MVP dashboard.",
     proposed_by: {
@@ -40,7 +50,7 @@ export async function createPatchAction(formData: FormData) {
       actor_id: "dashboard_agent",
     },
     base_version: Number(formData.get("base_version") ?? 1),
-    target_fingerprint: String(formData.get("target_fingerprint")),
+    target_fingerprint,
     confidence: 0.82,
   });
 

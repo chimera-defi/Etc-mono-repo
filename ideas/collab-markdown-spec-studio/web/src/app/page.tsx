@@ -150,10 +150,10 @@ export default async function Home({ searchParams }: Props) {
             <h2>Create document</h2>
             <span>Server action</span>
           </div>
-          <form action={createDocumentAction} className={styles.form}>
+          <form action={createDocumentAction} className={styles.form} data-testid="create-document-form">
             <label>
               Title
-              <input name="title" defaultValue="New SpecForge Draft" />
+              <input name="title" defaultValue="New SpecForge Draft" data-testid="create-document-title" />
             </label>
             <label>
               Initial markdown
@@ -172,7 +172,7 @@ export default async function Home({ searchParams }: Props) {
             <h2>Document list</h2>
             <span>Seeded from fixtures</span>
           </div>
-          <ul className={styles.documentList}>
+          <ul className={styles.documentList} data-testid="document-list">
             {documents.map((document) => (
               <li key={document.document_id} className={styles.documentItem}>
                 <Link
@@ -258,29 +258,55 @@ export default async function Home({ searchParams }: Props) {
         <section className={styles.panel}>
           <div className={styles.panelHeader}>
             <h2>Patch proposal</h2>
-            <span>Against first block</span>
+            <span>Against any block</span>
           </div>
           {activeDocument && activeBlock ? (
-            <form action={createPatchAction} className={styles.form}>
+            <form action={createPatchAction} className={styles.form} data-testid="patch-proposal-form">
               <input type="hidden" name="document_id" value={activeDocument.document_id} />
-              <input type="hidden" name="block_id" value={activeBlock.block_id} />
-              <input type="hidden" name="section_id" value={activeBlock.section_id} />
-              <input
-                type="hidden"
-                name="target_fingerprint"
-                value={activeBlock.target_fingerprint}
-              />
               <input type="hidden" name="base_version" value={activeDocument.version} />
               <p className={styles.context}>
-                Target: <code>{activeBlock.block_id}</code> in{" "}
+                Default target: <code>{activeBlock.block_id}</code> in{" "}
                 <code>{activeDocument.title}</code>
               </p>
+              <label>
+                Target block
+                <select
+                  name="target_descriptor"
+                  className={styles.selectInput}
+                  defaultValue={`${activeBlock.block_id}||${activeBlock.section_id}||${activeBlock.target_fingerprint}`}
+                  data-testid="patch-target-select"
+                >
+                  {activeDocument.blocks.map((block) => (
+                    <option
+                      key={block.block_id}
+                      value={`${block.block_id}||${block.section_id}||${block.target_fingerprint}`}
+                    >
+                      {block.heading} · {block.block_id}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Patch type
+                <select
+                  name="patch_type"
+                  className={styles.selectInput}
+                  defaultValue="requirement_change"
+                  data-testid="patch-type-select"
+                >
+                  <option value="requirement_change">Requirement change</option>
+                  <option value="structural_edit">Structural edit</option>
+                  <option value="task_export_change">Task/export change</option>
+                  <option value="wording_formatting">Wording / formatting</option>
+                </select>
+              </label>
               <label>
                 Replacement content
                 <textarea
                   name="content"
                   rows={6}
                   defaultValue={`${activeBlock.content}\n\n- Added from the MVP dashboard.`}
+                  data-testid="patch-content-input"
                 />
               </label>
               <button type="submit">Queue patch</button>
@@ -295,7 +321,7 @@ export default async function Home({ searchParams }: Props) {
             <h2>Patch queue</h2>
             <span>Current document</span>
           </div>
-          <ul className={styles.patchList}>
+          <ul className={styles.patchList} data-testid="patch-queue">
             {patches.map((patch) => {
               const targetBlock =
                 activeDocument?.blocks.find((block) => block.block_id === patch.block_id) ??
@@ -420,14 +446,28 @@ export default async function Home({ searchParams }: Props) {
             <span>Deterministic bundle</span>
           </div>
           {exportBundle ? (
-            <div className={styles.exportGrid}>
-              {Object.entries(exportBundle.files).map(([name, content]) => (
-                <article key={name} className={styles.exportCard}>
-                  <h3>{name}</h3>
-                  <pre>{content}</pre>
-                </article>
-              ))}
-            </div>
+            <>
+              <div className={styles.exportActions}>
+                <Link
+                  href={`/api/documents/${activeDocument?.document_id}/export`}
+                  className={styles.exportLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  data-testid="open-export-json"
+                >
+                  Open export JSON
+                </Link>
+                <span>{Object.keys(exportBundle.files).length} files ready for handoff</span>
+              </div>
+              <div className={styles.exportGrid}>
+                {Object.entries(exportBundle.files).map(([name, content]) => (
+                  <article key={name} className={styles.exportCard}>
+                    <h3>{name}</h3>
+                    <pre>{content}</pre>
+                  </article>
+                ))}
+              </div>
+            </>
           ) : (
             <p className={styles.empty}>No export available yet.</p>
           )}
