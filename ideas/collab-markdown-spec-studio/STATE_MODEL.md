@@ -27,14 +27,6 @@ This document defines canonical lifecycle states used across spec, flows, and wi
 2. `export-anchor`: snapshot tied to a completed export bundle.
 3. `rollback-target`: snapshot marked by a user as a named restore point.
 
-## Session Lifecycle (Yjs Collaboration Session)
-
-1. `connecting`: client establishing WebSocket connection.
-2. `syncing`: client receiving initial document state from sync server.
-3. `live`: client fully synced; real-time edits flowing.
-4. `reconnecting`: client lost connection and is retrying.
-5. `disconnected`: client offline; local edits buffered.
-
 ## Comment Thread Lifecycle
 
 1. `open`: thread created and unresolved.
@@ -47,11 +39,9 @@ This document defines canonical lifecycle states used across spec, flows, and wi
 2. `R:med` — structural change within a section.
 3. `R:high` — section delete, merge, or major rewrite.
 
-## Trust Tier (Agent Access)
+## Agent Trust (MVP)
 
-1. `A:T0` — new agent, patch-only access, all patches require human review.
-2. `A:T1` — verified agent, low-risk patches may auto-accept.
-3. `A:T2` — trusted agent, configurable auto-accept policy.
+MVP uses binary trust: **unverified** (all patches require human review) vs **trusted** (low-risk patches may auto-accept per workspace policy). Multi-tier trust ladder is Phase 2.
 
 ## Invariants
 

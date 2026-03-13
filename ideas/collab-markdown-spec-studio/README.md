@@ -12,7 +12,7 @@ Collaborative editors exist, but a focused "spec studio" with agent patch govern
 
 ### Key Docs (Review Path)
 0. `README_REVIEW_GUIDE.md`
-0b. `OPEN_QUESTIONS.md` ← **start here before building**
+0b. `OPEN_QUESTIONS.md` ← decisions index (all resolved)
 1. `EXECUTIVE_SUMMARY.md`
 2. `PRD.md`
 3. `SPEC.md`

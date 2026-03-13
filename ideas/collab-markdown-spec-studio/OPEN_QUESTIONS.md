@@ -1,6 +1,6 @@
-## SpecForge Open Questions
+## SpecForge Decisions Index
 
-All questions resolved. See Resolved Decisions table below.
+All pre-build questions resolved. Full rationale in `ARCHITECTURE_DECISIONS.md`.
 
 ---
 
