@@ -1,5 +1,18 @@
 # openclaw_llm_bench (minimal harness)
 
+> [!IMPORTANT]
+> This subtree is **preserved for reference, data mining, and historical context**.
+> It is **not** the canonical benchmark execution path for current repo work.
+> For active workflows, start from `bench/README.md`, `bench/ARCHITECTURE.md`, and `bench/HANDOFF.md`.
+>
+> Keep using this directory only when you specifically need one of these historical assets:
+> - prompt suites such as `prompts_v1.json` / `prompts_tool_use_*.json`
+> - harness output documentation such as `SCHEMA.md`
+> - implementation notes worth mining later such as `RETRY_LOGIC.md`
+> - frozen analysis/report snapshots from earlier benchmark phases
+>
+> Treat phase reports here as **time-bound snapshots**, not current canonical benchmark claims. Some embedded paths and run instructions may be stale.
+
 Minimal benchmark harness (Python stdlib only) for running a fixed prompt suite against:
 
 - **Ollama** via its **OpenAI-compatible** endpoint (`/v1/chat/completions`)

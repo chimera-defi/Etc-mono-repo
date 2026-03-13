@@ -111,6 +111,7 @@ The active path is now reasonably clear:
 - Canonical execution and validation are documented.
 - The main remaining ambiguity is historical/reference material that still has research value.
 - No risky tree moves were made in Stage 3.
+- `bench/openclaw_llm_bench/README.md` now explicitly labels that subtree as non-canonical historical/reference material so future agents do not mistake snapshot phase reports for current benchmark truth.
 - Retention guidance now lives next to the artifact directories:
   - `bench/results/README.md`
   - `bench/supervisor_runs/README.md`
@@ -137,6 +138,7 @@ The active path is now reasonably clear:
    - Keep for now.
    - Future option: move under `archive/legacy-harness/` only after confirming no one still uses its prompt suites/scripts.
    - Before any move, grep for live references and decide whether any prompts/reports should be promoted into canonical docs.
+   - Review outcome from this pass: the safest retained assets are the prompt suites (`prompts_v1.json`, `prompts_tool_use_*.json`), schema/reference docs (`SCHEMA.md`, `RETRY_LOGIC.md`), and reusable analysis scripts. The many phase/deliverable markdown files are valuable history, but should be treated as dated snapshots unless rerun and revalidated in the current architecture.
 
 2. **`CONSOLIDATION/`**
    - Keep for now as historical decision support.
