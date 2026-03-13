@@ -111,6 +111,25 @@ The active path is now reasonably clear:
 - Canonical execution and validation are documented.
 - The main remaining ambiguity is historical/reference material that still has research value.
 - No risky tree moves were made in Stage 3.
+- Retention guidance now lives next to the artifact directories:
+  - `bench/results/README.md`
+  - `bench/supervisor_runs/README.md`
+
+## Retention policy snapshot
+
+### `results/`
+
+- Keep durable summaries and canonical pointers in place (`canonical.json`, baseline files, summary docs).
+- Keep recent experiment outputs in place while they still support active work.
+- Prefer batch archival of older ad hoc outputs into `bench/archive/results/<date-bucket>/` later, rather than piecemeal moves.
+- Avoid deleting unless the artifact is clearly redundant and already captured elsewhere.
+
+### `supervisor_runs/`
+
+- Treat run directories as authoritative audit artifacts.
+- Keep recent runs at top level; archive older completed runs into `supervisor_runs/.archive/` rather than deleting.
+- The current supervisor implementation already has an old-run archival path and defaults to `--retain-days 7`.
+- Do not move runs that may still be active or that are still referenced for repro/debugging.
 
 ## Remaining open questions / deferred decisions
 
