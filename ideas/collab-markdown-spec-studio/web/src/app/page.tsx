@@ -1,9 +1,21 @@
 import Link from "next/link";
 
-import { createDocumentAction, createPatchAction, decidePatchAction } from "./actions";
+import {
+  createCommentThreadAction,
+  createDocumentAction,
+  createPatchAction,
+  decidePatchAction,
+  resolveCommentThreadAction,
+} from "./actions";
 import { DocumentWorkspace } from "./document-workspace";
 import styles from "./page.module.css";
-import { exportDocument, listAuditEvents, listDocuments, listPatches } from "@/lib/specforge/store";
+import {
+  exportDocument,
+  listAuditEvents,
+  listCommentThreads,
+  listDocuments,
+  listPatches,
+} from "@/lib/specforge/store";
 
 export const dynamic = "force-dynamic";
 
@@ -27,6 +39,9 @@ export default async function Home({ searchParams }: Props) {
     : [];
   const auditEvents = activeDocument
     ? await listAuditEvents(activeDocument.document_id)
+    : [];
+  const commentThreads = activeDocument
+    ? await listCommentThreads(activeDocument.document_id)
     : [];
   const exportBundle = activeDocument
     ? await exportDocument(activeDocument.document_id)
@@ -114,6 +129,53 @@ export default async function Home({ searchParams }: Props) {
               </li>
             ))}
           </ul>
+        </section>
+
+        <section className={styles.panel}>
+          <div className={styles.panelHeader}>
+            <h2>Comments</h2>
+            <span>Anchored threads</span>
+          </div>
+          {activeDocument ? (
+            <div className={styles.commentPanel}>
+              <form action={createCommentThreadAction} className={styles.form}>
+                <input type="hidden" name="document_id" value={activeDocument.document_id} />
+                <label>
+                  Block
+                  <select name="block_id" className={styles.selectInput} defaultValue={activeBlock?.block_id}>
+                    {activeDocument.blocks.map((block) => (
+                      <option key={block.block_id} value={block.block_id}>
+                        {block.heading} · {block.block_id}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  Comment
+                  <textarea name="body" rows={4} placeholder="Call out ambiguity, risk, or missing detail." />
+                </label>
+                <button type="submit">Add comment</button>
+              </form>
+              <ul className={styles.patchList}>
+                {commentThreads.map((thread) => (
+                  <li key={thread.thread_id} className={styles.patchItem}>
+                    <strong>{thread.block_id}</strong>
+                    <span>{thread.status}</span>
+                    <span>{thread.body}</span>
+                    {thread.status === "open" ? (
+                      <form action={resolveCommentThreadAction}>
+                        <input type="hidden" name="document_id" value={thread.document_id} />
+                        <input type="hidden" name="thread_id" value={thread.thread_id} />
+                        <button type="submit">Resolve</button>
+                      </form>
+                    ) : null}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <p className={styles.empty}>Create a document first.</p>
+          )}
         </section>
 
         <section className={styles.panel}>

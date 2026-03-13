@@ -2,7 +2,13 @@
 
 import { revalidatePath } from "next/cache";
 
-import { createDocument, createPatchProposal, decidePatch } from "@/lib/specforge/store";
+import {
+  createCommentThread,
+  createDocument,
+  createPatchProposal,
+  decidePatch,
+  resolveCommentThread,
+} from "@/lib/specforge/store";
 
 export async function createDocumentAction(formData: FormData) {
   const title = String(formData.get("title") ?? "Untitled SpecForge Doc");
@@ -51,6 +57,33 @@ export async function decidePatchAction(formData: FormData) {
     decided_by: {
       actor_type: "human",
       actor_id: "dashboard_reviewer",
+    },
+  });
+
+  revalidatePath("/");
+}
+
+export async function createCommentThreadAction(formData: FormData) {
+  await createCommentThread({
+    document_id: String(formData.get("document_id")),
+    block_id: String(formData.get("block_id")),
+    body: String(formData.get("body") ?? ""),
+    created_by: {
+      actor_type: "human",
+      actor_id: "dashboard_commenter",
+    },
+  });
+
+  revalidatePath("/");
+}
+
+export async function resolveCommentThreadAction(formData: FormData) {
+  await resolveCommentThread({
+    document_id: String(formData.get("document_id")),
+    thread_id: String(formData.get("thread_id")),
+    resolved_by: {
+      actor_type: "human",
+      actor_id: "dashboard_commenter",
     },
   });
 

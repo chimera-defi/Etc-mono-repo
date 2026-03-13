@@ -46,6 +46,25 @@ export const patchDecisionSchema = z.object({
   }),
 });
 
+export const commentThreadCreateSchema = z.object({
+  document_id: z.string().min(1),
+  block_id: z.string().min(1),
+  body: z.string().min(1).max(2000),
+  created_by: z.object({
+    actor_type: z.enum(["human", "agent"]),
+    actor_id: z.string().min(1),
+  }),
+});
+
+export const commentThreadResolveSchema = z.object({
+  document_id: z.string().min(1),
+  thread_id: z.string().min(1),
+  resolved_by: z.object({
+    actor_type: z.enum(["human", "agent"]),
+    actor_id: z.string().min(1),
+  }),
+});
+
 export const blockSchema = z.object({
   block_id: z.string().min(1),
   section_id: z.string().min(1),
@@ -88,6 +107,8 @@ export type DocumentCreateInput = z.infer<typeof documentCreateSchema>;
 export type DocumentUpdateInput = z.infer<typeof documentUpdateSchema>;
 export type PatchProposalInput = z.infer<typeof patchProposalSchema>;
 export type PatchDecisionInput = z.infer<typeof patchDecisionSchema>;
+export type CommentThreadCreateInput = z.infer<typeof commentThreadCreateSchema>;
+export type CommentThreadResolveInput = z.infer<typeof commentThreadResolveSchema>;
 export type DocumentRecord = z.infer<typeof documentRecordSchema>;
 export type StoredPatch = z.infer<typeof storedPatchSchema>;
 export type StoreData = z.infer<typeof storeSchema>;

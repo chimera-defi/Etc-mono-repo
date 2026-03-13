@@ -12,6 +12,7 @@ Current slice:
 - collaborator awareness chips in the shared editor
 - patch proposal ingestion with stale detection
 - patch acceptance/rejection/cherry-pick flow with audit trail
+- anchored comment threads with resolve flow
 - deterministic export bundle preview
 - dashboard UI for the local MVP flow
 
