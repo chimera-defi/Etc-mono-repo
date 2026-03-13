@@ -2,7 +2,7 @@
 **Co-authored-by:** Chimera <chimera_defi@protonmail.com>
 
 ## Summary
-Kick off the SpecForge MVP build from the merged spec pack with a real web app, local document/persist/export slice, and a runnable collaboration server scaffold.
+Kick off the SpecForge MVP build from the merged spec pack with a real web app, local document/persist/export slice, a runnable collaboration server scaffold, and the first real authoring workspace.
 
 ## Original Request
 > Cool let’s kick it off
@@ -14,12 +14,14 @@ Kick off the SpecForge MVP build from the merged spec pack with a real web app, 
 - Implemented a local first vertical slice for:
   - seeded document loading from SpecForge fixtures,
   - document creation,
+  - document updates through a Tiptap-backed workspace,
   - patch proposal ingestion with stale detection,
   - deterministic export bundle generation,
   - local dashboard UI for the slice.
 - Added API routes for documents, patches, and export.
-- Added unit tests for store/export behavior with Vitest.
+- Added unit tests for store/export behavior and editor serialization with Vitest.
 - Added a runnable Hocuspocus-based collaboration server scaffold under `ideas/collab-markdown-spec-studio/collab-server`.
+- Added a tracked MVP build loop artifact to keep the next slices explicit.
 - Cleaned the generated app metadata/readmes so the branch reads as implementation work, not raw scaffolding.
 
 ## Testing
