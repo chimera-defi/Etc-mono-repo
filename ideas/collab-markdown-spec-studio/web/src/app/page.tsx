@@ -32,6 +32,14 @@ type BlockSummary = {
   touchedBy: string[];
 };
 
+type GuidedStep = {
+  id: string;
+  title: string;
+  description: string;
+  href: string;
+  status: "completed" | "current" | "upcoming";
+};
+
 function getPatchRiskLabel(patchType: string) {
   switch (patchType) {
     case "requirement_change":
@@ -118,6 +126,68 @@ function summarizeBlocks(
   });
 }
 
+function buildGuidedSteps(input: {
+  hasDocument: boolean;
+  hasDraft: boolean;
+  hasPatches: boolean;
+  hasOpenComments: boolean;
+  hasPendingPatches: boolean;
+  isReadyToExport: boolean;
+}) {
+  const baseSteps = [
+    {
+      id: "create",
+      title: "Create or open a spec",
+      description: "Start with a seeded document or create a fresh draft.",
+      href: "#create-document",
+      completed: input.hasDocument,
+    },
+    {
+      id: "draft",
+      title: "Draft on the shared canvas",
+      description: "Edit the spec live and save a canonical snapshot.",
+      href: "#document-workspace",
+      completed: input.hasDraft,
+    },
+    {
+      id: "patch",
+      title: "Queue agent patches",
+      description: "Propose a targeted patch against a specific block.",
+      href: "#patch-proposal",
+      completed: input.hasPatches,
+    },
+    {
+      id: "review",
+      title: "Resolve review feedback",
+      description: "Work through pending patches and open comment threads.",
+      href: "#comments",
+      completed: !input.hasOpenComments && !input.hasPendingPatches && input.hasPatches,
+    },
+    {
+      id: "export",
+      title: "Export the handoff bundle",
+      description: "Open the deterministic JSON export once the draft is ready.",
+      href: "#export-preview",
+      completed: input.isReadyToExport,
+    },
+  ];
+
+  const currentIndex = baseSteps.findIndex((step) => !step.completed);
+
+  return baseSteps.map<GuidedStep>((step, index) => ({
+    id: step.id,
+    title: step.title,
+    description: step.description,
+    href: step.href,
+    status:
+      currentIndex === -1 || index < currentIndex
+        ? "completed"
+        : index === currentIndex
+          ? "current"
+          : "upcoming",
+  }));
+}
+
 export default async function Home({ searchParams }: Props) {
   const resolvedSearchParams = (await searchParams) ?? {};
   const requestedDocumentId =
@@ -152,6 +222,14 @@ export default async function Home({ searchParams }: Props) {
   const blockSummaries = activeDocument
     ? summarizeBlocks(activeDocument, patches, commentThreads)
     : [];
+  const guidedSteps = buildGuidedSteps({
+    hasDocument: Boolean(activeDocument),
+    hasDraft: Boolean(activeDocument?.markdown.trim()),
+    hasPatches: patches.length > 0,
+    hasOpenComments: commentThreads.some((thread) => thread.status === "open"),
+    hasPendingPatches: patches.some((patch) => ["proposed", "stale"].includes(patch.status)),
+    isReadyToExport: Boolean(readinessReport && readinessReport.score >= 70),
+  });
 
   return (
     <div className={styles.shell}>
@@ -180,6 +258,26 @@ export default async function Home({ searchParams }: Props) {
       <main className={styles.grid}>
         <section className={`${styles.panel} ${styles.wide}`}>
           <div className={styles.panelHeader}>
+            <h2>Guided flow</h2>
+            <span>Recommended path</span>
+          </div>
+          <div className={styles.stepGrid}>
+            {guidedSteps.map((step, index) => (
+              <Link
+                key={step.id}
+                href={step.href}
+                className={`${styles.stepCard} ${styles[step.status]}`}
+              >
+                <span className={styles.stepNumber}>Step {index + 1}</span>
+                <strong>{step.title}</strong>
+                <p>{step.description}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className={`${styles.panel} ${styles.wide}`} id="document-workspace">
+          <div className={styles.panelHeader}>
             <h2>Document workspace</h2>
             <span>Tiptap-backed local editor</span>
           </div>
@@ -193,7 +291,7 @@ export default async function Home({ searchParams }: Props) {
           )}
         </section>
 
-        <section className={styles.panel}>
+        <section className={styles.panel} id="create-document">
           <div className={styles.panelHeader}>
             <h2>Create document</h2>
             <span>Server action</span>
@@ -345,7 +443,7 @@ export default async function Home({ searchParams }: Props) {
           )}
         </section>
 
-        <section className={styles.panel}>
+        <section className={styles.panel} id="patch-proposal">
           <div className={styles.panelHeader}>
             <h2>Patch proposal</h2>
             <span>Against any block</span>
@@ -530,7 +628,7 @@ export default async function Home({ searchParams }: Props) {
           </ul>
         </section>
 
-        <section className={`${styles.panel} ${styles.wide}`}>
+        <section className={`${styles.panel} ${styles.wide}`} id="export-preview">
           <div className={styles.panelHeader}>
             <h2>Export preview</h2>
             <span>Deterministic bundle</span>
