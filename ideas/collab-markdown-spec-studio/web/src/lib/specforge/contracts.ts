@@ -35,6 +35,17 @@ export const patchProposalSchema = z.object({
   confidence: z.number().min(0).max(1).optional(),
 });
 
+export const patchDecisionSchema = z.object({
+  document_id: z.string().min(1),
+  patch_id: z.string().min(1),
+  decision: z.enum(["accept", "reject", "cherry_pick"]),
+  resolved_content: z.string().optional(),
+  decided_by: z.object({
+    actor_type: z.enum(["human", "agent"]),
+    actor_id: z.string().min(1),
+  }),
+});
+
 export const blockSchema = z.object({
   block_id: z.string().min(1),
   section_id: z.string().min(1),
@@ -64,7 +75,7 @@ export const documentRecordSchema = z.object({
 
 export const storedPatchSchema = patchProposalSchema.extend({
   patch_id: z.string().min(1),
-  status: z.enum(["proposed", "stale"]),
+  status: z.enum(["proposed", "stale", "accepted", "rejected", "cherry_picked"]),
   created_at: z.string().min(1),
 });
 
@@ -76,6 +87,7 @@ export const storeSchema = z.object({
 export type DocumentCreateInput = z.infer<typeof documentCreateSchema>;
 export type DocumentUpdateInput = z.infer<typeof documentUpdateSchema>;
 export type PatchProposalInput = z.infer<typeof patchProposalSchema>;
+export type PatchDecisionInput = z.infer<typeof patchDecisionSchema>;
 export type DocumentRecord = z.infer<typeof documentRecordSchema>;
 export type StoredPatch = z.infer<typeof storedPatchSchema>;
 export type StoreData = z.infer<typeof storeSchema>;
