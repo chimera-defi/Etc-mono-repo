@@ -195,6 +195,12 @@
   cursor: pointer;
 }
 
+.wizardSection {
+  border: 1px solid rgba(28, 26, 23, 0.08);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.46);
+}
+
 .patchActionForm {
   display: grid;
   gap: 10px;

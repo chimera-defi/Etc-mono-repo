@@ -327,6 +327,11 @@ export default async function Home({ searchParams }: Props) {
   const blockSummaries = activeDocument
     ? summarizeBlocks(activeDocument, patches, commentThreads)
     : [];
+  const agentProposedPatches = patches.filter((patch) => patch.proposed_by.actor_type === "agent");
+  const approvedAgentPatches = agentProposedPatches.filter((patch) =>
+    ["accepted", "cherry_picked"].includes(patch.status),
+  );
+  const humanComments = commentThreads.filter((thread) => thread.created_by.actor_type === "human");
   const guidedSteps = buildGuidedSteps({
     hasDocument: Boolean(activeDocument),
     hasDraft: Boolean(activeDocument?.markdown.trim()),
@@ -460,84 +465,108 @@ export default async function Home({ searchParams }: Props) {
                       data-testid="create-document-title"
                     />
                   </label>
-                  <label>
-                    Problem
-                    <textarea
-                      name="problem"
-                      rows={4}
-                      defaultValue={
-                        "Teams lose momentum between idea, spec, review, and build handoff."
-                      }
-                    />
-                  </label>
-                  <label>
-                    Goals
-                    <textarea
-                      name="goals"
-                      rows={4}
-                      defaultValue={
-                        "Produce a build-ready spec\nSupport human and agent collaboration\nKeep review and attribution explicit"
-                      }
-                    />
-                  </label>
-                  <label>
-                    Users
-                    <textarea
-                      name="users"
-                      rows={3}
-                      defaultValue={"Product-minded founder\nPM + engineer pair\nCoding agent operator"}
-                    />
-                  </label>
-                  <label>
-                    Scope
-                    <textarea
-                      name="scope"
-                      rows={4}
-                      defaultValue={
-                        "Guided spec creation\nShared authoring canvas\nPatch review and export handoff"
-                      }
-                    />
-                  </label>
-                  <label>
-                    Non-goals
-                    <textarea
-                      name="non_goals"
-                      rows={3}
-                      defaultValue={
-                        "General-purpose project management\nFull autonomous delivery platform"
-                      }
-                    />
-                  </label>
-                  <label>
-                    Constraints
-                    <textarea
-                      name="constraints"
-                      rows={4}
-                      defaultValue={
-                        "Use off-the-shelf collaboration libraries where possible\nKeep human approval in the loop\nStay inside one curated TypeScript handoff path"
-                      }
-                    />
-                  </label>
-                  <label>
-                    Success signals
-                    <textarea
-                      name="success_signals"
-                      rows={3}
-                      defaultValue={
-                        "Spec reaches readiness without unresolved review work\nHandoff bundle is deterministic\nStarter output is runnable"
-                      }
-                    />
-                  </label>
-                  <label>
-                    Initial tasks
-                    <textarea
-                      name="tasks"
-                      rows={4}
-                      defaultValue={
-                        "Collect core requirements\nDraft the canonical spec\nReview agent patches\nExport the handoff bundle\nGenerate the starter app"
-                      }
-                    />
-                  </label>
+                  <details className={styles.wizardSection} open>
+                    <summary className={styles.disclosureSummary}>
+                      <span>Why this exists</span>
+                      <span>Problem and goals</span>
+                    </summary>
+                    <div className={styles.disclosureBody}>
+                      <label>
+                        Problem
+                        <textarea
+                          name="problem"
+                          rows={4}
+                          defaultValue={
+                            "Teams lose momentum between idea, spec, review, and build handoff."
+                          }
+                        />
+                      </label>
+                      <label>
+                        Goals
+                        <textarea
+                          name="goals"
+                          rows={4}
+                          defaultValue={
+                            "Produce a build-ready spec\nSupport human and agent collaboration\nKeep review and attribution explicit"
+                          }
+                        />
+                      </label>
+                      <label>
+                        Users
+                        <textarea
+                          name="users"
+                          rows={3}
+                          defaultValue={"Product-minded founder\nPM + engineer pair\nCoding agent operator"}
+                        />
+                      </label>
+                    </div>
+                  </details>
+                  <details className={styles.wizardSection} open>
+                    <summary className={styles.disclosureSummary}>
+                      <span>What we will build</span>
+                      <span>Scope and boundaries</span>
+                    </summary>
+                    <div className={styles.disclosureBody}>
+                      <label>
+                        Scope
+                        <textarea
+                          name="scope"
+                          rows={4}
+                          defaultValue={
+                            "Guided spec creation\nShared authoring canvas\nPatch review and export handoff"
+                          }
+                        />
+                      </label>
+                      <label>
+                        Non-goals
+                        <textarea
+                          name="non_goals"
+                          rows={3}
+                          defaultValue={
+                            "General-purpose project management\nFull autonomous delivery platform"
+                          }
+                        />
+                      </label>
+                    </div>
+                  </details>
+                  <details className={styles.wizardSection}>
+                    <summary className={styles.disclosureSummary}>
+                      <span>Delivery guardrails</span>
+                      <span>Constraints and tasks</span>
+                    </summary>
+                    <div className={styles.disclosureBody}>
+                      <label>
+                        Constraints
+                        <textarea
+                          name="constraints"
+                          rows={4}
+                          defaultValue={
+                            "Use off-the-shelf collaboration libraries where possible\nKeep human approval in the loop\nStay inside one curated TypeScript handoff path"
+                          }
+                        />
+                      </label>
+                      <label>
+                        Success signals
+                        <textarea
+                          name="success_signals"
+                          rows={3}
+                          defaultValue={
+                            "Spec reaches readiness without unresolved review work\nHandoff bundle is deterministic\nStarter output is runnable"
+                          }
+                        />
+                      </label>
+                      <label>
+                        Initial tasks
+                        <textarea
+                          name="tasks"
+                          rows={4}
+                          defaultValue={
+                            "Collect core requirements\nDraft the canonical spec\nReview agent patches\nExport the handoff bundle\nGenerate the starter app"
+                          }
+                        />
+                      </label>
+                    </div>
+                  </details>
                   <button type="submit">Create guided draft</button>
                 </form>
               </section>
@@ -1053,6 +1082,37 @@ export default async function Home({ searchParams }: Props) {
                               {(executionBrief.blockers.length > 0
                                 ? executionBrief.blockers
                                 : ["No blockers"])
+                                .join("\n")}
+                            </pre>
+                          </article>
+                        </div>
+                      </div>
+                    </details>
+                    <details className={styles.exportDisclosure}>
+                      <summary className={styles.disclosureSummary}>
+                        <span>Agent provenance</span>
+                        <span>{approvedAgentPatches.length} approved agent changes</span>
+                      </summary>
+                      <div className={styles.disclosureBody}>
+                        <div className={styles.exportGrid}>
+                          <article className={styles.exportCard}>
+                            <h3>Patch activity</h3>
+                            <pre>
+                              {[
+                                `Agent proposals: ${agentProposedPatches.length}`,
+                                `Approved agent patches: ${approvedAgentPatches.length}`,
+                                `Human comments: ${humanComments.length}`,
+                              ].join("\n")}
+                            </pre>
+                          </article>
+                          <article className={styles.exportCard}>
+                            <h3>Approved agent patches</h3>
+                            <pre>
+                              {(approvedAgentPatches.length > 0
+                                ? approvedAgentPatches.map(
+                                    (patch) => `${patch.patch_id} · ${patch.patch_type} · ${patch.block_id}`,
+                                  )
+                                : ["No approved agent patches yet"])
                                 .join("\n")}
                             </pre>
                           </article>
