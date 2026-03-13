@@ -9,6 +9,7 @@ import {
 } from "./actions";
 import { DocumentWorkspace } from "./document-workspace";
 import styles from "./page.module.css";
+import { buildStarterTemplate } from "@/lib/specforge/handoff";
 import {
   exportDocument,
   listAuditEvents,
@@ -306,6 +307,10 @@ export default async function Home({ searchParams }: Props) {
         comments: commentThreads,
       })
     : null;
+  const handoffBundle =
+    activeDocument && exportBundle
+      ? buildStarterTemplate(activeDocument, exportBundle, readinessReport)
+      : null;
   const blockSummaries = activeDocument
     ? summarizeBlocks(activeDocument, patches, commentThreads)
     : [];
@@ -425,31 +430,102 @@ export default async function Home({ searchParams }: Props) {
             <>
               <section className={styles.panel} id="create-document">
                 <div className={styles.panelHeader}>
-                  <h2>Create document</h2>
-                  <span>Server action</span>
+                  <h2>Guided spec creation</h2>
+                  <span>Structured draft</span>
                 </div>
                 <form
                   action={createDocumentAction}
                   className={styles.form}
                   data-testid="create-document-form"
                 >
+                  <input type="hidden" name="mode" value="guided" />
                   <label>
                     Title
                     <input
                       name="title"
-                      defaultValue="New SpecForge Draft"
+                      defaultValue="SpecForge MVP"
                       data-testid="create-document-title"
                     />
                   </label>
                   <label>
-                    Initial markdown
+                    Problem
                     <textarea
-                      name="initial_markdown"
-                      rows={10}
-                      defaultValue={"# PRD\n\n## Problem\nTBD\n\n## Goals\nTBD\n"}
+                      name="problem"
+                      rows={4}
+                      defaultValue={
+                        "Teams lose momentum between idea, spec, review, and build handoff."
+                      }
                     />
                   </label>
-                  <button type="submit">Create document</button>
+                  <label>
+                    Goals
+                    <textarea
+                      name="goals"
+                      rows={4}
+                      defaultValue={
+                        "Produce a build-ready spec\nSupport human and agent collaboration\nKeep review and attribution explicit"
+                      }
+                    />
+                  </label>
+                  <label>
+                    Users
+                    <textarea
+                      name="users"
+                      rows={3}
+                      defaultValue={"Product-minded founder\nPM + engineer pair\nCoding agent operator"}
+                    />
+                  </label>
+                  <label>
+                    Scope
+                    <textarea
+                      name="scope"
+                      rows={4}
+                      defaultValue={
+                        "Guided spec creation\nShared authoring canvas\nPatch review and export handoff"
+                      }
+                    />
+                  </label>
+                  <label>
+                    Non-goals
+                    <textarea
+                      name="non_goals"
+                      rows={3}
+                      defaultValue={
+                        "General-purpose project management\nFull autonomous delivery platform"
+                      }
+                    />
+                  </label>
+                  <label>
+                    Constraints
+                    <textarea
+                      name="constraints"
+                      rows={4}
+                      defaultValue={
+                        "Use off-the-shelf collaboration libraries where possible\nKeep human approval in the loop\nStay inside one curated TypeScript handoff path"
+                      }
+                    />
+                  </label>
+                  <label>
+                    Success signals
+                    <textarea
+                      name="success_signals"
+                      rows={3}
+                      defaultValue={
+                        "Spec reaches readiness without unresolved review work\nHandoff bundle is deterministic\nStarter output is runnable"
+                      }
+                    />
+                  </label>
+                  <label>
+                    Initial tasks
+                    <textarea
+                      name="tasks"
+                      rows={4}
+                      defaultValue={
+                        "Collect core requirements\nDraft the canonical spec\nReview agent patches\nExport the handoff bundle\nGenerate the starter app"
+                      }
+                    />
+                  </label>
+                  <button type="submit">Create guided draft</button>
                 </form>
               </section>
 
@@ -860,6 +936,55 @@ export default async function Home({ searchParams }: Props) {
                   </>
                 ) : (
                   <p className={styles.empty}>No export available yet.</p>
+                )}
+              </section>
+
+              <section className={styles.panel} id="handoff-preview">
+                <div className={styles.panelHeader}>
+                  <h2>Starter handoff</h2>
+                  <span>Curated TypeScript output</span>
+                </div>
+                {handoffBundle ? (
+                  <>
+                    <div className={styles.exportActions}>
+                      <Link
+                        href={`/api/documents/${activeDocument?.document_id}/handoff`}
+                        className={styles.exportLink}
+                        target="_blank"
+                        rel="noreferrer"
+                        data-testid="open-handoff-json"
+                      >
+                        Open starter JSON
+                      </Link>
+                      <span>
+                        {handoffBundle.template_id} · {Math.round(handoffBundle.confidence * 100)}%
+                        confidence
+                      </span>
+                    </div>
+                    <ul className={styles.readinessList}>
+                      {handoffBundle.next_steps.map((step) => (
+                        <li key={step}>{step}</li>
+                      ))}
+                    </ul>
+                    <details className={styles.exportDisclosure}>
+                      <summary className={styles.disclosureSummary}>
+                        <span>Starter files</span>
+                        <span>{Object.keys(handoffBundle.files).length} files</span>
+                      </summary>
+                      <div className={styles.disclosureBody}>
+                        <div className={styles.exportGrid}>
+                          {Object.entries(handoffBundle.files).map(([name, content]) => (
+                            <article key={name} className={styles.exportCard}>
+                              <h3>{name}</h3>
+                              <pre>{content}</pre>
+                            </article>
+                          ))}
+                        </div>
+                      </div>
+                    </details>
+                  </>
+                ) : (
+                  <p className={styles.empty}>No starter handoff available yet.</p>
                 )}
               </section>
             </>

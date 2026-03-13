@@ -57,7 +57,7 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
 
   await page.goto("/?stage=start");
   await page.getByTestId("create-document-title").fill(title);
-  await page.getByRole("button", { name: "Create document" }).click();
+  await page.getByRole("button", { name: "Create guided draft" }).click();
 
   await expect(page.getByRole("heading", { name: "Document workspace" })).toBeVisible();
   await expect(page.locator(".editorToolbar strong")).toContainText(title);
@@ -74,13 +74,24 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
 
   await page.goto(`${page.url().split("?")[0]}?document=${new URL(page.url()).searchParams.get("document")}&stage=export`);
   const exportHref = await page.getByTestId("open-export-json").getAttribute("href");
+  const handoffHref = await page.getByTestId("open-handoff-json").getAttribute("href");
   expect(exportHref).toBeTruthy();
+  expect(handoffHref).toBeTruthy();
   const exportResponse = await page.request.get(`http://127.0.0.1:3000${exportHref}`);
+  const handoffResponse = await page.request.get(`http://127.0.0.1:3000${handoffHref}`);
 
   expect(exportResponse.ok()).toBeTruthy();
+  expect(handoffResponse.ok()).toBeTruthy();
   expect(await exportResponse.json()).toMatchObject({
     files: expect.objectContaining({
       "agent_spec.json": expect.any(String),
+    }),
+  });
+  expect(await handoffResponse.json()).toMatchObject({
+    template_id: "ts_cli_starter_v1",
+    files: expect.objectContaining({
+      "package.json": expect.any(String),
+      "src/main.ts": expect.any(String),
     }),
   });
 });
