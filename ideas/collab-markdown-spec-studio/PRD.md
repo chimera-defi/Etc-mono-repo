@@ -1,6 +1,6 @@
 ## SpecForge PRD
 
-**Status**: Draft | **Last Updated**: 2026-03-06 | **Owner**: TBD
+**Status**: MVP build validated locally | **Last Updated**: 2026-03-14 | **Owner**: SpecForge
 
 ### Problem
 Teams doing startup/product planning often draft PRD/spec/design docs in fragmented tools:
