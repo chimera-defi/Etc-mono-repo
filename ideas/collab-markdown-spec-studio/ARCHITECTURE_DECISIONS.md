@@ -64,3 +64,13 @@
 - Choice: ship a local orchestration runner that wraps `codex exec` and advances the highest-priority remaining parity item automatically.
 - Why: teams should not have to manually re-prompt the coding agent after every integrated pass.
 - Tradeoff: the runner depends on disciplined task tracking and can only automate as far as the backlog and stop conditions are explicit.
+
+## Decision 14: Signed Collab Room Handshake
+- Choice: mint short-lived room tokens in the web app and verify them in the collaboration server.
+- Why: keeps the local MVP close to the pilot auth model without exposing room trust to unauthenticated websocket joins.
+- Tradeoff: adds one more integration seam between the app and collab runtime.
+
+## Decision 15: Structured Room Telemetry and Local Runbook
+- Choice: emit structured collab-server events and keep a local failure-mode runbook beside the MVP.
+- Why: reconnect/auth issues are otherwise hard to debug in a multiplayer product.
+- Tradeoff: local logs are useful but still far short of full production observability.
