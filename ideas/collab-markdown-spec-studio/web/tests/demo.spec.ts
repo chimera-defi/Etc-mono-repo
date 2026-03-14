@@ -76,16 +76,22 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
   const exportHref = await page.getByTestId("open-export-json").getAttribute("href");
   const handoffHref = await page.getByTestId("open-handoff-json").getAttribute("href");
   const executionHref = await page.getByTestId("open-execution-json").getAttribute("href");
+  const launchPacketHref = await page.getByTestId("open-launch-packet-json").getAttribute("href");
   expect(exportHref).toBeTruthy();
   expect(handoffHref).toBeTruthy();
   expect(executionHref).toBeTruthy();
+  expect(launchPacketHref).toBeTruthy();
   const exportResponse = await page.request.get(`http://127.0.0.1:3000${exportHref}`);
   const handoffResponse = await page.request.get(`http://127.0.0.1:3000${handoffHref}`);
   const executionResponse = await page.request.get(`http://127.0.0.1:3000${executionHref}`);
+  const launchPacketResponse = await page.request.get(
+    `http://127.0.0.1:3000${launchPacketHref}`,
+  );
 
   expect(exportResponse.ok()).toBeTruthy();
   expect(handoffResponse.ok()).toBeTruthy();
   expect(executionResponse.ok()).toBeTruthy();
+  expect(launchPacketResponse.ok()).toBeTruthy();
   expect(await exportResponse.json()).toMatchObject({
     files: expect.objectContaining({
       "agent_spec.json": expect.any(String),
@@ -101,6 +107,12 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
   expect(await executionResponse.json()).toMatchObject({
     run_ready: expect.any(Boolean),
     commands: expect.arrayContaining(["npm install", "npm run dev", "npm run build"]),
+  });
+  expect(await launchPacketResponse.json()).toMatchObject({
+    packet_id: expect.stringContaining("launch_doc_"),
+    export_bundle: expect.any(Object),
+    starter_bundle: expect.any(Object),
+    execution_brief: expect.any(Object),
   });
 });
 
