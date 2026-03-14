@@ -104,6 +104,25 @@ function rebuildMarkdown(parsed: ParsedDocument) {
   return parts.join("\n\n").trim();
 }
 
+export function upsertSectionBullet(markdown: string, sectionHeading: string, bullet: string) {
+  const parsed = parseMarkdownStructure(markdown);
+  const normalizedHeading = slugify(sectionHeading);
+  const target = parsed.sections.find((section) => slugify(section.heading) === normalizedHeading);
+  const nextLine = `- ${bullet.trim().replace(/^-+\s*/, "")}`;
+
+  if (target) {
+    target.markdownLines.push(nextLine);
+    return rebuildMarkdown(parsed);
+  }
+
+  parsed.sections.push({
+    section_id: `sec_${normalizedHeading}`,
+    heading: sectionHeading,
+    markdownLines: [`## ${sectionHeading}`, "", nextLine],
+  });
+  return rebuildMarkdown(parsed);
+}
+
 export function deriveDocumentShape(markdown: string) {
   const sections = parseMarkdownStructure(markdown).sections.map((section, index) => {
     const content = section.markdownLines.join("\n").trim();

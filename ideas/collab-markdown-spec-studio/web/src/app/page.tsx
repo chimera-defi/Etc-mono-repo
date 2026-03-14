@@ -1,7 +1,9 @@
 import Link from "next/link";
 
 import {
+  answerClarificationAction,
   createCommentThreadAction,
+  createClarificationAction,
   createDocumentAction,
   createPatchAction,
   decidePatchAction,
@@ -314,6 +316,7 @@ export default async function Home({ searchParams }: Props) {
   const activeDocument = activeContext?.document ?? null;
   const patches = activeContext?.patches ?? [];
   const commentThreads = activeContext?.comments ?? [];
+  const clarifications = activeContext?.clarifications ?? [];
   const exportBundle = activeContext?.exportBundle ?? null;
   const readinessReport = activeContext?.readiness ?? null;
   const handoffBundle = activeContext?.starterBundle ?? null;
@@ -789,6 +792,7 @@ export default async function Home({ searchParams }: Props) {
                 <ul className={styles.readinessList}>
                   <li>{patches.filter((patch) => ["proposed", "stale"].includes(patch.status)).length} patches need a human decision.</li>
                   <li>{commentThreads.filter((thread) => thread.status === "open").length} comment threads are still open.</li>
+                  <li>{clarifications.filter((item) => item.status === "open").length} clarifications still need answers.</li>
                   <li>{blockSummaries.filter((block) => block.pendingPatches + block.openComments > 0).length} blocks have active review work.</li>
                 </ul>
                 {activeDocument ? (
@@ -927,6 +931,69 @@ export default async function Home({ searchParams }: Props) {
                 </div>
               </details>
 
+              <details
+                className={styles.panel}
+                open={clarifications.some((item) => item.status === "open")}
+                id="clarifications"
+              >
+                <summary className={styles.disclosureSummary}>
+                  <span>Clarifications</span>
+                  <span>{clarifications.filter((item) => item.status === "open").length} open</span>
+                </summary>
+                <div className={styles.disclosureBody}>
+                  {activeDocument ? (
+                    <div className={styles.commentPanel}>
+                      <form action={createClarificationAction} className={styles.form}>
+                        <input type="hidden" name="document_id" value={activeDocument.document_id} />
+                        <label>
+                          Section
+                          <select name="section_heading" className={styles.selectInput} defaultValue={activeBlock?.heading}>
+                            {activeDocument.sections.map((section) => (
+                              <option key={section.section_id} value={section.heading}>
+                                {section.heading}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                        <label>
+                          Question
+                          <textarea
+                            name="question"
+                            rows={3}
+                            placeholder="Ask for the missing detail that blocks a clean handoff."
+                          />
+                        </label>
+                        <button type="submit">Queue clarification</button>
+                      </form>
+                      <ul className={styles.patchList}>
+                        {clarifications.map((item) => (
+                          <li key={item.clarification_id} className={styles.patchItem}>
+                            <strong>{item.section_heading}</strong>
+                            <span>{item.status}</span>
+                            <span>{item.question}</span>
+                            {item.status === "open" ? (
+                              <form action={answerClarificationAction} className={styles.form}>
+                                <input type="hidden" name="document_id" value={item.document_id} />
+                                <input type="hidden" name="clarification_id" value={item.clarification_id} />
+                                <label>
+                                  Answer
+                                  <textarea name="answer" rows={3} placeholder="Write the accepted clarification into the spec." />
+                                </label>
+                                <button type="submit">Answer and write back</button>
+                              </form>
+                            ) : (
+                              <span>{item.answer_text}</span>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : (
+                    <p className={styles.empty}>Create a document first.</p>
+                  )}
+                </div>
+              </details>
+
               <details className={styles.panel}>
                 <summary className={styles.disclosureSummary}>
                   <span>Block activity</span>
@@ -984,6 +1051,7 @@ export default async function Home({ searchParams }: Props) {
                   <li>{actionablePatches.length} patches need a decision now.</li>
                   <li>{resolvedPatches.length} patches are already resolved.</li>
                   <li>{commentThreads.filter((thread) => thread.status === "open").length} open comments may still affect decisions.</li>
+                  <li>{clarifications.filter((item) => item.status === "open").length} unanswered clarifications still block clean handoff.</li>
                 </ul>
                 {activeDocument ? (
                   <div className={styles.inlineActions}>
