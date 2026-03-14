@@ -35,11 +35,13 @@
 ## Next SaaS Build Backlog
 - [x] Add explicit workspace actor/session selection so server-side attribution is not hardcoded.
 - [x] Model the delivery loop as intents, claims, context packages, and signals inside the runner/app surface.
+- [x] Document minimum extensible product as the first-class delivery target before full parity.
 - [ ] Replace the local actor selector with pilot-grade GitHub OAuth and workspace membership.
 - [ ] Add real workspace records, membership roles, and per-workspace document isolation in the app UI.
 - [ ] Add clarification queue flows and answer writing back into the canonical doc.
 - [ ] Expand starter generation from one curated template toward the broader repo-generation scope.
 - [ ] Add hosted deployment config, production persistence, and real observability plumbing.
+- [ ] Let the runner advance the SaaS backlog through multiple claimed passes while preserving local-test ergonomics.
 
 ## Recommended Parallel Execution Now
 1. Shared canvas hardening: reconnect, replay, and sync/error states.
@@ -133,6 +135,7 @@
 - [ ] Acceptance tests are mapped one-to-one to user flows.
 - [ ] Seed data and fixture examples are included for local boot.
 - [ ] "First 60 minutes" local runbook is present and validated by a fresh agent.
+- [ ] Delivery loop can continue from minimum extensible product to scoped parity without repeated manual re-prompting.
 
 ## Phase 1 (Validation)
 - [ ] Execute WS-6 and publish synthesis.

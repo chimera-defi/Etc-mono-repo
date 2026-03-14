@@ -5,7 +5,14 @@ Build a real-time collaborative spec IDE with:
 1. CRDT-backed human collaboration on a shared markdown canvas,
 2. governed agent patch workflows,
 3. depth gates and recap requirements,
-4. deterministic export into execution-ready spec bundles.
+4. deterministic export into execution-ready spec bundles,
+5. a delivery loop that keeps driving a minimum extensible product toward parity with the approved spec.
+
+### Product Principle: Minimum Extensible Product
+1. Approved specs should first produce a minimum extensible product, not a pretend-final build.
+2. The first generated/buildable output must be runnable, reviewable, and easy for humans or agents to extend without rewrite.
+3. SpecForge should prefer narrow, composable starter outputs plus explicit follow-on backlog items over fragile "generate everything" claims.
+4. The delivery loop is responsible for advancing that minimum extensible product toward spec parity through bounded passes, not requiring repeated manual nudges.
 
 ### Core Components
 
@@ -61,6 +68,7 @@ Build a real-time collaborative spec IDE with:
 - Generates the next highest-priority Codex pass brief automatically.
 - Runs Codex in bounded passes until the parity backlog is cleared or a blocker appears.
 - Requires each pass to update task state, rerun verification, and stop only on real blockers.
+- Treats the first successful buildable output as the minimum extensible product, then drives iterative parity passes until the scoped requirements are satisfied.
 
 ### Architecture
 - Frontend: web app (editor + collaboration UI + agent panel).
@@ -70,6 +78,7 @@ Build a real-time collaborative spec IDE with:
 - Delivery orchestration: local parity runner that wraps Codex CLI for repeated build passes.
 - Delivery visibility: in-product backlog status + next-pass brief exposed through parity endpoints and the workspace UI.
 - Delivery model: intents, claims, context packages, and signals for agent-driven build execution after the spec is approved.
+- Delivery target: a minimum extensible product that can be verified locally, extended safely, and promoted toward the full scoped spec without restarts.
 - Governance service: patch validation, stale detection, review decisions, recap/depth enforcement.
 - Collab auth layer: short-lived room tokens minted by the web app and verified by the collaboration service.
 - Storage: canonical doc state, snapshots, patch logs, audit trail.
@@ -86,6 +95,7 @@ Build a real-time collaborative spec IDE with:
 8. Version-scoped room names plus explicit snapshot replay/reload controls for stale-room recovery.
 9. Inline provenance overlays in the editor surface alongside block-level review markers.
 10. Delivery loop state that tracks claimed intents, latest context, and emitted signals as the buildout advances.
+11. Delivery context packages that bundle approved exports, launch packet, active blockers, and the next claimed intent for coding agents.
 
 ### Default Stack
 1. Next.js + React + TypeScript for the application shell.
@@ -128,6 +138,7 @@ Build a real-time collaborative spec IDE with:
 7. `GET /documents/:id/recap`
 8. `POST /documents/:id/export`
 9. local `specforge-parity-runner` tooling for Codex execution passes
+10. delivery loop endpoints for backlog status, next brief, and claimed work visibility
 
 ### Patch Contract Default
 1. Primary target key is `block_id`.
@@ -236,6 +247,12 @@ Use three packs from `ideas/` as the initial end-to-end benchmark set:
    - Auth scaffold
    - docs and task artifacts
 4. Do not support arbitrary frameworks, multi-service monorepos, mobile apps, or chain-specific starters in the first repo-generation phase.
+
+### Delivery Loop Success Criteria
+1. The first handoff/run must create a runnable minimum extensible product, not only files.
+2. The delivery loop must be able to read remaining backlog items and continue issuing bounded implementation passes without manual re-prompting.
+3. Each pass must leave the product in a green, demoable state with tests/build checks rerun.
+4. If parity cannot advance safely, the loop must surface a concrete blocker instead of inventing more work.
 
 ### Key Technical Choice
 Use CRDT-backed editing for robust multiplayer behavior and offline/reconnect tolerance.
