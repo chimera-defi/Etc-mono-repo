@@ -18,6 +18,12 @@ export type WorkspaceSession = {
   githubUrl?: string;
 };
 
+export type WorkspaceRecord = {
+  workspace_id: string;
+  name: string;
+  plan: "demo" | "pilot";
+};
+
 type WorkspaceMemberSeed = WorkspaceActor & {
   githubLogin?: string;
 };
@@ -25,6 +31,14 @@ type WorkspaceMemberSeed = WorkspaceActor & {
 const WORKSPACE_ACTOR_COOKIE = "specforge_actor_id";
 const WORKSPACE_SESSION_COOKIE = "specforge_session";
 const DEFAULT_SESSION_SECRET = "specforge-local-session-secret";
+
+const workspaces: WorkspaceRecord[] = [
+  {
+    workspace_id: "ws_demo",
+    name: "SpecForge Demo Workspace",
+    plan: "demo",
+  },
+];
 
 const workspaceMembers: WorkspaceMemberSeed[] = [
   {
@@ -95,6 +109,18 @@ export function isGitHubAuthConfigured() {
 
 export function listWorkspaceActors() {
   return workspaceMembers;
+}
+
+export function listWorkspaces() {
+  return workspaces;
+}
+
+export function getWorkspaceRecord(workspaceId: string) {
+  return workspaces.find((workspace) => workspace.workspace_id === workspaceId) ?? workspaces[0]!;
+}
+
+export function listWorkspaceMembers(workspaceId: string) {
+  return workspaceMembers.filter((member) => member.workspace_id === workspaceId);
 }
 
 export function resolveWorkspaceActor(actorId?: string | null) {

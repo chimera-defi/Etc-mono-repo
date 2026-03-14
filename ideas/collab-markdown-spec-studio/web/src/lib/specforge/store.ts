@@ -27,6 +27,7 @@ import { applyPatchToMarkdown, deriveDocumentShape, makeDocumentRecord } from ".
 type StoreOptions = {
   dbPath?: string;
   fixturesDir?: string;
+  workspaceId?: string;
 };
 
 type DocumentRow = {
@@ -795,6 +796,7 @@ async function getDatabase(options: StoreOptions = {}) {
 
 export async function listDocuments(options?: StoreOptions) {
   const database = await getDatabase(options);
+  const workspaceClause = options?.workspaceId ? "WHERE workspace_id = $1" : "";
   const result = await database.query<DocumentRow>(
     `SELECT
       document_id,
@@ -807,7 +809,9 @@ export async function listDocuments(options?: StoreOptions) {
       created_at,
       updated_at
     FROM documents
+    ${workspaceClause}
     ORDER BY updated_at DESC, created_at DESC`,
+    options?.workspaceId ? [options.workspaceId] : [],
   );
 
   return result.rows.map(mapDocumentRow);
@@ -815,6 +819,7 @@ export async function listDocuments(options?: StoreOptions) {
 
 export async function getDocument(documentId: string, options?: StoreOptions) {
   const database = await getDatabase(options);
+  const workspaceClause = options?.workspaceId ? "AND workspace_id = $2" : "";
   const result = await database.query<DocumentRow>(
     `SELECT
       document_id,
@@ -828,8 +833,9 @@ export async function getDocument(documentId: string, options?: StoreOptions) {
       updated_at
     FROM documents
     WHERE document_id = $1
+    ${workspaceClause}
     LIMIT 1`,
-    [documentId],
+    options?.workspaceId ? [documentId, options.workspaceId] : [documentId],
   );
 
   return result.rows[0] ? mapDocumentRow(result.rows[0]) : null;
