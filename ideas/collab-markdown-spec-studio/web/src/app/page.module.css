@@ -195,6 +195,20 @@
   cursor: pointer;
 }
 
+.actorCard {
+  display: grid;
+  gap: 4px;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(28, 26, 23, 0.08);
+  background: rgba(255, 255, 255, 0.68);
+}
+
+.actorCard span {
+  color: #6f6559;
+  font-size: 0.84rem;
+}
+
 .wizardSection {
   border: 1px solid rgba(28, 26, 23, 0.08);
   border-radius: 18px;
