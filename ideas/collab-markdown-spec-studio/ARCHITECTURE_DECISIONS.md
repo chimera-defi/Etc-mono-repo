@@ -74,3 +74,8 @@
 - Choice: emit structured collab-server events and keep a local failure-mode runbook beside the MVP.
 - Why: reconnect/auth issues are otherwise hard to debug in a multiplayer product.
 - Tradeoff: local logs are useful but still far short of full production observability.
+
+## Decision 16: Swarm-Style Delivery Loop for Buildout
+- Choice: model the post-spec build loop as `intent -> claim -> context -> signal`.
+- Why: once the spec is approved, the hardest problem shifts from writing to coordinating bounded agent passes without losing state.
+- Tradeoff: this adds a second workflow model after patch governance, so the seam between authoring and delivery must stay explicit.

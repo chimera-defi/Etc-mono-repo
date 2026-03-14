@@ -34,6 +34,7 @@
 
 ## Next SaaS Build Backlog
 - [x] Add explicit workspace actor/session selection so server-side attribution is not hardcoded.
+- [x] Model the delivery loop as intents, claims, context packages, and signals inside the runner/app surface.
 - [ ] Replace the local actor selector with pilot-grade GitHub OAuth and workspace membership.
 - [ ] Add real workspace records, membership roles, and per-workspace document isolation in the app UI.
 - [ ] Add clarification queue flows and answer writing back into the canonical doc.
