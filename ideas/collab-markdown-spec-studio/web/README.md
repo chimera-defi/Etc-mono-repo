@@ -12,10 +12,12 @@ Current slice:
 - Tiptap-backed document workspace
 - Yjs/Hocuspocus live room wiring per active document
 - collaborator awareness chips and remote cursors in the shared editor
+- signed collab session handshakes between the web app and Hocuspocus server
 - patch proposal ingestion with stale detection
 - patch acceptance/rejection/cherry-pick flow with audit trail
 - anchored comment threads with resolve flow
 - canonical `ideas/` showcase import for `server-management-agent`
+- showcase walkthrough from imported idea to launch packet in the export stage
 - block-level provenance markers in the shared canvas
 - readiness scoring and recap panel
 - deterministic export bundle preview
@@ -49,5 +51,7 @@ npm run dev
 - PGlite still backs the in-process SQL layer; the snapshot is there so Next app workers share the same document state.
 - The collaboration runtime lives in `../collab-server/`.
 - The web client connects to `NEXT_PUBLIC_COLLAB_URL` and defaults to `ws://127.0.0.1:4321`.
+- The collab handshake is signed by `POST /api/collab/session`; override `SPECFORGE_COLLAB_SECRET` only if both the web app and collab server share it.
 - The final handoff stage exposes `/export`, `/handoff`, `/execution`, and `/launch-packet` routes for downstream build agents.
 - The local parity runner lives at `../tools/specforge-parity-runner.mjs` and can drive bounded `codex exec` passes from the remaining backlog.
+- Local recovery and observability notes live in `../LOCAL_RUNBOOK.md`.

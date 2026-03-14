@@ -21,6 +21,8 @@
    - export orchestration
 2. Collaboration service:
    - websocket sync
+   - signed room authentication
+   - structured room telemetry
    - Yjs document room lifecycle
 3. Worker:
    - recap generation
@@ -54,6 +56,7 @@
 1. Local demo mode: simple dev identity bypass.
 2. Pilot mode: GitHub OAuth for human users.
 3. Agents: workspace-scoped service identities.
+4. Local collab runtime: short-lived signed room tokens minted by the web app and verified by the collab server.
 
 ### v1 Feature Boundaries
 1. Comments:
