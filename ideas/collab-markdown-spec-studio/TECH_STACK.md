@@ -32,6 +32,7 @@
    - reads `TASKS.md` backlog state
    - generates the next Codex pass brief
    - can run bounded parity loops until the backlog is clear or blocked
+   - exposes backlog status/brief into the app via parity endpoints
 5. Shared persistence:
    - Postgres for application state
    - optional blob storage only if snapshots/exports outgrow database ergonomics

@@ -13,6 +13,10 @@ const specPath = path.join(packRoot, "SPEC.md");
 const architecturePath = path.join(packRoot, "ARCHITECTURE_DECISIONS.md");
 const techStackPath = path.join(packRoot, "TECH_STACK.md");
 const loopStatePath = path.join(worktreeRoot, ".cursor", "artifacts", "specforge-parity-runner.json");
+const backlogSections = [
+  "Remaining MVP Build Backlog",
+  "Next SaaS Build Backlog",
+];
 
 function parseArgs(argv) {
   const [command = "status", ...rest] = argv;
@@ -58,12 +62,18 @@ function parseChecklist(section) {
 
 async function loadBacklog() {
   const markdown = await readFile(tasksPath, "utf8");
-  const remainingSection = sectionSlice(markdown, "Remaining MVP Build Backlog");
   const recommendedSection = sectionSlice(markdown, "Recommended Parallel Execution Now");
   const implementationSection = sectionSlice(markdown, "Current Implementation Status");
+  const phases = backlogSections.map((heading) => ({
+    heading,
+    items: parseChecklist(sectionSlice(markdown, heading)),
+  }));
+  const activePhase = phases.find((phase) => phase.items.some((item) => !item.checked)) ?? null;
 
   return {
-    remaining: parseChecklist(remainingSection),
+    phases,
+    activePhase,
+    remaining: phases.flatMap((phase) => phase.items),
     current: parseChecklist(implementationSection),
     recommended: recommendedSection
       .split("\n")
@@ -75,6 +85,8 @@ async function loadBacklog() {
 function buildPrompt(nextItem, backlog) {
   return [
     "Drive the next SpecForge parity pass.",
+    "",
+    `Active backlog phase: ${backlog.activePhase?.heading ?? "None"}`,
     "",
     `Highest-priority unchecked parity item: ${nextItem.text}`,
     "",
@@ -93,7 +105,10 @@ function buildPrompt(nextItem, backlog) {
     `- ${tasksPath}`,
     "",
     "Current remaining backlog:",
-    ...backlog.remaining.map((item) => `- ${item.checked ? "[x]" : "[ ]"} ${item.text}`),
+    ...backlog.phases.flatMap((phase) => [
+      `- ${phase.heading}:`,
+      ...phase.items.map((item) => `  - ${item.checked ? "[x]" : "[ ]"} ${item.text}`),
+    ]),
   ].join("\n");
 }
 
@@ -120,6 +135,7 @@ async function runStatus() {
 
   console.log(JSON.stringify({
     remaining_count: remaining.length,
+    active_phase: backlog.activePhase?.heading ?? null,
     next_item: remaining[0]?.text ?? null,
     remaining_items: remaining.map((item) => item.text),
   }, null, 2));
