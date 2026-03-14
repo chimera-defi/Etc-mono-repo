@@ -133,6 +133,11 @@ test("shows two live collaborators on the same document", async ({ browser }) =>
       timeout: 10_000,
     })
     .toBeGreaterThanOrEqual(2);
+  await expect
+    .poll(async () => await pageA.locator(".remoteCursor").count(), {
+      timeout: 10_000,
+    })
+    .toBeGreaterThanOrEqual(1);
 
   await pageA.screenshot({
     path: "artifacts/screenshots/specforge-demo-collaboration.png",
