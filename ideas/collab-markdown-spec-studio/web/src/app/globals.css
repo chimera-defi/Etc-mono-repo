@@ -56,3 +56,30 @@ input {
   background: rgba(28, 26, 23, 0.08);
   color: #433a31;
 }
+
+.editorSurface {
+  position: relative;
+}
+
+.remoteCursor {
+  position: absolute;
+  width: 2px;
+  height: 1.5rem;
+  background: currentColor;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.remoteCursor__label {
+  position: absolute;
+  top: -1.35rem;
+  left: 0;
+  transform: translateX(-1px);
+  padding: 0.18rem 0.45rem;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.72rem;
+  font-family: var(--font-geist-sans), sans-serif;
+  line-height: 1.2;
+  white-space: nowrap;
+}
