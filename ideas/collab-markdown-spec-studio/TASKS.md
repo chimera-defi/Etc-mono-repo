@@ -25,10 +25,10 @@
 - [x] Local parity runner exists to drive bounded Codex passes from the remaining backlog.
 
 ## Remaining MVP Build Backlog
-- [ ] Add reconnect, replay, and stale-room recovery handling beyond the current local persistence path.
+- [x] Add reconnect, replay, and stale-room recovery handling beyond the current local persistence path.
 - [x] Add auth hooks between the web app and collaboration server.
 - [x] Add stronger sync/offline/error states in the shared canvas.
-- [ ] Deepen inline provenance from block markers into richer in-text attribution overlays.
+- [x] Deepen inline provenance from block markers into richer in-text attribution overlays.
 - [x] Extend the canonical showcase path from import -> review -> launch packet into a starter-output walkthrough in the UI/docs.
 - [x] Add lightweight observability and a local failure-mode runbook.
 

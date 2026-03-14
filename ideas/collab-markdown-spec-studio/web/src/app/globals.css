@@ -141,6 +141,39 @@ input {
   line-height: 1.25;
 }
 
+.inlineProvenance {
+  position: absolute;
+  display: grid;
+  gap: 0.12rem;
+  max-width: 18rem;
+  padding: 0.34rem 0.55rem;
+  border-radius: 0.7rem;
+  background: rgba(17, 106, 138, 0.1);
+  border: 1px solid rgba(17, 106, 138, 0.18);
+  color: #174f67;
+  font-family: var(--font-geist-sans), sans-serif;
+  box-shadow: 0 8px 20px rgba(17, 106, 138, 0.08);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.inlineProvenance strong {
+  font-size: 0.72rem;
+  line-height: 1.2;
+}
+
+.inlineProvenance span {
+  font-size: 0.68rem;
+  line-height: 1.25;
+  color: #486777;
+}
+
+.specforgeHeading--active {
+  position: relative;
+  padding-left: 0.35rem;
+  border-left: 3px solid rgba(17, 106, 138, 0.35);
+}
+
 @media (max-width: 960px) {
   .editorSurface {
     padding-right: 0;
@@ -148,6 +181,12 @@ input {
 
   .blockMarker {
     display: none;
+  }
+
+  .inlineProvenance {
+    position: static;
+    margin: 0 0 0.55rem;
+    max-width: none;
   }
 
   .editorToolbar__actions {
