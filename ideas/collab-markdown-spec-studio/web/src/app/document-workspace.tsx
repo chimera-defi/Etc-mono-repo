@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { HocuspocusProvider } from "@hocuspocus/provider";
 import Collaboration from "@tiptap/extension-collaboration";
 import { EditorContent, useEditor } from "@tiptap/react";
@@ -19,6 +19,14 @@ type Collaborator = {
   name: string;
   color: string;
   state: string;
+};
+
+type RemoteCursor = {
+  id: string;
+  name: string;
+  color: string;
+  left: number;
+  top: number;
 };
 
 const userPalette = ["#0f766e", "#1d4ed8", "#c2410c", "#7c3aed", "#be123c"];
@@ -55,9 +63,11 @@ export function DocumentWorkspace({ document }: Props) {
   const roomName = `${document.document_id}:v${document.version}`;
   const [localUser] = useState(makeLocalUser);
   const [collaborators, setCollaborators] = useState<Collaborator[]>([]);
+  const [remoteCursors, setRemoteCursors] = useState<RemoteCursor[]>([]);
   const [status, setStatus] = useState(`Connecting to ${roomName}`);
   const [statusTone, setStatusTone] = useState<"neutral" | "success" | "warning">("warning");
   const [isPending, startTransition] = useTransition();
+  const surfaceRef = useRef<HTMLDivElement | null>(null);
   const collab = useMemo(() => {
     const ydoc = new Y.Doc();
     const provider = new HocuspocusProvider({
@@ -104,6 +114,7 @@ export function DocumentWorkspace({ document }: Props) {
       room: roomName,
       state: "viewing",
     });
+    awareness.setLocalStateField("selection", null);
 
     const handleStatus = ({ status: nextStatus }: { status: string }) => {
       setStatusTone(nextStatus === "connected" ? "success" : "warning");
@@ -152,11 +163,62 @@ export function DocumentWorkspace({ document }: Props) {
       setCollaborators(nextCollaborators);
     };
 
+    const updateRemoteCursors = () => {
+      const container = surfaceRef.current;
+      if (!container) {
+        return;
+      }
+
+      const containerRect = container.getBoundingClientRect();
+      const states = Array.from(awareness.getStates().values());
+      const nextCursors = states
+        .map((state) => {
+          const user = state.user as { id?: string; name?: string; color?: string } | undefined;
+          const selection = state.selection as { head?: number } | undefined;
+
+          if (
+            !user?.id ||
+            user.id === localUser.id ||
+            !user.name ||
+            !user.color ||
+            typeof selection?.head !== "number"
+          ) {
+            return null;
+          }
+
+          try {
+            const coords = editor.view.coordsAtPos(selection.head);
+            return {
+              id: user.id,
+              name: user.name,
+              color: user.color,
+              left: coords.left - containerRect.left,
+              top: coords.top - containerRect.top,
+            };
+          } catch {
+            return null;
+          }
+        })
+        .filter((value): value is RemoteCursor => Boolean(value));
+
+      setRemoteCursors(nextCursors);
+    };
+
+    const updateLocalSelection = () => {
+      const selection = editor.state.selection;
+      awareness.setLocalStateField("selection", {
+        anchor: selection.anchor,
+        head: selection.head,
+      });
+      updateRemoteCursors();
+    };
+
     const handleFocus = () => {
       awareness.setLocalStateField("presence", {
         room: roomName,
         state: "editing",
       });
+      updateLocalSelection();
       updateCollaborators();
     };
 
@@ -165,22 +227,40 @@ export function DocumentWorkspace({ document }: Props) {
         room: roomName,
         state: "viewing",
       });
+      awareness.setLocalStateField("selection", null);
+      setRemoteCursors([]);
       updateCollaborators();
+    };
+
+    const handleWindowChange = () => {
+      updateRemoteCursors();
+    };
+    const handleAwarenessChange = () => {
+      updateCollaborators();
+      updateRemoteCursors();
     };
 
     collab.provider.on("status", handleStatus);
     collab.provider.on("synced", handleSynced);
-    awareness.on("change", updateCollaborators);
+    awareness.on("change", handleAwarenessChange);
     editor.on("focus", handleFocus);
     editor.on("blur", handleBlur);
+    editor.on("selectionUpdate", updateLocalSelection);
+    editor.on("update", updateRemoteCursors);
+    window.addEventListener("resize", handleWindowChange);
+    updateLocalSelection();
     updateCollaborators();
+    updateRemoteCursors();
 
     return () => {
       collab.provider.off("status", handleStatus);
       collab.provider.off("synced", handleSynced);
-      awareness.off("change", updateCollaborators);
+      awareness.off("change", handleAwarenessChange);
       editor.off("focus", handleFocus);
       editor.off("blur", handleBlur);
+      editor.off("selectionUpdate", updateLocalSelection);
+      editor.off("update", updateRemoteCursors);
+      window.removeEventListener("resize", handleWindowChange);
     };
   }, [collab.provider, document.markdown, editor, localUser, roomName]);
 
@@ -246,7 +326,20 @@ export function DocumentWorkspace({ document }: Props) {
           ))}
         </div>
       </div>
-      <EditorContent editor={editor} />
+      <div className="editorSurface" ref={surfaceRef}>
+        {remoteCursors.map((cursor) => (
+          <div
+            key={cursor.id}
+            className="remoteCursor"
+            style={{ left: `${cursor.left}px`, top: `${cursor.top}px`, color: cursor.color }}
+          >
+            <span className="remoteCursor__label" style={{ backgroundColor: cursor.color }}>
+              {cursor.name}
+            </span>
+          </div>
+        ))}
+        <EditorContent editor={editor} />
+      </div>
     </div>
   );
 }
