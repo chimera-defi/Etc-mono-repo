@@ -69,6 +69,7 @@ Build a real-time collaborative spec IDE with:
 - Runs Codex in bounded passes until the parity backlog is cleared or a blocker appears.
 - Requires each pass to update task state, rerun verification, and stop only on real blockers.
 - Treats the first successful buildable output as the minimum extensible product, then drives iterative parity passes until the scoped requirements are satisfied.
+- Inserts periodic multipass review/refactor passes so the loop also compacts context, captures meta learnings, and refreshes the latest handoff artifact instead of only shipping feature slices.
 
 ### Architecture
 - Frontend: web app (editor + collaboration UI + agent panel).
@@ -77,6 +78,7 @@ Build a real-time collaborative spec IDE with:
 - AI orchestration: prompt templates + tool-calling adapters.
 - Delivery orchestration: local parity runner that wraps Codex CLI for repeated build passes.
 - Delivery visibility: in-product backlog status + next-pass brief exposed through parity endpoints and the workspace UI.
+- Delivery compaction: latest runner handoff artifact plus meta-learning notes stored under `.cursor/artifacts/` for resume without dragging full prior context.
 - Delivery model: intents, claims, context packages, and signals for agent-driven build execution after the spec is approved.
 - Delivery target: a minimum extensible product that can be verified locally, extended safely, and promoted toward the full scoped spec without restarts.
 - Governance service: patch validation, stale detection, review decisions, recap/depth enforcement.
