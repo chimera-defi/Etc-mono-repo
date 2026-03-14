@@ -41,6 +41,8 @@ type BlockMarker = {
   block_id: string;
   heading: string;
   label: string;
+  contributors: string;
+  left: number;
   top: number;
 };
 
@@ -88,8 +90,6 @@ export function DocumentWorkspace({ document, blockSummaries }: Props) {
   const [statusTone, setStatusTone] = useState<"neutral" | "success" | "warning">("warning");
   const [isPending, startTransition] = useTransition();
   const surfaceRef = useRef<HTMLDivElement | null>(null);
-  // The collab room must stay stable for the current document/version pair.
-  // eslint-disable-next-line react-hooks/preserve-manual-memoization
   const collab = useMemo(() => {
     const ydoc = new Y.Doc();
     const provider = new HocuspocusProvider({
@@ -151,6 +151,38 @@ export function DocumentWorkspace({ document, blockSummaries }: Props) {
     setSyncState(nextState);
     setStatus(message);
     setStatusTone(nextState === "live" ? "success" : nextState === "connecting" ? "neutral" : "warning");
+  }
+
+  async function checkDocumentFreshness() {
+    if (typeof navigator !== "undefined" && !navigator.onLine) {
+      updateSyncState("offline", `Offline: ${roomName}`);
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/documents/${document.document_id}`, {
+        cache: "no-store",
+      });
+
+      if (!response.ok) {
+        updateSyncState("error", `Recovery check failed for ${roomName}`);
+        return;
+      }
+
+      const payload = (await response.json()) as { document?: { version?: number } };
+      const latestVersion = payload.document?.version ?? document.version;
+
+      if (latestVersion > document.version) {
+        updateSyncState("stale", `Newer snapshot available: v${latestVersion}`);
+        return;
+      }
+
+      if (syncState !== "saving") {
+        updateSyncState("live", `Live room synced: ${roomName}`);
+      }
+    } catch {
+      updateSyncState("error", `Recovery check failed for ${roomName}`);
+    }
   }
 
   useEffect(() => {
@@ -337,38 +369,6 @@ export function DocumentWorkspace({ document, blockSummaries }: Props) {
   }, [collab.provider, document.markdown, editor, localUser, roomName]);
 
   useEffect(() => {
-    async function checkDocumentFreshness() {
-      if (typeof navigator !== "undefined" && !navigator.onLine) {
-        updateSyncState("offline", `Offline: ${roomName}`);
-        return;
-      }
-
-      try {
-        const response = await fetch(`/api/documents/${document.document_id}`, {
-          cache: "no-store",
-        });
-
-        if (!response.ok) {
-          updateSyncState("error", `Recovery check failed for ${roomName}`);
-          return;
-        }
-
-        const payload = (await response.json()) as { document?: { version?: number } };
-        const latestVersion = payload.document?.version ?? document.version;
-
-        if (latestVersion > document.version) {
-          updateSyncState("stale", `Newer snapshot available: v${latestVersion}`);
-          return;
-        }
-
-        if (syncState !== "saving") {
-          updateSyncState("live", `Live room synced: ${roomName}`);
-        }
-      } catch {
-        updateSyncState("error", `Recovery check failed for ${roomName}`);
-      }
-    }
-
     const handleFocus = () => {
       void checkDocumentFreshness();
     };
@@ -378,6 +378,7 @@ export function DocumentWorkspace({ document, blockSummaries }: Props) {
     return () => {
       window.removeEventListener("focus", handleFocus);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [document.document_id, document.version, roomName, syncState]);
 
   useEffect(() => {
@@ -426,10 +427,20 @@ export function DocumentWorkspace({ document, blockSummaries }: Props) {
             block_id: summary.block_id,
             heading: summary.heading,
             label: labelParts.join(" · "),
+            contributors: summary.touchedBy.slice(0, 2).join(" · "),
+            left: matchRect.left - containerRect.left,
             top: matchRect.top - containerRect.top,
           };
         })
         .filter((value): value is BlockMarker => Boolean(value));
+
+      headings.forEach((heading) => heading.classList.remove("specforgeHeading--active"));
+      nextMarkers.forEach((marker) => {
+        const match = headings.find(
+          (heading) => heading.textContent?.trim().toLowerCase() === marker.heading.toLowerCase(),
+        );
+        match?.classList.add("specforgeHeading--active");
+      });
 
       setBlockMarkers(nextMarkers);
     };
@@ -444,6 +455,9 @@ export function DocumentWorkspace({ document, blockSummaries }: Props) {
       window.cancelAnimationFrame(raf);
       editor.off("update", handleLayout);
       window.removeEventListener("resize", handleLayout);
+      container
+        .querySelectorAll(".specforgeHeading--active")
+        .forEach((element) => element.classList.remove("specforgeHeading--active"));
     };
   }, [blockSummaries, document.version, editor]);
 
@@ -500,6 +514,9 @@ export function DocumentWorkspace({ document, blockSummaries }: Props) {
           </span>
         </div>
         <div className="editorToolbar__actions">
+          <button type="button" onClick={() => void checkDocumentFreshness()} disabled={isPending}>
+            Check latest snapshot
+          </button>
           {syncState === "offline" || syncState === "error" ? (
             <button type="button" onClick={reconnectRoom}>
               Reconnect room
@@ -541,6 +558,16 @@ export function DocumentWorkspace({ document, blockSummaries }: Props) {
           <div key={marker.block_id} className="blockMarker" style={{ top: `${marker.top}px` }}>
             <strong>{marker.heading}</strong>
             <span>{marker.label}</span>
+          </div>
+        ))}
+        {blockMarkers.map((marker) => (
+          <div
+            key={`${marker.block_id}-inline`}
+            className="inlineProvenance"
+            style={{ left: `${marker.left}px`, top: `${marker.top + 26}px` }}
+          >
+            <strong>{marker.label}</strong>
+            <span>{marker.contributors || "workspace activity"}</span>
           </div>
         ))}
         {remoteCursors.map((cursor) => (

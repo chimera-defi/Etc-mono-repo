@@ -75,6 +75,11 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
       timeout: 10_000,
     })
     .toBeGreaterThanOrEqual(1);
+  await expect
+    .poll(async () => await page.locator(".inlineProvenance").count(), {
+      timeout: 10_000,
+    })
+    .toBeGreaterThanOrEqual(1);
 
   await page.goto(`${page.url().split("?")[0]}?document=${new URL(page.url()).searchParams.get("document")}&stage=decide`);
   await expect(page.getByTestId("patch-queue")).toContainText("task_export_change");
@@ -173,6 +178,39 @@ test("shows two live collaborators on the same document", async ({ browser }) =>
   await pageA.screenshot({
     path: "artifacts/screenshots/specforge-demo-collaboration.png",
     fullPage: true,
+  });
+
+  await contextA.close();
+  await contextB.close();
+});
+
+test("detects a stale room and reloads the latest snapshot", async ({ browser }) => {
+  const contextA = await browser.newContext();
+  const contextB = await browser.newContext();
+  const pageA = await contextA.newPage();
+  const pageB = await contextB.newPage();
+
+  await pageA.goto("/?stage=start");
+  await pageA.getByTestId("create-document-title").fill(`Recovery Spec ${Date.now()}`);
+  await pageA.getByRole("button", { name: "Create guided draft" }).click();
+  await expect(pageA).toHaveURL(/document=/);
+
+  const documentId = new URL(pageA.url()).searchParams.get("document");
+  expect(documentId).toBeTruthy();
+
+  await pageB.goto(`/?document=${documentId}&stage=draft`);
+  await expect(pageB.getByRole("heading", { name: "Document workspace" })).toBeVisible();
+
+  await pageA.getByRole("button", { name: "Save document" }).click();
+  await expect(pageA.locator(".editorToolbar")).toContainText(":v2", {
+    timeout: 10_000,
+  });
+
+  await pageB.getByRole("button", { name: "Check latest snapshot" }).click();
+  await expect(pageB.getByText("Recovery needed")).toBeVisible();
+  await pageB.getByRole("button", { name: "Reload latest snapshot" }).click();
+  await expect(pageB.locator(".editorToolbar")).toContainText(":v2", {
+    timeout: 10_000,
   });
 
   await contextA.close();

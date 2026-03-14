@@ -13,12 +13,14 @@ Current slice:
 - Yjs/Hocuspocus live room wiring per active document
 - collaborator awareness chips and remote cursors in the shared editor
 - signed collab session handshakes between the web app and Hocuspocus server
+- versioned room replay with explicit stale-room detection and latest-snapshot reload
 - patch proposal ingestion with stale detection
 - patch acceptance/rejection/cherry-pick flow with audit trail
 - anchored comment threads with resolve flow
 - canonical `ideas/` showcase import for `server-management-agent`
 - showcase walkthrough from imported idea to launch packet in the export stage
 - block-level provenance markers in the shared canvas
+- richer in-text attribution overlays alongside the shared canvas markers
 - readiness scoring and recap panel
 - deterministic export bundle preview
 - curated TypeScript starter handoff output
