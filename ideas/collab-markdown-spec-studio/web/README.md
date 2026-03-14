@@ -3,6 +3,7 @@
 Next.js application for the SpecForge MVP.
 
 Current slice:
+- guided spec creation that generates the canonical draft from structured inputs
 - embedded SQL persistence via PGlite
 - document create/load API routes
 - document update API route
@@ -15,7 +16,9 @@ Current slice:
 - anchored comment threads with resolve flow
 - readiness scoring and recap panel
 - deterministic export bundle preview
-- dashboard UI for the local MVP flow
+- curated TypeScript starter handoff output
+- execution brief and combined launch packet JSON
+- staged UI for the local MVP flow
 
 ## Commands
 
@@ -39,3 +42,4 @@ npm run dev
 - The local database persists under `.data/specforge-db/` and is seeded from `../fixtures/`.
 - The collaboration runtime lives in `../collab-server/`.
 - The web client connects to `NEXT_PUBLIC_COLLAB_URL` and defaults to `ws://127.0.0.1:4321`.
+- The final handoff stage exposes `/export`, `/handoff`, `/execution`, and `/launch-packet` routes for downstream build agents.
