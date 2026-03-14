@@ -21,7 +21,7 @@ const heroVariants = [
 test("renders the integrated SpecForge demo and captures a screenshot", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/?stage=start");
 
   await expect(page.getByText("SpecForge", { exact: true })).toBeVisible();
   await expect(
@@ -31,8 +31,8 @@ test("renders the integrated SpecForge demo and captures a screenshot", async ({
   ).toBeVisible();
   await expect(page.getByRole("heading", { name: "Workflow" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Delivery loop" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Document workspace" })).toBeVisible();
-  await expect(page.getByText("Live collaborators")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Guided spec creation" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Canonical showcase" })).toBeVisible();
 
   await page.screenshot({
     path: "artifacts/screenshots/specforge-demo-home.png",
@@ -94,12 +94,10 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
   expect(handoffHref).toBeTruthy();
   expect(executionHref).toBeTruthy();
   expect(launchPacketHref).toBeTruthy();
-  const exportResponse = await page.request.get(`http://127.0.0.1:3000${exportHref}`);
-  const handoffResponse = await page.request.get(`http://127.0.0.1:3000${handoffHref}`);
-  const executionResponse = await page.request.get(`http://127.0.0.1:3000${executionHref}`);
-  const launchPacketResponse = await page.request.get(
-    `http://127.0.0.1:3000${launchPacketHref}`,
-  );
+  const exportResponse = await page.request.get(exportHref!);
+  const handoffResponse = await page.request.get(handoffHref!);
+  const executionResponse = await page.request.get(executionHref!);
+  const launchPacketResponse = await page.request.get(launchPacketHref!);
 
   expect(exportResponse.ok()).toBeTruthy();
   expect(handoffResponse.ok()).toBeTruthy();
@@ -159,10 +157,15 @@ test("shows two live collaborators on the same document", async ({ browser }) =>
   const pageA = await contextA.newPage();
   const pageB = await contextB.newPage();
 
-  await pageA.goto("/");
-  await pageB.goto("/");
-
+  await pageA.goto("/?stage=start");
+  await pageA.getByTestId("create-document-title").fill(`Collab Spec ${Date.now()}`);
+  await pageA.getByRole("button", { name: "Create guided draft" }).click();
   await expect(pageA.getByRole("heading", { name: "Document workspace" })).toBeVisible();
+
+  const documentId = new URL(pageA.url()).searchParams.get("document");
+  expect(documentId).toBeTruthy();
+
+  await pageB.goto(`/?document=${documentId}&stage=draft`);
   await expect(pageB.getByRole("heading", { name: "Document workspace" })).toBeVisible();
 
   await expect
