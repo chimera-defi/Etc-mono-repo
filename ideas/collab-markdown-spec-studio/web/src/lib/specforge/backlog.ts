@@ -60,8 +60,20 @@ export async function readBacklogState() {
   const nextItem = activeSection?.items.find((item) => !item.checked) ?? null;
   let loopState: {
     intents?: Array<{ intent_id: string; title: string; status: string; updated_at: string }>;
-    claims?: Array<{ claim_id: string; intent_id: string; state: string; heartbeat_at: string }>;
-    signals?: Array<{ at: string; type: string; intent_id: string }>;
+    claims?: Array<{
+      claim_id: string;
+      intent_id: string;
+      state: string;
+      heartbeat_at: string;
+      retry_count?: number;
+      failure_summary?: string | null;
+    }>;
+    signals?: Array<{
+      at: string;
+      type: string;
+      intent_id: string;
+      failure_summary?: string | null;
+    }>;
   } | null = null;
 
   try {
