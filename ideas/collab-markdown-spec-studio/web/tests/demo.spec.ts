@@ -142,3 +142,17 @@ test("shows two live collaborators on the same document", async ({ browser }) =>
   await contextA.close();
   await contextB.close();
 });
+
+test("renders the guided flow on a mobile viewport", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/?stage=start");
+
+  await expect(page.getByText("SpecForge", { exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Workflow" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Guided spec creation" })).toBeVisible();
+
+  await page.screenshot({
+    path: "artifacts/screenshots/specforge-demo-mobile.png",
+    fullPage: true,
+  });
+});

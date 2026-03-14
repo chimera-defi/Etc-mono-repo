@@ -42,3 +42,16 @@ Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid du
    - ability to reach a build-ready spec
 2. Use selected `ideas/` packs as example corpora and end-to-end benchmarks.
 3. Treat repo generation as a downstream proof surface, not the initial product gate.
+
+### Applied Learnings
+1. Lock the wedge early:
+   - guided specs + governed agent review + one-shot handoff
+   - avoid drifting back into generic collaborative editing
+2. Export is not enough:
+   - the product only becomes legible when export turns into starter handoff, execution brief, and launch packet
+3. Put the workflow into the UI:
+   - if the next action is not obvious on screen, the spec is still too ambiguous
+4. Constrain generation first:
+   - one curated TypeScript starter is a better MVP than broad repo generation claims
+5. Keep browser tests on the real path:
+   - create -> review -> decide -> handoff is the regression boundary for future idea builds

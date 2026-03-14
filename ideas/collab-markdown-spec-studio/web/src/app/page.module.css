@@ -659,3 +659,67 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 640px) {
+  .shell {
+    padding: 14px;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.9rem, 10vw, 2.8rem);
+  }
+
+  .subhead,
+  .brandTagline,
+  .stepCard p,
+  .stageDescription,
+  .context,
+  .empty {
+    font-size: 0.92rem;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .panel,
+  .stepCard,
+  .documentItem,
+  .patchItem,
+  .blockSummaryItem,
+  .exportCard {
+    padding: 14px;
+    border-radius: 18px;
+  }
+
+  .panelHeader,
+  .disclosureSummary,
+  .patchHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .inlineActions,
+  .patchActions,
+  .exportActions {
+    width: 100%;
+  }
+
+  .form button,
+  .patchActions button,
+  .exportLink,
+  .secondaryLink {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .patchMeta,
+  .blockSummaryMeta {
+    width: 100%;
+  }
+
+  .editorPanel :global(.editorToolbar) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
