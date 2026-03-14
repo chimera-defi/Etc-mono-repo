@@ -699,7 +699,7 @@ export default async function Home({ searchParams }: Props) {
                         <textarea
                           name="content"
                           rows={6}
-                          defaultValue={`${activeBlock.content}\n\n- Added from the MVP dashboard.`}
+                          defaultValue={`${activeBlock.content}\n\n- Added from the SpecForge review workspace.`}
                           data-testid="patch-content-input"
                         />
                       </label>
