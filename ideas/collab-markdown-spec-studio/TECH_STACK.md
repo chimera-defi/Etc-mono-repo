@@ -32,7 +32,9 @@
    - reads `TASKS.md` backlog state
    - treats backlog items as intents
    - records active claims and emitted signals
+   - targets a runnable minimum extensible product first, then drives parity passes
    - generates the next Codex pass brief
+   - emits a delivery context package for the app and external agent consumers
    - can run bounded parity loops until the backlog is clear or blocked
    - exposes backlog status/brief into the app via parity endpoints
 5. Shared persistence:
@@ -45,6 +47,7 @@
 3. Keeps the product close to a monolith while isolating websocket concerns.
 4. Supports a fast path to a live demo and later refactors.
 5. Makes the coding-agent delivery loop executable instead of manual.
+6. Preserves a safe path from "first runnable output" to "spec-parity product" without restarting from scratch.
 
 ### Canonical Data Shape
 1. Canonical editing state is Tiptap/ProseMirror JSON.
@@ -78,3 +81,8 @@
 3. Advanced inline comment systems before patch review is solid.
 4. Multi-service monorepo generation.
 5. Native/mobile starter generation.
+
+### Delivery Defaults
+1. First delivery target: minimum extensible product that runs locally and can be extended incrementally.
+2. Runner target: clear the scoped backlog through bounded green passes, not one opaque mega-run.
+3. Human escalation target: only ask for input on true blockers, clarifications, or scope conflicts.
