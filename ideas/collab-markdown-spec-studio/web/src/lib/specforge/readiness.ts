@@ -1,5 +1,5 @@
 import type { DocumentRecord, StoredPatch } from "./contracts";
-import type { CommentThreadRecord } from "./store";
+import type { ClarificationRecord, CommentThreadRecord } from "./store";
 
 type ReadinessStatus = "blocked" | "needs_review" | "ready";
 
@@ -9,6 +9,7 @@ export type ReadinessReport = {
   missing_sections: string[];
   open_patch_count: number;
   open_comment_count: number;
+  open_clarification_count: number;
   recap: string[];
 };
 
@@ -35,8 +36,9 @@ export function evaluateReadiness(input: {
   document: DocumentRecord;
   patches: StoredPatch[];
   comments: CommentThreadRecord[];
+  clarifications?: ClarificationRecord[];
 }): ReadinessReport {
-  const { document, patches, comments } = input;
+  const { document, patches, comments, clarifications = [] } = input;
   const missingSections = requiredSections.filter(
     (requiredSection) => !hasSection(document, requiredSection),
   );
@@ -44,6 +46,7 @@ export function evaluateReadiness(input: {
     ["proposed", "stale"].includes(patch.status),
   ).length;
   const openCommentCount = comments.filter((thread) => thread.status === "open").length;
+  const openClarificationCount = clarifications.filter((item) => item.status === "open").length;
 
   let score = 100;
   score -= missingSections.length * 15;
@@ -55,6 +58,9 @@ export function evaluateReadiness(input: {
   }
   if (openCommentCount > 0) {
     score -= Math.min(15, openCommentCount * 3);
+  }
+  if (openClarificationCount > 0) {
+    score -= Math.min(20, openClarificationCount * 5);
   }
   score = Math.max(0, score);
 
@@ -71,6 +77,9 @@ export function evaluateReadiness(input: {
     openCommentCount > 0
       ? `${openCommentCount} open comment thread${openCommentCount === 1 ? "" : "s"} remain.`
       : "No open comment threads remain.",
+    openClarificationCount > 0
+      ? `${openClarificationCount} clarification${openClarificationCount === 1 ? "" : "s"} still need answers.`
+      : "Clarification queue is clear.",
   ];
 
   return {
@@ -79,6 +88,7 @@ export function evaluateReadiness(input: {
     missing_sections: missingSections,
     open_patch_count: openPatchCount,
     open_comment_count: openCommentCount,
+    open_clarification_count: openClarificationCount,
     recap,
   };
 }

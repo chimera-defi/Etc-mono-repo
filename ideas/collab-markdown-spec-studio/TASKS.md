@@ -19,6 +19,7 @@
 - [x] Rich patch diff/review UI exists with review-stage and decision-stage triage.
 - [x] Inline block-level provenance markers are visible in the shared canvas.
 - [x] Depth gates, recap generation, and implementation-readiness scoring.
+- [x] Clarification queue and answer writeback into canonical document sections.
 - [x] Deterministic export/handoff flow exists for the local bundle preview and curated starter handoff.
 - [x] One canonical `ideas/` showcase import exists for `server-management-agent`.
 - [x] Playwright-based end-to-end and screenshot coverage for the local integrated demo.
@@ -38,7 +39,7 @@
 - [x] Document minimum extensible product as the first-class delivery target before full parity.
 - [ ] Replace the local actor selector with pilot-grade GitHub OAuth and workspace membership.
 - [ ] Add real workspace records, membership roles, and per-workspace document isolation in the app UI.
-- [ ] Add clarification queue flows and answer writing back into the canonical doc.
+- [x] Add clarification queue flows and answer writing back into the canonical doc.
 - [ ] Expand starter generation from one curated template toward the broader repo-generation scope.
 - [ ] Add hosted deployment config, production persistence, and real observability plumbing.
 - [ ] Let the runner advance the SaaS backlog through multiple claimed passes while preserving local-test ergonomics.

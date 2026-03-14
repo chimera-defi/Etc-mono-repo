@@ -4,7 +4,9 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import {
+  answerClarification,
   createCommentThread,
+  createClarification,
   createDocument,
   createPatchProposal,
   decidePatch,
@@ -127,6 +129,36 @@ export async function resolveCommentThreadAction(formData: FormData) {
     document_id: String(formData.get("document_id")),
     thread_id: String(formData.get("thread_id")),
     resolved_by: {
+      actor_type: currentActor.actor_type,
+      actor_id: currentActor.actor_id,
+    },
+  });
+
+  revalidatePath("/");
+}
+
+export async function createClarificationAction(formData: FormData) {
+  const currentActor = await getCurrentWorkspaceActor();
+  await createClarification({
+    document_id: String(formData.get("document_id")),
+    section_heading: String(formData.get("section_heading")),
+    question: String(formData.get("question") ?? ""),
+    created_by: {
+      actor_type: currentActor.actor_type,
+      actor_id: currentActor.actor_id,
+    },
+  });
+
+  revalidatePath("/");
+}
+
+export async function answerClarificationAction(formData: FormData) {
+  const currentActor = await getCurrentWorkspaceActor();
+  await answerClarification({
+    document_id: String(formData.get("document_id")),
+    clarification_id: String(formData.get("clarification_id")),
+    answer: String(formData.get("answer") ?? ""),
+    answered_by: {
       actor_type: currentActor.actor_type,
       actor_id: currentActor.actor_id,
     },
