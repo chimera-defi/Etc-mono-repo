@@ -1,0 +1,195 @@
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  color: #1c1a17;
+  background: #efe4d5;
+  font-family: var(--font-geist-sans), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+code,
+pre,
+textarea,
+input {
+  font-family: var(--font-geist-mono), monospace;
+}
+
+.statusChip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.18rem 0.5rem;
+  margin-right: 0.4rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(28, 26, 23, 0.08);
+}
+
+.statusChip--success {
+  background: rgba(33, 122, 69, 0.12);
+  color: #1b6a3d;
+}
+
+.statusChip--warning {
+  background: rgba(183, 106, 18, 0.14);
+  color: #8a5310;
+}
+
+.statusChip--neutral {
+  background: rgba(28, 26, 23, 0.08);
+  color: #433a31;
+}
+
+.editorSurface {
+  position: relative;
+  padding-right: 12rem;
+}
+
+.editorToolbar__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.55rem;
+}
+
+.recoveryBanner {
+  display: grid;
+  gap: 0.2rem;
+  margin-bottom: 0.9rem;
+  padding: 0.8rem 0.95rem;
+  border: 1px solid rgba(183, 106, 18, 0.3);
+  border-radius: 0.9rem;
+  background: rgba(255, 245, 229, 0.92);
+  color: #7a4a12;
+  font-family: var(--font-geist-sans), sans-serif;
+  box-shadow: 0 8px 22px rgba(64, 42, 23, 0.08);
+}
+
+.recoveryBanner strong {
+  font-size: 0.85rem;
+}
+
+.recoveryBanner span {
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.remoteCursor {
+  position: absolute;
+  width: 2px;
+  height: 1.5rem;
+  background: currentColor;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.remoteCursor__label {
+  position: absolute;
+  top: -1.35rem;
+  left: 0;
+  transform: translateX(-1px);
+  padding: 0.18rem 0.45rem;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.72rem;
+  font-family: var(--font-geist-sans), sans-serif;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.blockMarker {
+  position: absolute;
+  right: 0.75rem;
+  width: 10.25rem;
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(28, 26, 23, 0.12);
+  background: rgba(255, 249, 240, 0.94);
+  box-shadow: 0 10px 24px rgba(64, 42, 23, 0.1);
+  font-family: var(--font-geist-sans), sans-serif;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.blockMarker strong {
+  font-size: 0.74rem;
+  line-height: 1.2;
+}
+
+.blockMarker span {
+  font-size: 0.7rem;
+  color: #6c6258;
+  line-height: 1.25;
+}
+
+.inlineProvenance {
+  position: absolute;
+  display: grid;
+  gap: 0.12rem;
+  max-width: 18rem;
+  padding: 0.34rem 0.55rem;
+  border-radius: 0.7rem;
+  background: rgba(17, 106, 138, 0.1);
+  border: 1px solid rgba(17, 106, 138, 0.18);
+  color: #174f67;
+  font-family: var(--font-geist-sans), sans-serif;
+  box-shadow: 0 8px 20px rgba(17, 106, 138, 0.08);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.inlineProvenance strong {
+  font-size: 0.72rem;
+  line-height: 1.2;
+}
+
+.inlineProvenance span {
+  font-size: 0.68rem;
+  line-height: 1.25;
+  color: #486777;
+}
+
+.specforgeHeading--active {
+  position: relative;
+  padding-left: 0.35rem;
+  border-left: 3px solid rgba(17, 106, 138, 0.35);
+}
+
+@media (max-width: 960px) {
+  .editorSurface {
+    padding-right: 0;
+  }
+
+  .blockMarker {
+    display: none;
+  }
+
+  .inlineProvenance {
+    position: static;
+    margin: 0 0 0.55rem;
+    max-width: none;
+  }
+
+  .editorToolbar__actions {
+    justify-content: flex-start;
+  }
+}

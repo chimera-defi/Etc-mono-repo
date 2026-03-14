@@ -7,7 +7,9 @@
 4. Collaboration server: `Hocuspocus`
 5. Primary database: `Postgres`
 6. Background jobs: lightweight TypeScript worker
-7. Testing:
+7. Delivery orchestration: Node.js parity runner around `codex exec`
+8. Runner artifacts: latest handoff + meta learnings under `.cursor/artifacts/`
+9. Testing:
    - `Vitest` for unit and contract tests
    - `Playwright` for end-to-end and screenshot flows
 
@@ -20,12 +22,26 @@
    - export orchestration
 2. Collaboration service:
    - websocket sync
+   - signed room authentication
+   - structured room telemetry
    - Yjs document room lifecycle
 3. Worker:
    - recap generation
    - export jobs
    - curated repo-generation jobs
-4. Shared persistence:
+4. Parity runner:
+   - reads `TASKS.md` backlog state
+   - treats backlog items as intents
+   - records active claims and emitted signals
+   - targets a runnable minimum extensible product first, then drives parity passes
+   - generates the next Codex pass brief
+   - emits a delivery context package for the app and external agent consumers
+   - can run bounded parity loops until the backlog is clear or blocked
+   - exposes backlog status/brief into the app via parity endpoints
+   - records retry counts and failure summaries so blocked passes are diagnosable
+   - schedules periodic multipass review/refactor passes
+   - refreshes handoff/meta-learning artifacts for context compaction and resume
+5. Shared persistence:
    - Postgres for application state
    - optional blob storage only if snapshots/exports outgrow database ergonomics
 
@@ -34,6 +50,8 @@
 2. Uses mature off-the-shelf collaboration primitives instead of custom CRDT/editor infrastructure.
 3. Keeps the product close to a monolith while isolating websocket concerns.
 4. Supports a fast path to a live demo and later refactors.
+5. Makes the coding-agent delivery loop executable instead of manual.
+6. Preserves a safe path from "first runnable output" to "spec-parity product" without restarting from scratch.
 
 ### Canonical Data Shape
 1. Canonical editing state is Tiptap/ProseMirror JSON.
@@ -48,6 +66,8 @@
 1. Local demo mode: simple dev identity bypass.
 2. Pilot mode: GitHub OAuth for human users.
 3. Agents: workspace-scoped service identities.
+4. Local collab runtime: short-lived signed room tokens minted by the web app and verified by the collab server.
+5. Product code should consume one auth/session abstraction so local mode and pilot mode share the same actor contract.
 
 ### v1 Feature Boundaries
 1. Comments:
@@ -66,3 +86,8 @@
 3. Advanced inline comment systems before patch review is solid.
 4. Multi-service monorepo generation.
 5. Native/mobile starter generation.
+
+### Delivery Defaults
+1. First delivery target: minimum extensible product that runs locally and can be extended incrementally.
+2. Runner target: clear the scoped backlog through bounded green passes, not one opaque mega-run.
+3. Human escalation target: only ask for input on true blockers, clarifications, or scope conflicts.

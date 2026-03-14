@@ -1,5 +1,78 @@
 # SpecForge Task List (Build-Ready)
 
+## Current Implementation Status
+- [x] Next.js MVP shell exists under `web/`.
+- [x] Embedded SQL persistence supports create/load/update/export.
+- [x] Guided spec creation turns structured inputs into the canonical draft and metadata.
+- [x] Patch proposal ingestion exists with stale detection.
+- [x] Tiptap authoring workspace exists.
+- [x] Browser editor connects to per-document Hocuspocus rooms over Yjs.
+- [x] Hocuspocus collaboration server scaffold is runnable.
+- [x] Documents, patches, snapshots, and audit events are stored in the local PGlite database.
+- [x] Patch review decisions mutate canonical document state and are shown in the workspace.
+- [x] Anchored comment threads exist in the workspace with open/resolved state.
+- [x] Readiness scoring and recap output exist in the workspace.
+- [x] Starter handoff generates a curated TypeScript output bundle from the approved spec.
+- [x] Execution brief generates run-readiness, blockers, commands, and agent instructions.
+- [x] Launch packet combines export, starter output, and execution brief into one payload.
+- [x] Shared cursor rendering is live alongside collaborator awareness.
+- [x] Rich patch diff/review UI exists with review-stage and decision-stage triage.
+- [x] Inline block-level provenance markers are visible in the shared canvas.
+- [x] Depth gates, recap generation, and implementation-readiness scoring.
+- [x] Clarification queue and answer writeback into canonical document sections.
+- [x] Shared workspace-document access helper reduces repeated route scoping logic.
+- [x] Runner emits a latest handoff artifact for compaction and resume.
+- [x] Runner supports periodic multipass review prompts and meta-learning handoff artifacts.
+- [x] Deterministic export/handoff flow exists for the local bundle preview and curated starter handoff.
+- [x] One canonical `ideas/` showcase import exists for `server-management-agent`.
+- [x] Playwright-based end-to-end and screenshot coverage for the local integrated demo.
+- [x] Local parity runner exists to drive bounded Codex passes from the remaining backlog.
+
+## Remaining MVP Build Backlog
+- [x] Add reconnect, replay, and stale-room recovery handling beyond the current local persistence path.
+- [x] Add auth hooks between the web app and collaboration server.
+- [x] Add stronger sync/offline/error states in the shared canvas.
+- [x] Deepen inline provenance from block markers into richer in-text attribution overlays.
+- [x] Extend the canonical showcase path from import -> review -> launch packet into a starter-output walkthrough in the UI/docs.
+- [x] Add lightweight observability and a local failure-mode runbook.
+
+## Next SaaS Build Backlog
+- [x] Add explicit workspace actor/session selection so server-side attribution is not hardcoded.
+- [x] Model the delivery loop as intents, claims, context packages, and signals inside the runner/app surface.
+- [x] Document minimum extensible product as the first-class delivery target before full parity.
+- [ ] Replace the local actor selector with pilot-grade GitHub OAuth and workspace membership.
+- [x] Add real workspace records, membership roles, and per-workspace document isolation in the app UI.
+- [x] Add clarification queue flows and answer writing back into the canonical doc.
+- [ ] Expand starter generation from one curated template toward the broader repo-generation scope.
+- [ ] Add hosted deployment config, production persistence, and real observability plumbing.
+- [ ] Let the runner advance the SaaS backlog through multiple claimed passes while preserving local-test ergonomics.
+
+## Immediate Execution Order
+1. Auth and tenancy:
+   - replace local actor switching with local-fallback auth sessions plus GitHub OAuth
+   - add workspace membership records and enforce workspace-scoped document loading
+2. Orchestration hardening:
+   - persist retry counts, failure summaries, and richer blocked-state diagnostics
+   - prove the runner can clear at least one non-trivial SaaS backlog item
+3. Clarification workflow:
+   - queue unanswered clarifications
+   - write accepted answers back into canonical blocks and audit history
+4. Handoff expansion:
+   - grow starter output beyond the single curated template
+   - add hosted deployment and production observability notes/config
+
+## Recommended Parallel Execution Now
+1. Shared canvas hardening: reconnect, replay, and sync/error states.
+2. Attribution and provenance: richer in-text overlays and block ownership detail.
+3. Example-build proof: tighten the showcase path from imported idea to starter walkthrough.
+4. Ops polish: logging, failure-mode runbook, and local recovery notes.
+
+## Dependency Order for the Remaining Build
+1. Finish shared-canvas hardening around reconnect and sync states.
+2. Deepen provenance from marker overlays into richer inline annotations.
+3. Tighten the showcase example into a more explicit end-to-end walkthrough.
+4. Add ops notes and local recovery guidance last.
+
 ## Milestones
 1. Spec package approved.
 2. Design-partner validation complete.
@@ -80,6 +153,7 @@
 - [ ] Acceptance tests are mapped one-to-one to user flows.
 - [ ] Seed data and fixture examples are included for local boot.
 - [ ] "First 60 minutes" local runbook is present and validated by a fresh agent.
+- [ ] Delivery loop can continue from minimum extensible product to scoped parity without repeated manual re-prompting.
 
 ## Phase 1 (Validation)
 - [ ] Execute WS-6 and publish synthesis.

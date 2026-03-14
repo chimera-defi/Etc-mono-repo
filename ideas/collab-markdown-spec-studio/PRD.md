@@ -1,6 +1,6 @@
 ## SpecForge PRD
 
-**Status**: Draft | **Last Updated**: 2026-03-06 | **Owner**: TBD
+**Status**: MVP build validated locally | **Last Updated**: 2026-03-14 | **Owner**: SpecForge
 
 ### Problem
 Teams doing startup/product planning often draft PRD/spec/design docs in fragmented tools:
@@ -63,6 +63,7 @@ Create a focused collaborative spec IDE for humans and AI agents where work happ
    - open decisions
    - current go/no-go posture
 4. Goal: prevent shallow specs and reduce idea drift between user intent and produced artifacts.
+5. Delivery principle: every approved spec should first yield a minimum extensible product that is runnable and then be driven toward parity by the delivery loop.
 
 ### Example Corpus Strategy
 Use selected packs under `ideas/` as:
@@ -89,6 +90,7 @@ Add-on AI usage and enterprise governance can expand this if retention is strong
 ### GTM
 1. Wedge into AI-heavy startup teams and dev shops.
 2. Lead with authoring and governance value before broad repo-generation claims.
+3. Treat autonomous backlog-driving as product value, not just internal build hygiene.
 3. Integrate with GitHub/Jira/Linear to connect spec -> execution.
 4. Content-led growth via templates and "good spec" playbooks.
 5. Viral loop: shared docs with guest review + easy import/export.

@@ -59,3 +59,33 @@
 - Choice: restrict first repo generation to docs-only export plus one curated TypeScript app template.
 - Why: proves the authoring-to-code loop without exploding support surface area.
 - Tradeoff: narrower demo than a framework-agnostic generator.
+
+## Decision 13: Codex Parity Runner
+- Choice: ship a local orchestration runner that wraps `codex exec` and advances the highest-priority remaining parity item automatically.
+- Why: teams should not have to manually re-prompt the coding agent after every integrated pass.
+- Tradeoff: the runner depends on disciplined task tracking and can only automate as far as the backlog and stop conditions are explicit.
+
+## Decision 14: Signed Collab Room Handshake
+- Choice: mint short-lived room tokens in the web app and verify them in the collaboration server.
+- Why: keeps the local MVP close to the pilot auth model without exposing room trust to unauthenticated websocket joins.
+- Tradeoff: adds one more integration seam between the app and collab runtime.
+
+## Decision 15: Structured Room Telemetry and Local Runbook
+- Choice: emit structured collab-server events and keep a local failure-mode runbook beside the MVP.
+- Why: reconnect/auth issues are otherwise hard to debug in a multiplayer product.
+- Tradeoff: local logs are useful but still far short of full production observability.
+
+## Decision 16: Swarm-Style Delivery Loop for Buildout
+- Choice: model the post-spec build loop as `intent -> claim -> context -> signal`.
+- Why: once the spec is approved, the hardest problem shifts from writing to coordinating bounded agent passes without losing state.
+- Tradeoff: this adds a second workflow model after patch governance, so the seam between authoring and delivery must stay explicit.
+
+## Decision 17: Minimum Extensible Product Before Final-Form Buildout
+- Choice: the first generated/buildable result should be a minimum extensible product that is runnable and easy to evolve, not an attempt at the final shape in one unsafe leap.
+- Why: this keeps the output honest, verifiable, and compatible with the delivery loop's bounded-pass model.
+- Tradeoff: the first handoff may look intentionally narrower than the full approved vision, so the backlog and parity targets must stay explicit.
+
+## Decision 18: Delivery Loop Is a Product Primitive, Not Just Internal Tooling
+- Choice: surface backlog state, next brief, claims, and signals inside SpecForge itself instead of hiding orchestration in external scripts only.
+- Why: teams need to see whether the product is stalled, progressing, or waiting on human clarification without inspecting raw agent logs.
+- Tradeoff: the product now owns one more workflow surface that must stay consistent with the underlying runner.
