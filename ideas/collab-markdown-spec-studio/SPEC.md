@@ -69,6 +69,7 @@ Build a real-time collaborative spec IDE with:
 - AI orchestration: prompt templates + tool-calling adapters.
 - Delivery orchestration: local parity runner that wraps Codex CLI for repeated build passes.
 - Delivery visibility: in-product backlog status + next-pass brief exposed through parity endpoints and the workspace UI.
+- Delivery model: intents, claims, context packages, and signals for agent-driven build execution after the spec is approved.
 - Governance service: patch validation, stale detection, review decisions, recap/depth enforcement.
 - Collab auth layer: short-lived room tokens minted by the web app and verified by the collaboration service.
 - Storage: canonical doc state, snapshots, patch logs, audit trail.
@@ -84,6 +85,7 @@ Build a real-time collaborative spec IDE with:
 7. Structured room telemetry plus a local failure-mode runbook for multiplayer debugging.
 8. Version-scoped room names plus explicit snapshot replay/reload controls for stale-room recovery.
 9. Inline provenance overlays in the editor surface alongside block-level review markers.
+10. Delivery loop state that tracks claimed intents, latest context, and emitted signals as the buildout advances.
 
 ### Default Stack
 1. Next.js + React + TypeScript for the application shell.
