@@ -81,6 +81,8 @@ Build a real-time collaborative spec IDE with:
 5. Shared Postgres database for application state, audit logs, comments, and exports.
 6. Local object/blob storage only if snapshots or exports outgrow Postgres storage ergonomics.
 7. Structured room telemetry plus a local failure-mode runbook for multiplayer debugging.
+8. Version-scoped room names plus explicit snapshot replay/reload controls for stale-room recovery.
+9. Inline provenance overlays in the editor surface alongside block-level review markers.
 
 ### Default Stack
 1. Next.js + React + TypeScript for the application shell.
