@@ -69,6 +69,13 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
     .fill("## Goals\n\n- Export this draft as a clean handoff bundle.");
   await page.getByRole("button", { name: "Queue patch" }).click();
 
+  await page.goto(`${page.url().split("?")[0]}?document=${new URL(page.url()).searchParams.get("document")}&stage=draft`);
+  await expect
+    .poll(async () => await page.locator(".blockMarker").count(), {
+      timeout: 10_000,
+    })
+    .toBeGreaterThanOrEqual(1);
+
   await page.goto(`${page.url().split("?")[0]}?document=${new URL(page.url()).searchParams.get("document")}&stage=decide`);
   await expect(page.getByTestId("patch-queue")).toContainText("task_export_change");
 
@@ -114,6 +121,21 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
     starter_bundle: expect.any(Object),
     execution_brief: expect.any(Object),
   });
+});
+
+test("imports the canonical showcase idea and carries it into the draft workspace", async ({
+  page,
+}) => {
+  await page.goto("/?stage=start");
+  await page.getByRole("button", { name: "Import showcase draft" }).first().click();
+
+  await expect(page.getByRole("heading", { name: "Document workspace" })).toBeVisible();
+  await expect(page.locator(".editorToolbar strong")).toContainText("Server Management Agent");
+  await expect
+    .poll(async () => await page.locator(".specforgeEditor").innerText(), {
+      timeout: 15_000,
+    })
+    .toContain("Source Idea");
 });
 
 test("shows two live collaborators on the same document", async ({ browser }) => {

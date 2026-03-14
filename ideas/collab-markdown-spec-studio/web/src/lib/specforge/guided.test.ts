@@ -10,6 +10,7 @@ describe("buildGuidedSpecMarkdown", () => {
       goals: "Unify authoring\nEnable handoff",
       users: "Founder\nEngineer",
       scope: "Guided creation\nPatch review",
+      requirements: "Shared canvas\nApproved patch decisions",
       constraints: "Use CRDT\nHuman approval required",
       successSignals: "Runnable handoff",
       tasks: "Draft spec\nReview patches",
@@ -19,6 +20,8 @@ describe("buildGuidedSpecMarkdown", () => {
     expect(markdown).toContain("# SpecForge");
     expect(markdown).toContain("## Problem");
     expect(markdown).toContain("- Specs are fragmented");
+    expect(markdown).toContain("## Requirements");
+    expect(markdown).toContain("- Shared canvas");
     expect(markdown).toContain("## Tasks");
     expect(markdown).toContain("- Draft spec");
   });
