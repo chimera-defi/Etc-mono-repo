@@ -245,8 +245,6 @@ async function runLoop(options) {
       worktreeRoot,
       "--sandbox",
       "workspace-write",
-      "--ask-for-approval",
-      "never",
       prompt,
     ];
 
