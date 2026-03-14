@@ -1,4 +1,4 @@
-import { mkdir, readFile } from "node:fs/promises";
+import { mkdir, readFile, rename, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { randomUUID } from "node:crypto";
@@ -114,6 +114,7 @@ export type CommentThreadRecord = {
 };
 
 const databaseCache = new Map<string, Promise<PGlite>>();
+const snapshotVersionCache = new Map<string, number>();
 
 function normalizePathLike(value: unknown) {
   if (typeof value === "string") {
@@ -135,14 +136,19 @@ function normalizePathLike(value: unknown) {
 const currentWorkingDirectory = normalizePathLike(process.cwd());
 const envDbPath = process.env.SPECFORGE_DB_PATH;
 const envFixturesDir = process.env.SPECFORGE_FIXTURES_DIR;
-const defaultDbPath = path.resolve(currentWorkingDirectory, ".data", "specforge-db");
+const defaultDbPath = path.resolve(currentWorkingDirectory, ".data", "specforge-store.json");
 const defaultFixturesDir = path.resolve(currentWorkingDirectory, "..", "fixtures");
 
 function resolveOptions(options: StoreOptions = {}) {
+  const resolvedDbPath =
+    options.dbPath ??
+    (envDbPath ? normalizePathLike(envDbPath) : defaultDbPath);
+
   return {
     dbPath:
-      options.dbPath ??
-      (envDbPath ? path.resolve(currentWorkingDirectory, envDbPath) : defaultDbPath),
+      resolvedDbPath.startsWith("memory://")
+        ? resolvedDbPath
+        : path.resolve(currentWorkingDirectory, resolvedDbPath),
     fixturesDir:
       options.fixturesDir ??
       (envFixturesDir
@@ -154,6 +160,249 @@ function resolveOptions(options: StoreOptions = {}) {
 async function readJson<T>(filePath: string): Promise<T> {
   const raw = await readFile(filePath, "utf8");
   return JSON.parse(raw) as T;
+}
+
+type StoreSnapshot = {
+  documents: DocumentRow[];
+  patches: PatchRow[];
+  audit_events: AuditEventRow[];
+  comment_threads: CommentThreadRow[];
+};
+
+async function getSnapshotVersion(snapshotPath: string) {
+  if (snapshotPath.startsWith("memory://")) {
+    return 0;
+  }
+
+  try {
+    const result = await stat(snapshotPath);
+    return result.mtimeMs;
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+      return 0;
+    }
+
+    throw error;
+  }
+}
+
+async function dumpSnapshot(database: PGlite): Promise<StoreSnapshot> {
+  const [documents, patches, auditEvents, commentThreads] = await Promise.all([
+    database.query<DocumentRow>(
+      `SELECT
+        document_id,
+        workspace_id,
+        title,
+        version,
+        markdown,
+        editor_json,
+        metadata_json,
+        created_at,
+        updated_at
+      FROM documents
+      ORDER BY created_at ASC`,
+    ),
+    database.query<PatchRow>(
+      `SELECT
+        patch_id,
+        document_id,
+        block_id,
+        section_id,
+        operation,
+        content,
+        patch_type,
+        rationale,
+        proposed_by_actor_type,
+        proposed_by_actor_id,
+        base_version,
+        target_fingerprint,
+        confidence,
+        status,
+        created_at
+      FROM patches
+      ORDER BY created_at ASC`,
+    ),
+    database.query<AuditEventRow>(
+      `SELECT
+        event_id,
+        document_id,
+        patch_id,
+        event_type,
+        actor_type,
+        actor_id,
+        payload_json,
+        created_at
+      FROM audit_events
+      ORDER BY created_at ASC`,
+    ),
+    database.query<CommentThreadRow>(
+      `SELECT
+        thread_id,
+        document_id,
+        block_id,
+        body,
+        status,
+        created_by_actor_type,
+        created_by_actor_id,
+        resolved_by_actor_type,
+        resolved_by_actor_id,
+        created_at,
+        resolved_at
+      FROM comment_threads
+      ORDER BY created_at ASC`,
+    ),
+  ]);
+
+  return {
+    documents: documents.rows,
+    patches: patches.rows,
+    audit_events: auditEvents.rows,
+    comment_threads: commentThreads.rows,
+  };
+}
+
+async function hydrateSnapshot(database: PGlite, snapshot: StoreSnapshot) {
+  await database.exec(`
+    DELETE FROM comment_threads;
+    DELETE FROM audit_events;
+    DELETE FROM patches;
+    DELETE FROM documents;
+  `);
+
+  for (const row of snapshot.documents) {
+    await database.query(
+      `INSERT INTO documents (
+        document_id,
+        workspace_id,
+        title,
+        version,
+        markdown,
+        editor_json,
+        metadata_json,
+        created_at,
+        updated_at
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+      [
+        row.document_id,
+        row.workspace_id,
+        row.title,
+        row.version,
+        row.markdown,
+        row.editor_json ?? null,
+        row.metadata_json ?? {},
+        row.created_at,
+        row.updated_at,
+      ],
+    );
+  }
+
+  for (const row of snapshot.patches) {
+    await database.query(
+      `INSERT INTO patches (
+        patch_id,
+        document_id,
+        block_id,
+        section_id,
+        operation,
+        content,
+        patch_type,
+        rationale,
+        proposed_by_actor_type,
+        proposed_by_actor_id,
+        base_version,
+        target_fingerprint,
+        confidence,
+        status,
+        created_at
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)`,
+      [
+        row.patch_id,
+        row.document_id,
+        row.block_id,
+        row.section_id ?? null,
+        row.operation,
+        row.content ?? null,
+        row.patch_type,
+        row.rationale ?? null,
+        row.proposed_by_actor_type,
+        row.proposed_by_actor_id,
+        row.base_version,
+        row.target_fingerprint,
+        row.confidence ?? null,
+        row.status,
+        row.created_at,
+      ],
+    );
+  }
+
+  for (const row of snapshot.audit_events) {
+    await database.query(
+      `INSERT INTO audit_events (
+        event_id,
+        document_id,
+        patch_id,
+        event_type,
+        actor_type,
+        actor_id,
+        payload_json,
+        created_at
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+      [
+        row.event_id,
+        row.document_id ?? null,
+        row.patch_id ?? null,
+        row.event_type,
+        row.actor_type,
+        row.actor_id,
+        row.payload_json ?? {},
+        row.created_at,
+      ],
+    );
+  }
+
+  for (const row of snapshot.comment_threads) {
+    await database.query(
+      `INSERT INTO comment_threads (
+        thread_id,
+        document_id,
+        block_id,
+        body,
+        status,
+        created_by_actor_type,
+        created_by_actor_id,
+        resolved_by_actor_type,
+        resolved_by_actor_id,
+        created_at,
+        resolved_at
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+      [
+        row.thread_id,
+        row.document_id,
+        row.block_id,
+        row.body,
+        row.status,
+        row.created_by_actor_type,
+        row.created_by_actor_id,
+        row.resolved_by_actor_type ?? null,
+        row.resolved_by_actor_id ?? null,
+        row.created_at,
+        row.resolved_at ?? null,
+      ],
+    );
+  }
+}
+
+async function persistSnapshot(database: PGlite, snapshotPath: string) {
+  if (snapshotPath.startsWith("memory://")) {
+    return;
+  }
+
+  await mkdir(path.dirname(snapshotPath), { recursive: true });
+  const snapshot = await dumpSnapshot(database);
+  const tempPath = `${snapshotPath}.${randomUUID()}.tmp`;
+  await writeFile(tempPath, JSON.stringify(snapshot, null, 2));
+  await rename(tempPath, snapshotPath);
+  snapshotVersionCache.set(snapshotPath, await getSnapshotVersion(snapshotPath));
 }
 
 function mapDocumentRow(row: DocumentRow): DocumentRecord {
@@ -498,29 +747,50 @@ async function seedDatabase(database: PGlite, fixturesDir: string) {
 
 async function getDatabase(options: StoreOptions = {}) {
   const { dbPath, fixturesDir } = resolveOptions(options);
+  const isMemoryDatabase = dbPath.startsWith("memory://");
 
   if (!databaseCache.has(dbPath)) {
     databaseCache.set(
       dbPath,
       (async () => {
-        await mkdir(path.dirname(dbPath), { recursive: true });
-        const database = await PGlite.create(dbPath);
+        const database = await PGlite.create();
         await createSchema(database);
-        const countResult = await database.query<{ count: number }>(
-          "SELECT COUNT(*)::int AS count FROM documents",
-        );
-        const count = Number(countResult.rows[0]?.count ?? 0);
 
-        if (count === 0) {
+        if (isMemoryDatabase) {
           await seedDatabase(database, fixturesDir);
+          return database;
         }
 
+        const snapshotVersion = await getSnapshotVersion(dbPath);
+
+        if (snapshotVersion > 0) {
+          const snapshot = await readJson<StoreSnapshot>(dbPath);
+          await hydrateSnapshot(database, snapshot);
+          snapshotVersionCache.set(dbPath, snapshotVersion);
+          return database;
+        }
+
+        await seedDatabase(database, fixturesDir);
+        await persistSnapshot(database, dbPath);
         return database;
       })(),
     );
   }
 
-  return databaseCache.get(dbPath)!;
+  const database = await databaseCache.get(dbPath)!;
+
+  if (!isMemoryDatabase) {
+    const diskVersion = await getSnapshotVersion(dbPath);
+    const cachedVersion = snapshotVersionCache.get(dbPath) ?? 0;
+
+    if (diskVersion > cachedVersion) {
+      const snapshot = await readJson<StoreSnapshot>(dbPath);
+      await hydrateSnapshot(database, snapshot);
+      snapshotVersionCache.set(dbPath, diskVersion);
+    }
+  }
+
+  return database;
 }
 
 export async function listDocuments(options?: StoreOptions) {
@@ -642,6 +912,7 @@ export async function listCommentThreads(documentId: string, options?: StoreOpti
 export async function createDocument(input: DocumentCreateInput, options?: StoreOptions) {
   const payload = documentCreateSchema.parse(input);
   const database = await getDatabase(options);
+  const { dbPath } = resolveOptions(options);
   const document = makeDocumentRecord(payload);
 
   await database.transaction(async (tx) => {
@@ -683,6 +954,8 @@ export async function createDocument(input: DocumentCreateInput, options?: Store
     });
   });
 
+  await persistSnapshot(database, dbPath);
+
   return document;
 }
 
@@ -693,6 +966,7 @@ export async function updateDocument(
 ) {
   const payload = documentUpdateSchema.parse(input);
   const database = await getDatabase(options);
+  const { dbPath } = resolveOptions(options);
   const current = await getDocument(documentId, options);
 
   if (!current) {
@@ -744,6 +1018,8 @@ export async function updateDocument(
     });
   });
 
+  await persistSnapshot(database, dbPath);
+
   const updated = await getDocument(documentId, options);
   if (!updated) {
     throw new Error(`Document ${documentId} not found after update`);
@@ -758,6 +1034,7 @@ export async function createPatchProposal(
 ) {
   const payload = patchProposalSchema.parse(input);
   const database = await getDatabase(options);
+  const { dbPath } = resolveOptions(options);
   const document = await getDocument(payload.document_id, options);
 
   if (!document) {
@@ -835,6 +1112,8 @@ export async function createPatchProposal(
     });
   });
 
+  await persistSnapshot(database, dbPath);
+
   return patch;
 }
 
@@ -844,6 +1123,7 @@ export async function decidePatch(
 ) {
   const payload = patchDecisionSchema.parse(input);
   const database = await getDatabase(options);
+  const { dbPath } = resolveOptions(options);
   const patchResult = await database.query<PatchRow>(
     `SELECT
       patch_id,
@@ -962,6 +1242,8 @@ export async function decidePatch(
     });
   });
 
+  await persistSnapshot(database, dbPath);
+
   const updatedResult = await database.query<PatchRow>(
     `SELECT
       patch_id,
@@ -994,6 +1276,7 @@ export async function createCommentThread(
 ) {
   const payload = commentThreadCreateSchema.parse(input);
   const database = await getDatabase(options);
+  const { dbPath } = resolveOptions(options);
   const threadId = `thread_${randomUUID()}`;
   const createdAt = new Date().toISOString();
 
@@ -1035,6 +1318,8 @@ export async function createCommentThread(
     });
   });
 
+  await persistSnapshot(database, dbPath);
+
   const threads = await listCommentThreads(payload.document_id, options);
   return threads.find((thread) => thread.thread_id === threadId)!;
 }
@@ -1045,6 +1330,7 @@ export async function resolveCommentThread(
 ) {
   const payload = commentThreadResolveSchema.parse(input);
   const database = await getDatabase(options);
+  const { dbPath } = resolveOptions(options);
   const resolvedAt = new Date().toISOString();
 
   await database.transaction(async (tx) => {
@@ -1075,6 +1361,8 @@ export async function resolveCommentThread(
       created_at: resolvedAt,
     });
   });
+
+  await persistSnapshot(database, dbPath);
 
   const threads = await listCommentThreads(payload.document_id, options);
   const thread = threads.find((candidate) => candidate.thread_id === payload.thread_id);
