@@ -4,6 +4,7 @@ export type GuidedSpecInput = {
   goals: string;
   users: string;
   scope: string;
+  requirements: string;
   constraints: string;
   successSignals: string;
   tasks: string;
@@ -40,6 +41,12 @@ export function buildGuidedSpecMarkdown(input: GuidedSpecInput) {
     toSection("Scope", input.scope, "Define what the first build includes."),
     "",
     toSection(
+      "Requirements",
+      input.requirements,
+      "Describe the product and workflow requirements that must ship.",
+    ),
+    "",
+    toSection(
       "Non-Goals",
       input.nonGoals,
       "Call out adjacent work that is intentionally excluded.",
@@ -68,6 +75,7 @@ export function buildGuidedSpecMetadata(input: GuidedSpecInput) {
     goals: input.goals.trim(),
     users: input.users.trim(),
     scope: input.scope.trim(),
+    requirements: input.requirements.trim(),
     constraints: input.constraints.trim(),
     success_signals: input.successSignals.trim(),
     tasks: input.tasks.trim(),

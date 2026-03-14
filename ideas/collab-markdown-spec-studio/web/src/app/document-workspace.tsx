@@ -12,6 +12,13 @@ import { markdownToEditorHtml, tiptapJsonToMarkdown } from "@/lib/specforge/edit
 
 type Props = {
   document: DocumentRecord;
+  blockSummaries: {
+    block_id: string;
+    heading: string;
+    openComments: number;
+    pendingPatches: number;
+    touchedBy: string[];
+  }[];
 };
 
 type Collaborator = {
@@ -26,6 +33,13 @@ type RemoteCursor = {
   name: string;
   color: string;
   left: number;
+  top: number;
+};
+
+type BlockMarker = {
+  block_id: string;
+  heading: string;
+  label: string;
   top: number;
 };
 
@@ -57,13 +71,14 @@ function makeLocalUser() {
   return value;
 }
 
-export function DocumentWorkspace({ document }: Props) {
+export function DocumentWorkspace({ document, blockSummaries }: Props) {
   const collabUrl =
     process.env.NEXT_PUBLIC_COLLAB_URL?.trim() || "ws://127.0.0.1:4321";
   const roomName = `${document.document_id}:v${document.version}`;
   const [localUser] = useState(makeLocalUser);
   const [collaborators, setCollaborators] = useState<Collaborator[]>([]);
   const [remoteCursors, setRemoteCursors] = useState<RemoteCursor[]>([]);
+  const [blockMarkers, setBlockMarkers] = useState<BlockMarker[]>([]);
   const [status, setStatus] = useState(`Connecting to ${roomName}`);
   const [statusTone, setStatusTone] = useState<"neutral" | "success" | "warning">("warning");
   const [isPending, startTransition] = useTransition();
@@ -126,8 +141,7 @@ export function DocumentWorkspace({ document }: Props) {
     };
 
     const handleSynced = () => {
-      const current = editor.getJSON();
-      const hasContent = Array.isArray(current.content) && current.content.length > 0;
+      const hasContent = editor.getText().trim().length > 0;
 
       if (!hasContent) {
         editor.commands.setContent(markdownToEditorHtml(document.markdown));
@@ -264,6 +278,73 @@ export function DocumentWorkspace({ document }: Props) {
     };
   }, [collab.provider, document.markdown, editor, localUser, roomName]);
 
+  useEffect(() => {
+    if (!editor || !surfaceRef.current) {
+      return;
+    }
+
+    const container = surfaceRef.current;
+
+    const updateBlockMarkers = () => {
+      const containerRect = container.getBoundingClientRect();
+      const headings = Array.from(
+        container.querySelectorAll<HTMLElement>(".specforgeEditor h1, .specforgeEditor h2"),
+      );
+      const nextMarkers = blockSummaries
+        .map((summary) => {
+          const match = headings.find(
+            (heading) => heading.textContent?.trim().toLowerCase() === summary.heading.toLowerCase(),
+          );
+          const activityCount = summary.pendingPatches + summary.openComments;
+
+          if (!match || (activityCount === 0 && summary.touchedBy.length === 0)) {
+            return null;
+          }
+
+          const matchRect = match.getBoundingClientRect();
+          const labelParts = [];
+
+          if (summary.pendingPatches > 0) {
+            labelParts.push(
+              `${summary.pendingPatches} patch${summary.pendingPatches === 1 ? "" : "es"}`,
+            );
+          }
+          if (summary.openComments > 0) {
+            labelParts.push(
+              `${summary.openComments} comment${summary.openComments === 1 ? "" : "s"}`,
+            );
+          }
+          if (labelParts.length === 0) {
+            labelParts.push(
+              `${summary.touchedBy.length} contributor${summary.touchedBy.length === 1 ? "" : "s"}`,
+            );
+          }
+
+          return {
+            block_id: summary.block_id,
+            heading: summary.heading,
+            label: labelParts.join(" · "),
+            top: matchRect.top - containerRect.top,
+          };
+        })
+        .filter((value): value is BlockMarker => Boolean(value));
+
+      setBlockMarkers(nextMarkers);
+    };
+
+    const raf = window.requestAnimationFrame(updateBlockMarkers);
+    const handleLayout = () => updateBlockMarkers();
+
+    editor.on("update", handleLayout);
+    window.addEventListener("resize", handleLayout);
+
+    return () => {
+      window.cancelAnimationFrame(raf);
+      editor.off("update", handleLayout);
+      window.removeEventListener("resize", handleLayout);
+    };
+  }, [blockSummaries, document.version, editor]);
+
   async function saveDocument() {
     if (!editor) {
       return;
@@ -327,6 +408,12 @@ export function DocumentWorkspace({ document }: Props) {
         </div>
       </div>
       <div className="editorSurface" ref={surfaceRef}>
+        {blockMarkers.map((marker) => (
+          <div key={marker.block_id} className="blockMarker" style={{ top: `${marker.top}px` }}>
+            <strong>{marker.heading}</strong>
+            <span>{marker.label}</span>
+          </div>
+        ))}
         {remoteCursors.map((cursor) => (
           <div
             key={cursor.id}

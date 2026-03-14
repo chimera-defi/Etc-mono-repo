@@ -21,17 +21,17 @@ export default defineConfig({
     {
       command: "npm run build && npm run start -- --hostname 127.0.0.1",
       port: 3000,
-      reuseExistingServer: true,
+      reuseExistingServer: false,
       timeout: 180_000,
       env: {
         NEXT_PUBLIC_COLLAB_URL: "ws://127.0.0.1:4321",
-        SPECFORGE_DB_PATH: ".data/specforge-db-playwright",
+        SPECFORGE_DB_PATH: ".data/specforge-db-playwright.json",
       },
     },
     {
       command: "npm start --prefix ../collab-server",
       port: 4321,
-      reuseExistingServer: true,
+      reuseExistingServer: false,
       timeout: 60_000,
     },
   ],
