@@ -79,3 +79,13 @@
 - Choice: model the post-spec build loop as `intent -> claim -> context -> signal`.
 - Why: once the spec is approved, the hardest problem shifts from writing to coordinating bounded agent passes without losing state.
 - Tradeoff: this adds a second workflow model after patch governance, so the seam between authoring and delivery must stay explicit.
+
+## Decision 17: Minimum Extensible Product Before Final-Form Buildout
+- Choice: the first generated/buildable result should be a minimum extensible product that is runnable and easy to evolve, not an attempt at the final shape in one unsafe leap.
+- Why: this keeps the output honest, verifiable, and compatible with the delivery loop's bounded-pass model.
+- Tradeoff: the first handoff may look intentionally narrower than the full approved vision, so the backlog and parity targets must stay explicit.
+
+## Decision 18: Delivery Loop Is a Product Primitive, Not Just Internal Tooling
+- Choice: surface backlog state, next brief, claims, and signals inside SpecForge itself instead of hiding orchestration in external scripts only.
+- Why: teams need to see whether the product is stalled, progressing, or waiting on human clarification without inspecting raw agent logs.
+- Tradeoff: the product now owns one more workflow surface that must stay consistent with the underlying runner.
