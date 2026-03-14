@@ -926,15 +926,29 @@ export default async function Home({ searchParams }: Props) {
                   <span>Pre-build check</span>
                 </div>
                 {readinessReport ? (
-                  <div className={styles.readinessCard}>
-                    <strong>{readinessReport.score}/100</strong>
-                    <span className={styles.status}>{readinessReport.status}</span>
-                    <ul className={styles.readinessList}>
-                      {readinessReport.recap.map((line) => (
-                        <li key={line}>{line}</li>
-                      ))}
-                    </ul>
-                  </div>
+                  <>
+                    <div className={styles.exportActions}>
+                      <Link
+                        href={`/api/documents/${activeDocument?.document_id}/launch-packet`}
+                        className={styles.exportLink}
+                        target="_blank"
+                        rel="noreferrer"
+                        data-testid="open-launch-packet-json"
+                      >
+                        Open launch packet
+                      </Link>
+                      <span>One JSON payload for the build agent</span>
+                    </div>
+                    <div className={styles.readinessCard}>
+                      <strong>{readinessReport.score}/100</strong>
+                      <span className={styles.status}>{readinessReport.status}</span>
+                      <ul className={styles.readinessList}>
+                        {readinessReport.recap.map((line) => (
+                          <li key={line}>{line}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </>
                 ) : (
                   <p className={styles.empty}>Create a document first.</p>
                 )}
