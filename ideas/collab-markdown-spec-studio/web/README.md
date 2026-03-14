@@ -26,6 +26,7 @@ Current slice:
 - deterministic export bundle preview
 - curated TypeScript starter handoff output
 - execution brief and combined launch packet JSON
+- in-product delivery-loop panel exposing backlog status and next-pass brief
 - staged UI for the local MVP flow
 
 ## Commands
@@ -56,5 +57,6 @@ npm run dev
 - The web client connects to `NEXT_PUBLIC_COLLAB_URL` and defaults to `ws://127.0.0.1:4321`.
 - The collab handshake is signed by `POST /api/collab/session`; override `SPECFORGE_COLLAB_SECRET` only if both the web app and collab server share it.
 - The final handoff stage exposes `/export`, `/handoff`, `/execution`, and `/launch-packet` routes for downstream build agents.
+- The app also exposes `/api/parity/status` and `/api/parity/brief` so the backlog driver is visible inside the product, not only from the CLI.
 - The local parity runner lives at `../tools/specforge-parity-runner.mjs` and can drive bounded `codex exec` passes from the remaining backlog.
 - Local recovery and observability notes live in `../LOCAL_RUNBOOK.md`.

@@ -11,6 +11,7 @@ import {
 import { DocumentWorkspace } from "./document-workspace";
 import styles from "./page.module.css";
 import type { StoredPatch } from "@/lib/specforge/contracts";
+import { readBacklogState } from "@/lib/specforge/backlog";
 import { getCurrentWorkspaceActor, listWorkspaceActors } from "@/lib/specforge/session";
 import { listShowcaseExamples } from "@/lib/specforge/showcase";
 import {
@@ -287,6 +288,7 @@ export default async function Home({ searchParams }: Props) {
   const heroCopy = heroVariants[heroVariant];
   const workspaceActors = listWorkspaceActors();
   const activeWorkspaceActor = await getCurrentWorkspaceActor();
+  const backlogState = await readBacklogState();
 
   const documents = await listDocuments();
   const activeDocumentId =
@@ -413,6 +415,29 @@ export default async function Home({ searchParams }: Props) {
                 </Link>
               ))}
             </nav>
+          </section>
+
+          <section className={styles.panel}>
+            <div className={styles.panelHeader}>
+              <h2>Delivery loop</h2>
+              <span>Backlog driver</span>
+            </div>
+            <div className={styles.actorCard}>
+              <strong>{backlogState.activeSection ?? "Backlog clear"}</strong>
+              <span>
+                {backlogState.remainingCount} remaining item
+                {backlogState.remainingCount === 1 ? "" : "s"}
+              </span>
+              <span>{backlogState.nextItem ?? "No queued work."}</span>
+            </div>
+            <div className={styles.inlineActions}>
+              <Link href="/api/parity/status" className={styles.secondaryLink} target="_blank">
+                Open status JSON
+              </Link>
+              <Link href="/api/parity/brief" className={styles.secondaryLink} target="_blank">
+                Open next-pass brief
+              </Link>
+            </div>
           </section>
 
           <details className={styles.panel} open>

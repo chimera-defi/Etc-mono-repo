@@ -68,6 +68,7 @@ Build a real-time collaborative spec IDE with:
 - API backend: auth, document metadata, version history, permissions.
 - AI orchestration: prompt templates + tool-calling adapters.
 - Delivery orchestration: local parity runner that wraps Codex CLI for repeated build passes.
+- Delivery visibility: in-product backlog status + next-pass brief exposed through parity endpoints and the workspace UI.
 - Governance service: patch validation, stale detection, review decisions, recap/depth enforcement.
 - Collab auth layer: short-lived room tokens minted by the web app and verified by the collaboration service.
 - Storage: canonical doc state, snapshots, patch logs, audit trail.

@@ -30,6 +30,7 @@ test("renders the integrated SpecForge demo and captures a screenshot", async ({
     }),
   ).toBeVisible();
   await expect(page.getByRole("heading", { name: "Workflow" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Delivery loop" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Document workspace" })).toBeVisible();
   await expect(page.getByText("Live collaborators")).toBeVisible();
 
