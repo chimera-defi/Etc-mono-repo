@@ -37,6 +37,7 @@
    - emits a delivery context package for the app and external agent consumers
    - can run bounded parity loops until the backlog is clear or blocked
    - exposes backlog status/brief into the app via parity endpoints
+   - records retry counts and failure summaries so blocked passes are diagnosable
 5. Shared persistence:
    - Postgres for application state
    - optional blob storage only if snapshots/exports outgrow database ergonomics
@@ -63,6 +64,7 @@
 2. Pilot mode: GitHub OAuth for human users.
 3. Agents: workspace-scoped service identities.
 4. Local collab runtime: short-lived signed room tokens minted by the web app and verified by the collab server.
+5. Product code should consume one auth/session abstraction so local mode and pilot mode share the same actor contract.
 
 ### v1 Feature Boundaries
 1. Comments:

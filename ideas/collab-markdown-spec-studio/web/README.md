@@ -4,7 +4,7 @@ Next.js application for the SpecForge MVP.
 
 Current slice:
 - guided spec creation that generates the canonical draft from structured inputs
-- workspace actor/session switching for server-side attribution
+- local workspace sessions with GitHub OAuth pilot hooks for server-side attribution
 - embedded SQL persistence via PGlite with disk-backed snapshot sharing across app workers
 - guided drafts now include a first-class `Requirements` section so readiness can clear from the guided path
 - document create/load API routes
@@ -64,4 +64,8 @@ npm run dev
   - `/api/parity/status`
   - `/api/parity/context`
   - `/api/parity/brief`
+- Auth endpoints:
+  - `/api/auth/login`
+  - `/api/auth/callback`
+  - `/api/auth/logout`
 - Local recovery and observability notes live in `../LOCAL_RUNBOOK.md`.
