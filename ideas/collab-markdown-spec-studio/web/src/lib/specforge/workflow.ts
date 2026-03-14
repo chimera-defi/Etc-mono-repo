@@ -27,17 +27,19 @@ export type DocumentLaunchContext = {
 
 export async function buildDocumentLaunchContext(
   documentId: string,
+  workspaceId?: string,
 ): Promise<DocumentLaunchContext | null> {
-  const document = await getDocument(documentId);
+  const storeOptions = workspaceId ? { workspaceId } : undefined;
+  const document = await getDocument(documentId, storeOptions);
 
   if (!document) {
     return null;
   }
 
   const [patches, comments, exportBundle] = await Promise.all([
-    listPatches(documentId),
-    listCommentThreads(documentId),
-    exportDocument(documentId),
+    listPatches(documentId, storeOptions),
+    listCommentThreads(documentId, storeOptions),
+    exportDocument(documentId, storeOptions),
   ]);
   const readiness = evaluateReadiness({
     document,
