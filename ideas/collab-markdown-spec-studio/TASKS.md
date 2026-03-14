@@ -32,6 +32,14 @@
 - [x] Extend the canonical showcase path from import -> review -> launch packet into a starter-output walkthrough in the UI/docs.
 - [x] Add lightweight observability and a local failure-mode runbook.
 
+## Next SaaS Build Backlog
+- [x] Add explicit workspace actor/session selection so server-side attribution is not hardcoded.
+- [ ] Replace the local actor selector with pilot-grade GitHub OAuth and workspace membership.
+- [ ] Add real workspace records, membership roles, and per-workspace document isolation in the app UI.
+- [ ] Add clarification queue flows and answer writing back into the canonical doc.
+- [ ] Expand starter generation from one curated template toward the broader repo-generation scope.
+- [ ] Add hosted deployment config, production persistence, and real observability plumbing.
+
 ## Recommended Parallel Execution Now
 1. Shared canvas hardening: reconnect, replay, and sync/error states.
 2. Attribution and provenance: richer in-text overlays and block ownership detail.
