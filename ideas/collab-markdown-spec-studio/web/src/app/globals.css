@@ -62,6 +62,35 @@ input {
   padding-right: 12rem;
 }
 
+.editorToolbar__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.55rem;
+}
+
+.recoveryBanner {
+  display: grid;
+  gap: 0.2rem;
+  margin-bottom: 0.9rem;
+  padding: 0.8rem 0.95rem;
+  border: 1px solid rgba(183, 106, 18, 0.3);
+  border-radius: 0.9rem;
+  background: rgba(255, 245, 229, 0.92);
+  color: #7a4a12;
+  font-family: var(--font-geist-sans), sans-serif;
+  box-shadow: 0 8px 22px rgba(64, 42, 23, 0.08);
+}
+
+.recoveryBanner strong {
+  font-size: 0.85rem;
+}
+
+.recoveryBanner span {
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
 .remoteCursor {
   position: absolute;
   width: 2px;
@@ -119,5 +148,9 @@ input {
 
   .blockMarker {
     display: none;
+  }
+
+  .editorToolbar__actions {
+    justify-content: flex-start;
   }
 }

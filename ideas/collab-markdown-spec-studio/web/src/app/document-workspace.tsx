@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { HocuspocusProvider } from "@hocuspocus/provider";
 import Collaboration from "@tiptap/extension-collaboration";
 import { EditorContent, useEditor } from "@tiptap/react";
@@ -43,6 +44,8 @@ type BlockMarker = {
   top: number;
 };
 
+type SyncState = "connecting" | "live" | "saving" | "recovering" | "offline" | "stale" | "error";
+
 const userPalette = ["#0f766e", "#1d4ed8", "#c2410c", "#7c3aed", "#be123c"];
 
 function makeLocalUser() {
@@ -72,6 +75,7 @@ function makeLocalUser() {
 }
 
 export function DocumentWorkspace({ document, blockSummaries }: Props) {
+  const router = useRouter();
   const collabUrl =
     process.env.NEXT_PUBLIC_COLLAB_URL?.trim() || "ws://127.0.0.1:4321";
   const roomName = `${document.document_id}:v${document.version}`;
@@ -79,20 +83,53 @@ export function DocumentWorkspace({ document, blockSummaries }: Props) {
   const [collaborators, setCollaborators] = useState<Collaborator[]>([]);
   const [remoteCursors, setRemoteCursors] = useState<RemoteCursor[]>([]);
   const [blockMarkers, setBlockMarkers] = useState<BlockMarker[]>([]);
+  const [syncState, setSyncState] = useState<SyncState>("connecting");
   const [status, setStatus] = useState(`Connecting to ${roomName}`);
   const [statusTone, setStatusTone] = useState<"neutral" | "success" | "warning">("warning");
   const [isPending, startTransition] = useTransition();
   const surfaceRef = useRef<HTMLDivElement | null>(null);
+  // The collab room must stay stable for the current document/version pair.
+  // eslint-disable-next-line react-hooks/preserve-manual-memoization
   const collab = useMemo(() => {
     const ydoc = new Y.Doc();
     const provider = new HocuspocusProvider({
       url: collabUrl,
       name: roomName,
       document: ydoc,
+      token: async () => {
+        const response = await fetch("/api/collab/session", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            document_id: document.document_id,
+            version: document.version,
+            actor: localUser,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Unable to mint collab session for ${roomName}`);
+        }
+
+        const payload = (await response.json()) as { token?: string };
+        if (!payload.token) {
+          throw new Error(`Missing collab token for ${roomName}`);
+        }
+
+        return payload.token;
+      },
+      onAuthenticated: () => {
+        updateSyncState("recovering", `Authenticated room: ${roomName}`);
+      },
+      onAuthenticationFailed: () => {
+        updateSyncState("error", `Collab authentication failed: ${roomName}`);
+      },
     });
 
     return { ydoc, provider };
-  }, [collabUrl, roomName]);
+  }, [collabUrl, document.document_id, document.version, localUser, roomName]);
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
@@ -109,6 +146,12 @@ export function DocumentWorkspace({ document, blockSummaries }: Props) {
       },
     },
   });
+
+  function updateSyncState(nextState: SyncState, message: string) {
+    setSyncState(nextState);
+    setStatus(message);
+    setStatusTone(nextState === "live" ? "success" : nextState === "connecting" ? "neutral" : "warning");
+  }
 
   useEffect(() => {
     return () => {
@@ -132,12 +175,17 @@ export function DocumentWorkspace({ document, blockSummaries }: Props) {
     awareness.setLocalStateField("selection", null);
 
     const handleStatus = ({ status: nextStatus }: { status: string }) => {
-      setStatusTone(nextStatus === "connected" ? "success" : "warning");
-      setStatus(
-        nextStatus === "connected"
-          ? `Live room connected: ${roomName}`
-          : `Collab ${nextStatus}: ${roomName}`,
-      );
+      if (nextStatus === "connected") {
+        updateSyncState("recovering", `Checking live room state: ${roomName}`);
+        return;
+      }
+
+      if (typeof navigator !== "undefined" && !navigator.onLine) {
+        updateSyncState("offline", `Offline: ${roomName}`);
+        return;
+      }
+
+      updateSyncState("recovering", `Collab ${nextStatus}: ${roomName}`);
     };
 
     const handleSynced = () => {
@@ -145,13 +193,11 @@ export function DocumentWorkspace({ document, blockSummaries }: Props) {
 
       if (!hasContent) {
         editor.commands.setContent(markdownToEditorHtml(document.markdown));
-        setStatusTone("success");
-        setStatus(`Seeded live room: ${roomName}`);
+        updateSyncState("live", `Seeded live room: ${roomName}`);
         return;
       }
 
-      setStatusTone("success");
-      setStatus(`Live room synced: ${roomName}`);
+      updateSyncState("live", `Live room synced: ${roomName}`);
     };
 
     const updateCollaborators = () => {
@@ -253,6 +299,14 @@ export function DocumentWorkspace({ document, blockSummaries }: Props) {
       updateCollaborators();
       updateRemoteCursors();
     };
+    const handleOffline = () => {
+      collab.provider.disconnect();
+      updateSyncState("offline", `Offline: ${roomName}`);
+    };
+    const handleOnline = () => {
+      updateSyncState("recovering", `Reconnecting room: ${roomName}`);
+      collab.provider.connect();
+    };
 
     collab.provider.on("status", handleStatus);
     collab.provider.on("synced", handleSynced);
@@ -261,6 +315,8 @@ export function DocumentWorkspace({ document, blockSummaries }: Props) {
     editor.on("blur", handleBlur);
     editor.on("selectionUpdate", updateLocalSelection);
     editor.on("update", updateRemoteCursors);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
     window.addEventListener("resize", handleWindowChange);
     updateLocalSelection();
     updateCollaborators();
@@ -274,9 +330,55 @@ export function DocumentWorkspace({ document, blockSummaries }: Props) {
       editor.off("blur", handleBlur);
       editor.off("selectionUpdate", updateLocalSelection);
       editor.off("update", updateRemoteCursors);
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
       window.removeEventListener("resize", handleWindowChange);
     };
   }, [collab.provider, document.markdown, editor, localUser, roomName]);
+
+  useEffect(() => {
+    async function checkDocumentFreshness() {
+      if (typeof navigator !== "undefined" && !navigator.onLine) {
+        updateSyncState("offline", `Offline: ${roomName}`);
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/documents/${document.document_id}`, {
+          cache: "no-store",
+        });
+
+        if (!response.ok) {
+          updateSyncState("error", `Recovery check failed for ${roomName}`);
+          return;
+        }
+
+        const payload = (await response.json()) as { document?: { version?: number } };
+        const latestVersion = payload.document?.version ?? document.version;
+
+        if (latestVersion > document.version) {
+          updateSyncState("stale", `Newer snapshot available: v${latestVersion}`);
+          return;
+        }
+
+        if (syncState !== "saving") {
+          updateSyncState("live", `Live room synced: ${roomName}`);
+        }
+      } catch {
+        updateSyncState("error", `Recovery check failed for ${roomName}`);
+      }
+    }
+
+    const handleFocus = () => {
+      void checkDocumentFreshness();
+    };
+
+    window.addEventListener("focus", handleFocus);
+
+    return () => {
+      window.removeEventListener("focus", handleFocus);
+    };
+  }, [document.document_id, document.version, roomName, syncState]);
 
   useEffect(() => {
     if (!editor || !surfaceRef.current) {
@@ -354,8 +456,7 @@ export function DocumentWorkspace({ document, blockSummaries }: Props) {
     const markdown = tiptapJsonToMarkdown(editorJson);
 
     startTransition(async () => {
-      setStatus("Saving...");
-      setStatusTone("warning");
+      updateSyncState("saving", `Saving ${roomName}...`);
       const response = await fetch(`/api/documents/${document.document_id}`, {
         method: "PATCH",
         headers: {
@@ -369,14 +470,24 @@ export function DocumentWorkspace({ document, blockSummaries }: Props) {
       });
 
       if (!response.ok) {
-        setStatusTone("warning");
-        setStatus("Save failed");
+        updateSyncState("error", `Save failed for ${roomName}`);
         return;
       }
 
-      setStatusTone("success");
-      setStatus(`Saved snapshot for ${roomName}`);
+      updateSyncState("recovering", `Saved snapshot for ${roomName}`);
+      router.refresh();
     });
+  }
+
+  function reconnectRoom() {
+    updateSyncState("recovering", `Reconnecting room: ${roomName}`);
+    collab.provider.disconnect();
+    collab.provider.connect();
+  }
+
+  function reloadLatestSnapshot() {
+    updateSyncState("recovering", `Reloading latest snapshot: ${roomName}`);
+    router.refresh();
   }
 
   return (
@@ -388,10 +499,28 @@ export function DocumentWorkspace({ document, blockSummaries }: Props) {
             <span className={`statusChip statusChip--${statusTone}`}>{statusTone}</span> {status}
           </span>
         </div>
-        <button type="button" onClick={saveDocument} disabled={!editor || isPending}>
-          {isPending ? "Saving..." : "Save document"}
-        </button>
+        <div className="editorToolbar__actions">
+          {syncState === "offline" || syncState === "error" ? (
+            <button type="button" onClick={reconnectRoom}>
+              Reconnect room
+            </button>
+          ) : null}
+          {syncState === "stale" ? (
+            <button type="button" onClick={reloadLatestSnapshot}>
+              Reload latest snapshot
+            </button>
+          ) : null}
+          <button type="button" onClick={saveDocument} disabled={!editor || isPending}>
+            {isPending ? "Saving..." : "Save document"}
+          </button>
+        </div>
       </div>
+      {syncState === "offline" || syncState === "error" || syncState === "stale" ? (
+        <div className="recoveryBanner">
+          <strong>{syncState === "stale" ? "Recovery needed" : "Connection needs attention"}</strong>
+          <span>{status}</span>
+        </div>
+      ) : null}
       <div className="presenceBar">
         <span>Live collaborators</span>
         <div className="presenceList">
