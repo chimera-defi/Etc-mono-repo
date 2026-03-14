@@ -62,10 +62,10 @@ export async function createPatchAction(formData: FormData) {
       | "requirement_change"
       | "task_export_change",
     content: String(formData.get("content") ?? ""),
-    rationale: "Created from the local MVP dashboard.",
+    rationale: "Queued from the SpecForge review workspace.",
     proposed_by: {
       actor_type: "agent",
-      actor_id: "dashboard_agent",
+      actor_id: "specforge_agent",
     },
     base_version: Number(formData.get("base_version") ?? 1),
     target_fingerprint,
@@ -84,7 +84,7 @@ export async function decidePatchAction(formData: FormData) {
     resolved_content: String(formData.get("resolved_content") ?? ""),
     decided_by: {
       actor_type: "human",
-      actor_id: "dashboard_reviewer",
+      actor_id: "specforge_reviewer",
     },
   });
 
@@ -98,7 +98,7 @@ export async function createCommentThreadAction(formData: FormData) {
     body: String(formData.get("body") ?? ""),
     created_by: {
       actor_type: "human",
-      actor_id: "dashboard_commenter",
+      actor_id: "specforge_commenter",
     },
   });
 
@@ -111,7 +111,7 @@ export async function resolveCommentThreadAction(formData: FormData) {
     thread_id: String(formData.get("thread_id")),
     resolved_by: {
       actor_type: "human",
-      actor_id: "dashboard_commenter",
+      actor_id: "specforge_commenter",
     },
   });
 
