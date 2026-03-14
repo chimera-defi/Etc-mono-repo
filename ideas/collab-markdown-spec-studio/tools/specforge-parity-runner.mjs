@@ -13,6 +13,7 @@ const specPath = path.join(packRoot, "SPEC.md");
 const architecturePath = path.join(packRoot, "ARCHITECTURE_DECISIONS.md");
 const techStackPath = path.join(packRoot, "TECH_STACK.md");
 const loopStatePath = path.join(worktreeRoot, ".cursor", "artifacts", "specforge-parity-runner.json");
+const handoffPath = path.join(worktreeRoot, ".cursor", "artifacts", "specforge-runner-latest.md");
 const backlogSections = [
   "Remaining MVP Build Backlog",
   "Next SaaS Build Backlog",
@@ -165,6 +166,39 @@ async function writeLoopState(state) {
   await writeFile(loopStatePath, JSON.stringify(state, null, 2));
 }
 
+async function writeRunnerHandoff(input) {
+  const body = [
+    "# SpecForge Runner Handoff",
+    "",
+    `- Updated at: ${input.updatedAt}`,
+    `- Intent: ${input.intentId ?? "none"}`,
+    `- Phase: ${input.phase ?? "none"}`,
+    `- Delivery target: ${input.deliveryTarget ?? "unknown"}`,
+    `- Status: ${input.status}`,
+    `- Next item: ${input.nextItem ?? "none"}`,
+    "",
+    "## Summary",
+    input.summary,
+    "",
+    "## Source Of Truth",
+    `- ${specPath}`,
+    `- ${architecturePath}`,
+    `- ${techStackPath}`,
+    `- ${tasksPath}`,
+    "",
+    "## Resume",
+    input.resume,
+    "",
+    "## Prompt",
+    "```text",
+    input.prompt ?? "",
+    "```",
+  ].join("\n");
+
+  await mkdir(path.dirname(handoffPath), { recursive: true });
+  await writeFile(handoffPath, body);
+}
+
 async function runStatus() {
   const backlog = await loadBacklog();
   const remaining = backlog.remaining.filter((item) => !item.checked);
@@ -309,6 +343,17 @@ async function runLoop(options) {
       state.updated_at = new Date().toISOString();
       state.passes.push(passRecord);
       await writeLoopState(state);
+      await writeRunnerHandoff({
+        updatedAt: state.updated_at,
+        intentId,
+        phase: backlog.activePhase.heading,
+        deliveryTarget: getDeliveryTarget(backlog.activePhase?.heading),
+        status: "dry_run",
+        nextItem: nextItem.text,
+        summary: "Prepared the next bounded pass without executing it.",
+        resume: "Run the parity runner without --dry-run to execute the prepared intent.",
+        prompt,
+      });
       return;
     }
 
@@ -358,6 +403,24 @@ async function runLoop(options) {
         (result.status ?? 1) === 0 ? null : tailOutput(result.stderr || result.stdout, 800),
     });
     await writeLoopState(state);
+    await writeRunnerHandoff({
+      updatedAt: passRecord.finished_at,
+      intentId,
+      phase: backlog.activePhase.heading,
+      deliveryTarget: getDeliveryTarget(backlog.activePhase?.heading),
+      status: (result.status ?? 1) === 0 ? "completed" : "blocked",
+      nextItem: nextItem.text,
+      summary:
+        (result.status ?? 1) === 0
+          ? "Completed the current pass and left the branch at a verified checkpoint."
+          : tailOutput(result.stderr || result.stdout, 800) ||
+            "The pass blocked without a captured error summary.",
+      resume:
+        (result.status ?? 1) === 0
+          ? "Re-run the parity runner to pick up the next unchecked backlog item."
+          : "Inspect the failure summary, fix the blocking issue, then rerun the parity runner.",
+      prompt,
+    });
 
     if ((result.status ?? 1) !== 0) {
       process.exit(result.status ?? 1);
