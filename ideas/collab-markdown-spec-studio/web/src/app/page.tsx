@@ -477,6 +477,11 @@ export default async function Home({ searchParams }: Props) {
                 {backlogState.remainingCount === 1 ? "" : "s"}
               </span>
               <span>{backlogState.nextItem ?? "No queued work."}</span>
+              <span>
+                Review cadence: every {backlogState.reviewEvery} pass
+                {backlogState.reviewEvery === 1 ? "" : "es"}
+                {backlogState.reviewDue ? " · review due now" : ""}
+              </span>
             </div>
             {backlogState.latestIntent ? (
               <div className={styles.actorCard}>
