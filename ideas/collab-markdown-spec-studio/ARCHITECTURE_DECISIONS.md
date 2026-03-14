@@ -59,3 +59,8 @@
 - Choice: restrict first repo generation to docs-only export plus one curated TypeScript app template.
 - Why: proves the authoring-to-code loop without exploding support surface area.
 - Tradeoff: narrower demo than a framework-agnostic generator.
+
+## Decision 13: Codex Parity Runner
+- Choice: ship a local orchestration runner that wraps `codex exec` and advances the highest-priority remaining parity item automatically.
+- Why: teams should not have to manually re-prompt the coding agent after every integrated pass.
+- Tradeoff: the runner depends on disciplined task tracking and can only automate as far as the backlog and stop conditions are explicit.
