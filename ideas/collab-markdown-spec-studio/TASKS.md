@@ -43,6 +43,20 @@
 - [ ] Add hosted deployment config, production persistence, and real observability plumbing.
 - [ ] Let the runner advance the SaaS backlog through multiple claimed passes while preserving local-test ergonomics.
 
+## Immediate Execution Order
+1. Auth and tenancy:
+   - replace local actor switching with local-fallback auth sessions plus GitHub OAuth
+   - add workspace membership records and enforce workspace-scoped document loading
+2. Orchestration hardening:
+   - persist retry counts, failure summaries, and richer blocked-state diagnostics
+   - prove the runner can clear at least one non-trivial SaaS backlog item
+3. Clarification workflow:
+   - queue unanswered clarifications
+   - write accepted answers back into canonical blocks and audit history
+4. Handoff expansion:
+   - grow starter output beyond the single curated template
+   - add hosted deployment and production observability notes/config
+
 ## Recommended Parallel Execution Now
 1. Shared canvas hardening: reconnect, replay, and sync/error states.
 2. Attribution and provenance: richer in-text overlays and block ownership detail.
