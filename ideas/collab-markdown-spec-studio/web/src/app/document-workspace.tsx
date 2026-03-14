@@ -56,6 +56,7 @@ export function DocumentWorkspace({ document }: Props) {
   const [localUser] = useState(makeLocalUser);
   const [collaborators, setCollaborators] = useState<Collaborator[]>([]);
   const [status, setStatus] = useState(`Connecting to ${roomName}`);
+  const [statusTone, setStatusTone] = useState<"neutral" | "success" | "warning">("warning");
   const [isPending, startTransition] = useTransition();
   const collab = useMemo(() => {
     const ydoc = new Y.Doc();
@@ -105,6 +106,7 @@ export function DocumentWorkspace({ document }: Props) {
     });
 
     const handleStatus = ({ status: nextStatus }: { status: string }) => {
+      setStatusTone(nextStatus === "connected" ? "success" : "warning");
       setStatus(
         nextStatus === "connected"
           ? `Live room connected: ${roomName}`
@@ -118,10 +120,12 @@ export function DocumentWorkspace({ document }: Props) {
 
       if (!hasContent) {
         editor.commands.setContent(markdownToEditorHtml(document.markdown));
+        setStatusTone("success");
         setStatus(`Seeded live room: ${roomName}`);
         return;
       }
 
+      setStatusTone("success");
       setStatus(`Live room synced: ${roomName}`);
     };
 
@@ -190,6 +194,7 @@ export function DocumentWorkspace({ document }: Props) {
 
     startTransition(async () => {
       setStatus("Saving...");
+      setStatusTone("warning");
       const response = await fetch(`/api/documents/${document.document_id}`, {
         method: "PATCH",
         headers: {
@@ -203,10 +208,12 @@ export function DocumentWorkspace({ document }: Props) {
       });
 
       if (!response.ok) {
+        setStatusTone("warning");
         setStatus("Save failed");
         return;
       }
 
+      setStatusTone("success");
       setStatus(`Saved snapshot for ${roomName}`);
     });
   }
@@ -216,7 +223,9 @@ export function DocumentWorkspace({ document }: Props) {
       <div className="editorToolbar">
         <div>
           <strong>{document.title}</strong>
-          <span>{status}</span>
+          <span>
+            <span className={`statusChip statusChip--${statusTone}`}>{statusTone}</span> {status}
+          </span>
         </div>
         <button type="button" onClick={saveDocument} disabled={!editor || isPending}>
           {isPending ? "Saving..." : "Save document"}
