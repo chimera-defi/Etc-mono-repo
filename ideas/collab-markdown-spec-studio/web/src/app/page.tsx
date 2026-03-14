@@ -6,10 +6,12 @@ import {
   createPatchAction,
   decidePatchAction,
   resolveCommentThreadAction,
+  switchWorkspaceActorAction,
 } from "./actions";
 import { DocumentWorkspace } from "./document-workspace";
 import styles from "./page.module.css";
 import type { StoredPatch } from "@/lib/specforge/contracts";
+import { getCurrentWorkspaceActor, listWorkspaceActors } from "@/lib/specforge/session";
 import { listShowcaseExamples } from "@/lib/specforge/showcase";
 import {
   listAuditEvents,
@@ -283,6 +285,8 @@ export default async function Home({ searchParams }: Props) {
       ? (resolvedSearchParams.variant as HeroVariant)
       : "handoff";
   const heroCopy = heroVariants[heroVariant];
+  const workspaceActors = listWorkspaceActors();
+  const activeWorkspaceActor = await getCurrentWorkspaceActor();
 
   const documents = await listDocuments();
   const activeDocumentId =
@@ -330,6 +334,7 @@ export default async function Home({ searchParams }: Props) {
   const activeStage =
     requestedStage ?? (activeDocument ? "draft" : "start");
   const stageMeta = getStageMeta(activeStage);
+  const actorReturnTo = buildStageHref(activeDocument?.document_id ?? null, activeStage);
 
   return (
     <div className={styles.shell}>
@@ -360,6 +365,36 @@ export default async function Home({ searchParams }: Props) {
 
       <main className={styles.focusLayout}>
         <aside className={styles.focusSidebar}>
+          <section className={styles.panel}>
+            <div className={styles.panelHeader}>
+              <h2>Workspace actor</h2>
+              <span>Session identity</span>
+            </div>
+            <form action={switchWorkspaceActorAction} className={styles.form}>
+              <input type="hidden" name="return_to" value={actorReturnTo} />
+              <label>
+                Active role
+                <select
+                  name="actor_id"
+                  className={styles.selectInput}
+                  defaultValue={activeWorkspaceActor.actor_id}
+                >
+                  {workspaceActors.map((actor) => (
+                    <option key={actor.actor_id} value={actor.actor_id}>
+                      {actor.name} · {actor.role}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <div className={styles.actorCard}>
+                <strong>{activeWorkspaceActor.name}</strong>
+                <span>{activeWorkspaceActor.role}</span>
+                <span>{activeWorkspaceActor.actor_id}</span>
+              </div>
+              <button type="submit">Switch actor</button>
+            </form>
+          </section>
+
           <section className={styles.panel}>
             <div className={styles.panelHeader}>
               <h2>Workflow</h2>
@@ -639,6 +674,7 @@ export default async function Home({ searchParams }: Props) {
                 <DocumentWorkspace
                   key={`${activeDocument.document_id}:${activeDocument.version}`}
                   document={activeDocument}
+                  activeActor={activeWorkspaceActor}
                   blockSummaries={blockSummaries}
                 />
               ) : (

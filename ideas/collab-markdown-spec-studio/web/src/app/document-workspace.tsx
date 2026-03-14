@@ -13,6 +13,11 @@ import { markdownToEditorHtml, tiptapJsonToMarkdown } from "@/lib/specforge/edit
 
 type Props = {
   document: DocumentRecord;
+  activeActor: {
+    actor_id: string;
+    name: string;
+    color: string;
+  };
   blockSummaries: {
     block_id: string;
     heading: string;
@@ -50,38 +55,39 @@ type SyncState = "connecting" | "live" | "saving" | "recovering" | "offline" | "
 
 const userPalette = ["#0f766e", "#1d4ed8", "#c2410c", "#7c3aed", "#be123c"];
 
-function makeLocalUser() {
+function makeLocalUser(activeActor: Props["activeActor"]) {
   if (typeof window === "undefined") {
     return {
-      id: "local-reviewer",
-      name: "Local reviewer",
-      color: userPalette[0],
+      id: `${activeActor.actor_id}-local`,
+      name: activeActor.name,
+      color: activeActor.color,
     };
   }
 
-  const existing = window.sessionStorage.getItem("specforge-local-user");
+  const storageKey = `specforge-local-user:${activeActor.actor_id}`;
+  const existing = window.sessionStorage.getItem(storageKey);
   if (existing) {
     return JSON.parse(existing) as { id: string; name: string; color: string };
   }
 
-  const id = `reviewer-${crypto.randomUUID().slice(0, 6)}`;
-  const suffix = id.slice(-3).toUpperCase();
-  const color = userPalette[id.charCodeAt(id.length - 1) % userPalette.length]!;
+  const id = `${activeActor.actor_id}-${crypto.randomUUID().slice(0, 6)}`;
   const value = {
     id,
-    name: `Reviewer ${suffix}`,
-    color,
+    name: activeActor.name,
+    color:
+      activeActor.color ||
+      userPalette[id.charCodeAt(id.length - 1) % userPalette.length]!,
   };
-  window.sessionStorage.setItem("specforge-local-user", JSON.stringify(value));
+  window.sessionStorage.setItem(storageKey, JSON.stringify(value));
   return value;
 }
 
-export function DocumentWorkspace({ document, blockSummaries }: Props) {
+export function DocumentWorkspace({ document, activeActor, blockSummaries }: Props) {
   const router = useRouter();
   const collabUrl =
     process.env.NEXT_PUBLIC_COLLAB_URL?.trim() || "ws://127.0.0.1:4321";
   const roomName = `${document.document_id}:v${document.version}`;
-  const [localUser] = useState(makeLocalUser);
+  const [localUser] = useState(() => makeLocalUser(activeActor));
   const [collaborators, setCollaborators] = useState<Collaborator[]>([]);
   const [remoteCursors, setRemoteCursors] = useState<RemoteCursor[]>([]);
   const [blockMarkers, setBlockMarkers] = useState<BlockMarker[]>([]);

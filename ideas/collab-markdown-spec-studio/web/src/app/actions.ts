@@ -11,9 +11,11 @@ import {
   resolveCommentThread,
 } from "@/lib/specforge/store";
 import { buildGuidedSpecMarkdown, buildGuidedSpecMetadata } from "@/lib/specforge/guided";
+import { getCurrentWorkspaceActor, setCurrentWorkspaceActor } from "@/lib/specforge/session";
 import { getShowcaseExample } from "@/lib/specforge/showcase";
 
 export async function createDocumentAction(formData: FormData) {
+  const currentActor = await getCurrentWorkspaceActor();
   const title = String(formData.get("title") ?? "Untitled SpecForge Doc");
   const mode = String(formData.get("mode") ?? "guided");
   const exampleId = String(formData.get("example_id") ?? "");
@@ -48,7 +50,7 @@ export async function createDocumentAction(formData: FormData) {
   const resolvedTitle = mode === "example" && showcaseExample ? showcaseExample.draft.title : title;
 
   const created = await createDocument({
-    workspace_id: "ws_demo",
+    workspace_id: currentActor.workspace_id,
     title: resolvedTitle,
     initial_markdown,
     metadata,
@@ -88,6 +90,7 @@ export async function createPatchAction(formData: FormData) {
 }
 
 export async function decidePatchAction(formData: FormData) {
+  const currentActor = await getCurrentWorkspaceActor();
   await decidePatch({
     document_id: String(formData.get("document_id")),
     patch_id: String(formData.get("patch_id")),
@@ -95,8 +98,8 @@ export async function decidePatchAction(formData: FormData) {
       (String(formData.get("decision") ?? "reject") as "accept" | "reject" | "cherry_pick"),
     resolved_content: String(formData.get("resolved_content") ?? ""),
     decided_by: {
-      actor_type: "human",
-      actor_id: "specforge_reviewer",
+      actor_type: currentActor.actor_type,
+      actor_id: currentActor.actor_id,
     },
   });
 
@@ -104,13 +107,14 @@ export async function decidePatchAction(formData: FormData) {
 }
 
 export async function createCommentThreadAction(formData: FormData) {
+  const currentActor = await getCurrentWorkspaceActor();
   await createCommentThread({
     document_id: String(formData.get("document_id")),
     block_id: String(formData.get("block_id")),
     body: String(formData.get("body") ?? ""),
     created_by: {
-      actor_type: "human",
-      actor_id: "specforge_commenter",
+      actor_type: currentActor.actor_type,
+      actor_id: currentActor.actor_id,
     },
   });
 
@@ -118,14 +122,23 @@ export async function createCommentThreadAction(formData: FormData) {
 }
 
 export async function resolveCommentThreadAction(formData: FormData) {
+  const currentActor = await getCurrentWorkspaceActor();
   await resolveCommentThread({
     document_id: String(formData.get("document_id")),
     thread_id: String(formData.get("thread_id")),
     resolved_by: {
-      actor_type: "human",
-      actor_id: "specforge_commenter",
+      actor_type: currentActor.actor_type,
+      actor_id: currentActor.actor_id,
     },
   });
 
   revalidatePath("/");
+}
+
+export async function switchWorkspaceActorAction(formData: FormData) {
+  const actorId = String(formData.get("actor_id") ?? "");
+  const returnTo = String(formData.get("return_to") ?? "/");
+
+  await setCurrentWorkspaceActor(actorId);
+  redirect(returnTo || "/");
 }
