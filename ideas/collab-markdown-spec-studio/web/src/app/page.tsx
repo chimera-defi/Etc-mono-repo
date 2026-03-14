@@ -305,6 +305,8 @@ export default async function Home({ searchParams }: Props) {
     ? await listAuditEvents(activeDocument.document_id)
     : [];
   const activeBlock = activeDocument?.blocks[0] ?? null;
+  const showcaseSourceId = activeDocument?.metadata.source_example_id ?? "";
+  const showcaseSourcePath = activeDocument?.metadata.source_path ?? "";
   const blockSummaries = activeDocument
     ? summarizeBlocks(activeDocument, patches, commentThreads)
     : [];
@@ -1093,6 +1095,39 @@ export default async function Home({ searchParams }: Props) {
                     <article className={styles.exportCard}>
                       <h3>Agent commands</h3>
                       <pre>{launchPacket.execution_brief.commands.join("\n")}</pre>
+                    </article>
+                  </div>
+                </section>
+              ) : null}
+
+              {showcaseSourceId ? (
+                <section className={styles.panel}>
+                  <div className={styles.panelHeader}>
+                    <h2>Showcase walkthrough</h2>
+                    <span>Idea to launch packet</span>
+                  </div>
+                  <p className={styles.context}>
+                    This document started from the canonical <code>{showcaseSourceId}</code> idea
+                    pack and is now in the executable handoff stage.
+                  </p>
+                  <div className={styles.walkthroughGrid}>
+                    <article className={styles.walkthroughCard}>
+                      <strong>1. Import</strong>
+                      <span>Seeded from {showcaseSourcePath || "the ideas workspace"}.</span>
+                    </article>
+                    <article className={styles.walkthroughCard}>
+                      <strong>2. Review</strong>
+                      <span>
+                        {patches.length} patches and {commentThreads.length} comments shaped the
+                        final spec.
+                      </span>
+                    </article>
+                    <article className={styles.walkthroughCard}>
+                      <strong>3. Handoff</strong>
+                      <span>
+                        Export, starter bundle, and launch packet are aligned for one-shot build
+                        execution.
+                      </span>
                     </article>
                   </div>
                 </section>

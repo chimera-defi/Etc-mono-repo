@@ -69,6 +69,7 @@ Build a real-time collaborative spec IDE with:
 - AI orchestration: prompt templates + tool-calling adapters.
 - Delivery orchestration: local parity runner that wraps Codex CLI for repeated build passes.
 - Governance service: patch validation, stale detection, review decisions, recap/depth enforcement.
+- Collab auth layer: short-lived room tokens minted by the web app and verified by the collaboration service.
 - Storage: canonical doc state, snapshots, patch logs, audit trail.
 - Repo generation service: template engine + Git provider integration.
 
@@ -79,6 +80,7 @@ Build a real-time collaborative spec IDE with:
 4. Local parity runner for Codex-driven build passes against the remaining backlog.
 5. Shared Postgres database for application state, audit logs, comments, and exports.
 6. Local object/blob storage only if snapshots or exports outgrow Postgres storage ergonomics.
+7. Structured room telemetry plus a local failure-mode runbook for multiplayer debugging.
 
 ### Default Stack
 1. Next.js + React + TypeScript for the application shell.
@@ -200,6 +202,7 @@ Use CRDT for live human collaboration, but keep agent governance above the CRDT 
 3. Patch decision auditability for all agent edits.
 4. Snapshot restore succeeds for any accepted patch decision in pilot environments.
 5. Export is byte-stable for identical document version + template version.
+6. Local auth/reconnect failures are diagnosable through room telemetry and the runbook.
 
 ### Build Cost Categories
 1. Realtime collaboration infra and state sync.
