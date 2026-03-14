@@ -17,6 +17,8 @@ import {
   listCommentThreads,
   listClarifications,
   listDocuments,
+  listWorkspaceMemberships,
+  listWorkspaceRecords,
   listPatches,
   resolveCommentThread,
   updateDocument,
@@ -40,6 +42,16 @@ describe("specforge store", () => {
     expect(documents[0]?.title).toBe("SpecForge MVP");
     expect(documents[0]?.blocks[0]?.block_id).toBe("blk_goals_1");
   }, 20000);
+
+  it("seeds workspace records and memberships", async () => {
+    const options = await makeOptions();
+    const workspaces = await listWorkspaceRecords(options);
+    const members = await listWorkspaceMemberships("ws_demo", options);
+
+    expect(workspaces[0]?.workspace_id).toBe("ws_demo");
+    expect(members).toHaveLength(3);
+    expect(members[0]?.role).toBeTruthy();
+  });
 
   it("creates a new document and can read it back", async () => {
     const options = await makeOptions();

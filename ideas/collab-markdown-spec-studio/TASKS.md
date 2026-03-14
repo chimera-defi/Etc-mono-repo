@@ -40,7 +40,7 @@
 - [x] Model the delivery loop as intents, claims, context packages, and signals inside the runner/app surface.
 - [x] Document minimum extensible product as the first-class delivery target before full parity.
 - [ ] Replace the local actor selector with pilot-grade GitHub OAuth and workspace membership.
-- [ ] Add real workspace records, membership roles, and per-workspace document isolation in the app UI.
+- [x] Add real workspace records, membership roles, and per-workspace document isolation in the app UI.
 - [x] Add clarification queue flows and answer writing back into the canonical doc.
 - [ ] Expand starter generation from one curated template toward the broader repo-generation scope.
 - [ ] Add hosted deployment config, production persistence, and real observability plumbing.
