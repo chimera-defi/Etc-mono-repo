@@ -3,6 +3,7 @@
 ## Current Implementation Status
 - [x] Next.js MVP shell exists under `web/`.
 - [x] Embedded SQL persistence supports create/load/update/export.
+- [x] Guided spec creation turns structured inputs into the canonical draft and metadata.
 - [x] Patch proposal ingestion exists with stale detection.
 - [x] Tiptap authoring workspace exists.
 - [x] Browser editor connects to per-document Hocuspocus rooms over Yjs.
@@ -11,88 +12,36 @@
 - [x] Patch review decisions mutate canonical document state and are shown in the workspace.
 - [x] Anchored comment threads exist in the workspace with open/resolved state.
 - [x] Readiness scoring and recap output exist in the workspace.
+- [x] Starter handoff generates a curated TypeScript output bundle from the approved spec.
+- [x] Execution brief generates run-readiness, blockers, commands, and agent instructions.
+- [x] Launch packet combines export, starter output, and execution brief into one payload.
 - [ ] Shared cursor rendering is still pending, but collaborator awareness UI is live.
-- [ ] Rich patch diff/review UI and attribution overlays.
+- [x] Rich patch diff/review UI exists with review-stage and decision-stage triage.
 - [ ] Inline attribution overlays are still pending.
 - [x] Depth gates, recap generation, and implementation-readiness scoring.
-- [x] Deterministic export/handoff flow exists for the local bundle preview, but curated template handoff is still pending.
+- [x] Deterministic export/handoff flow exists for the local bundle preview and curated starter handoff.
 - [x] Playwright-based end-to-end and screenshot coverage for the local integrated demo.
 
 ## Remaining MVP Build Backlog
-
-### Track A: Collaboration Runtime and Persistence
-- [x] Replace the local JSON store with a real persistence layer.
-- [ ] Finish the first app data model:
-  - [ ] workspaces
-  - [x] documents
-  - [x] document snapshots
-  - [x] patch proposals
-  - [x] patch decisions
-  - [x] audit events
-  - [x] comment threads
-- [x] Persist collaboration snapshots or Yjs updates so rooms survive server restarts.
-- [ ] Add reconnect, replay, and stale-room recovery handling.
+- [ ] Add shared cursor rendering instead of collaborator chips only.
+- [ ] Add reconnect, replay, and stale-room recovery handling beyond the current local persistence path.
 - [ ] Add auth hooks between the web app and collaboration server.
-- [x] Add a local dev bootstrap for the persistence layer.
-
-### Track B: Shared Canvas UX
-- [ ] Finish shared cursor presence; collaborator identity chips are live.
-- [ ] Add document switch/create/open flow without relying on a single active document.
-- [ ] Add better save, sync, and offline status states.
-- [ ] Add empty, error, reconnect, and conflict-recovery UI states.
-- [ ] Tighten the layout into the intended shared-canvas experience instead of a dashboard-first shell.
-
-### Track C: Patch Review and Attribution
-- [x] Implement patch decision APIs:
-  - [x] accept
-  - [x] reject
-  - [x] cherry-pick
-- [x] Apply accepted patches back to canonical document state.
-- [x] Record immutable audit events for proposal and decision actions.
-- [x] Add richer patch diff/review UI with risk/status chips.
-- [ ] Show who changed what at block level for both humans and agents.
-- [ ] Handle stale, conflicted, superseded, and terminal patch states in the UI.
-
-### Track D: Comments, Depth Gates, and Recap
-- [x] Implement anchored comment threads.
-- [x] Implement simple resolve state.
-- [x] Add depth-gate rules for required sections and missing detail.
-- [x] Add recap generation and build-readiness summaries.
-- [x] Add implementation-readiness scoring that can be shown in the workspace.
-
-### Track E: Export, Handoff, and Example Builds
-- [ ] Harden export bundle generation around canonical editor state.
-- [ ] Add `agent_spec.json` validation against the intended handoff contract.
-- [ ] Build the first curated TypeScript example template from export output.
-- [ ] Run the flow against selected `ideas/` examples.
-- [ ] Add “handoff complete” checks and confidence reporting.
-
-### Track F: Demo, Testing, and Ops
-- [ ] Add Playwright coverage for:
-  - [ ] create document
-  - [ ] live collaboration between two clients
-  - [ ] patch review path
-  - [ ] export flow
-- [x] Add screenshot capture flow for demo-ready states.
-- [ ] Add observability basics:
-  - request logging
-  - collaboration room events
-  - patch decision events
-- [ ] Add a top-5 failure mode runbook for local/demo environments.
+- [ ] Add stronger sync/offline/error states in the shared canvas.
+- [ ] Add inline attribution overlays on document blocks.
+- [ ] Run the handoff flow against one selected `ideas/` example as the canonical showcase path.
+- [ ] Add lightweight observability and a local failure-mode runbook.
 
 ## Recommended Parallel Execution Now
-1. Track A: Collaboration runtime and persistence.
-2. Track C: Patch review and attribution.
-3. Track B: Shared canvas UX.
-4. Track F: Demo, testing, and ops.
+1. Shared canvas hardening: cursors, reconnect, sync/error states.
+2. Attribution and provenance: inline overlays and block-level ownership view.
+3. Example-build proof: run one real `ideas/` pack through launch packet -> starter output.
+4. Ops polish: logging, failure-mode runbook, and local recovery notes.
 
 ## Dependency Order for the Remaining Build
-1. Finish the remaining Track A items around collaboration persistence, auth, and recovery.
-2. Run Track C in parallel once the data model for patches, decisions, and audit events is stable.
-3. Run Track B in parallel with Track C after the persistence contract is clear.
-4. Start Track D after Track C exposes stable patch/comment primitives.
-5. Start Track E after canonical persistence and export inputs are stable.
-6. Keep Track F running continuously, but full screenshot/demo work should follow Tracks B and C.
+1. Finish shared-canvas hardening around reconnect and sync states.
+2. Finish inline attribution so provenance is visible directly on the canvas.
+3. Prove one end-to-end example build from the `ideas/` corpus.
+4. Add ops notes and local recovery guidance last.
 
 ## Milestones
 1. Spec package approved.
