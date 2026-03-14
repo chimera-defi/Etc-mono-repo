@@ -15,32 +15,32 @@
 - [x] Starter handoff generates a curated TypeScript output bundle from the approved spec.
 - [x] Execution brief generates run-readiness, blockers, commands, and agent instructions.
 - [x] Launch packet combines export, starter output, and execution brief into one payload.
-- [ ] Shared cursor rendering is still pending, but collaborator awareness UI is live.
+- [x] Shared cursor rendering is live alongside collaborator awareness.
 - [x] Rich patch diff/review UI exists with review-stage and decision-stage triage.
-- [ ] Inline attribution overlays are still pending.
+- [x] Inline block-level provenance markers are visible in the shared canvas.
 - [x] Depth gates, recap generation, and implementation-readiness scoring.
 - [x] Deterministic export/handoff flow exists for the local bundle preview and curated starter handoff.
+- [x] One canonical `ideas/` showcase import exists for `server-management-agent`.
 - [x] Playwright-based end-to-end and screenshot coverage for the local integrated demo.
 
 ## Remaining MVP Build Backlog
-- [ ] Add shared cursor rendering instead of collaborator chips only.
 - [ ] Add reconnect, replay, and stale-room recovery handling beyond the current local persistence path.
 - [ ] Add auth hooks between the web app and collaboration server.
 - [ ] Add stronger sync/offline/error states in the shared canvas.
-- [ ] Add inline attribution overlays on document blocks.
-- [ ] Run the handoff flow against one selected `ideas/` example as the canonical showcase path.
+- [ ] Deepen inline provenance from block markers into richer in-text attribution overlays.
+- [ ] Extend the canonical showcase path from import -> review -> launch packet into a starter-output walkthrough in the UI/docs.
 - [ ] Add lightweight observability and a local failure-mode runbook.
 
 ## Recommended Parallel Execution Now
-1. Shared canvas hardening: cursors, reconnect, sync/error states.
-2. Attribution and provenance: inline overlays and block-level ownership view.
-3. Example-build proof: run one real `ideas/` pack through launch packet -> starter output.
+1. Shared canvas hardening: reconnect, replay, and sync/error states.
+2. Attribution and provenance: richer in-text overlays and block ownership detail.
+3. Example-build proof: tighten the showcase path from imported idea to starter walkthrough.
 4. Ops polish: logging, failure-mode runbook, and local recovery notes.
 
 ## Dependency Order for the Remaining Build
 1. Finish shared-canvas hardening around reconnect and sync states.
-2. Finish inline attribution so provenance is visible directly on the canvas.
-3. Prove one end-to-end example build from the `ideas/` corpus.
+2. Deepen provenance from marker overlays into richer inline annotations.
+3. Tighten the showcase example into a more explicit end-to-end walkthrough.
 4. Add ops notes and local recovery guidance last.
 
 ## Milestones

@@ -59,6 +59,7 @@ input {
 
 .editorSurface {
   position: relative;
+  padding-right: 12rem;
 }
 
 .remoteCursor {
@@ -82,4 +83,41 @@ input {
   font-family: var(--font-geist-sans), sans-serif;
   line-height: 1.2;
   white-space: nowrap;
+}
+
+.blockMarker {
+  position: absolute;
+  right: 0.75rem;
+  width: 10.25rem;
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(28, 26, 23, 0.12);
+  background: rgba(255, 249, 240, 0.94);
+  box-shadow: 0 10px 24px rgba(64, 42, 23, 0.1);
+  font-family: var(--font-geist-sans), sans-serif;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.blockMarker strong {
+  font-size: 0.74rem;
+  line-height: 1.2;
+}
+
+.blockMarker span {
+  font-size: 0.7rem;
+  color: #6c6258;
+  line-height: 1.25;
+}
+
+@media (max-width: 960px) {
+  .editorSurface {
+    padding-right: 0;
+  }
+
+  .blockMarker {
+    display: none;
+  }
 }

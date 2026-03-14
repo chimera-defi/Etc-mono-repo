@@ -9,16 +9,14 @@ import {
 } from "./actions";
 import { DocumentWorkspace } from "./document-workspace";
 import styles from "./page.module.css";
-import { buildExecutionBrief } from "@/lib/specforge/execution";
-import { buildStarterTemplate } from "@/lib/specforge/handoff";
+import type { StoredPatch } from "@/lib/specforge/contracts";
+import { listShowcaseExamples } from "@/lib/specforge/showcase";
 import {
-  exportDocument,
   listAuditEvents,
-  listCommentThreads,
   listDocuments,
-  listPatches,
+  type CommentThreadRecord,
 } from "@/lib/specforge/store";
-import { evaluateReadiness } from "@/lib/specforge/readiness";
+import { buildDocumentLaunchContext, buildLaunchPacket } from "@/lib/specforge/workflow";
 
 export const dynamic = "force-dynamic";
 
@@ -131,8 +129,8 @@ function renderDiffLines(before: string, after: string) {
 
 function summarizeBlocks(
   activeDocument: NonNullable<Awaited<ReturnType<typeof listDocuments>>[number]>,
-  patches: Awaited<ReturnType<typeof listPatches>>,
-  commentThreads: Awaited<ReturnType<typeof listCommentThreads>>,
+  patches: StoredPatch[],
+  commentThreads: CommentThreadRecord[],
 ) {
   const summaries = activeDocument.blocks.map<BlockSummary>((block) => {
     const blockPatches = patches.filter((patch) => patch.block_id === block.block_id);
@@ -287,43 +285,26 @@ export default async function Home({ searchParams }: Props) {
   const heroCopy = heroVariants[heroVariant];
 
   const documents = await listDocuments();
-  const activeDocument =
-    documents.find((document) => document.document_id === requestedDocumentId) ??
-    documents[0] ??
+  const activeDocumentId =
+    documents.find((document) => document.document_id === requestedDocumentId)?.document_id ??
+    documents[0]?.document_id ??
     null;
-  const patches = activeDocument ? await listPatches(activeDocument.document_id) : [];
+  const [showcaseExamples, activeContext] = await Promise.all([
+    listShowcaseExamples(),
+    activeDocumentId ? buildDocumentLaunchContext(activeDocumentId) : Promise.resolve(null),
+  ]);
+  const activeDocument = activeContext?.document ?? null;
+  const patches = activeContext?.patches ?? [];
+  const commentThreads = activeContext?.comments ?? [];
+  const exportBundle = activeContext?.exportBundle ?? null;
+  const readinessReport = activeContext?.readiness ?? null;
+  const handoffBundle = activeContext?.starterBundle ?? null;
+  const executionBrief = activeContext?.executionBrief ?? null;
+  const launchPacket = activeContext ? buildLaunchPacket(activeContext) : null;
   const auditEvents = activeDocument
     ? await listAuditEvents(activeDocument.document_id)
     : [];
-  const commentThreads = activeDocument
-    ? await listCommentThreads(activeDocument.document_id)
-    : [];
-  const exportBundle = activeDocument
-    ? await exportDocument(activeDocument.document_id)
-    : null;
   const activeBlock = activeDocument?.blocks[0] ?? null;
-  const readinessReport = activeDocument
-    ? evaluateReadiness({
-        document: activeDocument,
-        patches,
-        comments: commentThreads,
-      })
-    : null;
-  const handoffBundle =
-    activeDocument && exportBundle
-      ? buildStarterTemplate(activeDocument, exportBundle, readinessReport)
-      : null;
-  const executionBrief =
-    activeDocument && exportBundle && handoffBundle && readinessReport
-      ? buildExecutionBrief({
-          document: activeDocument,
-          exportBundle,
-          starterBundle: handoffBundle,
-          readiness: readinessReport,
-          patches,
-          comments: commentThreads,
-        })
-      : null;
   const blockSummaries = activeDocument
     ? summarizeBlocks(activeDocument, patches, commentThreads)
     : [];
@@ -522,6 +503,16 @@ export default async function Home({ searchParams }: Props) {
                         />
                       </label>
                       <label>
+                        Requirements
+                        <textarea
+                          name="requirements"
+                          rows={4}
+                          defaultValue={
+                            "Guided spec wizard with required sections\nShared multiplayer canvas with attribution\nHuman approval queue for agent patches"
+                          }
+                        />
+                      </label>
+                      <label>
                         Non-goals
                         <textarea
                           name="non_goals"
@@ -575,6 +566,39 @@ export default async function Home({ searchParams }: Props) {
                 </form>
               </section>
 
+              {showcaseExamples.length > 0 ? (
+                <section className={styles.panel}>
+                  <div className={styles.panelHeader}>
+                    <h2>Canonical showcase</h2>
+                    <span>Import from ideas/</span>
+                  </div>
+                  <div className={styles.showcaseList}>
+                    {showcaseExamples.map((example) => (
+                      <article key={example.id} className={styles.showcaseCard}>
+                        <div className={styles.patchHeader}>
+                          <strong>{example.title}</strong>
+                          <span className={styles.badge}>{example.id}</span>
+                        </div>
+                        <p className={styles.context}>{example.summary}</p>
+                        <ul className={styles.readinessList}>
+                          <li>{example.highlight}</li>
+                          <li>{example.nextAction}</li>
+                          <li>
+                            Source pack: <code>{example.pathLabel}</code>
+                          </li>
+                        </ul>
+                        <form action={createDocumentAction} className={styles.inlineForm}>
+                          <input type="hidden" name="mode" value="example" />
+                          <input type="hidden" name="example_id" value={example.id} />
+                          <input type="hidden" name="title" value={example.title} />
+                          <button type="submit">Import showcase draft</button>
+                        </form>
+                      </article>
+                    ))}
+                  </div>
+                </section>
+              ) : null}
+
               {activeDocument ? (
                 <section className={styles.panel}>
                   <div className={styles.panelHeader}>
@@ -613,6 +637,7 @@ export default async function Home({ searchParams }: Props) {
                 <DocumentWorkspace
                   key={`${activeDocument.document_id}:${activeDocument.version}`}
                   document={activeDocument}
+                  blockSummaries={blockSummaries}
                 />
               ) : (
                 <p className={styles.empty}>Create a document first.</p>
@@ -1043,6 +1068,35 @@ export default async function Home({ searchParams }: Props) {
                   <p className={styles.empty}>Create a document first.</p>
                 )}
               </section>
+
+              {launchPacket && activeDocument ? (
+                <section className={styles.panel}>
+                  <div className={styles.panelHeader}>
+                    <h2>Launch packet snapshot</h2>
+                    <span>What the coding agent receives</span>
+                  </div>
+                  <ul className={styles.readinessList}>
+                    <li>{launchPacket.packet_id}</li>
+                    <li>
+                      {launchPacket.document.title} · v{launchPacket.document.version}
+                    </li>
+                    <li>
+                      {launchPacket.execution_brief.deliverables.length} deliverables across export
+                      and starter output
+                    </li>
+                  </ul>
+                  <div className={styles.exportGrid}>
+                    <article className={styles.exportCard}>
+                      <h3>Starter output</h3>
+                      <pre>{Object.keys(launchPacket.starter_bundle.files).join("\n")}</pre>
+                    </article>
+                    <article className={styles.exportCard}>
+                      <h3>Agent commands</h3>
+                      <pre>{launchPacket.execution_brief.commands.join("\n")}</pre>
+                    </article>
+                  </div>
+                </section>
+              ) : null}
 
               <section className={styles.panel} id="export-preview">
                 <div className={styles.panelHeader}>
