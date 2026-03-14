@@ -26,6 +26,14 @@ function getDeliveryTarget(heading) {
   return "scoped_saas_parity";
 }
 
+function tailOutput(value, length = 4000) {
+  if (!value) {
+    return "";
+  }
+
+  return String(value).slice(-length);
+}
+
 function parseArgs(argv) {
   const [command = "status", ...rest] = argv;
   const options = {
@@ -254,6 +262,7 @@ async function runLoop(options) {
       claim_id: claimId,
       phase: backlog.activePhase.heading,
       next_item: nextItem.text,
+      retry_count: state.claims.filter((claim) => claim.intent_id === intentId).length,
       dry_run: options.dryRun,
       command,
     };
@@ -268,12 +277,16 @@ async function runLoop(options) {
         created_at: passRecord.started_at,
         updated_at: passRecord.started_at,
       });
+    } else {
+      existingIntent.status = options.dryRun ? "dry_run" : "claimed";
+      existingIntent.updated_at = passRecord.started_at;
     }
 
     state.claims.push({
       claim_id: claimId,
       intent_id: intentId,
       state: options.dryRun ? "dry_run" : "claimed",
+      retry_count: passRecord.retry_count,
       started_at: passRecord.started_at,
       heartbeat_at: passRecord.started_at,
     });
@@ -301,12 +314,22 @@ async function runLoop(options) {
 
     const result = spawnSync(command[0], command.slice(1), {
       cwd: worktreeRoot,
-      stdio: "inherit",
+      stdio: "pipe",
+      encoding: "utf8",
       env: process.env,
     });
 
+    if (result.stdout) {
+      process.stdout.write(result.stdout);
+    }
+    if (result.stderr) {
+      process.stderr.write(result.stderr);
+    }
+
     passRecord.exit_code = result.status ?? 1;
     passRecord.finished_at = new Date().toISOString();
+    passRecord.stdout_tail = tailOutput(result.stdout);
+    passRecord.stderr_tail = tailOutput(result.stderr);
     state.updated_at = passRecord.finished_at;
     state.passes.push(passRecord);
     const claim = state.claims.find((entry) => entry.claim_id === claimId);
@@ -315,6 +338,10 @@ async function runLoop(options) {
       claim.state = (result.status ?? 1) === 0 ? "completed" : "failed";
       claim.finished_at = passRecord.finished_at;
       claim.exit_code = result.status ?? 1;
+      claim.failure_summary =
+        (result.status ?? 1) === 0
+          ? null
+          : tailOutput(result.stderr || result.stdout, 800);
     }
     const intent = state.intents.find((entry) => entry.intent_id === intentId);
     if (intent) {
@@ -327,6 +354,8 @@ async function runLoop(options) {
       intent_id: intentId,
       claim_id: claimId,
       exit_code: result.status ?? 1,
+      failure_summary:
+        (result.status ?? 1) === 0 ? null : tailOutput(result.stderr || result.stdout, 800),
     });
     await writeLoopState(state);
 

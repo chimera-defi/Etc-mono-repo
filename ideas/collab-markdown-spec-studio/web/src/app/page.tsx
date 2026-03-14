@@ -12,7 +12,11 @@ import { DocumentWorkspace } from "./document-workspace";
 import styles from "./page.module.css";
 import type { StoredPatch } from "@/lib/specforge/contracts";
 import { readBacklogState } from "@/lib/specforge/backlog";
-import { getCurrentWorkspaceActor, listWorkspaceActors } from "@/lib/specforge/session";
+import {
+  getCurrentWorkspaceSession,
+  isGitHubAuthConfigured,
+  listWorkspaceActors,
+} from "@/lib/specforge/session";
 import { listShowcaseExamples } from "@/lib/specforge/showcase";
 import {
   listAuditEvents,
@@ -287,7 +291,9 @@ export default async function Home({ searchParams }: Props) {
       : "handoff";
   const heroCopy = heroVariants[heroVariant];
   const workspaceActors = listWorkspaceActors();
-  const activeWorkspaceActor = await getCurrentWorkspaceActor();
+  const activeWorkspaceSession = await getCurrentWorkspaceSession();
+  const activeWorkspaceActor = activeWorkspaceSession.actor;
+  const githubAuthConfigured = isGitHubAuthConfigured();
   const backlogState = await readBacklogState();
 
   const documents = await listDocuments();
@@ -369,32 +375,49 @@ export default async function Home({ searchParams }: Props) {
         <aside className={styles.focusSidebar}>
           <section className={styles.panel}>
             <div className={styles.panelHeader}>
-              <h2>Workspace actor</h2>
-              <span>Session identity</span>
+              <h2>Workspace session</h2>
+              <span>{activeWorkspaceSession.authMode === "github" ? "Pilot auth" : "Local demo"}</span>
             </div>
-            <form action={switchWorkspaceActorAction} className={styles.form}>
-              <input type="hidden" name="return_to" value={actorReturnTo} />
-              <label>
-                Active role
-                <select
-                  name="actor_id"
-                  className={styles.selectInput}
-                  defaultValue={activeWorkspaceActor.actor_id}
-                >
-                  {workspaceActors.map((actor) => (
-                    <option key={actor.actor_id} value={actor.actor_id}>
-                      {actor.name} · {actor.role}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <div className={styles.actorCard}>
-                <strong>{activeWorkspaceActor.name}</strong>
-                <span>{activeWorkspaceActor.role}</span>
-                <span>{activeWorkspaceActor.actor_id}</span>
+            <div className={styles.actorCard}>
+              <strong>{activeWorkspaceActor.name}</strong>
+              <span>{activeWorkspaceActor.role}</span>
+              <span>{activeWorkspaceActor.actor_id}</span>
+              {activeWorkspaceSession.githubLogin ? (
+                <span>GitHub: @{activeWorkspaceSession.githubLogin}</span>
+              ) : null}
+            </div>
+            {githubAuthConfigured ? (
+              <div className={styles.inlineActions}>
+                {activeWorkspaceSession.authMode === "github" ? (
+                  <Link href="/api/auth/logout" className={styles.secondaryLink}>
+                    Log out
+                  </Link>
+                ) : (
+                  <Link href="/api/auth/login" className={styles.secondaryLink}>
+                    Sign in with GitHub
+                  </Link>
+                )}
               </div>
-              <button type="submit">Switch actor</button>
-            </form>
+            ) : (
+              <form action={switchWorkspaceActorAction} className={styles.form}>
+                <input type="hidden" name="return_to" value={actorReturnTo} />
+                <label>
+                  Active role
+                  <select
+                    name="actor_id"
+                    className={styles.selectInput}
+                    defaultValue={activeWorkspaceActor.actor_id}
+                  >
+                    {workspaceActors.map((actor) => (
+                      <option key={actor.actor_id} value={actor.actor_id}>
+                        {actor.name} · {actor.role}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <button type="submit">Switch local actor</button>
+              </form>
+            )}
           </section>
 
           <section className={styles.panel}>
@@ -443,7 +466,13 @@ export default async function Home({ searchParams }: Props) {
                 <strong>Latest claim</strong>
                 <span>{backlogState.latestClaim.claim_id}</span>
                 <span>{backlogState.latestClaim.state}</span>
+                {typeof backlogState.latestClaim.retry_count === "number" ? (
+                  <span>Retry {backlogState.latestClaim.retry_count}</span>
+                ) : null}
                 <span>{backlogState.latestClaim.heartbeat_at}</span>
+                {backlogState.latestClaim.failure_summary ? (
+                  <span>{backlogState.latestClaim.failure_summary}</span>
+                ) : null}
               </div>
             ) : null}
             {backlogState.latestSignal ? (
@@ -452,6 +481,9 @@ export default async function Home({ searchParams }: Props) {
                 <span>{backlogState.latestSignal.type}</span>
                 <span>{backlogState.latestSignal.intent_id}</span>
                 <span>{backlogState.latestSignal.at}</span>
+                {backlogState.latestSignal.failure_summary ? (
+                  <span>{backlogState.latestSignal.failure_summary}</span>
+                ) : null}
               </div>
             ) : null}
             <div className={styles.inlineActions}>
