@@ -51,6 +51,25 @@ type DocumentRow = {
   updated_at: string;
 };
 
+type WorkspaceRow = {
+  workspace_id: string;
+  name: string;
+  plan: "demo" | "pilot";
+  created_at: string;
+};
+
+type WorkspaceMemberRow = {
+  membership_id: string;
+  workspace_id: string;
+  actor_id: string;
+  actor_type: "human" | "agent";
+  name: string;
+  role: string;
+  color: string;
+  github_login: string | null;
+  created_at: string;
+};
+
 type PatchRow = {
   patch_id: string;
   document_id: string;
@@ -88,6 +107,25 @@ export type AuditEventRecord = {
   actor_type: "human" | "agent" | "system";
   actor_id: string;
   payload: Record<string, unknown>;
+  created_at: string;
+};
+
+export type WorkspaceRecord = {
+  workspace_id: string;
+  name: string;
+  plan: "demo" | "pilot";
+  created_at: string;
+};
+
+export type WorkspaceMembershipRecord = {
+  membership_id: string;
+  workspace_id: string;
+  actor_id: string;
+  actor_type: "human" | "agent";
+  name: string;
+  role: string;
+  color: string;
+  github_login?: string;
   created_at: string;
 };
 
@@ -207,6 +245,8 @@ async function readJson<T>(filePath: string): Promise<T> {
 }
 
 type StoreSnapshot = {
+  workspaces: WorkspaceRow[];
+  workspace_members: WorkspaceMemberRow[];
   documents: DocumentRow[];
   patches: PatchRow[];
   audit_events: AuditEventRow[];
@@ -231,7 +271,27 @@ async function getSnapshotVersion(snapshotPath: string) {
 }
 
 async function dumpSnapshot(database: PGlite): Promise<StoreSnapshot> {
-  const [documents, patches, auditEvents, commentThreads] = await Promise.all([
+  const [workspaces, workspaceMembers, documents, patches, auditEvents, commentThreads] =
+    await Promise.all([
+      database.query<WorkspaceRow>(
+        `SELECT workspace_id, name, plan, created_at
+        FROM workspaces
+        ORDER BY created_at ASC`,
+      ),
+      database.query<WorkspaceMemberRow>(
+        `SELECT
+          membership_id,
+          workspace_id,
+          actor_id,
+          actor_type,
+          name,
+          role,
+          color,
+          github_login,
+          created_at
+        FROM workspace_members
+        ORDER BY created_at ASC`,
+      ),
     database.query<DocumentRow>(
       `SELECT
         document_id,
@@ -295,9 +355,11 @@ async function dumpSnapshot(database: PGlite): Promise<StoreSnapshot> {
       FROM comment_threads
       ORDER BY created_at ASC`,
     ),
-  ]);
+    ]);
 
   return {
+    workspaces: workspaces.rows,
+    workspace_members: workspaceMembers.rows,
     documents: documents.rows,
     patches: patches.rows,
     audit_events: auditEvents.rows,
@@ -311,7 +373,48 @@ async function hydrateSnapshot(database: PGlite, snapshot: StoreSnapshot) {
     DELETE FROM audit_events;
     DELETE FROM patches;
     DELETE FROM documents;
+    DELETE FROM workspace_members;
+    DELETE FROM workspaces;
   `);
+
+  for (const row of snapshot.workspaces ?? []) {
+    await database.query(
+      `INSERT INTO workspaces (
+        workspace_id,
+        name,
+        plan,
+        created_at
+      ) VALUES ($1, $2, $3, $4)`,
+      [row.workspace_id, row.name, row.plan, row.created_at],
+    );
+  }
+
+  for (const row of snapshot.workspace_members ?? []) {
+    await database.query(
+      `INSERT INTO workspace_members (
+        membership_id,
+        workspace_id,
+        actor_id,
+        actor_type,
+        name,
+        role,
+        color,
+        github_login,
+        created_at
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+      [
+        row.membership_id,
+        row.workspace_id,
+        row.actor_id,
+        row.actor_type,
+        row.name,
+        row.role,
+        row.color,
+        row.github_login ?? null,
+        row.created_at,
+      ],
+    );
+  }
 
   for (const row of snapshot.documents) {
     await database.query(
@@ -551,6 +654,25 @@ function mapClarificationRow(row: ClarificationRow): ClarificationRecord {
 
 async function createSchema(database: PGlite) {
   await database.exec(`
+    CREATE TABLE IF NOT EXISTS workspaces (
+      workspace_id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      plan TEXT NOT NULL,
+      created_at TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS workspace_members (
+      membership_id TEXT PRIMARY KEY,
+      workspace_id TEXT NOT NULL REFERENCES workspaces(workspace_id) ON DELETE CASCADE,
+      actor_id TEXT NOT NULL,
+      actor_type TEXT NOT NULL,
+      name TEXT NOT NULL,
+      role TEXT NOT NULL,
+      color TEXT NOT NULL,
+      github_login TEXT,
+      created_at TEXT NOT NULL
+    );
+
     CREATE TABLE IF NOT EXISTS documents (
       document_id TEXT PRIMARY KEY,
       workspace_id TEXT NOT NULL,
@@ -702,6 +824,69 @@ async function seedDatabase(database: PGlite, fixturesDir: string) {
     markdown: string;
   }>(path.join(fixturesDir, "workspace.seed.json"));
   const now = new Date().toISOString();
+  await database.query(
+    `INSERT INTO workspaces (
+      workspace_id,
+      name,
+      plan,
+      created_at
+    ) VALUES ($1, $2, $3, $4)`,
+    [workspace.workspace_id, "SpecForge Demo Workspace", "demo", now],
+  );
+  for (const member of [
+    {
+      membership_id: "membership_owner",
+      actor_id: "workspace_owner",
+      actor_type: "human",
+      name: "Founder",
+      role: "Workspace owner",
+      color: "#0f766e",
+      github_login: "chimera-defi",
+    },
+    {
+      membership_id: "membership_reviewer",
+      actor_id: "specforge_reviewer",
+      actor_type: "human",
+      name: "Reviewer",
+      role: "Product reviewer",
+      color: "#1d4ed8",
+      github_login: null,
+    },
+    {
+      membership_id: "membership_operator",
+      actor_id: "specforge_operator",
+      actor_type: "human",
+      name: "Agent operator",
+      role: "Build operator",
+      color: "#c2410c",
+      github_login: null,
+    },
+  ]) {
+    await database.query(
+      `INSERT INTO workspace_members (
+        membership_id,
+        workspace_id,
+        actor_id,
+        actor_type,
+        name,
+        role,
+        color,
+        github_login,
+        created_at
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+      [
+        member.membership_id,
+        workspace.workspace_id,
+        member.actor_id,
+        member.actor_type,
+        member.name,
+        member.role,
+        member.color,
+        member.github_login,
+        now,
+      ],
+    );
+  }
   const document = mapDocumentRow({
     document_id: workspace.document_id,
     workspace_id: workspace.workspace_id,
@@ -828,6 +1013,61 @@ async function seedDatabase(database: PGlite, fixturesDir: string) {
   }
 }
 
+async function ensureWorkspaceSeedData(database: PGlite) {
+  const documentWorkspace = await database.query<{ workspace_id: string }>(
+    `SELECT workspace_id FROM documents ORDER BY created_at ASC LIMIT 1`,
+  );
+  const workspaceId = documentWorkspace.rows[0]?.workspace_id ?? "ws_demo";
+  const existingWorkspace = await database.query<{ workspace_id: string }>(
+    `SELECT workspace_id FROM workspaces WHERE workspace_id = $1 LIMIT 1`,
+    [workspaceId],
+  );
+  const now = new Date().toISOString();
+
+  if (existingWorkspace.rows.length === 0) {
+    await database.query(
+      `INSERT INTO workspaces (
+        workspace_id,
+        name,
+        plan,
+        created_at
+      ) VALUES ($1, $2, $3, $4)`,
+      [workspaceId, "SpecForge Demo Workspace", "demo", now],
+    );
+  }
+
+  for (const member of [
+    ["membership_owner", "workspace_owner", "human", "Founder", "Workspace owner", "#0f766e", "chimera-defi"],
+    ["membership_reviewer", "specforge_reviewer", "human", "Reviewer", "Product reviewer", "#1d4ed8", null],
+    ["membership_operator", "specforge_operator", "human", "Agent operator", "Build operator", "#c2410c", null],
+  ]) {
+    const existingMember = await database.query<{ membership_id: string }>(
+      `SELECT membership_id
+      FROM workspace_members
+      WHERE workspace_id = $1 AND actor_id = $2
+      LIMIT 1`,
+      [workspaceId, member[1]],
+    );
+
+    if (existingMember.rows.length === 0) {
+      await database.query(
+        `INSERT INTO workspace_members (
+          membership_id,
+          workspace_id,
+          actor_id,
+          actor_type,
+          name,
+          role,
+          color,
+          github_login,
+          created_at
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+        [member[0], workspaceId, member[1], member[2], member[3], member[4], member[5], member[6], now],
+      );
+    }
+  }
+}
+
 async function getDatabase(options: StoreOptions = {}) {
   const { dbPath, fixturesDir } = resolveOptions(options);
   const isMemoryDatabase = dbPath.startsWith("memory://");
@@ -841,6 +1081,7 @@ async function getDatabase(options: StoreOptions = {}) {
 
         if (isMemoryDatabase) {
           await seedDatabase(database, fixturesDir);
+          await ensureWorkspaceSeedData(database);
           return database;
         }
 
@@ -849,11 +1090,13 @@ async function getDatabase(options: StoreOptions = {}) {
         if (snapshotVersion > 0) {
           const snapshot = await readJson<StoreSnapshot>(dbPath);
           await hydrateSnapshot(database, snapshot);
+          await ensureWorkspaceSeedData(database);
           snapshotVersionCache.set(dbPath, snapshotVersion);
           return database;
         }
 
         await seedDatabase(database, fixturesDir);
+        await ensureWorkspaceSeedData(database);
         await persistSnapshot(database, dbPath);
         return database;
       })(),
@@ -869,6 +1112,7 @@ async function getDatabase(options: StoreOptions = {}) {
     if (diskVersion > cachedVersion) {
       const snapshot = await readJson<StoreSnapshot>(dbPath);
       await hydrateSnapshot(database, snapshot);
+      await ensureWorkspaceSeedData(database);
       snapshotVersionCache.set(dbPath, diskVersion);
     }
   }
@@ -897,6 +1141,54 @@ export async function listDocuments(options?: StoreOptions) {
   );
 
   return result.rows.map(mapDocumentRow);
+}
+
+export async function listWorkspaceRecords(options?: StoreOptions) {
+  const database = await getDatabase(options);
+  const result = await database.query<WorkspaceRow>(
+    `SELECT workspace_id, name, plan, created_at
+    FROM workspaces
+    ORDER BY created_at ASC`,
+  );
+
+  return result.rows.map((row) => ({
+    workspace_id: row.workspace_id,
+    name: row.name,
+    plan: row.plan,
+    created_at: row.created_at,
+  }));
+}
+
+export async function listWorkspaceMemberships(workspaceId: string, options?: StoreOptions) {
+  const database = await getDatabase(options);
+  const result = await database.query<WorkspaceMemberRow>(
+    `SELECT
+      membership_id,
+      workspace_id,
+      actor_id,
+      actor_type,
+      name,
+      role,
+      color,
+      github_login,
+      created_at
+    FROM workspace_members
+    WHERE workspace_id = $1
+    ORDER BY created_at ASC`,
+    [workspaceId],
+  );
+
+  return result.rows.map((row) => ({
+    membership_id: row.membership_id,
+    workspace_id: row.workspace_id,
+    actor_id: row.actor_id,
+    actor_type: row.actor_type,
+    name: row.name,
+    role: row.role,
+    color: row.color,
+    github_login: row.github_login ?? undefined,
+    created_at: row.created_at,
+  }));
 }
 
 export async function getDocument(documentId: string, options?: StoreOptions) {
