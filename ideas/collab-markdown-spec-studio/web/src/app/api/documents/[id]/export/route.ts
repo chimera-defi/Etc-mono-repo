@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-import { getCurrentWorkspaceActor } from "@/lib/specforge/session";
 import { exportDocument } from "@/lib/specforge/store";
+import { getCurrentWorkspaceAccess } from "@/lib/specforge/workspace-access";
 
 type Params = {
   params: Promise<{ id: string }>;
@@ -18,12 +18,12 @@ async function buildResponse(id: string, workspaceId: string) {
 
 export async function GET(_request: Request, { params }: Params) {
   const { id } = await params;
-  const currentActor = await getCurrentWorkspaceActor();
-  return buildResponse(id, currentActor.workspace_id);
+  const { workspaceId } = await getCurrentWorkspaceAccess();
+  return buildResponse(id, workspaceId);
 }
 
 export async function POST(_request: Request, { params }: Params) {
   const { id } = await params;
-  const currentActor = await getCurrentWorkspaceActor();
-  return buildResponse(id, currentActor.workspace_id);
+  const { workspaceId } = await getCurrentWorkspaceAccess();
+  return buildResponse(id, workspaceId);
 }

@@ -20,6 +20,8 @@
 - [x] Inline block-level provenance markers are visible in the shared canvas.
 - [x] Depth gates, recap generation, and implementation-readiness scoring.
 - [x] Clarification queue and answer writeback into canonical document sections.
+- [x] Shared workspace-document access helper reduces repeated route scoping logic.
+- [x] Runner emits a latest handoff artifact for compaction and resume.
 - [x] Deterministic export/handoff flow exists for the local bundle preview and curated starter handoff.
 - [x] One canonical `ideas/` showcase import exists for `server-management-agent`.
 - [x] Playwright-based end-to-end and screenshot coverage for the local integrated demo.
