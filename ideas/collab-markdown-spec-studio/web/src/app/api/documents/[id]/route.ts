@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-import { getCurrentWorkspaceActor } from "@/lib/specforge/session";
-import { getDocument, listPatches, updateDocument } from "@/lib/specforge/store";
+import { listPatches, updateDocument } from "@/lib/specforge/store";
+import { getCurrentWorkspaceDocument } from "@/lib/specforge/workspace-access";
 
 type Params = {
   params: Promise<{ id: string }>;
@@ -9,8 +9,7 @@ type Params = {
 
 export async function GET(_request: Request, { params }: Params) {
   const { id } = await params;
-  const currentActor = await getCurrentWorkspaceActor();
-  const document = await getDocument(id, { workspaceId: currentActor.workspace_id });
+  const { document } = await getCurrentWorkspaceDocument(id);
 
   if (!document) {
     return NextResponse.json({ error: "Document not found" }, { status: 404 });
@@ -23,10 +22,9 @@ export async function GET(_request: Request, { params }: Params) {
 export async function PATCH(request: Request, { params }: Params) {
   const { id } = await params;
   const payload = await request.json();
-  const currentActor = await getCurrentWorkspaceActor();
 
   try {
-    const existing = await getDocument(id, { workspaceId: currentActor.workspace_id });
+    const { document: existing } = await getCurrentWorkspaceDocument(id);
     if (!existing) {
       return NextResponse.json({ error: "Document not found" }, { status: 404 });
     }

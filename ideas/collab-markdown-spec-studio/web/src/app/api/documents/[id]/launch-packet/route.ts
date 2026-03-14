@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-import { getCurrentWorkspaceActor } from "@/lib/specforge/session";
-import { buildDocumentLaunchContext, buildLaunchPacket } from "@/lib/specforge/workflow";
+import { buildLaunchPacket } from "@/lib/specforge/workflow";
+import { getCurrentWorkspaceLaunchContext } from "@/lib/specforge/workspace-access";
 
 type Params = {
   params: Promise<{ id: string }>;
@@ -9,8 +9,7 @@ type Params = {
 
 export async function GET(_request: Request, { params }: Params) {
   const { id } = await params;
-  const currentActor = await getCurrentWorkspaceActor();
-  const context = await buildDocumentLaunchContext(id, currentActor.workspace_id);
+  const { context } = await getCurrentWorkspaceLaunchContext(id);
 
   if (!context) {
     return NextResponse.json({ error: "Document not found" }, { status: 404 });

@@ -65,6 +65,8 @@ npm run dev
   - `/api/parity/status`
   - `/api/parity/context`
   - `/api/parity/brief`
+- Latest runner handoff artifact:
+  - `../../.cursor/artifacts/specforge-runner-latest.md`
 - Auth endpoints:
   - `/api/auth/login`
   - `/api/auth/callback`
