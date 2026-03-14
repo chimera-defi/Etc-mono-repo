@@ -15,16 +15,16 @@ import styles from "./page.module.css";
 import type { StoredPatch } from "@/lib/specforge/contracts";
 import { readBacklogState } from "@/lib/specforge/backlog";
 import {
-  getWorkspaceRecord,
   getCurrentWorkspaceSession,
   isGitHubAuthConfigured,
-  listWorkspaceMembers,
   listWorkspaceActors,
 } from "@/lib/specforge/session";
 import { listShowcaseExamples } from "@/lib/specforge/showcase";
 import {
   listAuditEvents,
   listDocuments,
+  listWorkspaceMemberships,
+  listWorkspaceRecords,
   type CommentThreadRecord,
 } from "@/lib/specforge/store";
 import { buildDocumentLaunchContext, buildLaunchPacket } from "@/lib/specforge/workflow";
@@ -298,11 +298,20 @@ export default async function Home({ searchParams }: Props) {
   const activeWorkspaceSession = await getCurrentWorkspaceSession();
   const activeWorkspaceActor = activeWorkspaceSession.actor;
   const githubAuthConfigured = isGitHubAuthConfigured();
-  const activeWorkspace = getWorkspaceRecord(activeWorkspaceActor.workspace_id);
-  const activeWorkspaceMembers = listWorkspaceMembers(activeWorkspace.workspace_id);
   const backlogState = await readBacklogState();
-
-  const documents = await listDocuments({ workspaceId: activeWorkspace.workspace_id });
+  const [workspaceRecords, activeWorkspaceMembers, documents] = await Promise.all([
+    listWorkspaceRecords(),
+    listWorkspaceMemberships(activeWorkspaceActor.workspace_id),
+    listDocuments({ workspaceId: activeWorkspaceActor.workspace_id }),
+  ]);
+  const activeWorkspace =
+    workspaceRecords.find((workspace) => workspace.workspace_id === activeWorkspaceActor.workspace_id) ??
+    {
+      workspace_id: activeWorkspaceActor.workspace_id,
+      name: "SpecForge Demo Workspace",
+      plan: "demo" as const,
+      created_at: new Date(0).toISOString(),
+    };
   const activeDocumentId =
     documents.find((document) => document.document_id === requestedDocumentId)?.document_id ??
     documents[0]?.document_id ??
@@ -310,7 +319,7 @@ export default async function Home({ searchParams }: Props) {
   const [showcaseExamples, activeContext] = await Promise.all([
     listShowcaseExamples(),
     activeDocumentId
-      ? buildDocumentLaunchContext(activeDocumentId, activeWorkspace.workspace_id)
+      ? buildDocumentLaunchContext(activeDocumentId, activeWorkspaceActor.workspace_id)
       : Promise.resolve(null),
   ]);
   const activeDocument = activeContext?.document ?? null;
