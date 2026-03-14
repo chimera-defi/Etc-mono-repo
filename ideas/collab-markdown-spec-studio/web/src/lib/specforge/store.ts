@@ -6,12 +6,16 @@ import { randomUUID } from "node:crypto";
 import { PGlite } from "@electric-sql/pglite";
 
 import {
+  clarificationAnswerSchema,
+  clarificationCreateSchema,
   commentThreadCreateSchema,
   commentThreadResolveSchema,
   documentCreateSchema,
   documentUpdateSchema,
   patchDecisionSchema,
   patchProposalSchema,
+  type ClarificationAnswerInput,
+  type ClarificationCreateInput,
   type CommentThreadCreateInput,
   type CommentThreadResolveInput,
   type DocumentCreateInput,
@@ -22,7 +26,12 @@ import {
   type StoredPatch,
 } from "./contracts";
 import { exportDocumentBundle } from "./export";
-import { applyPatchToMarkdown, deriveDocumentShape, makeDocumentRecord } from "./markdown";
+import {
+  applyPatchToMarkdown,
+  deriveDocumentShape,
+  makeDocumentRecord,
+  upsertSectionBullet,
+} from "./markdown";
 
 type StoreOptions = {
   dbPath?: string;
@@ -112,6 +121,40 @@ export type CommentThreadRecord = {
   };
   created_at: string;
   resolved_at?: string;
+};
+
+type ClarificationRow = {
+  clarification_id: string;
+  document_id: string;
+  section_heading: string;
+  question: string;
+  status: "open" | "answered";
+  created_by_actor_type: "human" | "agent";
+  created_by_actor_id: string;
+  answer_text: string | null;
+  answered_by_actor_type: "human" | "agent" | null;
+  answered_by_actor_id: string | null;
+  created_at: string;
+  answered_at: string | null;
+};
+
+export type ClarificationRecord = {
+  clarification_id: string;
+  document_id: string;
+  section_heading: string;
+  question: string;
+  status: "open" | "answered";
+  created_by: {
+    actor_type: "human" | "agent";
+    actor_id: string;
+  };
+  answer_text?: string;
+  answered_by?: {
+    actor_type: "human" | "agent";
+    actor_id: string;
+  };
+  created_at: string;
+  answered_at?: string;
 };
 
 const databaseCache = new Map<string, Promise<PGlite>>();
@@ -482,6 +525,30 @@ function mapCommentThreadRow(row: CommentThreadRow): CommentThreadRecord {
   };
 }
 
+function mapClarificationRow(row: ClarificationRow): ClarificationRecord {
+  return {
+    clarification_id: row.clarification_id,
+    document_id: row.document_id,
+    section_heading: row.section_heading,
+    question: row.question,
+    status: row.status,
+    created_by: {
+      actor_type: row.created_by_actor_type,
+      actor_id: row.created_by_actor_id,
+    },
+    answer_text: row.answer_text ?? undefined,
+    answered_by:
+      row.answered_by_actor_type && row.answered_by_actor_id
+        ? {
+            actor_type: row.answered_by_actor_type,
+            actor_id: row.answered_by_actor_id,
+          }
+        : undefined,
+    created_at: row.created_at,
+    answered_at: row.answered_at ?? undefined,
+  };
+}
+
 async function createSchema(database: PGlite) {
   await database.exec(`
     CREATE TABLE IF NOT EXISTS documents (
@@ -546,6 +613,21 @@ async function createSchema(database: PGlite) {
       resolved_by_actor_id TEXT,
       created_at TEXT NOT NULL,
       resolved_at TEXT
+    );
+
+    CREATE TABLE IF NOT EXISTS clarifications (
+      clarification_id TEXT PRIMARY KEY,
+      document_id TEXT NOT NULL REFERENCES documents(document_id) ON DELETE CASCADE,
+      section_heading TEXT NOT NULL,
+      question TEXT NOT NULL,
+      status TEXT NOT NULL,
+      created_by_actor_type TEXT NOT NULL,
+      created_by_actor_id TEXT NOT NULL,
+      answer_text TEXT,
+      answered_by_actor_type TEXT,
+      answered_by_actor_id TEXT,
+      created_at TEXT NOT NULL,
+      answered_at TEXT
     );
   `);
 }
@@ -913,6 +995,31 @@ export async function listCommentThreads(documentId: string, options?: StoreOpti
   );
 
   return result.rows.map(mapCommentThreadRow);
+}
+
+export async function listClarifications(documentId: string, options?: StoreOptions) {
+  const database = await getDatabase(options);
+  const result = await database.query<ClarificationRow>(
+    `SELECT
+      clarification_id,
+      document_id,
+      section_heading,
+      question,
+      status,
+      created_by_actor_type,
+      created_by_actor_id,
+      answer_text,
+      answered_by_actor_type,
+      answered_by_actor_id,
+      created_at,
+      answered_at
+    FROM clarifications
+    WHERE document_id = $1
+    ORDER BY created_at DESC`,
+    [documentId],
+  );
+
+  return result.rows.map(mapClarificationRow);
 }
 
 export async function createDocument(input: DocumentCreateInput, options?: StoreOptions) {
@@ -1377,6 +1484,161 @@ export async function resolveCommentThread(
   }
 
   return thread;
+}
+
+export async function createClarification(
+  input: ClarificationCreateInput,
+  options?: StoreOptions,
+) {
+  const payload = clarificationCreateSchema.parse(input);
+  const database = await getDatabase(options);
+  const { dbPath } = resolveOptions(options);
+  const clarificationId = `clar_${randomUUID()}`;
+  const createdAt = new Date().toISOString();
+
+  await database.transaction(async (tx) => {
+    await tx.query(
+      `INSERT INTO clarifications (
+        clarification_id,
+        document_id,
+        section_heading,
+        question,
+        status,
+        created_by_actor_type,
+        created_by_actor_id,
+        created_at
+      ) VALUES ($1, $2, $3, $4, 'open', $5, $6, $7)`,
+      [
+        clarificationId,
+        payload.document_id,
+        payload.section_heading,
+        payload.question,
+        payload.created_by.actor_type,
+        payload.created_by.actor_id,
+        createdAt,
+      ],
+    );
+    await insertAuditEvent(tx, {
+      document_id: payload.document_id,
+      event_type: "clarification.created",
+      actor_type: payload.created_by.actor_type,
+      actor_id: payload.created_by.actor_id,
+      payload: {
+        clarification_id: clarificationId,
+        section_heading: payload.section_heading,
+      },
+      created_at: createdAt,
+    });
+  });
+
+  await persistSnapshot(database, dbPath);
+  const clarifications = await listClarifications(payload.document_id, options);
+  return clarifications.find((item) => item.clarification_id === clarificationId)!;
+}
+
+export async function answerClarification(
+  input: ClarificationAnswerInput,
+  options?: StoreOptions,
+) {
+  const payload = clarificationAnswerSchema.parse(input);
+  const database = await getDatabase(options);
+  const { dbPath } = resolveOptions(options);
+  const document = await getDocument(payload.document_id, options);
+
+  if (!document) {
+    throw new Error(`Document ${payload.document_id} not found`);
+  }
+
+  const clarifications = await listClarifications(payload.document_id, options);
+  const clarification = clarifications.find(
+    (item) => item.clarification_id === payload.clarification_id,
+  );
+
+  if (!clarification) {
+    throw new Error(`Clarification ${payload.clarification_id} not found`);
+  }
+
+  const answeredAt = new Date().toISOString();
+  const nextMarkdown = upsertSectionBullet(
+    document.markdown,
+    clarification.section_heading,
+    payload.answer,
+  );
+  const nextShape = deriveDocumentShape(nextMarkdown);
+
+  await database.transaction(async (tx) => {
+    await tx.query(
+      `UPDATE clarifications
+      SET
+        status = 'answered',
+        answer_text = $2,
+        answered_by_actor_type = $3,
+        answered_by_actor_id = $4,
+        answered_at = $5
+      WHERE clarification_id = $1`,
+      [
+        payload.clarification_id,
+        payload.answer,
+        payload.answered_by.actor_type,
+        payload.answered_by.actor_id,
+        answeredAt,
+      ],
+    );
+    await tx.query(
+      `UPDATE documents
+      SET
+        version = $2,
+        markdown = $3,
+        editor_json = $4::jsonb,
+        updated_at = $5
+      WHERE document_id = $1`,
+      [
+        document.document_id,
+        document.version + 1,
+        nextMarkdown,
+        JSON.stringify(null),
+        answeredAt,
+      ],
+    );
+    await insertSnapshot(
+      tx,
+      {
+        document_id: document.document_id,
+        version: document.version + 1,
+        markdown: nextMarkdown,
+        editor_json: undefined,
+      },
+      answeredAt,
+    );
+    await insertAuditEvent(tx, {
+      document_id: document.document_id,
+      event_type: "clarification.answered",
+      actor_type: payload.answered_by.actor_type,
+      actor_id: payload.answered_by.actor_id,
+      payload: {
+        clarification_id: payload.clarification_id,
+        section_heading: clarification.section_heading,
+      },
+      created_at: answeredAt,
+    });
+  });
+
+  await persistSnapshot(database, dbPath);
+
+  return {
+    document: {
+      ...document,
+      markdown: nextMarkdown,
+      version: document.version + 1,
+      sections: nextShape.sections,
+      blocks: nextShape.blocks,
+      updated_at: answeredAt,
+    },
+    clarification:
+      (await listClarifications(payload.document_id, options)).find(
+        (item) => item.clarification_id === payload.clarification_id,
+      ) ?? null,
+  };
 }
 
 export async function exportDocument(documentId: string, options?: StoreOptions) {
