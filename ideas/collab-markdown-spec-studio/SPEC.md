@@ -176,6 +176,7 @@ Build a real-time collaborative spec IDE with:
 2. Pilot mode uses GitHub OAuth for human users.
 3. Agent actors use workspace-scoped service identities, not human sessions.
 4. Defer SSO, SCIM, and complex enterprise role models until post-pilot.
+5. The same `active actor` shape should survive across local and pilot modes so product flows do not fork by auth provider.
 
 ### Comments Default
 1. v1 ships simple anchored comment threads.
@@ -253,6 +254,7 @@ Use three packs from `ideas/` as the initial end-to-end benchmark set:
 2. The delivery loop must be able to read remaining backlog items and continue issuing bounded implementation passes without manual re-prompting.
 3. Each pass must leave the product in a green, demoable state with tests/build checks rerun.
 4. If parity cannot advance safely, the loop must surface a concrete blocker instead of inventing more work.
+5. Blocked passes must capture retry metadata and failure summaries that are visible in-product.
 
 ### Key Technical Choice
 Use CRDT-backed editing for robust multiplayer behavior and offline/reconnect tolerance.
