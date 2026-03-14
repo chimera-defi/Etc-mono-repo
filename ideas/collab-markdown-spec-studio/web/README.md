@@ -33,6 +33,9 @@ npm run lint
 npm run build
 npm run test:e2e
 npm run screenshot:demo
+npm run parity:status
+npm run parity:brief
+npm run parity:run:dry
 
 # separately
 cd ../collab-server
@@ -47,3 +50,4 @@ npm run dev
 - The collaboration runtime lives in `../collab-server/`.
 - The web client connects to `NEXT_PUBLIC_COLLAB_URL` and defaults to `ws://127.0.0.1:4321`.
 - The final handoff stage exposes `/export`, `/handoff`, `/execution`, and `/launch-packet` routes for downstream build agents.
+- The local parity runner lives at `../tools/specforge-parity-runner.mjs` and can drive bounded `codex exec` passes from the remaining backlog.

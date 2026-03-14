@@ -56,11 +56,18 @@ Build a real-time collaborative spec IDE with:
 - Blocks irreversible generation steps until required questions are answered.
 - Writes accepted answers back into canonical doc sections and decision log.
 
+### 9) Delivery Parity Orchestrator (Build Loop)
+- Reads the approved spec plus the remaining parity backlog.
+- Generates the next highest-priority Codex pass brief automatically.
+- Runs Codex in bounded passes until the parity backlog is cleared or a blocker appears.
+- Requires each pass to update task state, rerun verification, and stop only on real blockers.
+
 ### Architecture
 - Frontend: web app (editor + collaboration UI + agent panel).
 - Collaboration service: websocket + CRDT sync.
 - API backend: auth, document metadata, version history, permissions.
 - AI orchestration: prompt templates + tool-calling adapters.
+- Delivery orchestration: local parity runner that wraps Codex CLI for repeated build passes.
 - Governance service: patch validation, stale detection, review decisions, recap/depth enforcement.
 - Storage: canonical doc state, snapshots, patch logs, audit trail.
 - Repo generation service: template engine + Git provider integration.
@@ -69,8 +76,9 @@ Build a real-time collaborative spec IDE with:
 1. Single TypeScript web app for UI, auth, HTTP APIs, and export orchestration.
 2. Dedicated collaboration service for CRDT websocket sync.
 3. Lightweight background worker for recap/export/repo-generation jobs.
-4. Shared Postgres database for application state, audit logs, comments, and exports.
-5. Local object/blob storage only if snapshots or exports outgrow Postgres storage ergonomics.
+4. Local parity runner for Codex-driven build passes against the remaining backlog.
+5. Shared Postgres database for application state, audit logs, comments, and exports.
+6. Local object/blob storage only if snapshots or exports outgrow Postgres storage ergonomics.
 
 ### Default Stack
 1. Next.js + React + TypeScript for the application shell.
@@ -78,7 +86,8 @@ Build a real-time collaborative spec IDE with:
 3. Yjs for CRDT sync.
 4. Hocuspocus for the collaboration server.
 5. Postgres for primary persistence.
-6. Vitest for contract/unit tests and Playwright for end-to-end tests.
+6. Node.js orchestration script around `codex exec` for parity-driving loops.
+7. Vitest for contract/unit tests and Playwright for end-to-end tests.
 
 ### Data Model (MVP)
 - `Workspace`
@@ -111,6 +120,7 @@ Build a real-time collaborative spec IDE with:
 6. `POST /documents/:id/depth-check`
 7. `GET /documents/:id/recap`
 8. `POST /documents/:id/export`
+9. local `specforge-parity-runner` tooling for Codex execution passes
 
 ### Patch Contract Default
 1. Primary target key is `block_id`.
@@ -128,6 +138,7 @@ Build a real-time collaborative spec IDE with:
    - mark proposal `stale`
    - require regeneration or manual review
 5. Cherry-pick behavior in v1 should operate on patch hunks or block-level fragments, not arbitrary raw character ranges.
+6. Delivery parity passes must close backlog items against the same patch/export contract instead of introducing side channels.
 
 ### APIs (Phase 2)
 1. `POST /documents/:id/create-repo`
