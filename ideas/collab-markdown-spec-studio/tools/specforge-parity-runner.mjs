@@ -14,6 +14,12 @@ const architecturePath = path.join(packRoot, "ARCHITECTURE_DECISIONS.md");
 const techStackPath = path.join(packRoot, "TECH_STACK.md");
 const loopStatePath = path.join(worktreeRoot, ".cursor", "artifacts", "specforge-parity-runner.json");
 const handoffPath = path.join(worktreeRoot, ".cursor", "artifacts", "specforge-runner-latest.md");
+const metaLearningsPath = path.join(
+  worktreeRoot,
+  ".cursor",
+  "artifacts",
+  "specforge-meta-learnings.md",
+);
 const backlogSections = [
   "Remaining MVP Build Backlog",
   "Next SaaS Build Backlog",
@@ -41,6 +47,7 @@ function parseArgs(argv) {
     command,
     dryRun: false,
     maxPasses: 1,
+    reviewEvery: 3,
   };
 
   for (let index = 0; index < rest.length; index += 1) {
@@ -53,6 +60,12 @@ function parseArgs(argv) {
 
     if (token === "--max-passes") {
       options.maxPasses = Number(rest[index + 1] ?? "1");
+      index += 1;
+      continue;
+    }
+
+    if (token === "--review-every") {
+      options.reviewEvery = Number(rest[index + 1] ?? "3");
       index += 1;
     }
   }
@@ -139,6 +152,73 @@ function buildPrompt(nextItem, backlog) {
   ].join("\n");
 }
 
+function buildReviewPrompt(backlog) {
+  const deliveryTarget = getDeliveryTarget(backlog.activePhase?.heading);
+  return [
+    "Run a SpecForge multipass review and compaction pass.",
+    "",
+    `Active backlog phase: ${backlog.activePhase?.heading ?? "None"}`,
+    `Delivery target: ${deliveryTarget}`,
+    "",
+    "Required behavior:",
+    "- review the current branch against the source-of-truth docs and shipped product flow",
+    "- remove dead code, stale assumptions, and low-value duplication if the change is low risk",
+    "- keep the product runnable; do not chase broad refactors",
+    "- refresh TASKS.md and affected spec/architecture docs if reality changed",
+    "- update the runner handoff artifact with the new resume point",
+    `- write meta learnings and future-loop guidance to ${metaLearningsPath}`,
+    "- run verification before finishing: npm run lint, npm run test, npm run build, npm run test:e2e",
+    "- commit with [Agent: GPT-5] and the Chimera co-author trailer if the branch is green",
+    "",
+    "Review focus:",
+    "- user-facing regressions",
+    "- orchestration brittleness",
+    "- dead code and repeated route logic",
+    "- docs/PR/spec drift",
+    "",
+    "Source-of-truth docs:",
+    `- ${specPath}`,
+    `- ${architecturePath}`,
+    `- ${techStackPath}`,
+    `- ${tasksPath}`,
+  ].join("\n");
+}
+
+function countCompletedFeaturePasses(state) {
+  return state.passes.filter((pass) => !pass.dry_run && pass.mode !== "review").length;
+}
+
+function getLastReviewPass(state) {
+  return [...state.passes]
+    .reverse()
+    .find((pass) => pass.mode === "review" && !pass.dry_run) ?? null;
+}
+
+function shouldRunReview(state, reviewEvery) {
+  if (reviewEvery <= 0) {
+    return false;
+  }
+
+  const completedFeaturePasses = countCompletedFeaturePasses(state);
+  if (completedFeaturePasses === 0) {
+    return false;
+  }
+
+  const lastReviewPass = getLastReviewPass(state);
+  if (!lastReviewPass) {
+    return completedFeaturePasses >= reviewEvery;
+  }
+
+  const featurePassesSinceReview = state.passes.filter(
+    (pass) =>
+      !pass.dry_run &&
+      pass.mode !== "review" &&
+      new Date(pass.started_at).getTime() > new Date(lastReviewPass.started_at).getTime(),
+  ).length;
+
+  return featurePassesSinceReview >= reviewEvery;
+}
+
 async function readLoopState() {
   try {
     const raw = await readFile(loopStatePath, "utf8");
@@ -149,6 +229,7 @@ async function readLoopState() {
       claims: Array.isArray(parsed.claims) ? parsed.claims : [],
       signals: Array.isArray(parsed.signals) ? parsed.signals : [],
       passes: Array.isArray(parsed.passes) ? parsed.passes : [],
+      review_every: parsed.review_every ?? 3,
     };
   } catch {
     return {
@@ -157,6 +238,7 @@ async function readLoopState() {
       claims: [],
       signals: [],
       passes: [],
+      review_every: 3,
     };
   }
 }
@@ -199,6 +281,32 @@ async function writeRunnerHandoff(input) {
   await writeFile(handoffPath, body);
 }
 
+async function writeMetaLearnings(input) {
+  const body = [
+    "# SpecForge Runner Meta Learnings",
+    "",
+    `- Updated at: ${input.updatedAt}`,
+    `- Delivery target: ${input.deliveryTarget ?? "unknown"}`,
+    `- Mode: ${input.mode}`,
+    `- Status: ${input.status}`,
+    "",
+    "## Current focus",
+    `- ${input.nextItem ?? "No remaining backlog item."}`,
+    "",
+    "## Loop guidance",
+    "- Prefer bounded integrated passes over broad speculative rewrites.",
+    "- Refresh TASKS.md and source-of-truth docs when the shipped surface changes.",
+    "- Use periodic multipass review passes to remove drift, dead code, and stale assumptions.",
+    "- Keep context compact by resuming from the latest handoff artifact and this meta-learning note.",
+    "",
+    "## Latest summary",
+    input.summary,
+  ].join("\n");
+
+  await mkdir(path.dirname(metaLearningsPath), { recursive: true });
+  await writeFile(metaLearningsPath, body);
+}
+
 async function runStatus() {
   const backlog = await loadBacklog();
   const remaining = backlog.remaining.filter((item) => !item.checked);
@@ -211,6 +319,7 @@ async function runStatus() {
   const activeClaim = loopState.claims
     .filter((claim) => claim.state === "claimed")
     .slice(-1)[0] ?? null;
+  const reviewDue = shouldRunReview(loopState, loopState.review_every ?? 3);
 
   console.log(JSON.stringify({
     remaining_count: remaining.length,
@@ -218,6 +327,10 @@ async function runStatus() {
     delivery_target: deliveryTarget,
     next_intent_id: nextIntentId,
     active_claim: activeClaim,
+    review_due: reviewDue,
+    review_every: loopState.review_every ?? 3,
+    handoff_path: handoffPath,
+    meta_learnings_path: metaLearningsPath,
     next_item: remaining[0]?.text ?? null,
     remaining_items: remaining.map((item) => item.text),
   }, null, 2));
@@ -233,6 +346,7 @@ async function runContext() {
     backlog.activePhase && nextItem
       ? toIntentId(backlog.activePhase.heading, nextItem.text)
       : null;
+  const reviewDue = shouldRunReview(loopState, loopState.review_every ?? 3);
 
   console.log(JSON.stringify({
     delivery_target: deliveryTarget,
@@ -242,6 +356,10 @@ async function runContext() {
     latest_intent: loopState.intents.at(-1) ?? null,
     latest_claim: loopState.claims.at(-1) ?? null,
     latest_signal: loopState.signals.at(-1) ?? null,
+    review_due: reviewDue,
+    review_every: loopState.review_every ?? 3,
+    handoff_path: handoffPath,
+    meta_learnings_path: metaLearningsPath,
     source_of_truth: {
       spec: specPath,
       architecture: architecturePath,
@@ -266,19 +384,24 @@ async function runBrief() {
 
 async function runLoop(options) {
   const state = await readLoopState();
+  state.review_every = options.reviewEvery;
   let passes = 0;
 
   while (passes < options.maxPasses) {
     const backlog = await loadBacklog();
     const nextItem = backlog.remaining.find((item) => !item.checked);
+    const reviewMode = shouldRunReview(state, options.reviewEvery);
 
-    if (!nextItem) {
+    if (!nextItem && !reviewMode) {
       console.log("SpecForge parity backlog is clear.");
       break;
     }
 
-    const prompt = buildPrompt(nextItem, backlog);
-    const intentId = toIntentId(backlog.activePhase.heading, nextItem.text);
+    const mode = reviewMode ? "review" : "feature";
+    const prompt = reviewMode ? buildReviewPrompt(backlog) : buildPrompt(nextItem, backlog);
+    const intentId = reviewMode
+      ? `review:${Date.now()}`
+      : toIntentId(backlog.activePhase.heading, nextItem.text);
     const claimId = `claim_${Date.now()}`;
     const command = [
       "codex",
@@ -294,10 +417,11 @@ async function runLoop(options) {
       started_at: new Date().toISOString(),
       intent_id: intentId,
       claim_id: claimId,
-      phase: backlog.activePhase.heading,
-      next_item: nextItem.text,
+      phase: backlog.activePhase?.heading ?? "None",
+      next_item: reviewMode ? "Run multipass review and context compaction." : nextItem.text,
       retry_count: state.claims.filter((claim) => claim.intent_id === intentId).length,
       dry_run: options.dryRun,
+      mode,
       command,
     };
 
@@ -305,8 +429,8 @@ async function runLoop(options) {
     if (!existingIntent) {
       state.intents.push({
         intent_id: intentId,
-        phase: backlog.activePhase.heading,
-        title: nextItem.text,
+        phase: backlog.activePhase?.heading ?? "Runner review",
+        title: reviewMode ? "Multipass review and context compaction" : nextItem.text,
         status: "queued",
         created_at: passRecord.started_at,
         updated_at: passRecord.started_at,
@@ -346,13 +470,21 @@ async function runLoop(options) {
       await writeRunnerHandoff({
         updatedAt: state.updated_at,
         intentId,
-        phase: backlog.activePhase.heading,
+        phase: backlog.activePhase?.heading ?? "Runner review",
         deliveryTarget: getDeliveryTarget(backlog.activePhase?.heading),
         status: "dry_run",
-        nextItem: nextItem.text,
+        nextItem: passRecord.next_item,
         summary: "Prepared the next bounded pass without executing it.",
         resume: "Run the parity runner without --dry-run to execute the prepared intent.",
         prompt,
+      });
+      await writeMetaLearnings({
+        updatedAt: state.updated_at,
+        deliveryTarget: getDeliveryTarget(backlog.activePhase?.heading),
+        mode,
+        status: "dry_run",
+        nextItem: passRecord.next_item,
+        summary: "Prepared the next bounded pass without executing it.",
       });
       return;
     }
@@ -404,13 +536,13 @@ async function runLoop(options) {
     });
     await writeLoopState(state);
     await writeRunnerHandoff({
-      updatedAt: passRecord.finished_at,
-      intentId,
-      phase: backlog.activePhase.heading,
-      deliveryTarget: getDeliveryTarget(backlog.activePhase?.heading),
-      status: (result.status ?? 1) === 0 ? "completed" : "blocked",
-      nextItem: nextItem.text,
-      summary:
+        updatedAt: passRecord.finished_at,
+        intentId,
+        phase: backlog.activePhase?.heading ?? "Runner review",
+        deliveryTarget: getDeliveryTarget(backlog.activePhase?.heading),
+        status: (result.status ?? 1) === 0 ? "completed" : "blocked",
+        nextItem: passRecord.next_item,
+        summary:
         (result.status ?? 1) === 0
           ? "Completed the current pass and left the branch at a verified checkpoint."
           : tailOutput(result.stderr || result.stdout, 800) ||
@@ -420,6 +552,18 @@ async function runLoop(options) {
           ? "Re-run the parity runner to pick up the next unchecked backlog item."
           : "Inspect the failure summary, fix the blocking issue, then rerun the parity runner.",
       prompt,
+    });
+    await writeMetaLearnings({
+      updatedAt: passRecord.finished_at,
+      deliveryTarget: getDeliveryTarget(backlog.activePhase?.heading),
+      mode,
+      status: (result.status ?? 1) === 0 ? "completed" : "blocked",
+      nextItem: passRecord.next_item,
+      summary:
+        (result.status ?? 1) === 0
+          ? "Completed the current pass and left the branch at a verified checkpoint."
+          : tailOutput(result.stderr || result.stdout, 800) ||
+            "The pass blocked without a captured error summary.",
     });
 
     if ((result.status ?? 1) !== 0) {
