@@ -332,6 +332,10 @@ export default async function Home({ searchParams }: Props) {
     ["accepted", "cherry_picked"].includes(patch.status),
   );
   const humanComments = commentThreads.filter((thread) => thread.created_by.actor_type === "human");
+  const actionablePatches = patches.filter((patch) => ["proposed", "stale"].includes(patch.status));
+  const resolvedPatches = patches.filter((patch) =>
+    ["accepted", "rejected", "cherry_picked"].includes(patch.status),
+  );
   const guidedSteps = buildGuidedSteps({
     hasDocument: Boolean(activeDocument),
     hasDraft: Boolean(activeDocument?.markdown.trim()),
@@ -814,11 +818,39 @@ export default async function Home({ searchParams }: Props) {
             <>
               <section className={styles.panel}>
                 <div className={styles.panelHeader}>
-                  <h2>Patch queue</h2>
-                  <span>Current document</span>
+                  <h2>Decision queue</h2>
+                  <span>Human approvals</span>
+                </div>
+                <ul className={styles.readinessList}>
+                  <li>{actionablePatches.length} patches need a decision now.</li>
+                  <li>{resolvedPatches.length} patches are already resolved.</li>
+                  <li>{commentThreads.filter((thread) => thread.status === "open").length} open comments may still affect decisions.</li>
+                </ul>
+                {activeDocument ? (
+                  <div className={styles.inlineActions}>
+                    <Link
+                      href={buildStageHref(activeDocument.document_id, "review")}
+                      className={styles.secondaryLink}
+                    >
+                      Back to review prep
+                    </Link>
+                    <Link
+                      href={buildStageHref(activeDocument.document_id, "export")}
+                      className={styles.exportLink}
+                    >
+                      Continue to handoff
+                    </Link>
+                  </div>
+                ) : null}
+              </section>
+
+              <section className={styles.panel}>
+                <div className={styles.panelHeader}>
+                  <h2>Actionable patches</h2>
+                  <span>Resolve these first</span>
                 </div>
                 <ul className={styles.patchList} data-testid="patch-queue">
-                  {patches.map((patch) => {
+                  {actionablePatches.map((patch) => {
                     const targetBlock =
                       activeDocument?.blocks.find((block) => block.block_id === patch.block_id) ??
                       null;
@@ -828,97 +860,131 @@ export default async function Home({ searchParams }: Props) {
 
                     return (
                       <li key={patch.patch_id} className={styles.patchItem}>
+                        <details open>
+                          <summary className={styles.disclosureSummary}>
+                            <span>{patch.patch_type}</span>
+                            <span>{patch.patch_id}</span>
+                          </summary>
+                          <div className={styles.disclosureBody}>
+                            <div className={styles.patchHeader}>
+                              <span>
+                                {patch.proposed_by.actor_type}:{patch.proposed_by.actor_id} on{" "}
+                                <code>{patch.block_id}</code>
+                              </span>
+                              <div className={styles.patchMeta}>
+                                <span
+                                  className={`${styles.badge} ${styles[getPatchStatusTone(patch.status)]}`}
+                                >
+                                  {patch.status}
+                                </span>
+                                <span className={styles.badge}>
+                                  {getPatchRiskLabel(patch.patch_type)}
+                                </span>
+                              </div>
+                            </div>
+                            <span>
+                              base v{patch.base_version}
+                              {patch.confidence
+                                ? ` · confidence ${Math.round(patch.confidence * 100)}%`
+                                : ""}
+                            </span>
+                            <div className={styles.diffGrid}>
+                              <article className={styles.diffCard}>
+                                <h3>Current block</h3>
+                                <div className={styles.diffBody}>
+                                  {diffLines.map((line) => (
+                                    <div
+                                      key={`${patch.patch_id}-before-${line.key}`}
+                                      className={`${styles.diffLine} ${
+                                        line.tone === "changed" ? styles.diffRemoved : ""
+                                      }`}
+                                    >
+                                      <span className={styles.diffMarker}>
+                                        {line.tone === "changed" ? "-" : " "}
+                                      </span>
+                                      <code>{line.before || " "}</code>
+                                    </div>
+                                  ))}
+                                </div>
+                              </article>
+                              <article className={styles.diffCard}>
+                                <h3>Proposed block</h3>
+                                <div className={styles.diffBody}>
+                                  {diffLines.map((line) => (
+                                    <div
+                                      key={`${patch.patch_id}-after-${line.key}`}
+                                      className={`${styles.diffLine} ${
+                                        line.tone === "changed" ? styles.diffAdded : ""
+                                      }`}
+                                    >
+                                      <span className={styles.diffMarker}>
+                                        {line.tone === "changed" ? "+" : " "}
+                                      </span>
+                                      <code>{line.after || " "}</code>
+                                    </div>
+                                  ))}
+                                </div>
+                              </article>
+                            </div>
+                            <form action={decidePatchAction} className={styles.patchActionForm}>
+                              <input type="hidden" name="document_id" value={patch.document_id} />
+                              <input type="hidden" name="patch_id" value={patch.patch_id} />
+                              <label>
+                                Reviewed content
+                                <textarea
+                                  name="resolved_content"
+                                  rows={5}
+                                  defaultValue={patch.content ?? ""}
+                                  className={styles.patchTextarea}
+                                />
+                              </label>
+                              <div className={styles.patchActions}>
+                                <button type="submit" name="decision" value="accept">
+                                  Accept
+                                </button>
+                                <button type="submit" name="decision" value="cherry_pick">
+                                  Cherry-pick
+                                </button>
+                                <button type="submit" name="decision" value="reject">
+                                  Reject
+                                </button>
+                              </div>
+                            </form>
+                          </div>
+                        </details>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
+
+              <details className={styles.panel}>
+                <summary className={styles.disclosureSummary}>
+                  <span>Resolved patches</span>
+                  <span>{resolvedPatches.length} completed</span>
+                </summary>
+                <div className={styles.disclosureBody}>
+                  <ul className={styles.patchList}>
+                    {resolvedPatches.map((patch) => (
+                      <li key={patch.patch_id} className={styles.patchItem}>
                         <div className={styles.patchHeader}>
                           <strong>{patch.patch_type}</strong>
-                          <div className={styles.patchMeta}>
-                            <span
-                              className={`${styles.badge} ${styles[getPatchStatusTone(patch.status)]}`}
-                            >
-                              {patch.status}
-                            </span>
-                            <span className={styles.badge}>{getPatchRiskLabel(patch.patch_type)}</span>
-                          </div>
+                          <span
+                            className={`${styles.badge} ${styles[getPatchStatusTone(patch.status)]}`}
+                          >
+                            {patch.status}
+                          </span>
                         </div>
                         <span>{patch.patch_id}</span>
                         <span>
                           {patch.proposed_by.actor_type}:{patch.proposed_by.actor_id} on{" "}
                           <code>{patch.block_id}</code>
                         </span>
-                        <span>
-                          base v{patch.base_version}
-                          {patch.confidence
-                            ? ` · confidence ${Math.round(patch.confidence * 100)}%`
-                            : ""}
-                        </span>
-                        <div className={styles.diffGrid}>
-                          <article className={styles.diffCard}>
-                            <h3>Current block</h3>
-                            <div className={styles.diffBody}>
-                              {diffLines.map((line) => (
-                                <div
-                                  key={`${patch.patch_id}-before-${line.key}`}
-                                  className={`${styles.diffLine} ${
-                                    line.tone === "changed" ? styles.diffRemoved : ""
-                                  }`}
-                                >
-                                  <span className={styles.diffMarker}>
-                                    {line.tone === "changed" ? "-" : " "}
-                                  </span>
-                                  <code>{line.before || " "}</code>
-                                </div>
-                              ))}
-                            </div>
-                          </article>
-                          <article className={styles.diffCard}>
-                            <h3>Proposed block</h3>
-                            <div className={styles.diffBody}>
-                              {diffLines.map((line) => (
-                                <div
-                                  key={`${patch.patch_id}-after-${line.key}`}
-                                  className={`${styles.diffLine} ${
-                                    line.tone === "changed" ? styles.diffAdded : ""
-                                  }`}
-                                >
-                                  <span className={styles.diffMarker}>
-                                    {line.tone === "changed" ? "+" : " "}
-                                  </span>
-                                  <code>{line.after || " "}</code>
-                                </div>
-                              ))}
-                            </div>
-                          </article>
-                        </div>
-                        {["proposed", "stale"].includes(patch.status) ? (
-                          <form action={decidePatchAction} className={styles.patchActionForm}>
-                            <input type="hidden" name="document_id" value={patch.document_id} />
-                            <input type="hidden" name="patch_id" value={patch.patch_id} />
-                            <label>
-                              Reviewed content
-                              <textarea
-                                name="resolved_content"
-                                rows={5}
-                                defaultValue={patch.content ?? ""}
-                                className={styles.patchTextarea}
-                              />
-                            </label>
-                            <div className={styles.patchActions}>
-                              <button type="submit" name="decision" value="accept">
-                                Accept
-                              </button>
-                              <button type="submit" name="decision" value="cherry_pick">
-                                Cherry-pick
-                              </button>
-                              <button type="submit" name="decision" value="reject">
-                                Reject
-                              </button>
-                            </div>
-                          </form>
-                        ) : null}
                       </li>
-                    );
-                  })}
-                </ul>
-              </section>
+                    ))}
+                  </ul>
+                </div>
+              </details>
 
               <details className={styles.panel}>
                 <summary className={styles.disclosureSummary}>
