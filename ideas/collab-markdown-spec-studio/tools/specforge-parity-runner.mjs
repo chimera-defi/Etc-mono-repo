@@ -60,6 +60,13 @@ function parseChecklist(section) {
     }));
 }
 
+function toIntentId(phaseHeading, itemText) {
+  return `${phaseHeading}:${itemText}`
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
 async function loadBacklog() {
   const markdown = await readFile(tasksPath, "utf8");
   const recommendedSection = sectionSlice(markdown, "Recommended Parallel Execution Now");
@@ -115,10 +122,20 @@ function buildPrompt(nextItem, backlog) {
 async function readLoopState() {
   try {
     const raw = await readFile(loopStatePath, "utf8");
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    return {
+      updated_at: parsed.updated_at ?? null,
+      intents: Array.isArray(parsed.intents) ? parsed.intents : [],
+      claims: Array.isArray(parsed.claims) ? parsed.claims : [],
+      signals: Array.isArray(parsed.signals) ? parsed.signals : [],
+      passes: Array.isArray(parsed.passes) ? parsed.passes : [],
+    };
   } catch {
     return {
       updated_at: null,
+      intents: [],
+      claims: [],
+      signals: [],
       passes: [],
     };
   }
@@ -132,10 +149,20 @@ async function writeLoopState(state) {
 async function runStatus() {
   const backlog = await loadBacklog();
   const remaining = backlog.remaining.filter((item) => !item.checked);
+  const loopState = await readLoopState();
+  const nextIntentId =
+    backlog.activePhase && remaining[0]
+      ? toIntentId(backlog.activePhase.heading, remaining[0].text)
+      : null;
+  const activeClaim = loopState.claims
+    .filter((claim) => claim.state === "claimed")
+    .slice(-1)[0] ?? null;
 
   console.log(JSON.stringify({
     remaining_count: remaining.length,
     active_phase: backlog.activePhase?.heading ?? null,
+    next_intent_id: nextIntentId,
+    active_claim: activeClaim,
     next_item: remaining[0]?.text ?? null,
     remaining_items: remaining.map((item) => item.text),
   }, null, 2));
@@ -167,6 +194,8 @@ async function runLoop(options) {
     }
 
     const prompt = buildPrompt(nextItem, backlog);
+    const intentId = toIntentId(backlog.activePhase.heading, nextItem.text);
+    const claimId = `claim_${Date.now()}`;
     const command = [
       "codex",
       "exec",
@@ -181,12 +210,46 @@ async function runLoop(options) {
 
     const passRecord = {
       started_at: new Date().toISOString(),
+      intent_id: intentId,
+      claim_id: claimId,
+      phase: backlog.activePhase.heading,
       next_item: nextItem.text,
       dry_run: options.dryRun,
       command,
     };
 
+    const existingIntent = state.intents.find((intent) => intent.intent_id === intentId);
+    if (!existingIntent) {
+      state.intents.push({
+        intent_id: intentId,
+        phase: backlog.activePhase.heading,
+        title: nextItem.text,
+        status: "queued",
+        created_at: passRecord.started_at,
+        updated_at: passRecord.started_at,
+      });
+    }
+
+    state.claims.push({
+      claim_id: claimId,
+      intent_id: intentId,
+      state: options.dryRun ? "dry_run" : "claimed",
+      started_at: passRecord.started_at,
+      heartbeat_at: passRecord.started_at,
+    });
+
     if (options.dryRun) {
+      const intent = state.intents.find((entry) => entry.intent_id === intentId);
+      if (intent) {
+        intent.status = "dry_run";
+        intent.updated_at = passRecord.started_at;
+      }
+      state.signals.push({
+        at: passRecord.started_at,
+        type: "dry_run_prepared",
+        intent_id: intentId,
+        claim_id: claimId,
+      });
       console.log(JSON.stringify(passRecord, null, 2));
       console.log("\nPrompt:\n");
       console.log(prompt);
@@ -206,6 +269,25 @@ async function runLoop(options) {
     passRecord.finished_at = new Date().toISOString();
     state.updated_at = passRecord.finished_at;
     state.passes.push(passRecord);
+    const claim = state.claims.find((entry) => entry.claim_id === claimId);
+    if (claim) {
+      claim.heartbeat_at = passRecord.finished_at;
+      claim.state = (result.status ?? 1) === 0 ? "completed" : "failed";
+      claim.finished_at = passRecord.finished_at;
+      claim.exit_code = result.status ?? 1;
+    }
+    const intent = state.intents.find((entry) => entry.intent_id === intentId);
+    if (intent) {
+      intent.status = (result.status ?? 1) === 0 ? "completed" : "blocked";
+      intent.updated_at = passRecord.finished_at;
+    }
+    state.signals.push({
+      at: passRecord.finished_at,
+      type: (result.status ?? 1) === 0 ? "intent_completed" : "intent_blocked",
+      intent_id: intentId,
+      claim_id: claimId,
+      exit_code: result.status ?? 1,
+    });
     await writeLoopState(state);
 
     if ((result.status ?? 1) !== 0) {

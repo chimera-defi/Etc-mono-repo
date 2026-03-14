@@ -5,6 +5,15 @@ const tasksPath = path.resolve(process.cwd(), "..", "TASKS.md");
 const specPath = path.resolve(process.cwd(), "..", "SPEC.md");
 const architecturePath = path.resolve(process.cwd(), "..", "ARCHITECTURE_DECISIONS.md");
 const techStackPath = path.resolve(process.cwd(), "..", "TECH_STACK.md");
+const loopStatePath = path.resolve(
+  process.cwd(),
+  "..",
+  "..",
+  "..",
+  ".cursor",
+  "artifacts",
+  "specforge-parity-runner.json",
+);
 
 const backlogSections = [
   "Remaining MVP Build Backlog",
@@ -41,11 +50,34 @@ export async function readBacklogState() {
   }));
   const activeSection = sections.find((section) => section.items.some((item) => !item.checked)) ?? null;
   const nextItem = activeSection?.items.find((item) => !item.checked) ?? null;
+  let loopState: {
+    intents?: Array<{ intent_id: string; title: string; status: string; updated_at: string }>;
+    claims?: Array<{ claim_id: string; intent_id: string; state: string; heartbeat_at: string }>;
+    signals?: Array<{ at: string; type: string; intent_id: string }>;
+  } | null = null;
+
+  try {
+    loopState = JSON.parse(await readFile(loopStatePath, "utf8"));
+  } catch {
+    loopState = null;
+  }
 
   return {
     sections,
     activeSection: activeSection?.heading ?? null,
     nextItem: nextItem?.text ?? null,
+    latestIntent:
+      loopState?.intents && loopState.intents.length > 0
+        ? loopState.intents[loopState.intents.length - 1]
+        : null,
+    latestClaim:
+      loopState?.claims && loopState.claims.length > 0
+        ? loopState.claims[loopState.claims.length - 1]
+        : null,
+    latestSignal:
+      loopState?.signals && loopState.signals.length > 0
+        ? loopState.signals[loopState.signals.length - 1]
+        : null,
     remainingCount: sections.reduce(
       (total, section) => total + section.items.filter((item) => !item.checked).length,
       0,

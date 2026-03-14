@@ -430,6 +430,29 @@ export default async function Home({ searchParams }: Props) {
               </span>
               <span>{backlogState.nextItem ?? "No queued work."}</span>
             </div>
+            {backlogState.latestIntent ? (
+              <div className={styles.actorCard}>
+                <strong>Latest intent</strong>
+                <span>{backlogState.latestIntent.title}</span>
+                <span>{backlogState.latestIntent.status}</span>
+              </div>
+            ) : null}
+            {backlogState.latestClaim ? (
+              <div className={styles.actorCard}>
+                <strong>Latest claim</strong>
+                <span>{backlogState.latestClaim.claim_id}</span>
+                <span>{backlogState.latestClaim.state}</span>
+                <span>{backlogState.latestClaim.heartbeat_at}</span>
+              </div>
+            ) : null}
+            {backlogState.latestSignal ? (
+              <div className={styles.actorCard}>
+                <strong>Latest signal</strong>
+                <span>{backlogState.latestSignal.type}</span>
+                <span>{backlogState.latestSignal.intent_id}</span>
+                <span>{backlogState.latestSignal.at}</span>
+              </div>
+            ) : null}
             <div className={styles.inlineActions}>
               <Link href="/api/parity/status" className={styles.secondaryLink} target="_blank">
                 Open status JSON
