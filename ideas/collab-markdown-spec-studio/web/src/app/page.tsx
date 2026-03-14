@@ -618,72 +618,96 @@ export default async function Home({ searchParams }: Props) {
 
           {activeStage === "review" ? (
             <>
-              <section className={styles.panel} id="patch-proposal">
+              <section className={styles.panel}>
                 <div className={styles.panelHeader}>
-                  <h2>Patch proposal</h2>
-                  <span>Against any block</span>
+                  <h2>Review inbox</h2>
+                  <span>What needs attention now</span>
                 </div>
-                {activeDocument && activeBlock ? (
-                  <form
-                    action={createPatchAction}
-                    className={styles.form}
-                    data-testid="patch-proposal-form"
-                  >
-                    <input type="hidden" name="document_id" value={activeDocument.document_id} />
-                    <input type="hidden" name="base_version" value={activeDocument.version} />
-                    <p className={styles.context}>
-                      Default target: <code>{activeBlock.block_id}</code> in{" "}
-                      <code>{activeDocument.title}</code>
-                    </p>
-                    <label>
-                      Target block
-                      <select
-                        name="target_descriptor"
-                        className={styles.selectInput}
-                        defaultValue={`${activeBlock.block_id}||${activeBlock.section_id}||${activeBlock.target_fingerprint}`}
-                        data-testid="patch-target-select"
-                      >
-                        {activeDocument.blocks.map((block) => (
-                          <option
-                            key={block.block_id}
-                            value={`${block.block_id}||${block.section_id}||${block.target_fingerprint}`}
-                          >
-                            {block.heading} · {block.block_id}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                    <label>
-                      Patch type
-                      <select
-                        name="patch_type"
-                        className={styles.selectInput}
-                        defaultValue="requirement_change"
-                        data-testid="patch-type-select"
-                      >
-                        <option value="requirement_change">Requirement change</option>
-                        <option value="structural_edit">Structural edit</option>
-                        <option value="task_export_change">Task/export change</option>
-                        <option value="wording_formatting">Wording / formatting</option>
-                      </select>
-                    </label>
-                    <label>
-                      Replacement content
-                      <textarea
-                        name="content"
-                        rows={6}
-                        defaultValue={`${activeBlock.content}\n\n- Added from the MVP dashboard.`}
-                        data-testid="patch-content-input"
-                      />
-                    </label>
-                    <button type="submit">Queue patch</button>
-                  </form>
-                ) : (
-                  <p className={styles.empty}>Create a document first.</p>
-                )}
+                <ul className={styles.readinessList}>
+                  <li>{patches.filter((patch) => ["proposed", "stale"].includes(patch.status)).length} patches need a human decision.</li>
+                  <li>{commentThreads.filter((thread) => thread.status === "open").length} comment threads are still open.</li>
+                  <li>{blockSummaries.filter((block) => block.pendingPatches + block.openComments > 0).length} blocks have active review work.</li>
+                </ul>
+                {activeDocument ? (
+                  <div className={styles.inlineActions}>
+                    <Link
+                      href={buildStageHref(activeDocument.document_id, "decide")}
+                      className={styles.exportLink}
+                    >
+                      Open decision queue
+                    </Link>
+                  </div>
+                ) : null}
               </section>
 
-              <details className={styles.panel} open id="comments">
+              <details className={styles.panel} open id="patch-proposal">
+                <summary className={styles.disclosureSummary}>
+                  <span>Queue a patch</span>
+                  <span>Against any block</span>
+                </summary>
+                <div className={styles.disclosureBody}>
+                  {activeDocument && activeBlock ? (
+                    <form
+                      action={createPatchAction}
+                      className={styles.form}
+                      data-testid="patch-proposal-form"
+                    >
+                      <input type="hidden" name="document_id" value={activeDocument.document_id} />
+                      <input type="hidden" name="base_version" value={activeDocument.version} />
+                      <p className={styles.context}>
+                        Default target: <code>{activeBlock.block_id}</code> in{" "}
+                        <code>{activeDocument.title}</code>
+                      </p>
+                      <label>
+                        Target block
+                        <select
+                          name="target_descriptor"
+                          className={styles.selectInput}
+                          defaultValue={`${activeBlock.block_id}||${activeBlock.section_id}||${activeBlock.target_fingerprint}`}
+                          data-testid="patch-target-select"
+                        >
+                          {activeDocument.blocks.map((block) => (
+                            <option
+                              key={block.block_id}
+                              value={`${block.block_id}||${block.section_id}||${block.target_fingerprint}`}
+                            >
+                              {block.heading} · {block.block_id}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                      <label>
+                        Patch type
+                        <select
+                          name="patch_type"
+                          className={styles.selectInput}
+                          defaultValue="requirement_change"
+                          data-testid="patch-type-select"
+                        >
+                          <option value="requirement_change">Requirement change</option>
+                          <option value="structural_edit">Structural edit</option>
+                          <option value="task_export_change">Task/export change</option>
+                          <option value="wording_formatting">Wording / formatting</option>
+                        </select>
+                      </label>
+                      <label>
+                        Replacement content
+                        <textarea
+                          name="content"
+                          rows={6}
+                          defaultValue={`${activeBlock.content}\n\n- Added from the MVP dashboard.`}
+                          data-testid="patch-content-input"
+                        />
+                      </label>
+                      <button type="submit">Queue patch</button>
+                    </form>
+                  ) : (
+                    <p className={styles.empty}>Create a document first.</p>
+                  )}
+                </div>
+              </details>
+
+              <details className={styles.panel} open={commentThreads.some((thread) => thread.status === "open")} id="comments">
                 <summary className={styles.disclosureSummary}>
                   <span>Comments</span>
                   <span>{commentThreads.filter((thread) => thread.status === "open").length} open</span>
