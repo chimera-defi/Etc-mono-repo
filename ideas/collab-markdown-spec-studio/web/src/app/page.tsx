@@ -424,6 +424,7 @@ export default async function Home({ searchParams }: Props) {
             </div>
             <div className={styles.actorCard}>
               <strong>{backlogState.activeSection ?? "Backlog clear"}</strong>
+              <span>Target: {backlogState.deliveryTarget.replaceAll("_", " ")}</span>
               <span>
                 {backlogState.remainingCount} remaining item
                 {backlogState.remainingCount === 1 ? "" : "s"}
@@ -456,6 +457,9 @@ export default async function Home({ searchParams }: Props) {
             <div className={styles.inlineActions}>
               <Link href="/api/parity/status" className={styles.secondaryLink} target="_blank">
                 Open status JSON
+              </Link>
+              <Link href="/api/parity/context" className={styles.secondaryLink} target="_blank">
+                Open context package
               </Link>
               <Link href="/api/parity/brief" className={styles.secondaryLink} target="_blank">
                 Open next-pass brief

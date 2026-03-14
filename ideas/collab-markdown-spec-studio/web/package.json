@@ -11,6 +11,7 @@
     "test:e2e": "playwright test",
     "screenshot:demo": "playwright test tests/demo.spec.ts --project=chromium",
     "parity:status": "node ../tools/specforge-parity-runner.mjs status",
+    "parity:context": "node ../tools/specforge-parity-runner.mjs context",
     "parity:brief": "node ../tools/specforge-parity-runner.mjs brief",
     "parity:run": "node ../tools/specforge-parity-runner.mjs run",
     "parity:run:dry": "node ../tools/specforge-parity-runner.mjs run --dry-run --max-passes 1"

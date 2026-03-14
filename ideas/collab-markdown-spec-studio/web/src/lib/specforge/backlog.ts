@@ -25,6 +25,14 @@ type BacklogItem = {
   text: string;
 };
 
+function getDeliveryTarget(heading: string | null) {
+  if (heading === "Remaining MVP Build Backlog") {
+    return "minimum_extensible_product";
+  }
+
+  return heading ? "scoped_saas_parity" : "clear";
+}
+
 function sectionSlice(markdown: string, heading: string) {
   const escaped = heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const match = markdown.match(new RegExp(`^## ${escaped}\\n([\\s\\S]*?)(?=^## |\\Z)`, "m"));
@@ -65,6 +73,7 @@ export async function readBacklogState() {
   return {
     sections,
     activeSection: activeSection?.heading ?? null,
+    deliveryTarget: getDeliveryTarget(activeSection?.heading ?? null),
     nextItem: nextItem?.text ?? null,
     latestIntent:
       loopState?.intents && loopState.intents.length > 0
@@ -96,6 +105,7 @@ export async function buildBacklogBrief() {
     "Drive the next SpecForge parity pass.",
     "",
     `Active backlog phase: ${backlog.activeSection}`,
+    `Delivery target: ${backlog.deliveryTarget}`,
     `Highest-priority unchecked item: ${backlog.nextItem}`,
     "",
     "Required behavior:",
@@ -111,4 +121,28 @@ export async function buildBacklogBrief() {
     `- ${techStackPath}`,
     `- ${tasksPath}`,
   ].join("\n");
+}
+
+export async function buildBacklogContext() {
+  const backlog = await readBacklogState();
+
+  return {
+    delivery_target: backlog.deliveryTarget,
+    active_phase: backlog.activeSection,
+    next_item: backlog.nextItem,
+    latest_intent: backlog.latestIntent,
+    latest_claim: backlog.latestClaim,
+    latest_signal: backlog.latestSignal,
+    remaining_count: backlog.remainingCount,
+    remaining_sections: backlog.sections.map((section) => ({
+      heading: section.heading,
+      unchecked_items: section.items.filter((item) => !item.checked).map((item) => item.text),
+    })),
+    source_of_truth: {
+      spec: specPath,
+      architecture: architecturePath,
+      tech_stack: techStackPath,
+      tasks: tasksPath,
+    },
+  };
 }
