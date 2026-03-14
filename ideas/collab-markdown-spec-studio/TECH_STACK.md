@@ -8,7 +8,8 @@
 5. Primary database: `Postgres`
 6. Background jobs: lightweight TypeScript worker
 7. Delivery orchestration: Node.js parity runner around `codex exec`
-8. Testing:
+8. Runner artifacts: latest handoff + meta learnings under `.cursor/artifacts/`
+9. Testing:
    - `Vitest` for unit and contract tests
    - `Playwright` for end-to-end and screenshot flows
 
@@ -38,6 +39,8 @@
    - can run bounded parity loops until the backlog is clear or blocked
    - exposes backlog status/brief into the app via parity endpoints
    - records retry counts and failure summaries so blocked passes are diagnosable
+   - schedules periodic multipass review/refactor passes
+   - refreshes handoff/meta-learning artifacts for context compaction and resume
 5. Shared persistence:
    - Postgres for application state
    - optional blob storage only if snapshots/exports outgrow database ergonomics
