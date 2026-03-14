@@ -74,6 +74,12 @@ export async function readBacklogState() {
       intent_id: string;
       failure_summary?: string | null;
     }>;
+    passes?: Array<{
+      started_at: string;
+      dry_run?: boolean;
+      mode?: string;
+    }>;
+    review_every?: number;
   } | null = null;
 
   try {
@@ -81,6 +87,21 @@ export async function readBacklogState() {
   } catch {
     loopState = null;
   }
+
+  const reviewEvery = loopState?.review_every ?? 3;
+  const passes = loopState?.passes ?? [];
+  const lastReview = [...passes]
+    .reverse()
+    .find((pass) => pass.mode === "review" && !pass.dry_run);
+  const reviewDue =
+    reviewEvery > 0 &&
+    passes.filter(
+      (pass) =>
+        !pass.dry_run &&
+        pass.mode !== "review" &&
+        (!lastReview ||
+          new Date(pass.started_at).getTime() > new Date(lastReview.started_at).getTime()),
+    ).length >= reviewEvery;
 
   return {
     sections,
@@ -99,6 +120,8 @@ export async function readBacklogState() {
       loopState?.signals && loopState.signals.length > 0
         ? loopState.signals[loopState.signals.length - 1]
         : null,
+    reviewEvery,
+    reviewDue,
     remainingCount: sections.reduce(
       (total, section) => total + section.items.filter((item) => !item.checked).length,
       0,
