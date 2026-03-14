@@ -59,4 +59,9 @@ npm run dev
 - The final handoff stage exposes `/export`, `/handoff`, `/execution`, and `/launch-packet` routes for downstream build agents.
 - The app also exposes `/api/parity/status` and `/api/parity/brief` so the backlog driver is visible inside the product, not only from the CLI.
 - The local parity runner lives at `../tools/specforge-parity-runner.mjs` and can drive bounded `codex exec` passes from the remaining backlog.
+- The runner is designed to land a runnable minimum extensible product first, then keep advancing toward scoped parity without repeated manual re-prompting.
+- Delivery loop endpoints:
+  - `/api/parity/status`
+  - `/api/parity/context`
+  - `/api/parity/brief`
 - Local recovery and observability notes live in `../LOCAL_RUNBOOK.md`.
