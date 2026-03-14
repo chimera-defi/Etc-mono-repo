@@ -4,6 +4,7 @@ Next.js application for the SpecForge MVP.
 
 Current slice:
 - guided spec creation that generates the canonical draft from structured inputs
+- workspace actor/session switching for server-side attribution
 - embedded SQL persistence via PGlite with disk-backed snapshot sharing across app workers
 - guided drafts now include a first-class `Requirements` section so readiness can clear from the guided path
 - document create/load API routes
