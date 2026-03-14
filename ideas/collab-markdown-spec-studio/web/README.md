@@ -18,6 +18,7 @@ Current slice:
 - patch proposal ingestion with stale detection
 - patch acceptance/rejection/cherry-pick flow with audit trail
 - anchored comment threads with resolve flow
+- clarification queue with answer writeback into canonical markdown
 - canonical `ideas/` showcase import for `server-management-agent`
 - showcase walkthrough from imported idea to launch packet in the export stage
 - block-level provenance markers in the shared canvas
