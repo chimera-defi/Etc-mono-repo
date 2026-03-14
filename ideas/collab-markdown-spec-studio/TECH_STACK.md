@@ -7,7 +7,8 @@
 4. Collaboration server: `Hocuspocus`
 5. Primary database: `Postgres`
 6. Background jobs: lightweight TypeScript worker
-7. Testing:
+7. Delivery orchestration: Node.js parity runner around `codex exec`
+8. Testing:
    - `Vitest` for unit and contract tests
    - `Playwright` for end-to-end and screenshot flows
 
@@ -25,7 +26,11 @@
    - recap generation
    - export jobs
    - curated repo-generation jobs
-4. Shared persistence:
+4. Parity runner:
+   - reads `TASKS.md` backlog state
+   - generates the next Codex pass brief
+   - can run bounded parity loops until the backlog is clear or blocked
+5. Shared persistence:
    - Postgres for application state
    - optional blob storage only if snapshots/exports outgrow database ergonomics
 
@@ -34,6 +39,7 @@
 2. Uses mature off-the-shelf collaboration primitives instead of custom CRDT/editor infrastructure.
 3. Keeps the product close to a monolith while isolating websocket concerns.
 4. Supports a fast path to a live demo and later refactors.
+5. Makes the coding-agent delivery loop executable instead of manual.
 
 ### Canonical Data Shape
 1. Canonical editing state is Tiptap/ProseMirror JSON.

@@ -22,6 +22,7 @@
 - [x] Deterministic export/handoff flow exists for the local bundle preview and curated starter handoff.
 - [x] One canonical `ideas/` showcase import exists for `server-management-agent`.
 - [x] Playwright-based end-to-end and screenshot coverage for the local integrated demo.
+- [x] Local parity runner exists to drive bounded Codex passes from the remaining backlog.
 
 ## Remaining MVP Build Backlog
 - [ ] Add reconnect, replay, and stale-room recovery handling beyond the current local persistence path.
