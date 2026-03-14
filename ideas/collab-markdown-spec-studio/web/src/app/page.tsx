@@ -13,8 +13,10 @@ import styles from "./page.module.css";
 import type { StoredPatch } from "@/lib/specforge/contracts";
 import { readBacklogState } from "@/lib/specforge/backlog";
 import {
+  getWorkspaceRecord,
   getCurrentWorkspaceSession,
   isGitHubAuthConfigured,
+  listWorkspaceMembers,
   listWorkspaceActors,
 } from "@/lib/specforge/session";
 import { listShowcaseExamples } from "@/lib/specforge/showcase";
@@ -294,16 +296,20 @@ export default async function Home({ searchParams }: Props) {
   const activeWorkspaceSession = await getCurrentWorkspaceSession();
   const activeWorkspaceActor = activeWorkspaceSession.actor;
   const githubAuthConfigured = isGitHubAuthConfigured();
+  const activeWorkspace = getWorkspaceRecord(activeWorkspaceActor.workspace_id);
+  const activeWorkspaceMembers = listWorkspaceMembers(activeWorkspace.workspace_id);
   const backlogState = await readBacklogState();
 
-  const documents = await listDocuments();
+  const documents = await listDocuments({ workspaceId: activeWorkspace.workspace_id });
   const activeDocumentId =
     documents.find((document) => document.document_id === requestedDocumentId)?.document_id ??
     documents[0]?.document_id ??
     null;
   const [showcaseExamples, activeContext] = await Promise.all([
     listShowcaseExamples(),
-    activeDocumentId ? buildDocumentLaunchContext(activeDocumentId) : Promise.resolve(null),
+    activeDocumentId
+      ? buildDocumentLaunchContext(activeDocumentId, activeWorkspace.workspace_id)
+      : Promise.resolve(null),
   ]);
   const activeDocument = activeContext?.document ?? null;
   const patches = activeContext?.patches ?? [];
@@ -385,6 +391,12 @@ export default async function Home({ searchParams }: Props) {
               {activeWorkspaceSession.githubLogin ? (
                 <span>GitHub: @{activeWorkspaceSession.githubLogin}</span>
               ) : null}
+            </div>
+            <div className={styles.actorCard}>
+              <strong>{activeWorkspace.name}</strong>
+              <span>{activeWorkspace.plan} workspace</span>
+              <span>{activeWorkspaceMembers.length} members</span>
+              <span>{documents.length} visible documents</span>
             </div>
             {githubAuthConfigured ? (
               <div className={styles.inlineActions}>
