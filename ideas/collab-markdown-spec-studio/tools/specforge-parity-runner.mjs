@@ -18,6 +18,14 @@ const backlogSections = [
   "Next SaaS Build Backlog",
 ];
 
+function getDeliveryTarget(heading) {
+  if (heading === "Remaining MVP Build Backlog") {
+    return "minimum_extensible_product";
+  }
+
+  return "scoped_saas_parity";
+}
+
 function parseArgs(argv) {
   const [command = "status", ...rest] = argv;
   const options = {
@@ -90,16 +98,19 @@ async function loadBacklog() {
 }
 
 function buildPrompt(nextItem, backlog) {
+  const deliveryTarget = getDeliveryTarget(backlog.activePhase?.heading);
   return [
     "Drive the next SpecForge parity pass.",
     "",
     `Active backlog phase: ${backlog.activePhase?.heading ?? "None"}`,
+    `Delivery target: ${deliveryTarget}`,
     "",
     `Highest-priority unchecked parity item: ${nextItem.text}`,
     "",
     "Required behavior:",
     "- work in the SpecForge MVP worktree",
     "- implement the smallest integrated change that closes this parity gap",
+    "- preserve the current runnable product while advancing the delivery target",
     "- update TASKS.md and any affected spec/architecture docs if the shipped surface changes",
     "- run verification before finishing: npm run lint, npm run test, npm run build, npm run test:e2e",
     "- commit with [Agent: GPT-5] and the Chimera co-author trailer if the branch is green",
@@ -150,6 +161,7 @@ async function runStatus() {
   const backlog = await loadBacklog();
   const remaining = backlog.remaining.filter((item) => !item.checked);
   const loopState = await readLoopState();
+  const deliveryTarget = getDeliveryTarget(backlog.activePhase?.heading);
   const nextIntentId =
     backlog.activePhase && remaining[0]
       ? toIntentId(backlog.activePhase.heading, remaining[0].text)
@@ -161,9 +173,39 @@ async function runStatus() {
   console.log(JSON.stringify({
     remaining_count: remaining.length,
     active_phase: backlog.activePhase?.heading ?? null,
+    delivery_target: deliveryTarget,
     next_intent_id: nextIntentId,
     active_claim: activeClaim,
     next_item: remaining[0]?.text ?? null,
+    remaining_items: remaining.map((item) => item.text),
+  }, null, 2));
+}
+
+async function runContext() {
+  const backlog = await loadBacklog();
+  const remaining = backlog.remaining.filter((item) => !item.checked);
+  const loopState = await readLoopState();
+  const deliveryTarget = getDeliveryTarget(backlog.activePhase?.heading);
+  const nextItem = remaining[0] ?? null;
+  const nextIntentId =
+    backlog.activePhase && nextItem
+      ? toIntentId(backlog.activePhase.heading, nextItem.text)
+      : null;
+
+  console.log(JSON.stringify({
+    delivery_target: deliveryTarget,
+    active_phase: backlog.activePhase?.heading ?? null,
+    next_item: nextItem?.text ?? null,
+    next_intent_id: nextIntentId,
+    latest_intent: loopState.intents.at(-1) ?? null,
+    latest_claim: loopState.claims.at(-1) ?? null,
+    latest_signal: loopState.signals.at(-1) ?? null,
+    source_of_truth: {
+      spec: specPath,
+      architecture: architecturePath,
+      tech_stack: techStackPath,
+      tasks: tasksPath,
+    },
     remaining_items: remaining.map((item) => item.text),
   }, null, 2));
 }
@@ -308,6 +350,11 @@ async function main() {
 
   if (options.command === "brief") {
     await runBrief();
+    return;
+  }
+
+  if (options.command === "context") {
+    await runContext();
     return;
   }
 
