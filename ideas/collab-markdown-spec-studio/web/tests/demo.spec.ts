@@ -136,6 +136,15 @@ test("imports the canonical showcase idea and carries it into the draft workspac
       timeout: 15_000,
     })
     .toContain("Source Idea");
+
+  const documentId = new URL(page.url()).searchParams.get("document");
+  expect(documentId).toBeTruthy();
+  await page.goto(`/?document=${documentId}&stage=export`);
+  await expect(page.getByRole("heading", { name: "Showcase walkthrough" })).toBeVisible();
+  await expect(page.locator("section").filter({ hasText: "Showcase walkthrough" }).getByText(
+    "server-management-agent",
+    { exact: true },
+  )).toBeVisible();
 });
 
 test("shows two live collaborators on the same document", async ({ browser }) => {
