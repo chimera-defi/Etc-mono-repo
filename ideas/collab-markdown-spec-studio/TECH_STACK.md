@@ -30,6 +30,8 @@
    - curated repo-generation jobs
 4. Parity runner:
    - reads `TASKS.md` backlog state
+   - treats backlog items as intents
+   - records active claims and emitted signals
    - generates the next Codex pass brief
    - can run bounded parity loops until the backlog is clear or blocked
    - exposes backlog status/brief into the app via parity endpoints
