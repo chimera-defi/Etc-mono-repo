@@ -29,3 +29,30 @@ textarea,
 input {
   font-family: var(--font-geist-mono), monospace;
 }
+
+.statusChip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.18rem 0.5rem;
+  margin-right: 0.4rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(28, 26, 23, 0.08);
+}
+
+.statusChip--success {
+  background: rgba(33, 122, 69, 0.12);
+  color: #1b6a3d;
+}
+
+.statusChip--warning {
+  background: rgba(183, 106, 18, 0.14);
+  color: #8a5310;
+}
+
+.statusChip--neutral {
+  background: rgba(28, 26, 23, 0.08);
+  color: #433a31;
+}
