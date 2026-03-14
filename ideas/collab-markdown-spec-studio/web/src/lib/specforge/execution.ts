@@ -2,7 +2,7 @@ import type { DocumentRecord, StoredPatch } from "./contracts";
 import type { exportDocumentBundle } from "./export";
 import type { buildStarterTemplate } from "./handoff";
 import type { ReadinessReport } from "./readiness";
-import type { CommentThreadRecord } from "./store";
+import type { ClarificationRecord, CommentThreadRecord } from "./store";
 
 type ExportBundle = ReturnType<typeof exportDocumentBundle>;
 type StarterBundle = ReturnType<typeof buildStarterTemplate>;
@@ -14,6 +14,7 @@ export function buildExecutionBrief(input: {
   readiness: ReadinessReport;
   patches: StoredPatch[];
   comments: CommentThreadRecord[];
+  clarifications?: ClarificationRecord[];
 }) {
   const approvedPatches = input.patches.filter((patch) =>
     ["accepted", "cherry_picked"].includes(patch.status),
@@ -22,10 +23,14 @@ export function buildExecutionBrief(input: {
     ["proposed", "stale"].includes(patch.status),
   );
   const openComments = input.comments.filter((comment) => comment.status === "open");
+  const openClarifications = (input.clarifications ?? []).filter(
+    (clarification) => clarification.status === "open",
+  );
   const runReady =
     input.readiness.status === "ready" &&
     pendingPatches.length === 0 &&
-    openComments.length === 0;
+    openComments.length === 0 &&
+    openClarifications.length === 0;
 
   return {
     run_ready: runReady,
@@ -37,6 +42,9 @@ export function buildExecutionBrief(input: {
       ...input.readiness.missing_sections.map((section) => `Missing section: ${section}`),
       ...pendingPatches.map((patch) => `Pending patch: ${patch.patch_id}`),
       ...openComments.map((comment) => `Open comment: ${comment.thread_id}`),
+      ...openClarifications.map(
+        (clarification) => `Open clarification: ${clarification.clarification_id}`,
+      ),
     ],
     provenance: {
       document_id: input.document.document_id,
@@ -44,6 +52,7 @@ export function buildExecutionBrief(input: {
       approved_patch_count: approvedPatches.length,
       pending_patch_count: pendingPatches.length,
       open_comment_count: openComments.length,
+      open_clarification_count: openClarifications.length,
     },
     commands: ["npm install", "npm run dev", "npm run build"],
     agent_instructions: [

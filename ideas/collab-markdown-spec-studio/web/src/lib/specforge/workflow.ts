@@ -4,8 +4,10 @@ import { evaluateReadiness } from "./readiness";
 import {
   exportDocument,
   getDocument,
+  listClarifications,
   listCommentThreads,
   listPatches,
+  type ClarificationRecord,
   type CommentThreadRecord,
 } from "./store";
 import type { DocumentRecord, StoredPatch } from "./contracts";
@@ -19,6 +21,7 @@ export type DocumentLaunchContext = {
   document: DocumentRecord;
   patches: StoredPatch[];
   comments: CommentThreadRecord[];
+  clarifications: ClarificationRecord[];
   exportBundle: DocumentExportBundle;
   readiness: DocumentReadiness;
   starterBundle: DocumentStarterBundle;
@@ -36,15 +39,17 @@ export async function buildDocumentLaunchContext(
     return null;
   }
 
-  const [patches, comments, exportBundle] = await Promise.all([
+  const [patches, comments, clarifications, exportBundle] = await Promise.all([
     listPatches(documentId, storeOptions),
     listCommentThreads(documentId, storeOptions),
+    listClarifications(documentId, storeOptions),
     exportDocument(documentId, storeOptions),
   ]);
   const readiness = evaluateReadiness({
     document,
     patches,
     comments,
+    clarifications,
   });
   const starterBundle = buildStarterTemplate(document, exportBundle, readiness);
   const executionBrief = buildExecutionBrief({
@@ -54,12 +59,14 @@ export async function buildDocumentLaunchContext(
     readiness,
     patches,
     comments,
+    clarifications,
   });
 
   return {
     document,
     patches,
     comments,
+    clarifications,
     exportBundle,
     readiness,
     starterBundle,

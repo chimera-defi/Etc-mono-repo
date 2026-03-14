@@ -5,7 +5,9 @@ import { describe, expect, it } from "vitest";
 
 import { agentSpecExportSchema } from "./contracts";
 import {
+  answerClarification,
   createCommentThread,
+  createClarification,
   createDocument,
   decidePatch,
   createPatchProposal,
@@ -13,6 +15,7 @@ import {
   getDocument,
   listAuditEvents,
   listCommentThreads,
+  listClarifications,
   listDocuments,
   listPatches,
   resolveCommentThread,
@@ -201,5 +204,36 @@ describe("specforge store", () => {
 
     expect(resolved.status).toBe("resolved");
     expect(threads[0]?.thread_id).toBe(created.thread_id);
+  });
+
+  it("writes answered clarifications back into the canonical document", async () => {
+    const options = await makeOptions();
+    const [document] = await listDocuments(options);
+    const created = await createClarification(
+      {
+        document_id: document!.document_id,
+        section_heading: "Requirements",
+        question: "What requirement blocks launch?",
+        created_by: { actor_type: "human", actor_id: "reviewer" },
+      },
+      options,
+    );
+
+    const answered = await answerClarification(
+      {
+        document_id: document!.document_id,
+        clarification_id: created.clarification_id,
+        answer: "Launch requires deterministic exports and a clear audit trail.",
+        answered_by: { actor_type: "human", actor_id: "reviewer" },
+      },
+      options,
+    );
+    const clarifications = await listClarifications(document!.document_id, options);
+
+    expect(answered.document.markdown).toContain(
+      "Launch requires deterministic exports and a clear audit trail.",
+    );
+    expect(clarifications[0]?.status).toBe("answered");
+    expect(clarifications[0]?.answer_text).toContain("deterministic exports");
   });
 });
