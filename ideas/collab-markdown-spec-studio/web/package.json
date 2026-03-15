@@ -1,0 +1,13 @@
+{
+  "name": "specforge-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "SpecForge web application (Next.js)",
+  "scripts": {
+    "dev": "echo '[specforge-web] dev server stub - run pnpm create next-app to scaffold'",
+    "build": "echo '[specforge-web] build stub - no app scaffolded yet'",
+    "lint": "echo '[specforge-web] lint stub - no app scaffolded yet'",
+    "test": "echo '[specforge-web] test stub - no tests configured yet'"
+  }
+}
