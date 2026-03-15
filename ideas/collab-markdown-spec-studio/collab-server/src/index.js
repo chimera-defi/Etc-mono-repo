@@ -3,7 +3,7 @@ const path = require("node:path");
 
 const { Server } = require("@hocuspocus/server");
 const Y = require("yjs");
-const { verifyCollabToken } = require("../../lib/collab-auth.js");
+const { verifyCollabToken } = require("../../lib/collab-auth.cjs");
 
 const port = Number(process.env.PORT ?? 4321);
 const roomStoreDir = path.resolve(
