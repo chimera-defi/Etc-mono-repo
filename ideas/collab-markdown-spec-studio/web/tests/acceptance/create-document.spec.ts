@@ -23,7 +23,7 @@ describe("Create document", () => {
     expect(doc).toBeDefined();
     expect(doc.version).toBe(1);
     expect(doc.title).toBe("SpecForge MVP");
-    expect(doc.workspace_id).toBe("ws_01");
+    expect(doc.workspace_id).toBe("ws_demo");
   });
 
   it("should persist the document so it can be retrieved by ID", () => {
