@@ -10,8 +10,9 @@
 import type {
   AgentSpec,
   BlockInventory,
-  Comment,
+  Clarification,
   CommentThread,
+  DepthCheckResult,
   Document,
   DocumentCreateRequest,
   DocumentEvent,
@@ -19,6 +20,7 @@ import type {
   PatchDecisionRequest,
   PatchProposal,
   PatchProposalRequest,
+  Recap,
   SpecBundle,
 } from "./types.js";
 
@@ -37,6 +39,8 @@ export class SpecForgeEngine {
   private documents: Map<string, Document> = new Map();
   private patches: Map<string, PatchProposal> = new Map();
   private commentThreads: Map<string, CommentThread> = new Map();
+  private clarifications: Map<string, Clarification> = new Map();
+  private recaps: Recap[] = [];
   private events: DocumentEvent[] = [];
 
   // --- Document operations ---
@@ -358,6 +362,183 @@ export class SpecForgeEngine {
     return Array.from(this.commentThreads.values()).filter(
       (t) => t.block_id === blockId
     );
+  }
+
+  // --- Clarification operations ---
+
+  addClarification(
+    blockId: string,
+    question: string,
+    actorId: string
+  ): Clarification {
+    const clarificationId = nextId("clarif");
+    const now = new Date().toISOString();
+
+    const clarification: Clarification = {
+      clarification_id: clarificationId,
+      block_id: blockId,
+      question,
+      status: "open",
+      asked_by_actor_id: actorId,
+      asked_at: now,
+    };
+
+    this.clarifications.set(clarificationId, clarification);
+    return clarification;
+  }
+
+  answerClarification(clarificationId: string, answer: string): void {
+    const clarification = this.clarifications.get(clarificationId);
+    if (!clarification) {
+      throw new Error(`Clarification not found: ${clarificationId}`);
+    }
+    if (clarification.status === "answered") {
+      throw new Error(`Clarification ${clarificationId} is already answered`);
+    }
+
+    clarification.answer = answer;
+    clarification.status = "answered";
+    clarification.answered_at = new Date().toISOString();
+  }
+
+  getClarification(clarificationId: string): Clarification | undefined {
+    return this.clarifications.get(clarificationId);
+  }
+
+  getClarificationsForBlock(blockId: string): Clarification[] {
+    return Array.from(this.clarifications.values()).filter(
+      (c) => c.block_id === blockId
+    );
+  }
+
+  getOpenClarifications(documentId: string): Clarification[] {
+    const doc = this.documents.get(documentId);
+    if (!doc) {
+      throw new Error(`Document not found: ${documentId}`);
+    }
+
+    const docBlockIds = new Set(doc.blocks.map((b) => b.block_id));
+    return Array.from(this.clarifications.values()).filter(
+      (c) => c.status === "open" && docBlockIds.has(c.block_id)
+    );
+  }
+
+  // --- Depth check operations ---
+
+  depthCheck(
+    documentId: string,
+    requiredSections: { section_id: string; heading: string; min_length: number }[]
+  ): DepthCheckResult {
+    const doc = this.documents.get(documentId);
+    if (!doc) {
+      throw new Error(`Document not found: ${documentId}`);
+    }
+
+    const failures: string[] = [];
+    const requiredSectionsResult = requiredSections.map((req) => {
+      const section = doc.sections.find((s) => s.section_id === req.section_id);
+      const block = doc.blocks.find(
+        (b) => b.section_id === req.section_id && b.heading === req.heading
+      );
+
+      const present = !!section && !!block;
+
+      // Extract content for the section from markdown
+      let contentLength = 0;
+      if (present && block) {
+        const headingPattern = new RegExp(
+          `## ${escapeRegExp(block.heading)}\\n[\\s\\S]*?(?=\\n\\n## |\\n$|$)`,
+          "g"
+        );
+        const match = headingPattern.exec(doc.markdown);
+        contentLength = match ? match[0].length : 0;
+      }
+
+      const failed = !present || contentLength < req.min_length;
+      if (failed) {
+        if (!present) {
+          failures.push(`Required section "${req.heading}" is missing`);
+        } else if (contentLength < req.min_length) {
+          failures.push(
+            `Section "${req.heading}" content (${contentLength} chars) is below minimum (${req.min_length} chars)`
+          );
+        }
+      }
+
+      return {
+        section_id: req.section_id,
+        heading: req.heading,
+        required: true,
+        present,
+        content_length: contentLength,
+        min_length: req.min_length,
+      };
+    });
+
+    return {
+      passed: failures.length === 0,
+      required_sections: requiredSectionsResult,
+      failures,
+    };
+  }
+
+  // --- Readiness operations ---
+
+  validateExportReadiness(documentId: string): {
+    ready: boolean;
+    blockers: string[];
+  } {
+    const doc = this.documents.get(documentId);
+    if (!doc) {
+      throw new Error(`Document not found: ${documentId}`);
+    }
+
+    const blockers: string[] = [];
+
+    // Check 1: All clarifications must be answered
+    const openClarifications = this.getOpenClarifications(documentId);
+    if (openClarifications.length > 0) {
+      blockers.push(
+        `${openClarifications.length} unanswered clarification(s) must be resolved before export`
+      );
+    }
+
+    // Check 2: Document must have at least one block
+    if (doc.blocks.length === 0) {
+      blockers.push("Document must have at least one section block");
+    }
+
+    return {
+      ready: blockers.length === 0,
+      blockers,
+    };
+  }
+
+  // --- Recap operations ---
+
+  createRecap(documentId: string, summary: string, actorId: string): Recap {
+    const doc = this.documents.get(documentId);
+    if (!doc) {
+      throw new Error(`Document not found: ${documentId}`);
+    }
+
+    const recapId = nextId("recap");
+    const recap: Recap = {
+      recap_id: recapId,
+      document_version: doc.version,
+      summary,
+      created_at: new Date().toISOString(),
+      created_by_actor_id: actorId,
+    };
+
+    this.recaps.push(recap);
+    return recap;
+  }
+
+  getRecaps(): Recap[] {
+    // Return all recaps
+    // In a full implementation, could track document_id per recap
+    return [...this.recaps];
   }
 
   // --- Event operations ---
