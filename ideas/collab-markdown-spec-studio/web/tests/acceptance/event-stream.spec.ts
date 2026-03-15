@@ -94,6 +94,7 @@ describe("Event stream", () => {
     const patchSeeds = loadPatchSeeds();
     const doc = engine.loadDocument(seedToDocument(seed));
 
+    // Propose all patches first
     for (const ps of patchSeeds) {
       engine.proposePatchWithId(ps.patch_id, {
         document_id: doc.document_id,
@@ -103,13 +104,17 @@ describe("Event stream", () => {
         patch_type: ps.patch_type,
         content: ps.content,
         proposed_by: TEST_AGENT,
-        base_version: doc.version,
+        base_version: ps.base_version,
         target_fingerprint: ps.target_fingerprint,
       });
+    }
 
+    // Then decide on patches
+    for (const ps of patchSeeds) {
+      const decision = ps.status === "rejected" ? "reject" : "accept";
       engine.decidePatch({
         patch_id: ps.patch_id,
-        decision: "accept",
+        decision,
         reviewer_id: TEST_REVIEWER,
       });
     }
@@ -117,12 +122,20 @@ describe("Event stream", () => {
     const events = engine.getEvents(doc.document_id);
     const types = events.map((e) => e.event_type);
 
-    // Expected sequence: created, proposed, accepted, proposed, accepted
+    // Expected sequence: created, then all 4 proposed, then accept/reject decisions
+    // patch_1: proposed, accepted
+    // patch_2: proposed, accepted
+    // patch_3: proposed, rejected (stale)
+    // patch_4: proposed, accepted
     expect(types).toEqual([
       "document.created",
       "patch.proposed",
-      "patch.accepted",
       "patch.proposed",
+      "patch.proposed",
+      "patch.proposed",
+      "patch.accepted",
+      "patch.accepted",
+      "patch.rejected",
       "patch.accepted",
     ]);
   });

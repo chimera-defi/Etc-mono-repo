@@ -181,12 +181,43 @@ export class SpecForgeEngine {
       throw new Error(`Document not found: ${patch.document_id}`);
     }
 
+    // Check for stale patches: base_version mismatch indicates document evolved
+    // Only apply stale-patch detection to REPLACE operations (INSERT/DELETE don't conflict as easily)
+    // Allow patches if: doc.version == base_version, OR
+    // All patches from the same base_version haven't been decided yet (concurrent proposals)
+    let isStale = false;
+    if (patch.operation === "replace" && patch.base_version < doc.version) {
+      // Check if there are other proposed patches with the same base_version that haven't been decided yet
+      const concurrentPatches = Array.from(this.patches.values()).filter(
+        (p) =>
+          p.document_id === patch.document_id &&
+          p.base_version === patch.base_version &&
+          p.status === "proposed" &&
+          p.patch_id !== patch.patch_id
+      );
+      // If all concurrent patches have been decided, this one is stale
+      isStale = concurrentPatches.length === 0;
+    }
+
     if (req.decision === "accept") {
+      // Reject stale patches automatically
+      if (isStale) {
+        patch.status = "rejected";
+        this.emitEvent(patch.document_id, "patch.rejected", doc.version, {
+          patch_id: req.patch_id,
+          reviewer_id: req.reviewer_id,
+          reason: "stale-patch",
+        });
+        return patch;
+      }
+
       patch.status = "accepted";
 
       // Apply the patch to the document's canonical markdown
       if (patch.operation === "replace" && patch.content) {
         this.applyReplacePatch(doc, patch);
+      } else if (patch.operation === "insert" && patch.content) {
+        this.applyInsertPatch(doc, patch);
       }
 
       // Increment document version
@@ -258,6 +289,42 @@ export class SpecForgeEngine {
     );
 
     doc.markdown = doc.markdown.replace(headingPattern, patch.content);
+  }
+
+  private applyInsertPatch(doc: Document, patch: PatchProposal): void {
+    if (!patch.content || !patch.section_id) return;
+
+    // Check if section already exists
+    const sectionExists = doc.sections.some(
+      (s) => s.section_id === patch.section_id
+    );
+    if (sectionExists) return; // Don't insert duplicate sections
+
+    // Extract heading from content (first line starting with ##)
+    const headingMatch = patch.content.match(/^## (.+)$/m);
+    if (!headingMatch) return;
+
+    const heading = headingMatch[1];
+
+    // Append to end of document with separator
+    if (doc.markdown.endsWith("\n")) {
+      doc.markdown += "\n" + patch.content;
+    } else {
+      doc.markdown += "\n\n" + patch.content;
+    }
+
+    // Register new section and block
+    doc.sections.push({
+      section_id: patch.section_id,
+      heading,
+    });
+
+    const blockId = `blk_${heading.toLowerCase().replace(/\s+/g, "_")}_1`;
+    doc.blocks.push({
+      block_id: blockId,
+      section_id: patch.section_id,
+      heading,
+    });
   }
 
   private emitEvent(
