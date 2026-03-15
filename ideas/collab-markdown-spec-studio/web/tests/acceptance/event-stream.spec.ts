@@ -58,7 +58,7 @@ describe("Event stream", () => {
     const patchSeeds = loadPatchSeeds();
     const doc = engine.loadDocument(seedToDocument(seed));
 
-    // Run full workflow: propose + accept both patches
+    // Run full workflow: propose all patches, accept 1,2,4; reject 3
     for (const ps of patchSeeds) {
       engine.proposePatchWithId(ps.patch_id, {
         document_id: doc.document_id,
@@ -72,9 +72,10 @@ describe("Event stream", () => {
         target_fingerprint: ps.target_fingerprint,
       });
 
+      const decision = ps.patch_id === "patch_3" ? "reject" : "accept";
       engine.decidePatch({
         patch_id: ps.patch_id,
-        decision: "accept",
+        decision,
         reviewer_id: TEST_REVIEWER,
       });
     }
@@ -94,6 +95,7 @@ describe("Event stream", () => {
     const patchSeeds = loadPatchSeeds();
     const doc = engine.loadDocument(seedToDocument(seed));
 
+    // Process all patches: accept 1,2,4; reject 3
     for (const ps of patchSeeds) {
       engine.proposePatchWithId(ps.patch_id, {
         document_id: doc.document_id,
@@ -107,9 +109,10 @@ describe("Event stream", () => {
         target_fingerprint: ps.target_fingerprint,
       });
 
+      const decision = ps.patch_id === "patch_3" ? "reject" : "accept";
       engine.decidePatch({
         patch_id: ps.patch_id,
-        decision: "accept",
+        decision,
         reviewer_id: TEST_REVIEWER,
       });
     }
@@ -117,11 +120,15 @@ describe("Event stream", () => {
     const events = engine.getEvents(doc.document_id);
     const types = events.map((e) => e.event_type);
 
-    // Expected sequence: created, proposed, accepted, proposed, accepted
+    // Expected sequence: created, proposed, accepted, proposed, accepted, proposed, rejected, proposed, accepted
     expect(types).toEqual([
       "document.created",
       "patch.proposed",
       "patch.accepted",
+      "patch.proposed",
+      "patch.accepted",
+      "patch.proposed",
+      "patch.rejected",
       "patch.proposed",
       "patch.accepted",
     ]);
