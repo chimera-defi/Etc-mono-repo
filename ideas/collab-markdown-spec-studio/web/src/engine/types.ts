@@ -51,12 +51,33 @@ export interface PatchProposal {
   rationale?: string;
 }
 
+// Comment system types
+export interface Comment {
+  comment_id: string;
+  author_id: string;
+  author_name: string;
+  body: string;
+  created_at: string;
+}
+
+export interface CommentThread {
+  thread_id: string;
+  block_id: string;
+  comments: Comment[];
+  status: "open" | "resolved";
+  created_at: string;
+  resolved_at?: string;
+}
+
 export type EventType =
   | "document.created"
   | "patch.proposed"
   | "patch.accepted"
   | "patch.rejected"
-  | "snapshot.created";
+  | "snapshot.created"
+  | "comment.created"
+  | "comment.replied"
+  | "comment.resolved";
 
 export interface DocumentEvent {
   event_id: string;

@@ -8,6 +8,8 @@
  */
 
 import type {
+  Comment,
+  CommentThread,
   Document,
   DocumentCreateRequest,
   DocumentEvent,
@@ -31,6 +33,7 @@ export function resetIdCounter(): void {
 export class SpecForgeEngine {
   private documents: Map<string, Document> = new Map();
   private patches: Map<string, PatchProposal> = new Map();
+  private commentThreads: Map<string, CommentThread> = new Map();
   private events: DocumentEvent[] = [];
 
   // --- Document operations ---
@@ -249,6 +252,108 @@ export class SpecForgeEngine {
   getPatchQueue(documentId: string): PatchProposal[] {
     return Array.from(this.patches.values()).filter(
       (p) => p.document_id === documentId && p.status === "proposed"
+    );
+  }
+
+  // --- Comment operations ---
+
+  addCommentThread(
+    blockId: string,
+    initialBody: string,
+    authorId: string,
+    authorName: string
+  ): CommentThread {
+    const threadId = nextId("thread");
+    const commentId = nextId("comment");
+    const now = new Date().toISOString();
+
+    const thread: CommentThread = {
+      thread_id: threadId,
+      block_id: blockId,
+      comments: [
+        {
+          comment_id: commentId,
+          author_id: authorId,
+          author_name: authorName,
+          body: initialBody,
+          created_at: now,
+        },
+      ],
+      status: "open",
+      created_at: now,
+    };
+
+    this.commentThreads.set(threadId, thread);
+
+    // Emit event (we don't have document_id here, but we can use empty string for comment events)
+    this.emitEvent("", "comment.created", 0, {
+      thread_id: threadId,
+      block_id: blockId,
+      author_id: authorId,
+      author_name: authorName,
+    });
+
+    return thread;
+  }
+
+  addCommentToThread(
+    threadId: string,
+    body: string,
+    authorId: string,
+    authorName: string
+  ): void {
+    const thread = this.commentThreads.get(threadId);
+    if (!thread) {
+      throw new Error(`Comment thread not found: ${threadId}`);
+    }
+
+    if (thread.status === "resolved") {
+      throw new Error(
+        `Cannot reply to resolved thread: ${threadId}`
+      );
+    }
+
+    const commentId = nextId("comment");
+    const now = new Date().toISOString();
+
+    thread.comments.push({
+      comment_id: commentId,
+      author_id: authorId,
+      author_name: authorName,
+      body,
+      created_at: now,
+    });
+
+    this.emitEvent("", "comment.replied", 0, {
+      thread_id: threadId,
+      comment_id: commentId,
+      author_id: authorId,
+      author_name: authorName,
+    });
+  }
+
+  resolveCommentThread(threadId: string): void {
+    const thread = this.commentThreads.get(threadId);
+    if (!thread) {
+      throw new Error(`Comment thread not found: ${threadId}`);
+    }
+
+    thread.status = "resolved";
+    thread.resolved_at = new Date().toISOString();
+
+    this.emitEvent("", "comment.resolved", 0, {
+      thread_id: threadId,
+      resolved_at: thread.resolved_at,
+    });
+  }
+
+  getCommentThread(threadId: string): CommentThread | undefined {
+    return this.commentThreads.get(threadId);
+  }
+
+  getCommentsForBlock(blockId: string): CommentThread[] {
+    return Array.from(this.commentThreads.values()).filter(
+      (t) => t.block_id === blockId
     );
   }
 
