@@ -174,3 +174,15 @@ export async function switchWorkspaceActorAction(formData: FormData) {
   await setCurrentWorkspaceActor(actorId);
   redirect(returnTo || "/");
 }
+
+export async function switchWorkspaceAction(formData: FormData) {
+  const workspaceId = String(formData.get("workspace_id") ?? "");
+  const returnTo = String(formData.get("return_to") ?? "/");
+
+  if (workspaceId) {
+    await setCurrentWorkspaceActor(workspaceId);
+  }
+
+  revalidatePath("/");
+  redirect(returnTo || "/");
+}

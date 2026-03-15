@@ -12,7 +12,7 @@ export type WorkspaceActor = {
 };
 
 export type WorkspaceSession = {
-  authMode: "local" | "github";
+  authMode: "local" | "github" | "unauthenticated";
   actor: WorkspaceActor;
   githubLogin?: string;
   githubUrl?: string;
@@ -70,6 +70,8 @@ const workspaceMembers: WorkspaceMemberSeed[] = [
 
 type StoredWorkspaceSession = {
   actor_id: string;
+  workspace_id: string;
+  role: string;
   githubLogin: string;
   githubUrl?: string;
   issuedAt: number;
@@ -162,7 +164,7 @@ export function verifyWorkspaceSessionToken(token: string) {
   return JSON.parse(base64UrlDecode(payload)) as StoredWorkspaceSession;
 }
 
-function actorToSession(actor: WorkspaceActor, authMode: "local" | "github", details?: {
+function actorToSession(actor: WorkspaceActor, authMode: "local" | "github" | "unauthenticated", details?: {
   githubLogin?: string;
   githubUrl?: string;
 }): WorkspaceSession {
@@ -174,10 +176,14 @@ function actorToSession(actor: WorkspaceActor, authMode: "local" | "github", det
   };
 }
 
+export function isAuthSkipEnabled() {
+  return process.env.NEXT_PUBLIC_SKIP_AUTH_OVERRIDE === "true";
+}
+
 export async function getCurrentWorkspaceSession() {
   const cookieStore = await cookies();
 
-  if (isGitHubAuthConfigured()) {
+  if (isGitHubAuthConfigured() && !isAuthSkipEnabled()) {
     const rawSession = cookieStore.get(WORKSPACE_SESSION_COOKIE)?.value;
 
     if (rawSession) {
@@ -188,7 +194,10 @@ export async function getCurrentWorkspaceSession() {
           resolveWorkspaceMemberForGitHubLogin(verified.githubLogin);
 
         if (actor) {
-          return actorToSession(actor, "github", {
+          const resolvedActor = verified.workspace_id
+            ? { ...actor, workspace_id: verified.workspace_id, role: verified.role ?? actor.role }
+            : actor;
+          return actorToSession(resolvedActor, "github", {
             githubLogin: verified.githubLogin,
             githubUrl: verified.githubUrl,
           });
@@ -197,6 +206,8 @@ export async function getCurrentWorkspaceSession() {
         cookieStore.delete(WORKSPACE_SESSION_COOKIE);
       }
     }
+
+    return actorToSession(workspaceMembers[0]!, "unauthenticated");
   }
 
   const localActor = resolveWorkspaceActor(cookieStore.get(WORKSPACE_ACTOR_COOKIE)?.value);
@@ -224,13 +235,19 @@ export async function setCurrentWorkspaceActor(actorId: string) {
 export async function setGitHubWorkspaceSession(input: {
   githubLogin: string;
   githubUrl?: string;
+  workspace_id?: string;
+  role?: string;
 }) {
   const actor = resolveWorkspaceMemberForGitHubLogin(input.githubLogin) ?? workspaceMembers[0]!;
+  const workspaceId = input.workspace_id ?? actor.workspace_id;
+  const role = input.role ?? actor.role;
   const cookieStore = await cookies();
   cookieStore.set(
     WORKSPACE_SESSION_COOKIE,
     createWorkspaceSessionToken({
       actor_id: actor.actor_id,
+      workspace_id: workspaceId,
+      role,
       githubLogin: input.githubLogin,
       githubUrl: input.githubUrl,
       issuedAt: Date.now(),
