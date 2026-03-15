@@ -80,7 +80,8 @@ export type EventType =
   | "comment.resolved"
   | "presence.updated"
   | "presence.joined"
-  | "presence.left";
+  | "presence.left"
+  | "repo.generated";
 
 export interface DocumentEvent {
   event_id: string;
@@ -238,4 +239,27 @@ export interface UserPresence {
 export interface PresenceState {
   users: Map<string, UserPresence>;
   last_updated: string;
+}
+
+/** Repository scaffold template type */
+export type RepoScaffoldTemplate = "nextjs-typescript" | "nextjs-python" | "docs-only";
+
+/** Generated repository from SpecBundle */
+export interface GeneratedRepo {
+  repo_id: string;
+  spec_bundle_id: string;
+  template_name: RepoScaffoldTemplate;
+  generated_files: {
+    path: string;
+    content: string;
+    file_type: "code" | "config" | "docs" | "test";
+  }[];
+  generated_at: string;
+  spec_version: number;
+  traceability: {
+    [file_path: string]: {
+      source_block_ids: string[];
+      source_sections: string[];
+    };
+  };
 }
