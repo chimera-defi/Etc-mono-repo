@@ -2,6 +2,9 @@ import crypto from "node:crypto";
 
 import { cookies } from "next/headers";
 
+import { logger } from "../logger";
+import { WORKSPACE_MEMBERS_SEED } from "../../tests/fixtures/workspace-seed-data";
+
 export type WorkspaceActor = {
   actor_id: string;
   actor_type: "human";
@@ -24,10 +27,6 @@ export type WorkspaceRecord = {
   plan: "demo" | "pilot";
 };
 
-type WorkspaceMemberSeed = WorkspaceActor & {
-  githubLogin?: string;
-};
-
 const WORKSPACE_ACTOR_COOKIE = "specforge_actor_id";
 const WORKSPACE_SESSION_COOKIE = "specforge_session";
 const DEFAULT_SESSION_SECRET = "specforge-local-session-secret";
@@ -40,33 +39,13 @@ const workspaces: WorkspaceRecord[] = [
   },
 ];
 
-const workspaceMembers: WorkspaceMemberSeed[] = [
-  {
-    actor_id: "workspace_owner",
-    actor_type: "human",
-    name: "Founder",
-    role: "Workspace owner",
-    color: "#0f766e",
-    workspace_id: "ws_demo",
-    githubLogin: "chimera-defi",
-  },
-  {
-    actor_id: "specforge_reviewer",
-    actor_type: "human",
-    name: "Reviewer",
-    role: "Product reviewer",
-    color: "#1d4ed8",
-    workspace_id: "ws_demo",
-  },
-  {
-    actor_id: "specforge_operator",
-    actor_type: "human",
-    name: "Agent operator",
-    role: "Build operator",
-    color: "#c2410c",
-    workspace_id: "ws_demo",
-  },
-];
+// Workspace members are imported from shared seed data to ensure consistency
+// with database seeding in store.ts
+const workspaceMembers = WORKSPACE_MEMBERS_SEED.map((member) => ({
+  ...member,
+  workspace_id: "ws_demo",
+  githubLogin: member.github_login,
+}));
 
 type StoredWorkspaceSession = {
   actor_id: string;
@@ -202,7 +181,14 @@ export async function getCurrentWorkspaceSession() {
             githubUrl: verified.githubUrl,
           });
         }
-      } catch {
+      } catch (error) {
+        // Session verification failed - likely due to signature mismatch or malformed token
+        // Delete the invalid session cookie to force re-authentication
+        logger.error(
+          "Failed to verify workspace session token",
+          error instanceof Error ? error : new Error(String(error)),
+          { reason: "Possible: signature mismatch, malformed token, or expired session" }
+        );
         cookieStore.delete(WORKSPACE_SESSION_COOKIE);
       }
     }
