@@ -63,6 +63,21 @@ export function seedToDocument(seed: WorkspaceSeed): Document {
   };
 }
 
+/**
+ * Create a fresh engine with seeded document pre-loaded.
+ * Common pattern used in 15+ tests: consolidates 3-line boilerplate.
+ */
+export function createSeededEngine(): {
+  engine: SpecForgeEngine;
+  doc: Document;
+  seed: WorkspaceSeed;
+} {
+  const engine = createFreshEngine();
+  const seed = loadWorkspaceSeed();
+  const doc = engine.loadDocument(seedToDocument(seed));
+  return { engine, doc, seed };
+}
+
 /** Default test agent identity. */
 export const TEST_AGENT = {
   actor_type: "agent" as const,
