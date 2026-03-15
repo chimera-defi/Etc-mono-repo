@@ -73,7 +73,8 @@ export const TEST_AGENT = {
 export const TEST_REVIEWER = "reviewer-001";
 
 /**
- * Run the full seed-to-final workflow: load document, propose all patches, accept all.
+ * Run the full seed-to-final workflow: load document, propose all patches.
+ * Patches 1, 2, 4 are accepted. Patch 3 is stale and rejected.
  * Returns the engine for further assertions.
  */
 export function runFullWorkflow(): {
@@ -87,7 +88,7 @@ export function runFullWorkflow(): {
   const doc = engine.loadDocument(seedToDocument(seed));
   const documentId = doc.document_id;
 
-  // Propose and accept all patches in order
+  // Process all patches
   for (const ps of patchSeeds) {
     engine.proposePatchWithId(ps.patch_id, {
       document_id: documentId,
@@ -101,9 +102,13 @@ export function runFullWorkflow(): {
       target_fingerprint: ps.target_fingerprint,
     });
 
+    // Patch 3 should be rejected (stale/base_version mismatch)
+    // All others should be accepted
+    const decision = ps.patch_id === "patch_3" ? "reject" : "accept";
+
     engine.decidePatch({
       patch_id: ps.patch_id,
-      decision: "accept",
+      decision,
       reviewer_id: TEST_REVIEWER,
     });
   }

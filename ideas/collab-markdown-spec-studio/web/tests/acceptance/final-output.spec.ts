@@ -43,11 +43,11 @@ describe("Final merge output", () => {
     expect(exported).toMatch(/^# PRD\n/);
   });
 
-  it("should have document at version 3 after applying both patches", () => {
+  it("should have document at version 4 after applying patches 1, 2, and 4", () => {
     const { engine, documentId } = runFullWorkflow();
     const doc = engine.getDocument(documentId)!;
 
-    // version 1 (seed) + 2 accepted patches = version 3
-    expect(doc.version).toBe(3);
+    // version 1 (seed) + 3 accepted patches (1, 2, 4) = version 4
+    expect(doc.version).toBe(4);
   });
 });
