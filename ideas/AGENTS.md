@@ -12,27 +12,55 @@ Quick reminder for Ideas PRs:
 
 ## Projects
 
+### SpecForge (Collaborative Spec Studio) - 📐 Spec-Ready
+**Location:** `ideas/collab-markdown-spec-studio/`
+
+Multiplayer Markdown workspace for humans + AI agents to co-author PRDs/specs with section-level patch proposals, merge controls, and provenance. Phase 2: one-click starter repo generation.
+
+**Key docs:** `EXECUTIVE_SUMMARY.md`, `PRD.md`, `SPEC.md`, `ARCHITECTURE_DECISIONS.md`, `STATE_MODEL.md`, `OPEN_QUESTIONS.md`
+
+**Tech stack (decided):** Yjs (CRDT) + Next.js 15 + CodeMirror 6 + Hono/Bun API + Postgres + Clerk auth + Claude API
+
+**All decisions resolved.** Key choices: heading-level section granularity (D12), AST ops canonical + text diff review UI (D13), Clerk auth (D5), SaaS-only launch (D14), PartyKit CRDT sync (D15), section-level prompting for large docs (D16), hybrid AI cost model — N patches/month included + metered overage (D17), optimistic patch apply with CRDT rollback on conflict (D18).
+
+**Status:** Build-ready — one-shot execution unblocked. See `FIRST_60_MINUTES.md` to start.
+
+### Intelligence Exchange - 🏪 Spec-Ready
+**Location:** `ideas/intelligence-exchange/`
+
+AI job execution marketplace: buyers submit jobs, workers run a local CLI using their own API keys, platform brokers matching/scoring/settlement via Stripe Connect.
+
+**Key docs:** `EXECUTIVE_SUMMARY.md`, `PRD.md`, `SPEC.md`, `ARCHITECTURE_DECISIONS.md`, `OPEN_QUESTIONS.md`, `STATE_MODEL.md`
+
+**Tech stack (decided):** Hono+Bun broker + BullMQ+Redis queue + TypeScript CLI worker + Postgres ledger + Stripe Connect payouts
+
+**MVP task types:** Code review, test generation, PR summary (all auto-scorable via CI/lint/tests).
+
+**Critical blocker:** Provider ToS legal review required before launch (see `OPEN_QUESTIONS.md` Q6).
+
+**Status:** Spec-ready; legal review + open question resolution required before one-shot build.
+
 ### Voice Coding Assistant (Cadence) - 🧪 Prototype
 **Location:** `ideas/voice-coding-assistant/`
 
 Multi-platform voice-controlled coding assistant:
 - cadence-backend - Backend services
-- cadence-api - API layer
+- cadence-api - API layer (Fastify + TS, 77 tests passing)
 - cadence-app - Main application
-- cadence-web-frontend - Web interface
+- cadence-web-frontend - Web interface (Next.js)
 - cadence-prototype - POC
 - cadence-setup - Configuration
 
-**Status:** Research/prototype phase
+**Status:** Research/prototype phase — Phase 1 MVP complete, Phase 2 in progress.
 
 ### Automated Trading System - 📊 Research
 **Location:** `ideas/automated-trading-system/`
 
 Automated trading system with:
 - `docs/` - Strategy documentation
-- `src/` - Implementation code
+- `src/` - Implementation code (Python, asyncio)
 - `tests/` - Test suite
-- `SPEC.md` - Technical specification (recently expanded)
+- `SPEC.md` - Technical specification
 
 **Status:** Research/specification phase
 
@@ -60,6 +88,7 @@ Unified birthday reminder application:
 | Self-Hosted Infra | Coolify evaluation, PaaS alternatives | 💭 Exploration |
 | Mobile AI Agent | Native app with camera, location, offline support | 💭 Concept |
 | Clawdbot Launchpad | Hosted Clawdbot/Moltbot on VPS or containers | 💭 Concept |
+| AgentRadar | ERC-8004 DeFi agent credit with Ethos vouching | 💭 Concept |
 
 ## Core Principles
 

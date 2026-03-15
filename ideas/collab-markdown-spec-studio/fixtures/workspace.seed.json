@@ -4,6 +4,10 @@
   "title": "SpecForge MVP",
   "version": 1,
   "markdown": "# PRD\n\n## Goals\nTBD\n\n## Scope\nTBD\n",
+  "blocks": [
+    {"block_id": "blk_goals_1", "section_id": "sec_goals", "heading": "Goals"},
+    {"block_id": "blk_scope_1", "section_id": "sec_scope", "heading": "Scope"}
+  ],
   "sections": [
     {"section_id": "sec_goals", "heading": "Goals"},
     {"section_id": "sec_scope", "heading": "Scope"}
