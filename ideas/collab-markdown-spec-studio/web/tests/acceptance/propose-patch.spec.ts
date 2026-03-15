@@ -95,7 +95,7 @@ describe("Propose patch", () => {
     const patchSeeds = loadPatchSeeds();
     const doc = engine.loadDocument(seedToDocument(seed));
 
-    // Propose both patches
+    // Propose all patches
     for (const ps of patchSeeds) {
       engine.proposePatchWithId(ps.patch_id, {
         document_id: doc.document_id,
@@ -105,13 +105,13 @@ describe("Propose patch", () => {
         patch_type: ps.patch_type,
         content: ps.content,
         proposed_by: TEST_AGENT,
-        base_version: doc.version,
+        base_version: ps.base_version,
         target_fingerprint: ps.target_fingerprint,
       });
     }
 
     const queue = engine.getPatchQueue(doc.document_id);
-    expect(queue).toHaveLength(2);
+    expect(queue).toHaveLength(4);
     expect(queue.every((p) => p.status === "proposed")).toBe(true);
   });
 

@@ -114,6 +114,7 @@ describe("Accept patch", () => {
     const patchSeeds = loadPatchSeeds();
     const doc = engine.loadDocument(seedToDocument(seed));
 
+    // Propose all patches first (simulating concurrent proposals)
     for (const ps of patchSeeds) {
       engine.proposePatchWithId(ps.patch_id, {
         document_id: doc.document_id,
@@ -123,20 +124,26 @@ describe("Accept patch", () => {
         patch_type: ps.patch_type,
         content: ps.content,
         proposed_by: TEST_AGENT,
-        base_version: doc.version,
+        base_version: ps.base_version,
         target_fingerprint: ps.target_fingerprint,
-      });
-
-      engine.decidePatch({
-        patch_id: ps.patch_id,
-        decision: "accept",
-        reviewer_id: TEST_REVIEWER,
       });
     }
 
+    // Then decide on patches in order
+    let acceptedCount = 0;
+    for (const ps of patchSeeds) {
+      const decision = ps.status === "rejected" ? "reject" : "accept";
+      engine.decidePatch({
+        patch_id: ps.patch_id,
+        decision,
+        reviewer_id: TEST_REVIEWER,
+      });
+      if (decision === "accept") acceptedCount++;
+    }
+
     const final = engine.getDocument(doc.document_id)!;
-    // version=1 initial + 2 accepted patches = version 3
-    expect(final.version).toBe(3);
+    // version=1 initial + 3 accepted patches (1,2,4; patch_3 is rejected as stale) = version 4
+    expect(final.version).toBe(1 + acceptedCount);
   });
 
   it("should not allow deciding an already-decided patch", () => {
