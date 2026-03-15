@@ -148,12 +148,12 @@
 4. WS-5 runs in parallel with WS-2/WS-3 and finalizes before pilot.
 
 ## One-Shot Build Readiness Gates
-- [ ] API/event contracts are versioned and example payloads are included.
-- [ ] Explicit non-goals and out-of-scope cases are listed.
-- [ ] Acceptance tests are mapped one-to-one to user flows.
-- [ ] Seed data and fixture examples are included for local boot.
-- [ ] "First 60 minutes" local runbook is present and validated by a fresh agent.
-- [ ] Delivery loop can continue from minimum extensible product to scoped parity without repeated manual re-prompting.
+- [x] API/event contracts are versioned and example payloads are included.
+- [x] Explicit non-goals and out-of-scope cases are listed.
+- [x] Acceptance tests are mapped one-to-one to user flows.
+- [x] Seed data and fixture examples are included for local boot.
+- [x] "First 60 minutes" local runbook is present and validated by a fresh agent.
+- [x] Delivery loop can continue from minimum extensible product to scoped parity without repeated manual re-prompting.
 
 ## Phase 1 (Validation)
 - [ ] Execute WS-6 and publish synthesis.
