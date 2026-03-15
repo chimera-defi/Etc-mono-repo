@@ -10,6 +10,7 @@ import * as Y from "yjs";
 
 import type { DocumentRecord } from "@/lib/specforge/contracts";
 import { markdownToEditorHtml, tiptapJsonToMarkdown } from "@/lib/specforge/editor";
+import { logger } from "@/lib/logger";
 
 type Props = {
   document: DocumentRecord;
@@ -186,7 +187,13 @@ export function DocumentWorkspace({ document, activeActor, blockSummaries }: Pro
       if (syncState !== "saving") {
         updateSyncState("live", `Live room synced: ${roomName}`);
       }
-    } catch {
+    } catch (error) {
+      // Recovery check can fail if latestVersion query times out or returns unexpected data
+      // This is handled gracefully - we just report the error and continue
+      logger.warn(
+        `Recovery check failed for document room`,
+        { roomName, error: error instanceof Error ? error.message : "Unknown error" }
+      );
       updateSyncState("error", `Recovery check failed for ${roomName}`);
     }
   }
@@ -293,7 +300,13 @@ export function DocumentWorkspace({ document, activeActor, blockSummaries }: Pro
               left: coords.left - containerRect.left,
               top: coords.top - containerRect.top,
             };
-          } catch {
+          } catch (error) {
+            // coordsAtPos can fail if selection is invalid or editor state is not ready
+            // Returning null gracefully skips rendering this user's cursor
+            logger.debug(
+              "Failed to calculate remote cursor position",
+              { userId: user.id, error: error instanceof Error ? error.message : "Unknown error" }
+            );
             return null;
           }
         })

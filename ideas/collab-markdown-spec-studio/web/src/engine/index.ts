@@ -3,6 +3,16 @@ export {
   generateRepository,
   resetRepoCounter,
 } from "./repo-generator.js";
+export {
+  ConflictError,
+  NotFoundError,
+  PermissionError,
+  SpecForgeError,
+  StaleError,
+  ValidationError,
+  getErrorMessage,
+  getErrorStatusCode,
+} from "./errors.js";
 export type {
   AgentSpec,
   Block,
