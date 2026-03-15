@@ -1,0 +1,35 @@
+{
+  "model": "qwen3.5:35b",
+  "phase": "atomic",
+  "variant": "atomic",
+  "timestamp": 1772298745.8516772,
+  "config_name": "qwen3.5:35b",
+  "system_prompt": "",
+  "summary": {
+    "passed": 5,
+    "total": 12,
+    "accuracy": 0.4166666666666667,
+    "restraint_score": 0.0,
+    "avg_latency_ms": null,
+    "median_latency_ms": null,
+    "max_latency_ms": null,
+    "min_latency_ms": null,
+    "avg_tps": null,
+    "median_tps": null,
+    "max_tps": null,
+    "min_tps": null,
+    "total_tokens_generated": null,
+    "total_prompt_tokens": null
+  },
+  "by_category": null,
+  "failed_prompts": [
+    "P4",
+    "P5",
+    "P6",
+    "P7",
+    "P8",
+    "P9",
+    "P10"
+  ],
+  "results": []
+}

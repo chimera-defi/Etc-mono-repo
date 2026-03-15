@@ -1,0 +1,143 @@
+[
+  {
+    "prompt_id": "P1",
+    "expected": [
+      "get_weather"
+    ],
+    "got": [
+      "get_weather"
+    ],
+    "correct": true,
+    "latency_ms": 38899.0216255188,
+    "error": null,
+    "timeout": false,
+    "assistant_content": "",
+    "tokens_generated": 54,
+    "prompt_tokens": 326,
+    "tokens_per_second": 3.339076427921684,
+    "ttft_ms": 15177.455609,
+    "eval_duration_ms": 16172.136567,
+    "prompt_eval_duration_ms": 15177.455609,
+    "total_duration_ms": 38877.219632
+  },
+  {
+    "prompt_id": "P2",
+    "expected": [
+      "search_files"
+    ],
+    "got": [
+      "search_files"
+    ],
+    "correct": true,
+    "latency_ms": 45336.36665344238,
+    "error": null,
+    "timeout": false,
+    "assistant_content": "",
+    "tokens_generated": 72,
+    "prompt_tokens": 327,
+    "tokens_per_second": 2.43606477232282,
+    "ttft_ms": 14961.762723,
+    "eval_duration_ms": 29555.864367,
+    "prompt_eval_duration_ms": 14961.762723,
+    "total_duration_ms": 45324.668088
+  },
+  {
+    "prompt_id": "P3",
+    "expected": [
+      "schedule_meeting"
+    ],
+    "got": [
+      "schedule_meeting"
+    ],
+    "correct": true,
+    "latency_ms": 50381.92367553711,
+    "error": null,
+    "timeout": false,
+    "assistant_content": "",
+    "tokens_generated": 100,
+    "prompt_tokens": 329,
+    "tokens_per_second": 3.022267282814331,
+    "ttft_ms": 16273.411642,
+    "eval_duration_ms": 33087.741964,
+    "prompt_eval_duration_ms": 16273.411642,
+    "total_duration_ms": 50377.117915
+  },
+  {
+    "prompt_id": "P4",
+    "expected": [
+      "get_weather"
+    ],
+    "got": [
+      "get_weather"
+    ],
+    "correct": true,
+    "latency_ms": 42743.8268661499,
+    "error": null,
+    "timeout": false,
+    "assistant_content": "",
+    "tokens_generated": 75,
+    "prompt_tokens": 330,
+    "tokens_per_second": 2.947746524564872,
+    "ttft_ms": 16380.016897,
+    "eval_duration_ms": 25443.164592,
+    "prompt_eval_duration_ms": 16380.016897,
+    "total_duration_ms": 42738.583164
+  },
+  {
+    "prompt_id": "P5",
+    "expected": [],
+    "got": [],
+    "correct": true,
+    "latency_ms": 60114.152669906616,
+    "error": null,
+    "timeout": false,
+    "assistant_content": "I have access to the following tools:\n\n1. **get_weather** - Get current weather for a given city\n2. **search_files** - Search for files matching a pattern\n3. **schedule_meeting** - Schedule a meeting with a title and time\n\nLet me know if you'd like me to use any of these tools for you!",
+    "tokens_generated": 123,
+    "prompt_tokens": 326,
+    "tokens_per_second": 2.8677960539948866,
+    "ttft_ms": 16094.470724,
+    "eval_duration_ms": 42890.07924,
+    "prompt_eval_duration_ms": 16094.470724,
+    "total_duration_ms": 60051.007654
+  },
+  {
+    "prompt_id": "P6",
+    "expected": [],
+    "got": [
+      "search_files"
+    ],
+    "correct": false,
+    "latency_ms": 54870.75209617615,
+    "error": null,
+    "timeout": false,
+    "assistant_content": "",
+    "tokens_generated": 121,
+    "prompt_tokens": 333,
+    "tokens_per_second": 3.150531148528023,
+    "ttft_ms": 15577.125012,
+    "eval_duration_ms": 38406.22241,
+    "prompt_eval_duration_ms": 15577.125012,
+    "total_duration_ms": 54868.725908
+  },
+  {
+    "prompt_id": "P7",
+    "expected": [
+      "schedule_meeting"
+    ],
+    "got": [
+      "schedule_meeting"
+    ],
+    "correct": true,
+    "latency_ms": 60893.38493347168,
+    "error": null,
+    "timeout": false,
+    "assistant_content": "",
+    "tokens_generated": 129,
+    "prompt_tokens": 339,
+    "tokens_per_second": 2.9231545772064216,
+    "ttft_ms": 15747.099227,
+    "eval_duration_ms": 44130.406584,
+    "prompt_eval_duration_ms": 15747.099227,
+    "total_duration_ms": 60882.690345
+  }
+]
