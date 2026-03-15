@@ -137,3 +137,44 @@ export interface PatchSeedLine {
   target_fingerprint: string;
   content: string;
 }
+
+/** Block inventory for AgentSpec export */
+export interface BlockInventory {
+  block_id: string;
+  heading: string;
+  content_length: number;
+  modified_by: string[];
+  patch_count: number;
+}
+
+/** Agent specification metadata for export bundle */
+export interface AgentSpec {
+  document_id: string;
+  document_version: number;
+  document_title: string;
+  created_at: string;
+  last_modified: string;
+  total_patches_proposed: number;
+  total_patches_accepted: number;
+  total_patches_rejected: number;
+  authors: string[];
+  sections: BlockInventory[];
+}
+
+/** Patch summary for audit trail */
+export interface PatchSummaryItem {
+  patch_id: string;
+  operation: PatchOperation;
+  block_id: string;
+  status: PatchStatus;
+  accepted_at?: string;
+}
+
+/** Complete SpecBundle export containing document, metadata, and audit trail */
+export interface SpecBundle {
+  spec_version: "1.0";
+  agent_spec: AgentSpec;
+  document_markdown: string;
+  patch_summary: PatchSummaryItem[];
+  export_timestamp: string;
+}
