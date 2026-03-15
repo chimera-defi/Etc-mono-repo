@@ -1,0 +1,202 @@
+{
+  "timestamp": "2026-02-28T10:53:53.087754",
+  "backend_url": "http://127.0.0.1:11434",
+  "models": [
+    "qwen3.5:35b",
+    "glm-4.7-flash:latest"
+  ],
+  "prompt_results": [
+    {
+      "prompt_id": "simple_qa_1",
+      "category": "simple_qa",
+      "qwen3.5:35b": {
+        "success": true,
+        "tokens_generated": 50,
+        "prompt_tokens": 17,
+        "tokens_per_second": 2.07,
+        "total_time_seconds": 24.183,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "glm-4.7-flash:latest": {
+        "success": true,
+        "tokens_generated": 50,
+        "prompt_tokens": 12,
+        "tokens_per_second": 5.76,
+        "total_time_seconds": 8.687,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      }
+    },
+    {
+      "prompt_id": "simple_qa_2",
+      "category": "simple_qa",
+      "qwen3.5:35b": {
+        "success": true,
+        "tokens_generated": 60,
+        "prompt_tokens": 20,
+        "tokens_per_second": 2.94,
+        "total_time_seconds": 20.39,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "glm-4.7-flash:latest": {
+        "success": true,
+        "tokens_generated": 60,
+        "prompt_tokens": 15,
+        "tokens_per_second": 5.69,
+        "total_time_seconds": 10.549,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      }
+    },
+    {
+      "prompt_id": "reasoning_1",
+      "category": "reasoning",
+      "qwen3.5:35b": {
+        "success": true,
+        "tokens_generated": 80,
+        "prompt_tokens": 28,
+        "tokens_per_second": 3.0,
+        "total_time_seconds": 26.659,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "glm-4.7-flash:latest": {
+        "success": true,
+        "tokens_generated": 80,
+        "prompt_tokens": 23,
+        "tokens_per_second": 6.14,
+        "total_time_seconds": 13.032,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      }
+    },
+    {
+      "prompt_id": "reasoning_2",
+      "category": "reasoning",
+      "qwen3.5:35b": {
+        "success": true,
+        "tokens_generated": 60,
+        "prompt_tokens": 45,
+        "tokens_per_second": 2.67,
+        "total_time_seconds": 22.456,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "glm-4.7-flash:latest": {
+        "success": true,
+        "tokens_generated": 60,
+        "prompt_tokens": 36,
+        "tokens_per_second": 4.81,
+        "total_time_seconds": 12.468,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      }
+    },
+    {
+      "prompt_id": "coding_1",
+      "category": "coding",
+      "qwen3.5:35b": {
+        "success": true,
+        "tokens_generated": 100,
+        "prompt_tokens": 25,
+        "tokens_per_second": 3.09,
+        "total_time_seconds": 32.395,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "glm-4.7-flash:latest": {
+        "success": true,
+        "tokens_generated": 100,
+        "prompt_tokens": 20,
+        "tokens_per_second": 6.14,
+        "total_time_seconds": 16.289,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      }
+    },
+    {
+      "prompt_id": "coding_2",
+      "category": "coding",
+      "qwen3.5:35b": {
+        "success": true,
+        "tokens_generated": 80,
+        "prompt_tokens": 21,
+        "tokens_per_second": 2.98,
+        "total_time_seconds": 26.816,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "glm-4.7-flash:latest": {
+        "success": true,
+        "tokens_generated": 80,
+        "prompt_tokens": 16,
+        "tokens_per_second": 6.15,
+        "total_time_seconds": 12.999,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      }
+    },
+    {
+      "prompt_id": "math_1",
+      "category": "math",
+      "qwen3.5:35b": {
+        "success": true,
+        "tokens_generated": 30,
+        "prompt_tokens": 21,
+        "tokens_per_second": 2.7,
+        "total_time_seconds": 11.111,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "glm-4.7-flash:latest": {
+        "success": true,
+        "tokens_generated": 30,
+        "prompt_tokens": 14,
+        "tokens_per_second": 5.17,
+        "total_time_seconds": 5.807,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      }
+    },
+    {
+      "prompt_id": "long_context_1",
+      "category": "long_context",
+      "qwen3.5:35b": {
+        "success": true,
+        "tokens_generated": 80,
+        "prompt_tokens": 75,
+        "tokens_per_second": 2.71,
+        "total_time_seconds": 29.481,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      },
+      "glm-4.7-flash:latest": {
+        "success": true,
+        "tokens_generated": 80,
+        "prompt_tokens": 62,
+        "tokens_per_second": 5.25,
+        "total_time_seconds": 15.251,
+        "keyword_match_ratio": 0.0,
+        "text_preview": ""
+      }
+    }
+  ],
+  "summary": {
+    "qwen3.5:35b": {
+      "mean_tps": 2.77,
+      "median_tps": 2.83,
+      "max_tps": 3.09,
+      "min_tps": 2.07,
+      "prompts_succeeded": 8
+    },
+    "glm-4.7-flash:latest": {
+      "mean_tps": 5.64,
+      "median_tps": 5.72,
+      "max_tps": 6.15,
+      "min_tps": 4.81,
+      "prompts_succeeded": 8
+    }
+  }
+}

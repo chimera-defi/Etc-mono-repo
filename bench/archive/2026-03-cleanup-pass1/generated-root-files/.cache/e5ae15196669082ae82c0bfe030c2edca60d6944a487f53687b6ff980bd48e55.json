@@ -1,0 +1,260 @@
+{
+  "model": "lfm2.5-thinking:1.2b",
+  "phase": "atomic",
+  "variant": "atomic",
+  "prompt_hash": "52fb7f37c7528698",
+  "summary": {
+    "passed": 11,
+    "total": 12,
+    "accuracy": 0.9166666666666666,
+    "restraint_score": 1.0
+  },
+  "results": [
+    {
+      "prompt_id": "P1",
+      "expected": [
+        "get_weather"
+      ],
+      "got": [
+        "get_weather"
+      ],
+      "correct": true,
+      "latency_ms": 6247.908115386963,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "",
+      "tokens_generated": 149,
+      "prompt_tokens": 235,
+      "tokens_per_second": 38.07705552118861,
+      "ttft_ms": 1562.836247,
+      "eval_duration_ms": 3913.117702,
+      "prompt_eval_duration_ms": 1562.836247,
+      "total_duration_ms": 6245.72157
+    },
+    {
+      "prompt_id": "P2",
+      "expected": [
+        "search_files"
+      ],
+      "got": [
+        "search_files"
+      ],
+      "correct": true,
+      "latency_ms": 14321.161270141602,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "",
+      "tokens_generated": 494,
+      "prompt_tokens": 236,
+      "tokens_per_second": 39.238562368830486,
+      "ttft_ms": 1571.831573,
+      "eval_duration_ms": 12589.655945,
+      "prompt_eval_duration_ms": 1571.831573,
+      "total_duration_ms": 14319.643858
+    },
+    {
+      "prompt_id": "P3",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [
+        "schedule_meeting"
+      ],
+      "correct": true,
+      "latency_ms": 11877.061605453491,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "",
+      "tokens_generated": 398,
+      "prompt_tokens": 238,
+      "tokens_per_second": 39.18642528154919,
+      "ttft_ms": 1595.830698,
+      "eval_duration_ms": 10156.578385,
+      "prompt_eval_duration_ms": 1595.830698,
+      "total_duration_ms": 11875.864883
+    },
+    {
+      "prompt_id": "P4",
+      "expected": [
+        "get_weather"
+      ],
+      "got": [
+        "get_weather"
+      ],
+      "correct": true,
+      "latency_ms": 14291.863918304443,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "<think>\nOkay, the user is asking what they should know about traveling to Brussels tomorrow. Let me see which tool to use here. The available tools are get_weather, search_files, and schedule_meeting. \n\nThe user's query is about travel advice, which isn't directly covered by the tools. But since get_weather is available, maybe providing weather info would be helpful. However, the user might need more than just weather. Wait, the tools don't include a general information tool. Since the user mentioned \"anything I should know,\" perhaps the best fit is to use get_weather to check the current weather in Brussels. That way, they can plan accordingly.\n\nSo I should call get_weather with city set to \"Brussels\". The response will give the current weather, which is part of what someone should know. Even though the user might need more info, the available tools don't have other functions. So proceed with get_weather.\n</think>\n",
+      "tokens_generated": 496,
+      "prompt_tokens": 239,
+      "tokens_per_second": 39.560750602108186,
+      "ttft_ms": 1615.173465,
+      "eval_duration_ms": 12537.679201,
+      "prompt_eval_duration_ms": 1615.173465,
+      "total_duration_ms": 14290.577731
+    },
+    {
+      "prompt_id": "P5",
+      "expected": [],
+      "got": [],
+      "correct": true,
+      "latency_ms": 11621.050119400024,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "I have access to three tools: **get_weather** for weather information, **search_files** to locate files, and **schedule_meeting** to arrange appointments. Let me know how I can assist further!",
+      "tokens_generated": 388,
+      "prompt_tokens": 235,
+      "tokens_per_second": 39.196037226570105,
+      "ttft_ms": 1591.114647,
+      "eval_duration_ms": 9898.959881,
+      "prompt_eval_duration_ms": 1591.114647,
+      "total_duration_ms": 11619.586741
+    },
+    {
+      "prompt_id": "P6",
+      "expected": [],
+      "got": [],
+      "correct": true,
+      "latency_ms": 9297.816514968872,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "To provide the weather information, I need to know the specific city where your next sprint review is taking place. Could you please share the name of the city? Once I have that, I can retrieve the current weather for you.",
+      "tokens_generated": 299,
+      "prompt_tokens": 242,
+      "tokens_per_second": 39.706079857879985,
+      "ttft_ms": 1650.809088,
+      "eval_duration_ms": 7530.332913,
+      "prompt_eval_duration_ms": 1650.809088,
+      "total_duration_ms": 9296.404285
+    },
+    {
+      "prompt_id": "P7",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [
+        "schedule_meeting"
+      ],
+      "correct": true,
+      "latency_ms": 15650.725364685059,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "",
+      "tokens_generated": 542,
+      "prompt_tokens": 248,
+      "tokens_per_second": 39.393550277462,
+      "ttft_ms": 1732.101384,
+      "eval_duration_ms": 13758.59744,
+      "prompt_eval_duration_ms": 1732.101384,
+      "total_duration_ms": 15649.09609
+    },
+    {
+      "prompt_id": "P8",
+      "expected": [
+        "search_files",
+        "get_weather"
+      ],
+      "got": [
+        "search_files",
+        "get_weather"
+      ],
+      "correct": true,
+      "latency_ms": 10742.77138710022,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "",
+      "tokens_generated": 356,
+      "prompt_tokens": 238,
+      "tokens_per_second": 39.70783547078048,
+      "ttft_ms": 1658.954179,
+      "eval_duration_ms": 8965.484917,
+      "prompt_eval_duration_ms": 1658.954179,
+      "total_duration_ms": 10741.331376
+    },
+    {
+      "prompt_id": "P9",
+      "expected": [],
+      "got": [],
+      "correct": true,
+      "latency_ms": 39375.311851501465,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "Here's a simple Python script using the `get_weather` tool. Replace \"your_city\" with the desired city name:\n\n```python\ncity = \"your_city\"  # Replace with actual city name\nweather_data = get_weather(city)\nprint(f\"Weather in {city}: {weather_data}\")\n```\n\nExample usage:\n```python\ncity = \"London\"\nprint(get_weather(city))\n```\n\nNote: This requires a valid weather API integration (not shown here). The actual implementation would need proper API authentication and endpoint handling.",
+      "tokens_generated": 1439,
+      "prompt_tokens": 241,
+      "tokens_per_second": 38.51825740785851,
+      "ttft_ms": 1703.52959,
+      "eval_duration_ms": 37358.907096,
+      "prompt_eval_duration_ms": 1703.52959,
+      "total_duration_ms": 39365.185647
+    },
+    {
+      "prompt_id": "P10",
+      "expected": [
+        "get_weather"
+      ],
+      "got": [],
+      "correct": false,
+      "latency_ms": 36872.51162528992,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "I can't directly use tools to determine transportation choices, but generally, cycling in Bruges is often feasible for short distances, especially in central areas. Checking the weather for next Thursday (via `get_weather`) could help assess conditions. Would you like to schedule the meeting once you decide? Let me know the title and time! \n\n<tools>\n  <tool_call>\n    <name>schedule_meeting</name>\n    <arguments>\n      <title>Client Meeting in Bruges</title>\n      <time>next Thursday at [specific time]</time>\n    </arguments>\n  </tool_call>",
+      "tokens_generated": 1339,
+      "prompt_tokens": 243,
+      "tokens_per_second": 38.38386027040753,
+      "ttft_ms": 1738.696048,
+      "eval_duration_ms": 34884.453793,
+      "prompt_eval_duration_ms": 1738.696048,
+      "total_duration_ms": 36871.008518
+    },
+    {
+      "prompt_id": "P11",
+      "expected": [
+        "search_files"
+      ],
+      "got": [
+        "search_files"
+      ],
+      "correct": true,
+      "latency_ms": 17378.100395202637,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "",
+      "tokens_generated": 604,
+      "prompt_tokens": 240,
+      "tokens_per_second": 38.969032205168446,
+      "ttft_ms": 1717.126218,
+      "eval_duration_ms": 15499.486793,
+      "prompt_eval_duration_ms": 1717.126218,
+      "total_duration_ms": 17376.620575
+    },
+    {
+      "prompt_id": "P12",
+      "expected": [
+        "schedule_meeting"
+      ],
+      "got": [
+        "schedule_meeting"
+      ],
+      "correct": true,
+      "latency_ms": 20598.08588027954,
+      "error": null,
+      "timeout": false,
+      "assistant_content": "",
+      "tokens_generated": 709,
+      "prompt_tokens": 249,
+      "tokens_per_second": 38.04874469525689,
+      "ttft_ms": 1789.511987,
+      "eval_duration_ms": 18633.991888,
+      "prompt_eval_duration_ms": 1789.511987,
+      "total_duration_ms": 20596.610638
+    }
+  ],
+  "failed_prompts": [
+    "P10"
+  ],
+  "by_category": null,
+  "cached_at": 1772990922.6376464,
+  "config_hash": ""
+}
