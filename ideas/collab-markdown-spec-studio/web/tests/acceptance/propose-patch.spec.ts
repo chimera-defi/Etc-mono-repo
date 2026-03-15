@@ -95,7 +95,7 @@ describe("Propose patch", () => {
     const patchSeeds = loadPatchSeeds();
     const doc = engine.loadDocument(seedToDocument(seed));
 
-    // Propose both patches
+    // Propose all patches (including edge cases)
     for (const ps of patchSeeds) {
       engine.proposePatchWithId(ps.patch_id, {
         document_id: doc.document_id,
@@ -111,7 +111,7 @@ describe("Propose patch", () => {
     }
 
     const queue = engine.getPatchQueue(doc.document_id);
-    expect(queue).toHaveLength(2);
+    expect(queue).toHaveLength(4);
     expect(queue.every((p) => p.status === "proposed")).toBe(true);
   });
 
