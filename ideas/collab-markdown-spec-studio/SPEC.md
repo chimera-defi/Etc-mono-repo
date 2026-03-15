@@ -71,6 +71,17 @@ Build a real-time collaborative spec IDE with:
 - Treats the first successful buildable output as the minimum extensible product, then drives iterative parity passes until the scoped requirements are satisfied.
 - Inserts periodic multipass review/refactor passes so the loop also compacts context, captures meta learnings, and refreshes the latest handoff artifact instead of only shipping feature slices.
 
+### Non-Goals (MVP)
+The following features and capabilities are explicitly deferred to Phase 2, 3, or 4:
+- Repo generation from spec bundles (Phase 2+)
+- Enterprise SSO/SCIM integration (Phase 3+)
+- Multi-language code generation (Phase 2+)
+- Mobile and native app templates (Phase 3+)
+- Advanced inline comments and annotations (Phase 2+)
+- AI orchestration beyond the patch workflow (Phase 2+)
+- Real-time audio/video collaboration (Phase 4+)
+- Custom branding and theming (Phase 2+)
+
 ### Architecture
 - Frontend: web app (editor + collaboration UI + agent panel).
 - Collaboration service: websocket + CRDT sync.
