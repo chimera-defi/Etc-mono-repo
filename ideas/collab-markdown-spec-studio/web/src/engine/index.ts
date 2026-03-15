@@ -1,6 +1,8 @@
 export { SpecForgeEngine, resetIdCounter } from "./specforge.js";
 export type {
+  AgentSpec,
   Block,
+  BlockInventory,
   Comment,
   CommentThread,
   Document,
@@ -13,7 +15,9 @@ export type {
   PatchProposalRequest,
   PatchSeedLine,
   PatchStatus,
+  PatchSummaryItem,
   PatchType,
   Section,
+  SpecBundle,
   WorkspaceSeed,
 } from "./types.js";
