@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
+    "test:acceptance": "vitest run tests/acceptance/",
     "test:e2e": "playwright test",
     "screenshot:demo": "playwright test tests/demo.spec.ts --project=chromium",
     "parity:status": "node ../tools/specforge-parity-runner.mjs status",
