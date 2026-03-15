@@ -77,7 +77,10 @@ export type EventType =
   | "snapshot.created"
   | "comment.created"
   | "comment.replied"
-  | "comment.resolved";
+  | "comment.resolved"
+  | "presence.updated"
+  | "presence.joined"
+  | "presence.left";
 
 export interface DocumentEvent {
   event_id: string;
@@ -136,6 +139,7 @@ export interface PatchSeedLine {
   patch_type: PatchType;
   target_fingerprint: string;
   content: string;
+  base_version: number;
 }
 
 /** Block inventory for AgentSpec export */
@@ -212,4 +216,26 @@ export interface Recap {
   summary: string;
   created_at: string;
   created_by_actor_id: string;
+}
+
+/** Cursor position within a document */
+export interface CursorPosition {
+  line: number;
+  column: number;
+}
+
+/** User presence tracking for real-time collaboration */
+export interface UserPresence {
+  user_id: string;
+  user_name: string;
+  color: string;
+  cursor_position?: CursorPosition;
+  last_activity: string;
+  state: "active" | "idle" | "disconnected";
+}
+
+/** Presence state containing all active users */
+export interface PresenceState {
+  users: Map<string, UserPresence>;
+  last_updated: string;
 }

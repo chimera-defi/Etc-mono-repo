@@ -12,6 +12,7 @@ import type {
   BlockInventory,
   Clarification,
   CommentThread,
+  CursorPosition,
   DepthCheckResult,
   Document,
   DocumentCreateRequest,
@@ -20,8 +21,10 @@ import type {
   PatchDecisionRequest,
   PatchProposal,
   PatchProposalRequest,
+  PresenceState,
   Recap,
   SpecBundle,
+  UserPresence,
 } from "./types.js";
 
 let counter = 0;
@@ -42,6 +45,10 @@ export class SpecForgeEngine {
   private clarifications: Map<string, Clarification> = new Map();
   private recaps: Recap[] = [];
   private events: DocumentEvent[] = [];
+  private presenceState: PresenceState = {
+    users: new Map(),
+    last_updated: new Date().toISOString(),
+  };
 
   // --- Document operations ---
 
@@ -539,6 +546,96 @@ export class SpecForgeEngine {
     // Return all recaps
     // In a full implementation, could track document_id per recap
     return [...this.recaps];
+  }
+
+  // --- Presence tracking operations ---
+
+  updateUserPresence(
+    userId: string,
+    userName: string,
+    color: string,
+    cursorPosition?: CursorPosition
+  ): UserPresence {
+    const now = new Date().toISOString();
+    const existingUser = this.presenceState.users.get(userId);
+
+    const userPresence: UserPresence = {
+      user_id: userId,
+      user_name: userName,
+      color,
+      cursor_position: cursorPosition,
+      last_activity: now,
+      state: "active",
+    };
+
+    this.presenceState.users.set(userId, userPresence);
+    this.presenceState.last_updated = now;
+
+    // Emit presence.updated event
+    this.emitEvent("", "presence.updated", 0, {
+      user_id: userId,
+      user_name: userName,
+      cursor_position: cursorPosition,
+      is_new_user: !existingUser,
+    });
+
+    return userPresence;
+  }
+
+  setUserState(
+    userId: string,
+    state: "active" | "idle" | "disconnected"
+  ): void {
+    const user = this.presenceState.users.get(userId);
+    if (!user) {
+      throw new Error(`User not found in presence state: ${userId}`);
+    }
+
+    user.state = state;
+    user.last_activity = new Date().toISOString();
+    this.presenceState.last_updated = user.last_activity;
+
+    // Emit state change event
+    this.emitEvent("", state === "disconnected" ? "presence.left" : "presence.updated", 0, {
+      user_id: userId,
+      state,
+    });
+  }
+
+  getActiveUsers(): UserPresence[] {
+    return Array.from(this.presenceState.users.values()).filter(
+      (u) => u.state === "active" || u.state === "idle"
+    );
+  }
+
+  getUserPresence(userId: string): UserPresence | undefined {
+    return this.presenceState.users.get(userId);
+  }
+
+  cleanupInactiveUsers(timeoutMs: number): void {
+    const now = new Date().getTime();
+    const usersToRemove: string[] = [];
+
+    for (const [userId, user] of this.presenceState.users) {
+      const lastActivityTime = new Date(user.last_activity).getTime();
+      const timeSinceActivity = now - lastActivityTime;
+
+      if (timeSinceActivity > timeoutMs) {
+        usersToRemove.push(userId);
+      }
+    }
+
+    for (const userId of usersToRemove) {
+      const user = this.presenceState.users.get(userId)!;
+      this.presenceState.users.delete(userId);
+      this.presenceState.last_updated = new Date().toISOString();
+
+      // Emit presence.left event for removed users
+      this.emitEvent("", "presence.left", 0, {
+        user_id: userId,
+        reason: "timeout",
+      });
+    }
   }
 
   // --- Event operations ---
