@@ -117,6 +117,17 @@ export type WorkspaceRecord = {
   created_at: string;
 };
 
+export type UserRecord = {
+  user_id: string;
+  github_id?: string;
+  github_login?: string;
+  email?: string;
+  display_name: string;
+  avatar_url?: string;
+  created_at: string;
+  updated_at: string;
+};
+
 export type WorkspaceMembershipRecord = {
   membership_id: string;
   workspace_id: string;
@@ -127,6 +138,17 @@ export type WorkspaceMembershipRecord = {
   color: string;
   github_login?: string;
   created_at: string;
+};
+
+type UserRow = {
+  user_id: string;
+  github_id: string | null;
+  github_login: string | null;
+  email: string | null;
+  display_name: string;
+  avatar_url: string | null;
+  created_at: string;
+  updated_at: string;
 };
 
 type CommentThreadRow = {
@@ -247,6 +269,7 @@ async function readJson<T>(filePath: string): Promise<T> {
 type StoreSnapshot = {
   workspaces: WorkspaceRow[];
   workspace_members: WorkspaceMemberRow[];
+  users: UserRow[];
   documents: DocumentRow[];
   patches: PatchRow[];
   audit_events: AuditEventRow[];
@@ -271,7 +294,7 @@ async function getSnapshotVersion(snapshotPath: string) {
 }
 
 async function dumpSnapshot(database: PGlite): Promise<StoreSnapshot> {
-  const [workspaces, workspaceMembers, documents, patches, auditEvents, commentThreads] =
+  const [workspaces, workspaceMembers, users, documents, patches, auditEvents, commentThreads] =
     await Promise.all([
       database.query<WorkspaceRow>(
         `SELECT workspace_id, name, plan, created_at
@@ -290,6 +313,19 @@ async function dumpSnapshot(database: PGlite): Promise<StoreSnapshot> {
           github_login,
           created_at
         FROM workspace_members
+        ORDER BY created_at ASC`,
+      ),
+      database.query<UserRow>(
+        `SELECT
+          user_id,
+          github_id,
+          github_login,
+          email,
+          display_name,
+          avatar_url,
+          created_at,
+          updated_at
+        FROM users
         ORDER BY created_at ASC`,
       ),
     database.query<DocumentRow>(
@@ -360,6 +396,7 @@ async function dumpSnapshot(database: PGlite): Promise<StoreSnapshot> {
   return {
     workspaces: workspaces.rows,
     workspace_members: workspaceMembers.rows,
+    users: users.rows,
     documents: documents.rows,
     patches: patches.rows,
     audit_events: auditEvents.rows,
@@ -375,6 +412,7 @@ async function hydrateSnapshot(database: PGlite, snapshot: StoreSnapshot) {
     DELETE FROM documents;
     DELETE FROM workspace_members;
     DELETE FROM workspaces;
+    DELETE FROM users;
   `);
 
   for (const row of snapshot.workspaces ?? []) {
@@ -412,6 +450,31 @@ async function hydrateSnapshot(database: PGlite, snapshot: StoreSnapshot) {
         row.color,
         row.github_login ?? null,
         row.created_at,
+      ],
+    );
+  }
+
+  for (const row of snapshot.users ?? []) {
+    await database.query(
+      `INSERT INTO users (
+        user_id,
+        github_id,
+        github_login,
+        email,
+        display_name,
+        avatar_url,
+        created_at,
+        updated_at
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+      [
+        row.user_id,
+        row.github_id ?? null,
+        row.github_login ?? null,
+        row.email ?? null,
+        row.display_name,
+        row.avatar_url ?? null,
+        row.created_at,
+        row.updated_at,
       ],
     );
   }
@@ -750,6 +813,17 @@ async function createSchema(database: PGlite) {
       answered_by_actor_id TEXT,
       created_at TEXT NOT NULL,
       answered_at TEXT
+    );
+
+    CREATE TABLE IF NOT EXISTS users (
+      user_id TEXT PRIMARY KEY,
+      github_id TEXT UNIQUE,
+      github_login TEXT UNIQUE,
+      email TEXT,
+      display_name TEXT NOT NULL,
+      avatar_url TEXT,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
     );
   `);
 }
@@ -1942,4 +2016,150 @@ export async function exportDocument(documentId: string, options?: StoreOptions)
 
   const patches = await listPatches(documentId, options);
   return exportDocumentBundle(document, patches);
+}
+
+function mapUserRow(row: UserRow): UserRecord {
+  return {
+    user_id: row.user_id,
+    github_id: row.github_id ?? undefined,
+    github_login: row.github_login ?? undefined,
+    email: row.email ?? undefined,
+    display_name: row.display_name,
+    avatar_url: row.avatar_url ?? undefined,
+    created_at: row.created_at,
+    updated_at: row.updated_at,
+  };
+}
+
+export async function upsertUserFromGitHub(
+  input: {
+    github_id: string;
+    github_login: string;
+    email?: string;
+    display_name: string;
+    avatar_url?: string;
+  },
+  options?: StoreOptions,
+): Promise<UserRecord> {
+  const database = await getDatabase(options);
+  const { dbPath } = resolveOptions(options);
+  const now = new Date().toISOString();
+
+  const existing = await database.query<UserRow>(
+    `SELECT user_id, github_id, github_login, email, display_name, avatar_url, created_at, updated_at
+    FROM users
+    WHERE github_id = $1
+    LIMIT 1`,
+    [input.github_id],
+  );
+
+  if (existing.rows.length > 0) {
+    await database.query(
+      `UPDATE users
+      SET github_login = $2, email = $3, display_name = $4, avatar_url = $5, updated_at = $6
+      WHERE github_id = $1`,
+      [
+        input.github_id,
+        input.github_login,
+        input.email ?? null,
+        input.display_name,
+        input.avatar_url ?? null,
+        now,
+      ],
+    );
+    await persistSnapshot(database, dbPath);
+    const updated = await database.query<UserRow>(
+      `SELECT user_id, github_id, github_login, email, display_name, avatar_url, created_at, updated_at
+      FROM users WHERE github_id = $1 LIMIT 1`,
+      [input.github_id],
+    );
+    return mapUserRow(updated.rows[0]!);
+  }
+
+  const userId = `user_${randomUUID()}`;
+  await database.query(
+    `INSERT INTO users (user_id, github_id, github_login, email, display_name, avatar_url, created_at, updated_at)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+    [userId, input.github_id, input.github_login, input.email ?? null, input.display_name, input.avatar_url ?? null, now, now],
+  );
+  await persistSnapshot(database, dbPath);
+
+  return {
+    user_id: userId,
+    github_id: input.github_id,
+    github_login: input.github_login,
+    email: input.email,
+    display_name: input.display_name,
+    avatar_url: input.avatar_url,
+    created_at: now,
+    updated_at: now,
+  };
+}
+
+export async function getUserByGitHubLogin(
+  githubLogin: string,
+  options?: StoreOptions,
+): Promise<UserRecord | null> {
+  const database = await getDatabase(options);
+  const result = await database.query<UserRow>(
+    `SELECT user_id, github_id, github_login, email, display_name, avatar_url, created_at, updated_at
+    FROM users WHERE github_login = $1 LIMIT 1`,
+    [githubLogin],
+  );
+  return result.rows[0] ? mapUserRow(result.rows[0]) : null;
+}
+
+export async function getWorkspaceMembershipForUser(
+  githubLogin: string,
+  workspaceId: string,
+  options?: StoreOptions,
+): Promise<WorkspaceMembershipRecord | null> {
+  const database = await getDatabase(options);
+  const result = await database.query<WorkspaceMemberRow>(
+    `SELECT
+      membership_id, workspace_id, actor_id, actor_type, name, role, color, github_login, created_at
+    FROM workspace_members
+    WHERE workspace_id = $1 AND github_login = $2
+    LIMIT 1`,
+    [workspaceId, githubLogin],
+  );
+
+  if (result.rows.length === 0) {
+    return null;
+  }
+
+  const row = result.rows[0]!;
+  return {
+    membership_id: row.membership_id,
+    workspace_id: row.workspace_id,
+    actor_id: row.actor_id,
+    actor_type: row.actor_type,
+    name: row.name,
+    role: row.role,
+    color: row.color,
+    github_login: row.github_login ?? undefined,
+    created_at: row.created_at,
+  };
+}
+
+export async function listUserWorkspaces(
+  githubLogin: string,
+  options?: StoreOptions,
+): Promise<WorkspaceRecord[]> {
+  const database = await getDatabase(options);
+  const result = await database.query<WorkspaceRow>(
+    `SELECT DISTINCT w.workspace_id, w.name, w.plan, w.created_at
+    FROM workspaces w
+    INNER JOIN workspace_members wm ON w.workspace_id = wm.workspace_id
+    WHERE wm.github_login = $1
+    ORDER BY w.created_at ASC`,
+    [githubLogin],
+  );
+
+  return result.rows.map((row) => ({
+    workspace_id: row.workspace_id,
+    name: row.name,
+    plan: row.plan,
+    created_at: row.created_at,
+  }));
 }
