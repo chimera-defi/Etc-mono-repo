@@ -12,9 +12,10 @@
 
 import { describe, it, expect } from "vitest";
 import {
+  createSeededEngine,
   createFreshEngine,
-  loadWorkspaceSeed,
   seedToDocument,
+  loadWorkspaceSeed,
   TEST_AGENT,
   TEST_REVIEWER,
 } from "../helpers.js";
@@ -31,9 +32,7 @@ describe("Concurrent user testing and conflict detection", () => {
    * - Verify document unchanged after rejection
    */
   it("should reject second patch to same block when first is accepted", () => {
-    const engine = createFreshEngine();
-    const seed = loadWorkspaceSeed();
-    const doc = engine.loadDocument(seedToDocument(seed));
+    const { engine, doc } = createSeededEngine();
     const blockId = doc.blocks[0].block_id;
     const sectionId = doc.blocks[0].section_id;
 
@@ -98,9 +97,7 @@ describe("Concurrent user testing and conflict detection", () => {
    * - No stale detection (INSERT ops don't trigger stale detection)
    */
   it("should accept concurrent patches to different blocks", () => {
-    const engine = createFreshEngine();
-    const seed = loadWorkspaceSeed();
-    const doc = engine.loadDocument(seedToDocument(seed));
+    const { engine, doc, seed } = createSeededEngine();
 
     // Ensure we have at least 2 blocks
     if (doc.blocks.length < 2) {
@@ -175,9 +172,7 @@ describe("Concurrent user testing and conflict detection", () => {
    * - Event stream maintains version monotonicity
    */
   it("should maintain version monotonicity with 5 concurrent insert proposals", () => {
-    const engine = createFreshEngine();
-    const seed = loadWorkspaceSeed();
-    const doc = engine.loadDocument(seedToDocument(seed));
+    const { engine, doc } = createSeededEngine();
     const blockId = doc.blocks[0].block_id;
     const sectionId = doc.blocks[0].section_id;
 
@@ -243,9 +238,7 @@ describe("Concurrent user testing and conflict detection", () => {
    * - Comment remains (not lost on patch apply)
    */
   it("should preserve comments when patches are applied concurrently", () => {
-    const engine = createFreshEngine();
-    const seed = loadWorkspaceSeed();
-    const doc = engine.loadDocument(seedToDocument(seed));
+    const { engine, doc, seed } = createSeededEngine();
     const blockId = doc.blocks[0].block_id;
     const sectionId = doc.blocks[0].section_id;
 
@@ -305,9 +298,7 @@ describe("Concurrent user testing and conflict detection", () => {
    * - Results deterministic (same input → same output)
    */
   it("should maintain deterministic patch ordering across proposals", () => {
-    const engine = createFreshEngine();
-    const seed = loadWorkspaceSeed();
-    const doc = engine.loadDocument(seedToDocument(seed));
+    const { engine, doc, seed } = createSeededEngine();
     const blockId = doc.blocks[0].block_id;
     const sectionId = doc.blocks[0].section_id;
 
@@ -374,9 +365,7 @@ describe("Concurrent user testing and conflict detection", () => {
    * - Verify event stream complete
    */
   it("should handle load test: 100 patches with mixed decisions", () => {
-    const engine = createFreshEngine();
-    const seed = loadWorkspaceSeed();
-    const doc = engine.loadDocument(seedToDocument(seed));
+    const { engine, doc, seed } = createSeededEngine();
 
     // Use available blocks, cycling through them
     const availableBlocks = doc.blocks.slice(0, Math.min(10, doc.blocks.length));
@@ -559,9 +548,7 @@ describe("Concurrent user testing and conflict detection", () => {
    * - No version jumps or gaps
    */
   it("should handle rapid concurrent acceptances without version race conditions", () => {
-    const engine = createFreshEngine();
-    const seed = loadWorkspaceSeed();
-    const doc = engine.loadDocument(seedToDocument(seed));
+    const { engine, doc, seed } = createSeededEngine();
     const blockId = doc.blocks[0].block_id;
     const sectionId = doc.blocks[0].section_id;
 
@@ -622,9 +609,7 @@ describe("Concurrent user testing and conflict detection", () => {
    * - Each event has valid timestamp and unique ID
    */
   it("should capture complete audit trail of concurrent operations", () => {
-    const engine = createFreshEngine();
-    const seed = loadWorkspaceSeed();
-    const doc = engine.loadDocument(seedToDocument(seed));
+    const { engine, doc, seed } = createSeededEngine();
 
     // Simulate 3 concurrent users
     for (let user = 0; user < 3; user++) {
