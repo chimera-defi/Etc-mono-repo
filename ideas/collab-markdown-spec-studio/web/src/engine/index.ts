@@ -1,6 +1,8 @@
 export { SpecForgeEngine, resetIdCounter } from "./specforge.js";
 export type {
   Block,
+  Comment,
+  CommentThread,
   Document,
   DocumentCreateRequest,
   DocumentEvent,
