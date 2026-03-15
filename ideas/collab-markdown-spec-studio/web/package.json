@@ -8,6 +8,12 @@
     "dev": "echo '[specforge-web] dev server stub - run pnpm create next-app to scaffold'",
     "build": "echo '[specforge-web] build stub - no app scaffolded yet'",
     "lint": "echo '[specforge-web] lint stub - no app scaffolded yet'",
-    "test": "echo '[specforge-web] test stub - no tests configured yet'"
+    "test": "vitest run",
+    "test:acceptance": "vitest run tests/acceptance/",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "vitest": "^3.0.0",
+    "typescript": "^5.7.0"
   }
 }
