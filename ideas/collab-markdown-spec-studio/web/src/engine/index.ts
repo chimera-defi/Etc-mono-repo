@@ -1,4 +1,8 @@
 export { SpecForgeEngine, resetIdCounter } from "./specforge.js";
+export {
+  generateRepository,
+  resetRepoCounter,
+} from "./repo-generator.js";
 export type {
   AgentSpec,
   Block,
@@ -11,6 +15,7 @@ export type {
   DocumentCreateRequest,
   DocumentEvent,
   EventType,
+  GeneratedRepo,
   PatchDecisionRequest,
   PatchOperation,
   PatchProposal,
@@ -20,6 +25,7 @@ export type {
   PatchSummaryItem,
   PatchType,
   Recap,
+  RepoScaffoldTemplate,
   Section,
   SpecBundle,
   WorkspaceSeed,
