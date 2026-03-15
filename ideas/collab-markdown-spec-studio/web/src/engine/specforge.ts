@@ -30,6 +30,7 @@ import type {
 } from "./types.js";
 import { generateRepository } from "./repo-generator.js";
 import { escapeRegExp } from "./utils.js";
+import { NotFoundError, ValidationError } from "./errors.js";
 
 let globalCounter = 0;
 function nextId(prefix: string): string {
@@ -120,7 +121,7 @@ export class SpecForgeEngine {
   proposePatch(req: PatchProposalRequest, patchId?: string): PatchProposal {
     const doc = this.documents.get(req.document_id);
     if (!doc) {
-      throw new Error(`Document not found: ${req.document_id}`);
+      throw new NotFoundError(`Document not found: ${req.document_id}`);
     }
 
     const finalPatchId = patchId ?? this.nextInstanceId("patch");
@@ -167,17 +168,17 @@ export class SpecForgeEngine {
   decidePatch(req: PatchDecisionRequest): PatchProposal {
     const patch = this.patches.get(req.patch_id);
     if (!patch) {
-      throw new Error(`Patch not found: ${req.patch_id}`);
+      throw new NotFoundError(`Patch not found: ${req.patch_id}`);
     }
     if (patch.status !== "proposed") {
-      throw new Error(
+      throw new ValidationError(
         `Patch ${req.patch_id} is already ${patch.status}, cannot decide`
       );
     }
 
     const doc = this.documents.get(patch.document_id);
     if (!doc) {
-      throw new Error(`Document not found: ${patch.document_id}`);
+      throw new NotFoundError(`Document not found: ${patch.document_id}`);
     }
 
     // Check for stale patches: base_version mismatch indicates document evolved
@@ -300,11 +301,11 @@ export class SpecForgeEngine {
   ): void {
     const thread = this.commentThreads.get(threadId);
     if (!thread) {
-      throw new Error(`Comment thread not found: ${threadId}`);
+      throw new NotFoundError(`Comment thread not found: ${threadId}`);
     }
 
     if (thread.status === "resolved") {
-      throw new Error(
+      throw new ValidationError(
         `Cannot reply to resolved thread: ${threadId}`
       );
     }
@@ -331,7 +332,7 @@ export class SpecForgeEngine {
   resolveCommentThread(threadId: string): void {
     const thread = this.commentThreads.get(threadId);
     if (!thread) {
-      throw new Error(`Comment thread not found: ${threadId}`);
+      throw new NotFoundError(`Comment thread not found: ${threadId}`);
     }
 
     thread.status = "resolved";
@@ -379,10 +380,10 @@ export class SpecForgeEngine {
   answerClarification(clarificationId: string, answer: string): void {
     const clarification = this.clarifications.get(clarificationId);
     if (!clarification) {
-      throw new Error(`Clarification not found: ${clarificationId}`);
+      throw new NotFoundError(`Clarification not found: ${clarificationId}`);
     }
     if (clarification.status === "answered") {
-      throw new Error(`Clarification ${clarificationId} is already answered`);
+      throw new ValidationError(`Clarification ${clarificationId} is already answered`);
     }
 
     clarification.answer = answer;
@@ -403,7 +404,7 @@ export class SpecForgeEngine {
   getOpenClarifications(documentId: string): Clarification[] {
     const doc = this.documents.get(documentId);
     if (!doc) {
-      throw new Error(`Document not found: ${documentId}`);
+      throw new NotFoundError(`Document not found: ${documentId}`);
     }
 
     const docBlockIds = new Set(doc.blocks.map((b) => b.block_id));
@@ -420,7 +421,7 @@ export class SpecForgeEngine {
   ): DepthCheckResult {
     const doc = this.documents.get(documentId);
     if (!doc) {
-      throw new Error(`Document not found: ${documentId}`);
+      throw new NotFoundError(`Document not found: ${documentId}`);
     }
 
     const failures: string[] = [];
@@ -475,7 +476,7 @@ export class SpecForgeEngine {
   } {
     const doc = this.documents.get(documentId);
     if (!doc) {
-      throw new Error(`Document not found: ${documentId}`);
+      throw new NotFoundError(`Document not found: ${documentId}`);
     }
 
     const blockers: string[] = [];
@@ -504,7 +505,7 @@ export class SpecForgeEngine {
   createRecap(documentId: string, summary: string, actorId: string): Recap {
     const doc = this.documents.get(documentId);
     if (!doc) {
-      throw new Error(`Document not found: ${documentId}`);
+      throw new NotFoundError(`Document not found: ${documentId}`);
     }
 
     const recapId = this.nextInstanceId("recap");
@@ -566,7 +567,7 @@ export class SpecForgeEngine {
   ): void {
     const user = this.presenceState.users.get(userId);
     if (!user) {
-      throw new Error(`User not found in presence state: ${userId}`);
+      throw new NotFoundError(`User not found in presence state: ${userId}`);
     }
 
     user.state = state;

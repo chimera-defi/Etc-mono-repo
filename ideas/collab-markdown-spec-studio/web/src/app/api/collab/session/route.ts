@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import { createCollabToken } from "@/lib/specforge/collab-auth";
+import { withErrorHandling } from "@/lib/api-error-handler";
 
 const collabSessionSchema = z.object({
   document_id: z.string().min(1),
@@ -14,25 +15,23 @@ const collabSessionSchema = z.object({
 });
 
 export async function POST(request: Request) {
-  try {
-    const payload = collabSessionSchema.parse(await request.json());
-    const token = createCollabToken({
-      documentId: payload.document_id,
-      version: payload.version,
-      actorId: payload.actor.id,
-      actorName: payload.actor.name,
-      actorColor: payload.actor.color,
-      actorType: "human",
-    });
+  return withErrorHandling(
+    async () => {
+      const payload = collabSessionSchema.parse(await request.json());
+      const token = createCollabToken({
+        documentId: payload.document_id,
+        version: payload.version,
+        actorId: payload.actor.id,
+        actorName: payload.actor.name,
+        actorColor: payload.actor.color,
+        actorType: "human",
+      });
 
-    return NextResponse.json({
-      token,
-      actor: payload.actor,
-    });
-  } catch (error) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Unable to create collab session" },
-      { status: 400 },
-    );
-  }
+      return NextResponse.json({
+        token,
+        actor: payload.actor,
+      });
+    },
+    { action: "create collab session" }
+  );
 }

@@ -32,6 +32,7 @@ import {
   makeDocumentRecord,
   upsertSectionBullet,
 } from "./markdown";
+import { WORKSPACE_MEMBERS_SEED } from "../../tests/fixtures/workspace-seed-data";
 
 type StoreOptions = {
   dbPath?: string;
