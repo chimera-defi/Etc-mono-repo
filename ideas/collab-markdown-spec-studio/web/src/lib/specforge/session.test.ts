@@ -21,6 +21,8 @@ describe("workspace session helpers", () => {
   it("signs and verifies workspace sessions", () => {
     const token = createWorkspaceSessionToken({
       actor_id: "workspace_owner",
+      workspace_id: "ws_demo",
+      role: "Workspace owner",
       githubLogin: "chimera-defi",
       githubUrl: "https://github.com/chimera-defi",
       issuedAt: 123,
@@ -28,6 +30,8 @@ describe("workspace session helpers", () => {
 
     expect(verifyWorkspaceSessionToken(token)).toMatchObject({
       actor_id: "workspace_owner",
+      workspace_id: "ws_demo",
+      role: "Workspace owner",
       githubLogin: "chimera-defi",
     });
   });
