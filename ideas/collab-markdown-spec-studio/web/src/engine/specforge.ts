@@ -18,14 +18,17 @@ import type {
   DocumentCreateRequest,
   DocumentEvent,
   EventType,
+  GeneratedRepo,
   PatchDecisionRequest,
   PatchProposal,
   PatchProposalRequest,
   PresenceState,
   Recap,
+  RepoScaffoldTemplate,
   SpecBundle,
   UserPresence,
 } from "./types.js";
+import { generateRepository } from "./repo-generator.js";
 
 let counter = 0;
 function nextId(prefix: string): string {
@@ -45,6 +48,7 @@ export class SpecForgeEngine {
   private clarifications: Map<string, Clarification> = new Map();
   private recaps: Recap[] = [];
   private events: DocumentEvent[] = [];
+  private generatedRepos: Map<string, GeneratedRepo> = new Map();
   private presenceState: PresenceState = {
     users: new Map(),
     last_updated: new Date().toISOString(),
@@ -796,6 +800,49 @@ export class SpecForgeEngine {
     };
 
     return bundle;
+  }
+
+  /**
+   * Generate a repository scaffold from a spec bundle.
+   *
+   * @param documentId - Document to generate repository from
+   * @param template - Repository template ("nextjs-typescript" | "nextjs-python" | "docs-only")
+   * @returns GeneratedRepo with all scaffold files and traceability
+   */
+  generateRepository(
+    documentId: string,
+    template: RepoScaffoldTemplate
+  ): GeneratedRepo {
+    const bundle = this.exportBundle(documentId);
+    const repo = generateRepository(bundle, template, documentId);
+
+    // Store the generated repo
+    this.generatedRepos.set(repo.repo_id, repo);
+
+    // Emit event
+    this.emitEvent(documentId, "repo.generated", 1, {
+      repo_id: repo.repo_id,
+      template_name: template,
+      file_count: repo.generated_files.length,
+    });
+
+    return repo;
+  }
+
+  /**
+   * Get a generated repository by ID.
+   */
+  getGeneratedRepo(repoId: string): GeneratedRepo | undefined {
+    return this.generatedRepos.get(repoId);
+  }
+
+  /**
+   * Get all generated repositories for a document.
+   */
+  getGeneratedRepos(documentId: string): GeneratedRepo[] {
+    return Array.from(this.generatedRepos.values()).filter(
+      (repo) => repo.spec_bundle_id === documentId
+    );
   }
 
   // --- Internal ---
