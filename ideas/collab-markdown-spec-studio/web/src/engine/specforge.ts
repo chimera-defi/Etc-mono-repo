@@ -29,35 +29,42 @@ import type {
   UserPresence,
 } from "./types.js";
 import { generateRepository } from "./repo-generator.js";
+import { escapeRegExp } from "./utils.js";
 
-let counter = 0;
+let globalCounter = 0;
 function nextId(prefix: string): string {
-  counter += 1;
-  return `${prefix}_${counter}`;
+  globalCounter += 1;
+  return `${prefix}_${globalCounter}`;
 }
 
-/** Reset ID counter (for test isolation). */
+/** Reset global ID counter (for test isolation). */
 export function resetIdCounter(): void {
-  counter = 0;
+  globalCounter = 0;
 }
 
 export class SpecForgeEngine {
-  private documents: Map<string, Document> = new Map();
-  private patches: Map<string, PatchProposal> = new Map();
-  private commentThreads: Map<string, CommentThread> = new Map();
-  private clarifications: Map<string, Clarification> = new Map();
-  private recaps: Recap[] = [];
-  private events: DocumentEvent[] = [];
-  private generatedRepos: Map<string, GeneratedRepo> = new Map();
+  private idCounter = 0;
+  private readonly documents: Map<string, Document> = new Map();
+  private readonly patches: Map<string, PatchProposal> = new Map();
+  private readonly commentThreads: Map<string, CommentThread> = new Map();
+  private readonly clarifications: Map<string, Clarification> = new Map();
+  private readonly recaps: Recap[] = [];
+  private readonly events: DocumentEvent[] = [];
+  private readonly generatedRepos: Map<string, GeneratedRepo> = new Map();
   private presenceState: PresenceState = {
     users: new Map(),
     last_updated: new Date().toISOString(),
   };
 
+  private nextInstanceId(prefix: string): string {
+    this.idCounter += 1;
+    return `${prefix}_${this.idCounter}`;
+  }
+
   // --- Document operations ---
 
   createDocument(req: DocumentCreateRequest): Document {
-    const docId = nextId("doc");
+    const docId = this.nextInstanceId("doc");
     const doc: Document = {
       workspace_id: req.workspace_id,
       document_id: docId,
@@ -107,15 +114,18 @@ export class SpecForgeEngine {
 
   // --- Patch operations ---
 
-  proposePatch(req: PatchProposalRequest): PatchProposal {
+  /**
+   * Propose a patch. If patchId is provided, uses that ID; otherwise generates a new one.
+   */
+  proposePatch(req: PatchProposalRequest, patchId?: string): PatchProposal {
     const doc = this.documents.get(req.document_id);
     if (!doc) {
       throw new Error(`Document not found: ${req.document_id}`);
     }
 
-    const patchId = nextId("patch");
+    const finalPatchId = patchId ?? this.nextInstanceId("patch");
     const proposal: PatchProposal = {
-      patch_id: patchId,
+      patch_id: finalPatchId,
       document_id: req.document_id,
       block_id: req.block_id,
       section_id: req.section_id,
@@ -131,9 +141,9 @@ export class SpecForgeEngine {
       rationale: req.rationale,
     };
 
-    this.patches.set(patchId, proposal);
+    this.patches.set(finalPatchId, proposal);
     this.emitEvent(req.document_id, "patch.proposed", doc.version, {
-      patch_id: patchId,
+      patch_id: finalPatchId,
       block_id: req.block_id,
       section_id: req.section_id,
       operation: req.operation,
@@ -145,45 +155,13 @@ export class SpecForgeEngine {
   }
 
   /**
-   * Propose a patch with a pre-assigned patch_id (from fixture data).
+   * @deprecated Use proposePatch(req, patchId) instead.
    */
   proposePatchWithId(
     patchId: string,
     req: PatchProposalRequest
   ): PatchProposal {
-    const doc = this.documents.get(req.document_id);
-    if (!doc) {
-      throw new Error(`Document not found: ${req.document_id}`);
-    }
-
-    const proposal: PatchProposal = {
-      patch_id: patchId,
-      document_id: req.document_id,
-      block_id: req.block_id,
-      section_id: req.section_id,
-      operation: req.operation,
-      patch_type: req.patch_type,
-      content: req.content,
-      target_fingerprint: req.target_fingerprint,
-      base_version: req.base_version,
-      proposed_by: req.proposed_by,
-      proposed_at: new Date().toISOString(),
-      status: "proposed",
-      confidence: req.confidence,
-      rationale: req.rationale,
-    };
-
-    this.patches.set(patchId, proposal);
-    this.emitEvent(req.document_id, "patch.proposed", doc.version, {
-      patch_id: patchId,
-      block_id: req.block_id,
-      section_id: req.section_id,
-      operation: req.operation,
-      patch_type: req.patch_type,
-      proposed_by: req.proposed_by,
-    });
-
-    return proposal;
+    return this.proposePatch(req, patchId);
   }
 
   decidePatch(req: PatchDecisionRequest): PatchProposal {
@@ -281,8 +259,8 @@ export class SpecForgeEngine {
     authorId: string,
     authorName: string
   ): CommentThread {
-    const threadId = nextId("thread");
-    const commentId = nextId("comment");
+    const threadId = this.nextInstanceId("thread");
+    const commentId = this.nextInstanceId("comment");
     const now = new Date().toISOString();
 
     const thread: CommentThread = {
@@ -331,7 +309,7 @@ export class SpecForgeEngine {
       );
     }
 
-    const commentId = nextId("comment");
+    const commentId = this.nextInstanceId("comment");
     const now = new Date().toISOString();
 
     thread.comments.push({
@@ -382,7 +360,7 @@ export class SpecForgeEngine {
     question: string,
     actorId: string
   ): Clarification {
-    const clarificationId = nextId("clarif");
+    const clarificationId = this.nextInstanceId("clarif");
     const now = new Date().toISOString();
 
     const clarification: Clarification = {
@@ -457,12 +435,8 @@ export class SpecForgeEngine {
       // Extract content for the section from markdown
       let contentLength = 0;
       if (present && block) {
-        const headingPattern = new RegExp(
-          `## ${escapeRegExp(block.heading)}\\n[\\s\\S]*?(?=\\n\\n## |\\n$|$)`,
-          "g"
-        );
-        const match = headingPattern.exec(doc.markdown);
-        contentLength = match ? match[0].length : 0;
+        const content = this.extractSectionContent(doc.markdown, block.heading);
+        contentLength = content.length;
       }
 
       const failed = !present || contentLength < req.min_length;
@@ -533,7 +507,7 @@ export class SpecForgeEngine {
       throw new Error(`Document not found: ${documentId}`);
     }
 
-    const recapId = nextId("recap");
+    const recapId = this.nextInstanceId("recap");
     const recap: Recap = {
       recap_id: recapId,
       document_version: doc.version,
@@ -714,13 +688,8 @@ export class SpecForgeEngine {
       }
 
       // Extract content length from markdown for this block
-      const heading = block.heading;
-      const headingPattern = new RegExp(
-        `## ${escapeRegExp(heading)}\\n[\\s\\S]*?(?=\\n\\n## |\\n$|$)`,
-        "g"
-      );
-      const match = headingPattern.exec(doc.markdown);
-      const contentLength = match ? match[0].length : 0;
+      const content = this.extractSectionContent(doc.markdown, block.heading);
+      const contentLength = content.length;
 
       return {
         block_id: block.block_id,
@@ -847,6 +816,15 @@ export class SpecForgeEngine {
 
   // --- Internal ---
 
+  private extractSectionContent(markdown: string, heading: string): string {
+    const headingPattern = new RegExp(
+      `## ${escapeRegExp(heading)}\\n[\\s\\S]*?(?=\\n\\n## |\\n$|$)`,
+      "g"
+    );
+    const match = headingPattern.exec(markdown);
+    return match ? match[0] : "";
+  }
+
   private applyReplacePatch(doc: Document, patch: PatchProposal): void {
     if (!patch.content) return;
 
@@ -908,7 +886,7 @@ export class SpecForgeEngine {
     payload: Record<string, unknown>
   ): void {
     const event: DocumentEvent = {
-      event_id: nextId("evt"),
+      event_id: this.nextInstanceId("evt"),
       document_id: documentId,
       event_type: eventType,
       version,
@@ -917,8 +895,4 @@ export class SpecForgeEngine {
     };
     this.events.push(event);
   }
-}
-
-function escapeRegExp(str: string): string {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
