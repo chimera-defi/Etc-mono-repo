@@ -394,53 +394,96 @@ export default async function Home({ searchParams }: Props) {
           <section className={styles.panel}>
             <div className={styles.panelHeader}>
               <h2>Workspace session</h2>
-              <span>{activeWorkspaceSession.authMode === "github" ? "Pilot auth" : "Local demo"}</span>
+              <span>
+                {activeWorkspaceSession.authMode === "github"
+                  ? "Pilot auth"
+                  : activeWorkspaceSession.authMode === "unauthenticated"
+                    ? "Not signed in"
+                    : "Local demo"}
+              </span>
             </div>
-            <div className={styles.actorCard}>
-              <strong>{activeWorkspaceActor.name}</strong>
-              <span>{activeWorkspaceActor.role}</span>
-              <span>{activeWorkspaceActor.actor_id}</span>
-              {activeWorkspaceSession.githubLogin ? (
-                <span>GitHub: @{activeWorkspaceSession.githubLogin}</span>
-              ) : null}
-            </div>
-            <div className={styles.actorCard}>
-              <strong>{activeWorkspace.name}</strong>
-              <span>{activeWorkspace.plan} workspace</span>
-              <span>{activeWorkspaceMembers.length} members</span>
-              <span>{documents.length} visible documents</span>
-            </div>
-            {githubAuthConfigured ? (
-              <div className={styles.inlineActions}>
-                {activeWorkspaceSession.authMode === "github" ? (
-                  <Link href="/api/auth/logout" className={styles.secondaryLink}>
-                    Log out
-                  </Link>
-                ) : (
-                  <Link href="/api/auth/login" className={styles.secondaryLink}>
+            {activeWorkspaceSession.authMode === "unauthenticated" ? (
+              <div className={styles.actorCard}>
+                <strong>Sign in to continue</strong>
+                <span>GitHub authentication is required to access this workspace.</span>
+                <div className={styles.inlineActions}>
+                  <Link href="/api/auth/login" className={styles.exportLink}>
                     Sign in with GitHub
                   </Link>
-                )}
+                </div>
               </div>
             ) : (
-              <form action={switchWorkspaceActorAction} className={styles.form}>
-                <input type="hidden" name="return_to" value={actorReturnTo} />
-                <label>
-                  Active role
-                  <select
-                    name="actor_id"
-                    className={styles.selectInput}
-                    defaultValue={activeWorkspaceActor.actor_id}
-                  >
-                    {workspaceActors.map((actor) => (
-                      <option key={actor.actor_id} value={actor.actor_id}>
-                        {actor.name} · {actor.role}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <button type="submit">Switch local actor</button>
-              </form>
+              <>
+                <div className={styles.actorCard}>
+                  <strong>{activeWorkspaceActor.name}</strong>
+                  <span>{activeWorkspaceActor.role}</span>
+                  <span>{activeWorkspaceActor.actor_id}</span>
+                  {activeWorkspaceSession.githubLogin ? (
+                    <span>GitHub: @{activeWorkspaceSession.githubLogin}</span>
+                  ) : null}
+                </div>
+                <div className={styles.actorCard}>
+                  <strong>{activeWorkspace.name}</strong>
+                  <span>{activeWorkspace.plan} workspace</span>
+                  <span>{activeWorkspaceMembers.length} members</span>
+                  <span>{documents.length} visible documents</span>
+                </div>
+                {workspaceRecords.length > 1 ? (
+                  <details className={styles.panel}>
+                    <summary className={styles.disclosureSummary}>
+                      <span>Switch workspace</span>
+                      <span>{workspaceRecords.length} available</span>
+                    </summary>
+                    <div className={styles.disclosureBody}>
+                      <ul className={styles.documentList}>
+                        {workspaceRecords.map((ws) => (
+                          <li key={ws.workspace_id} className={styles.documentItem}>
+                            <span>
+                              <strong>{ws.name}</strong>{" "}
+                              <span className={styles.badge}>{ws.plan}</span>
+                              {ws.workspace_id === activeWorkspace.workspace_id ? (
+                                <span className={styles.badge}>current</span>
+                              ) : null}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </details>
+                ) : null}
+                {githubAuthConfigured ? (
+                  <div className={styles.inlineActions}>
+                    {activeWorkspaceSession.authMode === "github" ? (
+                      <Link href="/api/auth/logout" className={styles.secondaryLink}>
+                        Log out
+                      </Link>
+                    ) : (
+                      <Link href="/api/auth/login" className={styles.secondaryLink}>
+                        Sign in with GitHub
+                      </Link>
+                    )}
+                  </div>
+                ) : (
+                  <form action={switchWorkspaceActorAction} className={styles.form}>
+                    <input type="hidden" name="return_to" value={actorReturnTo} />
+                    <label>
+                      Active role
+                      <select
+                        name="actor_id"
+                        className={styles.selectInput}
+                        defaultValue={activeWorkspaceActor.actor_id}
+                      >
+                        {workspaceActors.map((actor) => (
+                          <option key={actor.actor_id} value={actor.actor_id}>
+                            {actor.name} · {actor.role}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <button type="submit">Switch local actor</button>
+                  </form>
+                )}
+              </>
             )}
           </section>
 
