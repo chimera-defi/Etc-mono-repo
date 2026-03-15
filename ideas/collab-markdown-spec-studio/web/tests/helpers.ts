@@ -73,7 +73,15 @@ export const TEST_AGENT = {
 export const TEST_REVIEWER = "reviewer-001";
 
 /**
- * Run the full seed-to-final workflow: load document, propose all patches, accept all.
+ * Run the full seed-to-final workflow:
+ * 1. Load document
+ * 2. Propose ALL patches concurrently (at their base_version snapshots)
+ * 3. Decide on patches in order
+ *
+ * Stale-patch detection works by checking if base_version matches current doc version.
+ * Patches 1 & 2 are concurrent (both base_version=1), patch_3 becomes stale after 1&2
+ * are accepted, patch_4 is at a different base_version (2) so needs proper sequencing.
+ *
  * Returns the engine for further assertions.
  */
 export function runFullWorkflow(): {
@@ -87,7 +95,7 @@ export function runFullWorkflow(): {
   const doc = engine.loadDocument(seedToDocument(seed));
   const documentId = doc.document_id;
 
-  // Propose and accept all patches in order
+  // Step 1: Propose all patches concurrently (using fixture base_version values)
   for (const ps of patchSeeds) {
     engine.proposePatchWithId(ps.patch_id, {
       document_id: documentId,
@@ -97,10 +105,15 @@ export function runFullWorkflow(): {
       patch_type: ps.patch_type,
       content: ps.content,
       proposed_by: TEST_AGENT,
-      base_version: doc.version,
+      base_version: ps.base_version,
       target_fingerprint: ps.target_fingerprint,
     });
+  }
 
+  // Step 2: Decide on patches in order
+  // Stale-patch detection triggers when patch.base_version != current doc.version
+  for (const ps of patchSeeds) {
+    // Always try to accept; the engine will auto-reject if stale
     engine.decidePatch({
       patch_id: ps.patch_id,
       decision: "accept",
