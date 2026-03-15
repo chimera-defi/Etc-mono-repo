@@ -1,4 +1,4 @@
-## Pilot Scorecard Template (Spec-to-Ship Workspace)
+## Pilot Scorecard Template (SpecForge)
 
 ### Team Summary
 - Team:
@@ -13,16 +13,19 @@
 
 ### AI Patch Metrics
 - Patch proposals generated:
-- Acceptance rate:
+- Acceptance rate by patch class:
 - Rejection reasons:
+- Reviewer trust rating:
 
 ### Throughput Metrics
 - Time to implementation-ready spec:
 - Time to first commit after spec lock:
 - Delta vs baseline workflow:
+- Downstream rework or ambiguity notes:
 
 ### Product Fit Signals
 - Weekly return behavior:
+- Milestone-close recap completion rate:
 - Qualitative trust feedback:
 - Willingness to pay at target pricing:
 

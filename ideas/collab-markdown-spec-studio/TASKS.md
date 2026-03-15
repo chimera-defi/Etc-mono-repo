@@ -8,10 +8,17 @@
 
 ## Phase 0 (Spec Lock)
 - [ ] Finalize product naming and positioning.
-- [ ] Finalize MVP boundaries vs phase-2 scope.
-- [ ] Finalize pilot success/kill thresholds.
-- [ ] Finalize core integrations priority.
+- [ ] Confirm MVP boundaries vs phase-2 scope using the current defaults.
+- [ ] Confirm pilot success/kill thresholds.
+- [ ] Confirm core integrations priority.
 - [ ] Define ChatPRD-parity baseline for handoff UX (Cursor/Replit/v0-style launch points) and where SpecForge intentionally differs.
+- [ ] Confirm implementation defaults:
+  - `block_id` as primary patch target
+  - canonical editor JSON + derived block index
+  - simple anchored comments in v1
+  - GitHub OAuth for pilot users
+  - curated `ideas/` benchmark corpus
+  - one curated TypeScript app template for repo generation
 
 ## Parallel Workstreams (AgentCon Kickoff)
 
@@ -26,19 +33,21 @@
 - [ ] Define CRDT/OT choice and conflict-resolution invariants.
 - [ ] Define session lifecycle, presence model, and permission model.
 - [ ] Define document event schema and replay semantics.
-- Deliverables: `SPEC.md` architecture section + event contract appendix.
+- [ ] Define stable `block_id` extraction and fingerprint generation rules.
+- Deliverables: `SPEC.md` architecture section + `EVENT_MODEL.md`.
 - Done when: two clients can produce deterministic merged state in adversarial test scenarios.
 
 ### WS-3 Agent Patch Governance
 - [ ] Define patch proposal schema and approval policy.
 - [ ] Define trust scoring and rollback semantics.
 - [ ] Define audit log format for human and agent actions.
+- [ ] Define stale-patch behavior and manual-review path for non-rebasing v1.
 - Deliverables: updated `SPEC.md`, `ADVERSARIAL_TESTS.md`.
 - Done when: unauthorized and malformed patch paths are explicitly blocked.
 
 ### WS-4 Repo Generation and Handoff
 - [ ] Define export bundle contract (spec artifacts -> scaffold input).
-- [ ] Define generation templates, guardrails, and confidence reporting.
+- [ ] Define the single curated TypeScript template, guardrails, and confidence reporting.
 - [ ] Define "handoff complete" checklist for engineering teams.
 - [ ] Define one-click handoff actions to external coding tools with context compression.
 - Deliverables: updated `VISION_AND_FLOW.md`, `AGENT_HANDOFF.md`.

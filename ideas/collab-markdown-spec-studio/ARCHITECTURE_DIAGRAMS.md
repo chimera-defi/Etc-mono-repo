@@ -1,4 +1,4 @@
-## Spec-to-Ship Workspace Architecture Diagrams
+## SpecForge Architecture Diagrams
 
 ## 1) Human + Agent Collaboration Flow
 
@@ -9,13 +9,15 @@ Agent proposes patches
    -> Review queue (accept/reject/cherry-pick)
       -> Canonical doc update
          -> Version snapshot + audit event
+            -> Depth-gate / recap checks
 ```
 
 ## 2) Product Pipeline
 
 ```text
 Collaborative Draft
-   -> Structured Spec Bundle
+   -> Gated Build-Ready Spec
+      -> Structured Spec Bundle
       -> Tasks/Acceptance Criteria
          -> (Phase 2) Starter Repo Generation
             -> Developer Execution
@@ -30,9 +32,9 @@ Collaborative Draft
     v
 [Collab Sync Service (CRDT)]
     |
-[Doc API + Version Store]
+[Doc API + Canonical State Store]
     |
-[Patch Engine + Policy Guardrails]
+[Patch Engine + Policy Guardrails + Depth Gates]
     |
 [Export Service -> PRD/SPEC/TASKS/agent_spec.json]
 ```

@@ -1,4 +1,4 @@
-## Risk Register (Spec-to-Ship Workspace)
+## Risk Register (SpecForge)
 
 | Risk | Likelihood | Impact | Owner | Mitigation | Trigger |
 |---|---|---|---|---|---|
@@ -9,7 +9,7 @@
 | Weak retention after initial novelty | Medium | High | Product | prioritize recurring team workflows | drop in weekly active teams |
 | AI cost overrun | Medium | Medium | Finance + Eng | usage caps, model routing, cost guardrails | margin decline |
 | Integration drag (GitHub/Jira/Linear) | Medium | Medium | Eng Lead | phase integrations after core fit | roadmap slips |
-| Category confusion ("just a docs tool") | Medium | High | Marketing | spec-to-ship narrative and proof metrics | poor positioning feedback |
+| Category confusion ("just a docs tool") | Medium | High | Marketing | spec IDE narrative and proof metrics | poor positioning feedback |
 
 ## Top 3 Active Risks
 1. Incumbent workflow lock-in.

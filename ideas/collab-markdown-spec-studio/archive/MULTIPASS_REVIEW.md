@@ -2,7 +2,7 @@
 
 ## Pass 1: Strategic Positioning
 - Check: Is this just another editor?
-- Result: Repositioned to execution outcome (spec-to-ship).
+- Result: Repositioned to a spec IDE with governed human+agent authoring and execution handoff.
 
 ## Pass 2: Workflow Value
 - Check: Does it improve handoff to implementation?

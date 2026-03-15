@@ -1,2 +1,2 @@
-{"patch_id":"patch_1","section_id":"sec_goals","operation":"replace","content":"## Goals\n1. Reduce spec-to-first-commit by 40%."}
-{"patch_id":"patch_2","section_id":"sec_scope","operation":"replace","content":"## Scope\nMVP includes editor, patch queue, export."}
+{"patch_id":"patch_1","block_id":"blk_goals_1","section_id":"sec_goals","operation":"replace","patch_type":"requirement_change","target_fingerprint":"sha256:blk_goals_1:v1:seed","content":"## Goals\n1. Reduce spec-to-first-commit by 40%."}
+{"patch_id":"patch_2","block_id":"blk_scope_1","section_id":"sec_scope","operation":"replace","patch_type":"requirement_change","target_fingerprint":"sha256:blk_scope_1:v1:seed","content":"## Scope\nMVP includes editor, patch queue, export."}
