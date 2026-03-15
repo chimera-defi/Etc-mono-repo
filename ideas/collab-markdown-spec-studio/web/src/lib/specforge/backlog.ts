@@ -1,6 +1,8 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
+import { logger } from "../logger";
+
 const tasksPath = path.resolve(process.cwd(), "..", "TASKS.md");
 const specPath = path.resolve(process.cwd(), "..", "SPEC.md");
 const architecturePath = path.resolve(process.cwd(), "..", "ARCHITECTURE_DECISIONS.md");
@@ -84,7 +86,13 @@ export async function readBacklogState() {
 
   try {
     loopState = JSON.parse(await readFile(loopStatePath, "utf8"));
-  } catch {
+  } catch (error) {
+    // Expected when parity runner state file doesn't exist or contains invalid JSON
+    // This is not an error condition - we just won't have parity loop metadata
+    logger.debug(
+      "Failed to load parity runner state",
+      { path: loopStatePath, reason: error instanceof Error ? error.message : "Unknown error" }
+    );
     loopState = null;
   }
 
