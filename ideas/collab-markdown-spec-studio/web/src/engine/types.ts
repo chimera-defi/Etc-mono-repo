@@ -178,3 +178,38 @@ export interface SpecBundle {
   patch_summary: PatchSummaryItem[];
   export_timestamp: string;
 }
+
+/** Depth check validation result for required sections */
+export interface DepthCheckResult {
+  passed: boolean;
+  required_sections: {
+    section_id: string;
+    heading: string;
+    required: boolean;
+    present: boolean;
+    content_length: number;
+    min_length: number;
+  }[];
+  failures: string[];
+}
+
+/** Clarification question for document sections */
+export interface Clarification {
+  clarification_id: string;
+  block_id: string;
+  question: string;
+  answer?: string;
+  status: "open" | "answered";
+  asked_by_actor_id: string;
+  asked_at: string;
+  answered_at?: string;
+}
+
+/** End-of-iteration summary recap */
+export interface Recap {
+  recap_id: string;
+  document_version: number;
+  summary: string;
+  created_at: string;
+  created_by_actor_id: string;
+}
