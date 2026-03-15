@@ -1,0 +1,7 @@
+# Keep repro structure in git, ignore generated runtime artifacts.
+*
+!.gitignore
+!manifests/
+!checksums/
+!manifests/.gitkeep
+!checksums/.gitkeep

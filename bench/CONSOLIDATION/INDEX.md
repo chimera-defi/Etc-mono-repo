@@ -1,12 +1,25 @@
 # Consolidation Index
 
-**Date:** 2026-02-20 07:36 UTC+1  
-**Agent:** Claude Haiku 4.5 (Consolidation Agent)  
-**Task Status:** ✅ COMPLETE
+**Historical snapshot:** 2026-02-20 07:36 UTC+1  
+**Authoring agent:** Claude Haiku 4.5 (Consolidation Agent)  
+**Snapshot status at the time:** ✅ COMPLETE
+
+> This directory is **preserved historical context**, not the canonical operator path for today's benchmark flow.
+> 
+> Keep it accessible because it captures why earlier benchmark decisions were made, what the benchmark branch was trying to ship, and which findings were considered important at consolidation time. But do **not** treat its “ready for push/merge” language as current repo state.
+> 
+> For active benchmark entrypoints and current architecture, start with:
+> - `bench/README.md`
+> - `bench/ARCHITECTURE.md`
+> - `bench/HANDOFF.md`
+>
+> Recommended use of this directory:
+> - **Keep accessible:** methodological findings, PR-prep rationale, benchmark-era decision context
+> - **Treat as historical-only:** branch-specific checklists, merge/push instructions, dated status claims
 
 ---
 
-## 📦 Deliverables
+## 📦 Historical deliverables in this snapshot
 
 ### 1. CONSOLIDATION_REPORT.md (13 KB)
 **Full methodological review + honest assessment**
@@ -113,14 +126,14 @@ Contents:
 
 ---
 
-## 🚀 Next Steps for Main Agent
+## 🚀 How to use this directory now
 
-1. **Review** the three files in this directory
-2. **Verify** the consolidation findings (esp. Phase 2 regression)
-3. **Decide** whether to proceed with PR as-is or investigate Phase 2 further
-4. **If approved:** Use pre-push checklist (`FINAL_BRANCH_CHECKLIST.md`) to validate
-5. **If approved:** Copy PR description into GitHub PR body
-6. **If approved:** Merge to main and run post-merge steps
+1. **Review** the three files here when you need historical benchmark decision context
+2. **Reuse findings carefully,** especially the Phase 2 regression note and model-safety observations
+3. **Cross-check against current canonical docs** before acting on any operational instruction
+4. **Do not follow the branch/push/merge steps verbatim** without confirming they still match the present repo state
+5. **Prefer current operator docs** (`bench/README.md`, `bench/ARCHITECTURE.md`, `bench/HANDOFF.md`) for any live work
+6. **If future cleanup happens:** leave a small pointer here or in `archive/` so these findings remain discoverable
 
 ---
 

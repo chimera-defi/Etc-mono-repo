@@ -1,0 +1,29 @@
+{
+  "model": "lfm2.5-thinking:1.2b",
+  "phase": "atomic",
+  "variant": "atomic",
+  "timestamp": 1773402624.2865295,
+  "config_name": "lfm2.5-thinking:1.2b",
+  "system_prompt": "",
+  "summary": {
+    "passed": 11,
+    "total": 12,
+    "accuracy": 0.9166666666666666,
+    "restraint_score": 1.0,
+    "avg_latency_ms": null,
+    "median_latency_ms": null,
+    "max_latency_ms": null,
+    "min_latency_ms": null,
+    "avg_tps": null,
+    "median_tps": null,
+    "max_tps": null,
+    "min_tps": null,
+    "total_tokens_generated": null,
+    "total_prompt_tokens": null
+  },
+  "by_category": null,
+  "failed_prompts": [
+    "P10"
+  ],
+  "results": []
+}

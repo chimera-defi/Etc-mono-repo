@@ -1,5 +1,17 @@
 # Benchmark: Tool-Calling Decision-Making
 
+## Canonical entrypoints
+
+The active benchmark/supervisor workflow is rooted in these entrypoints:
+
+- `core/run_benchmark.py`
+- `selfopt/benchmark_supervisor.py`
+- `ops/reproduce_pr245.sh`
+- `ops/route_trace_report.py`
+- `ops/validate_route_attribution.py`
+
+Root-level historical scripts and notes have been archived under `archive/2026-03-cleanup-pass1/`. Older harness-first material still exists for reference, but it is no longer the primary architecture for running or validating current benchmark work.
+
 **Can open-weight LLMs reliably decide *when* to use tools -- and more importantly, when NOT to?**
 
 This benchmark measures **judgment** (whether a model knows when to call a tool) rather than just **execution** (whether it can format a tool call correctly). It tests 12 atomic prompts escalating in difficulty, with per-model variants to improve performance.
@@ -23,7 +35,10 @@ ollama pull mistral:7b    # Strong transformer baseline
 
 **3. Run your first benchmark**
 ```bash
-# Run P1-P12 (atomic prompts) on one model
+# Canonical benchmark runner
+python3 core/run_benchmark.py --help
+
+# Legacy harness flow (still present for historical comparison only)
 python3 harness/phase2_harness.py --model "lfm2.5:1.2b" --variant atomic --runs 3
 
 # View results
@@ -31,6 +46,56 @@ cat results/lfm2.5-1.2b-atomic-results.json
 ```
 
 Done. Results show accuracy, restraint score, latency, and per-prompt details in `results/`.
+
+## Reproducibility (PR245)
+
+For PR245 benchmark/fallback reproducibility packaging, use:
+
+```bash
+bash bench/ops/reproduce_pr245.sh
+# optional smoke benchmark:
+bash bench/ops/reproduce_pr245.sh --smoke
+```
+
+Full replication steps and artifact descriptions are in `bench/REPRODUCE.md`.
+Generated repro artifacts are local outputs (kept out of git except directory placeholders).
+
+Architecture overview for supervisor/repro/routing flow:
+- `bench/ARCHITECTURE.md`
+- `bench/HANDOFF.md` — durable cleanup log, canonical-vs-legacy map, and future-agent notes
+
+For routing/fallback proof after a supervisor run:
+
+```bash
+python3 bench/ops/route_trace_report.py
+python3 bench/ops/route_trace_report.py --one-line
+```
+
+Quick local validation target from repo root:
+
+```bash
+make bench-smoke
+```
+
+### Route Attribution Verification
+
+After running `benchmark_supervisor.py`, verify which model actually served each job:
+
+```bash
+# One-line operator view (route + fallback state)
+python3 bench/ops/route_trace_report.py --one-line
+
+# JSON report (full attribution fields)
+python3 bench/ops/route_trace_report.py --json
+```
+
+**Interpretation (key fields):**
+- `served_by`: model that produced the final output (primary or fallback)
+- `original_model`: requested primary model for the job
+- `fallback_model`: fallback model used/selected (or `null` when not used)
+- `used_fallback`: `true` if fallback path was taken, else `false`
+
+**No-fallback runs:** If `fallback_trace.jsonl` is absent, `route_trace_report.py` uses `manifest.json` attribution (`served_by`, `original_model`, `fallback_model`, `used_fallback`).
 
 ---
 
