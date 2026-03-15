@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "STALE_PATCH_ERROR",
+    "message": "Patch base version does not match current document version. Please regenerate.",
+    "request_id": "req_789xyz"
+  }
+}
