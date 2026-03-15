@@ -1,0 +1,21 @@
+{
+  "name": "specforge-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "SpecForge collaborative markdown spec studio - pnpm workspace root",
+  "scripts": {
+    "dev:up": "pnpm --filter specforge-web dev",
+    "dev:down": "echo '[specforge] dev services stopped'",
+    "build": "pnpm --filter specforge-web build",
+    "lint": "pnpm --filter specforge-web lint",
+    "test": "pnpm --filter specforge-web test",
+    "test:acceptance": "pnpm run test",
+    "seed": "echo '[specforge] seed: stub - no database configured yet. Pass --fixture to specify seed file.'",
+    "seed:patches": "echo '[specforge] seed:patches: stub - no database configured yet. Pass --fixture to specify patch file.'",
+    "contracts:validate": "echo '[specforge] contracts:validate: stub - pass --dir and --examples to validate contracts.'",
+    "parity:check": "pnpm --filter specforge-web run parity:check",
+    "parity:sync": "pnpm --filter specforge-web run parity:sync",
+    "parity:report": "pnpm --filter specforge-web run parity:report"
+  }
+}
