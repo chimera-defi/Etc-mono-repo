@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "specforge/v1/agent_spec.schema.json",
+  "title": "AgentSpec",
+  "description": "Document specification metadata including audit trail and block inventory",
+  "type": "object",
+  "required": [
+    "document_id",
+    "document_version",
+    "document_title",
+    "created_at",
+    "last_modified",
+    "total_patches_proposed",
+    "total_patches_accepted",
+    "total_patches_rejected",
+    "authors",
+    "sections"
+  ],
+  "properties": {
+    "document_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the document"
+    },
+    "document_version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Current version number after all patches applied"
+    },
+    "document_title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable document title"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of initial document creation"
+    },
+    "last_modified": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of last patch acceptance or modification"
+    },
+    "total_patches_proposed": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total number of patches proposed (accepted + rejected)"
+    },
+    "total_patches_accepted": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of patches accepted and applied"
+    },
+    "total_patches_rejected": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of patches rejected (including stale patches)"
+    },
+    "authors": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "List of unique actor IDs who proposed or reviewed patches"
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/BlockInventory"
+      },
+      "description": "Inventory of all document blocks with modification history"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "BlockInventory": {
+      "type": "object",
+      "required": ["block_id", "heading", "content_length", "modified_by", "patch_count"],
+      "properties": {
+        "block_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique identifier for the block"
+        },
+        "heading": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Section heading text"
+        },
+        "content_length": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Character count of block content"
+        },
+        "modified_by": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "List of unique actor IDs who modified this block"
+        },
+        "patch_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of patches applied to this block"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
