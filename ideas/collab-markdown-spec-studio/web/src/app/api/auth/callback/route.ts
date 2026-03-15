@@ -4,6 +4,10 @@ import {
   isGitHubAuthConfigured,
   setGitHubWorkspaceSession,
 } from "@/lib/specforge/session";
+import {
+  listUserWorkspaces,
+  upsertUserFromGitHub,
+} from "@/lib/specforge/store";
 
 type GitHubTokenResponse = {
   access_token?: string;
@@ -11,9 +15,12 @@ type GitHubTokenResponse = {
 };
 
 type GitHubUserResponse = {
+  id: number;
   login: string;
   html_url?: string;
   name?: string;
+  email?: string;
+  avatar_url?: string;
 };
 
 export async function GET(request: Request) {
@@ -57,9 +64,24 @@ export async function GET(request: Request) {
     return NextResponse.redirect(new URL("/?auth=error", request.url));
   }
 
+  // Persist user in database
+  await upsertUserFromGitHub({
+    github_id: String(user.id),
+    github_login: user.login,
+    email: user.email,
+    display_name: user.name ?? user.login,
+    avatar_url: user.avatar_url,
+  });
+
+  // Find the user's workspaces to set workspace_id on the session
+  const userWorkspaces = await listUserWorkspaces(user.login);
+  const defaultWorkspace = userWorkspaces[0];
+
   await setGitHubWorkspaceSession({
     githubLogin: user.login,
     githubUrl: user.html_url,
+    workspace_id: defaultWorkspace?.workspace_id,
+    role: undefined, // resolved from membership data
   });
 
   return NextResponse.redirect(new URL("/", request.url));
