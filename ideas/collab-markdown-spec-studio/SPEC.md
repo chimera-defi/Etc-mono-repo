@@ -56,6 +56,16 @@ Build a real-time collaborative spec IDE with:
 - Blocks irreversible generation steps until required questions are answered.
 - Writes accepted answers back into canonical doc sections and decision log.
 
+### Non-Goals (MVP)
+- Repo generation from spec bundles (Phase 2+)
+- Enterprise SSO/SCIM integration (Phase 3+)
+- Multi-language code generation (Phase 2+)
+- Mobile and native app templates (Phase 3+)
+- Advanced inline comments and annotations (Phase 2+)
+- AI orchestration beyond the patch workflow (Phase 2+)
+- Real-time audio/video collaboration (Phase 4+)
+- Custom branding and theming (Phase 2+)
+
 ### Architecture
 - Frontend: web app (editor + collaboration UI + agent panel).
 - Collaboration service: websocket + CRDT sync.
