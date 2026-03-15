@@ -24,6 +24,10 @@
 - [x] Acceptance test matrix (`ACCEPTANCE_TEST_MATRIX.md`)
 - [x] First 60-minute runbook (`FIRST_60_MINUTES.md`)
 - [x] Sub-agent prompt pack (`SUBAGENT_PROMPT_PACK.md`)
+- [x] Event model appendix (`EVENT_MODEL.md`)
+
+## Readiness Note
+The checklist above tracks presence of spec-stage assets, not proof that a runnable implementation already exists. Assets like `FIRST_60_MINUTES.md` and `ACCEPTANCE_TEST_MATRIX.md` currently define target implementation behavior.
 
 ## Depth Standard
 1. Must include explicit execution outcome metric.
