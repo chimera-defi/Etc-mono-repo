@@ -2,11 +2,11 @@
 
 ### Summary
 Build a real-time collaborative spec IDE with:
-1. CRDT-backed human collaboration on a shared markdown canvas,
-2. governed agent patch workflows,
-3. depth gates and recap requirements,
-4. deterministic export into execution-ready spec bundles,
-5. a delivery loop that keeps driving a minimum extensible product toward parity with the approved spec.
+1. CRDT-backed infrastructure for human collaboration (Yjs + Hocuspocus deployed; multiplayer sync untested in MVP),
+2. governed agent patch workflows (fully functional: propose/review/accept/reject/cherry-pick),
+3. depth gates and recap requirements (deferred to Phase 2),
+4. deterministic export into execution-ready spec bundles (partial: markdown, handoff, launch packet; agent_spec.json pending),
+5. a delivery loop that keeps driving a minimum extensible product toward parity with the approved spec (fully implemented).
 
 ### Product Principle: Minimum Extensible Product
 1. Approved specs should first produce a minimum extensible product, not a pretend-final build.
@@ -17,9 +17,12 @@ Build a real-time collaborative spec IDE with:
 ### Core Components
 
 ### 1) Realtime Editor Layer
-- Markdown editor with CRDT-backed collaboration.
-- Presence: cursors, selections, user states.
-- Comment threads anchored to document ranges.
+**MVP Status**: Partial
+- ✓ Markdown editor with Tiptap.
+- ✓ CRDT infrastructure (Yjs + Hocuspocus server, room tokens, persistence).
+- ✗ Presence: infrastructure ready but cursor/selection UI not implemented.
+- ✗ Comment threads: database schema complete, API endpoints exist, but no frontend UI component (Phase 2).
+- ⚠️ Multiplayer sync: infrastructure deployed but not tested in production tests (infrastructure-ready, not user-validated).
 
 ### 2) Agent Patch Engine
 - Agents propose structured patches (insert/replace/delete) against stable block or section IDs.
@@ -77,10 +80,14 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 - Enterprise SSO/SCIM integration (Phase 3+)
 - Multi-language code generation (Phase 2+)
 - Mobile and native app templates (Phase 3+)
-- Advanced inline comments and annotations (Phase 2+)
+- Advanced inline comments and annotations (Phase 2+) — **Note: Comment thread UI is not in MVP. Database schema and API exist; frontend missing.**
 - AI orchestration beyond the patch workflow (Phase 2+)
 - Real-time audio/video collaboration (Phase 4+)
 - Custom branding and theming (Phase 2+)
+- Depth gates and recap enforcement (Phase 2+) — **Note: Claimed in Decision 18 but not implemented. Clarifications table exists; logic layer deferred.**
+- Multi-user cursor presence and awareness (Phase 2) — **Note: Hocuspocus supports awareness; UI not implemented.**
+- Multiplayer testing and validation (Phase 1.5) — **Critical: Add tests for 2+ concurrent users before declaring multiplayer feature complete.**
+- Auto-rebase for stale patches (Phase 2) — **Spec says reject stale; implementation partially done but not tested.**
 
 ### Architecture
 - Frontend: web app (editor + collaboration UI + agent panel).
