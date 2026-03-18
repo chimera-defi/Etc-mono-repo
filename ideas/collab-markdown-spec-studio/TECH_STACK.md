@@ -72,6 +72,7 @@
 3. Agents: workspace-scoped service identities.
 4. Local collab runtime: short-lived signed room tokens minted by the web app and verified by the collab server.
 5. Product code should consume one auth/session abstraction so local mode and pilot mode share the same actor contract.
+6. Hosted mode must set explicit session/collab secrets and secure cookies; insecure local defaults are only allowed in demo mode.
 
 ### v1 Feature Boundaries
 1. Comments:

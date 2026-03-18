@@ -112,7 +112,6 @@ export function DocumentWorkspace({ document, activeActor, blockSummaries }: Pro
           body: JSON.stringify({
             document_id: document.document_id,
             version: document.version,
-            actor: localUser,
           }),
         });
 
@@ -136,7 +135,7 @@ export function DocumentWorkspace({ document, activeActor, blockSummaries }: Pro
     });
 
     return { ydoc, provider };
-  }, [collabUrl, document.document_id, document.version, localUser, roomName]);
+  }, [collabUrl, document.document_id, document.version, roomName]);
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
