@@ -56,10 +56,12 @@ Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid du
 2. `collab-server/` is the real Hocuspocus/Yjs collaboration service.
 3. The local app persists state in `web/.data/` and auto-seeds from `fixtures/`.
 4. The root workspace scripts are only wrappers around the real runnable app and test commands.
-5. `docker compose up --build` now brings up the web app and collaboration service with health checks.
+5. `docker compose up --build` now brings up the web app, collaboration service, and Postgres with health checks.
 6. Runtime health surfaces:
    - `web`: `/api/health`
+   - `web metrics`: `/api/metrics`
    - `collab-server`: `http://localhost:4322/health`
-7. Health responses include persistence configuration so local-vs-hosted storage drift is visible without opening the code.
-8. The local deployment rehearsal now mounts a shared runtime volume and ships `fixtures/` inside the web image so the container config matches the documented persistence paths.
-9. Local demo mode now includes admin controls for resetting workspace state and seeding review activity during MVP testing.
+   - `collab metrics`: `http://localhost:4322/metrics`
+7. Health and metrics responses include persistence configuration so local-vs-hosted storage drift is visible without opening the code.
+8. The local deployment rehearsal now ships `fixtures/` inside the web image and exercises the hosted Postgres path instead of only local snapshots.
+9. Local demo mode still includes admin controls for resetting workspace state and seeding review activity during MVP testing.

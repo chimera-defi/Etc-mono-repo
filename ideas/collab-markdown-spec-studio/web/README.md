@@ -5,7 +5,8 @@ Next.js application for the SpecForge MVP.
 Current slice:
 - guided spec creation that generates the canonical draft from structured inputs
 - local workspace sessions with GitHub OAuth pilot hooks for server-side attribution
-- embedded SQL persistence via PGlite with disk-backed snapshot sharing across app workers
+- local embedded SQL persistence via PGlite with disk-backed snapshot sharing across app workers
+- hosted persistence path via Postgres-backed store selection
 - guided drafts now include a first-class `Requirements` section so readiness can clear from the guided path
 - document create/load API routes
 - document update API route
@@ -31,6 +32,7 @@ Current slice:
 - local admin controls for resetting demo workspace data and seeding review activity
 - staged UI for the local MVP flow
 - web runtime health endpoint at `/api/health`
+- web runtime metrics endpoint at `/api/metrics`
 
 ## Commands
 
@@ -60,10 +62,10 @@ docker compose up --build
 ## Notes
 
 - The local runtime persists through a JSON snapshot under `.data/` and is seeded from `../fixtures/`.
-- The containerized runtime persists under `/var/lib/specforge/` and seeds from `/fixtures`.
-- PGlite still backs the in-process SQL layer; the snapshot is there so Next app workers share the same document state.
+- Hosted mode can switch to Postgres with `SPECFORGE_PERSISTENCE_BACKEND=postgres` and `DATABASE_URL=...`.
+- The containerized runtime now uses Postgres by default and still seeds from `/fixtures`.
 - The collaboration runtime lives in `../collab-server/`.
-- `docker compose up --build` brings up both runtimes with health checks, a shared runtime volume, and a shared collab secret for local deployment rehearsal.
+- `docker compose up --build` brings up web, collab, and postgres with health checks plus a shared collab secret for deployment rehearsal.
 - The web client connects to `NEXT_PUBLIC_COLLAB_URL` and defaults to `ws://127.0.0.1:4321`.
 - The collab handshake is signed by `POST /api/collab/session`; override `SPECFORGE_COLLAB_SECRET` only if both the web app and collab server share it.
 - The final handoff stage exposes `/export`, `/handoff`, `/execution`, and `/launch-packet` routes for downstream build agents.
@@ -89,4 +91,6 @@ docker compose up --build
 - Local recovery and observability notes live in `../LOCAL_RUNBOOK.md`.
 - Health endpoints:
   - `/api/health`
+  - `/api/metrics`
   - `http://127.0.0.1:4322/health`
+  - `http://127.0.0.1:4322/metrics`
