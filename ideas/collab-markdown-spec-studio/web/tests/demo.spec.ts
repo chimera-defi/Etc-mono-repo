@@ -234,3 +234,21 @@ test("renders the guided flow on a mobile viewport", async ({ page }) => {
     fullPage: true,
   });
 });
+
+test("local admin controls can seed review activity for a draft", async ({ page }) => {
+  await page.goto("/?stage=start");
+  await expect(page.getByText("Local admin", { exact: true })).toBeVisible();
+
+  await page.getByTestId("create-document-title").fill(`Admin Seed ${Date.now()}`);
+  await page.getByRole("button", { name: "Create guided draft" }).click();
+  await expect(page).toHaveURL(/document=/);
+
+  await page.getByText("Local admin", { exact: true }).click();
+  await page.getByRole("button", { name: "Seed review activity" }).click();
+  await expect(page).toHaveURL(/stage=review/);
+
+  const documentId = new URL(page.url()).searchParams.get("document");
+  expect(documentId).toBeTruthy();
+  await page.goto(`/?document=${documentId}&stage=decide`);
+  await expect(page.getByTestId("patch-queue")).toContainText("structural_edit");
+});
