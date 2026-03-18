@@ -9,10 +9,8 @@ const { verifyCollabToken } = require("../../lib/collab-auth.cjs");
 const port = Number(process.env.PORT ?? 4321);
 const healthPort = Number(process.env.HEALTH_PORT ?? port + 1);
 const roomStoreDir = path.resolve(
-  __dirname,
-  "..",
-  ".data",
-  "collab-rooms",
+  process.env.SPECFORGE_COLLAB_STORE_DIR ??
+    path.join(__dirname, "..", ".data", "collab-rooms"),
 );
 
 function getRoomSnapshotPath(documentName) {
@@ -162,6 +160,10 @@ const healthServer = http.createServer(async (request, response) => {
       service: "specforge-collab",
       checked_at: new Date().toISOString(),
       websocket_port: port,
+      persistence: {
+        backend: "filesystem",
+        room_store_dir: roomStoreDir,
+      },
       room_snapshot_count: roomSnapshots,
     }),
   );
