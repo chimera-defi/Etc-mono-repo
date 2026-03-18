@@ -13,13 +13,11 @@
  */
 
 import { describe, it, expect } from "vitest";
-import type { SpecBundle } from "../../src/engine/index.js";
 import {
   loadWorkspaceSeed,
-  loadPatchSeeds,
   runFullWorkflow,
-  seedToDocument,
   createFreshEngine,
+  seedToDocument,
   TEST_AGENT,
   TEST_REVIEWER,
 } from "../helpers.js";
