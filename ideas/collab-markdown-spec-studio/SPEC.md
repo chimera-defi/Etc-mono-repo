@@ -69,7 +69,8 @@ Build a real-time collaborative spec IDE with:
 ### 9) Delivery Parity Orchestrator (Build Loop)
 - Reads the approved spec plus the remaining parity backlog.
 - Generates the next highest-priority Codex pass brief automatically.
-- Runs Codex in bounded passes until the parity backlog is cleared or a blocker appears.
+- Runs Codex in bounded passes until the parity backlog is cleared, a blocker appears, or the current pass budget is exhausted.
+- `--until-clear` loops still respect an explicit max-pass budget so local runs stay bounded.
 - Requires each pass to update task state, rerun verification, and stop only on real blockers.
 - Treats the first successful buildable output as the minimum extensible product, then drives iterative parity passes until the scoped requirements are satisfied.
 - Inserts periodic multipass review/refactor passes so the loop also compacts context, captures meta learnings, and refreshes the latest handoff artifact instead of only shipping feature slices.
@@ -117,6 +118,7 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 10. Delivery loop state that tracks claimed intents, latest context, and emitted signals as the buildout advances.
 11. Delivery context packages that bundle approved exports, launch packet, active blockers, and the next claimed intent for coding agents.
 12. Runtime health endpoints for the web app and collaboration service plus containerized local deployment config.
+13. Health responses expose active persistence configuration so hosted-runtime drift is diagnosable without opening the code.
 
 ### Default Stack
 1. Next.js + React + TypeScript for the application shell.

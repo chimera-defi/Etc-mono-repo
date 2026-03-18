@@ -261,6 +261,17 @@ function resolveOptions(options: StoreOptions = {}) {
   };
 }
 
+export function getPersistenceConfig(options: StoreOptions = {}) {
+  const { dbPath, fixturesDir } = resolveOptions(options);
+
+  return {
+    backend: "pglite",
+    db_path: dbPath,
+    fixtures_dir: fixturesDir,
+    mode: dbPath.startsWith("memory://") ? "memory" : "snapshot_file",
+  };
+}
+
 async function readJson<T>(filePath: string): Promise<T> {
   const raw = await readFile(filePath, "utf8");
   return JSON.parse(raw) as T;

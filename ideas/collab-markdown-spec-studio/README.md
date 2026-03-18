@@ -60,3 +60,4 @@ Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid du
 6. Runtime health surfaces:
    - `web`: `/api/health`
    - `collab-server`: `http://localhost:4322/health`
+7. Health responses include persistence configuration so local-vs-hosted storage drift is visible without opening the code.
