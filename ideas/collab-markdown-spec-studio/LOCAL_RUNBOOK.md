@@ -20,6 +20,11 @@ cd ..
 docker compose up --build
 ```
 
+## Deployment Rehearsal Notes
+- `docker-compose.yml` mounts a shared `specforge_runtime` volume at `/var/lib/specforge` so the web app snapshot file and collab room snapshots survive container restarts.
+- The web image now ships `fixtures/` at `/fixtures`, which matches `SPECFORGE_FIXTURES_DIR` in the compose and production env examples.
+- The compose rehearsal also pins a shared `SPECFORGE_COLLAB_SECRET` so web-issued room tokens and collab auth stay aligned.
+
 ## Runtime Signals
 - Web app: editor toolbar status chip shows `connecting`, `live`, `saving`, `recovering`, `offline`, `stale`, or `error`.
 - Collab server: structured JSON logs for `server_listen`, `auth_ok`, `auth_failed`, `room_load`, `room_store`, `client_connected`, and `client_disconnected`.
