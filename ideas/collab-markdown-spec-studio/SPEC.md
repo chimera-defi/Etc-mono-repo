@@ -116,6 +116,7 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 9. Inline provenance overlays in the editor surface alongside block-level review markers.
 10. Delivery loop state that tracks claimed intents, latest context, and emitted signals as the buildout advances.
 11. Delivery context packages that bundle approved exports, launch packet, active blockers, and the next claimed intent for coding agents.
+12. Runtime health endpoints for the web app and collaboration service plus containerized local deployment config.
 
 ### Default Stack
 1. Next.js + React + TypeScript for the application shell.

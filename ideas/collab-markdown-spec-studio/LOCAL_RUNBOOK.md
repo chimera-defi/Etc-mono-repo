@@ -15,11 +15,17 @@ npm run test:e2e
 
 cd ../collab-server
 npm run dev
+
+cd ..
+docker compose up --build
 ```
 
 ## Runtime Signals
 - Web app: editor toolbar status chip shows `connecting`, `live`, `saving`, `recovering`, `offline`, `stale`, or `error`.
 - Collab server: structured JSON logs for `server_listen`, `auth_ok`, `auth_failed`, `room_load`, `room_store`, `client_connected`, and `client_disconnected`.
+- Health endpoints:
+  - web app: `GET /api/health`
+  - collab server: `GET http://127.0.0.1:4322/health`
 - Persistence:
   - app state snapshot under `web/.data/`
   - room snapshots under `collab-server/.data/collab-rooms/`
@@ -62,5 +68,6 @@ npm run dev
 
 ## Observability Notes
 - Use collab server JSON logs as the first debugging surface.
+- Hit the health endpoints before deeper debugging to distinguish startup issues from document-sync issues.
 - Use Playwright `npm run test:e2e` as the local integration smoke test after fixes.
 - Treat the launch packet as the final parity artifact: if export/handoff/execution diverge, rebuild the launch context first.
