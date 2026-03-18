@@ -11,8 +11,10 @@ import {
   switchWorkspaceActorAction,
 } from "../actions";
 import { DocumentWorkspace } from "../document-workspace";
+import { GuidedDraftBuilder } from "../guided-draft-builder";
 import { LocalAdminPanel } from "../local-admin-panel";
 import styles from "../page.module.css";
+import { getAgentAssistToolStatuses } from "@/lib/specforge/agent-assist";
 import type { StoredPatch } from "@/lib/specforge/contracts";
 import { readBacklogState } from "@/lib/specforge/backlog";
 import {
@@ -25,6 +27,7 @@ import {
   resolveStarterTemplateId,
   type StarterTemplateId,
 } from "@/lib/specforge/handoff";
+import { heroVariantOrder, heroVariants, type HeroVariant } from "@/lib/specforge/marketing";
 import { listShowcaseExamples } from "@/lib/specforge/showcase";
 import {
   listAuditEvents,
@@ -38,7 +41,6 @@ import { buildDocumentLaunchContext, buildLaunchPacket } from "@/lib/specforge/w
 export const dynamic = "force-dynamic";
 
 type Stage = "start" | "draft" | "review" | "decide" | "export";
-type HeroVariant = "handoff" | "multiplayer" | "ship";
 
 type Props = {
   searchParams?: Promise<{
@@ -66,39 +68,6 @@ type GuidedStep = {
 };
 
 const stageOrder: Stage[] = ["start", "draft", "review", "decide", "export"];
-const heroVariantOrder: HeroVariant[] = ["handoff", "multiplayer", "ship"];
-
-const heroVariants: Record<
-  HeroVariant,
-  {
-    eyebrow: string;
-    headline: string;
-    subhead: string;
-    tagline: string;
-  }
-> = {
-  handoff: {
-    eyebrow: "Build-ready specs, not scattered docs",
-    headline: "SpecForge turns multiplayer specs into one-shot build handoffs.",
-    subhead:
-      "Draft with humans and agents on the same canvas, review attributed patches, and export a clean bundle that a coding agent can build from without extra interpretation.",
-    tagline: "Multiplayer specs for one-shot builds",
-  },
-  multiplayer: {
-    eyebrow: "One canvas for humans and agents",
-    headline: "SpecForge is multiplayer spec writing that stays build-ready.",
-    subhead:
-      "Write together, review attributed changes, and keep the handoff bundle clean enough for a coding agent to execute without another planning pass.",
-    tagline: "Shared specs, shared context, cleaner buildouts",
-  },
-  ship: {
-    eyebrow: "From idea to build without losing the thread",
-    headline: "SpecForge helps teams write specs that agents can ship from in one shot.",
-    subhead:
-      "Keep authors, reviewers, and coding agents in the same workflow so the final spec is readable, attributable, and ready to turn into working code.",
-    tagline: "Specs that move straight into build mode",
-  },
-};
 
 function getPatchRiskLabel(patchType: string) {
   switch (patchType) {
@@ -326,10 +295,11 @@ export default async function Home({ searchParams }: Props) {
   const activeWorkspaceActor = activeWorkspaceSession.actor;
   const githubAuthConfigured = isGitHubAuthConfigured();
   const backlogState = await readBacklogState();
-  const [workspaceRecords, activeWorkspaceMembers, documents] = await Promise.all([
+  const [workspaceRecords, activeWorkspaceMembers, documents, assistToolStatuses] = await Promise.all([
     listWorkspaceRecords(),
     listWorkspaceMemberships(activeWorkspaceActor.workspace_id),
     listDocuments({ workspaceId: activeWorkspaceActor.workspace_id }),
+    getAgentAssistToolStatuses(),
   ]);
   const activeWorkspace =
     workspaceRecords.find((workspace) => workspace.workspace_id === activeWorkspaceActor.workspace_id) ??
@@ -398,7 +368,7 @@ export default async function Home({ searchParams }: Props) {
       <div className={styles.brandBar}>
         <div>
           <span className={styles.brandMark}>SpecForge</span>
-          <p className={styles.brandTagline}>{heroCopy.tagline}</p>
+          <p className={styles.brandTagline}>{heroCopy.tagline ?? heroCopy.eyebrow}</p>
         </div>
       </div>
 
@@ -615,6 +585,30 @@ export default async function Home({ searchParams }: Props) {
 
           <details className={styles.panel}>
             <summary className={styles.disclosureSummary}>
+              <span>Agent runtimes</span>
+              <span>{assistToolStatuses.filter((tool) => tool.available).length} available</span>
+            </summary>
+            <div className={styles.disclosureBody}>
+              <ul className={styles.patchList}>
+                {assistToolStatuses.map((tool) => (
+                  <li key={tool.id} className={styles.patchItem}>
+                    <strong>{tool.label}</strong>
+                    <span className={`${styles.badge} ${tool.available ? styles.success : styles.neutral}`}>
+                      {tool.available ? "available" : "unavailable"}
+                    </span>
+                    <span>{tool.detail}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className={styles.context}>
+                Local mode can reuse existing Codex or Claude Code CLI logins from the server
+                runtime. Hosted mode should use encrypted workspace-scoped credentials instead.
+              </p>
+            </div>
+          </details>
+
+          <details className={styles.panel}>
+            <summary className={styles.disclosureSummary}>
               <span>Document library</span>
               <span>{documents.length} total</span>
             </summary>
@@ -673,136 +667,12 @@ export default async function Home({ searchParams }: Props) {
               <section className={styles.panel} id="create-document">
                 <div className={styles.panelHeader}>
                   <h2>Guided spec creation</h2>
-                  <span>Structured draft</span>
+                  <span>Structured draft with assist</span>
                 </div>
-                <form
-                  action={createDocumentAction}
-                  className={styles.form}
-                  data-testid="create-document-form"
-                >
-                  <input type="hidden" name="mode" value="guided" />
-                  <label>
-                    Title
-                    <input
-                      name="title"
-                      defaultValue="SpecForge MVP"
-                      data-testid="create-document-title"
-                    />
-                  </label>
-                  <details className={styles.wizardSection} open>
-                    <summary className={styles.disclosureSummary}>
-                      <span>Why this exists</span>
-                      <span>Problem and goals</span>
-                    </summary>
-                    <div className={styles.disclosureBody}>
-                      <label>
-                        Problem
-                        <textarea
-                          name="problem"
-                          rows={4}
-                          defaultValue={
-                            "Teams lose momentum between idea, spec, review, and build handoff."
-                          }
-                        />
-                      </label>
-                      <label>
-                        Goals
-                        <textarea
-                          name="goals"
-                          rows={4}
-                          defaultValue={
-                            "Produce a build-ready spec\nSupport human and agent collaboration\nKeep review and attribution explicit"
-                          }
-                        />
-                      </label>
-                      <label>
-                        Users
-                        <textarea
-                          name="users"
-                          rows={3}
-                          defaultValue={"Product-minded founder\nPM + engineer pair\nCoding agent operator"}
-                        />
-                      </label>
-                    </div>
-                  </details>
-                  <details className={styles.wizardSection} open>
-                    <summary className={styles.disclosureSummary}>
-                      <span>What we will build</span>
-                      <span>Scope and boundaries</span>
-                    </summary>
-                    <div className={styles.disclosureBody}>
-                      <label>
-                        Scope
-                        <textarea
-                          name="scope"
-                          rows={4}
-                          defaultValue={
-                            "Guided spec creation\nShared authoring canvas\nPatch review and export handoff"
-                          }
-                        />
-                      </label>
-                      <label>
-                        Requirements
-                        <textarea
-                          name="requirements"
-                          rows={4}
-                          defaultValue={
-                            "Guided spec wizard with required sections\nShared multiplayer canvas with attribution\nHuman approval queue for agent patches"
-                          }
-                        />
-                      </label>
-                      <label>
-                        Non-goals
-                        <textarea
-                          name="non_goals"
-                          rows={3}
-                          defaultValue={
-                            "General-purpose project management\nFull autonomous delivery platform"
-                          }
-                        />
-                      </label>
-                    </div>
-                  </details>
-                  <details className={styles.wizardSection}>
-                    <summary className={styles.disclosureSummary}>
-                      <span>Delivery guardrails</span>
-                      <span>Constraints and tasks</span>
-                    </summary>
-                    <div className={styles.disclosureBody}>
-                      <label>
-                        Constraints
-                        <textarea
-                          name="constraints"
-                          rows={4}
-                          defaultValue={
-                            "Use off-the-shelf collaboration libraries where possible\nKeep human approval in the loop\nStay inside one curated TypeScript handoff path"
-                          }
-                        />
-                      </label>
-                      <label>
-                        Success signals
-                        <textarea
-                          name="success_signals"
-                          rows={3}
-                          defaultValue={
-                            "Spec reaches readiness without unresolved review work\nHandoff bundle is deterministic\nStarter output is runnable"
-                          }
-                        />
-                      </label>
-                      <label>
-                        Initial tasks
-                        <textarea
-                          name="tasks"
-                          rows={4}
-                          defaultValue={
-                            "Collect core requirements\nDraft the canonical spec\nReview agent patches\nExport the handoff bundle\nGenerate the starter app"
-                          }
-                        />
-                      </label>
-                    </div>
-                  </details>
-                  <button type="submit">Create guided draft</button>
-                </form>
+                <GuidedDraftBuilder
+                  toolStatuses={assistToolStatuses}
+                  cliAssistEnabled={activeWorkspaceSession.authMode === "local"}
+                />
               </section>
 
               {showcaseExamples.length > 0 ? (
