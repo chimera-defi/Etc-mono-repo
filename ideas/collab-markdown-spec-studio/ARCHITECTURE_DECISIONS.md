@@ -55,8 +55,7 @@
 ## Decision 11: Simple Anchored Comments in v1
 - Choice: ship basic anchored comment threads before richer inline comment UX.
 - Why: patch review and depth gates matter more than advanced comment ergonomics.
-- Status (MVP): Database schema is complete (comment_threads table with open/resolved state). API endpoints exist for create/resolve. **Critical gap: no frontend UI component for comments.** Users cannot interact with the comment system through the product—it exists as pure data model only.
-- Recommendation: Add comment thread side panel UI and test comment-on-patch workflow before claiming this feature works.
+- Status (MVP): Implemented. Comment threads are visible in the review workspace with create/resolve flows and tests.
 - Tradeoff: comments will feel less polished than mature editor platforms.
 
 ## Decision 12: Curated Example Generation Only
@@ -105,6 +104,6 @@
 ## Decision 20: Honest Scope Boundaries (NEW)
 - **Status**: Must enforce in all docs and messaging going forward.
 - Choice: Be explicit about what works for single-user vs multiplayer scenarios.
-- Why: Product claims are currently overstated. CRDT infrastructure exists but isn't tested at scale. Comment system has DB but no UI.
-- Recommendation: Update SPEC.md to mark multiplayer features as "infrastructure-ready, not user-validated" and comment system as "data model only."
-- Implication: This is a "single-user spec editor with patch governance" until multiplayer features are tested and comment UI is built.
+- Why: Product claims can drift faster than implementation. Multiplayer validation is still weaker than the single-user path even though the core UI and comment system now work.
+- Recommendation: Keep distinguishing "implemented locally" from "design-partner validated" and update the runner/task list when that boundary changes.
+- Implication: This is a real local multiplayer-capable MVP with some hosted/runtime validation still outstanding.
