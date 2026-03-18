@@ -1399,6 +1399,44 @@ export async function listClarifications(documentId: string, options?: StoreOpti
   return result.rows.map(mapClarificationRow);
 }
 
+export async function resetWorkspaceDocuments(workspaceId: string, options?: StoreOptions) {
+  const database = await getDatabase(options);
+  const { dbPath } = resolveOptions(options);
+  const deletedDocuments = await database.query<{ document_id: string }>(
+    `SELECT document_id
+    FROM documents
+    WHERE workspace_id = $1`,
+    [workspaceId],
+  );
+  const resetAt = new Date().toISOString();
+
+  await database.transaction(async (tx) => {
+    await tx.query(
+      `DELETE FROM documents
+      WHERE workspace_id = $1`,
+      [workspaceId],
+    );
+    await insertAuditEvent(tx, {
+      event_type: "workspace.documents_reset",
+      actor_type: "system",
+      actor_id: "specforge_admin",
+      payload: {
+        workspace_id: workspaceId,
+        deleted_documents: deletedDocuments.rows.length,
+      },
+      created_at: resetAt,
+    });
+  });
+
+  await persistSnapshot(database, dbPath);
+
+  return {
+    workspace_id: workspaceId,
+    deleted_documents: deletedDocuments.rows.length,
+    reset_at: resetAt,
+  };
+}
+
 export async function createDocument(input: DocumentCreateInput, options?: StoreOptions) {
   const payload = documentCreateSchema.parse(input);
   const database = await getDatabase(options);
