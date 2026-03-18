@@ -10,6 +10,8 @@ BROAD_PATTERNS = [
     r"\bgrep\s+-R\b",
     r"\bgrep\s+--recursive\b",
     r"\bdu\s+-a\b",
+    r"\brg\b.*\s--files(?:\s+\.|\s*$)",
+    r"\btree\b(?:\s+\.|\s*$)",
 ]
 
 SAFE_HINTS = (
