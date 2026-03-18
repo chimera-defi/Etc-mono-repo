@@ -27,6 +27,7 @@
 - [x] One canonical `ideas/` showcase import exists for `server-management-agent`.
 - [x] Playwright-based end-to-end and screenshot coverage for the local integrated demo.
 - [x] Local parity runner exists to drive bounded Codex passes from the remaining backlog.
+- [x] Local admin controls can reset workspace data and seed review activity for MVP testing.
 
 ## Remaining MVP Build Backlog
 - [x] Add reconnect, replay, and stale-room recovery handling beyond the current local persistence path.
