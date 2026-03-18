@@ -46,7 +46,7 @@
 - [x] Add real workspace records, membership roles, and per-workspace document isolation in the app UI.
 - [x] Add clarification queue flows and answer writing back into the canonical doc.
 - [x] Expand starter generation from one curated template toward the broader repo-generation scope.
-- [ ] Add hosted deployment config, production persistence, and real observability plumbing.
+- [x] Add hosted deployment config, production persistence, and real observability plumbing.
 - [x] Let the runner advance the SaaS backlog through multiple claimed passes while preserving local-test ergonomics.
 
 ## Immediate Execution Order
@@ -67,8 +67,8 @@
 - [x] Add runtime health endpoints for the web app and collaboration service.
 - [x] Bound parity batch runs so `--until-clear` still respects `--max-passes`.
 - [x] Mount shared runtime persistence and ship fixtures correctly in the local container rehearsal.
-- [ ] Replace local PGlite persistence with production-grade shared persistence for hosted environments.
-- [ ] Add production metrics/tracing beyond local logs and health checks.
+- [x] Replace local PGlite persistence with production-grade shared persistence for hosted environments.
+- [x] Add production metrics/tracing beyond local logs and health checks.
 
 ## Recommended Parallel Execution Now
 1. Shared canvas hardening: reconnect, replay, and sync/error states.
