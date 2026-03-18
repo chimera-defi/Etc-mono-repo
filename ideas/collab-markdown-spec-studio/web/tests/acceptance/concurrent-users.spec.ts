@@ -97,7 +97,7 @@ describe("Concurrent user testing and conflict detection", () => {
    * - No stale detection (INSERT ops don't trigger stale detection)
    */
   it("should accept concurrent patches to different blocks", () => {
-    const { engine, doc, seed } = createSeededEngine();
+    const { engine, doc } = createSeededEngine();
 
     // Ensure we have at least 2 blocks
     if (doc.blocks.length < 2) {
@@ -238,7 +238,7 @@ describe("Concurrent user testing and conflict detection", () => {
    * - Comment remains (not lost on patch apply)
    */
   it("should preserve comments when patches are applied concurrently", () => {
-    const { engine, doc, seed } = createSeededEngine();
+    const { engine, doc } = createSeededEngine();
     const blockId = doc.blocks[0].block_id;
     const sectionId = doc.blocks[0].section_id;
 
@@ -298,7 +298,8 @@ describe("Concurrent user testing and conflict detection", () => {
    * - Results deterministic (same input → same output)
    */
   it("should maintain deterministic patch ordering across proposals", () => {
-    const { engine, doc, seed } = createSeededEngine();
+    const { engine, doc } = createSeededEngine();
+    const seed = loadWorkspaceSeed();
     const blockId = doc.blocks[0].block_id;
     const sectionId = doc.blocks[0].section_id;
 
@@ -365,7 +366,7 @@ describe("Concurrent user testing and conflict detection", () => {
    * - Verify event stream complete
    */
   it("should handle load test: 100 patches with mixed decisions", () => {
-    const { engine, doc, seed } = createSeededEngine();
+    const { engine, doc } = createSeededEngine();
 
     // Use available blocks, cycling through them
     const availableBlocks = doc.blocks.slice(0, Math.min(10, doc.blocks.length));
@@ -403,7 +404,6 @@ describe("Concurrent user testing and conflict detection", () => {
 
     // Decide: accept first 50, reject second 50
     let acceptedCount = 0;
-    let rejectedCount = 0;
 
     for (let i = 0; i < patches.length; i++) {
       const decision = i < 50 ? "accept" : "reject";
@@ -416,7 +416,6 @@ describe("Concurrent user testing and conflict detection", () => {
       if (result.status === "accepted") {
         acceptedCount++;
       } else if (result.status === "rejected") {
-        rejectedCount++;
       }
     }
 
@@ -548,9 +547,7 @@ describe("Concurrent user testing and conflict detection", () => {
    * - No version jumps or gaps
    */
   it("should handle rapid concurrent acceptances without version race conditions", () => {
-    const { engine, doc, seed } = createSeededEngine();
-    const blockId = doc.blocks[0].block_id;
-    const sectionId = doc.blocks[0].section_id;
+    const { engine, doc } = createSeededEngine();
 
     // Propose 10 patches to different blocks (to avoid stale detection)
     const patches = [];
@@ -609,7 +606,7 @@ describe("Concurrent user testing and conflict detection", () => {
    * - Each event has valid timestamp and unique ID
    */
   it("should capture complete audit trail of concurrent operations", () => {
-    const { engine, doc, seed } = createSeededEngine();
+    const { engine, doc } = createSeededEngine();
 
     // Simulate 3 concurrent users
     for (let user = 0; user < 3; user++) {
