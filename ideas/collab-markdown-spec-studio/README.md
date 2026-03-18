@@ -1,6 +1,6 @@
 ## SpecForge
 
-**Status**: Local MVP implemented and under hardening
+**Status**: Scoped MVP/spec parity reached on the build branch
 
 ### Concept
 A collaborative spec IDE where humans and AI agents work on the same markdown canvas with depth gates, governed patch review, and attributable changes.
@@ -37,6 +37,7 @@ Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid du
    - ability to reach a build-ready spec
 2. Use selected `ideas/` packs as example corpora and end-to-end benchmarks.
 3. Treat repo generation as a downstream proof surface, not the initial product gate.
+4. Treat the current `/` surface as a workspace-first home, not a finished marketing landing page.
 
 ### Applied Learnings
 1. Lock the wedge early:
@@ -65,3 +66,10 @@ Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid du
 7. Health and metrics responses include persistence configuration so local-vs-hosted storage drift is visible without opening the code.
 8. The local deployment rehearsal now ships `fixtures/` inside the web image and exercises the hosted Postgres path instead of only local snapshots.
 9. Local demo mode still includes admin controls for resetting workspace state and seeding review activity during MVP testing.
+
+### Post-Parity Company Plan
+1. Run design-partner validation on the hosted rehearsal path.
+2. Decide hosted SaaS only vs self-hosted OSS + hosted SaaS.
+3. Add a dedicated landing page and commercial onboarding flow.
+4. Add billing, metering, backup/restore, and stronger operational dashboards.
+5. Expand starter generation only after design-partner usage proves the next templates.
