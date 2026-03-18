@@ -32,15 +32,9 @@ import { generateRepository } from "./repo-generator.js";
 import { escapeRegExp } from "./utils.js";
 import { NotFoundError, ValidationError } from "./errors.js";
 
-let globalCounter = 0;
-function nextId(prefix: string): string {
-  globalCounter += 1;
-  return `${prefix}_${globalCounter}`;
-}
-
 /** Reset global ID counter (for test isolation). */
 export function resetIdCounter(): void {
-  globalCounter = 0;
+  // Instance-scoped counters are reset by creating a fresh engine per test.
 }
 
 export class SpecForgeEngine {
@@ -605,7 +599,6 @@ export class SpecForgeEngine {
     }
 
     for (const userId of usersToRemove) {
-      const user = this.presenceState.users.get(userId)!;
       this.presenceState.users.delete(userId);
       this.presenceState.last_updated = new Date().toISOString();
 

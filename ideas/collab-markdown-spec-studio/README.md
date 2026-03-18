@@ -1,6 +1,6 @@
 ## SpecForge
 
-**Status**: Exploration (docs-first)
+**Status**: Local MVP implemented and under hardening
 
 ### Concept
 A collaborative spec IDE where humans and AI agents work on the same markdown canvas with depth gates, governed patch review, and attributable changes.
@@ -8,29 +8,24 @@ A collaborative spec IDE where humans and AI agents work on the same markdown ca
 ### Thesis
 Collaborative editors already exist. The wedge is not generic editing; it is a spec-native workspace that keeps humans and agents on one canvas, enforces decision depth, and turns approved specs into execution-ready outputs.
 
-### Key Docs (Review Path)
-0. `README_REVIEW_GUIDE.md`
+### Canonical Docs
 1. `EXECUTIVE_SUMMARY.md`
 2. `PRD.md`
 3. `SPEC.md`
-4. `TECH_STACK.md`
-5. `ARCHITECTURE_DIAGRAMS.md`
-6. `UX_PRINCIPLES.md`
-7. `USER_FLOWS.md`
-8. `FRONTEND_VISION.md`
-9. `WIREFRAMES.md`
-10. `COMPETITOR_MATRIX.md`
-11. `VALIDATION_PLAN.md`
-12. `GO_NO_GO_SCORECARD.md`
+4. `ARCHITECTURE_DECISIONS.md`
+5. `TECH_STACK.md`
+6. `TASKS.md`
+7. `web/README.md`
+8. `LOCAL_RUNBOOK.md`
 
 ### Full Pack (Grouped)
-- Strategy and product: `EXECUTIVE_SUMMARY`, `PRD`, `ALTERNATIVES_AND_VARIANTS`, `COMPETITOR_ANALYSIS`, `COMPETITOR_MATRIX`
-- Technical design: `SPEC`, `TECH_STACK`, `ARCHITECTURE_DIAGRAMS`, `ARCHITECTURE_DECISIONS`
-- UX and product surface: `VISION_AND_FLOW`, `UX_PRINCIPLES`, `USER_FLOWS`, `FRONTEND_VISION`, `WIREFRAMES`
+- Product and strategy: `EXECUTIVE_SUMMARY`, `PRD`, `SPEC`
+- Architecture and runtime: `ARCHITECTURE_DECISIONS`, `TECH_STACK`, `LOCAL_RUNBOOK`, `EVENT_MODEL`
+- UX and flow: `VISION_AND_FLOW`, `UX_PRINCIPLES`, `USER_FLOWS`
 - Validation and economics: `VALIDATION_PLAN`, `GO_NO_GO_SCORECARD`, `PILOT_SCORECARD_TEMPLATE`, `FINANCIAL_MODEL`, `RISK_REGISTER`
-- Execution and governance: `90_DAY_EXECUTION_PLAN`, `TASKS`, `DECISIONS`, `AGENT_HANDOFF`, `SPEC_STAGE_CHECKLIST`
-- Iteration history: `archive/REFINEMENTS`, `archive/MULTIPASS_REVIEW`, `archive/META_LEARNINGS`, `IDEA_DEVELOPMENT_FRAMEWORK`
-- One-shot build assets: `contracts/`, `fixtures/`, `ACCEPTANCE_TEST_MATRIX.md`, `FIRST_60_MINUTES.md`, `SUBAGENT_PROMPT_PACK.md`
+- Build surface: `web/`, `collab-server/`, `contracts/`, `fixtures/`, `FIRST_60_MINUTES.md`, `ACCEPTANCE_TEST_MATRIX.md`
+- Backlog and execution: `TASKS`, `90_DAY_EXECUTION_PLAN`, `DECISIONS`, `AGENT_HANDOFF`
+- Archived/working notes: `archive/`, `RESEARCH_NOTES.md`
 
 ### Source Notes
 Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid duplication.
@@ -55,3 +50,9 @@ Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid du
    - one curated TypeScript starter is a better MVP than broad repo generation claims
 5. Keep browser tests on the real path:
    - create -> review -> decide -> handoff is the regression boundary for future idea builds
+
+### Current Runtime
+1. `web/` is the real Next.js app.
+2. `collab-server/` is the real Hocuspocus/Yjs collaboration service.
+3. The local app persists state in `web/.data/` and auto-seeds from `fixtures/`.
+4. The root workspace scripts are only wrappers around the real runnable app and test commands.

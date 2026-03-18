@@ -11,16 +11,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-import type { GeneratedRepo } from "../../src/engine/index.js";
-import {
-  loadWorkspaceSeed,
-  loadPatchSeeds,
-  runFullWorkflow,
-  seedToDocument,
-  createFreshEngine,
-  TEST_AGENT,
-  TEST_REVIEWER,
-} from "../helpers.js";
+import { runFullWorkflow } from "../helpers.js";
 
 describe("Repository Generation", () => {
   it("should generate docs-only repo from spec bundle", () => {
