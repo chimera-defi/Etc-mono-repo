@@ -56,3 +56,7 @@ Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid du
 2. `collab-server/` is the real Hocuspocus/Yjs collaboration service.
 3. The local app persists state in `web/.data/` and auto-seeds from `fixtures/`.
 4. The root workspace scripts are only wrappers around the real runnable app and test commands.
+5. `docker compose up --build` now brings up the web app and collaboration service with health checks.
+6. Runtime health surfaces:
+   - `web`: `/api/health`
+   - `collab-server`: `http://localhost:4322/health`
