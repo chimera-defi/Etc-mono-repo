@@ -4,6 +4,7 @@ import process from "node:process";
 import { randomUUID } from "node:crypto";
 
 import { PGlite } from "@electric-sql/pglite";
+import { Pool } from "pg";
 
 import {
   clarificationAnswerSchema,
@@ -34,9 +35,21 @@ import {
 } from "./markdown";
 
 type StoreOptions = {
+  backend?: "pglite" | "postgres";
   dbPath?: string;
+  databaseUrl?: string;
   fixturesDir?: string;
   workspaceId?: string;
+};
+
+type QuerySession = {
+  query<T = unknown>(sql: string, params?: unknown[]): Promise<{ rows: T[] }>;
+  exec?: (sql: string) => Promise<unknown>;
+};
+
+type Queryable = QuerySession & {
+  close?: () => Promise<void>;
+  transaction: <T>(fn: (tx: QuerySession) => Promise<T>) => Promise<T>;
 };
 
 type DocumentRow = {
@@ -198,6 +211,15 @@ type ClarificationRow = {
   answered_at: string | null;
 };
 
+type DocumentSnapshotRow = {
+  snapshot_id: string;
+  document_id: string;
+  version: number;
+  markdown: string;
+  editor_json: unknown | null;
+  created_at: string;
+};
+
 export type ClarificationRecord = {
   clarification_id: string;
   document_id: string;
@@ -217,7 +239,7 @@ export type ClarificationRecord = {
   answered_at?: string;
 };
 
-const databaseCache = new Map<string, Promise<PGlite>>();
+const databaseCache = new Map<string, Promise<Queryable>>();
 const snapshotVersionCache = new Map<string, number>();
 
 function normalizePathLike(value: unknown) {
@@ -238,21 +260,29 @@ function normalizePathLike(value: unknown) {
 }
 
 const currentWorkingDirectory = normalizePathLike(process.cwd());
-const envDbPath = process.env.SPECFORGE_DB_PATH;
-const envFixturesDir = process.env.SPECFORGE_FIXTURES_DIR;
 const defaultDbPath = path.resolve(currentWorkingDirectory, ".data", "specforge-store.json");
 const defaultFixturesDir = path.resolve(currentWorkingDirectory, "..", "fixtures");
 
 function resolveOptions(options: StoreOptions = {}) {
+  const envBackend = process.env.SPECFORGE_PERSISTENCE_BACKEND;
+  const envDbPath = process.env.SPECFORGE_DB_PATH;
+  const envDatabaseUrl = process.env.DATABASE_URL;
+  const envFixturesDir = process.env.SPECFORGE_FIXTURES_DIR;
+  const resolvedBackend =
+    options.backend ??
+    (envBackend === "postgres" || options.databaseUrl || envDatabaseUrl ? "postgres" : "pglite");
   const resolvedDbPath =
     options.dbPath ??
     (envDbPath ? normalizePathLike(envDbPath) : defaultDbPath);
+  const resolvedDatabaseUrl = options.databaseUrl ?? envDatabaseUrl;
 
   return {
+    backend: resolvedBackend,
     dbPath:
       resolvedDbPath.startsWith("memory://")
         ? resolvedDbPath
         : path.resolve(currentWorkingDirectory, resolvedDbPath),
+    databaseUrl: resolvedDatabaseUrl,
     fixturesDir:
       options.fixturesDir ??
       (envFixturesDir
@@ -262,13 +292,19 @@ function resolveOptions(options: StoreOptions = {}) {
 }
 
 export function getPersistenceConfig(options: StoreOptions = {}) {
-  const { dbPath, fixturesDir } = resolveOptions(options);
+  const { backend, dbPath, databaseUrl, fixturesDir } = resolveOptions(options);
 
   return {
-    backend: "pglite",
+    backend,
+    database_url_configured: backend === "postgres" ? Boolean(databaseUrl) : false,
     db_path: dbPath,
     fixtures_dir: fixturesDir,
-    mode: dbPath.startsWith("memory://") ? "memory" : "snapshot_file",
+    mode:
+      backend === "postgres"
+        ? "postgres_pool"
+        : dbPath.startsWith("memory://")
+          ? "memory"
+          : "snapshot_file",
   };
 }
 
@@ -282,9 +318,11 @@ type StoreSnapshot = {
   workspace_members: WorkspaceMemberRow[];
   users: UserRow[];
   documents: DocumentRow[];
+  document_snapshots: DocumentSnapshotRow[];
   patches: PatchRow[];
   audit_events: AuditEventRow[];
   comment_threads: CommentThreadRow[];
+  clarifications: ClarificationRow[];
 };
 
 async function getSnapshotVersion(snapshotPath: string) {
@@ -304,8 +342,18 @@ async function getSnapshotVersion(snapshotPath: string) {
   }
 }
 
-async function dumpSnapshot(database: PGlite): Promise<StoreSnapshot> {
-  const [workspaces, workspaceMembers, users, documents, patches, auditEvents, commentThreads] =
+async function dumpSnapshot(database: QuerySession): Promise<StoreSnapshot> {
+  const [
+    workspaces,
+    workspaceMembers,
+    users,
+    documents,
+    documentSnapshots,
+    patches,
+    auditEvents,
+    commentThreads,
+    clarifications,
+  ] =
     await Promise.all([
       database.query<WorkspaceRow>(
         `SELECT workspace_id, name, plan, created_at
@@ -351,6 +399,17 @@ async function dumpSnapshot(database: PGlite): Promise<StoreSnapshot> {
         created_at,
         updated_at
       FROM documents
+      ORDER BY created_at ASC`,
+    ),
+    database.query<DocumentSnapshotRow>(
+      `SELECT
+        snapshot_id,
+        document_id,
+        version,
+        markdown,
+        editor_json,
+        created_at
+      FROM document_snapshots
       ORDER BY created_at ASC`,
     ),
     database.query<PatchRow>(
@@ -402,6 +461,23 @@ async function dumpSnapshot(database: PGlite): Promise<StoreSnapshot> {
       FROM comment_threads
       ORDER BY created_at ASC`,
     ),
+    database.query<ClarificationRow>(
+      `SELECT
+        clarification_id,
+        document_id,
+        section_heading,
+        question,
+        status,
+        created_by_actor_type,
+        created_by_actor_id,
+        answer_text,
+        answered_by_actor_type,
+        answered_by_actor_id,
+        created_at,
+        answered_at
+      FROM clarifications
+      ORDER BY created_at ASC`,
+    ),
     ]);
 
   return {
@@ -409,14 +485,27 @@ async function dumpSnapshot(database: PGlite): Promise<StoreSnapshot> {
     workspace_members: workspaceMembers.rows,
     users: users.rows,
     documents: documents.rows,
+    document_snapshots: documentSnapshots.rows,
     patches: patches.rows,
     audit_events: auditEvents.rows,
     comment_threads: commentThreads.rows,
+    clarifications: clarifications.rows,
   };
 }
 
-async function hydrateSnapshot(database: PGlite, snapshot: StoreSnapshot) {
-  await database.exec(`
+async function execSql(database: QuerySession, sql: string) {
+  if (database.exec) {
+    await database.exec(sql);
+    return;
+  }
+
+  await database.query(sql);
+}
+
+async function hydrateSnapshot(database: QuerySession, snapshot: StoreSnapshot) {
+  await execSql(database, `
+    DELETE FROM clarifications;
+    DELETE FROM document_snapshots;
     DELETE FROM comment_threads;
     DELETE FROM audit_events;
     DELETE FROM patches;
@@ -517,6 +606,27 @@ async function hydrateSnapshot(database: PGlite, snapshot: StoreSnapshot) {
     );
   }
 
+  for (const row of snapshot.document_snapshots ?? []) {
+    await database.query(
+      `INSERT INTO document_snapshots (
+        snapshot_id,
+        document_id,
+        version,
+        markdown,
+        editor_json,
+        created_at
+      ) VALUES ($1, $2, $3, $4, $5, $6)`,
+      [
+        row.snapshot_id,
+        row.document_id,
+        row.version,
+        row.markdown,
+        row.editor_json ?? null,
+        row.created_at,
+      ],
+    );
+  }
+
   for (const row of snapshot.patches) {
     await database.query(
       `INSERT INTO patches (
@@ -611,9 +721,42 @@ async function hydrateSnapshot(database: PGlite, snapshot: StoreSnapshot) {
       ],
     );
   }
+
+  for (const row of snapshot.clarifications ?? []) {
+    await database.query(
+      `INSERT INTO clarifications (
+        clarification_id,
+        document_id,
+        section_heading,
+        question,
+        status,
+        created_by_actor_type,
+        created_by_actor_id,
+        answer_text,
+        answered_by_actor_type,
+        answered_by_actor_id,
+        created_at,
+        answered_at
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`,
+      [
+        row.clarification_id,
+        row.document_id,
+        row.section_heading,
+        row.question,
+        row.status,
+        row.created_by_actor_type,
+        row.created_by_actor_id,
+        row.answer_text ?? null,
+        row.answered_by_actor_type ?? null,
+        row.answered_by_actor_id ?? null,
+        row.created_at,
+        row.answered_at ?? null,
+      ],
+    );
+  }
 }
 
-async function persistSnapshot(database: PGlite, snapshotPath: string) {
+async function persistSnapshot(database: QuerySession, snapshotPath: string) {
   if (snapshotPath.startsWith("memory://")) {
     return;
   }
@@ -726,8 +869,8 @@ function mapClarificationRow(row: ClarificationRow): ClarificationRecord {
   };
 }
 
-async function createSchema(database: PGlite) {
-  await database.exec(`
+async function createSchema(database: QuerySession) {
+  await execSql(database, `
     CREATE TABLE IF NOT EXISTS workspaces (
       workspace_id TEXT PRIMARY KEY,
       name TEXT NOT NULL,
@@ -840,7 +983,7 @@ async function createSchema(database: PGlite) {
 }
 
 async function insertAuditEvent(
-  database: Pick<PGlite, "query">,
+  database: QuerySession,
   input: {
     document_id?: string;
     patch_id?: string;
@@ -876,7 +1019,7 @@ async function insertAuditEvent(
 }
 
 async function insertSnapshot(
-  database: Pick<PGlite, "query">,
+  database: QuerySession,
   document: Pick<DocumentRecord, "document_id" | "version" | "markdown" | "editor_json">,
   createdAt: string,
 ) {
@@ -900,7 +1043,7 @@ async function insertSnapshot(
   );
 }
 
-async function seedDatabase(database: PGlite, fixturesDir: string) {
+async function seedDatabase(database: QuerySession, fixturesDir: string) {
   const workspace = await readJson<{
     workspace_id: string;
     document_id: string;
@@ -1098,7 +1241,7 @@ async function seedDatabase(database: PGlite, fixturesDir: string) {
   }
 }
 
-async function ensureWorkspaceSeedData(database: PGlite) {
+async function ensureWorkspaceSeedData(database: QuerySession) {
   const documentWorkspace = await database.query<{ workspace_id: string }>(
     `SELECT workspace_id FROM documents ORDER BY created_at ASC LIMIT 1`,
   );
@@ -1154,14 +1297,85 @@ async function ensureWorkspaceSeedData(database: PGlite) {
 }
 
 async function getDatabase(options: StoreOptions = {}) {
-  const { dbPath, fixturesDir } = resolveOptions(options);
-  const isMemoryDatabase = dbPath.startsWith("memory://");
+  const { backend, dbPath, databaseUrl, fixturesDir } = resolveOptions(options);
+  const isMemoryDatabase = backend === "pglite" && dbPath.startsWith("memory://");
+  const cacheKey = backend === "postgres" ? `postgres:${databaseUrl ?? "missing"}` : dbPath;
 
-  if (!databaseCache.has(dbPath)) {
+  if (!databaseCache.has(cacheKey)) {
     databaseCache.set(
-      dbPath,
+      cacheKey,
       (async () => {
-        const database = await PGlite.create();
+        if (backend === "postgres") {
+          if (!databaseUrl) {
+            throw new Error(
+              "DATABASE_URL is required when SPECFORGE_PERSISTENCE_BACKEND=postgres",
+            );
+          }
+
+          const pool = new Pool({
+            connectionString: databaseUrl,
+            ssl:
+              process.env.SPECFORGE_POSTGRES_SSL === "true"
+                ? { rejectUnauthorized: false }
+                : undefined,
+          });
+          const database: Queryable = {
+            query: async <T = unknown>(sql: string, params?: unknown[]) => {
+              const result = await pool.query(sql, params);
+              return {
+                rows: result.rows as T[],
+              };
+            },
+            close: () => pool.end(),
+            transaction: async <T>(fn: (tx: QuerySession) => Promise<T>) => {
+              const client = await pool.connect();
+              const tx: QuerySession = {
+                query: async <R = unknown>(sql: string, params?: unknown[]) => {
+                  const result = await client.query(sql, params);
+                  return {
+                    rows: result.rows as R[],
+                  };
+                },
+              };
+
+              try {
+                await client.query("BEGIN");
+                const result = await fn(tx);
+                await client.query("COMMIT");
+                return result;
+              } catch (error) {
+                await client.query("ROLLBACK");
+                throw error;
+              } finally {
+                client.release();
+              }
+            },
+          };
+          await createSchema(database);
+          const documentCount = await database.query<{ count: string }>(
+            "SELECT COUNT(*)::text AS count FROM documents",
+          );
+
+          if ((documentCount.rows[0]?.count ?? "0") === "0") {
+            await seedDatabase(database, fixturesDir);
+          }
+
+          await ensureWorkspaceSeedData(database);
+          return database;
+        }
+
+        const rawDatabase = await PGlite.create();
+        const database: Queryable = {
+          query: (sql, params) => rawDatabase.query(sql, params),
+          exec: (sql) => rawDatabase.exec(sql),
+          transaction: async <T>(fn: (tx: QuerySession) => Promise<T>) =>
+            rawDatabase.transaction((tx) =>
+              fn({
+                query: (sql, params) => tx.query(sql, params),
+                exec: (sql) => tx.exec(sql),
+              }),
+            ),
+        };
         await createSchema(database);
 
         if (isMemoryDatabase) {
@@ -1188,21 +1402,36 @@ async function getDatabase(options: StoreOptions = {}) {
     );
   }
 
-  const database = await databaseCache.get(dbPath)!;
+  const database = await databaseCache.get(cacheKey)!;
 
-  if (!isMemoryDatabase) {
+  if (backend === "pglite" && !isMemoryDatabase) {
     const diskVersion = await getSnapshotVersion(dbPath);
-    const cachedVersion = snapshotVersionCache.get(dbPath) ?? 0;
+    const cachedVersion = snapshotVersionCache.get(cacheKey) ?? 0;
 
     if (diskVersion > cachedVersion) {
       const snapshot = await readJson<StoreSnapshot>(dbPath);
       await hydrateSnapshot(database, snapshot);
       await ensureWorkspaceSeedData(database);
-      snapshotVersionCache.set(dbPath, diskVersion);
+      snapshotVersionCache.set(cacheKey, diskVersion);
     }
   }
 
   return database;
+}
+
+export async function resetStoreCacheForTests() {
+  const databases = await Promise.all(databaseCache.values());
+
+  await Promise.all(
+    databases.map(async (database) => {
+      if (database.close) {
+        await database.close();
+      }
+    }),
+  );
+
+  databaseCache.clear();
+  snapshotVersionCache.clear();
 }
 
 export async function listDocuments(options?: StoreOptions) {

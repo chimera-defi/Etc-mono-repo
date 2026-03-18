@@ -136,7 +136,7 @@ const server = new Server({
 });
 
 const healthServer = http.createServer(async (request, response) => {
-  if (request.url !== "/health") {
+  if (request.url !== "/health" && request.url !== "/metrics") {
     response.writeHead(404, { "content-type": "application/json" });
     response.end(JSON.stringify({ status: "not_found" }));
     return;
@@ -153,20 +153,20 @@ const healthServer = http.createServer(async (request, response) => {
     }
   }
 
+  const payload = {
+    status: "ok",
+    service: "specforge-collab",
+    checked_at: new Date().toISOString(),
+    websocket_port: port,
+    persistence: {
+      backend: "filesystem",
+      room_store_dir: roomStoreDir,
+    },
+    room_snapshot_count: roomSnapshots,
+  };
+
   response.writeHead(200, { "content-type": "application/json" });
-  response.end(
-    JSON.stringify({
-      status: "ok",
-      service: "specforge-collab",
-      checked_at: new Date().toISOString(),
-      websocket_port: port,
-      persistence: {
-        backend: "filesystem",
-        room_store_dir: roomStoreDir,
-      },
-      room_snapshot_count: roomSnapshots,
-    }),
-  );
+  response.end(JSON.stringify(payload));
 });
 
 async function main() {
