@@ -1,6 +1,6 @@
 ## SpecForge PRD
 
-**Status**: MVP build validated locally | **Last Updated**: 2026-03-14 | **Owner**: SpecForge
+**Status**: Scoped MVP/spec parity reached on the build branch | **Last Updated**: 2026-03-18 | **Owner**: SpecForge
 
 ### Problem
 Teams doing startup/product planning often draft PRD/spec/design docs in fragmented tools:
@@ -17,6 +17,24 @@ Create a focused collaborative spec IDE for humans and AI agents where work happ
 4. depth-gated before milestone close,
 5. workflow-linked to implementation.
 6. optionally convertible into a starter GitHub repository flow.
+
+### Current Shipped Product
+The branch currently ships:
+1. guided spec creation,
+2. multiplayer drafting,
+3. governed agent patch review,
+4. comments, clarifications, provenance, and readiness,
+5. export + starter handoff + execution brief + launch packet,
+6. local admin controls for fast MVP testing,
+7. a hosted-runtime rehearsal path with `web`, `collab-server`, and `postgres`.
+
+### Company Plan After MVP Parity
+The broader company plan is still larger than the shipped MVP:
+1. validate design-partner demand and retention,
+2. decide hosted SaaS vs self-hosted OSS packaging,
+3. add a dedicated landing page and commercial onboarding flow,
+4. add billing, metering, backup/restore, and operational dashboards,
+5. expand starter generation only after real demand proves which templates matter.
 
 ### What Exists Already (Reality Check)
 - Real-time collaborative docs are mature (Google Docs, Notion, Coda).
@@ -47,12 +65,14 @@ Create a focused collaborative spec IDE for humans and AI agents where work happ
 4. Version history + per-edit attribution (human/agent).
 5. Depth gates + recap required before milestone close.
 6. Export to markdown + JSON spec bundle.
+7. Delivery loop that can keep pushing the minimum extensible product toward scoped parity.
 
 ### Phase 2 Scope (If MVP Validates)
 1. Starter repository generation from approved spec bundle.
-2. Template-driven scaffolds (web app/API/docs-first presets).
+2. Broader template-driven scaffolds (web app/API/docs-first presets).
 3. Traceability from generated tasks/issues back to spec sections.
 4. Roll out on curated `ideas/` examples before opening arbitrary project generation.
+5. Dedicated marketing landing page and commercial onboarding flow.
 
 ### Guided Idea-Depth Assistant (SpecForge Productization)
 1. Built-in broad-to-deep wizard with required gates for PRD/SPEC/risk/validation/economics.
@@ -91,10 +111,10 @@ Add-on AI usage and enterprise governance can expand this if retention is strong
 1. Wedge into AI-heavy startup teams and dev shops.
 2. Lead with authoring and governance value before broad repo-generation claims.
 3. Treat autonomous backlog-driving as product value, not just internal build hygiene.
-3. Integrate with GitHub/Jira/Linear to connect spec -> execution.
-4. Content-led growth via templates and "good spec" playbooks.
-5. Viral loop: shared docs with guest review + easy import/export.
-6. Expand from "spec IDE" narrative to "spec-to-code" narrative once example-backed generation is stable.
+4. Integrate with GitHub/Jira/Linear to connect spec -> execution.
+5. Content-led growth via templates and "good spec" playbooks.
+6. Viral loop: shared docs with guest review + easy import/export.
+7. Expand from "spec IDE" narrative to "spec-to-code" narrative once example-backed generation is stable.
 
 ### Success Metrics
 1. Activation: first collaborative spec reaches milestone-close recap.
