@@ -17,14 +17,19 @@ describe("buildExecutionBrief", () => {
       },
     });
     const exportBundle = exportDocumentBundle(document, []);
-    const starterBundle = buildStarterTemplate(document, exportBundle, {
-      score: 88,
-      status: "ready",
-      missing_sections: [],
-      open_patch_count: 0,
-      open_comment_count: 0,
-      recap: [],
-    });
+    const starterBundle = buildStarterTemplate(
+      document,
+      exportBundle,
+      {
+        score: 88,
+        status: "ready",
+        missing_sections: [],
+        open_patch_count: 0,
+        open_comment_count: 0,
+        recap: [],
+      },
+      [],
+    );
 
     const brief = buildExecutionBrief({
       document,

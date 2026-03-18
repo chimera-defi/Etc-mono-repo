@@ -19,6 +19,11 @@ import {
   isGitHubAuthConfigured,
   listWorkspaceActors,
 } from "@/lib/specforge/session";
+import {
+  listTemplates,
+  resolveStarterTemplateId,
+  type StarterTemplateId,
+} from "@/lib/specforge/handoff";
 import { listShowcaseExamples } from "@/lib/specforge/showcase";
 import {
   listAuditEvents,
@@ -35,7 +40,12 @@ type Stage = "start" | "draft" | "review" | "decide" | "export";
 type HeroVariant = "handoff" | "multiplayer" | "ship";
 
 type Props = {
-  searchParams?: Promise<{ document?: string; stage?: string; variant?: string }>;
+  searchParams?: Promise<{
+    document?: string;
+    stage?: string;
+    variant?: string;
+    template?: string;
+  }>;
 };
 
 type BlockSummary = {
@@ -246,6 +256,16 @@ function buildStageHref(documentId: string | null, stage: Stage) {
   return `/?${params.toString()}`;
 }
 
+function buildTemplateHref(documentId: string | null, stage: Stage, templateId: StarterTemplateId) {
+  const params = new URLSearchParams();
+  if (documentId) {
+    params.set("document", documentId);
+  }
+  params.set("stage", stage);
+  params.set("template", templateId);
+  return `/?${params.toString()}`;
+}
+
 function getStageMeta(stage: Stage) {
   switch (stage) {
     case "start":
@@ -294,6 +314,12 @@ export default async function Home({ searchParams }: Props) {
       ? (resolvedSearchParams.variant as HeroVariant)
       : "handoff";
   const heroCopy = heroVariants[heroVariant];
+  const availableTemplates = listTemplates();
+  const selectedTemplateId = resolveStarterTemplateId(
+    typeof resolvedSearchParams.template === "string"
+      ? resolvedSearchParams.template
+      : undefined,
+  );
   const workspaceActors = listWorkspaceActors();
   const activeWorkspaceSession = await getCurrentWorkspaceSession();
   const activeWorkspaceActor = activeWorkspaceSession.actor;
@@ -319,7 +345,11 @@ export default async function Home({ searchParams }: Props) {
   const [showcaseExamples, activeContext] = await Promise.all([
     listShowcaseExamples(),
     activeDocumentId
-      ? buildDocumentLaunchContext(activeDocumentId, activeWorkspaceActor.workspace_id)
+      ? buildDocumentLaunchContext(
+          activeDocumentId,
+          activeWorkspaceActor.workspace_id,
+          selectedTemplateId,
+        )
       : Promise.resolve(null),
   ]);
   const activeDocument = activeContext?.document ?? null;
@@ -1313,7 +1343,7 @@ export default async function Home({ searchParams }: Props) {
                   <>
                     <div className={styles.exportActions}>
                       <Link
-                        href={`/api/documents/${activeDocument?.document_id}/launch-packet`}
+                        href={`/api/documents/${activeDocument?.document_id}/launch-packet?template=${selectedTemplateId}`}
                         className={styles.exportLink}
                         target="_blank"
                         rel="noreferrer"
@@ -1342,7 +1372,7 @@ export default async function Home({ searchParams }: Props) {
                 <section className={styles.panel}>
                   <div className={styles.panelHeader}>
                     <h2>Launch packet snapshot</h2>
-                    <span>What the coding agent receives</span>
+                    <span>{selectedTemplateId}</span>
                   </div>
                   <ul className={styles.readinessList}>
                     <li>{launchPacket.packet_id}</li>
@@ -1446,14 +1476,35 @@ export default async function Home({ searchParams }: Props) {
               <details className={styles.panel} id="handoff-preview">
                 <summary className={styles.disclosureSummary}>
                   <span>Starter handoff</span>
-                  <span>Curated TypeScript output</span>
+                  <span>{handoffBundle?.template_id ?? selectedTemplateId}</span>
                 </summary>
                 <div className={styles.disclosureBody}>
                 {handoffBundle ? (
                   <>
+                    <div className={styles.templateGrid} data-testid="template-grid">
+                      {availableTemplates.map((template) => {
+                        const isActive = selectedTemplateId === template.id;
+                        return (
+                          <Link
+                            key={template.id}
+                            href={buildTemplateHref(
+                              activeDocument?.document_id ?? null,
+                              "export",
+                              template.id,
+                            )}
+                            className={`${styles.templateCard} ${isActive ? styles.templateCardActive : ""}`}
+                            data-testid={`template-option-${template.id}`}
+                          >
+                            <strong>{template.label}</strong>
+                            <span className={styles.badge}>{template.stack}</span>
+                            <p>{template.description}</p>
+                          </Link>
+                        );
+                      })}
+                    </div>
                     <div className={styles.exportActions}>
                       <Link
-                        href={`/api/documents/${activeDocument?.document_id}/handoff`}
+                        href={`/api/documents/${activeDocument?.document_id}/handoff?template=${selectedTemplateId}`}
                         className={styles.exportLink}
                         target="_blank"
                         rel="noreferrer"
@@ -1504,7 +1555,7 @@ export default async function Home({ searchParams }: Props) {
                   <>
                     <div className={styles.exportActions}>
                       <Link
-                        href={`/api/documents/${activeDocument?.document_id}/execution`}
+                        href={`/api/documents/${activeDocument?.document_id}/execution?template=${selectedTemplateId}`}
                         className={styles.exportLink}
                         target="_blank"
                         rel="noreferrer"

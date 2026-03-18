@@ -29,8 +29,8 @@ test("renders the integrated SpecForge demo and captures a screenshot", async ({
       name: "SpecForge turns multiplayer specs into one-shot build handoffs.",
     }),
   ).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Workflow" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Delivery loop" })).toBeVisible();
+  await expect(page.getByText("Workflow", { exact: true })).toBeVisible();
+  await expect(page.getByText("Delivery loop", { exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Guided spec creation" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Canonical showcase" })).toBeVisible();
 
@@ -226,7 +226,7 @@ test("renders the guided flow on a mobile viewport", async ({ page }) => {
   await page.goto("/?stage=start");
 
   await expect(page.getByText("SpecForge", { exact: true })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Workflow" })).toBeVisible();
+  await expect(page.getByText("Workflow", { exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Guided spec creation" })).toBeVisible();
 
   await page.screenshot({
