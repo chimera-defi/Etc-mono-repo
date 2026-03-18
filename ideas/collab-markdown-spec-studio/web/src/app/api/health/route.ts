@@ -1,13 +1,15 @@
 import { NextResponse } from "next/server";
 
 import { readBacklogState } from "@/lib/specforge/backlog";
+import { getRequestId, logServerEvent } from "@/lib/specforge/observability";
 import {
   getPersistenceConfig,
   listDocuments,
   listWorkspaceRecords,
 } from "@/lib/specforge/store";
 
-export async function GET() {
+export async function GET(request: Request) {
+  const requestId = getRequestId(request.headers);
   const persistenceConfig = getPersistenceConfig();
   const [workspaces, documents, backlogState] = await Promise.all([
     listWorkspaceRecords(),
@@ -15,9 +17,18 @@ export async function GET() {
     readBacklogState(),
   ]);
 
+  logServerEvent("health_check", {
+    request_id: requestId,
+    persistence_backend: persistenceConfig.backend,
+    workspaces: workspaces.length,
+    documents: documents.length,
+    remaining_backlog: backlogState.remainingCount,
+  });
+
   return NextResponse.json({
     status: "ok",
     service: "specforge-web",
+    request_id: requestId,
     checked_at: new Date().toISOString(),
     persistence: {
       ...persistenceConfig,
