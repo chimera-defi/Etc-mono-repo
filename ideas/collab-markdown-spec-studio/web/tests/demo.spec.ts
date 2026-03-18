@@ -3,17 +3,17 @@ import { expect, test } from "@playwright/test";
 const heroVariants = [
   {
     id: "handoff",
-    headline: "SpecForge turns multiplayer specs into one-shot build handoffs.",
+    headline: "Write the spec once. Let humans and agents build from the same canvas.",
     screenshot: "artifacts/screenshots/specforge-variant-handoff.png",
   },
   {
     id: "multiplayer",
-    headline: "SpecForge is multiplayer spec writing that stays build-ready.",
+    headline: "Collaborative spec writing that stays reviewable and build-ready.",
     screenshot: "artifacts/screenshots/specforge-variant-multiplayer.png",
   },
   {
     id: "ship",
-    headline: "SpecForge helps teams write specs that agents can ship from in one shot.",
+    headline: "Turn messy planning into a launch packet a coding agent can actually use.",
     screenshot: "artifacts/screenshots/specforge-variant-ship.png",
   },
 ] as const;
@@ -21,18 +21,16 @@ const heroVariants = [
 test("renders the integrated SpecForge demo and captures a screenshot", async ({
   page,
 }) => {
-  await page.goto("/?stage=start");
+  await page.goto("/");
 
   await expect(page.getByText("SpecForge", { exact: true })).toBeVisible();
   await expect(
     page.getByRole("heading", {
-      name: "SpecForge turns multiplayer specs into one-shot build handoffs.",
+      name: "Write the spec once. Let humans and agents build from the same canvas.",
     }),
   ).toBeVisible();
-  await expect(page.getByText("Workflow", { exact: true })).toBeVisible();
-  await expect(page.getByText("Delivery loop", { exact: true })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Guided spec creation" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Canonical showcase" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Launch workspace" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "How agent configuration works" })).toBeVisible();
 
   await page.screenshot({
     path: "artifacts/screenshots/specforge-demo-home.png",
@@ -56,7 +54,7 @@ test("captures north-star copy variants for review", async ({ page }) => {
 test("creates a document, queues a patch, and exposes export JSON", async ({ page }) => {
   const title = `Demo Spec ${Date.now()}`;
 
-  await page.goto("/?stage=start");
+  await page.goto("/workspace?stage=start");
   await page.getByTestId("create-document-title").fill(title);
   await page.getByRole("button", { name: "Create guided draft" }).click();
 
@@ -130,7 +128,7 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
 test("imports the canonical showcase idea and carries it into the draft workspace", async ({
   page,
 }) => {
-  await page.goto("/?stage=start");
+  await page.goto("/workspace?stage=start");
   await page.getByRole("button", { name: "Import showcase draft" }).first().click();
 
   await expect(page.getByRole("heading", { name: "Document workspace" })).toBeVisible();
@@ -143,7 +141,7 @@ test("imports the canonical showcase idea and carries it into the draft workspac
 
   const documentId = new URL(page.url()).searchParams.get("document");
   expect(documentId).toBeTruthy();
-  await page.goto(`/?document=${documentId}&stage=export`);
+  await page.goto(`/workspace?document=${documentId}&stage=export`);
   await expect(page.getByRole("heading", { name: "Showcase walkthrough" })).toBeVisible();
   await expect(page.locator("section").filter({ hasText: "Showcase walkthrough" }).getByText(
     "server-management-agent",
@@ -157,7 +155,7 @@ test("shows two live collaborators on the same document", async ({ browser }) =>
   const pageA = await contextA.newPage();
   const pageB = await contextB.newPage();
 
-  await pageA.goto("/?stage=start");
+  await pageA.goto("/workspace?stage=start");
   await pageA.getByTestId("create-document-title").fill(`Collab Spec ${Date.now()}`);
   await pageA.getByRole("button", { name: "Create guided draft" }).click();
   await expect(pageA.getByRole("heading", { name: "Document workspace" })).toBeVisible();
@@ -165,7 +163,7 @@ test("shows two live collaborators on the same document", async ({ browser }) =>
   const documentId = new URL(pageA.url()).searchParams.get("document");
   expect(documentId).toBeTruthy();
 
-  await pageB.goto(`/?document=${documentId}&stage=draft`);
+  await pageB.goto(`/workspace?document=${documentId}&stage=draft`);
   await expect(pageB.getByRole("heading", { name: "Document workspace" })).toBeVisible();
 
   await expect
@@ -194,7 +192,7 @@ test("detects a stale room and reloads the latest snapshot", async ({ browser })
   const pageA = await contextA.newPage();
   const pageB = await contextB.newPage();
 
-  await pageA.goto("/?stage=start");
+  await pageA.goto("/workspace?stage=start");
   await pageA.getByTestId("create-document-title").fill(`Recovery Spec ${Date.now()}`);
   await pageA.getByRole("button", { name: "Create guided draft" }).click();
   await expect(pageA).toHaveURL(/document=/);
@@ -202,7 +200,7 @@ test("detects a stale room and reloads the latest snapshot", async ({ browser })
   const documentId = new URL(pageA.url()).searchParams.get("document");
   expect(documentId).toBeTruthy();
 
-  await pageB.goto(`/?document=${documentId}&stage=draft`);
+  await pageB.goto(`/workspace?document=${documentId}&stage=draft`);
   await expect(pageB.getByRole("heading", { name: "Document workspace" })).toBeVisible();
 
   await pageA.getByRole("button", { name: "Save document" }).click();
@@ -223,11 +221,11 @@ test("detects a stale room and reloads the latest snapshot", async ({ browser })
 
 test("renders the guided flow on a mobile viewport", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/?stage=start");
+  await page.goto("/");
 
   await expect(page.getByText("SpecForge", { exact: true })).toBeVisible();
-  await expect(page.getByText("Workflow", { exact: true })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Guided spec creation" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Launch workspace" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "How agent configuration works" })).toBeVisible();
 
   await page.screenshot({
     path: "artifacts/screenshots/specforge-demo-mobile.png",
@@ -236,7 +234,7 @@ test("renders the guided flow on a mobile viewport", async ({ page }) => {
 });
 
 test("local admin controls can seed review activity for a draft", async ({ page }) => {
-  await page.goto("/?stage=start");
+  await page.goto("/workspace?stage=start");
   await expect(page.getByText("Local admin", { exact: true })).toBeVisible();
 
   await page.getByTestId("create-document-title").fill(`Admin Seed ${Date.now()}`);
@@ -249,6 +247,17 @@ test("local admin controls can seed review activity for a draft", async ({ page 
 
   const documentId = new URL(page.url()).searchParams.get("document");
   expect(documentId).toBeTruthy();
-  await page.goto(`/?document=${documentId}&stage=decide`);
+  await page.goto(`/workspace?document=${documentId}&stage=decide`);
   await expect(page.getByTestId("patch-queue")).toContainText("structural_edit");
+});
+
+test("renders the pricing page", async ({ page }) => {
+  await page.goto("/pricing");
+  await expect(page.getByRole("heading", { name: /Start with the spec/i })).toBeVisible();
+  await expect(page.getByText("Team SaaS")).toBeVisible();
+
+  await page.screenshot({
+    path: "artifacts/screenshots/specforge-pricing.png",
+    fullPage: true,
+  });
 });

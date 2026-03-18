@@ -8,9 +8,10 @@ Build a real-time collaborative spec IDE with:
 2. governed agent patch workflows (fully functional: propose/review/accept/reject/cherry-pick),
 3. depth gates and recap requirements (deferred to Phase 2),
 4. deterministic export into execution-ready spec bundles (`PRD.md`, `SPEC.md`, `TASKS.md`, `agent_spec.json`, starter handoff, execution brief, launch packet),
-5. a delivery loop that keeps driving a minimum extensible product toward parity with the approved spec (fully implemented).
+5. a delivery loop that keeps driving a minimum extensible product toward parity with the approved spec (fully implemented),
+6. landing and pricing surfaces that route users into the working SaaS workspace.
 
-The current branch satisfies the scoped MVP target. Broader company-plan work like a dedicated marketing landing page, billing, and long-horizon template expansion remains post-parity product work, not missing core MVP behavior.
+The current branch satisfies the scoped MVP target. Broader company-plan work like conversion instrumentation, billing, and long-horizon template expansion remains post-parity product work, not missing core MVP behavior.
 
 ### Product Principle: Minimum Extensible Product
 1. Approved specs should first produce a minimum extensible product, not a pretend-final build.
@@ -206,6 +207,12 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 4. Defer SSO, SCIM, and complex enterprise role models until post-pilot.
 5. The same `active actor` shape should survive across local and pilot modes so product flows do not fork by auth provider.
 6. GitHub OAuth callbacks require state validation, and hosted mode must reject default local secrets.
+
+### Agent Configuration Default
+1. Local mode uses server-side environment variables for provider/API credentials.
+2. Hosted SaaS mode should store workspace-scoped provider credentials server-side and encrypted at rest.
+3. Browsers never receive raw provider secrets.
+4. Agents act as workspace-scoped service identities and submit governed patches instead of mutating canonical docs directly.
 
 ### Comments Default
 1. v1 ships simple anchored comment threads.
