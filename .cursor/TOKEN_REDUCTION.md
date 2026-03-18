@@ -152,6 +152,7 @@ Parallel (1 turn):    2,700 tokens
 .cursor/validate-token-reduction.sh    # 32 automated checks
 .cursor/benchmark-real-tokens.sh       # Tiktoken measurement
 .claude/baseline-measurement.sh --scope repo   # Claude + Codex adoption in this repo
+.claude/benchmark-token-reduction-workflow.py --query "token reduction"   # Discovery payload benchmark
 .cursor/token-monitor.sh init          # Start session tracking
 .cursor/token-monitor.sh summary       # End-of-session report
 ```

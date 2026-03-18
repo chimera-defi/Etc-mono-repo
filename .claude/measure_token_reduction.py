@@ -145,7 +145,6 @@ def parse_claude_session(session_file: Path) -> dict:
 
             message = event.get("message", {})
             content = message.get("content")
-
             if isinstance(content, str) and TOKEN_REDUCE_RE.search(content):
                 metrics["token_reduce_mention"] = True
 
