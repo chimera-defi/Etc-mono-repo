@@ -20,7 +20,13 @@ function base64UrlDecode(value) {
 }
 
 function getCollabSecret() {
-  return process.env.SPECFORGE_COLLAB_SECRET?.trim() || DEFAULT_SECRET;
+  const configuredSecret = process.env.SPECFORGE_COLLAB_SECRET?.trim();
+
+  if (process.env.SPECFORGE_REQUIRE_SECURE_SECRETS === "true" && !configuredSecret) {
+    throw new Error("SPECFORGE_COLLAB_SECRET must be configured outside local demo mode");
+  }
+
+  return configuredSecret || DEFAULT_SECRET;
 }
 
 function buildRoomName(documentId, version) {
