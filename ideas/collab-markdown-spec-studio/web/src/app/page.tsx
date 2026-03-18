@@ -571,7 +571,7 @@ export default async function Home({ searchParams }: Props) {
             </div>
           </section>
 
-          <details className={styles.panel} open>
+          <details className={styles.panel} open={Boolean(requestedDocumentId)}>
             <summary className={styles.disclosureSummary}>
               <span>Document library</span>
               <span>{documents.length} total</span>
@@ -1390,11 +1390,12 @@ export default async function Home({ searchParams }: Props) {
                 </section>
               ) : null}
 
-              <section className={styles.panel} id="export-preview">
-                <div className={styles.panelHeader}>
-                  <h2>Export preview</h2>
+              <details className={styles.panel} id="export-preview" open>
+                <summary className={styles.disclosureSummary}>
+                  <span>Export preview</span>
                   <span>Deterministic bundle</span>
-                </div>
+                </summary>
+                <div className={styles.disclosureBody}>
                 {exportBundle ? (
                   <>
                     <div className={styles.exportActions}>
@@ -1429,13 +1430,15 @@ export default async function Home({ searchParams }: Props) {
                 ) : (
                   <p className={styles.empty}>No export available yet.</p>
                 )}
-              </section>
-
-              <section className={styles.panel} id="handoff-preview">
-                <div className={styles.panelHeader}>
-                  <h2>Starter handoff</h2>
-                  <span>Curated TypeScript output</span>
                 </div>
+              </details>
+
+              <details className={styles.panel} id="handoff-preview">
+                <summary className={styles.disclosureSummary}>
+                  <span>Starter handoff</span>
+                  <span>Curated TypeScript output</span>
+                </summary>
+                <div className={styles.disclosureBody}>
                 {handoffBundle ? (
                   <>
                     <div className={styles.exportActions}>
@@ -1478,13 +1481,15 @@ export default async function Home({ searchParams }: Props) {
                 ) : (
                   <p className={styles.empty}>No starter handoff available yet.</p>
                 )}
-              </section>
-
-              <section className={styles.panel} id="execution-brief">
-                <div className={styles.panelHeader}>
-                  <h2>Execution brief</h2>
-                  <span>One-shot build context</span>
                 </div>
+              </details>
+
+              <details className={styles.panel} id="execution-brief">
+                <summary className={styles.disclosureSummary}>
+                  <span>Execution brief</span>
+                  <span>One-shot build context</span>
+                </summary>
+                <div className={styles.disclosureBody}>
                 {executionBrief ? (
                   <>
                     <div className={styles.exportActions}>
@@ -1573,7 +1578,8 @@ export default async function Home({ searchParams }: Props) {
                 ) : (
                   <p className={styles.empty}>No execution brief available yet.</p>
                 )}
-              </section>
+                </div>
+              </details>
             </>
           ) : null}
         </section>

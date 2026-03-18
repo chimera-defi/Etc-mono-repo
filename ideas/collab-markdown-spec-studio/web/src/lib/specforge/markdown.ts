@@ -143,7 +143,10 @@ export function deriveDocumentShape(markdown: string) {
   });
 
   return {
-    sections: sections.map(({ block: _, ...section }) => section),
+    sections: sections.map(({ block, ...section }) => {
+      void block;
+      return section;
+    }),
     blocks: sections.map((section) => section.block),
   };
 }
