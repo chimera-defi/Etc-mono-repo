@@ -61,3 +61,4 @@ Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid du
    - `web`: `/api/health`
    - `collab-server`: `http://localhost:4322/health`
 7. Health responses include persistence configuration so local-vs-hosted storage drift is visible without opening the code.
+8. The local deployment rehearsal now mounts a shared runtime volume and ships `fixtures/` inside the web image so the container config matches the documented persistence paths.
