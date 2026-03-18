@@ -37,6 +37,10 @@ echo "-----------------------------------"
 
 # Check required files exist
 REQUIRED_FILES=(
+  "skills/token-reduce/SKILL.md"
+  "skills/token-reduce/references/token-reduction-guide.md"
+  "skills/token-reduce/scripts/token-reduce-search.sh"
+  "skills/token-reduce/agents/openai.yaml"
   ".claude/skills/token-reduce/SKILL.md"
   ".cursor/TOKEN_REDUCTION.md"
   ".cursor/benchmark-real-tokens.sh"

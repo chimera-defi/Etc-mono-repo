@@ -27,7 +27,7 @@
 
 **Session workflow (automatic):**
 1. Use QMD BM25 to find relevant files first (`qmd search "topic" -n 5 --files`)
-   Shortcut: `./.claude/token-reduce-search.sh "topic"`
+   Shortcut: `./skills/token-reduce/scripts/token-reduce-search.sh "topic"`
 2. Use targeted file reads (head/tail, not full files)
 3. Parallel tool calls when possible
 4. Skip preambles and confirmations
@@ -38,7 +38,7 @@
 - **QMD BM25 search** (recommended): `qmd search "topic" -n 5 --files` — 99% fewer tokens than naive reads
 - **MCP CLI** (Cursor only, not Claude Code): See `.cursor/MCP_CLI.md` — adds 117% overhead in Claude Code
 - **Benchmarked savings:** 89% (concise), 99% (QMD search vs naive), 33% (targeted reads)
-- Complete guide: `.cursor/TOKEN_REDUCTION.md`
+- Complete guide: `.cursor/TOKEN_REDUCTION.md` (canonical source: `skills/token-reduce/`)
 
 **Sub-agent delegation (prevents context compaction):**
 - **>5 files to read?** → `Task(subagent_type="Explore")`

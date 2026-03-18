@@ -1,0 +1,4 @@
+interface:
+  display_name: "Token Reduce"
+  short_description: "Reduce context via narrow retrieval."
+  default_prompt: "Use $token-reduce to locate the smallest relevant context before reading files."
