@@ -5,7 +5,7 @@ Build a real-time collaborative spec IDE with:
 1. CRDT-backed infrastructure for human collaboration (Yjs + Hocuspocus deployed; multiplayer sync untested in MVP),
 2. governed agent patch workflows (fully functional: propose/review/accept/reject/cherry-pick),
 3. depth gates and recap requirements (deferred to Phase 2),
-4. deterministic export into execution-ready spec bundles (partial: markdown, handoff, launch packet; agent_spec.json pending),
+4. deterministic export into execution-ready spec bundles (`PRD.md`, `SPEC.md`, `TASKS.md`, `agent_spec.json`, starter handoff, execution brief, launch packet),
 5. a delivery loop that keeps driving a minimum extensible product toward parity with the approved spec (fully implemented).
 
 ### Product Principle: Minimum Extensible Product
@@ -20,8 +20,8 @@ Build a real-time collaborative spec IDE with:
 **MVP Status**: Partial
 - ✓ Markdown editor with Tiptap.
 - ✓ CRDT infrastructure (Yjs + Hocuspocus server, room tokens, persistence).
-- ✗ Presence: infrastructure ready but cursor/selection UI not implemented.
-- ✗ Comment threads: database schema complete, API endpoints exist, but no frontend UI component (Phase 2).
+- ✓ Presence: shared cursor rendering and collaborator awareness are visible in the workspace.
+- ✓ Comment threads: database schema, APIs, and frontend review UI are implemented.
 - ⚠️ Multiplayer sync: infrastructure deployed but not tested in production tests (infrastructure-ready, not user-validated).
 
 ### 2) Agent Patch Engine
@@ -50,7 +50,7 @@ Build a real-time collaborative spec IDE with:
 
 ### 6) Repo Scaffold Generator (Phase 2)
 - Generates a starter GitHub repository from approved spec bundle.
-- Supports template packs (frontend, API backend, docs-first starter).
+- Supports constrained template packs (`docs-only`, `Next.js + TypeScript`, `Next.js + Python`, plus the minimum extensible TypeScript CLI starter).
 - Embeds trace links from generated files/issues back to spec sections.
 - Starts with curated `ideas/` example packs before broad rollout.
 
@@ -80,12 +80,12 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 - Enterprise SSO/SCIM integration (Phase 3+)
 - Multi-language code generation (Phase 2+)
 - Mobile and native app templates (Phase 3+)
-- Advanced inline comments and annotations (Phase 2+) — **Note: Comment thread UI is not in MVP. Database schema and API exist; frontend missing.**
+- Advanced inline comments and annotations (Phase 2+) — **Note: anchored comment thread UI exists; richer inline annotations remain deferred.**
 - AI orchestration beyond the patch workflow (Phase 2+)
 - Real-time audio/video collaboration (Phase 4+)
 - Custom branding and theming (Phase 2+)
 - Depth gates and recap enforcement (Phase 2+) — **Note: Claimed in Decision 18 but not implemented. Clarifications table exists; logic layer deferred.**
-- Multi-user cursor presence and awareness (Phase 2) — **Note: Hocuspocus supports awareness; UI not implemented.**
+- Multi-user cursor presence and awareness (Phase 2) — **Note: basic presence and cursor rendering are implemented; broader multiplayer validation remains pending.**
 - Multiplayer testing and validation (Phase 1.5) — **Critical: Add tests for 2+ concurrent users before declaring multiplayer feature complete.**
 - Auto-rebase for stale patches (Phase 2) — **Spec says reject stale; implementation partially done but not tested.**
 

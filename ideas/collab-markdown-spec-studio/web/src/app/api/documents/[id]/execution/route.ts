@@ -1,14 +1,18 @@
 import { NextResponse } from "next/server";
 
+import { resolveStarterTemplateId } from "@/lib/specforge/handoff";
 import { getCurrentWorkspaceLaunchContext } from "@/lib/specforge/workspace-access";
 
 type Params = {
   params: Promise<{ id: string }>;
 };
 
-export async function GET(_request: Request, { params }: Params) {
+export async function GET(request: Request, { params }: Params) {
   const { id } = await params;
-  const { context } = await getCurrentWorkspaceLaunchContext(id);
+  const templateId = resolveStarterTemplateId(
+    new URL(request.url).searchParams.get("template") ?? undefined,
+  );
+  const { context } = await getCurrentWorkspaceLaunchContext(id, templateId);
 
   if (!context) {
     return NextResponse.json({ error: "Document not found" }, { status: 404 });
