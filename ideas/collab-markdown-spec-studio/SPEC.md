@@ -110,15 +110,16 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 2. Dedicated collaboration service for CRDT websocket sync.
 3. Lightweight background worker for recap/export/repo-generation jobs.
 4. Local parity runner for Codex-driven build passes against the remaining backlog.
-5. Shared Postgres database for application state, audit logs, comments, and exports.
+5. Shared Postgres database for hosted application state, audit logs, comments, and exports.
 6. Local object/blob storage only if snapshots or exports outgrow Postgres storage ergonomics.
 7. Structured room telemetry plus a local failure-mode runbook for multiplayer debugging.
 8. Version-scoped room names plus explicit snapshot replay/reload controls for stale-room recovery.
 9. Inline provenance overlays in the editor surface alongside block-level review markers.
 10. Delivery loop state that tracks claimed intents, latest context, and emitted signals as the buildout advances.
 11. Delivery context packages that bundle approved exports, launch packet, active blockers, and the next claimed intent for coding agents.
-12. Runtime health endpoints for the web app and collaboration service plus containerized local deployment config.
-13. Health responses expose active persistence configuration so hosted-runtime drift is diagnosable without opening the code.
+12. Runtime health and metrics endpoints for the web app and collaboration service plus containerized local deployment config.
+13. Health and metrics responses expose active persistence configuration so hosted-runtime drift is diagnosable without opening the code.
+14. Request IDs are propagated through middleware and returned by runtime endpoints for cross-service debugging.
 
 ### Default Stack
 1. Next.js + React + TypeScript for the application shell.
@@ -243,7 +244,7 @@ Use CRDT for live human collaboration, but keep agent governance above the CRDT 
 3. Patch decision auditability for all agent edits.
 4. Snapshot restore succeeds for any accepted patch decision in pilot environments.
 5. Export is byte-stable for identical document version + template version.
-6. Local auth/reconnect failures are diagnosable through room telemetry and the runbook.
+6. Local auth/reconnect failures are diagnosable through room telemetry, request IDs, and the runbook.
 
 ### Build Cost Categories
 1. Realtime collaboration infra and state sync.

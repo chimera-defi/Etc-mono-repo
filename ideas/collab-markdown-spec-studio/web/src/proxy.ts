@@ -3,12 +3,27 @@ import type { NextRequest } from "next/server";
 
 const WORKSPACE_SESSION_COOKIE = "specforge_session";
 
+function continueWithRequestId(requestHeaders: Headers, requestId: string) {
+  const response = NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
+  response.headers.set("x-specforge-request-id", requestId);
+  return response;
+}
+
 /**
  * Protect API routes when GitHub auth is enabled, while keeping local demo mode
  * and parity endpoints accessible for the delivery loop.
  */
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const requestHeaders = new Headers(request.headers);
+  const requestId =
+    requestHeaders.get("x-specforge-request-id") ?? crypto.randomUUID();
+
+  requestHeaders.set("x-specforge-request-id", requestId);
 
   if (
     pathname.startsWith("/api/auth/") ||
@@ -16,7 +31,7 @@ export function proxy(request: NextRequest) {
     pathname.startsWith("/_next/") ||
     pathname === "/favicon.ico"
   ) {
-    return NextResponse.next();
+    return continueWithRequestId(requestHeaders, requestId);
   }
 
   const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH_OVERRIDE === "true";
@@ -27,18 +42,20 @@ export function proxy(request: NextRequest) {
   );
 
   if (skipAuth || !githubConfigured) {
-    return NextResponse.next();
+    return continueWithRequestId(requestHeaders, requestId);
   }
 
   if (pathname.startsWith("/api/")) {
     const sessionCookie = request.cookies.get(WORKSPACE_SESSION_COOKIE)?.value;
 
     if (!sessionCookie) {
-      return NextResponse.json({ error: "Authentication required" }, { status: 401 });
+      const response = NextResponse.json({ error: "Authentication required" }, { status: 401 });
+      response.headers.set("x-specforge-request-id", requestId);
+      return response;
     }
   }
 
-  return NextResponse.next();
+  return continueWithRequestId(requestHeaders, requestId);
 }
 
 export const config = {
