@@ -75,7 +75,8 @@
    - side-panel first
 2. Repo generation:
    - docs/export-only always supported
-   - one curated TypeScript app template only
+   - minimum extensible TypeScript starter
+   - constrained scaffold templates for docs-only, Next.js + TypeScript, and Next.js + Python
 3. Rebase behavior:
    - no automatic rebase for stale patches in v1
    - regenerate or send to manual review

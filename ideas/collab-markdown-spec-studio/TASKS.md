@@ -43,7 +43,7 @@
 - [x] Replace the local actor selector with pilot-grade GitHub OAuth and workspace membership.
 - [x] Add real workspace records, membership roles, and per-workspace document isolation in the app UI.
 - [x] Add clarification queue flows and answer writing back into the canonical doc.
-- [ ] Expand starter generation from one curated template toward the broader repo-generation scope.
+- [x] Expand starter generation from one curated template toward the broader repo-generation scope.
 - [ ] Add hosted deployment config, production persistence, and real observability plumbing.
 - [ ] Let the runner advance the SaaS backlog through multiple claimed passes while preserving local-test ergonomics.
 
@@ -58,7 +58,6 @@
    - queue unanswered clarifications
    - write accepted answers back into canonical blocks and audit history
 4. Handoff expansion:
-   - grow starter output beyond the single curated template
    - add hosted deployment and production observability notes/config
 
 ## Recommended Parallel Execution Now
