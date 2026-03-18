@@ -59,9 +59,10 @@ docker compose up --build
 ## Notes
 
 - The local runtime persists through a JSON snapshot under `.data/` and is seeded from `../fixtures/`.
+- The containerized runtime persists under `/var/lib/specforge/` and seeds from `/fixtures`.
 - PGlite still backs the in-process SQL layer; the snapshot is there so Next app workers share the same document state.
 - The collaboration runtime lives in `../collab-server/`.
-- `docker compose up --build` brings up both runtimes with health checks for local deployment rehearsal.
+- `docker compose up --build` brings up both runtimes with health checks, a shared runtime volume, and a shared collab secret for local deployment rehearsal.
 - The web client connects to `NEXT_PUBLIC_COLLAB_URL` and defaults to `ws://127.0.0.1:4321`.
 - The collab handshake is signed by `POST /api/collab/session`; override `SPECFORGE_COLLAB_SECRET` only if both the web app and collab server share it.
 - The final handoff stage exposes `/export`, `/handoff`, `/execution`, and `/launch-packet` routes for downstream build agents.

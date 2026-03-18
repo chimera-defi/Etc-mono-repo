@@ -7,9 +7,12 @@ services:
       - "3000:3000"
     environment:
       NEXT_PUBLIC_SKIP_AUTH_OVERRIDE: "true"
-      SPECFORGE_DB_PATH: /app/.data/specforge-store.json
-      SPECFORGE_FIXTURES_DIR: /app/../fixtures
+      SPECFORGE_DB_PATH: /var/lib/specforge/specforge-store.json
+      SPECFORGE_FIXTURES_DIR: /fixtures
+      SPECFORGE_COLLAB_SECRET: specforge-local-secret
       NEXT_PUBLIC_COLLAB_URL: ws://specforge-collab:4321
+    volumes:
+      - specforge_runtime:/var/lib/specforge
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
       interval: 15s
@@ -26,8 +29,15 @@ services:
     environment:
       PORT: "4321"
       HEALTH_PORT: "4322"
+      SPECFORGE_COLLAB_SECRET: specforge-local-secret
+      SPECFORGE_COLLAB_STORE_DIR: /var/lib/specforge/collab-rooms
+    volumes:
+      - specforge_runtime:/var/lib/specforge
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:4322/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
       interval: 15s
       timeout: 5s
       retries: 5
+
+volumes:
+  specforge_runtime:
