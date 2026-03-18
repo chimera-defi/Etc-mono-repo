@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import {
   isGitHubAuthConfigured,
   setGitHubWorkspaceSession,
+  verifyGitHubOAuthState,
 } from "@/lib/specforge/session";
 import {
   listUserWorkspaces,
@@ -26,9 +27,16 @@ type GitHubUserResponse = {
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
+  const state = url.searchParams.get("state");
 
   if (!isGitHubAuthConfigured() || !code) {
     return NextResponse.redirect(new URL("/?auth=local", request.url));
+  }
+
+  try {
+    await verifyGitHubOAuthState(state);
+  } catch {
+    return NextResponse.redirect(new URL("/?auth=error", request.url));
   }
 
   const tokenResponse = await fetch("https://github.com/login/oauth/access_token", {

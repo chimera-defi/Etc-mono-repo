@@ -200,6 +200,7 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 3. Agent actors use workspace-scoped service identities, not human sessions.
 4. Defer SSO, SCIM, and complex enterprise role models until post-pilot.
 5. The same `active actor` shape should survive across local and pilot modes so product flows do not fork by auth provider.
+6. GitHub OAuth callbacks require state validation, and hosted mode must reject default local secrets.
 
 ### Comments Default
 1. v1 ships simple anchored comment threads.
