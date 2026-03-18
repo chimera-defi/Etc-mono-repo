@@ -29,6 +29,7 @@ export type WorkspaceRecord = {
 
 const WORKSPACE_ACTOR_COOKIE = "specforge_actor_id";
 const WORKSPACE_SESSION_COOKIE = "specforge_session";
+const GITHUB_OAUTH_STATE_COOKIE = "specforge_github_oauth_state";
 const DEFAULT_SESSION_SECRET = "specforge-local-session-secret";
 
 const workspaces: WorkspaceRecord[] = [
@@ -57,7 +58,20 @@ type StoredWorkspaceSession = {
 };
 
 function getSessionSecret() {
-  return process.env.SPECFORGE_SESSION_SECRET?.trim() || DEFAULT_SESSION_SECRET;
+  const configuredSecret = process.env.SPECFORGE_SESSION_SECRET?.trim();
+
+  if (process.env.SPECFORGE_REQUIRE_SECURE_SECRETS === "true" && !configuredSecret) {
+    throw new Error("SPECFORGE_SESSION_SECRET must be configured outside local demo mode");
+  }
+
+  return configuredSecret || DEFAULT_SESSION_SECRET;
+}
+
+function isSecureCookie() {
+  return (
+    process.env.NODE_ENV === "production" ||
+    process.env.SPECFORGE_SECURE_COOKIES === "true"
+  );
 }
 
 function base64UrlEncode(value: string | Buffer) {
@@ -211,7 +225,7 @@ export async function setCurrentWorkspaceActor(actorId: string) {
   cookieStore.set(WORKSPACE_ACTOR_COOKIE, actor.actor_id, {
     httpOnly: true,
     sameSite: "lax",
-    secure: false,
+    secure: isSecureCookie(),
     path: "/",
     maxAge: 60 * 60 * 24 * 30,
   });
@@ -241,7 +255,7 @@ export async function setGitHubWorkspaceSession(input: {
     {
       httpOnly: true,
       sameSite: "lax",
-      secure: false,
+      secure: isSecureCookie(),
       path: "/",
       maxAge: 60 * 60 * 24 * 7,
     },
@@ -254,7 +268,30 @@ export async function clearGitHubWorkspaceSession() {
   cookieStore.delete(WORKSPACE_SESSION_COOKIE);
 }
 
-export function getGitHubAuthorizationUrl() {
+export async function createGitHubOAuthState() {
+  const state = crypto.randomUUID();
+  const cookieStore = await cookies();
+  cookieStore.set(GITHUB_OAUTH_STATE_COOKIE, state, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: isSecureCookie(),
+    path: "/",
+    maxAge: 60 * 10,
+  });
+  return state;
+}
+
+export async function verifyGitHubOAuthState(state: string | null) {
+  const cookieStore = await cookies();
+  const expectedState = cookieStore.get(GITHUB_OAUTH_STATE_COOKIE)?.value ?? null;
+  cookieStore.delete(GITHUB_OAUTH_STATE_COOKIE);
+
+  if (!state || !expectedState || state !== expectedState) {
+    throw new Error("Invalid GitHub OAuth state");
+  }
+}
+
+export function getGitHubAuthorizationUrl(state: string) {
   const clientId = process.env.GITHUB_CLIENT_ID?.trim();
   const redirectUri = process.env.SPECFORGE_GITHUB_REDIRECT_URI?.trim();
 
@@ -266,5 +303,6 @@ export function getGitHubAuthorizationUrl() {
   url.searchParams.set("client_id", clientId);
   url.searchParams.set("redirect_uri", redirectUri);
   url.searchParams.set("scope", "read:user user:email");
+  url.searchParams.set("state", state);
   return url.toString();
 }
