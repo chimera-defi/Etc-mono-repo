@@ -3,7 +3,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
-import { spawnSync } from "node:child_process";
+import { spawn } from "node:child_process";
 
 const toolDir = path.dirname(new URL(import.meta.url).pathname);
 const packRoot = path.resolve(toolDir, "..");
@@ -48,6 +48,7 @@ function parseArgs(argv) {
     dryRun: false,
     maxPasses: 1,
     reviewEvery: 3,
+    untilClear: false,
   };
 
   for (let index = 0; index < rest.length; index += 1) {
@@ -67,6 +68,11 @@ function parseArgs(argv) {
     if (token === "--review-every") {
       options.reviewEvery = Number(rest[index + 1] ?? "3");
       index += 1;
+      continue;
+    }
+
+    if (token === "--until-clear") {
+      options.untilClear = true;
     }
   }
 
@@ -248,6 +254,61 @@ async function writeLoopState(state) {
   await writeFile(loopStatePath, JSON.stringify(state, null, 2));
 }
 
+async function runCodexCommand(command, state, claimId) {
+  return await new Promise((resolve) => {
+    const child = spawn(command[0], command.slice(1), {
+      cwd: worktreeRoot,
+      env: process.env,
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+
+    let stdout = "";
+    let stderr = "";
+    let settled = false;
+
+    const heartbeat = setInterval(async () => {
+      const claim = state.claims.find((entry) => entry.claim_id === claimId);
+      if (!claim || claim.state !== "claimed") {
+        return;
+      }
+
+      claim.heartbeat_at = new Date().toISOString();
+      state.updated_at = claim.heartbeat_at;
+      await writeLoopState(state);
+    }, 10_000);
+
+    child.stdout.on("data", (chunk) => {
+      const value = String(chunk);
+      stdout += value;
+      process.stdout.write(value);
+    });
+
+    child.stderr.on("data", (chunk) => {
+      const value = String(chunk);
+      stderr += value;
+      process.stderr.write(value);
+    });
+
+    const finish = async (status) => {
+      if (settled) {
+        return;
+      }
+      settled = true;
+      clearInterval(heartbeat);
+      resolve({ status, stdout, stderr });
+    };
+
+    child.on("error", async (error) => {
+      stderr += error instanceof Error ? error.stack ?? error.message : String(error);
+      await finish(1);
+    });
+
+    child.on("close", async (status) => {
+      await finish(status ?? 1);
+    });
+  });
+}
+
 async function writeRunnerHandoff(input) {
   const body = [
     "# SpecForge Runner Handoff",
@@ -386,8 +447,9 @@ async function runLoop(options) {
   const state = await readLoopState();
   state.review_every = options.reviewEvery;
   let passes = 0;
+  const passLimit = Math.max(1, options.maxPasses);
 
-  while (passes < options.maxPasses) {
+  while (passes < passLimit) {
     const backlog = await loadBacklog();
     const nextItem = backlog.remaining.find((item) => !item.checked);
     const reviewMode = shouldRunReview(state, options.reviewEvery);
@@ -489,12 +551,7 @@ async function runLoop(options) {
       return;
     }
 
-    const result = spawnSync(command[0], command.slice(1), {
-      cwd: worktreeRoot,
-      stdio: "pipe",
-      encoding: "utf8",
-      env: process.env,
-    });
+    const result = await runCodexCommand(command, state, claimId);
 
     if (result.stdout) {
       process.stdout.write(result.stdout);
@@ -571,6 +628,10 @@ async function runLoop(options) {
     }
 
     passes += 1;
+
+    if (!options.untilClear && passes >= passLimit) {
+      break;
+    }
   }
 }
 

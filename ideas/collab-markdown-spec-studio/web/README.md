@@ -44,6 +44,7 @@ npm run screenshot:demo
 npm run parity:status
 npm run parity:brief
 npm run parity:run:dry
+npm run parity:run:batch
 
 # separately
 cd ../collab-server
@@ -67,6 +68,7 @@ docker compose up --build
 - The app also exposes `/api/parity/status` and `/api/parity/brief` so the backlog driver is visible inside the product, not only from the CLI.
 - The local parity runner lives at `../tools/specforge-parity-runner.mjs` and can drive bounded `codex exec` passes from the remaining backlog.
 - The runner is designed to land a runnable minimum extensible product first, then keep advancing toward scoped parity without repeated manual re-prompting.
+- `npm run parity:run:batch` runs a bounded multi-pass loop (`--until-clear --max-passes 3 --review-every 2`) so the backlog can advance without an unbounded nested session.
 - `npm run test:e2e` only runs the browser demo suite (`tests/demo.spec.ts`); engine-level acceptance coverage lives under `npm run test:acceptance`.
 - The runner also schedules periodic multipass review/refactor passes so the loop compacts context, refreshes handoff state, and records meta learnings.
 - Delivery loop endpoints:
