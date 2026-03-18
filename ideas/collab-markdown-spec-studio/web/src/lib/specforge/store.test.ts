@@ -20,6 +20,7 @@ import {
   listWorkspaceMemberships,
   listWorkspaceRecords,
   listPatches,
+  resetWorkspaceDocuments,
   resolveCommentThread,
   updateDocument,
 } from "./store";
@@ -67,6 +68,19 @@ describe("specforge store", () => {
     const loaded = await getDocument(created.document_id, options);
     expect(loaded?.title).toBe("Roadmap Draft");
     expect(loaded?.sections).toHaveLength(2);
+  });
+
+  it("resets workspace documents for local admin testing", async () => {
+    const options = await makeOptions();
+    const before = await listDocuments({ ...options, workspaceId: "ws_demo" });
+
+    expect(before.length).toBeGreaterThan(0);
+
+    const result = await resetWorkspaceDocuments("ws_demo", options);
+    const after = await listDocuments({ ...options, workspaceId: "ws_demo" });
+
+    expect(result.deleted_documents).toBe(before.length);
+    expect(after).toHaveLength(0);
   });
 
   it("marks a patch stale when the fingerprint does not match", async () => {

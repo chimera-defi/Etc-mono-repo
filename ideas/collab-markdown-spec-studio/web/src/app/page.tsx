@@ -11,6 +11,7 @@ import {
   switchWorkspaceActorAction,
 } from "./actions";
 import { DocumentWorkspace } from "./document-workspace";
+import { LocalAdminPanel } from "./local-admin-panel";
 import styles from "./page.module.css";
 import type { StoredPatch } from "@/lib/specforge/contracts";
 import { readBacklogState } from "@/lib/specforge/backlog";
@@ -518,6 +519,11 @@ export default async function Home({ searchParams }: Props) {
               )}
             </div>
           </details>
+
+          <LocalAdminPanel
+            authMode={activeWorkspaceSession.authMode}
+            activeDocumentId={activeDocument?.document_id ?? null}
+          />
 
           <details className={styles.panel} open>
             <summary className={styles.disclosureSummary}>
