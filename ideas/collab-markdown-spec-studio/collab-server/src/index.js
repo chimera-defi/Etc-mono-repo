@@ -1,3 +1,4 @@
+const http = require("node:http");
 const fs = require("node:fs/promises");
 const path = require("node:path");
 
@@ -6,6 +7,7 @@ const Y = require("yjs");
 const { verifyCollabToken } = require("../../lib/collab-auth.cjs");
 
 const port = Number(process.env.PORT ?? 4321);
+const healthPort = Number(process.env.HEALTH_PORT ?? port + 1);
 const roomStoreDir = path.resolve(
   __dirname,
   "..",
@@ -135,8 +137,41 @@ const server = new Server({
   port,
 });
 
+const healthServer = http.createServer(async (request, response) => {
+  if (request.url !== "/health") {
+    response.writeHead(404, { "content-type": "application/json" });
+    response.end(JSON.stringify({ status: "not_found" }));
+    return;
+  }
+
+  let roomSnapshots = 0;
+  try {
+    roomSnapshots = (await fs.readdir(roomStoreDir)).filter((name) =>
+      name.endsWith(".bin"),
+    ).length;
+  } catch (error) {
+    if (!error || error.code !== "ENOENT") {
+      throw error;
+    }
+  }
+
+  response.writeHead(200, { "content-type": "application/json" });
+  response.end(
+    JSON.stringify({
+      status: "ok",
+      service: "specforge-collab",
+      checked_at: new Date().toISOString(),
+      websocket_port: port,
+      room_snapshot_count: roomSnapshots,
+    }),
+  );
+});
+
 async function main() {
   await ensureRoomStoreDir();
+  healthServer.listen(healthPort, () => {
+    logEvent("health_listen", { url: `http://localhost:${healthPort}/health` });
+  });
   await server.listen();
 }
 

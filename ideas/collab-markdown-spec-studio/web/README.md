@@ -25,10 +25,11 @@ Current slice:
 - richer in-text attribution overlays alongside the shared canvas markers
 - readiness scoring and recap panel
 - deterministic export bundle preview
-- curated TypeScript starter handoff output
+- starter handoff output for the minimum TypeScript starter plus constrained docs-only / Next.js templates
 - execution brief and combined launch packet JSON
 - in-product delivery-loop panel exposing backlog status and next-pass brief
 - staged UI for the local MVP flow
+- web runtime health endpoint at `/api/health`
 
 ## Commands
 
@@ -48,6 +49,10 @@ npm run parity:run:dry
 cd ../collab-server
 npm install
 npm run dev
+
+# or from the workspace root
+cd ..
+docker compose up --build
 ```
 
 ## Notes
@@ -55,6 +60,7 @@ npm run dev
 - The local runtime persists through a JSON snapshot under `.data/` and is seeded from `../fixtures/`.
 - PGlite still backs the in-process SQL layer; the snapshot is there so Next app workers share the same document state.
 - The collaboration runtime lives in `../collab-server/`.
+- `docker compose up --build` brings up both runtimes with health checks for local deployment rehearsal.
 - The web client connects to `NEXT_PUBLIC_COLLAB_URL` and defaults to `ws://127.0.0.1:4321`.
 - The collab handshake is signed by `POST /api/collab/session`; override `SPECFORGE_COLLAB_SECRET` only if both the web app and collab server share it.
 - The final handoff stage exposes `/export`, `/handoff`, `/execution`, and `/launch-packet` routes for downstream build agents.
@@ -76,3 +82,6 @@ npm run dev
   - `/api/auth/callback`
   - `/api/auth/logout`
 - Local recovery and observability notes live in `../LOCAL_RUNBOOK.md`.
+- Health endpoints:
+  - `/api/health`
+  - `http://127.0.0.1:4322/health`
