@@ -27,7 +27,7 @@ export function LocalAdminPanel({ authMode, activeDocumentId }: Props) {
         </p>
         <div className={styles.inlineActions}>
           <form action={resetWorkspaceDocumentsAction}>
-            <input type="hidden" name="return_to" value="/?stage=start" />
+            <input type="hidden" name="return_to" value="/workspace?stage=start" />
             <button type="submit">Reset workspace data</button>
           </form>
           {activeDocumentId ? (

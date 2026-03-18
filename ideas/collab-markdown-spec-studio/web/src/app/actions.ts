@@ -72,8 +72,8 @@ export async function createDocumentAction(formData: FormData) {
     metadata,
   });
 
-  revalidatePath("/");
-  redirect(`/?document=${created.document_id}&stage=draft`);
+  revalidatePath("/workspace");
+  redirect(`/workspace?document=${created.document_id}&stage=draft`);
 }
 
 export async function createPatchAction(formData: FormData) {
@@ -102,7 +102,7 @@ export async function createPatchAction(formData: FormData) {
     confidence: 0.82,
   });
 
-  revalidatePath("/");
+  revalidatePath("/workspace");
 }
 
 export async function decidePatchAction(formData: FormData) {
@@ -116,7 +116,7 @@ export async function decidePatchAction(formData: FormData) {
     decided_by: actorRef,
   });
 
-  revalidatePath("/");
+  revalidatePath("/workspace");
 }
 
 export async function createCommentThreadAction(formData: FormData) {
@@ -128,7 +128,7 @@ export async function createCommentThreadAction(formData: FormData) {
     created_by: actorRef,
   });
 
-  revalidatePath("/");
+  revalidatePath("/workspace");
 }
 
 export async function resolveCommentThreadAction(formData: FormData) {
@@ -139,7 +139,7 @@ export async function resolveCommentThreadAction(formData: FormData) {
     resolved_by: actorRef,
   });
 
-  revalidatePath("/");
+  revalidatePath("/workspace");
 }
 
 export async function createClarificationAction(formData: FormData) {
@@ -151,7 +151,7 @@ export async function createClarificationAction(formData: FormData) {
     created_by: actorRef,
   });
 
-  revalidatePath("/");
+  revalidatePath("/workspace");
 }
 
 export async function answerClarificationAction(formData: FormData) {
@@ -163,37 +163,37 @@ export async function answerClarificationAction(formData: FormData) {
     answered_by: actorRef,
   });
 
-  revalidatePath("/");
+  revalidatePath("/workspace");
 }
 
 export async function switchWorkspaceActorAction(formData: FormData) {
   const actorId = String(formData.get("actor_id") ?? "");
-  const returnTo = String(formData.get("return_to") ?? "/");
+  const returnTo = String(formData.get("return_to") ?? "/workspace");
 
   await setCurrentWorkspaceActor(actorId);
-  redirect(returnTo || "/");
+  redirect(returnTo || "/workspace");
 }
 
 export async function switchWorkspaceAction(formData: FormData) {
   const workspaceId = String(formData.get("workspace_id") ?? "");
-  const returnTo = String(formData.get("return_to") ?? "/");
+  const returnTo = String(formData.get("return_to") ?? "/workspace");
 
   if (workspaceId) {
     await setCurrentWorkspaceActor(workspaceId);
   }
 
-  revalidatePath("/");
-  redirect(returnTo || "/");
+  revalidatePath("/workspace");
+  redirect(returnTo || "/workspace");
 }
 
 export async function resetWorkspaceDocumentsAction(formData: FormData) {
   const { currentActor } = await getActionActorRef();
-  const returnTo = String(formData.get("return_to") ?? "/?stage=start");
+  const returnTo = String(formData.get("return_to") ?? "/workspace?stage=start");
 
   await resetWorkspaceDocuments(currentActor.workspace_id);
 
-  revalidatePath("/");
-  redirect(returnTo || "/?stage=start");
+  revalidatePath("/workspace");
+  redirect(returnTo || "/workspace?stage=start");
 }
 
 export async function seedReviewDemoAction(formData: FormData) {
@@ -244,6 +244,6 @@ export async function seedReviewDemoAction(formData: FormData) {
     created_by: actorRef,
   });
 
-  revalidatePath("/");
-  redirect(`/?document=${document.document_id}&stage=review`);
+  revalidatePath("/workspace");
+  redirect(`/workspace?document=${document.document_id}&stage=review`);
 }

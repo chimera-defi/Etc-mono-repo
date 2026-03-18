@@ -2,7 +2,10 @@
 
 Next.js application for the SpecForge MVP.
 
-The current `/` route is a workspace-first product home. A separate marketing landing page is still post-parity SaaS work.
+The current route split is:
+- `/` marketing/overview landing page
+- `/pricing` pricing page
+- `/workspace` the actual working SpecForge product
 
 Current slice:
 - guided spec creation that generates the canonical draft from structured inputs
