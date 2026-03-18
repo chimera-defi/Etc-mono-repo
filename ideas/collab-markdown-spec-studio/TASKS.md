@@ -6,6 +6,7 @@
 - [x] Local MVP verification is green: lint, unit, build, acceptance, browser, contracts.
 - [x] Hosted-runtime rehearsal exists with `web`, `collab-server`, and `postgres`.
 - [x] Parity runner backlog is clear for `scoped_saas_parity`.
+- [x] Landing page at `/`, pricing page at `/pricing`, and product workspace at `/workspace` are live.
 
 ## Shipped Surface
 - [x] Guided spec wizard writes into the canonical document.
@@ -21,7 +22,6 @@
 - [x] Delivery loop with intents, claims, context, handoff artifact, and meta-learnings.
 
 ## Remaining Post-Parity SaaS Work
-- [ ] Add a dedicated marketing landing page instead of a workspace-first home surface.
 - [ ] Run design-partner sessions and instrument activation/retention/trust metrics.
 - [ ] Add managed backup/restore, hosted incident runbooks, and stronger operational dashboards.
 - [ ] Add billing, usage metering, and plan enforcement for SaaS packaging.
@@ -30,7 +30,6 @@
 - [ ] Decide whether the first commercial motion is hosted SaaS only, self-hosted OSS plus hosted SaaS, or OSS-first.
 
 ## Open Product Questions
-- [ ] Is the first public home page a lightweight marketing page, a sign-in screen, or a workspace-first product surface?
 - [ ] Which second template is worth supporting after the current constrained starter set?
 - [ ] How much unattended runner autonomy is acceptable before a human checkpoint is mandatory?
 
