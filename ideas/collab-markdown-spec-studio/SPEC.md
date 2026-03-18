@@ -6,10 +6,11 @@
 Build a real-time collaborative spec IDE with:
 1. CRDT-backed infrastructure for human collaboration (Yjs + Hocuspocus deployed; multiplayer sync untested in MVP),
 2. governed agent patch workflows (fully functional: propose/review/accept/reject/cherry-pick),
-3. depth gates and recap requirements (deferred to Phase 2),
-4. deterministic export into execution-ready spec bundles (`PRD.md`, `SPEC.md`, `TASKS.md`, `agent_spec.json`, starter handoff, execution brief, launch packet),
-5. a delivery loop that keeps driving a minimum extensible product toward parity with the approved spec (fully implemented),
-6. landing and pricing surfaces that route users into the working SaaS workspace.
+3. guided creation plus agent-assisted field population from rough briefs,
+4. readiness and clarification gates before build handoff, with deeper milestone recap still deferred,
+5. deterministic export into execution-ready spec bundles (`PRD.md`, `SPEC.md`, `TASKS.md`, `agent_spec.json`, starter handoff, execution brief, launch packet),
+6. a delivery loop that keeps driving a minimum extensible product toward parity with the approved spec (fully implemented),
+7. landing and pricing surfaces that route users into the working SaaS workspace.
 
 The current branch satisfies the scoped MVP target. Broader company-plan work like conversion instrumentation, billing, and long-horizon template expansion remains post-parity product work, not missing core MVP behavior.
 
@@ -209,10 +210,11 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 6. GitHub OAuth callbacks require state validation, and hosted mode must reject default local secrets.
 
 ### Agent Configuration Default
-1. Local mode uses server-side environment variables for provider/API credentials.
+1. Local mode can reuse existing server-side Codex CLI or Claude Code CLI logins for guided assist and delivery loops.
 2. Hosted SaaS mode should store workspace-scoped provider credentials server-side and encrypted at rest.
 3. Browsers never receive raw provider secrets.
 4. Agents act as workspace-scoped service identities and submit governed patches instead of mutating canonical docs directly.
+5. CLI-backed assist should stay disabled by default outside local mode unless an operator explicitly enables it.
 
 ### Comments Default
 1. v1 ships simple anchored comment threads.
@@ -265,7 +267,7 @@ Use CRDT for live human collaboration, but keep agent governance above the CRDT 
 
 ### Phase Plan
 1. Phase 1: core realtime markdown + comments + version history.
-2. Phase 2: agent patch queue + approvals + provenance tags + depth gates.
+2. Phase 2: deeper milestone recap/depth enforcement, broader repo generation, and stronger hosted SaaS operations.
 3. Phase 3: curated example exports + repo scaffolding + integrations.
 4. Phase 4: broader repo generation and advanced governance policies.
 

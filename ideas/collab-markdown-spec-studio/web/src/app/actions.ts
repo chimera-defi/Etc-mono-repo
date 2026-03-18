@@ -174,18 +174,6 @@ export async function switchWorkspaceActorAction(formData: FormData) {
   redirect(returnTo || "/workspace");
 }
 
-export async function switchWorkspaceAction(formData: FormData) {
-  const workspaceId = String(formData.get("workspace_id") ?? "");
-  const returnTo = String(formData.get("return_to") ?? "/workspace");
-
-  if (workspaceId) {
-    await setCurrentWorkspaceActor(workspaceId);
-  }
-
-  revalidatePath("/workspace");
-  redirect(returnTo || "/workspace");
-}
-
 export async function resetWorkspaceDocumentsAction(formData: FormData) {
   const { currentActor } = await getActionActorRef();
   const returnTo = String(formData.get("return_to") ?? "/workspace?stage=start");

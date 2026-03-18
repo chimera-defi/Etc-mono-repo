@@ -10,6 +10,7 @@
 
 ## Shipped Surface
 - [x] Guided spec wizard writes into the canonical document.
+- [x] Mini agent-assist can populate guided fields from a rough brief, using local CLI tooling when available and a safe fallback otherwise.
 - [x] Tiptap + Yjs + Hocuspocus multiplayer canvas with shared presence.
 - [x] Governed patch queue with accept/reject/cherry-pick.
 - [x] Anchored comments and clarification writeback.
@@ -32,6 +33,7 @@
 ## Open Product Questions
 - [ ] Which second template is worth supporting after the current constrained starter set?
 - [ ] How much unattended runner autonomy is acceptable before a human checkpoint is mandatory?
+- [ ] Should hosted workspaces support bring-your-own provider credentials, managed agents, or both as the primary commercial path?
 
 ## Verification Commands
 - [x] `npm run lint`
