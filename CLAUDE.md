@@ -24,11 +24,11 @@
 
 1. **Read `.cursorrules`** - All AI rules apply to Claude Code
 2. **Install QMD** (BM25 only): `command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd`
-3. **Use QMD for search** before reading files: `qmd search "topic" -n 5 --files` (skip embed/vector)
+3. **Use token-reduce search/QMD for search** before reading files: `./.claude/token-reduce-search.sh "topic"` or `qmd search "topic" -n 5 --files` (skip embed/vector)
 4. **Use token reduction** - Auto-active via `/token-reduce` skill (89% concise, 99% QMD search vs naive, 33% targeted reads)
 5. **Verify before completing:** Run lint, build, tests
 
-**Decision flow:** If you know the file/keyword → `rg -g` scoped search. If you need ranked snippets → QMD BM25. Avoid MCP CLI for file reads.
+**Decision flow:** If you do not know the location yet, start with `./.claude/token-reduce-search.sh "topic"`. If you know the file/keyword → `rg -g` scoped search. If you need ranked snippets → token-reduce search/QMD BM25. Avoid MCP CLI for file reads. Do not begin broad discovery with `find .`, `ls -R`, `grep -R`, `rg --files .`, or broad `Glob`; repo hooks block the worst cases, and measurement treats the rest as violations and redirects to the token-reduction path.
 
 ## Enforcement
 
@@ -172,6 +172,17 @@ bun run lint && bun run build && bun test
 ```
 
 Token reduction is always active (see Quick Start + `.cursorrules` Token Efficiency section).
+
+## Token Reduction Adoption
+
+- Repo-local measurements are written to `.cursor/artifacts/token-reduction/`
+- Run once now: `.claude/baseline-measurement.sh --scope repo`
+- Repo measurements now include both Claude and Codex session logs for this repo
+- Install scheduled runs: `.claude/install-token-reduction-cron.sh`
+- Goal for this repo first:
+  - discovery compliance >= 80%
+  - broad-scan violations trending to 0
+  - QMD or scoped `rg` used before broad exploration
 
 ## Common Commands
 
