@@ -45,7 +45,7 @@
 - [x] Add clarification queue flows and answer writing back into the canonical doc.
 - [x] Expand starter generation from one curated template toward the broader repo-generation scope.
 - [ ] Add hosted deployment config, production persistence, and real observability plumbing.
-- [ ] Let the runner advance the SaaS backlog through multiple claimed passes while preserving local-test ergonomics.
+- [x] Let the runner advance the SaaS backlog through multiple claimed passes while preserving local-test ergonomics.
 
 ## Immediate Execution Order
 1. Auth and tenancy:
@@ -53,7 +53,7 @@
    - add workspace membership records and enforce workspace-scoped document loading
 2. Orchestration hardening:
    - persist retry counts, failure summaries, and richer blocked-state diagnostics
-   - prove the runner can clear at least one non-trivial SaaS backlog item
+   - keep bounded batch passes resumable through handoff + meta-learning artifacts
 3. Clarification workflow:
    - queue unanswered clarifications
    - write accepted answers back into canonical blocks and audit history
@@ -63,6 +63,7 @@
 ## Hosted Runtime Progress
 - [x] Add local deployment rehearsal config (`docker-compose.yml`, runtime Dockerfiles, health checks).
 - [x] Add runtime health endpoints for the web app and collaboration service.
+- [x] Bound parity batch runs so `--until-clear` still respects `--max-passes`.
 - [ ] Replace local PGlite persistence with production-grade shared persistence for hosted environments.
 - [ ] Add production metrics/tracing beyond local logs and health checks.
 
