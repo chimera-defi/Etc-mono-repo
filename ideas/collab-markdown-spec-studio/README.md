@@ -38,6 +38,7 @@ Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid du
 2. Use selected `ideas/` packs as example corpora and end-to-end benchmarks.
 3. Treat repo generation as a downstream proof surface, not the initial product gate.
 4. Use `/` as the marketing/overview surface, `/pricing` as the commercial framing page, and `/workspace` as the actual product.
+5. Let local operators reuse existing Codex CLI or Claude Code CLI logins for guided assist without shipping secrets to the browser.
 
 ### Applied Learnings
 1. Lock the wedge early:
