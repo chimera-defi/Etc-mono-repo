@@ -1,22 +1,5 @@
 import { expect, test } from "@playwright/test";
-
-const heroVariants = [
-  {
-    id: "handoff",
-    headline: "Write the spec once. Let humans and agents build from the same canvas.",
-    screenshot: "artifacts/screenshots/specforge-variant-handoff.png",
-  },
-  {
-    id: "multiplayer",
-    headline: "Collaborative spec writing that stays reviewable and build-ready.",
-    screenshot: "artifacts/screenshots/specforge-variant-multiplayer.png",
-  },
-  {
-    id: "ship",
-    headline: "Turn messy planning into a launch packet a coding agent can actually use.",
-    screenshot: "artifacts/screenshots/specforge-variant-ship.png",
-  },
-] as const;
+import { heroVariantOrder, heroVariants } from "../src/lib/specforge/marketing";
 
 test("renders the integrated SpecForge demo and captures a screenshot", async ({
   page,
@@ -39,13 +22,14 @@ test("renders the integrated SpecForge demo and captures a screenshot", async ({
 });
 
 test("captures north-star copy variants for review", async ({ page }) => {
-  for (const variant of heroVariants) {
-    await page.goto(`/?variant=${variant.id}`);
+  for (const variantId of heroVariantOrder) {
+    const variant = heroVariants[variantId];
+    await page.goto(`/?variant=${variantId}`);
     await expect(page.getByText("SpecForge", { exact: true })).toBeVisible();
     await expect(page.getByRole("heading", { name: variant.headline })).toBeVisible();
 
     await page.screenshot({
-      path: variant.screenshot,
+      path: `artifacts/screenshots/specforge-variant-${variantId}.png`,
       fullPage: true,
     });
   }
@@ -122,6 +106,26 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
     export_bundle: expect.any(Object),
     starter_bundle: expect.any(Object),
     execution_brief: expect.any(Object),
+  });
+});
+
+test("agent assist can populate the guided draft form before creation", async ({ page }) => {
+  await page.goto("/workspace?stage=start");
+  await page.getByTestId("agent-assist-brief").fill(
+    "A SaaS workspace where founders and engineers coauthor specs with reviewable AI patches and export a launch packet for implementation.",
+  );
+  await page.getByLabel("Assist runtime").selectOption("heuristic");
+  await page.getByRole("button", { name: "Populate fields with assist" }).click();
+
+  await expect(page.getByTestId("create-document-title")).toHaveValue(
+    /SaaS Workspace Where Founders And Engineers/i,
+  );
+  await expect(page.getByText("Built-in fallback populated the fields.")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Create guided draft" })).toBeVisible();
+
+  await page.screenshot({
+    path: "artifacts/screenshots/specforge-workspace-start.png",
+    fullPage: true,
   });
 });
 

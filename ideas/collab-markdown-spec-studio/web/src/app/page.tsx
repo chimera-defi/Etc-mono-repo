@@ -1,8 +1,7 @@
 import Link from "next/link";
 
 import styles from "./marketing.module.css";
-
-type HeroVariant = "handoff" | "multiplayer" | "ship";
+import { heroVariantOrder, heroVariants, type HeroVariant } from "@/lib/specforge/marketing";
 
 type Props = {
   searchParams?: Promise<{
@@ -10,27 +9,6 @@ type Props = {
   }>;
 };
 
-const heroVariantOrder: HeroVariant[] = ["handoff", "multiplayer", "ship"];
-const heroVariants: Record<HeroVariant, { eyebrow: string; headline: string; subhead: string }> = {
-  handoff: {
-    eyebrow: "Multiplayer specs for one-shot builds",
-    headline: "Write the spec once. Let humans and agents build from the same canvas.",
-    subhead:
-      "SpecForge is a collaborative spec IDE for teams that want governed agent work, attributable changes, and a cleaner path from idea to runnable product.",
-  },
-  multiplayer: {
-    eyebrow: "One canvas for humans and agents",
-    headline: "Collaborative spec writing that stays reviewable and build-ready.",
-    subhead:
-      "Humans edit live, agents propose patches, and the final handoff stays attributable enough to trust.",
-  },
-  ship: {
-    eyebrow: "Specs that keep moving",
-    headline: "Turn messy planning into a launch packet a coding agent can actually use.",
-    subhead:
-      "Guide the spec, review agent work, and hand off one coherent bundle instead of a pile of pasted context.",
-  },
-};
 
 export default async function LandingPage({ searchParams }: Props) {
   const resolvedSearchParams = (await searchParams) ?? {};
@@ -122,22 +100,22 @@ export default async function LandingPage({ searchParams }: Props) {
           <div className={styles.featureCard}>
             <strong>Local mode</strong>
             <p>
-              Operators run SpecForge locally and keep provider/API credentials in server-side env
-              config. Nothing sensitive is stored in the browser.
+              Operators can reuse existing server-side Codex CLI or Claude Code CLI logins for
+              guided assist and delivery loops. Raw provider secrets still stay off the browser.
             </p>
           </div>
           <div className={styles.featureCard}>
             <strong>Hosted SaaS mode</strong>
             <p>
-              Workspace-scoped provider credentials should live server-side, encrypted at rest,
-              with agents represented as service identities instead of borrowed human sessions.
+              Workspace-scoped provider credentials should live server-side, encrypted at rest, or
+              be attached to managed agent identities instead of borrowed human sessions.
             </p>
           </div>
           <div className={styles.featureCard}>
             <strong>Safety model</strong>
             <p>
-              Agent credentials enable patch proposal generation and delivery-loop execution, not
-              unrestricted document mutation. The review layer stays in front of the canonical spec.
+              Agent credentials enable patch generation and delivery-loop execution, not
+              unrestricted document mutation. The review layer stays in front of canonical state.
             </p>
           </div>
         </div>
@@ -175,8 +153,8 @@ export default async function LandingPage({ searchParams }: Props) {
 
       <footer className={styles.footer}>
         <p>
-          Current home surface: workspace-first product shell. Dedicated marketing landing and
-          commercial onboarding remain post-parity SaaS work.
+          Start on the landing page, price the product on `/pricing`, and move into `/workspace`
+          for the actual guided spec workflow.
         </p>
       </footer>
     </main>
