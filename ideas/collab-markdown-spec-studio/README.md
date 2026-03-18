@@ -37,7 +37,7 @@ Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid du
    - ability to reach a build-ready spec
 2. Use selected `ideas/` packs as example corpora and end-to-end benchmarks.
 3. Treat repo generation as a downstream proof surface, not the initial product gate.
-4. Treat the current `/` surface as a workspace-first home, not a finished marketing landing page.
+4. Use `/` as the marketing/overview surface, `/pricing` as the commercial framing page, and `/workspace` as the actual product.
 
 ### Applied Learnings
 1. Lock the wedge early:
@@ -70,6 +70,6 @@ Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid du
 ### Post-Parity Company Plan
 1. Run design-partner validation on the hosted rehearsal path.
 2. Decide hosted SaaS only vs self-hosted OSS + hosted SaaS.
-3. Add a dedicated landing page and commercial onboarding flow.
+3. Add deeper commercial onboarding and conversion instrumentation on top of the current landing/pricing surfaces.
 4. Add billing, metering, backup/restore, and stronger operational dashboards.
 5. Expand starter generation only after design-partner usage proves the next templates.
