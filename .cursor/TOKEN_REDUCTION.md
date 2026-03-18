@@ -26,10 +26,13 @@
 
 ## Decision Tree (Fastest First)
 
-1. **Known file/keyword?** → `Grep` tool (or `rg -g`) then targeted read.
-2. **Need ranked snippets or file list?** → `qmd search "topic" -n 5 --files` (BM25 only).
-3. **Large file context?** → `Read` with offset/limit (or `head/tail/sed` in Cursor).
-4. **No `rg`?** → `git grep` scoped to path.
+1. **Unknown location or broad concept?** → `./.claude/token-reduce-search.sh "topic"` first.
+2. **Known file/keyword?** → `Grep` tool (or `rg -g`) then targeted read.
+3. **Need ranked snippets or file list?** → `qmd search "topic" -n 5 --files` (BM25 only).
+4. **Large file context?** → `Read` with offset/limit (or `head/tail/sed` in Cursor).
+5. **No `rg`?** → `git grep` scoped to path.
+
+`rg --files .` is not counted as good discovery here. It is still a broad repo inventory pass.
 
 ## Guardrails (Always On)
 
@@ -116,6 +119,15 @@ Parallel (1 turn):    2,700 tokens
 
 ## Anti-Patterns
 
+❌ `find . -name "*.ts" | xargs cat`
+✅ `qmd search "workspace actor" -n 5 --files` then targeted reads
+
+❌ `ls -R ideas/`
+✅ `rg -n -g 'ideas/**/*.md' 'specforge'`
+
+❌ `rg --files . | head -200`
+✅ `./.claude/token-reduce-search.sh "specforge"` then targeted reads
+
 - Restating user requests
 - Narrating tool usage ("Let me read the file...")
 - Reading entire files without line limits
@@ -139,6 +151,7 @@ Parallel (1 turn):    2,700 tokens
 ```bash
 .cursor/validate-token-reduction.sh    # 32 automated checks
 .cursor/benchmark-real-tokens.sh       # Tiktoken measurement
+.claude/baseline-measurement.sh --scope repo   # Claude + Codex adoption in this repo
 .cursor/token-monitor.sh init          # Start session tracking
 .cursor/token-monitor.sh summary       # End-of-session report
 ```

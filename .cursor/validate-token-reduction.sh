@@ -42,6 +42,9 @@ REQUIRED_FILES=(
   ".cursor/benchmark-real-tokens.sh"
   ".cursor/token-monitor.sh"
   ".cursor/cleanup-workspace.sh"
+  ".claude/measure_token_reduction.py"
+  ".claude/install-token-reduction-cron.sh"
+  ".claude/token-reduce-search.sh"
   "docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md"
 )
 
@@ -78,8 +81,8 @@ else
   warn "Knowledge graph: $KG_SAVINGS (documentation claims 76-84%)"
 fi
 
-if [ "$TARGETED_SAVINGS" = "33%" ]; then
-  pass "Targeted reads: $TARGETED_SAVINGS (matches documentation)"
+if [[ "$TARGETED_SAVINGS" =~ ^(33|34|35|36|37|38|39|40|41|42|43|44)%$ ]]; then
+  pass "Targeted reads: $TARGETED_SAVINGS (within documented 33-44% range)"
 else
   warn "Targeted reads: $TARGETED_SAVINGS (documentation claims 33-44%)"
 fi
@@ -112,11 +115,11 @@ if [ -f ".claude/skills/token-reduce/SKILL.md" ]; then
   fi
 fi
 
-# Check auto-invocation keywords
-if grep -q "auto-invoke\|Auto-invoke\|keywords:" ".claude/skills/token-reduce/SKILL.md"; then
-  pass "Auto-invocation documented"
+# Check explicit use/don't-use guidance
+if grep -q "## Use When" ".claude/skills/token-reduce/SKILL.md" && grep -q "## Don't Use When" ".claude/skills/token-reduce/SKILL.md"; then
+  pass "Use/Don't use guidance documented"
 else
-  warn "Auto-invocation keywords should be documented"
+  warn "Skill should explicitly document use and don't-use cases"
 fi
 
 echo ""
@@ -178,6 +181,12 @@ if grep -q "AUTO-ACTIVE\|auto-active" .cursorrules; then
   pass ".cursorrules marked as auto-active"
 else
   warn ".cursorrules should indicate auto-active behavior"
+fi
+
+if grep -q "find \\.\\|ls -R\\|grep -R" .cursorrules && grep -q "block" CLAUDE.md; then
+  pass "Broad-scan avoidance documented"
+else
+  warn "Broad Bash scan avoidance should be documented in rules/docs"
 fi
 
 # Check CLAUDE.md has session workflow

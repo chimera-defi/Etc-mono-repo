@@ -3,7 +3,8 @@ name: token-reduce
 description: |
   Reduce token usage by retrieving only relevant context and summarizing it.
   Uses QMD BM25 search when available for fast local search (skip embed/vsearch/query — too slow).
-  Use when: context limits, high costs, large codebases. Enforcement via .cursorrules.
+  Use when: file location is uncertain, the repo is large, the user asks to "read context" or explore, or context/cost pressure matters.
+  Do not use when: the exact file is already provided and the task is a small single-file edit. Enforcement via .cursorrules and repo hooks.
 author: Claude Code
 version: 4.2.0
 argument-hint: [file-or-directory]
@@ -18,6 +19,30 @@ allowed-tools:
 # Token Reduction Skill
 
 Reduce context usage for `$ARGUMENTS` using targeted retrieval and short summaries.
+
+## Use When
+
+- The user asks to "read the context", "review the repo", "explore", or "find where this lives".
+- You do not know the file location yet.
+- The task likely needs more than 5 files or spans multiple areas of the repo.
+- The repo is large enough that naive `find`, broad `Glob`, or full-file reads would bloat context.
+
+## Don't Use When
+
+- The exact file path is already given and the edit is local.
+- The task is a one-command operational check with minimal repo reading.
+- The file is small and a direct targeted read is clearly cheaper than search.
+
+## Required First Move
+
+- If file location is unknown, start with one of:
+  - `./.claude/token-reduce-search.sh "topic"` (preferred repo helper: QMD first, scoped `rg` fallback)
+  - `qmd search "topic" -n 5 --files`
+  - `rg -n -g '<glob>' '<pattern>'`
+- Do not treat `rg --files .` as compliant discovery. It is still a broad scan in large repos.
+- Do not start discovery with broad recursive Bash scans such as `find .`, `ls -R`, or `grep -R`.
+- Do not start discovery with broad `Glob` patterns such as `**/*` or unscoped wildcard searches.
+- After two failed discovery attempts or once the candidate set exceeds 5 files, escalate to `Task(subagent_type="Explore")`.
 
 ## Strategies (by measured impact)
 
@@ -43,6 +68,15 @@ Reduce context usage for `$ARGUMENTS` using targeted retrieval and short summari
 4. **Broad exploration (>5 files)?** → `Task(subagent_type="Explore")` to keep main context clean.
 5. Report: `Baseline → Optimized (X% saved)` and fixes.
 
+## Success Criteria
+
+- Discovery starts with QMD BM25 or scoped `rg`, not recursive shell scans.
+- `./.claude/token-reduce-search.sh` is preferred for ambiguous exploration because it chooses QMD first and gives a fallback path.
+- `rg --files .` and similarly broad inventory commands are treated as violations, even if they are fast.
+- Reads are targeted (`Read` with `offset`/`limit`, `qmd get`, `head`/`tail`/`sed -n`).
+- Broad exploration is delegated once the search space is clearly large.
+- Final summary cites only the minimum set of files needed to explain the result.
+
 ## QMD Reference (BM25 only — skip embed/vector)
 
 ```bash
@@ -64,6 +98,7 @@ qmd get filename.md -l 50 --from 100  # file section
 
 - Restating requests
 - Narrating tool usage ("Let me read the file...")
+- Starting exploration with `find .`, `ls -R`, `grep -R`, or broad `Glob` patterns
 - Reading entire files (use offset/limit for >300 lines)
 - Re-researching stored knowledge
 - Re-reading the same file in one session (unless it changed)
