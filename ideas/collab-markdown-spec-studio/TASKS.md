@@ -64,6 +64,7 @@
 - [x] Add local deployment rehearsal config (`docker-compose.yml`, runtime Dockerfiles, health checks).
 - [x] Add runtime health endpoints for the web app and collaboration service.
 - [x] Bound parity batch runs so `--until-clear` still respects `--max-passes`.
+- [x] Mount shared runtime persistence and ship fixtures correctly in the local container rehearsal.
 - [ ] Replace local PGlite persistence with production-grade shared persistence for hosted environments.
 - [ ] Add production metrics/tracing beyond local logs and health checks.
 
