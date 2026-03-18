@@ -1,5 +1,5 @@
 import { buildExecutionBrief } from "./execution";
-import { buildStarterTemplate } from "./handoff";
+import { buildStarterTemplate, type StarterTemplateId } from "./handoff";
 import { evaluateReadiness } from "./readiness";
 import {
   exportDocument,
@@ -31,6 +31,7 @@ export type DocumentLaunchContext = {
 export async function buildDocumentLaunchContext(
   documentId: string,
   workspaceId?: string,
+  templateId?: StarterTemplateId,
 ): Promise<DocumentLaunchContext | null> {
   const storeOptions = workspaceId ? { workspaceId } : undefined;
   const document = await getDocument(documentId, storeOptions);
@@ -51,7 +52,13 @@ export async function buildDocumentLaunchContext(
     comments,
     clarifications,
   });
-  const starterBundle = buildStarterTemplate(document, exportBundle, readiness);
+  const starterBundle = buildStarterTemplate(
+    document,
+    exportBundle,
+    readiness,
+    patches,
+    templateId,
+  );
   const executionBrief = buildExecutionBrief({
     document,
     exportBundle,

@@ -9,6 +9,7 @@ import {
   getWorkspaceMembershipForUser,
   listDocuments,
 } from "./store";
+import type { StarterTemplateId } from "./handoff";
 import { buildDocumentLaunchContext } from "./workflow";
 
 export class WorkspaceAccessDeniedError extends Error {
@@ -85,10 +86,13 @@ export async function getCurrentWorkspaceDocument(documentId: string) {
   };
 }
 
-export async function getCurrentWorkspaceLaunchContext(documentId: string) {
+export async function getCurrentWorkspaceLaunchContext(
+  documentId: string,
+  templateId?: StarterTemplateId,
+) {
   const { workspaceId } = await getCurrentWorkspaceAccess();
   await validateWorkspaceMembership(workspaceId);
-  const context = await buildDocumentLaunchContext(documentId, workspaceId);
+  const context = await buildDocumentLaunchContext(documentId, workspaceId, templateId);
   return {
     workspaceId,
     context,
