@@ -26,13 +26,14 @@ The branch currently ships:
 4. comments, clarifications, provenance, and readiness,
 5. export + starter handoff + execution brief + launch packet,
 6. local admin controls for fast MVP testing,
-7. a hosted-runtime rehearsal path with `web`, `collab-server`, and `postgres`.
+7. marketing/overview and pricing surfaces at `/` and `/pricing`,
+8. a hosted-runtime rehearsal path with `web`, `collab-server`, and `postgres`.
 
 ### Company Plan After MVP Parity
 The broader company plan is still larger than the shipped MVP:
 1. validate design-partner demand and retention,
 2. decide hosted SaaS vs self-hosted OSS packaging,
-3. add a dedicated landing page and commercial onboarding flow,
+3. deepen commercial onboarding, conversion instrumentation, and self-serve setup,
 4. add billing, metering, backup/restore, and operational dashboards,
 5. expand starter generation only after real demand proves which templates matter.
 
@@ -66,6 +67,7 @@ The broader company plan is still larger than the shipped MVP:
 5. Depth gates + recap required before milestone close.
 6. Export to markdown + JSON spec bundle.
 7. Delivery loop that can keep pushing the minimum extensible product toward scoped parity.
+8. Public landing and pricing surfaces that explain the product and route users into the workspace.
 
 ### Phase 2 Scope (If MVP Validates)
 1. Starter repository generation from approved spec bundle.
