@@ -2,6 +2,8 @@
 
 Next.js application for the SpecForge MVP.
 
+The current `/` route is a workspace-first product home. A separate marketing landing page is still post-parity SaaS work.
+
 Current slice:
 - guided spec creation that generates the canonical draft from structured inputs
 - local workspace sessions with GitHub OAuth pilot hooks for server-side attribution

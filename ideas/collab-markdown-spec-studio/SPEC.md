@@ -1,5 +1,7 @@
 ## SpecForge Technical Spec (MVP)
 
+**Status**: Scoped MVP/spec parity reached on the current build branch.
+
 ### Summary
 Build a real-time collaborative spec IDE with:
 1. CRDT-backed infrastructure for human collaboration (Yjs + Hocuspocus deployed; multiplayer sync untested in MVP),
@@ -7,6 +9,8 @@ Build a real-time collaborative spec IDE with:
 3. depth gates and recap requirements (deferred to Phase 2),
 4. deterministic export into execution-ready spec bundles (`PRD.md`, `SPEC.md`, `TASKS.md`, `agent_spec.json`, starter handoff, execution brief, launch packet),
 5. a delivery loop that keeps driving a minimum extensible product toward parity with the approved spec (fully implemented).
+
+The current branch satisfies the scoped MVP target. Broader company-plan work like a dedicated marketing landing page, billing, and long-horizon template expansion remains post-parity product work, not missing core MVP behavior.
 
 ### Product Principle: Minimum Extensible Product
 1. Approved specs should first produce a minimum extensible product, not a pretend-final build.
