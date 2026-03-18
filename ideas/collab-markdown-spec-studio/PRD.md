@@ -21,13 +21,14 @@ Create a focused collaborative spec IDE for humans and AI agents where work happ
 ### Current Shipped Product
 The branch currently ships:
 1. guided spec creation,
-2. multiplayer drafting,
-3. governed agent patch review,
-4. comments, clarifications, provenance, and readiness,
-5. export + starter handoff + execution brief + launch packet,
-6. local admin controls for fast MVP testing,
-7. marketing/overview and pricing surfaces at `/` and `/pricing`,
-8. a hosted-runtime rehearsal path with `web`, `collab-server`, and `postgres`.
+2. mini agent-assist for populating guided fields,
+3. multiplayer drafting,
+4. governed agent patch review,
+5. comments, clarifications, provenance, and readiness,
+6. export + starter handoff + execution brief + launch packet,
+7. local admin controls for fast MVP testing,
+8. marketing/overview and pricing surfaces at `/` and `/pricing`,
+9. a hosted-runtime rehearsal path with `web`, `collab-server`, and `postgres`.
 
 ### Company Plan After MVP Parity
 The broader company plan is still larger than the shipped MVP:
@@ -61,10 +62,10 @@ The broader company plan is still larger than the shipped MVP:
 
 ### MVP Scope
 1. Multiplayer Markdown editor with presence/cursors/comments.
-2. AI side panel that proposes doc patches.
+2. Agent-assist surface that helps populate guided spec fields from a rough brief.
 3. Accept/reject/cherry-pick AI edits at block or section granularity.
 4. Version history + per-edit attribution (human/agent).
-5. Depth gates + recap required before milestone close.
+5. Readiness gates and clarification loops before build handoff.
 6. Export to markdown + JSON spec bundle.
 7. Delivery loop that can keep pushing the minimum extensible product toward scoped parity.
 8. Public landing and pricing surfaces that explain the product and route users into the workspace.
@@ -74,7 +75,7 @@ The broader company plan is still larger than the shipped MVP:
 2. Broader template-driven scaffolds (web app/API/docs-first presets).
 3. Traceability from generated tasks/issues back to spec sections.
 4. Roll out on curated `ideas/` examples before opening arbitrary project generation.
-5. Dedicated marketing landing page and commercial onboarding flow.
+5. Commercial onboarding, billing, and plan enforcement.
 
 ### Guided Idea-Depth Assistant (SpecForge Productization)
 1. Built-in broad-to-deep wizard with required gates for PRD/SPEC/risk/validation/economics.
@@ -97,6 +98,7 @@ Use selected packs under `ideas/` as:
 1. Team subscription by seats + AI usage credits.
 2. Premium for advanced governance/workflow controls.
 3. Enterprise plan for SSO/audit/compliance retention.
+4. Optional self-hosted packaging can widen adoption, but multiplayer still requires a backend runtime.
 
 ### TAM/SAM/SOM Framing (Bottom-Up)
 Use workflow-based TAM, not broad "document software" TAM:

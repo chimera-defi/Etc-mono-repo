@@ -9,6 +9,7 @@ The current route split is:
 
 Current slice:
 - guided spec creation that generates the canonical draft from structured inputs
+- mini agent-assist that can populate guided fields from a rough brief
 - local workspace sessions with GitHub OAuth pilot hooks for server-side attribution
 - local embedded SQL persistence via PGlite with disk-backed snapshot sharing across app workers
 - hosted persistence path via Postgres-backed store selection
@@ -79,6 +80,7 @@ docker compose up --build
 - The runner is designed to land a runnable minimum extensible product first, then keep advancing toward scoped parity without repeated manual re-prompting.
 - `npm run parity:run:batch` runs a bounded multi-pass loop (`--until-clear --max-passes 3 --review-every 2`) so the backlog can advance without an unbounded nested session.
 - In local demo mode, the `Local admin` panel can reset workspace documents and seed mock review activity for fast MVP testing.
+- In local mode, agent assist can reuse existing `codex` or `claude` CLI logins from the server runtime. Hosted mode should use server-side workspace credentials instead.
 - `npm run test:e2e` only runs the browser demo suite (`tests/demo.spec.ts`); engine-level acceptance coverage lives under `npm run test:acceptance`.
 - The runner also schedules periodic multipass review/refactor passes so the loop compacts context, refreshes handoff state, and records meta learnings.
 - Delivery loop endpoints:
