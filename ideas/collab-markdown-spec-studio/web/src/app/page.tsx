@@ -391,9 +391,9 @@ export default async function Home({ searchParams }: Props) {
 
       <main className={styles.focusLayout}>
         <aside className={styles.focusSidebar}>
-          <section className={styles.panel}>
-            <div className={styles.panelHeader}>
-              <h2>Workspace session</h2>
+          <details className={styles.panel} open>
+            <summary className={styles.disclosureSummary}>
+              <span>Workspace session</span>
               <span>
                 {activeWorkspaceSession.authMode === "github"
                   ? "Pilot auth"
@@ -401,177 +401,183 @@ export default async function Home({ searchParams }: Props) {
                     ? "Not signed in"
                     : "Local demo"}
               </span>
-            </div>
-            {activeWorkspaceSession.authMode === "unauthenticated" ? (
-              <div className={styles.actorCard}>
-                <strong>Sign in to continue</strong>
-                <span>GitHub authentication is required to access this workspace.</span>
-                <div className={styles.inlineActions}>
-                  <Link href="/api/auth/login" className={styles.exportLink}>
-                    Sign in with GitHub
-                  </Link>
-                </div>
-              </div>
-            ) : (
-              <>
+            </summary>
+            <div className={styles.disclosureBody}>
+              {activeWorkspaceSession.authMode === "unauthenticated" ? (
                 <div className={styles.actorCard}>
-                  <strong>{activeWorkspaceActor.name}</strong>
-                  <span>{activeWorkspaceActor.role}</span>
-                  <span>{activeWorkspaceActor.actor_id}</span>
-                  {activeWorkspaceSession.githubLogin ? (
-                    <span>GitHub: @{activeWorkspaceSession.githubLogin}</span>
+                  <strong>Sign in to continue</strong>
+                  <span>GitHub authentication is required to access this workspace.</span>
+                  <div className={styles.inlineActions}>
+                    <Link href="/api/auth/login" className={styles.exportLink}>
+                      Sign in with GitHub
+                    </Link>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className={styles.actorCard}>
+                    <strong>{activeWorkspaceActor.name}</strong>
+                    <span>{activeWorkspaceActor.role}</span>
+                    <span>{activeWorkspaceActor.actor_id}</span>
+                    {activeWorkspaceSession.githubLogin ? (
+                      <span>GitHub: @{activeWorkspaceSession.githubLogin}</span>
+                    ) : null}
+                  </div>
+                  <div className={styles.actorCard}>
+                    <strong>{activeWorkspace.name}</strong>
+                    <span>{activeWorkspace.plan} workspace</span>
+                    <span>{activeWorkspaceMembers.length} members</span>
+                    <span>{documents.length} visible documents</span>
+                  </div>
+                  {workspaceRecords.length > 1 ? (
+                    <details className={styles.wizardSection}>
+                      <summary className={styles.disclosureSummary}>
+                        <span>Switch workspace</span>
+                        <span>{workspaceRecords.length} available</span>
+                      </summary>
+                      <div className={styles.disclosureBody}>
+                        <ul className={styles.documentList}>
+                          {workspaceRecords.map((ws) => (
+                            <li key={ws.workspace_id} className={styles.documentItem}>
+                              <span>
+                                <strong>{ws.name}</strong>{" "}
+                                <span className={styles.badge}>{ws.plan}</span>
+                                {ws.workspace_id === activeWorkspace.workspace_id ? (
+                                  <span className={styles.badge}>current</span>
+                                ) : null}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </details>
+                  ) : null}
+                  {githubAuthConfigured ? (
+                    <div className={styles.inlineActions}>
+                      {activeWorkspaceSession.authMode === "github" ? (
+                        <Link href="/api/auth/logout" className={styles.secondaryLink}>
+                          Log out
+                        </Link>
+                      ) : (
+                        <Link href="/api/auth/login" className={styles.secondaryLink}>
+                          Sign in with GitHub
+                        </Link>
+                      )}
+                    </div>
+                  ) : (
+                    <form action={switchWorkspaceActorAction} className={styles.form}>
+                      <input type="hidden" name="return_to" value={actorReturnTo} />
+                      <label>
+                        Active role
+                        <select
+                          name="actor_id"
+                          className={styles.selectInput}
+                          defaultValue={activeWorkspaceActor.actor_id}
+                        >
+                          {workspaceActors.map((actor) => (
+                            <option key={actor.actor_id} value={actor.actor_id}>
+                              {actor.name} · {actor.role}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                      <button type="submit">Switch local actor</button>
+                    </form>
+                  )}
+                </>
+              )}
+            </div>
+          </details>
+
+          <details className={styles.panel} open>
+            <summary className={styles.disclosureSummary}>
+              <span>Workflow</span>
+              <span>Guided path</span>
+            </summary>
+            <div className={styles.disclosureBody}>
+              <nav className={styles.stepGrid}>
+                {guidedSteps.map((step, index) => (
+                  <Link
+                    key={step.id}
+                    href={buildStageHref(activeDocument?.document_id ?? null, step.stage)}
+                    className={`${styles.stepCard} ${styles[step.status]}`}
+                  >
+                    <span className={styles.stepNumber}>Step {index + 1}</span>
+                    <strong>{step.title}</strong>
+                    <p>{step.description}</p>
+                  </Link>
+                ))}
+              </nav>
+            </div>
+          </details>
+
+          <details className={styles.panel}>
+            <summary className={styles.disclosureSummary}>
+              <span>Delivery loop</span>
+              <span>{backlogState.remainingCount} remaining</span>
+            </summary>
+            <div className={styles.disclosureBody}>
+              <div className={styles.actorCard}>
+                <strong>{backlogState.activeSection ?? "Backlog clear"}</strong>
+                <span>Target: {backlogState.deliveryTarget.replaceAll("_", " ")}</span>
+                <span>
+                  {backlogState.remainingCount} remaining item
+                  {backlogState.remainingCount === 1 ? "" : "s"}
+                </span>
+                <span>{backlogState.nextItem ?? "No queued work."}</span>
+                <span>
+                  Review cadence: every {backlogState.reviewEvery} pass
+                  {backlogState.reviewEvery === 1 ? "" : "es"}
+                  {backlogState.reviewDue ? " · review due now" : ""}
+                </span>
+              </div>
+              {backlogState.latestIntent ? (
+                <div className={styles.actorCard}>
+                  <strong>Latest intent</strong>
+                  <span>{backlogState.latestIntent.title}</span>
+                  <span>{backlogState.latestIntent.status}</span>
+                </div>
+              ) : null}
+              {backlogState.latestClaim ? (
+                <div className={styles.actorCard}>
+                  <strong>Latest claim</strong>
+                  <span>{backlogState.latestClaim.claim_id}</span>
+                  <span>{backlogState.latestClaim.state}</span>
+                  {typeof backlogState.latestClaim.retry_count === "number" ? (
+                    <span>Retry {backlogState.latestClaim.retry_count}</span>
+                  ) : null}
+                  <span>{backlogState.latestClaim.heartbeat_at}</span>
+                  {backlogState.latestClaim.failure_summary ? (
+                    <span>{backlogState.latestClaim.failure_summary}</span>
                   ) : null}
                 </div>
+              ) : null}
+              {backlogState.latestSignal ? (
                 <div className={styles.actorCard}>
-                  <strong>{activeWorkspace.name}</strong>
-                  <span>{activeWorkspace.plan} workspace</span>
-                  <span>{activeWorkspaceMembers.length} members</span>
-                  <span>{documents.length} visible documents</span>
+                  <strong>Latest signal</strong>
+                  <span>{backlogState.latestSignal.type}</span>
+                  <span>{backlogState.latestSignal.intent_id}</span>
+                  <span>{backlogState.latestSignal.at}</span>
+                  {backlogState.latestSignal.failure_summary ? (
+                    <span>{backlogState.latestSignal.failure_summary}</span>
+                  ) : null}
                 </div>
-                {workspaceRecords.length > 1 ? (
-                  <details className={styles.panel}>
-                    <summary className={styles.disclosureSummary}>
-                      <span>Switch workspace</span>
-                      <span>{workspaceRecords.length} available</span>
-                    </summary>
-                    <div className={styles.disclosureBody}>
-                      <ul className={styles.documentList}>
-                        {workspaceRecords.map((ws) => (
-                          <li key={ws.workspace_id} className={styles.documentItem}>
-                            <span>
-                              <strong>{ws.name}</strong>{" "}
-                              <span className={styles.badge}>{ws.plan}</span>
-                              {ws.workspace_id === activeWorkspace.workspace_id ? (
-                                <span className={styles.badge}>current</span>
-                              ) : null}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </details>
-                ) : null}
-                {githubAuthConfigured ? (
-                  <div className={styles.inlineActions}>
-                    {activeWorkspaceSession.authMode === "github" ? (
-                      <Link href="/api/auth/logout" className={styles.secondaryLink}>
-                        Log out
-                      </Link>
-                    ) : (
-                      <Link href="/api/auth/login" className={styles.secondaryLink}>
-                        Sign in with GitHub
-                      </Link>
-                    )}
-                  </div>
-                ) : (
-                  <form action={switchWorkspaceActorAction} className={styles.form}>
-                    <input type="hidden" name="return_to" value={actorReturnTo} />
-                    <label>
-                      Active role
-                      <select
-                        name="actor_id"
-                        className={styles.selectInput}
-                        defaultValue={activeWorkspaceActor.actor_id}
-                      >
-                        {workspaceActors.map((actor) => (
-                          <option key={actor.actor_id} value={actor.actor_id}>
-                            {actor.name} · {actor.role}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                    <button type="submit">Switch local actor</button>
-                  </form>
-                )}
-              </>
-            )}
-          </section>
-
-          <section className={styles.panel}>
-            <div className={styles.panelHeader}>
-              <h2>Workflow</h2>
-              <span>Guided path</span>
-            </div>
-            <nav className={styles.stepGrid}>
-              {guidedSteps.map((step, index) => (
-                <Link
-                  key={step.id}
-                  href={buildStageHref(activeDocument?.document_id ?? null, step.stage)}
-                  className={`${styles.stepCard} ${styles[step.status]}`}
-                >
-                  <span className={styles.stepNumber}>Step {index + 1}</span>
-                  <strong>{step.title}</strong>
-                  <p>{step.description}</p>
+              ) : null}
+              <div className={styles.inlineActions}>
+                <Link href="/api/parity/status" className={styles.secondaryLink} target="_blank">
+                  Open status JSON
                 </Link>
-              ))}
-            </nav>
-          </section>
+                <Link href="/api/parity/context" className={styles.secondaryLink} target="_blank">
+                  Open context package
+                </Link>
+                <Link href="/api/parity/brief" className={styles.secondaryLink} target="_blank">
+                  Open next-pass brief
+                </Link>
+              </div>
+            </div>
+          </details>
 
-          <section className={styles.panel}>
-            <div className={styles.panelHeader}>
-              <h2>Delivery loop</h2>
-              <span>Backlog driver</span>
-            </div>
-            <div className={styles.actorCard}>
-              <strong>{backlogState.activeSection ?? "Backlog clear"}</strong>
-              <span>Target: {backlogState.deliveryTarget.replaceAll("_", " ")}</span>
-              <span>
-                {backlogState.remainingCount} remaining item
-                {backlogState.remainingCount === 1 ? "" : "s"}
-              </span>
-              <span>{backlogState.nextItem ?? "No queued work."}</span>
-              <span>
-                Review cadence: every {backlogState.reviewEvery} pass
-                {backlogState.reviewEvery === 1 ? "" : "es"}
-                {backlogState.reviewDue ? " · review due now" : ""}
-              </span>
-            </div>
-            {backlogState.latestIntent ? (
-              <div className={styles.actorCard}>
-                <strong>Latest intent</strong>
-                <span>{backlogState.latestIntent.title}</span>
-                <span>{backlogState.latestIntent.status}</span>
-              </div>
-            ) : null}
-            {backlogState.latestClaim ? (
-              <div className={styles.actorCard}>
-                <strong>Latest claim</strong>
-                <span>{backlogState.latestClaim.claim_id}</span>
-                <span>{backlogState.latestClaim.state}</span>
-                {typeof backlogState.latestClaim.retry_count === "number" ? (
-                  <span>Retry {backlogState.latestClaim.retry_count}</span>
-                ) : null}
-                <span>{backlogState.latestClaim.heartbeat_at}</span>
-                {backlogState.latestClaim.failure_summary ? (
-                  <span>{backlogState.latestClaim.failure_summary}</span>
-                ) : null}
-              </div>
-            ) : null}
-            {backlogState.latestSignal ? (
-              <div className={styles.actorCard}>
-                <strong>Latest signal</strong>
-                <span>{backlogState.latestSignal.type}</span>
-                <span>{backlogState.latestSignal.intent_id}</span>
-                <span>{backlogState.latestSignal.at}</span>
-                {backlogState.latestSignal.failure_summary ? (
-                  <span>{backlogState.latestSignal.failure_summary}</span>
-                ) : null}
-              </div>
-            ) : null}
-            <div className={styles.inlineActions}>
-              <Link href="/api/parity/status" className={styles.secondaryLink} target="_blank">
-                Open status JSON
-              </Link>
-              <Link href="/api/parity/context" className={styles.secondaryLink} target="_blank">
-                Open context package
-              </Link>
-              <Link href="/api/parity/brief" className={styles.secondaryLink} target="_blank">
-                Open next-pass brief
-              </Link>
-            </div>
-          </section>
-
-          <details className={styles.panel} open={Boolean(requestedDocumentId)}>
+          <details className={styles.panel}>
             <summary className={styles.disclosureSummary}>
               <span>Document library</span>
               <span>{documents.length} total</span>
@@ -595,21 +601,25 @@ export default async function Home({ searchParams }: Props) {
           </details>
 
           {readinessReport ? (
-            <section className={styles.panel}>
-              <div className={styles.panelHeader}>
-                <h2>Readiness</h2>
-                <span>Live status</span>
+            <details className={styles.panel}>
+              <summary className={styles.disclosureSummary}>
+                <span>Readiness</span>
+                <span>
+                  {readinessReport.score}/100 · {readinessReport.status}
+                </span>
+              </summary>
+              <div className={styles.disclosureBody}>
+                <div className={styles.readinessCard}>
+                  <strong>{readinessReport.score}/100</strong>
+                  <span className={styles.status}>{readinessReport.status}</span>
+                  <ul className={styles.readinessList}>
+                    {readinessReport.recap.map((line) => (
+                      <li key={line}>{line}</li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-              <div className={styles.readinessCard}>
-                <strong>{readinessReport.score}/100</strong>
-                <span className={styles.status}>{readinessReport.status}</span>
-                <ul className={styles.readinessList}>
-                  {readinessReport.recap.map((line) => (
-                    <li key={line}>{line}</li>
-                  ))}
-                </ul>
-              </div>
-            </section>
+            </details>
           ) : null}
         </aside>
 
@@ -1390,7 +1400,7 @@ export default async function Home({ searchParams }: Props) {
                 </section>
               ) : null}
 
-              <details className={styles.panel} id="export-preview" open>
+              <details className={styles.panel} id="export-preview">
                 <summary className={styles.disclosureSummary}>
                   <span>Export preview</span>
                   <span>Deterministic bundle</span>
@@ -1410,7 +1420,7 @@ export default async function Home({ searchParams }: Props) {
                       </Link>
                       <span>{Object.keys(exportBundle.files).length} files ready for handoff</span>
                     </div>
-                    <details className={styles.exportDisclosure} open>
+                    <details className={styles.exportDisclosure}>
                       <summary className={styles.disclosureSummary}>
                         <span>Bundle contents</span>
                         <span>{Object.keys(exportBundle.files).length} files</span>
