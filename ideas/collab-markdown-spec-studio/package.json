@@ -8,6 +8,8 @@
     "dev:up": "pnpm --parallel --filter specforge-web --filter specforge-collab-server dev",
     "dev:web": "pnpm --filter specforge-web dev",
     "dev:collab": "pnpm --filter specforge-collab-server dev",
+    "docker:up": "docker compose up --build",
+    "docker:down": "docker compose down",
     "build": "pnpm --filter specforge-web build",
     "lint": "pnpm --filter specforge-web lint",
     "test": "pnpm --filter specforge-web test",

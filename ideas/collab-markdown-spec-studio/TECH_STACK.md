@@ -24,6 +24,7 @@
    - websocket sync
    - signed room authentication
    - structured room telemetry
+   - health endpoint for runtime checks
    - Yjs document room lifecycle
 3. Worker:
    - recap generation
@@ -44,6 +45,9 @@
 5. Shared persistence:
    - Postgres for application state
    - optional blob storage only if snapshots/exports outgrow database ergonomics
+6. Deployment rehearsal:
+   - Dockerfiles for `web` and `collab-server`
+   - `docker-compose.yml` with health checks for both runtimes
 
 ### Why This Stack
 1. Maintains a mostly TypeScript codebase.

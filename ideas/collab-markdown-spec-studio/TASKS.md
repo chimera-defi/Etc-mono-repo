@@ -60,6 +60,12 @@
 4. Handoff expansion:
    - add hosted deployment and production observability notes/config
 
+## Hosted Runtime Progress
+- [x] Add local deployment rehearsal config (`docker-compose.yml`, runtime Dockerfiles, health checks).
+- [x] Add runtime health endpoints for the web app and collaboration service.
+- [ ] Replace local PGlite persistence with production-grade shared persistence for hosted environments.
+- [ ] Add production metrics/tracing beyond local logs and health checks.
+
 ## Recommended Parallel Execution Now
 1. Shared canvas hardening: reconnect, replay, and sync/error states.
 2. Attribution and provenance: richer in-text overlays and block ownership detail.
