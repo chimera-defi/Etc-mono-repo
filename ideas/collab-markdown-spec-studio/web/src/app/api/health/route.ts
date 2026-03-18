@@ -1,9 +1,14 @@
 import { NextResponse } from "next/server";
 
 import { readBacklogState } from "@/lib/specforge/backlog";
-import { listDocuments, listWorkspaceRecords } from "@/lib/specforge/store";
+import {
+  getPersistenceConfig,
+  listDocuments,
+  listWorkspaceRecords,
+} from "@/lib/specforge/store";
 
 export async function GET() {
+  const persistenceConfig = getPersistenceConfig();
   const [workspaces, documents, backlogState] = await Promise.all([
     listWorkspaceRecords(),
     listDocuments(),
@@ -15,7 +20,7 @@ export async function GET() {
     service: "specforge-web",
     checked_at: new Date().toISOString(),
     persistence: {
-      backend: "pglite",
+      ...persistenceConfig,
       workspaces: workspaces.length,
       documents: documents.length,
     },

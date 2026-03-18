@@ -29,6 +29,9 @@ docker compose up --build
 - Persistence:
   - app state snapshot under `web/.data/`
   - room snapshots under `collab-server/.data/collab-rooms/`
+  - hosted overrides:
+    - `SPECFORGE_DB_PATH`
+    - `SPECFORGE_COLLAB_STORE_DIR`
 
 ## Failure Modes
 
@@ -69,5 +72,6 @@ docker compose up --build
 ## Observability Notes
 - Use collab server JSON logs as the first debugging surface.
 - Hit the health endpoints before deeper debugging to distinguish startup issues from document-sync issues.
+- Both health endpoints now expose the active persistence configuration, which is the first place to check for mounted-volume drift.
 - Use Playwright `npm run test:e2e` as the local integration smoke test after fixes.
 - Treat the launch packet as the final parity artifact: if export/handoff/execution diverge, rebuild the launch context first.

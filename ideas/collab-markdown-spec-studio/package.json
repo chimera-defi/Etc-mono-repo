@@ -21,6 +21,7 @@
     "parity:context": "pnpm --filter specforge-web parity:context",
     "parity:brief": "pnpm --filter specforge-web parity:brief",
     "parity:run:dry": "pnpm --filter specforge-web parity:run:dry",
-    "parity:run": "pnpm --filter specforge-web parity:run"
+    "parity:run": "pnpm --filter specforge-web parity:run",
+    "parity:run:batch": "pnpm --filter specforge-web parity:run:batch"
   }
 }
