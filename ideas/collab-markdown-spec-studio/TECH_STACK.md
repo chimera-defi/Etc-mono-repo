@@ -43,11 +43,16 @@
    - schedules periodic multipass review/refactor passes
    - refreshes handoff/meta-learning artifacts for context compaction and resume
 5. Shared persistence:
-   - Postgres for application state
+   - PGlite snapshot sharing for local demo/test flows
+   - Postgres for hosted application state
    - optional blob storage only if snapshots/exports outgrow database ergonomics
 6. Deployment rehearsal:
    - Dockerfiles for `web` and `collab-server`
-   - `docker-compose.yml` with health checks for both runtimes
+   - `docker-compose.yml` with health checks for `web`, `collab-server`, and `postgres`
+7. Observability baseline:
+   - structured JSON logs in `web` and `collab-server`
+   - request IDs via middleware/response headers
+   - `/api/health`, `/api/metrics`, and collab `/health` + `/metrics`
 
 ### Why This Stack
 1. Maintains a mostly TypeScript codebase.

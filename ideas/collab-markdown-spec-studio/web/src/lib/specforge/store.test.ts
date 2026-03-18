@@ -12,6 +12,7 @@ import {
   decidePatch,
   createPatchProposal,
   exportDocument,
+  getPersistenceConfig,
   getDocument,
   listAuditEvents,
   listCommentThreads,
@@ -20,6 +21,7 @@ import {
   listWorkspaceMemberships,
   listWorkspaceRecords,
   listPatches,
+  resetStoreCacheForTests,
   resetWorkspaceDocuments,
   resolveCommentThread,
   updateDocument,
@@ -261,5 +263,42 @@ describe("specforge store", () => {
     );
     expect(clarifications[0]?.status).toBe("answered");
     expect(clarifications[0]?.answer_text).toContain("deterministic exports");
+  });
+
+  it("rehydrates clarifications from the snapshot-backed local store", async () => {
+    const options = await makeOptions();
+    const [document] = await listDocuments(options);
+
+    await createClarification(
+      {
+        document_id: document!.document_id,
+        section_heading: "Requirements",
+        question: "What blocks hosted rollout?",
+        created_by: { actor_type: "human", actor_id: "reviewer" },
+      },
+      options,
+    );
+
+    await resetStoreCacheForTests();
+    const clarifications = await listClarifications(document!.document_id, options);
+
+    expect(clarifications.some((item) => item.question.includes("hosted rollout"))).toBe(true);
+  });
+
+  it("reports postgres persistence mode when DATABASE_URL is configured", () => {
+    const originalUrl = process.env.DATABASE_URL;
+    const originalBackend = process.env.SPECFORGE_PERSISTENCE_BACKEND;
+
+    process.env.DATABASE_URL = "postgres://specforge:dev@localhost:5432/specforge";
+    process.env.SPECFORGE_PERSISTENCE_BACKEND = "postgres";
+
+    const config = getPersistenceConfig();
+
+    process.env.DATABASE_URL = originalUrl;
+    process.env.SPECFORGE_PERSISTENCE_BACKEND = originalBackend;
+
+    expect(config.backend).toBe("postgres");
+    expect(config.database_url_configured).toBe(true);
+    expect(config.mode).toBe("postgres_pool");
   });
 });

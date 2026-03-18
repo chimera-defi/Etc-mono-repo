@@ -1,8 +1,8 @@
 # SpecForge Local Runbook
 
 ## Scope
-- Local demo recovery for the SpecForge web app, collab server, and parity runner.
-- Lightweight observability for room auth, room load/store, and reconnect flows.
+- Local demo recovery for the SpecForge web app, collab server, Postgres-backed deployment rehearsal, and parity runner.
+- Lightweight observability for room auth, room load/store, request tracing, and reconnect flows.
 
 ## Primary Commands
 ```bash
@@ -21,20 +21,25 @@ docker compose up --build
 ```
 
 ## Deployment Rehearsal Notes
-- `docker-compose.yml` mounts a shared `specforge_runtime` volume at `/var/lib/specforge` so the web app snapshot file and collab room snapshots survive container restarts.
+- `docker-compose.yml` now starts `specforge-web`, `specforge-collab`, and `specforge-postgres`.
 - The web image now ships `fixtures/` at `/fixtures`, which matches `SPECFORGE_FIXTURES_DIR` in the compose and production env examples.
 - The compose rehearsal also pins a shared `SPECFORGE_COLLAB_SECRET` so web-issued room tokens and collab auth stay aligned.
+- The web service defaults to `SPECFORGE_PERSISTENCE_BACKEND=postgres` in compose, so hosted persistence is exercised locally too.
 
 ## Runtime Signals
 - Web app: editor toolbar status chip shows `connecting`, `live`, `saving`, `recovering`, `offline`, `stale`, or `error`.
 - Collab server: structured JSON logs for `server_listen`, `auth_ok`, `auth_failed`, `room_load`, `room_store`, `client_connected`, and `client_disconnected`.
 - Health endpoints:
   - web app: `GET /api/health`
+  - web metrics: `GET /api/metrics`
   - collab server: `GET http://127.0.0.1:4322/health`
+  - collab metrics: `GET http://127.0.0.1:4322/metrics`
 - Persistence:
   - app state snapshot under `web/.data/`
   - room snapshots under `collab-server/.data/collab-rooms/`
   - hosted overrides:
+    - `SPECFORGE_PERSISTENCE_BACKEND`
+    - `DATABASE_URL`
     - `SPECFORGE_DB_PATH`
     - `SPECFORGE_COLLAB_STORE_DIR`
 
@@ -76,7 +81,9 @@ docker compose up --build
 
 ## Observability Notes
 - Use collab server JSON logs as the first debugging surface.
+- Use `x-specforge-request-id` from responses to correlate web requests with structured web logs.
 - Hit the health endpoints before deeper debugging to distinguish startup issues from document-sync issues.
 - Both health endpoints now expose the active persistence configuration, which is the first place to check for mounted-volume drift.
+- Metrics endpoints expose workspace/document counts and room snapshot counts for quick runtime sanity checks.
 - Use Playwright `npm run test:e2e` as the local integration smoke test after fixes.
 - Treat the launch packet as the final parity artifact: if export/handoff/execution diverge, rebuild the launch context first.
