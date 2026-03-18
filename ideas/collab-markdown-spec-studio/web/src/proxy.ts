@@ -4,17 +4,12 @@ import type { NextRequest } from "next/server";
 const WORKSPACE_SESSION_COOKIE = "specforge_session";
 
 /**
- * Middleware for SpecForge route protection.
- *
- * Protected API routes require a valid workspace session cookie when GitHub
- * auth is configured and NEXT_PUBLIC_SKIP_AUTH_OVERRIDE is not set.
- *
- * Public routes (auth callbacks, parity endpoints, static assets) are excluded.
+ * Protect API routes when GitHub auth is enabled, while keeping local demo mode
+ * and parity endpoints accessible for the delivery loop.
  */
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Always allow auth routes, parity endpoints, and static assets
   if (
     pathname.startsWith("/api/auth/") ||
     pathname.startsWith("/api/parity/") ||
@@ -24,7 +19,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Skip auth enforcement when override is enabled or GitHub auth is not configured
   const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH_OVERRIDE === "true";
   const githubConfigured = Boolean(
     process.env.GITHUB_CLIENT_ID?.trim() &&
@@ -36,15 +30,11 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Protect API routes: require a valid session cookie
   if (pathname.startsWith("/api/")) {
     const sessionCookie = request.cookies.get(WORKSPACE_SESSION_COOKIE)?.value;
 
     if (!sessionCookie) {
-      return NextResponse.json(
-        { error: "Authentication required" },
-        { status: 401 },
-      );
+      return NextResponse.json({ error: "Authentication required" }, { status: 401 });
     }
   }
 

@@ -8,10 +8,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-import {
-  loadExpectedFinalMarkdown,
-  runFullWorkflow,
-} from "../helpers.js";
+import { runFullWorkflow } from "../helpers.js";
 
 describe("Final merge output", () => {
   it("should produce markdown with all patches applied", () => {

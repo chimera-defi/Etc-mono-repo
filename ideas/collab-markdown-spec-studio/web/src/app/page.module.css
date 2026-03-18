@@ -117,6 +117,7 @@
 .panel {
   padding: 20px;
   scroll-margin-top: 20px;
+  min-width: 0;
 }
 
 .panelHeader {
@@ -204,9 +205,11 @@
   background: rgba(255, 255, 255, 0.68);
 }
 
+.actorCard strong,
 .actorCard span {
   color: #6f6559;
   font-size: 0.84rem;
+  overflow-wrap: anywhere;
 }
 
 .wizardSection {
@@ -261,6 +264,7 @@
   list-style: none;
   display: grid;
   gap: 10px;
+  min-width: 0;
 }
 
 .documentItem,
@@ -271,6 +275,8 @@
   padding: 14px;
   background: #fffdf9;
   border: 1px solid rgba(28, 26, 23, 0.08);
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .patchHeader {
@@ -397,18 +403,21 @@
   gap: 4px;
   color: inherit;
   text-decoration: none;
+  min-width: 0;
 }
 
 .documentItem span,
 .patchItem span {
   color: #6f6559;
   font-size: 0.88rem;
+  overflow-wrap: anywhere;
 }
 
 .context,
 .empty {
   color: #6f6559;
   line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
 .stageDescription {
@@ -483,6 +492,7 @@
   display: grid;
   gap: 14px;
   margin-top: 16px;
+  min-width: 0;
 }
 
 .inlineActions {
@@ -508,6 +518,7 @@
   padding: 16px;
   background: #fffdf9;
   border: 1px solid rgba(28, 26, 23, 0.08);
+  min-width: 0;
 }
 
 .secondaryLink {
@@ -535,6 +546,7 @@
   border-radius: 16px;
   border: 1px solid rgba(28, 26, 23, 0.08);
   background: rgba(255, 255, 255, 0.74);
+  min-width: 0;
 }
 
 .walkthroughCard strong {
@@ -545,6 +557,7 @@
   color: #6f6559;
   font-size: 0.88rem;
   line-height: 1.45;
+  overflow-wrap: anywhere;
 }
 
 .editorPanel :global(.editorToolbar) {
@@ -670,6 +683,7 @@
   padding: 16px;
   background: #fffdf9;
   border: 1px solid rgba(28, 26, 23, 0.08);
+  min-width: 0;
 }
 
 .exportCard h3 {
@@ -681,6 +695,14 @@
   word-break: break-word;
   font-size: 0.84rem;
   line-height: 1.55;
+  max-height: 18rem;
+  overflow: auto;
+}
+
+.documentList {
+  max-height: 24rem;
+  overflow: auto;
+  padding-right: 4px;
 }
 
 @media (max-width: 920px) {

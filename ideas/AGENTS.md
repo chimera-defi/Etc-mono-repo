@@ -12,18 +12,16 @@ Quick reminder for Ideas PRs:
 
 ## Projects
 
-### SpecForge (Collaborative Spec Studio) - 📐 Spec-Ready
+### SpecForge (Collaborative Spec Studio) - 📐 Build In Progress
 **Location:** `ideas/collab-markdown-spec-studio/`
 
 Multiplayer Markdown workspace for humans + AI agents to co-author PRDs/specs with section-level patch proposals, merge controls, and provenance. Phase 2: one-click starter repo generation.
 
 **Key docs:** `EXECUTIVE_SUMMARY.md`, `PRD.md`, `SPEC.md`, `ARCHITECTURE_DECISIONS.md`, `STATE_MODEL.md`, `OPEN_QUESTIONS.md`
 
-**Tech stack (decided):** Yjs (CRDT) + Next.js 15 + CodeMirror 6 + Hono/Bun API + Postgres + Clerk auth + Claude API
+**Current implementation stack:** Tiptap + Yjs + Hocuspocus + Next.js 16 + embedded PGlite for local persistence + GitHub OAuth pilot hooks + Node parity runner
 
-**All decisions resolved.** Key choices: heading-level section granularity (D12), AST ops canonical + text diff review UI (D13), Clerk auth (D5), SaaS-only launch (D14), PartyKit CRDT sync (D15), section-level prompting for large docs (D16), hybrid AI cost model — N patches/month included + metered overage (D17), optimistic patch apply with CRDT rollback on conflict (D18).
-
-**Status:** Build-ready — one-shot execution unblocked. See `FIRST_60_MINUTES.md` to start.
+**Status:** Local MVP exists and is being hardened. The actual runnable surface lives in `web/` and `collab-server/`; use `FIRST_60_MINUTES.md` and `web/README.md` instead of older pre-build assumptions.
 
 ### Intelligence Exchange - 🏪 Spec-Ready
 **Location:** `ideas/intelligence-exchange/`
