@@ -26,11 +26,12 @@
 - [x] Postgres-backed hosted persistence option plus health/metrics endpoints.
 - [x] Delivery loop with intents, claims, context, handoff artifact, and meta-learnings.
 - [x] Shared orchestrator backlog parsing now feeds both the parity runner and the in-product delivery-loop panel.
+- [x] Runner status/brief/context now stay aligned with the live backlog instead of stale historical intents.
 
 ## Remaining Post-Parity SaaS Work
 - [ ] Continue moving generated-repo starter branches and store-bound launch workflow contracts from `web/` into the shared OpenSpec core.
 - [ ] Grow the terminal-native `specforge` CLI from the current guided wizard into a fuller TUI / slash-command surface.
-- [ ] Continue splitting runner state/context handling into the orchestrator package beyond shared backlog parsing.
+- [ ] Continue splitting runner state/context handling into the orchestrator package and prove real unattended execution beyond dry runs.
 - [ ] Run design-partner sessions and instrument activation/retention/trust metrics.
 - [ ] Add managed backup/restore, hosted incident runbooks, and stronger operational dashboards.
 - [ ] Add billing, usage metering, and plan enforcement for SaaS packaging.
