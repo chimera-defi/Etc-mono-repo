@@ -5,6 +5,14 @@ import {
   getDeliveryTarget,
   parseBacklogMarkdown,
 } from "../../../../orchestrator/src/backlog.js";
+import {
+  collectIntentIds,
+  createEmptyLoopState,
+  findLatestRelevantClaim as findLatestRelevantClaimFromState,
+  findLatestRelevantIntent as findLatestRelevantIntentFromState,
+  findLatestRelevantSignal as findLatestRelevantSignalFromState,
+  normalizeLoopState,
+} from "../../../../orchestrator/src/loop-state.js";
 
 import { logger } from "../logger";
 
@@ -68,7 +76,7 @@ export async function readBacklogState() {
   } | null = null;
 
   try {
-    loopState = JSON.parse(await readFile(loopStatePath, "utf8"));
+    loopState = normalizeLoopState(JSON.parse(await readFile(loopStatePath, "utf8")));
   } catch (error) {
     // Expected when parity runner state file doesn't exist or contains invalid JSON
     // This is not an error condition - we just won't have parity loop metadata
@@ -76,8 +84,14 @@ export async function readBacklogState() {
       "Failed to load parity runner state",
       { path: loopStatePath, reason: error instanceof Error ? error.message : "Unknown error" }
     );
-    loopState = null;
+    loopState = createEmptyLoopState();
   }
+  const validIntentIds = collectIntentIds(sections, (heading: string, text: string) =>
+    `${heading}:${text}`
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, ""),
+  );
 
   const reviewEvery = loopState?.review_every ?? 3;
   const passes = loopState?.passes ?? [];
@@ -100,16 +114,16 @@ export async function readBacklogState() {
     deliveryTarget: getDeliveryTarget(activeSection?.heading ?? null),
     nextItem: nextItem?.text ?? null,
     latestIntent:
-      loopState?.intents && loopState.intents.length > 0
-        ? loopState.intents[loopState.intents.length - 1]
+      loopState
+        ? findLatestRelevantIntentFromState(loopState, validIntentIds)
         : null,
     latestClaim:
-      loopState?.claims && loopState.claims.length > 0
-        ? loopState.claims[loopState.claims.length - 1]
+      loopState
+        ? findLatestRelevantClaimFromState(loopState, validIntentIds)
         : null,
     latestSignal:
-      loopState?.signals && loopState.signals.length > 0
-        ? loopState.signals[loopState.signals.length - 1]
+      loopState
+        ? findLatestRelevantSignalFromState(loopState, validIntentIds)
         : null,
     reviewEvery,
     reviewDue,

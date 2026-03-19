@@ -9,7 +9,8 @@
 6. Background jobs: lightweight TypeScript worker
 7. Delivery orchestration: Node.js parity runner around `codex exec`
 8. Runner artifacts: latest handoff + meta learnings under `.cursor/artifacts/`
-9. Testing:
+9. Current runner posture: useful for status/brief/context and bounded prep, but still not a trusted unattended backlog closer
+10. Testing:
    - `Vitest` for unit and contract tests
    - `Playwright` for end-to-end and screenshot flows
 
