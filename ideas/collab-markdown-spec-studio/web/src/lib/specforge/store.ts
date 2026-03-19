@@ -153,6 +153,14 @@ export type WorkspaceMembershipRecord = {
   created_at: string;
 };
 
+export type WorkspaceActivityMetrics = {
+  workspace_id: string;
+  document_count: number;
+  reviewed_document_count: number;
+  commented_document_count: number;
+  clarified_document_count: number;
+};
+
 type UserRow = {
   user_id: string;
   github_id: string | null;
@@ -1503,6 +1511,50 @@ export async function listWorkspaceMemberships(workspaceId: string, options?: St
     github_login: row.github_login ?? undefined,
     created_at: row.created_at,
   }));
+}
+
+export async function getWorkspaceActivityMetrics(
+  workspaceId: string,
+  options?: StoreOptions,
+): Promise<WorkspaceActivityMetrics> {
+  const database = await getDatabase(options);
+  const [documents, reviewed, commented, clarified] = await Promise.all([
+    database.query<{ count: string }>(
+      `SELECT COUNT(*)::text AS count
+      FROM documents
+      WHERE workspace_id = $1`,
+      [workspaceId],
+    ),
+    database.query<{ count: string }>(
+      `SELECT COUNT(DISTINCT p.document_id)::text AS count
+      FROM patches p
+      INNER JOIN documents d ON d.document_id = p.document_id
+      WHERE d.workspace_id = $1`,
+      [workspaceId],
+    ),
+    database.query<{ count: string }>(
+      `SELECT COUNT(DISTINCT c.document_id)::text AS count
+      FROM comment_threads c
+      INNER JOIN documents d ON d.document_id = c.document_id
+      WHERE d.workspace_id = $1`,
+      [workspaceId],
+    ),
+    database.query<{ count: string }>(
+      `SELECT COUNT(DISTINCT c.document_id)::text AS count
+      FROM clarifications c
+      INNER JOIN documents d ON d.document_id = c.document_id
+      WHERE d.workspace_id = $1`,
+      [workspaceId],
+    ),
+  ]);
+
+  return {
+    workspace_id: workspaceId,
+    document_count: Number(documents.rows[0]?.count ?? 0),
+    reviewed_document_count: Number(reviewed.rows[0]?.count ?? 0),
+    commented_document_count: Number(commented.rows[0]?.count ?? 0),
+    clarified_document_count: Number(clarified.rows[0]?.count ?? 0),
+  };
 }
 
 export async function getDocument(documentId: string, options?: StoreOptions) {
