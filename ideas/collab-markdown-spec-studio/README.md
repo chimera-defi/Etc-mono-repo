@@ -40,7 +40,7 @@ Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid du
 3. Treat repo generation as a downstream proof surface, not the initial product gate.
 4. Use `/` as the marketing/overview surface, `/pricing` as the commercial framing page, and `/workspace` as the actual product.
 5. Let local operators reuse existing Codex CLI or Claude Code CLI logins for guided assist without shipping secrets to the browser.
-6. Move the shared spec model toward a reusable OpenSpec core so the web app, CLI/TUI, and orchestrator stop drifting.
+6. Reuse one OpenSpec core across the web app, terminal CLI, and orchestrator so the product stops drifting across surfaces.
 
 ### Applied Learnings
 1. Lock the wedge early:
@@ -58,17 +58,20 @@ Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid du
 ### Current Runtime
 1. `web/` is the real Next.js app.
 2. `collab-server/` is the real Hocuspocus/Yjs collaboration service.
-3. The local app persists state in `web/.data/` and auto-seeds from `fixtures/`.
-4. The root workspace scripts are only wrappers around the real runnable app and test commands.
-5. `docker compose up --build` now brings up the web app, collaboration service, and Postgres with health checks.
-6. Runtime health surfaces:
+3. `core/` now contains the first shared OpenSpec runtime modules used by both browser and terminal flows.
+4. `orchestrator/` now contains shared delivery-loop backlog logic consumed by the runner and the web UI.
+5. `cli/` now exposes a terminal-native `specforge` wizard over the same guided spec model.
+6. The local app persists state in `web/.data/` and auto-seeds from `fixtures/`.
+7. The root workspace scripts are only wrappers around the real runnable app and test commands.
+8. `docker compose up --build` now brings up the web app, collaboration service, and Postgres with health checks.
+9. Runtime health surfaces:
    - `web`: `/api/health`
    - `web metrics`: `/api/metrics`
    - `collab-server`: `http://localhost:4322/health`
    - `collab metrics`: `http://localhost:4322/metrics`
-7. Health and metrics responses include persistence configuration so local-vs-hosted storage drift is visible without opening the code.
-8. The local deployment rehearsal now ships `fixtures/` inside the web image and exercises the hosted Postgres path instead of only local snapshots.
-9. Local demo mode still includes admin controls for resetting workspace state and seeding review activity during MVP testing.
+10. Health and metrics responses include persistence configuration so local-vs-hosted storage drift is visible without opening the code.
+11. The local deployment rehearsal now ships `fixtures/` inside the web image and exercises the hosted Postgres path instead of only local snapshots.
+12. Local demo mode still includes admin controls for resetting workspace state and seeding review activity during MVP testing.
 
 ### Post-Parity Company Plan
 1. Run design-partner validation on the hosted rehearsal path.

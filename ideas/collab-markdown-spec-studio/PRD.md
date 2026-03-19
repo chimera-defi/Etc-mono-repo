@@ -21,14 +21,16 @@ Create a focused collaborative spec IDE for humans and AI agents where work happ
 ### Current Shipped Product
 The branch currently ships:
 1. guided spec creation,
-2. mini agent-assist for populating guided fields,
-3. multiplayer drafting,
-4. governed agent patch review,
-5. comments, clarifications, provenance, and readiness,
-6. export + starter handoff + execution brief + launch packet,
-7. local admin controls for fast MVP testing,
-8. marketing/overview and pricing surfaces at `/` and `/pricing`,
-9. a hosted-runtime rehearsal path with `web`, `collab-server`, and `postgres`.
+2. shared OpenSpec core reuse for the guided wizard and readiness logic,
+3. mini agent-assist for populating guided fields,
+4. multiplayer drafting,
+5. governed agent patch review,
+6. comments, clarifications, provenance, and readiness,
+7. export + starter handoff + execution brief + launch packet,
+8. first terminal-native `specforge` CLI guided wizard,
+9. local admin controls for fast MVP testing,
+10. marketing/overview and pricing surfaces at `/` and `/pricing`,
+11. a hosted-runtime rehearsal path with `web`, `collab-server`, and `postgres`.
 
 ### Architecture Direction After Parity
 Refactor the product into explicit components:
@@ -86,7 +88,7 @@ The broader company plan is still larger than the shipped MVP:
 3. Traceability from generated tasks/issues back to spec sections.
 4. Roll out on curated `ideas/` examples before opening arbitrary project generation.
 5. Commercial onboarding, billing, and plan enforcement.
-6. Extract the shared OpenSpec core and ship a terminal-native `specforge` wizard/assistant surface.
+6. Keep moving export/handoff/workflow contracts into the shared OpenSpec core and grow the terminal-native `specforge` wizard into a fuller TUI/assistant surface.
 
 ### Guided Idea-Depth Assistant (SpecForge Productization)
 1. Built-in broad-to-deep wizard with required gates for PRD/SPEC/risk/validation/economics.
