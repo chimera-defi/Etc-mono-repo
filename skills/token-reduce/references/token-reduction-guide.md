@@ -153,6 +153,7 @@ Parallel (1 turn):    2,700 tokens
 ../scripts/baseline-measurement.sh --scope repo
 ../scripts/install-token-reduction-cron.sh
 ../scripts/benchmark-token-reduction-workflow.py --query "token reduction"
+python3 ../scripts/benchmark-token-reduction-agents.py --agents claude --timeout-seconds 30
 ```
 
 **Workspace integrations:** Claude hooks, Codex `AGENTS.md`, and Cursor validation can point at this package without copying the scripts.

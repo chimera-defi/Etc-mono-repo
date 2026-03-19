@@ -32,12 +32,14 @@ def main() -> int:
             "continue": True,
             "systemMessage": (
                 "For repo discovery in this workspace, do not invoke the Skill tool. "
-                "Start with a single standalone Bash command instead: "
+                "Your first tool call must be a single standalone Bash command: "
                 "./skills/token-reduce/scripts/token-reduce-paths.sh topic words. "
                 "That helper gives a low-token path-only kickoff. "
+                "Use the user's literal filenames, identifiers, or key nouns as the query words; "
+                "do not replace them with generic synonyms. "
                 "If you need one ranked excerpt after the file list, use "
                 "./skills/token-reduce/scripts/token-reduce-snippet.sh topic words. "
-                "Do not chain it with ||, &&, ls, find, or broad Glob fallbacks."
+                "Do not start with find, ls, grep, Grep, Read, or broad Glob fallbacks before the helper runs."
             ),
         },
         sys.stdout,
