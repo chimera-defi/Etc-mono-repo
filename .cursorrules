@@ -27,7 +27,7 @@
 
 **Session workflow (automatic):**
 1. Use QMD BM25 to find relevant files first (`qmd search "topic" -n 5 --files`)
-   Shortcut: `./skills/token-reduce/scripts/token-reduce-search.sh "topic"`
+   Shortcut: `./skills/token-reduce/scripts/token-reduce-paths.sh topic words`
 2. Use targeted file reads (head/tail, not full files)
 3. Parallel tool calls when possible
 4. Skip preambles and confirmations

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shlex
 import subprocess
 from pathlib import Path
 
@@ -43,10 +44,12 @@ def main() -> int:
     args = parser.parse_args()
 
     repo_root = Path(args.repo_root).resolve()
+    quoted_query = shlex.quote(args.query)
     cases = {
         "broad_inventory": ["bash", "-lc", "rg --files . | head -200"],
         "scoped_search": ["bash", "-lc", f"rg -n -g '*.md' {json.dumps(args.query)} . | head -40"],
-        "token_reduce_helper": ["bash", "-lc", f"./skills/token-reduce/scripts/token-reduce-search.sh {json.dumps(args.query)} | head -80"],
+        "token_reduce_paths": ["bash", "-lc", f"./skills/token-reduce/scripts/token-reduce-paths.sh {quoted_query} | head -80"],
+        "token_reduce_snippet": ["bash", "-lc", f"./skills/token-reduce/scripts/token-reduce-snippet.sh {quoted_query} | head -80"],
     }
 
     results: dict[str, dict[str, object]] = {}
@@ -56,7 +59,9 @@ def main() -> int:
         results[name] = result
 
     broad = int(results["broad_inventory"]["tokens"])
-    for name in ("scoped_search", "token_reduce_helper"):
+    for name in results:
+        if name == "broad_inventory":
+            continue
         current = int(results[name]["tokens"])
         savings = round((1 - (current / broad)) * 100, 1) if broad else 0.0
         results[name]["vs_broad_pct"] = savings

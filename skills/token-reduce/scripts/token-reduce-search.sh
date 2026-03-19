@@ -2,7 +2,21 @@
 set -euo pipefail
 
 if [[ $# -lt 1 ]]; then
-  echo "usage: ./.claude/token-reduce-search.sh <query> [glob]" >&2
+  echo "usage: ./.claude/token-reduce-search.sh [--paths-only|--snippets] <query> [glob]" >&2
+  exit 2
+fi
+
+MODE="paths-only"
+if [[ "${1:-}" == "--paths-only" ]]; then
+  MODE="paths-only"
+  shift
+elif [[ "${1:-}" == "--snippets" ]]; then
+  MODE="snippets"
+  shift
+fi
+
+if [[ $# -lt 1 ]]; then
+  echo "usage: ./.claude/token-reduce-search.sh [--paths-only|--snippets] <query> [glob]" >&2
   exit 2
 fi
 
@@ -20,12 +34,19 @@ if command -v qmd >/dev/null 2>&1; then
 
   echo "[token-reduce-search] qmd search --files (${COLLECTION_NAME})"
   qmd search "$QUERY" -n 8 --files -c "$COLLECTION_NAME" || true
-  echo
-  echo "[token-reduce-search] qmd search snippets (${COLLECTION_NAME})"
-  qmd search "$QUERY" -n 5 -c "$COLLECTION_NAME" || true
+
+  if [[ "$MODE" == "snippets" ]]; then
+    echo
+    echo "[token-reduce-search] qmd search snippet (${COLLECTION_NAME})"
+    qmd search "$QUERY" -n 1 -c "$COLLECTION_NAME" || true
+  fi
   exit 0
 fi
 
 echo "[token-reduce-search] qmd unavailable, falling back to scoped rg"
 cd "$REPO_ROOT"
-rg -n -S -g "$GLOB" "$QUERY" . | head -40 || true
+if [[ "$MODE" == "snippets" ]]; then
+  rg -n -S -g "$GLOB" "$QUERY" . | head -40 || true
+else
+  rg -l -S -g "$GLOB" "$QUERY" . | head -20 || true
+fi

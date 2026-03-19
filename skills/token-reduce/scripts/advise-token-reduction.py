@@ -15,8 +15,9 @@ BROAD_PATTERNS = [
 ]
 
 SAFE_HINTS = (
-    "Use qmd search or scoped rg first.",
-    "Shortcut: ./.claude/token-reduce-search.sh \"topic\"",
+    "Use a path-only kickoff first.",
+    "Shortcut: ./skills/token-reduce/scripts/token-reduce-paths.sh topic words",
+    "If you need one excerpt after the file list: ./skills/token-reduce/scripts/token-reduce-snippet.sh topic words",
     "Examples: qmd search \"topic\" -n 5 --files",
     "          rg -n -g '*.ts' 'keyword'",
     "Escalate to Task(subagent_type='Explore') if the search space stays broad.",
@@ -37,10 +38,15 @@ def main() -> int:
     command = tool_input.get("command", "") or ""
 
     if any(re.search(pattern, command) for pattern in BROAD_PATTERNS):
-        print("BLOCKED: broad exploratory Bash scan.", file=sys.stderr)
-        for line in SAFE_HINTS:
-            print(line, file=sys.stderr)
-        return 1
+        json.dump(
+            {
+                "decision": "deny",
+                "reason": " ".join(("Blocked broad exploratory Bash scan.",) + SAFE_HINTS),
+            },
+            sys.stderr,
+        )
+        print(file=sys.stderr)
+        return 2
 
     return 0
 

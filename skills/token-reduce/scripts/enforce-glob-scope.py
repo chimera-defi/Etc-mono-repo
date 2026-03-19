@@ -27,9 +27,20 @@ def main() -> int:
 
     pattern = (data.get("tool_input", {}) or {}).get("pattern", "")
     if is_broad(pattern):
-        print("BLOCKED: broad exploratory Glob pattern.", file=sys.stderr)
-        print("Use qmd search, scoped rg -g, or ./.claude/token-reduce-search.sh first.", file=sys.stderr)
-        return 1
+        json.dump(
+            {
+                "decision": "deny",
+                "reason": (
+                    "Blocked broad exploratory Glob pattern. "
+                    "Use ./skills/token-reduce/scripts/token-reduce-paths.sh for a path-only kickoff, "
+                    "./skills/token-reduce/scripts/token-reduce-snippet.sh for one ranked excerpt, "
+                    "or scoped rg -g first."
+                ),
+            },
+            sys.stderr,
+        )
+        print(file=sys.stderr)
+        return 2
     return 0
 
 
