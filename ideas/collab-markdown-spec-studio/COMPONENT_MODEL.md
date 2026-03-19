@@ -121,7 +121,7 @@ They should both use:
 2. Readiness evaluation is already shared through `core/`.
 3. The first `specforge-cli` wizard already emits the same guided markdown/metadata as the web flow.
 4. Backlog parsing/delivery-target logic is already shared through `orchestrator/`.
-5. Store-bound launch-context assembly is now the next high-value extraction target after moving starter selection into the shared core.
+5. Launch-context assembly is now shared through `core/`, and the remaining extraction target is the thin store-adapter and workspace-wiring layer in `web/`.
 
 ## What This Fixes
 1. less duplicated logic between landing/workspace/tests/runner
