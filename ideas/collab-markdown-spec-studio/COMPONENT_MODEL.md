@@ -21,8 +21,9 @@ What is still too implicit:
 
 What is already real:
 1. `core/` now owns the guided wizard defaults/builders and shared readiness logic
-2. `orchestrator/` now owns shared backlog parsing for the delivery loop
-3. `cli/` now exposes a first terminal-native `specforge` guided wizard
+2. `core/` now also owns export bundle generation, execution brief generation, and launch-packet assembly
+3. `orchestrator/` now owns shared backlog parsing for the delivery loop
+4. `cli/` now exposes a first terminal-native `specforge` guided wizard
 
 ## Target Components
 
@@ -120,7 +121,7 @@ They should both use:
 2. Readiness evaluation is already shared through `core/`.
 3. The first `specforge-cli` wizard already emits the same guided markdown/metadata as the web flow.
 4. Backlog parsing/delivery-target logic is already shared through `orchestrator/`.
-5. Export/handoff/workflow logic is still the next high-value extraction target.
+5. Starter-generation and store-bound launch-context assembly are still the next high-value extraction targets.
 
 ## What This Fixes
 1. less duplicated logic between landing/workspace/tests/runner

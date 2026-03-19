@@ -98,7 +98,7 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 - Auto-rebase for stale patches (Phase 2) — **Spec says reject stale; implementation partially done but not tested.**
 
 ### Architecture
-- Shared OpenSpec core: guided wizard rules and readiness logic are shared today; export/handoff builders are the next extraction target.
+- Shared OpenSpec core: guided wizard rules, readiness logic, export bundle builders, execution brief builders, and launch-packet assembly are shared today; starter-generation and store-bound workflow assembly are the next extraction targets.
 - Frontend: web app (editor + collaboration UI + agent panel).
 - Collaboration service: websocket + CRDT sync.
 - API backend: auth, document metadata, version history, permissions.
@@ -115,7 +115,7 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 - Repo generation service: template engine + Git provider integration.
 
 ### Default Implementation Topology
-1. Shared OpenSpec core package for guided creation and readiness today, with export/handoff builders still moving out of `web/`.
+1. Shared OpenSpec core package for guided creation, readiness, export bundle generation, execution briefs, and launch-packet assembly today, with starter-generation and store-bound workflow assembly still moving out of `web/`.
 2. Web app for UI, auth, HTTP APIs, and export orchestration.
 3. Dedicated collaboration service for CRDT websocket sync.
 4. Lightweight background worker for recap/export/repo-generation jobs.

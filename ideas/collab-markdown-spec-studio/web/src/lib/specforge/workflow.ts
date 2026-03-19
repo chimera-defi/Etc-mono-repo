@@ -1,3 +1,5 @@
+import { buildLaunchPacket as buildLaunchPacketImpl } from "../../../../core/src/workflow.js";
+
 import { buildExecutionBrief } from "./execution";
 import { buildStarterTemplate, type StarterTemplateId } from "./handoff";
 import { evaluateReadiness } from "./readiness";
@@ -82,16 +84,5 @@ export async function buildDocumentLaunchContext(
 }
 
 export function buildLaunchPacket(context: DocumentLaunchContext) {
-  return {
-    packet_id: `launch_${context.document.document_id}_v${context.document.version}`,
-    document: {
-      document_id: context.document.document_id,
-      title: context.document.title,
-      version: context.document.version,
-    },
-    readiness: context.readiness,
-    export_bundle: context.exportBundle,
-    starter_bundle: context.starterBundle,
-    execution_brief: context.executionBrief,
-  };
+  return buildLaunchPacketImpl(context);
 }
