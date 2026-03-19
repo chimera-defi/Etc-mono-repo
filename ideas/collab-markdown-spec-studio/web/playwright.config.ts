@@ -20,7 +20,7 @@ export default defineConfig({
   ],
   webServer: [
     {
-      command: "npm run build && npm run start -- --hostname 127.0.0.1",
+      command: "pnpm run build && pnpm exec next start --hostname 127.0.0.1",
       port: 3100,
       reuseExistingServer: false,
       timeout: 180_000,
@@ -31,7 +31,7 @@ export default defineConfig({
       },
     },
     {
-      command: "npm start --prefix ../collab-server",
+      command: "pnpm --dir ../collab-server start",
       port: 4322,
       reuseExistingServer: false,
       timeout: 60_000,
