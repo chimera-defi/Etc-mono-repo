@@ -1,17 +1,19 @@
 #!/usr/bin/env node
 
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { spawn } from "node:child_process";
 
 import {
-  backlogSections,
   getDeliveryTarget,
-  parseBacklogMarkdown,
-  parseChecklist,
-  sectionSlice,
 } from "../orchestrator/src/backlog.js";
+import {
+  buildFeaturePrompt,
+  buildReviewPrompt,
+  loadBacklog,
+  toIntentId,
+} from "../orchestrator/src/context.js";
 import {
   collectIntentIds,
   createEmptyLoopState,
@@ -81,96 +83,6 @@ function parseArgs(argv) {
   }
 
   return options;
-}
-
-function toIntentId(phaseHeading, itemText) {
-  return `${phaseHeading}:${itemText}`
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-}
-
-async function loadBacklog() {
-  const markdown = await readFile(tasksPath, "utf8");
-  const recommendedSection = sectionSlice(markdown, "Recommended Parallel Execution Now");
-  const implementationSection = sectionSlice(markdown, "Current Implementation Status");
-  const parsed = parseBacklogMarkdown(markdown);
-
-  return {
-    phases: parsed.sections,
-    activePhase: parsed.activeSection,
-    remaining: parsed.sections.flatMap((phase) => phase.items),
-    current: parseChecklist(implementationSection),
-    recommended: recommendedSection
-      .split("\n")
-      .map((line) => line.trim())
-      .filter((line) => /^\d+\./.test(line)),
-  };
-}
-
-function buildPrompt(nextItem, backlog) {
-  const deliveryTarget = getDeliveryTarget(backlog.activePhase?.heading);
-  return [
-    "Drive the next SpecForge parity pass.",
-    "",
-    `Active backlog phase: ${backlog.activePhase?.heading ?? "None"}`,
-    `Delivery target: ${deliveryTarget}`,
-    "",
-    `Highest-priority unchecked parity item: ${nextItem.text}`,
-    "",
-    "Required behavior:",
-    "- work in the SpecForge MVP worktree",
-    "- implement the smallest integrated change that closes this parity gap",
-    "- preserve the current runnable product while advancing the delivery target",
-    "- update TASKS.md and any affected spec/architecture docs if the shipped surface changes",
-    "- run verification before finishing: npm run lint, npm run test, npm run build, npm run test:e2e",
-    "- commit with [Agent: GPT-5] and the Chimera co-author trailer if the branch is green",
-    "- only stop early if a real blocker appears",
-    "",
-    "Source-of-truth docs:",
-    `- ${specPath}`,
-    `- ${architecturePath}`,
-    `- ${techStackPath}`,
-    `- ${tasksPath}`,
-    "",
-    "Current remaining backlog:",
-    ...backlog.phases.flatMap((phase) => [
-      `- ${phase.heading}:`,
-      ...phase.items.map((item) => `  - ${item.checked ? "[x]" : "[ ]"} ${item.text}`),
-    ]),
-  ].join("\n");
-}
-
-function buildReviewPrompt(backlog) {
-  const deliveryTarget = getDeliveryTarget(backlog.activePhase?.heading);
-  return [
-    "Run a SpecForge multipass review and compaction pass.",
-    "",
-    `Active backlog phase: ${backlog.activePhase?.heading ?? "None"}`,
-    `Delivery target: ${deliveryTarget}`,
-    "",
-    "Required behavior:",
-    "- review the current branch against the source-of-truth docs and shipped product flow",
-    "- remove dead code, stale assumptions, and low-value duplication if the change is low risk",
-    "- keep the product runnable; do not chase broad refactors",
-    "- refresh TASKS.md and affected spec/architecture docs if reality changed",
-    "- update the runner handoff artifact with the new resume point",
-    `- write meta learnings and future-loop guidance to ${metaLearningsPath}`,
-    "- run verification before finishing: npm run lint, npm run test, npm run build, npm run test:e2e",
-    "- commit with [Agent: GPT-5] and the Chimera co-author trailer if the branch is green",
-    "",
-    "Review focus:",
-    "- user-facing regressions",
-    "- orchestration brittleness",
-    "- dead code and repeated route logic",
-    "- docs/PR/spec drift",
-    "",
-    "Source-of-truth docs:",
-    `- ${specPath}`,
-    `- ${architecturePath}`,
-    `- ${techStackPath}`,
-    `- ${tasksPath}`,
-  ].join("\n");
 }
 
 function countCompletedFeaturePasses(state) {
@@ -337,7 +249,7 @@ async function writeMetaLearnings(input) {
 }
 
 async function runStatus() {
-  const backlog = await loadBacklog();
+  const backlog = await loadBacklog(tasksPath);
   const remaining = backlog.remaining.filter((item) => !item.checked);
   const loopState = await readLoopState();
   const validIntentIds = collectIntentIds(backlog.phases, toIntentId);
@@ -365,7 +277,7 @@ async function runStatus() {
 }
 
 async function runContext() {
-  const backlog = await loadBacklog();
+  const backlog = await loadBacklog(tasksPath);
   const remaining = backlog.remaining.filter((item) => !item.checked);
   const loopState = await readLoopState();
   const validIntentIds = collectIntentIds(backlog.phases, toIntentId);
@@ -400,7 +312,7 @@ async function runContext() {
 }
 
 async function runBrief() {
-  const backlog = await loadBacklog();
+  const backlog = await loadBacklog(tasksPath);
   const nextItem = backlog.remaining.find((item) => !item.checked);
 
   if (!nextItem) {
@@ -408,7 +320,15 @@ async function runBrief() {
     return;
   }
 
-  console.log(buildPrompt(nextItem, backlog));
+  console.log(
+    buildFeaturePrompt(nextItem, backlog, {
+      specPath,
+      architecturePath,
+      techStackPath,
+      tasksPath,
+      metaLearningsPath,
+    }),
+  );
 }
 
 async function runLoop(options) {
@@ -418,7 +338,7 @@ async function runLoop(options) {
   const passLimit = Math.max(1, options.maxPasses);
 
   while (passes < passLimit) {
-    const backlog = await loadBacklog();
+    const backlog = await loadBacklog(tasksPath);
     const nextItem = backlog.remaining.find((item) => !item.checked);
     const reviewMode = shouldRunReview(state, options.reviewEvery);
 
@@ -428,7 +348,21 @@ async function runLoop(options) {
     }
 
     const mode = reviewMode ? "review" : "feature";
-    const prompt = reviewMode ? buildReviewPrompt(backlog) : buildPrompt(nextItem, backlog);
+    const prompt = reviewMode
+      ? buildReviewPrompt(backlog, {
+          specPath,
+          architecturePath,
+          techStackPath,
+          tasksPath,
+          metaLearningsPath,
+        })
+      : buildFeaturePrompt(nextItem, backlog, {
+          specPath,
+          architecturePath,
+          techStackPath,
+          tasksPath,
+          metaLearningsPath,
+        });
     const intentId = reviewMode
       ? `review:${Date.now()}`
       : toIntentId(backlog.activePhase.heading, nextItem.text);

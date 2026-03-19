@@ -48,3 +48,18 @@ const parsed = JSON.parse(result.stdout);
 if (!parsed.markdown.includes("# Smoke Spec") || parsed.metadata.creation_mode !== "guided") {
   throw new Error("SpecForge CLI smoke test failed.");
 }
+
+const statusResult = spawnSync(process.execPath, [cliEntry, "status", "--json"], {
+  encoding: "utf8",
+});
+
+if (statusResult.status !== 0) {
+  process.stderr.write(statusResult.stderr);
+  process.exit(statusResult.status ?? 1);
+}
+
+const status = JSON.parse(statusResult.stdout);
+
+if (typeof status.remaining_count !== "number" || !("delivery_target" in status)) {
+  throw new Error("SpecForge CLI status command failed.");
+}
