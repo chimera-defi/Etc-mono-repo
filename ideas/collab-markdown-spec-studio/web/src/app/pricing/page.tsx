@@ -21,8 +21,9 @@ export default function PricingPage() {
         <p className={styles.eyebrow}>Pricing</p>
         <h1>Start with the spec. Pay for collaboration and delivery depth.</h1>
         <p className={styles.sectionLead}>
-          The current price points are positioning defaults for the SaaS motion, not a finished
-          billing implementation.
+          These anchors are benchmarked against public pricing from Notion, Linear, and
+          Confluence, then adjusted for the extra governance and launch-packet workflow that
+          SpecForge adds on top.
         </p>
       </section>
 
@@ -42,7 +43,7 @@ export default function PricingPage() {
           <article className={`${styles.pricingCard} ${styles.featured}`}>
             <strong>Team SaaS</strong>
             <p className={styles.price}>
-              $40 <span>/ seat / month</span>
+              $24 <span>/ seat / month</span>
             </p>
             <p>For product and engineering pods that want a managed multiplayer spec workspace.</p>
             <ul>
@@ -62,6 +63,24 @@ export default function PricingPage() {
               <li>Dedicated support and rollout help</li>
             </ul>
           </article>
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <h2>Public benchmark anchors</h2>
+        <div className={styles.faqList}>
+          <div className={styles.faqItem}>
+            <strong>Notion</strong>
+            <p>Public pricing currently lists Plus at $10 and Business at $20 per member.</p>
+          </div>
+          <div className={styles.faqItem}>
+            <strong>Linear</strong>
+            <p>Public pricing currently lists Basic at $10 and Business at $16 per user.</p>
+          </div>
+          <div className={styles.faqItem}>
+            <strong>Confluence</strong>
+            <p>Public pricing keeps an enterprise sales motion, with Premium listed at $10.44.</p>
+          </div>
         </div>
       </section>
 

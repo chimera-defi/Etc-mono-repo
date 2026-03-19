@@ -18,6 +18,7 @@
     "test:acceptance": "pnpm --filter specforge-web test:acceptance",
     "test:e2e": "pnpm --filter specforge-web test:e2e",
     "state:reset": "rm -rf web/.data",
+    "state:backup": "node ./tools/backup-local-state.mjs",
     "contracts:validate": "jq empty contracts/v1/*.json contracts/v1/examples/*.json",
     "parity:status": "pnpm --filter specforge-web parity:status",
     "parity:context": "pnpm --filter specforge-web parity:context",
