@@ -18,6 +18,7 @@ npm run dev
 
 cd ..
 docker compose up --build
+npm run state:backup
 ```
 
 ## Deployment Rehearsal Notes
@@ -87,3 +88,4 @@ docker compose up --build
 - Metrics endpoints expose workspace/document counts and room snapshot counts for quick runtime sanity checks.
 - Use Playwright `npm run test:e2e` as the local integration smoke test after fixes.
 - Treat the launch packet as the final parity artifact: if export/handoff/execution diverge, rebuild the launch context first.
+- `npm run state:backup` snapshots local web state, collab state, and runner artifacts under `.backups/specforge/`.

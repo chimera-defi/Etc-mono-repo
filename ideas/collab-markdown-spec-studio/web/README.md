@@ -36,11 +36,12 @@ Current slice:
 - starter handoff output for the minimum TypeScript starter plus constrained docs-only / Next.js templates
 - execution brief and combined launch packet JSON
 - in-product delivery-loop panel exposing backlog status and next-pass brief
+- terminal-native `specforge` CLI now supports `init`, `status`, `context`, and `backlog`
 - local admin controls for resetting demo workspace data and seeding review activity
 - staged UI for the local MVP flow
 - web runtime health endpoint at `/api/health`
 - web runtime metrics endpoint at `/api/metrics`
-- terminal-native `specforge` CLI wizard available from the workspace root
+- pricing anchors benchmarked in `../PRICING_BENCHMARKS.md`
 
 ## Commands
 
@@ -70,6 +71,7 @@ npm run specforge -- init --json --title "SpecForge CLI Draft" --problem "Keep s
 # or from the workspace root
 cd ..
 docker compose up --build
+npm run state:backup
 ```
 
 ## Notes

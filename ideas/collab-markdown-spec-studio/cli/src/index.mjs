@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 
-import { writeFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
+import path from "node:path";
 import readline from "node:readline/promises";
 import process from "node:process";
+import { fileURLToPath } from "node:url";
 
 import {
   DEFAULT_GUIDED_SPEC_INPUT,
@@ -10,6 +12,23 @@ import {
   buildGuidedSpecMetadata,
   normalizeGuidedSpecInput,
 } from "../../core/src/guided.js";
+import { getDeliveryTarget } from "../../orchestrator/src/backlog.js";
+import { loadBacklog, toIntentId } from "../../orchestrator/src/context.js";
+import {
+  collectIntentIds,
+  createEmptyLoopState,
+  findActiveRelevantClaim,
+  findLatestRelevantClaim,
+  findLatestRelevantIntent,
+  findLatestRelevantSignal,
+  normalizeLoopState,
+} from "../../orchestrator/src/loop-state.js";
+
+const scriptDir = path.dirname(fileURLToPath(import.meta.url));
+const packRoot = path.resolve(scriptDir, "..", "..");
+const worktreeRoot = path.resolve(packRoot, "..", "..");
+const tasksPath = path.join(packRoot, "TASKS.md");
+const loopStatePath = path.join(worktreeRoot, ".cursor", "artifacts", "specforge-parity-runner.json");
 
 const fieldOrder = [
   ["title", "Title"],
@@ -86,6 +105,38 @@ async function promptForInput(seed) {
   }
 }
 
+async function readLoopState() {
+  try {
+    const raw = await readFile(loopStatePath, "utf8");
+    return normalizeLoopState(JSON.parse(raw));
+  } catch {
+    return createEmptyLoopState();
+  }
+}
+
+function buildStatusPayload(backlog, loopState) {
+  const remaining = backlog.remaining.filter((item) => !item.checked);
+  const validIntentIds = collectIntentIds(backlog.phases, toIntentId);
+  const nextItem = remaining[0] ?? null;
+  const nextIntentId =
+    backlog.activePhase && nextItem
+      ? toIntentId(backlog.activePhase.heading, nextItem.text)
+      : null;
+
+  return {
+    delivery_target: getDeliveryTarget(backlog.activePhase?.heading),
+    active_phase: backlog.activePhase?.heading ?? null,
+    next_item: nextItem?.text ?? null,
+    next_intent_id: nextIntentId,
+    remaining_count: remaining.length,
+    remaining_items: remaining.map((item) => item.text),
+    active_claim: findActiveRelevantClaim(loopState, validIntentIds),
+    latest_intent: findLatestRelevantIntent(loopState, validIntentIds),
+    latest_claim: findLatestRelevantClaim(loopState, validIntentIds),
+    latest_signal: findLatestRelevantSignal(loopState, validIntentIds),
+  };
+}
+
 function printHelp() {
   process.stdout.write(
     [
@@ -93,20 +144,86 @@ function printHelp() {
       "",
       "Usage:",
       "  specforge init [--json] [--output FILE] [--title VALUE ...]",
+      "  specforge status [--json]",
+      "  specforge context [--json]",
+      "  specforge backlog [--json]",
       "  /specforge [same flags as init]",
       "",
       "Examples:",
-      "  node src/index.mjs init --json --title \"Server Manager\" --problem \"Teams lose infra context\"",
-      "  node src/index.mjs /specforge --output SPEC.md",
+      "  specforge init --json --title \"Server Manager\" --problem \"Teams lose infra context\"",
+      "  specforge status --json",
+      "  specforge context",
+      "  specforge backlog --json",
     ].join("\n"),
   );
 }
 
-async function main() {
+function printBacklog(backlog) {
+  process.stdout.write(
+    [
+      `Active phase: ${backlog.activePhase?.heading ?? "None"}`,
+      "",
+      ...backlog.phases.flatMap((phase) => [
+        `${phase.heading}:`,
+        ...phase.items.map((item) => `- ${item.checked ? "[x]" : "[ ]"} ${item.text}`),
+        "",
+      ]),
+    ].join("\n"),
+  );
+}
+
+async function run() {
   const options = parseArgs(process.argv.slice(2));
 
   if (options.help) {
     printHelp();
+    return;
+  }
+
+  if (options.command === "status" || options.command === "context" || options.command === "backlog") {
+    const backlog = await loadBacklog(tasksPath);
+    const loopState = await readLoopState();
+    const statusPayload = buildStatusPayload(backlog, loopState);
+
+    if (options.command === "backlog") {
+      if (options.json) {
+        process.stdout.write(`${JSON.stringify(backlog, null, 2)}\n`);
+        return;
+      }
+      printBacklog(backlog);
+      return;
+    }
+
+    if (options.command === "status") {
+      process.stdout.write(
+        `${options.json ? JSON.stringify(statusPayload, null, 2) : [
+          `Delivery target: ${statusPayload.delivery_target}`,
+          `Active phase: ${statusPayload.active_phase ?? "None"}`,
+          `Next item: ${statusPayload.next_item ?? "None"}`,
+          `Remaining items: ${statusPayload.remaining_count}`,
+        ].join("\n")}\n`,
+      );
+      return;
+    }
+
+    const contextPayload = {
+      ...statusPayload,
+      tasks_path: tasksPath,
+      loop_state_path: loopStatePath,
+    };
+    process.stdout.write(
+      `${options.json ? JSON.stringify(contextPayload, null, 2) : [
+        "SpecForge Context",
+        "",
+        `Tasks: ${tasksPath}`,
+        `Loop state: ${loopStatePath}`,
+        `Delivery target: ${contextPayload.delivery_target}`,
+        `Next item: ${contextPayload.next_item ?? "None"}`,
+        "",
+        "Remaining items:",
+        ...contextPayload.remaining_items.map((item) => `- ${item}`),
+      ].join("\n")}\n`,
+    );
     return;
   }
 
@@ -133,7 +250,7 @@ async function main() {
   process.stdout.write(`${output.markdown}\n`);
 }
 
-main().catch((error) => {
+run().catch((error) => {
   process.stderr.write(`${error instanceof Error ? error.message : String(error)}\n`);
   process.exitCode = 1;
 });
