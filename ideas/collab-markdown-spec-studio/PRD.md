@@ -30,6 +30,16 @@ The branch currently ships:
 8. marketing/overview and pricing surfaces at `/` and `/pricing`,
 9. a hosted-runtime rehearsal path with `web`, `collab-server`, and `postgres`.
 
+### Architecture Direction After Parity
+Refactor the product into explicit components:
+1. shared OpenSpec core,
+2. multiplayer web workspace,
+3. collaboration runtime,
+4. orchestration runtime,
+5. CLI/TUI entrypoint for `/specforge` style guided flows.
+
+The CLI/TUI and the web app should use the same spec schema, readiness logic, and handoff contracts.
+
 ### Company Plan After MVP Parity
 The broader company plan is still larger than the shipped MVP:
 1. validate design-partner demand and retention,
@@ -76,6 +86,7 @@ The broader company plan is still larger than the shipped MVP:
 3. Traceability from generated tasks/issues back to spec sections.
 4. Roll out on curated `ideas/` examples before opening arbitrary project generation.
 5. Commercial onboarding, billing, and plan enforcement.
+6. Extract the shared OpenSpec core and ship a terminal-native `specforge` wizard/assistant surface.
 
 ### Guided Idea-Depth Assistant (SpecForge Productization)
 1. Built-in broad-to-deep wizard with required gates for PRD/SPEC/risk/validation/economics.
