@@ -1,6 +1,11 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
+import {
+  getDeliveryTarget,
+  parseBacklogMarkdown,
+} from "../../../../orchestrator/src/backlog.js";
+
 import { logger } from "../logger";
 
 const tasksPath = path.resolve(process.cwd(), "..", "TASKS.md");
@@ -17,49 +22,27 @@ const loopStatePath = path.resolve(
   "specforge-parity-runner.json",
 );
 
-const backlogSections = [
-  "Remaining MVP Build Backlog",
-  "Next SaaS Build Backlog",
-] as const;
-
 type BacklogItem = {
   checked: boolean;
   text: string;
 };
 
-function getDeliveryTarget(heading: string | null) {
-  if (heading === "Remaining MVP Build Backlog") {
-    return "minimum_extensible_product";
-  }
-
-  return heading ? "scoped_saas_parity" : "clear";
-}
-
-function sectionSlice(markdown: string, heading: string) {
-  const escaped = heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const match = markdown.match(new RegExp(`^## ${escaped}\\n([\\s\\S]*?)(?=^## |\\Z)`, "m"));
-  return match?.[1] ?? "";
-}
-
-function parseChecklist(section: string): BacklogItem[] {
-  return section
-    .split("\n")
-    .map((line) => line.trim())
-    .filter((line) => /^- \[[ x]\]/.test(line))
-    .map((line) => ({
-      checked: line.startsWith("- [x]"),
-      text: line.replace(/^- \[[ x]\]\s*/, ""),
-    }));
-}
+type BacklogSection = {
+  heading: string;
+  items: BacklogItem[];
+};
 
 export async function readBacklogState() {
   const markdown = await readFile(tasksPath, "utf8");
-  const sections = backlogSections.map((heading) => ({
-    heading,
-    items: parseChecklist(sectionSlice(markdown, heading)),
-  }));
-  const activeSection = sections.find((section) => section.items.some((item) => !item.checked)) ?? null;
-  const nextItem = activeSection?.items.find((item) => !item.checked) ?? null;
+  const parsed = parseBacklogMarkdown(markdown) as {
+    sections: BacklogSection[];
+    activeSection: BacklogSection | null;
+    nextItem: BacklogItem | null;
+    remainingCount: number;
+  };
+  const sections = parsed.sections;
+  const activeSection = parsed.activeSection;
+  const nextItem = parsed.nextItem;
   let loopState: {
     intents?: Array<{ intent_id: string; title: string; status: string; updated_at: string }>;
     claims?: Array<{
@@ -130,10 +113,7 @@ export async function readBacklogState() {
         : null,
     reviewEvery,
     reviewDue,
-    remainingCount: sections.reduce(
-      (total, section) => total + section.items.filter((item) => !item.checked).length,
-      0,
-    ),
+    remainingCount: parsed.remainingCount,
   };
 }
 

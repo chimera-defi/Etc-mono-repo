@@ -9,6 +9,7 @@ The current route split is:
 
 Current slice:
 - guided spec creation that generates the canonical draft from structured inputs
+- shared OpenSpec core reuse for guided wizard and readiness logic
 - mini agent-assist that can populate guided fields from a rough brief
 - local workspace sessions with GitHub OAuth pilot hooks for server-side attribution
 - local embedded SQL persistence via PGlite with disk-backed snapshot sharing across app workers
@@ -39,6 +40,7 @@ Current slice:
 - staged UI for the local MVP flow
 - web runtime health endpoint at `/api/health`
 - web runtime metrics endpoint at `/api/metrics`
+- terminal-native `specforge` CLI wizard available from the workspace root
 
 ## Commands
 
@@ -54,11 +56,16 @@ npm run parity:status
 npm run parity:brief
 npm run parity:run:dry
 npm run parity:run:batch
+npm run test:cli
 
 # separately
 cd ../collab-server
 npm install
 npm run dev
+
+# terminal-native guided wizard
+cd ..
+npm run specforge -- init --json --title "SpecForge CLI Draft" --problem "Keep spec creation reusable"
 
 # or from the workspace root
 cd ..

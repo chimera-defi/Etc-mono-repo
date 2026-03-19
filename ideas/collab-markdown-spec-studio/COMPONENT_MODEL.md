@@ -15,12 +15,14 @@ Today the product already has three real parts:
 3. `tools/specforge-parity-runner.mjs`: the bounded delivery/orchestration loop
 
 What is still too implicit:
-1. the shared spec model
-2. guided wizard logic
-3. export/handoff contract logic
-4. agent-assist prompting and field population
+1. the remaining export/handoff contract logic
+2. more of the readiness/workflow contract surface
+3. agent-assist prompting and field population
 
-Those pieces currently live mostly inside the web app and should become a reusable core.
+What is already real:
+1. `core/` now owns the guided wizard defaults/builders and shared readiness logic
+2. `orchestrator/` now owns shared backlog parsing for the delivery loop
+3. `cli/` now exposes a first terminal-native `specforge` guided wizard
 
 ## Target Components
 
@@ -112,6 +114,13 @@ They should both use:
 3. Replace the local parity runner script shape with a `specforge-orchestrator` package boundary.
 4. Add a minimal `specforge-cli` wizard that creates or refines specs using the same core package.
 5. Let the web product and CLI share the same OpenSpec contract instead of drifting.
+
+## Current Progress
+1. Guided wizard defaults/markdown builders are already shared through `core/`.
+2. Readiness evaluation is already shared through `core/`.
+3. The first `specforge-cli` wizard already emits the same guided markdown/metadata as the web flow.
+4. Backlog parsing/delivery-target logic is already shared through `orchestrator/`.
+5. Export/handoff/workflow logic is still the next high-value extraction target.
 
 ## What This Fixes
 1. less duplicated logic between landing/workspace/tests/runner
