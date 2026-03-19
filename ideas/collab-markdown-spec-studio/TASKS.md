@@ -15,6 +15,7 @@
 - [x] Shared OpenSpec core now also owns starter template definitions and the curated TypeScript starter builder.
 - [x] Mini agent-assist can populate guided fields from a rough brief, using local CLI tooling when available and a safe fallback otherwise.
 - [x] Terminal-native `specforge` CLI can generate the same guided markdown/metadata as the web flow.
+- [x] Terminal-native `specforge` CLI can also surface current backlog status/context for terminal-native operators.
 - [x] Tiptap + Yjs + Hocuspocus multiplayer canvas with shared presence.
 - [x] Governed patch queue with accept/reject/cherry-pick.
 - [x] Anchored comments and clarification writeback.
@@ -24,6 +25,7 @@
 - [x] Local admin controls for reset/seed testing.
 - [x] GitHub OAuth hooks, secure-cookie/secret enforcement, and server-derived collab identity.
 - [x] Postgres-backed hosted persistence option plus health/metrics endpoints.
+- [x] Local backup snapshot script exists for web state, collab state, and runner artifacts.
 - [x] Delivery loop with intents, claims, context, handoff artifact, and meta-learnings.
 - [x] Shared orchestrator backlog parsing now feeds both the parity runner and the in-product delivery-loop panel.
 - [x] Runner status/brief/context now stay aligned with the live backlog instead of stale historical intents.
