@@ -30,6 +30,7 @@ import {
 import { heroVariantOrder, heroVariants, type HeroVariant } from "@/lib/specforge/marketing";
 import { listShowcaseExamples } from "@/lib/specforge/showcase";
 import {
+  getWorkspaceActivityMetrics,
   listAuditEvents,
   listDocuments,
   listWorkspaceMemberships,
@@ -295,12 +296,14 @@ export default async function Home({ searchParams }: Props) {
   const activeWorkspaceActor = activeWorkspaceSession.actor;
   const githubAuthConfigured = isGitHubAuthConfigured();
   const backlogState = await readBacklogState();
-  const [workspaceRecords, activeWorkspaceMembers, documents, assistToolStatuses] = await Promise.all([
-    listWorkspaceRecords(),
-    listWorkspaceMemberships(activeWorkspaceActor.workspace_id),
-    listDocuments({ workspaceId: activeWorkspaceActor.workspace_id }),
-    getAgentAssistToolStatuses(),
-  ]);
+  const [workspaceRecords, activeWorkspaceMembers, workspaceActivity, documents, assistToolStatuses] =
+    await Promise.all([
+      listWorkspaceRecords(),
+      listWorkspaceMemberships(activeWorkspaceActor.workspace_id),
+      getWorkspaceActivityMetrics(activeWorkspaceActor.workspace_id),
+      listDocuments({ workspaceId: activeWorkspaceActor.workspace_id }),
+      getAgentAssistToolStatuses(),
+    ]);
   const activeWorkspace =
     workspaceRecords.find((workspace) => workspace.workspace_id === activeWorkspaceActor.workspace_id) ??
     {
@@ -430,6 +433,27 @@ export default async function Home({ searchParams }: Props) {
                     <span>{activeWorkspaceMembers.length} members</span>
                     <span>{documents.length} visible documents</span>
                   </div>
+                  <details className={styles.wizardSection}>
+                    <summary className={styles.disclosureSummary}>
+                      <span>Workspace members</span>
+                      <span>{activeWorkspaceMembers.length} listed</span>
+                    </summary>
+                    <div className={styles.disclosureBody}>
+                      <ul className={styles.documentList}>
+                        {activeWorkspaceMembers.map((member) => (
+                          <li key={member.membership_id} className={styles.documentItem}>
+                            <span>
+                              <strong>{member.name}</strong>{" "}
+                              <span className={styles.badge}>{member.role}</span>
+                              {member.github_login ? (
+                                <span className={styles.mutedInline}>@{member.github_login}</span>
+                              ) : null}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </details>
                   {workspaceRecords.length > 1 ? (
                     <details className={styles.wizardSection}>
                       <summary className={styles.disclosureSummary}>
@@ -494,6 +518,33 @@ export default async function Home({ searchParams }: Props) {
             authMode={activeWorkspaceSession.authMode}
             activeDocumentId={activeDocument?.document_id ?? null}
           />
+
+          <details className={styles.panel}>
+            <summary className={styles.disclosureSummary}>
+              <span>Pilot signals</span>
+              <span>{workspaceActivity.document_count} docs tracked</span>
+            </summary>
+            <div className={styles.disclosureBody}>
+              <div className={styles.metricGrid}>
+                <div className={styles.metricCard}>
+                  <strong>{workspaceActivity.document_count}</strong>
+                  <span>documents</span>
+                </div>
+                <div className={styles.metricCard}>
+                  <strong>{workspaceActivity.reviewed_document_count}</strong>
+                  <span>reviewed</span>
+                </div>
+                <div className={styles.metricCard}>
+                  <strong>{workspaceActivity.commented_document_count}</strong>
+                  <span>commented</span>
+                </div>
+                <div className={styles.metricCard}>
+                  <strong>{workspaceActivity.clarified_document_count}</strong>
+                  <span>clarified</span>
+                </div>
+              </div>
+            </div>
+          </details>
 
           <details className={styles.panel} open>
             <summary className={styles.disclosureSummary}>

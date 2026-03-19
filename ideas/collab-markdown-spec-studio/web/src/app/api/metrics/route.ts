@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { readBacklogState } from "@/lib/specforge/backlog";
 import { getRequestId, logServerEvent } from "@/lib/specforge/observability";
 import {
+  getWorkspaceActivityMetrics,
   getPersistenceConfig,
   listCommentThreads,
   listDocuments,
@@ -24,6 +25,7 @@ export async function GET(request: Request) {
       const workspaceDocuments = documents.filter(
         (document) => document.workspace_id === workspace.workspace_id,
       );
+      const activity = await getWorkspaceActivityMetrics(workspace.workspace_id);
       const documentComments = await Promise.all(
         workspaceDocuments.map((document) =>
           listCommentThreads(document.document_id, { workspaceId: workspace.workspace_id }),
@@ -36,6 +38,9 @@ export async function GET(request: Request) {
         document_count: workspaceDocuments.length,
         open_comment_count: documentComments.flat().filter((thread) => thread.status === "open")
           .length,
+        reviewed_document_count: activity.reviewed_document_count,
+        commented_document_count: activity.commented_document_count,
+        clarified_document_count: activity.clarified_document_count,
       };
     }),
   );
@@ -59,6 +64,20 @@ export async function GET(request: Request) {
         0,
       ),
     },
+    funnel: {
+      reviewed_document_count: workspaceCounts.reduce(
+        (total, item) => total + item.reviewed_document_count,
+        0,
+      ),
+      commented_document_count: workspaceCounts.reduce(
+        (total, item) => total + item.commented_document_count,
+        0,
+      ),
+      clarified_document_count: workspaceCounts.reduce(
+        (total, item) => total + item.clarified_document_count,
+        0,
+      ),
+    },
     workspaces: workspaces.map((workspace) => ({
       workspace_id: workspace.workspace_id,
       name: workspace.name,
@@ -72,6 +91,15 @@ export async function GET(request: Request) {
       open_comment_count:
         workspaceCounts.find((item) => item.workspace_id === workspace.workspace_id)
           ?.open_comment_count ?? 0,
+      reviewed_document_count:
+        workspaceCounts.find((item) => item.workspace_id === workspace.workspace_id)
+          ?.reviewed_document_count ?? 0,
+      commented_document_count:
+        workspaceCounts.find((item) => item.workspace_id === workspace.workspace_id)
+          ?.commented_document_count ?? 0,
+      clarified_document_count:
+        workspaceCounts.find((item) => item.workspace_id === workspace.workspace_id)
+          ?.clarified_document_count ?? 0,
     })),
   };
 
