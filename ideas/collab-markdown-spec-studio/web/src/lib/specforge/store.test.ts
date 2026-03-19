@@ -14,6 +14,7 @@ import {
   exportDocument,
   getPersistenceConfig,
   getWorkspaceActivityMetrics,
+  getWorkspaceUsageSummary,
   getDocument,
   listAuditEvents,
   listCommentThreads,
@@ -22,6 +23,7 @@ import {
   listWorkspaceMemberships,
   listWorkspaceRecords,
   listPatches,
+  recordWorkspaceEvent,
   resetStoreCacheForTests,
   resetWorkspaceDocuments,
   resolveCommentThread,
@@ -57,6 +59,33 @@ describe("specforge store", () => {
     expect(members).toHaveLength(3);
     expect(members[0]?.role).toBeTruthy();
     expect(activity.document_count).toBeGreaterThan(0);
+  });
+
+  it("records workspace usage events for future billing and instrumentation", async () => {
+    const options = await makeOptions();
+    await recordWorkspaceEvent(
+      {
+        workspace_id: "ws_demo",
+        event_type: "usage.assist_requested",
+        actor_type: "human",
+        actor_id: "workspace_owner",
+      },
+      options,
+    );
+    await recordWorkspaceEvent(
+      {
+        workspace_id: "ws_demo",
+        event_type: "usage.launch_packet_viewed",
+        actor_type: "human",
+        actor_id: "workspace_owner",
+      },
+      options,
+    );
+
+    const usage = await getWorkspaceUsageSummary("ws_demo", options);
+
+    expect(usage.assist_request_count).toBe(1);
+    expect(usage.launch_packet_view_count).toBe(1);
   });
 
   it("creates a new document and can read it back", async () => {
