@@ -194,6 +194,7 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
    - require regeneration or manual review
 5. Cherry-pick behavior in v1 should operate on patch hunks or block-level fragments, not arbitrary raw character ranges.
 6. Delivery parity passes must close backlog items against the same patch/export contract instead of introducing side channels.
+7. Current reality: the delivery loop is useful for status, briefs, and bounded preparation, but unattended multi-item execution is still an explicit hardening target rather than a trusted product primitive.
 
 ### APIs (Phase 2)
 1. `POST /documents/:id/create-repo`
