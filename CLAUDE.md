@@ -178,6 +178,8 @@ Token reduction is always active (see Quick Start + `.cursorrules` Token Efficie
 - Repo-local measurements are written to `.cursor/artifacts/token-reduction/`
 - Run once now: `./skills/token-reduce/scripts/baseline-measurement.sh --scope repo`
 - Repo measurements now include both Claude and Codex session logs for this repo
+- Broad Bash-scan hook: `./skills/token-reduce/scripts/advise-token-reduction.py`
+- Broad Glob hook: `./skills/token-reduce/scripts/enforce-glob-scope.py`
 - Deterministic discovery payload benchmark: `./skills/token-reduce/scripts/benchmark-token-reduction-workflow.py --query "token reduction"`
 - Fresh Claude behavior benchmark: `python3 ./skills/token-reduce/scripts/benchmark-token-reduction-agents.py --agents claude --timeout-seconds 30`
 - Install scheduled runs: `./skills/token-reduce/scripts/install-token-reduction-cron.sh`
