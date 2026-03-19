@@ -11,7 +11,9 @@ from pathlib import Path
 
 
 QMD_RE = re.compile(r"\bqmd\s+search\b")
-TOKEN_REDUCE_SEARCH_RE = re.compile(r"(?:^|/)\.claude/token-reduce-search\.sh\b|\btoken-reduce-search\.sh\b")
+TOKEN_REDUCE_SEARCH_RE = re.compile(
+    r"(?:^|/)(?:\.claude/)?token-reduce-(?:search|paths|snippet)\.sh\b|\btoken-reduce-(?:search|paths|snippet)\.sh\b"
+)
 SCOPED_RG_RE = re.compile(r"\brg\b(?=.*(?:\s-g\s|\s--glob\s))(?!.*\s--files\b)")
 RG_FILES_BROAD_RE = re.compile(r"\brg\b.*\s--files(?:\s+\.|\s*$)")
 TARGETED_BASH_RE = re.compile(r"\b(head|tail)\b|\bsed\s+-n\b|\bqmd\s+get\b")
