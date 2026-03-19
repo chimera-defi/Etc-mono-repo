@@ -1,0 +1,49 @@
+#!/usr/bin/env python3
+"""UserPromptSubmit hook: nudge repo exploration onto the token-reduce path."""
+import json
+import re
+import sys
+
+
+TRIGGERS = (
+    r"\bfind\b",
+    r"\bwhere\b",
+    r"\blives?\b",
+    r"\bexplor",
+    r"\bcontext\b",
+    r"\breview\b",
+    r"\bbenchmark\b",
+    r"\bsearch\b",
+)
+
+
+def main() -> int:
+    try:
+        data = json.load(sys.stdin)
+    except Exception:
+        return 0
+
+    prompt = data.get("user_prompt", "") or ""
+    if not any(re.search(pattern, prompt, re.IGNORECASE) for pattern in TRIGGERS):
+        return 0
+
+    json.dump(
+        {
+            "continue": True,
+            "systemMessage": (
+                "For repo discovery in this workspace, start with a single standalone command: "
+                "./skills/token-reduce/scripts/token-reduce-paths.sh topic words. "
+                "That helper gives a low-token path-only kickoff. "
+                "If you need one ranked excerpt after the file list, use "
+                "./skills/token-reduce/scripts/token-reduce-snippet.sh topic words. "
+                "Do not chain it with ||, &&, ls, find, or broad Glob fallbacks."
+            ),
+        },
+        sys.stdout,
+    )
+    print()
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

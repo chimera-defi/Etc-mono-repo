@@ -24,11 +24,11 @@
 
 1. **Read `.cursorrules`** - All AI rules apply to Claude Code
 2. **Install QMD** (BM25 only): `command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd`
-3. **Use token-reduce search/QMD for search** before reading files: `./skills/token-reduce/scripts/token-reduce-search.sh "topic"` or `qmd search "topic" -n 5 --files` (skip embed/vector)
+3. **Use token-reduce search/QMD for search** before reading files: `./skills/token-reduce/scripts/token-reduce-paths.sh topic words` for low-token path kickoff, then `./skills/token-reduce/scripts/token-reduce-snippet.sh topic words` only if needed
 4. **Use token reduction** - Auto-active via `/token-reduce` skill (89% concise, 99% QMD search vs naive, 33% targeted reads)
 5. **Verify before completing:** Run lint, build, tests
 
-**Decision flow:** If you do not know the location yet, start with `./skills/token-reduce/scripts/token-reduce-search.sh "topic"`. If you know the file/keyword → `rg -g` scoped search. If you need ranked snippets → token-reduce search/QMD BM25. Avoid MCP CLI for file reads. Do not begin broad discovery with `find .`, `ls -R`, `grep -R`, `rg --files .`, or broad `Glob`; repo hooks block the worst cases, and measurement treats the rest as violations and redirects to the token-reduction path.
+**Decision flow:** If you do not know the location yet, start with `./skills/token-reduce/scripts/token-reduce-paths.sh topic words`. If you know the file/keyword → `rg -g` scoped search. If you need one ranked excerpt after path kickoff → `./skills/token-reduce/scripts/token-reduce-snippet.sh topic words`. Avoid MCP CLI for file reads. Do not begin broad discovery with `find .`, `ls -R`, `grep -R`, `rg --files .`, or broad `Glob`; repo hooks block the worst cases, and measurement treats the rest as violations and redirects to the token-reduction path.
 
 ## Enforcement
 
