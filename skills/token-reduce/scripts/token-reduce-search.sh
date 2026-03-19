@@ -25,28 +25,73 @@ GLOB="${2:-}"
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 COLLECTION_NAME="repo-$(printf '%s' "$REPO_ROOT" | sha1sum | cut -c1-12)"
 QMD_MASK="**/*.md"
+NEEDS_PATH_HINT=0
+
+if [[ "$QUERY" =~ (^|[[:space:]])(script|hook)([[:space:]]|$) || "$QUERY" == *".py"* || "$QUERY" == *".sh"* ]]; then
+  NEEDS_PATH_HINT=1
+fi
+
+path_pattern() {
+  local lowered token
+  lowered="$(printf '%s' "$QUERY" | tr '[:upper:]' '[:lower:]')"
+  if [[ "$lowered" == *".py"* || "$lowered" == *".sh"* || "$lowered" == *"_"* || "$lowered" == *"-"* ]]; then
+    printf '%s' "$QUERY"
+    return 0
+  fi
+
+  local tokens=()
+  while IFS= read -r token; do
+    case "$token" in
+      ""|find|path|paths|repo|this|that|only|return|script|scripts|hook|python|workflow|broad|exploratory|scans|blocks|block|minimum|context|possible|the)
+        continue
+        ;;
+    esac
+    if [[ ${#token} -ge 4 ]]; then
+      tokens+=("$token")
+    fi
+    [[ ${#tokens[@]} -ge 4 ]] && break
+  done < <(printf '%s' "$lowered" | tr -cs '[:alnum:]_.-' '\n')
+
+  if [[ ${#tokens[@]} -eq 0 ]]; then
+    printf '%s' "$QUERY"
+    return 0
+  fi
+
+  local pattern="${tokens[0]}"
+  local i
+  for ((i = 1; i < ${#tokens[@]}; i++)); do
+    pattern="${pattern}|${tokens[i]}"
+  done
+  printf '%s' "$pattern"
+}
+
+filter_candidates() {
+  rg -v '(^|/)skills/token-reduce/scripts/benchmark-token-reduction-agents\.py(:|$)' || true
+}
 
 path_hits() {
+  local pattern
+  pattern="$(path_pattern)"
   if [[ -n "$GLOB" ]]; then
-    rg --files -g "$GLOB" . 2>/dev/null | rg -i -F "$QUERY" | head -20 || true
+    rg --files -g "$GLOB" . 2>/dev/null | rg -i -e "$pattern" | filter_candidates | head -20 || true
   else
-    rg --files . 2>/dev/null | rg -i -F "$QUERY" | head -20 || true
+    rg --files . 2>/dev/null | rg -i -e "$pattern" | filter_candidates | head -20 || true
   fi
 }
 
 content_hits() {
   if [[ -n "$GLOB" ]]; then
-    rg -l -S -g "$GLOB" "$QUERY" . | head -20 || true
+    rg -l -S -g "$GLOB" "$QUERY" . | filter_candidates | head -20 || true
   else
-    rg -l -S "$QUERY" . | head -20 || true
+    rg -l -S "$QUERY" . | filter_candidates | head -20 || true
   fi
 }
 
 snippet_hits() {
   if [[ -n "$GLOB" ]]; then
-    rg -n -S -g "$GLOB" "$QUERY" . | head -40 || true
+    rg -n -S -g "$GLOB" "$QUERY" . | filter_candidates | head -40 || true
   else
-    rg -n -S "$QUERY" . | head -40 || true
+    rg -n -S "$QUERY" . | filter_candidates | head -40 || true
   fi
 }
 
@@ -99,6 +144,15 @@ if command -v qmd >/dev/null 2>&1; then
   printf '%s\n' "$QMD_FILES_OUTPUT"
 
   if [[ -n "$QMD_FILES_OUTPUT" && "$QMD_FILES_OUTPUT" != "No results found." ]]; then
+    if [[ "$NEEDS_PATH_HINT" -eq 1 ]]; then
+      PATH_HINTS="$(path_hits)"
+      if [[ -n "$PATH_HINTS" ]]; then
+        echo
+        echo "[token-reduce-search] rg path hits"
+        printf '%s\n' "$PATH_HINTS"
+      fi
+    fi
+
     if [[ "$MODE" == "snippets" ]]; then
       echo
       echo "[token-reduce-search] qmd search snippet (${COLLECTION_NAME})"
@@ -109,6 +163,9 @@ if command -v qmd >/dev/null 2>&1; then
 
   echo "[token-reduce-search] qmd had no hits, falling back to rg"
   if [[ "$MODE" == "snippets" ]]; then
+    echo
+    fallback_snippets
+  elif [[ "$NEEDS_PATH_HINT" -eq 1 ]]; then
     echo
     fallback_snippets
   else

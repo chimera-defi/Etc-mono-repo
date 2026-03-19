@@ -42,6 +42,7 @@ REQUIRED_FILES=(
   "skills/token-reduce/scripts/token-reduce-search.sh"
   "skills/token-reduce/scripts/token-reduce-paths.sh"
   "skills/token-reduce/scripts/token-reduce-snippet.sh"
+  "skills/token-reduce/scripts/benchmark-token-reduction-agents.py"
   "skills/token-reduce/scripts/remind-token-reduce.py"
   "skills/token-reduce/agents/openai.yaml"
   ".claude/skills/token-reduce/SKILL.md"
