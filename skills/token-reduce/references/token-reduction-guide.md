@@ -26,9 +26,9 @@
 
 ## Decision Tree (Fastest First)
 
-1. **Unknown location or broad concept?** → `../scripts/token-reduce-search.sh "topic"` first.
+1. **Unknown location or broad concept?** → `../scripts/token-reduce-paths.sh topic words` first for paths only.
 2. **Known file/keyword?** → `Grep` tool (or `rg -g`) then targeted read.
-3. **Need ranked snippets or file list?** → `qmd search "topic" -n 5 --files` (BM25 only).
+3. **Need one ranked excerpt after path kickoff?** → `../scripts/token-reduce-snippet.sh topic words`.
 4. **Large file context?** → `Read` with offset/limit (or `head/tail/sed` in Cursor).
 5. **No `rg`?** → `git grep` scoped to path.
 
@@ -62,10 +62,11 @@ Find which files to read before loading them into context.
 qmd collection add /path/to/repo --name my-repo
 
 # Find relevant files (700ms-2.7s, returns paths + scores)
-qmd search "topic" -n 5 --files           # 178 tokens
+qmd search "topic" -n 5 --files           # path kickoff
 
-# Get ranked snippets (700ms-2.7s)
-qmd search "topic" -n 5                    # 512 tokens
+# Get ranked snippets only when needed
+../scripts/token-reduce-snippet.sh topic words
+qmd search "topic" -n 1                    # one ranked excerpt
 
 # Read specific sections of found files
 qmd get filename.md -l 50 --from 100       # 748ms
@@ -126,7 +127,7 @@ Parallel (1 turn):    2,700 tokens
 ✅ `rg -n -g 'ideas/**/*.md' 'specforge'`
 
 ❌ `rg --files . | head -200`
-✅ `../scripts/token-reduce-search.sh "specforge"` then targeted reads
+✅ `../scripts/token-reduce-paths.sh specforge` then targeted reads
 
 - Restating user requests
 - Narrating tool usage ("Let me read the file...")

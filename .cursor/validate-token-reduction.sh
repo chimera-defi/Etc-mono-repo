@@ -40,6 +40,9 @@ REQUIRED_FILES=(
   "skills/token-reduce/SKILL.md"
   "skills/token-reduce/references/token-reduction-guide.md"
   "skills/token-reduce/scripts/token-reduce-search.sh"
+  "skills/token-reduce/scripts/token-reduce-paths.sh"
+  "skills/token-reduce/scripts/token-reduce-snippet.sh"
+  "skills/token-reduce/scripts/remind-token-reduce.py"
   "skills/token-reduce/agents/openai.yaml"
   ".claude/skills/token-reduce/SKILL.md"
   ".cursor/TOKEN_REDUCTION.md"
@@ -96,6 +99,21 @@ rm "$BENCHMARK_OUTPUT"
 echo ""
 echo "Test 3: Documentation Consistency"
 echo "----------------------------------"
+
+if python3 - <<'PY'
+import json
+from pathlib import Path
+data = json.loads(Path(".claude/settings.json").read_text())
+assert "hooks" in data
+assert "UserPromptSubmit" in data["hooks"]
+assert "PreToolUse" in data["hooks"]
+assert "PostToolUse" in data["hooks"]
+PY
+then
+  pass ".claude/settings.json uses Claude settings hook format"
+else
+  fail ".claude/settings.json must use the Claude hooks wrapper with hooks.UserPromptSubmit/PreToolUse/PostToolUse"
+fi
 
 # Check that TOKEN_REDUCTION.md or /token-reduce skill is referenced
 if grep -q "TOKEN_REDUCTION.md\|/token-reduce" CLAUDE.md; then

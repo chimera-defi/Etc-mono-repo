@@ -4,7 +4,7 @@
 
 ## First Move For Discovery
 
-- If file location is unknown, start with `./skills/token-reduce/scripts/token-reduce-search.sh "topic"`.
+- If file location is unknown, start with `./skills/token-reduce/scripts/token-reduce-paths.sh topic words` for a low-token path kickoff.
 - If you already know the path or a tight file glob, use scoped `rg -g` before reading.
 - Do not begin repo exploration with `find .`, `ls -R`, `grep -R`, `rg --files .`, `tree`, or broad `Glob` patterns.
 
@@ -17,7 +17,8 @@
 
 ## Repo Helper
 
-- `./skills/token-reduce/scripts/token-reduce-search.sh "topic"` is the preferred deterministic kickoff helper.
+- `./skills/token-reduce/scripts/token-reduce-paths.sh topic words` is the preferred deterministic kickoff helper for agents because it avoids quoted flags.
+- If you need one ranked excerpt after the path kickoff, use `./skills/token-reduce/scripts/token-reduce-snippet.sh topic words`.
 - It uses a repo-specific QMD collection for docs when available and falls back to scoped `rg`.
 - If QMD is missing, do not fake it. Use scoped `rg -g` and keep the read set narrow.
 
