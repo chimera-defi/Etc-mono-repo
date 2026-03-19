@@ -3,8 +3,8 @@
 ## Decision 1: CRDT Collaboration Core
 - Choice: CRDT-backed real-time editing via Yjs + Hocuspocus.
 - Why: robust offline/reconnect and concurrent edits.
-- Status (MVP): Infrastructure is in place (Hocuspocus server, Yjs documents, room tokens). Web app HocuspocusProvider is initialized. **Critical gap: multiplayer sync is not tested in production code.** Tests verify single-user document loads, not concurrent edit handling or cursor awareness.
-- Recommendation: Add tests for 2+ concurrent users editing same document before calling this complete.
+- Status (MVP): Infrastructure is in place and browser-covered locally, including concurrent-user and stale-room recovery flows. This is implemented and tested for the local MVP path, but not yet design-partner validated in hosted production use.
+- Recommendation: keep distinguishing local multiplayer verification from hosted design-partner validation.
 - Tradeoff: operational complexity and debugging overhead.
 
 ## Decision 2: Patch Proposal Model for Agents
@@ -107,3 +107,13 @@
 - Why: Product claims can drift faster than implementation. Multiplayer validation is still weaker than the single-user path even though the core UI and comment system now work.
 - Recommendation: Keep distinguishing "implemented locally" from "design-partner validated" and update the runner/task list when that boundary changes.
 - Implication: This is a real local multiplayer-capable MVP with some hosted/runtime validation still outstanding.
+
+## Decision 21: Shared OpenSpec Core
+- Choice: extract the shared spec model, guided wizard logic, readiness rules, and handoff builders into a reusable core package instead of keeping them web-only.
+- Why: the web app, CLI/TUI, and orchestrator should not drift into three different product contracts.
+- Tradeoff: package boundaries add migration work in the near term.
+
+## Decision 22: CLI/TUI Is a First-Class Product Surface
+- Choice: treat `/specforge` style terminal flows as a real product surface, not just internal tooling.
+- Why: agent-heavy teams already work in terminals; the same guided spec workflow should be reachable there without requiring the browser first.
+- Tradeoff: terminal ergonomics must stay consistent with the web product or this becomes another drift source.
