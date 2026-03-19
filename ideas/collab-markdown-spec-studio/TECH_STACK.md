@@ -62,7 +62,8 @@
 1. `specforge-core`
    - shared guided wizard logic
    - shared readiness rules
-   - continuing extraction target for broader OpenSpec schema and handoff builders
+   - shared export bundle, execution-brief, and launch-packet builders
+   - continuing extraction target for broader OpenSpec schema, starter-generation, and store-bound workflow assembly
    - export / handoff / launch-packet builders
 2. `specforge-web`
    - landing, pricing, workspace UI
