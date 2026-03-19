@@ -24,6 +24,7 @@ Collaborative editors already exist. The wedge is not generic editing; it is a s
 - UX and flow: `VISION_AND_FLOW`, `UX_PRINCIPLES`, `USER_FLOWS`
 - Validation and economics: `VALIDATION_PLAN`, `GO_NO_GO_SCORECARD`, `PILOT_SCORECARD_TEMPLATE`, `FINANCIAL_MODEL`, `RISK_REGISTER`
 - Build surface: `web/`, `collab-server/`, `contracts/`, `fixtures/`, `FIRST_60_MINUTES.md`, `ACCEPTANCE_TEST_MATRIX.md`
+- Component plan: `COMPONENT_MODEL.md`
 - Backlog and execution: `TASKS`, `90_DAY_EXECUTION_PLAN`, `DECISIONS`, `AGENT_HANDOFF`
 - Archived/working notes: `archive/`, `RESEARCH_NOTES.md`
 
@@ -39,6 +40,7 @@ Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid du
 3. Treat repo generation as a downstream proof surface, not the initial product gate.
 4. Use `/` as the marketing/overview surface, `/pricing` as the commercial framing page, and `/workspace` as the actual product.
 5. Let local operators reuse existing Codex CLI or Claude Code CLI logins for guided assist without shipping secrets to the browser.
+6. Move the shared spec model toward a reusable OpenSpec core so the web app, CLI/TUI, and orchestrator stop drifting.
 
 ### Applied Learnings
 1. Lock the wedge early:

@@ -23,6 +23,9 @@
 - [x] Delivery loop with intents, claims, context, handoff artifact, and meta-learnings.
 
 ## Remaining Post-Parity SaaS Work
+- [ ] Extract the shared OpenSpec core out of the web app so wizard/export/readiness logic is reusable.
+- [ ] Add a terminal-native `specforge` CLI/TUI wizard that uses the same OpenSpec core as the web product.
+- [ ] Split the current runner script into a clearer orchestrator package boundary with the same intent/claim/context/signal model.
 - [ ] Run design-partner sessions and instrument activation/retention/trust metrics.
 - [ ] Add managed backup/restore, hosted incident runbooks, and stronger operational dashboards.
 - [ ] Add billing, usage metering, and plan enforcement for SaaS packaging.
@@ -31,9 +34,16 @@
 - [ ] Decide whether the first commercial motion is hosted SaaS only, self-hosted OSS plus hosted SaaS, or OSS-first.
 
 ## Open Product Questions
+- [ ] Should the first terminal-native product surface be a CLI wizard, a fuller TUI, or a slash-command adapter on top of existing agent CLIs?
 - [ ] Which second template is worth supporting after the current constrained starter set?
 - [ ] How much unattended runner autonomy is acceptable before a human checkpoint is mandatory?
 - [ ] Should hosted workspaces support bring-your-own provider credentials, managed agents, or both as the primary commercial path?
+
+## Parallel Refactor Lanes
+- [ ] Lane A: extract OpenSpec core from `web/src/lib/specforge/*`.
+- [ ] Lane B: define `specforge-cli` wizard/TUI flow on top of the shared core.
+- [ ] Lane C: package the parity runner into a clearer orchestrator boundary.
+- [ ] Lane D: keep web and collab surfaces consuming the shared contracts without regressions.
 
 ## Verification Commands
 - [x] `npm run lint`

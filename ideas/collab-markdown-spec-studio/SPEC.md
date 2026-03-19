@@ -4,13 +4,14 @@
 
 ### Summary
 Build a real-time collaborative spec IDE with:
-1. CRDT-backed infrastructure for human collaboration (Yjs + Hocuspocus deployed; multiplayer sync untested in MVP),
+1. CRDT-backed infrastructure for human collaboration (Yjs + Hocuspocus deployed; multiplayer flows are browser-covered locally but not yet design-partner validated in hosted use),
 2. governed agent patch workflows (fully functional: propose/review/accept/reject/cherry-pick),
 3. guided creation plus agent-assisted field population from rough briefs,
 4. readiness and clarification gates before build handoff, with deeper milestone recap still deferred,
 5. deterministic export into execution-ready spec bundles (`PRD.md`, `SPEC.md`, `TASKS.md`, `agent_spec.json`, starter handoff, execution brief, launch packet),
 6. a delivery loop that keeps driving a minimum extensible product toward parity with the approved spec (fully implemented),
-7. landing and pricing surfaces that route users into the working SaaS workspace.
+7. landing and pricing surfaces that route users into the working SaaS workspace,
+8. a future shared OpenSpec core that can power both the web app and a terminal-native `specforge` wizard.
 
 The current branch satisfies the scoped MVP target. Broader company-plan work like conversion instrumentation, billing, and long-horizon template expansion remains post-parity product work, not missing core MVP behavior.
 
@@ -28,7 +29,7 @@ The current branch satisfies the scoped MVP target. Broader company-plan work li
 - ✓ CRDT infrastructure (Yjs + Hocuspocus server, room tokens, persistence).
 - ✓ Presence: shared cursor rendering and collaborator awareness are visible in the workspace.
 - ✓ Comment threads: database schema, APIs, and frontend review UI are implemented.
-- ⚠️ Multiplayer sync: infrastructure deployed but not tested in production tests (infrastructure-ready, not user-validated).
+- ⚠️ Multiplayer sync: browser-covered locally, but not yet validated in production/pilot usage.
 
 ### 2) Agent Patch Engine
 - Agents propose structured patches (insert/replace/delete) against stable block or section IDs.
@@ -93,15 +94,17 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 - Custom branding and theming (Phase 2+)
 - Depth gates and recap enforcement (Phase 2+) — **Note: Claimed in Decision 18 but not implemented. Clarifications table exists; logic layer deferred.**
 - Multi-user cursor presence and awareness (Phase 2) — **Note: basic presence and cursor rendering are implemented; broader multiplayer validation remains pending.**
-- Multiplayer testing and validation (Phase 1.5) — **Critical: Add tests for 2+ concurrent users before declaring multiplayer feature complete.**
+- Hosted multiplayer validation and design-partner reliability work (post-parity SaaS) — **Local concurrent-user coverage exists; hosted validation remains pending.**
 - Auto-rebase for stale patches (Phase 2) — **Spec says reject stale; implementation partially done but not tested.**
 
 ### Architecture
+- Shared OpenSpec core: schema, guided wizard rules, readiness logic, and handoff builders.
 - Frontend: web app (editor + collaboration UI + agent panel).
 - Collaboration service: websocket + CRDT sync.
 - API backend: auth, document metadata, version history, permissions.
 - AI orchestration: prompt templates + tool-calling adapters.
 - Delivery orchestration: local parity runner that wraps Codex CLI for repeated build passes.
+- CLI/TUI surface: terminal-native entrypoint that uses the same OpenSpec core and orchestration contracts.
 - Delivery visibility: in-product backlog status + next-pass brief exposed through parity endpoints and the workspace UI.
 - Delivery compaction: latest runner handoff artifact plus meta-learning notes stored under `.cursor/artifacts/` for resume without dragging full prior context.
 - Delivery model: intents, claims, context packages, and signals for agent-driven build execution after the spec is approved.
@@ -112,29 +115,33 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 - Repo generation service: template engine + Git provider integration.
 
 ### Default Implementation Topology
-1. Single TypeScript web app for UI, auth, HTTP APIs, and export orchestration.
-2. Dedicated collaboration service for CRDT websocket sync.
-3. Lightweight background worker for recap/export/repo-generation jobs.
-4. Local parity runner for Codex-driven build passes against the remaining backlog.
-5. Shared Postgres database for hosted application state, audit logs, comments, and exports.
-6. Local object/blob storage only if snapshots or exports outgrow Postgres storage ergonomics.
-7. Structured room telemetry plus a local failure-mode runbook for multiplayer debugging.
-8. Version-scoped room names plus explicit snapshot replay/reload controls for stale-room recovery.
-9. Inline provenance overlays in the editor surface alongside block-level review markers.
-10. Delivery loop state that tracks claimed intents, latest context, and emitted signals as the buildout advances.
-11. Delivery context packages that bundle approved exports, launch packet, active blockers, and the next claimed intent for coding agents.
-12. Runtime health and metrics endpoints for the web app and collaboration service plus containerized local deployment config.
-13. Health and metrics responses expose active persistence configuration so hosted-runtime drift is diagnosable without opening the code.
-14. Request IDs are propagated through middleware and returned by runtime endpoints for cross-service debugging.
+1. Shared OpenSpec core package for spec schema, guided creation, readiness, and handoff builders.
+2. Web app for UI, auth, HTTP APIs, and export orchestration.
+3. Dedicated collaboration service for CRDT websocket sync.
+4. Lightweight background worker for recap/export/repo-generation jobs.
+5. Local parity runner and future orchestrator package for Codex-driven build passes against the remaining backlog.
+6. Shared Postgres database for hosted application state, audit logs, comments, and exports.
+7. Local object/blob storage only if snapshots or exports outgrow Postgres storage ergonomics.
+8. Structured room telemetry plus a local failure-mode runbook for multiplayer debugging.
+9. Version-scoped room names plus explicit snapshot replay/reload controls for stale-room recovery.
+10. Inline provenance overlays in the editor surface alongside block-level review markers.
+11. Delivery loop state that tracks claimed intents, latest context, and emitted signals as the buildout advances.
+12. Delivery context packages that bundle approved exports, launch packet, active blockers, and the next claimed intent for coding agents.
+13. Runtime health and metrics endpoints for the web app and collaboration service plus containerized local deployment config.
+14. Health and metrics responses expose active persistence configuration so hosted-runtime drift is diagnosable without opening the code.
+15. Request IDs are propagated through middleware and returned by runtime endpoints for cross-service debugging.
+16. Terminal-native `specforge` CLI/TUI should consume the same OpenSpec core instead of duplicating wizard logic.
 
 ### Default Stack
-1. Next.js + React + TypeScript for the application shell.
-2. Tiptap for the editor UI.
-3. Yjs for CRDT sync.
-4. Hocuspocus for the collaboration server.
-5. Postgres for primary persistence.
-6. Node.js orchestration script around `codex exec` for parity-driving loops.
-7. Vitest for contract/unit tests and Playwright for end-to-end tests.
+1. Shared TypeScript OpenSpec core package.
+2. Next.js + React + TypeScript for the application shell.
+3. Tiptap for the editor UI.
+4. Yjs for CRDT sync.
+5. Hocuspocus for the collaboration server.
+6. Postgres for primary persistence.
+7. Node.js orchestration script around `codex exec` for parity-driving loops.
+8. CLI/TUI entrypoint for terminal-native authoring and orchestration.
+9. Vitest for contract/unit tests and Playwright for end-to-end tests.
 
 ### Data Model (MVP)
 - `Workspace`
