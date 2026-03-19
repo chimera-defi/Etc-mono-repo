@@ -212,10 +212,41 @@
   overflow-wrap: anywhere;
 }
 
+.mutedInline {
+  margin-left: 8px;
+  color: #8a7d70;
+}
+
 .wizardSection {
   border: 1px solid rgba(28, 26, 23, 0.08);
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.46);
+}
+
+.metricGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.metricCard {
+  display: grid;
+  gap: 4px;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(28, 26, 23, 0.08);
+  background: rgba(255, 255, 255, 0.66);
+}
+
+.metricCard strong {
+  font-size: 1.35rem;
+}
+
+.metricCard span {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  color: #7a6d5e;
 }
 
 .patchActionForm {

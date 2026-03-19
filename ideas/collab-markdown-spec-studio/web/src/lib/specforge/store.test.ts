@@ -13,6 +13,7 @@ import {
   createPatchProposal,
   exportDocument,
   getPersistenceConfig,
+  getWorkspaceActivityMetrics,
   getDocument,
   listAuditEvents,
   listCommentThreads,
@@ -50,10 +51,12 @@ describe("specforge store", () => {
     const options = await makeOptions();
     const workspaces = await listWorkspaceRecords(options);
     const members = await listWorkspaceMemberships("ws_demo", options);
+    const activity = await getWorkspaceActivityMetrics("ws_demo", options);
 
     expect(workspaces[0]?.workspace_id).toBe("ws_demo");
     expect(members).toHaveLength(3);
     expect(members[0]?.role).toBeTruthy();
+    expect(activity.document_count).toBeGreaterThan(0);
   });
 
   it("creates a new document and can read it back", async () => {
