@@ -26,7 +26,7 @@
 
 ## Decision Tree (Fastest First)
 
-1. **Unknown location or broad concept?** → `../scripts/token-reduce-paths.sh topic words` first for paths only.
+1. **Unknown location or broad concept?** → `../scripts/token-reduce-paths.sh topic words` first for paths only. If QMD misses, the helper falls back to repo-scoped `rg` in the same command.
 2. **Known file/keyword?** → `Grep` tool (or `rg -g`) then targeted read.
 3. **Need one ranked excerpt after path kickoff?** → `../scripts/token-reduce-snippet.sh topic words`.
 4. **Large file context?** → `Read` with offset/limit (or `head/tail/sed` in Cursor).

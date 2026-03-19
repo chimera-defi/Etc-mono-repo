@@ -76,7 +76,7 @@ Reduce context usage for `$ARGUMENTS` using targeted retrieval and short summari
 ## Success Criteria
 
 - Discovery starts with QMD BM25 or scoped `rg`, not recursive shell scans.
-- `scripts/token-reduce-search.sh` is preferred for ambiguous exploration because it chooses repo-scoped QMD first, defaults to a path-only kickoff, and gives a fallback path.
+- `scripts/token-reduce-search.sh` is preferred for ambiguous exploration because it chooses repo-scoped QMD first, defaults to a path-only kickoff, and falls back to repo-scoped `rg` when QMD has no relevant hits.
 - `rg --files .` and similarly broad inventory commands are treated as violations, even if they are fast.
 - Reads are targeted (`Read` with `offset`/`limit`, `qmd get`, `head`/`tail`/`sed -n`).
 - Broad exploration is delegated once the search space is clearly large.
