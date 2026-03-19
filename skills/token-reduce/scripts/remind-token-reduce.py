@@ -31,7 +31,8 @@ def main() -> int:
         {
             "continue": True,
             "systemMessage": (
-                "For repo discovery in this workspace, start with a single standalone command: "
+                "For repo discovery in this workspace, do not invoke the Skill tool. "
+                "Start with a single standalone Bash command instead: "
                 "./skills/token-reduce/scripts/token-reduce-paths.sh topic words. "
                 "That helper gives a low-token path-only kickoff. "
                 "If you need one ranked excerpt after the file list, use "
