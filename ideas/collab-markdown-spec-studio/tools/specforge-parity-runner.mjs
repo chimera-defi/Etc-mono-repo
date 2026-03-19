@@ -12,6 +12,15 @@ import {
   parseChecklist,
   sectionSlice,
 } from "../orchestrator/src/backlog.js";
+import {
+  collectIntentIds,
+  createEmptyLoopState,
+  findActiveRelevantClaim,
+  findLatestRelevantClaim,
+  findLatestRelevantIntent,
+  findLatestRelevantSignal,
+  normalizeLoopState,
+} from "../orchestrator/src/loop-state.js";
 
 const toolDir = path.dirname(new URL(import.meta.url).pathname);
 const packRoot = path.resolve(toolDir, "..");
@@ -202,24 +211,9 @@ function shouldRunReview(state, reviewEvery) {
 async function readLoopState() {
   try {
     const raw = await readFile(loopStatePath, "utf8");
-    const parsed = JSON.parse(raw);
-    return {
-      updated_at: parsed.updated_at ?? null,
-      intents: Array.isArray(parsed.intents) ? parsed.intents : [],
-      claims: Array.isArray(parsed.claims) ? parsed.claims : [],
-      signals: Array.isArray(parsed.signals) ? parsed.signals : [],
-      passes: Array.isArray(parsed.passes) ? parsed.passes : [],
-      review_every: parsed.review_every ?? 3,
-    };
+    return normalizeLoopState(JSON.parse(raw));
   } catch {
-    return {
-      updated_at: null,
-      intents: [],
-      claims: [],
-      signals: [],
-      passes: [],
-      review_every: 3,
-    };
+    return createEmptyLoopState();
   }
 }
 
@@ -346,14 +340,13 @@ async function runStatus() {
   const backlog = await loadBacklog();
   const remaining = backlog.remaining.filter((item) => !item.checked);
   const loopState = await readLoopState();
+  const validIntentIds = collectIntentIds(backlog.phases, toIntentId);
   const deliveryTarget = getDeliveryTarget(backlog.activePhase?.heading);
   const nextIntentId =
     backlog.activePhase && remaining[0]
       ? toIntentId(backlog.activePhase.heading, remaining[0].text)
       : null;
-  const activeClaim = loopState.claims
-    .filter((claim) => claim.state === "claimed")
-    .slice(-1)[0] ?? null;
+  const activeClaim = findActiveRelevantClaim(loopState, validIntentIds);
   const reviewDue = shouldRunReview(loopState, loopState.review_every ?? 3);
 
   console.log(JSON.stringify({
@@ -375,6 +368,7 @@ async function runContext() {
   const backlog = await loadBacklog();
   const remaining = backlog.remaining.filter((item) => !item.checked);
   const loopState = await readLoopState();
+  const validIntentIds = collectIntentIds(backlog.phases, toIntentId);
   const deliveryTarget = getDeliveryTarget(backlog.activePhase?.heading);
   const nextItem = remaining[0] ?? null;
   const nextIntentId =
@@ -388,9 +382,9 @@ async function runContext() {
     active_phase: backlog.activePhase?.heading ?? null,
     next_item: nextItem?.text ?? null,
     next_intent_id: nextIntentId,
-    latest_intent: loopState.intents.at(-1) ?? null,
-    latest_claim: loopState.claims.at(-1) ?? null,
-    latest_signal: loopState.signals.at(-1) ?? null,
+    latest_intent: findLatestRelevantIntent(loopState, validIntentIds),
+    latest_claim: findLatestRelevantClaim(loopState, validIntentIds),
+    latest_signal: findLatestRelevantSignal(loopState, validIntentIds),
     review_due: reviewDue,
     review_every: loopState.review_every ?? 3,
     handoff_path: handoffPath,
