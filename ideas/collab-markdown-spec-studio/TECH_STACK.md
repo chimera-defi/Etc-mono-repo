@@ -64,7 +64,7 @@
    - shared guided wizard logic
    - shared readiness rules
    - shared export bundle, execution-brief, launch-packet, starter template catalogue, and curated TypeScript starter builder
-   - continuing extraction target for broader OpenSpec schema, generated-repo starter branches, and store-bound workflow assembly
+   - continuing extraction target for broader OpenSpec schema and the remaining store-bound workflow assembly
    - export / handoff / launch-packet builders
 2. `specforge-web`
    - landing, pricing, workspace UI
