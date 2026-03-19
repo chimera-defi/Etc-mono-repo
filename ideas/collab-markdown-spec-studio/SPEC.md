@@ -11,7 +11,7 @@ Build a real-time collaborative spec IDE with:
 5. deterministic export into execution-ready spec bundles (`PRD.md`, `SPEC.md`, `TASKS.md`, `agent_spec.json`, starter handoff, execution brief, launch packet),
 6. a delivery loop that keeps driving a minimum extensible product toward parity with the approved spec (fully implemented),
 7. landing and pricing surfaces that route users into the working SaaS workspace,
-8. a future shared OpenSpec core that can power both the web app and a terminal-native `specforge` wizard.
+8. a shared OpenSpec core, now partially extracted, that powers both the web app and a terminal-native `specforge` wizard.
 
 The current branch satisfies the scoped MVP target. Broader company-plan work like conversion instrumentation, billing, and long-horizon template expansion remains post-parity product work, not missing core MVP behavior.
 
@@ -98,13 +98,13 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 - Auto-rebase for stale patches (Phase 2) — **Spec says reject stale; implementation partially done but not tested.**
 
 ### Architecture
-- Shared OpenSpec core: schema, guided wizard rules, readiness logic, and handoff builders.
+- Shared OpenSpec core: guided wizard rules and readiness logic are shared today; export/handoff builders are the next extraction target.
 - Frontend: web app (editor + collaboration UI + agent panel).
 - Collaboration service: websocket + CRDT sync.
 - API backend: auth, document metadata, version history, permissions.
 - AI orchestration: prompt templates + tool-calling adapters.
 - Delivery orchestration: local parity runner that wraps Codex CLI for repeated build passes.
-- CLI/TUI surface: terminal-native entrypoint that uses the same OpenSpec core and orchestration contracts.
+- CLI/TUI surface: terminal-native entrypoint already ships a guided `specforge` wizard and should keep growing on the same OpenSpec core and orchestration contracts.
 - Delivery visibility: in-product backlog status + next-pass brief exposed through parity endpoints and the workspace UI.
 - Delivery compaction: latest runner handoff artifact plus meta-learning notes stored under `.cursor/artifacts/` for resume without dragging full prior context.
 - Delivery model: intents, claims, context packages, and signals for agent-driven build execution after the spec is approved.
@@ -115,11 +115,11 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 - Repo generation service: template engine + Git provider integration.
 
 ### Default Implementation Topology
-1. Shared OpenSpec core package for spec schema, guided creation, readiness, and handoff builders.
+1. Shared OpenSpec core package for guided creation and readiness today, with export/handoff builders still moving out of `web/`.
 2. Web app for UI, auth, HTTP APIs, and export orchestration.
 3. Dedicated collaboration service for CRDT websocket sync.
 4. Lightweight background worker for recap/export/repo-generation jobs.
-5. Local parity runner and future orchestrator package for Codex-driven build passes against the remaining backlog.
+5. Local parity runner plus a shared orchestrator package for Codex-driven build passes against the remaining backlog.
 6. Shared Postgres database for hosted application state, audit logs, comments, and exports.
 7. Local object/blob storage only if snapshots or exports outgrow Postgres storage ergonomics.
 8. Structured room telemetry plus a local failure-mode runbook for multiplayer debugging.
@@ -130,10 +130,10 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 13. Runtime health and metrics endpoints for the web app and collaboration service plus containerized local deployment config.
 14. Health and metrics responses expose active persistence configuration so hosted-runtime drift is diagnosable without opening the code.
 15. Request IDs are propagated through middleware and returned by runtime endpoints for cross-service debugging.
-16. Terminal-native `specforge` CLI/TUI should consume the same OpenSpec core instead of duplicating wizard logic.
+16. Terminal-native `specforge` CLI now consumes the same guided OpenSpec core instead of duplicating wizard logic.
 
 ### Default Stack
-1. Shared TypeScript OpenSpec core package.
+1. Shared ESM OpenSpec core package for runtime-safe reuse across web and CLI surfaces.
 2. Next.js + React + TypeScript for the application shell.
 3. Tiptap for the editor UI.
 4. Yjs for CRDT sync.

@@ -111,9 +111,11 @@
 ## Decision 21: Shared OpenSpec Core
 - Choice: extract the shared spec model, guided wizard logic, readiness rules, and handoff builders into a reusable core package instead of keeping them web-only.
 - Why: the web app, CLI/TUI, and orchestrator should not drift into three different product contracts.
+- Status (current branch): guided wizard logic and readiness are already shared in `core/`; export/handoff/workflow extraction remains in progress.
 - Tradeoff: package boundaries add migration work in the near term.
 
 ## Decision 22: CLI/TUI Is a First-Class Product Surface
 - Choice: treat `/specforge` style terminal flows as a real product surface, not just internal tooling.
 - Why: agent-heavy teams already work in terminals; the same guided spec workflow should be reachable there without requiring the browser first.
+- Status (current branch): a first guided `specforge` CLI wizard is shipped; richer TUI and slash-command ergonomics remain follow-on work.
 - Tradeoff: terminal ergonomics must stay consistent with the web product or this becomes another drift source.
