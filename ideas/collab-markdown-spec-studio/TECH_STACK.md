@@ -54,6 +54,24 @@
    - request IDs via middleware/response headers
    - `/api/health`, `/api/metrics`, and collab `/health` + `/metrics`
 
+### Target Package Topology
+1. `specforge-core`
+   - shared OpenSpec schema
+   - guided wizard logic
+   - readiness + clarification rules
+   - export / handoff / launch-packet builders
+2. `specforge-web`
+   - landing, pricing, workspace UI
+   - auth/session and HTTP APIs
+3. `specforge-collab`
+   - Yjs/Hocuspocus runtime
+4. `specforge-orchestrator`
+   - intents, claims, context, signals
+   - bounded delivery loop
+5. `specforge-cli`
+   - `/specforge` style CLI/TUI wizard
+   - local agent-runtime reuse for Codex/Claude when present
+
 ### Why This Stack
 1. Maintains a mostly TypeScript codebase.
 2. Uses mature off-the-shelf collaboration primitives instead of custom CRDT/editor infrastructure.
