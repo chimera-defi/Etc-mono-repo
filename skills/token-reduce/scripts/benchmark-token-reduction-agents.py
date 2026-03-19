@@ -114,12 +114,19 @@ def run_codex(repo_root: Path, prompt: str, timeout_s: int) -> tuple[int, str, s
     )
 
 
-def analyze_codex(stdout: str, expect: str) -> dict[str, object]:
+def analyze_codex(stdout: str, stderr: str, expect: str) -> dict[str, object]:
+    transcript = "\n".join(part for part in (stdout, stderr) if part)
+    command_lines = [
+        line.strip()
+        for line in transcript.splitlines()
+        if line.strip().startswith("/bin/bash -lc ")
+    ]
+    command_text = "\n".join(command_lines)
     return {
-        "used_helper": "token-reduce-paths.sh" in stdout or "token-reduce-snippet.sh" in stdout,
-        "broad_scan_attempt": "find " in stdout or "ls -R" in stdout or "grep -R" in stdout,
-        "returned_expected": expect in stdout,
-        "final_text": stdout.strip().splitlines()[-1] if stdout.strip() else "",
+        "used_helper": "token-reduce-paths.sh" in command_text or "token-reduce-snippet.sh" in command_text,
+        "broad_scan_attempt": "find " in command_text or "ls -R" in command_text or "grep -R" in command_text,
+        "returned_expected": expect in transcript,
+        "final_text": stdout.strip().splitlines()[-1] if stdout.strip() else stderr.strip().splitlines()[-1] if stderr.strip() else "",
     }
 
 
@@ -157,7 +164,7 @@ def main() -> int:
                 "exit_code": codex_code,
                 "stderr": codex_err.strip(),
                 "timed_out": codex_timed_out,
-                **analyze_codex(codex_out, expect),
+                **analyze_codex(codex_out, codex_err, expect),
             }
 
     print(json.dumps(results, indent=2))

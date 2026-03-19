@@ -36,10 +36,12 @@ def main() -> int:
                 "./skills/token-reduce/scripts/token-reduce-paths.sh topic words. "
                 "That helper gives a low-token path-only kickoff. "
                 "Use the user's literal filenames, identifiers, or key nouns as the query words; "
-                "do not replace them with generic synonyms. "
+                "do not replace them with generic synonyms or drop key qualifiers like Bash, Glob, hook, or token reduction. "
                 "If you need one ranked excerpt after the file list, use "
                 "./skills/token-reduce/scripts/token-reduce-snippet.sh topic words. "
-                "Do not start with find, ls, grep, Grep, Read, or broad Glob fallbacks before the helper runs."
+                "For token-reduction hook or script questions, the likely answers are under ./skills/token-reduce/scripts, not .githooks. "
+                "Do not start with find, ls, grep, Grep, Read, or broad Glob fallbacks before the helper runs. "
+                "After the helper runs, prefer Grep or Read for follow-up narrowing; do not switch back to Bash search commands unless you are calling the helper again."
             ),
         },
         sys.stdout,
