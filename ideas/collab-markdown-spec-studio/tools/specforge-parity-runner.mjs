@@ -5,6 +5,14 @@ import path from "node:path";
 import process from "node:process";
 import { spawn } from "node:child_process";
 
+import {
+  backlogSections,
+  getDeliveryTarget,
+  parseBacklogMarkdown,
+  parseChecklist,
+  sectionSlice,
+} from "../orchestrator/src/backlog.js";
+
 const toolDir = path.dirname(new URL(import.meta.url).pathname);
 const packRoot = path.resolve(toolDir, "..");
 const worktreeRoot = path.resolve(packRoot, "..", "..");
@@ -20,19 +28,6 @@ const metaLearningsPath = path.join(
   "artifacts",
   "specforge-meta-learnings.md",
 );
-const backlogSections = [
-  "Remaining MVP Build Backlog",
-  "Next SaaS Build Backlog",
-];
-
-function getDeliveryTarget(heading) {
-  if (heading === "Remaining MVP Build Backlog") {
-    return "minimum_extensible_product";
-  }
-
-  return "scoped_saas_parity";
-}
-
 function tailOutput(value, length = 4000) {
   if (!value) {
     return "";
@@ -79,23 +74,6 @@ function parseArgs(argv) {
   return options;
 }
 
-function sectionSlice(markdown, heading) {
-  const escaped = heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const match = markdown.match(new RegExp(`^## ${escaped}\\n([\\s\\S]*?)(?=^## |\\Z)`, "m"));
-  return match?.[1] ?? "";
-}
-
-function parseChecklist(section) {
-  return section
-    .split("\n")
-    .map((line) => line.trim())
-    .filter((line) => /^- \[[ x]\]/.test(line))
-    .map((line) => ({
-      checked: line.startsWith("- [x]"),
-      text: line.replace(/^- \[[ x]\]\s*/, ""),
-    }));
-}
-
 function toIntentId(phaseHeading, itemText) {
   return `${phaseHeading}:${itemText}`
     .toLowerCase()
@@ -107,16 +85,12 @@ async function loadBacklog() {
   const markdown = await readFile(tasksPath, "utf8");
   const recommendedSection = sectionSlice(markdown, "Recommended Parallel Execution Now");
   const implementationSection = sectionSlice(markdown, "Current Implementation Status");
-  const phases = backlogSections.map((heading) => ({
-    heading,
-    items: parseChecklist(sectionSlice(markdown, heading)),
-  }));
-  const activePhase = phases.find((phase) => phase.items.some((item) => !item.checked)) ?? null;
+  const parsed = parseBacklogMarkdown(markdown);
 
   return {
-    phases,
-    activePhase,
-    remaining: phases.flatMap((phase) => phase.items),
+    phases: parsed.sections,
+    activePhase: parsed.activeSection,
+    remaining: parsed.sections.flatMap((phase) => phase.items),
     current: parseChecklist(implementationSection),
     recommended: recommendedSection
       .split("\n")

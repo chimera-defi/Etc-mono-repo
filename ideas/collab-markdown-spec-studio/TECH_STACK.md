@@ -42,23 +42,27 @@
    - records retry counts and failure summaries so blocked passes are diagnosable
    - schedules periodic multipass review/refactor passes
    - refreshes handoff/meta-learning artifacts for context compaction and resume
-5. Shared persistence:
+5. Terminal CLI:
+   - `specforge` guided wizard over the shared OpenSpec core
+   - local slash-command style `/specforge` alias support
+   - local smoke coverage for non-browser spec creation
+6. Shared persistence:
    - PGlite snapshot sharing for local demo/test flows
    - Postgres for hosted application state
    - optional blob storage only if snapshots/exports outgrow database ergonomics
-6. Deployment rehearsal:
+7. Deployment rehearsal:
    - Dockerfiles for `web` and `collab-server`
    - `docker-compose.yml` with health checks for `web`, `collab-server`, and `postgres`
-7. Observability baseline:
+8. Observability baseline:
    - structured JSON logs in `web` and `collab-server`
    - request IDs via middleware/response headers
    - `/api/health`, `/api/metrics`, and collab `/health` + `/metrics`
 
 ### Target Package Topology
 1. `specforge-core`
-   - shared OpenSpec schema
-   - guided wizard logic
-   - readiness + clarification rules
+   - shared guided wizard logic
+   - shared readiness rules
+   - continuing extraction target for broader OpenSpec schema and handoff builders
    - export / handoff / launch-packet builders
 2. `specforge-web`
    - landing, pricing, workspace UI
@@ -66,10 +70,11 @@
 3. `specforge-collab`
    - Yjs/Hocuspocus runtime
 4. `specforge-orchestrator`
-   - intents, claims, context, signals
-   - bounded delivery loop
+   - shared backlog parsing and delivery target mapping today
+   - intents, claims, context, signals and bounded delivery loop as the broader boundary
 5. `specforge-cli`
-   - `/specforge` style CLI/TUI wizard
+   - first `/specforge` style CLI wizard now shipped
+   - fuller TUI/assistant flow remains post-parity work
    - local agent-runtime reuse for Codex/Claude when present
 
 ### Why This Stack
