@@ -5,6 +5,7 @@ import { getRequestId, logServerEvent } from "@/lib/specforge/observability";
 import {
   getWorkspaceActivityMetrics,
   getPersistenceConfig,
+  getWorkspaceUsageSummary,
   listCommentThreads,
   listDocuments,
   listWorkspaceMemberships,
@@ -25,7 +26,10 @@ export async function GET(request: Request) {
       const workspaceDocuments = documents.filter(
         (document) => document.workspace_id === workspace.workspace_id,
       );
-      const activity = await getWorkspaceActivityMetrics(workspace.workspace_id);
+      const [activity, usage] = await Promise.all([
+        getWorkspaceActivityMetrics(workspace.workspace_id),
+        getWorkspaceUsageSummary(workspace.workspace_id),
+      ]);
       const documentComments = await Promise.all(
         workspaceDocuments.map((document) =>
           listCommentThreads(document.document_id, { workspaceId: workspace.workspace_id }),
@@ -41,6 +45,7 @@ export async function GET(request: Request) {
         reviewed_document_count: activity.reviewed_document_count,
         commented_document_count: activity.commented_document_count,
         clarified_document_count: activity.clarified_document_count,
+        usage,
       };
     }),
   );
@@ -78,6 +83,24 @@ export async function GET(request: Request) {
         0,
       ),
     },
+    usage: {
+      assist_request_count: workspaceCounts.reduce(
+        (total, item) => total + item.usage.assist_request_count,
+        0,
+      ),
+      handoff_view_count: workspaceCounts.reduce(
+        (total, item) => total + item.usage.handoff_view_count,
+        0,
+      ),
+      execution_view_count: workspaceCounts.reduce(
+        (total, item) => total + item.usage.execution_view_count,
+        0,
+      ),
+      launch_packet_view_count: workspaceCounts.reduce(
+        (total, item) => total + item.usage.launch_packet_view_count,
+        0,
+      ),
+    },
     workspaces: workspaces.map((workspace) => ({
       workspace_id: workspace.workspace_id,
       name: workspace.name,
@@ -100,6 +123,13 @@ export async function GET(request: Request) {
       clarified_document_count:
         workspaceCounts.find((item) => item.workspace_id === workspace.workspace_id)
           ?.clarified_document_count ?? 0,
+      usage:
+        workspaceCounts.find((item) => item.workspace_id === workspace.workspace_id)?.usage ?? {
+          assist_request_count: 0,
+          handoff_view_count: 0,
+          execution_view_count: 0,
+          launch_packet_view_count: 0,
+        },
     })),
   };
 

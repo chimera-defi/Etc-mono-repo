@@ -94,8 +94,9 @@ export default function PricingPage() {
           <div className={styles.faqItem}>
             <strong>Usage overlay</strong>
             <p>
-              Agent execution should be metered separately through provider-backed usage credits or
-              included quotas.
+              The current metering skeleton tracks assist requests plus handoff, execution, and
+              launch-packet views so hosted plans can evolve toward provider-backed usage credits
+              or included quotas.
             </p>
           </div>
           <div className={styles.faqItem}>

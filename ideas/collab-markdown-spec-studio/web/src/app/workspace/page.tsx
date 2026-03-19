@@ -31,6 +31,7 @@ import { heroVariantOrder, heroVariants, type HeroVariant } from "@/lib/specforg
 import { listShowcaseExamples } from "@/lib/specforge/showcase";
 import {
   getWorkspaceActivityMetrics,
+  getWorkspaceUsageSummary,
   listAuditEvents,
   listDocuments,
   listWorkspaceMemberships,
@@ -296,11 +297,12 @@ export default async function Home({ searchParams }: Props) {
   const activeWorkspaceActor = activeWorkspaceSession.actor;
   const githubAuthConfigured = isGitHubAuthConfigured();
   const backlogState = await readBacklogState();
-  const [workspaceRecords, activeWorkspaceMembers, workspaceActivity, documents, assistToolStatuses] =
+  const [workspaceRecords, activeWorkspaceMembers, workspaceActivity, workspaceUsage, documents, assistToolStatuses] =
     await Promise.all([
       listWorkspaceRecords(),
       listWorkspaceMemberships(activeWorkspaceActor.workspace_id),
       getWorkspaceActivityMetrics(activeWorkspaceActor.workspace_id),
+      getWorkspaceUsageSummary(activeWorkspaceActor.workspace_id),
       listDocuments({ workspaceId: activeWorkspaceActor.workspace_id }),
       getAgentAssistToolStatuses(),
     ]);
@@ -541,6 +543,22 @@ export default async function Home({ searchParams }: Props) {
                 <div className={styles.metricCard}>
                   <strong>{workspaceActivity.clarified_document_count}</strong>
                   <span>clarified</span>
+                </div>
+                <div className={styles.metricCard}>
+                  <strong>{workspaceUsage.assist_request_count}</strong>
+                  <span>assist runs</span>
+                </div>
+                <div className={styles.metricCard}>
+                  <strong>{workspaceUsage.handoff_view_count}</strong>
+                  <span>handoffs</span>
+                </div>
+                <div className={styles.metricCard}>
+                  <strong>{workspaceUsage.execution_view_count}</strong>
+                  <span>execution views</span>
+                </div>
+                <div className={styles.metricCard}>
+                  <strong>{workspaceUsage.launch_packet_view_count}</strong>
+                  <span>launch packets</span>
                 </div>
               </div>
             </div>
