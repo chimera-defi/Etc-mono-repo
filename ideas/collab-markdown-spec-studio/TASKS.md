@@ -12,6 +12,7 @@
 - [x] Guided spec wizard writes into the canonical document.
 - [x] Shared OpenSpec core now owns guided wizard defaults/markdown builders plus shared readiness logic.
 - [x] Shared OpenSpec core now also owns export bundle, execution-brief, and launch-packet builders.
+- [x] Shared OpenSpec core now also owns starter template definitions and the curated TypeScript starter builder.
 - [x] Mini agent-assist can populate guided fields from a rough brief, using local CLI tooling when available and a safe fallback otherwise.
 - [x] Terminal-native `specforge` CLI can generate the same guided markdown/metadata as the web flow.
 - [x] Tiptap + Yjs + Hocuspocus multiplayer canvas with shared presence.
@@ -27,7 +28,7 @@
 - [x] Shared orchestrator backlog parsing now feeds both the parity runner and the in-product delivery-loop panel.
 
 ## Remaining Post-Parity SaaS Work
-- [ ] Continue moving starter-generation and store-bound launch workflow contracts from `web/` into the shared OpenSpec core.
+- [ ] Continue moving generated-repo starter branches and store-bound launch workflow contracts from `web/` into the shared OpenSpec core.
 - [ ] Grow the terminal-native `specforge` CLI from the current guided wizard into a fuller TUI / slash-command surface.
 - [ ] Continue splitting runner state/context handling into the orchestrator package beyond shared backlog parsing.
 - [ ] Run design-partner sessions and instrument activation/retention/trust metrics.
