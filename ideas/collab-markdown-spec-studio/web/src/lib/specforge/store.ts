@@ -161,6 +161,14 @@ export type WorkspaceActivityMetrics = {
   clarified_document_count: number;
 };
 
+export type WorkspaceUsageSummary = {
+  workspace_id: string;
+  assist_request_count: number;
+  handoff_view_count: number;
+  execution_view_count: number;
+  launch_packet_view_count: number;
+};
+
 type UserRow = {
   user_id: string;
   github_id: string | null;
@@ -1554,6 +1562,61 @@ export async function getWorkspaceActivityMetrics(
     reviewed_document_count: Number(reviewed.rows[0]?.count ?? 0),
     commented_document_count: Number(commented.rows[0]?.count ?? 0),
     clarified_document_count: Number(clarified.rows[0]?.count ?? 0),
+  };
+}
+
+export async function recordWorkspaceEvent(
+  input: {
+    workspace_id: string;
+    event_type: string;
+    actor_type: "human" | "agent" | "system";
+    actor_id: string;
+    payload?: Record<string, unknown>;
+  },
+  options?: StoreOptions,
+) {
+  const database = await getDatabase(options);
+  const { dbPath } = resolveOptions(options);
+  await insertAuditEvent(database, {
+    event_type: input.event_type,
+    actor_type: input.actor_type,
+    actor_id: input.actor_id,
+    payload: {
+      workspace_id: input.workspace_id,
+      ...(input.payload ?? {}),
+    },
+  });
+  await persistSnapshot(database, dbPath);
+}
+
+export async function getWorkspaceUsageSummary(
+  workspaceId: string,
+  options?: StoreOptions,
+): Promise<WorkspaceUsageSummary> {
+  const database = await getDatabase(options);
+  const result = await database.query<{
+    assist_request_count: string;
+    handoff_view_count: string;
+    execution_view_count: string;
+    launch_packet_view_count: string;
+  }>(
+    `SELECT
+      COUNT(*) FILTER (WHERE event_type = 'usage.assist_requested')::text AS assist_request_count,
+      COUNT(*) FILTER (WHERE event_type = 'usage.handoff_viewed')::text AS handoff_view_count,
+      COUNT(*) FILTER (WHERE event_type = 'usage.execution_viewed')::text AS execution_view_count,
+      COUNT(*) FILTER (WHERE event_type = 'usage.launch_packet_viewed')::text AS launch_packet_view_count
+    FROM audit_events
+    WHERE document_id IS NULL
+      AND payload_json->>'workspace_id' = $1`,
+    [workspaceId],
+  );
+
+  return {
+    workspace_id: workspaceId,
+    assist_request_count: Number(result.rows[0]?.assist_request_count ?? 0),
+    handoff_view_count: Number(result.rows[0]?.handoff_view_count ?? 0),
+    execution_view_count: Number(result.rows[0]?.execution_view_count ?? 0),
+    launch_packet_view_count: Number(result.rows[0]?.launch_packet_view_count ?? 0),
   };
 }
 
