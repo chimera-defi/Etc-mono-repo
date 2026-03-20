@@ -595,7 +595,7 @@ async function hydrateSnapshot(database: QuerySession, snapshot: StoreSnapshot) 
     );
   }
 
-  for (const row of snapshot.documents) {
+  for (const row of snapshot.documents ?? []) {
     await database.query(
       `INSERT INTO documents (
         document_id,
@@ -643,7 +643,7 @@ async function hydrateSnapshot(database: QuerySession, snapshot: StoreSnapshot) 
     );
   }
 
-  for (const row of snapshot.patches) {
+  for (const row of snapshot.patches ?? []) {
     await database.query(
       `INSERT INTO patches (
         patch_id,
@@ -671,8 +671,8 @@ async function hydrateSnapshot(database: QuerySession, snapshot: StoreSnapshot) 
         row.content ?? null,
         row.patch_type,
         row.rationale ?? null,
-        row.proposed_by_actor_type,
-        row.proposed_by_actor_id,
+        row.proposed_by_actor_type ?? "agent",
+        row.proposed_by_actor_id ?? "seed_agent",
         row.base_version,
         row.target_fingerprint,
         row.confidence ?? null,
@@ -682,7 +682,7 @@ async function hydrateSnapshot(database: QuerySession, snapshot: StoreSnapshot) 
     );
   }
 
-  for (const row of snapshot.audit_events) {
+  for (const row of snapshot.audit_events ?? []) {
     await database.query(
       `INSERT INTO audit_events (
         event_id,
@@ -707,7 +707,7 @@ async function hydrateSnapshot(database: QuerySession, snapshot: StoreSnapshot) 
     );
   }
 
-  for (const row of snapshot.comment_threads) {
+  for (const row of snapshot.comment_threads ?? []) {
     await database.query(
       `INSERT INTO comment_threads (
         thread_id,
