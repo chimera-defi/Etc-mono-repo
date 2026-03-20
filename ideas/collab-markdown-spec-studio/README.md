@@ -54,6 +54,12 @@ Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid du
    - one curated TypeScript starter is a better MVP than broad repo generation claims
 5. Keep browser tests on the real path:
    - create -> review -> decide -> handoff is the regression boundary for future idea builds
+6. Remove placeholder content aggressively:
+   - live `TBD` text in seeds, fallbacks, or generated scaffolds makes the product feel unfinished even when the underlying code works
+7. Share commercial contracts:
+   - pricing, plan JSON, and entitlement logic should come from one catalog or they will drift immediately
+8. Thin pages and stores early:
+   - once a route or persistence module becomes hard to skim, extract by domain before more product logic piles in
 
 ### Current Runtime
 1. `web/` is the real Next.js app.
