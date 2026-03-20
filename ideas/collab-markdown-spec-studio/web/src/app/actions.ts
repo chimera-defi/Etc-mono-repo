@@ -83,7 +83,7 @@ export async function createDocumentAction(formData: FormData) {
         ? showcaseExample.draft.markdown
         : String(
             formData.get("initial_markdown") ??
-              "# PRD\n\n## Problem\nTBD\n\n## Goals\nTBD\n",
+              "# PRD\n\n## Problem\nClarify the user problem before implementation begins.\n\n## Goals\n- Capture the first shippable workflow.\n- Produce a reviewable build handoff.\n",
           );
   const metadata =
     mode === "guided"
