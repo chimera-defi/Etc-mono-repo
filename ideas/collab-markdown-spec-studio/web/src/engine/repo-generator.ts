@@ -233,8 +233,8 @@ This is a scaffold Next.js project generated from your spec. Start implementing 
 ## Getting Started
 
 \`\`\`bash
-npm install
-npm run dev
+bun install
+bun run dev
 \`\`\`
 
 Open [http://localhost:3000](http://localhost:3000) to see the application.
@@ -248,9 +248,9 @@ Open [http://localhost:3000](http://localhost:3000) to see the application.
 ## Build & Test
 
 \`\`\`bash
-npm run build    # Production build
-npm run test     # Run tests
-npm run lint     # Run linter
+bun run build    # Production build
+bun run test     # Run tests
+bun run lint     # Run linter
 \`\`\`
 
 ## Project Info
@@ -494,8 +494,8 @@ Generated from SpecForge spec bundle (v${bundle.spec_version}).
 ### Frontend
 \`\`\`bash
 cd frontend
-npm install
-npm run dev
+bun install
+bun run dev
 \`\`\`
 
 ### Backend

@@ -99,7 +99,7 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
   });
   expect(await executionResponse.json()).toMatchObject({
     run_ready: expect.any(Boolean),
-    commands: expect.arrayContaining(["npm install", "npm run dev", "npm run build"]),
+    commands: expect.arrayContaining(["bun install", "bun run dev", "bun run build"]),
   });
   expect(await launchPacketResponse.json()).toMatchObject({
     packet_id: expect.stringContaining("launch_doc_"),
