@@ -15,6 +15,7 @@
     "parity:status": "node ../tools/specforge-parity-runner.mjs status",
     "parity:context": "node ../tools/specforge-parity-runner.mjs context",
     "parity:brief": "node ../tools/specforge-parity-runner.mjs brief",
+    "parity:verify": "node ../tools/specforge-parity-runner.mjs verify",
     "parity:run": "node ../tools/specforge-parity-runner.mjs run",
     "parity:run:batch": "node ../tools/specforge-parity-runner.mjs run --until-clear --max-passes 3 --review-every 2",
     "parity:run:dry": "node ../tools/specforge-parity-runner.mjs run --dry-run --max-passes 1"
