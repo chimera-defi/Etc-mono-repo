@@ -302,7 +302,7 @@ See \`SPEC.md\` for detailed requirements.
 ${docTitle}
 ├── Frontend (Next.js + React)
 ├── Backend (Node.js)
-└── Database (TBD)
+└── Database (select persistence based on runtime needs)
 \`\`\`
 
 ## Design Principles
