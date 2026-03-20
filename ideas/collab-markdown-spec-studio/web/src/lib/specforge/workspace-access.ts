@@ -1,3 +1,4 @@
+import { resolveStarterTemplateId, type StarterTemplateId } from "./handoff";
 import {
   getCurrentWorkspaceActor,
   getCurrentWorkspaceSession,
@@ -6,10 +7,10 @@ import {
 } from "./session";
 import {
   getDocument,
+  recordWorkspaceEvent,
   getWorkspaceMembershipForUser,
   listDocuments,
 } from "./store";
-import type { StarterTemplateId } from "./handoff";
 import { buildDocumentLaunchContext } from "./workflow";
 
 export class WorkspaceAccessDeniedError extends Error {
@@ -90,11 +91,36 @@ export async function getCurrentWorkspaceLaunchContext(
   documentId: string,
   templateId?: StarterTemplateId,
 ) {
-  const { workspaceId } = await getCurrentWorkspaceAccess();
+  const { actor, workspaceId } = await getCurrentWorkspaceAccess();
   await validateWorkspaceMembership(workspaceId);
   const context = await buildDocumentLaunchContext(documentId, workspaceId, templateId);
   return {
     workspaceId,
+    actor,
     context,
   };
+}
+
+export function resolveLaunchTemplateFromRequest(request: Request) {
+  return resolveStarterTemplateId(
+    new URL(request.url).searchParams.get("template") ?? undefined,
+  );
+}
+
+export async function recordCurrentWorkspaceUsage(input: {
+  actor: Awaited<ReturnType<typeof getCurrentWorkspaceActor>>;
+  eventType: string;
+  documentId: string;
+  templateId?: StarterTemplateId;
+}) {
+  await recordWorkspaceEvent({
+    workspace_id: input.actor.workspace_id,
+    event_type: input.eventType,
+    actor_type: input.actor.actor_type,
+    actor_id: input.actor.actor_id,
+    payload: {
+      document_id: input.documentId,
+      template_id: input.templateId,
+    },
+  });
 }
