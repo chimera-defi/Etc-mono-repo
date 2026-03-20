@@ -19,7 +19,9 @@ The current branch also includes a first explicit entitlement layer:
 - quota state,
 - seat-based billing preview,
 - feature-flag entitlements,
-- behavior instrumentation for membership and workflow activation signals.
+- behavior instrumentation for membership and workflow activation signals,
+- a workspace billing summary endpoint with upgrade-required reasons,
+- and ops-summary alerts for missing backups, missing verification, or upgrade pressure.
 
 ### Product Principle: Minimum Extensible Product
 1. Approved specs should first produce a minimum extensible product, not a pretend-final build.
@@ -137,6 +139,7 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 14. Health and metrics responses expose active persistence configuration so hosted-runtime drift is diagnosable without opening the code.
 15. Request IDs are propagated through middleware and returned by runtime endpoints for cross-service debugging.
 16. Terminal-native `specforge` CLI now consumes the same guided OpenSpec core instead of duplicating wizard logic.
+17. Workspace billing and ops summaries now expose a thin SaaS control plane for local rehearsal, including billing status, backup visibility, and alert signals.
 
 ### Default Stack
 1. Shared ESM OpenSpec core package for runtime-safe reuse across web and CLI surfaces.

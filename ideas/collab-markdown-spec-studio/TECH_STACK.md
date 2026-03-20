@@ -57,7 +57,7 @@
 8. Observability baseline:
    - structured JSON logs in `web` and `collab-server`
    - request IDs via middleware/response headers
-   - `/api/health`, `/api/metrics`, and collab `/health` + `/metrics`
+   - `/api/health`, `/api/metrics`, `/api/ops/summary`, `/api/workspace/billing`, and collab `/health` + `/metrics`
 
 ### Target Package Topology
 1. `specforge-core`

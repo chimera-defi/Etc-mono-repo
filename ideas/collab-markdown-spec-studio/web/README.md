@@ -46,6 +46,7 @@ Current slice:
 - web runtime health endpoint at `/api/health`
 - web runtime metrics endpoint at `/api/metrics`
 - workspace entitlements endpoint at `/api/workspace/entitlements`
+- workspace billing endpoint at `/api/workspace/billing`
 - workspace ops summary endpoint at `/api/ops/summary`
 - workspace backup index endpoint at `/api/ops/backups`
 - pricing anchors benchmarked in `../PRICING_BENCHMARKS.md`
@@ -100,6 +101,8 @@ bun run state:backup
 - Shared specs use canonical workspace URLs like `/workspace?document=<id>&stage=draft`; the workspace UI exposes a copyable share link, but pilot recipients still need GitHub sign-in and workspace membership.
 - Local ops rehearsal now has both `bun run state:backup` and `bun run state:restore`, and the workspace sidebar links to the health and metrics endpoints directly.
 - The workspace sidebar now also links to `/api/workspace/entitlements` and `/api/ops/summary` so local SaaS rehearsal can inspect quotas, billing preview, parity state, and persistence in one place.
+- `/api/workspace/billing` now exposes upgrade-required reasons, recommended plan, and the current billing preview as a cleaner entitlement handoff for future payment integration.
+- `/api/ops/summary` now includes basic warning alerts for missing backups, missing verification, and upgrade-required pressure so local hosted-ops rehearsal is easier to review.
 - The workspace session panel can switch the active workspace plan between `demo` and `pilot` locally, which makes quota and billing-preview testing much faster.
 - `bun run verify` is the canonical full local gate, and `specforge verify` exposes the same suite from the agent-native CLI surface.
 - `bun run parity:verify` records the latest verification result into the runner state and handoff artifacts, so the orchestration loop has a durable last-known-green checkpoint.
@@ -123,6 +126,7 @@ bun run state:backup
   - `/api/metrics`
   - `/api/ops/summary`
   - `/api/ops/backups`
+  - `/api/workspace/billing`
   - `/api/workspace/entitlements`
   - `http://127.0.0.1:4322/health`
   - `http://127.0.0.1:4322/metrics`

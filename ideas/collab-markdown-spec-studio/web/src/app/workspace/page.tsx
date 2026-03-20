@@ -496,6 +496,17 @@ export default async function Home({ searchParams }: Props) {
                   <span>patch decisions</span>
                 </div>
               </div>
+              {workspaceSummary.billingStatus.upgradeRequired ? (
+                <div className={styles.actorCard}>
+                  <strong>Upgrade path suggested</strong>
+                  {workspaceSummary.billingStatus.reasons.map((reason) => (
+                    <span key={reason}>{reason}</span>
+                  ))}
+                  <span>
+                    Recommended plan: {workspaceSummary.billingStatus.recommendedPlan ?? "none"}
+                  </span>
+                </div>
+              ) : null}
             </div>
           </details>
 
@@ -610,6 +621,9 @@ export default async function Home({ searchParams }: Props) {
                   </Link>
                   <Link href="/api/workspace/entitlements" className={styles.secondaryLink}>
                     Entitlements
+                  </Link>
+                  <Link href="/api/workspace/billing" className={styles.secondaryLink}>
+                    Billing
                   </Link>
                   <Link href="http://127.0.0.1:4322/health" className={styles.secondaryLink}>
                     Collab health
