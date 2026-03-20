@@ -4,6 +4,7 @@ import { readBacklogState } from "@/lib/specforge/backlog";
 import { getRequestId, logServerEvent } from "@/lib/specforge/observability";
 import {
   getWorkspaceActivityMetrics,
+  getWorkspaceBehaviorSummary,
   getPersistenceConfig,
   getWorkspaceUsageSummary,
   listCommentThreads,
@@ -30,6 +31,7 @@ export async function GET(request: Request) {
         getWorkspaceActivityMetrics(workspace.workspace_id),
         getWorkspaceUsageSummary(workspace.workspace_id),
       ]);
+      const behavior = await getWorkspaceBehaviorSummary(workspace.workspace_id);
       const documentComments = await Promise.all(
         workspaceDocuments.map((document) =>
           listCommentThreads(document.document_id, { workspaceId: workspace.workspace_id }),
@@ -45,6 +47,7 @@ export async function GET(request: Request) {
         reviewed_document_count: activity.reviewed_document_count,
         commented_document_count: activity.commented_document_count,
         clarified_document_count: activity.clarified_document_count,
+        behavior,
         usage,
       };
     }),
@@ -101,6 +104,32 @@ export async function GET(request: Request) {
         0,
       ),
     },
+    behavior: {
+      document_created_count: workspaceCounts.reduce(
+        (total, item) => total + item.behavior.document_created_count,
+        0,
+      ),
+      member_added_count: workspaceCounts.reduce(
+        (total, item) => total + item.behavior.member_added_count,
+        0,
+      ),
+      plan_changed_count: workspaceCounts.reduce(
+        (total, item) => total + item.behavior.plan_changed_count,
+        0,
+      ),
+      assist_preference_count: workspaceCounts.reduce(
+        (total, item) => total + item.behavior.assist_preference_count,
+        0,
+      ),
+      patch_decided_count: workspaceCounts.reduce(
+        (total, item) => total + item.behavior.patch_decided_count,
+        0,
+      ),
+      clarification_answered_count: workspaceCounts.reduce(
+        (total, item) => total + item.behavior.clarification_answered_count,
+        0,
+      ),
+    },
     workspaces: workspaces.map((workspace) => ({
       workspace_id: workspace.workspace_id,
       name: workspace.name,
@@ -129,6 +158,15 @@ export async function GET(request: Request) {
           handoff_view_count: 0,
           execution_view_count: 0,
           launch_packet_view_count: 0,
+        },
+      behavior:
+        workspaceCounts.find((item) => item.workspace_id === workspace.workspace_id)?.behavior ?? {
+          document_created_count: 0,
+          member_added_count: 0,
+          plan_changed_count: 0,
+          assist_preference_count: 0,
+          patch_decided_count: 0,
+          clarification_answered_count: 0,
         },
     })),
   };

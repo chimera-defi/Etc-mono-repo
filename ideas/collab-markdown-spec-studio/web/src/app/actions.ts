@@ -40,6 +40,22 @@ async function getActionActorRef() {
   };
 }
 
+async function recordWorkspaceActionEvent(
+  currentActor: Awaited<ReturnType<typeof getCurrentWorkspaceActor>>,
+  eventType: string,
+  payload?: Record<string, unknown>,
+) {
+  await import("@/lib/specforge/store").then(({ recordWorkspaceEvent }) =>
+    recordWorkspaceEvent({
+      workspace_id: currentActor.workspace_id,
+      event_type: eventType,
+      actor_type: currentActor.actor_type,
+      actor_id: currentActor.actor_id,
+      payload,
+    }),
+  );
+}
+
 export async function createDocumentAction(formData: FormData) {
   const { currentActor } = await getActionActorRef();
   const title = String(formData.get("title") ?? "Untitled SpecForge Doc");
@@ -185,10 +201,14 @@ export async function switchWorkspaceActorAction(formData: FormData) {
 }
 
 export async function setAssistRuntimePreferenceAction(formData: FormData) {
+  const currentActor = await getCurrentWorkspaceActor();
   const selectedTool = String(formData.get("assist_tool") ?? "auto") as PreferredAssistTool;
   const returnTo = String(formData.get("return_to") ?? "/workspace?stage=start");
 
   await setPreferredAssistTool(selectedTool);
+  await recordWorkspaceActionEvent(currentActor, "workspace.assist_preference_saved", {
+    assist_tool: selectedTool,
+  });
   redirect(returnTo || "/workspace?stage=start");
 }
 
@@ -196,11 +216,10 @@ export async function setWorkspacePlanAction(formData: FormData) {
   const { currentActor } = await getActionActorRef();
   const returnTo = String(formData.get("return_to") ?? "/workspace");
   const selectedPlan = String(formData.get("plan") ?? "demo");
+  const plan = selectedPlan === "pilot" ? "pilot" : "demo";
 
-  await updateWorkspacePlan(
-    currentActor.workspace_id,
-    selectedPlan === "pilot" ? "pilot" : "demo",
-  );
+  await updateWorkspacePlan(currentActor.workspace_id, plan);
+  await recordWorkspaceActionEvent(currentActor, "workspace.plan_changed", { plan });
 
   revalidatePath("/workspace");
   redirect(returnTo || "/workspace");
@@ -290,12 +309,27 @@ export async function createWorkspaceMemberAction(formData: FormData) {
     redirect(`${blockedUrl.pathname}${blockedUrl.search}`);
   }
 
+  const githubLogin = String(formData.get("github_login") ?? "").trim();
+  if (
+    githubLogin &&
+    members.some(
+      (member) => member.github_login?.toLowerCase() === githubLogin.toLowerCase(),
+    )
+  ) {
+    const blockedUrl = new URL(returnTo, "http://specforge.local");
+    blockedUrl.searchParams.set("membership_error", "duplicate");
+    redirect(`${blockedUrl.pathname}${blockedUrl.search}`);
+  }
+
   await createWorkspaceMembership({
     workspace_id: currentActor.workspace_id,
     name: String(formData.get("name") ?? "New member"),
     role: String(formData.get("role") ?? "Contributor"),
     color: String(formData.get("color") ?? "#475569"),
-    github_login: String(formData.get("github_login") ?? ""),
+    github_login: githubLogin,
+  });
+  await recordWorkspaceActionEvent(currentActor, "workspace.member_added", {
+    github_login: githubLogin || null,
   });
 
   revalidatePath("/workspace");

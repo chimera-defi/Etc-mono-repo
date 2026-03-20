@@ -79,6 +79,8 @@ export default async function Home({ searchParams }: Props) {
   const membershipError =
     resolvedSearchParams.membership_error === "limit"
       ? "This workspace has reached its current member limit."
+      : resolvedSearchParams.membership_error === "duplicate"
+        ? "That GitHub login is already a workspace member."
       : null;
   const availableTemplates = listTemplates();
   const selectedTemplateId = resolveStarterTemplateId(
@@ -480,6 +482,18 @@ export default async function Home({ searchParams }: Props) {
                 <div className={styles.metricCard}>
                   <strong>{workspaceUsage.launch_packet_view_count}</strong>
                   <span>launch packets</span>
+                </div>
+                <div className={styles.metricCard}>
+                  <strong>{workspaceSummary.workspaceBehavior.document_created_count}</strong>
+                  <span>specs created</span>
+                </div>
+                <div className={styles.metricCard}>
+                  <strong>{workspaceSummary.workspaceBehavior.member_added_count}</strong>
+                  <span>members added</span>
+                </div>
+                <div className={styles.metricCard}>
+                  <strong>{workspaceSummary.workspaceBehavior.patch_decided_count}</strong>
+                  <span>patch decisions</span>
                 </div>
               </div>
             </div>

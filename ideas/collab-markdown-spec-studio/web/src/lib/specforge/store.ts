@@ -170,6 +170,16 @@ export type WorkspaceUsageSummary = {
   launch_packet_view_count: number;
 };
 
+export type WorkspaceBehaviorSummary = {
+  workspace_id: string;
+  document_created_count: number;
+  member_added_count: number;
+  plan_changed_count: number;
+  assist_preference_count: number;
+  patch_decided_count: number;
+  clarification_answered_count: number;
+};
+
 type UserRow = {
   user_id: string;
   github_id: string | null;
@@ -1483,6 +1493,7 @@ const workspaceStore = createWorkspaceStore({
 
 export const {
   createWorkspaceMembership,
+  getWorkspaceBehaviorSummary,
   getUserByGitHubLogin,
   getWorkspaceActivityMetrics,
   getWorkspaceMembershipByActorId,

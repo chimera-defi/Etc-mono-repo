@@ -332,6 +332,51 @@ export function createWorkspaceStore(deps: WorkspaceStoreDeps) {
       };
     },
 
+    async getWorkspaceBehaviorSummary(workspaceId: string, options?: StoreOptions) {
+      const database = await deps.getDatabase(options);
+      const [workspaceEvents, documentEvents] = await Promise.all([
+        database.query<{
+          member_added_count: string;
+          plan_changed_count: string;
+          assist_preference_count: string;
+        }>(
+          `SELECT
+            COUNT(*) FILTER (WHERE event_type = 'workspace.member_added')::text AS member_added_count,
+            COUNT(*) FILTER (WHERE event_type = 'workspace.plan_changed')::text AS plan_changed_count,
+            COUNT(*) FILTER (WHERE event_type = 'workspace.assist_preference_saved')::text AS assist_preference_count
+          FROM audit_events
+          WHERE payload_json ->> 'workspace_id' = $1`,
+          [workspaceId],
+        ),
+        database.query<{
+          document_created_count: string;
+          patch_decided_count: string;
+          clarification_answered_count: string;
+        }>(
+          `SELECT
+            COUNT(*) FILTER (WHERE ae.event_type = 'document.created')::text AS document_created_count,
+            COUNT(*) FILTER (WHERE ae.event_type = 'patch.decided')::text AS patch_decided_count,
+            COUNT(*) FILTER (WHERE ae.event_type = 'clarification.answered')::text AS clarification_answered_count
+          FROM audit_events ae
+          INNER JOIN documents d ON d.document_id = ae.document_id
+          WHERE d.workspace_id = $1`,
+          [workspaceId],
+        ),
+      ]);
+
+      return {
+        workspace_id: workspaceId,
+        document_created_count: Number(documentEvents.rows[0]?.document_created_count ?? 0),
+        member_added_count: Number(workspaceEvents.rows[0]?.member_added_count ?? 0),
+        plan_changed_count: Number(workspaceEvents.rows[0]?.plan_changed_count ?? 0),
+        assist_preference_count: Number(workspaceEvents.rows[0]?.assist_preference_count ?? 0),
+        patch_decided_count: Number(documentEvents.rows[0]?.patch_decided_count ?? 0),
+        clarification_answered_count: Number(
+          documentEvents.rows[0]?.clarification_answered_count ?? 0,
+        ),
+      };
+    },
+
     async upsertUserFromGitHub(
       input: {
         github_id: string;
