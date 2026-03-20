@@ -1367,6 +1367,7 @@ const workspaceStore = createWorkspaceStore({
 
 export const {
   createWorkspaceMembership,
+  deleteWorkspaceMembership,
   getWorkspaceBehaviorSummary,
   getUserByGitHubLogin,
   getWorkspaceActivityMetrics,

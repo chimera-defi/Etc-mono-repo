@@ -71,12 +71,14 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
   await expect(page.getByTestId("share-access-note")).toContainText("Local demo access");
   const entitlementsResponse = await page.request.get("/api/workspace/entitlements");
   const billingResponse = await page.request.get("/api/workspace/billing");
+  const plansResponse = await page.request.get("/api/workspace/plans");
   const opsResponse = await page.request.get("/api/ops/summary");
   const incidentsResponse = await page.request.get("/api/ops/incidents");
   const backupsResponse = await page.request.get("/api/ops/backups");
   const metricsResponse = await page.request.get("/api/metrics");
   expect(entitlementsResponse.ok()).toBeTruthy();
   expect(billingResponse.ok()).toBeTruthy();
+  expect(plansResponse.ok()).toBeTruthy();
   expect(opsResponse.ok()).toBeTruthy();
   expect(incidentsResponse.ok()).toBeTruthy();
   expect(backupsResponse.ok()).toBeTruthy();
@@ -103,6 +105,12 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
       upgradeRequired: expect.any(Boolean),
       reasons: expect.any(Array),
     }),
+  });
+  expect(await plansResponse.json()).toMatchObject({
+    plans: expect.arrayContaining([
+      expect.objectContaining({ plan: "demo" }),
+      expect.objectContaining({ plan: "pilot" }),
+    ]),
   });
   expect(await opsResponse.json()).toMatchObject({
     workspace: expect.objectContaining({

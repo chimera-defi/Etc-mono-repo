@@ -9,6 +9,7 @@ import {
   createClarification,
   createDocument,
   createWorkspaceMembership,
+  deleteWorkspaceMembership,
   getDocument,
   createPatchProposal,
   decidePatch,
@@ -349,6 +350,44 @@ export async function createWorkspaceMemberAction(formData: FormData) {
   });
   await recordWorkspaceActionEvent(currentActor, "workspace.member_added", {
     github_login: githubLogin || null,
+  });
+
+  revalidatePath("/workspace");
+  redirect(returnTo || "/workspace");
+}
+
+export async function removeWorkspaceMemberAction(formData: FormData) {
+  const { currentActor } = await getActionActorRef();
+  const returnTo = String(formData.get("return_to") ?? "/workspace");
+  const membershipId = String(formData.get("membership_id") ?? "");
+
+  if (!membershipId) {
+    redirect(returnTo || "/workspace");
+  }
+
+  const members = await listWorkspaceMemberships(currentActor.workspace_id);
+  const targetMember = members.find((member) => member.membership_id === membershipId);
+
+  if (!targetMember) {
+    redirect(returnTo || "/workspace");
+  }
+
+  if (members.length <= 1) {
+    const blockedUrl = new URL(returnTo, "http://specforge.local");
+    blockedUrl.searchParams.set("membership_error", "last_member");
+    redirect(`${blockedUrl.pathname}${blockedUrl.search}`);
+  }
+
+  if (targetMember.actor_id === currentActor.actor_id) {
+    const blockedUrl = new URL(returnTo, "http://specforge.local");
+    blockedUrl.searchParams.set("membership_error", "self_remove");
+    redirect(`${blockedUrl.pathname}${blockedUrl.search}`);
+  }
+
+  await deleteWorkspaceMembership(membershipId);
+  await recordWorkspaceActionEvent(currentActor, "workspace.member_removed", {
+    removed_actor_id: targetMember.actor_id,
+    removed_github_login: targetMember.github_login ?? null,
   });
 
   revalidatePath("/workspace");

@@ -49,6 +49,17 @@ export type WorkspaceBillingStatus = {
   reasons: string[];
 };
 
+export type WorkspacePlanDefinition = {
+  plan: WorkspaceRecord["plan"] | "enterprise";
+  label: string;
+  seatPriceMonthlyUsd: number | null;
+  memberLimit: number | null;
+  assistRequestLimit: number | null;
+  usageModel: "included" | "metered" | "custom";
+  summary: string;
+  features: string[];
+};
+
 const planPolicies: Record<WorkspaceRecord["plan"], WorkspacePlanPolicy> = {
   demo: {
     assistRequestLimit: 5,
@@ -61,6 +72,75 @@ const planPolicies: Record<WorkspaceRecord["plan"], WorkspacePlanPolicy> = {
     seatPriceMonthlyUsd: 24,
   },
 };
+
+const planCatalog: WorkspacePlanDefinition[] = [
+  {
+    plan: "demo",
+    label: "Local / OSS",
+    seatPriceMonthlyUsd: null,
+    memberLimit: planPolicies.demo.memberLimit,
+    assistRequestLimit: planPolicies.demo.assistRequestLimit,
+    usageModel: "included",
+    summary: "Run SpecForge locally or self-host it for internal rehearsal.",
+    features: [
+      "Workspace app + collab server",
+      "Local admin tools",
+      "Included demo assist quota",
+      `Up to ${planPolicies.demo.memberLimit} members in the default demo tier`,
+      "Bring your own operator workflow",
+    ],
+  },
+  {
+    plan: "pilot",
+    label: "Team SaaS",
+    seatPriceMonthlyUsd: planPolicies.pilot.seatPriceMonthlyUsd,
+    memberLimit: planPolicies.pilot.memberLimit,
+    assistRequestLimit: planPolicies.pilot.assistRequestLimit,
+    usageModel: "metered",
+    summary: "Managed multiplayer spec workspaces for product and engineering teams.",
+    features: [
+      "Hosted collaboration and persistence",
+      "Governed agent review workflow",
+      "Unlimited assist during pilot validation",
+      `$${planPolicies.pilot.seatPriceMonthlyUsd} seat-based billing preview`,
+      "Launch packet and starter handoff",
+    ],
+  },
+  {
+    plan: "enterprise",
+    label: "Enterprise",
+    seatPriceMonthlyUsd: null,
+    memberLimit: null,
+    assistRequestLimit: null,
+    usageModel: "custom",
+    summary: "Stronger audit, tenancy, and rollout support for larger organizations.",
+    features: [
+      "Advanced retention and governance",
+      "SSO / compliance roadmap",
+      "Dedicated support and rollout help",
+    ],
+  },
+];
+
+export function listWorkspacePlans() {
+  return planCatalog;
+}
+
+export function getWorkspacePlanDefinition(
+  plan: WorkspacePlanDefinition["plan"],
+): WorkspacePlanDefinition | null {
+  return planCatalog.find((entry) => entry.plan === plan) ?? null;
+}
+
+export function formatWorkspacePlanSeatPrice(
+  plan: Pick<WorkspacePlanDefinition, "plan" | "seatPriceMonthlyUsd">,
+) {
+  if (plan.seatPriceMonthlyUsd === null) {
+    return plan.plan === "demo" ? "Free" : "Custom";
+  }
+
+  return `$${plan.seatPriceMonthlyUsd}`;
+}
 
 export function getWorkspacePlanPolicy(plan: WorkspaceRecord["plan"]): WorkspacePlanPolicy {
   return planPolicies[plan];
