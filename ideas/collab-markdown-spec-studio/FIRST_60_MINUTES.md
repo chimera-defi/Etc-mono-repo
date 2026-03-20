@@ -7,27 +7,27 @@ Bring up the actual local SpecForge MVP, verify the contracts, and run the end-t
 ```bash
 cd ideas/collab-markdown-spec-studio
 
-pnpm install
+bun install
 cp web/.env.example web/.env.local
-pnpm state:reset
-pnpm contracts:validate
+bun run state:reset
+bun run contracts:validate
 
 # Terminal 1
-pnpm dev:web
+bun run dev:web
 
 # Terminal 2
-pnpm dev:collab
+bun run dev:collab
 
 # Verification
-pnpm lint
-pnpm test
-pnpm test:acceptance
-pnpm test:e2e
+bun run lint
+bun run test
+bun run test:acceptance
+bun run test:e2e
 ```
 
 ## Success Criteria (within 60 min)
 1. Web app loads locally and the collab server accepts room connections.
-2. Local state re-seeds from `fixtures/` after `pnpm state:reset`.
+2. Local state re-seeds from `fixtures/` after `bun run state:reset`.
 3. Contract JSON validates.
 4. Unit, acceptance, and browser tests pass.
 5. The app proves guided draft -> review -> decision -> export/handoff end to end.

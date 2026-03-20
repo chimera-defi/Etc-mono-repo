@@ -49,32 +49,32 @@ Current slice:
 ## Commands
 
 ```bash
-npm install
-npm run dev
-npm run test
-npm run lint
-npm run build
-npm run test:e2e
-npm run screenshot:demo
-npm run parity:status
-npm run parity:brief
-npm run parity:run:dry
-npm run parity:run:batch
-npm run test:cli
+bun install
+bun run dev
+bun run test
+bun run lint
+bun run build
+bun run test:e2e
+bun run screenshot:demo
+bun run parity:status
+bun run parity:brief
+bun run parity:run:dry
+bun run parity:run:batch
+bun run test:cli
 
 # separately
 cd ../collab-server
-npm install
-npm run dev
+bun install
+bun run dev
 
 # terminal-native guided wizard
 cd ..
-npm run specforge -- init --json --title "SpecForge CLI Draft" --problem "Keep spec creation reusable"
+bun run specforge -- init --json --title "SpecForge CLI Draft" --problem "Keep spec creation reusable"
 
 # or from the workspace root
 cd ..
 docker compose up --build
-npm run state:backup
+bun run state:backup
 ```
 
 ## Notes
@@ -90,10 +90,10 @@ npm run state:backup
 - The app also exposes `/api/parity/status` and `/api/parity/brief` so the backlog driver is visible inside the product, not only from the CLI.
 - The local parity runner lives at `../tools/specforge-parity-runner.mjs` and can drive bounded `codex exec` passes from the remaining backlog.
 - The runner is designed to land a runnable minimum extensible product first, then keep advancing toward scoped parity without repeated manual re-prompting.
-- `npm run parity:run:batch` runs a bounded multi-pass loop (`--until-clear --max-passes 3 --review-every 2`) so the backlog can advance without an unbounded nested session.
+- `bun run parity:run:batch` runs a bounded multi-pass loop (`--until-clear --max-passes 3 --review-every 2`) so the backlog can advance without an unbounded nested session.
 - In local demo mode, the `Local admin` panel can reset workspace documents and seed mock review activity for fast MVP testing.
 - In local mode, agent assist can reuse existing `codex` or `claude` CLI logins from the server runtime. Hosted mode should use server-side workspace credentials instead.
-- `npm run test:e2e` only runs the browser demo suite (`tests/demo.spec.ts`); engine-level acceptance coverage lives under `npm run test:acceptance`.
+- `bun run test:e2e` only runs the browser demo suite (`tests/demo.spec.ts`); engine-level acceptance coverage lives under `bun run test:acceptance`.
 - The runner also schedules periodic multipass review/refactor passes so the loop compacts context, refreshes handoff state, and records meta learnings.
 - Delivery loop endpoints:
   - `/api/parity/status`
