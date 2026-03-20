@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { spawn } from "node:child_process";
@@ -15,6 +15,7 @@ import {
   toIntentId,
 } from "../orchestrator/src/context.js";
 import { captureRepoState } from "../orchestrator/src/repo-state.js";
+import { runVerificationSuite } from "../orchestrator/src/verification.js";
 import {
   collectIntentIds,
   createEmptyLoopState,
@@ -22,6 +23,7 @@ import {
   findLatestRelevantClaim,
   findLatestRelevantIntent,
   findLatestRelevantSignal,
+  findLatestVerification,
   normalizeLoopState,
 } from "../orchestrator/src/loop-state.js";
 
@@ -293,6 +295,7 @@ async function runStatus() {
     review_every: loopState.review_every ?? 3,
     handoff_path: handoffPath,
     meta_learnings_path: metaLearningsPath,
+    latest_verification: findLatestVerification(loopState),
     next_item: remaining[0]?.text ?? null,
     remaining_items: remaining.map((item) => item.text),
   }, null, 2));
@@ -323,6 +326,7 @@ async function runContext() {
     review_every: loopState.review_every ?? 3,
     handoff_path: handoffPath,
     meta_learnings_path: metaLearningsPath,
+    latest_verification: findLatestVerification(loopState),
     source_of_truth: {
       spec: specPath,
       architecture: architecturePath,
@@ -351,6 +355,57 @@ async function runBrief() {
       metaLearningsPath,
     }),
   );
+}
+
+async function runVerification() {
+  const state = await readLoopState();
+  const startedAt = new Date().toISOString();
+  const verification = await runVerificationSuite(packRoot);
+  const finishedAt = new Date().toISOString();
+  const record = {
+    started_at: startedAt,
+    finished_at: finishedAt,
+    ok: verification.ok,
+    results: verification.results.map((result) => ({
+      command: result.command,
+      status: result.status,
+      stdout_tail: tailOutput(result.stdout, 1200),
+      stderr_tail: tailOutput(result.stderr, 1200),
+    })),
+  };
+
+  state.verifications.push(record);
+  state.updated_at = finishedAt;
+  await writeLoopState(state);
+  await writeRunnerHandoff({
+    updatedAt: finishedAt,
+    deliveryTarget: null,
+    status: verification.ok ? "verified" : "verification_failed",
+    nextItem: null,
+    summary: verification.ok
+      ? "Shared verification suite completed successfully."
+      : "Shared verification suite failed. Inspect the recorded command tails before continuing.",
+    resume: verification.ok
+      ? "Continue with the next bounded parity item."
+      : "Fix the failing verification command, then rerun the verification suite.",
+    prompt: null,
+  });
+  await writeMetaLearnings({
+    updatedAt: finishedAt,
+    deliveryTarget: null,
+    mode: "verification",
+    status: verification.ok ? "verified" : "verification_failed",
+    nextItem: null,
+    summary: verification.ok
+      ? "Shared verification suite completed successfully."
+      : "Shared verification suite failed. Inspect the recorded command tails before continuing.",
+  });
+
+  console.log(JSON.stringify(record, null, 2));
+
+  if (!verification.ok) {
+    process.exit(1);
+  }
 }
 
 async function runLoop(options) {
@@ -584,6 +639,11 @@ async function main() {
 
   if (options.command === "run") {
     await runLoop(options);
+    return;
+  }
+
+  if (options.command === "verify") {
+    await runVerification();
     return;
   }
 
