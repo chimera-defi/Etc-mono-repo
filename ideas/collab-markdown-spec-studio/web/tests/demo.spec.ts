@@ -70,9 +70,11 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
   await expect(page.getByTestId("copy-invite-note")).toBeVisible();
   await expect(page.getByTestId("share-access-note")).toContainText("Local demo access");
   const entitlementsResponse = await page.request.get("/api/workspace/entitlements");
+  const billingResponse = await page.request.get("/api/workspace/billing");
   const opsResponse = await page.request.get("/api/ops/summary");
   const backupsResponse = await page.request.get("/api/ops/backups");
   expect(entitlementsResponse.ok()).toBeTruthy();
+  expect(billingResponse.ok()).toBeTruthy();
   expect(opsResponse.ok()).toBeTruthy();
   expect(backupsResponse.ok()).toBeTruthy();
   expect(await entitlementsResponse.json()).toMatchObject({
@@ -85,6 +87,19 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
       members: expect.any(Object),
     }),
   });
+  expect(await billingResponse.json()).toMatchObject({
+    workspace: expect.objectContaining({
+      workspace_id: expect.any(String),
+      plan: expect.any(String),
+    }),
+    billing: expect.objectContaining({
+      plan: expect.any(String),
+    }),
+    status: expect.objectContaining({
+      upgradeRequired: expect.any(Boolean),
+      reasons: expect.any(Array),
+    }),
+  });
   expect(await opsResponse.json()).toMatchObject({
     workspace: expect.objectContaining({
       workspace_id: expect.any(String),
@@ -95,6 +110,7 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
     parity: expect.objectContaining({
       remaining_count: expect.any(Number),
     }),
+    alerts: expect.any(Array),
   });
   expect(await backupsResponse.json()).toMatchObject({
     backup_root: expect.any(String),
