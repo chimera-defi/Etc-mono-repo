@@ -93,3 +93,4 @@ bun run state:restore
 - Treat the launch packet as the final parity artifact: if export/handoff/execution diverge, rebuild the launch context first.
 - `bun run state:backup` snapshots local web state, collab state, and runner artifacts under `.backups/specforge/`.
 - `bun run state:restore` restores the latest snapshot by default, or a specific backup path if passed as an argument.
+- `GET /api/ops/backups` lists the latest local backup manifests so restore targets are visible from the app side too.

@@ -1489,6 +1489,36 @@ export async function listWorkspaceRecords(options?: StoreOptions) {
   }));
 }
 
+export async function updateWorkspacePlan(
+  workspaceId: string,
+  plan: WorkspaceRecord["plan"],
+  options?: StoreOptions,
+) {
+  const database = await getDatabase(options);
+  const { dbPath } = resolveOptions(options);
+  const result = await database.query<WorkspaceRow>(
+    `UPDATE workspaces
+    SET plan = $2
+    WHERE workspace_id = $1
+    RETURNING workspace_id, name, plan, created_at`,
+    [workspaceId, plan],
+  );
+
+  const row = result.rows[0];
+  if (!row) {
+    throw new Error(`Workspace ${workspaceId} not found`);
+  }
+
+  await persistSnapshot(database, dbPath);
+
+  return {
+    workspace_id: row.workspace_id,
+    name: row.name,
+    plan: row.plan,
+    created_at: row.created_at,
+  };
+}
+
 export async function listWorkspaceMemberships(workspaceId: string, options?: StoreOptions) {
   const database = await getDatabase(options);
   const result = await database.query<WorkspaceMemberRow>(
