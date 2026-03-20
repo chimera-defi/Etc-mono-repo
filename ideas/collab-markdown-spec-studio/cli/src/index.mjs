@@ -23,6 +23,7 @@ import {
   findLatestRelevantSignal,
   normalizeLoopState,
 } from "../../orchestrator/src/loop-state.js";
+import { runVerificationSuite } from "../../orchestrator/src/verification.js";
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const packRoot = path.resolve(scriptDir, "..", "..");
@@ -104,8 +105,9 @@ async function runTui() {
     { id: "2", label: "Backlog status", action: "status" },
     { id: "3", label: "Current context", action: "context" },
     { id: "4", label: "Runner artifacts", action: "artifacts" },
-    { id: "5", label: "Remaining backlog", action: "backlog" },
-    { id: "6", label: "Exit", action: "exit" },
+    { id: "5", label: "Run verification", action: "verify" },
+    { id: "6", label: "Remaining backlog", action: "backlog" },
+    { id: "7", label: "Exit", action: "exit" },
   ];
 
   try {
@@ -181,6 +183,21 @@ async function runTui() {
             artifactsPayload.meta_learnings.preview
               ? `Meta learnings preview:\n${artifactsPayload.meta_learnings.preview}`
               : "Meta learnings preview: unavailable",
+            "",
+          ].join("\n"),
+        );
+        continue;
+      }
+
+      if (selected.action === "verify") {
+        const verification = await runVerificationSuite(packRoot);
+        process.stdout.write(
+          [
+            "",
+            "SpecForge verification",
+            ...verification.results.map(
+              (result) => `- ${result.command}: ${result.status === 0 ? "ok" : "failed"}`,
+            ),
             "",
           ].join("\n"),
         );
@@ -297,6 +314,7 @@ function printHelp() {
       "  specforge status [--json]",
       "  specforge context [--json]",
       "  specforge artifacts [--json]",
+      "  specforge verify [--json]",
       "  specforge backlog [--json]",
       "  specforge tui",
       "  /specforge [same flags as init]",
@@ -306,6 +324,7 @@ function printHelp() {
       "  specforge status --json",
       "  specforge context",
       "  specforge artifacts",
+      "  specforge verify",
       "  specforge backlog --json",
       "  specforge tui",
     ].join("\n"),
@@ -338,7 +357,8 @@ async function run() {
     options.command === "status" ||
     options.command === "context" ||
     options.command === "artifacts" ||
-    options.command === "backlog"
+    options.command === "backlog" ||
+    options.command === "verify"
   ) {
     const backlog = await loadBacklog(tasksPath);
     const loopState = await readLoopState();
@@ -374,6 +394,25 @@ async function run() {
         }\n`,
       );
       return;
+    }
+
+    if (options.command === "verify") {
+      const verification = await runVerificationSuite(packRoot);
+      process.stdout.write(
+        `${
+          options.json
+            ? JSON.stringify(verification, null, 2)
+            : [
+                "SpecForge verification",
+                "",
+                ...verification.results.map(
+                  (result) => `- ${result.command}: ${result.status === 0 ? "ok" : "failed"}`,
+                ),
+              ].join("\n")
+        }\n`,
+      );
+
+      process.exit(verification.ok ? 0 : 1);
     }
 
     if (options.command === "status") {
