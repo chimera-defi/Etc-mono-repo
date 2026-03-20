@@ -69,6 +69,31 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
   );
   await expect(page.getByTestId("copy-invite-note")).toBeVisible();
   await expect(page.getByTestId("share-access-note")).toContainText("Local demo access");
+  const entitlementsResponse = await page.request.get("/api/workspace/entitlements");
+  const opsResponse = await page.request.get("/api/ops/summary");
+  expect(entitlementsResponse.ok()).toBeTruthy();
+  expect(opsResponse.ok()).toBeTruthy();
+  expect(await entitlementsResponse.json()).toMatchObject({
+    workspace: expect.objectContaining({
+      workspace_id: expect.any(String),
+      plan: expect.any(String),
+    }),
+    quotas: expect.objectContaining({
+      assist: expect.any(Object),
+      members: expect.any(Object),
+    }),
+  });
+  expect(await opsResponse.json()).toMatchObject({
+    workspace: expect.objectContaining({
+      workspace_id: expect.any(String),
+    }),
+    persistence: expect.objectContaining({
+      backend: expect.any(String),
+    }),
+    parity: expect.objectContaining({
+      remaining_count: expect.any(Number),
+    }),
+  });
 
   await page.goto(`${page.url().split("?")[0]}?document=${new URL(page.url()).searchParams.get("document")}&stage=decide`);
   await expect(page.getByTestId("patch-queue")).toContainText("task_export_change");
