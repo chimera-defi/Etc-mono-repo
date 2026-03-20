@@ -96,3 +96,18 @@ if (
 ) {
   throw new Error("SpecForge CLI artifacts command failed.");
 }
+
+const backupsResult = spawnSync(process.execPath, [cliEntry, "backups", "--json"], {
+  encoding: "utf8",
+});
+
+if (backupsResult.status !== 0) {
+  process.stderr.write(backupsResult.stderr);
+  process.exit(backupsResult.status ?? 1);
+}
+
+const backups = JSON.parse(backupsResult.stdout);
+
+if (typeof backups?.backup_root !== "string" || !Array.isArray(backups?.backups)) {
+  throw new Error("SpecForge CLI backups command failed.");
+}
