@@ -77,6 +77,8 @@ Quick local validation target from repo root:
 make bench-smoke
 ```
 
+**Important:** `make bench-smoke`, `bench/ops/reproduce_pr245.sh --smoke`, and tiny one-off local probes (including qwen/glm sanity checks) are **operator smoke/preflight checks**, not canonical benchmark evidence. Use them to verify wiring, local model availability, routing, and "does this run at all?" behavior. Use `core/run_benchmark.py` and/or `selfopt/benchmark_supervisor.py` for benchmark results you want to treat as real comparable benchmark data.
+
 ### Route Attribution Verification
 
 After running `benchmark_supervisor.py`, verify which model actually served each job:
