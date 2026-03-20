@@ -655,6 +655,9 @@ export default async function Home({ searchParams }: Props) {
                   <Link href="/api/ops/summary" className={styles.secondaryLink}>
                     Ops summary
                   </Link>
+                  <Link href="/api/ops/incidents" className={styles.secondaryLink}>
+                    Incidents
+                  </Link>
                   <Link href="/api/ops/backups" className={styles.secondaryLink}>
                     Backup index
                   </Link>

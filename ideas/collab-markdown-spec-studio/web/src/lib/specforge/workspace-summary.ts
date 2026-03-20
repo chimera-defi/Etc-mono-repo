@@ -223,3 +223,19 @@ export async function loadWorkspaceOpsSummary(workspaceId: string) {
     },
   };
 }
+
+export async function loadWorkspaceIncidents(workspaceId: string) {
+  const summary = await loadWorkspaceOpsSummary(workspaceId);
+
+  return {
+    workspace: summary.workspace,
+    incidents: summary.alerts.map((alert) => ({
+      ...alert,
+      workspace_id: summary.workspace.workspace_id,
+      detected_at: new Date().toISOString(),
+    })),
+    verification: summary.verification,
+    backups: summary.backups,
+    persistence: summary.persistence,
+  };
+}

@@ -43,6 +43,7 @@
 - [x] Workspace member creation now blocks duplicate GitHub logins instead of silently creating conflicting pilot memberships.
 - [x] Pilot workspaces now require GitHub-linked member invites, while the workspace UI exposes clearer local-vs-pilot invite guidance.
 - [x] Metrics, ops summary, and the workspace UI now expose a simple design-partner funnel: activation, assist usage, collaboration, review, and launch preparation.
+- [x] Workspace incident warnings now have a dedicated `/api/ops/incidents` surface instead of living only inside the broader ops summary payload.
 - [x] Delivery loop with intents, claims, context, handoff artifact, and meta-learnings.
 - [x] Shared orchestrator backlog parsing now feeds both the parity runner and the in-product delivery-loop panel.
 - [x] Runner status/brief/context now stay aligned with the live backlog instead of stale historical intents.

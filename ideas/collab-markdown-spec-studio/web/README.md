@@ -50,6 +50,7 @@ Current slice:
 - workspace entitlements endpoint at `/api/workspace/entitlements`
 - workspace billing endpoint at `/api/workspace/billing`
 - workspace ops summary endpoint at `/api/ops/summary`
+- workspace incident feed endpoint at `/api/ops/incidents`
 - workspace backup index endpoint at `/api/ops/backups`
 - pricing anchors benchmarked in `../PRICING_BENCHMARKS.md`
 
@@ -105,6 +106,7 @@ bun run state:backup
 - The workspace sidebar now also links to `/api/workspace/entitlements` and `/api/ops/summary` so local SaaS rehearsal can inspect quotas, billing preview, parity state, and persistence in one place.
 - `/api/workspace/billing` now exposes upgrade-required reasons, recommended plan, and the current billing preview as a cleaner entitlement handoff for future payment integration.
 - `/api/metrics`, `/api/ops/summary`, and the workspace sidebar now surface a simple design-partner funnel across activation, assist usage, collaboration, review, and launch preparation.
+- `/api/ops/incidents` now exposes the current warning set for the active workspace so local hosted-ops rehearsal has a clearer incident-style surface.
 - `/api/ops/summary` now includes basic warning alerts for missing backups, missing verification, and upgrade-required pressure so local hosted-ops rehearsal is easier to review.
 - The workspace session panel can switch the active workspace plan between `demo` and `pilot` locally, which makes quota and billing-preview testing much faster.
 - `bun run verify` is the canonical full local gate, and `specforge verify` exposes the same suite from the agent-native CLI surface.
@@ -128,6 +130,7 @@ bun run state:backup
   - `/api/health`
   - `/api/metrics`
   - `/api/ops/summary`
+  - `/api/ops/incidents`
   - `/api/ops/backups`
   - `/api/workspace/billing`
   - `/api/workspace/entitlements`
