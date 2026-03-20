@@ -3,7 +3,10 @@ import { z } from "zod";
 
 import { suggestGuidedSpecInput } from "@/lib/specforge/agent-assist";
 import { getAssistQuotaState } from "@/lib/specforge/plans";
-import { getCurrentWorkspaceSession } from "@/lib/specforge/session";
+import {
+  getCurrentWorkspaceSession,
+  getPreferredAssistTool,
+} from "@/lib/specforge/session";
 import {
   getWorkspaceUsageSummary,
   listWorkspaceRecords,
@@ -18,6 +21,7 @@ const requestSchema = z.object({
 export async function POST(request: Request) {
   const payload = requestSchema.parse(await request.json());
   const session = await getCurrentWorkspaceSession();
+  const preferredTool = await getPreferredAssistTool();
   const actor = session.actor;
   const [workspaceRecords, usage] = await Promise.all([
     listWorkspaceRecords(),
@@ -46,7 +50,8 @@ export async function POST(request: Request) {
 
   const suggestion = await suggestGuidedSpecInput({
     brief: payload.brief,
-    requestedTool: payload.tool,
+    requestedTool:
+      payload.tool && payload.tool !== "auto" ? payload.tool : preferredTool,
   });
 
   await recordWorkspaceEvent({

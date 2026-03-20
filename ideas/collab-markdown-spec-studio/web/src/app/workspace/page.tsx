@@ -9,6 +9,7 @@ import {
   createPatchAction,
   decidePatchAction,
   resolveCommentThreadAction,
+  setAssistRuntimePreferenceAction,
   switchWorkspaceActorAction,
 } from "../actions";
 import { DocumentWorkspace } from "../document-workspace";
@@ -20,6 +21,7 @@ import type { StoredPatch } from "@/lib/specforge/contracts";
 import { readBacklogState } from "@/lib/specforge/backlog";
 import {
   getCurrentWorkspaceSession,
+  getPreferredAssistTool,
   isGitHubAuthConfigured,
   listWorkspaceActors,
 } from "@/lib/specforge/session";
@@ -305,6 +307,7 @@ export default async function Home({ searchParams }: Props) {
   );
   const workspaceActors = await listWorkspaceActors();
   const activeWorkspaceSession = await getCurrentWorkspaceSession();
+  const preferredAssistTool = await getPreferredAssistTool();
   const activeWorkspaceActor = activeWorkspaceSession.actor;
   const githubAuthConfigured = isGitHubAuthConfigured();
   const backlogState = await readBacklogState();
@@ -464,7 +467,47 @@ export default async function Home({ searchParams }: Props) {
                         ? "unlimited"
                         : `${assistQuota.used}/${assistQuota.limit} used`}
                     </span>
+                    <span>
+                      Assist runtime:{" "}
+                      {preferredAssistTool === "auto"
+                        ? "auto-select"
+                        : preferredAssistTool.replaceAll("_", " ")}
+                    </span>
                   </div>
+                  <details className={styles.wizardSection}>
+                    <summary className={styles.disclosureSummary}>
+                      <span>Assist runtime</span>
+                      <span>
+                        {preferredAssistTool === "auto"
+                          ? "auto-select"
+                          : preferredAssistTool.replaceAll("_", " ")}
+                      </span>
+                    </summary>
+                    <div className={styles.disclosureBody}>
+                      <p className={styles.context}>
+                        Local testing can reuse whichever CLI you are already logged into. Save a
+                        default runtime here and the guided draft builder will start with that
+                        choice instead of resetting to auto every time.
+                      </p>
+                      <form action={setAssistRuntimePreferenceAction} className={styles.form}>
+                        <input type="hidden" name="return_to" value={actorReturnTo} />
+                        <label>
+                          Preferred assist runtime
+                          <select
+                            name="assist_tool"
+                            className={styles.selectInput}
+                            defaultValue={preferredAssistTool}
+                          >
+                            <option value="auto">Auto-select the best local assist</option>
+                            <option value="codex_cli">Codex CLI</option>
+                            <option value="claude_cli">Claude Code CLI</option>
+                            <option value="heuristic">Built-in fallback</option>
+                          </select>
+                        </label>
+                        <button type="submit">Save assist preference</button>
+                      </form>
+                    </div>
+                  </details>
                   <details className={styles.wizardSection}>
                     <summary className={styles.disclosureSummary}>
                       <span>Workspace members</span>
@@ -815,6 +858,7 @@ export default async function Home({ searchParams }: Props) {
                 <GuidedDraftBuilder
                   toolStatuses={assistToolStatuses}
                   cliAssistEnabled={activeWorkspaceSession.authMode === "local"}
+                  preferredTool={preferredAssistTool}
                 />
               </section>
 
