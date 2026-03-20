@@ -19,7 +19,7 @@ import { LocalAdminPanel } from "../local-admin-panel";
 import { ShareDocumentPanel } from "../share-document-panel";
 import styles from "../page.module.css";
 import { getAgentAssistToolStatuses } from "@/lib/specforge/agent-assist";
-import type { StoredPatch } from "@/lib/specforge/contracts";
+import type { DocumentRecord, StoredPatch } from "@/lib/specforge/contracts";
 import { readBacklogState } from "@/lib/specforge/backlog";
 import {
   getCurrentWorkspaceSession,
@@ -33,21 +33,9 @@ import {
   type StarterTemplateId,
 } from "@/lib/specforge/handoff";
 import { heroVariantOrder, heroVariants, type HeroVariant } from "@/lib/specforge/marketing";
-import {
-  getAssistQuotaState,
-  getMemberQuotaState,
-  getWorkspaceBillingPreview,
-} from "@/lib/specforge/plans";
 import { listShowcaseExamples } from "@/lib/specforge/showcase";
-import {
-  getWorkspaceActivityMetrics,
-  getWorkspaceUsageSummary,
-  listAuditEvents,
-  listDocuments,
-  listWorkspaceMemberships,
-  listWorkspaceRecords,
-  type CommentThreadRecord,
-} from "@/lib/specforge/store";
+import { listAuditEvents, type CommentThreadRecord } from "@/lib/specforge/store";
+import { loadWorkspaceSummary } from "@/lib/specforge/workspace-summary";
 import { buildDocumentLaunchContext, buildLaunchPacket } from "@/lib/specforge/workflow";
 
 export const dynamic = "force-dynamic";
@@ -132,7 +120,7 @@ function renderDiffLines(before: string, after: string) {
 }
 
 function summarizeBlocks(
-  activeDocument: NonNullable<Awaited<ReturnType<typeof listDocuments>>[number]>,
+  activeDocument: DocumentRecord,
   patches: StoredPatch[],
   commentThreads: CommentThreadRecord[],
 ) {
@@ -328,29 +316,22 @@ export default async function Home({ searchParams }: Props) {
   const activeWorkspaceActor = activeWorkspaceSession.actor;
   const githubAuthConfigured = isGitHubAuthConfigured();
   const backlogState = await readBacklogState();
-  const [workspaceRecords, activeWorkspaceMembers, workspaceActivity, workspaceUsage, documents, assistToolStatuses] =
+  const [workspaceSummary, assistToolStatuses] =
     await Promise.all([
-      listWorkspaceRecords(),
-      listWorkspaceMemberships(activeWorkspaceActor.workspace_id),
-      getWorkspaceActivityMetrics(activeWorkspaceActor.workspace_id),
-      getWorkspaceUsageSummary(activeWorkspaceActor.workspace_id),
-      listDocuments({ workspaceId: activeWorkspaceActor.workspace_id }),
+      loadWorkspaceSummary(activeWorkspaceActor.workspace_id),
       getAgentAssistToolStatuses(),
     ]);
-  const activeWorkspace =
-    workspaceRecords.find((workspace) => workspace.workspace_id === activeWorkspaceActor.workspace_id) ??
-    {
-      workspace_id: activeWorkspaceActor.workspace_id,
-      name: "SpecForge Demo Workspace",
-      plan: "demo" as const,
-      created_at: new Date(0).toISOString(),
-    };
-  const assistQuota = getAssistQuotaState(activeWorkspace, workspaceUsage);
-  const memberQuota = getMemberQuotaState(activeWorkspace, activeWorkspaceMembers.length);
-  const billingPreview = getWorkspaceBillingPreview(
+  const {
+    workspaceRecords,
     activeWorkspace,
-    activeWorkspaceMembers.length,
-  );
+    activeWorkspaceMembers,
+    workspaceActivity,
+    workspaceUsage,
+    documents,
+    assistQuota,
+    memberQuota,
+    billingPreview,
+  } = workspaceSummary;
   const activeDocumentId =
     documents.find((document) => document.document_id === requestedDocumentId)?.document_id ??
     documents[0]?.document_id ??
@@ -812,8 +793,14 @@ export default async function Home({ searchParams }: Props) {
                   <Link href="/api/health" className={styles.secondaryLink}>
                     Web health
                   </Link>
+                  <Link href="/api/ops/summary" className={styles.secondaryLink}>
+                    Ops summary
+                  </Link>
                   <Link href="/api/metrics" className={styles.secondaryLink}>
                     Web metrics
+                  </Link>
+                  <Link href="/api/workspace/entitlements" className={styles.secondaryLink}>
+                    Entitlements
                   </Link>
                   <Link href="http://127.0.0.1:4322/health" className={styles.secondaryLink}>
                     Collab health
