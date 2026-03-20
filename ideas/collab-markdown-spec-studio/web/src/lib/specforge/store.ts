@@ -13,6 +13,7 @@ import {
 import { deriveDocumentShape } from "./markdown";
 import { createDocumentStore } from "./store-documents";
 import { createWorkspaceStore } from "./store-workspaces";
+import { DEFAULT_WORKSPACE_RECORD, WORKSPACE_MEMBERS_SEED } from "./workspace-seed-data";
 
 export type StoreOptions = {
   backend?: "pglite" | "postgres";
@@ -984,37 +985,9 @@ async function seedDatabase(database: QuerySession, fixturesDir: string) {
       plan,
       created_at
     ) VALUES ($1, $2, $3, $4)`,
-    [workspace.workspace_id, "SpecForge Demo Workspace", "demo", now],
+    [workspace.workspace_id, DEFAULT_WORKSPACE_RECORD.name, DEFAULT_WORKSPACE_RECORD.plan, now],
   );
-  for (const member of [
-    {
-      membership_id: "membership_owner",
-      actor_id: "workspace_owner",
-      actor_type: "human",
-      name: "Founder",
-      role: "Workspace owner",
-      color: "#0f766e",
-      github_login: "chimera-defi",
-    },
-    {
-      membership_id: "membership_reviewer",
-      actor_id: "specforge_reviewer",
-      actor_type: "human",
-      name: "Reviewer",
-      role: "Product reviewer",
-      color: "#1d4ed8",
-      github_login: null,
-    },
-    {
-      membership_id: "membership_operator",
-      actor_id: "specforge_operator",
-      actor_type: "human",
-      name: "Agent operator",
-      role: "Build operator",
-      color: "#c2410c",
-      github_login: null,
-    },
-  ]) {
+  for (const member of WORKSPACE_MEMBERS_SEED) {
     await database.query(
       `INSERT INTO workspace_members (
         membership_id,
@@ -1185,21 +1158,17 @@ async function ensureWorkspaceSeedData(database: QuerySession) {
         plan,
         created_at
       ) VALUES ($1, $2, $3, $4)`,
-      [workspaceId, "SpecForge Demo Workspace", "demo", now],
+      [workspaceId, DEFAULT_WORKSPACE_RECORD.name, DEFAULT_WORKSPACE_RECORD.plan, now],
     );
   }
 
-  for (const member of [
-    ["membership_owner", "workspace_owner", "human", "Founder", "Workspace owner", "#0f766e", "chimera-defi"],
-    ["membership_reviewer", "specforge_reviewer", "human", "Reviewer", "Product reviewer", "#1d4ed8", null],
-    ["membership_operator", "specforge_operator", "human", "Agent operator", "Build operator", "#c2410c", null],
-  ]) {
+  for (const member of WORKSPACE_MEMBERS_SEED) {
     const existingMember = await database.query<{ membership_id: string }>(
       `SELECT membership_id
       FROM workspace_members
       WHERE workspace_id = $1 AND actor_id = $2
       LIMIT 1`,
-      [workspaceId, member[1]],
+      [workspaceId, member.actor_id],
     );
 
     if (existingMember.rows.length === 0) {
@@ -1215,7 +1184,17 @@ async function ensureWorkspaceSeedData(database: QuerySession) {
           github_login,
           created_at
         ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
-        [member[0], workspaceId, member[1], member[2], member[3], member[4], member[5], member[6], now],
+        [
+          member.membership_id,
+          workspaceId,
+          member.actor_id,
+          member.actor_type,
+          member.name,
+          member.role,
+          member.color,
+          member.github_login ?? null,
+          now,
+        ],
       );
     }
   }
