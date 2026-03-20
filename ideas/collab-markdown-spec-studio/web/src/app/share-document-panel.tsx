@@ -7,11 +7,38 @@ import styles from "./page.module.css";
 type Props = {
   shareUrl: string;
   documentTitle?: string | null;
+  workspaceName?: string | null;
   requiresMembership: boolean;
 };
 
-export function ShareDocumentPanel({ shareUrl, documentTitle, requiresMembership }: Props) {
+function buildInviteNote({
+  shareUrl,
+  documentTitle,
+  workspaceName,
+  requiresMembership,
+}: Props) {
+  const target = documentTitle ? `"${documentTitle}"` : "this spec";
+  const workspaceLabel = workspaceName ? ` in ${workspaceName}` : "";
+  const accessNote = requiresMembership
+    ? "You will need GitHub sign-in and workspace membership before the link opens."
+    : "Local demo access still uses the current workspace actor/session.";
+
+  return [
+    `Join me in SpecForge${workspaceLabel}.`,
+    `I am sharing ${target} so you can review the same multiplayer spec state.`,
+    shareUrl,
+    accessNote,
+  ].join("\n");
+}
+
+export function ShareDocumentPanel({
+  shareUrl,
+  documentTitle,
+  workspaceName,
+  requiresMembership,
+}: Props) {
   const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
+  const [inviteState, setInviteState] = useState<"idle" | "copied" | "failed">("idle");
 
   async function copyShareUrl() {
     try {
@@ -19,6 +46,17 @@ export function ShareDocumentPanel({ shareUrl, documentTitle, requiresMembership
       setCopyState("copied");
     } catch {
       setCopyState("failed");
+    }
+  }
+
+  async function copyInviteNote() {
+    try {
+      await navigator.clipboard.writeText(
+        buildInviteNote({ shareUrl, documentTitle, workspaceName, requiresMembership }),
+      );
+      setInviteState("copied");
+    } catch {
+      setInviteState("failed");
     }
   }
 
@@ -40,6 +78,11 @@ export function ShareDocumentPanel({ shareUrl, documentTitle, requiresMembership
           {copyState === "copied" ? "Copied" : "Copy share URL"}
         </button>
       </div>
+      <div className={styles.shareRow}>
+        <button type="button" onClick={copyInviteNote} data-testid="copy-invite-note">
+          {inviteState === "copied" ? "Invite copied" : "Copy invite note"}
+        </button>
+      </div>
       <div className={styles.actorCard} data-testid="share-access-note">
         <strong>{requiresMembership ? "Access is membership-gated" : "Local demo access"}</strong>
         <span>
@@ -48,8 +91,10 @@ export function ShareDocumentPanel({ shareUrl, documentTitle, requiresMembership
             : "Local demo mode keeps the same URL shape, but access is controlled by the local workspace actor/session."}
         </span>
       </div>
-      {copyState === "failed" ? (
-        <p className={styles.context}>Clipboard access failed. Copy the URL manually from the field above.</p>
+      {copyState === "failed" || inviteState === "failed" ? (
+        <p className={styles.context}>
+          Clipboard access failed. Copy the share URL manually from the field above.
+        </p>
       ) : null}
     </div>
   );
