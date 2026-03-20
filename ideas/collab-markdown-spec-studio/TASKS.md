@@ -61,6 +61,13 @@
 - [ ] Expand starter generation only after design-partner validation proves which templates matter.
 - [ ] Decide whether the first commercial motion is hosted SaaS only, self-hosted OSS plus hosted SaaS, or OSS-first.
 
+## Meta Learnings To Keep Applying
+- [x] Treat placeholder fallback content as real product debt and remove it during review passes.
+- [x] Keep pricing, plans, and entitlements on one shared contract surface.
+- [x] Split large UI routes into panel components before they become unreadable.
+- [x] Split persistence by domain before store changes become high-risk.
+- [x] Run the final verification gate sequentially to avoid fake Playwright or collab port regressions.
+
 ## Open Product Questions
 - [ ] Should the first terminal-native product surface be a CLI wizard, a fuller TUI, or a slash-command adapter on top of existing agent CLIs?
 - [ ] Which second template is worth supporting after the current constrained starter set?
