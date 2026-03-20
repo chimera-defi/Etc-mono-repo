@@ -81,6 +81,8 @@ export default async function Home({ searchParams }: Props) {
       ? "This workspace has reached its current member limit."
       : resolvedSearchParams.membership_error === "duplicate"
         ? "That GitHub login is already a workspace member."
+        : resolvedSearchParams.membership_error === "github_required"
+          ? "Pilot workspaces require a GitHub login for each invited member."
       : null;
   const availableTemplates = listTemplates();
   const selectedTemplateId = resolveStarterTemplateId(
@@ -335,7 +337,7 @@ export default async function Home({ searchParams }: Props) {
                       </ul>
                       {membershipError ? (
                         <div className={styles.actorCard}>
-                          <strong>Membership limit reached</strong>
+                          <strong>Membership issue</strong>
                           <span>{membershipError}</span>
                         </div>
                       ) : null}
@@ -347,16 +349,34 @@ export default async function Home({ searchParams }: Props) {
                         </label>
                         <label>
                           Role
-                          <input name="role" placeholder="Reviewer" required />
+                          <select
+                            name="role"
+                            className={styles.selectInput}
+                            defaultValue="Reviewer"
+                          >
+                            <option value="Reviewer">Reviewer</option>
+                            <option value="Engineer">Engineer</option>
+                            <option value="Operator">Operator</option>
+                            <option value="Founder">Founder</option>
+                          </select>
                         </label>
                         <label>
                           GitHub login
-                          <input name="github_login" placeholder="jordan-dev" />
+                          <input
+                            name="github_login"
+                            placeholder="jordan-dev"
+                            required={activeWorkspace.plan === "pilot"}
+                          />
                         </label>
                         <label>
                           Color
                           <input name="color" type="color" defaultValue="#475569" />
                         </label>
+                        <p className={styles.context}>
+                          {activeWorkspace.plan === "pilot"
+                            ? "Pilot invites are membership-gated. Add the teammate's GitHub login, then share the spec URL."
+                            : "Local demo mode can add members without GitHub-linked pilot access."}
+                        </p>
                         <button type="submit">Add workspace member</button>
                       </form>
                     </div>
@@ -495,6 +515,19 @@ export default async function Home({ searchParams }: Props) {
                   <strong>{workspaceSummary.workspaceBehavior.patch_decided_count}</strong>
                   <span>patch decisions</span>
                 </div>
+              </div>
+              <div className={styles.actorCard}>
+                <strong>Design-partner funnel</strong>
+                <span>Activated: {workspaceSummary.designPartnerSignals.activated ? "yes" : "no"}</span>
+                <span>Assisted: {workspaceSummary.designPartnerSignals.assisted ? "yes" : "no"}</span>
+                <span>
+                  Collaborating: {workspaceSummary.designPartnerSignals.collaborating ? "yes" : "no"}
+                </span>
+                <span>Reviewed: {workspaceSummary.designPartnerSignals.reviewed ? "yes" : "no"}</span>
+                <span>
+                  Launch prepared:{" "}
+                  {workspaceSummary.designPartnerSignals.launchPrepared ? "yes" : "no"}
+                </span>
               </div>
               {workspaceSummary.billingStatus.upgradeRequired ? (
                 <div className={styles.actorCard}>

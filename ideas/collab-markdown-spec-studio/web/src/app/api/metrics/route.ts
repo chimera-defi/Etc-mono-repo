@@ -39,6 +39,16 @@ export async function GET(request: Request) {
       );
 
       return {
+        activated: workspaceDocuments.length > 0,
+        assisted: usage.assist_request_count > 0,
+        collaborating:
+          behavior.member_added_count > 0 || activity.commented_document_count > 0,
+        reviewed:
+          activity.reviewed_document_count > 0 || behavior.patch_decided_count > 0,
+        launch_prepared:
+          usage.handoff_view_count > 0 ||
+          usage.execution_view_count > 0 ||
+          usage.launch_packet_view_count > 0,
         workspace_id: workspace.workspace_id,
         member_count: (await listWorkspaceMemberships(workspace.workspace_id)).length,
         document_count: workspaceDocuments.length,
@@ -130,6 +140,14 @@ export async function GET(request: Request) {
         0,
       ),
     },
+    design_partner: {
+      activated_workspace_count: workspaceCounts.filter((item) => item.activated).length,
+      assisted_workspace_count: workspaceCounts.filter((item) => item.assisted).length,
+      collaborating_workspace_count: workspaceCounts.filter((item) => item.collaborating).length,
+      reviewed_workspace_count: workspaceCounts.filter((item) => item.reviewed).length,
+      launch_prepared_workspace_count: workspaceCounts.filter((item) => item.launch_prepared)
+        .length,
+    },
     workspaces: workspaces.map((workspace) => ({
       workspace_id: workspace.workspace_id,
       name: workspace.name,
@@ -168,6 +186,18 @@ export async function GET(request: Request) {
           patch_decided_count: 0,
           clarification_answered_count: 0,
         },
+      design_partner: (() => {
+        const workspaceSummary = workspaceCounts.find(
+          (item) => item.workspace_id === workspace.workspace_id,
+        );
+        return {
+          activated: workspaceSummary?.activated ?? false,
+          assisted: workspaceSummary?.assisted ?? false,
+          collaborating: workspaceSummary?.collaborating ?? false,
+          reviewed: workspaceSummary?.reviewed ?? false,
+          launch_prepared: workspaceSummary?.launch_prepared ?? false,
+        };
+      })(),
     })),
   };
 

@@ -20,6 +20,7 @@ The current branch also includes a first explicit entitlement layer:
 - seat-based billing preview,
 - feature-flag entitlements,
 - behavior instrumentation for membership and workflow activation signals,
+- a design-partner funnel summary across activation, collaboration, review, and launch preparation,
 - a workspace billing summary endpoint with upgrade-required reasons,
 - and ops-summary alerts for missing backups, missing verification, or upgrade pressure.
 

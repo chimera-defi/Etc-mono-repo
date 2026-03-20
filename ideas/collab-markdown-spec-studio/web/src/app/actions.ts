@@ -321,6 +321,12 @@ export async function createWorkspaceMemberAction(formData: FormData) {
     redirect(`${blockedUrl.pathname}${blockedUrl.search}`);
   }
 
+  if (workspace.plan === "pilot" && !githubLogin) {
+    const blockedUrl = new URL(returnTo, "http://specforge.local");
+    blockedUrl.searchParams.set("membership_error", "github_required");
+    redirect(`${blockedUrl.pathname}${blockedUrl.search}`);
+  }
+
   await createWorkspaceMembership({
     workspace_id: currentActor.workspace_id,
     name: String(formData.get("name") ?? "New member"),
