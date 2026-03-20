@@ -119,3 +119,9 @@
 - Why: agent-heavy teams already work in terminals; the same guided spec workflow should be reachable there without requiring the browser first.
 - Status (current branch): a first guided `specforge` CLI wizard is shipped; richer TUI and slash-command ergonomics remain follow-on work.
 - Tradeoff: terminal ergonomics must stay consistent with the web product or this becomes another drift source.
+
+## Decision 23: Canonical Share URLs with Membership-Gated Access
+- Choice: share specs via stable workspace URLs, not anonymous bearer links.
+- Why: SpecForge is collaborative SaaS software, so access should remain controlled by workspace membership and GitHub-authenticated identity rather than leaked URLs.
+- Status (current branch): membership management exists, and the workspace UI should expose a copyable canonical URL plus the membership requirement alongside it.
+- Tradeoff: sharing is slightly less frictionless than a public doc link, but it is safer and aligns with pilot workspace permissions.
