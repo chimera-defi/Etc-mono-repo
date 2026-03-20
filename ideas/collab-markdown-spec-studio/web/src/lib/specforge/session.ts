@@ -7,6 +7,8 @@ import { WORKSPACE_MEMBERS_SEED } from "../../tests/fixtures/workspace-seed-data
 import {
   getWorkspaceMembershipByActorId,
   getWorkspaceMembershipForUser,
+  listUserWorkspaces,
+  listWorkspaceRecords,
   listWorkspaceMemberships,
 } from "./store";
 
@@ -120,6 +122,27 @@ export async function listWorkspaceActors() {
 
 export function listWorkspaces() {
   return workspaces;
+}
+
+export async function listVisibleWorkspaces() {
+  const session = await getCurrentWorkspaceSession();
+
+  if (session.authMode === "github" && session.githubLogin) {
+    try {
+      const memberships = await listUserWorkspaces(session.githubLogin);
+      if (memberships.length > 0) {
+        return memberships;
+      }
+    } catch {
+      // Fall back to static/local records below.
+    }
+  }
+
+  try {
+    return await listWorkspaceRecords();
+  } catch {
+    return listWorkspaces();
+  }
 }
 
 export function getWorkspaceRecord(workspaceId: string) {
@@ -291,6 +314,39 @@ export async function setCurrentWorkspaceActor(actorId: string) {
     maxAge: 60 * 60 * 24 * 30,
   });
   return actor;
+}
+
+export async function setCurrentWorkspace(workspaceId: string) {
+  const session = await getCurrentWorkspaceSession();
+
+  if (session.authMode === "github" && session.githubLogin) {
+    const member = await resolveWorkspaceMemberForGitHubLogin(
+      session.githubLogin,
+      workspaceId,
+    );
+
+    if (!member) {
+      throw new Error(`User is not a member of workspace ${workspaceId}`);
+    }
+
+    await setGitHubWorkspaceSession({
+      githubLogin: session.githubLogin,
+      githubUrl: session.githubUrl,
+      workspace_id: workspaceId,
+      role: member.role,
+    });
+
+    return member;
+  }
+
+  const members = await listWorkspaceMemberships(workspaceId);
+  const fallbackActor = members[0];
+
+  if (!fallbackActor) {
+    throw new Error(`Workspace ${workspaceId} has no available members`);
+  }
+
+  return setCurrentWorkspaceActor(fallbackActor.actor_id);
 }
 
 export async function setGitHubWorkspaceSession(input: {
