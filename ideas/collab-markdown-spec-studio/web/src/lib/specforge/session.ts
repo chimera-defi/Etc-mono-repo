@@ -3,7 +3,6 @@ import crypto from "node:crypto";
 import { cookies } from "next/headers";
 
 import { logger } from "../logger";
-import { WORKSPACE_MEMBERS_SEED } from "../../tests/fixtures/workspace-seed-data";
 import {
   getWorkspaceMembershipByActorId,
   getWorkspaceMembershipForUser,
@@ -11,6 +10,7 @@ import {
   listWorkspaceRecords,
   listWorkspaceMemberships,
 } from "./store";
+import { DEFAULT_WORKSPACE_RECORD, WORKSPACE_MEMBERS_SEED } from "./workspace-seed-data";
 
 export type WorkspaceActor = {
   actor_id: string;
@@ -42,13 +42,7 @@ const DEFAULT_SESSION_SECRET = "specforge-local-session-secret";
 
 export type PreferredAssistTool = "auto" | "codex_cli" | "claude_cli" | "heuristic";
 
-const workspaces: WorkspaceRecord[] = [
-  {
-    workspace_id: "ws_demo",
-    name: "SpecForge Demo Workspace",
-    plan: "demo",
-  },
-];
+const workspaces: WorkspaceRecord[] = [DEFAULT_WORKSPACE_RECORD];
 
 // Workspace members are imported from shared seed data to ensure consistency
 // with database seeding in store.ts
