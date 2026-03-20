@@ -8,6 +8,7 @@ import {
   createCommentThread,
   createClarification,
   createDocument,
+  createWorkspaceMembership,
   getDocument,
   createPatchProposal,
   decidePatch,
@@ -234,4 +235,20 @@ export async function seedReviewDemoAction(formData: FormData) {
 
   revalidatePath("/workspace");
   redirect(`/workspace?document=${document.document_id}&stage=review`);
+}
+
+export async function createWorkspaceMemberAction(formData: FormData) {
+  const { currentActor } = await getActionActorRef();
+  const returnTo = String(formData.get("return_to") ?? "/workspace");
+
+  await createWorkspaceMembership({
+    workspace_id: currentActor.workspace_id,
+    name: String(formData.get("name") ?? "New member"),
+    role: String(formData.get("role") ?? "Contributor"),
+    color: String(formData.get("color") ?? "#475569"),
+    github_login: String(formData.get("github_login") ?? ""),
+  });
+
+  revalidatePath("/workspace");
+  redirect(returnTo || "/workspace");
 }
