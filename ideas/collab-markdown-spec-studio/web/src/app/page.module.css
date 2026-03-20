@@ -163,6 +163,16 @@
   font: inherit;
 }
 
+.shareInput {
+  width: 100%;
+  border: 1px solid rgba(28, 26, 23, 0.16);
+  border-radius: 16px;
+  background: #fffdfa;
+  color: #1c1a17;
+  padding: 12px 14px;
+  font: inherit;
+}
+
 .commentPanel {
   display: grid;
   gap: 16px;
@@ -533,6 +543,24 @@
   margin-top: 14px;
 }
 
+.shareRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.shareRow button {
+  width: fit-content;
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 18px;
+  background: #1c1a17;
+  color: #fff9f3;
+  font: inherit;
+  cursor: pointer;
+}
+
 .inlineForm {
   display: flex;
 }
@@ -815,12 +843,14 @@
 
   .inlineActions,
   .patchActions,
-  .exportActions {
+  .exportActions,
+  .shareRow {
     width: 100%;
   }
 
   .form button,
   .patchActions button,
+  .shareRow button,
   .exportLink,
   .secondaryLink {
     width: 100%;

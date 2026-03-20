@@ -63,6 +63,11 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
       timeout: 10_000,
     })
     .toBeGreaterThanOrEqual(1);
+  await page.locator("summary").filter({ hasText: "Share current spec" }).click();
+  await expect(page.getByTestId("share-url-input")).toHaveValue(
+    new RegExp(`document=${new URL(page.url()).searchParams.get("document")}`),
+  );
+  await expect(page.getByTestId("share-access-note")).toContainText("Local demo access");
 
   await page.goto(`${page.url().split("?")[0]}?document=${new URL(page.url()).searchParams.get("document")}&stage=decide`);
   await expect(page.getByTestId("patch-queue")).toContainText("task_export_change");
