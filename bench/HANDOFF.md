@@ -15,6 +15,7 @@ Use these unless you have a specific reason not to:
 - `bench/ops/reproduce_pr245.sh` — reproducibility packaging/manifests/checksums
 - `bench/ops/route_trace_report.py` — route/fallback attribution reporting
 - `bench/ops/validate_route_attribution.py` — validation helper
+- `bench/ops/local_harness_quickcheck.sh` — standard local LFM/GLM smoke check (auto-stops runners)
 
 Primary docs:
 
