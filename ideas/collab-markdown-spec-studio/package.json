@@ -33,6 +33,7 @@
     "parity:status": "bun --filter specforge-web parity:status",
     "parity:context": "bun --filter specforge-web parity:context",
     "parity:brief": "bun --filter specforge-web parity:brief",
+    "parity:verify": "bun --filter specforge-web parity:verify",
     "parity:run:dry": "bun --filter specforge-web parity:run:dry",
     "parity:run": "bun --filter specforge-web parity:run",
     "parity:run:batch": "bun --filter specforge-web parity:run:batch"
