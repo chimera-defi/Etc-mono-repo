@@ -28,6 +28,7 @@ import {
   resetStoreCacheForTests,
   resetWorkspaceDocuments,
   resolveCommentThread,
+  updateWorkspacePlan,
   updateDocument,
 } from "./store";
 
@@ -79,6 +80,17 @@ describe("specforge store", () => {
 
     expect(created.actor_id).toContain("jordan_reviewer");
     expect(members.some((member) => member.github_login === "jordan-reviewer")).toBe(true);
+  });
+
+  it("updates the workspace plan for local SaaS rehearsal", async () => {
+    const options = await makeOptions();
+    const updated = await updateWorkspacePlan("ws_demo", "pilot", options);
+    const workspaces = await listWorkspaceRecords(options);
+
+    expect(updated.plan).toBe("pilot");
+    expect(workspaces.find((workspace) => workspace.workspace_id === "ws_demo")?.plan).toBe(
+      "pilot",
+    );
   });
 
   it("records workspace usage events for future billing and instrumentation", async () => {

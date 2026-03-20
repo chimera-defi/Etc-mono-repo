@@ -16,6 +16,7 @@ import {
   listWorkspaceRecords,
   resetWorkspaceDocuments,
   resolveCommentThread,
+  updateWorkspacePlan,
 } from "@/lib/specforge/store";
 import { buildGuidedSpecMarkdown, buildGuidedSpecMetadata } from "@/lib/specforge/guided";
 import { getMemberQuotaState } from "@/lib/specforge/plans";
@@ -189,6 +190,20 @@ export async function setAssistRuntimePreferenceAction(formData: FormData) {
 
   await setPreferredAssistTool(selectedTool);
   redirect(returnTo || "/workspace?stage=start");
+}
+
+export async function setWorkspacePlanAction(formData: FormData) {
+  const { currentActor } = await getActionActorRef();
+  const returnTo = String(formData.get("return_to") ?? "/workspace");
+  const selectedPlan = String(formData.get("plan") ?? "demo");
+
+  await updateWorkspacePlan(
+    currentActor.workspace_id,
+    selectedPlan === "pilot" ? "pilot" : "demo",
+  );
+
+  revalidatePath("/workspace");
+  redirect(returnTo || "/workspace");
 }
 
 export async function resetWorkspaceDocumentsAction(formData: FormData) {
