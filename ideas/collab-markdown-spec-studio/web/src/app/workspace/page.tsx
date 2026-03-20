@@ -29,6 +29,7 @@ import {
   type StarterTemplateId,
 } from "@/lib/specforge/handoff";
 import { heroVariantOrder, heroVariants, type HeroVariant } from "@/lib/specforge/marketing";
+import { getAssistQuotaState } from "@/lib/specforge/plans";
 import { listShowcaseExamples } from "@/lib/specforge/showcase";
 import {
   getWorkspaceActivityMetrics,
@@ -315,6 +316,7 @@ export default async function Home({ searchParams }: Props) {
       plan: "demo" as const,
       created_at: new Date(0).toISOString(),
     };
+  const assistQuota = getAssistQuotaState(activeWorkspace, workspaceUsage);
   const activeDocumentId =
     documents.find((document) => document.document_id === requestedDocumentId)?.document_id ??
     documents[0]?.document_id ??
@@ -435,6 +437,12 @@ export default async function Home({ searchParams }: Props) {
                     <span>{activeWorkspace.plan} workspace</span>
                     <span>{activeWorkspaceMembers.length} members</span>
                     <span>{documents.length} visible documents</span>
+                    <span>
+                      Assist quota:{" "}
+                      {assistQuota.limit === null
+                        ? "unlimited"
+                        : `${assistQuota.used}/${assistQuota.limit} used`}
+                    </span>
                   </div>
                   <details className={styles.wizardSection}>
                     <summary className={styles.disclosureSummary}>
@@ -568,6 +576,12 @@ export default async function Home({ searchParams }: Props) {
                 <div className={styles.metricCard}>
                   <strong>{workspaceUsage.assist_request_count}</strong>
                   <span>assist runs</span>
+                </div>
+                <div className={styles.metricCard}>
+                  <strong>
+                    {assistQuota.limit === null ? "∞" : assistQuota.remaining}
+                  </strong>
+                  <span>assist remaining</span>
                 </div>
                 <div className={styles.metricCard}>
                   <strong>{workspaceUsage.handoff_view_count}</strong>
