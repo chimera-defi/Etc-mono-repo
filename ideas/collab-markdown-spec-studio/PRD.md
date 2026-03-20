@@ -27,7 +27,7 @@ The branch currently ships:
 5. governed agent patch review,
 6. comments, clarifications, provenance, and readiness,
 7. export + starter handoff + execution brief + launch packet,
-8. first terminal-native `specforge` CLI guided wizard,
+8. first terminal-native `specforge` CLI surface for guided creation plus backlog status/context,
 9. local admin controls for fast MVP testing,
 10. marketing/overview and pricing surfaces at `/` and `/pricing`,
 11. a hosted-runtime rehearsal path with `web`, `collab-server`, and `postgres`.

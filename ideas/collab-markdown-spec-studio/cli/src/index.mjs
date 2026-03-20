@@ -44,7 +44,12 @@ const fieldOrder = [
 ];
 
 function parseArgs(argv) {
-  const normalizedArgv = argv[0] === "/specforge" ? ["init", ...argv.slice(1)] : argv;
+  const normalizedArgv =
+    argv[0] === "/specforge"
+      ? argv[1] && !argv[1].startsWith("--")
+        ? argv.slice(1)
+        : ["init", ...argv.slice(1)]
+      : argv;
   const [command = "init", ...rest] = normalizedArgv;
   const options = { command, json: false, output: null, values: {}, help: false };
 

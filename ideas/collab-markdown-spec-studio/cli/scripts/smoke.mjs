@@ -63,3 +63,18 @@ const status = JSON.parse(statusResult.stdout);
 if (typeof status.remaining_count !== "number" || !("delivery_target" in status)) {
   throw new Error("SpecForge CLI status command failed.");
 }
+
+const slashStatusResult = spawnSync(process.execPath, [cliEntry, "/specforge", "status", "--json"], {
+  encoding: "utf8",
+});
+
+if (slashStatusResult.status !== 0) {
+  process.stderr.write(slashStatusResult.stderr);
+  process.exit(slashStatusResult.status ?? 1);
+}
+
+const slashStatus = JSON.parse(slashStatusResult.stdout);
+
+if (typeof slashStatus.remaining_count !== "number" || !("delivery_target" in slashStatus)) {
+  throw new Error("SpecForge slash-command status failed.");
+}
