@@ -5,6 +5,7 @@ export function createEmptyLoopState() {
     claims: [],
     signals: [],
     passes: [],
+    verifications: [],
     review_every: 3,
   };
 }
@@ -16,6 +17,7 @@ export function normalizeLoopState(parsed) {
     claims: Array.isArray(parsed?.claims) ? parsed.claims : [],
     signals: Array.isArray(parsed?.signals) ? parsed.signals : [],
     passes: Array.isArray(parsed?.passes) ? parsed.passes : [],
+    verifications: Array.isArray(parsed?.verifications) ? parsed.verifications : [],
     review_every: parsed?.review_every ?? 3,
   };
 }
@@ -52,4 +54,8 @@ export function findActiveRelevantClaim(state, validIntentIds) {
   return [...state.claims]
     .reverse()
     .find((claim) => claim.state === "claimed" && validIntentIds.has(claim.intent_id)) ?? null;
+}
+
+export function findLatestVerification(state) {
+  return [...state.verifications].reverse()[0] ?? null;
 }
