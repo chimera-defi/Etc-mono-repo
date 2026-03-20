@@ -48,7 +48,7 @@ describe("buildExecutionBrief", () => {
     });
 
     expect(brief.run_ready).toBe(true);
-    expect(brief.commands).toContain("npm run build");
+    expect(brief.commands).toContain("bun run build");
     expect(brief.deliverables).toContain("src/main.ts");
   });
 });
