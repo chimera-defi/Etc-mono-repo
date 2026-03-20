@@ -82,6 +82,99 @@ function parseArgs(argv) {
   return options;
 }
 
+async function runTui() {
+  if (!process.stdin.isTTY) {
+    throw new Error("SpecForge TUI requires an interactive terminal.");
+  }
+
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  const menu = [
+    { id: "1", label: "Guided spec init", action: "init" },
+    { id: "2", label: "Backlog status", action: "status" },
+    { id: "3", label: "Current context", action: "context" },
+    { id: "4", label: "Remaining backlog", action: "backlog" },
+    { id: "5", label: "Exit", action: "exit" },
+  ];
+
+  try {
+    while (true) {
+      process.stdout.write(
+        [
+          "SpecForge TUI",
+          "",
+          ...menu.map((item) => `${item.id}. ${item.label}`),
+          "",
+        ].join("\n"),
+      );
+
+      const answer = (await rl.question("Choose an action: ")).trim();
+      const selected = menu.find((item) => item.id === answer);
+
+      if (!selected || selected.action === "exit") {
+        return;
+      }
+
+      if (selected.action === "init") {
+        const guidedInput = await promptForInput(DEFAULT_GUIDED_SPEC_INPUT);
+        process.stdout.write(`\n${buildGuidedSpecMarkdown(guidedInput)}\n\n`);
+        continue;
+      }
+
+      const backlog = await loadBacklog(tasksPath);
+      const loopState = await readLoopState();
+      const statusPayload = buildStatusPayload(backlog, loopState);
+
+      if (selected.action === "status") {
+        process.stdout.write(
+          [
+            "",
+            `Delivery target: ${statusPayload.delivery_target}`,
+            `Active phase: ${statusPayload.active_phase ?? "None"}`,
+            `Next item: ${statusPayload.next_item ?? "None"}`,
+            `Remaining items: ${statusPayload.remaining_count}`,
+            "",
+          ].join("\n"),
+        );
+        continue;
+      }
+
+      if (selected.action === "context") {
+        process.stdout.write(
+          [
+            "",
+            "SpecForge Context",
+            `Tasks: ${tasksPath}`,
+            `Loop state: ${loopStatePath}`,
+            `Delivery target: ${statusPayload.delivery_target}`,
+            `Next item: ${statusPayload.next_item ?? "None"}`,
+            "",
+          ].join("\n"),
+        );
+        continue;
+      }
+
+      process.stdout.write(
+        [
+          "",
+          `Active phase: ${backlog.activePhase?.heading ?? "None"}`,
+          ...backlog.phases.flatMap((phase) => [
+            "",
+            `${phase.heading}:`,
+            ...phase.items.map((item) => `- ${item.checked ? "[x]" : "[ ]"} ${item.text}`),
+          ]),
+          "",
+        ].join("\n"),
+      );
+    }
+  } finally {
+    rl.close();
+  }
+}
+
 function buildOutput(input) {
   return {
     input,
@@ -152,6 +245,7 @@ function printHelp() {
       "  specforge status [--json]",
       "  specforge context [--json]",
       "  specforge backlog [--json]",
+      "  specforge tui",
       "  /specforge [same flags as init]",
       "",
       "Examples:",
@@ -159,6 +253,7 @@ function printHelp() {
       "  specforge status --json",
       "  specforge context",
       "  specforge backlog --json",
+      "  specforge tui",
     ].join("\n"),
   );
 }
@@ -229,6 +324,11 @@ async function run() {
         ...contextPayload.remaining_items.map((item) => `- ${item}`),
       ].join("\n")}\n`,
     );
+    return;
+  }
+
+  if (options.command === "tui") {
+    await runTui();
     return;
   }
 
