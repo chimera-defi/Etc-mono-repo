@@ -13,6 +13,7 @@ Current slice:
 - mini agent-assist that can populate guided fields from a rough brief
 - demo workspaces now enforce a small included assist quota while pilot workspaces remain effectively unbounded
 - workspace member limits and a seat-based monthly billing preview now exist as the first SaaS billing/membership hooks
+- pilot workspaces now require GitHub-linked member invites while local demo workspaces keep the lighter rehearsal flow
 - local workspace sessions with GitHub OAuth pilot hooks for server-side attribution
 - persisted workspace members with add-member controls in the workspace session panel
 - workspace plan switcher for local demo vs pilot rehearsal
@@ -41,6 +42,7 @@ Current slice:
 - execution brief and combined launch packet JSON
 - in-product delivery-loop panel exposing backlog status and next-pass brief
 - terminal-native `specforge` CLI now supports `init`, `status`, `context`, `artifacts`, `backups`, `backlog`, and a lightweight `tui`
+- repo skill bundle now exists at `../skills/specforge/` so the same flow can be installed as an agent skill later
 - local admin controls for resetting demo workspace data and seeding review activity
 - staged UI for the local MVP flow
 - web runtime health endpoint at `/api/health`
@@ -102,6 +104,7 @@ bun run state:backup
 - Local ops rehearsal now has both `bun run state:backup` and `bun run state:restore`, and the workspace sidebar links to the health and metrics endpoints directly.
 - The workspace sidebar now also links to `/api/workspace/entitlements` and `/api/ops/summary` so local SaaS rehearsal can inspect quotas, billing preview, parity state, and persistence in one place.
 - `/api/workspace/billing` now exposes upgrade-required reasons, recommended plan, and the current billing preview as a cleaner entitlement handoff for future payment integration.
+- `/api/metrics`, `/api/ops/summary`, and the workspace sidebar now surface a simple design-partner funnel across activation, assist usage, collaboration, review, and launch preparation.
 - `/api/ops/summary` now includes basic warning alerts for missing backups, missing verification, and upgrade-required pressure so local hosted-ops rehearsal is easier to review.
 - The workspace session panel can switch the active workspace plan between `demo` and `pilot` locally, which makes quota and billing-preview testing much faster.
 - `bun run verify` is the canonical full local gate, and `specforge verify` exposes the same suite from the agent-native CLI surface.

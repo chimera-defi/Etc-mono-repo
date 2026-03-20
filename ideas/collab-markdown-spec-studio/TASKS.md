@@ -20,6 +20,7 @@
 - [x] Terminal-native `specforge` CLI can surface local backup manifests for terminal-native ops review.
 - [x] `/specforge` slash-command style invocations now work for both guided creation and status-style commands.
 - [x] `specforge tui` now provides a lightweight interactive terminal surface for guided init, status, context, and backlog review.
+- [x] A repo-packaged `skills/specforge/` bundle now exists so the same guided flow can be installed as an agent skill later.
 - [x] Tiptap + Yjs + Hocuspocus multiplayer canvas with shared presence.
 - [x] Governed patch queue with accept/reject/cherry-pick.
 - [x] Anchored comments and clarification writeback.
@@ -40,6 +41,8 @@
 - [x] Workspace entitlements now expose feature flags alongside quotas and billing preview, so SaaS packaging has a clearer contract surface.
 - [x] Workspace behavior signals now track member adds, plan changes, assist preference saves, document creation, patch decisions, and clarification answers.
 - [x] Workspace member creation now blocks duplicate GitHub logins instead of silently creating conflicting pilot memberships.
+- [x] Pilot workspaces now require GitHub-linked member invites, while the workspace UI exposes clearer local-vs-pilot invite guidance.
+- [x] Metrics, ops summary, and the workspace UI now expose a simple design-partner funnel: activation, assist usage, collaboration, review, and launch preparation.
 - [x] Delivery loop with intents, claims, context, handoff artifact, and meta-learnings.
 - [x] Shared orchestrator backlog parsing now feeds both the parity runner and the in-product delivery-loop panel.
 - [x] Runner status/brief/context now stay aligned with the live backlog instead of stale historical intents.
