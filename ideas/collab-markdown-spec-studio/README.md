@@ -17,6 +17,7 @@ Collaborative editors already exist. The wedge is not generic editing; it is a s
 6. `TASKS.md`
 7. `web/README.md`
 8. `LOCAL_RUNBOOK.md`
+9. `DESIGN_PARTNER_TRIAL_PROMPT.md`
 
 ### Full Pack (Grouped)
 - Product and strategy: `EXECUTIVE_SUMMARY`, `PRD`, `SPEC`
@@ -41,6 +42,7 @@ Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid du
 4. Use `/` as the marketing/overview surface, `/pricing` as the commercial framing page, and `/workspace` as the actual product.
 5. Let local operators reuse existing Codex CLI or Claude Code CLI logins for guided assist without shipping secrets to the browser.
 6. Reuse one OpenSpec core across the web app, terminal CLI, and orchestrator so the product stops drifting across surfaces.
+7. Give design partners a copy-paste prompt they can hand to their own AI helper so trial sessions stay structured even without a live moderator.
 
 ### Applied Learnings
 1. Lock the wedge early:
