@@ -41,6 +41,14 @@ export type WorkspaceFeatureEntitlements = {
   };
 };
 
+export type WorkspaceBillingStatus = {
+  plan: WorkspaceRecord["plan"];
+  estimatedMonthlyUsd: number | null;
+  upgradeRequired: boolean;
+  recommendedPlan: WorkspaceRecord["plan"] | null;
+  reasons: string[];
+};
+
 const planPolicies: Record<WorkspaceRecord["plan"], WorkspacePlanPolicy> = {
   demo: {
     assistRequestLimit: 5,
@@ -125,5 +133,31 @@ export function getWorkspaceFeatureEntitlements(
       opsSummary: true,
       backupRestore: true,
     },
+  };
+}
+
+export function getWorkspaceBillingStatus(
+  workspace: Pick<WorkspaceRecord, "plan">,
+  usage: Pick<WorkspaceUsageSummary, "assist_request_count">,
+  memberCount: number,
+): WorkspaceBillingStatus {
+  const assistQuota = getAssistQuotaState(workspace, usage);
+  const memberQuota = getMemberQuotaState(workspace, memberCount);
+  const billingPreview = getWorkspaceBillingPreview(workspace, memberCount);
+  const reasons: string[] = [];
+
+  if (assistQuota.blocked) {
+    reasons.push("Assist quota exhausted");
+  }
+  if (memberQuota.blocked) {
+    reasons.push("Member limit reached");
+  }
+
+  return {
+    plan: workspace.plan,
+    estimatedMonthlyUsd: billingPreview.estimatedMonthlyUsd,
+    upgradeRequired: reasons.length > 0,
+    recommendedPlan: reasons.length > 0 ? "pilot" : null,
+    reasons,
   };
 }
