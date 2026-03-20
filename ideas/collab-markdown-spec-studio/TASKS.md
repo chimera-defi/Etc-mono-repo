@@ -5,7 +5,7 @@
 - [x] Guided spec creation, shared authoring, governed patch review, comments, clarifications, readiness, export, starter handoff, execution brief, and launch packet are working.
 - [x] Local MVP verification is green: lint, unit, build, acceptance, browser, contracts.
 - [x] Hosted-runtime rehearsal exists with `web`, `collab-server`, and `postgres`.
-- [x] Parity runner backlog is clear for `scoped_saas_parity`.
+- [x] The original scoped MVP backlog is clear; the remaining list below is broader post-parity SaaS/platform work.
 - [x] Landing page at `/`, pricing page at `/pricing`, and product workspace at `/workspace` are live.
 
 ## Shipped Surface
@@ -16,6 +16,7 @@
 - [x] Mini agent-assist can populate guided fields from a rough brief, using local CLI tooling when available and a safe fallback otherwise.
 - [x] Terminal-native `specforge` CLI can generate the same guided markdown/metadata as the web flow.
 - [x] Terminal-native `specforge` CLI can also surface current backlog status/context for terminal-native operators.
+- [x] `/specforge` slash-command style invocations now work for both guided creation and status-style commands.
 - [x] Tiptap + Yjs + Hocuspocus multiplayer canvas with shared presence.
 - [x] Governed patch queue with accept/reject/cherry-pick.
 - [x] Anchored comments and clarification writeback.
