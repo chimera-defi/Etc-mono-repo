@@ -29,6 +29,13 @@ const packRoot = path.resolve(scriptDir, "..", "..");
 const worktreeRoot = path.resolve(packRoot, "..", "..");
 const tasksPath = path.join(packRoot, "TASKS.md");
 const loopStatePath = path.join(worktreeRoot, ".cursor", "artifacts", "specforge-parity-runner.json");
+const handoffPath = path.join(worktreeRoot, ".cursor", "artifacts", "specforge-runner-latest.md");
+const metaLearningsPath = path.join(
+  worktreeRoot,
+  ".cursor",
+  "artifacts",
+  "specforge-meta-learnings.md",
+);
 
 const fieldOrder = [
   ["title", "Title"],
@@ -96,8 +103,9 @@ async function runTui() {
     { id: "1", label: "Guided spec init", action: "init" },
     { id: "2", label: "Backlog status", action: "status" },
     { id: "3", label: "Current context", action: "context" },
-    { id: "4", label: "Remaining backlog", action: "backlog" },
-    { id: "5", label: "Exit", action: "exit" },
+    { id: "4", label: "Runner artifacts", action: "artifacts" },
+    { id: "5", label: "Remaining backlog", action: "backlog" },
+    { id: "6", label: "Exit", action: "exit" },
   ];
 
   try {
@@ -151,6 +159,28 @@ async function runTui() {
             `Loop state: ${loopStatePath}`,
             `Delivery target: ${statusPayload.delivery_target}`,
             `Next item: ${statusPayload.next_item ?? "None"}`,
+            "",
+          ].join("\n"),
+        );
+        continue;
+      }
+
+      if (selected.action === "artifacts") {
+        const artifactsPayload = await buildArtifactsPayload();
+        process.stdout.write(
+          [
+            "",
+            "SpecForge Artifacts",
+            `Handoff: ${artifactsPayload.handoff.path}`,
+            `Meta learnings: ${artifactsPayload.meta_learnings.path}`,
+            "",
+            artifactsPayload.handoff.preview
+              ? `Handoff preview:\n${artifactsPayload.handoff.preview}`
+              : "Handoff preview: unavailable",
+            "",
+            artifactsPayload.meta_learnings.preview
+              ? `Meta learnings preview:\n${artifactsPayload.meta_learnings.preview}`
+              : "Meta learnings preview: unavailable",
             "",
           ].join("\n"),
         );
@@ -212,6 +242,28 @@ async function readLoopState() {
   }
 }
 
+async function readArtifactPreview(filePath) {
+  try {
+    const raw = await readFile(filePath, "utf8");
+    return raw.trim().split("\n").slice(0, 10).join("\n");
+  } catch {
+    return null;
+  }
+}
+
+async function buildArtifactsPayload() {
+  return {
+    handoff: {
+      path: handoffPath,
+      preview: await readArtifactPreview(handoffPath),
+    },
+    meta_learnings: {
+      path: metaLearningsPath,
+      preview: await readArtifactPreview(metaLearningsPath),
+    },
+  };
+}
+
 function buildStatusPayload(backlog, loopState) {
   const remaining = backlog.remaining.filter((item) => !item.checked);
   const validIntentIds = collectIntentIds(backlog.phases, toIntentId);
@@ -244,6 +296,7 @@ function printHelp() {
       "  specforge init [--json] [--output FILE] [--title VALUE ...]",
       "  specforge status [--json]",
       "  specforge context [--json]",
+      "  specforge artifacts [--json]",
       "  specforge backlog [--json]",
       "  specforge tui",
       "  /specforge [same flags as init]",
@@ -252,6 +305,7 @@ function printHelp() {
       "  specforge init --json --title \"Server Manager\" --problem \"Teams lose infra context\"",
       "  specforge status --json",
       "  specforge context",
+      "  specforge artifacts",
       "  specforge backlog --json",
       "  specforge tui",
     ].join("\n"),
@@ -280,7 +334,12 @@ async function run() {
     return;
   }
 
-  if (options.command === "status" || options.command === "context" || options.command === "backlog") {
+  if (
+    options.command === "status" ||
+    options.command === "context" ||
+    options.command === "artifacts" ||
+    options.command === "backlog"
+  ) {
     const backlog = await loadBacklog(tasksPath);
     const loopState = await readLoopState();
     const statusPayload = buildStatusPayload(backlog, loopState);
@@ -291,6 +350,29 @@ async function run() {
         return;
       }
       printBacklog(backlog);
+      return;
+    }
+
+    if (options.command === "artifacts") {
+      const artifactsPayload = await buildArtifactsPayload();
+      process.stdout.write(
+        `${
+          options.json
+            ? JSON.stringify(artifactsPayload, null, 2)
+            : [
+                `Handoff: ${artifactsPayload.handoff.path}`,
+                `Meta learnings: ${artifactsPayload.meta_learnings.path}`,
+                "",
+                artifactsPayload.handoff.preview
+                  ? `Handoff preview:\n${artifactsPayload.handoff.preview}`
+                  : "Handoff preview: unavailable",
+                "",
+                artifactsPayload.meta_learnings.preview
+                  ? `Meta learnings preview:\n${artifactsPayload.meta_learnings.preview}`
+                  : "Meta learnings preview: unavailable",
+              ].join("\n")
+        }\n`,
+      );
       return;
     }
 
