@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import { suggestGuidedSpecInput } from "@/lib/specforge/agent-assist";
 import { getAssistQuotaState } from "@/lib/specforge/plans";
-import { getCurrentWorkspaceActor } from "@/lib/specforge/session";
+import { getCurrentWorkspaceSession } from "@/lib/specforge/session";
 import {
   getWorkspaceUsageSummary,
   listWorkspaceRecords,
@@ -17,7 +17,8 @@ const requestSchema = z.object({
 
 export async function POST(request: Request) {
   const payload = requestSchema.parse(await request.json());
-  const actor = await getCurrentWorkspaceActor();
+  const session = await getCurrentWorkspaceSession();
+  const actor = session.actor;
   const [workspaceRecords, usage] = await Promise.all([
     listWorkspaceRecords(),
     getWorkspaceUsageSummary(actor.workspace_id),
@@ -31,7 +32,7 @@ export async function POST(request: Request) {
     };
   const quota = getAssistQuotaState(workspace, usage);
 
-  if (quota.blocked) {
+  if (session.authMode !== "local" && quota.blocked) {
     return NextResponse.json(
       {
         error: "assist_quota_exceeded",
