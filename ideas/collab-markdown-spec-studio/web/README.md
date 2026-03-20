@@ -12,6 +12,7 @@ Current slice:
 - shared OpenSpec core reuse for guided wizard and readiness logic
 - mini agent-assist that can populate guided fields from a rough brief
 - local workspace sessions with GitHub OAuth pilot hooks for server-side attribution
+- persisted workspace members with add-member controls in the workspace session panel
 - local embedded SQL persistence via PGlite with disk-backed snapshot sharing across app workers
 - hosted persistence path via Postgres-backed store selection
 - guided drafts now include a first-class `Requirements` section so readiness can clear from the guided path

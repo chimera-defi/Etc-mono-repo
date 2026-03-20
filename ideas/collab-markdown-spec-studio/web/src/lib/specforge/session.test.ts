@@ -9,13 +9,13 @@ import {
 } from "./session";
 
 describe("workspace session helpers", () => {
-  it("maps configured GitHub logins to workspace members", () => {
-    const actor = resolveWorkspaceMemberForGitHubLogin("chimera-defi");
+  it("maps configured GitHub logins to workspace members", async () => {
+    const actor = await resolveWorkspaceMemberForGitHubLogin("chimera-defi");
     expect(actor?.actor_id).toBe("workspace_owner");
   });
 
-  it("falls back to the default actor when the id is unknown", () => {
-    expect(resolveWorkspaceActor("missing_actor").actor_id).toBe("workspace_owner");
+  it("falls back to the default actor when the id is unknown", async () => {
+    expect((await resolveWorkspaceActor("missing_actor")).actor_id).toBe("workspace_owner");
   });
 
   it("signs and verifies workspace sessions", () => {
