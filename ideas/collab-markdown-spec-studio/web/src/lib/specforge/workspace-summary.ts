@@ -18,6 +18,41 @@ import {
   listWorkspaceRecords,
 } from "./store";
 
+function buildDesignPartnerSignals(summary: {
+  documents: Array<unknown>;
+  workspaceActivity: {
+    reviewed_document_count: number;
+    commented_document_count: number;
+    clarified_document_count: number;
+  };
+  workspaceUsage: {
+    assist_request_count: number;
+    handoff_view_count: number;
+    execution_view_count: number;
+    launch_packet_view_count: number;
+  };
+  workspaceBehavior: {
+    member_added_count: number;
+    patch_decided_count: number;
+  };
+}) {
+  return {
+    activated: summary.documents.length > 0,
+    assisted: summary.workspaceUsage.assist_request_count > 0,
+    collaborating:
+      summary.workspaceBehavior.member_added_count > 0 ||
+      summary.workspaceActivity.commented_document_count > 0,
+    reviewed:
+      summary.workspaceActivity.reviewed_document_count > 0 ||
+      summary.workspaceBehavior.patch_decided_count > 0,
+    clarified: summary.workspaceActivity.clarified_document_count > 0,
+    launchPrepared:
+      summary.workspaceUsage.handoff_view_count > 0 ||
+      summary.workspaceUsage.execution_view_count > 0 ||
+      summary.workspaceUsage.launch_packet_view_count > 0,
+  };
+}
+
 export async function loadWorkspaceSummary(workspaceId: string) {
   const [
     workspaceRecords,
@@ -44,6 +79,13 @@ export async function loadWorkspaceSummary(workspaceId: string) {
       created_at: new Date(0).toISOString(),
     };
 
+  const designPartnerSignals = buildDesignPartnerSignals({
+    documents,
+    workspaceActivity,
+    workspaceUsage,
+    workspaceBehavior,
+  });
+
   return {
     workspaceRecords,
     activeWorkspace,
@@ -61,6 +103,7 @@ export async function loadWorkspaceSummary(workspaceId: string) {
       activeWorkspaceMembers.length,
     ),
     featureEntitlements: getWorkspaceFeatureEntitlements(activeWorkspace),
+    designPartnerSignals,
   };
 }
 
@@ -102,6 +145,7 @@ export async function loadWorkspaceEntitlements(workspaceId: string) {
     billing_status: summary.billingStatus,
     usage: summary.workspaceUsage,
     behavior: summary.workspaceBehavior,
+    design_partner: summary.designPartnerSignals,
     features: summary.featureEntitlements,
   };
 }
@@ -163,6 +207,7 @@ export async function loadWorkspaceOpsSummary(workspaceId: string) {
     },
     usage: summary.workspaceUsage,
     behavior: summary.workspaceBehavior,
+    design_partner: summary.designPartnerSignals,
     backups: {
       count: backups.backups.length,
       latest: backups.backups[0] ?? null,
