@@ -27,6 +27,7 @@
     "test:e2e": "bun --filter specforge-web test:e2e",
     "state:reset": "rm -rf web/.data",
     "state:backup": "node ./tools/backup-local-state.mjs",
+    "state:restore": "node ./tools/restore-local-state.mjs",
     "contracts:validate": "jq empty contracts/v1/*.json contracts/v1/examples/*.json",
     "parity:status": "bun --filter specforge-web parity:status",
     "parity:context": "bun --filter specforge-web parity:context",
