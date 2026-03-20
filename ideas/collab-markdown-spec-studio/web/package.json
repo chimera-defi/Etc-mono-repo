@@ -2,6 +2,7 @@
   "name": "specforge-web",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "bun@1.3.9",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -19,27 +20,27 @@
     "parity:run:dry": "node ../tools/specforge-parity-runner.mjs run --dry-run --max-passes 1"
   },
   "dependencies": {
-    "@electric-sql/pglite": "^0.3.16",
-    "@hocuspocus/provider": "^3.4.4",
-    "@tiptap/extension-collaboration": "^3.20.1",
-    "@tiptap/react": "^3.20.1",
-    "@tiptap/starter-kit": "^3.20.1",
-    "@types/pg": "^8.18.0",
-    "next": "^16.2.0",
-    "pg": "^8.20.0",
+    "@electric-sql/pglite": "0.3.16",
+    "@hocuspocus/provider": "3.4.4",
+    "@tiptap/extension-collaboration": "3.20.4",
+    "@tiptap/react": "3.20.4",
+    "@tiptap/starter-kit": "3.20.4",
+    "@types/pg": "8.18.0",
+    "next": "16.2.0",
+    "pg": "8.20.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "yjs": "^13.6.29",
-    "zod": "^4.3.6"
+    "yjs": "13.6.30",
+    "zod": "4.3.6"
   },
   "devDependencies": {
-    "@playwright/test": "^1.55.1",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "^16.2.0",
-    "typescript": "^5",
-    "vitest": "^4.1.0"
+    "@playwright/test": "1.58.2",
+    "@types/node": "20.19.37",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "eslint": "9.39.4",
+    "eslint-config-next": "16.2.0",
+    "typescript": "5.9.3",
+    "vitest": "4.1.0"
   }
 }

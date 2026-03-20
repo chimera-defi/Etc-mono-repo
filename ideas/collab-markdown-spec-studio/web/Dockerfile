@@ -1,14 +1,15 @@
-FROM node:22-bookworm-slim AS base
+FROM oven/bun:1 AS base
 WORKDIR /app
 
-COPY web/package.json web/package-lock.json ./
-RUN npm ci
+COPY bun.lock /bun.lock
+COPY web/package.json ./
+RUN bun install --frozen-lockfile
 
 COPY web ./
 COPY fixtures /fixtures
-RUN npm run build
+RUN bun run build
 
 ENV NODE_ENV=production
 EXPOSE 3000
 
-CMD ["npm", "run", "start"]
+CMD ["bun", "run", "start"]
