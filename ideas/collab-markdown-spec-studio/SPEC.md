@@ -216,6 +216,9 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 4. Defer SSO, SCIM, and complex enterprise role models until post-pilot.
 5. The same `active actor` shape should survive across local and pilot modes so product flows do not fork by auth provider.
 6. GitHub OAuth callbacks require state validation, and hosted mode must reject default local secrets.
+7. Shared specs use stable workspace-scoped URLs like `/workspace?document=<id>&stage=draft`.
+8. Share links are not bearer tokens; recipients still need workspace access.
+9. Pilot recipients authenticate with GitHub and must already be workspace members or be added by a workspace editor/owner before the shared URL becomes useful.
 
 ### Agent Configuration Default
 1. Local mode can reuse existing server-side Codex CLI or Claude Code CLI logins for guided assist and delivery loops.
@@ -258,6 +261,12 @@ Use CRDT for live human collaboration, but keep agent governance above the CRDT 
 2. Agents submit governed patch proposals against canonical blocks.
 3. Accepted proposals are applied into canonical state and synced back to the canvas.
 4. This preserves realtime collaboration without sacrificing reviewability or attribution.
+
+### Sharing Model
+1. Each spec document has a canonical workspace URL that can be copied from the product UI.
+2. The share UI should pair the URL with the current access model so users understand that sharing requires workspace membership.
+3. Workspace editors can add teammates directly from the session/membership panel by GitHub login, then send the canonical URL.
+4. Hosted share flows can evolve into invite links later, but the MVP/pilot baseline is: add member, then share canonical URL.
 
 ### Initial NFR Targets
 1. P95 collaborative update latency < 250ms (same region).

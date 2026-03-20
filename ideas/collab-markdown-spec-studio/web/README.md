@@ -93,6 +93,7 @@ bun run state:backup
 - `bun run parity:run:batch` runs a bounded multi-pass loop (`--until-clear --max-passes 3 --review-every 2`) so the backlog can advance without an unbounded nested session.
 - In local demo mode, the `Local admin` panel can reset workspace documents and seed mock review activity for fast MVP testing.
 - In local mode, agent assist can reuse existing `codex` or `claude` CLI logins from the server runtime, and the preferred runtime can be saved from the workspace session panel. Hosted mode should use server-side workspace credentials instead.
+- Shared specs use canonical workspace URLs like `/workspace?document=<id>&stage=draft`; the workspace UI exposes a copyable share link, but pilot recipients still need GitHub sign-in and workspace membership.
 - `bun run test:e2e` only runs the browser demo suite (`tests/demo.spec.ts`); engine-level acceptance coverage lives under `bun run test:acceptance`.
 - The runner also schedules periodic multipass review/refactor passes so the loop compacts context, refreshes handoff state, and records meta learnings.
 - Delivery loop endpoints:
