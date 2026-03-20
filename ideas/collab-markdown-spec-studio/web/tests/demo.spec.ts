@@ -111,10 +111,16 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
 
 test("agent assist can populate the guided draft form before creation", async ({ page }) => {
   await page.goto("/workspace?stage=start");
+  await page.locator("summary").filter({ hasText: "Assist runtime" }).first().click();
+  await page.getByLabel("Preferred assist runtime").selectOption("heuristic");
+  await page.getByRole("button", { name: "Save assist preference" }).click();
+  await expect(page.getByText("Assist runtime: heuristic")).toBeVisible();
+
+  const draftForm = page.getByTestId("create-document-form");
+  await expect(draftForm.getByLabel("Assist runtime")).toHaveValue("heuristic");
   await page.getByTestId("agent-assist-brief").fill(
     "A SaaS workspace where founders and engineers coauthor specs with reviewable AI patches and export a launch packet for implementation.",
   );
-  await page.getByLabel("Assist runtime").selectOption("heuristic");
   await page.getByRole("button", { name: "Populate fields with assist" }).click();
 
   await expect(page.getByTestId("create-document-title")).toHaveValue(
