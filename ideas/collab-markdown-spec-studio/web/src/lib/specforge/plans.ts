@@ -29,6 +29,18 @@ export type WorkspaceBillingPreview = {
   estimatedMonthlyUsd: number | null;
 };
 
+export type WorkspaceFeatureEntitlements = {
+  plan: WorkspaceRecord["plan"];
+  features: {
+    githubAuth: boolean;
+    localCliAssist: boolean;
+    unlimitedAssist: boolean;
+    memberInvites: boolean;
+    opsSummary: boolean;
+    backupRestore: boolean;
+  };
+};
+
 const planPolicies: Record<WorkspaceRecord["plan"], WorkspacePlanPolicy> = {
   demo: {
     assistRequestLimit: 5,
@@ -95,5 +107,23 @@ export function getWorkspaceBillingPreview(
     billableSeats,
     estimatedMonthlyUsd:
       seatPriceMonthlyUsd === null ? null : seatPriceMonthlyUsd * billableSeats,
+  };
+}
+
+export function getWorkspaceFeatureEntitlements(
+  workspace: Pick<WorkspaceRecord, "plan">,
+): WorkspaceFeatureEntitlements {
+  const isPilot = workspace.plan === "pilot";
+
+  return {
+    plan: workspace.plan,
+    features: {
+      githubAuth: isPilot,
+      localCliAssist: true,
+      unlimitedAssist: isPilot,
+      memberInvites: true,
+      opsSummary: true,
+      backupRestore: true,
+    },
   };
 }

@@ -15,6 +15,12 @@ Build a real-time collaborative spec IDE with:
 
 The current branch satisfies the scoped MVP target. The remaining work is broader SaaS/platform parity work like hosted ops, billing, deeper terminal UX, and runner hardening, not missing core MVP behavior.
 
+The current branch also includes a first explicit entitlement layer:
+- quota state,
+- seat-based billing preview,
+- feature-flag entitlements,
+- behavior instrumentation for membership and workflow activation signals.
+
 ### Product Principle: Minimum Extensible Product
 1. Approved specs should first produce a minimum extensible product, not a pretend-final build.
 2. The first generated/buildable output must be runnable, reviewable, and easy for humans or agents to extend without rewrite.
