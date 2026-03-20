@@ -35,7 +35,10 @@ export type WorkspaceRecord = {
 const WORKSPACE_ACTOR_COOKIE = "specforge_actor_id";
 const WORKSPACE_SESSION_COOKIE = "specforge_session";
 const GITHUB_OAUTH_STATE_COOKIE = "specforge_github_oauth_state";
+const ASSIST_TOOL_COOKIE = "specforge_assist_tool";
 const DEFAULT_SESSION_SECRET = "specforge-local-session-secret";
+
+export type PreferredAssistTool = "auto" | "codex_cli" | "claude_cli" | "heuristic";
 
 const workspaces: WorkspaceRecord[] = [
   {
@@ -253,6 +256,28 @@ export async function getCurrentWorkspaceSession() {
 export async function getCurrentWorkspaceActor() {
   const session = await getCurrentWorkspaceSession();
   return session.actor;
+}
+
+export async function getPreferredAssistTool(): Promise<PreferredAssistTool> {
+  const cookieStore = await cookies();
+  const value = cookieStore.get(ASSIST_TOOL_COOKIE)?.value;
+
+  if (value === "codex_cli" || value === "claude_cli" || value === "heuristic") {
+    return value;
+  }
+
+  return "auto";
+}
+
+export async function setPreferredAssistTool(tool: PreferredAssistTool) {
+  const cookieStore = await cookies();
+  cookieStore.set(ASSIST_TOOL_COOKIE, tool, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: isSecureCookie(),
+    path: "/",
+    maxAge: 60 * 60 * 24 * 30,
+  });
 }
 
 export async function setCurrentWorkspaceActor(actorId: string) {
