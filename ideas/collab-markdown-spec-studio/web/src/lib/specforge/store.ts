@@ -1521,6 +1521,105 @@ export async function listWorkspaceMemberships(workspaceId: string, options?: St
   }));
 }
 
+export async function getWorkspaceMembershipByActorId(
+  actorId: string,
+  options?: StoreOptions,
+): Promise<WorkspaceMembershipRecord | null> {
+  const database = await getDatabase(options);
+  const result = await database.query<WorkspaceMemberRow>(
+    `SELECT
+      membership_id,
+      workspace_id,
+      actor_id,
+      actor_type,
+      name,
+      role,
+      color,
+      github_login,
+      created_at
+    FROM workspace_members
+    WHERE actor_id = $1
+    LIMIT 1`,
+    [actorId],
+  );
+
+  const row = result.rows[0];
+
+  return row
+    ? {
+        membership_id: row.membership_id,
+        workspace_id: row.workspace_id,
+        actor_id: row.actor_id,
+        actor_type: row.actor_type,
+        name: row.name,
+        role: row.role,
+        color: row.color,
+        github_login: row.github_login ?? undefined,
+        created_at: row.created_at,
+      }
+    : null;
+}
+
+export async function createWorkspaceMembership(
+  input: {
+    workspace_id: string;
+    name: string;
+    role: string;
+    color: string;
+    github_login?: string;
+  },
+  options?: StoreOptions,
+): Promise<WorkspaceMembershipRecord> {
+  const database = await getDatabase(options);
+  const { dbPath } = resolveOptions(options);
+  const now = new Date().toISOString();
+  const actorIdBase =
+    input.name
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "_")
+      .replace(/^_+|_+$/g, "") || "workspace_member";
+  const actorId = `${actorIdBase}_${randomUUID().slice(0, 6)}`;
+  const membershipId = `membership_${randomUUID()}`;
+
+  await database.query(
+    `INSERT INTO workspace_members (
+      membership_id,
+      workspace_id,
+      actor_id,
+      actor_type,
+      name,
+      role,
+      color,
+      github_login,
+      created_at
+    ) VALUES ($1, $2, $3, 'human', $4, $5, $6, $7, $8)`,
+    [
+      membershipId,
+      input.workspace_id,
+      actorId,
+      input.name.trim(),
+      input.role.trim(),
+      input.color.trim(),
+      input.github_login?.trim() || null,
+      now,
+    ],
+  );
+  await persistSnapshot(database, dbPath);
+
+  return {
+    membership_id: membershipId,
+    workspace_id: input.workspace_id,
+    actor_id: actorId,
+    actor_type: "human",
+    name: input.name.trim(),
+    role: input.role.trim(),
+    color: input.color.trim(),
+    github_login: input.github_login?.trim() || undefined,
+    created_at: now,
+  };
+}
+
 export async function getWorkspaceActivityMetrics(
   workspaceId: string,
   options?: StoreOptions,

@@ -26,6 +26,7 @@
 - [x] Canonical `ideas/` showcase import for `server-management-agent`.
 - [x] Local admin controls for reset/seed testing.
 - [x] GitHub OAuth hooks, secure-cookie/secret enforcement, and server-derived collab identity.
+- [x] Workspace membership is now persisted and manageable from the workspace UI instead of living only in static seed data.
 - [x] Postgres-backed hosted persistence option plus health/metrics endpoints.
 - [x] Local backup snapshot script exists for web state, collab state, and runner artifacts.
 - [x] Metrics endpoint now exposes simple workspace funnel counts for design-partner instrumentation.
@@ -41,7 +42,7 @@
 - [ ] Run design-partner sessions and instrument activation/retention/trust metrics.
 - [ ] Add managed backup/restore, hosted incident runbooks, and stronger operational dashboards.
 - [ ] Add billing, usage metering, and plan enforcement for SaaS packaging.
-- [ ] Replace local actor fallback with full pilot-grade workspace membership UX in the main product path.
+- [ ] Finish replacing the remaining local actor fallback with a full pilot-grade workspace membership UX in the main product path.
 - [ ] Expand starter generation only after design-partner validation proves which templates matter.
 - [ ] Decide whether the first commercial motion is hosted SaaS only, self-hosted OSS plus hosted SaaS, or OSS-first.
 
