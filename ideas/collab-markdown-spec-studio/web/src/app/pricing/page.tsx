@@ -36,6 +36,7 @@ export default function PricingPage() {
             <ul>
               <li>Workspace app + collab server</li>
               <li>Local admin tools</li>
+              <li>Included demo assist quota</li>
               <li>Bring your own operator workflow</li>
             </ul>
           </article>
@@ -49,6 +50,7 @@ export default function PricingPage() {
             <ul>
               <li>Hosted collaboration and persistence</li>
               <li>Governed agent review workflow</li>
+              <li>Unlimited assist usage in pilot phase</li>
               <li>Launch packet and starter handoff</li>
             </ul>
           </article>
@@ -94,9 +96,9 @@ export default function PricingPage() {
           <div className={styles.faqItem}>
             <strong>Usage overlay</strong>
             <p>
-              The current metering skeleton tracks assist requests plus handoff, execution, and
-              launch-packet views so hosted plans can evolve toward provider-backed usage credits
-              or included quotas.
+              SpecForge now records assist requests plus handoff, execution, and launch-packet
+              views. Demo workspaces use a small included assist quota today, while pilot workspaces
+              stay effectively unlimited during validation.
             </p>
           </div>
           <div className={styles.faqItem}>
@@ -111,8 +113,8 @@ export default function PricingPage() {
 
       <footer className={styles.footer}>
         <p>
-          This page is a product/pricing framing surface for review. Actual billing and plan
-          enforcement remain post-parity SaaS work.
+          This page now reflects the first real plan guard in product code. Full billing,
+          invoicing, and entitlement management remain post-parity SaaS work.
         </p>
       </footer>
     </main>

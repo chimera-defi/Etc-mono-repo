@@ -24,6 +24,16 @@ type AssistResponse = {
   statuses: AgentAssistToolStatus[];
 };
 
+type AssistErrorResponse = {
+  error?: string;
+  message?: string;
+  quota?: {
+    limit: number | null;
+    used: number;
+    remaining: number | null;
+  };
+};
+
 export function GuidedDraftBuilder({
   initialValues,
   toolStatuses,
@@ -66,7 +76,16 @@ export function GuidedDraftBuilder({
       });
 
       if (!response.ok) {
+        const errorPayload = (await response.json().catch(() => null)) as AssistErrorResponse | null;
         setAssistSource("Assist failed");
+        if (response.status === 429 && errorPayload?.quota) {
+          setAssistNotes([
+            errorPayload.message ??
+              "This workspace has used its included assist quota. Keep editing manually or upgrade the plan.",
+            `Assist runs used: ${errorPayload.quota.used}/${errorPayload.quota.limit ?? "unlimited"}.`,
+          ]);
+          return;
+        }
         setAssistNotes(["The assist request failed. Keep editing manually or retry."]);
         return;
       }

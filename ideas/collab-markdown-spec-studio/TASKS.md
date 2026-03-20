@@ -32,6 +32,7 @@
 - [x] Local backup snapshot script exists for web state, collab state, and runner artifacts.
 - [x] Metrics endpoint now exposes simple workspace funnel counts for design-partner instrumentation.
 - [x] Workspace usage events now exist for assist, handoff, execution, and launch-packet views as a billing/metering skeleton.
+- [x] Demo workspaces now enforce a first assist-usage quota so pricing and plan tiers have one real entitlement path in product code.
 - [x] Delivery loop with intents, claims, context, handoff artifact, and meta-learnings.
 - [x] Shared orchestrator backlog parsing now feeds both the parity runner and the in-product delivery-loop panel.
 - [x] Runner status/brief/context now stay aligned with the live backlog instead of stale historical intents.
