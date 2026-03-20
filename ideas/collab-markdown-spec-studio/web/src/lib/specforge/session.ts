@@ -4,10 +4,15 @@ import { cookies } from "next/headers";
 
 import { logger } from "../logger";
 import { WORKSPACE_MEMBERS_SEED } from "../../tests/fixtures/workspace-seed-data";
+import {
+  getWorkspaceMembershipByActorId,
+  getWorkspaceMembershipForUser,
+  listWorkspaceMemberships,
+} from "./store";
 
 export type WorkspaceActor = {
   actor_id: string;
-  actor_type: "human";
+  actor_type: "human" | "agent";
   name: string;
   role: string;
   color: string;
@@ -102,8 +107,12 @@ export function isGitHubAuthConfigured() {
   );
 }
 
-export function listWorkspaceActors() {
-  return workspaceMembers;
+export async function listWorkspaceActors() {
+  try {
+    return await listWorkspaceMemberships("ws_demo");
+  } catch {
+    return workspaceMembers;
+  }
 }
 
 export function listWorkspaces() {
@@ -118,16 +127,39 @@ export function listWorkspaceMembers(workspaceId: string) {
   return workspaceMembers.filter((member) => member.workspace_id === workspaceId);
 }
 
-export function resolveWorkspaceActor(actorId?: string | null) {
-  return workspaceMembers.find((actor) => actor.actor_id === actorId) ?? workspaceMembers[0]!;
+export async function resolveWorkspaceActor(actorId?: string | null) {
+  try {
+    if (actorId) {
+      const membership = await getWorkspaceMembershipByActorId(actorId);
+      if (membership) {
+        return membership;
+      }
+    }
+  } catch {
+    // Fall through to seeded local actors if the local store is unavailable.
+  }
+
+  const actors = await listWorkspaceActors();
+  return actors[0] ?? workspaceMembers[0]!;
 }
 
-export function resolveWorkspaceMemberForGitHubLogin(login?: string | null) {
+export async function resolveWorkspaceMemberForGitHubLogin(
+  login?: string | null,
+  workspaceId: string = "ws_demo",
+) {
   if (!login) {
     return null;
   }
 
-  return workspaceMembers.find((actor) => actor.githubLogin === login) ?? null;
+  try {
+    return (
+      (await getWorkspaceMembershipForUser(login, workspaceId)) ??
+      workspaceMembers.find((actor) => actor.githubLogin === login) ??
+      null
+    );
+  } catch {
+    return workspaceMembers.find((actor) => actor.githubLogin === login) ?? null;
+  }
 }
 
 export function createWorkspaceSessionToken(session: StoredWorkspaceSession) {
@@ -183,8 +215,11 @@ export async function getCurrentWorkspaceSession() {
       try {
         const verified = verifyWorkspaceSessionToken(rawSession);
         const actor =
-          resolveWorkspaceActor(verified.actor_id) ??
-          resolveWorkspaceMemberForGitHubLogin(verified.githubLogin);
+          (await resolveWorkspaceActor(verified.actor_id)) ??
+          (await resolveWorkspaceMemberForGitHubLogin(
+            verified.githubLogin,
+            verified.workspace_id ?? "ws_demo",
+          ));
 
         if (actor) {
           const resolvedActor = verified.workspace_id
@@ -207,10 +242,11 @@ export async function getCurrentWorkspaceSession() {
       }
     }
 
-    return actorToSession(workspaceMembers[0]!, "unauthenticated");
+    const actors = await listWorkspaceActors();
+    return actorToSession(actors[0] ?? workspaceMembers[0]!, "unauthenticated");
   }
 
-  const localActor = resolveWorkspaceActor(cookieStore.get(WORKSPACE_ACTOR_COOKIE)?.value);
+  const localActor = await resolveWorkspaceActor(cookieStore.get(WORKSPACE_ACTOR_COOKIE)?.value);
   return actorToSession(localActor, "local");
 }
 
@@ -220,7 +256,7 @@ export async function getCurrentWorkspaceActor() {
 }
 
 export async function setCurrentWorkspaceActor(actorId: string) {
-  const actor = resolveWorkspaceActor(actorId);
+  const actor = await resolveWorkspaceActor(actorId);
   const cookieStore = await cookies();
   cookieStore.set(WORKSPACE_ACTOR_COOKIE, actor.actor_id, {
     httpOnly: true,
@@ -238,7 +274,10 @@ export async function setGitHubWorkspaceSession(input: {
   workspace_id?: string;
   role?: string;
 }) {
-  const actor = resolveWorkspaceMemberForGitHubLogin(input.githubLogin) ?? workspaceMembers[0]!;
+  const actor =
+    (await resolveWorkspaceMemberForGitHubLogin(input.githubLogin, input.workspace_id ?? "ws_demo")) ??
+    (await listWorkspaceActors())[0] ??
+    workspaceMembers[0]!;
   const workspaceId = input.workspace_id ?? actor.workspace_id;
   const role = input.role ?? actor.role;
   const cookieStore = await cookies();

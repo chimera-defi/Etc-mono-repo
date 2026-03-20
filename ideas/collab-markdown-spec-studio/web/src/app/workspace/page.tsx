@@ -5,6 +5,7 @@ import {
   createCommentThreadAction,
   createClarificationAction,
   createDocumentAction,
+  createWorkspaceMemberAction,
   createPatchAction,
   decidePatchAction,
   resolveCommentThreadAction,
@@ -292,7 +293,7 @@ export default async function Home({ searchParams }: Props) {
       ? resolvedSearchParams.template
       : undefined,
   );
-  const workspaceActors = listWorkspaceActors();
+  const workspaceActors = await listWorkspaceActors();
   const activeWorkspaceSession = await getCurrentWorkspaceSession();
   const activeWorkspaceActor = activeWorkspaceSession.actor;
   const githubAuthConfigured = isGitHubAuthConfigured();
@@ -454,6 +455,26 @@ export default async function Home({ searchParams }: Props) {
                           </li>
                         ))}
                       </ul>
+                      <form action={createWorkspaceMemberAction} className={styles.form}>
+                        <input type="hidden" name="return_to" value={actorReturnTo} />
+                        <label>
+                          Member name
+                          <input name="name" placeholder="Jordan Reviewer" required />
+                        </label>
+                        <label>
+                          Role
+                          <input name="role" placeholder="Reviewer" required />
+                        </label>
+                        <label>
+                          GitHub login
+                          <input name="github_login" placeholder="jordan-dev" />
+                        </label>
+                        <label>
+                          Color
+                          <input name="color" type="color" defaultValue="#475569" />
+                        </label>
+                        <button type="submit">Add workspace member</button>
+                      </form>
                     </div>
                   </details>
                   {workspaceRecords.length > 1 ? (

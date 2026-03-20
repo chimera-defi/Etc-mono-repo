@@ -9,6 +9,7 @@ import {
   createCommentThread,
   createClarification,
   createDocument,
+  createWorkspaceMembership,
   decidePatch,
   createPatchProposal,
   exportDocument,
@@ -59,6 +60,25 @@ describe("specforge store", () => {
     expect(members).toHaveLength(3);
     expect(members[0]?.role).toBeTruthy();
     expect(activity.document_count).toBeGreaterThan(0);
+  });
+
+  it("creates persisted workspace memberships", async () => {
+    const options = await makeOptions();
+    const created = await createWorkspaceMembership(
+      {
+        workspace_id: "ws_demo",
+        name: "Jordan Reviewer",
+        role: "Reviewer",
+        color: "#334155",
+        github_login: "jordan-reviewer",
+      },
+      options,
+    );
+
+    const members = await listWorkspaceMemberships("ws_demo", options);
+
+    expect(created.actor_id).toContain("jordan_reviewer");
+    expect(members.some((member) => member.github_login === "jordan-reviewer")).toBe(true);
   });
 
   it("records workspace usage events for future billing and instrumentation", async () => {
