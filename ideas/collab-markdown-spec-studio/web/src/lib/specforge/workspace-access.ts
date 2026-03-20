@@ -101,6 +101,34 @@ export async function getCurrentWorkspaceLaunchContext(
   };
 }
 
+export async function getCurrentWorkspaceLaunchResource<T>(
+  request: Request,
+  documentId: string,
+  input: {
+    eventType: string;
+    select: (context: NonNullable<Awaited<ReturnType<typeof buildDocumentLaunchContext>>>) => T;
+  },
+) {
+  const templateId = resolveLaunchTemplateFromRequest(request);
+  const { actor, context } = await getCurrentWorkspaceLaunchContext(documentId, templateId);
+
+  if (!context) {
+    return { status: 404 as const, body: { error: "Document not found" } };
+  }
+
+  await recordCurrentWorkspaceUsage({
+    actor,
+    eventType: input.eventType,
+    documentId: context.document.document_id,
+    templateId,
+  });
+
+  return {
+    status: 200 as const,
+    body: input.select(context),
+  };
+}
+
 export function resolveLaunchTemplateFromRequest(request: Request) {
   return resolveStarterTemplateId(
     new URL(request.url).searchParams.get("template") ?? undefined,

@@ -44,6 +44,8 @@ Current slice:
 - staged UI for the local MVP flow
 - web runtime health endpoint at `/api/health`
 - web runtime metrics endpoint at `/api/metrics`
+- workspace entitlements endpoint at `/api/workspace/entitlements`
+- workspace ops summary endpoint at `/api/ops/summary`
 - pricing anchors benchmarked in `../PRICING_BENCHMARKS.md`
 
 ## Commands
@@ -95,6 +97,7 @@ bun run state:backup
 - In local mode, agent assist can reuse existing `codex` or `claude` CLI logins from the server runtime, and the preferred runtime can be saved from the workspace session panel. Hosted mode should use server-side workspace credentials instead.
 - Shared specs use canonical workspace URLs like `/workspace?document=<id>&stage=draft`; the workspace UI exposes a copyable share link, but pilot recipients still need GitHub sign-in and workspace membership.
 - Local ops rehearsal now has both `bun run state:backup` and `bun run state:restore`, and the workspace sidebar links to the health and metrics endpoints directly.
+- The workspace sidebar now also links to `/api/workspace/entitlements` and `/api/ops/summary` so local SaaS rehearsal can inspect quotas, billing preview, parity state, and persistence in one place.
 - `bun run verify` is the canonical full local gate, and `specforge verify` exposes the same suite from the agent-native CLI surface.
 - `bun run parity:verify` records the latest verification result into the runner state and handoff artifacts, so the orchestration loop has a durable last-known-green checkpoint.
 - `bun run test:e2e` only runs the browser demo suite (`tests/demo.spec.ts`); engine-level acceptance coverage lives under `bun run test:acceptance`.
@@ -115,5 +118,7 @@ bun run state:backup
 - Health endpoints:
   - `/api/health`
   - `/api/metrics`
+  - `/api/ops/summary`
+  - `/api/workspace/entitlements`
   - `http://127.0.0.1:4322/health`
   - `http://127.0.0.1:4322/metrics`
