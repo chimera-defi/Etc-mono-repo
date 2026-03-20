@@ -20,7 +20,6 @@ import { LocalAdminPanel } from "../local-admin-panel";
 import { ShareDocumentPanel } from "../share-document-panel";
 import styles from "../page.module.css";
 import { getAgentAssistToolStatuses } from "@/lib/specforge/agent-assist";
-import type { DocumentRecord, StoredPatch } from "@/lib/specforge/contracts";
 import { readBacklogState } from "@/lib/specforge/backlog";
 import {
   getCurrentWorkspaceSession,
@@ -35,9 +34,12 @@ import {
 } from "@/lib/specforge/handoff";
 import { heroVariantOrder, heroVariants, type HeroVariant } from "@/lib/specforge/marketing";
 import { listShowcaseExamples } from "@/lib/specforge/showcase";
-import { listAuditEvents, type CommentThreadRecord } from "@/lib/specforge/store";
+import {
+  buildGuidedSteps,
+  type GuidedStep,
+  loadActiveWorkspaceDocumentState,
+} from "@/lib/specforge/workspace-document-state";
 import { loadWorkspaceSummary } from "@/lib/specforge/workspace-summary";
-import { buildDocumentLaunchContext, buildLaunchPacket } from "@/lib/specforge/workflow";
 
 export const dynamic = "force-dynamic";
 
@@ -51,22 +53,6 @@ type Props = {
     template?: string;
     membership_error?: string;
   }>;
-};
-
-type BlockSummary = {
-  block_id: string;
-  heading: string;
-  openComments: number;
-  pendingPatches: number;
-  touchedBy: string[];
-};
-
-type GuidedStep = {
-  id: string;
-  stage: Stage;
-  title: string;
-  description: string;
-  status: "completed" | "current" | "upcoming";
 };
 
 const stageOrder: Stage[] = ["start", "draft", "review", "decide", "export"];
@@ -118,105 +104,6 @@ function renderDiffLines(before: string, after: string) {
       tone: "changed",
     };
   });
-}
-
-function summarizeBlocks(
-  activeDocument: DocumentRecord,
-  patches: StoredPatch[],
-  commentThreads: CommentThreadRecord[],
-) {
-  const summaries = activeDocument.blocks.map<BlockSummary>((block) => {
-    const blockPatches = patches.filter((patch) => patch.block_id === block.block_id);
-    const blockComments = commentThreads.filter((thread) => thread.block_id === block.block_id);
-    const touchedBy = Array.from(
-      new Set([
-        ...blockPatches.map(
-          (patch) => `${patch.proposed_by.actor_type}:${patch.proposed_by.actor_id}`,
-        ),
-        ...blockComments.map(
-          (thread) => `${thread.created_by.actor_type}:${thread.created_by.actor_id}`,
-        ),
-      ]),
-    );
-
-    return {
-      block_id: block.block_id,
-      heading: block.heading,
-      openComments: blockComments.filter((thread) => thread.status === "open").length,
-      pendingPatches: blockPatches.filter((patch) =>
-        ["proposed", "stale"].includes(patch.status),
-      ).length,
-      touchedBy,
-    };
-  });
-
-  return summaries.sort((left, right) => {
-    const leftWeight = left.openComments + left.pendingPatches;
-    const rightWeight = right.openComments + right.pendingPatches;
-    return rightWeight - leftWeight;
-  });
-}
-
-function buildGuidedSteps(input: {
-  hasDocument: boolean;
-  hasDraft: boolean;
-  hasPatches: boolean;
-  hasOpenComments: boolean;
-  hasPendingPatches: boolean;
-  isReadyToExport: boolean;
-}) {
-  const baseSteps = [
-    {
-      id: "create",
-      stage: "start" as const,
-      title: "Create or open a spec",
-      description: "Start from a seeded document or open a fresh draft.",
-      completed: input.hasDocument,
-    },
-    {
-      id: "draft",
-      stage: "draft" as const,
-      title: "Draft on the shared canvas",
-      description: "Edit live, collaborate, and save a canonical snapshot.",
-      completed: input.hasDraft,
-    },
-    {
-      id: "review",
-      stage: "review" as const,
-      title: "Queue review work",
-      description: "Open comments, activity, and targeted patch proposals.",
-      completed: input.hasPatches || input.hasOpenComments,
-    },
-    {
-      id: "decide",
-      stage: "decide" as const,
-      title: "Resolve the patch queue",
-      description: "Accept, cherry-pick, or reject proposed changes.",
-      completed: !input.hasOpenComments && !input.hasPendingPatches && input.hasPatches,
-    },
-    {
-      id: "export",
-      stage: "export" as const,
-      title: "Launch the build handoff",
-      description: "Review the export, starter output, and execution brief together.",
-      completed: input.isReadyToExport,
-    },
-  ];
-
-  const currentIndex = baseSteps.findIndex((step) => !step.completed);
-
-  return baseSteps.map<GuidedStep>((step, index) => ({
-    id: step.id,
-    stage: step.stage,
-    title: step.title,
-    description: step.description,
-    status:
-      currentIndex === -1 || index < currentIndex
-        ? "completed"
-        : index === currentIndex
-          ? "current"
-          : "upcoming",
-  }));
 }
 
 function buildStageHref(documentId: string | null, stage: Stage) {
@@ -333,47 +220,37 @@ export default async function Home({ searchParams }: Props) {
     memberQuota,
     billingPreview,
   } = workspaceSummary;
-  const activeDocumentId =
-    documents.find((document) => document.document_id === requestedDocumentId)?.document_id ??
-    documents[0]?.document_id ??
-    null;
-  const [showcaseExamples, activeContext] = await Promise.all([
+  const [showcaseExamples, activeDocumentState] = await Promise.all([
     listShowcaseExamples(),
-    activeDocumentId
-      ? buildDocumentLaunchContext(
-          activeDocumentId,
-          activeWorkspaceActor.workspace_id,
-          selectedTemplateId,
-        )
-      : Promise.resolve(null),
+    loadActiveWorkspaceDocumentState({
+      documents,
+      requestedDocumentId,
+      workspaceId: activeWorkspaceActor.workspace_id,
+      templateId: selectedTemplateId,
+    }),
   ]);
-  const activeDocument = activeContext?.document ?? null;
-  const patches = activeContext?.patches ?? [];
-  const commentThreads = activeContext?.comments ?? [];
-  const clarifications = activeContext?.clarifications ?? [];
-  const exportBundle = activeContext?.exportBundle ?? null;
-  const readinessReport = activeContext?.readiness ?? null;
-  const handoffBundle = activeContext?.starterBundle ?? null;
-  const executionBrief = activeContext?.executionBrief ?? null;
-  const launchPacket = activeContext ? buildLaunchPacket(activeContext) : null;
-  const auditEvents = activeDocument
-    ? await listAuditEvents(activeDocument.document_id)
-    : [];
-  const activeBlock = activeDocument?.blocks[0] ?? null;
-  const showcaseSourceId = activeDocument?.metadata.source_example_id ?? "";
-  const showcaseSourcePath = activeDocument?.metadata.source_path ?? "";
-  const blockSummaries = activeDocument
-    ? summarizeBlocks(activeDocument, patches, commentThreads)
-    : [];
-  const agentProposedPatches = patches.filter((patch) => patch.proposed_by.actor_type === "agent");
-  const approvedAgentPatches = agentProposedPatches.filter((patch) =>
-    ["accepted", "cherry_picked"].includes(patch.status),
-  );
-  const humanComments = commentThreads.filter((thread) => thread.created_by.actor_type === "human");
-  const actionablePatches = patches.filter((patch) => ["proposed", "stale"].includes(patch.status));
-  const resolvedPatches = patches.filter((patch) =>
-    ["accepted", "rejected", "cherry_picked"].includes(patch.status),
-  );
+  const {
+    activeDocumentId,
+    activeDocument,
+    patches,
+    commentThreads,
+    clarifications,
+    exportBundle,
+    readinessReport,
+    handoffBundle,
+    executionBrief,
+    launchPacket,
+    auditEvents,
+    activeBlock,
+    showcaseSourceId,
+    showcaseSourcePath,
+    blockSummaries,
+    agentProposedPatches,
+    approvedAgentPatches,
+    humanComments,
+    actionablePatches,
+    resolvedPatches,
+  } = activeDocumentState;
   const guidedSteps = buildGuidedSteps({
     hasDocument: Boolean(activeDocument),
     hasDraft: Boolean(activeDocument?.markdown.trim()),
