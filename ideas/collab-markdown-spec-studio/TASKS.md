@@ -62,12 +62,12 @@
 - [x] Lane D: keep web and collab surfaces consuming the shared contracts without regressions.
 
 ## Verification Commands
-- [x] `npm run lint`
-- [x] `npm run test`
-- [x] `npm run build`
-- [x] `npm run test:e2e`
-- [x] `npm run test:cli`
-- [x] `npm run test:acceptance`
-- [x] `npm run contracts:validate`
-- [x] `npm run parity:status`
+- [x] `bun run lint`
+- [x] `bun run test`
+- [x] `bun run build`
+- [x] `bun run test:e2e`
+- [x] `bun run test:cli`
+- [x] `bun run test:acceptance`
+- [x] `bun run contracts:validate`
+- [x] `bun run parity:status`
 - [x] `npm audit --omit=dev`

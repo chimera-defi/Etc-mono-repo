@@ -7,18 +7,18 @@
 ## Primary Commands
 ```bash
 cd ideas/collab-markdown-spec-studio/web
-npm run dev
-npm run test
-npm run lint
-npm run build
-npm run test:e2e
+bun run dev
+bun run test
+bun run lint
+bun run build
+bun run test:e2e
 
 cd ../collab-server
-npm run dev
+bun run dev
 
 cd ..
 docker compose up --build
-npm run state:backup
+bun run state:backup
 ```
 
 ## Deployment Rehearsal Notes
@@ -86,6 +86,6 @@ npm run state:backup
 - Hit the health endpoints before deeper debugging to distinguish startup issues from document-sync issues.
 - Both health endpoints now expose the active persistence configuration, which is the first place to check for mounted-volume drift.
 - Metrics endpoints expose workspace/document counts and room snapshot counts for quick runtime sanity checks.
-- Use Playwright `npm run test:e2e` as the local integration smoke test after fixes.
+- Use Playwright `bun run test:e2e` as the local integration smoke test after fixes.
 - Treat the launch packet as the final parity artifact: if export/handoff/execution diverge, rebuild the launch context first.
-- `npm run state:backup` snapshots local web state, collab state, and runner artifacts under `.backups/specforge/`.
+- `bun run state:backup` snapshots local web state, collab state, and runner artifacts under `.backups/specforge/`.
