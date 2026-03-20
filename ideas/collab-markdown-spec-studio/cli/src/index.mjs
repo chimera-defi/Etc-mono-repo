@@ -21,6 +21,7 @@ import {
   findLatestRelevantClaim,
   findLatestRelevantIntent,
   findLatestRelevantSignal,
+  findLatestVerification,
   normalizeLoopState,
 } from "../../orchestrator/src/loop-state.js";
 import { runVerificationSuite } from "../../orchestrator/src/verification.js";
@@ -175,6 +176,7 @@ async function runTui() {
             "SpecForge Artifacts",
             `Handoff: ${artifactsPayload.handoff.path}`,
             `Meta learnings: ${artifactsPayload.meta_learnings.path}`,
+            `Latest verification: ${artifactsPayload.latest_verification ? "recorded" : "unavailable"}`,
             "",
             artifactsPayload.handoff.preview
               ? `Handoff preview:\n${artifactsPayload.handoff.preview}`
@@ -183,6 +185,12 @@ async function runTui() {
             artifactsPayload.meta_learnings.preview
               ? `Meta learnings preview:\n${artifactsPayload.meta_learnings.preview}`
               : "Meta learnings preview: unavailable",
+            "",
+            artifactsPayload.latest_verification
+              ? `Latest verification:\n${artifactsPayload.latest_verification.results
+                  .map((result) => `- ${result.command}: ${result.status === 0 ? "ok" : "failed"}`)
+                  .join("\n")}`
+              : "Latest verification: unavailable",
             "",
           ].join("\n"),
         );
@@ -269,6 +277,8 @@ async function readArtifactPreview(filePath) {
 }
 
 async function buildArtifactsPayload() {
+  const loopState = await readLoopState();
+
   return {
     handoff: {
       path: handoffPath,
@@ -278,6 +288,7 @@ async function buildArtifactsPayload() {
       path: metaLearningsPath,
       preview: await readArtifactPreview(metaLearningsPath),
     },
+    latest_verification: findLatestVerification(loopState),
   };
 }
 
@@ -382,6 +393,7 @@ async function run() {
             : [
                 `Handoff: ${artifactsPayload.handoff.path}`,
                 `Meta learnings: ${artifactsPayload.meta_learnings.path}`,
+                `Latest verification: ${artifactsPayload.latest_verification ? "recorded" : "unavailable"}`,
                 "",
                 artifactsPayload.handoff.preview
                   ? `Handoff preview:\n${artifactsPayload.handoff.preview}`
@@ -390,6 +402,12 @@ async function run() {
                 artifactsPayload.meta_learnings.preview
                   ? `Meta learnings preview:\n${artifactsPayload.meta_learnings.preview}`
                   : "Meta learnings preview: unavailable",
+                "",
+                artifactsPayload.latest_verification
+                  ? `Latest verification:\n${artifactsPayload.latest_verification.results
+                      .map((result) => `- ${result.command}: ${result.status === 0 ? "ok" : "failed"}`)
+                      .join("\n")}`
+                  : "Latest verification: unavailable",
               ].join("\n")
         }\n`,
       );

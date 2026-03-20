@@ -535,6 +535,7 @@ export default async function Home({ searchParams }: Props) {
                     <ShareDocumentPanel
                       shareUrl={shareUrl}
                       documentTitle={activeDocument?.title ?? null}
+                      workspaceName={activeWorkspace.name}
                       requiresMembership={activeWorkspaceSession.authMode !== "local"}
                     />
                   </details>
