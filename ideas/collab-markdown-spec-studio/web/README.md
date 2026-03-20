@@ -17,6 +17,7 @@ Current slice:
 - pilot workspaces now require GitHub-linked member invites while local demo workspaces keep the lighter rehearsal flow
 - local workspace sessions with GitHub OAuth pilot hooks for server-side attribution
 - persisted workspace members with add/remove controls in the workspace session panel
+- persisted workspace members can now update roles in-place from the workspace session panel
 - workspace plan switcher for local demo vs pilot rehearsal
 - local embedded SQL persistence via PGlite with disk-backed snapshot sharing across app workers
 - hosted persistence path via Postgres-backed store selection

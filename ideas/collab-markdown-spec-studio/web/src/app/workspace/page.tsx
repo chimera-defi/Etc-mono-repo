@@ -1,14 +1,6 @@
 import Link from "next/link";
 import { headers } from "next/headers";
 
-import {
-  createWorkspaceMemberAction,
-  removeWorkspaceMemberAction,
-  setAssistRuntimePreferenceAction,
-  setWorkspacePlanAction,
-  switchWorkspaceAction,
-  switchWorkspaceActorAction,
-} from "../actions";
 import { LocalAdminPanel } from "../local-admin-panel";
 import { ShareDocumentPanel } from "../share-document-panel";
 import styles from "../page.module.css";
@@ -33,6 +25,15 @@ import {
 } from "@/lib/specforge/workspace-document-state";
 import { loadWorkspaceSummary } from "@/lib/specforge/workspace-summary";
 import { DraftStage, DecideStage, ExportStage, ReviewStage, StartStage } from "./workspace-stage-panels";
+import {
+  createWorkspaceMemberAction,
+  removeWorkspaceMemberAction,
+  setAssistRuntimePreferenceAction,
+  setWorkspacePlanAction,
+  switchWorkspaceAction,
+  switchWorkspaceActorAction,
+  updateWorkspaceMemberRoleAction,
+} from "./workspace-actions";
 import { buildStageHref, getStageMeta, stageOrder, type Stage } from "./stage-utils";
 import {
   DeliveryLoopPanel,
@@ -338,6 +339,7 @@ export default async function Home({ searchParams }: Props) {
                     membershipError={membershipError}
                     createWorkspaceMemberAction={createWorkspaceMemberAction}
                     removeWorkspaceMemberAction={removeWorkspaceMemberAction}
+                    updateWorkspaceMemberRoleAction={updateWorkspaceMemberRoleAction}
                   />
                   {visibleWorkspaces.length > 1 ? (
                     <details className={styles.wizardSection}>

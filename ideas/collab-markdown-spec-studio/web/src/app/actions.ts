@@ -8,26 +8,14 @@ import {
   createCommentThread,
   createClarification,
   createDocument,
-  createWorkspaceMembership,
-  deleteWorkspaceMembership,
   getDocument,
   createPatchProposal,
   decidePatch,
-  listWorkspaceMemberships,
-  listWorkspaceRecords,
   resetWorkspaceDocuments,
   resolveCommentThread,
-  updateWorkspacePlan,
 } from "@/lib/specforge/store";
 import { buildGuidedSpecMarkdown, buildGuidedSpecMetadata } from "@/lib/specforge/guided";
-import { getMemberQuotaState } from "@/lib/specforge/plans";
-import {
-  getCurrentWorkspaceActor,
-  setCurrentWorkspace,
-  setCurrentWorkspaceActor,
-  setPreferredAssistTool,
-  type PreferredAssistTool,
-} from "@/lib/specforge/session";
+import { getCurrentWorkspaceActor } from "@/lib/specforge/session";
 import { getShowcaseExample } from "@/lib/specforge/showcase";
 
 async function getActionActorRef() {
@@ -40,22 +28,6 @@ async function getActionActorRef() {
       actor_id: currentActor.actor_id,
     },
   };
-}
-
-async function recordWorkspaceActionEvent(
-  currentActor: Awaited<ReturnType<typeof getCurrentWorkspaceActor>>,
-  eventType: string,
-  payload?: Record<string, unknown>,
-) {
-  await import("@/lib/specforge/store").then(({ recordWorkspaceEvent }) =>
-    recordWorkspaceEvent({
-      workspace_id: currentActor.workspace_id,
-      event_type: eventType,
-      actor_type: currentActor.actor_type,
-      actor_id: currentActor.actor_id,
-      payload,
-    }),
-  );
 }
 
 export async function createDocumentAction(formData: FormData) {
@@ -194,51 +166,6 @@ export async function answerClarificationAction(formData: FormData) {
   revalidatePath("/workspace");
 }
 
-export async function switchWorkspaceActorAction(formData: FormData) {
-  const actorId = String(formData.get("actor_id") ?? "");
-  const returnTo = String(formData.get("return_to") ?? "/workspace");
-
-  await setCurrentWorkspaceActor(actorId);
-  redirect(returnTo || "/workspace");
-}
-
-export async function switchWorkspaceAction(formData: FormData) {
-  const workspaceId = String(formData.get("workspace_id") ?? "");
-  const returnTo = String(formData.get("return_to") ?? "/workspace");
-
-  if (!workspaceId) {
-    redirect(returnTo || "/workspace");
-  }
-
-  await setCurrentWorkspace(workspaceId);
-  redirect(returnTo || "/workspace");
-}
-
-export async function setAssistRuntimePreferenceAction(formData: FormData) {
-  const currentActor = await getCurrentWorkspaceActor();
-  const selectedTool = String(formData.get("assist_tool") ?? "auto") as PreferredAssistTool;
-  const returnTo = String(formData.get("return_to") ?? "/workspace?stage=start");
-
-  await setPreferredAssistTool(selectedTool);
-  await recordWorkspaceActionEvent(currentActor, "workspace.assist_preference_saved", {
-    assist_tool: selectedTool,
-  });
-  redirect(returnTo || "/workspace?stage=start");
-}
-
-export async function setWorkspacePlanAction(formData: FormData) {
-  const { currentActor } = await getActionActorRef();
-  const returnTo = String(formData.get("return_to") ?? "/workspace");
-  const selectedPlan = String(formData.get("plan") ?? "demo");
-  const plan = selectedPlan === "pilot" ? "pilot" : "demo";
-
-  await updateWorkspacePlan(currentActor.workspace_id, plan);
-  await recordWorkspaceActionEvent(currentActor, "workspace.plan_changed", { plan });
-
-  revalidatePath("/workspace");
-  redirect(returnTo || "/workspace");
-}
-
 export async function resetWorkspaceDocumentsAction(formData: FormData) {
   const { currentActor } = await getActionActorRef();
   const returnTo = String(formData.get("return_to") ?? "/workspace?stage=start");
@@ -299,97 +226,4 @@ export async function seedReviewDemoAction(formData: FormData) {
 
   revalidatePath("/workspace");
   redirect(`/workspace?document=${document.document_id}&stage=review`);
-}
-
-export async function createWorkspaceMemberAction(formData: FormData) {
-  const { currentActor } = await getActionActorRef();
-  const returnTo = String(formData.get("return_to") ?? "/workspace");
-  const [workspaces, members] = await Promise.all([
-    listWorkspaceRecords(),
-    listWorkspaceMemberships(currentActor.workspace_id),
-  ]);
-  const workspace =
-    workspaces.find((item) => item.workspace_id === currentActor.workspace_id) ?? {
-      workspace_id: currentActor.workspace_id,
-      name: "SpecForge Demo Workspace",
-      plan: "demo" as const,
-      created_at: new Date(0).toISOString(),
-    };
-  const memberQuota = getMemberQuotaState(workspace, members.length);
-
-  if (memberQuota.blocked) {
-    const blockedUrl = new URL(returnTo, "http://specforge.local");
-    blockedUrl.searchParams.set("membership_error", "limit");
-    redirect(`${blockedUrl.pathname}${blockedUrl.search}`);
-  }
-
-  const githubLogin = String(formData.get("github_login") ?? "").trim();
-  if (
-    githubLogin &&
-    members.some(
-      (member) => member.github_login?.toLowerCase() === githubLogin.toLowerCase(),
-    )
-  ) {
-    const blockedUrl = new URL(returnTo, "http://specforge.local");
-    blockedUrl.searchParams.set("membership_error", "duplicate");
-    redirect(`${blockedUrl.pathname}${blockedUrl.search}`);
-  }
-
-  if (workspace.plan === "pilot" && !githubLogin) {
-    const blockedUrl = new URL(returnTo, "http://specforge.local");
-    blockedUrl.searchParams.set("membership_error", "github_required");
-    redirect(`${blockedUrl.pathname}${blockedUrl.search}`);
-  }
-
-  await createWorkspaceMembership({
-    workspace_id: currentActor.workspace_id,
-    name: String(formData.get("name") ?? "New member"),
-    role: String(formData.get("role") ?? "Contributor"),
-    color: String(formData.get("color") ?? "#475569"),
-    github_login: githubLogin,
-  });
-  await recordWorkspaceActionEvent(currentActor, "workspace.member_added", {
-    github_login: githubLogin || null,
-  });
-
-  revalidatePath("/workspace");
-  redirect(returnTo || "/workspace");
-}
-
-export async function removeWorkspaceMemberAction(formData: FormData) {
-  const { currentActor } = await getActionActorRef();
-  const returnTo = String(formData.get("return_to") ?? "/workspace");
-  const membershipId = String(formData.get("membership_id") ?? "");
-
-  if (!membershipId) {
-    redirect(returnTo || "/workspace");
-  }
-
-  const members = await listWorkspaceMemberships(currentActor.workspace_id);
-  const targetMember = members.find((member) => member.membership_id === membershipId);
-
-  if (!targetMember) {
-    redirect(returnTo || "/workspace");
-  }
-
-  if (members.length <= 1) {
-    const blockedUrl = new URL(returnTo, "http://specforge.local");
-    blockedUrl.searchParams.set("membership_error", "last_member");
-    redirect(`${blockedUrl.pathname}${blockedUrl.search}`);
-  }
-
-  if (targetMember.actor_id === currentActor.actor_id) {
-    const blockedUrl = new URL(returnTo, "http://specforge.local");
-    blockedUrl.searchParams.set("membership_error", "self_remove");
-    redirect(`${blockedUrl.pathname}${blockedUrl.search}`);
-  }
-
-  await deleteWorkspaceMembership(membershipId);
-  await recordWorkspaceActionEvent(currentActor, "workspace.member_removed", {
-    removed_actor_id: targetMember.actor_id,
-    removed_github_login: targetMember.github_login ?? null,
-  });
-
-  revalidatePath("/workspace");
-  redirect(returnTo || "/workspace");
 }

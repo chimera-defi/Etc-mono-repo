@@ -44,6 +44,7 @@
 - [x] Workspace member creation now blocks duplicate GitHub logins instead of silently creating conflicting pilot memberships.
 - [x] Pilot workspaces now require GitHub-linked member invites, while the workspace UI exposes clearer local-vs-pilot invite guidance.
 - [x] Workspace membership is no longer add-only: the workspace UI can remove members safely without deleting the current active session or the final remaining member.
+- [x] Workspace membership roles can now be updated directly from the workspace UI, and those changes flow into workspace behavior instrumentation.
 - [x] Metrics, ops summary, and the workspace UI now expose a simple design-partner funnel: activation, assist usage, collaboration, review, and launch preparation.
 - [x] Workspace incident warnings now have a dedicated `/api/ops/incidents` surface instead of living only inside the broader ops summary payload.
 - [x] Delivery loop with intents, claims, context, handoff artifact, and meta-learnings.
