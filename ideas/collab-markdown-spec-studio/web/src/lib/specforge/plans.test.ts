@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  formatWorkspacePlanSeatPrice,
   getAssistQuotaState,
   getWorkspaceBillingStatus,
+  listWorkspacePlans,
   getMemberQuotaState,
   getWorkspaceBillingPreview,
   getWorkspacePlanPolicy,
@@ -69,6 +71,24 @@ describe("plans", () => {
     expect(status.recommendedPlan).toBe("pilot");
     expect(status.reasons).toEqual(
       expect.arrayContaining(["Assist quota exhausted", "Member limit reached"]),
+    );
+  });
+
+  it("lists the shared workspace plan catalog", () => {
+    const plans = listWorkspacePlans();
+
+    expect(plans.map((plan) => plan.plan)).toEqual(["demo", "pilot", "enterprise"]);
+  });
+
+  it("formats seat prices consistently for pricing surfaces", () => {
+    expect(formatWorkspacePlanSeatPrice({ plan: "demo", seatPriceMonthlyUsd: null })).toBe(
+      "Free",
+    );
+    expect(formatWorkspacePlanSeatPrice({ plan: "enterprise", seatPriceMonthlyUsd: null })).toBe(
+      "Custom",
+    );
+    expect(formatWorkspacePlanSeatPrice({ plan: "pilot", seatPriceMonthlyUsd: 24 })).toBe(
+      "$24",
     );
   });
 });

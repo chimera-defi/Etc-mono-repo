@@ -38,10 +38,12 @@
 - [x] Workspace membership limits and a seat-based monthly billing preview now exist so future SaaS billing/membership flows have real product hooks.
 - [x] Workspace entitlements and ops summary endpoints now exist for local rehearsal and future hosted ops surfaces.
 - [x] Workspace plans can now be switched in-product for local quota and billing rehearsal, and local backups are inspectable through an ops endpoint.
+- [x] Shared workspace plan definitions now drive both the pricing page and `/api/workspace/plans`, so SaaS packaging surfaces use one contract.
 - [x] Workspace entitlements now expose feature flags alongside quotas and billing preview, so SaaS packaging has a clearer contract surface.
 - [x] Workspace behavior signals now track member adds, plan changes, assist preference saves, document creation, patch decisions, and clarification answers.
 - [x] Workspace member creation now blocks duplicate GitHub logins instead of silently creating conflicting pilot memberships.
 - [x] Pilot workspaces now require GitHub-linked member invites, while the workspace UI exposes clearer local-vs-pilot invite guidance.
+- [x] Workspace membership is no longer add-only: the workspace UI can remove members safely without deleting the current active session or the final remaining member.
 - [x] Metrics, ops summary, and the workspace UI now expose a simple design-partner funnel: activation, assist usage, collaboration, review, and launch preparation.
 - [x] Workspace incident warnings now have a dedicated `/api/ops/incidents` surface instead of living only inside the broader ops summary payload.
 - [x] Delivery loop with intents, claims, context, handoff artifact, and meta-learnings.

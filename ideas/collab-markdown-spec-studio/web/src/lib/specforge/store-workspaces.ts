@@ -234,6 +234,32 @@ export function createWorkspaceStore(deps: WorkspaceStoreDeps) {
       };
     },
 
+    async deleteWorkspaceMembership(membershipId: string, options?: StoreOptions) {
+      const database = await deps.getDatabase(options);
+      const { dbPath } = deps.resolveOptions(options);
+      const result = await database.query<WorkspaceMemberRow>(
+        `DELETE FROM workspace_members
+        WHERE membership_id = $1
+        RETURNING
+          membership_id,
+          workspace_id,
+          actor_id,
+          actor_type,
+          name,
+          role,
+          color,
+          github_login,
+          created_at`,
+        [membershipId],
+      );
+      const row = result.rows[0];
+      if (!row) {
+        return null;
+      }
+      await deps.persistSnapshot(database, dbPath);
+      return mapWorkspaceMembershipRow(row);
+    },
+
     async getWorkspaceActivityMetrics(
       workspaceId: string,
       options?: StoreOptions,

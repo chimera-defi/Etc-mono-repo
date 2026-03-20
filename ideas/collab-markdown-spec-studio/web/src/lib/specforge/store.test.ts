@@ -10,6 +10,7 @@ import {
   createClarification,
   createDocument,
   createWorkspaceMembership,
+  deleteWorkspaceMembership,
   decidePatch,
   createPatchProposal,
   exportDocument,
@@ -80,6 +81,26 @@ describe("specforge store", () => {
 
     expect(created.actor_id).toContain("jordan_reviewer");
     expect(members.some((member) => member.github_login === "jordan-reviewer")).toBe(true);
+  });
+
+  it("removes persisted workspace memberships", async () => {
+    const options = await makeOptions();
+    const created = await createWorkspaceMembership(
+      {
+        workspace_id: "ws_demo",
+        name: "Jordan Reviewer",
+        role: "Reviewer",
+        color: "#334155",
+        github_login: "jordan-reviewer",
+      },
+      options,
+    );
+
+    const removed = await deleteWorkspaceMembership(created.membership_id, options);
+    const members = await listWorkspaceMemberships("ws_demo", options);
+
+    expect(removed?.membership_id).toBe(created.membership_id);
+    expect(members.some((member) => member.membership_id === created.membership_id)).toBe(false);
   });
 
   it("updates the workspace plan for local SaaS rehearsal", async () => {

@@ -13,9 +13,10 @@ Current slice:
 - mini agent-assist that can populate guided fields from a rough brief
 - demo workspaces now enforce a small included assist quota while pilot workspaces remain effectively unbounded
 - workspace member limits and a seat-based monthly billing preview now exist as the first SaaS billing/membership hooks
+- pricing and plan JSON now share one workspace plan catalog instead of duplicating tier definitions
 - pilot workspaces now require GitHub-linked member invites while local demo workspaces keep the lighter rehearsal flow
 - local workspace sessions with GitHub OAuth pilot hooks for server-side attribution
-- persisted workspace members with add-member controls in the workspace session panel
+- persisted workspace members with add/remove controls in the workspace session panel
 - workspace plan switcher for local demo vs pilot rehearsal
 - local embedded SQL persistence via PGlite with disk-backed snapshot sharing across app workers
 - hosted persistence path via Postgres-backed store selection
@@ -49,6 +50,7 @@ Current slice:
 - web runtime metrics endpoint at `/api/metrics`
 - workspace entitlements endpoint at `/api/workspace/entitlements`
 - workspace billing endpoint at `/api/workspace/billing`
+- workspace plans endpoint at `/api/workspace/plans`
 - workspace ops summary endpoint at `/api/ops/summary`
 - workspace incident feed endpoint at `/api/ops/incidents`
 - workspace backup index endpoint at `/api/ops/backups`
@@ -104,6 +106,7 @@ bun run state:backup
 - Shared specs use canonical workspace URLs like `/workspace?document=<id>&stage=draft`; the workspace UI exposes a copyable share link, but pilot recipients still need GitHub sign-in and workspace membership.
 - Local ops rehearsal now has both `bun run state:backup` and `bun run state:restore`, and the workspace sidebar links to the health and metrics endpoints directly.
 - The workspace sidebar now also links to `/api/workspace/entitlements` and `/api/ops/summary` so local SaaS rehearsal can inspect quotas, billing preview, parity state, and persistence in one place.
+- `/api/workspace/plans` now exposes the shared plan catalog that also drives `/pricing`, which makes packaging and billing-preview review easier.
 - `/api/workspace/billing` now exposes upgrade-required reasons, recommended plan, and the current billing preview as a cleaner entitlement handoff for future payment integration.
 - `/api/metrics`, `/api/ops/summary`, and the workspace sidebar now surface a simple design-partner funnel across activation, assist usage, collaboration, review, and launch preparation.
 - `/api/ops/incidents` now exposes the current warning set for the active workspace so local hosted-ops rehearsal has a clearer incident-style surface.
@@ -134,5 +137,6 @@ bun run state:backup
   - `/api/ops/backups`
   - `/api/workspace/billing`
   - `/api/workspace/entitlements`
+  - `/api/workspace/plans`
   - `http://127.0.0.1:4322/health`
   - `http://127.0.0.1:4322/metrics`
