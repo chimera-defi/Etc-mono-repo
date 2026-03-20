@@ -67,6 +67,7 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
   await expect(page.getByTestId("share-url-input")).toHaveValue(
     new RegExp(`document=${new URL(page.url()).searchParams.get("document")}`),
   );
+  await expect(page.getByTestId("copy-invite-note")).toBeVisible();
   await expect(page.getByTestId("share-access-note")).toContainText("Local demo access");
 
   await page.goto(`${page.url().split("?")[0]}?document=${new URL(page.url()).searchParams.get("document")}&stage=decide`);
