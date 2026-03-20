@@ -14,6 +14,7 @@ import {
   loadBacklog,
   toIntentId,
 } from "../orchestrator/src/context.js";
+import { captureRepoState } from "../orchestrator/src/repo-state.js";
 import {
   collectIntentIds,
   createEmptyLoopState,
@@ -202,6 +203,27 @@ async function writeRunnerHandoff(input) {
     "",
     "## Summary",
     input.summary,
+    ...(input.repoBefore || input.repoAfter
+      ? [
+          "",
+          "## Repo State",
+          ...(input.repoBefore
+            ? [
+                `- Before head: ${input.repoBefore.head ?? "unknown"}`,
+                `- Before changed files: ${input.repoBefore.changed_files.length}`,
+              ]
+            : []),
+          ...(input.repoAfter
+            ? [
+                `- After head: ${input.repoAfter.head ?? "unknown"}`,
+                `- After changed files: ${input.repoAfter.changed_files.length}`,
+              ]
+            : []),
+          ...(input.repoAfter?.changed_files?.length
+            ? ["", "Changed files:", ...input.repoAfter.changed_files.map((file) => `- ${file}`)]
+            : []),
+        ]
+      : []),
     "",
     "## Source Of Truth",
     `- ${specPath}`,
@@ -388,6 +410,7 @@ async function runLoop(options) {
       mode,
       command,
     };
+    passRecord.repo_before = await captureRepoState(worktreeRoot);
 
     const existingIntent = state.intents.find((intent) => intent.intent_id === intentId);
     if (!existingIntent) {
@@ -441,6 +464,7 @@ async function runLoop(options) {
         summary: "Prepared the next bounded pass without executing it.",
         resume: "Run the parity runner without --dry-run to execute the prepared intent.",
         prompt,
+        repoBefore: passRecord.repo_before,
       });
       await writeMetaLearnings({
         updatedAt: state.updated_at,
@@ -466,6 +490,7 @@ async function runLoop(options) {
     passRecord.finished_at = new Date().toISOString();
     passRecord.stdout_tail = tailOutput(result.stdout);
     passRecord.stderr_tail = tailOutput(result.stderr);
+    passRecord.repo_after = await captureRepoState(worktreeRoot);
     state.updated_at = passRecord.finished_at;
     state.passes.push(passRecord);
     const claim = state.claims.find((entry) => entry.claim_id === claimId);
@@ -511,6 +536,8 @@ async function runLoop(options) {
           ? "Re-run the parity runner to pick up the next unchecked backlog item."
           : "Inspect the failure summary, fix the blocking issue, then rerun the parity runner.",
       prompt,
+      repoBefore: passRecord.repo_before,
+      repoAfter: passRecord.repo_after,
     });
     await writeMetaLearnings({
       updatedAt: passRecord.finished_at,
