@@ -11,6 +11,7 @@ import {
   decidePatchAction,
   resolveCommentThreadAction,
   setAssistRuntimePreferenceAction,
+  setWorkspacePlanAction,
   switchWorkspaceActorAction,
 } from "../actions";
 import { DocumentWorkspace } from "../document-workspace";
@@ -510,6 +511,33 @@ export default async function Home({ searchParams }: Props) {
                   </details>
                   <details className={styles.wizardSection}>
                     <summary className={styles.disclosureSummary}>
+                      <span>Workspace plan</span>
+                      <span>{activeWorkspace.plan}</span>
+                    </summary>
+                    <div className={styles.disclosureBody}>
+                      <p className={styles.context}>
+                        Switch between demo and pilot locally so you can rehearse quotas, member
+                        limits, and billing preview without editing the store by hand.
+                      </p>
+                      <form action={setWorkspacePlanAction} className={styles.form}>
+                        <input type="hidden" name="return_to" value={actorReturnTo} />
+                        <label>
+                          Current plan
+                          <select
+                            name="plan"
+                            className={styles.selectInput}
+                            defaultValue={activeWorkspace.plan}
+                          >
+                            <option value="demo">Demo</option>
+                            <option value="pilot">Pilot</option>
+                          </select>
+                        </label>
+                        <button type="submit">Save workspace plan</button>
+                      </form>
+                    </div>
+                  </details>
+                  <details className={styles.wizardSection}>
+                    <summary className={styles.disclosureSummary}>
                       <span>Share current spec</span>
                       <span>{activeDocument ? "Copy URL" : "Workspace link"}</span>
                     </summary>
@@ -795,6 +823,9 @@ export default async function Home({ searchParams }: Props) {
                   </Link>
                   <Link href="/api/ops/summary" className={styles.secondaryLink}>
                     Ops summary
+                  </Link>
+                  <Link href="/api/ops/backups" className={styles.secondaryLink}>
+                    Backup index
                   </Link>
                   <Link href="/api/metrics" className={styles.secondaryLink}>
                     Web metrics
