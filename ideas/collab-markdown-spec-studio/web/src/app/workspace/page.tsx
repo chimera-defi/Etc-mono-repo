@@ -29,7 +29,11 @@ import {
   type StarterTemplateId,
 } from "@/lib/specforge/handoff";
 import { heroVariantOrder, heroVariants, type HeroVariant } from "@/lib/specforge/marketing";
-import { getAssistQuotaState } from "@/lib/specforge/plans";
+import {
+  getAssistQuotaState,
+  getMemberQuotaState,
+  getWorkspaceBillingPreview,
+} from "@/lib/specforge/plans";
 import { listShowcaseExamples } from "@/lib/specforge/showcase";
 import {
   getWorkspaceActivityMetrics,
@@ -52,6 +56,7 @@ type Props = {
     stage?: string;
     variant?: string;
     template?: string;
+    membership_error?: string;
   }>;
 };
 
@@ -288,6 +293,10 @@ export default async function Home({ searchParams }: Props) {
       ? (resolvedSearchParams.variant as HeroVariant)
       : "handoff";
   const heroCopy = heroVariants[heroVariant];
+  const membershipError =
+    resolvedSearchParams.membership_error === "limit"
+      ? "This workspace has reached its current member limit."
+      : null;
   const availableTemplates = listTemplates();
   const selectedTemplateId = resolveStarterTemplateId(
     typeof resolvedSearchParams.template === "string"
@@ -317,6 +326,11 @@ export default async function Home({ searchParams }: Props) {
       created_at: new Date(0).toISOString(),
     };
   const assistQuota = getAssistQuotaState(activeWorkspace, workspaceUsage);
+  const memberQuota = getMemberQuotaState(activeWorkspace, activeWorkspaceMembers.length);
+  const billingPreview = getWorkspaceBillingPreview(
+    activeWorkspace,
+    activeWorkspaceMembers.length,
+  );
   const activeDocumentId =
     documents.find((document) => document.document_id === requestedDocumentId)?.document_id ??
     documents[0]?.document_id ??
@@ -435,11 +449,18 @@ export default async function Home({ searchParams }: Props) {
                   <div className={styles.actorCard}>
                     <strong>{activeWorkspace.name}</strong>
                     <span>{activeWorkspace.plan} workspace</span>
-                    <span>{activeWorkspaceMembers.length} members</span>
+                    <span>
+                      Members:{" "}
+                      {memberQuota.limit === null
+                        ? activeWorkspaceMembers.length
+                        : `${activeWorkspaceMembers.length}/${memberQuota.limit}`}
+                    </span>
                     <span>{documents.length} visible documents</span>
                     <span>
                       Assist quota:{" "}
-                      {assistQuota.limit === null
+                      {activeWorkspaceSession.authMode === "local"
+                        ? "local demo bypass"
+                        : assistQuota.limit === null
                         ? "unlimited"
                         : `${assistQuota.used}/${assistQuota.limit} used`}
                     </span>
@@ -463,6 +484,12 @@ export default async function Home({ searchParams }: Props) {
                           </li>
                         ))}
                       </ul>
+                      {membershipError ? (
+                        <div className={styles.actorCard}>
+                          <strong>Membership limit reached</strong>
+                          <span>{membershipError}</span>
+                        </div>
+                      ) : null}
                       <form action={createWorkspaceMemberAction} className={styles.form}>
                         <input type="hidden" name="return_to" value={actorReturnTo} />
                         <label>
@@ -582,6 +609,18 @@ export default async function Home({ searchParams }: Props) {
                     {assistQuota.limit === null ? "∞" : assistQuota.remaining}
                   </strong>
                   <span>assist remaining</span>
+                </div>
+                <div className={styles.metricCard}>
+                  <strong>{memberQuota.limit === null ? "∞" : memberQuota.remaining}</strong>
+                  <span>member slots left</span>
+                </div>
+                <div className={styles.metricCard}>
+                  <strong>
+                    {billingPreview.estimatedMonthlyUsd === null
+                      ? "Free"
+                      : `$${billingPreview.estimatedMonthlyUsd}`}
+                  </strong>
+                  <span>monthly preview</span>
                 </div>
                 <div className={styles.metricCard}>
                   <strong>{workspaceUsage.handoff_view_count}</strong>
