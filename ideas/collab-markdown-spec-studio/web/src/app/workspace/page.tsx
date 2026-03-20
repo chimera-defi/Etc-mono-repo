@@ -5,6 +5,7 @@ import {
   createWorkspaceMemberAction,
   setAssistRuntimePreferenceAction,
   setWorkspacePlanAction,
+  switchWorkspaceAction,
   switchWorkspaceActorAction,
 } from "../actions";
 import { LocalAdminPanel } from "../local-admin-panel";
@@ -16,6 +17,7 @@ import {
   getCurrentWorkspaceSession,
   getPreferredAssistTool,
   isGitHubAuthConfigured,
+  listVisibleWorkspaces,
   listWorkspaceActors,
 } from "@/lib/specforge/session";
 import {
@@ -90,7 +92,10 @@ export default async function Home({ searchParams }: Props) {
       ? resolvedSearchParams.template
       : undefined,
   );
-  const workspaceActors = await listWorkspaceActors();
+  const [workspaceActors, visibleWorkspaces] = await Promise.all([
+    listWorkspaceActors(),
+    listVisibleWorkspaces(),
+  ]);
   const activeWorkspaceSession = await getCurrentWorkspaceSession();
   const preferredAssistTool = await getPreferredAssistTool();
   const activeWorkspaceActor = activeWorkspaceSession.actor;
@@ -102,7 +107,6 @@ export default async function Home({ searchParams }: Props) {
       getAgentAssistToolStatuses(),
     ]);
   const {
-    workspaceRecords,
     activeWorkspace,
     activeWorkspaceMembers,
     workspaceActivity,
@@ -381,26 +385,31 @@ export default async function Home({ searchParams }: Props) {
                       </form>
                     </div>
                   </details>
-                  {workspaceRecords.length > 1 ? (
+                  {visibleWorkspaces.length > 1 ? (
                     <details className={styles.wizardSection}>
                       <summary className={styles.disclosureSummary}>
                         <span>Switch workspace</span>
-                        <span>{workspaceRecords.length} available</span>
+                        <span>{visibleWorkspaces.length} available</span>
                       </summary>
                       <div className={styles.disclosureBody}>
-                        <ul className={styles.documentList}>
-                          {workspaceRecords.map((ws) => (
-                            <li key={ws.workspace_id} className={styles.documentItem}>
-                              <span>
-                                <strong>{ws.name}</strong>{" "}
-                                <span className={styles.badge}>{ws.plan}</span>
-                                {ws.workspace_id === activeWorkspace.workspace_id ? (
-                                  <span className={styles.badge}>current</span>
-                                ) : null}
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
+                        <form action={switchWorkspaceAction} className={styles.form}>
+                          <input type="hidden" name="return_to" value={actorReturnTo} />
+                          <label>
+                            Visible workspaces
+                            <select
+                              name="workspace_id"
+                              className={styles.selectInput}
+                              defaultValue={activeWorkspace.workspace_id}
+                            >
+                              {visibleWorkspaces.map((ws) => (
+                                <option key={ws.workspace_id} value={ws.workspace_id}>
+                                  {ws.name} · {ws.plan}
+                                </option>
+                              ))}
+                            </select>
+                          </label>
+                          <button type="submit">Switch workspace</button>
+                        </form>
                       </div>
                     </details>
                   ) : null}

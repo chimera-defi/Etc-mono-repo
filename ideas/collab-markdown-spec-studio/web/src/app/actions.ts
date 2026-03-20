@@ -22,6 +22,7 @@ import { buildGuidedSpecMarkdown, buildGuidedSpecMetadata } from "@/lib/specforg
 import { getMemberQuotaState } from "@/lib/specforge/plans";
 import {
   getCurrentWorkspaceActor,
+  setCurrentWorkspace,
   setCurrentWorkspaceActor,
   setPreferredAssistTool,
   type PreferredAssistTool,
@@ -197,6 +198,18 @@ export async function switchWorkspaceActorAction(formData: FormData) {
   const returnTo = String(formData.get("return_to") ?? "/workspace");
 
   await setCurrentWorkspaceActor(actorId);
+  redirect(returnTo || "/workspace");
+}
+
+export async function switchWorkspaceAction(formData: FormData) {
+  const workspaceId = String(formData.get("workspace_id") ?? "");
+  const returnTo = String(formData.get("return_to") ?? "/workspace");
+
+  if (!workspaceId) {
+    redirect(returnTo || "/workspace");
+  }
+
+  await setCurrentWorkspace(workspaceId);
   redirect(returnTo || "/workspace");
 }
 
