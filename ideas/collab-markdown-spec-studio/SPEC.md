@@ -9,11 +9,11 @@ Build a real-time collaborative spec IDE with:
 3. guided creation plus agent-assisted field population from rough briefs,
 4. readiness and clarification gates before build handoff, with deeper milestone recap still deferred,
 5. deterministic export into execution-ready spec bundles (`PRD.md`, `SPEC.md`, `TASKS.md`, `agent_spec.json`, starter handoff, execution brief, launch packet),
-6. a delivery loop that keeps driving a minimum extensible product toward parity with the approved spec (fully implemented),
+6. a delivery loop that keeps driving a minimum extensible product toward parity with the approved spec (implemented for status/context/handoffs, but not yet a trusted unattended finisher),
 7. landing and pricing surfaces that route users into the working SaaS workspace,
 8. a shared OpenSpec core, now partially extracted, that powers both the web app and a terminal-native `specforge` wizard.
 
-The current branch satisfies the scoped MVP target. Broader company-plan work like conversion instrumentation, billing, and long-horizon template expansion remains post-parity product work, not missing core MVP behavior.
+The current branch satisfies the scoped MVP target. The remaining work is broader SaaS/platform parity work like hosted ops, billing, deeper terminal UX, and runner hardening, not missing core MVP behavior.
 
 ### Product Principle: Minimum Extensible Product
 1. Approved specs should first produce a minimum extensible product, not a pretend-final build.
