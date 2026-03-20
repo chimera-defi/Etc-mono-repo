@@ -249,7 +249,7 @@ async function runCodexAssist(brief: string) {
         buildAssistPrompt(brief),
       ],
       {
-        timeout: 45_000,
+        timeout: 60_000,
         maxBuffer: 2 * 1024 * 1024,
       },
     );
@@ -270,33 +270,47 @@ async function runCodexAssist(brief: string) {
 }
 
 async function runClaudeAssist(brief: string) {
-  const schema = JSON.stringify(assistJsonSchema);
-  const { stdout } = await execFileAsync(
-    "claude",
-    [
-      "-p",
-      "--output-format",
-      "json",
-      "--json-schema",
-      schema,
-      buildAssistPrompt(brief),
-    ],
-    {
-      timeout: 30_000,
-      maxBuffer: 2 * 1024 * 1024,
-    },
-  );
+  const tempDir = await mkdtemp(path.join(os.tmpdir(), "specforge-claude-assist-"));
+  const schemaPath = path.join(tempDir, "guided-spec.schema.json");
+  const promptPath = path.join(tempDir, "guided-spec.prompt.txt");
 
-  const parsed = assistSchema.parse(JSON.parse(stdout));
+  try {
+    await writeFile(schemaPath, JSON.stringify(assistJsonSchema, null, 2));
+    await writeFile(promptPath, buildAssistPrompt(brief));
 
-  return {
-    tool: "claude_cli" as const,
-    fields: normalizeGuidedSpecInput(parsed),
-    notes: [
-      "Populated fields using the locally installed Claude Code CLI.",
-      "This reuses the operator's existing Claude Code login instead of browser-stored API keys.",
-    ],
-  };
+    const { stdout } = await execFileAsync(
+      "bash",
+      [
+        "-lc",
+        'claude -p --output-format json --json-schema "$(cat "$1")" "$(cat "$2")" < /dev/null',
+        "specforge-claude-assist",
+        schemaPath,
+        promptPath,
+      ],
+      {
+        timeout: 45_000,
+        maxBuffer: 2 * 1024 * 1024,
+      },
+    );
+
+    const raw = JSON.parse(stdout) as { structured_output?: unknown } | Record<string, unknown>;
+    const parsed = assistSchema.parse(
+      raw && typeof raw === "object" && "structured_output" in raw
+        ? raw.structured_output
+        : raw,
+    );
+
+    return {
+      tool: "claude_cli" as const,
+      fields: normalizeGuidedSpecInput(parsed),
+      notes: [
+        "Populated fields using the locally installed Claude Code CLI.",
+        "This reuses the operator's existing Claude Code login instead of browser-stored API keys.",
+      ],
+    };
+  } finally {
+    await rm(tempDir, { recursive: true, force: true });
+  }
 }
 
 function resolveRequestedTool(
