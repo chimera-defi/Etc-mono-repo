@@ -153,6 +153,7 @@ export type WorkspaceBehaviorSummary = {
   workspace_id: string;
   document_created_count: number;
   member_added_count: number;
+  member_role_changed_count: number;
   plan_changed_count: number;
   assist_preference_count: number;
   patch_decided_count: number;
@@ -1378,6 +1379,7 @@ export const {
   listWorkspaceMemberships,
   listWorkspaceRecords,
   recordWorkspaceEvent,
+  updateWorkspaceMembershipRole,
   updateWorkspacePlan,
   upsertUserFromGitHub,
 } = workspaceStore;

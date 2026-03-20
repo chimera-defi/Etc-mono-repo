@@ -15,6 +15,7 @@ type WorkspaceMembersPanelProps = {
   membershipError: string | null;
   createWorkspaceMemberAction: (formData: FormData) => Promise<void>;
   removeWorkspaceMemberAction: (formData: FormData) => Promise<void>;
+  updateWorkspaceMemberRoleAction: (formData: FormData) => Promise<void>;
 };
 
 type WorkspaceSignalsPanelProps = {
@@ -34,6 +35,7 @@ type WorkspaceSignalsPanelProps = {
     workspaceBehavior: {
       document_created_count: number;
       member_added_count: number;
+      member_role_changed_count: number;
       patch_decided_count: number;
     };
     designPartnerSignals: {
@@ -113,6 +115,7 @@ export function WorkspaceMembersPanel({
   membershipError,
   createWorkspaceMemberAction,
   removeWorkspaceMemberAction,
+  updateWorkspaceMemberRoleAction,
 }: WorkspaceMembersPanelProps) {
   return (
     <details className={styles.wizardSection}>
@@ -125,7 +128,7 @@ export function WorkspaceMembersPanel({
           {activeWorkspaceMembers.map((member) => (
             <li key={member.membership_id} className={styles.documentItem}>
               <div>
-                <strong>{member.name}</strong> <span className={styles.badge}>{member.role}</span>
+                <strong>{member.name}</strong>
                 {member.github_login ? (
                   <span className={styles.mutedInline}>@{member.github_login}</span>
                 ) : null}
@@ -133,13 +136,26 @@ export function WorkspaceMembersPanel({
                   <span className={styles.mutedInline}>Current session</span>
                 ) : null}
               </div>
-              {member.actor_id !== activeWorkspaceActorId && activeWorkspaceMembers.length > 1 ? (
-                <form action={removeWorkspaceMemberAction}>
+              <div className={styles.inlineActions}>
+                <form action={updateWorkspaceMemberRoleAction} className={styles.inlineForm}>
                   <input type="hidden" name="return_to" value={actorReturnTo} />
                   <input type="hidden" name="membership_id" value={member.membership_id} />
-                  <button type="submit">Remove</button>
+                  <select name="role" className={styles.selectInput} defaultValue={member.role}>
+                    <option value="Reviewer">Reviewer</option>
+                    <option value="Engineer">Engineer</option>
+                    <option value="Operator">Operator</option>
+                    <option value="Founder">Founder</option>
+                  </select>
+                  <button type="submit">Save role</button>
                 </form>
-              ) : null}
+                {member.actor_id !== activeWorkspaceActorId && activeWorkspaceMembers.length > 1 ? (
+                  <form action={removeWorkspaceMemberAction}>
+                    <input type="hidden" name="return_to" value={actorReturnTo} />
+                    <input type="hidden" name="membership_id" value={member.membership_id} />
+                    <button type="submit">Remove</button>
+                  </form>
+                ) : null}
+              </div>
             </li>
           ))}
         </ul>
@@ -263,6 +279,10 @@ export function WorkspaceSignalsPanel({ workspaceSummary }: WorkspaceSignalsPane
           <div className={styles.metricCard}>
             <strong>{workspaceBehavior.member_added_count}</strong>
             <span>members added</span>
+          </div>
+          <div className={styles.metricCard}>
+            <strong>{workspaceBehavior.member_role_changed_count}</strong>
+            <span>role changes</span>
           </div>
           <div className={styles.metricCard}>
             <strong>{workspaceBehavior.patch_decided_count}</strong>
