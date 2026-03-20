@@ -37,6 +37,7 @@ export default function PricingPage() {
               <li>Workspace app + collab server</li>
               <li>Local admin tools</li>
               <li>Included demo assist quota</li>
+              <li>Up to 8 members in the default demo tier</li>
               <li>Bring your own operator workflow</li>
             </ul>
           </article>
@@ -51,6 +52,7 @@ export default function PricingPage() {
               <li>Hosted collaboration and persistence</li>
               <li>Governed agent review workflow</li>
               <li>Unlimited assist usage in pilot phase</li>
+              <li>Seat-based billing preview at $24 per member</li>
               <li>Launch packet and starter handoff</li>
             </ul>
           </article>
@@ -91,7 +93,10 @@ export default function PricingPage() {
         <div className={styles.faqList}>
           <div className={styles.faqItem}>
             <strong>Seat baseline</strong>
-            <p>Humans pay for the collaborative workspace and governance surface.</p>
+            <p>
+              Pilot workspaces are modeled at $24 per member per month right now, matching the
+              current workspace billing preview in-product.
+            </p>
           </div>
           <div className={styles.faqItem}>
             <strong>Usage overlay</strong>
