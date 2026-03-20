@@ -205,6 +205,15 @@ async function writeRunnerHandoff(input) {
     "",
     "## Summary",
     input.summary,
+    ...(input.latestVerification
+      ? [
+          "",
+          "## Latest Verification",
+          ...input.latestVerification.results.map(
+            (result) => `- ${result.command}: ${result.status === 0 ? "ok" : "failed"}`,
+          ),
+        ]
+      : []),
     ...(input.repoBefore || input.repoAfter
       ? [
           "",
@@ -266,6 +275,15 @@ async function writeMetaLearnings(input) {
     "",
     "## Latest summary",
     input.summary,
+    ...(input.latestVerification
+      ? [
+          "",
+          "## Latest verification",
+          ...input.latestVerification.results.map(
+            (result) => `- ${result.command}: ${result.status === 0 ? "ok" : "failed"}`,
+          ),
+        ]
+      : []),
   ].join("\n");
 
   await mkdir(path.dirname(metaLearningsPath), { recursive: true });
@@ -389,6 +407,7 @@ async function runVerification() {
       ? "Continue with the next bounded parity item."
       : "Fix the failing verification command, then rerun the verification suite.",
     prompt: null,
+    latestVerification: record,
   });
   await writeMetaLearnings({
     updatedAt: finishedAt,
@@ -399,6 +418,7 @@ async function runVerification() {
     summary: verification.ok
       ? "Shared verification suite completed successfully."
       : "Shared verification suite failed. Inspect the recorded command tails before continuing.",
+    latestVerification: record,
   });
 
   console.log(JSON.stringify(record, null, 2));
@@ -520,6 +540,7 @@ async function runLoop(options) {
         resume: "Run the parity runner without --dry-run to execute the prepared intent.",
         prompt,
         repoBefore: passRecord.repo_before,
+        latestVerification: findLatestVerification(state),
       });
       await writeMetaLearnings({
         updatedAt: state.updated_at,
@@ -528,6 +549,7 @@ async function runLoop(options) {
         status: "dry_run",
         nextItem: passRecord.next_item,
         summary: "Prepared the next bounded pass without executing it.",
+        latestVerification: findLatestVerification(state),
       });
       return;
     }
@@ -593,6 +615,7 @@ async function runLoop(options) {
       prompt,
       repoBefore: passRecord.repo_before,
       repoAfter: passRecord.repo_after,
+      latestVerification: findLatestVerification(state),
     });
     await writeMetaLearnings({
       updatedAt: passRecord.finished_at,
@@ -605,6 +628,7 @@ async function runLoop(options) {
           ? "Completed the current pass and left the branch at a verified checkpoint."
           : tailOutput(result.stderr || result.stdout, 800) ||
             "The pass blocked without a captured error summary.",
+      latestVerification: findLatestVerification(state),
     });
 
     if ((result.status ?? 1) !== 0) {
