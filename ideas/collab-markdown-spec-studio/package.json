@@ -25,6 +25,7 @@
     "test": "bun --filter specforge-web test",
     "test:acceptance": "bun --filter specforge-web test:acceptance",
     "test:e2e": "bun --filter specforge-web test:e2e",
+    "verify": "bun run lint && bun run test && bun run build && bun run test:e2e",
     "state:reset": "rm -rf web/.data",
     "state:backup": "node ./tools/backup-local-state.mjs",
     "state:restore": "node ./tools/restore-local-state.mjs",
