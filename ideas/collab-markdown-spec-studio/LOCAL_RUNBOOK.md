@@ -19,6 +19,7 @@ bun run dev
 cd ..
 docker compose up --build
 bun run state:backup
+bun run state:restore
 ```
 
 ## Deployment Rehearsal Notes
@@ -89,3 +90,4 @@ bun run state:backup
 - Use Playwright `bun run test:e2e` as the local integration smoke test after fixes.
 - Treat the launch packet as the final parity artifact: if export/handoff/execution diverge, rebuild the launch context first.
 - `bun run state:backup` snapshots local web state, collab state, and runner artifacts under `.backups/specforge/`.
+- `bun run state:restore` restores the latest snapshot by default, or a specific backup path if passed as an argument.
