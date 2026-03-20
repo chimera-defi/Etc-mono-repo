@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { cp, mkdir, stat, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, readdir, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
@@ -38,6 +38,41 @@ async function exists(targetPath) {
   }
 }
 
+async function copyTree(source, destination) {
+  let sourceStat;
+  try {
+    sourceStat = await stat(source);
+  } catch (error) {
+    if (error && typeof error === "object" && "code" in error && error.code === "ENOENT") {
+      return;
+    }
+    throw error;
+  }
+
+  if (sourceStat.isDirectory()) {
+    await mkdir(destination, { recursive: true });
+    const entries = await readdir(source, { withFileTypes: true }).catch((error) => {
+      if (error && typeof error === "object" && "code" in error && error.code === "ENOENT") {
+        return [];
+      }
+      throw error;
+    });
+
+    for (const entry of entries) {
+      await copyTree(path.join(source, entry.name), path.join(destination, entry.name));
+    }
+    return;
+  }
+
+  await mkdir(path.dirname(destination), { recursive: true });
+  await copyFile(source, destination).catch((error) => {
+    if (error && typeof error === "object" && "code" in error && error.code === "ENOENT") {
+      return;
+    }
+    throw error;
+  });
+}
+
 async function main() {
   await mkdir(backupRoot, { recursive: true });
 
@@ -50,7 +85,7 @@ async function main() {
       continue;
     }
 
-    await cp(target.source, target.destination, { recursive: true });
+    await copyTree(target.source, target.destination);
     copied.push({
       label: target.label,
       source: target.source,

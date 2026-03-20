@@ -801,6 +801,37 @@ export default async function Home({ searchParams }: Props) {
 
           <details className={styles.panel}>
             <summary className={styles.disclosureSummary}>
+              <span>Ops</span>
+              <span>Health and restore</span>
+            </summary>
+            <div className={styles.disclosureBody}>
+              <div className={styles.actorCard}>
+                <strong>Runtime endpoints</strong>
+                <div className={styles.inlineActions}>
+                  <Link href="/api/health" className={styles.secondaryLink}>
+                    Web health
+                  </Link>
+                  <Link href="/api/metrics" className={styles.secondaryLink}>
+                    Web metrics
+                  </Link>
+                  <Link href="http://127.0.0.1:4322/health" className={styles.secondaryLink}>
+                    Collab health
+                  </Link>
+                  <Link href="http://127.0.0.1:4322/metrics" className={styles.secondaryLink}>
+                    Collab metrics
+                  </Link>
+                </div>
+              </div>
+              <div className={styles.actorCard}>
+                <strong>Local restore flow</strong>
+                <span>`bun run state:backup` snapshots web, collab, and runner state.</span>
+                <span>`bun run state:restore` restores the latest backup, or a specific path if supplied.</span>
+              </div>
+            </div>
+          </details>
+
+          <details className={styles.panel}>
+            <summary className={styles.disclosureSummary}>
               <span>Agent runtimes</span>
               <span>{assistToolStatuses.filter((tool) => tool.available).length} available</span>
             </summary>
