@@ -12,6 +12,7 @@ Current slice:
 - shared OpenSpec core reuse for guided wizard and readiness logic
 - mini agent-assist that can populate guided fields from a rough brief
 - demo workspaces now enforce a small included assist quota while pilot workspaces remain effectively unbounded
+- workspace member limits and a seat-based monthly billing preview now exist as the first SaaS billing/membership hooks
 - local workspace sessions with GitHub OAuth pilot hooks for server-side attribution
 - persisted workspace members with add-member controls in the workspace session panel
 - local embedded SQL persistence via PGlite with disk-backed snapshot sharing across app workers
