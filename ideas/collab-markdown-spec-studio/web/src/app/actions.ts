@@ -12,10 +12,13 @@ import {
   getDocument,
   createPatchProposal,
   decidePatch,
+  listWorkspaceMemberships,
+  listWorkspaceRecords,
   resetWorkspaceDocuments,
   resolveCommentThread,
 } from "@/lib/specforge/store";
 import { buildGuidedSpecMarkdown, buildGuidedSpecMetadata } from "@/lib/specforge/guided";
+import { getMemberQuotaState } from "@/lib/specforge/plans";
 import { getCurrentWorkspaceActor, setCurrentWorkspaceActor } from "@/lib/specforge/session";
 import { getShowcaseExample } from "@/lib/specforge/showcase";
 
@@ -240,6 +243,24 @@ export async function seedReviewDemoAction(formData: FormData) {
 export async function createWorkspaceMemberAction(formData: FormData) {
   const { currentActor } = await getActionActorRef();
   const returnTo = String(formData.get("return_to") ?? "/workspace");
+  const [workspaces, members] = await Promise.all([
+    listWorkspaceRecords(),
+    listWorkspaceMemberships(currentActor.workspace_id),
+  ]);
+  const workspace =
+    workspaces.find((item) => item.workspace_id === currentActor.workspace_id) ?? {
+      workspace_id: currentActor.workspace_id,
+      name: "SpecForge Demo Workspace",
+      plan: "demo" as const,
+      created_at: new Date(0).toISOString(),
+    };
+  const memberQuota = getMemberQuotaState(workspace, members.length);
+
+  if (memberQuota.blocked) {
+    const blockedUrl = new URL(returnTo, "http://specforge.local");
+    blockedUrl.searchParams.set("membership_error", "limit");
+    redirect(`${blockedUrl.pathname}${blockedUrl.search}`);
+  }
 
   await createWorkspaceMembership({
     workspace_id: currentActor.workspace_id,
