@@ -149,7 +149,7 @@ export async function buildBacklogBrief() {
     "- work in the SpecForge MVP worktree",
     "- implement the smallest integrated change that closes this backlog item",
     "- update TASKS.md and any affected spec/architecture docs if the shipped surface changes",
-    "- run verification before finishing: npm run lint, npm run test, npm run build, npm run test:e2e",
+    "- run verification before finishing: bun run lint, bun run test, bun run build, bun run test:e2e",
     "- commit with [Agent: GPT-5] and the Chimera co-author trailer if the branch is green",
     "",
     "Source-of-truth docs:",
