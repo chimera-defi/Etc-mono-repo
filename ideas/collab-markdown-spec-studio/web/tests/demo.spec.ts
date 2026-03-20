@@ -72,11 +72,13 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
   const entitlementsResponse = await page.request.get("/api/workspace/entitlements");
   const billingResponse = await page.request.get("/api/workspace/billing");
   const opsResponse = await page.request.get("/api/ops/summary");
+  const incidentsResponse = await page.request.get("/api/ops/incidents");
   const backupsResponse = await page.request.get("/api/ops/backups");
   const metricsResponse = await page.request.get("/api/metrics");
   expect(entitlementsResponse.ok()).toBeTruthy();
   expect(billingResponse.ok()).toBeTruthy();
   expect(opsResponse.ok()).toBeTruthy();
+  expect(incidentsResponse.ok()).toBeTruthy();
   expect(backupsResponse.ok()).toBeTruthy();
   expect(metricsResponse.ok()).toBeTruthy();
   expect(await entitlementsResponse.json()).toMatchObject({
@@ -117,6 +119,12 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
   expect(await backupsResponse.json()).toMatchObject({
     backup_root: expect.any(String),
     backups: expect.any(Array),
+  });
+  expect(await incidentsResponse.json()).toMatchObject({
+    workspace: expect.objectContaining({
+      workspace_id: expect.any(String),
+    }),
+    incidents: expect.any(Array),
   });
   expect(await metricsResponse.json()).toMatchObject({
     design_partner: expect.objectContaining({
