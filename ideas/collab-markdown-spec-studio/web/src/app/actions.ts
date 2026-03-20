@@ -19,7 +19,12 @@ import {
 } from "@/lib/specforge/store";
 import { buildGuidedSpecMarkdown, buildGuidedSpecMetadata } from "@/lib/specforge/guided";
 import { getMemberQuotaState } from "@/lib/specforge/plans";
-import { getCurrentWorkspaceActor, setCurrentWorkspaceActor } from "@/lib/specforge/session";
+import {
+  getCurrentWorkspaceActor,
+  setCurrentWorkspaceActor,
+  setPreferredAssistTool,
+  type PreferredAssistTool,
+} from "@/lib/specforge/session";
 import { getShowcaseExample } from "@/lib/specforge/showcase";
 
 async function getActionActorRef() {
@@ -176,6 +181,14 @@ export async function switchWorkspaceActorAction(formData: FormData) {
 
   await setCurrentWorkspaceActor(actorId);
   redirect(returnTo || "/workspace");
+}
+
+export async function setAssistRuntimePreferenceAction(formData: FormData) {
+  const selectedTool = String(formData.get("assist_tool") ?? "auto") as PreferredAssistTool;
+  const returnTo = String(formData.get("return_to") ?? "/workspace?stage=start");
+
+  await setPreferredAssistTool(selectedTool);
+  redirect(returnTo || "/workspace?stage=start");
 }
 
 export async function resetWorkspaceDocumentsAction(formData: FormData) {

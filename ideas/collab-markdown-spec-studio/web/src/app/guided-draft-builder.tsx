@@ -15,6 +15,7 @@ type Props = {
   initialValues?: Partial<GuidedSpecInput>;
   toolStatuses: AgentAssistToolStatus[];
   cliAssistEnabled: boolean;
+  preferredTool: "auto" | "codex_cli" | "claude_cli" | "heuristic";
 };
 
 type AssistResponse = {
@@ -38,12 +39,15 @@ export function GuidedDraftBuilder({
   initialValues,
   toolStatuses,
   cliAssistEnabled,
+  preferredTool,
 }: Props) {
   const [fields, setFields] = useState<GuidedSpecInput>(() =>
     normalizeGuidedSpecInput(initialValues ?? DEFAULT_GUIDED_SPEC_INPUT),
   );
   const [brief, setBrief] = useState("");
-  const [tool, setTool] = useState<"auto" | "codex_cli" | "claude_cli" | "heuristic">("auto");
+  const [tool, setTool] = useState<"auto" | "codex_cli" | "claude_cli" | "heuristic">(
+    preferredTool,
+  );
   const [assistNotes, setAssistNotes] = useState<string[]>([]);
   const [assistSource, setAssistSource] = useState<string>("No assist run yet.");
   const [isPending, startTransition] = useTransition();
@@ -117,6 +121,12 @@ export function GuidedDraftBuilder({
             Use a rough brief to populate the guided fields. In local mode, SpecForge can reuse
             existing server-side Codex or Claude Code CLI logins. In hosted mode, the browser still
             never receives provider secrets.
+          </p>
+          <p className={styles.context}>
+            Current default runtime:{" "}
+            <strong>{tool === "auto" ? "auto-select" : tool.replaceAll("_", " ")}</strong>.
+            Change it from the workspace session panel if you want SpecForge to keep preferring a
+            specific local CLI.
           </p>
           <label>
             Idea brief
