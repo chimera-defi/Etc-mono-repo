@@ -16,6 +16,7 @@
 - [x] Mini agent-assist can populate guided fields from a rough brief, using local CLI tooling when available and a safe fallback otherwise.
 - [x] Terminal-native `specforge` CLI can generate the same guided markdown/metadata as the web flow.
 - [x] Terminal-native `specforge` CLI can also surface current backlog status/context for terminal-native operators.
+- [x] Terminal-native `specforge` CLI can surface the latest runner handoff and meta-learning artifacts for terminal-native review.
 - [x] `/specforge` slash-command style invocations now work for both guided creation and status-style commands.
 - [x] `specforge tui` now provides a lightweight interactive terminal surface for guided init, status, context, and backlog review.
 - [x] Tiptap + Yjs + Hocuspocus multiplayer canvas with shared presence.

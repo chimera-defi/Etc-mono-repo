@@ -78,3 +78,21 @@ const slashStatus = JSON.parse(slashStatusResult.stdout);
 if (typeof slashStatus.remaining_count !== "number" || !("delivery_target" in slashStatus)) {
   throw new Error("SpecForge slash-command status failed.");
 }
+
+const artifactsResult = spawnSync(process.execPath, [cliEntry, "artifacts", "--json"], {
+  encoding: "utf8",
+});
+
+if (artifactsResult.status !== 0) {
+  process.stderr.write(artifactsResult.stderr);
+  process.exit(artifactsResult.status ?? 1);
+}
+
+const artifacts = JSON.parse(artifactsResult.stdout);
+
+if (
+  typeof artifacts?.handoff?.path !== "string" ||
+  typeof artifacts?.meta_learnings?.path !== "string"
+) {
+  throw new Error("SpecForge CLI artifacts command failed.");
+}
