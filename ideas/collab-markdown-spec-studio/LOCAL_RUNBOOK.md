@@ -34,6 +34,8 @@ bun run state:restore
 - Health endpoints:
   - web app: `GET /api/health`
   - web metrics: `GET /api/metrics`
+  - workspace ops summary: `GET /api/ops/summary`
+  - workspace entitlements: `GET /api/workspace/entitlements`
   - collab server: `GET http://127.0.0.1:4322/health`
   - collab metrics: `GET http://127.0.0.1:4322/metrics`
 - Persistence:
