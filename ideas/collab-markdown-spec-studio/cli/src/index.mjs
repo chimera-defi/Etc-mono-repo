@@ -13,6 +13,7 @@ import {
   normalizeGuidedSpecInput,
 } from "../../core/src/guided.js";
 import { getDeliveryTarget } from "../../orchestrator/src/backlog.js";
+import { listBackupManifests } from "../../orchestrator/src/backups.js";
 import { loadBacklog, toIntentId } from "../../orchestrator/src/context.js";
 import {
   collectIntentIds,
@@ -38,6 +39,7 @@ const metaLearningsPath = path.join(
   "artifacts",
   "specforge-meta-learnings.md",
 );
+const backupRoot = path.join(worktreeRoot, ".backups", "specforge");
 
 const fieldOrder = [
   ["title", "Title"],
@@ -107,8 +109,9 @@ async function runTui() {
     { id: "3", label: "Current context", action: "context" },
     { id: "4", label: "Runner artifacts", action: "artifacts" },
     { id: "5", label: "Run verification", action: "verify" },
-    { id: "6", label: "Remaining backlog", action: "backlog" },
-    { id: "7", label: "Exit", action: "exit" },
+    { id: "6", label: "Backup manifests", action: "backups" },
+    { id: "7", label: "Remaining backlog", action: "backlog" },
+    { id: "8", label: "Exit", action: "exit" },
   ];
 
   try {
@@ -191,6 +194,22 @@ async function runTui() {
                   .map((result) => `- ${result.command}: ${result.status === 0 ? "ok" : "failed"}`)
                   .join("\n")}`
               : "Latest verification: unavailable",
+            "",
+          ].join("\n"),
+        );
+        continue;
+      }
+
+      if (selected.action === "backups") {
+        const backupsPayload = await buildBackupsPayload();
+        process.stdout.write(
+          [
+            "",
+            "SpecForge Backups",
+            `Backup root: ${backupsPayload.backup_root}`,
+            ...backupsPayload.backups.map(
+              (backup) => `- ${backup.name} (${backup.created_at ?? "unknown"})`,
+            ),
             "",
           ].join("\n"),
         );
@@ -292,6 +311,13 @@ async function buildArtifactsPayload() {
   };
 }
 
+async function buildBackupsPayload() {
+  return {
+    backup_root: backupRoot,
+    backups: await listBackupManifests(backupRoot),
+  };
+}
+
 function buildStatusPayload(backlog, loopState) {
   const remaining = backlog.remaining.filter((item) => !item.checked);
   const validIntentIds = collectIntentIds(backlog.phases, toIntentId);
@@ -325,6 +351,7 @@ function printHelp() {
       "  specforge status [--json]",
       "  specforge context [--json]",
       "  specforge artifacts [--json]",
+      "  specforge backups [--json]",
       "  specforge verify [--json]",
       "  specforge backlog [--json]",
       "  specforge tui",
@@ -335,6 +362,7 @@ function printHelp() {
       "  specforge status --json",
       "  specforge context",
       "  specforge artifacts",
+      "  specforge backups",
       "  specforge verify",
       "  specforge backlog --json",
       "  specforge tui",
@@ -368,6 +396,7 @@ async function run() {
     options.command === "status" ||
     options.command === "context" ||
     options.command === "artifacts" ||
+    options.command === "backups" ||
     options.command === "backlog" ||
     options.command === "verify"
   ) {
@@ -410,6 +439,19 @@ async function run() {
                   : "Latest verification: unavailable",
               ].join("\n")
         }\n`,
+      );
+      return;
+    }
+
+    if (options.command === "backups") {
+      const backupsPayload = await buildBackupsPayload();
+      process.stdout.write(
+        `${options.json ? JSON.stringify(backupsPayload, null, 2) : [
+          `Backup root: ${backupsPayload.backup_root}`,
+          ...backupsPayload.backups.map(
+            (backup) => `- ${backup.name} (${backup.created_at ?? "unknown"})`,
+          ),
+        ].join("\n")}\n`,
       );
       return;
     }
