@@ -15,6 +15,7 @@ Current slice:
 - workspace member limits and a seat-based monthly billing preview now exist as the first SaaS billing/membership hooks
 - local workspace sessions with GitHub OAuth pilot hooks for server-side attribution
 - persisted workspace members with add-member controls in the workspace session panel
+- workspace plan switcher for local demo vs pilot rehearsal
 - local embedded SQL persistence via PGlite with disk-backed snapshot sharing across app workers
 - hosted persistence path via Postgres-backed store selection
 - guided drafts now include a first-class `Requirements` section so readiness can clear from the guided path
@@ -46,6 +47,7 @@ Current slice:
 - web runtime metrics endpoint at `/api/metrics`
 - workspace entitlements endpoint at `/api/workspace/entitlements`
 - workspace ops summary endpoint at `/api/ops/summary`
+- workspace backup index endpoint at `/api/ops/backups`
 - pricing anchors benchmarked in `../PRICING_BENCHMARKS.md`
 
 ## Commands
@@ -98,6 +100,7 @@ bun run state:backup
 - Shared specs use canonical workspace URLs like `/workspace?document=<id>&stage=draft`; the workspace UI exposes a copyable share link, but pilot recipients still need GitHub sign-in and workspace membership.
 - Local ops rehearsal now has both `bun run state:backup` and `bun run state:restore`, and the workspace sidebar links to the health and metrics endpoints directly.
 - The workspace sidebar now also links to `/api/workspace/entitlements` and `/api/ops/summary` so local SaaS rehearsal can inspect quotas, billing preview, parity state, and persistence in one place.
+- The workspace session panel can switch the active workspace plan between `demo` and `pilot` locally, which makes quota and billing-preview testing much faster.
 - `bun run verify` is the canonical full local gate, and `specforge verify` exposes the same suite from the agent-native CLI surface.
 - `bun run parity:verify` records the latest verification result into the runner state and handoff artifacts, so the orchestration loop has a durable last-known-green checkpoint.
 - `bun run test:e2e` only runs the browser demo suite (`tests/demo.spec.ts`); engine-level acceptance coverage lives under `bun run test:acceptance`.
@@ -119,6 +122,7 @@ bun run state:backup
   - `/api/health`
   - `/api/metrics`
   - `/api/ops/summary`
+  - `/api/ops/backups`
   - `/api/workspace/entitlements`
   - `http://127.0.0.1:4322/health`
   - `http://127.0.0.1:4322/metrics`

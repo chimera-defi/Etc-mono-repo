@@ -71,8 +71,10 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
   await expect(page.getByTestId("share-access-note")).toContainText("Local demo access");
   const entitlementsResponse = await page.request.get("/api/workspace/entitlements");
   const opsResponse = await page.request.get("/api/ops/summary");
+  const backupsResponse = await page.request.get("/api/ops/backups");
   expect(entitlementsResponse.ok()).toBeTruthy();
   expect(opsResponse.ok()).toBeTruthy();
+  expect(backupsResponse.ok()).toBeTruthy();
   expect(await entitlementsResponse.json()).toMatchObject({
     workspace: expect.objectContaining({
       workspace_id: expect.any(String),
@@ -93,6 +95,10 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
     parity: expect.objectContaining({
       remaining_count: expect.any(Number),
     }),
+  });
+  expect(await backupsResponse.json()).toMatchObject({
+    backup_root: expect.any(String),
+    backups: expect.any(Array),
   });
 
   await page.goto(`${page.url().split("?")[0]}?document=${new URL(page.url()).searchParams.get("document")}&stage=decide`);
