@@ -37,6 +37,9 @@
 - [x] Workspace membership limits and a seat-based monthly billing preview now exist so future SaaS billing/membership flows have real product hooks.
 - [x] Workspace entitlements and ops summary endpoints now exist for local rehearsal and future hosted ops surfaces.
 - [x] Workspace plans can now be switched in-product for local quota and billing rehearsal, and local backups are inspectable through an ops endpoint.
+- [x] Workspace entitlements now expose feature flags alongside quotas and billing preview, so SaaS packaging has a clearer contract surface.
+- [x] Workspace behavior signals now track member adds, plan changes, assist preference saves, document creation, patch decisions, and clarification answers.
+- [x] Workspace member creation now blocks duplicate GitHub logins instead of silently creating conflicting pilot memberships.
 - [x] Delivery loop with intents, claims, context, handoff artifact, and meta-learnings.
 - [x] Shared orchestrator backlog parsing now feeds both the parity runner and the in-product delivery-loop panel.
 - [x] Runner status/brief/context now stay aligned with the live backlog instead of stale historical intents.

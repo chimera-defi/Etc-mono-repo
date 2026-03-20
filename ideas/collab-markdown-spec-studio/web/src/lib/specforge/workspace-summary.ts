@@ -1,10 +1,14 @@
 import { readBacklogState } from "./backlog";
+import { buildBackupsPayload, buildArtifactsPayload } from "../../../../orchestrator/src/runtime.js";
+import { findLatestVerification } from "../../../../orchestrator/src/loop-state.js";
 import {
   getAssistQuotaState,
+  getWorkspaceFeatureEntitlements,
   getMemberQuotaState,
   getWorkspaceBillingPreview,
 } from "./plans";
 import {
+  getWorkspaceBehaviorSummary,
   getPersistenceConfig,
   getWorkspaceActivityMetrics,
   getWorkspaceUsageSummary,
@@ -14,12 +18,20 @@ import {
 } from "./store";
 
 export async function loadWorkspaceSummary(workspaceId: string) {
-  const [workspaceRecords, activeWorkspaceMembers, workspaceActivity, workspaceUsage, documents] =
+  const [
+    workspaceRecords,
+    activeWorkspaceMembers,
+    workspaceActivity,
+    workspaceUsage,
+    workspaceBehavior,
+    documents,
+  ] =
     await Promise.all([
       listWorkspaceRecords(),
       listWorkspaceMemberships(workspaceId),
       getWorkspaceActivityMetrics(workspaceId),
       getWorkspaceUsageSummary(workspaceId),
+      getWorkspaceBehaviorSummary(workspaceId),
       listDocuments({ workspaceId }),
     ]);
 
@@ -37,10 +49,12 @@ export async function loadWorkspaceSummary(workspaceId: string) {
     activeWorkspaceMembers,
     workspaceActivity,
     workspaceUsage,
+    workspaceBehavior,
     documents,
     assistQuota: getAssistQuotaState(activeWorkspace, workspaceUsage),
     memberQuota: getMemberQuotaState(activeWorkspace, activeWorkspaceMembers.length),
     billingPreview: getWorkspaceBillingPreview(activeWorkspace, activeWorkspaceMembers.length),
+    featureEntitlements: getWorkspaceFeatureEntitlements(activeWorkspace),
   };
 }
 
@@ -59,13 +73,17 @@ export async function loadWorkspaceEntitlements(workspaceId: string) {
     },
     billing: summary.billingPreview,
     usage: summary.workspaceUsage,
+    behavior: summary.workspaceBehavior,
+    features: summary.featureEntitlements,
   };
 }
 
 export async function loadWorkspaceOpsSummary(workspaceId: string) {
-  const [summary, backlogState] = await Promise.all([
+  const [summary, backlogState, backups, artifacts] = await Promise.all([
     loadWorkspaceSummary(workspaceId),
     readBacklogState(),
+    buildBackupsPayload(),
+    buildArtifactsPayload(findLatestVerification),
   ]);
   const persistence = getPersistenceConfig();
 
@@ -89,10 +107,17 @@ export async function loadWorkspaceOpsSummary(workspaceId: string) {
       clarified_document_count: summary.workspaceActivity.clarified_document_count,
     },
     usage: summary.workspaceUsage,
+    behavior: summary.workspaceBehavior,
+    backups: {
+      count: backups.backups.length,
+      latest: backups.backups[0] ?? null,
+    },
+    verification: artifacts.latest_verification ?? null,
     entitlements: {
       assist: summary.assistQuota,
       members: summary.memberQuota,
       billing: summary.billingPreview,
+      features: summary.featureEntitlements,
     },
   };
 }
