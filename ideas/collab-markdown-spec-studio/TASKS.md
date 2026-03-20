@@ -70,4 +70,4 @@
 - [x] `bun run test:acceptance`
 - [x] `bun run contracts:validate`
 - [x] `bun run parity:status`
-- [x] `npm audit --omit=dev`
+- [x] `bun audit`
