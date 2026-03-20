@@ -260,6 +260,37 @@ export function createWorkspaceStore(deps: WorkspaceStoreDeps) {
       return mapWorkspaceMembershipRow(row);
     },
 
+    async updateWorkspaceMembershipRole(
+      membershipId: string,
+      role: string,
+      options?: StoreOptions,
+    ) {
+      const database = await deps.getDatabase(options);
+      const { dbPath } = deps.resolveOptions(options);
+      const result = await database.query<WorkspaceMemberRow>(
+        `UPDATE workspace_members
+        SET role = $2
+        WHERE membership_id = $1
+        RETURNING
+          membership_id,
+          workspace_id,
+          actor_id,
+          actor_type,
+          name,
+          role,
+          color,
+          github_login,
+          created_at`,
+        [membershipId, role.trim()],
+      );
+      const row = result.rows[0];
+      if (!row) {
+        return null;
+      }
+      await deps.persistSnapshot(database, dbPath);
+      return mapWorkspaceMembershipRow(row);
+    },
+
     async getWorkspaceActivityMetrics(
       workspaceId: string,
       options?: StoreOptions,
@@ -363,11 +394,13 @@ export function createWorkspaceStore(deps: WorkspaceStoreDeps) {
       const [workspaceEvents, documentEvents] = await Promise.all([
         database.query<{
           member_added_count: string;
+          member_role_changed_count: string;
           plan_changed_count: string;
           assist_preference_count: string;
         }>(
           `SELECT
             COUNT(*) FILTER (WHERE event_type = 'workspace.member_added')::text AS member_added_count,
+            COUNT(*) FILTER (WHERE event_type = 'workspace.member_role_changed')::text AS member_role_changed_count,
             COUNT(*) FILTER (WHERE event_type = 'workspace.plan_changed')::text AS plan_changed_count,
             COUNT(*) FILTER (WHERE event_type = 'workspace.assist_preference_saved')::text AS assist_preference_count
           FROM audit_events
@@ -394,6 +427,9 @@ export function createWorkspaceStore(deps: WorkspaceStoreDeps) {
         workspace_id: workspaceId,
         document_created_count: Number(documentEvents.rows[0]?.document_created_count ?? 0),
         member_added_count: Number(workspaceEvents.rows[0]?.member_added_count ?? 0),
+        member_role_changed_count: Number(
+          workspaceEvents.rows[0]?.member_role_changed_count ?? 0,
+        ),
         plan_changed_count: Number(workspaceEvents.rows[0]?.plan_changed_count ?? 0),
         assist_preference_count: Number(workspaceEvents.rows[0]?.assist_preference_count ?? 0),
         patch_decided_count: Number(documentEvents.rows[0]?.patch_decided_count ?? 0),
