@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { headers } from "next/headers";
 
 import {
   answerClarificationAction,
@@ -15,6 +16,7 @@ import {
 import { DocumentWorkspace } from "../document-workspace";
 import { GuidedDraftBuilder } from "../guided-draft-builder";
 import { LocalAdminPanel } from "../local-admin-panel";
+import { ShareDocumentPanel } from "../share-document-panel";
 import styles from "../page.module.css";
 import { getAgentAssistToolStatuses } from "@/lib/specforge/agent-assist";
 import type { StoredPatch } from "@/lib/specforge/contracts";
@@ -247,6 +249,20 @@ function buildTemplateHref(documentId: string | null, stage: Stage, templateId: 
   return `/workspace?${params.toString()}`;
 }
 
+function getAppOrigin(headerList: Headers) {
+  const configuredOrigin = process.env.NEXT_PUBLIC_APP_URL?.trim();
+  if (configuredOrigin) {
+    return configuredOrigin.replace(/\/$/, "");
+  }
+
+  const host = headerList.get("x-forwarded-host") ?? headerList.get("host") ?? "127.0.0.1:3000";
+  const proto =
+    headerList.get("x-forwarded-proto") ??
+    (host.includes("localhost") || host.startsWith("127.0.0.1") ? "http" : "https");
+
+  return `${proto}://${host}`;
+}
+
 function getStageMeta(stage: Stage) {
   switch (stage) {
     case "start":
@@ -279,6 +295,7 @@ function getStageMeta(stage: Stage) {
 }
 
 export default async function Home({ searchParams }: Props) {
+  const headerList = await headers();
   const resolvedSearchParams = (await searchParams) ?? {};
   const requestedDocumentId =
     typeof resolvedSearchParams.document === "string"
@@ -387,6 +404,8 @@ export default async function Home({ searchParams }: Props) {
     requestedStage ?? (activeDocument ? "draft" : "start");
   const stageMeta = getStageMeta(activeStage);
   const actorReturnTo = buildStageHref(activeDocument?.document_id ?? null, activeStage);
+  const sharePath = buildStageHref(activeDocument?.document_id ?? null, activeDocument ? activeStage : "start");
+  const shareUrl = `${getAppOrigin(headerList)}${sharePath}`;
 
   return (
     <div className={styles.shell}>
@@ -507,6 +526,17 @@ export default async function Home({ searchParams }: Props) {
                         <button type="submit">Save assist preference</button>
                       </form>
                     </div>
+                  </details>
+                  <details className={styles.wizardSection}>
+                    <summary className={styles.disclosureSummary}>
+                      <span>Share current spec</span>
+                      <span>{activeDocument ? "Copy URL" : "Workspace link"}</span>
+                    </summary>
+                    <ShareDocumentPanel
+                      shareUrl={shareUrl}
+                      documentTitle={activeDocument?.title ?? null}
+                      requiresMembership={activeWorkspaceSession.authMode !== "local"}
+                    />
                   </details>
                   <details className={styles.wizardSection}>
                     <summary className={styles.disclosureSummary}>
