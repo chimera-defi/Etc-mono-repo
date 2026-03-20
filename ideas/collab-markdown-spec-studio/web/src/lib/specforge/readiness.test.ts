@@ -8,7 +8,8 @@ describe("specforge readiness", () => {
     const document = makeDocumentRecord({
       workspace_id: "ws_demo",
       title: "Draft",
-      initial_markdown: "# PRD\n\n## Problem\nTBD\n\n## Goals\nTBD\n",
+      initial_markdown:
+        "# PRD\n\n## Problem\nClarify the blocking workflow.\n\n## Goals\n- Capture the first buildable path.\n",
     });
 
     const report = evaluateReadiness({
