@@ -62,6 +62,15 @@
 - [ ] Expand starter generation only after design-partner validation proves which templates matter.
 - [ ] Decide whether the first commercial motion is hosted SaaS only, self-hosted OSS plus hosted SaaS, or OSS-first.
 
+## Tomorrow Kickoff: Agent Service Workflow Buildout
+- [ ] Add `POST /service/spec-jobs` endpoint (rough brief -> guided workflow job).
+- [ ] Add job-state machine (`queued|running|blocked|completed|failed`) + persistence.
+- [ ] Add artifact retrieval endpoint for launch-packet outputs.
+- [ ] Reuse patch/governance pipeline in service mode (no silent direct writes).
+- [ ] Add assisted-mode review endpoint for pending decisions.
+- [ ] Ship one e2e happy-path test: brief -> completed job -> downloadable artifacts.
+- [ ] Add one blocked-path test: missing required clarification -> blocked status + unblock + retry.
+
 ## Meta Learnings To Keep Applying
 - [x] Treat placeholder fallback content as real product debt and remove it during review passes.
 - [x] Keep pricing, plans, and entitlements on one shared contract surface.
