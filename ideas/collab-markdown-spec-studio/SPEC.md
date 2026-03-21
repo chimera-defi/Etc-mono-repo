@@ -215,6 +215,31 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 4. `POST /documents/:id/clarifications`
 5. `POST /clarifications/:id/answer`
 
+### APIs (Agent Service Workflow Track Buildout)
+These endpoints expose SpecForge as a request/response agent service while reusing existing OpenSpec, governance, and export logic.
+
+1. `POST /service/spec-jobs`
+   - Creates a workflow job from rough brief + constraints.
+   - Request: `brief`, `constraints`, `workspaceId`, `mode` (`assisted`|`autonomous`).
+   - Response: `jobId`, initial status, artifact placeholders.
+
+2. `GET /service/spec-jobs/:jobId`
+   - Returns job status (`queued|running|blocked|completed|failed`), current stage, and blockers.
+
+3. `GET /service/spec-jobs/:jobId/artifacts`
+   - Returns generated outputs (`PRD.md`, `SPEC.md`, `TASKS.md`, `agent_spec.json`, recap).
+
+4. `POST /service/spec-jobs/:jobId/review-decision`
+   - Applies human governance decisions for pending agent patches/questions in assisted mode.
+
+5. `POST /service/spec-jobs/:jobId/retry`
+   - Retries blocked/failed jobs after updated constraints or resolved blockers.
+
+Invariants:
+1. Service jobs must emit the same patch/audit/provenance records as editor-driven flows.
+2. Artifact generation remains deterministic per accepted document version.
+3. Autonomous mode still honors safety gates and can pause into `blocked` when required decisions are missing.
+
 ### Permissions (MVP)
 1. Owner: full control.
 2. Editor: direct edits + patch review.
