@@ -36,7 +36,6 @@ import { heroVariantOrder, heroVariants, type HeroVariant } from "@/lib/specforg
 import { listShowcaseExamples } from "@/lib/specforge/showcase";
 import {
   buildGuidedSteps,
-  type GuidedStep,
   loadActiveWorkspaceDocumentState,
 } from "@/lib/specforge/workspace-document-state";
 import { loadWorkspaceSummary } from "@/lib/specforge/workspace-summary";
@@ -230,7 +229,6 @@ export default async function Home({ searchParams }: Props) {
     }),
   ]);
   const {
-    activeDocumentId,
     activeDocument,
     patches,
     commentThreads,
