@@ -1312,7 +1312,7 @@ async function ensureWorkspaceSeedData(database: QuerySession) {
   }
 }
 
-async function getDatabase(options: StoreOptions = {}) {
+export async function getDatabase(options: StoreOptions = {}) {
   const { backend, dbPath, databaseUrl, fixturesDir } = resolveOptions(options);
   const isMemoryDatabase = backend === "pglite" && dbPath.startsWith("memory://");
   const cacheKey = backend === "postgres" ? `postgres:${databaseUrl ?? "missing"}` : dbPath;

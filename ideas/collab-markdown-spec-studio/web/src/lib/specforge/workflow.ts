@@ -1,8 +1,3 @@
-import {
-  buildDocumentLaunchContext as buildDocumentLaunchContextImpl,
-  buildLaunchPacket as buildLaunchPacketImpl,
-} from "../../../../core/src/workflow.js";
-
 import { buildExecutionBrief } from "./execution";
 import { buildStarterTemplate, type StarterTemplateId } from "./handoff";
 import { evaluateReadiness } from "./readiness";
@@ -15,6 +10,7 @@ import {
   type ClarificationRecord,
   type CommentThreadRecord,
 } from "./store";
+import type { AcceptanceTest } from "./acceptance-tests";
 import type { DocumentRecord, StoredPatch } from "./contracts";
 
 export type DocumentExportBundle = Awaited<ReturnType<typeof exportDocument>>;
@@ -31,6 +27,7 @@ export type DocumentLaunchContext = {
   readiness: DocumentReadiness;
   starterBundle: DocumentStarterBundle;
   executionBrief: DocumentExecutionBrief;
+  acceptanceTests: AcceptanceTest[];
 };
 
 export async function buildDocumentLaunchContext(
@@ -38,28 +35,66 @@ export async function buildDocumentLaunchContext(
   workspaceId?: string,
   templateId?: StarterTemplateId,
 ): Promise<DocumentLaunchContext | null> {
-  return buildDocumentLaunchContextImpl(documentId, {
-    workspaceId,
+  const storeOptions = workspaceId ? { workspaceId } : undefined;
+  const document = await getDocument(documentId, storeOptions);
+
+  if (!document) {
+    return null;
+  }
+
+  const [patches, comments, clarifications, exportBundle] = await Promise.all([
+    listPatches(documentId, storeOptions),
+    listCommentThreads(documentId, storeOptions),
+    listClarifications(documentId, storeOptions),
+    exportDocument(documentId, storeOptions),
+  ]);
+  const readiness = evaluateReadiness({
+    document,
+    patches,
+    comments,
+    clarifications,
+  });
+  const starterBundle = buildStarterTemplate(
+    document,
+    exportBundle,
+    readiness,
+    patches,
     templateId,
-    loadDocument: (id: string, currentWorkspaceId?: string) =>
-      getDocument(id, currentWorkspaceId ? { workspaceId: currentWorkspaceId } : undefined),
-    loadPatches: (id: string, currentWorkspaceId?: string) =>
-      listPatches(id, currentWorkspaceId ? { workspaceId: currentWorkspaceId } : undefined),
-    loadComments: (id: string, currentWorkspaceId?: string) =>
-      listCommentThreads(id, currentWorkspaceId ? { workspaceId: currentWorkspaceId } : undefined),
-    loadClarifications: (id: string, currentWorkspaceId?: string) =>
-      listClarifications(
-        id,
-        currentWorkspaceId ? { workspaceId: currentWorkspaceId } : undefined,
-      ),
-    loadExportBundle: (id: string, currentWorkspaceId?: string) =>
-      exportDocument(id, currentWorkspaceId ? { workspaceId: currentWorkspaceId } : undefined),
-    evaluateReadiness,
-    buildStarterTemplate,
-    buildExecutionBrief,
-  }) as Promise<DocumentLaunchContext | null>;
+  );
+  const executionBrief = buildExecutionBrief({
+    document,
+    exportBundle,
+    starterBundle,
+    readiness,
+    patches,
+    comments,
+    clarifications,
+  });
+
+  return {
+    document,
+    patches,
+    comments,
+    clarifications,
+    exportBundle,
+    readiness,
+    starterBundle,
+    executionBrief,
+    acceptanceTests: [],
+  };
 }
 
 export function buildLaunchPacket(context: DocumentLaunchContext) {
-  return buildLaunchPacketImpl(context);
+  return {
+    packet_id: `launch_${context.document.document_id}_v${context.document.version}`,
+    document: {
+      document_id: context.document.document_id,
+      title: context.document.title,
+      version: context.document.version,
+    },
+    readiness: context.readiness,
+    export_bundle: context.exportBundle,
+    starter_bundle: context.starterBundle,
+    execution_brief: context.executionBrief,
+  };
 }
