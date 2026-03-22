@@ -43,7 +43,7 @@ const statusColors: Record<AcceptanceTest["status"], string> = {
 export function AcceptanceTestMatrix({
   tests,
   onAddTest,
-  onUpdateTest,
+  // onUpdateTest — reserved for future inline-edit UI
   onDeleteTest,
   onRunTests,
 }: AcceptanceTestMatrixProps) {
