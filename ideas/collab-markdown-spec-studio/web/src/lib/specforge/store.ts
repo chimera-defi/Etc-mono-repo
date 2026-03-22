@@ -2312,15 +2312,18 @@ export async function resolveCommentThread(
   const { dbPath } = resolveOptions(options);
   const resolvedAt = new Date().toISOString();
 
+  let found = false;
+
   await database.transaction(async (tx) => {
-    await tx.query(
+    const updateResult = await tx.query<{ thread_id: string }>(
       `UPDATE comment_threads
       SET
         status = 'resolved',
         resolved_by_actor_type = $3,
         resolved_by_actor_id = $4,
         resolved_at = $5
-      WHERE thread_id = $1 AND document_id = $2`,
+      WHERE thread_id = $1 AND document_id = $2
+      RETURNING thread_id`,
       [
         payload.thread_id,
         payload.document_id,
@@ -2329,6 +2332,13 @@ export async function resolveCommentThread(
         resolvedAt,
       ],
     );
+
+    if (updateResult.rows.length === 0) {
+      return; // thread not found — skip audit event, flag for caller
+    }
+
+    found = true;
+
     await insertAuditEvent(tx, {
       document_id: payload.document_id,
       event_type: "comment.resolved",
@@ -2341,12 +2351,16 @@ export async function resolveCommentThread(
     });
   });
 
+  if (!found) {
+    throw new Error(`Comment thread ${payload.thread_id} not found`);
+  }
+
   await persistSnapshot(database, dbPath);
 
   const threads = await listCommentThreads(payload.document_id, options);
   const thread = threads.find((candidate) => candidate.thread_id === payload.thread_id);
   if (!thread) {
-    throw new Error(`Comment thread ${payload.thread_id} not found`);
+    throw new Error(`Comment thread ${payload.thread_id} not found after update`);
   }
 
   return thread;
