@@ -2,7 +2,7 @@
 
 const crypto = require("node:crypto");
 
-const DEFAULT_SECRET = "specforge-local-collab-secret";
+const DEFAULT_SECRET = "specforge-local-secret";
 const DEFAULT_TTL_SECONDS = 15 * 60;
 
 function base64UrlEncode(value) {
