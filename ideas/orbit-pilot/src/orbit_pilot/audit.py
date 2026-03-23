@@ -50,7 +50,7 @@ def record_submission(run_dir: Path, platform: str, mode: str, status: str, reas
 def list_submissions(run_dir: Path) -> list[dict[str, Any]]:
     db_path = init_db(run_dir)
     conn = sqlite3.connect(db_path)
-    rows = conn.execute("select platform, mode, status, live_url, reason, result_json from submissions order by platform").fetchall()
+    rows = conn.execute("select platform, mode, status, live_url, reason, result_json from submissions order by rowid").fetchall()
     conn.close()
     return [
         {

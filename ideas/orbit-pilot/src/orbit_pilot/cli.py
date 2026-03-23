@@ -12,7 +12,7 @@ from orbit_pilot.config import load_document
 from orbit_pilot.graph import build_payload, plan_platform
 from orbit_pilot.manual_pack import write_manual_pack
 from orbit_pilot.models import LaunchProfile, REQUIRED_LAUNCH_FIELDS
-from orbit_pilot.publishers import devto, github, medium
+from orbit_pilot.publishers.router import PUBLISHERS, publish_platform
 from orbit_pilot.registry import load_platforms
 
 
@@ -111,18 +111,18 @@ def generate_command(args: argparse.Namespace) -> int:
 
 def publish_command(args: argparse.Namespace) -> int:
     run_dir = Path(args.run)
+    if not run_dir.exists():
+        emit({"error": f"Run directory not found: {run_dir}"}, args.json)
+        return 1
     results: list[dict[str, Any]] = []
     for platform in args.platform:
-        payload = json.loads((run_dir / platform / "payload.json").read_text(encoding="utf-8"))
-        if platform == "github":
-            result = github.publish(payload, dry_run=not args.execute)
-        elif platform == "dev":
-            result = devto.publish(payload, dry_run=not args.execute)
-        elif platform == "medium":
-            result = medium.publish(payload, dry_run=not args.execute)
-        else:
-            result = {"status": "manual_only", "url": payload["url"], "publisher": platform}
-        record_submission(run_dir, platform, "official_api" if platform in {"github", "dev", "medium"} else "manual", result["status"], "publish command", result)
+        payload_path = run_dir / platform / "payload.json"
+        if not payload_path.exists():
+            emit({"error": f"Payload not found for platform '{platform}' in {run_dir}"}, args.json)
+            return 1
+        payload = json.loads(payload_path.read_text(encoding="utf-8"))
+        result = publish_platform(platform, payload, dry_run=not args.execute)
+        record_submission(run_dir, platform, "official_api" if platform in PUBLISHERS else "manual", result["status"], "publish command", result)
         results.append({"platform": platform, "result": result})
     emit({"results": results}, args.json)
     return 0
@@ -130,6 +130,9 @@ def publish_command(args: argparse.Namespace) -> int:
 
 def mark_done_command(args: argparse.Namespace) -> int:
     run_dir = Path(args.run)
+    if not run_dir.exists():
+        print(f"Run directory not found: {run_dir}")
+        return 1
     result = {"status": "manual_completed", "url": args.live_url}
     record_submission(run_dir, args.platform, "manual", "manual_completed", "marked done by operator", result)
     print(f"Marked {args.platform} complete")
@@ -138,6 +141,9 @@ def mark_done_command(args: argparse.Namespace) -> int:
 
 def next_command(args: argparse.Namespace) -> int:
     run_dir = Path(args.run)
+    if not run_dir.exists():
+        emit({"error": f"Run directory not found: {run_dir}"}, args.json)
+        return 1
     rows = list_submissions(run_dir)
     pending = [row for row in rows if row["mode"] == "manual" and row["status"] != "manual_completed"]
     if not pending:
@@ -160,7 +166,11 @@ def next_command(args: argparse.Namespace) -> int:
 
 
 def report_command(args: argparse.Namespace) -> int:
-    rows = list_submissions(Path(args.run))
+    run_dir = Path(args.run)
+    if not run_dir.exists():
+        emit({"error": f"Run directory not found: {run_dir}"}, args.json)
+        return 1
+    rows = list_submissions(run_dir)
     pending_manual = [row["platform"] for row in rows if row["mode"] == "manual" and row["status"] != "manual_completed"]
     emit({"results": rows, "pending_manual": pending_manual}, args.json)
     return 0

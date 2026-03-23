@@ -1,2 +1,1 @@
-"""Publisher stubs for Orbit Pilot."""
-
+"""Official publisher integrations for Orbit Pilot."""

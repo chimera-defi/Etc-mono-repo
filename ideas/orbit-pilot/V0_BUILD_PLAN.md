@@ -120,7 +120,8 @@ orbit-pilot/
     publishers/
       __init__.py
       github.py
-      devto.py
+      dev.py
+      linkedin.py
       medium.py
   examples/
     launch.sample.yaml

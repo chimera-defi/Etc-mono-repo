@@ -111,4 +111,4 @@ For each platform return:
 1. `SYSTEM_PROMPT.md`
 2. `PLATFORM_MATRIX.md`
 3. `SAMPLE_OUTPUTS.md`
-4. `src/orbit_pilot_skeleton.py`
+4. `src/orbit_pilot/`
