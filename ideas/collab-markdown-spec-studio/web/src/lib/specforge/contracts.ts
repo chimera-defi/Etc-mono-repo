@@ -69,6 +69,7 @@ export const clarificationCreateSchema = z.object({
   document_id: z.string().min(1),
   section_heading: z.string().min(1),
   question: z.string().min(1).max(500),
+  priority: z.enum(["critical", "normal", "optional"]).optional().default("normal"),
   created_by: z.object({
     actor_type: z.enum(["human", "agent"]),
     actor_id: z.string().min(1),
@@ -144,7 +145,7 @@ export type PatchProposalInput = z.infer<typeof patchProposalSchema>;
 export type PatchDecisionInput = z.infer<typeof patchDecisionSchema>;
 export type CommentThreadCreateInput = z.infer<typeof commentThreadCreateSchema>;
 export type CommentThreadResolveInput = z.infer<typeof commentThreadResolveSchema>;
-export type ClarificationCreateInput = z.infer<typeof clarificationCreateSchema>;
+export type ClarificationCreateInput = z.input<typeof clarificationCreateSchema>;
 export type ClarificationAnswerInput = z.infer<typeof clarificationAnswerSchema>;
 export type DocumentRecord = z.infer<typeof documentRecordSchema>;
 export type StoredPatch = z.infer<typeof storedPatchSchema>;

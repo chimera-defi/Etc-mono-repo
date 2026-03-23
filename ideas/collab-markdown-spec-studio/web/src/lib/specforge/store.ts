@@ -217,6 +217,7 @@ type ClarificationRow = {
   document_id: string;
   section_heading: string;
   question: string;
+  priority: "critical" | "normal" | "optional";
   status: "open" | "answered";
   created_by_actor_type: "human" | "agent";
   created_by_actor_id: string;
@@ -241,6 +242,7 @@ export type ClarificationRecord = {
   document_id: string;
   section_heading: string;
   question: string;
+  priority: "critical" | "normal" | "optional";
   status: "open" | "answered";
   created_by: {
     actor_type: "human" | "agent";
@@ -483,6 +485,7 @@ async function dumpSnapshot(database: QuerySession): Promise<StoreSnapshot> {
         document_id,
         section_heading,
         question,
+        COALESCE(priority, 'normal') AS priority,
         status,
         created_by_actor_type,
         created_by_actor_id,
@@ -745,6 +748,7 @@ async function hydrateSnapshot(database: QuerySession, snapshot: StoreSnapshot) 
         document_id,
         section_heading,
         question,
+        priority,
         status,
         created_by_actor_type,
         created_by_actor_id,
@@ -753,12 +757,13 @@ async function hydrateSnapshot(database: QuerySession, snapshot: StoreSnapshot) 
         answered_by_actor_id,
         created_at,
         answered_at
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`,
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`,
       [
         row.clarification_id,
         row.document_id,
         row.section_heading,
         row.question,
+        row.priority ?? "normal",
         row.status,
         row.created_by_actor_type,
         row.created_by_actor_id,
@@ -867,6 +872,7 @@ function mapClarificationRow(row: ClarificationRow): ClarificationRecord {
     document_id: row.document_id,
     section_heading: row.section_heading,
     question: row.question,
+    priority: row.priority ?? "normal",
     status: row.status,
     created_by: {
       actor_type: row.created_by_actor_type,
@@ -995,6 +1001,23 @@ async function createSchema(database: QuerySession) {
       created_at TEXT NOT NULL,
       updated_at TEXT NOT NULL
     );
+
+    CREATE TABLE IF NOT EXISTS spec_jobs (
+      job_id TEXT PRIMARY KEY,
+      workspace_id TEXT NOT NULL,
+      document_id TEXT,
+      mode TEXT NOT NULL DEFAULT 'assisted',
+      status TEXT NOT NULL DEFAULT 'queued',
+      brief TEXT NOT NULL,
+      constraints_json JSONB DEFAULT '{}'::jsonb,
+      blocker TEXT,
+      retry_count INTEGER DEFAULT 0,
+      artifacts_json JSONB DEFAULT '{}'::jsonb,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+
+    ALTER TABLE clarifications ADD COLUMN IF NOT EXISTS priority TEXT NOT NULL DEFAULT 'normal';
   `);
 }
 
@@ -1833,6 +1856,7 @@ export async function listClarifications(documentId: string, options?: StoreOpti
       document_id,
       section_heading,
       question,
+      COALESCE(priority, 'normal') AS priority,
       status,
       created_by_actor_type,
       created_by_actor_id,
@@ -2383,16 +2407,18 @@ export async function createClarification(
         document_id,
         section_heading,
         question,
+        priority,
         status,
         created_by_actor_type,
         created_by_actor_id,
         created_at
-      ) VALUES ($1, $2, $3, $4, 'open', $5, $6, $7)`,
+      ) VALUES ($1, $2, $3, $4, $5, 'open', $6, $7, $8)`,
       [
         clarificationId,
         payload.document_id,
         payload.section_heading,
         payload.question,
+        payload.priority ?? "normal",
         payload.created_by.actor_type,
         payload.created_by.actor_id,
         createdAt,
