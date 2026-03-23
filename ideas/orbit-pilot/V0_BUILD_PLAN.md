@@ -212,6 +212,7 @@ Done when:
 
 Done when:
 - at least two official publishers work end-to-end.
+- GitHub is the first real execute path because its release API is stable and low-friction.
 
 ### Demo Script
 

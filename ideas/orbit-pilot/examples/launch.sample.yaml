@@ -26,3 +26,7 @@ company:
     - SaaS
     - Marketing
     - AI
+publish:
+  github:
+    repo: acme/orbitpilot
+    tag_name: launch-v0
