@@ -2,7 +2,7 @@
 
 const crypto = require("node:crypto");
 
-const DEFAULT_SECRET = "specforge-local-secret";
+const DEFAULT_SECRET = "specforge-local-collab-secret";
 const DEFAULT_TTL_SECONDS = 15 * 60;
 
 function base64UrlEncode(value) {
@@ -29,8 +29,8 @@ function getCollabSecret() {
   return configuredSecret || DEFAULT_SECRET;
 }
 
-function buildRoomName(documentId, version) {
-  return `${documentId}:v${version}`;
+function buildRoomName(documentId, _version) {
+  return documentId;
 }
 
 function signPayload(payload) {
@@ -48,7 +48,7 @@ function createCollabToken(input) {
     actor_type: input.actorType ?? "human",
     actor_color: input.actorColor ?? "#1d4ed8",
     document_id: input.documentId,
-    room: input.roomName ?? buildRoomName(input.documentId, input.version),
+    room: input.roomName ?? input.documentId,
     version: input.version,
     iat: issuedAt,
     exp: issuedAt + ttlSeconds,

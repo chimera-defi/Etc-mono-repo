@@ -87,7 +87,7 @@ export function DocumentWorkspace({ document, activeActor, blockSummaries }: Pro
   const router = useRouter();
   const collabUrl =
     process.env.NEXT_PUBLIC_COLLAB_URL?.trim() || "ws://127.0.0.1:4321";
-  const roomName = `${document.document_id}:v${document.version}`;
+  const roomName = document.document_id;
   const [localUser] = useState(() => makeLocalUser(activeActor));
   const [collaborators, setCollaborators] = useState<Collaborator[]>([]);
   const [remoteCursors, setRemoteCursors] = useState<RemoteCursor[]>([]);
