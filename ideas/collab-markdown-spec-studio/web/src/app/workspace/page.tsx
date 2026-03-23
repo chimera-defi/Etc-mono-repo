@@ -909,6 +909,7 @@ export default async function Home({ searchParams }: Props) {
                   key={`${activeDocument.document_id}:${activeDocument.version}`}
                   document={activeDocument}
                   activeActor={activeWorkspaceActor}
+                  authMode={activeWorkspaceSession.authMode}
                   blockSummaries={blockSummaries}
                 />
               ) : (
@@ -1505,6 +1506,14 @@ export default async function Home({ searchParams }: Props) {
                       >
                         Open export JSON
                       </Link>
+                      <a
+                        href={`/api/documents/${activeDocument?.document_id}/export-zip`}
+                        className={styles.exportLinkPrimary}
+                        download
+                        data-testid="download-export-zip"
+                      >
+                        ↓ Download ZIP
+                      </a>
                       <span>{Object.keys(exportBundle.files).length} files ready for handoff</span>
                     </div>
                     <details className={styles.exportDisclosure}>
