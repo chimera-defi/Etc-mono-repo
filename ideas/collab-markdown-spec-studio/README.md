@@ -2,6 +2,74 @@
 
 **Status**: Scoped MVP/spec parity reached on the build branch
 
+---
+
+## Quick Local Demo (with Claude Code CLI)
+
+The fastest way to get SpecForge running locally so you can open it in your browser.
+
+### Prerequisites
+- [Bun](https://bun.sh) — `curl -fsSL https://bun.sh/install | bash`
+- [Claude Code CLI](https://claude.ai/code) — `npm install -g @anthropic-ai/claude-code`
+- Node.js 18+
+
+### 1. Install Claude Code CLI locally
+
+```bash
+npm install -g @anthropic-ai/claude-code
+# or
+bun install -g @anthropic-ai/claude-code
+```
+
+### 2. Clone and open with Claude Code
+
+```bash
+git clone <this-repo>
+cd <repo-root>
+claude   # opens Claude Code CLI in your terminal
+```
+
+### 3. Tell Claude to run SpecForge
+
+Paste this into the Claude Code prompt:
+
+```
+Pull PR 262 locally and start the SpecForge demo — run both the web app
+and the collab server, then tell me the URL.
+```
+
+Claude will fetch the branch, install deps, and start:
+- **Web UI** → `http://localhost:3000`
+- **Collab server** → `ws://localhost:4321`
+
+Because Claude Code CLI runs on your machine, `localhost:3000` opens directly in your browser.
+
+### 4. Manual start (without Claude)
+
+```bash
+# Terminal 1 — collab server
+cd ideas/collab-markdown-spec-studio/collab-server
+bun install && node src/index.js
+
+# Terminal 2 — web app
+cd ideas/collab-markdown-spec-studio/web
+bun install && bun run dev
+```
+
+Then open `http://localhost:3000`.
+
+### What to demo
+
+| Feature | Where |
+|---------|-------|
+| Multiplayer spec editing | Open two browser tabs on `/workspace` |
+| Guided spec wizard | Click **New Spec** on the home page |
+| Patch review workflow | Propose a patch → approve/reject |
+| Agent-ready export | Click **Export** on a ready spec |
+| Health & metrics | `GET /api/health`, `/api/metrics` |
+
+---
+
 ### Concept
 A collaborative spec IDE where humans and AI agents work on the same markdown canvas with depth gates, governed patch review, and attributable changes.
 
