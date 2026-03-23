@@ -19,7 +19,11 @@ import {
   resolveCommentThread,
   updateWorkspacePlan,
 } from "@/lib/specforge/store";
-import { buildGuidedSpecMarkdown, buildGuidedSpecMetadata } from "@/lib/specforge/guided";
+import {
+  buildGuidedSpecMarkdown,
+  buildGuidedSpecMetadata,
+  inferClarificationQuestions,
+} from "@/lib/specforge/guided";
 import { getMemberQuotaState } from "@/lib/specforge/plans";
 import {
   getCurrentWorkspaceActor,
@@ -82,6 +86,20 @@ export async function createDocumentAction(formData: FormData) {
     initial_markdown,
     metadata,
   });
+
+  if (mode === "guided") {
+    const { actorRef } = await getActionActorRef();
+    const clarificationQuestions = inferClarificationQuestions(guidedInput);
+    for (const item of clarificationQuestions) {
+      await createClarification({
+        document_id: created.document_id,
+        section_heading: item.section_heading,
+        question: item.question,
+        priority: item.priority,
+        created_by: actorRef,
+      });
+    }
+  }
 
   revalidatePath("/workspace");
   redirect(`/workspace?document=${created.document_id}&stage=draft`);

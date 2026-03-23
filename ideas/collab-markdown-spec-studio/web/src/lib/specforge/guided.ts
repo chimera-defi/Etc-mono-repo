@@ -126,6 +126,97 @@ export function buildGuidedSpecMarkdown(input: GuidedSpecInput) {
   ].join("\n");
 }
 
+export function inferClarificationQuestions(
+  input: GuidedSpecInput,
+): Array<{
+  section_heading: string;
+  question: string;
+  priority: "critical" | "normal" | "optional";
+}> {
+  const SPARSE_THRESHOLD = 30;
+
+  function isSparse(value: string | undefined): boolean {
+    return !value || value.trim().length < SPARSE_THRESHOLD;
+  }
+
+  const checks: Array<{
+    field: keyof GuidedSpecInput;
+    section_heading: string;
+    question: string;
+    priority: "critical" | "normal" | "optional";
+  }> = [
+    {
+      field: "problem",
+      section_heading: "Problem",
+      question:
+        "What specific problem does this solve, and for whom? Include the pain point and why existing solutions fail.",
+      priority: "critical",
+    },
+    {
+      field: "goals",
+      section_heading: "Goals",
+      question:
+        "What are the 2-3 measurable outcomes that would make this a success? Each goal should be verifiable.",
+      priority: "critical",
+    },
+    {
+      field: "users",
+      section_heading: "Users",
+      question:
+        "Who are the primary users or operators? Describe their technical level and what job they are trying to do.",
+      priority: "normal",
+    },
+    {
+      field: "scope",
+      section_heading: "Scope",
+      question:
+        "What is explicitly in scope for the first version? What can be shipped in 4-6 weeks?",
+      priority: "critical",
+    },
+    {
+      field: "requirements",
+      section_heading: "Requirements",
+      question:
+        "What must the system do? List the 3-5 minimum features needed before the first user can get value.",
+      priority: "critical",
+    },
+    {
+      field: "constraints",
+      section_heading: "Constraints",
+      question:
+        "What constraints shape the build? (tech stack, timeline, team size, budget, API limits)",
+      priority: "normal",
+    },
+    {
+      field: "successSignals",
+      section_heading: "Success Signals",
+      question:
+        "How will you know the first version worked? Give 2-3 measurable signals with thresholds.",
+      priority: "critical",
+    },
+    {
+      field: "tasks",
+      section_heading: "Tasks",
+      question: "What are the top 5 implementation tasks in order of dependency?",
+      priority: "optional",
+    },
+    {
+      field: "nonGoals",
+      section_heading: "Non-Goals",
+      question:
+        "What is explicitly out of scope? Name 2-3 things you are intentionally not building.",
+      priority: "optional",
+    },
+  ];
+
+  const results = checks
+    .filter((check) => isSparse(input[check.field]))
+    .map(({ section_heading, question, priority }) => ({ section_heading, question, priority }));
+
+  const priorityOrder: Record<string, number> = { critical: 0, normal: 1, optional: 2 };
+  return results.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+}
+
 export function buildGuidedSpecMetadata(input: GuidedSpecInput) {
   return {
     creation_mode: "guided",
