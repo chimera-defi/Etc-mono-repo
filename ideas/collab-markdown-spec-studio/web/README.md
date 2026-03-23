@@ -57,6 +57,41 @@ Current slice:
 - workspace backup index endpoint at `/api/ops/backups`
 - pricing anchors benchmarked in `../PRICING_BENCHMARKS.md`
 
+## REST API Quickstart
+
+SpecForge exposes a service API so external agents can submit briefs and receive fully-specified documents without a browser.
+
+### Autonomous mode (hands-off)
+```bash
+# Submit a brief — SpecForge runs the full spec loop and returns artifacts
+curl -X POST http://localhost:3000/api/service/spec-jobs \
+  -H "Content-Type: application/json" \
+  -d '{"brief": "A real-time collaborative spec editor", "mode": "autonomous"}'
+
+# Returns: { "job": { "job_id": "...", "status": "completed" }, "document_id": "..." }
+
+# Fetch the full artifact bundle (PRD, SPEC, TASKS, agent_spec.json)
+curl http://localhost:3000/api/service/spec-jobs/{jobId}/artifacts
+```
+
+### Assisted mode (human-in-the-loop)
+```bash
+# Submit brief — job sits at "queued", waiting for human patch review
+curl -X POST http://localhost:3000/api/service/spec-jobs \
+  -H "Content-Type: application/json" \
+  -d '{"brief": "...", "mode": "assisted"}'
+
+# Apply governance decisions when ready
+curl -X POST http://localhost:3000/api/service/spec-jobs/{jobId}/review-decision \
+  -H "Content-Type: application/json" \
+  -d '{"decisions": [{"patch_id": "...", "action": "accept"}]}'
+
+# Retry after a blocked job
+curl -X POST http://localhost:3000/api/service/spec-jobs/{jobId}/retry
+```
+
+See `../API_REFERENCE.md` for the full endpoint catalog.
+
 ## Commands
 
 ```bash

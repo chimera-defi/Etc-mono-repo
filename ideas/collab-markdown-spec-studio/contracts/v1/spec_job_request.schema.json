@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SpecJobRequest",
+  "description": "Request body for POST /api/service/spec-jobs — create a new spec job from a brief",
+  "type": "object",
+  "required": ["brief"],
+  "properties": {
+    "brief": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 5000,
+      "description": "Rough description of the software to be specified. Guides initial structure and content generation."
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["assisted", "autonomous"],
+      "default": "assisted",
+      "description": "Execution mode: 'assisted' = job waits for human patch review; 'autonomous' = SpecForge runs the full spec loop end-to-end"
+    },
+    "constraints": {
+      "type": "object",
+      "description": "Optional key-value constraints passed to the spec generation agent (e.g., framework, language, focus)",
+      "additionalProperties": true
+    },
+    "workspaceId": {
+      "type": "string",
+      "description": "Target workspace ID. If omitted, defaults to the session's active workspace (local dev) or request context (production)."
+    }
+  },
+  "examples": [
+    {
+      "brief": "A real-time collaborative spec editor with live multiplayer support and governed AI patch proposals",
+      "mode": "autonomous"
+    },
+    {
+      "brief": "Mobile app for task tracking with offline sync",
+      "mode": "assisted",
+      "constraints": {
+        "framework": "React Native",
+        "language": "TypeScript",
+        "focus": "MVP"
+      }
+    },
+    {
+      "brief": "Backend service for payment processing",
+      "workspaceId": "ws_prod_001"
+    }
+  ]
+}
