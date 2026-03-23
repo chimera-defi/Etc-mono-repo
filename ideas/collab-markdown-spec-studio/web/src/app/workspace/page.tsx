@@ -1495,10 +1495,22 @@ export default async function Home({ searchParams }: Props) {
                         <span>{Object.keys(exportBundle.files).length} files</span>
                       </summary>
                       <div className={styles.disclosureBody}>
+                        <p className={styles.context}>
+                          These files match the mono repo ideas framework format and can be used
+                          directly by build agents.
+                        </p>
                         <div className={styles.exportGrid}>
                           {Object.entries(exportBundle.files).map(([name, content]) => (
                             <article key={name} className={styles.exportCard}>
                               <h3>{name}</h3>
+                              <p className={styles.charCount}>{content.length} chars</p>
+                              <a
+                                href={`data:text/markdown;charset=utf-8,${encodeURIComponent(content)}`}
+                                download={name}
+                                className={styles.exportLink}
+                              >
+                                Download
+                              </a>
                               <pre>{content}</pre>
                             </article>
                           ))}
