@@ -19,6 +19,7 @@ type Props = {
     name: string;
     color: string;
   };
+  authMode?: "local" | "github" | "unauthenticated";
   blockSummaries: {
     block_id: string;
     heading: string;
@@ -83,7 +84,7 @@ function makeLocalUser(activeActor: Props["activeActor"]) {
   return value;
 }
 
-export function DocumentWorkspace({ document, activeActor, blockSummaries }: Props) {
+export function DocumentWorkspace({ document, activeActor, authMode, blockSummaries }: Props) {
   const router = useRouter();
   const collabUrl =
     process.env.NEXT_PUBLIC_COLLAB_URL?.trim() || "ws://127.0.0.1:4321";
@@ -98,7 +99,12 @@ export function DocumentWorkspace({ document, activeActor, blockSummaries }: Pro
   const [isPending, startTransition] = useTransition();
   const surfaceRef = useRef<HTMLDivElement | null>(null);
   const isMountedRef = useRef(false);
+  // Track whether the collab provider has already fired its first `synced`
+  // event. We use a ref so that the value survives across useEffect re-runs
+  // without causing additional re-renders.
+  const collabSyncedRef = useRef(false);
   const collab = useMemo(() => {
+    collabSyncedRef.current = false; // reset on new provider
     const ydoc = new Y.Doc();
     const provider = new HocuspocusProvider({
       url: collabUrl,
@@ -129,8 +135,19 @@ export function DocumentWorkspace({ document, activeActor, blockSummaries }: Pro
       },
     });
 
+    // Record sync as soon as it happens so the useEffect can detect it.
+    provider.on("synced", () => {
+      collabSyncedRef.current = true;
+    });
+
+    // Don't open a WebSocket if the user isn't authenticated yet — the token
+    // endpoint will return 401 and cause a noisy auth-failed banner.
+    if (authMode === "unauthenticated") {
+      provider.disconnect();
+    }
+
     return { ydoc, provider };
-  }, [collabUrl, document.document_id, document.version, roomName]);
+  }, [authMode, collabUrl, document.document_id, document.version, roomName]);
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
@@ -383,6 +400,14 @@ export function DocumentWorkspace({ document, activeActor, blockSummaries }: Pro
     updateLocalSelection();
     updateCollaborators();
     updateRemoteCursors();
+
+    // Race-condition guard: if the provider already fired `synced` before this
+    // effect registered its listener (common on fresh/fast rooms), seed content
+    // immediately. We use our own ref instead of provider.isSynced which does
+    // not exist on HocuspocusProvider.
+    if (collabSyncedRef.current) {
+      handleSynced();
+    }
 
     return () => {
       collab.provider.off("authenticated", handleAuthenticated);

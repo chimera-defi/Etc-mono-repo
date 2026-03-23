@@ -29,6 +29,7 @@ export function proxy(request: NextRequest) {
     pathname.startsWith("/api/auth/") ||
     pathname.startsWith("/api/parity/") ||
     pathname.startsWith("/_next/") ||
+    pathname === "/api/health" ||
     pathname === "/favicon.ico"
   ) {
     return continueWithRequestId(requestHeaders, requestId);
