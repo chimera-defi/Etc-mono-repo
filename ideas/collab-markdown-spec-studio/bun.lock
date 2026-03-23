@@ -17,10 +17,6 @@
         "yjs": "13.6.30",
       },
     },
-    "core": {
-      "name": "@specforge/core",
-      "version": "0.1.0",
-    },
     "orchestrator": {
       "name": "@specforge/orchestrator",
       "version": "0.1.0",
@@ -266,8 +262,6 @@
     "@rtsao/scc": ["@rtsao/scc@1.1.0", "", {}, "sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g=="],
 
     "@specforge/cli": ["@specforge/cli@workspace:cli"],
-
-    "@specforge/core": ["@specforge/core@workspace:core"],
 
     "@specforge/orchestrator": ["@specforge/orchestrator@workspace:orchestrator"],
 
