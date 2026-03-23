@@ -1,8 +1,14 @@
 import Link from "next/link";
 
 import styles from "../marketing.module.css";
+import {
+  formatWorkspacePlanSeatPrice,
+  listWorkspacePlans,
+} from "@/lib/specforge/plans";
 
 export default function PricingPage() {
+  const plans = listWorkspacePlans();
+
   return (
     <main className={styles.page}>
       <nav className={styles.nav}>
@@ -29,44 +35,24 @@ export default function PricingPage() {
 
       <section className={styles.section}>
         <div className={styles.pricingGrid}>
-          <article className={styles.pricingCard}>
-            <strong>Local / OSS</strong>
-            <p className={styles.price}>Free</p>
-            <p>Run the workspace locally or self-host it for internal experimentation.</p>
-            <ul>
-              <li>Workspace app + collab server</li>
-              <li>Local admin tools</li>
-              <li>Included demo assist quota</li>
-              <li>Up to 8 members in the default demo tier</li>
-              <li>Bring your own operator workflow</li>
-            </ul>
-          </article>
-
-          <article className={`${styles.pricingCard} ${styles.featured}`}>
-            <strong>Team SaaS</strong>
-            <p className={styles.price}>
-              $24 <span>/ seat / month</span>
-            </p>
-            <p>For product and engineering pods that want a managed multiplayer spec workspace.</p>
-            <ul>
-              <li>Hosted collaboration and persistence</li>
-              <li>Governed agent review workflow</li>
-              <li>Unlimited assist usage in pilot phase</li>
-              <li>Seat-based billing preview at $24 per member</li>
-              <li>Launch packet and starter handoff</li>
-            </ul>
-          </article>
-
-          <article className={styles.pricingCard}>
-            <strong>Enterprise</strong>
-            <p className={styles.price}>Custom</p>
-            <p>For larger teams that need stronger audit, tenancy, and operational controls.</p>
-            <ul>
-              <li>Advanced retention and governance</li>
-              <li>SSO / compliance roadmap</li>
-              <li>Dedicated support and rollout help</li>
-            </ul>
-          </article>
+          {plans.map((plan) => (
+            <article
+              key={plan.plan}
+              className={`${styles.pricingCard} ${plan.plan === "pilot" ? styles.featured : ""}`}
+            >
+              <strong>{plan.label}</strong>
+              <p className={styles.price}>
+                {formatWorkspacePlanSeatPrice(plan)}
+                {plan.seatPriceMonthlyUsd === null ? null : <span>/ seat / month</span>}
+              </p>
+              <p>{plan.summary}</p>
+              <ul>
+                {plan.features.map((feature) => (
+                  <li key={feature}>{feature}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
         </div>
       </section>
 

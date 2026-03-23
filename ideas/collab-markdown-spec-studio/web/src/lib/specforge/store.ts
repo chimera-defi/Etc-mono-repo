@@ -34,7 +34,7 @@ import {
   upsertSectionBullet,
 } from "./markdown";
 
-type StoreOptions = {
+export type StoreOptions = {
   backend?: "pglite" | "postgres";
   dbPath?: string;
   databaseUrl?: string;
@@ -42,7 +42,7 @@ type StoreOptions = {
   workspaceId?: string;
 };
 
-type QuerySession = {
+export type QuerySession = {
   query<T = unknown>(sql: string, params?: unknown[]): Promise<{ rows: T[] }>;
   exec?: (sql: string) => Promise<unknown>;
 };
@@ -2679,4 +2679,117 @@ export async function listUserWorkspaces(
     plan: row.plan,
     created_at: row.created_at,
   }));
+}
+
+export async function getWorkspaceBehaviorSummary(
+  workspaceId: string,
+  options?: StoreOptions,
+) {
+  const database = await getDatabase(options);
+  const [workspaceEvents, documentEvents] = await Promise.all([
+    database.query<{
+      member_added_count: string;
+      member_role_changed_count: string;
+      plan_changed_count: string;
+      assist_preference_count: string;
+    }>(
+      `SELECT
+        COUNT(*) FILTER (WHERE event_type = 'workspace.member_added')::text AS member_added_count,
+        COUNT(*) FILTER (WHERE event_type = 'workspace.member_role_changed')::text AS member_role_changed_count,
+        COUNT(*) FILTER (WHERE event_type = 'workspace.plan_changed')::text AS plan_changed_count,
+        COUNT(*) FILTER (WHERE event_type = 'workspace.assist_preference_saved')::text AS assist_preference_count
+      FROM audit_events
+      WHERE payload_json ->> 'workspace_id' = $1`,
+      [workspaceId],
+    ),
+    database.query<{
+      document_created_count: string;
+      patch_decided_count: string;
+      clarification_answered_count: string;
+    }>(
+      `SELECT
+        COUNT(*) FILTER (WHERE ae.event_type = 'document.created')::text AS document_created_count,
+        COUNT(*) FILTER (WHERE ae.event_type = 'patch.decided')::text AS patch_decided_count,
+        COUNT(*) FILTER (WHERE ae.event_type = 'clarification.answered')::text AS clarification_answered_count
+      FROM audit_events ae
+      INNER JOIN documents d ON d.document_id = ae.document_id
+      WHERE d.workspace_id = $1`,
+      [workspaceId],
+    ),
+  ]);
+
+  return {
+    workspace_id: workspaceId,
+    document_created_count: Number(documentEvents.rows[0]?.document_created_count ?? 0),
+    member_added_count: Number(workspaceEvents.rows[0]?.member_added_count ?? 0),
+    member_role_changed_count: Number(
+      workspaceEvents.rows[0]?.member_role_changed_count ?? 0,
+    ),
+    plan_changed_count: Number(workspaceEvents.rows[0]?.plan_changed_count ?? 0),
+    assist_preference_count: Number(workspaceEvents.rows[0]?.assist_preference_count ?? 0),
+    patch_decided_count: Number(documentEvents.rows[0]?.patch_decided_count ?? 0),
+    clarification_answered_count: Number(
+      documentEvents.rows[0]?.clarification_answered_count ?? 0,
+    ),
+  };
+}
+
+export async function deleteWorkspaceMembership(
+  membershipId: string,
+  options?: StoreOptions,
+) {
+  const database = await getDatabase(options);
+  const { dbPath } = resolveOptions(options);
+  const result = await database.query<WorkspaceMemberRow>(
+    `DELETE FROM workspace_members
+    WHERE membership_id = $1
+    RETURNING
+      membership_id,
+      workspace_id,
+      actor_id,
+      actor_type,
+      name,
+      role,
+      color,
+      github_login,
+      created_at`,
+    [membershipId],
+  );
+  const row = result.rows[0];
+  if (!row) {
+    return null;
+  }
+  await persistSnapshot(database, dbPath);
+  return mapWorkspaceMembershipRow(row);
+}
+
+export async function updateWorkspaceMembershipRole(
+  membershipId: string,
+  role: string,
+  options?: StoreOptions,
+) {
+  const database = await getDatabase(options);
+  const { dbPath } = resolveOptions(options);
+  const result = await database.query<WorkspaceMemberRow>(
+    `UPDATE workspace_members
+    SET role = $2
+    WHERE membership_id = $1
+    RETURNING
+      membership_id,
+      workspace_id,
+      actor_id,
+      actor_type,
+      name,
+      role,
+      color,
+      github_login,
+      created_at`,
+    [membershipId, role.trim()],
+  );
+  const row = result.rows[0];
+  if (!row) {
+    return null;
+  }
+  await persistSnapshot(database, dbPath);
+  return mapWorkspaceMembershipRow(row);
 }

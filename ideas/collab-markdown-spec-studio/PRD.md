@@ -90,6 +90,25 @@ The broader company plan is still larger than the shipped MVP:
 5. Commercial onboarding, billing, and plan enforcement.
 6. Keep moving export/handoff/workflow contracts into the shared OpenSpec core and grow the terminal-native `specforge` wizard into a fuller TUI/assistant surface.
 
+### Agent Service Workflow (OpenServ-Compatible)
+SpecForge should be productized as a repeatable agent service, not only an interactive app.
+
+Service contract (v1):
+1. Input: rough brief + optional constraints (deadline, stack, domain, risk tolerance).
+2. Agent flow: guided clarification → draft synthesis → patch/governance review → readiness checks.
+3. Output: execution-ready launch packet (`PRD.md`, `SPEC.md`, `TASKS.md`, `agent_spec.json`) plus recap and blocker list.
+4. Delivery mode: asynchronous job with status + artifacts endpoints in addition to web/CLI/TUI UX.
+
+Why this matters:
+1. Fits hackathon tracks that reward autonomous agent service behavior.
+2. Makes SpecForge monetizable per-job and easier to integrate into external agent marketplaces.
+3. Preserves the same governance guarantees (attribution, patch review, audit trail) while moving to service usage.
+
+Tomorrow buildout priority:
+1. Define service API and job lifecycle in the spec.
+2. Add a minimal "run workflow" endpoint over existing orchestrator/guided core.
+3. Persist artifacts + status so users can consume results without staying in the editor session.
+
 ### Guided Idea-Depth Assistant (SpecForge Productization)
 1. Built-in broad-to-deep wizard with required gates for PRD/SPEC/risk/validation/economics.
 2. Agent asks targeted continuation questions when required detail is missing.
