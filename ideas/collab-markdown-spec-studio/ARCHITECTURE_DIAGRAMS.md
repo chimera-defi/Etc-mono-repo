@@ -58,3 +58,31 @@ Concurrent edits on same section
          -> apply merged patch
             -> snapshot + provenance update
 ```
+
+## 6) Multi-Surface Architecture
+
+```text
+                        ┌─────────────────────────┐
+                        │      SpecForge Core       │
+                        │  Doc Store · Patch Engine │
+                        │  Export · Readiness · DB  │
+                        └──────────┬────────────────┘
+                                   │
+              ┌────────────────────┼──────────────────────┐
+              │                    │                       │
+    ┌─────────▼──────┐   ┌────────▼────────┐   ┌────────▼────────────┐
+    │  Browser GUI   │   │   Terminal CLI  │   │   REST Service API  │
+    │  /workspace    │   │  specforge init │   │  /api/service/      │
+    │  (Tiptap+Yjs)  │   │  specforge tui  │   │    spec-jobs        │
+    └────────────────┘   └─────────────────┘   └────────┬────────────┘
+                                                         │
+                                          ┌──────────────┴─────────────┐
+                                          │                             │
+                                 ┌────────▼───────┐         ┌──────────▼──────┐
+                                 │  BYOA (mode:   │         │  Autonomous      │
+                                 │  "assisted")   │         │  (mode: "auto-  │
+                                 │  Your agent    │         │  nomous")        │
+                                 │  reviews       │         │  SpecForge runs  │
+                                 │  patches       │         │  full loop       │
+                                 └────────────────┘         └─────────────────┘
+```

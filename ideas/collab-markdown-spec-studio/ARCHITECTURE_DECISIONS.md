@@ -126,6 +126,7 @@
 - Status (current branch): membership management exists, and the workspace UI should expose a copyable canonical URL plus the membership requirement alongside it.
 - Tradeoff: sharing is slightly less frictionless than a public doc link, but it is safer and aligns with pilot workspace permissions.
 
+<<<<<<< HEAD
 ## Decision 24: Sprint Planning as Act 1 of SpecForge (not a bolt-on mode)
 - Choice: integrate the G-Stack-inspired planning stages (Discovery → CEO Review → Eng Review → Design Review → Security Review) as the natural front-of-workflow Act 1 in SpecForge, not as an optional addon. Users see a choice at document creation: "Start with Sprint Planning" or "Jump to Spec Wizard". Both paths lead to the same Act 2 (spec generation).
 - Why: bolt-on modes get skipped. Making planning the default entry point raises spec quality before any doc editing begins. G-Stack validated this stage sequence; SpecForge adapts it inside the governed patch workflow so all AI-generated planning outputs are attributed and reversible.
@@ -162,3 +163,21 @@
 - Implementation: the iterate endpoint reuses the existing `agent-assist.ts` mini-LLM call infrastructure but outputs a full `PatchProposal` instead of a field suggestion.
 - Multiplayer: concurrent iteration on the same section by different collaborators produces separate patch proposals, resolved via the existing cherry-pick queue.
 - Tradeoff: adds one more entry point to the patch review queue. Risk of patch queue bloat if iteration is overused. Mitigate by showing the queue depth in the UI and allowing bulk triage.
+
+## Decision 29: Multi-Surface Access Model
+
+**Choice:** The same spec authoring backend is accessible via four surfaces: browser (GUI), terminal (CLI), REST API with human-in-the-loop (BYOA), and REST API in autonomous mode.
+
+**Why:** Keeps the specification contract unified; avoids forking the model across entry points. A spec created via CLI and one submitted via REST API go through identical validation, patch governance, and export logic.
+
+**Surfaces:**
+- **GUI** — `/workspace` web UI with CRDT sync, live collaboration, and patch review
+- **CLI** — `specforge` command (init, status, context, artifacts, backlog, tui)
+- **REST API (BYOA)** — `POST /api/service/spec-jobs` with `mode: "assisted"` — your agent drives patch review
+- **REST API (Autonomous)** — `POST /api/service/spec-jobs` with `mode: "autonomous"` — SpecForge's own agent runs the spec loop end-to-end
+
+**All modes share:** document store, patch engine, clarification queue, export builders, readiness scoring.
+
+**Status:** ✅ All four modes implemented and locally tested on this branch. See `API_REFERENCE.md` for endpoint catalog.
+
+**Tradeoff:** Four separate UX surfaces must stay in sync. Drift risk if one surface falls out of maintenance. Mitigated by shared `specforge-core` lib used by all entry points.
