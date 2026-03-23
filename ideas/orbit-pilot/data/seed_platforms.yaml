@@ -6,6 +6,7 @@ platforms:
     submit_url: https://medium.com/
     mode: official_api_if_token_else_manual
     risk: medium
+    priority: 70
   - name: Reddit
     slug: reddit
     category: community
@@ -13,6 +14,7 @@ platforms:
     submit_url: https://www.reddit.com/
     mode: manual_by_default
     risk: medium_high
+    priority: 82
   - name: GitHub
     slug: github
     category: developer
@@ -20,6 +22,7 @@ platforms:
     submit_url: https://github.com/
     mode: official_api
     risk: low
+    priority: 85
   - name: LinkedIn
     slug: linkedin
     category: social
@@ -27,6 +30,7 @@ platforms:
     submit_url: https://www.linkedin.com/
     mode: official_api_if_scoped
     risk: low_medium
+    priority: 74
   - name: X
     slug: x
     category: social
@@ -34,6 +38,7 @@ platforms:
     submit_url: https://x.com/
     mode: official_api_if_access
     risk: medium
+    priority: 76
   - name: DEV
     slug: dev
     category: content
@@ -41,6 +46,7 @@ platforms:
     submit_url: https://dev.to/
     mode: official_api
     risk: low_medium
+    priority: 72
   - name: Product Hunt
     slug: product_hunt
     category: launch
@@ -48,6 +54,7 @@ platforms:
     submit_url: https://www.producthunt.com/
     mode: manual_unless_approved
     risk: medium_high
+    priority: 95
   - name: Crunchbase
     slug: crunchbase
     category: company_profile
@@ -55,6 +62,7 @@ platforms:
     submit_url: https://www.crunchbase.com/
     mode: manual
     risk: medium
+    priority: 92
   - name: Hacker News
     slug: hacker_news
     category: community
@@ -62,6 +70,7 @@ platforms:
     submit_url: https://news.ycombinator.com/submit
     mode: manual
     risk: medium
+    priority: 84
   - name: Tiny Startups
     slug: tiny_startups
     category: directory
@@ -69,6 +78,7 @@ platforms:
     submit_url: https://www.tinystartups.com/submit-your-startup
     mode: manual
     risk: medium
+    priority: 68
   - name: TrustMRR
     slug: trustmrr
     category: directory
@@ -76,6 +86,7 @@ platforms:
     submit_url: unknown
     mode: manual
     risk: medium
+    priority: 52
   - name: BetaList
     slug: betalist
     category: directory
@@ -83,6 +94,7 @@ platforms:
     submit_url: https://betalist.com/
     mode: manual
     risk: medium
+    priority: 86
   - name: Indie Hackers
     slug: indie_hackers
     category: community
@@ -90,6 +102,7 @@ platforms:
     submit_url: https://www.indiehackers.com/
     mode: manual
     risk: medium
+    priority: 80
   - name: Uneed
     slug: uneed
     category: directory
@@ -97,6 +110,7 @@ platforms:
     submit_url: https://www.uneed.best/
     mode: manual
     risk: medium
+    priority: 73
   - name: SaaSHub
     slug: saashub
     category: directory
@@ -104,6 +118,7 @@ platforms:
     submit_url: https://www.saashub.com/
     mode: manual
     risk: medium
+    priority: 83
   - name: AlternativeTo
     slug: alternativeto
     category: directory
@@ -111,6 +126,7 @@ platforms:
     submit_url: https://alternativeto.net/
     mode: manual
     risk: medium
+    priority: 81
   - name: Startup Stash
     slug: startup_stash
     category: directory
@@ -118,6 +134,7 @@ platforms:
     submit_url: https://startupstash.com/
     mode: manual
     risk: medium
+    priority: 75
   - name: Futurepedia
     slug: futurepedia
     category: ai_directory
@@ -125,6 +142,7 @@ platforms:
     submit_url: https://www.futurepedia.io/
     mode: manual
     risk: medium
+    priority: 71
   - name: TheresAnAIForThat
     slug: theres_an_ai_for_that
     category: ai_directory
@@ -132,6 +150,7 @@ platforms:
     submit_url: https://theresanaiforthat.com/
     mode: manual
     risk: medium
+    priority: 78
   - name: Peerlist
     slug: peerlist
     category: community
@@ -139,3 +158,4 @@ platforms:
     submit_url: https://peerlist.io/
     mode: manual
     risk: medium
+    priority: 69
