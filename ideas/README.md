@@ -181,6 +181,19 @@ DeFi protocol concept for ERC-8004 agent credit with Ethos vouching + reverse-Ke
 
 ---
 
+## WalletRadar Backlink Launch Orchestrator
+
+**Concept**: A compliance-first submission assistant for listing WalletRadar across startup directories, product databases, and backlink sources using canonical company data, tracked links, manual-first workflows, and selective official API support.
+
+**Why now**:
+- WalletRadar already has substantial on-site SEO work, but off-site directory/profile distribution is still fragmented.
+- The highest-value workflow is structured submission ops, not generic social autoposting.
+
+**Documentation**:
+- [Overview](./walletradar-backlink-launch/README.md)
+
+---
+
 ## Birthday Bot
 
 **Problem**: People frequently forget their friends' and family members' birthdays. Birthday data is scattered across Facebook, Instagram, Google Contacts, phone contacts, and calendar apps, with no unified way to manage, prioritize, and remember them.
