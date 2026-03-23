@@ -7,7 +7,6 @@
   "workspaces": [
     "web",
     "cli",
-    "core",
     "orchestrator",
     "collab-server"
   ],
