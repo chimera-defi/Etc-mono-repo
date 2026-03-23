@@ -16,6 +16,7 @@ class LaunchProfile:
     features: list[str] = field(default_factory=list)
     assets: dict[str, Any] = field(default_factory=dict)
     company: dict[str, Any] = field(default_factory=dict)
+    publish: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
