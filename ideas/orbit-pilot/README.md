@@ -60,4 +60,5 @@ WalletRadar is a concrete fit for Orbit Pilot because it needs repeatable submis
 2. `PRD.md`
 3. `SPEC.md`
 4. `PLATFORM_MATRIX.md`
-5. `src/orbit_pilot_skeleton.py`
+5. `V0_BUILD_PLAN.md`
+6. `src/orbit_pilot_skeleton.py`
