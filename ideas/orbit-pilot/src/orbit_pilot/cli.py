@@ -62,6 +62,7 @@ def load_launch(path: str) -> LaunchProfile:
         features=raw.get("features", []),
         assets=raw.get("assets", {}),
         company=raw.get("company", {}),
+        publish=raw.get("publish", {}),
     )
 
 

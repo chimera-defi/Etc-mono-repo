@@ -23,8 +23,13 @@ def build_payload(launch: LaunchProfile, record: PlatformRecord) -> dict[str, st
         campaign="launch",
         content=record.slug,
     )
-    return {
+    payload = {
         "title": f"{launch.product_name}: {launch.tagline}",
         "body": build_submission_body(launch, record, url),
         "url": url,
     }
+    if record.slug == "github":
+        github_cfg = launch.publish.get("github", {})
+        payload["github_repo"] = github_cfg.get("repo", "")
+        payload["tag_name"] = github_cfg.get("tag_name", "launch-v0")
+    return payload
