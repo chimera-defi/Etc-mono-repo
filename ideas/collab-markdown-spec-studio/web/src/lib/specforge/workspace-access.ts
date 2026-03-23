@@ -22,9 +22,11 @@ export class WorkspaceAccessDeniedError extends Error {
 
 export async function getCurrentWorkspaceAccess() {
   const actor = await getCurrentWorkspaceActor();
+  const access = await validateWorkspaceMembership(actor.workspace_id);
   return {
-    actor,
-    workspaceId: actor.workspace_id,
+    actor: access.actor,
+    workspaceId: access.workspaceId,
+    membership: access.membership,
   };
 }
 

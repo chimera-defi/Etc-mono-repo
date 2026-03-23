@@ -12,13 +12,13 @@ export async function GET(_request: Request, { params }: Params) {
   return withErrorHandling(
     async () => {
       const { id } = await params;
-      const { document } = await getCurrentWorkspaceDocument(id);
+      const { workspaceId, document } = await getCurrentWorkspaceDocument(id);
 
       if (!document) {
         return NextResponse.json({ error: "Document not found" }, { status: 404 });
       }
 
-      const patches = await listPatches(id);
+      const patches = await listPatches(id, { workspaceId });
       return NextResponse.json({ document, patches });
     },
     { action: "get document" }
