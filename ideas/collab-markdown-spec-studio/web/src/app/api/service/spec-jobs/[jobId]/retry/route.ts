@@ -11,6 +11,7 @@ import { buildHeuristicSuggestion } from "@/lib/specforge/agent-assist";
 import { buildGuidedSpecMarkdown } from "@/lib/specforge/guided";
 import { getSpecJob, updateSpecJob } from "@/lib/specforge/spec-jobs";
 import { updateDocument } from "@/lib/specforge/store";
+import { getCurrentWorkspaceAccess } from "@/lib/specforge/workspace-access";
 
 type Params = {
   params: Promise<{ jobId: string }>;
@@ -26,6 +27,7 @@ export async function POST(request: Request, { params }: Params) {
   const { jobId } = await params;
 
   try {
+    await getCurrentWorkspaceAccess();
     const job = await getSpecJob(jobId);
 
     if (!job) {

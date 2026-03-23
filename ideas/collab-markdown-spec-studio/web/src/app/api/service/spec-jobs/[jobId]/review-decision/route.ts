@@ -11,6 +11,7 @@ import { z } from "zod";
 import { success, error } from "@/lib/specforge/api-response";
 import { getSpecJob, updateSpecJob } from "@/lib/specforge/spec-jobs";
 import { decidePatch, listPatches } from "@/lib/specforge/store";
+import { getCurrentWorkspaceAccess } from "@/lib/specforge/workspace-access";
 
 type Params = {
   params: Promise<{ jobId: string }>;
@@ -30,6 +31,7 @@ export async function POST(request: Request, { params }: Params) {
   const { jobId } = await params;
 
   try {
+    await getCurrentWorkspaceAccess();
     const job = await getSpecJob(jobId);
 
     if (!job) {
