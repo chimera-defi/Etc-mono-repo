@@ -2,6 +2,19 @@
 
 **Status**: Scoped MVP/spec parity reached on the build branch
 
+## Usage Modes
+
+SpecForge runs across four surfaces — all backed by the same spec engine:
+
+| Mode | When to use | Entry point |
+|------|-------------|-------------|
+| **Browser GUI** | Human-driven spec authoring with live collaboration | `bun run dev` → `http://localhost:3000/workspace` |
+| **Terminal / TUI** | Spec creation and status from the command line | `specforge init`, `specforge tui` |
+| **REST API (BYOA)** | Your own agent submits a brief and polls for artifacts | `POST /api/service/spec-jobs` |
+| **Autonomous agent** | SpecForge's own agent runs the full spec loop unattended | `POST /api/service/spec-jobs` with `"mode": "autonomous"` |
+
+See `API_REFERENCE.md` for the full endpoint catalog.
+
 ### Concept
 A collaborative spec IDE where humans and AI agents work on the same markdown canvas with depth gates, governed patch review, and attributable changes.
 
