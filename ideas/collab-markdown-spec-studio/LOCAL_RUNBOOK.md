@@ -35,6 +35,7 @@ bun run state:restore
   - web app: `GET /api/health`
   - web metrics: `GET /api/metrics`
   - workspace ops summary: `GET /api/ops/summary`
+  - workspace incidents: `GET /api/ops/incidents`
   - workspace entitlements: `GET /api/workspace/entitlements`
   - collab server: `GET http://127.0.0.1:4322/health`
   - collab metrics: `GET http://127.0.0.1:4322/metrics`
@@ -94,3 +95,4 @@ bun run state:restore
 - `bun run state:backup` snapshots local web state, collab state, and runner artifacts under `.backups/specforge/`.
 - `bun run state:restore` restores the latest snapshot by default, or a specific backup path if passed as an argument.
 - `GET /api/ops/backups` lists the latest local backup manifests so restore targets are visible from the app side too.
+- `GET /api/ops/incidents` exposes the active warning set for the current workspace, which is the quickest way to see upgrade pressure, missing backups, or missing verification before digging through the full ops summary.

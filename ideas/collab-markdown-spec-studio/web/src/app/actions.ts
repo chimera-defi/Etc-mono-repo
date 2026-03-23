@@ -65,7 +65,7 @@ export async function createDocumentAction(formData: FormData) {
         ? showcaseExample.draft.markdown
         : String(
             formData.get("initial_markdown") ??
-              "# PRD\n\n## Problem\nTBD\n\n## Goals\nTBD\n",
+              "# PRD\n\n## Problem\nClarify the user problem before implementation begins.\n\n## Goals\n- Capture the first shippable workflow.\n- Produce a reviewable build handoff.\n",
           );
   const metadata =
     mode === "guided"
@@ -176,36 +176,6 @@ export async function answerClarificationAction(formData: FormData) {
   revalidatePath("/workspace");
 }
 
-export async function switchWorkspaceActorAction(formData: FormData) {
-  const actorId = String(formData.get("actor_id") ?? "");
-  const returnTo = String(formData.get("return_to") ?? "/workspace");
-
-  await setCurrentWorkspaceActor(actorId);
-  redirect(returnTo || "/workspace");
-}
-
-export async function setAssistRuntimePreferenceAction(formData: FormData) {
-  const selectedTool = String(formData.get("assist_tool") ?? "auto") as PreferredAssistTool;
-  const returnTo = String(formData.get("return_to") ?? "/workspace?stage=start");
-
-  await setPreferredAssistTool(selectedTool);
-  redirect(returnTo || "/workspace?stage=start");
-}
-
-export async function setWorkspacePlanAction(formData: FormData) {
-  const { currentActor } = await getActionActorRef();
-  const returnTo = String(formData.get("return_to") ?? "/workspace");
-  const selectedPlan = String(formData.get("plan") ?? "demo");
-
-  await updateWorkspacePlan(
-    currentActor.workspace_id,
-    selectedPlan === "pilot" ? "pilot" : "demo",
-  );
-
-  revalidatePath("/workspace");
-  redirect(returnTo || "/workspace");
-}
-
 export async function resetWorkspaceDocumentsAction(formData: FormData) {
   const { currentActor } = await getActionActorRef();
   const returnTo = String(formData.get("return_to") ?? "/workspace?stage=start");
@@ -266,6 +236,36 @@ export async function seedReviewDemoAction(formData: FormData) {
 
   revalidatePath("/workspace");
   redirect(`/workspace?document=${document.document_id}&stage=review`);
+}
+
+export async function switchWorkspaceActorAction(formData: FormData) {
+  const actorId = String(formData.get("actor_id") ?? "");
+  const returnTo = String(formData.get("return_to") ?? "/workspace");
+
+  await setCurrentWorkspaceActor(actorId);
+  redirect(returnTo || "/workspace");
+}
+
+export async function setAssistRuntimePreferenceAction(formData: FormData) {
+  const selectedTool = String(formData.get("assist_tool") ?? "auto") as PreferredAssistTool;
+  const returnTo = String(formData.get("return_to") ?? "/workspace?stage=start");
+
+  await setPreferredAssistTool(selectedTool);
+  redirect(returnTo || "/workspace?stage=start");
+}
+
+export async function setWorkspacePlanAction(formData: FormData) {
+  const { currentActor } = await getActionActorRef();
+  const returnTo = String(formData.get("return_to") ?? "/workspace");
+  const selectedPlan = String(formData.get("plan") ?? "demo");
+
+  await updateWorkspacePlan(
+    currentActor.workspace_id,
+    selectedPlan === "pilot" ? "pilot" : "demo",
+  );
+
+  revalidatePath("/workspace");
+  redirect(returnTo || "/workspace");
 }
 
 export async function createWorkspaceMemberAction(formData: FormData) {

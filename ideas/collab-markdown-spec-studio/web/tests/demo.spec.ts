@@ -70,11 +70,19 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
   await expect(page.getByTestId("copy-invite-note")).toBeVisible();
   await expect(page.getByTestId("share-access-note")).toContainText("Local demo access");
   const entitlementsResponse = await page.request.get("/api/workspace/entitlements");
+  const billingResponse = await page.request.get("/api/workspace/billing");
+  const plansResponse = await page.request.get("/api/workspace/plans");
   const opsResponse = await page.request.get("/api/ops/summary");
+  const incidentsResponse = await page.request.get("/api/ops/incidents");
   const backupsResponse = await page.request.get("/api/ops/backups");
+  const metricsResponse = await page.request.get("/api/metrics");
   expect(entitlementsResponse.ok()).toBeTruthy();
+  expect(billingResponse.ok()).toBeTruthy();
+  expect(plansResponse.ok()).toBeTruthy();
   expect(opsResponse.ok()).toBeTruthy();
+  expect(incidentsResponse.ok()).toBeTruthy();
   expect(backupsResponse.ok()).toBeTruthy();
+  expect(metricsResponse.ok()).toBeTruthy();
   expect(await entitlementsResponse.json()).toMatchObject({
     workspace: expect.objectContaining({
       workspace_id: expect.any(String),
@@ -84,6 +92,25 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
       assist: expect.any(Object),
       members: expect.any(Object),
     }),
+  });
+  expect(await billingResponse.json()).toMatchObject({
+    workspace: expect.objectContaining({
+      workspace_id: expect.any(String),
+      plan: expect.any(String),
+    }),
+    billing: expect.objectContaining({
+      plan: expect.any(String),
+    }),
+    status: expect.objectContaining({
+      upgradeRequired: expect.any(Boolean),
+      reasons: expect.any(Array),
+    }),
+  });
+  expect(await plansResponse.json()).toMatchObject({
+    plans: expect.arrayContaining([
+      expect.objectContaining({ plan: "demo" }),
+      expect.objectContaining({ plan: "pilot" }),
+    ]),
   });
   expect(await opsResponse.json()).toMatchObject({
     workspace: expect.objectContaining({
@@ -95,10 +122,24 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
     parity: expect.objectContaining({
       remaining_count: expect.any(Number),
     }),
+    alerts: expect.any(Array),
   });
   expect(await backupsResponse.json()).toMatchObject({
     backup_root: expect.any(String),
     backups: expect.any(Array),
+  });
+  expect(await incidentsResponse.json()).toMatchObject({
+    workspace: expect.objectContaining({
+      workspace_id: expect.any(String),
+    }),
+    incidents: expect.any(Array),
+  });
+  expect(await metricsResponse.json()).toMatchObject({
+    design_partner: expect.objectContaining({
+      activated_workspace_count: expect.any(Number),
+      collaborating_workspace_count: expect.any(Number),
+      launch_prepared_workspace_count: expect.any(Number),
+    }),
   });
 
   await page.goto(`${page.url().split("?")[0]}?document=${new URL(page.url()).searchParams.get("document")}&stage=decide`);

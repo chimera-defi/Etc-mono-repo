@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { spawn } from "node:child_process";
@@ -15,33 +15,28 @@ import {
   toIntentId,
 } from "../orchestrator/src/context.js";
 import { captureRepoState } from "../orchestrator/src/repo-state.js";
+import {
+  architecturePath,
+  handoffPath,
+  metaLearningsPath,
+  packRoot,
+  readLoopState,
+  specPath,
+  tasksPath,
+  techStackPath,
+  worktreeRoot,
+  writeLoopState,
+} from "../orchestrator/src/runtime.js";
 import { runVerificationSuite } from "../orchestrator/src/verification.js";
 import {
   collectIntentIds,
-  createEmptyLoopState,
   findActiveRelevantClaim,
   findLatestRelevantClaim,
   findLatestRelevantIntent,
   findLatestRelevantSignal,
   findLatestVerification,
-  normalizeLoopState,
 } from "../orchestrator/src/loop-state.js";
 
-const toolDir = path.dirname(new URL(import.meta.url).pathname);
-const packRoot = path.resolve(toolDir, "..");
-const worktreeRoot = path.resolve(packRoot, "..", "..");
-const tasksPath = path.join(packRoot, "TASKS.md");
-const specPath = path.join(packRoot, "SPEC.md");
-const architecturePath = path.join(packRoot, "ARCHITECTURE_DECISIONS.md");
-const techStackPath = path.join(packRoot, "TECH_STACK.md");
-const loopStatePath = path.join(worktreeRoot, ".cursor", "artifacts", "specforge-parity-runner.json");
-const handoffPath = path.join(worktreeRoot, ".cursor", "artifacts", "specforge-runner-latest.md");
-const metaLearningsPath = path.join(
-  worktreeRoot,
-  ".cursor",
-  "artifacts",
-  "specforge-meta-learnings.md",
-);
 function tailOutput(value, length = 4000) {
   if (!value) {
     return "";
@@ -121,20 +116,6 @@ function shouldRunReview(state, reviewEvery) {
   ).length;
 
   return featurePassesSinceReview >= reviewEvery;
-}
-
-async function readLoopState() {
-  try {
-    const raw = await readFile(loopStatePath, "utf8");
-    return normalizeLoopState(JSON.parse(raw));
-  } catch {
-    return createEmptyLoopState();
-  }
-}
-
-async function writeLoopState(state) {
-  await mkdir(path.dirname(loopStatePath), { recursive: true });
-  await writeFile(loopStatePath, JSON.stringify(state, null, 2));
 }
 
 async function runCodexCommand(command, state, claimId) {
