@@ -16,6 +16,7 @@ import {
   listCommentThreads,
   listClarifications,
 } from "@/lib/specforge/store";
+import { getCurrentWorkspaceAccess } from "@/lib/specforge/workspace-access";
 
 type Params = {
   params: Promise<{ jobId: string }>;
@@ -25,6 +26,7 @@ export async function GET(_request: Request, { params }: Params) {
   const { jobId } = await params;
 
   try {
+    await getCurrentWorkspaceAccess();
     const job = await getSpecJob(jobId);
 
     if (!job) {
