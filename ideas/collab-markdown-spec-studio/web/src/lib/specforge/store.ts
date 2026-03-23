@@ -1776,27 +1776,30 @@ export async function getDocument(documentId: string, options?: StoreOptions) {
 
 export async function listPatches(documentId: string, options?: StoreOptions) {
   const database = await getDatabase(options);
+  const workspaceClause = options?.workspaceId ? "AND d.workspace_id = $2" : "";
   const result = await database.query<PatchRow>(
     `SELECT
-      patch_id,
-      document_id,
-      block_id,
-      section_id,
-      operation,
-      content,
-      patch_type,
-      rationale,
-      proposed_by_actor_type,
-      proposed_by_actor_id,
-      base_version,
-      target_fingerprint,
-      confidence,
-      status,
-      created_at
-    FROM patches
-    WHERE document_id = $1
-    ORDER BY created_at DESC`,
-    [documentId],
+      p.patch_id,
+      p.document_id,
+      p.block_id,
+      p.section_id,
+      p.operation,
+      p.content,
+      p.patch_type,
+      p.rationale,
+      p.proposed_by_actor_type,
+      p.proposed_by_actor_id,
+      p.base_version,
+      p.target_fingerprint,
+      p.confidence,
+      p.status,
+      p.created_at
+    FROM patches p
+    INNER JOIN documents d ON d.document_id = p.document_id
+    WHERE p.document_id = $1
+    ${workspaceClause}
+    ORDER BY p.created_at DESC`,
+    options?.workspaceId ? [documentId, options.workspaceId] : [documentId],
   );
 
   return result.rows.map(mapPatchRow);
@@ -2362,7 +2365,6 @@ export async function resolveCommentThread(
     }
 
     found = true;
-
     await insertAuditEvent(tx, {
       document_id: payload.document_id,
       event_type: "comment.resolved",
