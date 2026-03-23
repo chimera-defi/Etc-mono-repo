@@ -6,6 +6,7 @@ import {
   verifyGitHubOAuthState,
 } from "@/lib/specforge/session";
 import {
+  createWorkspaceMembership,
   listUserWorkspaces,
   upsertUserFromGitHub,
 } from "@/lib/specforge/store";
@@ -81,8 +82,18 @@ export async function GET(request: Request) {
     avatar_url: user.avatar_url,
   });
 
-  // Find the user's workspaces to set workspace_id on the session
-  const userWorkspaces = await listUserWorkspaces(user.login);
+  // Find the user's workspaces; auto-provision into ws_demo on first sign-in
+  let userWorkspaces = await listUserWorkspaces(user.login);
+  if (userWorkspaces.length === 0) {
+    await createWorkspaceMembership({
+      workspace_id: "ws_demo",
+      name: user.name ?? user.login,
+      role: "owner",
+      color: "#1d4ed8",
+      github_login: user.login,
+    });
+    userWorkspaces = await listUserWorkspaces(user.login);
+  }
   const defaultWorkspace = userWorkspaces[0];
 
   if (!defaultWorkspace) {
@@ -96,5 +107,5 @@ export async function GET(request: Request) {
     role: undefined, // resolved from membership data
   });
 
-  return NextResponse.redirect(new URL("/", request.url));
+  return NextResponse.redirect(new URL("/workspace", request.url));
 }
