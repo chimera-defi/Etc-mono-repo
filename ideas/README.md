@@ -181,16 +181,19 @@ DeFi protocol concept for ERC-8004 agent credit with Ethos vouching + reverse-Ke
 
 ---
 
-## WalletRadar Backlink Launch Orchestrator
+## Orbit Pilot
 
-**Concept**: A compliance-first submission assistant for listing WalletRadar across startup directories, product databases, and backlink sources using canonical company data, tracked links, manual-first workflows, and selective official API support.
+**Concept**: A compliance-first launch ops system that turns one product launch into structured submissions across directories, product databases, company profiles, communities, and official social/content APIs, with manual-first fallbacks where automation is unclear.
 
 **Why now**:
-- WalletRadar already has substantial on-site SEO work, but off-site directory/profile distribution is still fragmented.
-- The highest-value workflow is structured submission ops, not generic social autoposting.
+- Founders and operators lose time reformatting the same launch facts for dozens of sites.
+- The highest-value workflow is not generic "post everywhere"; it is durable launch distribution with tracked links, asset reuse, auditability, and policy-aware submission modes.
 
 **Documentation**:
-- [Overview](./walletradar-backlink-launch/README.md)
+- [Overview](./orbit-pilot/README.md)
+- [PRD](./orbit-pilot/PRD.md)
+- [Technical Spec](./orbit-pilot/SPEC.md)
+- [Platform Matrix](./orbit-pilot/PLATFORM_MATRIX.md)
 
 ---
 
