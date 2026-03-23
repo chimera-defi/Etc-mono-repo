@@ -3,7 +3,7 @@
   "document_id": "doc_123",
   "title": "SpecForge MVP",
   "version": 1,
-  "markdown": "# PRD\n\n## Goals\nTBD\n\n## Scope\nTBD\n",
+  "markdown": "# PRD\n\n## Goals\n- Keep one canonical spec workspace for humans and agents.\n- Make review and export deterministic.\n\n## Scope\n- Guided drafting\n- Multiplayer collaboration\n- Governed patch review\n",
   "blocks": [
     {"block_id": "blk_goals_1", "section_id": "sec_goals", "heading": "Goals"},
     {"block_id": "blk_scope_1", "section_id": "sec_scope", "heading": "Scope"}

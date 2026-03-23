@@ -15,6 +15,17 @@ Build a real-time collaborative spec IDE with:
 
 The current branch satisfies the scoped MVP target. The remaining work is broader SaaS/platform parity work like hosted ops, billing, deeper terminal UX, and runner hardening, not missing core MVP behavior.
 
+The current branch also includes a first explicit entitlement layer:
+- quota state,
+- seat-based billing preview,
+- shared plan definitions exposed to both pricing and `/api/workspace/plans`,
+- feature-flag entitlements,
+- behavior instrumentation for membership and workflow activation signals,
+- a design-partner funnel summary across activation, collaboration, review, and launch preparation,
+- a workspace billing summary endpoint with upgrade-required reasons,
+- and ops-summary alerts for missing backups, missing verification, or upgrade pressure.
+- Pilot membership lifecycle is now two-way in the workspace UI: add/remove members with GitHub-linked invite rules and guards against removing the active session or the final member.
+
 ### Product Principle: Minimum Extensible Product
 1. Approved specs should first produce a minimum extensible product, not a pretend-final build.
 2. The first generated/buildable output must be runnable, reviewable, and easy for humans or agents to extend without rewrite.
@@ -131,6 +142,7 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 14. Health and metrics responses expose active persistence configuration so hosted-runtime drift is diagnosable without opening the code.
 15. Request IDs are propagated through middleware and returned by runtime endpoints for cross-service debugging.
 16. Terminal-native `specforge` CLI now consumes the same guided OpenSpec core instead of duplicating wizard logic.
+17. Workspace billing and ops summaries now expose a thin SaaS control plane for local rehearsal, including billing status, backup visibility, and alert signals.
 
 ### Default Stack
 1. Shared ESM OpenSpec core package for runtime-safe reuse across web and CLI surfaces.
@@ -202,6 +214,31 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 3. `POST /repos/:id/sync-tasks`
 4. `POST /documents/:id/clarifications`
 5. `POST /clarifications/:id/answer`
+
+### APIs (Agent Service Workflow Track Buildout)
+These endpoints expose SpecForge as a request/response agent service while reusing existing OpenSpec, governance, and export logic.
+
+1. `POST /service/spec-jobs`
+   - Creates a workflow job from rough brief + constraints.
+   - Request: `brief`, `constraints`, `workspaceId`, `mode` (`assisted`|`autonomous`).
+   - Response: `jobId`, initial status, artifact placeholders.
+
+2. `GET /service/spec-jobs/:jobId`
+   - Returns job status (`queued|running|blocked|completed|failed`), current stage, and blockers.
+
+3. `GET /service/spec-jobs/:jobId/artifacts`
+   - Returns generated outputs (`PRD.md`, `SPEC.md`, `TASKS.md`, `agent_spec.json`, recap).
+
+4. `POST /service/spec-jobs/:jobId/review-decision`
+   - Applies human governance decisions for pending agent patches/questions in assisted mode.
+
+5. `POST /service/spec-jobs/:jobId/retry`
+   - Retries blocked/failed jobs after updated constraints or resolved blockers.
+
+Invariants:
+1. Service jobs must emit the same patch/audit/provenance records as editor-driven flows.
+2. Artifact generation remains deterministic per accepted document version.
+3. Autonomous mode still honors safety gates and can pause into `blocked` when required decisions are missing.
 
 ### Permissions (MVP)
 1. Owner: full control.

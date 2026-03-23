@@ -1,10 +1,8 @@
 #!/usr/bin/env node
 
-import { readFile, writeFile } from "node:fs/promises";
-import path from "node:path";
+import { writeFile } from "node:fs/promises";
 import readline from "node:readline/promises";
 import process from "node:process";
-import { fileURLToPath } from "node:url";
 
 import {
   DEFAULT_GUIDED_SPEC_INPUT,
@@ -13,33 +11,25 @@ import {
   normalizeGuidedSpecInput,
 } from "../../core/src/guided.js";
 import { getDeliveryTarget } from "../../orchestrator/src/backlog.js";
-import { listBackupManifests } from "../../orchestrator/src/backups.js";
 import { loadBacklog, toIntentId } from "../../orchestrator/src/context.js";
 import {
   collectIntentIds,
-  createEmptyLoopState,
   findActiveRelevantClaim,
   findLatestRelevantClaim,
   findLatestRelevantIntent,
   findLatestRelevantSignal,
   findLatestVerification,
-  normalizeLoopState,
 } from "../../orchestrator/src/loop-state.js";
+import {
+  backupRoot,
+  buildArtifactsPayload,
+  buildBackupsPayload,
+  loopStatePath,
+  packRoot,
+  readLoopState,
+  tasksPath,
+} from "../../orchestrator/src/runtime.js";
 import { runVerificationSuite } from "../../orchestrator/src/verification.js";
-
-const scriptDir = path.dirname(fileURLToPath(import.meta.url));
-const packRoot = path.resolve(scriptDir, "..", "..");
-const worktreeRoot = path.resolve(packRoot, "..", "..");
-const tasksPath = path.join(packRoot, "TASKS.md");
-const loopStatePath = path.join(worktreeRoot, ".cursor", "artifacts", "specforge-parity-runner.json");
-const handoffPath = path.join(worktreeRoot, ".cursor", "artifacts", "specforge-runner-latest.md");
-const metaLearningsPath = path.join(
-  worktreeRoot,
-  ".cursor",
-  "artifacts",
-  "specforge-meta-learnings.md",
-);
-const backupRoot = path.join(worktreeRoot, ".backups", "specforge");
 
 const fieldOrder = [
   ["title", "Title"],
@@ -172,7 +162,7 @@ async function runTui() {
       }
 
       if (selected.action === "artifacts") {
-        const artifactsPayload = await buildArtifactsPayload();
+        const artifactsPayload = await buildArtifactsPayload(findLatestVerification);
         process.stdout.write(
           [
             "",
@@ -277,47 +267,6 @@ async function promptForInput(seed) {
   }
 }
 
-async function readLoopState() {
-  try {
-    const raw = await readFile(loopStatePath, "utf8");
-    return normalizeLoopState(JSON.parse(raw));
-  } catch {
-    return createEmptyLoopState();
-  }
-}
-
-async function readArtifactPreview(filePath) {
-  try {
-    const raw = await readFile(filePath, "utf8");
-    return raw.trim().split("\n").slice(0, 10).join("\n");
-  } catch {
-    return null;
-  }
-}
-
-async function buildArtifactsPayload() {
-  const loopState = await readLoopState();
-
-  return {
-    handoff: {
-      path: handoffPath,
-      preview: await readArtifactPreview(handoffPath),
-    },
-    meta_learnings: {
-      path: metaLearningsPath,
-      preview: await readArtifactPreview(metaLearningsPath),
-    },
-    latest_verification: findLatestVerification(loopState),
-  };
-}
-
-async function buildBackupsPayload() {
-  return {
-    backup_root: backupRoot,
-    backups: await listBackupManifests(backupRoot),
-  };
-}
-
 function buildStatusPayload(backlog, loopState) {
   const remaining = backlog.remaining.filter((item) => !item.checked);
   const validIntentIds = collectIntentIds(backlog.phases, toIntentId);
@@ -414,7 +363,7 @@ async function run() {
     }
 
     if (options.command === "artifacts") {
-      const artifactsPayload = await buildArtifactsPayload();
+      const artifactsPayload = await buildArtifactsPayload(findLatestVerification);
       process.stdout.write(
         `${
           options.json

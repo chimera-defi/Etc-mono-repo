@@ -29,6 +29,37 @@ export type WorkspaceBillingPreview = {
   estimatedMonthlyUsd: number | null;
 };
 
+export type WorkspaceFeatureEntitlements = {
+  plan: WorkspaceRecord["plan"];
+  features: {
+    githubAuth: boolean;
+    localCliAssist: boolean;
+    unlimitedAssist: boolean;
+    memberInvites: boolean;
+    opsSummary: boolean;
+    backupRestore: boolean;
+  };
+};
+
+export type WorkspaceBillingStatus = {
+  plan: WorkspaceRecord["plan"];
+  estimatedMonthlyUsd: number | null;
+  upgradeRequired: boolean;
+  recommendedPlan: WorkspaceRecord["plan"] | null;
+  reasons: string[];
+};
+
+export type WorkspacePlanDefinition = {
+  plan: WorkspaceRecord["plan"] | "enterprise";
+  label: string;
+  seatPriceMonthlyUsd: number | null;
+  memberLimit: number | null;
+  assistRequestLimit: number | null;
+  usageModel: "included" | "metered" | "custom";
+  summary: string;
+  features: string[];
+};
+
 const planPolicies: Record<WorkspaceRecord["plan"], WorkspacePlanPolicy> = {
   demo: {
     assistRequestLimit: 5,
@@ -41,6 +72,75 @@ const planPolicies: Record<WorkspaceRecord["plan"], WorkspacePlanPolicy> = {
     seatPriceMonthlyUsd: 24,
   },
 };
+
+const planCatalog: WorkspacePlanDefinition[] = [
+  {
+    plan: "demo",
+    label: "Local / OSS",
+    seatPriceMonthlyUsd: null,
+    memberLimit: planPolicies.demo.memberLimit,
+    assistRequestLimit: planPolicies.demo.assistRequestLimit,
+    usageModel: "included",
+    summary: "Run SpecForge locally or self-host it for internal rehearsal.",
+    features: [
+      "Workspace app + collab server",
+      "Local admin tools",
+      "Included demo assist quota",
+      `Up to ${planPolicies.demo.memberLimit} members in the default demo tier`,
+      "Bring your own operator workflow",
+    ],
+  },
+  {
+    plan: "pilot",
+    label: "Team SaaS",
+    seatPriceMonthlyUsd: planPolicies.pilot.seatPriceMonthlyUsd,
+    memberLimit: planPolicies.pilot.memberLimit,
+    assistRequestLimit: planPolicies.pilot.assistRequestLimit,
+    usageModel: "metered",
+    summary: "Managed multiplayer spec workspaces for product and engineering teams.",
+    features: [
+      "Hosted collaboration and persistence",
+      "Governed agent review workflow",
+      "Unlimited assist during pilot validation",
+      `$${planPolicies.pilot.seatPriceMonthlyUsd} seat-based billing preview`,
+      "Launch packet and starter handoff",
+    ],
+  },
+  {
+    plan: "enterprise",
+    label: "Enterprise",
+    seatPriceMonthlyUsd: null,
+    memberLimit: null,
+    assistRequestLimit: null,
+    usageModel: "custom",
+    summary: "Stronger audit, tenancy, and rollout support for larger organizations.",
+    features: [
+      "Advanced retention and governance",
+      "SSO / compliance roadmap",
+      "Dedicated support and rollout help",
+    ],
+  },
+];
+
+export function listWorkspacePlans() {
+  return planCatalog;
+}
+
+export function getWorkspacePlanDefinition(
+  plan: WorkspacePlanDefinition["plan"],
+): WorkspacePlanDefinition | null {
+  return planCatalog.find((entry) => entry.plan === plan) ?? null;
+}
+
+export function formatWorkspacePlanSeatPrice(
+  plan: Pick<WorkspacePlanDefinition, "plan" | "seatPriceMonthlyUsd">,
+) {
+  if (plan.seatPriceMonthlyUsd === null) {
+    return plan.plan === "demo" ? "Free" : "Custom";
+  }
+
+  return `$${plan.seatPriceMonthlyUsd}`;
+}
 
 export function getWorkspacePlanPolicy(plan: WorkspaceRecord["plan"]): WorkspacePlanPolicy {
   return planPolicies[plan];
@@ -95,5 +195,49 @@ export function getWorkspaceBillingPreview(
     billableSeats,
     estimatedMonthlyUsd:
       seatPriceMonthlyUsd === null ? null : seatPriceMonthlyUsd * billableSeats,
+  };
+}
+
+export function getWorkspaceFeatureEntitlements(
+  workspace: Pick<WorkspaceRecord, "plan">,
+): WorkspaceFeatureEntitlements {
+  const isPilot = workspace.plan === "pilot";
+
+  return {
+    plan: workspace.plan,
+    features: {
+      githubAuth: isPilot,
+      localCliAssist: true,
+      unlimitedAssist: isPilot,
+      memberInvites: true,
+      opsSummary: true,
+      backupRestore: true,
+    },
+  };
+}
+
+export function getWorkspaceBillingStatus(
+  workspace: Pick<WorkspaceRecord, "plan">,
+  usage: Pick<WorkspaceUsageSummary, "assist_request_count">,
+  memberCount: number,
+): WorkspaceBillingStatus {
+  const assistQuota = getAssistQuotaState(workspace, usage);
+  const memberQuota = getMemberQuotaState(workspace, memberCount);
+  const billingPreview = getWorkspaceBillingPreview(workspace, memberCount);
+  const reasons: string[] = [];
+
+  if (assistQuota.blocked) {
+    reasons.push("Assist quota exhausted");
+  }
+  if (memberQuota.blocked) {
+    reasons.push("Member limit reached");
+  }
+
+  return {
+    plan: workspace.plan,
+    estimatedMonthlyUsd: billingPreview.estimatedMonthlyUsd,
+    upgradeRequired: reasons.length > 0,
+    recommendedPlan: reasons.length > 0 ? "pilot" : null,
+    reasons,
   };
 }

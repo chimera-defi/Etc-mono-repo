@@ -10,6 +10,7 @@ import {
   createClarification,
   createDocument,
   createWorkspaceMembership,
+  deleteWorkspaceMembership,
   decidePatch,
   createPatchProposal,
   exportDocument,
@@ -28,6 +29,7 @@ import {
   resetStoreCacheForTests,
   resetWorkspaceDocuments,
   resolveCommentThread,
+  updateWorkspaceMembershipRole,
   updateWorkspacePlan,
   updateDocument,
 } from "./store";
@@ -80,6 +82,48 @@ describe("specforge store", () => {
 
     expect(created.actor_id).toContain("jordan_reviewer");
     expect(members.some((member) => member.github_login === "jordan-reviewer")).toBe(true);
+  });
+
+  it("removes persisted workspace memberships", async () => {
+    const options = await makeOptions();
+    const created = await createWorkspaceMembership(
+      {
+        workspace_id: "ws_demo",
+        name: "Jordan Reviewer",
+        role: "Reviewer",
+        color: "#334155",
+        github_login: "jordan-reviewer",
+      },
+      options,
+    );
+
+    const removed = await deleteWorkspaceMembership(created.membership_id, options);
+    const members = await listWorkspaceMemberships("ws_demo", options);
+
+    expect(removed?.membership_id).toBe(created.membership_id);
+    expect(members.some((member) => member.membership_id === created.membership_id)).toBe(false);
+  });
+
+  it("updates persisted workspace membership roles", async () => {
+    const options = await makeOptions();
+    const created = await createWorkspaceMembership(
+      {
+        workspace_id: "ws_demo",
+        name: "Jordan Reviewer",
+        role: "Reviewer",
+        color: "#334155",
+        github_login: "jordan-reviewer",
+      },
+      options,
+    );
+
+    const updated = await updateWorkspaceMembershipRole(created.membership_id, "Engineer", options);
+    const members = await listWorkspaceMemberships("ws_demo", options);
+
+    expect(updated?.role).toBe("Engineer");
+    expect(members.find((member) => member.membership_id === created.membership_id)?.role).toBe(
+      "Engineer",
+    );
   });
 
   it("updates the workspace plan for local SaaS rehearsal", async () => {
