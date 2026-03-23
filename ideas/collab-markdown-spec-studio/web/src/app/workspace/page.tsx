@@ -14,6 +14,7 @@ import {
   setWorkspacePlanAction,
   switchWorkspaceActorAction,
 } from "../actions";
+import { ClarificationQueue } from "@/components/specforge/ClarificationQueue";
 import { DocumentWorkspace } from "../document-workspace";
 import { GuidedDraftBuilder } from "../guided-draft-builder";
 import { LocalAdminPanel } from "../local-admin-panel";
@@ -1347,6 +1348,19 @@ export default async function Home({ searchParams }: Props) {
                   </ul>
                 </div>
               </details>
+
+              {activeDocument ? (
+                <section className={styles.panel}>
+                  <div className={styles.panelHeader}>
+                    <h2>Clarification queue</h2>
+                    <span>{clarifications.filter((c) => c.status === "open").length} open</span>
+                  </div>
+                  <ClarificationQueue
+                    documentId={activeDocument.document_id}
+                    initialClarifications={clarifications}
+                  />
+                </section>
+              ) : null}
             </>
           ) : null}
 

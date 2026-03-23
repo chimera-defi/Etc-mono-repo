@@ -99,6 +99,7 @@ type ClarificationRow = {
   document_id: string;
   section_heading: string;
   question: string;
+  priority: "critical" | "normal" | "optional";
   status: "open" | "answered";
   created_by_actor_type: "human" | "agent";
   created_by_actor_id: string;
@@ -216,6 +217,7 @@ function mapClarificationRow(row: ClarificationRow): ClarificationRecord {
     document_id: row.document_id,
     section_heading: row.section_heading,
     question: row.question,
+    priority: row.priority ?? "normal",
     status: row.status,
     created_by: {
       actor_type: row.created_by_actor_type,
@@ -365,6 +367,7 @@ export function createDocumentStore(deps: DocumentStoreDeps) {
           document_id,
           section_heading,
           question,
+          COALESCE(priority, 'normal') AS priority,
           status,
           created_by_actor_type,
           created_by_actor_id,
