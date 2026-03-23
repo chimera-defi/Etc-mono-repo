@@ -2,6 +2,7 @@ import Link from "next/link";
 import { headers } from "next/headers";
 
 import {
+  acceptAllPatchesAction,
   answerClarificationAction,
   createCommentThreadAction,
   createClarificationAction,
@@ -1192,6 +1193,12 @@ export default async function Home({ searchParams }: Props) {
                   <h2>Actionable patches</h2>
                   <span>Resolve these first</span>
                 </div>
+                {activeDocument && actionablePatches.length > 0 ? (
+                  <form action={acceptAllPatchesAction} className={styles.inlineActions}>
+                    <input type="hidden" name="document_id" value={activeDocument.document_id} />
+                    <button type="submit">Accept all patches</button>
+                  </form>
+                ) : null}
                 <ul className={styles.patchList} data-testid="patch-queue">
                   {actionablePatches.map((patch) => {
                     const targetBlock =

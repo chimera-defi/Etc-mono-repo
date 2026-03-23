@@ -97,6 +97,7 @@ export function DocumentWorkspace({ document, activeActor, blockSummaries }: Pro
   const [statusTone, setStatusTone] = useState<"neutral" | "success" | "warning">("warning");
   const [isPending, startTransition] = useTransition();
   const surfaceRef = useRef<HTMLDivElement | null>(null);
+  const isMountedRef = useRef(false);
   const collab = useMemo(() => {
     const ydoc = new Y.Doc();
     const provider = new HocuspocusProvider({
@@ -126,12 +127,6 @@ export function DocumentWorkspace({ document, activeActor, blockSummaries }: Pro
 
         return payload.token;
       },
-      onAuthenticated: () => {
-        updateSyncState("recovering", `Authenticated room: ${roomName}`);
-      },
-      onAuthenticationFailed: () => {
-        updateSyncState("error", `Collab authentication failed: ${roomName}`);
-      },
     });
 
     return { ydoc, provider };
@@ -154,6 +149,7 @@ export function DocumentWorkspace({ document, activeActor, blockSummaries }: Pro
   });
 
   function updateSyncState(nextState: SyncState, message: string) {
+    if (!isMountedRef.current) return;
     setSyncState(nextState);
     setStatus(message);
     setStatusTone(nextState === "live" ? "success" : nextState === "connecting" ? "neutral" : "warning");
@@ -196,6 +192,13 @@ export function DocumentWorkspace({ document, activeActor, blockSummaries }: Pro
       updateSyncState("error", `Recovery check failed for ${roomName}`);
     }
   }
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -358,6 +361,15 @@ export function DocumentWorkspace({ document, activeActor, blockSummaries }: Pro
       collab.provider.connect();
     };
 
+    const handleAuthenticated = () => {
+      updateSyncState("recovering", `Authenticated room: ${roomName}`);
+    };
+    const handleAuthenticationFailed = () => {
+      updateSyncState("error", `Collab authentication failed: ${roomName}`);
+    };
+
+    collab.provider.on("authenticated", handleAuthenticated);
+    collab.provider.on("authenticationFailed", handleAuthenticationFailed);
     collab.provider.on("status", handleStatus);
     collab.provider.on("synced", handleSynced);
     awareness.on("change", handleAwarenessChange);
@@ -373,6 +385,8 @@ export function DocumentWorkspace({ document, activeActor, blockSummaries }: Pro
     updateRemoteCursors();
 
     return () => {
+      collab.provider.off("authenticated", handleAuthenticated);
+      collab.provider.off("authenticationFailed", handleAuthenticationFailed);
       collab.provider.off("status", handleStatus);
       collab.provider.off("synced", handleSynced);
       awareness.off("change", handleAwarenessChange);

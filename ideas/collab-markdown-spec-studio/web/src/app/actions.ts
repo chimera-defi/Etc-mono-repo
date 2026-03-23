@@ -12,6 +12,7 @@ import {
   getDocument,
   createPatchProposal,
   decidePatch,
+  listPatches,
   listWorkspaceMemberships,
   listWorkspaceRecords,
   resetWorkspaceDocuments,
@@ -111,6 +112,25 @@ export async function createPatchAction(formData: FormData) {
     target_fingerprint,
     confidence: 0.82,
   });
+
+  revalidatePath("/workspace");
+}
+
+export async function acceptAllPatchesAction(formData: FormData) {
+  const { actorRef, currentActor } = await getActionActorRef();
+  const documentId = String(formData.get("document_id") ?? "");
+  const patches = await listPatches(documentId, { workspaceId: currentActor.workspace_id });
+  const actionable = patches.filter((p) => p.status === "proposed" || p.status === "stale");
+
+  for (const patch of actionable) {
+    await decidePatch({
+      document_id: documentId,
+      patch_id: patch.patch_id,
+      decision: "accept",
+      resolved_content: patch.content ?? "",
+      decided_by: actorRef,
+    });
+  }
 
   revalidatePath("/workspace");
 }
