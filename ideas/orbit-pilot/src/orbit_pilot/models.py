@@ -28,6 +28,7 @@ class PlatformRecord:
     submit_url: str
     mode: str
     risk: str
+    priority: int = 50
 
 
 @dataclass

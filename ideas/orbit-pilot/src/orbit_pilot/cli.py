@@ -15,6 +15,14 @@ from orbit_pilot.models import LaunchProfile, REQUIRED_LAUNCH_FIELDS
 from orbit_pilot.publishers.router import PUBLISHERS, publish_platform
 from orbit_pilot.registry import load_platforms
 
+RISK_ORDER = {
+    "low": 1,
+    "low_medium": 2,
+    "medium": 3,
+    "medium_high": 4,
+    "high": 5,
+}
+
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="orbit")
@@ -145,7 +153,7 @@ def next_command(args: argparse.Namespace) -> int:
         emit({"error": f"Run directory not found: {run_dir}"}, args.json)
         return 1
     rows = list_submissions(run_dir)
-    pending = [row for row in rows if row["mode"] == "manual" and row["status"] != "manual_completed"]
+    pending = get_pending_manual(run_dir, rows)
     if not pending:
         emit({"message": "No pending manual submissions."}, args.json)
         return 0
@@ -171,8 +179,10 @@ def report_command(args: argparse.Namespace) -> int:
         emit({"error": f"Run directory not found: {run_dir}"}, args.json)
         return 1
     rows = list_submissions(run_dir)
-    pending_manual = [row["platform"] for row in rows if row["mode"] == "manual" and row["status"] != "manual_completed"]
-    emit({"results": rows, "pending_manual": pending_manual}, args.json)
+    pending = get_pending_manual(run_dir, rows)
+    pending_manual = [row["platform"] for row in pending]
+    next_manual = pending_manual[0] if pending_manual else None
+    emit({"results": rows, "pending_manual": pending_manual, "next_manual": next_manual}, args.json)
     return 0
 
 
@@ -182,6 +192,21 @@ def emit(payload: dict[str, Any], json_mode: bool) -> None:
         return
     for key, value in payload.items():
         print(f"{key}: {value}")
+
+
+def get_pending_manual(run_dir: Path, rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    pending: list[dict[str, Any]] = []
+    for row in rows:
+        if row["mode"] != "manual" or row["status"] == "manual_completed":
+            continue
+        meta_path = run_dir / row["platform"] / "meta.json"
+        meta = {}
+        if meta_path.exists():
+            meta = json.loads(meta_path.read_text(encoding="utf-8"))
+        row = {**row, "priority": int(meta.get("priority", 50)), "risk_rank": RISK_ORDER.get(meta.get("risk", "medium"), 99)}
+        pending.append(row)
+    pending.sort(key=lambda item: (-item["priority"], item["risk_rank"], item["platform"]))
+    return pending
 
 
 def init_command() -> int:

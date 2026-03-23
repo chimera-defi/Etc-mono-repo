@@ -13,13 +13,29 @@ def write_manual_pack(run_dir: Path, record: PlatformRecord, decision: Submissio
     payload_path = platform_dir / "payload.json"
     notes_path = platform_dir / "README.txt"
     prompt_path = platform_dir / "PROMPT_USER.txt"
+    meta_path = platform_dir / "meta.json"
     guidance = build_guidance(record)
     payload_path.write_text(json.dumps(decision.payload or {}, indent=2), encoding="utf-8")
+    meta_path.write_text(
+        json.dumps(
+            {
+                "name": record.name,
+                "slug": record.slug,
+                "submit_url": record.submit_url,
+                "official_url": record.official_url,
+                "priority": record.priority,
+                "risk": record.risk,
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
     notes_path.write_text(
         "\n".join(
             [
                 f"Platform: {record.name}",
                 f"Submit URL: {record.submit_url}",
+                f"Priority: {record.priority}",
                 f"Mode: {decision.mode}",
                 f"Risk: {decision.risk_level}",
                 f"Reason: {decision.reason}",

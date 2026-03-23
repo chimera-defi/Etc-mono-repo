@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Callable
 
-from orbit_pilot.publishers import github, linkedin, medium
+from orbit_pilot.publishers import github, linkedin, medium, x
 from orbit_pilot.publishers import dev as dev_publisher
 
 Publisher = Callable[[dict[str, Any], bool], dict[str, Any]]
@@ -12,6 +12,7 @@ PUBLISHERS: dict[str, Publisher] = {
     "dev": dev_publisher.publish,
     "medium": medium.publish,
     "linkedin": linkedin.publish,
+    "x": x.publish,
 }
 
 

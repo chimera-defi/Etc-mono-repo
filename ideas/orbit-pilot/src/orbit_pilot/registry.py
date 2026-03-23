@@ -19,6 +19,7 @@ def load_platforms(path: str | Path) -> list[PlatformRecord]:
                 submit_url=item.get("submit_url", ""),
                 mode=item.get("mode", "manual"),
                 risk=item.get("risk", "medium"),
+                priority=int(item.get("priority", 50)),
             )
         )
     return records
