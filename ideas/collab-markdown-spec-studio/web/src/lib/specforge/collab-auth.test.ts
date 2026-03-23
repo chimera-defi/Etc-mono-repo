@@ -22,7 +22,9 @@ describe("collab auth", () => {
 
     expect(claims.sub).toBe("reviewer_1");
     expect(claims.document_id).toBe("doc_123");
-    expect(claims.room).toBe("doc_123:v4");
+    // Room is now keyed by document ID only (no version suffix) so that
+    // collaborators on different versions still share the same room.
+    expect(claims.room).toBe("doc_123");
   });
 
   it("rejects tokens for a different room", () => {
@@ -35,7 +37,8 @@ describe("collab auth", () => {
 
     expect(() =>
       verifyCollabToken(token, {
-        expectedRoomName: "doc_abc:v3",
+        // doc_abc:v3 is a different document ID entirely, so it should mismatch.
+        expectedRoomName: "doc_xyz",
       }),
     ).toThrow("Token room mismatch");
   });

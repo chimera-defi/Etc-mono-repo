@@ -508,6 +508,23 @@ export default async function Home({ searchParams }: Props) {
                       )}
                     </div>
                   ) : (
+                    <>
+                    {activeWorkspaceSession.authMode === "local" ? (
+                      <p className={styles.mutedInline}>
+                        GitHub sign-in not configured — add{" "}
+                        <code>GITHUB_CLIENT_ID</code> and{" "}
+                        <code>GITHUB_CLIENT_SECRET</code> to{" "}
+                        <code>web/.env.local</code> to enable identity tracking.{" "}
+                        <a
+                          href="https://github.com/settings/applications/new"
+                          target="_blank"
+                          rel="noreferrer"
+                          className={styles.secondaryLink}
+                        >
+                          Create an OAuth App
+                        </a>
+                      </p>
+                    ) : null}
                     <form action={switchWorkspaceActorAction} className={styles.form}>
                       <input type="hidden" name="return_to" value={actorReturnTo} />
                       <label>
@@ -526,6 +543,7 @@ export default async function Home({ searchParams }: Props) {
                       </label>
                       <button type="submit">Switch local actor</button>
                     </form>
+                    </>
                   )}
                 </>
               )}
