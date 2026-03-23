@@ -30,3 +30,7 @@ publish:
   github:
     repo: acme/orbitpilot
     tag_name: launch-v0
+  medium:
+    author_id: medium-author-id
+  linkedin:
+    author: urn:li:person:example

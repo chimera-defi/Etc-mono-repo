@@ -16,7 +16,7 @@ Build a launch-distribution operator that can safely prepare and execute submiss
    - Scope: `PLATFORM_MATRIX.md`, `data/seed_platforms.yaml`
    - Objective: normalize platform metadata and mode/risk assignments.
 2. Orchestration Agent
-   - Scope: `SPEC.md`, `SYSTEM_PROMPT.md`, `src/orbit_pilot_skeleton.py`
+   - Scope: `SPEC.md`, `SYSTEM_PROMPT.md`, `src/orbit_pilot/`
    - Objective: finalize state model, graph nodes, and publish contracts.
 3. UX Agent
    - Scope: `USER_FLOWS.md`, `FRONTEND_VISION.md`, `WIREFRAMES.md`
