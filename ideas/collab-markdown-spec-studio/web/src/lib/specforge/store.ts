@@ -2556,8 +2556,11 @@ export async function exportDocument(documentId: string, options?: StoreOptions)
     throw new Error(`Document ${documentId} not found`);
   }
 
-  const patches = await listPatches(documentId, options);
-  return exportDocumentBundle(document, patches);
+  const [patches, clarifications] = await Promise.all([
+    listPatches(documentId, options),
+    listClarifications(documentId, options),
+  ]);
+  return exportDocumentBundle(document, patches, clarifications);
 }
 
 function mapUserRow(row: UserRow): UserRecord {

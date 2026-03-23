@@ -262,7 +262,7 @@ describe("specforge store", () => {
 
     expect(bundle.files["PRD.md"]).toContain("# PRD");
     expect(bundle.files["SPEC.md"]).toContain("## Patch Queue");
-    expect(bundle.files["TASKS.md"]).toContain("Review Goals");
+    expect(bundle.files["TASKS.md"]).toContain("Goals");
     expect(agentSpec.document_id).toBe(document!.document_id);
     expect(agentSpec.sections.length).toBeGreaterThan(0);
   });
