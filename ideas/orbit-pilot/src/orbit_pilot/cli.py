@@ -41,6 +41,10 @@ def build_parser() -> argparse.ArgumentParser:
     mark_done.add_argument("--platform", required=True)
     mark_done.add_argument("--live-url", required=True)
 
+    next_cmd = subparsers.add_parser("next")
+    next_cmd.add_argument("--run", required=True)
+    next_cmd.add_argument("--json", action="store_true")
+
     report = subparsers.add_parser("report")
     report.add_argument("--run", required=True)
     report.add_argument("--json", action="store_true")
@@ -87,7 +91,7 @@ def generate_command(args: argparse.Namespace) -> int:
     for record in platforms:
         decision = plan_platform(record)
         decision.payload = build_payload(launch, record)
-        write_manual_pack(run_dir, decision)
+        write_manual_pack(run_dir, record, decision)
         result = {"status": "generated", "url": decision.payload["url"]}
         decision.result = result
         record_submission(run_dir, record.slug, decision.mode, result["status"], decision.reason, result)
@@ -131,9 +135,33 @@ def mark_done_command(args: argparse.Namespace) -> int:
     return 0
 
 
+def next_command(args: argparse.Namespace) -> int:
+    run_dir = Path(args.run)
+    rows = list_submissions(run_dir)
+    pending = [row for row in rows if row["mode"] == "manual" and row["status"] != "manual_completed"]
+    if not pending:
+        emit({"message": "No pending manual submissions."}, args.json)
+        return 0
+    row = pending[0]
+    platform_dir = run_dir / row["platform"]
+    prompt_text = (platform_dir / "PROMPT_USER.txt").read_text(encoding="utf-8")
+    payload = json.loads((platform_dir / "payload.json").read_text(encoding="utf-8"))
+    emit(
+        {
+            "platform": row["platform"],
+            "status": row["status"],
+            "prompt": prompt_text,
+            "payload": payload,
+        },
+        args.json,
+    )
+    return 0
+
+
 def report_command(args: argparse.Namespace) -> int:
     rows = list_submissions(Path(args.run))
-    emit({"results": rows}, args.json)
+    pending_manual = [row["platform"] for row in rows if row["mode"] == "manual" and row["status"] != "manual_completed"]
+    emit({"results": rows, "pending_manual": pending_manual}, args.json)
     return 0
 
 
@@ -163,6 +191,8 @@ def main() -> int:
         return publish_command(args)
     if args.command == "mark-done":
         return mark_done_command(args)
+    if args.command == "next":
+        return next_command(args)
     if args.command == "report":
         return report_command(args)
     parser.error(f"Unknown command: {args.command}")
