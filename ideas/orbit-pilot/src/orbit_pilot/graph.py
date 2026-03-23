@@ -1,0 +1,30 @@
+from __future__ import annotations
+
+from orbit_pilot.links import append_utm
+from orbit_pilot.models import LaunchProfile, PlatformRecord, SubmissionDecision
+from orbit_pilot.prompts import build_submission_body
+
+
+def plan_platform(record: PlatformRecord, has_medium_token: bool = False) -> SubmissionDecision:
+    if record.slug == "medium":
+        if has_medium_token:
+            return SubmissionDecision(record.slug, "official_api", record.risk, "Existing Medium token available")
+        return SubmissionDecision(record.slug, "manual", record.risk, "No working Medium token")
+    if record.slug in {"github", "dev"}:
+        return SubmissionDecision(record.slug, "official_api", record.risk, "V0 official publisher")
+    return SubmissionDecision(record.slug, "manual", record.risk, "Manual by default")
+
+
+def build_payload(launch: LaunchProfile, record: PlatformRecord) -> dict[str, str]:
+    url = append_utm(
+        launch.website_url,
+        source=f"orbit_pilot_{record.slug}",
+        medium="community",
+        campaign="launch",
+        content=record.slug,
+    )
+    return {
+        "title": f"{launch.product_name}: {launch.tagline}",
+        "body": build_submission_body(launch, record, url),
+        "url": url,
+    }
