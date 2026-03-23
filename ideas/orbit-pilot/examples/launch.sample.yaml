@@ -1,0 +1,28 @@
+product_name: OrbitPilot
+website_url: https://orbitpilot.ai
+tagline: AI launch research and distribution ops for SaaS teams
+summary: Turns one launch brief into tracked, platform-specific submission drafts.
+descriptions:
+  short: Launch distribution ops for SaaS teams.
+  medium: OrbitPilot helps teams manage launch submissions across directories and content channels.
+  long: >
+    OrbitPilot is a compliance-first launch ops system that centralizes launch data,
+    generates platform-specific variants, appends tracked links, and routes each
+    platform into official API or manual workflows.
+features:
+  - UTM appending
+  - platform registry
+  - duplicate detection
+  - manual queue
+assets:
+  logo: ./assets/logo.png
+  screenshots:
+    - ./assets/hero.png
+company:
+  name: OrbitPilot, Inc.
+  founders:
+    - Jane Doe
+  categories:
+    - SaaS
+    - Marketing
+    - AI

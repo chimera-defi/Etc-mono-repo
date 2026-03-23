@@ -1,0 +1,173 @@
+from __future__ import annotations
+
+import argparse
+import json
+from dataclasses import asdict
+from datetime import UTC, datetime
+from pathlib import Path
+from typing import Any
+
+from orbit_pilot.audit import init_db, list_submissions, record_submission
+from orbit_pilot.config import load_document
+from orbit_pilot.graph import build_payload, plan_platform
+from orbit_pilot.manual_pack import write_manual_pack
+from orbit_pilot.models import LaunchProfile, REQUIRED_LAUNCH_FIELDS
+from orbit_pilot.publishers import devto, github, medium
+from orbit_pilot.registry import load_platforms
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(prog="orbit")
+    subparsers = parser.add_subparsers(dest="command", required=True)
+
+    subparsers.add_parser("init")
+
+    for name in ("plan", "generate"):
+        cmd = subparsers.add_parser(name)
+        cmd.add_argument("--launch", required=True)
+        cmd.add_argument("--platforms", required=True)
+        cmd.add_argument("--json", action="store_true")
+        if name == "generate":
+            cmd.add_argument("--out", default="out")
+
+    publish = subparsers.add_parser("publish")
+    publish.add_argument("--run", required=True)
+    publish.add_argument("--platform", action="append", required=True)
+    publish.add_argument("--json", action="store_true")
+    publish.add_argument("--execute", action="store_true")
+
+    mark_done = subparsers.add_parser("mark-done")
+    mark_done.add_argument("--run", required=True)
+    mark_done.add_argument("--platform", required=True)
+    mark_done.add_argument("--live-url", required=True)
+
+    report = subparsers.add_parser("report")
+    report.add_argument("--run", required=True)
+    report.add_argument("--json", action="store_true")
+    return parser
+
+
+def load_launch(path: str) -> LaunchProfile:
+    raw = load_document(path)
+    return LaunchProfile(
+        product_name=raw.get("product_name", ""),
+        website_url=raw.get("website_url", ""),
+        tagline=raw.get("tagline", ""),
+        summary=raw.get("summary", ""),
+        descriptions=raw.get("descriptions", {}),
+        features=raw.get("features", []),
+        assets=raw.get("assets", {}),
+        company=raw.get("company", {}),
+    )
+
+
+def plan_command(args: argparse.Namespace) -> int:
+    launch = load_launch(args.launch)
+    platforms = load_platforms(args.platforms)
+    launch_dict = asdict(launch)
+    missing = [field for field in REQUIRED_LAUNCH_FIELDS if not launch_dict.get(field)]
+    questions = [f"Please provide {field.replace('_', ' ')}." for field in missing]
+    output = {
+        "missing_fields": missing,
+        "questions": questions,
+        "platform_count": len(platforms),
+        "platforms": [record.slug for record in platforms],
+    }
+    emit(output, args.json)
+    return 0
+
+
+def generate_command(args: argparse.Namespace) -> int:
+    launch = load_launch(args.launch)
+    platforms = load_platforms(args.platforms)
+    run_dir = Path(args.out) / f"run-{datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ')}"
+    run_dir.mkdir(parents=True, exist_ok=True)
+    init_db(run_dir)
+    results: list[dict[str, Any]] = []
+    for record in platforms:
+        decision = plan_platform(record)
+        decision.payload = build_payload(launch, record)
+        write_manual_pack(run_dir, decision)
+        result = {"status": "generated", "url": decision.payload["url"]}
+        decision.result = result
+        record_submission(run_dir, record.slug, decision.mode, result["status"], decision.reason, result)
+        results.append(
+            {
+                "platform": record.slug,
+                "mode": decision.mode,
+                "risk_level": decision.risk_level,
+                "reason": decision.reason,
+                "payload_path": str(run_dir / record.slug / "payload.json"),
+            }
+        )
+    emit({"run_dir": str(run_dir), "results": results}, args.json)
+    return 0
+
+
+def publish_command(args: argparse.Namespace) -> int:
+    run_dir = Path(args.run)
+    results: list[dict[str, Any]] = []
+    for platform in args.platform:
+        payload = json.loads((run_dir / platform / "payload.json").read_text(encoding="utf-8"))
+        if platform == "github":
+            result = github.publish(payload, dry_run=not args.execute)
+        elif platform == "dev":
+            result = devto.publish(payload, dry_run=not args.execute)
+        elif platform == "medium":
+            result = medium.publish(payload, dry_run=not args.execute)
+        else:
+            result = {"status": "manual_only", "url": payload["url"], "publisher": platform}
+        record_submission(run_dir, platform, "official_api" if platform in {"github", "dev", "medium"} else "manual", result["status"], "publish command", result)
+        results.append({"platform": platform, "result": result})
+    emit({"results": results}, args.json)
+    return 0
+
+
+def mark_done_command(args: argparse.Namespace) -> int:
+    run_dir = Path(args.run)
+    result = {"status": "manual_completed", "url": args.live_url}
+    record_submission(run_dir, args.platform, "manual", "manual_completed", "marked done by operator", result)
+    print(f"Marked {args.platform} complete")
+    return 0
+
+
+def report_command(args: argparse.Namespace) -> int:
+    rows = list_submissions(Path(args.run))
+    emit({"results": rows}, args.json)
+    return 0
+
+
+def emit(payload: dict[str, Any], json_mode: bool) -> None:
+    if json_mode:
+        print(json.dumps(payload, indent=2))
+        return
+    for key, value in payload.items():
+        print(f"{key}: {value}")
+
+
+def init_command() -> int:
+    print("Copy examples/launch.sample.yaml and data/seed_platforms.yaml into your working directory to start.")
+    return 0
+
+
+def main() -> int:
+    parser = build_parser()
+    args = parser.parse_args()
+    if args.command == "init":
+        return init_command()
+    if args.command == "plan":
+        return plan_command(args)
+    if args.command == "generate":
+        return generate_command(args)
+    if args.command == "publish":
+        return publish_command(args)
+    if args.command == "mark-done":
+        return mark_done_command(args)
+    if args.command == "report":
+        return report_command(args)
+    parser.error(f"Unknown command: {args.command}")
+    return 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
