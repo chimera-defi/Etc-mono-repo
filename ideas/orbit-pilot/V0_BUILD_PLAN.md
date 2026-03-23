@@ -29,6 +29,9 @@ Ship only these capabilities:
    - record manual submission completion
 5. `report`
    - show campaign status, live URLs, and skipped targets
+6. `next`
+   - show the next manual submission to complete
+   - include ready-to-post copy and best-practice guidance
 
 ### Explicit Non-Goals For V0
 
@@ -94,6 +97,7 @@ orbit generate --launch launch.yaml --platforms data/seed_platforms.yaml --out o
 orbit publish --run out/run-2026-03-23 --platform github --platform dev
 orbit mark-done --run out/run-2026-03-23 --platform crunchbase --live-url https://www.crunchbase.com/organization/example
 orbit report --run out/run-2026-03-23
+orbit next --run out/run-2026-03-23
 ```
 
 ### Proposed File Structure
@@ -185,10 +189,11 @@ Done when:
 1. `links.py`
 2. `dedupe.py`
 3. `manual_pack.py`
-4. `prompts.py`
+4. `manual_guidance.py`
+5. `prompts.py`
 
 Done when:
-- `orbit generate` creates per-platform folders with copy and UTM links.
+- `orbit generate` creates per-platform folders with copy, UTM links, and user-facing manual prompts.
 
 #### Milestone 3: audit and persistence
 
