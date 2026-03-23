@@ -275,6 +275,47 @@ describe("specforge store", () => {
     expect(patches.length).toBeGreaterThan(0);
   });
 
+  it("scopes patch lists by workspace when provided", async () => {
+    const options = await makeOptions();
+    const created = await createDocument(
+      {
+        workspace_id: "ws_02",
+        title: "Second Workspace Spec",
+        initial_markdown:
+          "# PRD\n\n## Problem\nCross-workspace isolation.\n\n## Goals\n- Keep tenant data scoped.\n",
+      },
+      options,
+    );
+    const scopedDoc = await getDocument(created.document_id, { ...options, workspaceId: "ws_02" });
+    await createPatchProposal(
+      {
+        document_id: scopedDoc!.document_id,
+        block_id: scopedDoc!.blocks[0]!.block_id,
+        section_id: scopedDoc!.blocks[0]!.section_id,
+        operation: "replace",
+        patch_type: "requirement_change",
+        content: "## Problem\nCross-workspace leakage prevention.",
+        rationale: "Scope validation.",
+        proposed_by: { actor_type: "agent", actor_id: "scope-bot" },
+        base_version: scopedDoc!.version,
+        target_fingerprint: scopedDoc!.blocks[0]!.target_fingerprint,
+      },
+      { ...options, workspaceId: "ws_02" },
+    );
+
+    const visibleWithinWorkspace = await listPatches(scopedDoc!.document_id, {
+      ...options,
+      workspaceId: "ws_02",
+    });
+    const hiddenFromOtherWorkspace = await listPatches(scopedDoc!.document_id, {
+      ...options,
+      workspaceId: "ws_demo",
+    });
+
+    expect(visibleWithinWorkspace.length).toBe(1);
+    expect(hiddenFromOtherWorkspace).toHaveLength(0);
+  });
+
   it("accepts a patch, updates the document, and writes audit events", async () => {
     const options = await makeOptions();
     const [document] = await listDocuments(options);
@@ -340,6 +381,32 @@ describe("specforge store", () => {
 
     expect(resolved.status).toBe("resolved");
     expect(threads[0]?.thread_id).toBe(created.thread_id);
+  });
+
+  it("does not write comment.resolved audit events for missing threads", async () => {
+    const options = await makeOptions();
+    const [document] = await listDocuments(options);
+    const missingThreadId = "thread_missing_for_audit_check";
+
+    await expect(
+      resolveCommentThread(
+        {
+          document_id: document!.document_id,
+          thread_id: missingThreadId,
+          resolved_by: { actor_type: "human", actor_id: "reviewer" },
+        },
+        options,
+      ),
+    ).rejects.toThrow(`Comment thread ${missingThreadId} not found`);
+
+    const auditEvents = await listAuditEvents(document!.document_id, options);
+    const leakedResolutionEvent = auditEvents.find(
+      (event) =>
+        event.event_type === "comment.resolved" &&
+        (event.payload as { thread_id?: string } | undefined)?.thread_id === missingThreadId,
+    );
+
+    expect(leakedResolutionEvent).toBeUndefined();
   });
 
   it("writes answered clarifications back into the canonical document", async () => {

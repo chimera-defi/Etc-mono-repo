@@ -349,12 +349,16 @@ export async function setGitHubWorkspaceSession(input: {
   workspace_id?: string;
   role?: string;
 }) {
-  const actor =
-    (await resolveWorkspaceMemberForGitHubLogin(input.githubLogin, input.workspace_id ?? "ws_demo")) ??
-    (await listWorkspaceActors())[0] ??
-    workspaceMembers[0]!;
-  const workspaceId = input.workspace_id ?? actor.workspace_id;
-  const role = input.role ?? actor.role;
+  const workspaceId = input.workspace_id ?? "ws_demo";
+  const actor = await resolveWorkspaceMemberForGitHubLogin(input.githubLogin, workspaceId);
+
+  if (!actor) {
+    throw new Error(
+      `GitHub user @${input.githubLogin} is not mapped to workspace ${workspaceId}`,
+    );
+  }
+
+  const role = actor.role;
   const cookieStore = await cookies();
   cookieStore.set(
     WORKSPACE_SESSION_COOKIE,

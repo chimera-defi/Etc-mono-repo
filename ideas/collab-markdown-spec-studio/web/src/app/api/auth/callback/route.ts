@@ -85,10 +85,14 @@ export async function GET(request: Request) {
   const userWorkspaces = await listUserWorkspaces(user.login);
   const defaultWorkspace = userWorkspaces[0];
 
+  if (!defaultWorkspace) {
+    return NextResponse.redirect(new URL("/?auth=denied", request.url));
+  }
+
   await setGitHubWorkspaceSession({
     githubLogin: user.login,
     githubUrl: user.html_url,
-    workspace_id: defaultWorkspace?.workspace_id,
+    workspace_id: defaultWorkspace.workspace_id,
     role: undefined, // resolved from membership data
   });
 

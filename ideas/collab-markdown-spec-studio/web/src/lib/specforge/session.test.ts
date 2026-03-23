@@ -40,8 +40,9 @@ describe("workspace session helpers", () => {
     process.env.GITHUB_CLIENT_ID = "demo-client";
     process.env.SPECFORGE_GITHUB_REDIRECT_URI = "http://localhost:3000/api/auth/callback";
 
-    const url = new URL(getGitHubAuthorizationUrl());
+    const url = new URL(getGitHubAuthorizationUrl("test-state"));
     expect(url.hostname).toBe("github.com");
     expect(url.searchParams.get("client_id")).toBe("demo-client");
+    expect(url.searchParams.get("state")).toBe("test-state");
   });
 });
