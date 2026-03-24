@@ -42,10 +42,12 @@ import {
   loadActiveWorkspaceDocumentState,
 } from "@/lib/specforge/workspace-document-state";
 import { loadWorkspaceSummary } from "@/lib/specforge/workspace-summary";
+import { SprintPlanningPanel } from "@/components/specforge/SprintPlanningPanel";
+import { IterateWithAI } from "@/components/specforge/IterateWithAI";
 
 export const dynamic = "force-dynamic";
 
-type Stage = "start" | "draft" | "review" | "decide" | "export";
+type Stage = "start" | "plan" | "draft" | "review" | "decide" | "export";
 
 type Props = {
   searchParams?: Promise<{
@@ -57,7 +59,7 @@ type Props = {
   }>;
 };
 
-const stageOrder: Stage[] = ["start", "draft", "review", "decide", "export"];
+const stageOrder: Stage[] = ["start", "plan", "draft", "review", "decide", "export"];
 
 function getPatchRiskLabel(patchType: string) {
   switch (patchType) {
@@ -147,6 +149,12 @@ function getStageMeta(stage: Stage) {
       return {
         title: "Start the spec",
         description: "Choose an existing draft or create a fresh document to work on.",
+      };
+    case "plan":
+      return {
+        title: "Sprint planning",
+        description:
+          "Walk through 5 optional planning stages — Discovery, CEO Review, Eng Review, Design Review, Security Review. Each stage proposes a governed patch. Skip any stage to move on.",
       };
     case "draft":
       return {
@@ -882,8 +890,14 @@ export default async function Home({ searchParams }: Props) {
                   </p>
                   <div className={styles.inlineActions}>
                     <Link
-                      href={buildStageHref(activeDocument.document_id, "draft")}
+                      href={buildStageHref(activeDocument.document_id, "plan")}
                       className={styles.exportLink}
+                    >
+                      Sprint planning
+                    </Link>
+                    <Link
+                      href={buildStageHref(activeDocument.document_id, "draft")}
+                      className={styles.secondaryLink}
                     >
                       Open draft workspace
                     </Link>
@@ -897,6 +911,24 @@ export default async function Home({ searchParams }: Props) {
                 </section>
               ) : null}
             </>
+          ) : null}
+
+          {activeStage === "plan" ? (
+            <section className={styles.panel}>
+              <div className={styles.panelHeader}>
+                <h2>Sprint planning</h2>
+                <span>Act 1 — optional</span>
+              </div>
+              {activeDocument ? (
+                <SprintPlanningPanel
+                  documentId={activeDocument.document_id}
+                  actorId={activeWorkspaceActor.actor_id}
+                  specWizardHref={buildStageHref(activeDocument.document_id, "draft")}
+                />
+              ) : (
+                <p className={styles.empty}>Create a document first, then run sprint planning.</p>
+              )}
+            </section>
           ) : null}
 
           {activeStage === "draft" ? (
@@ -1131,9 +1163,9 @@ export default async function Home({ searchParams }: Props) {
                 </div>
               </details>
 
-              <details className={styles.panel}>
+              <details className={styles.panel} open>
                 <summary className={styles.disclosureSummary}>
-                  <span>Block activity</span>
+                  <span>Block activity + iterate</span>
                   <span>{blockSummaries.length} tracked blocks</span>
                 </summary>
                 <div className={styles.disclosureBody}>
@@ -1166,6 +1198,13 @@ export default async function Home({ searchParams }: Props) {
                               ? `Touched by ${block.touchedBy.join(", ")}`
                               : "No review activity yet."}
                           </span>
+                          <IterateWithAI
+                            documentId={activeDocument.document_id}
+                            blockId={block.block_id}
+                            blockHeading={block.heading}
+                            actorId={activeWorkspaceActor.actor_id}
+                            decideHref={buildStageHref(activeDocument.document_id, "decide")}
+                          />
                         </li>
                       ))}
                     </ul>

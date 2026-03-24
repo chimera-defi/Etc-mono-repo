@@ -13,7 +13,7 @@ export type BlockSummary = {
 
 export type GuidedStep = {
   id: string;
-  stage: "start" | "draft" | "review" | "decide" | "export";
+  stage: "start" | "plan" | "draft" | "review" | "decide" | "export";
   title: string;
   description: string;
   status: "completed" | "current" | "upcoming";
@@ -71,6 +71,13 @@ export function buildGuidedSteps(input: {
       title: "Create or open a spec",
       description: "Start from a seeded document or open a fresh draft.",
       completed: input.hasDocument,
+    },
+    {
+      id: "plan",
+      stage: "plan" as const,
+      title: "Sprint planning (optional)",
+      description: "Discovery, CEO, Eng, Design, and Security review before drafting.",
+      completed: false, // always optional — never blocks progression
     },
     {
       id: "draft",
