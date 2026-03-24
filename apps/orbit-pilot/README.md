@@ -19,16 +19,24 @@ mkdir ~/my-launch && cd ~/my-launch
 orbit init
 # edit launch.yaml (add publish.github.repo for real GitHub releases)
 orbit plan --launch launch.yaml --platforms seed_platforms.yaml
+orbit doctor --launch launch.yaml --platforms seed_platforms.yaml
 orbit generate --launch launch.yaml --platforms seed_platforms.yaml --out out/
 # runs land under out/<campaign-id>/run-<timestamp>/ (default campaign id from product name)
+orbit campaigns --out out/
+orbit latest --out out/ --campaign my-launch
+orbit guide --run out/<campaign-id>/run-*
 orbit next --run out/<campaign-id>/run-*
-orbit report --run out/run-*
-# API publish (dry-run by default; use --execute + env tokens)
-orbit publish --run out/run-* --platform github
-orbit publish --run out/run-* --platform dev --execute
+orbit report --run out/<campaign-id>/run-*
+# API publish is dry-run by default; use --execute once doctor/guide says a platform is ready
+orbit publish --run out/<campaign-id>/run-* --platform github
+orbit publish --run out/<campaign-id>/run-* --platform dev --execute
+# regenerate only the platforms you want to revise inside the same run
+orbit regenerate --run out/<campaign-id>/run-* --platform github --platform product_hunt
 ```
 
-## Environment variables (optional publishers)
+## Credentials
+
+Official publishers read credentials from environment variables first and then OS keychain via `keyring`.
 
 | Variable | Platform |
 |----------|----------|

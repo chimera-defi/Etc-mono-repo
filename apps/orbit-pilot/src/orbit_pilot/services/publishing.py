@@ -5,7 +5,8 @@ from pathlib import Path
 from typing import Any
 
 from orbit_pilot.audit import record_submission
-from orbit_pilot.publishers.router import publish_platform
+from orbit_pilot.publishers.requirements import validate_platform
+from orbit_pilot.publishers.router import PUBLISHERS, publish_platform
 from orbit_pilot.state import cooldown_remaining, record_publish_attempt
 
 
@@ -31,6 +32,7 @@ def publish_from_run(run_dir: Path, platforms: list[str], execute: bool) -> list
             record_submission(run_dir, platform, "manual", result["status"], "publish blocked: manual mode", result)
             results.append({"platform": platform, "result": result})
             continue
+
         if planned_mode == "skipped":
             result = {
                 "status": "blocked",
@@ -48,6 +50,17 @@ def publish_from_run(run_dir: Path, platforms: list[str], execute: bool) -> list
             continue
 
         result = publish_platform(platform, payload, dry_run=not execute)
+        if not execute:
+            if platform in PUBLISHERS:
+                readiness = validate_platform(platform, payload)
+                result["readiness"] = readiness
+                if readiness["ready"]:
+                    result["next_step"] = f"Run with --execute for {platform} when you are ready."
+                else:
+                    missing = ", ".join(readiness["missing_secrets"] + readiness["missing_payload"])
+                    result["next_step"] = f"Provide missing requirements ({missing}) and rerun orbit doctor."
+            else:
+                result["next_step"] = f"Open {meta.get('submit_url', 'the platform')} and use PROMPT_USER.txt."
         api_mode = "official_api" if planned_mode == "official_api" else planned_mode
         record_submission(run_dir, platform, api_mode, result["status"], "publish command", result)
         if execute and result.get("status") == "published":
