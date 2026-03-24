@@ -94,7 +94,12 @@ export function GuidedDraftBuilder({
         return;
       }
 
-      const payload = (await response.json()) as AssistResponse;
+      const payload = await response.json().catch(() => null) as AssistResponse | null;
+      if (!payload?.fields) {
+        setAssistSource("Assist failed");
+        setAssistNotes(["The assist returned an unexpected response. Keep editing manually or retry."]);
+        return;
+      }
       setFields(payload.fields);
       setAssistSource(
         payload.tool === "heuristic"
