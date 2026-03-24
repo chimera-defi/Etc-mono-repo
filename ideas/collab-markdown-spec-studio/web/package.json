@@ -27,6 +27,7 @@
     "@tiptap/react": "3.20.4",
     "@tiptap/starter-kit": "3.20.4",
     "@types/pg": "8.18.0",
+    "highlight.js": "^11.11.1",
     "next": "16.2.0",
     "pg": "8.20.0",
     "react": "19.2.3",

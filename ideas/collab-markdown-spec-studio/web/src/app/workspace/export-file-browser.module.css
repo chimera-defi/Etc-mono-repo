@@ -1,0 +1,315 @@
+/* -------------------------------------------------------
+   ExportFileBrowser
+   Two-pane layout: file list (left) + code viewer (right)
+   Matches the existing warm-cream colour tokens and rounded
+   card aesthetic from page.module.css.
+------------------------------------------------------- */
+
+.browser {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  border: 1px solid rgba(28, 26, 23, 0.1);
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fffdf9;
+  min-height: 420px;
+  max-height: 640px;
+}
+
+/* ---- file list ---- */
+
+.fileList {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(28, 26, 23, 0.08);
+  background: #faf8f4;
+  overflow: hidden;
+}
+
+.fileListHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(28, 26, 23, 0.08);
+  font-size: 0.78rem;
+  color: #6f6559;
+  flex-shrink: 0;
+}
+
+.fileListScroll {
+  overflow-y: auto;
+  flex: 1;
+  padding: 6px 0;
+}
+
+.fileItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+}
+
+.fileNameBtn {
+  flex: 1;
+  text-align: left;
+  padding: 6px 8px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: #3a332c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background 0.1s;
+}
+
+.fileNameBtn:hover {
+  background: rgba(28, 26, 23, 0.06);
+}
+
+.fileItemActive .fileNameBtn {
+  background: rgba(28, 26, 23, 0.1);
+  font-weight: 600;
+  color: #1c1a17;
+}
+
+.removeBtn {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  color: #9a8c80;
+  opacity: 0;
+  transition: opacity 0.1s, background 0.1s;
+}
+
+.fileItem:hover .removeBtn {
+  opacity: 1;
+}
+
+.removeBtn:hover {
+  background: rgba(163, 43, 43, 0.1);
+  color: #8c1f1f;
+}
+
+/* ---- viewer pane ---- */
+
+.viewer {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.viewerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 14px;
+  border-bottom: 1px solid rgba(28, 26, 23, 0.08);
+  flex-shrink: 0;
+  background: #fffdf9;
+}
+
+.filename {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #3a332c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.viewerActions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.editToggle,
+.saveBtn,
+.cancelBtn {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid rgba(28, 26, 23, 0.16);
+  transition: background 0.1s;
+}
+
+.editToggle {
+  background: #fff;
+  color: #3a332c;
+}
+
+.editToggle:hover {
+  background: rgba(28, 26, 23, 0.06);
+}
+
+.saveBtn {
+  background: #1c1a17;
+  color: #fff9f3;
+  border-color: transparent;
+}
+
+.saveBtn:hover {
+  background: #2c2a27;
+}
+
+.cancelBtn {
+  background: #fff;
+  color: #3a332c;
+}
+
+.cancelBtn:hover {
+  background: rgba(28, 26, 23, 0.06);
+}
+
+/* ---- code view ---- */
+
+.codeScroll {
+  flex: 1;
+  overflow: auto;
+  padding: 14px 16px;
+}
+
+.codeScroll pre {
+  margin: 0;
+  font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  white-space: pre;
+  color: #1c1a17;
+}
+
+/* highlight.js token colours — tuned to match the warm palette */
+.codeScroll :global(.hljs-keyword),
+.codeScroll :global(.hljs-selector-tag),
+.codeScroll :global(.hljs-tag) {
+  color: #7c3aed;
+}
+
+.codeScroll :global(.hljs-string),
+.codeScroll :global(.hljs-attr) {
+  color: #1b6a3d;
+}
+
+.codeScroll :global(.hljs-number),
+.codeScroll :global(.hljs-literal) {
+  color: #c05621;
+}
+
+.codeScroll :global(.hljs-comment) {
+  color: #9a8c80;
+  font-style: italic;
+}
+
+.codeScroll :global(.hljs-title),
+.codeScroll :global(.hljs-section) {
+  color: #1d4ed8;
+  font-weight: 700;
+}
+
+.codeScroll :global(.hljs-bullet),
+.codeScroll :global(.hljs-code) {
+  color: #3a332c;
+}
+
+.codeScroll :global(.hljs-emphasis) {
+  font-style: italic;
+}
+
+.codeScroll :global(.hljs-strong) {
+  font-weight: 700;
+}
+
+/* ---- edit pane ---- */
+
+.editPane {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.editTextarea {
+  flex: 1;
+  resize: none;
+  padding: 14px 16px;
+  font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  border: none;
+  outline: none;
+  background: #fffdfa;
+  color: #1c1a17;
+  overflow: auto;
+}
+
+.editActions {
+  display: flex;
+  gap: 8px;
+  padding: 8px 14px;
+  border-top: 1px solid rgba(28, 26, 23, 0.08);
+  flex-shrink: 0;
+}
+
+/* ---- empty state ---- */
+
+.empty {
+  color: #6f6559;
+  padding: 24px;
+  font-size: 0.88rem;
+}
+
+/* ---- download button (matches exportLinkPrimary from page.module.css) ---- */
+
+.downloadBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 999px;
+  padding: 5px 10px;
+  text-decoration: none;
+  background: #1d4ed8;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.72rem;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.1s;
+  flex-shrink: 0;
+}
+
+.downloadBtn:hover {
+  background: #1e40af;
+}
+
+/* ---- responsive ---- */
+
+@media (max-width: 720px) {
+  .browser {
+    grid-template-columns: 1fr;
+    grid-template-rows: 200px 1fr;
+    max-height: none;
+  }
+
+  .fileList {
+    border-right: none;
+    border-bottom: 1px solid rgba(28, 26, 23, 0.08);
+  }
+}
