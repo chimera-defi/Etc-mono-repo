@@ -9,7 +9,7 @@ from orbit_pilot.assets import prepare_assets
 from orbit_pilot.audit import record_submission
 from orbit_pilot.models import LaunchProfile, PlatformRecord
 from orbit_pilot.services.campaigns import build_campaign
-from orbit_pilot.services.reporting import get_pending_manual
+from orbit_pilot.services.reporting import get_pending_manual, human_guide
 from orbit_pilot.state import cooldown_remaining, record_publish_attempt
 
 
@@ -73,6 +73,20 @@ class CliHelpersTest(unittest.TestCase):
         )
         campaign = build_campaign(launch, explicit_name="WalletRadar Alpha Launch")
         self.assertEqual(campaign.id, "walletradar-alpha-launch")
+
+    def test_human_guide_returns_manual_top(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            run_dir = Path(tmp) / "run"
+            platform_dir = run_dir / "product_hunt"
+            platform_dir.mkdir(parents=True)
+            (platform_dir / "meta.json").write_text(
+                json.dumps({"priority": 90, "risk": "medium", "submit_url": "https://example.com"}),
+                encoding="utf-8",
+            )
+            (platform_dir / "payload.json").write_text(json.dumps({"title": "x", "body": "y"}), encoding="utf-8")
+            record_submission(run_dir, "product_hunt", "manual", "generated", "test", {"url": "https://example.com"})
+            guide = human_guide(run_dir)
+            self.assertEqual(guide["next_manual"], "product_hunt")
 
 
 if __name__ == "__main__":

@@ -12,7 +12,7 @@ from orbit_pilot.registry import load_platforms
 from orbit_pilot.services.campaigns import build_campaign, create_run_dir, write_run_manifest
 from orbit_pilot.services.generation import generate_run
 from orbit_pilot.services.publishing import publish_from_run
-from orbit_pilot.services.reporting import next_manual_payload, report_payload
+from orbit_pilot.services.reporting import human_guide, next_manual_payload, report_payload
 from orbit_pilot.services.validation import doctor_payload
 
 
@@ -45,6 +45,10 @@ def build_parser() -> argparse.ArgumentParser:
     next_cmd = subparsers.add_parser("next")
     next_cmd.add_argument("--run", required=True)
     next_cmd.add_argument("--json", action="store_true")
+
+    guide = subparsers.add_parser("guide")
+    guide.add_argument("--run", required=True)
+    guide.add_argument("--json", action="store_true")
 
     report = subparsers.add_parser("report")
     report.add_argument("--run", required=True)
@@ -149,6 +153,15 @@ def report_command(args: argparse.Namespace) -> int:
     return 0
 
 
+def guide_command(args: argparse.Namespace) -> int:
+    run_dir = Path(args.run)
+    if not run_dir.exists():
+        emit({"error": f"Run directory not found: {run_dir}"}, args.json)
+        return 1
+    emit(human_guide(run_dir), args.json)
+    return 0
+
+
 def emit(payload: dict[str, Any], json_mode: bool) -> None:
     if json_mode:
         print(json.dumps(payload, indent=2))
@@ -181,6 +194,8 @@ def main() -> int:
         return next_command(args)
     if args.command == "report":
         return report_command(args)
+    if args.command == "guide":
+        return guide_command(args)
     parser.error(f"Unknown command: {args.command}")
     return 2
 
