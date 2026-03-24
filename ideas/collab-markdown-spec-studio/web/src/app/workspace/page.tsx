@@ -20,6 +20,7 @@ import { DocumentWorkspace } from "../document-workspace";
 import { GuidedDraftBuilder } from "../guided-draft-builder";
 import { LocalAdminPanel } from "../local-admin-panel";
 import { ShareDocumentPanel } from "../share-document-panel";
+import { ExportFileBrowser } from "./export-file-browser";
 import styles from "../page.module.css";
 import { getAgentAssistToolStatuses } from "@/lib/specforge/agent-assist";
 import { readBacklogState } from "@/lib/specforge/backlog";
@@ -1516,34 +1517,10 @@ export default async function Home({ searchParams }: Props) {
                       </a>
                       <span>{Object.keys(exportBundle.files).length} files ready for handoff</span>
                     </div>
-                    <details className={styles.exportDisclosure}>
-                      <summary className={styles.disclosureSummary}>
-                        <span>Bundle contents</span>
-                        <span>{Object.keys(exportBundle.files).length} files</span>
-                      </summary>
-                      <div className={styles.disclosureBody}>
-                        <p className={styles.context}>
-                          These files match the mono repo ideas framework format and can be used
-                          directly by build agents.
-                        </p>
-                        <div className={styles.exportGrid}>
-                          {Object.entries(exportBundle.files).map(([name, content]) => (
-                            <article key={name} className={styles.exportCard}>
-                              <h3>{name}</h3>
-                              <p className={styles.charCount}>{content.length} chars</p>
-                              <a
-                                href={`data:text/markdown;charset=utf-8,${encodeURIComponent(content)}`}
-                                download={name}
-                                className={styles.exportLink}
-                              >
-                                Download
-                              </a>
-                              <pre>{content}</pre>
-                            </article>
-                          ))}
-                        </div>
-                      </div>
-                    </details>
+                    <ExportFileBrowser
+                      documentId={activeDocument?.document_id ?? "export"}
+                      initialFiles={exportBundle.files}
+                    />
                   </>
                 ) : (
                   <p className={styles.empty}>No export available yet.</p>
