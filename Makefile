@@ -1,8 +1,11 @@
-.PHONY: bench-smoke bench-tests
+.PHONY: bench-smoke bench-tests setup-gstack
 
 bench-tests:
 	python3 bench/ops/test_route_trace_report.py
 	python3 bench/selfopt/test_supervisor_parsing.py
+
+setup-gstack:
+	bash scripts/setup-gstack.sh
 
 bench-smoke: bench-tests
 	bash -n bench/ops/reproduce_pr245.sh
