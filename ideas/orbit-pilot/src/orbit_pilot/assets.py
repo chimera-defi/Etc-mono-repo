@@ -35,13 +35,14 @@ def prepare_assets(launch: LaunchProfile, record: PlatformRecord, platform_dir: 
         src = Path(raw_path)
         if not src.exists():
             continue
-        dest = assets_dir / src.name
         if preset and Image is not None:
+            dest = assets_dir / f"{src.stem}.jpg"
             with Image.open(src) as image:
                 image = image.convert("RGB")
                 image.thumbnail((preset["width"], preset["height"]))
                 image.save(dest, format="JPEG", quality=85, optimize=True)
         else:
+            dest = assets_dir / src.name
             shutil.copy2(src, dest)
         outputs.append(str(dest))
 
