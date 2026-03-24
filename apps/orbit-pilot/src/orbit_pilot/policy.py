@@ -5,7 +5,8 @@ from pathlib import Path
 from typing import Any
 
 from orbit_pilot.config import load_document
-from orbit_pilot.models import PlatformRecord, SubmissionDecision
+from orbit_pilot.graph import plan_platform
+from orbit_pilot.models import LaunchProfile, PlatformRecord, SubmissionDecision
 
 
 @dataclass
@@ -42,6 +43,46 @@ def load_risk_policy(path: str | Path | None) -> RiskPolicy:
     )
 
 
+def platform_policy_override(record: PlatformRecord, policy: RiskPolicy | None) -> dict[str, Any]:
+    if policy is None:
+        return {}
+    return dict(policy.platform_overrides.get(record.slug, {}))
+
+
+def is_platform_disabled_by_policy(record: PlatformRecord, policy: RiskPolicy | None) -> bool:
+    ov = platform_policy_override(record, policy)
+    return ov.get("enabled") is False
+
+
+def record_for_planning(record: PlatformRecord, policy: RiskPolicy | None) -> PlatformRecord:
+    """Registry row with optional policy `platforms.<slug>.mode` (SPEC config contract)."""
+    ov = platform_policy_override(record, policy)
+    mode = ov.get("mode")
+    if mode is None or str(mode).strip() == "":
+        return record
+    return PlatformRecord(
+        name=record.name,
+        slug=record.slug,
+        category=record.category,
+        official_url=record.official_url,
+        submit_url=record.submit_url,
+        mode=str(mode),
+        risk=record.risk,
+        priority=record.priority,
+        cooldown_seconds=record.cooldown_seconds,
+    )
+
+
+def decide_platform(
+    record: PlatformRecord,
+    launch: LaunchProfile,
+    policy: RiskPolicy | None,
+) -> SubmissionDecision:
+    """Plan + apply risk policy using effective registry mode (policy override first)."""
+    planning = record_for_planning(record, policy)
+    return apply_risk_policy(plan_platform(planning, launch), record, policy, planning_record=planning)
+
+
 def tolerance_allows_risk(tolerance: str, platform_risk: str) -> bool:
     cap = TOLERANCE_MAX.get(tolerance, 2)
     score = RISK_SCORE.get(platform_risk, 3)
@@ -52,11 +93,13 @@ def apply_risk_policy(
     decision: SubmissionDecision,
     record: PlatformRecord,
     policy: RiskPolicy | None,
+    planning_record: PlatformRecord | None = None,
 ) -> SubmissionDecision:
     """Downgrade or skip when operator policy disallows automation for this risk level."""
     if policy is None:
         return decision
 
+    planning = planning_record or record
     override = policy.platform_overrides.get(record.slug, {})
     if override.get("enabled") is False:
         return SubmissionDecision(
@@ -66,8 +109,8 @@ def apply_risk_policy(
             f"Disabled by policy for platform `{record.slug}`",
         )
 
-    registry_mode = record.mode.lower().replace("-", "_")
-    if registry_mode == "browser_fallback_opt_in":
+    plan_mode = planning.mode.lower().replace("-", "_")
+    if plan_mode == "browser_fallback_opt_in":
         if policy.allow_browser_fallback:
             return SubmissionDecision(
                 record.slug,

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from orbit_pilot.graph import plan_platform
 from orbit_pilot.models import LaunchProfile, PlatformRecord
-from orbit_pilot.policy import RiskPolicy, apply_risk_policy, load_risk_policy
+from orbit_pilot.policy import RiskPolicy, apply_risk_policy, decide_platform, load_risk_policy
 
 
 def _launch() -> LaunchProfile:
@@ -28,6 +28,13 @@ def test_policy_downgrades_high_risk_api() -> None:
     policy = RiskPolicy(tolerance="low")
     out = apply_risk_policy(decision, record, policy)
     assert out.mode == "manual"
+
+
+def test_policy_mode_override_forces_manual() -> None:
+    record = PlatformRecord("M", "medium", "d", "", "", "official_api_if_token_else_manual", "medium")
+    policy = RiskPolicy(platform_overrides={"medium": {"mode": "manual"}})
+    d = decide_platform(record, _launch(), policy)
+    assert d.mode == "manual"
 
 
 def test_load_risk_policy_from_yaml(tmp_path) -> None:

@@ -11,9 +11,8 @@ from typing import Any, TypedDict
 from langgraph.graph import END, StateGraph
 
 from orbit_pilot.config import load_document
-from orbit_pilot.graph import plan_platform
 from orbit_pilot.models import LaunchProfile, PlatformRecord
-from orbit_pilot.policy import RiskPolicy, apply_risk_policy, load_risk_policy
+from orbit_pilot.policy import RiskPolicy, decide_platform, load_risk_policy
 from orbit_pilot.registry import load_platforms
 
 
@@ -70,7 +69,7 @@ def node_apply_plan(state: OrbitPlanState) -> OrbitPlanState:
     policy = state.get("policy")
     preview: list[dict[str, Any]] = []
     for record in platforms:
-        d = apply_risk_policy(plan_platform(record, launch), record, policy)
+        d = decide_platform(record, launch, policy)
         preview.append(
             {
                 "slug": record.slug,

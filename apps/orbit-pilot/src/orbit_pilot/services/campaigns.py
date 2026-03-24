@@ -26,13 +26,21 @@ def create_run_dir(base_out: str | Path, campaign: Campaign) -> Path:
     return run_dir
 
 
-def write_run_manifest(run_dir: Path, campaign: Campaign, launch_path: str, platform_path: str) -> None:
+def write_run_manifest(
+    run_dir: Path,
+    campaign: Campaign,
+    launch_path: str,
+    platform_path: str,
+    policy_path: str | None = None,
+) -> None:
     manifest = {
         "campaign": {"id": campaign.id, "name": campaign.name, "created_at": campaign.created_at},
         "launch_path": launch_path,
         "platform_registry_path": platform_path,
         "run_dir": str(run_dir),
     }
+    if policy_path:
+        manifest["policy_path"] = policy_path
     (run_dir / "run.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
 
 

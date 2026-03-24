@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from dataclasses import asdict
 from importlib import resources
 from pathlib import Path
@@ -9,9 +10,8 @@ from typing import Any
 
 from orbit_pilot.audit import record_submission
 from orbit_pilot.config import load_document
-from orbit_pilot.graph import plan_platform
 from orbit_pilot.models import REQUIRED_LAUNCH_FIELDS, LaunchProfile
-from orbit_pilot.policy import apply_risk_policy, load_risk_policy
+from orbit_pilot.policy import decide_platform, load_risk_policy
 from orbit_pilot.registry import load_platforms
 from orbit_pilot.services.campaigns import (
     build_campaign,
@@ -21,6 +21,7 @@ from orbit_pilot.services.campaigns import (
     load_run_manifest,
     write_run_manifest,
 )
+from orbit_pilot.services.export_run import export_run
 from orbit_pilot.services.generation import generate_run, select_platforms
 from orbit_pilot.services.publishing import publish_from_run
 from orbit_pilot.services.reporting import human_guide, next_manual_payload, report_payload
@@ -84,6 +85,11 @@ def build_parser() -> argparse.ArgumentParser:
     report = subparsers.add_parser("report")
     report.add_argument("--run", required=True)
     report.add_argument("--json", action="store_true")
+
+    export_cmd = subparsers.add_parser("export")
+    export_cmd.add_argument("--run", required=True)
+    export_cmd.add_argument("--format", choices=["json", "md"], default="json")
+    export_cmd.add_argument("-o", "--out", help="Write to file instead of stdout")
     return parser
 
 
@@ -110,11 +116,24 @@ def load_launch(path: str) -> LaunchProfile:
     )
 
 
+def _default_policy_path() -> str:
+    bundled = resources.files("orbit_pilot.bundled")
+    return str(bundled.joinpath("risk.defaults.yaml"))
+
+
 def _policy_path(args: argparse.Namespace) -> str | None:
     if getattr(args, "policy", None):
         return args.policy
-    bundled = resources.files("orbit_pilot.bundled")
-    return str(bundled.joinpath("risk.defaults.yaml"))
+    return _default_policy_path()
+
+
+def _policy_path_regenerate(args: argparse.Namespace, manifest: dict[str, Any]) -> str | None:
+    if getattr(args, "policy", None):
+        return args.policy
+    stored = manifest.get("policy_path")
+    if stored:
+        return str(stored)
+    return _default_policy_path()
 
 
 def plan_command(args: argparse.Namespace) -> int:
@@ -126,7 +145,7 @@ def plan_command(args: argparse.Namespace) -> int:
     questions = [f"Please provide {field.replace('_', ' ')}." for field in missing]
     platform_preview: list[dict[str, Any]] = []
     for record in platforms:
-        decision = apply_risk_policy(plan_platform(record, launch), record, policy)
+        decision = decide_platform(record, launch, policy)
         platform_preview.append(
             {
                 "slug": record.slug,
@@ -160,7 +179,7 @@ def generate_command(args: argparse.Namespace) -> int:
     policy = load_risk_policy(_policy_path(args))
     campaign = build_campaign(launch, explicit_name=args.campaign)
     run_dir = create_run_dir(args.out, campaign)
-    write_run_manifest(run_dir, campaign, args.launch, args.platforms)
+    write_run_manifest(run_dir, campaign, args.launch, args.platforms, policy_path=_policy_path(args))
     results = generate_run(launch, platforms, run_dir, policy=policy)
     emit({"run_dir": str(run_dir), "results": results}, args.json)
     return 0
@@ -175,7 +194,7 @@ def regenerate_command(args: argparse.Namespace) -> int:
     launch = load_launch(manifest["launch_path"])
     platforms = load_platforms(manifest["platform_registry_path"])
     selected = select_platforms(platforms, args.platform)
-    policy = load_risk_policy(_policy_path(args))
+    policy = load_risk_policy(_policy_path_regenerate(args, manifest))
     results = generate_run(launch, selected, run_dir, policy=policy)
     emit({"run_dir": str(run_dir), "results": results}, args.json)
     return 0
@@ -308,6 +327,19 @@ def report_command(args: argparse.Namespace) -> int:
     return 0
 
 
+def export_command(args: argparse.Namespace) -> int:
+    run_dir = Path(args.run)
+    if not run_dir.exists():
+        print(f"Run directory not found: {run_dir}", file=sys.stderr)
+        return 1
+    text = export_run(run_dir, args.format)
+    if args.out:
+        Path(args.out).write_text(text, encoding="utf-8")
+    else:
+        print(text)
+    return 0
+
+
 def emit_plan(payload: dict[str, Any], json_mode: bool) -> None:
     if json_mode:
         print(json.dumps(payload, indent=2))
@@ -397,6 +429,8 @@ def main() -> int:
         return latest_command(args)
     if args.command == "report":
         return report_command(args)
+    if args.command == "export":
+        return export_command(args)
     parser.error(f"Unknown command: {args.command}")
     return 2
 
