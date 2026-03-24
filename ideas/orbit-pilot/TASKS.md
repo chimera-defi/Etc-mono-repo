@@ -7,40 +7,36 @@
 4. Pilot launch run completed.
 
 ## Phase 0
-- [ ] Finalize naming and positioning.
-- [ ] Confirm initial platform allowlist.
-- [ ] Confirm pilot launch dataset.
+- [x] Finalize naming and positioning.
+- [x] Confirm initial platform allowlist (seed registry in `apps/.../bundled/seed_platforms.yaml`).
+- [ ] Confirm pilot launch dataset (operator-specific).
 
 ## Workstreams
 
 ### WS-1 Registry
-- [ ] Normalize 25-50 initial platforms.
-- [ ] Assign mode, risk, field requirements, and URLs.
-- [ ] Create platform presets for images and content lengths.
+- [x] Normalize initial platforms (seed list; extend as needed).
+- [x] Assign mode, risk, URLs; optional `image_constraints`, `cta_in_body`.
+- [x] Image presets in code + registry overrides.
 
 ### WS-2 Core Orchestrator
-- [ ] Implement state model and config loader.
-- [ ] Implement UTM processor and duplicate detector.
-- [ ] Implement audit logging and cooldowns.
+- [x] State model and config loader.
+- [x] UTM processor and duplicate detector.
+- [x] Audit logging (SQLite + JSONL), cooldowns, LangGraph plan + generate.
 
 ### WS-3 Publishers
-- [ ] Implement Medium example.
-- [ ] Implement GitHub release/discussion support.
-- [ ] Implement one additional official publisher.
+- [x] Medium, GitHub, DEV, LinkedIn, X (official paths where configured).
+- [ ] Additional publishers only when API contracts are stable.
 
 ### WS-4 Manual Queue
-- [ ] Generate manual checklists.
-- [ ] Track submission status and live URL.
-- [ ] Support approval/rejection notes.
+- [x] Manual packs, checklists, status, live URL.
+- [x] Operator notes (`orbit mark-done --note`).
 
 ### WS-5 Operator Surface
-- [ ] Build launch profile editor/import.
-- [ ] Build run view and status dashboard.
-- [ ] Build review and publish controls.
+- [ ] Web/TUI operator UI (see `FRONTEND_VISION.md`).
 
 ## One-Shot Build Gates
-- [ ] Build graph documented.
-- [ ] Prompt and code skeleton aligned.
-- [ ] Seed registry present.
-- [ ] Sample outputs present.
-- [ ] First 60 minutes documented.
+- [x] Build graph documented (`orchestrate`, SPEC).
+- [x] Code aligned with safety rules and registry.
+- [x] Seed registry present.
+- [ ] Sample outputs refreshed if UX changes (optional).
+- [x] First 60 minutes documented.

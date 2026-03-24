@@ -1,6 +1,6 @@
 # Orbit Pilot
 
-**Status:** Spec + V0 CLI shipped | **Last Updated:** 2026-03-24
+**Status:** Spec + CLI + full-buildout slices in [`apps/orbit-pilot/`](../../apps/orbit-pilot/) | **Last Updated:** 2026-03-24
 
 **Implementation:** [`apps/orbit-pilot/`](../../apps/orbit-pilot/) (this folder is specs and research only).
 
@@ -46,7 +46,7 @@ The wedge is a structured launch-submission operator:
 
 - architecture diagrams
 - full orchestrator system prompt
-- Python/LangGraph code skeleton
+- Python implementation (`apps/orbit-pilot/`) with LangGraph plan + generate graphs
 - platform-by-platform quick reference
 - sample outputs
 - validation and execution docs

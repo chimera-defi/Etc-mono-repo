@@ -13,15 +13,24 @@ create table if not exists submissions (
     status text not null,
     live_url text,
     reason text not null,
-    result_json text not null
+    result_json text not null,
+    operator_note text
 );
 """
+
+
+def _migrate_db(conn: sqlite3.Connection) -> None:
+    rows = conn.execute("pragma table_info(submissions)").fetchall()
+    cols = {r[1] for r in rows}
+    if "operator_note" not in cols:
+        conn.execute("alter table submissions add column operator_note text")
 
 
 def init_db(run_dir: Path) -> Path:
     db_path = run_dir / "orbit.sqlite"
     conn = sqlite3.connect(db_path)
     conn.execute(SCHEMA)
+    _migrate_db(conn)
     conn.commit()
     conn.close()
     return db_path
@@ -43,21 +52,27 @@ def record_submission(
     status: str,
     reason: str,
     result: dict[str, Any],
+    operator_note: str | None = None,
 ) -> None:
     db_path = init_db(run_dir)
     conn = sqlite3.connect(db_path)
+    _migrate_db(conn)
+    merged = dict(result)
+    if operator_note is not None:
+        merged["operator_note"] = operator_note
     conn.execute(
         """
-        insert into submissions (platform, mode, status, live_url, reason, result_json)
-        values (?, ?, ?, ?, ?, ?)
+        insert into submissions (platform, mode, status, live_url, reason, result_json, operator_note)
+        values (?, ?, ?, ?, ?, ?, ?)
         on conflict(platform) do update set
             mode = excluded.mode,
             status = excluded.status,
             live_url = excluded.live_url,
             reason = excluded.reason,
-            result_json = excluded.result_json
+            result_json = excluded.result_json,
+            operator_note = coalesce(excluded.operator_note, submissions.operator_note)
         """,
-        (platform, mode, status, result.get("url"), reason, json.dumps(result)),
+        (platform, mode, status, merged.get("url"), reason, json.dumps(merged), operator_note),
     )
     conn.commit()
     conn.close()
@@ -77,18 +92,25 @@ def list_submissions(run_dir: Path) -> list[dict[str, Any]]:
     db_path = init_db(run_dir)
     conn = sqlite3.connect(db_path)
     rows = conn.execute(
-        "select platform, mode, status, live_url, reason, result_json "
+        "select platform, mode, status, live_url, reason, result_json, operator_note "
         "from submissions order by rowid"
     ).fetchall()
     conn.close()
-    return [
-        {
-            "platform": row[0],
-            "mode": row[1],
-            "status": row[2],
-            "live_url": row[3],
-            "reason": row[4],
-            "result": json.loads(row[5]),
-        }
-        for row in rows
-    ]
+    out: list[dict[str, Any]] = []
+    for row in rows:
+        rj = json.loads(row[5])
+        note = row[6]
+        if note and "operator_note" not in rj:
+            rj = {**rj, "operator_note": note}
+        out.append(
+            {
+                "platform": row[0],
+                "mode": row[1],
+                "status": row[2],
+                "live_url": row[3],
+                "reason": row[4],
+                "result": rj,
+                "operator_note": note,
+            }
+        )
+    return out

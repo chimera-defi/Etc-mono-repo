@@ -17,6 +17,8 @@ class LaunchProfile:
     assets: dict[str, Any] = field(default_factory=dict)
     company: dict[str, Any] = field(default_factory=dict)
     publish: dict[str, Any] = field(default_factory=dict)
+    # default_include_link: if false, omit primary URL from generated bodies (per-platform override in registry)
+    cta_policy: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -30,6 +32,9 @@ class PlatformRecord:
     risk: str
     priority: int = 50
     cooldown_seconds: int = 3600
+    image_max_width: int | None = None
+    image_max_height: int | None = None
+    cta_in_body: bool = True
 
 
 @dataclass

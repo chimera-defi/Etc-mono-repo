@@ -33,6 +33,10 @@ Ship only these capabilities:
    - show the next manual submission to complete
    - include ready-to-post copy and best-practice guidance
 
+### Post-V0 (implemented in `apps/orbit-pilot/`, not required for minimal V0 demo)
+
+- Risk policy YAML, LangGraph plan + generate graphs, FastAPI webhook with optional hook-triggered generate, CTA policy, registry image constraints, run export, operator notes on `mark-done`.
+
 ### Explicit Non-Goals For V0
 
 1. TUI

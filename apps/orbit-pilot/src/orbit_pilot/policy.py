@@ -70,6 +70,9 @@ def record_for_planning(record: PlatformRecord, policy: RiskPolicy | None) -> Pl
         risk=record.risk,
         priority=record.priority,
         cooldown_seconds=record.cooldown_seconds,
+        image_max_width=record.image_max_width,
+        image_max_height=record.image_max_height,
+        cta_in_body=record.cta_in_body,
     )
 
 

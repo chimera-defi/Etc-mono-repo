@@ -10,6 +10,9 @@ def load_platforms(path: str | Path) -> list[PlatformRecord]:
     raw = load_document(path)
     records: list[PlatformRecord] = []
     for item in raw.get("platforms", []):
+        img = item.get("image_constraints") or {}
+        w = img.get("max_width")
+        h = img.get("max_height")
         records.append(
             PlatformRecord(
                 name=item["name"],
@@ -21,6 +24,9 @@ def load_platforms(path: str | Path) -> list[PlatformRecord]:
                 risk=item.get("risk", "medium"),
                 priority=int(item.get("priority", 50)),
                 cooldown_seconds=int(item.get("cooldown_seconds", 3600)),
+                image_max_width=int(w) if w is not None else None,
+                image_max_height=int(h) if h is not None else None,
+                cta_in_body=bool(item.get("cta_in_body", True)),
             )
         )
     return records

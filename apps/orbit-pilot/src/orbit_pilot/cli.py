@@ -63,6 +63,7 @@ def build_parser() -> argparse.ArgumentParser:
     mark_done.add_argument("--run", required=True)
     mark_done.add_argument("--platform", required=True)
     mark_done.add_argument("--live-url", required=True)
+    mark_done.add_argument("--note", default="", help="Optional operator note (approval context, rejection reason)")
     mark_done.add_argument("--json", action="store_true")
 
     next_cmd = subparsers.add_parser("next")
@@ -113,6 +114,7 @@ def load_launch(path: str) -> LaunchProfile:
         assets=assets,
         company=raw.get("company", {}),
         publish=raw.get("publish", {}),
+        cta_policy=raw.get("cta_policy", {}),
     )
 
 
@@ -216,11 +218,35 @@ def mark_done_command(args: argparse.Namespace) -> int:
     if not run_dir.exists():
         emit({"error": f"Run directory not found: {run_dir}"}, args.json)
         return 1
+    mode = "manual"
+    meta_path = run_dir / args.platform / "meta.json"
+    if meta_path.exists():
+        meta = json.loads(meta_path.read_text(encoding="utf-8"))
+        pm = meta.get("planned_mode")
+        if pm in ("manual", "browser_fallback"):
+            mode = pm
     result = {"status": "manual_completed", "url": args.live_url}
-    record_submission(run_dir, args.platform, "manual", "manual_completed", "marked done by operator", result)
+    note = (args.note or "").strip() or None
+    record_submission(
+        run_dir,
+        args.platform,
+        mode,
+        "manual_completed",
+        "marked done by operator",
+        result,
+        operator_note=note,
+    )
     message = f"Marked {args.platform} complete: {args.live_url}"
     if args.json:
-        emit({"message": message, "platform": args.platform, "live_url": args.live_url}, True)
+        emit(
+            {
+                "message": message,
+                "platform": args.platform,
+                "live_url": args.live_url,
+                "note": note or "",
+            },
+            True,
+        )
     else:
         print(message)
     return 0
