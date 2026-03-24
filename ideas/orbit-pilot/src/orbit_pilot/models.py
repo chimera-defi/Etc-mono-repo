@@ -33,6 +33,13 @@ class PlatformRecord:
 
 
 @dataclass
+class Campaign:
+    id: str
+    name: str
+    created_at: str
+
+
+@dataclass
 class SubmissionDecision:
     platform: str
     mode: Mode
