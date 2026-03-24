@@ -1,15 +1,15 @@
 from __future__ import annotations
 
-import os
 from typing import Any
 
+from orbit_pilot.credentials import get_secret
 from orbit_pilot.publishers.http import json_post
 
 
 def publish(payload: dict[str, Any], dry_run: bool = True) -> dict[str, Any]:
     if dry_run:
         return {"status": "dry_run", "url": payload["url"], "publisher": "linkedin"}
-    token = os.environ.get("LINKEDIN_ACCESS_TOKEN")
+    token = get_secret("LINKEDIN_ACCESS_TOKEN")
     author = payload.get("linkedin_author")
     if not token:
         return {"status": "error", "error": "LINKEDIN_ACCESS_TOKEN is not set", "publisher": "linkedin"}

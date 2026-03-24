@@ -13,6 +13,7 @@ from orbit_pilot.services.campaigns import build_campaign, create_run_dir, write
 from orbit_pilot.services.generation import generate_run
 from orbit_pilot.services.publishing import publish_from_run
 from orbit_pilot.services.reporting import next_manual_payload, report_payload
+from orbit_pilot.services.validation import doctor_payload
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -21,7 +22,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     subparsers.add_parser("init")
 
-    for name in ("plan", "generate"):
+    for name in ("plan", "generate", "doctor"):
         cmd = subparsers.add_parser(name)
         cmd.add_argument("--launch", required=True)
         cmd.add_argument("--platforms", required=True)
@@ -87,6 +88,13 @@ def plan_command(args: argparse.Namespace) -> int:
         "platforms": [record.slug for record in platforms],
     }
     emit(output, args.json)
+    return 0
+
+
+def doctor_command(args: argparse.Namespace) -> int:
+    launch = load_launch(args.launch)
+    platforms = load_platforms(args.platforms)
+    emit(doctor_payload(launch, platforms), args.json)
     return 0
 
 
@@ -163,6 +171,8 @@ def main() -> int:
         return plan_command(args)
     if args.command == "generate":
         return generate_command(args)
+    if args.command == "doctor":
+        return doctor_command(args)
     if args.command == "publish":
         return publish_command(args)
     if args.command == "mark-done":
