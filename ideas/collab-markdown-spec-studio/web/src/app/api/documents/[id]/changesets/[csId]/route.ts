@@ -84,7 +84,10 @@ export async function PATCH(request: Request, { params }: Params) {
 
     // Re-fetch and return updated record
     const updated = await fetchChangeSet(database, id, csId);
-    const changeset = mapRowToChangeSet(updated!.row, updated!.patchIds);
+    if (!updated) {
+      return error("Changeset not found after update", "CHANGESET_NOT_FOUND", 404);
+    }
+    const changeset = mapRowToChangeSet(updated.row, updated.patchIds);
 
     return success({ changeset });
   } catch (err) {
