@@ -1,16 +1,17 @@
 from __future__ import annotations
 
 import json
-import os
 from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
+
+from orbit_pilot.credentials import get_secret
 
 
 def publish(payload: dict[str, Any], dry_run: bool = True) -> dict[str, Any]:
     if dry_run:
         return {"status": "dry_run", "url": payload["url"], "publisher": "github"}
-    token = os.environ.get("GITHUB_TOKEN")
+    token = get_secret("GITHUB_TOKEN")
     repo = payload.get("github_repo")
     tag_name = payload.get("tag_name", "launch-v0")
     if not token:
