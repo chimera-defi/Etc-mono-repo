@@ -3,28 +3,16 @@ from __future__ import annotations
 import argparse
 import json
 from dataclasses import asdict
-from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from orbit_pilot.assets import prepare_assets
-from orbit_pilot.audit import init_db, list_submissions, record_submission
 from orbit_pilot.config import load_document
-from orbit_pilot.dedupe import digest_text
-from orbit_pilot.graph import build_payload, plan_platform
-from orbit_pilot.manual_pack import write_manual_pack
 from orbit_pilot.models import LaunchProfile, REQUIRED_LAUNCH_FIELDS
-from orbit_pilot.publishers.router import PUBLISHERS, publish_platform
 from orbit_pilot.registry import load_platforms
-from orbit_pilot.state import cooldown_remaining, record_digest, record_publish_attempt, seen_digest
-
-RISK_ORDER = {
-    "low": 1,
-    "low_medium": 2,
-    "medium": 3,
-    "medium_high": 4,
-    "high": 5,
-}
+from orbit_pilot.services.campaigns import build_campaign, create_run_dir, write_run_manifest
+from orbit_pilot.services.generation import generate_run
+from orbit_pilot.services.publishing import publish_from_run
+from orbit_pilot.services.reporting import next_manual_payload, report_payload
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -40,6 +28,7 @@ def build_parser() -> argparse.ArgumentParser:
         cmd.add_argument("--json", action="store_true")
         if name == "generate":
             cmd.add_argument("--out", default="out")
+            cmd.add_argument("--campaign")
 
     publish = subparsers.add_parser("publish")
     publish.add_argument("--run", required=True)
@@ -104,60 +93,21 @@ def plan_command(args: argparse.Namespace) -> int:
 def generate_command(args: argparse.Namespace) -> int:
     launch = load_launch(args.launch)
     platforms = load_platforms(args.platforms)
-    run_dir = Path(args.out) / f"run-{datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ')}"
-    run_dir.mkdir(parents=True, exist_ok=True)
-    init_db(run_dir)
-    results: list[dict[str, Any]] = []
-    for record in platforms:
-        decision = plan_platform(record)
-        decision.payload = build_payload(launch, record)
-        write_manual_pack(run_dir, record, decision)
-        digest = digest_text(f"{decision.payload.get('title', '')}\n{decision.payload.get('body', '')}")
-        duplicate = seen_digest(run_dir, digest)
-        record_digest(run_dir, digest, record.slug)
-        assets = prepare_assets(launch, record, run_dir / record.slug)
-        result = {"status": "generated", "url": decision.payload["url"], "duplicate": duplicate, "assets": assets}
-        decision.result = result
-        record_submission(run_dir, record.slug, decision.mode, result["status"], decision.reason, result)
-        results.append(
-            {
-                "platform": record.slug,
-                "mode": decision.mode,
-                "risk_level": decision.risk_level,
-                "reason": decision.reason,
-                "payload_path": str(run_dir / record.slug / "payload.json"),
-                "duplicate": duplicate,
-                "asset_count": len(assets),
-            }
-        )
+    campaign = build_campaign(launch, explicit_name=args.campaign)
+    run_dir = create_run_dir(args.out, campaign)
+    write_run_manifest(run_dir, campaign, args.launch, args.platforms)
+    results = generate_run(launch, platforms, run_dir)
     emit({"run_dir": str(run_dir), "results": results}, args.json)
     return 0
 
 
 def publish_command(args: argparse.Namespace) -> int:
     run_dir = Path(args.run)
-    if not run_dir.exists():
-        emit({"error": f"Run directory not found: {run_dir}"}, args.json)
+    try:
+        results = publish_from_run(run_dir, args.platform, execute=args.execute)
+    except FileNotFoundError as exc:
+        emit({"error": str(exc)}, args.json)
         return 1
-    results: list[dict[str, Any]] = []
-    for platform in args.platform:
-        payload_path = run_dir / platform / "payload.json"
-        if not payload_path.exists():
-            emit({"error": f"Payload not found for platform '{platform}' in {run_dir}"}, args.json)
-            return 1
-        meta_path = run_dir / platform / "meta.json"
-        payload = json.loads(payload_path.read_text(encoding="utf-8"))
-        meta = json.loads(meta_path.read_text(encoding="utf-8")) if meta_path.exists() else {}
-        remaining = cooldown_remaining(run_dir, platform, int(meta.get("cooldown_seconds", 0)))
-        if remaining > 0:
-            result = {"status": "cooldown_blocked", "error": f"{remaining}s cooldown remaining", "publisher": platform}
-            results.append({"platform": platform, "result": result})
-            continue
-        result = publish_platform(platform, payload, dry_run=not args.execute)
-        record_submission(run_dir, platform, "official_api" if platform in PUBLISHERS else "manual", result["status"], "publish command", result)
-        if args.execute and result.get("status") == "published":
-            record_publish_attempt(run_dir, platform)
-        results.append({"platform": platform, "result": result})
     emit({"results": results}, args.json)
     return 0
 
@@ -178,24 +128,7 @@ def next_command(args: argparse.Namespace) -> int:
     if not run_dir.exists():
         emit({"error": f"Run directory not found: {run_dir}"}, args.json)
         return 1
-    rows = list_submissions(run_dir)
-    pending = get_pending_manual(run_dir, rows)
-    if not pending:
-        emit({"message": "No pending manual submissions."}, args.json)
-        return 0
-    row = pending[0]
-    platform_dir = run_dir / row["platform"]
-    prompt_text = (platform_dir / "PROMPT_USER.txt").read_text(encoding="utf-8")
-    payload = json.loads((platform_dir / "payload.json").read_text(encoding="utf-8"))
-    emit(
-        {
-            "platform": row["platform"],
-            "status": row["status"],
-            "prompt": prompt_text,
-            "payload": payload,
-        },
-        args.json,
-    )
+    emit(next_manual_payload(run_dir), args.json)
     return 0
 
 
@@ -204,11 +137,7 @@ def report_command(args: argparse.Namespace) -> int:
     if not run_dir.exists():
         emit({"error": f"Run directory not found: {run_dir}"}, args.json)
         return 1
-    rows = list_submissions(run_dir)
-    pending = get_pending_manual(run_dir, rows)
-    pending_manual = [row["platform"] for row in pending]
-    next_manual = pending_manual[0] if pending_manual else None
-    emit({"results": rows, "pending_manual": pending_manual, "next_manual": next_manual}, args.json)
+    emit(report_payload(run_dir), args.json)
     return 0
 
 
@@ -218,21 +147,6 @@ def emit(payload: dict[str, Any], json_mode: bool) -> None:
         return
     for key, value in payload.items():
         print(f"{key}: {value}")
-
-
-def get_pending_manual(run_dir: Path, rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    pending: list[dict[str, Any]] = []
-    for row in rows:
-        if row["mode"] != "manual" or row["status"] == "manual_completed":
-            continue
-        meta_path = run_dir / row["platform"] / "meta.json"
-        meta = {}
-        if meta_path.exists():
-            meta = json.loads(meta_path.read_text(encoding="utf-8"))
-        row = {**row, "priority": int(meta.get("priority", 50)), "risk_rank": RISK_ORDER.get(meta.get("risk", "medium"), 99)}
-        pending.append(row)
-    pending.sort(key=lambda item: (-item["priority"], item["risk_rank"], item["platform"]))
-    return pending
 
 
 def init_command() -> int:
