@@ -8,7 +8,7 @@ from importlib import resources
 from pathlib import Path
 from typing import Any
 
-from orbit_pilot.audit import record_submission
+from orbit_pilot.audit import read_audit_events, record_submission
 from orbit_pilot.config import load_document
 from orbit_pilot.models import REQUIRED_LAUNCH_FIELDS, LaunchProfile
 from orbit_pilot.policy import decide_platform, load_risk_policy
@@ -91,6 +91,11 @@ def build_parser() -> argparse.ArgumentParser:
     export_cmd.add_argument("--run", required=True)
     export_cmd.add_argument("--format", choices=["json", "md"], default="json")
     export_cmd.add_argument("-o", "--out", help="Write to file instead of stdout")
+
+    audit_cmd = subparsers.add_parser("audit")
+    audit_cmd.add_argument("--run", required=True)
+    audit_cmd.add_argument("--json", action="store_true")
+    audit_cmd.add_argument("--tail", type=int, help="Only last N events")
     return parser
 
 
@@ -353,6 +358,26 @@ def report_command(args: argparse.Namespace) -> int:
     return 0
 
 
+def audit_command(args: argparse.Namespace) -> int:
+    run_dir = Path(args.run)
+    if not run_dir.exists():
+        print(f"Run directory not found: {run_dir}", file=sys.stderr)
+        return 1
+    events = read_audit_events(run_dir, tail=args.tail)
+    if args.json:
+        print(json.dumps(events, indent=2))
+    else:
+        if not events:
+            print("(no audit.jsonl or empty)")
+        for ev in events:
+            ts = ev.get("ts", "")
+            typ = ev.get("type", "")
+            plat = ev.get("platform", "")
+            extra = f" {plat}" if plat else ""
+            print(f"{ts}  {typ}{extra}")
+    return 0
+
+
 def export_command(args: argparse.Namespace) -> int:
     run_dir = Path(args.run)
     if not run_dir.exists():
@@ -457,6 +482,8 @@ def main() -> int:
         return report_command(args)
     if args.command == "export":
         return export_command(args)
+    if args.command == "audit":
+        return audit_command(args)
     parser.error(f"Unknown command: {args.command}")
     return 2
 

@@ -88,6 +88,22 @@ def record_submission(
     )
 
 
+def read_audit_events(run_dir: Path, tail: int | None = None) -> list[dict[str, Any]]:
+    path = run_dir / "audit.jsonl"
+    if not path.exists():
+        return []
+    lines = path.read_text(encoding="utf-8").strip().splitlines()
+    if tail is not None and tail > 0:
+        lines = lines[-tail:]
+    out: list[dict[str, Any]] = []
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+        out.append(json.loads(line))
+    return out
+
+
 def list_submissions(run_dir: Path) -> list[dict[str, Any]]:
     db_path = init_db(run_dir)
     conn = sqlite3.connect(db_path)
