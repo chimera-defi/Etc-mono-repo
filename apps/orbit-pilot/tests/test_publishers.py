@@ -1,14 +1,8 @@
 from __future__ import annotations
 
 import os
-import sys
 import unittest
-from pathlib import Path
 from unittest.mock import patch
-
-SRC = Path(__file__).resolve().parents[1] / "src"
-if str(SRC) not in sys.path:
-    sys.path.insert(0, str(SRC))
 
 from orbit_pilot.publishers import dev, github, linkedin, medium, x
 from orbit_pilot.publishers.requirements import validate_platform
