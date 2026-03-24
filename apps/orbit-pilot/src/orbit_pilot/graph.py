@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from orbit_pilot.credentials import get_secret
-from orbit_pilot.links import append_utm
+from orbit_pilot.links import append_utm, canonicalize_url
 from orbit_pilot.models import LaunchProfile, PlatformRecord, SubmissionDecision
 from orbit_pilot.prompts import build_submission_body, build_x_post_text
 
@@ -81,8 +81,9 @@ def plan_platform(record: PlatformRecord, launch: LaunchProfile) -> SubmissionDe
 
 
 def _tracked_url(launch: LaunchProfile, record: PlatformRecord) -> str:
+    base = canonicalize_url(launch.website_url)
     return append_utm(
-        launch.website_url,
+        base,
         source=f"orbit_pilot_{record.slug}",
         medium="community",
         campaign="launch",

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import sqlite3
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -24,6 +25,15 @@ def init_db(run_dir: Path) -> Path:
     conn.commit()
     conn.close()
     return db_path
+
+
+def append_audit_event(run_dir: Path, event: dict[str, Any]) -> None:
+    """Append-only JSONL audit log (spec: every decision / attempt traceable)."""
+    line = json.dumps({"ts": datetime.now(UTC).isoformat(), **event}, ensure_ascii=False)
+    path = run_dir / "audit.jsonl"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as handle:
+        handle.write(line + "\n")
 
 
 def record_submission(
@@ -51,6 +61,16 @@ def record_submission(
     )
     conn.commit()
     conn.close()
+    append_audit_event(
+        run_dir,
+        {
+            "type": "submission_row",
+            "platform": platform,
+            "mode": mode,
+            "status": status,
+            "reason": reason,
+        },
+    )
 
 
 def list_submissions(run_dir: Path) -> list[dict[str, Any]]:

@@ -73,7 +73,13 @@ class CliHelpersTest(unittest.TestCase):
             )
             outputs = prepare_assets(launch, record, platform_dir)
             self.assertEqual(len(outputs), 2)
-            self.assertTrue((platform_dir / "assets.json").exists())
+            manifest_path = platform_dir / "assets.json"
+            self.assertTrue(manifest_path.exists())
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            self.assertEqual(len(manifest), 2)
+            for item in manifest:
+                self.assertIn("alt", item)
+                self.assertIn("OrbitPilot", item["alt"])
 
     def test_build_campaign_slugifies_name(self) -> None:
         launch = LaunchProfile(
