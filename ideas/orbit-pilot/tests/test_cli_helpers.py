@@ -9,6 +9,7 @@ from orbit_pilot.assets import prepare_assets
 from orbit_pilot.audit import record_submission
 from orbit_pilot.models import LaunchProfile, PlatformRecord
 from orbit_pilot.services.campaigns import build_campaign, latest_run, list_campaigns
+from orbit_pilot.services.generation import select_platforms
 from orbit_pilot.services.reporting import get_pending_manual, human_guide
 from orbit_pilot.state import cooldown_remaining, record_publish_attempt
 
@@ -84,6 +85,14 @@ class CliHelpersTest(unittest.TestCase):
             self.assertEqual(campaigns[0]["campaign"], "wallet-alpha")
             self.assertTrue(campaigns[0]["latest_run"].endswith("run-20260324T100000Z"))
             self.assertTrue(latest_run(root, "wallet-alpha").endswith("run-20260324T100000Z"))
+
+    def test_select_platforms_filters_subset(self) -> None:
+        platforms = [
+            PlatformRecord("GitHub", "github", "developer", "", "", "official_api", "low"),
+            PlatformRecord("DEV", "dev", "content", "", "", "official_api", "low"),
+        ]
+        selected = select_platforms(platforms, ["dev"])
+        self.assertEqual([record.slug for record in selected], ["dev"])
 
     def test_human_guide_returns_manual_top(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

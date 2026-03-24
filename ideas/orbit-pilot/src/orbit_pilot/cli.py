@@ -9,8 +9,8 @@ from typing import Any
 from orbit_pilot.config import load_document
 from orbit_pilot.models import LaunchProfile, REQUIRED_LAUNCH_FIELDS
 from orbit_pilot.registry import load_platforms
-from orbit_pilot.services.campaigns import build_campaign, create_run_dir, write_run_manifest
-from orbit_pilot.services.generation import generate_run
+from orbit_pilot.services.campaigns import build_campaign, create_run_dir, load_run_manifest, write_run_manifest
+from orbit_pilot.services.generation import generate_run, select_platforms
 from orbit_pilot.services.publishing import publish_from_run
 from orbit_pilot.services.reporting import human_guide, next_manual_payload, report_payload
 from orbit_pilot.services.validation import doctor_payload
@@ -30,6 +30,11 @@ def build_parser() -> argparse.ArgumentParser:
         if name == "generate":
             cmd.add_argument("--out", default="out")
             cmd.add_argument("--campaign")
+
+    regenerate = subparsers.add_parser("regenerate")
+    regenerate.add_argument("--run", required=True)
+    regenerate.add_argument("--platform", action="append")
+    regenerate.add_argument("--json", action="store_true")
 
     publish = subparsers.add_parser("publish")
     publish.add_argument("--run", required=True)
@@ -108,6 +113,20 @@ def doctor_command(args: argparse.Namespace) -> int:
     launch = load_launch(args.launch)
     platforms = load_platforms(args.platforms)
     emit(doctor_payload(launch, platforms), args.json)
+    return 0
+
+
+def regenerate_command(args: argparse.Namespace) -> int:
+    run_dir = Path(args.run)
+    if not run_dir.exists():
+        emit({"error": f"Run directory not found: {run_dir}"}, args.json)
+        return 1
+    manifest = load_run_manifest(run_dir)
+    launch = load_launch(manifest["launch_path"])
+    platforms = load_platforms(manifest["platform_registry_path"])
+    selected = select_platforms(platforms, args.platform)
+    results = generate_run(launch, selected, run_dir)
+    emit({"run_dir": str(run_dir), "results": results}, args.json)
     return 0
 
 
@@ -213,6 +232,8 @@ def main() -> int:
         return generate_command(args)
     if args.command == "doctor":
         return doctor_command(args)
+    if args.command == "regenerate":
+        return regenerate_command(args)
     if args.command == "publish":
         return publish_command(args)
     if args.command == "mark-done":
