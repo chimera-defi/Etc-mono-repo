@@ -8,7 +8,8 @@ from pathlib import Path
 from orbit_pilot.assets import prepare_assets
 from orbit_pilot.audit import record_submission
 from orbit_pilot.models import LaunchProfile, PlatformRecord
-from orbit_pilot.cli import get_pending_manual
+from orbit_pilot.services.campaigns import build_campaign
+from orbit_pilot.services.reporting import get_pending_manual
 from orbit_pilot.state import cooldown_remaining, record_publish_attempt
 
 
@@ -62,6 +63,16 @@ class CliHelpersTest(unittest.TestCase):
             outputs = prepare_assets(launch, record, platform_dir)
             self.assertEqual(len(outputs), 2)
             self.assertTrue((platform_dir / "assets.json").exists())
+
+    def test_build_campaign_slugifies_name(self) -> None:
+        launch = LaunchProfile(
+            product_name="Orbit Pilot",
+            website_url="https://example.com",
+            tagline="tagline",
+            summary="summary",
+        )
+        campaign = build_campaign(launch, explicit_name="WalletRadar Alpha Launch")
+        self.assertEqual(campaign.id, "walletradar-alpha-launch")
 
 
 if __name__ == "__main__":
