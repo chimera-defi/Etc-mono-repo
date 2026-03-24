@@ -20,6 +20,7 @@ def load_platforms(path: str | Path) -> list[PlatformRecord]:
                 mode=item.get("mode", "manual"),
                 risk=item.get("risk", "medium"),
                 priority=int(item.get("priority", 50)),
+                cooldown_seconds=int(item.get("cooldown_seconds", 3600)),
             )
         )
     return records
