@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from orbit_pilot.models import PlatformRecord
 
-
 DEFAULT_GUIDANCE = {
     "checklist": [
         "Use the generated title and body as the starting point.",

@@ -26,6 +26,7 @@ def write_manual_pack(run_dir: Path, record: PlatformRecord, decision: Submissio
                 "priority": record.priority,
                 "risk": record.risk,
                 "cooldown_seconds": record.cooldown_seconds,
+                "planned_mode": decision.mode,
             },
             indent=2,
         ),
