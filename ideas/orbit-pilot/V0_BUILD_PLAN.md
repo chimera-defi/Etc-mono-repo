@@ -92,8 +92,9 @@ This is enough to show the real value without getting trapped in brittle automat
 
 ```bash
 orbit init
-orbit plan --launch launch.yaml --platforms data/seed_platforms.yaml
-orbit generate --launch launch.yaml --platforms data/seed_platforms.yaml --out out/
+orbit init
+orbit plan --launch launch.yaml --platforms seed_platforms.yaml
+orbit generate --launch launch.yaml --platforms seed_platforms.yaml --out out/
 orbit publish --run out/run-2026-03-23 --platform github --platform dev
 orbit mark-done --run out/run-2026-03-23 --platform crunchbase --live-url https://www.crunchbase.com/organization/example
 orbit report --run out/run-2026-03-23
@@ -103,31 +104,15 @@ orbit next --run out/run-2026-03-23
 ### Proposed File Structure
 
 ```text
-orbit-pilot/
+apps/orbit-pilot/
   pyproject.toml
   src/orbit_pilot/
+    bundled/
+      launch.sample.yaml   # copied to ./launch.yaml by orbit init
+      seed_platforms.yaml  # copied to ./seed_platforms.yaml by orbit init
     cli.py
-    config.py
-    models.py
-    graph.py
-    prompts.py
-    registry.py
-    audit.py
-    dedupe.py
-    links.py
-    assets.py
-    manual_pack.py
-    publishers/
-      __init__.py
-      github.py
-      dev.py
-      linkedin.py
-      medium.py
-  examples/
-    launch.sample.yaml
-  data/
-    seed_platforms.yaml
-  out/
+    ...
+  out/                   # operator-generated runs (gitignored)
 ```
 
 ### Minimal Data Contracts

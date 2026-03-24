@@ -5,7 +5,6 @@ import sqlite3
 from pathlib import Path
 from typing import Any
 
-
 SCHEMA = """
 create table if not exists submissions (
     platform text primary key,
@@ -27,7 +26,14 @@ def init_db(run_dir: Path) -> Path:
     return db_path
 
 
-def record_submission(run_dir: Path, platform: str, mode: str, status: str, reason: str, result: dict[str, Any]) -> None:
+def record_submission(
+    run_dir: Path,
+    platform: str,
+    mode: str,
+    status: str,
+    reason: str,
+    result: dict[str, Any],
+) -> None:
     db_path = init_db(run_dir)
     conn = sqlite3.connect(db_path)
     conn.execute(
@@ -50,7 +56,10 @@ def record_submission(run_dir: Path, platform: str, mode: str, status: str, reas
 def list_submissions(run_dir: Path) -> list[dict[str, Any]]:
     db_path = init_db(run_dir)
     conn = sqlite3.connect(db_path)
-    rows = conn.execute("select platform, mode, status, live_url, reason, result_json from submissions order by rowid").fetchall()
+    rows = conn.execute(
+        "select platform, mode, status, live_url, reason, result_json "
+        "from submissions order by rowid"
+    ).fetchall()
     conn.close()
     return [
         {

@@ -13,7 +13,7 @@
 5. `TASKS.md`
 
 ### Deep Pass
-1. `src/orbit_pilot/`
+1. `apps/orbit-pilot/src/orbit_pilot/`
 2. `VALIDATION_PLAN.md`
 3. `RISK_REGISTER.md`
-4. `data/seed_platforms.yaml`
+4. `apps/orbit-pilot/src/orbit_pilot/bundled/seed_platforms.yaml`

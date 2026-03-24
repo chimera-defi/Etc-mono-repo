@@ -1,0 +1,32 @@
+[project]
+name = "orbit-pilot"
+version = "0.1.0"
+description = "CLI-first launch distribution operator (Orbit Pilot V0)"
+requires-python = ">=3.11"
+dependencies = ["PyYAML>=6.0", "Pillow>=10.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[project.scripts]
+orbit = "orbit_pilot.cli:main"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+orbit_pilot = ["bundled/*.yaml"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -16,7 +16,7 @@ def publish(payload: dict[str, Any], dry_run: bool = True) -> dict[str, Any]:
     response = json_post(
         f"{base_url}/tweets",
         headers={"Authorization": f"Bearer {token}", "User-Agent": "orbit-pilot"},
-        body={"text": payload.get("body", "")},
+        body={"text": payload.get("x_text") or payload.get("body", "")},
     )
     if not response["ok"]:
         return {"status": "error", "error": response["error"], "publisher": "x"}
