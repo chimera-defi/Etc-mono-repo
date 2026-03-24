@@ -1,0 +1,9 @@
+# Default operator risk policy (SPEC config contract).
+# Override with: orbit plan --policy my-policy.yaml
+
+risk:
+  tolerance: low
+  allow_browser_fallback: false
+
+# Per-platform overrides (optional). Omit a slug to use registry + tolerance only.
+platforms: {}
