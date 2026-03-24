@@ -1,5 +1,38 @@
 # Claude Code Instructions
 
+## gstack
+
+Use the `/browse` skill from gstack for all web browsing tasks.
+
+Available gstack skills:
+- `/office-hours` - Office hours and async Q&A
+- `/plan-ceo-review` - CEO-level plan review
+- `/plan-eng-review` - Engineering plan review
+- `/plan-design-review` - Design plan review
+- `/design-consultation` - Design consultation
+- `/review` - Code review
+- `/ship` - Ship a feature end-to-end
+- `/land-and-deploy` - Land and deploy changes
+- `/canary` - Canary deployment
+- `/benchmark` - Benchmark performance
+- `/browse` - Web browsing (use this for all web browsing)
+- `/qa` - Full QA pass
+- `/qa-only` - QA without shipping
+- `/design-review` - Design review
+- `/setup-browser-cookies` - Set up browser cookies
+- `/setup-deploy` - Set up deployment
+- `/retro` - Retrospective
+- `/investigate` - Investigate an issue
+- `/document-release` - Document a release
+- `/codex` - Codex tasks
+- `/cso` - CSO tasks
+- `/autoplan` - Automatically plan a task
+- `/careful` - Careful/cautious execution mode
+- `/freeze` - Freeze a feature or branch
+- `/guard` - Guard against regressions
+- `/unfreeze` - Unfreeze a feature or branch
+- `/gstack-upgrade` - Upgrade gstack
+
 > **Master rules:** `.cursorrules` | **Token efficiency:** `/token-reduce` skill | **Benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
 
 ## Context Compaction Prevention (Critical)
@@ -24,11 +57,11 @@
 
 1. **Read `.cursorrules`** - All AI rules apply to Claude Code
 2. **Install QMD** (BM25 only): `command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd`
-3. **Use QMD for search** before reading files: `qmd search "topic" -n 5 --files` (skip embed/vector)
-4. **Use token reduction** - Auto-active via `/token-reduce` skill (89% concise, 99% QMD search vs naive, 33% targeted reads)
+3. **Use token-reduce search/QMD for search** before reading files: `./skills/token-reduce/scripts/token-reduce-paths.sh topic words` for low-token path kickoff, then `./skills/token-reduce/scripts/token-reduce-snippet.sh topic words` only if needed
+4. **Use token reduction** - In Claude Code, prefer the direct helper commands over invoking the `Skill` tool in headless runs (89% concise, 99% QMD search vs naive, 33% targeted reads)
 5. **Verify before completing:** Run lint, build, tests
 
-**Decision flow:** If you know the file/keyword → `rg -g` scoped search. If you need ranked snippets → QMD BM25. Avoid MCP CLI for file reads.
+**Decision flow:** If you do not know the location yet, start with `./skills/token-reduce/scripts/token-reduce-paths.sh topic words`. If you know the file/keyword → `rg -g` scoped search. If you need one ranked excerpt after path kickoff → `./skills/token-reduce/scripts/token-reduce-snippet.sh topic words`. Avoid MCP CLI for file reads. Do not begin broad discovery with `find .`, `ls -R`, `grep -R`, `rg --files .`, or broad `Glob`; repo hooks block the worst cases, and measurement treats the rest as violations and redirects to the token-reduction path.
 
 ## Enforcement
 
@@ -159,6 +192,9 @@ Before completing any task:
 ## Session Workflow
 
 ```bash
+# One-time setup (per machine): install gstack skills
+make setup-gstack   # or: bash scripts/setup-gstack.sh
+
 # Start: sync with main
 git fetch origin && git rebase origin/main
 
@@ -172,6 +208,21 @@ bun run lint && bun run build && bun test
 ```
 
 Token reduction is always active (see Quick Start + `.cursorrules` Token Efficiency section).
+
+## Token Reduction Adoption
+
+- Repo-local measurements are written to `.cursor/artifacts/token-reduction/`
+- Run once now: `./skills/token-reduce/scripts/baseline-measurement.sh --scope repo`
+- Repo measurements now include both Claude and Codex session logs for this repo
+- Broad Bash-scan hook: `./skills/token-reduce/scripts/advise-token-reduction.py`
+- Broad Glob hook: `./skills/token-reduce/scripts/enforce-glob-scope.py`
+- Deterministic discovery payload benchmark: `./skills/token-reduce/scripts/benchmark-token-reduction-workflow.py --query "token reduction"`
+- Fresh Claude behavior benchmark: `python3 ./skills/token-reduce/scripts/benchmark-token-reduction-agents.py --agents claude --timeout-seconds 30`
+- Install scheduled runs: `./skills/token-reduce/scripts/install-token-reduction-cron.sh`
+- Goal for this repo first:
+  - discovery compliance >= 80%
+  - broad-scan violations trending to 0
+  - QMD or scoped `rg` used before broad exploration
 
 ## Common Commands
 
