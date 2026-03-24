@@ -1,5 +1,38 @@
 # Claude Code Instructions
 
+## gstack
+
+Use the `/browse` skill from gstack for all web browsing tasks.
+
+Available gstack skills:
+- `/office-hours` - Office hours and async Q&A
+- `/plan-ceo-review` - CEO-level plan review
+- `/plan-eng-review` - Engineering plan review
+- `/plan-design-review` - Design plan review
+- `/design-consultation` - Design consultation
+- `/review` - Code review
+- `/ship` - Ship a feature end-to-end
+- `/land-and-deploy` - Land and deploy changes
+- `/canary` - Canary deployment
+- `/benchmark` - Benchmark performance
+- `/browse` - Web browsing (use this for all web browsing)
+- `/qa` - Full QA pass
+- `/qa-only` - QA without shipping
+- `/design-review` - Design review
+- `/setup-browser-cookies` - Set up browser cookies
+- `/setup-deploy` - Set up deployment
+- `/retro` - Retrospective
+- `/investigate` - Investigate an issue
+- `/document-release` - Document a release
+- `/codex` - Codex tasks
+- `/cso` - CSO tasks
+- `/autoplan` - Automatically plan a task
+- `/careful` - Careful/cautious execution mode
+- `/freeze` - Freeze a feature or branch
+- `/guard` - Guard against regressions
+- `/unfreeze` - Unfreeze a feature or branch
+- `/gstack-upgrade` - Upgrade gstack
+
 > **Master rules:** `.cursorrules` | **Token efficiency:** `/token-reduce` skill | **Benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
 
 ## Context Compaction Prevention (Critical)
@@ -159,6 +192,9 @@ Before completing any task:
 ## Session Workflow
 
 ```bash
+# One-time setup (per machine): install gstack skills
+make setup-gstack   # or: bash scripts/setup-gstack.sh
+
 # Start: sync with main
 git fetch origin && git rebase origin/main
 
