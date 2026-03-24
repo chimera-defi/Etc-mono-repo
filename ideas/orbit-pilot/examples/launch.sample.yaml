@@ -15,9 +15,9 @@ features:
   - duplicate detection
   - manual queue
 assets:
-  logo: ./assets/logo.png
+  logo: ../fixtures/logo.png
   screenshots:
-    - ./assets/hero.png
+    - ../fixtures/hero.png
 company:
   name: OrbitPilot, Inc.
   founders:
