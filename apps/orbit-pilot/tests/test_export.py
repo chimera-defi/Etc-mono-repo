@@ -26,6 +26,22 @@ def test_export_run_json_contains_manifest() -> None:
         assert "submissions" in data
 
 
+def test_export_run_html() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        run_dir = Path(tmp) / "r"
+        run_dir.mkdir()
+        write_run_manifest(
+            run_dir,
+            Campaign(id="c", name="C", created_at="2026-01-01T00:00:00Z"),
+            "/x/launch.yaml",
+            "/x/plat.yaml",
+        )
+        html = export_run(run_dir, "html")
+        assert "<!DOCTYPE html>" in html
+        assert "Orbit Pilot run report" in html
+        assert "Campaign:" in html
+
+
 def test_export_run_md() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         run_dir = Path(tmp) / "r"
