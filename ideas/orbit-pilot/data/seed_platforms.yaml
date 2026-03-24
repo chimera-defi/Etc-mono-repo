@@ -1,0 +1,161 @@
+platforms:
+  - name: Medium
+    slug: medium
+    category: content
+    official_url: https://help.medium.com/hc/en-us/articles/213480228-API-Importing
+    submit_url: https://medium.com/
+    mode: official_api_if_token_else_manual
+    risk: medium
+    priority: 70
+  - name: Reddit
+    slug: reddit
+    category: community
+    official_url: https://developers.reddit.com/docs/capabilities/server/reddit-api
+    submit_url: https://www.reddit.com/
+    mode: manual_by_default
+    risk: medium_high
+    priority: 82
+  - name: GitHub
+    slug: github
+    category: developer
+    official_url: https://docs.github.com/en/rest/releases/releases
+    submit_url: https://github.com/
+    mode: official_api
+    risk: low
+    priority: 85
+  - name: LinkedIn
+    slug: linkedin
+    category: social
+    official_url: https://learn.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/share-on-linkedin
+    submit_url: https://www.linkedin.com/
+    mode: official_api_if_scoped
+    risk: low_medium
+    priority: 74
+  - name: X
+    slug: x
+    category: social
+    official_url: https://docs.x.com/overview
+    submit_url: https://x.com/
+    mode: official_api_if_access
+    risk: medium
+    priority: 76
+  - name: DEV
+    slug: dev
+    category: content
+    official_url: https://developers.forem.com/api
+    submit_url: https://dev.to/
+    mode: official_api
+    risk: low_medium
+    priority: 72
+  - name: Product Hunt
+    slug: product_hunt
+    category: launch
+    official_url: https://api.producthunt.com/v2/docs
+    submit_url: https://www.producthunt.com/
+    mode: manual_unless_approved
+    risk: medium_high
+    priority: 95
+  - name: Crunchbase
+    slug: crunchbase
+    category: company_profile
+    official_url: https://support.crunchbase.com/hc/en-us/articles/115011823988-How-do-I-create-a-Crunchbase-profile
+    submit_url: https://www.crunchbase.com/
+    mode: manual
+    risk: medium
+    priority: 92
+  - name: Hacker News
+    slug: hacker_news
+    category: community
+    official_url: https://github.com/HackerNews/API
+    submit_url: https://news.ycombinator.com/submit
+    mode: manual
+    risk: medium
+    priority: 84
+  - name: Tiny Startups
+    slug: tiny_startups
+    category: directory
+    official_url: https://www.tinystartups.com/submit-your-startup
+    submit_url: https://www.tinystartups.com/submit-your-startup
+    mode: manual
+    risk: medium
+    priority: 68
+  - name: TrustMRR
+    slug: trustmrr
+    category: directory
+    official_url: unknown
+    submit_url: unknown
+    mode: manual
+    risk: medium
+    priority: 52
+  - name: BetaList
+    slug: betalist
+    category: directory
+    official_url: https://betalist.com/
+    submit_url: https://betalist.com/
+    mode: manual
+    risk: medium
+    priority: 86
+  - name: Indie Hackers
+    slug: indie_hackers
+    category: community
+    official_url: https://www.indiehackers.com/
+    submit_url: https://www.indiehackers.com/
+    mode: manual
+    risk: medium
+    priority: 80
+  - name: Uneed
+    slug: uneed
+    category: directory
+    official_url: https://www.uneed.best/
+    submit_url: https://www.uneed.best/
+    mode: manual
+    risk: medium
+    priority: 73
+  - name: SaaSHub
+    slug: saashub
+    category: directory
+    official_url: https://www.saashub.com/
+    submit_url: https://www.saashub.com/
+    mode: manual
+    risk: medium
+    priority: 83
+  - name: AlternativeTo
+    slug: alternativeto
+    category: directory
+    official_url: https://alternativeto.net/
+    submit_url: https://alternativeto.net/
+    mode: manual
+    risk: medium
+    priority: 81
+  - name: Startup Stash
+    slug: startup_stash
+    category: directory
+    official_url: https://startupstash.com/
+    submit_url: https://startupstash.com/
+    mode: manual
+    risk: medium
+    priority: 75
+  - name: Futurepedia
+    slug: futurepedia
+    category: ai_directory
+    official_url: https://www.futurepedia.io/
+    submit_url: https://www.futurepedia.io/
+    mode: manual
+    risk: medium
+    priority: 71
+  - name: TheresAnAIForThat
+    slug: theres_an_ai_for_that
+    category: ai_directory
+    official_url: https://theresanaiforthat.com/
+    submit_url: https://theresanaiforthat.com/
+    mode: manual
+    risk: medium
+    priority: 78
+  - name: Peerlist
+    slug: peerlist
+    category: community
+    official_url: https://peerlist.io/
+    submit_url: https://peerlist.io/
+    mode: manual
+    risk: medium
+    priority: 69
