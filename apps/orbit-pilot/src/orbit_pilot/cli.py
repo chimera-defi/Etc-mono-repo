@@ -99,6 +99,14 @@ def build_parser() -> argparse.ArgumentParser:
 
     tui_cmd = subparsers.add_parser("tui", help="Interactive run dashboard (requires: pip install 'orbit-pilot[tui]')")
     tui_cmd.add_argument("--run", required=True, help="Path to run-* directory")
+
+    schemas_cmd = subparsers.add_parser("schemas", help="List bundled JSON Schemas for --json CLI outputs")
+    schemas_cmd.add_argument("--json", action="store_true")
+    schemas_cmd.add_argument(
+        "--show",
+        metavar="NAME",
+        help="Print schema JSON (e.g. plan-output, doctor-output, generate-output)",
+    )
     return parser
 
 
@@ -399,6 +407,25 @@ def export_command(args: argparse.Namespace) -> int:
     return 0
 
 
+def schemas_command(args: argparse.Namespace) -> int:
+    from orbit_pilot.schemas_cmd import emit_manifest_json, list_schemas, read_schema
+
+    if args.show:
+        try:
+            print(json.dumps(read_schema(args.show), indent=2))
+        except FileNotFoundError:
+            print(f"Unknown schema: {args.show}", file=sys.stderr)
+            print("Use: orbit schemas --json", file=sys.stderr)
+            return 1
+        return 0
+    if args.json:
+        print(emit_manifest_json())
+        return 0
+    for sid, path in list_schemas():
+        print(f"{sid}\t{path}")
+    return 0
+
+
 def tui_command(args: argparse.Namespace) -> int:
     from orbit_pilot.tui_app import run_tui, tui_available
 
@@ -511,6 +538,8 @@ def main() -> int:
         return audit_command(args)
     if args.command == "tui":
         return tui_command(args)
+    if args.command == "schemas":
+        return schemas_command(args)
     parser.error(f"Unknown command: {args.command}")
     return 2
 
