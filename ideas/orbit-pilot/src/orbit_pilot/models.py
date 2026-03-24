@@ -29,6 +29,7 @@ class PlatformRecord:
     mode: str
     risk: str
     priority: int = 50
+    cooldown_seconds: int = 3600
 
 
 @dataclass
