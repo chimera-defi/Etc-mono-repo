@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from orbit_pilot.audit import record_submission
+from orbit_pilot.audit import append_audit_event, record_submission
 from orbit_pilot.publishers.requirements import validate_platform
 from orbit_pilot.publishers.router import PUBLISHERS, publish_platform
 from orbit_pilot.state import cooldown_remaining, record_publish_attempt
@@ -46,6 +46,10 @@ def publish_from_run(run_dir: Path, platforms: list[str], execute: bool) -> list
         remaining = cooldown_remaining(run_dir, platform, int(meta.get("cooldown_seconds", 0)))
         if remaining > 0:
             result = {"status": "cooldown_blocked", "error": f"{remaining}s cooldown remaining", "publisher": platform}
+            append_audit_event(
+                run_dir,
+                {"type": "publish_blocked", "platform": platform, "reason": "cooldown", "remaining_s": remaining},
+            )
             results.append({"platform": platform, "result": result})
             continue
 

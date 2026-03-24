@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import shutil
 from pathlib import Path
+from typing import Any
 
 try:
     from PIL import Image
@@ -20,10 +21,17 @@ PRESETS = {
 }
 
 
+def _alt_text(launch: LaunchProfile, src: Path) -> str:
+    """Stable alt text for accessibility (spec: alt text retention on assets)."""
+    stem = src.stem.replace("-", " ").replace("_", " ")
+    return f"{launch.product_name} — {stem}"
+
+
 def prepare_assets(launch: LaunchProfile, record: PlatformRecord, platform_dir: Path) -> list[str]:
     assets_dir = platform_dir / "assets"
     assets_dir.mkdir(parents=True, exist_ok=True)
     outputs: list[str] = []
+    manifest: list[dict[str, Any]] = []
     preset = PRESETS.get(record.slug)
     files = []
     logo = launch.assets.get("logo")
@@ -45,6 +53,7 @@ def prepare_assets(launch: LaunchProfile, record: PlatformRecord, platform_dir: 
             dest = assets_dir / src.name
             shutil.copy2(src, dest)
         outputs.append(str(dest))
+        manifest.append({"path": str(dest.relative_to(platform_dir)), "alt": _alt_text(launch, src)})
 
-    (platform_dir / "assets.json").write_text(json.dumps(outputs, indent=2), encoding="utf-8")
+    (platform_dir / "assets.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     return outputs
