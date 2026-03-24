@@ -10,7 +10,7 @@ from typing import Any
 from orbit_pilot.audit import record_submission
 from orbit_pilot.config import load_document
 from orbit_pilot.graph import plan_platform
-from orbit_pilot.models import LaunchProfile, REQUIRED_LAUNCH_FIELDS
+from orbit_pilot.models import REQUIRED_LAUNCH_FIELDS, LaunchProfile
 from orbit_pilot.registry import load_platforms
 from orbit_pilot.services.campaigns import (
     build_campaign,
@@ -212,12 +212,40 @@ def guide_command(args: argparse.Namespace) -> int:
     if not run_dir.exists():
         emit({"error": f"Run directory not found: {run_dir}"}, args.json)
         return 1
-    emit(human_guide(run_dir), args.json)
+    data = human_guide(run_dir)
+    if args.json:
+        emit(data, True)
+        return 0
+    print(f"Run: {run_dir}\n")
+    if data.get("official_ready"):
+        print("Official API — ready to execute:")
+        for item in data["official_ready"]:
+            print(f"  - {item['platform']}: {item['next_step']}")
+    if data.get("official_blocked"):
+        print("\nOfficial API — blocked (missing config):")
+        for item in data["official_blocked"]:
+            miss = ", ".join(item["missing_secrets"] + item["missing_payload"]) or "(none listed)"
+            print(f"  - {item['platform']}: missing {miss}")
+            print(f"    {item['next_step']}")
+    if data.get("manual_top"):
+        print("\nTop manual submissions:")
+        for item in data["manual_top"]:
+            print(f"  - {item['platform']} (priority {item['priority']}): {item['submit_url']}")
+            print(f"    {item['prompt_path']}")
+    if data.get("next_manual"):
+        print(f"\nNext manual: {data['next_manual']}")
     return 0
 
 
 def campaigns_command(args: argparse.Namespace) -> int:
-    emit({"campaigns": list_campaigns(args.out)}, args.json)
+    rows = list_campaigns(args.out)
+    if args.json:
+        emit({"campaigns": rows}, True)
+    else:
+        if not rows:
+            print("No campaigns under", args.out)
+        for row in rows:
+            print(f"{row['campaign']}: {row['run_count']} run(s), latest {row['latest_run']}")
     return 0
 
 
@@ -226,7 +254,10 @@ def latest_command(args: argparse.Namespace) -> int:
     if run_path is None:
         emit({"error": f"No runs found for campaign: {args.campaign}"}, args.json)
         return 1
-    emit({"campaign": args.campaign, "latest_run": run_path}, args.json)
+    if args.json:
+        emit({"campaign": args.campaign, "latest_run": run_path}, True)
+    else:
+        print(run_path)
     return 0
 
 
