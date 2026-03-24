@@ -6,7 +6,7 @@ import hljsJson from "highlight.js/lib/languages/json";
 import hljsMarkdown from "highlight.js/lib/languages/markdown";
 import hljsTypescript from "highlight.js/lib/languages/typescript";
 import hljsYaml from "highlight.js/lib/languages/yaml";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { buildZip } from "@/lib/build-zip";
 
@@ -130,12 +130,17 @@ export function ExportFileBrowser({ documentId, initialFiles }: ExportFileBrowse
       .replace(/^-|-$/g, "")
       .slice(0, 60);
     a.download = `${slug}-spec-bundle.zip`;
+    // Must be in the DOM for Firefox; defer revoke until after download starts
+    document.body.appendChild(a);
     a.click();
-    URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 100);
   }
 
-  const highlighted =
-    selected != null ? highlight(selectedContent, selected) : "";
+  const highlighted = useMemo(
+    () => (selected != null ? highlight(selectedContent, selected) : ""),
+    [selected, selectedContent],
+  );
 
   return (
     <div className={styles.browser}>
@@ -157,13 +162,11 @@ export function ExportFileBrowser({ documentId, initialFiles }: ExportFileBrowse
           </button>
         </div>
 
-        <ul className={styles.fileListScroll} role="listbox" aria-label="Files">
+        <ul className={styles.fileListScroll} aria-label="Files">
           {fileList.map((name) => (
             <li
               key={name}
               className={`${styles.fileItem} ${name === selected ? styles.fileItemActive : ""}`}
-              role="option"
-              aria-selected={name === selected}
             >
               <button
                 className={styles.fileNameBtn}

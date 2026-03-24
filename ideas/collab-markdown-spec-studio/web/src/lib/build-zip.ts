@@ -4,15 +4,20 @@
  * ExportFileBrowser so edits / removals can be downloaded without a round-trip.
  */
 
-function crc32(buf: Uint8Array): number {
+// Build CRC-32 lookup table once at module load time
+const CRC32_TABLE = (() => {
   const table = new Uint32Array(256);
   for (let i = 0; i < 256; i++) {
     let c = i;
     for (let j = 0; j < 8; j++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
     table[i] = c;
   }
+  return table;
+})();
+
+function crc32(buf: Uint8Array): number {
   let crc = 0xffffffff;
-  for (let k = 0; k < buf.length; k++) crc = table[(crc ^ buf[k]) & 0xff] ^ (crc >>> 8);
+  for (let k = 0; k < buf.length; k++) crc = CRC32_TABLE[(crc ^ buf[k]) & 0xff] ^ (crc >>> 8);
   return (crc ^ 0xffffffff) >>> 0;
 }
 
