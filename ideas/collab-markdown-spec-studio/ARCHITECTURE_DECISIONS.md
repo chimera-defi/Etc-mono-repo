@@ -125,3 +125,40 @@
 - Why: SpecForge is collaborative SaaS software, so access should remain controlled by workspace membership and GitHub-authenticated identity rather than leaked URLs.
 - Status (current branch): membership management exists, and the workspace UI should expose a copyable canonical URL plus the membership requirement alongside it.
 - Tradeoff: sharing is slightly less frictionless than a public doc link, but it is safer and aligns with pilot workspace permissions.
+
+## Decision 24: Sprint Planning as Act 1 of SpecForge (not a bolt-on mode)
+- Choice: integrate the G-Stack-inspired planning stages (Discovery → CEO Review → Eng Review → Design Review → Security Review) as the natural front-of-workflow Act 1 in SpecForge, not as an optional addon. Users see a choice at document creation: "Start with Sprint Planning" or "Jump to Spec Wizard". Both paths lead to the same Act 2 (spec generation).
+- Why: bolt-on modes get skipped. Making planning the default entry point raises spec quality before any doc editing begins. G-Stack validated this stage sequence; SpecForge adapts it inside the governed patch workflow so all AI-generated planning outputs are attributed and reversible.
+- Status: Phase 2 (not yet implemented).
+- Stages: `discovery` | `ceo-review` | `eng-review` | `design-review` | `security-review`
+- Each stage produces a governed patch proposal; no stage auto-applies changes; all stages optional and skippable.
+- Tradeoff: one review step per planning stage adds interaction cost. This is intentional — SpecForge's value is attribution and governance. Users who want raw planning speed can skip all stages and jump to the wizard.
+
+## Decision 25: Skills as First-Class Distribution Format
+- Choice: ship SpecForge's planning pipeline as Claude Code skill files (`.md` in `skills/specforge/`) alongside the web app and CLI. Three initial skills: `/specforge` (existing), `/specforge-plan` (Act 1 pipeline), `/specforge-handoff` (emit handoff.json).
+- Why: G-Stack proved that Markdown skill packs spread virally and get adopted without onboarding friction. SpecForge should be reachable from any Claude Code session, not just the browser.
+- Status: Phase 2.
+- Context detection: skills call `bun run specforge -- plan` when the local repo is present; fall back to `SPECFORGE_API_URL` if set; prompt for setup if neither.
+- Tradeoff: local mode requires the repo installed. Hosted mode requires `SPECFORGE_API_URL`. Skills must handle both paths gracefully without hard-coding assumptions.
+
+## Decision 26: Build-Agnostic Handoff JSON
+- Choice: SpecForge emits `handoff.json` (export bundle + planning stage provenance) as its terminal output. It does not reference any specific build tool, CI pipeline, or downstream framework. Users pick their own build workflow.
+- Why: SpecForge's boundary is idea → thoroughly governed spec. Encoding a specific build tool couples SpecForge to a downstream choice that will change per project. Keeping handoff JSON agnostic makes it consumable by G-Stack, Codex, CI pipelines, or manual workflows equally.
+- Status: Phase 2. `POST /documents/:id/handoff` + `specforge handoff` CLI + `/specforge-handoff` skill.
+- Handoff JSON includes: export bundle, planning stage provenance (done/skipped/outputs per stage), execution brief, launch packet.
+- Tradeoff: users who want direct G-Stack continuation have to wire that up themselves. The handoff JSON is self-describing enough to guide any build workflow without additional documentation.
+
+## Decision 27: Multiplayer in Act 1 (Planning stages are collaborative, not solo)
+- Choice: Act 1 planning stages run inside the same Hocuspocus room as the document. All workspace collaborators see the AI conversation, stage progress, and patch previews in real time. Any collaborator can answer questions or skip a stage.
+- Why: the planning phase is often where the most important alignment happens. Doing it solo and handing results to collaborators creates misalignment. Running it in the live multiplayer room makes the planning conversation itself an artifact that everyone contributed to and can see.
+- Status: Phase 2.
+- Implementation: planning stage presence events are CRDT-synced through the existing Yjs provider. Stage conversation state (questions + answers) is persisted as document metadata, not ephemeral presence.
+- Tradeoff: concurrent answers from multiple collaborators create ambiguity in what the AI should synthesize. Resolve by: last-write-wins on answer fields (CRDT merge), with all contributor identities recorded in the stage audit event.
+
+## Decision 28: Section-Level Iteration via Governed Patch
+- Choice: every output box in the product (planning stage outputs, PRD sections, SPEC sections, TASKS) exposes an "Iterate with AI" entry point. The interaction injects section content + doc context as agent context, collects a user message, and produces a governed patch proposal targeting that section's `block_id`.
+- Why: users don't want to re-run entire planning stages to improve one paragraph. Section-level iteration gives surgical control while keeping the governance model intact — all changes attributed, reviewable, and reversible.
+- Status: Phase 2. `POST /documents/:id/sections/:blockId/iterate` + `specforge iterate` CLI.
+- Implementation: the iterate endpoint reuses the existing `agent-assist.ts` mini-LLM call infrastructure but outputs a full `PatchProposal` instead of a field suggestion.
+- Multiplayer: concurrent iteration on the same section by different collaborators produces separate patch proposals, resolved via the existing cherry-pick queue.
+- Tradeoff: adds one more entry point to the patch review queue. Risk of patch queue bloat if iteration is overused. Mitigate by showing the queue depth in the UI and allowing bulk triage.

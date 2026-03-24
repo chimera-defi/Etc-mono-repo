@@ -93,6 +93,86 @@ The current branch also includes a first explicit entitlement layer:
 - Treats the first successful buildable output as the minimum extensible product, then drives iterative parity passes until the scoped requirements are satisfied.
 - Inserts periodic multipass review/refactor passes so the loop also compacts context, captures meta learnings, and refreshes the latest handoff artifact instead of only shipping feature slices.
 
+### 10) Sprint Planning Suite (Act 1) + Section-Level Iteration
+
+SpecForge is a two-act tool. **Act 1** is a structured ideation and planning phase that users go through before the spec editor. **Act 2** is the existing guided spec generation, multiplayer editing, and governed patch workflow. Both acts are multiplayer and agent-assisted.
+
+```
+ACT 1: Sprint Planning (optional stages, any order)
+  Discovery → CEO Review → Eng Review → Design Review → Security Review
+        ↓ (outputs pre-fill context for Act 2)
+ACT 2: Spec Generation (existing)
+  Guided wizard → Multiplayer editing → Governed patches → Export bundle
+        ↓
+  HANDOFF: handoff.json (export bundle + stage provenance, build-tooling agnostic)
+```
+
+**Act 1 — Planning Stages:**
+
+| Stage | Inspiration | Output |
+|---|---|---|
+| **Discovery** | G-Stack `/office-hours` | Problem statement, user segments, success signals → pre-fills PRD "Problem" |
+| **CEO Review** | G-Stack `/plan-ceo-review` | 10-star vision, scope hardening, anti-goals → pre-fills PRD "Vision" + "Non-goals" |
+| **Engineering Review** | G-Stack `/plan-eng-review` | Architecture, data flow, tech stack, failure modes, test matrix → pre-fills SPEC |
+| **Design Review** | G-Stack `/plan-design-review` | Design system constraints, interaction model, accessibility → emits `DESIGN_SYSTEM.md` |
+| **Security Review** | G-Stack `/cso` adapted | OWASP threat model, trust boundaries, security requirements → emits `SECURITY.md` |
+
+Each stage: AI asks structured questions → user answers → AI generates structured output as a governed patch proposal → user reviews/accepts in the normal patch queue. No stage auto-applies changes. All stages are **optional and skippable**; skipped stages are recorded in the handoff JSON.
+
+**Multiplayer planning:** Act 1 stages run in the same Hocuspocus room as the document. All collaborators see the stage conversation, AI questions, and patch previews in real time. Any collaborator can answer or skip a stage. Presence indicators show who is active in each stage.
+
+**Web UI entry:**
+- New document entry: "Start with Sprint Planning" or "Jump to Spec Wizard" choice
+- Left sidebar: stage progress tracker (Discovery ✓, CEO Review ✓, Eng Review…) + live collaborator presence per stage
+- Main panel: current stage conversation (AI questions, collaborator answers)
+- Right panel: live spec document updating as patches are accepted
+- "Skip this stage" button always visible
+- "Done with planning → Go to Spec" CTA once any stage is completed or explicitly skipped
+
+**Section-Level Iteration ("Iterate with AI"):**
+Every output box — PRD section, SPEC section, TASKS, planning stage outputs — has an "Iterate with AI" button. Clicking it opens an inline panel that:
+1. Injects the current section content + surrounding context (section title, parent heading, document title) as agent context
+2. User types a message (e.g. "make the user segments more specific", "add failure modes for network partitions")
+3. Agent proposes a governed patch targeting that section's `block_id` — goes into normal patch review queue
+4. Diff shown inline before accepting; all iterations attributed and reversible
+
+Multiplayer iteration: if two collaborators iterate on the same section concurrently, each produces a separate patch proposal; existing accept/reject/cherry-pick queue resolves conflicts as normal.
+
+**CLI/TUI commands:**
+```bash
+specforge plan                              # interactive TUI, walks through stages
+specforge plan --stage discovery            # run a specific stage
+specforge plan --skip security-review       # skip a stage and proceed
+specforge plan --json                       # agent-native machine-readable output
+specforge iterate --section <block-id>      # interactive: prompts for message
+specforge iterate --section <id> --message "add failure modes for network partitions"
+specforge handoff                           # emit final handoff.json with stage provenance
+specforge handoff --json
+```
+
+**Claude Code skills:** `/specforge-plan` (Act 1 pipeline), `/specforge-handoff` (emit handoff.json). See `skills/specforge/specforge-plan.md` and `skills/specforge/specforge-handoff.md`.
+
+**Export enrichment:** When planning stages are completed, the export bundle gains:
+- `DESIGN_SYSTEM.md` — from Design Review stage (omitted if skipped)
+- `SECURITY.md` — from Security Review stage (omitted if skipped)
+
+**Handoff JSON provenance:**
+```json
+{
+  "planningSession": {
+    "stages": [
+      { "name": "discovery",     "status": "completed", "patchId": "...", "outputs": {...} },
+      { "name": "ceo-review",    "status": "completed", "patchId": "...", "outputs": {...} },
+      { "name": "eng-review",    "status": "skipped",   "patchId": null,  "outputs": null  },
+      { "name": "design-review", "status": "completed", "patchId": "...", "outputs": {...} },
+      { "name": "security",      "status": "skipped",   "patchId": null,  "outputs": null  }
+    ]
+  }
+}
+```
+
+Build tooling is agnostic — handoff JSON contains no reference to a specific build pipeline. Users pick their own.
+
 ### Non-Goals (MVP)
 The following features and capabilities are explicitly deferred to Phase 2, 3, or 4:
 - Repo generation from spec bundles (Phase 2+)
@@ -100,7 +180,7 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 - Multi-language code generation (Phase 2+)
 - Mobile and native app templates (Phase 3+)
 - Advanced inline comments and annotations (Phase 2+) — **Note: anchored comment thread UI exists; richer inline annotations remain deferred.**
-- AI orchestration beyond the patch workflow (Phase 2+)
+- AI orchestration beyond the patch workflow (Phase 2+) — **Note: Guided Plan Mode (Component 10) is an exception; it uses governed patch proposals, so it remains within the patch workflow contract.**
 - Real-time audio/video collaboration (Phase 4+)
 - Custom branding and theming (Phase 2+)
 - Depth gates and recap enforcement (Phase 2+) — **Note: Claimed in Decision 18 but not implemented. Clarifications table exists; logic layer deferred.**
@@ -167,6 +247,12 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 - `MilestoneGate`
 - `Recap`
 
+### Data Model (Sprint Planning + Iteration additions)
+- `PlanSession` — tracks an Act 1 planning pipeline: `id`, `documentId`, `workspaceId`, `mode`, `stages[]`, `currentStageIndex`, `status` (`active|completed|abandoned`), `createdAt`, `completedAt`
+- `PlanStage` — one stage within a session: `id`, `sessionId`, `stageName` (`discovery|ceo-review|eng-review|design-review|security-review`), `status` (`pending|running|patch-proposed|accepted|skipped`), `patchProposalId`, `questionsAsked[]`, `outputs` (structured JSON per stage), `completedAt`
+- `IterationRequest` — a section-level iteration: `id`, `documentId`, `blockId`, `sectionTitle`, `message`, `actorId`, `patchProposalId`, `createdAt`
+- `HandoffRecord` — the final build-ready artifact: `id`, `documentId`, `sessionId`, `exportBundle` (JSON), `planningProvenance` (stage statuses + outputs), `executionBrief`, `launchPacket`, `createdAt`
+
 ### Canonical Data Model Default
 1. Canonical editing state is Tiptap/ProseMirror JSON stored per document version.
 2. A derived block index is extracted from canonical editor JSON for:
@@ -207,6 +293,49 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 5. Cherry-pick behavior in v1 should operate on patch hunks or block-level fragments, not arbitrary raw character ranges.
 6. Delivery parity passes must close backlog items against the same patch/export contract instead of introducing side channels.
 7. Current reality: the delivery loop is useful for status, briefs, and bounded preparation, but unattended multi-item execution is still an explicit hardening target rather than a trusted product primitive.
+
+### APIs (Sprint Planning + Iteration — Phase 2)
+
+**Planning Session APIs (Act 1):**
+
+1. `POST /documents/:id/plan-sessions`
+   - Creates a plan session. Request: `stages` (optional subset to run), `mode` (`guided`|`autonomous`)
+   - Response: `sessionId`, ordered stage list, first stage prompt
+
+2. `GET /documents/:id/plan-sessions/:sid`
+   - Returns session state: current stage, completed/skipped stages, pending patch proposals
+
+3. `POST /documents/:id/plan-sessions/:sid/advance`
+   - Triggers the next stage's AI analysis, produces a governed patch proposal
+   - Response: `stageName`, `patchProposalId`, `questionsAsked[]`
+
+4. `POST /documents/:id/plan-sessions/:sid/skip-stage`
+   - Marks a stage as intentionally skipped; recorded in audit trail
+
+5. `GET /documents/:id/plan-sessions/:sid/export`
+   - Returns enriched export bundle including `DESIGN_SYSTEM.md` (if design stage done) and `SECURITY.md` (if security stage done)
+
+**Section Iteration API:**
+
+6. `POST /documents/:id/sections/:blockId/iterate`
+   - Body: `{ message, actorId }`
+   - Injects section content + doc context as agent context, generates a governed patch proposal
+   - Response: `{ patchProposalId, diff, sectionTitle }`
+   - The patch goes into the normal review queue; `actorId` is attributed in the audit trail
+
+**Handoff API:**
+
+7. `POST /documents/:id/handoff`
+   - Emits the final `handoff.json` including export bundle + planning stage provenance
+   - Marks document as "build-ready" in workspace
+   - Response: full handoff JSON (see Component 10 for schema)
+   - Build tooling is not specified — handoff is agnostic
+
+Invariants:
+1. Each `advance` call produces at most one patch proposal per stage.
+2. Advancing without a prior accepted patch for the previous stage emits a warning but does not hard-block (stages are optional).
+3. Plan session state persists to the document store; sessions survive reconnects and restarts.
+4. Section iteration patches follow the same `block_id` + `base_version` + `target_fingerprint` contract as all other patches.
 
 ### APIs (Phase 2)
 1. `POST /documents/:id/create-repo`
@@ -320,8 +449,8 @@ Use CRDT for live human collaboration, but keep agent governance above the CRDT 
 4. Integrations (GitHub/Linear/Jira exports).
 
 ### Phase Plan
-1. Phase 1: core realtime markdown + comments + version history.
-2. Phase 2: deeper milestone recap/depth enforcement, broader repo generation, and stronger hosted SaaS operations.
+1. Phase 1: core realtime markdown + comments + version history. ✓ Done.
+2. Phase 2: Guided Plan Mode (G-Stack integration), CLI `specforge plan` and `specforge handoff`, Claude Code skill pack (`/specforge-plan`, `/specforge-handoff`), deeper milestone recap/depth enforcement, and stronger hosted SaaS operations.
 3. Phase 3: curated example exports + repo scaffolding + integrations.
 4. Phase 4: broader repo generation and advanced governance policies.
 
