@@ -50,6 +50,15 @@ def build_parser() -> argparse.ArgumentParser:
     guide.add_argument("--run", required=True)
     guide.add_argument("--json", action="store_true")
 
+    campaigns = subparsers.add_parser("campaigns")
+    campaigns.add_argument("--out", default="out")
+    campaigns.add_argument("--json", action="store_true")
+
+    latest = subparsers.add_parser("latest")
+    latest.add_argument("--out", default="out")
+    latest.add_argument("--campaign", required=True)
+    latest.add_argument("--json", action="store_true")
+
     report = subparsers.add_parser("report")
     report.add_argument("--run", required=True)
     report.add_argument("--json", action="store_true")
@@ -162,6 +171,24 @@ def guide_command(args: argparse.Namespace) -> int:
     return 0
 
 
+def campaigns_command(args: argparse.Namespace) -> int:
+    from orbit_pilot.services.campaigns import list_campaigns
+
+    emit({"campaigns": list_campaigns(args.out)}, args.json)
+    return 0
+
+
+def latest_command(args: argparse.Namespace) -> int:
+    from orbit_pilot.services.campaigns import latest_run
+
+    run_path = latest_run(args.out, args.campaign)
+    if run_path is None:
+        emit({"error": f"No runs found for campaign: {args.campaign}"}, args.json)
+        return 1
+    emit({"campaign": args.campaign, "latest_run": run_path}, args.json)
+    return 0
+
+
 def emit(payload: dict[str, Any], json_mode: bool) -> None:
     if json_mode:
         print(json.dumps(payload, indent=2))
@@ -196,6 +223,10 @@ def main() -> int:
         return report_command(args)
     if args.command == "guide":
         return guide_command(args)
+    if args.command == "campaigns":
+        return campaigns_command(args)
+    if args.command == "latest":
+        return latest_command(args)
     parser.error(f"Unknown command: {args.command}")
     return 2
 
