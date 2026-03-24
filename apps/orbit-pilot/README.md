@@ -30,6 +30,7 @@ orbit next --run out/<campaign-id>/run-*
 orbit report --run out/<campaign-id>/run-*
 orbit export --run out/<campaign-id>/run-* --format json
 orbit export --run out/<campaign-id>/run-* --format md -o launch-report.md
+orbit audit --run out/<campaign-id>/run-* --json
 # API publish is dry-run by default; use --execute once doctor/guide says a platform is ready
 orbit publish --run out/<campaign-id>/run-* --platform github
 orbit publish --run out/<campaign-id>/run-* --platform dev --execute
@@ -47,6 +48,7 @@ orbit regenerate --run out/<campaign-id>/run-* --platform github --platform prod
 | CTA policy | `launch.yaml` `cta_policy` + registry `cta_in_body` — omit tracked URL from body text where inappropriate |
 | Registry images | `image_constraints.max_width` / `max_height` per platform in `seed_platforms.yaml` |
 | Manual notes | `orbit mark-done --note "…"` stored in SQLite + result JSON |
+| Audit tail | `orbit audit [--tail N]` prints `audit.jsonl` events |
 
 ## Credentials
 
