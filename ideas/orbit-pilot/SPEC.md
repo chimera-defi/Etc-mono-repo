@@ -59,6 +59,7 @@ See `ARCHITECTURE_DIAGRAMS.md`.
 - publish attempt logged
 - skip reason logged
 - final live URL logged if available
+- append-only JSONL per run (`audit.jsonl`); CLI `orbit audit --run …` to inspect
 
 ### State Model
 - `LaunchProfile`
