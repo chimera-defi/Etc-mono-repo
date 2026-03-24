@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbit-pilot.local/schemas/publish-output.schema.json",
+  "title": "OrbitPilotPublishOutput",
+  "description": "Machine output of: orbit publish --run … --platform … --json",
+  "type": "object",
+  "required": ["results"],
+  "properties": {
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["platform", "result"],
+        "properties": {
+          "platform": { "type": "string" },
+          "result": {
+            "type": "object",
+            "description": "Publisher response; common keys: status, url, publisher, error, next_step, readiness",
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "error": { "type": "string" }
+  },
+  "additionalProperties": true
+}

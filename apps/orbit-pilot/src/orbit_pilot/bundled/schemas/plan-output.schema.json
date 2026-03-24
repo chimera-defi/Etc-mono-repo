@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbit-pilot.local/schemas/plan-output.schema.json",
+  "title": "OrbitPilotPlanOutput",
+  "description": "Machine output of: orbit plan --launch … --platforms … --json",
+  "type": "object",
+  "required": ["missing_fields", "questions", "platform_count", "platforms", "platform_preview"],
+  "properties": {
+    "missing_fields": { "type": "array", "items": { "type": "string" } },
+    "questions": { "type": "array", "items": { "type": "string" } },
+    "platform_count": { "type": "integer", "minimum": 0 },
+    "platforms": { "type": "array", "items": { "type": "string" } },
+    "platform_preview": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["slug", "planned_mode", "risk", "reason"],
+        "properties": {
+          "slug": { "type": "string" },
+          "planned_mode": { "type": "string" },
+          "risk": { "type": "string" },
+          "reason": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}
