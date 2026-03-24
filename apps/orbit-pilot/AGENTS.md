@@ -41,6 +41,18 @@ Default bundled policy is used unless **`--policy path/to/risk.yaml`**. Policy c
 | Audit timeline | `orbit audit --json` |
 | HTML shareable report | `orbit export --format html` (writes `report.html` in run dir if `-o` omitted) |
 
+### JSON Schema (validate agent parsers)
+
+Bundled under the package as `orbit_pilot/bundled/schemas/*.schema.json`.
+
+```bash
+orbit schemas                 # tab-separated: id<TAB>absolute_path
+orbit schemas --json          # manifest with all paths
+orbit schemas --show plan-output   # print one schema document
+```
+
+Use any Draft 2020-12 validator (e.g. `jsonschema` package in your harness) against CLI stdout. Schemas use `additionalProperties: true` where publishers may add fields.
+
 ## Optional: TUI and webhook
 
 - **TUI:** `pip install 'orbit-pilot[tui]'` then **`orbit tui --run <run_dir>`** — table of platforms, refresh `r`, quit `q`.

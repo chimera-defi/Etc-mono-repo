@@ -78,6 +78,7 @@ See `ARCHITECTURE_DIAGRAMS.md`.
 4. SQLite submission history + append-only `audit.jsonl`; optional operator notes on manual completion.
 5. FastAPI webhook (`orbit serve`): health + launch hook; optional server-side generate when `ORBIT_WEBHOOK_ALLOW_GENERATE=1` and payload includes paths.
 6. Operator web UI: deferred (see `FRONTEND_VISION.md`); shareable **HTML run export** and optional **Textual TUI** live in `apps/orbit-pilot/` (`orbit export --format html`, `orbit tui`).
+7. **JSON Schema** documents ship with the package (`bundled/schemas/`) for agent validation of `--json` CLI outputs; **`orbit schemas`** lists paths.
 
 ### Config Contract
 ```yaml

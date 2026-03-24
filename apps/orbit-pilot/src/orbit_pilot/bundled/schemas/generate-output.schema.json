@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbit-pilot.local/schemas/generate-output.schema.json",
+  "title": "OrbitPilotGenerateOutput",
+  "description": "Machine output of: orbit generate --json (and regenerate --json)",
+  "type": "object",
+  "required": ["run_dir", "results"],
+  "properties": {
+    "run_dir": { "type": "string" },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["platform", "mode", "risk_level", "reason", "payload_path", "duplicate", "asset_count"],
+        "properties": {
+          "platform": { "type": "string" },
+          "mode": { "type": "string" },
+          "risk_level": { "type": "string" },
+          "reason": { "type": "string" },
+          "payload_path": { "type": ["string", "null"] },
+          "duplicate": { "type": "boolean" },
+          "asset_count": { "type": "integer", "minimum": 0 }
+        },
+        "additionalProperties": true
+      }
+    },
+    "error": { "type": "string" }
+  },
+  "additionalProperties": true
+}

@@ -28,7 +28,7 @@ build-backend = "setuptools.build_meta"
 where = ["src"]
 
 [tool.setuptools.package-data]
-orbit_pilot = ["bundled/*.yaml"]
+orbit_pilot = ["bundled/*.yaml", "bundled/schemas/*.json"]
 
 [tool.ruff]
 line-length = 120
