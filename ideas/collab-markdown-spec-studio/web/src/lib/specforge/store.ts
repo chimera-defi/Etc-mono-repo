@@ -2578,11 +2578,37 @@ export async function exportDocument(documentId: string, options?: StoreOptions)
     throw new Error(`Document ${documentId} not found`);
   }
 
-  const [patches, clarifications] = await Promise.all([
+  const [patches, clarifications, planningStages] = await Promise.all([
     listPatches(documentId, options),
     listClarifications(documentId, options),
+    getCompletedPlanningStages(documentId, options),
   ]);
-  return exportDocumentBundle(document, patches, clarifications);
+  return exportDocumentBundle(document, patches, clarifications, planningStages);
+}
+
+async function getCompletedPlanningStages(
+  documentId: string,
+  options?: StoreOptions,
+): Promise<Map<string, Record<string, string>>> {
+  const database = await getDatabase(options);
+  
+  const { rows } = await database.query<{
+    name: string;
+    outputs_json: Record<string, string> | null;
+  }>(
+    `SELECT name, outputs_json
+     FROM plan_stages
+     WHERE document_id = $1 AND status = 'completed'`,
+    [documentId],
+  );
+
+  const stageOutputs = new Map<string, Record<string, string>>();
+  for (const row of rows) {
+    if (row.outputs_json) {
+      stageOutputs.set(row.name, row.outputs_json);
+    }
+  }
+  return stageOutputs;
 }
 
 function mapUserRow(row: UserRow): UserRecord {
