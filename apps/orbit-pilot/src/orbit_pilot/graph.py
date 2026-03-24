@@ -98,7 +98,7 @@ def _tracked_url(launch: LaunchProfile, record: PlatformRecord) -> str:
 def build_body_for_platform(launch: LaunchProfile, record: PlatformRecord) -> str:
     url = _tracked_url(launch, record)
     if record.slug == "x":
-        return build_x_post_text(launch, url)
+        return build_x_post_text(launch, record, url)
     return build_submission_body(launch, record, url)
 
 

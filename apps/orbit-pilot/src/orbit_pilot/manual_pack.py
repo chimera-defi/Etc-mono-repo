@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from orbit_pilot.assets import PRESETS
 from orbit_pilot.manual_guidance import build_guidance
 from orbit_pilot.models import PlatformRecord, SubmissionDecision
 
@@ -16,6 +17,11 @@ def write_manual_pack(run_dir: Path, record: PlatformRecord, decision: Submissio
     meta_path = platform_dir / "meta.json"
     guidance = build_guidance(record)
     payload_path.write_text(json.dumps(decision.payload or {}, indent=2), encoding="utf-8")
+    img: dict[str, int] | None = None
+    if record.image_max_width and record.image_max_height:
+        img = {"max_width": record.image_max_width, "max_height": record.image_max_height}
+    elif record.slug in PRESETS:
+        img = {"max_width": PRESETS[record.slug]["width"], "max_height": PRESETS[record.slug]["height"]}
     meta_path.write_text(
         json.dumps(
             {
@@ -27,6 +33,8 @@ def write_manual_pack(run_dir: Path, record: PlatformRecord, decision: Submissio
                 "risk": record.risk,
                 "cooldown_seconds": record.cooldown_seconds,
                 "planned_mode": decision.mode,
+                "image_constraints": img,
+                "cta_in_body": record.cta_in_body,
             },
             indent=2,
         ),

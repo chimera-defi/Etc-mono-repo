@@ -32,7 +32,11 @@ def prepare_assets(launch: LaunchProfile, record: PlatformRecord, platform_dir: 
     assets_dir.mkdir(parents=True, exist_ok=True)
     outputs: list[str] = []
     manifest: list[dict[str, Any]] = []
-    preset = PRESETS.get(record.slug)
+    preset = None
+    if record.image_max_width and record.image_max_height:
+        preset = {"width": record.image_max_width, "height": record.image_max_height}
+    elif PRESETS.get(record.slug):
+        preset = dict(PRESETS[record.slug])
     files = []
     logo = launch.assets.get("logo")
     if logo:

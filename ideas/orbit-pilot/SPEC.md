@@ -20,6 +20,7 @@ See `ARCHITECTURE_DIAGRAMS.md`.
 - short / medium / long descriptions
 - founder and company metadata
 - links, screenshots, logos, tags
+- optional `cta_policy`: `default_include_link` and per-platform `platforms.<slug>.include_link` (omit tracked URL from generated body copy when false)
 
 #### 2) Platform Registry
 - platform name and official URL
@@ -27,7 +28,8 @@ See `ARCHITECTURE_DIAGRAMS.md`.
 - automation mode: `official_api | manual | browser_fallback_opt_in | unknown`
 - risk level
 - required fields
-- image constraints
+- image constraints (`image_constraints.max_width` / `max_height`; falls back to built-in presets when absent)
+- optional `cta_in_body` (default true): when false, generated body omits primary tracked link for that platform
 - notes on moderation and commercial restrictions
 
 #### 3) Content Generation Layer
@@ -69,11 +71,12 @@ See `ARCHITECTURE_DIAGRAMS.md`.
 - `AuditEvent`
 
 ### Default Implementation
-1. Python service with LangGraph for orchestration.
-2. YAML config for platform settings and user risk tolerance.
+1. Python CLI + services with LangGraph for plan and full generate pipelines (`orbit_pilot.orchestrate`).
+2. YAML: launch profile, platform registry, risk policy (`risk.*`, `platforms.<slug>.enabled|mode`).
 3. OS keychain-backed credentials via `keyring`.
-4. SQLite or Postgres for audit events and submission history.
-5. FastAPI webhook and operator UI later.
+4. SQLite submission history + append-only `audit.jsonl`; optional operator notes on manual completion.
+5. FastAPI webhook (`orbit serve`): health + launch hook; optional server-side generate when `ORBIT_WEBHOOK_ALLOW_GENERATE=1` and payload includes paths.
+6. Operator web UI: deferred (see `FRONTEND_VISION.md`).
 
 ### Config Contract
 ```yaml
