@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import os
 from typing import Any
 
 from orbit_pilot.credentials import get_secret
@@ -11,7 +10,7 @@ def publish(payload: dict[str, Any], dry_run: bool = True) -> dict[str, Any]:
     if dry_run:
         return {"status": "dry_run", "url": payload["url"], "publisher": "x"}
     token = get_secret("X_ACCESS_TOKEN")
-    base_url = os.environ.get("X_API_BASE_URL", "https://api.x.com/2")
+    base_url = get_secret("X_API_BASE_URL") or "https://api.x.com/2"
     if not token:
         return {"status": "error", "error": "X_ACCESS_TOKEN is not set", "publisher": "x"}
     response = json_post(
