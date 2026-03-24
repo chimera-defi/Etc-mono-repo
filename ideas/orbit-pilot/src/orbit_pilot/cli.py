@@ -63,7 +63,15 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def load_launch(path: str) -> LaunchProfile:
-    raw = load_document(path)
+    source_path = Path(path)
+    raw = load_document(source_path)
+    assets = raw.get("assets", {})
+    logo = assets.get("logo")
+    if logo:
+        assets["logo"] = str((source_path.parent / logo).resolve())
+    screenshots = [str((source_path.parent / item).resolve()) for item in assets.get("screenshots", [])]
+    if screenshots:
+        assets["screenshots"] = screenshots
     return LaunchProfile(
         product_name=raw.get("product_name", ""),
         website_url=raw.get("website_url", ""),
@@ -71,7 +79,7 @@ def load_launch(path: str) -> LaunchProfile:
         summary=raw.get("summary", ""),
         descriptions=raw.get("descriptions", {}),
         features=raw.get("features", []),
-        assets=raw.get("assets", {}),
+        assets=assets,
         company=raw.get("company", {}),
         publish=raw.get("publish", {}),
     )

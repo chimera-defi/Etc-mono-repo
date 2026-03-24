@@ -5,7 +5,9 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from orbit_pilot.assets import prepare_assets
 from orbit_pilot.audit import record_submission
+from orbit_pilot.models import LaunchProfile, PlatformRecord
 from orbit_pilot.cli import get_pending_manual
 from orbit_pilot.state import cooldown_remaining, record_publish_attempt
 
@@ -33,6 +35,33 @@ class CliHelpersTest(unittest.TestCase):
             run_dir.mkdir()
             record_publish_attempt(run_dir, "github")
             self.assertGreater(cooldown_remaining(run_dir, "github", 3600), 0)
+
+    def test_prepare_assets_writes_manifest(self) -> None:
+        fixture_root = Path("/root/.openclaw/workspace/dev/etc-walletradar-backlinks/ideas/orbit-pilot/fixtures")
+        with tempfile.TemporaryDirectory() as tmp:
+            platform_dir = Path(tmp) / "medium"
+            launch = LaunchProfile(
+                product_name="OrbitPilot",
+                website_url="https://example.com",
+                tagline="tagline",
+                summary="summary",
+                assets={
+                    "logo": str(fixture_root / "logo.png"),
+                    "screenshots": [str(fixture_root / "hero.png")],
+                },
+            )
+            record = PlatformRecord(
+                name="Medium",
+                slug="medium",
+                category="content",
+                official_url="https://medium.com",
+                submit_url="https://medium.com",
+                mode="manual",
+                risk="medium",
+            )
+            outputs = prepare_assets(launch, record, platform_dir)
+            self.assertEqual(len(outputs), 2)
+            self.assertTrue((platform_dir / "assets.json").exists())
 
 
 if __name__ == "__main__":
