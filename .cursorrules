@@ -27,16 +27,18 @@
 
 **Session workflow (automatic):**
 1. Use QMD BM25 to find relevant files first (`qmd search "topic" -n 5 --files`)
+   Shortcut: `./skills/token-reduce/scripts/token-reduce-paths.sh topic words`
 2. Use targeted file reads (head/tail, not full files)
 3. Parallel tool calls when possible
 4. Skip preambles and confirmations
 5. Prefer `rg --files -g` for structure scans before directory_tree
+6. Do not start repo exploration with `find .`, `ls -R`, `grep -R`, `rg --files .`, or broad `Glob` patterns; hooks and review treat these as broad discovery violations and redirect to token-reduce search/QMD/`rg -g`
 
 **Token reduction tools:**
 - **QMD BM25 search** (recommended): `qmd search "topic" -n 5 --files` — 99% fewer tokens than naive reads
 - **MCP CLI** (Cursor only, not Claude Code): See `.cursor/MCP_CLI.md` — adds 117% overhead in Claude Code
 - **Benchmarked savings:** 89% (concise), 99% (QMD search vs naive), 33% (targeted reads)
-- Complete guide: `.cursor/TOKEN_REDUCTION.md`
+- Complete guide: `.cursor/TOKEN_REDUCTION.md` (canonical source: `skills/token-reduce/`)
 
 **Sub-agent delegation (prevents context compaction):**
 - **>5 files to read?** → `Task(subagent_type="Explore")`
@@ -44,6 +46,11 @@
 - **Pattern match across codebase?** → `Task(subagent_type="Explore")`
 - **Complex multi-step research?** → `Task(subagent_type="general-purpose")`
 - Sub-agents return summaries, keeping main context lean
+
+**Don't use token-reduction flow for:**
+- Exact known-file, one-file edits
+- Tiny operational checks with no codebase search
+- Small files where direct targeted read is obviously cheapest
 
 ---
 
