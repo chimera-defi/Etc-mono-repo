@@ -3,13 +3,14 @@ from __future__ import annotations
 import os
 from typing import Any
 
+from orbit_pilot.credentials import get_secret
 from orbit_pilot.publishers.http import json_post
 
 
 def publish(payload: dict[str, Any], dry_run: bool = True) -> dict[str, Any]:
     if dry_run:
         return {"status": "dry_run", "url": payload["url"], "publisher": "x"}
-    token = os.environ.get("X_ACCESS_TOKEN")
+    token = get_secret("X_ACCESS_TOKEN")
     base_url = os.environ.get("X_API_BASE_URL", "https://api.x.com/2")
     if not token:
         return {"status": "error", "error": "X_ACCESS_TOKEN is not set", "publisher": "x"}

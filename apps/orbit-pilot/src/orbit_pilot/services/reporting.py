@@ -5,6 +5,8 @@ from pathlib import Path
 from typing import Any
 
 from orbit_pilot.audit import list_submissions
+from orbit_pilot.publishers.requirements import validate_platform
+from orbit_pilot.publishers.router import PUBLISHERS
 
 RISK_ORDER = {
     "low": 1,
@@ -59,4 +61,46 @@ def report_payload(run_dir: Path) -> dict[str, Any]:
         "next_manual": next_manual,
         "skipped": skipped,
         "official_api_rows": official,
+    }
+
+
+def human_guide(run_dir: Path) -> dict[str, Any]:
+    rows = list_submissions(run_dir)
+    pending = get_pending_manual(run_dir, rows)
+    official_ready: list[dict[str, Any]] = []
+    official_blocked: list[dict[str, Any]] = []
+    for row in rows:
+        if row["platform"] not in PUBLISHERS:
+            continue
+        payload = json.loads((run_dir / row["platform"] / "payload.json").read_text(encoding="utf-8"))
+        readiness = validate_platform(row["platform"], payload)
+        item = {
+            "platform": row["platform"],
+            "ready": readiness["ready"],
+            "missing_secrets": readiness["missing_secrets"],
+            "missing_payload": readiness["missing_payload"],
+        }
+        if readiness["ready"]:
+            item["next_step"] = f"Run orbit publish --run {run_dir} --platform {row['platform']} --execute"
+            official_ready.append(item)
+        else:
+            item["next_step"] = "Fill missing secrets or payload fields, then rerun orbit doctor."
+            official_blocked.append(item)
+
+    manual_top: list[dict[str, Any]] = []
+    for row in pending[:3]:
+        meta = json.loads((run_dir / row["platform"] / "meta.json").read_text(encoding="utf-8"))
+        manual_top.append(
+            {
+                "platform": row["platform"],
+                "submit_url": meta.get("submit_url"),
+                "priority": row["priority"],
+                "prompt_path": str(run_dir / row["platform"] / "PROMPT_USER.txt"),
+            }
+        )
+    return {
+        "official_ready": official_ready,
+        "official_blocked": official_blocked,
+        "manual_top": manual_top,
+        "next_manual": manual_top[0]["platform"] if manual_top else None,
     }
