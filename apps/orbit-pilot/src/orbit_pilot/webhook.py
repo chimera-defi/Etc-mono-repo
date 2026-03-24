@@ -24,4 +24,8 @@ def launch_hook(
     secret = os.environ.get("ORBIT_WEBHOOK_SECRET")
     if secret and x_orbit_secret != secret:
         raise HTTPException(status_code=401, detail="invalid webhook secret")
-    return {"received": True, "event": payload.get("event", "unknown")}
+
+    from orbit_pilot.hook_trigger import try_generate_from_hook_payload
+
+    gen = try_generate_from_hook_payload(payload)
+    return {"received": True, "event": payload.get("event", "unknown"), "generate": gen}

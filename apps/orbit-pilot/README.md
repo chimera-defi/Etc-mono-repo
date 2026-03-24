@@ -42,8 +42,11 @@ orbit regenerate --run out/<campaign-id>/run-* --platform github --platform prod
 | Piece | What |
 |-------|------|
 | Risk policy | `risk.defaults.yaml`: `risk.tolerance`, `allow_browser_fallback`, optional `platforms.<slug>.enabled` / `mode` |
-| LangGraph | `orbit_pilot.orchestrate.run_plan_graph(launch, platforms, policy_path)` — same plan+policy as CLI |
-| Webhook | `orbit serve` or `orbit-serve` — `GET /health`, `POST /hooks/launch`; set `ORBIT_WEBHOOK_SECRET` to require `X-Orbit-Secret` |
+| LangGraph | `run_plan_graph` / `run_generate_graph` in `orbit_pilot.orchestrate` (plan + full generate pipeline) |
+| Webhook | `orbit serve` — `GET /health`, `POST /hooks/launch`; `ORBIT_WEBHOOK_SECRET` + `X-Orbit-Secret`; optional `ORBIT_WEBHOOK_ALLOW_GENERATE=1` + JSON body `launch_path`, `platforms_path`, `out` to run generate on the server |
+| CTA policy | `launch.yaml` `cta_policy` + registry `cta_in_body` — omit tracked URL from body text where inappropriate |
+| Registry images | `image_constraints.max_width` / `max_height` per platform in `seed_platforms.yaml` |
+| Manual notes | `orbit mark-done --note "…"` stored in SQLite + result JSON |
 
 ## Credentials
 
@@ -57,7 +60,7 @@ Official publishers read credentials from environment variables first and then O
 | `LINKEDIN_ACCESS_TOKEN` + `publish.linkedin.author` | LinkedIn |
 | `X_ACCESS_TOKEN` | X |
 
-Manual platforms never call `publish` with `--execute`; use `orbit mark-done --live-url ...` after posting by hand.
+Manual platforms never call `publish` with `--execute`; use `orbit mark-done --live-url … [--note …]` after posting by hand.
 
 ## Tests
 

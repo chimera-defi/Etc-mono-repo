@@ -62,6 +62,9 @@ platforms:
     risk: medium_high
     priority: 95
     cooldown_seconds: 86400
+    image_constraints:
+      max_width: 1200
+      max_height: 630
   - name: Crunchbase
     slug: crunchbase
     category: company_profile
@@ -80,6 +83,7 @@ platforms:
     risk: medium
     priority: 84
     cooldown_seconds: 86400
+    cta_in_body: false
   - name: Tiny Startups
     slug: tiny_startups
     category: directory

@@ -33,3 +33,33 @@ def test_launch_hook_requires_secret(client: TestClient) -> None:
     r2 = client.post("/hooks/launch", json={"event": "x"}, headers={"X-Orbit-Secret": "secret"})
     assert r2.status_code == 200
     del os.environ["ORBIT_WEBHOOK_SECRET"]
+
+
+def test_launch_hook_generate_when_enabled(client: TestClient, tmp_path) -> None:
+    root = tmp_path
+    launch = root / "l.yaml"
+    launch.write_text(
+        "product_name: P\nwebsite_url: https://p.example\ntagline: t\nsummary: s\n",
+        encoding="utf-8",
+    )
+    plat = root / "p.yaml"
+    plat.write_text(
+        "platforms:\n  - name: G\n    slug: github\n    mode: official_api\n    risk: low\n",
+        encoding="utf-8",
+    )
+    os.environ.pop("ORBIT_WEBHOOK_SECRET", None)
+    os.environ["ORBIT_WEBHOOK_ALLOW_GENERATE"] = "1"
+    r = client.post(
+        "/hooks/launch",
+        json={
+            "event": "generate",
+            "launch_path": str(launch),
+            "platforms_path": str(plat),
+            "out": str(root / "out"),
+        },
+    )
+    assert r.status_code == 200
+    gen = r.json()["generate"]
+    assert gen.get("skipped") is False
+    assert gen.get("run_dir")
+    del os.environ["ORBIT_WEBHOOK_ALLOW_GENERATE"]
