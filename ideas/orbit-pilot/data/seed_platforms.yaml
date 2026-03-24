@@ -7,6 +7,7 @@ platforms:
     mode: official_api_if_token_else_manual
     risk: medium
     priority: 70
+    cooldown_seconds: 21600
   - name: Reddit
     slug: reddit
     category: community
@@ -15,6 +16,7 @@ platforms:
     mode: manual_by_default
     risk: medium_high
     priority: 82
+    cooldown_seconds: 14400
   - name: GitHub
     slug: github
     category: developer
@@ -23,6 +25,7 @@ platforms:
     mode: official_api
     risk: low
     priority: 85
+    cooldown_seconds: 1800
   - name: LinkedIn
     slug: linkedin
     category: social
@@ -31,6 +34,7 @@ platforms:
     mode: official_api_if_scoped
     risk: low_medium
     priority: 74
+    cooldown_seconds: 3600
   - name: X
     slug: x
     category: social
@@ -39,6 +43,7 @@ platforms:
     mode: official_api_if_access
     risk: medium
     priority: 76
+    cooldown_seconds: 1800
   - name: DEV
     slug: dev
     category: content
@@ -47,6 +52,7 @@ platforms:
     mode: official_api
     risk: low_medium
     priority: 72
+    cooldown_seconds: 3600
   - name: Product Hunt
     slug: product_hunt
     category: launch
@@ -55,6 +61,7 @@ platforms:
     mode: manual_unless_approved
     risk: medium_high
     priority: 95
+    cooldown_seconds: 86400
   - name: Crunchbase
     slug: crunchbase
     category: company_profile
@@ -63,6 +70,7 @@ platforms:
     mode: manual
     risk: medium
     priority: 92
+    cooldown_seconds: 604800
   - name: Hacker News
     slug: hacker_news
     category: community
@@ -71,6 +79,7 @@ platforms:
     mode: manual
     risk: medium
     priority: 84
+    cooldown_seconds: 86400
   - name: Tiny Startups
     slug: tiny_startups
     category: directory
@@ -79,6 +88,7 @@ platforms:
     mode: manual
     risk: medium
     priority: 68
+    cooldown_seconds: 259200
   - name: TrustMRR
     slug: trustmrr
     category: directory
@@ -87,6 +97,7 @@ platforms:
     mode: manual
     risk: medium
     priority: 52
+    cooldown_seconds: 259200
   - name: BetaList
     slug: betalist
     category: directory
@@ -95,6 +106,7 @@ platforms:
     mode: manual
     risk: medium
     priority: 86
+    cooldown_seconds: 604800
   - name: Indie Hackers
     slug: indie_hackers
     category: community
@@ -103,6 +115,7 @@ platforms:
     mode: manual
     risk: medium
     priority: 80
+    cooldown_seconds: 604800
   - name: Uneed
     slug: uneed
     category: directory
@@ -111,6 +124,7 @@ platforms:
     mode: manual
     risk: medium
     priority: 73
+    cooldown_seconds: 604800
   - name: SaaSHub
     slug: saashub
     category: directory
@@ -119,6 +133,7 @@ platforms:
     mode: manual
     risk: medium
     priority: 83
+    cooldown_seconds: 604800
   - name: AlternativeTo
     slug: alternativeto
     category: directory
@@ -127,6 +142,7 @@ platforms:
     mode: manual
     risk: medium
     priority: 81
+    cooldown_seconds: 604800
   - name: Startup Stash
     slug: startup_stash
     category: directory
@@ -135,6 +151,7 @@ platforms:
     mode: manual
     risk: medium
     priority: 75
+    cooldown_seconds: 604800
   - name: Futurepedia
     slug: futurepedia
     category: ai_directory
@@ -143,6 +160,7 @@ platforms:
     mode: manual
     risk: medium
     priority: 71
+    cooldown_seconds: 604800
   - name: TheresAnAIForThat
     slug: theres_an_ai_for_that
     category: ai_directory
@@ -151,6 +169,7 @@ platforms:
     mode: manual
     risk: medium
     priority: 78
+    cooldown_seconds: 604800
   - name: Peerlist
     slug: peerlist
     category: community
@@ -159,3 +178,4 @@ platforms:
     mode: manual
     risk: medium
     priority: 69
+    cooldown_seconds: 604800
