@@ -27,11 +27,21 @@ class CliHelpersTest(unittest.TestCase):
             for slug, priority in (("low_site", 10), ("high_site", 90)):
                 platform_dir = run_dir / slug
                 platform_dir.mkdir()
-                (platform_dir / "meta.json").write_text(json.dumps({"priority": priority, "risk": "medium"}), encoding="utf-8")
-                record_submission(run_dir, slug, "manual", "generated", "test", {"url": "https://example.com"})
+                meta = {"priority": priority, "risk": "medium"}
+                (platform_dir / "meta.json").write_text(json.dumps(meta), encoding="utf-8")
+                record_submission(
+                    run_dir, slug, "manual", "generated", "test", {"url": "https://example.com"}
+                )
+            row_base = {
+                "mode": "manual",
+                "status": "generated",
+                "live_url": None,
+                "reason": "test",
+                "result": {},
+            }
             rows = [
-                {"platform": "low_site", "mode": "manual", "status": "generated", "live_url": None, "reason": "test", "result": {}},
-                {"platform": "high_site", "mode": "manual", "status": "generated", "live_url": None, "reason": "test", "result": {}},
+                {"platform": "low_site", **row_base},
+                {"platform": "high_site", **row_base},
             ]
             ordered = get_pending_manual(run_dir, rows)
             self.assertEqual(ordered[0]["platform"], "high_site")
