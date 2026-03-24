@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { ExportFileBrowser } from "./export-file-browser";
+
 import {
   answerClarificationAction,
   createClarificationAction,
@@ -776,22 +778,10 @@ export function ExportStage(props: {
                 </Link>
                 <span>{Object.keys(exportBundle.files).length} files ready for handoff</span>
               </div>
-              <details className={styles.exportDisclosure}>
-                <summary className={styles.disclosureSummary}>
-                  <span>Bundle contents</span>
-                  <span>{Object.keys(exportBundle.files).length} files</span>
-                </summary>
-                <div className={styles.disclosureBody}>
-                  <div className={styles.exportGrid}>
-                    {Object.entries(exportBundle.files).map(([name, content]) => (
-                      <article key={name} className={styles.exportCard}>
-                        <h3>{name}</h3>
-                        <pre>{content}</pre>
-                      </article>
-                    ))}
-                  </div>
-                </div>
-              </details>
+              <ExportFileBrowser
+                documentId={activeDocument?.document_id ?? "export"}
+                initialFiles={exportBundle.files}
+              />
             </>
           ) : (
             <p className={styles.empty}>No export available yet.</p>
