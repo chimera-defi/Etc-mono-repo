@@ -38,3 +38,32 @@ def write_run_manifest(run_dir: Path, campaign: Campaign, launch_path: str, plat
 
 def load_run_manifest(run_dir: Path) -> dict:
     return json.loads((run_dir / "run.json").read_text(encoding="utf-8"))
+
+
+def list_campaigns(base_out: str | Path) -> list[dict]:
+    root = Path(base_out)
+    if not root.exists():
+        return []
+    campaigns: list[dict] = []
+    for campaign_dir in sorted(path for path in root.iterdir() if path.is_dir()):
+        runs = sorted(path for path in campaign_dir.iterdir() if path.is_dir() and path.name.startswith("run-"))
+        if not runs:
+            continue
+        campaigns.append(
+            {
+                "campaign": campaign_dir.name,
+                "run_count": len(runs),
+                "latest_run": str(runs[-1]),
+            }
+        )
+    return campaigns
+
+
+def latest_run(base_out: str | Path, campaign_id: str) -> str | None:
+    root = Path(base_out) / campaign_id
+    if not root.exists():
+        return None
+    runs = sorted(path for path in root.iterdir() if path.is_dir() and path.name.startswith("run-"))
+    if not runs:
+        return None
+    return str(runs[-1])
