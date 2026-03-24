@@ -61,3 +61,10 @@ def generate_run(launch: LaunchProfile, platforms: list[PlatformRecord], run_dir
             }
         )
     return results
+
+
+def select_platforms(platforms: list[PlatformRecord], selected: list[str] | None) -> list[PlatformRecord]:
+    if not selected:
+        return platforms
+    wanted = set(selected)
+    return [record for record in platforms if record.slug in wanted]
