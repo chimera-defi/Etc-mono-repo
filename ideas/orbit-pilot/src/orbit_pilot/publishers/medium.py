@@ -1,15 +1,15 @@
 from __future__ import annotations
 
-import os
 from typing import Any
 
+from orbit_pilot.credentials import get_secret
 from orbit_pilot.publishers.http import json_post
 
 
 def publish(payload: dict[str, Any], dry_run: bool = True) -> dict[str, Any]:
     if dry_run:
         return {"status": "dry_run", "url": payload["url"], "publisher": "medium"}
-    token = os.environ.get("MEDIUM_TOKEN")
+    token = get_secret("MEDIUM_TOKEN")
     author_id = payload.get("medium_author_id")
     if not token:
         return {"status": "error", "error": "MEDIUM_TOKEN is not set", "publisher": "medium"}
