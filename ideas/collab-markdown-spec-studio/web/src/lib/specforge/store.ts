@@ -1018,6 +1018,28 @@ async function createSchema(database: QuerySession) {
     );
 
     ALTER TABLE clarifications ADD COLUMN IF NOT EXISTS priority TEXT NOT NULL DEFAULT 'normal';
+
+    CREATE TABLE IF NOT EXISTS plan_sessions (
+      session_id TEXT PRIMARY KEY,
+      document_id TEXT NOT NULL REFERENCES documents(document_id) ON DELETE CASCADE,
+      workspace_id TEXT NOT NULL,
+      status TEXT NOT NULL DEFAULT 'active',
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS plan_stages (
+      stage_id TEXT PRIMARY KEY,
+      session_id TEXT NOT NULL REFERENCES plan_sessions(session_id) ON DELETE CASCADE,
+      document_id TEXT NOT NULL,
+      name TEXT NOT NULL,
+      status TEXT NOT NULL DEFAULT 'pending',
+      patch_id TEXT REFERENCES patches(patch_id) ON DELETE SET NULL,
+      outputs_json JSONB,
+      answers_json JSONB,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
   `);
 }
 

@@ -1,8 +1,8 @@
 import type { StarterTemplateId } from "@/lib/specforge/handoff";
 
-export type Stage = "start" | "draft" | "review" | "decide" | "export";
+export type Stage = "start" | "plan" | "draft" | "review" | "decide" | "export";
 
-export const stageOrder: Stage[] = ["start", "draft", "review", "decide", "export"];
+export const stageOrder: Stage[] = ["start", "plan", "draft", "review", "decide", "export"];
 
 export function getPatchRiskLabel(patchType: string) {
   switch (patchType) {
@@ -78,6 +78,12 @@ export function getStageMeta(stage: Stage) {
       return {
         title: "Start the spec",
         description: "Choose an existing draft or create a fresh document to work on.",
+      };
+    case "plan":
+      return {
+        title: "Sprint planning",
+        description:
+          "Walk through 5 optional stages — Discovery, CEO Review, Eng Review, Design Review, Security Review.",
       };
     case "draft":
       return {

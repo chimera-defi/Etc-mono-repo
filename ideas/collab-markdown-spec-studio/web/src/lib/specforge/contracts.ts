@@ -139,6 +139,67 @@ export const storeSchema = z.object({
   patches: z.array(storedPatchSchema),
 });
 
+export const PLAN_STAGE_NAMES = [
+  "discovery",
+  "ceo-review",
+  "eng-review",
+  "design-review",
+  "security-review",
+] as const;
+export type PlanStageName = (typeof PLAN_STAGE_NAMES)[number];
+
+export const planStageSchema = z.object({
+  stage_id: z.string().min(1),
+  session_id: z.string().min(1),
+  document_id: z.string().min(1),
+  name: z.enum(PLAN_STAGE_NAMES),
+  status: z.enum(["pending", "in_progress", "completed", "skipped"]),
+  patch_id: z.string().nullable(),
+  outputs: z.record(z.string(), z.unknown()).nullable(),
+  answers: z.record(z.string(), z.string()).nullable(),
+  created_at: z.string().min(1),
+  updated_at: z.string().min(1),
+});
+
+export const planSessionSchema = z.object({
+  session_id: z.string().min(1),
+  document_id: z.string().min(1),
+  workspace_id: z.string().min(1),
+  status: z.enum(["active", "completed", "abandoned"]),
+  stages: z.array(planStageSchema),
+  created_at: z.string().min(1),
+  updated_at: z.string().min(1),
+});
+
+export const planSessionCreateSchema = z.object({
+  document_id: z.string().min(1),
+});
+
+export const planStageAdvanceSchema = z.object({
+  stage_name: z.enum(PLAN_STAGE_NAMES),
+  answers: z.record(z.string(), z.string()),
+  actor_id: z.string().min(1),
+  actor_type: z.enum(["human", "agent"]).default("human"),
+});
+
+export const planStageSkipSchema = z.object({
+  stage_name: z.enum(PLAN_STAGE_NAMES),
+  actor_id: z.string().min(1),
+});
+
+export const iterationRequestSchema = z.object({
+  message: z.string().min(1).max(2000),
+  actor_id: z.string().min(1),
+  actor_type: z.enum(["human", "agent"]).default("human"),
+});
+
+export type PlanStage = z.infer<typeof planStageSchema>;
+export type PlanSession = z.infer<typeof planSessionSchema>;
+export type PlanSessionCreateInput = z.infer<typeof planSessionCreateSchema>;
+export type PlanStageAdvanceInput = z.infer<typeof planStageAdvanceSchema>;
+export type PlanStageSkipInput = z.infer<typeof planStageSkipSchema>;
+export type IterationRequestInput = z.infer<typeof iterationRequestSchema>;
+
 export type DocumentCreateInput = z.infer<typeof documentCreateSchema>;
 export type DocumentUpdateInput = z.infer<typeof documentUpdateSchema>;
 export type PatchProposalInput = z.infer<typeof patchProposalSchema>;
