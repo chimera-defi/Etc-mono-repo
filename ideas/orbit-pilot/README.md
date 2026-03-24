@@ -1,6 +1,8 @@
 # Orbit Pilot
 
-**Status:** Spec Stage | **Last Updated:** 2026-03-23
+**Status:** Spec + V0 CLI shipped | **Last Updated:** 2026-03-24
+
+**Implementation:** [`apps/orbit-pilot/`](../../apps/orbit-pilot/) (this folder is specs and research only).
 
 ## One-Liner
 
@@ -62,4 +64,4 @@ WalletRadar is a concrete fit for Orbit Pilot because it needs repeatable submis
 4. `PLATFORM_MATRIX.md`
 5. `V0_BUILD_PLAN.md`
 6. `ARCHITECTURE_DECISIONS.md`
-7. `src/orbit_pilot/`
+7. `../../apps/orbit-pilot/src/orbit_pilot/`

@@ -24,7 +24,11 @@ def get_pending_manual(run_dir: Path, rows: list[dict[str, Any]]) -> list[dict[s
         meta = {}
         if meta_path.exists():
             meta = json.loads(meta_path.read_text(encoding="utf-8"))
-        row = {**row, "priority": int(meta.get("priority", 50)), "risk_rank": RISK_ORDER.get(meta.get("risk", "medium"), 99)}
+        row = {
+            **row,
+            "priority": int(meta.get("priority", 50)),
+            "risk_rank": RISK_ORDER.get(meta.get("risk", "medium"), 99),
+        }
         pending.append(row)
     pending.sort(key=lambda item: (-item["priority"], item["risk_rank"], item["platform"]))
     return pending
@@ -47,4 +51,12 @@ def report_payload(run_dir: Path) -> dict[str, Any]:
     pending = get_pending_manual(run_dir, rows)
     pending_manual = [row["platform"] for row in pending]
     next_manual = pending_manual[0] if pending_manual else None
-    return {"results": rows, "pending_manual": pending_manual, "next_manual": next_manual}
+    skipped = [r["platform"] for r in rows if r["mode"] == "skipped"]
+    official = [r for r in rows if r["mode"] == "official_api"]
+    return {
+        "results": rows,
+        "pending_manual": pending_manual,
+        "next_manual": next_manual,
+        "skipped": skipped,
+        "official_api_rows": official,
+    }
