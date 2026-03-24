@@ -3,11 +3,14 @@ from __future__ import annotations
 import argparse
 import json
 from dataclasses import asdict
+from importlib import resources
 from pathlib import Path
 from typing import Any
 
+from orbit_pilot.audit import record_submission
 from orbit_pilot.config import load_document
-from orbit_pilot.models import LaunchProfile, REQUIRED_LAUNCH_FIELDS
+from orbit_pilot.graph import plan_platform
+from orbit_pilot.models import REQUIRED_LAUNCH_FIELDS, LaunchProfile
 from orbit_pilot.registry import load_platforms
 from orbit_pilot.services.campaigns import build_campaign, create_run_dir, write_run_manifest
 from orbit_pilot.services.generation import generate_run
@@ -19,7 +22,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="orbit")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    subparsers.add_parser("init")
+    init_p = subparsers.add_parser("init")
+    init_p.add_argument("--dir", default=".", help="Directory to write launch.yaml and seed_platforms.yaml")
 
     for name in ("plan", "generate"):
         cmd = subparsers.add_parser(name)
@@ -40,6 +44,7 @@ def build_parser() -> argparse.ArgumentParser:
     mark_done.add_argument("--run", required=True)
     mark_done.add_argument("--platform", required=True)
     mark_done.add_argument("--live-url", required=True)
+    mark_done.add_argument("--json", action="store_true")
 
     next_cmd = subparsers.add_parser("next")
     next_cmd.add_argument("--run", required=True)
@@ -80,13 +85,25 @@ def plan_command(args: argparse.Namespace) -> int:
     launch_dict = asdict(launch)
     missing = [field for field in REQUIRED_LAUNCH_FIELDS if not launch_dict.get(field)]
     questions = [f"Please provide {field.replace('_', ' ')}." for field in missing]
+    platform_preview: list[dict[str, Any]] = []
+    for record in platforms:
+        decision = plan_platform(record, launch)
+        platform_preview.append(
+            {
+                "slug": record.slug,
+                "planned_mode": decision.mode,
+                "risk": decision.risk_level,
+                "reason": decision.reason,
+            }
+        )
     output = {
         "missing_fields": missing,
         "questions": questions,
         "platform_count": len(platforms),
         "platforms": [record.slug for record in platforms],
+        "platform_preview": platform_preview,
     }
-    emit(output, args.json)
+    emit_plan(output, args.json)
     return 0
 
 
@@ -115,11 +132,15 @@ def publish_command(args: argparse.Namespace) -> int:
 def mark_done_command(args: argparse.Namespace) -> int:
     run_dir = Path(args.run)
     if not run_dir.exists():
-        print(f"Run directory not found: {run_dir}")
+        emit({"error": f"Run directory not found: {run_dir}"}, args.json)
         return 1
     result = {"status": "manual_completed", "url": args.live_url}
     record_submission(run_dir, args.platform, "manual", "manual_completed", "marked done by operator", result)
-    print(f"Marked {args.platform} complete")
+    msg = f"Marked {args.platform} complete: {args.live_url}"
+    if args.json:
+        emit({"message": msg, "platform": args.platform, "live_url": args.live_url}, True)
+    else:
+        print(msg)
     return 0
 
 
@@ -128,7 +149,14 @@ def next_command(args: argparse.Namespace) -> int:
     if not run_dir.exists():
         emit({"error": f"Run directory not found: {run_dir}"}, args.json)
         return 1
-    emit(next_manual_payload(run_dir), args.json)
+    payload = next_manual_payload(run_dir)
+    if args.json:
+        emit(payload, True)
+    elif payload.get("message"):
+        print(payload["message"])
+    else:
+        print(f"Next: {payload['platform']}\n")
+        print(payload["prompt"])
     return 0
 
 
@@ -137,8 +165,39 @@ def report_command(args: argparse.Namespace) -> int:
     if not run_dir.exists():
         emit({"error": f"Run directory not found: {run_dir}"}, args.json)
         return 1
-    emit(report_payload(run_dir), args.json)
+    data = report_payload(run_dir)
+    if args.json:
+        emit(data, True)
+    else:
+        rows = data["results"]
+        pending_manual = data["pending_manual"]
+        next_manual = data["next_manual"]
+        skipped = data.get("skipped", [])
+        print(f"Run: {run_dir}\n")
+        print("--- By platform ---")
+        for row in rows:
+            url = row.get("live_url") or (row.get("result") or {}).get("url", "")
+            print(f"  {row['platform']}: [{row['mode']}] {row['status']} — {url or row['reason']}")
+        if pending_manual:
+            print(f"\nPending manual ({len(pending_manual)}): {', '.join(pending_manual)}")
+            print(f"Next: {next_manual}")
+        else:
+            print("\nNo pending manual submissions.")
+        if skipped:
+            print(f"\nSkipped: {', '.join(skipped)}")
     return 0
+
+
+def emit_plan(payload: dict[str, Any], json_mode: bool) -> None:
+    if json_mode:
+        print(json.dumps(payload, indent=2))
+        return
+    print("Missing fields:", ", ".join(payload["missing_fields"]) or "(none)")
+    for q in payload["questions"]:
+        print(f"  - {q}")
+    print(f"\nPlatforms ({payload['platform_count']}):")
+    for item in payload["platform_preview"]:
+        print(f"  - {item['slug']}: {item['planned_mode']} ({item['risk']}) — {item['reason']}")
 
 
 def emit(payload: dict[str, Any], json_mode: bool) -> None:
@@ -149,8 +208,22 @@ def emit(payload: dict[str, Any], json_mode: bool) -> None:
         print(f"{key}: {value}")
 
 
-def init_command() -> int:
-    print("Copy examples/launch.sample.yaml and data/seed_platforms.yaml into your working directory to start.")
+def init_command(args: argparse.Namespace) -> int:
+    dest = Path(args.dir).resolve()
+    dest.mkdir(parents=True, exist_ok=True)
+    bundled = resources.files("orbit_pilot.bundled")
+    for name in ("launch.sample.yaml", "seed_platforms.yaml"):
+        target = dest / name.replace(".sample", "")
+        text = bundled.joinpath(name).read_text(encoding="utf-8")
+        if target.exists():
+            print(f"Skip existing {target}")
+        else:
+            target.write_text(text, encoding="utf-8")
+            print(f"Wrote {target}")
+    print(
+        f"\nNext: edit {dest / 'launch.yaml'}, then:\n"
+        "  orbit plan --launch launch.yaml --platforms seed_platforms.yaml"
+    )
     return 0
 
 
@@ -158,7 +231,7 @@ def main() -> int:
     parser = build_parser()
     args = parser.parse_args()
     if args.command == "init":
-        return init_command()
+        return init_command(args)
     if args.command == "plan":
         return plan_command(args)
     if args.command == "generate":

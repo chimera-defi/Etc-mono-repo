@@ -80,6 +80,12 @@ Unified birthday reminder application:
 
 **Status:** Idea/planning phase
 
+### Orbit Pilot - V0 CLI
+**Specs:** `ideas/orbit-pilot/`  
+**App:** `apps/orbit-pilot/` (install: `pip install -e 'apps/orbit-pilot/[dev]'`, CLI: `orbit`)
+
+Compliance-first launch ops CLI: plan → generate per-platform packs → optional API publish (GitHub, DEV, Medium, LinkedIn, X when configured) → manual queue + SQLite audit.
+
 ### Conceptual Ideas
 
 | Idea | Description | Status |

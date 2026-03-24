@@ -189,6 +189,8 @@ DeFi protocol concept for ERC-8004 agent credit with Ethos vouching + reverse-Ke
 - Founders and operators lose time reformatting the same launch facts for dozens of sites.
 - The highest-value workflow is not generic "post everywhere"; it is durable launch distribution with tracked links, asset reuse, auditability, and policy-aware submission modes.
 
+**Implementation (V0 CLI):** [`../apps/orbit-pilot/`](../apps/orbit-pilot/)
+
 **Documentation**:
 - [Overview](./orbit-pilot/README.md)
 - [PRD](./orbit-pilot/PRD.md)
