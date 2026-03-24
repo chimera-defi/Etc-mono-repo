@@ -339,6 +339,38 @@ test("local admin controls can seed review activity for a draft", async ({ page 
   await expect(page.getByTestId("patch-queue")).toContainText("structural_edit");
 });
 
+test("export stage shows ExportFileBrowser with file list and highlighted viewer", async ({
+  page,
+}) => {
+  await page.goto("/workspace?stage=start");
+  await page.getByTestId("create-document-title").fill(`Export Browser ${Date.now()}`);
+  await page.getByRole("button", { name: "Create guided draft" }).click();
+  await expect(page.getByRole("heading", { name: "Document workspace" })).toBeVisible();
+
+  const documentId = new URL(page.url()).searchParams.get("document");
+  expect(documentId).toBeTruthy();
+
+  await page.goto(`/workspace?document=${documentId}&stage=export`);
+
+  // Expand the Export preview <details>
+  const exportPreview = page.locator("details", { hasText: "Export preview" }).first();
+  await exportPreview.click();
+
+  // ExportFileBrowser should render with a file list and viewer
+  await expect(page.getByRole("complementary", { name: "Bundle files" })).toBeVisible();
+  await expect(page.locator("[aria-label='Bundle files']")).toBeVisible();
+  // First file should be selected and viewer should be visible
+  await expect(page.locator("[aria-label='Bundle files'] button").first()).toBeVisible();
+
+  // Edit toggle must be present for the selected file
+  await expect(page.getByRole("button", { name: "Edit" })).toBeVisible();
+
+  await page.screenshot({
+    path: "artifacts/screenshots/specforge-export-browser.png",
+    fullPage: false,
+  });
+});
+
 test("renders the pricing page", async ({ page }) => {
   await page.goto("/pricing");
   await expect(page.getByRole("heading", { name: /Start with the spec/i })).toBeVisible();
