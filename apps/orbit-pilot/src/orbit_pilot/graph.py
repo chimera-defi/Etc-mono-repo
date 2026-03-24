@@ -24,7 +24,11 @@ def plan_platform(record: PlatformRecord, launch: LaunchProfile) -> SubmissionDe
         medium_cfg = launch.publish.get("medium", {})
         token_ok = bool(get_secret("MEDIUM_TOKEN"))
         author_ok = bool(str(medium_cfg.get("author_id", "")).strip())
-        if token_ok and author_ok:
+        if mode in (
+            "official_api",
+            "official_api_if_token_else_manual",
+            "official_api_if_access",
+        ) and token_ok and author_ok:
             return SubmissionDecision(record.slug, "official_api", record.risk, "Medium token and author_id configured")
         return SubmissionDecision(
             record.slug,
@@ -37,7 +41,7 @@ def plan_platform(record: PlatformRecord, launch: LaunchProfile) -> SubmissionDe
         linkedin_cfg = launch.publish.get("linkedin", {})
         token_ok = bool(get_secret("LINKEDIN_ACCESS_TOKEN"))
         author_ok = bool(str(linkedin_cfg.get("author", "")).strip())
-        if token_ok and author_ok:
+        if mode in ("official_api_if_scoped", "official_api_if_access", "official_api") and token_ok and author_ok:
             return SubmissionDecision(
                 record.slug,
                 "official_api",

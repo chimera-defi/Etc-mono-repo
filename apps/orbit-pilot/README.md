@@ -28,6 +28,8 @@ orbit latest --out out/ --campaign my-launch
 orbit guide --run out/<campaign-id>/run-*
 orbit next --run out/<campaign-id>/run-*
 orbit report --run out/<campaign-id>/run-*
+orbit export --run out/<campaign-id>/run-* --format json
+orbit export --run out/<campaign-id>/run-* --format md -o launch-report.md
 # API publish is dry-run by default; use --execute once doctor/guide says a platform is ready
 orbit publish --run out/<campaign-id>/run-* --platform github
 orbit publish --run out/<campaign-id>/run-* --platform dev --execute
@@ -39,7 +41,7 @@ orbit regenerate --run out/<campaign-id>/run-* --platform github --platform prod
 
 | Piece | What |
 |-------|------|
-| Risk policy | `risk.defaults.yaml`: `risk.tolerance`, `allow_browser_fallback`, optional `platforms.<slug>.enabled` |
+| Risk policy | `risk.defaults.yaml`: `risk.tolerance`, `allow_browser_fallback`, optional `platforms.<slug>.enabled` / `mode` |
 | LangGraph | `orbit_pilot.orchestrate.run_plan_graph(launch, platforms, policy_path)` — same plan+policy as CLI |
 | Webhook | `orbit serve` or `orbit-serve` — `GET /health`, `POST /hooks/launch`; set `ORBIT_WEBHOOK_SECRET` to require `X-Orbit-Secret` |
 

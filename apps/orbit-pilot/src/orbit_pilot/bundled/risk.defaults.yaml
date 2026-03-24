@@ -5,5 +5,9 @@ risk:
   tolerance: low
   allow_browser_fallback: false
 
-# Per-platform overrides (optional). Omit a slug to use registry + tolerance only.
+# Per-platform overrides (optional). Example:
+# platforms:
+#   medium:
+#     enabled: true
+#     mode: manual   # overrides registry mode for planning (SPEC config contract)
 platforms: {}

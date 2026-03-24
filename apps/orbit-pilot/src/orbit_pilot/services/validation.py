@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from typing import Any
 
-from orbit_pilot.graph import build_body_for_platform, build_payload, plan_platform
+from orbit_pilot.graph import build_body_for_platform, build_payload
 from orbit_pilot.models import LaunchProfile, PlatformRecord
-from orbit_pilot.policy import RiskPolicy, apply_risk_policy
+from orbit_pilot.policy import RiskPolicy, decide_platform
 from orbit_pilot.publishers.requirements import validate_platform
 
 
@@ -15,7 +15,7 @@ def doctor_payload(
 ) -> dict[str, Any]:
     results: list[dict[str, Any]] = []
     for record in platforms:
-        decision = apply_risk_policy(plan_platform(record, launch), record, policy)
+        decision = decide_platform(record, launch, policy)
         body = build_body_for_platform(launch, record)
         payload = build_payload(launch, record, body)
         if decision.mode == "official_api":

@@ -70,3 +70,10 @@ def test_x_with_token_api(monkeypatch: pytest.MonkeyPatch) -> None:
 def test_browser_fallback_registry_defaults_to_manual() -> None:
     d = plan_platform(_record("foo", "browser_fallback_opt_in"), _launch())
     assert d.mode == "manual"
+
+
+def test_linkedin_if_scoped_with_token_and_author(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("LINKEDIN_ACCESS_TOKEN", "t")
+    launch = _launch(publish={"linkedin": {"author": "urn:li:person:abc"}})
+    d = plan_platform(_record("linkedin", "official_api_if_scoped"), launch)
+    assert d.mode == "official_api"
