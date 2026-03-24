@@ -2,7 +2,7 @@
 
 **Status:** Spec + CLI + full-buildout slices in [`apps/orbit-pilot/`](../../apps/orbit-pilot/) | **Last Updated:** 2026-03-24
 
-**Implementation:** [`apps/orbit-pilot/`](../../apps/orbit-pilot/) (this folder is specs and research only).
+**Implementation:** [`apps/orbit-pilot/`](../../apps/orbit-pilot/) (this folder is specs and research only). Agent-oriented usage: [`apps/orbit-pilot/AGENTS.md`](../../apps/orbit-pilot/AGENTS.md).
 
 ## One-Liner
 

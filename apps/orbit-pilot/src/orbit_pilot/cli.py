@@ -89,13 +89,16 @@ def build_parser() -> argparse.ArgumentParser:
 
     export_cmd = subparsers.add_parser("export")
     export_cmd.add_argument("--run", required=True)
-    export_cmd.add_argument("--format", choices=["json", "md"], default="json")
+    export_cmd.add_argument("--format", choices=["json", "md", "html"], default="json")
     export_cmd.add_argument("-o", "--out", help="Write to file instead of stdout")
 
     audit_cmd = subparsers.add_parser("audit")
     audit_cmd.add_argument("--run", required=True)
     audit_cmd.add_argument("--json", action="store_true")
     audit_cmd.add_argument("--tail", type=int, help="Only last N events")
+
+    tui_cmd = subparsers.add_parser("tui", help="Interactive run dashboard (requires: pip install 'orbit-pilot[tui]')")
+    tui_cmd.add_argument("--run", required=True, help="Path to run-* directory")
     return parser
 
 
@@ -384,10 +387,32 @@ def export_command(args: argparse.Namespace) -> int:
         print(f"Run directory not found: {run_dir}", file=sys.stderr)
         return 1
     text = export_run(run_dir, args.format)
+    if args.format == "html" and not args.out:
+        out_path = run_dir / "report.html"
+        out_path.write_text(text, encoding="utf-8")
+        print(str(out_path))
+        return 0
     if args.out:
         Path(args.out).write_text(text, encoding="utf-8")
     else:
         print(text)
+    return 0
+
+
+def tui_command(args: argparse.Namespace) -> int:
+    from orbit_pilot.tui_app import run_tui, tui_available
+
+    run_dir = Path(args.run)
+    if not run_dir.exists():
+        print(f"Run directory not found: {run_dir}", file=sys.stderr)
+        return 1
+    if not tui_available():
+        print(
+            "Textual is not installed. Run: pip install 'orbit-pilot[tui]'",
+            file=sys.stderr,
+        )
+        return 1
+    run_tui(run_dir)
     return 0
 
 
@@ -484,6 +509,8 @@ def main() -> int:
         return export_command(args)
     if args.command == "audit":
         return audit_command(args)
+    if args.command == "tui":
+        return tui_command(args)
     parser.error(f"Unknown command: {args.command}")
     return 2
 

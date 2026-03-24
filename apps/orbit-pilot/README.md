@@ -2,7 +2,7 @@
 
 Launch distribution operator: one `launch.yaml`, many platform-specific drafts, UTM-tagged links, SQLite + JSONL audit, optional **risk policy YAML**, **LangGraph** plan orchestration (`orchestrate`), and a minimal **FastAPI** webhook (`orbit serve`).
 
-Specs and product docs live in [`../../ideas/orbit-pilot/`](../../ideas/orbit-pilot/).
+Specs and product docs live in [`../../ideas/orbit-pilot/`](../../ideas/orbit-pilot/). **Agents:** see [`AGENTS.md`](./AGENTS.md) for `--json` workflows and contracts.
 
 ## Install
 
@@ -29,8 +29,10 @@ orbit guide --run out/<campaign-id>/run-*
 orbit next --run out/<campaign-id>/run-*
 orbit report --run out/<campaign-id>/run-*
 orbit export --run out/<campaign-id>/run-* --format json
+orbit export --run out/<campaign-id>/run-* --format html   # writes run dir report.html if no -o
 orbit export --run out/<campaign-id>/run-* --format md -o launch-report.md
 orbit audit --run out/<campaign-id>/run-* --json
+# optional TUI (pip install 'orbit-pilot[tui]'): orbit tui --run out/<campaign-id>/run-*
 # API publish is dry-run by default; use --execute once doctor/guide says a platform is ready
 orbit publish --run out/<campaign-id>/run-* --platform github
 orbit publish --run out/<campaign-id>/run-* --platform dev --execute
@@ -49,6 +51,8 @@ orbit regenerate --run out/<campaign-id>/run-* --platform github --platform prod
 | Registry images | `image_constraints.max_width` / `max_height` per platform in `seed_platforms.yaml` |
 | Manual notes | `orbit mark-done --note "…"` stored in SQLite + result JSON |
 | Audit tail | `orbit audit [--tail N]` prints `audit.jsonl` events |
+| HTML report | `orbit export --format html` — single-file dark-theme table for sharing |
+| TUI | `orbit tui --run …` after `pip install 'orbit-pilot[tui]'` |
 
 ## Credentials
 
