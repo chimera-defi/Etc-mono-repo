@@ -11,6 +11,7 @@ from orbit_pilot.audit import record_submission
 from orbit_pilot.config import load_document
 from orbit_pilot.graph import plan_platform
 from orbit_pilot.models import REQUIRED_LAUNCH_FIELDS, LaunchProfile
+from orbit_pilot.policy import apply_risk_policy, load_risk_policy
 from orbit_pilot.registry import load_platforms
 from orbit_pilot.services.campaigns import (
     build_campaign,
@@ -37,14 +38,18 @@ def build_parser() -> argparse.ArgumentParser:
         cmd = subparsers.add_parser(name)
         cmd.add_argument("--launch", required=True)
         cmd.add_argument("--platforms", required=True)
+        cmd.add_argument("--policy", help="Risk policy YAML (default: bundled risk.defaults.yaml)")
         cmd.add_argument("--json", action="store_true")
         if name == "generate":
             cmd.add_argument("--out", default="out")
             cmd.add_argument("--campaign")
 
+    subparsers.add_parser("serve")
+
     regenerate = subparsers.add_parser("regenerate")
     regenerate.add_argument("--run", required=True)
     regenerate.add_argument("--platform", action="append")
+    regenerate.add_argument("--policy", help="Risk policy YAML (default: bundled risk.defaults.yaml)")
     regenerate.add_argument("--json", action="store_true")
 
     publish = subparsers.add_parser("publish")
@@ -105,15 +110,23 @@ def load_launch(path: str) -> LaunchProfile:
     )
 
 
+def _policy_path(args: argparse.Namespace) -> str | None:
+    if getattr(args, "policy", None):
+        return args.policy
+    bundled = resources.files("orbit_pilot.bundled")
+    return str(bundled.joinpath("risk.defaults.yaml"))
+
+
 def plan_command(args: argparse.Namespace) -> int:
     launch = load_launch(args.launch)
     platforms = load_platforms(args.platforms)
+    policy = load_risk_policy(_policy_path(args))
     launch_dict = asdict(launch)
     missing = [field for field in REQUIRED_LAUNCH_FIELDS if not launch_dict.get(field)]
     questions = [f"Please provide {field.replace('_', ' ')}." for field in missing]
     platform_preview: list[dict[str, Any]] = []
     for record in platforms:
-        decision = plan_platform(record, launch)
+        decision = apply_risk_policy(plan_platform(record, launch), record, policy)
         platform_preview.append(
             {
                 "slug": record.slug,
@@ -136,17 +149,19 @@ def plan_command(args: argparse.Namespace) -> int:
 def doctor_command(args: argparse.Namespace) -> int:
     launch = load_launch(args.launch)
     platforms = load_platforms(args.platforms)
-    emit(doctor_payload(launch, platforms), args.json)
+    policy = load_risk_policy(_policy_path(args))
+    emit(doctor_payload(launch, platforms, policy), args.json)
     return 0
 
 
 def generate_command(args: argparse.Namespace) -> int:
     launch = load_launch(args.launch)
     platforms = load_platforms(args.platforms)
+    policy = load_risk_policy(_policy_path(args))
     campaign = build_campaign(launch, explicit_name=args.campaign)
     run_dir = create_run_dir(args.out, campaign)
     write_run_manifest(run_dir, campaign, args.launch, args.platforms)
-    results = generate_run(launch, platforms, run_dir)
+    results = generate_run(launch, platforms, run_dir, policy=policy)
     emit({"run_dir": str(run_dir), "results": results}, args.json)
     return 0
 
@@ -160,7 +175,8 @@ def regenerate_command(args: argparse.Namespace) -> int:
     launch = load_launch(manifest["launch_path"])
     platforms = load_platforms(manifest["platform_registry_path"])
     selected = select_platforms(platforms, args.platform)
-    results = generate_run(launch, selected, run_dir)
+    policy = load_risk_policy(_policy_path(args))
+    results = generate_run(launch, selected, run_dir, policy=policy)
     emit({"run_dir": str(run_dir), "results": results}, args.json)
     return 0
 
@@ -274,6 +290,7 @@ def report_command(args: argparse.Namespace) -> int:
         pending_manual = data["pending_manual"]
         next_manual = data["next_manual"]
         skipped = data.get("skipped", [])
+        browser_fb = data.get("browser_fallback", [])
         print(f"Run: {run_dir}\n")
         print("--- By platform ---")
         for row in rows:
@@ -286,6 +303,8 @@ def report_command(args: argparse.Namespace) -> int:
             print("\nNo pending manual submissions.")
         if skipped:
             print(f"\nSkipped: {', '.join(skipped)}")
+        if browser_fb:
+            print(f"\nBrowser fallback (manual): {', '.join(browser_fb)}")
     return 0
 
 
@@ -309,12 +328,33 @@ def emit(payload: dict[str, Any], json_mode: bool) -> None:
         print(f"{key}: {value}")
 
 
+def serve_main() -> None:
+    """Console script: orbit-serve"""
+    import os
+
+    import uvicorn
+
+    from orbit_pilot.webhook import app
+
+    host = os.environ.get("ORBIT_BIND_HOST", "127.0.0.1")
+    port = int(os.environ.get("ORBIT_BIND_PORT", "8765"))
+    uvicorn.run(app, host=host, port=port)
+
+
+def serve_command(args: argparse.Namespace) -> int:
+    serve_main()
+    return 0
+
+
 def init_command(args: argparse.Namespace) -> int:
     dest = Path(args.dir).resolve()
     dest.mkdir(parents=True, exist_ok=True)
     bundled = resources.files("orbit_pilot.bundled")
-    for name in ("launch.sample.yaml", "seed_platforms.yaml"):
-        target = dest / name.replace(".sample", "")
+    for name in ("launch.sample.yaml", "seed_platforms.yaml", "risk.defaults.yaml"):
+        if name == "risk.defaults.yaml":
+            target = dest / name
+        else:
+            target = dest / name.replace(".sample", "")
         text = bundled.joinpath(name).read_text(encoding="utf-8")
         if target.exists():
             print(f"Skip existing {target}")
@@ -333,6 +373,8 @@ def main() -> int:
     args = parser.parse_args()
     if args.command == "init":
         return init_command(args)
+    if args.command == "serve":
+        return serve_command(args)
     if args.command == "plan":
         return plan_command(args)
     if args.command == "doctor":
