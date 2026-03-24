@@ -780,6 +780,7 @@ function buildAgentSpecJson(
   document: DocumentRecord,
   patches: StoredPatch[],
   clarifications?: ExportClarificationRecord[],
+  planningStages?: Map<string, Record<string, string>>,
 ): string {
   const proposed = patches.filter((p) => p.status === "proposed");
   const agentSpec: AgentSpecExport = agentSpecExportSchema.parse({
@@ -802,13 +803,28 @@ function buildAgentSpecJson(
     ? 3
     : document.metadata?.constraints?.split("\n").filter(Boolean).length ?? 0 + 3;
 
-  const extended = {
+  const extended: Record<string, unknown> = {
     ...agentSpec,
     metadata: document.metadata ?? {},
     clarification_count: clarifications?.length ?? 0,
     open_question_count: openQuestions,
     risk_count: risks,
   };
+
+  // Add planning session provenance if stages were completed
+  if (planningStages && planningStages.size > 0) {
+    const stageNames = ["discovery", "ceo-review", "eng-review", "design-review", "security-review"];
+    extended.planningSession = {
+      stages: stageNames.map((name) => {
+        const outputs = planningStages.get(name);
+        return {
+          name,
+          status: outputs ? "completed" : "skipped",
+          outputs: outputs ?? null,
+        };
+      }),
+    };
+  }
 
   return JSON.stringify(extended, null, 2);
 }
@@ -821,28 +837,100 @@ export function exportDocumentBundle(
   document: DocumentRecord,
   patches: StoredPatch[],
   clarifications?: ExportClarificationRecord[],
+  planningStages?: Map<string, Record<string, string>>,
 ) {
+  const files: Record<string, string> = {
+    "README.md": buildReadme(document),
+    "EXECUTIVE_SUMMARY.md": buildExecutiveSummary(document),
+    "PRD.md": document.markdown,
+    "SPEC.md": buildSpec(document, patches),
+    "AGENT_HANDOFF.md": buildAgentHandoff(document),
+    "TASKS.md": buildTasks(document, patches),
+    "OPEN_QUESTIONS.md": buildOpenQuestions(document, clarifications),
+    "FIRST_60_MINUTES.md": buildFirst60Minutes(document),
+    "RISK_REGISTER.md": buildRiskRegister(document),
+    "ACCEPTANCE_TEST_MATRIX.md": buildAcceptanceTestMatrix(document),
+    "ARCHITECTURE_DECISIONS.md": buildArchitectureDecisions(document),
+    "DECISIONS.md": buildDecisions(document, patches),
+    "USER_FLOWS.md": buildUserFlows(document),
+    "VALIDATION_PLAN.md": buildValidationPlan(document),
+    "ADVERSARIAL_TESTS.md": buildAdversarialTests(document),
+    "SUBAGENT_PROMPT_PACK.md": buildSubagentPromptPack(document),
+    "agent_spec.json": buildAgentSpecJson(document, patches, clarifications, planningStages),
+  };
+
+  // Conditionally add planning stage outputs
+  if (planningStages) {
+    const designOutputs = planningStages.get("design-review");
+    if (designOutputs) {
+      files["DESIGN_SYSTEM.md"] = buildDesignSystem(designOutputs);
+    }
+
+    const securityOutputs = planningStages.get("security-review");
+    if (securityOutputs) {
+      files["SECURITY.md"] = buildSecurity(securityOutputs);
+    }
+  }
+
   return {
     document_id: document.document_id,
     version: document.version,
-    files: {
-      "README.md": buildReadme(document),
-      "EXECUTIVE_SUMMARY.md": buildExecutiveSummary(document),
-      "PRD.md": document.markdown,
-      "SPEC.md": buildSpec(document, patches),
-      "AGENT_HANDOFF.md": buildAgentHandoff(document),
-      "TASKS.md": buildTasks(document, patches),
-      "OPEN_QUESTIONS.md": buildOpenQuestions(document, clarifications),
-      "FIRST_60_MINUTES.md": buildFirst60Minutes(document),
-      "RISK_REGISTER.md": buildRiskRegister(document),
-      "ACCEPTANCE_TEST_MATRIX.md": buildAcceptanceTestMatrix(document),
-      "ARCHITECTURE_DECISIONS.md": buildArchitectureDecisions(document),
-      "DECISIONS.md": buildDecisions(document, patches),
-      "USER_FLOWS.md": buildUserFlows(document),
-      "VALIDATION_PLAN.md": buildValidationPlan(document),
-      "ADVERSARIAL_TESTS.md": buildAdversarialTests(document),
-      "SUBAGENT_PROMPT_PACK.md": buildSubagentPromptPack(document),
-      "agent_spec.json": buildAgentSpecJson(document, patches, clarifications),
-    },
+    files,
   };
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// Planning Stage Outputs
+// ──────────────────────────────────────────────────────────────────────────────
+
+function buildDesignSystem(outputs: Record<string, string>): string {
+  return [
+    "# Design System",
+    "",
+    "**Source**: Sprint Planning — Design Review stage",
+    "",
+    "## Design Principles",
+    "",
+    outputs.design_principles ?? "",
+    "",
+    "## Interaction Model",
+    "",
+    outputs.interaction_model ?? "",
+    "",
+    "## Accessibility",
+    "",
+    outputs.accessibility ?? "",
+    "",
+    "## Design Constraints",
+    "",
+    outputs.design_constraints ?? "",
+  ].join("\n");
+}
+
+function buildSecurity(outputs: Record<string, string>): string {
+  return [
+    "# Security",
+    "",
+    "**Source**: Sprint Planning — Security Review stage",
+    "",
+    "## Trust Boundaries",
+    "",
+    outputs.trust_boundaries ?? "",
+    "",
+    "## Threat Model",
+    "",
+    outputs.threat_model ?? "",
+    "",
+    "## Authentication & Authorization",
+    "",
+    outputs.auth_model ?? "",
+    "",
+    "## Sensitive Data",
+    "",
+    outputs.sensitive_data ?? "",
+    "",
+    "## Security Requirements",
+    "",
+    outputs.security_requirements ?? "",
+  ].join("\n");
 }
