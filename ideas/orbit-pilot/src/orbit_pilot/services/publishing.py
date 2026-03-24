@@ -6,6 +6,7 @@ from typing import Any
 
 from orbit_pilot.audit import record_submission
 from orbit_pilot.publishers.router import PUBLISHERS, publish_platform
+from orbit_pilot.publishers.requirements import validate_platform
 from orbit_pilot.state import cooldown_remaining, record_publish_attempt
 
 
@@ -26,6 +27,17 @@ def publish_from_run(run_dir: Path, platforms: list[str], execute: bool) -> list
             results.append({"platform": platform, "result": result})
             continue
         result = publish_platform(platform, payload, dry_run=not execute)
+        if not execute:
+            if platform in PUBLISHERS:
+                readiness = validate_platform(platform, payload)
+                result["readiness"] = readiness
+                if readiness["ready"]:
+                    result["next_step"] = f"Run with --execute for {platform} when you are ready."
+                else:
+                    missing = ", ".join(readiness["missing_secrets"] + readiness["missing_payload"])
+                    result["next_step"] = f"Provide missing requirements ({missing}) and rerun orbit doctor."
+            else:
+                result["next_step"] = f"Open {meta.get('submit_url', 'the platform')} and use PROMPT_USER.txt."
         record_submission(run_dir, platform, "official_api" if platform in PUBLISHERS else "manual", result["status"], "publish command", result)
         if execute and result.get("status") == "published":
             record_publish_attempt(run_dir, platform)
