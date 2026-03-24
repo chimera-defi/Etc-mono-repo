@@ -20,7 +20,7 @@ RISK_ORDER = {
 def get_pending_manual(run_dir: Path, rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     pending: list[dict[str, Any]] = []
     for row in rows:
-        if row["mode"] != "manual" or row["status"] == "manual_completed":
+        if row["mode"] not in ("manual", "browser_fallback") or row["status"] == "manual_completed":
             continue
         meta_path = run_dir / row["platform"] / "meta.json"
         meta = {}
@@ -54,12 +54,14 @@ def report_payload(run_dir: Path) -> dict[str, Any]:
     pending_manual = [row["platform"] for row in pending]
     next_manual = pending_manual[0] if pending_manual else None
     skipped = [r["platform"] for r in rows if r["mode"] == "skipped"]
+    browser_fb = [r["platform"] for r in rows if r["mode"] == "browser_fallback"]
     official = [r for r in rows if r["mode"] == "official_api"]
     return {
         "results": rows,
         "pending_manual": pending_manual,
         "next_manual": next_manual,
         "skipped": skipped,
+        "browser_fallback": browser_fb,
         "official_api_rows": official,
     }
 

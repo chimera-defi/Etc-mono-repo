@@ -1,6 +1,6 @@
-# Orbit Pilot (V0 CLI)
+# Orbit Pilot (CLI + services)
 
-Launch distribution operator: one `launch.yaml`, many platform-specific drafts, UTM-tagged links, SQLite run state, and a small set of official API publishers.
+Launch distribution operator: one `launch.yaml`, many platform-specific drafts, UTM-tagged links, SQLite + JSONL audit, optional **risk policy YAML**, **LangGraph** plan orchestration (`orchestrate`), and a minimal **FastAPI** webhook (`orbit serve`).
 
 Specs and product docs live in [`../../ideas/orbit-pilot/`](../../ideas/orbit-pilot/).
 
@@ -19,6 +19,7 @@ mkdir ~/my-launch && cd ~/my-launch
 orbit init
 # edit launch.yaml (add publish.github.repo for real GitHub releases)
 orbit plan --launch launch.yaml --platforms seed_platforms.yaml
+# optional: --policy risk.defaults.yaml (copied by orbit init; defaults bundled)
 orbit doctor --launch launch.yaml --platforms seed_platforms.yaml
 orbit generate --launch launch.yaml --platforms seed_platforms.yaml --out out/
 # runs land under out/<campaign-id>/run-<timestamp>/ (default campaign id from product name)
@@ -33,6 +34,14 @@ orbit publish --run out/<campaign-id>/run-* --platform dev --execute
 # regenerate only the platforms you want to revise inside the same run
 orbit regenerate --run out/<campaign-id>/run-* --platform github --platform product_hunt
 ```
+
+## Full buildout pieces
+
+| Piece | What |
+|-------|------|
+| Risk policy | `risk.defaults.yaml`: `risk.tolerance`, `allow_browser_fallback`, optional `platforms.<slug>.enabled` |
+| LangGraph | `orbit_pilot.orchestrate.run_plan_graph(launch, platforms, policy_path)` — same plan+policy as CLI |
+| Webhook | `orbit serve` or `orbit-serve` — `GET /health`, `POST /hooks/launch`; set `ORBIT_WEBHOOK_SECRET` to require `X-Orbit-Secret` |
 
 ## Credentials
 

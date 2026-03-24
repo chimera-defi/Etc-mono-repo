@@ -12,9 +12,9 @@ def plan_platform(record: PlatformRecord, launch: LaunchProfile) -> SubmissionDe
     if mode == "browser_fallback_opt_in":
         return SubmissionDecision(
             record.slug,
-            "skipped",
+            "manual",
             record.risk,
-            "browser automation not available in V0 (opt-in only)",
+            "Registry mode browser_fallback_opt_in: manual high-risk path (no headless automation in core)",
         )
 
     if mode in ("manual", "manual_by_default", "manual_unless_approved"):
