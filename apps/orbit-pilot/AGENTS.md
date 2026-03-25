@@ -53,6 +53,8 @@ orbit schemas --show plan-output   # print one schema document
 
 Use any Draft 2020-12 validator (e.g. `jsonschema` package in your harness) against CLI stdout. Schemas use `additionalProperties: true` where publishers may add fields.
 
+**CI:** `pytest` includes `tests/test_schema_validation.py` (requires `.[dev]` / `jsonschema`) to keep schemas aligned with real payloads.
+
 ## Optional: TUI and webhook
 
 - **TUI:** `pip install 'orbit-pilot[tui]'` then **`orbit tui --run <run_dir>`** — table of platforms, refresh `r`, quit `q`.

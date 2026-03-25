@@ -23,3 +23,6 @@ def test_emit_manifest_json() -> None:
     data = json.loads(emit_manifest_json())
     assert "schemas" in data
     assert any(x["id"] == "generate-output" for x in data["schemas"])
+    ids = {x["id"] for x in data["schemas"]}
+    assert "guide-output" in ids
+    assert "mark-done-output" in ids

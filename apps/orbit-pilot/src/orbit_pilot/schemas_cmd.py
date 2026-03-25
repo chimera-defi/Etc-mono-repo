@@ -16,6 +16,9 @@ SCHEMA_FILES = (
     "next-output.schema.json",
     "export-bundle.schema.json",
     "audit-events.schema.json",
+    "guide-output.schema.json",
+    "mark-done-output.schema.json",
+    "campaigns-output.schema.json",
 )
 
 
