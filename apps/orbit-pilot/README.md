@@ -2,7 +2,7 @@
 
 Launch distribution operator: one `launch.yaml`, many platform-specific drafts, UTM-tagged links, SQLite + JSONL audit, optional **risk policy YAML**, **LangGraph** plan orchestration (`orchestrate`), and a minimal **FastAPI** webhook (`orbit serve`).
 
-Specs and product docs live in [`../../ideas/orbit-pilot/`](../../ideas/orbit-pilot/). **Agents:** see [`AGENTS.md`](./AGENTS.md) for `--json` workflows and contracts. **`orbit schemas`** lists bundled JSON Schemas for validating parsed output.
+Specs and product docs live in [`../../ideas/orbit-pilot/`](../../ideas/orbit-pilot/). **Agents:** see [`AGENTS.md`](./AGENTS.md) for `--json` workflows and contracts. **`orbit schemas`** / **`orbit validate-json`** for bundled JSON Schemas.
 
 ## Install
 

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 
-from orbit_pilot.schemas_cmd import emit_manifest_json, list_schemas, read_schema
+from orbit_pilot.schemas_cmd import emit_manifest_json, list_schemas, read_schema, resolve_schema_id
 
 
 def test_list_schemas_non_empty() -> None:
@@ -26,3 +26,11 @@ def test_emit_manifest_json() -> None:
     ids = {x["id"] for x in data["schemas"]}
     assert "guide-output" in ids
     assert "mark-done-output" in ids
+    plan = next(x for x in data["schemas"] if x["id"] == "plan-output")
+    assert plan.get("command_alias") == "plan"
+
+
+def test_resolve_schema_id_aliases() -> None:
+    assert resolve_schema_id("plan") == "plan-output"
+    assert resolve_schema_id("export") == "export-bundle"
+    assert resolve_schema_id("audit") == "audit-events"
