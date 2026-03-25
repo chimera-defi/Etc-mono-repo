@@ -10,6 +10,19 @@ from orbit_pilot.publishers.router import PUBLISHERS, publish_platform
 from orbit_pilot.state import cooldown_remaining, record_publish_attempt
 
 
+def _record_blocked(
+    run_dir: Path,
+    platform: str,
+    mode: str,
+    status: str,
+    reason: str,
+    result: dict[str, Any],
+    results: list[dict[str, Any]],
+) -> None:
+    record_submission(run_dir, platform, mode, status, reason, result)
+    results.append({"platform": platform, "result": result})
+
+
 def publish_from_run(run_dir: Path, platforms: list[str], execute: bool) -> list[dict[str, Any]]:
     if not run_dir.exists():
         raise FileNotFoundError(f"Run directory not found: {run_dir}")
@@ -29,8 +42,15 @@ def publish_from_run(run_dir: Path, platforms: list[str], execute: bool) -> list
                 "error": "Platform is manual-only in this run; complete submission by hand and use orbit mark-done",
                 "publisher": platform,
             }
-            record_submission(run_dir, platform, "manual", result["status"], "publish blocked: manual mode", result)
-            results.append({"platform": platform, "result": result})
+            _record_blocked(
+                run_dir,
+                platform,
+                "manual",
+                result["status"],
+                "publish blocked: manual mode",
+                result,
+                results,
+            )
             continue
 
         if planned_mode == "skipped":
@@ -39,8 +59,7 @@ def publish_from_run(run_dir: Path, platforms: list[str], execute: bool) -> list
                 "error": "Platform was skipped in generate; nothing to publish",
                 "publisher": platform,
             }
-            record_submission(run_dir, platform, "skipped", result["status"], "publish blocked: skipped", result)
-            results.append({"platform": platform, "result": result})
+            _record_blocked(run_dir, platform, "skipped", result["status"], "publish blocked: skipped", result, results)
             continue
 
         if planned_mode == "browser_fallback":
@@ -49,15 +68,15 @@ def publish_from_run(run_dir: Path, platforms: list[str], execute: bool) -> list
                 "error": "browser_fallback is manual/high-risk only; use PROMPT_USER.txt and orbit mark-done",
                 "publisher": platform,
             }
-            record_submission(
+            _record_blocked(
                 run_dir,
                 platform,
                 "browser_fallback",
                 result["status"],
                 "publish blocked: browser_fallback",
                 result,
+                results,
             )
-            results.append({"platform": platform, "result": result})
             continue
 
         remaining = cooldown_remaining(run_dir, platform, int(meta.get("cooldown_seconds", 0)))

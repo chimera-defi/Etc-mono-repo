@@ -1,12 +1,18 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from importlib import resources
 from pathlib import Path
 from typing import Any
 
 from orbit_pilot.config import load_document
 from orbit_pilot.graph import plan_platform
 from orbit_pilot.models import LaunchProfile, PlatformRecord, SubmissionDecision
+
+
+def bundled_default_policy_path() -> str:
+    """Path to packaged risk.defaults.yaml (CLI, LangGraph, webhooks)."""
+    return str(resources.files("orbit_pilot.bundled").joinpath("risk.defaults.yaml"))
 
 
 @dataclass
