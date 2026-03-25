@@ -26,6 +26,7 @@ def test_emit_manifest_json() -> None:
     ids = {x["id"] for x in data["schemas"]}
     assert "guide-output" in ids
     assert "mark-done-output" in ids
+    assert "run-manifest" in ids
     plan = next(x for x in data["schemas"] if x["id"] == "plan-output")
     assert plan.get("command_alias") == "plan"
 

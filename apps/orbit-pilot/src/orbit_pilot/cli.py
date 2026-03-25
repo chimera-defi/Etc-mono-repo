@@ -122,6 +122,15 @@ def build_parser() -> argparse.ArgumentParser:
         help="JSON file (default: read stdin)",
     )
     val_cmd.add_argument("--json", action="store_true", help="Emit {\"valid\":…} JSON result")
+
+    subparsers.add_parser("version", help="Print package version")
+
+    check_run_cmd = subparsers.add_parser(
+        "check-run",
+        help="Validate run.json and referenced launch/registry paths (for agents/CI)",
+    )
+    check_run_cmd.add_argument("--run", required=True)
+    check_run_cmd.add_argument("--json", action="store_true")
     return parser
 
 
@@ -442,6 +451,36 @@ def schemas_command(args: argparse.Namespace) -> int:
     return 0
 
 
+def version_command(args: argparse.Namespace) -> int:
+    from orbit_pilot import __version__
+
+    print(__version__)
+    return 0
+
+
+def check_run_command(args: argparse.Namespace) -> int:
+    from orbit_pilot.check_run import check_run
+
+    run_dir = Path(args.run)
+    result = check_run(run_dir)
+    if args.json:
+        print(json.dumps(result, indent=2))
+    else:
+        if result.get("manifest"):
+            m = result["manifest"]
+            print(f"Run: {run_dir}")
+            mv = m.get("orbit_manifest_version", "?")
+            pv = m.get("orbit_pilot_version", "?")
+            print(f"  manifest v{mv}  orbit-pilot {pv}")
+        for w in result.get("warnings") or []:
+            print(f"warning: {w}", file=sys.stderr)
+        for e in result.get("errors") or []:
+            print(f"error: {e}", file=sys.stderr)
+        if not result.get("ok"):
+            return 1
+    return 0 if result.get("ok") else 1
+
+
 def validate_json_command(args: argparse.Namespace) -> int:
     from orbit_pilot.schemas_cmd import read_schema, resolve_schema_id, validate_instance
 
@@ -594,6 +633,10 @@ def main() -> int:
         return schemas_command(args)
     if args.command == "validate-json":
         return validate_json_command(args)
+    if args.command == "version":
+        return version_command(args)
+    if args.command == "check-run":
+        return check_run_command(args)
     parser.error(f"Unknown command: {args.command}")
     return 2
 
