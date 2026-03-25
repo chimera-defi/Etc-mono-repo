@@ -11,7 +11,8 @@ from typing import Any
 from orbit_pilot.audit import read_audit_events, record_submission
 from orbit_pilot.config import load_document
 from orbit_pilot.models import REQUIRED_LAUNCH_FIELDS, LaunchProfile
-from orbit_pilot.policy import decide_platform, load_risk_policy
+from orbit_pilot.policy import bundled_default_policy_path, decide_platform, load_risk_policy
+from orbit_pilot.profile_loader import profile_from_parsed_yaml
 from orbit_pilot.registry import load_platforms
 from orbit_pilot.services.campaigns import (
     build_campaign,
@@ -136,37 +137,13 @@ def build_parser() -> argparse.ArgumentParser:
 
 def load_launch(path: str) -> LaunchProfile:
     source_path = Path(path)
-    raw = load_document(source_path)
-    assets = raw.get("assets", {})
-    logo = assets.get("logo")
-    if logo:
-        assets["logo"] = str((source_path.parent / logo).resolve())
-    screenshots = [str((source_path.parent / item).resolve()) for item in assets.get("screenshots", [])]
-    if screenshots:
-        assets["screenshots"] = screenshots
-    return LaunchProfile(
-        product_name=raw.get("product_name", ""),
-        website_url=raw.get("website_url", ""),
-        tagline=raw.get("tagline", ""),
-        summary=raw.get("summary", ""),
-        descriptions=raw.get("descriptions", {}),
-        features=raw.get("features", []),
-        assets=assets,
-        company=raw.get("company", {}),
-        publish=raw.get("publish", {}),
-        cta_policy=raw.get("cta_policy", {}),
-    )
-
-
-def _default_policy_path() -> str:
-    bundled = resources.files("orbit_pilot.bundled")
-    return str(bundled.joinpath("risk.defaults.yaml"))
+    return profile_from_parsed_yaml(load_document(source_path), source_path)
 
 
 def _policy_path(args: argparse.Namespace) -> str | None:
     if getattr(args, "policy", None):
         return args.policy
-    return _default_policy_path()
+    return bundled_default_policy_path()
 
 
 def _policy_path_regenerate(args: argparse.Namespace, manifest: dict[str, Any]) -> str | None:
@@ -175,7 +152,7 @@ def _policy_path_regenerate(args: argparse.Namespace, manifest: dict[str, Any]) 
     stored = manifest.get("policy_path")
     if stored:
         return str(stored)
-    return _default_policy_path()
+    return bundled_default_policy_path()
 
 
 def plan_command(args: argparse.Namespace) -> int:
@@ -476,8 +453,6 @@ def check_run_command(args: argparse.Namespace) -> int:
             print(f"warning: {w}", file=sys.stderr)
         for e in result.get("errors") or []:
             print(f"error: {e}", file=sys.stderr)
-        if not result.get("ok"):
-            return 1
     return 0 if result.get("ok") else 1
 
 
