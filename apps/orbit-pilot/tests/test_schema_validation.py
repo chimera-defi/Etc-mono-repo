@@ -5,7 +5,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-import pytest
 from jsonschema import Draft202012Validator
 
 from orbit_pilot.models import Campaign
@@ -13,8 +12,6 @@ from orbit_pilot.schemas_cmd import read_schema
 from orbit_pilot.services.campaigns import write_run_manifest
 from orbit_pilot.services.export_run import export_run
 from orbit_pilot.services.reporting import human_guide, report_payload
-
-pytest.importorskip("jsonschema")
 
 
 def _v(name: str, instance: object) -> None:
@@ -156,6 +153,11 @@ def test_audit_events_schema() -> None:
             {"ts": "2026-01-01T00:00:00+00:00", "type": "submission_row", "platform": "github"},
         ],
     )
+
+
+def test_latest_and_error_schema() -> None:
+    _v("latest-output", {"campaign": "acme", "latest_run": "/out/acme/run-1"})
+    _v("error-response", {"error": "Run directory not found: /nope"})
 
 
 def test_mark_done_and_campaigns_schema() -> None:
