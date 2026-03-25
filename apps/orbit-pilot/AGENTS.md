@@ -10,6 +10,13 @@ Orbit Pilot is a **CLI-first** launch operator: one canonical `launch.yaml`, a *
 cd apps/orbit-pilot
 pip install -e ".[dev]"   # pytest, ruff, httpx, textual (for tests + optional TUI)
 orbit --help
+orbit version
+```
+
+After `generate`, sanity-check a run directory:
+
+```bash
+orbit check-run --run out/<campaign>/run-* --json
 ```
 
 ## Agent-first workflow (recommended)
