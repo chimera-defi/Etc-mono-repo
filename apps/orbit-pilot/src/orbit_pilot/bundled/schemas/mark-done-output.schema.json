@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbit-pilot.local/schemas/mark-done-output.schema.json",
+  "title": "OrbitPilotMarkDoneOutput",
+  "description": "Machine output of: orbit mark-done … --json (success path)",
+  "type": "object",
+  "required": ["message", "platform", "live_url"],
+  "properties": {
+    "message": { "type": "string" },
+    "platform": { "type": "string" },
+    "live_url": { "type": "string" },
+    "note": { "type": "string" }
+  },
+  "additionalProperties": true
+}

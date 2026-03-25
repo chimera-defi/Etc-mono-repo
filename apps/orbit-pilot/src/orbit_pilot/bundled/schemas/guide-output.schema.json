@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbit-pilot.local/schemas/guide-output.schema.json",
+  "title": "OrbitPilotGuideOutput",
+  "description": "Machine output of: orbit guide --run … --json",
+  "type": "object",
+  "required": ["official_ready", "official_blocked", "manual_top", "next_manual"],
+  "properties": {
+    "official_ready": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["platform", "ready", "missing_secrets", "missing_payload", "next_step"],
+        "properties": {
+          "platform": { "type": "string" },
+          "ready": { "type": "boolean" },
+          "missing_secrets": { "type": "array", "items": { "type": "string" } },
+          "missing_payload": { "type": "array", "items": { "type": "string" } },
+          "next_step": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "official_blocked": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["platform", "ready", "missing_secrets", "missing_payload", "next_step"],
+        "properties": {
+          "platform": { "type": "string" },
+          "ready": { "type": "boolean" },
+          "missing_secrets": { "type": "array", "items": { "type": "string" } },
+          "missing_payload": { "type": "array", "items": { "type": "string" } },
+          "next_step": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "manual_top": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["platform", "submit_url", "priority", "prompt_path"],
+        "properties": {
+          "platform": { "type": "string" },
+          "submit_url": { "type": ["string", "null"] },
+          "priority": { "type": "integer" },
+          "prompt_path": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "next_manual": { "type": ["string", "null"] }
+  },
+  "additionalProperties": true
+}
