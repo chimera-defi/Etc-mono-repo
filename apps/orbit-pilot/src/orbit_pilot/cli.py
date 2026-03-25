@@ -105,8 +105,23 @@ def build_parser() -> argparse.ArgumentParser:
     schemas_cmd.add_argument(
         "--show",
         metavar="NAME",
-        help="Print schema JSON (e.g. plan-output, doctor-output, generate-output)",
+        help="Print schema JSON (id, command alias e.g. plan, or filename)",
     )
+
+    val_cmd = subparsers.add_parser(
+        "validate-json",
+        help="Validate JSON stdin or file against a bundled schema (requires jsonschema)",
+    )
+    val_cmd.add_argument(
+        "schema",
+        help="Schema id or command alias (plan, doctor, generate, report, …)",
+    )
+    val_cmd.add_argument(
+        "file",
+        nargs="?",
+        help="JSON file (default: read stdin)",
+    )
+    val_cmd.add_argument("--json", action="store_true", help="Emit {\"valid\":…} JSON result")
     return parser
 
 
@@ -408,13 +423,14 @@ def export_command(args: argparse.Namespace) -> int:
 
 
 def schemas_command(args: argparse.Namespace) -> int:
-    from orbit_pilot.schemas_cmd import emit_manifest_json, list_schemas, read_schema
+    from orbit_pilot.schemas_cmd import emit_manifest_json, list_schemas, read_schema, resolve_schema_id
 
     if args.show:
+        sid = resolve_schema_id(args.show)
         try:
-            print(json.dumps(read_schema(args.show), indent=2))
+            print(json.dumps(read_schema(sid), indent=2))
         except FileNotFoundError:
-            print(f"Unknown schema: {args.show}", file=sys.stderr)
+            print(f"Unknown schema: {args.show} (resolved: {sid})", file=sys.stderr)
             print("Use: orbit schemas --json", file=sys.stderr)
             return 1
         return 0
@@ -423,6 +439,42 @@ def schemas_command(args: argparse.Namespace) -> int:
         return 0
     for sid, path in list_schemas():
         print(f"{sid}\t{path}")
+    return 0
+
+
+def validate_json_command(args: argparse.Namespace) -> int:
+    from orbit_pilot.schemas_cmd import read_schema, resolve_schema_id, validate_instance
+
+    sid = resolve_schema_id(args.schema)
+    try:
+        read_schema(sid)
+    except FileNotFoundError:
+        err = {"valid": False, "errors": [f"unknown schema: {args.schema} (resolved: {sid})"]}
+        if args.json:
+            print(json.dumps(err))
+        else:
+            print(err["errors"][0], file=sys.stderr)
+        return 2
+    raw = Path(args.file).read_text(encoding="utf-8") if args.file else sys.stdin.read()
+    try:
+        instance = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        err = {"valid": False, "errors": [f"invalid JSON: {exc}"]}
+        if args.json:
+            print(json.dumps(err))
+        else:
+            print(err["errors"][0], file=sys.stderr)
+        return 1
+    errors = validate_instance(sid, instance)
+    if errors:
+        if args.json:
+            print(json.dumps({"valid": False, "schema": sid, "errors": errors}))
+        else:
+            for line in errors:
+                print(line, file=sys.stderr)
+        return 1
+    if args.json:
+        print(json.dumps({"valid": True, "schema": sid}))
     return 0
 
 
@@ -540,6 +592,8 @@ def main() -> int:
         return tui_command(args)
     if args.command == "schemas":
         return schemas_command(args)
+    if args.command == "validate-json":
+        return validate_json_command(args)
     parser.error(f"Unknown command: {args.command}")
     return 2
 

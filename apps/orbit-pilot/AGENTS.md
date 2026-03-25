@@ -47,13 +47,15 @@ Bundled under the package as `orbit_pilot/bundled/schemas/*.schema.json`.
 
 ```bash
 orbit schemas                 # tab-separated: id<TAB>absolute_path
-orbit schemas --json          # manifest with all paths
-orbit schemas --show plan-output   # print one schema document
+orbit schemas --json          # manifest with paths + command_alias per schema
+orbit schemas --show plan     # print schema (alias or id, e.g. plan-output)
+orbit validate-json plan - < plan.json   # exit 0 if valid; stderr errors or --json
+orbit validate-json report out.json --json
 ```
 
-Use any Draft 2020-12 validator (e.g. `jsonschema` package in your harness) against CLI stdout. Schemas use `additionalProperties: true` where publishers may add fields.
+`jsonschema` is a **runtime** dependency so `orbit validate-json` works after `pip install orbit-pilot`. Schemas use `additionalProperties: true` where publishers may add fields.
 
-**CI:** `pytest` includes `tests/test_schema_validation.py` (requires `.[dev]` / `jsonschema`) to keep schemas aligned with real payloads.
+**CI:** `tests/test_schema_validation.py` keeps schemas aligned with real payloads.
 
 ## Optional: TUI and webhook
 
