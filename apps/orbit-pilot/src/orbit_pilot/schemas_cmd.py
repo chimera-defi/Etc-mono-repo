@@ -21,6 +21,7 @@ SCHEMA_FILES = (
     "campaigns-output.schema.json",
     "latest-output.schema.json",
     "error-response.schema.json",
+    "run-manifest.schema.json",
 )
 
 # CLI / command aliases → canonical schema id (for orbit validate-json)
@@ -38,6 +39,8 @@ SCHEMA_ALIASES: dict[str, str] = {
     "campaigns": "campaigns-output",
     "latest": "latest-output",
     "error": "error-response",
+    "run-manifest": "run-manifest",
+    "manifest": "run-manifest",
 }
 
 

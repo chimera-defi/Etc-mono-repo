@@ -32,7 +32,8 @@
 - [x] Operator notes (`orbit mark-done --note`).
 
 ### WS-5 Operator Surface
-- [ ] Web/TUI operator UI (see `FRONTEND_VISION.md`).
+- [x] Optional Textual TUI (`orbit tui`), HTML export, JSON schemas, `validate-json`, `check-run`.
+- [ ] Full web operator UI (see `FRONTEND_VISION.md`).
 
 ## One-Shot Build Gates
 - [x] Build graph documented (`orchestrate`, SPEC).
