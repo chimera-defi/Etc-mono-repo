@@ -3,18 +3,13 @@
 from __future__ import annotations
 
 import os
-from importlib import resources
 from pathlib import Path
 from typing import Any
 
-from orbit_pilot.policy import load_risk_policy
+from orbit_pilot.policy import bundled_default_policy_path, load_risk_policy
 from orbit_pilot.registry import load_platforms
 from orbit_pilot.services.campaigns import build_campaign, create_run_dir, write_run_manifest
 from orbit_pilot.services.generation import generate_run
-
-
-def _default_policy_path() -> str:
-    return str(resources.files("orbit_pilot.bundled").joinpath("risk.defaults.yaml"))
 
 
 def try_generate_from_hook_payload(payload: dict[str, Any]) -> dict[str, Any]:
@@ -28,7 +23,9 @@ def try_generate_from_hook_payload(payload: dict[str, Any]) -> dict[str, Any]:
     launch_path = payload.get("launch_path") or payload.get("launch")
     plat_path = payload.get("platforms_path") or payload.get("platforms")
     out = payload.get("out") or os.environ.get("ORBIT_HOOK_OUT", "out")
-    policy_path = payload.get("policy_path") or os.environ.get("ORBIT_HOOK_POLICY_PATH") or _default_policy_path()
+    policy_path = (
+        payload.get("policy_path") or os.environ.get("ORBIT_HOOK_POLICY_PATH") or bundled_default_policy_path()
+    )
 
     if not launch_path or not plat_path:
         return {"skipped": True, "reason": "launch_path and platforms_path required in payload"}

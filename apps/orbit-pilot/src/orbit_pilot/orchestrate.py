@@ -5,7 +5,6 @@ Run graph programmatically; CLI remains the primary operator surface.
 
 from __future__ import annotations
 
-from importlib import resources
 from pathlib import Path
 from typing import Any, TypedDict
 
@@ -13,14 +12,11 @@ from langgraph.graph import END, StateGraph
 
 from orbit_pilot.config import load_document
 from orbit_pilot.models import LaunchProfile, PlatformRecord
-from orbit_pilot.policy import RiskPolicy, decide_platform, load_risk_policy
+from orbit_pilot.policy import RiskPolicy, bundled_default_policy_path, decide_platform, load_risk_policy
+from orbit_pilot.profile_loader import profile_from_parsed_yaml
 from orbit_pilot.registry import load_platforms
 from orbit_pilot.services.campaigns import build_campaign, create_run_dir, write_run_manifest
 from orbit_pilot.services.generation import generate_run
-
-
-def _default_policy_path() -> str:
-    return str(resources.files("orbit_pilot.bundled").joinpath("risk.defaults.yaml"))
 
 
 class OrbitPlanState(TypedDict, total=False):
@@ -34,34 +30,11 @@ class OrbitPlanState(TypedDict, total=False):
     error: str
 
 
-def _load_launch_dict(raw: dict[str, Any], base: Path) -> LaunchProfile:
-    path = Path(base)
-    assets = raw.get("assets", {})
-    logo = assets.get("logo")
-    if logo:
-        assets["logo"] = str((path.parent / logo).resolve())
-    screenshots = [str((path.parent / item).resolve()) for item in assets.get("screenshots", [])]
-    if screenshots:
-        assets["screenshots"] = screenshots
-    return LaunchProfile(
-        product_name=raw.get("product_name", ""),
-        website_url=raw.get("website_url", ""),
-        tagline=raw.get("tagline", ""),
-        summary=raw.get("summary", ""),
-        descriptions=raw.get("descriptions", {}),
-        features=raw.get("features", []),
-        assets=assets,
-        company=raw.get("company", {}),
-        publish=raw.get("publish", {}),
-        cta_policy=raw.get("cta_policy", {}),
-    )
-
-
 def node_load_inputs(state: OrbitPlanState) -> OrbitPlanState:
     try:
         launch_path = Path(state["launch_path"])
         raw = load_document(launch_path)
-        launch = _load_launch_dict(raw, launch_path)
+        launch = profile_from_parsed_yaml(raw, launch_path)
         platforms = load_platforms(state["platforms_path"])
         policy = load_risk_policy(state.get("policy_path"))
     except Exception as exc:  # pragma: no cover - surfaced to caller
@@ -139,9 +112,9 @@ def node_gen_load(state: OrbitGenerateState) -> OrbitGenerateState:
     try:
         launch_path = Path(state["launch_path"])
         raw = load_document(launch_path)
-        launch = _load_launch_dict(raw, launch_path)
+        launch = profile_from_parsed_yaml(raw, launch_path)
         platforms = load_platforms(state["platforms_path"])
-        resolved = state.get("policy_path") or _default_policy_path()
+        resolved = state.get("policy_path") or bundled_default_policy_path()
         policy = load_risk_policy(resolved)
     except Exception as exc:  # pragma: no cover
         return {**state, "error": str(exc)}

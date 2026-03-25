@@ -15,3 +15,9 @@ Publisher code should accept a normalized payload and return a normalized result
 
 ### Decision 5: Manual Queue Is First-Class
 The system is not allowed to treat manual mode as a failure state. Manual packs, ranked next actions, and best-practice guidance are part of the core product.
+
+### Decision 6: Single Launch Profile Loader
+Parsed `launch.yaml` dict → `LaunchProfile` happens only in `apps/orbit-pilot/src/orbit_pilot/profile_loader.py` (`profile_from_parsed_yaml`). CLI, LangGraph, and hooks must not duplicate asset path resolution.
+
+### Decision 7: Bundled Default Policy Path
+The packaged `risk.defaults.yaml` path is exposed as `policy.bundled_default_policy_path()` so CLI, orchestrate, and webhooks stay aligned.
