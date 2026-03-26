@@ -32,7 +32,7 @@ See `ARCHITECTURE_DIAGRAMS.md`.
 - required fields
 - image constraints (`image_constraints.max_width` / `max_height`; falls back to built-in presets when absent)
 - optional `cta_in_body` (default true): when false, generated body omits primary tracked link for that platform
-- optional `browser_form_selectors`: map of field → CSS selector for optional supervised Playwright autofill (`title`/`body`/`url` keys); only used when operator policy and env gates allow — operators must verify each site’s Terms of Service
+- optional `browser_form_selectors`: map of field → CSS selector for optional supervised Playwright autofill (`title`/`body`/`url` keys, plus `submit` / `submit_button` / `submit_selector` for optional click-to-submit); only used when operator policy and env gates allow — operators must verify each site’s Terms of Service
 - notes on moderation and commercial restrictions
 
 #### 3) Content Generation Layer
@@ -56,7 +56,7 @@ See `ARCHITECTURE_DIAGRAMS.md`.
 - official publishers
 - manual queue
 - browser fallback gate
-- **V1 browser assist** (optional): when operator risk policy sets `allow_browser_fallback` and `allow_browser_automation`, registry `browser_fallback_opt_in` can plan as `browser_assisted`; `publish --execute` may open `submit_url` in Playwright Chromium for manual completion (no auto-fill); gated by env `ORBIT_ALLOW_BROWSER_AUTOMATION` + matching secret pair
+- **V1 browser assist** (optional): when operator risk policy sets `allow_browser_fallback` and `allow_browser_automation`, registry `browser_fallback_opt_in` can plan as `browser_assisted`; `publish --execute` may open `submit_url` in Playwright Chromium; optional **supervised autofill** (`allow_browser_autofill` + `ORBIT_ALLOW_BROWSER_AUTOFILL` + `browser_form_selectors`); optional **auto-submit** (`allow_browser_auto_submit` + `ORBIT_ALLOW_BROWSER_AUTO_SUBMIT` + submit selector); optional **persistent profile** `ORBIT_BROWSER_USER_DATA_DIR`; gated by env `ORBIT_ALLOW_BROWSER_AUTOMATION` + matching secret pair; `orbit doctor` may surface `browser_autofill_note`, `browser_auto_submit_note`, `browser_autofill_selectors` on `browser_assisted` rows
 - **V1 scheduling**: JSONL job queue (`orbit schedule-add`, `schedule-list`, `schedule-run`, `schedule-cancel`); file lock on Unix; daemon runs subprocess argv at or after due ISO time
 
 #### 7) Logging and Audit
@@ -77,7 +77,7 @@ See `ARCHITECTURE_DIAGRAMS.md`.
 - `AuditEvent`
 
 ### Default Implementation
-1. Python CLI + services with LangGraph for plan and full generate pipelines (`orbit_pilot.orchestrate`).
+1. Python CLI + services with LangGraph for plan and full generate pipelines (`orbit_pilot.orchestrate`); readiness via `orbit doctor --json` (including browser_assisted Playwright checks and optional notes above).
 2. YAML: launch profile, platform registry, risk policy (`risk.*`, `platforms.<slug>.enabled|mode`).
 3. OS keychain-backed credentials via `keyring`.
 4. SQLite submission history + append-only `audit.jsonl`; optional operator notes on manual completion.
@@ -93,6 +93,8 @@ risk:
   tolerance: low
   allow_browser_fallback: false
   # V1: allow_browser_automation: false  # with allow_browser_fallback, enables Playwright portal assist
+  # allow_browser_autofill: false  # + ORBIT_ALLOW_BROWSER_AUTOFILL + registry selectors
+  # allow_browser_auto_submit: false  # + ORBIT_ALLOW_BROWSER_AUTO_SUBMIT + submit selector in registry
 platforms:
   medium:
     enabled: true
