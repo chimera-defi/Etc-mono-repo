@@ -111,6 +111,14 @@ function buildGuidedInputFromIdea(title: string, markdown: string): GuidedSpecIn
       ]).slice(0, 2),
     ].join("\n"),
     constraints: risks,
+    uxPack: [
+      ...pickList(productSurfaces, [
+        "Primary surface: web console for fleet state and approvals",
+        "Secondary surface: CLI for provisioning and patching flows",
+        "Failure states: risky actions must stop for human review",
+      ]).slice(0, 3),
+      "Responsive expectation: operational review works on mobile, bulk authoring prefers desktop.",
+    ].join("\n"),
     successSignals: [
       "Provisioning and patch workflows are explicit.",
       "Guardrails and approval paths are documented.",
