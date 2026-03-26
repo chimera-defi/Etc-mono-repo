@@ -34,10 +34,13 @@
   --sf-muted-mid: #6f6559;
   --sf-muted-light: #7a6d5e;
   --sf-muted-lighter: #8a7d70;
+  --sf-muted-faint: #9a8c80;
 
   /* Ink variants */
   --sf-ink-warm: #433a31;
   --sf-ink-hover: #2d3a47;
+  --sf-ink-secondary: #3a332c;  /* dark warm text, slightly lighter than ink */
+  --sf-ink-press: #2c2a27;      /* pressed/hover state for ink surfaces */
 
   /* Accent / amber */
   --sf-amber: #925e2f;
@@ -46,6 +49,9 @@
   --sf-border: rgba(28, 26, 23, 0.1);
   --sf-border-mid: rgba(28, 26, 23, 0.16);
   --sf-border-faint: rgba(28, 26, 23, 0.08);
+
+  /* Surfaces */
+  --sf-surface-panel: #faf8f4;  /* sidebar / panel background */
 
   /* Input / form surfaces */
   --sf-surface-input: #fffdfa;
