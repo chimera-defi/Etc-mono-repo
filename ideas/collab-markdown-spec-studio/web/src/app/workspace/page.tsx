@@ -47,6 +47,9 @@ import {
 } from "@/lib/specforge/workspace-document-state";
 import { loadWorkspaceSummary } from "@/lib/specforge/workspace-summary";
 import { SprintPlanningPanel } from "@/components/specforge/SprintPlanningPanel";
+import { AcceptanceTestSection } from "@/components/specforge/AcceptanceTestSection";
+import { getTestMatrix } from "@/lib/specforge/acceptance-tests";
+import { getAcceptanceTestDb } from "@/lib/specforge/acceptance-test-db";
 
 export const dynamic = "force-dynamic";
 
@@ -290,6 +293,11 @@ export default async function Home({ searchParams }: Props) {
           designSystem: exportBundle.files["DESIGN_SYSTEM.md"] ?? null,
         })
       : null;
+  const acceptanceTests = activeDocument
+    ? await getAcceptanceTestDb().then((db) =>
+        getTestMatrix(db, activeDocument.document_id).then((m) => m.tests),
+      )
+    : [];
 
   return (
     <div className={styles.shell}>
@@ -1195,6 +1203,22 @@ export default async function Home({ searchParams }: Props) {
                   <ClarificationQueue
                     documentId={activeDocument.document_id}
                     initialClarifications={clarifications}
+                  />
+                </section>
+              ) : null}
+
+              {activeDocument ? (
+                <section className={styles.panel}>
+                  <div className={styles.panelHeader}>
+                    <h2>Acceptance tests</h2>
+                    <span>
+                      {acceptanceTests.filter((t) => t.status === "pass").length}/
+                      {acceptanceTests.length} passing
+                    </span>
+                  </div>
+                  <AcceptanceTestSection
+                    documentId={activeDocument.document_id}
+                    initialTests={acceptanceTests}
                   />
                 </section>
               ) : null}

@@ -46,8 +46,8 @@ export function AcceptanceTestSection({
         body: JSON.stringify(draft),
       });
       if (!res.ok) return;
-      const { data } = await res.json() as { data: { matrix: { tests: AcceptanceTest[] } } };
-      setTests(data.matrix.tests);
+      const json = await res.json() as { matrix: { tests: AcceptanceTest[] } };
+      setTests(json.matrix.tests);
     },
     [base],
   );
@@ -60,8 +60,8 @@ export function AcceptanceTestSection({
         body: JSON.stringify(updates),
       });
       if (!res.ok) return;
-      const { data } = await res.json() as { data: { test: AcceptanceTest } };
-      setTests((prev) => prev.map((t) => (t.test_id === testId ? data.test : t)));
+      const json = await res.json() as { test: AcceptanceTest };
+      setTests((prev) => prev.map((t) => (t.test_id === testId ? json.test : t)));
     },
     [base],
   );
@@ -79,9 +79,9 @@ export function AcceptanceTestSection({
     setRunResult(null);
     const res = await fetch(`${base}/run`, { method: "POST" });
     if (!res.ok) return;
-    const { data } = await res.json() as { data: RunResult & { matrix: { tests: AcceptanceTest[] } } };
-    setTests(data.matrix.tests);
-    setRunResult({ evaluated: data.evaluated, passed: data.passed, failed: data.failed });
+    const json = await res.json() as RunResult & { matrix: { tests: AcceptanceTest[] } };
+    setTests(json.matrix.tests);
+    setRunResult({ evaluated: json.evaluated, passed: json.passed, failed: json.failed });
   }, [base]);
 
   return (
