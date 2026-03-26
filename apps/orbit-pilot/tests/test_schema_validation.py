@@ -160,7 +160,7 @@ def test_run_manifest_schema() -> None:
         "run-manifest",
         {
             "orbit_manifest_version": ORBIT_MANIFEST_VERSION,
-            "orbit_pilot_version": "0.3.2",
+            "orbit_pilot_version": "0.3.3",
             "campaign": {"id": "c", "name": "C", "created_at": "2026-01-01T00:00:00Z"},
             "launch_path": "/a/launch.yaml",
             "platform_registry_path": "/a/p.yaml",
@@ -222,6 +222,13 @@ def test_schedule_schemas() -> None:
         },
     )
     _v("schedule-cancel-output", {"ok": True, "id": "u1"})
+
+
+def test_registry_lint_output_schema() -> None:
+    _v(
+        "registry-lint-output",
+        {"ok": True, "errors": [], "warnings": [], "platform_count": 20},
+    )
 
 
 def test_mark_done_and_campaigns_schema() -> None:

@@ -17,6 +17,7 @@
 - [x] Normalize initial platforms (seed list; extend as needed).
 - [x] Assign mode, risk, URLs; optional `image_constraints`, `cta_in_body`.
 - [x] Image presets in code + registry overrides.
+- [x] `orbit registry-lint` + CI on bundled `seed_platforms.yaml` (HTTPS / no placeholders / unique slugs).
 
 ### WS-2 Core Orchestrator
 - [x] State model and config loader.

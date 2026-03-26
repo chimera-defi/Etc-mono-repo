@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbit-pilot.local/schemas/registry-lint-output.schema.json",
+  "title": "OrbitPilotRegistryLintOutput",
+  "description": "orbit registry-lint --platforms … --json",
+  "type": "object",
+  "required": ["ok", "errors", "warnings", "platform_count"],
+  "properties": {
+    "ok": { "type": "boolean" },
+    "errors": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "platform_count": { "type": "integer", "minimum": 0 }
+  },
+  "additionalProperties": true
+}
