@@ -27,9 +27,8 @@ export default function PricingPage() {
         <p className={styles.eyebrow}>Pricing</p>
         <h1>Start with the spec. Pay for collaboration and delivery depth.</h1>
         <p className={styles.sectionLead}>
-          These anchors are benchmarked against public pricing from Notion, Linear, and
-          Confluence, then adjusted for the extra governance and launch-packet workflow that
-          SpecForge adds on top.
+          One seat covers real-time collaboration, governed agent patch review, and the full
+          launch-packet export — everything from the first draft to the final handoff bundle.
         </p>
       </section>
 
