@@ -126,7 +126,6 @@
 - Status (current branch): membership management exists, and the workspace UI should expose a copyable canonical URL plus the membership requirement alongside it.
 - Tradeoff: sharing is slightly less frictionless than a public doc link, but it is safer and aligns with pilot workspace permissions.
 
-<<<<<<< HEAD
 ## Decision 24: Sprint Planning as Act 1 of SpecForge (not a bolt-on mode)
 - Choice: integrate the G-Stack-inspired planning stages (Discovery → CEO Review → Eng Review → Design Review → Security Review) as the natural front-of-workflow Act 1 in SpecForge, not as an optional addon. Users see a choice at document creation: "Start with Sprint Planning" or "Jump to Spec Wizard". Both paths lead to the same Act 2 (spec generation).
 - Why: bolt-on modes get skipped. Making planning the default entry point raises spec quality before any doc editing begins. G-Stack validated this stage sequence; SpecForge adapts it inside the governed patch workflow so all AI-generated planning outputs are attributed and reversible.
@@ -181,3 +180,15 @@
 **Status:** ✅ All four modes implemented and locally tested on this branch. See `API_REFERENCE.md` for endpoint catalog.
 
 **Tradeoff:** Four separate UX surfaces must stay in sync. Drift risk if one surface falls out of maintenance. Mitigated by shared `specforge-core` lib used by all entry points.
+
+## Decision 30: UX Pack Is Part of the Canonical Spec Contract
+- Choice: require every guided draft to include a `UX Pack` section.
+- Why: product specs that skip interface shape, failure states, and responsive expectations create downstream frontend drift and make design work an afterthought.
+- Status (current branch): implemented in the guided wizard and readiness rules. Users can explicitly mark the product `API-only` or `CLI-only` in the same section when no GUI is needed.
+- Tradeoff: adds one more authored section, but keeps UI/UX ambiguity visible before handoff.
+
+## Decision 31: External Design Skills Are a Handoff Target, Not Yet a Runtime Dependency
+- Choice: keep SpecForge responsible for the canonical spec, UX Pack, and design handoff prompt, but do not hardwire a `gstack`-specific design runtime until the integration is proven useful.
+- Why: we need the design contract now, but we should avoid coupling the core spec product to one external design agent stack before validation.
+- Status (current branch): SpecForge has skill/handoff docs for terminal and agent-native flows, but there is no direct `gstack` runtime integration today.
+- Tradeoff: one extra handoff step remains for wireframes or visual exploration, but the spec contract stays portable across browser, CLI, and external design agents.

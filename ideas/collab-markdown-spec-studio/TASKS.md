@@ -1,26 +1,65 @@
 # SpecForge Implementation Tasks
 
-## Phase 1: Foundation (Weeks 1-2)
+## Current Status
+- [x] Scoped MVP/spec parity for the build branch is reached.
+- [x] Guided spec creation, shared authoring, governed patch review, comments, clarifications, readiness, export, starter handoff, execution brief, and launch packet are working.
+- [x] Guided specs now include a first-class `UX Pack` section so UI/UX design is explicit before handoff.
+- [x] Local MVP verification is green: lint, unit, build, acceptance, browser, contracts.
+- [x] Hosted-runtime rehearsal exists with `web`, `collab-server`, and `postgres`.
+- [x] The original scoped MVP backlog is clear; the remaining list below is broader post-parity SaaS/platform work.
+- [x] Landing page at `/`, pricing page at `/pricing`, and product workspace at `/workspace` are live.
 
-- [ ] 1.1 Setup monorepo structure
-  - Done: `web/`, `collab-server/`, `cli/` packages exist, bun workspaces configured, all packages install successfully
-  - Property: N/A (infrastructure)
+## Shipped Surface
+- [x] Guided spec wizard writes into the canonical document.
+- [x] Shared OpenSpec core now owns guided wizard defaults/markdown builders plus shared readiness logic.
+- [x] Readiness now expects `UX Pack` alongside the core problem/goals/requirements/tasks sections.
+- [x] Shared OpenSpec core now also owns export bundle, execution-brief, and launch-packet builders.
+- [x] Shared OpenSpec core now also owns starter template definitions and the curated TypeScript starter builder.
+- [x] Mini agent-assist can populate guided fields from a rough brief, using local CLI tooling when available and a safe fallback otherwise.
+- [x] Terminal-native `specforge` CLI can generate the same guided markdown/metadata as the web flow.
+- [x] Terminal-native `specforge` CLI can also surface current backlog status/context for terminal-native operators.
+- [x] Terminal-native `specforge` CLI can surface the latest runner handoff and meta-learning artifacts for terminal-native review.
+- [x] Terminal-native `specforge` CLI can surface local backup manifests for terminal-native ops review.
+- [x] `/specforge` slash-command style invocations now work for both guided creation and status-style commands.
+- [x] `specforge tui` now provides a lightweight interactive terminal surface for guided init, status, context, and backlog review.
+- [x] A repo-packaged `skills/specforge/` bundle now exists so the same guided flow can be installed as an agent skill later.
+- [x] Tiptap + Yjs + Hocuspocus multiplayer canvas with shared presence.
+- [x] Governed patch queue with accept/reject/cherry-pick.
+- [x] Anchored comments and clarification writeback.
+- [x] Inline provenance plus audit trail.
+- [x] Deterministic export bundle, starter handoff, execution brief, and launch packet.
+- [x] Canonical `ideas/` showcase import for `server-management-agent`.
+- [x] Local admin controls for reset/seed testing.
+- [x] GitHub OAuth hooks, secure-cookie/secret enforcement, and server-derived collab identity.
+- [x] Workspace membership is now persisted and manageable from the workspace UI instead of living only in static seed data.
+- [x] Postgres-backed hosted persistence option plus health/metrics endpoints.
+- [x] Local backup snapshot script exists for web state, collab state, and runner artifacts.
+- [x] Metrics endpoint now exposes simple workspace funnel counts for design-partner instrumentation.
+- [x] Workspace usage events now exist for assist, handoff, execution, and launch-packet views as a billing/metering skeleton.
+- [x] Demo workspaces now enforce a first assist-usage quota so pricing and plan tiers have one real entitlement path in product code.
+- [x] Workspace membership limits and a seat-based monthly billing preview now exist so future SaaS billing/membership flows have real product hooks.
+- [x] Workspace entitlements and ops summary endpoints now exist for local rehearsal and future hosted ops surfaces.
+- [x] Workspace plans can now be switched in-product for local quota and billing rehearsal, and local backups are inspectable through an ops endpoint.
+- [x] Shared workspace plan definitions now drive both the pricing page and `/api/workspace/plans`, so SaaS packaging surfaces use one contract.
+- [x] Workspace entitlements now expose feature flags alongside quotas and billing preview, so SaaS packaging has a clearer contract surface.
+- [x] Workspace behavior signals now track member adds, plan changes, assist preference saves, document creation, patch decisions, and clarification answers.
+- [x] Workspace member creation now blocks duplicate GitHub logins instead of silently creating conflicting pilot memberships.
+- [x] Pilot workspaces now require GitHub-linked member invites, while the workspace UI exposes clearer local-vs-pilot invite guidance.
+- [x] Workspace membership is no longer add-only: the workspace UI can remove members safely without deleting the current active session or the final remaining member.
+- [x] Workspace membership roles can now be updated directly from the workspace UI, and those changes flow into workspace behavior instrumentation.
+- [x] Metrics, ops summary, and the workspace UI now expose a simple design-partner funnel: activation, assist usage, collaboration, review, and launch preparation.
+- [x] Workspace incident warnings now have a dedicated `/api/ops/incidents` surface instead of living only inside the broader ops summary payload.
+- [x] Delivery loop with intents, claims, context, handoff artifact, and meta-learnings.
+- [x] Shared orchestrator backlog parsing now feeds both the parity runner and the in-product delivery-loop panel.
+- [x] Runner status/brief/context now stay aligned with the live backlog instead of stale historical intents.
 
-- [ ] 1.2 Setup Postgres schema
-  - Done: Documents, Blocks, PatchProposals, Snapshots, Users, Workspaces, WorkspaceMembers tables created, migrations run without errors
-  - Property: N/A (infrastructure)
-
-- [ ] 1.3 Implement local auth bypass
-  - Done: User can create session with email only, JWT issued and validated, session persists across page reloads
-  - Property: N/A (pilot-only feature)
-
-- [ ] 1.4 Setup GitHub OAuth (pilot)
-  - Done: User can sign in with GitHub, profile fetched, session created, JWT issued
-  - Property: N/A (pilot-only feature)
-
-- [ ] 1.5 Implement workspace CRUD
-  - Done: User can create workspace, list workspaces, add/remove members, delete workspace
-  - Property: N/A (CRUD)
+## Meta Learnings To Keep Applying
+- [x] Treat placeholder fallback content as real product debt and remove it during review passes.
+- [x] Keep pricing, plans, and entitlements on one shared contract surface.
+- [x] Keep the design contract explicit too: if a product has a user-facing surface, require a UX Pack or an explicit `API-only` / `CLI-only` note.
+- [x] Split large UI routes into panel components before they become unreadable.
+- [x] Split persistence by domain before store changes become high-risk.
+- [x] Run the final verification gate sequentially to avoid fake Playwright or collab port regressions.
 
 ## Phase 2: Core Editing (Weeks 3-4)
 
@@ -219,4 +258,3 @@
 - [ ] 12.4 Launch checklist
   - Done: All tests pass, docs complete, monitoring active, backups tested
   - Property: All properties
-

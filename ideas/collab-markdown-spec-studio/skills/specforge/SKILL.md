@@ -12,6 +12,7 @@ Use this skill when the user wants:
 - terminal-native spec creation through SpecForge
 - to iterate on a specific section of a spec with AI assistance
 - a path from idea → Sprint Planning → PRD/SPEC/TASKS → handoff JSON
+- explicit UX coverage for frontend design, wireframes, or UI guidelines before build kickoff
 
 ## Workflow overview
 
@@ -55,6 +56,7 @@ If the brief is fuzzy, ask only the minimum missing questions:
 - what outcome matters most?
 - what is explicitly out of scope?
 - what constraints are real?
+- what is the primary surface and what are the key screens or failure states?
 
 ### Interactive TUI (recommended for terminal-native flows)
 
@@ -103,7 +105,15 @@ When the user needs live multiplayer collaboration (all planning stages and spec
 - All planning stages are optional — never hard-block on a skipped stage.
 - Do not invent missing requirements; use a short clarifying question instead.
 - Treat the first output as a minimum extensible product spec, not a final perfect spec.
+- If the product has a human-facing interface, require a UX Pack:
+  - primary surface
+  - key screens
+  - failure states
+  - responsive expectations
+  - or an explicit `API-only` / `CLI-only` note if no GUI is needed
+- Treat the UX Pack as part of the canonical spec, not optional polish.
 - When local Codex CLI or Claude Code CLI is available, the web assist flow can reuse that runtime; browser clients should not receive provider secrets.
+- SpecForge does not currently hardwire a `gstack` design runtime; hand the UX Pack to an external design-focused skill or agent when wireframes or visual direction are needed.
 
 ## Verification
 

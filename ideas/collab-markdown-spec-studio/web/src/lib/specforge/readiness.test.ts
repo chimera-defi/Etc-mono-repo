@@ -20,6 +20,7 @@ describe("specforge readiness", () => {
 
     expect(report.status).toBe("blocked");
     expect(report.missing_sections).toContain("Requirements");
+    expect(report.missing_sections).toContain("UX Pack");
   });
 
   it("marks fuller specs with no open issues as ready", () => {
@@ -27,7 +28,7 @@ describe("specforge readiness", () => {
       workspace_id: "ws_demo",
       title: "Ready Draft",
       initial_markdown:
-        "# PRD\n\n## Problem\nClear problem.\n\n## Goals\nClear goals.\n\n## Non-Goals\nClear scope.\n\n## Requirements\nDocumented.\n\n## Tasks\nShippable.\n",
+        "# PRD\n\n## Problem\nClear problem.\n\n## Goals\nClear goals.\n\n## Non-Goals\nClear scope.\n\n## Requirements\nDocumented.\n\n## UX Pack\nPrimary surface documented.\n\n## Tasks\nShippable.\n",
     });
 
     const report = evaluateReadiness({
@@ -45,7 +46,7 @@ describe("specforge readiness", () => {
       workspace_id: "ws_demo",
       title: "Clarification Draft",
       initial_markdown:
-        "# PRD\n\n## Problem\nClear problem.\n\n## Goals\nClear goals.\n\n## Non-Goals\nClear scope.\n\n## Requirements\nDocumented.\n\n## Tasks\nShippable.\n",
+        "# PRD\n\n## Problem\nClear problem.\n\n## Goals\nClear goals.\n\n## Non-Goals\nClear scope.\n\n## Requirements\nDocumented.\n\n## UX Pack\nPrimary surface documented.\n\n## Tasks\nShippable.\n",
     });
 
     const report = evaluateReadiness({
