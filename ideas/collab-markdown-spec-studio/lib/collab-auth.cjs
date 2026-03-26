@@ -29,8 +29,8 @@ function getCollabSecret() {
   return configuredSecret || DEFAULT_SECRET;
 }
 
-function buildRoomName(documentId, _version) {
-  return documentId;
+function buildRoomName(documentId, version) {
+  return typeof version === "number" ? `${documentId}:v${version}` : documentId;
 }
 
 function signPayload(payload) {
@@ -48,7 +48,7 @@ function createCollabToken(input) {
     actor_type: input.actorType ?? "human",
     actor_color: input.actorColor ?? "#1d4ed8",
     document_id: input.documentId,
-    room: input.roomName ?? input.documentId,
+    room: input.roomName ?? buildRoomName(input.documentId, input.version),
     version: input.version,
     iat: issuedAt,
     exp: issuedAt + ttlSeconds,

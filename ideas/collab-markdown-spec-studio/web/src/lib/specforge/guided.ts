@@ -36,6 +36,13 @@ export const DEFAULT_GUIDED_SPEC_INPUT: GuidedSpecInput = {
     "Keep human approval in the loop",
     "Stay inside curated starter handoff paths",
   ].join("\n"),
+  uxPack: [
+    "Primary surface: collaborative web workspace plus terminal-native CLI/TUI",
+    "Key screens: landing page, workspace start state, shared draft editor, review queue, export/handoff stage",
+    "Failure states: stale-room reload, quota reached, auth required, offline/reconnect banner",
+    "Responsive expectation: mobile can review and guide, desktop is primary for long-form drafting",
+    "If no GUI is required, explicitly say API-only or CLI-only instead of leaving this blank",
+  ].join("\n"),
   successSignals: [
     "Spec reaches readiness without unresolved review work",
     "Handoff bundle is deterministic",
@@ -63,6 +70,7 @@ export function normalizeGuidedSpecInput(input: Partial<GuidedSpecInput>): Guide
     scope: input.scope?.trim() || DEFAULT_GUIDED_SPEC_INPUT.scope,
     requirements: input.requirements?.trim() || DEFAULT_GUIDED_SPEC_INPUT.requirements,
     constraints: input.constraints?.trim() || DEFAULT_GUIDED_SPEC_INPUT.constraints,
+    uxPack: input.uxPack?.trim() || DEFAULT_GUIDED_SPEC_INPUT.uxPack,
     successSignals:
       input.successSignals?.trim() || DEFAULT_GUIDED_SPEC_INPUT.successSignals,
     tasks: input.tasks?.trim() || DEFAULT_GUIDED_SPEC_INPUT.tasks,
@@ -115,6 +123,12 @@ export function buildGuidedSpecMarkdown(input: GuidedSpecInput) {
       "Constraints",
       input.constraints,
       "Document tech, team, or delivery constraints that shape the build.",
+    ),
+    "",
+    toSection(
+      "UX Pack",
+      input.uxPack,
+      "Describe the primary surfaces, key screens, failure states, and responsive expectations. Use API-only or CLI-only if no GUI is needed.",
     ),
     "",
     toSection(
@@ -189,6 +203,13 @@ export function inferClarificationQuestions(
       priority: "normal",
     },
     {
+      field: "uxPack",
+      section_heading: "UX Pack",
+      question:
+        "What are the primary surfaces, key screens, failure states, and responsive expectations? If there is no GUI, explicitly say API-only or CLI-only.",
+      priority: "critical",
+    },
+    {
       field: "successSignals",
       section_heading: "Success Signals",
       question:
@@ -227,6 +248,7 @@ export function buildGuidedSpecMetadata(input: GuidedSpecInput) {
     scope: input.scope.trim(),
     requirements: input.requirements.trim(),
     constraints: input.constraints.trim(),
+    ux_pack: input.uxPack.trim(),
     success_signals: input.successSignals.trim(),
     tasks: input.tasks.trim(),
     non_goals: input.nonGoals.trim(),
