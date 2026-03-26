@@ -4,10 +4,12 @@ on:
   push:
     paths:
       - "apps/orbit-pilot/**"
+      - "ideas/orbit-pilot/**"
       - ".github/workflows/orbit-pilot.yml"
   pull_request:
     paths:
       - "apps/orbit-pilot/**"
+      - "ideas/orbit-pilot/**"
       - ".github/workflows/orbit-pilot.yml"
 
 jobs:
