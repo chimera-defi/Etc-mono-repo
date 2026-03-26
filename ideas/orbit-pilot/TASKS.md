@@ -1,10 +1,12 @@
 # Orbit Pilot Task List
 
+**Forward progress:** use **[`V1_ROADMAP.md`](./V1_ROADMAP.md)** for “what’s done / what’s next” in one place. Update that file when V1 status changes.
+
 ## Milestones
-1. Spec package approved.
-2. Seed platform registry locked.
-3. Core orchestrator skeleton implemented.
-4. Pilot launch run completed.
+1. Spec package approved. ✅
+2. Seed platform registry locked. ✅
+3. Core orchestrator implemented (CLI + services + CI). ✅
+4. **Pilot launch run completed** — real operator run (see V1_ROADMAP Next #1). ⬜
 
 ## Phase 0
 - [x] Finalize naming and positioning.

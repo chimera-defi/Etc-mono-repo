@@ -1,5 +1,7 @@
 ## Orbit Pilot Technical Spec
 
+**Product progress:** [`V1_ROADMAP.md`](./V1_ROADMAP.md) (V1 scope, done / next / deferred).
+
 ### Summary
 Build a launch orchestration system with:
 1. canonical launch profile storage,
