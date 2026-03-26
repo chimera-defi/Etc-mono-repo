@@ -1,5 +1,91 @@
 ## Orbit Pilot Sample Outputs
 
+Human-facing copy examples are below. For **machine contracts**, use `--json` on CLI commands and validate with `orbit validate-json` (see [`AGENTS.md`](../../apps/orbit-pilot/AGENTS.md)).
+
+### CLI `--json` shape (representative)
+
+Generated from bundled `launch.sample.yaml` + `seed_platforms.yaml` (paths vary on your machine). Keys match bundled JSON Schemas (`orbit schemas --json`).
+
+**`orbit plan … --json`** (truncated `platform_preview`):
+
+```json
+{
+  "missing_fields": [],
+  "questions": [],
+  "platform_count": 20,
+  "platforms": ["medium", "reddit", "github", "…"],
+  "platform_preview": [
+    {
+      "slug": "github",
+      "planned_mode": "official_api",
+      "risk": "low",
+      "reason": "V0 official publisher"
+    },
+    {
+      "slug": "reddit",
+      "planned_mode": "manual",
+      "risk": "medium_high",
+      "reason": "Registry mode: manual_by_default"
+    }
+  ]
+}
+```
+
+**`orbit doctor … --json`** (one row each platform):
+
+```json
+{
+  "results": [
+    {
+      "platform": "github",
+      "mode": "official_api",
+      "ready": false,
+      "missing_secrets": ["GITHUB_TOKEN"],
+      "missing_payload": []
+    },
+    {
+      "platform": "reddit",
+      "mode": "manual",
+      "ready": true,
+      "missing_secrets": [],
+      "missing_payload": []
+    }
+  ]
+}
+```
+
+**`orbit generate … --json`**:
+
+```json
+{
+  "run_dir": "/path/out/orbitpilot/run-20260326T084653Z",
+  "results": [
+    {
+      "platform": "github",
+      "mode": "official_api",
+      "risk_level": "low",
+      "reason": "V0 official publisher",
+      "payload_path": "/path/.../github/payload.json",
+      "duplicate": false,
+      "asset_count": 0
+    }
+  ]
+}
+```
+
+**`orbit registry-lint --platforms … --json`**:
+
+```json
+{
+  "ok": true,
+  "errors": [],
+  "warnings": [],
+  "platform_count": 20
+}
+```
+
+Regenerate locally after CLI changes: run the same commands with your fixtures and diff; update this section if required keys change.
+
 ### Example Launch
 Product: OrbitPilot
 Tagline: AI launch research and distribution ops for SaaS teams
