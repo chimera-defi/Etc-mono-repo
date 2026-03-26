@@ -15,16 +15,10 @@ def _bad_placeholder(url: str) -> bool:
 
 
 def _is_https(url: str) -> bool:
-    try:
-        return urlparse(url.strip()).scheme.lower() == "https"
-    except Exception:
-        return False
+    return urlparse(url.strip()).scheme.lower() == "https"
 
 
 def lint_platform_registry(path: str | Path) -> dict[str, Any]:
-    """
-    Load registry and return {ok, errors, warnings, platform_count}.
-    """
     p = Path(path)
     errors: list[str] = []
     warnings: list[str] = []

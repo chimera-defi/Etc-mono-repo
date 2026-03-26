@@ -1,12 +1,8 @@
-"""Optional Playwright assist for high-risk submit pages (V1).
-
-Install: pip install 'orbit-pilot[browser]' && playwright install chromium
-"""
+"""Playwright helper for browser_assisted publish (optional dep: orbit-pilot[browser])."""
 
 from __future__ import annotations
 
 import os
-from pathlib import Path
 from typing import Any
 
 
@@ -42,7 +38,6 @@ def _fill_if(page: Any, selector: str, text: str, max_len: int = 8000) -> None:
 
 
 def apply_browser_autofill(page: Any, payload: dict[str, Any], selectors: dict[str, str]) -> None:
-    """Fill title/body/url fields using registry CSS selectors (used by publish + tests)."""
     if not selectors:
         return
     title_sel = selectors.get("title") or selectors.get("name") or ""
@@ -64,16 +59,12 @@ def apply_browser_autofill(page: Any, payload: dict[str, Any], selectors: dict[s
 
 def run_submit_portal_assist(
     submit_url: str,
-    platform_dir: Path,
     payload: dict[str, Any],
     selectors: dict[str, str],
     *,
     headless: bool,
     autofill: bool,
 ) -> str:
-    """
-    Open submit URL. If autofill, type title/body/url into registry CSS selectors (human reviews and submits).
-    """
     from playwright.sync_api import sync_playwright
 
     wait_ms = int(os.environ.get("ORBIT_BROWSER_WAIT_MS", "300000" if not headless else "3000"))

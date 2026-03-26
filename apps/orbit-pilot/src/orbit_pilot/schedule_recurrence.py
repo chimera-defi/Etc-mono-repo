@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import calendar
 from datetime import UTC, datetime, timedelta
-from typing import Literal
+from typing import Literal, assert_never
 
 Recurrence = Literal["none", "daily", "weekly", "monthly"]
 
@@ -50,4 +50,4 @@ def next_fire_after(anchor_utc: datetime, recurrence: Recurrence) -> datetime:
         return a + timedelta(weeks=1)
     if recurrence == "monthly":
         return add_one_month_utc(a)
-    raise ValueError(f"unknown recurrence: {recurrence}")
+    assert_never(recurrence)
