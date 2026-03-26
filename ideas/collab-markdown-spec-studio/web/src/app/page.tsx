@@ -71,6 +71,7 @@ export default async function LandingPage({ searchParams }: Props) {
         </aside>
       </section>
 
+      {/* Role table — alternating label / description rows, not a card grid */}
       <section className={styles.section}>
         <h2>Safe multiplayer, not collaborative chaos</h2>
         <p className={styles.sectionLead}>
@@ -78,23 +79,24 @@ export default async function LandingPage({ searchParams }: Props) {
           governed patch proposals, with signed room auth, server-derived identities, and audit
           events for every decision.
         </p>
-        <div className={styles.cardGrid}>
-          <div className={styles.card}>
-            <strong>Human editing</strong>
+        <ol className={styles.roleList}>
+          <li className={styles.roleRow}>
+            <span className={styles.roleLabel}>Human editing</span>
             <p>Humans edit the shared document directly with realtime presence and recovery.</p>
-          </div>
-          <div className={styles.card}>
-            <strong>Agent coauthoring</strong>
+          </li>
+          <li className={styles.roleRow}>
+            <span className={styles.roleLabel}>Agent coauthoring</span>
             <p>Agents propose structural or requirement changes against stable blocks and versions.</p>
-          </div>
-          <div className={styles.card}>
-            <strong>Review gates</strong>
+          </li>
+          <li className={styles.roleRow}>
+            <span className={styles.roleLabel}>Review gates</span>
             <p>Humans accept, reject, or cherry-pick patches before the canonical spec changes.</p>
-          </div>
-        </div>
+          </li>
+        </ol>
       </section>
 
-      <section className={styles.section}>
+      {/* Feature cards — kept as cards but with dark accent to break rhythm */}
+      <section className={`${styles.section} ${styles.sectionDark}`}>
         <h2>How agent configuration works</h2>
         <div className={styles.sectionGrid}>
           <div className={styles.featureCard}>
@@ -121,34 +123,38 @@ export default async function LandingPage({ searchParams }: Props) {
         </div>
       </section>
 
+      {/* Numbered step list — horizontal with large step numbers, not cards */}
       <section className={styles.section}>
         <h2>Start with the product that ships</h2>
-        <div className={styles.cardGrid}>
-          <div className={styles.card}>
-            <strong>1. Shape the spec</strong>
+        <ol className={styles.stepList}>
+          <li className={styles.stepItem}>
+            <span className={styles.stepNum}>01</span>
+            <strong>Shape the spec</strong>
             <ul>
               <li>Guided creation</li>
               <li>Comments and clarifications</li>
               <li>Readiness scoring</li>
             </ul>
-          </div>
-          <div className={styles.card}>
-            <strong>2. Review agent work</strong>
+          </li>
+          <li className={styles.stepItem}>
+            <span className={styles.stepNum}>02</span>
+            <strong>Review agent work</strong>
             <ul>
               <li>Patch queue</li>
               <li>Diff and attribution</li>
               <li>Audit trail</li>
             </ul>
-          </div>
-          <div className={styles.card}>
-            <strong>3. Launch the handoff</strong>
+          </li>
+          <li className={styles.stepItem}>
+            <span className={styles.stepNum}>03</span>
+            <strong>Launch the handoff</strong>
             <ul>
               <li>Deterministic export bundle</li>
               <li>Starter template output</li>
               <li>Execution brief + launch packet</li>
             </ul>
-          </div>
-        </div>
+          </li>
+        </ol>
       </section>
 
       <footer className={styles.footer}>
