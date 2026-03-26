@@ -24,5 +24,7 @@
 | Futurepedia | AI directory | Manual by default | AI tool listing | Medium | https://www.futurepedia.io/ |
 | There’s An AI For That | AI directory | Manual by default | AI tool listing | Medium | https://theresanaiforthat.com/ |
 | Peerlist | Community/profile | Manual by default | launch/profile | Medium | https://peerlist.io/ |
+| Microlaunch | Launch directory | Manual by default; public submit page | product launch | Medium | https://microlaunch.net/ |
+| OpenAlternative | Directory | Manual by default; community submit flow | open-source alternative listing | Medium | https://openalternative.co/ |
 
 If exact write support is uncertain, Orbit Pilot should classify the platform as `manual`.

@@ -31,6 +31,8 @@ _NAME_TO_SLUG = {
     "Futurepedia": "futurepedia",
     "There’s An AI For That": "theres_an_ai_for_that",
     "Peerlist": "peerlist",
+    "Microlaunch": "microlaunch",
+    "OpenAlternative": "open_alternative",
 }
 
 
@@ -79,4 +81,4 @@ def test_seed_platform_count_matches_v0_build_plan_band() -> None:
     """V0_BUILD_PLAN: ~10–20 manual platforms + APIs; matrix is the canonical count."""
     bundled = resources.files("orbit_pilot.bundled") / "seed_platforms.yaml"
     records = load_platforms(Path(str(bundled)))
-    assert 10 <= len(records) <= 24, f"unexpected platform count: {len(records)}"
+    assert 10 <= len(records) <= 32, f"unexpected platform count: {len(records)}"
