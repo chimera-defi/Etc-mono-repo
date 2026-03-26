@@ -1,6 +1,6 @@
 [project]
 name = "orbit-pilot"
-version = "0.4.1"
+version = "0.4.2"
 description = "CLI-first launch distribution operator (Orbit Pilot)"
 requires-python = ">=3.11"
 dependencies = [
@@ -46,5 +46,5 @@ select = ["E", "F", "I", "UP"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 markers = [
-    "e2e_browser: real Playwright/Chromium (set RUN_BROWSER_E2E=1; CI installs browsers)",
+    "e2e_browser: real Playwright/Chromium (CI runs automatically; locally RUN_BROWSER_E2E=1)",
 ]

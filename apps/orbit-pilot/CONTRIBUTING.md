@@ -32,8 +32,9 @@ pip install -e ".[dev]"
 # or: uv venv && source .venv/bin/activate && uv pip install -e ".[dev]"
 ruff check src tests
 pytest -q
-# Optional real browser: pip install -e ".[browser]" && python3 -m playwright install chromium
-# RUN_BROWSER_E2E=1 pytest tests/test_browser_playwright_e2e.py -v
+# Full CI parity (Playwright E2E included):
+# pip install -e ".[dev,browser]" && python -m playwright install chromium
+# CI=1 RUN_BROWSER_E2E=1 pytest -q
 ```
 
 Use **uv** if you prefer; the project is standard **pyproject.toml / setuptools** — no lockfile is committed in-repo.
