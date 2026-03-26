@@ -1,6 +1,6 @@
 # Pilot launch run (Milestone 4)
 
-Operator checklist to complete **V1 milestone 4** in [`V1_ROADMAP.md`](./V1_ROADMAP.md). Tick boxes and paste paths/URLs as you go.
+Same flow as [`../apps/orbit-pilot/HUMAN_GUIDE.md`](../apps/orbit-pilot/HUMAN_GUIDE.md); this file is a **checkbox** version. Tracker: [`V1_ROADMAP.md`](./V1_ROADMAP.md).
 
 ## Before
 

@@ -59,3 +59,31 @@ def test_apply_browser_autofill_local_html(tmp_path: Path) -> None:
         assert page.input_value("#desc") == "Hello from test"
         assert page.input_value("#link") == "https://example.com/p"
         browser.close()
+
+
+@skip_e2e
+def test_run_submit_portal_assist_autofill_and_submit(tmp_path: Path, monkeypatch) -> None:
+    from orbit_pilot.browser_assist import run_submit_portal_assist
+
+    monkeypatch.setenv("ORBIT_BROWSER_WAIT_MS", "500")
+    html = """<!DOCTYPE html><html><body>
+    <input id="title" type="text" />
+    <textarea id="desc"></textarea>
+    <button id="go" type="button">Send</button>
+    </body></html>"""
+    f = tmp_path / "form.html"
+    f.write_text(html, encoding="utf-8")
+    url = f.as_uri()
+    payload = {"title": "E2E", "body": "Body", "url": "https://x.com"}
+    selectors = {"title": "#title", "body": "#desc", "submit": "#go"}
+    out = run_submit_portal_assist(
+        url,
+        payload,
+        selectors,
+        headless=True,
+        autofill=True,
+        auto_submit=True,
+    )
+    assert out["autofill"] is True
+    assert out["auto_submit"] is True
+    assert out.get("auto_submit_error") is None

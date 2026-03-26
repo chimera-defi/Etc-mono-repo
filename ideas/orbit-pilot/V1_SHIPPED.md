@@ -7,7 +7,8 @@
 - **`orbit pipeline --launch … --platforms … --out … --json`** — one round-trip: plan, doctor, generate, `check-run`; `ok_all` + exit code for automation.
 - **`orbit validate-json <schema>`** — validate any CLI-shaped JSON against bundled schemas (`orbit schemas --json` for the manifest).
 - **`orbit init --preset walletradar`** — WalletRadar-oriented `launch.yaml` stub (edit before real use).
-- **Post-generate:** `orbit next` / `orbit guide` / `orbit mark-done` / `orbit publish` (dry-run by default) as documented in [`AGENTS.md`](../../apps/orbit-pilot/AGENTS.md).
+- **Post-generate:** `orbit next` / `orbit guide` / `orbit mark-done` / `orbit publish` (dry-run by default) — [`HUMAN_GUIDE.md`](../../apps/orbit-pilot/HUMAN_GUIDE.md), [`AGENTS.md`](../../apps/orbit-pilot/AGENTS.md).
+- **Browser:** autofill + optional submit click; **`ORBIT_BROWSER_USER_DATA_DIR`** for persistent logged-in Chromium (see `HUMAN_GUIDE.md`).
 
 ## Explicitly not V1 (later)
 
@@ -16,4 +17,4 @@
 
 ## Real launches (Orbit Pilot + WalletRadar)
 
-Use [`PILOT_RUN_CHECKLIST.md`](./PILOT_RUN_CHECKLIST.md). Filling `launch.yaml` and posting to third-party sites requires **your** accounts and compliance review — the CLI provides packs and audit, not automatic mass posting.
+Use [`PILOT_RUN_CHECKLIST.md`](./PILOT_RUN_CHECKLIST.md) (same steps as `HUMAN_GUIDE.md`). Filling `launch.yaml` and posting to third-party sites requires **your** accounts and compliance review.

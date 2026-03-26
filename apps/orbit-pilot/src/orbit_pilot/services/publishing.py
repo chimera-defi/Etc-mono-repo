@@ -168,26 +168,40 @@ def publish_from_run(run_dir: Path, platforms: list[str], execute: bool) -> list
                 policy.allow_browser_autofill
                 and os.environ.get("ORBIT_ALLOW_BROWSER_AUTOFILL", "").strip() == "1"
             )
+            auto_submit_ok = (
+                policy.allow_browser_auto_submit
+                and os.environ.get("ORBIT_ALLOW_BROWSER_AUTO_SUBMIT", "").strip() == "1"
+            )
             rec = slug_to_record.get(platform)
             selectors = dict(rec.browser_form_selectors) if rec else {}
             autofill = bool(autofill_ok and selectors)
+            auto_submit = bool(auto_submit_ok and autofill)
             try:
-                opened = run_submit_portal_assist(
+                assist_out = run_submit_portal_assist(
                     submit_url,
                     payload,
                     selectors,
                     headless=headless,
                     autofill=autofill,
+                    auto_submit=auto_submit,
                 )
+                opened = assist_out.get("url", submit_url)
                 result = {
                     "status": "browser_assist_ran",
                     "url": opened,
                     "publisher": platform,
                     "autofill": autofill,
+                    "auto_submit": assist_out.get("auto_submit", False),
+                    "persistent_profile": assist_out.get("persistent_profile", False),
+                    "auto_submit_error": assist_out.get("auto_submit_error"),
                     "note": (
-                        "Review the browser window, submit if correct, then orbit mark-done --live-url …"
-                        if autofill
-                        else "Operator must submit in the opened browser; then orbit mark-done --live-url …"
+                        "auto_submit attempted; verify page and run orbit mark-done --live-url … with final URL"
+                        if assist_out.get("auto_submit")
+                        else (
+                            "Review the browser window, submit if correct, then orbit mark-done --live-url …"
+                            if autofill
+                            else "Operator must submit in the opened browser; then orbit mark-done --live-url …"
+                        )
                     ),
                 }
             except Exception as exc:  # pragma: no cover - browser env specific

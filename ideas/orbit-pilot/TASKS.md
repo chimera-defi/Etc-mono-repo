@@ -26,6 +26,7 @@
 - [x] State model and config loader.
 - [x] UTM processor and duplicate detector.
 - [x] Audit logging (SQLite + JSONL), cooldowns, LangGraph plan + generate.
+- [x] Agent one-shot: `orbit pipeline` (plan + doctor + generate + check-run, `--json`, schema `pipeline-output`).
 
 ### WS-3 Publishers
 - [x] Medium, GitHub, DEV, LinkedIn, X (official paths where configured).

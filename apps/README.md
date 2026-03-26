@@ -4,4 +4,4 @@ Runnable applications and services live here. Product specs and research stay un
 
 | App | Spec / docs | Run |
 |-----|----------------|-----|
-| [orbit-pilot](./orbit-pilot/) | [ideas/orbit-pilot/](../ideas/orbit-pilot/), [AGENTS.md](./orbit-pilot/AGENTS.md) | `cd apps/orbit-pilot && pip install -e '.[dev]' && orbit --help` · `orbit registry-lint --platforms …` |
+| [orbit-pilot](./orbit-pilot/) | [ideas/orbit-pilot/](../ideas/orbit-pilot/), [HUMAN_GUIDE](./orbit-pilot/HUMAN_GUIDE.md), [AGENTS](./orbit-pilot/AGENTS.md) | `cd apps/orbit-pilot && pip install -e '.[dev]' && orbit --help` |
