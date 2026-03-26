@@ -109,6 +109,16 @@ orbit validate-json report out.json --json
 - Do not bypass **`ORBIT_WEBHOOK_SECRET`** when the server sets it.
 - Treat **credentials** as secrets; prefer env + keyring, never commit tokens.
 
+## What is tested in CI
+
+GitHub Actions (`.github/workflows/orbit-pilot.yml`) runs **ruff** + **pytest** on every push/PR that touches `apps/orbit-pilot/`. That includes:
+
+- Core planning, generate, publish (mocked), policy, schemas, `check-run`, webhook (TestClient), scheduler, timezone/recurrence, argv allowlist
+- **`browser_assist` / Playwright paths are mocked** in tests — CI does **not** install browsers or drive real Chromium
+- **Live E2E** (real `orbit publish --execute`, real directory sites) is **manual** or a separate job if you add Playwright + `playwright install` to CI
+
+Bundled **`seed_platforms.yaml`** is checked against **`ideas/orbit-pilot/PLATFORM_MATRIX.md`** in `tests/test_platform_matrix_parity.py` (same platforms, same order/slugs). That matrix + YAML are the repo’s **canonical “initial list”**, not every backlink site on the web.
+
 ## Verify changes
 
 ```bash
