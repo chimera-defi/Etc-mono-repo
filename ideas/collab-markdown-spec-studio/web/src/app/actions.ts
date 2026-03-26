@@ -43,6 +43,7 @@ export async function createDocumentAction(formData: FormData) {
     scope: String(formData.get("scope") ?? ""),
     requirements: String(formData.get("requirements") ?? ""),
     constraints: String(formData.get("constraints") ?? ""),
+    uxPack: String(formData.get("ux_pack") ?? ""),
     successSignals: String(formData.get("success_signals") ?? ""),
     tasks: String(formData.get("tasks") ?? ""),
     nonGoals: String(formData.get("non_goals") ?? ""),

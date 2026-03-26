@@ -10,6 +10,7 @@ Use this skill when the user wants:
 - guided follow-up questions before committing to a PRD
 - terminal-native spec creation through SpecForge instead of a browser flow
 - a path from brief -> PRD/SPEC/TASKS -> workspace handoff
+- explicit UX coverage for frontend design, wireframes, or UI guidelines before build kickoff
 
 ## Default flow
 
@@ -23,6 +24,7 @@ bun run specforge -- init --title "<title>" --problem "<problem>"
 - what outcome matters most?
 - what is explicitly out of scope?
 - what constraints are real?
+- what is the primary surface and what are the key screens or failure states?
 
 3. When interactive terminal guidance is better, use:
 ```bash
@@ -40,13 +42,22 @@ bun run specforge -- backlog
 - `/workspace` for the live app
 - the stable document share URL after the draft exists
 
+6. If the product has a human-facing interface, require a UX Pack:
+- primary surface
+- key screens
+- failure states
+- responsive expectations
+- or an explicit `API-only` / `CLI-only` note if no GUI is needed
+
 ## Rules
 
 - Prefer the local CLI/TUI for solo or agent-native spec generation.
 - Prefer the web workspace for multiplayer collaboration, review, comments, and patch decisions.
 - Do not invent missing requirements if a short clarifying question can resolve them.
 - Treat the first output as a minimum extensible product spec, not a final perfect spec.
+- Treat the UX Pack as part of the canonical spec, not optional polish.
 - When local Codex CLI or Claude Code CLI is available, the web assist flow can reuse that runtime; browser clients should not receive provider secrets.
+- SpecForge does not currently hardwire a `gstack` design runtime; hand the UX Pack to an external design-focused skill or agent when wireframes or visual direction are needed.
 
 ## Verification
 
