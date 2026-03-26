@@ -6,12 +6,12 @@
 
 ## V1 product definition (ship target)
 
-**V1 = production-ready CLI + agent contracts** for launch/backlink ops: one `launch.yaml`, registry YAML, generate/publish/report/mark-done, audit, optional risk policy, webhook, deferred jobs, optional Playwright assist — **not** a full web app.
+**V1 = production-ready CLI + agent contracts** for launch/backlink ops: one `launch.yaml`, registry YAML, generate/publish/report/mark-done, audit, optional risk policy, webhook, deferred jobs, Playwright assist (policy-gated; CI runs Chromium E2E) — **not** a full web app.
 
 | In scope for V1 | Out of scope (post-V1) |
 |-----------------|-------------------------|
 | CLI, `--json`, bundled JSON Schemas, `validate-json` | Full web operator UI → [`FRONTEND_VISION.md`](./FRONTEND_VISION.md) |
-| `check-run`, `registry-lint`, CI (unit + optional Playwright job) | Live-site browser E2E in CI (manual / separate harness) |
+| `check-run`, `registry-lint`, unified CI job (Playwright + full pytest, no skips) | Live **third-party** posting with real credentials — operator / separate harness |
 | Seed registry ↔ [`PLATFORM_MATRIX.md`](./PLATFORM_MATRIX.md) parity test | “Every backlink site on the internet” |
 | Official publishers where tokens + APIs are stable | New **API** publishers when contracts are stable; **manual** matrix sites use browser assist / `orbit work` + MCP when policy opts in |
 
@@ -23,8 +23,8 @@
 - Risk policy YAML; LangGraph plan + generate graphs; CTA policy; registry image constraints.
 - Agent tooling: schemas manifest, `orbit schemas`, `orbit validate-json`, `orbit check-run`, `orbit registry-lint`, `orbit version`, [`AGENTS.md`](../../apps/orbit-pilot/AGENTS.md).
 - Scheduling: `schedule-add/list/run/cancel`, timezone + recurrence, argv allowlist, file lock.
-- Browser path: policy + env gated assist; optional autofill via `browser_form_selectors`; **`orbit work`** opens default browser for manual queue; Playwright E2E runs in the unified **`orbit-pilot.yml`** test job (Chromium installed, no skips).
-- Tests: **~101** in full CI (ruff + registry-lint + pytest with Playwright/Chromium; **no skips**); local quick run may skip E2E without `[browser]` + `RUN_BROWSER_E2E`/`CI`; matrix/seed parity uses `GITHUB_WORKSPACE` in Actions.
+- Browser path: **`allow_browser_automation`** + **`allow_browser_fallback`** and/or **`allow_browser_assist_manual`**; optional autofill via `browser_form_selectors`; **`orbit work`** for queue + MCP; Playwright E2E in unified **`orbit-pilot.yml`** (Chromium, **no skips**).
+- Tests: **~103** in full CI (`ruff` + registry-lint + full pytest); local default run may skip E2E without `[browser]` + `CI`/`RUN_BROWSER_E2E`; matrix parity uses `GITHUB_WORKSPACE` in Actions.
 
 ### Next (your launches — not blocked on repo code)
 
