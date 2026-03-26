@@ -28,6 +28,7 @@ The current branch also includes a first explicit entitlement layer:
 - and ops-summary alerts for missing backups, missing verification, or upgrade pressure.
 - Pilot membership lifecycle is now two-way in the workspace UI: add/remove members with GitHub-linked invite rules and guards against removing the active session or the final member.
 - SpecForge currently guides users toward design coverage, but it does not yet ship a direct `gstack` design-skill runtime integration. The supported pattern today is to generate the canonical spec plus UX Pack in SpecForge, then hand that UX Pack to an external design-focused skill or agent for wireframes, visual exploration, or frontend implementation guidelines.
+- The export stage now includes a first-class `Design handoff` panel that derives its content from the canonical spec itself: the UX Pack, any completed design-review outputs, and a copyable design-review prompt for external agents or human reviewers.
 
 ### Product Principle: Minimum Extensible Product
 1. Approved specs should first produce a minimum extensible product, not a pretend-final build.

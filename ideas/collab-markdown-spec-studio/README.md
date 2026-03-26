@@ -59,6 +59,7 @@ Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid du
 6. Reuse one OpenSpec core across the web app, terminal CLI, and orchestrator so the product stops drifting across surfaces.
 7. Give design partners a copy-paste prompt they can hand to their own AI helper so trial sessions stay structured even without a live moderator.
 8. Treat UI and interaction design as part of the canonical spec by requiring a `UX Pack`, or explicitly mark a spec `API-only` / `CLI-only` when no GUI is needed.
+9. Keep design review inside the same product flow by exposing a `Design handoff` panel in the export stage that lifts the canonical `UX Pack`, any completed design-review outputs, and a copyable review prompt for external design agents or partners.
 
 ### Applied Learnings
 1. Lock the wedge early:

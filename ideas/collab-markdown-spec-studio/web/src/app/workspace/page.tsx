@@ -21,9 +21,11 @@ import { GuidedDraftBuilder } from "../guided-draft-builder";
 import { LocalAdminPanel } from "../local-admin-panel";
 import { ShareDocumentPanel } from "../share-document-panel";
 import { ExportFileBrowser } from "./export-file-browser";
+import { DesignHandoffPanel } from "./design-handoff-panel";
 import styles from "../page.module.css";
 import { getAgentAssistToolStatuses } from "@/lib/specforge/agent-assist";
 import { readBacklogState } from "@/lib/specforge/backlog";
+import { buildDesignHandoffData } from "@/lib/specforge/design-handoff";
 import {
   getCurrentWorkspaceSession,
   getPreferredAssistTool,
@@ -274,6 +276,13 @@ export default async function Home({ searchParams }: Props) {
   const actorReturnTo = buildStageHref(activeDocument?.document_id ?? null, activeStage);
   const sharePath = buildStageHref(activeDocument?.document_id ?? null, activeDocument ? activeStage : "start");
   const shareUrl = `${getAppOrigin(headerList)}${sharePath}`;
+  const designHandoff =
+    activeDocument && exportBundle
+      ? buildDesignHandoffData({
+          document: activeDocument,
+          designSystem: exportBundle.files["DESIGN_SYSTEM.md"] ?? null,
+        })
+      : null;
 
   return (
     <div className={styles.shell}>
@@ -1527,6 +1536,25 @@ export default async function Home({ searchParams }: Props) {
                   </div>
                 </section>
               ) : null}
+
+              <details className={styles.panel} open={Boolean(designHandoff)} id="design-handoff">
+                <summary className={styles.disclosureSummary}>
+                  <span>Design handoff</span>
+                  <span>{designHandoff?.designSystem ? "review-ready" : "ux-pack only"}</span>
+                </summary>
+                {designHandoff ? (
+                  <DesignHandoffPanel
+                    uxPack={designHandoff.uxPack}
+                    designSystem={designHandoff.designSystem}
+                    reviewChecklist={designHandoff.reviewChecklist}
+                    prompt={designHandoff.prompt}
+                  />
+                ) : (
+                  <div className={styles.disclosureBody}>
+                    <p className={styles.empty}>Create a document first.</p>
+                  </div>
+                )}
+              </details>
 
               <details className={styles.panel} id="export-preview">
                 <summary className={styles.disclosureSummary}>

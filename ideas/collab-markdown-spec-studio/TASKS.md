@@ -4,6 +4,7 @@
 - [x] Scoped MVP/spec parity for the build branch is reached.
 - [x] Guided spec creation, shared authoring, governed patch review, comments, clarifications, readiness, export, starter handoff, execution brief, and launch packet are working.
 - [x] Guided specs now include a first-class `UX Pack` section so UI/UX design is explicit before handoff.
+- [x] Export stage now includes a real `Design handoff` panel built from the canonical UX Pack plus any completed design-review outputs.
 - [x] Local MVP verification is green: lint, unit, build, acceptance, browser, contracts.
 - [x] Hosted-runtime rehearsal exists with `web`, `collab-server`, and `postgres`.
 - [x] The original scoped MVP backlog is clear; the remaining list below is broader post-parity SaaS/platform work.
