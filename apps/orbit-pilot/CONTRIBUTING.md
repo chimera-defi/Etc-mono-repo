@@ -21,6 +21,7 @@ Thanks for helping improve launch ops for humans and agents.
 - **`scheduler.py`** — JSONL schedule queue for deferred subprocess runs (fcntl lock on Unix; `schedule-cancel`).
 - **`schedule_argv.py`** / **`schedule_recurrence.py`** / **`schedule_timezone.py`** — queue validation and scheduling helpers.
 - **`browser_assist.py`** — optional Playwright open of `submit_url` (install `[browser]`); optional selector autofill when policy + env allow.
+- **`registry_lint.py`** — `orbit registry-lint` for CI/agents (duplicate slugs, `unknown` URLs, prefer https).
 
 ## Development setup
 

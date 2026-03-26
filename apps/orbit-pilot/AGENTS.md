@@ -17,6 +17,7 @@ After `generate`, sanity-check a run directory:
 
 ```bash
 orbit check-run --run out/<campaign>/run-* --json
+orbit registry-lint --platforms seed_platforms.yaml --json
 ```
 
 ## Agent-first workflow (recommended)

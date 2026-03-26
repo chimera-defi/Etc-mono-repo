@@ -28,6 +28,7 @@ def test_emit_manifest_json() -> None:
     assert "mark-done-output" in ids
     assert "run-manifest" in ids
     assert "schedule-add-output" in ids
+    assert "registry-lint-output" in ids
     plan = next(x for x in data["schemas"] if x["id"] == "plan-output")
     assert plan.get("command_alias") == "plan"
 
@@ -37,3 +38,4 @@ def test_resolve_schema_id_aliases() -> None:
     assert resolve_schema_id("export") == "export-bundle"
     assert resolve_schema_id("audit") == "audit-events"
     assert resolve_schema_id("schedule-list") == "schedule-list-output"
+    assert resolve_schema_id("registry-lint") == "registry-lint-output"
