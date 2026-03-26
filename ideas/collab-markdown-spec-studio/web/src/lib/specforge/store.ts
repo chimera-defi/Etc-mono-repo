@@ -1029,6 +1029,18 @@ async function createSchema(database: QuerySession) {
       created_at TEXT NOT NULL,
       updated_at TEXT NOT NULL
     );
+
+    CREATE TABLE IF NOT EXISTS acceptance_tests (
+      test_id TEXT PRIMARY KEY,
+      document_id TEXT NOT NULL REFERENCES documents(document_id) ON DELETE CASCADE,
+      feature TEXT NOT NULL,
+      test_case TEXT NOT NULL,
+      expected_result TEXT NOT NULL,
+      status TEXT NOT NULL DEFAULT 'pending',
+      notes TEXT,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
   `);
 }
 

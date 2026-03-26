@@ -69,6 +69,68 @@ export async function getTestMatrix(
 }
 
 /**
+ * Create a new acceptance test for a document.
+ */
+export async function createAcceptanceTest(
+  db: DatabaseClient,
+  documentId: string,
+  fields: {
+    feature: string;
+    test_case: string;
+    expected_result: string;
+  },
+): Promise<AcceptanceTest> {
+  const testId = crypto.randomUUID();
+  const now = new Date().toISOString();
+
+  await db.query(
+    `INSERT INTO acceptance_tests
+       (test_id, document_id, feature, test_case, expected_result, status, notes, created_at, updated_at)
+     VALUES ($1, $2, $3, $4, $5, 'pending', NULL, $6, $6)`,
+    [testId, documentId, fields.feature, fields.test_case, fields.expected_result, now],
+  );
+
+  return {
+    test_id: testId,
+    document_id: documentId,
+    feature: fields.feature,
+    test_case: fields.test_case,
+    expected_result: fields.expected_result,
+    status: "pending",
+    notes: null,
+    created_at: now,
+    updated_at: now,
+  };
+}
+
+/**
+ * Delete a single acceptance test.
+ */
+export async function deleteAcceptanceTest(
+  db: DatabaseClient,
+  testId: string,
+): Promise<void> {
+  await db.query(`DELETE FROM acceptance_tests WHERE test_id = $1`, [testId]);
+}
+
+/**
+ * Get a single acceptance test by ID.
+ */
+export async function getAcceptanceTest(
+  db: DatabaseClient,
+  testId: string,
+): Promise<AcceptanceTest | null> {
+  const result = await db.query<AcceptanceTestRow>(
+    `SELECT test_id, document_id, feature, test_case, expected_result,
+            status, notes, created_at, updated_at
+     FROM acceptance_tests
+     WHERE test_id = $1`,
+    [testId],
+  );
+  return result.rows.length > 0 ? mapRow(result.rows[0]) : null;
+}
+
+/**
  * Update mutable fields on a single acceptance test.
  */
 export async function updateAcceptanceTest(
