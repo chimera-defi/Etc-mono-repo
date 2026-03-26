@@ -49,7 +49,7 @@ orbit guide --run out/*/run-*    # then mark-done / publish as in HUMAN_GUIDE.md
 
 | Area | Notes |
 |------|--------|
-| Core | `plan`, `doctor`, `generate`, `regenerate`, `publish`, `mark-done`, `report`, `next`, `guide`, `campaigns`, `latest`, `export` (json/md/html), `audit`, `init`, `serve` |
+| Core | `plan`, `doctor`, `generate`, `regenerate`, `publish`, `mark-done`, **`work`** (queue + open browser), `report`, `next`, `guide`, `campaigns`, `latest`, `export` (json/md/html), `audit`, `init`, `serve` |
 | Agents | `orbit pipeline --json`, bundled JSON Schemas, `check-run`, `registry-lint` |
 | Schedule | `schedule-add` / `list` / `run` / `cancel` |
 | Browser | Playwright assist + optional autofill + optional auto-submit; `ORBIT_BROWSER_USER_DATA_DIR` for logged-in profile |

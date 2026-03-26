@@ -30,6 +30,7 @@ def test_emit_manifest_json() -> None:
     assert "schedule-add-output" in ids
     assert "registry-lint-output" in ids
     assert "pipeline-output" in ids
+    assert "work-output" in ids
     plan = next(x for x in data["schemas"] if x["id"] == "plan-output")
     assert plan.get("command_alias") == "plan"
 
@@ -41,3 +42,4 @@ def test_resolve_schema_id_aliases() -> None:
     assert resolve_schema_id("schedule-list") == "schedule-list-output"
     assert resolve_schema_id("registry-lint") == "registry-lint-output"
     assert resolve_schema_id("pipeline") == "pipeline-output"
+    assert resolve_schema_id("work") == "work-output"

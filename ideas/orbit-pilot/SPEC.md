@@ -85,7 +85,7 @@ See `ARCHITECTURE_DIAGRAMS.md`.
 6. Operator web UI: deferred (see `FRONTEND_VISION.md`); shareable **HTML run export** and optional **Textual TUI** live in `apps/orbit-pilot/` (`orbit export --format html`, `orbit tui`).
 7. **JSON Schema** documents ship with the package (`bundled/schemas/`) for agent validation of `--json` CLI outputs; **`orbit schemas`** lists paths; **`orbit validate-json <schema> [file]`** validates JSON (stdin if file omitted).
 8. **`run.json`** includes **`orbit_manifest_version`** (integer) and **`orbit_pilot_version`** (string); older CLIs error if manifest version is newer than supported. **`orbit check-run`** validates manifest and referenced paths.
-9. **V1** optional extras: `orbit-pilot[browser]` (Playwright) for portal assist, optional autofill + optional auto-submit (`risk.allow_browser_auto_submit`, `ORBIT_ALLOW_BROWSER_AUTO_SUBMIT`, registry `submit` selector), `ORBIT_BROWSER_USER_DATA_DIR` for persistent logged-in profile; `python -m orbit_pilot` = `orbit`; **`orbit schedule-*`**; **`orbit registry-lint`**; **`orbit pipeline`**; **`orbit init --preset walletradar`**.
+9. **V1** optional extras: `orbit-pilot[browser]` (Playwright) for portal assist, optional autofill + optional auto-submit (`risk.allow_browser_auto_submit`, `ORBIT_ALLOW_BROWSER_AUTO_SUBMIT`, registry `submit` selector), `ORBIT_BROWSER_USER_DATA_DIR` for persistent logged-in profile; `python -m orbit_pilot` = `orbit`; **`orbit schedule-*`**; **`orbit registry-lint`**; **`orbit pipeline`**; **`orbit init --preset walletradar`**; **`orbit work`** (next manual queue item: open default browser to `submit_url`, copy-paste `mark-done`; `--playwright` shortcut for `browser_assisted` publish assist).
 
 ### Config Contract
 ```yaml

@@ -1,6 +1,6 @@
 # Pilot launch run (Milestone 4)
 
-Same flow as [`../apps/orbit-pilot/HUMAN_GUIDE.md`](../apps/orbit-pilot/HUMAN_GUIDE.md); this file is a **checkbox** version. Tracker: [`V1_ROADMAP.md`](./V1_ROADMAP.md).
+Same flow as [`../apps/orbit-pilot/HUMAN_GUIDE.md`](../apps/orbit-pilot/HUMAN_GUIDE.md); use **`orbit work --run …`** to drive the manual queue (opens submit URL). Tracker: [`V1_ROADMAP.md`](./V1_ROADMAP.md).
 
 ## Before
 

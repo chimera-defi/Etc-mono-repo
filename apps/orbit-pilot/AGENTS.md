@@ -22,7 +22,7 @@ orbit check-run --run <run_dir> --json
 orbit registry-lint --platforms seed_platforms.yaml --json
 ```
 
-Then: `orbit publish --run … --platform … --json` (dry-run / `--execute`), `orbit mark-done`, `orbit report/next/guide/audit/export --json`.
+Then: `orbit publish --run … --platform … --json` (dry-run / `--execute`), `orbit mark-done`, **`orbit work --run … --json`** (next queue item + `submit_url` + `mark_done_command`; optional `--playwright` for `browser_assisted`), `orbit report/next/guide/audit/export --json`.
 
 **Init preset:** `orbit init --preset walletradar --dir …` → WalletRadar-shaped `launch.yaml`.
 
@@ -36,7 +36,7 @@ orbit schemas --show plan
 orbit validate-json plan - < plan.json
 ```
 
-Aliases: `plan`, `doctor`, `generate`, `publish`, `pipeline`, `registry-lint`, … (see manifest).
+Aliases: `plan`, `doctor`, `generate`, `publish`, `pipeline`, `work`, `registry-lint`, … (see manifest).
 
 ## Browser automation (Playwright)
 
@@ -44,7 +44,7 @@ For `browser_assisted` (policy + `browser_fallback_opt_in` registry):
 
 | Layer | Requirement |
 |--------|-------------|
-| Open browser | `risk.allow_browser_fallback` + `allow_browser_automation`; env `ORBIT_ALLOW_BROWSER_AUTOMATION=1` + secret pair; `orbit publish … --execute --browser` sets allow flag only |
+| Open browser | Default OS browser: **`orbit work --run …`** (submit URL). Playwright: `risk.allow_browser_fallback` + `allow_browser_automation`; env `ORBIT_ALLOW_BROWSER_AUTOMATION=1` + secret pair; **`orbit work --run … --playwright`** or `orbit publish … --execute --browser` |
 | Autofill fields | `allow_browser_autofill` + `ORBIT_ALLOW_BROWSER_AUTOFILL=1` + registry `browser_form_selectors` (`title`/`body`/`url` keys) |
 | Click submit | **Also** `allow_browser_auto_submit` + `ORBIT_ALLOW_BROWSER_AUTO_SUBMIT=1` + selector `submit` or `submit_button` |
 | Logged-in session | `ORBIT_BROWSER_USER_DATA_DIR` → `launch_persistent_context` (log in once headed, reuse path) |

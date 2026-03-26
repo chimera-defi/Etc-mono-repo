@@ -160,7 +160,7 @@ def test_run_manifest_schema() -> None:
         "run-manifest",
         {
             "orbit_manifest_version": ORBIT_MANIFEST_VERSION,
-            "orbit_pilot_version": "0.3.8",
+            "orbit_pilot_version": "0.3.9",
             "campaign": {"id": "c", "name": "C", "created_at": "2026-01-01T00:00:00Z"},
             "launch_path": "/a/launch.yaml",
             "platform_registry_path": "/a/p.yaml",
@@ -222,6 +222,23 @@ def test_schedule_schemas() -> None:
         },
     )
     _v("schedule-cancel-output", {"ok": True, "id": "u1"})
+
+
+def test_work_output_schema() -> None:
+    _v(
+        "work-output",
+        {
+            "kind": "task",
+            "platform": "hn",
+            "status": "pending",
+            "prompt": "x",
+            "payload": {"title": "t"},
+            "planned_mode": "manual",
+            "submit_url": "https://example.com/s",
+            "mark_done_command": "orbit mark-done --run /r --platform hn --live-url <URL>",
+            "opened_browser": True,
+        },
+    )
 
 
 def test_pipeline_output_schema() -> None:
