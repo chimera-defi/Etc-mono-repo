@@ -317,7 +317,7 @@ export function SprintPlanningPanel({ documentId, actorId, specWizardHref }: Pro
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ stage_name: activeStage.name }),
+          body: JSON.stringify({ stage_name: activeStage.name, actor_id: actorId }),
         },
       );
       if (!res.ok) {
