@@ -8,6 +8,7 @@
 - **`orbit validate-json <schema>`** — validate any CLI-shaped JSON against bundled schemas (`orbit schemas --json` for the manifest).
 - **`orbit init --preset walletradar`** — WalletRadar-oriented `launch.yaml` stub (edit before real use).
 - **Post-generate:** `orbit next` / `orbit guide` / `orbit mark-done` / `orbit publish` (dry-run by default) — [`HUMAN_GUIDE.md`](../../apps/orbit-pilot/HUMAN_GUIDE.md), [`AGENTS.md`](../../apps/orbit-pilot/AGENTS.md).
+- **Local agent + browser (BYO intelligence):** `orbit work --run … --json` includes **`operator_agent_guide`** for Claude/Codex/Cursor MCP or a local LLM; Orbit stays LLM-free on PyPI. Commercial “batteries included” bundles are a **V2** positioning option — [`V2_ROADMAP.md`](./V2_ROADMAP.md) §4.1.
 - **Browser:** `browser_assisted` via **`allow_browser_fallback`** + **`allow_browser_automation`** (registry `browser_fallback_opt_in`) and/or **`allow_browser_assist_manual`** + **`allow_browser_automation`** (registry `manual` rows); autofill/submit/CDP/Kernel — see [`HUMAN_GUIDE.md`](../../apps/orbit-pilot/HUMAN_GUIDE.md), [`SPEC.md`](./SPEC.md).
 
 ## Explicitly not V1 (later)

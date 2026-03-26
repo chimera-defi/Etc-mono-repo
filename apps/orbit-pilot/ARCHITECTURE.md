@@ -30,7 +30,7 @@ launch.yaml + platforms.yaml + optional risk policy
 ```
 
 - **Inputs** are YAML on disk; **outputs** are files under `out/<campaign>/run-<ts>/` plus stdout **`--json`** when requested.
-- **`publish`** calls **`publishers/`** for **`official_api`**, or **`browser_assist`** (Playwright / CDP) when **`planned_mode`** is **`browser_assisted`** (from registry **`browser_fallback_opt_in`** or from **`manual`** rows when policy sets **`allow_browser_assist_manual`** + **`allow_browser_automation`**). **`orbit work`** supports MCP-driven flows without Playwright.
+- **`publish`** calls **`publishers/`** for **`official_api`**, or **`browser_assist`** (Playwright / CDP) when **`planned_mode`** is **`browser_assisted`** (from registry **`browser_fallback_opt_in`** or from **`manual`** rows when policy sets **`allow_browser_assist_manual`** + **`allow_browser_automation`**). **`orbit work --json`** adds **`operator_agent_guide`** so a **local** coding agent (Claude/Codex/MCP/local LLM) can drive the user’s browser without bundling an LLM in PyPI.
 
 ## 3. Python package layout (layers)
 

@@ -56,6 +56,10 @@ def test_work_next_payload_manual(tmp_path: Path) -> None:
     assert w["submit_url"] == "https://example.com/submit"
     assert "orbit mark-done" in w["mark_done_command"]
     assert "hn" in w["mark_done_command"]
+    g = w["operator_agent_guide"]
+    assert g["schema_version"] == "1"
+    assert any(p["id"] == "local_agent_browser_mcp" for p in g["paths"])
+    assert not any(p["id"] == "playwright_packaged" for p in g["paths"])
 
 
 def test_work_next_payload_browser_assisted_has_playwright_cmd(tmp_path: Path) -> None:
@@ -67,6 +71,8 @@ def test_work_next_payload_browser_assisted_has_playwright_cmd(tmp_path: Path) -
     assert w["planned_mode"] == "browser_assisted"
     assert w.get("playwright_assist_command")
     assert "--execute --browser" in w["playwright_assist_command"]
+    g = w["operator_agent_guide"]
+    assert any(p["id"] == "playwright_packaged" for p in g["paths"])
 
 
 def test_work_command_opens_browser(tmp_path: Path) -> None:

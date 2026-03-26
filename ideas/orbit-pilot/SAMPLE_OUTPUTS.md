@@ -64,7 +64,7 @@ Generated from bundled `launch.sample.yaml` + `seed_platforms.yaml` (paths vary 
 
 Optional keys on **`browser_assisted`** rows (when policy enables automation): `browser_autofill_selectors`, `browser_autofill_note`, `browser_auto_submit_note` (e.g. missing submit selector while `allow_browser_auto_submit` is true).
 
-**`orbit work --run … --json`** (next manual queue item; agents use `submit_url`, `mark_done_command`, optional `playwright_assist_command`):
+**`orbit work --run … --json`** (next manual queue item; agents use `submit_url`, `mark_done_command`, optional `playwright_assist_command`, **`operator_agent_guide`** for local Claude/Codex/MCP — Orbit does not bundle an LLM):
 
 ```json
 {
@@ -77,6 +77,24 @@ Optional keys on **`browser_assisted`** rows (when policy enables automation): `
   "submit_url": "https://www.producthunt.com/posts/new",
   "prompt_path": "/path/run/product_hunt/PROMPT_USER.txt",
   "mark_done_command": "orbit mark-done --run '/path/run' --platform product_hunt --live-url <URL>",
+  "operator_agent_guide": {
+    "schema_version": "1",
+    "summary": "Use this JSON as the contract: Orbit generates packs and CLI commands; a local LLM/agent drives the browser session. No LLM is bundled in the Python package.",
+    "paths": [
+      {
+        "id": "local_agent_browser_mcp",
+        "label": "Local coding agent + user browser (Claude Code, Codex, Cursor, etc.)",
+        "requirements": [
+          "Agent runs on the operator machine with access to this JSON and optional browser MCP.",
+          "Paste only public marketing copy from payload / PROMPT_USER.txt — never API tokens or private keys into third-party forms."
+        ],
+        "suggested_cli": [
+          "orbit work --run <run_dir> --json --no-open",
+          "orbit mark-done --run '/path/run' --platform product_hunt --live-url <live_listing_url>"
+        ]
+      }
+    ]
+  },
   "opened_browser": true
 }
 ```
