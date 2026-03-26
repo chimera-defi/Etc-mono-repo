@@ -3,6 +3,12 @@ import { describe, expect, it } from "vitest";
 import { exportDocumentBundle } from "./export";
 import { makeDocumentRecord } from "./markdown";
 
+type PlanningStage = {
+  name: string;
+  status: "completed" | "skipped";
+  outputs: Record<string, string> | null;
+};
+
 describe("Sprint Planning Export", () => {
   describe("buildDesignSystem", () => {
     it("includes DESIGN_SYSTEM.md when design-review stage completed", () => {
@@ -151,7 +157,7 @@ describe("Sprint Planning Export", () => {
       expect(agentSpec.planningSession.stages).toHaveLength(5);
       
       // Check discovery stage
-      const discoveryStage = agentSpec.planningSession.stages.find((s: any) => s.name === "discovery");
+      const discoveryStage = agentSpec.planningSession.stages.find((s: PlanningStage) => s.name === "discovery");
       expect(discoveryStage).toBeDefined();
       expect(discoveryStage.status).toBe("completed");
       expect(discoveryStage.outputs).toEqual({
@@ -159,7 +165,7 @@ describe("Sprint Planning Export", () => {
       });
 
       // Check ceo-review stage
-      const ceoStage = agentSpec.planningSession.stages.find((s: any) => s.name === "ceo-review");
+      const ceoStage = agentSpec.planningSession.stages.find((s: PlanningStage) => s.name === "ceo-review");
       expect(ceoStage).toBeDefined();
       expect(ceoStage.status).toBe("completed");
       expect(ceoStage.outputs).toEqual({
@@ -167,7 +173,7 @@ describe("Sprint Planning Export", () => {
       });
 
       // Check design-review stage
-      const designStage = agentSpec.planningSession.stages.find((s: any) => s.name === "design-review");
+      const designStage = agentSpec.planningSession.stages.find((s: PlanningStage) => s.name === "design-review");
       expect(designStage).toBeDefined();
       expect(designStage.status).toBe("completed");
       expect(designStage.outputs).toEqual({
@@ -175,12 +181,12 @@ describe("Sprint Planning Export", () => {
       });
 
       // Check skipped stages
-      const engStage = agentSpec.planningSession.stages.find((s: any) => s.name === "eng-review");
+      const engStage = agentSpec.planningSession.stages.find((s: PlanningStage) => s.name === "eng-review");
       expect(engStage).toBeDefined();
       expect(engStage.status).toBe("skipped");
       expect(engStage.outputs).toBeNull();
 
-      const securityStage = agentSpec.planningSession.stages.find((s: any) => s.name === "security-review");
+      const securityStage = agentSpec.planningSession.stages.find((s: PlanningStage) => s.name === "security-review");
       expect(securityStage).toBeDefined();
       expect(securityStage.status).toBe("skipped");
       expect(securityStage.outputs).toBeNull();
@@ -214,7 +220,7 @@ describe("Sprint Planning Export", () => {
       const bundle = exportDocumentBundle(document, [], undefined, planningStages);
       const agentSpec = JSON.parse(bundle.files["agent_spec.json"]);
 
-      const stageNames = agentSpec.planningSession.stages.map((s: any) => s.name);
+      const stageNames = agentSpec.planningSession.stages.map((s: PlanningStage) => s.name);
       expect(stageNames).toEqual([
         "discovery",
         "ceo-review",
