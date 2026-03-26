@@ -106,6 +106,28 @@ Rough buckets to spec before build:
 
 **Rule of thumb:** pick **one primary buyer per quarter** for positioning; secondary segments still use the product, but **homepage and pricing** should read clean for one ICP at a time.
 
+### 5.1 Pricing hypothesis (illustrative — replace after validation)
+
+**Not a price list.** Dollar bands are **alignment only** until you run a few design-partner conversations and pick the **first paid SKU** (registry subscription vs hosted runner vs seats).
+
+| Tier | Primary buyer | Anchor (monthly unless noted) | Core value | Typical limits |
+|------|----------------|------------------------------|------------|----------------|
+| **Free / OSS** | Indie, agents hacking locally | $0 | CLI, community registry baseline, schemas, local audit | No cloud history, no team RBAC, self-supported |
+| **Indie Pro** | Solo builder shipping launches | ~$12–29/mo | **Curated registry pack** (updates + ToS/risk notes) *or* **hosted webhook / N scheduled cloud runs/mo** (pick one wedge first) | 1 seat, 1 org, modest API quota if included |
+| **Agency** | Shop running many clients | ~$99–399/mo + **per seat** *or* **per active campaign** | Team workspace, client-separated runs, approval queue, white-label HTML/PDF export, shared curated registry | Seats/campaign caps; overage or upgrade path |
+| **Enterprise** | Internal platform / regulated org | **Annual** (e.g. low five figures+) + optional PS | SSO (SAML), private registry hosting, policy packs, VPC / self-host option, SLA, named CSM | Contractual; separate from self-serve SKUs |
+| **Agent / API add-on** | Any tier + autonomous integrations | **Metered** or **prepaid credits** | Scoped API keys, `pipeline`-shaped enqueue + status, rate limits aligned with JSON schemas | Hard cap + human-gated modes for browser assist |
+
+**First paid SKU (choose one to avoid muddy positioning):**
+
+| Option | Why pick it | Risk |
+|--------|-------------|------|
+| **Curated registry subscription** | Fast to ship (data product), clear recurring value, no execution liability in your cloud | You must maintain freshness; churn if updates lag |
+| **Hosted runner** (webhook + job queue) | Agencies pay for “no cron on my side”; natural upsell from CLI | Ops + security + secret-handling burden |
+| **Team seats** | Obvious for agencies once a minimal UI exists | Slower if UI is thin; competes with “we’ll use CLI + Notion” |
+
+**Agentic payment overlay (optional, on top of a tier):** prepaid **API credits** or Stripe metered (e.g. per successful `pipeline` job or per 1k API calls) — **not** a substitute for ToS-compliant posting; keep browser-assist and high-risk paths **off** or **human-approval** gated for paid automation.
+
 ---
 
 ## 6. “Agentic payments” (explicit caution)
