@@ -81,6 +81,7 @@ Parse the object:
 **Playwright inside Orbit (no computer-use):**
 
 - **`browser_assisted` only:** `orbit work --run … --playwright` (sets automation allow flag; user must still set **`ORBIT_BROWSER_AUTOMATION_SECRET`** + **`ORBIT_BROWSER_AUTOMATION_CONFIRM`**, install `orbit-pilot[browser]`, etc.) — see `AGENTS.md`.
+- **Hosted / remote Chrome (CDP):** set **`ORBIT_BROWSER_CDP_URL`** to the WebSocket or HTTP debugger URL (e.g. Kernel). Playwright uses **`connect_over_cdp`**; session cookies stay on that browser. Do not paste CDP URLs containing secrets into chats or commits.
 
 ## Safety (non-negotiable)
 

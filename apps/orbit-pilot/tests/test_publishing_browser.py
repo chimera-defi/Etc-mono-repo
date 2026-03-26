@@ -59,6 +59,7 @@ def test_browser_assisted_execute_opens_browser(tmp_path: Path, monkeypatch) -> 
                 "autofill": False,
                 "auto_submit": False,
                 "persistent_profile": False,
+                "cdp_remote": False,
                 "auto_submit_error": None,
             },
         ) as m:
