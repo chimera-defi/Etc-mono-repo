@@ -51,6 +51,7 @@ def prepare_assets(launch: LaunchProfile, record: PlatformRecord, platform_dir: 
             dest = assets_dir / f"{src.stem}.jpg"
             with Image.open(src) as image:
                 image = image.convert("RGB")
+                # Fit inside box (aspect preserved); not a hard crop-to-exact-dimensions.
                 image.thumbnail((preset["width"], preset["height"]))
                 image.save(dest, format="JPEG", quality=85, optimize=True)
         else:

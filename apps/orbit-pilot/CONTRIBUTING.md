@@ -15,7 +15,8 @@ Thanks for helping improve launch ops for humans and agents.
 - **`profile_loader.profile_from_parsed_yaml`** — single place to turn parsed `launch.yaml` dict into `LaunchProfile` (CLI `load_launch`, LangGraph `orchestrate`, keep in sync here only).
 - **`policy.bundled_default_policy_path`** — default risk policy path for CLI, graphs, and webhooks.
 - **`services/publishing`** — orchestration only; publisher HTTP stays under `publishers/`.
-- **`cli.py`** — argument parsing and human/JSON emitters; no business rules beyond dispatch.
+- **`cli.py`** — thin re-exports `main` / `serve_main` for setuptools entry points.
+- **`cli_commands.py`** — argparse setup, all subcommands, `load_launch` for tests.
 - **`cli_io.py`** — shared CLI UX bits (e.g. `require_run_dir` for consistent JSON vs stderr errors).
 
 ## Development setup
