@@ -17,7 +17,7 @@ The rule for inclusion here is simple:
 
 ## Current Status Snapshot
 
-1. Tauri desktop shell — `not started`
+1. Tauri desktop shell — `partial`
 2. Desktop runtime status panel — `partial`
 3. Local install / download flow polish — `partial`
 4. Local CLI assist diagnostics — `partial`
@@ -68,7 +68,9 @@ Do not rewrite the current local app. Package it.
 
 ### Status
 
-`not started`
+`partial`
+
+The branch now has a committed Tauri shell scaffold, launch script, and desktop package wiring. What remains is real polish: startup/retry UX, stronger sidecar supervision, and verification on machines with the required Rust/Tauri toolchain.
 
 ## 2. Desktop Runtime Status Panel
 
