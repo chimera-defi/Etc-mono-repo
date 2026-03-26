@@ -1,6 +1,8 @@
 # Orbit Pilot — V1 roadmap (single forward tracker)
 
-**Canonical progress doc.** Update this file when scope changes or a slice ships. Detailed checklists stay in [`TASKS.md`](./TASKS.md); this file answers “where are we?” and “what’s next?” without re-reading the whole repo.
+**V1 CLI + agent contracts are shipped** — see [`V1_SHIPPED.md`](./V1_SHIPPED.md). This file tracks **what’s left for your launches** (operator work), not missing product code.
+
+**Canonical progress doc.** Update when scope changes. Detailed checklists: [`TASKS.md`](./TASKS.md).
 
 ## V1 product definition (ship target)
 
@@ -24,17 +26,17 @@
 - Browser path: policy + env gated assist; optional autofill via `browser_form_selectors`; Playwright E2E tests in CI (`browser-e2e` job).
 - Tests: ~87 unit/integration (+ 2 opt-in browser tests); matrix/seed parity test.
 
-### Next (ordered — do these to call V1 “complete”)
+### Next (your launches — not blocked on repo code)
 
-1. **Milestone 4 — Pilot launch run** — Use [`PILOT_RUN_CHECKLIST.md`](./PILOT_RUN_CHECKLIST.md); record outcome when done.
-2. **Sample outputs** — Done: [`SAMPLE_OUTPUTS.md`](./SAMPLE_OUTPUTS.md) includes representative `--json`; re-run locally and update if CLI keys change.
-3. **Registry growth (optional)** — Extended with Microlaunch + OpenAlternative (2026-03); add more the same way: `PLATFORM_MATRIX.md` + `seed_platforms.yaml` + `test_platform_matrix_parity._NAME_TO_SLUG`.
+1. **Pilot runs** — [`PILOT_RUN_CHECKLIST.md`](./PILOT_RUN_CHECKLIST.md) for each product (Orbit Pilot, WalletRadar, …): edit `launch.yaml`, run **`orbit pipeline --json`** (or steps), then manual/API publish and `mark-done`.
+2. **Sample outputs** — [`SAMPLE_OUTPUTS.md`](./SAMPLE_OUTPUTS.md); refresh if CLI keys change.
+3. **Registry** — Add rows via `PLATFORM_MATRIX.md` + `seed_platforms.yaml` + parity test map when you need more sites.
 
-### Deferred (explicitly not V1 blockers)
+### Post-V1 product (separate initiatives)
 
 - Full web operator UI.
-- Additional official publishers until API contracts are confirmed.
-- Automated posting to high-risk / ToS-sensitive flows without human approval.
+- More official publishers when APIs are stable.
+- Unsupervised high-risk automation (out of scope for this CLI’s safety model).
 
 ## How we iterate (anti-regression)
 
@@ -52,3 +54,4 @@
 | [`V0_BUILD_PLAN.md`](./V0_BUILD_PLAN.md) | Historical V0 plan (superseded by V1 for forward work) |
 | [`PILOT_RUN_CHECKLIST.md`](./PILOT_RUN_CHECKLIST.md) | Milestone 4 operator steps |
 | [`SAMPLE_OUTPUTS.md`](./SAMPLE_OUTPUTS.md) | Human copy + CLI JSON examples |
+| [`V1_SHIPPED.md`](./V1_SHIPPED.md) | What V1 means; agent fast path |
