@@ -125,8 +125,8 @@ input {
   padding: 0.8rem 0.95rem;
   border: 1px solid rgba(183, 106, 18, 0.3);
   border-radius: 0.9rem;
-  background: rgba(255, 245, 229, 0.92);
-  color: #7a4a12;
+  background: var(--sf-warning-subtle);
+  color: var(--sf-warning);
   font-family: var(--font-geist-sans), sans-serif;
   box-shadow: 0 8px 22px rgba(64, 42, 23, 0.08);
 }
@@ -186,7 +186,7 @@ input {
 
 .blockMarker span {
   font-size: 0.7rem;
-  color: #6c6258;
+  color: var(--sf-muted-mid);
   line-height: 1.25;
 }
 
