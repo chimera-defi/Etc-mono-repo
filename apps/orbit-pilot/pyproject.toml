@@ -46,3 +46,6 @@ select = ["E", "F", "I", "UP"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = [
+    "e2e_browser: real Playwright/Chromium (set RUN_BROWSER_E2E=1; CI installs browsers)",
+]
