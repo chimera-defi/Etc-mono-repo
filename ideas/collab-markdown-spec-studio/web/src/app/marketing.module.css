@@ -79,6 +79,7 @@
   font-size: 0.8rem;
   color: var(--sf-teal);
   font-weight: 700;
+  animation: fadeUp 0.4s ease both;
 }
 
 .hero h1 {
@@ -87,6 +88,7 @@
   line-height: 1.0;
   max-width: 12ch;
   text-wrap: balance;
+  animation: fadeUp 0.5s 0.08s ease both;
 }
 
 .subhead {
@@ -95,10 +97,12 @@
   line-height: 1.7;
   max-width: 58ch;
   color: var(--sf-muted);
+  animation: fadeUp 0.5s 0.16s ease both;
 }
 
 .heroActions {
   margin-top: 1.5rem;
+  animation: fadeUp 0.5s 0.24s ease both;
 }
 
 .primaryCta,
@@ -160,6 +164,7 @@
 
 .heroPanel {
   padding: 1.25rem;
+  animation: fadeUp 0.6s 0.12s ease both;
 }
 
 .heroPanel h2,
@@ -248,6 +253,165 @@
   background: linear-gradient(180deg, var(--sf-teal-subtle), rgba(255, 255, 255, 0.8));
 }
 
+/* ── Role table (replaces Safe multiplayer card grid) ─────────────────────── */
+.roleList {
+  list-style: none;
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--sf-border);
+}
+
+.roleRow {
+  display: grid;
+  grid-template-columns: 11rem 1fr;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--sf-border);
+}
+
+.roleLabel {
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+}
+
+.roleRow p {
+  margin: 0;
+  color: var(--sf-muted);
+  line-height: 1.6;
+}
+
+/* ── Dark accent section (breaks visual rhythm) ────────────────────────────── */
+.sectionDark {
+  background: var(--sf-ink-dark);
+  color: var(--sf-surface-light);
+  border-radius: var(--sf-radius-lg);
+  padding: 2rem 1.5rem 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.sectionDark h2 {
+  color: var(--sf-surface-light);
+  text-wrap: balance;
+}
+
+.sectionDark .featureCard {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: var(--sf-surface-light);
+}
+
+.sectionDark .featureCard p {
+  color: rgba(247, 244, 236, 0.65);
+}
+
+/* ── Numbered step list (replaces "Start with" card grid) ──────────────────── */
+.stepList {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin-top: 1.5rem;
+  counter-reset: step;
+}
+
+.stepItem {
+  padding: 1.5rem 1.5rem 1.5rem 0;
+  border-right: 1px solid var(--sf-border);
+  padding-left: 1.5rem;
+}
+
+.stepItem:first-child {
+  padding-left: 0;
+}
+
+.stepItem:last-child {
+  border-right: none;
+}
+
+.stepNum {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--sf-teal);
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.03em;
+}
+
+.stepItem strong {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 0.65rem;
+}
+
+.stepItem ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.stepItem ul li {
+  font-size: 0.9rem;
+  color: var(--sf-muted);
+  padding-left: 0.9rem;
+  position: relative;
+}
+
+.stepItem ul li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  color: var(--sf-teal);
+}
+
+/* ── Motion ────────────────────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.heroPanel,
+.card,
+.featureCard,
+.pricingCard,
+.faqItem {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.heroPanel:hover,
+.card:hover,
+.featureCard:hover,
+.pricingCard:hover {
+  box-shadow: 0 24px 72px rgba(24, 33, 43, 0.13);
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eyebrow,
+  .hero h1,
+  .subhead,
+  .heroActions,
+  .heroPanel {
+    animation: none;
+  }
+
+  .heroPanel,
+  .card,
+  .featureCard,
+  .pricingCard,
+  .faqItem {
+    transition: none;
+  }
+}
+
 .footer {
   padding: 0 0 2rem;
   color: var(--sf-muted);
@@ -257,6 +421,24 @@
 @media (max-width: 900px) {
   .hero {
     grid-template-columns: 1fr;
+  }
+
+  .stepList {
+    grid-template-columns: 1fr;
+  }
+
+  .stepItem {
+    border-right: none;
+    border-bottom: 1px solid var(--sf-border);
+    padding: 1.25rem 0;
+  }
+
+  .stepItem:last-child {
+    border-bottom: none;
+  }
+
+  .stepItem:first-child {
+    padding-left: 0;
   }
 }
 
@@ -276,5 +458,15 @@
   .secondaryCta,
   .navLink {
     width: 100%;
+  }
+
+  .roleRow {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+
+  .sectionDark {
+    border-radius: var(--sf-radius);
+    padding: 1.5rem 1rem 2rem;
   }
 }
