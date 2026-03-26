@@ -50,6 +50,8 @@
 - [x] Workspace membership roles can now be updated directly from the workspace UI, and those changes flow into workspace behavior instrumentation.
 - [x] Metrics, ops summary, and the workspace UI now expose a simple design-partner funnel: activation, assist usage, collaboration, review, and launch preparation.
 - [x] Workspace incident warnings now have a dedicated `/api/ops/incidents` surface instead of living only inside the broader ops summary payload.
+- [x] Agent service job workflow: POST/GET spec-jobs, per-job status/artifacts/retry/review-decision endpoints, autonomous and assisted modes.
+- [x] Export clarification blocking gate: unanswered critical clarifications return 409 CLARIFICATIONS_REQUIRED; bypass with `?force=true`.
 - [x] Delivery loop with intents, claims, context, handoff artifact, and meta-learnings.
 - [x] Shared orchestrator backlog parsing now feeds both the parity runner and the in-product delivery-loop panel.
 - [x] Runner status/brief/context now stay aligned with the live backlog instead of stale historical intents.
@@ -148,11 +150,11 @@
   - Done: User can add comment anchored to block, replies work, participants notified
   - Property: N/A (collaboration)
 
-- [ ] 6.2 Implement clarification detection
+- [x] 6.2 Implement clarification detection
   - Done: AI detects ambiguous sections, generates clarifying questions
   - Property: N/A (AI assist)
 
-- [ ] 6.3 Implement clarification resolution
+- [x] 6.3 Implement clarification resolution
   - Done: User answers clarification, answer written back to doc, decision logged
   - Property: N/A (AI assist)
 

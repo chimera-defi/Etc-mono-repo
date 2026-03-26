@@ -298,6 +298,9 @@ The document API manages spec documents directly. These are the same documents c
 | `PATCH` | `/api/documents/:docId` | Update document markdown or metadata |
 | `GET` | `/api/documents/:docId/patches` | List patches for a document |
 | `GET` | `/api/documents/:docId/export` | Export canonical spec bundle |
+| `POST` | `/api/documents/:docId/export` | Export canonical spec bundle (alias) |
+
+**Export blocking gate:** `GET /api/documents/:docId/export` returns `409 CLARIFICATIONS_REQUIRED` when unanswered critical clarifications exist. Pass `?force=true` to bypass.
 
 Full document API reference is documented in the spec store (`lib/specforge/store.ts`).
 
@@ -311,7 +314,7 @@ Clarifications are structured Q&A pairs anchored to specific sections of the spe
 |--------|------|---------|
 | `GET` | `/api/documents/:docId/clarifications` | List all clarifications for a document |
 | `POST` | `/api/documents/:docId/clarifications` | Create a new clarification |
-| `PATCH` | `/api/documents/:docId/clarifications/:clarId` | Answer or resolve a clarification |
+| `PATCH` | `/api/documents/:docId/clarifications?clarification_id=:clarId` | Answer or resolve a clarification |
 
 ---
 
