@@ -75,6 +75,20 @@ All colors are defined in `src/app/globals.css` as `:root` custom properties.
 | `--sf-muted-warm` | `#5e554a` | Secondary body text (app UI, warm tone) |
 | `--sf-muted-mid` | `#6f6559` | Tertiary text, document spans, actor cards |
 | `--sf-muted-light` | `#7a6d5e` | Labels, meta text, step numbers, icons |
+| `--sf-muted-lighter` | `#8a7d70` | Supplementary inline text (mutedInline) |
+
+### Ink Variants
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--sf-ink-warm` | `#433a31` | Neutral badge/chip text, warm near-black |
+| `--sf-ink-hover` | `#2d3a47` | Hover state for primary dark CTA buttons |
+
+### Accent
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--sf-amber` | `#925e2f` | Workspace eyebrow accent, warm amber |
 
 ### Borders
 
