@@ -34,6 +34,7 @@ Collaborative editors already exist. The wedge is not generic editing; it is a s
 10. `WIREFRAMES.md`
 11. `DESIGN_AGENT_HANDOFF_PROMPT.md`
 12. `TAURI_DESKTOP_PLAN.md`
+13. `CLAUDE_BUILDOUT_PLAN.md`
 
 ### Full Pack (Grouped)
 - Product and strategy: `EXECUTIVE_SUMMARY`, `PRD`, `SPEC`
