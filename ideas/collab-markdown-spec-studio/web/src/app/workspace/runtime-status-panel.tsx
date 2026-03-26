@@ -33,7 +33,8 @@ export function RuntimeStatusPanel() {
         .then((r) => r.ok)
         .catch(() => false),
     ]).then(([cliData, healthData, collabOk]) => {
-      if (cliData?.data) setCli(cliData.data);
+      // Response is { ok: true, codexAvailable, claudeAvailable, ... }
+      if (cliData?.ok) setCli(cliData as RuntimeStatus);
       setHealth({
         web: healthData?.status === "ok",
         collab: !!collabOk,
@@ -85,6 +86,13 @@ export function RuntimeStatusPanel() {
           {cli.reason}
         </p>
       )}
+      <a
+        href="/api/ops/diagnostics-pack"
+        download
+        className="block text-center text-[10px] text-muted-foreground hover:text-foreground transition-colors py-1 border border-border rounded mt-1"
+      >
+        Download diagnostics pack
+      </a>
     </div>
   );
 }
