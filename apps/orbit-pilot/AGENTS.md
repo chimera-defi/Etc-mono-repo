@@ -49,7 +49,7 @@ For `browser_assisted` (policy + `browser_fallback_opt_in` registry):
 | Open browser | Default OS browser: **`orbit work --run …`** (submit URL). Playwright: `risk.allow_browser_fallback` + `allow_browser_automation`; env `ORBIT_ALLOW_BROWSER_AUTOMATION=1` + secret pair; **`orbit work --run … --playwright`** or `orbit publish … --execute --browser` |
 | Autofill fields | `allow_browser_autofill` + `ORBIT_ALLOW_BROWSER_AUTOFILL=1` + registry `browser_form_selectors` (`title`/`body`/`url` keys) |
 | Click submit | **Also** `allow_browser_auto_submit` + `ORBIT_ALLOW_BROWSER_AUTO_SUBMIT=1` + selector `submit` or `submit_button` |
-| Logged-in session | `ORBIT_BROWSER_USER_DATA_DIR` → `launch_persistent_context` (log in once headed, reuse path) |
+| Logged-in session | **`ORBIT_BROWSER_CDP_URL`** → `connect_over_cdp` (hosted Chrome / Kernel with persisted profile), or **`ORBIT_BROWSER_USER_DATA_DIR`** → local `launch_persistent_context` |
 
 Install: `pip install -e ".[browser]"` && `playwright install chromium`. Never put **API tokens** in form fields; use env/keyring.
 

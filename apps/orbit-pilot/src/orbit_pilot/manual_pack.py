@@ -53,8 +53,8 @@ def write_manual_pack(run_dir: Path, record: PlatformRecord, decision: Submissio
             + " --execute --browser",
             "- Env: ORBIT_ALLOW_BROWSER_AUTOMATION=1, ORBIT_BROWSER_AUTOMATION_SECRET, "
             "ORBIT_BROWSER_AUTOMATION_CONFIRM (same value).",
-            "- Logged-in Chromium: set ORBIT_BROWSER_USER_DATA_DIR to an empty dir, run once headed to sign in, "
-            "then reuse that path.",
+            "- Remote Chrome (CDP): set ORBIT_BROWSER_CDP_URL (ws:// or http:// debugger URL; e.g. hosted Kernel).",
+            "- Logged-in Chromium (local): set ORBIT_BROWSER_USER_DATA_DIR; run once headed to sign in, reuse path.",
             "- Optional autofill: risk.allow_browser_autofill + ORBIT_ALLOW_BROWSER_AUTOFILL=1 + "
             "browser_form_selectors in registry (title/body/url).",
             "- Optional auto-submit: risk.allow_browser_auto_submit + ORBIT_ALLOW_BROWSER_AUTO_SUBMIT=1 + "
