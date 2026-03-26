@@ -58,12 +58,12 @@ WalletRadar is a concrete fit for Orbit Pilot because it needs repeatable submis
 
 ## Read Order
 
-1. `EXECUTIVE_SUMMARY.md`
-2. `PRD.md`
-3. `SPEC.md`
-4. `PLATFORM_MATRIX.md`
-5. `V0_BUILD_PLAN.md`
-6. `ARCHITECTURE_DECISIONS.md`
-7. `V2_ROADMAP.md` (monetization + GTM — when relevant)
-8. [`../../apps/orbit-pilot/ARCHITECTURE.md`](../../apps/orbit-pilot/ARCHITECTURE.md) (code layers, schemas vs Python)
-9. `../../apps/orbit-pilot/` (implementation; [`HUMAN_GUIDE.md`](../../apps/orbit-pilot/HUMAN_GUIDE.md), [`AGENTS.md`](../../apps/orbit-pilot/AGENTS.md) — or stub [`AGENTS.md`](./AGENTS.md) in this folder)
+1. [`V1_SHIPPED.md`](./V1_SHIPPED.md) / [`V1_ROADMAP.md`](./V1_ROADMAP.md) — current scope and what is shipped
+2. [`SPEC.md`](./SPEC.md) — technical contract
+3. [`PLATFORM_MATRIX.md`](./PLATFORM_MATRIX.md)
+4. [`HUMAN_GUIDE.md`](../../apps/orbit-pilot/HUMAN_GUIDE.md) / [`AGENTS.md`](../../apps/orbit-pilot/AGENTS.md) — operators and automation
+5. `EXECUTIVE_SUMMARY.md`, `PRD.md`, `ARCHITECTURE_DECISIONS.md` — narrative and decisions
+6. `V2_ROADMAP.md` — monetization + GTM (planning only)
+7. [`../../apps/orbit-pilot/ARCHITECTURE.md`](../../apps/orbit-pilot/ARCHITECTURE.md) — Python layers, schemas, run dir
+
+**Historical (pre-V1 planning):** [`V0_BUILD_PLAN.md`](./V0_BUILD_PLAN.md) — superseded by V1 docs above; kept for archive only.
