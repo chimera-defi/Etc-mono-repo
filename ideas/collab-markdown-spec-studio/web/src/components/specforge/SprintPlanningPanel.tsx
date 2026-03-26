@@ -197,6 +197,7 @@ export function SprintPlanningPanel({ documentId, actorId, specWizardHref }: Pro
   const [session, setSession] = useState<PlanSession | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [authRequired, setAuthRequired] = useState(false);
   // Answers keyed by stage name → question key → answer text
   const [answers, setAnswers] = useState<Record<string, Record<string, string>>>({});
   // Which question we're on within the current stage (0-indexed)
@@ -237,12 +238,17 @@ export function SprintPlanningPanel({ documentId, actorId, specWizardHref }: Pro
   const createSession = useCallback(async () => {
     setLoading(true);
     setError(null);
+    setAuthRequired(false);
     try {
       const res = await fetch(`/api/documents/${documentId}/plan-sessions`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ actor_id: actorId, actor_type: "human" }),
       });
+      if (res.status === 401) {
+        setAuthRequired(true);
+        return;
+      }
       if (!res.ok) {
         const d = await res.json().catch(() => ({}));
         throw new Error(d.error ?? "Failed to create planning session");
@@ -456,8 +462,43 @@ export function SprintPlanningPanel({ documentId, actorId, specWizardHref }: Pro
         <p style={{ opacity: 0.6, fontSize: "0.875rem" }}>Working...</p>
       ) : null}
 
+      {/* Auth required prompt */}
+      {authRequired ? (
+        <div
+          style={{
+            padding: "0.75rem 1rem",
+            background: "rgba(239,228,213,0.5)",
+            border: "1px solid rgba(28,26,23,0.12)",
+            borderRadius: "10px",
+            display: "flex",
+            alignItems: "center",
+            gap: "0.75rem",
+            flexWrap: "wrap",
+          }}
+        >
+          <span style={{ fontSize: "0.875rem", opacity: 0.8 }}>
+            Sign in to start sprint planning.
+          </span>
+          <a
+            href="/api/auth/login"
+            style={{
+              padding: "0.35rem 0.9rem",
+              borderRadius: "999px",
+              background: "#1c1a17",
+              color: "#fffbf6",
+              fontSize: "0.82rem",
+              fontWeight: 500,
+              textDecoration: "none",
+              whiteSpace: "nowrap",
+            }}
+          >
+            Sign in with GitHub
+          </a>
+        </div>
+      ) : null}
+
       {/* Error */}
-      {error ? (
+      {error && !authRequired ? (
         <p
           style={{
             color: "#dc2626",
