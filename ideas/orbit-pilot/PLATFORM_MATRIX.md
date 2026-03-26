@@ -14,7 +14,7 @@
 | Crunchbase | Company profile | Treat as manual unless confirmed approved write path exists | company profile | Medium | https://support.crunchbase.com/hc/en-us/articles/115011823988-How-do-I-create-a-Crunchbase-profile |
 | Hacker News | Community | Manual submission | concise title + link | Medium | https://github.com/HackerNews/API |
 | Tiny Startups | Directory | Public submit flow found; no confirmed public write API | listing blurb | Medium | https://www.tinystartups.com/submit-your-startup |
-| TrustMRR | Directory | Public write/API status uncertain; default manual | profile blurb | Medium | status uncertain; default manual |
+| TrustMRR | Directory | Verified revenue leaderboard; use on-site “Add startup”; default manual | profile / verification flow | Medium | https://trustmrr.com/ |
 | BetaList | Launch directory | Manual by default | launch listing | Medium | https://betalist.com/ |
 | Indie Hackers | Community | Manual by default | launch thread | Medium | https://www.indiehackers.com/ |
 | Uneed | Launch directory | Manual by default | product listing | Medium | https://www.uneed.best/ |
