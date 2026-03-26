@@ -46,7 +46,7 @@
   font-size: 0.78rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #925e2f;
+  color: var(--sf-amber);
   margin-bottom: 10px;
 }
 
@@ -225,7 +225,7 @@
 
 .mutedInline {
   margin-left: 8px;
-  color: #8a7d70;
+  color: var(--sf-muted-lighter);
 }
 
 .wizardSection {
@@ -341,7 +341,7 @@
   border-radius: 999px;
   padding: 6px 10px;
   background: var(--sf-border-faint);
-  color: #433a31;
+  color: var(--sf-ink-warm);
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
