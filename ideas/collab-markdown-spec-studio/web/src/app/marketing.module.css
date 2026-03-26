@@ -31,7 +31,6 @@
 
 .navLinks,
 .heroActions,
-.cardGrid,
 .metricRow,
 .sectionGrid,
 .pricingGrid,
@@ -42,7 +41,6 @@
 
 .navLinks,
 .metricRow,
-.cardGrid,
 .sectionGrid,
 .pricingGrid,
 .faqList {
@@ -152,7 +150,6 @@
 }
 
 .heroPanel,
-.card,
 .featureCard,
 .pricingCard,
 .faqItem {
@@ -206,19 +203,16 @@
 }
 
 .sectionGrid > *,
-.cardGrid > *,
 .pricingGrid > * {
   flex: 1 1 18rem;
 }
 
-.card,
 .featureCard,
 .pricingCard,
 .faqItem {
   padding: 1.15rem;
 }
 
-.card strong,
 .featureCard strong,
 .pricingCard strong,
 .faqItem strong {
@@ -227,7 +221,6 @@
   font-size: 1rem;
 }
 
-.card ul,
 .pricingCard ul {
   margin: 0.75rem 0 0;
   padding-left: 1rem;
@@ -379,7 +372,6 @@
 }
 
 .heroPanel,
-.card,
 .featureCard,
 .pricingCard,
 .faqItem {
@@ -387,7 +379,6 @@
 }
 
 .heroPanel:hover,
-.card:hover,
 .featureCard:hover,
 .pricingCard:hover {
   box-shadow: 0 24px 72px rgba(24, 33, 43, 0.13);
@@ -404,7 +395,6 @@
   }
 
   .heroPanel,
-  .card,
   .featureCard,
   .pricingCard,
   .faqItem {
