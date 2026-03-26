@@ -6,6 +6,8 @@ risk:
   allow_browser_fallback: false
   # V1: with allow_browser_fallback true, set true to allow Playwright portal open (publish --execute + env secrets)
   # allow_browser_automation: false
+  # Optional: allow_browser_assist_manual: false  # + allow_browser_automation: treat registry *manual* rows as
+  #   browser_assisted (directories, Product Hunt, etc.) — Playwright/CDP/MCP-driven browser; verify ToS per site
   # Optional: allow_browser_autofill: false  # + registry browser_form_selectors + ORBIT_ALLOW_BROWSER_AUTOFILL=1
   # Optional: allow_browser_auto_submit: false  # + ORBIT_ALLOW_BROWSER_AUTO_SUBMIT=1 + submit selector (dangerous)
   # Browser backend (env, not in this file): ORBIT_BROWSER_CDP_URL for connect_over_cdp (hosted Chrome)

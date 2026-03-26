@@ -92,9 +92,11 @@ Optional TUI: `pip install 'orbit-pilot[tui]'` then `orbit tui --run …`.
 
 ## Browser automation (logged-in profile)
 
-Use when you want Playwright to drive **your** session (not for pasting private keys into random sites — use env/keyring for API tokens).
+Use when you want Playwright (or **Kernel CDP**) to drive **your** session — or use **`orbit work`** and **Claude / Chrome MCP** to paste into the user’s browser. Do not put API tokens into third-party forms (use env/keyring for **official API** publishers).
 
-1. Policy: `risk.allow_browser_fallback`, `allow_browser_automation`, `allow_browser_autofill`; optionally **`allow_browser_auto_submit`** for click-to-submit (requires autofill path + submit selector; `orbit doctor` warns if misconfigured).
+**Directory sites (Product Hunt, Crunchbase, …):** in your risk policy set **`allow_browser_assist_manual: true`** and **`allow_browser_automation: true`** so `orbit plan` / `generate` treat those registry **`manual`** rows as **`browser_assisted`** (same `publish --execute --browser` path). Alternatively leave them **`manual`** and only use **`orbit work`** + MCP.
+
+1. Policy: `allow_browser_automation` required for Playwright assist; **`allow_browser_fallback`** for `browser_fallback_opt_in` rows; **`allow_browser_assist_manual`** for upgrading normal **`manual`** rows; optional `allow_browser_autofill` / **`allow_browser_auto_submit`** (`orbit doctor` warns if misconfigured).
 2. Registry: `browser_form_selectors` with CSS for `title`, `body`, `url`, and **`submit`** (or `submit_button`).
 3. Env: `ORBIT_ALLOW_BROWSER_AUTOMATION=1`, secret pair, `ORBIT_ALLOW_BROWSER_AUTOFILL=1`; for auto-click `ORBIT_ALLOW_BROWSER_AUTO_SUBMIT=1`.
 4. **Remote / hosted Chrome (CDP):** `ORBIT_BROWSER_CDP_URL=ws://…` or `http://…` — Playwright attaches via Chrome DevTools Protocol (e.g. [Kernel](https://www.kernel.sh/) or any CDP endpoint). Session cookies live on that browser; **do not** commit the URL if it embeds secrets.
