@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbit-pilot.local/schemas/next-output.schema.json",
+  "title": "OrbitPilotNextOutput",
+  "description": "Machine output of: orbit next --run … --json",
+  "oneOf": [
+    {
+      "type": "object",
+      "required": ["message"],
+      "properties": { "message": { "type": "string" } },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": ["platform", "status", "prompt", "payload"],
+      "properties": {
+        "platform": { "type": "string" },
+        "status": { "type": "string" },
+        "prompt": { "type": "string" },
+        "payload": { "type": "object", "additionalProperties": true }
+      },
+      "additionalProperties": true
+    }
+  ]
+}

@@ -26,6 +26,13 @@ company:
     - SaaS
     - Marketing
     - AI
+# Optional: omit primary tracked URL from generated bodies (registry: cta_in_body per platform)
+# cta_policy:
+#   default_include_link: true
+#   platforms:
+#     reddit:
+#       include_link: false
+
 publish:
   github:
     repo: acme/orbitpilot

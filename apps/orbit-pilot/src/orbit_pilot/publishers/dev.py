@@ -1,15 +1,15 @@
 from __future__ import annotations
 
-import os
 from typing import Any
 
+from orbit_pilot.credentials import get_secret
 from orbit_pilot.publishers.http import json_post
 
 
 def publish(payload: dict[str, Any], dry_run: bool = True) -> dict[str, Any]:
     if dry_run:
         return {"status": "dry_run", "url": payload["url"], "publisher": "dev"}
-    token = os.environ.get("DEVTO_API_KEY")
+    token = get_secret("DEVTO_API_KEY")
     if not token:
         return {"status": "error", "error": "DEVTO_API_KEY is not set", "publisher": "dev"}
     body = {

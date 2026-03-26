@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbit-pilot.local/schemas/latest-output.schema.json",
+  "title": "OrbitPilotLatestOutput",
+  "description": "Machine output of: orbit latest --out … --campaign … --json (success)",
+  "type": "object",
+  "required": ["campaign", "latest_run"],
+  "properties": {
+    "campaign": { "type": "string" },
+    "latest_run": { "type": "string" }
+  },
+  "additionalProperties": true
+}

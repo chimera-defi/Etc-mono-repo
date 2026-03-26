@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbit-pilot.local/schemas/pipeline-output.schema.json",
+  "title": "OrbitPilotPipelineOutput",
+  "description": "orbit pipeline --launch … --platforms … --out … --json",
+  "type": "object",
+  "required": [
+    "ok_all",
+    "ok_plan",
+    "ok_doctor",
+    "ok_check_run",
+    "plan",
+    "doctor",
+    "generate",
+    "check_run"
+  ],
+  "properties": {
+    "ok_all": { "type": "boolean" },
+    "ok_plan": { "type": "boolean" },
+    "ok_doctor": { "type": "boolean" },
+    "ok_check_run": { "type": "boolean" },
+    "plan": { "type": "object", "additionalProperties": true },
+    "doctor": { "type": "object", "additionalProperties": true },
+    "generate": { "type": "object", "additionalProperties": true },
+    "check_run": { "type": "object", "additionalProperties": true }
+  },
+  "additionalProperties": true
+}

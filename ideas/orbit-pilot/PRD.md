@@ -1,6 +1,6 @@
 ## Orbit Pilot PRD
 
-**Status:** Draft | **Last Updated:** 2026-03-23 | **Owner:** TBD
+**Status:** Living product doc (V1 CLI shipped in `apps/orbit-pilot/`; see [`V1_SHIPPED.md`](./V1_SHIPPED.md)) | **Last Updated:** 2026-03-24
 
 ### Problem
 Launching across many websites is operationally fragmented:

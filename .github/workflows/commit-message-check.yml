@@ -32,7 +32,8 @@ jobs:
             const trailerLinePattern = /^[A-Za-z0-9-]+:\s+.+$/;
             const humanCoauthorPattern =
               /^Co-authored-by:\s+(Chimera|ChimeraDeFi)\s+<chimera_defi@protonmail\.com>$/i;
-            const bypassPattern = /^(Merge |Revert |fixup! |squash! )/;
+            // Merge commits may use "Merge branch ..." or a custom "merge: ..." subject line.
+            const bypassPattern = /^(Merge |Revert |fixup! |squash! |merge: )/i;
             const errors = [];
 
             function getTrailingTrailers(message) {

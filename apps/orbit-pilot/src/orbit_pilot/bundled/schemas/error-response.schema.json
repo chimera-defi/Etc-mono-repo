@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbit-pilot.local/schemas/error-response.schema.json",
+  "title": "OrbitPilotErrorResponse",
+  "description": "Many orbit … --json commands return {\"error\": \"…\"} on failure (e.g. missing run dir).",
+  "type": "object",
+  "required": ["error"],
+  "properties": {
+    "error": { "type": "string" }
+  },
+  "additionalProperties": true
+}

@@ -1,15 +1,26 @@
 [project]
 name = "orbit-pilot"
-version = "0.1.0"
-description = "CLI-first launch distribution operator (Orbit Pilot V0)"
+version = "0.4.5"
+description = "CLI-first launch distribution operator (Orbit Pilot)"
 requires-python = ">=3.11"
-dependencies = ["PyYAML>=6.0", "Pillow>=10.0"]
+dependencies = [
+    "PyYAML>=6.0",
+    "Pillow>=10.0",
+    "keyring>=25.0",
+    "langgraph>=0.2.0",
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.30.0",
+    "jsonschema>=4.19.0",
+]
 
 [project.optional-dependencies]
-dev = ["pytest>=8", "ruff>=0.6"]
+dev = ["pytest>=8", "ruff>=0.6", "httpx>=0.27.0", "textual>=0.79.0"]
+tui = ["textual>=0.79.0"]
+browser = ["playwright>=1.49.0"]
 
 [project.scripts]
 orbit = "orbit_pilot.cli:main"
+orbit-serve = "orbit_pilot.cli:serve_main"
 
 [build-system]
 requires = ["setuptools>=68", "wheel"]
@@ -19,7 +30,7 @@ build-backend = "setuptools.build_meta"
 where = ["src"]
 
 [tool.setuptools.package-data]
-orbit_pilot = ["bundled/*.yaml"]
+orbit_pilot = ["bundled/*.yaml", "bundled/schemas/*.json"]
 
 [tool.ruff]
 line-length = 120
@@ -28,5 +39,12 @@ target-version = "py311"
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP"]
 
+[tool.ruff.lint.per-file-ignores]
+# conftest.py prepends src/ for editable installs without PYTHONPATH
+"tests/**" = ["E402"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = [
+    "e2e_browser: real Playwright/Chromium (CI runs automatically; locally RUN_BROWSER_E2E=1)",
+]

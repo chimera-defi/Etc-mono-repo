@@ -1,5 +1,7 @@
 ## Orbit Pilot Technical Spec
 
+**Product progress:** [`V1_ROADMAP.md`](./V1_ROADMAP.md) (V1 scope, done / next / deferred).
+
 ### Summary
 Build a launch orchestration system with:
 1. canonical launch profile storage,
@@ -11,7 +13,7 @@ Build a launch orchestration system with:
 7. explicit browser-fallback guardrails.
 
 ### High-Level Architecture
-See `ARCHITECTURE_DIAGRAMS.md`.
+See `ARCHITECTURE_DIAGRAMS.md` (product-level). **Implementation map (Python layers, JSON Schemas, run dir):** [`apps/orbit-pilot/ARCHITECTURE.md`](../../apps/orbit-pilot/ARCHITECTURE.md).
 
 ### Core Components
 
@@ -20,6 +22,7 @@ See `ARCHITECTURE_DIAGRAMS.md`.
 - short / medium / long descriptions
 - founder and company metadata
 - links, screenshots, logos, tags
+- optional `cta_policy`: `default_include_link` and per-platform `platforms.<slug>.include_link` (omit tracked URL from generated body copy when false)
 
 #### 2) Platform Registry
 - platform name and official URL
@@ -27,7 +30,9 @@ See `ARCHITECTURE_DIAGRAMS.md`.
 - automation mode: `official_api | manual | browser_fallback_opt_in | unknown`
 - risk level
 - required fields
-- image constraints
+- image constraints (`image_constraints.max_width` / `max_height`; falls back to built-in presets when absent)
+- optional `cta_in_body` (default true): when false, generated body omits primary tracked link for that platform
+- optional `browser_form_selectors`: map of field → CSS selector for optional supervised Playwright autofill (`title`/`body`/`url` keys, plus `submit` / `submit_button` / `submit_selector` for optional click-to-submit); only used when operator policy and env gates allow — operators must verify each site’s Terms of Service
 - notes on moderation and commercial restrictions
 
 #### 3) Content Generation Layer
@@ -51,12 +56,15 @@ See `ARCHITECTURE_DIAGRAMS.md`.
 - official publishers
 - manual queue
 - browser fallback gate
+- **V1 browser assist** (optional): **`risk.allow_browser_automation`** plus either **`allow_browser_fallback`** (for registry `browser_fallback_opt_in`) **or** **`allow_browser_assist_manual`** (for registry rows planned as **`manual`** — directories, Product Hunt, Crunchbase, etc.) upgrades those platforms to **`browser_assisted`**. `publish --execute --browser` drives `submit_url` via Playwright — **local Chromium**, **`ORBIT_BROWSER_USER_DATA_DIR`**, or **`ORBIT_BROWSER_CDP_URL`** (e.g. Kernel). **Local operator agents** (Claude Code, Codex, Cursor MCP, self-hosted LLM shells) are **not** Python dependencies: use **`orbit work --run … --json`** (includes **`operator_agent_guide`**) so the agent drives the **user’s** browser and copy-pastes **public** pack text; then **`orbit mark-done`**. Optional **supervised autofill** / **auto-submit** via Playwright as before; gated by env `ORBIT_ALLOW_BROWSER_AUTOMATION` + secret pair; verify **ToS** per site. V2 may **resell** curated bundles + playbooks that assume BYO agent subscription — see [`V2_ROADMAP.md`](./V2_ROADMAP.md) §4.1.
+- **V1 scheduling**: JSONL job queue (`orbit schedule-add`, `schedule-list`, `schedule-run`, `schedule-cancel`); file lock on Unix; daemon runs subprocess argv at or after due ISO time
 
 #### 7) Logging and Audit
 - every decision logged
 - publish attempt logged
 - skip reason logged
 - final live URL logged if available
+- append-only JSONL per run (`audit.jsonl`); CLI `orbit audit --run …` to inspect
 
 ### State Model
 - `LaunchProfile`
@@ -69,17 +77,25 @@ See `ARCHITECTURE_DIAGRAMS.md`.
 - `AuditEvent`
 
 ### Default Implementation
-1. Python service with LangGraph for orchestration.
-2. YAML config for platform settings and user risk tolerance.
+1. Python CLI + services with LangGraph for plan and full generate pipelines (`orbit_pilot.orchestrate`); readiness via `orbit doctor --json` (including browser_assisted Playwright checks and optional notes above).
+2. YAML: launch profile, platform registry, risk policy (`risk.*`, `platforms.<slug>.enabled|mode`).
 3. OS keychain-backed credentials via `keyring`.
-4. SQLite or Postgres for audit events and submission history.
-5. FastAPI webhook and operator UI later.
+4. SQLite submission history + append-only `audit.jsonl`; optional operator notes on manual completion.
+5. FastAPI webhook (`orbit serve`): health + launch hook; optional server-side generate when `ORBIT_WEBHOOK_ALLOW_GENERATE=1` and payload includes paths.
+6. Operator web UI: deferred (see `FRONTEND_VISION.md`); shareable **HTML run export** and optional **Textual TUI** live in `apps/orbit-pilot/` (`orbit export --format html`, `orbit tui`).
+7. **JSON Schema** documents ship with the package (`bundled/schemas/`) for agent validation of `--json` CLI outputs; **`orbit schemas`** lists paths; **`orbit validate-json <schema> [file]`** validates JSON (stdin if file omitted).
+8. **`run.json`** includes **`orbit_manifest_version`** (integer) and **`orbit_pilot_version`** (string); older CLIs error if manifest version is newer than supported. **`orbit check-run`** validates manifest and referenced paths.
+9. **V1** optional extras: `orbit-pilot[browser]` (Playwright) for portal assist; **`risk.allow_browser_assist_manual`** + **`allow_browser_automation`** to plan **`manual`** registry rows (most directories) as **`browser_assisted`**; optional autofill + auto-submit; `ORBIT_BROWSER_USER_DATA_DIR` or **`ORBIT_BROWSER_CDP_URL`** (Kernel); **`orbit work`** + Claude / Chrome MCP for human-supervised flows; **`orbit schedule-*`**, **`orbit registry-lint`**, **`orbit pipeline`**, **`orbit init --preset walletradar`**.
 
 ### Config Contract
 ```yaml
 risk:
   tolerance: low
   allow_browser_fallback: false
+  # V1: allow_browser_automation: false  # required for Playwright assist
+  # allow_browser_assist_manual: false  # + allow_browser_automation: manual rows → browser_assisted
+  # allow_browser_autofill: false  # + ORBIT_ALLOW_BROWSER_AUTOFILL + registry selectors
+  # allow_browser_auto_submit: false  # + ORBIT_ALLOW_BROWSER_AUTO_SUBMIT + submit selector in registry
 platforms:
   medium:
     enabled: true

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbit-pilot.local/schemas/report-output.schema.json",
+  "title": "OrbitPilotReportOutput",
+  "description": "Machine output of: orbit report --run … --json",
+  "type": "object",
+  "required": [
+    "results",
+    "pending_manual",
+    "next_manual",
+    "skipped",
+    "browser_fallback",
+    "browser_assisted",
+    "official_api_rows"
+  ],
+  "properties": {
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["platform", "mode", "status", "live_url", "reason", "result"],
+        "properties": {
+          "platform": { "type": "string" },
+          "mode": { "type": "string" },
+          "status": { "type": "string" },
+          "live_url": { "type": ["string", "null"] },
+          "reason": { "type": "string" },
+          "result": { "type": "object", "additionalProperties": true },
+          "operator_note": { "type": ["string", "null"] }
+        },
+        "additionalProperties": true
+      }
+    },
+    "pending_manual": { "type": "array", "items": { "type": "string" } },
+    "next_manual": { "type": ["string", "null"] },
+    "skipped": { "type": "array", "items": { "type": "string" } },
+    "browser_fallback": { "type": "array", "items": { "type": "string" } },
+    "browser_assisted": { "type": "array", "items": { "type": "string" } },
+    "official_api_rows": { "type": "array", "items": { "type": "object", "additionalProperties": true } }
+  },
+  "additionalProperties": true
+}

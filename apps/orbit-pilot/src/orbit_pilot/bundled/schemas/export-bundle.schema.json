@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbit-pilot.local/schemas/export-bundle.schema.json",
+  "title": "OrbitPilotExportBundle",
+  "description": "Machine output of: orbit export --run … --format json",
+  "type": "object",
+  "required": ["run_dir", "manifest", "report", "submissions"],
+  "properties": {
+    "run_dir": { "type": "string" },
+    "manifest": { "type": "object", "additionalProperties": true },
+    "report": { "type": "object", "additionalProperties": true },
+    "submissions": { "type": "array", "items": { "type": "object", "additionalProperties": true } }
+  },
+  "additionalProperties": true
+}
