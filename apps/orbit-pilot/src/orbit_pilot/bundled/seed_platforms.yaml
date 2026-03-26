@@ -96,8 +96,9 @@ platforms:
   - name: TrustMRR
     slug: trustmrr
     category: directory
-    official_url: unknown
-    submit_url: unknown
+    # Verified revenue DB; listing flow is “Add startup” on-site (no stable /submit path as of 2026-03)
+    official_url: https://trustmrr.com/
+    submit_url: https://trustmrr.com/
     mode: manual
     risk: medium
     priority: 52
