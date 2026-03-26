@@ -17,7 +17,7 @@ export async function POST(request: Request, { params }: Params) {
       const body = await request.json();
       const input = planStageAdvanceSchema.parse(body);
       const { session, patchId } = await advancePlanSession(sid, input, workspaceId);
-      return NextResponse.json({ session, patch_id: patchId }, { status: 200 });
+      return NextResponse.json({ session, patchId }, { status: 200 });
     },
     { action: "advance plan session stage" },
   );
