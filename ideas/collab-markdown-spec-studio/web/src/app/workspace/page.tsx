@@ -276,6 +276,12 @@ export default async function Home({ searchParams }: Props) {
   const actorReturnTo = buildStageHref(activeDocument?.document_id ?? null, activeStage);
   const sharePath = buildStageHref(activeDocument?.document_id ?? null, activeDocument ? activeStage : "start");
   const shareUrl = `${getAppOrigin(headerList)}${sharePath}`;
+  const exportEndpoint =
+    activeDocument?.document_id &&
+    readinessReport?.gates &&
+    !readinessReport.gates.passed
+      ? `/api/documents/${activeDocument.document_id}/export?force=true`
+      : `/api/documents/${activeDocument?.document_id}/export`;
   const designHandoff =
     activeDocument && exportBundle
       ? buildDesignHandoffData({
@@ -1567,7 +1573,7 @@ export default async function Home({ searchParams }: Props) {
                   <>
                     <div className={styles.exportActions}>
                       <Link
-                        href={`/api/documents/${activeDocument?.document_id}/export`}
+                        href={exportEndpoint}
                         className={styles.exportLink}
                         target="_blank"
                         rel="noreferrer"

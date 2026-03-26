@@ -31,7 +31,8 @@ describe("buildStarterTemplate", () => {
 
     expect(handoff.template_id).toBe("ts_cli_starter_v1");
     expect(handoff.files["package.json"]).toContain('"name": "specforge-demo"');
-    expect(handoff.files["src/main.ts"]).toContain("Building from");
+    expect(handoff.files["src/main.ts"]).toContain('const command = args[0] ?? "status"');
+    expect(handoff.files["README.md"]).toContain("bun run verify");
   });
 
   it("exposes multiple starter templates and can build a docs-only handoff", () => {

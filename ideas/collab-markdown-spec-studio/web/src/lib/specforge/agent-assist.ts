@@ -76,15 +76,6 @@ export type AgentAssistSuggestion = {
   notes: string[];
 };
 
-function compactLines(value: string, fallback: string) {
-  const lines = value
-    .split(/\n+/)
-    .map((line) => line.trim())
-    .filter(Boolean);
-
-  return lines.length > 0 ? lines.slice(0, 6).join("\n") : fallback;
-}
-
 function titleCase(raw: string) {
   return raw
     .split(/\s+/)
@@ -93,97 +84,240 @@ function titleCase(raw: string) {
     .join(" ");
 }
 
+/**
+ * Extract sentences that express goals or intent from a brief.
+ */
+function extractGoalSentences(sentences: string[]): string[] {
+  const goalPatterns = [
+    /want\s+to\b/,
+    /need\s+to\b/,
+    /\bshould\b/,
+    /\bmust\b/,
+    /\ballow\s+users?\s+to\b/,
+    /\benable\b/,
+    /\bprovide\b/,
+    /\bgoal\b/,
+    /\bobjective\b/,
+  ];
+  const matched = sentences.filter((s) =>
+    goalPatterns.some((p) => p.test(s.toLowerCase())),
+  );
+  return matched.slice(0, 3);
+}
+
+/**
+ * Extract feature-like noun phrases from a brief.
+ */
+function extractFeatureTerms(text: string): string[] {
+  const featurePatterns = [
+    "real-time", "collaborative", "export", "review", "search",
+    "authentication", "auth", "dashboard", "notification", "analytics",
+    "import", "sync", "webhook", "api", "integration", "editor",
+    "workflow", "pipeline", "template", "marketplace", "chat",
+    "upload", "download", "sharing", "permission", "role",
+    "monitoring", "logging", "billing", "payment", "subscription",
+  ];
+  const lower = text.toLowerCase();
+  return featurePatterns.filter((f) => lower.includes(f));
+}
+
+/**
+ * Detect user roles mentioned in text.
+ */
+function extractRoles(text: string): string[] {
+  const roleMap: Record<string, string> = {
+    user: "End user interacting with the product",
+    customer: "Customer evaluating or purchasing the product",
+    admin: "Administrator managing configuration and access",
+    developer: "Developer integrating or extending the system",
+    engineer: "Engineer implementing and maintaining the codebase",
+    team: "Team member collaborating on shared workflows",
+    operator: "Operator managing day-to-day system operations",
+    agent: "AI agent executing automated tasks within the system",
+    manager: "Manager overseeing team output and approvals",
+    designer: "Designer defining UX patterns and visual language",
+    founder: "Founder shaping product direction and priorities",
+    pm: "Product manager aligning scope and stakeholder needs",
+  };
+
+  const lower = text.toLowerCase();
+  const found: string[] = [];
+  for (const [keyword, description] of Object.entries(roleMap)) {
+    if (lower.includes(keyword)) {
+      found.push(description);
+    }
+  }
+  return found;
+}
+
+/**
+ * Infer domain from brief for fallback user/scope generation.
+ */
+function inferDomain(lower: string): { users: string[]; outOfScope: string[] } {
+  if (lower.includes("spec") || lower.includes("document") || lower.includes("requirement")) {
+    return {
+      users: ["Product teams writing and reviewing specifications", "Engineering leads planning implementation"],
+      outOfScope: ["Native mobile app", "Third-party marketplace integrations"],
+    };
+  }
+  if (lower.includes("code") || lower.includes("develop") || lower.includes("build")) {
+    return {
+      users: ["Developers writing and shipping code", "Tech leads reviewing architecture decisions"],
+      outOfScope: ["No-code builder for non-technical users", "Offline-first desktop client"],
+    };
+  }
+  if (lower.includes("data") || lower.includes("analytics") || lower.includes("dashboard")) {
+    return {
+      users: ["Data analysts querying and visualizing metrics", "Business stakeholders reviewing reports"],
+      outOfScope: ["Raw data lake management", "Custom ML model training pipeline"],
+    };
+  }
+  return {
+    users: ["Primary end user of the described system", "Team lead or operator managing the workflow"],
+    outOfScope: ["Native mobile app", "Multi-tenant enterprise administration"],
+  };
+}
+
 export function buildHeuristicSuggestion(brief: string): AgentAssistSuggestion {
   const normalizedBrief = brief.trim();
   const sentences = normalizedBrief
     .split(/(?<=[.!?])\s+/)
     .map((sentence) => sentence.trim())
     .filter(Boolean);
-  const keywords = normalizedBrief.toLowerCase();
-  const rawTitle = sentences[0]?.replace(/[.!?]+$/, "") ?? DEFAULT_GUIDED_SPEC_INPUT.title;
-  const title = rawTitle.length > 60 ? rawTitle.slice(0, 60).trim() : rawTitle;
-  const users = [];
+  const lower = normalizedBrief.toLowerCase();
 
-  if (keywords.includes("founder") || keywords.includes("startup")) {
-    users.push("Founder or operator shaping the initial product thesis");
+  // 1. Title extraction: clean, Title Case, max 60 chars
+  const rawTitle = (sentences[0]?.replace(/[.!?]+$/, "") ?? DEFAULT_GUIDED_SPEC_INPUT.title)
+    .replace(/[^\w\s-]/g, "")
+    .trim();
+  const title = rawTitle.length > 60 ? rawTitle.slice(0, 57).trim() + "..." : rawTitle;
+
+  // 2. Goals: extract intent sentences, fallback to 2 derived goals
+  const goalSentences = extractGoalSentences(sentences);
+  const goals = goalSentences.length > 0
+    ? goalSentences
+    : [
+        `Define and validate the core ${rawTitle.toLowerCase().split(/\s+/).slice(0, 3).join(" ")} workflow`,
+        "Produce a reviewable spec that bridges idea to implementation",
+      ];
+
+  // 3. Users: detect roles, fallback to domain inference
+  const detectedRoles = extractRoles(normalizedBrief);
+  const domainInfo = inferDomain(lower);
+  const users = detectedRoles.length > 0 ? detectedRoles.slice(0, 3) : domainInfo.users;
+
+  // 4. Scope (in): extract feature noun phrases from brief
+  const featureTerms = extractFeatureTerms(normalizedBrief);
+  const scopeIn = featureTerms.length > 0
+    ? featureTerms.slice(0, 4).map((f) => `${titleCase(f)} functionality as described in the brief`)
+    : sentences.slice(0, 3).map((s) => s.replace(/[.!?]+$/, ""));
+  if (scopeIn.length === 0) {
+    scopeIn.push("Core workflow described in the brief");
   }
-  if (keywords.includes("pm") || keywords.includes("product")) {
-    users.push("PM or product lead aligning scope and tradeoffs");
+
+  // 5. Scope (out): infer from what the brief does NOT mention
+  const mentionsMobile = lower.includes("mobile") || lower.includes("ios") || lower.includes("android");
+  const mentionsAuth = lower.includes("auth") || lower.includes("login") || lower.includes("sso");
+  const mentionsBilling = lower.includes("billing") || lower.includes("payment") || lower.includes("subscription");
+  const outOfScope: string[] = [];
+  if (!mentionsMobile) outOfScope.push("Native mobile application");
+  if (!mentionsAuth) outOfScope.push("Custom authentication or SSO integration");
+  if (!mentionsBilling) outOfScope.push("Billing, payments, or subscription management");
+  const nonGoals = outOfScope.length > 0
+    ? outOfScope.slice(0, 2)
+    : domainInfo.outOfScope;
+
+  // 6. Requirements: concrete but non-fabricated product expectations
+  const requirements = [
+    "The core workflow must stay reviewable in a single canonical spec",
+    "User-facing actions must provide clear success, failure, or blocked-state feedback",
+  ];
+  if (lower.includes("collaborat") || lower.includes("real-time") || lower.includes("multiplayer")) {
+    requirements.push("Collaboration state should stay synchronized across active participants");
+  } else if (lower.includes("export") || lower.includes("handoff") || lower.includes("bundle")) {
+    requirements.push("Export outputs must be deterministic and reproducible across runs");
+  } else if (lower.includes("search") || lower.includes("query")) {
+    requirements.push("Search results should stay understandable and easy to refine");
+  } else {
+    requirements.push("The first release should make the primary workflow executable without external clarification");
   }
-  if (keywords.includes("agent") || keywords.includes("ai")) {
-    users.push("Agent operator reviewing generated changes before handoff");
+
+  // 7. Constraints
+  const constraints = [
+    "Prefer established libraries over custom implementations",
+    "Keep the first version narrow enough to validate in 2-4 weeks",
+    "No secrets or credentials stored client-side",
+  ];
+
+  // 8. UX Pack: generate if brief mentions any UI concept
+  const mentionsUi = /\b(ui|ux|screen|page|dashboard|interface|frontend|web|app|button|form|modal|panel|view)\b/i.test(normalizedBrief);
+  const mentionsApiOnly = /\b(api[\s-]only|cli[\s-]only|headless|backend[\s-]only)\b/i.test(normalizedBrief);
+  let uxPack: string[];
+  if (mentionsApiOnly) {
+    uxPack = ["This product is API-only or CLI-only — no GUI required"];
+  } else if (mentionsUi || !mentionsApiOnly) {
+    const featureScreens = featureTerms.slice(0, 3).map((f) => `${titleCase(f)} view`);
+    const screens = featureScreens.length >= 2
+      ? featureScreens
+      : ["Overview dashboard", "Detail/edit view", "Settings and configuration"];
+    uxPack = [
+      `Primary surface: web-based workspace`,
+      `Key screens: ${screens.join(", ")}`,
+      `Failure states: loading errors with retry, validation warnings inline, empty states with onboarding prompts`,
+      `Responsive: desktop-first for primary workflows, mobile-friendly for review and status checks`,
+    ];
+  } else {
+    uxPack = [
+      "Primary surface: browser workspace",
+      "Key screens: intake, editor, review queue, export",
+      "Failure states: validation errors, blocked readiness, stale data warnings",
+      "Responsive: desktop-primary, mobile supports read and review",
+    ];
   }
-  if (keywords.includes("engineer") || keywords.includes("developer")) {
-    users.push("Engineer turning the approved launch packet into working code");
+
+  // 9. Success signals: measurable, derived from brief topic
+  const successSignals = [
+    `Users can complete the core ${rawTitle.toLowerCase().split(/\s+/).slice(0, 2).join(" ")} workflow end-to-end without external help`,
+    "Reviewers can approve the spec without clarification churn on the core path",
+  ];
+  if (lower.includes("collaborat") || lower.includes("team")) {
+    successSignals.push("Multiple team members can contribute without merge conflicts or lost context");
+  } else {
+    successSignals.push("The resulting output is concrete enough to hand off directly into implementation");
   }
 
-  const defaultGoals = [
-    "Clarify the problem and expected outcome",
-    "Turn the idea into a reviewable build spec",
-    "Keep implementation handoff explicit and attributable",
+  // 10. Tasks: derive from brief features
+  const tasks = [
+    `Set up project scaffolding and core data model for ${rawTitle.toLowerCase().split(/\s+/).slice(0, 3).join(" ")}`,
   ];
-
-  const defaultScope = [
-    "Document the first shippable workflow",
-    "Capture the critical interfaces and review loop",
-    "Export a bundle that an implementation agent can execute from",
-  ];
-
-  const defaultRequirements = [
-    "Keep one canonical spec instead of scattered context",
-    "Make risky changes reviewable before they land",
-    "Produce deterministic handoff artifacts for implementation",
-  ];
-
-  const defaultConstraints = [
-    "Prefer off-the-shelf libraries and low-ceremony integrations",
-    "Do not put secrets in the browser",
-    "Keep the first version narrow enough to validate quickly",
-  ];
-
-  const defaultSignals = [
-    "The spec reaches readiness without unresolved blockers",
-    "Export artifacts stay deterministic across reruns",
-    "A coding agent or engineer can continue from the launch packet without clarification churn",
-  ];
-
-  const defaultUxPack = [
-    "Primary surface: browser workspace with explicit review stages",
-    "Key screens: guided intake, shared draft, review queue, export handoff",
-    "Failure states: ambiguous scope, blocked readiness, stale collaboration room",
-    "Responsive rule: mobile supports review and intake, desktop is primary for deep editing",
-  ];
-
-  const defaultTasks = [
-    "Capture the problem and operator goals",
-    "Draft the first buildable workflow",
-    "Resolve review comments and clarifications",
-    "Generate the handoff bundle and starter output",
-  ];
-
-  const defaultNonGoals = [
-    "Solving every adjacent workflow in the first release",
-    "Replacing general project management tools",
-  ];
+  if (featureTerms.length > 0) {
+    for (const feature of featureTerms.slice(0, 2)) {
+      tasks.push(`Implement ${feature} feature with basic validation and error handling`);
+    }
+  }
+  tasks.push("Wire up end-to-end workflow and integration tests");
+  tasks.push("Polish UX, add empty states, and prepare for first user test");
 
   return {
     tool: "heuristic",
     fields: normalizeGuidedSpecInput({
       title: titleCase(title),
-      problem: sentences[0] ?? normalizedBrief,
-      goals: compactLines(sentences.slice(1, 4).join("\n"), defaultGoals.join("\n")),
-      users: compactLines(users.join("\n"), DEFAULT_GUIDED_SPEC_INPUT.users),
-      scope: compactLines(sentences.slice(0, 3).join("\n"), defaultScope.join("\n")),
-      requirements: compactLines(normalizedBrief, defaultRequirements.join("\n")),
-      constraints: compactLines("", defaultConstraints.join("\n")),
-      uxPack: compactLines("", defaultUxPack.join("\n")),
-      successSignals: compactLines("", defaultSignals.join("\n")),
-      tasks: compactLines("", defaultTasks.join("\n")),
-      nonGoals: compactLines("", defaultNonGoals.join("\n")),
+      problem: sentences.length > 1
+        ? sentences.slice(0, 2).join(" ")
+        : normalizedBrief,
+      goals: goals.join("\n"),
+      users: users.join("\n"),
+      scope: scopeIn.join("\n"),
+      requirements: requirements.join("\n"),
+      constraints: constraints.join("\n"),
+      uxPack: uxPack.join("\n"),
+      successSignals: successSignals.join("\n"),
+      tasks: tasks.join("\n"),
+      nonGoals: nonGoals.join("\n"),
     }),
     notes: [
-      "Used the local deterministic fallback instead of an external agent runtime.",
-      "Review and tighten any generated field before creating the draft.",
+      "Used the local deterministic fallback — fields were derived from brief content analysis.",
+      "Goals, users, scope, and requirements are inferred from your brief. Review and adjust before creating the draft.",
     ],
   };
 }

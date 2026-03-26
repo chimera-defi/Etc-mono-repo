@@ -35,63 +35,180 @@ type EvaluationResult = {
   notes: string;
 };
 
+// Aggressive stop word list for cleaner term extraction
+const STOP_WORDS = new Set([
+  "a", "an", "the", "and", "or", "is", "are", "be", "to", "of",
+  "in", "for", "with", "that", "this", "it", "as", "at", "by",
+  "from", "on", "has", "have", "will", "can", "not", "no", "if",
+  "should", "must", "shall", "may", "when", "all", "any", "been",
+  "being", "was", "were", "would", "could", "about", "into",
+  "than", "then", "them", "they", "their", "there", "these",
+  "those", "each", "every", "both", "few", "more", "most",
+  "other", "some", "such", "only", "own", "same", "also",
+  "does", "did", "done", "doing", "its", "just", "but", "nor",
+  "yet", "so", "very", "too", "here", "how", "what", "which",
+  "who", "whom", "where", "why", "between", "through", "during",
+  "before", "after", "above", "below", "under", "over", "again",
+  "once", "further", "upon", "while", "our", "out", "your",
+  "per", "via", "one", "two", "use", "used", "using", "new",
+  "get", "set", "way", "like", "make", "need", "still",
+]);
+
+/**
+ * Extract significant terms from text, weighting nouns and verbs higher.
+ */
+function extractWeightedTerms(text: string): { term: string; weight: number }[] {
+  const words = text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, " ")
+    .split(/\s+/)
+    .filter((w) => w.length > 2 && !STOP_WORDS.has(w));
+
+  return words.map((w) => ({
+    term: w,
+    // Multi-syllable words and hyphenated terms are more likely domain-specific
+    weight: w.includes("-") ? 2 : w.length > 6 ? 1.5 : 1,
+  }));
+}
+
+/**
+ * Extract the markdown content under a specific heading.
+ * Matches ## Heading through the next heading of equal or higher level.
+ */
+function extractSection(markdown: string, sectionRef: string): string | null {
+  const sectionLower = sectionRef.toLowerCase().replace(/[^a-z0-9\s]/g, " ").trim();
+  const lines = markdown.split("\n");
+  let capturing = false;
+  let capturedLevel = 0;
+  const captured: string[] = [];
+
+  for (const line of lines) {
+    const headingMatch = line.match(/^(#{1,6})\s+(.+)/);
+    if (headingMatch) {
+      const level = headingMatch[1].length;
+      const heading = headingMatch[2].toLowerCase().replace(/[^a-z0-9\s]/g, " ").trim();
+      if (capturing) {
+        // Stop at same or higher level heading
+        if (level <= capturedLevel) break;
+      } else if (heading.includes(sectionLower) || sectionLower.includes(heading)) {
+        capturing = true;
+        capturedLevel = level;
+        continue;
+      }
+    }
+    if (capturing) {
+      captured.push(line);
+    }
+  }
+
+  return captured.length > 0 ? captured.join("\n") : null;
+}
+
+/**
+ * Compute weighted coverage of terms against a body of text.
+ */
+function computeCoverage(
+  terms: { term: string; weight: number }[],
+  text: string,
+): { coverage: number; matched: string[]; unmatched: string[] } {
+  const lowerText = text.toLowerCase();
+  const matched: string[] = [];
+  const unmatched: string[] = [];
+  let totalWeight = 0;
+  let matchedWeight = 0;
+
+  for (const { term, weight } of terms) {
+    totalWeight += weight;
+    if (lowerText.includes(term)) {
+      matchedWeight += weight;
+      matched.push(term);
+    } else {
+      unmatched.push(term);
+    }
+  }
+
+  return {
+    coverage: totalWeight > 0 ? matchedWeight / totalWeight : 0,
+    matched,
+    unmatched,
+  };
+}
+
 /**
  * Score a single test against the document markdown.
- * Returns { pass, notes }.
  *
- * Heuristic: tokenise the expected_result into significant terms,
- * then check how many appear in the document markdown (case-insensitive).
- * Threshold: ≥60% of terms present → pass.
+ * Strategy:
+ * 1. Extract significant terms from expected_result and test_case
+ * 2. Try section-scoped evaluation first (match test_case to a heading)
+ * 3. Fall back to whole-document evaluation
+ * 4. Check that the expected_result phrase appears as a substring
+ *
+ * Thresholds: 60% in relevant section OR 40% in whole document
+ * PLUS expected_result phrase must appear (lowercased, stripped)
  */
 function evaluateTest(
   test: AcceptanceTest,
   markdown: string,
 ): { pass: boolean; notes: string } {
-  const lowerMarkdown = markdown.toLowerCase();
-
-  // Strip common stop words for cleaner term extraction
-  const STOP = new Set([
-    "a", "an", "the", "and", "or", "is", "are", "be", "to", "of",
-    "in", "for", "with", "that", "this", "it", "as", "at", "by",
-    "from", "on", "has", "have", "will", "can", "not", "no", "if",
-    "should", "must", "shall", "may", "when", "all", "any",
-  ]);
-
-  const extractTerms = (text: string): string[] =>
-    text
-      .toLowerCase()
-      .replace(/[^a-z0-9\s]/g, " ")
-      .split(/\s+/)
-      .filter((w) => w.length > 2 && !STOP.has(w));
-
-  const terms = [
-    ...extractTerms(test.expected_result),
-    ...extractTerms(test.test_case),
+  const weightedTerms = [
+    ...extractWeightedTerms(test.expected_result),
+    ...extractWeightedTerms(test.test_case),
   ];
 
-  if (terms.length === 0) {
+  if (weightedTerms.length === 0) {
     return { pass: false, notes: "Test has no evaluable criteria." };
   }
 
-  const uniqueTerms = [...new Set(terms)];
-  const matched = uniqueTerms.filter((t) => lowerMarkdown.includes(t));
-  const coverage = matched.length / uniqueTerms.length;
+  // Deduplicate by term
+  const seen = new Set<string>();
+  const uniqueTerms = weightedTerms.filter((t) => {
+    if (seen.has(t.term)) return false;
+    seen.add(t.term);
+    return true;
+  });
 
-  if (coverage >= 0.6) {
+  // Check for expected_result phrase as substring (stripped and lowercased)
+  const expectedPhrase = test.expected_result
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  const lowerMarkdown = markdown.toLowerCase();
+  const phrasePresent = expectedPhrase.length > 0 && lowerMarkdown.includes(expectedPhrase);
+
+  // Try section-scoped evaluation first
+  const sectionContent = extractSection(markdown, test.test_case);
+  if (sectionContent) {
+    const sectionResult = computeCoverage(uniqueTerms, sectionContent);
+    if (sectionResult.coverage >= 0.6 || (sectionResult.coverage >= 0.4 && phrasePresent)) {
+      // Identify section name for notes
+      const sectionName = test.test_case.split(/[:.]/)[0]?.trim() || test.test_case;
+      return {
+        pass: true,
+        notes: `Covered in "${sectionName}": ${sectionResult.matched.slice(0, 8).join(", ")} (${Math.round(sectionResult.coverage * 100)}% weighted coverage). Auto-evaluated.`,
+      };
+    }
+  }
+
+  // Fall back to whole-document evaluation
+  const docResult = computeCoverage(uniqueTerms, markdown);
+
+  if (docResult.coverage >= 0.6 || (docResult.coverage >= 0.4 && phrasePresent)) {
     return {
       pass: true,
-      notes: `Spec covers ${Math.round(coverage * 100)}% of test criteria (${matched.length}/${uniqueTerms.length} key terms present). Auto-evaluated.`,
+      notes: `Spec covers ${Math.round(docResult.coverage * 100)}% of test criteria (${docResult.matched.length}/${uniqueTerms.length} key terms). Matched: ${docResult.matched.slice(0, 6).join(", ")}. Auto-evaluated.`,
     };
   }
 
-  const missing = uniqueTerms
-    .filter((t) => !lowerMarkdown.includes(t))
-    .slice(0, 5)
-    .join(", ");
+  // Fail case: provide actionable feedback
+  const missingTerms = docResult.unmatched.slice(0, 5).join(", ");
+  const suggestedSection = sectionContent
+    ? test.test_case.split(/[:.]/)[0]?.trim() || "the relevant section"
+    : "a new or existing section";
 
   return {
     pass: false,
-    notes: `Spec covers only ${Math.round(coverage * 100)}% of test criteria. Key terms missing from spec: ${missing}. Consider expanding relevant sections.`,
+    notes: `Missing from spec: ${missingTerms} (${Math.round(docResult.coverage * 100)}% coverage, need ≥60%). Add to ${suggestedSection}.`,
   };
 }
 
