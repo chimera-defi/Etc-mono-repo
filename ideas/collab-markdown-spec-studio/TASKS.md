@@ -62,6 +62,7 @@
 - [x] ARCHITECTURE_DECISIONS.md updated: Decisions 24, 25, 26, 27, 28, 31 reflect current implementation status.
 - [x] Shared orchestrator backlog parsing now feeds both the parity runner and the in-product delivery-loop panel.
 - [x] Runner status/brief/context now stay aligned with the live backlog instead of stale historical intents.
+- [x] Desktop packaging direction is now documented: Tauri shell + supervised local sidecars + future hosted/local bridge split.
 
 ## Meta Learnings To Keep Applying
 - [x] Treat placeholder fallback content as real product debt and remove it during review passes.
@@ -70,6 +71,16 @@
 - [x] Split large UI routes into panel components before they become unreadable.
 - [x] Split persistence by domain before store changes become high-risk.
 - [x] Run the final verification gate sequentially to avoid fake Playwright or collab port regressions.
+- [x] Desktop packaging should wrap the existing working local architecture before trying to collapse it into a single runtime.
+
+## Next Productization Track
+
+- [ ] Scaffold a Tauri desktop wrapper around the existing local SpecForge product.
+  - Done: packaged desktop shell starts the local web app and collab server, waits for health, and opens the workspace window
+- [ ] Add runtime mode diagnostics to the workspace session UI.
+  - Done: user can see local mode vs hosted mode vs future bridge mode plus local CLI availability
+- [ ] Define the first hybrid bridge contract for hosted workspaces that want local Codex / Claude CLI reuse.
+  - Done: hosted app can detect a trusted local bridge and route assist requests through it without exposing raw secrets to the browser
 
 ## Phase 2: Core Editing (Weeks 3-4)
 

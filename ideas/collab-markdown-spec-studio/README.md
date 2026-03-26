@@ -33,6 +33,7 @@ Collaborative editors already exist. The wedge is not generic editing; it is a s
 9. `DESIGN_PARTNER_TRIAL_PROMPT.md`
 10. `WIREFRAMES.md`
 11. `DESIGN_AGENT_HANDOFF_PROMPT.md`
+12. `TAURI_DESKTOP_PLAN.md`
 
 ### Full Pack (Grouped)
 - Product and strategy: `EXECUTIVE_SUMMARY`, `PRD`, `SPEC`
@@ -81,6 +82,8 @@ Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid du
    - once a route or persistence module becomes hard to skim, extract by domain before more product logic piles in
 9. Keep UX coverage explicit:
    - if the product has a human-facing interface, the spec should name key screens, failure states, and responsive expectations before handoff
+10. Package the working local product before rewriting it:
+   - a desktop shell should supervise the existing local web and collab processes instead of forcing a premature runtime rewrite
 
 ### Current Runtime
 1. `web/` is the real Next.js app.
@@ -107,3 +110,4 @@ Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid du
 4. Add billing, metering, backup/restore, and stronger operational dashboards.
 5. Expand starter generation only after design-partner usage proves the next templates.
 6. Validate whether an external design-skill integration is worth productizing, instead of hardwiring one prematurely.
+7. Package the local product for desktop distribution so design partners can trial SpecForge without a manual multi-process setup.
