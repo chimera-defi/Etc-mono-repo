@@ -86,6 +86,7 @@ The current branch also includes a first explicit entitlement layer:
 - Detects ambiguity/low-confidence sections in PRD/spec drafts.
 - Generates concise clarifying questions with option sets and tradeoffs.
 - Blocks irreversible generation steps until required questions are answered.
+- Export endpoint returns `409 CLARIFICATIONS_REQUIRED` when unanswered critical-priority clarifications exist; callers pass `?force=true` to bypass.
 - Writes accepted answers back into canonical doc sections and decision log.
 
 ### 9) Delivery Parity Orchestrator (Build Loop)

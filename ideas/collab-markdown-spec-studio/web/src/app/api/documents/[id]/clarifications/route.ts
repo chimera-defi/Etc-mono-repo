@@ -1,8 +1,9 @@
 /**
  * Clarification API Routes
  *
- * GET  /documents/:id/clarifications — List all clarifications (answered + unanswered)
- * POST /documents/:id/clarifications — Create a new clarification question
+ * GET   /documents/:id/clarifications — List all clarifications (answered + unanswered)
+ * POST  /documents/:id/clarifications — Create a new clarification question
+ * PATCH /documents/:id/clarifications?clarification_id=:clarId — Answer a clarification
  */
 
 import { z } from "zod";

@@ -38,6 +38,14 @@ export async function POST(request: Request, { params }: Params) {
       return error("Job not found", "JOB_NOT_FOUND", 404);
     }
 
+    if (["completed", "failed"].includes(job.status)) {
+      return error(
+        `Job is in '${job.status}' status; review decisions cannot be applied`,
+        "INVALID_STATUS",
+        400,
+      );
+    }
+
     if (!job.document_id) {
       return error(
         "Job has no associated document",
