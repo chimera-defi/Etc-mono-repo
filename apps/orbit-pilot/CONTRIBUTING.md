@@ -16,6 +16,7 @@ Thanks for helping improve launch ops for humans and agents.
 - **`policy.bundled_default_policy_path`** — default risk policy path for CLI, graphs, and webhooks.
 - **`services/publishing`** — orchestration only; publisher HTTP stays under `publishers/`.
 - **`cli.py`** — argument parsing and human/JSON emitters; no business rules beyond dispatch.
+- **`cli_io.py`** — shared CLI UX bits (e.g. `require_run_dir` for consistent JSON vs stderr errors).
 
 ## Development setup
 

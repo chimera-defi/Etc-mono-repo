@@ -6,7 +6,9 @@ import os
 from pathlib import Path
 from typing import Any
 
+from orbit_pilot.config import load_document
 from orbit_pilot.policy import bundled_default_policy_path, load_risk_policy
+from orbit_pilot.profile_loader import profile_from_parsed_yaml
 from orbit_pilot.registry import load_platforms
 from orbit_pilot.services.campaigns import build_campaign, create_run_dir, write_run_manifest
 from orbit_pilot.services.generation import generate_run
@@ -30,9 +32,8 @@ def try_generate_from_hook_payload(payload: dict[str, Any]) -> dict[str, Any]:
     if not launch_path or not plat_path:
         return {"skipped": True, "reason": "launch_path and platforms_path required in payload"}
 
-    from orbit_pilot.cli import load_launch
-
-    launch = load_launch(str(launch_path))
+    lp = Path(str(launch_path))
+    launch = profile_from_parsed_yaml(load_document(lp), lp)
     platforms = load_platforms(plat_path)
     policy = load_risk_policy(policy_path)
 
