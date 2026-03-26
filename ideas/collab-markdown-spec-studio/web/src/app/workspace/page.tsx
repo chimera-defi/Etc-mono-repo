@@ -362,39 +362,38 @@ export default async function Home({ searchParams }: Props) {
                     </span>
                     <span>{documents.length} visible documents</span>
                     <span>
-                      Assist quota:{" "}
+                      AI assists:{" "}
                       {activeWorkspaceSession.authMode === "local"
-                        ? "local demo bypass"
+                        ? "unlimited (local)"
                         : assistQuota.limit === null
                         ? "unlimited"
                         : `${assistQuota.used}/${assistQuota.limit} used`}
                     </span>
                     <span>
-                      Assist runtime:{" "}
+                      AI model:{" "}
                       {preferredAssistTool === "auto"
-                        ? "auto-select"
+                        ? "auto"
                         : preferredAssistTool.replaceAll("_", " ")}
                     </span>
                   </div>
                   <details className={styles.wizardSection}>
                     <summary className={styles.disclosureSummary}>
-                      <span>Assist runtime</span>
+                      <span>AI model</span>
                       <span>
                         {preferredAssistTool === "auto"
-                          ? "auto-select"
+                          ? "auto"
                           : preferredAssistTool.replaceAll("_", " ")}
                       </span>
                     </summary>
                     <div className={styles.disclosureBody}>
                       <p className={styles.context}>
-                        Local testing can reuse whichever CLI you are already logged into. Save a
-                        default runtime here and the guided draft builder will start with that
-                        choice instead of resetting to auto every time.
+                        Choose which AI model powers the assist features. Set a preference once
+                        and it persists across sessions.
                       </p>
                       <form action={setAssistRuntimePreferenceAction} className={styles.form}>
                         <input type="hidden" name="return_to" value={actorReturnTo} />
                         <label>
-                          Preferred assist runtime
+                          Preferred AI model
                           <select
                             name="assist_tool"
                             className={styles.selectInput}
@@ -406,7 +405,7 @@ export default async function Home({ searchParams }: Props) {
                             <option value="heuristic">Built-in fallback</option>
                           </select>
                         </label>
-                        <button type="submit">Save assist preference</button>
+                        <button type="submit">Save preference</button>
                       </form>
                     </div>
                   </details>
@@ -786,8 +785,8 @@ export default async function Home({ searchParams }: Props) {
                 ))}
               </ul>
               <p className={styles.context}>
-                Local mode can reuse existing Codex or Claude Code CLI logins from the server
-                runtime. Hosted mode should use encrypted workspace-scoped credentials instead.
+                Bring your own Claude or Codex API key, or use a hosted plan where credentials
+                are stored encrypted server-side.
               </p>
             </div>
           </details>

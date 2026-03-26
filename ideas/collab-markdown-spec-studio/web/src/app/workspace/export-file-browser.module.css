@@ -8,10 +8,10 @@
 .browser {
   display: grid;
   grid-template-columns: 220px minmax(0, 1fr);
-  border: 1px solid rgba(28, 26, 23, 0.1);
+  border: 1px solid var(--sf-border);
   border-radius: 16px;
   overflow: hidden;
-  background: #fffdf9;
+  background: var(--sf-surface-warm);
   min-height: 420px;
   max-height: 640px;
 }
@@ -21,8 +21,8 @@
 .fileList {
   display: flex;
   flex-direction: column;
-  border-right: 1px solid rgba(28, 26, 23, 0.08);
-  background: #faf8f4;
+  border-right: 1px solid var(--sf-border-faint);
+  background: var(--sf-surface-panel);
   overflow: hidden;
 }
 
@@ -32,9 +32,9 @@
   justify-content: space-between;
   gap: 8px;
   padding: 10px 12px;
-  border-bottom: 1px solid rgba(28, 26, 23, 0.08);
+  border-bottom: 1px solid var(--sf-border-faint);
   font-size: 0.78rem;
-  color: #6f6559;
+  color: var(--sf-muted-mid);
   flex-shrink: 0;
 }
 
@@ -60,7 +60,7 @@
   cursor: pointer;
   border-radius: 8px;
   font-size: 0.8rem;
-  color: #3a332c;
+  color: var(--sf-ink-secondary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -72,9 +72,9 @@
 }
 
 .fileItemActive .fileNameBtn {
-  background: rgba(28, 26, 23, 0.1);
+  background: var(--sf-border);
   font-weight: 600;
-  color: #1c1a17;
+  color: var(--sf-ink);
 }
 
 .removeBtn {
@@ -89,7 +89,7 @@
   cursor: pointer;
   border-radius: 4px;
   font-size: 0.7rem;
-  color: #9a8c80;
+  color: var(--sf-muted-faint);
   opacity: 0;
   transition: opacity 0.1s, background 0.1s;
 }
@@ -99,8 +99,8 @@
 }
 
 .removeBtn:hover {
-  background: rgba(163, 43, 43, 0.1);
-  color: #8c1f1f;
+  background: var(--sf-danger-subtle);
+  color: var(--sf-danger);
 }
 
 /* ---- viewer pane ---- */
@@ -118,15 +118,15 @@
   justify-content: space-between;
   gap: 12px;
   padding: 8px 14px;
-  border-bottom: 1px solid rgba(28, 26, 23, 0.08);
+  border-bottom: 1px solid var(--sf-border-faint);
   flex-shrink: 0;
-  background: #fffdf9;
+  background: var(--sf-surface-warm);
 }
 
 .filename {
   font-size: 0.82rem;
   font-weight: 600;
-  color: #3a332c;
+  color: var(--sf-ink-secondary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -146,13 +146,13 @@
   font-size: 0.78rem;
   font-weight: 500;
   cursor: pointer;
-  border: 1px solid rgba(28, 26, 23, 0.16);
+  border: 1px solid var(--sf-border-mid);
   transition: background 0.1s;
 }
 
 .editToggle {
   background: #fff;
-  color: #3a332c;
+  color: var(--sf-ink-secondary);
 }
 
 .editToggle:hover {
@@ -160,18 +160,18 @@
 }
 
 .saveBtn {
-  background: #1c1a17;
-  color: #fff9f3;
+  background: var(--sf-ink);
+  color: var(--sf-surface-warm);
   border-color: transparent;
 }
 
 .saveBtn:hover {
-  background: #2c2a27;
+  background: var(--sf-ink-press);
 }
 
 .cancelBtn {
   background: #fff;
-  color: #3a332c;
+  color: var(--sf-ink-secondary);
 }
 
 .cancelBtn:hover {
@@ -192,7 +192,7 @@
   font-size: 0.8rem;
   line-height: 1.6;
   white-space: pre;
-  color: #1c1a17;
+  color: var(--sf-ink);
 }
 
 /* highlight.js token colours — tuned to match the warm palette */
@@ -204,7 +204,7 @@
 
 .codeScroll :global(.hljs-string),
 .codeScroll :global(.hljs-attr) {
-  color: #1b6a3d;
+  color: var(--sf-success);
 }
 
 .codeScroll :global(.hljs-number),
@@ -213,19 +213,19 @@
 }
 
 .codeScroll :global(.hljs-comment) {
-  color: #9a8c80;
+  color: var(--sf-muted-faint);
   font-style: italic;
 }
 
 .codeScroll :global(.hljs-title),
 .codeScroll :global(.hljs-section) {
-  color: #1d4ed8;
+  color: var(--sf-blue);
   font-weight: 700;
 }
 
 .codeScroll :global(.hljs-bullet),
 .codeScroll :global(.hljs-code) {
-  color: #3a332c;
+  color: var(--sf-ink-secondary);
 }
 
 .codeScroll :global(.hljs-emphasis) {
@@ -254,8 +254,8 @@
   line-height: 1.6;
   border: none;
   outline: none;
-  background: #fffdfa;
-  color: #1c1a17;
+  background: var(--sf-surface-input);
+  color: var(--sf-ink);
   overflow: auto;
 }
 
@@ -263,14 +263,14 @@
   display: flex;
   gap: 8px;
   padding: 8px 14px;
-  border-top: 1px solid rgba(28, 26, 23, 0.08);
+  border-top: 1px solid var(--sf-border-faint);
   flex-shrink: 0;
 }
 
 /* ---- empty state ---- */
 
 .empty {
-  color: #6f6559;
+  color: var(--sf-muted-mid);
   padding: 24px;
   font-size: 0.88rem;
 }
@@ -284,8 +284,8 @@
   border-radius: 999px;
   padding: 5px 10px;
   text-decoration: none;
-  background: #1d4ed8;
-  color: #fff;
+  background: var(--sf-teal);
+  color: var(--sf-surface-warm);
   font-weight: 600;
   font-size: 0.72rem;
   border: none;
@@ -296,7 +296,7 @@
 }
 
 .downloadBtn:hover {
-  background: #1e40af;
+  background: var(--sf-teal-hover);
 }
 
 /* ---- responsive ---- */
@@ -310,6 +310,6 @@
 
   .fileList {
     border-right: none;
-    border-bottom: 1px solid rgba(28, 26, 23, 0.08);
+    border-bottom: 1px solid var(--sf-border-faint);
   }
 }
