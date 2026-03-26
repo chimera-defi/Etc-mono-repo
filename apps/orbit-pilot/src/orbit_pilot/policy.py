@@ -19,6 +19,8 @@ def bundled_default_policy_path() -> str:
 class RiskPolicy:
     tolerance: str = "low"
     allow_browser_fallback: bool = False
+    # V1: opt-in Playwright assist for browser_fallback_opt_in (still requires env confirmation at publish time)
+    allow_browser_automation: bool = False
     platform_overrides: dict[str, dict[str, Any]] = field(default_factory=dict)
 
 
@@ -45,6 +47,7 @@ def load_risk_policy(path: str | Path | None) -> RiskPolicy:
     return RiskPolicy(
         tolerance=str(risk.get("tolerance", "low")).lower(),
         allow_browser_fallback=bool(risk.get("allow_browser_fallback", False)),
+        allow_browser_automation=bool(risk.get("allow_browser_automation", False)),
         platform_overrides={k: dict(v) for k, v in (raw.get("platforms") or {}).items()},
     )
 
@@ -120,18 +123,26 @@ def apply_risk_policy(
 
     plan_mode = planning.mode.lower().replace("-", "_")
     if plan_mode == "browser_fallback_opt_in":
-        if policy.allow_browser_fallback:
+        if not policy.allow_browser_fallback:
             return SubmissionDecision(
                 record.slug,
-                "browser_fallback",
+                "skipped",
                 record.risk,
-                "High-risk browser path; manual pack only — no automation",
+                "browser_fallback_opt_in blocked: allow_browser_fallback is false in policy",
+            )
+        if policy.allow_browser_automation:
+            return SubmissionDecision(
+                record.slug,
+                "browser_assisted",
+                record.risk,
+                "browser_fallback_opt_in with policy allow_browser_automation: Playwright assist at publish --execute "
+                "(requires ORBIT_ALLOW_BROWSER_AUTOMATION=1 and ORBIT_BROWSER_AUTOMATION_CONFIRM)",
             )
         return SubmissionDecision(
             record.slug,
-            "skipped",
+            "browser_fallback",
             record.risk,
-            "browser_fallback_opt_in blocked: allow_browser_fallback is false in policy",
+            "High-risk browser path; manual pack only — no automation (enable allow_browser_automation for assist)",
         )
 
     if decision.mode == "official_api" and not tolerance_allows_risk(policy.tolerance, record.risk):

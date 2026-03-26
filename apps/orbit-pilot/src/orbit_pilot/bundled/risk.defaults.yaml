@@ -4,6 +4,8 @@
 risk:
   tolerance: low
   allow_browser_fallback: false
+  # V1: with allow_browser_fallback true, set true to allow Playwright portal open (publish --execute + env secrets)
+  # allow_browser_automation: false
 
 # Per-platform overrides (optional). Example:
 # platforms:

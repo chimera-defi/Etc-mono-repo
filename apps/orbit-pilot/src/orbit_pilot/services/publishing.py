@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 from typing import Any
 
@@ -77,6 +78,93 @@ def publish_from_run(run_dir: Path, platforms: list[str], execute: bool) -> list
                 result,
                 results,
             )
+            continue
+
+        if planned_mode == "browser_assisted":
+            submit_url = str(meta.get("submit_url") or "")
+            if not submit_url:
+                result = {
+                    "status": "error",
+                    "error": "browser_assisted: missing submit_url in meta.json",
+                    "publisher": platform,
+                }
+                _record_blocked(
+                    run_dir,
+                    platform,
+                    "browser_assisted",
+                    result["status"],
+                    "publish browser assist",
+                    result,
+                    results,
+                )
+                continue
+            if not execute:
+                result = {
+                    "status": "dry_run",
+                    "url": submit_url,
+                    "publisher": platform,
+                    "next_step": (
+                        "Run with --execute after setting ORBIT_ALLOW_BROWSER_AUTOMATION=1 and "
+                        "ORBIT_BROWSER_AUTOMATION_CONFIRM to match ORBIT_BROWSER_AUTOMATION_SECRET; "
+                        "install orbit-pilot[browser] and playwright install chromium"
+                    ),
+                }
+                record_submission(run_dir, platform, "browser_assisted", result["status"], "publish dry_run", result)
+                results.append({"platform": platform, "result": result})
+                continue
+            allow = os.environ.get("ORBIT_ALLOW_BROWSER_AUTOMATION", "").strip() == "1"
+            secret = os.environ.get("ORBIT_BROWSER_AUTOMATION_SECRET", "").strip()
+            confirm = os.environ.get("ORBIT_BROWSER_AUTOMATION_CONFIRM", "").strip()
+            if not allow or not secret or confirm != secret:
+                result = {
+                    "status": "blocked",
+                    "error": (
+                        "browser automation blocked: set ORBIT_ALLOW_BROWSER_AUTOMATION=1 and "
+                        "ORBIT_BROWSER_AUTOMATION_SECRET + ORBIT_BROWSER_AUTOMATION_CONFIRM (same value)"
+                    ),
+                    "publisher": platform,
+                }
+                _record_blocked(
+                    run_dir,
+                    platform,
+                    "browser_assisted",
+                    result["status"],
+                    "publish blocked: browser env",
+                    result,
+                    results,
+                )
+                continue
+            from orbit_pilot.browser_assist import playwright_available, run_submit_portal_assist
+
+            if not playwright_available():
+                result = {
+                    "status": "error",
+                    "error": (
+                        "playwright not installed; pip install 'orbit-pilot[browser]' "
+                        "&& playwright install chromium"
+                    ),
+                    "publisher": platform,
+                }
+                record_submission(run_dir, platform, "browser_assisted", result["status"], "browser assist", result)
+                results.append({"platform": platform, "result": result})
+                continue
+            headless = os.environ.get("ORBIT_BROWSER_HEADLESS", "1").strip() not in ("0", "false", "no")
+            try:
+                opened = run_submit_portal_assist(
+                    submit_url,
+                    run_dir / platform,
+                    headless=headless,
+                )
+                result = {
+                    "status": "browser_assist_ran",
+                    "url": opened,
+                    "publisher": platform,
+                    "note": "Operator must submit in the opened browser; then orbit mark-done --live-url …",
+                }
+            except Exception as exc:  # pragma: no cover - browser env specific
+                result = {"status": "error", "error": str(exc), "publisher": platform}
+            record_submission(run_dir, platform, "browser_assisted", result["status"], "browser assist", result)
+            results.append({"platform": platform, "result": result})
             continue
 
         remaining = cooldown_remaining(run_dir, platform, int(meta.get("cooldown_seconds", 0)))

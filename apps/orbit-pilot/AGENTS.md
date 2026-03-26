@@ -31,9 +31,33 @@ orbit check-run --run out/<campaign>/run-* --json
 
 Always prefer **`--json`** for machine parsing. Paths in JSON are strings; expand relative paths from the operator cwd.
 
+## V1: scheduling
+
+Defer work to a JSONL queue (default `~/.orbit-pilot/schedule.jsonl`, override with **`ORBIT_SCHEDULE_PATH`**):
+
+```bash
+orbit schedule-add --due 2026-03-25T18:00:00Z -- orbit publish --run out/c/run-1 --platform github --execute --json
+orbit schedule-list --json
+orbit schedule-run              # run due jobs once
+orbit schedule-run --loop       # daemon; poll ORBIT_SCHEDULE_POLL_SECONDS (default 60)
+```
+
+## V1: browser assist (Playwright)
+
+For registry rows with **`browser_fallback_opt_in`**, policy can enable assisted mode:
+
+- Set **`risk.allow_browser_fallback: true`** and **`risk.allow_browser_automation: true`** in your policy YAML.
+- **`generate`** then plans **`browser_assisted`** (manual pack still written; **`orbit next`** surfaces it).
+- **`orbit publish --run … --platform <slug> --execute`** requires:
+  - **`ORBIT_ALLOW_BROWSER_AUTOMATION=1`**
+  - **`ORBIT_BROWSER_AUTOMATION_SECRET`** and **`ORBIT_BROWSER_AUTOMATION_CONFIRM`** (same value)
+  - Optional: **`orbit publish … --browser`** sets **`ORBIT_ALLOW_BROWSER_AUTOMATION=1`** only (you still must set the secret pair).
+- Install: **`pip install 'orbit-pilot[browser]'`** then **`playwright install chromium`**.
+- Behavior: opens **`submit_url`** in Chromium; **no auto-fill** — operator pastes from **`PROMPT_USER.txt`**, then **`orbit mark-done`**. Headed wait: **`ORBIT_BROWSER_WAIT_MS`** (default 300000). Headless: **`ORBIT_BROWSER_HEADLESS=1`** (default).
+
 ## Risk policy
 
-Default bundled policy is used unless **`--policy path/to/risk.yaml`**. Policy can set `platforms.<slug>.enabled: false` or `mode: manual`. **`run.json`** stores `policy_path` for **`orbit regenerate`**.
+Default bundled policy is used unless **`--policy path/to/risk.yaml`**. Policy can set `platforms.<slug>.enabled: false` or `mode: manual`. **`run.json`** stores `policy_path` for **`orbit regenerate`**. V1 adds **`risk.allow_browser_automation`** (see above).
 
 ## Machine-readable contracts
 
@@ -72,6 +96,7 @@ orbit validate-json report out.json --json
 ## Safety (do not violate)
 
 - Do not **`publish --execute`** on manual-only or high-risk platforms without explicit human approval.
+- Do not enable **browser automation** without explicit operator consent and a matching secret pair; never commit **`ORBIT_BROWSER_AUTOMATION_SECRET`**.
 - Do not bypass **`ORBIT_WEBHOOK_SECRET`** when the server sets it.
 - Treat **credentials** as secrets; prefer env + keyring, never commit tokens.
 

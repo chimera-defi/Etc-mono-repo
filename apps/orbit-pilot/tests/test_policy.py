@@ -37,6 +37,13 @@ def test_policy_mode_override_forces_manual() -> None:
     assert d.mode == "manual"
 
 
+def test_browser_automation_policy_browser_assisted() -> None:
+    record = PlatformRecord("X", "x", "c", "", "https://example.com/submit", "browser_fallback_opt_in", "high")
+    pol = RiskPolicy(allow_browser_fallback=True, allow_browser_automation=True)
+    d = decide_platform(record, _launch(), pol)
+    assert d.mode == "browser_assisted"
+
+
 def test_load_risk_policy_from_yaml(tmp_path) -> None:
     p = tmp_path / "p.yaml"
     p.write_text(

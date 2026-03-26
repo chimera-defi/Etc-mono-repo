@@ -53,6 +53,8 @@ See `ARCHITECTURE_DIAGRAMS.md`.
 - official publishers
 - manual queue
 - browser fallback gate
+- **V1 browser assist** (optional): when operator risk policy sets `allow_browser_fallback` and `allow_browser_automation`, registry `browser_fallback_opt_in` can plan as `browser_assisted`; `publish --execute` may open `submit_url` in Playwright Chromium for manual completion (no auto-fill); gated by env `ORBIT_ALLOW_BROWSER_AUTOMATION` + matching secret pair
+- **V1 scheduling**: append-only JSONL job queue (`orbit schedule-*`), daemon polls and runs subprocess argv at or after due ISO time
 
 #### 7) Logging and Audit
 - every decision logged
@@ -80,12 +82,14 @@ See `ARCHITECTURE_DIAGRAMS.md`.
 6. Operator web UI: deferred (see `FRONTEND_VISION.md`); shareable **HTML run export** and optional **Textual TUI** live in `apps/orbit-pilot/` (`orbit export --format html`, `orbit tui`).
 7. **JSON Schema** documents ship with the package (`bundled/schemas/`) for agent validation of `--json` CLI outputs; **`orbit schemas`** lists paths; **`orbit validate-json <schema> [file]`** validates JSON (stdin if file omitted).
 8. **`run.json`** includes **`orbit_manifest_version`** (integer) and **`orbit_pilot_version`** (string); older CLIs error if manifest version is newer than supported. **`orbit check-run`** validates manifest and referenced paths.
+9. **V1** optional extras: `orbit-pilot[browser]` (Playwright) for portal assist; `python -m orbit_pilot` equals `orbit` CLI; **`orbit schedule-*`** for deferred subprocess jobs.
 
 ### Config Contract
 ```yaml
 risk:
   tolerance: low
   allow_browser_fallback: false
+  # V1: allow_browser_automation: false  # with allow_browser_fallback, enables Playwright portal assist
 platforms:
   medium:
     enabled: true
