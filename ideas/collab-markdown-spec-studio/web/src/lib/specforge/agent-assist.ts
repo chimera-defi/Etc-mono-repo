@@ -335,6 +335,44 @@ async function checkCommand(command: string, versionArg = "--version") {
   }
 }
 
+export type CliEnvironment = {
+  codexAvailable: boolean;
+  claudeAvailable: boolean;
+  preferredTool: "codex" | "claude" | "heuristic";
+  reason: string;
+};
+
+/**
+ * Detect which CLI tools are available in the runtime and which one
+ * SpecForge will prefer for agent-assisted operations.
+ */
+export async function detectCliEnvironment(): Promise<CliEnvironment> {
+  const [codexResult, claudeResult] = await Promise.all([
+    checkCommand("codex"),
+    checkCommand("claude"),
+  ]);
+
+  const codexAvailable = codexResult.available;
+  const claudeAvailable = claudeResult.available;
+  const preferCodex = process.env.PREFER_CODEX_CLI === "true";
+
+  const preferredTool: CliEnvironment["preferredTool"] =
+    preferCodex && codexAvailable
+      ? "codex"
+      : claudeAvailable
+        ? "claude"
+        : codexAvailable
+          ? "codex"
+          : "heuristic";
+
+  const reason =
+    preferredTool === "heuristic"
+      ? "Neither codex nor claude CLI found. Install one for AI-powered suggestions."
+      : `Using ${preferredTool} CLI (${preferredTool === "codex" ? "Codex" : "Claude Code"} detected)`;
+
+  return { codexAvailable, claudeAvailable, preferredTool, reason };
+}
+
 export const getAgentAssistToolStatuses = cache(async (): Promise<AgentAssistToolStatus[]> => {
   const [codex, claude] = await Promise.all([checkCommand("codex"), checkCommand("claude")]);
 
