@@ -11,9 +11,9 @@ Operator checklist to complete **V1 milestone 4** in [`V1_ROADMAP.md`](./V1_ROAD
 
 ## Run pipeline
 
-- [ ] `orbit plan --launch … --platforms … --json` → fix `missing_fields` / `questions` until satisfied
-- [ ] `orbit doctor --launch … --platforms … --json` → note `missing_secrets` / `missing_payload` for API rows
-- [ ] `orbit generate --launch … --platforms … --out out/ --json` → record `run_dir`
+- [ ] **Either** `orbit pipeline --launch … --platforms … --out out/ --json` (expect `ok_all: true` after fixing launch + secrets) **or** stepwise: `plan` → `doctor` → `generate`
+- [ ] If stepwise: fix `missing_fields` / `questions` until satisfied; note `missing_secrets` / `missing_payload` for API rows
+- [ ] Record `run_dir` from `generate` or `pipeline.generate.run_dir`
 - [ ] `orbit check-run --run <run_dir> --json`
 - [ ] `orbit guide --run <run_dir> --json` and/or `orbit next --run <run_dir> --json`
 
