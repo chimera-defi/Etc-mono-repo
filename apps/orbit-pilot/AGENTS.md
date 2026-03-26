@@ -6,8 +6,11 @@
 
 ```bash
 cd apps/orbit-pilot && pip install -e ".[dev]"
+# or: uv pip install -e ".[dev]"
 orbit --help && orbit version
 ```
+
+**Discovery:** `orbit --help` lists subcommands with short descriptions; `orbit <cmd> --help` for flags. Root help mentions `pipeline`, `schemas`, `validate-json`, and `python -m orbit_pilot`.
 
 ## End-to-end (machine)
 

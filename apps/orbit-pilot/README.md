@@ -8,11 +8,24 @@
 
 ## Install
 
+**Standard (pip):**
+
 ```bash
 cd apps/orbit-pilot
 pip install -e ".[dev]"
 orbit --help
 ```
+
+**Modern tooling ([uv](https://github.com/astral-sh/uv))** — same package, faster resolver/install:
+
+```bash
+cd apps/orbit-pilot
+uv venv && source .venv/bin/activate   # or: uv run …
+uv pip install -e ".[dev]"
+orbit --help
+```
+
+Optional extras: `orbit-pilot[tui]`, `orbit-pilot[browser]` (e.g. `uv pip install -e ".[dev,browser]"`).
 
 ## One-minute flow
 
