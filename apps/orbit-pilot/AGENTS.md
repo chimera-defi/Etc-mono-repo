@@ -63,12 +63,14 @@ Install: `pip install -e ".[browser]"` && `playwright install chromium`. Never p
 
 ## CI
 
-`.github/workflows/orbit-pilot.yml`: ruff, pytest, `registry-lint`, job `browser-e2e` with `RUN_BROWSER_E2E=1`. Live directory sites: operator-owned.
+`.github/workflows/orbit-pilot.yml`: single job — install **`[dev,browser]`**, **`playwright install --with-deps chromium`**, then **ruff**, **`orbit_pilot registry-lint`**, **full pytest** with **`CI` + `RUN_BROWSER_E2E`** so **no tests are skipped**. Live directory sites: operator-owned.
 
 ## Verify
 
 ```bash
 cd apps/orbit-pilot && ruff check src tests && pytest -q
+# Full parity with CI (includes Playwright E2E):
+# CI=1 RUN_BROWSER_E2E=1 pip install -e '.[dev,browser]' && playwright install chromium && pytest -q
 ```
 
 **Specs:** `ideas/orbit-pilot/` · **Tracker:** `ideas/orbit-pilot/V1_ROADMAP.md`
