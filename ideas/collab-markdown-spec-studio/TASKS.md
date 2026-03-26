@@ -56,6 +56,10 @@
 - [x] Agent service job workflow: POST/GET spec-jobs, per-job status/artifacts/retry/review-decision endpoints, autonomous and assisted modes.
 - [x] Export clarification blocking gate: unanswered critical clarifications return 409 CLARIFICATIONS_REQUIRED; bypass with `?force=true`.
 - [x] Delivery loop with intents, claims, context, handoff artifact, and meta-learnings.
+- [x] Section-level iteration endpoint: `POST /documents/:id/sections/:blockId/iterate` wires `iterate.ts` into API route.
+- [x] Depth gates logic: `evaluateDepthGates()` in `readiness.ts` with 6 gates enforced on export (bypass: `?force=true`).
+- [x] POST /documents/:id/handoff endpoint: full handoff JSON with planning provenance + conditional designSystem/security.
+- [x] ARCHITECTURE_DECISIONS.md updated: Decisions 24, 25, 26, 27, 28, 31 reflect current implementation status.
 - [x] Shared orchestrator backlog parsing now feeds both the parity runner and the in-product delivery-loop panel.
 - [x] Runner status/brief/context now stay aligned with the live backlog instead of stale historical intents.
 

@@ -349,6 +349,104 @@ Convert design reviewer feedback into a governed patch proposal targeting the UX
 
 ---
 
+## Section Iteration API
+
+### POST /api/documents/:id/sections/:blockId/iterate
+
+Run AI-assisted iteration on a specific document section. Produces a governed patch proposal targeting the specified block.
+
+**Request:**
+```json
+{
+  "message": "string (1-2000 chars)",
+  "actor_id": "string",
+  "actor_type": "human | agent"
+}
+```
+
+**Response (201 Created):**
+```json
+{
+  "patch_id": "patch_...",
+  "block_id": "blk_...",
+  "proposed_content": "...",
+  "tool": "claude_cli | heuristic"
+}
+```
+
+**Flow:** Instruction + section content + doc context are injected as agent context. Claude CLI generates revised content (or heuristic fallback). A PatchProposal targeting the block is created and queued for review.
+
+**Error responses:**
+- `400 VALIDATION_FAILED` - Invalid request body
+- `404` - Document or block not found
+- `500 SECTION_ITERATE_FAILED` - Internal iteration error
+
+---
+
+## Depth Gates (Export Blocking)
+
+`GET/POST /api/documents/:id/export` enforces depth gates unless `?force=true`.
+
+**Gates:**
+
+| Gate ID | Check |
+|---------|-------|
+| `PROBLEM_DEFINED` | Problem section exists and is substantive (>50 chars) |
+| `GOALS_DEFINED` | Goals section has at least 1 goal item |
+| `UX_PACK_PRESENT` | UX Pack section present (unless API-only or CLI-only scope) |
+| `NO_OPEN_CRITICAL_CLARIFICATIONS` | No unanswered critical clarifications |
+| `MIN_READINESS_SCORE` | Readiness score >= 50 |
+| `TASKS_DEFINED` | Tasks section has at least 1 task item |
+
+**On gate failure (422):**
+```json
+{
+  "ok": false,
+  "error": { "message": "Export blocked: depth gates failed", "code": "DEPTH_GATES_FAILED" },
+  "gates": [ { "id": "PROBLEM_DEFINED", "label": "...", "passed": false, "reason": "..." } ],
+  "blockers": [ "Problem section content is too short (must be >50 chars)" ]
+}
+```
+
+**Bypass:** `?force=true` proceeds with export and includes gate results as warnings in the response.
+
+---
+
+## Handoff API
+
+### GET /api/documents/:id/handoff
+
+Fetch the starter-bundle handoff for a document.
+
+### POST /api/documents/:id/handoff
+
+Emit the full handoff JSON with export bundle + planning stage provenance.
+
+**Response (200):**
+```json
+{
+  "version": "1",
+  "documentId": "doc_...",
+  "workspaceId": "ws_...",
+  "generatedAt": "2026-03-26T...",
+  "generatedBy": { "actor_type": "human", "actor_id": "..." },
+  "planningSession": {
+    "session_id": "ps_...",
+    "stages": [
+      { "name": "discovery", "status": "completed", "patch_id": "...", "outputs": {...} },
+      { "name": "design-review", "status": "skipped", "patch_id": null, "outputs": null }
+    ]
+  },
+  "exportBundle": { "prd": "...", "spec": "...", "tasks": "...", "agentSpec": "..." },
+  "executionBrief": "...",
+  "launchPacket": "..."
+}
+```
+
+Conditionally includes `designSystem` when design-review is completed and `security` when security-review is completed.
+
+---
+
 ## Job Status Values
 
 | Status | Meaning | Next action |
