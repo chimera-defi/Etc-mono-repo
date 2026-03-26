@@ -7,7 +7,7 @@ from typing import Any
 
 from fastapi import FastAPI, Header, HTTPException
 
-app = FastAPI(title="Orbit Pilot Webhook", version="0.3.5")
+app = FastAPI(title="Orbit Pilot Webhook", version="0.3.6")
 
 
 @app.get("/health")

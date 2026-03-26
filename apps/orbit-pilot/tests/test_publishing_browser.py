@@ -54,7 +54,13 @@ def test_browser_assisted_execute_opens_browser(tmp_path: Path, monkeypatch) -> 
     with patch("orbit_pilot.browser_assist.playwright_available", return_value=True):
         with patch(
             "orbit_pilot.browser_assist.run_submit_portal_assist",
-            return_value="https://example.com/submit",
+            return_value={
+                "url": "https://example.com/submit",
+                "autofill": False,
+                "auto_submit": False,
+                "persistent_profile": False,
+                "auto_submit_error": None,
+            },
         ) as m:
             out = publish_from_run(run_dir, ["hn"], execute=True)
     assert out[0]["result"]["status"] == "browser_assist_ran"

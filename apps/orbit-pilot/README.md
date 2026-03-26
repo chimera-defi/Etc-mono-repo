@@ -1,8 +1,10 @@
-# Orbit Pilot (CLI + services)
+# Orbit Pilot
 
-Launch distribution operator: one `launch.yaml`, many platform-specific drafts, UTM-tagged links, SQLite + JSONL audit, optional **risk policy YAML**, **LangGraph** plan orchestration (`orchestrate`), and a minimal **FastAPI** webhook (`orbit serve`).
+**What it is:** CLI that turns one **`launch.yaml`** + a **platform registry** into per-site submission packs under **`out/`**, optional **API publish** (dry-run by default), **audit**, and **agent-friendly `--json`**.
 
-Specs and product docs live in [`../../ideas/orbit-pilot/`](../../ideas/orbit-pilot/). **V1 progress:** [`../../ideas/orbit-pilot/V1_ROADMAP.md`](../../ideas/orbit-pilot/V1_ROADMAP.md). **Agents:** [`AGENTS.md`](./AGENTS.md). **`orbit schemas`** / **`orbit validate-json`** for bundled JSON Schemas. **`orbit check-run`** validates `run.json` and paths. **`orbit registry-lint`** checks platform YAML for HTTPS URLs and placeholder links. **Contributing:** [`CONTRIBUTING.md`](./CONTRIBUTING.md).
+**Human: start here → [`HUMAN_GUIDE.md`](./HUMAN_GUIDE.md)** (end-to-end flow).  
+**Agents → [`AGENTS.md`](./AGENTS.md)** (schemas, `orbit pipeline`, validation).  
+**Specs / roadmap → [`../../ideas/orbit-pilot/`](../../ideas/orbit-pilot/)** ([`V1_SHIPPED.md`](../../ideas/orbit-pilot/V1_SHIPPED.md), [`V1_ROADMAP.md`](../../ideas/orbit-pilot/V1_ROADMAP.md)).
 
 ## Install
 
@@ -12,71 +14,47 @@ pip install -e ".[dev]"
 orbit --help
 ```
 
-## Quick start
+## One-minute flow
 
 ```bash
-mkdir ~/my-launch && cd ~/my-launch
-orbit init
-# edit launch.yaml (add publish.github.repo for real GitHub releases)
-orbit plan --launch launch.yaml --platforms seed_platforms.yaml
-# optional: --policy risk.defaults.yaml (copied by orbit init; defaults bundled)
-orbit doctor --launch launch.yaml --platforms seed_platforms.yaml
-orbit pipeline --launch launch.yaml --platforms seed_platforms.yaml --out out/ --json   # plan+doctor+generate+check-run
-orbit generate --launch launch.yaml --platforms seed_platforms.yaml --out out/
-# runs land under out/<campaign-id>/run-<timestamp>/ (default campaign id from product name)
-orbit campaigns --out out/
-orbit latest --out out/ --campaign my-launch
-orbit guide --run out/<campaign-id>/run-*
-orbit next --run out/<campaign-id>/run-*
-orbit report --run out/<campaign-id>/run-*
-orbit export --run out/<campaign-id>/run-* --format json
-orbit export --run out/<campaign-id>/run-* --format html   # writes run dir report.html if no -o
-orbit export --run out/<campaign-id>/run-* --format md -o launch-report.md
-orbit audit --run out/<campaign-id>/run-* --json
-# optional TUI (pip install 'orbit-pilot[tui]'): orbit tui --run out/<campaign-id>/run-*
-# API publish is dry-run by default; use --execute once doctor/guide says a platform is ready
-orbit publish --run out/<campaign-id>/run-* --platform github
-orbit publish --run out/<campaign-id>/run-* --platform dev --execute
-# regenerate only the platforms you want to revise inside the same run
-orbit regenerate --run out/<campaign-id>/run-* --platform github --platform product_hunt
+orbit init --dir ~/my-launch && cd ~/my-launch
+# edit launch.yaml
+orbit pipeline --launch launch.yaml --platforms seed_platforms.yaml --out out/ --json
+orbit guide --run out/*/run-*    # then mark-done / publish as in HUMAN_GUIDE.md
 ```
 
-## Full buildout pieces
+## Reference
 
-| Piece | What |
-|-------|------|
-| Risk policy | `risk.defaults.yaml`: `risk.tolerance`, `allow_browser_fallback`, optional `platforms.<slug>.enabled` / `mode` |
-| LangGraph | `run_plan_graph` / `run_generate_graph` in `orbit_pilot.orchestrate` (plan + full generate pipeline) |
-| Webhook | `orbit serve` — `GET /health`, `POST /hooks/launch`; `ORBIT_WEBHOOK_SECRET` + `X-Orbit-Secret`; optional `ORBIT_WEBHOOK_ALLOW_GENERATE=1` + JSON body `launch_path`, `platforms_path`, `out` to run generate on the server |
-| CTA policy | `launch.yaml` `cta_policy` + registry `cta_in_body` — omit tracked URL from body text where inappropriate |
-| Registry images | `image_constraints.max_width` / `max_height` per platform in `seed_platforms.yaml` |
-| Manual notes | `orbit mark-done --note "…"` stored in SQLite + result JSON |
-| Audit tail | `orbit audit [--tail N]` prints `audit.jsonl` events |
-| HTML report | `orbit export --format html` — single-file dark-theme table for sharing |
-| TUI | `orbit tui --run …` after `pip install 'orbit-pilot[tui]'` |
-| **V1 schedule** | `schedule-add` (`--timezone`, `--recurrence`) / `schedule-list` / `schedule-run` / `schedule-cancel`; argv must be `orbit` or `python -m orbit_pilot` unless `ORBIT_SCHEDULE_ALLOW_ARBITRARY=1` |
-| **V1 browser assist** | Policy + Playwright; optional **supervised autofill** via registry `browser_form_selectors` + `allow_browser_autofill` + `ORBIT_ALLOW_BROWSER_AUTOFILL=1` |
-| **Agent one-shot** | `orbit pipeline --json` — single JSON + exit code; `orbit init --preset walletradar` for WalletRadar-shaped `launch.yaml` |
-| **Registry vs matrix** | Seed list tracks `ideas/orbit-pilot/PLATFORM_MATRIX.md` — not an exhaustive “all backlink providers on the internet” list |
+| Topic | Doc / command |
+|--------|----------------|
+| Full E2E steps | [`HUMAN_GUIDE.md`](./HUMAN_GUIDE.md) |
+| JSON + schemas | [`AGENTS.md`](./AGENTS.md), `orbit schemas`, `orbit validate-json` |
+| Credentials | Env + keyring (table below) |
+| Contribute | [`CONTRIBUTING.md`](./CONTRIBUTING.md) |
 
-## Credentials
+## Capabilities (short)
 
-Official publishers read credentials from environment variables first and then OS keychain via `keyring`.
+| Area | Notes |
+|------|--------|
+| Core | `plan`, `doctor`, `generate`, `regenerate`, `publish`, `mark-done`, `report`, `next`, `guide`, `campaigns`, `latest`, `export` (json/md/html), `audit`, `init`, `serve` |
+| Agents | `orbit pipeline --json`, bundled JSON Schemas, `check-run`, `registry-lint` |
+| Schedule | `schedule-add` / `list` / `run` / `cancel` |
+| Browser | Playwright assist + optional autofill + optional auto-submit; `ORBIT_BROWSER_USER_DATA_DIR` for logged-in profile |
+| Optional | TUI `[tui]`, webhook `orbit serve` |
+
+## Credentials (API publishers)
 
 | Variable | Platform |
 |----------|----------|
-| `GITHUB_TOKEN` | GitHub releases |
+| `GITHUB_TOKEN` | GitHub |
 | `DEVTO_API_KEY` | DEV |
 | `MEDIUM_TOKEN` + `publish.medium.author_id` in launch.yaml | Medium |
 | `LINKEDIN_ACCESS_TOKEN` + `publish.linkedin.author` | LinkedIn |
 | `X_ACCESS_TOKEN` | X |
 
-Manual platforms never call `publish` with `--execute`; use `orbit mark-done --live-url … [--note …]` after posting by hand.
-
-## Tests
+## Verify
 
 ```bash
 cd apps/orbit-pilot
-pytest
-ruff check src tests
+ruff check src tests && pytest -q
 ```

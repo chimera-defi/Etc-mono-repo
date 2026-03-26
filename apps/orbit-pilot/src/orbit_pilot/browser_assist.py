@@ -57,6 +57,15 @@ def apply_browser_autofill(page: Any, payload: dict[str, Any], selectors: dict[s
     _fill_if(page, url_sel, url)
 
 
+def _submit_selector(selectors: dict[str, str]) -> str:
+    return (
+        selectors.get("submit")
+        or selectors.get("submit_button")
+        or selectors.get("submit_selector")
+        or ""
+    ).strip()
+
+
 def run_submit_portal_assist(
     submit_url: str,
     payload: dict[str, Any],
@@ -64,17 +73,58 @@ def run_submit_portal_assist(
     *,
     headless: bool,
     autofill: bool,
-) -> str:
+    auto_submit: bool,
+) -> dict[str, Any]:
+    """
+    Open submit_url. Optional autofill + optional click submit (both gated upstream).
+    Use ORBIT_BROWSER_USER_DATA_DIR for a persistent Chromium profile (logged-in sessions).
+    """
     from playwright.sync_api import sync_playwright
 
     wait_ms = int(os.environ.get("ORBIT_BROWSER_WAIT_MS", "300000" if not headless else "3000"))
+    user_data = os.environ.get("ORBIT_BROWSER_USER_DATA_DIR", "").strip()
+    out: dict[str, Any] = {
+        "url": submit_url,
+        "autofill": bool(autofill and selectors),
+        "auto_submit": False,
+        "auto_submit_error": None,
+        "persistent_profile": bool(user_data),
+    }
+
+    submit_sel = _submit_selector(selectors)
+    do_submit = bool(auto_submit and autofill and selectors and submit_sel)
+
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=headless)
-        context = browser.new_context()
-        page = context.new_page()
-        page.goto(submit_url, wait_until="domcontentloaded", timeout=120000)
-        if autofill and selectors:
-            apply_browser_autofill(page, payload, selectors)
-        page.wait_for_timeout(wait_ms)
-        browser.close()
-    return submit_url
+        if user_data:
+            context = p.chromium.launch_persistent_context(
+                user_data,
+                headless=headless,
+                args=["--disable-blink-features=AutomationControlled"],
+            )
+            page = context.pages[0] if context.pages else context.new_page()
+        else:
+            browser = p.chromium.launch(headless=headless)
+            context = browser.new_context()
+            page = context.new_page()
+        try:
+            page.goto(submit_url, wait_until="domcontentloaded", timeout=120000)
+            if autofill and selectors:
+                apply_browser_autofill(page, payload, selectors)
+            if do_submit:
+                out["auto_submit"] = True
+                try:
+                    page.click(submit_sel, timeout=15000)
+                    page.wait_for_load_state("domcontentloaded", timeout=20000)
+                except Exception as exc:  # pragma: no cover - browser specific
+                    out["auto_submit_error"] = str(exc)
+            elif auto_submit and autofill and selectors and not submit_sel:
+                out["auto_submit_error"] = (
+                    "auto_submit requested but registry missing submit/submit_button selector"
+                )
+            page.wait_for_timeout(wait_ms)
+        finally:
+            context.close()
+            if not user_data:
+                browser.close()
+
+    return out
