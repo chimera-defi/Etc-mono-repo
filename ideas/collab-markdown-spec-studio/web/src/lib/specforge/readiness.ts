@@ -125,15 +125,25 @@ export function evaluateReadiness(input: {
 // ---------------------------------------------------------------------------
 
 /**
+ * Count list items (bullet or numbered) in markdown content.
+ */
+function countListItems(content: string): number {
+  const lines = content.split("\n");
+  return lines.filter((l) => /^\s*[-*]\s+\S/.test(l) || /^\s*\d+\.\s+\S/.test(l)).length;
+}
+
+/**
  * Evaluate quality gates that block export unless `?force=true` is set.
  *
  * Gates:
- * 1. PROBLEM_DEFINED — Problem section exists and is substantive (>50 chars)
- * 2. GOALS_DEFINED — Goals section has at least 1 goal item
+ * 1. PROBLEM_DEFINED — Problem section exists and is substantive (>100 chars)
+ * 2. GOALS_DEFINED — Goals section has at least 2 goal items
  * 3. UX_PACK_PRESENT — UX Pack section exists (unless metadata marks API-only)
  * 4. NO_OPEN_CRITICAL_CLARIFICATIONS — no unanswered critical clarifications
  * 5. MIN_READINESS_SCORE — readiness score >= 50
- * 6. TASKS_DEFINED — Tasks section has at least 1 task item
+ * 6. TASKS_DEFINED — Tasks section has at least 2 task items
+ * 7. REQUIREMENTS_DEFINED — Requirements section has at least 1 item
+ * 8. SUCCESS_SIGNALS_DEFINED — Success Signals section present with at least 1 item
  */
 export function evaluateDepthGates(input: {
   document: DocumentRecord;
@@ -144,33 +154,33 @@ export function evaluateDepthGates(input: {
   const { document, clarifications, readinessScore } = input;
   const gates: DepthGate[] = [];
 
-  // Gate 1: PROBLEM_DEFINED
+  // Gate 1: PROBLEM_DEFINED (tightened: >100 chars, not 50)
   const problemBlock = findSectionBlock(document, "Problem");
   const problemContent = problemBlock?.content ?? "";
   gates.push({
     id: "PROBLEM_DEFINED",
     label: "Problem section is substantive",
-    passed: problemContent.trim().length > 50,
+    passed: problemContent.trim().length > 100,
     reason:
-      problemContent.trim().length > 50
+      problemContent.trim().length > 100
         ? undefined
         : problemBlock
-          ? "Problem section content is too short (must be >50 chars)"
+          ? `Problem section content is too short (${problemContent.trim().length} chars, must be >100)`
           : "Problem section is missing",
   });
 
-  // Gate 2: GOALS_DEFINED
+  // Gate 2: GOALS_DEFINED (tightened: >=2 goals, not 1)
   const goalsBlock = findSectionBlock(document, "Goals");
   const goalsContent = goalsBlock?.content ?? "";
-  const hasGoalItem = /[-*]\s+\S/.test(goalsContent) || /^\d+\.\s+\S/m.test(goalsContent);
+  const goalCount = countListItems(goalsContent);
   gates.push({
     id: "GOALS_DEFINED",
-    label: "Goals section has at least 1 goal",
-    passed: hasGoalItem,
-    reason: hasGoalItem
+    label: "Goals section has at least 2 goals",
+    passed: goalCount >= 2,
+    reason: goalCount >= 2
       ? undefined
       : goalsBlock
-        ? "Goals section has no list items"
+        ? `Goals section has ${goalCount} item${goalCount === 1 ? "" : "s"} (need at least 2)`
         : "Goals section is missing",
   });
 
@@ -214,19 +224,49 @@ export function evaluateDepthGates(input: {
         : `Readiness score is ${readinessScore} (minimum: 50)`,
   });
 
-  // Gate 6: TASKS_DEFINED
+  // Gate 6: TASKS_DEFINED (tightened: >=2 tasks, not 1)
   const tasksBlock = findSectionBlock(document, "Tasks");
   const tasksContent = tasksBlock?.content ?? "";
-  const hasTaskItem = /[-*]\s+\S/.test(tasksContent) || /^\d+\.\s+\S/m.test(tasksContent);
+  const taskCount = countListItems(tasksContent);
   gates.push({
     id: "TASKS_DEFINED",
-    label: "Tasks section has at least 1 task item",
-    passed: hasTaskItem,
-    reason: hasTaskItem
+    label: "Tasks section has at least 2 task items",
+    passed: taskCount >= 2,
+    reason: taskCount >= 2
       ? undefined
       : tasksBlock
-        ? "Tasks section has no list items"
+        ? `Tasks section has ${taskCount} item${taskCount === 1 ? "" : "s"} (need at least 2)`
         : "Tasks section is missing",
+  });
+
+  // Gate 7: REQUIREMENTS_DEFINED (new)
+  const requirementsBlock = findSectionBlock(document, "Requirements");
+  const requirementsContent = requirementsBlock?.content ?? "";
+  const requirementCount = countListItems(requirementsContent);
+  gates.push({
+    id: "REQUIREMENTS_DEFINED",
+    label: "Requirements section has at least 1 item",
+    passed: requirementCount >= 1,
+    reason: requirementCount >= 1
+      ? undefined
+      : requirementsBlock
+        ? "Requirements section has no list items"
+        : "Requirements section is missing",
+  });
+
+  // Gate 8: SUCCESS_SIGNALS_DEFINED (new)
+  const successBlock = findSectionBlock(document, "Success Signals");
+  const successContent = successBlock?.content ?? "";
+  const successCount = countListItems(successContent);
+  gates.push({
+    id: "SUCCESS_SIGNALS_DEFINED",
+    label: "Success Signals section has at least 1 item",
+    passed: successCount >= 1,
+    reason: successCount >= 1
+      ? undefined
+      : successBlock
+        ? "Success Signals section has no list items"
+        : "Success Signals section is missing",
   });
 
   const blockers = gates
