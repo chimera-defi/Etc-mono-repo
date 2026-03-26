@@ -1,50 +1,67 @@
 import { NextResponse } from "next/server";
 
 import { error } from "@/lib/specforge/api-response";
-import { exportDocument, listClarifications } from "@/lib/specforge/store";
+import {
+  exportDocument,
+  getDocument,
+  listClarifications,
+  listCommentThreads,
+  listPatches,
+} from "@/lib/specforge/store";
 import { getCurrentWorkspaceAccess } from "@/lib/specforge/workspace-access";
 
 type Params = {
   params: Promise<{ id: string }>;
 };
 
-/**
- * Check for unanswered critical clarifications. If any exist and force
- * is not set, return a 409 blocking response.
- */
-async function checkCriticalClarifications(
-  documentId: string,
-  workspaceId: string,
-  force: boolean,
-): Promise<NextResponse | null> {
-  if (force) return null;
-
-  const clarifications = await listClarifications(documentId, { workspaceId });
-  const unansweredCritical = clarifications.filter(
-    (c) => c.priority === "critical" && c.status === "open",
-  );
-
-  if (unansweredCritical.length > 0) {
-    return error(
-      "Export blocked: unanswered critical clarifications must be resolved first",
-      "CLARIFICATIONS_REQUIRED",
-      409,
-    );
-  }
-
-  return null;
-}
-
 async function buildResponse(
   id: string,
   workspaceId: string,
   force: boolean,
 ) {
-  const blocked = await checkCriticalClarifications(id, workspaceId, force);
-  if (blocked) return blocked;
+  const document = await getDocument(id, { workspaceId });
+  if (!document) {
+    return error("Document not found", "DOCUMENT_NOT_FOUND", 404);
+  }
+
+  const [patches, clarifications] = await Promise.all([
+    listPatches(id, { workspaceId }),
+    listClarifications(id, { workspaceId }),
+  ]);
+
+  // Evaluate readiness-derived depth gates
+  const { evaluateReadiness } = await import("@/lib/specforge/readiness");
+  const comments = await listCommentThreads(id, { workspaceId });
+  const readiness = evaluateReadiness({ document, patches, comments, clarifications });
+  const gateReport = readiness.gates;
+
+  // If gates fail and force is not set, block export
+  if (gateReport && !gateReport.passed && !force) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: {
+          message: "Export blocked: depth gates failed",
+          code: "DEPTH_GATES_FAILED",
+        },
+        gates: gateReport.gates,
+        blockers: gateReport.blockers,
+      },
+      { status: 422 },
+    );
+  }
 
   const bundle = await exportDocument(id, { workspaceId });
-  return NextResponse.json(bundle, {
+
+  // Include gate results in the response
+  const response = {
+    ...bundle,
+    gates: gateReport
+      ? { passed: gateReport.passed, results: gateReport.gates }
+      : undefined,
+  };
+
+  return NextResponse.json(response, {
     headers: {
       "Content-Disposition": `inline; filename="${id}-export.json"`,
     },

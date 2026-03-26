@@ -90,6 +90,34 @@ The current branch also includes a first explicit entitlement layer:
 - Export endpoint returns `409 CLARIFICATIONS_REQUIRED` when unanswered critical-priority clarifications exist; callers pass `?force=true` to bypass.
 - Writes accepted answers back into canonical doc sections and decision log.
 
+### 8b) Depth Gates (Export Quality Enforcement)
+The export route enforces 6 depth gates that must all pass before export proceeds. Bypass with `?force=true`.
+
+| Gate | ID | Check |
+|------|----|-------|
+| Problem Defined | `PROBLEM_DEFINED` | Problem section exists and content >50 chars |
+| Goals Defined | `GOALS_DEFINED` | Goals section has at least 1 list item |
+| UX Pack Present | `UX_PACK_PRESENT` | UX Pack section exists (bypassed if scope is API-only or CLI-only) |
+| No Open Critical Clarifications | `NO_OPEN_CRITICAL_CLARIFICATIONS` | No unanswered clarifications with priority `critical` |
+| Minimum Readiness Score | `MIN_READINESS_SCORE` | Readiness score >= 50 |
+| Tasks Defined | `TASKS_DEFINED` | Tasks section has at least 1 list item |
+
+On failure: HTTP 422 with `DEPTH_GATES_FAILED` error code, gate results, and blocker descriptions. On `?force=true`: export proceeds with gate results included as warnings in the response.
+
+Gate results are also included in the readiness report from `evaluateReadiness()`.
+
+### 8c) Section-Level Iteration
+`POST /documents/:id/sections/:blockId/iterate` enables AI-assisted iteration on individual document sections.
+
+Flow:
+1. User provides an instruction (1-1000 chars) targeting a specific block
+2. The iterate engine injects section content + document context as agent context
+3. Claude CLI (or heuristic fallback) generates revised section content
+4. A governed patch proposal is created targeting the block, queued for review
+5. The patch follows the same accept/reject/cherry-pick workflow as all other patches
+
+All iterations are attributed and reversible through the governed patch model.
+
 ### 9) Delivery Parity Orchestrator (Build Loop)
 - Reads the approved spec plus the remaining parity backlog.
 - Generates the next highest-priority Codex pass brief automatically.
@@ -191,7 +219,7 @@ The following features and capabilities are explicitly deferred to Phase 2, 3, o
 - AI orchestration beyond the patch workflow (Phase 2+) — **Note: Guided Plan Mode (Component 10) is an exception; it uses governed patch proposals, so it remains within the patch workflow contract.**
 - Real-time audio/video collaboration (Phase 4+)
 - Custom branding and theming (Phase 2+)
-- Depth gates and recap enforcement (Phase 2+) — **Note: Claimed in Decision 18 but not implemented. Clarifications table exists; logic layer deferred.**
+- Depth gates and recap enforcement (Phase 2+) — **Note: Depth gates are now implemented (`evaluateDepthGates()` in `readiness.ts`). Export route enforces 6 gates unless `?force=true`. Recap enforcement remains deferred.**
 - Multi-user cursor presence and awareness (Phase 2) — **Note: basic presence and cursor rendering are implemented; broader multiplayer validation remains pending.**
 - Hosted multiplayer validation and design-partner reliability work (post-parity SaaS) — **Local concurrent-user coverage exists; hosted validation remains pending.**
 - Auto-rebase for stale patches (Phase 2) — **Spec says reject stale; implementation partially done but not tested.**
