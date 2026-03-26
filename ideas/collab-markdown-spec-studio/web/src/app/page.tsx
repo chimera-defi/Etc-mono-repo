@@ -24,8 +24,8 @@ export default async function LandingPage({ searchParams }: Props) {
       <nav className={styles.nav}>
         <div className={styles.brand}>SpecForge</div>
         <div className={styles.navLinks}>
-          <Link href="/pricing" className={styles.navLink}>
-            Pricing
+          <Link href="/download" className={styles.navLink}>
+            Download
           </Link>
           <Link href="/workspace" className={styles.navLink}>
             Open workspace
@@ -42,9 +42,16 @@ export default async function LandingPage({ searchParams }: Props) {
             <Link href="/workspace" className={styles.primaryCta}>
               Launch workspace
             </Link>
-            <Link href="/pricing" className={styles.secondaryCta}>
-              See pricing
+            <Link href="/download" className={styles.secondaryCta}>
+              Get the alpha
             </Link>
+          </div>
+          <div className={styles.callout}>
+            <strong>Current release candidate</strong>
+            <p>
+              SpecForge already works as a local multiplayer alpha. Desktop packaging is next,
+              pricing comes after distribution and design-partner usage are clearer.
+            </p>
           </div>
         </div>
 
