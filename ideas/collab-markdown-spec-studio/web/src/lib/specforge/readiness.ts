@@ -18,6 +18,7 @@ const requiredSections = [
   "Goals",
   "Non-Goals",
   "Requirements",
+  "UX Pack",
   "Tasks",
 ];
 
