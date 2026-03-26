@@ -1,3 +1,48 @@
+:root {
+  /* Brand colors */
+  --sf-ink: #1c1a17;
+  --sf-ink-dark: #18212b;
+  --sf-surface: #efe4d5;
+  --sf-surface-light: #f7f4ec;
+  --sf-surface-warm: #fff9f3;
+  --sf-surface-card: rgba(255, 255, 255, 0.72);
+
+  /* Accent */
+  --sf-teal: #0f766e;
+  --sf-teal-hover: #0d6460;
+  --sf-teal-subtle: rgba(15, 118, 110, 0.08);
+  --sf-teal-border: rgba(15, 118, 110, 0.3);
+
+  /* Info / provenance */
+  --sf-blue: #174f67;
+  --sf-blue-subtle: rgba(17, 106, 138, 0.1);
+  --sf-blue-border: rgba(17, 106, 138, 0.18);
+
+  /* Semantic */
+  --sf-success: #1b6a3d;
+  --sf-success-subtle: rgba(33, 122, 69, 0.12);
+  --sf-warning: #8a5310;
+  --sf-warning-subtle: rgba(183, 106, 18, 0.14);
+  --sf-danger: #8c1f1f;
+  --sf-danger-subtle: rgba(163, 43, 43, 0.12);
+
+  /* Muted text */
+  --sf-muted: #4a5b68;
+  --sf-muted-warm: #5e554a;
+  --sf-muted-mid: #6f6559;
+  --sf-muted-light: #7a6d5e;
+
+  /* Borders */
+  --sf-border: rgba(28, 26, 23, 0.1);
+  --sf-border-mid: rgba(28, 26, 23, 0.16);
+
+  /* Radius */
+  --sf-radius-sm: 0.75rem;
+  --sf-radius: 1rem;
+  --sf-radius-lg: 1.5rem;
+  --sf-radius-pill: 999px;
+}
+
 html,
 body {
   max-width: 100vw;
@@ -5,8 +50,8 @@ body {
 }
 
 body {
-  color: #1c1a17;
-  background: #efe4d5;
+  color: var(--sf-ink);
+  background: var(--sf-surface);
   font-family: var(--font-geist-sans), sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -33,27 +78,27 @@ input {
 .statusChip {
   display: inline-flex;
   align-items: center;
-  border-radius: 999px;
+  border-radius: var(--sf-radius-pill);
   padding: 0.18rem 0.5rem;
   margin-right: 0.4rem;
   font-size: 0.72rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  background: rgba(28, 26, 23, 0.08);
+  background: var(--sf-border);
 }
 
 .statusChip--success {
-  background: rgba(33, 122, 69, 0.12);
-  color: #1b6a3d;
+  background: var(--sf-success-subtle);
+  color: var(--sf-success);
 }
 
 .statusChip--warning {
-  background: rgba(183, 106, 18, 0.14);
-  color: #8a5310;
+  background: var(--sf-warning-subtle);
+  color: var(--sf-warning);
 }
 
 .statusChip--neutral {
-  background: rgba(28, 26, 23, 0.08);
+  background: var(--sf-border);
   color: #433a31;
 }
 
