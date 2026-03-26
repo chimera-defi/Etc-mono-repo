@@ -1,5 +1,7 @@
 ## Orbit Pilot Platform Matrix
 
+**Seed registry parity:** bundled `apps/orbit-pilot/src/orbit_pilot/bundled/seed_platforms.yaml` is intended to match this table (one row per platform). Extend the YAML when you add rows here.
+
 | Platform | Category | Automation feasibility | Best format | Risk | Official URL |
 |---|---|---|---|---|---|
 | Medium | Content | Existing integration tokens only; else manual | article | Medium | https://help.medium.com/hc/en-us/articles/213480228-API-Importing |
@@ -12,7 +14,7 @@
 | Crunchbase | Company profile | Treat as manual unless confirmed approved write path exists | company profile | Medium | https://support.crunchbase.com/hc/en-us/articles/115011823988-How-do-I-create-a-Crunchbase-profile |
 | Hacker News | Community | Manual submission | concise title + link | Medium | https://github.com/HackerNews/API |
 | Tiny Startups | Directory | Public submit flow found; no confirmed public write API | listing blurb | Medium | https://www.tinystartups.com/submit-your-startup |
-| TrustMRR | Directory | Public write/API status uncertain; default manual | profile blurb | Medium | status uncertain; default manual |
+| TrustMRR | Directory | Verified revenue leaderboard; use on-site “Add startup”; default manual | profile / verification flow | Medium | https://trustmrr.com/ |
 | BetaList | Launch directory | Manual by default | launch listing | Medium | https://betalist.com/ |
 | Indie Hackers | Community | Manual by default | launch thread | Medium | https://www.indiehackers.com/ |
 | Uneed | Launch directory | Manual by default | product listing | Medium | https://www.uneed.best/ |
@@ -22,5 +24,7 @@
 | Futurepedia | AI directory | Manual by default | AI tool listing | Medium | https://www.futurepedia.io/ |
 | There’s An AI For That | AI directory | Manual by default | AI tool listing | Medium | https://theresanaiforthat.com/ |
 | Peerlist | Community/profile | Manual by default | launch/profile | Medium | https://peerlist.io/ |
+| Microlaunch | Launch directory | Manual by default; public submit page | product launch | Medium | https://microlaunch.net/ |
+| OpenAlternative | Directory | Manual by default; community submit flow | open-source alternative listing | Medium | https://openalternative.co/ |
 
 If exact write support is uncertain, Orbit Pilot should classify the platform as `manual`.

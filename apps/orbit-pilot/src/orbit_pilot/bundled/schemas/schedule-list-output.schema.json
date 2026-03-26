@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbit-pilot.local/schemas/schedule-list-output.schema.json",
+  "title": "OrbitPilotScheduleListOutput",
+  "description": "orbit schedule-list --json",
+  "type": "object",
+  "required": ["pending", "file"],
+  "properties": {
+    "pending": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "due_at", "cwd", "argv", "created_at", "done"],
+        "properties": {
+          "id": { "type": "string" },
+          "due_at": { "type": "string" },
+          "cwd": { "type": "string" },
+          "argv": { "type": "array", "items": { "type": "string" } },
+          "created_at": { "type": "string" },
+          "done": { "type": "boolean" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "file": { "type": "string" }
+  },
+  "additionalProperties": true
+}

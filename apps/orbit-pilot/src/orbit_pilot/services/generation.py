@@ -6,19 +6,25 @@ from typing import Any
 from orbit_pilot.assets import prepare_assets
 from orbit_pilot.audit import init_db, record_submission
 from orbit_pilot.dedupe import digest_text
-from orbit_pilot.graph import build_body_for_platform, build_payload, plan_platform
+from orbit_pilot.graph import build_body_for_platform, build_payload
 from orbit_pilot.manual_pack import write_manual_pack
 from orbit_pilot.models import LaunchProfile, PlatformRecord
+from orbit_pilot.policy import RiskPolicy, decide_platform
 from orbit_pilot.prompts import uniquify_body_if_duplicate
 from orbit_pilot.state import record_digest, seen_digest
 
 
-def generate_run(launch: LaunchProfile, platforms: list[PlatformRecord], run_dir: Path) -> list[dict[str, Any]]:
+def generate_run(
+    launch: LaunchProfile,
+    platforms: list[PlatformRecord],
+    run_dir: Path,
+    policy: RiskPolicy | None = None,
+) -> list[dict[str, Any]]:
     init_db(run_dir)
     results: list[dict[str, Any]] = []
     seen_in_run: dict[str, str] = {}
     for record in platforms:
-        decision = plan_platform(record, launch)
+        decision = decide_platform(record, launch, policy)
         if decision.mode == "skipped":
             body = build_body_for_platform(launch, record)
             decision.payload = build_payload(launch, record, body)
@@ -61,3 +67,10 @@ def generate_run(launch: LaunchProfile, platforms: list[PlatformRecord], run_dir
             }
         )
     return results
+
+
+def select_platforms(platforms: list[PlatformRecord], selected: list[str] | None) -> list[PlatformRecord]:
+    if not selected:
+        return platforms
+    wanted = set(selected)
+    return [record for record in platforms if record.slug in wanted]

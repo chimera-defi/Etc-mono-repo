@@ -1,8 +1,8 @@
 # Orbit Pilot
 
-**Status:** Spec + V0 CLI shipped | **Last Updated:** 2026-03-24
+**Status:** Spec + CLI + V1 slices in [`apps/orbit-pilot/`](../../apps/orbit-pilot/) | **V1:** [`V1_SHIPPED.md`](./V1_SHIPPED.md) · [`V1_ROADMAP.md`](./V1_ROADMAP.md) | **V2 (planning):** [`V2_ROADMAP.md`](./V2_ROADMAP.md)
 
-**Implementation:** [`apps/orbit-pilot/`](../../apps/orbit-pilot/) (this folder is specs and research only).
+**Implementation:** [`apps/orbit-pilot/`](../../apps/orbit-pilot/) — **[`ARCHITECTURE.md`](../../apps/orbit-pilot/ARCHITECTURE.md)** (app layers + JSON Schemas), humans [`HUMAN_GUIDE.md`](../../apps/orbit-pilot/HUMAN_GUIDE.md), agents [`AGENTS.md`](../../apps/orbit-pilot/AGENTS.md). **Claude skill:** [`apps/orbit-pilot/claude-skills/orbit-pilot-operator/SKILL.md`](../../apps/orbit-pilot/claude-skills/orbit-pilot-operator/SKILL.md).
 
 ## One-Liner
 
@@ -31,9 +31,9 @@ The wedge is a structured launch-submission operator:
 - asset adaptation
 - duplicate detection
 - rate limiting
-- official API first
-- manual-first fallback
-- explicit high-risk browser fallback only when enabled
+- official API first where we ship publishers
+- manual registry rows supported via **`orbit work`** + MCP, or upgraded to **`browser_assisted`** with policy (**`allow_browser_assist_manual`** + Playwright/CDP/Kernel) when the operator opts in
+- explicit browser paths gated by risk policy and env
 
 ## Primary Use Cases
 
@@ -46,7 +46,7 @@ The wedge is a structured launch-submission operator:
 
 - architecture diagrams
 - full orchestrator system prompt
-- Python/LangGraph code skeleton
+- Python implementation (`apps/orbit-pilot/`) with LangGraph plan + generate graphs
 - platform-by-platform quick reference
 - sample outputs
 - validation and execution docs
@@ -58,10 +58,12 @@ WalletRadar is a concrete fit for Orbit Pilot because it needs repeatable submis
 
 ## Read Order
 
-1. `EXECUTIVE_SUMMARY.md`
-2. `PRD.md`
-3. `SPEC.md`
-4. `PLATFORM_MATRIX.md`
-5. `V0_BUILD_PLAN.md`
-6. `ARCHITECTURE_DECISIONS.md`
-7. `../../apps/orbit-pilot/src/orbit_pilot/`
+1. [`V1_SHIPPED.md`](./V1_SHIPPED.md) / [`V1_ROADMAP.md`](./V1_ROADMAP.md) — current scope and what is shipped
+2. [`SPEC.md`](./SPEC.md) — technical contract
+3. [`PLATFORM_MATRIX.md`](./PLATFORM_MATRIX.md)
+4. [`HUMAN_GUIDE.md`](../../apps/orbit-pilot/HUMAN_GUIDE.md) / [`AGENTS.md`](../../apps/orbit-pilot/AGENTS.md) — operators and automation
+5. `EXECUTIVE_SUMMARY.md`, `PRD.md`, `ARCHITECTURE_DECISIONS.md` — narrative and decisions
+6. `V2_ROADMAP.md` — monetization + GTM (planning only)
+7. [`../../apps/orbit-pilot/ARCHITECTURE.md`](../../apps/orbit-pilot/ARCHITECTURE.md) — Python layers, schemas, run dir
+
+**Historical (pre-V1 planning):** [`V0_BUILD_PLAN.md`](./V0_BUILD_PLAN.md) — superseded by V1 docs above; kept for archive only.
