@@ -1,6 +1,6 @@
 # Orbit Pilot — agent guide
 
-**Package:** one `launch.yaml`, registry YAML, `out/<campaign>/run-*/` packs, optional API publish. **Humans:** [`HUMAN_GUIDE.md`](./HUMAN_GUIDE.md).
+**Package:** one `launch.yaml`, registry YAML, `out/<campaign>/run-*/` packs, optional API publish. **Humans:** [`HUMAN_GUIDE.md`](./HUMAN_GUIDE.md). **Code map:** [`ARCHITECTURE.md`](./ARCHITECTURE.md).
 
 **Claude Code skill (workflow + drift notes):** [`claude-skills/orbit-pilot-operator/SKILL.md`](./claude-skills/orbit-pilot-operator/SKILL.md) — ships with the app; symlink or copy to `.claude/skills/orbit-pilot-operator/` (see [`claude-skills/README.md`](./claude-skills/README.md)). **`orbit --help`** and this file stay authoritative for flags and JSON.
 
