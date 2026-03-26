@@ -6,6 +6,7 @@ export type GuidedSpecInput = {
   scope: string;
   requirements: string;
   constraints: string;
+  uxPack: string;
   successSignals: string;
   tasks: string;
   nonGoals: string;

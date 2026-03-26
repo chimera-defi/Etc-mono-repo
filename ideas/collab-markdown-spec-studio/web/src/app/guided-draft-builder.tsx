@@ -270,6 +270,28 @@ export function GuidedDraftBuilder({
       </details>
       <details className={styles.wizardSection}>
         <summary className={styles.disclosureSummary}>
+          <span>Experience design</span>
+          <span>UX pack and edge cases</span>
+        </summary>
+        <div className={styles.disclosureBody}>
+          <p className={styles.context}>
+            SpecForge should not leave UI or workflow design implicit. Describe the primary
+            surfaces, key screens, important states, failure paths, and mobile expectations. If
+            this spec is API-only or CLI-only, state that explicitly here.
+          </p>
+          <label>
+            UX pack
+            <textarea
+              name="ux_pack"
+              rows={5}
+              value={fields.uxPack}
+              onChange={(event) => updateField("uxPack", event.target.value)}
+            />
+          </label>
+        </div>
+      </details>
+      <details className={styles.wizardSection}>
+        <summary className={styles.disclosureSummary}>
           <span>Delivery guardrails</span>
           <span>Constraints and tasks</span>
         </summary>

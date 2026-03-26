@@ -7,11 +7,12 @@ Build a real-time collaborative spec IDE with:
 1. CRDT-backed infrastructure for human collaboration (Yjs + Hocuspocus deployed; multiplayer flows are browser-covered locally but not yet design-partner validated in hosted use),
 2. governed agent patch workflows (fully functional: propose/review/accept/reject/cherry-pick),
 3. guided creation plus agent-assisted field population from rough briefs,
-4. readiness and clarification gates before build handoff, with deeper milestone recap still deferred,
-5. deterministic export into execution-ready spec bundles (`PRD.md`, `SPEC.md`, `TASKS.md`, `agent_spec.json`, starter handoff, execution brief, launch packet),
-6. a delivery loop that keeps driving a minimum extensible product toward parity with the approved spec (implemented for status/context/handoffs, but not yet a trusted unattended finisher),
-7. landing and pricing surfaces that route users into the working SaaS workspace,
-8. a shared OpenSpec core, now partially extracted, that powers both the web app and a terminal-native `specforge` wizard.
+4. a first-class `UX Pack` section that captures primary surfaces, key screens, failure states, and responsive expectations so UI/UX design is not left implicit,
+5. readiness and clarification gates before build handoff, with deeper milestone recap still deferred,
+6. deterministic export into execution-ready spec bundles (`PRD.md`, `SPEC.md`, `TASKS.md`, `agent_spec.json`, starter handoff, execution brief, launch packet),
+7. a delivery loop that keeps driving a minimum extensible product toward parity with the approved spec (implemented for status/context/handoffs, but not yet a trusted unattended finisher),
+8. landing and pricing surfaces that route users into the working SaaS workspace,
+9. a shared OpenSpec core, now partially extracted, that powers both the web app and a terminal-native `specforge` wizard.
 
 The current branch satisfies the scoped MVP target. The remaining work is broader SaaS/platform parity work like hosted ops, billing, deeper terminal UX, and runner hardening, not missing core MVP behavior.
 
@@ -19,12 +20,14 @@ The current branch also includes a first explicit entitlement layer:
 - quota state,
 - seat-based billing preview,
 - shared plan definitions exposed to both pricing and `/api/workspace/plans`,
+- guided drafts now require a `UX Pack` section, and specs should explicitly say `API-only` or `CLI-only` there when no GUI is needed,
 - feature-flag entitlements,
 - behavior instrumentation for membership and workflow activation signals,
 - a design-partner funnel summary across activation, collaboration, review, and launch preparation,
 - a workspace billing summary endpoint with upgrade-required reasons,
 - and ops-summary alerts for missing backups, missing verification, or upgrade pressure.
 - Pilot membership lifecycle is now two-way in the workspace UI: add/remove members with GitHub-linked invite rules and guards against removing the active session or the final member.
+- SpecForge currently guides users toward design coverage, but it does not yet ship a direct `gstack` design-skill runtime integration. The supported pattern today is to generate the canonical spec plus UX Pack in SpecForge, then hand that UX Pack to an external design-focused skill or agent for wireframes, visual exploration, or frontend implementation guidelines.
 
 ### Product Principle: Minimum Extensible Product
 1. Approved specs should first produce a minimum extensible product, not a pretend-final build.
