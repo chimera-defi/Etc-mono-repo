@@ -52,7 +52,7 @@ orbit guide --run out/*/run-*    # then mark-done / publish as in HUMAN_GUIDE.md
 | Core | `plan`, `doctor`, `generate`, `regenerate`, `publish`, `mark-done`, **`work`** (queue + open browser), `report`, `next`, `guide`, `campaigns`, `latest`, `export` (json/md/html), `audit`, `init`, `serve` |
 | Agents | `orbit pipeline --json`, bundled JSON Schemas, `check-run`, `registry-lint` |
 | Schedule | `schedule-add` / `list` / `run` / `cancel` |
-| Browser | Playwright assist + optional autofill + optional auto-submit; `ORBIT_BROWSER_USER_DATA_DIR` for logged-in profile |
+| Browser | Playwright assist; `ORBIT_BROWSER_CDP_URL` (remote CDP) or `ORBIT_BROWSER_USER_DATA_DIR` (local profile); autofill / auto-submit optional |
 | Optional | TUI `[tui]`, webhook `orbit serve` |
 
 ## Credentials (API publishers)

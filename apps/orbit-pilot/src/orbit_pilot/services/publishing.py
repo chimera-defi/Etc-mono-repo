@@ -193,6 +193,7 @@ def publish_from_run(run_dir: Path, platforms: list[str], execute: bool) -> list
                     "autofill": autofill,
                     "auto_submit": assist_out.get("auto_submit", False),
                     "persistent_profile": assist_out.get("persistent_profile", False),
+                    "cdp_remote": assist_out.get("cdp_remote", False),
                     "auto_submit_error": assist_out.get("auto_submit_error"),
                     "note": (
                         "auto_submit attempted; verify page and run orbit mark-done --live-url … with final URL"

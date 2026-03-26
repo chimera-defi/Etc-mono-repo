@@ -97,7 +97,8 @@ Use when you want Playwright to drive **your** session (not for pasting private 
 1. Policy: `risk.allow_browser_fallback`, `allow_browser_automation`, `allow_browser_autofill`; optionally **`allow_browser_auto_submit`** for click-to-submit (requires autofill path + submit selector; `orbit doctor` warns if misconfigured).
 2. Registry: `browser_form_selectors` with CSS for `title`, `body`, `url`, and **`submit`** (or `submit_button`).
 3. Env: `ORBIT_ALLOW_BROWSER_AUTOMATION=1`, secret pair, `ORBIT_ALLOW_BROWSER_AUTOFILL=1`; for auto-click `ORBIT_ALLOW_BROWSER_AUTO_SUBMIT=1`.
-4. **Persistent login:** `ORBIT_BROWSER_USER_DATA_DIR=/path/to/empty-or-existing-profile` — log in once headed, then re-use.
-5. `orbit publish --run … --platform <slug> --execute --browser` (sets automation allow flag; you still set secrets).
+4. **Remote / hosted Chrome (CDP):** `ORBIT_BROWSER_CDP_URL=ws://…` or `http://…` — Playwright attaches via Chrome DevTools Protocol (e.g. [Kernel](https://www.kernel.sh/) or any CDP endpoint). Session cookies live on that browser; **do not** commit the URL if it embeds secrets.
+5. **Persistent login (local):** `ORBIT_BROWSER_USER_DATA_DIR=/path/to/profile` — log in once headed, then re-use.
+6. `orbit publish --run … --platform <slug> --execute --browser` (sets automation allow flag; you still set secrets).
 
 **Agents:** full flags and schemas → [`AGENTS.md`](./AGENTS.md).
