@@ -44,6 +44,36 @@ def test_browser_automation_policy_browser_assisted() -> None:
     assert d.mode == "browser_assisted"
 
 
+def test_allow_browser_assist_manual_upgrades_directory_row() -> None:
+    record = PlatformRecord(
+        "PH",
+        "product_hunt",
+        "launch",
+        "",
+        "https://www.producthunt.com/posts/new",
+        "manual",
+        "medium_high",
+    )
+    pol = RiskPolicy(allow_browser_assist_manual=True, allow_browser_automation=True)
+    d = decide_platform(record, _launch(), pol)
+    assert d.mode == "browser_assisted"
+
+
+def test_allow_browser_assist_manual_without_automation_stays_manual() -> None:
+    record = PlatformRecord(
+        "PH",
+        "product_hunt",
+        "launch",
+        "",
+        "https://www.producthunt.com/posts/new",
+        "manual",
+        "medium_high",
+    )
+    pol = RiskPolicy(allow_browser_assist_manual=True, allow_browser_automation=False)
+    d = decide_platform(record, _launch(), pol)
+    assert d.mode == "manual"
+
+
 def test_load_risk_policy_from_yaml(tmp_path) -> None:
     p = tmp_path / "p.yaml"
     p.write_text(
@@ -51,7 +81,8 @@ def test_load_risk_policy_from_yaml(tmp_path) -> None:
         "  tolerance: high\n"
         "  allow_browser_fallback: true\n"
         "  allow_browser_automation: true\n"
-        "  allow_browser_auto_submit: true\n",
+        "  allow_browser_auto_submit: true\n"
+        "  allow_browser_assist_manual: true\n",
         encoding="utf-8",
     )
     pol = load_risk_policy(p)
@@ -59,3 +90,4 @@ def test_load_risk_policy_from_yaml(tmp_path) -> None:
     assert pol.allow_browser_fallback is True
     assert pol.allow_browser_automation is True
     assert pol.allow_browser_auto_submit is True
+    assert pol.allow_browser_assist_manual is True

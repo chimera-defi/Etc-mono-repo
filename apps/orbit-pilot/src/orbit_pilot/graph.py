@@ -14,7 +14,7 @@ def plan_platform(record: PlatformRecord, launch: LaunchProfile) -> SubmissionDe
             record.slug,
             "manual",
             record.risk,
-            "Registry mode browser_fallback_opt_in: manual high-risk path (no headless automation in core)",
+            "Registry browser_fallback_opt_in: base plan manual; policy may upgrade to browser_assisted when allowed",
         )
 
     if mode in ("manual", "manual_by_default", "manual_unless_approved"):

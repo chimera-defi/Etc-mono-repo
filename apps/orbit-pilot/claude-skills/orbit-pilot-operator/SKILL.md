@@ -80,9 +80,9 @@ Parse the object:
 2. Navigate to **`submit_url`** in the user’s browser; paste or type from **`prompt`** / pack text (**public marketing copy only** — never API tokens or private keys into third-party forms).
 3. After the user confirms the listing is live, run the **`mark_done_command`** with the real URL (replace `<URL>`), or invoke `orbit mark-done --run … --platform … --live-url … --json`.
 
-**Playwright inside Orbit (no computer-use):**
+**Playwright inside Orbit (Kernel / local Chrome):**
 
-- **`browser_assisted` only:** `orbit work --run … --playwright` (sets automation allow flag; user must still set **`ORBIT_BROWSER_AUTOMATION_SECRET`** + **`ORBIT_BROWSER_AUTOMATION_CONFIRM`**, install `orbit-pilot[browser]`, etc.) — see `AGENTS.md`.
+- **`browser_assisted`:** from registry **`browser_fallback_opt_in`** + policy, **or** registry **`manual`** + **`risk.allow_browser_assist_manual`** + **`allow_browser_automation`**. Then `orbit publish --run … --platform <slug> --execute --browser` (secrets + optional **`ORBIT_BROWSER_CDP_URL`**). Shorthand: `orbit work --run … --playwright` — see `AGENTS.md`.
 - **Hosted / remote Chrome (CDP):** set **`ORBIT_BROWSER_CDP_URL`** to the WebSocket or HTTP debugger URL (e.g. Kernel). Playwright uses **`connect_over_cdp`**; session cookies stay on that browser. Do not paste CDP URLs containing secrets into chats or commits.
 
 ## Safety (non-negotiable)

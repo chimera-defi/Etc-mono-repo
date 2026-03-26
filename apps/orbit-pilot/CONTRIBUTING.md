@@ -54,6 +54,10 @@ Use **uv** if you prefer; the project is standard **pyproject.toml / setuptools*
 2. Register in `schemas_cmd.SCHEMA_FILES` and optional `SCHEMA_ALIASES`.
 3. Extend `tests/test_schema_validation.py` with a representative instance.
 
+## Browser assist for `manual` registry rows
+
+Policy **`risk.allow_browser_assist_manual: true`** with **`allow_browser_automation: true`** upgrades platforms planned as **`manual`** to **`browser_assisted`** (requires `submit_url`). Used for directories in `seed_platforms.yaml` without changing each row to `browser_fallback_opt_in`.
+
 ## Adding an official publisher
 
 1. Implement `publish(payload, dry_run)` under `publishers/` returning `{status, url?, publisher, error?}`.

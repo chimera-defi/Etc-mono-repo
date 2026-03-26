@@ -56,7 +56,7 @@ See `ARCHITECTURE_DIAGRAMS.md` (product-level). **Implementation map (Python lay
 - official publishers
 - manual queue
 - browser fallback gate
-- **V1 browser assist** (optional): when operator risk policy sets `allow_browser_fallback` and `allow_browser_automation`, registry `browser_fallback_opt_in` can plan as `browser_assisted`; `publish --execute` drives `submit_url` via Playwright — **local Chromium**, **`ORBIT_BROWSER_USER_DATA_DIR`** (persistent context), or **`ORBIT_BROWSER_CDP_URL`** (`connect_over_cdp`, e.g. hosted Chrome / Kernel); optional **supervised autofill** (`allow_browser_autofill` + `ORBIT_ALLOW_BROWSER_AUTOFILL` + `browser_form_selectors`); optional **auto-submit** (`allow_browser_auto_submit` + `ORBIT_ALLOW_BROWSER_AUTO_SUBMIT` + submit selector); gated by env `ORBIT_ALLOW_BROWSER_AUTOMATION` + matching secret pair; `orbit doctor` may surface `browser_autofill_note`, `browser_auto_submit_note`, `browser_autofill_selectors` on `browser_assisted` rows
+- **V1 browser assist** (optional): **`risk.allow_browser_automation`** plus either **`allow_browser_fallback`** (for registry `browser_fallback_opt_in`) **or** **`allow_browser_assist_manual`** (for registry rows planned as **`manual`** — directories, Product Hunt, Crunchbase, etc.) upgrades those platforms to **`browser_assisted`**. `publish --execute --browser` drives `submit_url` via Playwright — **local Chromium**, **`ORBIT_BROWSER_USER_DATA_DIR`**, or **`ORBIT_BROWSER_CDP_URL`** (e.g. Kernel). Same stack works when a **human or Claude MCP / Chrome MCP** controls the browser: use **`orbit work`** to open URLs and paste packs, or attach Playwright to **Kernel** / **CDP**. Optional **supervised autofill** / **auto-submit** as before; gated by env `ORBIT_ALLOW_BROWSER_AUTOMATION` + secret pair; verify **ToS** per site.
 - **V1 scheduling**: JSONL job queue (`orbit schedule-add`, `schedule-list`, `schedule-run`, `schedule-cancel`); file lock on Unix; daemon runs subprocess argv at or after due ISO time
 
 #### 7) Logging and Audit
@@ -85,14 +85,15 @@ See `ARCHITECTURE_DIAGRAMS.md` (product-level). **Implementation map (Python lay
 6. Operator web UI: deferred (see `FRONTEND_VISION.md`); shareable **HTML run export** and optional **Textual TUI** live in `apps/orbit-pilot/` (`orbit export --format html`, `orbit tui`).
 7. **JSON Schema** documents ship with the package (`bundled/schemas/`) for agent validation of `--json` CLI outputs; **`orbit schemas`** lists paths; **`orbit validate-json <schema> [file]`** validates JSON (stdin if file omitted).
 8. **`run.json`** includes **`orbit_manifest_version`** (integer) and **`orbit_pilot_version`** (string); older CLIs error if manifest version is newer than supported. **`orbit check-run`** validates manifest and referenced paths.
-9. **V1** optional extras: `orbit-pilot[browser]` (Playwright) for portal assist, optional autofill + optional auto-submit (`risk.allow_browser_auto_submit`, `ORBIT_ALLOW_BROWSER_AUTO_SUBMIT`, registry `submit` selector), `ORBIT_BROWSER_USER_DATA_DIR` or **`ORBIT_BROWSER_CDP_URL`** for logged-in / remote browser; `python -m orbit_pilot` = `orbit`; **`orbit schedule-*`**; **`orbit registry-lint`**; **`orbit pipeline`**; **`orbit init --preset walletradar`**; **`orbit work`** (next manual queue item: open default browser to `submit_url`, copy-paste `mark-done`; `--playwright` shortcut for `browser_assisted` publish assist).
+9. **V1** optional extras: `orbit-pilot[browser]` (Playwright) for portal assist; **`risk.allow_browser_assist_manual`** + **`allow_browser_automation`** to plan **`manual`** registry rows (most directories) as **`browser_assisted`**; optional autofill + auto-submit; `ORBIT_BROWSER_USER_DATA_DIR` or **`ORBIT_BROWSER_CDP_URL`** (Kernel); **`orbit work`** + Claude / Chrome MCP for human-supervised flows; **`orbit schedule-*`**, **`orbit registry-lint`**, **`orbit pipeline`**, **`orbit init --preset walletradar`**.
 
 ### Config Contract
 ```yaml
 risk:
   tolerance: low
   allow_browser_fallback: false
-  # V1: allow_browser_automation: false  # with allow_browser_fallback, enables Playwright portal assist
+  # V1: allow_browser_automation: false  # required for Playwright assist
+  # allow_browser_assist_manual: false  # + allow_browser_automation: manual rows → browser_assisted
   # allow_browser_autofill: false  # + ORBIT_ALLOW_BROWSER_AUTOFILL + registry selectors
   # allow_browser_auto_submit: false  # + ORBIT_ALLOW_BROWSER_AUTO_SUBMIT + submit selector in registry
 platforms:

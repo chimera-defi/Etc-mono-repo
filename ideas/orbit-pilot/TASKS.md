@@ -29,7 +29,7 @@
 
 ### WS-3 Publishers
 - [x] Medium, GitHub, DEV, LinkedIn, X (official paths where configured).
-- [ ] Additional publishers only when API contracts are stable.
+- [x] **Browser path for matrix platforms:** registry `manual` rows → **`browser_assisted`** when policy sets **`allow_browser_assist_manual`** + **`allow_browser_automation`** (Playwright local / **`ORBIT_BROWSER_CDP_URL`** / operator **`orbit work`** + MCP). New **official API** publishers still ship when contracts are stable.
 
 ### WS-4 Manual Queue
 - [x] Manual packs, checklists, status, live URL.
