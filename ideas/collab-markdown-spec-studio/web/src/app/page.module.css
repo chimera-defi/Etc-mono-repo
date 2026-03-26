@@ -348,22 +348,22 @@
 }
 
 .neutral {
-  background: rgba(28, 26, 23, 0.08);
+  background: var(--sf-border);
 }
 
 .success {
-  background: rgba(33, 122, 69, 0.12);
-  color: #1b6a3d;
+  background: var(--sf-success-subtle);
+  color: var(--sf-success);
 }
 
 .warning {
-  background: rgba(183, 106, 18, 0.14);
-  color: #8a5310;
+  background: var(--sf-warning-subtle);
+  color: var(--sf-warning);
 }
 
 .danger {
-  background: rgba(163, 43, 43, 0.12);
-  color: #8c1f1f;
+  background: var(--sf-danger-subtle);
+  color: var(--sf-danger);
 }
 
 .diffGrid {
