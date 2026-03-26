@@ -1,6 +1,6 @@
 [project]
 name = "orbit-pilot"
-version = "0.3.3"
+version = "0.3.4"
 description = "CLI-first launch distribution operator (Orbit Pilot)"
 requires-python = ">=3.11"
 dependencies = [
@@ -17,7 +17,6 @@ dependencies = [
 dev = ["pytest>=8", "ruff>=0.6", "httpx>=0.27.0", "textual>=0.79.0"]
 tui = ["textual>=0.79.0"]
 browser = ["playwright>=1.49.0"]
-agent = ["playwright>=1.49.0"]
 
 [project.scripts]
 orbit = "orbit_pilot.cli:main"

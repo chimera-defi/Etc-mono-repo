@@ -657,8 +657,6 @@ def schedule_add_command(args: argparse.Namespace) -> int:
 
 
 def schedule_list_command(args: argparse.Namespace) -> int:
-    import os
-
     from orbit_pilot.scheduler import default_schedule_path, list_pending
 
     if args.file:
@@ -674,7 +672,6 @@ def schedule_list_command(args: argparse.Namespace) -> int:
 
 
 def schedule_run_command(args: argparse.Namespace) -> int:
-    import os
     import time
 
     from orbit_pilot.scheduler import run_due_jobs
