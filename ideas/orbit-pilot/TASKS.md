@@ -43,6 +43,9 @@
 - [x] V1 optional supervised browser autofill (registry `browser_form_selectors` + policy + env).
 - [ ] Full web operator UI (see `FRONTEND_VISION.md`).
 
+### V2 (planning — not V1 gates)
+- [ ] Product + monetization + GTM captured in [`V2_ROADMAP.md`](./V2_ROADMAP.md); adopt scope before implementation tasks land here.
+
 ## One-Shot Build Gates
 - [x] Build graph documented (`orchestrate`, SPEC).
 - [x] Code aligned with safety rules and registry.

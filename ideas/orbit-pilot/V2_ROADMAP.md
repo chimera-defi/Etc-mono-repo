@@ -1,0 +1,132 @@
+# Orbit Pilot — V2 roadmap (product + monetization)
+
+**Status:** planning — V1 remains the shipped CLI; nothing here is committed scope until explicitly adopted.
+
+**Related:** [`V1_SHIPPED.md`](./V1_SHIPPED.md) · [`V1_ROADMAP.md`](./V1_ROADMAP.md) · [`FRONTEND_VISION.md`](./FRONTEND_VISION.md) · [`SPEC.md`](./SPEC.md)
+
+---
+
+## 1. Why V2 is separate from V1
+
+V1 optimizes for **trust, auditability, and agent-parseable CLI contracts** (local-first, policy-gated automation). V2 adds **distribution, collaboration, and recurring value** that justify payment — usually **hosted**, **data**, or **governance**, not “pay to run `orbit plan`.”
+
+---
+
+## 2. Audiences (multi-segment)
+
+| Segment | What they pay for | Typical wedge |
+|---------|-------------------|---------------|
+| **Solo / indie builders** | Time saved, fewer missed sites, sane defaults | Free/open CLI + cheap **templates / registry subscription** or **hosted trigger** |
+| **Agencies** | Multi-client runs, approvals, client-facing reports | **Team workspace**, **per-campaign or per-seat** billing, **white-label export** |
+| **Internal platform teams** | Standardization, compliance, SSO, audit | **Private registry**, **policy packs**, **enterprise license**, **VPC / self-host** option |
+| **Agents (automated)** | API keys, metered usage, programmatic launches | **Usage-priced API**, **agent auth** (scoped tokens), optional **x402 / micropayment** experiments |
+
+**Design constraint:** one **primary buyer** per GTM motion, even if the product serves many segments over time (see §5).
+
+---
+
+## 3. Monetization options (multi-strategy menu)
+
+These can be **combined**; the art is not stacking every lever on day one.
+
+### A. Open core
+
+- **Free:** CLI, local generate/publish patterns, core schemas, community registry baseline.
+- **Paid:** cloud console, team features, curated registry updates, SLA, enterprise license.
+
+**Fit:** indie funnel → agency/enterprise upsell.
+
+### B. Hosted services (SaaS)
+
+Examples: managed **webhook + job runner**, **scheduled runs in cloud**, **encrypted secret references** (not raw secrets in your DB if avoidable), **run history / replay** for teams.
+
+**Fit:** agencies and platform teams who refuse to operate cron + infra per client.
+
+### C. Data / curation subscriptions
+
+Maintained **platform definitions** (URLs, modes, selector hints where allowed, **ToS / risk notes**), **launch playbooks** (“WalletRadar-shaped” profiles as living templates).
+
+**Fit:** recurring revenue without locking the engine; aligns with “registry growth” as product.
+
+### D. Commercial license + support
+
+Same codebase (or fork), **B2B license** for organizations with strict OSS policies; **onboarding**, **custom publishers**, **private registry hosting**.
+
+**Fit:** internal platform teams; higher touch, fewer seats.
+
+### E. Usage / API metering (including agents)
+
+**REST or MCP-adjacent** “enqueue launch / status” with **API keys**, **quotas**, optional **prepaid credits**. “Agentic payments” (e.g. **HTTP 402** + payment proofs, crypto rails, or Stripe metered) belong here as **experiments** once the **human legal + ToS** story is clear — automation money movement adds **fraud, chargeback, and liability** surface.
+
+**Fit:** agents and integrations; pair with strict **scopes** and **human approval** for high-risk steps.
+
+### F. What to avoid as the main monetization
+
+- Paywalling **basic CLI** without a clearly better paid tier (substitutes appear quickly).
+- **Surveillance-style telemetry** as the business model (undermines trust for a launch/credentials-adjacent tool).
+
+---
+
+## 4. V2 capability themes (product, not pricing detail)
+
+Rough buckets to spec before build:
+
+1. **Identity & billing** — orgs, seats, API keys, usage records; Stripe (or equivalent) as default.
+2. **Hosted orchestration** — optional cloud execution of `pipeline`-shaped jobs with audit export.
+3. **Collaboration** — approvals, comments on runs, shared registries, role-based policy.
+4. **Operator UI** — extends [`FRONTEND_VISION.md`](./FRONTEND_VISION.md); paid tier differentiator for teams.
+5. **Curated registry / compliance layer** — versioned packs, changelog, “last verified” metadata.
+6. **Agent contracts** — stable HTTP API mirroring CLI JSON shapes; rate limits; webhook signing parity with today’s model.
+
+**Order of operations:** ship **(1) + minimal (6)** before heavy UI if the goal is agent + indie distribution; add **(4) + (3)** when agencies are the primary buyer.
+
+---
+
+## 5. Go-to-market (GTM) and primary buyer
+
+**GTM choice drives pricing and roadmap**, not the reverse.
+
+### Phase A — Indie-first (default recommendation)
+
+- **Primary buyer:** solo builder (low ACV, high volume word-of-mouth).
+- **Motion:** OSS / PyPI CLI, great docs (`HUMAN_GUIDE`, `AGENTS`), templates, public registry, community.
+- **First paid:** small **Pro** (curated registry + extra platforms, or hosted webhook runner), not enterprise sales.
+
+### Phase B — Agency pull-through
+
+- **Primary buyer:** agency lead (medium ACV).
+- **Motion:** case studies, multi-client workspaces, reports, approval flows.
+- **Pricing:** per-seat or per-active-campaign; avoid opaque “contact us” until pipeline exists.
+
+### Phase C — Enterprise / platform
+
+- **Primary buyer:** internal platform or security-conscious org.
+- **Motion:** SSO, audit exports, private registry, contractual ToS posture, optional self-host.
+- **Pricing:** annual license + services; separate from indie tier.
+
+**Rule of thumb:** pick **one primary buyer per quarter** for positioning; secondary segments still use the product, but **homepage and pricing** should read clean for one ICP at a time.
+
+---
+
+## 6. “Agentic payments” (explicit caution)
+
+If agents pay per action:
+
+- Define **what is sold** (API quota, curated registry access, hosted run minute) vs **what is not** (bypassing site ToS).
+- Prefer **pre-authorized budgets** and **human gates** for browser-assisted or high-risk modes.
+- Legal/compliance review before positioning as “unattended paid posting.”
+
+---
+
+## 7. Open decisions (fill in before implementation)
+
+- [ ] Default license for “core” vs “enterprise” build (e.g. OSS + commercial add-on vs single license).
+- [ ] First paid SKU (one thing: registry subscription vs hosted runner vs team seats).
+- [ ] Data residency and secret handling policy for any cloud V2.
+- [ ] Whether V2 cloud is **required** for revenue or **optional** alongside self-hosted enterprise.
+
+---
+
+## 8. Document maintenance
+
+When V2 scope is adopted: add tasks to [`TASKS.md`](./TASKS.md) and, if needed, a **V2** section in [`SPEC.md`](./SPEC.md). Until then, treat this file as the **single monetization + GTM scratchpad** for Orbit Pilot.

@@ -37,6 +37,7 @@
 - Full web operator UI.
 - More official publishers when APIs are stable.
 - Unsupervised high-risk automation (out of scope for this CLI’s safety model).
+- **V2 product + monetization + GTM** (planning doc): [`V2_ROADMAP.md`](./V2_ROADMAP.md).
 
 ## How we iterate (anti-regression)
 
@@ -55,3 +56,4 @@
 | [`PILOT_RUN_CHECKLIST.md`](./PILOT_RUN_CHECKLIST.md) | Milestone 4 operator steps |
 | [`SAMPLE_OUTPUTS.md`](./SAMPLE_OUTPUTS.md) | Human copy + CLI JSON examples |
 | [`V1_SHIPPED.md`](./V1_SHIPPED.md) | What V1 means; agent fast path |
+| [`V2_ROADMAP.md`](./V2_ROADMAP.md) | V2 monetization, segments, GTM (planning) |
