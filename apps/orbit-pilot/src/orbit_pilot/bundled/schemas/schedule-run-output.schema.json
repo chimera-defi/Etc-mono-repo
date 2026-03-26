@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbit-pilot.local/schemas/schedule-run-output.schema.json",
+  "title": "OrbitPilotScheduleRunOutput",
+  "description": "orbit schedule-run --json",
+  "type": "object",
+  "required": ["ran"],
+  "properties": {
+    "ran": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "argv", "exit_code", "stdout_tail", "stderr_tail"],
+        "properties": {
+          "id": { "type": "string" },
+          "argv": { "type": "array", "items": { "type": "string" } },
+          "exit_code": { "type": "integer" },
+          "stdout_tail": { "type": "string" },
+          "stderr_tail": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

@@ -77,6 +77,7 @@ def _to_html(data: dict[str, Any]) -> str:
     pending = data["report"].get("pending_manual") or []
     skipped = data["report"].get("skipped") or []
     browser_fb = data["report"].get("browser_fallback") or []
+    browser_asst = data["report"].get("browser_assisted") or []
 
     rows_html = []
     for row in data["submissions"]:
@@ -140,6 +141,7 @@ def _to_html(data: dict[str, Any]) -> str:
     <p><strong>Pending manual:</strong> {_pill_row(pending)}</p>
     <p><strong>Skipped:</strong> {_pill_row(skipped)}</p>
     <p><strong>Browser fallback:</strong> {_pill_row(browser_fb)}</p>
+    <p><strong>Browser assisted:</strong> {_pill_row(browser_asst)}</p>
   </section>
 </body>
 </html>

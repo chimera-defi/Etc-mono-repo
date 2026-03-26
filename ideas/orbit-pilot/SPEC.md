@@ -54,7 +54,7 @@ See `ARCHITECTURE_DIAGRAMS.md`.
 - manual queue
 - browser fallback gate
 - **V1 browser assist** (optional): when operator risk policy sets `allow_browser_fallback` and `allow_browser_automation`, registry `browser_fallback_opt_in` can plan as `browser_assisted`; `publish --execute` may open `submit_url` in Playwright Chromium for manual completion (no auto-fill); gated by env `ORBIT_ALLOW_BROWSER_AUTOMATION` + matching secret pair
-- **V1 scheduling**: append-only JSONL job queue (`orbit schedule-*`), daemon polls and runs subprocess argv at or after due ISO time
+- **V1 scheduling**: JSONL job queue (`orbit schedule-add`, `schedule-list`, `schedule-run`, `schedule-cancel`); file lock on Unix; daemon runs subprocess argv at or after due ISO time
 
 #### 7) Logging and Audit
 - every decision logged

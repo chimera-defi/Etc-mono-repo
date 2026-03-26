@@ -55,6 +55,7 @@ def report_payload(run_dir: Path) -> dict[str, Any]:
     next_manual = pending_manual[0] if pending_manual else None
     skipped = [r["platform"] for r in rows if r["mode"] == "skipped"]
     browser_fb = [r["platform"] for r in rows if r["mode"] == "browser_fallback"]
+    browser_asst = [r["platform"] for r in rows if r["mode"] == "browser_assisted"]
     official = [r for r in rows if r["mode"] == "official_api"]
     return {
         "results": rows,
@@ -62,6 +63,7 @@ def report_payload(run_dir: Path) -> dict[str, Any]:
         "next_manual": next_manual,
         "skipped": skipped,
         "browser_fallback": browser_fb,
+        "browser_assisted": browser_asst,
         "official_api_rows": official,
     }
 
@@ -92,14 +94,20 @@ def human_guide(run_dir: Path) -> dict[str, Any]:
     manual_top: list[dict[str, Any]] = []
     for row in pending[:3]:
         meta = json.loads((run_dir / row["platform"] / "meta.json").read_text(encoding="utf-8"))
-        manual_top.append(
-            {
-                "platform": row["platform"],
-                "submit_url": meta.get("submit_url"),
-                "priority": row["priority"],
-                "prompt_path": str(run_dir / row["platform"] / "PROMPT_USER.txt"),
-            }
-        )
+        planned = str(meta.get("planned_mode", ""))
+        entry: dict[str, Any] = {
+            "platform": row["platform"],
+            "submit_url": meta.get("submit_url"),
+            "priority": row["priority"],
+            "prompt_path": str(run_dir / row["platform"] / "PROMPT_USER.txt"),
+        }
+        if planned == "browser_assisted":
+            entry["browser_assist"] = True
+            entry["next_step"] = (
+                f"orbit publish --run {run_dir} --platform {row['platform']} --execute --browser "
+                "(install orbit-pilot[browser]; set ORBIT_BROWSER_AUTOMATION_SECRET + CONFIRM)"
+            )
+        manual_top.append(entry)
     return {
         "official_ready": official_ready,
         "official_blocked": official_blocked,

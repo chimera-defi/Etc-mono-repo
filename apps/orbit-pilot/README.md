@@ -53,7 +53,7 @@ orbit regenerate --run out/<campaign-id>/run-* --platform github --platform prod
 | Audit tail | `orbit audit [--tail N]` prints `audit.jsonl` events |
 | HTML report | `orbit export --format html` — single-file dark-theme table for sharing |
 | TUI | `orbit tui --run …` after `pip install 'orbit-pilot[tui]'` |
-| **V1 schedule** | `orbit schedule-add` / `schedule-list` / `schedule-run` — JSONL queue; `ORBIT_SCHEDULE_PATH`, `ORBIT_SCHEDULE_POLL_SECONDS` |
+| **V1 schedule** | `schedule-add` / `schedule-list` / `schedule-run` / `schedule-cancel` — JSONL queue + lock; `ORBIT_SCHEDULE_PATH`, `ORBIT_SCHEDULE_POLL_SECONDS` |
 | **V1 browser assist** | Policy `allow_browser_automation` + `pip install 'orbit-pilot[browser]'`; publish opens `submit_url` (no auto-fill); env gate for `--execute` |
 
 ## Credentials

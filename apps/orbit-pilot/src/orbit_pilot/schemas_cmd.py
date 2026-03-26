@@ -22,6 +22,11 @@ SCHEMA_FILES = (
     "latest-output.schema.json",
     "error-response.schema.json",
     "run-manifest.schema.json",
+    "schedule-job.schema.json",
+    "schedule-add-output.schema.json",
+    "schedule-list-output.schema.json",
+    "schedule-run-output.schema.json",
+    "schedule-cancel-output.schema.json",
 )
 
 # CLI / command aliases → canonical schema id (for orbit validate-json)
@@ -41,6 +46,11 @@ SCHEMA_ALIASES: dict[str, str] = {
     "error": "error-response",
     "run-manifest": "run-manifest",
     "manifest": "run-manifest",
+    "schedule-add": "schedule-add-output",
+    "schedule-list": "schedule-list-output",
+    "schedule-run": "schedule-run-output",
+    "schedule-cancel": "schedule-cancel-output",
+    "schedule-job": "schedule-job",
 }
 
 

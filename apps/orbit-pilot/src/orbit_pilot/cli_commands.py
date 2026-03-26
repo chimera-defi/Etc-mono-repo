@@ -174,6 +174,11 @@ def build_parser() -> argparse.ArgumentParser:
     sch_run.add_argument("--loop", action="store_true", help="Run forever polling for due jobs")
     sch_run.add_argument("--file", help="Schedule file path override")
     sch_run.add_argument("--json", action="store_true")
+
+    sch_cancel = subparsers.add_parser("schedule-cancel", help="Cancel a pending job by id")
+    sch_cancel.add_argument("--id", dest="job_id", required=True, help="Job id from schedule-add or schedule-list")
+    sch_cancel.add_argument("--file", help="Schedule file path override")
+    sch_cancel.add_argument("--json", action="store_true")
     return parser
 
 
@@ -426,6 +431,9 @@ def report_command(args: argparse.Namespace) -> int:
             print(f"\nSkipped: {', '.join(skipped)}")
         if browser_fb:
             print(f"\nBrowser fallback (manual): {', '.join(browser_fb)}")
+        browser_asst = data.get("browser_assisted", [])
+        if browser_asst:
+            print(f"\nBrowser assisted (Playwright): {', '.join(browser_asst)}")
     return 0
 
 
@@ -649,6 +657,22 @@ def schedule_run_command(args: argparse.Namespace) -> int:
     return 0
 
 
+def schedule_cancel_command(args: argparse.Namespace) -> int:
+    from orbit_pilot.scheduler import cancel_job, default_schedule_path
+
+    if args.file:
+        os.environ["ORBIT_SCHEDULE_PATH"] = str(Path(args.file).resolve())
+    out = cancel_job(args.job_id)
+    if args.json:
+        emit({**out, "file": str(default_schedule_path())}, True)
+    else:
+        if out.get("ok"):
+            print(f"Cancelled {out['id']}")
+        else:
+            print(f"schedule-cancel: {out.get('error')} ({out.get('id')})", file=sys.stderr)
+    return 0 if out.get("ok") else 1
+
+
 def init_command(args: argparse.Namespace) -> int:
     dest = Path(args.dir).resolve()
     dest.mkdir(parents=True, exist_ok=True)
@@ -692,6 +716,7 @@ _COMMAND_HANDLERS: dict[str, Callable[[argparse.Namespace], int]] = {
     "schedule-add": schedule_add_command,
     "schedule-list": schedule_list_command,
     "schedule-run": schedule_run_command,
+    "schedule-cancel": schedule_cancel_command,
 }
 
 
