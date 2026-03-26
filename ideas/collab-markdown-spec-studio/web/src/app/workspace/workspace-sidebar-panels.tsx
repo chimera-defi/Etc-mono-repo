@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useRef, useState } from "react";
 
 import styles from "../page.module.css";
 import type { AgentAssistToolStatus } from "@/lib/specforge/agent-assist";
@@ -117,6 +120,68 @@ export function WorkspaceMembersPanel({
   removeWorkspaceMemberAction,
   updateWorkspaceMemberRoleAction,
 }: WorkspaceMembersPanelProps) {
+  const [addSuccess, setAddSuccess] = useState<string | null>(null);
+  const [addError, setAddError] = useState<string | null>(null);
+  const [removedIds, setRemovedIds] = useState<Set<string>>(new Set());
+  const [savingRoleIds, setSavingRoleIds] = useState<Set<string>>(new Set());
+  const [savedRoleIds, setSavedRoleIds] = useState<Set<string>>(new Set());
+  const addFormRef = useRef<HTMLFormElement>(null);
+
+  async function handleAddMember(formData: FormData) {
+    setAddError(null);
+    setAddSuccess(null);
+    try {
+      await createWorkspaceMemberAction(formData);
+      const memberName = String(formData.get("name") ?? "Member");
+      setAddSuccess(`${memberName} added`);
+      addFormRef.current?.reset();
+      setTimeout(() => setAddSuccess(null), 3000);
+    } catch {
+      setAddError("Failed to add member. Check that the name is valid and member limit is not reached.");
+    }
+  }
+
+  async function handleRemoveMember(formData: FormData) {
+    const membershipId = String(formData.get("membership_id") ?? "");
+    try {
+      setRemovedIds((prev) => new Set([...prev, membershipId]));
+      await removeWorkspaceMemberAction(formData);
+    } catch {
+      setRemovedIds((prev) => {
+        const next = new Set(prev);
+        next.delete(membershipId);
+        return next;
+      });
+    }
+  }
+
+  async function handleUpdateRole(formData: FormData) {
+    const membershipId = String(formData.get("membership_id") ?? "");
+    setSavingRoleIds((prev) => new Set([...prev, membershipId]));
+    try {
+      await updateWorkspaceMemberRoleAction(formData);
+      setSavingRoleIds((prev) => {
+        const next = new Set(prev);
+        next.delete(membershipId);
+        return next;
+      });
+      setSavedRoleIds((prev) => new Set([...prev, membershipId]));
+      setTimeout(() => {
+        setSavedRoleIds((prev) => {
+          const next = new Set(prev);
+          next.delete(membershipId);
+          return next;
+        });
+      }, 2000);
+    } catch {
+      setSavingRoleIds((prev) => {
+        const next = new Set(prev);
+        next.delete(membershipId);
+        return next;
+      });
+    }
+  }
+
   return (
     <details className={styles.wizardSection}>
       <summary className={styles.disclosureSummary}>
@@ -126,7 +191,14 @@ export function WorkspaceMembersPanel({
       <div className={styles.disclosureBody}>
         <ul className={styles.documentList}>
           {activeWorkspaceMembers.map((member) => (
-            <li key={member.membership_id} className={styles.documentItem}>
+            <li
+              key={member.membership_id}
+              className={styles.documentItem}
+              style={{
+                opacity: removedIds.has(member.membership_id) ? 0.4 : 1,
+                transition: "opacity 0.3s ease",
+              }}
+            >
               <div>
                 <strong>{member.name}</strong>
                 {member.github_login ? (
@@ -135,27 +207,38 @@ export function WorkspaceMembersPanel({
                 {member.actor_id === activeWorkspaceActorId ? (
                   <span className={styles.mutedInline}>Current session</span>
                 ) : null}
-              </div>
-              <div className={styles.inlineActions}>
-                <form action={updateWorkspaceMemberRoleAction} className={styles.inlineForm}>
-                  <input type="hidden" name="return_to" value={actorReturnTo} />
-                  <input type="hidden" name="membership_id" value={member.membership_id} />
-                  <select name="role" className={styles.selectInput} defaultValue={member.role}>
-                    <option value="Reviewer">Reviewer</option>
-                    <option value="Engineer">Engineer</option>
-                    <option value="Operator">Operator</option>
-                    <option value="Founder">Founder</option>
-                  </select>
-                  <button type="submit">Save role</button>
-                </form>
-                {member.actor_id !== activeWorkspaceActorId && activeWorkspaceMembers.length > 1 ? (
-                  <form action={removeWorkspaceMemberAction}>
-                    <input type="hidden" name="return_to" value={actorReturnTo} />
-                    <input type="hidden" name="membership_id" value={member.membership_id} />
-                    <button type="submit">Remove</button>
-                  </form>
+                {removedIds.has(member.membership_id) ? (
+                  <span className={styles.badge}>Removed</span>
                 ) : null}
               </div>
+              {!removedIds.has(member.membership_id) ? (
+                <div className={styles.inlineActions}>
+                  <form action={handleUpdateRole} className={styles.inlineForm}>
+                    <input type="hidden" name="return_to" value={actorReturnTo} />
+                    <input type="hidden" name="membership_id" value={member.membership_id} />
+                    <select name="role" className={styles.selectInput} defaultValue={member.role}>
+                      <option value="Reviewer">Reviewer</option>
+                      <option value="Engineer">Engineer</option>
+                      <option value="Operator">Operator</option>
+                      <option value="Founder">Founder</option>
+                    </select>
+                    <button type="submit" disabled={savingRoleIds.has(member.membership_id)}>
+                      {savingRoleIds.has(member.membership_id)
+                        ? "Saving\u2026"
+                        : savedRoleIds.has(member.membership_id)
+                          ? "Saved \u2713"
+                          : "Save role"}
+                    </button>
+                  </form>
+                  {member.actor_id !== activeWorkspaceActorId && activeWorkspaceMembers.length > 1 ? (
+                    <form action={handleRemoveMember}>
+                      <input type="hidden" name="return_to" value={actorReturnTo} />
+                      <input type="hidden" name="membership_id" value={member.membership_id} />
+                      <button type="submit">Remove</button>
+                    </form>
+                  ) : null}
+                </div>
+              ) : null}
             </li>
           ))}
         </ul>
@@ -165,7 +248,17 @@ export function WorkspaceMembersPanel({
             <span>{membershipError}</span>
           </div>
         ) : null}
-        <form action={createWorkspaceMemberAction} className={styles.form}>
+        {addSuccess ? (
+          <p className={styles.context} style={{ color: "var(--color-success, #22c55e)" }}>
+            {addSuccess}
+          </p>
+        ) : null}
+        {addError ? (
+          <p className={styles.context} style={{ color: "var(--color-danger, #ef4444)" }}>
+            {addError}
+          </p>
+        ) : null}
+        <form action={handleAddMember} className={styles.form} ref={addFormRef}>
           <input type="hidden" name="return_to" value={actorReturnTo} />
           <label>
             Member name
@@ -194,7 +287,7 @@ export function WorkspaceMembersPanel({
           </label>
           <p className={styles.context}>
             {activeWorkspace.plan === "pilot"
-              ? "Pilot invites are membership-gated. Add the teammate's GitHub login, then share the spec URL."
+              ? "Pilot invites are membership-gated. Members must have a GitHub account linked to sign in. Add the teammate's GitHub login, then share the spec URL."
               : "Local demo mode can add members without GitHub-linked pilot access."}
           </p>
           <button type="submit">Add workspace member</button>
