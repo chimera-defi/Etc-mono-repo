@@ -24,6 +24,7 @@ const assistSchema = z.object({
   scope: z.string().min(1),
   requirements: z.string().min(1),
   constraints: z.string().min(1),
+  uxPack: z.string().min(1),
   successSignals: z.string().min(1),
   tasks: z.string().min(1),
   nonGoals: z.string().min(1),
@@ -40,6 +41,7 @@ const assistJsonSchema = {
     "scope",
     "requirements",
     "constraints",
+    "uxPack",
     "successSignals",
     "tasks",
     "nonGoals",
@@ -52,6 +54,7 @@ const assistJsonSchema = {
     scope: { type: "string" },
     requirements: { type: "string" },
     constraints: { type: "string" },
+    uxPack: { type: "string" },
     successSignals: { type: "string" },
     tasks: { type: "string" },
     nonGoals: { type: "string" },
@@ -144,6 +147,13 @@ export function buildHeuristicSuggestion(brief: string): AgentAssistSuggestion {
     "A coding agent or engineer can continue from the launch packet without clarification churn",
   ];
 
+  const defaultUxPack = [
+    "Primary surface: browser workspace with explicit review stages",
+    "Key screens: guided intake, shared draft, review queue, export handoff",
+    "Failure states: ambiguous scope, blocked readiness, stale collaboration room",
+    "Responsive rule: mobile supports review and intake, desktop is primary for deep editing",
+  ];
+
   const defaultTasks = [
     "Capture the problem and operator goals",
     "Draft the first buildable workflow",
@@ -166,6 +176,7 @@ export function buildHeuristicSuggestion(brief: string): AgentAssistSuggestion {
       scope: compactLines(sentences.slice(0, 3).join("\n"), defaultScope.join("\n")),
       requirements: compactLines(normalizedBrief, defaultRequirements.join("\n")),
       constraints: compactLines("", defaultConstraints.join("\n")),
+      uxPack: compactLines("", defaultUxPack.join("\n")),
       successSignals: compactLines("", defaultSignals.join("\n")),
       tasks: compactLines("", defaultTasks.join("\n")),
       nonGoals: compactLines("", defaultNonGoals.join("\n")),
@@ -222,6 +233,8 @@ function buildAssistPrompt(brief: string) {
     "Use newline-separated bullets without markdown prefixes inside each string.",
     "Ground the output in the user's idea brief instead of generic startup filler.",
     "Prefer practical constraints, explicit requirements, and reviewable tasks.",
+    "Always include a UX Pack covering primary surface, key screens, failure states, and responsive expectations.",
+    "If the product has no GUI, say so explicitly in UX Pack instead of leaving it blank.",
     "",
     "Idea brief:",
     brief.trim(),
