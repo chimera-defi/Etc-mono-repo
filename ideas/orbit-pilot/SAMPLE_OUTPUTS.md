@@ -49,10 +49,20 @@ Generated from bundled `launch.sample.yaml` + `seed_platforms.yaml` (paths vary 
       "ready": true,
       "missing_secrets": [],
       "missing_payload": []
+    },
+    {
+      "platform": "example_directory",
+      "mode": "browser_assisted",
+      "ready": true,
+      "missing_secrets": [],
+      "missing_payload": [],
+      "browser_autofill_selectors": ["title", "body", "url", "submit"]
     }
   ]
 }
 ```
+
+Optional keys on **`browser_assisted`** rows (when policy enables automation): `browser_autofill_selectors`, `browser_autofill_note`, `browser_auto_submit_note` (e.g. missing submit selector while `allow_browser_auto_submit` is true).
 
 **`orbit generate … --json`**:
 

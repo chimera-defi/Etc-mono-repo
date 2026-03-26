@@ -23,6 +23,8 @@ Then: `orbit publish --run … --platform … --json` (dry-run / `--execute`), `
 
 **Init preset:** `orbit init --preset walletradar --dir …` → WalletRadar-shaped `launch.yaml`.
 
+**Doctor:** `browser_assisted` rows may include `browser_autofill_selectors`, `browser_autofill_note`, or `browser_auto_submit_note` (schema allows extra properties on each result).
+
 ## JSON Schemas
 
 ```bash
