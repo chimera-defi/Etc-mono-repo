@@ -53,7 +53,13 @@ def write_manual_pack(run_dir: Path, record: PlatformRecord, decision: Submissio
             + " --execute --browser",
             "- Env: ORBIT_ALLOW_BROWSER_AUTOMATION=1, ORBIT_BROWSER_AUTOMATION_SECRET, "
             "ORBIT_BROWSER_AUTOMATION_CONFIRM (same value).",
-            "- Opens this submit URL in Chromium; paste from this folder; then orbit mark-done --live-url …",
+            "- Logged-in Chromium: set ORBIT_BROWSER_USER_DATA_DIR to an empty dir, run once headed to sign in, "
+            "then reuse that path.",
+            "- Optional autofill: risk.allow_browser_autofill + ORBIT_ALLOW_BROWSER_AUTOFILL=1 + "
+            "browser_form_selectors in registry (title/body/url).",
+            "- Optional auto-submit: risk.allow_browser_auto_submit + ORBIT_ALLOW_BROWSER_AUTO_SUBMIT=1 + "
+            "submit selector in registry (high risk; verify ToS).",
+            "- Then orbit mark-done --live-url … with the final listing URL.",
             "",
         ]
 
@@ -84,8 +90,9 @@ def write_manual_pack(run_dir: Path, record: PlatformRecord, decision: Submissio
                 *(
                     [
                         "",
-                        "(browser_assisted) After `orbit publish ... --execute --browser`, Chromium opens here; "
-                        "paste title/body below, submit, then mark-done.",
+                        "(browser_assisted) After `orbit publish ... --execute --browser`, Chromium opens here. "
+                        "Paste title/body below (or enable policy+env autofill), submit (or auto-submit if enabled), "
+                        "then mark-done with the live URL.",
                     ]
                     if decision.mode == "browser_assisted"
                     else []
