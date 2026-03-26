@@ -40,18 +40,24 @@ orbit validate-json plan - < plan.json
 
 Aliases: `plan`, `doctor`, `generate`, `publish`, `pipeline`, `work`, `registry-lint`, … (see manifest).
 
-## Browser automation (Playwright)
+## Browser automation (directories + MCP)
 
-For `browser_assisted` (policy + `browser_fallback_opt_in` registry):
+**`browser_assisted`** is planned when:
+
+1. Registry **`browser_fallback_opt_in`** and **`risk.allow_browser_fallback`** + **`allow_browser_automation`**, or  
+2. Registry planned as **`manual`** (Product Hunt, Crunchbase, directories, …) and **`risk.allow_browser_assist_manual`** + **`allow_browser_automation`** (both must be true; site must have **`submit_url`**).
+
+Then **`orbit publish --run … --platform <slug> --execute --browser`** (env secret pair) runs Playwright against **`submit_url`**. **Claude Code / Chrome MCP:** use **`orbit work --run … --json`** to get `submit_url` + copy; MCP drives the user’s browser; then **`orbit mark-done`**.
 
 | Layer | Requirement |
 |--------|-------------|
-| Open browser | Default OS browser: **`orbit work --run …`** (submit URL). Playwright: `risk.allow_browser_fallback` + `allow_browser_automation`; env `ORBIT_ALLOW_BROWSER_AUTOMATION=1` + secret pair; **`orbit work --run … --playwright`** or `orbit publish … --execute --browser` |
-| Autofill fields | `allow_browser_autofill` + `ORBIT_ALLOW_BROWSER_AUTOFILL=1` + registry `browser_form_selectors` (`title`/`body`/`url` keys) |
-| Click submit | **Also** `allow_browser_auto_submit` + `ORBIT_ALLOW_BROWSER_AUTO_SUBMIT=1` + selector `submit` or `submit_button` |
-| Logged-in session | **`ORBIT_BROWSER_CDP_URL`** → `connect_over_cdp` (hosted Chrome / Kernel with persisted profile), or **`ORBIT_BROWSER_USER_DATA_DIR`** → local `launch_persistent_context` |
+| Plan `browser_assisted` | Case (1) or (2) above; **`orbit plan --json`** shows `planned_mode` |
+| Playwright assist | `ORBIT_ALLOW_BROWSER_AUTOMATION=1` + matching secret pair; **`ORBIT_BROWSER_CDP_URL`** (Kernel/hosted) or local Chromium / **`ORBIT_BROWSER_USER_DATA_DIR`** |
+| Human / MCP assist | **`orbit work`** opens URL or outputs JSON for MCP; no Playwright required for paste-only flows |
+| Autofill | `allow_browser_autofill` + `ORBIT_ALLOW_BROWSER_AUTOFILL=1` + registry `browser_form_selectors` |
+| Auto-submit | `allow_browser_auto_submit` + `ORBIT_ALLOW_BROWSER_AUTO_SUBMIT=1` + `submit` selector |
 
-Install: `pip install -e ".[browser]"` && `playwright install chromium`. Never put **API tokens** in form fields; use env/keyring.
+Install: `pip install -e ".[browser]"` && `playwright install chromium`. Never put **API tokens** in third-party forms; use env/keyring for **official API** publishers only.
 
 ## Scheduling
 

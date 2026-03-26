@@ -31,9 +31,9 @@ The wedge is a structured launch-submission operator:
 - asset adaptation
 - duplicate detection
 - rate limiting
-- official API first
-- manual-first fallback
-- explicit high-risk browser fallback only when enabled
+- official API first where we ship publishers
+- manual registry rows supported via **`orbit work`** + MCP, or upgraded to **`browser_assisted`** with policy (**`allow_browser_assist_manual`** + Playwright/CDP/Kernel) when the operator opts in
+- explicit browser paths gated by risk policy and env
 
 ## Primary Use Cases
 

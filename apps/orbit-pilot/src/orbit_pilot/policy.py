@@ -20,6 +20,8 @@ class RiskPolicy:
     tolerance: str = "low"
     allow_browser_fallback: bool = False
     allow_browser_automation: bool = False
+    # Opt-in: registry rows planned as manual (directories, etc.) may use browser_assisted publish path
+    allow_browser_assist_manual: bool = False
     allow_browser_autofill: bool = False
     # With autofill + registry submit selector: allow Playwright to click submit (extremely high risk; gated by env)
     allow_browser_auto_submit: bool = False
@@ -50,6 +52,7 @@ def load_risk_policy(path: str | Path | None) -> RiskPolicy:
         tolerance=str(risk.get("tolerance", "low")).lower(),
         allow_browser_fallback=bool(risk.get("allow_browser_fallback", False)),
         allow_browser_automation=bool(risk.get("allow_browser_automation", False)),
+        allow_browser_assist_manual=bool(risk.get("allow_browser_assist_manual", False)),
         allow_browser_autofill=bool(risk.get("allow_browser_autofill", False)),
         allow_browser_auto_submit=bool(risk.get("allow_browser_auto_submit", False)),
         platform_overrides={k: dict(v) for k, v in (raw.get("platforms") or {}).items()},
@@ -156,6 +159,21 @@ def apply_risk_policy(
             "manual",
             record.risk,
             f"Downgraded to manual: platform risk `{record.risk}` exceeds policy tolerance `{policy.tolerance}`",
+        )
+
+    # Manual-only registry rows (directories, PH, etc.): optional Playwright assist (Kernel CDP / local Chrome)
+    if (
+        decision.mode == "manual"
+        and policy.allow_browser_assist_manual
+        and policy.allow_browser_automation
+        and str(planning.submit_url or "").strip()
+    ):
+        return SubmissionDecision(
+            record.slug,
+            "browser_assisted",
+            record.risk,
+            "manual registry row with allow_browser_assist_manual + allow_browser_automation: use publish --execute "
+            "--browser (Playwright; ORBIT_BROWSER_CDP_URL or local Chromium) or orbit work; verify ToS",
         )
 
     return decision

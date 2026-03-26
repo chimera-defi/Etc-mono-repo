@@ -13,7 +13,7 @@
 | CLI, `--json`, bundled JSON Schemas, `validate-json` | Full web operator UI → [`FRONTEND_VISION.md`](./FRONTEND_VISION.md) |
 | `check-run`, `registry-lint`, CI (unit + optional Playwright job) | Live-site browser E2E in CI (manual / separate harness) |
 | Seed registry ↔ [`PLATFORM_MATRIX.md`](./PLATFORM_MATRIX.md) parity test | “Every backlink site on the internet” |
-| Official publishers where tokens + APIs are stable | New publishers only when contracts are stable |
+| Official publishers where tokens + APIs are stable | New **API** publishers when contracts are stable; **manual** matrix sites use browser assist / `orbit work` + MCP when policy opts in |
 
 ## Progress dashboard
 
@@ -35,7 +35,7 @@
 ### Post-V1 product (separate initiatives)
 
 - Full web operator UI.
-- More official publishers when APIs are stable.
+- More **official API** publishers when contracts are stable (browser/MCP coverage for directory sites is policy-driven; see SPEC + AGENTS).
 - Unsupervised high-risk automation (out of scope for this CLI’s safety model).
 - **V2 product + monetization + GTM** (planning doc): [`V2_ROADMAP.md`](./V2_ROADMAP.md).
 
