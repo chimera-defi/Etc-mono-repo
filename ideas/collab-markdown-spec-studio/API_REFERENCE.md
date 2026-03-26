@@ -318,6 +318,37 @@ Clarifications are structured Q&A pairs anchored to specific sections of the spe
 
 ---
 
+## Design Feedback API
+
+### POST /api/documents/:id/design-feedback
+
+Convert design reviewer feedback into a governed patch proposal targeting the UX Pack section.
+
+**Request:**
+
+```json
+{
+  "feedback": "string (1-2000 chars)",
+  "section": "ux-pack | design-system | general"
+}
+```
+
+`section` defaults to `"ux-pack"` when omitted.
+
+**Response (201):**
+
+```json
+{
+  "ok": true,
+  "patch_id": "patch_...",
+  "message": "Design feedback queued for review"
+}
+```
+
+**Flow:** Feedback is converted to a patch proposal targeting the UX Pack block (or the first block as fallback), then queued in the decide stage where it can be accepted or rejected like any other patch. When `section` is `"general"`, a clarification record is also created.
+
+---
+
 ## Job Status Values
 
 | Status | Meaning | Next action |

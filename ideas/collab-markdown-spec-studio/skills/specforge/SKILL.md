@@ -87,6 +87,24 @@ bun run specforge -- handoff         # emit handoff.json with export bundle + st
 bun run specforge -- handoff --json  # machine-readable
 ```
 
+### Post-Spec Design Review
+
+After exporting, designers can review the UX Pack and submit structured feedback:
+
+1. In the Export stage, open the Design Handoff Panel
+2. Review the UX Pack preview and design system outputs
+3. Enter design feedback in the feedback box — submits as a governed patch
+4. Switch to the Decide stage to review/accept the design patch
+5. Re-export to get updated handoff.json with design feedback incorporated
+
+Or via API:
+
+```bash
+curl -X POST /api/documents/:id/design-feedback \
+  -H "Content-Type: application/json" \
+  -d '{"feedback": "Primary CTA needs more contrast", "section": "ux-pack"}'
+```
+
 ### Multiplayer / web workspace
 
 When the user needs live multiplayer collaboration (all planning stages and spec editing support multiplayer):
