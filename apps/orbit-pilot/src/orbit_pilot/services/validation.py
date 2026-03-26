@@ -2,7 +2,11 @@ from __future__ import annotations
 
 from typing import Any
 
-from orbit_pilot.browser_assist import chromium_launchable, playwright_available
+from orbit_pilot.browser_assist import (
+    chromium_launchable,
+    playwright_available,
+    submit_selector_for_registry,
+)
 from orbit_pilot.graph import build_body_for_platform, build_payload
 from orbit_pilot.models import LaunchProfile, PlatformRecord
 from orbit_pilot.policy import RiskPolicy, decide_platform
@@ -53,6 +57,13 @@ def doctor_payload(
                     row["browser_autofill_note"] = (
                         "allow_browser_autofill is true but registry has no browser_form_selectors for this slug"
                     )
+                if policy.allow_browser_auto_submit:
+                    bfs = record.browser_form_selectors
+                    if not bfs or not submit_selector_for_registry(dict(bfs)):
+                        row["browser_auto_submit_note"] = (
+                            "allow_browser_auto_submit requires registry browser_form_selectors "
+                            "including submit (or submit_button / submit_selector)"
+                        )
             results.append(row)
         else:
             results.append(

@@ -57,7 +57,8 @@ def apply_browser_autofill(page: Any, payload: dict[str, Any], selectors: dict[s
     _fill_if(page, url_sel, url)
 
 
-def _submit_selector(selectors: dict[str, str]) -> str:
+def submit_selector_for_registry(selectors: dict[str, str]) -> str:
+    """CSS selector for the submit control; empty if registry does not define one."""
     return (
         selectors.get("submit")
         or selectors.get("submit_button")
@@ -91,7 +92,7 @@ def run_submit_portal_assist(
         "persistent_profile": bool(user_data),
     }
 
-    submit_sel = _submit_selector(selectors)
+    submit_sel = submit_selector_for_registry(selectors)
     do_submit = bool(auto_submit and autofill and selectors and submit_sel)
 
     with sync_playwright() as p:
