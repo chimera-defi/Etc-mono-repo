@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from importlib import resources
 from pathlib import Path
 
@@ -36,6 +37,14 @@ _NAME_TO_SLUG = {
 }
 
 
+def _repo_root() -> Path:
+    """Monorepo root: GITHUB_WORKSPACE in Actions, else three levels above this test file."""
+    ws = os.environ.get("GITHUB_WORKSPACE", "").strip()
+    if ws:
+        return Path(ws)
+    return Path(__file__).resolve().parents[3]
+
+
 def _matrix_platform_names(repo_root: Path) -> list[str]:
     md = repo_root / "ideas" / "orbit-pilot" / "PLATFORM_MATRIX.md"
     if not md.is_file():
@@ -59,7 +68,7 @@ def _matrix_platform_names(repo_root: Path) -> list[str]:
 
 
 def test_seed_platforms_slugs_match_platform_matrix() -> None:
-    repo = Path(__file__).resolve().parents[3]
+    repo = _repo_root()
     expected_names = _matrix_platform_names(repo)
     assert expected_names, "no platform rows parsed from PLATFORM_MATRIX.md"
     expected_slugs = [_NAME_TO_SLUG[n] for n in expected_names]

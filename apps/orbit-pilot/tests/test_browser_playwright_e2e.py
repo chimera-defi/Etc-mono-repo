@@ -1,4 +1,8 @@
-"""Real Playwright tests — skipped locally unless RUN_BROWSER_E2E=1; CI runs with Chromium installed."""
+"""Real Playwright/Chromium tests.
+
+In CI (``CI=true``), these run automatically when ``orbit-pilot[browser]`` and Chromium are installed.
+Locally: ``RUN_BROWSER_E2E=1 pip install -e '.[browser]' && playwright install chromium`` then pytest.
+"""
 
 from __future__ import annotations
 
@@ -11,12 +15,16 @@ pytestmark = pytest.mark.e2e_browser
 
 
 def _e2e_enabled() -> bool:
-    return os.environ.get("RUN_BROWSER_E2E", "").strip().lower() in ("1", "true", "yes")
+    flag = os.environ.get("RUN_BROWSER_E2E", "").strip().lower()
+    if flag in ("1", "true", "yes"):
+        return True
+    # GitHub Actions and most CI set CI=true — run E2E in unified orbit-pilot workflow (browser installed)
+    return os.environ.get("CI", "").strip().lower() in ("1", "true", "yes")
 
 
 skip_e2e = pytest.mark.skipif(
     not _e2e_enabled(),
-    reason="set RUN_BROWSER_E2E=1 and pip install '.[browser]' && playwright install chromium",
+    reason="set RUN_BROWSER_E2E=1 or CI=1, plus pip install -e '.[browser]' && playwright install chromium",
 )
 
 

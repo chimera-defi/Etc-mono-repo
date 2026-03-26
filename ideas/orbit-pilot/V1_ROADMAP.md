@@ -23,8 +23,8 @@
 - Risk policy YAML; LangGraph plan + generate graphs; CTA policy; registry image constraints.
 - Agent tooling: schemas manifest, `orbit schemas`, `orbit validate-json`, `orbit check-run`, `orbit registry-lint`, `orbit version`, [`AGENTS.md`](../../apps/orbit-pilot/AGENTS.md).
 - Scheduling: `schedule-add/list/run/cancel`, timezone + recurrence, argv allowlist, file lock.
-- Browser path: policy + env gated assist; optional autofill via `browser_form_selectors`; **`orbit work`** opens default browser for manual queue; Playwright E2E tests in CI (`browser-e2e` job).
-- Tests: ~98 unit/integration (3 skipped by default); opt-in Playwright E2E when `RUN_BROWSER_E2E=1`; CI `browser-e2e` job; matrix/seed parity test.
+- Browser path: policy + env gated assist; optional autofill via `browser_form_selectors`; **`orbit work`** opens default browser for manual queue; Playwright E2E runs in the unified **`orbit-pilot.yml`** test job (Chromium installed, no skips).
+- Tests: **~101** in full CI (ruff + registry-lint + pytest with Playwright/Chromium; **no skips**); local quick run may skip E2E without `[browser]` + `RUN_BROWSER_E2E`/`CI`; matrix/seed parity uses `GITHUB_WORKSPACE` in Actions.
 
 ### Next (your launches — not blocked on repo code)
 
