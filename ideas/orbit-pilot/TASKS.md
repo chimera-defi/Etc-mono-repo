@@ -1,6 +1,6 @@
 # Orbit Pilot Task List
 
-**Forward progress:** use **[`V1_ROADMAP.md`](./V1_ROADMAP.md)** for “what’s done / what’s next” in one place. Update that file when V1 status changes.
+**V1 CLI shipped:** [`V1_SHIPPED.md`](./V1_SHIPPED.md). **Forward tracker:** [`V1_ROADMAP.md`](./V1_ROADMAP.md).
 
 ## Milestones
 1. Spec package approved. ✅

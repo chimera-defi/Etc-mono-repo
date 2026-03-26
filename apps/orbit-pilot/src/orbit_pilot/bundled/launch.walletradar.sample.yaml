@@ -1,0 +1,27 @@
+# Example launch profile for WalletRadar-style backlink / discovery campaigns (edit all fields).
+product_name: WalletRadar
+website_url: https://walletradar.example
+tagline: Compare software wallets with clear, sourced criteria
+summary: >
+  WalletRadar helps users choose wallets with comparison tables, methodology, and links to primary sources.
+descriptions:
+  short: Wallet comparison for security-conscious users.
+  medium: >
+    WalletRadar surfaces mobile, extension, and hardware wallets with transparent scoring and official docs links.
+  long: >
+    WalletRadar is an educational comparison site. It does not custody funds or replace wallet official support.
+features:
+  - Comparison tables
+  - Methodology notes
+  - Official documentation links
+assets: {}
+company:
+  name: WalletRadar
+  categories:
+    - Crypto
+    - Security
+    - Wallets
+publish:
+  github:
+    repo: your-org/walletradar-site
+    tag_name: launch-v1

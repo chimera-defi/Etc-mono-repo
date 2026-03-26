@@ -21,6 +21,7 @@ orbit init
 orbit plan --launch launch.yaml --platforms seed_platforms.yaml
 # optional: --policy risk.defaults.yaml (copied by orbit init; defaults bundled)
 orbit doctor --launch launch.yaml --platforms seed_platforms.yaml
+orbit pipeline --launch launch.yaml --platforms seed_platforms.yaml --out out/ --json   # plan+doctor+generate+check-run
 orbit generate --launch launch.yaml --platforms seed_platforms.yaml --out out/
 # runs land under out/<campaign-id>/run-<timestamp>/ (default campaign id from product name)
 orbit campaigns --out out/
@@ -55,6 +56,7 @@ orbit regenerate --run out/<campaign-id>/run-* --platform github --platform prod
 | TUI | `orbit tui --run …` after `pip install 'orbit-pilot[tui]'` |
 | **V1 schedule** | `schedule-add` (`--timezone`, `--recurrence`) / `schedule-list` / `schedule-run` / `schedule-cancel`; argv must be `orbit` or `python -m orbit_pilot` unless `ORBIT_SCHEDULE_ALLOW_ARBITRARY=1` |
 | **V1 browser assist** | Policy + Playwright; optional **supervised autofill** via registry `browser_form_selectors` + `allow_browser_autofill` + `ORBIT_ALLOW_BROWSER_AUTOFILL=1` |
+| **Agent one-shot** | `orbit pipeline --json` — single JSON + exit code; `orbit init --preset walletradar` for WalletRadar-shaped `launch.yaml` |
 | **Registry vs matrix** | Seed list tracks `ideas/orbit-pilot/PLATFORM_MATRIX.md` — not an exhaustive “all backlink providers on the internet” list |
 
 ## Credentials

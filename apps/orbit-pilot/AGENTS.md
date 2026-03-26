@@ -22,13 +22,19 @@ orbit registry-lint --platforms seed_platforms.yaml --json
 
 ## Agent-first workflow (recommended)
 
+**Fast path (one command):** **`orbit pipeline --launch … --platforms … --out out/ --json`** runs plan → doctor → generate → `check-run` and prints one JSON object with `ok_all`, `plan`, `doctor`, `generate`, `check_run`. Exit **0** only if launch fields are complete, every doctor row is `ready`, and `check_run.ok` is true (set tokens / `publish.*` first or expect exit **1** with full diagnostics). Schema: `orbit validate-json pipeline - < pipeline.json`.
+
+**WalletRadar-shaped stub:** **`orbit init --preset walletradar --dir ~/my-launch`** writes `launch.yaml` from `launch.walletradar.sample.yaml` (edit URLs/repo before generate).
+
+**Step-by-step** (same as pipeline internals):
+
 1. **`orbit init`** in a working directory (or use existing `launch.yaml` + registry paths).
-2. **`orbit plan --launch … --platforms … --json`** — parse `missing_fields`, `questions`, `platform_preview` (each: `slug`, `planned_mode`, `risk`, `reason`). Fill gaps in `launch.yaml`; re-run until satisfied.
-3. **`orbit doctor --launch … --platforms … --json`** — check `results[].ready`, `missing_secrets`, `missing_payload` for `official_api` rows.
-4. **`orbit generate --launch … --platforms … --out out/ --json`** — capture `run_dir`; every platform gets a folder with `payload.json`, `PROMPT_USER.txt`, `meta.json`, optional `assets/`.
-5. **Human or browser:** manual posts from packs; record with **`orbit mark-done --run <run_dir> --platform <slug> --live-url <url> [--note "…"]`**.
-6. **`orbit publish --run … --platform github --json`** — dry-run unless **`--execute`** (only after doctor says ready and human approves).
-7. **Status:** **`orbit report --json`**, **`orbit next --json`**, **`orbit guide --json`**, **`orbit audit --run … --json`**, **`orbit export --run … --format json`**.
+2. **`orbit plan --launch … --platforms … --json`**
+3. **`orbit doctor --launch … --platforms … --json`**
+4. **`orbit generate --launch … --platforms … --out out/ --json`**
+5. **Human or browser:** manual posts from packs; **`orbit mark-done --run <run_dir> --platform <slug> --live-url <url> [--note "…"]`**
+6. **`orbit publish --run … --platform github --json`** — dry-run unless **`--execute`**
+7. **Status:** **`orbit report --json`**, **`orbit next --json`**, **`orbit guide --json`**, **`orbit audit --run … --json`**, **`orbit export --run … --format json`**
 
 Always prefer **`--json`** for machine parsing. Paths in JSON are strings; expand relative paths from the operator cwd.
 
@@ -74,6 +80,7 @@ Default bundled policy is used unless **`--policy path/to/risk.yaml`**. Policy c
 |--------|---------|
 | Plan preview | `orbit plan --json` |
 | Readiness | `orbit doctor --json` |
+| One-shot plan+doctor+generate+check | `orbit pipeline --json` |
 | Generate summary | `orbit generate --json` |
 | Publish results | `orbit publish --json` |
 | Queue / next manual | `orbit next --json`, `orbit guide --json` |

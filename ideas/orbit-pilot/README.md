@@ -1,6 +1,6 @@
 # Orbit Pilot
 
-**Status:** Spec + CLI + V1 slices in [`apps/orbit-pilot/`](../../apps/orbit-pilot/) | **V1 tracker:** [`V1_ROADMAP.md`](./V1_ROADMAP.md)
+**Status:** Spec + CLI + V1 slices in [`apps/orbit-pilot/`](../../apps/orbit-pilot/) | **V1:** [`V1_SHIPPED.md`](./V1_SHIPPED.md) · tracker [`V1_ROADMAP.md`](./V1_ROADMAP.md)
 
 **Implementation:** [`apps/orbit-pilot/`](../../apps/orbit-pilot/) (this folder is specs and research only). Agents: [`apps/orbit-pilot/AGENTS.md`](../../apps/orbit-pilot/AGENTS.md).
 

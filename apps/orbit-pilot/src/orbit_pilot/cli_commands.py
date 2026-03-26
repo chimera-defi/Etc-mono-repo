@@ -35,10 +35,14 @@ from orbit_pilot.services.validation import doctor_payload
 
 # (bundled filename, destination filename under init --dir)
 _INIT_BUNDLED_FILES: tuple[tuple[str, str], ...] = (
-    ("launch.sample.yaml", "launch.yaml"),
     ("seed_platforms.yaml", "seed_platforms.yaml"),
     ("risk.defaults.yaml", "risk.defaults.yaml"),
 )
+
+_INIT_LAUNCH_BY_PRESET: dict[str, str] = {
+    "default": "launch.sample.yaml",
+    "walletradar": "launch.walletradar.sample.yaml",
+}
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -47,6 +51,12 @@ def build_parser() -> argparse.ArgumentParser:
 
     init_p = subparsers.add_parser("init")
     init_p.add_argument("--dir", default=".", help="Directory to write launch.yaml and seed_platforms.yaml")
+    init_p.add_argument(
+        "--preset",
+        choices=["default", "walletradar"],
+        default="default",
+        help="launch.yaml template: default (OrbitPilot sample) or walletradar (WalletRadar-shaped stub)",
+    )
 
     for name in ("plan", "generate", "doctor"):
         cmd = subparsers.add_parser(name)
@@ -150,6 +160,17 @@ def build_parser() -> argparse.ArgumentParser:
     )
     check_run_cmd.add_argument("--run", required=True)
     check_run_cmd.add_argument("--json", action="store_true")
+
+    pipe = subparsers.add_parser(
+        "pipeline",
+        help="One-shot: plan + doctor + generate + check-run (agents: single --json round-trip)",
+    )
+    pipe.add_argument("--launch", required=True)
+    pipe.add_argument("--platforms", required=True)
+    pipe.add_argument("--out", default="out")
+    pipe.add_argument("--campaign", help="Override campaign id/name from launch product_name")
+    pipe.add_argument("--policy", help="Risk policy YAML (default: bundled risk.defaults.yaml)")
+    pipe.add_argument("--json", action="store_true")
 
     reg_lint = subparsers.add_parser(
         "registry-lint",
@@ -275,6 +296,73 @@ def doctor_command(args: argparse.Namespace) -> int:
     policy = load_risk_policy(_policy_path(args))
     emit(doctor_payload(launch, platforms, policy), args.json)
     return 0
+
+
+def pipeline_command(args: argparse.Namespace) -> int:
+    """plan → doctor → generate → check-run in one JSON object (default exit 0; use ok_all for agents)."""
+    from orbit_pilot.check_run import check_run
+
+    launch = load_launch(args.launch)
+    platforms = load_platforms(args.platforms)
+    policy = load_risk_policy(_policy_path(args))
+    launch_dict = asdict(launch)
+    missing = [field for field in REQUIRED_LAUNCH_FIELDS if not launch_dict.get(field)]
+    questions = [f"Please provide {field.replace('_', ' ')}." for field in missing]
+    platform_preview: list[dict[str, Any]] = []
+    for record in platforms:
+        decision = decide_platform(record, launch, policy)
+        platform_preview.append(
+            {
+                "slug": record.slug,
+                "planned_mode": decision.mode,
+                "risk": decision.risk_level,
+                "reason": decision.reason,
+            }
+        )
+    plan_out = {
+        "missing_fields": missing,
+        "questions": questions,
+        "platform_count": len(platforms),
+        "platforms": [record.slug for record in platforms],
+        "platform_preview": platform_preview,
+    }
+    doctor_out = doctor_payload(launch, platforms, policy)
+    campaign = build_campaign(launch, explicit_name=args.campaign)
+    run_dir = create_run_dir(args.out, campaign)
+    write_run_manifest(
+        run_dir,
+        campaign,
+        args.launch,
+        args.platforms,
+        policy_path=_policy_path(args),
+    )
+    gen_results = generate_run(launch, platforms, run_dir, policy=policy)
+    check_out = check_run(run_dir)
+    ok_plan = not missing
+    ok_doctor = all(r.get("ready") for r in doctor_out.get("results", []))
+    ok_check = bool(check_out.get("ok"))
+    payload = {
+        "ok_all": ok_plan and ok_doctor and ok_check,
+        "ok_plan": ok_plan,
+        "ok_doctor": ok_doctor,
+        "ok_check_run": ok_check,
+        "plan": plan_out,
+        "doctor": doctor_out,
+        "generate": {"run_dir": str(run_dir), "results": gen_results},
+        "check_run": check_out,
+    }
+    if args.json:
+        print(json.dumps(payload, indent=2))
+    else:
+        print(f"run_dir: {run_dir}")
+        print(f"ok_all: {payload['ok_all']} (plan={ok_plan} doctor={ok_doctor} check_run={ok_check})")
+        if check_out.get("warnings"):
+            for w in check_out["warnings"]:
+                print(f"warning: {w}", file=sys.stderr)
+        if check_out.get("errors"):
+            for e in check_out["errors"]:
+                print(f"error: {e}", file=sys.stderr)
+    return 0 if payload["ok_all"] else 1
 
 
 def generate_command(args: argparse.Namespace) -> int:
@@ -721,6 +809,13 @@ def init_command(args: argparse.Namespace) -> int:
     dest = Path(args.dir).resolve()
     dest.mkdir(parents=True, exist_ok=True)
     bundled = resources.files("orbit_pilot.bundled")
+    launch_src = _INIT_LAUNCH_BY_PRESET.get(args.preset, "launch.sample.yaml")
+    launch_target = dest / "launch.yaml"
+    if launch_target.exists():
+        print(f"Skip existing {launch_target}")
+    else:
+        launch_target.write_text(bundled.joinpath(launch_src).read_text(encoding="utf-8"), encoding="utf-8")
+        print(f"Wrote {launch_target} (preset={args.preset})")
     for src_name, dest_name in _INIT_BUNDLED_FILES:
         target = dest / dest_name
         text = bundled.joinpath(src_name).read_text(encoding="utf-8")
@@ -741,6 +836,7 @@ _COMMAND_HANDLERS: dict[str, Callable[[argparse.Namespace], int]] = {
     "serve": serve_command,
     "plan": plan_command,
     "doctor": doctor_command,
+    "pipeline": pipeline_command,
     "generate": generate_command,
     "regenerate": regenerate_command,
     "publish": publish_command,
