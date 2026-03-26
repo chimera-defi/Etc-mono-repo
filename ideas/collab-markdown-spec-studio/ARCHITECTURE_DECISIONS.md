@@ -190,5 +190,5 @@
 ## Decision 31: External Design Skills Are a Handoff Target, Not Yet a Runtime Dependency
 - Choice: keep SpecForge responsible for the canonical spec, UX Pack, and design handoff prompt, but do not hardwire a `gstack`-specific design runtime until the integration is proven useful.
 - Why: we need the design contract now, but we should avoid coupling the core spec product to one external design agent stack before validation.
-- Status (current branch): SpecForge has skill/handoff docs for terminal and agent-native flows, but there is no direct `gstack` runtime integration today.
-- Tradeoff: one extra handoff step remains for wireframes or visual exploration, but the spec contract stays portable across browser, CLI, and external design agents.
+- Status (current branch): partially implemented. The design feedback loop (`POST /documents/:id/design-feedback`) now closes the manual-copy gap by converting design reviewer feedback into governed patch proposals targeting the UX Pack. The DesignHandoffPanel supports interactive feedback submission. A direct `gstack` runtime integration remains deferred.
+- Tradeoff: one extra handoff step remains for wireframes or visual exploration, but the spec contract stays portable across browser, CLI, and external design agents. The feedback loop reduces friction by routing design notes back as governed patches instead of out-of-band copy-paste.

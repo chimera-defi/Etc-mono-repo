@@ -1548,6 +1548,7 @@ export default async function Home({ searchParams }: Props) {
                     designSystem={designHandoff.designSystem}
                     reviewChecklist={designHandoff.reviewChecklist}
                     prompt={designHandoff.prompt}
+                    documentId={activeDocument?.document_id ?? null}
                   />
                 ) : (
                   <div className={styles.disclosureBody}>
