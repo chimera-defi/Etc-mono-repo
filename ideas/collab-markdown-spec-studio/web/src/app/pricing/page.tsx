@@ -57,7 +57,7 @@ export default function PricingPage() {
       </section>
 
       <section className={styles.section}>
-        <h2>Public benchmark anchors</h2>
+        <h2>How we compare</h2>
         <div className={styles.faqList}>
           <div className={styles.faqItem}>
             <strong>Notion</strong>
@@ -103,10 +103,7 @@ export default function PricingPage() {
       </section>
 
       <footer className={styles.footer}>
-        <p>
-          This page now reflects the first real plan guard in product code. Full billing,
-          invoicing, and entitlement management remain post-parity SaaS work.
-        </p>
+        <p>SpecForge &copy; {new Date().getFullYear()}</p>
       </footer>
     </main>
   );

@@ -152,10 +152,7 @@ export default async function LandingPage({ searchParams }: Props) {
       </section>
 
       <footer className={styles.footer}>
-        <p>
-          Start on the landing page, price the product on `/pricing`, and move into `/workspace`
-          for the actual guided spec workflow.
-        </p>
+        <p>SpecForge &copy; {new Date().getFullYear()}</p>
       </footer>
     </main>
   );
