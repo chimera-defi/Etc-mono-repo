@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-import { createCollabToken } from "@/lib/specforge/collab-auth";
+import { buildRoomName, createCollabToken } from "@/lib/specforge/collab-auth";
 import { getRequestId, logServerEvent } from "@/lib/specforge/observability";
 import { getCurrentWorkspaceActor } from "@/lib/specforge/session";
 import { getDocument } from "@/lib/specforge/store";
@@ -27,21 +27,23 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: "Document not found" }, { status: 404 });
       }
 
-      // Log a warning when the client's version differs from the stored version
-      // (e.g. a guest opening a share URL after the doc has been updated), but
-      // do NOT block them — the room is keyed by document_id only so they will
-      // still join the correct collaborative session.
+      const roomName = buildRoomName(payload.document_id, document.version);
+
+      // Log version drift for visibility, but still mint a room token for the
+      // latest snapshot so stale clients can detect and reload safely.
       if (document.version !== payload.version) {
         logger.warn("Collab session version drift", {
           document_id: payload.document_id,
           requested_version: payload.version,
           latest_version: document.version,
+          room_name: roomName,
         });
       }
 
       const token = createCollabToken({
         documentId: payload.document_id,
         version: document.version,
+        roomName,
         actorId: currentActor.actor_id,
         actorName: currentActor.name,
         actorColor: currentActor.color,

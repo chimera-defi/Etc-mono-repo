@@ -10,6 +10,7 @@ import * as Y from "yjs";
 
 import type { DocumentRecord } from "@/lib/specforge/contracts";
 import { markdownToEditorHtml, tiptapJsonToMarkdown } from "@/lib/specforge/editor";
+import { buildRoomName } from "@/lib/specforge/collab-auth";
 import { logger } from "@/lib/logger";
 
 type Props = {
@@ -96,7 +97,7 @@ export function DocumentWorkspace({ document, activeActor, authMode, blockSummar
   const router = useRouter();
   const collabUrl =
     process.env.NEXT_PUBLIC_COLLAB_URL?.trim() || "ws://127.0.0.1:4321";
-  const roomName = document.document_id;
+  const roomName = buildRoomName(document.document_id, document.version);
   const [localUser] = useState(() => makeLocalUser(activeActor));
   const [collaborators, setCollaborators] = useState<Collaborator[]>([]);
   const [remoteCursors, setRemoteCursors] = useState<RemoteCursor[]>([]);
@@ -599,6 +600,7 @@ export function DocumentWorkspace({ document, activeActor, authMode, blockSummar
         <div>
           <strong>{document.title}</strong>
           <span>
+            <code>{roomName}</code>{" "}
             <span className={`statusChip statusChip--${statusTone}`}>{syncState}</span> {status}
           </span>
         </div>
@@ -625,7 +627,7 @@ export function DocumentWorkspace({ document, activeActor, authMode, blockSummar
         <div className="recoveryBanner">
           <strong>
             {syncState === "stale"
-              ? "Stale snapshot — newer version available"
+              ? "Recovery needed — stale snapshot, newer version available"
               : syncState === "offline"
               ? "Offline — no network connection"
               : "Collab connection failed"}
