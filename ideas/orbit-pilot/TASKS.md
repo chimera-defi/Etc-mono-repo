@@ -46,5 +46,5 @@
 - [x] Build graph documented (`orchestrate`, SPEC).
 - [x] Code aligned with safety rules and registry.
 - [x] Seed registry present.
-- [ ] Sample outputs refreshed if UX changes (optional).
+- [x] Sample outputs refreshed (CLI `--json` examples in `SAMPLE_OUTPUTS.md`; revisit if output shape changes).
 - [x] First 60 minutes documented.
