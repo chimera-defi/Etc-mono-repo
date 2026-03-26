@@ -5,7 +5,7 @@
     radial-gradient(circle at top left, rgba(238, 115, 24, 0.18), transparent 28%),
     radial-gradient(circle at right, rgba(17, 106, 138, 0.14), transparent 32%),
     linear-gradient(180deg, #f7f0e7 0%, #efe4d5 100%);
-  color: #1c1a17;
+  color: var(--sf-ink);
 }
 
 .brandBar {
@@ -21,8 +21,8 @@
   align-items: center;
   border-radius: 999px;
   padding: 8px 14px;
-  background: #1c1a17;
-  color: #fff9f3;
+  background: var(--sf-ink);
+  color: var(--sf-surface-warm);
   text-transform: uppercase;
   letter-spacing: 0.16em;
   font-size: 0.76rem;
@@ -30,7 +30,7 @@
 
 .brandTagline {
   margin-top: 10px;
-  color: #5e554a;
+  color: var(--sf-muted-warm);
   font-size: 0.95rem;
 }
 
@@ -62,7 +62,7 @@
   margin-top: 14px;
   font-size: 1rem;
   line-height: 1.6;
-  color: #5e554a;
+  color: var(--sf-muted-warm);
 }
 
 .stats {
@@ -94,7 +94,7 @@
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-size: 0.72rem;
-  color: #7a6d5e;
+  color: var(--sf-muted-light);
 }
 
 .focusLayout {
@@ -135,7 +135,7 @@
 
 .panelHeader span {
   font-size: 0.75rem;
-  color: #7a6d5e;
+  color: var(--sf-muted-light);
   text-transform: uppercase;
   letter-spacing: 0.12em;
 }
@@ -149,27 +149,27 @@
   display: grid;
   gap: 8px;
   font-size: 0.92rem;
-  color: #5d5145;
+  color: var(--sf-muted-warm);
 }
 
 .form input,
 .form textarea,
 .selectInput {
   width: 100%;
-  border: 1px solid rgba(28, 26, 23, 0.16);
+  border: 1px solid var(--sf-border-mid);
   border-radius: 16px;
-  background: #fffdfa;
-  color: #1c1a17;
+  background: var(--sf-surface-input);
+  color: var(--sf-ink);
   padding: 12px 14px;
   font: inherit;
 }
 
 .shareInput {
   width: 100%;
-  border: 1px solid rgba(28, 26, 23, 0.16);
+  border: 1px solid var(--sf-border-mid);
   border-radius: 16px;
-  background: #fffdfa;
-  color: #1c1a17;
+  background: var(--sf-surface-input);
+  color: var(--sf-ink);
   padding: 12px 14px;
   font: inherit;
 }
@@ -191,7 +191,7 @@
 .readinessList {
   list-style: disc;
   padding-left: 1.2rem;
-  color: #5d5145;
+  color: var(--sf-muted-warm);
   display: grid;
   gap: 8px;
 }
@@ -201,8 +201,8 @@
   border: 0;
   border-radius: 999px;
   padding: 12px 18px;
-  background: #1c1a17;
-  color: #fff9f3;
+  background: var(--sf-ink);
+  color: var(--sf-surface-warm);
   font: inherit;
   cursor: pointer;
 }
@@ -212,13 +212,13 @@
   gap: 4px;
   padding: 14px;
   border-radius: 16px;
-  border: 1px solid rgba(28, 26, 23, 0.08);
+  border: 1px solid var(--sf-border-faint);
   background: rgba(255, 255, 255, 0.68);
 }
 
 .actorCard strong,
 .actorCard span {
-  color: #6f6559;
+  color: var(--sf-muted-mid);
   font-size: 0.84rem;
   overflow-wrap: anywhere;
 }
@@ -229,7 +229,7 @@
 }
 
 .wizardSection {
-  border: 1px solid rgba(28, 26, 23, 0.08);
+  border: 1px solid var(--sf-border-faint);
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.46);
 }
@@ -245,7 +245,7 @@
   gap: 4px;
   padding: 14px;
   border-radius: 16px;
-  border: 1px solid rgba(28, 26, 23, 0.08);
+  border: 1px solid var(--sf-border-faint);
   background: rgba(255, 255, 255, 0.66);
 }
 
@@ -257,7 +257,7 @@
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-size: 0.72rem;
-  color: #7a6d5e;
+  color: var(--sf-muted-light);
 }
 
 .patchActionForm {
@@ -270,15 +270,15 @@
   display: grid;
   gap: 8px;
   font-size: 0.85rem;
-  color: #5d5145;
+  color: var(--sf-muted-warm);
 }
 
 .patchTextarea {
   width: 100%;
-  border: 1px solid rgba(28, 26, 23, 0.16);
+  border: 1px solid var(--sf-border-mid);
   border-radius: 14px;
-  background: #fffdfa;
-  color: #1c1a17;
+  background: var(--sf-surface-input);
+  color: var(--sf-ink);
   padding: 10px 12px;
   font: inherit;
 }
@@ -294,8 +294,8 @@
   border: 0;
   border-radius: 999px;
   padding: 10px 14px;
-  background: #1c1a17;
-  color: #fff9f3;
+  background: var(--sf-ink);
+  color: var(--sf-surface-warm);
   font: inherit;
   cursor: pointer;
 }
@@ -315,8 +315,8 @@
   gap: 8px;
   border-radius: 16px;
   padding: 14px;
-  background: #fffdf9;
-  border: 1px solid rgba(28, 26, 23, 0.08);
+  background: var(--sf-surface-input);
+  border: 1px solid var(--sf-border-faint);
   min-width: 0;
   overflow-wrap: anywhere;
 }
@@ -340,7 +340,7 @@
   width: fit-content;
   border-radius: 999px;
   padding: 6px 10px;
-  background: rgba(28, 26, 23, 0.08);
+  background: var(--sf-border-faint);
   color: #433a31;
   font-size: 0.72rem;
   text-transform: uppercase;
@@ -376,7 +376,7 @@
   display: grid;
   gap: 10px;
   padding: 12px;
-  border: 1px solid rgba(28, 26, 23, 0.08);
+  border: 1px solid var(--sf-border-faint);
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.7);
 }
@@ -385,7 +385,7 @@
   font-size: 0.86rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: #7a6d5e;
+  color: var(--sf-muted-light);
 }
 
 .diffBody {
@@ -408,7 +408,7 @@
 }
 
 .diffMarker {
-  color: #7a6d5e;
+  color: var(--sf-muted-light);
 }
 
 .diffAdded {
@@ -424,8 +424,8 @@
   gap: 10px;
   border-radius: 16px;
   padding: 14px;
-  background: #fffdf9;
-  border: 1px solid rgba(28, 26, 23, 0.08);
+  background: var(--sf-surface-input);
+  border: 1px solid var(--sf-border-faint);
 }
 
 .blockSummaryMeta {
@@ -435,7 +435,7 @@
 }
 
 .blockSummaryActors {
-  color: #6f6559;
+  color: var(--sf-muted-mid);
   font-size: 0.88rem;
   line-height: 1.5;
 }
@@ -450,20 +450,20 @@
 
 .documentItem span,
 .patchItem span {
-  color: #6f6559;
+  color: var(--sf-muted-mid);
   font-size: 0.88rem;
   overflow-wrap: anywhere;
 }
 
 .context,
 .empty {
-  color: #6f6559;
+  color: var(--sf-muted-mid);
   line-height: 1.5;
   overflow-wrap: anywhere;
 }
 
 .stageDescription {
-  color: #5e554a;
+  color: var(--sf-muted-warm);
   line-height: 1.6;
 }
 
@@ -484,8 +484,8 @@
   border-radius: 18px;
   text-decoration: none;
   color: inherit;
-  border: 1px solid rgba(28, 26, 23, 0.08);
-  background: #fffdf9;
+  border: 1px solid var(--sf-border-faint);
+  background: var(--sf-surface-input);
 }
 
 .completed {
@@ -503,7 +503,7 @@
 }
 
 .stepCard p {
-  color: #6f6559;
+  color: var(--sf-muted-mid);
   font-size: 0.88rem;
   line-height: 1.5;
 }
@@ -512,7 +512,7 @@
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: #7a6d5e;
+  color: var(--sf-muted-light);
 }
 
 .disclosureSummary {
@@ -556,8 +556,8 @@
   border: 0;
   border-radius: 999px;
   padding: 12px 18px;
-  background: #1c1a17;
-  color: #fff9f3;
+  background: var(--sf-ink);
+  color: var(--sf-surface-warm);
   font: inherit;
   cursor: pointer;
 }
@@ -576,8 +576,8 @@
   gap: 12px;
   border-radius: 18px;
   padding: 16px;
-  background: #fffdf9;
-  border: 1px solid rgba(28, 26, 23, 0.08);
+  background: var(--sf-surface-input);
+  border: 1px solid var(--sf-border-faint);
   min-width: 0;
 }
 
@@ -589,7 +589,7 @@
   padding: 10px 14px;
   text-decoration: none;
   border: 1px solid rgba(28, 26, 23, 0.12);
-  color: #1c1a17;
+  color: var(--sf-ink);
   background: rgba(255, 255, 255, 0.55);
 }
 
@@ -604,7 +604,7 @@
   gap: 6px;
   padding: 14px;
   border-radius: 16px;
-  border: 1px solid rgba(28, 26, 23, 0.08);
+  border: 1px solid var(--sf-border-faint);
   background: rgba(255, 255, 255, 0.74);
   min-width: 0;
 }
@@ -614,7 +614,7 @@
 }
 
 .walkthroughCard span {
-  color: #6f6559;
+  color: var(--sf-muted-mid);
   font-size: 0.88rem;
   line-height: 1.45;
   overflow-wrap: anywhere;
@@ -634,7 +634,7 @@
 }
 
 .editorPanel :global(.editorToolbar span) {
-  color: #7a6d5e;
+  color: var(--sf-muted-light);
   font-size: 0.9rem;
 }
 
@@ -643,8 +643,8 @@
   border: 0;
   border-radius: 999px;
   padding: 12px 18px;
-  background: #1c1a17;
-  color: #fff9f3;
+  background: var(--sf-ink);
+  color: var(--sf-surface-warm);
   font: inherit;
   cursor: pointer;
 }
@@ -659,7 +659,7 @@
   font-size: 0.78rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #7a6d5e;
+  color: var(--sf-muted-light);
 }
 
 .editorPanel :global(.presenceList) {
@@ -672,11 +672,11 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  border: 1px solid rgba(28, 26, 23, 0.16);
+  border: 1px solid var(--sf-border-mid);
   border-radius: 999px;
   padding: 0.45rem 0.7rem;
-  background: #fffdfa;
-  color: #1c1a17;
+  background: var(--sf-surface-input);
+  color: var(--sf-ink);
   font-size: 0.85rem;
 }
 
@@ -688,10 +688,10 @@
 
 .editorPanel :global(.specforgeEditor) {
   min-height: 20rem;
-  border: 1px solid rgba(28, 26, 23, 0.16);
+  border: 1px solid var(--sf-border-mid);
   border-radius: 16px;
-  background: #fffdfa;
-  color: #1c1a17;
+  background: var(--sf-surface-input);
+  color: var(--sf-ink);
   padding: 14px;
   outline: none;
 }
@@ -724,7 +724,7 @@
   gap: 12px;
   align-items: center;
   margin-bottom: 14px;
-  color: #6f6559;
+  color: var(--sf-muted-mid);
 }
 
 .exportLink {
@@ -734,8 +734,8 @@
   border-radius: 999px;
   padding: 10px 14px;
   text-decoration: none;
-  background: #1c1a17;
-  color: #fff9f3;
+  background: var(--sf-ink);
+  color: var(--sf-surface-warm);
 }
 
 .exportLinkPrimary {
@@ -759,8 +759,8 @@
 .exportCard {
   border-radius: 18px;
   padding: 16px;
-  background: #fffdf9;
-  border: 1px solid rgba(28, 26, 23, 0.08);
+  background: var(--sf-surface-input);
+  border: 1px solid var(--sf-border-faint);
   min-width: 0;
 }
 

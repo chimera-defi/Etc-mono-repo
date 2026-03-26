@@ -35,6 +35,10 @@
   /* Borders */
   --sf-border: rgba(28, 26, 23, 0.1);
   --sf-border-mid: rgba(28, 26, 23, 0.16);
+  --sf-border-faint: rgba(28, 26, 23, 0.08);
+
+  /* Input / form surfaces */
+  --sf-surface-input: #fffdfa;
 
   /* Radius */
   --sf-radius-sm: 0.75rem;
