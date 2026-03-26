@@ -151,6 +151,13 @@ def build_parser() -> argparse.ArgumentParser:
     check_run_cmd.add_argument("--run", required=True)
     check_run_cmd.add_argument("--json", action="store_true")
 
+    reg_lint = subparsers.add_parser(
+        "registry-lint",
+        help="Validate platform registry YAML (HTTPS URLs, no unknown/placeholder links)",
+    )
+    reg_lint.add_argument("--platforms", required=True, help="Path to platforms YAML")
+    reg_lint.add_argument("--json", action="store_true")
+
     sch_add = subparsers.add_parser(
         "schedule-add",
         help="Queue a command to run at or after due time (JSONL queue; use schedule-daemon to run)",
@@ -532,6 +539,21 @@ def check_run_command(args: argparse.Namespace) -> int:
     return 0 if result.get("ok") else 1
 
 
+def registry_lint_command(args: argparse.Namespace) -> int:
+    from orbit_pilot.registry_lint import lint_platform_registry
+
+    result = lint_platform_registry(args.platforms)
+    if args.json:
+        print(json.dumps(result, indent=2))
+    else:
+        print(f"registry-lint: {args.platforms} ({result.get('platform_count', 0)} platforms)")
+        for w in result.get("warnings") or []:
+            print(f"warning: {w}", file=sys.stderr)
+        for e in result.get("errors") or []:
+            print(f"error: {e}", file=sys.stderr)
+    return 0 if result.get("ok") else 1
+
+
 def validate_json_command(args: argparse.Namespace) -> int:
     from orbit_pilot.schemas_cmd import read_schema, resolve_schema_id, validate_instance
 
@@ -738,6 +760,7 @@ _COMMAND_HANDLERS: dict[str, Callable[[argparse.Namespace], int]] = {
     "validate-json": validate_json_command,
     "version": version_command,
     "check-run": check_run_command,
+    "registry-lint": registry_lint_command,
     "schedule-add": schedule_add_command,
     "schedule-list": schedule_list_command,
     "schedule-run": schedule_run_command,
