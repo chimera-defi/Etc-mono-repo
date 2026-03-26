@@ -19,7 +19,7 @@ Thanks for helping improve launch ops for humans and agents.
 - **`services/publishing`** — orchestration only; publisher HTTP stays under `publishers/`.
 - **`cli.py`** — thin re-exports `main` / `serve_main` for setuptools entry points.
 - **`cli_commands.py`** — argparse setup, all subcommands (including **`pipeline`** one-shot, **`work`** queue helper), `load_launch` for tests.
-- **`services/work_queue.py`** — `work_next_payload`, default-browser open for `orbit work`.
+- **`services/work_queue.py`** — `work_next_payload` (+ **`operator_agent_guide`** for BYO local agents), default-browser open for `orbit work`.
 - **`cli_io.py`** — shared CLI UX bits (e.g. `require_run_dir` for consistent JSON vs stderr errors).
 - **`scheduler.py`** — JSONL schedule queue for deferred subprocess runs (fcntl lock on Unix; `schedule-cancel`).
 - **`schedule_argv.py`** / **`schedule_recurrence.py`** / **`schedule_timezone.py`** — queue validation and scheduling helpers.

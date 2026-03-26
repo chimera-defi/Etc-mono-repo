@@ -7,7 +7,7 @@ description: |
   pipeline + mark-done. Packaged under apps/orbit-pilot/claude-skills/ for export with the app.
 metadata:
   author: Etc mono-repo
-  version: "1.0.1"
+  version: "1.0.2"
   companion_docs:
     - ../../AGENTS.md
     - ../../HUMAN_GUIDE.md
@@ -68,7 +68,7 @@ orbit work --run /path/to/run-* --json
 Parse the object:
 
 - **`kind: "empty"`** — queue clear for manual/browser-assist items; switch to API publishes or stop.
-- **`kind: "task"`** — use **`submit_url`**, **`prompt`**, **`payload`**, **`mark_done_command`**, optional **`playwright_assist_command`**.
+- **`kind: "task"`** — use **`submit_url`**, **`prompt`**, **`payload`**, **`mark_done_command`**, optional **`playwright_assist_command`**, and **`operator_agent_guide`** (stable hints for local-agent vs Playwright paths; same contract for Codex/Cursor/local LLM shells).
 
 **Paths:**
 

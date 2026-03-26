@@ -58,9 +58,11 @@ Each platform folder has `payload.json`, `PROMPT_USER.txt`, `meta.json`.
 
 ```bash
 orbit work --run out/.../run-*
-# JSON for agents: orbit work --run … --json
+# JSON for agents: orbit work --run … --json  (includes operator_agent_guide for local Claude/Codex/Cursor MCP — Orbit does not bundle an LLM)
 # browser_assisted + Playwright (same gates as publish): orbit work --run … --playwright
 ```
+
+**Bring-your-own coding agent:** the Python package stays free of LLM dependencies. Pair **`orbit work --json`** with **Claude Code, Codex, Cursor**, or a **local model** that can drive the user’s browser; use only **public** copy from the pack. A future **paid “Launch OS”** bundle (registry + playbooks + support) can sit on top — see [`../../ideas/orbit-pilot/V2_ROADMAP.md`](../../ideas/orbit-pilot/V2_ROADMAP.md) §4.1.
 
 **API platforms** (when doctor says ready):
 
