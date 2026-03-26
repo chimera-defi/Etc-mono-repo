@@ -74,28 +74,28 @@ export default function PricingPage() {
       </section>
 
       <section className={styles.section}>
-        <h2>How agents are billed</h2>
+        <h2>Common questions</h2>
         <div className={styles.faqList}>
           <div className={styles.faqItem}>
-            <strong>Seat baseline</strong>
+            <strong>What counts as a seat?</strong>
             <p>
-              Pilot workspaces are modeled at $24 per member per month right now, matching the
-              current workspace billing preview in-product.
+              One seat = one team member with write access to the workspace. Read-only reviewers
+              do not count toward your seat total.
             </p>
           </div>
           <div className={styles.faqItem}>
-            <strong>Usage overlay</strong>
+            <strong>What are AI assist requests?</strong>
             <p>
-              SpecForge now records assist requests plus handoff, execution, and launch-packet
-              views. Demo workspaces use a small included assist quota today, while pilot workspaces
-              stay effectively unlimited during validation.
+              Each time you ask the AI to iterate on a section or run a planning stage, that
+              counts as one assist request. Free plans include a generous monthly allowance.
+              Team plans have no cap.
             </p>
           </div>
           <div className={styles.faqItem}>
-            <strong>Credential model</strong>
+            <strong>Do you store my API keys?</strong>
             <p>
-              Hosted workspaces should store provider keys server-side and issue workspace-scoped
-              service identities to agents.
+              On hosted plans, your Claude or Codex keys are encrypted and stored server-side —
+              never exposed to the browser. On the free local plan, you manage your own keys.
             </p>
           </div>
         </div>

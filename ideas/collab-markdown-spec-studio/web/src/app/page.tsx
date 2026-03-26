@@ -75,9 +75,8 @@ export default async function LandingPage({ searchParams }: Props) {
       <section className={styles.section}>
         <h2>Safe multiplayer, not collaborative chaos</h2>
         <p className={styles.sectionLead}>
-          Live collaboration is handled with Yjs and Hocuspocus. Agent work is layered on top as
-          governed patch proposals, with signed room auth, server-derived identities, and audit
-          events for every decision.
+          Every editor sees changes in real time. Agent suggestions arrive as patch proposals —
+          not direct edits. You stay in control of what makes it into the canonical spec.
         </p>
         <ol className={styles.roleList}>
           <li className={styles.roleRow}>
@@ -95,29 +94,29 @@ export default async function LandingPage({ searchParams }: Props) {
         </ol>
       </section>
 
-      {/* Feature cards — kept as cards but with dark accent to break rhythm */}
+      {/* Agent connection — plain-English modes, not jargon */}
       <section className={`${styles.section} ${styles.sectionDark}`}>
-        <h2>How agent configuration works</h2>
+        <h2>Connect your AI agent</h2>
         <div className={styles.sectionGrid}>
           <div className={styles.featureCard}>
-            <strong>Local mode</strong>
+            <strong>Your own keys</strong>
             <p>
-              Operators can reuse existing server-side Codex CLI or Claude Code CLI logins for
-              guided assist and delivery loops. Raw provider secrets still stay off the browser.
+              Bring your Claude or Codex API key. Credentials stay server-side — never exposed
+              to the browser.
             </p>
           </div>
           <div className={styles.featureCard}>
-            <strong>Hosted SaaS mode</strong>
+            <strong>Managed credentials</strong>
             <p>
-              Workspace-scoped provider credentials should live server-side, encrypted at rest, or
-              be attached to managed agent identities instead of borrowed human sessions.
+              On hosted plans, agent credentials are stored encrypted and scoped to your
+              workspace — no sharing tokens across teams.
             </p>
           </div>
           <div className={styles.featureCard}>
-            <strong>Safety model</strong>
+            <strong>Agents can only propose</strong>
             <p>
-              Agent credentials enable patch generation and delivery-loop execution, not
-              unrestricted document mutation. The review layer stays in front of canonical state.
+              No agent can rewrite the spec directly. Every suggestion goes through the patch
+              queue — you accept, reject, or cherry-pick.
             </p>
           </div>
         </div>

@@ -154,16 +154,7 @@
 
 .form input,
 .form textarea,
-.selectInput {
-  width: 100%;
-  border: 1px solid var(--sf-border-mid);
-  border-radius: 16px;
-  background: var(--sf-surface-input);
-  color: var(--sf-ink);
-  padding: 12px 14px;
-  font: inherit;
-}
-
+.selectInput,
 .shareInput {
   width: 100%;
   border: 1px solid var(--sf-border-mid);
@@ -361,11 +352,6 @@
   color: var(--sf-warning);
 }
 
-.danger {
-  background: var(--sf-danger-subtle);
-  color: var(--sf-danger);
-}
-
 .diffGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -486,20 +472,6 @@
   color: inherit;
   border: 1px solid var(--sf-border-faint);
   background: var(--sf-surface-input);
-}
-
-.completed {
-  background: var(--sf-success-faint);
-  border-color: rgba(33, 122, 69, 0.22);
-}
-
-.current {
-  background: var(--sf-blue-subtle);
-  border-color: rgba(17, 106, 138, 0.24);
-}
-
-.upcoming {
-  background: rgba(255, 255, 255, 0.7);
 }
 
 .stepCard p {
