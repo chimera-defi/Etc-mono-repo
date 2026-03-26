@@ -13,7 +13,8 @@ test("renders the integrated SpecForge demo and captures a screenshot", async ({
     }),
   ).toBeVisible();
   await expect(page.getByRole("link", { name: "Launch workspace" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "How agent configuration works" })).toBeVisible();
+  await expect(page.getByText("Current release candidate")).toBeVisible();
+  await expect(page.getByRole("link", { name: "Get the alpha" })).toBeVisible();
 
   await page.screenshot({
     path: "artifacts/screenshots/specforge-demo-home.png",
@@ -192,12 +193,8 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
 
 test("agent assist can populate the guided draft form before creation", async ({ page }) => {
   await page.goto("/workspace?stage=start");
-  await page.locator("summary").filter({ hasText: "Assist runtime" }).first().click();
-  await page.getByLabel("Preferred assist runtime").selectOption("heuristic");
-  await page.getByRole("button", { name: "Save assist preference" }).click();
-  await expect(page.getByText("Assist runtime: heuristic")).toBeVisible();
-
   const draftForm = page.getByTestId("create-document-form");
+  await draftForm.getByLabel("Assist runtime").selectOption("heuristic");
   await expect(draftForm.getByLabel("Assist runtime")).toHaveValue("heuristic");
   await page.getByTestId("agent-assist-brief").fill(
     "A SaaS workspace where founders and engineers coauthor specs with reviewable AI patches and export a launch packet for implementation.",
@@ -316,7 +313,7 @@ test("renders the guided flow on a mobile viewport", async ({ page }) => {
 
   await expect(page.getByText("SpecForge", { exact: true })).toBeVisible();
   await expect(page.getByRole("link", { name: "Launch workspace" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "How agent configuration works" })).toBeVisible();
+  await expect(page.getByText("Current release candidate")).toBeVisible();
 
   await page.screenshot({
     path: "artifacts/screenshots/specforge-demo-mobile.png",
@@ -383,4 +380,16 @@ test("renders the pricing page", async ({ page }) => {
     path: "artifacts/screenshots/specforge-pricing.png",
     fullPage: true,
   });
+});
+
+test("renders the download page", async ({ page }) => {
+  await page.goto("/download");
+  await expect(
+    page.getByRole("heading", {
+      name: "Start with the local alpha now. Ship the desktop app next.",
+    }),
+  ).toBeVisible();
+  await expect(page.getByText("Current alpha truth", { exact: true })).toBeVisible();
+  await expect(page.getByText("Desktop app next", { exact: true })).toBeVisible();
+  await expect(page.getByText("bun run dev")).toBeVisible();
 });

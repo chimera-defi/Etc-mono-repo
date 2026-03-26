@@ -102,6 +102,28 @@
   animation: fadeUp 0.5s 0.24s ease both;
 }
 
+.callout {
+  margin-top: 1rem;
+  padding: 0.95rem 1rem;
+  border-radius: var(--sf-radius);
+  border: 1px solid var(--sf-border);
+  background: rgba(255, 255, 255, 0.72);
+  max-width: 42rem;
+  animation: fadeUp 0.5s 0.3s ease both;
+}
+
+.callout strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.95rem;
+}
+
+.callout p {
+  margin: 0;
+  color: var(--sf-muted);
+  line-height: 1.6;
+}
+
 .primaryCta,
 .secondaryCta {
   display: inline-flex;
@@ -218,6 +240,30 @@
   display: block;
   margin-bottom: 0.45rem;
   font-size: 1rem;
+}
+
+.cardList {
+  margin: 0.85rem 0 0;
+  padding-left: 1rem;
+  color: var(--sf-muted);
+  line-height: 1.6;
+}
+
+.codeBlock {
+  margin-top: 1.25rem;
+  padding: 1rem 1.15rem;
+  border-radius: var(--sf-radius-lg);
+  border: 1px solid var(--sf-border);
+  background: #121922;
+  color: #f7f4ec;
+  box-shadow: 0 18px 60px rgba(24, 33, 43, 0.08);
+}
+
+.codeBlock pre {
+  margin: 0;
+  overflow-x: auto;
+  font-size: 0.95rem;
+  line-height: 1.7;
 }
 
 .pricingCard ul {
