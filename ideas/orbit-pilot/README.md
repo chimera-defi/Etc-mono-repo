@@ -1,6 +1,6 @@
 # Orbit Pilot
 
-**Status:** Spec + CLI + V1 slices in [`apps/orbit-pilot/`](../../apps/orbit-pilot/) | **V1:** [`V1_SHIPPED.md`](./V1_SHIPPED.md) · tracker [`V1_ROADMAP.md`](./V1_ROADMAP.md)
+**Status:** Spec + CLI + V1 slices in [`apps/orbit-pilot/`](../../apps/orbit-pilot/) | **V1:** [`V1_SHIPPED.md`](./V1_SHIPPED.md) · [`V1_ROADMAP.md`](./V1_ROADMAP.md) | **V2 (planning):** [`V2_ROADMAP.md`](./V2_ROADMAP.md)
 
 **Implementation:** [`apps/orbit-pilot/`](../../apps/orbit-pilot/) — humans [`HUMAN_GUIDE.md`](../../apps/orbit-pilot/HUMAN_GUIDE.md), agents [`AGENTS.md`](../../apps/orbit-pilot/AGENTS.md).
 
@@ -64,4 +64,5 @@ WalletRadar is a concrete fit for Orbit Pilot because it needs repeatable submis
 4. `PLATFORM_MATRIX.md`
 5. `V0_BUILD_PLAN.md`
 6. `ARCHITECTURE_DECISIONS.md`
-7. `../../apps/orbit-pilot/src/orbit_pilot/`
+7. `V2_ROADMAP.md` (monetization + GTM — when relevant)
+8. `../../apps/orbit-pilot/` (implementation; [`HUMAN_GUIDE.md`](../../apps/orbit-pilot/HUMAN_GUIDE.md), [`AGENTS.md`](../../apps/orbit-pilot/AGENTS.md))

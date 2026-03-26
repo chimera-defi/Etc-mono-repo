@@ -4,7 +4,7 @@
 
 **Human: start here → [`HUMAN_GUIDE.md`](./HUMAN_GUIDE.md)** (end-to-end flow).  
 **Agents → [`AGENTS.md`](./AGENTS.md)** (schemas, `orbit pipeline`, validation).  
-**Specs / roadmap → [`../../ideas/orbit-pilot/`](../../ideas/orbit-pilot/)** ([`V1_SHIPPED.md`](../../ideas/orbit-pilot/V1_SHIPPED.md), [`V1_ROADMAP.md`](../../ideas/orbit-pilot/V1_ROADMAP.md)).
+**Specs / roadmap → [`../../ideas/orbit-pilot/`](../../ideas/orbit-pilot/)** ([`V1_SHIPPED.md`](../../ideas/orbit-pilot/V1_SHIPPED.md), [`V1_ROADMAP.md`](../../ideas/orbit-pilot/V1_ROADMAP.md), [`V2_ROADMAP.md`](../../ideas/orbit-pilot/V2_ROADMAP.md) monetization/GTM planning).
 
 ## Install
 

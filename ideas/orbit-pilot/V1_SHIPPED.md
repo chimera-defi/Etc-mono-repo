@@ -14,6 +14,7 @@
 
 - Full **web operator UI** → [`FRONTEND_VISION.md`](./FRONTEND_VISION.md).
 - **Live credential E2E** in CI (tokens, real site posts) — run locally or in your environment.
+- **Commercial V2** (hosted tiers, pricing, GTM) — planning in [`V2_ROADMAP.md`](./V2_ROADMAP.md).
 
 ## Real launches (Orbit Pilot + WalletRadar)
 
