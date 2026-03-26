@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbit-pilot.local/schemas/campaigns-output.schema.json",
+  "title": "OrbitPilotCampaignsOutput",
+  "description": "Machine output of: orbit campaigns --json",
+  "type": "object",
+  "required": ["campaigns"],
+  "properties": {
+    "campaigns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["campaign", "run_count", "latest_run"],
+        "properties": {
+          "campaign": { "type": "string" },
+          "run_count": { "type": "integer", "minimum": 0 },
+          "latest_run": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "error": { "type": "string" }
+  },
+  "additionalProperties": true
+}

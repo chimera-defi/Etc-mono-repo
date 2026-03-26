@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-import os
-
-from orbit_pilot.links import append_utm
+from orbit_pilot.credentials import get_secret
+from orbit_pilot.links import append_utm, canonicalize_url
 from orbit_pilot.models import LaunchProfile, PlatformRecord, SubmissionDecision
 from orbit_pilot.prompts import build_submission_body, build_x_post_text
 
@@ -13,9 +12,9 @@ def plan_platform(record: PlatformRecord, launch: LaunchProfile) -> SubmissionDe
     if mode == "browser_fallback_opt_in":
         return SubmissionDecision(
             record.slug,
-            "skipped",
+            "manual",
             record.risk,
-            "browser automation not available in V0 (opt-in only)",
+            "Registry browser_fallback_opt_in: base plan manual; policy may upgrade to browser_assisted when allowed",
         )
 
     if mode in ("manual", "manual_by_default", "manual_unless_approved"):
@@ -23,9 +22,13 @@ def plan_platform(record: PlatformRecord, launch: LaunchProfile) -> SubmissionDe
 
     if record.slug == "medium":
         medium_cfg = launch.publish.get("medium", {})
-        token_ok = bool(os.environ.get("MEDIUM_TOKEN"))
+        token_ok = bool(get_secret("MEDIUM_TOKEN"))
         author_ok = bool(str(medium_cfg.get("author_id", "")).strip())
-        if token_ok and author_ok:
+        if mode in (
+            "official_api",
+            "official_api_if_token_else_manual",
+            "official_api_if_access",
+        ) and token_ok and author_ok:
             return SubmissionDecision(record.slug, "official_api", record.risk, "Medium token and author_id configured")
         return SubmissionDecision(
             record.slug,
@@ -36,9 +39,9 @@ def plan_platform(record: PlatformRecord, launch: LaunchProfile) -> SubmissionDe
 
     if record.slug == "linkedin":
         linkedin_cfg = launch.publish.get("linkedin", {})
-        token_ok = bool(os.environ.get("LINKEDIN_ACCESS_TOKEN"))
+        token_ok = bool(get_secret("LINKEDIN_ACCESS_TOKEN"))
         author_ok = bool(str(linkedin_cfg.get("author", "")).strip())
-        if token_ok and author_ok:
+        if mode in ("official_api_if_scoped", "official_api_if_access", "official_api") and token_ok and author_ok:
             return SubmissionDecision(
                 record.slug,
                 "official_api",
@@ -53,7 +56,7 @@ def plan_platform(record: PlatformRecord, launch: LaunchProfile) -> SubmissionDe
         )
 
     if record.slug == "x":
-        if mode in ("official_api", "official_api_if_access") and bool(os.environ.get("X_ACCESS_TOKEN")):
+        if mode in ("official_api", "official_api_if_access") and bool(get_secret("X_ACCESS_TOKEN")):
             return SubmissionDecision(record.slug, "official_api", record.risk, "X_ACCESS_TOKEN present")
         return SubmissionDecision(
             record.slug,
@@ -82,8 +85,9 @@ def plan_platform(record: PlatformRecord, launch: LaunchProfile) -> SubmissionDe
 
 
 def _tracked_url(launch: LaunchProfile, record: PlatformRecord) -> str:
+    base = canonicalize_url(launch.website_url)
     return append_utm(
-        launch.website_url,
+        base,
         source=f"orbit_pilot_{record.slug}",
         medium="community",
         campaign="launch",
@@ -94,7 +98,7 @@ def _tracked_url(launch: LaunchProfile, record: PlatformRecord) -> str:
 def build_body_for_platform(launch: LaunchProfile, record: PlatformRecord) -> str:
     url = _tracked_url(launch, record)
     if record.slug == "x":
-        return build_x_post_text(launch, url)
+        return build_x_post_text(launch, record, url)
     return build_submission_body(launch, record, url)
 
 

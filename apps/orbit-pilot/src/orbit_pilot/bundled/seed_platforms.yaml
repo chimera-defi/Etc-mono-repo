@@ -62,6 +62,9 @@ platforms:
     risk: medium_high
     priority: 95
     cooldown_seconds: 86400
+    image_constraints:
+      max_width: 1200
+      max_height: 630
   - name: Crunchbase
     slug: crunchbase
     category: company_profile
@@ -80,6 +83,7 @@ platforms:
     risk: medium
     priority: 84
     cooldown_seconds: 86400
+    cta_in_body: false
   - name: Tiny Startups
     slug: tiny_startups
     category: directory
@@ -92,8 +96,9 @@ platforms:
   - name: TrustMRR
     slug: trustmrr
     category: directory
-    official_url: unknown
-    submit_url: unknown
+    # Verified revenue DB; listing flow is “Add startup” on-site (no stable /submit path as of 2026-03)
+    official_url: https://trustmrr.com/
+    submit_url: https://trustmrr.com/
     mode: manual
     risk: medium
     priority: 52
@@ -178,4 +183,22 @@ platforms:
     mode: manual
     risk: medium
     priority: 69
+    cooldown_seconds: 604800
+  - name: Microlaunch
+    slug: microlaunch
+    category: launch
+    official_url: https://microlaunch.net/
+    submit_url: https://microlaunch.net/p/submit
+    mode: manual
+    risk: medium
+    priority: 87
+    cooldown_seconds: 604800
+  - name: OpenAlternative
+    slug: open_alternative
+    category: directory
+    official_url: https://openalternative.co/
+    submit_url: https://openalternative.co/submit
+    mode: manual
+    risk: medium
+    priority: 79
     cooldown_seconds: 604800
