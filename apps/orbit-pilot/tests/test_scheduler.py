@@ -23,8 +23,6 @@ def test_schedule_cancel(tmp_path, monkeypatch) -> None:
     entry = append_job("2099-01-01T00:00:00Z", str(tmp_path), ["echo", "x"])
     assert cancel_job(entry.id)["ok"] is True
     assert len(list_pending()) == 0
-    from orbit_pilot.scheduler import read_jobs
-
     assert any(r.get("cancelled") for r in read_jobs(p))
 
 

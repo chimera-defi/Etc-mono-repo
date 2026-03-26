@@ -19,9 +19,7 @@ def bundled_default_policy_path() -> str:
 class RiskPolicy:
     tolerance: str = "low"
     allow_browser_fallback: bool = False
-    # V1: opt-in Playwright assist for browser_fallback_opt_in (still requires env confirmation at publish time)
     allow_browser_automation: bool = False
-    # Optional: allow typing into registry-provided selectors (human still reviews/submits)
     allow_browser_autofill: bool = False
     platform_overrides: dict[str, dict[str, Any]] = field(default_factory=dict)
 

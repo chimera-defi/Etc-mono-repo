@@ -174,7 +174,6 @@ def publish_from_run(run_dir: Path, platforms: list[str], execute: bool) -> list
             try:
                 opened = run_submit_portal_assist(
                     submit_url,
-                    run_dir / platform,
                     payload,
                     selectors,
                     headless=headless,

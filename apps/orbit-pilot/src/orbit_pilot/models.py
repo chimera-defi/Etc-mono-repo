@@ -24,7 +24,6 @@ class LaunchProfile:
     assets: dict[str, Any] = field(default_factory=dict)
     company: dict[str, Any] = field(default_factory=dict)
     publish: dict[str, Any] = field(default_factory=dict)
-    # default_include_link: if false, omit primary URL from generated bodies (per-platform override in registry)
     cta_policy: dict[str, Any] = field(default_factory=dict)
 
 
@@ -42,7 +41,6 @@ class PlatformRecord:
     image_max_width: int | None = None
     image_max_height: int | None = None
     cta_in_body: bool = True
-    # Optional Playwright autofill (CSS selectors); only used if policy + env allow
     browser_form_selectors: dict[str, str] = field(default_factory=dict)
 
 

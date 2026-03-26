@@ -13,6 +13,9 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import IO, Any
 
+from orbit_pilot.schedule_argv import validate_schedule_argv
+from orbit_pilot.schedule_recurrence import next_fire_after, normalize_recurrence
+
 try:
     import fcntl  # Unix
 
@@ -97,9 +100,6 @@ def append_job(
     recurrence: str = "none",
     timezone_label: str | None = None,
 ) -> ScheduleEntry:
-    from orbit_pilot.schedule_argv import validate_schedule_argv
-    from orbit_pilot.schedule_recurrence import normalize_recurrence
-
     v = validate_schedule_argv(argv)
     if not v["ok"]:
         raise ValueError(str(v.get("error", "invalid argv")))
@@ -227,8 +227,6 @@ def run_due_jobs(path: Path | None = None, *, now: datetime | None = None) -> li
                 r["last_exit_code"] = exit_code
                 if exit_code != 0:
                     r["last_stderr_tail"] = stderr_tail[-500:]
-                from orbit_pilot.schedule_recurrence import next_fire_after, normalize_recurrence
-
                 rec_raw = str(r.get("recurrence") or "none")
                 try:
                     norm = normalize_recurrence(rec_raw)
