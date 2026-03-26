@@ -29,6 +29,8 @@ cd apps/orbit-pilot
 pip install -e ".[dev]"
 ruff check src tests
 pytest -q
+# Optional real browser: pip install -e ".[browser]" && python3 -m playwright install chromium
+# RUN_BROWSER_E2E=1 pytest tests/test_browser_playwright_e2e.py -v
 ```
 
 ## Design principles

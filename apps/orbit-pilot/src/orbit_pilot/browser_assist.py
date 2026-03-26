@@ -41,6 +41,27 @@ def _fill_if(page: Any, selector: str, text: str, max_len: int = 8000) -> None:
     page.fill(selector, s[:max_len])
 
 
+def apply_browser_autofill(page: Any, payload: dict[str, Any], selectors: dict[str, str]) -> None:
+    """Fill title/body/url fields using registry CSS selectors (used by publish + tests)."""
+    if not selectors:
+        return
+    title_sel = selectors.get("title") or selectors.get("name") or ""
+    body_sel = (
+        selectors.get("body")
+        or selectors.get("description")
+        or selectors.get("content")
+        or selectors.get("message")
+        or ""
+    )
+    url_sel = selectors.get("url") or selectors.get("link") or selectors.get("website") or ""
+    title = str(payload.get("title") or "")
+    body = str(payload.get("body") or "")
+    url = str(payload.get("url") or "")
+    _fill_if(page, title_sel, title)
+    _fill_if(page, body_sel, body, max_len=32000)
+    _fill_if(page, url_sel, url)
+
+
 def run_submit_portal_assist(
     submit_url: str,
     platform_dir: Path,
@@ -62,21 +83,7 @@ def run_submit_portal_assist(
         page = context.new_page()
         page.goto(submit_url, wait_until="domcontentloaded", timeout=120000)
         if autofill and selectors:
-            title_sel = selectors.get("title") or selectors.get("name") or ""
-            body_sel = (
-                selectors.get("body")
-                or selectors.get("description")
-                or selectors.get("content")
-                or selectors.get("message")
-                or ""
-            )
-            url_sel = selectors.get("url") or selectors.get("link") or selectors.get("website") or ""
-            title = str(payload.get("title") or "")
-            body = str(payload.get("body") or "")
-            url = str(payload.get("url") or "")
-            _fill_if(page, title_sel, title)
-            _fill_if(page, body_sel, body, max_len=32000)
-            _fill_if(page, url_sel, url)
+            apply_browser_autofill(page, payload, selectors)
         page.wait_for_timeout(wait_ms)
         browser.close()
     return submit_url
