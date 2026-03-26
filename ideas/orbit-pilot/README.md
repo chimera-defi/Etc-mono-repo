@@ -1,8 +1,8 @@
 # Orbit Pilot
 
-**Status:** Spec + CLI + full-buildout slices in [`apps/orbit-pilot/`](../../apps/orbit-pilot/) | **Last Updated:** 2026-03-24
+**Status:** Spec + CLI + V1 slices in [`apps/orbit-pilot/`](../../apps/orbit-pilot/) | **V1 tracker:** [`V1_ROADMAP.md`](./V1_ROADMAP.md)
 
-**Implementation:** [`apps/orbit-pilot/`](../../apps/orbit-pilot/) (this folder is specs and research only). Agent-oriented usage: [`apps/orbit-pilot/AGENTS.md`](../../apps/orbit-pilot/AGENTS.md).
+**Implementation:** [`apps/orbit-pilot/`](../../apps/orbit-pilot/) (this folder is specs and research only). Agents: [`apps/orbit-pilot/AGENTS.md`](../../apps/orbit-pilot/AGENTS.md).
 
 ## One-Liner
 
