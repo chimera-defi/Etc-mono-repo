@@ -12,8 +12,8 @@ Generated from bundled `launch.sample.yaml` + `seed_platforms.yaml` (paths vary 
 {
   "missing_fields": [],
   "questions": [],
-  "platform_count": 20,
-  "platforms": ["medium", "reddit", "github", "…"],
+  "platform_count": 22,
+  "platforms": ["medium", "reddit", "github", "…", "microlaunch", "open_alternative"],
   "platform_preview": [
     {
       "slug": "github",
@@ -80,7 +80,7 @@ Generated from bundled `launch.sample.yaml` + `seed_platforms.yaml` (paths vary 
   "ok": true,
   "errors": [],
   "warnings": [],
-  "platform_count": 20
+  "platform_count": 22
 }
 ```
 

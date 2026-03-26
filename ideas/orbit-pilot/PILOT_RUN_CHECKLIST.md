@@ -29,3 +29,9 @@ Operator checklist to complete **V1 milestone 4** in [`V1_ROADMAP.md`](./V1_ROAD
 - [ ] Optional: attach or link `orbit export --run … --format html` report
 
 When done, mark milestone 4 in `TASKS.md` / `V1_ROADMAP.md` or add a one-line entry under **Pilot runs** in your ops log.
+
+## Template log line (paste when complete)
+
+```
+Pilot run YYYY-MM-DD: campaign=<id> run_dir=<path> completed=<slugs> skipped=<slugs> notes=<url-or-doc>
+```

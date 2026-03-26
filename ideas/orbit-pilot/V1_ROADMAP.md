@@ -28,7 +28,7 @@
 
 1. **Milestone 4 — Pilot launch run** — Use [`PILOT_RUN_CHECKLIST.md`](./PILOT_RUN_CHECKLIST.md); record outcome when done.
 2. **Sample outputs** — Done: [`SAMPLE_OUTPUTS.md`](./SAMPLE_OUTPUTS.md) includes representative `--json`; re-run locally and update if CLI keys change.
-3. **Registry growth (optional)** — Add platforms only with vetted `https` URLs: edit `PLATFORM_MATRIX.md` + `seed_platforms.yaml`; parity test must pass.
+3. **Registry growth (optional)** — Extended with Microlaunch + OpenAlternative (2026-03); add more the same way: `PLATFORM_MATRIX.md` + `seed_platforms.yaml` + `test_platform_matrix_parity._NAME_TO_SLUG`.
 
 ### Deferred (explicitly not V1 blockers)
 

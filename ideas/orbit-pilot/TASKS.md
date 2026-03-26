@@ -10,8 +10,9 @@
 
 ## Phase 0
 - [x] Finalize naming and positioning.
-- [x] Confirm initial platform allowlist (seed registry in `apps/.../bundled/seed_platforms.yaml`).
+- [x] Confirm initial platform allowlist (seed registry; matrix parity test — see `PLATFORM_MATRIX.md`).
 - [ ] Confirm pilot launch dataset (operator-specific).
+- [ ] **Milestone 4** — Execute [`PILOT_RUN_CHECKLIST.md`](./PILOT_RUN_CHECKLIST.md) on a real product; log outcome.
 
 ## Workstreams
 

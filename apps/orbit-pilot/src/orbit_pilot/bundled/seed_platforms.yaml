@@ -184,3 +184,21 @@ platforms:
     risk: medium
     priority: 69
     cooldown_seconds: 604800
+  - name: Microlaunch
+    slug: microlaunch
+    category: launch
+    official_url: https://microlaunch.net/
+    submit_url: https://microlaunch.net/p/submit
+    mode: manual
+    risk: medium
+    priority: 87
+    cooldown_seconds: 604800
+  - name: OpenAlternative
+    slug: open_alternative
+    category: directory
+    official_url: https://openalternative.co/
+    submit_url: https://openalternative.co/submit
+    mode: manual
+    risk: medium
+    priority: 79
+    cooldown_seconds: 604800

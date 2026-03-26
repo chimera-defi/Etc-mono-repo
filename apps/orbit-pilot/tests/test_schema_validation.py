@@ -227,7 +227,7 @@ def test_schedule_schemas() -> None:
 def test_registry_lint_output_schema() -> None:
     _v(
         "registry-lint-output",
-        {"ok": True, "errors": [], "warnings": [], "platform_count": 20},
+        {"ok": True, "errors": [], "warnings": [], "platform_count": 22},
     )
 
 
