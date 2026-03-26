@@ -9,6 +9,30 @@ The rule for inclusion here is simple:
 - the acceptance criteria are clear
 - it does not require unresolved product strategy before coding starts
 
+## Status Key
+
+- `not started`: no meaningful implementation exists on the branch yet
+- `partial`: some groundwork or surface exists, but the workstream is not actually finished
+- `mostly planning`: documentation or spike-level work exists, but the implementation should still be treated as open
+
+## Current Status Snapshot
+
+1. Tauri desktop shell — `not started`
+2. Desktop runtime status panel — `partial`
+3. Local install / download flow polish — `partial`
+4. Local CLI assist diagnostics — `partial`
+5. Billing provider skeleton — `not started`
+6. Entitlements enforcement cleanup — `partial`
+7. Pilot membership UX polish — `partial`
+8. Hosted ops surfaces — `partial`
+9. Store decomposition — `partial`
+10. Workspace page decomposition — `partial`
+11. Design review workflow polish — `partial`
+12. Acceptance test UX — `partial`
+13. Local log export / diagnostics pack — `not started`
+14. Hybrid local bridge design spike — `mostly planning`
+15. Future idea-generation improvements inside SpecForge — `mostly planning`
+
 ## 1. Tauri Desktop Shell
 
 ### Goal
@@ -42,6 +66,10 @@ Wrap the working local SpecForge product in a desktop app so users can run the c
 
 Do not rewrite the current local app. Package it.
 
+### Status
+
+`not started`
+
 ## 2. Desktop Runtime Status Panel
 
 ### Goal
@@ -67,6 +95,12 @@ Make local runtime state visible to end users inside the product.
 - workspace clearly shows whether local assist is available
 - user can tell why assist is unavailable
 - runtime state is visible without opening logs
+
+### Status
+
+`partial`
+
+Current branch already shows some local runtime links and CLI options, but not a true consolidated desktop/runtime state surface.
 
 ## 3. Local Install / Download Flow Polish
 
@@ -95,6 +129,12 @@ Turn the current homepage + download page into a cleaner local-first onboarding 
   - that desktop packaging is the next step
 - browser tests cover the updated flow
 
+### Status
+
+`partial`
+
+`/` and `/download` are live and tested, but platform-specific onboarding and desktop-ready packaging instructions are still incomplete.
+
 ## 4. Local CLI Assist Diagnostics
 
 ### Goal
@@ -119,6 +159,12 @@ Make local Codex / Claude reuse easier to debug.
 - if `codex` is missing, user sees that clearly
 - if `claude` is missing, user sees that clearly
 - if a CLI times out or returns malformed output, the error is actionable
+
+### Status
+
+`partial`
+
+CLI detection and local assist already exist, but the diagnostics surface is still thin.
 
 ## 5. Billing Provider Skeleton
 
@@ -150,6 +196,10 @@ Replace the current billing-preview-only state with a real provider integration 
 
 This is a scaffold with honest boundaries, not “payments done”.
 
+### Status
+
+`not started`
+
 ## 6. Entitlements Enforcement Cleanup
 
 ### Goal
@@ -174,6 +224,12 @@ Centralize feature gating and quota enforcement.
 - one entitlement source of truth
 - no duplicated feature gating logic
 - UI explanations match backend enforcement
+
+### Status
+
+`partial`
+
+Plans, quotas, billing preview, and entitlements exist, but the contract still needs cleanup and provider-facing structure.
 
 ## 7. Pilot Membership UX Polish
 
@@ -202,6 +258,10 @@ Make pilot workspace membership feel like a real product flow instead of an inte
 - pilot-vs-local rules are understandable in UI
 - browser tests cover the main membership lifecycle
 
+### Status
+
+`partial`
+
 ## 8. Hosted Ops Surfaces
 
 ### Goal
@@ -226,6 +286,10 @@ Push hosted ops beyond local rehearsal JSON endpoints.
 - hosted rehearsal path exposes actionable operator state
 - backups and incidents are understandable without reading raw JSON
 
+### Status
+
+`partial`
+
 ## 9. Store Decomposition
 
 ### Goal
@@ -249,6 +313,10 @@ Finish thinning the remaining large persistence module.
 - responsibilities move into clear domain modules
 - tests remain green
 
+### Status
+
+`partial`
+
 ## 10. Workspace Page Decomposition
 
 ### Goal
@@ -270,6 +338,10 @@ Keep trimming page-level composition glue so the workspace stays readable.
 
 - page remains mostly orchestration/composition
 - heavy UI sections live in focused components
+
+### Status
+
+`partial`
 
 ## 11. Design Review Workflow Polish
 
@@ -294,6 +366,10 @@ Make design review feel first-class after spec creation.
 - a design partner can review and return feedback without custom explanation
 - design feedback appears clearly as governed patches
 
+### Status
+
+`partial`
+
 ## 12. Acceptance Test UX
 
 ### Goal
@@ -315,6 +391,12 @@ Make the acceptance-test feature visible and useful in the product, not just in 
 
 - user can trigger spec evaluation from UI
 - failures tell them what to add
+
+### Status
+
+`partial`
+
+Acceptance test CRUD and run components already exist, and the evaluation API is live. What is still missing is a first-class workspace-stage surface that makes the feature easy to discover and use.
 
 ## 13. Local Log Export / Diagnostics Pack
 
@@ -339,6 +421,10 @@ Help users and design partners share reproducible failures.
 
 - user can export a debug pack without terminal work
 
+### Status
+
+`not started`
+
 ## 14. Hybrid Local Bridge Design Spike
 
 ### Goal
@@ -361,6 +447,10 @@ Design, but do not fully ship, the bridge that would let hosted SpecForge use lo
 ### Notes
 
 This is a spike/planning slice, not a “ship it now” slice.
+
+### Status
+
+`mostly planning`
 
 ## 15. Future Idea Generation Inside SpecForge
 
@@ -387,6 +477,10 @@ Make SpecForge itself better at generating future `ideas/` packs in this repo.
 ### Acceptance Criteria
 
 - a future idea generated in SpecForge is closer to a one-shot buildable pack
+
+### Status
+
+`mostly planning`
 
 ## Parallelization Guidance
 
