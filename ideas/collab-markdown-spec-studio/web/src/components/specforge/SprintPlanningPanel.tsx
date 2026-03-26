@@ -332,7 +332,7 @@ export function SprintPlanningPanel({ documentId, actorId, specWizardHref }: Pro
     } finally {
       setLoading(false);
     }
-  }, [session, activeStage, documentId]);
+  }, [session, activeStage, documentId, actorId]);
 
   // ---------------------------------------------------------------------------
   // Render helpers
