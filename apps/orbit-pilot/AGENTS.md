@@ -44,7 +44,7 @@ Default bundled policy is used unless **`--policy path/to/risk.yaml`**. Policy c
 | Generate summary | `orbit generate --json` |
 | Publish results | `orbit publish --json` |
 | Queue / next manual | `orbit next --json`, `orbit guide --json` |
-| Full run snapshot | `orbit export --format json` |
+| Full run snapshot | `orbit export --format json` (add `--json` for `{"error":…}` if run path is wrong) |
 | Audit timeline | `orbit audit --json` |
 | HTML shareable report | `orbit export --format html` (writes `report.html` in run dir if `-o` omitted) |
 

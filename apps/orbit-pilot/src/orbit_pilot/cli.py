@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from orbit_pilot.audit import read_audit_events, record_submission
+from orbit_pilot.cli_io import require_run_dir
 from orbit_pilot.config import load_document
 from orbit_pilot.models import REQUIRED_LAUNCH_FIELDS, LaunchProfile
 from orbit_pilot.policy import bundled_default_policy_path, decide_platform, load_risk_policy
@@ -92,6 +93,7 @@ def build_parser() -> argparse.ArgumentParser:
     export_cmd.add_argument("--run", required=True)
     export_cmd.add_argument("--format", choices=["json", "md", "html"], default="json")
     export_cmd.add_argument("-o", "--out", help="Write to file instead of stdout")
+    export_cmd.add_argument("--json", action="store_true", help="Machine-readable errors (e.g. missing run dir)")
 
     audit_cmd = subparsers.add_parser("audit")
     audit_cmd.add_argument("--run", required=True)
@@ -206,8 +208,7 @@ def generate_command(args: argparse.Namespace) -> int:
 
 def regenerate_command(args: argparse.Namespace) -> int:
     run_dir = Path(args.run)
-    if not run_dir.exists():
-        emit({"error": f"Run directory not found: {run_dir}"}, args.json)
+    if not require_run_dir(run_dir, json_mode=args.json):
         return 1
     manifest = load_run_manifest(run_dir)
     launch = load_launch(manifest["launch_path"])
@@ -232,8 +233,7 @@ def publish_command(args: argparse.Namespace) -> int:
 
 def mark_done_command(args: argparse.Namespace) -> int:
     run_dir = Path(args.run)
-    if not run_dir.exists():
-        emit({"error": f"Run directory not found: {run_dir}"}, args.json)
+    if not require_run_dir(run_dir, json_mode=args.json):
         return 1
     mode = "manual"
     meta_path = run_dir / args.platform / "meta.json"
@@ -271,8 +271,7 @@ def mark_done_command(args: argparse.Namespace) -> int:
 
 def next_command(args: argparse.Namespace) -> int:
     run_dir = Path(args.run)
-    if not run_dir.exists():
-        emit({"error": f"Run directory not found: {run_dir}"}, args.json)
+    if not require_run_dir(run_dir, json_mode=args.json):
         return 1
     payload = next_manual_payload(run_dir)
     if args.json:
@@ -287,8 +286,7 @@ def next_command(args: argparse.Namespace) -> int:
 
 def guide_command(args: argparse.Namespace) -> int:
     run_dir = Path(args.run)
-    if not run_dir.exists():
-        emit({"error": f"Run directory not found: {run_dir}"}, args.json)
+    if not require_run_dir(run_dir, json_mode=args.json):
         return 1
     data = human_guide(run_dir)
     if args.json:
@@ -341,8 +339,7 @@ def latest_command(args: argparse.Namespace) -> int:
 
 def report_command(args: argparse.Namespace) -> int:
     run_dir = Path(args.run)
-    if not run_dir.exists():
-        emit({"error": f"Run directory not found: {run_dir}"}, args.json)
+    if not require_run_dir(run_dir, json_mode=args.json):
         return 1
     data = report_payload(run_dir)
     if args.json:
@@ -372,8 +369,7 @@ def report_command(args: argparse.Namespace) -> int:
 
 def audit_command(args: argparse.Namespace) -> int:
     run_dir = Path(args.run)
-    if not run_dir.exists():
-        print(f"Run directory not found: {run_dir}", file=sys.stderr)
+    if not require_run_dir(run_dir, json_mode=args.json):
         return 1
     events = read_audit_events(run_dir, tail=args.tail)
     if args.json:
@@ -392,8 +388,7 @@ def audit_command(args: argparse.Namespace) -> int:
 
 def export_command(args: argparse.Namespace) -> int:
     run_dir = Path(args.run)
-    if not run_dir.exists():
-        print(f"Run directory not found: {run_dir}", file=sys.stderr)
+    if not require_run_dir(run_dir, json_mode=bool(args.json)):
         return 1
     text = export_run(run_dir, args.format)
     if args.format == "html" and not args.out:
@@ -496,8 +491,7 @@ def tui_command(args: argparse.Namespace) -> int:
     from orbit_pilot.tui_app import run_tui, tui_available
 
     run_dir = Path(args.run)
-    if not run_dir.exists():
-        print(f"Run directory not found: {run_dir}", file=sys.stderr)
+    if not require_run_dir(run_dir, json_mode=False):
         return 1
     if not tui_available():
         print(
