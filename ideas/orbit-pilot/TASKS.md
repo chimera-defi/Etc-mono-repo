@@ -44,7 +44,8 @@
 - [ ] Full web operator UI (see `FRONTEND_VISION.md`).
 
 ### V2 (planning — not V1 gates)
-- [ ] Product + monetization + GTM captured in [`V2_ROADMAP.md`](./V2_ROADMAP.md); adopt scope before implementation tasks land here.
+- [x] Product + monetization + GTM + pricing hypothesis in [`V2_ROADMAP.md`](./V2_ROADMAP.md).
+- [ ] **Adopt** V2 scope (pick first paid SKU / build plan); then add implementation tasks here or in a V2 tech spec.
 
 ## One-Shot Build Gates
 - [x] Build graph documented (`orchestrate`, SPEC).
