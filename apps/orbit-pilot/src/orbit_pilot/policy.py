@@ -21,6 +21,8 @@ class RiskPolicy:
     allow_browser_fallback: bool = False
     allow_browser_automation: bool = False
     allow_browser_autofill: bool = False
+    # With autofill + registry submit selector: allow Playwright to click submit (extremely high risk; gated by env)
+    allow_browser_auto_submit: bool = False
     platform_overrides: dict[str, dict[str, Any]] = field(default_factory=dict)
 
 
@@ -49,6 +51,7 @@ def load_risk_policy(path: str | Path | None) -> RiskPolicy:
         allow_browser_fallback=bool(risk.get("allow_browser_fallback", False)),
         allow_browser_automation=bool(risk.get("allow_browser_automation", False)),
         allow_browser_autofill=bool(risk.get("allow_browser_autofill", False)),
+        allow_browser_auto_submit=bool(risk.get("allow_browser_auto_submit", False)),
         platform_overrides={k: dict(v) for k, v in (raw.get("platforms") or {}).items()},
     )
 

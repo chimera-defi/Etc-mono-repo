@@ -20,7 +20,7 @@ Thanks for helping improve launch ops for humans and agents.
 - **`cli_io.py`** — shared CLI UX bits (e.g. `require_run_dir` for consistent JSON vs stderr errors).
 - **`scheduler.py`** — JSONL schedule queue for deferred subprocess runs (fcntl lock on Unix; `schedule-cancel`).
 - **`schedule_argv.py`** / **`schedule_recurrence.py`** / **`schedule_timezone.py`** — queue validation and scheduling helpers.
-- **`browser_assist.py`** — optional Playwright open of `submit_url` (install `[browser]`); optional selector autofill when policy + env allow.
+- **`browser_assist.py`** — Playwright: autofill, optional submit click, optional `ORBIT_BROWSER_USER_DATA_DIR` persistent context.
 - **`registry_lint.py`** — `orbit registry-lint` for CI/agents (duplicate slugs, `unknown` URLs, prefer https).
 
 ## Development setup
