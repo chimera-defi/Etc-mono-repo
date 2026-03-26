@@ -13,6 +13,19 @@
 - [x] The original scoped MVP backlog is clear; the remaining list below is broader post-parity SaaS/platform work.
 - [x] Landing page at `/`, pricing page at `/pricing`, and product workspace at `/workspace` are live.
 
+## Current Priority Order
+
+- [ ] 1. Package the working local product.
+  - Focus: Tauri shell, local runtime status, local install/download flow, local CLI assist diagnostics
+- [ ] 2. Tighten the local alpha UX.
+  - Focus: pilot membership polish, acceptance test UX, design review polish, remaining decomposition
+- [ ] 3. Add honest SaaS scaffolding.
+  - Focus: Stripe skeleton, entitlements cleanup, hosted ops surfaces
+- [ ] 4. Prepare the hybrid hosted + local bridge model.
+  - Focus: bridge spike, diagnostics export
+- [ ] 5. Improve SpecForge itself as the future `ideas/` generator.
+  - Focus: stronger guided fields, stronger idea scaffold, better one-shot export packs
+
 ## Shipped Surface
 - [x] Guided spec wizard writes into the canonical document.
 - [x] Shared OpenSpec core now owns guided wizard defaults/markdown builders plus shared readiness logic.
@@ -72,6 +85,18 @@
 - [x] Split persistence by domain before store changes become high-risk.
 - [x] Run the final verification gate sequentially to avoid fake Playwright or collab port regressions.
 - [x] Desktop packaging should wrap the existing working local architecture before trying to collapse it into a single runtime.
+- [x] Split MVP parity from broader platform/company parity so “done” never hides unfinished productization work.
+- [x] Require explicit runtime topology and distribution mode in specs before implementation starts.
+- [x] Require acceptance tests and release-stage targets in the spec itself, not only in later implementation docs.
+
+## Spec System Improvements
+
+- [ ] Add stronger guided fields for future idea generation.
+  - Focus: distribution model, runtime topology, agent integration contract, release stage, acceptance tests
+- [ ] Upgrade the exported `ideas/` scaffold to be more executable.
+  - Focus: thesis, user, problem, goals, non-goals, UX Pack, runtime topology, verification commands, future work
+- [ ] Make SpecForge the default path for generating future repo ideas.
+  - Focus: one-shot build packs that are honest, deterministic, and easier for agents to execute
 
 ## Next Productization Track
 
