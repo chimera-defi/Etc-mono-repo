@@ -52,9 +52,14 @@ def test_browser_assisted_execute_opens_browser(tmp_path: Path, monkeypatch) -> 
     monkeypatch.setenv("ORBIT_BROWSER_AUTOMATION_CONFIRM", "s")
     monkeypatch.setenv("ORBIT_BROWSER_HEADLESS", "1")
     with patch("orbit_pilot.browser_assist.playwright_available", return_value=True):
-        with patch("orbit_pilot.browser_assist.run_submit_portal_assist", return_value="https://example.com/submit"):
+        with patch(
+            "orbit_pilot.browser_assist.run_submit_portal_assist",
+            return_value="https://example.com/submit",
+        ) as m:
             out = publish_from_run(run_dir, ["hn"], execute=True)
     assert out[0]["result"]["status"] == "browser_assist_ran"
+    assert m.call_args is not None
+    assert m.call_args.kwargs.get("autofill") is False
 
 
 def test_browser_assisted_blocked_without_secret(tmp_path: Path, monkeypatch) -> None:

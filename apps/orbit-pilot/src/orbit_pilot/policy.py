@@ -21,6 +21,8 @@ class RiskPolicy:
     allow_browser_fallback: bool = False
     # V1: opt-in Playwright assist for browser_fallback_opt_in (still requires env confirmation at publish time)
     allow_browser_automation: bool = False
+    # Optional: allow typing into registry-provided selectors (human still reviews/submits)
+    allow_browser_autofill: bool = False
     platform_overrides: dict[str, dict[str, Any]] = field(default_factory=dict)
 
 
@@ -48,6 +50,7 @@ def load_risk_policy(path: str | Path | None) -> RiskPolicy:
         tolerance=str(risk.get("tolerance", "low")).lower(),
         allow_browser_fallback=bool(risk.get("allow_browser_fallback", False)),
         allow_browser_automation=bool(risk.get("allow_browser_automation", False)),
+        allow_browser_autofill=bool(risk.get("allow_browser_autofill", False)),
         platform_overrides={k: dict(v) for k, v in (raw.get("platforms") or {}).items()},
     )
 
@@ -82,6 +85,7 @@ def record_for_planning(record: PlatformRecord, policy: RiskPolicy | None) -> Pl
         image_max_width=record.image_max_width,
         image_max_height=record.image_max_height,
         cta_in_body=record.cta_in_body,
+        browser_form_selectors=dict(record.browser_form_selectors),
     )
 
 

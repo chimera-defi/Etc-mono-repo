@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from orbit_pilot.browser_assist import chromium_launchable, playwright_available
 from orbit_pilot.graph import build_body_for_platform, build_payload
 from orbit_pilot.models import LaunchProfile, PlatformRecord
 from orbit_pilot.policy import RiskPolicy, decide_platform
@@ -29,6 +30,30 @@ def doctor_payload(
                     "missing_payload": validation["missing_payload"],
                 }
             )
+        elif decision.mode == "browser_assisted":
+            row: dict[str, Any] = {
+                "platform": record.slug,
+                "mode": decision.mode,
+                "ready": True,
+                "missing_secrets": [],
+                "missing_payload": [],
+            }
+            if policy and policy.allow_browser_automation:
+                if not playwright_available():
+                    row["ready"] = False
+                    row["missing_secrets"] = ["orbit-pilot[browser] (pip install)"]
+                else:
+                    ok, err = chromium_launchable()
+                    if not ok:
+                        row["ready"] = False
+                        row["missing_secrets"] = [f"playwright chromium: {err}"]
+                if policy.allow_browser_autofill and record.browser_form_selectors:
+                    row["browser_autofill_selectors"] = list(record.browser_form_selectors.keys())
+                elif policy.allow_browser_autofill and not record.browser_form_selectors:
+                    row["browser_autofill_note"] = (
+                        "allow_browser_autofill is true but registry has no browser_form_selectors for this slug"
+                    )
+            results.append(row)
         else:
             results.append(
                 {

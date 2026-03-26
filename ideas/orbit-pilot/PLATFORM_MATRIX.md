@@ -1,5 +1,7 @@
 ## Orbit Pilot Platform Matrix
 
+**Seed registry parity:** bundled `apps/orbit-pilot/src/orbit_pilot/bundled/seed_platforms.yaml` is intended to match this table (one row per platform). Extend the YAML when you add rows here.
+
 | Platform | Category | Automation feasibility | Best format | Risk | Official URL |
 |---|---|---|---|---|---|
 | Medium | Content | Existing integration tokens only; else manual | article | Medium | https://help.medium.com/hc/en-us/articles/213480228-API-Importing |

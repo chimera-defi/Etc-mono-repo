@@ -19,7 +19,8 @@ Thanks for helping improve launch ops for humans and agents.
 - **`cli_commands.py`** — argparse setup, all subcommands, `load_launch` for tests.
 - **`cli_io.py`** — shared CLI UX bits (e.g. `require_run_dir` for consistent JSON vs stderr errors).
 - **`scheduler.py`** — JSONL schedule queue for deferred subprocess runs (fcntl lock on Unix; `schedule-cancel`).
-- **`browser_assist.py`** — optional Playwright open of `submit_url` (install `[browser]`).
+- **`schedule_argv.py`** / **`schedule_recurrence.py`** / **`schedule_timezone.py`** — queue validation and scheduling helpers.
+- **`browser_assist.py`** — optional Playwright open of `submit_url` (install `[browser]`); optional selector autofill when policy + env allow.
 
 ## Development setup
 

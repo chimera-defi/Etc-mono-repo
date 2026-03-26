@@ -160,7 +160,7 @@ def test_run_manifest_schema() -> None:
         "run-manifest",
         {
             "orbit_manifest_version": ORBIT_MANIFEST_VERSION,
-            "orbit_pilot_version": "0.3.1",
+            "orbit_pilot_version": "0.3.2",
             "campaign": {"id": "c", "name": "C", "created_at": "2026-01-01T00:00:00Z"},
             "launch_path": "/a/launch.yaml",
             "platform_registry_path": "/a/p.yaml",
@@ -186,6 +186,7 @@ def test_schedule_schemas() -> None:
                 "argv": ["orbit", "version"],
                 "created_at": "2026-01-01T00:00:00Z",
                 "done": False,
+                "recurrence": "none",
             },
             "file": "/home/x/.orbit-pilot/schedule.jsonl",
         },

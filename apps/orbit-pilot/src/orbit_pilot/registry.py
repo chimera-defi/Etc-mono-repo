@@ -13,6 +13,7 @@ def load_platforms(path: str | Path) -> list[PlatformRecord]:
         img = item.get("image_constraints") or {}
         w = img.get("max_width")
         h = img.get("max_height")
+        bfs = item.get("browser_form_selectors") or {}
         records.append(
             PlatformRecord(
                 name=item["name"],
@@ -27,6 +28,7 @@ def load_platforms(path: str | Path) -> list[PlatformRecord]:
                 image_max_width=int(w) if w is not None else None,
                 image_max_height=int(h) if h is not None else None,
                 cta_in_body=bool(item.get("cta_in_body", True)),
+                browser_form_selectors={str(k): str(v) for k, v in bfs.items()} if isinstance(bfs, dict) else {},
             )
         )
     return records
