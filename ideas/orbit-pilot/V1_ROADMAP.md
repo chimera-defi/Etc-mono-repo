@@ -26,8 +26,8 @@
 
 ### Next (ordered — do these to call V1 “complete”)
 
-1. **Milestone 4 — Pilot launch run** — Real `launch.yaml` + registry + policy; run `plan` → `generate` → manual/API publish → `mark-done`; record outcome (operator).
-2. **Sample outputs** — If CLI JSON shape changes, refresh [`SAMPLE_OUTPUTS.md`](./SAMPLE_OUTPUTS.md) (optional gate in TASKS).
+1. **Milestone 4 — Pilot launch run** — Use [`PILOT_RUN_CHECKLIST.md`](./PILOT_RUN_CHECKLIST.md); record outcome when done.
+2. **Sample outputs** — Done: [`SAMPLE_OUTPUTS.md`](./SAMPLE_OUTPUTS.md) includes representative `--json`; re-run locally and update if CLI keys change.
 3. **Registry growth (optional)** — Add platforms only with vetted `https` URLs: edit `PLATFORM_MATRIX.md` + `seed_platforms.yaml`; parity test must pass.
 
 ### Deferred (explicitly not V1 blockers)
@@ -50,3 +50,5 @@
 | [`SPEC.md`](./SPEC.md) | Technical contract |
 | [`AGENTS.md`](../../apps/orbit-pilot/AGENTS.md) | Agent workflows |
 | [`V0_BUILD_PLAN.md`](./V0_BUILD_PLAN.md) | Historical V0 plan (superseded by V1 for forward work) |
+| [`PILOT_RUN_CHECKLIST.md`](./PILOT_RUN_CHECKLIST.md) | Milestone 4 operator steps |
+| [`SAMPLE_OUTPUTS.md`](./SAMPLE_OUTPUTS.md) | Human copy + CLI JSON examples |
