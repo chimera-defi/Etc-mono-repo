@@ -80,6 +80,15 @@ Rough buckets to spec before build:
 
 **Order of operations:** ship **(1) + minimal (6)** before heavy UI if the goal is agent + indie distribution; add **(4) + (3)** when agencies are the primary buyer.
 
+### 4.1 Local operator intelligence (Claude / Codex / Cursor / local LLM) — not a PyPI dependency
+
+V1 **does not** ship or require an LLM inside the Python package. Operators may **pair** Orbit Pilot with **local** tools that control a browser (Claude Code + MCP, Cursor, Codex CLI, a self-hosted model, etc.). The **contract** is:
+
+- **Orbit (deterministic):** `launch.yaml`, registry, `orbit plan` / `generate` / `pipeline`, packs, `orbit work --json`, optional Playwright (`orbit-pilot[browser]`).
+- **Operator agent (non-deterministic):** reads `orbit work --json` (including **`operator_agent_guide`**), opens `submit_url` in the user’s browser, pastes public copy from `payload` / `PROMPT_USER.txt`, returns **`orbit mark-done`** with the live URL.
+
+**V2 commercial angle — “batteries included” / resell intelligence:** a paid SKU can bundle **curated registry + launch playbooks + policy packs + support** *without* bundling a model API key. Buyers still bring **their own** Claude/Codex/local LLM subscription (or you resell **seats** via a partner program, separately from PyPI). Positioning: you sell **orchestration + curation + compliance posture**; the coding agent is the **execution surface** the customer already pays for. Avoid implying Orbit bypasses site ToS or runs unattended posting without human accountability.
+
 ---
 
 ## 5. Go-to-market (GTM) and primary buyer
@@ -113,7 +122,7 @@ Rough buckets to spec before build:
 | Tier | Primary buyer | Anchor (monthly unless noted) | Core value | Typical limits |
 |------|----------------|------------------------------|------------|----------------|
 | **Free / OSS** | Indie, agents hacking locally | $0 | CLI, community registry baseline, schemas, local audit | No cloud history, no team RBAC, self-supported |
-| **Indie Pro** | Solo builder shipping launches | ~$12–29/mo | **Curated registry pack** (updates + ToS/risk notes) *or* **hosted webhook / N scheduled cloud runs/mo** (pick one wedge first) | 1 seat, 1 org, modest API quota if included |
+| **Indie Pro** | Solo builder shipping launches | ~$12–29/mo | **Curated registry pack** (updates + ToS/risk notes) *or* **hosted webhook / N scheduled cloud runs/mo** *or* **“Launch OS” bundle** (playbooks + operator-agent prompt pack + priority docs — BYO Claude/Codex/local LLM) | 1 seat, 1 org, modest API quota if included |
 | **Agency** | Shop running many clients | ~$99–399/mo + **per seat** *or* **per active campaign** | Team workspace, client-separated runs, approval queue, white-label HTML/PDF export, shared curated registry | Seats/campaign caps; overage or upgrade path |
 | **Enterprise** | Internal platform / regulated org | **Annual** (e.g. low five figures+) + optional PS | SSO (SAML), private registry hosting, policy packs, VPC / self-host option, SLA, named CSM | Contractual; separate from self-serve SKUs |
 | **Agent / API add-on** | Any tier + autonomous integrations | **Metered** or **prepaid credits** | Scoped API keys, `pipeline`-shaped enqueue + status, rate limits aligned with JSON schemas | Hard cap + human-gated modes for browser assist |
@@ -144,6 +153,7 @@ If agents pay per action:
 
 - [ ] Default license for “core” vs “enterprise” build (e.g. OSS + commercial add-on vs single license).
 - [ ] First paid SKU (one thing: registry subscription vs hosted runner vs team seats).
+- [ ] **Operator-intelligence bundle:** what is in-box (templates, skill updates, support office hours) vs strictly BYO API keys for Claude/OpenAI/etc.
 - [ ] Data residency and secret handling policy for any cloud V2.
 - [ ] Whether V2 cloud is **required** for revenue or **optional** alongside self-hosted enterprise.
 

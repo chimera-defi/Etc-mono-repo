@@ -46,6 +46,7 @@
 
 ### V2 (planning — not V1 gates)
 - [x] Product + monetization + GTM + pricing hypothesis in [`V2_ROADMAP.md`](./V2_ROADMAP.md).
+- [x] Documented local-operator-agent (BYO Claude/Codex/local LLM) + “resell intelligence” bundle angle — [`V2_ROADMAP.md`](./V2_ROADMAP.md) §4.1; V1: `orbit work --json` **`operator_agent_guide`**.
 - [ ] **Adopt** V2 scope (pick first paid SKU / build plan); then add implementation tasks here or in a V2 tech spec.
 
 ## One-Shot Build Gates
@@ -53,4 +54,3 @@
 - [x] Code aligned with safety rules and registry.
 - [x] Seed registry present.
 - [x] Sample outputs refreshed (CLI `--json` examples in `SAMPLE_OUTPUTS.md`; revisit if output shape changes).
-- [x] First 60 minutes documented.

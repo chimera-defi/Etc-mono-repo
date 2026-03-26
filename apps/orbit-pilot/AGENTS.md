@@ -24,7 +24,7 @@ orbit check-run --run <run_dir> --json
 orbit registry-lint --platforms seed_platforms.yaml --json
 ```
 
-Then: `orbit publish --run … --platform … --json` (dry-run / `--execute`), `orbit mark-done`, **`orbit work --run … --json`** (next queue item + `submit_url` + `mark_done_command`; optional `--playwright` for `browser_assisted`), `orbit report/next/guide/audit/export --json`.
+Then: `orbit publish --run … --platform … --json` (dry-run / `--execute`), `orbit mark-done`, **`orbit work --run … --json`** (next queue item + `submit_url` + `mark_done_command` + **`operator_agent_guide`** for local Claude/Codex/MCP/local-LLM shells; optional `--playwright` for `browser_assisted`), `orbit report/next/guide/audit/export --json`.
 
 **Init preset:** `orbit init --preset walletradar --dir …` → WalletRadar-shaped `launch.yaml`.
 
@@ -47,7 +47,7 @@ Aliases: `plan`, `doctor`, `generate`, `publish`, `pipeline`, `work`, `registry-
 1. Registry **`browser_fallback_opt_in`** and **`risk.allow_browser_fallback`** + **`allow_browser_automation`**, or  
 2. Registry planned as **`manual`** (Product Hunt, Crunchbase, directories, …) and **`risk.allow_browser_assist_manual`** + **`allow_browser_automation`** (both must be true; site must have **`submit_url`**).
 
-Then **`orbit publish --run … --platform <slug> --execute --browser`** (env secret pair) runs Playwright against **`submit_url`**. **Claude Code / Chrome MCP:** use **`orbit work --run … --json`** to get `submit_url` + copy; MCP drives the user’s browser; then **`orbit mark-done`**.
+Then **`orbit publish --run … --platform <slug> --execute --browser`** (env secret pair) runs Playwright against **`submit_url`**. **Local agents (Claude Code, Codex, Cursor, Chrome MCP, local LLM):** use **`orbit work --run … --json`** — read **`operator_agent_guide`**, navigate to **`submit_url`**, paste from **`payload`** / **`PROMPT_USER.txt`** (public copy only); then **`orbit mark-done`**. No LLM ships inside `orbit-pilot` on PyPI.
 
 | Layer | Requirement |
 |--------|-------------|

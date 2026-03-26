@@ -19,6 +19,10 @@
     "mark_done_command": { "type": "string" },
     "playwright_assist_command": { "type": "string" },
     "open_hint": { "type": "string" },
+    "operator_agent_guide": {
+      "type": "object",
+      "description": "Machine-readable hints for local LLM/agents (Claude, Codex, MCP); Orbit does not bundle an LLM."
+    },
     "opened_browser": { "type": "boolean" },
     "open_error": { "type": "string" },
     "assist_ran": { "type": "boolean" },
