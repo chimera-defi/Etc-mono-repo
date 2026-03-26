@@ -155,7 +155,18 @@ def build_parser() -> argparse.ArgumentParser:
         "schedule-add",
         help="Queue a command to run at or after due time (JSONL queue; use schedule-daemon to run)",
     )
-    sch_add.add_argument("--due", required=True, help="ISO-8601 time, e.g. 2026-03-25T15:00:00Z")
+    sch_add.add_argument("--due", required=True, help="ISO-8601 time (Z/offset) or naive with --timezone")
+    sch_add.add_argument(
+        "--timezone",
+        metavar="IANA",
+        help="If --due has no zone, interpret as local wall time in this zone (e.g. America/New_York)",
+    )
+    sch_add.add_argument(
+        "--recurrence",
+        choices=["none", "daily", "weekly", "monthly"],
+        default="none",
+        help="After a successful run, enqueue next occurrence (UTC anchor from due_at)",
+    )
     sch_add.add_argument("--cwd", default=".", help="Working directory for the command")
     sch_add.add_argument(
         "--file",
@@ -591,6 +602,7 @@ def serve_command(args: argparse.Namespace) -> int:
 
 
 def schedule_add_command(args: argparse.Namespace) -> int:
+    from orbit_pilot.schedule_timezone import due_to_utc_iso
     from orbit_pilot.scheduler import append_job, default_schedule_path
 
     argv = [x for x in args.command if x]
@@ -599,13 +611,26 @@ def schedule_add_command(args: argparse.Namespace) -> int:
         return 1
     if args.file:
         os.environ["ORBIT_SCHEDULE_PATH"] = str(Path(args.file).resolve())
-    entry = append_job(args.due, args.cwd, argv)
+    try:
+        due_utc = due_to_utc_iso(args.due, args.timezone)
+        entry = append_job(
+            due_utc,
+            args.cwd,
+            argv,
+            recurrence=args.recurrence,
+            timezone_label=args.timezone,
+        )
+    except ValueError as exc:
+        emit({"error": str(exc)}, args.json)
+        return 1
     if args.json:
         emit({"scheduled": entry.to_dict(), "file": str(default_schedule_path())}, True)
     else:
         print(f"Scheduled {entry.id} due {entry.due_at}")
         print(f"  file: {default_schedule_path()}")
         print(f"  argv: {' '.join(argv)}")
+        if args.recurrence != "none":
+            print(f"  recurrence: {args.recurrence}")
     return 0
 
 

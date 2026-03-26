@@ -30,6 +30,7 @@ See `ARCHITECTURE_DIAGRAMS.md`.
 - required fields
 - image constraints (`image_constraints.max_width` / `max_height`; falls back to built-in presets when absent)
 - optional `cta_in_body` (default true): when false, generated body omits primary tracked link for that platform
+- optional `browser_form_selectors`: map of field → CSS selector for optional supervised Playwright autofill (`title`/`body`/`url` keys); only used when operator policy and env gates allow — operators must verify each site’s Terms of Service
 - notes on moderation and commercial restrictions
 
 #### 3) Content Generation Layer

@@ -35,6 +35,7 @@ def write_manual_pack(run_dir: Path, record: PlatformRecord, decision: Submissio
                 "planned_mode": decision.mode,
                 "image_constraints": img,
                 "cta_in_body": record.cta_in_body,
+                "browser_form_selectors": record.browser_form_selectors,
             },
             indent=2,
         ),

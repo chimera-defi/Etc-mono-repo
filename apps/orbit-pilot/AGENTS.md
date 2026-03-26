@@ -45,6 +45,10 @@ orbit schedule-cancel --id <uuid> [--json]
 
 Queue file updates use a file lock on Unix (`fcntl`) so concurrent daemons do not corrupt JSONL.
 
+- **`--timezone IANA`** with a naive `--due` interprets local wall time in that zone (stored as UTC `due_at`).
+- **`--recurrence daily|weekly|monthly`**: after a job completes, a new pending row is appended with the next `due_at` (UTC).
+- **Argv safety:** first command must be `orbit` or `python -m orbit_pilot` unless **`ORBIT_SCHEDULE_ALLOW_ARBITRARY=1`**.
+
 ## V1: browser assist (Playwright)
 
 For registry rows with **`browser_fallback_opt_in`**, policy can enable assisted mode:
@@ -56,7 +60,8 @@ For registry rows with **`browser_fallback_opt_in`**, policy can enable assisted
   - **`ORBIT_BROWSER_AUTOMATION_SECRET`** and **`ORBIT_BROWSER_AUTOMATION_CONFIRM`** (same value)
   - Optional: **`orbit publish … --browser`** sets **`ORBIT_ALLOW_BROWSER_AUTOMATION=1`** only (you still must set the secret pair).
 - Install: **`pip install 'orbit-pilot[browser]'`** then **`playwright install chromium`**.
-- Behavior: opens **`submit_url`** in Chromium; **no auto-fill** — operator pastes from **`PROMPT_USER.txt`**, then **`orbit mark-done`**. Headed wait: **`ORBIT_BROWSER_WAIT_MS`** (default 300000). Headless: **`ORBIT_BROWSER_HEADLESS=1`** (default).
+- Default: opens **`submit_url`** in Chromium; operator pastes from **`PROMPT_USER.txt`**, then **`orbit mark-done`**. Headed wait: **`ORBIT_BROWSER_WAIT_MS`** (default 300000). Headless: **`ORBIT_BROWSER_HEADLESS=1`** (default).
+- **Optional autofill (supervised):** set **`risk.allow_browser_autofill: true`** in policy, add **`browser_form_selectors`** in the platform registry (CSS for `title`, `body`, `url` / aliases), and set **`ORBIT_ALLOW_BROWSER_AUTOFILL=1`**. Orbit types into fields; **the human must still review and click submit**. **You are responsible for each site’s Terms of Service** — autofill can still violate anti-automation or spam rules even with a human present.
 
 ## Risk policy
 
@@ -100,6 +105,7 @@ orbit validate-json report out.json --json
 
 - Do not **`publish --execute`** on manual-only or high-risk platforms without explicit human approval.
 - Do not enable **browser automation** without explicit operator consent and a matching secret pair; never commit **`ORBIT_BROWSER_AUTOMATION_SECRET`**.
+- Do not enable **autofill** unless the operator has confirmed the target site allows this use; prefer manual paste when unsure.
 - Do not bypass **`ORBIT_WEBHOOK_SECRET`** when the server sets it.
 - Treat **credentials** as secrets; prefer env + keyring, never commit tokens.
 

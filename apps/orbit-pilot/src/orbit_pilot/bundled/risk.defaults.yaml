@@ -6,6 +6,7 @@ risk:
   allow_browser_fallback: false
   # V1: with allow_browser_fallback true, set true to allow Playwright portal open (publish --execute + env secrets)
   # allow_browser_automation: false
+  # Optional: allow_browser_autofill: false  # + registry browser_form_selectors + ORBIT_ALLOW_BROWSER_AUTOFILL=1
 
 # Per-platform overrides (optional). Example:
 # platforms:

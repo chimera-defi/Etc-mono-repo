@@ -15,7 +15,9 @@
         "cwd": { "type": "string" },
         "argv": { "type": "array", "items": { "type": "string" } },
         "created_at": { "type": "string" },
-        "done": { "type": "boolean" }
+        "done": { "type": "boolean" },
+        "recurrence": { "type": "string" },
+        "timezone": { "type": "string" }
       },
       "additionalProperties": true
     },

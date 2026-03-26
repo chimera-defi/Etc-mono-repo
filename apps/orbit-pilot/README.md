@@ -53,8 +53,9 @@ orbit regenerate --run out/<campaign-id>/run-* --platform github --platform prod
 | Audit tail | `orbit audit [--tail N]` prints `audit.jsonl` events |
 | HTML report | `orbit export --format html` — single-file dark-theme table for sharing |
 | TUI | `orbit tui --run …` after `pip install 'orbit-pilot[tui]'` |
-| **V1 schedule** | `schedule-add` / `schedule-list` / `schedule-run` / `schedule-cancel` — JSONL queue + lock; `ORBIT_SCHEDULE_PATH`, `ORBIT_SCHEDULE_POLL_SECONDS` |
-| **V1 browser assist** | Policy `allow_browser_automation` + `pip install 'orbit-pilot[browser]'`; publish opens `submit_url` (no auto-fill); env gate for `--execute` |
+| **V1 schedule** | `schedule-add` (`--timezone`, `--recurrence`) / `schedule-list` / `schedule-run` / `schedule-cancel`; argv must be `orbit` or `python -m orbit_pilot` unless `ORBIT_SCHEDULE_ALLOW_ARBITRARY=1` |
+| **V1 browser assist** | Policy + Playwright; optional **supervised autofill** via registry `browser_form_selectors` + `allow_browser_autofill` + `ORBIT_ALLOW_BROWSER_AUTOFILL=1` |
+| **Registry vs matrix** | Seed list tracks `ideas/orbit-pilot/PLATFORM_MATRIX.md` — not an exhaustive “all backlink providers on the internet” list |
 
 ## Credentials
 

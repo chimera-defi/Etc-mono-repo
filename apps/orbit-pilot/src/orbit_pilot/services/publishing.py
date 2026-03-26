@@ -6,8 +6,11 @@ from pathlib import Path
 from typing import Any
 
 from orbit_pilot.audit import append_audit_event, record_submission
+from orbit_pilot.policy import load_risk_policy
 from orbit_pilot.publishers.requirements import validate_platform
 from orbit_pilot.publishers.router import PUBLISHERS, publish_platform
+from orbit_pilot.registry import load_platforms
+from orbit_pilot.services.campaigns import load_run_manifest
 from orbit_pilot.state import cooldown_remaining, record_publish_attempt
 
 
@@ -27,6 +30,16 @@ def _record_blocked(
 def publish_from_run(run_dir: Path, platforms: list[str], execute: bool) -> list[dict[str, Any]]:
     if not run_dir.exists():
         raise FileNotFoundError(f"Run directory not found: {run_dir}")
+    manifest = load_run_manifest(run_dir)
+    policy = load_risk_policy(manifest.get("policy_path"))
+    reg_path = manifest.get("platform_registry_path")
+    reg_records: list = []
+    if reg_path and Path(reg_path).is_file():
+        try:
+            reg_records = load_platforms(reg_path)
+        except OSError:
+            reg_records = []
+    slug_to_record = {r.slug: r for r in reg_records}
     results: list[dict[str, Any]] = []
     for platform in platforms:
         payload_path = run_dir / platform / "payload.json"
@@ -106,7 +119,9 @@ def publish_from_run(run_dir: Path, platforms: list[str], execute: bool) -> list
                     "next_step": (
                         "Run with --execute after setting ORBIT_ALLOW_BROWSER_AUTOMATION=1 and "
                         "ORBIT_BROWSER_AUTOMATION_CONFIRM to match ORBIT_BROWSER_AUTOMATION_SECRET; "
-                        "install orbit-pilot[browser] and playwright install chromium"
+                        "install orbit-pilot[browser] and playwright install chromium. "
+                        "Optional autofill: risk.allow_browser_autofill + registry browser_form_selectors + "
+                        "ORBIT_ALLOW_BROWSER_AUTOFILL=1"
                     ),
                 }
                 record_submission(run_dir, platform, "browser_assisted", result["status"], "publish dry_run", result)
@@ -149,17 +164,32 @@ def publish_from_run(run_dir: Path, platforms: list[str], execute: bool) -> list
                 results.append({"platform": platform, "result": result})
                 continue
             headless = os.environ.get("ORBIT_BROWSER_HEADLESS", "1").strip() not in ("0", "false", "no")
+            autofill_ok = (
+                policy.allow_browser_autofill
+                and os.environ.get("ORBIT_ALLOW_BROWSER_AUTOFILL", "").strip() == "1"
+            )
+            rec = slug_to_record.get(platform)
+            selectors = dict(rec.browser_form_selectors) if rec else {}
+            autofill = bool(autofill_ok and selectors)
             try:
                 opened = run_submit_portal_assist(
                     submit_url,
                     run_dir / platform,
+                    payload,
+                    selectors,
                     headless=headless,
+                    autofill=autofill,
                 )
                 result = {
                     "status": "browser_assist_ran",
                     "url": opened,
                     "publisher": platform,
-                    "note": "Operator must submit in the opened browser; then orbit mark-done --live-url …",
+                    "autofill": autofill,
+                    "note": (
+                        "Review the browser window, submit if correct, then orbit mark-done --live-url …"
+                        if autofill
+                        else "Operator must submit in the opened browser; then orbit mark-done --live-url …"
+                    ),
                 }
             except Exception as exc:  # pragma: no cover - browser env specific
                 result = {"status": "error", "error": str(exc), "publisher": platform}

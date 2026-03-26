@@ -71,19 +71,39 @@ class ScheduleEntry:
     argv: list[str]
     created_at: str
     done: bool = False
+    recurrence: str = "none"
+    timezone: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
-        return {
+        d: dict[str, Any] = {
             "id": self.id,
             "due_at": self.due_at,
             "cwd": self.cwd,
             "argv": self.argv,
             "created_at": self.created_at,
             "done": self.done,
+            "recurrence": self.recurrence,
         }
+        if self.timezone:
+            d["timezone"] = self.timezone
+        return d
 
 
-def append_job(due_at_iso: str, cwd: str, argv: list[str]) -> ScheduleEntry:
+def append_job(
+    due_at_iso: str,
+    cwd: str,
+    argv: list[str],
+    *,
+    recurrence: str = "none",
+    timezone_label: str | None = None,
+) -> ScheduleEntry:
+    from orbit_pilot.schedule_argv import validate_schedule_argv
+    from orbit_pilot.schedule_recurrence import normalize_recurrence
+
+    v = validate_schedule_argv(argv)
+    if not v["ok"]:
+        raise ValueError(str(v.get("error", "invalid argv")))
+    rec_norm = normalize_recurrence(recurrence)
     path = default_schedule_path()
     now = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
     entry = ScheduleEntry(
@@ -93,6 +113,8 @@ def append_job(due_at_iso: str, cwd: str, argv: list[str]) -> ScheduleEntry:
         argv=list(argv),
         created_at=now,
         done=False,
+        recurrence=rec_norm,
+        timezone=timezone_label.strip() if timezone_label else None,
     )
     with _schedule_file_locked(path) as fp:
         rows = _read_rows_from_fp(fp)
@@ -205,6 +227,34 @@ def run_due_jobs(path: Path | None = None, *, now: datetime | None = None) -> li
                 r["last_exit_code"] = exit_code
                 if exit_code != 0:
                     r["last_stderr_tail"] = stderr_tail[-500:]
+                from orbit_pilot.schedule_recurrence import next_fire_after, normalize_recurrence
+
+                rec_raw = str(r.get("recurrence") or "none")
+                try:
+                    norm = normalize_recurrence(rec_raw)
+                except ValueError:
+                    norm = "none"
+                if norm != "none":
+                    try:
+                        anchor = _parse_due(str(r["due_at"]))
+                        if anchor.tzinfo is None:
+                            anchor = anchor.replace(tzinfo=UTC)
+                        nxt = next_fire_after(anchor, norm)
+                        child: dict[str, Any] = {
+                            "id": str(uuid.uuid4()),
+                            "due_at": nxt.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                            "cwd": r.get("cwd"),
+                            "argv": list(r.get("argv") or []),
+                            "created_at": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                            "done": False,
+                            "recurrence": rec_raw,
+                            "parent_job_id": r.get("id"),
+                        }
+                        if r.get("timezone"):
+                            child["timezone"] = r["timezone"]
+                        rows.append(child)
+                    except (ValueError, KeyError):
+                        pass
                 break
             _write_rows_to_fp(fp, rows)
 
