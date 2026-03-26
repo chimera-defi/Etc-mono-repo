@@ -2,7 +2,7 @@
 
 Orbit Pilot is a **CLI-first** launch operator: one canonical `launch.yaml`, a **platform registry** YAML, generated per-platform packs under `out/<campaign>/run-<ts>/`, and optional **official API** publishes (dry-run by default).
 
-**Specs and product docs:** `ideas/orbit-pilot/` in this repo. **Implementation:** this directory.
+**Specs and product docs:** `ideas/orbit-pilot/` in this repo (**[`V1_ROADMAP.md`](../../ideas/orbit-pilot/V1_ROADMAP.md)** = single forward progress tracker). **Implementation:** this directory.
 
 ## Install (CI / sandboxes)
 
