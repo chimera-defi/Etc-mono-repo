@@ -3,7 +3,14 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, Literal
 
-Mode = Literal["official_api", "manual", "browser_fallback_opt_in", "skipped", "browser_fallback"]
+Mode = Literal[
+    "official_api",
+    "manual",
+    "browser_fallback_opt_in",
+    "skipped",
+    "browser_fallback",
+    "browser_assisted",
+]
 
 
 @dataclass

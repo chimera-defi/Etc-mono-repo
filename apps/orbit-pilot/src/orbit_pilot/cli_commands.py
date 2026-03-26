@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from collections.abc import Callable
 from dataclasses import asdict
@@ -70,6 +71,11 @@ def build_parser() -> argparse.ArgumentParser:
     publish.add_argument("--platform", action="append", required=True)
     publish.add_argument("--json", action="store_true")
     publish.add_argument("--execute", action="store_true")
+    publish.add_argument(
+        "--browser",
+        action="store_true",
+        help="Allow browser_assisted publish path (still requires env ORBIT_ALLOW_BROWSER_AUTOMATION etc.)",
+    )
 
     mark_done = subparsers.add_parser("mark-done")
     mark_done.add_argument("--run", required=True)
@@ -144,6 +150,30 @@ def build_parser() -> argparse.ArgumentParser:
     )
     check_run_cmd.add_argument("--run", required=True)
     check_run_cmd.add_argument("--json", action="store_true")
+
+    sch_add = subparsers.add_parser(
+        "schedule-add",
+        help="Queue a command to run at or after due time (JSONL queue; use schedule-daemon to run)",
+    )
+    sch_add.add_argument("--due", required=True, help="ISO-8601 time, e.g. 2026-03-25T15:00:00Z")
+    sch_add.add_argument("--cwd", default=".", help="Working directory for the command")
+    sch_add.add_argument(
+        "--file",
+        help="Path to schedule file (default: ~/.orbit-pilot/schedule.jsonl or ORBIT_SCHEDULE_PATH)",
+    )
+    sch_add.add_argument("command", nargs=argparse.REMAINDER, help="Command and args (e.g. orbit publish ...)")
+
+    sch_list = subparsers.add_parser("schedule-list", help="List pending scheduled jobs")
+    sch_list.add_argument("--json", action="store_true")
+    sch_list.add_argument("--file", help="Schedule file path override")
+
+    sch_run = subparsers.add_parser(
+        "schedule-run",
+        help="Run due jobs once, or loop as a daemon (poll interval ORBIT_SCHEDULE_POLL_SECONDS)",
+    )
+    sch_run.add_argument("--loop", action="store_true", help="Run forever polling for due jobs")
+    sch_run.add_argument("--file", help="Schedule file path override")
+    sch_run.add_argument("--json", action="store_true")
     return parser
 
 
@@ -252,6 +282,8 @@ def regenerate_command(args: argparse.Namespace) -> int:
 
 def publish_command(args: argparse.Namespace) -> int:
     run_dir = Path(args.run)
+    if args.browser:
+        os.environ["ORBIT_ALLOW_BROWSER_AUTOMATION"] = "1"
     try:
         results = publish_from_run(run_dir, args.platform, execute=args.execute)
     except FileNotFoundError as exc:
@@ -270,7 +302,7 @@ def mark_done_command(args: argparse.Namespace) -> int:
     if meta_path.exists():
         meta = json.loads(meta_path.read_text(encoding="utf-8"))
         pm = meta.get("planned_mode")
-        if pm in ("manual", "browser_fallback"):
+        if pm in ("manual", "browser_fallback", "browser_assisted"):
             mode = pm
     result = {"status": "manual_completed", "url": args.live_url}
     note = (args.note or "").strip() or None
@@ -550,6 +582,73 @@ def serve_command(args: argparse.Namespace) -> int:
     return 0
 
 
+def schedule_add_command(args: argparse.Namespace) -> int:
+    from orbit_pilot.scheduler import append_job, default_schedule_path
+
+    argv = [x for x in args.command if x]
+    if not argv:
+        emit({"error": "schedule-add requires a command after --"}, args.json)
+        return 1
+    if args.file:
+        os.environ["ORBIT_SCHEDULE_PATH"] = str(Path(args.file).resolve())
+    entry = append_job(args.due, args.cwd, argv)
+    if args.json:
+        emit({"scheduled": entry.to_dict(), "file": str(default_schedule_path())}, True)
+    else:
+        print(f"Scheduled {entry.id} due {entry.due_at}")
+        print(f"  file: {default_schedule_path()}")
+        print(f"  argv: {' '.join(argv)}")
+    return 0
+
+
+def schedule_list_command(args: argparse.Namespace) -> int:
+    import os
+
+    from orbit_pilot.scheduler import default_schedule_path, list_pending
+
+    if args.file:
+        os.environ["ORBIT_SCHEDULE_PATH"] = str(Path(args.file).resolve())
+    pending = list_pending()
+    if args.json:
+        emit({"pending": pending, "file": str(default_schedule_path())}, True)
+    else:
+        print(f"Pending ({len(pending)}) — {default_schedule_path()}")
+        for row in pending:
+            print(f"  {row.get('id')} @ {row.get('due_at')}  {' '.join(row.get('argv') or [])}")
+    return 0
+
+
+def schedule_run_command(args: argparse.Namespace) -> int:
+    import os
+    import time
+
+    from orbit_pilot.scheduler import run_due_jobs
+
+    if args.file:
+        os.environ["ORBIT_SCHEDULE_PATH"] = str(Path(args.file).resolve())
+    poll = int(os.environ.get("ORBIT_SCHEDULE_POLL_SECONDS", "60"))
+
+    def once() -> list:
+        return run_due_jobs()
+
+    if args.loop:
+        while True:
+            outcomes = once()
+            if args.json and outcomes:
+                print(json.dumps({"ran": outcomes}, indent=2))
+            elif outcomes and not args.json:
+                for o in outcomes:
+                    print(f"ran {o['id']} exit={o['exit_code']}")
+            time.sleep(max(5, poll))
+    outcomes = once()
+    if args.json:
+        print(json.dumps({"ran": outcomes}, indent=2))
+    else:
+        for o in outcomes:
+            print(f"ran {o['id']} exit={o['exit_code']}")
+    return 0
+
+
 def init_command(args: argparse.Namespace) -> int:
     dest = Path(args.dir).resolve()
     dest.mkdir(parents=True, exist_ok=True)
@@ -590,6 +689,9 @@ _COMMAND_HANDLERS: dict[str, Callable[[argparse.Namespace], int]] = {
     "validate-json": validate_json_command,
     "version": version_command,
     "check-run": check_run_command,
+    "schedule-add": schedule_add_command,
+    "schedule-list": schedule_list_command,
+    "schedule-run": schedule_run_command,
 }
 
 

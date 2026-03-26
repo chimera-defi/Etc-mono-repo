@@ -20,7 +20,7 @@ RISK_ORDER = {
 def get_pending_manual(run_dir: Path, rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     pending: list[dict[str, Any]] = []
     for row in rows:
-        if row["mode"] not in ("manual", "browser_fallback") or row["status"] == "manual_completed":
+        if row["mode"] not in ("manual", "browser_fallback", "browser_assisted") or row["status"] == "manual_completed":
             continue
         meta_path = run_dir / row["platform"] / "meta.json"
         meta = {}
