@@ -1,12 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import styles from "../marketing.module.css";
 
-const installSteps = [
-  "Install Bun plus either Codex CLI or Claude Code CLI if you want local assist.",
-  "Run the SpecForge web app and collab server locally.",
-  "Open the workspace, pick your assist runtime, and start drafting with friends.",
-];
+export const metadata: Metadata = {
+  title: "Download SpecForge",
+  description: "Run SpecForge locally — no account required.",
+};
 
 const channels = [
   {
@@ -59,26 +59,19 @@ export default function DownloadPage() {
       <section className={styles.hero}>
         <div>
           <p className={styles.eyebrow}>Get SpecForge</p>
-          <h1>Start with the local alpha now. Ship the desktop app next.</h1>
+          <h1>Run SpecForge locally</h1>
           <p className={styles.subhead}>
-            SpecForge already runs as a verified local multiplayer product. The fastest way to try
-            it today is the Bun-based local path; the next packaging step is a Tauri desktop app
-            that wraps the same working core.
+            No account. No cloud. Your specs stay on your machine. The fastest way to try
+            SpecForge is the local Bun path below; a Tauri desktop app that wraps the same
+            working core is coming next.
           </p>
           <div className={styles.heroActions}>
             <Link href="/workspace" className={styles.primaryCta}>
               Open workspace
             </Link>
-            <a href="#install" className={styles.secondaryCta}>
-              Local install steps
+            <a href="#quick-start" className={styles.secondaryCta}>
+              Quick start
             </a>
-          </div>
-          <div className={styles.callout}>
-            <strong>Current alpha truth</strong>
-            <p>
-              There is not a packaged desktop binary yet. The working release-candidate path is
-              local Bun + the collab server, with local Codex or Claude CLI reuse if installed.
-            </p>
           </div>
         </div>
 
@@ -101,21 +94,56 @@ export default function DownloadPage() {
         </aside>
       </section>
 
-      <section className={styles.section} id="install">
-        <h2>Local alpha install</h2>
+      <section className={styles.section} id="quick-start">
+        <h2>Quick start</h2>
         <p className={styles.sectionLead}>
-          This is the current recommended path for design partners and early users.
+          Clone, install, and open the workspace in under a minute.
         </p>
-        <ol className={styles.roleList}>
-          {installSteps.map((step, index) => (
-            <li className={styles.roleRow} key={step}>
-              <span className={styles.roleLabel}>{String(index + 1).padStart(2, "0")}</span>
-              <p>{step}</p>
-            </li>
-          ))}
-        </ol>
         <div className={styles.codeBlock}>
-          <pre>{`bun install\nbun run dev\n# then open http://127.0.0.1:3000/workspace`}</pre>
+          <pre>{`# 1. Clone and install
+git clone https://github.com/chimera-defi/Etc-mono-repo
+cd Etc-mono-repo/ideas/collab-markdown-spec-studio/web
+bun install
+
+# 2. Start the web app
+bun run dev
+
+# 3. Open the workspace
+open http://localhost:3000/workspace`}</pre>
+        </div>
+        <p className={styles.sectionLead}>
+          Requires{" "}
+          <a href="https://bun.sh" target="_blank" rel="noreferrer">
+            Bun
+          </a>
+          . No database setup needed — SpecForge uses embedded PGlite.
+        </p>
+      </section>
+
+      <section className={styles.section}>
+        <h2>With multiplayer</h2>
+        <p className={styles.sectionLead}>
+          Start the collab server alongside the web app for live collaboration via WebSocket.
+        </p>
+        <div className={styles.codeBlock}>
+          <pre>{`# In a second terminal
+cd ../collab-server && bun run dev
+# Opens a WebSocket room at ws://localhost:4321`}</pre>
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <h2>AI assist (optional)</h2>
+        <p className={styles.sectionLead}>
+          SpecForge uses your local Claude Code CLI or Codex CLI for guided spec suggestions.
+          Install either one to enable AI-powered field population.
+        </p>
+        <div className={styles.codeBlock}>
+          <pre>{`# Claude Code
+npm install -g @anthropic-ai/claude-code
+
+# Or Codex
+npm install -g @openai/codex`}</pre>
         </div>
       </section>
 
@@ -133,6 +161,16 @@ export default function DownloadPage() {
               </ul>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <div className={styles.callout}>
+          <strong>Desktop app — coming soon</strong>
+          <p>
+            A Tauri-based desktop app that starts all services automatically is in early
+            development. No terminal required. Star the repo to follow progress.
+          </p>
         </div>
       </section>
 
