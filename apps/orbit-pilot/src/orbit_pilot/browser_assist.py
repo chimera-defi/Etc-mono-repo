@@ -218,3 +218,4 @@ def run_submit_portal_assist(
                 context.close()
         finally:
             browser.close()
+        return out
