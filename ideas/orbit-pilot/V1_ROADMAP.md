@@ -24,7 +24,7 @@
 - Agent tooling: schemas manifest, `orbit schemas`, `orbit validate-json`, `orbit check-run`, `orbit registry-lint`, `orbit version`, [`AGENTS.md`](../../apps/orbit-pilot/AGENTS.md).
 - Scheduling: `schedule-add/list/run/cancel`, timezone + recurrence, argv allowlist, file lock.
 - Browser path: policy + env gated assist; optional autofill via `browser_form_selectors`; Playwright E2E tests in CI (`browser-e2e` job).
-- Tests: ~87 unit/integration (+ 2 opt-in browser tests); matrix/seed parity test.
+- Tests: ~90 unit/integration (3 skipped by default); opt-in Playwright E2E when `RUN_BROWSER_E2E=1`; CI `browser-e2e` job; matrix/seed parity test.
 
 ### Next (your launches — not blocked on repo code)
 
