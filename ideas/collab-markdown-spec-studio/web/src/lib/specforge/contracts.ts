@@ -24,6 +24,7 @@ export const patchProposalSchema = z.object({
     "structural_edit",
     "requirement_change",
     "task_export_change",
+    "design_review",
   ]),
   rationale: z.string().max(1000).optional(),
   proposed_by: z.object({
