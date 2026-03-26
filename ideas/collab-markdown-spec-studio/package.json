@@ -35,6 +35,9 @@
     "parity:verify": "bun --filter specforge-web parity:verify",
     "parity:run:dry": "bun --filter specforge-web parity:run:dry",
     "parity:run": "bun --filter specforge-web parity:run",
-    "parity:run:batch": "bun --filter specforge-web parity:run:batch"
+    "parity:run:batch": "bun --filter specforge-web parity:run:batch",
+    "dev:desktop": "cd desktop && bun run dev",
+    "launch": "bash desktop/scripts/launch.sh",
+    "desktop:build": "cd desktop && bun run build"
   }
 }
