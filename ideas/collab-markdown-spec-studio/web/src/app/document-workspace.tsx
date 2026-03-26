@@ -63,7 +63,7 @@ type ConnDiag = {
   attempts: number;
 };
 
-const userPalette = ["#0f766e", "#1d4ed8", "#c2410c", "#7c3aed", "#be123c"];
+const userPalette = ["#0f766e", "#174f67", "#c2410c", "#7c3aed", "#be123c"];
 
 function makeLocalUser(activeActor: Props["activeActor"]) {
   if (typeof window === "undefined") {
@@ -599,7 +599,7 @@ export function DocumentWorkspace({ document, activeActor, authMode, blockSummar
         <div>
           <strong>{document.title}</strong>
           <span>
-            <span className={`statusChip statusChip--${statusTone}`}>{statusTone}</span> {status}
+            <span className={`statusChip statusChip--${statusTone}`}>{syncState}</span> {status}
           </span>
         </div>
         <div className="editorToolbar__actions">
