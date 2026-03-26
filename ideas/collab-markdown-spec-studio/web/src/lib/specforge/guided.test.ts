@@ -12,6 +12,7 @@ describe("buildGuidedSpecMarkdown", () => {
       scope: "Guided creation\nPatch review",
       requirements: "Shared canvas\nApproved patch decisions",
       constraints: "Use CRDT\nHuman approval required",
+      uxPack: "Primary surface: browser\nKey screens: draft and review",
       successSignals: "Runnable handoff",
       tasks: "Draft spec\nReview patches",
       nonGoals: "General PM suite",
@@ -22,6 +23,8 @@ describe("buildGuidedSpecMarkdown", () => {
     expect(markdown).toContain("- Specs are fragmented");
     expect(markdown).toContain("## Requirements");
     expect(markdown).toContain("- Shared canvas");
+    expect(markdown).toContain("## UX Pack");
+    expect(markdown).toContain("- Primary surface: browser");
     expect(markdown).toContain("## Tasks");
     expect(markdown).toContain("- Draft spec");
   });

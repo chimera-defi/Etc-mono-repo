@@ -125,3 +125,15 @@
 - Why: SpecForge is collaborative SaaS software, so access should remain controlled by workspace membership and GitHub-authenticated identity rather than leaked URLs.
 - Status (current branch): membership management exists, and the workspace UI should expose a copyable canonical URL plus the membership requirement alongside it.
 - Tradeoff: sharing is slightly less frictionless than a public doc link, but it is safer and aligns with pilot workspace permissions.
+
+## Decision 24: UX Pack Is Part of the Canonical Spec Contract
+- Choice: require every guided draft to include a `UX Pack` section.
+- Why: product specs that skip interface shape, failure states, and responsive expectations create downstream frontend drift and make design work an afterthought.
+- Status (current branch): implemented in the guided wizard and readiness rules. Users can explicitly mark the product `API-only` or `CLI-only` in the same section when no GUI is needed.
+- Tradeoff: adds one more authored section, but keeps UI/UX ambiguity visible before handoff.
+
+## Decision 25: External Design Skills Are a Handoff Target, Not Yet a Runtime Dependency
+- Choice: keep SpecForge responsible for the canonical spec, UX Pack, and design handoff prompt, but do not hardwire a `gstack`-specific design runtime until the integration is proven useful.
+- Why: we need the design contract now, but we should avoid coupling the core spec product to one external design agent stack before validation.
+- Status (current branch): SpecForge has skill/handoff docs for terminal and agent-native flows, but there is no direct `gstack` runtime integration today.
+- Tradeoff: one extra handoff step remains for wireframes or visual exploration, but the spec contract stays portable across browser, CLI, and external design agents.

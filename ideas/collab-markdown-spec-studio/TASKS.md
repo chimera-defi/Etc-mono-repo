@@ -3,6 +3,7 @@
 ## Current Status
 - [x] Scoped MVP/spec parity for the build branch is reached.
 - [x] Guided spec creation, shared authoring, governed patch review, comments, clarifications, readiness, export, starter handoff, execution brief, and launch packet are working.
+- [x] Guided specs now include a first-class `UX Pack` section so UI/UX design is explicit before handoff.
 - [x] Local MVP verification is green: lint, unit, build, acceptance, browser, contracts.
 - [x] Hosted-runtime rehearsal exists with `web`, `collab-server`, and `postgres`.
 - [x] The original scoped MVP backlog is clear; the remaining list below is broader post-parity SaaS/platform work.
@@ -11,6 +12,7 @@
 ## Shipped Surface
 - [x] Guided spec wizard writes into the canonical document.
 - [x] Shared OpenSpec core now owns guided wizard defaults/markdown builders plus shared readiness logic.
+- [x] Readiness now expects `UX Pack` alongside the core problem/goals/requirements/tasks sections.
 - [x] Shared OpenSpec core now also owns export bundle, execution-brief, and launch-packet builders.
 - [x] Shared OpenSpec core now also owns starter template definitions and the curated TypeScript starter builder.
 - [x] Mini agent-assist can populate guided fields from a rough brief, using local CLI tooling when available and a safe fallback otherwise.
@@ -74,6 +76,7 @@
 ## Meta Learnings To Keep Applying
 - [x] Treat placeholder fallback content as real product debt and remove it during review passes.
 - [x] Keep pricing, plans, and entitlements on one shared contract surface.
+- [x] Keep the design contract explicit too: if a product has a user-facing surface, require a UX Pack or an explicit `API-only` / `CLI-only` note.
 - [x] Split large UI routes into panel components before they become unreadable.
 - [x] Split persistence by domain before store changes become high-risk.
 - [x] Run the final verification gate sequentially to avoid fake Playwright or collab port regressions.
