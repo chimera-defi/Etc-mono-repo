@@ -9,6 +9,7 @@ Thanks for helping improve launch ops for humans and agents.
 | Application | `apps/orbit-pilot/` |
 | Specs / product docs | `ideas/orbit-pilot/` (no app code) |
 | Agent playbook | `apps/orbit-pilot/AGENTS.md` |
+| Claude skills | `apps/orbit-pilot/claude-skills/` (export with app; see `claude-skills/README.md`) |
 
 ## Architecture (refactor targets)
 
