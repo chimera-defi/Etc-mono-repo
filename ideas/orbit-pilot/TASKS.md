@@ -34,7 +34,9 @@
 ### WS-5 Operator Surface
 - [x] Optional Textual TUI (`orbit tui`), HTML export, JSON schemas, `validate-json`, `check-run`.
 - [x] V1 scheduling (`schedule-add` / `schedule-list` / `schedule-run` / `schedule-cancel`, file lock).
+- [x] V1 schedule: timezone + recurrence, argv allowlist (`ORBIT_SCHEDULE_ALLOW_ARBITRARY` escape hatch).
 - [x] V1 optional browser assist (Playwright portal open; policy + env gated).
+- [x] V1 optional supervised browser autofill (registry `browser_form_selectors` + policy + env).
 - [ ] Full web operator UI (see `FRONTEND_VISION.md`).
 
 ## One-Shot Build Gates

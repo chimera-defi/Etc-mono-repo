@@ -42,6 +42,8 @@ class PlatformRecord:
     image_max_width: int | None = None
     image_max_height: int | None = None
     cta_in_body: bool = True
+    # Optional Playwright autofill (CSS selectors); only used if policy + env allow
+    browser_form_selectors: dict[str, str] = field(default_factory=dict)
 
 
 @dataclass
