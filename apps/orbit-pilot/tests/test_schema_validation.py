@@ -160,7 +160,7 @@ def test_run_manifest_schema() -> None:
         "run-manifest",
         {
             "orbit_manifest_version": ORBIT_MANIFEST_VERSION,
-                    "orbit_pilot_version": "0.3.0",
+            "orbit_pilot_version": "0.3.1",
             "campaign": {"id": "c", "name": "C", "created_at": "2026-01-01T00:00:00Z"},
             "launch_path": "/a/launch.yaml",
             "platform_registry_path": "/a/p.yaml",
@@ -173,6 +173,54 @@ def test_run_manifest_schema() -> None:
 def test_latest_and_error_schema() -> None:
     _v("latest-output", {"campaign": "acme", "latest_run": "/out/acme/run-1"})
     _v("error-response", {"error": "Run directory not found: /nope"})
+
+
+def test_schedule_schemas() -> None:
+    _v(
+        "schedule-add-output",
+        {
+            "scheduled": {
+                "id": "u1",
+                "due_at": "2026-01-01T00:00:00Z",
+                "cwd": "/tmp",
+                "argv": ["orbit", "version"],
+                "created_at": "2026-01-01T00:00:00Z",
+                "done": False,
+            },
+            "file": "/home/x/.orbit-pilot/schedule.jsonl",
+        },
+    )
+    _v(
+        "schedule-list-output",
+        {
+            "pending": [
+                {
+                    "id": "u1",
+                    "due_at": "2026-01-01T00:00:00Z",
+                    "cwd": "/tmp",
+                    "argv": ["echo", "hi"],
+                    "created_at": "2026-01-01T00:00:00Z",
+                    "done": False,
+                }
+            ],
+            "file": "/x/schedule.jsonl",
+        },
+    )
+    _v(
+        "schedule-run-output",
+        {
+            "ran": [
+                {
+                    "id": "u1",
+                    "argv": ["true"],
+                    "exit_code": 0,
+                    "stdout_tail": "",
+                    "stderr_tail": "",
+                }
+            ]
+        },
+    )
+    _v("schedule-cancel-output", {"ok": True, "id": "u1"})
 
 
 def test_mark_done_and_campaigns_schema() -> None:

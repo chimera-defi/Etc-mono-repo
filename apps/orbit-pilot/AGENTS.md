@@ -40,7 +40,10 @@ orbit schedule-add --due 2026-03-25T18:00:00Z -- orbit publish --run out/c/run-1
 orbit schedule-list --json
 orbit schedule-run              # run due jobs once
 orbit schedule-run --loop       # daemon; poll ORBIT_SCHEDULE_POLL_SECONDS (default 60)
+orbit schedule-cancel --id <uuid> [--json]
 ```
+
+Queue file updates use a file lock on Unix (`fcntl`) so concurrent daemons do not corrupt JSONL.
 
 ## V1: browser assist (Playwright)
 

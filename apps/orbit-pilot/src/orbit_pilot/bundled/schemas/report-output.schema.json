@@ -4,7 +4,15 @@
   "title": "OrbitPilotReportOutput",
   "description": "Machine output of: orbit report --run … --json",
   "type": "object",
-  "required": ["results", "pending_manual", "next_manual", "skipped", "browser_fallback", "official_api_rows"],
+  "required": [
+    "results",
+    "pending_manual",
+    "next_manual",
+    "skipped",
+    "browser_fallback",
+    "browser_assisted",
+    "official_api_rows"
+  ],
   "properties": {
     "results": {
       "type": "array",
@@ -27,6 +35,7 @@
     "next_manual": { "type": ["string", "null"] },
     "skipped": { "type": "array", "items": { "type": "string" } },
     "browser_fallback": { "type": "array", "items": { "type": "string" } },
+    "browser_assisted": { "type": "array", "items": { "type": "string" } },
     "official_api_rows": { "type": "array", "items": { "type": "object", "additionalProperties": true } }
   },
   "additionalProperties": true

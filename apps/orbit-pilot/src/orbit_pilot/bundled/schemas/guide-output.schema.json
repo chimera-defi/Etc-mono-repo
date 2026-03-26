@@ -45,7 +45,9 @@
           "platform": { "type": "string" },
           "submit_url": { "type": ["string", "null"] },
           "priority": { "type": "integer" },
-          "prompt_path": { "type": "string" }
+          "prompt_path": { "type": "string" },
+          "browser_assist": { "type": "boolean" },
+          "next_step": { "type": "string" }
         },
         "additionalProperties": true
       }

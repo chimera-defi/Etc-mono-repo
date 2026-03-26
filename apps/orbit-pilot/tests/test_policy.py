@@ -47,9 +47,10 @@ def test_browser_automation_policy_browser_assisted() -> None:
 def test_load_risk_policy_from_yaml(tmp_path) -> None:
     p = tmp_path / "p.yaml"
     p.write_text(
-        "risk:\n  tolerance: high\n  allow_browser_fallback: true\n",
+        "risk:\n  tolerance: high\n  allow_browser_fallback: true\n  allow_browser_automation: true\n",
         encoding="utf-8",
     )
     pol = load_risk_policy(p)
     assert pol.tolerance == "high"
     assert pol.allow_browser_fallback is True
+    assert pol.allow_browser_automation is True
