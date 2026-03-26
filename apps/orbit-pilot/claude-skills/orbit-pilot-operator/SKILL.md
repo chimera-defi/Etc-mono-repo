@@ -4,14 +4,14 @@ description: |
   Run Orbit Pilot launch workflows from Claude: CLI as source-of-truth contracts, optional browser
   (computer use / MCP) for manual sites, Playwright path via orbit work --playwright or orbit publish.
   Use when: user is launching a product, clearing the manual queue, or wants agent-driven orbit
-  pipeline + mark-done. Repo paths: apps/orbit-pilot/ (code), ideas/orbit-pilot/ (specs).
+  pipeline + mark-done. Packaged under apps/orbit-pilot/claude-skills/ for export with the app.
 metadata:
   author: Etc mono-repo
-  version: "1.0.0"
+  version: "1.0.1"
   companion_docs:
-    - apps/orbit-pilot/AGENTS.md
-    - apps/orbit-pilot/HUMAN_GUIDE.md
-    - ideas/orbit-pilot/SPEC.md
+    - ../../AGENTS.md
+    - ../../HUMAN_GUIDE.md
+    - ../../../../ideas/orbit-pilot/SPEC.md
 allowed-tools:
   - Read
   - Grep
@@ -23,6 +23,8 @@ allowed-tools:
 
 Orbit Pilot is **CLI-first**: one `launch.yaml`, a platform registry YAML, generated packs under `out/<campaign>/run-*/`, JSON outputs, and audit. This skill is the **high-level procedure**; the **executable contract** is the CLI + bundled JSON Schemas.
 
+**Install in Claude Code:** copy or symlink this folder to `.claude/skills/orbit-pilot-operator/` in your project (see `../README.md`).
+
 ## Three layers (use together, catch drift)
 
 | Layer | What it is | Drift risk |
@@ -33,9 +35,9 @@ Orbit Pilot is **CLI-first**: one `launch.yaml`, a platform registry YAML, gener
 
 **Drift checks (run periodically or when behavior feels wrong):**
 
-1. Read `apps/orbit-pilot/AGENTS.md` and `HUMAN_GUIDE.md` — if this skill disagrees, **trust the repo docs**, then update this skill.
+1. Read `AGENTS.md` and `HUMAN_GUIDE.md` in this package — if this skill disagrees, **trust those docs**, then update this skill.
 2. `orbit --help` and `orbit <cmd> --help` — new flags win.
-3. In repo: `cd apps/orbit-pilot && pytest -q` — schemas and CLI payloads stay aligned in CI.
+3. In package root: `pytest -q` — schemas and CLI payloads stay aligned in CI.
 4. If **Playwright autofill** misbehaves but **computer-use** still works, suspect **registry selectors** or site DOM change — update `seed_platforms.yaml` / your registry copy, not only this skill.
 
 ## Default agent workflow (machine-first)
@@ -43,7 +45,7 @@ Orbit Pilot is **CLI-first**: one `launch.yaml`, a platform registry YAML, gener
 Run from the directory that contains `launch.yaml` and the registry (or use absolute paths).
 
 ```bash
-cd apps/orbit-pilot   # or the user's init dir
+cd /path/to/orbit-pilot   # package root after pip install -e, or operator workspace
 orbit pipeline --launch /path/to/launch.yaml --platforms /path/to/seed_platforms.yaml --out out/ --json
 ```
 
@@ -89,13 +91,11 @@ Parse the object:
 - **Credentials:** env + keyring for API publishers; **never** paste secrets into directory site forms.
 - Respect site **Terms of Service**; autofill / automation can still be disallowed even with a human nearby.
 
-## Repo map
+## Package layout (this repo)
 
-- **Implementation:** `apps/orbit-pilot/`
-- **Specs / matrix:** `ideas/orbit-pilot/`
-- **Agent reference:** `apps/orbit-pilot/AGENTS.md`
-- **Human runbook:** `apps/orbit-pilot/HUMAN_GUIDE.md`
+- **This app:** `apps/orbit-pilot/` (Python package, tests, `AGENTS.md`, `HUMAN_GUIDE.md`)
+- **Specs / matrix (mono):** `ideas/orbit-pilot/`
 
 ## Maintaining this skill
 
-When you add CLI commands or change JSON shapes: update this file’s commands section and ensure `ideas/orbit-pilot/SAMPLE_OUTPUTS.md` / `AGENTS.md` match. Treat mismatches between this skill and **`orbit --help`** as a **bug in the skill** until fixed.
+When you add CLI commands or change JSON shapes: update this file’s commands section and ensure `ideas/orbit-pilot/SAMPLE_OUTPUTS.md` (mono) / `AGENTS.md` match. Treat mismatches between this skill and **`orbit --help`** as a **bug in the skill** until fixed.
