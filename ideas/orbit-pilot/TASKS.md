@@ -34,6 +34,7 @@
 ### WS-4 Manual Queue
 - [x] Manual packs, checklists, status, live URL.
 - [x] Operator notes (`orbit mark-done --note`).
+- [x] **`orbit work`** — next queue item, open default browser, `mark_done_command`; `--playwright` for `browser_assisted`.
 
 ### WS-5 Operator Surface
 - [x] Optional Textual TUI (`orbit tui`), HTML export, JSON schemas, `validate-json`, `check-run`.

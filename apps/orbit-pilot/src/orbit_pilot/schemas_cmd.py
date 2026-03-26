@@ -29,6 +29,7 @@ SCHEMA_FILES = (
     "schedule-cancel-output.schema.json",
     "registry-lint-output.schema.json",
     "pipeline-output.schema.json",
+    "work-output.schema.json",
 )
 
 # CLI / command aliases → canonical schema id (for orbit validate-json)
@@ -55,6 +56,7 @@ SCHEMA_ALIASES: dict[str, str] = {
     "schedule-job": "schedule-job",
     "registry-lint": "registry-lint-output",
     "pipeline": "pipeline-output",
+    "work": "work-output",
 }
 
 

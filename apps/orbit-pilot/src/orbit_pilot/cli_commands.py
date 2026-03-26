@@ -32,6 +32,7 @@ from orbit_pilot.services.generation import generate_run, select_platforms
 from orbit_pilot.services.publishing import publish_from_run
 from orbit_pilot.services.reporting import human_guide, next_manual_payload, report_payload
 from orbit_pilot.services.validation import doctor_payload
+from orbit_pilot.services.work_queue import open_submit_url, work_next_payload
 
 # (bundled filename, destination filename under init --dir)
 _INIT_BUNDLED_FILES: tuple[tuple[str, str], ...] = (
@@ -55,6 +56,7 @@ def build_parser() -> argparse.ArgumentParser:
         ),
         epilog=(
             "Agent quick path: orbit pipeline --launch … --platforms … --out out/ --json  |  "
+            "Human queue: orbit work --run <run_dir>  |  "
             "Docs: apps/orbit-pilot/AGENTS.md (repo)  |  "
             "Also: python -m orbit_pilot …  |  Webhook entrypoint: orbit-serve"
         ),
@@ -138,6 +140,23 @@ def build_parser() -> argparse.ArgumentParser:
     next_cmd = subparsers.add_parser("next", help="Next manual or browser_assisted tasks for a run")
     next_cmd.add_argument("--run", required=True, help="Path to run-* directory")
     next_cmd.add_argument("--json", action="store_true", help="Print JSON to stdout")
+
+    work_p = subparsers.add_parser(
+        "work",
+        help="Next queue item: open submit URL in browser; optional Playwright assist for browser_assisted",
+    )
+    work_p.add_argument("--run", required=True, help="Path to run-* directory")
+    work_p.add_argument("--json", action="store_true", help="Print JSON to stdout (agents)")
+    work_p.add_argument(
+        "--no-open",
+        action="store_true",
+        help="Do not open the system browser (still prints URLs and suggested commands)",
+    )
+    work_p.add_argument(
+        "--playwright",
+        action="store_true",
+        help="browser_assisted only: run publish assist (needs ORBIT_BROWSER_* secrets + orbit-pilot[browser])",
+    )
 
     guide = subparsers.add_parser("guide", help="Human-oriented next steps for a run (--json for agents)")
     guide.add_argument("--run", required=True, help="Path to run-* directory")
@@ -504,6 +523,87 @@ def next_command(args: argparse.Namespace) -> int:
     return 0
 
 
+def work_command(args: argparse.Namespace) -> int:
+    run_dir = Path(args.run)
+    if not require_run_dir(run_dir, json_mode=args.json):
+        return 1
+    data = work_next_payload(run_dir)
+    if data.get("kind") == "empty":
+        if args.json:
+            emit(data, True)
+        else:
+            print(data.get("message", "No pending manual submissions."))
+        return 0
+
+    platform = str(data["platform"])
+    planned = str(data.get("planned_mode", "manual"))
+    submit_url = data.get("submit_url") or ""
+
+    if args.playwright:
+        if planned != "browser_assisted":
+            err = f"--playwright only applies to browser_assisted (this task is {planned})"
+            if args.json:
+                emit({**data, "error": err, "assist_ran": False}, True)
+            else:
+                print(err, file=sys.stderr)
+            return 1
+        os.environ["ORBIT_ALLOW_BROWSER_AUTOMATION"] = "1"
+        try:
+            assist_results = publish_from_run(run_dir, [platform], execute=True)
+        except FileNotFoundError as exc:
+            emit({"error": str(exc), **data}, args.json)
+            return 1
+        data["assist_ran"] = True
+        data["publish_results"] = assist_results
+        r0 = assist_results[0]["result"] if assist_results else {}
+        data["assist_status"] = r0.get("status")
+        data["assist_error"] = r0.get("error")
+        if args.json:
+            emit(data, True)
+            return 0 if r0.get("status") not in ("error", "blocked") else 1
+        print(f"Playwright assist: {platform} → status={r0.get('status')}")
+        if r0.get("error"):
+            print(f"  error: {r0['error']}", file=sys.stderr)
+        if r0.get("note"):
+            print(f"  note: {r0['note']}")
+        print(f"\nWhen done: {data['mark_done_command'].replace('<URL>', '<paste-live-listing-url>')}")
+        return 0 if r0.get("status") not in ("error", "blocked") else 1
+
+    opened = False
+    open_err = ""
+    if submit_url and not args.no_open:
+        opened, open_err = open_submit_url(submit_url)
+    data["opened_browser"] = opened
+    if open_err:
+        data["open_error"] = open_err
+
+    if args.json:
+        emit(data, True)
+        return 0
+
+    print(f"Next queue: {platform}  [{planned}]")
+    if submit_url:
+        print(f"Submit URL: {submit_url}")
+        if args.no_open:
+            print("(browser not opened: --no-open)")
+        elif opened:
+            print("(opened in default browser)")
+        else:
+            print(f"(could not open browser: {open_err})" if open_err else "(browser open may have failed)")
+    else:
+        print("No submit_url in meta.json — use pack files below.")
+    print()
+    print(data.get("prompt", ""))
+    print()
+    print("Then record the live listing:")
+    print(f"  {data['mark_done_command']}")
+    if data.get("playwright_assist_command"):
+        print("\nOr run supervised Playwright assist (policy + env secrets required):")
+        print(f"  {data['playwright_assist_command']}")
+        print("  (shorthand: orbit work --run … --playwright)")
+    return 0
+
+
 def guide_command(args: argparse.Namespace) -> int:
     run_dir = Path(args.run)
     if not require_run_dir(run_dir, json_mode=args.json):
@@ -530,6 +630,7 @@ def guide_command(args: argparse.Namespace) -> int:
             print(f"    {item['prompt_path']}")
     if data.get("next_manual"):
         print(f"\nNext manual: {data['next_manual']}")
+        print(f"  Streamline: orbit work --run {run_dir}")
     return 0
 
 
@@ -889,6 +990,7 @@ _COMMAND_HANDLERS: dict[str, Callable[[argparse.Namespace], int]] = {
     "publish": publish_command,
     "mark-done": mark_done_command,
     "next": next_command,
+    "work": work_command,
     "guide": guide_command,
     "campaigns": campaigns_command,
     "latest": latest_command,

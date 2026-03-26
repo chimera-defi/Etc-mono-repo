@@ -54,6 +54,14 @@ Each platform folder has `payload.json`, `PROMPT_USER.txt`, `meta.json`.
 
 ## 5. Execute submissions
 
+**Human queue (fast path):** opens your default browser to the next `submit_url`, prints `PROMPT_USER.txt`, and shows the exact `mark-done` command:
+
+```bash
+orbit work --run out/.../run-*
+# JSON for agents: orbit work --run … --json
+# browser_assisted + Playwright (same gates as publish): orbit work --run … --playwright
+```
+
 **API platforms** (when doctor says ready):
 
 ```bash
@@ -61,13 +69,13 @@ orbit publish --run out/.../run-* --platform github          # dry-run
 orbit publish --run out/.../run-* --platform github --execute
 ```
 
-**Manual / directory sites:** open `submit_url`, use the pack text, then:
+**Manual / directory sites:** use **`orbit work`** or open `submit_url`, use the pack text, then:
 
 ```bash
 orbit mark-done --run out/.../run-* --platform <slug> --live-url 'https://...' [--note '...']
 ```
 
-**Queue:** `orbit next --run …`, `orbit guide --run …`, `orbit report --run …`.
+**Queue:** `orbit work --run …`, `orbit next --run …`, `orbit guide --run …`, `orbit report --run …`.
 
 ---
 

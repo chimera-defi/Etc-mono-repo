@@ -64,6 +64,23 @@ Generated from bundled `launch.sample.yaml` + `seed_platforms.yaml` (paths vary 
 
 Optional keys on **`browser_assisted`** rows (when policy enables automation): `browser_autofill_selectors`, `browser_autofill_note`, `browser_auto_submit_note` (e.g. missing submit selector while `allow_browser_auto_submit` is true).
 
+**`orbit work --run … --json`** (next manual queue item; agents use `submit_url`, `mark_done_command`, optional `playwright_assist_command`):
+
+```json
+{
+  "kind": "task",
+  "platform": "product_hunt",
+  "status": "pending",
+  "prompt": "Next manual task: …",
+  "payload": {"title": "…", "body": "…"},
+  "planned_mode": "manual",
+  "submit_url": "https://www.producthunt.com/posts/new",
+  "prompt_path": "/path/run/product_hunt/PROMPT_USER.txt",
+  "mark_done_command": "orbit mark-done --run '/path/run' --platform product_hunt --live-url <URL>",
+  "opened_browser": true
+}
+```
+
 **`orbit generate … --json`**:
 
 ```json
