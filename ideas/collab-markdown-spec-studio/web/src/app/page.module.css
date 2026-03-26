@@ -53,7 +53,8 @@
 .hero h1 {
   max-width: 820px;
   font-size: clamp(2.3rem, 4vw, 4.4rem);
-  line-height: 0.98;
+  line-height: 1.0;
+  text-wrap: balance;
 }
 
 .subhead {

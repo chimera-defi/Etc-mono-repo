@@ -54,6 +54,10 @@
   color: inherit;
   text-decoration: none;
   transition: opacity 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0 0.25rem;
 }
 
 .navLink:hover {
@@ -90,7 +94,7 @@
   font-size: 1.05rem;
   line-height: 1.7;
   max-width: 58ch;
-  color: #405161;
+  color: var(--sf-muted);
 }
 
 .heroActions {
@@ -222,7 +226,7 @@
 .pricingCard ul {
   margin: 0.75rem 0 0;
   padding-left: 1rem;
-  color: #4a5b68;
+  color: var(--sf-muted);
   line-height: 1.6;
 }
 
@@ -236,7 +240,7 @@
 .price span {
   font-size: 0.95rem;
   font-weight: 500;
-  color: #4a5b68;
+  color: var(--sf-muted);
 }
 
 .featured {
@@ -246,7 +250,7 @@
 
 .footer {
   padding: 0 0 2rem;
-  color: #5b6b78;
+  color: var(--sf-muted);
   font-size: 0.92rem;
 }
 
