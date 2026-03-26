@@ -146,6 +146,9 @@ test("creates a document, queues a patch, and exposes export JSON", async ({ pag
   await expect(page.getByTestId("patch-queue")).toContainText("task_export_change");
 
   await page.goto(`${page.url().split("?")[0]}?document=${new URL(page.url()).searchParams.get("document")}&stage=export`);
+  await expect(page.locator("summary").filter({ hasText: "Design handoff" })).toBeVisible();
+  await expect(page.getByTestId("ux-pack-preview")).toContainText("Primary surface:");
+  await expect(page.getByTestId("copy-design-handoff-prompt")).toBeVisible();
   const exportHref = await page.getByTestId("open-export-json").getAttribute("href");
   const handoffHref = await page.getByTestId("open-handoff-json").getAttribute("href");
   const executionHref = await page.getByTestId("open-execution-json").getAttribute("href");
