@@ -46,10 +46,25 @@ _INIT_LAUNCH_BY_PRESET: dict[str, str] = {
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="orbit")
-    subparsers = parser.add_subparsers(dest="command", required=True)
+    parser = argparse.ArgumentParser(
+        prog="orbit",
+        description=(
+            "Launch distribution operator: one launch.yaml + platform registry → packs, publish, audit. "
+            "Use --json on subcommands for machine-readable output; validate with "
+            "orbit validate-json and orbit schemas."
+        ),
+        epilog=(
+            "Agent quick path: orbit pipeline --launch … --platforms … --out out/ --json  |  "
+            "Docs: apps/orbit-pilot/AGENTS.md (repo)  |  "
+            "Also: python -m orbit_pilot …  |  Webhook entrypoint: orbit-serve"
+        ),
+    )
+    subparsers = parser.add_subparsers(dest="command", required=True, metavar="COMMAND")
 
-    init_p = subparsers.add_parser("init")
+    init_p = subparsers.add_parser(
+        "init",
+        help="Write launch.yaml, seed_platforms.yaml, and risk.defaults.yaml into --dir",
+    )
     init_p.add_argument("--dir", default=".", help="Directory to write launch.yaml and seed_platforms.yaml")
     init_p.add_argument(
         "--preset",
@@ -58,78 +73,110 @@ def build_parser() -> argparse.ArgumentParser:
         help="launch.yaml template: default (OrbitPilot sample) or walletradar (WalletRadar-shaped stub)",
     )
 
+    _plan_help = {
+        "plan": "Preview platforms, risk modes, and missing launch fields",
+        "doctor": "Readiness per platform (secrets, payload gaps, optional browser checks)",
+        "generate": "Create run directory and per-platform submission packs under --out",
+    }
     for name in ("plan", "generate", "doctor"):
-        cmd = subparsers.add_parser(name)
-        cmd.add_argument("--launch", required=True)
-        cmd.add_argument("--platforms", required=True)
+        cmd = subparsers.add_parser(name, help=_plan_help[name])
+        cmd.add_argument("--launch", required=True, help="Path to launch.yaml")
+        cmd.add_argument("--platforms", required=True, help="Path to platform registry YAML")
         cmd.add_argument("--policy", help="Risk policy YAML (default: bundled risk.defaults.yaml)")
-        cmd.add_argument("--json", action="store_true")
+        cmd.add_argument("--json", action="store_true", help="Print JSON to stdout for agents/CI")
         if name == "generate":
-            cmd.add_argument("--out", default="out")
-            cmd.add_argument("--campaign")
+            cmd.add_argument("--out", default="out", help="Output root (default: out)")
+            cmd.add_argument("--campaign", help="Override campaign id derived from product name")
 
-    subparsers.add_parser("serve")
+    subparsers.add_parser(
+        "serve",
+        help="Run FastAPI webhook server (GET /health, POST /hooks/launch); same as orbit-serve",
+    )
 
-    regenerate = subparsers.add_parser("regenerate")
-    regenerate.add_argument("--run", required=True)
-    regenerate.add_argument("--platform", action="append")
+    regenerate = subparsers.add_parser(
+        "regenerate",
+        help="Regenerate selected platforms inside an existing run directory",
+    )
+    regenerate.add_argument("--run", required=True, help="Path to run-* directory")
+    regenerate.add_argument("--platform", action="append", help="Platform slug (repeatable); default all planned")
     regenerate.add_argument("--policy", help="Risk policy YAML (default: bundled risk.defaults.yaml)")
-    regenerate.add_argument("--json", action="store_true")
+    regenerate.add_argument("--json", action="store_true", help="Print JSON to stdout")
 
-    publish = subparsers.add_parser("publish")
-    publish.add_argument("--run", required=True)
-    publish.add_argument("--platform", action="append", required=True)
-    publish.add_argument("--json", action="store_true")
-    publish.add_argument("--execute", action="store_true")
+    publish = subparsers.add_parser(
+        "publish",
+        help="Dry-run or execute publish for --platform (API or browser_assisted when enabled)",
+    )
+    publish.add_argument("--run", required=True, help="Path to run-* directory")
+    publish.add_argument(
+        "--platform",
+        action="append",
+        required=True,
+        help="Platform slug (repeatable)",
+    )
+    publish.add_argument("--json", action="store_true", help="Print JSON to stdout")
+    publish.add_argument(
+        "--execute",
+        action="store_true",
+        help="Perform real publishes (default is dry-run for API modes)",
+    )
     publish.add_argument(
         "--browser",
         action="store_true",
         help="Allow browser_assisted publish path (still requires env ORBIT_ALLOW_BROWSER_AUTOMATION etc.)",
     )
 
-    mark_done = subparsers.add_parser("mark-done")
-    mark_done.add_argument("--run", required=True)
-    mark_done.add_argument("--platform", required=True)
-    mark_done.add_argument("--live-url", required=True)
+    mark_done = subparsers.add_parser(
+        "mark-done",
+        help="Record manual completion: live listing URL + optional note",
+    )
+    mark_done.add_argument("--run", required=True, help="Path to run-* directory")
+    mark_done.add_argument("--platform", required=True, help="Platform slug")
+    mark_done.add_argument("--live-url", required=True, help="Final public URL after manual post")
     mark_done.add_argument("--note", default="", help="Optional operator note (approval context, rejection reason)")
-    mark_done.add_argument("--json", action="store_true")
+    mark_done.add_argument("--json", action="store_true", help="Print JSON to stdout")
 
-    next_cmd = subparsers.add_parser("next")
-    next_cmd.add_argument("--run", required=True)
-    next_cmd.add_argument("--json", action="store_true")
+    next_cmd = subparsers.add_parser("next", help="Next manual or browser_assisted tasks for a run")
+    next_cmd.add_argument("--run", required=True, help="Path to run-* directory")
+    next_cmd.add_argument("--json", action="store_true", help="Print JSON to stdout")
 
-    guide = subparsers.add_parser("guide")
-    guide.add_argument("--run", required=True)
-    guide.add_argument("--json", action="store_true")
+    guide = subparsers.add_parser("guide", help="Human-oriented next steps for a run (--json for agents)")
+    guide.add_argument("--run", required=True, help="Path to run-* directory")
+    guide.add_argument("--json", action="store_true", help="Structured guide payload")
 
-    campaigns = subparsers.add_parser("campaigns")
-    campaigns.add_argument("--out", default="out")
-    campaigns.add_argument("--json", action="store_true")
+    campaigns = subparsers.add_parser("campaigns", help="List campaigns under --out")
+    campaigns.add_argument("--out", default="out", help="Output root (default: out)")
+    campaigns.add_argument("--json", action="store_true", help="Print JSON to stdout")
 
-    latest = subparsers.add_parser("latest")
-    latest.add_argument("--out", default="out")
-    latest.add_argument("--campaign", required=True)
-    latest.add_argument("--json", action="store_true")
+    latest = subparsers.add_parser("latest", help="Print latest run path for a campaign")
+    latest.add_argument("--out", default="out", help="Output root (default: out)")
+    latest.add_argument("--campaign", required=True, help="Campaign id")
+    latest.add_argument("--json", action="store_true", help="Print JSON to stdout")
 
-    report = subparsers.add_parser("report")
-    report.add_argument("--run", required=True)
-    report.add_argument("--json", action="store_true")
+    report = subparsers.add_parser("report", help="Status summary for all platforms in a run")
+    report.add_argument("--run", required=True, help="Path to run-* directory")
+    report.add_argument("--json", action="store_true", help="Print JSON to stdout")
 
-    export_cmd = subparsers.add_parser("export")
-    export_cmd.add_argument("--run", required=True)
+    export_cmd = subparsers.add_parser("export", help="Export run snapshot as json, md, or html")
+    export_cmd.add_argument("--run", required=True, help="Path to run-* directory")
     export_cmd.add_argument("--format", choices=["json", "md", "html"], default="json")
     export_cmd.add_argument("-o", "--out", help="Write to file instead of stdout")
     export_cmd.add_argument("--json", action="store_true", help="Machine-readable errors (e.g. missing run dir)")
 
-    audit_cmd = subparsers.add_parser("audit")
-    audit_cmd.add_argument("--run", required=True)
-    audit_cmd.add_argument("--json", action="store_true")
+    audit_cmd = subparsers.add_parser("audit", help="Print audit.jsonl events for a run")
+    audit_cmd.add_argument("--run", required=True, help="Path to run-* directory")
+    audit_cmd.add_argument("--json", action="store_true", help="Print JSON array to stdout")
     audit_cmd.add_argument("--tail", type=int, help="Only last N events")
 
-    tui_cmd = subparsers.add_parser("tui", help="Interactive run dashboard (requires: pip install 'orbit-pilot[tui]')")
+    tui_cmd = subparsers.add_parser(
+        "tui",
+        help="Interactive run dashboard (requires orbit-pilot[tui]: pip or uv pip install)",
+    )
     tui_cmd.add_argument("--run", required=True, help="Path to run-* directory")
 
-    schemas_cmd = subparsers.add_parser("schemas", help="List bundled JSON Schemas for --json CLI outputs")
+    schemas_cmd = subparsers.add_parser(
+        "schemas",
+        help="List bundled JSON Schemas (use with orbit validate-json for agent parsers)",
+    )
     schemas_cmd.add_argument("--json", action="store_true")
     schemas_cmd.add_argument(
         "--show",
@@ -181,7 +228,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     sch_add = subparsers.add_parser(
         "schedule-add",
-        help="Queue a command to run at or after due time (JSONL queue; use schedule-daemon to run)",
+        help="Queue a command for later (JSONL file); run with orbit schedule-run or schedule-run --loop",
     )
     sch_add.add_argument("--due", required=True, help="ISO-8601 time (Z/offset) or naive with --timezone")
     sch_add.add_argument(

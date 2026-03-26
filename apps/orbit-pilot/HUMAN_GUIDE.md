@@ -9,7 +9,8 @@ One page: **install → configure → generate packs → publish or mark-done �
 ```bash
 cd apps/orbit-pilot
 pip install -e ".[dev]"          # add [browser] for Playwright assist
-orbit --help
+# or: uv pip install -e ".[dev]"
+orbit --help                     # orbit <cmd> --help for flags; see AGENTS.md for agents
 ```
 
 Optional: `git config` / `export` API tokens (`GITHUB_TOKEN`, `DEVTO_API_KEY`, …) — see README credentials table.
