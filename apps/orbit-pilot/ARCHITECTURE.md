@@ -80,7 +80,17 @@ CI **`tests/test_schema_validation.py`** keeps representative payloads aligned w
 
 **`orbit check-run`** validates manifest + paths; **`orbit export`** builds shareable bundles.
 
-## 6. Related docs
+## 6. Policy vs `planned_mode` (keep SPEC + packs aligned)
+
+| Registry `mode` (from YAML) | `plan_platform` base | After `apply_risk_policy` (typical) |
+|----------------------------|----------------------|-------------------------------------|
+| `browser_fallback_opt_in` | `manual` | `skipped` if `allow_browser_fallback` false; else `browser_assisted` if `allow_browser_automation`; else `browser_fallback` |
+| `manual`, `manual_by_default`, … | `manual` | `browser_assisted` if **`allow_browser_assist_manual`** + **`allow_browser_automation`** + non-empty `submit_url`; else stays `manual` |
+| `official_api` (with token) | `official_api` | May downgrade to `manual` if risk exceeds `risk.tolerance` |
+
+**`browser_assisted`** packs (`README.txt` / `PROMPT_USER.txt`) describe Playwright env gates; they apply to **both** upgrade paths above.
+
+## 7. Related docs
 
 | Doc | Use |
 |-----|-----|
@@ -90,4 +100,4 @@ CI **`tests/test_schema_validation.py`** keeps representative payloads aligned w
 | [`ideas/orbit-pilot/SPEC.md`](../ideas/orbit-pilot/SPEC.md) | Product / config contract |
 | [`ideas/orbit-pilot/ARCHITECTURE_DIAGRAMS.md`](../ideas/orbit-pilot/ARCHITECTURE_DIAGRAMS.md) | Broader product diagrams (if present) |
 
-This file is the **app-centric** map; the ideas folder stays the **spec** layer.
+This file is the **app-centric** map; the ideas folder stays the **spec** layer. When behavior changes, update **this file**, **`SPEC.md` Publish Router + Config Contract**, and **`manual_pack`** assist text in one pass.

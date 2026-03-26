@@ -66,4 +66,4 @@ WalletRadar is a concrete fit for Orbit Pilot because it needs repeatable submis
 6. `ARCHITECTURE_DECISIONS.md`
 7. `V2_ROADMAP.md` (monetization + GTM — when relevant)
 8. [`../../apps/orbit-pilot/ARCHITECTURE.md`](../../apps/orbit-pilot/ARCHITECTURE.md) (code layers, schemas vs Python)
-9. `../../apps/orbit-pilot/` (implementation; [`HUMAN_GUIDE.md`](../../apps/orbit-pilot/HUMAN_GUIDE.md), [`AGENTS.md`](../../apps/orbit-pilot/AGENTS.md))
+9. `../../apps/orbit-pilot/` (implementation; [`HUMAN_GUIDE.md`](../../apps/orbit-pilot/HUMAN_GUIDE.md), [`AGENTS.md`](../../apps/orbit-pilot/AGENTS.md) — or stub [`AGENTS.md`](./AGENTS.md) in this folder)

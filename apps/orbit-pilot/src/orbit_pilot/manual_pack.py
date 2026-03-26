@@ -47,7 +47,8 @@ def write_manual_pack(run_dir: Path, record: PlatformRecord, decision: Submissio
             "",
             "Browser assist (V1):",
             "- Install: pip install 'orbit-pilot[browser]' && playwright install chromium",
-            "- Policy must set risk.allow_browser_fallback and risk.allow_browser_automation.",
+            "- Policy: risk.allow_browser_automation required; also allow_browser_fallback (browser_fallback_opt_in "
+            "registry) and/or allow_browser_assist_manual (manual registry rows → browser_assisted).",
             "- Publish: orbit publish --run <run_dir> --platform "
             + record.slug
             + " --execute --browser",

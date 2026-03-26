@@ -74,9 +74,9 @@ Install: `pip install -e ".[browser]"` && `playwright install chromium`. Never p
 ## Verify
 
 ```bash
-cd apps/orbit-pilot && ruff check src tests && pytest -q
+cd apps/orbit-pilot && python3 -m ruff check src tests && python3 -m pytest -q
 # Full parity with CI (includes Playwright E2E):
-# CI=1 RUN_BROWSER_E2E=1 pip install -e '.[dev,browser]' && playwright install chromium && pytest -q
+# CI=1 RUN_BROWSER_E2E=1 pip install -e '.[dev,browser]' && playwright install chromium && python3 -m pytest -q
 ```
 
 **Specs:** `ideas/orbit-pilot/` · **Tracker:** `ideas/orbit-pilot/V1_ROADMAP.md`
