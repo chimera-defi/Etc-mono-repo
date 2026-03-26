@@ -28,11 +28,14 @@ Thanks for helping improve launch ops for humans and agents.
 ```bash
 cd apps/orbit-pilot
 pip install -e ".[dev]"
+# or: uv venv && source .venv/bin/activate && uv pip install -e ".[dev]"
 ruff check src tests
 pytest -q
 # Optional real browser: pip install -e ".[browser]" && python3 -m playwright install chromium
 # RUN_BROWSER_E2E=1 pytest tests/test_browser_playwright_e2e.py -v
 ```
+
+Use **uv** if you prefer; the project is standard **pyproject.toml / setuptools** — no lockfile is committed in-repo.
 
 ## Design principles
 
