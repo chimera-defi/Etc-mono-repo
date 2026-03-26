@@ -27,3 +27,22 @@ jobs:
         run: ruff check src tests
       - name: Pytest
         run: pytest -q
+
+  browser-e2e:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/orbit-pilot
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install with Playwright
+        run: pip install -e ".[dev,browser]"
+      - name: Install Chromium (system deps + browser)
+        run: python -m playwright install --with-deps chromium
+      - name: Playwright E2E tests
+        env:
+          RUN_BROWSER_E2E: "1"
+        run: pytest -q tests/test_browser_playwright_e2e.py -v

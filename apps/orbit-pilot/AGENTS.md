@@ -115,7 +115,8 @@ GitHub Actions (`.github/workflows/orbit-pilot.yml`) runs **ruff** + **pytest** 
 
 - Core planning, generate, publish (mocked), policy, schemas, `check-run`, webhook (TestClient), scheduler, timezone/recurrence, argv allowlist
 - **`browser_assist` / Playwright paths are mocked** in tests — CI does **not** install browsers or drive real Chromium
-- **Live E2E** (real `orbit publish --execute`, real directory sites) is **manual** or a separate job if you add Playwright + `playwright install` to CI
+- **Playwright E2E:** CI job `browser-e2e` runs `tests/test_browser_playwright_e2e.py` with `RUN_BROWSER_E2E=1` after `playwright install --with-deps chromium`. Locally: `pip install -e ".[browser]" && python -m playwright install chromium && RUN_BROWSER_E2E=1 pytest tests/test_browser_playwright_e2e.py -v`
+- **Live site E2E** (`orbit publish` against real URLs) remains manual / operator-owned
 
 Bundled **`seed_platforms.yaml`** is checked against **`ideas/orbit-pilot/PLATFORM_MATRIX.md`** in `tests/test_platform_matrix_parity.py` (same platforms, same order/slugs). That matrix + YAML are the repo’s **canonical “initial list”**, not every backlink site on the web.
 
