@@ -55,6 +55,14 @@ type BlockMarker = {
 
 type SyncState = "connecting" | "live" | "saving" | "recovering" | "offline" | "stale" | "error";
 
+type ConnDiag = {
+  url: string;
+  reason: string;
+  code?: number;
+  at: string;
+  attempts: number;
+};
+
 const userPalette = ["#0f766e", "#1d4ed8", "#c2410c", "#7c3aed", "#be123c"];
 
 function makeLocalUser(activeActor: Props["activeActor"]) {
@@ -96,6 +104,8 @@ export function DocumentWorkspace({ document, activeActor, authMode, blockSummar
   const [syncState, setSyncState] = useState<SyncState>("connecting");
   const [status, setStatus] = useState(`Connecting to ${roomName}`);
   const [statusTone, setStatusTone] = useState<"neutral" | "success" | "warning">("warning");
+  const [connDiag, setConnDiag] = useState<ConnDiag | null>(null);
+  const connAttemptsRef = useRef(0);
   const [isPending, startTransition] = useTransition();
   const surfaceRef = useRef<HTMLDivElement | null>(null);
   const isMountedRef = useRef(false);
@@ -253,6 +263,8 @@ export function DocumentWorkspace({ document, activeActor, authMode, blockSummar
     };
 
     const handleSynced = () => {
+      setConnDiag(null);
+      connAttemptsRef.current = 0;
       const hasContent = editor.getText().trim().length > 0;
 
       if (!hasContent) {
@@ -379,14 +391,33 @@ export function DocumentWorkspace({ document, activeActor, authMode, blockSummar
     };
 
     const handleAuthenticated = () => {
+      setConnDiag(null);
       updateSyncState("recovering", `Authenticated room: ${roomName}`);
     };
     const handleAuthenticationFailed = () => {
+      connAttemptsRef.current += 1;
+      setConnDiag({
+        url: collabUrl,
+        reason: "auth-failed — token endpoint rejected the session",
+        at: new Date().toISOString(),
+        attempts: connAttemptsRef.current,
+      });
       updateSyncState("error", `Collab authentication failed: ${roomName}`);
+    };
+    const handleClose = (event: { code?: number; reason?: string }) => {
+      connAttemptsRef.current += 1;
+      setConnDiag((prev) => ({
+        url: collabUrl,
+        reason: event.reason || "WebSocket closed before sync",
+        code: event.code,
+        at: new Date().toISOString(),
+        attempts: prev ? prev.attempts + 1 : connAttemptsRef.current,
+      }));
     };
 
     collab.provider.on("authenticated", handleAuthenticated);
     collab.provider.on("authenticationFailed", handleAuthenticationFailed);
+    collab.provider.on("close", handleClose);
     collab.provider.on("status", handleStatus);
     collab.provider.on("synced", handleSynced);
     awareness.on("change", handleAwarenessChange);
@@ -412,6 +443,7 @@ export function DocumentWorkspace({ document, activeActor, authMode, blockSummar
     return () => {
       collab.provider.off("authenticated", handleAuthenticated);
       collab.provider.off("authenticationFailed", handleAuthenticationFailed);
+      collab.provider.off("close", handleClose);
       collab.provider.off("status", handleStatus);
       collab.provider.off("synced", handleSynced);
       awareness.off("change", handleAwarenessChange);
@@ -423,7 +455,7 @@ export function DocumentWorkspace({ document, activeActor, authMode, blockSummar
       window.removeEventListener("offline", handleOffline);
       window.removeEventListener("resize", handleWindowChange);
     };
-  }, [collab.provider, document.markdown, editor, localUser, roomName]);
+  }, [collab.provider, collabUrl, document.markdown, editor, localUser, roomName]);
 
   useEffect(() => {
     const handleFocus = () => {
@@ -591,8 +623,34 @@ export function DocumentWorkspace({ document, activeActor, authMode, blockSummar
       </div>
       {syncState === "offline" || syncState === "error" || syncState === "stale" ? (
         <div className="recoveryBanner">
-          <strong>{syncState === "stale" ? "Recovery needed" : "Connection needs attention"}</strong>
-          <span>{status}</span>
+          <strong>
+            {syncState === "stale"
+              ? "Stale snapshot — newer version available"
+              : syncState === "offline"
+              ? "Offline — no network connection"
+              : "Collab connection failed"}
+          </strong>
+          <span>
+            <code>syncState={syncState}</code>
+            {" · "}
+            <code>room={roomName}</code>
+          </span>
+          {connDiag ? (
+            <details open>
+              <summary style={{ cursor: "pointer", fontSize: "0.78rem" }}>
+                Connection diagnostics (expand for AI debug)
+              </summary>
+              <pre style={{ fontSize: "0.74rem", lineHeight: 1.45, marginTop: "0.4rem", whiteSpace: "pre-wrap", wordBreak: "break-all" }}>
+                {JSON.stringify(connDiag, null, 2)}
+              </pre>
+            </details>
+          ) : (
+            <span style={{ fontSize: "0.78rem" }}>
+              <code>url={collabUrl}</code>
+              {" · "}
+              <code>status={status}</code>
+            </span>
+          )}
         </div>
       ) : null}
       <div className="presenceBar">
