@@ -3,6 +3,7 @@
 **What it is:** CLI that turns one **`launch.yaml`** + a **platform registry** into per-site submission packs under **`out/`**, optional **API publish** (dry-run by default), **audit**, and **agent-friendly `--json`**.
 
 **Human: start here → [`HUMAN_GUIDE.md`](./HUMAN_GUIDE.md)** (end-to-end flow).  
+**Architecture → [`ARCHITECTURE.md`](./ARCHITECTURE.md)** (layers, JSON Schemas vs Python, data flow).  
 **Agents → [`AGENTS.md`](./AGENTS.md)** (schemas, `orbit pipeline`, validation).  
 **Claude Code:** [`claude-skills/`](./claude-skills/) (operator skill; symlink into `.claude/skills/` per README there).
 

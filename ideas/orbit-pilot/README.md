@@ -2,7 +2,7 @@
 
 **Status:** Spec + CLI + V1 slices in [`apps/orbit-pilot/`](../../apps/orbit-pilot/) | **V1:** [`V1_SHIPPED.md`](./V1_SHIPPED.md) · [`V1_ROADMAP.md`](./V1_ROADMAP.md) | **V2 (planning):** [`V2_ROADMAP.md`](./V2_ROADMAP.md)
 
-**Implementation:** [`apps/orbit-pilot/`](../../apps/orbit-pilot/) — humans [`HUMAN_GUIDE.md`](../../apps/orbit-pilot/HUMAN_GUIDE.md), agents [`AGENTS.md`](../../apps/orbit-pilot/AGENTS.md). **Claude Code skill:** [`apps/orbit-pilot/claude-skills/orbit-pilot-operator/SKILL.md`](../../apps/orbit-pilot/claude-skills/orbit-pilot-operator/SKILL.md).
+**Implementation:** [`apps/orbit-pilot/`](../../apps/orbit-pilot/) — **[`ARCHITECTURE.md`](../../apps/orbit-pilot/ARCHITECTURE.md)** (app layers + JSON Schemas), humans [`HUMAN_GUIDE.md`](../../apps/orbit-pilot/HUMAN_GUIDE.md), agents [`AGENTS.md`](../../apps/orbit-pilot/AGENTS.md). **Claude skill:** [`apps/orbit-pilot/claude-skills/orbit-pilot-operator/SKILL.md`](../../apps/orbit-pilot/claude-skills/orbit-pilot-operator/SKILL.md).
 
 ## One-Liner
 

@@ -13,7 +13,7 @@ Build a launch orchestration system with:
 7. explicit browser-fallback guardrails.
 
 ### High-Level Architecture
-See `ARCHITECTURE_DIAGRAMS.md`.
+See `ARCHITECTURE_DIAGRAMS.md` (product-level). **Implementation map (Python layers, JSON Schemas, run dir):** [`apps/orbit-pilot/ARCHITECTURE.md`](../../apps/orbit-pilot/ARCHITECTURE.md).
 
 ### Core Components
 
