@@ -25,6 +25,8 @@
   --sf-warning-subtle: rgba(183, 106, 18, 0.14);
   --sf-danger: #8c1f1f;
   --sf-danger-subtle: rgba(163, 43, 43, 0.12);
+  --sf-success-faint: rgba(33, 122, 69, 0.08);
+  --sf-danger-faint: rgba(163, 43, 43, 0.08);
 
   /* Muted text */
   --sf-muted: #4a5b68;
