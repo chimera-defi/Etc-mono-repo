@@ -40,6 +40,22 @@ def write_manual_pack(run_dir: Path, record: PlatformRecord, decision: Submissio
         ),
         encoding="utf-8",
     )
+    assist_lines: list[str] = []
+    if decision.mode == "browser_assisted":
+        assist_lines = [
+            "",
+            "Browser assist (V1):",
+            "- Install: pip install 'orbit-pilot[browser]' && playwright install chromium",
+            "- Policy must set risk.allow_browser_fallback and risk.allow_browser_automation.",
+            "- Publish: orbit publish --run <run_dir> --platform "
+            + record.slug
+            + " --execute --browser",
+            "- Env: ORBIT_ALLOW_BROWSER_AUTOMATION=1, ORBIT_BROWSER_AUTOMATION_SECRET, "
+            "ORBIT_BROWSER_AUTOMATION_CONFIRM (same value).",
+            "- Opens this submit URL in Chromium; paste from this folder; then orbit mark-done --live-url …",
+            "",
+        ]
+
     notes_path.write_text(
         "\n".join(
             [
@@ -49,7 +65,7 @@ def write_manual_pack(run_dir: Path, record: PlatformRecord, decision: Submissio
                 f"Mode: {decision.mode}",
                 f"Risk: {decision.risk_level}",
                 f"Reason: {decision.reason}",
-                "",
+                *assist_lines,
                 "Checklist:",
                 *[f"- {item}" for item in guidance["checklist"]],
                 "",
@@ -64,6 +80,15 @@ def write_manual_pack(run_dir: Path, record: PlatformRecord, decision: Submissio
             [
                 f"Next manual task: submit {record.name}",
                 f"Open: {record.submit_url}",
+                *(
+                    [
+                        "",
+                        "(browser_assisted) After `orbit publish ... --execute --browser`, Chromium opens here; "
+                        "paste title/body below, submit, then mark-done.",
+                    ]
+                    if decision.mode == "browser_assisted"
+                    else []
+                ),
                 "",
                 f"Suggested title: {(decision.payload or {}).get('title', '')}",
                 "",
