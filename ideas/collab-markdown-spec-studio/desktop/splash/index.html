@@ -6,129 +6,202 @@
   <title>SpecForge — Starting</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #0f1117;
-      color: #e4e4e7;
+      background: #1a1512;
+      color: #ede8e0;
       display: flex;
       align-items: center;
       justify-content: center;
       height: 100vh;
       overflow: hidden;
     }
+
+    /* Subtle warm radial glow in background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 30% 40%, rgba(194, 117, 53, 0.12), transparent),
+        radial-gradient(ellipse 50% 60% at 70% 60%, rgba(20, 137, 127, 0.10), transparent);
+      pointer-events: none;
+    }
+
     .container {
+      position: relative;
       text-align: center;
-      max-width: 420px;
-      padding: 2rem;
+      max-width: 400px;
+      width: 100%;
+      padding: 2.5rem 2rem;
     }
-    .logo {
-      font-size: 2rem;
+
+    .wordmark {
+      display: inline-flex;
+      align-items: center;
+      background: #ede8e0;
+      color: #1a1512;
+      border-radius: 999px;
+      padding: 7px 16px;
+      font-size: 0.76rem;
       font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.5rem;
-      background: linear-gradient(135deg, #a78bfa, #60a5fa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 1.75rem;
     }
-    .subtitle {
+
+    .tagline {
       font-size: 0.875rem;
-      color: #71717a;
+      color: #9a8c80;
       margin-bottom: 2.5rem;
+      letter-spacing: 0.01em;
     }
+
+    /* Service status rows */
     .status-list {
       list-style: none;
       text-align: left;
       margin-bottom: 2rem;
+      border: 1px solid rgba(240, 234, 220, 0.10);
+      border-radius: 16px;
+      overflow: hidden;
     }
+
     .status-list li {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      padding: 0.625rem 0;
-      font-size: 0.9375rem;
-      border-bottom: 1px solid #1e1e2e;
+      padding: 0.875rem 1rem;
+      font-size: 0.9rem;
+      background: rgba(255, 249, 240, 0.04);
     }
-    .status-list li:last-child { border-bottom: none; }
+
+    .status-list li + li {
+      border-top: 1px solid rgba(240, 234, 220, 0.08);
+    }
+
+    .status-label {
+      flex: 1;
+      color: #c8bfb4;
+    }
+
+    .status-text {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #9a8c80;
+      min-width: 3.5rem;
+      text-align: right;
+    }
+
     .indicator {
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       flex-shrink: 0;
     }
-    .indicator.waiting { background: #3f3f46; animation: pulse 1.5s ease-in-out infinite; }
-    .indicator.ok { background: #22c55e; }
-    .indicator.error { background: #ef4444; }
+
+    .indicator.waiting {
+      background: #3d3530;
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+
+    .indicator.ok {
+      background: #14897f;
+      box-shadow: 0 0 6px rgba(20, 137, 127, 0.5);
+    }
+
+    .indicator.error {
+      background: #c0392b;
+    }
+
     @keyframes pulse {
-      0%, 100% { opacity: 0.4; }
+      0%, 100% { opacity: 0.35; }
       50% { opacity: 1; }
     }
+
+    /* Progress bar */
     .progress-bar {
       width: 100%;
-      height: 3px;
-      background: #1e1e2e;
+      height: 2px;
+      background: rgba(240, 234, 220, 0.08);
       border-radius: 2px;
       overflow: hidden;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
     }
+
     .progress-fill {
       height: 100%;
-      background: linear-gradient(90deg, #a78bfa, #60a5fa);
+      background: linear-gradient(90deg, #c27535, #14897f);
       width: 0%;
-      transition: width 0.5s ease;
+      transition: width 0.6s ease;
     }
+
     .message {
-      font-size: 0.8125rem;
-      color: #71717a;
-      min-height: 1.25rem;
+      font-size: 0.8rem;
+      color: #9a8c80;
+      min-height: 1.2rem;
+      letter-spacing: 0.01em;
     }
+
+    /* Error state */
     .error-panel {
       display: none;
-      background: #1c1017;
-      border: 1px solid #7f1d1d;
-      border-radius: 8px;
+      background: rgba(192, 57, 43, 0.08);
+      border: 1px solid rgba(192, 57, 43, 0.25);
+      border-radius: 12px;
       padding: 1.25rem;
       margin-top: 1.5rem;
       text-align: left;
     }
+
     .error-panel.visible { display: block; }
+
     .error-panel h3 {
-      color: #fca5a5;
-      font-size: 0.9375rem;
+      color: #e07060;
+      font-size: 0.9rem;
       margin-bottom: 0.5rem;
     }
+
     .error-panel p {
-      color: #a1a1aa;
-      font-size: 0.8125rem;
-      line-height: 1.5;
+      color: #9a8c80;
+      font-size: 0.8rem;
+      line-height: 1.55;
       margin-bottom: 1rem;
     }
+
     .retry-btn {
-      background: #7c3aed;
-      color: #fff;
+      background: #14897f;
+      color: #ede8e0;
       border: none;
       padding: 0.5rem 1.25rem;
-      border-radius: 6px;
-      font-size: 0.875rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
       cursor: pointer;
       transition: background 0.15s;
+      letter-spacing: 0.01em;
     }
-    .retry-btn:hover { background: #6d28d9; }
-    .retry-btn:active { background: #5b21b6; }
+
+    .retry-btn:hover { background: #0f6b63; }
+    .retry-btn:active { opacity: 0.85; }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="logo">SpecForge</div>
-    <p class="subtitle">Starting desktop services&hellip;</p>
+    <div class="wordmark">SpecForge</div>
+    <p class="tagline">Starting desktop services&hellip;</p>
 
     <ul class="status-list">
       <li>
         <span class="indicator waiting" id="ind-web"></span>
-        <span>Web application</span>
+        <span class="status-label">Web application</span>
+        <span class="status-text" id="txt-web">waiting</span>
       </li>
       <li>
         <span class="indicator waiting" id="ind-collab"></span>
-        <span>Collaboration server</span>
+        <span class="status-label">Collaboration server</span>
+        <span class="status-text" id="txt-collab">waiting</span>
       </li>
     </ul>
 
@@ -140,50 +213,53 @@
 
     <div class="error-panel" id="error-panel">
       <h3>Services failed to start</h3>
-      <p id="error-detail">One or more services did not respond within 30 seconds.</p>
+      <p id="error-detail">One or more services did not respond within 45 seconds.</p>
       <button class="retry-btn" id="retry-btn">Retry</button>
     </div>
   </div>
 
   <script>
     (function () {
-      var WEB_URL = 'http://localhost:3000/api/health';
+      var WEB_URL    = 'http://localhost:3000/api/health';
       var COLLAB_URL = 'http://127.0.0.1:4322/health';
-      var APP_URL = 'http://localhost:3000';
-      var TIMEOUT_S = 30;
-      var POLL_MS = 1500;
+      var APP_URL    = 'http://localhost:3000';
+      var TIMEOUT_S  = 45;
+      var POLL_MS    = 1500;
 
-      var indWeb = document.getElementById('ind-web');
+      var indWeb    = document.getElementById('ind-web');
       var indCollab = document.getElementById('ind-collab');
-      var progress = document.getElementById('progress');
-      var message = document.getElementById('message');
-      var errorPanel = document.getElementById('error-panel');
+      var txtWeb    = document.getElementById('txt-web');
+      var txtCollab = document.getElementById('txt-collab');
+      var progress  = document.getElementById('progress');
+      var message   = document.getElementById('message');
+      var errorPanel  = document.getElementById('error-panel');
       var errorDetail = document.getElementById('error-detail');
-      var retryBtn = document.getElementById('retry-btn');
+      var retryBtn    = document.getElementById('retry-btn');
 
-      var startTime = 0;
-      var timer = null;
-      var webReady = false;
+      var startTime   = 0;
+      var timer       = null;
+      var webReady    = false;
       var collabReady = false;
 
-      function setIndicator(el, state) {
-        el.className = 'indicator ' + state;
+      function setIndicator(indEl, txtEl, state, label) {
+        indEl.className = 'indicator ' + state;
+        txtEl.textContent = label;
       }
 
       function checkHealth(url) {
-        return fetch(url, { mode: 'no-cors', cache: 'no-store' })
-          .then(function (r) {
-            // no-cors returns opaque response (status 0), but if fetch succeeds the server is up
-            return true;
-          })
+        return fetch(url, { cache: 'no-store' })
+          .then(function (r) { return r.ok; })
           .catch(function () {
-            return false;
+            // Fallback: no-cors opaque response means server is up
+            return fetch(url, { mode: 'no-cors', cache: 'no-store' })
+              .then(function () { return true; })
+              .catch(function () { return false; });
           });
       }
 
       function updateProgress() {
         var elapsed = (Date.now() - startTime) / 1000;
-        var pct = Math.min((elapsed / TIMEOUT_S) * 100, 100);
+        var pct = Math.min((elapsed / TIMEOUT_S) * 100, 95);
         progress.style.width = pct + '%';
       }
 
@@ -210,28 +286,30 @@
           showError(
             failed.join(' and ') +
             ' did not respond within ' + TIMEOUT_S + ' seconds. ' +
-            'Check that the services are configured correctly.'
+            'Check that the build succeeded and ports 3000 / 4321 are free.'
           );
           return;
         }
 
         var checks = [];
+
         if (!webReady) {
           checks.push(
             checkHealth(WEB_URL).then(function (ok) {
               if (ok) {
                 webReady = true;
-                setIndicator(indWeb, 'ok');
+                setIndicator(indWeb, txtWeb, 'ok', 'ready');
               }
             })
           );
         }
+
         if (!collabReady) {
           checks.push(
             checkHealth(COLLAB_URL).then(function (ok) {
               if (ok) {
                 collabReady = true;
-                setIndicator(indCollab, 'ok');
+                setIndicator(indCollab, txtCollab, 'ok', 'ready');
               }
             })
           );
@@ -241,32 +319,32 @@
           if (webReady && collabReady) {
             clearInterval(timer);
             timer = null;
-            message.textContent = 'Ready — opening SpecForge\u2026';
+            message.textContent = 'Ready \u2014 opening SpecForge\u2026';
             progress.style.width = '100%';
             setTimeout(function () {
               window.location.href = APP_URL;
-            }, 400);
+            }, 500);
           } else {
-            var parts = [];
-            if (webReady) parts.push('Web ready');
-            if (collabReady) parts.push('Collab ready');
+            var parts   = [];
             var waiting = [];
-            if (!webReady) waiting.push('web');
+            if (webReady)    parts.push('Web ready');
+            if (collabReady) parts.push('Collab ready');
+            if (!webReady)    waiting.push('web');
             if (!collabReady) waiting.push('collab');
             message.textContent =
               (parts.length ? parts.join(', ') + ' \u2014 ' : '') +
-              'waiting for ' + waiting.join(', ') + '\u2026';
+              'waiting for ' + waiting.join(' & ') + '\u2026';
           }
         });
       }
 
       function start() {
-        webReady = false;
+        webReady    = false;
         collabReady = false;
-        setIndicator(indWeb, 'waiting');
-        setIndicator(indCollab, 'waiting');
+        setIndicator(indWeb,    txtWeb,    'waiting', 'waiting');
+        setIndicator(indCollab, txtCollab, 'waiting', 'waiting');
         hideError();
-        message.textContent = 'Waiting for services\u2026';
+        message.textContent = 'Starting services\u2026';
         progress.style.width = '0%';
         startTime = Date.now();
         if (timer) clearInterval(timer);

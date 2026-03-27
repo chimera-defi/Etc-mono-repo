@@ -60,17 +60,57 @@ async fn get_health() -> Result<serde_json::Value, String> {
     }))
 }
 
+/// Build a PATH string that includes common Node/bun install locations so
+/// subprocesses can find `bun` and `node` even when launched from a macOS
+/// .app bundle (which strips the user's shell PATH).
+fn extended_path() -> String {
+    let home = std::env::var("HOME").unwrap_or_default();
+    let existing = std::env::var("PATH").unwrap_or_default();
+
+    // Locations where bun / node are commonly installed
+    let extra = [
+        format!("{home}/.bun/bin"),
+        format!("{home}/.nvm/versions/node/v20.19.0/bin"), // nvm active version
+        "/opt/homebrew/bin".to_string(),
+        "/usr/local/bin".to_string(),
+    ];
+
+    let mut parts: Vec<String> = extra.into_iter().collect();
+    if !existing.is_empty() {
+        parts.push(existing);
+    }
+    parts.join(":")
+}
+
+/// Spawn a service with `sh -l -c <cmd>` so the login shell profile
+/// (which initialises nvm, bun, etc.) is loaded before exec.
+fn spawn_service(cmd: &str, dir: &std::path::Path, label: &str) -> Option<Child> {
+    match std::process::Command::new("/bin/sh")
+        .args(["-c", cmd])
+        .current_dir(dir)
+        .env("PATH", extended_path())
+        .stdout(std::process::Stdio::null())
+        .stderr(std::process::Stdio::null())
+        .spawn()
+    {
+        Ok(child) => {
+            eprintln!("[specforge] started {label} (pid {})", child.id());
+            Some(child)
+        }
+        Err(e) => {
+            eprintln!("[specforge] failed to start {label}: {e}");
+            None
+        }
+    }
+}
+
 /// Spawn sidecar processes for the web app and collab server.
 /// Returns the child processes so they can be managed.
 fn spawn_sidecars() -> Vec<Child> {
     let mut children = Vec::new();
 
-    // Determine project root (two levels up from src-tauri)
-    let exe_dir = std::env::current_exe()
-        .ok()
-        .and_then(|p| p.parent().map(|p| p.to_path_buf()));
-
-    // In dev mode, use CARGO_MANIFEST_DIR or fall back to relative paths
+    // Determine project root — two levels up from src-tauri in dev,
+    // or relative to the exe in a packaged .app.
     let manifest_dir = std::env::var("CARGO_MANIFEST_DIR")
         .map(std::path::PathBuf::from)
         .ok();
@@ -78,38 +118,32 @@ fn spawn_sidecars() -> Vec<Child> {
     let base = manifest_dir
         .as_ref()
         .and_then(|d| d.parent().map(|p| p.to_path_buf()))
-        .or(exe_dir)
+        .or_else(|| {
+            std::env::current_exe()
+                .ok()
+                .and_then(|p| p.parent().map(|p| p.to_path_buf()))
+        })
         .unwrap_or_else(|| std::path::PathBuf::from("."));
 
     let web_dir = base.join("../web");
     let collab_dir = base.join("../collab-server");
 
-    // Start collab server
+    // Start collab server — `node src/index.js` (no bun needed at runtime)
     if collab_dir.exists() {
-        match std::process::Command::new("bun")
-            .args(["run", "start"])
-            .current_dir(&collab_dir)
-            .stdout(std::process::Stdio::null())
-            .stderr(std::process::Stdio::null())
-            .spawn()
-        {
-            Ok(child) => children.push(child),
-            Err(e) => eprintln!("Failed to start collab server: {e}"),
+        if let Some(child) = spawn_service("node src/index.js", &collab_dir, "collab-server") {
+            children.push(child);
         }
+    } else {
+        eprintln!("[specforge] collab-server dir not found: {}", collab_dir.display());
     }
 
-    // Start web app
+    // Start web app — `bun run start` requires a prior `bun run build`
     if web_dir.exists() {
-        match std::process::Command::new("bun")
-            .args(["run", "start"])
-            .current_dir(&web_dir)
-            .stdout(std::process::Stdio::null())
-            .stderr(std::process::Stdio::null())
-            .spawn()
-        {
-            Ok(child) => children.push(child),
-            Err(e) => eprintln!("Failed to start web app: {e}"),
+        if let Some(child) = spawn_service("bun run start", &web_dir, "web") {
+            children.push(child);
         }
+    } else {
+        eprintln!("[specforge] web dir not found: {}", web_dir.display());
     }
 
     children

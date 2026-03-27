@@ -1,0 +1,10 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "bun run build",
+  "installCommand": "bun install",
+  "outputDirectory": ".next",
+  "env": {
+    "NEXT_PUBLIC_COLLAB_URL": "wss://specforge-collab.fly.dev"
+  },
+  "regions": ["iad1"]
+}
