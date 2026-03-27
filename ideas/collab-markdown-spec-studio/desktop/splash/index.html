@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SpecForge — Starting</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f1117;
+      color: #e4e4e7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .container {
+      text-align: center;
+      max-width: 420px;
+      padding: 2rem;
+    }
+    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #a78bfa, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subtitle {
+      font-size: 0.875rem;
+      color: #71717a;
+      margin-bottom: 2.5rem;
+    }
+    .status-list {
+      list-style: none;
+      text-align: left;
+      margin-bottom: 2rem;
+    }
+    .status-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.625rem 0;
+      font-size: 0.9375rem;
+      border-bottom: 1px solid #1e1e2e;
+    }
+    .status-list li:last-child { border-bottom: none; }
+    .indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .indicator.waiting { background: #3f3f46; animation: pulse 1.5s ease-in-out infinite; }
+    .indicator.ok { background: #22c55e; }
+    .indicator.error { background: #ef4444; }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+    .progress-bar {
+      width: 100%;
+      height: 3px;
+      background: #1e1e2e;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #a78bfa, #60a5fa);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+    .message {
+      font-size: 0.8125rem;
+      color: #71717a;
+      min-height: 1.25rem;
+    }
+    .error-panel {
+      display: none;
+      background: #1c1017;
+      border: 1px solid #7f1d1d;
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-top: 1.5rem;
+      text-align: left;
+    }
+    .error-panel.visible { display: block; }
+    .error-panel h3 {
+      color: #fca5a5;
+      font-size: 0.9375rem;
+      margin-bottom: 0.5rem;
+    }
+    .error-panel p {
+      color: #a1a1aa;
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+    .retry-btn {
+      background: #7c3aed;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1.25rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .retry-btn:hover { background: #6d28d9; }
+    .retry-btn:active { background: #5b21b6; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">SpecForge</div>
+    <p class="subtitle">Starting desktop services&hellip;</p>
+
+    <ul class="status-list">
+      <li>
+        <span class="indicator waiting" id="ind-web"></span>
+        <span>Web application</span>
+      </li>
+      <li>
+        <span class="indicator waiting" id="ind-collab"></span>
+        <span>Collaboration server</span>
+      </li>
+    </ul>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress"></div>
+    </div>
+
+    <p class="message" id="message">Waiting for services&hellip;</p>
+
+    <div class="error-panel" id="error-panel">
+      <h3>Services failed to start</h3>
+      <p id="error-detail">One or more services did not respond within 30 seconds.</p>
+      <button class="retry-btn" id="retry-btn">Retry</button>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var WEB_URL = 'http://localhost:3000/api/health';
+      var COLLAB_URL = 'http://127.0.0.1:4322/health';
+      var APP_URL = 'http://localhost:3000';
+      var TIMEOUT_S = 30;
+      var POLL_MS = 1500;
+
+      var indWeb = document.getElementById('ind-web');
+      var indCollab = document.getElementById('ind-collab');
+      var progress = document.getElementById('progress');
+      var message = document.getElementById('message');
+      var errorPanel = document.getElementById('error-panel');
+      var errorDetail = document.getElementById('error-detail');
+      var retryBtn = document.getElementById('retry-btn');
+
+      var startTime = 0;
+      var timer = null;
+      var webReady = false;
+      var collabReady = false;
+
+      function setIndicator(el, state) {
+        el.className = 'indicator ' + state;
+      }
+
+      function checkHealth(url) {
+        return fetch(url, { mode: 'no-cors', cache: 'no-store' })
+          .then(function (r) {
+            // no-cors returns opaque response (status 0), but if fetch succeeds the server is up
+            return true;
+          })
+          .catch(function () {
+            return false;
+          });
+      }
+
+      function updateProgress() {
+        var elapsed = (Date.now() - startTime) / 1000;
+        var pct = Math.min((elapsed / TIMEOUT_S) * 100, 100);
+        progress.style.width = pct + '%';
+      }
+
+      function showError(detail) {
+        message.textContent = '';
+        errorDetail.textContent = detail;
+        errorPanel.className = 'error-panel visible';
+      }
+
+      function hideError() {
+        errorPanel.className = 'error-panel';
+      }
+
+      function poll() {
+        var elapsed = (Date.now() - startTime) / 1000;
+        updateProgress();
+
+        if (elapsed >= TIMEOUT_S) {
+          clearInterval(timer);
+          timer = null;
+          var failed = [];
+          if (!webReady) failed.push('Web application');
+          if (!collabReady) failed.push('Collaboration server');
+          showError(
+            failed.join(' and ') +
+            ' did not respond within ' + TIMEOUT_S + ' seconds. ' +
+            'Check that the services are configured correctly.'
+          );
+          return;
+        }
+
+        var checks = [];
+        if (!webReady) {
+          checks.push(
+            checkHealth(WEB_URL).then(function (ok) {
+              if (ok) {
+                webReady = true;
+                setIndicator(indWeb, 'ok');
+              }
+            })
+          );
+        }
+        if (!collabReady) {
+          checks.push(
+            checkHealth(COLLAB_URL).then(function (ok) {
+              if (ok) {
+                collabReady = true;
+                setIndicator(indCollab, 'ok');
+              }
+            })
+          );
+        }
+
+        Promise.all(checks).then(function () {
+          if (webReady && collabReady) {
+            clearInterval(timer);
+            timer = null;
+            message.textContent = 'Ready — opening SpecForge\u2026';
+            progress.style.width = '100%';
+            setTimeout(function () {
+              window.location.href = APP_URL;
+            }, 400);
+          } else {
+            var parts = [];
+            if (webReady) parts.push('Web ready');
+            if (collabReady) parts.push('Collab ready');
+            var waiting = [];
+            if (!webReady) waiting.push('web');
+            if (!collabReady) waiting.push('collab');
+            message.textContent =
+              (parts.length ? parts.join(', ') + ' \u2014 ' : '') +
+              'waiting for ' + waiting.join(', ') + '\u2026';
+          }
+        });
+      }
+
+      function start() {
+        webReady = false;
+        collabReady = false;
+        setIndicator(indWeb, 'waiting');
+        setIndicator(indCollab, 'waiting');
+        hideError();
+        message.textContent = 'Waiting for services\u2026';
+        progress.style.width = '0%';
+        startTime = Date.now();
+        if (timer) clearInterval(timer);
+        timer = setInterval(poll, POLL_MS);
+        poll();
+      }
+
+      retryBtn.addEventListener('click', start);
+      start();
+    })();
+  </script>
+</body>
+</html>
