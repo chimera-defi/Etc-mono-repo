@@ -492,6 +492,35 @@
   color: var(--sf-muted-light);
 }
 
+/* ── Step card status variants ────────────────────────────────────────────── */
+.current {
+  border-color: var(--sf-teal-border);
+  background: var(--sf-teal-subtle);
+}
+
+.current .stepNumber {
+  color: var(--sf-teal);
+  font-weight: 700;
+}
+
+.completed {
+  opacity: 0.55;
+}
+
+.upcoming {
+  opacity: 0.72;
+}
+
+/* ── Stage progress indicator ─────────────────────────────────────────────── */
+.stageStep {
+  margin: 0 0 0.25rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--sf-teal);
+  font-weight: 600;
+}
+
 .disclosureSummary {
   display: flex;
   justify-content: space-between;
