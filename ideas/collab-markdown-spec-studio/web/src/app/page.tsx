@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import styles from "./marketing.module.css";
+import { ThemeToggle } from "./theme-toggle";
 import { heroVariantOrder, heroVariants, type HeroVariant } from "@/lib/specforge/marketing";
 
 type Props = {
@@ -30,6 +31,7 @@ export default async function LandingPage({ searchParams }: Props) {
           <Link href="/workspace" className={styles.navLink}>
             Open workspace
           </Link>
+          <ThemeToggle />
         </div>
       </nav>
 
