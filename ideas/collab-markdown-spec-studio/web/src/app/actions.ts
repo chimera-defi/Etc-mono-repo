@@ -103,7 +103,7 @@ export async function createDocumentAction(formData: FormData) {
   }
 
   revalidatePath("/workspace");
-  redirect(`/workspace?document=${created.document_id}&stage=draft`);
+  redirect(`/workspace?document=${created.document_id}&stage=plan`);
 }
 
 export async function createPatchAction(formData: FormData) {
