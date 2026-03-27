@@ -4,7 +4,6 @@
   "identifier": "com.specforge.desktop",
   "build": {
     "frontendDist": "../splash",
-    "devUrl": "http://localhost:1420",
     "beforeDevCommand": "",
     "beforeBuildCommand": ""
   },
