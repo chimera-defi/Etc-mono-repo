@@ -31,8 +31,6 @@
 
 .navLinks,
 .heroActions,
-.metricRow,
-.sectionGrid,
 .pricingGrid,
 .faqList {
   display: flex;
@@ -40,8 +38,6 @@
 }
 
 .navLinks,
-.metricRow,
-.sectionGrid,
 .pricingGrid,
 .faqList {
   flex-wrap: wrap;
@@ -171,7 +167,6 @@
 }
 
 .heroPanel,
-.featureCard,
 .pricingCard,
 .faqItem {
   background: var(--sf-surface-card);
@@ -185,15 +180,19 @@
   animation: fadeUp 0.6s 0.12s ease both;
 }
 
-.heroPanel h2,
-.section h2 {
+.heroPanel h2 {
   margin: 0 0 0.75rem;
   font-size: 1.25rem;
   text-wrap: balance;
 }
 
+.section h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.75rem;
+  text-wrap: balance;
+}
+
 .heroPanel p,
-.featureCard p,
 .pricingCard p,
 .faqItem p,
 .sectionLead {
@@ -202,39 +201,47 @@
   line-height: 1.6;
 }
 
-.metricRow {
+.heroFacts {
   margin-top: 1.25rem;
+  display: grid;
+  gap: 0.75rem;
+  list-style: none;
 }
 
-.metric {
-  flex: 1 1 8rem;
-  padding: 0.85rem 1rem;
-  border-radius: var(--sf-radius);
-  background: var(--sf-teal-subtle);
+.heroFact {
+  border-top: 1px solid var(--sf-teal-border);
+  padding-top: 0.65rem;
 }
 
-.metric strong {
-  display: block;
-  font-size: 1.35rem;
+.heroFact dt {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sf-teal);
   margin-bottom: 0.2rem;
+}
+
+.heroFact dd {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--sf-muted);
+  line-height: 1.5;
 }
 
 .section {
   padding: 0 0 2.5rem;
 }
 
-.sectionGrid > *,
 .pricingGrid > * {
   flex: 1 1 18rem;
 }
 
-.featureCard,
 .pricingCard,
 .faqItem {
   padding: 1.15rem;
 }
 
-.featureCard strong,
 .pricingCard strong,
 .faqItem strong {
   display: block;
@@ -333,13 +340,15 @@
   text-wrap: balance;
 }
 
-.sectionDark .featureCard {
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(255, 255, 255, 0.12);
-  color: var(--sf-surface-light);
+.sectionDark .roleList {
+  border-top-color: rgba(255, 255, 255, 0.12);
 }
 
-.sectionDark .featureCard p {
+.sectionDark .roleRow {
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+.sectionDark .roleRow p {
   color: rgba(247, 244, 236, 0.65);
 }
 
@@ -417,14 +426,12 @@
 }
 
 .heroPanel,
-.featureCard,
 .pricingCard,
 .faqItem {
   transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .heroPanel:hover,
-.featureCard:hover,
 .pricingCard:hover {
   box-shadow: 0 24px 72px rgba(24, 33, 43, 0.13);
   transform: translateY(-2px);
@@ -440,7 +447,6 @@
   }
 
   .heroPanel,
-  .featureCard,
   .pricingCard,
   .faqItem {
     transition: none;
