@@ -61,20 +61,20 @@ export default async function LandingPage({ searchParams }: Props) {
             Agents do not silently edit the canonical spec. They propose patches. Humans review
             them. Accepted changes flow back into the shared document and final launch packet.
           </p>
-          <div className={styles.metricRow}>
-            <div className={styles.metric}>
-              <strong>Shared canvas</strong>
-              <span>Humans and agents operate in one workflow.</span>
+          <dl className={styles.heroFacts}>
+            <div className={styles.heroFact}>
+              <dt>Shared canvas</dt>
+              <dd>Humans and agents operate in one workflow.</dd>
             </div>
-            <div className={styles.metric}>
-              <strong>Governed patches</strong>
-              <span>No direct agent writes to the approved spec.</span>
+            <div className={styles.heroFact}>
+              <dt>Governed patches</dt>
+              <dd>No direct agent writes to the approved spec.</dd>
             </div>
-            <div className={styles.metric}>
-              <strong>Launch packet</strong>
-              <span>Export, starter handoff, and execution brief in one bundle.</span>
+            <div className={styles.heroFact}>
+              <dt>Launch packet</dt>
+              <dd>Export, starter handoff, and execution brief in one bundle.</dd>
             </div>
-          </div>
+          </dl>
         </aside>
       </section>
 
@@ -101,32 +101,23 @@ export default async function LandingPage({ searchParams }: Props) {
         </ol>
       </section>
 
-      {/* Agent connection — plain-English modes, not jargon */}
+      {/* Agent connection — stacked list, not a card grid */}
       <section className={`${styles.section} ${styles.sectionDark}`}>
         <h2>Connect your AI agent</h2>
-        <div className={styles.sectionGrid}>
-          <div className={styles.featureCard}>
-            <strong>Your own keys</strong>
-            <p>
-              Bring your Claude or Codex API key. Credentials stay server-side — never exposed
-              to the browser.
-            </p>
-          </div>
-          <div className={styles.featureCard}>
-            <strong>Managed credentials</strong>
-            <p>
-              On hosted plans, agent credentials are stored encrypted and scoped to your
-              workspace — no sharing tokens across teams.
-            </p>
-          </div>
-          <div className={styles.featureCard}>
-            <strong>Agents can only propose</strong>
-            <p>
-              No agent can rewrite the spec directly. Every suggestion goes through the patch
-              queue — you accept, reject, or cherry-pick.
-            </p>
-          </div>
-        </div>
+        <ol className={styles.roleList}>
+          <li className={styles.roleRow}>
+            <span className={styles.roleLabel}>Your own keys</span>
+            <p>Bring your Claude or Codex API key. Credentials stay server-side — never exposed to the browser.</p>
+          </li>
+          <li className={styles.roleRow}>
+            <span className={styles.roleLabel}>Managed credentials</span>
+            <p>On hosted plans, agent credentials are stored encrypted and scoped to your workspace — no sharing tokens across teams.</p>
+          </li>
+          <li className={styles.roleRow}>
+            <span className={styles.roleLabel}>Agents can only propose</span>
+            <p>No agent can rewrite the spec directly. Every suggestion goes through the patch queue — you accept, reject, or cherry-pick.</p>
+          </li>
+        </ol>
       </section>
 
       {/* Numbered step list — horizontal with large step numbers, not cards */}
