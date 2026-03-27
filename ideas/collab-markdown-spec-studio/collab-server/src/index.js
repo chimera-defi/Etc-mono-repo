@@ -165,7 +165,11 @@ const healthServer = http.createServer(async (request, response) => {
     room_snapshot_count: roomSnapshots,
   };
 
-  response.writeHead(200, { "content-type": "application/json" });
+  response.writeHead(200, {
+    "content-type": "application/json",
+    "access-control-allow-origin": "*",
+    "access-control-allow-methods": "GET, OPTIONS",
+  });
   response.end(JSON.stringify(payload));
 });
 
