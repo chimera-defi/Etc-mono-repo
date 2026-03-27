@@ -17,7 +17,7 @@ The rule for inclusion here is simple:
 
 ## Current Status Snapshot
 
-1. Tauri desktop shell — `partial` (scaffold + launch script committed; UX polish + toolchain verification remain)
+1. Tauri desktop shell — `done` (splash/index.html health-wait + retry UI; lib.rs Sidecars struct with Drop cleanup; launch.sh sidecar supervision)
 2. Desktop runtime status panel — `done` (RuntimeStatusPanel shipped: web/collab health + CLI detect, diagnostics download link)
 3. Local install / download flow polish — `done` (download/page.tsx rewritten with quick-start, AI assist setup, desktop-alpha messaging)
 4. Local CLI assist diagnostics — `done` (detectCliEnvironment(), /api/agent/assist/diagnostics, workspace panel)
@@ -27,7 +27,7 @@ The rule for inclusion here is simple:
 8. Hosted ops surfaces — `done` (OpsStatusPanel with collapsible incidents + backup list; /api/ops/diagnostics-pack downloadable bundle)
 9. Store decomposition — `done` (store-memberships.ts, store-audit.ts extracted; store.ts -435 lines)
 10. Workspace page decomposition — `done` (review-stage.tsx, export-stage.tsx extracted; page.tsx -633 lines)
-11. Design review workflow polish — `partial` (feedback submission + patch conversion works; patch visibility as distinct design feedback still open)
+11. Design review workflow polish — `done` (design_review patch badges + filter in decide stage; pending count in DesignHandoffPanel; --sf-design CSS tokens)
 12. Acceptance test UX — `done` (CRUD routes, schema, AcceptanceTestSection in decide stage, 5 unit tests)
 13. Local log export / diagnostics pack — `done` (/api/ops/diagnostics-pack returns downloadable JSON bundle)
 14. Hybrid local bridge design spike — `mostly planning`
