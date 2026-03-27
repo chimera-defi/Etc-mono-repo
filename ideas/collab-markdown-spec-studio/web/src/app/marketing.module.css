@@ -130,13 +130,13 @@
 }
 
 .pickerCardSecondary {
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--sf-surface-card);
   color: var(--sf-ink-dark);
-  border-color: rgba(28, 26, 23, 0.2);
+  border-color: var(--sf-border-mid);
 }
 
 .pickerCardSecondary:hover {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--sf-surface-warm);
   box-shadow: 0 6px 20px rgba(24, 33, 43, 0.1);
 }
 
@@ -173,7 +173,7 @@
   padding: 0.95rem 1rem;
   border-radius: var(--sf-radius);
   border: 1px solid var(--sf-border);
-  background: rgba(255, 255, 255, 0.72);
+  background: var(--sf-surface-card);
   max-width: 42rem;
   animation: fadeUp 0.5s 0.3s ease both;
 }
@@ -218,12 +218,12 @@
 }
 
 .secondaryCta {
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--sf-surface-card);
   color: var(--sf-ink-dark);
 }
 
 .secondaryCta:hover {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--sf-surface-warm);
 }
 
 .secondaryCta:active {
@@ -365,7 +365,7 @@
 
 .featured {
   border-color: var(--sf-teal-border);
-  background: linear-gradient(180deg, var(--sf-teal-subtle), rgba(255, 255, 255, 0.8));
+  background: linear-gradient(180deg, var(--sf-teal-subtle), var(--sf-surface-card));
 }
 
 /* ── Role table (replaces Safe multiplayer card grid) ─────────────────────── */
@@ -520,6 +520,55 @@
   .pricingCard,
   .faqItem {
     transition: none;
+  }
+}
+
+/* ── Dark mode overrides ──────────────────────────────────────────────────
+   .sectionDark uses --sf-ink-dark as background (dark navy in light mode).
+   In dark mode --sf-ink-dark flips to cream, completely inverting the section.
+   These overrides restore it to a warm-elevated surface instead.
+   ────────────────────────────────────────────────────────────────────────── */
+:global([data-theme="dark"]) .sectionDark {
+  background: var(--sf-surface-warm);
+  color: var(--sf-ink);
+}
+
+:global([data-theme="dark"]) .sectionDark h2 {
+  color: var(--sf-ink);
+}
+
+:global([data-theme="dark"]) .sectionDark .roleList {
+  border-top-color: var(--sf-border-mid);
+}
+
+:global([data-theme="dark"]) .sectionDark .roleRow {
+  border-bottom-color: var(--sf-border-mid);
+}
+
+:global([data-theme="dark"]) .sectionDark .roleRow p {
+  color: var(--sf-muted-warm);
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(:root:not([data-theme="light"])) .sectionDark {
+    background: var(--sf-surface-warm);
+    color: var(--sf-ink);
+  }
+
+  :global(:root:not([data-theme="light"])) .sectionDark h2 {
+    color: var(--sf-ink);
+  }
+
+  :global(:root:not([data-theme="light"])) .sectionDark .roleList {
+    border-top-color: var(--sf-border-mid);
+  }
+
+  :global(:root:not([data-theme="light"])) .sectionDark .roleRow {
+    border-bottom-color: var(--sf-border-mid);
+  }
+
+  :global(:root:not([data-theme="light"])) .sectionDark .roleRow p {
+    color: var(--sf-muted-warm);
   }
 }
 

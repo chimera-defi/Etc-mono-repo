@@ -4,7 +4,7 @@
   background:
     radial-gradient(circle at top left, rgba(238, 115, 24, 0.18), transparent 28%),
     radial-gradient(circle at right, rgba(17, 106, 138, 0.14), transparent 32%),
-    linear-gradient(180deg, #f7f0e7 0%, #efe4d5 100%);
+    var(--sf-surface-light);
   color: var(--sf-ink);
 }
 
@@ -73,8 +73,8 @@
 
 .stats div,
 .panel {
-  border: 1px solid rgba(28, 26, 23, 0.1);
-  background: rgba(255, 251, 246, 0.82);
+  border: 1px solid var(--sf-border);
+  background: var(--sf-surface-panel);
   backdrop-filter: blur(10px);
   border-radius: 24px;
   box-shadow: 0 14px 40px rgba(64, 42, 23, 0.08);
@@ -204,7 +204,7 @@
   padding: 14px;
   border-radius: 16px;
   border: 1px solid var(--sf-border-faint);
-  background: rgba(255, 255, 255, 0.68);
+  background: var(--sf-surface-light);
 }
 
 .actorCard strong,
@@ -222,7 +222,7 @@
 .wizardSection {
   border: 1px solid var(--sf-border-faint);
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.46);
+  background: var(--sf-surface-card);
 }
 
 .metricGrid {
@@ -237,7 +237,7 @@
   padding: 14px;
   border-radius: 16px;
   border: 1px solid var(--sf-border-faint);
-  background: rgba(255, 255, 255, 0.66);
+  background: var(--sf-surface-light);
 }
 
 .metricCard strong {
@@ -369,7 +369,7 @@
   padding: 12px;
   border: 1px solid var(--sf-border-faint);
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--sf-surface-panel);
 }
 
 .diffCard h3 {
@@ -594,9 +594,9 @@
   border-radius: 999px;
   padding: 10px 14px;
   text-decoration: none;
-  border: 1px solid rgba(28, 26, 23, 0.12);
+  border: 1px solid var(--sf-border-mid);
   color: var(--sf-ink);
-  background: rgba(255, 255, 255, 0.55);
+  background: var(--sf-surface-card);
 }
 
 .walkthroughGrid {
@@ -611,7 +611,7 @@
   padding: 14px;
   border-radius: 16px;
   border: 1px solid var(--sf-border-faint);
-  background: rgba(255, 255, 255, 0.74);
+  background: var(--sf-surface-light);
   min-width: 0;
 }
 
