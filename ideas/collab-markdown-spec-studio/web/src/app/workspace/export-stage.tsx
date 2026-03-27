@@ -185,6 +185,7 @@ export function ExportStage({
             reviewChecklist={designHandoff.reviewChecklist}
             prompt={designHandoff.prompt}
             documentId={activeDocument?.document_id ?? null}
+            pendingDesignPatches={patches.filter((p) => p.patch_type === "design_review" && ["proposed", "stale"].includes(p.status)).length}
           />
         ) : (
           <div className={styles.disclosureBody}>

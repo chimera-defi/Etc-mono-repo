@@ -352,6 +352,11 @@
   color: var(--sf-warning);
 }
 
+.design {
+  background: var(--sf-design-subtle);
+  color: var(--sf-design);
+}
+
 .diffGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

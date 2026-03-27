@@ -75,9 +75,15 @@ function getPatchRiskLabel(patchType: string) {
       return "handoff risk";
     case "structural_edit":
       return "medium impact";
+    case "design_review":
+      return "design feedback";
     default:
       return "low impact";
   }
+}
+
+function isDesignPatch(patch: { patch_type: string }) {
+  return patch.patch_type === "design_review";
 }
 
 function getPatchStatusTone(status: string) {
@@ -1004,6 +1010,12 @@ export default async function Home({ searchParams }: Props) {
                 </div>
                 <ul className={styles.readinessList}>
                   <li>{actionablePatches.length} patches need a decision now.</li>
+                  <li>
+                    <span className={`${styles.badge} ${styles.design}`}>
+                      {actionablePatches.filter(isDesignPatch).length} design review
+                    </span>
+                    {" "}patches in the queue.
+                  </li>
                   <li>{resolvedPatches.length} patches are already resolved.</li>
                   <li>{commentThreads.filter((thread) => thread.status === "open").length} open comments may still affect decisions.</li>
                   <li>{clarifications.filter((item) => item.status === "open").length} unanswered clarifications still block clean handoff.</li>
@@ -1065,6 +1077,11 @@ export default async function Home({ searchParams }: Props) {
                                 >
                                   {patch.status}
                                 </span>
+                                {isDesignPatch(patch) ? (
+                                  <span className={`${styles.badge} ${styles.design}`}>
+                                    Design Review
+                                  </span>
+                                ) : null}
                                 <span className={styles.badge}>
                                   {getPatchRiskLabel(patch.patch_type)}
                                 </span>
@@ -1162,6 +1179,11 @@ export default async function Home({ searchParams }: Props) {
                           >
                             {patch.status}
                           </span>
+                          {isDesignPatch(patch) ? (
+                            <span className={`${styles.badge} ${styles.design}`}>
+                              Design Review
+                            </span>
+                          ) : null}
                         </div>
                         <span>{patch.patch_id}</span>
                         <span>

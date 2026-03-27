@@ -51,6 +51,12 @@ export function ReviewStage({
             patches need a human decision.
           </li>
           <li>
+            <span className={`${styles.badge} ${styles.design}`}>
+              {patches.filter((patch) => patch.patch_type === "design_review" && ["proposed", "stale"].includes(patch.status)).length} design review
+            </span>
+            {" "}patches pending.
+          </li>
+          <li>
             {commentThreads.filter((thread) => thread.status === "open").length} comment
             threads are still open.
           </li>
@@ -123,6 +129,7 @@ export function ReviewStage({
                   <option value="structural_edit">Structural edit</option>
                   <option value="task_export_change">Task/export change</option>
                   <option value="wording_formatting">Wording / formatting</option>
+                  <option value="design_review">Design review</option>
                 </select>
               </label>
               <label>
