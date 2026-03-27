@@ -858,7 +858,12 @@ export default async function Home({ searchParams }: Props) {
         <section className={styles.focusMain}>
           <section className={styles.panel}>
             <div className={styles.panelHeader}>
-              <h2>{stageMeta.title}</h2>
+              <div>
+                <p className={styles.stageStep}>
+                  Step {stageOrder.indexOf(activeStage) + 1} / {stageOrder.length}
+                </p>
+                <h2>{stageMeta.title}</h2>
+              </div>
               <span>{activeDocument ? activeDocument.title : "No active document"}</span>
             </div>
             <p className={styles.stageDescription}>{stageMeta.description}</p>
