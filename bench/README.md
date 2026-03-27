@@ -9,6 +9,8 @@ The active benchmark/supervisor workflow is rooted in these entrypoints:
 - `ops/reproduce_pr245.sh`
 - `ops/route_trace_report.py`
 - `ops/validate_route_attribution.py`
+- `ops/local_harness_quickcheck.sh`
+- `NORTH_STAR.md`
 
 Root-level historical scripts and notes have been archived under `archive/2026-03-cleanup-pass1/`. Older harness-first material still exists for reference, but it is no longer the primary architecture for running or validating current benchmark work.
 
@@ -76,6 +78,16 @@ Quick local validation target from repo root:
 ```bash
 make bench-smoke
 ```
+
+**Important:** `make bench-smoke`, `bench/ops/reproduce_pr245.sh --smoke`, and tiny one-off local probes (including qwen/glm sanity checks) are **operator smoke/preflight checks**, not canonical benchmark evidence. Use them to verify wiring, local model availability, routing, and "does this run at all?" behavior. Use `core/run_benchmark.py` and/or `selfopt/benchmark_supervisor.py` for benchmark results you want to treat as real comparable benchmark data.
+
+For a standard local-model sanity check with automatic cleanup of loaded runners:
+
+```bash
+bash bench/ops/local_harness_quickcheck.sh
+```
+
+This runs non-cached/no-save atomic checks for `lfm2.5-thinking:1.2b` and `glm-4.7-flash:latest`, then stops both model runners on exit.
 
 ### Route Attribution Verification
 

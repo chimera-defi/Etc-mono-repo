@@ -15,6 +15,7 @@ Use these unless you have a specific reason not to:
 - `bench/ops/reproduce_pr245.sh` — reproducibility packaging/manifests/checksums
 - `bench/ops/route_trace_report.py` — route/fallback attribution reporting
 - `bench/ops/validate_route_attribution.py` — validation helper
+- `bench/ops/local_harness_quickcheck.sh` — standard local LFM/GLM smoke check (auto-stops runners)
 
 Primary docs:
 
@@ -158,6 +159,7 @@ The active path is now reasonably clear:
    - Review outcome (2026-03-13, odd-files pass):
      - `selfopt/run_qwen_glm_multipart.sh` is worth keeping as a tiny operator wrapper because it is explicit and low-risk.
      - Its paired runner (`selfopt/qwen_glm_multipart_resume_runner.py`) still writes benchmark JSON outputs to legacy top-level `bench/*.json` paths while log/state artifacts live under `bench/results/`; treat that pair as preserved experiment plumbing, not as a model for new output placement.
+     - Treat any tiny local qwen/glm reruns from that pair as **smoke/debug evidence only** unless they are deliberately rerun through the canonical supervisor/direct-runner path with fresh, non-cached benchmark settings. They are useful for host-readiness, timeout/hang triage, and local sanity checks; they are not by themselves benchmark-suite truth.
      - `utils/weather_check.py` appears to be an isolated convenience/demo script with no live in-repo imports; keep it only as a harmless utility unless bench-specific helpers start getting curated more formally.
 
 ## Practical recommendations for future agents
