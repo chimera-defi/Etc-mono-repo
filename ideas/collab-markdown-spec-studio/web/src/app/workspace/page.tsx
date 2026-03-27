@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { headers } from "next/headers";
+import { ThemeToggle } from "../theme-toggle";
 
 import {
   acceptAllPatchesAction,
@@ -312,6 +313,7 @@ export default async function Home({ searchParams }: Props) {
           <span className={styles.brandMark}>SpecForge</span>
           <p className={styles.brandTagline}>{heroCopy.tagline ?? heroCopy.eyebrow}</p>
         </div>
+        <ThemeToggle />
       </div>
 
       <header className={styles.hero}>
