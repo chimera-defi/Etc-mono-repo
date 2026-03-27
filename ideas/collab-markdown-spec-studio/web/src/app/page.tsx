@@ -38,12 +38,20 @@ export default async function LandingPage({ searchParams }: Props) {
           <p className={styles.eyebrow}>{heroCopy.eyebrow}</p>
           <h1>{heroCopy.headline}</h1>
           <p className={styles.subhead}>{heroCopy.subhead}</p>
-          <div className={styles.heroActions}>
-            <Link href="/workspace" className={styles.primaryCta}>
-              Launch workspace
+          <div className={styles.heroPicker}>
+            <Link href="/workspace?stage=start" className={styles.pickerCard}>
+              <span className={styles.pickerIcon}>✦</span>
+              <span className={styles.pickerLabel}>Start new spec</span>
+              <span className={styles.pickerDesc}>
+                Guided creation — describe your idea and we generate the spec structure
+              </span>
             </Link>
-            <Link href="/download" className={styles.secondaryCta}>
-              Get the alpha
+            <Link href="/workspace" className={styles.pickerCardSecondary}>
+              <span className={styles.pickerIcon}>↗</span>
+              <span className={styles.pickerLabel}>Open existing spec</span>
+              <span className={styles.pickerDesc}>
+                Return to your workspace and pick up where you left off
+              </span>
             </Link>
           </div>
           <div className={styles.callout}>

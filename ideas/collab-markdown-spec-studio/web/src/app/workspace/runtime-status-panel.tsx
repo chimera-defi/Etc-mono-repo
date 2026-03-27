@@ -56,31 +56,31 @@ export function RuntimeStatusPanel() {
       <p className="font-medium text-muted-foreground uppercase tracking-wide text-[10px]">
         Runtime
       </p>
-      <div className="space-y-1">
-        <div className="flex items-center justify-between">
-          <span className="text-muted-foreground">Web app</span>
-          <span className="flex items-center">
+      <dl className="space-y-1.5">
+        <div className="flex items-center gap-2">
+          <dt className="text-muted-foreground flex-1">Web app</dt>
+          <dd className="flex items-center gap-1.5 font-medium">
             {dot(health?.web ?? false)}
             {health?.web ? "running" : "offline"}
-          </span>
+          </dd>
         </div>
-        <div className="flex items-center justify-between">
-          <span className="text-muted-foreground">Collab server</span>
-          <span className="flex items-center">
+        <div className="flex items-center gap-2">
+          <dt className="text-muted-foreground flex-1">Collab server</dt>
+          <dd className="flex items-center gap-1.5 font-medium">
             {dot(health?.collab ?? false)}
             {health?.collab ? "running" : "offline"}
-          </span>
+          </dd>
         </div>
-        <div className="flex items-center justify-between">
-          <span className="text-muted-foreground">AI assist</span>
-          <span className="flex items-center">
+        <div className="flex items-center gap-2">
+          <dt className="text-muted-foreground flex-1">AI assist</dt>
+          <dd className="flex items-center gap-1.5 font-medium">
             {dot(cli?.preferredTool !== "heuristic")}
             {cli?.preferredTool === "heuristic"
               ? "heuristic only"
               : cli?.preferredTool ?? "detecting\u2026"}
-          </span>
+          </dd>
         </div>
-      </div>
+      </dl>
       {cli?.preferredTool === "heuristic" && (
         <p className="text-amber-600 dark:text-amber-400 text-[10px] leading-snug">
           {cli.reason}

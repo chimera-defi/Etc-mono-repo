@@ -98,6 +98,76 @@
   animation: fadeUp 0.5s 0.24s ease both;
 }
 
+/* ── New spec / existing spec picker ──────────────────────────────────────── */
+.heroPicker {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  max-width: 36rem;
+  animation: fadeUp 0.5s 0.24s ease both;
+}
+
+.pickerCard,
+.pickerCardSecondary {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem 1.1rem;
+  border-radius: var(--sf-radius);
+  text-decoration: none;
+  border: 1px solid var(--sf-ink-dark);
+  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+}
+
+.pickerCard {
+  background: var(--sf-ink-dark);
+  color: var(--sf-surface-light);
+}
+
+.pickerCard:hover {
+  background: var(--sf-ink-hover);
+  box-shadow: 0 6px 20px rgba(24, 33, 43, 0.18);
+}
+
+.pickerCardSecondary {
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--sf-ink-dark);
+  border-color: rgba(28, 26, 23, 0.2);
+}
+
+.pickerCardSecondary:hover {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 6px 20px rgba(24, 33, 43, 0.1);
+}
+
+.pickerCard:active,
+.pickerCardSecondary:active {
+  transform: scale(0.98);
+}
+
+.pickerCard:focus-visible,
+.pickerCardSecondary:focus-visible {
+  outline: 2px solid var(--sf-teal);
+  outline-offset: 3px;
+}
+
+.pickerIcon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.pickerLabel {
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+.pickerDesc {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  opacity: 0.72;
+}
+
 .callout {
   margin-top: 1rem;
   padding: 0.95rem 1rem;
@@ -499,6 +569,11 @@
   .secondaryCta,
   .navLink {
     width: 100%;
+  }
+
+  .heroPicker {
+    grid-template-columns: 1fr;
+    max-width: 100%;
   }
 
   .roleRow {
