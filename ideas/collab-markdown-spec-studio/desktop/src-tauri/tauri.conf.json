@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "identifier": "com.specforge.desktop",
   "build": {
-    "frontendDist": "../dist",
-    "devUrl": "http://localhost:3000",
+    "frontendDist": "../splash",
+    "devUrl": "http://localhost:1420",
     "beforeDevCommand": "",
     "beforeBuildCommand": ""
   },
@@ -18,11 +18,13 @@
         "minWidth": 1024,
         "minHeight": 700,
         "resizable": true,
-        "fullscreen": false
+        "fullscreen": false,
+        "visible": true,
+        "center": true
       }
     ],
     "security": {
-      "csp": null
+      "csp": "default-src 'self'; connect-src 'self' http://localhost:3000 http://127.0.0.1:4322; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
     }
   },
   "bundle": {
