@@ -28,6 +28,10 @@
   --sf-success-faint: rgba(33, 122, 69, 0.08);
   --sf-danger-faint: rgba(163, 43, 43, 0.08);
 
+  /* Design review */
+  --sf-design: #6d28a8;
+  --sf-design-subtle: rgba(109, 40, 168, 0.12);
+
   /* Muted text */
   --sf-muted: #4a5b68;
   --sf-muted-warm: #5e554a;

@@ -12,9 +12,10 @@ type Props = {
   reviewChecklist: string[];
   prompt: string;
   documentId: string | null;
+  pendingDesignPatches?: number;
 };
 
-export function DesignHandoffPanel({ uxPack, designSystem, reviewChecklist, prompt, documentId }: Props) {
+export function DesignHandoffPanel({ uxPack, designSystem, reviewChecklist, prompt, documentId, pendingDesignPatches = 0 }: Props) {
   const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
   const [uxState, setUxState] = useState<"idle" | "copied" | "failed">("idle");
   const [feedback, setFeedback] = useState("");
@@ -83,6 +84,14 @@ export function DesignHandoffPanel({ uxPack, designSystem, reviewChecklist, prom
         Keep design review in the same canonical document flow. Use the UX Pack below as the
         source of truth, then hand the prompt to a design-focused agent or partner reviewer.
       </p>
+      {pendingDesignPatches > 0 ? (
+        <p style={{ margin: "0 0 0.5rem" }}>
+          <span className={`${styles.badge} ${styles.design}`}>
+            {pendingDesignPatches} design review
+          </span>
+          {" "}patch{pendingDesignPatches === 1 ? "" : "es"} pending decision.
+        </p>
+      ) : null}
       <div className={styles.shareRow}>
         <button type="button" onClick={copyPrompt} data-testid="copy-design-handoff-prompt">
           {copyState === "copied" ? "Prompt copied" : "Copy design review prompt"}
