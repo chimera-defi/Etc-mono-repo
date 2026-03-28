@@ -21,6 +21,7 @@
     "parity:run:dry": "node ../tools/specforge-parity-runner.mjs run --dry-run --max-passes 1"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.80.0",
     "@electric-sql/pglite": "0.3.16",
     "@hocuspocus/provider": "3.4.4",
     "@tiptap/extension-collaboration": "3.20.4",

@@ -15,7 +15,7 @@ import {
 
 const requestSchema = z.object({
   brief: z.string().min(1),
-  tool: z.enum(["auto", "codex_cli", "claude_cli", "heuristic"]).optional(),
+  tool: z.enum(["auto", "codex_cli", "claude_cli", "claude_api", "heuristic"]).optional(),
 });
 
 export async function POST(request: Request) {
