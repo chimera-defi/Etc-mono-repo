@@ -18,11 +18,15 @@ import type { IterationRequestInput } from "./contracts";
 
 const execFileAsync = promisify(execFile);
 
+function getAnthropicApiKey(): string | null {
+  return process.env.ANTHROPIC_API_KEY?.trim() || null;
+}
+
 export type IterationResult = {
   patch_id: string;
   block_id: string;
   proposed_content: string;
-  tool: "claude_cli" | "heuristic";
+  tool: "claude_api" | "claude_cli" | "heuristic";
 };
 
 // ---------------------------------------------------------------------------
@@ -48,9 +52,15 @@ export async function iterateSection(
   let proposedContent: string;
   let tool: IterationResult["tool"];
 
+  const apiKey = getAnthropicApiKey();
   try {
-    proposedContent = await runClaudeIterate(sectionContext, input.message);
-    tool = "claude_cli";
+    if (apiKey) {
+      proposedContent = await runClaudeApiIterate(sectionContext, input.message, apiKey);
+      tool = "claude_api";
+    } else {
+      proposedContent = await runClaudeIterate(sectionContext, input.message);
+      tool = "claude_cli";
+    }
   } catch {
     proposedContent = buildHeuristicIteration(block.content, input.message);
     tool = "heuristic";
@@ -118,6 +128,31 @@ function buildIteratePrompt(sectionContext: string, userMessage: string): string
     "",
     `Instruction: ${userMessage.trim()}`,
   ].join("\n");
+}
+
+async function runClaudeApiIterate(
+  sectionContext: string,
+  userMessage: string,
+  apiKey: string,
+): Promise<string> {
+  const { default: Anthropic } = await import("@anthropic-ai/sdk");
+  const client = new Anthropic({ apiKey });
+
+  const response = await client.messages.create({
+    model: "claude-haiku-4-5-20251001",
+    max_tokens: 4096,
+    messages: [
+      { role: "user", content: buildIteratePrompt(sectionContext, userMessage) },
+    ],
+  });
+
+  const text = response.content
+    .filter((c) => c.type === "text")
+    .map((c) => (c as { type: "text"; text: string }).text)
+    .join("");
+
+  if (!text.trim()) throw new Error("Claude API returned empty response");
+  return text.trim();
 }
 
 async function runClaudeIterate(
