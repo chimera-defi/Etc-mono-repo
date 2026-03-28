@@ -61,7 +61,7 @@ const assistJsonSchema = {
   },
 } as const;
 
-export type AgentAssistToolId = "auto" | "codex_cli" | "claude_cli" | "heuristic";
+export type AgentAssistToolId = "auto" | "codex_cli" | "claude_cli" | "claude_api" | "heuristic";
 
 export type AgentAssistToolStatus = {
   id: Exclude<AgentAssistToolId, "auto">;
@@ -338,7 +338,8 @@ async function checkCommand(command: string, versionArg = "--version") {
 export type CliEnvironment = {
   codexAvailable: boolean;
   claudeAvailable: boolean;
-  preferredTool: "codex" | "claude" | "heuristic";
+  claudeApiAvailable: boolean;
+  preferredTool: "codex" | "claude" | "claude_api" | "heuristic";
   reason: string;
 };
 
@@ -354,10 +355,13 @@ export async function detectCliEnvironment(): Promise<CliEnvironment> {
 
   const codexAvailable = codexResult.available;
   const claudeAvailable = claudeResult.available;
+  const claudeApiAvailable = !!getAnthropicApiKey();
   const preferCodex = process.env.PREFER_CODEX_CLI === "true";
 
-  const preferredTool: CliEnvironment["preferredTool"] =
-    preferCodex && codexAvailable
+  // Priority: claude_api (works everywhere) → codex CLI → claude CLI → heuristic
+  const preferredTool: CliEnvironment["preferredTool"] = claudeApiAvailable
+    ? "claude_api"
+    : preferCodex && codexAvailable
       ? "codex"
       : claudeAvailable
         ? "claude"
@@ -367,16 +371,27 @@ export async function detectCliEnvironment(): Promise<CliEnvironment> {
 
   const reason =
     preferredTool === "heuristic"
-      ? "Neither codex nor claude CLI found. Install one for AI-powered suggestions."
-      : `Using ${preferredTool} CLI (${preferredTool === "codex" ? "Codex" : "Claude Code"} detected)`;
+      ? "No AI tool detected. Set ANTHROPIC_API_KEY or install the Claude / Codex CLI."
+      : preferredTool === "claude_api"
+        ? "Using Claude API (ANTHROPIC_API_KEY is set) — works in local and SaaS deployments."
+        : `Using ${preferredTool} CLI (${preferredTool === "codex" ? "Codex" : "Claude Code"} detected)`;
 
-  return { codexAvailable, claudeAvailable, preferredTool, reason };
+  return { codexAvailable, claudeAvailable, claudeApiAvailable, preferredTool, reason };
 }
 
 export const getAgentAssistToolStatuses = cache(async (): Promise<AgentAssistToolStatus[]> => {
   const [codex, claude] = await Promise.all([checkCommand("codex"), checkCommand("claude")]);
+  const apiKey = getAnthropicApiKey();
 
   return [
+    {
+      id: "claude_api",
+      label: "Claude API",
+      available: !!apiKey,
+      detail: apiKey
+        ? "ANTHROPIC_API_KEY is set — works in local and hosted deployments."
+        : "Set ANTHROPIC_API_KEY to enable. Works everywhere including SaaS.",
+    },
     {
       id: "codex_cli",
       label: "Codex CLI",
@@ -398,6 +413,11 @@ export const getAgentAssistToolStatuses = cache(async (): Promise<AgentAssistToo
   ];
 });
 
+/** Returns the Anthropic API key from env, or null if not set. */
+function getAnthropicApiKey(): string | null {
+  return process.env.ANTHROPIC_API_KEY?.trim() || null;
+}
+
 function buildAssistPrompt(brief: string) {
   return [
     "You are filling structured guided-spec fields for SpecForge.",
@@ -410,6 +430,19 @@ function buildAssistPrompt(brief: string) {
     "",
     "Idea brief:",
     brief.trim(),
+  ].join("\n");
+}
+
+/**
+ * Builds a prompt for the Claude CLI path that embeds the JSON schema as
+ * instructions so Claude knows exactly what to output (no --json-schema flag needed).
+ */
+function buildAssistPromptWithSchema(brief: string): string {
+  return [
+    buildAssistPrompt(brief),
+    "",
+    "Return ONLY a valid JSON object matching this schema — no markdown fences, no explanation:",
+    JSON.stringify(assistJsonSchema, null, 2),
   ].join("\n");
 }
 
@@ -456,20 +489,19 @@ async function runCodexAssist(brief: string) {
 
 async function runClaudeAssist(brief: string) {
   const tempDir = await mkdtemp(path.join(os.tmpdir(), "specforge-claude-assist-"));
-  const schemaPath = path.join(tempDir, "guided-spec.schema.json");
-  const promptPath = path.join(tempDir, "guided-spec.prompt.txt");
+  const promptPath = path.join(tempDir, "prompt.txt");
 
   try {
-    await writeFile(schemaPath, JSON.stringify(assistJsonSchema, null, 2));
-    await writeFile(promptPath, buildAssistPrompt(brief));
+    // Embed the JSON schema in the prompt — `--json-schema` does not exist in Claude Code CLI.
+    await writeFile(promptPath, buildAssistPromptWithSchema(brief));
 
     const { stdout } = await execFileAsync(
       "bash",
       [
         "-lc",
-        'claude -p --output-format json --json-schema "$(cat "$1")" "$(cat "$2")" < /dev/null',
+        // `--output-format json` wraps output in { result: "..." }; -lc loads login PATH (nvm etc.)
+        'claude -p --output-format json "$(cat "$1")" < /dev/null',
         "specforge-claude-assist",
-        schemaPath,
         promptPath,
       ],
       {
@@ -478,19 +510,25 @@ async function runClaudeAssist(brief: string) {
       },
     );
 
-    const raw = JSON.parse(stdout) as { structured_output?: unknown } | Record<string, unknown>;
-    const parsed = assistSchema.parse(
-      raw && typeof raw === "object" && "structured_output" in raw
-        ? raw.structured_output
-        : raw,
-    );
+    // Unwrap the envelope: { result: "<text>" }
+    let jsonText = stdout.trim();
+    try {
+      const envelope = JSON.parse(jsonText) as Record<string, unknown>;
+      if (typeof envelope.result === "string") jsonText = envelope.result.trim();
+    } catch {
+      // stdout was not JSON — use as-is
+    }
 
+    // Strip markdown fences Claude sometimes adds even when asked not to
+    jsonText = jsonText.replace(/^```(?:json)?\n?/m, "").replace(/\n?```$/m, "").trim();
+
+    const parsed = assistSchema.parse(JSON.parse(jsonText));
     return {
       tool: "claude_cli" as const,
       fields: normalizeGuidedSpecInput(parsed),
       notes: [
         "Populated fields using the locally installed Claude Code CLI.",
-        "This reuses the operator's existing Claude Code login instead of browser-stored API keys.",
+        "Uses your existing Claude Code login — no separate API key required.",
       ],
     };
   } finally {
@@ -498,27 +536,65 @@ async function runClaudeAssist(brief: string) {
   }
 }
 
+async function runClaudeApiAssist(brief: string): Promise<AgentAssistSuggestion> {
+  const apiKey = getAnthropicApiKey();
+  if (!apiKey) throw new Error("ANTHROPIC_API_KEY is not set");
+
+  const { default: Anthropic } = await import("@anthropic-ai/sdk");
+  const client = new Anthropic({ apiKey });
+
+  const response = await client.messages.create({
+    model: "claude-haiku-4-5-20251001",
+    max_tokens: 2048,
+    tools: [
+      {
+        name: "fill_spec_fields",
+        description: "Fill structured guided-spec fields from a product brief",
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        input_schema: assistJsonSchema as any,
+      },
+    ],
+    tool_choice: { type: "any" },
+    messages: [{ role: "user", content: buildAssistPrompt(brief) }],
+  });
+
+  const toolUse = response.content.find((c) => c.type === "tool_use");
+  if (!toolUse || toolUse.type !== "tool_use") {
+    throw new Error("Claude API did not return structured output");
+  }
+
+  const parsed = assistSchema.parse(toolUse.input);
+  return {
+    tool: "claude_api" as const,
+    fields: normalizeGuidedSpecInput(parsed),
+    notes: [
+      "Populated fields using the Claude API (your ANTHROPIC_API_KEY).",
+      "Works in both local and hosted (SaaS) deployments.",
+    ],
+  };
+}
+
 function resolveRequestedTool(
   requestedTool: AgentAssistToolId,
   statuses: AgentAssistToolStatus[],
   allowCli: boolean,
 ) {
-  if (!allowCli) {
-    return "heuristic";
-  }
+  // claude_api works in SaaS too (outbound HTTPS), so not gated by allowCli
+  const apiAvailable = statuses.find((t) => t.id === "claude_api" && t.available);
 
   if (requestedTool !== "auto") {
+    // Honour explicit tool choice; fall back to heuristic if CLI not allowed
+    if ((requestedTool === "codex_cli" || requestedTool === "claude_cli") && !allowCli) {
+      return "heuristic";
+    }
     return requestedTool;
   }
 
-  if (statuses.find((tool) => tool.id === "codex_cli" && tool.available)) {
-    return "codex_cli";
-  }
-
-  if (statuses.find((tool) => tool.id === "claude_cli" && tool.available)) {
-    return "claude_cli";
-  }
-
+  // Auto: prefer API (works everywhere) → CLI tools (local only) → heuristic
+  if (apiAvailable) return "claude_api";
+  if (!allowCli) return "heuristic";
+  if (statuses.find((t) => t.id === "codex_cli" && t.available)) return "codex_cli";
+  if (statuses.find((t) => t.id === "claude_cli" && t.available)) return "claude_cli";
   return "heuristic";
 }
 
@@ -539,6 +615,10 @@ export async function suggestGuidedSpecInput(input: {
   }
 
   try {
+    if (requestedTool === "claude_api") {
+      return { statuses, ...(await runClaudeApiAssist(input.brief)) };
+    }
+
     if (requestedTool === "codex_cli") {
       return { statuses, ...(await runCodexAssist(input.brief)) };
     }

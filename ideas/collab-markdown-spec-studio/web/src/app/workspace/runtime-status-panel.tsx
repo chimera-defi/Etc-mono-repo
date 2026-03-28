@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 interface RuntimeStatus {
   codexAvailable: boolean;
   claudeAvailable: boolean;
-  preferredTool: "codex" | "claude" | "heuristic";
+  claudeApiAvailable: boolean;
+  preferredTool: "codex" | "claude" | "claude_api" | "heuristic";
   reason: string;
 }
 
@@ -106,16 +107,15 @@ export function RuntimeStatusPanel() {
       fetch("/api/health")
         .then((r) => r.json())
         .catch(() => null),
-      fetch("http://127.0.0.1:4322/health", {
-        signal: AbortSignal.timeout(2000),
-      })
-        .then((r) => r.ok)
-        .catch(() => false),
-    ]).then(([cliData, healthData, collabOk]) => {
+      // Server-side proxy — works for both local (127.0.0.1:4322) and SaaS (Fly.io)
+      fetch("/api/collab/health")
+        .then((r) => r.json())
+        .catch(() => null),
+    ]).then(([cliData, healthData, collabData]) => {
       if (cliData?.ok) setCli(cliData as RuntimeStatus);
       setHealth({
         web: healthData?.status === "ok",
-        collab: !!collabOk,
+        collab: !!collabData?.ok,
       });
       setLoading(false);
     });
@@ -147,7 +147,9 @@ export function RuntimeStatusPanel() {
             <StatusDot ok={cli?.preferredTool !== "heuristic"} />
             {cli?.preferredTool === "heuristic"
               ? "heuristic only"
-              : cli?.preferredTool ?? "detecting\u2026"}
+              : cli?.preferredTool === "claude_api"
+                ? "claude api"
+                : cli?.preferredTool ?? "detecting\u2026"}
           </dd>
         </div>
       </dl>
