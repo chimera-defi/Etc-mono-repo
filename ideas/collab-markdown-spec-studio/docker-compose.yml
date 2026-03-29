@@ -1,0 +1,64 @@
+services:
+  specforge-web:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_SKIP_AUTH_OVERRIDE: "true"
+      SPECFORGE_PERSISTENCE_BACKEND: postgres
+      DATABASE_URL: postgres://specforge:specforge@specforge-postgres:5432/specforge
+      SPECFORGE_FIXTURES_DIR: /fixtures
+      SPECFORGE_COLLAB_SECRET: specforge-local-secret
+      NEXT_PUBLIC_COLLAB_URL: ws://specforge-collab:4321
+      SPECFORGE_REQUIRE_SECURE_SECRETS: "true"
+      SPECFORGE_SECURE_COOKIES: "false"
+    depends_on:
+      specforge-postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  specforge-collab:
+    build:
+      context: .
+      dockerfile: collab-server/Dockerfile
+    ports:
+      - "4321:4321"
+      - "4322:4322"
+    environment:
+      PORT: "4321"
+      HEALTH_PORT: "4322"
+      SPECFORGE_COLLAB_SECRET: specforge-local-secret
+      SPECFORGE_COLLAB_STORE_DIR: /var/lib/specforge/collab-rooms
+    volumes:
+      - specforge_runtime:/var/lib/specforge
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:4322/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  specforge-postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: specforge
+      POSTGRES_USER: specforge
+      POSTGRES_PASSWORD: specforge
+    volumes:
+      - specforge_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U specforge -d specforge"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  specforge_runtime:
+  specforge_postgres:

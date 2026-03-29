@@ -1,0 +1,14 @@
+{
+  "name": "specforge-collab-server",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "bun@1.3.9",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "@hocuspocus/server": "3.4.4",
+    "yjs": "13.6.30"
+  }
+}
