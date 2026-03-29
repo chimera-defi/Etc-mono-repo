@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbit-pilot.local/schemas/run-manifest.schema.json",
+  "title": "OrbitPilotRunManifest",
+  "description": "Contents of run.json in a generated run directory",
+  "type": "object",
+  "required": ["campaign", "launch_path", "platform_registry_path", "run_dir"],
+  "properties": {
+    "orbit_manifest_version": { "type": "integer", "minimum": 1 },
+    "orbit_pilot_version": { "type": "string" },
+    "campaign": {
+      "type": "object",
+      "required": ["id", "name", "created_at"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "created_at": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "launch_path": { "type": "string" },
+    "platform_registry_path": { "type": "string" },
+    "run_dir": { "type": "string" },
+    "policy_path": { "type": "string" }
+  },
+  "additionalProperties": true
+}

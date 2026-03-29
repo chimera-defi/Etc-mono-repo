@@ -198,6 +198,24 @@ DeFi protocol concept for ERC-8004 agent credit with Ethos vouching + reverse-Ke
 
 ---
 
+## Orbit Pilot
+
+**Concept**: A compliance-first launch ops system that turns one product launch into structured submissions across directories, product databases, company profiles, communities, and official social/content APIs, with manual-first fallbacks where automation is unclear.
+
+**Why now**:
+- Founders and operators lose time reformatting the same launch facts for dozens of sites.
+- The highest-value workflow is not generic "post everywhere"; it is durable launch distribution with tracked links, asset reuse, auditability, and policy-aware submission modes.
+
+**Implementation (V0 CLI):** [`../apps/orbit-pilot/`](../apps/orbit-pilot/)
+
+**Documentation**:
+- [Overview](./orbit-pilot/README.md)
+- [PRD](./orbit-pilot/PRD.md)
+- [Technical Spec](./orbit-pilot/SPEC.md)
+- [Platform Matrix](./orbit-pilot/PLATFORM_MATRIX.md)
+
+---
+
 ## Birthday Bot
 
 **Problem**: People frequently forget their friends' and family members' birthdays. Birthday data is scattered across Facebook, Instagram, Google Contacts, phone contacts, and calendar apps, with no unified way to manage, prioritize, and remember them.
