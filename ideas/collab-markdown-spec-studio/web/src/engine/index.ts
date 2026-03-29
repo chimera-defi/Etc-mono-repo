@@ -1,0 +1,42 @@
+export { SpecForgeEngine, resetIdCounter } from "./specforge.js";
+export {
+  generateRepository,
+  resetRepoCounter,
+} from "./repo-generator.js";
+export {
+  ConflictError,
+  NotFoundError,
+  PermissionError,
+  SpecForgeError,
+  StaleError,
+  ValidationError,
+  getErrorMessage,
+  getErrorStatusCode,
+} from "./errors.js";
+export type {
+  AgentSpec,
+  Block,
+  BlockInventory,
+  Clarification,
+  Comment,
+  CommentThread,
+  DepthCheckResult,
+  Document,
+  DocumentCreateRequest,
+  DocumentEvent,
+  EventType,
+  GeneratedRepo,
+  PatchDecisionRequest,
+  PatchOperation,
+  PatchProposal,
+  PatchProposalRequest,
+  PatchSeedLine,
+  PatchStatus,
+  PatchSummaryItem,
+  PatchType,
+  Recap,
+  RepoScaffoldTemplate,
+  Section,
+  SpecBundle,
+  WorkspaceSeed,
+} from "./types.js";

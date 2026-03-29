@@ -1,0 +1,129 @@
+# Cursor Rules for Mobile Experiments Repository
+
+## Project Structure
+- All AI-generated artifacts and temporary files should be placed in `.cursor/artifacts/`
+- Keep experimental projects organized in their respective folders (e.g., `mobile_experiments/Valdi/`)
+- Maintain clean separation between source code and generated content
+
+## Code Organization
+- Follow platform-specific conventions (iOS/Swift, React Native, etc.)
+- Keep experimental code well-documented with clear comments
+- Use consistent naming conventions within each project
+
+## File Management
+- Never litter the root directory with generated files
+- Place all temporary or generated artifacts in `.cursor/artifacts/`
+- Keep README files updated with project status and setup instructions
+
+## AI Assistant Guidelines
+- When generating code, prefer creating new files over modifying existing ones unless explicitly requested
+- Always check for existing similar implementations before creating new ones
+- Document assumptions and limitations in code comments
+- When unsure about framework specifics, create a flexible structure that can be adapted
+
+## Valdi Framework Notes
+- Valdi is Snapchat's cross-platform framework (iOS, Android, macOS) - NOT iOS-only
+- Uses TypeScript/TSX with class-based components, lowercase tags (`<view>`, `<label>`), `onRender()` method
+- Project structure requirements: `modules/my_app/src/` structure with `platforms/` folders and `WORKSPACE` file
+- Import path: `valdi_core/src/Component` (verify against actual installation)
+- CLI: `npm install -g @snap/valdi`, then `valdi dev_setup`, `valdi bootstrap`, `valdi install ios/android/macos`
+- Official repo: https://github.com/Snapchat/Valdi (13k+ stars, active development)
+- Always verify project structure matches Valdi requirements before proceeding
+
+## Flutter Framework Notes
+- Use `flutter create --org com.yourorg --project-name app_name` to scaffold proper project structure
+- Always run `flutter pub get` after creating project or modifying pubspec.yaml
+- Verify with `flutter analyze` before considering code complete
+- Run `flutter test` to ensure widget tests pass
+- Project structure must include: `pubspec.yaml`, `lib/`, `test/`, `android/`, `ios/` directories
+- Default test file references `MyApp` - update when changing main app class name
+
+## React Native Framework Notes
+- Use `npx @react-native-community/cli init AppName --template @react-native-community/template` for TypeScript setup
+- Verify with `npm run lint` and `npx tsc --noEmit` before considering code complete
+- Run `npm test` to ensure Jest tests pass
+- iOS requires macOS with Xcode and `pod install` in the ios/ directory
+- Android requires Android Studio, SDK, and emulator setup
+- Default test uses snapshot testing - update snapshots when UI changes: `npm test -- --updateSnapshot`
+
+## Meta Learnings
+- When working with new/experimental frameworks:
+  1. Start with minimal viable structure
+  2. Document assumptions clearly
+  3. Create flexible boilerplates that can adapt
+  4. Keep experimental code separate from production-ready code
+  5. Always include setup instructions and next steps in README
+  6. When documentation is unavailable, create comprehensive handoff documents:
+     - Task lists with clear priorities
+     - Understanding documents explaining research strategy
+     - Documentation placeholders for discovered information
+     - Next steps documents with actionable items
+  7. For agent handoffs, create:
+     - HANDOFF.md with quick start guide
+     - TASKS.md with detailed task breakdown
+     - UNDERSTANDING.md with context and research strategy
+     - NEXT_STEPS.md with prioritized action items
+  8. Document search attempts and results, even if unsuccessful
+  9. Clearly mark placeholder code vs. actual framework code
+  10. Set realistic expectations about framework availability
+
+- Review and verification best practices:
+  11. **Always verify project structure** against framework requirements - don't assume structure is correct just because code syntax looks right
+  12. **Cross-reference documentation** - check for inconsistencies between different docs, and verify docs match actual project state
+  13. **Verify import paths** - don't trust import statements without verifying they match actual framework installation
+  14. **Conceptual execution** - mentally walk through setup/run steps to identify blockers before they're discovered
+  15. **Multi-path analysis** - consider perspectives: developer (can I use this?), PM (risks?), reviewer (correctness?), user (does it work?), maintainer (maintainability?)
+  16. **Structural verification checklist** - always verify: project structure matches requirements, import paths are correct, all components are used, required files exist
+  17. **Dead code detection** - check if all code is actually used; unused code creates confusion
+  18. **Documentation consistency** - check for outdated references, contradictory info, missing updates across all docs
+  19. **Never trust without verification** - verify claims against actual framework requirements, even if documentation says it's correct
+  20. **Think about runability** - code that looks correct but can't run is worse than no code
+
+- Framework comparison best practices:
+  21. **Scaffold before coding** - always use the framework's CLI to create proper project structure first, then add custom code; having code without scaffolding means nothing runs
+  22. **Update test files with custom code** - default test files reference default class names (e.g., `MyApp`); always update tests when customizing the app
+  23. **Parity implementation** - when comparing frameworks, implement identical features (same greeting, same interactions, same animations) for meaningful comparison
+  24. **Multi-tool verification** - run ALL verification tools before declaring complete: linting (`flutter analyze`, `npm run lint`), type checking (`tsc --noEmit`), and tests (`flutter test`, `npm test`)
+  25. **Documentation reflects reality** - update READMEs to reflect actual state (complete, tests passing) not planned state (planning only)
+  26. **Headless environment awareness** - in CI/headless environments, verify code quality (lint, types, tests) even if you can't run simulators/emulators
+  27. **Status tables are powerful** - use markdown tables to show at-a-glance status of multiple components across frameworks
+  28. **Quick start commands** - every README should have copy-paste-able commands to get the app running
+  29. **Version pinning** - document exact framework versions used (e.g., "Flutter 3.24.5", "React Native 0.82.1") for reproducibility
+  30. **Comparison notes** - include explicit "vs. OtherFramework" sections to highlight differences for decision-making
+
+- Document editing best practices:
+  31. **Add columns, don't remove rows** - when adding new data to tables, add columns to existing tables rather than creating separate tables or removing existing structure
+  32. **Never consolidate by deletion** - when asked to consolidate or make concise, ADD to existing structure rather than replacing/deleting valuable content
+  33. **Preserve context sections** - sections like "Recommendations by Use Case", "Integration Advice", and "Data Sources" have value even if they seem verbose
+  34. **Check git diff before major rewrites** - if making significant changes, verify what will be lost before overwriting
+  35. **Concise ≠ shorter** - "concise" means removing redundancy, not removing information; a well-organized long document beats a short incomplete one
+  36. **Table columns over separate tables** - integrate related data into one table with extra columns rather than creating multiple tables that fragment information
+  37. **Verify data sources inline** - when adding data, include source links directly in the table legend or footnotes, not in separate sections that might get deleted
+
+- Wallet comparison best practices:
+  38. **Single unified table** - resist the urge to create multiple comparison tables; keep all data in one comprehensive table
+  39. **Core criteria enforcement** - when comparing products/tools, define core criteria (e.g., "must have mobile + browser") and heavily penalize items that don't meet them
+  40. **Scoring math must verify** - breakdown values MUST actually sum to the stated total score; verify with arithmetic
+  41. **Values within bounds** - ensure no column exceeds its defined maximum (e.g., Security can't show 7/5)
+  42. **Cross-document consistency** - when data exists in multiple places (main table, breakdown table, HTML), all must match
+  43. **Release frequency as stability proxy** - for developer tools, lower release frequency often = more stability (inverse of typical "more updates = better")
+  44. **Private repos ≠ unknown** - mark proprietary/private wallets appropriately; unknown release frequency (?) is different from inactive (❌)
+  45. **Activity status decays** - what was active 6 months ago may be abandoned now; always verify with fresh data
+  46. **No data loss on restructure** - when restructuring tables (adding columns, reorganizing), ALWAYS verify ALL original columns are preserved; use git diff to compare
+
+- Data accuracy and anti-hallucination practices:
+  47. **Chains ≠ tokens/assets** - "chains" means blockchain NETWORKS (Bitcoin, Ethereum, Solana = 3 chains), NOT total tokens/coins; a wallet supporting Ethereum + all ERC-20 tokens is still 1 chain with many tokens
+  48. **Use categories when uncertain** - instead of hallucinating specific numbers like "9000+", use categories: "BTC" (Bitcoin only), "Multi" (multiple networks), or "verify on official site"
+  49. **Approximate prices with ~** - prices change; use "~$150" not "$149" unless you just verified it; add "verify on official site" notes
+  50. **Don't invent certifications** - EAL5+, EAL6+, EAL7 are specific Common Criteria certifications; don't claim them without verification; use chip names (ATECC, Optiga, ST33) when known
+  51. **Add data accuracy disclaimers** - any comparison table should include a note that data changes and users should verify on official sites before purchasing
+  52. **When uncertain, be vague not specific** - "Multi-chain" is honest; "5500+ chains" is a hallucination; being vague is better than being specifically wrong
+  53. **Line-by-line verification** - before finalizing any data table, go through EVERY cell and ask "do I actually know this, or am I guessing?"
+  54. **Distinguish marketing claims from facts** - manufacturers often inflate numbers (counting all tokens as "supported coins"); be skeptical and conservative
+
+## Best Practices
+- Use semantic versioning for packages
+- Include proper .gitignore files for each project type
+- Maintain clear separation between different experiments
+- Document tooling requirements and setup steps
+- Keep dependencies minimal for experimental projects

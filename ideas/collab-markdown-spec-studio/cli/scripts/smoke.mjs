@@ -1,0 +1,113 @@
+#!/usr/bin/env node
+
+import { spawnSync } from "node:child_process";
+import path from "node:path";
+import process from "node:process";
+import { fileURLToPath } from "node:url";
+
+const scriptDir = path.dirname(fileURLToPath(import.meta.url));
+const cliEntry = path.resolve(scriptDir, "..", "src", "index.mjs");
+
+const result = spawnSync(
+  process.execPath,
+  [
+    cliEntry,
+    "init",
+    "--json",
+    "--title",
+    "Smoke Spec",
+    "--problem",
+    "Catch regressions",
+    "--goals",
+    "Ship",
+    "--users",
+    "Team",
+    "--scope",
+    "Wizard",
+    "--requirements",
+    "Fields",
+    "--constraints",
+    "None",
+    "--success-signals",
+    "Green tests",
+    "--tasks",
+    "Run smoke",
+    "--non-goals",
+    "None",
+  ],
+  { encoding: "utf8" },
+);
+
+if (result.status !== 0) {
+  process.stderr.write(result.stderr);
+  process.exit(result.status ?? 1);
+}
+
+const parsed = JSON.parse(result.stdout);
+
+if (!parsed.markdown.includes("# Smoke Spec") || parsed.metadata.creation_mode !== "guided") {
+  throw new Error("SpecForge CLI smoke test failed.");
+}
+
+const statusResult = spawnSync(process.execPath, [cliEntry, "status", "--json"], {
+  encoding: "utf8",
+});
+
+if (statusResult.status !== 0) {
+  process.stderr.write(statusResult.stderr);
+  process.exit(statusResult.status ?? 1);
+}
+
+const status = JSON.parse(statusResult.stdout);
+
+if (typeof status.remaining_count !== "number" || !("delivery_target" in status)) {
+  throw new Error("SpecForge CLI status command failed.");
+}
+
+const slashStatusResult = spawnSync(process.execPath, [cliEntry, "/specforge", "status", "--json"], {
+  encoding: "utf8",
+});
+
+if (slashStatusResult.status !== 0) {
+  process.stderr.write(slashStatusResult.stderr);
+  process.exit(slashStatusResult.status ?? 1);
+}
+
+const slashStatus = JSON.parse(slashStatusResult.stdout);
+
+if (typeof slashStatus.remaining_count !== "number" || !("delivery_target" in slashStatus)) {
+  throw new Error("SpecForge slash-command status failed.");
+}
+
+const artifactsResult = spawnSync(process.execPath, [cliEntry, "artifacts", "--json"], {
+  encoding: "utf8",
+});
+
+if (artifactsResult.status !== 0) {
+  process.stderr.write(artifactsResult.stderr);
+  process.exit(artifactsResult.status ?? 1);
+}
+
+const artifacts = JSON.parse(artifactsResult.stdout);
+
+if (
+  typeof artifacts?.handoff?.path !== "string" ||
+  typeof artifacts?.meta_learnings?.path !== "string"
+) {
+  throw new Error("SpecForge CLI artifacts command failed.");
+}
+
+const backupsResult = spawnSync(process.execPath, [cliEntry, "backups", "--json"], {
+  encoding: "utf8",
+});
+
+if (backupsResult.status !== 0) {
+  process.stderr.write(backupsResult.stderr);
+  process.exit(backupsResult.status ?? 1);
+}
+
+const backups = JSON.parse(backupsResult.stdout);
+
+if (typeof backups?.backup_root !== "string" || !Array.isArray(backups?.backups)) {
+  throw new Error("SpecForge CLI backups command failed.");
+}

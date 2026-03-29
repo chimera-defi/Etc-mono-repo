@@ -1,0 +1,12 @@
+{
+  "name": "@specforge/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "bun@1.3.9",
+  "description": "Terminal-native SpecForge wizard",
+  "scripts": {
+    "specforge": "node src/index.mjs",
+    "test": "node scripts/smoke.mjs"
+  }
+}

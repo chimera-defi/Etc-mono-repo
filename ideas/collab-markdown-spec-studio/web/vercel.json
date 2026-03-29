@@ -1,0 +1,15 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "bun run build",
+  "installCommand": "bun install",
+  "outputDirectory": ".next",
+  "env": {
+    "NEXT_PUBLIC_COLLAB_URL": "wss://specforge-collab.up.railway.app"
+  },
+  "regions": ["iad1"],
+  "$schema_notes": {
+    "NEXT_PUBLIC_COLLAB_URL": "Set this to your Railway service domain after first deploy. Format: wss://<your-service>.up.railway.app — or add a custom domain in Railway and use that.",
+    "ANTHROPIC_API_KEY": "Add via Vercel dashboard > Project > Settings > Environment Variables (never commit this value)",
+    "COLLAB_HEALTH_URL": "Optional — auto-derived from NEXT_PUBLIC_COLLAB_URL. Set explicitly if you use a custom Railway domain: https://<your-service>.up.railway.app/health"
+  }
+}

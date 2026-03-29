@@ -1,0 +1,8 @@
+{
+  "name": "@specforge/orchestrator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "bun@1.3.9",
+  "description": "Shared orchestration primitives for SpecForge"
+}

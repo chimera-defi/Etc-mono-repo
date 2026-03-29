@@ -1,6 +1,6 @@
 ## SpecForge PRD
 
-**Status**: Draft | **Last Updated**: 2026-03-06 | **Owner**: TBD
+**Status**: Scoped MVP/spec parity reached on the build branch | **Last Updated**: 2026-03-18 | **Owner**: SpecForge
 
 ### Problem
 Teams doing startup/product planning often draft PRD/spec/design docs in fragmented tools:
@@ -17,6 +17,38 @@ Create a focused collaborative spec IDE for humans and AI agents where work happ
 4. depth-gated before milestone close,
 5. workflow-linked to implementation.
 6. optionally convertible into a starter GitHub repository flow.
+
+### Current Shipped Product
+The branch currently ships:
+1. guided spec creation,
+2. shared OpenSpec core reuse for the guided wizard and readiness logic,
+3. mini agent-assist for populating guided fields,
+4. multiplayer drafting,
+5. governed agent patch review,
+6. comments, clarifications, provenance, and readiness,
+7. export + starter handoff + execution brief + launch packet,
+8. first terminal-native `specforge` CLI surface for guided creation plus backlog status/context,
+9. local admin controls for fast MVP testing,
+10. marketing/overview and pricing surfaces at `/` and `/pricing`,
+11. a hosted-runtime rehearsal path with `web`, `collab-server`, and `postgres`.
+
+### Architecture Direction After Parity
+Refactor the product into explicit components:
+1. shared OpenSpec core,
+2. multiplayer web workspace,
+3. collaboration runtime,
+4. orchestration runtime,
+5. CLI/TUI entrypoint for `/specforge` style guided flows.
+
+The CLI/TUI and the web app should use the same spec schema, readiness logic, and handoff contracts.
+
+### Company Plan After MVP Parity
+The broader company plan is still larger than the shipped MVP:
+1. validate design-partner demand and retention,
+2. decide hosted SaaS vs self-hosted OSS packaging,
+3. deepen commercial onboarding, conversion instrumentation, and self-serve setup,
+4. add billing, metering, backup/restore, and operational dashboards,
+5. expand starter generation only after real demand proves which templates matter.
 
 ### What Exists Already (Reality Check)
 - Real-time collaborative docs are mature (Google Docs, Notion, Coda).
@@ -42,17 +74,40 @@ Create a focused collaborative spec IDE for humans and AI agents where work happ
 
 ### MVP Scope
 1. Multiplayer Markdown editor with presence/cursors/comments.
-2. AI side panel that proposes doc patches.
+2. Agent-assist surface that helps populate guided spec fields from a rough brief.
 3. Accept/reject/cherry-pick AI edits at block or section granularity.
 4. Version history + per-edit attribution (human/agent).
-5. Depth gates + recap required before milestone close.
+5. Readiness gates and clarification loops before build handoff.
 6. Export to markdown + JSON spec bundle.
+7. Delivery loop that can keep pushing the minimum extensible product toward scoped parity.
+8. Public landing and pricing surfaces that explain the product and route users into the workspace.
 
 ### Phase 2 Scope (If MVP Validates)
 1. Starter repository generation from approved spec bundle.
-2. Template-driven scaffolds (web app/API/docs-first presets).
+2. Broader template-driven scaffolds (web app/API/docs-first presets).
 3. Traceability from generated tasks/issues back to spec sections.
 4. Roll out on curated `ideas/` examples before opening arbitrary project generation.
+5. Commercial onboarding, billing, and plan enforcement.
+6. Keep moving export/handoff/workflow contracts into the shared OpenSpec core and grow the terminal-native `specforge` wizard into a fuller TUI/assistant surface.
+
+### Agent Service Workflow (OpenServ-Compatible)
+SpecForge should be productized as a repeatable agent service, not only an interactive app.
+
+Service contract (v1):
+1. Input: rough brief + optional constraints (deadline, stack, domain, risk tolerance).
+2. Agent flow: guided clarification → draft synthesis → patch/governance review → readiness checks.
+3. Output: execution-ready launch packet (`PRD.md`, `SPEC.md`, `TASKS.md`, `agent_spec.json`) plus recap and blocker list.
+4. Delivery mode: asynchronous job with status + artifacts endpoints in addition to web/CLI/TUI UX.
+
+Why this matters:
+1. Fits hackathon tracks that reward autonomous agent service behavior.
+2. Makes SpecForge monetizable per-job and easier to integrate into external agent marketplaces.
+3. Preserves the same governance guarantees (attribution, patch review, audit trail) while moving to service usage.
+
+Tomorrow buildout priority:
+1. Define service API and job lifecycle in the spec.
+2. Add a minimal "run workflow" endpoint over existing orchestrator/guided core.
+3. Persist artifacts + status so users can consume results without staying in the editor session.
 
 ### Guided Idea-Depth Assistant (SpecForge Productization)
 1. Built-in broad-to-deep wizard with required gates for PRD/SPEC/risk/validation/economics.
@@ -63,6 +118,7 @@ Create a focused collaborative spec IDE for humans and AI agents where work happ
    - open decisions
    - current go/no-go posture
 4. Goal: prevent shallow specs and reduce idea drift between user intent and produced artifacts.
+5. Delivery principle: every approved spec should first yield a minimum extensible product that is runnable and then be driven toward parity by the delivery loop.
 
 ### Example Corpus Strategy
 Use selected packs under `ideas/` as:
@@ -74,6 +130,7 @@ Use selected packs under `ideas/` as:
 1. Team subscription by seats + AI usage credits.
 2. Premium for advanced governance/workflow controls.
 3. Enterprise plan for SSO/audit/compliance retention.
+4. Optional self-hosted packaging can widen adoption, but multiplayer still requires a backend runtime.
 
 ### TAM/SAM/SOM Framing (Bottom-Up)
 Use workflow-based TAM, not broad "document software" TAM:
@@ -89,10 +146,11 @@ Add-on AI usage and enterprise governance can expand this if retention is strong
 ### GTM
 1. Wedge into AI-heavy startup teams and dev shops.
 2. Lead with authoring and governance value before broad repo-generation claims.
-3. Integrate with GitHub/Jira/Linear to connect spec -> execution.
-4. Content-led growth via templates and "good spec" playbooks.
-5. Viral loop: shared docs with guest review + easy import/export.
-6. Expand from "spec IDE" narrative to "spec-to-code" narrative once example-backed generation is stable.
+3. Treat autonomous backlog-driving as product value, not just internal build hygiene.
+4. Integrate with GitHub/Jira/Linear to connect spec -> execution.
+5. Content-led growth via templates and "good spec" playbooks.
+6. Viral loop: shared docs with guest review + easy import/export.
+7. Expand from "spec IDE" narrative to "spec-to-code" narrative once example-backed generation is stable.
 
 ### Success Metrics
 1. Activation: first collaborative spec reaches milestone-close recap.

@@ -1,6 +1,19 @@
 ## SpecForge
 
-**Status**: Exploration (docs-first)
+**Status**: Scoped MVP/spec parity reached on the build branch
+
+## Usage Modes
+
+SpecForge runs across four surfaces — all backed by the same spec engine:
+
+| Mode | When to use | Entry point |
+|------|-------------|-------------|
+| **Browser GUI** | Human-driven spec authoring with live collaboration | `bun run dev` → `http://localhost:3000/workspace` |
+| **Terminal / TUI** | Spec creation and status from the command line | `specforge init`, `specforge tui` |
+| **REST API (BYOA)** | Your own agent submits a brief and polls for artifacts | `POST /api/service/spec-jobs` |
+| **Autonomous agent** | SpecForge's own agent runs the full spec loop unattended | `POST /api/service/spec-jobs` with `"mode": "autonomous"` |
+
+See `API_REFERENCE.md` for the full endpoint catalog.
 
 ### Concept
 A collaborative spec IDE where humans and AI agents work on the same markdown canvas with depth gates, governed patch review, and attributable changes.
@@ -8,29 +21,31 @@ A collaborative spec IDE where humans and AI agents work on the same markdown ca
 ### Thesis
 Collaborative editors already exist. The wedge is not generic editing; it is a spec-native workspace that keeps humans and agents on one canvas, enforces decision depth, and turns approved specs into execution-ready outputs.
 
-### Key Docs (Review Path)
-0. `README_REVIEW_GUIDE.md`
+### Canonical Docs
 1. `EXECUTIVE_SUMMARY.md`
 2. `PRD.md`
 3. `SPEC.md`
-4. `TECH_STACK.md`
-5. `ARCHITECTURE_DIAGRAMS.md`
-6. `UX_PRINCIPLES.md`
-7. `USER_FLOWS.md`
-8. `FRONTEND_VISION.md`
-9. `WIREFRAMES.md`
-10. `COMPETITOR_MATRIX.md`
-11. `VALIDATION_PLAN.md`
-12. `GO_NO_GO_SCORECARD.md`
+4. `ARCHITECTURE_DECISIONS.md`
+5. `TECH_STACK.md`
+6. `TASKS.md`
+7. `web/README.md`
+8. `LOCAL_RUNBOOK.md`
+9. `DESIGN_PARTNER_TRIAL_PROMPT.md`
+10. `WIREFRAMES.md`
+11. `DESIGN_AGENT_HANDOFF_PROMPT.md`
+12. `TAURI_DESKTOP_PLAN.md`
+13. `CLAUDE_BUILDOUT_PLAN.md`
+14. `LOCAL_FIRST_SPEC_SYSTEM_PLAN.md`
 
 ### Full Pack (Grouped)
-- Strategy and product: `EXECUTIVE_SUMMARY`, `PRD`, `ALTERNATIVES_AND_VARIANTS`, `COMPETITOR_ANALYSIS`, `COMPETITOR_MATRIX`
-- Technical design: `SPEC`, `TECH_STACK`, `ARCHITECTURE_DIAGRAMS`, `ARCHITECTURE_DECISIONS`
-- UX and product surface: `VISION_AND_FLOW`, `UX_PRINCIPLES`, `USER_FLOWS`, `FRONTEND_VISION`, `WIREFRAMES`
+- Product and strategy: `EXECUTIVE_SUMMARY`, `PRD`, `SPEC`
+- Architecture and runtime: `ARCHITECTURE_DECISIONS`, `TECH_STACK`, `LOCAL_RUNBOOK`, `EVENT_MODEL`
+- UX and flow: `VISION_AND_FLOW`, `UX_PRINCIPLES`, `USER_FLOWS`
 - Validation and economics: `VALIDATION_PLAN`, `GO_NO_GO_SCORECARD`, `PILOT_SCORECARD_TEMPLATE`, `FINANCIAL_MODEL`, `RISK_REGISTER`
-- Execution and governance: `90_DAY_EXECUTION_PLAN`, `TASKS`, `DECISIONS`, `AGENT_HANDOFF`, `SPEC_STAGE_CHECKLIST`
-- Iteration history: `archive/REFINEMENTS`, `archive/MULTIPASS_REVIEW`, `archive/META_LEARNINGS`, `IDEA_DEVELOPMENT_FRAMEWORK`
-- One-shot build assets: `contracts/`, `fixtures/`, `ACCEPTANCE_TEST_MATRIX.md`, `FIRST_60_MINUTES.md`, `SUBAGENT_PROMPT_PACK.md`
+- Build surface: `web/`, `collab-server/`, `contracts/`, `fixtures/`, `FIRST_60_MINUTES.md`, `ACCEPTANCE_TEST_MATRIX.md`
+- Component plan: `COMPONENT_MODEL.md`
+- Backlog and execution: `TASKS`, `90_DAY_EXECUTION_PLAN`, `DECISIONS`, `AGENT_HANDOFF`
+- Archived/working notes: `archive/`, `RESEARCH_NOTES.md`
 
 ### Source Notes
 Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid duplication.
@@ -42,3 +57,59 @@ Primary references and links are consolidated in `RESEARCH_NOTES.md` to avoid du
    - ability to reach a build-ready spec
 2. Use selected `ideas/` packs as example corpora and end-to-end benchmarks.
 3. Treat repo generation as a downstream proof surface, not the initial product gate.
+4. Use `/` as the marketing/overview surface, `/pricing` as the commercial framing page, and `/workspace` as the actual product.
+5. Let local operators reuse existing Codex CLI or Claude Code CLI logins for guided assist without shipping secrets to the browser.
+6. Reuse one OpenSpec core across the web app, terminal CLI, and orchestrator so the product stops drifting across surfaces.
+7. Give design partners a copy-paste prompt they can hand to their own AI helper so trial sessions stay structured even without a live moderator.
+8. Treat UI and interaction design as part of the canonical spec by requiring a `UX Pack`, or explicitly mark a spec `API-only` / `CLI-only` when no GUI is needed.
+9. Keep design review inside the same product flow by exposing a `Design handoff` panel in the export stage that lifts the canonical `UX Pack`, any completed design-review outputs, and a copyable review prompt for external design agents or partners.
+
+### Applied Learnings
+1. Lock the wedge early:
+   - guided specs + governed agent review + one-shot handoff
+   - avoid drifting back into generic collaborative editing
+2. Export is not enough:
+   - the product only becomes legible when export turns into starter handoff, execution brief, and launch packet
+3. Put the workflow into the UI:
+   - if the next action is not obvious on screen, the spec is still too ambiguous
+4. Constrain generation first:
+   - one curated TypeScript starter is a better MVP than broad repo generation claims
+5. Keep browser tests on the real path:
+   - create -> review -> decide -> handoff is the regression boundary for future idea builds
+6. Remove placeholder content aggressively:
+   - live `TBD` text in seeds, fallbacks, or generated scaffolds makes the product feel unfinished even when the underlying code works
+7. Share commercial contracts:
+   - pricing, plan JSON, and entitlement logic should come from one catalog or they will drift immediately
+8. Thin pages and stores early:
+   - once a route or persistence module becomes hard to skim, extract by domain before more product logic piles in
+9. Keep UX coverage explicit:
+   - if the product has a human-facing interface, the spec should name key screens, failure states, and responsive expectations before handoff
+10. Package the working local product before rewriting it:
+   - a desktop shell should supervise the existing local web and collab processes instead of forcing a premature runtime rewrite
+
+### Current Runtime
+1. `web/` is the real Next.js app.
+2. `collab-server/` is the real Hocuspocus/Yjs collaboration service.
+3. `core/` now contains the first shared OpenSpec runtime modules used by both browser and terminal flows.
+4. `orchestrator/` now contains shared delivery-loop backlog logic consumed by the runner and the web UI.
+5. `cli/` now exposes a terminal-native `specforge` wizard over the same guided spec model.
+6. The local app persists state in `web/.data/` and auto-seeds from `fixtures/`.
+7. The root workspace scripts are only wrappers around the real runnable app and test commands.
+8. `docker compose up --build` now brings up the web app, collaboration service, and Postgres with health checks.
+9. Runtime health surfaces:
+   - `web`: `/api/health`
+   - `web metrics`: `/api/metrics`
+   - `collab-server`: `http://localhost:4322/health`
+   - `collab metrics`: `http://localhost:4322/metrics`
+10. Health and metrics responses include persistence configuration so local-vs-hosted storage drift is visible without opening the code.
+11. The local deployment rehearsal now ships `fixtures/` inside the web image and exercises the hosted Postgres path instead of only local snapshots.
+12. Local demo mode still includes admin controls for resetting workspace state and seeding review activity during MVP testing.
+
+### Post-Parity Company Plan
+1. Run design-partner validation on the hosted rehearsal path.
+2. Decide hosted SaaS only vs self-hosted OSS + hosted SaaS.
+3. Add deeper commercial onboarding and conversion instrumentation on top of the current landing/pricing surfaces.
+4. Add billing, metering, backup/restore, and stronger operational dashboards.
+5. Expand starter generation only after design-partner usage proves the next templates.
+6. Validate whether an external design-skill integration is worth productizing, instead of hardwiring one prematurely.
+7. Package the local product for desktop distribution so design partners can trial SpecForge without a manual multi-process setup.

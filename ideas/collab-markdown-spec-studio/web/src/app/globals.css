@@ -1,0 +1,330 @@
+:root {
+  /* Brand colors */
+  --sf-ink: #1c1a17;
+  --sf-ink-dark: #18212b;
+  --sf-surface: #efe4d5;
+  --sf-surface-light: #f7f4ec;
+  --sf-surface-warm: #fff9f3;
+  --sf-surface-card: rgba(255, 255, 255, 0.72);
+
+  /* Accent */
+  --sf-teal: #0f766e;
+  --sf-teal-hover: #0d6460;
+  --sf-teal-subtle: rgba(15, 118, 110, 0.08);
+  --sf-teal-border: rgba(15, 118, 110, 0.3);
+
+  /* Info / provenance */
+  --sf-blue: #174f67;
+  --sf-blue-subtle: rgba(17, 106, 138, 0.1);
+  --sf-blue-border: rgba(17, 106, 138, 0.18);
+
+  /* Semantic */
+  --sf-success: #1b6a3d;
+  --sf-success-subtle: rgba(33, 122, 69, 0.12);
+  --sf-warning: #8a5310;
+  --sf-warning-subtle: rgba(183, 106, 18, 0.14);
+  --sf-danger: #8c1f1f;
+  --sf-danger-subtle: rgba(163, 43, 43, 0.12);
+  --sf-success-faint: rgba(33, 122, 69, 0.08);
+  --sf-danger-faint: rgba(163, 43, 43, 0.08);
+
+  /* Design review */
+  --sf-design: #6d28a8;
+  --sf-design-subtle: rgba(109, 40, 168, 0.12);
+
+  /* Muted text */
+  --sf-muted: #4a5b68;
+  --sf-muted-warm: #5e554a;
+  --sf-muted-mid: #6f6559;
+  --sf-muted-light: #7a6d5e;
+  --sf-muted-lighter: #8a7d70;
+  --sf-muted-faint: #9a8c80;
+
+  /* Ink variants */
+  --sf-ink-warm: #433a31;
+  --sf-ink-hover: #2d3a47;
+  --sf-ink-secondary: #3a332c;  /* dark warm text, slightly lighter than ink */
+  --sf-ink-press: #2c2a27;      /* pressed/hover state for ink surfaces */
+
+  /* Accent / amber */
+  --sf-amber: #925e2f;
+
+  /* Borders */
+  --sf-border: rgba(28, 26, 23, 0.1);
+  --sf-border-mid: rgba(28, 26, 23, 0.16);
+  --sf-border-faint: rgba(28, 26, 23, 0.08);
+
+  /* Surfaces */
+  --sf-surface-panel: #faf8f4;  /* sidebar / panel background */
+
+  /* Input / form surfaces */
+  --sf-surface-input: #fffdfa;
+
+  /* Radius */
+  --sf-radius-sm: 0.75rem;
+  --sf-radius: 1rem;
+  --sf-radius-lg: 1.5rem;
+  --sf-radius-pill: 999px;
+}
+
+/* ── Dark mode — warm-dark, not cold-dark ─────────────────────────────────
+   Strategy: #1a1512 surface (dark parchment), not #08090a (Linear/VS Code).
+   Triggered by system preference OR explicit [data-theme="dark"] attribute.
+   [data-theme="light"] overrides system preference back to light.
+   ──────────────────────────────────────────────────────────────────────── */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --sf-surface: #1a1512;
+    --sf-surface-light: #201c16;
+    --sf-surface-warm: #2a2218;
+    --sf-surface-card: rgba(255, 249, 240, 0.06);
+    --sf-surface-panel: #221e19;
+    --sf-surface-input: #2a2520;
+    --sf-ink: #ede8e0;
+    --sf-ink-dark: #f0ece4;
+    --sf-ink-warm: #c8bfb4;
+    --sf-ink-secondary: #b8afa4;
+    --sf-ink-hover: #f5f0e8;
+    --sf-ink-press: #ffffff;
+    --sf-muted: #8a9eaa;
+    --sf-muted-warm: #9a8c80;
+    --sf-muted-mid: #8a7d70;
+    --sf-muted-light: #7a6d5e;
+    --sf-muted-lighter: #6a5d50;
+    --sf-muted-faint: #5a4d42;
+    --sf-teal: #14897f;
+    --sf-teal-hover: #178f85;
+    --sf-teal-subtle: rgba(20, 137, 127, 0.15);
+    --sf-teal-border: rgba(20, 137, 127, 0.35);
+    --sf-amber: #c27535;
+    --sf-border: rgba(240, 234, 220, 0.1);
+    --sf-border-mid: rgba(240, 234, 220, 0.16);
+    --sf-border-faint: rgba(240, 234, 220, 0.07);
+  }
+}
+
+[data-theme="dark"] {
+  --sf-surface: #1a1512;
+  --sf-surface-light: #201c16;
+  --sf-surface-warm: #2a2218;
+  --sf-surface-card: rgba(255, 249, 240, 0.06);
+  --sf-surface-panel: #221e19;
+  --sf-surface-input: #2a2520;
+  --sf-ink: #ede8e0;
+  --sf-ink-dark: #f0ece4;
+  --sf-ink-warm: #c8bfb4;
+  --sf-ink-secondary: #b8afa4;
+  --sf-ink-hover: #f5f0e8;
+  --sf-ink-press: #ffffff;
+  --sf-muted: #8a9eaa;
+  --sf-muted-warm: #9a8c80;
+  --sf-muted-mid: #8a7d70;
+  --sf-muted-light: #7a6d5e;
+  --sf-muted-lighter: #6a5d50;
+  --sf-muted-faint: #5a4d42;
+  --sf-teal: #14897f;
+  --sf-teal-hover: #178f85;
+  --sf-teal-subtle: rgba(20, 137, 127, 0.15);
+  --sf-teal-border: rgba(20, 137, 127, 0.35);
+  --sf-amber: #c27535;
+  --sf-border: rgba(240, 234, 220, 0.1);
+  --sf-border-mid: rgba(240, 234, 220, 0.16);
+  --sf-border-faint: rgba(240, 234, 220, 0.07);
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  color: var(--sf-ink);
+  background: var(--sf-surface);
+  font-family: var(--font-geist-sans), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+code,
+pre,
+textarea,
+input {
+  font-family: var(--font-geist-mono), monospace;
+}
+
+.statusChip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--sf-radius-pill);
+  padding: 0.18rem 0.5rem;
+  margin-right: 0.4rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--sf-border);
+}
+
+.statusChip--success {
+  background: var(--sf-success-subtle);
+  color: var(--sf-success);
+}
+
+.statusChip--warning {
+  background: var(--sf-warning-subtle);
+  color: var(--sf-warning);
+}
+
+.statusChip--neutral {
+  background: var(--sf-border);
+  color: var(--sf-ink-warm);
+}
+
+.editorSurface {
+  position: relative;
+  padding-right: 12rem;
+}
+
+.editorToolbar__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.55rem;
+}
+
+.recoveryBanner {
+  display: grid;
+  gap: 0.2rem;
+  margin-bottom: 0.9rem;
+  padding: 0.8rem 0.95rem;
+  border: 1px solid rgba(183, 106, 18, 0.3);
+  border-radius: 0.9rem;
+  background: var(--sf-warning-subtle);
+  color: var(--sf-warning);
+  font-family: var(--font-geist-sans), sans-serif;
+  box-shadow: 0 8px 22px rgba(64, 42, 23, 0.08);
+}
+
+.recoveryBanner strong {
+  font-size: 0.85rem;
+}
+
+.recoveryBanner span {
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.remoteCursor {
+  position: absolute;
+  width: 2px;
+  height: 1.5rem;
+  background: currentColor;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.remoteCursor__label {
+  position: absolute;
+  top: -1.35rem;
+  left: 0;
+  transform: translateX(-1px);
+  padding: 0.18rem 0.45rem;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.72rem;
+  font-family: var(--font-geist-sans), sans-serif;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.blockMarker {
+  position: absolute;
+  right: 0.75rem;
+  width: 10.25rem;
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(28, 26, 23, 0.12);
+  background: rgba(255, 249, 240, 0.94);
+  box-shadow: 0 10px 24px rgba(64, 42, 23, 0.1);
+  font-family: var(--font-geist-sans), sans-serif;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.blockMarker strong {
+  font-size: 0.74rem;
+  line-height: 1.2;
+}
+
+.blockMarker span {
+  font-size: 0.7rem;
+  color: var(--sf-muted-mid);
+  line-height: 1.25;
+}
+
+.inlineProvenance {
+  position: absolute;
+  display: grid;
+  gap: 0.12rem;
+  max-width: 18rem;
+  padding: 0.34rem 0.55rem;
+  border-radius: 0.7rem;
+  background: var(--sf-blue-subtle);
+  border: 1px solid var(--sf-blue-border);
+  color: var(--sf-blue);
+  font-family: var(--font-geist-sans), sans-serif;
+  box-shadow: 0 8px 20px rgba(17, 106, 138, 0.08);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.inlineProvenance strong {
+  font-size: 0.72rem;
+  line-height: 1.2;
+}
+
+.inlineProvenance span {
+  font-size: 0.68rem;
+  line-height: 1.25;
+  color: #486777;
+}
+
+.specforgeHeading--active {
+  position: relative;
+  padding-left: 0.35rem;
+  border-left: 3px solid rgba(17, 106, 138, 0.35);
+}
+
+@media (max-width: 960px) {
+  .editorSurface {
+    padding-right: 0;
+  }
+
+  .blockMarker {
+    display: none;
+  }
+
+  .inlineProvenance {
+    position: static;
+    margin: 0 0 0.55rem;
+    max-width: none;
+  }
+
+  .editorToolbar__actions {
+    justify-content: flex-start;
+  }
+}

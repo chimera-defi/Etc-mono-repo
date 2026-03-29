@@ -23,7 +23,7 @@
 - [x] Deterministic fixtures (`fixtures/`)
 - [x] Acceptance test matrix (`ACCEPTANCE_TEST_MATRIX.md`)
 - [x] First 60-minute runbook (`FIRST_60_MINUTES.md`)
-- [x] Sub-agent prompt pack (`SUBAGENT_PROMPT_PACK.md`)
+- [x] Sub-agent prompt pack (`archive/SUBAGENT_PROMPT_PACK.md`)
 - [x] Event model appendix (`EVENT_MODEL.md`)
 
 ## Readiness Note

@@ -1,0 +1,6 @@
+packages:
+  - 'core'
+  - 'orchestrator'
+  - 'cli'
+  - 'web'
+  - 'collab-server'

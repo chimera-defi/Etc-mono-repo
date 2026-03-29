@@ -3,6 +3,7 @@ __pycache__/
 *.pyo
 # Cursor artifacts
 .cursor/artifacts/
+.backups/
 wallets/artifacts/
 
 # OS files
@@ -40,3 +41,4 @@ Pods/
 core
 core.*
 .worktrees/
+.claude/worktrees/
