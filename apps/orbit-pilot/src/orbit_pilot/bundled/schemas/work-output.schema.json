@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbit-pilot.local/schemas/work-output.schema.json",
+  "title": "OrbitPilotWorkOutput",
+  "description": "Machine output of: orbit work --run … --json",
+  "type": "object",
+  "required": [],
+  "properties": {
+    "kind": { "type": "string", "enum": ["empty", "task"] },
+    "message": { "type": "string" },
+    "platform": { "type": "string" },
+    "status": { "type": "string" },
+    "prompt": { "type": "string" },
+    "payload": { "type": "object" },
+    "planned_mode": { "type": "string" },
+    "submit_url": { "type": ["string", "null"] },
+    "prompt_path": { "type": ["string", "null"] },
+    "meta_path": { "type": ["string", "null"] },
+    "mark_done_command": { "type": "string" },
+    "playwright_assist_command": { "type": "string" },
+    "open_hint": { "type": "string" },
+    "operator_agent_guide": {
+      "type": "object",
+      "description": "Machine-readable hints for local LLM/agents (Claude, Codex, MCP); Orbit does not bundle an LLM."
+    },
+    "opened_browser": { "type": "boolean" },
+    "open_error": { "type": "string" },
+    "assist_ran": { "type": "boolean" },
+    "assist_status": { "type": "string" },
+    "assist_error": { "type": "string" },
+    "publish_results": { "type": "array" },
+    "error": { "type": "string" }
+  },
+  "additionalProperties": true
+}

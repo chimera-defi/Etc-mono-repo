@@ -1,0 +1,69 @@
+# Orbit Pilot
+
+**Status:** Spec + CLI + V1 slices in [`apps/orbit-pilot/`](../../apps/orbit-pilot/) | **V1:** [`V1_SHIPPED.md`](./V1_SHIPPED.md) · [`V1_ROADMAP.md`](./V1_ROADMAP.md) | **V2 (planning):** [`V2_ROADMAP.md`](./V2_ROADMAP.md)
+
+**Implementation:** [`apps/orbit-pilot/`](../../apps/orbit-pilot/) — **[`ARCHITECTURE.md`](../../apps/orbit-pilot/ARCHITECTURE.md)** (app layers + JSON Schemas), humans [`HUMAN_GUIDE.md`](../../apps/orbit-pilot/HUMAN_GUIDE.md), agents [`AGENTS.md`](../../apps/orbit-pilot/AGENTS.md). **Claude skill:** [`apps/orbit-pilot/claude-skills/orbit-pilot-operator/SKILL.md`](../../apps/orbit-pilot/claude-skills/orbit-pilot-operator/SKILL.md).
+
+## One-Liner
+
+Orbit Pilot is a compliance-first launch ops system that converts one product launch into platform-specific submissions across directories, company profiles, communities, and official content APIs.
+
+## Why This Exists
+
+Teams launching products repeatedly hit the same operational mess:
+
+1. one source of truth does not exist,
+2. every site wants slightly different copy and image sizes,
+3. links are not tracked consistently,
+4. duplicate or low-quality submissions create policy risk,
+5. some platforms allow official automation and others clearly do not.
+
+Orbit Pilot solves the operational layer, not just the copy layer.
+
+## Product Thesis
+
+The wedge is a structured launch-submission operator:
+
+- canonical launch profile
+- platform registry
+- unique content variations
+- UTM discipline
+- asset adaptation
+- duplicate detection
+- rate limiting
+- official API first where we ship publishers
+- manual registry rows supported via **`orbit work`** + MCP, or upgraded to **`browser_assisted`** with policy (**`allow_browser_assist_manual`** + Playwright/CDP/Kernel) when the operator opts in
+- explicit browser paths gated by risk policy and env
+
+## Primary Use Cases
+
+1. SaaS launch across startup directories and product databases.
+2. Company profile synchronization across sites like Crunchbase and directory ecosystems.
+3. Launch-content distribution to Medium, DEV, GitHub, Reddit, and similar channels.
+4. Niche backlink campaign execution with audit logs and approval tracking.
+
+## Output Pack Included Here
+
+- architecture diagrams
+- full orchestrator system prompt
+- Python implementation (`apps/orbit-pilot/`) with LangGraph plan + generate graphs
+- platform-by-platform quick reference
+- sample outputs
+- validation and execution docs
+- seed platform registry
+
+## Design Partner Example
+
+WalletRadar is a concrete fit for Orbit Pilot because it needs repeatable submissions to backlink and discovery sites, but the product itself is generalizable beyond a single launch target.
+
+## Read Order
+
+1. [`V1_SHIPPED.md`](./V1_SHIPPED.md) / [`V1_ROADMAP.md`](./V1_ROADMAP.md) — current scope and what is shipped
+2. [`SPEC.md`](./SPEC.md) — technical contract
+3. [`PLATFORM_MATRIX.md`](./PLATFORM_MATRIX.md)
+4. [`HUMAN_GUIDE.md`](../../apps/orbit-pilot/HUMAN_GUIDE.md) / [`AGENTS.md`](../../apps/orbit-pilot/AGENTS.md) — operators and automation
+5. `EXECUTIVE_SUMMARY.md`, `PRD.md`, `ARCHITECTURE_DECISIONS.md` — narrative and decisions
+6. `V2_ROADMAP.md` — monetization + GTM (planning only)
+7. [`../../apps/orbit-pilot/ARCHITECTURE.md`](../../apps/orbit-pilot/ARCHITECTURE.md) — Python layers, schemas, run dir
+
+**Historical (pre-V1 planning):** [`V0_BUILD_PLAN.md`](./V0_BUILD_PLAN.md) — superseded by V1 docs above; kept for archive only.
