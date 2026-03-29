@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbit-pilot.local/schemas/doctor-output.schema.json",
+  "title": "OrbitPilotDoctorOutput",
+  "description": "Machine output of: orbit doctor --launch … --platforms … --json",
+  "type": "object",
+  "required": ["results"],
+  "properties": {
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["platform", "mode", "ready", "missing_secrets", "missing_payload"],
+        "properties": {
+          "platform": { "type": "string" },
+          "mode": { "type": "string" },
+          "ready": { "type": "boolean" },
+          "missing_secrets": { "type": "array", "items": { "type": "string" } },
+          "missing_payload": { "type": "array", "items": { "type": "string" } }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

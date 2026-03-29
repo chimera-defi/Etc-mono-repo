@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbit-pilot.local/schemas/audit-events.schema.json",
+  "title": "OrbitPilotAuditEvents",
+  "description": "Machine output of: orbit audit --run … --json (array of JSONL events)",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["ts"],
+    "properties": {
+      "ts": { "type": "string", "description": "ISO-8601 timestamp" },
+      "type": { "type": "string" }
+    },
+    "additionalProperties": true
+  }
+}

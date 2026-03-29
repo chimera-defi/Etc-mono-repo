@@ -1,0 +1,38 @@
+name: Orbit Pilot
+
+on:
+  push:
+    paths:
+      - "apps/orbit-pilot/**"
+      - "ideas/orbit-pilot/**"
+      - ".github/workflows/orbit-pilot.yml"
+  pull_request:
+    paths:
+      - "apps/orbit-pilot/**"
+      - "ideas/orbit-pilot/**"
+      - ".github/workflows/orbit-pilot.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/orbit-pilot
+    env:
+      CI: "true"
+      RUN_BROWSER_E2E: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install (dev + browser)
+        run: pip install -e ".[dev,browser]"
+      - name: Install Chromium (system deps + browser)
+        run: python -m playwright install --with-deps chromium
+      - name: Ruff
+        run: python -m ruff check src tests
+      - name: Lint bundled platform registry
+        run: python -m orbit_pilot registry-lint --platforms src/orbit_pilot/bundled/seed_platforms.yaml
+      - name: Pytest (full suite, no skips)
+        run: python -m pytest -q -rs

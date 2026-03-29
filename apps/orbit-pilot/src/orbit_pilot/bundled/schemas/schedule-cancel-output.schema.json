@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbit-pilot.local/schemas/schedule-cancel-output.schema.json",
+  "title": "OrbitPilotScheduleCancelOutput",
+  "description": "orbit schedule-cancel --json",
+  "type": "object",
+  "required": ["ok"],
+  "properties": {
+    "ok": { "type": "boolean" },
+    "id": { "type": "string" },
+    "error": { "type": "string" }
+  },
+  "additionalProperties": true
+}
