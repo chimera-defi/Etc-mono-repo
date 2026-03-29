@@ -1,0 +1,395 @@
+import { expect, test } from "@playwright/test";
+import { heroVariantOrder, heroVariants } from "../src/lib/specforge/marketing";
+
+test("renders the integrated SpecForge demo and captures a screenshot", async ({
+  page,
+}) => {
+  await page.goto("/");
+
+  await expect(page.getByText("SpecForge", { exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "Write the spec once. Let humans and agents build from the same canvas.",
+    }),
+  ).toBeVisible();
+  await expect(page.getByRole("link", { name: "Launch workspace" })).toBeVisible();
+  await expect(page.getByText("Current release candidate")).toBeVisible();
+  await expect(page.getByRole("link", { name: "Get the alpha" })).toBeVisible();
+
+  await page.screenshot({
+    path: "artifacts/screenshots/specforge-demo-home.png",
+    fullPage: true,
+  });
+});
+
+test("captures north-star copy variants for review", async ({ page }) => {
+  for (const variantId of heroVariantOrder) {
+    const variant = heroVariants[variantId];
+    await page.goto(`/?variant=${variantId}`);
+    await expect(page.getByText("SpecForge", { exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: variant.headline })).toBeVisible();
+
+    await page.screenshot({
+      path: `artifacts/screenshots/specforge-variant-${variantId}.png`,
+      fullPage: true,
+    });
+  }
+});
+
+test("creates a document, queues a patch, and exposes export JSON", async ({ page }) => {
+  const title = `Demo Spec ${Date.now()}`;
+
+  await page.goto("/workspace?stage=start");
+  await page.getByTestId("create-document-title").fill(title);
+  await page.getByRole("button", { name: "Create guided draft" }).click();
+
+  await expect(page.getByRole("heading", { name: "Document workspace" })).toBeVisible();
+  await expect(page.locator(".editorToolbar strong")).toContainText(title);
+
+  await page.goto(`${page.url().split("?")[0]}?document=${new URL(page.url()).searchParams.get("document")}&stage=review`);
+  await page.getByTestId("patch-type-select").selectOption("task_export_change");
+  await page
+    .getByTestId("patch-content-input")
+    .fill("## Goals\n\n- Export this draft as a clean handoff bundle.");
+  await page.getByRole("button", { name: "Queue patch" }).click();
+
+  await page.goto(`${page.url().split("?")[0]}?document=${new URL(page.url()).searchParams.get("document")}&stage=draft`);
+  await expect
+    .poll(async () => await page.locator(".blockMarker").count(), {
+      timeout: 10_000,
+    })
+    .toBeGreaterThanOrEqual(1);
+  await expect
+    .poll(async () => await page.locator(".inlineProvenance").count(), {
+      timeout: 10_000,
+    })
+    .toBeGreaterThanOrEqual(1);
+  await page.locator("summary").filter({ hasText: "Share current spec" }).click();
+  await expect(page.getByTestId("share-url-input")).toHaveValue(
+    new RegExp(`document=${new URL(page.url()).searchParams.get("document")}`),
+  );
+  await expect(page.getByTestId("copy-invite-note")).toBeVisible();
+  await expect(page.getByTestId("share-access-note")).toContainText("Local demo access");
+  const entitlementsResponse = await page.request.get("/api/workspace/entitlements");
+  const billingResponse = await page.request.get("/api/workspace/billing");
+  const plansResponse = await page.request.get("/api/workspace/plans");
+  const opsResponse = await page.request.get("/api/ops/summary");
+  const incidentsResponse = await page.request.get("/api/ops/incidents");
+  const backupsResponse = await page.request.get("/api/ops/backups");
+  const metricsResponse = await page.request.get("/api/metrics");
+  expect(entitlementsResponse.ok()).toBeTruthy();
+  expect(billingResponse.ok()).toBeTruthy();
+  expect(plansResponse.ok()).toBeTruthy();
+  expect(opsResponse.ok()).toBeTruthy();
+  expect(incidentsResponse.ok()).toBeTruthy();
+  expect(backupsResponse.ok()).toBeTruthy();
+  expect(metricsResponse.ok()).toBeTruthy();
+  expect(await entitlementsResponse.json()).toMatchObject({
+    workspace: expect.objectContaining({
+      workspace_id: expect.any(String),
+      plan: expect.any(String),
+    }),
+    quotas: expect.objectContaining({
+      assist: expect.any(Object),
+      members: expect.any(Object),
+    }),
+  });
+  expect(await billingResponse.json()).toMatchObject({
+    workspace: expect.objectContaining({
+      workspace_id: expect.any(String),
+      plan: expect.any(String),
+    }),
+    billing: expect.objectContaining({
+      plan: expect.any(String),
+    }),
+    status: expect.objectContaining({
+      upgradeRequired: expect.any(Boolean),
+      reasons: expect.any(Array),
+    }),
+  });
+  expect(await plansResponse.json()).toMatchObject({
+    plans: expect.arrayContaining([
+      expect.objectContaining({ plan: "demo" }),
+      expect.objectContaining({ plan: "pilot" }),
+    ]),
+  });
+  expect(await opsResponse.json()).toMatchObject({
+    workspace: expect.objectContaining({
+      workspace_id: expect.any(String),
+    }),
+    persistence: expect.objectContaining({
+      backend: expect.any(String),
+    }),
+    parity: expect.objectContaining({
+      remaining_count: expect.any(Number),
+    }),
+    alerts: expect.any(Array),
+  });
+  expect(await backupsResponse.json()).toMatchObject({
+    backup_root: expect.any(String),
+    backups: expect.any(Array),
+  });
+  expect(await incidentsResponse.json()).toMatchObject({
+    workspace: expect.objectContaining({
+      workspace_id: expect.any(String),
+    }),
+    incidents: expect.any(Array),
+  });
+  expect(await metricsResponse.json()).toMatchObject({
+    design_partner: expect.objectContaining({
+      activated_workspace_count: expect.any(Number),
+      collaborating_workspace_count: expect.any(Number),
+      launch_prepared_workspace_count: expect.any(Number),
+    }),
+  });
+
+  await page.goto(`${page.url().split("?")[0]}?document=${new URL(page.url()).searchParams.get("document")}&stage=decide`);
+  await expect(page.getByTestId("patch-queue")).toContainText("task_export_change");
+
+  await page.goto(`${page.url().split("?")[0]}?document=${new URL(page.url()).searchParams.get("document")}&stage=export`);
+  await expect(page.locator("summary").filter({ hasText: "Design handoff" })).toBeVisible();
+  await expect(page.getByTestId("ux-pack-preview")).toContainText("Primary surface:");
+  await expect(page.getByTestId("copy-design-handoff-prompt")).toBeVisible();
+  const exportHref = await page.getByTestId("open-export-json").getAttribute("href");
+  const handoffHref = await page.getByTestId("open-handoff-json").getAttribute("href");
+  const executionHref = await page.getByTestId("open-execution-json").getAttribute("href");
+  const launchPacketHref = await page.getByTestId("open-launch-packet-json").getAttribute("href");
+  expect(exportHref).toBeTruthy();
+  expect(handoffHref).toBeTruthy();
+  expect(executionHref).toBeTruthy();
+  expect(launchPacketHref).toBeTruthy();
+  const exportResponse = await page.request.get(exportHref!);
+  const handoffResponse = await page.request.get(handoffHref!);
+  const executionResponse = await page.request.get(executionHref!);
+  const launchPacketResponse = await page.request.get(launchPacketHref!);
+
+  expect(exportResponse.ok()).toBeTruthy();
+  expect(handoffResponse.ok()).toBeTruthy();
+  expect(executionResponse.ok()).toBeTruthy();
+  expect(launchPacketResponse.ok()).toBeTruthy();
+  expect(await exportResponse.json()).toMatchObject({
+    files: expect.objectContaining({
+      "agent_spec.json": expect.any(String),
+    }),
+  });
+  expect(await handoffResponse.json()).toMatchObject({
+    template_id: "ts_cli_starter_v1",
+    files: expect.objectContaining({
+      "package.json": expect.any(String),
+      "src/main.ts": expect.any(String),
+    }),
+  });
+  expect(await executionResponse.json()).toMatchObject({
+    run_ready: expect.any(Boolean),
+    commands: expect.arrayContaining(["bun install", "bun run dev", "bun run build"]),
+  });
+  expect(await launchPacketResponse.json()).toMatchObject({
+    packet_id: expect.stringContaining("launch_doc_"),
+    export_bundle: expect.any(Object),
+    starter_bundle: expect.any(Object),
+    execution_brief: expect.any(Object),
+  });
+});
+
+test("agent assist can populate the guided draft form before creation", async ({ page }) => {
+  await page.goto("/workspace?stage=start");
+  const draftForm = page.getByTestId("create-document-form");
+  await draftForm.getByLabel("Assist runtime").selectOption("heuristic");
+  await expect(draftForm.getByLabel("Assist runtime")).toHaveValue("heuristic");
+  await page.getByTestId("agent-assist-brief").fill(
+    "A SaaS workspace where founders and engineers coauthor specs with reviewable AI patches and export a launch packet for implementation.",
+  );
+  await page.getByRole("button", { name: "Populate fields with assist" }).click();
+
+  await expect(page.getByTestId("create-document-title")).toHaveValue(
+    /SaaS Workspace Where Founders And Engineers/i,
+  );
+  await expect(page.getByText("Built-in fallback populated the fields.")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Create guided draft" })).toBeVisible();
+
+  await page.screenshot({
+    path: "artifacts/screenshots/specforge-workspace-start.png",
+    fullPage: true,
+  });
+});
+
+test("imports the canonical showcase idea and carries it into the draft workspace", async ({
+  page,
+}) => {
+  await page.goto("/workspace?stage=start");
+  await page.getByRole("button", { name: "Import showcase draft" }).first().click();
+
+  await expect(page.getByRole("heading", { name: "Document workspace" })).toBeVisible();
+  await expect(page.locator(".editorToolbar strong")).toContainText("Server Management Agent");
+  await expect
+    .poll(async () => await page.locator(".specforgeEditor").innerText(), {
+      timeout: 15_000,
+    })
+    .toContain("Source Idea");
+
+  const documentId = new URL(page.url()).searchParams.get("document");
+  expect(documentId).toBeTruthy();
+  await page.goto(`/workspace?document=${documentId}&stage=export`);
+  await expect(page.getByRole("heading", { name: "Showcase walkthrough" })).toBeVisible();
+  await expect(page.locator("section").filter({ hasText: "Showcase walkthrough" }).getByText(
+    "server-management-agent",
+    { exact: true },
+  )).toBeVisible();
+});
+
+test("shows two live collaborators on the same document", async ({ browser }) => {
+  const contextA = await browser.newContext();
+  const contextB = await browser.newContext();
+  const pageA = await contextA.newPage();
+  const pageB = await contextB.newPage();
+
+  await pageA.goto("/workspace?stage=start");
+  await pageA.getByTestId("create-document-title").fill(`Collab Spec ${Date.now()}`);
+  await pageA.getByRole("button", { name: "Create guided draft" }).click();
+  await expect(pageA.getByRole("heading", { name: "Document workspace" })).toBeVisible();
+
+  const documentId = new URL(pageA.url()).searchParams.get("document");
+  expect(documentId).toBeTruthy();
+
+  await pageB.goto(`/workspace?document=${documentId}&stage=draft`);
+  await expect(pageB.getByRole("heading", { name: "Document workspace" })).toBeVisible();
+
+  await expect
+    .poll(async () => await pageA.locator(".presenceChip").count(), {
+      timeout: 10_000,
+    })
+    .toBeGreaterThanOrEqual(2);
+  await expect
+    .poll(async () => await pageA.locator(".remoteCursor").count(), {
+      timeout: 10_000,
+    })
+    .toBeGreaterThanOrEqual(1);
+
+  await pageA.screenshot({
+    path: "artifacts/screenshots/specforge-demo-collaboration.png",
+    fullPage: true,
+  });
+
+  await contextA.close();
+  await contextB.close();
+});
+
+test("detects a stale room and reloads the latest snapshot", async ({ browser }) => {
+  const contextA = await browser.newContext();
+  const contextB = await browser.newContext();
+  const pageA = await contextA.newPage();
+  const pageB = await contextB.newPage();
+
+  await pageA.goto("/workspace?stage=start");
+  await pageA.getByTestId("create-document-title").fill(`Recovery Spec ${Date.now()}`);
+  await pageA.getByRole("button", { name: "Create guided draft" }).click();
+  await expect(pageA).toHaveURL(/document=/);
+
+  const documentId = new URL(pageA.url()).searchParams.get("document");
+  expect(documentId).toBeTruthy();
+
+  await pageB.goto(`/workspace?document=${documentId}&stage=draft`);
+  await expect(pageB.getByRole("heading", { name: "Document workspace" })).toBeVisible();
+
+  await pageA.getByRole("button", { name: "Save document" }).click();
+  await expect(pageA.locator(".editorToolbar")).toContainText(":v2", {
+    timeout: 10_000,
+  });
+
+  await pageB.getByRole("button", { name: "Check latest snapshot" }).click();
+  await expect(pageB.getByText("Recovery needed")).toBeVisible();
+  await pageB.getByRole("button", { name: "Reload latest snapshot" }).click();
+  await expect(pageB.locator(".editorToolbar")).toContainText(":v2", {
+    timeout: 10_000,
+  });
+
+  await contextA.close();
+  await contextB.close();
+});
+
+test("renders the guided flow on a mobile viewport", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+
+  await expect(page.getByText("SpecForge", { exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Launch workspace" })).toBeVisible();
+  await expect(page.getByText("Current release candidate")).toBeVisible();
+
+  await page.screenshot({
+    path: "artifacts/screenshots/specforge-demo-mobile.png",
+    fullPage: true,
+  });
+});
+
+test("local admin controls can seed review activity for a draft", async ({ page }) => {
+  await page.goto("/workspace?stage=start");
+  await expect(page.getByText("Local admin", { exact: true })).toBeVisible();
+
+  await page.getByTestId("create-document-title").fill(`Admin Seed ${Date.now()}`);
+  await page.getByRole("button", { name: "Create guided draft" }).click();
+  await expect(page).toHaveURL(/document=/);
+
+  await page.getByText("Local admin", { exact: true }).click();
+  await page.getByRole("button", { name: "Seed review activity" }).click();
+  await expect(page).toHaveURL(/stage=review/);
+
+  const documentId = new URL(page.url()).searchParams.get("document");
+  expect(documentId).toBeTruthy();
+  await page.goto(`/workspace?document=${documentId}&stage=decide`);
+  await expect(page.getByTestId("patch-queue")).toContainText("structural_edit");
+});
+
+test("export stage shows ExportFileBrowser with file list and highlighted viewer", async ({
+  page,
+}) => {
+  await page.goto("/workspace?stage=start");
+  await page.getByTestId("create-document-title").fill(`Export Browser ${Date.now()}`);
+  await page.getByRole("button", { name: "Create guided draft" }).click();
+  await expect(page.getByRole("heading", { name: "Document workspace" })).toBeVisible();
+
+  const documentId = new URL(page.url()).searchParams.get("document");
+  expect(documentId).toBeTruthy();
+
+  await page.goto(`/workspace?document=${documentId}&stage=export`);
+
+  // Expand the Export preview <details>
+  const exportPreview = page.locator("details", { hasText: "Export preview" }).first();
+  await exportPreview.click();
+
+  // ExportFileBrowser should render with a file list and viewer
+  await expect(page.getByRole("complementary", { name: "Bundle files" })).toBeVisible();
+  await expect(page.locator("[aria-label='Bundle files']")).toBeVisible();
+  // First file should be selected and viewer should be visible
+  await expect(page.locator("[aria-label='Bundle files'] button").first()).toBeVisible();
+
+  // Edit toggle must be present for the selected file
+  await expect(page.getByRole("button", { name: "Edit" })).toBeVisible();
+
+  await page.screenshot({
+    path: "artifacts/screenshots/specforge-export-browser.png",
+    fullPage: false,
+  });
+});
+
+test("renders the pricing page", async ({ page }) => {
+  await page.goto("/pricing");
+  await expect(page.getByRole("heading", { name: /Start with the spec/i })).toBeVisible();
+  await expect(page.getByText("Team SaaS")).toBeVisible();
+
+  await page.screenshot({
+    path: "artifacts/screenshots/specforge-pricing.png",
+    fullPage: true,
+  });
+});
+
+test("renders the download page", async ({ page }) => {
+  await page.goto("/download");
+  await expect(
+    page.getByRole("heading", {
+      name: "Start with the local alpha now. Ship the desktop app next.",
+    }),
+  ).toBeVisible();
+  await expect(page.getByText("Current alpha truth", { exact: true })).toBeVisible();
+  await expect(page.getByText("Desktop app next", { exact: true })).toBeVisible();
+  await expect(page.getByText("bun run dev")).toBeVisible();
+});

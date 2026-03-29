@@ -1,0 +1,60 @@
+# Fly.io deployment config for the SpecForge collab server.
+# Deploy with: fly deploy --config collab-server/fly.toml
+#
+# First-time setup:
+#   fly apps create specforge-collab
+#   fly secrets set SPECFORGE_COLLAB_SECRET=<random-32-char-string>
+#   fly volumes create specforge_collab_data --size 1 --region iad
+
+app = "specforge-collab"
+primary_region = "iad"
+
+[build]
+  dockerfile = "collab-server/Dockerfile"
+  # Build context is the monorepo root so the Dockerfile can COPY lib/
+  # Run: fly deploy --config collab-server/fly.toml (from repo root)
+
+[env]
+  PORT        = "4321"
+  HEALTH_PORT = "4322"
+  NODE_ENV    = "production"
+  # SPECFORGE_COLLAB_SECRET — set via `fly secrets set` (never commit)
+  # SPECFORGE_COLLAB_STORE_DIR — set below via mount
+
+[[mounts]]
+  source      = "specforge_collab_data"
+  destination = "/var/lib/specforge"
+
+[[services]]
+  internal_port = 4321
+  protocol      = "tcp"
+
+  # WebSocket upgrade must be allowed — tcp not http
+  [[services.ports]]
+    port     = 443
+    handlers = ["tls", "http"]
+
+  [[services.ports]]
+    port     = 80
+    handlers = ["http"]
+
+  # Fly handles TLS termination; upgrade ws:// → wss:// automatically
+  [services.http_checks]
+    interval      = "15s"
+    timeout       = "5s"
+    grace_period  = "30s"
+    method        = "GET"
+    path          = "/health"
+    port          = 4322
+    protocol      = "http"
+
+[[services]]
+  internal_port = 4322
+  protocol      = "tcp"
+
+  [[services.ports]]
+    port     = 4322
+    handlers = ["http"]
+
+[processes]
+  app = "node src/index.js"

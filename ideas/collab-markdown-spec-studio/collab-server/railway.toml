@@ -1,0 +1,29 @@
+# Railway deployment config for the SpecForge collab server.
+#
+# IMPORTANT — monorepo setup:
+#   This Dockerfile copies from the repo ROOT (bun.lock + lib/).
+#   In Railway UI, do NOT set a "Root Directory" — leave it as the repo root.
+#   Then set: Service > Settings > Dockerfile Path:
+#     ideas/collab-markdown-spec-studio/collab-server/Dockerfile
+#
+# First-time setup (Railway dashboard or CLI):
+#   1. railway login
+#   2. railway link  (or create via projects.dev — see DEPLOY.md)
+#   3. railway variables set PORT=4321
+#   4. railway variables set SPECFORGE_COLLAB_SECRET=<random-32-char-string>
+#   5. Attach a Railway volume → mount path /var/lib/specforge
+#      (Railway injects RAILWAY_VOLUME_MOUNT_PATH automatically)
+#
+# Deploy:
+#   railway up
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "ideas/collab-markdown-spec-studio/collab-server/Dockerfile"
+
+[deploy]
+startCommand = "node src/index.js"
+healthcheckPath = "/health"
+healthcheckTimeout = 60
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3

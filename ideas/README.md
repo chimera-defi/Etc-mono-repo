@@ -32,6 +32,23 @@ To make an idea one-shot buildable by Codex/AgentCon, each idea pack should also
 
 Use `ideas/_templates/` to avoid duplicating boilerplate across idea packs.
 
+## Kiro Spec Bridge (Execution-Ready Format)
+
+To bridge idea packs into Kiro's executable spec workflow, each mature idea should include:
+
+1. **`KIRO_SPEC_BRIDGE.md`** - Maps the idea pack to Kiro's three-file structure
+2. **`requirements.md`** - Executable requirements with correctness properties for property-based testing
+3. **`design.md`** - Implementation-ready design with component contracts
+4. **`tasks.md`** - Dependency-ordered tasks with explicit done criteria and property mappings
+
+**Key differences from idea pack docs:**
+- Requirements focus on **executable properties** (for PBT) not just user stories
+- Design includes **component contracts** not just architecture diagrams
+- Tasks have **done criteria** and **property mappings** for verification
+- All three files are **implementation-focused** not planning-focused
+
+Templates available in `ideas/_templates/` (KIRO_SPEC_BRIDGE.md, requirements.md, design.md, tasks.md).
+
 ## OAuth-Based Automated Provider Setup
 
 **Problem**: Manual setup of third-party services (Google Analytics, authentication providers, etc.) requires copying API keys, configuring environment variables, and updating multiple files—a tedious, error-prone process.

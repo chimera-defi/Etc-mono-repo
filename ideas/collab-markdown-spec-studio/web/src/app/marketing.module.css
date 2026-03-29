@@ -1,0 +1,637 @@
+.page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, var(--sf-teal-subtle), transparent 28rem),
+    radial-gradient(circle at top right, rgba(217, 119, 6, 0.12), transparent 26rem),
+    var(--sf-surface-light);
+  color: var(--sf-ink-dark);
+}
+
+.nav,
+.hero,
+.section,
+.footer {
+  width: min(1100px, calc(100% - 2rem));
+  margin: 0 auto;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 0 1rem;
+}
+
+.brand {
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.navLinks,
+.heroActions,
+.pricingGrid,
+.faqList {
+  display: flex;
+  gap: 1rem;
+}
+
+.navLinks,
+.pricingGrid,
+.faqList {
+  flex-wrap: wrap;
+}
+
+.navLink {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0 0.25rem;
+}
+
+.navLink:hover {
+  opacity: 0.6;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.8fr);
+  gap: 1.5rem;
+  align-items: stretch;
+  padding: 2rem 0 2.5rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.8rem;
+  color: var(--sf-teal);
+  font-weight: 700;
+  animation: fadeUp 0.4s ease both;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(2.5rem, 5vw, 4.8rem);
+  line-height: 1.0;
+  max-width: 12ch;
+  text-wrap: balance;
+  animation: fadeUp 0.5s 0.08s ease both;
+}
+
+.subhead {
+  margin: 1rem 0 0;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 58ch;
+  color: var(--sf-muted);
+  animation: fadeUp 0.5s 0.16s ease both;
+}
+
+.heroActions {
+  margin-top: 1.5rem;
+  animation: fadeUp 0.5s 0.24s ease both;
+}
+
+/* ── New spec / existing spec picker ──────────────────────────────────────── */
+.heroPicker {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  max-width: 36rem;
+  animation: fadeUp 0.5s 0.24s ease both;
+}
+
+.pickerCard,
+.pickerCardSecondary {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem 1.1rem;
+  border-radius: var(--sf-radius);
+  text-decoration: none;
+  border: 1px solid var(--sf-ink-dark);
+  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+}
+
+.pickerCard {
+  background: var(--sf-ink-dark);
+  color: var(--sf-surface-light);
+}
+
+.pickerCard:hover {
+  background: var(--sf-ink-hover);
+  box-shadow: 0 6px 20px rgba(24, 33, 43, 0.18);
+}
+
+.pickerCardSecondary {
+  background: var(--sf-surface-card);
+  color: var(--sf-ink-dark);
+  border-color: var(--sf-border-mid);
+}
+
+.pickerCardSecondary:hover {
+  background: var(--sf-surface-warm);
+  box-shadow: 0 6px 20px rgba(24, 33, 43, 0.1);
+}
+
+.pickerCard:active,
+.pickerCardSecondary:active {
+  transform: scale(0.98);
+}
+
+.pickerCard:focus-visible,
+.pickerCardSecondary:focus-visible {
+  outline: 2px solid var(--sf-teal);
+  outline-offset: 3px;
+}
+
+.pickerIcon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.pickerLabel {
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+.pickerDesc {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  opacity: 0.72;
+}
+
+.callout {
+  margin-top: 1rem;
+  padding: 0.95rem 1rem;
+  border-radius: var(--sf-radius);
+  border: 1px solid var(--sf-border);
+  background: var(--sf-surface-card);
+  max-width: 42rem;
+  animation: fadeUp 0.5s 0.3s ease both;
+}
+
+.callout strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.95rem;
+}
+
+.callout p {
+  margin: 0;
+  color: var(--sf-muted);
+  line-height: 1.6;
+}
+
+.primaryCta,
+.secondaryCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.9rem;
+  padding: 0.75rem 1.15rem;
+  border-radius: var(--sf-radius-pill);
+  text-decoration: none;
+  font-weight: 700;
+  border: 1px solid var(--sf-ink-dark);
+  transition: background 0.15s ease, opacity 0.15s ease, transform 0.1s ease;
+}
+
+.primaryCta {
+  background: var(--sf-ink-dark);
+  color: var(--sf-surface-light);
+}
+
+.primaryCta:hover {
+  background: var(--sf-ink-hover);
+}
+
+.primaryCta:active {
+  transform: scale(0.98);
+}
+
+.secondaryCta {
+  background: var(--sf-surface-card);
+  color: var(--sf-ink-dark);
+}
+
+.secondaryCta:hover {
+  background: var(--sf-surface-warm);
+}
+
+.secondaryCta:active {
+  transform: scale(0.98);
+}
+
+.primaryCta:focus-visible,
+.secondaryCta:focus-visible {
+  outline: 2px solid var(--sf-teal);
+  outline-offset: 3px;
+}
+
+.heroPanel,
+.pricingCard,
+.faqItem {
+  background: var(--sf-surface-card);
+  border: 1px solid var(--sf-border);
+  border-radius: var(--sf-radius-lg);
+  box-shadow: 0 18px 60px rgba(24, 33, 43, 0.08);
+}
+
+.heroPanel {
+  padding: 1.25rem;
+  animation: fadeUp 0.6s 0.12s ease both;
+}
+
+.heroPanel h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.35rem;
+  text-wrap: balance;
+}
+
+.section h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.75rem;
+  text-wrap: balance;
+}
+
+.heroPanel p,
+.pricingCard p,
+.faqItem p,
+.sectionLead {
+  margin: 0;
+  color: var(--sf-muted);
+  line-height: 1.6;
+}
+
+.heroFacts {
+  margin-top: 1.25rem;
+  display: grid;
+  gap: 0.75rem;
+  list-style: none;
+}
+
+.heroFact {
+  border-top: 1px solid var(--sf-teal-border);
+  padding-top: 0.65rem;
+}
+
+.heroFact dt {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sf-teal);
+  margin-bottom: 0.2rem;
+}
+
+.heroFact dd {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--sf-muted);
+  line-height: 1.5;
+}
+
+.section {
+  padding: 0 0 2.5rem;
+}
+
+.pricingGrid > * {
+  flex: 1 1 18rem;
+}
+
+.pricingCard,
+.faqItem {
+  padding: 1.15rem;
+}
+
+.pricingCard strong,
+.faqItem strong {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-size: 1rem;
+}
+
+.cardList {
+  margin: 0.85rem 0 0;
+  padding-left: 1rem;
+  color: var(--sf-muted);
+  line-height: 1.6;
+}
+
+.codeBlock {
+  margin-top: 1.25rem;
+  padding: 1rem 1.15rem;
+  border-radius: var(--sf-radius-lg);
+  border: 1px solid var(--sf-border);
+  background: #121922;
+  color: #f7f4ec;
+  box-shadow: 0 18px 60px rgba(24, 33, 43, 0.08);
+}
+
+.codeBlock pre {
+  margin: 0;
+  overflow-x: auto;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.pricingCard ul {
+  margin: 0.75rem 0 0;
+  padding-left: 1rem;
+  color: var(--sf-muted);
+  line-height: 1.6;
+}
+
+.price {
+  font-size: 2rem;
+  line-height: 1;
+  margin: 0.35rem 0 0.6rem;
+  font-weight: 800;
+}
+
+.price span {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--sf-muted);
+}
+
+.featured {
+  border-color: var(--sf-teal-border);
+  background: linear-gradient(180deg, var(--sf-teal-subtle), var(--sf-surface-card));
+}
+
+/* ── Role table (replaces Safe multiplayer card grid) ─────────────────────── */
+.roleList {
+  list-style: none;
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--sf-border);
+}
+
+.roleRow {
+  display: grid;
+  grid-template-columns: 11rem 1fr;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--sf-border);
+}
+
+.roleLabel {
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+}
+
+.roleRow p {
+  margin: 0;
+  color: var(--sf-muted);
+  line-height: 1.6;
+}
+
+/* ── Dark accent section (breaks visual rhythm) ────────────────────────────── */
+.sectionDark {
+  background: var(--sf-ink-dark);
+  color: var(--sf-surface-light);
+  border-radius: var(--sf-radius-lg);
+  padding: 2rem 1.5rem 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.sectionDark h2 {
+  color: var(--sf-surface-light);
+  text-wrap: balance;
+}
+
+.sectionDark .roleList {
+  border-top-color: rgba(255, 255, 255, 0.12);
+}
+
+.sectionDark .roleRow {
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+.sectionDark .roleRow p {
+  color: rgba(247, 244, 236, 0.65);
+}
+
+/* ── Numbered step list (replaces "Start with" card grid) ──────────────────── */
+.stepList {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin-top: 1.5rem;
+  counter-reset: step;
+}
+
+.stepItem {
+  padding: 1.5rem 1.5rem 1.5rem 0;
+  border-right: 1px solid var(--sf-border);
+  padding-left: 1.5rem;
+}
+
+.stepItem:first-child {
+  padding-left: 0;
+}
+
+.stepItem:last-child {
+  border-right: none;
+}
+
+.stepNum {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--sf-teal);
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.03em;
+}
+
+.stepItem strong {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 0.65rem;
+}
+
+.stepItem ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.stepItem ul li {
+  font-size: 0.9rem;
+  color: var(--sf-muted);
+  padding-left: 0.9rem;
+  position: relative;
+}
+
+.stepItem ul li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  color: var(--sf-teal);
+}
+
+/* ── Motion ────────────────────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.heroPanel,
+.pricingCard,
+.faqItem {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.heroPanel:hover,
+.pricingCard:hover {
+  box-shadow: 0 24px 72px rgba(24, 33, 43, 0.13);
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eyebrow,
+  .hero h1,
+  .subhead,
+  .heroActions,
+  .heroPanel {
+    animation: none;
+  }
+
+  .heroPanel,
+  .pricingCard,
+  .faqItem {
+    transition: none;
+  }
+}
+
+/* ── Dark mode overrides ──────────────────────────────────────────────────
+   .sectionDark uses --sf-ink-dark as background (dark navy in light mode).
+   In dark mode --sf-ink-dark flips to cream, completely inverting the section.
+   These overrides restore it to a warm-elevated surface instead.
+   ────────────────────────────────────────────────────────────────────────── */
+:global([data-theme="dark"]) .sectionDark {
+  background: var(--sf-surface-warm);
+  color: var(--sf-ink);
+}
+
+:global([data-theme="dark"]) .sectionDark h2 {
+  color: var(--sf-ink);
+}
+
+:global([data-theme="dark"]) .sectionDark .roleList {
+  border-top-color: var(--sf-border-mid);
+}
+
+:global([data-theme="dark"]) .sectionDark .roleRow {
+  border-bottom-color: var(--sf-border-mid);
+}
+
+:global([data-theme="dark"]) .sectionDark .roleRow p {
+  color: var(--sf-muted-warm);
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(:root:not([data-theme="light"])) .sectionDark {
+    background: var(--sf-surface-warm);
+    color: var(--sf-ink);
+  }
+
+  :global(:root:not([data-theme="light"])) .sectionDark h2 {
+    color: var(--sf-ink);
+  }
+
+  :global(:root:not([data-theme="light"])) .sectionDark .roleList {
+    border-top-color: var(--sf-border-mid);
+  }
+
+  :global(:root:not([data-theme="light"])) .sectionDark .roleRow {
+    border-bottom-color: var(--sf-border-mid);
+  }
+
+  :global(:root:not([data-theme="light"])) .sectionDark .roleRow p {
+    color: var(--sf-muted-warm);
+  }
+}
+
+.footer {
+  padding: 0 0 2rem;
+  color: var(--sf-muted);
+  font-size: 0.92rem;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .stepList {
+    grid-template-columns: 1fr;
+  }
+
+  .stepItem {
+    border-right: none;
+    border-bottom: 1px solid var(--sf-border);
+    padding: 1.25rem 0;
+  }
+
+  .stepItem:last-child {
+    border-bottom: none;
+  }
+
+  .stepItem:first-child {
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .heroActions,
+  .navLinks {
+    width: 100%;
+  }
+
+  .primaryCta,
+  .secondaryCta,
+  .navLink {
+    width: 100%;
+  }
+
+  .heroPicker {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+
+  .roleRow {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+
+  .sectionDark {
+    border-radius: var(--sf-radius);
+    padding: 1.5rem 1rem 2rem;
+  }
+}
