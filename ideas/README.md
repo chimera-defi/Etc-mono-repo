@@ -184,6 +184,22 @@ DeFi protocol concept for ERC-8004 agent credit with Ethos vouching + reverse-Ke
 
 ---
 
+## Skills Launchpad
+
+**Concept**: A launchpad for coding-agent skills, prompts, MCP tools, and benchmark-backed install flows across Claude Code, Codex, and MCP-native environments.
+
+**Why now**:
+- raw GitHub skill repos are weak distribution
+- hosted marketplaces prove demand but create lock-in risk
+- users need install, verify, update, benchmark, and compatibility proof
+
+**Documentation**:
+- [Overview](./skills-launchpad/README.md)
+- [Research Notes](./skills-launchpad/RESEARCH_NOTES.md)
+- [Competitor Analysis](./skills-launchpad/COMPETITOR_ANALYSIS.md)
+
+---
+
 ## Server Management Agent (Open Claw / Clawd Bot)
 
 **Concept**: An AI ops agent that provisions, manages, and maintains servers and fleets. Users control it via web console, CLI, or API, with strict guardrails and audit logs.
