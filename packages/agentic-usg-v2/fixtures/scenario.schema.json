@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AgenticUSG Demo Scenario",
+  "type": "object",
+  "required": ["scenarioId", "pegPrice", "activeSourceId", "candidateSources"],
+  "properties": {
+    "scenarioId": { "type": "string" },
+    "pegPrice": { "type": "number" },
+    "activeSourceId": { "type": "string" },
+    "candidateSources": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

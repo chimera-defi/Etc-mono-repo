@@ -1,0 +1,6 @@
+{
+  "scenarioId": "prediction-arb-soft-depeg",
+  "pegPrice": 0.984,
+  "activeSourceId": "CURVE_MOCK",
+  "candidateSources": ["CURVE_MOCK", "PREDICTION_ARB"]
+}
