@@ -1,0 +1,13 @@
+{
+  "name": "@etc/agentic-usg-v2",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "check": "node scripts/check.mjs",
+    "dev:web": "node web/dev-server.mjs",
+    "test:contracts": "node contracts/test-placeholder.mjs",
+    "test:agent": "node agent/test-placeholder.mjs",
+    "test:fixtures": "node fixtures/validate-fixtures.mjs"
+  }
+}
