@@ -12,6 +12,17 @@ Quick reminder for Ideas PRs:
 
 ## Projects
 
+### AgenticUSG - Stablecoin + Agent Demo - 📈 Hackathon Spec
+**Location:** `ideas/agentic-usg-v2/`
+
+Productive stablecoin / CDP concept for ETHGlobal Cannes 2026 with a human-backed AI agent rotating collateral between yield sources, rebalancing tranches, and triggering peg-defense actions.
+
+**Key docs:** `EXECUTIVE_SUMMARY.md`, `PRD.md`, `SPEC.md`, `TASKS.md`, `GO_NO_GO_SCORECARD.md`
+
+**Tech stack (proposed):** EVM contracts + frontend dashboard + deterministic agent service + yield/oracle adapters + World / 0G / Arc integration wrappers
+
+**Status:** Hackathon-ready idea pack. Build should stay mock-first and prize-focused unless narrowed further.
+
 ### SpecForge (Collaborative Spec Studio) - 📐 Spec-Ready
 **Location:** `ideas/collab-markdown-spec-studio/`
 
