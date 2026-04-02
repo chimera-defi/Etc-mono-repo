@@ -151,6 +151,18 @@ DeFi protocol concept for ERC-8004 agent credit with Ethos vouching + reverse-Ke
 - [PRD](./intelligence-exchange/PRD.md)
 - [Technical Spec](./intelligence-exchange/SPEC.md)
 
+## AgenticUSG - Agentic Productive Stablecoin
+
+**Concept**: Productive CDP that mints `aUSG` against swappable yield sources and uses a human-backed AI agent to rotate collateral, rebalance tranches, and defend the peg. Hackathon-first concept aimed at ETHGlobal Cannes 2026.
+
+**Documentation**:
+- [Overview](./agentic-usg-v2/README.md)
+- [Executive Summary](./agentic-usg-v2/EXECUTIVE_SUMMARY.md)
+- [PRD](./agentic-usg-v2/PRD.md)
+- [Technical Spec](./agentic-usg-v2/SPEC.md)
+- [Prize Mapping](./agentic-usg-v2/PRIZE_MAPPING.md)
+- [Tasks](./agentic-usg-v2/TASKS.md)
+
 ## SpecForge (Working Name): Collaborative Spec Workspace
 
 **Concept**: Multiplayer Markdown workspace for humans + AI agents with section-level patch proposals, merge controls, provenance, and a path from approved spec bundle to starter GitHub repo.
