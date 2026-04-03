@@ -15,6 +15,7 @@
 1. Verticalized exchange for agentic customer support workloads.
 2. Fintech-safe policy profile exchange for regulated teams.
 3. Internal enterprise exchange for multi-team budget governance.
+4. Cannes 2026 agentic idea-build marketplace (`CANNES_2026_VARIANT.md`).
 
 ## Commercial Variants
 1. Take-rate only
@@ -31,3 +32,8 @@ Start with:
 1. Router + exchange hybrid
 2. Stripe-first billing
 3. Add ACP/crypto rails as optional expansion, not as core dependency
+
+Hackathon-specific variant:
+1. Narrow to idea -> brief -> build milestone flow
+2. Use Arc + World + 0G as the primary sponsor stack
+3. Keep ENS and Ledger as additive trust layers only if they remain native to the demo
