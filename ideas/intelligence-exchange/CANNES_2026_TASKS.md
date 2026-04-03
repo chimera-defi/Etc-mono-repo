@@ -2,14 +2,15 @@
 
 ### Dependency Order
 
-1. Escrow contract and local fixtures
-2. Idea -> brief planner
-3. Broker claim loop
-4. Worker submission path
-5. Scoring and acceptance
-6. Dossier storage
-7. Web demo
-8. Mainnet demo wiring
+1. Package scaffolding and shared schemas
+2. Escrow contract and local fixtures
+3. Idea -> brief planner
+4. Broker claim loop
+5. Worker submission path
+6. Scoring and acceptance
+7. Dossier storage
+8. Web demo
+9. Testnet rehearsal and public demo wiring
 
 ### P0 Ship List
 
@@ -39,6 +40,18 @@ Done criteria:
 
 Done criteria:
 - deterministic brief generation from fixture input
+
+### Workstream 0: Scaffolding
+
+- create `apps/intelligence-exchange-cannes-web`
+- create `apps/intelligence-exchange-cannes-broker`
+- create `apps/intelligence-exchange-cannes-worker`
+- create `packages/intelligence-exchange-cannes-contracts`
+- create `packages/intelligence-exchange-cannes-shared`
+- create `packages/intelligence-exchange-cannes-fixtures`
+
+Done criteria:
+- package layout exists and local commands resolve
 
 ### Workstream 3: Broker
 
@@ -91,6 +104,7 @@ Done criteria:
 ### Workstream 8: Demo Ops
 
 - local fallback mode
+- testnet rehearsal
 - public demo environment
 - seeded funded demo job
 - recorded recovery path if one integration fails
