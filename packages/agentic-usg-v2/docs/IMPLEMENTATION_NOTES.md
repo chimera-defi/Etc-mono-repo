@@ -7,3 +7,8 @@ Current scaffold includes:
 - placeholder contracts, agent, and web entrypoints
 - fixture schema and sample scenario
 - placeholder check scripts
+
+Next adapter candidates:
+- `MockYieldSourceAdapter`
+- `PredictionArbAdapter`
+- `BasisVaultAdapter`
