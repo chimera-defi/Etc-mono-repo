@@ -13,12 +13,16 @@
 4. `USER_FLOWS.md`
 5. `WIREFRAMES.md`
 6. `CANNES_2026_PRIZE_MAPPING.md` (if reviewing prize strategy)
+7. `CANNES_2026_MVP_SPEC.md` (if reviewing one-shot build shape)
 
 ## Deep Validation Pass
 1. `VALIDATION_PLAN.md`
 2. `RISK_REGISTER.md`
 3. `FINANCIAL_MODEL.md`
 4. `ADVERSARIAL_TESTS.md`
+5. `CANNES_2026_ACCEPTANCE_TEST_MATRIX.md`
+6. `CANNES_2026_EDGE_CASES.md`
+7. `CANNES_2026_DEPLOYMENT_AND_DEMO.md`
 
 ## What To Ignore On First Read
 1. `REFINEMENTS.md`
