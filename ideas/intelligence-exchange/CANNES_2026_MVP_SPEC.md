@@ -1,0 +1,285 @@
+## Cannes 2026 MVP Spec
+
+### Objective
+
+Specify the smallest buildable version of Intelligence Exchange for ETHGlobal Cannes 2026 as an agentic idea-build marketplace.
+
+The MVP must be one-shot buildable and judgeable in under 5 minutes.
+
+### Core Thesis
+
+Humans post build ideas.
+Human-backed agents claim milestones, execute work, optionally spend tiny amounts on paid dependencies, and get paid on accepted output.
+
+### P0 Product Slice
+
+#### Demand side
+
+- submit idea brief
+- set budget and output type
+- approve milestone release
+
+#### Supply side
+
+- register worker agent
+- claim milestone
+- submit output + trace
+
+#### Platform
+
+- create build brief from idea
+- split into milestone tasks
+- score output deterministically
+- release or block payment
+
+#### Sponsor-critical modules
+
+- Arc: milestone escrow + payout + nanopayment event
+- World: proof-of-human gating for poster and worker operator
+- 0G: build dossier storage
+
+### Strict Non-Scope
+
+- open worker marketplace liquidity
+- generalized freelance marketplace UX
+- provider credit resale
+- autonomous deploy to production
+- onchain dispute court
+- token launch
+
+### Canonical User Flow
+
+1. Poster verifies as human.
+2. Poster creates funded idea job.
+3. System produces `BuildBrief` and milestone set.
+4. Worker operator verifies as human and activates agent.
+5. Agent claims one milestone.
+6. Agent executes and emits:
+   - deliverable
+   - trace
+   - one nanopayment or paid-tool event
+7. Platform scores output.
+8. Poster accepts.
+9. Arc escrow releases milestone payment.
+10. 0G dossier stores the build history.
+
+### System Components
+
+#### 1. Buyer App
+
+Responsibilities:
+- idea submission
+- budget selection
+- review / accept / reject
+- view dossier and payout state
+
+#### 2. Planner Service
+
+Responsibilities:
+- convert raw idea into normalized `BuildBrief`
+- emit milestone graph
+- generate acceptance rubric
+
+#### 3. Broker Service
+
+Responsibilities:
+- queue milestone jobs
+- enforce claim leases
+- route jobs to eligible workers
+- persist state transitions
+
+#### 4. Worker Agent Runtime
+
+Responsibilities:
+- register capability profile
+- claim eligible milestone
+- execute task through configured tools
+- submit output, trace, and spend log
+
+#### 5. Scoring Service
+
+Responsibilities:
+- schema validation
+- deterministic checks
+- rubric scoring
+- accept / rework recommendation
+
+#### 6. Escrow Contracts
+
+Responsibilities:
+- hold poster funds
+- reserve milestone amounts
+- release accepted milestone payout
+- refund or pause unclaimed work
+
+#### 7. Identity Layer
+
+Responsibilities:
+- verify poster humanness
+- verify worker operator humanness
+- bind jobs and claims to a unique human-backed operator
+
+#### 8. Build Dossier Storage
+
+Responsibilities:
+- store `BuildBrief`
+- store submitted artifact metadata
+- store scoring summary
+- store release evidence
+
+### Canonical Data Objects
+
+#### `IdeaSubmission`
+
+- `ideaId`
+- `posterId`
+- `title`
+- `prompt`
+- `targetArtifact`
+- `budgetUsd`
+- `createdAt`
+
+#### `BuildBrief`
+
+- `briefId`
+- `ideaId`
+- `summary`
+- `milestones[]`
+- `acceptanceRubric`
+- `dossierUri`
+
+#### `MilestoneJob`
+
+- `jobId`
+- `briefId`
+- `milestoneType`
+- `budgetUsd`
+- `requiredCapabilities[]`
+- `status`
+- `leaseExpiry`
+
+#### `WorkerClaim`
+
+- `claimId`
+- `jobId`
+- `workerId`
+- `claimedAt`
+- `expiresAt`
+- `status`
+
+#### `ExecutionSubmission`
+
+- `submissionId`
+- `jobId`
+- `artifactUris[]`
+- `traceUri`
+- `spendEvents[]`
+- `scoreStatus`
+
+#### `EscrowRelease`
+
+- `releaseId`
+- `jobId`
+- `payer`
+- `payee`
+- `amount`
+- `status`
+
+### State Machine Delta
+
+Use the base Intelligence Exchange job lifecycle with these additional meanings:
+
+- `created`
+  - idea accepted, milestone not yet claimable
+- `queued`
+  - milestone published for worker claim
+- `claimed`
+  - worker lease issued
+- `running`
+  - worker executing task
+- `submitted`
+  - artifact and trace received
+- `accepted`
+  - score and human review passed, payment released
+- `rework`
+  - output returned for another pass
+- `expired`
+  - claim expired or poster approval timed out
+- `disputed`
+  - submission or payment contested
+
+### Payment Model
+
+#### Poster funds
+
+- poster deposits stablecoin into escrow at idea creation
+- each milestone reserves a portion of escrow
+
+#### Worker payout
+
+- payment releases only on acceptance
+- partial release only if milestone is explicitly split
+
+#### Agent spend
+
+- worker may emit one visible spend event for the demo
+- spend event is not automatically reimbursed in P0 unless explicitly modeled
+
+### Mainnet Deployment Shape
+
+#### Onchain
+
+- minimal escrow contract on Arc
+- payout release contract or escrow module
+- event logs for:
+  - `IdeaFunded`
+  - `MilestoneReserved`
+  - `MilestoneReleased`
+  - `MilestoneRefunded`
+
+#### Offchain
+
+- planner
+- broker
+- scorer
+- dossier writer
+- web app
+
+#### Demo safety rule
+
+- keep all expensive or irreversible actions human-approved
+- maintain a local deterministic fallback if public infra or RPC fails
+
+### Demo-Visible Sponsor Usage
+
+#### Arc
+
+- funded escrow
+- milestone release
+- one agent spend event
+
+#### World
+
+- poster verification
+- worker operator verification
+
+#### 0G
+
+- dossier URI visible in UI
+
+### Edge-Case Policy Rules
+
+1. No claim without verified human-backed worker operator.
+2. No payout without accepted score + explicit human approval.
+3. Claim expiry must return job to queue.
+4. Unfunded jobs never enter claimable state.
+5. If dossier write fails, payout must pause or surface degraded mode clearly.
+6. If scoring is inconclusive, route to rework rather than auto-accept.
+
+### Build Success Criteria
+
+1. One end-to-end funded idea completes on public demo rails.
+2. One worker agent claim and artifact submission succeeds.
+3. One visible micropayment or paid dependency event exists.
+4. One 0G dossier URI is shown in the UI.
+5. One Arc payout release is visible onchain.
