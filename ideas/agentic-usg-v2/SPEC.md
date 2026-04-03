@@ -23,6 +23,7 @@ Hackathon MVP for a productive stablecoin demo with agent-driven collateral rota
 7. `YieldSourceAdapters`
 8. `OracleAndResolutionAdapters`
 9. `AgentDecisionMemory`
+10. `LiquidityCommitmentPolicy`
 
 ## Core Contracts
 
@@ -48,14 +49,25 @@ Rules:
 
 ### `TrancheVault`
 
-- `depositToTranche(uint8 trancheId, uint256 amount)`
+- `depositToTranche(uint8 trancheId, uint256 amount, uint64 lockSeconds)`
+- `requestExit(uint8 trancheId, uint256 shareAmount) -> uint256 exitRequestId`
+- `claimExit(uint256 exitRequestId) -> uint256 amountOut`
 - `rebalanceTranches()`
 - `trancheNav(uint8 trancheId) -> uint256`
+- `trancheConfig(uint8 trancheId) -> (uint256 targetBps, uint256 minLockSeconds, uint256 firstLossBps, uint8 redemptionPriority)`
 
 Tranche defaults:
 - Senior 70%
 - Mezz 20%
 - Junior 10%
+
+Liquidity defaults:
+- Senior: short cooldown or low minimum lock, lowest loss participation, highest redemption priority
+- Mezz: medium lock and medium redemption priority
+- Junior: longest lock or ve-style escrow, first-loss buffer, lowest redemption priority
+
+MVP rule:
+- implement fixed lock terms and queued exits first; full ve-escrow curves are out of scope
 
 ### `BondingAndEmissions`
 
@@ -101,6 +113,19 @@ Decision bundle fields:
 - pre-action peg state
 - tranche exposure snapshot
 - human approval requirement
+- affected tranches
+- exit queue impact
+
+### `LiquidityCommitmentPolicy`
+
+- `isExitAllowed(address user, uint8 trancheId) -> bool`
+- `lockMultiplierBps(uint8 trancheId, uint64 lockSeconds) -> uint256`
+- `redemptionPriority(uint8 trancheId) -> uint8`
+
+Policy defaults:
+- junior capital receives higher upside only when it accepts the longest capital commitment
+- senior capital cannot be both safest and highest-yielding
+- any early-exit exception in MVP must be visibly penalized or disabled
 
 ### `IdentityGate`
 
@@ -170,6 +195,8 @@ interface IAgentActionPolicy {
 - `UnknownYieldSource`
 - `ActionExpired`
 - `TrancheImbalanceLimit`
+- `TrancheStillLocked`
+- `ExitQueueBlocked`
 - `OracleStale`
 
 ## Data And Trust Model
@@ -179,6 +206,7 @@ interface IAgentActionPolicy {
 - Any autonomous reallocation above configured thresholds must require human-backed proof.
 - Agent decision bundles may be stored offchain, but the URI and key decision fields should be surfaced in-app.
 - Profitability claims must be framed as scenario-dependent and not guaranteed by the protocol design alone.
+- The loss waterfall and the liquidity waterfall must remain aligned; junior cannot be the first-loss buffer and also the first-out tranche.
 
 ## Demo Modes
 

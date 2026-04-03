@@ -14,7 +14,7 @@ node packages/agentic-usg-v2/web/dev-server.mjs
 
 ## Included Layout
 
-- `contracts/` - stablecoin engine, tranche vaults, yield adapters, policy contracts
+- `contracts/` - stablecoin engine, tranche vaults, lock-policy contracts, yield adapters, policy contracts
 - `agent/` - deterministic uAgent runtime and policy evaluation
 - `web/` - judge-facing frontend
 - `integrations/` - thin wrappers for World, Arc, and 0G tied to the same core flow

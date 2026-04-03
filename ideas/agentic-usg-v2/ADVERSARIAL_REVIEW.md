@@ -45,6 +45,26 @@ It is not acceptable if framed as:
 Senior / mezz / junior is useful for demo clarity only if each tranche has a visible tradeoff.
 Otherwise it adds protocol complexity without helping the core proof.
 
+### 4a. The lockup logic has to align with the loss waterfall
+
+The initial instinct might be:
+- senior locks longer because senior wants predictability
+- junior stays flexible because junior wants upside
+
+That is usually the wrong economic shape here.
+
+If junior is the first-loss buffer, junior capital should be the stickiest capital.
+Otherwise the product is promising:
+- senior safety
+- junior upside
+- and junior instant escape
+
+Those three claims do not coexist cleanly.
+
+The more coherent design is:
+- senior = lower upside, faster exit, higher redemption priority
+- junior = first-loss, longer lock or ve-style escrow, better fee share
+
 ### 5. Peg defense is the highest-risk narrative surface
 
 The moment the deck says "defends the peg," skeptical judges will ask:
@@ -99,3 +119,4 @@ To stay strong:
 3. keep `0G` storage-only
 4. keep `$AGNT` optional
 5. talk about controlled profitability, not guaranteed profitability
+6. make junior the sticky risk buffer rather than the fastest-exit tranche
