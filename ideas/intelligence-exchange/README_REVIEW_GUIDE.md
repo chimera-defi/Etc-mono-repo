@@ -4,6 +4,7 @@
 1. `EXECUTIVE_SUMMARY.md`
 2. `PRD.md` (Problem, Thesis, MVP Scope, GTM, Kill Criteria)
 3. `GO_NO_GO_SCORECARD.md`
+4. `CANNES_2026_VARIANT.md` (if reviewing hackathon fit)
 
 ## 25-Minute Pass
 1. `SPEC.md`
@@ -11,6 +12,7 @@
 3. `UX_AND_PAYMENTS_FLOW.md`
 4. `USER_FLOWS.md`
 5. `WIREFRAMES.md`
+6. `CANNES_2026_PRIZE_MAPPING.md` (if reviewing prize strategy)
 
 ## Deep Validation Pass
 1. `VALIDATION_PLAN.md`
