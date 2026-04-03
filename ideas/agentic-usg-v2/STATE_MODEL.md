@@ -13,6 +13,11 @@ Fields:
 - `collateralShares`
 - `ausgDebt`
 - `trancheId`
+- `lockClass`
+- `lockStartedAt`
+- `lockEndsAt`
+- `escrowReceiptShares`
+- `exitRequestId`
 - `worldProofState`
 - `positionHealthFactor`
 
@@ -20,13 +25,17 @@ States:
 - `EMPTY`
 - `COLLATERALIZED`
 - `MINTED`
+- `LOCKED`
+- `EXIT_REQUESTED`
 - `REDEEMING`
 - `CLOSED`
 
 Transitions:
 - `EMPTY -> COLLATERALIZED` on `deposit`
 - `COLLATERALIZED -> MINTED` on `mint`
-- `MINTED -> REDEEMING` on `repayAndRedeem`
+- `MINTED -> LOCKED` when user enters a tranche with lock terms
+- `MINTED|LOCKED -> EXIT_REQUESTED` on `requestExit`
+- `EXIT_REQUESTED -> REDEEMING` when cooldown or lock expiry is satisfied and debt is being unwound
 - `REDEEMING -> CLOSED` when debt is zero and shares are withdrawn
 
 ### Global Yield Allocation
@@ -55,6 +64,13 @@ Fields:
 - `seniorTargetBps`
 - `mezzTargetBps`
 - `juniorTargetBps`
+- `seniorMinLockSeconds`
+- `mezzMinLockSeconds`
+- `juniorMinLockSeconds`
+- `seniorRedemptionPriority`
+- `mezzRedemptionPriority`
+- `juniorRedemptionPriority`
+- `juniorFirstLossBps`
 - `rebalanceStatus`
 
 States:
@@ -119,6 +135,9 @@ States:
 3. `decisionBundleUri` must exist before any action reaches `EXECUTED`.
 4. `ROTATE_YIELD_SOURCE`, `REBALANCE_TRANCHES`, and `ADJUST_EMISSIONS` above threshold require proof before execution.
 5. `0G` is storage-only in MVP and cannot determine the chosen action.
+6. Junior capital is the first-loss buffer and therefore cannot also be the fastest-exiting capital class.
+7. A position cannot exit before its tranche lock rules are satisfied unless the protocol defines an explicit emergency unwind path.
+8. Senior exits must not consume junior-protected capital in a way that inverts the intended loss waterfall.
 
 ## Event Model
 
@@ -133,6 +152,8 @@ Required events:
 - `AgentActionExecuted`
 - `YieldSourceRotated`
 - `TranchesRebalanced`
+- `TrancheExitRequested`
+- `TrancheExitClaimed`
 - `PegPolicyAdjusted`
 - `DecisionBundlePersisted`
 
@@ -141,5 +162,6 @@ Required events:
 - Portfolio panel reads `User Position`
 - Yield panel reads `Global Yield Allocation`
 - Tranche panel reads `Tranche System`
+- Exit queue panel reads `lockEndsAt`, `exitRequestId`, and redemption priority
 - Agent console reads `Agent Action`
 - Safety banner reads `Peg Policy` and `worldProofState`

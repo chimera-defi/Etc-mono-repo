@@ -50,6 +50,18 @@ Decision:
 Why:
 - the main proof is the control plane, not the emissions loop
 
+### F5. Junior is the sticky risk buffer
+
+Status:
+- frozen
+
+Decision:
+- junior is the first-loss tranche and therefore takes the longest lock or ve-style escrow commitment
+- senior gets lower yield and faster or higher-priority exits
+
+Why:
+- the liquidity waterfall must match the loss waterfall or the tranche logic becomes incoherent
+
 ## Decisions Still Open
 
 ### O1. Prediction data mode
@@ -81,3 +93,13 @@ Options:
 
 Current lean:
 - one policy action only
+
+### O4. Lock schedule
+
+Options:
+- fixed lock durations by tranche
+- optional user-selected lock within a bounded range
+- full ve-escrow curve
+
+Current lean:
+- fixed lock durations first, with ve-style language reserved for the junior receipt model

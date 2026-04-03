@@ -1,6 +1,6 @@
 # AgenticUSG
 
-AgenticUSG is a hackathon-oriented idea for an autonomous productive stablecoin system that mints `aUSG` against yield-bearing collateral and uses a human-backed AI agent to rotate yield sources, rebalance tranches, and defend the peg.
+AgenticUSG is a hackathon-oriented idea for an autonomous productive stablecoin system that mints `aUSG` against yield-bearing collateral and uses a human-backed AI agent to rotate yield sources, rebalance tranches, and defend the peg. The tranche layer now also carries explicit liquidity commitments: senior exits faster with lower upside, while junior acts as sticky first-loss capital through longer locks or ve-style escrow.
 
 - Hackathon: ETHGlobal Cannes 2026
 - Target implementation path: `packages/agentic-usg-v2/`

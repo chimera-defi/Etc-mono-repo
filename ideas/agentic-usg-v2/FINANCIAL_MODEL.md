@@ -10,6 +10,7 @@ This is a demo-oriented model, not an investable protocol forecast.
 2. Performance fee on yield harvested
 3. Spread or fee on tranche participation
 4. Bond discount capture via delayed token issuance
+5. Lock premium paid for junior or ve-escrow capital that absorbs first losses
 
 ## Cost Drivers
 
@@ -17,6 +18,7 @@ This is a demo-oriented model, not an investable protocol forecast.
 2. Oracle and resolution data
 3. Incentive emissions
 4. Potential liquidity support during peg stress
+5. Senior exit liquidity or queue management during stress windows
 
 ## Simple Demo Assumptions
 
@@ -37,6 +39,17 @@ This is a demo-oriented model, not an investable protocol forecast.
 
 - The protocol can be framed as economically coherent at small scale.
 - The real weakness is not raw yield math; it is trust, volatility, and adverse selection around source quality and peg behavior.
+- The tranche layer becomes more coherent if sticky junior capital is paid from a visible lock premium or fee share instead of vague "higher APY" promises.
+
+## Tranche Economics Lean
+
+- Senior should earn lower but cleaner yield and receive faster or higher-priority exits.
+- Junior should earn the highest carry only if it accepts the longest lock and first-loss role.
+- A ve-style junior vault is defensible because it functions like committed insurance capital, not because "lockups are DeFi-nice-to-have."
+- If lockups are added, they should fund a concrete benefit:
+  - better fee share
+  - higher emissions only if `$AGNT` returns later
+  - earlier access to opportunistic yield rotations
 
 ## Adversarial Read
 
@@ -48,6 +61,7 @@ Main problems:
 - If the agent needs human approval for large actions, reaction speed can erase the edge.
 - Slippage, fees, and timing risk can easily consume the apparent spread.
 - Peg-defense actions can become cost centers rather than profit centers during stress.
+- If senior depositors are promised safety without junior capital truly staying locked, the tranche design collapses into marketing rather than finance.
 
 Conservative conclusion:
 - The system is realistic as a hackathon control-plane demo for productive stablecoin management.
