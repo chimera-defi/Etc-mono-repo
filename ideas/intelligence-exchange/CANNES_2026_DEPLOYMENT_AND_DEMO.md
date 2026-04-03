@@ -11,22 +11,32 @@
 Purpose:
 - guaranteed demo backup
 
+#### Public testnet rehearsal
+
+- escrow contract deployed to a public rehearsal network
+- broker and web app pointed at rehearsal endpoints
+- World and 0G integrations tested with the same seeded accounts used for final demo where possible
+
+Purpose:
+- validate end-to-end deploy before public demo
+
 #### Public demo mode
 
 - web app deployed publicly
 - broker, planner, scorer, and dossier writer on hosted backend
-- escrow contract deployed on Arc public network
+- escrow contract deployed on Arc public network after rehearsal pass
 - sponsor integrations wired to real services where stable enough
 
 Purpose:
 - prize eligibility and live proof
 
-### Recommended Mainnet Strategy
+### Recommended Public-Network Strategy
 
 1. Deploy the smallest possible escrow contract surface.
 2. Keep planner, broker, scoring, and dossier orchestration offchain.
 3. Require human approval for all irreversible payout actions.
 4. Use a single seeded poster and seeded worker operator for the demo.
+5. Rehearse the exact seeded flow on testnet before any public-network payout demo.
 
 ### Demo Script
 
@@ -60,6 +70,7 @@ Purpose:
 ### Mainnet Readiness Checklist
 
 - contract addresses recorded
+- public testnet contract addresses recorded
 - funded poster account seeded
 - funded payout account seeded
 - worker operator account verified
@@ -67,7 +78,7 @@ Purpose:
 - acceptance and payout tested once before stage demo
 - fallback mode rehearsed
 
-### Mainnet Honesty Rules
+### Public-Network Honesty Rules
 
 1. Do not claim open marketplace liquidity if only one worker exists.
 2. Do not claim autonomous payouts if approval remains human-gated.
