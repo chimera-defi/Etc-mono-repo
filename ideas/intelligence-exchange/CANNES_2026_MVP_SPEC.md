@@ -17,6 +17,7 @@ The intended build artifact is a hybrid full-stack app:
 - public-network demo deploy
 
 It is not a fully onchain autonomous marketplace in v1.
+It is a controlled-supply pilot with explicit human review and release gates.
 
 ### Core Thesis
 
@@ -81,18 +82,19 @@ packages/intelligence-exchange-cannes-fixtures/
 ### Canonical User Flow
 
 1. Poster verifies as human.
-2. Poster creates funded idea job.
-3. System produces `BuildBrief` and milestone set.
-4. Worker operator verifies as human and activates agent.
-5. Agent claims one milestone.
-6. Agent executes and emits:
+2. Poster creates a shallow idea intake and sees a preflight summary.
+3. Poster funds the job.
+4. System produces `BuildBrief` and milestone set.
+5. Worker operator verifies as human and activates agent.
+6. Agent claims one milestone.
+7. Agent executes and emits:
    - deliverable
    - trace
    - one nanopayment or paid-tool event
-7. Platform scores output.
-8. Poster accepts.
-9. Arc escrow releases milestone payment.
-10. 0G dossier stores the build history.
+8. Platform scores output.
+9. Poster accepts.
+10. Arc escrow releases milestone payment.
+11. 0G dossier stores the build history used for review.
 
 ### Fixed Milestone Types For P0
 
@@ -104,6 +106,10 @@ Only these milestone types are allowed in the first build:
 
 Reason:
 - fixed types make planning, scoring, and UI states deterministic
+
+Scoring rule:
+- objective scoring claims should focus on `tasks`, `scaffold`, and parts of `review`
+- `brief` remains partially human-judged even in MVP
 
 ### System Components
 
@@ -118,9 +124,12 @@ Responsibilities:
 #### 2. Planner Service
 
 Responsibilities:
-- convert raw idea into normalized `BuildBrief`
+- convert funded idea into normalized `BuildBrief`
 - emit milestone graph
 - generate acceptance rubric
+
+Preflight rule:
+- before funding, planner may only emit a shallow preview, not a full exploitable build brief
 
 #### 3. Broker Service
 
@@ -145,6 +154,9 @@ Responsibilities:
 - deterministic checks
 - rubric scoring
 - accept / rework recommendation
+
+MVP rule:
+- no claim of fully objective scoring for subjective writing-heavy outputs
 
 #### 6. Escrow Contracts
 
@@ -179,6 +191,7 @@ Responsibilities:
 - `prompt`
 - `targetArtifact`
 - `budgetUsd`
+- `fundingStatus`
 - `createdAt`
 
 #### `BuildBrief`
@@ -239,6 +252,8 @@ Responsibilities:
    - explicit human approval
    - successful dossier write or clearly labeled degraded mode
 5. All state transitions are append-only and replayable.
+6. Full `BuildBrief` generation only occurs after funding or explicit planner budget authorization.
+7. Paid dependency spend must be bounded by a predeclared ceiling.
 
 ### State Machine Delta
 
@@ -278,7 +293,9 @@ Use the base Intelligence Exchange job lifecycle with these additional meanings:
 #### Agent spend
 
 - worker may emit one visible spend event for the demo
+- spend event must be bounded and attributable
 - spend event is not automatically reimbursed in P0 unless explicitly modeled
+- reviewer must be able to see whether spend affected the submission outcome
 
 ### Contract Surface
 
