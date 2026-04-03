@@ -53,54 +53,63 @@ Main risks:
 - timing risk
 - hard to present as durable base yield
 
-### 3. Basis Vault Source
+### 3. YieldBasis Source
 
 Role:
-- more realistic "steady productive source" candidate than prediction-arb
-- likely better as a secondary source than the hero source
+- realistic secondary source candidate
+- better treated as a specific structured adapter than a generic base-yield vault
 
 Why it is interesting:
-- BasisOS positions itself as a managed basis-trading yield system with ERC-4626 vault rails and an off-chain operator layer
-- Basis docs also describe additional BIOS liquidity-mining rewards on top of baseline strategy yield
+- YieldBasis is built around leveraged liquidity positions and yb-assets such as `ybBTC`
+- Hybrid Vaults let users deposit `crvUSD`, auto-route it into a backing vault such as `scrvUSD`, and then use that backing to access YieldBasis pool capacity
+- YieldBasis pools can also be gauge-staked for `YB` emissions
+- `veYB` exists as a separate vote-escrow system for emissions direction and fee share
 
 Source note:
-- official whitepaper: https://whitepaper.basisos.org/
+- Hybrid Vaults docs: https://docs.yieldbasis.com/user/hybrid-vaults
+- veYB docs: https://docs.yieldbasis.com/user/veyb
+- protocol audit summary hosted by YieldBasis docs: https://docs.yieldbasis.com/pdf/audit/quantstamp.pdf
 
 What this means for AgenticUSG:
-- the strategy could provide a more plausible baseline productive source
-- BIOS rewards could be modeled as an incentive overlay rather than the sole reason to rotate
-- this is stronger for realism than using prediction-arb as the entire base yield thesis
+- this is not just "deposit into a vault and earn basis yield"
+- the integration likely needs one of two explicit modes:
+  - direct yb-asset exposure such as `ybBTC`
+  - Hybrid Vault-backed access using `crvUSD` / `scrvUSD`
+- `YB` emissions can boost yield, but they are separate from the base trading-fee and vault-yield story
+- `veYB` is not a lock on the productive position itself; it is a separate protocol-token lock for governance and fee share
 
 Why it should not replace the hero demo source:
 - it is less instantly legible to judges than "buy a 90c outcome resolving to $1"
-- it introduces off-chain operator and withdrawal-path complexity
+- it introduces asset-shape complexity around `crvUSD` backing, yb-assets, and gauge staking
 - emissions may help returns, but they are not the same thing as sustainable base yield
 
 Implementation skeleton:
-- `BasisVaultAdapter`
+- `YieldBasisAdapter`
 - implements `IYieldSource`
 - two accounting layers:
-  - base strategy value / APY
-  - BIOS reward accrual estimate
+  - base source yield
+  - `YB` reward accrual estimate
 - adapter should expose:
   - `apyBps`
   - `rewardApyBps`
-  - `isAsyncExit`
-  - `withdrawDelayRisk`
+  - `requiresStablecoinBacking`
+  - `isGaugeStaked`
+  - `usesHybridVault`
   - `rewardLockSeconds`
 
 Suggested MVP behavior:
 - demo mode:
-  - fully mocked adapter with seeded basis yield, reward APY, and optional async withdrawal delay
+  - fully mocked adapter with seeded yb-source yield, `YB` reward APY, and stablecoin-backing requirements
 - hybrid mode:
-  - live-read vault metadata and reward schedule
+  - live-read pool metadata, gauge rewards, and hybrid-vault ratios
   - keep write-path mocked unless the integration becomes stable enough to trust
 
 Key trust / product risks:
-- strategy depends on an off-chain operator and managed execution
-- withdrawals may be asynchronous rather than instant
-- BIOS incentives are emissions and should be treated as decaying bonus yield, not permanent carry
-- if AgenticUSG wraps Basis inside tranches, senior exits need policy limits when underlying liquidity is delayed
+- the productive position depends on YieldBasis market mechanics and Curve-linked assumptions
+- Hybrid Vault capacity is tied to `crvUSD` backing rules, currently documented as a stablecoin fraction requirement
+- `YB` incentives are emissions and should be treated as bonus yield, not permanent carry
+- `veYB` lockups are protocol-token locks, not proof that the productive source itself is liquid or senior-safe
+- if AgenticUSG wraps YieldBasis inside tranches, senior exits need policy limits whenever underlying exits or backing constraints become binding
 
 ## Architecture Recommendation
 
@@ -111,7 +120,7 @@ Use a three-layer yield-source strategy:
 2. memorable opportunistic source
    - prediction-market arb
 3. more realistic productive source candidate
-   - Basis vault adapter
+   - YieldBasis adapter
 
 That gives the system:
 - a safe fallback
@@ -135,32 +144,34 @@ interface IYieldSource {
 
 For richer UX, AgenticUSG should also maintain adapter metadata offchain or in a registry:
 - `displayName`
-- `category` (`baseline`, `opportunistic`, `managed-vault`)
+- `category` (`baseline`, `opportunistic`, `structured-lp`, `hybrid-vault`)
 - `rewardToken`
 - `rewardLockSeconds`
-- `isAsyncExit`
+- `requiresStablecoinBacking`
+- `isGaugeStaked`
+- `usesHybridVault`
 - `liqPreference` (`senior-ok`, `junior-only`, `all`)
 
 ## Policy Recommendation
 
 - Senior capital should only rotate into a yield source if exit liquidity is consistent with senior promises.
 - Junior capital can absorb sources with longer withdrawal or higher execution variance.
-- Basis is more plausible for senior or mezz capital than prediction-arb, but only if async withdrawal risk stays inside configured limits.
+- YieldBasis is more plausible as a mezz or junior sleeve than as the default senior source unless the backing and exit path are modeled very conservatively.
 - Prediction-arb remains best for junior or opportunistic sleeves.
 
 ## Demo Recommendation
 
 For Cannes MVP:
 - keep prediction-arb as the hero source in the judge script
-- add Basis as the "credible next source" or optional second adapter in the architecture explanation
+- add YieldBasis as the "credible next structured source" or optional second adapter in the architecture explanation
 - if time allows, show the agent comparing:
-  - Basis = steadier base yield + BIOS incentives
+  - YieldBasis = structured pool yield + `YB` incentives + optional `crvUSD` backing carry
   - Prediction-arb = higher but episodic yield
 
 ## Bottom Line
 
-Adding Basis is a good idea if framed correctly:
-- yes as a realistic productive source candidate
-- yes as a secondary adapter with BIOS incentives modeled explicitly
+Adding YieldBasis is a good idea if framed correctly:
+- yes as a realistic structured-source candidate
+- yes as a secondary adapter with `YB` incentives modeled explicitly
 - no as a replacement for the prediction-market hero moment
-- no if the pitch quietly treats BIOS emissions as permanent organic yield
+- no if the pitch quietly treats `YB` emissions as permanent organic yield
