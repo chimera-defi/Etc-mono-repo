@@ -12,8 +12,16 @@
 
 1. Compare senior / mezz / junior
 2. Select tranche
-3. Confirm expected yield and first-loss exposure
-4. View updated allocation
+3. Confirm expected yield, first-loss exposure, and lock duration
+4. View updated allocation and exit terms
+
+## Flow 2a: Request Exit
+
+1. Open tranche position
+2. Review current lock status and queue priority
+3. Request exit
+4. See whether exit is immediately queued, delayed, or blocked by lock
+5. Claim exit when eligible
 
 ## Flow 3: Agent Rotation
 

@@ -12,6 +12,7 @@
 
 - CDP happy path
 - tranche selector and accounting
+- tranche lock durations and exit queue
 - one prediction-yield rotation
 - World-backed sensitive approval
 - Arc-backed stablecoin / prediction framing
@@ -28,8 +29,9 @@
 ## Workstream 1: Contracts
 
 - Define `IYieldSource`, `StablecoinEngine`, `TrancheVault`, `AgentController`
+- Define fixed lock and redemption-priority policy for senior / mezz / junior
 - Implement local fixtures for productive LP and prediction arb sources
-- Add tests for mint, repay, redeem, source rotation, tranche rebalance
+- Add tests for mint, repay, redeem, source rotation, tranche rebalance, junior lock, and exit queue
 
 Done criteria:
 - green contract test suite for core flows
@@ -47,6 +49,7 @@ Done criteria:
 
 - Landing page and thesis explanation
 - Deposit / mint / tranche views
+- lockup comparison and exit-status views
 - Agent console and audit rail
 - Prize mapping explainer
 
@@ -103,3 +106,8 @@ Done criteria:
 ### Pass 4: Judge UX
 
 - remove protocol jargon where it hides the core mechanism
+
+### Pass 5: Tranche Realism
+
+- make the loss waterfall and liquidity waterfall visibly consistent
+- show why junior earns more and why senior exits are safer but less lucrative

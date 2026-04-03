@@ -6,7 +6,7 @@ Stablecoins usually force a tradeoff between simplicity, productive collateral, 
 
 ## Product Vision
 
-AgenticUSG is a productive, agent-managed stablecoin stack where collateral can move between yield sources and risk tranches while a human-backed agent optimizes for yield and peg safety under explicit guardrails.
+AgenticUSG is a productive, agent-managed stablecoin stack where collateral can move between yield sources and risk tranches while a human-backed agent optimizes for yield and peg safety under explicit guardrails. The tranche layer is also a liquidity-commitment layer: safer capital gets faster exits and lower upside, while first-loss capital earns more but must stay locked longer.
 
 ## Target User
 
@@ -19,13 +19,14 @@ AgenticUSG is a productive, agent-managed stablecoin stack where collateral can 
 - Mint a stable asset from productive collateral
 - Understand where yield comes from
 - Choose a risk level through tranching
+- Choose a liquidity commitment that matches risk tolerance
 - Trust that autonomous actions are observable and rate-limited
 
 ## Core User Stories
 
 1. As a user, I can deposit collateral and mint `aUSG` at a visible max LTV.
 2. As a user, I can see which yield source currently backs my position.
-3. As a user, I can select a senior, mezz, or junior tranche and understand the tradeoff.
+3. As a user, I can select a senior, mezz, or junior tranche and understand the tradeoff between risk, yield, and lock duration.
 4. As a user, I can see why the agent reallocated collateral.
 5. As a user, I can verify that high-impact actions require a human-backed identity gate.
 6. As a judge, I can understand exactly which module maps to which prize category.
@@ -47,9 +48,14 @@ AgenticUSG is a productive, agent-managed stablecoin stack where collateral can 
 
 ### F3. Tranches
 
-- Senior: lowest volatility / first protected
-- Mezz: medium risk / medium yield
-- Junior: first-loss / highest upside
+- Senior: lowest volatility, lower yield, short cooldown, priority exits
+- Mezz: medium risk, medium yield, medium lock
+- Junior: first-loss, highest upside, longest lock or ve-style escrow receipt
+
+Liquidity commitment design:
+- the junior tranche is the sticky insurance buffer and therefore should not have the shortest exit window
+- the senior tranche can offer safer economics only if it is not also the capital absorbing first losses
+- MVP can implement this with fixed lock metadata and redemption queue priority instead of a full curve-based escrow system
 
 ### F4. Agent Actions
 
@@ -80,6 +86,7 @@ AgenticUSG is a productive, agent-managed stablecoin stack where collateral can 
 - peg stress scenario input
 - complex emissions tuning logic
 - nanopayment internals for prize framing
+- full ve-escrow curve math beyond fixed lock durations
 
 ## Non-Goals For MVP
 
@@ -102,3 +109,4 @@ AgenticUSG is a productive, agent-managed stablecoin stack where collateral can 
 2. Should prediction-yield positions be fully mocked or partially live?
 3. How do we keep Arc and 0G both real without making the product feel like three stitched demos?
 4. Should leverage loops be demoed at all in version one?
+5. What exact junior lock durations make the tradeoff legible without making the demo feel illiquid or punitive?

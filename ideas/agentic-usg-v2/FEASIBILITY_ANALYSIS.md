@@ -9,7 +9,7 @@ It is not yet feasible as a production-ready autonomous stablecoin protocol.
 
 - deterministic collateral deposit and `aUSG` mint flow
 - one hero yield-source rotation
-- tranche accounting with simple senior / mezz / junior buckets
+- tranche accounting with fixed senior / mezz / junior lock profiles
 - human-gated agent approval flow
 - one persisted 0G decision dossier per executed action
 - one peg-stress scenario with a visible policy response
@@ -22,6 +22,7 @@ It is not yet feasible as a production-ready autonomous stablecoin protocol.
 - durable tokenomics around `$AGNT`
 - production-grade monetary policy
 - fully trustless risk management
+- full ve-escrow math with dynamic decay and secondary-market behavior
 
 ## Feasibility By Prize Track
 
@@ -60,3 +61,4 @@ Go, but only if the team accepts these constraints:
 2. keep `0G` storage-only
 3. keep `$AGNT` out of the critical path
 4. treat prediction-market arb as a showcase opportunity, not a guaranteed base yield primitive
+5. keep lockups simple: fixed durations and redemption queue first, not a full ve-token system
