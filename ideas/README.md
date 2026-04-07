@@ -4,16 +4,43 @@ High-level ideas and concepts for future exploration and implementation.
 
 Related persistent memory snapshots: [`../ai_memory/`](../ai_memory/README.md)
 
+## Framework Reassessment
+
+Recent extraction/build work on SpecPath and Intelligence Exchange showed that the framework was directionally strong but overweight on document count and underweight on the actual product surface.
+
+What mattered most in practice:
+1. Clear end artifact: what exists at the end, for whom, and on which surfaces.
+2. UI and interaction contract: main screens, state transitions, failure states, responsive expectations, and a coherent design direction.
+3. Deterministic build pack: package/app layout, fixtures, contracts, verification commands, and a first-hour bootstrap.
+4. Honest cutlines: explicit non-goals, degraded modes, and demo/deploy boundaries.
+
+What was often useful but should not be mandatory for every idea:
+1. `COMPETITOR_ANALYSIS` and `COMPETITOR_MATRIX`
+2. `FINANCIAL_MODEL` and `GO_NO_GO_SCORECARD`
+3. `META_LEARNINGS` and `MULTIPASS_REVIEW`
+4. `RESEARCH_PROMPT`, `NAME_OPTIONS`, and other expansion docs
+
+Default rule:
+- strengthen the canonical docs before adding new files
+- prefer one stronger `SPEC`, `FIRST_60_MINUTES`, and `FRONTEND_VISION` over three extra meta docs
+
 ## Default Ideation Standard
 
-For new idea packs, default to a decision-ready spec stage instead of lightweight notes.
+For new idea packs, default to a decision-ready spec stage that is biased toward one-shot buildability, not just completeness.
 
 Required baseline:
-1. Core pack: `EXECUTIVE_SUMMARY`, `PRD`, `SPEC`, `ARCHITECTURE_DIAGRAMS`, `VALIDATION_PLAN`, `RISK_REGISTER`, `FINANCIAL_MODEL`, `GO_NO_GO_SCORECARD`, `AGENT_HANDOFF`.
-2. UX pack: `UX_PRINCIPLES`, `USER_FLOWS`, `FRONTEND_VISION`, `WIREFRAMES` (lo-fi is acceptable).
-3. Competition pack: `COMPETITOR_ANALYSIS`, `COMPETITOR_MATRIX` (named + scored).
+1. Core pack: `EXECUTIVE_SUMMARY`, `PRD`, `SPEC`, `ARCHITECTURE_DECISIONS`, `STATE_MODEL`, `TASKS`, `VALIDATION_PLAN`, `RISK_REGISTER`, `DECISIONS`, `OPEN_QUESTIONS`, `AGENT_HANDOFF`.
+2. Surface pack: `UX_PRINCIPLES`, `USER_FLOWS`, `FRONTEND_VISION`, `WIREFRAMES` for any human-facing product. If the product is `CLI-only` or `API-only`, say that explicitly and replace GUI assumptions with interface examples.
+3. Build pack: `FIRST_60_MINUTES`, `ACCEPTANCE_TEST_MATRIX`, deterministic `fixtures/`, versioned `contracts/` where relevant, exact verification commands, and a target app/package layout.
 4. Review ergonomics: include `README_REVIEW_GUIDE.md` with 10-minute and 25-minute read paths.
-5. Iteration quality: keep `META_LEARNINGS` and `MULTIPASS_REVIEW` updated to capture what changed and why.
+5. Optional expansion docs only when justified by the product or stage: competition analysis, scorecards, financial model, refinements, meta learnings.
+
+Required answers inside the pack:
+1. What do we get at the end: docs only, a web app, CLI, desktop app, contract system, or hybrid full-stack product?
+2. What is the primary golden path?
+3. What is the primary failure path?
+4. What is the local verification command set?
+5. What is the deploy/demo target: local only, testnet, mainnet, hosted web, desktop, or some combination?
 
 Process expectations:
 1. If detail is missing, ask targeted continuation questions instead of ending early.
@@ -23,12 +50,18 @@ Process expectations:
 
 ## Build-Ready Addendum (For Parallel Agent Execution)
 
-To make an idea one-shot buildable by Codex/AgentCon, each idea pack should also include:
-1. A dependency-ordered `TASKS.md` with named parallel workstreams and explicit done criteria.
-2. An `AGENT_HANDOFF.md` with bounded sub-agent prompts (clear file scope + objective).
-3. Versioned interface contracts in `SPEC.md` (schema, events, errors, and example payloads).
-4. A local-run bootstrap checklist (first 60 minutes) with fixtures and validation checks.
-5. A merge contract requiring recap + unresolved-question surfacing before each pass closes.
+To make an idea one-shot buildable by Codex/AgentCon, each mature idea pack should also include:
+1. A dependency-ordered `TASKS.md` with named workstreams, explicit cutlines, and done criteria.
+2. An `AGENT_HANDOFF.md` with bounded prompts and clear ownership by surface/module.
+3. Versioned interface contracts in `SPEC.md` covering schemas, events, errors, invariants, and example payloads.
+4. A local-run bootstrap checklist (`FIRST_60_MINUTES.md`) with fixtures, verification checks, and the actual expected repo/app layout.
+5. A concrete UI surface contract for human-facing products:
+   - main screens
+   - golden path
+   - failure path
+   - design-system notes (component grammar, layout rules, visual tone)
+6. A deploy/demo contract that says what will be shown locally, on testnet/mainnet if relevant, and what remains mocked.
+7. A merge contract requiring recap + unresolved-question surfacing before each pass closes.
 
 Use `ideas/_templates/` to avoid duplicating boilerplate across idea packs.
 
@@ -47,7 +80,7 @@ To bridge idea packs into Kiro's executable spec workflow, each mature idea shou
 - Tasks have **done criteria** and **property mappings** for verification
 - All three files are **implementation-focused** not planning-focused
 
-Templates available in `ideas/_templates/` (KIRO_SPEC_BRIDGE.md, requirements.md, design.md, tasks.md).
+Templates available in `ideas/_templates/` (`KIRO_SPEC_BRIDGE.md`, `requirements.md`, `design.md`, `tasks.md`, `ONE_SHOT_BUILD_CHECKLIST.md`).
 
 ## OAuth-Based Automated Provider Setup
 
