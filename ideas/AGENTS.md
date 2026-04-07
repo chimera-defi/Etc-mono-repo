@@ -96,11 +96,11 @@ Compliance-first launch ops CLI: plan → generate per-platform packs → option
 
 ## Core Principles
 
-1. **Document exploration** - Capture findings extensively
-2. **Store research** - Use project artifacts
-3. **Prototype fast** - Rapid iteration
-4. **Track learnings** - Capture insights
-5. **Link concepts** - Connect related ideas
+1. **Build output first** - decide what artifact exists at the end before expanding the doc pack.
+2. **UI is part of the spec** - for human-facing products, treat screens, state transitions, and design-system rules as first-class requirements.
+3. **Determinism over prose** - fixtures, contracts, acceptance checks, and bootstrap commands matter more than extra narrative docs.
+4. **Prototype fast** - rapid iteration still matters, but scope cuts must stay explicit.
+5. **Link concepts** - connect related ideas without letting comparison docs outrun buildability.
 
 ## Token Reduction
 
@@ -142,12 +142,15 @@ rg -g "*.ts" "import.*cadence" ideas/voice-coding-assistant/
 
 ## Best Practices
 
-1. Document everything - ideas evolve
-2. Store research in project artifacts
-3. Track dead ends (prevent repeating mistakes)
-4. Use scoped searches (`rg -g`) before broad reads
+1. Strengthen canonical docs before creating new ones.
+2. For GUI products, require a golden path, failure path, and screen inventory before calling the pack build-ready.
+3. Treat `FIRST_60_MINUTES.md`, `ACCEPTANCE_TEST_MATRIX.md`, `fixtures/`, and runtime/package layout as the minimum one-shot build contract.
+4. Make competitor docs, scorecards, and meta docs optional unless the product stage clearly justifies them.
+5. Use scoped searches (`rg -g`) before broad reads.
 
 ## Ideas-Specific Learnings
 
 - Verify repo contents before answering status questions; inspect the tree first to avoid incorrect claims.
 - Always commit with a self-chosen message; do not ask for one.
+- When an idea graduates into a runnable repo, prefer the real build/docs surfaces (`web/README.md`, `FIRST_60_MINUTES.md`, package READMEs, verification commands) over older planning docs.
+- If the pack cannot answer "what do we get at the end?" in one paragraph, it is not build-ready yet.
