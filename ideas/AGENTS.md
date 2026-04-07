@@ -38,6 +38,15 @@ AI job execution marketplace: buyers submit jobs, workers run a local CLI using 
 
 **Status:** Spec-ready; legal review + open question resolution required before one-shot build.
 
+### YieldBasis Stablecoin Derivatives - 🧪 Spec-Ready
+**Location:** `ideas/yieldbasis-stablecoin-derivatives/`
+
+Structured stable derivatives layered on top of YieldBasis Hybrid Vaults and veYB incentive rails, with explicit modeling of TRD, cap, emissions, and lock fault domains.
+
+**Key docs:** `EXECUTIVE_SUMMARY.md`, `PRD.md`, `SPEC.md`, `ADVERSARIAL_REVIEW.md`, `TASKS.md`
+
+**Status:** Early spec-ready; strong concept if it stays honest about cross-protocol fault domains.
+
 ### Voice Coding Assistant (Cadence) - 🧪 Prototype
 **Location:** `ideas/voice-coding-assistant/`
 
