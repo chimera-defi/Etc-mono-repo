@@ -151,6 +151,15 @@ DeFi protocol concept for ERC-8004 agent credit with Ethos vouching + reverse-Ke
 - [PRD](./intelligence-exchange/PRD.md)
 - [Technical Spec](./intelligence-exchange/SPEC.md)
 
+## YieldBasis Stablecoin Derivatives
+
+**Concept**: Structured stable derivatives on top of YieldBasis Hybrid Vaults and veYB-linked incentive rails, with explicit handling of TRD, cap rules, emissions, and lock fault domains.
+
+**Documentation**:
+- [Overview](./yieldbasis-stablecoin-derivatives/README.md)
+- [PRD](./yieldbasis-stablecoin-derivatives/PRD.md)
+- [Technical Spec](./yieldbasis-stablecoin-derivatives/SPEC.md)
+
 ## SpecForge (Working Name): Collaborative Spec Workspace
 
 **Concept**: Multiplayer Markdown workspace for humans + AI agents with section-level patch proposals, merge controls, provenance, and a path from approved spec bundle to starter GitHub repo.
