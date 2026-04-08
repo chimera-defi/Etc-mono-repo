@@ -1,8 +1,16 @@
 import fs from 'fs';
 import path from 'path';
 import type { ApiOpenness, CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData } from '@/types/wallets';
+import scoring from '@/lib/scoring';
 
 export type { ApiOpenness, CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData };
+
+const {
+  computeSoftwareScore,
+  computeHardwareScore,
+  computeCardScore,
+  computeRampScore,
+} = scoring;
 
 // Path to markdown files (one level up from frontend)
 const CONTENT_DIR = path.join(process.cwd(), '..');
@@ -270,7 +278,8 @@ function parseCashBackMax(cell: string): number | null {
 }
 
 // Parse card status
-function parseCardStatus(cell: string): 'active' | 'verify' | 'launching' {
+function parseCardStatus(cell: string): 'active' | 'verify' | 'launching' | 'inactive' {
+  if (cell.includes('❌') || cell.toLowerCase().includes('inactive') || cell.toLowerCase().includes('discontinued')) return 'inactive';
   if (cell.includes('✅')) return 'active';
   if (cell.includes('🔄')) return 'launching';
   return 'verify';
@@ -329,6 +338,7 @@ export function parseSoftwareWallets(): SoftwareWallet[] {
 
     const license = parseLicense(cells[10] || '');
     const funding = parseFunding(cells[13] || '');
+    const scoreInfo = computeSoftwareScore(cells);
 
     // Table columns after adding API column (index 11):
     // 0=Wallet, 1=Score, 2=Core, 3=Rel/Mo, 4=RPC, 5=GitHub, 6=Active,
@@ -337,7 +347,9 @@ export function parseSoftwareWallets(): SoftwareWallet[] {
     return {
       id: generateSlug(name),
       name,
-      score: parseInt(cells[1], 10) || 0,
+      score: scoreInfo.score,
+      methodologyVersion: scoreInfo.methodologyVersion,
+      scoreBreakdown: scoreInfo.breakdown,
       core: parsePartial(cells[2] || '') as 'full' | 'partial' | 'none',
       releasesPerMonth: parseReleasesPerMonth(cells[3] || ''),
       rpc: parsePartial(cells[4] || '') as 'full' | 'partial' | 'none',
@@ -358,7 +370,7 @@ export function parseSoftwareWallets(): SoftwareWallet[] {
       ensNaming: parseEnsNaming(cells[17] || ''),
       hardwareSupport: parseBoolean(cells[18] || ''),
       bestFor: cells[19]?.replace(/[~*]/g, '').trim() || '',
-      recommendation: parseRecommendation(cells[20] || ''),
+      recommendation: scoreInfo.recommendation,
       type: 'software' as const,
     };
   }).filter(wallet => wallet.name !== 'Unknown' && wallet.score > 0 && wallet.id !== '');
@@ -392,11 +404,14 @@ export function parseHardwareWallets(): HardwareWallet[] {
     // Display(6) Price(7) Conn(8) Activity(9) Rec(10)
     const price = parsePrice(cells[7] || '');
     const priceLastChecked = pricing[name]?.last_checked ?? null;
+    const scoreInfo = computeHardwareScore(cells);
 
     return {
       id: generateSlug(name),
       name,
-      score: parseInt(cells[1], 10) || 0,
+      score: scoreInfo.score,
+      methodologyVersion: scoreInfo.methodologyVersion,
+      scoreBreakdown: scoreInfo.breakdown,
       github: extractGitHubUrl(cells[2] || ''),
       airGap: parseBoolean(cells[3] || ''),
       openSource: parseClosedPartialFull(cells[4] || ''),
@@ -408,7 +423,7 @@ export function parseHardwareWallets(): HardwareWallet[] {
       priceLastChecked,
       connectivity: parseConnectivity(cells[8] || ''),
       active: parseStatus(cells[9] || ''),
-      recommendation: parseHardwareRecommendation(cells[10] || ''),
+      recommendation: scoreInfo.recommendation as 'recommended' | 'situational' | 'avoid',
       url,
       type: 'hardware' as const,
     };
@@ -452,15 +467,16 @@ export function parseCryptoCards(): CryptoCard[] {
     }
 
     // Parse score (may have emoji)
-    const scoreMatch = cells[1]?.match(/(\d+)/);
-    const score = scoreMatch ? parseInt(scoreMatch[1], 10) : 0;
+    const scoreInfo = computeCardScore(cells);
 
     const region = parseRegion(cells[5] || '');
 
     return {
       id: generateSlug(name),
       name,
-      score,
+      score: scoreInfo.score,
+      methodologyVersion: scoreInfo.methodologyVersion,
+      scoreBreakdown: scoreInfo.breakdown,
       cardType: parseCardType(cells[2] || ''),
       custody: parseCustodyType(cells[3] || ''),
       businessSupport: parseBusinessSupport(cells[4] || ''),
@@ -475,7 +491,7 @@ export function parseCryptoCards(): CryptoCard[] {
       providerUrl: cardUrl, // URL now comes from Card column
       status: parseCardStatus(cells[10] || ''),
       bestFor: cells[11]?.trim() || '',
-      recommendation: parseHardwareRecommendation(cells[1] || ''), // Uses score emoji
+      recommendation: scoreInfo.recommendation as 'recommended' | 'situational' | 'avoid',
       type: 'card' as const,
     };
   }).filter(card => card.name !== 'Unknown' && card.score > 0 && card.id !== '');
@@ -522,13 +538,14 @@ export function parseRamps(): Ramp[] {
     }
 
     // Parse score (may have emoji)
-    const scoreMatch = cells[1]?.match(/(\d+)/);
-    const score = scoreMatch ? parseInt(scoreMatch[1], 10) : 0;
+    const scoreInfo = computeRampScore(cells);
 
     return {
       id: generateSlug(name),
       name,
-      score,
+      score: scoreInfo.score,
+      methodologyVersion: scoreInfo.methodologyVersion,
+      scoreBreakdown: scoreInfo.breakdown,
       rampType: parseRampType(cells[2] || ''),
       onRamp: parseBoolean(cells[3] || ''),
       offRamp: parseBoolean(cells[4] || ''),
@@ -538,7 +555,7 @@ export function parseRamps(): Ramp[] {
       devUx: cells[8]?.trim() || 'Good',
       status: parseCardStatus(cells[9] || ''),
       bestFor: cells[10]?.trim() || '',
-      recommendation: parseHardwareRecommendation(cells[1] || ''), // Uses score emoji
+      recommendation: scoreInfo.recommendation as 'recommended' | 'situational' | 'avoid',
       url,
       type: 'ramp' as const,
     };
@@ -556,7 +573,35 @@ type AllWalletData = {
   ramps: Ramp[];
 };
 
+type WalletTableSummary = {
+  softwareColumns: number;
+  hardwareColumns: number;
+  cardColumns: number;
+  rampColumns: number;
+  totalVisibleColumns: number;
+};
+
 let cachedAllWalletData: AllWalletData | null = null;
+let cachedWalletTableSummary: WalletTableSummary | null = null;
+
+function countFirstTableColumns(fileName: string): number {
+  const filePath = path.join(CONTENT_DIR, fileName);
+  if (!fs.existsSync(filePath)) return 0;
+
+  const content = fs.readFileSync(filePath, 'utf-8');
+  for (const rawLine of content.split('\n')) {
+    const line = rawLine.trim();
+    if (!line.startsWith('|') || line.match(/^\|[\s-:|]+\|$/)) continue;
+    return line
+      .split('|')
+      .slice(1, -1)
+      .map(cell => cell.trim())
+      .filter(Boolean)
+      .length;
+  }
+
+  return 0;
+}
 
 export function getAllWalletData(): AllWalletData {
   if (!cachedAllWalletData) {
@@ -569,6 +614,25 @@ export function getAllWalletData(): AllWalletData {
   }
 
   return cachedAllWalletData;
+}
+
+export function getWalletTableSummary(): WalletTableSummary {
+  if (!cachedWalletTableSummary) {
+    const softwareColumns = countFirstTableColumns('SOFTWARE_WALLETS.md');
+    const hardwareColumns = countFirstTableColumns('HARDWARE_WALLETS.md');
+    const cardColumns = countFirstTableColumns('CRYPTO_CARDS.md');
+    const rampColumns = countFirstTableColumns('RAMPS.md');
+
+    cachedWalletTableSummary = {
+      softwareColumns,
+      hardwareColumns,
+      cardColumns,
+      rampColumns,
+      totalVisibleColumns: softwareColumns + hardwareColumns + cardColumns + rampColumns,
+    };
+  }
+
+  return cachedWalletTableSummary;
 }
 
 const WALLET_TYPES = ['software', 'hardware', 'cards', 'ramps'] as const;

@@ -13,6 +13,14 @@
 /* eslint-disable no-console */
 const fs = require('fs');
 const path = require('path');
+const {
+  computeSoftwareScore,
+  computeHardwareScore,
+  computeCardScore,
+  computeRampScore,
+  recommendationEmoji,
+} = require(path.join(__dirname, '..', 'src', 'lib', 'scoring.js'));
+const { processAllTables } = require(path.join(__dirname, '..', '..', 'scripts', 'sync_table_scores.js'));
 
 const FRONTEND_DIR = path.resolve(__dirname, '..');
 const WALLETS_DIR = path.resolve(FRONTEND_DIR, '..');
@@ -84,6 +92,34 @@ function findRowByFirstCellSubstring(rows, needle) {
   return rows.find((r) => String(r[0] || '').toLowerCase().includes(n)) || null;
 }
 
+function assertComputedScore(fileLabel, row, computeScore, scoreIndex, recommendationIndex = null) {
+  const scoreInfo = computeScore(row);
+  const scoreCell = String(row[scoreIndex] || '');
+  const expectedScore = String(scoreInfo.score);
+
+  if (!scoreCell.includes(expectedScore)) {
+    fail(`${fileLabel}: computed score drift for "${row[0]}". Expected "${expectedScore}" in "${scoreCell}"`);
+    return;
+  }
+
+  if (recommendationIndex !== null) {
+    const recCell = String(row[recommendationIndex] || '');
+    const expectedRec = recommendationEmoji(scoreInfo.recommendation);
+    if (!recCell.includes(expectedRec)) {
+      fail(`${fileLabel}: computed recommendation drift for "${row[0]}". Expected "${expectedRec}" in "${recCell}"`);
+      return;
+    }
+  } else {
+    const expectedRec = recommendationEmoji(scoreInfo.recommendation);
+    if (!scoreCell.includes(expectedRec)) {
+      fail(`${fileLabel}: score emoji drift for "${row[0]}". Expected "${expectedRec}" in "${scoreCell}"`);
+      return;
+    }
+  }
+
+  ok(`${fileLabel}: computed score matches for ${row[0]}`);
+}
+
 function run() {
   console.log('🔎 Running wallet table smoke tests...\n');
 
@@ -122,10 +158,9 @@ function run() {
   if (!rabbyRow) {
     fail('Software wallets table: could not find Rabby row.');
   } else {
-    const score = rabbyRow[1] || '';
     const chains = rabbyRow[7] || '';
     const license = rabbyRow[10] || '';
-    if (!/92/.test(score)) fail(`Rabby score drifted (expected 92-ish), got: "${score}"`);
+    assertComputedScore('Software wallets table', rabbyRow, computeSoftwareScore, 1, 20);
     // Chains now uses HTML img tags for chain logos
     // Rabby is EVM-only, so it should have eth.svg image
     if (!/eth\.svg/.test(chains) && !/⟠/.test(chains)) fail(`Rabby chains drifted (expected eth.svg or ⟠ for EVM), got: "${chains}"`);
@@ -160,6 +195,7 @@ function run() {
   } else {
     const display = trezorSafe5Row[6] || '';
     const price = trezorSafe5Row[7] || '';
+    assertComputedScore('Hardware wallets table', trezorSafe5Row, computeHardwareScore, 1, 10);
     if (/\$/.test(display)) {
       fail(`Hardware table: Display cell unexpectedly contains "$": "${display}"`);
     }
@@ -208,10 +244,9 @@ function run() {
     fail('Crypto cards table: could not find EtherFi Cash row.');
   } else {
     const card = etherfiRow[0] || '';
-    const score = etherfiRow[1] || '';
     const custody = etherfiRow[3] || '';
     const status = etherfiRow[10] || '';     // Status column at index 10 after removing Provider
-    if (!/85/.test(score)) fail(`EtherFi Cash score drifted (expected 85-ish), got: "${score}"`);
+    assertComputedScore('Crypto cards table', etherfiRow, computeCardScore, 1);
     if (!/Self/.test(custody)) fail(`EtherFi Cash custody drifted (expected Self), got: "${custody}"`);
     // Card column should now have URL embedded
     if (!/ether\.fi/i.test(card)) fail(`EtherFi Cash card column should contain ether.fi URL, got: "${card}"`);
@@ -225,16 +260,50 @@ function run() {
     fail('Crypto cards table: could not find Ready Card row.');
   } else {
     const card = readyRow[0] || '';
-    const score = readyRow[1] || '';
     const custody = readyRow[3] || '';
     const cashback = readyRow[6] || '';  // Cash Back column
-    if (!/83/.test(score)) fail(`Ready Card score drifted (expected 83-ish), got: "${score}"`);
+    assertComputedScore('Crypto cards table', readyRow, computeCardScore, 1);
     if (!/Self/.test(custody)) fail(`Ready Card custody drifted (expected Self), got: "${custody}"`);
     // Card column should now have URL embedded
     if (!/ready\.co/i.test(card)) fail(`Ready Card card column should contain ready.co URL, got: "${card}"`);
     // Cash back should be 3% (not "Up to 10%" - major correction)
     if (!/3%/.test(cashback)) fail(`Ready Card cash back should be 3% (verified), got: "${cashback}"`);
     ok('Crypto cards table: Ready Card spot-check passed');
+  }
+
+  // ---- Ramps table ----
+  const rampsPath = path.join(WALLETS_DIR, 'RAMPS.md');
+  const rampsContent = readFileOrFail(rampsPath);
+  const rampsRows = parseMarkdownTable(rampsContent);
+  if (rampsRows.length < 5) fail('Ramps table has too few rows (expected header + data).');
+
+  const rampsExpectedHeader = [
+    'Provider',
+    'Score',
+    'Type',
+    'On-Ramp',
+    'Off-Ramp',
+    'Coverage',
+    'Fee Model',
+    'Min Fee',
+    'Dev UX',
+    'Status',
+    'Best For',
+  ];
+  assertHeaders('Ramps table', rampsRows[0], rampsExpectedHeader);
+
+  const transakRow = findRowByFirstCellSubstring(rampsRows, 'transak');
+  if (!transakRow) {
+    fail('Ramps table: could not find Transak row.');
+  } else {
+    assertComputedScore('Ramps table', transakRow, computeRampScore, 1);
+  }
+
+  const driftResults = processAllTables({ write: false }).filter((result) => result.changed);
+  if (driftResults.length > 0) {
+    fail(`Score sync drift detected in: ${driftResults.map((result) => result.label).join(', ')}`);
+  } else {
+    ok('Score sync script reports clean tables');
   }
 
   console.log('\nDone.');

@@ -2,7 +2,7 @@
 
 ## Transparency About Our External Links
 
-Wallet Radar contains references to external websites. This page explains why we link to these sites and how we track this traffic.
+Wallet Radar contains references to external websites. This page explains why we link to these sites, how we attribute this traffic, and how we think about link transparency.
 
 ## Types of External Links
 
@@ -68,13 +68,13 @@ Wallet Radar contains references to external websites. This page explains why we
 
 ---
 
-## Link Tracking: utm_source Parameter
+## Link Attribution: utm_source Parameter
 
-All external links from Wallet Radar include the `utm_source=walletradar` query parameter.
+External links from Wallet Radar may include the `utm_source=walletradar` query parameter for transparent attribution.
 
 ### What This Means
 
-When you click an external link, your browser adds: `?utm_source=walletradar&utm_medium=comparison`
+When you click an attributed external link, your browser adds: `?utm_source=walletradar&utm_medium=comparison`
 
 Example:
 - **You see:** `https://trezor.io/`
@@ -86,6 +86,8 @@ Example:
 2. **Attribution** - We identify ourselves as the source, not hiding it
 3. **Analytics** - Helps sites understand which research platforms drive traffic
 4. **Respect** - Similar to how ChatGPT and other platforms identify their traffic
+
+If a link ever carries a commercial relationship, it should be disclosed clearly on-page and should not affect methodology, ranking, or inclusion decisions.
 
 ### Privacy Consideration
 

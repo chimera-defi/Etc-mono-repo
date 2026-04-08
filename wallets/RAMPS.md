@@ -4,48 +4,52 @@
 
 | Provider | Score | Type | On-Ramp | Off-Ramp | Coverage | Fee Model | Min Fee | Dev UX | Status | Best For |
 |----------|-------|------|---------|----------|----------|-----------|---------|--------|--------|----------|
-| [**Transak**](https://transak.com/) | 92 🟢 | Both | ✅ | ✅ | ~64 Countries | Medium (Spread + Fee) | ~$5.00 | Excellent (React SDK) | ✅ | Developers |
-| [**MoonPay**](https://www.moonpay.com/) | 90 🟢 | Both | ✅ | ✅ | ~160+ Countries | High (Spread + Fee) | ~$3.99 | Great (Widget) | ✅ | Coverage |
 | [**Coinbase Pay**](https://www.coinbase.com/developers/pay-sdk) | 89 🟢 | Both | ✅ | ✅ | ~100+ Countries | Medium | ~$1.00 | Excellent (SDK) | ✅ | Coinbase users |
-| [**Ramp**](https://ramp.network/) | 88 🟢 | Both | ✅ | ✅ | ~150+ Countries | Low/Medium | ~€2.49 | Good (SDK) | ✅ | EU / Speed |
-| [**Sardine**](https://www.sardine.ai/) | 86 🟢 | Both | ✅ | ✅ | US + Select Global | Variable (Risk based) | Custom | Advanced (API/SDK) | ✅ | US / Fraud |
-| [**Stripe**](https://stripe.com/docs/crypto) | 85 🟢 | Both | ✅ | ✅ | Global | Usage Based | Custom | Excellent (Stripe style) | ✅ | Trust |
-| [**Simplex**](https://www.simplex.com/) | 84 🟢 | Both | ✅ | ✅ | ~190+ Countries | Medium/High | ~$10.00 | Good (Widget) | ✅ | High limits |
-| [**Modern Treasury**](https://www.moderntreasury.com/) | 83 🟢 | Both | ✅ | ✅ | US + Select | Usage Based | Custom | Excellent (API) | ✅ | Enterprise |
-| [**Banxa**](https://banxa.com/) | 80 🟡 | Both | ✅ | ✅ | Global | Variable | Custom | Good | ✅ | Local Pay |
-| [**Mercuryo**](https://mercuryo.io/) | 78 🟡 | Both | ✅ | ✅ | Global | Medium | Custom | Good | ✅ | B2B |
-| [**Guardarian**](https://guardarian.com/) | 77 🟡 | Both | ✅ | ✅ | ~100+ Countries | Low/Medium | ~€5.00 | Good (Widget) | ✅ | EU focus |
-| [**CoinSwitch**](https://coinswitch.co/) | 76 🟡 | Both | ✅ | ✅ | ~100+ Countries | Medium | ~₹100 | Good (API) | ✅ | India / APAC |
-| [**Utorg**](https://utorg.pro/) | 75 🟡 | Both | ✅ | ✅ | ~100+ Countries | Medium | ~$5.00 | Good (Widget) | ✅ | Multi-chain |
-| [**CoinGate**](https://coingate.com/) | 74 🟡 | Both | ✅ | ✅ | Global | Low | ~€0.01 | Good (API) | ✅ | Low fees |
-| [**BitPay**](https://bitpay.com/) | 73 🟡 | Both | ✅ | ✅ | Global | Medium | ~$1.00 | Good (API) | ✅ | Bitcoin focus |
-| [**Changelly**](https://changelly.com/) | 72 🟡 | Both | ✅ | ✅ | Global | Medium | ~$5.00 | Good (API) | ✅ | Exchange |
-| [**Coinify**](https://www.coinify.com/) | 71 🟡 | Both | ✅ | ✅ | ~50+ Countries | Medium | ~€5.00 | Good (API) | ✅ | EU |
-| [**onesafe**](https://onesafe.io/) | 70 🟡 | Both | ✅ | ✅ | Select Global | Variable | Custom | Good (API) | ✅ | Enterprise |
-| [**Reap**](https://reap.global/) | 68 🟡 | Off-Ramp | ❌ | ✅ | Global | Variable | Custom | Good (API) | ✅ | Business off-ramp |
-| [**Coinmama**](https://www.coinmama.com/) | 65 🟡 | On-Ramp | ✅ | ❌ | ~100+ Countries | High | ~$30.00 | Basic (Widget) | ✅ | Simple on-ramp |
+| [**CoinGate**](https://coingate.com/) | 88 🟢 | Both | ✅ | ✅ | Global | Low | ~€0.01 | Good (API) | ✅ | Low fees |
+| [**BitPay**](https://bitpay.com/) | 87 🟢 | Both | ✅ | ✅ | Global | Medium | ~$1.00 | Good (API) | ✅ | Bitcoin focus |
+| [**Ramp**](https://ramp.network/) | 86 🟢 | Both | ✅ | ✅ | ~150+ Countries | Low/Medium | ~€2.49 | Good (SDK) | ✅ | EU / Speed |
+| [**Stripe**](https://stripe.com/docs/crypto) | 86 🟢 | Both | ✅ | ✅ | Global | Usage Based | Custom | Excellent (Stripe style) | ✅ | Trust |
+| [**Sardine**](https://www.sardine.ai/) | 84 🟢 | Both | ✅ | ✅ | US + Select Global | Variable (Risk based) | Custom | Advanced (API/SDK) | ✅ | US / Fraud |
+| [**Changelly**](https://changelly.com/) | 83 🟢 | Both | ✅ | ✅ | Global | Medium | ~$5.00 | Good (API) | ✅ | Exchange |
+| [**Guardarian**](https://guardarian.com/) | 83 🟢 | Both | ✅ | ✅ | ~100+ Countries | Low/Medium | ~€5.00 | Good (Widget) | ✅ | EU focus |
+| [**Alchemy Pay**](https://ramp.alchemypay.org/#/index) | 82 🟢 | Both | ✅ | ✅ | ~170+ Countries | Variable | Custom | Advanced (Plugin/API) | ✅ | Global pay rails |
+| [**Mercuryo**](https://mercuryo.io/) | 82 🟢 | Both | ✅ | ✅ | Global | Medium | Custom | Good | ✅ | B2B |
+| [**Transak**](https://transak.com/) | 81 🟢 | Both | ✅ | ✅ | ~64 Countries | Medium (Spread + Fee) | ~$5.00 | Excellent (React SDK) | ✅ | Developers |
+| [**Banxa**](https://banxa.com/) | 79 🟢 | Both | ✅ | ✅ | Global | Variable | Custom | Good | ✅ | Local Pay |
+| [**CoinSwitch**](https://coinswitch.co/) | 79 🟢 | Both | ✅ | ✅ | ~100+ Countries | Medium | ~₹100 | Good (API) | ✅ | India / APAC |
+| [**MoonPay**](https://www.moonpay.com/) | 79 🟢 | Both | ✅ | ✅ | ~160+ Countries | High (Spread + Fee) | ~$3.99 | Great (Widget) | ✅ | Coverage |
+| [**onesafe**](https://onesafe.io/) | 79 🟢 | Both | ✅ | ✅ | Select Global | Variable | Custom | Good (API) | ✅ | Enterprise |
+| [**Simplex**](https://www.simplex.com/) | 79 🟢 | Both | ✅ | ✅ | ~190+ Countries | Medium/High | ~$10.00 | Good (Widget) | ✅ | High limits |
+| [**Utorg**](https://utorg.pro/) | 78 🟢 | Both | ✅ | ✅ | ~100+ Countries | Medium | ~$5.00 | Good (Widget) | ✅ | Multi-chain |
+| [**Coinify**](https://www.coinify.com/) | 75 🟡 | Both | ✅ | ✅ | ~50+ Countries | Medium | ~€5.00 | Good (API) | ✅ | EU |
+| [**Modern Treasury**](https://www.moderntreasury.com/) | 73 🟡 | Both | ✅ | ✅ | US + Select | Usage Based | Custom | Excellent (API) | ✅ | Enterprise |
+| [**Reap**](https://reap.global/) | 72 🟡 | Off-Ramp | ❌ | ✅ | Global | Variable | Custom | Good (API) | ✅ | Business off-ramp |
+| [**Robinhood Connect**](https://robinhood.com/us/en/on-ramp/) | 64 🟡 | On-Ramp | ✅ | ❌ | US (ex-NY) | Low | 0.0-1.5% | Good (Widget) | ✅ | US dapps |
+| [**Coinmama**](https://www.coinmama.com/) | 57 🟡 | On-Ramp | ✅ | ❌ | ~100+ Countries | High | ~$30.00 | Basic (Widget) | ✅ | Simple on-ramp |
+
+> **Scoring note:** `Score` is generated from the visible columns above using `wallets/scripts/sync_table_scores.js` and methodology version `2026-04-visible-columns-v1`. Update the table inputs first, then resync the scores.
 
 ## Pros & Cons (Top Picks)
 
-**Transak (92)**
-- ✅ Strong SDK + dev UX
-- ✅ Wide coverage
-- ⚠️ Fees vary by region/payment method
-
-**MoonPay (90)**
-- ✅ Broad coverage
-- ✅ Easy widget integration
-- ⚠️ Higher fee profile
-
 **Coinbase Pay (89)**
-- ✅ Coinbase ecosystem integration
-- ✅ Low friction for Coinbase users
-- ⚠️ Coverage depends on Coinbase availability
+- ✅ Strongest current overall score
+- ✅ Excellent fit when users already hold Coinbase accounts
+- ⚠️ Ecosystem reach still depends on Coinbase availability
 
-**Ramp (88)**
+**CoinGate (88)**
+- ✅ Strong both-way coverage with low visible fee friction
+- ✅ Merchant/API friendly profile
+- ⚠️ More utilitarian than consumer-polished
+
+**BitPay (87)**
+- ✅ Mature both-way stack with clear crypto payments positioning
+- ✅ Strong fit for Bitcoin-heavy flows
+- ⚠️ Less appealing if you need the widest long-tail token reach
+
+**Ramp (86)**
 - ✅ Competitive EU fees
 - ✅ Strong L2 support
-- ⚠️ Coverage not as wide as top two
+- ⚠️ Coverage not as wide as the broadest global providers
 
 ### Legend
 
@@ -103,9 +107,9 @@
 
 ## Quick Summary
 
-> **TL;DR:** Use **Transak** (92) for best developer experience with React SDK (64 countries), **MoonPay** (90) for widest coverage and token support (160+ countries), **Coinbase Pay** (89) for Coinbase ecosystem integration, **Ramp** (88) for lowest fees (especially EU bank transfers), **Sardine** (86) for US instant ACH and high-value transactions, **Stripe** (85) for mainstream brand trust, or **Modern Treasury** (83) for enterprise payment infrastructure. Most providers support both on-ramp and off-ramp; **Reap** (68) is off-ramp only, **Coinmama** (65) is on-ramp only.
+> **TL;DR:** Use **Coinbase Pay** (89) when your users already live inside Coinbase, **CoinGate** (88) or **BitPay** (87) for low-friction two-way coverage, **Ramp** (86) for EU/L2-heavy consumer flows, **Stripe** (86) for enterprise trust, and **Sardine** (84) when US fraud controls matter more than the widest coverage.
 
-**Last Updated:** February 2026 | [Scoring Methodology](./RAMPS_DETAILS.md#scoring-methodology) | [Integration Guides](./RAMPS_DETAILS.md#integration-guides)
+**Last Updated:** April 8, 2026 | [Scoring Methodology](./RAMPS_DETAILS.md#scoring-methodology) | [Integration Guides](./RAMPS_DETAILS.md#integration-guides)
 
 **Related:** See [Software Wallet Comparison](./SOFTWARE_WALLETS.md), [Hardware Wallet Comparison](./HARDWARE_WALLETS.md), and [Crypto Credit Card Comparison](./CRYPTO_CARDS.md) for wallet recommendations.
 
@@ -117,40 +121,40 @@
 
 ### What is the best crypto on-ramp for developers?
 
-**Transak** (92/100) is the top choice for developers with React SDK, excellent documentation, support for both on-ramp and off-ramp, and coverage in 64 countries. It scores highest in developer UX with comprehensive integration guides and responsive API. **MoonPay** (90) is also excellent with React + Mobile SDKs and 160+ country support.
+It depends on your user base. **Coinbase Pay** currently tops the table, but it is strongest when users already have Coinbase accounts. For a more neutral developer-facing ramp stack, **Ramp**, **Stripe**, **Transak**, and **Sardine** are still the higher-signal integration targets.
 
 ### What is the difference between on-ramp and off-ramp?
 
-**On-ramp** = Buy crypto with fiat (bank card → crypto). **Off-ramp** = Sell crypto for fiat (crypto → bank account). Most developers need both. **Transak** (92), **MoonPay** (90), **Coinbase Pay** (89), and **Ramp** (88) all support both directions. Check the "Type" column in the comparison table—most top providers do both.
+**On-ramp** means fiat to crypto. **Off-ramp** means crypto back to fiat. Most products in the top half of this table support both directions, but a few are still one-sided, like **Coinmama** on the buy side and **Reap** on the sell side.
 
 ### Which crypto ramp has the lowest fees?
 
-Fees vary by payment method and region. **Ramp** (88) advertises competitive fees especially for EU bank transfers. **Coinbase Pay** (89) has low fees for Coinbase users. **Stripe** (85) offers transparent pricing. **Transak** (92) is competitive at 0.99-5.5%. Always check live quotes—actual fees depend on amount, payment method, and country.
+`CoinGate`, `BitPay`, and `Ramp` currently score best on visible fee shape in this table. Real economics still depend on country, payment rail, spread, and user KYC tier, so always compare live quotes before shipping one provider globally.
 
 ### What is the best crypto ramp for high volume / business use?
 
-**Modern Treasury** (83) specializes in enterprise payment infrastructure with custom pricing. **Transak** (92) and **MoonPay** (90) both support business accounts with volume discounts. **Sardine** (86) offers instant ACH for high-value US transactions. **Stripe** (85) provides mainstream enterprise solutions. Most providers offer custom pricing for businesses.
+**Stripe**, **Sardine**, **Modern Treasury**, and **onesafe** are the most obviously enterprise-leaning options in the current list. If you need consumer coverage plus business tooling, **Coinbase Pay** and **Ramp** remain reasonable second looks.
 
 ### Do crypto ramps require KYC?
 
-Yes, all legitimate ramps require KYC/identity verification for regulatory compliance. **Transak** (92) and **Ramp** (88) have different KYC tiers based on transaction amounts. **Sardine** (86) has instant US verification. **Coinbase Pay** (89) uses Coinbase's existing KYC. Beware of "no KYC" ramps—these are often scams or non-compliant services that may freeze funds.
+Yes. Legitimate ramps are regulated checkout surfaces, so KYC is normal. What changes is the amount of friction, fallback review, and fraud controls. That is one reason **Coinbase Pay**, **Sardine**, and **Stripe** can feel smoother for certain cohorts.
 
 ### Which ramps support the most countries?
 
-**Transak** (92) supports 64 countries and **MoonPay** (90) supports 160+ countries. **Ramp** (88) covers 150+ countries. **Coinbase Pay** (89) availability depends on Coinbase country support. **Sardine** (86) focuses on US market. Always verify your country is supported before integrating—coverage changes frequently.
+**MoonPay**, **Ramp**, **Simplex**, and other broad global providers still lead on country reach, while **Coinbase Pay** and **Sardine** are more ecosystem or geography dependent. Coverage changes often, so the table should be treated as a shortlist, not a legal availability promise.
 
 ### Can I integrate a crypto ramp into my dApp?
 
-Yes. **Transak** (92) provides React SDK with easy integration. **MoonPay** (90) offers React + Mobile SDKs. **Ramp** (88) has JavaScript SDK. **Coinbase Pay** (89) integrates with Coinbase SDK. **Stripe** (85) provides standard payment APIs. Most ramps offer iframe widgets or SDK packages—check the "Dev UX" column for developer experience ratings.
+Yes. The strongest current developer options are **Coinbase Pay**, **Stripe**, **Ramp**, **Transak**, **Sardine**, and **Alchemy Pay**. The right choice depends less on `SDK vs widget` than on who owns KYC, how much UI control you need, and whether your users already sit inside an exchange ecosystem.
 
 ### What payment methods do crypto ramps accept?
 
-Most ramps accept: credit/debit cards, bank transfers (ACH/SEPA), Apple Pay, Google Pay. **MoonPay** (90) supports the widest payment methods. **Transak** (92) accepts cards + bank transfers. **Ramp** (88) focuses on bank transfers and cards. **Sardine** (86) specializes in instant US ACH. Payment method availability varies by country and affects fees.
+Most mainstream ramps support cards plus bank transfers, and many also support Apple Pay, Google Pay, or local payment methods. The differences are mostly regional. That is why low-fee EU flows often favor **Ramp**, while US instant-bank patterns can favor **Sardine**.
 
 ### Are crypto ramps safe?
 
-Established ramps like **Transak** (92), **MoonPay** (90), **Coinbase Pay** (89), **Ramp** (88), and **Stripe** (85) are regulated and safe. They comply with KYC/AML regulations and have strong security practices. Always verify you're on the official website—phishing sites are common. Check for HTTPS and correct domain.
+The established providers in this table are generally safe enough to evaluate, but they differ a lot in fraud tooling, support quality, and country compliance. The practical risk is usually not outright theft by the ramp; it is failed KYC, blocked payment rails, or hidden spread hurting conversion.
 
 ### What is the fastest crypto ramp?
 
-**Ramp** (88) advertises sub-60-second transactions for low KYC tier amounts. **Transak** (92) and **MoonPay** (90) typically complete in 5-15 minutes for card purchases. **Sardine** (86) offers instant ACH for US users. Bank transfers take 1-5 business days on all platforms. Speed varies by payment method, KYC status, and first-time vs. repeat user—cards are fastest, bank transfers slowest.
+Card flows are usually fastest, while bank transfers remain slower but cheaper. **Ramp**, **Coinbase Pay**, and **Sardine** are the most credible “fast path” options here depending on whether your user is in Europe, already KYC’d on Coinbase, or in the US ACH flow.
