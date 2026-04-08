@@ -20,6 +20,27 @@ Thank you for helping keep this wallet comparison accurate and up-to-date!
 
 ---
 
+## Score Sync Workflow
+
+Scores and recommendation cells are generated from the visible table columns. Do not hand-edit the score cells unless you are also changing the underlying data.
+
+Run this after any change to the comparison tables:
+
+```bash
+node wallets/scripts/sync_table_scores.js --write
+cd wallets/frontend
+npm test
+```
+
+What this does:
+
+1. Recomputes `Score` and recommendation cells for software wallets, hardware wallets, cards, and ramps.
+2. Sorts rows by computed score.
+3. Refreshes the generated snapshot blocks near the top of the matching `*_DETAILS.md` files.
+4. Fails the frontend smoke test if the markdown tables drift from the generated output.
+
+Current methodology version: `2026-04-visible-columns-v1`
+
 ## Adding a New Software Wallet
 
 ### Prerequisites
@@ -34,7 +55,7 @@ Before adding a wallet, verify:
 
 | Column | How to Verify |
 |--------|---------------|
-| **Score** | Calculate using [scoring methodology](#scoring-calculation) |
+| **Score** | Generated from the visible columns after sync |
 | **GitHub** | Find the main wallet repo (not SDK/packages) |
 | **Active** | Check last commit date on default branch |
 | **Chains** | Count from official docs or registry files |
@@ -49,53 +70,26 @@ Before adding a wallet, verify:
 | **HW Wallets** | Check settings for Ledger/Trezor support |
 | **EIP-4337** | Check if smart account creation is supported |
 | **Best For** | Your assessment of ideal use case |
-| **Rec** | 🟢 if score ≥80, 🟡 if 60-79, 🔴 if <60 or inactive |
+| **Rec** | Generated from the computed score and activity status |
 
-### Step 2: Calculate Score
+### Step 2: Fill The Scoring Inputs
 
-Use this formula (100 points total) — prioritizes core criteria and stability:
+Software wallet scores are generated from the visible columns in `wallets/frontend/src/lib/scoring.js`. The current categories are:
 
 ```
-CORE CRITERIA (25 pts) — MOST IMPORTANT
-  ✅ Both mobile + browser extension = 25
-  ⚠️ Partial (e.g., Starknet-only desktop) = 12
-  ❌ Missing mobile OR extension = 0
-
-STABILITY (20 pts) — Lower release frequency = better
-  <3 releases/month = 20 (ideal)
-  3-5 releases/month = 15
-  6-8 releases/month = 10
-  >8 releases/month = 5 (MetaMask territory)
-  Unknown (private) = 12
-  Inactive = 20 (stable but no updates)
-
-DEVELOPER EXPERIENCE (25 pts)
-  Tx Simulation: ✅=10, ⚠️=5, ❌=0
-  Testnet support: ✅=5, ❌=0
-  Custom RPC: ✅=5, ⚠️=3, ❌=0
-  Multi-chain: ✅=5, ❌=0
-
-ACTIVITY (15 pts)
-  ✅ Active (≤30 days) = 15
-  ⚠️ Slow (1-4 months) = 8
-  🔒 Private repo = 5
-  ❌ Inactive (>4 months) = 0
-
-OPEN SOURCE (10 pts)
-  ✅ FOSS (MIT, GPL, MPL, Apache) = 10
-  ⚠️ Source-available/partial = 5
-  ❌ Proprietary = 0
-
-SECURITY (5 pts)
-  ✅ Recent audit (2023+) = 5
-  🐛 Bug bounty = 3
-  ⚠️ Old audit = 2
-  ❓ None/Private = 0
+Core Readiness
+Release Discipline
+Developer Safety & Control
+Ecosystem & Accounts
+Transparency & Access
+Maintenance & Assurance
 ```
+
+If you want to change the formula, update the scoring code first, then rerun the sync script.
 
 ### Step 3: Add to Main Table
 
-Add your row to `SOFTWARE_WALLETS.md` in score order (highest first):
+Add your row to `SOFTWARE_WALLETS.md`. Ordering does not need to be perfect before sync because the score script will sort rows automatically.
 
 ```markdown
 | **WalletName** | XX | [repo](https://github.com/org/repo) | ✅ | 50+ | 📱🌐 | ✅ | ✅ MIT | ✅ 2024 | 🟢 Company | ✅ | ✅ | EOA | ✅ Multiple | ❌ | Use Case | 🟢 |

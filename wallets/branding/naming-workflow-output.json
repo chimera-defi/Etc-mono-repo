@@ -1,0 +1,2522 @@
+{
+  "generated_utc": "2026-04-08T11:17:40+00:00",
+  "methodology_version": "2026-04-strict-naming-v1",
+  "constraints": {
+    "max_words": 2,
+    "tlds": [
+      ".com",
+      ".org",
+      ".net",
+      ".xyz",
+      ".finance"
+    ]
+  },
+  "source_candidates": "/root/.openclaw/workspace/dev/Etc-mono-repo/.worktrees/main/wallets/branding/CANDIDATES.txt",
+  "results": [
+    {
+      "name": "OnrampScope",
+      "tokens": [
+        "onramp",
+        "scope"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "onrampscope.com",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".org",
+          "domain": "onrampscope.org",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".net",
+          "domain": "onrampscope.net",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "onrampscope.xyz",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".finance",
+          "domain": "onrampscope.finance",
+          "status": "available",
+          "detail": "rdap_404"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 15
+      },
+      "total_score": 94,
+      "decision": "clear",
+      "rank": 1
+    },
+    {
+      "name": "BankSignal",
+      "tokens": [
+        "bank",
+        "signal"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "banksignal.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "banksignal.org",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".net",
+          "domain": "banksignal.net",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "banksignal.xyz",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".finance",
+          "domain": "banksignal.finance",
+          "status": "available",
+          "detail": "rdap_404"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 8
+      },
+      "total_score": 87,
+      "decision": "clear",
+      "rank": 2
+    },
+    {
+      "name": "AccessBench",
+      "tokens": [
+        "access",
+        "bench"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "accessbench.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "accessbench.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "accessbench.net",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "accessbench.xyz",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".finance",
+          "domain": "accessbench.finance",
+          "status": "available",
+          "detail": "rdap_404"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 7
+      },
+      "total_score": 86,
+      "decision": "clear",
+      "rank": 3
+    },
+    {
+      "name": "WalletAtlas",
+      "tokens": [
+        "wallet",
+        "atlas"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "walletatlas.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "walletatlas.org",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".net",
+          "domain": "walletatlas.net",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "walletatlas.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "walletatlas.finance",
+          "status": "available",
+          "detail": "rdap_404"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 7
+      },
+      "total_score": 86,
+      "decision": "clear",
+      "rank": 4
+    },
+    {
+      "name": "AccessLedger",
+      "tokens": [
+        "access",
+        "ledger"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "accessledger.com",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".org",
+          "domain": "accessledger.org",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".net",
+          "domain": "accessledger.net",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "accessledger.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "accessledger.finance",
+          "status": "available",
+          "detail": "rdap_404"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 14,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 5
+      },
+      "total_score": 83,
+      "decision": "clear",
+      "rank": 5
+    },
+    {
+      "name": "PaymentKernel",
+      "tokens": [
+        "payment",
+        "kernel"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "paymentkernel.com",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".org",
+          "domain": "paymentkernel.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "paymentkernel.net",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "paymentkernel.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "paymentkernel.finance",
+          "status": "available",
+          "detail": "rdap_404"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 12,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 7
+      },
+      "total_score": 83,
+      "decision": "clear",
+      "rank": 6
+    },
+    {
+      "name": "RailSignal",
+      "tokens": [
+        "rail",
+        "signal"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "railsignal.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "railsignal.org",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".net",
+          "domain": "railsignal.net",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "railsignal.xyz",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".finance",
+          "domain": "railsignal.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 4
+      },
+      "total_score": 83,
+      "decision": "clear",
+      "rank": 7
+    },
+    {
+      "name": "WalletBench",
+      "tokens": [
+        "wallet",
+        "bench"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "walletbench.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "walletbench.org",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".net",
+          "domain": "walletbench.net",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "walletbench.xyz",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".finance",
+          "domain": "walletbench.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 4
+      },
+      "total_score": 83,
+      "decision": "clear",
+      "rank": 8
+    },
+    {
+      "name": "WalletScope",
+      "tokens": [
+        "wallet",
+        "scope"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "walletscope.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "walletscope.org",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".net",
+          "domain": "walletscope.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "walletscope.xyz",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".finance",
+          "domain": "walletscope.finance",
+          "status": "available",
+          "detail": "rdap_404"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 4
+      },
+      "total_score": 83,
+      "decision": "clear",
+      "rank": 9
+    },
+    {
+      "name": "WalletSignal",
+      "tokens": [
+        "wallet",
+        "signal"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "walletsignal.com",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".org",
+          "domain": "walletsignal.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "walletsignal.net",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "walletsignal.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "walletsignal.finance",
+          "status": "available",
+          "detail": "rdap_404"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 14,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 4
+      },
+      "total_score": 82,
+      "decision": "clear",
+      "rank": 10
+    },
+    {
+      "name": "WalletNexus",
+      "tokens": [
+        "wallet",
+        "nexus"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "walletnexus.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "walletnexus.org",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".net",
+          "domain": "walletnexus.net",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "walletnexus.xyz",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".finance",
+          "domain": "walletnexus.finance",
+          "status": "available",
+          "detail": "rdap_404"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 14,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 10,
+        "domain_headroom": 8
+      },
+      "total_score": 77,
+      "decision": "clear",
+      "rank": 11
+    },
+    {
+      "name": "RampBench",
+      "tokens": [
+        "ramp",
+        "bench"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "rampbench.com",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".org",
+          "domain": "rampbench.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "rampbench.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "rampbench.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "rampbench.finance",
+          "status": "available",
+          "detail": "rdap_404"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 3
+      },
+      "total_score": 82,
+      "decision": "watch",
+      "rank": 12
+    },
+    {
+      "name": "RampLedger",
+      "tokens": [
+        "ramp",
+        "ledger"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "rampledger.com",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".org",
+          "domain": "rampledger.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "rampledger.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "rampledger.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "rampledger.finance",
+          "status": "available",
+          "detail": "rdap_404"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 3
+      },
+      "total_score": 82,
+      "decision": "watch",
+      "rank": 13
+    },
+    {
+      "name": "OfframpScope",
+      "tokens": [
+        "offramp",
+        "scope"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "offrampscope.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "offrampscope.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "offrampscope.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "offrampscope.xyz",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".finance",
+          "domain": "offrampscope.finance",
+          "status": "available",
+          "detail": "rdap_404"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 14,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 3
+      },
+      "total_score": 81,
+      "decision": "watch",
+      "rank": 14
+    },
+    {
+      "name": "AccessAtlas",
+      "tokens": [
+        "access",
+        "atlas"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "accessatlas.com",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".org",
+          "domain": "accessatlas.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "accessatlas.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "accessatlas.xyz",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".finance",
+          "domain": "accessatlas.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 79,
+      "decision": "watch",
+      "rank": 15
+    },
+    {
+      "name": "AccessIndex",
+      "tokens": [
+        "access",
+        "index"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "accessindex.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "accessindex.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "accessindex.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "accessindex.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "accessindex.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 79,
+      "decision": "watch",
+      "rank": 16
+    },
+    {
+      "name": "AccessScope",
+      "tokens": [
+        "access",
+        "scope"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "accessscope.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "accessscope.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "accessscope.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "accessscope.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "accessscope.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 79,
+      "decision": "watch",
+      "rank": 17
+    },
+    {
+      "name": "BankIndex",
+      "tokens": [
+        "bank",
+        "index"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "bankindex.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "bankindex.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "bankindex.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "bankindex.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "bankindex.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 79,
+      "decision": "watch",
+      "rank": 18
+    },
+    {
+      "name": "CardIndex",
+      "tokens": [
+        "card",
+        "index"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "cardindex.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "cardindex.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "cardindex.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "cardindex.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "cardindex.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 79,
+      "decision": "watch",
+      "rank": 19
+    },
+    {
+      "name": "CardSignal",
+      "tokens": [
+        "card",
+        "signal"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "cardsignal.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "cardsignal.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "cardsignal.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "cardsignal.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "cardsignal.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 79,
+      "decision": "watch",
+      "rank": 20
+    },
+    {
+      "name": "OnrampIndex",
+      "tokens": [
+        "onramp",
+        "index"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "onrampindex.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "onrampindex.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "onrampindex.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "onrampindex.xyz",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".finance",
+          "domain": "onrampindex.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 79,
+      "decision": "watch",
+      "rank": 21
+    },
+    {
+      "name": "RailBench",
+      "tokens": [
+        "rail",
+        "bench"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "railbench.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "railbench.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "railbench.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "railbench.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "railbench.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 79,
+      "decision": "watch",
+      "rank": 22
+    },
+    {
+      "name": "RailIndex",
+      "tokens": [
+        "rail",
+        "index"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "railindex.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "railindex.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "railindex.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "railindex.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "railindex.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 79,
+      "decision": "watch",
+      "rank": 23
+    },
+    {
+      "name": "RailScope",
+      "tokens": [
+        "rail",
+        "scope"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "railscope.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "railscope.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "railscope.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "railscope.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "railscope.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 79,
+      "decision": "watch",
+      "rank": 24
+    },
+    {
+      "name": "RampIndex",
+      "tokens": [
+        "ramp",
+        "index"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "rampindex.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "rampindex.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "rampindex.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "rampindex.xyz",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".finance",
+          "domain": "rampindex.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 79,
+      "decision": "watch",
+      "rank": 25
+    },
+    {
+      "name": "RampScope",
+      "tokens": [
+        "ramp",
+        "scope"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "rampscope.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "rampscope.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "rampscope.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "rampscope.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "rampscope.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 79,
+      "decision": "watch",
+      "rank": 26
+    },
+    {
+      "name": "RampSignal",
+      "tokens": [
+        "ramp",
+        "signal"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "rampsignal.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "rampsignal.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "rampsignal.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "rampsignal.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "rampsignal.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 79,
+      "decision": "watch",
+      "rank": 27
+    },
+    {
+      "name": "WalletGauge",
+      "tokens": [
+        "wallet",
+        "gauge"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "walletgauge.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "walletgauge.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "walletgauge.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "walletgauge.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "walletgauge.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 79,
+      "decision": "watch",
+      "rank": 28
+    },
+    {
+      "name": "WalletIndex",
+      "tokens": [
+        "wallet",
+        "index"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "walletindex.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "walletindex.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "walletindex.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "walletindex.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "walletindex.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 79,
+      "decision": "watch",
+      "rank": 29
+    },
+    {
+      "name": "AccessKernel",
+      "tokens": [
+        "access",
+        "kernel"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "accesskernel.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "accesskernel.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "accesskernel.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "accesskernel.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "accesskernel.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 14,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 78,
+      "decision": "watch",
+      "rank": 30
+    },
+    {
+      "name": "AccessMap",
+      "tokens": [
+        "access",
+        "map"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "accessmap.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "accessmap.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "accessmap.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "accessmap.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "accessmap.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 14,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 78,
+      "decision": "watch",
+      "rank": 31
+    },
+    {
+      "name": "AccessSignal",
+      "tokens": [
+        "access",
+        "signal"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "accesssignal.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "accesssignal.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "accesssignal.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "accesssignal.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "accesssignal.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 14,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 78,
+      "decision": "watch",
+      "rank": 32
+    },
+    {
+      "name": "GatewayBench",
+      "tokens": [
+        "gateway",
+        "bench"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "gatewaybench.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "gatewaybench.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "gatewaybench.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "gatewaybench.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "gatewaybench.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 14,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 78,
+      "decision": "watch",
+      "rank": 33
+    },
+    {
+      "name": "GatewayScope",
+      "tokens": [
+        "gateway",
+        "scope"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "gatewayscope.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "gatewayscope.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "gatewayscope.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "gatewayscope.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "gatewayscope.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 14,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 78,
+      "decision": "watch",
+      "rank": 34
+    },
+    {
+      "name": "OfframpIndex",
+      "tokens": [
+        "offramp",
+        "index"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "offrampindex.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "offrampindex.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "offrampindex.net",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "offrampindex.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "offrampindex.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 14,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 78,
+      "decision": "watch",
+      "rank": 35
+    },
+    {
+      "name": "RampRank",
+      "tokens": [
+        "ramp",
+        "rank"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "ramprank.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "ramprank.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "ramprank.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "ramprank.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "ramprank.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 14,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 78,
+      "decision": "watch",
+      "rank": 36
+    },
+    {
+      "name": "WalletKernel",
+      "tokens": [
+        "wallet",
+        "kernel"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "walletkernel.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "walletkernel.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "walletkernel.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "walletkernel.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "walletkernel.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 14,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 78,
+      "decision": "watch",
+      "rank": 37
+    },
+    {
+      "name": "WalletMap",
+      "tokens": [
+        "wallet",
+        "map"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "walletmap.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "walletmap.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "walletmap.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "walletmap.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "walletmap.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 14,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 78,
+      "decision": "watch",
+      "rank": 38
+    },
+    {
+      "name": "GatewaySignal",
+      "tokens": [
+        "gateway",
+        "signal"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "gatewaysignal.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "gatewaysignal.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "gatewaysignal.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "gatewaysignal.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "gatewaysignal.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 12,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 76,
+      "decision": "watch",
+      "rank": 39
+    },
+    {
+      "name": "PaymentSignal",
+      "tokens": [
+        "payment",
+        "signal"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "paymentsignal.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "paymentsignal.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "paymentsignal.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "paymentsignal.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "paymentsignal.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 12,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 76,
+      "decision": "watch",
+      "rank": 40
+    },
+    {
+      "name": "RampMap",
+      "tokens": [
+        "ramp",
+        "map"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "rampmap.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "rampmap.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "rampmap.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "rampmap.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "rampmap.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 19,
+        "distinctiveness": 20,
+        "memorability": 10,
+        "brevity_readability": 7,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 71,
+      "decision": "watch",
+      "rank": 41
+    },
+    {
+      "name": "WalletForge",
+      "tokens": [
+        "wallet",
+        "forge"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "walletforge.com",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".org",
+          "domain": "walletforge.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "walletforge.net",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "walletforge.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "walletforge.finance",
+          "status": "available",
+          "detail": "rdap_404"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 14,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 10,
+        "domain_headroom": 1
+      },
+      "total_score": 70,
+      "decision": "watch",
+      "rank": 42
+    },
+    {
+      "name": "AccessGrid",
+      "tokens": [
+        "access",
+        "grid"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "accessgrid.com",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".org",
+          "domain": "accessgrid.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "accessgrid.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "accessgrid.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "accessgrid.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 14,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 10,
+        "domain_headroom": 0
+      },
+      "total_score": 69,
+      "decision": "watch",
+      "rank": 43
+    },
+    {
+      "name": "AccessPulse",
+      "tokens": [
+        "access",
+        "pulse"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "accesspulse.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "accesspulse.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "accesspulse.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "accesspulse.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "accesspulse.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 14,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 10,
+        "domain_headroom": 0
+      },
+      "total_score": 69,
+      "decision": "watch",
+      "rank": 44
+    },
+    {
+      "name": "AccessLab",
+      "tokens": [
+        "access",
+        "lab"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "accesslab.com",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".org",
+          "domain": "accesslab.org",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".net",
+          "domain": "accesslab.net",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "accesslab.xyz",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".finance",
+          "domain": "accesslab.finance",
+          "status": "available",
+          "detail": "rdap_404"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 14,
+        "distinctiveness": 14,
+        "memorability": 14,
+        "brevity_readability": 10,
+        "seo_intent_fit": 10,
+        "domain_headroom": 3
+      },
+      "total_score": 65,
+      "decision": "watch",
+      "rank": 45
+    },
+    {
+      "name": "AccessHub",
+      "tokens": [
+        "access",
+        "hub"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "accesshub.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "accesshub.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "accesshub.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "accesshub.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "accesshub.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 14,
+        "distinctiveness": 14,
+        "memorability": 14,
+        "brevity_readability": 10,
+        "seo_intent_fit": 10,
+        "domain_headroom": 0
+      },
+      "total_score": 62,
+      "decision": "watch",
+      "rank": 46
+    },
+    {
+      "name": "CryptoAccess",
+      "tokens": [
+        "crypto",
+        "access"
+      ],
+      "hard_fail_reasons": [
+        "blocked_token:crypto"
+      ],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "cryptoaccess.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "cryptoaccess.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "cryptoaccess.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "cryptoaccess.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "cryptoaccess.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 0,
+        "distinctiveness": 0,
+        "memorability": 0,
+        "brevity_readability": 0,
+        "seo_intent_fit": 0,
+        "domain_headroom": 0
+      },
+      "total_score": 0,
+      "decision": "reject",
+      "rank": 47
+    },
+    {
+      "name": "WalletBeat",
+      "tokens": [
+        "wallet",
+        "beat"
+      ],
+      "hard_fail_reasons": [
+        "known_market_collision"
+      ],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "walletbeat.com",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".org",
+          "domain": "walletbeat.org",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".net",
+          "domain": "walletbeat.net",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "walletbeat.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "walletbeat.finance",
+          "status": "available",
+          "detail": "rdap_404"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 0,
+        "distinctiveness": 0,
+        "memorability": 0,
+        "brevity_readability": 0,
+        "seo_intent_fit": 0,
+        "domain_headroom": 0
+      },
+      "total_score": 0,
+      "decision": "reject",
+      "rank": 48
+    },
+    {
+      "name": "WalletRadar",
+      "tokens": [
+        "wallet",
+        "radar"
+      ],
+      "hard_fail_reasons": [
+        "known_market_collision"
+      ],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "walletradar.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "walletradar.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "walletradar.net",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "walletradar.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "walletradar.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 0,
+        "distinctiveness": 0,
+        "memorability": 0,
+        "brevity_readability": 0,
+        "seo_intent_fit": 0,
+        "domain_headroom": 0
+      },
+      "total_score": 0,
+      "decision": "reject",
+      "rank": 49
+    }
+  ]
+}

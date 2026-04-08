@@ -2,11 +2,12 @@
 
 import { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import Link from 'next/link';
 import { HelpCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface TooltipProps {
-  content: string;
+  content: React.ReactNode;
   children?: React.ReactNode;
   /** Show an info icon that triggers the tooltip */
   showIcon?: boolean;
@@ -16,6 +17,10 @@ interface TooltipProps {
   className?: string;
   /** Maximum width of the tooltip */
   maxWidth?: number;
+  /** Optional link to a methodology or detail page */
+  linkHref?: string;
+  /** Optional label for the tooltip link */
+  linkLabel?: string;
 }
 
 export function Tooltip({
@@ -25,6 +30,8 @@ export function Tooltip({
   position = 'top',
   className,
   maxWidth = 280,
+  linkHref,
+  linkLabel = 'Learn more',
 }: TooltipProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isClickOpen, setIsClickOpen] = useState(false);
@@ -200,12 +207,26 @@ export function Tooltip({
               setIsVisible(false);
             }}
             className={cn(
-              'px-3 py-2 text-xs font-normal leading-relaxed whitespace-normal',
+              'px-3 py-2 text-xs font-normal leading-relaxed whitespace-pre-line',
               'bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900',
               'rounded-md shadow-xl border border-gray-700 dark:border-gray-300'
             )}
           >
             {content}
+            {linkHref && (
+              <div className="mt-2 pt-2 border-t border-white/15 dark:border-gray-700">
+                <Link
+                  href={linkHref}
+                  className="text-[11px] font-semibold text-blue-300 hover:text-blue-200 dark:text-blue-700 dark:hover:text-blue-800 underline underline-offset-2"
+                  onClick={() => {
+                    setIsVisible(false);
+                    setIsClickOpen(false);
+                  }}
+                >
+                  {linkLabel}
+                </Link>
+              </div>
+            )}
           </div>,
           document.body
         )}
@@ -218,13 +239,15 @@ export function Tooltip({
  */
 interface HeaderTooltipProps {
   label: string;
-  tooltip: string;
+  tooltip: React.ReactNode;
   className?: string;
+  linkHref?: string;
+  linkLabel?: string;
 }
 
-export function HeaderTooltip({ label, tooltip, className }: HeaderTooltipProps) {
+export function HeaderTooltip({ label, tooltip, className, linkHref, linkLabel }: HeaderTooltipProps) {
   return (
-    <Tooltip content={tooltip} showIcon position="bottom" className={className}>
+    <Tooltip content={tooltip} showIcon position="bottom" className={className} linkHref={linkHref} linkLabel={linkLabel}>
       <span>{label}</span>
     </Tooltip>
   );

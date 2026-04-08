@@ -51,17 +51,17 @@ const faqData: FAQItem[] = [
   // Comparison
   {
     question: 'What is Wallet Radar?',
-    answer: 'Wallet Radar is a developer-focused platform for comparing crypto wallets. We provide evidence-based scoring using GitHub activity, security audits, release frequency, and developer experience metrics. All data is public, verifiable, and free from affiliate links.',
+    answer: 'Wallet Radar is a developer-first platform for comparing crypto access products, especially wallets, cards, and ramps. We provide evidence-based scoring using GitHub activity, security audits, release frequency, and developer experience metrics. All data is public, verifiable, and any commercial links should be disclosed clearly.',
     category: 'comparison',
   },
   {
     question: 'How are wallet scores calculated?',
-    answer: 'Scores are based on: Security (audits, open source, track record), Developer UX (APIs, testnets, custom RPC), Activity (GitHub commits, release frequency), and Coverage (chains, platforms). Higher scores indicate better overall quality for developers. See our methodology page for details.',
+    answer: 'Scores are generated from the visible comparison-table columns, not hand-tuned after the fact. Each category uses a published weighting model that turns inputs like custody, fees, platform coverage, activity, audits, and developer UX into a reproducible 0-100 score.',
     category: 'comparison',
   },
   {
     question: 'What\'s the best wallet for developers?',
-    answer: 'For EVM development, Rabby (score: 92) leads with transaction simulation, scam alerts, and multi-platform support. For multi-chain development, Trust Wallet covers the most ecosystems. For maximum security, pair any software wallet with a Trezor or Ledger hardware wallet.',
+    answer: 'For EVM development, Rabby is still the strongest daily-driver because it combines transaction simulation, scam alerts, and cross-platform coverage. For compatibility testing, keep MetaMask in the matrix. For higher-assurance signing, pair your software wallet with a dedicated hardware wallet.',
     category: 'comparison',
   },
   // Technical

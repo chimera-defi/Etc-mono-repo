@@ -271,6 +271,7 @@ function buildCuratedTsStarter(
     "|------|---------|",
     "| `src/main.ts` | CLI entrypoint with status, tasks, and verify commands |",
     "| `src/spec.ts` | Typed spec data extracted from the handoff bundle |",
+    "| `specforge/TRACEABILITY_MATRIX.md` | Requirement-to-task mapping for implementation coverage |",
     "| `specforge/agent_spec.json` | Full agent spec with patch history and section details |",
     "",
     "## Next Steps",
@@ -295,6 +296,9 @@ function buildCuratedTsStarter(
       "README.md": readme,
       "src/spec.ts": specModule,
       "src/main.ts": mainModule,
+      "specforge/TRACEABILITY_MATRIX.md":
+        exportBundle.files["TRACEABILITY_MATRIX.md"] ??
+        `# Traceability Matrix — ${document.title}\n\nNo traceability data available.`,
       "specforge/agent_spec.json": exportBundle.files["agent_spec.json"],
     },
   };

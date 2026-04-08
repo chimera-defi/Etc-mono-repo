@@ -31,7 +31,7 @@ export interface FilterOptions {
   noAnnualFee?: boolean;
   cashBackMin?: number;
   custody?: CustodyType[];
-  cardStatus?: ('active' | 'verify' | 'launching')[];
+  cardStatus?: ('active' | 'verify' | 'launching' | 'inactive')[];
 
   // Common
   minScore?: number;
@@ -277,13 +277,14 @@ export function filterRamps(ramps: Ramp[], filters: FilterOptions): Ramp[] {
     }
 
     // Status filter - map ramp status to filter active values
-    // Ramp status: 'active' | 'verify' | 'launching'
+    // Ramp status: 'active' | 'verify' | 'launching' | 'inactive'
     // Filter active: 'active' | 'slow' | 'inactive' | 'private'
     if (filters.active?.length) {
       const statusMap: Record<Ramp['status'], 'active' | 'slow' | 'inactive' | 'private'> = {
         'active': 'active',
         'verify': 'slow', // Treat 'verify' as 'slow' for filtering
         'launching': 'slow', // Treat 'launching' as 'slow' for filtering
+        'inactive': 'inactive',
       };
       const mappedStatus = statusMap[ramp.status];
       if (!filters.active.includes(mappedStatus)) return false;
@@ -353,4 +354,3 @@ export function sortWallets<T extends WalletData>(
       : (bValue as number) - (aValue as number);
   });
 }
-

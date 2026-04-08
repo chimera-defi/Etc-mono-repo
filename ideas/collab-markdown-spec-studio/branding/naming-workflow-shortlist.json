@@ -1,0 +1,835 @@
+{
+  "generated_utc": "2026-04-08T11:40:17+00:00",
+  "methodology_version": "2026-04-idea-strict-naming-v1",
+  "constraints": {
+    "max_words": 2,
+    "tlds": [
+      ".com",
+      ".org",
+      ".net",
+      ".xyz",
+      ".finance"
+    ]
+  },
+  "source_candidates": "/root/.openclaw/workspace/dev/Etc-mono-repo/.worktrees/main/ideas/collab-markdown-spec-studio/branding/SHORTLIST_CANDIDATES.txt",
+  "results": [
+    {
+      "name": "ScopeSpec",
+      "tokens": [
+        "scope",
+        "spec"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "scopespec.com",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".org",
+          "domain": "scopespec.org",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".net",
+          "domain": "scopespec.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "scopespec.xyz",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".finance",
+          "domain": "scopespec.finance",
+          "status": "available",
+          "detail": "rdap_404"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 25,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 13,
+        "domain_headroom": 8
+      },
+      "total_score": 91,
+      "decision": "clear",
+      "rank": 1
+    },
+    {
+      "name": "SpecScope",
+      "tokens": [
+        "spec",
+        "scope"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "specscope.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "specscope.org",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".net",
+          "domain": "specscope.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "specscope.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "specscope.finance",
+          "status": "available",
+          "detail": "rdap_404"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 25,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 13,
+        "domain_headroom": 3
+      },
+      "total_score": 86,
+      "decision": "watch",
+      "rank": 2
+    },
+    {
+      "name": "BuildSpec",
+      "tokens": [
+        "build",
+        "spec"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "buildspec.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "buildspec.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "buildspec.net",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "buildspec.xyz",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".finance",
+          "domain": "buildspec.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 25,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 13,
+        "domain_headroom": 0
+      },
+      "total_score": 83,
+      "decision": "watch",
+      "rank": 3
+    },
+    {
+      "name": "PlanSpec",
+      "tokens": [
+        "plan",
+        "spec"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "planspec.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "planspec.org",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".net",
+          "domain": "planspec.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "planspec.xyz",
+          "status": "available",
+          "detail": "rdap_404"
+        },
+        {
+          "tld": ".finance",
+          "domain": "planspec.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 25,
+        "distinctiveness": 20,
+        "memorability": 14,
+        "brevity_readability": 10,
+        "seo_intent_fit": 13,
+        "domain_headroom": 0
+      },
+      "total_score": 82,
+      "decision": "watch",
+      "rank": 4
+    },
+    {
+      "name": "TaskSpec",
+      "tokens": [
+        "task",
+        "spec"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "taskspec.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "taskspec.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "taskspec.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "taskspec.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "taskspec.finance",
+          "status": "available",
+          "detail": "rdap_404"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 25,
+        "distinctiveness": 20,
+        "memorability": 14,
+        "brevity_readability": 10,
+        "seo_intent_fit": 13,
+        "domain_headroom": 0
+      },
+      "total_score": 82,
+      "decision": "watch",
+      "rank": 5
+    },
+    {
+      "name": "FrameSpec",
+      "tokens": [
+        "frame",
+        "spec"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "framespec.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "framespec.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "framespec.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "framespec.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "framespec.finance",
+          "status": "available",
+          "detail": "rdap_404"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 17,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 77,
+      "decision": "watch",
+      "rank": 6
+    },
+    {
+      "name": "PilotSpec",
+      "tokens": [
+        "pilot",
+        "spec"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "pilotspec.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "pilotspec.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "pilotspec.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "pilotspec.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "pilotspec.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 17,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 77,
+      "decision": "watch",
+      "rank": 7
+    },
+    {
+      "name": "SpecBridge",
+      "tokens": [
+        "spec",
+        "bridge"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "specbridge.com",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".org",
+          "domain": "specbridge.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "specbridge.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "specbridge.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "specbridge.finance",
+          "status": "available",
+          "detail": "rdap_404"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 17,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 77,
+      "decision": "watch",
+      "rank": 8
+    },
+    {
+      "name": "SpecFrame",
+      "tokens": [
+        "spec",
+        "frame"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "specframe.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "specframe.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "specframe.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "specframe.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "specframe.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 17,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 77,
+      "decision": "watch",
+      "rank": 9
+    },
+    {
+      "name": "SpecPilot",
+      "tokens": [
+        "spec",
+        "pilot"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "specpilot.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "specpilot.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "specpilot.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "specpilot.xyz",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".finance",
+          "domain": "specpilot.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 17,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 77,
+      "decision": "watch",
+      "rank": 10
+    },
+    {
+      "name": "SpecTrack",
+      "tokens": [
+        "spec",
+        "track"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "spectrack.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "spectrack.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "spectrack.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "spectrack.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "spectrack.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 17,
+        "distinctiveness": 20,
+        "memorability": 15,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 77,
+      "decision": "watch",
+      "rank": 11
+    },
+    {
+      "name": "FlowSpec",
+      "tokens": [
+        "flow",
+        "spec"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "flowspec.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "flowspec.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "flowspec.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "flowspec.xyz",
+          "status": "registered",
+          "detail": "rdap_200"
+        },
+        {
+          "tld": ".finance",
+          "domain": "flowspec.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 17,
+        "distinctiveness": 20,
+        "memorability": 14,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 76,
+      "decision": "watch",
+      "rank": 12
+    },
+    {
+      "name": "SpecGrid",
+      "tokens": [
+        "spec",
+        "grid"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "specgrid.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "specgrid.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "specgrid.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "specgrid.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "specgrid.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 17,
+        "distinctiveness": 20,
+        "memorability": 14,
+        "brevity_readability": 10,
+        "seo_intent_fit": 15,
+        "domain_headroom": 0
+      },
+      "total_score": 76,
+      "decision": "watch",
+      "rank": 13
+    },
+    {
+      "name": "SpecLoom",
+      "tokens": [
+        "spec",
+        "loom"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "specloom.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "specloom.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "specloom.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "specloom.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "specloom.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 13,
+        "distinctiveness": 20,
+        "memorability": 14,
+        "brevity_readability": 10,
+        "seo_intent_fit": 13,
+        "domain_headroom": 0
+      },
+      "total_score": 70,
+      "decision": "watch",
+      "rank": 14
+    },
+    {
+      "name": "SpecPath",
+      "tokens": [
+        "spec",
+        "path"
+      ],
+      "hard_fail_reasons": [],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "specpath.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "specpath.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "specpath.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "specpath.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "specpath.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 13,
+        "distinctiveness": 20,
+        "memorability": 14,
+        "brevity_readability": 10,
+        "seo_intent_fit": 13,
+        "domain_headroom": 0
+      },
+      "total_score": 70,
+      "decision": "watch",
+      "rank": 15
+    },
+    {
+      "name": "LaunchSpec",
+      "tokens": [
+        "launch",
+        "spec"
+      ],
+      "hard_fail_reasons": [
+        "low_pronounceability"
+      ],
+      "domain_checks": [
+        {
+          "tld": ".com",
+          "domain": "launchspec.com",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".org",
+          "domain": "launchspec.org",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".net",
+          "domain": "launchspec.net",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".xyz",
+          "domain": "launchspec.xyz",
+          "status": "unknown",
+          "detail": "http_429"
+        },
+        {
+          "tld": ".finance",
+          "domain": "launchspec.finance",
+          "status": "unknown",
+          "detail": "http_429"
+        }
+      ],
+      "component_scores": {
+        "category_clarity": 0,
+        "distinctiveness": 0,
+        "memorability": 0,
+        "brevity_readability": 0,
+        "seo_intent_fit": 0,
+        "domain_headroom": 0
+      },
+      "total_score": 0,
+      "decision": "reject",
+      "rank": 16
+    }
+  ]
+}
