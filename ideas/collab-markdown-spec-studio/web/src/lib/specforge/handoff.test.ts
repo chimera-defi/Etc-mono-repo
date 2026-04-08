@@ -33,6 +33,7 @@ describe("buildStarterTemplate", () => {
     expect(handoff.files["package.json"]).toContain('"name": "specforge-demo"');
     expect(handoff.files["src/main.ts"]).toContain('const command = args[0] ?? "status"');
     expect(handoff.files["README.md"]).toContain("bun run verify");
+    expect(handoff.files["specforge/TRACEABILITY_MATRIX.md"]).toContain("Task -> Requirement Mapping");
   });
 
   it("exposes multiple starter templates and can build a docs-only handoff", () => {

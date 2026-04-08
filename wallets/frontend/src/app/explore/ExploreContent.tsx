@@ -31,6 +31,129 @@ interface ExploreContentProps {
 
 type TabType = 'software' | 'hardware' | 'cards' | 'ramps';
 type ViewMode = 'grid' | 'table';
+type PresetConfig = {
+  id: string;
+  label: string;
+  description: string;
+  filters: Partial<FilterState>;
+  sort?: SortState;
+  viewMode?: ViewMode;
+};
+
+const DEFAULT_SORTS: Record<TabType, SortState> = {
+  software: { field: 'score', direction: 'desc' },
+  hardware: { field: 'score', direction: 'desc' },
+  cards: { field: 'score', direction: 'desc' },
+  ramps: { field: 'score', direction: 'desc' },
+};
+
+const QUICK_PRESETS: Record<TabType, PresetConfig[]> = {
+  software: [
+    {
+      id: 'core-wallets',
+      label: 'Core Wallets',
+      description: 'Mobile + browser-extension coverage first.',
+      filters: { platforms: ['mobile', 'browser'], minScore: 55 },
+    },
+    {
+      id: 'open-source',
+      label: 'Open Source',
+      description: 'Public codebases with current or recent activity.',
+      filters: { license: ['open'], active: ['active', 'slow'] },
+    },
+    {
+      id: 'aa-wallets',
+      label: 'AA / Smart Accounts',
+      description: 'Safe, 4337, and 7702-ready options.',
+      filters: { accountTypes: ['Safe', 'EIP-4337', 'EIP-7702'] },
+    },
+    {
+      id: 'simulation',
+      label: 'Simulation',
+      description: 'Pre-signing safety features.',
+      filters: { features: ['txSimulation'], minScore: 50 },
+    },
+  ],
+  hardware: [
+    {
+      id: 'air-gapped',
+      label: 'Air-Gapped',
+      description: 'QR or MicroSD-first signing flows.',
+      filters: { airGap: true, minScore: 60 },
+    },
+    {
+      id: 'budget',
+      label: 'Under $100',
+      description: 'Budget-oriented devices and DIY kits.',
+      filters: { priceMin: 0, priceMax: 100 },
+      sort: { field: 'price', direction: 'asc' },
+    },
+    {
+      id: 'open-active',
+      label: 'Open + Active',
+      description: 'Public firmware with active maintenance.',
+      filters: { openSource: ['open'], active: ['active'] },
+    },
+    {
+      id: 'phone-friendly',
+      label: 'Phone-Friendly',
+      description: 'QR, NFC, BT, or direct mobile-friendly links.',
+      filters: { connectivity: ['QR', 'NFC', 'Bluetooth', 'USB-C'], minScore: 50 },
+    },
+  ],
+  cards: [
+    {
+      id: 'self-custody',
+      label: 'Self-Custody',
+      description: 'Keep spending control outside exchanges.',
+      filters: { custody: ['self'], minScore: 70 },
+    },
+    {
+      id: 'no-fee',
+      label: 'No Annual Fee',
+      description: 'Eliminate fixed card-cost drag.',
+      filters: { noAnnualFee: true, minScore: 70 },
+    },
+    {
+      id: 'us-cards',
+      label: 'US Available',
+      description: 'Quick shortlist for the US market.',
+      filters: { region: ['US'], minScore: 70 },
+    },
+    {
+      id: 'business',
+      label: 'Business',
+      description: 'Cards with business or corporate support.',
+      filters: { businessSupport: true },
+    },
+  ],
+  ramps: [
+    {
+      id: 'top-tier',
+      label: 'Top Tier',
+      description: 'Only the higher-scoring active ramps.',
+      filters: { recommendation: ['recommended'], active: ['active'], minScore: 80 },
+    },
+    {
+      id: 'low-fee',
+      label: 'Low-Fee',
+      description: 'Fee-model language biased toward lower friction.',
+      filters: { search: 'low', minScore: 70 },
+    },
+    {
+      id: 'enterprise',
+      label: 'Enterprise',
+      description: 'Providers marketed for enterprise or custom flows.',
+      filters: { search: 'enterprise', minScore: 70 },
+    },
+    {
+      id: 'us-focus',
+      label: 'US Focus',
+      description: 'Coverage or best-fit language biased toward the US.',
+      filters: { search: 'US', minScore: 70 },
+    },
+  ],
+};
 
 function toFilterOptions(filters: FilterState): FilterOptions {
   const opts: FilterOptions = {};
@@ -283,6 +406,55 @@ export function ExploreContent({
 
   const tabData = getCurrentTabData();
   const hasSelectedWallets = tabData.selected.length > 0;
+  const activePresets = QUICK_PRESETS[activeTab];
+
+  const applyPreset = useCallback((preset: PresetConfig) => {
+    const nextFilters = { ...initialFilterState, ...preset.filters };
+
+    switch (activeTab) {
+      case 'software':
+        setSoftwareFilters(nextFilters);
+        setSoftwareSort(preset.sort || DEFAULT_SORTS.software);
+        break;
+      case 'hardware':
+        setHardwareFilters(nextFilters);
+        setHardwareSort(preset.sort || DEFAULT_SORTS.hardware);
+        break;
+      case 'cards':
+        setCardFilters(nextFilters);
+        setCardSort(preset.sort || DEFAULT_SORTS.cards);
+        break;
+      case 'ramps':
+        setRampFilters(nextFilters);
+        setRampSort(preset.sort || DEFAULT_SORTS.ramps);
+        break;
+    }
+
+    if (preset.viewMode) {
+      setViewMode(preset.viewMode);
+    }
+  }, [activeTab]);
+
+  const resetActiveTab = useCallback(() => {
+    switch (activeTab) {
+      case 'software':
+        setSoftwareFilters(initialFilterState);
+        setSoftwareSort(DEFAULT_SORTS.software);
+        break;
+      case 'hardware':
+        setHardwareFilters(initialFilterState);
+        setHardwareSort(DEFAULT_SORTS.hardware);
+        break;
+      case 'cards':
+        setCardFilters(initialFilterState);
+        setCardSort(DEFAULT_SORTS.cards);
+        break;
+      case 'ramps':
+        setRampFilters(initialFilterState);
+        setRampSort(DEFAULT_SORTS.ramps);
+        break;
+    }
+  }, [activeTab]);
 
   return (
     <div className="space-y-6">
@@ -416,6 +588,36 @@ export function ExploreContent({
           />
         </div>
       )}
+
+      <div className="glass-card p-4 md:p-5">
+        <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+          <div>
+            <p className="text-sm font-medium text-foreground">Quick presets</p>
+            <p className="text-sm text-muted-foreground">
+              Jump straight to a decision path instead of rebuilding the same filter stack.
+            </p>
+          </div>
+          <button
+            onClick={resetActiveTab}
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Reset this tab
+          </button>
+        </div>
+
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {activePresets.map((preset) => (
+            <button
+              key={preset.id}
+              onClick={() => applyPreset(preset)}
+              className="rounded-2xl border border-border bg-background/60 px-4 py-3 text-left transition-all hover:border-primary/40 hover:bg-primary/5"
+            >
+              <div className="text-sm font-semibold text-foreground">{preset.label}</div>
+              <div className="mt-1 text-sm text-muted-foreground">{preset.description}</div>
+            </button>
+          ))}
+        </div>
+      </div>
 
       {/* Filters */}
       <WalletFilters

@@ -9,17 +9,18 @@ const ogImageVersion = 'v5';
 
 export const metadata: Metadata = {
   title: 'Documentation',
-  description: 'Browse all wallet comparison documentation, guides, and research. Find software wallet comparisons, hardware wallet reviews, and developer guides.',
+  description: 'Browse documentation, guides, and research for wallets, cards, ramps, and related crypto access products.',
   keywords: [
-    'crypto wallet documentation',
+    'crypto product documentation',
     'wallet comparison guides',
     'hardware wallet reviews',
-    'software wallet comparison',
-    'developer wallet guide',
+    'crypto card comparison',
+    'ramp comparison',
+    'developer crypto guide',
   ],
   openGraph: {
     title: 'Documentation | Wallet Radar',
-    description: 'Browse all wallet comparison documentation, guides, and research. Find software wallet comparisons, hardware wallet reviews, and developer guides.',
+    description: 'Browse documentation, guides, and research for wallets, cards, ramps, and related crypto access products.',
     url: `${baseUrl}/docs/`,
     type: 'website',
     images: [
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Documentation | Wallet Radar',
-    description: 'Browse all wallet comparison documentation, guides, and research.',
+    description: 'Browse documentation, guides, and research for crypto access products.',
     creator: '@chimeradefi',
     site: '@chimeradefi',
     images: [`${baseUrl}/og-image.svg?${ogImageVersion}`],
@@ -54,8 +55,8 @@ export default function DocsPage() {
       <header className="mb-8">
         <h1 className="text-3xl md:text-4xl font-bold mb-4 text-slate-100">Documentation</h1>
         <p className="text-lg text-slate-400 max-w-2xl">
-          Browse all wallet comparison documentation, guides, and research materials.
-          Our comprehensive resources help developers make informed decisions about crypto wallets.
+          Browse documentation, guides, and research materials for wallets, cards, ramps, and related crypto access products.
+          Our resources help developers make informed decisions with transparent methodology and source-backed data.
         </p>
       </header>
 

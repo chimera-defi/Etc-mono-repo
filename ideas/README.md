@@ -33,7 +33,8 @@ Required baseline:
 2. Surface pack: `UX_PRINCIPLES`, `USER_FLOWS`, `FRONTEND_VISION`, `WIREFRAMES` for any human-facing product. If the product is `CLI-only` or `API-only`, say that explicitly and replace GUI assumptions with interface examples.
 3. Build pack: `FIRST_60_MINUTES`, `ACCEPTANCE_TEST_MATRIX`, deterministic `fixtures/`, versioned `contracts/` where relevant, exact verification commands, and a target app/package layout.
 4. Review ergonomics: include `README_REVIEW_GUIDE.md` with 10-minute and 25-minute read paths.
-5. Optional expansion docs only when justified by the product or stage: competition analysis, scorecards, financial model, refinements, meta learnings.
+5. Naming pack (required for externally branded products): `POSITIONING_BRIEF`, `NAMING_VALIDATION`, `NAMING_DECISION`, `GITHUB_NAME_SCAN` (use `ideas/_templates/NAMING_WORKFLOW.md`).
+6. Optional expansion docs only when justified by the product or stage: competition analysis, scorecards, financial model, refinements, meta learnings.
 
 Required answers inside the pack:
 1. What do we get at the end: docs only, a web app, CLI, desktop app, contract system, or hybrid full-stack product?
@@ -80,7 +81,15 @@ To bridge idea packs into Kiro's executable spec workflow, each mature idea shou
 - Tasks have **done criteria** and **property mappings** for verification
 - All three files are **implementation-focused** not planning-focused
 
-Templates available in `ideas/_templates/` (`KIRO_SPEC_BRIDGE.md`, `requirements.md`, `design.md`, `tasks.md`, `ONE_SHOT_BUILD_CHECKLIST.md`).
+Templates available in `ideas/_templates/` (`KIRO_SPEC_BRIDGE.md`, `requirements.md`, `design.md`, `tasks.md`, `ONE_SHOT_BUILD_CHECKLIST.md`, `NAMING_WORKFLOW.md`, `NAMING_DECISION.md`).
+
+### Naming Pack Export
+
+Package naming artifacts for handoff:
+
+```bash
+./ideas/scripts/export-naming-pack.sh --source <naming-dir> --slug <project-slug>
+```
 
 ## OAuth-Based Automated Provider Setup
 
@@ -205,7 +214,10 @@ DeFi protocol concept for ERC-8004 agent credit with Ethos vouching + reverse-Ke
 - [Overview](./collab-markdown-spec-studio/README.md)
 - [PRD](./collab-markdown-spec-studio/PRD.md)
 - [Technical Spec](./collab-markdown-spec-studio/SPEC.md)
-- [Name Options](./collab-markdown-spec-studio/NAME_OPTIONS.md)
+- [Name Options](./collab-markdown-spec-studio/archive/NAME_OPTIONS.md)
+- [Naming Pack](./collab-markdown-spec-studio/branding/README.md)
+- [GitHub Name + Reuse Scan](./collab-markdown-spec-studio/GITHUB_NAME_REUSE_SCAN_2026-04-08.md)
+- [Upstream Reuse Plan](./collab-markdown-spec-studio/UPSTREAM_REUSE_PLAN.md)
 
 ---
 

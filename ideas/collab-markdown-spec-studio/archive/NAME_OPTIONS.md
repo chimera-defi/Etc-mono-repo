@@ -1,22 +1,19 @@
 ## Name Options
 
 ## Shortlist
-1. **SpecForge**
-2. **BuildScript**
-3. **ShipSpec**
-4. **Draft2Deploy**
-5. **ForgeFlow**
-6. **SpecWeave**
-7. **MergeDraft**
-8. **BlueprintHub**
-9. **FlowSpec**
-10. **RapidSpec**
+1. **ScopeSpec** (provisional external primary)
+2. **ScopeFrame** (backup #1)
+3. **FrameSpec** (backup #2)
+4. **ShipSpec** (watch)
+5. **BuildSpec** (watch; SEO saturation risk)
+6. **SpecForge** (internal codename only; high collision risk externally)
 
 ## Positioning Angles
-1. "SpecForge" -> craftsmanship + build intent.
-2. "ShipSpec" -> outcome-oriented (ship faster).
-3. "Draft2Deploy" -> end-to-end flow from writing to release.
-4. "ForgeFlow" -> collaborative pipeline + automation.
+1. "ScopeSpec" -> clear spec intent + bounded build scope.
+2. "ScopeFrame" -> structure-first workflow framing for build-ready specs.
+3. "FrameSpec" -> emphasizes codified spec architecture and handoff clarity.
+4. "ShipSpec" -> outcome-oriented (ship faster) but with higher collision ambiguity.
 
 ## Naming Direction Recommendation
-Prefer names that imply **execution**, not just editing. Current recommendation: **SpecForge** or **ShipSpec**.
+Prefer names that imply **execution**, not just editing. Current external direction: **ScopeSpec** (provisional), with `ScopeFrame` as the cleanest fallback.  
+`SpecForge` remains collision-heavy on GitHub (see `../GITHUB_NAME_REUSE_SCAN_2026-04-08.md`) and detailed validation artifacts now live in `../branding/`.

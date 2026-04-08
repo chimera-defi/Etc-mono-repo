@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const pageUrl = `${baseUrl}/docs/${params.slug}/`;
   const rawDescription = document.description || 
-    `Comprehensive ${document.category} guide for crypto wallet comparison. ${document.title.includes('Comparison') ? 'Compare wallets with detailed scoring, security audits, and developer experience metrics.' : 'Expert insights and analysis for developers.'}`;
+    `Comprehensive ${document.category} guide for crypto product comparison. ${document.title.includes('Comparison') ? 'Compare wallets, cards, ramps, and related products with detailed scoring, security research, and developer experience metrics.' : 'Expert insights and analysis for developers.'}`;
   const enhancedDescription = optimizeMetaDescription(rawDescription);
 
   // Generate dynamic keywords based on content
@@ -101,7 +101,7 @@ export default function DocumentPage({ params }: PageProps) {
   // Page URL and description
   const pageUrl = `${baseUrl}/docs/${params.slug}/`;
   const rawDescription = document.description || 
-    `Comprehensive ${document.category} guide for crypto wallet comparison. ${document.title.includes('Comparison') ? 'Compare wallets with detailed scoring, security audits, and developer experience metrics.' : 'Expert insights and analysis for developers.'}`;
+    `Comprehensive ${document.category} guide for crypto product comparison. ${document.title.includes('Comparison') ? 'Compare wallets, cards, ramps, and related products with detailed scoring, security research, and developer experience metrics.' : 'Expert insights and analysis for developers.'}`;
   const enhancedDescription = optimizeMetaDescription(rawDescription);
   const summaryText = document.description || enhancedDescription;
 

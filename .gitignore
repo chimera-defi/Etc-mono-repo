@@ -5,6 +5,7 @@ __pycache__/
 .cursor/artifacts/
 .backups/
 wallets/artifacts/
+ideas/_exports/
 
 # OS files
 .DS_Store

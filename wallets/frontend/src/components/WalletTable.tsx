@@ -57,13 +57,29 @@ function getWalletDetailHref(type: 'software' | 'hardware' | 'cards' | 'ramps', 
   return `/wallets/${type}/${id}`;
 }
 
+const TABLE_METHOD_LINKS = {
+  software: '/docs/software-wallets-details#-wallet-scores-developer-focused-methodology',
+  hardware: '/docs/hardware-wallets-details#-scoring-methodology',
+  cards: '/docs/crypto-cards-details#scoring-methodology',
+  ramps: '/docs/ramps-details#scoring-methodology',
+} as const;
+
+const METHODOLOGY_TOOLTIP_LABEL = 'Read methodology';
+const DETAILS_TOOLTIP_LABEL = 'Open details';
+
 // Component to render chain icons
-function ChainIcons({ chains }: { chains: SupportedChains }) {
+function ChainIcons({
+  chains,
+  tooltipLinkHref,
+}: {
+  chains: SupportedChains;
+  tooltipLinkHref?: string;
+}) {
   return (
     <div className="flex items-center gap-0.5" title={getChainTooltip(chains)}>
       {chainIcons.map(({ key, src, alt, tooltip }) =>
         chains[key] && (
-          <Tooltip key={key} content={tooltip}>
+          <Tooltip key={key} content={tooltip} linkHref={tooltipLinkHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
             <Image
               src={src}
               alt={alt}
@@ -75,7 +91,7 @@ function ChainIcons({ chains }: { chains: SupportedChains }) {
         )
       )}
       {chains.other && (
-        <Tooltip content={commonTooltips.chains.other}>
+        <Tooltip content={commonTooltips.chains.other} linkHref={tooltipLinkHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
           <span className="text-xs text-muted-foreground ml-0.5">+</span>
         </Tooltip>
       )}
@@ -88,10 +104,14 @@ function Badge({
   children,
   variant = 'default',
   tooltip,
+  tooltipLinkHref,
+  tooltipLinkLabel = DETAILS_TOOLTIP_LABEL,
 }: {
   children: React.ReactNode;
   variant?: 'default' | 'success' | 'warning' | 'error' | 'info';
   tooltip?: string;
+  tooltipLinkHref?: string;
+  tooltipLinkLabel?: string;
 }) {
   const variants = {
     default: 'bg-muted text-muted-foreground',
@@ -108,17 +128,43 @@ function Badge({
   );
 
   if (tooltip) {
-    return <Tooltip content={tooltip}>{badge}</Tooltip>;
+    return <Tooltip content={tooltip} linkHref={tooltipLinkHref} linkLabel={tooltipLinkLabel}>{badge}</Tooltip>;
   }
 
   return badge;
 }
 
+function buildScoreTooltip(wallet: WalletData): string {
+  const lines = [
+    `${wallet.name}: ${wallet.score}/100`,
+    `Recommendation: ${wallet.recommendation}`,
+    `Methodology: ${wallet.methodologyVersion}`,
+  ];
+
+  for (const entry of wallet.scoreBreakdown) {
+    lines.push(`${entry.label}: ${entry.score}/${entry.max}`);
+  }
+
+  return lines.join('\n');
+}
+
 // Score badge
-function ScoreBadge({ score, tooltip }: { score: number; tooltip?: string }) {
+function ScoreBadge({
+  score,
+  recommendation,
+  tooltip,
+  tooltipLinkHref,
+  tooltipLinkLabel = METHODOLOGY_TOOLTIP_LABEL,
+}: {
+  score: number;
+  recommendation: string;
+  tooltip?: string;
+  tooltipLinkHref?: string;
+  tooltipLinkLabel?: string;
+}) {
   let variant: 'success' | 'warning' | 'error' = 'warning';
-  if (score >= 75) variant = 'success';
-  else if (score < 50) variant = 'error';
+  if (recommendation === 'recommended') variant = 'success';
+  else if (recommendation === 'avoid' || recommendation === 'not-for-dev') variant = 'error';
 
   const badge = (
     <div
@@ -133,13 +179,21 @@ function ScoreBadge({ score, tooltip }: { score: number; tooltip?: string }) {
     </div>
   );
 
-  const defaultTooltip = `Score: ${score}/100 - ${variant === 'success' ? 'Recommended' : variant === 'warning' ? 'Situational' : 'Avoid'}`;
+  const defaultTooltip = `Score: ${score}/100\nRecommendation: ${recommendation}`;
 
-  return <Tooltip content={tooltip || defaultTooltip}>{badge}</Tooltip>;
+  return <Tooltip content={tooltip || defaultTooltip} linkHref={tooltipLinkHref} linkLabel={tooltipLinkLabel}>{badge}</Tooltip>;
 }
 
 // Recommendation badge
-function RecommendationBadge({ recommendation }: { recommendation: string }) {
+function RecommendationBadge({
+  recommendation,
+  tooltipLinkHref,
+  tooltipLinkLabel = DETAILS_TOOLTIP_LABEL,
+}: {
+  recommendation: string;
+  tooltipLinkHref?: string;
+  tooltipLinkLabel?: string;
+}) {
   const config = {
     recommended: { label: 'Recommended', variant: 'success' as const, tooltip: softwareWalletTooltips.recommendation.recommended },
     situational: { label: 'Situational', variant: 'warning' as const, tooltip: softwareWalletTooltips.recommendation.situational },
@@ -148,36 +202,42 @@ function RecommendationBadge({ recommendation }: { recommendation: string }) {
   };
 
   const { label, variant, tooltip } = config[recommendation as keyof typeof config] || config.situational;
-  return <Badge variant={variant} tooltip={tooltip}>{label}</Badge>;
+  return <Badge variant={variant} tooltip={tooltip} tooltipLinkHref={tooltipLinkHref} tooltipLinkLabel={tooltipLinkLabel}>{label}</Badge>;
 }
 
 // Device icons
-function DeviceIcons({ devices }: { devices: SoftwareWallet['devices'] }) {
+function DeviceIcons({
+  devices,
+  tooltipLinkHref,
+}: {
+  devices: SoftwareWallet['devices'];
+  tooltipLinkHref?: string;
+}) {
   return (
     <div className="flex items-center gap-1">
       {devices.mobile && (
-        <Tooltip content={softwareWalletTooltips.devices.mobile}>
+        <Tooltip content={softwareWalletTooltips.devices.mobile} linkHref={tooltipLinkHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
           <span>
             <Smartphone className="h-4 w-4 text-muted-foreground" />
           </span>
         </Tooltip>
       )}
       {devices.browser && (
-        <Tooltip content={softwareWalletTooltips.devices.browser}>
+        <Tooltip content={softwareWalletTooltips.devices.browser} linkHref={tooltipLinkHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
           <span>
             <Globe className="h-4 w-4 text-muted-foreground" />
           </span>
         </Tooltip>
       )}
       {devices.desktop && (
-        <Tooltip content={softwareWalletTooltips.devices.desktop}>
+        <Tooltip content={softwareWalletTooltips.devices.desktop} linkHref={tooltipLinkHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
           <span>
             <Monitor className="h-4 w-4 text-muted-foreground" />
           </span>
         </Tooltip>
       )}
       {devices.web && (
-        <Tooltip content={softwareWalletTooltips.devices.web}>
+        <Tooltip content={softwareWalletTooltips.devices.web} linkHref={tooltipLinkHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
           <span>
             <LinkIcon className="h-4 w-4 text-muted-foreground" />
           </span>
@@ -188,7 +248,17 @@ function DeviceIcons({ devices }: { devices: SoftwareWallet['devices'] }) {
 }
 
 // Feature indicator
-function FeatureIndicator({ value, label, tooltip }: { value: boolean | string; label: string; tooltip?: string }) {
+function FeatureIndicator({
+  value,
+  label,
+  tooltip,
+  tooltipLinkHref,
+}: {
+  value: boolean | string;
+  label: string;
+  tooltip?: string;
+  tooltipLinkHref?: string;
+}) {
   const getTooltipContent = () => {
     if (tooltip) return tooltip;
     if (typeof value === 'boolean') {
@@ -199,7 +269,7 @@ function FeatureIndicator({ value, label, tooltip }: { value: boolean | string; 
 
   if (typeof value === 'boolean') {
     return (
-      <Tooltip content={getTooltipContent()}>
+      <Tooltip content={getTooltipContent()} linkHref={tooltipLinkHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
         <span
           className={cn(
             'inline-flex items-center justify-center w-5 h-5 rounded-full',
@@ -216,7 +286,7 @@ function FeatureIndicator({ value, label, tooltip }: { value: boolean | string; 
   const isFull = value === 'full' || value === 'recent' || value === 'open' || value === 'active';
 
   return (
-    <Tooltip content={getTooltipContent()}>
+    <Tooltip content={getTooltipContent()} linkHref={tooltipLinkHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
       <span
         className={cn(
           'inline-flex items-center justify-center w-5 h-5 rounded-full text-xs',
@@ -264,7 +334,12 @@ function SoftwareWalletItem({
         </td>
         <td className="py-3 px-4">
           <div className="flex items-center gap-3">
-            <ScoreBadge score={wallet.score} />
+            <ScoreBadge
+              score={wallet.score}
+              recommendation={wallet.recommendation}
+              tooltip={buildScoreTooltip(wallet)}
+              tooltipLinkHref={TABLE_METHOD_LINKS.software}
+            />
             <div>
               <Link href={detailHref} className="font-semibold hover:underline">
                 {wallet.name}
@@ -274,25 +349,26 @@ function SoftwareWalletItem({
           </div>
         </td>
         <td className="py-3 px-4">
-          <RecommendationBadge recommendation={wallet.recommendation} />
+          <RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />
         </td>
         <td className="py-3 px-4">
-          <DeviceIcons devices={wallet.devices} />
+          <DeviceIcons devices={wallet.devices} tooltipLinkHref={detailHref} />
         </td>
         <td className="py-3 px-4 text-sm">
-          <ChainIcons chains={wallet.chains} />
+          <ChainIcons chains={wallet.chains} tooltipLinkHref={detailHref} />
         </td>
         <td className="py-3 px-4">
           <div className="flex gap-1">
-            <FeatureIndicator value={wallet.txSimulation} label="Tx Simulation" tooltip={softwareWalletTooltips.features.txSimulation} />
-            <FeatureIndicator value={wallet.scamAlerts} label="Scam Alerts" tooltip={softwareWalletTooltips.features.scamAlerts} />
-            <FeatureIndicator value={wallet.hardwareSupport} label="HW Support" tooltip={softwareWalletTooltips.features.hardwareSupport} />
+            <FeatureIndicator value={wallet.txSimulation} label="Tx Simulation" tooltip={softwareWalletTooltips.features.txSimulation} tooltipLinkHref={detailHref} />
+            <FeatureIndicator value={wallet.scamAlerts} label="Scam Alerts" tooltip={softwareWalletTooltips.features.scamAlerts} tooltipLinkHref={detailHref} />
+            <FeatureIndicator value={wallet.hardwareSupport} label="HW Support" tooltip={softwareWalletTooltips.features.hardwareSupport} tooltipLinkHref={detailHref} />
           </div>
         </td>
         <td className="py-3 px-4">
           <Badge
             variant={wallet.license === 'open' ? 'success' : wallet.license === 'partial' ? 'warning' : 'default'}
             tooltip={softwareWalletTooltips.license[wallet.license]}
+            tooltipLinkHref={detailHref}
           >
             {wallet.licenseType}
           </Badge>
@@ -323,12 +399,17 @@ function SoftwareWalletItem({
     >
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
-          <ScoreBadge score={wallet.score} />
+          <ScoreBadge
+            score={wallet.score}
+            recommendation={wallet.recommendation}
+            tooltip={buildScoreTooltip(wallet)}
+            tooltipLinkHref={TABLE_METHOD_LINKS.software}
+          />
           <div>
             <Link href={detailHref} className="font-semibold hover:underline">
               {wallet.name}
             </Link>
-            <RecommendationBadge recommendation={wallet.recommendation} />
+            <RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />
           </div>
         </div>
         <button
@@ -349,25 +430,25 @@ function SoftwareWalletItem({
       <p className="text-sm text-muted-foreground mb-3">{wallet.bestFor}</p>
 
       <div className="flex items-center gap-4 mb-3">
-        <DeviceIcons devices={wallet.devices} />
-        <ChainIcons chains={wallet.chains} />
+        <DeviceIcons devices={wallet.devices} tooltipLinkHref={detailHref} />
+        <ChainIcons chains={wallet.chains} tooltipLinkHref={detailHref} />
       </div>
 
       <div className="flex flex-wrap gap-2 mb-3">
         {wallet.txSimulation && (
-          <Badge variant="info" tooltip={softwareWalletTooltips.features.txSimulation}>
+          <Badge variant="info" tooltip={softwareWalletTooltips.features.txSimulation} tooltipLinkHref={detailHref}>
             <Shield className="h-3 w-3 inline mr-1" />
             Tx Sim
           </Badge>
         )}
         {wallet.scamAlerts !== 'none' && (
-          <Badge variant="warning" tooltip={softwareWalletTooltips.features.scamAlerts}>
+          <Badge variant="warning" tooltip={softwareWalletTooltips.features.scamAlerts} tooltipLinkHref={detailHref}>
             <AlertTriangle className="h-3 w-3 inline mr-1" />
             Scam Alerts
           </Badge>
         )}
         {wallet.hardwareSupport && (
-          <Badge variant="default" tooltip={softwareWalletTooltips.features.hardwareSupport}>
+          <Badge variant="default" tooltip={softwareWalletTooltips.features.hardwareSupport} tooltipLinkHref={detailHref}>
             <Zap className="h-3 w-3 inline mr-1" />
             HW
           </Badge>
@@ -378,6 +459,7 @@ function SoftwareWalletItem({
         <Badge
           variant={wallet.license === 'open' ? 'success' : wallet.license === 'partial' ? 'warning' : 'default'}
           tooltip={softwareWalletTooltips.license[wallet.license]}
+          tooltipLinkHref={detailHref}
         >
           {wallet.licenseType}
         </Badge>
@@ -430,7 +512,12 @@ function HardwareWalletItem({
         </td>
         <td className="py-3 px-4">
           <div className="flex items-center gap-3">
-            <ScoreBadge score={wallet.score} />
+            <ScoreBadge
+              score={wallet.score}
+              recommendation={wallet.recommendation}
+              tooltip={buildScoreTooltip(wallet)}
+              tooltipLinkHref={TABLE_METHOD_LINKS.hardware}
+            />
             <div>
               <Link href={detailHref} className="font-semibold hover:underline">
                 {wallet.name}
@@ -445,13 +532,14 @@ function HardwareWalletItem({
           </div>
         </td>
         <td className="py-3 px-4">
-          <RecommendationBadge recommendation={wallet.recommendation} />
+          <RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />
         </td>
         <td className="py-3 px-4">
           <FeatureIndicator
             value={wallet.airGap}
             label="Air-Gapped"
             tooltip={wallet.airGap ? hardwareWalletTooltips.airGap.true : hardwareWalletTooltips.airGap.false}
+            tooltipLinkHref={detailHref}
           />
         </td>
         <td className="py-3 px-4">
@@ -459,18 +547,20 @@ function HardwareWalletItem({
             value={wallet.secureElement}
             label="Secure Element"
             tooltip={wallet.secureElement ? hardwareWalletTooltips.secureElement.true : hardwareWalletTooltips.secureElement.false}
+            tooltipLinkHref={detailHref}
           />
         </td>
         <td className="py-3 px-4">
           <Badge
             variant={wallet.openSource === 'full' ? 'success' : wallet.openSource === 'partial' ? 'warning' : 'default'}
             tooltip={hardwareWalletTooltips.openSource[wallet.openSource]}
+            tooltipLinkHref={detailHref}
           >
             {wallet.openSource === 'full' ? 'Open' : wallet.openSource === 'partial' ? 'Partial' : 'Closed'}
           </Badge>
         </td>
         <td className="py-3 px-4 text-sm">
-          <Tooltip content={`Connectivity options: ${wallet.connectivity.join(', ')}`}>
+          <Tooltip content={`Connectivity options: ${wallet.connectivity.join(', ')}`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
             <span>{wallet.connectivity.join(', ')}</span>
           </Tooltip>
         </td>
@@ -512,12 +602,17 @@ function HardwareWalletItem({
     >
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
-          <ScoreBadge score={wallet.score} />
+          <ScoreBadge
+            score={wallet.score}
+            recommendation={wallet.recommendation}
+            tooltip={buildScoreTooltip(wallet)}
+            tooltipLinkHref={TABLE_METHOD_LINKS.hardware}
+          />
           <div>
             <Link href={detailHref} className="font-semibold hover:underline">
               {wallet.name}
             </Link>
-            <RecommendationBadge recommendation={wallet.recommendation} />
+            <RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />
           </div>
         </div>
         <button
@@ -540,22 +635,23 @@ function HardwareWalletItem({
 
       <div className="flex flex-wrap gap-2 mb-3">
         {wallet.airGap && (
-          <Badge variant="success" tooltip={hardwareWalletTooltips.airGap.true}>Air-Gapped</Badge>
+          <Badge variant="success" tooltip={hardwareWalletTooltips.airGap.true} tooltipLinkHref={detailHref}>Air-Gapped</Badge>
         )}
         {wallet.secureElement && (
-          <Badge variant="info" tooltip={hardwareWalletTooltips.secureElement.true}>
+          <Badge variant="info" tooltip={hardwareWalletTooltips.secureElement.true} tooltipLinkHref={detailHref}>
             SE: {wallet.secureElementType || 'Yes'}
           </Badge>
         )}
         <Badge
           variant={wallet.openSource === 'full' ? 'success' : wallet.openSource === 'partial' ? 'warning' : 'default'}
           tooltip={hardwareWalletTooltips.openSource[wallet.openSource]}
+          tooltipLinkHref={detailHref}
         >
           {wallet.openSource === 'full' ? 'Open Source' : wallet.openSource === 'partial' ? 'Partial OS' : 'Closed'}
         </Badge>
       </div>
 
-      <Tooltip content={`Display: ${wallet.display}, Connectivity: ${wallet.connectivity.join(', ')}`}>
+      <Tooltip content={`Display: ${wallet.display}, Connectivity: ${wallet.connectivity.join(', ')}`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
         <div className="text-sm text-muted-foreground mb-3 cursor-help">
           {wallet.display} • {wallet.connectivity.join(', ')}
         </div>
@@ -621,7 +717,12 @@ function CryptoCardItem({
         </td>
         <td className="py-3 px-4">
           <div className="flex items-center gap-3">
-            <ScoreBadge score={card.score} />
+            <ScoreBadge
+              score={card.score}
+              recommendation={card.recommendation}
+              tooltip={buildScoreTooltip(card)}
+              tooltipLinkHref={TABLE_METHOD_LINKS.cards}
+            />
             <div>
               <div className="flex items-center gap-2">
                 <Link href={detailHref} className="font-semibold hover:underline">
@@ -643,25 +744,25 @@ function CryptoCardItem({
           </div>
         </td>
         <td className="py-3 px-4">
-          <Badge variant="info" tooltip={cryptoCardTooltips.cardType[card.cardType]}>{card.cardType}</Badge>
+          <Badge variant="info" tooltip={cryptoCardTooltips.cardType[card.cardType]} tooltipLinkHref={detailHref}>{card.cardType}</Badge>
         </td>
         <td className="py-3 px-4 text-sm">
-          <Tooltip content={cryptoCardTooltips.region[card.regionCode as keyof typeof cryptoCardTooltips.region] || `Available in ${card.region}`}>
+          <Tooltip content={cryptoCardTooltips.region[card.regionCode as keyof typeof cryptoCardTooltips.region] || `Available in ${card.region}`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
             <span>{card.region}</span>
           </Tooltip>
         </td>
         <td className="py-3 px-4">
-          <Tooltip content="Maximum cashback rate (may require staking or tier progression)">
+          <Tooltip content="Maximum cashback rate (may require staking or tier progression)" linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
             <span className="font-semibold text-green-600 dark:text-green-400">{card.cashBack}</span>
           </Tooltip>
         </td>
         <td className="py-3 px-4 text-sm">
-          <Tooltip content={`Rewards earned: ${card.rewards}`}>
+          <Tooltip content={`Rewards earned: ${card.rewards}`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
             <span>{card.rewards}</span>
           </Tooltip>
         </td>
         <td className="py-3 px-4 text-sm">
-          <Tooltip content={card.annualFee === '$0' ? 'No annual fee' : `Annual fee: ${card.annualFee}`}>
+          <Tooltip content={card.annualFee === '$0' ? 'No annual fee' : `Annual fee: ${card.annualFee}`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
             <span>{card.annualFee}</span>
           </Tooltip>
         </td>
@@ -679,7 +780,12 @@ function CryptoCardItem({
     >
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
-          <ScoreBadge score={card.score} />
+          <ScoreBadge
+            score={card.score}
+            recommendation={card.recommendation}
+            tooltip={buildScoreTooltip(card)}
+            tooltipLinkHref={TABLE_METHOD_LINKS.cards}
+          />
           <div>
             <div className="flex items-center gap-2">
               <Link href={detailHref} className="font-semibold hover:underline">
@@ -696,7 +802,7 @@ function CryptoCardItem({
                 </a>
               )}
             </div>
-            <Badge variant="info" tooltip={cryptoCardTooltips.cardType[card.cardType]}>{card.cardType}</Badge>
+            <Badge variant="info" tooltip={cryptoCardTooltips.cardType[card.cardType]} tooltipLinkHref={detailHref}>{card.cardType}</Badge>
           </div>
         </div>
         <button
@@ -712,7 +818,7 @@ function CryptoCardItem({
         </button>
       </div>
 
-      <Tooltip content="Maximum cashback rate (may require staking or tier progression)">
+      <Tooltip content="Maximum cashback rate (may require staking or tier progression)" linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
         <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-2 cursor-help">
           {card.cashBack}
         </div>
@@ -721,17 +827,17 @@ function CryptoCardItem({
       <p className="text-sm text-muted-foreground mb-3">{card.bestFor}</p>
 
       <div className="flex flex-wrap gap-2 mb-3">
-        <Badge variant="default" tooltip={cryptoCardTooltips.region[card.regionCode as keyof typeof cryptoCardTooltips.region] || `Available in ${card.region}`}>
+        <Badge variant="default" tooltip={cryptoCardTooltips.region[card.regionCode as keyof typeof cryptoCardTooltips.region] || `Available in ${card.region}`} tooltipLinkHref={detailHref}>
           {card.region}
         </Badge>
-        <Badge variant="default" tooltip={`Rewards earned: ${card.rewards}`}>{card.rewards}</Badge>
+        <Badge variant="default" tooltip={`Rewards earned: ${card.rewards}`} tooltipLinkHref={detailHref}>{card.rewards}</Badge>
         {card.businessSupport === 'yes' && (
-          <Badge variant="info" tooltip={cryptoCardTooltips.businessSupport.yes}>Business</Badge>
+          <Badge variant="info" tooltip={cryptoCardTooltips.businessSupport.yes} tooltipLinkHref={detailHref}>Business</Badge>
         )}
       </div>
 
       <div className="flex items-center justify-between text-sm">
-        <Tooltip content={`Annual fee: ${card.annualFee}, Foreign exchange fee: ${card.fxFee}`}>
+        <Tooltip content={`Annual fee: ${card.annualFee}, Foreign exchange fee: ${card.fxFee}`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
           <span className="text-muted-foreground cursor-help">
             Fee: {card.annualFee} | FX: {card.fxFee}
           </span>
@@ -785,7 +891,12 @@ function RampItem({
         </td>
         <td className="py-3 px-4">
           <div className="flex items-center gap-3">
-            <ScoreBadge score={ramp.score} />
+            <ScoreBadge
+              score={ramp.score}
+              recommendation={ramp.recommendation}
+              tooltip={buildScoreTooltip(ramp)}
+              tooltipLinkHref={TABLE_METHOD_LINKS.ramps}
+            />
             <div>
               <div className="font-semibold">
                 <Link href={detailHref} className="text-foreground hover:text-primary hover:underline">
@@ -797,35 +908,35 @@ function RampItem({
           </div>
         </td>
         <td className="py-3 px-4">
-          <RecommendationBadge recommendation={ramp.recommendation} />
+          <RecommendationBadge recommendation={ramp.recommendation} tooltipLinkHref={detailHref} />
         </td>
         <td className="py-3 px-4">
           <div className="flex gap-2">
             {ramp.onRamp && (
-              <Badge variant="success" tooltip="On-Ramp: Convert fiat currency to crypto">On-Ramp</Badge>
+              <Badge variant="success" tooltip="On-Ramp: Convert fiat currency to crypto" tooltipLinkHref={detailHref}>On-Ramp</Badge>
             )}
             {ramp.offRamp && (
-              <Badge variant="info" tooltip="Off-Ramp: Convert crypto to fiat currency">Off-Ramp</Badge>
+              <Badge variant="info" tooltip="Off-Ramp: Convert crypto to fiat currency" tooltipLinkHref={detailHref}>Off-Ramp</Badge>
             )}
           </div>
         </td>
         <td className="py-3 px-4 text-sm">
-          <Tooltip content={`Geographic coverage: ${ramp.coverage}`}>
+          <Tooltip content={`Geographic coverage: ${ramp.coverage}`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
             <span>{ramp.coverage}</span>
           </Tooltip>
         </td>
         <td className="py-3 px-4 text-sm">
-          <Tooltip content={rampTooltips.feeModel[ramp.feeModel as keyof typeof rampTooltips.feeModel] || `Fee model: ${ramp.feeModel}`}>
+          <Tooltip content={rampTooltips.feeModel[ramp.feeModel as keyof typeof rampTooltips.feeModel] || `Fee model: ${ramp.feeModel}`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
             <span>{ramp.feeModel}</span>
           </Tooltip>
         </td>
         <td className="py-3 px-4 text-sm">
-          <Tooltip content={`Minimum transaction fee (approximate): ${ramp.minFee}`}>
+          <Tooltip content={`Minimum transaction fee (approximate): ${ramp.minFee}`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
             <span>{ramp.minFee}</span>
           </Tooltip>
         </td>
         <td className="py-3 px-4 text-sm">
-          <Tooltip content={rampTooltips.devUx[ramp.devUx as keyof typeof rampTooltips.devUx] || `Developer experience: ${ramp.devUx}`}>
+          <Tooltip content={rampTooltips.devUx[ramp.devUx as keyof typeof rampTooltips.devUx] || `Developer experience: ${ramp.devUx}`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
             <span>{ramp.devUx}</span>
           </Tooltip>
         </td>
@@ -856,12 +967,17 @@ function RampItem({
     >
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
-          <ScoreBadge score={ramp.score} />
+          <ScoreBadge
+            score={ramp.score}
+            recommendation={ramp.recommendation}
+            tooltip={buildScoreTooltip(ramp)}
+            tooltipLinkHref={TABLE_METHOD_LINKS.ramps}
+          />
           <div>
             <Link href={detailHref} className="font-semibold hover:underline">
               {ramp.name}
             </Link>
-            <RecommendationBadge recommendation={ramp.recommendation} />
+            <RecommendationBadge recommendation={ramp.recommendation} tooltipLinkHref={detailHref} />
           </div>
         </div>
         <button
@@ -881,30 +997,30 @@ function RampItem({
 
       <div className="flex flex-wrap gap-2 mb-3">
         {ramp.onRamp && (
-          <Badge variant="success" tooltip="On-Ramp: Convert fiat currency to crypto">On-Ramp</Badge>
+          <Badge variant="success" tooltip="On-Ramp: Convert fiat currency to crypto" tooltipLinkHref={detailHref}>On-Ramp</Badge>
         )}
         {ramp.offRamp && (
-          <Badge variant="info" tooltip="Off-Ramp: Convert crypto to fiat currency">Off-Ramp</Badge>
+          <Badge variant="info" tooltip="Off-Ramp: Convert crypto to fiat currency" tooltipLinkHref={detailHref}>Off-Ramp</Badge>
         )}
-        <Badge variant="default" tooltip={`Geographic coverage: ${ramp.coverage}`}>{ramp.coverage}</Badge>
+        <Badge variant="default" tooltip={`Geographic coverage: ${ramp.coverage}`} tooltipLinkHref={detailHref}>{ramp.coverage}</Badge>
       </div>
 
       <div className="space-y-1 text-sm mb-3">
         <div className="flex justify-between">
           <span className="text-muted-foreground">Fee Model:</span>
-          <Tooltip content={rampTooltips.feeModel[ramp.feeModel as keyof typeof rampTooltips.feeModel] || `Fee model: ${ramp.feeModel}`}>
+          <Tooltip content={rampTooltips.feeModel[ramp.feeModel as keyof typeof rampTooltips.feeModel] || `Fee model: ${ramp.feeModel}`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
             <span className="font-medium cursor-help">{ramp.feeModel}</span>
           </Tooltip>
         </div>
         <div className="flex justify-between">
           <span className="text-muted-foreground">Min Fee:</span>
-          <Tooltip content={`Minimum transaction fee (approximate): ${ramp.minFee}`}>
+          <Tooltip content={`Minimum transaction fee (approximate): ${ramp.minFee}`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
             <span className="font-medium cursor-help">{ramp.minFee}</span>
           </Tooltip>
         </div>
         <div className="flex justify-between">
           <span className="text-muted-foreground">Dev UX:</span>
-          <Tooltip content={rampTooltips.devUx[ramp.devUx as keyof typeof rampTooltips.devUx] || `Developer experience: ${ramp.devUx}`}>
+          <Tooltip content={rampTooltips.devUx[ramp.devUx as keyof typeof rampTooltips.devUx] || `Developer experience: ${ramp.devUx}`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
             <span className="font-medium cursor-help">{ramp.devUx}</span>
           </Tooltip>
         </div>
@@ -943,6 +1059,8 @@ export function WalletTable<T extends WalletData>({
   viewMode = 'grid',
   type,
 }: WalletTableProps<T>) {
+  const headerMethodLink = TABLE_METHOD_LINKS[type];
+
   if (wallets.length === 0) {
     return (
       <div className="text-center py-12">
@@ -959,94 +1077,94 @@ export function WalletTable<T extends WalletData>({
           <thead>
             <tr className="border-b border-border bg-muted/50">
               <th className="py-3 px-4 text-left text-sm font-medium">
-                <HeaderTooltip label="Compare" tooltip={softwareWalletTooltips.headers.compare} />
+                <HeaderTooltip label="Compare" tooltip={softwareWalletTooltips.headers.compare} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
               </th>
               <th className="py-3 px-4 text-left text-sm font-medium">
-                <HeaderTooltip label="Wallet" tooltip={softwareWalletTooltips.headers.wallet} />
+                <HeaderTooltip label="Wallet" tooltip={softwareWalletTooltips.headers.wallet} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
               </th>
               {(type === 'software' || type === 'hardware' || type === 'ramps') && (
                 <th className="py-3 px-4 text-left text-sm font-medium">
-                  <HeaderTooltip label="Status" tooltip={softwareWalletTooltips.headers.status} />
+                  <HeaderTooltip label="Status" tooltip={softwareWalletTooltips.headers.status} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                 </th>
               )}
               {type === 'cards' && (
                 <th className="py-3 px-4 text-left text-sm font-medium">
-                  <HeaderTooltip label="Type" tooltip={cryptoCardTooltips.headers.cardType} />
+                  <HeaderTooltip label="Type" tooltip={cryptoCardTooltips.headers.cardType} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                 </th>
               )}
               {type === 'software' && (
                 <>
                   <th className="py-3 px-4 text-left text-sm font-medium">
-                    <HeaderTooltip label="Platforms" tooltip={softwareWalletTooltips.headers.platforms} />
+                    <HeaderTooltip label="Platforms" tooltip={softwareWalletTooltips.headers.platforms} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                   <th className="py-3 px-4 text-left text-sm font-medium">
-                    <HeaderTooltip label="Chains" tooltip={softwareWalletTooltips.headers.chains} />
+                    <HeaderTooltip label="Chains" tooltip={softwareWalletTooltips.headers.chains} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                   <th className="py-3 px-4 text-left text-sm font-medium">
-                    <HeaderTooltip label="Features" tooltip={softwareWalletTooltips.headers.features} />
+                    <HeaderTooltip label="Features" tooltip={softwareWalletTooltips.headers.features} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                   <th className="py-3 px-4 text-left text-sm font-medium">
-                    <HeaderTooltip label="License" tooltip={softwareWalletTooltips.headers.license} />
+                    <HeaderTooltip label="License" tooltip={softwareWalletTooltips.headers.license} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                 </>
               )}
               {type === 'hardware' && (
                 <>
                   <th className="py-3 px-4 text-left text-sm font-medium">
-                    <HeaderTooltip label="Air-Gap" tooltip={hardwareWalletTooltips.headers.airGap} />
+                    <HeaderTooltip label="Air-Gap" tooltip={hardwareWalletTooltips.headers.airGap} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                   <th className="py-3 px-4 text-left text-sm font-medium">
-                    <HeaderTooltip label="SE" tooltip={hardwareWalletTooltips.headers.secureElement} />
+                    <HeaderTooltip label="SE" tooltip={hardwareWalletTooltips.headers.secureElement} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                   <th className="py-3 px-4 text-left text-sm font-medium">
-                    <HeaderTooltip label="Open Source" tooltip={hardwareWalletTooltips.headers.openSource} />
+                    <HeaderTooltip label="Open Source" tooltip={hardwareWalletTooltips.headers.openSource} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                   <th className="py-3 px-4 text-left text-sm font-medium">
-                    <HeaderTooltip label="Connectivity" tooltip={hardwareWalletTooltips.headers.connectivity} />
+                    <HeaderTooltip label="Connectivity" tooltip={hardwareWalletTooltips.headers.connectivity} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                 </>
               )}
               {type === 'cards' && (
                 <>
                   <th className="py-3 px-4 text-left text-sm font-medium">
-                    <HeaderTooltip label="Region" tooltip={cryptoCardTooltips.headers.region} />
+                    <HeaderTooltip label="Region" tooltip={cryptoCardTooltips.headers.region} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                   <th className="py-3 px-4 text-left text-sm font-medium">
-                    <HeaderTooltip label="Cashback" tooltip={cryptoCardTooltips.headers.cashback} />
+                    <HeaderTooltip label="Cashback" tooltip={cryptoCardTooltips.headers.cashback} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                   <th className="py-3 px-4 text-left text-sm font-medium">
-                    <HeaderTooltip label="Rewards" tooltip={cryptoCardTooltips.headers.rewards} />
+                    <HeaderTooltip label="Rewards" tooltip={cryptoCardTooltips.headers.rewards} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                   <th className="py-3 px-4 text-left text-sm font-medium">
-                    <HeaderTooltip label="Annual Fee" tooltip={cryptoCardTooltips.headers.annualFee} />
+                    <HeaderTooltip label="Annual Fee" tooltip={cryptoCardTooltips.headers.annualFee} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                 </>
               )}
               {type === 'ramps' && (
                 <>
                   <th className="py-3 px-4 text-left text-sm font-medium">
-                    <HeaderTooltip label="Type" tooltip={rampTooltips.headers.type} />
+                    <HeaderTooltip label="Type" tooltip={rampTooltips.headers.type} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                   <th className="py-3 px-4 text-left text-sm font-medium">
-                    <HeaderTooltip label="Coverage" tooltip={rampTooltips.headers.coverage} />
+                    <HeaderTooltip label="Coverage" tooltip={rampTooltips.headers.coverage} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                   <th className="py-3 px-4 text-left text-sm font-medium">
-                    <HeaderTooltip label="Fee Model" tooltip={rampTooltips.headers.feeModel} />
+                    <HeaderTooltip label="Fee Model" tooltip={rampTooltips.headers.feeModel} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                   <th className="py-3 px-4 text-left text-sm font-medium">
-                    <HeaderTooltip label="Min Fee" tooltip={rampTooltips.headers.minFee} />
+                    <HeaderTooltip label="Min Fee" tooltip={rampTooltips.headers.minFee} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                   <th className="py-3 px-4 text-left text-sm font-medium">
-                    <HeaderTooltip label="Dev UX" tooltip={rampTooltips.headers.devUx} />
+                    <HeaderTooltip label="Dev UX" tooltip={rampTooltips.headers.devUx} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                   <th className="py-3 px-4 text-left text-sm font-medium">
-                    <HeaderTooltip label="Links" tooltip={rampTooltips.headers.links} />
+                    <HeaderTooltip label="Links" tooltip={rampTooltips.headers.links} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                 </>
               )}
               {(type === 'software' || type === 'hardware') && (
                 <th className="py-3 px-4 text-left text-sm font-medium">
-                  <HeaderTooltip label="Links" tooltip={softwareWalletTooltips.headers.links} />
+                  <HeaderTooltip label="Links" tooltip={softwareWalletTooltips.headers.links} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                 </th>
               )}
             </tr>

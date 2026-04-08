@@ -2,6 +2,21 @@
 
 > **Comprehensive guide to crypto-backed and crypto rewards credit/debit cards**
 
+> **Source of truth note:** Current `Score` values are generated from the visible columns in [CRYPTO_CARDS.md](./CRYPTO_CARDS.md) via `wallets/scripts/sync_table_scores.js` (`2026-04-visible-columns-v1`). If a long-form section below mentions older rankings or manual bonuses, trust the main comparison table.
+
+<!-- GENERATED_CARDS_SNAPSHOT_START -->
+> **Current generated snapshot:** EtherFi Cash (92, Non-custodial DeFi, 🟢), Amp Pay Black Card (84, Solana payments, 🟢), Crypto.com Visa (83, CRO stakers ⚠️, 🟢), and Ready Card (83, Self-custody EU/UK, 🟢). Regenerated from [CRYPTO_CARDS.md](./CRYPTO_CARDS.md) by `wallets/scripts/sync_table_scores.js` using methodology `2026-04-visible-columns-v1`.
+
+### Current Top Rows (generated)
+| Rank | Card | Score | Best For | Rec |
+| ---- | ---- | ----- | -------- | --- |
+| 1 | **EtherFi Cash** | 92 | Non-custodial DeFi | 🟢 |
+| 2 | **Amp Pay Black Card** | 84 | Solana payments | 🟢 |
+| 3 | **Crypto.com Visa** | 83 | CRO stakers ⚠️ | 🟢 |
+| 4 | **Ready Card** | 83 | Self-custody EU/UK | 🟢 |
+| 5 | **Kast** | 82 | Stablecoin banking | 🟢 |
+<!-- GENERATED_CARDS_SNAPSHOT_END -->
+
 **Last Updated:** January 12, 2026 (Added 11 new crypto cards: MetaMask, Tria, Solflare, Kast, ThorWallet, Fuse, Payy, Spendly, Tuyo, Avici, Amp Pay; marked Kontigo as discontinued)
 
 ---

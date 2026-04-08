@@ -29,10 +29,20 @@ export interface SupportedChains {
  */
 export type ApiOpenness = 'open' | 'partial' | 'public' | 'closed';
 
+export interface ScoreBreakdownEntry {
+  key: string;
+  label: string;
+  score: number;
+  max: number;
+  note: string;
+}
+
 export interface SoftwareWallet {
   id: string;
   name: string;
   score: number;
+  methodologyVersion: string;
+  scoreBreakdown: ScoreBreakdownEntry[];
   core: 'full' | 'partial' | 'none';
   releasesPerMonth: number | null;
   rpc: 'full' | 'partial' | 'none';
@@ -67,6 +77,8 @@ export interface HardwareWallet {
   id: string;
   name: string;
   score: number;
+  methodologyVersion: string;
+  scoreBreakdown: ScoreBreakdownEntry[];
   github: string | null;
   airGap: boolean;
   openSource: 'full' | 'partial' | 'closed';
@@ -95,6 +107,8 @@ export interface CryptoCard {
   id: string;
   name: string;
   score: number;
+  methodologyVersion: string;
+  scoreBreakdown: ScoreBreakdownEntry[];
   cardType: 'credit' | 'debit' | 'prepaid' | 'business';
   /** Custody model: self (non-custodial), exchange, or cefi */
   custody: CustodyType;
@@ -108,7 +122,7 @@ export interface CryptoCard {
   rewards: string;
   provider: string;
   providerUrl: string | null;
-  status: 'active' | 'verify' | 'launching';
+  status: 'active' | 'verify' | 'launching' | 'inactive';
   bestFor: string;
   recommendation: 'recommended' | 'situational' | 'avoid';
   type: 'card';
@@ -118,6 +132,8 @@ export interface Ramp {
   id: string;
   name: string;
   score: number;
+  methodologyVersion: string;
+  scoreBreakdown: ScoreBreakdownEntry[];
   rampType: 'both' | 'on-ramp' | 'off-ramp';
   onRamp: boolean;
   offRamp: boolean;
@@ -125,7 +141,7 @@ export interface Ramp {
   feeModel: string;
   minFee: string;
   devUx: string;
-  status: 'active' | 'verify' | 'launching';
+  status: 'active' | 'verify' | 'launching' | 'inactive';
   bestFor: string;
   recommendation: 'recommended' | 'situational' | 'avoid';
   url: string | null;

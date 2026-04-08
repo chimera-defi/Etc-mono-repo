@@ -1,6 +1,21 @@
 # Crypto On/Off-Ramp Comparison - Full Documentation
 
-> **TL;DR:** **MoonPay** and **Transak** are the market leaders for general coverage. **Sardine** is the best choice for high-value transactions (Instant ACH). **Ramp Network** offers excellent performance for European/L2 users. **Stripe** is the safest bet for mainstream brand trust.
+> **Source of truth note:** Current `Score` values are generated from the visible columns in [RAMPS.md](./RAMPS.md) via `wallets/scripts/sync_table_scores.js` (`2026-04-visible-columns-v1`). If a long-form section below mentions older rankings or approximate scores, trust the main comparison table.
+
+> **TL;DR:** The generated snapshot below mirrors the current main-table ordering and scores. Use it for the latest rankings; the long-form sections below explain fee structures, geographic coverage, and integration tradeoffs.
+
+<!-- GENERATED_RAMPS_SNAPSHOT_START -->
+> **Current generated snapshot:** Coinbase Pay (89, Coinbase users, 🟢), CoinGate (88, Low fees, 🟢), BitPay (87, Bitcoin focus, 🟢), and Ramp (86, EU / Speed, 🟢). Regenerated from [RAMPS.md](./RAMPS.md) by `wallets/scripts/sync_table_scores.js` using methodology `2026-04-visible-columns-v1`.
+
+### Current Top Rows (generated)
+| Rank | Provider | Score | Best For | Rec |
+| ---- | -------- | ----- | -------- | --- |
+| 1 | **Coinbase Pay** | 89 | Coinbase users | 🟢 |
+| 2 | **CoinGate** | 88 | Low fees | 🟢 |
+| 3 | **BitPay** | 87 | Bitcoin focus | 🟢 |
+| 4 | **Ramp** | 86 | EU / Speed | 🟢 |
+| 5 | **Stripe** | 86 | Trust | 🟢 |
+<!-- GENERATED_RAMPS_SNAPSHOT_END -->
 
 **Data Sources:** Developer Documentation, Fee Schedules, Integration Guides (as of Feb 2026).
 

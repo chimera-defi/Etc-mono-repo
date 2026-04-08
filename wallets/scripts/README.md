@@ -4,6 +4,33 @@ Automation scripts for refreshing wallet comparison data.
 
 ## Scripts
 
+### `sync_table_scores.js` (Comparison Tables)
+
+Recomputes `Score` and recommendation cells from the visible markdown-table columns for:
+
+- `wallets/SOFTWARE_WALLETS.md`
+- `wallets/HARDWARE_WALLETS.md`
+- `wallets/CRYPTO_CARDS.md`
+- `wallets/RAMPS.md`
+
+It also sorts rows by computed score so the published tables stay in rank order, and refreshes the generated snapshot blocks at the top of the matching `*_DETAILS.md` files.
+
+#### Usage
+
+```bash
+# Check for drift only
+node wallets/scripts/sync_table_scores.js
+
+# Rewrite tables in place
+node wallets/scripts/sync_table_scores.js --write
+```
+
+#### Notes
+
+- Current methodology version: `2026-04-visible-columns-v1`
+- `wallets/frontend/scripts/smoke-test-wallet-data.js` expects the tables to be in sync
+- This script is now the source of truth for score/recommendation cells and the generated detail-doc snapshots
+
 ### `generate_merchant_feed.py` (Merchant Center)
 
 Generates a Google Merchant Center feed from the hardware wallet comparison
@@ -45,11 +72,43 @@ Pricing sources and exclusions are documented in `wallets/MERCHANT_FEED.md`.
 Recalculates totals in scoring breakdown tables for software and hardware
 wallets. This only updates totals where the per-category columns already exist.
 
+This is separate from `sync_table_scores.js`, which regenerates the public
+comparison-table score cells from the visible columns.
+
 #### Usage
 
 ```bash
 ./recompute_scores.py
 ```
+
+### `run_naming_workflow.py` (Naming + Domain Validation)
+
+Runs a strict naming workflow from `wallets/branding/CANDIDATES.txt`:
+
+- applies hard filters (word count, blocked tokens, collision controls)
+- scores surviving names with weighted criteria
+- checks domain availability across `.com`, `.org`, `.net`, `.xyz`, `.finance`
+- writes `wallets/branding/NAMING_VALIDATION.md`
+- writes `wallets/branding/naming-workflow-output.json`
+
+#### Usage
+
+```bash
+# Print report to stdout
+python3 wallets/scripts/run_naming_workflow.py
+
+# Write report files
+python3 wallets/scripts/run_naming_workflow.py --write
+
+# Validate only shortlist candidates
+python3 wallets/scripts/run_naming_workflow.py \
+  --candidates wallets/branding/SHORTLIST_CANDIDATES.txt \
+  --markdown-output wallets/branding/NAMING_VALIDATION_SHORTLIST.md \
+  --json-output wallets/branding/naming-workflow-shortlist.json \
+  --write
+```
+
+Use `--workers`, `--timeout`, and `--retries` to tune RDAP reliability vs speed when domain checks return many `unknown` statuses.
 
 ### `verify-ramps.py` (Ramps)
 
@@ -71,7 +130,7 @@ Verifies ramp provider URLs from `wallets/RAMPS.md` using a direct fetch plus
 
 Queries GitHub for **EVM software wallet** activity.
 
-Queries the GitHub API to get the latest commit dates and activity status for all tracked wallet repositories.
+Queries the GitHub API to get the latest commit dates and activity status for all tracked wallet repositories. The tracked repos are discovered from the public `wallets/SOFTWARE_WALLETS.md` table, so adding or removing rows there automatically changes the refresh set.
 If no token is available, it falls back to GitHub Atom feeds for the last commit date and attempts a best-effort HTML scrape for stars/issues.
 
 #### Usage
@@ -181,19 +240,9 @@ If no token is set, the script falls back to Atom feeds for last-commit dates an
 ./refresh-hardware-wallet-data.sh --markdown
 ```
 
-#### Tracked Hardware Wallets
+The tracked repos are discovered from `wallets/HARDWARE_WALLETS.md`. The script only follows rows with a public GitHub firmware repo and dedupes shared repos such as the Trezor and BitBox product lines.
 
-| Wallet | Repository |
-|--------|------------|
-| Trezor | trezor/trezor-firmware |
-| Keystone | KeystoneHQ/keystone3-firmware |
-| BitBox02 | BitBoxSwiss/bitbox02-firmware |
-| ColdCard | Coldcard/firmware |
-| Foundation Passport | Foundation-Devices/passport2 |
-| OneKey | OneKeyHQ/firmware-pro |
-| KeepKey | keepkey/keepkey-firmware |
-
-**Closed Source (not tracked):** Ledger, NGRAVE, Ellipal, SafePal, SecuX, Tangem, BC Vault, GridPlus
+**Closed Source / not firmware-tracked:** Ledger, NGRAVE, Ellipal, SafePal, SecuX, Tangem, BC Vault, GridPlus
 
 ---
 
@@ -201,25 +250,11 @@ If no token is set, the script falls back to Atom feeds for last-commit dates an
 
 ### For Software Wallets
 
-To track a new wallet, add it to the `REPOS` and `WALLET_NAMES` arrays in `refresh-github-data.sh`:
+Add or update the row in `wallets/SOFTWARE_WALLETS.md`. If the GitHub column links to a public repo, the refresh script will pick it up automatically.
 
 ### For Hardware Wallets
 
-Add to the `REPOS` and `WALLET_NAMES` arrays in `refresh-hardware-wallet-data.sh`:
-
-### Common Format
-
-```bash
-REPOS=(
-    ...
-    "owner/repo-name"  # Add new repo
-)
-
-WALLET_NAMES=(
-    ...
-    "Wallet Name"      # Add display name (same index)
-)
-```
+Add or update the row in `wallets/HARDWARE_WALLETS.md`. Public firmware repos with `✅ Full` open source are discovered automatically; SDK-only and non-firmware links are skipped.
 
 ## Requirements
 

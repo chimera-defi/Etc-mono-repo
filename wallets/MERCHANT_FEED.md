@@ -1,6 +1,6 @@
 # Merchant Center Feed (Hardware Wallets)
 
-Last updated: 2026-02-03
+Last updated: 2026-04-08
 
 ## Scope
 
@@ -12,6 +12,7 @@ Last updated: 2026-02-03
 
 | Item | Price (USD) | Source |
 | --- | --- | --- |
+| Bitkey | 150 | https://bitkey.world/products/bitkey |
 | Ledger Nano X | 99 | https://shop.ledger.com/products/ledger-nano-x |
 | Ledger Nano S+ | 59 | https://shop.ledger.com/products/ledger-nano-s-plus |
 | Ledger Nano Gen5 | 179 | https://shop.ledger.com/products/ledger-nano-gen5 |

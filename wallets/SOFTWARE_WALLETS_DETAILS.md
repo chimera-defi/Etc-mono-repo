@@ -2,7 +2,22 @@
 
 > 📊 **View the comparison table:** [See all wallets at a glance →](./SOFTWARE_WALLETS.md)
 
-> **TL;DR:** Use **Rabby** (92) for development (tx simulation + stability), **Trust** (85) or **Rainbow** (82) for production. Use **MetaMask** (73) last for compatibility only — it has ~8 releases/month which is too much churn. Only wallets with ✅ in the "Core" column have both mobile + browser extension.
+> **Source of truth note:** Current `Score` and `Rec` values are generated from the visible columns in [SOFTWARE_WALLETS.md](./SOFTWARE_WALLETS.md) via `wallets/scripts/sync_table_scores.js` (`2026-04-visible-columns-v1`). If a long-form section below mentions older numeric scores, trust the main comparison table.
+
+> **TL;DR:** The generated snapshot below mirrors the current main-table ordering and scores. Use it for the latest rankings; the long-form sections below explain audits, integration tradeoffs, and developer workflow details.
+
+<!-- GENERATED_SOFTWARE_SNAPSHOT_START -->
+> **Current generated snapshot:** Rabby (84, Development, 🟢), MetaMask (77, Compatibility, 🟡), Safe (77, Treasury/DAO, 🟡), and Brave (75, Brave users, 🟡). Regenerated from [SOFTWARE_WALLETS.md](./SOFTWARE_WALLETS.md) by `wallets/scripts/sync_table_scores.js` using methodology `2026-04-visible-columns-v1`.
+
+### Current Top Rows (generated)
+| Rank | Wallet | Score | Best For | Rec |
+| ---- | ------ | ----- | -------- | --- |
+| 1 | **Rabby** | 84 | Development | 🟢 |
+| 2 | **MetaMask** | 77 | Compatibility | 🟡 |
+| 3 | **Safe** | 77 | Treasury/DAO | 🟡 |
+| 4 | **Brave** | 75 | Brave users | 🟡 |
+| 5 | **Trust** | 75 | Multi-chain | 🟡 |
+<!-- GENERATED_SOFTWARE_SNAPSHOT_END -->
 
 **Data Sources:** GitHub REST API (Feb 2026), [WalletBeat](https://walletbeat.fyi) (Dec 2025)
 
@@ -1066,4 +1081,4 @@ Prefer in this order:
 
 ---
 
-*Last updated: December 16, 2025. Full wallet validation: Wigwam and Taho resumed active development; GitHub metrics refreshed for all 25 wallets. Kohaku (ethereum/kohaku-extension) added as stale Ambire fork marked with ∆. Data from [WalletBeat](https://walletbeat.fyi), [awesome-eip-7702](https://github.com/fireblocks-labs/awesome-eip-7702), [7702 Beat](https://swiss-knife.xyz/7702beat), and GitHub API.*
+*Last updated: December 16, 2025. Full wallet validation: Wigwam and Taho resumed active development; GitHub metrics refreshed for all 25 wallets. Kohaku (ethereum/kohaku-extension) added as an Ethereum-maintained Ambire-derived experimental wallet marked with ∆. Data from [WalletBeat](https://walletbeat.fyi), [awesome-eip-7702](https://github.com/fireblocks-labs/awesome-eip-7702), [7702 Beat](https://swiss-knife.xyz/7702beat), and GitHub API.*

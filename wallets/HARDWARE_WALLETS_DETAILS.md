@@ -2,7 +2,22 @@
 
 > 📊 **View the comparison table:** [See all wallets at a glance →](./HARDWARE_WALLETS.md)
 
-> **TL;DR:** Use **Trezor Safe 5** (92) for best security + UX, **ColdCard Mk4** (91) for Bitcoin maximalists, **Keystone 3 Pro** (91) for air-gapped security, or **Trezor Safe 3** (91) for best value at $79. **Blockstream Jade** (81) is a great budget option. For DIY enthusiasts: **Specter DIY** (72) or **SeedSigner** (65). **Ledger** (55-57) is penalized for Ledger Recover. See [Why Look Beyond Ledger?](#-why-look-beyond-ledger) for details.
+> **Source of truth note:** Current `Score` and `Rec` values are generated from the visible columns in [HARDWARE_WALLETS.md](./HARDWARE_WALLETS.md) via `wallets/scripts/sync_table_scores.js` (`2026-04-visible-columns-v1`). If a long-form section below mentions older numeric scores, trust the main comparison table.
+
+> **TL;DR:** The generated snapshot below mirrors the current main-table ordering and scores. Use it for the latest rankings; the long-form sections below explain security architecture, firmware transparency, and tradeoffs in more detail.
+
+<!-- GENERATED_HARDWARE_SNAPSHOT_START -->
+> **Current generated snapshot:** Keystone 3 Pro (88, ✅ Active, 🟢), ColdCard Mk4 (82, ✅ Active, 🟢), Foundation Passport (81, ✅ Active, 🟢), and Keycard Shell (80, ✅ Active, 🟢). Regenerated from [HARDWARE_WALLETS.md](./HARDWARE_WALLETS.md) by `wallets/scripts/sync_table_scores.js` using methodology `2026-04-visible-columns-v1`.
+
+### Current Top Rows (generated)
+| Rank | Wallet | Score | Activity | Rec |
+| ---- | ------ | ----- | -------- | --- |
+| 1 | **Keystone 3 Pro** | 88 | ✅ Active | 🟢 |
+| 2 | **ColdCard Mk4** | 82 | ✅ Active | 🟢 |
+| 3 | **Foundation Passport** | 81 | ✅ Active | 🟢 |
+| 4 | **Keycard Shell** | 80 | ✅ Active | 🟢 |
+| 5 | **Trezor Safe 7** | 74 | ✅ Active | 🟢 |
+<!-- GENERATED_HARDWARE_SNAPSHOT_END -->
 
 **Last Updated:** February 2026 | [Scoring Methodology](#-scoring-methodology) | [GitHub Activity Data](#github-metrics-firmware-repositories) | [View Company Aggregates](./HARDWARE_WALLET_COMPANIES.md)
 

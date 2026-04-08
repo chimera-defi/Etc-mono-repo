@@ -79,7 +79,7 @@ const DOCUMENT_CONFIG: Record<string, Omit<MarkdownDocument, 'slug' | 'content'>
   },
   'ABOUT.md': {
     title: 'About Wallet Radar',
-    description: 'Educational research platform for wallet comparison. Independent, non-affiliated, and open source.',
+    description: 'Educational research platform for comparing crypto access products. Independent, developer-focused, and open source.',
     category: 'guide',
     order: 6,
   },
