@@ -295,24 +295,35 @@ function generateSlug(name: string): string {
     .replace(/^-|-$/g, '');
 }
 
-// Parse markdown table into rows
+// Parse only the primary comparison table from markdown into rows (header + data rows).
 function parseMarkdownTable(content: string): string[][] {
   const lines = content.split('\n');
+  const headerIndex = lines.findIndex((line, index) => (
+    line.startsWith('|') &&
+    index + 1 < lines.length &&
+    /^\|[\s-:|]+\|$/.test(lines[index + 1].trim())
+  ));
+
+  if (headerIndex === -1) return [];
+
   const rows: string[][] = [];
-
-  for (const line of lines) {
-    // Skip non-table lines and separator lines
-    if (!line.startsWith('|') || line.match(/^\|[\s-:|]+\|$/)) continue;
-
-    // Parse cells
-    const cells = line
+  rows.push(
+    lines[headerIndex]
       .split('|')
-      .slice(1, -1) // Remove first and last empty elements
-      .map(cell => cell.trim());
+      .slice(1, -1)
+      .map((cell) => cell.trim())
+  );
 
-    if (cells.length > 0) {
-      rows.push(cells);
-    }
+  for (let i = headerIndex + 2; i < lines.length; i += 1) {
+    const line = lines[i];
+    if (!line.startsWith('|')) break;
+    if (/^\|[\s-:|]+\|$/.test(line.trim())) continue;
+    rows.push(
+      line
+        .split('|')
+        .slice(1, -1)
+        .map((cell) => cell.trim())
+    );
   }
 
   return rows;
