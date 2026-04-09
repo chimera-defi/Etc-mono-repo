@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft, ExternalLink, ShieldCheck, Star, Wallet, Cpu, CreditCard, ArrowLeftRight } from 'lucide-react';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SocialShare } from '@/components/SocialShare';
+import { ScoreBreakdownBar } from '@/components/ScoreBreakdownBar';
 import { getAllWalletData, getWalletById, getWalletsByType, isWalletType, type WalletType } from '@/lib/wallet-data';
 import { generateWalletKeywords, optimizeMetaDescription, generateBreadcrumbSchema, generateWalletProductSchema } from '@/lib/seo';
 import type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData } from '@/types/wallets';
@@ -24,6 +25,13 @@ const typeDocs: Record<WalletType, { href: string; label: string }> = {
   hardware: { href: '/docs/hardware-wallets', label: 'Hardware Wallet Comparison' },
   cards: { href: '/docs/crypto-cards', label: 'Crypto Card Comparison' },
   ramps: { href: '/docs/ramps', label: 'Ramp Provider Comparison' },
+};
+
+const methodologyDocs: Record<WalletType, string> = {
+  software: '/docs/software-wallets-details#-wallet-scores-developer-focused-methodology',
+  hardware: '/docs/hardware-wallets-details#-scoring-methodology',
+  cards: '/docs/crypto-cards-details#scoring-methodology',
+  ramps: '/docs/ramps-details#scoring-methodology',
 };
 
 const typeIcons: Record<WalletType, JSX.Element> = {
@@ -266,6 +274,8 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
     .filter(item => item.id !== wallet.id)
     .sort((a, b) => b.score - a.score)
     .slice(0, 6);
+  const totalBreakdownMax = wallet.scoreBreakdown.reduce((sum, entry) => sum + entry.max, 0) || 1;
+  const methodologyHref = methodologyDocs[params.type];
 
   // Generate breadcrumb schema for better LLM navigation understanding
   const breadcrumbSchema = generateBreadcrumbSchema([
@@ -346,10 +356,94 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
             </ul>
           </div>
 
+          <div className="rounded-xl border border-border p-6 mb-6">
+            <div className="mb-4 flex items-start justify-between gap-4">
+              <h2 className="text-xl font-semibold">Score Breakdown</h2>
+              <Link href={methodologyHref} className="text-sm text-primary hover:underline">
+                View methodology
+              </Link>
+            </div>
+
+            <p className="text-sm text-muted-foreground mb-4">
+              This score is generated from weighted category rows. Higher completion in each category yields higher earned points.
+            </p>
+
+            <ScoreBreakdownBar
+              breakdown={wallet.scoreBreakdown}
+              showLegend
+              className="mb-5"
+              barClassName="h-3"
+            />
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-border text-left text-muted-foreground">
+                    <th className="py-2 pr-3 font-medium">Category</th>
+                    <th className="py-2 px-3 font-medium">Weight</th>
+                    <th className="py-2 px-3 font-medium">Earned</th>
+                    <th className="py-2 pl-3 font-medium">Completion</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {wallet.scoreBreakdown.map((entry) => {
+                    const completionPct = entry.max > 0 ? Math.round((entry.score / entry.max) * 100) : 0;
+                    const weightPct = Math.round((entry.max / totalBreakdownMax) * 100);
+                    const completionClass =
+                      completionPct >= 80
+                        ? 'bg-green-500'
+                        : completionPct >= 60
+                        ? 'bg-amber-500'
+                        : 'bg-red-500';
+
+                    return (
+                      <tr key={`${entry.key}-${entry.label}`} className="border-b border-border/60 align-top">
+                        <td className="py-3 pr-3">
+                          <div className="font-medium">{entry.label}</div>
+                          {entry.note && (
+                            <p className="mt-1 text-xs text-muted-foreground">{entry.note}</p>
+                          )}
+                        </td>
+                        <td className="py-3 px-3">{entry.max} pts ({weightPct}%)</td>
+                        <td className="py-3 px-3">{entry.score}/{entry.max}</td>
+                        <td className="py-3 pl-3 min-w-[180px]">
+                          <div className="flex items-center gap-3">
+                            <div className="h-2 flex-1 rounded-full bg-muted overflow-hidden">
+                              <div
+                                className={`h-full ${completionClass}`}
+                                style={{ width: `${completionPct}%` }}
+                              />
+                            </div>
+                            <span className="text-xs text-muted-foreground w-10 text-right">{completionPct}%</span>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            <details className="mt-5 rounded-lg border border-border/70 bg-muted/20 p-4">
+              <summary className="cursor-pointer text-sm font-medium">Score explained</summary>
+              <div className="mt-3 space-y-3 text-sm text-muted-foreground">
+                {wallet.scoreBreakdown.map((entry) => (
+                  <p key={`explain-${entry.key}-${entry.label}`}>
+                    <span className="font-medium text-foreground">{entry.label}:</span>{' '}
+                    {entry.note || 'Category-specific checks are applied from the methodology.'}{' '}
+                    <Link href={methodologyHref} className="text-primary hover:underline">
+                      Read scoring details
+                    </Link>
+                  </p>
+                ))}
+              </div>
+            </details>
+          </div>
+
           <div className="rounded-xl border border-border p-6">
             <h2 className="text-xl font-semibold mb-4">Source & References</h2>
             <p className="text-sm text-muted-foreground mb-4">
-              All scores come from Wallet Radar&apos;s developer-focused scoring methodology. View the full scoring breakdown, audits, and platform requirements in the comparison tables.
+              All scores come from Wallet Radar&apos;s developer-focused scoring methodology. View the scoring tables, audits, and platform requirements in the comparison docs.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
