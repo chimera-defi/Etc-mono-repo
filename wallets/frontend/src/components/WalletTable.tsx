@@ -12,11 +12,13 @@ import {
   Shield,
   Zap,
   AlertTriangle,
+  SearchX,
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Tooltip, HeaderTooltip } from '@/components/Tooltip';
+import { ScoreBreakdownBar } from '@/components/ScoreBreakdownBar';
 import {
   softwareWalletTooltips,
   hardwareWalletTooltips,
@@ -40,6 +42,59 @@ type SelectableItemProps = {
   viewMode: 'grid' | 'table';
   detailHref: string;
 };
+
+function EmptyState({
+  type,
+  onResetFilters,
+}: {
+  type: 'software' | 'hardware' | 'cards' | 'ramps';
+  onResetFilters?: () => void;
+}) {
+  const config = {
+    software: {
+      title: 'No software wallets match your filters',
+      description: 'Try widening platform, safety, or score filters.',
+      iconColor: 'text-indigo-400',
+      borderColor: 'border-indigo-500/40',
+    },
+    hardware: {
+      title: 'No hardware wallets match your filters',
+      description: 'Try widening price, connectivity, or transparency filters.',
+      iconColor: 'text-amber-400',
+      borderColor: 'border-amber-500/40',
+    },
+    cards: {
+      title: 'No crypto cards match your filters',
+      description: 'Try widening region, custody, or cashback filters.',
+      iconColor: 'text-emerald-400',
+      borderColor: 'border-emerald-500/40',
+    },
+    ramps: {
+      title: 'No ramps match your filters',
+      description: 'Try widening coverage, fee, or status filters.',
+      iconColor: 'text-violet-400',
+      borderColor: 'border-violet-500/40',
+    },
+  } as const;
+
+  const state = config[type];
+
+  return (
+    <div className={cn('rounded-2xl border bg-background/50 p-8 text-center', state.borderColor)}>
+      <SearchX className={cn('mx-auto h-10 w-10', state.iconColor)} />
+      <h3 className="mt-4 text-lg font-semibold text-foreground">{state.title}</h3>
+      <p className="mt-2 text-sm text-muted-foreground">{state.description}</p>
+      {onResetFilters && (
+        <button
+          onClick={onResetFilters}
+          className="mt-4 inline-flex items-center rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground hover:bg-muted"
+        >
+          Reset filters
+        </button>
+      )}
+    </div>
+  );
+}
 
 function SelectionButton({
   isSelected,
@@ -198,6 +253,26 @@ function buildScoreTooltip(wallet: WalletData): string {
   return lines.join('\n');
 }
 
+function ScoreBreakdownPreview({
+  breakdown,
+  tooltipLinkHref,
+}: {
+  breakdown: WalletData['scoreBreakdown'];
+  tooltipLinkHref: string;
+}) {
+  return (
+    <Tooltip
+      content="Breakdown by scoring category. Hover segments for category-level details."
+      linkHref={tooltipLinkHref}
+      linkLabel={METHODOLOGY_TOOLTIP_LABEL}
+    >
+      <div className="cursor-help">
+        <ScoreBreakdownBar breakdown={breakdown} barClassName="h-1.5" />
+      </div>
+    </Tooltip>
+  );
+}
+
 // Score badge
 function ScoreBadge({
   score,
@@ -217,15 +292,28 @@ function ScoreBadge({
   else if (recommendation === 'avoid' || recommendation === 'not-for-dev') variant = 'error';
 
   const badge = (
-    <div
-      className={cn(
-        'w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg shadow-sm ring-1',
-        variant === 'success' && 'bg-green-100 text-green-700 ring-green-200 dark:bg-green-900/30 dark:text-green-400 dark:ring-green-800/50',
-        variant === 'warning' && 'bg-yellow-100 text-yellow-700 ring-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-400 dark:ring-yellow-800/50',
-        variant === 'error' && 'bg-red-100 text-red-700 ring-red-200 dark:bg-red-900/30 dark:text-red-400 dark:ring-red-800/50'
-      )}
-    >
-      {score}
+    <div className="flex flex-col items-center gap-1">
+      <div
+        className={cn(
+          'w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg shadow-sm ring-1',
+          variant === 'success' && 'bg-green-100 text-green-700 ring-green-200 dark:bg-green-900/30 dark:text-green-400 dark:ring-green-800/50 dark:drop-shadow-[0_0_6px_rgba(74,222,128,0.4)]',
+          variant === 'warning' && 'bg-yellow-100 text-yellow-700 ring-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-400 dark:ring-yellow-800/50 dark:drop-shadow-[0_0_6px_rgba(250,204,21,0.4)]',
+          variant === 'error' && 'bg-red-100 text-red-700 ring-red-200 dark:bg-red-900/30 dark:text-red-400 dark:ring-red-800/50 dark:drop-shadow-[0_0_6px_rgba(248,113,113,0.4)]'
+        )}
+      >
+        {score}
+      </div>
+      <div className="w-10 h-1 rounded-full bg-muted overflow-hidden">
+        <div
+          className={cn(
+            'h-full rounded-full',
+            variant === 'success' && 'bg-green-500 dark:bg-green-400',
+            variant === 'warning' && 'bg-yellow-500 dark:bg-yellow-400',
+            variant === 'error' && 'bg-red-500 dark:bg-red-400'
+          )}
+          style={{ width: `${score}%` }}
+        />
+      </div>
     </div>
   );
 
@@ -362,7 +450,7 @@ function SoftwareWalletItem({
 }: { wallet: SoftwareWallet } & SelectableItemProps) {
   if (viewMode === 'table') {
     return (
-      <tr className="border-b border-border odd:bg-muted/10 hover:bg-muted/50 transition-colors">
+      <tr className="border-b border-border odd:bg-muted/10 hover:bg-muted/50 transition-colors animate-slide-up">
         <td className="py-3 px-4">
           <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={wallet.name} size="sm" />
         </td>
@@ -427,7 +515,7 @@ function SoftwareWalletItem({
   return (
     <div
       className={cn(
-        'p-4 border rounded-lg transition-all',
+        'p-3 sm:p-4 border rounded-lg transition-all animate-slide-up',
         isSelected ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'
       )}
     >
@@ -450,6 +538,9 @@ function SoftwareWalletItem({
       </div>
 
       <p className="text-sm text-muted-foreground mb-3">{wallet.bestFor}</p>
+      <div className="mb-3">
+        <ScoreBreakdownPreview breakdown={wallet.scoreBreakdown} tooltipLinkHref={TABLE_METHOD_LINKS.software} />
+      </div>
 
       <div className="flex items-center gap-4 mb-3">
         <DeviceIcons devices={wallet.devices} tooltipLinkHref={detailHref} />
@@ -512,7 +603,7 @@ function HardwareWalletItem({
 }: { wallet: HardwareWallet } & SelectableItemProps) {
   if (viewMode === 'table') {
     return (
-      <tr className="border-b border-border odd:bg-muted/10 hover:bg-muted/50 transition-colors">
+      <tr className="border-b border-border odd:bg-muted/10 hover:bg-muted/50 transition-colors animate-slide-up">
         <td className="py-3 px-4">
           <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={wallet.name} size="sm" />
         </td>
@@ -602,7 +693,7 @@ function HardwareWalletItem({
   return (
     <div
       className={cn(
-        'p-4 border rounded-lg transition-all',
+        'p-3 sm:p-4 border rounded-lg transition-all animate-slide-up',
         isSelected ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'
       )}
     >
@@ -628,6 +719,9 @@ function HardwareWalletItem({
       {wallet.priceLastChecked && (
         <p className="text-xs text-muted-foreground mb-2">Price checked {wallet.priceLastChecked}</p>
       )}
+      <div className="mb-3">
+        <ScoreBreakdownPreview breakdown={wallet.scoreBreakdown} tooltipLinkHref={TABLE_METHOD_LINKS.hardware} />
+      </div>
 
       <div className="flex flex-wrap gap-2 mb-3">
         {wallet.airGap && (
@@ -691,7 +785,7 @@ function CryptoCardItem({
 }: { card: CryptoCard } & SelectableItemProps) {
   if (viewMode === 'table') {
     return (
-      <tr className="border-b border-border odd:bg-muted/10 hover:bg-muted/50 transition-colors">
+      <tr className="border-b border-border odd:bg-muted/10 hover:bg-muted/50 transition-colors animate-slide-up">
         <td className="py-3 px-4">
           <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={card.name} size="sm" />
         </td>
@@ -754,7 +848,7 @@ function CryptoCardItem({
   return (
     <div
       className={cn(
-        'p-4 border rounded-lg transition-all',
+        'p-3 sm:p-4 border rounded-lg transition-all animate-slide-up',
         isSelected ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'
       )}
     >
@@ -795,6 +889,9 @@ function CryptoCardItem({
       </Tooltip>
 
       <p className="text-sm text-muted-foreground mb-3">{card.bestFor}</p>
+      <div className="mb-3">
+        <ScoreBreakdownPreview breakdown={card.scoreBreakdown} tooltipLinkHref={TABLE_METHOD_LINKS.cards} />
+      </div>
 
       <div className="flex flex-wrap gap-2 mb-3">
         <Badge variant="default" tooltip={cryptoCardTooltips.region[card.regionCode as keyof typeof cryptoCardTooltips.region] || `Available in ${card.region}`} tooltipLinkHref={detailHref}>
@@ -841,7 +938,7 @@ function RampItem({
 
   if (viewMode === 'table') {
     return (
-      <tr className="border-b border-border odd:bg-muted/10 hover:bg-muted/50 transition-colors">
+      <tr className="border-b border-border odd:bg-muted/10 hover:bg-muted/50 transition-colors animate-slide-up">
         <td className="py-3 px-4">
           <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={ramp.name} size="sm" />
         </td>
@@ -927,7 +1024,7 @@ function RampItem({
   return (
     <div
       className={cn(
-        'p-4 border rounded-lg transition-all',
+        'p-3 sm:p-4 border rounded-lg transition-all animate-slide-up',
         isSelected ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'
       )}
     >
@@ -950,6 +1047,9 @@ function RampItem({
       </div>
 
       <p className="text-sm text-muted-foreground mb-3">{ramp.bestFor}</p>
+      <div className="mb-3">
+        <ScoreBreakdownPreview breakdown={ramp.scoreBreakdown} tooltipLinkHref={TABLE_METHOD_LINKS.ramps} />
+      </div>
 
       <div className="flex flex-wrap gap-2 mb-3">
         {ramp.onRamp && (
@@ -1019,6 +1119,7 @@ interface WalletTableProps<T extends WalletData> {
   viewMode?: 'grid' | 'table';
   type: 'software' | 'hardware' | 'cards' | 'ramps';
   maxSelected?: number;
+  onResetFilters?: () => void;
 }
 
 export function WalletTable<T extends WalletData>({
@@ -1028,17 +1129,13 @@ export function WalletTable<T extends WalletData>({
   viewMode = 'grid',
   type,
   maxSelected = 4,
+  onResetFilters,
 }: WalletTableProps<T>) {
   const isAtMax = selectedIds.length >= maxSelected;
   const headerMethodLink = TABLE_METHOD_LINKS[type];
 
   if (wallets.length === 0) {
-    return (
-      <div className="text-center py-12">
-        <p className="text-lg text-muted-foreground mb-2">No wallets match your filters</p>
-        <p className="text-sm text-muted-foreground">Try adjusting your filter criteria</p>
-      </div>
-    );
+    return <EmptyState type={type} onResetFilters={onResetFilters} />;
   }
 
   if (viewMode === 'table') {

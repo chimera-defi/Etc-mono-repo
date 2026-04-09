@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useLayoutEffect, useEffect } from 'react';
+import { useState, useRef, useLayoutEffect, useEffect, useId } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { HelpCircle } from 'lucide-react';
@@ -37,6 +37,7 @@ export function Tooltip({
   const [isClickOpen, setIsClickOpen] = useState(false);
   const [coords, setCoords] = useState({ top: 0, left: 0 });
   const [isMounted, setIsMounted] = useState(false);
+  const tooltipId = useId();
   const triggerRef = useRef<HTMLSpanElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
 
@@ -72,6 +73,23 @@ export function Tooltip({
       clearTimeout(timeoutId);
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [isVisible]);
+
+  // Close tooltip on viewport shifts to avoid stale positioning.
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const closeTooltip = () => {
+      setIsVisible(false);
+      setIsClickOpen(false);
+    };
+
+    window.addEventListener('resize', closeTooltip);
+    window.addEventListener('scroll', closeTooltip, true);
+    return () => {
+      window.removeEventListener('resize', closeTooltip);
+      window.removeEventListener('scroll', closeTooltip, true);
     };
   }, [isVisible]);
 
@@ -158,6 +176,24 @@ export function Tooltip({
     setIsVisible(false);
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLSpanElement>) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      setIsVisible((prev) => {
+        const next = !prev;
+        setIsClickOpen(next);
+        return next;
+      });
+      return;
+    }
+
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      setIsVisible(false);
+      setIsClickOpen(false);
+    }
+  };
+
   return (
     <>
       <span
@@ -166,9 +202,18 @@ export function Tooltip({
         onClick={handleClick}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onFocus={() => setIsVisible(true)}
+        onBlur={(event) => {
+          if (isClickOpen) return;
+          const nextTarget = event.relatedTarget as Node | null;
+          if (nextTarget && tooltipRef.current?.contains(nextTarget)) return;
+          setIsVisible(false);
+        }}
+        onKeyDown={handleKeyDown}
         tabIndex={0}
         role="button"
         aria-expanded={isVisible}
+        aria-describedby={isVisible ? tooltipId : undefined}
         aria-label={showIcon ? 'Show more information' : undefined}
       >
         {children}
@@ -183,6 +228,7 @@ export function Tooltip({
       {isMounted && isVisible && content &&
         createPortal(
           <div
+            id={tooltipId}
             ref={tooltipRef}
             role="tooltip"
             style={{
@@ -195,6 +241,13 @@ export function Tooltip({
             }}
             onMouseEnter={() => {
               setIsVisible(true);
+            }}
+            onKeyDown={(event) => {
+              if (event.key !== 'Escape') return;
+              event.preventDefault();
+              setIsVisible(false);
+              setIsClickOpen(false);
+              triggerRef.current?.focus();
             }}
             onMouseLeave={(event) => {
               if (isClickOpen) return;

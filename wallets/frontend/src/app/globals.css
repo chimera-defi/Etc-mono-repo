@@ -7,6 +7,14 @@
     scroll-behavior: smooth;
   }
 
+  /* Keyboard focus ring for all interactive elements */
+  :focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+
   :root {
     --font-body: system-ui;
     --font-display: system-ui;
@@ -237,9 +245,18 @@
   @apply bg-slate-950/65 border border-slate-700/40 backdrop-blur-md rounded-2xl shadow-[0_18px_60px_rgba(2,6,23,0.45)] hover:border-sky-500/40 hover:-translate-y-0.5 transition-all;
 }
 
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
+/* Per-category glass cards */
+.glass-card-software {
+  @apply bg-slate-950/65 border border-indigo-500/30 backdrop-blur-md rounded-2xl shadow-[0_18px_60px_rgba(2,6,23,0.45)];
+}
+.glass-card-hardware {
+  @apply bg-slate-950/65 border border-amber-500/30 backdrop-blur-md rounded-2xl shadow-[0_18px_60px_rgba(2,6,23,0.45)];
+}
+.glass-card-cards {
+  @apply bg-slate-950/65 border border-emerald-500/30 backdrop-blur-md rounded-2xl shadow-[0_18px_60px_rgba(2,6,23,0.45)];
+}
+.glass-card-ramps {
+  @apply bg-slate-950/65 border border-violet-500/30 backdrop-blur-md rounded-2xl shadow-[0_18px_60px_rgba(2,6,23,0.45)];
 }
 
 /* Target highlight */
@@ -250,4 +267,33 @@ html {
 :target::before {
   content: '';
   @apply block h-20 -mt-20 invisible pointer-events-none;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out forwards;
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.22s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in {
+    animation: none;
+    opacity: 1;
+  }
+  .animate-slide-up {
+    animation: none;
+    opacity: 1;
+  }
 }
