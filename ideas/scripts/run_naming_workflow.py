@@ -361,6 +361,11 @@ def main() -> int:
     parser.add_argument("--retries", type=int, default=2)
     parser.add_argument("--workers", type=int, default=12)
     parser.add_argument("--write", action="store_true")
+    parser.add_argument(
+        "--pretty-json",
+        action="store_true",
+        help="Write JSON with indentation for manual review (default is compact).",
+    )
     args = parser.parse_args()
 
     candidates_path = args.candidates.resolve()
@@ -453,7 +458,12 @@ def main() -> int:
         args.markdown_output.parent.mkdir(parents=True, exist_ok=True)
         args.json_output.parent.mkdir(parents=True, exist_ok=True)
         args.markdown_output.write_text(markdown + "\n")
-        args.json_output.write_text(json.dumps(payload, indent=2) + "\n")
+        json_output = (
+            json.dumps(payload, indent=2)
+            if args.pretty_json
+            else json.dumps(payload, separators=(",", ":"))
+        )
+        args.json_output.write_text(json_output + "\n")
         print(args.markdown_output)
         print(args.json_output)
         return 0

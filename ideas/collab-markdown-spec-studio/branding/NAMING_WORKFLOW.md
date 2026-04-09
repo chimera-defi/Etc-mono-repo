@@ -14,6 +14,7 @@ This directory applies the strict naming workflow for the external rename of the
 
 ```bash
 python3 ideas/scripts/run_naming_workflow.py --write
+# add --pretty-json for indented JSON output
 ```
 
 2. Shortlist pass scoring + domain checks:
