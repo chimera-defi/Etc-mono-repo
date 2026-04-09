@@ -28,10 +28,12 @@ function loadMerchantPricing(): Record<string, { last_checked?: string }> {
 
 // Parse status symbols
 function parseStatus(cell: string): 'active' | 'slow' | 'inactive' | 'private' {
-  if (cell.includes('🔒') || cell.toLowerCase().includes('private')) return 'private';
-  if (cell.includes('✅') || cell.toLowerCase().includes('active')) return 'active';
-  if (cell.includes('⚠️') || cell.toLowerCase().includes('slow')) return 'slow';
-  if (cell.includes('❌') || cell.toLowerCase().includes('inactive')) return 'inactive';
+  const lower = cell.toLowerCase();
+  // Check "inactive" first so it is not misclassified by "active" substring matching.
+  if (cell.includes('❌') || /\binactive\b/.test(lower)) return 'inactive';
+  if (cell.includes('🔒') || /\bprivate\b/.test(lower)) return 'private';
+  if (cell.includes('⚠️') || /\bslow\b/.test(lower)) return 'slow';
+  if (cell.includes('✅') || /\bactive\b/.test(lower)) return 'active';
   return 'private';
 }
 

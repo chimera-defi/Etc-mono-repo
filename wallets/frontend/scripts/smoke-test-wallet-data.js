@@ -237,6 +237,14 @@ function run() {
     ok('wallet-data.ts: hardware price parsing uses cells[7] (Price column)');
   }
 
+  const inactiveStatusPos = parserContent.indexOf('/\\binactive\\b/.test(lower)');
+  const activeStatusPos = parserContent.indexOf('/\\bactive\\b/.test(lower)');
+  if (inactiveStatusPos === -1 || activeStatusPos === -1 || inactiveStatusPos > activeStatusPos) {
+    fail('wallet-data.ts: parseStatus should check inactive before active to avoid substring misclassification.');
+  } else {
+    ok('wallet-data.ts: parseStatus inactive/active ordering is correct');
+  }
+
   // ---- Crypto cards table ----
   const cardsPath = path.join(WALLETS_DIR, 'CRYPTO_CARDS.md');
   const cardsContent = readFileOrFail(cardsPath);
