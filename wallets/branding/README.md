@@ -19,6 +19,7 @@ The product scope is broader than wallet custody. It now covers software wallets
 
 ```bash
 python3 wallets/scripts/run_naming_workflow.py --write
+# add --pretty-json for indented JSON output
 ```
 
 Focused shortlist validation:
