@@ -145,6 +145,9 @@ export interface Ramp {
   minFee: string;
   devUx: string;
   status: 'active' | 'verify' | 'launching' | 'inactive';
+  foundedYear: number | null;
+  funding: 'sustainable' | 'vc' | 'risky';
+  fundingSource: string;
   bestFor: string;
   recommendation: 'recommended' | 'situational' | 'avoid';
   url: string | null;

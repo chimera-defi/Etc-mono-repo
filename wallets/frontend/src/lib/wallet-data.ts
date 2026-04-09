@@ -538,6 +538,9 @@ export function parseRamps(): Ramp[] {
   // Skip header row
   const dataRows = rows.slice(1);
 
+  // Table columns (RAMPS.md):
+  // Provider(0) Score(1) Type(2) On-Ramp(3) Off-Ramp(4) Coverage(5) Fee Model(6)
+  // Min Fee(7) Dev UX(8) Status(9) Founded(10) Funding(11) Best For(12)
   return dataRows.map(cells => {
     // Extract provider name and URL from markdown link format: [**Name**](url)
     const linkMatch = cells[0]?.match(/\[(?:\*\*)?([^*]+)(?:\*\*)?\]\(([^)]+)\)/);
@@ -557,6 +560,8 @@ export function parseRamps(): Ramp[] {
 
     // Parse score (may have emoji)
     const scoreInfo = computeRampScore(cells);
+    const foundedYear = parseInt(cells[10] || '', 10);
+    const funding = parseFunding(cells[11] || '');
 
     return {
       id: generateSlug(name),
@@ -572,7 +577,10 @@ export function parseRamps(): Ramp[] {
       minFee: cells[7]?.trim() || 'Custom',
       devUx: cells[8]?.trim() || 'Good',
       status: parseCardStatus(cells[9] || ''),
-      bestFor: cells[10]?.trim() || '',
+      foundedYear: Number.isFinite(foundedYear) ? foundedYear : null,
+      funding: funding.status,
+      fundingSource: funding.source,
+      bestFor: cells[12]?.trim() || '',
       recommendation: scoreInfo.recommendation as 'recommended' | 'situational' | 'avoid',
       url,
       type: 'ramp' as const,

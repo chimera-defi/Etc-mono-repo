@@ -214,6 +214,35 @@ function assertHardwareCompanyColumns(rows) {
   }
 }
 
+function assertRampCompanyColumns(rows) {
+  let failures = 0;
+  const currentYear = new Date().getUTCFullYear();
+
+  for (const row of rows) {
+    const founded = String(row[10] || '').trim();
+    const funding = String(row[11] || '').trim();
+    if (!/^\d{4}$/.test(founded)) {
+      fail(`Ramps table: founded year must be YYYY in row ${row[0]}, got "${founded}"`);
+      failures += 1;
+    } else {
+      const year = parseInt(founded, 10);
+      if (year < 1990 || year > currentYear) {
+        fail(`Ramps table: founded year out of range in row ${row[0]}, got "${founded}"`);
+        failures += 1;
+      }
+    }
+
+    if (!/^(🟢|🟡|🔴)\s+/.test(funding)) {
+      fail(`Ramps table: funding cell must start with 🟢/🟡/🔴 in row ${row[0]}, got "${funding}"`);
+      failures += 1;
+    }
+  }
+
+  if (failures === 0) {
+    ok(`Ramps table: founded/funding metadata validated for all ${rows.length} rows`);
+  }
+}
+
 function assertMethodologyVersionTag(fileLabel, content) {
   if (!content.includes(SCORING_METHODOLOGY_VERSION)) {
     fail(`${fileLabel}: missing methodology version tag "${SCORING_METHODOLOGY_VERSION}"`);
@@ -314,6 +343,18 @@ function run() {
     }
     if (!/\$/.test(price)) {
       fail(`Hardware table: Price cell missing "$" (expected ~$...), got: "${price}"`);
+    }
+    const degradedCompanySignals = [...trezorSafe5Row];
+    degradedCompanySignals[10] = String(new Date().getUTCFullYear());
+    degradedCompanySignals[11] = '🔴 Unknown';
+    const baseScore = computeHardwareScore(trezorSafe5Row).score;
+    const degradedScore = computeHardwareScore(degradedCompanySignals).score;
+    if (degradedScore >= baseScore) {
+      fail(
+        `Hardware wallets table: founded/funding signals should affect score (base ${baseScore}, degraded ${degradedScore}).`
+      );
+    } else {
+      ok('Hardware wallets table: founded/funding signals influence score as expected');
     }
     ok('Hardware wallets table: Trezor Safe 5 spot-check passed');
   }
@@ -444,10 +485,13 @@ function run() {
     'Min Fee',
     'Dev UX',
     'Status',
+    'Founded',
+    'Funding',
     'Best For',
   ];
   assertHeaders('Ramps table', rampsTable.header, rampsExpectedHeader);
   assertAllRowsColumnShape('Ramps table', rampsTable.header, rampsRows);
+  assertRampCompanyColumns(rampsRows);
   assertAllRowsComputed('Ramps table', rampsRows, computeRampScore, 1);
 
   const transakRow = findRowByFirstCellSubstring(rampsRows, 'transak');
@@ -455,6 +499,18 @@ function run() {
     fail('Ramps table: could not find Transak row.');
   } else {
     assertComputedScore('Ramps table', transakRow, computeRampScore, 1);
+    const improvedCompanySignals = [...transakRow];
+    improvedCompanySignals[10] = '2010';
+    improvedCompanySignals[11] = '🟢 Revenue';
+    const baseScore = computeRampScore(transakRow).score;
+    const improvedScore = computeRampScore(improvedCompanySignals).score;
+    if (improvedScore <= baseScore) {
+      fail(
+        `Ramps table: founded/funding signals should affect score (base ${baseScore}, improved ${improvedScore}).`
+      );
+    } else {
+      ok('Ramps table: founded/funding signals influence score as expected');
+    }
   }
 
   const driftResults = processAllTables({ write: false }).filter((result) => result.changed);

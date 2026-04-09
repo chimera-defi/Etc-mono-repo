@@ -54,7 +54,7 @@ const TABLE_CONFIGS = [
   {
     label: 'ramps',
     file: path.join(ROOT, 'RAMPS.md'),
-    header: '| Provider | Score | Type | On-Ramp | Off-Ramp | Coverage | Fee Model | Min Fee | Dev UX | Status | Best For |',
+    header: '| Provider | Score | Type | On-Ramp | Off-Ramp | Coverage | Fee Model | Min Fee | Dev UX | Status | Founded | Funding | Best For |',
     compute: computeRampScore,
     formatScore: (scoreInfo) => `${scoreInfo.score} ${recommendationEmoji(scoreInfo.recommendation)}`,
     updateCells: (cells, scoreInfo) => {
@@ -151,7 +151,7 @@ const DETAIL_SNAPSHOT_CONFIGS = {
       const topRows = rows.slice(0, 5);
       const summary = joinSummaryItems(
         topRows.slice(0, 4).map((row) => (
-          `${extractName(row.cells[0])} (${row.score}, ${row.cells[10]}, ${recommendationEmoji(row.scoreInfo.recommendation)})`
+          `${extractName(row.cells[0])} (${row.score}, ${row.cells[12]}, ${recommendationEmoji(row.scoreInfo.recommendation)})`
         ))
       );
 
@@ -163,7 +163,7 @@ const DETAIL_SNAPSHOT_CONFIGS = {
         '| Rank | Provider | Score | Best For | Rec |',
         '| ---- | -------- | ----- | -------- | --- |',
         ...topRows.map((row, index) => (
-          `| ${index + 1} | **${extractName(row.cells[0])}** | ${row.score} | ${row.cells[10]} | ${recommendationEmoji(row.scoreInfo.recommendation)} |`
+          `| ${index + 1} | **${extractName(row.cells[0])}** | ${row.score} | ${row.cells[12]} | ${recommendationEmoji(row.scoreInfo.recommendation)} |`
         )),
         this.endMarker,
       ].join('\n');

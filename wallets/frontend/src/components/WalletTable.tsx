@@ -28,6 +28,56 @@ import type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, SupportedChains,
 
 export type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData };
 
+const SYMBOLS = {
+  check: '✓',
+  cross: '✕',
+} as const;
+
+type SelectableItemProps = {
+  isSelected: boolean;
+  isAtMax: boolean;
+  onToggleSelect: () => void;
+  viewMode: 'grid' | 'table';
+  detailHref: string;
+};
+
+function SelectionButton({
+  isSelected,
+  isAtMax,
+  onToggleSelect,
+  itemName,
+  size = 'sm',
+}: {
+  isSelected: boolean;
+  isAtMax: boolean;
+  onToggleSelect: () => void;
+  itemName: string;
+  size?: 'sm' | 'lg';
+}) {
+  const disabled = !isSelected && isAtMax;
+  return (
+    <button
+      onClick={onToggleSelect}
+      disabled={disabled}
+      aria-label={isSelected ? `Remove ${itemName} from comparison` : `Add ${itemName} to comparison`}
+      title={isSelected ? 'Remove from comparison' : disabled ? 'Max 4 selected' : 'Add to comparison'}
+      className={cn(
+        'border transition-colors',
+        size === 'sm' ? 'p-1 rounded' : 'p-2 rounded-lg',
+        isSelected
+          ? 'bg-primary text-primary-foreground border-primary'
+          : disabled
+          ? 'border-border opacity-30 cursor-not-allowed'
+          : size === 'lg'
+          ? 'border-border hover:border-primary hover:bg-muted'
+          : 'border-border hover:border-primary'
+      )}
+    >
+      {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+    </button>
+  );
+}
+
 // Helper function to generate tooltip text for chain support
 function getChainTooltip(chains: SupportedChains): string {
   const supported: string[] = [];
@@ -169,10 +219,10 @@ function ScoreBadge({
   const badge = (
     <div
       className={cn(
-        'w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg',
-        variant === 'success' && 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
-        variant === 'warning' && 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400',
-        variant === 'error' && 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+        'w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg shadow-sm ring-1',
+        variant === 'success' && 'bg-green-100 text-green-700 ring-green-200 dark:bg-green-900/30 dark:text-green-400 dark:ring-green-800/50',
+        variant === 'warning' && 'bg-yellow-100 text-yellow-700 ring-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-400 dark:ring-yellow-800/50',
+        variant === 'error' && 'bg-red-100 text-red-700 ring-red-200 dark:bg-red-900/30 dark:text-red-400 dark:ring-red-800/50'
       )}
     >
       {score}
@@ -195,9 +245,9 @@ function RecommendationBadge({
   tooltipLinkLabel?: string;
 }) {
   const config = {
-    recommended: { label: 'Recommended', variant: 'success' as const, tooltip: softwareWalletTooltips.recommendation.recommended },
+    recommended: { label: `${SYMBOLS.check} Recommended`, variant: 'success' as const, tooltip: softwareWalletTooltips.recommendation.recommended },
     situational: { label: 'Situational', variant: 'warning' as const, tooltip: softwareWalletTooltips.recommendation.situational },
-    avoid: { label: 'Avoid', variant: 'error' as const, tooltip: softwareWalletTooltips.recommendation.avoid },
+    avoid: { label: `${SYMBOLS.cross} Avoid`, variant: 'error' as const, tooltip: softwareWalletTooltips.recommendation.avoid },
     'not-for-dev': { label: 'Not for Dev', variant: 'default' as const, tooltip: softwareWalletTooltips.recommendation['not-for-dev'] },
   };
 
@@ -305,32 +355,16 @@ function FeatureIndicator({
 function SoftwareWalletItem({
   wallet,
   isSelected,
+  isAtMax,
   onToggleSelect,
   viewMode,
   detailHref,
-}: {
-  wallet: SoftwareWallet;
-  isSelected: boolean;
-  onToggleSelect: () => void;
-  viewMode: 'grid' | 'table';
-  detailHref: string;
-}) {
+}: { wallet: SoftwareWallet } & SelectableItemProps) {
   if (viewMode === 'table') {
     return (
-      <tr className="border-b border-border hover:bg-muted/50 transition-colors">
+      <tr className="border-b border-border odd:bg-muted/10 hover:bg-muted/50 transition-colors">
         <td className="py-3 px-4">
-          <button
-            onClick={onToggleSelect}
-            aria-label={isSelected ? `Remove ${wallet.name} from comparison` : `Add ${wallet.name} to comparison`}
-            className={cn(
-              'p-1 rounded border transition-colors',
-              isSelected
-                ? 'bg-primary text-primary-foreground border-primary'
-                : 'border-border hover:border-primary'
-            )}
-          >
-            {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-          </button>
+          <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={wallet.name} size="sm" />
         </td>
         <td className="py-3 px-4">
           <div className="flex items-center gap-3">
@@ -412,19 +446,7 @@ function SoftwareWalletItem({
             <RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />
           </div>
         </div>
-        <button
-          onClick={onToggleSelect}
-          aria-label={isSelected ? `Remove ${wallet.name} from comparison` : `Add ${wallet.name} to comparison`}
-          className={cn(
-            'p-2 rounded-lg border transition-colors',
-            isSelected
-              ? 'bg-primary text-primary-foreground border-primary'
-              : 'border-border hover:border-primary hover:bg-muted'
-          )}
-          title={isSelected ? 'Remove from comparison' : 'Add to comparison'}
-        >
-          {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-        </button>
+        <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={wallet.name} size="lg" />
       </div>
 
       <p className="text-sm text-muted-foreground mb-3">{wallet.bestFor}</p>
@@ -483,32 +505,16 @@ function SoftwareWalletItem({
 function HardwareWalletItem({
   wallet,
   isSelected,
+  isAtMax,
   onToggleSelect,
   viewMode,
   detailHref,
-}: {
-  wallet: HardwareWallet;
-  isSelected: boolean;
-  onToggleSelect: () => void;
-  viewMode: 'grid' | 'table';
-  detailHref: string;
-}) {
+}: { wallet: HardwareWallet } & SelectableItemProps) {
   if (viewMode === 'table') {
     return (
-      <tr className="border-b border-border hover:bg-muted/50 transition-colors">
+      <tr className="border-b border-border odd:bg-muted/10 hover:bg-muted/50 transition-colors">
         <td className="py-3 px-4">
-          <button
-            onClick={onToggleSelect}
-            aria-label={isSelected ? `Remove ${wallet.name} from comparison` : `Add ${wallet.name} to comparison`}
-            className={cn(
-              'p-1 rounded border transition-colors',
-              isSelected
-                ? 'bg-primary text-primary-foreground border-primary'
-                : 'border-border hover:border-primary'
-            )}
-          >
-            {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-          </button>
+          <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={wallet.name} size="sm" />
         </td>
         <td className="py-3 px-4">
           <div className="flex items-center gap-3">
@@ -615,17 +621,7 @@ function HardwareWalletItem({
             <RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />
           </div>
         </div>
-        <button
-          onClick={onToggleSelect}
-          className={cn(
-            'p-2 rounded-lg border transition-colors',
-            isSelected
-              ? 'bg-primary text-primary-foreground border-primary'
-              : 'border-border hover:border-primary hover:bg-muted'
-          )}
-        >
-          {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-        </button>
+        <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={wallet.name} size="lg" />
       </div>
 
       <p className="text-lg font-semibold text-primary mb-1">{wallet.priceText}</p>
@@ -688,32 +684,16 @@ function HardwareWalletItem({
 function CryptoCardItem({
   card,
   isSelected,
+  isAtMax,
   onToggleSelect,
   viewMode,
   detailHref,
-}: {
-  card: CryptoCard;
-  isSelected: boolean;
-  onToggleSelect: () => void;
-  viewMode: 'grid' | 'table';
-  detailHref: string;
-}) {
+}: { card: CryptoCard } & SelectableItemProps) {
   if (viewMode === 'table') {
     return (
-      <tr className="border-b border-border hover:bg-muted/50 transition-colors">
+      <tr className="border-b border-border odd:bg-muted/10 hover:bg-muted/50 transition-colors">
         <td className="py-3 px-4">
-          <button
-            onClick={onToggleSelect}
-            aria-label={isSelected ? `Remove ${card.name} from comparison` : `Add ${card.name} to comparison`}
-            className={cn(
-              'p-1 rounded border transition-colors',
-              isSelected
-                ? 'bg-primary text-primary-foreground border-primary'
-                : 'border-border hover:border-primary'
-            )}
-          >
-            {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-          </button>
+          <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={card.name} size="sm" />
         </td>
         <td className="py-3 px-4">
           <div className="flex items-center gap-3">
@@ -805,17 +785,7 @@ function CryptoCardItem({
             <Badge variant="info" tooltip={cryptoCardTooltips.cardType[card.cardType]} tooltipLinkHref={detailHref}>{card.cardType}</Badge>
           </div>
         </div>
-        <button
-          onClick={onToggleSelect}
-          className={cn(
-            'p-2 rounded-lg border transition-colors',
-            isSelected
-              ? 'bg-primary text-primary-foreground border-primary'
-              : 'border-border hover:border-primary hover:bg-muted'
-          )}
-        >
-          {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-        </button>
+        <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={card.name} size="lg" />
       </div>
 
       <Tooltip content="Maximum cashback rate (may require staking or tier progression)" linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
@@ -862,32 +832,18 @@ function CryptoCardItem({
 function RampItem({
   ramp,
   isSelected,
+  isAtMax,
   onToggleSelect,
   viewMode,
   detailHref,
-}: {
-  ramp: Ramp;
-  isSelected: boolean;
-  onToggleSelect: () => void;
-  viewMode: 'grid' | 'table';
-  detailHref: string;
-}) {
+}: { ramp: Ramp } & SelectableItemProps) {
+  const fundingEmoji = ramp.funding === 'sustainable' ? '🟢' : ramp.funding === 'vc' ? '🟡' : '🔴';
+
   if (viewMode === 'table') {
     return (
-      <tr className="border-b border-border hover:bg-muted/50 transition-colors">
+      <tr className="border-b border-border odd:bg-muted/10 hover:bg-muted/50 transition-colors">
         <td className="py-3 px-4">
-          <button
-            onClick={onToggleSelect}
-            aria-label={isSelected ? `Remove ${ramp.name} from comparison` : `Add ${ramp.name} to comparison`}
-            className={cn(
-              'p-1 rounded border transition-colors',
-              isSelected
-                ? 'bg-primary text-primary-foreground border-primary'
-                : 'border-border hover:border-primary'
-            )}
-          >
-            {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-          </button>
+          <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={ramp.name} size="sm" />
         </td>
         <td className="py-3 px-4">
           <div className="flex items-center gap-3">
@@ -940,6 +896,16 @@ function RampItem({
             <span>{ramp.devUx}</span>
           </Tooltip>
         </td>
+        <td className="py-3 px-4 text-sm">
+          <Tooltip content={`Founded year signal: ${ramp.foundedYear ?? 'Unknown'}`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
+            <span>{ramp.foundedYear ?? 'Unknown'}</span>
+          </Tooltip>
+        </td>
+        <td className="py-3 px-4 text-sm">
+          <Tooltip content={`Funding durability signal: ${ramp.fundingSource} (${ramp.funding})`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
+            <span>{fundingEmoji} {ramp.fundingSource}</span>
+          </Tooltip>
+        </td>
         <td className="py-3 px-4">
           {ramp.url && (
             <a
@@ -980,17 +946,7 @@ function RampItem({
             <RecommendationBadge recommendation={ramp.recommendation} tooltipLinkHref={detailHref} />
           </div>
         </div>
-        <button
-          onClick={onToggleSelect}
-          className={cn(
-            'p-2 rounded-lg border transition-colors',
-            isSelected
-              ? 'bg-primary text-primary-foreground border-primary'
-              : 'border-border hover:border-primary hover:bg-muted'
-          )}
-        >
-          {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-        </button>
+        <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={ramp.name} size="lg" />
       </div>
 
       <p className="text-sm text-muted-foreground mb-3">{ramp.bestFor}</p>
@@ -1024,6 +980,18 @@ function RampItem({
             <span className="font-medium cursor-help">{ramp.devUx}</span>
           </Tooltip>
         </div>
+        <div className="flex justify-between">
+          <span className="text-muted-foreground">Founded:</span>
+          <Tooltip content={`Founded year signal: ${ramp.foundedYear ?? 'Unknown'}`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
+            <span className="font-medium cursor-help">{ramp.foundedYear ?? 'Unknown'}</span>
+          </Tooltip>
+        </div>
+        <div className="flex justify-between gap-2">
+          <span className="text-muted-foreground">Funding:</span>
+          <Tooltip content={`Funding durability signal: ${ramp.fundingSource} (${ramp.funding})`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
+            <span className="font-medium cursor-help text-right">{fundingEmoji} {ramp.fundingSource}</span>
+          </Tooltip>
+        </div>
       </div>
 
       <div className="flex items-center justify-between text-sm">
@@ -1050,6 +1018,7 @@ interface WalletTableProps<T extends WalletData> {
   onToggleSelect: (id: string) => void;
   viewMode?: 'grid' | 'table';
   type: 'software' | 'hardware' | 'cards' | 'ramps';
+  maxSelected?: number;
 }
 
 export function WalletTable<T extends WalletData>({
@@ -1058,7 +1027,9 @@ export function WalletTable<T extends WalletData>({
   onToggleSelect,
   viewMode = 'grid',
   type,
+  maxSelected = 4,
 }: WalletTableProps<T>) {
+  const isAtMax = selectedIds.length >= maxSelected;
   const headerMethodLink = TABLE_METHOD_LINKS[type];
 
   if (wallets.length === 0) {
@@ -1158,6 +1129,12 @@ export function WalletTable<T extends WalletData>({
                     <HeaderTooltip label="Dev UX" tooltip={rampTooltips.headers.devUx} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                   <th className="py-3 px-4 text-left text-sm font-medium">
+                    <HeaderTooltip label="Founded" tooltip={rampTooltips.headers.founded} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">
+                    <HeaderTooltip label="Funding" tooltip={rampTooltips.headers.funding} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-medium">
                     <HeaderTooltip label="Links" tooltip={rampTooltips.headers.links} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                 </>
@@ -1178,6 +1155,7 @@ export function WalletTable<T extends WalletData>({
                     key={wallet.id}
                     wallet={wallet as SoftwareWallet}
                     isSelected={isSelected}
+                    isAtMax={isAtMax}
                     onToggleSelect={() => onToggleSelect(wallet.id)}
                     viewMode="table"
                     detailHref={getWalletDetailHref('software', wallet.id)}
@@ -1190,6 +1168,7 @@ export function WalletTable<T extends WalletData>({
                     key={wallet.id}
                     wallet={wallet as HardwareWallet}
                     isSelected={isSelected}
+                    isAtMax={isAtMax}
                     onToggleSelect={() => onToggleSelect(wallet.id)}
                     viewMode="table"
                     detailHref={getWalletDetailHref('hardware', wallet.id)}
@@ -1202,6 +1181,7 @@ export function WalletTable<T extends WalletData>({
                     key={wallet.id}
                     card={wallet as CryptoCard}
                     isSelected={isSelected}
+                    isAtMax={isAtMax}
                     onToggleSelect={() => onToggleSelect(wallet.id)}
                     viewMode="table"
                     detailHref={getWalletDetailHref('cards', wallet.id)}
@@ -1213,6 +1193,7 @@ export function WalletTable<T extends WalletData>({
                   key={wallet.id}
                   ramp={wallet as Ramp}
                   isSelected={isSelected}
+                  isAtMax={isAtMax}
                   onToggleSelect={() => onToggleSelect(wallet.id)}
                   viewMode="table"
                   detailHref={getWalletDetailHref('ramps', wallet.id)}
@@ -1236,6 +1217,7 @@ export function WalletTable<T extends WalletData>({
               key={wallet.id}
               wallet={wallet as SoftwareWallet}
               isSelected={isSelected}
+              isAtMax={isAtMax}
               onToggleSelect={() => onToggleSelect(wallet.id)}
               viewMode="grid"
               detailHref={getWalletDetailHref('software', wallet.id)}
@@ -1248,6 +1230,7 @@ export function WalletTable<T extends WalletData>({
               key={wallet.id}
               wallet={wallet as HardwareWallet}
               isSelected={isSelected}
+              isAtMax={isAtMax}
               onToggleSelect={() => onToggleSelect(wallet.id)}
               viewMode="grid"
               detailHref={getWalletDetailHref('hardware', wallet.id)}
@@ -1260,6 +1243,7 @@ export function WalletTable<T extends WalletData>({
               key={wallet.id}
               card={wallet as CryptoCard}
               isSelected={isSelected}
+              isAtMax={isAtMax}
               onToggleSelect={() => onToggleSelect(wallet.id)}
               viewMode="grid"
               detailHref={getWalletDetailHref('cards', wallet.id)}
@@ -1271,6 +1255,7 @@ export function WalletTable<T extends WalletData>({
             key={wallet.id}
             ramp={wallet as Ramp}
             isSelected={isSelected}
+            isAtMax={isAtMax}
             onToggleSelect={() => onToggleSelect(wallet.id)}
             viewMode="grid"
             detailHref={getWalletDetailHref('ramps', wallet.id)}
