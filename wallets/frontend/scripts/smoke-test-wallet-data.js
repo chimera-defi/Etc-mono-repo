@@ -253,11 +253,13 @@ function run() {
     'Price',
     'Conn',
     'Activity',
+    'Founded',
+    'Funding',
     'Rec',
   ];
   assertHeaders('Hardware wallets table', hardwareTable.header, hardwareExpectedHeader);
   assertAllRowsColumnShape('Hardware wallets table', hardwareTable.header, hardwareRows);
-  assertAllRowsComputed('Hardware wallets table', hardwareRows, computeHardwareScore, 1, 10);
+  assertAllRowsComputed('Hardware wallets table', hardwareRows, computeHardwareScore, 1, 12);
 
   const trezorSafe5Row = findRowByFirstCellSubstring(hardwareRows, 'trezor safe 5');
   if (!trezorSafe5Row) {
@@ -265,7 +267,7 @@ function run() {
   } else {
     const display = trezorSafe5Row[6] || '';
     const price = trezorSafe5Row[7] || '';
-    assertComputedScore('Hardware wallets table', trezorSafe5Row, computeHardwareScore, 1, 10);
+    assertComputedScore('Hardware wallets table', trezorSafe5Row, computeHardwareScore, 1, 12);
     if (/\$/.test(display)) {
       fail(`Hardware table: Display cell unexpectedly contains "$": "${display}"`);
     }
@@ -281,9 +283,9 @@ function run() {
   if (!ledgerNanoSRow) {
     fail('Hardware wallets table: could not find Ledger Nano S row.');
   } else {
-    assertComputedScore('Hardware wallets table', ledgerNanoSRow, computeHardwareScore, 1, 10);
+    assertComputedScore('Hardware wallets table', ledgerNanoSRow, computeHardwareScore, 1, 12);
     const activity = ledgerNanoSRow[9] || '';
-    const rec = ledgerNanoSRow[10] || '';
+    const rec = ledgerNanoSRow[12] || '';
     let hasFailure = false;
     if (!/inactive/i.test(activity)) {
       fail(`Hardware wallets table: expected Ledger Nano S activity to be inactive, got "${activity}"`);

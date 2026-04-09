@@ -206,10 +206,12 @@ UX & ECOSYSTEM (10 pts)
 Add your row to `HARDWARE_WALLETS.md` in score order:
 
 ```markdown
-| **WalletName** | XX | ✅/❌ | ✅/⚠️/❌ | ✅/❌ SE Type | Display | Chains | $XXX | Conn | ❌ | ✅/⚠️/❌ | 🟢/🟡/🔴 |
+| [**WalletName**](https://example.com/) | 0 | [firmware](https://github.com/org/repo) | ✅/❌ | ✅/⚠️/❌ | ✅/❌ SE Type | Display | ~$XXX | Conn | ✅/⚠️/❌/🔒 | YYYY | 🟢/🟡/🔴 Source | 🔴 |
 ```
 
-Note: The new Activity column tracks GitHub/development status.
+Notes:
+- `Founded` and `Funding` are now required hardware scoring inputs.
+- Keep placeholder score/recommendation (`0` / `🔴`) and run `node wallets/scripts/sync_table_scores.js --write`.
 
 ### Step 3: Update Other Sections
 

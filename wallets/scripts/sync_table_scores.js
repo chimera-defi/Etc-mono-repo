@@ -31,12 +31,12 @@ const TABLE_CONFIGS = [
   {
     label: 'hardware',
     file: path.join(ROOT, 'HARDWARE_WALLETS.md'),
-    header: '| Wallet | Score | GitHub | Air-Gap | Open Source | Secure Elem | Display | Price | Conn | Activity | Rec |',
+    header: '| Wallet | Score | GitHub | Air-Gap | Open Source | Secure Elem | Display | Price | Conn | Activity | Founded | Funding | Rec |',
     compute: computeHardwareScore,
     formatScore: (scoreInfo) => String(scoreInfo.score),
     updateCells: (cells, scoreInfo) => {
       cells[1] = String(scoreInfo.score);
-      cells[10] = recommendationEmoji(scoreInfo.recommendation);
+      cells[12] = recommendationEmoji(scoreInfo.recommendation);
       return cells;
     },
   },

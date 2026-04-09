@@ -2,42 +2,42 @@
 
 ## Complete Hardware Wallet Comparison
 
-| Wallet | Score | GitHub | Air-Gap | Open Source | Secure Elem | Display | Price | Conn | Activity | Rec |
-|--------|-------|--------|---------|-------------|-------------|---------|-------|------|----------|-----|
-| [**Keystone 3 Pro**](https://keyst.one/) | 88 | [keystone3-firmware](https://github.com/KeystoneHQ/keystone3-firmware) | ✅ Full | ✅ Full | ✅ 3× SE | Touch Color | ~$149 | QR | ✅ Active | 🟢 |
-| [**ColdCard Mk4**](https://coldcard.com/) | 82 | [firmware](https://github.com/Coldcard/firmware) | ✅ Full | ✅ Full | ✅ Dual SE | Mono LCD | ~$160 | MicroSD | ✅ Active | 🟢 |
-| [**Foundation Passport**](https://foundationdevices.com/) | 81 | [passport2](https://github.com/Foundation-Devices/passport2) | ✅ Full | ✅ Full | ✅ ATECC | Color LCD | ~$199 | MicroSD/QR | ✅ Active | 🟢 |
-| [**Keycard Shell**](https://get.keycard.tech/products/keycard-shell) | 80 | [keycard-shell](https://github.com/keycard-tech/keycard-shell) | ✅ Full | ✅ Full | ✅ SE | Touch Keypad | ~$110 | QR/USB | ✅ Active | 🟢 |
-| [**Trezor Safe 7**](https://trezor.io/) | 74 | [trezor-firmware](https://github.com/trezor/trezor-firmware) | ❌ | ✅ Full | ✅ Tropic01 | Touch Color | ~$249 | USB-C | ✅ Active | 🟢 |
-| [**Trezor Safe 5**](https://trezor.io/) | 72 | [trezor-firmware](https://github.com/trezor/trezor-firmware) | ❌ | ✅ Full | ✅ Optiga | Touch Color | ~$169 | USB-C | ✅ Active | 🟢 |
-| [**Trezor Safe 3**](https://trezor.io/) | 71 | [trezor-firmware](https://github.com/trezor/trezor-firmware) | ❌ | ✅ Full | ✅ Optiga | Mono OLED | ~$79 | USB-C | ✅ Active | 🟡 |
-| [**Blockstream Jade**](https://blockstream.com/jade/) | 69 | [Jade](https://github.com/Blockstream/Jade) | ❌ | ✅ Full | ✅ SE | Color LCD | ~$79 | USB/BT | ✅ Active | 🟡 |
-| [**BitBox02**](https://bitbox.swiss/) | 68 | [bitbox02-firmware](https://github.com/BitBoxSwiss/bitbox02-firmware) | ❌ | ✅ Full | ✅ ATECC | Touch Edge | ~$150 | USB-C | ✅ Active | 🟡 |
-| [**BitBox02 Nova**](https://bitbox.swiss/) | 68 | [bitbox02-firmware](https://github.com/BitBoxSwiss/bitbox02-firmware) | ❌ | ✅ Full | ✅ ATECC | Touch Edge | ~$150 | USB-C | ✅ Active | 🟡 |
-| [**Krux**](https://selfcustody.github.io/krux/) | 68 | [krux](https://github.com/selfcustody/krux) | ✅ Full | ✅ Full | ❌ None | LCD | ~$30-100* | QR | ✅ Active | 🟡 |
-| [**SeedSigner**](https://seedsigner.com/) | 68 | [seedsigner](https://github.com/SeedSigner/seedsigner) | ✅ Full | ✅ Full | ❌ None | LCD | ~$50-100* | QR | ✅ Active | 🟡 |
-| [**Specter DIY**](https://specter.solutions/hardware/) | 68 | [specter-diy](https://github.com/cryptoadvance/specter-diy) | ✅ Full | ✅ Full | ❌ None | LCD | ~$50-150* | QR | ✅ Active | 🟡 |
-| [**OneKey Classic 1S**](https://onekey.so/) | 67 | [firmware](https://github.com/OneKeyHQ/firmware) | ❌ | ✅ Full | ✅ SE | Mono OLED | ~$89 | USB | ✅ Active | 🟡 |
-| [**OneKey Classic 1S Pure**](https://onekey.so/) | 67 | [firmware](https://github.com/OneKeyHQ/firmware) | ❌ | ✅ Full | ✅ SE | Mono OLED | ~$99 | USB | ✅ Active | 🟡 |
-| [**OneKey Pro**](https://onekey.so/) | 66 | [firmware-pro](https://github.com/OneKeyHQ/firmware-pro) | ❌ | ✅ Full | ✅ SE | Touch Color | ~$199 | USB/BT | ✅ Active | 🟡 |
-| [**Cypherock X1 Standard**](https://www.cypherock.com/) | 64 | [x1_wallet_firmware](https://github.com/Cypherock/x1_wallet_firmware) | ❌ | ✅ Full | ✅ ATECC + EAL6+ Cards | OLED | ~$179 | USB-C/NFC | ⚠️ Slow | 🟡 |
-| [**SafePal S1**](https://www.safepal.com/) | 64 | Private | ✅ Full | ⚠️ Partial | ✅ SE | LCD | ~$50 | QR | 🔒 Private | 🟡 |
-| [**NGRAVE ZERO**](https://www.ngrave.io/) | 61 | Private | ✅ Full | ⚠️ Partial | ✅ SE | Touch Color | ~$400 | QR | 🔒 Private | 🟡 |
-| [**Keycard**](https://keycard.tech/) | 60 | [status-keycard](https://github.com/keycard-tech/status-keycard) | ❌ | ✅ Full | ✅ CC | None | ~$29 | NFC | ✅ Active | 🟡 |
-| [**Ledger Nano Gen5**](https://www.ledger.com/) | 59 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$79 | USB | 🔒 Private | 🟡 |
-| [**Ledger Nano S+**](https://www.ledger.com/) | 59 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$80 | USB | 🔒 Private | 🟡 |
-| ~~[**Ledger Nano S**](https://www.ledger.com/)~~ | 56 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$59* | USB | ❌ Inactive | 🔴 |
-| [**KeepKey**](https://keepkey.com/) | 55 | [keepkey-firmware](https://github.com/keepkey/keepkey-firmware) | ❌ | ✅ Full | ❌ None | OLED | ~$50 | USB | ✅ Active | 🟡 |
-| [**Ledger Flex**](https://www.ledger.com/) | 54 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Flexible E-Ink | ~$199 | USB/BT | 🔒 Private | 🟡 |
-| [**Ledger Nano X**](https://www.ledger.com/) | 53 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$150 | USB/BT | 🔒 Private | 🟡 |
-| [**Ledger Stax**](https://www.ledger.com/) | 52 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | E-Ink Touch | ~$280 | USB/BT | 🔒 Private | 🟡 |
-| [**Bitkey**](https://bitkey.world/products/bitkey) | 45 | [bitkey](https://github.com/proto-at-block/bitkey) | ❌ | ✅ Full† | ❌ Not documented | None | ~$150 | NFC/USB-C | ✅ Active | 🟡 |
-| [**Ellipal Titan 2.0**](https://www.ellipal.com/) | 45 | Private | ✅ Full | ❌ Closed | ❌ None | Touch Color | ~$170 | QR | 🔒 Private | 🟡 |
-| [**SecuX V20**](https://secuxtech.com/) | 43 | Private | ❌ | ❌ Closed | ✅ SE | Touch Color | ~$140 | USB/BT | 🔒 Private | 🔴 |
-| [**Tangem Wallet**](https://tangem.com/) | 42 | Private | ❌ | ⚠️ Partial | ✅ SE | None | ~$55 | NFC | 🔒 Private | 🔴 |
-| [**GridPlus Lattice1**](https://gridplus.io/) | 37 | [SDK only](https://github.com/GridPlus/gridplus-sdk) | ❌ | ⚠️ SDK only | ✅ SE | 5" Touch | ~$400 | WiFi/USB | 🔒 Private | 🔴 |
-| [**Arculus**](https://www.getarculus.com/) | 33 | Private | ❌ | ❌ Closed | ✅ SE | None | ~$100 | NFC | 🔒 Private | 🔴 |
-| [**BC Vault**](https://bc-vault.com/) | 26 | Private | ❌ | ❌ Closed | ❌ None | OLED | ~$140 | USB | 🔒 Private | 🔴 |
+| Wallet | Score | GitHub | Air-Gap | Open Source | Secure Elem | Display | Price | Conn | Activity | Founded | Funding | Rec |
+|--------|-------|--------|---------|-------------|-------------|---------|-------|------|----------|---------|---------|-----|
+| [**Keystone 3 Pro**](https://keyst.one/) | 92 | [keystone3-firmware](https://github.com/KeystoneHQ/keystone3-firmware) | ✅ Full | ✅ Full | ✅ 3× SE | Touch Color | ~$149 | QR | ✅ Active | 2017 | 🟡 VC | 🟢 |
+| [**ColdCard Mk4**](https://coldcard.com/) | 88 | [firmware](https://github.com/Coldcard/firmware) | ✅ Full | ✅ Full | ✅ Dual SE | Mono LCD | ~$160 | MicroSD | ✅ Active | 2011 | 🟢 Self | 🟢 |
+| [**Keycard Shell**](https://get.keycard.tech/products/keycard-shell) | 85 | [keycard-shell](https://github.com/keycard-tech/keycard-shell) | ✅ Full | ✅ Full | ✅ SE | Touch Keypad | ~$110 | QR/USB | ✅ Active | 2017 | 🟢 Status | 🟢 |
+| [**Foundation Passport**](https://foundationdevices.com/) | 84 | [passport2](https://github.com/Foundation-Devices/passport2) | ✅ Full | ✅ Full | ✅ ATECC | Color LCD | ~$199 | MicroSD/QR | ✅ Active | 2020 | 🟡 VC | 🟢 |
+| [**Trezor Safe 7**](https://trezor.io/) | 80 | [trezor-firmware](https://github.com/trezor/trezor-firmware) | ❌ | ✅ Full | ✅ Tropic01 | Touch Color | ~$249 | USB-C | ✅ Active | 2013 | 🟢 SatoshiLabs | 🟢 |
+| [**Trezor Safe 5**](https://trezor.io/) | 78 | [trezor-firmware](https://github.com/trezor/trezor-firmware) | ❌ | ✅ Full | ✅ Optiga | Touch Color | ~$169 | USB-C | ✅ Active | 2013 | 🟢 SatoshiLabs | 🟢 |
+| [**Trezor Safe 3**](https://trezor.io/) | 77 | [trezor-firmware](https://github.com/trezor/trezor-firmware) | ❌ | ✅ Full | ✅ Optiga | Mono OLED | ~$79 | USB-C | ✅ Active | 2013 | 🟢 SatoshiLabs | 🟢 |
+| [**Blockstream Jade**](https://blockstream.com/jade/) | 74 | [Jade](https://github.com/Blockstream/Jade) | ❌ | ✅ Full | ✅ SE | Color LCD | ~$79 | USB/BT | ✅ Active | 2014 | 🟡 VC | 🟢 |
+| [**BitBox02**](https://bitbox.swiss/) | 73 | [bitbox02-firmware](https://github.com/BitBoxSwiss/bitbox02-firmware) | ❌ | ✅ Full | ✅ ATECC | Touch Edge | ~$150 | USB-C | ✅ Active | 2015 | 🟢 Self | 🟢 |
+| [**BitBox02 Nova**](https://bitbox.swiss/) | 73 | [bitbox02-firmware](https://github.com/BitBoxSwiss/bitbox02-firmware) | ❌ | ✅ Full | ✅ ATECC | Touch Edge | ~$150 | USB-C | ✅ Active | 2015 | 🟢 Self | 🟢 |
+| [**Krux**](https://selfcustody.github.io/krux/) | 70 | [krux](https://github.com/selfcustody/krux) | ✅ Full | ✅ Full | ❌ None | LCD | ~$30-100* | QR | ✅ Active | 2021 | 🔴 Community | 🟡 |
+| [**OneKey Classic 1S**](https://onekey.so/) | 70 | [firmware](https://github.com/OneKeyHQ/firmware) | ❌ | ✅ Full | ✅ SE | Mono OLED | ~$89 | USB | ✅ Active | 2019 | 🟡 VC | 🟡 |
+| [**OneKey Classic 1S Pure**](https://onekey.so/) | 70 | [firmware](https://github.com/OneKeyHQ/firmware) | ❌ | ✅ Full | ✅ SE | Mono OLED | ~$99 | USB | ✅ Active | 2019 | 🟡 VC | 🟡 |
+| [**SeedSigner**](https://seedsigner.com/) | 70 | [seedsigner](https://github.com/SeedSigner/seedsigner) | ✅ Full | ✅ Full | ❌ None | LCD | ~$50-100* | QR | ✅ Active | 2020 | 🔴 Community | 🟡 |
+| [**Specter DIY**](https://specter.solutions/hardware/) | 70 | [specter-diy](https://github.com/cryptoadvance/specter-diy) | ✅ Full | ✅ Full | ❌ None | LCD | ~$50-150* | QR | ✅ Active | 2020 | 🔴 Community | 🟡 |
+| [**OneKey Pro**](https://onekey.so/) | 69 | [firmware-pro](https://github.com/OneKeyHQ/firmware-pro) | ❌ | ✅ Full | ✅ SE | Touch Color | ~$199 | USB/BT | ✅ Active | 2019 | 🟡 VC | 🟡 |
+| [**SafePal S1**](https://www.safepal.com/) | 69 | Private | ✅ Full | ⚠️ Partial | ✅ SE | LCD | ~$50 | QR | 🔒 Private | 2018 | 🟢 Binance | 🟡 |
+| [**Cypherock X1 Standard**](https://www.cypherock.com/) | 67 | [x1_wallet_firmware](https://github.com/Cypherock/x1_wallet_firmware) | ❌ | ✅ Full | ✅ ATECC + EAL6+ Cards | OLED | ~$179 | USB-C/NFC | ⚠️ Slow | 2019 | 🟡 VC | 🟡 |
+| [**Keycard**](https://keycard.tech/) | 65 | [status-keycard](https://github.com/keycard-tech/status-keycard) | ❌ | ✅ Full | ✅ CC | None | ~$29 | NFC | ✅ Active | 2017 | 🟢 Status | 🟡 |
+| [**Ledger Nano Gen5**](https://www.ledger.com/) | 65 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$79 | USB | 🔒 Private | 2014 | 🟢 Ledger | 🟡 |
+| [**Ledger Nano S+**](https://www.ledger.com/) | 65 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$80 | USB | 🔒 Private | 2014 | 🟢 Ledger | 🟡 |
+| [**NGRAVE ZERO**](https://www.ngrave.io/) | 65 | Private | ✅ Full | ⚠️ Partial | ✅ SE | Touch Color | ~$400 | QR | 🔒 Private | 2018 | 🟡 VC | 🟡 |
+| ~~[**Ledger Nano S**](https://www.ledger.com/)~~ | 62 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$59* | USB | ❌ Inactive | 2014 | 🟢 Ledger | 🔴 |
+| [**KeepKey**](https://keepkey.com/) | 60 | [keepkey-firmware](https://github.com/keepkey/keepkey-firmware) | ❌ | ✅ Full | ❌ None | OLED | ~$50 | USB | ✅ Active | 2015 | 🟢 ShapeShift | 🟡 |
+| [**Ledger Flex**](https://www.ledger.com/) | 60 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Flexible E-Ink | ~$199 | USB/BT | 🔒 Private | 2014 | 🟢 Ledger | 🟡 |
+| [**Ledger Nano X**](https://www.ledger.com/) | 59 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$150 | USB/BT | 🔒 Private | 2014 | 🟢 Ledger | 🟡 |
+| [**Ledger Stax**](https://www.ledger.com/) | 58 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | E-Ink Touch | ~$280 | USB/BT | 🔒 Private | 2014 | 🟢 Ledger | 🟡 |
+| [**Bitkey**](https://bitkey.world/products/bitkey) | 51 | [bitkey](https://github.com/proto-at-block/bitkey) | ❌ | ✅ Full† | ❌ Not documented | None | ~$150 | NFC/USB-C | ✅ Active | 2009 | 🟢 Block | 🟡 |
+| [**Ellipal Titan 2.0**](https://www.ellipal.com/) | 48 | Private | ✅ Full | ❌ Closed | ❌ None | Touch Color | ~$170 | QR | 🔒 Private | 2018 | 🔴 Unknown | 🟡 |
+| [**SecuX V20**](https://secuxtech.com/) | 46 | Private | ❌ | ❌ Closed | ✅ SE | Touch Color | ~$140 | USB/BT | 🔒 Private | 2018 | 🔴 Unknown | 🟡 |
+| [**Tangem Wallet**](https://tangem.com/) | 46 | Private | ❌ | ⚠️ Partial | ✅ SE | None | ~$55 | NFC | 🔒 Private | 2017 | 🟡 VC | 🟡 |
+| [**GridPlus Lattice1**](https://gridplus.io/) | 40 | [SDK only](https://github.com/GridPlus/gridplus-sdk) | ❌ | ⚠️ SDK only | ✅ SE | 5" Touch | ~$400 | WiFi/USB | 🔒 Private | 2017 | 🔴 Unknown | 🔴 |
+| [**Arculus**](https://www.getarculus.com/) | 39 | Private | ❌ | ❌ Closed | ✅ SE | None | ~$100 | NFC | 🔒 Private | 2000 | 🟢 CompoSecure | 🔴 |
+| [**BC Vault**](https://bc-vault.com/) | 30 | Private | ❌ | ❌ Closed | ❌ None | OLED | ~$140 | USB | 🔒 Private | 2014 | 🔴 Unknown | 🔴 |
 
 *\* DIY wallets — price varies based on components purchased; requires self-assembly*
 *† Bitkey publishes app, server, schematics, and firmware code under MIT, but external parties still cannot build every firmware component because the fingerprint matching library remains proprietary.*
@@ -46,22 +46,22 @@
 
 ## Pros & Cons (Top Picks)
 
-**Keystone 3 Pro (88)**
+**Keystone 3 Pro (92)**
 - ✅ Best current balance of air-gap security and multi-asset support
 - ✅ Fully open firmware with active maintenance
 - ⚠️ Bigger device and less minimalist than USB-first wallets
 
-**ColdCard Mk4 (82)**
+**ColdCard Mk4 (88)**
 - ✅ Bitcoin-only security focus
 - ✅ Air-gap via MicroSD
 - ⚠️ Not ideal for multi-asset users
 
-**Foundation Passport (81)**
+**Foundation Passport (84)**
 - ✅ Open, air-gapped, and tactile
 - ✅ Strong fit for long-term self-custody
 - ⚠️ Pricier and narrower ecosystem than Trezor-style USB devices
 
-**Trezor Safe 7 / Safe 5 (74 / 72)**
+**Trezor Safe 7 / Safe 5 (80 / 78)**
 - ✅ Cleanest mainstream open-source USB workflow
 - ✅ Easy fit with software wallets used by EVM teams
 - ⚠️ Lower score because this methodology now rewards isolated signing more heavily
@@ -88,11 +88,13 @@
 | **Price** | ~$XXX approximate USD (verify on official site) |
 | **Conn** | USB-C, USB, BT (Bluetooth), QR, NFC, MicroSD, WiFi |
 
-**Development Activity:**
+**Company & Activity:**
 | Column | Values |
 |--------|--------|
 | **GitHub** | Link = firmware repo | "Private" = closed source |
 | **Activity** | ✅ Active (≤30 days) | ⚠️ Slow (1-4 mo) | ❌ Inactive (4+ mo) | 🔒 Private repo |
+| **Founded** | Company founding year (used for track-record scoring) |
+| **Funding** | 🟢 Sustainable/public/self-funded | 🟡 VC-backed | 🔴 Unknown/risky |
 
 **Special Notes:** ~~Strikethrough~~ = Abandoned/inactive wallet
 
@@ -108,7 +110,7 @@
 
 ## Quick Summary
 
-> **TL;DR:** Use **Keystone 3 Pro** (88) when you want the strongest air-gapped multi-asset option, **ColdCard Mk4** (82) for Bitcoin-first security, **Foundation Passport** (81) or **Keycard Shell** (80) for open QR-first setups, and **Trezor Safe 7 / 5 / 3** when you prefer a USB-first open-source workflow with mainstream wallet integrations.
+> **TL;DR:** Use **Keystone 3 Pro** (92) when you want the strongest air-gapped multi-asset option, **ColdCard Mk4** (88) for Bitcoin-first security, **Keycard Shell** (85) or **Foundation Passport** (84) for open QR-first setups, and **Trezor Safe 7 / 5 / 3** (80 / 78 / 77) when you prefer a USB-first open-source workflow with mainstream wallet integrations.
 
 **Last Updated:** April 8, 2026 | [Scoring Methodology](./HARDWARE_WALLETS_DETAILS.md#-scoring-methodology) | [GitHub Activity Data](./HARDWARE_WALLETS_DETAILS.md#github-metrics-firmware-repositories) | [View Company Aggregates](./HARDWARE_WALLET_COMPANIES.md)
 
@@ -123,7 +125,7 @@
 
 ### What is the best hardware wallet in 2026?
 
-There is no single universal winner anymore. **Keystone 3 Pro** (88) is the top overall score because it combines air-gapped signing, active firmware, and a strong multi-asset profile. **ColdCard Mk4** (82) is still the strongest Bitcoin-first choice, while **Foundation Passport** (81) and **Trezor Safe 7** (74) are strong alternatives for different threat models.
+There is no single universal winner anymore. **Keystone 3 Pro** (92) is the top overall score because it combines air-gapped signing, active firmware, and a strong multi-asset profile. **ColdCard Mk4** (88) is still the strongest Bitcoin-first choice, while **Keycard Shell** (85), **Foundation Passport** (84), and **Trezor Safe 7** (80) are strong alternatives for different threat models.
 
 ### Why should I choose Trezor over Ledger?
 

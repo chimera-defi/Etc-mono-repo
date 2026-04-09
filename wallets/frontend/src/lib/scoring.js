@@ -429,6 +429,23 @@ function parseHardwareConnectivityScore(cell) {
   return { score: 3, note: 'Unclear connectivity profile.' };
 }
 
+function parseHardwareCompanyAgeScore(cell) {
+  const foundedYear = extractInteger(cell);
+  if (!foundedYear) {
+    return { score: 1, note: 'Founding year not listed.' };
+  }
+  if (foundedYear <= 2014) {
+    return { score: 4, note: 'Decade-plus operating history.' };
+  }
+  if (foundedYear <= 2018) {
+    return { score: 3, note: 'Established multi-cycle operating history.' };
+  }
+  if (foundedYear <= 2021) {
+    return { score: 2, note: 'Moderate operating history.' };
+  }
+  return { score: 1, note: 'Newer company track record.' };
+}
+
 function computeHardwareScore(cells) {
   const githubCell = String(cells[2] || '');
   const airGap = parseBooleanCell(cells[3]);
@@ -438,6 +455,8 @@ function computeHardwareScore(cells) {
   const price = parseHardwarePriceScore(cells[7]);
   const connectivity = parseHardwareConnectivityScore(cells[8]);
   const activity = parseStatusCell(cells[9]);
+  const companyAge = parseHardwareCompanyAgeScore(cells[10]);
+  const funding = parseFundingLevel(cells[11]);
 
   const githubScore =
     githubCell.toLowerCase().includes('sdk only') ? 4 :
@@ -452,8 +471,11 @@ function computeHardwareScore(cells) {
     (activity === 'active' ? 8 : activity === 'slow' ? 5 : activity === 'private' ? 3 : 0);
 
   const usabilityValue = display.score + price.score + connectivity.score;
+  const companyTrackRecord =
+    companyAge.score +
+    (funding === 'sustainable' ? 2 : funding === 'vc' ? 1 : 0);
 
-  const total = securityArchitecture + transparencyMaintenance + usabilityValue;
+  const total = securityArchitecture + transparencyMaintenance + usabilityValue + companyTrackRecord;
 
   const entries = [
     {
@@ -476,6 +498,13 @@ function computeHardwareScore(cells) {
       score: usabilityValue,
       max: 32,
       note: 'Display quality, connectivity ergonomics, and price positioning.',
+    },
+    {
+      key: 'company',
+      label: 'Company Track Record',
+      score: companyTrackRecord,
+      max: 6,
+      note: `${companyAge.note} Funding durability from visible table signal.`,
     },
   ];
 

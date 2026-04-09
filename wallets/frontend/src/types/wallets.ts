@@ -90,6 +90,9 @@ export interface HardwareWallet {
   priceLastChecked: string | null;
   connectivity: string[];
   active: 'active' | 'slow' | 'inactive' | 'private';
+  foundedYear: number | null;
+  funding: 'sustainable' | 'vc' | 'risky';
+  fundingSource: string;
   recommendation: 'recommended' | 'situational' | 'avoid';
   url: string | null;
   type: 'hardware';
