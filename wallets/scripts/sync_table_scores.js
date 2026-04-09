@@ -171,6 +171,28 @@ const DETAIL_SNAPSHOT_CONFIGS = {
   },
 };
 
+const DETAIL_TOP_PROVIDER_CONFIGS = {
+  ramps: {
+    file: path.join(ROOT, 'RAMPS_DETAILS.md'),
+    startMarker: '<!-- GENERATED_RAMPS_TOP_PROVIDERS_START -->',
+    endMarker: '<!-- GENERATED_RAMPS_TOP_PROVIDERS_END -->',
+    build(rows) {
+      const topRows = rows.slice(0, 10);
+      return [
+        this.startMarker,
+        'This table mirrors the current generated ordering from [RAMPS.md](./RAMPS.md):',
+        '',
+        '| Provider | Score | Best For | Global Coverage | Fee Model | Dev UX |',
+        '|----------|-------|----------|-----------------|-----------|--------|',
+        ...topRows.map((row) => (
+          `| ${row.cells[0]} | ${row.score} | ${row.cells[12]} | ${row.cells[5]} | ${row.cells[6]} | ${row.cells[8]} |`
+        )),
+        this.endMarker,
+      ].join('\n');
+    },
+  },
+};
+
 function parseRow(line) {
   return line
     .trim()
@@ -205,6 +227,16 @@ function joinSummaryItems(items) {
   if (items.length === 1) return items[0];
   if (items.length === 2) return `${items[0]} and ${items[1]}`;
   return `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`;
+}
+
+function syncMethodologyVersionMentions(content) {
+  return String(content)
+    .replace(/methodology version `[^`]+`/g, `methodology version \`${SCORING_METHODOLOGY_VERSION}\``)
+    .replace(/using methodology `[^`]+`/g, `using methodology \`${SCORING_METHODOLOGY_VERSION}\``)
+    .replace(
+      /via `wallets\/scripts\/sync_table_scores\.js` \(`[^`]+`\)/g,
+      `via \`wallets/scripts/sync_table_scores.js\` (\`${SCORING_METHODOLOGY_VERSION}\`)`
+    );
 }
 
 function replaceGeneratedBlock(content, startMarker, endMarker, nextBlock) {
@@ -256,7 +288,7 @@ function processTable(config, { write = false } = {}) {
 
   const nextLines = [...lines];
   nextLines.splice(headerIndex, endIndex - headerIndex, ...updatedTable);
-  const next = nextLines.join('\n');
+  const next = syncMethodologyVersionMentions(nextLines.join('\n'));
   const changed = next !== original;
 
   if (changed && write) {
@@ -281,7 +313,9 @@ function processDetailSnapshots(tableResults, { write = false } = {}) {
 
     const original = fs.readFileSync(config.file, 'utf8');
     const nextBlock = config.build(tableResult.processedRows);
-    const next = replaceGeneratedBlock(original, config.startMarker, config.endMarker, nextBlock);
+    const next = syncMethodologyVersionMentions(
+      replaceGeneratedBlock(original, config.startMarker, config.endMarker, nextBlock)
+    );
     const changed = next !== original;
 
     if (changed && write) {
@@ -297,10 +331,36 @@ function processDetailSnapshots(tableResults, { write = false } = {}) {
   });
 }
 
+function processDetailTopProviderBlocks(tableResults, { write = false } = {}) {
+  return Object.entries(DETAIL_TOP_PROVIDER_CONFIGS).map(([label, config]) => {
+    const tableResult = tableResults.find((result) => result.label === label);
+    if (!tableResult) {
+      throw new Error(`Could not find table result for top-provider block ${label}`);
+    }
+
+    const original = fs.readFileSync(config.file, 'utf8');
+    const nextBlock = config.build(tableResult.processedRows);
+    const next = replaceGeneratedBlock(original, config.startMarker, config.endMarker, nextBlock);
+    const changed = next !== original;
+
+    if (changed && write) {
+      fs.writeFileSync(config.file, next);
+    }
+
+    return {
+      label: `${label}-details-top`,
+      file: config.file,
+      changed,
+      rows: tableResult.processedRows.length,
+    };
+  });
+}
+
 function processAllTables(options = {}) {
   const tableResults = TABLE_CONFIGS.map((config) => processTable(config, options));
   const detailResults = processDetailSnapshots(tableResults, options);
-  return [...tableResults, ...detailResults];
+  const detailTopProviderResults = processDetailTopProviderBlocks(tableResults, options);
+  return [...tableResults, ...detailResults, ...detailTopProviderResults];
 }
 
 function main() {

@@ -4,6 +4,7 @@ __pycache__/
 # Cursor artifacts
 .cursor/artifacts/
 .backups/
+artifacts/
 wallets/artifacts/
 ideas/_exports/
 
