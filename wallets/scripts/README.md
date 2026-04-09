@@ -100,6 +100,9 @@ python3 wallets/scripts/run_naming_workflow.py
 # Write report files
 python3 wallets/scripts/run_naming_workflow.py --write
 
+# Write pretty-printed JSON (default output is compact JSON to keep diffs small)
+python3 wallets/scripts/run_naming_workflow.py --write --pretty-json
+
 # Validate only shortlist candidates
 python3 wallets/scripts/run_naming_workflow.py \
   --candidates wallets/branding/SHORTLIST_CANDIDATES.txt \
