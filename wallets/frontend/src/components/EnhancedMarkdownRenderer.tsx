@@ -55,7 +55,13 @@ const TABLE_METHODOLOGY_LINK: Record<TableType, string> = {
   cards: '/docs/crypto-cards-details#scoring-methodology',
   ramps: '/docs/ramps-details#scoring-methodology',
 };
-const TOOLTIP_LINK_LABEL = 'Read methodology';
+const TABLE_DETAILS_LINK: Record<TableType, string> = {
+  software: '/docs/software-wallets-details',
+  hardware: '/docs/hardware-wallets-details',
+  cards: '/docs/crypto-cards-details',
+  ramps: '/docs/ramps-details',
+};
+const TOOLTIP_LINK_LABEL = 'Read details';
 
 function detectTableType(title: string | undefined): TableType {
   if (!title) return 'software';
@@ -166,6 +172,45 @@ function getHeaderTooltip(header: string, tableType: TableType): string | null {
   }
 
   return null;
+}
+
+function getHeaderTooltipLink(header: string, tableType: TableType): string {
+  const lowerHeader = header.toLowerCase().trim();
+
+  if (tableType === 'software') {
+    if (lowerHeader.includes('score') || lowerHeader === 'rec' || lowerHeader === 'status') return TABLE_METHODOLOGY_LINK.software;
+    if (lowerHeader === 'audits') return '/docs/software-wallets-details#-security-audits-from-walletbeat--github';
+    if (lowerHeader === 'chains') return '/docs/software-wallets-details#-eip-support-matrix';
+    if (lowerHeader === 'devices' || lowerHeader === 'platforms' || lowerHeader === 'plat') return '/docs/software-wallets-details#-mobile-deep-linking--integration';
+    if (lowerHeader === 'account') return '/docs/software-wallets-details#account-type-support-from-walletbeat';
+    if (lowerHeader === 'ens/naming' || lowerHeader === 'ens' || lowerHeader === 'ens naming') return '/docs/software-wallets-details#ens--address-resolution-from-walletbeat';
+    return TABLE_DETAILS_LINK.software;
+  }
+
+  if (tableType === 'hardware') {
+    if (lowerHeader.includes('score') || lowerHeader === 'rec' || lowerHeader === 'status') return TABLE_METHODOLOGY_LINK.hardware;
+    if (lowerHeader === 'air-gap' || lowerHeader === 'airgap' || lowerHeader === 'open source' || lowerHeader === 'secure elem' || lowerHeader === 'secure element') {
+      return '/docs/hardware-wallets-details#-security-deep-dive';
+    }
+    if (lowerHeader === 'founded' || lowerHeader === 'funding') return TABLE_METHODOLOGY_LINK.hardware;
+    return TABLE_DETAILS_LINK.hardware;
+  }
+
+  if (tableType === 'cards') {
+    if (lowerHeader.includes('score') || lowerHeader === 'status') return TABLE_METHODOLOGY_LINK.cards;
+    if (lowerHeader === 'type' || lowerHeader === 'card type' || lowerHeader === 'custody') return '/docs/crypto-cards-details#card-categories';
+    if (lowerHeader === 'cashback' || lowerHeader === 'cash back' || lowerHeader === 'rewards %' || lowerHeader === 'rewards') return '/docs/crypto-cards-details#rewards-comparison';
+    if (lowerHeader === 'annual fee' || lowerHeader === 'fx fee' || lowerHeader === 'fee') return '/docs/crypto-cards-details#fee-analysis';
+    if (lowerHeader === 'region') return '/docs/crypto-cards-details#geographic-availability';
+    return TABLE_DETAILS_LINK.cards;
+  }
+
+  if (lowerHeader.includes('score') || lowerHeader === 'status') return TABLE_METHODOLOGY_LINK.ramps;
+  if (lowerHeader === 'type' || lowerHeader === 'on-ramp' || lowerHeader === 'off-ramp' || lowerHeader === 'provider') return '/docs/ramps-details#-top-providers-comparison';
+  if (lowerHeader === 'coverage' || lowerHeader === 'fee model' || lowerHeader === 'min fee') return '/docs/ramps-details#-fee-structure-analysis';
+  if (lowerHeader === 'dev ux' || lowerHeader === 'devux') return '/docs/ramps-details#-developer-experience-dx';
+  if (lowerHeader === 'founded' || lowerHeader === 'funding') return TABLE_METHODOLOGY_LINK.ramps;
+  return TABLE_DETAILS_LINK.ramps;
 }
 
 // Section definitions - which sections should be collapsible with clickable headings
@@ -539,7 +584,7 @@ function SearchableTable({ tableContent, title }: { tableContent: string; title?
               {parsedTable.headers.map((header, index) => {
                 const tableType = detectTableType(title);
                 const tooltip = getHeaderTooltip(header, tableType);
-                const tooltipLinkHref = TABLE_METHODOLOGY_LINK[tableType];
+                const tooltipLinkHref = getHeaderTooltipLink(header, tableType);
                 return (
                   <th
                     key={index}

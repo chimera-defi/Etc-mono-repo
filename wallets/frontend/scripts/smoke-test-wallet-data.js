@@ -185,6 +185,39 @@ function assertAllRowsComputed(fileLabel, rows, computeScore, scoreIndex, recomm
   }
 }
 
+function assertScoredColumnContract(fileLabel, header, row, computeScore, mutatorsByHeader) {
+  let failures = 0;
+  const baseline = computeScore(row);
+
+  for (const [headerName, mutate] of Object.entries(mutatorsByHeader)) {
+    const columnIndex = header.findIndex(
+      (cell) => normalizeHeaderCell(cell) === normalizeHeaderCell(headerName)
+    );
+
+    if (columnIndex === -1) {
+      fail(`${fileLabel}: scorer contract references missing header "${headerName}"`);
+      failures += 1;
+      continue;
+    }
+
+    const mutatedRow = [...row];
+    mutatedRow[columnIndex] = mutate(String(mutatedRow[columnIndex] || ''));
+    const mutated = computeScore(mutatedRow);
+
+    if (mutated.score === baseline.score && mutated.recommendation === baseline.recommendation) {
+      fail(
+        `${fileLabel}: scorer contract drift — mutating "${headerName}" did not change score/recommendation ` +
+          `(baseline ${baseline.score}/${baseline.recommendation}, mutated ${mutated.score}/${mutated.recommendation})`
+      );
+      failures += 1;
+    }
+  }
+
+  if (failures === 0) {
+    ok(`${fileLabel}: scored-column contract validated (${Object.keys(mutatorsByHeader).length} columns)`);
+  }
+}
+
 function assertHardwareCompanyColumns(rows) {
   let failures = 0;
   const currentYear = new Date().getUTCFullYear();
@@ -300,6 +333,26 @@ function run() {
     // Rabby is EVM-only, so it should have eth.svg image
     if (!/eth\.svg/.test(chains) && !/⟠/.test(chains)) fail(`Rabby chains drifted (expected eth.svg or ⟠ for EVM), got: "${chains}"`);
     if (!/mit/i.test(license)) fail(`Rabby license drifted (expected MIT), got: "${license}"`);
+    const softwareContractMutators = {
+      Core: () => '❌',
+      'Rel/Mo': () => '0',
+      RPC: () => '❌',
+      GitHub: () => 'Private',
+      Active: () => '❌ Inactive',
+      Chains: () => '/chains/eth /chains/btc /chains/sol /chains/move /chains/cosmos /chains/polkadot /chains/starknet TON',
+      Devices: () => '📱',
+      Testnets: () => '❌',
+      License: () => '❌ Closed',
+      API: () => '❌ Closed',
+      Audits: () => '❌',
+      Funding: () => '🔴 Unknown',
+      'Tx Sim': () => '❌',
+      Scam: () => '❌',
+      Account: () => 'EOA',
+      'ENS/Naming': () => 'None',
+      HW: () => '❌',
+    };
+    assertScoredColumnContract('Software wallets table', softwareTable.header, rabbyRow, computeSoftwareScore, softwareContractMutators);
     ok('Software wallets table: Rabby spot-check passed');
   }
 
@@ -356,6 +409,19 @@ function run() {
     } else {
       ok('Hardware wallets table: founded/funding signals influence score as expected');
     }
+    const hardwareContractMutators = {
+      GitHub: () => 'Private',
+      'Air-Gap': () => '✅',
+      'Open Source': () => '❌ Closed',
+      'Secure Elem': () => '❌ None',
+      Display: () => 'No Display',
+      Price: () => '~$999',
+      Conn: () => 'USB + BT + WiFi',
+      Activity: () => '❌ Inactive',
+      Founded: () => String(new Date().getUTCFullYear()),
+      Funding: () => '🔴 Unknown',
+    };
+    assertScoredColumnContract('Hardware wallets table', hardwareTable.header, trezorSafe5Row, computeHardwareScore, hardwareContractMutators);
     ok('Hardware wallets table: Trezor Safe 5 spot-check passed');
   }
 
@@ -446,6 +512,18 @@ function run() {
     // Card column should now have URL embedded
     if (!/ether\.fi/i.test(card)) fail(`EtherFi Cash card column should contain ether.fi URL, got: "${card}"`);
     if (!/✅/.test(status)) fail(`EtherFi Cash status drifted (expected ✅), got: "${status}"`);
+    const cardsContractMutators = {
+      Type: () => 'Prepaid',
+      Custody: () => '🏦 Exchange',
+      Biz: () => '❌',
+      Region: () => '🇺🇸 US',
+      'Cash Back': () => '0%',
+      'Annual Fee': () => '$499',
+      'FX Fee': () => '3%',
+      Rewards: () => 'None',
+      Status: () => '❌ Inactive',
+    };
+    assertScoredColumnContract('Crypto cards table', cardsTable.header, etherfiRow, computeCardScore, cardsContractMutators);
     ok('Crypto cards table: EtherFi Cash spot-check passed');
   }
 
@@ -511,6 +589,19 @@ function run() {
     } else {
       ok('Ramps table: founded/funding signals influence score as expected');
     }
+    const rampsContractMutators = {
+      Type: () => 'On-Ramp',
+      'On-Ramp': () => '❌',
+      'Off-Ramp': () => '❌',
+      Coverage: () => '~5 Countries',
+      'Fee Model': () => 'High',
+      'Min Fee': () => '~$50.00',
+      'Dev UX': () => 'Basic',
+      Status: () => '❌ Inactive',
+      Founded: () => '2010',
+      Funding: () => '🟢 Revenue',
+    };
+    assertScoredColumnContract('Ramps table', rampsTable.header, transakRow, computeRampScore, rampsContractMutators);
   }
 
   const driftResults = processAllTables({ write: false }).filter((result) => result.changed);
