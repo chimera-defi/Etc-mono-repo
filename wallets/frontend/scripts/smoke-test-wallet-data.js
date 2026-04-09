@@ -14,6 +14,7 @@
 const fs = require('fs');
 const path = require('path');
 const {
+  SCORING_METHODOLOGY_VERSION,
   computeSoftwareScore,
   computeHardwareScore,
   computeCardScore,
@@ -213,12 +214,21 @@ function assertHardwareCompanyColumns(rows) {
   }
 }
 
+function assertMethodologyVersionTag(fileLabel, content) {
+  if (!content.includes(SCORING_METHODOLOGY_VERSION)) {
+    fail(`${fileLabel}: missing methodology version tag "${SCORING_METHODOLOGY_VERSION}"`);
+  } else {
+    ok(`${fileLabel}: methodology version tag is current (${SCORING_METHODOLOGY_VERSION})`);
+  }
+}
+
 function run() {
   console.log('🔎 Running wallet table smoke tests...\n');
 
   // ---- Software wallets table ----
   const softwarePath = path.join(WALLETS_DIR, 'SOFTWARE_WALLETS.md');
   const softwareContent = readFileOrFail(softwarePath);
+  assertMethodologyVersionTag('Software wallets table', softwareContent);
   const softwareTable = parsePrimaryTable(softwareContent);
   const softwareRows = softwareTable.rows;
   if (softwareRows.length < 5) fail('Software table has too few rows (expected header + data).');
@@ -267,6 +277,7 @@ function run() {
   // ---- Hardware wallets table ----
   const hardwarePath = path.join(WALLETS_DIR, 'HARDWARE_WALLETS.md');
   const hardwareContent = readFileOrFail(hardwarePath);
+  assertMethodologyVersionTag('Hardware wallets table', hardwareContent);
   const hardwareTable = parsePrimaryTable(hardwareContent);
   const hardwareRows = hardwareTable.rows;
   if (hardwareRows.length < 5) fail('Hardware table has too few rows (expected header + data).');
@@ -356,6 +367,7 @@ function run() {
   // ---- Crypto cards table ----
   const cardsPath = path.join(WALLETS_DIR, 'CRYPTO_CARDS.md');
   const cardsContent = readFileOrFail(cardsPath);
+  assertMethodologyVersionTag('Crypto cards table', cardsContent);
   const cardsTable = parsePrimaryTable(cardsContent);
   const cardsRows = cardsTable.rows;
   if (cardsRows.length < 5) fail('Cards table has too few rows (expected header + data).');
@@ -416,6 +428,7 @@ function run() {
   // ---- Ramps table ----
   const rampsPath = path.join(WALLETS_DIR, 'RAMPS.md');
   const rampsContent = readFileOrFail(rampsPath);
+  assertMethodologyVersionTag('Ramps table', rampsContent);
   const rampsTable = parsePrimaryTable(rampsContent);
   const rampsRows = rampsTable.rows;
   if (rampsRows.length < 5) fail('Ramps table has too few rows (expected header + data).');
