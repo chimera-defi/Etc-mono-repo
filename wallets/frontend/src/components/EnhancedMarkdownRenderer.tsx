@@ -120,6 +120,8 @@ function getHeaderTooltip(header: string, tableType: TableType): string | null {
     if (lowerHeader === 'price') return hardwareWalletTooltips.headers.price;
     if (lowerHeader === 'conn' || lowerHeader === 'connectivity') return hardwareWalletTooltips.headers.connectivity;
     if (lowerHeader === 'activity') return hardwareWalletTooltips.headers.activity;
+    if (lowerHeader === 'founded') return hardwareWalletTooltips.headers.founded;
+    if (lowerHeader === 'funding') return hardwareWalletTooltips.headers.funding;
     if (lowerHeader === 'links') return hardwareWalletTooltips.headers.links;
   }
 

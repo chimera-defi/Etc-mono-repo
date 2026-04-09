@@ -121,6 +121,8 @@ export const hardwareWalletTooltips = {
     price: 'Approximate price in USD (verify on official website)',
     connectivity: 'Connection methods: USB, Bluetooth, QR, NFC, MicroSD',
     activity: 'Activity: ✅ Active (≤30 days), ⚠️ Slow (1-4 mo), ❌ Inactive (4+ mo), 🔒 Private repo',
+    founded: 'Company founding year used for hardware track-record scoring',
+    funding: 'Funding durability: 🟢 sustainable/public/self, 🟡 VC-backed, 🔴 unknown/risky',
     links: 'External links to GitHub and website',
   },
 

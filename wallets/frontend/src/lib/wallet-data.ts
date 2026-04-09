@@ -403,9 +403,11 @@ export function parseHardwareWallets(): HardwareWallet[] {
 
     // Table columns (HARDWARE_WALLETS.md):
     // Wallet(0) Score(1) GitHub(2) Air-Gap(3) Open Source(4) Secure Elem(5)
-    // Display(6) Price(7) Conn(8) Activity(9) Rec(10)
+    // Display(6) Price(7) Conn(8) Activity(9) Founded(10) Funding(11) Rec(12)
     const price = parsePrice(cells[7] || '');
     const priceLastChecked = pricing[name]?.last_checked ?? null;
+    const foundedYear = parseInt(cells[10] || '', 10);
+    const funding = parseFunding(cells[11] || '');
     const scoreInfo = computeHardwareScore(cells);
 
     return {
@@ -425,6 +427,9 @@ export function parseHardwareWallets(): HardwareWallet[] {
       priceLastChecked,
       connectivity: parseConnectivity(cells[8] || ''),
       active: parseStatus(cells[9] || ''),
+      foundedYear: Number.isFinite(foundedYear) ? foundedYear : null,
+      funding: funding.status,
+      fundingSource: funding.source,
       recommendation: scoreInfo.recommendation as 'recommended' | 'situational' | 'avoid',
       url,
       type: 'hardware' as const,
