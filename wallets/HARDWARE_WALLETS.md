@@ -21,12 +21,12 @@
 | [**OneKey Classic 1S Pure**](https://onekey.so/) | 67 | [firmware](https://github.com/OneKeyHQ/firmware) | ❌ | ✅ Full | ✅ SE | Mono OLED | ~$99 | USB | ✅ Active | 🟡 |
 | [**OneKey Pro**](https://onekey.so/) | 66 | [firmware-pro](https://github.com/OneKeyHQ/firmware-pro) | ❌ | ✅ Full | ✅ SE | Touch Color | ~$199 | USB/BT | ✅ Active | 🟡 |
 | [**Cypherock X1 Standard**](https://www.cypherock.com/) | 64 | [x1_wallet_firmware](https://github.com/Cypherock/x1_wallet_firmware) | ❌ | ✅ Full | ✅ ATECC + EAL6+ Cards | OLED | ~$179 | USB-C/NFC | ⚠️ Slow | 🟡 |
-| ~~[**Ledger Nano S**](https://www.ledger.com/)~~ | 64 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$59* | USB | ❌ Inactive | 🟡 |
 | [**SafePal S1**](https://www.safepal.com/) | 64 | Private | ✅ Full | ⚠️ Partial | ✅ SE | LCD | ~$50 | QR | 🔒 Private | 🟡 |
 | [**NGRAVE ZERO**](https://www.ngrave.io/) | 61 | Private | ✅ Full | ⚠️ Partial | ✅ SE | Touch Color | ~$400 | QR | 🔒 Private | 🟡 |
 | [**Keycard**](https://keycard.tech/) | 60 | [status-keycard](https://github.com/keycard-tech/status-keycard) | ❌ | ✅ Full | ✅ CC | None | ~$29 | NFC | ✅ Active | 🟡 |
 | [**Ledger Nano Gen5**](https://www.ledger.com/) | 59 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$79 | USB | 🔒 Private | 🟡 |
 | [**Ledger Nano S+**](https://www.ledger.com/) | 59 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$80 | USB | 🔒 Private | 🟡 |
+| ~~[**Ledger Nano S**](https://www.ledger.com/)~~ | 56 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$59* | USB | ❌ Inactive | 🔴 |
 | [**KeepKey**](https://keepkey.com/) | 55 | [keepkey-firmware](https://github.com/keepkey/keepkey-firmware) | ❌ | ✅ Full | ❌ None | OLED | ~$50 | USB | ✅ Active | 🟡 |
 | [**Ledger Flex**](https://www.ledger.com/) | 54 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Flexible E-Ink | ~$199 | USB/BT | 🔒 Private | 🟡 |
 | [**Ledger Nano X**](https://www.ledger.com/) | 53 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$150 | USB/BT | 🔒 Private | 🟡 |
