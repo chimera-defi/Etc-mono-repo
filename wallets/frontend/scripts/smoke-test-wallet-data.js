@@ -42,23 +42,36 @@ function readFileOrFail(filePath) {
   return fs.readFileSync(filePath, 'utf8');
 }
 
-function parseMarkdownTable(content) {
+function parseTableLine(line) {
+  return line
+    .split('|')
+    .slice(1, -1)
+    .map((cell) => cell.trim());
+}
+
+function parsePrimaryTable(content) {
   const lines = content.split('\n');
-  const rows = [];
+  const headerIndex = lines.findIndex((line, index) => (
+    line.startsWith('|') &&
+    index + 1 < lines.length &&
+    /^\|[\s-:|]+\|$/.test(lines[index + 1].trim())
+  ));
 
-  for (const line of lines) {
-    if (!line.startsWith('|')) continue;
-    if (/^\|[\s-:|]+\|$/.test(line)) continue; // separator row
-
-    const cells = line
-      .split('|')
-      .slice(1, -1)
-      .map((c) => c.trim());
-
-    if (cells.length) rows.push(cells);
+  if (headerIndex === -1) {
+    return { header: [], rows: [] };
   }
 
-  return rows;
+  const header = parseTableLine(lines[headerIndex]);
+  const rows = [];
+
+  for (let i = headerIndex + 2; i < lines.length; i += 1) {
+    const line = lines[i];
+    if (!line.startsWith('|')) break;
+    if (/^\|[\s-:|]+\|$/.test(line.trim())) continue;
+    rows.push(parseTableLine(line));
+  }
+
+  return { header, rows };
 }
 
 function normalizeHeaderCell(cell) {
@@ -120,13 +133,65 @@ function assertComputedScore(fileLabel, row, computeScore, scoreIndex, recommend
   ok(`${fileLabel}: computed score matches for ${row[0]}`);
 }
 
+function assertAllRowsColumnShape(fileLabel, header, rows) {
+  let failures = 0;
+  for (const row of rows) {
+    if (row.length !== header.length) {
+      fail(`${fileLabel}: row has ${row.length} columns, expected ${header.length}: ${row[0] || '<unknown>'}`);
+      failures += 1;
+      continue;
+    }
+    const emptyIndex = row.findIndex((cell) => cell.trim().length === 0);
+    if (emptyIndex !== -1) {
+      fail(`${fileLabel}: empty cell at column ${emptyIndex + 1} in row ${row[0] || '<unknown>'}`);
+      failures += 1;
+    }
+  }
+
+  if (failures === 0) {
+    ok(`${fileLabel}: all ${rows.length} rows have complete column coverage`);
+  }
+}
+
+function assertAllRowsComputed(fileLabel, rows, computeScore, scoreIndex, recommendationIndex = null) {
+  let failures = 0;
+
+  for (const row of rows) {
+    const scoreInfo = computeScore(row);
+    const scoreCell = String(row[scoreIndex] || '');
+    const expectedScore = String(scoreInfo.score);
+    if (!scoreCell.includes(expectedScore)) {
+      fail(`${fileLabel}: score drift in row ${row[0]}. Expected "${expectedScore}" in "${scoreCell}"`);
+      failures += 1;
+      continue;
+    }
+
+    const expectedRec = recommendationEmoji(scoreInfo.recommendation);
+    if (recommendationIndex !== null) {
+      const recCell = String(row[recommendationIndex] || '');
+      if (!recCell.includes(expectedRec)) {
+        fail(`${fileLabel}: recommendation drift in row ${row[0]}. Expected "${expectedRec}" in "${recCell}"`);
+        failures += 1;
+      }
+    } else if (!scoreCell.includes(expectedRec)) {
+      fail(`${fileLabel}: score emoji drift in row ${row[0]}. Expected "${expectedRec}" in "${scoreCell}"`);
+      failures += 1;
+    }
+  }
+
+  if (failures === 0) {
+    ok(`${fileLabel}: computed scoring validated for all ${rows.length} rows`);
+  }
+}
+
 function run() {
   console.log('🔎 Running wallet table smoke tests...\n');
 
   // ---- Software wallets table ----
   const softwarePath = path.join(WALLETS_DIR, 'SOFTWARE_WALLETS.md');
   const softwareContent = readFileOrFail(softwarePath);
-  const softwareRows = parseMarkdownTable(softwareContent);
+  const softwareTable = parsePrimaryTable(softwareContent);
+  const softwareRows = softwareTable.rows;
   if (softwareRows.length < 5) fail('Software table has too few rows (expected header + data).');
 
   const softwareExpectedHeader = [
@@ -152,7 +217,9 @@ function run() {
     'Best For',
     'Rec',
   ];
-  assertHeaders('Software wallets table', softwareRows[0], softwareExpectedHeader);
+  assertHeaders('Software wallets table', softwareTable.header, softwareExpectedHeader);
+  assertAllRowsColumnShape('Software wallets table', softwareTable.header, softwareRows);
+  assertAllRowsComputed('Software wallets table', softwareRows, computeSoftwareScore, 1, 20);
 
   const rabbyRow = findRowByFirstCellSubstring(softwareRows, 'rabby');
   if (!rabbyRow) {
@@ -171,7 +238,8 @@ function run() {
   // ---- Hardware wallets table ----
   const hardwarePath = path.join(WALLETS_DIR, 'HARDWARE_WALLETS.md');
   const hardwareContent = readFileOrFail(hardwarePath);
-  const hardwareRows = parseMarkdownTable(hardwareContent);
+  const hardwareTable = parsePrimaryTable(hardwareContent);
+  const hardwareRows = hardwareTable.rows;
   if (hardwareRows.length < 5) fail('Hardware table has too few rows (expected header + data).');
 
   const hardwareExpectedHeader = [
@@ -187,7 +255,9 @@ function run() {
     'Activity',
     'Rec',
   ];
-  assertHeaders('Hardware wallets table', hardwareRows[0], hardwareExpectedHeader);
+  assertHeaders('Hardware wallets table', hardwareTable.header, hardwareExpectedHeader);
+  assertAllRowsColumnShape('Hardware wallets table', hardwareTable.header, hardwareRows);
+  assertAllRowsComputed('Hardware wallets table', hardwareRows, computeHardwareScore, 1, 10);
 
   const trezorSafe5Row = findRowByFirstCellSubstring(hardwareRows, 'trezor safe 5');
   if (!trezorSafe5Row) {
@@ -248,7 +318,8 @@ function run() {
   // ---- Crypto cards table ----
   const cardsPath = path.join(WALLETS_DIR, 'CRYPTO_CARDS.md');
   const cardsContent = readFileOrFail(cardsPath);
-  const cardsRows = parseMarkdownTable(cardsContent);
+  const cardsTable = parsePrimaryTable(cardsContent);
+  const cardsRows = cardsTable.rows;
   if (cardsRows.length < 5) fail('Cards table has too few rows (expected header + data).');
 
   // Provider column merged into Card column (Jan 2026) - card names now link directly to provider
@@ -266,7 +337,9 @@ function run() {
     'Status',
     'Best For',
   ];
-  assertHeaders('Crypto cards table', cardsRows[0], cardsExpectedHeader);
+  assertHeaders('Crypto cards table', cardsTable.header, cardsExpectedHeader);
+  assertAllRowsColumnShape('Crypto cards table', cardsTable.header, cardsRows);
+  assertAllRowsComputed('Crypto cards table', cardsRows, computeCardScore, 1);
 
   // Spot-check EtherFi Cash (top-ranked card after Jan 2026 recalculation)
   // Card column now contains both name and URL: [**Card Name**](url)
@@ -305,7 +378,8 @@ function run() {
   // ---- Ramps table ----
   const rampsPath = path.join(WALLETS_DIR, 'RAMPS.md');
   const rampsContent = readFileOrFail(rampsPath);
-  const rampsRows = parseMarkdownTable(rampsContent);
+  const rampsTable = parsePrimaryTable(rampsContent);
+  const rampsRows = rampsTable.rows;
   if (rampsRows.length < 5) fail('Ramps table has too few rows (expected header + data).');
 
   const rampsExpectedHeader = [
@@ -321,7 +395,9 @@ function run() {
     'Status',
     'Best For',
   ];
-  assertHeaders('Ramps table', rampsRows[0], rampsExpectedHeader);
+  assertHeaders('Ramps table', rampsTable.header, rampsExpectedHeader);
+  assertAllRowsColumnShape('Ramps table', rampsTable.header, rampsRows);
+  assertAllRowsComputed('Ramps table', rampsRows, computeRampScore, 1);
 
   const transakRow = findRowByFirstCellSubstring(rampsRows, 'transak');
   if (!transakRow) {
