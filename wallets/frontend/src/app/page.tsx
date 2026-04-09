@@ -6,36 +6,16 @@ import { getAllArticles } from '@/lib/articles';
 import { getAllWalletData, getWalletTableSummary } from '@/lib/wallet-data';
 import { ArticleCard } from '@/components/ArticleCard';
 import { FAQ } from '@/components/FAQ';
+import { ScoreBreakdownBar, getScoreBreakdownShortLabel } from '@/components/ScoreBreakdownBar';
 import type { WalletData } from '@/types/wallets';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
-const breakdownLabelMap: Record<string, string> = {
-  'Core Readiness': 'Core',
-  'Release Discipline': 'Release',
-  'Developer Safety & Control': 'Dev Control',
-  'Ecosystem & Accounts': 'Ecosystem',
-  'Transparency & Access': 'Transparency',
-  'Maintenance & Assurance': 'Maintenance',
-  'Security Architecture': 'Security',
-  'Transparency & Maintenance': 'Transparency',
-  'Usability & Value': 'UX',
-  'Product Model': 'Model',
-  'Custody & Coverage': 'Custody',
-  'Rewards Value': 'Rewards',
-  'Fee Friction': 'Fees',
-  'Delivery Confidence': 'Confidence',
-  'Coverage': 'Coverage',
-  'Product Breadth': 'Breadth',
-  'Developer UX': 'Dev UX',
-  'Pricing Shape': 'Pricing',
-  'Operational Confidence': 'Confidence',
-};
 
 function strongestSignals(wallet: WalletData): string[] {
   return [...wallet.scoreBreakdown]
     .sort((a, b) => (b.score / Math.max(b.max, 1)) - (a.score / Math.max(a.max, 1)))
     .slice(0, 3)
-    .map((entry) => `${breakdownLabelMap[entry.label] || entry.label} ${entry.score}/${entry.max}`);
+    .map((entry) => `${getScoreBreakdownShortLabel(entry.label)} ${entry.score}/${entry.max}`);
 }
 
 function walletSummary(wallet: WalletData): string {
@@ -64,9 +44,11 @@ interface TopPickCardProps {
   href: string;
   icon: React.ReactNode;
   categoryColor: string;
+  scoreColor: string;
+  breakdown: WalletData['scoreBreakdown'];
 }
 
-function TopPickCard({ category, name, score, summary, badges, href, icon, categoryColor }: TopPickCardProps) {
+function TopPickCard({ category, name, score, summary, badges, href, icon, categoryColor, scoreColor, breakdown }: TopPickCardProps) {
   return (
     <Link href={href} className="group glass-card-hover p-6">
       <div className="flex items-start gap-3 mb-4">
@@ -76,7 +58,7 @@ function TopPickCard({ category, name, score, summary, badges, href, icon, categ
             <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${categoryColor}`}>
               {category}
             </span>
-            <span className="ml-auto text-sm font-semibold text-sky-300">{score}</span>
+            <span className={`ml-auto text-sm font-semibold ${scoreColor}`}>{score}</span>
           </div>
           <div className="mt-2 text-foreground font-semibold">{name}</div>
           <p className="mt-2 text-sm text-muted-foreground">{summary}</p>
@@ -87,12 +69,7 @@ function TopPickCard({ category, name, score, summary, badges, href, icon, categ
         <span>Live score</span>
         <span>{score}/100</span>
       </div>
-      <div className="h-1.5 bg-muted rounded-full overflow-hidden mb-4">
-        <div
-          className="h-full bg-gradient-to-r from-sky-400 to-indigo-500 rounded-full transition-all"
-          style={{ width: `${score}%` }}
-        />
-      </div>
+      <ScoreBreakdownBar breakdown={breakdown} barClassName="h-1.5 mb-4" />
 
       {/* Proof badges */}
       <div className="flex flex-wrap gap-2">
@@ -150,18 +127,22 @@ function SourceTile({ name, description, href, icon }: SourceTileProps) {
 }
 
 // Mini Table Row Component
-function MiniTableRow({ category, wallet, score, summary, strongest }: {
+function MiniTableRow({ category, wallet, score, summary, strongest, categoryColor, scoreColor }: {
   category: string;
   wallet: string;
   score: number;
   summary: string;
   strongest: string;
+  categoryColor?: string;
+  scoreColor?: string;
 }) {
   return (
     <tr className="border-b border-border hover:bg-muted/30 transition-colors">
-      <td className="py-3 px-4 text-muted-foreground">{category}</td>
+      <td className="py-3 px-4">
+        <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${categoryColor || 'text-muted-foreground'}`}>{category}</span>
+      </td>
       <td className="py-3 px-4 text-foreground">{wallet}</td>
-      <td className="py-3 px-4 text-sky-300 font-semibold">{score}</td>
+      <td className={`py-3 px-4 font-semibold ${scoreColor || 'text-sky-300'}`}>{score}</td>
       <td className="py-3 px-4 text-muted-foreground">{summary}</td>
       <td className="py-3 px-4 text-muted-foreground">{strongest}</td>
     </tr>
@@ -190,7 +171,9 @@ export default function HomePage() {
       badges: strongestSignals(topSoftware),
       href: '/docs/software-wallets',
       icon: <GitCompare className="h-5 w-5" />,
-      categoryColor: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30',
+      categoryColor: 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30',
+      scoreColor: 'text-indigo-300',
+      breakdown: topSoftware.scoreBreakdown,
     },
     {
       category: 'Hardware' as const,
@@ -200,7 +183,9 @@ export default function HomePage() {
       badges: strongestSignals(topHardware),
       href: '/docs/hardware-wallets',
       icon: <Shield className="h-5 w-5" />,
-      categoryColor: 'bg-sky-500/20 text-sky-300 border border-sky-500/30',
+      categoryColor: 'bg-amber-500/20 text-amber-300 border border-amber-500/30',
+      scoreColor: 'text-amber-300',
+      breakdown: topHardware.scoreBreakdown,
     },
     {
       category: 'Cards' as const,
@@ -210,7 +195,9 @@ export default function HomePage() {
       badges: strongestSignals(topCard),
       href: '/docs/crypto-cards',
       icon: <CreditCard className="h-5 w-5" />,
-      categoryColor: 'bg-amber-500/20 text-amber-300 border border-amber-500/30',
+      categoryColor: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30',
+      scoreColor: 'text-emerald-300',
+      breakdown: topCard.scoreBreakdown,
     },
     {
       category: 'Ramps' as const,
@@ -220,7 +207,9 @@ export default function HomePage() {
       badges: strongestSignals(topRamp),
       href: '/docs/ramps',
       icon: <ArrowLeftRight className="h-5 w-5" />,
-      categoryColor: 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30',
+      categoryColor: 'bg-violet-500/20 text-violet-300 border border-violet-500/30',
+      scoreColor: 'text-violet-300',
+      breakdown: topRamp.scoreBreakdown,
     },
   ];
 
@@ -354,7 +343,7 @@ export default function HomePage() {
             </span>
 
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 leading-tight">
-              <span className="text-sky-400">Audit-grade</span> crypto product comparisons for developers
+              <span className="bg-gradient-to-r from-sky-400 to-indigo-400 bg-clip-text text-transparent">Audit-grade</span> crypto product comparisons for developers
             </h1>
 
             <p className="text-lg text-muted-foreground mb-3 max-w-xl speakable-summary">
@@ -368,7 +357,7 @@ export default function HomePage() {
             <div className="flex flex-wrap gap-3 mb-6">
               <Link
                 href="/explore"
-                className="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-400 text-slate-900 font-medium px-6 py-3 rounded-lg transition-colors"
+                className="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-400 text-slate-900 font-medium px-6 py-3 rounded-lg transition-colors shadow-[0_0_20px_rgba(56,189,248,0.4)] hover:shadow-[0_0_28px_rgba(56,189,248,0.6)]"
               >
                 Start Comparison
                 <ArrowRight className="h-4 w-4" />
@@ -376,31 +365,31 @@ export default function HomePage() {
             </div>
 
             {/* Direct Category Links */}
-            <div className="flex flex-wrap gap-3">
+            <div className="flex gap-3 overflow-x-auto pb-1 -mx-1 px-1 sm:flex-wrap sm:overflow-visible sm:px-0 sm:mx-0">
               <Link
                 href="/docs/software-wallets"
-                className="inline-flex items-center gap-2 border border-border hover:border-sky-500 hover:text-sky-400 text-foreground font-medium px-4 py-2 rounded-lg transition-colors"
+                className="shrink-0 inline-flex items-center gap-2 border border-indigo-500/40 bg-indigo-500/10 hover:border-indigo-400 hover:bg-indigo-500/20 text-indigo-300 font-medium px-4 py-2 rounded-lg transition-colors"
               >
                 <Smartphone className="h-4 w-4" />
                 Software
               </Link>
               <Link
                 href="/docs/hardware-wallets"
-                className="inline-flex items-center gap-2 border border-border hover:border-emerald-500 hover:text-emerald-400 text-foreground font-medium px-4 py-2 rounded-lg transition-colors"
+                className="shrink-0 inline-flex items-center gap-2 border border-amber-500/40 bg-amber-500/10 hover:border-amber-400 hover:bg-amber-500/20 text-amber-300 font-medium px-4 py-2 rounded-lg transition-colors"
               >
                 <HardDrive className="h-4 w-4" />
                 Hardware
               </Link>
               <Link
                 href="/docs/crypto-cards"
-                className="inline-flex items-center gap-2 border border-border hover:border-amber-500 hover:text-amber-400 text-foreground font-medium px-4 py-2 rounded-lg transition-colors"
+                className="shrink-0 inline-flex items-center gap-2 border border-emerald-500/40 bg-emerald-500/10 hover:border-emerald-400 hover:bg-emerald-500/20 text-emerald-300 font-medium px-4 py-2 rounded-lg transition-colors"
               >
                 <CreditCard className="h-4 w-4" />
                 Cards
               </Link>
               <Link
                 href="/docs/ramps"
-                className="inline-flex items-center gap-2 border border-border hover:border-cyan-500 hover:text-cyan-300 text-foreground font-medium px-4 py-2 rounded-lg transition-colors"
+                className="shrink-0 inline-flex items-center gap-2 border border-violet-500/40 bg-violet-500/10 hover:border-violet-400 hover:bg-violet-500/20 text-violet-300 font-medium px-4 py-2 rounded-lg transition-colors"
               >
                 <ArrowUpDown className="h-4 w-4" />
                 Ramps
@@ -496,6 +485,8 @@ export default function HomePage() {
               href={pick.href}
               icon={pick.icon}
               categoryColor={pick.categoryColor}
+              scoreColor={pick.scoreColor}
+              breakdown={pick.breakdown}
             />
           ))}
         </div>
@@ -509,32 +500,32 @@ export default function HomePage() {
             href="/docs/software-wallets"
             className="glass-card-hover p-4 text-center group"
           >
-            <GitCompare className="h-8 w-8 mx-auto mb-2 text-emerald-400" />
-            <h3 className="font-semibold text-foreground group-hover:text-sky-400 transition-colors">Software Wallets</h3>
+            <GitCompare className="h-8 w-8 mx-auto mb-2 text-indigo-400" />
+            <h3 className="font-semibold text-foreground group-hover:text-indigo-400 transition-colors">Software Wallets</h3>
             <p className="text-xs text-muted-foreground mt-1">Browser & mobile</p>
           </Link>
           <Link
             href="/docs/hardware-wallets"
             className="glass-card-hover p-4 text-center group"
           >
-            <Shield className="h-8 w-8 mx-auto mb-2 text-sky-400" />
-            <h3 className="font-semibold text-foreground group-hover:text-sky-400 transition-colors">Hardware Wallets</h3>
+            <Shield className="h-8 w-8 mx-auto mb-2 text-amber-400" />
+            <h3 className="font-semibold text-foreground group-hover:text-amber-400 transition-colors">Hardware Wallets</h3>
             <p className="text-xs text-muted-foreground mt-1">Cold storage</p>
           </Link>
           <Link
             href="/docs/crypto-cards"
             className="glass-card-hover p-4 text-center group"
           >
-            <CreditCard className="h-8 w-8 mx-auto mb-2 text-amber-400" />
-            <h3 className="font-semibold text-foreground group-hover:text-sky-400 transition-colors">Crypto Cards</h3>
+            <CreditCard className="h-8 w-8 mx-auto mb-2 text-emerald-400" />
+            <h3 className="font-semibold text-foreground group-hover:text-emerald-400 transition-colors">Crypto Cards</h3>
             <p className="text-xs text-muted-foreground mt-1">Spend crypto</p>
           </Link>
           <Link
             href="/docs/ramps"
             className="glass-card-hover p-4 text-center group"
           >
-            <ArrowLeftRight className="h-8 w-8 mx-auto mb-2 text-amber-400" />
-            <h3 className="font-semibold text-foreground group-hover:text-sky-400 transition-colors">On/Off Ramps</h3>
+            <ArrowLeftRight className="h-8 w-8 mx-auto mb-2 text-violet-400" />
+            <h3 className="font-semibold text-foreground group-hover:text-violet-400 transition-colors">On/Off Ramps</h3>
             <p className="text-xs text-muted-foreground mt-1">Fiat ↔ Crypto</p>
           </Link>
         </div>
@@ -579,6 +570,8 @@ export default function HomePage() {
                     score={pick.score}
                     summary={pick.summary}
                     strongest={pick.badges[0] || 'Visible column data'}
+                    categoryColor={pick.categoryColor}
+                    scoreColor={pick.scoreColor}
                   />
                 ))}
               </tbody>
