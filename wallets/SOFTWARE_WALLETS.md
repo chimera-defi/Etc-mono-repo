@@ -20,6 +20,7 @@
 | [**Enkrypt**](https://www.enkrypt.com/) | 53 | ❌ | ~2 | ✅ | [enKrypt](https://github.com/enkryptcom/enKrypt) | ⚠️ | <img src="/chains/eth.svg" width="16" title="EVM"><img src="/chains/btc.svg" width="16" title="Bitcoin"><img src="/chains/sol.svg" width="16" title="Solana"><img src="/chains/polkadot.svg" width="16" title="Polkadot">³ | 🌐 | ✅ | ✅ MIT | ⚠️ Partial | ❓ None | 🟢 MEW | ❌ | ⚠️ | EOA | ✅ Basic | ✅ | Multi-chain ext | 🔴 |
 | [**Zerion**](https://zerion.io/) | 52 | ✅ | ? | ✅ | Private | 🔒 | <img src="/chains/eth.svg" width="16" title="EVM"><img src="/chains/sol.svg" width="16" title="Solana"> | 📱🌐 | ✅ | ❌ Prop | ❌ Closed | ❓ Priv | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Basic | ✅ | Portfolio | 🔴 |
 | [**imToken**](https://token.im/) | 51 | ❌ | ~1 | ✅ | [token-core](https://github.com/consenlabs/token-core-monorepo) | ✅ | <img src="/chains/eth.svg" width="16" title="EVM"><img src="/chains/btc.svg" width="16" title="Bitcoin"><img src="/chains/cosmos.svg" width="16" title="Cosmos"> | 📱 | ✅ | ⚠️ Apache | ❌ Closed | ⚠️ 2018 | 🟡 VC | ❌ | ⚠️ | EOA | ✅ Basic | ⚠️ | Multi-chain | 🔴 |
+| [**Exodus**](https://www.exodus.com/) | 46 | ✅ | ? | ❌ | Private | 🔒 | <img src="/chains/eth.svg" width="16" title="EVM"><img src="/chains/btc.svg" width="16" title="Bitcoin"><img src="/chains/sol.svg" width="16" title="Solana">⁷ | 📱🌐💻 | ❌ | ❌ Prop | ❌ Closed | ❓ Priv | 🟢 PublicCo | ❌ | ⚠️ | EOA | ❌ None | ✅ | Multi-asset desktop | 🔴 |
 | [**Taho**](https://taho.xyz/) | 46 | ❌ | ~1 | ✅ | [extension](https://github.com/tahowallet/extension) | ⚠️ | <img src="/chains/eth.svg" width="16" title="EVM"> | 🌐 | ✅ | ✅ GPL-3 | ⚠️ Alchemy | ❓ None | 🔴 Grants | ❌ | ⚠️ | EOA | ❌ None | ✅ | Community | 🔴 |
 | [**Uniswap**](https://wallet.uniswap.org/) | 46 | ❌ | ~5 | ⚠️ | [interface](https://github.com/Uniswap/interface) | ✅ | <img src="/chains/eth.svg" width="16" title="EVM"> | 📱🔗 | ✅ | ✅ GPL-3 | ⚠️ Limited | ❓ None | 🟢 Uniswap | ❌ | ⚠️ | EOA | ❌ None | ❌ | DeFi/Swaps | 🔴 |
 | [**Daimo**](https://daimo.com/) | 44 | ❌ | ~2 | ❌ | [daimo](https://github.com/daimo-eth/daimo) | ⚠️ | <img src="/chains/eth.svg" width="16" title="EVM"> | 📱 | ❌ | ✅ GPL-3 | ❌ Closed | ✅ 2023 | 🟡 VC | ❌ | ⚠️ | 4337 | ✅ Basic | ❌ | Payments | 🔴 |
@@ -68,6 +69,7 @@
 | ⁴ | Ledger Live | <img src="/chains/xrp.svg" width="14"> XRP, <img src="/chains/stellar.svg" width="14"> Stellar, <img src="/chains/tezos.svg" width="14"> Tezos, <img src="/chains/cardano.svg" width="14"> Cardano |
 | ⁵ | MetaMask | <img src="/chains/tron.svg" width="14"> TRON (Jan 2026), <img src="/chains/cosmos.svg" width="14"> Cosmos, <img src="/chains/cardano.svg" width="14"> Cardano, <img src="/chains/xrp.svg" width="14"> XRP, <img src="/chains/starknet.svg" width="14"> Starknet |
 | ⁶ | Phantom | Limited EVM support (Ethereum, Base, Polygon only - not all EVM chains), <img src="/chains/sui.png" width="14"> Sui, Monad, HyperEVM. Bitcoin support uses Native Segwit/Taproot. |
+| ⁷ | Exodus | Supports many additional non-EVM assets (for example <img src="/chains/xrp.svg" width="14"> XRP and <img src="/chains/cardano.svg" width="14"> Cardano), but does not expose custom testnet/RPC workflows. |
 
 ### Legend
 
