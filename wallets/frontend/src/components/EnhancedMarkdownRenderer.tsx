@@ -72,145 +72,164 @@ function detectTableType(title: string | undefined): TableType {
   return 'software';
 }
 
+function normalizeHeaderKey(header: string): string {
+  return header.toLowerCase().trim().replace(/[\s/_-]+/g, '');
+}
+
+const HEADER_TOOLTIP_MAP: Record<TableType, Record<string, string>> = {
+  software: {
+    wallet: softwareWalletTooltips.headers.wallet,
+    name: softwareWalletTooltips.headers.wallet,
+    core: softwareWalletTooltips.headers.core,
+    relmo: softwareWalletTooltips.headers.releaseCadence,
+    rpc: softwareWalletTooltips.headers.rpc,
+    github: softwareWalletTooltips.headers.github,
+    active: softwareWalletTooltips.headers.activity,
+    platforms: softwareWalletTooltips.headers.platforms,
+    plat: softwareWalletTooltips.headers.platforms,
+    chains: softwareWalletTooltips.headers.chains,
+    devices: softwareWalletTooltips.headers.devices,
+    testnets: softwareWalletTooltips.headers.testnets,
+    features: softwareWalletTooltips.headers.features,
+    feat: softwareWalletTooltips.headers.features,
+    license: softwareWalletTooltips.headers.license,
+    lic: softwareWalletTooltips.headers.license,
+    api: softwareWalletTooltips.headers.api,
+    audits: softwareWalletTooltips.headers.audits,
+    funding: softwareWalletTooltips.headers.funding,
+    txsim: softwareWalletTooltips.headers.txSim,
+    scam: softwareWalletTooltips.headers.scam,
+    account: softwareWalletTooltips.headers.account,
+    ensnaming: softwareWalletTooltips.headers.ensNaming,
+    ens: softwareWalletTooltips.headers.ensNaming,
+    hw: softwareWalletTooltips.headers.hardwareSupport,
+    bestfor: softwareWalletTooltips.headers.bestFor,
+    links: softwareWalletTooltips.headers.links,
+    status: softwareWalletTooltips.headers.status,
+  },
+  hardware: {
+    wallet: hardwareWalletTooltips.headers.wallet,
+    name: hardwareWalletTooltips.headers.wallet,
+    github: hardwareWalletTooltips.headers.github,
+    airgap: hardwareWalletTooltips.headers.airGap,
+    opensource: hardwareWalletTooltips.headers.openSource,
+    secureelem: hardwareWalletTooltips.headers.secureElement,
+    se: hardwareWalletTooltips.headers.secureElement,
+    secureelement: hardwareWalletTooltips.headers.secureElement,
+    display: hardwareWalletTooltips.headers.display,
+    price: hardwareWalletTooltips.headers.price,
+    conn: hardwareWalletTooltips.headers.connectivity,
+    connectivity: hardwareWalletTooltips.headers.connectivity,
+    activity: hardwareWalletTooltips.headers.activity,
+    founded: hardwareWalletTooltips.headers.founded,
+    funding: hardwareWalletTooltips.headers.funding,
+    links: hardwareWalletTooltips.headers.links,
+    status: hardwareWalletTooltips.headers.status,
+  },
+  cards: {
+    card: cryptoCardTooltips.headers.card,
+    name: cryptoCardTooltips.headers.card,
+    type: cryptoCardTooltips.headers.cardType,
+    cardtype: cryptoCardTooltips.headers.cardType,
+    custody: cryptoCardTooltips.headers.custody,
+    biz: cryptoCardTooltips.headers.business,
+    business: cryptoCardTooltips.headers.business,
+    region: cryptoCardTooltips.headers.region,
+    cashback: cryptoCardTooltips.headers.cashback,
+    rewards: cryptoCardTooltips.headers.rewards,
+    annualfee: cryptoCardTooltips.headers.annualFee,
+    fee: cryptoCardTooltips.headers.annualFee,
+    fxfee: cryptoCardTooltips.headers.fxFee,
+    status: cryptoCardTooltips.headers.status,
+    bestfor: cryptoCardTooltips.headers.bestFor,
+  },
+  ramps: {
+    provider: rampTooltips.headers.provider,
+    name: rampTooltips.headers.provider,
+    type: rampTooltips.headers.type,
+    onramp: rampTooltips.headers.onRamp,
+    offramp: rampTooltips.headers.offRamp,
+    coverage: rampTooltips.headers.coverage,
+    feemodel: rampTooltips.headers.feeModel,
+    fees: rampTooltips.headers.feeModel,
+    minfee: rampTooltips.headers.minFee,
+    devux: rampTooltips.headers.devUx,
+    founded: rampTooltips.headers.founded,
+    funding: rampTooltips.headers.funding,
+    bestfor: rampTooltips.headers.bestFor,
+    links: rampTooltips.headers.links,
+    status: rampTooltips.headers.status,
+  },
+};
+
+const HEADER_LINK_MAP: Record<TableType, Record<string, string>> = {
+  software: {
+    score: TABLE_METHODOLOGY_LINK.software,
+    rec: TABLE_METHODOLOGY_LINK.software,
+    recommendation: TABLE_METHODOLOGY_LINK.software,
+    status: TABLE_METHODOLOGY_LINK.software,
+    audits: '/docs/software-wallets-details#-security-audits-from-walletbeat--github',
+    chains: '/docs/software-wallets-details#-eip-support-matrix',
+    devices: '/docs/software-wallets-details#-mobile-deep-linking--integration',
+    platforms: '/docs/software-wallets-details#-mobile-deep-linking--integration',
+    plat: '/docs/software-wallets-details#-mobile-deep-linking--integration',
+    account: '/docs/software-wallets-details#account-type-support-from-walletbeat',
+    ensnaming: '/docs/software-wallets-details#ens--address-resolution-from-walletbeat',
+    ens: '/docs/software-wallets-details#ens--address-resolution-from-walletbeat',
+  },
+  hardware: {
+    score: TABLE_METHODOLOGY_LINK.hardware,
+    rec: TABLE_METHODOLOGY_LINK.hardware,
+    recommendation: TABLE_METHODOLOGY_LINK.hardware,
+    status: TABLE_METHODOLOGY_LINK.hardware,
+    airgap: '/docs/hardware-wallets-details#-security-deep-dive',
+    opensource: '/docs/hardware-wallets-details#-security-deep-dive',
+    secureelem: '/docs/hardware-wallets-details#-security-deep-dive',
+    secureelement: '/docs/hardware-wallets-details#-security-deep-dive',
+    founded: TABLE_METHODOLOGY_LINK.hardware,
+    funding: TABLE_METHODOLOGY_LINK.hardware,
+  },
+  cards: {
+    score: TABLE_METHODOLOGY_LINK.cards,
+    status: TABLE_METHODOLOGY_LINK.cards,
+    type: '/docs/crypto-cards-details#card-categories',
+    cardtype: '/docs/crypto-cards-details#card-categories',
+    custody: '/docs/crypto-cards-details#card-categories',
+    cashback: '/docs/crypto-cards-details#rewards-comparison',
+    rewards: '/docs/crypto-cards-details#rewards-comparison',
+    annualfee: '/docs/crypto-cards-details#fee-analysis',
+    fxfee: '/docs/crypto-cards-details#fee-analysis',
+    fee: '/docs/crypto-cards-details#fee-analysis',
+    region: '/docs/crypto-cards-details#geographic-availability',
+  },
+  ramps: {
+    score: TABLE_METHODOLOGY_LINK.ramps,
+    status: TABLE_METHODOLOGY_LINK.ramps,
+    provider: '/docs/ramps-details#-top-providers-comparison',
+    type: '/docs/ramps-details#-top-providers-comparison',
+    onramp: '/docs/ramps-details#-top-providers-comparison',
+    offramp: '/docs/ramps-details#-top-providers-comparison',
+    coverage: '/docs/ramps-details#-fee-structure-analysis',
+    feemodel: '/docs/ramps-details#-fee-structure-analysis',
+    minfee: '/docs/ramps-details#-fee-structure-analysis',
+    devux: '/docs/ramps-details#-developer-experience-dx',
+    founded: TABLE_METHODOLOGY_LINK.ramps,
+    funding: TABLE_METHODOLOGY_LINK.ramps,
+  },
+};
+
 function getHeaderTooltip(header: string, tableType: TableType): string | null {
-  const lowerHeader = header.toLowerCase().trim();
-
-  // Common mappings across all table types
-  if (lowerHeader === 'score' || lowerHeader.includes('score')) {
-    return commonTooltips.score;
+  const key = normalizeHeaderKey(header);
+  if (key.includes('score')) return commonTooltips.score;
+  if (key === 'rec' || key === 'recommendation') {
+    return HEADER_TOOLTIP_MAP[tableType].status ?? 'Recommendation status based on overall score';
   }
-  if (lowerHeader === 'rec' || lowerHeader === 'recommendation' || lowerHeader === 'status') {
-    switch (tableType) {
-      case 'software':
-        return softwareWalletTooltips.headers.status;
-      case 'hardware':
-        return hardwareWalletTooltips.headers.status;
-      case 'ramps':
-        return rampTooltips.headers.status;
-      default:
-        return 'Recommendation status based on overall score';
-    }
-  }
-
-  // Software wallet specific
-  if (tableType === 'software') {
-    if (lowerHeader === 'wallet' || lowerHeader === 'name') return softwareWalletTooltips.headers.wallet;
-    if (lowerHeader === 'core') return softwareWalletTooltips.headers.core;
-    if (lowerHeader === 'rel/mo' || lowerHeader === 'rel mo' || lowerHeader === 'relmo') {
-      return softwareWalletTooltips.headers.releaseCadence;
-    }
-    if (lowerHeader === 'rpc') return softwareWalletTooltips.headers.rpc;
-    if (lowerHeader === 'github') return softwareWalletTooltips.headers.github;
-    if (lowerHeader === 'active') return softwareWalletTooltips.headers.activity;
-    if (lowerHeader === 'platforms' || lowerHeader === 'plat') return softwareWalletTooltips.headers.platforms;
-    if (lowerHeader === 'chains') return softwareWalletTooltips.headers.chains;
-    if (lowerHeader === 'devices') return softwareWalletTooltips.headers.devices;
-    if (lowerHeader === 'testnets') return softwareWalletTooltips.headers.testnets;
-    if (lowerHeader === 'features' || lowerHeader === 'feat') return softwareWalletTooltips.headers.features;
-    if (lowerHeader === 'license' || lowerHeader === 'lic') return softwareWalletTooltips.headers.license;
-    if (lowerHeader === 'api') return softwareWalletTooltips.headers.api;
-    if (lowerHeader === 'audits') return softwareWalletTooltips.headers.audits;
-    if (lowerHeader === 'funding') return softwareWalletTooltips.headers.funding;
-    if (lowerHeader === 'tx sim' || lowerHeader === 'txsim') return softwareWalletTooltips.headers.txSim;
-    if (lowerHeader === 'scam') return softwareWalletTooltips.headers.scam;
-    if (lowerHeader === 'account') return softwareWalletTooltips.headers.account;
-    if (lowerHeader === 'ens/naming' || lowerHeader === 'ens' || lowerHeader === 'ens naming') {
-      return softwareWalletTooltips.headers.ensNaming;
-    }
-    if (lowerHeader === 'hw') return softwareWalletTooltips.headers.hardwareSupport;
-    if (lowerHeader === 'best for') return softwareWalletTooltips.headers.bestFor;
-    if (lowerHeader === 'links') return softwareWalletTooltips.headers.links;
-  }
-
-  // Hardware wallet specific
-  if (tableType === 'hardware') {
-    if (lowerHeader === 'wallet' || lowerHeader === 'name') return hardwareWalletTooltips.headers.wallet;
-    if (lowerHeader === 'github') return hardwareWalletTooltips.headers.github;
-    if (lowerHeader === 'air-gap' || lowerHeader === 'airgap') return hardwareWalletTooltips.headers.airGap;
-    if (lowerHeader === 'open source' || lowerHeader === 'opensource') return hardwareWalletTooltips.headers.openSource;
-    if (lowerHeader === 'secure elem' || lowerHeader === 'se' || lowerHeader === 'secure element') return hardwareWalletTooltips.headers.secureElement;
-    if (lowerHeader === 'display') return hardwareWalletTooltips.headers.display;
-    if (lowerHeader === 'price') return hardwareWalletTooltips.headers.price;
-    if (lowerHeader === 'conn' || lowerHeader === 'connectivity') return hardwareWalletTooltips.headers.connectivity;
-    if (lowerHeader === 'activity') return hardwareWalletTooltips.headers.activity;
-    if (lowerHeader === 'founded') return hardwareWalletTooltips.headers.founded;
-    if (lowerHeader === 'funding') return hardwareWalletTooltips.headers.funding;
-    if (lowerHeader === 'links') return hardwareWalletTooltips.headers.links;
-  }
-
-  // Crypto card specific
-  if (tableType === 'cards') {
-    if (lowerHeader === 'card' || lowerHeader === 'name') return cryptoCardTooltips.headers.card;
-    if (lowerHeader === 'type' || lowerHeader === 'card type') return cryptoCardTooltips.headers.cardType;
-    if (lowerHeader === 'custody') return cryptoCardTooltips.headers.custody;
-    if (lowerHeader === 'biz' || lowerHeader === 'business') return cryptoCardTooltips.headers.business;
-    if (lowerHeader === 'region') return cryptoCardTooltips.headers.region;
-    if (lowerHeader === 'cashback' || lowerHeader === 'cash back' || lowerHeader === 'rewards %') {
-      return cryptoCardTooltips.headers.cashback;
-    }
-    if (lowerHeader === 'rewards') return cryptoCardTooltips.headers.rewards;
-    if (lowerHeader === 'annual fee' || lowerHeader === 'fee') return cryptoCardTooltips.headers.annualFee;
-    if (lowerHeader === 'fx fee') return cryptoCardTooltips.headers.fxFee;
-    if (lowerHeader === 'status') return cryptoCardTooltips.headers.status;
-    if (lowerHeader === 'best for') return cryptoCardTooltips.headers.bestFor;
-  }
-
-  // Ramp specific
-  if (tableType === 'ramps') {
-    if (lowerHeader === 'provider' || lowerHeader === 'name') return rampTooltips.headers.provider;
-    if (lowerHeader === 'type') return rampTooltips.headers.type;
-    if (lowerHeader === 'on-ramp' || lowerHeader === 'on ramp') return rampTooltips.headers.onRamp;
-    if (lowerHeader === 'off-ramp' || lowerHeader === 'off ramp') return rampTooltips.headers.offRamp;
-    if (lowerHeader === 'coverage') return rampTooltips.headers.coverage;
-    if (lowerHeader === 'fee model' || lowerHeader === 'fees') return rampTooltips.headers.feeModel;
-    if (lowerHeader === 'min fee') return rampTooltips.headers.minFee;
-    if (lowerHeader === 'dev ux' || lowerHeader === 'devux') return rampTooltips.headers.devUx;
-    if (lowerHeader === 'founded') return rampTooltips.headers.founded;
-    if (lowerHeader === 'funding') return rampTooltips.headers.funding;
-    if (lowerHeader === 'best for') return rampTooltips.headers.bestFor;
-    if (lowerHeader === 'links') return rampTooltips.headers.links;
-  }
-
-  return null;
+  return HEADER_TOOLTIP_MAP[tableType][key] ?? null;
 }
 
 function getHeaderTooltipLink(header: string, tableType: TableType): string {
-  const lowerHeader = header.toLowerCase().trim();
-
-  if (tableType === 'software') {
-    if (lowerHeader.includes('score') || lowerHeader === 'rec' || lowerHeader === 'status') return TABLE_METHODOLOGY_LINK.software;
-    if (lowerHeader === 'audits') return '/docs/software-wallets-details#-security-audits-from-walletbeat--github';
-    if (lowerHeader === 'chains') return '/docs/software-wallets-details#-eip-support-matrix';
-    if (lowerHeader === 'devices' || lowerHeader === 'platforms' || lowerHeader === 'plat') return '/docs/software-wallets-details#-mobile-deep-linking--integration';
-    if (lowerHeader === 'account') return '/docs/software-wallets-details#account-type-support-from-walletbeat';
-    if (lowerHeader === 'ens/naming' || lowerHeader === 'ens' || lowerHeader === 'ens naming') return '/docs/software-wallets-details#ens--address-resolution-from-walletbeat';
-    return TABLE_DETAILS_LINK.software;
-  }
-
-  if (tableType === 'hardware') {
-    if (lowerHeader.includes('score') || lowerHeader === 'rec' || lowerHeader === 'status') return TABLE_METHODOLOGY_LINK.hardware;
-    if (lowerHeader === 'air-gap' || lowerHeader === 'airgap' || lowerHeader === 'open source' || lowerHeader === 'secure elem' || lowerHeader === 'secure element') {
-      return '/docs/hardware-wallets-details#-security-deep-dive';
-    }
-    if (lowerHeader === 'founded' || lowerHeader === 'funding') return TABLE_METHODOLOGY_LINK.hardware;
-    return TABLE_DETAILS_LINK.hardware;
-  }
-
-  if (tableType === 'cards') {
-    if (lowerHeader.includes('score') || lowerHeader === 'status') return TABLE_METHODOLOGY_LINK.cards;
-    if (lowerHeader === 'type' || lowerHeader === 'card type' || lowerHeader === 'custody') return '/docs/crypto-cards-details#card-categories';
-    if (lowerHeader === 'cashback' || lowerHeader === 'cash back' || lowerHeader === 'rewards %' || lowerHeader === 'rewards') return '/docs/crypto-cards-details#rewards-comparison';
-    if (lowerHeader === 'annual fee' || lowerHeader === 'fx fee' || lowerHeader === 'fee') return '/docs/crypto-cards-details#fee-analysis';
-    if (lowerHeader === 'region') return '/docs/crypto-cards-details#geographic-availability';
-    return TABLE_DETAILS_LINK.cards;
-  }
-
-  if (lowerHeader.includes('score') || lowerHeader === 'status') return TABLE_METHODOLOGY_LINK.ramps;
-  if (lowerHeader === 'type' || lowerHeader === 'on-ramp' || lowerHeader === 'off-ramp' || lowerHeader === 'provider') return '/docs/ramps-details#-top-providers-comparison';
-  if (lowerHeader === 'coverage' || lowerHeader === 'fee model' || lowerHeader === 'min fee') return '/docs/ramps-details#-fee-structure-analysis';
-  if (lowerHeader === 'dev ux' || lowerHeader === 'devux') return '/docs/ramps-details#-developer-experience-dx';
-  if (lowerHeader === 'founded' || lowerHeader === 'funding') return TABLE_METHODOLOGY_LINK.ramps;
-  return TABLE_DETAILS_LINK.ramps;
+  const key = normalizeHeaderKey(header);
+  return HEADER_LINK_MAP[tableType][key] ?? TABLE_DETAILS_LINK[tableType];
 }
 
 // Section definitions - which sections should be collapsible with clickable headings

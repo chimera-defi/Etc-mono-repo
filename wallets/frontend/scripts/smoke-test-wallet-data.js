@@ -25,6 +25,65 @@ const { processAllTables } = require(path.join(__dirname, '..', '..', 'scripts',
 
 const FRONTEND_DIR = path.resolve(__dirname, '..');
 const WALLETS_DIR = path.resolve(FRONTEND_DIR, '..');
+const CURRENT_YEAR = new Date().getUTCFullYear();
+
+const SOFTWARE_CONTRACT_MUTATORS = {
+  Core: () => '❌',
+  'Rel/Mo': () => '0',
+  RPC: () => '❌',
+  GitHub: () => 'Private',
+  Active: () => '❌ Inactive',
+  Chains: () => '/chains/eth /chains/btc /chains/sol /chains/move /chains/cosmos /chains/polkadot /chains/starknet TON',
+  Devices: () => '📱',
+  Testnets: () => '❌',
+  License: () => '❌ Closed',
+  API: () => '❌ Closed',
+  Audits: () => '❌',
+  Funding: () => '🔴 Unknown',
+  'Tx Sim': () => '❌',
+  Scam: () => '❌',
+  Account: () => 'EOA',
+  'ENS/Naming': () => 'None',
+  HW: () => '❌',
+};
+
+const HARDWARE_CONTRACT_MUTATORS = {
+  GitHub: () => 'Private',
+  'Air-Gap': () => '✅',
+  'Open Source': () => '❌ Closed',
+  'Secure Elem': () => '❌ None',
+  Display: () => 'No Display',
+  Price: () => '~$999',
+  Conn: () => 'USB + BT + WiFi',
+  Activity: () => '❌ Inactive',
+  Founded: () => String(CURRENT_YEAR),
+  Funding: () => '🔴 Unknown',
+};
+
+const CARDS_CONTRACT_MUTATORS = {
+  Type: () => 'Prepaid',
+  Custody: () => '🏦 Exchange',
+  Biz: () => '❌',
+  Region: () => '🇺🇸 US',
+  'Cash Back': () => '0%',
+  'Annual Fee': () => '$499',
+  'FX Fee': () => '3%',
+  Rewards: () => 'None',
+  Status: () => '❌ Inactive',
+};
+
+const RAMPS_CONTRACT_MUTATORS = {
+  Type: () => 'On-Ramp',
+  'On-Ramp': () => '❌',
+  'Off-Ramp': () => '❌',
+  Coverage: () => '~5 Countries',
+  'Fee Model': () => 'High',
+  'Min Fee': () => '~$50.00',
+  'Dev UX': () => 'Basic',
+  Status: () => '❌ Inactive',
+  Founded: () => '2010',
+  Funding: () => '🟢 Revenue',
+};
 
 function fail(message) {
   console.error(`❌ ${message}`);
@@ -218,61 +277,31 @@ function assertScoredColumnContract(fileLabel, header, row, computeScore, mutato
   }
 }
 
-function assertHardwareCompanyColumns(rows) {
+function assertCompanyColumns(fileLabel, rows, foundedIndex, fundingIndex) {
   let failures = 0;
-  const currentYear = new Date().getUTCFullYear();
 
   for (const row of rows) {
-    const founded = String(row[10] || '').trim();
-    const funding = String(row[11] || '').trim();
+    const founded = String(row[foundedIndex] || '').trim();
+    const funding = String(row[fundingIndex] || '').trim();
     if (!/^\d{4}$/.test(founded)) {
-      fail(`Hardware wallets table: founded year must be YYYY in row ${row[0]}, got "${founded}"`);
+      fail(`${fileLabel}: founded year must be YYYY in row ${row[0]}, got "${founded}"`);
       failures += 1;
     } else {
       const year = parseInt(founded, 10);
-      if (year < 1990 || year > currentYear) {
-        fail(`Hardware wallets table: founded year out of range in row ${row[0]}, got "${founded}"`);
+      if (year < 1990 || year > CURRENT_YEAR) {
+        fail(`${fileLabel}: founded year out of range in row ${row[0]}, got "${founded}"`);
         failures += 1;
       }
     }
 
     if (!/^(🟢|🟡|🔴)\s+/.test(funding)) {
-      fail(`Hardware wallets table: funding cell must start with 🟢/🟡/🔴 in row ${row[0]}, got "${funding}"`);
+      fail(`${fileLabel}: funding cell must start with 🟢/🟡/🔴 in row ${row[0]}, got "${funding}"`);
       failures += 1;
     }
   }
 
   if (failures === 0) {
-    ok(`Hardware wallets table: founded/funding metadata validated for all ${rows.length} rows`);
-  }
-}
-
-function assertRampCompanyColumns(rows) {
-  let failures = 0;
-  const currentYear = new Date().getUTCFullYear();
-
-  for (const row of rows) {
-    const founded = String(row[10] || '').trim();
-    const funding = String(row[11] || '').trim();
-    if (!/^\d{4}$/.test(founded)) {
-      fail(`Ramps table: founded year must be YYYY in row ${row[0]}, got "${founded}"`);
-      failures += 1;
-    } else {
-      const year = parseInt(founded, 10);
-      if (year < 1990 || year > currentYear) {
-        fail(`Ramps table: founded year out of range in row ${row[0]}, got "${founded}"`);
-        failures += 1;
-      }
-    }
-
-    if (!/^(🟢|🟡|🔴)\s+/.test(funding)) {
-      fail(`Ramps table: funding cell must start with 🟢/🟡/🔴 in row ${row[0]}, got "${funding}"`);
-      failures += 1;
-    }
-  }
-
-  if (failures === 0) {
-    ok(`Ramps table: founded/funding metadata validated for all ${rows.length} rows`);
+    ok(`${fileLabel}: founded/funding metadata validated for all ${rows.length} rows`);
   }
 }
 
@@ -333,26 +362,13 @@ function run() {
     // Rabby is EVM-only, so it should have eth.svg image
     if (!/eth\.svg/.test(chains) && !/⟠/.test(chains)) fail(`Rabby chains drifted (expected eth.svg or ⟠ for EVM), got: "${chains}"`);
     if (!/mit/i.test(license)) fail(`Rabby license drifted (expected MIT), got: "${license}"`);
-    const softwareContractMutators = {
-      Core: () => '❌',
-      'Rel/Mo': () => '0',
-      RPC: () => '❌',
-      GitHub: () => 'Private',
-      Active: () => '❌ Inactive',
-      Chains: () => '/chains/eth /chains/btc /chains/sol /chains/move /chains/cosmos /chains/polkadot /chains/starknet TON',
-      Devices: () => '📱',
-      Testnets: () => '❌',
-      License: () => '❌ Closed',
-      API: () => '❌ Closed',
-      Audits: () => '❌',
-      Funding: () => '🔴 Unknown',
-      'Tx Sim': () => '❌',
-      Scam: () => '❌',
-      Account: () => 'EOA',
-      'ENS/Naming': () => 'None',
-      HW: () => '❌',
-    };
-    assertScoredColumnContract('Software wallets table', softwareTable.header, rabbyRow, computeSoftwareScore, softwareContractMutators);
+    assertScoredColumnContract(
+      'Software wallets table',
+      softwareTable.header,
+      rabbyRow,
+      computeSoftwareScore,
+      SOFTWARE_CONTRACT_MUTATORS
+    );
     ok('Software wallets table: Rabby spot-check passed');
   }
 
@@ -381,7 +397,7 @@ function run() {
   ];
   assertHeaders('Hardware wallets table', hardwareTable.header, hardwareExpectedHeader);
   assertAllRowsColumnShape('Hardware wallets table', hardwareTable.header, hardwareRows);
-  assertHardwareCompanyColumns(hardwareRows);
+  assertCompanyColumns('Hardware wallets table', hardwareRows, 10, 11);
   assertAllRowsComputed('Hardware wallets table', hardwareRows, computeHardwareScore, 1, 12);
 
   const trezorSafe5Row = findRowByFirstCellSubstring(hardwareRows, 'trezor safe 5');
@@ -398,7 +414,7 @@ function run() {
       fail(`Hardware table: Price cell missing "$" (expected ~$...), got: "${price}"`);
     }
     const degradedCompanySignals = [...trezorSafe5Row];
-    degradedCompanySignals[10] = String(new Date().getUTCFullYear());
+    degradedCompanySignals[10] = String(CURRENT_YEAR);
     degradedCompanySignals[11] = '🔴 Unknown';
     const baseScore = computeHardwareScore(trezorSafe5Row).score;
     const degradedScore = computeHardwareScore(degradedCompanySignals).score;
@@ -409,19 +425,13 @@ function run() {
     } else {
       ok('Hardware wallets table: founded/funding signals influence score as expected');
     }
-    const hardwareContractMutators = {
-      GitHub: () => 'Private',
-      'Air-Gap': () => '✅',
-      'Open Source': () => '❌ Closed',
-      'Secure Elem': () => '❌ None',
-      Display: () => 'No Display',
-      Price: () => '~$999',
-      Conn: () => 'USB + BT + WiFi',
-      Activity: () => '❌ Inactive',
-      Founded: () => String(new Date().getUTCFullYear()),
-      Funding: () => '🔴 Unknown',
-    };
-    assertScoredColumnContract('Hardware wallets table', hardwareTable.header, trezorSafe5Row, computeHardwareScore, hardwareContractMutators);
+    assertScoredColumnContract(
+      'Hardware wallets table',
+      hardwareTable.header,
+      trezorSafe5Row,
+      computeHardwareScore,
+      HARDWARE_CONTRACT_MUTATORS
+    );
     ok('Hardware wallets table: Trezor Safe 5 spot-check passed');
   }
 
@@ -512,18 +522,13 @@ function run() {
     // Card column should now have URL embedded
     if (!/ether\.fi/i.test(card)) fail(`EtherFi Cash card column should contain ether.fi URL, got: "${card}"`);
     if (!/✅/.test(status)) fail(`EtherFi Cash status drifted (expected ✅), got: "${status}"`);
-    const cardsContractMutators = {
-      Type: () => 'Prepaid',
-      Custody: () => '🏦 Exchange',
-      Biz: () => '❌',
-      Region: () => '🇺🇸 US',
-      'Cash Back': () => '0%',
-      'Annual Fee': () => '$499',
-      'FX Fee': () => '3%',
-      Rewards: () => 'None',
-      Status: () => '❌ Inactive',
-    };
-    assertScoredColumnContract('Crypto cards table', cardsTable.header, etherfiRow, computeCardScore, cardsContractMutators);
+    assertScoredColumnContract(
+      'Crypto cards table',
+      cardsTable.header,
+      etherfiRow,
+      computeCardScore,
+      CARDS_CONTRACT_MUTATORS
+    );
     ok('Crypto cards table: EtherFi Cash spot-check passed');
   }
 
@@ -569,7 +574,7 @@ function run() {
   ];
   assertHeaders('Ramps table', rampsTable.header, rampsExpectedHeader);
   assertAllRowsColumnShape('Ramps table', rampsTable.header, rampsRows);
-  assertRampCompanyColumns(rampsRows);
+  assertCompanyColumns('Ramps table', rampsRows, 10, 11);
   assertAllRowsComputed('Ramps table', rampsRows, computeRampScore, 1);
 
   const transakRow = findRowByFirstCellSubstring(rampsRows, 'transak');
@@ -589,19 +594,13 @@ function run() {
     } else {
       ok('Ramps table: founded/funding signals influence score as expected');
     }
-    const rampsContractMutators = {
-      Type: () => 'On-Ramp',
-      'On-Ramp': () => '❌',
-      'Off-Ramp': () => '❌',
-      Coverage: () => '~5 Countries',
-      'Fee Model': () => 'High',
-      'Min Fee': () => '~$50.00',
-      'Dev UX': () => 'Basic',
-      Status: () => '❌ Inactive',
-      Founded: () => '2010',
-      Funding: () => '🟢 Revenue',
-    };
-    assertScoredColumnContract('Ramps table', rampsTable.header, transakRow, computeRampScore, rampsContractMutators);
+    assertScoredColumnContract(
+      'Ramps table',
+      rampsTable.header,
+      transakRow,
+      computeRampScore,
+      RAMPS_CONTRACT_MUTATORS
+    );
   }
 
   const driftResults = processAllTables({ write: false }).filter((result) => result.changed);
