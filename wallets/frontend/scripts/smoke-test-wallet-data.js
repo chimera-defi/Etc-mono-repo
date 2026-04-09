@@ -205,6 +205,29 @@ function run() {
     ok('Hardware wallets table: Trezor Safe 5 spot-check passed');
   }
 
+  // Regression check: "inactive" must not be misclassified as "active".
+  const ledgerNanoSRow =
+    hardwareRows.find((row) => String(row[0] || '').toLowerCase().includes('ledger nano s**')) || null;
+  if (!ledgerNanoSRow) {
+    fail('Hardware wallets table: could not find Ledger Nano S row.');
+  } else {
+    assertComputedScore('Hardware wallets table', ledgerNanoSRow, computeHardwareScore, 1, 10);
+    const activity = ledgerNanoSRow[9] || '';
+    const rec = ledgerNanoSRow[10] || '';
+    let hasFailure = false;
+    if (!/inactive/i.test(activity)) {
+      fail(`Hardware wallets table: expected Ledger Nano S activity to be inactive, got "${activity}"`);
+      hasFailure = true;
+    }
+    if (!/🔴/.test(rec)) {
+      fail(`Hardware wallets table: inactive Ledger Nano S should be 🔴, got "${rec}"`);
+      hasFailure = true;
+    }
+    if (!hasFailure) {
+      ok('Hardware wallets table: inactive status classification check passed');
+    }
+  }
+
   // Also verify the parser is still reading the hardware "Price" from the right column.
   const parserPath = path.join(FRONTEND_DIR, 'src', 'lib', 'wallet-data.ts');
   const parserContent = readFileOrFail(parserPath);

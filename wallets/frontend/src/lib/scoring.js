@@ -49,9 +49,11 @@ function parsePartialLevel(cell) {
 function parseStatusCell(cell) {
   const text = String(cell || '');
   const lower = text.toLowerCase();
-  if (text.includes('✅') || lower.includes('active')) return 'active';
-  if (text.includes('⚠️') || lower.includes('slow')) return 'slow';
-  if (text.includes('🔒') || lower.includes('private')) return 'private';
+  // Check "inactive" first so it is not misclassified by "active" substring matching.
+  if (text.includes('❌') || /\binactive\b/.test(lower)) return 'inactive';
+  if (text.includes('🔒') || /\bprivate\b/.test(lower)) return 'private';
+  if (text.includes('⚠️') || /\bslow\b/.test(lower)) return 'slow';
+  if (text.includes('✅') || /\bactive\b/.test(lower)) return 'active';
   return 'inactive';
 }
 
