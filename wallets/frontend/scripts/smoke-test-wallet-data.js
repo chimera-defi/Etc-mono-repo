@@ -184,6 +184,35 @@ function assertAllRowsComputed(fileLabel, rows, computeScore, scoreIndex, recomm
   }
 }
 
+function assertHardwareCompanyColumns(rows) {
+  let failures = 0;
+  const currentYear = new Date().getUTCFullYear();
+
+  for (const row of rows) {
+    const founded = String(row[10] || '').trim();
+    const funding = String(row[11] || '').trim();
+    if (!/^\d{4}$/.test(founded)) {
+      fail(`Hardware wallets table: founded year must be YYYY in row ${row[0]}, got "${founded}"`);
+      failures += 1;
+    } else {
+      const year = parseInt(founded, 10);
+      if (year < 1990 || year > currentYear) {
+        fail(`Hardware wallets table: founded year out of range in row ${row[0]}, got "${founded}"`);
+        failures += 1;
+      }
+    }
+
+    if (!/^(🟢|🟡|🔴)\s+/.test(funding)) {
+      fail(`Hardware wallets table: funding cell must start with 🟢/🟡/🔴 in row ${row[0]}, got "${funding}"`);
+      failures += 1;
+    }
+  }
+
+  if (failures === 0) {
+    ok(`Hardware wallets table: founded/funding metadata validated for all ${rows.length} rows`);
+  }
+}
+
 function run() {
   console.log('🔎 Running wallet table smoke tests...\n');
 
@@ -259,6 +288,7 @@ function run() {
   ];
   assertHeaders('Hardware wallets table', hardwareTable.header, hardwareExpectedHeader);
   assertAllRowsColumnShape('Hardware wallets table', hardwareTable.header, hardwareRows);
+  assertHardwareCompanyColumns(hardwareRows);
   assertAllRowsComputed('Hardware wallets table', hardwareRows, computeHardwareScore, 1, 12);
 
   const trezorSafe5Row = findRowByFirstCellSubstring(hardwareRows, 'trezor safe 5');
