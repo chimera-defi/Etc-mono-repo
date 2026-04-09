@@ -347,6 +347,12 @@ function run() {
     ok('wallet-data.ts: parseStatus inactive/active ordering is correct');
   }
 
+  if (!parserContent.includes('const headerIndex = lines.findIndex') || !parserContent.includes("if (!line.startsWith('|')) break;")) {
+    fail('wallet-data.ts: parseMarkdownTable should only read the primary comparison table (not all tables in file).');
+  } else {
+    ok('wallet-data.ts: parseMarkdownTable is primary-table scoped');
+  }
+
   // ---- Crypto cards table ----
   const cardsPath = path.join(WALLETS_DIR, 'CRYPTO_CARDS.md');
   const cardsContent = readFileOrFail(cardsPath);
