@@ -33,6 +33,7 @@ Ran `wallets/scripts/verify-ramps.py` to check direct URL access and `r.jina.ai`
 
 ## 🌉 Top Providers Comparison
 
+<!-- GENERATED_RAMPS_TOP_PROVIDERS_START -->
 This table mirrors the current generated ordering from [RAMPS.md](./RAMPS.md):
 
 | Provider | Score | Best For | Global Coverage | Fee Model | Dev UX |
@@ -47,6 +48,7 @@ This table mirrors the current generated ordering from [RAMPS.md](./RAMPS.md):
 | [**Guardarian**](https://guardarian.com/) | 83 | EU focus | ~100+ Countries | Low/Medium | Good (Widget) |
 | [**Alchemy Pay**](https://ramp.alchemypay.org/#/index) | 82 | Global pay rails | ~170+ Countries | Variable | Advanced (Plugin/API) |
 | [**Mercuryo**](https://mercuryo.io/) | 82 | B2B | Global | Medium | Good |
+<!-- GENERATED_RAMPS_TOP_PROVIDERS_END -->
 
 ---
 
