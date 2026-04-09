@@ -240,6 +240,8 @@ export const rampTooltips = {
     feeModel: 'Fee structure: Low, Medium, High, Variable, or Usage-Based',
     minFee: 'Minimum transaction fee (~ indicates approximate)',
     devUx: 'Developer experience quality: Excellent, Great, Good, Advanced',
+    founded: 'Company founding year signal used in score confidence',
+    funding: 'Funding durability signal (🟢 sustainable, 🟡 VC-backed, 🔴 unknown/risky)',
     bestFor: 'Primary use case or audience',
     links: 'External links to provider website',
   },

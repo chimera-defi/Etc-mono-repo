@@ -49,6 +49,13 @@ interface EnhancedMarkdownRendererProps {
 
 // Header to tooltip mapping for markdown tables
 type TableType = 'software' | 'hardware' | 'cards' | 'ramps';
+const TABLE_METHODOLOGY_LINK: Record<TableType, string> = {
+  software: '/docs/software-wallets-details#-wallet-scores-developer-focused-methodology',
+  hardware: '/docs/hardware-wallets-details#-scoring-methodology',
+  cards: '/docs/crypto-cards-details#scoring-methodology',
+  ramps: '/docs/ramps-details#scoring-methodology',
+};
+const TOOLTIP_LINK_LABEL = 'Read methodology';
 
 function detectTableType(title: string | undefined): TableType {
   if (!title) return 'software';
@@ -152,6 +159,8 @@ function getHeaderTooltip(header: string, tableType: TableType): string | null {
     if (lowerHeader === 'fee model' || lowerHeader === 'fees') return rampTooltips.headers.feeModel;
     if (lowerHeader === 'min fee') return rampTooltips.headers.minFee;
     if (lowerHeader === 'dev ux' || lowerHeader === 'devux') return rampTooltips.headers.devUx;
+    if (lowerHeader === 'founded') return rampTooltips.headers.founded;
+    if (lowerHeader === 'funding') return rampTooltips.headers.funding;
     if (lowerHeader === 'best for') return rampTooltips.headers.bestFor;
     if (lowerHeader === 'links') return rampTooltips.headers.links;
   }
@@ -530,6 +539,7 @@ function SearchableTable({ tableContent, title }: { tableContent: string; title?
               {parsedTable.headers.map((header, index) => {
                 const tableType = detectTableType(title);
                 const tooltip = getHeaderTooltip(header, tableType);
+                const tooltipLinkHref = TABLE_METHODOLOGY_LINK[tableType];
                 return (
                   <th
                     key={index}
@@ -539,7 +549,12 @@ function SearchableTable({ tableContent, title }: { tableContent: string; title?
                   >
                     <div className="flex items-center gap-1.5">
                       {tooltip ? (
-                        <HeaderTooltip label={header} tooltip={tooltip} />
+                        <HeaderTooltip
+                          label={header}
+                          tooltip={tooltip}
+                          linkHref={tooltipLinkHref}
+                          linkLabel={TOOLTIP_LINK_LABEL}
+                        />
                       ) : (
                         <span>{header}</span>
                       )}

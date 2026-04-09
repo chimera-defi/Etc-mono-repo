@@ -1,20 +1,20 @@
 # Crypto On/Off-Ramp Comparison - Full Documentation
 
-> **Source of truth note:** Current `Score` values are generated from the visible columns in [RAMPS.md](./RAMPS.md) via `wallets/scripts/sync_table_scores.js` (`2026-04-visible-columns-v1`). If a long-form section below mentions older rankings or approximate scores, trust the main comparison table.
+> **Source of truth note:** Current `Score` values are generated from the visible columns in [RAMPS.md](./RAMPS.md) via `wallets/scripts/sync_table_scores.js` (`2026-04-visible-columns-v2`). If a long-form section below mentions older rankings or approximate scores, trust the main comparison table.
 
 > **TL;DR:** The generated snapshot below mirrors the current main-table ordering and scores. Use it for the latest rankings; the long-form sections below explain fee structures, geographic coverage, and integration tradeoffs.
 
 <!-- GENERATED_RAMPS_SNAPSHOT_START -->
-> **Current generated snapshot:** Coinbase Pay (89, Coinbase users, 🟢), CoinGate (88, Low fees, 🟢), BitPay (87, Bitcoin focus, 🟢), and Ramp (86, EU / Speed, 🟢). Regenerated from [RAMPS.md](./RAMPS.md) by `wallets/scripts/sync_table_scores.js` using methodology `2026-04-visible-columns-v1`.
+> **Current generated snapshot:** Coinbase Pay (91, Coinbase users, 🟢), CoinGate (90, Low fees, 🟢), BitPay (89, Bitcoin focus, 🟢), and Stripe (88, Trust, 🟢). Regenerated from [RAMPS.md](./RAMPS.md) by `wallets/scripts/sync_table_scores.js` using methodology `2026-04-visible-columns-v2`.
 
 ### Current Top Rows (generated)
 | Rank | Provider | Score | Best For | Rec |
 | ---- | -------- | ----- | -------- | --- |
-| 1 | **Coinbase Pay** | 89 | Coinbase users | 🟢 |
-| 2 | **CoinGate** | 88 | Low fees | 🟢 |
-| 3 | **BitPay** | 87 | Bitcoin focus | 🟢 |
-| 4 | **Ramp** | 86 | EU / Speed | 🟢 |
-| 5 | **Stripe** | 86 | Trust | 🟢 |
+| 1 | **Coinbase Pay** | 91 | Coinbase users | 🟢 |
+| 2 | **CoinGate** | 90 | Low fees | 🟢 |
+| 3 | **BitPay** | 89 | Bitcoin focus | 🟢 |
+| 4 | **Stripe** | 88 | Trust | 🟢 |
+| 5 | **Ramp** | 86 | EU / Speed | 🟢 |
 <!-- GENERATED_RAMPS_SNAPSHOT_END -->
 
 **Data Sources:** Developer Documentation, Fee Schedules, Integration Guides (as of Feb 2026).
@@ -33,28 +33,20 @@ Ran `wallets/scripts/verify-ramps.py` to check direct URL access and `r.jina.ai`
 
 ## 🌉 Top Providers Comparison
 
+This table mirrors the current generated ordering from [RAMPS.md](./RAMPS.md):
+
 | Provider | Score | Best For | Global Coverage | Fee Model | Dev UX |
 |----------|-------|----------|-----------------|-----------|--------|
-| [**Transak**](https://transak.com/) | 92 | 🛠️ Developers | ~160+ Countries | Medium (Spread + Fee) | Excellent (React SDK) |
-| [**MoonPay**](https://www.moonpay.com/) | 90 | 🌍 Coverage | ~160+ Countries | High (Spread + Fee) | Great (Widget) |
-| [**Coinbase Pay**](https://www.coinbase.com/developers/pay-sdk) | 89 | 🪙 Coinbase | ~100+ Countries | Medium | Excellent (SDK) |
-| [**Ramp**](https://ramp.network/) | 88 | 🇪🇺 EU / Speed | ~150+ Countries | Low/Medium | Good (SDK) |
-| [**Sardine**](https://www.sardine.ai/) | 86 | 🇺🇸 US / Fraud | US + Select Global | Variable (Risk based) | Advanced (API/SDK) |
-| [**Stripe**](https://stripe.com/docs/crypto) | 85 | 🤝 Trust | Global | Usage Based | Excellent (Stripe style) |
-| [**Simplex**](https://www.simplex.com/) | 84 | 💳 High Limits | ~190+ Countries | Medium/High | Good (Widget) |
-| [**Modern Treasury**](https://www.moderntreasury.com/) | 83 | 🏢 Enterprise | US + Select | Usage Based | Excellent (API) |
-| [**Banxa**](https://banxa.com/) | 80 | 🏦 Local Pay | Global | Variable | Good |
-| [**Mercuryo**](https://mercuryo.io/) | 78 | 💼 B2B | Global | Medium | Good |
-| [**Guardarian**](https://guardarian.com/) | 77 | 🇪🇺 EU Focus | ~100+ Countries | Low/Medium | Good (Widget) |
-| [**CoinSwitch**](https://coinswitch.co/) | 76 | 🇮🇳 India/APAC | ~100+ Countries | Medium | Good (API) |
-| [**Utorg**](https://utorg.pro/) | 75 | 🔗 Multi-chain | ~100+ Countries | Medium | Good (Widget) |
-| [**CoinGate**](https://coingate.com/) | 74 | 💰 Low Fees | Global | Low | Good (API) |
-| [**BitPay**](https://bitpay.com/) | 73 | ₿ Bitcoin | Global | Medium | Good (API) |
-| [**Changelly**](https://changelly.com/) | 72 | 🔄 Exchange | Global | Medium | Good (API) |
-| [**Coinify**](https://www.coinify.com/) | 71 | 🇪🇺 EU | ~50+ Countries | Medium | Good (API) |
-| [**onesafe**](https://onesafe.io/) | 70 | 🏢 Enterprise | Select Global | Variable | Good (API) |
-| [**Reap**](https://reap.global/) | 68 | 💼 Business Off-Ramp | Global | Variable | Good (API) |
-| [**Coinmama**](https://www.coinmama.com/) | 65 | 🚀 Simple On-Ramp | ~100+ Countries | High | Basic (Widget) |
+| [**Coinbase Pay**](https://www.coinbase.com/developers/pay-sdk) | 91 | Coinbase users | ~100+ Countries | Medium | Excellent (SDK) |
+| [**CoinGate**](https://coingate.com/) | 90 | Low fees | Global | Low | Good (API) |
+| [**BitPay**](https://bitpay.com/) | 89 | Bitcoin focus | Global | Medium | Good (API) |
+| [**Stripe**](https://stripe.com/docs/crypto) | 88 | Trust | Global | Usage Based | Excellent (Stripe style) |
+| [**Ramp**](https://ramp.network/) | 86 | EU / Speed | ~150+ Countries | Low/Medium | Good (SDK) |
+| [**Changelly**](https://changelly.com/) | 85 | Exchange | Global | Medium | Good (API) |
+| [**Sardine**](https://www.sardine.ai/) | 84 | US / Fraud | US + Select Global | Variable (Risk based) | Advanced (API/SDK) |
+| [**Guardarian**](https://guardarian.com/) | 83 | EU focus | ~100+ Countries | Low/Medium | Good (Widget) |
+| [**Alchemy Pay**](https://ramp.alchemypay.org/#/index) | 82 | Global pay rails | ~170+ Countries | Variable | Advanced (Plugin/API) |
+| [**Mercuryo**](https://mercuryo.io/) | 82 | B2B | Global | Medium | Good |
 
 ---
 
@@ -132,26 +124,28 @@ Fees are the biggest friction point for users. They typically consist of three p
 
 ## Scoring Methodology
 
-The scoring system evaluates ramps across multiple dimensions:
+Scores are generated from visible columns in [RAMPS.md](./RAMPS.md) by `wallets/scripts/sync_table_scores.js`, using `computeRampScore` from `wallets/frontend/src/lib/scoring.js`.
 
-1. **Coverage (25 points):** Number of countries and payment methods supported
-2. **Fee Structure (20 points):** Processing fees, spreads, and minimum fees
-3. **Developer Experience (20 points):** SDK quality, documentation, integration ease
-4. **Supported Chains/Assets (15 points):** Number of chains and tokens supported
-5. **KYC/Compliance (10 points):** Fraud detection, false decline rates, KYC friction
-6. **Reliability (10 points):** Uptime, transaction success rates, settlement speed
+Current category weights (100 total):
 
-**Scoring Adjustments:**
-- **+5 pts** Excellent developer documentation and SDKs
-- **+3 pts** Instant settlement options (e.g., Sardine Instant ACH)
-- **-5 pts** High fees relative to competitors
-- **-3 pts** Limited geographic coverage
+1. **Coverage (25):** Country/region reach from `Coverage`.
+2. **Product Breadth (15):** Whether provider supports both `On-Ramp` and `Off-Ramp`.
+3. **Developer UX (18):** Integration quality from `Dev UX`.
+4. **Pricing Shape (25):** Combined `Fee Model` and `Min Fee` friction.
+5. **Operational Confidence (15):** Live status from `Status`.
+6. **Company Track Record (2):** Light confidence signal from `Founded` + `Funding`.
 
-**Scoring Notes:**
-- Scores are estimates based on available documentation and industry knowledge
-- Original 7 providers (Transak, MoonPay, Ramp, Sardine, Stripe, Banxa, Mercuryo) scored based on verified PR 128 research
-- Additional providers scored using same methodology but may need verification
-- Scores should be considered approximate until verified with official provider documentation
+Recommendation bands:
+
+- **🟢 Recommended:** score `>= 78`
+- **🟡 Situational:** score `55-77`
+- **🔴 Avoid:** score `< 55` (or inactive provider)
+
+Why this model:
+
+- Uses only table-visible inputs to prevent hidden-variable drift.
+- Keeps business durability (`Founded`, `Funding`) as a small tie-breaker, not a dominant factor.
+- Ensures every scored column is explicit and auditable in the markdown table.
 
 ---
 

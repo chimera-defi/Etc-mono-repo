@@ -32,7 +32,7 @@
 | [**1inch**](https://1inch.io/wallet/) | 31 | ❌ | ? | ⚠️ | Private | 🔒 | <img src="/chains/eth.svg" width="16" title="EVM"> | 📱 | ✅ | ❌ Prop | ⚠️ DEX API | ❓ Priv | 🟢 Token | ❌ | ⚠️ | EOA | ❌ None | ❌ | DeFi | 🔴 |
 | [**Block**](https://github.com/block-wallet/extension) | 29 | ❌ | ~2 | ✅ | [extension](https://github.com/block-wallet/extension) | ❌ | <img src="/chains/eth.svg" width="16" title="EVM"> | 🌐 | ✅ | ✅ MIT | ❌ Closed | ❓ None | 🔴 Unknown | ❌ | ⚠️ | EOA | ❌ None | ✅ | ~~Stability~~ | 🔴 |
 
-> **Scoring note:** `Score` and `Rec` are generated from the visible columns above using `wallets/scripts/sync_table_scores.js` and methodology version `2026-04-visible-columns-v1`. They should not be hand-edited.
+> **Scoring note:** `Score` and `Rec` are generated from the visible columns above using `wallets/scripts/sync_table_scores.js` and methodology version `2026-04-visible-columns-v2`. They should not be hand-edited.
 
 ## Pros & Cons (Top Picks)
 
