@@ -102,6 +102,8 @@ function getWalletHighlights(type: WalletType, wallet: WalletData): string[] {
     `Score: ${ramp.score}/100`,
     `Ramp type: ${ramp.rampType}`,
     `Coverage: ${ramp.coverage}`,
+    `Founded: ${ramp.foundedYear ?? 'Unknown'}`,
+    `Funding: ${ramp.fundingSource}`,
     `Fee model: ${ramp.feeModel}`,
     `Minimum fee: ${ramp.minFee}`,
     `Developer UX: ${ramp.devUx}`,

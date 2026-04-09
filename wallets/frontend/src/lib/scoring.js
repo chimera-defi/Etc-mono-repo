@@ -3,7 +3,7 @@ const HARDWARE_MAX_SCORE = 100;
 const CARD_MAX_SCORE = 100;
 const RAMP_MAX_SCORE = 100;
 
-const SCORING_METHODOLOGY_VERSION = '2026-04-visible-columns-v1';
+const SCORING_METHODOLOGY_VERSION = '2026-04-visible-columns-v2';
 
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
@@ -738,20 +738,36 @@ function parseDevUxScore(cell) {
   return 10;
 }
 
+function parseRampCompanyAgeScore(cell) {
+  const foundedYear = extractInteger(cell);
+  if (!foundedYear) {
+    return { score: 0, note: 'Founding year not listed.' };
+  }
+  if (foundedYear <= 2015) {
+    return { score: 1, note: 'Longer operating history.' };
+  }
+  return { score: 0, note: 'Newer provider track record.' };
+}
+
 function computeRampScore(cells) {
   const status = parseCardStatus(cells[9]);
+  const companyAge = parseRampCompanyAgeScore(cells[10]);
+  const funding = parseFundingLevel(cells[11]);
 
   const coverage = parseRampCoverageScore(cells[5]);
   const typeBreadth = parseRampTypeScore(cells[2], cells[3], cells[4]);
   const devUx = parseDevUxScore(cells[8]);
   const price = parseFeeModelScore(cells[6]) + parseMinimumFeeScore(cells[7]);
+  const companyTrackRecord =
+    companyAge.score +
+    (funding === 'sustainable' ? 1 : 0);
   const confidence =
     status === 'active' ? 15 :
     status === 'verify' ? 9 :
     status === 'launching' ? 5 :
     0;
 
-  const total = coverage + typeBreadth + devUx + price + confidence;
+  const total = coverage + typeBreadth + devUx + price + confidence + companyTrackRecord;
 
   const entries = [
     {
@@ -788,6 +804,13 @@ function computeRampScore(cells) {
       score: confidence,
       max: 15,
       note: 'Current verification and product status.',
+    },
+    {
+      key: 'company',
+      label: 'Company Track Record',
+      score: companyTrackRecord,
+      max: 2,
+      note: `${companyAge.note} Funding durability from visible table signal.`,
     },
   ];
 

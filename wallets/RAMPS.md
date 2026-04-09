@@ -2,32 +2,32 @@
 
 ## Complete Ramp Comparison
 
-| Provider | Score | Type | On-Ramp | Off-Ramp | Coverage | Fee Model | Min Fee | Dev UX | Status | Best For |
-|----------|-------|------|---------|----------|----------|-----------|---------|--------|--------|----------|
-| [**Coinbase Pay**](https://www.coinbase.com/developers/pay-sdk) | 89 🟢 | Both | ✅ | ✅ | ~100+ Countries | Medium | ~$1.00 | Excellent (SDK) | ✅ | Coinbase users |
-| [**CoinGate**](https://coingate.com/) | 88 🟢 | Both | ✅ | ✅ | Global | Low | ~€0.01 | Good (API) | ✅ | Low fees |
-| [**BitPay**](https://bitpay.com/) | 87 🟢 | Both | ✅ | ✅ | Global | Medium | ~$1.00 | Good (API) | ✅ | Bitcoin focus |
-| [**Ramp**](https://ramp.network/) | 86 🟢 | Both | ✅ | ✅ | ~150+ Countries | Low/Medium | ~€2.49 | Good (SDK) | ✅ | EU / Speed |
-| [**Stripe**](https://stripe.com/docs/crypto) | 86 🟢 | Both | ✅ | ✅ | Global | Usage Based | Custom | Excellent (Stripe style) | ✅ | Trust |
-| [**Sardine**](https://www.sardine.ai/) | 84 🟢 | Both | ✅ | ✅ | US + Select Global | Variable (Risk based) | Custom | Advanced (API/SDK) | ✅ | US / Fraud |
-| [**Changelly**](https://changelly.com/) | 83 🟢 | Both | ✅ | ✅ | Global | Medium | ~$5.00 | Good (API) | ✅ | Exchange |
-| [**Guardarian**](https://guardarian.com/) | 83 🟢 | Both | ✅ | ✅ | ~100+ Countries | Low/Medium | ~€5.00 | Good (Widget) | ✅ | EU focus |
-| [**Alchemy Pay**](https://ramp.alchemypay.org/#/index) | 82 🟢 | Both | ✅ | ✅ | ~170+ Countries | Variable | Custom | Advanced (Plugin/API) | ✅ | Global pay rails |
-| [**Mercuryo**](https://mercuryo.io/) | 82 🟢 | Both | ✅ | ✅ | Global | Medium | Custom | Good | ✅ | B2B |
-| [**Transak**](https://transak.com/) | 81 🟢 | Both | ✅ | ✅ | ~64 Countries | Medium (Spread + Fee) | ~$5.00 | Excellent (React SDK) | ✅ | Developers |
-| [**Banxa**](https://banxa.com/) | 79 🟢 | Both | ✅ | ✅ | Global | Variable | Custom | Good | ✅ | Local Pay |
-| [**CoinSwitch**](https://coinswitch.co/) | 79 🟢 | Both | ✅ | ✅ | ~100+ Countries | Medium | ~₹100 | Good (API) | ✅ | India / APAC |
-| [**MoonPay**](https://www.moonpay.com/) | 79 🟢 | Both | ✅ | ✅ | ~160+ Countries | High (Spread + Fee) | ~$3.99 | Great (Widget) | ✅ | Coverage |
-| [**onesafe**](https://onesafe.io/) | 79 🟢 | Both | ✅ | ✅ | Select Global | Variable | Custom | Good (API) | ✅ | Enterprise |
-| [**Simplex**](https://www.simplex.com/) | 79 🟢 | Both | ✅ | ✅ | ~190+ Countries | Medium/High | ~$10.00 | Good (Widget) | ✅ | High limits |
-| [**Utorg**](https://utorg.pro/) | 78 🟢 | Both | ✅ | ✅ | ~100+ Countries | Medium | ~$5.00 | Good (Widget) | ✅ | Multi-chain |
-| [**Coinify**](https://www.coinify.com/) | 75 🟡 | Both | ✅ | ✅ | ~50+ Countries | Medium | ~€5.00 | Good (API) | ✅ | EU |
-| [**Modern Treasury**](https://www.moderntreasury.com/) | 73 🟡 | Both | ✅ | ✅ | US + Select | Usage Based | Custom | Excellent (API) | ✅ | Enterprise |
-| [**Reap**](https://reap.global/) | 72 🟡 | Off-Ramp | ❌ | ✅ | Global | Variable | Custom | Good (API) | ✅ | Business off-ramp |
-| [**Robinhood Connect**](https://robinhood.com/us/en/on-ramp/) | 64 🟡 | On-Ramp | ✅ | ❌ | US (ex-NY) | Low | 0.0-1.5% | Good (Widget) | ✅ | US dapps |
-| [**Coinmama**](https://www.coinmama.com/) | 57 🟡 | On-Ramp | ✅ | ❌ | ~100+ Countries | High | ~$30.00 | Basic (Widget) | ✅ | Simple on-ramp |
+| Provider | Score | Type | On-Ramp | Off-Ramp | Coverage | Fee Model | Min Fee | Dev UX | Status | Founded | Funding | Best For |
+|----------|-------|------|---------|----------|----------|-----------|---------|--------|--------|---------|---------|----------|
+| [**Coinbase Pay**](https://www.coinbase.com/developers/pay-sdk) | 91 🟢 | Both | ✅ | ✅ | ~100+ Countries | Medium | ~$1.00 | Excellent (SDK) | ✅ | 2012 | 🟢 Coinbase | Coinbase users |
+| [**CoinGate**](https://coingate.com/) | 90 🟢 | Both | ✅ | ✅ | Global | Low | ~€0.01 | Good (API) | ✅ | 2014 | 🟢 Self | Low fees |
+| [**BitPay**](https://bitpay.com/) | 89 🟢 | Both | ✅ | ✅ | Global | Medium | ~$1.00 | Good (API) | ✅ | 2011 | 🟢 Revenue | Bitcoin focus |
+| [**Stripe**](https://stripe.com/docs/crypto) | 88 🟢 | Both | ✅ | ✅ | Global | Usage Based | Custom | Excellent (Stripe style) | ✅ | 2010 | 🟢 PublicCo | Trust |
+| [**Ramp**](https://ramp.network/) | 86 🟢 | Both | ✅ | ✅ | ~150+ Countries | Low/Medium | ~€2.49 | Good (SDK) | ✅ | 2017 | 🟡 VC | EU / Speed |
+| [**Changelly**](https://changelly.com/) | 85 🟢 | Both | ✅ | ✅ | Global | Medium | ~$5.00 | Good (API) | ✅ | 2015 | 🟢 Revenue | Exchange |
+| [**Sardine**](https://www.sardine.ai/) | 84 🟢 | Both | ✅ | ✅ | US + Select Global | Variable (Risk based) | Custom | Advanced (API/SDK) | ✅ | 2020 | 🟡 VC | US / Fraud |
+| [**Guardarian**](https://guardarian.com/) | 83 🟢 | Both | ✅ | ✅ | ~100+ Countries | Low/Medium | ~€5.00 | Good (Widget) | ✅ | 2017 | 🟡 VC | EU focus |
+| [**Alchemy Pay**](https://ramp.alchemypay.org/#/index) | 82 🟢 | Both | ✅ | ✅ | ~170+ Countries | Variable | Custom | Advanced (Plugin/API) | ✅ | 2018 | 🟡 VC | Global pay rails |
+| [**Mercuryo**](https://mercuryo.io/) | 82 🟢 | Both | ✅ | ✅ | Global | Medium | Custom | Good | ✅ | 2018 | 🟡 VC | B2B |
+| [**Banxa**](https://banxa.com/) | 81 🟢 | Both | ✅ | ✅ | Global | Variable | Custom | Good | ✅ | 2014 | 🟢 PublicCo | Local Pay |
+| [**Simplex**](https://www.simplex.com/) | 81 🟢 | Both | ✅ | ✅ | ~190+ Countries | Medium/High | ~$10.00 | Good (Widget) | ✅ | 2014 | 🟢 Nuvei | High limits |
+| [**Transak**](https://transak.com/) | 81 🟢 | Both | ✅ | ✅ | ~64 Countries | Medium (Spread + Fee) | ~$5.00 | Excellent (React SDK) | ✅ | 2020 | 🟡 VC | Developers |
+| [**CoinSwitch**](https://coinswitch.co/) | 79 🟢 | Both | ✅ | ✅ | ~100+ Countries | Medium | ~₹100 | Good (API) | ✅ | 2017 | 🟡 VC | India / APAC |
+| [**MoonPay**](https://www.moonpay.com/) | 79 🟢 | Both | ✅ | ✅ | ~160+ Countries | High (Spread + Fee) | ~$3.99 | Great (Widget) | ✅ | 2019 | 🟡 VC | Coverage |
+| [**onesafe**](https://onesafe.io/) | 79 🟢 | Both | ✅ | ✅ | Select Global | Variable | Custom | Good (API) | ✅ | 2022 | 🔴 Unknown | Enterprise |
+| [**Utorg**](https://utorg.pro/) | 78 🟢 | Both | ✅ | ✅ | ~100+ Countries | Medium | ~$5.00 | Good (Widget) | ✅ | 2020 | 🔴 Unknown | Multi-chain |
+| [**Coinify**](https://www.coinify.com/) | 77 🟡 | Both | ✅ | ✅ | ~50+ Countries | Medium | ~€5.00 | Good (API) | ✅ | 2014 | 🟢 Revenue | EU |
+| [**Modern Treasury**](https://www.moderntreasury.com/) | 73 🟡 | Both | ✅ | ✅ | US + Select | Usage Based | Custom | Excellent (API) | ✅ | 2018 | 🟡 VC | Enterprise |
+| [**Reap**](https://reap.global/) | 72 🟡 | Off-Ramp | ❌ | ✅ | Global | Variable | Custom | Good (API) | ✅ | 2018 | 🟡 VC | Business off-ramp |
+| [**Robinhood Connect**](https://robinhood.com/us/en/on-ramp/) | 66 🟡 | On-Ramp | ✅ | ❌ | US (ex-NY) | Low | 0.0-1.5% | Good (Widget) | ✅ | 2013 | 🟢 PublicCo | US dapps |
+| [**Coinmama**](https://www.coinmama.com/) | 59 🟡 | On-Ramp | ✅ | ❌ | ~100+ Countries | High | ~$30.00 | Basic (Widget) | ✅ | 2013 | 🟢 Revenue | Simple on-ramp |
 
-> **Scoring note:** `Score` is generated from the visible columns above using `wallets/scripts/sync_table_scores.js` and methodology version `2026-04-visible-columns-v1`. Update the table inputs first, then resync the scores.
+> **Scoring note:** `Score` is generated from the visible columns above using `wallets/scripts/sync_table_scores.js` and methodology version `2026-04-visible-columns-v2`. Update the table inputs first, then resync the scores.
 
 ## Pros & Cons (Top Picks)
 
@@ -70,6 +70,8 @@
 | **Fee Model** | Processing fee structure (Low/Medium/High, Variable, Usage Based) |
 | **Min Fee** | Minimum transaction fee (~ indicates approximate; verify on official sites) |
 | **Dev UX** | Developer experience rating (Excellent/Great/Good/Advanced) |
+| **Founded** | Provider founding year signal used in score confidence |
+| **Funding** | 🟢 Sustainable/public/revenue | 🟡 VC-backed | 🔴 Unknown/high-risk |
 
 **Fee Structure Notes:**
 - **Processing Fee:** Charged by the ramp provider (typically 1% - 4.5%)

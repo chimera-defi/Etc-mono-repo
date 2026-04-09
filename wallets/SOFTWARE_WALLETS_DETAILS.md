@@ -2,12 +2,12 @@
 
 > 📊 **View the comparison table:** [See all wallets at a glance →](./SOFTWARE_WALLETS.md)
 
-> **Source of truth note:** Current `Score` and `Rec` values are generated from the visible columns in [SOFTWARE_WALLETS.md](./SOFTWARE_WALLETS.md) via `wallets/scripts/sync_table_scores.js` (`2026-04-visible-columns-v1`). If a long-form section below mentions older numeric scores, trust the main comparison table.
+> **Source of truth note:** Current `Score` and `Rec` values are generated from the visible columns in [SOFTWARE_WALLETS.md](./SOFTWARE_WALLETS.md) via `wallets/scripts/sync_table_scores.js` (`2026-04-visible-columns-v2`). If a long-form section below mentions older numeric scores, trust the main comparison table.
 
 > **TL;DR:** The generated snapshot below mirrors the current main-table ordering and scores. Use it for the latest rankings; the long-form sections below explain audits, integration tradeoffs, and developer workflow details.
 
 <!-- GENERATED_SOFTWARE_SNAPSHOT_START -->
-> **Current generated snapshot:** Rabby (84, Development, 🟢), MetaMask (77, Compatibility, 🟡), Safe (77, Treasury/DAO, 🟡), and Brave (75, Brave users, 🟡). Regenerated from [SOFTWARE_WALLETS.md](./SOFTWARE_WALLETS.md) by `wallets/scripts/sync_table_scores.js` using methodology `2026-04-visible-columns-v1`.
+> **Current generated snapshot:** Rabby (84, Development, 🟢), MetaMask (77, Compatibility, 🟡), Safe (77, Treasury/DAO, 🟡), and Brave (75, Brave users, 🟡). Regenerated from [SOFTWARE_WALLETS.md](./SOFTWARE_WALLETS.md) by `wallets/scripts/sync_table_scores.js` using methodology `2026-04-visible-columns-v2`.
 
 ### Current Top Rows (generated)
 | Rank | Wallet | Score | Best For | Rec |

@@ -90,7 +90,7 @@ function ComparisonRow({
             key={idx}
             className={cn(
               'py-3 px-4 text-center',
-              isMax && 'bg-green-50 dark:bg-green-900/20'
+              isMax && 'bg-green-100 dark:bg-green-900/40 font-medium'
             )}
           >
             {isBoolean ? (
@@ -653,6 +653,8 @@ function RampComparison({
             <ComparisonRow label="On-Ramp" values={ramps.map(r => r.onRamp)} isBoolean />
             <ComparisonRow label="Off-Ramp" values={ramps.map(r => r.offRamp)} isBoolean />
             <ComparisonRow label="Coverage" values={ramps.map(r => r.coverage)} />
+            <ComparisonRow label="Founded" values={ramps.map(r => r.foundedYear ?? '-')} />
+            <ComparisonRow label="Funding" values={ramps.map(r => `${r.funding} (${r.fundingSource})`)} />
             <ComparisonRow label="Best For" values={ramps.map(r => r.bestFor)} />
           </>
         )}
@@ -825,8 +827,8 @@ export function ComparisonTool({
             Share
           </button>
           {showCopied && (
-            <span className="text-sm text-green-600 dark:text-green-400 animate-pulse">
-              Copied!
+            <span className="text-sm text-green-600 dark:text-green-400 animate-fade-in">
+              ✓ Copied!
             </span>
           )}
           <button

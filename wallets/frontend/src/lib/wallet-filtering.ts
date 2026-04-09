@@ -137,7 +137,9 @@ export function filterHardwareWallets(
       const searchLower = filters.search.toLowerCase();
       const matchesSearch =
         wallet.name.toLowerCase().includes(searchLower) ||
-        wallet.display.toLowerCase().includes(searchLower);
+        wallet.display.toLowerCase().includes(searchLower) ||
+        wallet.fundingSource.toLowerCase().includes(searchLower) ||
+        (wallet.foundedYear !== null && String(wallet.foundedYear).includes(searchLower));
       if (!matchesSearch) return false;
     }
 
@@ -263,7 +265,9 @@ export function filterRamps(ramps: Ramp[], filters: FilterOptions): Ramp[] {
         ramp.name.toLowerCase().includes(searchLower) ||
         ramp.bestFor.toLowerCase().includes(searchLower) ||
         ramp.coverage.toLowerCase().includes(searchLower) ||
-        ramp.feeModel.toLowerCase().includes(searchLower);
+        ramp.feeModel.toLowerCase().includes(searchLower) ||
+        ramp.fundingSource.toLowerCase().includes(searchLower) ||
+        (ramp.foundedYear !== null && String(ramp.foundedYear).includes(searchLower));
       if (!matchesSearch) return false;
     }
 
