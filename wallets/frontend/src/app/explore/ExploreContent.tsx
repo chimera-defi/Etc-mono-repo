@@ -721,9 +721,8 @@ export function ExploreContent({
   const activePresets = QUICK_PRESETS[activeTab];
   const resultAnnouncement = `${tabData.wallets.length} of ${tabData.totalCount} ${TAB_RESULT_LABELS[activeTab]} match current filters`;
 
-  const formatTabCount = useCallback((filteredCount: number, totalCount: number) => {
-    return filteredCount < totalCount ? `${filteredCount}/${totalCount}` : `${totalCount}`;
-  }, []);
+  const formatTabCount = (filteredCount: number, totalCount: number) =>
+    filteredCount < totalCount ? `${filteredCount}/${totalCount}` : `${totalCount}`;
 
   const softwareTabCount = formatTabCount(filteredSoftware.length, softwareWallets.length);
   const hardwareTabCount = formatTabCount(filteredHardware.length, hardwareWallets.length);
