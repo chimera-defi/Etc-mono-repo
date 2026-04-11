@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { Shield, Cpu, CreditCard, ArrowLeftRight, LayoutGrid, List, GitCompare } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import {
@@ -11,7 +12,6 @@ import {
   type SortState,
 } from '@/components/WalletFilters';
 import { WalletTable } from '@/components/WalletTable';
-import { ComparisonTool } from '@/components/ComparisonTool';
 import type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData } from '@/types/wallets';
 import {
   filterCryptoCards,
@@ -36,6 +36,11 @@ import {
   serializeSortState,
   type ExploreTab,
 } from '@/lib/explore-url-state';
+
+const ComparisonTool = dynamic(
+  () => import('@/components/ComparisonTool').then((module) => module.ComparisonTool),
+  { ssr: false }
+);
 
 interface ExploreContentProps {
   softwareWallets: SoftwareWallet[];
@@ -570,6 +575,19 @@ export function ExploreContent({
     [ramps, selectedRamps]
   );
 
+  const totalSelectedCount =
+    selectedSoftware.length +
+    selectedHardware.length +
+    selectedCards.length +
+    selectedRamps.length;
+
+  useEffect(() => {
+    if (!showComparison || totalSelectedCount > 0) return;
+    updateUrlParams((params) => {
+      params.delete('compare');
+    }, 'replace');
+  }, [showComparison, totalSelectedCount, updateUrlParams]);
+
   // Toggle selection handlers
   const toggleSelectionParam = useCallback((
     param: 'sw' | 'hw' | 'cd' | 'rp',
@@ -675,6 +693,15 @@ export function ExploreContent({
   const tabData = getCurrentTabData();
   const hasSelectedWallets = tabData.selected.length > 0;
   const activePresets = QUICK_PRESETS[activeTab];
+
+  const formatTabCount = useCallback((filteredCount: number, totalCount: number) => {
+    return filteredCount < totalCount ? `${filteredCount}/${totalCount}` : `${totalCount}`;
+  }, []);
+
+  const softwareTabCount = formatTabCount(filteredSoftware.length, softwareWallets.length);
+  const hardwareTabCount = formatTabCount(filteredHardware.length, hardwareWallets.length);
+  const cardsTabCount = formatTabCount(filteredCards.length, cryptoCards.length);
+  const rampsTabCount = formatTabCount(filteredRamps.length, ramps.length);
 
   const pushTabState = useCallback(
     (tab: TabType, filters: FilterState, sort: SortState, nextViewMode?: ViewMode) => {
@@ -787,8 +814,8 @@ export function ExploreContent({
             )}
           >
             <Shield className="h-4 w-4" />
-            <span className="sr-only sm:hidden">Software ({softwareWallets.length})</span>
-            <span className="hidden sm:inline">Software ({softwareWallets.length})</span>
+            <span className="sr-only sm:hidden">Software ({softwareTabCount})</span>
+            <span className="hidden sm:inline">Software ({softwareTabCount})</span>
             {selectedSoftware.length > 0 && (
               <span className="hidden sm:inline-flex animate-fade-in bg-indigo-400/20 text-xs px-1.5 py-0.5 rounded">
                 {selectedSoftware.length}
@@ -808,8 +835,8 @@ export function ExploreContent({
             )}
           >
             <Cpu className="h-4 w-4" />
-            <span className="sr-only sm:hidden">Hardware ({hardwareWallets.length})</span>
-            <span className="hidden sm:inline">Hardware ({hardwareWallets.length})</span>
+            <span className="sr-only sm:hidden">Hardware ({hardwareTabCount})</span>
+            <span className="hidden sm:inline">Hardware ({hardwareTabCount})</span>
             {selectedHardware.length > 0 && (
               <span className="hidden sm:inline-flex animate-fade-in bg-amber-400/20 text-xs px-1.5 py-0.5 rounded">
                 {selectedHardware.length}
@@ -829,8 +856,8 @@ export function ExploreContent({
             )}
           >
             <CreditCard className="h-4 w-4" />
-            <span className="sr-only sm:hidden">Cards ({cryptoCards.length})</span>
-            <span className="hidden sm:inline">Cards ({cryptoCards.length})</span>
+            <span className="sr-only sm:hidden">Cards ({cardsTabCount})</span>
+            <span className="hidden sm:inline">Cards ({cardsTabCount})</span>
             {selectedCards.length > 0 && (
               <span className="hidden sm:inline-flex animate-fade-in bg-emerald-400/20 text-xs px-1.5 py-0.5 rounded">
                 {selectedCards.length}
@@ -850,8 +877,8 @@ export function ExploreContent({
             )}
           >
             <ArrowLeftRight className="h-4 w-4" />
-            <span className="sr-only sm:hidden">Ramps ({ramps.length})</span>
-            <span className="hidden sm:inline">Ramps ({ramps.length})</span>
+            <span className="sr-only sm:hidden">Ramps ({rampsTabCount})</span>
+            <span className="hidden sm:inline">Ramps ({rampsTabCount})</span>
             {selectedRamps.length > 0 && (
               <span className="hidden sm:inline-flex animate-fade-in bg-violet-400/20 text-xs px-1.5 py-0.5 rounded">
                 {selectedRamps.length}
