@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
-import { Shield, Cpu, CreditCard, ArrowLeftRight, LayoutGrid, List, GitCompare } from 'lucide-react';
+import { Shield, Cpu, CreditCard, ArrowLeftRight, LayoutGrid, List, GitCompare, Share2, ArrowUp } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -218,6 +218,13 @@ const QUICK_PRESETS: Record<TabType, PresetConfig[]> = {
   ],
 };
 
+const TAB_RESULT_LABELS: Record<TabType, string> = {
+  software: 'software wallets',
+  hardware: 'hardware wallets',
+  cards: 'crypto cards',
+  ramps: 'ramp providers',
+};
+
 function toFilterOptions(filters: FilterState): FilterOptions {
   const opts: FilterOptions = {};
 
@@ -282,7 +289,9 @@ export function ExploreContent({
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const topAnchorRef = useRef<HTMLDivElement | null>(null);
   const hydratedFromUrlRef = useRef(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   const updateUrlParams = useCallback((mutate: (params: URLSearchParams) => void, mode: 'push' | 'replace' = 'push') => {
     const params = new URLSearchParams(searchParams.toString());
@@ -373,6 +382,16 @@ export function ExploreContent({
       else params.delete('compare');
     });
   }, [updateUrlParams]);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setShowBackToTop(window.scrollY > window.innerHeight * 2.5);
+    };
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     const searchParam = parseSearchParam(searchParams.get('search'));
@@ -693,6 +712,7 @@ export function ExploreContent({
   const tabData = getCurrentTabData();
   const hasSelectedWallets = tabData.selected.length > 0;
   const activePresets = QUICK_PRESETS[activeTab];
+  const resultAnnouncement = `${tabData.wallets.length} of ${tabData.totalCount} ${TAB_RESULT_LABELS[activeTab]} match current filters`;
 
   const formatTabCount = useCallback((filteredCount: number, totalCount: number) => {
     return filteredCount < totalCount ? `${filteredCount}/${totalCount}` : `${totalCount}`;
@@ -796,8 +816,12 @@ export function ExploreContent({
     }
   }, [activeTab, pushTabState]);
 
+  const scrollToTopAnchor = useCallback(() => {
+    topAnchorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, []);
+
   return (
-    <div className="space-y-6">
+    <div ref={topAnchorRef} className="space-y-6">
       {/* Tabs */}
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border pb-4">
         <div role="tablist" aria-label="Wallet categories" className="flex gap-2">
@@ -931,6 +955,17 @@ export function ExploreContent({
         </div>
       </div>
 
+      <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+        {resultAnnouncement}
+      </p>
+
+      {showComparison && hasSelectedWallets && (
+        <div className="flex items-center gap-2 rounded-lg border border-primary/30 bg-primary/10 px-3 py-2 text-sm text-primary">
+          <Share2 className="h-4 w-4 shrink-0" />
+          <span>This comparison state is shareable. Use &quot;Copy comparison link&quot; in the toolbar.</span>
+        </div>
+      )}
+
       {/* Tab panel */}
       <div
         key={activeTab}
@@ -1010,6 +1045,18 @@ export function ExploreContent({
       />
 
       </div>{/* end tabpanel */}
+
+      {showBackToTop && (
+        <button
+          type="button"
+          onClick={scrollToTopAnchor}
+          className="fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 rounded-full border border-border bg-background/95 px-3 py-2 text-sm font-medium shadow-lg transition-colors hover:bg-muted"
+          aria-label="Back to top"
+        >
+          <ArrowUp className="h-4 w-4" />
+          Back to top
+        </button>
+      )}
     </div>
   );
 }

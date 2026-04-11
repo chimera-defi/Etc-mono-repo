@@ -270,10 +270,15 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
   const pageUrl = `${baseUrl}/wallets/${params.type}/${params.id}/`;
   const description = optimizeMetaDescription(getWalletDescription(params.type, wallet));
   const highlights = getWalletHighlights(params.type, wallet);
-  const relatedWallets = getWalletsByType(params.type)
+  const nearestWallets = getWalletsByType(params.type)
     .filter(item => item.id !== wallet.id)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 6);
+    .map((item) => ({ item, delta: Math.abs(item.score - wallet.score) }))
+    .sort((a, b) => a.delta - b.delta || b.item.score - a.item.score);
+  const relatedWallets = (
+    nearestWallets.some((entry) => entry.delta < 10)
+      ? nearestWallets.filter((entry) => entry.delta < 10)
+      : nearestWallets
+  ).slice(0, 3);
   const totalBreakdownMax = wallet.scoreBreakdown.reduce((sum, entry) => sum + entry.max, 0) || 1;
   const methodologyHref = methodologyDocs[params.type];
 
@@ -487,9 +492,12 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
           </div>
 
           <div className="rounded-xl border border-border p-6">
-            <h2 className="text-lg font-semibold mb-3">Related {typeLabels[params.type]}s</h2>
+            <h2 className="text-lg font-semibold mb-1">Similar Score {typeLabels[params.type]}s</h2>
+            <p className="mb-3 text-xs text-muted-foreground">
+              Closest matches by score distance in this category.
+            </p>
             <ul className="space-y-3 text-sm">
-              {relatedWallets.map(item => (
+              {relatedWallets.map(({ item, delta }) => (
                 <li key={item.id} className="flex items-start gap-3">
                   <Star className="h-4 w-4 text-amber-500 mt-0.5" />
                   <div>
@@ -499,7 +507,9 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
                     >
                       {item.name}
                     </Link>
-                    <p className="text-xs text-muted-foreground">Score {item.score}/100</p>
+                    <p className="text-xs text-muted-foreground">
+                      Score {item.score}/100 (Δ {delta})
+                    </p>
                   </div>
                 </li>
               ))}
