@@ -385,7 +385,14 @@ export function ExploreContent({
 
   useEffect(() => {
     const onScroll = () => {
-      setShowBackToTop(window.scrollY > window.innerHeight * 2.5);
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      if (maxScroll <= 0) {
+        setShowBackToTop(false);
+        return;
+      }
+
+      const threshold = Math.min(window.innerHeight * 2.5, maxScroll * 0.7);
+      setShowBackToTop(maxScroll > window.innerHeight * 1.5 && window.scrollY > threshold);
     };
 
     onScroll();
