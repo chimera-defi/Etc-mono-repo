@@ -438,6 +438,65 @@ function FeatureIndicator({
     </Tooltip>
   );
 }
+// Shared card wrapper for grid view
+interface WalletItemCardProps {
+  item: WalletData;
+  isSelected: boolean;
+  isAtMax: boolean;
+  onToggleSelect: () => void;
+  methodLink: string;
+  detailHref: string;
+  nameSlot?: React.ReactNode;   // replaces default <Link> name if provided
+  subNameSlot?: React.ReactNode; // shown below name in header (e.g. RecommendationBadge or cardType badge)
+  children: React.ReactNode;    // body content between header and score breakdown
+}
+
+function WalletItemCard({
+  item,
+  isSelected,
+  isAtMax,
+  onToggleSelect,
+  methodLink,
+  detailHref,
+  nameSlot,
+  subNameSlot,
+  children,
+}: WalletItemCardProps) {
+  return (
+    <div
+      className={cn(
+        'p-3 sm:p-4 border rounded-lg transition-all animate-slide-up',
+        isSelected ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'
+      )}
+    >
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex items-center gap-3">
+          <ScoreBadge
+            score={item.score}
+            recommendation={item.recommendation}
+            tooltip={buildScoreTooltip(item)}
+            tooltipLinkHref={methodLink}
+          />
+          <div>
+            {nameSlot ?? (
+              <Link href={detailHref} className="font-semibold hover:underline">
+                {item.name}
+              </Link>
+            )}
+            {subNameSlot}
+          </div>
+        </div>
+        <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={item.name} size="lg" />
+      </div>
+
+      {children}
+
+      <div className="mb-0">
+        <ScoreBreakdownPreview breakdown={item.scoreBreakdown} tooltipLinkHref={methodLink} />
+      </div>
+    </div>
+  );
+}
 
 // Software wallet row/card
 function SoftwareWalletItem({
@@ -511,36 +570,17 @@ function SoftwareWalletItem({
     );
   }
 
-  // Grid/card view
   return (
-    <div
-      className={cn(
-        'p-3 sm:p-4 border rounded-lg transition-all animate-slide-up',
-        isSelected ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'
-      )}
+    <WalletItemCard
+      item={wallet}
+      isSelected={isSelected}
+      isAtMax={isAtMax}
+      onToggleSelect={onToggleSelect}
+      methodLink={TABLE_METHOD_LINKS.software}
+      detailHref={detailHref}
+      subNameSlot={<RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />}
     >
-      <div className="flex items-start justify-between mb-3">
-        <div className="flex items-center gap-3">
-          <ScoreBadge
-            score={wallet.score}
-            recommendation={wallet.recommendation}
-            tooltip={buildScoreTooltip(wallet)}
-            tooltipLinkHref={TABLE_METHOD_LINKS.software}
-          />
-          <div>
-            <Link href={detailHref} className="font-semibold hover:underline">
-              {wallet.name}
-            </Link>
-            <RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />
-          </div>
-        </div>
-        <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={wallet.name} size="lg" />
-      </div>
-
       <p className="text-sm text-muted-foreground mb-3">{wallet.bestFor}</p>
-      <div className="mb-3">
-        <ScoreBreakdownPreview breakdown={wallet.scoreBreakdown} tooltipLinkHref={TABLE_METHOD_LINKS.software} />
-      </div>
 
       <div className="flex items-center gap-4 mb-3">
         <DeviceIcons devices={wallet.devices} tooltipLinkHref={detailHref} />
@@ -568,7 +608,7 @@ function SoftwareWalletItem({
         )}
       </div>
 
-      <div className="flex items-center justify-between text-sm">
+      <div className="flex items-center justify-between text-sm mb-3">
         <Badge
           variant={wallet.license === 'open' ? 'success' : wallet.license === 'partial' ? 'warning' : 'default'}
           tooltip={softwareWalletTooltips.license[wallet.license]}
@@ -588,7 +628,7 @@ function SoftwareWalletItem({
           </a>
         )}
       </div>
-    </div>
+    </WalletItemCard>
   );
 }
 
@@ -689,39 +729,20 @@ function HardwareWalletItem({
     );
   }
 
-  // Grid/card view
   return (
-    <div
-      className={cn(
-        'p-3 sm:p-4 border rounded-lg transition-all animate-slide-up',
-        isSelected ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'
-      )}
+    <WalletItemCard
+      item={wallet}
+      isSelected={isSelected}
+      isAtMax={isAtMax}
+      onToggleSelect={onToggleSelect}
+      methodLink={TABLE_METHOD_LINKS.hardware}
+      detailHref={detailHref}
+      subNameSlot={<RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />}
     >
-      <div className="flex items-start justify-between mb-3">
-        <div className="flex items-center gap-3">
-          <ScoreBadge
-            score={wallet.score}
-            recommendation={wallet.recommendation}
-            tooltip={buildScoreTooltip(wallet)}
-            tooltipLinkHref={TABLE_METHOD_LINKS.hardware}
-          />
-          <div>
-            <Link href={detailHref} className="font-semibold hover:underline">
-              {wallet.name}
-            </Link>
-            <RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />
-          </div>
-        </div>
-        <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={wallet.name} size="lg" />
-      </div>
-
       <p className="text-lg font-semibold text-primary mb-1">{wallet.priceText}</p>
       {wallet.priceLastChecked && (
         <p className="text-xs text-muted-foreground mb-2">Price checked {wallet.priceLastChecked}</p>
       )}
-      <div className="mb-3">
-        <ScoreBreakdownPreview breakdown={wallet.scoreBreakdown} tooltipLinkHref={TABLE_METHOD_LINKS.hardware} />
-      </div>
 
       <div className="flex flex-wrap gap-2 mb-3">
         {wallet.airGap && (
@@ -747,7 +768,7 @@ function HardwareWalletItem({
         </div>
       </Tooltip>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 mb-3">
         {wallet.github && (
           <a
             href={wallet.github}
@@ -770,7 +791,7 @@ function HardwareWalletItem({
           </a>
         )}
       </div>
-    </div>
+    </WalletItemCard>
   );
 }
 
@@ -844,44 +865,33 @@ function CryptoCardItem({
     );
   }
 
-  // Grid/card view
   return (
-    <div
-      className={cn(
-        'p-3 sm:p-4 border rounded-lg transition-all animate-slide-up',
-        isSelected ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'
-      )}
-    >
-      <div className="flex items-start justify-between mb-3">
-        <div className="flex items-center gap-3">
-          <ScoreBadge
-            score={card.score}
-            recommendation={card.recommendation}
-            tooltip={buildScoreTooltip(card)}
-            tooltipLinkHref={TABLE_METHOD_LINKS.cards}
-          />
-          <div>
-            <div className="flex items-center gap-2">
-              <Link href={detailHref} className="font-semibold hover:underline">
-                {card.name}
-              </Link>
-              {card.providerUrl && (
-                <a
-                  href={card.providerUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground"
-                >
-                  <ExternalLink className="h-3 w-3" />
-                </a>
-              )}
-            </div>
-            <Badge variant="info" tooltip={cryptoCardTooltips.cardType[card.cardType]} tooltipLinkHref={detailHref}>{card.cardType}</Badge>
-          </div>
+    <WalletItemCard
+      item={card}
+      isSelected={isSelected}
+      isAtMax={isAtMax}
+      onToggleSelect={onToggleSelect}
+      methodLink={TABLE_METHOD_LINKS.cards}
+      detailHref={detailHref}
+      nameSlot={
+        <div className="flex items-center gap-2">
+          <Link href={detailHref} className="font-semibold hover:underline">
+            {card.name}
+          </Link>
+          {card.providerUrl && (
+            <a
+              href={card.providerUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <ExternalLink className="h-3 w-3" />
+            </a>
+          )}
         </div>
-        <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={card.name} size="lg" />
-      </div>
-
+      }
+      subNameSlot={<Badge variant="info" tooltip={cryptoCardTooltips.cardType[card.cardType]} tooltipLinkHref={detailHref}>{card.cardType}</Badge>}
+    >
       <Tooltip content="Maximum cashback rate (may require staking or tier progression)" linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
         <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-2 cursor-help">
           {card.cashBack}
@@ -889,9 +899,6 @@ function CryptoCardItem({
       </Tooltip>
 
       <p className="text-sm text-muted-foreground mb-3">{card.bestFor}</p>
-      <div className="mb-3">
-        <ScoreBreakdownPreview breakdown={card.scoreBreakdown} tooltipLinkHref={TABLE_METHOD_LINKS.cards} />
-      </div>
 
       <div className="flex flex-wrap gap-2 mb-3">
         <Badge variant="default" tooltip={cryptoCardTooltips.region[card.regionCode as keyof typeof cryptoCardTooltips.region] || `Available in ${card.region}`} tooltipLinkHref={detailHref}>
@@ -903,7 +910,7 @@ function CryptoCardItem({
         )}
       </div>
 
-      <div className="flex items-center justify-between text-sm">
+      <div className="flex items-center justify-between text-sm mb-3">
         <Tooltip content={`Annual fee: ${card.annualFee}, Foreign exchange fee: ${card.fxFee}`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
           <span className="text-muted-foreground cursor-help">
             Fee: {card.annualFee} | FX: {card.fxFee}
@@ -921,7 +928,7 @@ function CryptoCardItem({
           </a>
         )}
       </div>
-    </div>
+    </WalletItemCard>
   );
 }
 
@@ -1020,36 +1027,17 @@ function RampItem({
     );
   }
 
-  // Grid/card view
   return (
-    <div
-      className={cn(
-        'p-3 sm:p-4 border rounded-lg transition-all animate-slide-up',
-        isSelected ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'
-      )}
+    <WalletItemCard
+      item={ramp}
+      isSelected={isSelected}
+      isAtMax={isAtMax}
+      onToggleSelect={onToggleSelect}
+      methodLink={TABLE_METHOD_LINKS.ramps}
+      detailHref={detailHref}
+      subNameSlot={<RecommendationBadge recommendation={ramp.recommendation} tooltipLinkHref={detailHref} />}
     >
-      <div className="flex items-start justify-between mb-3">
-        <div className="flex items-center gap-3">
-          <ScoreBadge
-            score={ramp.score}
-            recommendation={ramp.recommendation}
-            tooltip={buildScoreTooltip(ramp)}
-            tooltipLinkHref={TABLE_METHOD_LINKS.ramps}
-          />
-          <div>
-            <Link href={detailHref} className="font-semibold hover:underline">
-              {ramp.name}
-            </Link>
-            <RecommendationBadge recommendation={ramp.recommendation} tooltipLinkHref={detailHref} />
-          </div>
-        </div>
-        <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={ramp.name} size="lg" />
-      </div>
-
       <p className="text-sm text-muted-foreground mb-3">{ramp.bestFor}</p>
-      <div className="mb-3">
-        <ScoreBreakdownPreview breakdown={ramp.scoreBreakdown} tooltipLinkHref={TABLE_METHOD_LINKS.ramps} />
-      </div>
 
       <div className="flex flex-wrap gap-2 mb-3">
         {ramp.onRamp && (
@@ -1094,7 +1082,7 @@ function RampItem({
         </div>
       </div>
 
-      <div className="flex items-center justify-between text-sm">
+      <div className="flex items-center justify-between text-sm mb-3">
         {ramp.url && (
           <a
             href={ramp.url}
@@ -1107,9 +1095,10 @@ function RampItem({
           </a>
         )}
       </div>
-    </div>
+    </WalletItemCard>
   );
 }
+
 
 // Main table/grid component
 interface WalletTableProps<T extends WalletData> {
