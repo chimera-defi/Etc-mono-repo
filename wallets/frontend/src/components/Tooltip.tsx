@@ -151,17 +151,20 @@ export function Tooltip({
   // Toggle on click/tap (works for both mobile and desktop)
   const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
     e.stopPropagation();
-    setIsVisible(prev => {
-      const next = !prev;
-      setIsClickOpen(next);
-      return next;
-    });
+    if (!isClickOpen) {
+      setIsVisible(true);
+      setIsClickOpen(true);
+      return;
+    }
+    setIsVisible(false);
+    setIsClickOpen(false);
   };
 
   // Show on hover (desktop only, doesn't interfere with click)
   const handleMouseEnter = () => {
-    setIsClickOpen(false);
-    setIsVisible(true);
+    if (!isClickOpen) {
+      setIsVisible(true);
+    }
   };
 
   const handleMouseLeave = (event: React.MouseEvent<HTMLSpanElement>) => {
