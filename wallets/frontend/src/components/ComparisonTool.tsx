@@ -116,15 +116,20 @@ function ScoreBreakdownLegendRow({
   valueColSpan: number;
 }) {
   if (breakdown.length === 0) return null;
+  const legendBreakdown = breakdown.map((entry) => ({
+    ...entry,
+    score: entry.max,
+    note: '',
+  }));
 
   return (
     <tr className="border-b border-border/60 bg-muted/20">
       <td className="sticky left-0 z-10 border-r border-border bg-muted/20 py-2 px-4 text-xs font-medium text-muted-foreground">
-        Category Legend
+        Category Weights
       </td>
       <td className="py-2 px-4" colSpan={valueColSpan}>
         <ScoreBreakdownBar
-          breakdown={breakdown}
+          breakdown={legendBreakdown}
           showLegend
           className="max-w-3xl"
           barClassName="h-1.5"
