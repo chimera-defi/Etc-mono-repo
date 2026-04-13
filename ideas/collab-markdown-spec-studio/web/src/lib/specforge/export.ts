@@ -30,6 +30,204 @@ function bulletLines(value: string): string[] {
     .map((l) => `- ${l.replace(/^-+\s*/, "")}`);
 }
 
+const TRACEABILITY_STOPWORDS = new Set([
+  "a",
+  "an",
+  "and",
+  "are",
+  "as",
+  "at",
+  "be",
+  "by",
+  "for",
+  "from",
+  "in",
+  "is",
+  "it",
+  "of",
+  "on",
+  "or",
+  "that",
+  "the",
+  "to",
+  "with",
+  "we",
+  "our",
+  "this",
+  "will",
+  "must",
+  "should",
+  "can",
+  "not",
+]);
+
+type TraceabilityRow = {
+  id: string;
+  text: string;
+  tokens: Set<string>;
+};
+
+function parseStructuredLines(value: string | undefined): string[] {
+  return (value ?? "")
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => line.replace(/^[-*]\s+/, "").replace(/^\d+[.)]\s+/, "").trim())
+    .filter(Boolean);
+}
+
+function tokenizeTraceability(text: string): Set<string> {
+  return new Set(
+    text
+      .toLowerCase()
+      .split(/[^a-z0-9]+/g)
+      .map((token) => token.trim())
+      .filter((token) => token.length >= 3 && !TRACEABILITY_STOPWORDS.has(token)),
+  );
+}
+
+function toTraceabilityRows(lines: string[], prefix: "R" | "T"): TraceabilityRow[] {
+  return lines.map((text, index) => ({
+    id: `${prefix}-${String(index + 1).padStart(3, "0")}`,
+    text,
+    tokens: tokenizeTraceability(text),
+  }));
+}
+
+function overlapScore(a: Set<string>, b: Set<string>): number {
+  if (a.size === 0 || b.size === 0) return 0;
+  let overlap = 0;
+  for (const token of a) {
+    if (b.has(token)) overlap += 1;
+  }
+  return overlap;
+}
+
+function extractRequirementRefs(taskText: string, requirementIds: Set<string>): string[] {
+  const matches = Array.from(taskText.matchAll(/\bR[-_\s]?(\d{1,3})\b/gi));
+  const refs = new Set<string>();
+  for (const match of matches) {
+    const padded = `R-${String(Number(match[1])).padStart(3, "0")}`;
+    if (requirementIds.has(padded)) refs.add(padded);
+  }
+  return Array.from(refs);
+}
+
+function mapTaskToRequirements(
+  task: TraceabilityRow,
+  taskIndex: number,
+  requirements: TraceabilityRow[],
+): string[] {
+  if (requirements.length === 0) return [];
+
+  const requirementIdSet = new Set(requirements.map((item) => item.id));
+  const explicitRefs = extractRequirementRefs(task.text, requirementIdSet);
+  if (explicitRefs.length > 0) {
+    return explicitRefs;
+  }
+
+  let bestScore = 0;
+  let bestRequirementIds: string[] = [];
+  for (const requirement of requirements) {
+    const score = overlapScore(task.tokens, requirement.tokens);
+    if (score > bestScore) {
+      bestScore = score;
+      bestRequirementIds = [requirement.id];
+    } else if (score > 0 && score === bestScore) {
+      bestRequirementIds.push(requirement.id);
+    }
+  }
+
+  if (bestRequirementIds.length > 0) {
+    return bestRequirementIds;
+  }
+
+  const fallback = requirements[Math.min(taskIndex, requirements.length - 1)];
+  return [fallback.id];
+}
+
+function buildTraceabilityMatrix(document: DocumentRecord): string {
+  const requirementLines = parseStructuredLines(metaField(document, "requirements"));
+  const taskLines = parseStructuredLines(metaField(document, "tasks"));
+
+  const normalizedRequirements =
+    requirementLines.length > 0
+      ? requirementLines
+      : document.sections.map((section) => `Define requirement for section: ${section.heading}`);
+
+  const normalizedTasks =
+    taskLines.length > 0
+      ? taskLines
+      : document.sections.map((section) => `Review and implement section: ${section.heading}`);
+
+  const requirementRows = toTraceabilityRows(normalizedRequirements.slice(0, 30), "R");
+  const taskRows = toTraceabilityRows(normalizedTasks.slice(0, 60), "T");
+
+  const requirementToTasks = new Map<string, string[]>();
+  for (const requirement of requirementRows) {
+    requirementToTasks.set(requirement.id, []);
+  }
+
+  const taskToRequirementRows = taskRows.map((task, index) => {
+    const linked = mapTaskToRequirements(task, index, requirementRows);
+    for (const requirementId of linked) {
+      const existing = requirementToTasks.get(requirementId) ?? [];
+      requirementToTasks.set(requirementId, [...existing, task.id]);
+    }
+    return {
+      task,
+      linkedRequirementIds: linked,
+    };
+  });
+
+  const requirementCoverageRows = requirementRows.map((requirement) => {
+    const linkedTasks = requirementToTasks.get(requirement.id) ?? [];
+    return {
+      requirement,
+      linkedTasks,
+      covered: linkedTasks.length > 0,
+    };
+  });
+
+  const coveragePercent =
+    requirementCoverageRows.length === 0
+      ? 0
+      : Math.round(
+          (requirementCoverageRows.filter((row) => row.covered).length /
+            requirementCoverageRows.length) *
+            100,
+        );
+
+  return [
+    `# Traceability Matrix — ${document.title}`,
+    "",
+    `Source document: ${document.title}`,
+    `Version: ${document.version}`,
+    `Generated: ${new Date().toISOString()}`,
+    "",
+    `Requirement coverage: ${coveragePercent}% (${requirementCoverageRows.filter((row) => row.covered).length}/${requirementCoverageRows.length})`,
+    "",
+    "## Task -> Requirement Mapping",
+    "",
+    "| Task ID | Task | Linked Requirements |",
+    "|---------|------|---------------------|",
+    ...taskToRequirementRows.map((row) => {
+      const linked = row.linkedRequirementIds.join(", ");
+      return `| ${row.task.id} | ${row.task.text} | ${linked} |`;
+    }),
+    "",
+    "## Requirement Coverage",
+    "",
+    "| Requirement ID | Requirement | Linked Tasks | Status |",
+    "|----------------|-------------|--------------|--------|",
+    ...requirementCoverageRows.map((row) => {
+      const linked = row.linkedTasks.length > 0 ? row.linkedTasks.join(", ") : "-";
+      const status = row.covered ? "covered" : "gap";
+      return `| ${row.requirement.id} | ${row.requirement.text} | ${linked} | ${status} |`;
+    }),
+  ].join("\n");
+}
+
 // ──────────────────────────────────────────────────────────────────────────────
 // README.md
 // ──────────────────────────────────────────────────────────────────────────────
@@ -71,6 +269,7 @@ function buildReadme(document: DocumentRecord): string {
     "- SPEC.md — technical specification",
     "- AGENT_HANDOFF.md — sub-agent execution pack",
     "- TASKS.md — numbered task list",
+    "- TRACEABILITY_MATRIX.md — requirement-to-task traceability map",
     "- OPEN_QUESTIONS.md — unresolved decisions",
     "- FIRST_60_MINUTES.md — local runbook",
     "- RISK_REGISTER.md — risk table",
@@ -846,6 +1045,7 @@ export function exportDocumentBundle(
     "SPEC.md": buildSpec(document, patches),
     "AGENT_HANDOFF.md": buildAgentHandoff(document),
     "TASKS.md": buildTasks(document, patches),
+    "TRACEABILITY_MATRIX.md": buildTraceabilityMatrix(document),
     "OPEN_QUESTIONS.md": buildOpenQuestions(document, clarifications),
     "FIRST_60_MINUTES.md": buildFirst60Minutes(document),
     "RISK_REGISTER.md": buildRiskRegister(document),

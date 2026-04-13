@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import Image from 'next/image';
 import {
   X,
@@ -14,8 +14,10 @@ import {
   ChevronDown,
   ChevronUp,
 } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, SupportedChains, WalletData } from '@/types/wallets';
+import { cn, getScoreColorClasses } from '@/lib/utils';
+import { copyTextToClipboard } from '@/lib/clipboard';
+import { ScoreBreakdownBar, getScoreBreakdownShortLabel } from '@/components/ScoreBreakdownBar';
+import type { CryptoCard, HardwareWallet, Ramp, ScoreBreakdownEntry, SoftwareWallet, SupportedChains, WalletData } from '@/types/wallets';
 
 // Chain icon configuration
 const chainIcons: { key: keyof Omit<SupportedChains, 'raw' | 'other'>; src: string; alt: string }[] = [
@@ -57,6 +59,103 @@ interface ComparisonToolProps {
   onRemove: (id: string) => void;
   onClear: () => void;
   onAdd: (id: string) => void;
+  onClose?: () => void;
+}
+
+type ScoreBreakdownRow = {
+  key: string;
+  label: string;
+  values: (ScoreBreakdownEntry | null)[];
+};
+
+function buildScoreBreakdownRows(wallets: { scoreBreakdown: ScoreBreakdownEntry[] }[]): ScoreBreakdownRow[] {
+  const order: string[] = [];
+  const labels = new Map<string, string>();
+
+  wallets.forEach((wallet) => {
+    wallet.scoreBreakdown.forEach((entry) => {
+      if (!labels.has(entry.key)) {
+        labels.set(entry.key, entry.label);
+        order.push(entry.key);
+      }
+    });
+  });
+
+  return order.map((key) => ({
+    key,
+    label: labels.get(key) || key,
+    values: wallets.map((wallet) => wallet.scoreBreakdown.find((entry) => entry.key === key) || null),
+  }));
+}
+
+function ScoreBreakdownValue({ entry }: { entry: ScoreBreakdownEntry | null }) {
+  if (!entry || entry.max <= 0) {
+    return <span className="text-muted-foreground">-</span>;
+  }
+
+  const pct = Math.max(0, Math.min(100, Math.round((entry.score / entry.max) * 100)));
+  const fillClass = pct >= 80 ? 'bg-green-500' : pct >= 60 ? 'bg-amber-500' : 'bg-red-500';
+
+  return (
+    <div className="mx-auto w-full max-w-[120px] space-y-1" title={`${entry.label}: ${entry.score}/${entry.max}${entry.note ? `\n${entry.note}` : ''}`}>
+      <div className="text-xs font-medium">
+        {entry.score}/{entry.max}
+      </div>
+      <div className="h-1.5 rounded-full bg-muted overflow-hidden">
+        <div className={`h-full ${fillClass}`} style={{ width: `${pct}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function ScoreBreakdownLegendRow({
+  breakdown,
+  valueColSpan,
+}: {
+  breakdown: ScoreBreakdownEntry[];
+  valueColSpan: number;
+}) {
+  if (breakdown.length === 0) return null;
+  const legendBreakdown = breakdown.map((entry) => ({
+    ...entry,
+    score: entry.max,
+    note: '',
+  }));
+
+  return (
+    <tr className="border-b border-border/60 bg-muted/20">
+      <td className="sticky left-0 z-10 border-r border-border bg-muted/20 py-2 px-4 text-xs font-medium text-muted-foreground">
+        Category Weights
+      </td>
+      <td className="py-2 px-4" colSpan={valueColSpan}>
+        <ScoreBreakdownBar
+          breakdown={legendBreakdown}
+          showLegend
+          className="max-w-3xl"
+          barClassName="h-1.5"
+        />
+      </td>
+    </tr>
+  );
+}
+
+function buildScoreDeltaVsNext(values: { score: number; name: string }[]) {
+  return values.map((wallet, index) => {
+    const next = values[index + 1];
+    if (!next) {
+      return <span key={`delta-${wallet.name}`} className="text-muted-foreground">—</span>;
+    }
+
+    const delta = wallet.score - next.score;
+    const tone = delta > 0 ? 'text-green-600 dark:text-green-400' : delta < 0 ? 'text-red-500' : 'text-muted-foreground';
+    const prefix = delta > 0 ? '+' : '';
+
+    return (
+      <span key={`delta-${wallet.name}`} className={cn('font-semibold', tone)}>
+        {prefix}{delta}
+      </span>
+    );
+  });
 }
 
 // Comparison row component
@@ -75,22 +174,31 @@ function ComparisonRow({
   const numericValues = values.map(v =>
     typeof v === 'number' ? v : typeof v === 'boolean' ? (v ? 1 : 0) : null
   );
-  const maxValue = Math.max(...numericValues.filter((v): v is number => v !== null));
+  const rankedValues = numericValues.filter((v): v is number => v !== null);
+  const maxValue = rankedValues.length ? Math.max(...rankedValues) : null;
+  const minValue = rankedValues.length ? Math.min(...rankedValues) : null;
 
   return (
     <tr className={cn('border-b border-border', highlight && 'bg-muted/30')}>
-      <td className="py-3 px-4 font-medium text-sm text-muted-foreground whitespace-nowrap">
+      <td
+        className={cn(
+          'sticky left-0 z-10 border-r border-border py-3 px-4 font-medium text-sm text-muted-foreground whitespace-nowrap',
+          highlight ? 'bg-muted/30' : 'bg-background'
+        )}
+      >
         {label}
       </td>
       {values.map((value, idx) => {
-        const isMax = numericValues[idx] === maxValue && maxValue > 0;
+        const isMax = maxValue !== null && numericValues[idx] === maxValue && maxValue > 0;
+        const isMin = minValue !== null && numericValues[idx] === minValue && !isMax && minValue < (maxValue ?? minValue);
 
         return (
           <td
             key={idx}
             className={cn(
               'py-3 px-4 text-center',
-              isMax && 'bg-green-50 dark:bg-green-900/20'
+              isMax && 'bg-green-100 dark:bg-green-900/40 font-medium',
+              isMin && 'bg-red-100 dark:bg-red-900/30'
             )}
           >
             {isBoolean ? (
@@ -102,9 +210,13 @@ function ComparisonRow({
                 <Minus className="h-5 w-5 text-muted-foreground mx-auto" />
               )
             ) : typeof value === 'number' ? (
-              <span className={cn('font-semibold', isMax && 'text-green-600 dark:text-green-400')}>
-                {value}
-              </span>
+              <div>
+                <span className={cn('font-semibold', isMax && 'text-green-600 dark:text-green-400', isMin && 'text-red-500')}>
+                  {value}
+                </span>
+                {isMax && <span className="block text-[10px] uppercase tracking-wide text-green-700 dark:text-green-400">★ Best</span>}
+                {isMin && <span className="block text-[10px] uppercase tracking-wide text-red-600">Worst</span>}
+              </div>
             ) : value === 'full' || value === 'open' || value === 'recommended' || value === 'active' ? (
               <span className="inline-flex items-center gap-1 text-green-600 dark:text-green-400">
                 <Check className="h-4 w-4" />
@@ -162,7 +274,114 @@ function SectionHeader({
   );
 }
 
-// Software wallet comparison
+// ─── Generic comparison table scaffold ──────────────────────────────────────
+interface BaseItem {
+  id: string;
+  name: string;
+  score: number;
+  scoreBreakdown: ScoreBreakdownEntry[];
+}
+
+type SectionMap<S extends string> = Record<S | 'breakdown', boolean>;
+
+interface ComparisonTableScaffoldProps<T extends BaseItem, S extends string> {
+  items: T[];
+  onRemove: (id: string) => void;
+  sectionKeys: readonly S[];
+  breakdownPrefix: string;
+  renderItemName?: (item: T) => React.ReactNode;
+  renderSections: (
+    sections: SectionMap<S>,
+    toggle: (key: S | 'breakdown') => void,
+    colSpan: number,
+    items: T[],
+    breakdownRows: ScoreBreakdownRow[]
+  ) => React.ReactNode;
+}
+
+function ComparisonTableScaffold<T extends BaseItem, S extends string>({
+  items,
+  onRemove,
+  sectionKeys,
+  breakdownPrefix,
+  renderItemName,
+  renderSections,
+}: ComparisonTableScaffoldProps<T, S>) {
+  const initial = {} as SectionMap<S>;
+  ([...sectionKeys, 'breakdown'] as (S | 'breakdown')[]).forEach((k) => {
+    (initial as Record<string, boolean>)[k] = true;
+  });
+
+  const [sections, setSections] = useState<SectionMap<S>>(initial);
+
+  const toggle = useCallback((section: S | 'breakdown') => {
+    setSections(prev => ({ ...prev, [section]: !prev[section as keyof SectionMap<S>] }));
+  }, []);
+
+  const colSpan = items.length + 1;
+  const breakdownRows = useMemo(() => buildScoreBreakdownRows(items), [items]);
+
+  return (
+    <table className="w-full">
+      <thead className="sticky top-0 z-10">
+        <tr className="border-b border-border bg-background">
+          <th className="sticky left-0 z-20 bg-background border-r border-border py-4 px-4 text-left w-48">Feature</th>
+          {items.map(item => (
+            <th key={item.id} data-compare-column tabIndex={0} className="py-4 px-4 text-center min-w-[140px] outline-none focus-visible:ring-2 focus-visible:ring-primary">
+              <div className="flex flex-col items-center gap-2">
+                <div className="flex items-center gap-2">
+                  {renderItemName ? renderItemName(item) : <span className="font-bold">{item.name}</span>}
+                  <button
+                    onClick={() => onRemove(item.id)}
+                    className="p-1 hover:bg-muted rounded"
+                    title="Remove from comparison"
+                    aria-label={`Remove ${item.name} from comparison`}
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+                <div
+                  className={cn(
+                    'w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg',
+                    getScoreColorClasses(item.score)
+                  )}
+                >
+                  {item.score}
+                </div>
+              </div>
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {renderSections(sections, toggle, colSpan, items, breakdownRows)}
+        <SectionHeader
+          title="Score Breakdown"
+          isOpen={sections.breakdown}
+          onToggle={() => toggle('breakdown')}
+          colSpan={colSpan}
+        />
+        {sections.breakdown && (
+          <ScoreBreakdownLegendRow breakdown={items[0]?.scoreBreakdown ?? []} valueColSpan={items.length} />
+        )}
+        {sections.breakdown && breakdownRows.map((row) => (
+          <ComparisonRow
+            key={`${breakdownPrefix}-breakdown-${row.key}`}
+            label={getScoreBreakdownShortLabel(row.label)}
+            values={row.values.map((entry, idx) => (
+              <ScoreBreakdownValue
+                key={`${breakdownPrefix}-breakdown-${row.key}-${items[idx]?.id || idx}`}
+                entry={entry}
+              />
+            ))}
+          />
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+// ─── Software wallet comparison ──────────────────────────────────────────────
 function SoftwareWalletComparison({
   wallets,
   onRemove,
@@ -170,145 +389,72 @@ function SoftwareWalletComparison({
   wallets: SoftwareWallet[];
   onRemove: (id: string) => void;
 }) {
-  const [sections, setSections] = useState({
-    general: true,
-    security: true,
-    features: true,
-    development: true,
-  });
-
-  const toggleSection = (section: keyof typeof sections) => {
-    setSections(prev => ({ ...prev, [section]: !prev[section] }));
-  };
-
-  const colSpan = wallets.length + 1;
-
   return (
-    <table className="w-full">
-      <thead>
-        <tr className="border-b border-border">
-          <th className="py-4 px-4 text-left w-48">Feature</th>
-          {wallets.map(wallet => (
-            <th key={wallet.id} className="py-4 px-4 text-center min-w-[180px]">
-              <div className="flex flex-col items-center gap-2">
-                <div className="flex items-center gap-2">
-                  <span className="font-bold">{wallet.name}</span>
-                  <button
-                    onClick={() => onRemove(wallet.id)}
-                    className="p-1 hover:bg-muted rounded"
-                    title="Remove from comparison"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                </div>
-                <div
-                  className={cn(
-                    'w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg',
-                    wallet.score >= 75 && 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
-                    wallet.score >= 50 && wallet.score < 75 && 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400',
-                    wallet.score < 50 && 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
-                  )}
-                >
-                  {wallet.score}
-                </div>
-              </div>
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {/* General Section */}
-        <SectionHeader
-          title="General"
-          isOpen={sections.general}
-          onToggle={() => toggleSection('general')}
-          colSpan={colSpan}
-        />
-        {sections.general && (
-          <>
-            <ComparisonRow label="Score" values={wallets.map(w => w.score)} highlight />
-            <ComparisonRow label="Recommendation" values={wallets.map(w => w.recommendation)} />
-            <ComparisonRow label="Best For" values={wallets.map(w => w.bestFor)} />
-            <ComparisonRow label="Chain Support" values={wallets.map(w => <ChainSupportDisplay key={w.id} chains={w.chains} />)} />
-            <ComparisonRow label="Mobile App" values={wallets.map(w => w.devices.mobile)} isBoolean />
-            <ComparisonRow label="Browser Extension" values={wallets.map(w => w.devices.browser)} isBoolean />
-            <ComparisonRow label="Desktop App" values={wallets.map(w => w.devices.desktop)} isBoolean />
-          </>
-        )}
-
-        {/* Security Section */}
-        <SectionHeader
-          title="Security & Trust"
-          isOpen={sections.security}
-          onToggle={() => toggleSection('security')}
-          colSpan={colSpan}
-        />
-        {sections.security && (
-          <>
-            <ComparisonRow label="License" values={wallets.map(w => w.licenseType)} />
-            <ComparisonRow label="Open Source" values={wallets.map(w => w.license)} />
-            <ComparisonRow label="Security Audits" values={wallets.map(w => w.audits)} />
-            <ComparisonRow label="Funding" values={wallets.map(w => `${w.funding} (${w.fundingSource})`)} />
-            <ComparisonRow label="Tx Simulation" values={wallets.map(w => w.txSimulation)} isBoolean />
-            <ComparisonRow label="Scam Alerts" values={wallets.map(w => w.scamAlerts)} />
-          </>
-        )}
-
-        {/* Features Section */}
-        <SectionHeader
-          title="Features"
-          isOpen={sections.features}
-          onToggle={() => toggleSection('features')}
-          colSpan={colSpan}
-        />
-        {sections.features && (
-          <>
-            <ComparisonRow label="Custom RPC" values={wallets.map(w => w.rpc)} />
-            <ComparisonRow label="Testnet Support" values={wallets.map(w => w.testnets)} isBoolean />
-            <ComparisonRow label="Account Types" values={wallets.map(w => w.accountTypes.join(', '))} />
-            <ComparisonRow label="ENS/Naming" values={wallets.map(w => w.ensNaming)} />
-            <ComparisonRow label="Hardware Wallet Support" values={wallets.map(w => w.hardwareSupport)} isBoolean />
-          </>
-        )}
-
-        {/* Development Section */}
-        <SectionHeader
-          title="Development Activity"
-          isOpen={sections.development}
-          onToggle={() => toggleSection('development')}
-          colSpan={colSpan}
-        />
-        {sections.development && (
-          <>
-            <ComparisonRow label="Activity Status" values={wallets.map(w => w.active)} />
-            <ComparisonRow label="Releases/Month" values={wallets.map(w => w.releasesPerMonth)} />
-            <ComparisonRow
-              label="GitHub"
-              values={wallets.map(w =>
-                w.github ? (
-                  <a
-                    key={w.id}
-                    href={w.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline inline-flex items-center gap-1"
-                  >
-                    <Github className="h-4 w-4" />
-                    View
-                  </a>
-                ) : (
-                  'Private'
-                )
-              )}
-            />
-          </>
-        )}
-      </tbody>
-    </table>
+    <ComparisonTableScaffold
+      items={wallets}
+      onRemove={onRemove}
+      sectionKeys={['general', 'security', 'features', 'development'] as const}
+      breakdownPrefix="software"
+      renderSections={(sections, toggle, colSpan, items) => (
+        <>
+          <SectionHeader title="General" isOpen={sections.general} onToggle={() => toggle('general')} colSpan={colSpan} />
+          {sections.general && (
+            <>
+              <ComparisonRow label="Score Delta (vs next)" values={buildScoreDeltaVsNext(items)} />
+              <ComparisonRow label="Score" values={items.map(w => w.score)} highlight />
+              <ComparisonRow label="Recommendation" values={items.map(w => w.recommendation)} />
+              <ComparisonRow label="Best For" values={items.map(w => w.bestFor)} />
+              <ComparisonRow label="Chain Support" values={items.map(w => <ChainSupportDisplay key={w.id} chains={w.chains} />)} />
+              <ComparisonRow label="Mobile App" values={items.map(w => w.devices.mobile)} isBoolean />
+              <ComparisonRow label="Browser Extension" values={items.map(w => w.devices.browser)} isBoolean />
+              <ComparisonRow label="Desktop App" values={items.map(w => w.devices.desktop)} isBoolean />
+            </>
+          )}
+          <SectionHeader title="Security & Trust" isOpen={sections.security} onToggle={() => toggle('security')} colSpan={colSpan} />
+          {sections.security && (
+            <>
+              <ComparisonRow label="License" values={items.map(w => w.licenseType)} />
+              <ComparisonRow label="Open Source" values={items.map(w => w.license)} />
+              <ComparisonRow label="Security Audits" values={items.map(w => w.audits)} />
+              <ComparisonRow label="Funding" values={items.map(w => `${w.funding} (${w.fundingSource})`)} />
+              <ComparisonRow label="Tx Simulation" values={items.map(w => w.txSimulation)} isBoolean />
+              <ComparisonRow label="Scam Alerts" values={items.map(w => w.scamAlerts)} />
+            </>
+          )}
+          <SectionHeader title="Features" isOpen={sections.features} onToggle={() => toggle('features')} colSpan={colSpan} />
+          {sections.features && (
+            <>
+              <ComparisonRow label="Custom RPC" values={items.map(w => w.rpc)} />
+              <ComparisonRow label="Testnet Support" values={items.map(w => w.testnets)} isBoolean />
+              <ComparisonRow label="Account Types" values={items.map(w => w.accountTypes.join(', '))} />
+              <ComparisonRow label="ENS/Naming" values={items.map(w => w.ensNaming)} />
+              <ComparisonRow label="Hardware Wallet Support" values={items.map(w => w.hardwareSupport)} isBoolean />
+            </>
+          )}
+          <SectionHeader title="Development Activity" isOpen={sections.development} onToggle={() => toggle('development')} colSpan={colSpan} />
+          {sections.development && (
+            <>
+              <ComparisonRow label="Activity Status" values={items.map(w => w.active)} />
+              <ComparisonRow label="Releases/Month" values={items.map(w => w.releasesPerMonth)} />
+              <ComparisonRow
+                label="GitHub"
+                values={items.map(w =>
+                  w.github ? (
+                    <a key={w.id} href={w.github} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline inline-flex items-center gap-1">
+                      <Github className="h-4 w-4" />View
+                    </a>
+                  ) : 'Private'
+                )}
+              />
+            </>
+          )}
+        </>
+      )}
+    />
   );
 }
 
-// Hardware wallet comparison
+// ─── Hardware wallet comparison ──────────────────────────────────────────────
 function HardwareWalletComparison({
   wallets,
   onRemove,
@@ -316,140 +462,67 @@ function HardwareWalletComparison({
   wallets: HardwareWallet[];
   onRemove: (id: string) => void;
 }) {
-  const [sections, setSections] = useState({
-    general: true,
-    security: true,
-    features: true,
-  });
-
-  const toggleSection = (section: keyof typeof sections) => {
-    setSections(prev => ({ ...prev, [section]: !prev[section] }));
-  };
-
-  const colSpan = wallets.length + 1;
-
   return (
-    <table className="w-full">
-      <thead>
-        <tr className="border-b border-border">
-          <th className="py-4 px-4 text-left w-48">Feature</th>
-          {wallets.map(wallet => (
-            <th key={wallet.id} className="py-4 px-4 text-center min-w-[180px]">
-              <div className="flex flex-col items-center gap-2">
-                <div className="flex items-center gap-2">
-                  <span className="font-bold">{wallet.name}</span>
-                  <button
-                    onClick={() => onRemove(wallet.id)}
-                    className="p-1 hover:bg-muted rounded"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                </div>
-                <div
-                  className={cn(
-                    'w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg',
-                    wallet.score >= 75 && 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
-                    wallet.score >= 50 && wallet.score < 75 && 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400',
-                    wallet.score < 50 && 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
-                  )}
-                >
-                  {wallet.score}
-                </div>
-              </div>
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {/* General Section */}
-        <SectionHeader
-          title="General"
-          isOpen={sections.general}
-          onToggle={() => toggleSection('general')}
-          colSpan={colSpan}
-        />
-        {sections.general && (
-          <>
-            <ComparisonRow label="Score" values={wallets.map(w => w.score)} highlight />
-            <ComparisonRow label="Recommendation" values={wallets.map(w => w.recommendation)} />
-            <ComparisonRow label="Price" values={wallets.map(w => w.priceText)} />
-            <ComparisonRow label="Display" values={wallets.map(w => w.display)} />
-            <ComparisonRow label="Connectivity" values={wallets.map(w => w.connectivity.join(', '))} />
-          </>
-        )}
-
-        {/* Security Section */}
-        <SectionHeader
-          title="Security"
-          isOpen={sections.security}
-          onToggle={() => toggleSection('security')}
-          colSpan={colSpan}
-        />
-        {sections.security && (
-          <>
-            <ComparisonRow label="Air-Gapped" values={wallets.map(w => w.airGap)} isBoolean />
-            <ComparisonRow label="Secure Element" values={wallets.map(w => w.secureElement)} isBoolean />
-            <ComparisonRow label="SE Type" values={wallets.map(w => w.secureElementType || '-')} />
-            <ComparisonRow label="Open Source" values={wallets.map(w => w.openSource)} />
-          </>
-        )}
-
-        {/* Features Section */}
-        <SectionHeader
-          title="Development"
-          isOpen={sections.features}
-          onToggle={() => toggleSection('features')}
-          colSpan={colSpan}
-        />
-        {sections.features && (
-          <>
-            <ComparisonRow label="Activity Status" values={wallets.map(w => w.active)} />
-            <ComparisonRow
-              label="GitHub"
-              values={wallets.map(w =>
-                w.github ? (
-                  <a
-                    key={w.id}
-                    href={w.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline inline-flex items-center gap-1"
-                  >
-                    <Github className="h-4 w-4" />
-                    View
-                  </a>
-                ) : (
-                  'Private'
-                )
-              )}
-            />
-            <ComparisonRow
-              label="Website"
-              values={wallets.map(w =>
-                w.url ? (
-                  <a
-                    key={w.id}
-                    href={w.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline inline-flex items-center gap-1"
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                    Visit
-                  </a>
-                ) : (
-                  '-'
-                )
-              )}
-            />
-          </>
-        )}
-      </tbody>
-    </table>
+    <ComparisonTableScaffold
+      items={wallets}
+      onRemove={onRemove}
+      sectionKeys={['general', 'security', 'features'] as const}
+      breakdownPrefix="hardware"
+      renderSections={(sections, toggle, colSpan, items) => (
+        <>
+          <SectionHeader title="General" isOpen={sections.general} onToggle={() => toggle('general')} colSpan={colSpan} />
+          {sections.general && (
+            <>
+              <ComparisonRow label="Score Delta (vs next)" values={buildScoreDeltaVsNext(items)} />
+              <ComparisonRow label="Score" values={items.map(w => w.score)} highlight />
+              <ComparisonRow label="Recommendation" values={items.map(w => w.recommendation)} />
+              <ComparisonRow label="Price" values={items.map(w => w.priceText)} />
+              <ComparisonRow label="Display" values={items.map(w => w.display)} />
+              <ComparisonRow label="Connectivity" values={items.map(w => w.connectivity.join(', '))} />
+            </>
+          )}
+          <SectionHeader title="Security" isOpen={sections.security} onToggle={() => toggle('security')} colSpan={colSpan} />
+          {sections.security && (
+            <>
+              <ComparisonRow label="Air-Gapped" values={items.map(w => w.airGap)} isBoolean />
+              <ComparisonRow label="Secure Element" values={items.map(w => w.secureElement)} isBoolean />
+              <ComparisonRow label="SE Type" values={items.map(w => w.secureElementType || '-')} />
+              <ComparisonRow label="Open Source" values={items.map(w => w.openSource)} />
+            </>
+          )}
+          <SectionHeader title="Development" isOpen={sections.features} onToggle={() => toggle('features')} colSpan={colSpan} />
+          {sections.features && (
+            <>
+              <ComparisonRow label="Activity Status" values={items.map(w => w.active)} />
+              <ComparisonRow
+                label="GitHub"
+                values={items.map(w =>
+                  w.github ? (
+                    <a key={w.id} href={w.github} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline inline-flex items-center gap-1">
+                      <Github className="h-4 w-4" />View
+                    </a>
+                  ) : 'Private'
+                )}
+              />
+              <ComparisonRow
+                label="Website"
+                values={items.map(w =>
+                  w.url ? (
+                    <a key={w.id} href={w.url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline inline-flex items-center gap-1">
+                      <ExternalLink className="h-4 w-4" />Visit
+                    </a>
+                  ) : '-'
+                )}
+              />
+            </>
+          )}
+        </>
+      )}
+    />
   );
 }
 
-// Crypto card comparison
+// ─── Crypto card comparison ───────────────────────────────────────────────────
 function CryptoCardComparison({
   cards,
   onRemove,
@@ -457,123 +530,59 @@ function CryptoCardComparison({
   cards: CryptoCard[];
   onRemove: (id: string) => void;
 }) {
-  const [sections, setSections] = useState({
-    general: true,
-    rewards: true,
-    fees: true,
-  });
-
-  const toggleSection = (section: keyof typeof sections) => {
-    setSections(prev => ({ ...prev, [section]: !prev[section] }));
-  };
-
-  const colSpan = cards.length + 1;
-
   return (
-    <table className="w-full">
-      <thead>
-        <tr className="border-b border-border">
-          <th className="py-4 px-4 text-left w-48">Feature</th>
-          {cards.map(card => (
-            <th key={card.id} className="py-4 px-4 text-center min-w-[180px]">
-              <div className="flex flex-col items-center gap-2">
-                <div className="flex items-center gap-2">
-                  <span className="font-bold">{card.name}</span>
-                  <button
-                    onClick={() => onRemove(card.id)}
-                    className="p-1 hover:bg-muted rounded"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                </div>
-                <div
-                  className={cn(
-                    'w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg',
-                    card.score >= 75 && 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
-                    card.score >= 50 && card.score < 75 && 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400',
-                    card.score < 50 && 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
-                  )}
-                >
-                  {card.score}
-                </div>
-              </div>
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {/* General Section */}
-        <SectionHeader
-          title="General"
-          isOpen={sections.general}
-          onToggle={() => toggleSection('general')}
-          colSpan={colSpan}
-        />
-        {sections.general && (
-          <>
-            <ComparisonRow label="Score" values={cards.map(c => c.score)} highlight />
-            <ComparisonRow label="Card Type" values={cards.map(c => c.cardType)} />
-            <ComparisonRow label="Provider" values={cards.map(c => c.provider)} />
-            <ComparisonRow label="Region" values={cards.map(c => c.region)} />
-            <ComparisonRow label="Business Support" values={cards.map(c => c.businessSupport === 'yes')} isBoolean />
-            <ComparisonRow label="Status" values={cards.map(c => c.status)} />
-          </>
-        )}
-
-        {/* Rewards Section */}
-        <SectionHeader
-          title="Rewards"
-          isOpen={sections.rewards}
-          onToggle={() => toggleSection('rewards')}
-          colSpan={colSpan}
-        />
-        {sections.rewards && (
-          <>
-            <ComparisonRow label="Cashback" values={cards.map(c => c.cashBack)} />
-            <ComparisonRow label="Max Cashback %" values={cards.map(c => c.cashBackMax)} highlight />
-            <ComparisonRow label="Reward Token" values={cards.map(c => c.rewards)} />
-            <ComparisonRow label="Best For" values={cards.map(c => c.bestFor)} />
-          </>
-        )}
-
-        {/* Fees Section */}
-        <SectionHeader
-          title="Fees"
-          isOpen={sections.fees}
-          onToggle={() => toggleSection('fees')}
-          colSpan={colSpan}
-        />
-        {sections.fees && (
-          <>
-            <ComparisonRow label="Annual Fee" values={cards.map(c => c.annualFee)} />
-            <ComparisonRow label="FX Fee" values={cards.map(c => c.fxFee)} />
-            <ComparisonRow
-              label="Apply"
-              values={cards.map(c =>
-                c.providerUrl ? (
-                  <a
-                    key={c.id}
-                    href={c.providerUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline inline-flex items-center gap-1"
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                    Apply
-                  </a>
-                ) : (
-                  '-'
-                )
-              )}
-            />
-          </>
-        )}
-      </tbody>
-    </table>
+    <ComparisonTableScaffold
+      items={cards}
+      onRemove={onRemove}
+      sectionKeys={['general', 'rewards', 'fees'] as const}
+      breakdownPrefix="cards"
+      renderSections={(sections, toggle, colSpan, items) => (
+        <>
+          <SectionHeader title="General" isOpen={sections.general} onToggle={() => toggle('general')} colSpan={colSpan} />
+          {sections.general && (
+            <>
+              <ComparisonRow label="Score Delta (vs next)" values={buildScoreDeltaVsNext(items)} />
+              <ComparisonRow label="Score" values={items.map(c => c.score)} highlight />
+              <ComparisonRow label="Card Type" values={items.map(c => c.cardType)} />
+              <ComparisonRow label="Provider" values={items.map(c => c.provider)} />
+              <ComparisonRow label="Region" values={items.map(c => c.region)} />
+              <ComparisonRow label="Business Support" values={items.map(c => c.businessSupport === 'yes')} isBoolean />
+              <ComparisonRow label="Status" values={items.map(c => c.status)} />
+            </>
+          )}
+          <SectionHeader title="Rewards" isOpen={sections.rewards} onToggle={() => toggle('rewards')} colSpan={colSpan} />
+          {sections.rewards && (
+            <>
+              <ComparisonRow label="Cashback" values={items.map(c => c.cashBack)} />
+              <ComparisonRow label="Max Cashback %" values={items.map(c => c.cashBackMax)} highlight />
+              <ComparisonRow label="Reward Token" values={items.map(c => c.rewards)} />
+              <ComparisonRow label="Best For" values={items.map(c => c.bestFor)} />
+            </>
+          )}
+          <SectionHeader title="Fees" isOpen={sections.fees} onToggle={() => toggle('fees')} colSpan={colSpan} />
+          {sections.fees && (
+            <>
+              <ComparisonRow label="Annual Fee" values={items.map(c => c.annualFee)} />
+              <ComparisonRow label="FX Fee" values={items.map(c => c.fxFee)} />
+              <ComparisonRow
+                label="Apply"
+                values={items.map(c =>
+                  c.providerUrl ? (
+                    <a key={c.id} href={c.providerUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline inline-flex items-center gap-1">
+                      <ExternalLink className="h-4 w-4" />Apply
+                    </a>
+                  ) : '-'
+                )}
+              />
+            </>
+          )}
+        </>
+      )}
+    />
   );
 }
 
-// Ramp comparison
+// ─── Ramp comparison ──────────────────────────────────────────────────────────
 function RampComparison({
   ramps,
   onRemove,
@@ -581,156 +590,161 @@ function RampComparison({
   ramps: Ramp[];
   onRemove: (id: string) => void;
 }) {
-  const [sections, setSections] = useState({
-    general: true,
-    features: true,
-    fees: true,
-    links: true,
-  });
-
-  const toggleSection = (section: keyof typeof sections) => {
-    setSections(prev => ({ ...prev, [section]: !prev[section] }));
-  };
-
-  const colSpan = ramps.length + 1;
-
   return (
-    <table className="w-full">
-      <thead>
-        <tr className="border-b border-border">
-          <th className="py-4 px-4 text-left w-48">Feature</th>
-          {ramps.map(ramp => (
-            <th key={ramp.id} className="py-4 px-4 text-center min-w-[180px]">
-              <div className="flex flex-col items-center gap-2">
-                <div className="flex items-center gap-2">
-                  {ramp.url ? (
-                    <a
-                      href={ramp.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-bold text-foreground hover:text-primary hover:underline"
-                    >
-                      {ramp.name}
+    <ComparisonTableScaffold
+      items={ramps}
+      onRemove={onRemove}
+      sectionKeys={['general', 'features', 'fees', 'links'] as const}
+      breakdownPrefix="ramps"
+      renderItemName={(item) =>
+        item.url ? (
+          <a href={item.url} target="_blank" rel="noopener noreferrer" className="font-bold text-foreground hover:text-primary hover:underline">
+            {item.name}
+          </a>
+        ) : (
+          <span className="font-bold">{item.name}</span>
+        )
+      }
+      renderSections={(sections, toggle, colSpan, items) => (
+        <>
+          <SectionHeader title="General" isOpen={sections.general} onToggle={() => toggle('general')} colSpan={colSpan} />
+          {sections.general && (
+            <>
+              <ComparisonRow label="Score Delta (vs next)" values={buildScoreDeltaVsNext(items)} />
+              <ComparisonRow label="Score" values={items.map(r => r.score)} highlight />
+              <ComparisonRow label="Recommendation" values={items.map(r => r.recommendation)} />
+              <ComparisonRow label="Type" values={items.map(r => r.rampType)} />
+              <ComparisonRow label="On-Ramp" values={items.map(r => r.onRamp)} isBoolean />
+              <ComparisonRow label="Off-Ramp" values={items.map(r => r.offRamp)} isBoolean />
+              <ComparisonRow label="Coverage" values={items.map(r => r.coverage)} />
+              <ComparisonRow label="Founded" values={items.map(r => r.foundedYear ?? '-')} />
+              <ComparisonRow label="Funding" values={items.map(r => `${r.funding} (${r.fundingSource})`)} />
+              <ComparisonRow label="Best For" values={items.map(r => r.bestFor)} />
+            </>
+          )}
+          <SectionHeader title="Features" isOpen={sections.features} onToggle={() => toggle('features')} colSpan={colSpan} />
+          {sections.features && (
+            <>
+              <ComparisonRow label="Dev UX" values={items.map(r => r.devUx)} />
+              <ComparisonRow label="Status" values={items.map(r => r.status)} />
+            </>
+          )}
+          <SectionHeader title="Fees" isOpen={sections.fees} onToggle={() => toggle('fees')} colSpan={colSpan} />
+          {sections.fees && (
+            <>
+              <ComparisonRow label="Fee Model" values={items.map(r => r.feeModel)} />
+              <ComparisonRow label="Min Fee" values={items.map(r => r.minFee)} />
+            </>
+          )}
+          <SectionHeader title="Links" isOpen={sections.links} onToggle={() => toggle('links')} colSpan={colSpan} />
+          {sections.links && (
+            <>
+              <ComparisonRow
+                label="Website"
+                values={items.map(r =>
+                  r.url ? (
+                    <a key={r.id} href={r.url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline inline-flex items-center gap-1">
+                      <ExternalLink className="h-4 w-4" />Visit
                     </a>
-                  ) : (
-                    <span className="font-bold">{ramp.name}</span>
-                  )}
-                  <button
-                    onClick={() => onRemove(ramp.id)}
-                    className="p-1 hover:bg-muted rounded"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                </div>
-                <div
-                  className={cn(
-                    'w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg',
-                    ramp.score >= 75 && 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
-                    ramp.score >= 50 && ramp.score < 75 && 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400',
-                    ramp.score < 50 && 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
-                  )}
-                >
-                  {ramp.score}
-                </div>
-              </div>
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {/* General Section */}
-        <SectionHeader
-          title="General"
-          isOpen={sections.general}
-          onToggle={() => toggleSection('general')}
-          colSpan={colSpan}
-        />
-        {sections.general && (
-          <>
-            <ComparisonRow label="Score" values={ramps.map(r => r.score)} highlight />
-            <ComparisonRow label="Recommendation" values={ramps.map(r => r.recommendation)} />
-            <ComparisonRow label="Type" values={ramps.map(r => r.rampType)} />
-            <ComparisonRow label="On-Ramp" values={ramps.map(r => r.onRamp)} isBoolean />
-            <ComparisonRow label="Off-Ramp" values={ramps.map(r => r.offRamp)} isBoolean />
-            <ComparisonRow label="Coverage" values={ramps.map(r => r.coverage)} />
-            <ComparisonRow label="Best For" values={ramps.map(r => r.bestFor)} />
-          </>
-        )}
-
-        {/* Features Section */}
-        <SectionHeader
-          title="Features"
-          isOpen={sections.features}
-          onToggle={() => toggleSection('features')}
-          colSpan={colSpan}
-        />
-        {sections.features && (
-          <>
-            <ComparisonRow label="Dev UX" values={ramps.map(r => r.devUx)} />
-            <ComparisonRow label="Status" values={ramps.map(r => r.status)} />
-          </>
-        )}
-
-        {/* Fees Section */}
-        <SectionHeader
-          title="Fees"
-          isOpen={sections.fees}
-          onToggle={() => toggleSection('fees')}
-          colSpan={colSpan}
-        />
-        {sections.fees && (
-          <>
-            <ComparisonRow label="Fee Model" values={ramps.map(r => r.feeModel)} />
-            <ComparisonRow label="Min Fee" values={ramps.map(r => r.minFee)} />
-          </>
-        )}
-
-        {/* Links Section */}
-        <SectionHeader
-          title="Links"
-          isOpen={sections.links}
-          onToggle={() => toggleSection('links')}
-          colSpan={colSpan}
-        />
-        {sections.links && (
-          <>
-            <ComparisonRow
-              label="Website"
-              values={ramps.map(r =>
-                r.url ? (
-                  <a
-                    key={r.id}
-                    href={r.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline inline-flex items-center gap-1"
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                    Visit
-                  </a>
-                ) : (
-                  '-'
-                )
-              )}
-            />
-          </>
-        )}
-      </tbody>
-    </table>
+                  ) : '-'
+                )}
+              />
+            </>
+          )}
+        </>
+      )}
+    />
   );
 }
 
-// Export/Share functions
-function generateComparisonText(wallets: WalletData[], type: string): string {
-  const lines = [`Wallet Radar - ${type} Comparison\n`];
-  lines.push(`Generated: ${new Date().toLocaleDateString()}\n`);
-  lines.push('---\n');
+function toCsvCell(value: unknown): string {
+  const str = String(value ?? '');
+  if (!/[",\n]/.test(str)) return str;
+  return `"${str.replaceAll('"', '""')}"`;
+}
 
-  wallets.forEach(w => {
-    lines.push(`${w.name}: Score ${w.score}`);
-  });
+function generateComparisonCsv(wallets: WalletData[], type: ComparisonToolProps['type']): string {
+  let rows: string[][] = [];
 
-  return lines.join('\n');
+  if (type === 'software') {
+    const typed = wallets as SoftwareWallet[];
+    rows = [
+      ['Name', 'Score', 'Recommendation', 'Best For', 'Mobile', 'Browser', 'Desktop', 'License', 'Audits', 'Funding', 'Activity'],
+      ...typed.map((wallet) => [
+        wallet.name,
+        wallet.score,
+        wallet.recommendation,
+        wallet.bestFor,
+        wallet.devices.mobile ? 'yes' : 'no',
+        wallet.devices.browser ? 'yes' : 'no',
+        wallet.devices.desktop ? 'yes' : 'no',
+        wallet.licenseType,
+        wallet.audits,
+        `${wallet.funding} (${wallet.fundingSource})`,
+        wallet.active,
+      ].map(String)),
+    ];
+  }
+
+  if (type === 'hardware') {
+    const typed = wallets as HardwareWallet[];
+    rows = [
+      ['Name', 'Score', 'Recommendation', 'Price', 'Display', 'Connectivity', 'AirGap', 'SecureElement', 'OpenSource', 'Activity'],
+      ...typed.map((wallet) => [
+        wallet.name,
+        wallet.score,
+        wallet.recommendation,
+        wallet.priceText,
+        wallet.display,
+        wallet.connectivity.join(' / '),
+        wallet.airGap ? 'yes' : 'no',
+        wallet.secureElement ? 'yes' : 'no',
+        wallet.openSource,
+        wallet.active,
+      ].map(String)),
+    ];
+  }
+
+  if (type === 'cards') {
+    const typed = wallets as CryptoCard[];
+    rows = [
+      ['Name', 'Score', 'CardType', 'Provider', 'Region', 'Cashback', 'AnnualFee', 'FXFee', 'Status', 'BusinessSupport'],
+      ...typed.map((card) => [
+        card.name,
+        card.score,
+        card.cardType,
+        card.provider,
+        card.region,
+        card.cashBack,
+        card.annualFee,
+        card.fxFee,
+        card.status,
+        card.businessSupport,
+      ].map(String)),
+    ];
+  }
+
+  if (type === 'ramps') {
+    const typed = wallets as Ramp[];
+    rows = [
+      ['Name', 'Score', 'Recommendation', 'Type', 'OnRamp', 'OffRamp', 'Coverage', 'FeeModel', 'MinFee', 'DevUX', 'Status'],
+      ...typed.map((ramp) => [
+        ramp.name,
+        ramp.score,
+        ramp.recommendation,
+        ramp.rampType,
+        ramp.onRamp ? 'yes' : 'no',
+        ramp.offRamp ? 'yes' : 'no',
+        ramp.coverage,
+        ramp.feeModel,
+        ramp.minFee,
+        ramp.devUx,
+        ramp.status,
+      ].map(String)),
+    ];
+  }
+
+  return rows.map((row) => row.map(toCsvCell).join(',')).join('\n');
 }
 
 export function ComparisonTool({
@@ -740,44 +754,70 @@ export function ComparisonTool({
   onRemove,
   onClear,
   onAdd,
+  onClose,
 }: ComparisonToolProps) {
   const [showAddModal, setShowAddModal] = useState(false);
-  const [showCopied, setShowCopied] = useState(false);
+  const [copyStatus, setCopyStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const comparisonContainerRef = useRef<HTMLDivElement | null>(null);
 
   const selectedIds = selectedWallets.map(w => w.id);
   const availableWallets = allWallets.filter(w => !selectedIds.includes(w.id));
 
   // Auto-hide copied notification
   useEffect(() => {
-    if (showCopied) {
-      const timer = setTimeout(() => setShowCopied(false), 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [showCopied]);
+    if (copyStatus === 'idle') return;
+    const timer = setTimeout(() => setCopyStatus('idle'), 2500);
+    return () => clearTimeout(timer);
+  }, [copyStatus]);
 
   const handleExport = () => {
-    const text = generateComparisonText(selectedWallets, type);
-    const blob = new Blob([text], { type: 'text/plain' });
+    const csv = generateComparisonCsv(selectedWallets, type);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `wallet-comparison-${type}-${Date.now()}.txt`;
+    a.download = `wallet-comparison-${type}-${Date.now()}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   };
 
-  const handleShare = async () => {
-    const text = generateComparisonText(selectedWallets, type);
-    if (navigator.share) {
-      await navigator.share({
-        title: `Wallet Radar - ${type} Comparison`,
-        text,
-      });
-    } else {
-      await navigator.clipboard.writeText(text);
-      setShowCopied(true);
+  const handleCopyLink = async () => {
+    const link = window.location.href;
+    try {
+      const copied = await copyTextToClipboard(link);
+      if (!copied) throw new Error('Copy command failed');
+      setCopyStatus('success');
+    } catch {
+      setCopyStatus('error');
     }
   };
+
+  const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Escape') {
+      if (showAddModal) {
+        setShowAddModal(false);
+      } else {
+        onClose?.();
+      }
+      return;
+    }
+
+    if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+
+    const columns = comparisonContainerRef.current?.querySelectorAll<HTMLElement>('[data-compare-column]');
+    if (!columns || columns.length === 0) return;
+
+    const ordered = Array.from(columns);
+    const focused = document.activeElement as HTMLElement | null;
+    const currentIndex = ordered.findIndex((col) => col === focused);
+    const direction = event.key === 'ArrowRight' ? 1 : -1;
+    const nextIndex = currentIndex === -1
+      ? (direction === 1 ? 0 : ordered.length - 1)
+      : (currentIndex + direction + ordered.length) % ordered.length;
+
+    ordered[nextIndex]?.focus();
+    event.preventDefault();
+  }, [onClose, showAddModal]);
 
   if (selectedWallets.length === 0) {
     return (
@@ -793,7 +833,7 @@ export function ComparisonTool({
   }
 
   return (
-    <div className="space-y-4">
+    <div ref={comparisonContainerRef} tabIndex={0} onKeyDown={handleKeyDown} className="space-y-4 outline-none">
       {/* Toolbar */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -815,18 +855,23 @@ export function ComparisonTool({
             className="inline-flex items-center gap-2 px-3 py-1.5 text-sm border border-border rounded-lg hover:bg-muted transition-colors"
           >
             <Download className="h-4 w-4" />
-            Export
+            Export CSV
           </button>
           <button
-            onClick={handleShare}
+            onClick={handleCopyLink}
             className="inline-flex items-center gap-2 px-3 py-1.5 text-sm border border-border rounded-lg hover:bg-muted transition-colors"
           >
             <Share2 className="h-4 w-4" />
-            Share
+            Copy comparison link
           </button>
-          {showCopied && (
-            <span className="text-sm text-green-600 dark:text-green-400 animate-pulse">
-              Copied!
+          {copyStatus === 'success' && (
+            <span className="text-sm text-green-600 dark:text-green-400 animate-fade-in">
+              ✓ Link copied
+            </span>
+          )}
+          {copyStatus === 'error' && (
+            <span className="text-sm text-red-600 dark:text-red-400 animate-fade-in">
+              Copy failed, copy URL manually
             </span>
           )}
           <button
@@ -840,7 +885,7 @@ export function ComparisonTool({
       </div>
 
       {/* Comparison table */}
-      <div className="overflow-x-auto border border-border rounded-lg">
+      <div className="overflow-x-auto [WebkitOverflowScrolling:touch] border border-border rounded-lg">
         {type === 'software' && (
           <SoftwareWalletComparison
             wallets={selectedWallets as SoftwareWallet[]}
@@ -881,7 +926,7 @@ export function ComparisonTool({
               </button>
             </div>
             <div className="space-y-2">
-              {availableWallets.slice(0, 10).map(wallet => (
+              {availableWallets.map(wallet => (
                 <button
                   key={wallet.id}
                   onClick={() => {
@@ -896,9 +941,7 @@ export function ComparisonTool({
                     <div
                       className={cn(
                         'w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold',
-                        wallet.score >= 75 && 'bg-green-100 text-green-700',
-                        wallet.score >= 50 && wallet.score < 75 && 'bg-yellow-100 text-yellow-700',
-                        wallet.score < 50 && 'bg-red-100 text-red-700'
+                        getScoreColorClasses(wallet.score)
                       )}
                     >
                       {wallet.score}

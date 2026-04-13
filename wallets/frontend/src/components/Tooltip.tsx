@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useRef, useLayoutEffect, useEffect } from 'react';
+import { useState, useRef, useLayoutEffect, useEffect, useId } from 'react';
 import { createPortal } from 'react-dom';
+import Link from 'next/link';
 import { HelpCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface TooltipProps {
-  content: string;
+  content: React.ReactNode;
   children?: React.ReactNode;
   /** Show an info icon that triggers the tooltip */
   showIcon?: boolean;
@@ -16,6 +17,10 @@ interface TooltipProps {
   className?: string;
   /** Maximum width of the tooltip */
   maxWidth?: number;
+  /** Optional link to a methodology or detail page */
+  linkHref?: string;
+  /** Optional label for the tooltip link */
+  linkLabel?: string;
 }
 
 export function Tooltip({
@@ -25,11 +30,14 @@ export function Tooltip({
   position = 'top',
   className,
   maxWidth = 280,
+  linkHref,
+  linkLabel = 'Learn more',
 }: TooltipProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isClickOpen, setIsClickOpen] = useState(false);
   const [coords, setCoords] = useState({ top: 0, left: 0 });
   const [isMounted, setIsMounted] = useState(false);
+  const tooltipId = useId();
   const triggerRef = useRef<HTMLSpanElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
 
@@ -65,6 +73,23 @@ export function Tooltip({
       clearTimeout(timeoutId);
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [isVisible]);
+
+  // Close tooltip on viewport shifts to avoid stale positioning.
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const closeTooltip = () => {
+      setIsVisible(false);
+      setIsClickOpen(false);
+    };
+
+    window.addEventListener('resize', closeTooltip);
+    window.addEventListener('scroll', closeTooltip, true);
+    return () => {
+      window.removeEventListener('resize', closeTooltip);
+      window.removeEventListener('scroll', closeTooltip, true);
     };
   }, [isVisible]);
 
@@ -126,17 +151,20 @@ export function Tooltip({
   // Toggle on click/tap (works for both mobile and desktop)
   const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
     e.stopPropagation();
-    setIsVisible(prev => {
-      const next = !prev;
-      setIsClickOpen(next);
-      return next;
-    });
+    if (!isClickOpen) {
+      setIsVisible(true);
+      setIsClickOpen(true);
+      return;
+    }
+    setIsVisible(false);
+    setIsClickOpen(false);
   };
 
   // Show on hover (desktop only, doesn't interfere with click)
   const handleMouseEnter = () => {
-    setIsClickOpen(false);
-    setIsVisible(true);
+    if (!isClickOpen) {
+      setIsVisible(true);
+    }
   };
 
   const handleMouseLeave = (event: React.MouseEvent<HTMLSpanElement>) => {
@@ -151,6 +179,24 @@ export function Tooltip({
     setIsVisible(false);
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLSpanElement>) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      setIsVisible((prev) => {
+        const next = !prev;
+        setIsClickOpen(next);
+        return next;
+      });
+      return;
+    }
+
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      setIsVisible(false);
+      setIsClickOpen(false);
+    }
+  };
+
   return (
     <>
       <span
@@ -159,9 +205,18 @@ export function Tooltip({
         onClick={handleClick}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onFocus={() => setIsVisible(true)}
+        onBlur={(event) => {
+          if (isClickOpen) return;
+          const nextTarget = event.relatedTarget as Node | null;
+          if (nextTarget && tooltipRef.current?.contains(nextTarget)) return;
+          setIsVisible(false);
+        }}
+        onKeyDown={handleKeyDown}
         tabIndex={0}
         role="button"
         aria-expanded={isVisible}
+        aria-describedby={isVisible ? tooltipId : undefined}
         aria-label={showIcon ? 'Show more information' : undefined}
       >
         {children}
@@ -176,6 +231,7 @@ export function Tooltip({
       {isMounted && isVisible && content &&
         createPortal(
           <div
+            id={tooltipId}
             ref={tooltipRef}
             role="tooltip"
             style={{
@@ -189,6 +245,13 @@ export function Tooltip({
             onMouseEnter={() => {
               setIsVisible(true);
             }}
+            onKeyDown={(event) => {
+              if (event.key !== 'Escape') return;
+              event.preventDefault();
+              setIsVisible(false);
+              setIsClickOpen(false);
+              triggerRef.current?.focus();
+            }}
             onMouseLeave={(event) => {
               if (isClickOpen) return;
 
@@ -200,12 +263,26 @@ export function Tooltip({
               setIsVisible(false);
             }}
             className={cn(
-              'px-3 py-2 text-xs font-normal leading-relaxed whitespace-normal',
+              'px-3 py-2 text-xs font-normal leading-relaxed whitespace-pre-line',
               'bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900',
               'rounded-md shadow-xl border border-gray-700 dark:border-gray-300'
             )}
           >
             {content}
+            {linkHref && (
+              <div className="mt-2 pt-2 border-t border-white/15 dark:border-gray-700">
+                <Link
+                  href={linkHref}
+                  className="text-[11px] font-semibold text-blue-300 hover:text-blue-200 dark:text-blue-700 dark:hover:text-blue-800 underline underline-offset-2"
+                  onClick={() => {
+                    setIsVisible(false);
+                    setIsClickOpen(false);
+                  }}
+                >
+                  {linkLabel}
+                </Link>
+              </div>
+            )}
           </div>,
           document.body
         )}
@@ -218,13 +295,15 @@ export function Tooltip({
  */
 interface HeaderTooltipProps {
   label: string;
-  tooltip: string;
+  tooltip: React.ReactNode;
   className?: string;
+  linkHref?: string;
+  linkLabel?: string;
 }
 
-export function HeaderTooltip({ label, tooltip, className }: HeaderTooltipProps) {
+export function HeaderTooltip({ label, tooltip, className, linkHref, linkLabel }: HeaderTooltipProps) {
   return (
-    <Tooltip content={tooltip} showIcon position="bottom" className={className}>
+    <Tooltip content={tooltip} showIcon position="bottom" className={className} linkHref={linkHref} linkLabel={linkLabel}>
       <span>{label}</span>
     </Tooltip>
   );

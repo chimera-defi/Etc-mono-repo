@@ -1,8 +1,16 @@
 import fs from 'fs';
 import path from 'path';
 import type { ApiOpenness, CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData } from '@/types/wallets';
+import scoring from '@/lib/scoring';
 
 export type { ApiOpenness, CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData };
+
+const {
+  computeSoftwareScore,
+  computeHardwareScore,
+  computeCardScore,
+  computeRampScore,
+} = scoring;
 
 // Path to markdown files (one level up from frontend)
 const CONTENT_DIR = path.join(process.cwd(), '..');
@@ -20,10 +28,12 @@ function loadMerchantPricing(): Record<string, { last_checked?: string }> {
 
 // Parse status symbols
 function parseStatus(cell: string): 'active' | 'slow' | 'inactive' | 'private' {
-  if (cell.includes('🔒') || cell.toLowerCase().includes('private')) return 'private';
-  if (cell.includes('✅') || cell.toLowerCase().includes('active')) return 'active';
-  if (cell.includes('⚠️') || cell.toLowerCase().includes('slow')) return 'slow';
-  if (cell.includes('❌') || cell.toLowerCase().includes('inactive')) return 'inactive';
+  const lower = cell.toLowerCase();
+  // Check "inactive" first so it is not misclassified by "active" substring matching.
+  if (cell.includes('❌') || /\binactive\b/.test(lower)) return 'inactive';
+  if (cell.includes('🔒') || /\bprivate\b/.test(lower)) return 'private';
+  if (cell.includes('⚠️') || /\bslow\b/.test(lower)) return 'slow';
+  if (cell.includes('✅') || /\bactive\b/.test(lower)) return 'active';
   return 'private';
 }
 
@@ -270,7 +280,8 @@ function parseCashBackMax(cell: string): number | null {
 }
 
 // Parse card status
-function parseCardStatus(cell: string): 'active' | 'verify' | 'launching' {
+function parseCardStatus(cell: string): 'active' | 'verify' | 'launching' | 'inactive' {
+  if (cell.includes('❌') || cell.toLowerCase().includes('inactive') || cell.toLowerCase().includes('discontinued')) return 'inactive';
   if (cell.includes('✅')) return 'active';
   if (cell.includes('🔄')) return 'launching';
   return 'verify';
@@ -284,24 +295,35 @@ function generateSlug(name: string): string {
     .replace(/^-|-$/g, '');
 }
 
-// Parse markdown table into rows
+// Parse only the primary comparison table from markdown into rows (header + data rows).
 function parseMarkdownTable(content: string): string[][] {
   const lines = content.split('\n');
+  const headerIndex = lines.findIndex((line, index) => (
+    line.startsWith('|') &&
+    index + 1 < lines.length &&
+    /^\|[\s-:|]+\|$/.test(lines[index + 1].trim())
+  ));
+
+  if (headerIndex === -1) return [];
+
   const rows: string[][] = [];
-
-  for (const line of lines) {
-    // Skip non-table lines and separator lines
-    if (!line.startsWith('|') || line.match(/^\|[\s-:|]+\|$/)) continue;
-
-    // Parse cells
-    const cells = line
+  rows.push(
+    lines[headerIndex]
       .split('|')
-      .slice(1, -1) // Remove first and last empty elements
-      .map(cell => cell.trim());
+      .slice(1, -1)
+      .map((cell) => cell.trim())
+  );
 
-    if (cells.length > 0) {
-      rows.push(cells);
-    }
+  for (let i = headerIndex + 2; i < lines.length; i += 1) {
+    const line = lines[i];
+    if (!line.startsWith('|')) break;
+    if (/^\|[\s-:|]+\|$/.test(line.trim())) continue;
+    rows.push(
+      line
+        .split('|')
+        .slice(1, -1)
+        .map((cell) => cell.trim())
+    );
   }
 
   return rows;
@@ -329,6 +351,7 @@ export function parseSoftwareWallets(): SoftwareWallet[] {
 
     const license = parseLicense(cells[10] || '');
     const funding = parseFunding(cells[13] || '');
+    const scoreInfo = computeSoftwareScore(cells);
 
     // Table columns after adding API column (index 11):
     // 0=Wallet, 1=Score, 2=Core, 3=Rel/Mo, 4=RPC, 5=GitHub, 6=Active,
@@ -337,7 +360,9 @@ export function parseSoftwareWallets(): SoftwareWallet[] {
     return {
       id: generateSlug(name),
       name,
-      score: parseInt(cells[1], 10) || 0,
+      score: scoreInfo.score,
+      methodologyVersion: scoreInfo.methodologyVersion,
+      scoreBreakdown: scoreInfo.breakdown,
       core: parsePartial(cells[2] || '') as 'full' | 'partial' | 'none',
       releasesPerMonth: parseReleasesPerMonth(cells[3] || ''),
       rpc: parsePartial(cells[4] || '') as 'full' | 'partial' | 'none',
@@ -358,7 +383,7 @@ export function parseSoftwareWallets(): SoftwareWallet[] {
       ensNaming: parseEnsNaming(cells[17] || ''),
       hardwareSupport: parseBoolean(cells[18] || ''),
       bestFor: cells[19]?.replace(/[~*]/g, '').trim() || '',
-      recommendation: parseRecommendation(cells[20] || ''),
+      recommendation: scoreInfo.recommendation,
       type: 'software' as const,
     };
   }).filter(wallet => wallet.name !== 'Unknown' && wallet.score > 0 && wallet.id !== '');
@@ -389,14 +414,19 @@ export function parseHardwareWallets(): HardwareWallet[] {
 
     // Table columns (HARDWARE_WALLETS.md):
     // Wallet(0) Score(1) GitHub(2) Air-Gap(3) Open Source(4) Secure Elem(5)
-    // Display(6) Price(7) Conn(8) Activity(9) Rec(10)
+    // Display(6) Price(7) Conn(8) Activity(9) Founded(10) Funding(11) Rec(12)
     const price = parsePrice(cells[7] || '');
     const priceLastChecked = pricing[name]?.last_checked ?? null;
+    const foundedYear = parseInt(cells[10] || '', 10);
+    const funding = parseFunding(cells[11] || '');
+    const scoreInfo = computeHardwareScore(cells);
 
     return {
       id: generateSlug(name),
       name,
-      score: parseInt(cells[1], 10) || 0,
+      score: scoreInfo.score,
+      methodologyVersion: scoreInfo.methodologyVersion,
+      scoreBreakdown: scoreInfo.breakdown,
       github: extractGitHubUrl(cells[2] || ''),
       airGap: parseBoolean(cells[3] || ''),
       openSource: parseClosedPartialFull(cells[4] || ''),
@@ -408,7 +438,10 @@ export function parseHardwareWallets(): HardwareWallet[] {
       priceLastChecked,
       connectivity: parseConnectivity(cells[8] || ''),
       active: parseStatus(cells[9] || ''),
-      recommendation: parseHardwareRecommendation(cells[10] || ''),
+      foundedYear: Number.isFinite(foundedYear) ? foundedYear : null,
+      funding: funding.status,
+      fundingSource: funding.source,
+      recommendation: scoreInfo.recommendation as 'recommended' | 'situational' | 'avoid',
       url,
       type: 'hardware' as const,
     };
@@ -452,15 +485,16 @@ export function parseCryptoCards(): CryptoCard[] {
     }
 
     // Parse score (may have emoji)
-    const scoreMatch = cells[1]?.match(/(\d+)/);
-    const score = scoreMatch ? parseInt(scoreMatch[1], 10) : 0;
+    const scoreInfo = computeCardScore(cells);
 
     const region = parseRegion(cells[5] || '');
 
     return {
       id: generateSlug(name),
       name,
-      score,
+      score: scoreInfo.score,
+      methodologyVersion: scoreInfo.methodologyVersion,
+      scoreBreakdown: scoreInfo.breakdown,
       cardType: parseCardType(cells[2] || ''),
       custody: parseCustodyType(cells[3] || ''),
       businessSupport: parseBusinessSupport(cells[4] || ''),
@@ -475,7 +509,7 @@ export function parseCryptoCards(): CryptoCard[] {
       providerUrl: cardUrl, // URL now comes from Card column
       status: parseCardStatus(cells[10] || ''),
       bestFor: cells[11]?.trim() || '',
-      recommendation: parseHardwareRecommendation(cells[1] || ''), // Uses score emoji
+      recommendation: scoreInfo.recommendation as 'recommended' | 'situational' | 'avoid',
       type: 'card' as const,
     };
   }).filter(card => card.name !== 'Unknown' && card.score > 0 && card.id !== '');
@@ -504,6 +538,9 @@ export function parseRamps(): Ramp[] {
   // Skip header row
   const dataRows = rows.slice(1);
 
+  // Table columns (RAMPS.md):
+  // Provider(0) Score(1) Type(2) On-Ramp(3) Off-Ramp(4) Coverage(5) Fee Model(6)
+  // Min Fee(7) Dev UX(8) Status(9) Founded(10) Funding(11) Best For(12)
   return dataRows.map(cells => {
     // Extract provider name and URL from markdown link format: [**Name**](url)
     const linkMatch = cells[0]?.match(/\[(?:\*\*)?([^*]+)(?:\*\*)?\]\(([^)]+)\)/);
@@ -522,13 +559,16 @@ export function parseRamps(): Ramp[] {
     }
 
     // Parse score (may have emoji)
-    const scoreMatch = cells[1]?.match(/(\d+)/);
-    const score = scoreMatch ? parseInt(scoreMatch[1], 10) : 0;
+    const scoreInfo = computeRampScore(cells);
+    const foundedYear = parseInt(cells[10] || '', 10);
+    const funding = parseFunding(cells[11] || '');
 
     return {
       id: generateSlug(name),
       name,
-      score,
+      score: scoreInfo.score,
+      methodologyVersion: scoreInfo.methodologyVersion,
+      scoreBreakdown: scoreInfo.breakdown,
       rampType: parseRampType(cells[2] || ''),
       onRamp: parseBoolean(cells[3] || ''),
       offRamp: parseBoolean(cells[4] || ''),
@@ -537,8 +577,11 @@ export function parseRamps(): Ramp[] {
       minFee: cells[7]?.trim() || 'Custom',
       devUx: cells[8]?.trim() || 'Good',
       status: parseCardStatus(cells[9] || ''),
-      bestFor: cells[10]?.trim() || '',
-      recommendation: parseHardwareRecommendation(cells[1] || ''), // Uses score emoji
+      foundedYear: Number.isFinite(foundedYear) ? foundedYear : null,
+      funding: funding.status,
+      fundingSource: funding.source,
+      bestFor: cells[12]?.trim() || '',
+      recommendation: scoreInfo.recommendation as 'recommended' | 'situational' | 'avoid',
       url,
       type: 'ramp' as const,
     };
@@ -556,7 +599,35 @@ type AllWalletData = {
   ramps: Ramp[];
 };
 
+type WalletTableSummary = {
+  softwareColumns: number;
+  hardwareColumns: number;
+  cardColumns: number;
+  rampColumns: number;
+  totalVisibleColumns: number;
+};
+
 let cachedAllWalletData: AllWalletData | null = null;
+let cachedWalletTableSummary: WalletTableSummary | null = null;
+
+function countFirstTableColumns(fileName: string): number {
+  const filePath = path.join(CONTENT_DIR, fileName);
+  if (!fs.existsSync(filePath)) return 0;
+
+  const content = fs.readFileSync(filePath, 'utf-8');
+  for (const rawLine of content.split('\n')) {
+    const line = rawLine.trim();
+    if (!line.startsWith('|') || line.match(/^\|[\s-:|]+\|$/)) continue;
+    return line
+      .split('|')
+      .slice(1, -1)
+      .map(cell => cell.trim())
+      .filter(Boolean)
+      .length;
+  }
+
+  return 0;
+}
 
 export function getAllWalletData(): AllWalletData {
   if (!cachedAllWalletData) {
@@ -569,6 +640,25 @@ export function getAllWalletData(): AllWalletData {
   }
 
   return cachedAllWalletData;
+}
+
+export function getWalletTableSummary(): WalletTableSummary {
+  if (!cachedWalletTableSummary) {
+    const softwareColumns = countFirstTableColumns('SOFTWARE_WALLETS.md');
+    const hardwareColumns = countFirstTableColumns('HARDWARE_WALLETS.md');
+    const cardColumns = countFirstTableColumns('CRYPTO_CARDS.md');
+    const rampColumns = countFirstTableColumns('RAMPS.md');
+
+    cachedWalletTableSummary = {
+      softwareColumns,
+      hardwareColumns,
+      cardColumns,
+      rampColumns,
+      totalVisibleColumns: softwareColumns + hardwareColumns + cardColumns + rampColumns,
+    };
+  }
+
+  return cachedWalletTableSummary;
 }
 
 const WALLET_TYPES = ['software', 'hardware', 'cards', 'ramps'] as const;

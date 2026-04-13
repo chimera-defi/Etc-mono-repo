@@ -12,8 +12,8 @@ import { SocialShare } from '@/components/SocialShare';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
 const ogImageVersion = 'v5';
-const pageTitle = 'Explore & Compare Wallets | Wallet Radar';
-const pageDescription = 'Filter, sort, and compare crypto wallets side-by-side. Advanced filtering for software wallets, hardware wallets, and crypto cards with real-time chain TVL data.';
+const pageTitle = 'Explore & Compare Crypto Products | Wallet Radar';
+const pageDescription = 'Filter, sort, and compare wallets, hardware devices, crypto cards, and ramps side-by-side. Advanced filtering for developer, security, fee, and coverage tradeoffs.';
 const pageUrl = `${baseUrl}/explore/`;
 const ogImageUrl = `${baseUrl}/og-image.svg?${ogImageVersion}`;
 
@@ -21,16 +21,17 @@ export const metadata: Metadata = {
   title: pageTitle,
   description: pageDescription,
   keywords: [
-    'crypto wallet comparison',
+    'crypto product comparison',
     'wallet filter',
-    'compare wallets',
+    'compare crypto products',
     'software wallet',
     'hardware wallet',
     'crypto cards',
+    'crypto ramps',
     'EVM wallet',
     'MetaMask alternative',
-    'wallet explorer',
-    'DeFi wallet comparison',
+    'product explorer',
+    'wallet comparison',
   ],
   openGraph: {
     title: pageTitle,
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
         url: ogImageUrl,
         width: 1200,
         height: 630,
-        alt: 'Explore & Compare Crypto Wallets - Wallet Radar',
+        alt: 'Explore & Compare Crypto Products - Wallet Radar',
       },
     ],
   },
@@ -88,7 +89,7 @@ export default async function ExplorePage() {
           <div>
             <h1 className="text-3xl font-bold mb-2 text-slate-100">Explore &amp; Compare</h1>
             <p className="text-slate-400">
-              Filter, sort, and compare wallets side-by-side. Select wallets to see a detailed comparison.
+              Filter, sort, and compare wallets, cards, and ramps side-by-side. Select products to see a detailed comparison.
             </p>
           </div>
           <SocialShare

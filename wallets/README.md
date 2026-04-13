@@ -4,7 +4,7 @@
 
 # Wallet Radar
 
-**Developer-Focused Crypto Wallet Research Platform**
+**Developer-Focused Crypto Product Research Platform**
 
 [![Wallets Frontend CI](https://github.com/chimera-defi/Etc-mono-repo/actions/workflows/wallets-frontend-ci.yml/badge.svg)](https://github.com/chimera-defi/Etc-mono-repo/actions/workflows/wallets-frontend-ci.yml)
 [![Refresh Wallet Data](https://github.com/chimera-defi/Etc-mono-repo/actions/workflows/refresh-wallet-data.yml/badge.svg)](https://github.com/chimera-defi/Etc-mono-repo/actions/workflows/refresh-wallet-data.yml)
@@ -19,7 +19,7 @@
 
 ## 🎯 What is Wallet Radar?
 
-Wallet Radar is a comprehensive comparison platform designed for developers who need reliable data to choose the right crypto wallet. We track **100+ wallets** across software, hardware, crypto cards, and on/off-ramps with transparent scoring based on security, GitHub activity, developer experience, and real-world usage metrics.
+Wallet Radar is a comprehensive comparison platform designed for developers who need reliable data to choose the right crypto access products. We track **100+ products** across software wallets, hardware wallets, crypto cards, and on/off-ramps with transparent scoring based on security, GitHub activity, developer experience, and real-world usage metrics.
 
 Unlike consumer-focused wallet lists, Wallet Radar provides:
 - **📊 Transparent Scoring** — Weighted methodology based on security, activity, and developer experience
@@ -186,7 +186,9 @@ wallets/
 │   ├── scripts/           # Build & validation scripts
 │   └── package.json
 ├── scripts/               # Data refresh automation
-│   └── refresh-github-data.sh
+│   ├── refresh-github-data.sh
+│   └── run_naming_workflow.py
+├── branding/              # Naming workflow artifacts (positioning, candidates, validation)
 ├── SOFTWARE_WALLETS.md    # Software wallet comparison table
 ├── HARDWARE_WALLETS.md    # Hardware wallet comparison table
 ├── CRYPTO_CARDS.md        # Crypto card comparison table
@@ -251,11 +253,11 @@ Comprehensive comparison tables and guides:
 ✅ **Transparent data sources** — All links and data sources verified and documented
 ✅ **Open source code** — View and audit our code on GitHub
 ✅ **Published methodology** — All scoring formulas documented and reproducible
-✅ **No affiliate links** — We don't profit from wallet recommendations
+✅ **No hidden promotions** — Commercial links, if any, should be disclosed and never affect rankings
 
 ### Educational Purpose Only
 
-Wallet Radar does NOT provide financial advice, recommend specific wallets, or collect personal information. All data is sourced publicly and linked for independent verification. We are completely independent of all wallet providers.
+Wallet Radar does NOT provide financial advice, recommend specific products, or collect personal information. All data is sourced publicly and linked for independent verification. Editorial decisions and scoring stay separate from any commercial relationship.
 
 ---
 
