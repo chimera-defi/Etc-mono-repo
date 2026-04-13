@@ -1,6 +1,8 @@
-## SpecForge
+## SpecForge (Working Name)
 
 **Status**: Scoped MVP/spec parity reached on the build branch
+**Naming status (2026-04-08)**: treat `SpecForge` as internal codename only due GitHub collision density; `ScopeSpec` is current provisional external candidate with `ScopeFrame` fallback pending legal lock.
+See `GITHUB_NAME_REUSE_SCAN_2026-04-08.md`, `UPSTREAM_REUSE_PLAN.md`, and `branding/`.
 
 ## Usage Modes
 
@@ -36,6 +38,7 @@ Collaborative editors already exist. The wedge is not generic editing; it is a s
 12. `TAURI_DESKTOP_PLAN.md`
 13. `CLAUDE_BUILDOUT_PLAN.md`
 14. `LOCAL_FIRST_SPEC_SYSTEM_PLAN.md`
+15. `UPSTREAM_REUSE_PLAN.md`
 
 ### Full Pack (Grouped)
 - Product and strategy: `EXECUTIVE_SUMMARY`, `PRD`, `SPEC`
@@ -44,7 +47,7 @@ Collaborative editors already exist. The wedge is not generic editing; it is a s
 - Validation and economics: `VALIDATION_PLAN`, `GO_NO_GO_SCORECARD`, `PILOT_SCORECARD_TEMPLATE`, `FINANCIAL_MODEL`, `RISK_REGISTER`
 - Build surface: `web/`, `collab-server/`, `contracts/`, `fixtures/`, `FIRST_60_MINUTES.md`, `ACCEPTANCE_TEST_MATRIX.md`
 - Component plan: `COMPONENT_MODEL.md`
-- Backlog and execution: `TASKS`, `90_DAY_EXECUTION_PLAN`, `DECISIONS`, `AGENT_HANDOFF`
+- Backlog and execution: `TASKS`, `90_DAY_EXECUTION_PLAN`, `DECISIONS`, `AGENT_HANDOFF`, `UPSTREAM_REUSE_PLAN`
 - Archived/working notes: `archive/`, `RESEARCH_NOTES.md`
 
 ### Source Notes

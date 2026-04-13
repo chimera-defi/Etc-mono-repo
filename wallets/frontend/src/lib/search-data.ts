@@ -61,12 +61,12 @@ const faqItems = [
   },
   {
     question: 'How are wallet scores calculated?',
-    answer: 'Scores are based on: Security (audits, open source), Developer UX (APIs, testnets), Activity (GitHub commits, releases), and Coverage (chains, platforms).',
+    answer: 'Scores are generated from the visible comparison-table columns using published category weights for security, developer UX, activity, coverage, fees, custody, and related inputs.',
     category: 'comparison',
   },
   {
     question: "What's the best wallet for developers?",
-    answer: 'For EVM development, Rabby leads with transaction simulation and scam alerts. For multi-chain, Trust Wallet covers the most ecosystems.',
+    answer: 'For EVM development, Rabby remains the strongest daily-driver. For compatibility testing, keep MetaMask in the matrix. For higher-assurance signing, pair software wallets with dedicated hardware.',
     category: 'comparison',
   },
   {

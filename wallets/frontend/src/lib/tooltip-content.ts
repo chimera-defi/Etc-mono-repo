@@ -121,6 +121,8 @@ export const hardwareWalletTooltips = {
     price: 'Approximate price in USD (verify on official website)',
     connectivity: 'Connection methods: USB, Bluetooth, QR, NFC, MicroSD',
     activity: 'Activity: ✅ Active (≤30 days), ⚠️ Slow (1-4 mo), ❌ Inactive (4+ mo), 🔒 Private repo',
+    founded: 'Company founding year used for hardware track-record scoring',
+    funding: 'Funding durability: 🟢 sustainable/public/self, 🟡 VC-backed, 🔴 unknown/risky',
     links: 'External links to GitHub and website',
   },
 
@@ -238,6 +240,8 @@ export const rampTooltips = {
     feeModel: 'Fee structure: Low, Medium, High, Variable, or Usage-Based',
     minFee: 'Minimum transaction fee (~ indicates approximate)',
     devUx: 'Developer experience quality: Excellent, Great, Good, Advanced',
+    founded: 'Company founding year signal used in score confidence',
+    funding: 'Funding durability signal (🟢 sustainable, 🟡 VC-backed, 🔴 unknown/risky)',
     bestFor: 'Primary use case or audience',
     links: 'External links to provider website',
   },

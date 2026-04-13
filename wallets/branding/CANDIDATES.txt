@@ -1,0 +1,61 @@
+# Broad access + benchmark framing
+AccessBench
+AccessSignal
+AccessScope
+AccessIndex
+AccessMap
+AccessGrid
+AccessPulse
+AccessLedger
+AccessKernel
+AccessAtlas
+
+# Wallet-forward SEO framing
+WalletKernel
+WalletSignal
+WalletScope
+WalletBench
+WalletIndex
+WalletMap
+WalletAtlas
+WalletGauge
+WalletForge
+WalletNexus
+
+# Ramp/rail framing
+RampRank
+RampBench
+RampSignal
+RampScope
+RampIndex
+RampMap
+RampLedger
+RailBench
+RailSignal
+RailScope
+RailIndex
+
+# Gateway and payments framing
+GatewayBench
+GatewaySignal
+GatewayScope
+PaymentKernel
+PaymentSignal
+CardSignal
+CardIndex
+BankSignal
+BankIndex
+
+# Expanded bridge framing
+OnrampIndex
+OnrampScope
+OfframpIndex
+OfframpScope
+
+# Intentionally weak/noisy controls to test hard filters
+AccessLab
+AccessHub
+CryptoAccess
+WalletBeat
+WalletRadar
+

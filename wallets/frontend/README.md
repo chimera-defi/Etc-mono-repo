@@ -75,15 +75,19 @@ The frontend reads Markdown files from the parent `wallets/` directory:
 
 The interactive explorer reads **markdown tables** from the parent `wallets/` directory via `src/lib/wallet-data.ts`.
 
-If you change any of these table column orders, you must update the parser + run tests:
+Scores and recommendations are generated from the visible markdown-table columns via `wallets/scripts/sync_table_scores.js`. That same script also refreshes the generated snapshot blocks near the top of the matching `*_DETAILS.md` files.
+
+If you change any of these table column orders, you must update the parser + resync the tables + run tests:
 
 - `SOFTWARE_WALLETS.md` (software wallets)
-  - Columns: Wallet, Score, Core, Rel/Mo, RPC, GitHub, Active, Chains, Devices, Testnets, License, Audits, Funding, Tx Sim, Scam, Account, ENS/Naming, HW, Best For, Rec
+  - Columns: Wallet, Score, Core, Rel/Mo, RPC, GitHub, Active, Chains, Devices, Testnets, License, API, Audits, Funding, Tx Sim, Scam, Account, ENS/Naming, HW, Best For, Rec
 - `HARDWARE_WALLETS.md` (hardware wallets)
   - Columns: Wallet, Score, GitHub, Air-Gap, Open Source, Secure Elem, Display, Price, Conn, Activity, Rec
 - `CRYPTO_CARDS.md` (cards)
   - Columns: Card, Score, Type, Custody, Biz, Region, Cash Back, Annual Fee, FX Fee, Rewards, Status, Best For
   - Note: Card column contains clickable link to provider website (e.g., `[**Card Name**](url)`)
+- `RAMPS.md` (ramps)
+  - Columns: Provider, Score, Type, On-Ramp, Off-Ramp, Coverage, Fee Model, Min Fee, Dev UX, Status, Best For
 
 `npm test` runs a lightweight smoke test in `scripts/smoke-test-wallet-data.js` to catch table header/structure drift.
 
@@ -111,13 +115,15 @@ This project is configured for AWS Amplify deployment. The `amplify.yml` in the 
 2. Building the Next.js app
 3. Deploying the static output
 
+Security headers for the exported site are managed in the repo-root `customHttp.yml`, not `next.config.js`, because Amplify applies `customHttp.yml` to static-export deployments.
+
 ### Manual Deployment
 
 ```bash
 # Build for production
 npm run build
 
-# The output is in .next/ directory
+# Static export output is in out/
 ```
 
 ## Technology Stack
@@ -133,7 +139,7 @@ npm run build
 | Command | Description |
 |---------|-------------|
 | `npm run dev` | Start development server |
-| `npm run build` | Build for production (includes OG image generation) |
+| `npm run build` | Build the static export for production |
 | `npm start` | Start production server |
 | `npm run lint` | Run ESLint |
 | `npm run type-check` | Run TypeScript checks |

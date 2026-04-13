@@ -98,6 +98,24 @@
 - [ ] Make SpecForge the default path for generating future repo ideas.
   - Focus: one-shot build packs that are honest, deterministic, and easier for agents to execute
 
+## Upstream Reuse Execution (2026-04-08)
+
+- [ ] Stream A: adopt planning prompts + traceability patterns from `jsegov/shipspec-cli` (MIT).
+  - Done: shared prompt templates and stable requirement/task trace IDs are integrated with regression fixtures.
+- [ ] Stream B: harden workflow state machine using patterns from `wirelessr/SpecForge-Agent` (MIT).
+  - Done: explicit transition validation + invalid-transition tests + rollback safety checks are in place.
+- [ ] Stream C: improve guided wizard and export ergonomics using `achuajays/SpecForge` (MIT) patterns.
+  - Done: wizard completion flow and export clarity improve without governance regressions.
+- [ ] Keep `UPSTREAM_REUSE_PLAN.md` and `GITHUB_NAME_REUSE_SCAN_2026-04-08.md` linked to implementation PRs.
+  - Done: each adopted pattern has a source note and associated implementation test coverage.
+
+## Rename Execution Track (2026-04-08)
+
+- [ ] Lock external name after legal check on `ScopeSpec` and `ScopeFrame`.
+  - Done: legal/trademark quick screen passes and final domain strategy is approved.
+- [ ] Implement rename migration plan in product/docs/routes.
+  - Done: canonical metadata, docs labels, and redirects are updated in one coordinated release.
+
 ## Next Productization Track
 
 - [ ] Scaffold a Tauri desktop wrapper around the existing local SpecForge product.

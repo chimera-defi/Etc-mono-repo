@@ -2,7 +2,22 @@
 
 > 📊 **View the comparison table:** [See all wallets at a glance →](./HARDWARE_WALLETS.md)
 
-> **TL;DR:** Use **Trezor Safe 5** (92) for best security + UX, **ColdCard Mk4** (91) for Bitcoin maximalists, **Keystone 3 Pro** (91) for air-gapped security, or **Trezor Safe 3** (91) for best value at $79. **Blockstream Jade** (81) is a great budget option. For DIY enthusiasts: **Specter DIY** (72) or **SeedSigner** (65). **Ledger** (55-57) is penalized for Ledger Recover. See [Why Look Beyond Ledger?](#-why-look-beyond-ledger) for details.
+> **Source of truth note:** Current `Score` and `Rec` values are generated from the visible columns in [HARDWARE_WALLETS.md](./HARDWARE_WALLETS.md) via `wallets/scripts/sync_table_scores.js` (`2026-04-visible-columns-v2`). If a long-form section below mentions older numeric scores, trust the main comparison table.
+
+> **TL;DR:** The generated snapshot below mirrors the current main-table ordering and scores. Use it for the latest rankings; the long-form sections below explain security architecture, firmware transparency, and tradeoffs in more detail.
+
+<!-- GENERATED_HARDWARE_SNAPSHOT_START -->
+> **Current generated snapshot:** Keystone 3 Pro (92, ✅ Active, 🟢), ColdCard Mk4 (88, ✅ Active, 🟢), Keycard Shell (85, ✅ Active, 🟢), and Foundation Passport (84, ✅ Active, 🟢). Regenerated from [HARDWARE_WALLETS.md](./HARDWARE_WALLETS.md) by `wallets/scripts/sync_table_scores.js` using methodology `2026-04-visible-columns-v2`.
+
+### Current Top Rows (generated)
+| Rank | Wallet | Score | Activity | Rec |
+| ---- | ------ | ----- | -------- | --- |
+| 1 | **Keystone 3 Pro** | 92 | ✅ Active | 🟢 |
+| 2 | **ColdCard Mk4** | 88 | ✅ Active | 🟢 |
+| 3 | **Keycard Shell** | 85 | ✅ Active | 🟢 |
+| 4 | **Foundation Passport** | 84 | ✅ Active | 🟢 |
+| 5 | **Trezor Safe 7** | 80 | ✅ Active | 🟢 |
+<!-- GENERATED_HARDWARE_SNAPSHOT_END -->
 
 **Last Updated:** February 2026 | [Scoring Methodology](#-scoring-methodology) | [GitHub Activity Data](#github-metrics-firmware-repositories) | [View Company Aggregates](./HARDWARE_WALLET_COMPANIES.md)
 
@@ -190,20 +205,20 @@ For technically-inclined users who want maximum transparency and control:
 
 ## 📊 Scoring Methodology
 
-**Quick Reference:** Score = Security (25) + Transparency (20) + Privacy (15) + Activity (15) + Company (15) + UX (10) = 100 total
+**Quick Reference:** Score = Security Architecture (34) + Transparency & Maintenance (28) + Usability & Value (32) + Company Track Record (6) = 100 total
 
-Hardware wallet scoring uses a comprehensive methodology consistent with our [Software Wallet Comparison](./SOFTWARE_WALLETS.md), adapted for cold storage priorities:
+Hardware wallet scoring now uses generated values from visible columns in [HARDWARE_WALLETS.md](./HARDWARE_WALLETS.md), consistent with the same "visible columns only" model used across software, cards, and ramps:
 
 | Category | Weight | Description | Data Sources |
 |----------|--------|-------------|--------------|
-| **Security Architecture** | 25 pts | Secure Element certification, air-gap, physical tamper | Specs, certs |
-| **Transparency** | 20 pts | Open source firmware, reproducible builds, code quality | GitHub repos |
-| **Privacy & Trust** | 15 pts | No cloud recovery, no seed extraction, no KYC | Firmware analysis |
-| **Development Activity** | 15 pts | GitHub activity, issue resolution, community support | GitHub API |
-| **Company & Track Record** | 15 pts | Funding stability, longevity, security incidents | Research |
-| **UX & Ecosystem** | 10 pts | Display, chains supported, software integrations | Testing |
+| **Security Architecture** | 34 pts | Secure element profile + air-gap posture | Table columns |
+| **Transparency & Maintenance** | 28 pts | Public firmware depth + open source + activity signal | Table columns |
+| **Usability & Value** | 32 pts | Display ergonomics + price + connectivity tradeoffs | Table columns |
+| **Company Track Record** | 6 pts | Founded year + funding durability signal | `Founded` + `Funding` columns |
 
 ### Scoring Criteria Detail
+
+> ⚠️ This section is a legacy narrative reference. The current source of truth is the generated scoring model in `wallets/frontend/src/lib/scoring.js`, driven strictly by visible table columns.
 
 ```
 SECURITY ARCHITECTURE (25 pts)
