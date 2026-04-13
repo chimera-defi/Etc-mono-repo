@@ -20,52 +20,68 @@
 
 set -e
 
-# Configuration
-REPOS=(
-    "MetaMask/metamask-extension"
-    "RabbyHub/Rabby"
-    "coinbase/coinbase-wallet-sdk"
-    "trustwallet/wallet-core"
-    "rainbow-me/rainbow"
-    "safe-global/safe-wallet-monorepo"
-    "AmbireTech/extension"
-    "MyEtherWallet/MyEtherWallet"
-    "tahowallet/extension"
-    "floating/frame"
-    "brave/brave-browser"
-    "enkryptcom/enKrypt"
-    "consenlabs/token-core-monorepo"
-    "daimo-eth/daimo"
-    "argentlabs/argent-x"
-    "block-wallet/extension"
-    "wigwamapp/wigwam"
-    "LedgerHQ/ledger-live"
-    "0xsequence/sequence.js"
-    "Uniswap/interface"
-)
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+SOFTWARE_TABLE="$SCRIPT_DIR/../SOFTWARE_WALLETS.md"
 
-WALLET_NAMES=(
-    "MetaMask"
-    "Rabby"
-    "Coinbase"
-    "Trust Wallet"
-    "Rainbow"
-    "Safe"
-    "Ambire"
-    "MEW"
-    "Taho"
-    "Frame"
-    "Brave"
-    "Enkrypt"
-    "imToken"
-    "Daimo"
-    "Argent"
-    "Block Wallet"
-    "Wigwam"
-    "Ledger Live"
-    "Sequence"
-    "Uniswap"
-)
+load_repos_from_table() {
+    python3 - "$SOFTWARE_TABLE" <<'PY'
+import pathlib
+import re
+import sys
+
+table_path = pathlib.Path(sys.argv[1])
+in_table = False
+seen_repos = set()
+
+for raw_line in table_path.read_text(encoding="utf-8").splitlines():
+    line = raw_line.strip()
+    if line.startswith("| Wallet | Score |"):
+        in_table = True
+        continue
+    if not in_table:
+        continue
+    if not line.startswith("|"):
+        break
+    if re.match(r"^\|[\s:-]+\|$", line):
+        continue
+
+    cells = [cell.strip() for cell in line.strip("|").split("|")]
+    if len(cells) < 6:
+        continue
+
+    github_cell = cells[5]
+    repo_match = re.search(r"\(https://github\.com/([^)/]+/[^)]+)\)", github_cell)
+    if not repo_match:
+        continue
+    repo = repo_match.group(1)
+    if repo in seen_repos:
+        continue
+    seen_repos.add(repo)
+
+    name_match = re.search(r"\*\*([^*]+)\*\*", cells[0])
+    if name_match:
+        name = name_match.group(1)
+    else:
+        name = re.sub(r"\[[^\]]+\]\([^)]+\)", "", cells[0]).strip("*~ ")
+    name = name.replace("~~", "").strip()
+
+    print(f"{name}\t{repo}")
+PY
+}
+
+mapfile -t TABLE_REPO_ROWS < <(load_repos_from_table)
+REPOS=()
+WALLET_NAMES=()
+for row in "${TABLE_REPO_ROWS[@]}"; do
+    IFS=$'\t' read -r wallet_name repo <<<"$row"
+    WALLET_NAMES+=("$wallet_name")
+    REPOS+=("$repo")
+done
+
+if [ "${#REPOS[@]}" -eq 0 ]; then
+    echo "Error: no software repositories found in $SOFTWARE_TABLE" >&2
+    exit 1
+fi
 
 # Set up authentication header if token is available
 if [ -n "$GITHUB_TOKEN" ]; then
@@ -189,6 +205,11 @@ for i in "${!REPOS[@]}"; do
     else
         ATOM_URL="https://github.com/$REPO/commits/HEAD.atom"
         LAST_COMMIT=$(curl -s "$ATOM_URL" 2>/dev/null | grep -m1 "<updated>" | sed -e 's/.*<updated>//' -e 's/<\/updated>.*//')
+        if [ -z "$LAST_COMMIT" ]; then
+            API_URL="https://api.github.com/repos/$REPO/commits?per_page=1"
+            RESPONSE=$(curl -s "$API_URL" 2>/dev/null)
+            LAST_COMMIT=$(echo "$RESPONSE" | jq -r '.[0].commit.committer.date // empty' 2>/dev/null)
+        fi
     fi
     
     if [ -z "$LAST_COMMIT" ]; then
@@ -236,4 +257,4 @@ else
 fi
 
 echo "" >&2
-echo "Done! Processed ${#REPOS[@]} repositories." >&2
+echo "Done! Processed ${#REPOS[@]} repositories from SOFTWARE_WALLETS.md." >&2

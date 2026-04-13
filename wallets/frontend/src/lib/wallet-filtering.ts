@@ -31,7 +31,7 @@ export interface FilterOptions {
   noAnnualFee?: boolean;
   cashBackMin?: number;
   custody?: CustodyType[];
-  cardStatus?: ('active' | 'verify' | 'launching')[];
+  cardStatus?: ('active' | 'verify' | 'launching' | 'inactive')[];
 
   // Common
   minScore?: number;
@@ -137,7 +137,9 @@ export function filterHardwareWallets(
       const searchLower = filters.search.toLowerCase();
       const matchesSearch =
         wallet.name.toLowerCase().includes(searchLower) ||
-        wallet.display.toLowerCase().includes(searchLower);
+        wallet.display.toLowerCase().includes(searchLower) ||
+        wallet.fundingSource.toLowerCase().includes(searchLower) ||
+        (wallet.foundedYear !== null && String(wallet.foundedYear).includes(searchLower));
       if (!matchesSearch) return false;
     }
 
@@ -263,7 +265,9 @@ export function filterRamps(ramps: Ramp[], filters: FilterOptions): Ramp[] {
         ramp.name.toLowerCase().includes(searchLower) ||
         ramp.bestFor.toLowerCase().includes(searchLower) ||
         ramp.coverage.toLowerCase().includes(searchLower) ||
-        ramp.feeModel.toLowerCase().includes(searchLower);
+        ramp.feeModel.toLowerCase().includes(searchLower) ||
+        ramp.fundingSource.toLowerCase().includes(searchLower) ||
+        (ramp.foundedYear !== null && String(ramp.foundedYear).includes(searchLower));
       if (!matchesSearch) return false;
     }
 
@@ -277,13 +281,14 @@ export function filterRamps(ramps: Ramp[], filters: FilterOptions): Ramp[] {
     }
 
     // Status filter - map ramp status to filter active values
-    // Ramp status: 'active' | 'verify' | 'launching'
+    // Ramp status: 'active' | 'verify' | 'launching' | 'inactive'
     // Filter active: 'active' | 'slow' | 'inactive' | 'private'
     if (filters.active?.length) {
       const statusMap: Record<Ramp['status'], 'active' | 'slow' | 'inactive' | 'private'> = {
         'active': 'active',
         'verify': 'slow', // Treat 'verify' as 'slow' for filtering
         'launching': 'slow', // Treat 'launching' as 'slow' for filtering
+        'inactive': 'inactive',
       };
       const mappedStatus = statusMap[ramp.status];
       if (!filters.active.includes(mappedStatus)) return false;
@@ -353,4 +358,3 @@ export function sortWallets<T extends WalletData>(
       : (bValue as number) - (aValue as number);
   });
 }
-

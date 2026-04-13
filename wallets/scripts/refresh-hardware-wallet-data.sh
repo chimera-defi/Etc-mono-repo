@@ -20,44 +20,95 @@
 
 set -e
 
-# Configuration - Hardware Wallet Firmware Repositories
-REPOS=(
-    "trezor/trezor-firmware"
-    "Blockstream/Jade"
-    "SeedSigner/seedsigner"
-    "cryptoadvance/specter-diy"
-    "selfcustody/krux"
-    "KeystoneHQ/keystone3-firmware"
-    "BitBoxSwiss/bitbox02-firmware"
-    "Coldcard/firmware"
-    "Foundation-Devices/passport2"
-    "OneKeyHQ/firmware-pro"
-    "keepkey/keepkey-firmware"
-)
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+HARDWARE_TABLE="$SCRIPT_DIR/../HARDWARE_WALLETS.md"
 
-WALLET_NAMES=(
-    "Trezor"
-    "Blockstream Jade"
-    "SeedSigner"
-    "Specter DIY"
-    "Krux"
-    "Keystone"
-    "BitBox02"
-    "ColdCard"
-    "Foundation Passport"
-    "OneKey"
-    "KeepKey"
-)
+load_repos_from_table() {
+    python3 - "$HARDWARE_TABLE" <<'PY'
+import pathlib
+import re
+import sys
 
-# Note: These wallets have NO public firmware repos (closed source):
-# - Ledger (ledger-live is companion app, not firmware)
-# - NGRAVE ZERO
-# - Ellipal Titan
-# - SafePal S1 (app is open, firmware is not)
-# - SecuX
-# - Tangem
-# - BC Vault
-# - GridPlus Lattice1 (SDK only, no firmware)
+table_path = pathlib.Path(sys.argv[1])
+in_table = False
+seen_repos = set()
+
+def display_name(wallet_name: str) -> str:
+    if wallet_name.startswith("Keycard Shell"):
+        return "Keycard Shell"
+    if wallet_name.startswith("Trezor "):
+        return "Trezor"
+    if wallet_name.startswith("Keystone "):
+        return "Keystone"
+    if wallet_name.startswith("BitBox"):
+        return "BitBox02"
+    if wallet_name.startswith("ColdCard "):
+        return "ColdCard"
+    if wallet_name.startswith("Foundation "):
+        return "Foundation Passport"
+    if wallet_name.startswith("OneKey "):
+        return "OneKey"
+    if wallet_name.startswith("Cypherock "):
+        return "Cypherock"
+    if wallet_name == "Keycard":
+        return "Keycard"
+    return wallet_name
+
+for raw_line in table_path.read_text(encoding="utf-8").splitlines():
+    line = raw_line.strip()
+    if line.startswith("| Wallet | Score |"):
+        in_table = True
+        continue
+    if not in_table:
+        continue
+    if not line.startswith("|"):
+        break
+    if re.match(r"^\|[\s:-]+\|$", line):
+        continue
+
+    cells = [cell.strip() for cell in line.strip("|").split("|")]
+    if len(cells) < 5:
+        continue
+
+    github_cell = cells[2]
+    open_source_cell = cells[4]
+    if "✅" not in open_source_cell:
+        continue
+    if "sdk only" in github_cell.lower():
+        continue
+
+    repo_match = re.search(r"\(https://github\.com/([^)/]+/[^)]+)\)", github_cell)
+    if not repo_match:
+        continue
+    repo = repo_match.group(1)
+    if repo in seen_repos:
+        continue
+    seen_repos.add(repo)
+
+    name_match = re.search(r"\*\*([^*]+)\*\*", cells[0])
+    if name_match:
+        name = name_match.group(1)
+    else:
+        name = re.sub(r"\[[^\]]+\]\([^)]+\)", "", cells[0]).strip("*~ ")
+    name = name.replace("~~", "").strip()
+
+    print(f"{display_name(name)}\t{repo}")
+PY
+}
+
+mapfile -t TABLE_REPO_ROWS < <(load_repos_from_table)
+REPOS=()
+WALLET_NAMES=()
+for row in "${TABLE_REPO_ROWS[@]}"; do
+    IFS=$'\t' read -r wallet_name repo <<<"$row"
+    WALLET_NAMES+=("$wallet_name")
+    REPOS+=("$repo")
+done
+
+if [ "${#REPOS[@]}" -eq 0 ]; then
+    echo "Error: no hardware repositories found in $HARDWARE_TABLE" >&2
+    exit 1
+fi
 
 # Set up authentication header if token is available
 if [ -n "$GITHUB_TOKEN" ]; then
@@ -194,6 +245,11 @@ for i in "${!REPOS[@]}"; do
     else
         ATOM_URL="https://github.com/$REPO/commits/HEAD.atom"
         LAST_COMMIT=$(curl -s "$ATOM_URL" 2>/dev/null | grep -m1 "<updated>" | sed -e 's/.*<updated>//' -e 's/<\/updated>.*//')
+        if [ -z "$LAST_COMMIT" ]; then
+            API_URL="https://api.github.com/repos/$REPO/commits?per_page=1"
+            RESPONSE=$(curl -s "$API_URL" 2>/dev/null)
+            LAST_COMMIT=$(echo "$RESPONSE" | jq -r '.[0].commit.committer.date // empty' 2>/dev/null)
+        fi
     fi
     
     if [ -z "$LAST_COMMIT" ]; then
@@ -246,4 +302,4 @@ else
 fi
 
 echo "" >&2
-echo "Done! Processed ${#REPOS[@]} repositories." >&2
+echo "Done! Processed ${#REPOS[@]} repositories from HARDWARE_WALLETS.md." >&2

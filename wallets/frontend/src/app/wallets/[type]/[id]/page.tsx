@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft, ExternalLink, ShieldCheck, Star, Wallet, Cpu, CreditCard, ArrowLeftRight } from 'lucide-react';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SocialShare } from '@/components/SocialShare';
+import { ScoreBreakdownBar } from '@/components/ScoreBreakdownBar';
 import { getAllWalletData, getWalletById, getWalletsByType, isWalletType, type WalletType } from '@/lib/wallet-data';
 import { generateWalletKeywords, optimizeMetaDescription, generateBreadcrumbSchema, generateWalletProductSchema } from '@/lib/seo';
 import type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData } from '@/types/wallets';
@@ -24,6 +25,13 @@ const typeDocs: Record<WalletType, { href: string; label: string }> = {
   hardware: { href: '/docs/hardware-wallets', label: 'Hardware Wallet Comparison' },
   cards: { href: '/docs/crypto-cards', label: 'Crypto Card Comparison' },
   ramps: { href: '/docs/ramps', label: 'Ramp Provider Comparison' },
+};
+
+const methodologyDocs: Record<WalletType, string> = {
+  software: '/docs/software-wallets-details#-wallet-scores-developer-focused-methodology',
+  hardware: '/docs/hardware-wallets-details#-scoring-methodology',
+  cards: '/docs/crypto-cards-details#scoring-methodology',
+  ramps: '/docs/ramps-details#scoring-methodology',
 };
 
 const typeIcons: Record<WalletType, JSX.Element> = {
@@ -102,6 +110,8 @@ function getWalletHighlights(type: WalletType, wallet: WalletData): string[] {
     `Score: ${ramp.score}/100`,
     `Ramp type: ${ramp.rampType}`,
     `Coverage: ${ramp.coverage}`,
+    `Founded: ${ramp.foundedYear ?? 'Unknown'}`,
+    `Funding: ${ramp.fundingSource}`,
     `Fee model: ${ramp.feeModel}`,
     `Minimum fee: ${ramp.minFee}`,
     `Developer UX: ${ramp.devUx}`,
@@ -260,10 +270,17 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
   const pageUrl = `${baseUrl}/wallets/${params.type}/${params.id}/`;
   const description = optimizeMetaDescription(getWalletDescription(params.type, wallet));
   const highlights = getWalletHighlights(params.type, wallet);
-  const relatedWallets = getWalletsByType(params.type)
+  const nearestWallets = getWalletsByType(params.type)
     .filter(item => item.id !== wallet.id)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 6);
+    .map((item) => ({ item, delta: Math.abs(item.score - wallet.score) }))
+    .sort((a, b) => a.delta - b.delta || b.item.score - a.item.score);
+  const relatedWallets = (
+    nearestWallets.some((entry) => entry.delta < 10)
+      ? nearestWallets.filter((entry) => entry.delta < 10)
+      : nearestWallets
+  ).slice(0, 3);
+  const totalBreakdownMax = wallet.scoreBreakdown.reduce((sum, entry) => sum + entry.max, 0) || 1;
+  const methodologyHref = methodologyDocs[params.type];
 
   // Generate breadcrumb schema for better LLM navigation understanding
   const breadcrumbSchema = generateBreadcrumbSchema([
@@ -344,10 +361,94 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
             </ul>
           </div>
 
+          <div className="rounded-xl border border-border p-6 mb-6">
+            <div className="mb-4 flex items-start justify-between gap-4">
+              <h2 className="text-xl font-semibold">Score Breakdown</h2>
+              <Link href={methodologyHref} className="text-sm text-primary hover:underline">
+                View methodology
+              </Link>
+            </div>
+
+            <p className="text-sm text-muted-foreground mb-4">
+              This score is generated from weighted category rows. Higher completion in each category yields higher earned points.
+            </p>
+
+            <ScoreBreakdownBar
+              breakdown={wallet.scoreBreakdown}
+              showLegend
+              className="mb-5"
+              barClassName="h-3"
+            />
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-border text-left text-muted-foreground">
+                    <th className="py-2 pr-3 font-medium">Category</th>
+                    <th className="py-2 px-3 font-medium">Weight</th>
+                    <th className="py-2 px-3 font-medium">Earned</th>
+                    <th className="py-2 pl-3 font-medium">Completion</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {wallet.scoreBreakdown.map((entry) => {
+                    const completionPct = entry.max > 0 ? Math.round((entry.score / entry.max) * 100) : 0;
+                    const weightPct = Math.round((entry.max / totalBreakdownMax) * 100);
+                    const completionClass =
+                      completionPct >= 80
+                        ? 'bg-green-500'
+                        : completionPct >= 60
+                        ? 'bg-amber-500'
+                        : 'bg-red-500';
+
+                    return (
+                      <tr key={`${entry.key}-${entry.label}`} className="border-b border-border/60 align-top">
+                        <td className="py-3 pr-3">
+                          <div className="font-medium">{entry.label}</div>
+                          {entry.note && (
+                            <p className="mt-1 text-xs text-muted-foreground">{entry.note}</p>
+                          )}
+                        </td>
+                        <td className="py-3 px-3">{entry.max} pts ({weightPct}%)</td>
+                        <td className="py-3 px-3">{entry.score}/{entry.max}</td>
+                        <td className="py-3 pl-3 min-w-[180px]">
+                          <div className="flex items-center gap-3">
+                            <div className="h-2 flex-1 rounded-full bg-muted overflow-hidden">
+                              <div
+                                className={`h-full ${completionClass}`}
+                                style={{ width: `${completionPct}%` }}
+                              />
+                            </div>
+                            <span className="text-xs text-muted-foreground w-10 text-right">{completionPct}%</span>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            <details className="mt-5 rounded-lg border border-border/70 bg-muted/20 p-4">
+              <summary className="cursor-pointer text-sm font-medium">Score explained</summary>
+              <div className="mt-3 space-y-3 text-sm text-muted-foreground">
+                {wallet.scoreBreakdown.map((entry) => (
+                  <p key={`explain-${entry.key}-${entry.label}`}>
+                    <span className="font-medium text-foreground">{entry.label}:</span>{' '}
+                    {entry.note || 'Category-specific checks are applied from the methodology.'}{' '}
+                    <Link href={methodologyHref} className="text-primary hover:underline">
+                      Read scoring details
+                    </Link>
+                  </p>
+                ))}
+              </div>
+            </details>
+          </div>
+
           <div className="rounded-xl border border-border p-6">
             <h2 className="text-xl font-semibold mb-4">Source & References</h2>
             <p className="text-sm text-muted-foreground mb-4">
-              All scores come from Wallet Radar&apos;s developer-focused scoring methodology. View the full scoring breakdown, audits, and platform requirements in the comparison tables.
+              All scores come from Wallet Radar&apos;s developer-focused scoring methodology. View the scoring tables, audits, and platform requirements in the comparison docs.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
@@ -391,9 +492,12 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
           </div>
 
           <div className="rounded-xl border border-border p-6">
-            <h2 className="text-lg font-semibold mb-3">Related {typeLabels[params.type]}s</h2>
+            <h2 className="text-lg font-semibold mb-1">Similar Score {typeLabels[params.type]}s</h2>
+            <p className="mb-3 text-xs text-muted-foreground">
+              Closest matches by score distance in this category.
+            </p>
             <ul className="space-y-3 text-sm">
-              {relatedWallets.map(item => (
+              {relatedWallets.map(({ item, delta }) => (
                 <li key={item.id} className="flex items-start gap-3">
                   <Star className="h-4 w-4 text-amber-500 mt-0.5" />
                   <div>
@@ -403,7 +507,9 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
                     >
                       {item.name}
                     </Link>
-                    <p className="text-xs text-muted-foreground">Score {item.score}/100</p>
+                    <p className="text-xs text-muted-foreground">
+                      Score {item.score}/100 (Δ {delta})
+                    </p>
                   </div>
                 </li>
               ))}

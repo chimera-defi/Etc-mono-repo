@@ -2,13 +2,13 @@
 
 ## Our Mission
 
-Wallet Radar is an **independent, educational research platform** dedicated to providing objective, comprehensive analysis of cryptocurrency wallets, payment solutions, and blockchain tools.
+Wallet Radar is an **independent, educational research platform** dedicated to providing objective, comprehensive analysis of crypto access products, payment rails, and blockchain tools.
 
-We are **not** affiliated with any wallet providers, exchanges, or financial institutions. We exist to help developers and blockchain users make informed decisions through transparent, open-source research.
+We are not owned or controlled by any product provider, exchange, or financial institution. We exist to help developers and crypto users make informed decisions through transparent, source-linked research.
 
 ## What We Do
 
-- **Compare wallets** - Analyze 24+ software wallets, 23+ hardware wallets, and 27+ crypto payment cards
+- **Compare products** - Analyze software wallets, hardware wallets, crypto cards, ramps, and adjacent crypto access tools
 - **Track development activity** - Monitor GitHub commits, releases, and maintenance frequency
 - **Review security** - Document audit status, security features, and architectural choices
 - **Evaluate user experience** - Assess developer tools, transaction simulation, and platform support
@@ -26,10 +26,11 @@ Our research draws from:
 
 ## Why Independence Matters
 
-The crypto wallet space is dominated by affiliate programs and sponsored content. Wallet Radar exists to provide a completely independent alternative:
+Crypto product research is crowded with sponsored lists, opaque rankings, and copied marketing claims. Wallet Radar aims to be a disclosure-first alternative:
 
-- **Zero financial incentives** - We don't profit from wallet recommendations, affiliate commissions, or sponsorships
-- **No commercial relationships** - Completely independent of all wallet providers and financial institutions
+- **Independent scoring** - No provider can pay for rank, inclusion, or methodology changes
+- **Clear disclosures** - If a link ever has a commercial relationship, it should be labeled plainly
+- **No pay-to-rank** - Commercial considerations must stay separate from research conclusions
 - **Open source code** - Full transparency: view and audit our methodology on GitHub
 - **Community-driven** - Contribute corrections and improvements via public GitHub Issues
 - **Transparent scoring** - All comparison metrics are documented, reproducible, and auditable
@@ -48,7 +49,7 @@ Wallet Radar is an active research project maintained by [Chimera DeFi](https://
 ## How to Use Wallet Radar
 
 1. **Start with comparisons** - Browse [software wallets](/docs/software-wallets/), [hardware wallets](/docs/hardware-wallets/), or [crypto cards](/docs/crypto-cards/)
-2. **Use the explorer** - [Filter and compare side-by-side](/explore/) with advanced options
+2. **Use the explorer** - [Filter and compare side-by-side](/explore/) across wallets, cards, and ramps
 3. **Read the research** - Understand the methodology behind our scores
 4. **Verify yourself** - All data sources are linked; check them independently
 
@@ -57,12 +58,12 @@ Wallet Radar is an active research project maintained by [Chimera DeFi](https://
 Wallet Radar is **educational research only**. We explicitly do NOT:
 
 - Provide financial advice or investment recommendations
-- Recommend which wallet you personally should use
+- Recommend which product you personally should use
 - Endorse or sponsor any wallet provider
 - Guarantee all information is 100% current (always verify independently)
 - Have login pages, wallet connections, or credential collection
 - Ask for passwords, seed phrases, or private keys
-- Profit from wallet recommendations or affiliate commissions
+- Sell rankings or inclusion in our comparisons
 - Collect personal data or track users
 
 **Always verify important information directly with official sources** before making security-critical decisions with your cryptocurrency.
@@ -70,7 +71,7 @@ Wallet Radar is **educational research only**. We explicitly do NOT:
 ## Common Questions
 
 **Q: Are you affiliated with any wallet providers?**
-A: No. We are completely independent and do not receive funding, sponsorship, or compensation from wallet providers.
+A: No provider can pay for ranking or inclusion. If we ever use commercial links, they will be disclosed clearly and kept separate from scoring and editorial decisions.
 
 **Q: Why was I warned about phishing?**
 A: This is a false positive. Chrome's Safe Browsing uses heuristics that sometimes incorrectly flag new educational sites about wallets and cryptocurrencies. This is NOT a security issue with our site. We do NOT phish for passwords, collect wallets, or have login pages. We are working to improve our domain reputation through backlinks, age, and transparency. See our [security information](/.well-known/security.txt) and [trust signals](/#why-were-not-phishing) for verification.

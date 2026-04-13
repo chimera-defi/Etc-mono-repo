@@ -177,4 +177,6 @@ Add-on AI usage and enterprise governance can expand this if retention is strong
 A narrow, workflow-native product for "specs that lead to code" can win even in a crowded editor market if it makes collaborative authoring trustworthy, forces better decisions, and materially reduces planning-to-build rework.
 
 ### Naming Direction
-See `archive/NAME_OPTIONS.md`. Current preferred names: `SpecForge` or `ShipSpec`.
+See `archive/NAME_OPTIONS.md`, `GITHUB_NAME_REUSE_SCAN_2026-04-08.md`, and `branding/`.  
+Current direction: avoid `SpecForge` as public primary due GitHub collision density; `ScopeSpec` is the current provisional external candidate with `ScopeFrame`/`FrameSpec` backups pending legal and rollout checks.
+Implementation reuse direction: `UPSTREAM_REUSE_PLAN.md`.
