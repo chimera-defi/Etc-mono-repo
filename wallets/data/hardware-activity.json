@@ -1,0 +1,18 @@
+{
+  "type": "hardware_wallets",
+  "generated": "2026-04-13",
+  "wallets": [
+    {"wallet": "Trezor", "repo": "trezor/trezor-firmware", "lastCommit": "2026-04-10", "daysAgo": 2, "stars": 1705, "issues": 589, "ratio": "34.5%", "status": "✅"},
+    {"wallet": "Blockstream Jade", "repo": "Blockstream/Jade", "lastCommit": "2026-03-25", "daysAgo": 19, "stars": 454, "issues": 98, "ratio": "21.6%", "status": "✅"},
+    {"wallet": "SeedSigner", "repo": "SeedSigner/seedsigner", "lastCommit": "2026-03-12", "daysAgo": 31, "stars": 1116, "issues": 237, "ratio": "21.2%", "status": "⚠️"},
+    {"wallet": "Specter DIY", "repo": "cryptoadvance/specter-diy", "lastCommit": "2026-04-09", "daysAgo": 3, "stars": 549, "issues": 81, "ratio": "14.8%", "status": "✅"},
+    {"wallet": "Krux", "repo": "selfcustody/krux", "lastCommit": "2026-03-26", "daysAgo": 17, "stars": 322, "issues": 66, "ratio": "20.5%", "status": "✅"},
+    {"wallet": "Keystone", "repo": "KeystoneHQ/keystone3-firmware", "lastCommit": "2026-04-13", "daysAgo": 0, "stars": 200, "issues": 110, "ratio": "55.0%", "status": "✅"},
+    {"wallet": "BitBox02", "repo": "BitBoxSwiss/bitbox02-firmware", "lastCommit": "2026-04-11", "daysAgo": 2, "stars": 349, "issues": 58, "ratio": "16.6%", "status": "✅"},
+    {"wallet": "ColdCard", "repo": "Coldcard/firmware", "lastCommit": "2026-04-08", "daysAgo": 4, "stars": 703, "issues": 9, "ratio": "1.3%", "status": "✅"},
+    {"wallet": "Foundation Passport", "repo": "Foundation-Devices/passport2", "lastCommit": "2026-03-27", "daysAgo": 16, "stars": 81, "issues": 4, "ratio": "4.9%", "status": "✅"},
+    {"wallet": "OneKey", "repo": "OneKeyHQ/firmware-pro", "lastCommit": "2026-03-16", "daysAgo": 28, "stars": 21, "issues": 22, "ratio": "104.8%", "status": "✅"},
+    {"wallet": "KeepKey", "repo": "keepkey/keepkey-firmware", "lastCommit": "2026-04-05", "daysAgo": 8, "stars": 164, "issues": 14, "ratio": "8.5%", "status": "✅"}
+  ],
+  "closed_source_note": "Ledger, NGRAVE, Ellipal, SafePal, SecuX, Tangem, BC Vault, GridPlus have no public firmware repos"
+}
