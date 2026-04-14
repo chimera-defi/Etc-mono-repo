@@ -1012,12 +1012,15 @@ export function ExploreContent({
           </button>
         </div>
 
-        <div className="mt-4 flex gap-3 overflow-x-auto snap-x snap-mandatory pb-1 sm:grid sm:grid-cols-4 sm:overflow-visible">
+        <p className="mt-4 text-xs text-muted-foreground sm:hidden">
+          Swipe to browse presets.
+        </p>
+        <div className="mt-2 flex gap-3 overflow-x-auto snap-x snap-mandatory pb-1 sm:mt-4 sm:grid sm:grid-cols-4 sm:overflow-visible">
           {activePresets.map((preset) => (
             <button
               key={preset.id}
               onClick={() => applyPreset(preset)}
-              className="snap-start min-w-[220px] sm:min-w-0 rounded-2xl border border-border bg-background/60 px-4 py-3 text-left transition-all hover:border-primary/40 hover:bg-primary/5 hover:-translate-y-0.5 hover:shadow-md"
+              className="snap-start min-w-[180px] sm:min-w-0 rounded-2xl border border-border bg-background/60 px-4 py-3 text-left transition-all hover:border-primary/40 hover:bg-primary/5 hover:-translate-y-0.5 hover:shadow-md"
             >
               <div className="flex items-center gap-2">
                 <span className="text-base leading-none">{preset.icon}</span>

@@ -365,6 +365,7 @@ export default function HomePage() {
             </div>
 
             {/* Direct Category Links */}
+            <p className="mb-2 text-xs text-muted-foreground sm:hidden">Swipe to see all categories.</p>
             <div className="flex gap-3 overflow-x-auto pb-1 -mx-1 px-1 sm:flex-wrap sm:overflow-visible sm:px-0 sm:mx-0">
               <Link
                 href="/docs/software-wallets"
@@ -550,6 +551,9 @@ export default function HomePage() {
         </div>
 
         <div className="glass-card overflow-hidden">
+          <p className="px-4 pt-3 text-xs text-muted-foreground sm:hidden">
+            Swipe horizontally to read all columns.
+          </p>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-muted/50 border-b border-border">
