@@ -1129,9 +1129,10 @@ export function WalletTable<T extends WalletData>({
 
   if (viewMode === 'table') {
     return (
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead>
+      <div className="overflow-x-auto [WebkitOverflowScrolling:touch]">
+        <div className="max-h-[70vh] overflow-y-auto sm:max-h-none sm:overflow-visible">
+          <table className="w-full">
+          <thead className="sticky top-0 z-20">
             <tr className="border-b border-border bg-muted/50">
               <th className="py-3 px-4 text-left text-sm font-medium">
                 <HeaderTooltip label="Compare" tooltip={softwareWalletTooltips.headers.compare} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
@@ -1287,7 +1288,8 @@ export function WalletTable<T extends WalletData>({
               );
             })}
           </tbody>
-        </table>
+          </table>
+        </div>
       </div>
     );
   }
