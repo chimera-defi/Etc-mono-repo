@@ -323,11 +323,16 @@ function ComparisonTableScaffold<T extends BaseItem, S extends string>({
 
   return (
     <table className="w-full">
-      <thead className="sticky top-0 z-10">
+      <thead>
         <tr className="border-b border-border bg-background">
-          <th className="sticky left-0 z-20 bg-background border-r border-border py-4 px-4 text-left w-48">Feature</th>
+          <th className="sticky left-0 top-0 z-20 bg-background border-r border-border py-4 px-4 text-left w-48">Feature</th>
           {items.map(item => (
-            <th key={item.id} data-compare-column tabIndex={0} className="py-4 px-4 text-center min-w-[140px] outline-none focus-visible:ring-2 focus-visible:ring-primary">
+            <th
+              key={item.id}
+              data-compare-column
+              tabIndex={0}
+              className="sticky top-0 z-10 bg-background py-4 px-4 text-center min-w-[140px] outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            >
               <div className="flex flex-col items-center gap-2">
                 <div className="flex items-center gap-2">
                   {renderItemName ? renderItemName(item) : <span className="font-bold">{item.name}</span>}
@@ -885,7 +890,7 @@ export function ComparisonTool({
       </div>
 
       {/* Comparison table */}
-      <div className="max-h-[70vh] overflow-x-auto overflow-y-auto [WebkitOverflowScrolling:touch] border border-border rounded-lg sm:max-h-none sm:overflow-visible">
+      <div className="max-h-[70vh] overflow-x-auto overflow-y-auto overscroll-contain [WebkitOverflowScrolling:touch] border border-border rounded-lg sm:max-h-none sm:overflow-visible">
         {type === 'software' && (
           <SoftwareWalletComparison
             wallets={selectedWallets as SoftwareWallet[]}
