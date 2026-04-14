@@ -329,7 +329,7 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
           <p className="text-lg text-muted-foreground max-w-2xl">{description}</p>
         </div>
 
-        <div className="flex flex-col gap-3 w-full max-w-xs">
+        <div className="flex flex-col gap-3 w-full sm:max-w-xs">
           <SocialShare url={pageUrl} title={wallet.name} description={description} size="large" />
           <Link
             href={`/explore?tab=${params.type}&search=${encodeURIComponent(wallet.name)}`}
@@ -349,7 +349,7 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
 
       <section className="mt-10 grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8">
         <div>
-          <div className="rounded-xl border border-border p-6 mb-6">
+          <div className="rounded-xl border border-border p-4 sm:p-6 mb-6">
             <h2 className="text-xl font-semibold mb-4">Highlights</h2>
             <ul className="space-y-2 text-sm text-muted-foreground">
               {highlights.map(item => (
@@ -361,7 +361,7 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
             </ul>
           </div>
 
-          <div className="rounded-xl border border-border p-6 mb-6">
+          <div className="rounded-xl border border-border p-4 sm:p-6 mb-6">
             <div className="mb-4 flex items-start justify-between gap-4">
               <h2 className="text-xl font-semibold">Score Breakdown</h2>
               <Link href={methodologyHref} className="text-sm text-primary hover:underline">
@@ -380,6 +380,9 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
               barClassName="h-3"
             />
 
+            <p className="mb-2 text-xs text-muted-foreground sm:hidden">
+              Swipe horizontally to view full breakdown columns.
+            </p>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
@@ -411,7 +414,7 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
                         </td>
                         <td className="py-3 px-3">{entry.max} pts ({weightPct}%)</td>
                         <td className="py-3 px-3">{entry.score}/{entry.max}</td>
-                        <td className="py-3 pl-3 min-w-[180px]">
+                        <td className="py-3 pl-3 min-w-[150px] sm:min-w-[180px]">
                           <div className="flex items-center gap-3">
                             <div className="h-2 flex-1 rounded-full bg-muted overflow-hidden">
                               <div
@@ -445,7 +448,7 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
             </details>
           </div>
 
-          <div className="rounded-xl border border-border p-6">
+          <div className="rounded-xl border border-border p-4 sm:p-6">
             <h2 className="text-xl font-semibold mb-4">Source & References</h2>
             <p className="text-sm text-muted-foreground mb-4">
               All scores come from Wallet Radar&apos;s developer-focused scoring methodology. View the scoring tables, audits, and platform requirements in the comparison docs.
@@ -468,7 +471,7 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
         </div>
 
         <aside className="space-y-6">
-          <div className="rounded-xl border border-border p-6">
+          <div className="rounded-xl border border-border p-4 sm:p-6">
             <h2 className="text-lg font-semibold mb-3">Quick Links</h2>
             <ul className="space-y-2 text-sm">
               <li>
@@ -491,7 +494,7 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
             </ul>
           </div>
 
-          <div className="rounded-xl border border-border p-6">
+          <div className="rounded-xl border border-border p-4 sm:p-6">
             <h2 className="text-lg font-semibold mb-1">Similar Score {typeLabels[params.type]}s</h2>
             <p className="mb-3 text-xs text-muted-foreground">
               Closest matches by score distance in this category.
@@ -517,7 +520,7 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
           </div>
 
           {'github' in wallet && wallet.github && (
-            <div className="rounded-xl border border-border p-6">
+            <div className="rounded-xl border border-border p-4 sm:p-6">
               <h2 className="text-lg font-semibold mb-3">Developer Links</h2>
               <a
                 href={wallet.github}
@@ -532,7 +535,7 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
           )}
 
           {'url' in wallet && wallet.url && (
-            <div className="rounded-xl border border-border p-6">
+            <div className="rounded-xl border border-border p-4 sm:p-6">
               <h2 className="text-lg font-semibold mb-3">Official Website</h2>
               <a
                 href={wallet.url}
@@ -547,7 +550,7 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
           )}
 
           {'providerUrl' in wallet && wallet.providerUrl && (
-            <div className="rounded-xl border border-border p-6">
+            <div className="rounded-xl border border-border p-4 sm:p-6">
               <h2 className="text-lg font-semibold mb-3">Apply or Learn More</h2>
               <a
                 href={wallet.providerUrl}
