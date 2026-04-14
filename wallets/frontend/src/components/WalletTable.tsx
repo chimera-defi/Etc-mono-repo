@@ -1123,7 +1123,7 @@ export function WalletTable<T extends WalletData>({
   const isAtMax = selectedIds.length >= maxSelected;
   const headerMethodLink = TABLE_METHOD_LINKS[type];
   const mobileHeaderCellClassName =
-    'py-3 px-4 text-left text-sm font-medium sticky top-0 z-20 bg-muted/95 backdrop-blur supports-[backdrop-filter]:bg-muted/80 sm:static sm:bg-transparent sm:backdrop-blur-0';
+    'py-3 px-4 text-left text-sm font-medium sticky top-0 z-20 border-b border-border bg-muted/95 backdrop-blur supports-[backdrop-filter]:bg-muted/80 sm:static sm:bg-transparent sm:backdrop-blur-0';
 
   if (wallets.length === 0) {
     return <EmptyState type={type} onResetFilters={onResetFilters} />;
@@ -1131,10 +1131,14 @@ export function WalletTable<T extends WalletData>({
 
   if (viewMode === 'table') {
     return (
-      <div className="max-h-[70vh] overflow-auto overscroll-contain [WebkitOverflowScrolling:touch] sm:max-h-none sm:overflow-visible">
+      <>
+        <p className="mb-2 text-xs text-muted-foreground sm:hidden">
+          Swipe horizontally to view all columns.
+        </p>
+        <div className="max-h-[70vh] overflow-auto overscroll-contain [WebkitOverflowScrolling:touch] border border-border rounded-lg sm:max-h-none sm:overflow-visible sm:border-0 sm:rounded-none">
           <table className="w-full">
           <thead>
-            <tr className="border-b border-border">
+            <tr>
               <th className={mobileHeaderCellClassName}>
                 <HeaderTooltip label="Compare" tooltip={softwareWalletTooltips.headers.compare} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
               </th>
@@ -1290,7 +1294,8 @@ export function WalletTable<T extends WalletData>({
             })}
           </tbody>
           </table>
-      </div>
+        </div>
+      </>
     );
   }
 
