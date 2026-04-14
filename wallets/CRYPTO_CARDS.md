@@ -28,6 +28,7 @@
 | [**Coinbase Card**](https://www.coinbase.com/card) | 74 🟡 | Debit | 🏦 Exch | ❌ | 🇺🇸 US | 1-4% | $0 | 0% | BTC, ETH | ✅ | Coinbase users |
 | [**Plutus Card**](https://plutus.it) | 74 🟡 | Debit | 📋 CeFi | ❌ | 🇪🇺 EU/UK | 3-9% | £0 | 0% | PLU | ✅ | EU/UK perks |
 | [**Nexo Card**](https://nexo.com/card) | 73 🟡 | Credit | 📋 CeFi | ✅ | 🇪🇺 EU/UK | Up to 2% | $0 | FX fees | NEXO | ✅ | Crypto credit |
+| [**ToonPay Card**](https://www.toonpay.io/) (@ToonPayOfficial) | 72 🟡 | Debit | 📋 CeFi | ❌ | 🌍 Global | Up to 15%* | $0 annual ($12 KYC, $80 card) | 2% | $TOON | ✅ | High-cashback community spend |
 | [**Fuse Wallet Card**](https://www.fuse.io/) (@fusewallet) | 71 🟡 | Prepaid | 🔐 Self | ❌ | 🇺🇸 US* | 0% | $0 | 0% | USDC | ✅ | Solana stablecoins |
 | [**Reap**](https://reap.global) | 71 🟡 | Business | 📋 CeFi | ✅ | 🌍 Global | 0% | $0 | 2% | Stables | ✅ | Business |
 | [**Shakepay Card**](https://shakepay.com/card) | 70 🟡 | Prepaid | 📋 CeFi | ❌ | 🇨🇦 CA | 1.5% | $0 | 0% | BTC | ✅ | Canada |
@@ -44,6 +45,7 @@
 | [**Swissborg Card**](https://swissborg.com) | 58 🟡 | Debit | 📋 CeFi | ❌ | 🇪🇺 EU | 1-2% | $0 | TBD | CHSB | ⚠️ | Card page 404 |
 | [**OKX Card**](https://www.okx.com) | 56 🟡 | Debit | 🏦 Exch | ⚠️ | 🇪🇺 EU | TBD | $0 | TBD | Stables | 🔄 | Card pages time out |
 | ~~[**Kontigo**](https://kontigo.com)~~ | 51 🔴 | Debit | 🔐 Self | ⚠️ | 🌍 Global | 10% BTC | $0 | 0% | BTC | ❌ | ~~Crypto neobank~~ |
+| [**Nummus Wallet Card**](https://nummuswallet.com/) (@NummusWallet) | 42 🟡 | Debit | 📋 CeFi | ✅ | 🌍 Global | TBD | TBD | TBD | None | 🔄 | Omni-bank launch (verify terms) |
 
 > **Scoring note:** `Score` is generated from the visible columns above using `wallets/scripts/sync_table_scores.js` and methodology version `2026-04-visible-columns-v2`. The table no longer relies on hand-tuned score adjustments.
 
@@ -128,6 +130,8 @@
 - **Uphold Card**: Card pages `/card` and `/debit-card` time out in headless Chromium; product status uncertain
 - **Slash Platinum Card**: Verified on slash.com corporate cards page (April 2026): up to 2% cashback, free/pro pricing tiers ($0 or $25/month), and 1% foreign transaction fee (min $0.4). Card issued by Column N.A. (Member FDIC), Slash is fintech not bank.
 - **Meow Card**: Verified on meow.com/cards (April 2026): unlimited virtual/physical cards, no annual fee, no credit checks, global regions listed, and up to 2% cashback messaging with variable rewards disclosures. Meow is fintech; card issued by Community Federal Savings Bank.
+- **ToonPay Card**: Verified on toonpay.io (April 2026): Web2-to-Web3 debit card messaging, up to 15% cashback headline (and up to 30% via activated cashback plans), with published baseline plan fees showing 2% FX + 2% processing, $12 KYC, and $80 basic physical card.
+- **Nummus Wallet Card**: App Store listing (April 2026) confirms offshore accounts + virtual/physical cards + ATM withdrawals + fiat/crypto transfers. Public fee schedule and formal card terms remain limited, so row remains launching/verify with TBD fee fields pending direct issuer docs.
 
 > ⚠️ **Data Accuracy Note:** Rates, fees, and availability change frequently. Always verify on official card websites before applying.
 
