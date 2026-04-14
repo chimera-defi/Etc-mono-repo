@@ -840,8 +840,8 @@ export function ComparisonTool({
   return (
     <div ref={comparisonContainerRef} tabIndex={0} onKeyDown={handleKeyDown} className="space-y-4 outline-none">
       {/* Toolbar */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-wrap items-center gap-2">
           <span className="text-sm text-muted-foreground">
             Comparing {selectedWallets.length} {type === 'cards' ? 'cards' : type === 'ramps' ? 'ramps' : 'wallets'}
           </span>
@@ -854,42 +854,48 @@ export function ComparisonTool({
             </button>
           )}
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 sm:justify-end">
           <button
             onClick={handleExport}
-            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm border border-border rounded-lg hover:bg-muted transition-colors"
+            className="shrink-0 inline-flex items-center gap-2 px-2.5 py-1.5 text-xs sm:text-sm border border-border rounded-lg hover:bg-muted transition-colors sm:px-3"
           >
             <Download className="h-4 w-4" />
-            Export CSV
+            <span className="sm:hidden">Export</span>
+            <span className="hidden sm:inline">Export CSV</span>
           </button>
           <button
             onClick={handleCopyLink}
-            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm border border-border rounded-lg hover:bg-muted transition-colors"
+            className="shrink-0 inline-flex items-center gap-2 px-2.5 py-1.5 text-xs sm:text-sm border border-border rounded-lg hover:bg-muted transition-colors sm:px-3"
           >
             <Share2 className="h-4 w-4" />
-            Copy comparison link
+            <span className="sm:hidden">Copy link</span>
+            <span className="hidden sm:inline">Copy comparison link</span>
           </button>
           {copyStatus === 'success' && (
-            <span className="text-sm text-green-600 dark:text-green-400 animate-fade-in">
+            <span className="basis-full text-xs sm:text-sm text-green-600 dark:text-green-400 animate-fade-in">
               ✓ Link copied
             </span>
           )}
           {copyStatus === 'error' && (
-            <span className="text-sm text-red-600 dark:text-red-400 animate-fade-in">
+            <span className="basis-full text-xs sm:text-sm text-red-600 dark:text-red-400 animate-fade-in">
               Copy failed, copy URL manually
             </span>
           )}
           <button
             onClick={onClear}
-            className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-red-600 border border-red-200 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+            className="shrink-0 inline-flex items-center gap-2 px-2.5 py-1.5 text-xs sm:text-sm text-red-600 border border-red-200 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors sm:px-3"
           >
             <X className="h-4 w-4" />
-            Clear All
+            <span className="sm:hidden">Clear</span>
+            <span className="hidden sm:inline">Clear All</span>
           </button>
         </div>
       </div>
 
       {/* Comparison table */}
+      <p className="text-xs text-muted-foreground sm:hidden">
+        Swipe horizontally to compare all columns.
+      </p>
       <div className="max-h-[70vh] overflow-x-auto overflow-y-auto overscroll-contain [WebkitOverflowScrolling:touch] border border-border rounded-lg sm:max-h-none sm:overflow-visible">
         {type === 'software' && (
           <SoftwareWalletComparison
