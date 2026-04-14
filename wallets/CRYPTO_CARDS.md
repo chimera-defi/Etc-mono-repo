@@ -27,12 +27,12 @@
 | [**Gemini Card**](https://www.gemini.com/credit-card) | 76 🟢 | Credit | 🏦 Exch | ❌ | 🇺🇸 US | Up to 4% | $0 | 0% | BTC, ETH | ✅ | Credit building |
 | [**Coinbase Card**](https://www.coinbase.com/card) | 74 🟡 | Debit | 🏦 Exch | ❌ | 🇺🇸 US | 1-4% | $0 | 0% | BTC, ETH | ✅ | Coinbase users |
 | [**Plutus Card**](https://plutus.it) | 74 🟡 | Debit | 📋 CeFi | ❌ | 🇪🇺 EU/UK | 3-9% | £0 | 0% | PLU | ✅ | EU/UK perks |
+| [**RedotPay**](https://redotpay.com) | 74 🟡 | Debit | 📋 CeFi | ✅ | 🌍 Global* | Up to 3% | $0 | 1-2% | USDT, USDC | ✅ | Multi-region (ex US/SG) |
 | [**Nexo Card**](https://nexo.com/card) | 73 🟡 | Credit | 📋 CeFi | ✅ | 🇪🇺 EU/UK | Up to 2% | $0 | FX fees | NEXO | ✅ | Crypto credit |
 | [**ToonPay Card**](https://www.toonpay.io/) (@ToonPayOfficial) | 72 🟡 | Debit | 📋 CeFi | ❌ | 🌍 Global | Up to 15%* | $0 annual ($12 KYC, $80 card) | 2% | $TOON | ✅ | High-cashback community spend |
 | [**Fuse Wallet Card**](https://www.fuse.io/) (@fusewallet) | 71 🟡 | Prepaid | 🔐 Self | ❌ | 🇺🇸 US* | 0% | $0 | 0% | USDC | ✅ | Solana stablecoins |
 | [**Reap**](https://reap.global) | 71 🟡 | Business | 📋 CeFi | ✅ | 🌍 Global | 0% | $0 | 2% | Stables | ✅ | Business |
 | [**Shakepay Card**](https://shakepay.com/card) | 70 🟡 | Prepaid | 📋 CeFi | ❌ | 🇨🇦 CA | 1.5% | $0 | 0% | BTC | ✅ | Canada |
-| [**Redotpay**](https://redotpay.com) | 69 🟡 | Debit | 📋 CeFi | ✅ | 🌍 Global | Up to 3% | $0-$100 | 1-2% | USDT, USDC | ✅ | Multi-region |
 | [**Tuyo**](https://tuyo.com/card) (@itstuyo) | 69 🟡 | Prepaid | 🔐 Self | ❌ | 🌍 Global* | 0% | $0 | ~1% | TUYO | ✅ | USDC on Base |
 | [**Uphold Card**](https://uphold.com) | 69 🟡 | Debit | 📋 CeFi | ⚠️ | 🇺🇸🇪🇺 US/EU | 1-4% | $0 | TBD | XRP, BTC | ⚠️ | Card pages time out |
 | [**Meow Card**](https://www.meow.com/cards) (@meow) | 68 🟡 | Business | 📋 CeFi | ✅ | 🌍 Global | Up to 2% | $0 | TBD (avg ~2% savings) | USD cash | ✅ | Global startup finance ops |
@@ -105,7 +105,7 @@
 | 🌍 | Global (200+ countries) |
 | **\*** | Not available in US |
 
-**🇺🇸 US-Available Cards:** Coinbase, Fold, Gemini, Uphold, Kraken, BitPay, Crypto.com, Wirex, Revolut, Hi Card, Redotpay, EtherFi, Reap (business), Slash Platinum, Meow Card
+**🇺🇸 US-Available Cards:** Coinbase, Fold, Gemini, Uphold, Kraken, BitPay, Crypto.com, Wirex, Revolut, Hi Card, EtherFi, Reap (business), Slash Platinum, Meow Card
 
 **Methodology Update (April 2026):**
 - Scores are generated directly from the table columns, not from manual bonus / penalty overrides.
@@ -116,6 +116,7 @@
 - **Gnosis Pay**: Region expanded from EU/UK to **🌍 Global\*** (EEA, UK, Brazil, Argentina, Mexico, Colombia, Philippines, Thailand, Japan, Singapore) - verified via gnosispay.com January 2026. **Not available in US.**
 - **MetaMask Card**: Available in EU, UK, Switzerland, Canada, select LATAM. **US on waitlist only** (not yet available). Metal card ($199/yr) offers 3% cashback, virtual card is 1%.
 - **Binance Card**: Region changed from Global to **🇧🇷 Brazil only** - verified via binance.com January 2026; FX fee is 1-2%
+- **RedotPay**: Region clarified to **🌍 Global\*** (US and Singapore unavailable per official issuance restrictions); annual fee corrected to **$0** with one-time card issuance fees tracked separately
 - Ready Card: Cash back verified at **3%** (was incorrectly listed as "Up to 10%")
 - Binance Card: Max cash back is **3%** (was incorrectly listed as "Up to 8%")
 - Crypto.com Visa: Base tier has **0%** cash back (requires $400+ CRO stake for rewards); US now has **Visa Signature® Credit Card** with different tier structure
