@@ -1683,7 +1683,7 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 - Hi Card
 - KuCard (excludes US)
 - Revolut Crypto
-- Redotpay
+- RedotPay
 
 ### Regional Notes
 - Uphold Card - US, UK, EU regions ⚠️ (card pages time out)
@@ -1836,7 +1836,7 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 | Score Range | Count | Cards |
 |-------------|-------|-------|
 | 75+ 🟢 Highly Recommended | 10 | EtherFi Cash (85), Ready (83), Hi (79 ⚠️), Gnosis Pay (78), Wirex (78 ⚠️), Fold (77), Gemini (76), KuCard (76), Revolut (76), Coinbase (75) |
-| 50-74 🟡 Good Option | 14 | Bybit (74 ⚠️), Plutus (73), Uphold (73 ⚠️), CryptoSpend (71), Shakepay (70), 1inch (70), Binance (67), Redotpay (67), CoinJar (65), Nexo (63), Kraken (60 ⚠️), Swissborg (60 ⚠️), BitPay (56), OKX (50 ⚠️) |
+| 50-74 🟡 Good Option | 14 | Bybit (74 ⚠️), Plutus (73), Uphold (73 ⚠️), CryptoSpend (71), Shakepay (70), 1inch (70), Binance (67), RedotPay (74), CoinJar (65), Nexo (63), Kraken (60 ⚠️), Swissborg (60 ⚠️), BitPay (56), OKX (50 ⚠️) |
 | <50 🔴 Consider Alternatives | 2 | Reap (47), Crypto.com (41) |
 
 **Key Corrections (January 2026):**

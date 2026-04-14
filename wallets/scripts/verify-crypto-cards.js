@@ -159,7 +159,7 @@ const CARDS = {
     description: 'CRO staking rewards card'
   },
   'redotpay': {
-    name: 'Redotpay',
+    name: 'RedotPay',
     urls: [
       'https://redotpay.com',
       'https://www.redotpay.com'
