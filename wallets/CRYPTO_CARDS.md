@@ -45,7 +45,7 @@
 | [**Swissborg Card**](https://swissborg.com) | 58 🟡 | Debit | 📋 CeFi | ❌ | 🇪🇺 EU | 1-2% | $0 | TBD | CHSB | ⚠️ | Card page 404 |
 | [**OKX Card**](https://www.okx.com) | 56 🟡 | Debit | 🏦 Exch | ⚠️ | 🇪🇺 EU | TBD | $0 | TBD | Stables | 🔄 | Card pages time out |
 | ~~[**Kontigo**](https://kontigo.com)~~ | 51 🔴 | Debit | 🔐 Self | ⚠️ | 🌍 Global | 10% BTC | $0 | 0% | BTC | ❌ | ~~Crypto neobank~~ |
-| [**Nummus Wallet Card**](https://nummuswallet.com/) (@NummusWallet) | 42 🟡 | Debit | 📋 CeFi | ✅ | 🌍 Global | TBD | TBD | TBD | None | 🔄 | Omni-bank launch (verify terms) |
+| [**Nummus Wallet Card**](https://nummuswallet.com/) (@NummusWallet) | 44 🔴 | Debit | 📋 CeFi | ✅ | 🌍 Global | TBD | TBD | TBD | None | ⚠️ | Fiat + crypto banking stack (verify terms) |
 
 > **Scoring note:** `Score` is generated from the visible columns above using `wallets/scripts/sync_table_scores.js` and methodology version `2026-04-visible-columns-v2`. The table no longer relies on hand-tuned score adjustments.
 
