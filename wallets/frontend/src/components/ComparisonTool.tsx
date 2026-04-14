@@ -885,7 +885,7 @@ export function ComparisonTool({
       </div>
 
       {/* Comparison table */}
-      <div className="overflow-x-auto [WebkitOverflowScrolling:touch] border border-border rounded-lg">
+      <div className="max-h-[70vh] overflow-x-auto overflow-y-auto [WebkitOverflowScrolling:touch] border border-border rounded-lg sm:max-h-none sm:overflow-visible">
         {type === 'software' && (
           <SoftwareWalletComparison
             wallets={selectedWallets as SoftwareWallet[]}
