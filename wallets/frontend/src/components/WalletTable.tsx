@@ -1122,6 +1122,8 @@ export function WalletTable<T extends WalletData>({
 }: WalletTableProps<T>) {
   const isAtMax = selectedIds.length >= maxSelected;
   const headerMethodLink = TABLE_METHOD_LINKS[type];
+  const mobileHeaderCellClassName =
+    'py-3 px-4 text-left text-sm font-medium sticky top-0 z-20 bg-muted/95 backdrop-blur supports-[backdrop-filter]:bg-muted/80 sm:static sm:bg-transparent sm:backdrop-blur-0';
 
   if (wallets.length === 0) {
     return <EmptyState type={type} onResetFilters={onResetFilters} />;
@@ -1129,105 +1131,104 @@ export function WalletTable<T extends WalletData>({
 
   if (viewMode === 'table') {
     return (
-      <div className="overflow-x-auto [WebkitOverflowScrolling:touch]">
-        <div className="max-h-[70vh] overflow-y-auto sm:max-h-none sm:overflow-visible">
+      <div className="max-h-[70vh] overflow-auto overscroll-contain [WebkitOverflowScrolling:touch] sm:max-h-none sm:overflow-visible">
           <table className="w-full">
-          <thead className="sticky top-0 z-20">
-            <tr className="border-b border-border bg-muted/50">
-              <th className="py-3 px-4 text-left text-sm font-medium">
+          <thead>
+            <tr className="border-b border-border">
+              <th className={mobileHeaderCellClassName}>
                 <HeaderTooltip label="Compare" tooltip={softwareWalletTooltips.headers.compare} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
               </th>
-              <th className="py-3 px-4 text-left text-sm font-medium">
+              <th className={mobileHeaderCellClassName}>
                 <HeaderTooltip label="Wallet" tooltip={softwareWalletTooltips.headers.wallet} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
               </th>
               {(type === 'software' || type === 'hardware' || type === 'ramps') && (
-                <th className="py-3 px-4 text-left text-sm font-medium">
+                <th className={mobileHeaderCellClassName}>
                   <HeaderTooltip label="Status" tooltip={softwareWalletTooltips.headers.status} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                 </th>
               )}
               {type === 'cards' && (
-                <th className="py-3 px-4 text-left text-sm font-medium">
+                <th className={mobileHeaderCellClassName}>
                   <HeaderTooltip label="Type" tooltip={cryptoCardTooltips.headers.cardType} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                 </th>
               )}
               {type === 'software' && (
                 <>
-                  <th className="py-3 px-4 text-left text-sm font-medium">
+                  <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Platforms" tooltip={softwareWalletTooltips.headers.platforms} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">
+                  <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Chains" tooltip={softwareWalletTooltips.headers.chains} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">
+                  <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Features" tooltip={softwareWalletTooltips.headers.features} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">
+                  <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="License" tooltip={softwareWalletTooltips.headers.license} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                 </>
               )}
               {type === 'hardware' && (
                 <>
-                  <th className="py-3 px-4 text-left text-sm font-medium">
+                  <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Air-Gap" tooltip={hardwareWalletTooltips.headers.airGap} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">
+                  <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="SE" tooltip={hardwareWalletTooltips.headers.secureElement} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">
+                  <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Open Source" tooltip={hardwareWalletTooltips.headers.openSource} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">
+                  <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Connectivity" tooltip={hardwareWalletTooltips.headers.connectivity} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                 </>
               )}
               {type === 'cards' && (
                 <>
-                  <th className="py-3 px-4 text-left text-sm font-medium">
+                  <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Region" tooltip={cryptoCardTooltips.headers.region} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">
+                  <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Cashback" tooltip={cryptoCardTooltips.headers.cashback} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">
+                  <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Rewards" tooltip={cryptoCardTooltips.headers.rewards} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">
+                  <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Annual Fee" tooltip={cryptoCardTooltips.headers.annualFee} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                 </>
               )}
               {type === 'ramps' && (
                 <>
-                  <th className="py-3 px-4 text-left text-sm font-medium">
+                  <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Type" tooltip={rampTooltips.headers.type} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">
+                  <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Coverage" tooltip={rampTooltips.headers.coverage} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">
+                  <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Fee Model" tooltip={rampTooltips.headers.feeModel} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">
+                  <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Min Fee" tooltip={rampTooltips.headers.minFee} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">
+                  <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Dev UX" tooltip={rampTooltips.headers.devUx} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">
+                  <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Founded" tooltip={rampTooltips.headers.founded} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">
+                  <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Funding" tooltip={rampTooltips.headers.funding} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
-                  <th className="py-3 px-4 text-left text-sm font-medium">
+                  <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Links" tooltip={rampTooltips.headers.links} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                 </>
               )}
               {(type === 'software' || type === 'hardware') && (
-                <th className="py-3 px-4 text-left text-sm font-medium">
+                <th className={mobileHeaderCellClassName}>
                   <HeaderTooltip label="Links" tooltip={softwareWalletTooltips.headers.links} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                 </th>
               )}
@@ -1289,7 +1290,6 @@ export function WalletTable<T extends WalletData>({
             })}
           </tbody>
           </table>
-        </div>
       </div>
     );
   }
