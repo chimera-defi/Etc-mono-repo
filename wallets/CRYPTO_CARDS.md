@@ -34,8 +34,10 @@
 | [**Redotpay**](https://redotpay.com) | 69 🟡 | Debit | 📋 CeFi | ✅ | 🌍 Global | Up to 3% | $0-$100 | 1-2% | USDT, USDC | ✅ | Multi-region |
 | [**Tuyo**](https://tuyo.com/card) (@itstuyo) | 69 🟡 | Prepaid | 🔐 Self | ❌ | 🌍 Global* | 0% | $0 | ~1% | TUYO | ✅ | USDC on Base |
 | [**Uphold Card**](https://uphold.com) | 69 🟡 | Debit | 📋 CeFi | ⚠️ | 🇺🇸🇪🇺 US/EU | 1-4% | $0 | TBD | XRP, BTC | ⚠️ | Card pages time out |
+| [**Meow Card**](https://www.meow.com/cards) (@meow) | 68 🟡 | Business | 📋 CeFi | ✅ | 🌍 Global | Up to 2% | $0 | TBD (avg ~2% savings) | USD cash | ✅ | Global startup finance ops |
 | [**Solflare Card**](https://solflare.com/card) (@solflare_wallet) | 66 🟡 | Debit | 🔐 Self | ❌ | 🇪🇺 EU/UK | 0% | $0 | 0% | None | ✅ | Solana ecosystem |
 | [**BitPay Card**](https://bitpay.com/card) | 63 🟡 | Prepaid | 📋 CeFi | ⚠️ | 🇺🇸 US | 1%* | $0 | 0% | None | ✅ | BTC spending |
+| [**Slash Platinum Card**](https://www.slash.com/products/corporate-cards) (@slashapp) | 63 🟡 | Business | 📋 CeFi | ✅ | 🇺🇸 US | Up to 2% | $0-$25/mo | 1% (min $0.4) | USD cash | ✅ | US internet businesses |
 | [**Binance Card**](https://www.binance.com/en/cards) | 60 🟡 | Debit | 🏦 Exch | ⚠️ | 🇧🇷 Brazil | Up to 3% | $0 | 0-2% | BNB | ✅ | Binance users |
 | [**CoinJar Card**](https://www.coinjar.com/au/card) | 59 🟡 | Debit | 🏦 Exch | ❌ | 🇦🇺 AU | 1% rewards pts | $0 | 2.99% | BTC | ⚠️ | 1% fee returned |
 | [**Kraken Card**](https://www.kraken.com/kraken-card) | 58 🟡 | Debit | 🏦 Exch | ⚠️ | 🇺🇸🇪🇺 US/EU | TBD | $0 | TBD | Multi | 🔄 | Cloudflare-protected |
@@ -101,7 +103,7 @@
 | 🌍 | Global (200+ countries) |
 | **\*** | Not available in US |
 
-**🇺🇸 US-Available Cards:** Coinbase, Fold, Gemini, Uphold, Kraken, BitPay, Crypto.com, Wirex, Revolut, Hi Card, Redotpay, EtherFi, Reap (business)
+**🇺🇸 US-Available Cards:** Coinbase, Fold, Gemini, Uphold, Kraken, BitPay, Crypto.com, Wirex, Revolut, Hi Card, Redotpay, EtherFi, Reap (business), Slash Platinum, Meow Card
 
 **Methodology Update (April 2026):**
 - Scores are generated directly from the table columns, not from manual bonus / penalty overrides.
@@ -124,6 +126,8 @@
 - **Bybit Card**: Bybit card page lists 2-10% cashback, free issuance, $100 ATM withdrawals free then 2% fee; product is not available to EEA customers and supports USD fiat + BTC/ETH/XRP/TON/USDT/USDC/MNT/BNB.
 - **Swissborg Card**: Card page (swissborg.com/card) returns 404 in headless Chromium
 - **Uphold Card**: Card pages `/card` and `/debit-card` time out in headless Chromium; product status uncertain
+- **Slash Platinum Card**: Verified on slash.com corporate cards page (April 2026): up to 2% cashback, free/pro pricing tiers ($0 or $25/month), and 1% foreign transaction fee (min $0.4). Card issued by Column N.A. (Member FDIC), Slash is fintech not bank.
+- **Meow Card**: Verified on meow.com/cards (April 2026): unlimited virtual/physical cards, no annual fee, no credit checks, global regions listed, and up to 2% cashback messaging with variable rewards disclosures. Meow is fintech; card issued by Community Federal Savings Bank.
 
 > ⚠️ **Data Accuracy Note:** Rates, fees, and availability change frequently. Always verify on official card websites before applying.
 
@@ -139,7 +143,7 @@
 >
 > **🔐 Non-Custodial Cards:** EtherFi Cash, Ready Card, Amp Pay Black Card, Kast, Tria, MetaMask Card, Gnosis Pay, 1inch Card, ThorWallet, Payy, Spendly, Tuyo, Solflare, Fuse Wallet, and Avici Money.
 
-**Last Updated:** April 8, 2026 | [Scoring Methodology](./CRYPTO_CARDS_DETAILS.md#scoring-methodology) | [Provider Groupings](./CRYPTO_CARDS_DETAILS.md#provider-groupings)
+**Last Updated:** April 14, 2026 | [Scoring Methodology](./CRYPTO_CARDS_DETAILS.md#scoring-methodology) | [Provider Groupings](./CRYPTO_CARDS_DETAILS.md#provider-groupings)
 
 **Related:** See [Software Wallet Comparison](./SOFTWARE_WALLETS.md) and [Hardware Wallet Comparison](./HARDWARE_WALLETS.md) for wallet recommendations.
 
