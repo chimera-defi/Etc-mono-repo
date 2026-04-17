@@ -17,24 +17,13 @@ import {
 import { cn, getScoreColorClasses } from '@/lib/utils';
 import { copyTextToClipboard } from '@/lib/clipboard';
 import { ScoreBreakdownBar, getScoreBreakdownShortLabel } from '@/components/ScoreBreakdownBar';
+import { CHAIN_ICONS } from '@/lib/chain-icons';
 import type { CryptoCard, HardwareWallet, Ramp, ScoreBreakdownEntry, SoftwareWallet, SupportedChains, WalletData } from '@/types/wallets';
 
-// Chain icon configuration
-const chainIcons: { key: keyof Omit<SupportedChains, 'raw' | 'other'>; src: string; alt: string }[] = [
-  { key: 'evm', src: '/chains/eth.svg', alt: 'EVM' },
-  { key: 'bitcoin', src: '/chains/btc.svg', alt: 'BTC' },
-  { key: 'solana', src: '/chains/sol.svg', alt: 'SOL' },
-  { key: 'move', src: '/chains/move.svg', alt: 'Move' },
-  { key: 'cosmos', src: '/chains/cosmos.svg', alt: 'Cosmos' },
-  { key: 'polkadot', src: '/chains/polkadot.svg', alt: 'DOT' },
-  { key: 'starknet', src: '/chains/starknet.svg', alt: 'Stark' },
-];
-
-// Helper function to display chain support as icons
 function ChainSupportDisplay({ chains }: { chains: SupportedChains }) {
   return (
     <div className="flex items-center gap-0.5 flex-wrap">
-      {chainIcons.map(({ key, src, alt }) => 
+      {CHAIN_ICONS.map(({ key, src, alt }) => 
         chains[key] && (
           <Image
             key={key}
@@ -170,7 +159,6 @@ function ComparisonRow({
   highlight?: boolean;
   isBoolean?: boolean;
 }) {
-  // Find best value for highlighting
   const numericValues = values.map(v =>
     typeof v === 'number' ? v : typeof v === 'boolean' ? (v ? 1 : 0) : null
   );
