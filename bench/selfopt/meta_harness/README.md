@@ -15,6 +15,7 @@ This directory is a first-pass scaffold to run Meta-Harness-style outer-loop exp
 - `proposals/example.pending_eval.json` - example input for one iteration.
 - `eval_adapter.py` - adapter that evaluates one candidate through the canonical runner.
 - `loop.py` - simple iteration runner that evaluates all candidates and updates frontier/history.
+- `TAKOPI_OPENCLAW_ORCHESTRATION_PLAN.md` - architecture and rollout plan for Takopi/OpenClaw + orchestrator + meta-harness integration.
 
 ## Quick start
 
