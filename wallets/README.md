@@ -45,7 +45,7 @@ browser verification during full data audits:
 
 - Software: Trust, Coinbase Wallet, MEW, imToken, Argent
 - Hardware: Arculus
-- Cards: Coinbase Card, Kraken Card, Reap, Redotpay, Revolut Crypto
+- Cards: Coinbase Card, Kraken Card, Reap, RedotPay, Revolut Crypto
 - Ramps: Coinbase Pay, Banxa, Reap
 
 When direct checks are blocked, a text-only fetch via `r.jina.ai` can confirm
