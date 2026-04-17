@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bench Meta Harness Pending Eval",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "iteration",
+    "candidates"
+  ],
+  "properties": {
+    "iteration": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "candidates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/candidate"
+      }
+    }
+  },
+  "$defs": {
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "phase",
+        "variant"
+      ],
+      "properties": {
+        "model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "phase": {
+          "type": "string",
+          "enum": [
+            "atomic",
+            "extended"
+          ]
+        },
+        "variant": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "patch": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "system_prompt": {
+          "type": "string",
+          "minLength": 1
+        },
+        "timeout_seconds": {
+          "type": "integer",
+          "minimum": 5,
+          "maximum": 1800
+        },
+        "temperature": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 2.0
+        }
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "target",
+        "hypothesis"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]{3,64}$"
+        },
+        "target": {
+          "$ref": "#/$defs/target"
+        },
+        "hypothesis": {
+          "type": "string",
+          "minLength": 8
+        },
+        "changes": {
+          "type": "string"
+        },
+        "expected_delta": {
+          "type": "string"
+        },
+        "patch": {
+          "$ref": "#/$defs/patch"
+        }
+      }
+    }
+  }
+}

@@ -63,8 +63,18 @@ from utils.error_recovery import (
 # Constants
 TIMEOUT_SECONDS = 60
 WORKSPACE = Path("/root/.openclaw/workspace/bench")
-CONFIG_PATH = WORKSPACE / "harness" / "phase2_config.json"
-SUITE_PATH = WORKSPACE / "extended_benchmark_suite.json"
+CONFIG_PATH = Path(
+    os.environ.get(
+        "BENCH_PHASE2_CONFIG_PATH",
+        str(WORKSPACE / "harness" / "phase2_config.json"),
+    )
+)
+SUITE_PATH = Path(
+    os.environ.get(
+        "BENCH_EXTENDED_SUITE_PATH",
+        str(WORKSPACE / "extended_benchmark_suite.json"),
+    )
+)
 OLLAMA_BASE_URL = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
 LLAMA_SERVER_URL = os.environ.get("LLAMA_SERVER_URL", "http://127.0.0.1:8081")
 CACHE_DIR = WORKSPACE / ".cache"
