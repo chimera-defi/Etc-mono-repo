@@ -94,7 +94,7 @@ Exchange-based cards where funds are held on the exchange platform:
 ### 📋 CeFi Custody Cards
 
 Cards issued by centralized finance companies where the company holds funds:
-- Hi Card, Wirex Card, Fold Card, Plutus Card, Revolut Crypto, Shakepay Card, Redotpay, Nexo Card, Swissborg Card, BitPay Card, Reap, Uphold Card
+- Hi Card, Wirex Card, Fold Card, Plutus Card, Revolut Crypto, Shakepay Card, RedotPay, Nexo Card, Swissborg Card, BitPay Card, Reap, Uphold Card
 
 ### ⚠️ Notes on 1inch Card
 

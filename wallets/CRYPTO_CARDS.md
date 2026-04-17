@@ -27,21 +27,25 @@
 | [**Gemini Card**](https://www.gemini.com/credit-card) | 76 🟢 | Credit | 🏦 Exch | ❌ | 🇺🇸 US | Up to 4% | $0 | 0% | BTC, ETH | ✅ | Credit building |
 | [**Coinbase Card**](https://www.coinbase.com/card) | 74 🟡 | Debit | 🏦 Exch | ❌ | 🇺🇸 US | 1-4% | $0 | 0% | BTC, ETH | ✅ | Coinbase users |
 | [**Plutus Card**](https://plutus.it) | 74 🟡 | Debit | 📋 CeFi | ❌ | 🇪🇺 EU/UK | 3-9% | £0 | 0% | PLU | ✅ | EU/UK perks |
+| [**RedotPay**](https://redotpay.com) | 74 🟡 | Debit | 📋 CeFi | ✅ | 🌍 Global* | Up to 3% | $0 | 1-2% | USDT, USDC | ✅ | Multi-region (ex US/SG) |
 | [**Nexo Card**](https://nexo.com/card) | 73 🟡 | Credit | 📋 CeFi | ✅ | 🇪🇺 EU/UK | Up to 2% | $0 | FX fees | NEXO | ✅ | Crypto credit |
+| [**ToonPay Card**](https://www.toonpay.io/) (@ToonPayOfficial) | 72 🟡 | Debit | 📋 CeFi | ❌ | 🌍 Global | Up to 15%* | $0 annual ($12 KYC, $80 card) | 2% | $TOON | ✅ | High-cashback community spend |
 | [**Fuse Wallet Card**](https://www.fuse.io/) (@fusewallet) | 71 🟡 | Prepaid | 🔐 Self | ❌ | 🇺🇸 US* | 0% | $0 | 0% | USDC | ✅ | Solana stablecoins |
 | [**Reap**](https://reap.global) | 71 🟡 | Business | 📋 CeFi | ✅ | 🌍 Global | 0% | $0 | 2% | Stables | ✅ | Business |
 | [**Shakepay Card**](https://shakepay.com/card) | 70 🟡 | Prepaid | 📋 CeFi | ❌ | 🇨🇦 CA | 1.5% | $0 | 0% | BTC | ✅ | Canada |
-| [**Redotpay**](https://redotpay.com) | 69 🟡 | Debit | 📋 CeFi | ✅ | 🌍 Global | Up to 3% | $0-$100 | 1-2% | USDT, USDC | ✅ | Multi-region |
 | [**Tuyo**](https://tuyo.com/card) (@itstuyo) | 69 🟡 | Prepaid | 🔐 Self | ❌ | 🌍 Global* | 0% | $0 | ~1% | TUYO | ✅ | USDC on Base |
 | [**Uphold Card**](https://uphold.com) | 69 🟡 | Debit | 📋 CeFi | ⚠️ | 🇺🇸🇪🇺 US/EU | 1-4% | $0 | TBD | XRP, BTC | ⚠️ | Card pages time out |
+| [**Meow Card**](https://www.meow.com/cards) (@meow) | 68 🟡 | Business | 📋 CeFi | ✅ | 🌍 Global | Up to 2% | $0 | TBD (avg ~2% savings) | USD cash | ✅ | Global startup finance ops |
 | [**Solflare Card**](https://solflare.com/card) (@solflare_wallet) | 66 🟡 | Debit | 🔐 Self | ❌ | 🇪🇺 EU/UK | 0% | $0 | 0% | None | ✅ | Solana ecosystem |
 | [**BitPay Card**](https://bitpay.com/card) | 63 🟡 | Prepaid | 📋 CeFi | ⚠️ | 🇺🇸 US | 1%* | $0 | 0% | None | ✅ | BTC spending |
+| [**Slash Platinum Card**](https://www.slash.com/products/corporate-cards) (@slashapp) | 63 🟡 | Business | 📋 CeFi | ✅ | 🇺🇸 US | Up to 2% | $0-$25/mo | 1% (min $0.4) | USD cash | ✅ | US internet businesses |
 | [**Binance Card**](https://www.binance.com/en/cards) | 60 🟡 | Debit | 🏦 Exch | ⚠️ | 🇧🇷 Brazil | Up to 3% | $0 | 0-2% | BNB | ✅ | Binance users |
 | [**CoinJar Card**](https://www.coinjar.com/au/card) | 59 🟡 | Debit | 🏦 Exch | ❌ | 🇦🇺 AU | 1% rewards pts | $0 | 2.99% | BTC | ⚠️ | 1% fee returned |
 | [**Kraken Card**](https://www.kraken.com/kraken-card) | 58 🟡 | Debit | 🏦 Exch | ⚠️ | 🇺🇸🇪🇺 US/EU | TBD | $0 | TBD | Multi | 🔄 | Cloudflare-protected |
 | [**Swissborg Card**](https://swissborg.com) | 58 🟡 | Debit | 📋 CeFi | ❌ | 🇪🇺 EU | 1-2% | $0 | TBD | CHSB | ⚠️ | Card page 404 |
 | [**OKX Card**](https://www.okx.com) | 56 🟡 | Debit | 🏦 Exch | ⚠️ | 🇪🇺 EU | TBD | $0 | TBD | Stables | 🔄 | Card pages time out |
 | ~~[**Kontigo**](https://kontigo.com)~~ | 51 🔴 | Debit | 🔐 Self | ⚠️ | 🌍 Global | 10% BTC | $0 | 0% | BTC | ❌ | ~~Crypto neobank~~ |
+| [**Nummus Wallet Card**](https://nummuswallet.com/) (@NummusWallet) | 44 🔴 | Debit | 📋 CeFi | ✅ | 🌍 Global | TBD | TBD | TBD | None | ⚠️ | Fiat + crypto banking stack (verify terms) |
 
 > **Scoring note:** `Score` is generated from the visible columns above using `wallets/scripts/sync_table_scores.js` and methodology version `2026-04-visible-columns-v2`. The table no longer relies on hand-tuned score adjustments.
 
@@ -101,7 +105,7 @@
 | 🌍 | Global (200+ countries) |
 | **\*** | Not available in US |
 
-**🇺🇸 US-Available Cards:** Coinbase, Fold, Gemini, Uphold, Kraken, BitPay, Crypto.com, Wirex, Revolut, Hi Card, Redotpay, EtherFi, Reap (business)
+**🇺🇸 US-Available Cards:** Coinbase, Fold, Gemini, Uphold, Kraken, BitPay, Crypto.com, Wirex, Revolut, Hi Card, EtherFi, Reap (business), Slash Platinum, Meow Card
 
 **Methodology Update (April 2026):**
 - Scores are generated directly from the table columns, not from manual bonus / penalty overrides.
@@ -112,6 +116,7 @@
 - **Gnosis Pay**: Region expanded from EU/UK to **🌍 Global\*** (EEA, UK, Brazil, Argentina, Mexico, Colombia, Philippines, Thailand, Japan, Singapore) - verified via gnosispay.com January 2026. **Not available in US.**
 - **MetaMask Card**: Available in EU, UK, Switzerland, Canada, select LATAM. **US on waitlist only** (not yet available). Metal card ($199/yr) offers 3% cashback, virtual card is 1%.
 - **Binance Card**: Region changed from Global to **🇧🇷 Brazil only** - verified via binance.com January 2026; FX fee is 1-2%
+- **RedotPay**: Region clarified to **🌍 Global\*** (US and Singapore unavailable per official issuance restrictions); annual fee corrected to **$0** with one-time card issuance fees tracked separately
 - Ready Card: Cash back verified at **3%** (was incorrectly listed as "Up to 10%")
 - Binance Card: Max cash back is **3%** (was incorrectly listed as "Up to 8%")
 - Crypto.com Visa: Base tier has **0%** cash back (requires $400+ CRO stake for rewards); US now has **Visa Signature® Credit Card** with different tier structure
@@ -124,6 +129,10 @@
 - **Bybit Card**: Bybit card page lists 2-10% cashback, free issuance, $100 ATM withdrawals free then 2% fee; product is not available to EEA customers and supports USD fiat + BTC/ETH/XRP/TON/USDT/USDC/MNT/BNB.
 - **Swissborg Card**: Card page (swissborg.com/card) returns 404 in headless Chromium
 - **Uphold Card**: Card pages `/card` and `/debit-card` time out in headless Chromium; product status uncertain
+- **Slash Platinum Card**: Verified on slash.com corporate cards page (April 2026): up to 2% cashback, free/pro pricing tiers ($0 or $25/month), and 1% foreign transaction fee (min $0.4). Card issued by Column N.A. (Member FDIC), Slash is fintech not bank.
+- **Meow Card**: Verified on meow.com/cards (April 2026): unlimited virtual/physical cards, no annual fee, no credit checks, global regions listed, and up to 2% cashback messaging with variable rewards disclosures. Meow is fintech; card issued by Community Federal Savings Bank.
+- **ToonPay Card**: Verified on toonpay.io (April 2026): Web2-to-Web3 debit card messaging, up to 15% cashback headline (and up to 30% via activated cashback plans), with published baseline plan fees showing 2% FX + 2% processing, $12 KYC, and $80 basic physical card.
+- **Nummus Wallet Card**: App Store listing (April 2026) confirms offshore accounts + virtual/physical cards + ATM withdrawals + fiat/crypto transfers. Public fee schedule and formal card terms remain limited, so row remains launching/verify with TBD fee fields pending direct issuer docs.
 
 > ⚠️ **Data Accuracy Note:** Rates, fees, and availability change frequently. Always verify on official card websites before applying.
 
@@ -139,7 +148,7 @@
 >
 > **🔐 Non-Custodial Cards:** EtherFi Cash, Ready Card, Amp Pay Black Card, Kast, Tria, MetaMask Card, Gnosis Pay, 1inch Card, ThorWallet, Payy, Spendly, Tuyo, Solflare, Fuse Wallet, and Avici Money.
 
-**Last Updated:** April 8, 2026 | [Scoring Methodology](./CRYPTO_CARDS_DETAILS.md#scoring-methodology) | [Provider Groupings](./CRYPTO_CARDS_DETAILS.md#provider-groupings)
+**Last Updated:** April 14, 2026 | [Scoring Methodology](./CRYPTO_CARDS_DETAILS.md#scoring-methodology) | [Provider Groupings](./CRYPTO_CARDS_DETAILS.md#provider-groupings)
 
 **Related:** See [Software Wallet Comparison](./SOFTWARE_WALLETS.md) and [Hardware Wallet Comparison](./HARDWARE_WALLETS.md) for wallet recommendations.
 

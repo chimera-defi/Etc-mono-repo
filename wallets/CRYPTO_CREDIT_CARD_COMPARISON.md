@@ -32,7 +32,7 @@
 | **1inch Card** | 70 🟡 | Up to 2% | $0 | 1INCH | ❌ | Baanx (1inch) | [1inch.com/card](https://1inch.com/card) | ✅ Active | DeFi users (EU/UK) |
 | ~~**Mode Card**~~ | 69 🟡 | Up to 10% | $0 | BTC | ❌ | Mode | ~~[modeapp.com](https://modeapp.com)~~ | ❌ Defunct | ~~Bitcoin rewards (UK)~~ |
 | **Binance Card** | 67 🟡 | Up to 3% | $0 | BNB | ⚠️ Verify | Binance Exchange | [binance.com/en/cards](https://www.binance.com/en/cards) | ✅ Active | Binance users (Brazil only) |
-| **Redotpay** | 67 🟡 | Up to 3% | $0-$100 | USDT, USDC | ✅ | Redotpay | [redotpay.com](https://redotpay.com) | ✅ Active | Multi-region (HK-based) |
+| **RedotPay** | 74 🟡 | Up to 3% | $0 | USDT, USDC | ✅ | RedotPay | [redotpay.com](https://redotpay.com) | ✅ Active | Multi-region (HK-based, ex US/SG) |
 | **CoinJar Card** | 65 🟡 | 1% | $0 | BTC | ❌ | CoinJar Exchange | [coinjar.com/au/card](https://www.coinjar.com/au/card) | ✅ Active | Australia |
 | **Nexo Card** | 63 🟡 | Up to 2% | $0 | NEXO | ✅ | Nexo | [nexo.com/card](https://nexo.com/card) | ✅ Active | Crypto credit (EU/UK) |
 | **Kraken Card** | 60 🟡 | TBD | $0 | Multi-crypto | ⚠️ Unverified | Kraken Exchange | [kraken.com](https://www.kraken.com) | ⚠️ Unverified | Kraken users |
@@ -106,7 +106,7 @@ Independent card providers, not tied to major exchanges.
 | **Uphold** | Uphold Card | 73 🟡 | 1-4% | ⚠️ Verify |
 | **Shakepay** | Shakepay Card | 70 🟡 | 1.5% | ✅ Active |
 | ~~**Mode**~~ | ~~Mode Card~~ | 69 🟡 | Up to 10% | ❌ Defunct |
-| **Redotpay** | Redotpay | 67 🟡 | Up to 3% | ✅ Active |
+| **RedotPay** | RedotPay | 74 🟡 | Up to 3% | ✅ Active |
 | **Nexo** | Nexo Card | 63 🟡 | Up to 2% | ✅ Active |
 | **Swissborg** | Swissborg Card | 60 🟡 | 1-2% | ⚠️ Verify |
 | **BitPay** | BitPay Card | 56 🟡 | 1%* | ✅ Active |
@@ -145,7 +145,7 @@ Designed primarily for business/corporate use cases.
 8. **KuCard** - Up to 4% multi-crypto rewards (Global*)
 9. **Coinbase Card** - 1-4% crypto rewards (US)
 10. **Binance Card** - Up to 3% BNB rewards (Brazil only)
-11. **Redotpay** - Up to 3% stablecoin rewards (HK-based, Global)
+11. **RedotPay** - Up to 3% stablecoin rewards (HK-based, Global*)
 12. **Ready Card** - 3% crypto rewards, self-custody (EU/UK)
 13. **Revolut Crypto Card** - 1-3% crypto rewards (Global)
 14. **EtherFi Cash** - 2-3% DeFi-native cashback, non-custodial (Global)
@@ -177,7 +177,7 @@ Designed primarily for business/corporate use cases.
 
 - **Argent Card → Ready Card** - ✅ Found! Argent pivoted to **Ready** (formerly Argent) - now an onchain bank with zero-fee debit card at [ready.co](https://www.ready.co/card)
 - **Reddy → Ready Card** - ✅ This was likely referring to **Ready Card** (formerly Argent) - added above
-- **Redotpay** - ✅ Also added as a separate card (Hong Kong-based crypto card)
+- **RedotPay** - ✅ Also added as a separate card (Hong Kong-based crypto card)
 
 ---
 
@@ -228,7 +228,7 @@ Designed primarily for business/corporate use cases.
 
 | Category | Count | Cards |
 |----------|-------|-------|
-| Business-focused (verified) | 3 | Reap, EtherFi Cash, Redotpay |
+| Business-focused (verified) | 3 | Reap, EtherFi Cash, RedotPay |
 | Personal + Business (verified) | 4 | Nexo, Crypto.com, Bybit, Revolut |
 | Business support unverified | 4 | Binance, Wirex, BitPay, Uphold |
 | **Total with potential business support** | **11** | |
@@ -240,7 +240,7 @@ Designed primarily for business/corporate use cases.
 | **DeFi-native businesses** | EtherFi Cash | 85 🟢 | Corporate cards available, non-custodial |
 | **Fiat + crypto (business)** | Revolut Crypto | 76 🟢 | Established fintech, business accounts |
 | **High cashback (business)** | Bybit Card | 74 🟡 | Up to 10% (verify), business accounts available |
-| **Multi-region (APAC)** | Redotpay | 67 🟡 | Hong Kong-based, global expansion |
+| **Multi-region (APAC)** | RedotPay | 74 🟡 | Hong Kong-based, global expansion |
 | **Crypto-backed credit** | Nexo Card | 63 🟡 | Credit line model, EU/UK |
 | **Business-only needs** | Reap | 47 🔴 | ✅ Verified, business-focused, 0% cashback |
 
@@ -249,7 +249,7 @@ Designed primarily for business/corporate use cases.
 - ✅ **EtherFi Cash** - Score: 85 🟢 - [ether.fi/cash](https://ether.fi/cash) - Corporate cards available, non-custodial, 2-3% cashback
 - ✅ **Revolut Crypto** - Score: 76 🟢 - [revolut.com](https://www.revolut.com/crypto/crypto-card/) - Business accounts available
 - ✅ **Bybit Card** - Score: 74 🟡 - [bybit.com/cards](https://www.bybit.com/en/cards/) - Business accounts available
-- ✅ **Redotpay** - Score: 67 🟡 - [redotpay.com](https://redotpay.com) - Business accounts available
+- ✅ **RedotPay** - Score: 74 🟡 - [redotpay.com](https://redotpay.com) - Business accounts available
 - ✅ **Nexo Card** - Score: 63 🟡 - [nexo.com/card](https://nexo.com/card) - Business accounts available
 - ✅ **Reap** - Score: 47 🔴 - [reap.global](https://reap.global) - Business-focused platform (business accounts only)
 - ✅ **Crypto.com Visa** - Score: 41 🔴 - [crypto.com/cards](https://crypto.com/cards) - Business accounts available (⚠️ UX penalty)

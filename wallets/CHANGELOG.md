@@ -148,7 +148,7 @@ Comprehensive recalculation of all 27 crypto card scores using verified website 
 
 | Date | Wallet/Card | Change | Details |
 |------|-------------|--------|---------|
-| Dec 2025 | **Major Expansion** | 17 → 27 cards | Added 10 new cards: Ready (Argent), Bybit, OKX, KuCard, Kraken, Gnosis Pay, Redotpay, Hi Card, 1inch Card, Revolut |
+| Dec 2025 | **Major Expansion** | 17 → 27 cards | Added 10 new cards: Ready (Argent), Bybit, OKX, KuCard, Kraken, Gnosis Pay, RedotPay, Hi Card, 1inch Card, Revolut |
 | Dec 2025 | **Ready Card** | Added (90 🟢) | Formerly Argent Card - onchain bank with zero-fee debit card (EU/UK) |
 | Dec 2025 | **Provider Groupings** | New categorization | Cards grouped by exchange/provider with consistent scoring handicaps |
 | Dec 2025 | **Exchange Cards** | -3 pts handicap | Coinbase, Binance, Gemini, KuCoin, OKX, CoinJar, Kraken, Crypto.com, Bybit (custody risk) |
@@ -159,7 +159,7 @@ Comprehensive recalculation of all 27 crypto card scores using verified website 
 | Dec 2025 | **1inch Card** | Added (75 🟢) | Baanx + Mastercard partnership, DeFi users |
 | Dec 2025 | **KuCard** | Added (72 🟡) | KuCoin exchange card, up to 4% cashback |
 | Dec 2025 | **Revolut Crypto** | Added (72 🟡) | Established fintech with crypto card |
-| Dec 2025 | **Redotpay** | Added (70 🟡) | Hong Kong-based, global multi-region card |
+| Dec 2025 | **RedotPay** | Added (70 🟡) | Hong Kong-based, global multi-region card |
 | Dec 2025 | **OKX Card** | Added (68 🟡) | New Mastercard stablecoin partnership, launching |
 | Dec 2025 | **Kraken Card** | Added (60 🟡) | Limited availability, expanding |
 | Dec 2025 | **Monolith Card** | Marked discontinued | Ethereum card, no longer active |
