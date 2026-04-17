@@ -1,0 +1,36 @@
+{
+  "iteration": 1,
+  "candidates": [
+    {
+      "name": "qwen35_atomic_strict_restraint_v1",
+      "target": {
+        "model": "qwen3.5:35b",
+        "phase": "atomic",
+        "variant": "atomic"
+      },
+      "hypothesis": "Stricter, explicit refusal language on non-tool prompts improves restraint without hurting easy tool-call prompts.",
+      "changes": "Sharpen system prompt toward conservative tool invocation.",
+      "expected_delta": "restraint +0.05 to +0.15, flat or slightly improved accuracy",
+      "patch": {
+        "system_prompt": "Call tools only when the user request directly requires an external action. If information is already in the prompt or unknown, answer without calling tools. Be brief and explicit.",
+        "timeout_seconds": 180,
+        "temperature": 0.0
+      }
+    },
+    {
+      "name": "mistral_atomic_low_verbosity_v1",
+      "target": {
+        "model": "mistral:7b",
+        "phase": "atomic",
+        "variant": "atomic"
+      },
+      "hypothesis": "A shorter instruction block reduces unnecessary generations and timeout risk while preserving call selection quality.",
+      "changes": "Compact system prompt with strict action criterion and no extra narrative behavior.",
+      "expected_delta": "latency -5% to -20%, stable accuracy",
+      "patch": {
+        "system_prompt": "Use tools only when needed to satisfy the user request. If no tool is needed, answer directly in one short response.",
+        "temperature": 0.0
+      }
+    }
+  ]
+}
