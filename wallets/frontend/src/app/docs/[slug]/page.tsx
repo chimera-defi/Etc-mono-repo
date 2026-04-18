@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Script from 'next/script';
-import { ArrowLeft, Clock, BookOpen, ExternalLink, FileText, Table, Rss } from 'lucide-react';
+import { ArrowLeft, Clock, BookOpen, ExternalLink, FileText, Table } from 'lucide-react';
 import Link from 'next/link';
 import { getAllDocuments, getDocumentBySlug, getDocumentSlugs, extractTableOfContents, getRelatedDocument } from '@/lib/markdown';
-import { calculateReadingTime, formatReadingTime, optimizeMetaDescription, generateKeywords, getOgImagePath, markdownToPlainText, extractFAQsFromMarkdown, generateFAQSchema, generateBreadcrumbSchema } from '@/lib/seo';
+import { calculateReadingTime, formatReadingTime, optimizeMetaDescription, generateKeywords, getOgImagePath } from '@/lib/seo';
 import { EnhancedMarkdownRenderer } from '@/components/EnhancedMarkdownRenderer';
 import { TableOfContents } from '@/components/TableOfContents';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const pageUrl = `${baseUrl}/docs/${params.slug}/`;
   const rawDescription = document.description || 
-    `Comprehensive ${document.category} guide for crypto product comparison. ${document.title.includes('Comparison') ? 'Compare wallets, cards, ramps, and related products with detailed scoring, security research, and developer experience metrics.' : 'Expert insights and analysis for developers.'}`;
+    `Comprehensive ${document.category} guide for crypto wallet comparison. ${document.title.includes('Comparison') ? 'Compare wallets with detailed scoring, security audits, and developer experience metrics.' : 'Expert insights and analysis for developers.'}`;
   const enhancedDescription = optimizeMetaDescription(rawDescription);
 
   // Generate dynamic keywords based on content
@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   // Get page-specific OG image with cache-busting version parameter
   // Increment ogImageVersion when images are updated to bust Twitter/social media caches
   const ogImagePath = getOgImagePath(params.slug);
-  const ogImageVersion = 'v5';
+  const ogImageVersion = 'v4';
   const ogImageUrl = `${baseUrl}${ogImagePath}?${ogImageVersion}`;
 
   return {
@@ -101,9 +101,8 @@ export default function DocumentPage({ params }: PageProps) {
   // Page URL and description
   const pageUrl = `${baseUrl}/docs/${params.slug}/`;
   const rawDescription = document.description || 
-    `Comprehensive ${document.category} guide for crypto product comparison. ${document.title.includes('Comparison') ? 'Compare wallets, cards, ramps, and related products with detailed scoring, security research, and developer experience metrics.' : 'Expert insights and analysis for developers.'}`;
+    `Comprehensive ${document.category} guide for crypto wallet comparison. ${document.title.includes('Comparison') ? 'Compare wallets with detailed scoring, security audits, and developer experience metrics.' : 'Expert insights and analysis for developers.'}`;
   const enhancedDescription = optimizeMetaDescription(rawDescription);
-  const summaryText = document.description || enhancedDescription;
 
   // Check if this is a table or details page and get the related one
   // New naming: software-wallets (table), software-wallets-details (details)
@@ -133,25 +132,24 @@ export default function DocumentPage({ params }: PageProps) {
     return new Date().toISOString();
   };
 
-  // Breadcrumb structured data - use helper for consistency
-  const breadcrumbSchema = generateBreadcrumbSchema([
-    { label: 'Home', href: '/' },
-    { label: 'Docs', href: '/docs' },
-    { label: document.title, href: `/docs/${params.slug}` },
-  ], baseUrl);
-
-  // Extract FAQs from markdown content and generate FAQ schema
-  const faqs = extractFAQsFromMarkdown(document.content);
-  const faqSchema = faqs.length > 0 ? generateFAQSchema(faqs) : null;
-
-  const speakableSchema = {
+  // Breadcrumb structured data
+  const breadcrumbSchema = {
     '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    name: document.title,
-    speakable: {
-      '@type': 'SpeakableSpecification',
-      cssSelector: ['.speakable-summary'],
-    },
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: `${baseUrl}/`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: document.title,
+        item: pageUrl,
+      },
+    ],
   };
 
   // Article structured data for comparison pages
@@ -160,7 +158,6 @@ export default function DocumentPage({ params }: PageProps) {
     '@type': 'Article',
     headline: document.title,
     description: enhancedDescription,
-    articleBody: markdownToPlainText(document.content),
     author: {
       '@type': 'Organization',
       name: 'Chimera DeFi',
@@ -171,7 +168,7 @@ export default function DocumentPage({ params }: PageProps) {
       name: siteName,
       logo: {
         '@type': 'ImageObject',
-        url: `${baseUrl}/logo.svg`,
+        url: `${baseUrl}/logo.png`,
       },
     },
     datePublished: parseDate(document.lastUpdated),
@@ -216,7 +213,6 @@ export default function DocumentPage({ params }: PageProps) {
     '@type': 'HowTo',
     name: document.title,
     description: enhancedDescription,
-    text: markdownToPlainText(document.content),
     step: extractHowToSteps(document.content).map((step, index) => ({
       '@type': 'HowToStep',
       position: index + 1,
@@ -282,19 +278,7 @@ export default function DocumentPage({ params }: PageProps) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
         />
       )}
-      {faqSchema && (
-        <Script
-          id="faq-schema"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-        />
-      )}
-      <Script
-        id="speakable-schema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableSchema) }}
-      />
-      <div className="container mx-auto px-4 py-8">
+      <div className="wr-container py-8">
       {/* Breadcrumb Navigation */}
       <Breadcrumbs
         items={[
@@ -305,24 +289,24 @@ export default function DocumentPage({ params }: PageProps) {
       
       {/* Navigation between table and details */}
       {relatedDoc && (
-        <div className="mb-6 p-4 rounded-xl border border-slate-700/60 bg-slate-900/70 backdrop-blur-sm">
+        <div className="mb-6 p-4 rounded-lg border border-border bg-muted/50">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               {isTablePage ? (
                 <>
-                  <Table className="h-4 w-4 text-slate-400" />
-                  <span className="text-sm text-slate-400">Viewing comparison table</span>
+                  <Table className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">Viewing comparison table</span>
                 </>
               ) : (
                 <>
-                  <FileText className="h-4 w-4 text-slate-400" />
-                  <span className="text-sm text-slate-400">Viewing full documentation</span>
+                  <FileText className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">Viewing full documentation</span>
                 </>
               )}
             </div>
             <Link
               href={`/docs/${relatedDoc.slug}`}
-              className="inline-flex items-center gap-2 text-sm font-medium text-sky-400 hover:text-sky-300 transition-colors"
+              className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
             >
               {isTablePage ? (
                 <>
@@ -344,8 +328,8 @@ export default function DocumentPage({ params }: PageProps) {
         {/* Main Content */}
         <article className="min-w-0">
           {/* Header */}
-          <header className="mb-8 pb-6 border-b border-slate-700/60">
-            <div className="flex items-center gap-2 text-sm text-slate-400 mb-3 flex-wrap">
+          <header className="mb-8 pb-6 border-b border-border">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3 flex-wrap">
               <BookOpen className="h-4 w-4" aria-hidden="true" />
               <span className="capitalize">{document.category}</span>
               {document.lastUpdated && (
@@ -358,11 +342,8 @@ export default function DocumentPage({ params }: PageProps) {
               <span aria-hidden="true">•</span>
               <span>{formatReadingTime(calculateReadingTime(document.content))}</span>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-slate-100">{document.title}</h1>
-            <p className="text-lg text-slate-400 mb-3 speakable-summary">{summaryText}</p>
-            <p className="text-sm text-slate-500 mb-4">
-              Summary: {enhancedDescription}
-            </p>
+            <h1 className="text-3xl md:text-4xl font-bold mb-4">{document.title}</h1>
+            <p className="text-lg text-muted-foreground mb-4">{document.description}</p>
             {/* Social Sharing - Header */}
             <SocialShare
               url={pageUrl}
@@ -376,51 +357,12 @@ export default function DocumentPage({ params }: PageProps) {
           <EnhancedMarkdownRenderer
             content={document.content}
             showExpandableSections={true}
-            skipFirstH1={true}
           />
 
-          {/* Merchant Feed (collapsible, for SEO agents - near footer) */}
-          {(isTablePage || (isDetailsPage && ['software-wallets', 'hardware-wallets', 'crypto-cards', 'ramps'].some(s => document.slug.startsWith(s)))) && (
-            <details className="mt-8 rounded-lg border border-slate-700/60 bg-slate-900/50 overflow-hidden" id="merchant-feed">
-              <summary className="flex items-center gap-3 p-3 cursor-pointer list-none bg-muted/30 hover:bg-muted/50 transition-colors [&::-webkit-details-marker]:hidden">
-                <Rss className="h-5 w-5 text-muted-foreground flex-shrink-0" aria-hidden />
-                <span className="font-semibold text-slate-200">Merchant Feed (SEO agents)</span>
-                <span className="text-xs text-muted-foreground ml-auto">Click to expand</span>
-              </summary>
-              <div className="p-4 border-t border-slate-700/60 text-sm text-muted-foreground space-y-2">
-                {(document.slug === 'hardware-wallets' || document.slug === 'hardware-wallets-details') ? (
-                  <>
-                    <p>
-                      <a href={`${baseUrl}/merchant-center.xml`} className="text-sky-400 hover:text-sky-300 underline">
-                        merchant-center.xml
-                      </a>
-                      {' — Verified USD pricing for hardware wallets. Exclusions: '}
-                      <a href="https://github.com/chimera-defi/Etc-mono-repo/blob/main/wallets/MERCHANT_FEED.md" className="text-sky-400 hover:text-sky-300 underline" target="_blank" rel="noopener noreferrer">
-                        MERCHANT_FEED.md
-                      </a>
-                    </p>
-                  </>
-                ) : (
-                  <p>
-                    Merchant feed not available for this category. The feed covers hardware wallets only.{' '}
-                    <Link href="/docs/hardware-wallets#merchant-feed" className="text-sky-400 hover:text-sky-300 underline">
-                      See Hardware Wallets
-                    </Link>
-                    {' for '}
-                    <a href={`${baseUrl}/merchant-center.xml`} className="text-sky-400 hover:text-sky-300 underline">
-                      merchant-center.xml
-                    </a>
-                    .
-                  </p>
-                )}
-              </div>
-            </details>
-          )}
-
           {/* Footer Navigation */}
-          <footer className="mt-12 pt-8 border-t border-slate-700/60">
+          <footer className="mt-12 pt-8 border-t border-border">
             {/* Social Sharing - Footer */}
-            <div className="mb-6 pb-6 border-b border-slate-700/60">
+            <div className="mb-6 pb-6 border-b border-border">
               <SocialShare
                 url={pageUrl}
                 title={document.title}
@@ -428,11 +370,11 @@ export default function DocumentPage({ params }: PageProps) {
                 size="large"
               />
             </div>
-
+            
             <div className="flex flex-wrap items-center justify-between gap-4">
               <Link
                 href="/"
-                className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-slate-200 transition-colors"
+                className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 <ArrowLeft className="h-4 w-4" />
                 Back to Home
@@ -442,7 +384,7 @@ export default function DocumentPage({ params }: PageProps) {
                   href="https://walletbeat.fyi?utm_source=walletradar&utm_medium=comparison"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-slate-400 hover:text-slate-200 transition-colors"
+                  className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   WalletBeat
                   <ExternalLink className="h-3 w-3" />
@@ -451,7 +393,7 @@ export default function DocumentPage({ params }: PageProps) {
                   href="https://ethereum.org/en/wallets/find-wallet/?utm_source=walletradar&utm_medium=comparison"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-slate-400 hover:text-slate-200 transition-colors"
+                  className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   Ethereum.org
                   <ExternalLink className="h-3 w-3" />
@@ -467,8 +409,8 @@ export default function DocumentPage({ params }: PageProps) {
             <TableOfContents items={filteredToc} />
             
             {/* Related Documents */}
-            <div className="mt-8 pt-8 border-t border-slate-700/60">
-              <p className="font-semibold text-sm mb-3 text-slate-200">Related</p>
+            <div className="mt-8 pt-8 border-t border-border">
+              <p className="font-semibold text-sm mb-3">Related</p>
               <RelatedDocuments currentSlug={params.slug} />
             </div>
           </div>
@@ -555,10 +497,10 @@ function RelatedDocuments({ currentSlug }: { currentSlug: string }) {
         <li key={doc.slug}>
           <Link
             href={`/docs/${doc.slug}`}
-            className="text-sm text-slate-400 hover:text-slate-200 transition-colors block"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors block"
           >
             <span className="line-clamp-2">{doc.title}</span>
-            <span className="text-xs text-slate-500 capitalize">
+            <span className="text-xs text-muted-foreground/70 capitalize">
               {doc.category}
             </span>
           </Link>
