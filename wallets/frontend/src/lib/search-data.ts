@@ -60,6 +60,11 @@ const faqItems = [
     category: 'comparison',
   },
   {
+    question: 'Why does Wallet Radar say "Educational Research & Data Only"?',
+    answer: 'Wallet Radar is a research site, not a broker or wallet provider. It does not run login pages, wallet connections, or transaction signing. Data is sourced from public information and should be verified independently.',
+    category: 'comparison',
+  },
+  {
     question: 'How are wallet scores calculated?',
     answer: 'Scores are generated from the visible comparison-table columns using published category weights for security, developer UX, activity, coverage, fees, custody, and related inputs.',
     category: 'comparison',
