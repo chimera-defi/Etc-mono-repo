@@ -862,6 +862,9 @@ function CryptoCardItem({
           </div>
         </td>
         <td className="py-3 px-4">
+          <RecommendationBadge recommendation={card.recommendation} tooltipLinkHref={detailHref} />
+        </td>
+        <td className="py-3 px-4">
           <Badge variant="info" tooltip={cryptoCardTooltips.cardType[card.cardType]} tooltipLinkHref={detailHref}>{card.cardType}</Badge>
         </td>
         <td className="py-3 px-4 text-sm">
@@ -914,7 +917,12 @@ function CryptoCardItem({
           )}
         </div>
       }
-      subNameSlot={<Badge variant="info" tooltip={cryptoCardTooltips.cardType[card.cardType]} tooltipLinkHref={detailHref}>{card.cardType}</Badge>}
+      subNameSlot={
+        <div className="mt-1 flex flex-wrap gap-2">
+          <RecommendationBadge recommendation={card.recommendation} tooltipLinkHref={detailHref} />
+          <Badge variant="info" tooltip={cryptoCardTooltips.cardType[card.cardType]} tooltipLinkHref={detailHref}>{card.cardType}</Badge>
+        </div>
+      }
     >
       <Tooltip content="Maximum cashback rate (may require staking or tier progression)" linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
         <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-2 cursor-help">
@@ -1173,7 +1181,7 @@ export function WalletTable<T extends WalletData>({
               <th className={mobileHeaderCellClassName}>
                 <HeaderTooltip label="Wallet" tooltip={softwareWalletTooltips.headers.wallet} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
               </th>
-              {(type === 'software' || type === 'hardware' || type === 'ramps') && (
+              {(type === 'software' || type === 'hardware' || type === 'cards' || type === 'ramps') && (
                 <th className={mobileHeaderCellClassName}>
                   <HeaderTooltip label="Status" tooltip={softwareWalletTooltips.headers.status} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                 </th>
