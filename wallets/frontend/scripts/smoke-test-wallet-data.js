@@ -520,10 +520,11 @@ function run() {
     'Rewards',
     'Status',
     'Best For',
+    'Rec',
   ];
   assertHeaders('Crypto cards table', cardsTable.header, cardsExpectedHeader);
   assertAllRowsColumnShape('Crypto cards table', cardsTable.header, cardsRows);
-  assertAllRowsComputed('Crypto cards table', cardsRows, computeCardScore, 1);
+  assertAllRowsComputed('Crypto cards table', cardsRows, computeCardScore, 1, 12);
 
   // Spot-check EtherFi Cash (top-ranked card after Jan 2026 recalculation)
   // Card column now contains both name and URL: [**Card Name**](url)
@@ -534,7 +535,7 @@ function run() {
     const card = etherfiRow[0] || '';
     const custody = etherfiRow[3] || '';
     const status = etherfiRow[10] || '';     // Status column at index 10 after removing Provider
-    assertComputedScore('Crypto cards table', etherfiRow, computeCardScore, 1);
+    assertComputedScore('Crypto cards table', etherfiRow, computeCardScore, 1, 12);
     if (!/Self/.test(custody)) fail(`EtherFi Cash custody drifted (expected Self), got: "${custody}"`);
     // Card column should now have URL embedded
     if (!/ether\.fi/i.test(card)) fail(`EtherFi Cash card column should contain ether.fi URL, got: "${card}"`);
@@ -557,7 +558,7 @@ function run() {
     const card = readyRow[0] || '';
     const custody = readyRow[3] || '';
     const cashback = readyRow[6] || '';  // Cash Back column
-    assertComputedScore('Crypto cards table', readyRow, computeCardScore, 1);
+    assertComputedScore('Crypto cards table', readyRow, computeCardScore, 1, 12);
     if (!/Self/.test(custody)) fail(`Ready Card custody drifted (expected Self), got: "${custody}"`);
     // Card column should now have URL embedded
     if (!/ready\.co/i.test(card)) fail(`Ready Card card column should contain ready.co URL, got: "${card}"`);
@@ -588,17 +589,18 @@ function run() {
     'Founded',
     'Funding',
     'Best For',
+    'Rec',
   ];
   assertHeaders('Ramps table', rampsTable.header, rampsExpectedHeader);
   assertAllRowsColumnShape('Ramps table', rampsTable.header, rampsRows);
   assertCompanyColumns('Ramps table', rampsRows, 10, 11);
-  assertAllRowsComputed('Ramps table', rampsRows, computeRampScore, 1);
+  assertAllRowsComputed('Ramps table', rampsRows, computeRampScore, 1, 13);
 
   const transakRow = findRowByFirstCellSubstring(rampsRows, 'transak');
   if (!transakRow) {
     fail('Ramps table: could not find Transak row.');
   } else {
-    assertComputedScore('Ramps table', transakRow, computeRampScore, 1);
+    assertComputedScore('Ramps table', transakRow, computeRampScore, 1, 13);
     const improvedCompanySignals = [...transakRow];
     improvedCompanySignals[10] = '2010';
     improvedCompanySignals[11] = '🟢 Revenue';

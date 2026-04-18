@@ -464,8 +464,8 @@ export function parseCryptoCards(): CryptoCard[] {
   const dataRows = rows.slice(1);
 
   // Table columns (CRYPTO_CARDS.md) after merging Provider into Card column (Jan 2026):
-  // Card(0) Score(1) Type(2) Custody(3) Biz(4) Region(5) CashBack(6) 
-  // AnnualFee(7) FxFee(8) Rewards(9) Status(10) BestFor(11)
+  // Card(0) Score(1) Type(2) Custody(3) Biz(4) Region(5) CashBack(6)
+  // AnnualFee(7) FxFee(8) Rewards(9) Status(10) BestFor(11) Rec(12)
   // Card column now has format: [**Card Name**](url)
   return dataRows.map(cells => {
     // Extract card name and URL from markdown link format: [**Card Name**](url)
@@ -540,7 +540,7 @@ export function parseRamps(): Ramp[] {
 
   // Table columns (RAMPS.md):
   // Provider(0) Score(1) Type(2) On-Ramp(3) Off-Ramp(4) Coverage(5) Fee Model(6)
-  // Min Fee(7) Dev UX(8) Status(9) Founded(10) Funding(11) Best For(12)
+  // Min Fee(7) Dev UX(8) Status(9) Founded(10) Funding(11) Best For(12) Rec(13)
   return dataRows.map(cells => {
     // Extract provider name and URL from markdown link format: [**Name**](url)
     const linkMatch = cells[0]?.match(/\[(?:\*\*)?([^*]+)(?:\*\*)?\]\(([^)]+)\)/);
