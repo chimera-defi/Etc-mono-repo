@@ -365,32 +365,31 @@ export default function HomePage() {
             </div>
 
             {/* Direct Category Links */}
-            <p className="mb-2 text-xs text-muted-foreground sm:hidden">Swipe to see all categories.</p>
-            <div className="flex gap-3 overflow-x-auto pb-1 -mx-1 px-1 sm:flex-wrap sm:overflow-visible sm:px-0 sm:mx-0">
+            <div className="grid grid-cols-1 gap-3 sm:flex sm:flex-wrap">
               <Link
                 href="/docs/software-wallets"
-                className="shrink-0 inline-flex items-center gap-2 border border-indigo-500/40 bg-indigo-500/10 hover:border-indigo-400 hover:bg-indigo-500/20 text-indigo-300 font-medium px-4 py-2 rounded-lg transition-colors"
+                className="inline-flex w-full items-center justify-center gap-2 border border-indigo-500/40 bg-indigo-500/10 hover:border-indigo-400 hover:bg-indigo-500/20 text-indigo-300 font-medium px-4 py-2 rounded-lg transition-colors sm:w-auto sm:justify-start"
               >
                 <Smartphone className="h-4 w-4" />
                 Software
               </Link>
               <Link
                 href="/docs/hardware-wallets"
-                className="shrink-0 inline-flex items-center gap-2 border border-amber-500/40 bg-amber-500/10 hover:border-amber-400 hover:bg-amber-500/20 text-amber-300 font-medium px-4 py-2 rounded-lg transition-colors"
+                className="inline-flex w-full items-center justify-center gap-2 border border-amber-500/40 bg-amber-500/10 hover:border-amber-400 hover:bg-amber-500/20 text-amber-300 font-medium px-4 py-2 rounded-lg transition-colors sm:w-auto sm:justify-start"
               >
                 <HardDrive className="h-4 w-4" />
                 Hardware
               </Link>
               <Link
                 href="/docs/crypto-cards"
-                className="shrink-0 inline-flex items-center gap-2 border border-emerald-500/40 bg-emerald-500/10 hover:border-emerald-400 hover:bg-emerald-500/20 text-emerald-300 font-medium px-4 py-2 rounded-lg transition-colors"
+                className="inline-flex w-full items-center justify-center gap-2 border border-emerald-500/40 bg-emerald-500/10 hover:border-emerald-400 hover:bg-emerald-500/20 text-emerald-300 font-medium px-4 py-2 rounded-lg transition-colors sm:w-auto sm:justify-start"
               >
                 <CreditCard className="h-4 w-4" />
                 Cards
               </Link>
               <Link
                 href="/docs/ramps"
-                className="shrink-0 inline-flex items-center gap-2 border border-violet-500/40 bg-violet-500/10 hover:border-violet-400 hover:bg-violet-500/20 text-violet-300 font-medium px-4 py-2 rounded-lg transition-colors"
+                className="inline-flex w-full items-center justify-center gap-2 border border-violet-500/40 bg-violet-500/10 hover:border-violet-400 hover:bg-violet-500/20 text-violet-300 font-medium px-4 py-2 rounded-lg transition-colors sm:w-auto sm:justify-start"
               >
                 <ArrowUpDown className="h-4 w-4" />
                 Ramps

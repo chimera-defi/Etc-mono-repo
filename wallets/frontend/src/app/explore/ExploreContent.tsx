@@ -830,14 +830,14 @@ export function ExploreContent({
     <div ref={topAnchorRef} className="space-y-6">
       {/* Tabs */}
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border pb-4">
-        <div role="tablist" aria-label="Wallet categories" className="flex gap-2">
+        <div role="tablist" aria-label="Wallet categories" className="grid w-full grid-cols-2 gap-2 sm:w-auto sm:flex sm:flex-wrap">
           <button
             role="tab"
             aria-selected={activeTab === 'software'}
             aria-controls="tabpanel-wallets"
             onClick={() => setActiveTab('software')}
             className={cn(
-              'inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all',
+              'inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium transition-all sm:justify-start',
               activeTab === 'software'
                 ? 'bg-indigo-500/25 text-indigo-100 border border-indigo-400/60 shadow-[0_0_10px_rgba(99,102,241,0.3)]'
                 : 'bg-indigo-900/20 text-indigo-300 border border-transparent hover:bg-indigo-500/15 hover:border-indigo-500/30'
@@ -858,7 +858,7 @@ export function ExploreContent({
             aria-controls="tabpanel-wallets"
             onClick={() => setActiveTab('hardware')}
             className={cn(
-              'inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all',
+              'inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium transition-all sm:justify-start',
               activeTab === 'hardware'
                 ? 'bg-amber-500/25 text-amber-100 border border-amber-400/60 shadow-[0_0_10px_rgba(245,158,11,0.3)]'
                 : 'bg-amber-900/20 text-amber-300 border border-transparent hover:bg-amber-500/15 hover:border-amber-500/30'
@@ -879,7 +879,7 @@ export function ExploreContent({
             aria-controls="tabpanel-wallets"
             onClick={() => setActiveTab('cards')}
             className={cn(
-              'inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all',
+              'inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium transition-all sm:justify-start',
               activeTab === 'cards'
                 ? 'bg-emerald-500/25 text-emerald-100 border border-emerald-400/60 shadow-[0_0_10px_rgba(16,185,129,0.3)]'
                 : 'bg-emerald-900/20 text-emerald-300 border border-transparent hover:bg-emerald-500/15 hover:border-emerald-500/30'
@@ -900,7 +900,7 @@ export function ExploreContent({
             aria-controls="tabpanel-wallets"
             onClick={() => setActiveTab('ramps')}
             className={cn(
-              'inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all',
+              'inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium transition-all sm:justify-start',
               activeTab === 'ramps'
                 ? 'bg-violet-500/25 text-violet-100 border border-violet-400/60 shadow-[0_0_10px_rgba(139,92,246,0.3)]'
                 : 'bg-violet-900/20 text-violet-300 border border-transparent hover:bg-violet-500/15 hover:border-violet-500/30'
@@ -1012,15 +1012,12 @@ export function ExploreContent({
           </button>
         </div>
 
-        <p className="mt-4 text-xs text-muted-foreground sm:hidden">
-          Swipe to browse presets.
-        </p>
-        <div className="mt-2 flex gap-3 overflow-x-auto snap-x snap-mandatory pb-1 sm:mt-4 sm:grid sm:grid-cols-4 sm:overflow-visible">
+        <div className="mt-3 grid grid-cols-1 gap-3 sm:mt-4 sm:grid-cols-2 xl:grid-cols-4">
           {activePresets.map((preset) => (
             <button
               key={preset.id}
               onClick={() => applyPreset(preset)}
-              className="snap-start min-w-[180px] sm:min-w-0 rounded-2xl border border-border bg-background/60 px-4 py-3 text-left transition-all hover:border-primary/40 hover:bg-primary/5 hover:-translate-y-0.5 hover:shadow-md"
+              className="rounded-2xl border border-border bg-background/60 px-4 py-3 text-left transition-all hover:border-primary/40 hover:bg-primary/5 hover:-translate-y-0.5 hover:shadow-md"
             >
               <div className="flex items-center gap-2">
                 <span className="text-base leading-none">{preset.icon}</span>
