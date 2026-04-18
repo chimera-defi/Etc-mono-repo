@@ -492,10 +492,16 @@ function run() {
   const hasBelowMedianFlag = /const isBelowMedian = score < scoreMedian;/.test(walletTableContent);
   const hasBelowMedianErrorVariant = /if \(isBelowMedian \|\| recommendation === 'avoid' \|\| recommendation === 'not-for-dev'\) variant = 'error';/.test(walletTableContent);
   const hasMedianPropWiring = /scoreMedian=\{scoreMedian\}/.test(walletTableContent);
+  const hasExplicitScoreHeader = /HeaderTooltip label="Score"/.test(walletTableContent);
   if (!hasBelowMedianFlag || !hasBelowMedianErrorVariant || !hasMedianPropWiring) {
     fail('WalletTable.tsx: score badge must mark below-median items as red and wire median through table/grid rows.');
   } else {
     ok('WalletTable.tsx: below-median score color regression guard passed');
+  }
+  if (!hasExplicitScoreHeader) {
+    fail('WalletTable.tsx: table view must include an explicit Score column header.');
+  } else {
+    ok('WalletTable.tsx: explicit Score column header guard passed');
   }
 
   // ---- Crypto cards table ----
