@@ -12,6 +12,8 @@ import {
   Check,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Panel } from '@/components/ui/panel';
 
 // Types matching wallet-data.ts (client-side version)
 export interface FilterState {
@@ -140,7 +142,6 @@ const CARD_STATUS_OPTIONS = [
   { value: 'active', label: '✅ Active', color: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' },
   { value: 'verify', label: '⚠️ Verify', color: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' },
   { value: 'launching', label: '🔄 Launching', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' },
-  { value: 'inactive', label: '❌ Inactive', color: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' },
 ];
 
 const SORT_OPTIONS = {
@@ -409,84 +410,82 @@ export function WalletFilters({
 
   return (
     <div className={cn('space-y-4', className)}>
-      {/* Top row: Search, Sort, Advanced toggle */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        {/* Search */}
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
-            type="search"
-            placeholder="Search wallets..."
-            value={filters.search}
-            onChange={e => updateFilter('search', e.target.value)}
-            className="w-full pl-10 pr-10 py-2 border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-          />
-          {filters.search && (
-            <button
-              onClick={() => updateFilter('search', '')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+      <Panel tone="muted" className="p-4">
+        <div className="flex flex-col gap-4 sm:flex-row">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <input
+              type="search"
+              placeholder="Search wallets..."
+              value={filters.search}
+              onChange={e => updateFilter('search', e.target.value)}
+              className="w-full rounded-xl border border-border bg-background px-10 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+            {filters.search && (
+              <button
+                onClick={() => updateFilter('search', '')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+
+          <div className="flex items-center gap-2">
+            <select
+              value={sort.field}
+              onChange={e => onSortChange({ ...sort, field: e.target.value })}
+              className="rounded-xl border border-border bg-background px-3 py-2.5 text-sm text-foreground"
             >
-              <X className="h-4 w-4" />
-            </button>
-          )}
-        </div>
+              {sortOptions.map(option => (
+                <option key={option.value} value={option.value}>
+                  Sort by {option.label}
+                </option>
+              ))}
+            </select>
+            <Button
+              onClick={() =>
+                onSortChange({
+                  ...sort,
+                  direction: sort.direction === 'asc' ? 'desc' : 'asc',
+                })
+              }
+              variant="outline"
+              size="icon"
+              className="h-10 w-10 rounded-xl"
+              title={sort.direction === 'asc' ? 'Ascending' : 'Descending'}
+            >
+              <ArrowUpDown className="h-4 w-4" />
+            </Button>
+          </div>
 
-        {/* Sort dropdown */}
-        <div className="flex items-center gap-2">
-          <select
-            value={sort.field}
-            onChange={e => onSortChange({ ...sort, field: e.target.value })}
-            className="px-3 py-2 border border-border rounded-lg bg-background text-foreground text-sm"
+          <Button
+            onClick={() => setShowAdvanced(!showAdvanced)}
+            variant={showAdvanced || activeFilterCount > 0 ? 'primary' : 'outline'}
+            size="md"
+            className="rounded-xl"
           >
-            {sortOptions.map(option => (
-              <option key={option.value} value={option.value}>
-                Sort by {option.label}
-              </option>
-            ))}
-          </select>
-          <button
-            onClick={() =>
-              onSortChange({
-                ...sort,
-                direction: sort.direction === 'asc' ? 'desc' : 'asc',
-              })
-            }
-            className="p-2 border border-border rounded-lg hover:bg-muted transition-colors"
-            title={sort.direction === 'asc' ? 'Ascending' : 'Descending'}
-          >
-            <ArrowUpDown className="h-4 w-4" />
-          </button>
-        </div>
+            <SlidersHorizontal className="h-4 w-4" />
+            <span className="text-sm">Filters</span>
+            {activeFilterCount > 0 && (
+              <span className="rounded bg-primary-foreground/20 px-1.5 py-0.5 text-xs">
+                {activeFilterCount}
+              </span>
+            )}
+          </Button>
 
-        {/* Advanced filters toggle */}
-        <button
-          onClick={() => setShowAdvanced(!showAdvanced)}
-          className={cn(
-            'flex items-center gap-2 px-4 py-2 border rounded-lg transition-colors',
-            showAdvanced || activeFilterCount > 0
-              ? 'border-primary bg-primary/10 text-primary'
-              : 'border-border hover:bg-muted'
-          )}
-        >
-          <SlidersHorizontal className="h-4 w-4" />
-          <span className="text-sm">Filters</span>
           {activeFilterCount > 0 && (
-            <span className="bg-primary text-primary-foreground text-xs px-1.5 py-0.5 rounded">
-              {activeFilterCount}
-            </span>
+            <Button
+              onClick={clearFilters}
+              variant="ghost"
+              size="md"
+              className="rounded-xl"
+            >
+              Clear All
+            </Button>
           )}
-        </button>
-
-        {/* Clear all */}
-        {activeFilterCount > 0 && (
-          <button
-            onClick={clearFilters}
-            className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground border border-border rounded-lg hover:bg-muted transition-colors"
-          >
-            Clear All
-          </button>
-        )}
-      </div>
+        </div>
+      </Panel>
 
       {/* Results count */}
       <div className="text-sm text-muted-foreground">
@@ -494,12 +493,9 @@ export function WalletFilters({
         {type === 'cards' ? 'cards' : type === 'ramps' ? 'ramps' : 'wallets'}
       </div>
 
-      {/* Advanced filters panel */}
       {showAdvanced && (
-        <div className="p-4 border border-border rounded-lg bg-muted/30 space-y-6">
-          {/* Common filters */}
+        <Panel tone="muted" className="space-y-6 p-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {/* Score range */}
             <RangeSlider
               label="Score Range"
               min={0}
@@ -511,7 +507,6 @@ export function WalletFilters({
               }}
             />
 
-            {/* Recommendation */}
             <MultiSelect
               label="Recommendation"
               options={RECOMMENDATION_OPTIONS}
@@ -519,7 +514,6 @@ export function WalletFilters({
               onChange={values => updateFilter('recommendation', values)}
             />
 
-            {/* Activity */}
             <MultiSelect
               label="Activity Status"
               options={ACTIVITY_OPTIONS}
@@ -528,7 +522,6 @@ export function WalletFilters({
             />
           </div>
 
-          {/* Software-specific filters */}
           {type === 'software' && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-4 border-t border-border">
               <MultiSelect
@@ -564,7 +557,6 @@ export function WalletFilters({
             </div>
           )}
 
-          {/* Hardware-specific filters */}
           {type === 'hardware' && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-4 border-t border-border">
               <ToggleButton
@@ -606,7 +598,6 @@ export function WalletFilters({
             </div>
           )}
 
-          {/* Card-specific filters */}
           {type === 'cards' && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-4 border-t border-border">
               <MultiSelect
@@ -659,7 +650,6 @@ export function WalletFilters({
             </div>
           )}
 
-          {/* Ramp-specific filters - for now just use common filters */}
           {type === 'ramps' && (
             <div className="pt-4 border-t border-border">
               <p className="text-sm text-muted-foreground">
@@ -667,8 +657,10 @@ export function WalletFilters({
               </p>
             </div>
           )}
-        </div>
+        </Panel>
       )}
     </div>
   );
 }
+
+export default WalletFilters;

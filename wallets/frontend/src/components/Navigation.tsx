@@ -5,71 +5,64 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { Menu, X, Wallet, Github, Twitter } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { buttonVariants } from '@/components/ui/button';
 import { ThemeToggle } from './ThemeToggle';
-import { SiteSearch } from './SiteSearch';
-import type { SearchItem } from '@/lib/search-data';
-import { trackOutboundLink } from '@/lib/analytics';
 
 const navItems = [
   { href: '/', label: 'Home' },
-  { href: '/explore', label: 'Explore' },
-  { href: '/docs/software-wallets', label: 'Software' },
-  { href: '/docs/hardware-wallets', label: 'Hardware' },
-  { href: '/docs/crypto-cards', label: 'Cards' },
+  { href: '/explore', label: 'Explore & Compare' },
+  { href: '/companies', label: 'Companies' },
+  { href: '/docs/software-wallets', label: 'Software Wallets' },
+  { href: '/docs/hardware-wallets', label: 'Hardware Wallets' },
+  { href: '/docs/crypto-cards', label: 'Crypto Cards' },
   { href: '/docs/ramps', label: 'Ramps' },
-  { href: '/articles', label: 'Articles' },
-  { href: '/docs', label: 'Docs' },
+  { href: '/docs/about', label: 'About' },
+  { href: '/docs', label: 'All Docs' },
 ];
 
-interface NavigationProps {
-  searchData?: SearchItem[];
-}
-
-export function Navigation({ searchData = [] }: NavigationProps) {
+export function Navigation() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-700/60 bg-slate-900/80 backdrop-blur-md">
-      <nav className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <Wallet className="h-6 w-6 text-sky-400" />
-            <span className="font-bold text-xl text-slate-100">Wallet Radar</span>
+    <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-background/80 backdrop-blur-xl">
+      <nav className="wr-container">
+        <div className="flex h-16 items-center justify-between gap-3">
+          <Link href="/" className="group inline-flex items-center gap-2">
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-primary/25 bg-primary/10 transition-colors group-hover:bg-primary/20">
+              <Wallet className="h-5 w-5 text-primary" />
+            </span>
+            <span className="text-base font-semibold tracking-tight md:text-lg">Wallet Radar</span>
+            <span className="hidden rounded-full border border-border bg-muted px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground lg:inline-block">
+              Research
+            </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1">
+          <div className="hidden md:flex items-center gap-2">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'px-3 py-2 text-sm font-medium rounded-lg transition-colors hover:bg-slate-800/50',
-                  pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href))
-                    ? 'text-sky-400 bg-sky-500/10'
-                    : 'text-slate-400 hover:text-slate-200'
+                  'rounded-xl px-3 py-2 text-sm font-medium transition-colors',
+                  pathname === item.href
+                    ? 'bg-primary/12 text-primary'
+                    : 'text-muted-foreground hover:bg-muted/80 hover:text-foreground'
                 )}
               >
                 {item.label}
               </Link>
             ))}
-          </div>
-
-          {/* Right side actions */}
-          <div className="flex items-center space-x-2">
-            {/* Site-wide search */}
-            <SiteSearch searchData={searchData} />
-
             <ThemeToggle />
-
             <a
               href="https://x.com/chimeradefi?utm_source=walletradar&utm_medium=comparison"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => trackOutboundLink('https://x.com/chimeradefi', 'Twitter')}
-              className="hidden sm:block text-slate-400 hover:text-slate-100 transition-colors p-2"
+              className={buttonVariants({
+                variant: 'ghost',
+                size: 'icon',
+                className: 'h-9 w-9 rounded-xl',
+              })}
               aria-label="Twitter"
             >
               <Twitter className="h-5 w-5" />
@@ -78,67 +71,83 @@ export function Navigation({ searchData = [] }: NavigationProps) {
               href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets?utm_source=walletradar&utm_medium=comparison"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => trackOutboundLink('https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets', 'GitHub')}
-              className="hidden sm:block text-slate-400 hover:text-slate-100 transition-colors p-2"
+              className={buttonVariants({
+                variant: 'ghost',
+                size: 'icon',
+                className: 'h-9 w-9 rounded-xl',
+              })}
               aria-label="GitHub"
             >
               <Github className="h-5 w-5" />
             </a>
+          </div>
 
-            {/* Mobile Menu Button */}
+          <div className="md:hidden flex items-center gap-1">
+            <ThemeToggle />
             <button
-              className="lg:hidden p-2"
+              className={buttonVariants({
+                variant: 'ghost',
+                size: 'icon',
+                className: 'h-9 w-9 rounded-xl',
+              })}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? (
-                <X className="h-6 w-6 text-slate-300" />
+                <X className="h-6 w-6" />
               ) : (
-                <Menu className="h-6 w-6 text-slate-300" />
+                <Menu className="h-6 w-6" />
               )}
             </button>
           </div>
         </div>
 
-        {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-slate-700/60">
-            <div className="flex flex-col space-y-1">
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    'px-3 py-2 text-sm font-medium rounded-lg transition-colors',
-                    pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href))
-                      ? 'text-sky-400 bg-sky-500/10'
-                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
-                  )}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              ))}
-              <div className="flex items-center gap-2 px-3 pt-2 mt-2 border-t border-slate-700/60">
+          <div className="md:hidden pb-4">
+            <div className="wr-panel overflow-hidden">
+              <div className="grid grid-cols-1 gap-1 p-2">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={cn(
+                      'rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                      pathname === item.href
+                        ? 'bg-primary/10 text-primary'
+                        : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                    )}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+              <div className="flex items-center gap-2 border-t border-border px-3 py-3">
                 <a
                   href="https://x.com/chimeradefi?utm_source=walletradar&utm_medium=comparison"
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => trackOutboundLink('https://x.com/chimeradefi', 'Twitter')}
-                  className="text-slate-400 hover:text-slate-100 transition-colors p-2"
-                  aria-label="Twitter"
+                  className={buttonVariants({
+                    variant: 'outline',
+                    size: 'sm',
+                    className: 'rounded-lg',
+                  })}
                 >
-                  <Twitter className="h-5 w-5" />
+                  <Twitter className="h-4 w-4" />
+                  Twitter
                 </a>
                 <a
                   href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets?utm_source=walletradar&utm_medium=comparison"
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => trackOutboundLink('https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets', 'GitHub')}
-                  className="text-slate-400 hover:text-slate-100 transition-colors p-2"
-                  aria-label="GitHub"
+                  className={buttonVariants({
+                    variant: 'outline',
+                    size: 'sm',
+                    className: 'rounded-lg',
+                  })}
                 >
-                  <Github className="h-5 w-5" />
+                  <Github className="h-4 w-4" />
+                  GitHub
                 </a>
               </div>
             </div>

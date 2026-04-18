@@ -1,12 +1,10 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
-import { IBM_Plex_Sans, Space_Grotesk } from 'next/font/google';
+import { JetBrains_Mono, Outfit } from 'next/font/google';
 import './globals.css';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { ThemeProvider } from '@/components/ThemeProvider';
-import { GoogleAnalytics } from '@/components/GoogleAnalytics';
-import { getSearchData } from '@/lib/search-data';
 
 // Google Analytics Measurement ID - hardcoded for static export reliability
 const GA_MEASUREMENT_ID = 'G-L6ZV569CMN';
@@ -15,18 +13,18 @@ const siteName = 'Wallet Radar';
 const defaultTitle = 'Wallet Radar - Developer-Focused Crypto Wallet Research';
 const defaultDescription = 'Independent research and comparison of crypto wallets, hardware wallets, and payment solutions. Scoring, security audits, GitHub activity analysis, and developer experience benchmarks.';
 // Cache-busting version for OG images - increment when images are updated
-const ogImageVersion = 'v5';
-const bodyFont = IBM_Plex_Sans({
+const ogImageVersion = 'v4';
+
+const fontSans = Outfit({
   subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-body',
+  variable: '--font-sans',
   weight: ['400', '500', '600', '700'],
 });
-const displayFont = Space_Grotesk({
+
+const fontMono = JetBrains_Mono({
   subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-display',
-  weight: ['500', '600', '700'],
+  variable: '--font-mono',
+  weight: ['400', '500', '600'],
 });
 
 export const metadata: Metadata = {
@@ -74,7 +72,7 @@ export const metadata: Metadata = {
     description: defaultDescription,
     images: [
       {
-        url: `${baseUrl}/og-image.svg?${ogImageVersion}`,
+        url: `${baseUrl}/og-image.png?${ogImageVersion}`,
         width: 1200,
         height: 630,
         alt: 'Wallet Radar - Developer-Focused Crypto Wallet Research',
@@ -87,7 +85,7 @@ export const metadata: Metadata = {
     description: defaultDescription,
     creator: '@chimeradefi',
     site: '@chimeradefi',
-    images: [`${baseUrl}/og-image.svg?${ogImageVersion}`],
+    images: [`${baseUrl}/og-image.png?${ogImageVersion}`],
   },
   robots: {
     index: true,
@@ -110,15 +108,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Generate search data at build time
-  const searchData = getSearchData();
   // Structured data for Organization and Website
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: siteName,
     url: baseUrl,
-    logo: `${baseUrl}/logo.svg`,
+    logo: `${baseUrl}/logo.png`,
     description: 'Developer-focused crypto wallet research and comparison platform',
     sameAs: [
       'https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets',
@@ -139,29 +135,66 @@ export default function RootLayout({
     description: defaultDescription,
   };
 
-  // Minified theme init - runs before hydration to prevent FOUC
-  const themeScript = '(function(){var t=localStorage.getItem("theme")||"dark";document.documentElement.classList.toggle("dark",t==="dark");})();';
+  // Script to prevent flash of wrong theme - runs before hydration
+  const themeScript = `
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      const theme = savedTheme || 'dark';
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  `;
 
   return (
     <html
       lang="en"
-      className={`${bodyFont.variable} ${displayFont.variable} scroll-smooth dark`}
+      className={`${fontSans.variable} ${fontMono.variable} scroll-smooth dark`}
       suppressHydrationWarning
     >
       <head>
+        {/* Theme initialization script - must run before render to prevent FOUC */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        
+        {/* Google Analytics - Standard implementation for static export sites */}
+        {/* This MUST be in <head> for reliable tracking on static sites */}
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${GA_MEASUREMENT_ID}', {
+                page_path: window.location.pathname,
+                anonymize_ip: true
+              });
+            `,
+          }}
+        />
+        
+        {/* Preconnect for performance (keeping for other Google services) */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        
+        {/* PWA and icons */}
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.svg" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
         <meta name="theme-color" content="#3b82f6" media="(prefers-color-scheme: light)" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content={siteName} />
       </head>
-      <body className="font-sans bg-background min-h-screen">
+      <body className="font-sans">
         <Script
           id="organization-schema"
           type="application/ld+json"
@@ -172,18 +205,16 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
-        <Script
-          strategy="lazyOnload"
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-        />
-        <Script id="ga-config" strategy="lazyOnload">
-          {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_MEASUREMENT_ID}',{page_path:window.location.pathname,anonymize_ip:true});try{var r=document.referrer||'',u=r?new URL(r):null,h=u?u.hostname:'direct',p=u?u.pathname:'',s=new URL(location.href).searchParams,src=s.get('utm_source')||h,med=s.get('utm_medium')||(r?'referral':'direct'),ai=['chat.openai.com','claude.ai','perplexity.ai','gemini.google.com','copilot.microsoft.com','bing.com'],isAi=ai.includes(h)||(h==='bing.com'&&p.startsWith('/chat'));gtag('event','referral_detected',{referrer_host:h,referrer_path:p,traffic_source:src,traffic_medium:med,is_ai_referrer:isAi});}catch(e){}`}
-        </Script>
         <ThemeProvider defaultTheme="dark">
-          <GoogleAnalytics />
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground"
+          >
+            Skip to content
+          </a>
           <div className="min-h-screen flex flex-col">
-            <Navigation searchData={searchData} />
-            <main className="flex-1">
+            <Navigation />
+            <main id="main-content" className="flex-1">
               {children}
             </main>
             <Footer />
