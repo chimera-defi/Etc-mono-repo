@@ -13,7 +13,7 @@ export function ThemeToggle() {
       className={buttonVariants({
         variant: 'ghost',
         size: 'icon',
-        className: 'h-9 w-9 rounded-xl',
+        className: 'h-10 w-10 rounded-xl sm:h-9 sm:w-9',
       })}
       aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
     >

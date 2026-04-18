@@ -10,8 +10,8 @@ export function Footer() {
         <div className="wr-panel mb-8 p-6 md:p-8">
           <div className="grid gap-6 md:grid-cols-[1.35fr_1fr] md:items-end">
             <div>
-              <Link href="/" className="mb-3 inline-flex items-center gap-2">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-primary/25 bg-primary/10">
+              <Link href="/" className="mb-3 inline-flex min-h-10 items-center gap-2">
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-primary/25 bg-primary/10 sm:h-9 sm:w-9">
                   <Wallet className="h-5 w-5 text-primary" />
                 </span>
                 <span className="text-lg font-semibold tracking-tight">Wallet Radar</span>
@@ -36,22 +36,22 @@ export function Footer() {
             </h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/docs/software-wallets" className="text-muted-foreground hover:text-foreground">
+                <Link href="/docs/software-wallets" className="inline-flex min-h-10 items-center text-muted-foreground hover:text-foreground">
                   Software Wallets
                 </Link>
               </li>
               <li>
-                <Link href="/docs/hardware-wallets" className="text-muted-foreground hover:text-foreground">
+                <Link href="/docs/hardware-wallets" className="inline-flex min-h-10 items-center text-muted-foreground hover:text-foreground">
                   Hardware Wallets
                 </Link>
               </li>
               <li>
-                <Link href="/docs/crypto-cards" className="text-muted-foreground hover:text-foreground">
+                <Link href="/docs/crypto-cards" className="inline-flex min-h-10 items-center text-muted-foreground hover:text-foreground">
                   Crypto Cards
                 </Link>
               </li>
               <li>
-                <Link href="/docs/ramps" className="text-muted-foreground hover:text-foreground">
+                <Link href="/docs/ramps" className="inline-flex min-h-10 items-center text-muted-foreground hover:text-foreground">
                   Ramps
                 </Link>
               </li>
@@ -64,17 +64,17 @@ export function Footer() {
             </h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/docs/readme" className="text-muted-foreground hover:text-foreground">
+                <Link href="/docs/readme" className="inline-flex min-h-10 items-center text-muted-foreground hover:text-foreground">
                   Methodology Overview
                 </Link>
               </li>
               <li>
-                <Link href="/docs/data-sources" className="text-muted-foreground hover:text-foreground">
+                <Link href="/docs/data-sources" className="inline-flex min-h-10 items-center text-muted-foreground hover:text-foreground">
                   Data Sources
                 </Link>
               </li>
               <li>
-                <Link href="/docs/contributing" className="text-muted-foreground hover:text-foreground">
+                <Link href="/docs/contributing" className="inline-flex min-h-10 items-center text-muted-foreground hover:text-foreground">
                   Contributing
                 </Link>
               </li>
@@ -83,7 +83,7 @@ export function Footer() {
                   href="https://walletbeat.fyi?utm_source=walletradar&utm_medium=comparison"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground"
+                  className="inline-flex min-h-10 items-center gap-1 text-muted-foreground hover:text-foreground"
                 >
                   WalletBeat <ExternalLink className="h-3 w-3" />
                 </a>
