@@ -530,7 +530,7 @@ function SoftwareWalletItem({
           <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={wallet.name} size="sm" />
         </td>
         <td className="py-3 px-4">
-          <div className="flex items-center gap-3">
+          <div className="flex justify-center">
             <ScoreBadge
               score={wallet.score}
               recommendation={wallet.recommendation}
@@ -538,13 +538,13 @@ function SoftwareWalletItem({
               tooltip={buildScoreTooltip(wallet)}
               tooltipLinkHref={TABLE_METHOD_LINKS.software}
             />
-            <div>
-              <Link href={detailHref} className="font-semibold hover:underline">
-                {wallet.name}
-              </Link>
-              <div className="text-sm text-muted-foreground">{wallet.bestFor}</div>
-            </div>
           </div>
+        </td>
+        <td className="py-3 px-4">
+          <Link href={detailHref} className="font-semibold hover:underline">
+            {wallet.name}
+          </Link>
+          <div className="text-sm text-muted-foreground">{wallet.bestFor}</div>
         </td>
         <td className="py-3 px-4">
           <RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />
@@ -667,7 +667,7 @@ function HardwareWalletItem({
           <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={wallet.name} size="sm" />
         </td>
         <td className="py-3 px-4">
-          <div className="flex items-center gap-3">
+          <div className="flex justify-center">
             <ScoreBadge
               score={wallet.score}
               recommendation={wallet.recommendation}
@@ -675,18 +675,18 @@ function HardwareWalletItem({
               tooltip={buildScoreTooltip(wallet)}
               tooltipLinkHref={TABLE_METHOD_LINKS.hardware}
             />
-            <div>
-              <Link href={detailHref} className="font-semibold hover:underline">
-                {wallet.name}
-              </Link>
-              <div className="text-sm text-muted-foreground">{wallet.priceText}</div>
-              {wallet.priceLastChecked && (
-                <div className="text-xs text-muted-foreground">
-                  Price checked {wallet.priceLastChecked}
-                </div>
-              )}
-            </div>
           </div>
+        </td>
+        <td className="py-3 px-4">
+          <Link href={detailHref} className="font-semibold hover:underline">
+            {wallet.name}
+          </Link>
+          <div className="text-sm text-muted-foreground">{wallet.priceText}</div>
+          {wallet.priceLastChecked && (
+            <div className="text-xs text-muted-foreground">
+              Price checked {wallet.priceLastChecked}
+            </div>
+          )}
         </td>
         <td className="py-3 px-4">
           <RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />
@@ -833,7 +833,7 @@ function CryptoCardItem({
           <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={card.name} size="sm" />
         </td>
         <td className="py-3 px-4">
-          <div className="flex items-center gap-3">
+          <div className="flex justify-center">
             <ScoreBadge
               score={card.score}
               recommendation={card.recommendation}
@@ -841,25 +841,25 @@ function CryptoCardItem({
               tooltip={buildScoreTooltip(card)}
               tooltipLinkHref={TABLE_METHOD_LINKS.cards}
             />
-            <div>
-              <div className="flex items-center gap-2">
-                <Link href={detailHref} className="font-semibold hover:underline">
-                  {card.name}
-                </Link>
-                {card.providerUrl && (
-                  <a
-                    href={card.providerUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-foreground"
-                  >
-                    <ExternalLink className="h-3 w-3" />
-                  </a>
-                )}
-              </div>
-              <div className="text-sm text-muted-foreground">{card.bestFor}</div>
-            </div>
           </div>
+        </td>
+        <td className="py-3 px-4">
+          <div className="flex items-center gap-2">
+            <Link href={detailHref} className="font-semibold hover:underline">
+              {card.name}
+            </Link>
+            {card.providerUrl && (
+              <a
+                href={card.providerUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <ExternalLink className="h-3 w-3" />
+              </a>
+            )}
+          </div>
+          <div className="text-sm text-muted-foreground">{card.bestFor}</div>
         </td>
         <td className="py-3 px-4">
           <RecommendationBadge recommendation={card.recommendation} tooltipLinkHref={detailHref} />
@@ -983,7 +983,7 @@ function RampItem({
           <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={ramp.name} size="sm" />
         </td>
         <td className="py-3 px-4">
-          <div className="flex items-center gap-3">
+          <div className="flex justify-center">
             <ScoreBadge
               score={ramp.score}
               recommendation={ramp.recommendation}
@@ -991,15 +991,15 @@ function RampItem({
               tooltip={buildScoreTooltip(ramp)}
               tooltipLinkHref={TABLE_METHOD_LINKS.ramps}
             />
-            <div>
-              <div className="font-semibold">
-                <Link href={detailHref} className="text-foreground hover:text-primary hover:underline">
-                  {ramp.name}
-                </Link>
-              </div>
-              <div className="text-sm text-muted-foreground">{ramp.bestFor}</div>
-            </div>
           </div>
+        </td>
+        <td className="py-3 px-4">
+          <div className="font-semibold">
+            <Link href={detailHref} className="text-foreground hover:text-primary hover:underline">
+              {ramp.name}
+            </Link>
+          </div>
+          <div className="text-sm text-muted-foreground">{ramp.bestFor}</div>
         </td>
         <td className="py-3 px-4">
           <RecommendationBadge recommendation={ramp.recommendation} tooltipLinkHref={detailHref} />
@@ -1177,6 +1177,9 @@ export function WalletTable<T extends WalletData>({
             <tr>
               <th className={mobileHeaderCellClassName}>
                 <HeaderTooltip label="Compare" tooltip={softwareWalletTooltips.headers.compare} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
+              </th>
+              <th className={mobileHeaderCellClassName}>
+                <HeaderTooltip label="Score" tooltip={commonTooltips.score} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
               </th>
               <th className={mobileHeaderCellClassName}>
                 <HeaderTooltip label="Wallet" tooltip={softwareWalletTooltips.headers.wallet} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
