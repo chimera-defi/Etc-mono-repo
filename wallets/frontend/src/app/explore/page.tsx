@@ -9,29 +9,29 @@ import { getAllDocuments, getWalletStats } from '@/lib/markdown';
 import { getChainStats } from '@/lib/defillama';
 import { ExploreContent } from './ExploreContent';
 import { SocialShare } from '@/components/SocialShare';
+import { Badge, Panel } from '@/components/ui';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
-const ogImageVersion = 'v5';
-const pageTitle = 'Explore & Compare Crypto Products | Wallet Radar';
-const pageDescription = 'Filter, sort, and compare wallets, hardware devices, crypto cards, and ramps side-by-side. Advanced filtering for developer, security, fee, and coverage tradeoffs.';
+const ogImageVersion = 'v4';
+const pageTitle = 'Explore & Compare Wallets | Wallet Radar';
+const pageDescription = 'Filter, sort, and compare crypto wallets side-by-side. Advanced filtering for software wallets, hardware wallets, and crypto cards with real-time chain TVL data.';
 const pageUrl = `${baseUrl}/explore/`;
-const ogImageUrl = `${baseUrl}/og-image.svg?${ogImageVersion}`;
+const ogImageUrl = `${baseUrl}/og-explore.png?${ogImageVersion}`;
 
 export const metadata: Metadata = {
   title: pageTitle,
   description: pageDescription,
   keywords: [
-    'crypto product comparison',
+    'crypto wallet comparison',
     'wallet filter',
-    'compare crypto products',
+    'compare wallets',
     'software wallet',
     'hardware wallet',
     'crypto cards',
-    'crypto ramps',
     'EVM wallet',
     'MetaMask alternative',
-    'product explorer',
-    'wallet comparison',
+    'wallet explorer',
+    'DeFi wallet comparison',
   ],
   openGraph: {
     title: pageTitle,
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
         url: ogImageUrl,
         width: 1200,
         height: 630,
-        alt: 'Explore & Compare Crypto Products - Wallet Radar',
+        alt: 'Explore & Compare Crypto Wallets - Wallet Radar',
       },
     ],
   },
@@ -83,13 +83,14 @@ export default async function ExplorePage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
+    <div className="wr-container py-8">
       <div className="mb-8">
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
+        <div className="mb-4 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div>
-            <h1 className="text-3xl font-bold mb-2 text-slate-100">Explore &amp; Compare</h1>
-            <p className="text-slate-400">
-              Filter, sort, and compare wallets, cards, and ramps side-by-side. Select products to see a detailed comparison.
+            <span className="wr-kicker mb-2">Interactive workspace</span>
+            <h1 className="text-balance text-3xl font-semibold tracking-tight md:text-4xl">Explore & Compare</h1>
+            <p className="mt-2 max-w-[65ch] text-muted-foreground">
+              Filter, sort, and compare wallets side-by-side. Select wallets to see a detailed comparison.
             </p>
           </div>
           <SocialShare
@@ -101,30 +102,31 @@ export default async function ExplorePage() {
         </div>
         <div className="mt-4">
           {chainStats ? (
-            <div className="flex flex-wrap gap-4 text-sm">
-              <div className="px-3 py-1.5 bg-slate-900/70 border border-slate-700/60 rounded-lg">
-                <span className="text-slate-400">Data Updated:</span>{' '}
-                <span className="font-semibold text-slate-200">{walletStats.lastUpdated}</span>
+            <Panel tone="muted" className="flex flex-wrap gap-3 p-3 text-sm">
+              <div className="wr-chip">
+                <span className="text-muted-foreground">Data Updated:</span>{' '}
+                <span className="font-semibold">{walletStats.lastUpdated}</span>
               </div>
-              <div className="px-3 py-1.5 bg-slate-900/70 border border-slate-700/60 rounded-lg">
-                <span className="text-slate-400">Total EVM Chains:</span>{' '}
-                <span className="font-semibold text-slate-200">{chainStats.evmChains}</span>
+              <div className="wr-chip">
+                <span className="text-muted-foreground">Total EVM Chains:</span>{' '}
+                <span className="font-semibold">{chainStats.evmChains}</span>
               </div>
-              <div className="px-3 py-1.5 bg-slate-900/70 border border-slate-700/60 rounded-lg">
-                <span className="text-slate-400">EVM TVL:</span>{' '}
-                <span className="font-semibold text-emerald-400">
+              <div className="wr-chip">
+                <span className="text-muted-foreground">EVM TVL:</span>{' '}
+                <span className="font-semibold text-green-600 dark:text-green-400">
                   {chainStats.evmTVL}
                 </span>
               </div>
-              <div className="px-3 py-1.5 bg-slate-900/70 border border-slate-700/60 rounded-lg">
-                <span className="text-slate-400">Top Chain:</span>{' '}
-                <span className="font-semibold text-slate-200">
+              <div className="wr-chip">
+                <span className="text-muted-foreground">Top Chain:</span>{' '}
+                <span className="font-semibold">
                   {chainStats.topChains[0]?.name} ({chainStats.topChains[0]?.tvl})
                 </span>
               </div>
-            </div>
+              <Badge variant="accent" className="ml-auto hidden sm:inline-flex">Live chain feed</Badge>
+            </Panel>
           ) : (
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-muted-foreground">
               Live chain stats are temporarily unavailable. Data last updated: {walletStats.lastUpdated}.
             </p>
           )}
