@@ -42,6 +42,7 @@ type SelectableItemProps = {
   onToggleSelect: () => void;
   viewMode: 'grid' | 'table';
   detailHref: string;
+  scoreMedian: number;
 };
 
 function EmptyState({
@@ -242,6 +243,20 @@ function buildScoreTooltip(wallet: WalletData): string {
   return lines.join('\n');
 }
 
+function calculateMedianScore<T extends { score: number }>(items: T[]): number {
+  if (items.length === 0) return 0;
+  const sortedScores = items.map(item => item.score).sort((a, b) => a - b);
+  const middleIndex = Math.floor(sortedScores.length / 2);
+  if (sortedScores.length % 2 === 0) {
+    return (sortedScores[middleIndex - 1] + sortedScores[middleIndex]) / 2;
+  }
+  return sortedScores[middleIndex];
+}
+
+function formatScoreReference(score: number): string {
+  return Number.isInteger(score) ? String(score) : score.toFixed(1);
+}
+
 function ScoreBreakdownPreview({
   breakdown,
   tooltipLinkHref,
@@ -266,19 +281,22 @@ function ScoreBreakdownPreview({
 function ScoreBadge({
   score,
   recommendation,
+  scoreMedian,
   tooltip,
   tooltipLinkHref,
   tooltipLinkLabel = METHODOLOGY_TOOLTIP_LABEL,
 }: {
   score: number;
   recommendation: string;
+  scoreMedian: number;
   tooltip?: string;
   tooltipLinkHref?: string;
   tooltipLinkLabel?: string;
 }) {
+  const isBelowMedian = score < scoreMedian;
   let variant: 'success' | 'warning' | 'error' = 'warning';
-  if (recommendation === 'recommended') variant = 'success';
-  else if (recommendation === 'avoid' || recommendation === 'not-for-dev') variant = 'error';
+  if (isBelowMedian || recommendation === 'avoid' || recommendation === 'not-for-dev') variant = 'error';
+  else if (recommendation === 'recommended') variant = 'success';
 
   const badge = (
     <div className="flex flex-col items-center gap-1">
@@ -303,10 +321,15 @@ function ScoreBadge({
           style={{ width: `${score}%` }}
         />
       </div>
+      {isBelowMedian && (
+        <span className="text-[10px] font-semibold uppercase tracking-wide text-red-600 dark:text-red-400">
+          Below median
+        </span>
+      )}
     </div>
   );
 
-  const defaultTooltip = `Score: ${score}/100\nRecommendation: ${recommendation}`;
+  const defaultTooltip = `Score: ${score}/100\nRecommendation: ${recommendation}\nMedian: ${formatScoreReference(scoreMedian)} (${isBelowMedian ? 'below median' : 'at or above median'})`;
 
   return <Tooltip content={tooltip || defaultTooltip} linkHref={tooltipLinkHref} linkLabel={tooltipLinkLabel}>{badge}</Tooltip>;
 }
@@ -435,6 +458,7 @@ interface WalletItemCardProps {
   onToggleSelect: () => void;
   methodLink: string;
   detailHref: string;
+  scoreMedian: number;
   nameSlot?: React.ReactNode;   // replaces default <Link> name if provided
   subNameSlot?: React.ReactNode; // shown below name in header (e.g. RecommendationBadge or cardType badge)
   children: React.ReactNode;    // body content between header and score breakdown
@@ -447,6 +471,7 @@ function WalletItemCard({
   onToggleSelect,
   methodLink,
   detailHref,
+  scoreMedian,
   nameSlot,
   subNameSlot,
   children,
@@ -463,6 +488,7 @@ function WalletItemCard({
           <ScoreBadge
             score={item.score}
             recommendation={item.recommendation}
+            scoreMedian={scoreMedian}
             tooltip={buildScoreTooltip(item)}
             tooltipLinkHref={methodLink}
           />
@@ -495,6 +521,7 @@ function SoftwareWalletItem({
   onToggleSelect,
   viewMode,
   detailHref,
+  scoreMedian,
 }: { wallet: SoftwareWallet } & SelectableItemProps) {
   if (viewMode === 'table') {
     return (
@@ -507,6 +534,7 @@ function SoftwareWalletItem({
             <ScoreBadge
               score={wallet.score}
               recommendation={wallet.recommendation}
+              scoreMedian={scoreMedian}
               tooltip={buildScoreTooltip(wallet)}
               tooltipLinkHref={TABLE_METHOD_LINKS.software}
             />
@@ -567,6 +595,7 @@ function SoftwareWalletItem({
       onToggleSelect={onToggleSelect}
       methodLink={TABLE_METHOD_LINKS.software}
       detailHref={detailHref}
+      scoreMedian={scoreMedian}
       subNameSlot={<RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />}
     >
       <p className="text-sm text-muted-foreground mb-3">{wallet.bestFor}</p>
@@ -629,6 +658,7 @@ function HardwareWalletItem({
   onToggleSelect,
   viewMode,
   detailHref,
+  scoreMedian,
 }: { wallet: HardwareWallet } & SelectableItemProps) {
   if (viewMode === 'table') {
     return (
@@ -641,6 +671,7 @@ function HardwareWalletItem({
             <ScoreBadge
               score={wallet.score}
               recommendation={wallet.recommendation}
+              scoreMedian={scoreMedian}
               tooltip={buildScoreTooltip(wallet)}
               tooltipLinkHref={TABLE_METHOD_LINKS.hardware}
             />
@@ -726,6 +757,7 @@ function HardwareWalletItem({
       onToggleSelect={onToggleSelect}
       methodLink={TABLE_METHOD_LINKS.hardware}
       detailHref={detailHref}
+      scoreMedian={scoreMedian}
       subNameSlot={<RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />}
     >
       <p className="text-lg font-semibold text-primary mb-1">{wallet.priceText}</p>
@@ -792,6 +824,7 @@ function CryptoCardItem({
   onToggleSelect,
   viewMode,
   detailHref,
+  scoreMedian,
 }: { card: CryptoCard } & SelectableItemProps) {
   if (viewMode === 'table') {
     return (
@@ -804,6 +837,7 @@ function CryptoCardItem({
             <ScoreBadge
               score={card.score}
               recommendation={card.recommendation}
+              scoreMedian={scoreMedian}
               tooltip={buildScoreTooltip(card)}
               tooltipLinkHref={TABLE_METHOD_LINKS.cards}
             />
@@ -862,6 +896,7 @@ function CryptoCardItem({
       onToggleSelect={onToggleSelect}
       methodLink={TABLE_METHOD_LINKS.cards}
       detailHref={detailHref}
+      scoreMedian={scoreMedian}
       nameSlot={
         <div className="flex items-center gap-2">
           <Link href={detailHref} className="font-semibold hover:underline">
@@ -929,6 +964,7 @@ function RampItem({
   onToggleSelect,
   viewMode,
   detailHref,
+  scoreMedian,
 }: { ramp: Ramp } & SelectableItemProps) {
   const fundingEmoji = ramp.funding === 'sustainable' ? '🟢' : ramp.funding === 'vc' ? '🟡' : '🔴';
 
@@ -943,6 +979,7 @@ function RampItem({
             <ScoreBadge
               score={ramp.score}
               recommendation={ramp.recommendation}
+              scoreMedian={scoreMedian}
               tooltip={buildScoreTooltip(ramp)}
               tooltipLinkHref={TABLE_METHOD_LINKS.ramps}
             />
@@ -1024,6 +1061,7 @@ function RampItem({
       onToggleSelect={onToggleSelect}
       methodLink={TABLE_METHOD_LINKS.ramps}
       detailHref={detailHref}
+      scoreMedian={scoreMedian}
       subNameSlot={<RecommendationBadge recommendation={ramp.recommendation} tooltipLinkHref={detailHref} />}
     >
       <p className="text-sm text-muted-foreground mb-3">{ramp.bestFor}</p>
@@ -1117,6 +1155,7 @@ export function WalletTable<T extends WalletData>({
   if (wallets.length === 0) {
     return <EmptyState type={type} onResetFilters={onResetFilters} />;
   }
+  const scoreMedian = calculateMedianScore(wallets);
 
   if (viewMode === 'table') {
     return (
@@ -1240,6 +1279,7 @@ export function WalletTable<T extends WalletData>({
                     onToggleSelect={() => onToggleSelect(wallet.id)}
                     viewMode="table"
                     detailHref={getWalletDetailHref('software', wallet.id)}
+                    scoreMedian={scoreMedian}
                   />
                 );
               }
@@ -1253,6 +1293,7 @@ export function WalletTable<T extends WalletData>({
                     onToggleSelect={() => onToggleSelect(wallet.id)}
                     viewMode="table"
                     detailHref={getWalletDetailHref('hardware', wallet.id)}
+                    scoreMedian={scoreMedian}
                   />
                 );
               }
@@ -1266,6 +1307,7 @@ export function WalletTable<T extends WalletData>({
                     onToggleSelect={() => onToggleSelect(wallet.id)}
                     viewMode="table"
                     detailHref={getWalletDetailHref('cards', wallet.id)}
+                    scoreMedian={scoreMedian}
                   />
                 );
               }
@@ -1278,6 +1320,7 @@ export function WalletTable<T extends WalletData>({
                   onToggleSelect={() => onToggleSelect(wallet.id)}
                   viewMode="table"
                   detailHref={getWalletDetailHref('ramps', wallet.id)}
+                  scoreMedian={scoreMedian}
                 />
               );
             })}
@@ -1303,6 +1346,7 @@ export function WalletTable<T extends WalletData>({
               onToggleSelect={() => onToggleSelect(wallet.id)}
               viewMode="grid"
               detailHref={getWalletDetailHref('software', wallet.id)}
+              scoreMedian={scoreMedian}
             />
           );
         }
@@ -1316,6 +1360,7 @@ export function WalletTable<T extends WalletData>({
               onToggleSelect={() => onToggleSelect(wallet.id)}
               viewMode="grid"
               detailHref={getWalletDetailHref('hardware', wallet.id)}
+              scoreMedian={scoreMedian}
             />
           );
         }
@@ -1329,6 +1374,7 @@ export function WalletTable<T extends WalletData>({
               onToggleSelect={() => onToggleSelect(wallet.id)}
               viewMode="grid"
               detailHref={getWalletDetailHref('cards', wallet.id)}
+              scoreMedian={scoreMedian}
             />
           );
         }
@@ -1341,6 +1387,7 @@ export function WalletTable<T extends WalletData>({
             onToggleSelect={() => onToggleSelect(wallet.id)}
             viewMode="grid"
             detailHref={getWalletDetailHref('ramps', wallet.id)}
+            scoreMedian={scoreMedian}
           />
         );
       })}

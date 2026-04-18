@@ -481,6 +481,23 @@ function run() {
     ok('wallet-data.ts: parseMarkdownTable is primary-table scoped');
   }
 
+  const walletTablePath = path.join(FRONTEND_DIR, 'src', 'components', 'WalletTable.tsx');
+  const walletTableContent = readFileOrFail(walletTablePath);
+  if (!walletTableContent.includes('function calculateMedianScore')) {
+    fail('WalletTable.tsx: missing median-score helper for score badge color coding.');
+  } else {
+    ok('WalletTable.tsx: median-score helper exists');
+  }
+
+  const hasBelowMedianFlag = /const isBelowMedian = score < scoreMedian;/.test(walletTableContent);
+  const hasBelowMedianErrorVariant = /if \(isBelowMedian \|\| recommendation === 'avoid' \|\| recommendation === 'not-for-dev'\) variant = 'error';/.test(walletTableContent);
+  const hasMedianPropWiring = /scoreMedian=\{scoreMedian\}/.test(walletTableContent);
+  if (!hasBelowMedianFlag || !hasBelowMedianErrorVariant || !hasMedianPropWiring) {
+    fail('WalletTable.tsx: score badge must mark below-median items as red and wire median through table/grid rows.');
+  } else {
+    ok('WalletTable.tsx: below-median score color regression guard passed');
+  }
+
   // ---- Crypto cards table ----
   const cardsPath = path.join(WALLETS_DIR, 'CRYPTO_CARDS.md');
   const cardsContent = readFileOrFail(cardsPath);
