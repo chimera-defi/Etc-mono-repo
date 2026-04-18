@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ArrowRight, Clock, FileText } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
 import type { MarkdownDocument } from '@/lib/markdown';
 
 interface WalletCardProps {
@@ -8,10 +8,10 @@ interface WalletCardProps {
 }
 
 const categoryColors: Record<string, string> = {
-  comparison: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
-  research: 'bg-purple-500/10 text-purple-600 dark:text-purple-400',
-  guide: 'bg-green-500/10 text-green-600 dark:text-green-400',
-  other: 'bg-gray-500/10 text-gray-600 dark:text-gray-400',
+  comparison: 'accent',
+  research: 'warning',
+  guide: 'success',
+  other: 'neutral',
 };
 
 const categoryLabels: Record<string, string> = {
@@ -25,28 +25,23 @@ export function WalletCard({ document }: WalletCardProps) {
   return (
     <Link
       href={`/docs/${document.slug}`}
-      className="group block p-6 rounded-lg border border-border bg-card hover:border-primary/50 hover:shadow-lg transition-all"
+      className="group block rounded-2xl border border-border bg-card/90 p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[0_16px_38px_-24px_hsl(var(--primary))]"
     >
-      <div className="flex items-start justify-between mb-3">
-        <span
-          className={cn(
-            'text-xs font-medium px-2 py-1 rounded-full',
-            categoryColors[document.category]
-          )}
-        >
+      <div className="mb-4 flex items-start justify-between">
+        <Badge variant={categoryColors[document.category] as 'accent' | 'warning' | 'success' | 'neutral'}>
           {categoryLabels[document.category]}
-        </span>
-        <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+        </Badge>
+        <ArrowRight className="h-4 w-4 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-primary" />
       </div>
-      
-      <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
+
+      <h3 className="mb-2 text-balance text-lg font-semibold tracking-tight transition-colors group-hover:text-primary">
         {document.title}
       </h3>
-      
-      <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+
+      <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
         {document.description}
       </p>
-      
+
       <div className="flex items-center gap-4 text-xs text-muted-foreground">
         {document.lastUpdated && (
           <span className="flex items-center gap-1">

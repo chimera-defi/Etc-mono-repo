@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { Menu, X, Wallet, Github, Twitter } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { buttonVariants } from '@/components/ui/button';
 import { ThemeToggle } from './ThemeToggle';
 
 const navItems = [
@@ -24,26 +25,29 @@ export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <nav className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <Wallet className="h-6 w-6 text-primary" />
-            <span className="font-bold text-xl">Wallet Radar</span>
+    <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-background/80 backdrop-blur-xl">
+      <nav className="wr-container">
+        <div className="flex h-16 items-center justify-between gap-3">
+          <Link href="/" className="group inline-flex items-center gap-2">
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-primary/25 bg-primary/10 transition-colors group-hover:bg-primary/20">
+              <Wallet className="h-5 w-5 text-primary" />
+            </span>
+            <span className="text-base font-semibold tracking-tight md:text-lg">Wallet Radar</span>
+            <span className="hidden rounded-full border border-border bg-muted px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground lg:inline-block">
+              Research
+            </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
+          <div className="hidden md:flex items-center gap-2">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'text-sm font-medium transition-colors hover:text-primary',
+                  'rounded-xl px-3 py-2 text-sm font-medium transition-colors',
                   pathname === item.href
-                    ? 'text-primary'
-                    : 'text-muted-foreground'
+                    ? 'bg-primary/12 text-primary'
+                    : 'text-muted-foreground hover:bg-muted/80 hover:text-foreground'
                 )}
               >
                 {item.label}
@@ -54,7 +58,11 @@ export function Navigation() {
               href="https://x.com/chimeradefi?utm_source=walletradar&utm_medium=comparison"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className={buttonVariants({
+                variant: 'ghost',
+                size: 'icon',
+                className: 'h-9 w-9 rounded-xl',
+              })}
               aria-label="Twitter"
             >
               <Twitter className="h-5 w-5" />
@@ -63,18 +71,25 @@ export function Navigation() {
               href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets?utm_source=walletradar&utm_medium=comparison"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className={buttonVariants({
+                variant: 'ghost',
+                size: 'icon',
+                className: 'h-9 w-9 rounded-xl',
+              })}
               aria-label="GitHub"
             >
               <Github className="h-5 w-5" />
             </a>
           </div>
 
-          {/* Mobile Menu Button and Theme Toggle */}
-          <div className="md:hidden flex items-center space-x-2">
+          <div className="md:hidden flex items-center gap-1">
             <ThemeToggle />
             <button
-              className="p-2"
+              className={buttonVariants({
+                variant: 'ghost',
+                size: 'icon',
+                className: 'h-9 w-9 rounded-xl',
+              })}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -87,25 +102,54 @@ export function Navigation() {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-border">
-            <div className="flex flex-col space-y-3">
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    'text-sm font-medium transition-colors hover:text-primary py-2',
-                    pathname === item.href
-                      ? 'text-primary'
-                      : 'text-muted-foreground'
-                  )}
-                  onClick={() => setMobileMenuOpen(false)}
+          <div className="md:hidden pb-4">
+            <div className="wr-panel overflow-hidden">
+              <div className="grid grid-cols-1 gap-1 p-2">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={cn(
+                      'rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                      pathname === item.href
+                        ? 'bg-primary/10 text-primary'
+                        : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                    )}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+              <div className="flex items-center gap-2 border-t border-border px-3 py-3">
+                <a
+                  href="https://x.com/chimeradefi?utm_source=walletradar&utm_medium=comparison"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={buttonVariants({
+                    variant: 'outline',
+                    size: 'sm',
+                    className: 'rounded-lg',
+                  })}
                 >
-                  {item.label}
-                </Link>
-              ))}
+                  <Twitter className="h-4 w-4" />
+                  Twitter
+                </a>
+                <a
+                  href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets?utm_source=walletradar&utm_medium=comparison"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={buttonVariants({
+                    variant: 'outline',
+                    size: 'sm',
+                    className: 'rounded-lg',
+                  })}
+                >
+                  <Github className="h-4 w-4" />
+                  GitHub
+                </a>
+              </div>
             </div>
           </div>
         )}

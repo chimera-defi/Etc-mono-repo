@@ -278,7 +278,7 @@ export default function DocumentPage({ params }: PageProps) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
         />
       )}
-      <div className="container mx-auto px-4 py-8">
+      <div className="wr-container py-8">
       {/* Breadcrumb Navigation */}
       <Breadcrumbs
         items={[

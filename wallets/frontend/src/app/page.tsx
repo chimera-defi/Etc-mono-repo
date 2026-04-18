@@ -5,6 +5,7 @@ import { getAllDocuments, getWalletStats } from '@/lib/markdown';
 import { WalletCard } from '@/components/WalletCard';
 import { StatsCard } from '@/components/StatsCard';
 import { FeaturedCategoryLinks } from '@/components/InternalLinks';
+import { Badge, Panel, buttonVariants } from '@/components/ui';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
 const siteName = 'Wallet Radar';
@@ -307,65 +308,83 @@ export default function HomePage() {
         </div>
       </div>
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-primary/5 to-background">
-        <div className="container mx-auto px-4 py-16 md:py-24">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
-              Developer-Focused{' '}
-              <span className="text-primary">Crypto Wallet</span>{' '}
-              Comparison
-            </h1>
-            <p className="text-xl text-muted-foreground mb-8">
-              Research and compare crypto wallets with transparent scoring, security data,
-              GitHub activity metrics, and developer experience documentation.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Link
-                href="/docs/software-wallets"
-                className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors"
-              >
-                Software Wallets
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="/docs/hardware-wallets"
-                className="inline-flex items-center gap-2 border border-border px-6 py-3 rounded-lg font-medium hover:bg-muted transition-colors"
-              >
-                Hardware Wallets
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="/docs/crypto-cards"
-                className="inline-flex items-center gap-2 border border-border px-6 py-3 rounded-lg font-medium hover:bg-muted transition-colors"
-              >
-                Crypto Cards
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="/docs/ramps"
-                className="inline-flex items-center gap-2 border border-border px-6 py-3 rounded-lg font-medium hover:bg-muted transition-colors"
-              >
-                Ramps
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+      <section className="relative overflow-hidden border-b border-border/70">
+        <div className="wr-grid-lines absolute inset-0 opacity-55" aria-hidden />
+        <div className="wr-container relative py-14 md:py-20">
+          <div className="grid gap-8 lg:grid-cols-[1.25fr_0.9fr] lg:gap-10">
+            <div>
+              <span className="wr-kicker">Developer Wallet Intelligence</span>
+              <h1 className="text-balance text-4xl font-semibold tracking-tight md:text-6xl md:leading-[1.02]">
+                Compare crypto wallets with transparent, research-grade signals.
+              </h1>
+              <p className="mt-5 max-w-[64ch] text-base leading-relaxed text-muted-foreground md:text-lg">
+                Wallet Radar tracks security posture, release cadence, open-source quality, and developer ergonomics
+                so teams can pick tooling with fewer blind spots.
+              </p>
+              <div className="mt-7 flex flex-wrap gap-3">
+                <Link
+                  href="/docs/software-wallets"
+                  className={buttonVariants({ variant: 'primary', size: 'lg', className: 'rounded-xl' })}
+                >
+                  Software Wallets
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link
+                  href="/explore"
+                  className={buttonVariants({ variant: 'outline', size: 'lg', className: 'rounded-xl' })}
+                >
+                  <GitCompare className="h-4 w-4" />
+                  Explore & Compare
+                </Link>
+                <Link
+                  href="/docs/hardware-wallets"
+                  className={buttonVariants({ variant: 'outline', size: 'lg', className: 'rounded-xl' })}
+                >
+                  Hardware Wallets
+                </Link>
+                <Link
+                  href="/docs/crypto-cards"
+                  className={buttonVariants({ variant: 'outline', size: 'lg', className: 'rounded-xl' })}
+                >
+                  Crypto Cards
+                </Link>
+              </div>
+              <div className="mt-5 flex flex-wrap gap-2">
+                <Badge variant="accent">No wallet connection required</Badge>
+                <Badge variant="accent">No affiliate links</Badge>
+                <Badge variant="accent">Public data sources</Badge>
+              </div>
             </div>
-            {/* Explore CTA */}
-            <div className="mt-6 pt-6 border-t border-border/50">
-              <Link
-                href="/explore"
-                className="inline-flex items-center gap-2 text-primary hover:underline"
-              >
-                <GitCompare className="h-4 w-4" />
-                Browse documented wallet comparisons with advanced filters
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
+
+            <Panel className="overflow-hidden p-5 md:p-6">
+              <div className="mb-4 flex items-center justify-between">
+                <h2 className="text-base font-semibold tracking-tight">Today on Radar</h2>
+                <span className="wr-chip">Updated {stats.lastUpdated.split(',')[0] || 'Dec 2025'}</span>
+              </div>
+              <div className="space-y-3">
+                <div className="wr-panel-muted p-3">
+                  <p className="text-xs uppercase tracking-[0.1em] text-muted-foreground">Top software</p>
+                  <p className="mt-1 text-sm font-semibold">Rabby Wallet</p>
+                  <p className="text-sm text-muted-foreground">Score 92 · ~6 releases/month · Tx simulation</p>
+                </div>
+                <div className="wr-panel-muted p-3">
+                  <p className="text-xs uppercase tracking-[0.1em] text-muted-foreground">Top hardware</p>
+                  <p className="mt-1 text-sm font-semibold">Trezor Safe 5</p>
+                  <p className="text-sm text-muted-foreground">Score 94 · open firmware · secure element</p>
+                </div>
+                <div className="wr-panel-muted p-3">
+                  <p className="text-xs uppercase tracking-[0.1em] text-muted-foreground">Top ramp</p>
+                  <p className="mt-1 text-sm font-semibold">Transak</p>
+                  <p className="text-sm text-muted-foreground">Score 92 · React SDK · 160+ countries</p>
+                </div>
+              </div>
+            </Panel>
           </div>
         </div>
       </section>
 
       {/* Quick Stats */}
-      <section className="container mx-auto px-4 -mt-8 relative z-10">
+      <section className="wr-container -mt-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           <StatsCard
             label="Software Wallets"
@@ -401,7 +420,7 @@ export default function HomePage() {
       </section>
 
       {/* Most Actively Developed Wallets Section */}
-      <section className="container mx-auto px-4 py-16">
+      <section className="wr-container py-16">
         <h2 className="text-2xl font-bold mb-8">Most Actively Developed Wallets</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Software Wallet Pick */}
@@ -512,7 +531,7 @@ export default function HomePage() {
       </section>
 
       {/* Explore & Compare Feature */}
-      <section className="container mx-auto px-4 py-16 border-t border-border">
+      <section className="wr-container py-16 border-t border-border">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-2xl font-bold mb-4">Advanced Wallet Explorer</h2>
           <p className="text-muted-foreground mb-8">
@@ -554,7 +573,7 @@ export default function HomePage() {
       </section>
 
       {/* Main Comparisons */}
-      <section className="container mx-auto px-4 py-16 border-t border-border">
+      <section className="wr-container py-16 border-t border-border">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-2xl font-bold">Wallet Comparisons</h2>
           <span className="text-sm text-muted-foreground">Full scoring methodology included</span>
@@ -567,7 +586,7 @@ export default function HomePage() {
       </section>
 
       {/* Research & Guides */}
-      <section className="container mx-auto px-4 py-16 border-t border-border">
+      <section className="wr-container py-16 border-t border-border">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-2xl font-bold">Resources & Guides</h2>
         </div>
@@ -582,7 +601,7 @@ export default function HomePage() {
       <FeaturedCategoryLinks />
 
       {/* Trust & Transparency Section */}
-      <section className="container mx-auto px-4 py-16 border-t border-border">
+      <section className="wr-container py-16 border-t border-border">
         <div className="max-w-3xl">
           <h2 className="text-2xl font-bold mb-8">Why We&apos;re Not Phishing</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -637,7 +656,7 @@ export default function HomePage() {
       </section>
 
       {/* Data Sources */}
-      <section className="container mx-auto px-4 py-16 border-t border-border">
+      <section className="wr-container py-16 border-t border-border">
         <h2 className="text-2xl font-bold mb-4">Data Sources</h2>
         <p className="text-sm text-muted-foreground mb-8">
           All links below are to official, verified sources. We do NOT use shortened URLs, redirects, or referral links.

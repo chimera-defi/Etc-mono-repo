@@ -9,7 +9,7 @@ import { Shield, Cpu, CreditCard, ArrowLeftRight, ArrowRight } from 'lucide-reac
  */
 export function FeaturedCategoryLinks() {
   return (
-    <section className="container mx-auto px-4 py-16 border-t border-border">
+    <section className="wr-container py-16 border-t border-border">
       <h2 className="text-2xl font-bold mb-2">Browse by Category</h2>
       <p className="text-muted-foreground mb-8">
         Comprehensive comparison tables with detailed analysis.
