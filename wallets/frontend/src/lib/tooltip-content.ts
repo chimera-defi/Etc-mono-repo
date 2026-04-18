@@ -11,7 +11,7 @@ export const softwareWalletTooltips = {
   // Table headers
   headers: {
     compare: 'Select wallets to compare side-by-side',
-    wallet: 'Wallet name with overall score (0-100)',
+    wallet: 'Wallet name and quick context',
     status: 'Recommendation status: 🟢 Recommended (75+), 🟡 Situational (50-74), 🔴 Avoid (<50), ⚪ Not for dev',
     core: 'Core criteria: ✅ has both mobile app + browser extension, ⚠️ partial, ❌ missing one or both',
     releaseCadence: 'Releases per month (lower = more stable; ~8 is high churn)',
@@ -111,7 +111,7 @@ export const softwareWalletTooltips = {
 export const hardwareWalletTooltips = {
   headers: {
     compare: 'Select wallets to compare side-by-side',
-    wallet: 'Wallet name with overall score (0-100) and price',
+    wallet: 'Wallet name and price context',
     status: 'Recommendation status: 🟢 Recommended (75+), 🟡 Situational (50-74), 🔴 Avoid (<50)',
     github: 'Link to firmware repository. "Private" means closed source.',
     airGap: 'Air-gap capability for enhanced security',
@@ -176,7 +176,7 @@ export const hardwareWalletTooltips = {
 export const cryptoCardTooltips = {
   headers: {
     compare: 'Select cards to compare side-by-side',
-    card: 'Card name with overall score (0-100)',
+    card: 'Card name and quick context',
     cardType: 'Card type: Credit, Debit, Prepaid, or Business',
     custody: 'Custody model: 🔐 self-custody, 🏦 exchange, 📋 CeFi',
     business: 'Business accounts: ✅ supported, ❌ personal only, ⚠️ verify',
@@ -231,7 +231,7 @@ export const cryptoCardTooltips = {
 export const rampTooltips = {
   headers: {
     compare: 'Select providers to compare side-by-side',
-    provider: 'Provider name with overall score (0-100)',
+    provider: 'Provider name and quick context',
     status: 'Recommendation: 🟢 Recommended (75+), 🟡 Situational (50-74), 🔴 Avoid (<50)',
     type: 'On-Ramp (fiat → crypto), Off-Ramp (crypto → fiat), or Both',
     onRamp: 'On-Ramp: Convert fiat to crypto (✅ supported, ❌ not supported)',
