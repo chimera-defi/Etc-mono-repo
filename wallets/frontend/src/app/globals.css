@@ -1,63 +1,118 @@
-/* Import Inter font from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 210 33% 98%;
+    --foreground: 221 39% 11%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 221 39% 11%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
+    --popover-foreground: 221 39% 11%;
+    --primary: 187 92% 37%;
     --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
+    --secondary: 210 24% 94%;
+    --secondary-foreground: 222 47% 16%;
+    --muted: 210 24% 94%;
+    --muted-foreground: 219 16% 42%;
+    --accent: 187 86% 94%;
+    --accent-foreground: 189 83% 23%;
+    --destructive: 0 73% 51%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
+    --border: 213 24% 86%;
+    --input: 213 24% 86%;
+    --ring: 187 92% 37%;
+    --radius: 0.875rem;
+    --surface-1: 0 0% 100%;
+    --surface-2: 210 24% 96%;
+    --surface-3: 210 24% 92%;
+    --accent-soft: 188 92% 96%;
+    --grid-line: 213 20% 88%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --background: 222 33% 9%;
+    --foreground: 210 27% 95%;
+    --card: 222 31% 12%;
+    --card-foreground: 210 27% 95%;
+    --popover: 222 31% 12%;
+    --popover-foreground: 210 27% 95%;
+    --primary: 183 80% 53%;
+    --primary-foreground: 222 35% 12%;
+    --secondary: 220 23% 17%;
+    --secondary-foreground: 210 27% 95%;
+    --muted: 220 23% 17%;
+    --muted-foreground: 215 14% 68%;
+    --accent: 220 23% 17%;
+    --accent-foreground: 210 27% 95%;
+    --destructive: 0 63% 44%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    --border: 220 19% 24%;
+    --input: 220 19% 24%;
+    --ring: 183 80% 53%;
+    --surface-1: 222 31% 12%;
+    --surface-2: 221 27% 15%;
+    --surface-3: 219 22% 20%;
+    --accent-soft: 186 62% 15%;
+    --grid-line: 220 19% 22%;
   }
-}
-
-@layer base {
   * {
     @apply border-border;
   }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "tnum" 1, "liga" 1, "calt" 1;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 15% 20%, hsl(var(--primary) / 0.08), transparent 38%),
+      radial-gradient(circle at 85% 0%, hsl(var(--accent-foreground) / 0.06), transparent 34%);
+    z-index: -1;
+  }
+  ::selection {
+    background: hsl(var(--primary) / 0.25);
+    color: hsl(var(--foreground));
+  }
+}
+
+@layer components {
+  .wr-container {
+    @apply mx-auto w-full max-w-[1280px] px-4 md:px-6;
+  }
+
+  .wr-panel {
+    @apply rounded-2xl border border-border bg-card/85 backdrop-blur-sm shadow-[0_18px_40px_-28px_rgba(15,23,42,0.45)] dark:shadow-[0_24px_46px_-30px_rgba(2,6,23,0.9)];
+  }
+
+  .wr-panel-muted {
+    @apply rounded-2xl border border-border bg-muted/35;
+  }
+
+  .wr-chip {
+    @apply inline-flex items-center gap-1 rounded-full border border-border bg-background/70 px-2.5 py-1 text-[11px] font-medium text-muted-foreground;
+  }
+
+  .wr-section-title {
+    @apply text-balance text-3xl font-semibold tracking-tight md:text-4xl;
+  }
+
+  .wr-kicker {
+    @apply mb-3 inline-flex items-center rounded-full border border-border bg-background/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground;
+  }
+
+  .wr-grid-lines {
+    background-image: linear-gradient(hsl(var(--grid-line) / 0.45) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--grid-line) / 0.45) 1px, transparent 1px);
+    background-size: 48px 48px;
   }
 }
 
@@ -67,35 +122,36 @@
 }
 
 .prose-wallet h1 {
-  @apply text-3xl font-bold mb-4 mt-8 text-foreground;
+  @apply text-balance text-3xl font-semibold tracking-tight mb-4 mt-8 text-foreground md:text-4xl;
 }
 
 .prose-wallet h2 {
-  @apply text-2xl font-semibold mb-3 mt-6 text-foreground;
+  @apply text-balance text-2xl font-semibold tracking-tight mb-3 mt-7 text-foreground;
 }
 
 .prose-wallet h3 {
-  @apply text-xl font-semibold mb-2 mt-4 text-foreground;
+  @apply text-xl font-semibold mb-2 mt-5 text-foreground;
 }
 
 .prose-wallet h4 {
-  @apply text-lg font-semibold mb-2 mt-3 text-foreground;
+  @apply text-lg font-semibold mb-2 mt-4 text-foreground;
 }
 
 .prose-wallet p {
-  @apply mb-4 leading-relaxed;
+  @apply mb-4 leading-relaxed text-[15px] text-foreground/90 md:text-base;
+  max-width: 72ch;
 }
 
 .prose-wallet a {
-  @apply text-primary hover:underline;
+  @apply text-primary underline-offset-4 hover:underline;
 }
 
 .prose-wallet ul {
-  @apply list-disc list-inside mb-4 space-y-1;
+  @apply list-disc list-inside mb-4 space-y-1.5;
 }
 
 .prose-wallet ol {
-  @apply list-decimal list-inside mb-4 space-y-1;
+  @apply list-decimal list-inside mb-4 space-y-1.5;
 }
 
 .prose-wallet li {
@@ -107,7 +163,7 @@
 }
 
 .prose-wallet pre {
-  @apply bg-muted p-4 rounded-lg overflow-x-auto mb-4;
+  @apply bg-muted p-4 rounded-xl overflow-x-auto mb-4 border border-border;
 }
 
 .prose-wallet pre code {
@@ -115,7 +171,7 @@
 }
 
 .prose-wallet blockquote {
-  @apply border-l-4 border-primary pl-4 italic text-muted-foreground my-4;
+  @apply border-l-2 border-primary pl-4 italic text-muted-foreground my-4;
 }
 
 .prose-wallet hr {
@@ -123,7 +179,7 @@
 }
 
 .prose-wallet strong {
-  @apply font-semibold;
+  @apply font-semibold text-foreground;
 }
 
 /* Table styles for wallet comparisons */
@@ -132,7 +188,7 @@
 }
 
 .prose-wallet thead {
-  @apply bg-muted;
+  @apply bg-muted/60;
 }
 
 .prose-wallet th {
@@ -144,7 +200,7 @@
 }
 
 .prose-wallet tbody tr:hover {
-  @apply bg-muted/50;
+  @apply bg-muted/40;
 }
 
 /* Make tables horizontally scrollable on mobile */
@@ -179,11 +235,6 @@
 
 .toc-link.level-3 {
   @apply pl-4;
-}
-
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
 }
 
 /* Target highlight */

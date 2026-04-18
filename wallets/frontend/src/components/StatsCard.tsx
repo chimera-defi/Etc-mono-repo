@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import { Panel } from '@/components/ui/panel';
 
 interface StatsCardProps {
   label: string;
@@ -10,15 +11,17 @@ interface StatsCardProps {
 
 export function StatsCard({ label, value, description, icon, className }: StatsCardProps) {
   return (
-    <div className={cn('p-6 rounded-lg border border-border bg-card', className)}>
-      <div className="flex items-center gap-3 mb-2">
+    <Panel className={cn('p-5 md:p-6', className)}>
+      <div className="mb-3 flex items-center justify-between">
+        <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+          {label}
+        </span>
         {icon && <div className="text-primary">{icon}</div>}
-        <span className="text-sm font-medium text-muted-foreground">{label}</span>
       </div>
-      <p className="text-3xl font-bold">{value}</p>
+      <p className="text-3xl font-semibold tracking-tight tabular-nums">{value}</p>
       {description && (
-        <p className="text-sm text-muted-foreground mt-1">{description}</p>
+        <p className="mt-2 text-sm text-muted-foreground">{description}</p>
       )}
-    </div>
+    </Panel>
   );
 }

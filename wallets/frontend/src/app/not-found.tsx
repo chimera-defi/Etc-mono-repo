@@ -3,7 +3,7 @@ import { ArrowLeft, FileQuestion } from 'lucide-react';
 
 export default function NotFound() {
   return (
-    <div className="container mx-auto px-4 py-24">
+    <div className="wr-container py-24">
       <div className="max-w-md mx-auto text-center">
         <FileQuestion className="h-16 w-16 text-muted-foreground mx-auto mb-6" />
         <h1 className="text-3xl font-bold mb-4">Page Not Found</h1>

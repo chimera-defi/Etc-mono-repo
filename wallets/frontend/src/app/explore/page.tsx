@@ -9,6 +9,7 @@ import { getAllDocuments, getWalletStats } from '@/lib/markdown';
 import { getChainStats } from '@/lib/defillama';
 import { ExploreContent } from './ExploreContent';
 import { SocialShare } from '@/components/SocialShare';
+import { Badge, Panel } from '@/components/ui';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
 const ogImageVersion = 'v4';
@@ -82,12 +83,13 @@ export default async function ExplorePage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="wr-container py-8">
       <div className="mb-8">
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
+        <div className="mb-4 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div>
-            <h1 className="text-3xl font-bold mb-2">Explore & Compare</h1>
-            <p className="text-muted-foreground">
+            <span className="wr-kicker mb-2">Interactive workspace</span>
+            <h1 className="text-balance text-3xl font-semibold tracking-tight md:text-4xl">Explore & Compare</h1>
+            <p className="mt-2 max-w-[65ch] text-muted-foreground">
               Filter, sort, and compare wallets side-by-side. Select wallets to see a detailed comparison.
             </p>
           </div>
@@ -100,28 +102,29 @@ export default async function ExplorePage() {
         </div>
         <div className="mt-4">
           {chainStats ? (
-            <div className="flex flex-wrap gap-4 text-sm">
-              <div className="px-3 py-1.5 bg-muted rounded-lg">
+            <Panel tone="muted" className="flex flex-wrap gap-3 p-3 text-sm">
+              <div className="wr-chip">
                 <span className="text-muted-foreground">Data Updated:</span>{' '}
                 <span className="font-semibold">{walletStats.lastUpdated}</span>
               </div>
-              <div className="px-3 py-1.5 bg-muted rounded-lg">
+              <div className="wr-chip">
                 <span className="text-muted-foreground">Total EVM Chains:</span>{' '}
                 <span className="font-semibold">{chainStats.evmChains}</span>
               </div>
-              <div className="px-3 py-1.5 bg-muted rounded-lg">
+              <div className="wr-chip">
                 <span className="text-muted-foreground">EVM TVL:</span>{' '}
                 <span className="font-semibold text-green-600 dark:text-green-400">
                   {chainStats.evmTVL}
                 </span>
               </div>
-              <div className="px-3 py-1.5 bg-muted rounded-lg">
+              <div className="wr-chip">
                 <span className="text-muted-foreground">Top Chain:</span>{' '}
                 <span className="font-semibold">
                   {chainStats.topChains[0]?.name} ({chainStats.topChains[0]?.tvl})
                 </span>
               </div>
-            </div>
+              <Badge variant="accent" className="ml-auto hidden sm:inline-flex">Live chain feed</Badge>
+            </Panel>
           ) : (
             <p className="text-sm text-muted-foreground">
               Live chain stats are temporarily unavailable. Data last updated: {walletStats.lastUpdated}.
