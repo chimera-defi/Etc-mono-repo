@@ -302,7 +302,7 @@ export default function HomePage() {
             </svg>
           </div>
           <div className="flex-1 text-sm">
-            <p className="font-semibold">📚 Educational Research &amp; Data Only</p>
+            <p className="font-semibold">Educational Research &amp; Data Only</p>
             <p>Wallet Radar does NOT provide financial advice, recommend wallets, have login pages, or collect personal information. All data is sourced publicly and linked for independent verification. Completely independent of all wallet providers. <a href="/docs/about" className="underline hover:text-blue-700">Why we&apos;re not phishing</a></p>
           </div>
         </div>
@@ -434,7 +434,7 @@ export default function HomePage() {
               Score: 92 — Transaction simulation, transaction preview, scam alerts, ~6 releases/month
             </p>
             <div className="text-xs text-muted-foreground">
-              ✅ Tx Simulation • ✅ Scam Alerts • ~6 releases/month
+              Tx simulation • Scam alerts • ~6 releases/month
             </div>
           </div>
 
@@ -449,7 +449,7 @@ export default function HomePage() {
               Score: 94 — Fully open source firmware, Secure Element chip, recent commits
             </p>
             <div className="text-xs text-muted-foreground">
-              ✅ Open Source • ✅ Optiga SE • ~$169
+              Open source • Optiga SE • ~$169
             </div>
           </div>
 
@@ -464,7 +464,7 @@ export default function HomePage() {
               Score: 91 — Approximately $79, fully open source, Secure Element chip
             </p>
             <div className="text-xs text-muted-foreground">
-              ✅ Budget-Friendly • ✅ Optiga SE • ✅ Active
+              Budget-friendly • Optiga SE • Active
             </div>
           </div>
 
@@ -479,7 +479,7 @@ export default function HomePage() {
               Score: 85 — Self-custody control, 2-3% cashback rewards, no annual fee
             </p>
             <div className="text-xs text-muted-foreground">
-              ✅ Self-Custody • ✅ Global • ✅ DeFi-Native
+              Self-custody • Global • DeFi-native
             </div>
           </div>
 
@@ -494,7 +494,7 @@ export default function HomePage() {
               Score: 85 — Corporate support, self-custody control, 2-3% rewards globally
             </p>
             <div className="text-xs text-muted-foreground">
-              ✅ Business-Focused • ✅ Self-Custody • ✅ Global
+              Business-focused • Self-custody • Global
             </div>
           </div>
 
@@ -509,7 +509,7 @@ export default function HomePage() {
               Score: 92 — React SDK integration, 160+ countries support, on/off ramp
             </p>
             <div className="text-xs text-muted-foreground">
-              ✅ React SDK • ✅ 160+ Countries • ✅ Both On/Off-Ramp
+              React SDK • 160+ countries • Both on/off-ramp
             </div>
           </div>
 
@@ -524,7 +524,7 @@ export default function HomePage() {
               Score: 70 — Enterprise API, custom configurations, dedicated support
             </p>
             <div className="text-xs text-muted-foreground">
-              ✅ Enterprise API • ✅ Custom Pricing • ✅ Both On/Off-Ramp
+              Enterprise API • Custom pricing • Both on/off-ramp
             </div>
           </div>
         </div>
@@ -607,21 +607,21 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-3">
               <div className="flex gap-3">
-                <div className="flex-shrink-0 text-primary">✅</div>
+                <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" aria-hidden />
                 <div>
                   <p className="font-semibold text-sm">Never ask for passwords</p>
                   <p className="text-sm text-muted-foreground">No login page, no wallet connection, no key requests</p>
                 </div>
               </div>
               <div className="flex gap-3">
-                <div className="flex-shrink-0 text-primary">✅</div>
+                <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" aria-hidden />
                 <div>
                   <p className="font-semibold text-sm">No personal data collection</p>
                   <p className="text-sm text-muted-foreground">No registration, no email required, no user tracking</p>
                 </div>
               </div>
               <div className="flex gap-3">
-                <div className="flex-shrink-0 text-primary">✅</div>
+                <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" aria-hidden />
                 <div>
                   <p className="font-semibold text-sm">Transparent data sources</p>
                   <p className="text-sm text-muted-foreground">All links and data sources verified and documented</p>
@@ -630,21 +630,21 @@ export default function HomePage() {
             </div>
             <div className="space-y-3">
               <div className="flex gap-3">
-                <div className="flex-shrink-0 text-primary">✅</div>
+                <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" aria-hidden />
                 <div>
                   <p className="font-semibold text-sm">Open source code</p>
                   <p className="text-sm text-muted-foreground">View and audit our code on GitHub</p>
                 </div>
               </div>
               <div className="flex gap-3">
-                <div className="flex-shrink-0 text-primary">✅</div>
+                <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" aria-hidden />
                 <div>
                   <p className="font-semibold text-sm">Published methodology</p>
                   <p className="text-sm text-muted-foreground">All scoring formulas documented and reproducible</p>
                 </div>
               </div>
               <div className="flex gap-3">
-                <div className="flex-shrink-0 text-primary">✅</div>
+                <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" aria-hidden />
                 <div>
                   <p className="font-semibold text-sm">No affiliate links</p>
                   <p className="text-sm text-muted-foreground">We don&apos;t profit from wallet recommendations</p>

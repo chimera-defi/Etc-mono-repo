@@ -29,10 +29,10 @@ export function Navigation() {
       <nav className="wr-container">
         <div className="flex h-16 items-center justify-between gap-3">
           <Link href="/" className="group inline-flex items-center gap-2">
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-primary/25 bg-primary/10 transition-colors group-hover:bg-primary/20">
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-primary/25 bg-primary/10 transition-colors group-hover:bg-primary/20 sm:h-9 sm:w-9">
               <Wallet className="h-5 w-5 text-primary" />
             </span>
-            <span className="text-base font-semibold tracking-tight md:text-lg">Wallet Radar</span>
+            <span className="text-sm font-semibold tracking-tight sm:text-base md:text-lg">Wallet Radar</span>
             <span className="hidden rounded-full border border-border bg-muted px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground lg:inline-block">
               Research
             </span>
@@ -88,7 +88,7 @@ export function Navigation() {
               className={buttonVariants({
                 variant: 'ghost',
                 size: 'icon',
-                className: 'h-9 w-9 rounded-xl',
+                className: 'h-10 w-10 rounded-xl',
               })}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
@@ -111,7 +111,7 @@ export function Navigation() {
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      'rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                      'min-h-10 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
                       pathname === item.href
                         ? 'bg-primary/10 text-primary'
                         : 'text-muted-foreground hover:bg-muted hover:text-foreground'
@@ -130,7 +130,7 @@ export function Navigation() {
                   className={buttonVariants({
                     variant: 'outline',
                     size: 'sm',
-                    className: 'rounded-lg',
+                    className: 'min-h-10 flex-1 rounded-lg',
                   })}
                 >
                   <Twitter className="h-4 w-4" />
@@ -143,7 +143,7 @@ export function Navigation() {
                   className={buttonVariants({
                     variant: 'outline',
                     size: 'sm',
-                    className: 'rounded-lg',
+                    className: 'min-h-10 flex-1 rounded-lg',
                   })}
                 >
                   <Github className="h-4 w-4" />
