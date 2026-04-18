@@ -3,6 +3,8 @@
 import { useState, useMemo, useCallback } from 'react';
 import { Shield, Cpu, CreditCard, ArrowLeftRight, LayoutGrid, List, GitCompare } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Panel } from '@/components/ui/panel';
 import {
   WalletFilters,
   initialFilterState,
@@ -286,82 +288,69 @@ export function ExploreContent({
 
   return (
     <div className="space-y-6">
-      {/* Tabs */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border pb-4">
+      <Panel tone="muted" className="p-3 md:p-4">
+        <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex gap-2">
-          <button
+          <Button
             onClick={() => setActiveTab('software')}
-            className={cn(
-              'inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors',
-              activeTab === 'software'
-                ? 'bg-primary text-primary-foreground'
-                : 'bg-muted hover:bg-muted/80'
-            )}
+            variant={activeTab === 'software' ? 'primary' : 'secondary'}
+            size="sm"
+            className="rounded-xl"
           >
             <Shield className="h-4 w-4" />
             Software ({softwareWallets.length})
             {selectedSoftware.length > 0 && (
-              <span className="bg-primary-foreground/20 text-xs px-1.5 py-0.5 rounded">
+              <span className="rounded bg-primary-foreground/20 px-1.5 py-0.5 text-xs">
                 {selectedSoftware.length}
               </span>
             )}
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => setActiveTab('hardware')}
-            className={cn(
-              'inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors',
-              activeTab === 'hardware'
-                ? 'bg-primary text-primary-foreground'
-                : 'bg-muted hover:bg-muted/80'
-            )}
+            variant={activeTab === 'hardware' ? 'primary' : 'secondary'}
+            size="sm"
+            className="rounded-xl"
           >
             <Cpu className="h-4 w-4" />
             Hardware ({hardwareWallets.length})
             {selectedHardware.length > 0 && (
-              <span className="bg-primary-foreground/20 text-xs px-1.5 py-0.5 rounded">
+              <span className="rounded bg-primary-foreground/20 px-1.5 py-0.5 text-xs">
                 {selectedHardware.length}
               </span>
             )}
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => setActiveTab('cards')}
-            className={cn(
-              'inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors',
-              activeTab === 'cards'
-                ? 'bg-primary text-primary-foreground'
-                : 'bg-muted hover:bg-muted/80'
-            )}
+            variant={activeTab === 'cards' ? 'primary' : 'secondary'}
+            size="sm"
+            className="rounded-xl"
           >
             <CreditCard className="h-4 w-4" />
             Cards ({cryptoCards.length})
             {selectedCards.length > 0 && (
-              <span className="bg-primary-foreground/20 text-xs px-1.5 py-0.5 rounded">
+              <span className="rounded bg-primary-foreground/20 px-1.5 py-0.5 text-xs">
                 {selectedCards.length}
               </span>
             )}
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => setActiveTab('ramps')}
-            className={cn(
-              'inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors',
-              activeTab === 'ramps'
-                ? 'bg-primary text-primary-foreground'
-                : 'bg-muted hover:bg-muted/80'
-            )}
+            variant={activeTab === 'ramps' ? 'primary' : 'secondary'}
+            size="sm"
+            className="rounded-xl"
           >
             <ArrowLeftRight className="h-4 w-4" />
             Ramps ({ramps.length})
             {selectedRamps.length > 0 && (
-              <span className="bg-primary-foreground/20 text-xs px-1.5 py-0.5 rounded">
+              <span className="rounded bg-primary-foreground/20 px-1.5 py-0.5 text-xs">
                 {selectedRamps.length}
               </span>
             )}
-          </button>
+          </Button>
         </div>
 
         <div className="flex items-center gap-2">
-          {/* View mode toggle */}
-          <div className="flex border border-border rounded-lg overflow-hidden">
+          <div className="flex overflow-hidden rounded-xl border border-border">
             <button
               onClick={() => setViewMode('grid')}
               className={cn(
@@ -384,28 +373,22 @@ export function ExploreContent({
             </button>
           </div>
 
-          {/* Compare button */}
-          <button
+          <Button
             onClick={() => setShowComparison(!showComparison)}
             disabled={!hasSelectedWallets}
-            className={cn(
-              'inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors',
-              hasSelectedWallets
-                ? showComparison
-                  ? 'bg-primary text-primary-foreground'
-                  : 'border border-primary text-primary hover:bg-primary/10'
-                : 'border border-border text-muted-foreground cursor-not-allowed'
-            )}
+            variant={showComparison ? 'primary' : 'outline'}
+            size="sm"
+            className="rounded-xl"
           >
             <GitCompare className="h-4 w-4" />
             Compare {hasSelectedWallets && `(${tabData.selected.length})`}
-          </button>
+          </Button>
         </div>
-      </div>
+        </div>
+      </Panel>
 
-      {/* Comparison panel */}
       {showComparison && hasSelectedWallets && (
-        <div className="border border-primary/20 bg-primary/5 rounded-lg p-4">
+        <Panel tone="accent" className="p-4">
           <ComparisonTool
             type={activeTab}
             selectedWallets={tabData.selectedWallets as WalletData[]}
@@ -414,10 +397,9 @@ export function ExploreContent({
             onClear={tabData.clearSelected}
             onAdd={tabData.toggleSelect}
           />
-        </div>
+        </Panel>
       )}
 
-      {/* Filters */}
       <WalletFilters
         type={activeTab}
         filters={tabData.filters}
@@ -428,7 +410,6 @@ export function ExploreContent({
         totalCount={tabData.totalCount}
       />
 
-      {/* Wallet table/grid */}
       <WalletTable
         wallets={tabData.wallets as WalletData[]}
         selectedIds={tabData.selected}

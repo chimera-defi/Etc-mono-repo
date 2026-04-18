@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
+import { JetBrains_Mono, Outfit } from 'next/font/google';
 import './globals.css';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
@@ -13,6 +14,18 @@ const defaultTitle = 'Wallet Radar - Developer-Focused Crypto Wallet Research';
 const defaultDescription = 'Independent research and comparison of crypto wallets, hardware wallets, and payment solutions. Scoring, security audits, GitHub activity analysis, and developer experience benchmarks.';
 // Cache-busting version for OG images - increment when images are updated
 const ogImageVersion = 'v4';
+
+const fontSans = Outfit({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  weight: ['400', '500', '600', '700'],
+});
+
+const fontMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  weight: ['400', '500', '600'],
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -136,7 +149,11 @@ export default function RootLayout({
   `;
 
   return (
-    <html lang="en" className="scroll-smooth dark" suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${fontSans.variable} ${fontMono.variable} scroll-smooth dark`}
+      suppressHydrationWarning
+    >
       <head>
         {/* Theme initialization script - must run before render to prevent FOUC */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
@@ -189,9 +206,15 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
         <ThemeProvider defaultTheme="dark">
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground"
+          >
+            Skip to content
+          </a>
           <div className="min-h-screen flex flex-col">
             <Navigation />
-            <main className="flex-1">
+            <main id="main-content" className="flex-1">
               {children}
             </main>
             <Footer />
