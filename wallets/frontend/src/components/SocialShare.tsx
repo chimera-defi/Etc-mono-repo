@@ -83,8 +83,8 @@ export function SocialShare({ url, title, description, className = '', size = 'd
   ];
 
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
-      <span className={`${labelSize} text-muted-foreground mr-1`}>Share:</span>
+    <div className={`flex flex-wrap items-center gap-2 ${className}`}>
+      <span className={`${labelSize} text-muted-foreground mr-1 w-full sm:w-auto`}>Share:</span>
       {buttons.map(({ platform, icon: Icon, label, shortLabel, className: btnClass, bgClass }) => (
         <button
           key={platform}
