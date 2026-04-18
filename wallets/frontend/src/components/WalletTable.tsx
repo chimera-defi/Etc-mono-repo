@@ -118,8 +118,8 @@ function SelectionButton({
       aria-label={isSelected ? `Remove ${itemName} from comparison` : `Add ${itemName} to comparison`}
       title={isSelected ? 'Remove from comparison' : disabled ? 'Max 4 selected' : 'Add to comparison'}
       className={cn(
-        'border transition-colors',
-        size === 'sm' ? 'p-1 rounded' : 'p-2 rounded-lg',
+        'inline-flex items-center justify-center border transition-colors',
+        size === 'sm' ? 'h-10 w-10 rounded-lg sm:h-8 sm:w-8 sm:rounded' : 'h-10 w-10 rounded-lg',
         isSelected
           ? 'bg-primary text-primary-foreground border-primary'
           : disabled
@@ -610,7 +610,7 @@ function SoftwareWalletItem({
             href={wallet.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1"
+            className="text-muted-foreground hover:text-foreground inline-flex min-h-10 items-center gap-1 px-2 -mx-2"
           >
             <Github className="h-4 w-4" />
             GitHub
@@ -763,7 +763,7 @@ function HardwareWalletItem({
             href={wallet.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-sm"
+            className="text-muted-foreground hover:text-foreground inline-flex min-h-10 items-center gap-1 px-2 -mx-2 text-sm"
           >
             <Github className="h-4 w-4" />
           </a>
@@ -773,7 +773,7 @@ function HardwareWalletItem({
             href={wallet.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-sm"
+            className="text-muted-foreground hover:text-foreground inline-flex min-h-10 items-center gap-1 px-2 -mx-2 text-sm"
           >
             <ExternalLink className="h-4 w-4" />
             Website
@@ -864,7 +864,7 @@ function CryptoCardItem({
       detailHref={detailHref}
       nameSlot={
         <div className="flex items-center gap-2">
-          <Link href={detailHref} className="font-semibold hover:underline">
+          <Link href={detailHref} className="inline-flex min-h-10 items-center font-semibold hover:underline">
             {card.name}
           </Link>
           {card.providerUrl && (
@@ -872,7 +872,7 @@ function CryptoCardItem({
               href={card.providerUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground inline-flex h-10 w-10 items-center justify-center"
             >
               <ExternalLink className="h-3 w-3" />
             </a>
@@ -910,7 +910,7 @@ function CryptoCardItem({
             href={card.providerUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-primary hover:underline inline-flex items-center gap-1"
+            className="text-primary hover:underline inline-flex min-h-10 items-center gap-1 px-2 -mx-2"
           >
             Apply
             <ExternalLink className="h-3 w-3" />
@@ -930,7 +930,7 @@ function RampItem({
   viewMode,
   detailHref,
 }: { ramp: Ramp } & SelectableItemProps) {
-  const fundingEmoji = ramp.funding === 'sustainable' ? '🟢' : ramp.funding === 'vc' ? '🟡' : '🔴';
+  const fundingSignal = ramp.funding === 'sustainable' ? 'Stable' : ramp.funding === 'vc' ? 'VC-backed' : 'Risk';
 
   if (viewMode === 'table') {
     return (
@@ -996,7 +996,7 @@ function RampItem({
         </td>
         <td className="py-3 px-4 text-sm">
           <Tooltip content={`Funding durability signal: ${ramp.fundingSource} (${ramp.funding})`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
-            <span>{fundingEmoji} {ramp.fundingSource}</span>
+            <span>{fundingSignal} · {ramp.fundingSource}</span>
           </Tooltip>
         </td>
         <td className="py-3 px-4">
@@ -1066,7 +1066,7 @@ function RampItem({
         <div className="flex justify-between gap-2">
           <span className="text-muted-foreground">Funding:</span>
           <Tooltip content={`Funding durability signal: ${ramp.fundingSource} (${ramp.funding})`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
-            <span className="font-medium cursor-help text-right">{fundingEmoji} {ramp.fundingSource}</span>
+            <span className="font-medium cursor-help text-right">{fundingSignal} · {ramp.fundingSource}</span>
           </Tooltip>
         </div>
       </div>
@@ -1077,7 +1077,7 @@ function RampItem({
             href={ramp.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-primary hover:underline inline-flex items-center gap-1"
+            className="text-primary hover:underline inline-flex min-h-10 items-center gap-1 px-2 -mx-2"
           >
             Visit Website
             <ExternalLink className="h-3 w-3" />

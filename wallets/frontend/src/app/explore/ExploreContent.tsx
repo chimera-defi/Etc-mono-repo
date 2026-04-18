@@ -289,13 +289,13 @@ export function ExploreContent({
   return (
     <div className="space-y-6">
       <Panel tone="muted" className="p-3 md:p-4">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <Button
             onClick={() => setActiveTab('software')}
             variant={activeTab === 'software' ? 'primary' : 'secondary'}
             size="sm"
-            className="rounded-xl"
+            className="min-h-10 shrink-0 rounded-xl"
           >
             <Shield className="h-4 w-4" />
             Software ({softwareWallets.length})
@@ -309,7 +309,7 @@ export function ExploreContent({
             onClick={() => setActiveTab('hardware')}
             variant={activeTab === 'hardware' ? 'primary' : 'secondary'}
             size="sm"
-            className="rounded-xl"
+            className="min-h-10 shrink-0 rounded-xl"
           >
             <Cpu className="h-4 w-4" />
             Hardware ({hardwareWallets.length})
@@ -323,7 +323,7 @@ export function ExploreContent({
             onClick={() => setActiveTab('cards')}
             variant={activeTab === 'cards' ? 'primary' : 'secondary'}
             size="sm"
-            className="rounded-xl"
+            className="min-h-10 shrink-0 rounded-xl"
           >
             <CreditCard className="h-4 w-4" />
             Cards ({cryptoCards.length})
@@ -337,7 +337,7 @@ export function ExploreContent({
             onClick={() => setActiveTab('ramps')}
             variant={activeTab === 'ramps' ? 'primary' : 'secondary'}
             size="sm"
-            className="rounded-xl"
+            className="min-h-10 shrink-0 rounded-xl"
           >
             <ArrowLeftRight className="h-4 w-4" />
             Ramps ({ramps.length})
@@ -349,12 +349,12 @@ export function ExploreContent({
           </Button>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 sm:self-end">
           <div className="flex overflow-hidden rounded-xl border border-border">
             <button
               onClick={() => setViewMode('grid')}
               className={cn(
-                'p-2 transition-colors',
+                'flex h-10 w-10 items-center justify-center transition-colors',
                 viewMode === 'grid' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
               )}
               title="Grid view"
@@ -364,7 +364,7 @@ export function ExploreContent({
             <button
               onClick={() => setViewMode('table')}
               className={cn(
-                'p-2 transition-colors',
+                'flex h-10 w-10 items-center justify-center transition-colors',
                 viewMode === 'table' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
               )}
               title="Table view"
@@ -378,7 +378,7 @@ export function ExploreContent({
             disabled={!hasSelectedWallets}
             variant={showComparison ? 'primary' : 'outline'}
             size="sm"
-            className="rounded-xl"
+            className="min-h-10 flex-1 rounded-xl sm:flex-none"
           >
             <GitCompare className="h-4 w-4" />
             Compare {hasSelectedWallets && `(${tabData.selected.length})`}

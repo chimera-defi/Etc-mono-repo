@@ -44,8 +44,8 @@ export function SocialShare({ url, title, description, className = '', size = 'd
 
   const isLarge = size === 'large';
   const iconSize = isLarge ? 'h-5 w-5' : 'h-4 w-4';
-  const buttonPadding = isLarge ? 'p-3' : 'p-2';
-  const labelSize = isLarge ? 'text-base font-medium' : 'text-sm';
+  const buttonSizeClass = isLarge ? 'min-h-11 min-w-11 p-2.5 sm:p-3' : 'min-h-10 min-w-10 p-2';
+  const labelSize = isLarge ? 'text-sm font-medium sm:text-base' : 'text-sm';
 
   const buttons = [
     {
@@ -83,13 +83,13 @@ export function SocialShare({ url, title, description, className = '', size = 'd
   ];
 
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
+    <div className={`flex flex-wrap items-center gap-2 ${className}`}>
       <span className={`${labelSize} text-muted-foreground mr-1`}>Share:</span>
       {buttons.map(({ platform, icon: Icon, label, shortLabel, className: btnClass, bgClass }) => (
         <button
           key={platform}
           onClick={() => handleShare(platform)}
-          className={`${buttonPadding} rounded-lg text-muted-foreground transition-colors ${isLarge ? `${bgClass} border border-border` : btnClass} ${isLarge ? 'flex items-center gap-2' : ''}`}
+          className={`${buttonSizeClass} inline-flex items-center justify-center rounded-lg text-muted-foreground transition-colors ${isLarge ? `${bgClass} border border-border` : btnClass} ${isLarge ? 'gap-2' : ''}`}
           title={label}
           aria-label={label}
         >
@@ -99,7 +99,7 @@ export function SocialShare({ url, title, description, className = '', size = 'd
       ))}
       <button
         onClick={handleCopyLink}
-        className={`${buttonPadding} rounded-lg text-muted-foreground hover:bg-muted transition-colors ${isLarge ? 'bg-muted border border-border flex items-center gap-2' : ''}`}
+        className={`${buttonSizeClass} inline-flex items-center justify-center rounded-lg text-muted-foreground hover:bg-muted transition-colors ${isLarge ? 'gap-2 border border-border bg-muted' : ''}`}
         title={copied ? 'Copied!' : 'Copy link'}
         aria-label="Copy link"
       >

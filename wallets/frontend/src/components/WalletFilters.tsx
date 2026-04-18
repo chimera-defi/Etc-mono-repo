@@ -68,10 +68,10 @@ const RECOMMENDATION_OPTIONS = [
 ];
 
 const PLATFORM_OPTIONS = [
-  { value: 'mobile', label: 'Mobile', icon: '📱' },
-  { value: 'browser', label: 'Browser Extension', icon: '🌐' },
-  { value: 'desktop', label: 'Desktop', icon: '💻' },
-  { value: 'web', label: 'Web App', icon: '🔗' },
+  { value: 'mobile', label: 'Mobile' },
+  { value: 'browser', label: 'Browser Extension' },
+  { value: 'desktop', label: 'Desktop' },
+  { value: 'web', label: 'Web App' },
 ];
 
 const LICENSE_OPTIONS = [
@@ -133,15 +133,15 @@ const REGION_OPTIONS = [
 ];
 
 const CUSTODY_OPTIONS = [
-  { value: 'self', label: '🔐 Self-Custody', color: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' },
-  { value: 'exchange', label: '🏦 Exchange', color: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' },
-  { value: 'cefi', label: '📋 CeFi', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' },
+  { value: 'self', label: 'Self-Custody', color: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' },
+  { value: 'exchange', label: 'Exchange', color: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' },
+  { value: 'cefi', label: 'CeFi', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' },
 ];
 
 const CARD_STATUS_OPTIONS = [
-  { value: 'active', label: '✅ Active', color: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' },
-  { value: 'verify', label: '⚠️ Verify', color: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' },
-  { value: 'launching', label: '🔄 Launching', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' },
+  { value: 'active', label: 'Active', color: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' },
+  { value: 'verify', label: 'Verify', color: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' },
+  { value: 'launching', label: 'Launching', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' },
 ];
 
 const SORT_OPTIONS = {
@@ -221,7 +221,7 @@ function MultiSelect({
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          'w-full flex items-center justify-between px-3 py-2 text-sm border rounded-lg',
+          'w-full flex min-h-11 items-center justify-between rounded-lg border px-3 py-2.5 text-sm sm:min-h-10 sm:py-2',
           'bg-background text-foreground border-border',
           'hover:border-primary/50 transition-colors',
           selected.length > 0 && 'border-primary'
@@ -250,7 +250,7 @@ function MultiSelect({
               key={option.value}
               onClick={() => toggleOption(option.value)}
               className={cn(
-                'w-full flex items-center justify-between px-3 py-2 text-sm',
+                'w-full flex min-h-10 items-center justify-between px-3 py-2 text-sm',
                 'hover:bg-muted transition-colors',
                 selected.includes(option.value) && 'bg-primary/10'
               )}
@@ -287,7 +287,7 @@ function ToggleButton({
         <button
           onClick={() => onChange(value === true ? null : true)}
           className={cn(
-            'px-3 py-1 text-xs transition-colors',
+            'min-h-9 px-3.5 py-1 text-sm transition-colors',
             value === true
               ? 'bg-green-600 text-white'
               : 'bg-background hover:bg-muted'
@@ -298,7 +298,7 @@ function ToggleButton({
         <button
           onClick={() => onChange(value === false ? null : false)}
           className={cn(
-            'px-3 py-1 text-xs transition-colors',
+            'min-h-9 px-3.5 py-1 text-sm transition-colors',
             value === false
               ? 'bg-red-600 text-white'
               : 'bg-background hover:bg-muted'
@@ -411,7 +411,7 @@ export function WalletFilters({
   return (
     <div className={cn('space-y-4', className)}>
       <Panel tone="muted" className="p-4">
-        <div className="flex flex-col gap-4 sm:flex-row">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <input
@@ -419,23 +419,23 @@ export function WalletFilters({
               placeholder="Search wallets..."
               value={filters.search}
               onChange={e => updateFilter('search', e.target.value)}
-              className="w-full rounded-xl border border-border bg-background px-10 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full rounded-xl border border-border bg-background px-10 py-3 text-base text-foreground placeholder:text-muted-foreground focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary sm:py-2.5 sm:text-sm"
             />
             {filters.search && (
               <button
                 onClick={() => updateFilter('search', '')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                className="absolute right-2.5 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center text-muted-foreground hover:text-foreground sm:h-9 sm:w-9"
               >
                 <X className="h-4 w-4" />
               </button>
             )}
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2 sm:flex-nowrap">
             <select
               value={sort.field}
               onChange={e => onSortChange({ ...sort, field: e.target.value })}
-              className="rounded-xl border border-border bg-background px-3 py-2.5 text-sm text-foreground"
+              className="h-11 min-w-[11rem] rounded-xl border border-border bg-background px-3 text-sm text-foreground sm:h-10"
             >
               {sortOptions.map(option => (
                 <option key={option.value} value={option.value}>
@@ -452,7 +452,7 @@ export function WalletFilters({
               }
               variant="outline"
               size="icon"
-              className="h-10 w-10 rounded-xl"
+              className="h-11 w-11 rounded-xl sm:h-10 sm:w-10"
               title={sort.direction === 'asc' ? 'Ascending' : 'Descending'}
             >
               <ArrowUpDown className="h-4 w-4" />
@@ -463,7 +463,7 @@ export function WalletFilters({
             onClick={() => setShowAdvanced(!showAdvanced)}
             variant={showAdvanced || activeFilterCount > 0 ? 'primary' : 'outline'}
             size="md"
-            className="rounded-xl"
+            className="h-11 rounded-xl sm:h-10"
           >
             <SlidersHorizontal className="h-4 w-4" />
             <span className="text-sm">Filters</span>
@@ -479,7 +479,7 @@ export function WalletFilters({
               onClick={clearFilters}
               variant="ghost"
               size="md"
-              className="rounded-xl"
+              className="h-11 rounded-xl sm:h-10"
             >
               Clear All
             </Button>
