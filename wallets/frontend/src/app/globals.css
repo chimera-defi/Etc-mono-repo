@@ -233,6 +233,19 @@
   @apply text-yellow-600 dark:text-yellow-400;
 }
 
+/* Keep Score column visually color-coded on markdown comparison pages. */
+.prose-wallet tbody tr:has(td:last-child:has(🟢)) td:nth-child(2) {
+  @apply text-green-600 dark:text-green-400 font-semibold;
+}
+
+.prose-wallet tbody tr:has(td:last-child:has(🟡)) td:nth-child(2) {
+  @apply text-yellow-600 dark:text-yellow-400 font-semibold;
+}
+
+.prose-wallet tbody tr:has(td:last-child:has(🔴)) td:nth-child(2) {
+  @apply text-red-600 dark:text-red-400 font-semibold;
+}
+
 /* Table of contents styles */
 .toc-link {
   @apply block py-1 text-sm text-muted-foreground hover:text-foreground transition-colors;
