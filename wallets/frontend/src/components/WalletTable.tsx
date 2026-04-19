@@ -42,6 +42,7 @@ type SelectableItemProps = {
   onToggleSelect: () => void;
   viewMode: 'grid' | 'table';
   detailHref: string;
+  scoreMedian: number;
 };
 
 function EmptyState({
@@ -242,6 +243,16 @@ function buildScoreTooltip(wallet: WalletData): string {
   return lines.join('\n');
 }
 
+function calculateMedianScore<T extends { score: number }>(items: T[]): number {
+  if (items.length === 0) return 0;
+  const sortedScores = items.map(item => item.score).sort((a, b) => a - b);
+  const middleIndex = Math.floor(sortedScores.length / 2);
+  if (sortedScores.length % 2 === 0) {
+    return (sortedScores[middleIndex - 1] + sortedScores[middleIndex]) / 2;
+  }
+  return sortedScores[middleIndex];
+}
+
 function ScoreBreakdownPreview({
   breakdown,
   tooltipLinkHref,
@@ -266,30 +277,41 @@ function ScoreBreakdownPreview({
 function ScoreBadge({
   score,
   recommendation,
+  scoreMedian: _scoreMedian,
   tooltip,
   tooltipLinkHref,
   tooltipLinkLabel = METHODOLOGY_TOOLTIP_LABEL,
 }: {
   score: number;
   recommendation: string;
+  scoreMedian: number;
   tooltip?: string;
   tooltipLinkHref?: string;
   tooltipLinkLabel?: string;
 }) {
   let variant: 'success' | 'warning' | 'error' = 'warning';
-  if (recommendation === 'recommended') variant = 'success';
-  else if (recommendation === 'avoid' || recommendation === 'not-for-dev') variant = 'error';
+  if (recommendation === 'avoid' || recommendation === 'not-for-dev') variant = 'error';
+  else if (recommendation === 'recommended') variant = 'success';
 
   const badge = (
     <div className="flex flex-col items-center gap-1">
       <div
         className={cn(
-          'w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg shadow-sm ring-1',
+          'relative w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg shadow-sm ring-1',
           variant === 'success' && 'bg-green-100 text-green-700 ring-green-200 dark:bg-green-900/30 dark:text-green-400 dark:ring-green-800/50 dark:drop-shadow-[0_0_6px_rgba(74,222,128,0.4)]',
           variant === 'warning' && 'bg-yellow-100 text-yellow-700 ring-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-400 dark:ring-yellow-800/50 dark:drop-shadow-[0_0_6px_rgba(250,204,21,0.4)]',
           variant === 'error' && 'bg-red-100 text-red-700 ring-red-200 dark:bg-red-900/30 dark:text-red-400 dark:ring-red-800/50 dark:drop-shadow-[0_0_6px_rgba(248,113,113,0.4)]'
         )}
       >
+        <span
+          className={cn(
+            'absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full ring-1 ring-background/90',
+            variant === 'success' && 'bg-green-500 dark:bg-green-400',
+            variant === 'warning' && 'bg-yellow-500 dark:bg-yellow-400',
+            variant === 'error' && 'bg-red-500 dark:bg-red-400'
+          )}
+          aria-hidden="true"
+        />
         {score}
       </div>
       <div className="w-10 h-1 rounded-full bg-muted overflow-hidden">
@@ -306,7 +328,7 @@ function ScoreBadge({
     </div>
   );
 
-  const defaultTooltip = `Score: ${score}/100\nRecommendation: ${recommendation}`;
+  const defaultTooltip = `Score: ${score}/100\nRecommendation: ${recommendation}\nBanding: 🟢 top half, 🟡 middle quartile, 🔴 bottom quartile or inactive.`;
 
   return <Tooltip content={tooltip || defaultTooltip} linkHref={tooltipLinkHref} linkLabel={tooltipLinkLabel}>{badge}</Tooltip>;
 }
@@ -435,6 +457,7 @@ interface WalletItemCardProps {
   onToggleSelect: () => void;
   methodLink: string;
   detailHref: string;
+  scoreMedian: number;
   nameSlot?: React.ReactNode;   // replaces default <Link> name if provided
   subNameSlot?: React.ReactNode; // shown below name in header (e.g. RecommendationBadge or cardType badge)
   children: React.ReactNode;    // body content between header and score breakdown
@@ -447,6 +470,7 @@ function WalletItemCard({
   onToggleSelect,
   methodLink,
   detailHref,
+  scoreMedian,
   nameSlot,
   subNameSlot,
   children,
@@ -463,6 +487,7 @@ function WalletItemCard({
           <ScoreBadge
             score={item.score}
             recommendation={item.recommendation}
+            scoreMedian={scoreMedian}
             tooltip={buildScoreTooltip(item)}
             tooltipLinkHref={methodLink}
           />
@@ -495,6 +520,7 @@ function SoftwareWalletItem({
   onToggleSelect,
   viewMode,
   detailHref,
+  scoreMedian,
 }: { wallet: SoftwareWallet } & SelectableItemProps) {
   if (viewMode === 'table') {
     return (
@@ -503,23 +529,21 @@ function SoftwareWalletItem({
           <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={wallet.name} size="sm" />
         </td>
         <td className="py-3 px-4">
-          <div className="flex items-center gap-3">
+          <div className="flex justify-center">
             <ScoreBadge
               score={wallet.score}
               recommendation={wallet.recommendation}
+              scoreMedian={scoreMedian}
               tooltip={buildScoreTooltip(wallet)}
               tooltipLinkHref={TABLE_METHOD_LINKS.software}
             />
-            <div>
-              <Link href={detailHref} className="font-semibold hover:underline">
-                {wallet.name}
-              </Link>
-              <div className="text-sm text-muted-foreground">{wallet.bestFor}</div>
-            </div>
           </div>
         </td>
         <td className="py-3 px-4">
-          <RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />
+          <Link href={detailHref} className="font-semibold hover:underline">
+            {wallet.name}
+          </Link>
+          <div className="text-sm text-muted-foreground">{wallet.bestFor}</div>
         </td>
         <td className="py-3 px-4">
           <DeviceIcons devices={wallet.devices} tooltipLinkHref={detailHref} />
@@ -567,6 +591,7 @@ function SoftwareWalletItem({
       onToggleSelect={onToggleSelect}
       methodLink={TABLE_METHOD_LINKS.software}
       detailHref={detailHref}
+      scoreMedian={scoreMedian}
       subNameSlot={<RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />}
     >
       <p className="text-sm text-muted-foreground mb-3">{wallet.bestFor}</p>
@@ -629,6 +654,7 @@ function HardwareWalletItem({
   onToggleSelect,
   viewMode,
   detailHref,
+  scoreMedian,
 }: { wallet: HardwareWallet } & SelectableItemProps) {
   if (viewMode === 'table') {
     return (
@@ -637,28 +663,26 @@ function HardwareWalletItem({
           <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={wallet.name} size="sm" />
         </td>
         <td className="py-3 px-4">
-          <div className="flex items-center gap-3">
+          <div className="flex justify-center">
             <ScoreBadge
               score={wallet.score}
               recommendation={wallet.recommendation}
+              scoreMedian={scoreMedian}
               tooltip={buildScoreTooltip(wallet)}
               tooltipLinkHref={TABLE_METHOD_LINKS.hardware}
             />
-            <div>
-              <Link href={detailHref} className="font-semibold hover:underline">
-                {wallet.name}
-              </Link>
-              <div className="text-sm text-muted-foreground">{wallet.priceText}</div>
-              {wallet.priceLastChecked && (
-                <div className="text-xs text-muted-foreground">
-                  Price checked {wallet.priceLastChecked}
-                </div>
-              )}
-            </div>
           </div>
         </td>
         <td className="py-3 px-4">
-          <RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />
+          <Link href={detailHref} className="font-semibold hover:underline">
+            {wallet.name}
+          </Link>
+          <div className="text-sm text-muted-foreground">{wallet.priceText}</div>
+          {wallet.priceLastChecked && (
+            <div className="text-xs text-muted-foreground">
+              Price checked {wallet.priceLastChecked}
+            </div>
+          )}
         </td>
         <td className="py-3 px-4">
           <FeatureIndicator
@@ -726,6 +750,7 @@ function HardwareWalletItem({
       onToggleSelect={onToggleSelect}
       methodLink={TABLE_METHOD_LINKS.hardware}
       detailHref={detailHref}
+      scoreMedian={scoreMedian}
       subNameSlot={<RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />}
     >
       <p className="text-lg font-semibold text-primary mb-1">{wallet.priceText}</p>
@@ -792,6 +817,7 @@ function CryptoCardItem({
   onToggleSelect,
   viewMode,
   detailHref,
+  scoreMedian,
 }: { card: CryptoCard } & SelectableItemProps) {
   if (viewMode === 'table') {
     return (
@@ -800,32 +826,33 @@ function CryptoCardItem({
           <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={card.name} size="sm" />
         </td>
         <td className="py-3 px-4">
-          <div className="flex items-center gap-3">
+          <div className="flex justify-center">
             <ScoreBadge
               score={card.score}
               recommendation={card.recommendation}
+              scoreMedian={scoreMedian}
               tooltip={buildScoreTooltip(card)}
               tooltipLinkHref={TABLE_METHOD_LINKS.cards}
             />
-            <div>
-              <div className="flex items-center gap-2">
-                <Link href={detailHref} className="font-semibold hover:underline">
-                  {card.name}
-                </Link>
-                {card.providerUrl && (
-                  <a
-                    href={card.providerUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-foreground"
-                  >
-                    <ExternalLink className="h-3 w-3" />
-                  </a>
-                )}
-              </div>
-              <div className="text-sm text-muted-foreground">{card.bestFor}</div>
-            </div>
           </div>
+        </td>
+        <td className="py-3 px-4">
+          <div className="flex items-center gap-2">
+            <Link href={detailHref} className="font-semibold hover:underline">
+              {card.name}
+            </Link>
+            {card.providerUrl && (
+              <a
+                href={card.providerUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <ExternalLink className="h-3 w-3" />
+              </a>
+            )}
+          </div>
+          <div className="text-sm text-muted-foreground">{card.bestFor}</div>
         </td>
         <td className="py-3 px-4">
           <Badge variant="info" tooltip={cryptoCardTooltips.cardType[card.cardType]} tooltipLinkHref={detailHref}>{card.cardType}</Badge>
@@ -862,6 +889,7 @@ function CryptoCardItem({
       onToggleSelect={onToggleSelect}
       methodLink={TABLE_METHOD_LINKS.cards}
       detailHref={detailHref}
+      scoreMedian={scoreMedian}
       nameSlot={
         <div className="flex items-center gap-2">
           <Link href={detailHref} className="font-semibold hover:underline">
@@ -879,7 +907,12 @@ function CryptoCardItem({
           )}
         </div>
       }
-      subNameSlot={<Badge variant="info" tooltip={cryptoCardTooltips.cardType[card.cardType]} tooltipLinkHref={detailHref}>{card.cardType}</Badge>}
+      subNameSlot={
+        <div className="mt-1 flex flex-wrap gap-2">
+          <RecommendationBadge recommendation={card.recommendation} tooltipLinkHref={detailHref} />
+          <Badge variant="info" tooltip={cryptoCardTooltips.cardType[card.cardType]} tooltipLinkHref={detailHref}>{card.cardType}</Badge>
+        </div>
+      }
     >
       <Tooltip content="Maximum cashback rate (may require staking or tier progression)" linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
         <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-2 cursor-help">
@@ -929,6 +962,7 @@ function RampItem({
   onToggleSelect,
   viewMode,
   detailHref,
+  scoreMedian,
 }: { ramp: Ramp } & SelectableItemProps) {
   const fundingEmoji = ramp.funding === 'sustainable' ? '🟢' : ramp.funding === 'vc' ? '🟡' : '🔴';
 
@@ -939,25 +973,23 @@ function RampItem({
           <SelectionButton isSelected={isSelected} isAtMax={isAtMax} onToggleSelect={onToggleSelect} itemName={ramp.name} size="sm" />
         </td>
         <td className="py-3 px-4">
-          <div className="flex items-center gap-3">
+          <div className="flex justify-center">
             <ScoreBadge
               score={ramp.score}
               recommendation={ramp.recommendation}
+              scoreMedian={scoreMedian}
               tooltip={buildScoreTooltip(ramp)}
               tooltipLinkHref={TABLE_METHOD_LINKS.ramps}
             />
-            <div>
-              <div className="font-semibold">
-                <Link href={detailHref} className="text-foreground hover:text-primary hover:underline">
-                  {ramp.name}
-                </Link>
-              </div>
-              <div className="text-sm text-muted-foreground">{ramp.bestFor}</div>
-            </div>
           </div>
         </td>
         <td className="py-3 px-4">
-          <RecommendationBadge recommendation={ramp.recommendation} tooltipLinkHref={detailHref} />
+          <div className="font-semibold">
+            <Link href={detailHref} className="text-foreground hover:text-primary hover:underline">
+              {ramp.name}
+            </Link>
+          </div>
+          <div className="text-sm text-muted-foreground">{ramp.bestFor}</div>
         </td>
         <td className="py-3 px-4">
           <div className="flex gap-2">
@@ -1024,6 +1056,7 @@ function RampItem({
       onToggleSelect={onToggleSelect}
       methodLink={TABLE_METHOD_LINKS.ramps}
       detailHref={detailHref}
+      scoreMedian={scoreMedian}
       subNameSlot={<RecommendationBadge recommendation={ramp.recommendation} tooltipLinkHref={detailHref} />}
     >
       <p className="text-sm text-muted-foreground mb-3">{ramp.bestFor}</p>
@@ -1117,6 +1150,7 @@ export function WalletTable<T extends WalletData>({
   if (wallets.length === 0) {
     return <EmptyState type={type} onResetFilters={onResetFilters} />;
   }
+  const scoreMedian = calculateMedianScore(wallets);
 
   if (viewMode === 'table') {
     return (
@@ -1132,13 +1166,11 @@ export function WalletTable<T extends WalletData>({
                 <HeaderTooltip label="Compare" tooltip={softwareWalletTooltips.headers.compare} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
               </th>
               <th className={mobileHeaderCellClassName}>
+                <HeaderTooltip label="Score" tooltip={commonTooltips.score} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
+              </th>
+              <th className={mobileHeaderCellClassName}>
                 <HeaderTooltip label="Wallet" tooltip={softwareWalletTooltips.headers.wallet} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
               </th>
-              {(type === 'software' || type === 'hardware' || type === 'ramps') && (
-                <th className={mobileHeaderCellClassName}>
-                  <HeaderTooltip label="Status" tooltip={softwareWalletTooltips.headers.status} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
-                </th>
-              )}
               {type === 'cards' && (
                 <th className={mobileHeaderCellClassName}>
                   <HeaderTooltip label="Type" tooltip={cryptoCardTooltips.headers.cardType} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
@@ -1240,6 +1272,7 @@ export function WalletTable<T extends WalletData>({
                     onToggleSelect={() => onToggleSelect(wallet.id)}
                     viewMode="table"
                     detailHref={getWalletDetailHref('software', wallet.id)}
+                    scoreMedian={scoreMedian}
                   />
                 );
               }
@@ -1253,6 +1286,7 @@ export function WalletTable<T extends WalletData>({
                     onToggleSelect={() => onToggleSelect(wallet.id)}
                     viewMode="table"
                     detailHref={getWalletDetailHref('hardware', wallet.id)}
+                    scoreMedian={scoreMedian}
                   />
                 );
               }
@@ -1266,6 +1300,7 @@ export function WalletTable<T extends WalletData>({
                     onToggleSelect={() => onToggleSelect(wallet.id)}
                     viewMode="table"
                     detailHref={getWalletDetailHref('cards', wallet.id)}
+                    scoreMedian={scoreMedian}
                   />
                 );
               }
@@ -1278,6 +1313,7 @@ export function WalletTable<T extends WalletData>({
                   onToggleSelect={() => onToggleSelect(wallet.id)}
                   viewMode="table"
                   detailHref={getWalletDetailHref('ramps', wallet.id)}
+                  scoreMedian={scoreMedian}
                 />
               );
             })}
@@ -1303,6 +1339,7 @@ export function WalletTable<T extends WalletData>({
               onToggleSelect={() => onToggleSelect(wallet.id)}
               viewMode="grid"
               detailHref={getWalletDetailHref('software', wallet.id)}
+              scoreMedian={scoreMedian}
             />
           );
         }
@@ -1316,6 +1353,7 @@ export function WalletTable<T extends WalletData>({
               onToggleSelect={() => onToggleSelect(wallet.id)}
               viewMode="grid"
               detailHref={getWalletDetailHref('hardware', wallet.id)}
+              scoreMedian={scoreMedian}
             />
           );
         }
@@ -1329,6 +1367,7 @@ export function WalletTable<T extends WalletData>({
               onToggleSelect={() => onToggleSelect(wallet.id)}
               viewMode="grid"
               detailHref={getWalletDetailHref('cards', wallet.id)}
+              scoreMedian={scoreMedian}
             />
           );
         }
@@ -1341,6 +1380,7 @@ export function WalletTable<T extends WalletData>({
             onToggleSelect={() => onToggleSelect(wallet.id)}
             viewMode="grid"
             detailHref={getWalletDetailHref('ramps', wallet.id)}
+            scoreMedian={scoreMedian}
           />
         );
       })}

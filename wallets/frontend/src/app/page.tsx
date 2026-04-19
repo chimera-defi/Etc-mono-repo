@@ -5,6 +5,7 @@ import { getAllDocuments } from '@/lib/markdown';
 import { getAllArticles } from '@/lib/articles';
 import { getAllWalletData, getWalletTableSummary } from '@/lib/wallet-data';
 import { ArticleCard } from '@/components/ArticleCard';
+import { EducationalDisclaimerBanner } from '@/components/EducationalDisclaimerBanner';
 import { FAQ } from '@/components/FAQ';
 import { ScoreBreakdownBar, getScoreBreakdownShortLabel } from '@/components/ScoreBreakdownBar';
 import type { WalletData } from '@/types/wallets';
@@ -252,6 +253,14 @@ export default function HomePage() {
       },
       {
         '@type': 'Question',
+        name: 'Why does Wallet Radar say "Educational Research & Data Only"?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Wallet Radar is a research site, not a broker or wallet provider. We do not run login pages, wallet connections, or transaction signing, and the published data comes from public sources that you can verify independently.',
+        },
+      },
+      {
+        '@type': 'Question',
         name: 'What is the best MetaMask alternative for developers?',
         acceptedAnswer: {
           '@type': 'Answer',
@@ -318,20 +327,7 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableSchema) }}
       />
 
-      {/* Disclaimer Banner */}
-      <div className="w-full bg-sky-900/30 border-b border-sky-800/50 text-sky-100 px-4 py-3">
-        <div className="container mx-auto max-w-7xl flex items-start gap-3">
-          <div className="mt-0.5 flex-shrink-0">
-            <svg className="h-5 w-5 text-sky-400" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-            </svg>
-          </div>
-          <div className="flex-1 text-sm">
-            <p className="font-semibold">Educational Research &amp; Data Only</p>
-            <p className="text-sky-200/80">No login pages, no wallet connections, no tracking. All data is public and verifiable. <a href="/docs/about" className="underline hover:text-white">Why we&apos;re not phishing</a></p>
-          </div>
-        </div>
-      </div>
+      <EducationalDisclaimerBanner />
 
       {/* Hero Section */}
       <section className="container mx-auto max-w-7xl px-4 md:px-6 pt-16 md:pt-20 pb-12 md:pb-16">

@@ -2,21 +2,21 @@
 
 > 📊 **View the comparison table:** [See all wallets at a glance →](./SOFTWARE_WALLETS.md)
 
-> **Source of truth note:** Current `Score` and `Rec` values are generated from the visible columns in [SOFTWARE_WALLETS.md](./SOFTWARE_WALLETS.md) via `wallets/scripts/sync_table_scores.js` (`2026-04-visible-columns-v2`). If a long-form section below mentions older numeric scores, trust the main comparison table.
+> **Source of truth note:** Current `Score` and `Rec` values are generated from the visible columns in [SOFTWARE_WALLETS.md](./SOFTWARE_WALLETS.md) via `wallets/scripts/sync_table_scores.js` (`2026-04-visible-columns-v3`). If a long-form section below mentions older numeric scores, trust the main comparison table.
 
 > **TL;DR:** The generated snapshot below mirrors the current main-table ordering and scores. Use it for the latest rankings; the long-form sections below explain audits, integration tradeoffs, and developer workflow details.
 
 <!-- GENERATED_SOFTWARE_SNAPSHOT_START -->
-> **Current generated snapshot:** Rabby (84, Development, 🟢), MetaMask (77, Compatibility, 🟡), Safe (77, Treasury/DAO, 🟡), and Brave (75, Brave users, 🟡). Regenerated from [SOFTWARE_WALLETS.md](./SOFTWARE_WALLETS.md) by `wallets/scripts/sync_table_scores.js` using methodology `2026-04-visible-columns-v2`.
+> **Current generated snapshot:** Rabby (84, Development, 🟢), MetaMask (77, Compatibility, 🟢), Safe (77, Treasury/DAO, ⚪), and Brave (75, Brave users, 🟢). Regenerated from [SOFTWARE_WALLETS.md](./SOFTWARE_WALLETS.md) by `wallets/scripts/sync_table_scores.js` using methodology `2026-04-visible-columns-v3`.
 
 ### Current Top Rows (generated)
 | Rank | Wallet | Score | Best For | Rec |
 | ---- | ------ | ----- | -------- | --- |
 | 1 | **Rabby** | 84 | Development | 🟢 |
-| 2 | **MetaMask** | 77 | Compatibility | 🟡 |
-| 3 | **Safe** | 77 | Treasury/DAO | 🟡 |
-| 4 | **Brave** | 75 | Brave users | 🟡 |
-| 5 | **Trust** | 75 | Multi-chain | 🟡 |
+| 2 | **MetaMask** | 77 | Compatibility | 🟢 |
+| 3 | **Safe** | 77 | Treasury/DAO | ⚪ |
+| 4 | **Brave** | 75 | Brave users | 🟢 |
+| 5 | **Trust** | 75 | Multi-chain | 🟢 |
 <!-- GENERATED_SOFTWARE_SNAPSHOT_END -->
 
 **Data Sources:** GitHub REST API (Feb 2026), [WalletBeat](https://walletbeat.fyi) (Dec 2025)
@@ -236,10 +236,11 @@ SECURITY (5 pts)
   ❓ None/Private = 0
 ```
 
-**Score Interpretation:**
-- 🟢 **75+:** Recommended — meets core criteria, stable, good dev experience
-- 🟡 **50-74:** Situational — may not meet core criteria or has limitations
-- 🔴 **<50:** Caution — doesn't meet core criteria, inactive, or limited
+**Score Interpretation (auto-generated bands):**
+- 🟢 **Recommended:** top half of active, developer-fit rows
+- 🟡 **Situational:** middle quartile of active, developer-fit rows
+- 🔴 **Avoid:** bottom quartile or inactive
+- ⚪ **Not for dev:** fails core developer-fit requirements (for example missing mobile+extension)
 
 **Key Insight:** MetaMask scores 73 despite being the industry standard because of its ~8 releases/month (high churn). Though well-audited (2025), wallets like Trust (85), Rainbow (82), and Brave (81) offer better stability while meeting all core criteria.
 
@@ -428,7 +429,7 @@ Complete explanations for all table columns:
 | **ENS/Naming** | ✅ Full / ✅ Basic / ⚠️ / ❌ | ✅ Full = Mainnet ENS + subdomains | ✅ Basic = Mainnet ENS only | ⚠️ Import only = Can import but not send to .eth | ✅ Full+cb.id = Full ENS + custom domains | ❌ = No ENS support |
 | **HW** | ✅ / ⚠️ / ❌ | ✅ = Hardware wallet support (Ledger/Trezor) | ⚠️ = Limited support | ❌ = No hardware wallet support |
 | **Active** | ✅ / ⚠️ / ❌ / 🔒 | ✅ = Active (≤30 days since last commit) | ⚠️ = Slow (1-4 months) | ❌ = Inactive (4+ months) | 🔒 = Private repo |
-| **Rec** | 🟢 / 🟡 / 🔴 / ⚪ | 🟢 = Recommended (score 75+) | 🟡 = Situational (score 50-74) | 🔴 = Avoid (score <50 or inactive) | ⚪ = Not for developers |
+| **Rec** | 🟢 / 🟡 / 🔴 / ⚪ | 🟢 = Top half of active developer-fit rows | 🟡 = Middle quartile | 🔴 = Bottom quartile or inactive | ⚪ = Not for developers |
 
 **Special Notes:**
 - † Safe is web app only — requires WalletConnect
