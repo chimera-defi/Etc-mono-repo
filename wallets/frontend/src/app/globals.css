@@ -5,6 +5,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
   /* Keyboard focus ring for all interactive elements */
@@ -80,11 +81,12 @@
     font-family: var(--font-body);
     position: relative;
     isolation: isolate;
+    overflow-x: hidden;
     background-image:
       radial-gradient(circle at 12% 12%, rgba(45, 212, 191, 0.18), transparent 28%),
       radial-gradient(circle at 88% 10%, rgba(250, 204, 21, 0.12), transparent 24%),
       linear-gradient(180deg, rgba(7, 12, 20, 0.98), rgba(15, 23, 42, 0.96));
-    background-attachment: fixed;
+    background-attachment: scroll;
   }
 
   body::before {
@@ -99,6 +101,18 @@
     mask-image: radial-gradient(circle at center, black 35%, transparent 85%);
     opacity: 0.28;
     z-index: -1;
+  }
+
+  @media (min-width: 768px) {
+    body {
+      background-attachment: fixed;
+    }
+  }
+
+  @media (max-width: 767px) {
+    body::before {
+      display: none;
+    }
   }
 
   h1,
@@ -217,6 +231,19 @@
 .prose-wallet td:has(⚠️),
 .prose-wallet td:has(🟡) {
   @apply text-yellow-600 dark:text-yellow-400;
+}
+
+/* Keep Score column visually color-coded on markdown comparison pages. */
+.prose-wallet tbody tr:has(td:last-child:has(🟢)) td:nth-child(2) {
+  @apply text-green-600 dark:text-green-400 font-semibold;
+}
+
+.prose-wallet tbody tr:has(td:last-child:has(🟡)) td:nth-child(2) {
+  @apply text-yellow-600 dark:text-yellow-400 font-semibold;
+}
+
+.prose-wallet tbody tr:has(td:last-child:has(🔴)) td:nth-child(2) {
+  @apply text-red-600 dark:text-red-400 font-semibold;
 }
 
 /* Table of contents styles */

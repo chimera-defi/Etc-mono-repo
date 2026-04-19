@@ -10,6 +10,7 @@ const {
   computeHardwareScore,
   computeCardScore,
   computeRampScore,
+  assignRecommendationBands,
   recommendationEmoji,
 } = require('../frontend/src/lib/scoring.js');
 
@@ -43,22 +44,34 @@ const TABLE_CONFIGS = [
   {
     label: 'cards',
     file: path.join(ROOT, 'CRYPTO_CARDS.md'),
-    header: '| Card | Score | Type | Custody | Biz | Region | Cash Back | Annual Fee | FX Fee | Rewards | Status | Best For |',
+    header: '| Card | Score | Type | Custody | Biz | Region | Cash Back | Annual Fee | FX Fee | Rewards | Status | Best For | Rec |',
+    separator: '| ---- | ----- | ---- | ------- | --- | ------ | --------- | ---------- | ------ | ------- | ------ | -------- | --- |',
+    legacyHeaders: [
+      '| Card | Score | Type | Custody | Biz | Region | Cash Back | Annual Fee | FX Fee | Rewards | Status | Best For |',
+    ],
     compute: computeCardScore,
-    formatScore: (scoreInfo) => `${scoreInfo.score} ${recommendationEmoji(scoreInfo.recommendation)}`,
+    formatScore: (scoreInfo) => String(scoreInfo.score),
     updateCells: (cells, scoreInfo) => {
-      cells[1] = `${scoreInfo.score} ${recommendationEmoji(scoreInfo.recommendation)}`;
+      while (cells.length < 13) cells.push('');
+      cells[1] = String(scoreInfo.score);
+      cells[12] = recommendationEmoji(scoreInfo.recommendation);
       return cells;
     },
   },
   {
     label: 'ramps',
     file: path.join(ROOT, 'RAMPS.md'),
-    header: '| Provider | Score | Type | On-Ramp | Off-Ramp | Coverage | Fee Model | Min Fee | Dev UX | Status | Founded | Funding | Best For |',
+    header: '| Provider | Score | Type | On-Ramp | Off-Ramp | Coverage | Fee Model | Min Fee | Dev UX | Status | Founded | Funding | Best For | Rec |',
+    separator: '| -------- | ----- | ---- | ------- | -------- | -------- | --------- | ------- | ------ | ------ | ------- | ------- | -------- | --- |',
+    legacyHeaders: [
+      '| Provider | Score | Type | On-Ramp | Off-Ramp | Coverage | Fee Model | Min Fee | Dev UX | Status | Founded | Funding | Best For |',
+    ],
     compute: computeRampScore,
-    formatScore: (scoreInfo) => `${scoreInfo.score} ${recommendationEmoji(scoreInfo.recommendation)}`,
+    formatScore: (scoreInfo) => String(scoreInfo.score),
     updateCells: (cells, scoreInfo) => {
-      cells[1] = `${scoreInfo.score} ${recommendationEmoji(scoreInfo.recommendation)}`;
+      while (cells.length < 14) cells.push('');
+      cells[1] = String(scoreInfo.score);
+      cells[13] = recommendationEmoji(scoreInfo.recommendation);
       return cells;
     },
   },
@@ -253,7 +266,8 @@ function replaceGeneratedBlock(content, startMarker, endMarker, nextBlock) {
 function processTable(config, { write = false } = {}) {
   const original = fs.readFileSync(config.file, 'utf8');
   const lines = original.split('\n');
-  const headerIndex = lines.findIndex((line) => line.trim() === config.header.trim());
+  const supportedHeaders = [config.header, ...(config.legacyHeaders || [])].map((header) => header.trim());
+  const headerIndex = lines.findIndex((line) => supportedHeaders.includes(line.trim()));
   if (headerIndex === -1) {
     throw new Error(`Could not find table header for ${config.label}: ${config.file}`);
   }
@@ -264,16 +278,33 @@ function processTable(config, { write = false } = {}) {
   }
 
   const bodyLines = lines.slice(headerIndex + 2, endIndex).filter((line) => line.trim().startsWith('|') && !isSeparatorLine(line));
+  const scoredRows = bodyLines.map((line) => {
+    const originalCells = parseRow(line);
+    const scoreInfo = config.compute(originalCells);
+    return {
+      sourceLine: line,
+      originalCells,
+      scoreInfo,
+    };
+  });
+
+  const { recommendations } = assignRecommendationBands(
+    config.label,
+    scoredRows.map((row) => row.scoreInfo)
+  );
+
   const processed = sortRows(
-    bodyLines.map((line) => {
-      const originalCells = parseRow(line);
-      const scoreInfo = config.compute(originalCells);
-      const nextCells = config.updateCells([...originalCells], scoreInfo);
+    scoredRows.map((row, index) => {
+      const scoreInfo = {
+        ...row.scoreInfo,
+        recommendation: recommendations[index] || row.scoreInfo.recommendation,
+      };
+      const nextCells = config.updateCells([...row.originalCells], scoreInfo);
       return {
         line: formatRow(nextCells),
         score: scoreInfo.score,
         name: extractName(nextCells[0]),
-        changed: line.trim() !== formatRow(nextCells).trim(),
+        changed: row.sourceLine.trim() !== formatRow(nextCells).trim(),
         cells: nextCells,
         scoreInfo,
       };
@@ -281,8 +312,8 @@ function processTable(config, { write = false } = {}) {
   );
 
   const updatedTable = [
-    lines[headerIndex],
-    lines[headerIndex + 1],
+    config.header,
+    config.separator || lines[headerIndex + 1],
     ...processed.map((row) => row.line),
   ];
 

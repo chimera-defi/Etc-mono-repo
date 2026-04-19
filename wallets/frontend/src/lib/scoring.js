@@ -3,7 +3,26 @@ const HARDWARE_MAX_SCORE = 100;
 const CARD_MAX_SCORE = 100;
 const RAMP_MAX_SCORE = 100;
 
-const SCORING_METHODOLOGY_VERSION = '2026-04-visible-columns-v2';
+const SCORING_METHODOLOGY_VERSION = '2026-04-visible-columns-v3';
+
+const RECOMMENDATION_BAND_RULES = {
+  software: {
+    redPercentile: 0.25,
+    yellowPercentile: 0.5,
+  },
+  hardware: {
+    redPercentile: 0.25,
+    yellowPercentile: 0.5,
+  },
+  cards: {
+    redPercentile: 0.25,
+    yellowPercentile: 0.5,
+  },
+  ramps: {
+    redPercentile: 0.25,
+    yellowPercentile: 0.5,
+  },
+};
 
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
@@ -11,6 +30,93 @@ function clamp(value, min, max) {
 
 function roundScore(value) {
   return Math.round(clamp(value, 0, 100));
+}
+
+function normalizeKind(kind) {
+  if (kind === 'card') return 'cards';
+  if (kind === 'ramp') return 'ramps';
+  return kind;
+}
+
+function resolveRecommendationBandRules(kind) {
+  const normalized = normalizeKind(kind);
+  return RECOMMENDATION_BAND_RULES[normalized] || RECOMMENDATION_BAND_RULES.software;
+}
+
+function buildRankBandSummary(sortedEligible, avoidCutoff, yellowCutoff, rules) {
+  const avoidCount = avoidCutoff;
+  const situationalCount = Math.max(0, yellowCutoff - avoidCutoff);
+  const recommendedCount = Math.max(0, sortedEligible.length - yellowCutoff);
+  return {
+    eligibleCount: sortedEligible.length,
+    avoidCount,
+    situationalCount,
+    recommendedCount,
+    redPercentile: rules.redPercentile,
+    yellowPercentile: rules.yellowPercentile,
+    avoidScoreMax: avoidCount > 0 ? sortedEligible[avoidCount - 1].score : null,
+    situationalScoreMax: yellowCutoff > 0 ? sortedEligible[yellowCutoff - 1].score : null,
+  };
+}
+
+function assignRecommendationBands(kind, scoreInfos) {
+  const normalizedKind = normalizeKind(kind);
+  const rules = resolveRecommendationBandRules(normalizedKind);
+  const recommendations = Array.from({ length: scoreInfos.length }, () => 'situational');
+  const eligible = [];
+
+  scoreInfos.forEach((scoreInfo, index) => {
+    const signals = scoreInfo?.signals || {};
+    const status = signals.status || signals.activity || null;
+
+    // Inactive entries are always hard-fail regardless of percentile.
+    if (status === 'inactive') {
+      recommendations[index] = 'avoid';
+      return;
+    }
+
+    // Software wallets that miss core developer requirements remain not-for-dev.
+    if (normalizedKind === 'software') {
+      const core = signals.core;
+      const devControl = Number.isFinite(signals.devControl) ? signals.devControl : 0;
+      if (core !== 'full' || devControl <= 10) {
+        recommendations[index] = 'not-for-dev';
+        return;
+      }
+    }
+
+    eligible.push({
+      index,
+      score: scoreInfo?.score ?? 0,
+      status,
+    });
+  });
+
+  const sortedEligible = [...eligible].sort((a, b) => {
+    if (a.score !== b.score) return a.score - b.score;
+    return a.index - b.index;
+  });
+
+  const avoidCutoff = Math.floor(sortedEligible.length * rules.redPercentile);
+  const yellowCutoff = Math.floor(sortedEligible.length * rules.yellowPercentile);
+
+  sortedEligible.forEach((entry, rankIndex) => {
+    let recommendation = 'recommended';
+    if (rankIndex < avoidCutoff) recommendation = 'avoid';
+    else if (rankIndex < yellowCutoff) recommendation = 'situational';
+
+    // "Launching" products are capped at situational until operational maturity is clear.
+    if (entry.status === 'launching' && recommendation === 'recommended') {
+      recommendation = 'situational';
+    }
+
+    recommendations[entry.index] = recommendation;
+  });
+
+  return {
+    recommendations,
+    bands: buildRankBandSummary(sortedEligible, avoidCutoff, yellowCutoff, rules),
+  };
 }
 
 function extractInteger(cell) {
@@ -138,12 +244,20 @@ function parseAccountTypes(cell) {
   };
 }
 
-function buildBreakdown(total, max, entries, recommendation, methodologyVersion = SCORING_METHODOLOGY_VERSION) {
+function buildBreakdown(
+  total,
+  max,
+  entries,
+  recommendation,
+  methodologyVersion = SCORING_METHODOLOGY_VERSION,
+  signals = {}
+) {
   return {
     score: roundScore(total),
     maxScore: max,
     recommendation,
     methodologyVersion,
+    signals,
     breakdown: entries.map((entry) => ({
       key: entry.key,
       label: entry.label,
@@ -156,7 +270,7 @@ function buildBreakdown(total, max, entries, recommendation, methodologyVersion 
 
 function softwareRecommendation(score, ctx) {
   if (ctx.activity === 'inactive') return 'avoid';
-  if (score >= 80) return 'recommended';
+  if (score >= 70) return 'recommended';
   if (score >= 55) return 'situational';
   if (ctx.core !== 'full' || ctx.devControl <= 10) return 'not-for-dev';
   return 'avoid';
@@ -164,23 +278,23 @@ function softwareRecommendation(score, ctx) {
 
 function hardwareRecommendation(score, ctx) {
   if (ctx.activity === 'inactive') return 'avoid';
-  if (score >= 72) return 'recommended';
+  if (score >= 70) return 'recommended';
   if (score >= 45) return 'situational';
   return 'avoid';
 }
 
 function cardRecommendation(score, ctx) {
   if (ctx.status === 'inactive') return 'avoid';
-  if (ctx.status === 'launching' && score < 70) return 'situational';
-  if (score >= 75) return 'recommended';
-  if (score >= 50) return 'situational';
+  if (ctx.status === 'launching') return 'situational';
+  if (score >= 70) return 'recommended';
+  if (score >= 55) return 'situational';
   return 'avoid';
 }
 
 function rampRecommendation(score, ctx) {
   if (ctx.status === 'inactive') return 'avoid';
-  if (ctx.status === 'launching' && score < 75) return 'situational';
-  if (score >= 78) return 'recommended';
+  if (ctx.status === 'launching') return 'situational';
+  if (score >= 70) return 'recommended';
   if (score >= 55) return 'situational';
   return 'avoid';
 }
@@ -188,6 +302,7 @@ function rampRecommendation(score, ctx) {
 function recommendationEmoji(recommendation) {
   if (recommendation === 'recommended') return '🟢';
   if (recommendation === 'situational') return '🟡';
+  if (recommendation === 'not-for-dev') return '⚪';
   return '🔴';
 }
 
@@ -338,7 +453,18 @@ function computeSoftwareScore(cells) {
     devControl: developerSafetyControl,
   });
 
-  return buildBreakdown(total, SOFTWARE_MAX_SCORE, entries, recommendation);
+  return buildBreakdown(
+    total,
+    SOFTWARE_MAX_SCORE,
+    entries,
+    recommendation,
+    SCORING_METHODOLOGY_VERSION,
+    {
+      activity,
+      core,
+      devControl: developerSafetyControl,
+    }
+  );
 }
 
 function parseHardwareOpenSource(cell) {
@@ -511,7 +637,16 @@ function computeHardwareScore(cells) {
   const score = roundScore(total);
   const recommendation = hardwareRecommendation(score, { activity });
 
-  return buildBreakdown(total, HARDWARE_MAX_SCORE, entries, recommendation);
+  return buildBreakdown(
+    total,
+    HARDWARE_MAX_SCORE,
+    entries,
+    recommendation,
+    SCORING_METHODOLOGY_VERSION,
+    {
+      activity,
+    }
+  );
 }
 
 function parseCardTypeScore(cell) {
@@ -681,7 +816,16 @@ function computeCardScore(cells) {
   const score = roundScore(total);
   const recommendation = cardRecommendation(score, { status });
 
-  return buildBreakdown(total, CARD_MAX_SCORE, entries, recommendation);
+  return buildBreakdown(
+    total,
+    CARD_MAX_SCORE,
+    entries,
+    recommendation,
+    SCORING_METHODOLOGY_VERSION,
+    {
+      status,
+    }
+  );
 }
 
 function parseRampCoverageScore(cell) {
@@ -817,7 +961,16 @@ function computeRampScore(cells) {
   const score = roundScore(total);
   const recommendation = rampRecommendation(score, { status });
 
-  return buildBreakdown(total, RAMP_MAX_SCORE, entries, recommendation);
+  return buildBreakdown(
+    total,
+    RAMP_MAX_SCORE,
+    entries,
+    recommendation,
+    SCORING_METHODOLOGY_VERSION,
+    {
+      status,
+    }
+  );
 }
 
 function formatScoreBreakdownTooltip(scoreInfo) {
@@ -834,6 +987,7 @@ module.exports = {
   computeHardwareScore,
   computeCardScore,
   computeRampScore,
+  assignRecommendationBands,
   recommendationEmoji,
   formatScoreBreakdownTooltip,
 };

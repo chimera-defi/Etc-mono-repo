@@ -27,7 +27,8 @@ node wallets/scripts/sync_table_scores.js --write
 
 #### Notes
 
-- Current methodology version: `2026-04-visible-columns-v1`
+- Current methodology version: `2026-04-visible-columns-v3`
+- Recommendation bands are auto-assigned from score percentiles per table run (bottom quartile = 🔴, middle quartile = 🟡, top half = 🟢), with hard overrides for inactive rows.
 - `wallets/frontend/scripts/smoke-test-wallet-data.js` expects the tables to be in sync
 - This script is now the source of truth for score/recommendation cells and the generated detail-doc snapshots
 
