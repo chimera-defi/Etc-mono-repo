@@ -35,19 +35,19 @@
 | [**Shakepay Card**](https://shakepay.com/card) | 70 | Prepaid | 📋 CeFi | ❌ | 🇨🇦 CA | 1.5% | $0 | 0% | BTC | ✅ | Canada | 🟡 |
 | [**Tuyo**](https://tuyo.com/card) (@itstuyo) | 69 | Prepaid | 🔐 Self | ❌ | 🌍 Global* | 0% | $0 | ~1% | TUYO | ✅ | USDC on Base | 🟡 |
 | [**Uphold Card**](https://uphold.com) | 69 | Debit | 📋 CeFi | ⚠️ | 🇺🇸🇪🇺 US/EU | 1-4% | $0 | TBD | XRP, BTC | ⚠️ | Card pages time out | 🟡 |
-| [**Meow Card**](https://www.meow.com/cards) (@meow) | 68 | Business | 📋 CeFi | ✅ | 🌍 Global | Up to 2% | $0 | TBD (avg ~2% savings) | USD cash | ✅ | Global startup finance ops | 🟡 |
-| [**Solflare Card**](https://solflare.com/card) (@solflare_wallet) | 66 | Debit | 🔐 Self | ❌ | 🇪🇺 EU/UK | 0% | $0 | 0% | None | ✅ | Solana ecosystem | 🟡 |
-| [**BitPay Card**](https://bitpay.com/card) | 63 | Prepaid | 📋 CeFi | ⚠️ | 🇺🇸 US | 1%* | $0 | 0% | None | ✅ | BTC spending | 🟡 |
-| [**Slash Platinum Card**](https://www.slash.com/products/corporate-cards) (@slashapp) | 63 | Business | 📋 CeFi | ✅ | 🇺🇸 US | Up to 2% | $0-$25/mo | 1% (min $0.4) | USD cash | ✅ | US internet businesses | 🟡 |
-| [**Binance Card**](https://www.binance.com/en/cards) | 60 | Debit | 🏦 Exch | ⚠️ | 🇧🇷 Brazil | Up to 3% | $0 | 0-2% | BNB | ✅ | Binance users | 🟡 |
-| [**CoinJar Card**](https://www.coinjar.com/au/card) | 59 | Debit | 🏦 Exch | ❌ | 🇦🇺 AU | 1% rewards pts | $0 | 2.99% | BTC | ⚠️ | 1% fee returned | 🟡 |
-| [**Kraken Card**](https://www.kraken.com/kraken-card) | 58 | Debit | 🏦 Exch | ⚠️ | 🇺🇸🇪🇺 US/EU | TBD | $0 | TBD | Multi | 🔄 | Cloudflare-protected | 🟡 |
-| [**Swissborg Card**](https://swissborg.com) | 58 | Debit | 📋 CeFi | ❌ | 🇪🇺 EU | 1-2% | $0 | TBD | CHSB | ⚠️ | Card page 404 | 🟡 |
-| [**OKX Card**](https://www.okx.com) | 56 | Debit | 🏦 Exch | ⚠️ | 🇪🇺 EU | TBD | $0 | TBD | Stables | 🔄 | Card pages time out | 🟡 |
+| [**Meow Card**](https://www.meow.com/cards) (@meow) | 68 | Business | 📋 CeFi | ✅ | 🌍 Global | Up to 2% | $0 | TBD (avg ~2% savings) | USD cash | ✅ | Global startup finance ops | 🔴 |
+| [**Solflare Card**](https://solflare.com/card) (@solflare_wallet) | 66 | Debit | 🔐 Self | ❌ | 🇪🇺 EU/UK | 0% | $0 | 0% | None | ✅ | Solana ecosystem | 🔴 |
+| [**BitPay Card**](https://bitpay.com/card) | 63 | Prepaid | 📋 CeFi | ⚠️ | 🇺🇸 US | 1%* | $0 | 0% | None | ✅ | BTC spending | 🔴 |
+| [**Slash Platinum Card**](https://www.slash.com/products/corporate-cards) (@slashapp) | 63 | Business | 📋 CeFi | ✅ | 🇺🇸 US | Up to 2% | $0-$25/mo | 1% (min $0.4) | USD cash | ✅ | US internet businesses | 🔴 |
+| [**Binance Card**](https://www.binance.com/en/cards) | 60 | Debit | 🏦 Exch | ⚠️ | 🇧🇷 Brazil | Up to 3% | $0 | 0-2% | BNB | ✅ | Binance users | 🔴 |
+| [**CoinJar Card**](https://www.coinjar.com/au/card) | 59 | Debit | 🏦 Exch | ❌ | 🇦🇺 AU | 1% rewards pts | $0 | 2.99% | BTC | ⚠️ | 1% fee returned | 🔴 |
+| [**Kraken Card**](https://www.kraken.com/kraken-card) | 58 | Debit | 🏦 Exch | ⚠️ | 🇺🇸🇪🇺 US/EU | TBD | $0 | TBD | Multi | 🔄 | Cloudflare-protected | 🔴 |
+| [**Swissborg Card**](https://swissborg.com) | 58 | Debit | 📋 CeFi | ❌ | 🇪🇺 EU | 1-2% | $0 | TBD | CHSB | ⚠️ | Card page 404 | 🔴 |
+| [**OKX Card**](https://www.okx.com) | 56 | Debit | 🏦 Exch | ⚠️ | 🇪🇺 EU | TBD | $0 | TBD | Stables | 🔄 | Card pages time out | 🔴 |
 | ~~[**Kontigo**](https://kontigo.com)~~ | 51 | Debit | 🔐 Self | ⚠️ | 🌍 Global | 10% BTC | $0 | 0% | BTC | ❌ | ~~Crypto neobank~~ | 🔴 |
 | [**Nummus Wallet Card**](https://nummuswallet.com/) (@NummusWallet) | 44 | Debit | 📋 CeFi | ✅ | 🌍 Global | TBD | TBD | TBD | None | ⚠️ | Fiat + crypto banking stack (verify terms) | 🔴 |
 
-> **Scoring note:** `Score` is generated from the visible columns above using `wallets/scripts/sync_table_scores.js` and methodology version `2026-04-visible-columns-v2`. The table no longer relies on hand-tuned score adjustments.
+> **Scoring note:** `Score` and `Rec` are generated from the visible columns above using `wallets/scripts/sync_table_scores.js` and methodology version `2026-04-visible-columns-v3`. The table no longer relies on hand-tuned score adjustments.
 
 ## Pros & Cons (Top Picks)
 
@@ -77,7 +77,7 @@
 | Symbol | Meaning |
 |--------|---------|
 | **Score** | 0-100 weighted score ([methodology](./CRYPTO_CARDS_DETAILS.md#scoring-methodology)) |
-| **Rec** | 🟢 Recommended (75+) | 🟡 Situational (50-74) | 🔴 Avoid (<50) |
+| **Rec** | 🟢 Top half of active rows | 🟡 Middle quartile | 🔴 Bottom quartile / inactive |
 
 **Card Details:**
 | Column | Values |

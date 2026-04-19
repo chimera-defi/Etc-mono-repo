@@ -14,13 +14,13 @@
 | [**Blockstream Jade**](https://blockstream.com/jade/) | 74 | [Jade](https://github.com/Blockstream/Jade) | ❌ | ✅ Full | ✅ SE | Color LCD | ~$79 | USB/BT | ✅ Active | 2014 | 🟡 VC | 🟢 |
 | [**BitBox02**](https://bitbox.swiss/) | 73 | [bitbox02-firmware](https://github.com/BitBoxSwiss/bitbox02-firmware) | ❌ | ✅ Full | ✅ ATECC | Touch Edge | ~$150 | USB-C | ✅ Active | 2015 | 🟢 Self | 🟢 |
 | [**BitBox02 Nova**](https://bitbox.swiss/) | 73 | [bitbox02-firmware](https://github.com/BitBoxSwiss/bitbox02-firmware) | ❌ | ✅ Full | ✅ ATECC | Touch Edge | ~$150 | USB-C | ✅ Active | 2015 | 🟢 Self | 🟢 |
-| [**Krux**](https://selfcustody.github.io/krux/) | 70 | [krux](https://github.com/selfcustody/krux) | ✅ Full | ✅ Full | ❌ None | LCD | ~$30-100* | QR | ✅ Active | 2021 | 🔴 Community | 🟡 |
-| [**OneKey Classic 1S**](https://onekey.so/) | 70 | [firmware](https://github.com/OneKeyHQ/firmware) | ❌ | ✅ Full | ✅ SE | Mono OLED | ~$89 | USB | ✅ Active | 2019 | 🟡 VC | 🟡 |
-| [**OneKey Classic 1S Pure**](https://onekey.so/) | 70 | [firmware](https://github.com/OneKeyHQ/firmware) | ❌ | ✅ Full | ✅ SE | Mono OLED | ~$99 | USB | ✅ Active | 2019 | 🟡 VC | 🟡 |
-| [**SeedSigner**](https://seedsigner.com/) | 70 | [seedsigner](https://github.com/SeedSigner/seedsigner) | ✅ Full | ✅ Full | ❌ None | LCD | ~$50-100* | QR | ✅ Active | 2020 | 🔴 Community | 🟡 |
-| [**Specter DIY**](https://specter.solutions/hardware/) | 70 | [specter-diy](https://github.com/cryptoadvance/specter-diy) | ✅ Full | ✅ Full | ❌ None | LCD | ~$50-150* | QR | ✅ Active | 2020 | 🔴 Community | 🟡 |
-| [**OneKey Pro**](https://onekey.so/) | 69 | [firmware-pro](https://github.com/OneKeyHQ/firmware-pro) | ❌ | ✅ Full | ✅ SE | Touch Color | ~$199 | USB/BT | ✅ Active | 2019 | 🟡 VC | 🟡 |
-| [**SafePal S1**](https://www.safepal.com/) | 69 | Private | ✅ Full | ⚠️ Partial | ✅ SE | LCD | ~$50 | QR | 🔒 Private | 2018 | 🟢 Binance | 🟡 |
+| [**Krux**](https://selfcustody.github.io/krux/) | 70 | [krux](https://github.com/selfcustody/krux) | ✅ Full | ✅ Full | ❌ None | LCD | ~$30-100* | QR | ✅ Active | 2021 | 🔴 Community | 🟢 |
+| [**OneKey Classic 1S**](https://onekey.so/) | 70 | [firmware](https://github.com/OneKeyHQ/firmware) | ❌ | ✅ Full | ✅ SE | Mono OLED | ~$89 | USB | ✅ Active | 2019 | 🟡 VC | 🟢 |
+| [**OneKey Classic 1S Pure**](https://onekey.so/) | 70 | [firmware](https://github.com/OneKeyHQ/firmware) | ❌ | ✅ Full | ✅ SE | Mono OLED | ~$99 | USB | ✅ Active | 2019 | 🟡 VC | 🟢 |
+| [**SeedSigner**](https://seedsigner.com/) | 70 | [seedsigner](https://github.com/SeedSigner/seedsigner) | ✅ Full | ✅ Full | ❌ None | LCD | ~$50-100* | QR | ✅ Active | 2020 | 🔴 Community | 🟢 |
+| [**Specter DIY**](https://specter.solutions/hardware/) | 70 | [specter-diy](https://github.com/cryptoadvance/specter-diy) | ✅ Full | ✅ Full | ❌ None | LCD | ~$50-150* | QR | ✅ Active | 2020 | 🔴 Community | 🟢 |
+| [**OneKey Pro**](https://onekey.so/) | 69 | [firmware-pro](https://github.com/OneKeyHQ/firmware-pro) | ❌ | ✅ Full | ✅ SE | Touch Color | ~$199 | USB/BT | ✅ Active | 2019 | 🟡 VC | 🟢 |
+| [**SafePal S1**](https://www.safepal.com/) | 69 | Private | ✅ Full | ⚠️ Partial | ✅ SE | LCD | ~$50 | QR | 🔒 Private | 2018 | 🟢 Binance | 🟢 |
 | [**Cypherock X1 Standard**](https://www.cypherock.com/) | 67 | [x1_wallet_firmware](https://github.com/Cypherock/x1_wallet_firmware) | ❌ | ✅ Full | ✅ ATECC + EAL6+ Cards | OLED | ~$179 | USB-C/NFC | ⚠️ Slow | 2019 | 🟡 VC | 🟡 |
 | [**Keycard**](https://keycard.tech/) | 65 | [status-keycard](https://github.com/keycard-tech/status-keycard) | ❌ | ✅ Full | ✅ CC | None | ~$29 | NFC | ✅ Active | 2017 | 🟢 Status | 🟡 |
 | [**Ledger Nano Gen5**](https://www.ledger.com/) | 65 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$79 | USB | 🔒 Private | 2014 | 🟢 Ledger | 🟡 |
@@ -30,11 +30,11 @@
 | [**KeepKey**](https://keepkey.com/) | 60 | [keepkey-firmware](https://github.com/keepkey/keepkey-firmware) | ❌ | ✅ Full | ❌ None | OLED | ~$50 | USB | ✅ Active | 2015 | 🟢 ShapeShift | 🟡 |
 | [**Ledger Flex**](https://www.ledger.com/) | 60 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Flexible E-Ink | ~$199 | USB/BT | 🔒 Private | 2014 | 🟢 Ledger | 🟡 |
 | [**Ledger Nano X**](https://www.ledger.com/) | 59 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | Mono OLED | ~$150 | USB/BT | 🔒 Private | 2014 | 🟢 Ledger | 🟡 |
-| [**Ledger Stax**](https://www.ledger.com/) | 58 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | E-Ink Touch | ~$280 | USB/BT | 🔒 Private | 2014 | 🟢 Ledger | 🟡 |
-| [**Bitkey**](https://bitkey.world/products/bitkey) | 51 | [bitkey](https://github.com/proto-at-block/bitkey) | ❌ | ✅ Full† | ❌ Not documented | None | ~$150 | NFC/USB-C | ✅ Active | 2009 | 🟢 Block | 🟡 |
-| [**Ellipal Titan 2.0**](https://www.ellipal.com/) | 48 | Private | ✅ Full | ❌ Closed | ❌ None | Touch Color | ~$170 | QR | 🔒 Private | 2018 | 🔴 Unknown | 🟡 |
-| [**SecuX V20**](https://secuxtech.com/) | 46 | Private | ❌ | ❌ Closed | ✅ SE | Touch Color | ~$140 | USB/BT | 🔒 Private | 2018 | 🔴 Unknown | 🟡 |
-| [**Tangem Wallet**](https://tangem.com/) | 46 | Private | ❌ | ⚠️ Partial | ✅ SE | None | ~$55 | NFC | 🔒 Private | 2017 | 🟡 VC | 🟡 |
+| [**Ledger Stax**](https://www.ledger.com/) | 58 | [ledger-live](https://github.com/LedgerHQ/ledger-live) | ❌ | ⚠️ Partial | ✅ SE | E-Ink Touch | ~$280 | USB/BT | 🔒 Private | 2014 | 🟢 Ledger | 🔴 |
+| [**Bitkey**](https://bitkey.world/products/bitkey) | 51 | [bitkey](https://github.com/proto-at-block/bitkey) | ❌ | ✅ Full† | ❌ Not documented | None | ~$150 | NFC/USB-C | ✅ Active | 2009 | 🟢 Block | 🔴 |
+| [**Ellipal Titan 2.0**](https://www.ellipal.com/) | 48 | Private | ✅ Full | ❌ Closed | ❌ None | Touch Color | ~$170 | QR | 🔒 Private | 2018 | 🔴 Unknown | 🔴 |
+| [**SecuX V20**](https://secuxtech.com/) | 46 | Private | ❌ | ❌ Closed | ✅ SE | Touch Color | ~$140 | USB/BT | 🔒 Private | 2018 | 🔴 Unknown | 🔴 |
+| [**Tangem Wallet**](https://tangem.com/) | 46 | Private | ❌ | ⚠️ Partial | ✅ SE | None | ~$55 | NFC | 🔒 Private | 2017 | 🟡 VC | 🔴 |
 | [**GridPlus Lattice1**](https://gridplus.io/) | 40 | [SDK only](https://github.com/GridPlus/gridplus-sdk) | ❌ | ⚠️ SDK only | ✅ SE | 5" Touch | ~$400 | WiFi/USB | 🔒 Private | 2017 | 🔴 Unknown | 🔴 |
 | [**Arculus**](https://www.getarculus.com/) | 39 | Private | ❌ | ❌ Closed | ✅ SE | None | ~$100 | NFC | 🔒 Private | 2000 | 🟢 CompoSecure | 🔴 |
 | [**BC Vault**](https://bc-vault.com/) | 30 | Private | ❌ | ❌ Closed | ❌ None | OLED | ~$140 | USB | 🔒 Private | 2014 | 🔴 Unknown | 🔴 |
@@ -72,7 +72,7 @@
 | Symbol | Meaning |
 |--------|---------|
 | **Score** | 0-100 weighted score ([methodology](./HARDWARE_WALLETS_DETAILS.md#-scoring-methodology)) |
-| **Rec** | 🟢 Recommended (75+) | 🟡 Situational (50-74) | 🔴 Avoid (<50) |
+| **Rec** | 🟢 Top half of active rows | 🟡 Middle quartile | 🔴 Bottom quartile / inactive |
 
 **Security Features:**
 | Column | Values |
@@ -100,7 +100,7 @@
 
 > ⚠️ **Data Accuracy Note:** Prices, supported networks, and features change. Always verify on official manufacturer websites before purchasing.
 
-> **Scoring note:** `Score` and `Rec` are generated from the visible columns above using `wallets/scripts/sync_table_scores.js` and methodology version `2026-04-visible-columns-v2`. They should not be hand-edited.
+> **Scoring note:** `Score` and `Rec` are generated from the visible columns above using `wallets/scripts/sync_table_scores.js` and methodology version `2026-04-visible-columns-v3`. They should not be hand-edited.
 
 ---
 
