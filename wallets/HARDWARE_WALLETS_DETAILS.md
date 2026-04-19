@@ -2,12 +2,12 @@
 
 > 📊 **View the comparison table:** [See all wallets at a glance →](./HARDWARE_WALLETS.md)
 
-> **Source of truth note:** Current `Score` and `Rec` values are generated from the visible columns in [HARDWARE_WALLETS.md](./HARDWARE_WALLETS.md) via `wallets/scripts/sync_table_scores.js` (`2026-04-visible-columns-v2`). If a long-form section below mentions older numeric scores, trust the main comparison table.
+> **Source of truth note:** Current `Score` and `Rec` values are generated from the visible columns in [HARDWARE_WALLETS.md](./HARDWARE_WALLETS.md) via `wallets/scripts/sync_table_scores.js` (`2026-04-visible-columns-v3`). If a long-form section below mentions older numeric scores, trust the main comparison table.
 
 > **TL;DR:** The generated snapshot below mirrors the current main-table ordering and scores. Use it for the latest rankings; the long-form sections below explain security architecture, firmware transparency, and tradeoffs in more detail.
 
 <!-- GENERATED_HARDWARE_SNAPSHOT_START -->
-> **Current generated snapshot:** Keystone 3 Pro (92, ✅ Active, 🟢), ColdCard Mk4 (88, ✅ Active, 🟢), Keycard Shell (85, ✅ Active, 🟢), and Foundation Passport (84, ✅ Active, 🟢). Regenerated from [HARDWARE_WALLETS.md](./HARDWARE_WALLETS.md) by `wallets/scripts/sync_table_scores.js` using methodology `2026-04-visible-columns-v2`.
+> **Current generated snapshot:** Keystone 3 Pro (92, ✅ Active, 🟢), ColdCard Mk4 (88, ✅ Active, 🟢), Keycard Shell (85, ✅ Active, 🟢), and Foundation Passport (84, ✅ Active, 🟢). Regenerated from [HARDWARE_WALLETS.md](./HARDWARE_WALLETS.md) by `wallets/scripts/sync_table_scores.js` using methodology `2026-04-visible-columns-v3`.
 
 ### Current Top Rows (generated)
 | Rank | Wallet | Score | Activity | Rec |
@@ -56,7 +56,7 @@ Complete explanations for all table columns:
 | **Price** | ~$XXX | Approximate USD price (verify on official site). *DIY wallets = component cost varies |
 | **Conn** | USB, BT, QR, NFC, MicroSD, WiFi | Connection methods: USB-C, USB, Bluetooth (BT), QR codes, NFC, MicroSD card, WiFi |
 | **Activity** | ✅ / ⚠️ / ❌ / 🔒 | ✅ = Active (≤30 days since last commit) | ⚠️ = Slow (1-4 months) | ❌ = Inactive (4+ months) | 🔒 = Private repo |
-| **Rec** | 🟢 / 🟡 / 🔴 | 🟢 = Recommended (score 75+) | 🟡 = Situational (score 50-74) | 🔴 = Avoid (score <50 or inactive) |
+| **Rec** | 🟢 / 🟡 / 🔴 | 🟢 = Top half of active rows | 🟡 = Middle quartile | 🔴 = Bottom quartile or inactive |
 
 **Special Notes:**
 - ~~Strikethrough~~ = Abandoned/inactive wallet
