@@ -10,6 +10,7 @@ const {
   computeHardwareScore,
   computeCardScore,
   computeRampScore,
+  assignRecommendationBands,
   recommendationEmoji,
 } = require('../frontend/src/lib/scoring.js');
 
@@ -277,16 +278,33 @@ function processTable(config, { write = false } = {}) {
   }
 
   const bodyLines = lines.slice(headerIndex + 2, endIndex).filter((line) => line.trim().startsWith('|') && !isSeparatorLine(line));
+  const scoredRows = bodyLines.map((line) => {
+    const originalCells = parseRow(line);
+    const scoreInfo = config.compute(originalCells);
+    return {
+      sourceLine: line,
+      originalCells,
+      scoreInfo,
+    };
+  });
+
+  const { recommendations } = assignRecommendationBands(
+    config.label,
+    scoredRows.map((row) => row.scoreInfo)
+  );
+
   const processed = sortRows(
-    bodyLines.map((line) => {
-      const originalCells = parseRow(line);
-      const scoreInfo = config.compute(originalCells);
-      const nextCells = config.updateCells([...originalCells], scoreInfo);
+    scoredRows.map((row, index) => {
+      const scoreInfo = {
+        ...row.scoreInfo,
+        recommendation: recommendations[index] || row.scoreInfo.recommendation,
+      };
+      const nextCells = config.updateCells([...row.originalCells], scoreInfo);
       return {
         line: formatRow(nextCells),
         score: scoreInfo.score,
         name: extractName(nextCells[0]),
-        changed: line.trim() !== formatRow(nextCells).trim(),
+        changed: row.sourceLine.trim() !== formatRow(nextCells).trim(),
         cells: nextCells,
         scoreInfo,
       };

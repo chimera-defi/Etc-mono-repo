@@ -12,7 +12,7 @@ export const softwareWalletTooltips = {
   headers: {
     compare: 'Select wallets to compare side-by-side',
     wallet: 'Wallet name and quick context',
-    status: 'Recommendation status: 🟢 Recommended (75+), 🟡 Situational (50-74), 🔴 Avoid (<50), ⚪ Not for dev',
+    status: 'Recommendation status is percentile-based per table refresh: 🟢 top half, 🟡 middle quartile, 🔴 bottom quartile or inactive, ⚪ not for dev',
     core: 'Core criteria: ✅ has both mobile app + browser extension, ⚠️ partial, ❌ missing one or both',
     releaseCadence: 'Releases per month (lower = more stable; ~8 is high churn)',
     rpc: 'Custom RPC support: ✅ yes, ⚠️ limited, ❌ none',
@@ -38,10 +38,10 @@ export const softwareWalletTooltips = {
 
   // Cell values
   recommendation: {
-    recommended: 'Recommended (score 75+): Meets core criteria and has strong features',
-    situational: 'Situational (score 50-74): Good for specific use cases, may have limitations',
-    avoid: 'Avoid (score <50): Major issues or abandoned development',
-    'not-for-dev': 'Not for developers: Consumer-focused, lacks developer features',
+    recommended: 'Recommended: In the top half of active, developer-fit rows after percentile banding',
+    situational: 'Situational: In the middle quartile or marked launching/verify',
+    avoid: 'Avoid: In the bottom quartile or marked inactive',
+    'not-for-dev': 'Not for developers: Misses core developer-fit requirements',
   },
 
   license: {
@@ -112,7 +112,7 @@ export const hardwareWalletTooltips = {
   headers: {
     compare: 'Select wallets to compare side-by-side',
     wallet: 'Wallet name and price context',
-    status: 'Recommendation status: 🟢 Recommended (75+), 🟡 Situational (50-74), 🔴 Avoid (<50)',
+    status: 'Recommendation status is percentile-based per table refresh: 🟢 top half, 🟡 middle quartile, 🔴 bottom quartile or inactive',
     github: 'Link to firmware repository. "Private" means closed source.',
     airGap: 'Air-gap capability for enhanced security',
     secureElement: 'Secure Element (SE) chip for key storage',
@@ -232,7 +232,7 @@ export const rampTooltips = {
   headers: {
     compare: 'Select providers to compare side-by-side',
     provider: 'Provider name and quick context',
-    status: 'Recommendation: 🟢 Recommended (75+), 🟡 Situational (50-74), 🔴 Avoid (<50)',
+    status: 'Recommendation is percentile-based per table refresh: 🟢 top half, 🟡 middle quartile, 🔴 bottom quartile or inactive',
     type: 'On-Ramp (fiat → crypto), Off-Ramp (crypto → fiat), or Both',
     onRamp: 'On-Ramp: Convert fiat to crypto (✅ supported, ❌ not supported)',
     offRamp: 'Off-Ramp: Convert crypto to fiat (✅ supported, ❌ not supported)',
@@ -291,12 +291,12 @@ export const rampTooltips = {
 // ============================================================================
 
 export const commonTooltips = {
-  score: 'Score (0-100): Weighted score based on security, features, and usability',
+  score: 'Score (0-100): Auto-calculated from visible table columns. Rec bands are percentile-based: 🟢 top half, 🟡 middle quartile, 🔴 bottom quartile/inactive.',
 
   recommendation: {
-    recommended: '🟢 Recommended (75+): Strong choice for most users',
-    situational: '🟡 Situational (50-74): Good for specific use cases',
-    avoid: '🔴 Avoid (<50): Significant issues or limitations',
+    recommended: '🟢 Recommended: Top half after percentile banding',
+    situational: '🟡 Situational: Middle quartile or constrained status',
+    avoid: '🔴 Avoid: Bottom quartile or inactive',
   },
 
   chains: {

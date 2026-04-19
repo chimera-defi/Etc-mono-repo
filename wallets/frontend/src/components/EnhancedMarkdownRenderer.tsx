@@ -191,6 +191,8 @@ const HEADER_LINK_MAP: Record<TableType, Record<string, string>> = {
   },
   cards: {
     score: TABLE_METHODOLOGY_LINK.cards,
+    rec: TABLE_METHODOLOGY_LINK.cards,
+    recommendation: TABLE_METHODOLOGY_LINK.cards,
     status: TABLE_METHODOLOGY_LINK.cards,
     type: '/docs/crypto-cards-details#card-categories',
     cardtype: '/docs/crypto-cards-details#card-categories',
@@ -204,6 +206,8 @@ const HEADER_LINK_MAP: Record<TableType, Record<string, string>> = {
   },
   ramps: {
     score: TABLE_METHODOLOGY_LINK.ramps,
+    rec: TABLE_METHODOLOGY_LINK.ramps,
+    recommendation: TABLE_METHODOLOGY_LINK.ramps,
     status: TABLE_METHODOLOGY_LINK.ramps,
     provider: '/docs/ramps-details#-top-providers-comparison',
     type: '/docs/ramps-details#-top-providers-comparison',
