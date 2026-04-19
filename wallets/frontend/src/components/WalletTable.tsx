@@ -31,11 +31,6 @@ import type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, SupportedChains,
 
 export type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData };
 
-const SYMBOLS = {
-  check: '✓',
-  cross: '✕',
-} as const;
-
 type SelectableItemProps = {
   isSelected: boolean;
   isAtMax: boolean;
@@ -333,27 +328,6 @@ function ScoreBadge({
   return <Tooltip content={tooltip || defaultTooltip} linkHref={tooltipLinkHref} linkLabel={tooltipLinkLabel}>{badge}</Tooltip>;
 }
 
-// Recommendation badge
-function RecommendationBadge({
-  recommendation,
-  tooltipLinkHref,
-  tooltipLinkLabel = DETAILS_TOOLTIP_LABEL,
-}: {
-  recommendation: string;
-  tooltipLinkHref?: string;
-  tooltipLinkLabel?: string;
-}) {
-  const config = {
-    recommended: { label: `${SYMBOLS.check} Recommended`, variant: 'success' as const, tooltip: softwareWalletTooltips.recommendation.recommended },
-    situational: { label: 'Situational', variant: 'warning' as const, tooltip: softwareWalletTooltips.recommendation.situational },
-    avoid: { label: `${SYMBOLS.cross} Avoid`, variant: 'error' as const, tooltip: softwareWalletTooltips.recommendation.avoid },
-    'not-for-dev': { label: 'Not for Dev', variant: 'default' as const, tooltip: softwareWalletTooltips.recommendation['not-for-dev'] },
-  };
-
-  const { label, variant, tooltip } = config[recommendation as keyof typeof config] || config.situational;
-  return <Badge variant={variant} tooltip={tooltip} tooltipLinkHref={tooltipLinkHref} tooltipLinkLabel={tooltipLinkLabel}>{label}</Badge>;
-}
-
 // Device icons
 function DeviceIcons({
   devices,
@@ -459,7 +433,7 @@ interface WalletItemCardProps {
   detailHref: string;
   scoreMedian: number;
   nameSlot?: React.ReactNode;   // replaces default <Link> name if provided
-  subNameSlot?: React.ReactNode; // shown below name in header (e.g. RecommendationBadge or cardType badge)
+  subNameSlot?: React.ReactNode; // optional secondary label shown below name
   children: React.ReactNode;    // body content between header and score breakdown
 }
 
@@ -592,7 +566,6 @@ function SoftwareWalletItem({
       methodLink={TABLE_METHOD_LINKS.software}
       detailHref={detailHref}
       scoreMedian={scoreMedian}
-      subNameSlot={<RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />}
     >
       <p className="text-sm text-muted-foreground mb-3">{wallet.bestFor}</p>
 
@@ -751,7 +724,6 @@ function HardwareWalletItem({
       methodLink={TABLE_METHOD_LINKS.hardware}
       detailHref={detailHref}
       scoreMedian={scoreMedian}
-      subNameSlot={<RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />}
     >
       <p className="text-lg font-semibold text-primary mb-1">{wallet.priceText}</p>
       {wallet.priceLastChecked && (
@@ -909,7 +881,6 @@ function CryptoCardItem({
       }
       subNameSlot={
         <div className="mt-1 flex flex-wrap gap-2">
-          <RecommendationBadge recommendation={card.recommendation} tooltipLinkHref={detailHref} />
           <Badge variant="info" tooltip={cryptoCardTooltips.cardType[card.cardType]} tooltipLinkHref={detailHref}>{card.cardType}</Badge>
         </div>
       }
@@ -1057,7 +1028,6 @@ function RampItem({
       methodLink={TABLE_METHOD_LINKS.ramps}
       detailHref={detailHref}
       scoreMedian={scoreMedian}
-      subNameSlot={<RecommendationBadge recommendation={ramp.recommendation} tooltipLinkHref={detailHref} />}
     >
       <p className="text-sm text-muted-foreground mb-3">{ramp.bestFor}</p>
 
