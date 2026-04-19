@@ -297,12 +297,21 @@ function ScoreBadge({
     <div className="flex flex-col items-center gap-1">
       <div
         className={cn(
-          'w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg shadow-sm ring-1',
+          'relative w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg shadow-sm ring-1',
           variant === 'success' && 'bg-green-100 text-green-700 ring-green-200 dark:bg-green-900/30 dark:text-green-400 dark:ring-green-800/50 dark:drop-shadow-[0_0_6px_rgba(74,222,128,0.4)]',
           variant === 'warning' && 'bg-yellow-100 text-yellow-700 ring-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-400 dark:ring-yellow-800/50 dark:drop-shadow-[0_0_6px_rgba(250,204,21,0.4)]',
           variant === 'error' && 'bg-red-100 text-red-700 ring-red-200 dark:bg-red-900/30 dark:text-red-400 dark:ring-red-800/50 dark:drop-shadow-[0_0_6px_rgba(248,113,113,0.4)]'
         )}
       >
+        <span
+          className={cn(
+            'absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full ring-1 ring-background/90',
+            variant === 'success' && 'bg-green-500 dark:bg-green-400',
+            variant === 'warning' && 'bg-yellow-500 dark:bg-yellow-400',
+            variant === 'error' && 'bg-red-500 dark:bg-red-400'
+          )}
+          aria-hidden="true"
+        />
         {score}
       </div>
       <div className="w-10 h-1 rounded-full bg-muted overflow-hidden">
@@ -537,9 +546,6 @@ function SoftwareWalletItem({
           <div className="text-sm text-muted-foreground">{wallet.bestFor}</div>
         </td>
         <td className="py-3 px-4">
-          <RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />
-        </td>
-        <td className="py-3 px-4">
           <DeviceIcons devices={wallet.devices} tooltipLinkHref={detailHref} />
         </td>
         <td className="py-3 px-4 text-sm">
@@ -677,9 +683,6 @@ function HardwareWalletItem({
               Price checked {wallet.priceLastChecked}
             </div>
           )}
-        </td>
-        <td className="py-3 px-4">
-          <RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />
         </td>
         <td className="py-3 px-4">
           <FeatureIndicator
@@ -852,9 +855,6 @@ function CryptoCardItem({
           <div className="text-sm text-muted-foreground">{card.bestFor}</div>
         </td>
         <td className="py-3 px-4">
-          <RecommendationBadge recommendation={card.recommendation} tooltipLinkHref={detailHref} />
-        </td>
-        <td className="py-3 px-4">
           <Badge variant="info" tooltip={cryptoCardTooltips.cardType[card.cardType]} tooltipLinkHref={detailHref}>{card.cardType}</Badge>
         </td>
         <td className="py-3 px-4 text-sm">
@@ -990,9 +990,6 @@ function RampItem({
             </Link>
           </div>
           <div className="text-sm text-muted-foreground">{ramp.bestFor}</div>
-        </td>
-        <td className="py-3 px-4">
-          <RecommendationBadge recommendation={ramp.recommendation} tooltipLinkHref={detailHref} />
         </td>
         <td className="py-3 px-4">
           <div className="flex gap-2">
@@ -1174,11 +1171,6 @@ export function WalletTable<T extends WalletData>({
               <th className={mobileHeaderCellClassName}>
                 <HeaderTooltip label="Wallet" tooltip={softwareWalletTooltips.headers.wallet} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
               </th>
-              {(type === 'software' || type === 'hardware' || type === 'cards' || type === 'ramps') && (
-                <th className={mobileHeaderCellClassName}>
-                  <HeaderTooltip label="Status" tooltip={softwareWalletTooltips.headers.status} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
-                </th>
-              )}
               {type === 'cards' && (
                 <th className={mobileHeaderCellClassName}>
                   <HeaderTooltip label="Type" tooltip={cryptoCardTooltips.headers.cardType} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />

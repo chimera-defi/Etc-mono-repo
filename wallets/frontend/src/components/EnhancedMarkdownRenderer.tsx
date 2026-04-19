@@ -454,11 +454,21 @@ function InlineCollapsibleSection({
 interface TableRow {
   cells: string[];
   rawCells: string[];
+  scoreTone: 'green' | 'yellow' | 'red' | 'neutral' | null;
 }
 
 interface ParsedTable {
   headers: string[];
   rows: TableRow[];
+  scoreColumnIndex: number | null;
+}
+
+function parseRecommendationTone(cell: string): TableRow['scoreTone'] {
+  if (cell.includes('🟢')) return 'green';
+  if (cell.includes('🟡')) return 'yellow';
+  if (cell.includes('🔴')) return 'red';
+  if (cell.includes('⚪')) return 'neutral';
+  return null;
 }
 
 function parseMarkdownTable(tableContent: string): ParsedTable | null {
@@ -470,6 +480,19 @@ function parseMarkdownTable(tableContent: string): ParsedTable | null {
     .split('|')
     .map(cell => cell.trim())
     .filter(cell => cell.length > 0);
+  const recColumnIndex = headers.findIndex((header) => {
+    const key = normalizeHeaderKey(header);
+    return key === 'rec' || key === 'recommendation';
+  });
+  const scoreColumnIndex = headers.findIndex((header) => normalizeHeaderKey(header).includes('score'));
+
+  const hasMergedRecommendation = recColumnIndex !== -1 && scoreColumnIndex !== -1;
+  const mergedHeaders = hasMergedRecommendation
+    ? headers.filter((_, index) => index !== recColumnIndex)
+    : headers;
+  const mergedScoreColumnIndex = hasMergedRecommendation
+    ? (scoreColumnIndex > recColumnIndex ? scoreColumnIndex - 1 : scoreColumnIndex)
+    : scoreColumnIndex;
 
   const rows: TableRow[] = [];
   for (let i = 2; i < lines.length; i++) {
@@ -487,11 +510,28 @@ function parseMarkdownTable(tableContent: string): ParsedTable | null {
     });
 
     if (cells.length > 0) {
-      rows.push({ cells, rawCells: rawCells.map(c => c.trim()) });
+      const rowTone = hasMergedRecommendation
+        ? parseRecommendationTone(String(rawCells[recColumnIndex] || ''))
+        : null;
+      const mergedRawCells = hasMergedRecommendation
+        ? rawCells.filter((_, index) => index !== recColumnIndex).map(c => c.trim())
+        : rawCells.map(c => c.trim());
+      const mergedCells = hasMergedRecommendation
+        ? cells.filter((_, index) => index !== recColumnIndex)
+        : cells;
+
+      rows.push({
+        cells: mergedCells,
+        rawCells: mergedRawCells,
+        scoreTone: rowTone,
+      });
     }
   }
 
-  return headers.length > 0 && rows.length > 0 ? { headers, rows } : null;
+  const normalizedScoreColumnIndex = mergedScoreColumnIndex >= 0 ? mergedScoreColumnIndex : null;
+  return mergedHeaders.length > 0 && rows.length > 0
+    ? { headers: mergedHeaders, rows, scoreColumnIndex: normalizedScoreColumnIndex }
+    : null;
 }
 
 function SearchableTable({ tableContent, title }: { tableContent: string; title?: string }) {
@@ -661,36 +701,69 @@ function SearchableTable({ tableContent, title }: { tableContent: string; title?
             ) : (
               sortedRows.map((row, rowIndex) => (
                 <tr key={rowIndex} className="border-b border-border hover:bg-muted/50">
-                  {row.rawCells.map((cell, cellIndex) => (
-                    <td key={cellIndex} className="px-3 py-2">
-                      <ReactMarkdown
-                        remarkPlugins={[remarkGfm]}
-                        rehypePlugins={[rehypeRaw]}
-                        components={{
-                          p: ({ children }) => <>{children}</>,
-                          a: ({ href, children }) => {
-                            const external = isExternalLink(href);
-                            let transformedHref = href;
-                            if (external && transformedHref) {
-                              transformedHref = addReferrerTracking(transformedHref);
-                            }
-                            return (
-                              <a
-                                href={transformedHref}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-primary hover:underline"
-                              >
-                                {children}
-                              </a>
-                            );
-                          },
-                        }}
-                      >
-                        {cell}
-                      </ReactMarkdown>
-                    </td>
-                  ))}
+                  {row.rawCells.map((cell, cellIndex) => {
+                    const isScoreCell = parsedTable.scoreColumnIndex === cellIndex;
+                    const scoreToneClass = row.scoreTone === 'green'
+                      ? 'bg-green-500'
+                      : row.scoreTone === 'yellow'
+                      ? 'bg-yellow-500'
+                      : row.scoreTone === 'red'
+                      ? 'bg-red-500'
+                      : row.scoreTone === 'neutral'
+                      ? 'bg-slate-400'
+                      : '';
+                    const scoreTextClass = row.scoreTone === 'green'
+                      ? 'text-green-600 dark:text-green-400 font-semibold'
+                      : row.scoreTone === 'yellow'
+                      ? 'text-yellow-600 dark:text-yellow-400 font-semibold'
+                      : row.scoreTone === 'red'
+                      ? 'text-red-600 dark:text-red-400 font-semibold'
+                      : row.scoreTone === 'neutral'
+                      ? 'text-slate-600 dark:text-slate-300 font-semibold'
+                      : '';
+
+                    return (
+                      <td key={cellIndex} className="px-3 py-2">
+                        <div className={cn(isScoreCell && 'flex items-center gap-2', isScoreCell && scoreTextClass)}>
+                          {isScoreCell && row.scoreTone && (
+                            <span
+                              className={cn(
+                                'inline-block h-2.5 w-2.5 rounded-full ring-1 ring-border/60 flex-shrink-0',
+                                scoreToneClass
+                              )}
+                              aria-hidden="true"
+                            />
+                          )}
+                          <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            rehypePlugins={[rehypeRaw]}
+                            components={{
+                              p: ({ children }) => <>{children}</>,
+                              a: ({ href, children }) => {
+                                const external = isExternalLink(href);
+                                let transformedHref = href;
+                                if (external && transformedHref) {
+                                  transformedHref = addReferrerTracking(transformedHref);
+                                }
+                                return (
+                                  <a
+                                    href={transformedHref}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-primary hover:underline"
+                                  >
+                                    {children}
+                                  </a>
+                                );
+                              },
+                            }}
+                          >
+                            {cell}
+                          </ReactMarkdown>
+                        </div>
+                      </td>
+                    );
+                  })}
                 </tr>
               ))
             )}
