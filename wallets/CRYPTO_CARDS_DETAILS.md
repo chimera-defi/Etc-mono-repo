@@ -2,10 +2,10 @@
 
 > **Comprehensive guide to crypto-backed and crypto rewards credit/debit cards**
 
-> **Source of truth note:** Current `Score` values are generated from the visible columns in [CRYPTO_CARDS.md](./CRYPTO_CARDS.md) via `wallets/scripts/sync_table_scores.js` (`2026-04-visible-columns-v2`). If a long-form section below mentions older rankings or manual bonuses, trust the main comparison table.
+> **Source of truth note:** Current `Score` values are generated from the visible columns in [CRYPTO_CARDS.md](./CRYPTO_CARDS.md) via `wallets/scripts/sync_table_scores.js` (`2026-04-visible-columns-v3`). If a long-form section below mentions older rankings or manual bonuses, trust the main comparison table.
 
 <!-- GENERATED_CARDS_SNAPSHOT_START -->
-> **Current generated snapshot:** EtherFi Cash (92, Non-custodial DeFi, 🟢), Amp Pay Black Card (84, Solana payments, 🟢), Crypto.com Visa (83, CRO stakers ⚠️, 🟢), and Ready Card (83, Self-custody EU/UK, 🟢). Regenerated from [CRYPTO_CARDS.md](./CRYPTO_CARDS.md) by `wallets/scripts/sync_table_scores.js` using methodology `2026-04-visible-columns-v2`.
+> **Current generated snapshot:** EtherFi Cash (92, Non-custodial DeFi, 🟢), Amp Pay Black Card (84, Solana payments, 🟢), Crypto.com Visa (83, CRO stakers ⚠️, 🟢), and Ready Card (83, Self-custody EU/UK, 🟢). Regenerated from [CRYPTO_CARDS.md](./CRYPTO_CARDS.md) by `wallets/scripts/sync_table_scores.js` using methodology `2026-04-visible-columns-v3`.
 
 ### Current Top Rows (generated)
 | Rank | Card | Score | Best For | Rec |
@@ -38,43 +38,29 @@
 
 ## Scoring Methodology
 
-**Quick Reference:** Score = Cash Back (30) + Fees (20) + Crypto Rewards (15) + Availability (10) + Staking Req (10) + Card Type (10) + Trust (5) + Human Suggestions (-20 to +5) = 100 total
+Scores are generated from visible columns in [CRYPTO_CARDS.md](./CRYPTO_CARDS.md) by `wallets/scripts/sync_table_scores.js`, using `computeCardScore` from `wallets/frontend/src/lib/scoring.js`.
 
-Scores prioritize what matters for users: cash back rates, low fees, accessibility, and user experience.
+Current scoring buckets are:
 
-### Scoring Criteria (100 points total)
+1. **Product Model (10):** `Type` + `Biz` support.
+2. **Custody & Coverage (25):** `Custody` model + `Region` reach.
+3. **Rewards Value (25):** `Cash Back` + reward asset quality from `Rewards`.
+4. **Fee Friction (20):** `Annual Fee` + `FX Fee`.
+5. **Delivery Confidence (10):** `Status` signal.
 
-| Category | Points | Calculation |
-|----------|--------|-------------|
-| **Cash Back Rate** | 0-30 | Based on maximum cash back percentage: 10%+ = 30, 8-9% = 27, 5-7% = 24, 3-4% = 18, 1-2% = 12, 0% = 0 |
-| **Fees** | 0-20 | $0 annual + 0% foreign = 20, $0 annual + low foreign = 15, $0 annual + high foreign = 10, Annual fee = 5-0 |
-| **Crypto Rewards** | 0-15 | Multi-crypto choice = 15, Bitcoin/ETH = 12, Single token = 8, None = 0 |
-| **Availability** | 0-10 | Global = 10, Multi-region = 8, Single region = 5, Limited = 3 |
-| **Staking Requirements** | 0-10 | None = 10, Optional = 8, Low ($0-$1k) = 6, Medium ($1k-$10k) = 4, High ($10k+) = 2, Very High ($100k+) = 0 |
-| **Card Type** | 0-10 | Credit card = 10, Debit card = 8, Prepaid = 5, Business-only = 6 |
-| **Trust & Security** | 0-5 | Established company + verified = 5, Established = 4, Newer = 3, Unverified = 2 |
-| **Human Suggestions** | -20 to +5 | User experience adjustments (see [Human Suggestions](#human-suggestions-scoring) section) |
+Raw card totals are normalized to a 0-100 score so changes in visible columns are reflected automatically without manual overrides.
 
-**Score Thresholds:**
-- 🟢 **75+:** Highly Recommended
-- 🟡 **50-74:** Good Option
-- 🔴 **<50:** Consider Alternatives
+Recommendation bands are percentile-based per sync run:
 
-### Human Suggestions Scoring
+- **🟢 Recommended:** top half of active cards
+- **🟡 Situational:** middle quartile of active cards (and launching cards are capped here)
+- **🔴 Avoid:** bottom quartile or inactive cards
 
-This section accounts for real-world user experiences, company reputation, and practical considerations that may not be reflected in objective metrics.
+Why this model:
 
-**Penalties (-20 to 0 points):**
-- **Crypto.com Visa: -20 points** - Poor user experiences, customer service issues, staking lock-up periods, and company reputation concerns
-- **Cards with 404 errors: -5 points** - Swissborg, Uphold, CoinJar (unclear if still active)
-- **Cards requiring verification: -3 points** - Unverified business support or rates
-
-**Bonuses (+1 to +5 points):**
-- **Verified cards: +2 points** - Cards with verified information (Plutus, Nexo, Shakepay, Reap)
-- **No staking required: +2 points** - Cards without staking requirements
-- **Excellent user experience: +1 point** - Cards with strong user satisfaction
-
-**Note:** Human Suggestions scores are applied as adjustments to the base score (0-100), resulting in final scores that may go below 0 or above 100.
+- Uses only table-visible inputs to prevent hidden-variable drift.
+- Keeps recommendations reproducible and auditable via one sync script.
+- Avoids hand-tuned score edits; update the row data, then rerun sync.
 
 ---
 
@@ -1835,9 +1821,9 @@ Please visit [reap.global](https://reap.global) directly in a web browser to ver
 
 | Score Range | Count | Cards |
 |-------------|-------|-------|
-| 75+ 🟢 Highly Recommended | 10 | EtherFi Cash (85), Ready (83), Hi (79 ⚠️), Gnosis Pay (78), Wirex (78 ⚠️), Fold (77), Gemini (76), KuCard (76), Revolut (76), Coinbase (75) |
-| 50-74 🟡 Good Option | 14 | Bybit (74 ⚠️), Plutus (73), Uphold (73 ⚠️), CryptoSpend (71), Shakepay (70), 1inch (70), Binance (67), RedotPay (74), CoinJar (65), Nexo (63), Kraken (60 ⚠️), Swissborg (60 ⚠️), BitPay (56), OKX (50 ⚠️) |
-| <50 🔴 Consider Alternatives | 2 | Reap (47), Crypto.com (41) |
+| 🟢 Recommended (top half) | 10 | EtherFi Cash (85), Ready (83), Hi (79 ⚠️), Gnosis Pay (78), Wirex (78 ⚠️), Fold (77), Gemini (76), KuCard (76), Revolut (76), Coinbase (75) |
+| 🟡 Situational (middle quartile) | 14 | Bybit (74 ⚠️), Plutus (73), Uphold (73 ⚠️), CryptoSpend (71), Shakepay (70), 1inch (70), Binance (67), RedotPay (74), CoinJar (65), Nexo (63), Kraken (60 ⚠️), Swissborg (60 ⚠️), BitPay (56), OKX (50 ⚠️) |
+| 🔴 Avoid (bottom quartile/inactive) | 2 | Reap (47), Crypto.com (41) |
 
 **Key Corrections (January 2026):**
 - Ready Card: **3% cashback** (was incorrectly listed as "Up to 10%")

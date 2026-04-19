@@ -253,10 +253,6 @@ function calculateMedianScore<T extends { score: number }>(items: T[]): number {
   return sortedScores[middleIndex];
 }
 
-function formatScoreReference(score: number): string {
-  return Number.isInteger(score) ? String(score) : score.toFixed(1);
-}
-
 function ScoreBreakdownPreview({
   breakdown,
   tooltipLinkHref,
@@ -281,7 +277,7 @@ function ScoreBreakdownPreview({
 function ScoreBadge({
   score,
   recommendation,
-  scoreMedian,
+  scoreMedian: _scoreMedian,
   tooltip,
   tooltipLinkHref,
   tooltipLinkLabel = METHODOLOGY_TOOLTIP_LABEL,
@@ -293,9 +289,8 @@ function ScoreBadge({
   tooltipLinkHref?: string;
   tooltipLinkLabel?: string;
 }) {
-  const isBelowMedian = score < scoreMedian;
   let variant: 'success' | 'warning' | 'error' = 'warning';
-  if (isBelowMedian || recommendation === 'avoid' || recommendation === 'not-for-dev') variant = 'error';
+  if (recommendation === 'avoid' || recommendation === 'not-for-dev') variant = 'error';
   else if (recommendation === 'recommended') variant = 'success';
 
   const badge = (
@@ -321,15 +316,10 @@ function ScoreBadge({
           style={{ width: `${score}%` }}
         />
       </div>
-      {isBelowMedian && (
-        <span className="text-[10px] font-semibold uppercase tracking-wide text-red-600 dark:text-red-400">
-          Below median
-        </span>
-      )}
     </div>
   );
 
-  const defaultTooltip = `Score: ${score}/100\nRecommendation: ${recommendation}\nMedian: ${formatScoreReference(scoreMedian)} (${isBelowMedian ? 'below median' : 'at or above median'})`;
+  const defaultTooltip = `Score: ${score}/100\nRecommendation: ${recommendation}\nBanding: 🟢 top half, 🟡 middle quartile, 🔴 bottom quartile or inactive.`;
 
   return <Tooltip content={tooltip || defaultTooltip} linkHref={tooltipLinkHref} linkLabel={tooltipLinkLabel}>{badge}</Tooltip>;
 }

@@ -14,20 +14,20 @@
 | [**Guardarian**](https://guardarian.com/) | 83 | Both | ✅ | ✅ | ~100+ Countries | Low/Medium | ~€5.00 | Good (Widget) | ✅ | 2017 | 🟡 VC | EU focus | 🟢 |
 | [**Alchemy Pay**](https://ramp.alchemypay.org/#/index) | 82 | Both | ✅ | ✅ | ~170+ Countries | Variable | Custom | Advanced (Plugin/API) | ✅ | 2018 | 🟡 VC | Global pay rails | 🟢 |
 | [**Mercuryo**](https://mercuryo.io/) | 82 | Both | ✅ | ✅ | Global | Medium | Custom | Good | ✅ | 2018 | 🟡 VC | B2B | 🟢 |
-| [**Banxa**](https://banxa.com/) | 81 | Both | ✅ | ✅ | Global | Variable | Custom | Good | ✅ | 2014 | 🟢 PublicCo | Local Pay | 🟢 |
-| [**Simplex**](https://www.simplex.com/) | 81 | Both | ✅ | ✅ | ~190+ Countries | Medium/High | ~$10.00 | Good (Widget) | ✅ | 2014 | 🟢 Nuvei | High limits | 🟢 |
+| [**Banxa**](https://banxa.com/) | 81 | Both | ✅ | ✅ | Global | Variable | Custom | Good | ✅ | 2014 | 🟢 PublicCo | Local Pay | 🟡 |
+| [**Simplex**](https://www.simplex.com/) | 81 | Both | ✅ | ✅ | ~190+ Countries | Medium/High | ~$10.00 | Good (Widget) | ✅ | 2014 | 🟢 Nuvei | High limits | 🟡 |
 | [**Transak**](https://transak.com/) | 81 | Both | ✅ | ✅ | ~64 Countries | Medium (Spread + Fee) | ~$5.00 | Excellent (React SDK) | ✅ | 2020 | 🟡 VC | Developers | 🟢 |
-| [**CoinSwitch**](https://coinswitch.co/) | 79 | Both | ✅ | ✅ | ~100+ Countries | Medium | ~₹100 | Good (API) | ✅ | 2017 | 🟡 VC | India / APAC | 🟢 |
-| [**MoonPay**](https://www.moonpay.com/) | 79 | Both | ✅ | ✅ | ~160+ Countries | High (Spread + Fee) | ~$3.99 | Great (Widget) | ✅ | 2019 | 🟡 VC | Coverage | 🟢 |
-| [**onesafe**](https://onesafe.io/) | 79 | Both | ✅ | ✅ | Select Global | Variable | Custom | Good (API) | ✅ | 2022 | 🔴 Unknown | Enterprise | 🟢 |
-| [**Utorg**](https://utorg.pro/) | 78 | Both | ✅ | ✅ | ~100+ Countries | Medium | ~$5.00 | Good (Widget) | ✅ | 2020 | 🔴 Unknown | Multi-chain | 🟢 |
-| [**Coinify**](https://www.coinify.com/) | 77 | Both | ✅ | ✅ | ~50+ Countries | Medium | ~€5.00 | Good (API) | ✅ | 2014 | 🟢 Revenue | EU | 🟡 |
-| [**Modern Treasury**](https://www.moderntreasury.com/) | 73 | Both | ✅ | ✅ | US + Select | Usage Based | Custom | Excellent (API) | ✅ | 2018 | 🟡 VC | Enterprise | 🟡 |
-| [**Reap**](https://reap.global/) | 72 | Off-Ramp | ❌ | ✅ | Global | Variable | Custom | Good (API) | ✅ | 2018 | 🟡 VC | Business off-ramp | 🟡 |
-| [**Robinhood Connect**](https://robinhood.com/us/en/on-ramp/) | 66 | On-Ramp | ✅ | ❌ | US (ex-NY) | Low | 0.0-1.5% | Good (Widget) | ✅ | 2013 | 🟢 PublicCo | US dapps | 🟡 |
-| [**Coinmama**](https://www.coinmama.com/) | 59 | On-Ramp | ✅ | ❌ | ~100+ Countries | High | ~$30.00 | Basic (Widget) | ✅ | 2013 | 🟢 Revenue | Simple on-ramp | 🟡 |
+| [**CoinSwitch**](https://coinswitch.co/) | 79 | Both | ✅ | ✅ | ~100+ Countries | Medium | ~₹100 | Good (API) | ✅ | 2017 | 🟡 VC | India / APAC | 🟡 |
+| [**MoonPay**](https://www.moonpay.com/) | 79 | Both | ✅ | ✅ | ~160+ Countries | High (Spread + Fee) | ~$3.99 | Great (Widget) | ✅ | 2019 | 🟡 VC | Coverage | 🟡 |
+| [**onesafe**](https://onesafe.io/) | 79 | Both | ✅ | ✅ | Select Global | Variable | Custom | Good (API) | ✅ | 2022 | 🔴 Unknown | Enterprise | 🟡 |
+| [**Utorg**](https://utorg.pro/) | 78 | Both | ✅ | ✅ | ~100+ Countries | Medium | ~$5.00 | Good (Widget) | ✅ | 2020 | 🔴 Unknown | Multi-chain | 🟡 |
+| [**Coinify**](https://www.coinify.com/) | 77 | Both | ✅ | ✅ | ~50+ Countries | Medium | ~€5.00 | Good (API) | ✅ | 2014 | 🟢 Revenue | EU | 🔴 |
+| [**Modern Treasury**](https://www.moderntreasury.com/) | 73 | Both | ✅ | ✅ | US + Select | Usage Based | Custom | Excellent (API) | ✅ | 2018 | 🟡 VC | Enterprise | 🔴 |
+| [**Reap**](https://reap.global/) | 72 | Off-Ramp | ❌ | ✅ | Global | Variable | Custom | Good (API) | ✅ | 2018 | 🟡 VC | Business off-ramp | 🔴 |
+| [**Robinhood Connect**](https://robinhood.com/us/en/on-ramp/) | 66 | On-Ramp | ✅ | ❌ | US (ex-NY) | Low | 0.0-1.5% | Good (Widget) | ✅ | 2013 | 🟢 PublicCo | US dapps | 🔴 |
+| [**Coinmama**](https://www.coinmama.com/) | 59 | On-Ramp | ✅ | ❌ | ~100+ Countries | High | ~$30.00 | Basic (Widget) | ✅ | 2013 | 🟢 Revenue | Simple on-ramp | 🔴 |
 
-> **Scoring note:** `Score` is generated from the visible columns above using `wallets/scripts/sync_table_scores.js` and methodology version `2026-04-visible-columns-v2`. Update the table inputs first, then resync the scores.
+> **Scoring note:** `Score` and `Rec` are generated from the visible columns above using `wallets/scripts/sync_table_scores.js` and methodology version `2026-04-visible-columns-v3`. Update the table inputs first, then resync the scores.
 
 ## Pros & Cons (Top Picks)
 
@@ -57,7 +57,7 @@
 | Symbol | Meaning |
 |--------|---------|
 | **Score** | 0-100 weighted score ([methodology](./RAMPS_DETAILS.md#scoring-methodology)) |
-| **Rec** | 🟢 Recommended (75+) | 🟡 Situational (50-74) | 🔴 Avoid (<50) |
+| **Rec** | 🟢 Top half of active rows | 🟡 Middle quartile | 🔴 Bottom quartile / inactive |
 
 **Ramp Details:**
 | Column | Values |

@@ -10,6 +10,7 @@ const {
   computeHardwareScore,
   computeCardScore,
   computeRampScore,
+  assignRecommendationBands,
 } = scoring;
 
 // Path to markdown files (one level up from frontend)
@@ -344,7 +345,7 @@ export function parseSoftwareWallets(): SoftwareWallet[] {
   // Skip header row
   const dataRows = rows.slice(1);
 
-  return dataRows.map(cells => {
+  const parsed = dataRows.map(cells => {
     // Extract wallet name from bold text
     const nameMatch = cells[0]?.match(/\*\*([^*]+)\*\*/);
     const name = nameMatch ? nameMatch[1] : cells[0] || 'Unknown';
@@ -357,7 +358,7 @@ export function parseSoftwareWallets(): SoftwareWallet[] {
     // 0=Wallet, 1=Score, 2=Core, 3=Rel/Mo, 4=RPC, 5=GitHub, 6=Active,
     // 7=Chains, 8=Devices, 9=Testnets, 10=License, 11=API, 12=Audits,
     // 13=Funding, 14=TxSim, 15=Scam, 16=Account, 17=ENS, 18=HW, 19=BestFor, 20=Rec
-    return {
+    const wallet: SoftwareWallet = {
       id: generateSlug(name),
       name,
       score: scoreInfo.score,
@@ -386,7 +387,19 @@ export function parseSoftwareWallets(): SoftwareWallet[] {
       recommendation: scoreInfo.recommendation,
       type: 'software' as const,
     };
-  }).filter(wallet => wallet.name !== 'Unknown' && wallet.score > 0 && wallet.id !== '');
+    return { wallet, scoreInfo };
+  });
+
+  const filtered = parsed.filter(({ wallet }) => wallet.name !== 'Unknown' && wallet.score > 0 && wallet.id !== '');
+  const { recommendations } = assignRecommendationBands(
+    'software',
+    filtered.map((entry) => entry.scoreInfo)
+  );
+
+  return filtered.map((entry, index) => ({
+    ...entry.wallet,
+    recommendation: (recommendations[index] || entry.wallet.recommendation) as SoftwareWallet['recommendation'],
+  }));
 }
 
 // Parse hardware wallets from markdown
@@ -405,7 +418,7 @@ export function parseHardwareWallets(): HardwareWallet[] {
   // Skip header row
   const dataRows = rows.slice(1);
 
-  return dataRows.map(cells => {
+  const parsed = dataRows.map(cells => {
     // Extract wallet name and URL from markdown link
     const linkMatch = cells[0]?.match(/\[?\*\*([^*\]]+)\*\*\]?\(?([^)]*)\)?/);
     const urlMatch = cells[0]?.match(/\]\(([^)]+)\)/);
@@ -421,7 +434,7 @@ export function parseHardwareWallets(): HardwareWallet[] {
     const funding = parseFunding(cells[11] || '');
     const scoreInfo = computeHardwareScore(cells);
 
-    return {
+    const wallet: HardwareWallet = {
       id: generateSlug(name),
       name,
       score: scoreInfo.score,
@@ -445,7 +458,19 @@ export function parseHardwareWallets(): HardwareWallet[] {
       url,
       type: 'hardware' as const,
     };
-  }).filter(wallet => wallet.name !== 'Unknown' && wallet.score > 0 && wallet.id !== '');
+    return { wallet, scoreInfo };
+  });
+
+  const filtered = parsed.filter(({ wallet }) => wallet.name !== 'Unknown' && wallet.score > 0 && wallet.id !== '');
+  const { recommendations } = assignRecommendationBands(
+    'hardware',
+    filtered.map((entry) => entry.scoreInfo)
+  );
+
+  return filtered.map((entry, index) => ({
+    ...entry.wallet,
+    recommendation: (recommendations[index] || entry.wallet.recommendation) as HardwareWallet['recommendation'],
+  }));
 }
 
 // Parse crypto cards from markdown
@@ -467,7 +492,7 @@ export function parseCryptoCards(): CryptoCard[] {
   // Card(0) Score(1) Type(2) Custody(3) Biz(4) Region(5) CashBack(6)
   // AnnualFee(7) FxFee(8) Rewards(9) Status(10) BestFor(11) Rec(12)
   // Card column now has format: [**Card Name**](url)
-  return dataRows.map(cells => {
+  const parsed = dataRows.map(cells => {
     // Extract card name and URL from markdown link format: [**Card Name**](url)
     const linkMatch = cells[0]?.match(/\[(?:\*\*)?([^*\]]+)(?:\*\*)?\]\(([^)]+)\)/);
     const nameMatch = cells[0]?.match(/\*\*([^*]+)\*\*/);
@@ -489,7 +514,7 @@ export function parseCryptoCards(): CryptoCard[] {
 
     const region = parseRegion(cells[5] || '');
 
-    return {
+    const card: CryptoCard = {
       id: generateSlug(name),
       name,
       score: scoreInfo.score,
@@ -512,7 +537,19 @@ export function parseCryptoCards(): CryptoCard[] {
       recommendation: scoreInfo.recommendation as 'recommended' | 'situational' | 'avoid',
       type: 'card' as const,
     };
-  }).filter(card => card.name !== 'Unknown' && card.score > 0 && card.id !== '');
+    return { card, scoreInfo };
+  });
+
+  const filtered = parsed.filter(({ card }) => card.name !== 'Unknown' && card.score > 0 && card.id !== '');
+  const { recommendations } = assignRecommendationBands(
+    'cards',
+    filtered.map((entry) => entry.scoreInfo)
+  );
+
+  return filtered.map((entry, index) => ({
+    ...entry.card,
+    recommendation: (recommendations[index] || entry.card.recommendation) as CryptoCard['recommendation'],
+  }));
 }
 
 // Parse ramp type
@@ -541,7 +578,7 @@ export function parseRamps(): Ramp[] {
   // Table columns (RAMPS.md):
   // Provider(0) Score(1) Type(2) On-Ramp(3) Off-Ramp(4) Coverage(5) Fee Model(6)
   // Min Fee(7) Dev UX(8) Status(9) Founded(10) Funding(11) Best For(12) Rec(13)
-  return dataRows.map(cells => {
+  const parsed = dataRows.map(cells => {
     // Extract provider name and URL from markdown link format: [**Name**](url)
     const linkMatch = cells[0]?.match(/\[(?:\*\*)?([^*]+)(?:\*\*)?\]\(([^)]+)\)/);
     const nameMatch = cells[0]?.match(/\*\*([^*]+)\*\*/);
@@ -563,7 +600,7 @@ export function parseRamps(): Ramp[] {
     const foundedYear = parseInt(cells[10] || '', 10);
     const funding = parseFunding(cells[11] || '');
 
-    return {
+    const ramp: Ramp = {
       id: generateSlug(name),
       name,
       score: scoreInfo.score,
@@ -585,7 +622,19 @@ export function parseRamps(): Ramp[] {
       url,
       type: 'ramp' as const,
     };
-  }).filter(ramp => ramp.name !== 'Unknown' && ramp.score > 0 && ramp.id !== '');
+    return { ramp, scoreInfo };
+  });
+
+  const filtered = parsed.filter(({ ramp }) => ramp.name !== 'Unknown' && ramp.score > 0 && ramp.id !== '');
+  const { recommendations } = assignRecommendationBands(
+    'ramps',
+    filtered.map((entry) => entry.scoreInfo)
+  );
+
+  return filtered.map((entry, index) => ({
+    ...entry.ramp,
+    recommendation: (recommendations[index] || entry.ramp.recommendation) as Ramp['recommendation'],
+  }));
 }
 
 /**

@@ -19,6 +19,7 @@ const {
   computeHardwareScore,
   computeCardScore,
   computeRampScore,
+  assignRecommendationBands,
   recommendationEmoji,
 } = require(path.join(__dirname, '..', 'src', 'lib', 'scoring.js'));
 const { processAllTables } = require(path.join(__dirname, '..', '..', 'scripts', 'sync_table_scores.js'));
@@ -165,7 +166,14 @@ function findRowByFirstCellSubstring(rows, needle) {
   return rows.find((r) => String(r[0] || '').toLowerCase().includes(n)) || null;
 }
 
-function assertComputedScore(fileLabel, row, computeScore, scoreIndex, recommendationIndex = null) {
+function assertComputedScore(
+  fileLabel,
+  row,
+  computeScore,
+  scoreIndex,
+  recommendationIndex = null,
+  expectedRecommendation = null
+) {
   const scoreInfo = computeScore(row);
   const scoreCell = String(row[scoreIndex] || '');
   const expectedScore = String(scoreInfo.score);
@@ -175,15 +183,16 @@ function assertComputedScore(fileLabel, row, computeScore, scoreIndex, recommend
     return;
   }
 
+  const recommendation = expectedRecommendation || scoreInfo.recommendation;
+  const expectedRec = recommendationEmoji(recommendation);
+
   if (recommendationIndex !== null) {
     const recCell = String(row[recommendationIndex] || '');
-    const expectedRec = recommendationEmoji(scoreInfo.recommendation);
     if (!recCell.includes(expectedRec)) {
       fail(`${fileLabel}: computed recommendation drift for "${row[0]}". Expected "${expectedRec}" in "${recCell}"`);
       return;
     }
   } else {
-    const expectedRec = recommendationEmoji(scoreInfo.recommendation);
     if (!scoreCell.includes(expectedRec)) {
       fail(`${fileLabel}: score emoji drift for "${row[0]}". Expected "${expectedRec}" in "${scoreCell}"`);
       return;
@@ -213,10 +222,18 @@ function assertAllRowsColumnShape(fileLabel, header, rows) {
   }
 }
 
-function assertAllRowsComputed(fileLabel, rows, computeScore, scoreIndex, recommendationIndex = null) {
+function assertAllRowsComputed(
+  fileLabel,
+  rows,
+  computeScore,
+  scoreIndex,
+  recommendationIndex = null,
+  expectedRecommendations = []
+) {
   let failures = 0;
 
-  for (const row of rows) {
+  for (let i = 0; i < rows.length; i += 1) {
+    const row = rows[i];
     const scoreInfo = computeScore(row);
     const scoreCell = String(row[scoreIndex] || '');
     const expectedScore = String(scoreInfo.score);
@@ -226,7 +243,8 @@ function assertAllRowsComputed(fileLabel, rows, computeScore, scoreIndex, recomm
       continue;
     }
 
-    const expectedRec = recommendationEmoji(scoreInfo.recommendation);
+    const recommendation = expectedRecommendations[i] || scoreInfo.recommendation;
+    const expectedRec = recommendationEmoji(recommendation);
     if (recommendationIndex !== null) {
       const recCell = String(row[recommendationIndex] || '');
       if (!recCell.includes(expectedRec)) {
@@ -347,9 +365,18 @@ function run() {
     'Best For',
     'Rec',
   ];
+  const softwareScoreInfos = softwareRows.map((row) => computeSoftwareScore(row));
+  const softwareExpectedRecommendations = assignRecommendationBands('software', softwareScoreInfos).recommendations;
   assertHeaders('Software wallets table', softwareTable.header, softwareExpectedHeader);
   assertAllRowsColumnShape('Software wallets table', softwareTable.header, softwareRows);
-  assertAllRowsComputed('Software wallets table', softwareRows, computeSoftwareScore, 1, 20);
+  assertAllRowsComputed(
+    'Software wallets table',
+    softwareRows,
+    computeSoftwareScore,
+    1,
+    20,
+    softwareExpectedRecommendations
+  );
 
   const rabbyRow = findRowByFirstCellSubstring(softwareRows, 'rabby');
   if (!rabbyRow) {
@@ -357,7 +384,15 @@ function run() {
   } else {
     const chains = rabbyRow[7] || '';
     const license = rabbyRow[10] || '';
-    assertComputedScore('Software wallets table', rabbyRow, computeSoftwareScore, 1, 20);
+    const rabbyIndex = softwareRows.indexOf(rabbyRow);
+    assertComputedScore(
+      'Software wallets table',
+      rabbyRow,
+      computeSoftwareScore,
+      1,
+      20,
+      softwareExpectedRecommendations[rabbyIndex]
+    );
     // Chains now uses HTML img tags for chain logos
     // Rabby is EVM-only, so it should have eth.svg image
     if (!/eth\.svg/.test(chains) && !/⟠/.test(chains)) fail(`Rabby chains drifted (expected eth.svg or ⟠ for EVM), got: "${chains}"`);
@@ -395,10 +430,19 @@ function run() {
     'Funding',
     'Rec',
   ];
+  const hardwareScoreInfos = hardwareRows.map((row) => computeHardwareScore(row));
+  const hardwareExpectedRecommendations = assignRecommendationBands('hardware', hardwareScoreInfos).recommendations;
   assertHeaders('Hardware wallets table', hardwareTable.header, hardwareExpectedHeader);
   assertAllRowsColumnShape('Hardware wallets table', hardwareTable.header, hardwareRows);
   assertCompanyColumns('Hardware wallets table', hardwareRows, 10, 11);
-  assertAllRowsComputed('Hardware wallets table', hardwareRows, computeHardwareScore, 1, 12);
+  assertAllRowsComputed(
+    'Hardware wallets table',
+    hardwareRows,
+    computeHardwareScore,
+    1,
+    12,
+    hardwareExpectedRecommendations
+  );
 
   const trezorSafe5Row = findRowByFirstCellSubstring(hardwareRows, 'trezor safe 5');
   if (!trezorSafe5Row) {
@@ -406,7 +450,15 @@ function run() {
   } else {
     const display = trezorSafe5Row[6] || '';
     const price = trezorSafe5Row[7] || '';
-    assertComputedScore('Hardware wallets table', trezorSafe5Row, computeHardwareScore, 1, 12);
+    const trezorSafe5Index = hardwareRows.indexOf(trezorSafe5Row);
+    assertComputedScore(
+      'Hardware wallets table',
+      trezorSafe5Row,
+      computeHardwareScore,
+      1,
+      12,
+      hardwareExpectedRecommendations[trezorSafe5Index]
+    );
     if (/\$/.test(display)) {
       fail(`Hardware table: Display cell unexpectedly contains "$": "${display}"`);
     }
@@ -441,7 +493,15 @@ function run() {
   if (!ledgerNanoSRow) {
     fail('Hardware wallets table: could not find Ledger Nano S row.');
   } else {
-    assertComputedScore('Hardware wallets table', ledgerNanoSRow, computeHardwareScore, 1, 12);
+    const ledgerNanoSIndex = hardwareRows.indexOf(ledgerNanoSRow);
+    assertComputedScore(
+      'Hardware wallets table',
+      ledgerNanoSRow,
+      computeHardwareScore,
+      1,
+      12,
+      hardwareExpectedRecommendations[ledgerNanoSIndex]
+    );
     const activity = ledgerNanoSRow[9] || '';
     const rec = ledgerNanoSRow[12] || '';
     let hasFailure = false;
@@ -483,20 +543,18 @@ function run() {
 
   const walletTablePath = path.join(FRONTEND_DIR, 'src', 'components', 'WalletTable.tsx');
   const walletTableContent = readFileOrFail(walletTablePath);
-  if (!walletTableContent.includes('function calculateMedianScore')) {
-    fail('WalletTable.tsx: missing median-score helper for score badge color coding.');
-  } else {
-    ok('WalletTable.tsx: median-score helper exists');
-  }
-
-  const hasBelowMedianFlag = /const isBelowMedian = score < scoreMedian;/.test(walletTableContent);
-  const hasBelowMedianErrorVariant = /if \(isBelowMedian \|\| recommendation === 'avoid' \|\| recommendation === 'not-for-dev'\) variant = 'error';/.test(walletTableContent);
+  const hasRecommendationErrorVariant = /if \(recommendation === 'avoid' \|\| recommendation === 'not-for-dev'\) variant = 'error';/.test(walletTableContent);
+  const hasRecommendationSuccessVariant = /else if \(recommendation === 'recommended'\) variant = 'success';/.test(walletTableContent);
+  const hasBandingTooltipCopy = /Banding: 🟢 top half, 🟡 middle quartile, 🔴 bottom quartile or inactive\./.test(walletTableContent);
+  const hasBelowMedianCopy = /Below median/.test(walletTableContent);
   const hasMedianPropWiring = /scoreMedian=\{scoreMedian\}/.test(walletTableContent);
   const hasExplicitScoreHeader = /HeaderTooltip label="Score"/.test(walletTableContent);
-  if (!hasBelowMedianFlag || !hasBelowMedianErrorVariant || !hasMedianPropWiring) {
-    fail('WalletTable.tsx: score badge must mark below-median items as red and wire median through table/grid rows.');
+  if (!hasRecommendationErrorVariant || !hasRecommendationSuccessVariant || !hasBandingTooltipCopy || !hasMedianPropWiring) {
+    fail('WalletTable.tsx: score badge must color by recommendation bands and keep score column wired.');
+  } else if (hasBelowMedianCopy) {
+    fail('WalletTable.tsx: stale "below median" score color copy should be removed.');
   } else {
-    ok('WalletTable.tsx: below-median score color regression guard passed');
+    ok('WalletTable.tsx: recommendation-band score color regression guard passed');
   }
   if (!hasExplicitScoreHeader) {
     fail('WalletTable.tsx: table view must include an explicit Score column header.');
@@ -528,9 +586,18 @@ function run() {
     'Best For',
     'Rec',
   ];
+  const cardsScoreInfos = cardsRows.map((row) => computeCardScore(row));
+  const cardsExpectedRecommendations = assignRecommendationBands('cards', cardsScoreInfos).recommendations;
   assertHeaders('Crypto cards table', cardsTable.header, cardsExpectedHeader);
   assertAllRowsColumnShape('Crypto cards table', cardsTable.header, cardsRows);
-  assertAllRowsComputed('Crypto cards table', cardsRows, computeCardScore, 1, 12);
+  assertAllRowsComputed(
+    'Crypto cards table',
+    cardsRows,
+    computeCardScore,
+    1,
+    12,
+    cardsExpectedRecommendations
+  );
 
   // Spot-check EtherFi Cash (top-ranked card after Jan 2026 recalculation)
   // Card column now contains both name and URL: [**Card Name**](url)
@@ -541,7 +608,15 @@ function run() {
     const card = etherfiRow[0] || '';
     const custody = etherfiRow[3] || '';
     const status = etherfiRow[10] || '';     // Status column at index 10 after removing Provider
-    assertComputedScore('Crypto cards table', etherfiRow, computeCardScore, 1, 12);
+    const etherfiIndex = cardsRows.indexOf(etherfiRow);
+    assertComputedScore(
+      'Crypto cards table',
+      etherfiRow,
+      computeCardScore,
+      1,
+      12,
+      cardsExpectedRecommendations[etherfiIndex]
+    );
     if (!/Self/.test(custody)) fail(`EtherFi Cash custody drifted (expected Self), got: "${custody}"`);
     // Card column should now have URL embedded
     if (!/ether\.fi/i.test(card)) fail(`EtherFi Cash card column should contain ether.fi URL, got: "${card}"`);
@@ -564,7 +639,15 @@ function run() {
     const card = readyRow[0] || '';
     const custody = readyRow[3] || '';
     const cashback = readyRow[6] || '';  // Cash Back column
-    assertComputedScore('Crypto cards table', readyRow, computeCardScore, 1, 12);
+    const readyIndex = cardsRows.indexOf(readyRow);
+    assertComputedScore(
+      'Crypto cards table',
+      readyRow,
+      computeCardScore,
+      1,
+      12,
+      cardsExpectedRecommendations[readyIndex]
+    );
     if (!/Self/.test(custody)) fail(`Ready Card custody drifted (expected Self), got: "${custody}"`);
     // Card column should now have URL embedded
     if (!/ready\.co/i.test(card)) fail(`Ready Card card column should contain ready.co URL, got: "${card}"`);
@@ -597,16 +680,33 @@ function run() {
     'Best For',
     'Rec',
   ];
+  const rampsScoreInfos = rampsRows.map((row) => computeRampScore(row));
+  const rampsExpectedRecommendations = assignRecommendationBands('ramps', rampsScoreInfos).recommendations;
   assertHeaders('Ramps table', rampsTable.header, rampsExpectedHeader);
   assertAllRowsColumnShape('Ramps table', rampsTable.header, rampsRows);
   assertCompanyColumns('Ramps table', rampsRows, 10, 11);
-  assertAllRowsComputed('Ramps table', rampsRows, computeRampScore, 1, 13);
+  assertAllRowsComputed(
+    'Ramps table',
+    rampsRows,
+    computeRampScore,
+    1,
+    13,
+    rampsExpectedRecommendations
+  );
 
   const transakRow = findRowByFirstCellSubstring(rampsRows, 'transak');
   if (!transakRow) {
     fail('Ramps table: could not find Transak row.');
   } else {
-    assertComputedScore('Ramps table', transakRow, computeRampScore, 1, 13);
+    const transakIndex = rampsRows.indexOf(transakRow);
+    assertComputedScore(
+      'Ramps table',
+      transakRow,
+      computeRampScore,
+      1,
+      13,
+      rampsExpectedRecommendations[transakIndex]
+    );
     const improvedCompanySignals = [...transakRow];
     improvedCompanySignals[10] = '2010';
     improvedCompanySignals[11] = '🟢 Revenue';
@@ -633,6 +733,14 @@ function run() {
     fail(`Score sync drift detected in: ${driftResults.map((result) => result.label).join(', ')}`);
   } else {
     ok('Score sync script reports clean tables');
+  }
+
+  const syncScriptPath = path.join(WALLETS_DIR, 'scripts', 'sync_table_scores.js');
+  const syncScriptContent = readFileOrFail(syncScriptPath);
+  if (!syncScriptContent.includes('assignRecommendationBands')) {
+    fail('sync_table_scores.js: expected percentile recommendation assignment via assignRecommendationBands().');
+  } else {
+    ok('sync_table_scores.js: recommendation assignment is centralized');
   }
 
   console.log('\nDone.');
