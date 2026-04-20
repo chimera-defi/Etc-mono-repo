@@ -562,6 +562,74 @@ function run() {
     ok('WalletTable.tsx: explicit Score column header guard passed');
   }
 
+  const cardHeaderSnapshot = [
+    'HeaderTooltip label="Custody"',
+    'HeaderTooltip label="Region"',
+    'HeaderTooltip label="Cashback"',
+    'HeaderTooltip label="FX Fee"',
+    'HeaderTooltip label="Rewards"',
+    'HeaderTooltip label="Annual Fee"',
+    'HeaderTooltip label="Business"',
+    'HeaderTooltip label="Status"',
+  ];
+  const cardsHeaderBlock = Array.from(
+    walletTableContent.matchAll(/\{type === 'cards' && \(\s*<>\s*([\s\S]*?)<\/>\s*\)\}/g)
+  )
+    .map((match) => match[1])
+    .join('\n');
+  const hasCardTypeHeader = walletTableContent.includes('HeaderTooltip label="Type" tooltip={cryptoCardTooltips.headers.cardType}');
+  if (!hasCardTypeHeader) {
+    fail('WalletTable.tsx: cards display header contract drift (HeaderTooltip label="Type" tooltip={cryptoCardTooltips.headers.cardType})');
+  }
+  const missingCardHeaders = cardHeaderSnapshot.filter((token) => !cardsHeaderBlock.includes(token));
+  if (missingCardHeaders.length > 0) {
+    fail(`WalletTable.tsx: cards display header contract drift (${missingCardHeaders.join(', ')})`);
+  } else {
+    ok('WalletTable.tsx: cards display header contract passed');
+  }
+
+  const cardRenderSnapshot = [
+    'card.cardType',
+    'card.custody',
+    'card.region',
+    'card.cashBack',
+    'card.fxFee',
+    'card.rewards',
+    'card.annualFee',
+    'card.businessSupport',
+    'card.status',
+  ];
+  const missingCardRenderSignals = cardRenderSnapshot.filter((token) => !walletTableContent.includes(token));
+  if (missingCardRenderSignals.length > 0) {
+    fail(`WalletTable.tsx: cards display render contract drift (${missingCardRenderSignals.join(', ')})`);
+  } else {
+    ok('WalletTable.tsx: cards display render contract passed');
+  }
+
+  const walletFiltersPath = path.join(FRONTEND_DIR, 'src', 'components', 'WalletFilters.tsx');
+  const walletFiltersContent = readFileOrFail(walletFiltersPath);
+  const cardsFilterToHeaderParity = [
+    { filterToken: 'label="Custody"', headerToken: 'HeaderTooltip label="Custody"' },
+    { filterToken: 'label="Status"', headerToken: 'HeaderTooltip label="Status"' },
+    { filterToken: 'label="Business Support"', headerToken: 'HeaderTooltip label="Business"' },
+  ];
+  const parityDrift = cardsFilterToHeaderParity
+    .filter(({ filterToken }) => walletFiltersContent.includes(filterToken))
+    .filter(({ headerToken }) => !cardsHeaderBlock.includes(headerToken));
+  if (parityDrift.length > 0) {
+    fail(`WalletTable.tsx: cards filter/header parity drift (${parityDrift.map((item) => `${item.filterToken} -> ${item.headerToken}`).join(', ')})`);
+  } else {
+    ok('WalletTable.tsx: cards filter/header parity guard passed');
+  }
+
+  const hasRampStatusHeader = walletTableContent.includes('Operational status: ✅ active, ⚠️ verify, 🔄 launching, ❌ inactive.');
+  const hasRampStatusRender = walletTableContent.includes('status={ramp.status}');
+  if (!hasRampStatusHeader || !hasRampStatusRender) {
+    fail('WalletTable.tsx: ramps table must surface operational status (header + rendered badge).');
+  } else {
+    ok('WalletTable.tsx: ramps status display guard passed');
+  }
+
   // ---- Crypto cards table ----
   const cardsPath = path.join(WALLETS_DIR, 'CRYPTO_CARDS.md');
   const cardsContent = readFileOrFail(cardsPath);

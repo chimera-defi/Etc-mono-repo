@@ -27,6 +27,7 @@ If you're an AI agent creating this PR, see .cursorrules "PR Attribution Require
 - [ ] Linting passes (`npm run lint` / equivalent)
 - [ ] Type checking passes (`npm run type-check` / equivalent)
 - [ ] Tests pass (`npm test` / equivalent)
+- [ ] Display contract validated (table columns + filter/header parity checks)
 - [ ] Manual testing completed (if applicable)
 
 ## Related Issues/PRs

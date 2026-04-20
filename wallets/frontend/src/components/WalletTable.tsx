@@ -31,11 +31,6 @@ import type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, SupportedChains,
 
 export type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData };
 
-const SYMBOLS = {
-  check: '✓',
-  cross: '✕',
-} as const;
-
 type SelectableItemProps = {
   isSelected: boolean;
   isAtMax: boolean;
@@ -333,25 +328,103 @@ function ScoreBadge({
   return <Tooltip content={tooltip || defaultTooltip} linkHref={tooltipLinkHref} linkLabel={tooltipLinkLabel}>{badge}</Tooltip>;
 }
 
-// Recommendation badge
-function RecommendationBadge({
-  recommendation,
+function CustodyBadge({
+  custody,
   tooltipLinkHref,
-  tooltipLinkLabel = DETAILS_TOOLTIP_LABEL,
 }: {
-  recommendation: string;
+  custody: CryptoCard['custody'];
   tooltipLinkHref?: string;
-  tooltipLinkLabel?: string;
 }) {
   const config = {
-    recommended: { label: `${SYMBOLS.check} Recommended`, variant: 'success' as const, tooltip: softwareWalletTooltips.recommendation.recommended },
-    situational: { label: 'Situational', variant: 'warning' as const, tooltip: softwareWalletTooltips.recommendation.situational },
-    avoid: { label: `${SYMBOLS.cross} Avoid`, variant: 'error' as const, tooltip: softwareWalletTooltips.recommendation.avoid },
-    'not-for-dev': { label: 'Not for Dev', variant: 'default' as const, tooltip: softwareWalletTooltips.recommendation['not-for-dev'] },
+    self: { label: '🔐 Self', variant: 'success' as const },
+    exchange: { label: '🏦 Exch', variant: 'warning' as const },
+    cefi: { label: '📋 CeFi', variant: 'default' as const },
   };
+  const entry = config[custody];
+  const tooltip = cryptoCardTooltips.custody[custody];
+  return (
+    <Badge variant={entry.variant} tooltip={tooltip} tooltipLinkHref={tooltipLinkHref}>
+      {entry.label}
+    </Badge>
+  );
+}
 
-  const { label, variant, tooltip } = config[recommendation as keyof typeof config] || config.situational;
-  return <Badge variant={variant} tooltip={tooltip} tooltipLinkHref={tooltipLinkHref} tooltipLinkLabel={tooltipLinkLabel}>{label}</Badge>;
+function BusinessSupportBadge({
+  support,
+  tooltipLinkHref,
+}: {
+  support: CryptoCard['businessSupport'];
+  tooltipLinkHref?: string;
+}) {
+  const config = {
+    yes: { label: '✅ Biz', variant: 'success' as const },
+    no: { label: '❌ Personal', variant: 'default' as const },
+    verify: { label: '⚠️ Verify Biz', variant: 'warning' as const },
+  };
+  const entry = config[support];
+  const tooltip = cryptoCardTooltips.businessSupport[support];
+  return (
+    <Badge variant={entry.variant} tooltip={tooltip} tooltipLinkHref={tooltipLinkHref}>
+      {entry.label}
+    </Badge>
+  );
+}
+
+function StatusBadge({
+  status,
+  tooltip,
+  tooltipLinkHref,
+}: {
+  status: 'active' | 'verify' | 'launching' | 'inactive';
+  tooltip?: string;
+  tooltipLinkHref?: string;
+}) {
+  const config = {
+    active: { label: '✅ Active', variant: 'success' as const },
+    verify: { label: '⚠️ Verify', variant: 'warning' as const },
+    launching: { label: '🔄 Launching', variant: 'info' as const },
+    inactive: { label: '❌ Inactive', variant: 'error' as const },
+  };
+  const entry = config[status];
+  return (
+    <Badge variant={entry.variant} tooltip={tooltip} tooltipLinkHref={tooltipLinkHref}>
+      {entry.label}
+    </Badge>
+  );
+}
+
+function getCardStatusTooltip(status: CryptoCard['status']) {
+  if (status === 'inactive') return 'Inactive: Card is unavailable or discontinued';
+  return cryptoCardTooltips.status[status];
+}
+
+function getRampStatusTooltip(status: Ramp['status']) {
+  if (status === 'inactive') return 'Inactive: Provider is unavailable or paused';
+  return rampTooltips.status[status];
+}
+
+function FxFeeValue({
+  fxFee,
+  tooltipLinkHref,
+}: {
+  fxFee: string;
+  tooltipLinkHref?: string;
+}) {
+  const lower = fxFee.toLowerCase();
+  const numericMatch = fxFee.match(/(\d+(?:\.\d+)?)/);
+  const numeric = numericMatch ? parseFloat(numericMatch[1]) : null;
+
+  let className = 'text-muted-foreground';
+  if (numeric === 0) className = 'text-green-600 dark:text-green-400 font-medium';
+  else if (numeric !== null && numeric <= 1) className = 'text-blue-600 dark:text-blue-400 font-medium';
+  else if (numeric !== null && numeric <= 2) className = 'text-yellow-600 dark:text-yellow-400 font-medium';
+  else if (numeric !== null || lower.includes('tbd') || lower.includes('unknown')) className = 'text-red-600 dark:text-red-400 font-medium';
+
+  return (
+    <Tooltip content={`Foreign transaction fee: ${fxFee}`} linkHref={tooltipLinkHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
+      <span className={className}>{fxFee}</span>
+    </Tooltip>
+  );
 }
 
 // Device icons
@@ -459,7 +532,7 @@ interface WalletItemCardProps {
   detailHref: string;
   scoreMedian: number;
   nameSlot?: React.ReactNode;   // replaces default <Link> name if provided
-  subNameSlot?: React.ReactNode; // shown below name in header (e.g. RecommendationBadge or cardType badge)
+  subNameSlot?: React.ReactNode; // optional secondary label shown below name
   children: React.ReactNode;    // body content between header and score breakdown
 }
 
@@ -592,7 +665,6 @@ function SoftwareWalletItem({
       methodLink={TABLE_METHOD_LINKS.software}
       detailHref={detailHref}
       scoreMedian={scoreMedian}
-      subNameSlot={<RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />}
     >
       <p className="text-sm text-muted-foreground mb-3">{wallet.bestFor}</p>
 
@@ -751,7 +823,6 @@ function HardwareWalletItem({
       methodLink={TABLE_METHOD_LINKS.hardware}
       detailHref={detailHref}
       scoreMedian={scoreMedian}
-      subNameSlot={<RecommendationBadge recommendation={wallet.recommendation} tooltipLinkHref={detailHref} />}
     >
       <p className="text-lg font-semibold text-primary mb-1">{wallet.priceText}</p>
       {wallet.priceLastChecked && (
@@ -857,6 +928,9 @@ function CryptoCardItem({
         <td className="py-3 px-4">
           <Badge variant="info" tooltip={cryptoCardTooltips.cardType[card.cardType]} tooltipLinkHref={detailHref}>{card.cardType}</Badge>
         </td>
+        <td className="py-3 px-4">
+          <CustodyBadge custody={card.custody} tooltipLinkHref={detailHref} />
+        </td>
         <td className="py-3 px-4 text-sm">
           <Tooltip content={cryptoCardTooltips.region[card.regionCode as keyof typeof cryptoCardTooltips.region] || `Available in ${card.region}`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
             <span>{card.region}</span>
@@ -868,6 +942,9 @@ function CryptoCardItem({
           </Tooltip>
         </td>
         <td className="py-3 px-4 text-sm">
+          <FxFeeValue fxFee={card.fxFee} tooltipLinkHref={detailHref} />
+        </td>
+        <td className="py-3 px-4 text-sm">
           <Tooltip content={`Rewards earned: ${card.rewards}`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
             <span>{card.rewards}</span>
           </Tooltip>
@@ -876,6 +953,16 @@ function CryptoCardItem({
           <Tooltip content={card.annualFee === '$0' ? 'No annual fee' : `Annual fee: ${card.annualFee}`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
             <span>{card.annualFee}</span>
           </Tooltip>
+        </td>
+        <td className="py-3 px-4">
+          <BusinessSupportBadge support={card.businessSupport} tooltipLinkHref={detailHref} />
+        </td>
+        <td className="py-3 px-4">
+          <StatusBadge
+            status={card.status}
+            tooltip={getCardStatusTooltip(card.status)}
+            tooltipLinkHref={detailHref}
+          />
         </td>
       </tr>
     );
@@ -909,8 +996,8 @@ function CryptoCardItem({
       }
       subNameSlot={
         <div className="mt-1 flex flex-wrap gap-2">
-          <RecommendationBadge recommendation={card.recommendation} tooltipLinkHref={detailHref} />
           <Badge variant="info" tooltip={cryptoCardTooltips.cardType[card.cardType]} tooltipLinkHref={detailHref}>{card.cardType}</Badge>
+          <CustodyBadge custody={card.custody} tooltipLinkHref={detailHref} />
         </div>
       }
     >
@@ -927,9 +1014,12 @@ function CryptoCardItem({
           {card.region}
         </Badge>
         <Badge variant="default" tooltip={`Rewards earned: ${card.rewards}`} tooltipLinkHref={detailHref}>{card.rewards}</Badge>
-        {card.businessSupport === 'yes' && (
-          <Badge variant="info" tooltip={cryptoCardTooltips.businessSupport.yes} tooltipLinkHref={detailHref}>Business</Badge>
-        )}
+        <BusinessSupportBadge support={card.businessSupport} tooltipLinkHref={detailHref} />
+        <StatusBadge
+          status={card.status}
+          tooltip={getCardStatusTooltip(card.status)}
+          tooltipLinkHref={detailHref}
+        />
       </div>
 
       <div className="flex items-center justify-between text-sm mb-3">
@@ -1021,6 +1111,13 @@ function RampItem({
             <span>{ramp.devUx}</span>
           </Tooltip>
         </td>
+        <td className="py-3 px-4">
+          <StatusBadge
+            status={ramp.status}
+            tooltip={getRampStatusTooltip(ramp.status)}
+            tooltipLinkHref={detailHref}
+          />
+        </td>
         <td className="py-3 px-4 text-sm">
           <Tooltip content={`Founded year signal: ${ramp.foundedYear ?? 'Unknown'}`} linkHref={detailHref} linkLabel={DETAILS_TOOLTIP_LABEL}>
             <span>{ramp.foundedYear ?? 'Unknown'}</span>
@@ -1057,7 +1154,6 @@ function RampItem({
       methodLink={TABLE_METHOD_LINKS.ramps}
       detailHref={detailHref}
       scoreMedian={scoreMedian}
-      subNameSlot={<RecommendationBadge recommendation={ramp.recommendation} tooltipLinkHref={detailHref} />}
     >
       <p className="text-sm text-muted-foreground mb-3">{ramp.bestFor}</p>
 
@@ -1069,6 +1165,11 @@ function RampItem({
           <Badge variant="info" tooltip="Off-Ramp: Convert crypto to fiat currency" tooltipLinkHref={detailHref}>Off-Ramp</Badge>
         )}
         <Badge variant="default" tooltip={`Geographic coverage: ${ramp.coverage}`} tooltipLinkHref={detailHref}>{ramp.coverage}</Badge>
+        <StatusBadge
+          status={ramp.status}
+          tooltip={getRampStatusTooltip(ramp.status)}
+          tooltipLinkHref={detailHref}
+        />
       </div>
 
       <div className="space-y-1 text-sm mb-3">
@@ -1211,16 +1312,28 @@ export function WalletTable<T extends WalletData>({
               {type === 'cards' && (
                 <>
                   <th className={mobileHeaderCellClassName}>
+                    <HeaderTooltip label="Custody" tooltip={cryptoCardTooltips.headers.custody} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
+                  </th>
+                  <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Region" tooltip={cryptoCardTooltips.headers.region} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                   <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Cashback" tooltip={cryptoCardTooltips.headers.cashback} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                   <th className={mobileHeaderCellClassName}>
+                    <HeaderTooltip label="FX Fee" tooltip={cryptoCardTooltips.headers.fxFee} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
+                  </th>
+                  <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Rewards" tooltip={cryptoCardTooltips.headers.rewards} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                   <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Annual Fee" tooltip={cryptoCardTooltips.headers.annualFee} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
+                  </th>
+                  <th className={mobileHeaderCellClassName}>
+                    <HeaderTooltip label="Business" tooltip={cryptoCardTooltips.headers.business} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
+                  </th>
+                  <th className={mobileHeaderCellClassName}>
+                    <HeaderTooltip label="Status" tooltip={cryptoCardTooltips.headers.status} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
                   </th>
                 </>
               )}
@@ -1240,6 +1353,14 @@ export function WalletTable<T extends WalletData>({
                   </th>
                   <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Dev UX" tooltip={rampTooltips.headers.devUx} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
+                  </th>
+                  <th className={mobileHeaderCellClassName}>
+                    <HeaderTooltip
+                      label="Status"
+                      tooltip="Operational status: ✅ active, ⚠️ verify, 🔄 launching, ❌ inactive."
+                      linkHref={headerMethodLink}
+                      linkLabel={METHODOLOGY_TOOLTIP_LABEL}
+                    />
                   </th>
                   <th className={mobileHeaderCellClassName}>
                     <HeaderTooltip label="Founded" tooltip={rampTooltips.headers.founded} linkHref={headerMethodLink} linkLabel={METHODOLOGY_TOOLTIP_LABEL} />
