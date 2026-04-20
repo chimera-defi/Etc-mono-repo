@@ -13,6 +13,7 @@
 | [**KuCard**](https://www.kucoin.com/kucard) | 81 | Debit | 🏦 Exch | ❌ | 🌍 Global* | Up to 4% | $0 | 0% | Multi | ✅ | KuCoin users | 🟢 |
 | [**MetaMask Card**](https://metamask.io/card) (@MetaMask) | 81 | Debit | 🔐 Self | ❌ | 🌍 Global* | 1-3% | $0-$199/yr | 0% | Multi | ✅ | Self-custodial spending | 🟢 |
 | [**Fold Card**](https://foldapp.com) | 80 | Debit | 📋 CeFi | ❌ | 🇺🇸 US | 3-5% | $0 | 0% | BTC | ✅ | Bitcoin rewards | 🟢 |
+| [**Jupiter Card**](https://jup.ag/rewards) | 80 | Debit | 🔐 Self | ❌ | 🌍 Global* | 4-10% | $0 | 1-1.8% | Points | ⚠️ | Solana/Jupiter users | 🟢 |
 | [**Revolut Crypto**](https://www.revolut.com/crypto/crypto-card/) | 80 | Debit | 📋 CeFi | ✅ | 🌍 Global | 1-3% | $0-$17/mo | 0-2% | Multi | ✅ | Fiat+Crypto | 🟢 |
 | [**Bybit Card**](https://www.bybit.com/en/cards/) | 79 | Debit | 🏦 Exch | ✅ | 🌍 Non-EEA | 2-10% | $0 | TBD | Multi | ⚠️ | $100 ATM free then 2% | 🟢 |
 | [**CryptoSpend**](https://www.wayex.com/en-US/) | 79 | Debit | 🔐 Self | ❌ | 🇦🇺 AU | 1% | $0 | 0% | BTC, ETH | ✅ | Australia (Wayex) | 🟢 |
@@ -26,6 +27,7 @@
 | [**Avici Money**](https://avici.money) (@AviciMoney) | 76 | Credit | 🔐 Self | ⚠️ | 🌍 Global | 0% | $0 | 1-3% | Multi | ✅ | Collateral-backed | 🟢 |
 | [**Gemini Card**](https://www.gemini.com/credit-card) | 76 | Credit | 🏦 Exch | ❌ | 🇺🇸 US | Up to 4% | $0 | 0% | BTC, ETH | ✅ | Credit building | 🟢 |
 | [**Coinbase Card**](https://www.coinbase.com/card) | 74 | Debit | 🏦 Exch | ❌ | 🇺🇸 US | 1-4% | $0 | 0% | BTC, ETH | ✅ | Coinbase users | 🟡 |
+| [**Plasma One**](https://www.plasma.to/one) | 74 | Debit | 🔐 Self | ❌ | 🌍 Global* | Up to 4% | $0 | 0-1.5% | XPL | ⚠️ | USDT spend card | 🟡 |
 | [**Plutus Card**](https://plutus.it) | 74 | Debit | 📋 CeFi | ❌ | 🇪🇺 EU/UK | 3-9% | £0 | 0% | PLU | ✅ | EU/UK perks | 🟡 |
 | [**RedotPay**](https://redotpay.com) | 74 | Debit | 📋 CeFi | ✅ | 🌍 Global* | Up to 3% | $0 | 1-2% | USDT, USDC | ✅ | Multi-region (ex US/SG) | 🟡 |
 | [**Nexo Card**](https://nexo.com/card) | 73 | Credit | 📋 CeFi | ✅ | 🇪🇺 EU/UK | Up to 2% | $0 | FX fees | NEXO | ✅ | Crypto credit | 🟡 |
@@ -39,6 +41,7 @@
 | [**Solflare Card**](https://solflare.com/card) (@solflare_wallet) | 66 | Debit | 🔐 Self | ❌ | 🇪🇺 EU/UK | 0% | $0 | 0% | None | ✅ | Solana ecosystem | 🔴 |
 | [**BitPay Card**](https://bitpay.com/card) | 63 | Prepaid | 📋 CeFi | ⚠️ | 🇺🇸 US | 1%* | $0 | 0% | None | ✅ | BTC spending | 🔴 |
 | [**Slash Platinum Card**](https://www.slash.com/products/corporate-cards) (@slashapp) | 63 | Business | 📋 CeFi | ✅ | 🇺🇸 US | Up to 2% | $0-$25/mo | 1% (min $0.4) | USD cash | ✅ | US internet businesses | 🔴 |
+| [**Bitget Wallet Card**](https://web3.bitget.com/en/card) | 62 | Debit | 🔐 Self | ❌ | 🌍 Global* | Campaign-based | $0 ($10 activation) | 0-1.7% | Campaign | ⚠️ | Bitget Wallet users | 🔴 |
 | [**Binance Card**](https://www.binance.com/en/cards) | 60 | Debit | 🏦 Exch | ⚠️ | 🇧🇷 Brazil | Up to 3% | $0 | 0-2% | BNB | ✅ | Binance users | 🔴 |
 | [**CoinJar Card**](https://www.coinjar.com/au/card) | 59 | Debit | 🏦 Exch | ❌ | 🇦🇺 AU | 1% rewards pts | $0 | 2.99% | BTC | ⚠️ | 1% fee returned | 🔴 |
 | [**Kraken Card**](https://www.kraken.com/kraken-card) | 58 | Debit | 🏦 Exch | ⚠️ | 🇺🇸🇪🇺 US/EU | TBD | $0 | TBD | Multi | 🔄 | Cloudflare-protected | 🔴 |
