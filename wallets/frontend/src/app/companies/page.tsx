@@ -2,21 +2,19 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, Shield } from 'lucide-react';
 import { getHardwareWalletCompanies } from '@/lib/wallet-data';
-
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
-const ogImageVersion = 'v5';
+import { brand, withBrand } from '@/lib/brand';
 
 export const metadata: Metadata = {
-  title: 'Hardware Wallet Companies | Wallet Radar',
+  title: withBrand('Hardware Wallet Companies'),
   description: 'Aggregated scores and statistics for hardware wallet manufacturers. Compare companies based on average wallet security scores.',
   openGraph: {
-    title: 'Hardware Wallet Companies | Wallet Radar',
+    title: withBrand('Hardware Wallet Companies'),
     description: 'Aggregated scores and statistics for hardware wallet manufacturers. Compare companies based on average wallet security scores.',
-    url: `${baseUrl}/companies/`,
+    url: `${brand.baseUrl}/companies/`,
     type: 'website',
     images: [
       {
-        url: `${baseUrl}/og-image.svg?${ogImageVersion}`,
+        url: `${brand.baseUrl}/og-image.svg?${brand.ogImageVersion}`,
         width: 1200,
         height: 630,
         alt: 'Hardware wallet companies comparison',
@@ -25,14 +23,14 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Hardware Wallet Companies | Wallet Radar',
+    title: withBrand('Hardware Wallet Companies'),
     description: 'Aggregated scores and statistics for hardware wallet manufacturers.',
-    creator: '@chimeradefi',
-    site: '@chimeradefi',
-    images: [`${baseUrl}/og-image.svg?${ogImageVersion}`],
+    creator: brand.twitterHandle,
+    site: brand.twitterHandle,
+    images: [`${brand.baseUrl}/og-image.svg?${brand.ogImageVersion}`],
   },
   alternates: {
-    canonical: `${baseUrl}/companies/`,
+    canonical: `${brand.baseUrl}/companies/`,
   },
 };
 

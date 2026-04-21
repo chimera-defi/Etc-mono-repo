@@ -9,6 +9,7 @@ import { ThemeToggle } from './ThemeToggle';
 import { SiteSearch } from './SiteSearch';
 import type { SearchItem } from '@/lib/search-data';
 import { trackOutboundLink } from '@/lib/analytics';
+import { appendUtm, brand } from '@/lib/brand';
 
 const navItems = [
   { href: '/', label: 'Home' },
@@ -36,7 +37,7 @@ export function Navigation({ searchData = [] }: NavigationProps) {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
             <Wallet className="h-6 w-6 text-sky-400" />
-            <span className="font-bold text-xl text-slate-100">Wallet Radar</span>
+            <span className="font-bold text-xl text-slate-100">{brand.displayName}</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -65,20 +66,20 @@ export function Navigation({ searchData = [] }: NavigationProps) {
             <ThemeToggle />
 
             <a
-              href="https://x.com/chimeradefi?utm_source=walletradar&utm_medium=comparison"
+              href={appendUtm(brand.twitterUrl)}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => trackOutboundLink('https://x.com/chimeradefi', 'Twitter')}
+              onClick={() => trackOutboundLink(brand.twitterUrl, 'Twitter')}
               className="hidden sm:block text-slate-400 hover:text-slate-100 transition-colors p-2"
               aria-label="Twitter"
             >
               <Twitter className="h-5 w-5" />
             </a>
             <a
-              href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets?utm_source=walletradar&utm_medium=comparison"
+              href={appendUtm(brand.githubUrl)}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => trackOutboundLink('https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets', 'GitHub')}
+              onClick={() => trackOutboundLink(brand.githubUrl, 'GitHub')}
               className="hidden sm:block text-slate-400 hover:text-slate-100 transition-colors p-2"
               aria-label="GitHub"
             >
@@ -121,20 +122,20 @@ export function Navigation({ searchData = [] }: NavigationProps) {
               ))}
               <div className="flex items-center gap-2 px-3 pt-2 mt-2 border-t border-slate-700/60">
                 <a
-                  href="https://x.com/chimeradefi?utm_source=walletradar&utm_medium=comparison"
+                  href={appendUtm(brand.twitterUrl)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => trackOutboundLink('https://x.com/chimeradefi', 'Twitter')}
+                  onClick={() => trackOutboundLink(brand.twitterUrl, 'Twitter')}
                   className="text-slate-400 hover:text-slate-100 transition-colors p-2"
                   aria-label="Twitter"
                 >
                   <Twitter className="h-5 w-5" />
                 </a>
                 <a
-                  href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets?utm_source=walletradar&utm_medium=comparison"
+                  href={appendUtm(brand.githubUrl)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => trackOutboundLink('https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets', 'GitHub')}
+                  onClick={() => trackOutboundLink(brand.githubUrl, 'GitHub')}
                   className="text-slate-400 hover:text-slate-100 transition-colors p-2"
                   aria-label="GitHub"
                 >
