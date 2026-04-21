@@ -12,6 +12,16 @@ const { createCanvas, registerFont } = require('canvas');
 const fs = require('fs');
 const path = require('path');
 
+const BRAND_NAME = process.env.NEXT_PUBLIC_BRAND_NAME || 'Wallet Radar';
+const BRAND_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
+const BRAND_DOMAIN = (() => {
+  try {
+    return new URL(BRAND_BASE_URL).host;
+  } catch {
+    return 'walletradar.org';
+  }
+})();
+
 // Configuration
 const WIDTH = 1200;
 const HEIGHT = 630;
@@ -94,7 +104,7 @@ function drawBranding(ctx) {
   // Logo area (left side)
   ctx.fillStyle = COLORS.text;
   ctx.font = 'bold 36px Arial, sans-serif';
-  ctx.fillText('📡 Wallet Radar', 50, 55);
+  ctx.fillText(`📡 ${BRAND_NAME}`, 50, 55);
   
   // Tagline
   ctx.fillStyle = COLORS.textMuted;
@@ -207,7 +217,7 @@ function drawFooter(ctx, stats) {
   // URL
   ctx.fillStyle = COLORS.primary;
   ctx.font = 'bold 18px Arial, sans-serif';
-  ctx.fillText('walletradar.org', WIDTH - 200, y + 15);
+  ctx.fillText(BRAND_DOMAIN, WIDTH - 200, y + 15);
 }
 
 /**
@@ -357,7 +367,7 @@ function generateDefaultImage() {
   // Title
   ctx.fillStyle = COLORS.text;
   ctx.font = 'bold 64px Arial, sans-serif';
-  ctx.fillText('Wallet Radar', WIDTH / 2, HEIGHT / 2);
+  ctx.fillText(BRAND_NAME, WIDTH / 2, HEIGHT / 2);
   
   // Tagline
   ctx.font = '28px Arial, sans-serif';
@@ -372,7 +382,7 @@ function generateDefaultImage() {
   // URL
   ctx.font = 'bold 22px Arial, sans-serif';
   ctx.fillStyle = COLORS.text;
-  ctx.fillText('walletradar.org', WIDTH / 2, HEIGHT - 50);
+  ctx.fillText(BRAND_DOMAIN, WIDTH / 2, HEIGHT - 50);
   
   ctx.textAlign = 'left';
   
@@ -937,7 +947,7 @@ function generateExploreImage() {
  * Main execution
  */
 async function main() {
-  console.log('🎨 Generating OG Images for Wallet Radar...\n');
+  console.log(`🎨 Generating OG Images for ${BRAND_NAME}...\\n`);
 
   // Ensure output directory exists
   if (!fs.existsSync(OUTPUT_DIR)) {

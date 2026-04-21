@@ -1,0 +1,18 @@
+[
+  {
+    "id": "walletradar",
+    "profile": "walletradar",
+    "displayName": "Wallet Radar",
+    "shortName": "Wallet Radar",
+    "baseUrl": "https://walletradar.org",
+    "utmSource": "walletradar"
+  },
+  {
+    "id": "walletkernel",
+    "profile": "walletradar",
+    "displayName": "Wallet Kernel",
+    "shortName": "Wallet Kernel",
+    "baseUrl": "https://walletkernel.example",
+    "utmSource": "walletkernel"
+  }
+]

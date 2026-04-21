@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Wallet, Github, ExternalLink, Mail, Twitter } from 'lucide-react';
 import { trackOutboundLink } from '@/lib/analytics';
+import { aboutBrandLabel, appendUtm, brand } from '@/lib/brand';
 
 export function Footer() {
   return (
@@ -13,7 +14,7 @@ export function Footer() {
           <div className="md:col-span-1">
             <Link href="/" className="flex items-center space-x-2 mb-4">
               <Wallet className="h-6 w-6 text-sky-400" />
-              <span className="font-bold text-lg text-slate-100">Wallet Radar</span>
+              <span className="font-bold text-lg text-slate-100">{brand.displayName}</span>
             </Link>
             <p className="text-sm text-slate-400">
               Developer-focused crypto wallet research and comparison.
@@ -58,7 +59,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/docs/about" className="text-slate-400 hover:text-sky-400 transition-colors">
-                  About Us
+                  {aboutBrandLabel()}
                 </Link>
               </li>
               <li>
@@ -73,7 +74,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="https://walletbeat.fyi?utm_source=walletradar&utm_medium=comparison"
+                  href={appendUtm('https://walletbeat.fyi')}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => trackOutboundLink('https://walletbeat.fyi', 'WalletBeat')}
@@ -91,7 +92,7 @@ export function Footer() {
             <ul className="space-y-2 text-sm">
               <li>
                 <a
-                  href="https://ethereum.org/en/wallets/find-wallet/?utm_source=walletradar&utm_medium=comparison"
+                  href={appendUtm('https://ethereum.org/en/wallets/find-wallet/')}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => trackOutboundLink('https://ethereum.org/en/wallets/find-wallet/', 'Ethereum.org Wallets')}
@@ -102,7 +103,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="https://chainlist.org?utm_source=walletradar&utm_medium=comparison"
+                  href={appendUtm('https://chainlist.org')}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => trackOutboundLink('https://chainlist.org', 'ChainList')}
@@ -113,7 +114,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:chimera_deFi@protonmail.com"
+                  href={`mailto:${brand.contactEmail}`}
                   className="text-slate-400 hover:text-sky-400 transition-colors inline-flex items-center gap-1"
                 >
                   Contact Us <Mail className="h-3 w-3" />
@@ -129,32 +130,32 @@ export function Footer() {
           </p>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div className="text-sm text-slate-400">
-              <p><strong className="text-slate-300">Open Source:</strong> <a href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets?utm_source=walletradar&utm_medium=comparison" target="_blank" rel="noopener noreferrer" onClick={() => trackOutboundLink('https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets', 'View on GitHub')} className="text-sky-400 hover:text-sky-300 transition-colors">View on GitHub</a></p>
-              <p><strong className="text-slate-300">Found an issue?</strong> <a href="https://github.com/chimera-defi/Etc-mono-repo/issues?utm_source=walletradar&utm_medium=comparison" target="_blank" rel="noopener noreferrer" onClick={() => trackOutboundLink('https://github.com/chimera-defi/Etc-mono-repo/issues', 'Report on GitHub Issues')} className="text-sky-400 hover:text-sky-300 transition-colors">Report on GitHub Issues</a></p>
+              <p><strong className="text-slate-300">Open Source:</strong> <a href={appendUtm(brand.githubUrl)} target="_blank" rel="noopener noreferrer" onClick={() => trackOutboundLink(brand.githubUrl, 'View on GitHub')} className="text-sky-400 hover:text-sky-300 transition-colors">View on GitHub</a></p>
+              <p><strong className="text-slate-300">Found an issue?</strong> <a href={appendUtm(brand.issuesUrl)} target="_blank" rel="noopener noreferrer" onClick={() => trackOutboundLink(brand.issuesUrl, 'Report on GitHub Issues')} className="text-sky-400 hover:text-sky-300 transition-colors">Report on GitHub Issues</a></p>
             </div>
             <div className="flex items-center gap-6">
               <a
-                href="mailto:chimera_deFi@protonmail.com"
+                href={`mailto:${brand.contactEmail}`}
                 className="flex items-center gap-2 text-sm text-slate-400 hover:text-sky-400 transition-colors"
               >
                 <Mail className="h-4 w-4" />
                 Contact Us
               </a>
               <a
-                href="https://x.com/chimeradefi?utm_source=walletradar&utm_medium=comparison"
+                href={appendUtm(brand.twitterUrl)}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => trackOutboundLink('https://x.com/chimeradefi', 'Twitter')}
+                onClick={() => trackOutboundLink(brand.twitterUrl, 'Twitter')}
                 className="flex items-center gap-2 text-sm text-slate-400 hover:text-sky-400 transition-colors"
               >
                 <Twitter className="h-4 w-4" />
                 Twitter
               </a>
               <a
-                href="https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets?utm_source=walletradar&utm_medium=comparison"
+                href={appendUtm(brand.githubUrl)}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => trackOutboundLink('https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets', 'Source Code')}
+                onClick={() => trackOutboundLink(brand.githubUrl, 'Source Code')}
                 className="flex items-center gap-2 text-sm text-slate-400 hover:text-sky-400 transition-colors"
               >
                 <Github className="h-4 w-4" />

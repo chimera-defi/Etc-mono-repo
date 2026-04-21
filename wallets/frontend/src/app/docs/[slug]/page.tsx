@@ -9,6 +9,7 @@ import { EnhancedMarkdownRenderer } from '@/components/EnhancedMarkdownRenderer'
 import { TableOfContents } from '@/components/TableOfContents';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SocialShare } from '@/components/SocialShare';
+import { brand } from '@/lib/brand';
 
 interface PageProps {
   params: {
@@ -25,7 +26,6 @@ export async function generateStaticParams() {
 // Generate metadata for each page
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const document = getDocumentBySlug(params.slug);
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
   
   if (!document) {
     return {
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const pageUrl = `${baseUrl}/docs/${params.slug}/`;
+  const pageUrl = `${brand.baseUrl}/docs/${params.slug}/`;
   const rawDescription = document.description || 
     `Comprehensive ${document.category} guide for crypto product comparison. ${document.title.includes('Comparison') ? 'Compare wallets, cards, ramps, and related products with detailed scoring, security research, and developer experience metrics.' : 'Expert insights and analysis for developers.'}`;
   const enhancedDescription = optimizeMetaDescription(rawDescription);
@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   // Increment ogImageVersion when images are updated to bust Twitter/social media caches
   const ogImagePath = getOgImagePath(params.slug);
   const ogImageVersion = 'v5';
-  const ogImageUrl = `${baseUrl}${ogImagePath}?${ogImageVersion}`;
+  const ogImageUrl = `${brand.baseUrl}${ogImagePath}?${ogImageVersion}`;
 
   return {
     title: document.title,
@@ -72,8 +72,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       card: 'summary_large_image',
       title: document.title,
       description: enhancedDescription,
-      creator: '@chimeradefi',
-      site: '@chimeradefi',
+      creator: brand.twitterHandle,
+      site: brand.twitterHandle,
       images: [ogImageUrl],
     },
     alternates: {
@@ -88,8 +88,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default function DocumentPage({ params }: PageProps) {
   const document = getDocumentBySlug(params.slug);
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
-  const siteName = 'Wallet Radar';
   
   if (!document) {
     notFound();
@@ -99,7 +97,7 @@ export default function DocumentPage({ params }: PageProps) {
   const filteredToc = toc.filter(item => item.level <= 2);
   
   // Page URL and description
-  const pageUrl = `${baseUrl}/docs/${params.slug}/`;
+  const pageUrl = `${brand.baseUrl}/docs/${params.slug}/`;
   const rawDescription = document.description || 
     `Comprehensive ${document.category} guide for crypto product comparison. ${document.title.includes('Comparison') ? 'Compare wallets, cards, ramps, and related products with detailed scoring, security research, and developer experience metrics.' : 'Expert insights and analysis for developers.'}`;
   const enhancedDescription = optimizeMetaDescription(rawDescription);
@@ -138,7 +136,7 @@ export default function DocumentPage({ params }: PageProps) {
     { label: 'Home', href: '/' },
     { label: 'Docs', href: '/docs' },
     { label: document.title, href: `/docs/${params.slug}` },
-  ], baseUrl);
+  ], brand.baseUrl);
 
   // Extract FAQs from markdown content and generate FAQ schema
   const faqs = extractFAQsFromMarkdown(document.content);
@@ -164,14 +162,14 @@ export default function DocumentPage({ params }: PageProps) {
     author: {
       '@type': 'Organization',
       name: 'Chimera DeFi',
-      url: `${baseUrl}/`,
+      url: `${brand.baseUrl}/`,
     },
     publisher: {
       '@type': 'Organization',
-      name: siteName,
+      name: brand.displayName,
       logo: {
         '@type': 'ImageObject',
-        url: `${baseUrl}/logo.svg`,
+        url: `${brand.baseUrl}/logo.svg`,
       },
     },
     datePublished: parseDate(document.lastUpdated),
@@ -391,7 +389,7 @@ export default function DocumentPage({ params }: PageProps) {
                 {(document.slug === 'hardware-wallets' || document.slug === 'hardware-wallets-details') ? (
                   <>
                     <p>
-                      <a href={`${baseUrl}/merchant-center.xml`} className="text-sky-400 hover:text-sky-300 underline">
+                      <a href={`${brand.baseUrl}/merchant-center.xml`} className="text-sky-400 hover:text-sky-300 underline">
                         merchant-center.xml
                       </a>
                       {' — Verified USD pricing for hardware wallets. Exclusions: '}
@@ -407,7 +405,7 @@ export default function DocumentPage({ params }: PageProps) {
                       See Hardware Wallets
                     </Link>
                     {' for '}
-                    <a href={`${baseUrl}/merchant-center.xml`} className="text-sky-400 hover:text-sky-300 underline">
+                    <a href={`${brand.baseUrl}/merchant-center.xml`} className="text-sky-400 hover:text-sky-300 underline">
                       merchant-center.xml
                     </a>
                     .

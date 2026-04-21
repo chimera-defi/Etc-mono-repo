@@ -8,14 +8,13 @@ import { calculateReadingTime, formatReadingTime, optimizeMetaDescription, extra
 import { EnhancedMarkdownRenderer } from '@/components/EnhancedMarkdownRenderer';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SocialShare } from '@/components/SocialShare';
+import { brand, withBrand } from '@/lib/brand';
 
 interface PageProps {
   params: {
     slug: string;
   };
 }
-
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
 
 // Generate static params for all articles
 export async function generateStaticParams() {
@@ -29,19 +28,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!article) {
     return {
-      title: 'Article Not Found | Wallet Radar',
+      title: withBrand('Article Not Found'),
       description: 'The article you requested could not be found.',
       robots: { index: false, follow: false },
     };
   }
 
-  const pageUrl = `${baseUrl}/articles/${params.slug}/`;
+  const pageUrl = `${brand.baseUrl}/articles/${params.slug}/`;
   const enhancedDescription = optimizeMetaDescription(article.description);
 
   const ogImagePath = getOgImagePath(article.slug);
 
   return {
-    title: `${article.title} | Wallet Radar`,
+    title: withBrand(article.title),
     description: enhancedDescription,
     keywords: [...(article.wallets || []), ...(article.tags || []), 'crypto wallet', 'ethereum', 'web3'].join(', '),
     openGraph: {
@@ -54,7 +53,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       tags: article.tags,
       images: [
         {
-          url: `${baseUrl}${ogImagePath}`,
+          url: `${brand.baseUrl}${ogImagePath}`,
           width: 1200,
           height: 630,
           alt: article.title,
@@ -65,9 +64,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       card: 'summary_large_image',
       title: article.title,
       description: enhancedDescription,
-      creator: '@chimeradefi',
-      site: '@chimeradefi',
-      images: [`${baseUrl}${ogImagePath}`],
+      creator: brand.twitterHandle,
+      site: brand.twitterHandle,
+      images: [`${brand.baseUrl}${ogImagePath}`],
     },
     alternates: {
       canonical: pageUrl,
@@ -86,7 +85,7 @@ export default function ArticlePage({ params }: PageProps) {
     notFound();
   }
 
-  const pageUrl = `${baseUrl}/articles/${params.slug}/`;
+  const pageUrl = `${brand.baseUrl}/articles/${params.slug}/`;
   const enhancedDescription = optimizeMetaDescription(article.description);
   const relatedArticles = getRelatedArticles(params.slug, 3);
 
@@ -95,7 +94,7 @@ export default function ArticlePage({ params }: PageProps) {
     { label: 'Home', href: '/' },
     { label: 'Articles', href: '/articles' },
     { label: article.title, href: `/articles/${params.slug}` },
-  ], baseUrl);
+  ], brand.baseUrl);
 
   // Extract and generate FAQ schema
   const faqs = extractFAQsFromMarkdown(article.content);
@@ -118,10 +117,10 @@ export default function ArticlePage({ params }: PageProps) {
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Wallet Radar',
+      name: brand.displayName,
       logo: {
         '@type': 'ImageObject',
-        url: `${baseUrl}/logo.svg`,
+        url: `${brand.baseUrl}/logo.svg`,
       },
     },
     datePublished: article.lastUpdated,
