@@ -9,13 +9,12 @@ import { getAllDocuments, getWalletStats } from '@/lib/markdown';
 import { getChainStats } from '@/lib/defillama';
 import { ExploreContent } from './ExploreContent';
 import { SocialShare } from '@/components/SocialShare';
+import { brand, withBrand } from '@/lib/brand';
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
-const ogImageVersion = 'v5';
-const pageTitle = 'Explore & Compare Crypto Products | Wallet Radar';
+const pageTitle = withBrand('Explore & Compare Crypto Products');
 const pageDescription = 'Filter, sort, and compare wallets, hardware devices, crypto cards, and ramps side-by-side. Advanced filtering for developer, security, fee, and coverage tradeoffs.';
-const pageUrl = `${baseUrl}/explore/`;
-const ogImageUrl = `${baseUrl}/og-image.svg?${ogImageVersion}`;
+const pageUrl = `${brand.baseUrl}/explore/`;
+const ogImageUrl = `${brand.baseUrl}/og-image.svg?${brand.ogImageVersion}`;
 
 export const metadata: Metadata = {
   title: pageTitle,
@@ -43,7 +42,7 @@ export const metadata: Metadata = {
         url: ogImageUrl,
         width: 1200,
         height: 630,
-        alt: 'Explore & Compare Crypto Products - Wallet Radar',
+        alt: `Explore & Compare Crypto Products - ${brand.displayName}`,
       },
     ],
   },
@@ -51,8 +50,8 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: pageTitle,
     description: pageDescription,
-    creator: '@chimeradefi',
-    site: '@chimeradefi',
+    creator: brand.twitterHandle,
+    site: brand.twitterHandle,
     images: [ogImageUrl],
   },
   alternates: {

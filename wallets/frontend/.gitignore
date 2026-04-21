@@ -9,6 +9,7 @@
 # Next.js
 /.next/
 /out/
+/out-brands/
 
 # Production
 /build

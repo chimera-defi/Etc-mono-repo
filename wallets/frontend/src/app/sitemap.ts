@@ -2,8 +2,9 @@ import { MetadataRoute } from 'next';
 import { getAllDocuments } from '@/lib/markdown';
 import { getAllWalletData } from '@/lib/wallet-data';
 import { getAllArticles } from '@/lib/articles';
+import { brand } from '@/lib/brand';
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
+const baseUrl = brand.baseUrl;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const documents = getAllDocuments();

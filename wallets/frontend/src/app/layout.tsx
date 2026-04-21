@@ -7,15 +7,10 @@ import { Footer } from '@/components/Footer';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { GoogleAnalytics } from '@/components/GoogleAnalytics';
 import { getSearchData } from '@/lib/search-data';
+import { brand } from '@/lib/brand';
 
 // Google Analytics Measurement ID - hardcoded for static export reliability
 const GA_MEASUREMENT_ID = 'G-L6ZV569CMN';
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
-const siteName = 'Wallet Radar';
-const defaultTitle = 'Wallet Radar - Developer-Focused Crypto Wallet Research';
-const defaultDescription = 'Independent research and comparison of crypto wallets, hardware wallets, and payment solutions. Scoring, security audits, GitHub activity analysis, and developer experience benchmarks.';
-// Cache-busting version for OG images - increment when images are updated
-const ogImageVersion = 'v5';
 const bodyFont = IBM_Plex_Sans({
   subsets: ['latin'],
   display: 'swap',
@@ -30,12 +25,12 @@ const displayFont = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(baseUrl),
+  metadataBase: new URL(brand.baseUrl),
   title: {
-    default: defaultTitle,
-    template: `%s | ${siteName}`,
+    default: brand.defaultTitle,
+    template: `%s | ${brand.displayName}`,
   },
-  description: defaultDescription,
+  description: brand.defaultDescription,
   keywords: [
     'crypto wallet',
     'wallet research',
@@ -59,7 +54,7 @@ export const metadata: Metadata = {
   authors: [{ name: 'Chimera DeFi' }],
   creator: 'Chimera DeFi',
   publisher: 'Chimera DeFi',
-  applicationName: siteName,
+  applicationName: brand.displayName,
   formatDetection: {
     email: false,
     address: false,
@@ -68,26 +63,26 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: `${baseUrl}/`,
-    siteName: siteName,
-    title: defaultTitle,
-    description: defaultDescription,
+    url: `${brand.baseUrl}/`,
+    siteName: brand.displayName,
+    title: brand.defaultTitle,
+    description: brand.defaultDescription,
     images: [
       {
-        url: `${baseUrl}/og-image.svg?${ogImageVersion}`,
+        url: `${brand.baseUrl}/og-image.svg?${brand.ogImageVersion}`,
         width: 1200,
         height: 630,
-        alt: 'Wallet Radar - Developer-Focused Crypto Wallet Research',
+        alt: `${brand.displayName} - Developer-Focused Crypto Wallet Research`,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: defaultTitle,
-    description: defaultDescription,
-    creator: '@chimeradefi',
-    site: '@chimeradefi',
-    images: [`${baseUrl}/og-image.svg?${ogImageVersion}`],
+    title: brand.defaultTitle,
+    description: brand.defaultDescription,
+    creator: brand.twitterHandle,
+    site: brand.twitterHandle,
+    images: [`${brand.baseUrl}/og-image.svg?${brand.ogImageVersion}`],
   },
   robots: {
     index: true,
@@ -101,7 +96,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: `${baseUrl}/`,
+    canonical: `${brand.baseUrl}/`,
   },
 };
 
@@ -116,17 +111,17 @@ export default function RootLayout({
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: siteName,
-    url: baseUrl,
-    logo: `${baseUrl}/logo.svg`,
+    name: brand.displayName,
+    url: brand.baseUrl,
+    logo: `${brand.baseUrl}/logo.svg`,
     description: 'Developer-focused crypto wallet research and comparison platform',
     sameAs: [
-      'https://github.com/chimera-defi/Etc-mono-repo/tree/main/wallets',
-      'https://x.com/chimeradefi',
+      brand.githubUrl,
+      brand.twitterUrl,
     ],
     contactPoint: {
       '@type': 'ContactPoint',
-      email: 'chimera_deFi@protonmail.com',
+      email: brand.contactEmail,
       contactType: 'Customer Service',
     },
   };
@@ -134,9 +129,9 @@ export default function RootLayout({
   const websiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: siteName,
-    url: baseUrl,
-    description: defaultDescription,
+    name: brand.displayName,
+    url: brand.baseUrl,
+    description: brand.defaultDescription,
   };
 
   // Minified theme init - runs before hydration to prevent FOUC
@@ -152,14 +147,14 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-        <link rel="manifest" href="/manifest.json" />
+        <link rel="manifest" href="/manifest.webmanifest" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.svg" />
         <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
         <meta name="theme-color" content="#3b82f6" media="(prefers-color-scheme: light)" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content={siteName} />
+        <meta name="apple-mobile-web-app-title" content={brand.shortName} />
       </head>
       <body className="font-sans bg-background min-h-screen">
         <Script

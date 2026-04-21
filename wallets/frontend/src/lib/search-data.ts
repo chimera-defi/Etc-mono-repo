@@ -1,6 +1,7 @@
 import { getAllWalletData } from './wallet-data';
 import { getAllDocuments } from './markdown';
 import { getAllArticles } from './articles';
+import { brandFaqAnswer, brandFaqQuestion } from './brand';
 
 export type SearchResultType = 'wallet' | 'doc' | 'article' | 'faq';
 export type WalletCategory = 'software' | 'hardware' | 'cards' | 'ramps';
@@ -55,13 +56,13 @@ const faqItems = [
     category: 'security',
   },
   {
-    question: 'What is Wallet Radar?',
-    answer: 'Wallet Radar is a developer-focused platform for comparing crypto wallets with evidence-based scoring using GitHub activity, security audits, and developer experience metrics.',
+    question: brandFaqQuestion('What is Wallet Radar?'),
+    answer: brandFaqAnswer('Wallet Radar is a developer-focused platform for comparing crypto wallets with evidence-based scoring using GitHub activity, security audits, and developer experience metrics.'),
     category: 'comparison',
   },
   {
-    question: 'Why does Wallet Radar say "Educational Research & Data Only"?',
-    answer: 'Wallet Radar is a research site, not a broker or wallet provider. It does not run login pages, wallet connections, or transaction signing. Data is sourced from public information and should be verified independently.',
+    question: brandFaqQuestion('Why does Wallet Radar say "Educational Research & Data Only"?'),
+    answer: brandFaqAnswer('Wallet Radar is a research site, not a broker or wallet provider. It does not run login pages, wallet connections, or transaction signing. Data is sourced from public information and should be verified independently.'),
     category: 'comparison',
   },
   {
