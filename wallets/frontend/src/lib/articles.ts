@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { brand } from './brand';
 
 // Path to articles markdown files (wallets/articles directory)
 const ARTICLES_DIR = path.join(process.cwd(), '..', 'articles');
@@ -57,7 +58,7 @@ export function getArticleBySlug(slug: string): Article | null {
       content,
       category: data.category || 'guide',
       lastUpdated: data.lastUpdated || new Date().toISOString().split('T')[0],
-      author: data.author || 'Wallet Radar',
+      author: data.author || brand.displayName,
       wallets: data.wallets || [],
       tags: data.tags || [],
     };

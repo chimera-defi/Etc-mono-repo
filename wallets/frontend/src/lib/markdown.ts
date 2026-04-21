@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { brand } from './brand';
 
 // Path to markdown files (one level up from frontend)
 const CONTENT_DIR = path.join(process.cwd(), '..');
@@ -78,8 +79,8 @@ const DOCUMENT_CONFIG: Record<string, Omit<MarkdownDocument, 'slug' | 'content'>
     order: 5,
   },
   'ABOUT.md': {
-    title: 'About Wallet Radar',
-    description: 'Educational research platform for comparing crypto access products. Independent, developer-focused, and open source.',
+    title: `About ${brand.displayName}`,
+    description: `Educational research platform for comparing crypto access products. Independent, developer-focused, and open source.`,
     category: 'guide',
     order: 6,
   },
