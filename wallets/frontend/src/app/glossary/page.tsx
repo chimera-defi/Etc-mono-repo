@@ -4,13 +4,12 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { getDocumentBySlug } from '@/lib/markdown';
 import { EnhancedMarkdownRenderer } from '@/components/EnhancedMarkdownRenderer';
 import { optimizeMetaDescription, generateBreadcrumbSchema } from '@/lib/seo';
-
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
+import { brand, withBrand } from '@/lib/brand';
 
 export const metadata: Metadata = {
-  title: 'Glossary | Wallet Radar',
-  description: 'Definitions of key wallet and crypto terms used across Wallet Radar.',
-  alternates: { canonical: `${baseUrl}/glossary/` },
+  title: withBrand('Glossary'),
+  description: `Definitions of key wallet and crypto terms used across ${brand.displayName}.`,
+  alternates: { canonical: `${brand.baseUrl}/glossary/` },
 };
 
 export default function GlossaryPage() {
@@ -20,14 +19,14 @@ export default function GlossaryPage() {
   const breadcrumbSchema = generateBreadcrumbSchema([
     { label: 'Home', href: '/' },
     { label: 'Glossary', href: '/glossary' },
-  ], baseUrl);
+  ], brand.baseUrl);
 
   const definedTermSchema = {
     '@context': 'https://schema.org',
     '@type': 'DefinedTermSet',
-    name: 'Wallet Radar Glossary',
+    name: `${brand.displayName} Glossary`,
     description,
-    url: `${baseUrl}/glossary/`,
+    url: `${brand.baseUrl}/glossary/`,
     hasDefinedTerm: [
       { '@type': 'DefinedTerm', name: 'EOA', description: 'Externally Owned Account controlled by a private key.' },
       { '@type': 'DefinedTerm', name: 'Account Abstraction', description: 'Smart contract wallets enabling batch transactions and gas sponsorship.' },

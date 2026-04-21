@@ -19,13 +19,17 @@ npm install
 
 # Set up environment variables (optional - defaults to configured GA ID)
 cp .env.example .env.local
-# Edit .env.local with your Google Analytics Measurement ID if needed
+# Edit .env.local with your GA and brand profile values if needed
 
 # Run development server
 npm run dev
 
 # Build for production
 npm run build
+
+# Optional: export static builds for multiple brand/domain profiles
+cp brand-exports.example.json brand-exports.json
+npm run export:brands
 
 # Start production server
 npm start
@@ -126,6 +130,24 @@ npm run build
 # Static export output is in out/
 ```
 
+### Multi-Brand Deployment (Static Export)
+
+This app supports build-time branding via environment variables:
+
+- `NEXT_PUBLIC_BRAND_NAME`
+- `NEXT_PUBLIC_BRAND_SHORT_NAME`
+- `NEXT_PUBLIC_BASE_URL`
+- `NEXT_PUBLIC_UTM_SOURCE`
+- optional link overrides (`NEXT_PUBLIC_GITHUB_URL`, etc.)
+
+For multiple domains, use `brand-exports.json` +:
+
+```bash
+npm run export:brands
+```
+
+Each brand build is exported to `out-brands/<id>/`.
+
 ## Technology Stack
 
 - **Framework**: Next.js 14 (App Router)
@@ -140,6 +162,7 @@ npm run build
 |---------|-------------|
 | `npm run dev` | Start development server |
 | `npm run build` | Build the static export for production |
+| `npm run export:brands` | Build and export one static artifact per brand profile |
 | `npm start` | Start production server |
 | `npm run lint` | Run ESLint |
 | `npm run type-check` | Run TypeScript checks |

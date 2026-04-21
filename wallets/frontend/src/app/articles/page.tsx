@@ -2,36 +2,35 @@ import type { Metadata } from 'next';
 import { getAllArticles } from '@/lib/articles';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { ArticleCard } from '@/components/ArticleCard';
-
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
+import { brand, withBrand } from '@/lib/brand';
 
 export const metadata: Metadata = {
-  title: 'Articles | Wallet Radar',
+  title: withBrand('Articles'),
   description: 'Expert guides and comparisons for crypto wallets. Learn about wallet security, compare features, and find the best wallet for your needs.',
   openGraph: {
-    title: 'Wallet Comparison Articles | Wallet Radar',
+    title: withBrand('Wallet Comparison Articles'),
     description: 'Expert guides and comparisons for crypto wallets. Compare wallets, learn about security, and make informed decisions.',
-    url: `${baseUrl}/articles/`,
+    url: `${brand.baseUrl}/articles/`,
     type: 'website',
     images: [
       {
-        url: `${baseUrl}/og-image.svg`,
+        url: `${brand.baseUrl}/og-image.svg`,
         width: 1200,
         height: 630,
-        alt: 'Wallet Radar Articles',
+        alt: `${brand.displayName} Articles`,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Wallet Comparison Articles | Wallet Radar',
+    title: withBrand('Wallet Comparison Articles'),
     description: 'Expert guides and comparisons for crypto wallets.',
-    creator: '@chimeradefi',
-    site: '@chimeradefi',
-    images: [`${baseUrl}/og-image.svg`],
+    creator: brand.twitterHandle,
+    site: brand.twitterHandle,
+    images: [`${brand.baseUrl}/og-image.svg`],
   },
   alternates: {
-    canonical: `${baseUrl}/articles/`,
+    canonical: `${brand.baseUrl}/articles/`,
   },
 };
 

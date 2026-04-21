@@ -2,10 +2,7 @@ import type { Metadata } from 'next';
 import { getAllDocuments } from '@/lib/markdown';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { DocsContent } from './DocsContent';
-
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
-// Cache-busting version for OG images - increment when images are updated
-const ogImageVersion = 'v5';
+import { brand, withBrand } from '@/lib/brand';
 
 export const metadata: Metadata = {
   title: 'Documentation',
@@ -19,29 +16,29 @@ export const metadata: Metadata = {
     'developer crypto guide',
   ],
   openGraph: {
-    title: 'Documentation | Wallet Radar',
+    title: withBrand('Documentation'),
     description: 'Browse documentation, guides, and research for wallets, cards, ramps, and related crypto access products.',
-    url: `${baseUrl}/docs/`,
+    url: `${brand.baseUrl}/docs/`,
     type: 'website',
     images: [
       {
-        url: `${baseUrl}/og-image.svg?${ogImageVersion}`,
+        url: `${brand.baseUrl}/og-image.svg?${brand.ogImageVersion}`,
         width: 1200,
         height: 630,
-        alt: 'Wallet Radar Documentation',
+        alt: `${brand.displayName} Documentation`,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Documentation | Wallet Radar',
+    title: withBrand('Documentation'),
     description: 'Browse documentation, guides, and research for crypto access products.',
-    creator: '@chimeradefi',
-    site: '@chimeradefi',
-    images: [`${baseUrl}/og-image.svg?${ogImageVersion}`],
+    creator: brand.twitterHandle,
+    site: brand.twitterHandle,
+    images: [`${brand.baseUrl}/og-image.svg?${brand.ogImageVersion}`],
   },
   alternates: {
-    canonical: `${baseUrl}/docs/`,
+    canonical: `${brand.baseUrl}/docs/`,
   },
 };
 

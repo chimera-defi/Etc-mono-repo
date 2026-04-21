@@ -8,9 +8,10 @@ import { ArticleCard } from '@/components/ArticleCard';
 import { EducationalDisclaimerBanner } from '@/components/EducationalDisclaimerBanner';
 import { FAQ } from '@/components/FAQ';
 import { ScoreBreakdownBar, getScoreBreakdownShortLabel } from '@/components/ScoreBreakdownBar';
+import { aboutBrandLabel, brand, brandFaqAnswer, brandFaqQuestion, withBrand } from '@/lib/brand';
 import type { WalletData } from '@/types/wallets';
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
+const baseUrl = brand.baseUrl;
 
 function strongestSignals(wallet: WalletData): string[] {
   return [...wallet.scoreBreakdown]
@@ -245,18 +246,18 @@ export default function HomePage() {
       },
       {
         '@type': 'Question',
-        name: 'What is Wallet Radar?',
+        name: brandFaqQuestion('What is Wallet Radar?'),
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Wallet Radar is a developer-first platform for comparing crypto access products like wallets, cards, and ramps. We generate reproducible scores from visible comparison-table columns, publish the methodology, and pair the rankings with security, activity, and integration research.',
+          text: brandFaqAnswer('Wallet Radar is a developer-first platform for comparing crypto access products like wallets, cards, and ramps. We generate reproducible scores from visible comparison-table columns, publish the methodology, and pair the rankings with security, activity, and integration research.'),
         },
       },
       {
         '@type': 'Question',
-        name: 'Why does Wallet Radar say "Educational Research & Data Only"?',
+        name: brandFaqQuestion('Why does Wallet Radar say "Educational Research & Data Only"?'),
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Wallet Radar is a research site, not a broker or wallet provider. We do not run login pages, wallet connections, or transaction signing, and the published data comes from public sources that you can verify independently.',
+          text: brandFaqAnswer('Wallet Radar is a research site, not a broker or wallet provider. We do not run login pages, wallet connections, or transaction signing, and the published data comes from public sources that you can verify independently.'),
         },
       },
       {
@@ -282,7 +283,7 @@ export default function HomePage() {
   const topPicksSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'Top Developer Picks - Wallet Radar',
+    name: withBrand('Top Developer Picks'),
     description: 'Curated selection of the strongest crypto access products for developers based on transparent scoring',
     itemListElement: topPickCards.map((pick, index) => ({
       '@type': 'ListItem',
@@ -302,7 +303,7 @@ export default function HomePage() {
   const speakableSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    name: 'Wallet Radar',
+    name: brand.displayName,
     speakable: {
       '@type': 'SpeakableSpecification',
       cssSelector: ['.speakable-summary'],
@@ -343,7 +344,7 @@ export default function HomePage() {
             </h1>
 
             <p className="text-lg text-muted-foreground mb-3 max-w-xl speakable-summary">
-              Wallet Radar compares wallets, cards, and ramps for developers using transparent scoring, verifiable sources, and side-by-side research.
+              {brand.displayName} compares wallets, cards, and ramps for developers using transparent scoring, verifiable sources, and side-by-side research.
             </p>
 
             <p className="text-lg text-muted-foreground mb-8 max-w-xl">
@@ -634,7 +635,7 @@ export default function HomePage() {
           ) : (
             <>
               <ResourceCard
-                title="About Wallet Radar"
+                title={aboutBrandLabel()}
                 description="Learn how we evaluate and score wallets based on security, developer experience, and more."
                 href="/docs/about"
                 icon={<FileText className="h-6 w-6" />}

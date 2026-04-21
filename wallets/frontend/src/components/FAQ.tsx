@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react';
 import { ChevronDown, Search, HelpCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { aboutBrandLabel, appendUtm, brand, brandFaqAnswer, brandFaqQuestion } from '@/lib/brand';
 
 interface FAQItem {
   question: string;
@@ -50,13 +51,13 @@ const faqData: FAQItem[] = [
   },
   // Comparison
   {
-    question: 'What is Wallet Radar?',
-    answer: 'Wallet Radar is a developer-first platform for comparing crypto access products, especially wallets, cards, and ramps. We provide evidence-based scoring using GitHub activity, security audits, release frequency, and developer experience metrics. All data is public, verifiable, and any commercial links should be disclosed clearly.',
+    question: brandFaqQuestion('What is Wallet Radar?'),
+    answer: brandFaqAnswer('Wallet Radar is a developer-first platform for comparing crypto access products, especially wallets, cards, and ramps. We provide evidence-based scoring using GitHub activity, security audits, release frequency, and developer experience metrics. All data is public, verifiable, and any commercial links should be disclosed clearly.'),
     category: 'comparison',
   },
   {
-    question: 'Why does Wallet Radar say "Educational Research & Data Only"?',
-    answer: 'Wallet Radar is a research site, not a broker or wallet provider. We do not run login pages, wallet connections, or transaction signing. The data is sourced from public information and should be independently verified before making financial decisions.',
+    question: brandFaqQuestion('Why does Wallet Radar say "Educational Research & Data Only"?'),
+    answer: brandFaqAnswer('Wallet Radar is a research site, not a broker or wallet provider. We do not run login pages, wallet connections, or transaction signing. The data is sourced from public information and should be independently verified before making financial decisions.'),
     category: 'comparison',
   },
   {
@@ -85,7 +86,7 @@ const faqData: FAQItem[] = [
 const categoryLabels: Record<FAQItem['category'], string> = {
   basics: 'Getting Started',
   security: 'Security',
-  comparison: 'About Wallet Radar',
+  comparison: aboutBrandLabel(),
   technical: 'Technical',
 };
 
@@ -221,7 +222,7 @@ export function FAQ() {
       <div className="mt-6 flex flex-wrap gap-4 text-sm">
         <span className="text-slate-500">Still have questions?</span>
         <a
-          href="https://github.com/chimera-defi/Etc-mono-repo/issues"
+          href={appendUtm(brand.issuesUrl, 'faq')}
           target="_blank"
           rel="noopener noreferrer"
           className="text-sky-400 hover:text-sky-300 transition-colors"

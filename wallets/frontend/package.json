@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "export:brands": "node scripts/export-brands.js",
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",

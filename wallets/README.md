@@ -241,6 +241,7 @@ Comprehensive comparison tables and guides:
 - **[CHANGELOG.md](./CHANGELOG.md)** — Complete change history
 - **[CONTRIBUTING.md](./CONTRIBUTING.md)** — How to contribute
 - **[VERIFICATION_NOTES.md](./VERIFICATION_NOTES.md)** — Data verification methods
+- **[EXTRACT_STUB_PLAN.md](./EXTRACT_STUB_PLAN.md)** — Standalone extraction + monorepo stub runbook
 
 ---
 

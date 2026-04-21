@@ -8,10 +8,8 @@ import { SocialShare } from '@/components/SocialShare';
 import { ScoreBreakdownBar } from '@/components/ScoreBreakdownBar';
 import { getAllWalletData, getWalletById, getWalletsByType, isWalletType, type WalletType } from '@/lib/wallet-data';
 import { generateWalletKeywords, optimizeMetaDescription, generateBreadcrumbSchema, generateWalletProductSchema } from '@/lib/seo';
+import { aboutBrandLabel, brand, withBrand } from '@/lib/brand';
 import type { CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData } from '@/types/wallets';
-
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
-const ogImageVersion = 'v5';
 
 const typeLabels: Record<WalletType, string> = {
   software: 'Software Wallet',
@@ -70,7 +68,7 @@ function getWalletDescription(type: WalletType, wallet: WalletData): string {
 }
 
 function getWalletMetaTitle(type: WalletType, wallet: WalletData): string {
-  return `${wallet.name} | ${typeLabels[type]} | Wallet Radar`;
+  return `${wallet.name} | ${typeLabels[type]} | ${brand.displayName}`;
 }
 
 function getWalletHighlights(type: WalletType, wallet: WalletData): string[] {
@@ -200,7 +198,7 @@ function getStructuredData(type: WalletType, wallet: WalletData, pageUrl: string
 export async function generateMetadata({ params }: { params: { type: WalletType; id: string } }): Promise<Metadata> {
   if (!isWalletType(params.type)) {
     return {
-      title: 'Wallet Not Found | Wallet Radar',
+      title: withBrand('Wallet Not Found'),
       description: 'The wallet profile you requested could not be found.',
       robots: { index: false, follow: false },
     };
@@ -209,16 +207,16 @@ export async function generateMetadata({ params }: { params: { type: WalletType;
   const wallet = getWalletById(params.type, params.id);
   if (!wallet) {
     return {
-      title: 'Wallet Not Found | Wallet Radar',
+      title: withBrand('Wallet Not Found'),
       description: 'The wallet profile you requested could not be found.',
       robots: { index: false, follow: false },
     };
   }
 
-  const pageUrl = `${baseUrl}/wallets/${params.type}/${params.id}/`;
+  const pageUrl = `${brand.baseUrl}/wallets/${params.type}/${params.id}/`;
   const description = optimizeMetaDescription(getWalletDescription(params.type, wallet));
   const title = getWalletMetaTitle(params.type, wallet);
-  const ogImageUrl = `${baseUrl}/og-image.svg?${ogImageVersion}`;
+  const ogImageUrl = `${brand.baseUrl}/og-image.svg?${brand.ogImageVersion}`;
 
   return {
     title,
@@ -242,8 +240,8 @@ export async function generateMetadata({ params }: { params: { type: WalletType;
       card: 'summary_large_image',
       title,
       description,
-      creator: '@chimeradefi',
-      site: '@chimeradefi',
+      creator: brand.twitterHandle,
+      site: brand.twitterHandle,
       images: [ogImageUrl],
     },
     alternates: {
@@ -267,7 +265,7 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
     notFound();
   }
 
-  const pageUrl = `${baseUrl}/wallets/${params.type}/${params.id}/`;
+  const pageUrl = `${brand.baseUrl}/wallets/${params.type}/${params.id}/`;
   const description = optimizeMetaDescription(getWalletDescription(params.type, wallet));
   const highlights = getWalletHighlights(params.type, wallet);
   const nearestWallets = getWalletsByType(params.type)
@@ -288,7 +286,7 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
     { label: 'Explore', href: '/explore' },
     { label: typeLabels[params.type], href: `/explore?tab=${params.type}` },
     { label: wallet.name, href: `/wallets/${params.type}/${params.id}` },
-  ], baseUrl);
+  ], brand.baseUrl);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -451,7 +449,7 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
           <div className="rounded-xl border border-border p-4 sm:p-6">
             <h2 className="text-xl font-semibold mb-4">Source & References</h2>
             <p className="text-sm text-muted-foreground mb-4">
-              All scores come from Wallet Radar&apos;s developer-focused scoring methodology. View the scoring tables, audits, and platform requirements in the comparison docs.
+              All scores come from {brand.displayName}&apos;s developer-focused scoring methodology. View the scoring tables, audits, and platform requirements in the comparison docs.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
@@ -464,7 +462,7 @@ export default function WalletDetailPage({ params }: { params: { type: WalletTyp
                 Data Sources & Verification
               </Link>
               <Link href="/docs/about" className="inline-flex items-center gap-2 text-primary hover:underline">
-                About Wallet Radar
+                {aboutBrandLabel()}
               </Link>
             </div>
           </div>

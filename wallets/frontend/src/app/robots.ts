@@ -1,6 +1,5 @@
 import { MetadataRoute } from 'next';
-
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://walletradar.org';
+import { brand } from '@/lib/brand';
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -11,9 +10,9 @@ export default function robots(): MetadataRoute.Robots {
       },
     ],
     sitemap: [
-      `${baseUrl}/sitemap.xml`,
-      `${baseUrl}/merchant-center.xml`,
+      `${brand.baseUrl}/sitemap.xml`,
+      `${brand.baseUrl}/merchant-center.xml`,
     ],
-    host: baseUrl,
+    host: brand.baseUrl,
   };
 }
