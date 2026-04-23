@@ -52,3 +52,10 @@ Sync `gstack*` repo-local links across sibling repos:
 ```bash
 bash scripts/skills/sync-gstack-to-sibling-repos.sh
 ```
+
+## Reusable Script Modules
+
+To avoid copy/paste across future shell scripts:
+
+- `scripts/lib/common.sh`: git/repo detection and directory guards
+- `scripts/lib/symlink-sync.sh`: reusable symlink sync primitives with counters
