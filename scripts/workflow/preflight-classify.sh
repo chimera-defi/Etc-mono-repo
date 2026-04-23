@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/../lib/common.sh"
+
 if [[ "$#" -eq 0 ]]; then
   echo "usage: $0 <path> [path ...]" >&2
   echo "classifies each path as repo-scoped or machine-scoped"
   exit 1
 fi
 
-REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+REPO_ROOT="$(repo_root_or_pwd)"
 
 repo_scoped=0
 machine_scoped=0

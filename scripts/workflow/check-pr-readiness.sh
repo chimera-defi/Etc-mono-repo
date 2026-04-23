@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if ! git rev-parse --git-dir >/dev/null 2>&1; then
-  echo "not inside a git repository" >&2
-  exit 2
-fi
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/../lib/common.sh"
+
+require_git_repo || exit 2
 
 branch="$(git rev-parse --abbrev-ref HEAD)"
 changes="$(git status --porcelain)"
