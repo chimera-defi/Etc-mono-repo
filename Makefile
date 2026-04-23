@@ -1,4 +1,4 @@
-.PHONY: bench-smoke bench-tests setup-gstack
+.PHONY: bench-smoke bench-tests setup-gstack setup-gstack-shared sync-gstack-siblings workflow-pr-check
 
 bench-tests:
 	python3 bench/ops/test_route_trace_report.py
@@ -6,6 +6,15 @@ bench-tests:
 
 setup-gstack:
 	bash scripts/setup-gstack.sh
+
+setup-gstack-shared:
+	bash scripts/skills/install-gstack-shared.sh
+
+sync-gstack-siblings:
+	bash scripts/skills/sync-gstack-to-sibling-repos.sh
+
+workflow-pr-check:
+	bash scripts/workflow/check-pr-readiness.sh
 
 bench-smoke: bench-tests
 	bash -n bench/ops/reproduce_pr245.sh
