@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/../lib/common.sh"
+source "$SCRIPT_DIR/../lib/symlink-sync.sh"
+
 SOURCE_DIR="${1:-$HOME/.agents/skills}"
 shift || true
 
@@ -10,10 +14,7 @@ else
   DESTINATIONS=("$HOME/.claude/skills" "$HOME/.codex/skills")
 fi
 
-if [[ ! -d "$SOURCE_DIR" ]]; then
-  echo "source does not exist: $SOURCE_DIR" >&2
-  exit 1
-fi
+require_dir "$SOURCE_DIR" "source" || exit 1
 
 added=0
 updated=0
@@ -26,26 +27,12 @@ for dest in "${DESTINATIONS[@]}"; do
   while IFS= read -r -d '' src_path; do
     name="$(basename "$src_path")"
     dest_path="$dest/$name"
-
-    if [[ -L "$dest_path" ]]; then
-      current_target="$(readlink "$dest_path")"
-      if [[ "$current_target" != "$src_path" ]]; then
-        ln -sfn "$src_path" "$dest_path"
-        ((updated+=1))
-        echo "  updated symlink: $name"
-      fi
-      continue
-    fi
-
-    if [[ -e "$dest_path" ]]; then
-      ((skipped+=1))
-      echo "  skipped existing non-symlink: $name"
-      continue
-    fi
-
-    ln -s "$src_path" "$dest_path"
-    ((added+=1))
-    echo "  added: $name"
+    sync_symlink_with_counters "$src_path" "$dest_path" added updated skipped
+    case "$SYNC_ACTION" in
+      added) echo "  added: $name" ;;
+      updated) echo "  updated symlink: $name" ;;
+      skipped) echo "  skipped existing non-symlink: $name" ;;
+    esac
   done < <(find "$SOURCE_DIR" -mindepth 1 -maxdepth 1 -print0 | sort -z)
 done
 
