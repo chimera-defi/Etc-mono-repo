@@ -72,6 +72,8 @@ Available gstack skills:
 | PR template | `.github/pull_request_template.md` | Auto-fills required attribution fields |
 | Git hook | `.githooks/commit-msg` | Validates local commit header format and required commit trailer |
 
+Compliance runbook: `docs/WORKFLOW_COMPLIANCE.md`
+
 **Required PR Format:**
 ```markdown
 **Agent:** <MODEL NAME> <!-- e.g. GPT-5.2, GPT-4o, Claude Opus 4.5 -->
@@ -192,11 +194,14 @@ Before completing any task:
 ## Session Workflow
 
 ```bash
-# One-time setup (per machine): install gstack skills
+# One-time setup (per machine): install shared gstack skills (Claude + Codex)
 make setup-gstack   # or: bash scripts/setup-gstack.sh
 
 # Start: sync with main
 git fetch origin && git rebase origin/main
+
+# Preflight scope classification (before editing non-obvious paths)
+bash scripts/workflow/preflight-classify.sh <path1> <path2>
 
 # Optional: token monitoring
 .cursor/token-monitor.sh init          # start
@@ -205,6 +210,9 @@ git fetch origin && git rebase origin/main
 # End: cleanup + verify
 .cursor/cleanup-workspace.sh
 bun run lint && bun run build && bun test
+
+# Before final response: ensure PR workflow readiness
+bash scripts/workflow/check-pr-readiness.sh
 ```
 
 Token reduction is always active (see Quick Start + `.cursorrules` Token Efficiency section).
