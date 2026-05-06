@@ -1,0 +1,112 @@
+schema_version: 1
+updated_at: "2026-05-06"
+projects:
+  - slug: collab-markdown-spec-studio
+    title: SpecForge (Collaborative Spec Studio)
+    status: in_progress
+    owner: chimera-defi
+    idea_path: ideas/collab-markdown-spec-studio
+    runtime_paths:
+      - ideas/collab-markdown-spec-studio/web
+      - ideas/collab-markdown-spec-studio/collab-server
+    tracking_ref: ideas/AGENTS.md
+    last_updated: "2026-04-26"
+    note: Local MVP exists and is being hardened.
+
+  - slug: intelligence-exchange
+    title: Intelligence Exchange
+    status: idea
+    owner: chimera-defi
+    idea_path: ideas/intelligence-exchange
+    last_updated: "2026-04-26"
+    note: Spec-ready with legal/compliance blockers.
+
+  - slug: yieldbasis-stablecoin-derivatives
+    title: YieldBasis Stablecoin Derivatives
+    status: idea
+    owner: chimera-defi
+    idea_path: ideas/yieldbasis-stablecoin-derivatives
+    last_updated: "2026-04-26"
+    note: Spec-ready concept, not yet in runtime implementation.
+
+  - slug: voice-coding-assistant
+    title: Voice Coding Assistant (Cadence)
+    status: in_progress
+    owner: chimera-defi
+    idea_path: ideas/voice-coding-assistant
+    runtime_paths:
+      - ideas/voice-coding-assistant/cadence-api
+      - ideas/voice-coding-assistant/cadence-app
+      - ideas/voice-coding-assistant/cadence-web-frontend
+    tracking_ref: ideas/AGENTS.md
+    last_updated: "2026-04-26"
+    note: Prototype implementation exists; active phase work continues.
+
+  - slug: automated-trading-system
+    title: Automated Trading System
+    status: idea
+    owner: chimera-defi
+    idea_path: ideas/automated-trading-system
+    last_updated: "2026-04-26"
+    note: Research and specification stage.
+
+  - slug: birthday-bot
+    title: Birthday Bot
+    status: idea
+    owner: chimera-defi
+    idea_path: ideas/birthday-bot
+    last_updated: "2026-04-26"
+    note: Planning stage; no production runtime yet.
+
+  - slug: clawdbot-launchpad
+    title: Clawdbot Launchpad
+    status: idea
+    owner: chimera-defi
+    idea_path: ideas/clawdbot-launchpad
+    last_updated: "2026-04-27"
+    note: Research phase; Wave 2 launch pack prepared under Orbit.
+
+  - slug: idea-validation-bot
+    title: Idea Validation Bot
+    status: idea
+    owner: chimera-defi
+    idea_path: ideas/idea-validation-bot
+    last_updated: "2026-04-27"
+    note: Exploration phase with docs-first delivery; Wave 2 launch pack prepared.
+
+  - slug: orbit-pilot
+    title: Orbit Pilot
+    status: in_progress
+    owner: chimera-defi
+    idea_path: ideas/orbit-pilot
+    runtime_paths:
+      - apps/orbit-pilot
+    tracking_ref: ideas/orbit-pilot/V1_ROADMAP.md
+    launch_plan: ideas/orbit-pilot/LAUNCH_EXECUTION_PLAN.md
+    graduation_checklist: ideas/orbit-pilot/GRADUATION_CHECKLIST.md
+    last_updated: "2026-04-28"
+    note: V1 shipped; Wave 1 + locked Wave 2 launch runs executed with evidence capture. Graduation requires completed manual/API execution plus external export flow.
+
+  - slug: viem-derivative
+    title: Viem Derivative (AntSeed Fork)
+    status: idea
+    owner: chimera-defi
+    idea_path: ideas/viem-derivative
+    last_updated: "2026-05-06"
+    note: Spec-first idea pack for a faster-scaling fork of AntSeed P2P AI inference protocol.
+
+  - slug: agentradar
+    title: AgentRadar
+    status: idea
+    owner: chimera-defi
+    idea_path: ideas/agentradar
+    last_updated: "2026-04-26"
+    note: Concept stage.
+
+  - slug: server-management-agent
+    title: Server Management Agent
+    status: idea
+    owner: chimera-defi
+    idea_path: ideas/server-management-agent
+    last_updated: "2026-04-26"
+    note: Concept/spec phase for AI ops managed service.
