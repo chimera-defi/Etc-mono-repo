@@ -17,6 +17,7 @@
 - **Uncertain where info lives?** → Spawn Explore agent
 - **Pattern matching across codebase?** → Spawn Explore agent
 - **Glob returns >50 files?** → Hook warns, use sub-agent instead
+- For Takopi-origin work, prefer `pi-kimi-subagent` first (provider `kimi-coding`, model `k2p6`), and fall back to built-in sub-agents if Kimi fails.
 
 **Hooks enforce:** Read limits (300 lines), Grep content warnings, Glob explosion warnings
 
@@ -228,3 +229,13 @@ cd wallets/scripts && ./refresh-github-data.sh
 4. Check for unused imports
 5. Verify theme works in both light and dark mode
 6. Test all interactive elements
+
+<!-- token-reduce:begin -->
+## Token-Reduce Routing
+
+- If file location is unknown, your first discovery command MUST be `./skills/token-reduce/scripts/token-reduce-paths.sh topic words`.
+- Use the user’s literal nouns from the prompt in that first query (feature name, file stem, hook name, symbol).
+- Use `./skills/token-reduce/scripts/token-reduce-snippet.sh topic words` only if one ranked excerpt is needed after the path list.
+- Do not start repo discovery with `find .`, `ls -R`, `grep -R`, `rg --files .`, or broad `Glob` patterns.
+- Use scoped `rg -g` and targeted reads only after helper output.
+<!-- token-reduce:end -->
