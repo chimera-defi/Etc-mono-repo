@@ -1,0 +1,69 @@
+{
+  "run_id": "c53ed4c3a7",
+  "run_dir": "/root/.openclaw/workspace/dev/Etc-mono-repo/bench/supervisor_runs/c53ed4c3a7",
+  "started_at": 1774004705.8635728,
+  "status": "completed",
+  "suite": null,
+  "archive": {
+    "archived_legacy_files": 0,
+    "archived_old_runs": 0
+  },
+  "jobs": [
+    {
+      "job_index": 1,
+      "model": "lfm2.5-thinking:1.2b",
+      "phase": "atomic",
+      "variant": "atomic",
+      "run_id": "c53ed4c3a7",
+      "cmd": [
+        "python3",
+        "/root/.openclaw/workspace/dev/Etc-mono-repo/bench/core/run_benchmark.py",
+        "lfm2.5-thinking:1.2b",
+        "atomic",
+        "atomic",
+        "--timeout",
+        "90",
+        "--max-retries",
+        "1",
+        ""
+      ],
+      "rc": 0,
+      "elapsed_s": 0.35,
+      "debug_log": "/root/.openclaw/workspace/dev/Etc-mono-repo/bench/supervisor_runs/c53ed4c3a7/jobs/job1_lfm2.5-thinking-1.2b_atomic_atomic.jsonl",
+      "stdout_log": "/root/.openclaw/workspace/dev/Etc-mono-repo/bench/supervisor_runs/c53ed4c3a7/jobs/job1_lfm2.5-thinking-1.2b_atomic_atomic.stdout.log",
+      "stderr_log": "/root/.openclaw/workspace/dev/Etc-mono-repo/bench/supervisor_runs/c53ed4c3a7/jobs/job1_lfm2.5-thinking-1.2b_atomic_atomic.stderr.log",
+      "stdout_tail": "\u2551 Phase:              ATOMIC                                                       \u2551\n\u2551 Variant:            atomic                                                       \u2551\n\u2551 Config:             lfm2.5-thinking:1.2b                                         \u2551\n\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n\u2551 Results:            11/12 passed ( 91.7%)       \u2551\n\u2551 Restraint Score:    1.00                                                              \u2551\n\u2551 Failed:             P10                                                          \u2551\n\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d\n\n\n\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n\u2551 CACHE STATISTICS                                                           \u2551\n\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n\u2551 Hits:            1                                                     \u2551\n\u2551 Misses:          0                                                     \u2551\n\u2551 Hit Rate:    100.0%                                                   \u2551\n\u2551 Time Saved:  207.9s                                                   \u2551\n\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d\n\n\ud83d\udcbe Saved: /root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_atomic.json",
+      "stderr_tail": "",
+      "used_fallback": false,
+      "served_by": "lfm2.5-thinking:1.2b",
+      "original_model": "lfm2.5-thinking:1.2b",
+      "fallback_model": null,
+      "summary": {
+        "passed": 11,
+        "total": 12,
+        "accuracy": 0.9167,
+        "failed_prompts": [
+          "P10"
+        ]
+      },
+      "started_at": 1774004705.8638656,
+      "ended_at": 1774004706.210874,
+      "timestamp": "20260320-120506",
+      "warmup_enabled": false,
+      "attempts": 1,
+      "regression_check": {
+        "regressed": false,
+        "regression_pct": 0.0,
+        "accuracy_change": 0.0,
+        "baseline_accuracy": null,
+        "message": "No baseline yet"
+      }
+    }
+  ],
+  "ended_at": 1774004706.2191622,
+  "variance": {
+    "inconsistent_prompt_count": 0,
+    "inconsistent_prompts": []
+  },
+  "regression_alerts": []
+}

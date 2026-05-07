@@ -1,0 +1,28 @@
+{
+  "run_id": "c53ed4c3a7",
+  "status": "completed",
+  "job_summaries": [
+    {
+      "job_index": 1,
+      "model": "lfm2.5-thinking:1.2b",
+      "phase": "atomic",
+      "variant": "atomic",
+      "rc": 0,
+      "passed": 11,
+      "total": 12,
+      "accuracy": 0.9167,
+      "failed_prompts": [
+        "P10"
+      ]
+    }
+  ],
+  "variance": {
+    "inconsistent_prompt_count": 0,
+    "inconsistent_prompts": []
+  },
+  "regression_alerts": [],
+  "archive": {
+    "archived_legacy_files": 0,
+    "archived_old_runs": 0
+  }
+}
