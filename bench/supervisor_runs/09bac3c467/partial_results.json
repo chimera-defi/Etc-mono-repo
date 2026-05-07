@@ -1,0 +1,52 @@
+[
+  {
+    "job_index": 1,
+    "model": "lfm2.5-thinking:1.2b",
+    "phase": "atomic",
+    "variant": "atomic",
+    "run_id": "09bac3c467",
+    "cmd": [
+      "python3",
+      "/root/.openclaw/workspace/dev/Etc-mono-repo/bench/core/run_benchmark.py",
+      "lfm2.5-thinking:1.2b",
+      "atomic",
+      "atomic",
+      "--timeout",
+      "90",
+      "--max-retries",
+      "1",
+      ""
+    ],
+    "rc": 0,
+    "elapsed_s": 208.26,
+    "debug_log": "/root/.openclaw/workspace/dev/Etc-mono-repo/bench/supervisor_runs/09bac3c467/jobs/job1_lfm2.5-thinking-1.2b_atomic_atomic.jsonl",
+    "stdout_log": "/root/.openclaw/workspace/dev/Etc-mono-repo/bench/supervisor_runs/09bac3c467/jobs/job1_lfm2.5-thinking-1.2b_atomic_atomic.stdout.log",
+    "stderr_log": "/root/.openclaw/workspace/dev/Etc-mono-repo/bench/supervisor_runs/09bac3c467/jobs/job1_lfm2.5-thinking-1.2b_atomic_atomic.stderr.log",
+    "stdout_tail": "\u2551 Config:             LFM2.5-1.2B                                                  \u2551\n\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n\u2551 Results:            11/12 passed ( 91.7%)       \u2551\n\u2551 Restraint Score:    1.00                                                              \u2551\n\u2551 Throughput:         avg= 39.19 tok/s (med= 39.25, max= 39.71)           \u2551\n\u2551 Tokens:             gen=7213, prompt=2884                               \u2551\n\u2551 Failed:             P10                                                          \u2551\n\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d\n\n\n\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n\u2551 CACHE STATISTICS                                                           \u2551\n\u2560\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2563\n\u2551 Hits:            0                                                     \u2551\n\u2551 Misses:          1                                                     \u2551\n\u2551 Hit Rate:      0.0%                                                   \u2551\n\u2551 Time Saved:    0.0s                                                   \u2551\n\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d\n\n\ud83d\udcbe Saved: /root/.openclaw/workspace/bench/atomic_result_lfm2.5-thinking_atomic.json",
+    "stderr_tail": "",
+    "used_fallback": false,
+    "served_by": "lfm2.5-thinking:1.2b",
+    "original_model": "lfm2.5-thinking:1.2b",
+    "fallback_model": null,
+    "summary": {
+      "passed": 11,
+      "total": 12,
+      "accuracy": 0.9167,
+      "failed_prompts": [
+        "P10"
+      ]
+    },
+    "started_at": 1774004311.671144,
+    "ended_at": 1774004519.9274058,
+    "timestamp": "20260320-120159",
+    "warmup_enabled": false,
+    "attempts": 1,
+    "regression_check": {
+      "regressed": false,
+      "regression_pct": 0.0,
+      "accuracy_change": 0.0,
+      "baseline_accuracy": null,
+      "message": "No baseline yet"
+    }
+  }
+]
