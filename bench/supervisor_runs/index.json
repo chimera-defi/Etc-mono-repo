@@ -1,0 +1,22 @@
+{
+  "runs": [
+    {
+      "run_id": "c53ed4c3a7",
+      "run_dir": "/root/.openclaw/workspace/dev/Etc-mono-repo/bench/supervisor_runs/c53ed4c3a7",
+      "started_at": 1774004705.8635728,
+      "ended_at": 1774004706.2191622,
+      "status": "completed",
+      "job_count": 1,
+      "suite": null
+    },
+    {
+      "run_id": "09bac3c467",
+      "run_dir": "/root/.openclaw/workspace/dev/Etc-mono-repo/bench/supervisor_runs/09bac3c467",
+      "started_at": 1774004311.670841,
+      "ended_at": 1774004519.9355662,
+      "status": "completed",
+      "job_count": 1,
+      "suite": null
+    }
+  ]
+}

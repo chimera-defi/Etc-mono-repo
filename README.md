@@ -123,6 +123,15 @@ Each directory contains a detailed README with setup instructions and findings.
 
 **PR Attribution:** Required for all AI-generated PRs. See `.cursorrules` "PR Attribution Requirements" section at the top for the complete guide.
 
+**Pi Kimi subagent workflow (recommended):**
+- Keep Codex as the orchestrator for critical-path implementation.
+- Delegate side tasks to `pi-kimi-subagent`.
+- Use Takopi defaults: provider `kimi-coding`, model `k2p6`.
+- If Kimi fails, fall back to built-in Codex `explorer`/`worker`.
+
+How-to: `docs/shared/PI_KIMI_SUBAGENTS.md`  
+Coding smoke test: `./scripts/tests/pi-kimi-subagent-smoke.sh`
+
 **Commit format (new commits only):**
 `type(scope): subject [Agent: <MODEL NAME>]`
 
