@@ -87,11 +87,11 @@ projects:
     last_updated: "2026-04-28"
     note: V1 shipped; Wave 1 + locked Wave 2 launch runs executed with evidence capture. Graduation requires completed manual/API execution plus external export flow.
 
-  - slug: viem-derivative
-    title: Viem Derivative (AntSeed Fork)
+  - slug: mesh-proof
+    title: MeshProof (AntSeed Fork)
     status: idea
     owner: chimera-defi
-    idea_path: ideas/viem-derivative
+    idea_path: ideas/mesh-proof
     last_updated: "2026-05-06"
     note: Spec-first idea pack for a faster-scaling fork of AntSeed P2P AI inference protocol.
 

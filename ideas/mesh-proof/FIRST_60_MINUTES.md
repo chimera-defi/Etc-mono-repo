@@ -3,7 +3,7 @@
 ## Minute 0-10: Clone & Install
 ```bash
 git clone https://github.com/AntSeed/antseed antseed-reference
-cd viem-derivative
+cd mesh-proof
 bun install  # or: npm install
 ```
 

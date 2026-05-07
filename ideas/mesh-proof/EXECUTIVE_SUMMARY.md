@@ -2,7 +2,7 @@
 
 ## Thesis
 
-Fork AntSeed's P2P AI inference marketplace into a faster-scaling, incentive-sharper protocol called **Viem Derivative**.
+Fork AntSeed's P2P AI inference marketplace into a faster-scaling, incentive-sharper protocol called **MeshProof**.
 
 AntSeed proves that DHT/WebRTC discovery + encrypted direct inference + gasless USDC channels works. The fork must keep what works and aggressively improve what limits scale:
 - **Discovery latency** — move from pure DHT to hybrid gossipsub + DHT with latency-weighted peer scoring
@@ -17,7 +17,7 @@ AntSeed proves that DHT/WebRTC discovery + encrypted direct inference + gasless 
 - **Viem Channels** — per-job micro-payment channels with batched settlement, swappable channel backends (EIP-712 USDC, ERC-20 $VIEM, or native ETH wrapper)
 - **Viem Registry** — onchain model attestation and version pinning; providers stake $VIEM to list a model hash
 - **Viem Quality** — offchain inference-quality oracle network (derived from buyer feedback + deterministic benchmark jobs) that feeds into reward distribution
-- **Viem Derivatives** — optional DeFi layer: lock $VIEM for veVIEM, vote on provider reward weights, earn a share of channel fees
+- **MeshProof Derivatives** — optional DeFi layer: lock $VIEM for veVIEM, vote on provider reward weights, earn a share of channel fees
 
 ## Why This Is Interesting
 

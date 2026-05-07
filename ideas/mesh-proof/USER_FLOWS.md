@@ -2,7 +2,7 @@
 
 ## Flow 1: Buyer Onboarding + First Inference Job
 
-1. Buyer installs `viem-derivative` CLI or opens web app
+1. Buyer installs `mesh-proof` CLI or opens web app
 2. App generates ephemeral wallet or connects existing wallet (viem + RainbowKit)
 3. Buyer searches for model (e.g., "Llama-3.1-70B") or pastes a `model_hash`
 4. App queries Viem Mesh and returns ranked provider list (latency, quality score, price)

@@ -1,7 +1,7 @@
 # Decisions
 
 ## Naming
-- **Protocol name:** Viem Derivative (working title). May change before launch.
+- **Protocol name:** MeshProof (working title). May change before launch.
 - **Token ticker:** $VIEM (tentative). Check for collisions before mainnet.
 - **Contract prefix:** `Viem` (e.g., `ViemRegistry`, `ViemChannels`)
 

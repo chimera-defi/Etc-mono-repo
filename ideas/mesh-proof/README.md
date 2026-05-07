@@ -1,6 +1,6 @@
-# Viem Derivative — AntSeed Fork
+# MeshProof — AntSeed Fork
 
-Viem Derivative is a spec-first idea pack for a superior, faster-scaling fork of the AntSeed protocol: a P2P AI inference marketplace built on Base with DHT/WebRTC discovery, encrypted direct inference, gasless USDC payment channels, and activity-based emissions.
+MeshProof is a spec-first idea pack for a superior, faster-scaling fork of the AntSeed protocol: a P2P AI inference marketplace built on Base with DHT/WebRTC discovery, encrypted direct inference, gasless USDC payment channels, and activity-based emissions.
 
 This pack designs improvements over the original AntSeed architecture, targeting higher throughput, lower latency discovery, richer incentive alignment, and broader model-provider surface area.
 

@@ -2,7 +2,7 @@
 
 ## Context Summary
 
-Viem Derivative is a fork of AntSeed protocol targeting faster-scaling P2P AI inference on Base. The idea pack lives at `ideas/viem-derivative/`. Core improvements over AntSeed: hybrid gossipsub+DHT discovery, per-job micro-channels with batch settlement, onchain model attestation registry, offchain quality oracle with stake-weighted rewards, and a veVIEM governance layer.
+MeshProof is a fork of AntSeed protocol targeting faster-scaling P2P AI inference on Base. The idea pack lives at `ideas/mesh-proof/`. Core improvements over AntSeed: hybrid gossipsub+DHT discovery, per-job micro-channels with batch settlement, onchain model attestation registry, offchain quality oracle with stake-weighted rewards, and a veVIEM governance layer.
 
 ## Current State
 

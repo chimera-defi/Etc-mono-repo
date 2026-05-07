@@ -1,8 +1,8 @@
-# SPEC — Viem Derivative
+# SPEC — MeshProof
 
 ## System Overview
 
-Viem Derivative is a protocol stack with four layers:
+MeshProof is a protocol stack with four layers:
 1. **Viem Mesh** — P2P discovery and transport
 2. **Viem Registry** — onchain model attestation and provider staking
 3. **Viem Channels** — per-job micro-payment channels with batch settlement

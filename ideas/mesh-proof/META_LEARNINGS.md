@@ -4,7 +4,7 @@
 
 1. **P2P inference is viable but brittle:** WebRTC NAT traversal is the #1 support burden. QUIC + relay fallback is not optional at scale.
 2. **Gasless payments are table stakes:** Buyers will not pay per-prompt gas. EIP-712 signatures + batch settlement must be the default.
-3. **Open source wins trust:** AntSeed's full open-source monorepo (SDK, CLI, contracts) is a competitive advantage. Viem Derivative must match or exceed this transparency.
+3. **Open source wins trust:** AntSeed's full open-source monorepo (SDK, CLI, contracts) is a competitive advantage. MeshProof must match or exceed this transparency.
 4. **Activity-only emissions misalign:** $ANTS rewards volume over quality. A fork that does not fix this will converge on lowest-common-denominator providers.
 
 ## From Spec Writing

@@ -27,7 +27,7 @@
 - **Rewards:** Activity-based $ANTS emissions
 - **Governance:** No KYC, no gatekeepers
 
-## Fork Improvements (Viem Derivative)
+## Fork Improvements (MeshProof)
 
 1. **Discovery:** libp2p gossipsub + DHT + QUIC replaces raw WebRTC for better NAT traversal and lower latency
 2. **Payments:** Per-job micro-channels + batch settlement instead of single cumulative channel
