@@ -239,3 +239,25 @@ cd wallets/scripts && ./refresh-github-data.sh
 - Do not start repo discovery with `find .`, `ls -R`, `grep -R`, `rg --files .`, or broad `Glob` patterns.
 - Use scoped `rg -g` and targeted reads only after helper output.
 <!-- token-reduce:end -->
+
+<!-- kimi-delegate-claude:begin -->
+## Kimi Delegation (enforced)
+
+NEVER write `pi --provider kimi-coding`. Always use `kd --task "..."` instead.
+
+Wrong: `pi --provider kimi-coding "summarize this"`
+Right: `kd --task "summarize this"`
+
+The wrapper handles auth, timeouts, fallback, and telemetry automatically.
+<!-- kimi-delegate-claude:end -->
+
+<!-- devin-delegate-claude:begin -->
+## Devin Delegation (enforced)
+
+NEVER write direct `devin --print` / `devin --task` calls. Always use `devin-delegate --task "..."` instead.
+
+Wrong: `devin --print "summarize this"`
+Right: `devin-delegate --task "summarize this"`
+
+The wrapper handles auth checks, timeout scaling, fallback, clarification guidance, and telemetry automatically.
+<!-- devin-delegate-claude:end -->
