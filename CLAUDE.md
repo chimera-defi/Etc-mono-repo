@@ -279,3 +279,25 @@ cd wallets/scripts && ./refresh-github-data.sh
 4. Check for unused imports
 5. Verify theme works in both light and dark mode
 6. Test all interactive elements
+
+<!-- kimi-delegate-claude:begin -->
+## Kimi Delegation (enforced)
+
+NEVER write `pi --provider kimi-coding`. Always use `kd --task "..."` instead.
+
+Wrong: `pi --provider kimi-coding "summarize this"`
+Right: `kd --task "summarize this"`
+
+The wrapper handles auth, timeouts, fallback, and telemetry automatically.
+<!-- kimi-delegate-claude:end -->
+
+<!-- devin-delegate-claude:begin -->
+## Devin Delegation (enforced)
+
+NEVER write direct `devin --print` / `devin --task` calls. Always use `devin-delegate --task "..."` instead.
+
+Wrong: `devin --print "summarize this"`
+Right: `devin-delegate --task "summarize this"`
+
+The wrapper handles auth checks, timeout scaling, fallback, clarification guidance, and telemetry automatically.
+<!-- devin-delegate-claude:end -->
