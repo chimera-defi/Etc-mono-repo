@@ -1,38 +1,5 @@
 # Claude Code Instructions
 
-## gstack
-
-Use the `/browse` skill from gstack for all web browsing tasks.
-
-Available gstack skills:
-- `/office-hours` - Office hours and async Q&A
-- `/plan-ceo-review` - CEO-level plan review
-- `/plan-eng-review` - Engineering plan review
-- `/plan-design-review` - Design plan review
-- `/design-consultation` - Design consultation
-- `/review` - Code review
-- `/ship` - Ship a feature end-to-end
-- `/land-and-deploy` - Land and deploy changes
-- `/canary` - Canary deployment
-- `/benchmark` - Benchmark performance
-- `/browse` - Web browsing (use this for all web browsing)
-- `/qa` - Full QA pass
-- `/qa-only` - QA without shipping
-- `/design-review` - Design review
-- `/setup-browser-cookies` - Set up browser cookies
-- `/setup-deploy` - Set up deployment
-- `/retro` - Retrospective
-- `/investigate` - Investigate an issue
-- `/document-release` - Document a release
-- `/codex` - Codex tasks
-- `/cso` - CSO tasks
-- `/autoplan` - Automatically plan a task
-- `/careful` - Careful/cautious execution mode
-- `/freeze` - Freeze a feature or branch
-- `/guard` - Guard against regressions
-- `/unfreeze` - Unfreeze a feature or branch
-- `/gstack-upgrade` - Upgrade gstack
-
 > **Master rules:** `.cursorrules` | **Token efficiency:** `/token-reduce` skill | **Benchmarks:** `docs/BENCHMARK_MCP_VS_QMD_2026-02-07.md`
 
 ## Context Compaction Prevention (Critical)
@@ -50,6 +17,7 @@ Available gstack skills:
 - **Uncertain where info lives?** → Spawn Explore agent
 - **Pattern matching across codebase?** → Spawn Explore agent
 - **Glob returns >50 files?** → Hook warns, use sub-agent instead
+- For Takopi-origin work, prefer `pi-kimi-subagent` first (provider `kimi-coding`, model `k2p6`), and fall back to built-in sub-agents if Kimi fails.
 
 **Hooks enforce:** Read limits (300 lines), Grep content warnings, Glob explosion warnings
 
@@ -57,11 +25,11 @@ Available gstack skills:
 
 1. **Read `.cursorrules`** - All AI rules apply to Claude Code
 2. **Install QMD** (BM25 only): `command -v qmd >/dev/null 2>&1 || bun install -g https://github.com/tobi/qmd`
-3. **Use token-reduce search/QMD for search** before reading files: `./skills/token-reduce/scripts/token-reduce-paths.sh topic words` for low-token path kickoff, then `./skills/token-reduce/scripts/token-reduce-snippet.sh topic words` only if needed
-4. **Use token reduction** - In Claude Code, prefer the direct helper commands over invoking the `Skill` tool in headless runs (89% concise, 99% QMD search vs naive, 33% targeted reads)
+3. **Use QMD for search** before reading files: `qmd search "topic" -n 5 --files` (skip embed/vector)
+4. **Use token reduction** - Auto-active via `/token-reduce` skill (89% concise, 99% QMD search vs naive, 33% targeted reads)
 5. **Verify before completing:** Run lint, build, tests
 
-**Decision flow:** If you do not know the location yet, start with `./skills/token-reduce/scripts/token-reduce-paths.sh topic words`. If you know the file/keyword → `rg -g` scoped search. If you need one ranked excerpt after path kickoff → `./skills/token-reduce/scripts/token-reduce-snippet.sh topic words`. Avoid MCP CLI for file reads. Do not begin broad discovery with `find .`, `ls -R`, `grep -R`, `rg --files .`, or broad `Glob`; repo hooks block the worst cases, and measurement treats the rest as violations and redirects to the token-reduction path.
+**Decision flow:** If you know the file/keyword → `rg -g` scoped search. If you need ranked snippets → QMD BM25. Avoid MCP CLI for file reads.
 
 ## Enforcement
 
@@ -71,8 +39,6 @@ Available gstack skills:
 | CI check | `.github/workflows/commit-message-check.yml` | Validates commit header format and required commit trailer on PR commits |
 | PR template | `.github/pull_request_template.md` | Auto-fills required attribution fields |
 | Git hook | `.githooks/commit-msg` | Validates local commit header format and required commit trailer |
-
-Compliance runbook: `docs/WORKFLOW_COMPLIANCE.md`
 
 **Required PR Format:**
 ```markdown
@@ -194,14 +160,8 @@ Before completing any task:
 ## Session Workflow
 
 ```bash
-# One-time setup (per machine): install shared gstack skills (Claude + Codex)
-make setup-gstack   # or: bash scripts/setup-gstack.sh
-
 # Start: sync with main
 git fetch origin && git rebase origin/main
-
-# Preflight scope classification (before editing non-obvious paths)
-bash scripts/workflow/preflight-classify.sh <path1> <path2>
 
 # Optional: token monitoring
 .cursor/token-monitor.sh init          # start
@@ -210,27 +170,9 @@ bash scripts/workflow/preflight-classify.sh <path1> <path2>
 # End: cleanup + verify
 .cursor/cleanup-workspace.sh
 bun run lint && bun run build && bun test
-
-# Before final response: ensure PR workflow readiness
-bash scripts/workflow/check-pr-readiness.sh
 ```
 
 Token reduction is always active (see Quick Start + `.cursorrules` Token Efficiency section).
-
-## Token Reduction Adoption
-
-- Repo-local measurements are written to `.cursor/artifacts/token-reduction/`
-- Run once now: `./skills/token-reduce/scripts/baseline-measurement.sh --scope repo`
-- Repo measurements now include both Claude and Codex session logs for this repo
-- Broad Bash-scan hook: `./skills/token-reduce/scripts/advise-token-reduction.py`
-- Broad Glob hook: `./skills/token-reduce/scripts/enforce-glob-scope.py`
-- Deterministic discovery payload benchmark: `./skills/token-reduce/scripts/benchmark-token-reduction-workflow.py --query "token reduction"`
-- Fresh Claude behavior benchmark: `python3 ./skills/token-reduce/scripts/benchmark-token-reduction-agents.py --agents claude --timeout-seconds 30`
-- Install scheduled runs: `./skills/token-reduce/scripts/install-token-reduction-cron.sh`
-- Goal for this repo first:
-  - discovery compliance >= 80%
-  - broad-scan violations trending to 0
-  - QMD or scoped `rg` used before broad exploration
 
 ## Common Commands
 
@@ -287,3 +229,24 @@ cd wallets/scripts && ./refresh-github-data.sh
 4. Check for unused imports
 5. Verify theme works in both light and dark mode
 6. Test all interactive elements
+
+<!-- token-reduce:begin -->
+## Token-Reduce Routing
+
+- If file location is unknown, your first discovery command MUST be `./skills/token-reduce/scripts/token-reduce-paths.sh topic words`.
+- Use the user’s literal nouns from the prompt in that first query (feature name, file stem, hook name, symbol).
+- Use `./skills/token-reduce/scripts/token-reduce-snippet.sh topic words` only if one ranked excerpt is needed after the path list.
+- Do not start repo discovery with `find .`, `ls -R`, `grep -R`, `rg --files .`, or broad `Glob` patterns.
+- Use scoped `rg -g` and targeted reads only after helper output.
+<!-- token-reduce:end -->
+
+<!-- kimi-delegate-claude:begin -->
+## Kimi Delegation (enforced)
+
+NEVER write `pi --provider kimi-coding`. Always use `kd --task "..."` instead.
+
+Wrong: `pi --provider kimi-coding "summarize this"`
+Right: `kd --task "summarize this"`
+
+The wrapper handles auth, timeouts, fallback, and telemetry automatically.
+<!-- kimi-delegate-claude:end -->
