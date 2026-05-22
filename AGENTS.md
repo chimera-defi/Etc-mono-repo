@@ -1,28 +1,35 @@
-# Etc Mono Repo Agent Rules
+# Agent Instructions
 
-> **Master rules:** `.cursorrules` | **Token efficiency:** `skills/token-reduce/SKILL.md` | **Benchmarks:** `skills/token-reduce/references/token-reduction-guide.md`
+Primary repo-wide policies live in `.cursorrules` and `CLAUDE.md`.
 
-## First Move For Discovery
+## Pi Kimi Subagent Recommendation
 
-- If file location is unknown, start with `./skills/token-reduce/scripts/token-reduce-paths.sh topic words` for a low-token path kickoff.
-- If you already know the path or a tight file glob, use scoped `rg -g` before reading.
-- Do not begin repo exploration with `find .`, `ls -R`, `grep -R`, `rg --files .`, `tree`, or broad `Glob` patterns.
+- Keep Codex as orchestrator for critical-path work (planning, integration, final validation).
+- Delegate independent side tasks to `pi-kimi-subagent` (exploration, checks, scoped drafting).
+- Default Takopi config should stay: `pi.provider="kimi-coding"` and `pi.model="k2p6"`.
+- If `pi-kimi-subagent` fails (auth/provider/runtime), fall back to built-in Codex `explorer`/`worker`.
+- Run `./scripts/tests/pi-kimi-subagent-smoke.sh` after toolchain upgrades.
 
-## Token Reduction Defaults
+How-to: `docs/shared/PI_KIMI_SUBAGENTS.md`
 
-- Keep responses concise and avoid narrating tool usage.
-- Prefer targeted reads over full-file reads.
-- Escalate to a subagent or parallel exploration once the candidate set exceeds 5 files.
-- Treat `rg --files .` as a broad inventory pass, not a compliant search.
+<!-- token-reduce:begin -->
+## Token-Reduce Routing
 
-## Repo Helper
+- If file location is unknown, your first discovery command MUST be `./skills/token-reduce/scripts/token-reduce-paths.sh topic words`.
+- Use the user’s literal nouns from the prompt in that first query (feature name, file stem, hook name, symbol).
+- Use `./skills/token-reduce/scripts/token-reduce-snippet.sh topic words` only if one ranked excerpt is needed after the path list.
+- Do not start repo discovery with `find .`, `ls -R`, `grep -R`, `rg --files .`, or broad `Glob` patterns.
+- Use scoped `rg -g` and targeted reads only after helper output.
+<!-- token-reduce:end -->
 
-- `./skills/token-reduce/scripts/token-reduce-paths.sh topic words` is the preferred deterministic kickoff helper for agents because it avoids quoted flags.
-- If you need one ranked excerpt after the path kickoff, use `./skills/token-reduce/scripts/token-reduce-snippet.sh topic words`.
-- It uses a repo-specific QMD collection for docs when available and falls back to scoped `rg`.
-- If QMD is missing, do not fake it. Use scoped `rg -g` and keep the read set narrow.
+<!-- kimi-delegate:begin -->
+## Kimi Delegate Routing
 
-## Measurement
-
-- Repo-local adoption: `./skills/token-reduce/scripts/baseline-measurement.sh --scope repo`
-- The measurement includes both Claude and Codex sessions for this repo.
+- **For bounded side tasks (search/summarize/draft/review), use the skill wrapper.**
+  - `./skills/kimi-delegate/scripts/delegate.py --task "..."`
+  - Or, if `setup.sh` has been run: `kimi-delegate --task "..."`
+- **Always produce an envelope first** with `./skills/kimi-delegate/scripts/plan_prompt.py --task "..."`.
+- **Direct `pi --provider kimi-coding` calls bypass telemetry and fallback.** Route through the skill so savings, quality, and fallback behavior are tracked.
+- Keep delegation scoped and include acceptance criteria.
+- If Kimi fails, keep fallback enabled and inspect telemetry (`./skills/kimi-delegate/scripts/kimi_delegate_telemetry.py summary --days 14`).
+<!-- kimi-delegate:end -->
