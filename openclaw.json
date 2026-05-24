@@ -380,7 +380,7 @@
     "telegram": {
       "enabled": true,
       "dmPolicy": "allowlist",
-      "botToken": "8238535197:AAHkCjA4yUzbvVbKZyqoPYsGbml5UGXJWiY",
+      "botToken": "REDACTED_TELEGRAM_BOT_TOKEN",
       "allowFrom": [
         "8252231308",
         "8436264193"
