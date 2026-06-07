@@ -1,0 +1,60 @@
+# Uniswap UNIfication MEV Bot - Git Ignore
+
+# Environment and secrets (CRITICAL - never commit!)
+.env
+*.env
+.env.*
+!.env.example
+
+# Private keys and wallet files
+*.key
+*.pem
+keystore/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+ENV/
+*.egg-info/
+.installed.cfg
+*.egg
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# ABIs (downloaded from Etherscan, can regenerate)
+configs/*.json
+
+# Test artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# mypy
+.mypy_cache/
