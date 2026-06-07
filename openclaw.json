@@ -149,7 +149,7 @@
   "agents": {
     "defaults": {
       "model": {
-        "primary": "anthropic/claude-haiku-4-5-20251001",
+        "primary": "openai-codex/gpt-5.5",
         "fallbacks": [
           "anthropic/claude-opus-4-6",
           "anthropic/claude-opus-4",
