@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
-# Starts or re-attaches a persistent Claude remote-control tmux session.
-# Run by systemd on boot; also callable directly to check status.
-#
-# Remote-control name: chimera-server
-# Connect from Claude Code app: look for "chimera-server" in remote sessions.
+# Persistent Claude remote session — chimera-server
+# First run: fresh start. Subsequent runs: --continue resumes last conversation.
+# Quick exits (<30s) back off 5 min to avoid hammering on limit hits.
 
 SESSION="claude-remote"
 WORKDIR="$HOME"
@@ -19,14 +17,27 @@ if tmux has-session -t "$SESSION" 2>/dev/null; then
     exit 0
 fi
 
-log "Starting claude-remote tmux session..."
+log "Starting $SESSION tmux session..."
 tmux new-session -d -s "$SESSION" -x 220 -y 50 -c "$WORKDIR" \
-    -e "PATH=$PATH" \
-    -e "HOME=$HOME"
+    -e "PATH=$PATH" -e "HOME=$HOME"
 
-# Run Claude in a loop so it auto-restarts on exit
-tmux send-keys -t "$SESSION" \
-    "while true; do $CLAUDE_BIN --dangerously-skip-permissions --remote-control chimera-server; echo '[claude-remote] Restarting in 5s...'; sleep 5; done" \
-    Enter
+tmux send-keys -t "$SESSION" 'SENTINEL="$HOME/.sessions/.claude-remote.init"
+while true; do
+  START=$(date +%s)
+  if [ -f "$SENTINEL" ]; then
+    /usr/bin/claude --dangerously-skip-permissions --remote-control chimera-server --continue
+  else
+    /usr/bin/claude --dangerously-skip-permissions --remote-control chimera-server
+    touch "$SENTINEL"
+  fi
+  RUNTIME=$(( $(date +%s) - START ))
+  if [ "$RUNTIME" -lt 30 ]; then
+    echo "[claude-remote] Quick exit (${RUNTIME}s) — backing off 300s"
+    sleep 300
+  else
+    echo "[claude-remote] Exited after ${RUNTIME}s — restarting in 10s"
+    sleep 10
+  fi
+done' Enter
 
 log "Session started. Attach with: tmux attach -t $SESSION"
