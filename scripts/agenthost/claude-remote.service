@@ -1,0 +1,16 @@
+[Unit]
+Description=Claude Code Remote Control (dangerously-skip-permissions)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/home/agents/.local/bin/claude-remote-start.sh
+ExecStop=/usr/bin/tmux kill-session -t claude-remote
+Environment=HOME=/home/agents
+Environment=PATH=/home/agents/.local/bin:/home/agents/.npm-global/bin:/home/agents/.bun/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Environment=TMUX_TMPDIR=/tmp
+
+[Install]
+WantedBy=default.target
