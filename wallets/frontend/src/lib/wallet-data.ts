@@ -1,9 +1,9 @@
 import fs from 'fs';
 import path from 'path';
-import type { ApiOpenness, CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData } from '@/types/wallets';
+import type { ApiOpenness, CryptoCard, HardwareWallet, QRPayment, Ramp, SoftwareWallet, WalletData } from '@/types/wallets';
 import scoring from '@/lib/scoring';
 
-export type { ApiOpenness, CryptoCard, HardwareWallet, Ramp, SoftwareWallet, WalletData };
+export type { ApiOpenness, CryptoCard, HardwareWallet, QRPayment, Ramp, SoftwareWallet, WalletData };
 
 const {
   computeSoftwareScore,
@@ -588,6 +588,71 @@ export function parseRamps(): Ramp[] {
   }).filter(ramp => ramp.name !== 'Unknown' && ramp.score > 0 && ramp.id !== '');
 }
 
+// Parse QR payment type
+function parseQRPaymentType(cell: string): 'in-store' | 'both' {
+  const lower = cell.toLowerCase();
+  if (lower.includes('both')) return 'both';
+  return 'in-store';
+}
+
+// Parse QR payments from markdown
+export function parseQRPayments(): QRPayment[] {
+  const filePath = path.join(CONTENT_DIR, 'QR_PAYMENTS.md');
+
+  if (!fs.existsSync(filePath)) {
+    console.error('QR payments file not found:', filePath);
+    return [];
+  }
+
+  const content = fs.readFileSync(filePath, 'utf-8');
+  const rows = parseMarkdownTable(content);
+
+  // Skip header row
+  const dataRows = rows.slice(1);
+
+  return dataRows.map(cells => {
+    // Extract provider name and URL from markdown link format: [**Name**](url)
+    const linkMatch = cells[0]?.match(/\[(?:\*\*)?([^*]+)(?:\*\*)?\]\(([^)]+)\)/);
+    const nameMatch = cells[0]?.match(/\*\*([^*]+)\*\*/);
+
+    let name = 'Unknown';
+    let url: string | null = null;
+
+    if (linkMatch) {
+      name = linkMatch[1].trim();
+      url = linkMatch[2].trim();
+    } else if (nameMatch) {
+      name = nameMatch[1].trim();
+    } else {
+      name = cells[0]?.trim() || 'Unknown';
+    }
+
+    // Parse score (may have emoji)
+    const scoreMatch = cells[1]?.match(/(\d+)/);
+    const score = scoreMatch ? parseInt(scoreMatch[1], 10) : 0;
+
+    return {
+      id: generateSlug(name),
+      name,
+      score,
+      methodologyVersion: '1.0',
+      scoreBreakdown: [],
+      paymentType: parseQRPaymentType(cells[2] || ''),
+      qrSupport: parseBoolean(cells[3] || ''),
+      merchantFiat: parseBoolean(cells[4] || '') || cells[4]?.includes('⚠️') === false,
+      coverage: cells[5]?.trim() || 'Unknown',
+      feeModel: cells[6]?.trim() || 'Unknown',
+      minFee: cells[7]?.trim() || 'None',
+      devUx: cells[8]?.trim() || 'Good',
+      status: parseCardStatus(cells[9] || ''),
+      bestFor: cells[10]?.trim() || '',
+      recommendation: parseHardwareRecommendation(cells[1] || ''), // Uses score emoji
+      url,
+      type: 'qr-payment' as const,
+    };
+  }).filter(qr => qr.name !== 'Unknown' && qr.score > 0 && qr.id !== '');
+}
+
 /**
  * Get all wallet data in a single call
  * @future Available for API endpoint implementation
@@ -597,6 +662,7 @@ type AllWalletData = {
   hardware: HardwareWallet[];
   cards: CryptoCard[];
   ramps: Ramp[];
+  qrPayments: QRPayment[];
 };
 
 type WalletTableSummary = {
@@ -604,6 +670,7 @@ type WalletTableSummary = {
   hardwareColumns: number;
   cardColumns: number;
   rampColumns: number;
+  qrPaymentColumns: number;
   totalVisibleColumns: number;
 };
 
@@ -636,6 +703,7 @@ export function getAllWalletData(): AllWalletData {
       hardware: parseHardwareWallets(),
       cards: parseCryptoCards(),
       ramps: parseRamps(),
+      qrPayments: parseQRPayments(),
     };
   }
 
@@ -648,20 +716,22 @@ export function getWalletTableSummary(): WalletTableSummary {
     const hardwareColumns = countFirstTableColumns('HARDWARE_WALLETS.md');
     const cardColumns = countFirstTableColumns('CRYPTO_CARDS.md');
     const rampColumns = countFirstTableColumns('RAMPS.md');
+    const qrPaymentColumns = countFirstTableColumns('QR_PAYMENTS.md');
 
     cachedWalletTableSummary = {
       softwareColumns,
       hardwareColumns,
       cardColumns,
       rampColumns,
-      totalVisibleColumns: softwareColumns + hardwareColumns + cardColumns + rampColumns,
+      qrPaymentColumns,
+      totalVisibleColumns: softwareColumns + hardwareColumns + cardColumns + rampColumns + qrPaymentColumns,
     };
   }
 
   return cachedWalletTableSummary;
 }
 
-const WALLET_TYPES = ['software', 'hardware', 'cards', 'ramps'] as const;
+const WALLET_TYPES = ['software', 'hardware', 'cards', 'ramps', 'qr-payments'] as const;
 
 export type WalletType = typeof WALLET_TYPES[number];
 
@@ -680,6 +750,8 @@ export function getWalletsByType(type: WalletType): WalletData[] {
       return allWallets.cards;
     case 'ramps':
       return allWallets.ramps;
+    case 'qr-payments':
+      return allWallets.qrPayments;
   }
 }
 
@@ -698,6 +770,7 @@ export type { FilterOptions, SortDirection, SortField } from './wallet-filtering
 export {
   filterCryptoCards,
   filterHardwareWallets,
+  filterQRPayments,
   filterRamps,
   filterSoftwareWallets,
   sortWallets,
