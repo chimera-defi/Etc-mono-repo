@@ -73,7 +73,7 @@ Configure GBrain MCP for installed agents:
 scripts/agents/configure-agent-gbrain-mcp.sh
 ```
 
-The MCP helper configures Codex, Claude Code, and OpenClaw when their CLIs are present, and verifies Hermes when its MCP list command is available. OpenCode versions may expose `opencode mcp`, but this repo script does not assume undocumented non-interactive add syntax; use `opencode mcp add` manually only when the installed OpenCode help documents a local stdio command flow.
+The MCP helper configures Codex, Claude Code, OpenClaw, and OpenCode when their CLIs are present, and verifies Hermes when its MCP list command is available. OpenClaw and Hermes support low-token include-lists; OpenCode's current JSON schema registers the local MCP command but does not expose a documented per-server include-list, so the central `AGENTS.md` memory guide remains the policy layer for selective retrieval. The OpenCode updater accepts JSONC input, including comment-only files, but rewrites `opencode.jsonc` as normalized JSON, so hand-written comments are not preserved.
 
 Audit:
 
@@ -89,7 +89,7 @@ scripts/tests/agent-memory-smoke.sh
 
 ## Agent instructions
 
-The setup appends a `central-agent-memory` block to each agent's global instruction/memory file where available, and to `private/curated/MEMORY.md`. The block tells each agent:
+The setup upserts a `central-agent-memory` block in each agent's global instruction/memory file where available, and in `private/curated/MEMORY.md`. Rerunning the script refreshes older blocks instead of leaving stale paths behind. The block tells each agent:
 
 1. its own writer namespace;
 2. where to write private vs deliberately public memory;

@@ -38,6 +38,14 @@ USAGE
 
 log() { printf '[agent-memory] %s\n' "$*"; }
 warn() { printf '[agent-memory] WARN: %s\n' "$*" >&2; }
+require_arg() {
+  local flag="$1"
+  if [[ $# -lt 2 || -z "${2:-}" ]]; then
+    warn "missing value for $flag"
+    usage
+    exit 2
+  fi
+}
 
 run() {
   if [[ "$DRY_RUN" == "1" ]]; then
@@ -51,8 +59,8 @@ run() {
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --root) AGENT_MEMORY_ROOT="$2"; shift 2 ;;
-    --agents) AGENT_MEMORY_AGENTS="$2"; shift 2 ;;
+    --root) require_arg "$@"; AGENT_MEMORY_ROOT="$2"; shift 2 ;;
+    --agents) require_arg "$@"; AGENT_MEMORY_AGENTS="$2"; shift 2 ;;
     --no-link-live-state) LINK_LIVE_STATE=0; shift ;;
     --link-sqlite) LINK_SQLITE=1; shift ;;
     --no-gbrain) REGISTER_GBRAIN=0; shift ;;
@@ -111,6 +119,43 @@ append_once() {
       [[ -s "$path" ]] && printf '\n'
       printf '%s\n' "$body"
     } >> "$path"
+  fi
+}
+
+upsert_central_memory_block() {
+  local path="$1" agent="$2" body tmp_body
+  body="$(memory_guide_block "$agent")"
+  if [[ -e "$path" ]] \
+    && grep -Fq '<!-- central-agent-memory:begin -->' "$path" 2>/dev/null; then
+    if [[ "$DRY_RUN" == "1" ]]; then
+      log "would update central-agent-memory block in $path"
+      return 0
+    fi
+    tmp_body="$(mktemp)"
+    trap 'rm -f "$tmp_body"' EXIT
+    printf '%s\n' "$body" > "$tmp_body"
+    python3 - "$path" "$tmp_body" <<'PY'
+from pathlib import Path
+import re
+import sys
+
+path = Path(sys.argv[1])
+body = Path(sys.argv[2]).read_text(encoding='utf-8').rstrip('\n')
+text = path.read_text(encoding='utf-8', errors='ignore')
+start = '<!-- central-agent-memory:begin -->'
+end = '<!-- central-agent-memory:end -->'
+pattern = re.compile(re.escape(start) + r'.*?' + re.escape(end), re.S)
+if end in text[text.find(start):]:
+    updated = pattern.sub(body, text, count=1)
+else:
+    updated = text[: text.find(start)].rstrip() + '\n\n' + body + '\n'
+if updated != text:
+    path.write_text(updated, encoding='utf-8')
+PY
+    rm -f "$tmp_body"
+    trap - EXIT
+  else
+    append_once "$path" "central-agent-memory:begin" "$body"
   fi
 }
 
@@ -400,8 +445,8 @@ setup_live_links() {
   local home="${HOME:-/home/agents}"
 
   link_dir_state "$home/.hermes/memories" "$AGENT_MEMORY_ROOT/agents/hermes/private/live/hermes-memories" "Hermes memories"
-  append_once "$AGENT_MEMORY_ROOT/agents/hermes/private/live/hermes-memories/MEMORY.md" "central-agent-memory:begin" "$(memory_guide_block hermes)"
-  append_once "$AGENT_MEMORY_ROOT/agents/hermes/private/curated/MEMORY.md" "central-agent-memory:begin" "$(memory_guide_block hermes)"
+  upsert_central_memory_block "$AGENT_MEMORY_ROOT/agents/hermes/private/live/hermes-memories/MEMORY.md" hermes
+  upsert_central_memory_block "$AGENT_MEMORY_ROOT/agents/hermes/private/curated/MEMORY.md" hermes
 
   link_dir_state "$home/.codex/memories" "$AGENT_MEMORY_ROOT/agents/codex/private/live/codex-memories" "Codex markdown memories"
   if [[ "$LINK_SQLITE" == "1" && ( -e "$home/.codex/memories_1.sqlite" || -L "$home/.codex/memories_1.sqlite" ) ]]; then
@@ -411,22 +456,22 @@ setup_live_links() {
     warn "Codex SQLite memories copied as a snapshot only; pass --link-sqlite after stopping Codex to make it live"
   fi
   link_file_state "$home/.codex/AGENTS.md" "$AGENT_MEMORY_ROOT/agents/codex/private/live/AGENTS.md" "Codex global AGENTS.md"
-  append_once "$AGENT_MEMORY_ROOT/agents/codex/private/live/AGENTS.md" "central-agent-memory:begin" "$(memory_guide_block codex)"
-  append_once "$AGENT_MEMORY_ROOT/agents/codex/private/curated/MEMORY.md" "central-agent-memory:begin" "$(memory_guide_block codex)"
+  upsert_central_memory_block "$AGENT_MEMORY_ROOT/agents/codex/private/live/AGENTS.md" codex
+  upsert_central_memory_block "$AGENT_MEMORY_ROOT/agents/codex/private/curated/MEMORY.md" codex
 
   link_dir_state "$home/.claude/projects" "$AGENT_MEMORY_ROOT/agents/claude/private/live/claude-projects" "Claude project memories"
   link_file_state "$home/.claude/CLAUDE.md" "$AGENT_MEMORY_ROOT/agents/claude/private/live/CLAUDE.md" "Claude global CLAUDE.md"
-  append_once "$AGENT_MEMORY_ROOT/agents/claude/private/live/CLAUDE.md" "central-agent-memory:begin" "$(memory_guide_block claude)"
-  append_once "$AGENT_MEMORY_ROOT/agents/claude/private/curated/MEMORY.md" "central-agent-memory:begin" "$(memory_guide_block claude)"
+  upsert_central_memory_block "$AGENT_MEMORY_ROOT/agents/claude/private/live/CLAUDE.md" claude
+  upsert_central_memory_block "$AGENT_MEMORY_ROOT/agents/claude/private/curated/MEMORY.md" claude
 
   link_dir_state "$home/.openclaw/workspace/memory" "$AGENT_MEMORY_ROOT/agents/openclaw/private/live/openclaw-memory" "OpenClaw memory workspace"
-  append_once "$AGENT_MEMORY_ROOT/agents/openclaw/private/live/openclaw-memory/MEMORY.md" "central-agent-memory:begin" "$(memory_guide_block openclaw)"
-  append_once "$AGENT_MEMORY_ROOT/agents/openclaw/private/curated/MEMORY.md" "central-agent-memory:begin" "$(memory_guide_block openclaw)"
+  upsert_central_memory_block "$AGENT_MEMORY_ROOT/agents/openclaw/private/live/openclaw-memory/MEMORY.md" openclaw
+  upsert_central_memory_block "$AGENT_MEMORY_ROOT/agents/openclaw/private/curated/MEMORY.md" openclaw
 
   mkdir_mode 700 "$home/.config/opencode"
   link_file_state "$home/.config/opencode/AGENTS.md" "$AGENT_MEMORY_ROOT/agents/opencode/private/live/AGENTS.md" "OpenCode global AGENTS.md"
-  append_once "$AGENT_MEMORY_ROOT/agents/opencode/private/live/AGENTS.md" "central-agent-memory:begin" "$(memory_guide_block opencode)"
-  append_once "$AGENT_MEMORY_ROOT/agents/opencode/private/curated/MEMORY.md" "central-agent-memory:begin" "$(memory_guide_block opencode)"
+  upsert_central_memory_block "$AGENT_MEMORY_ROOT/agents/opencode/private/live/AGENTS.md" opencode
+  upsert_central_memory_block "$AGENT_MEMORY_ROOT/agents/opencode/private/curated/MEMORY.md" opencode
 }
 
 gbrain_source_path() {

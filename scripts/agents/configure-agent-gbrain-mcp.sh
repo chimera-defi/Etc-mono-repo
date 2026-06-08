@@ -15,7 +15,7 @@ Usage: configure-agent-gbrain-mcp.sh [options]
 
 Options:
   --gbrain-bin PATH       gbrain executable (default: ~/.bun/bin/gbrain)
-  --include CSV           OpenClaw MCP include-list
+  --include CSV           OpenClaw/Hermes MCP include-list where supported
   --dry-run               Print actions without changing config
   -h, --help              Show this help
 USAGE
@@ -23,6 +23,14 @@ USAGE
 
 log() { printf '[agent-gbrain-mcp] %s\n' "$*"; }
 warn() { printf '[agent-gbrain-mcp] WARN: %s\n' "$*" >&2; }
+require_arg() {
+  local flag="$1"
+  if [[ $# -lt 2 || -z "${2:-}" ]]; then
+    warn "missing value for $flag"
+    usage
+    exit 2
+  fi
+}
 run() {
   if [[ "$DRY_RUN" == "1" ]]; then
     printf '[agent-gbrain-mcp] dry-run:' >&2
@@ -35,8 +43,8 @@ run() {
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --gbrain-bin) GBRAIN_BIN="$2"; shift 2 ;;
-    --include) GBRAIN_INCLUDE="$2"; shift 2 ;;
+    --gbrain-bin) require_arg "$@"; GBRAIN_BIN="$2"; shift 2 ;;
+    --include) require_arg "$@"; GBRAIN_INCLUDE="$2"; shift 2 ;;
     --dry-run) DRY_RUN=1; shift ;;
     -h|--help) usage; exit 0 ;;
     *) warn "unknown argument: $1"; usage; exit 2 ;;
@@ -109,19 +117,98 @@ configure_hermes_note() {
   fi
 }
 
-configure_opencode_note() {
-  if command -v opencode >/dev/null 2>&1; then
-    if opencode mcp --help >/dev/null 2>&1; then
-      warn "OpenCode MCP CLI detected, but this script does not assume undocumented non-interactive add syntax. Run 'opencode mcp add' manually if your installed version supports local stdio command configuration."
-    else
-      log "OpenCode detected; no stable MCP config CLI is available. Use central AGENTS.md memory guide until OpenCode MCP config is finalized."
-    fi
+configure_opencode() {
+  if ! command -v opencode >/dev/null 2>&1; then
+    warn "opencode not found; skipping"
+    return 0
   fi
+
+  local config_dir="${OPENCODE_CONFIG_DIR:-$HOME/.config/opencode}"
+  local config_path="$config_dir/opencode.jsonc"
+  log "ensuring OpenCode global gbrain MCP in $config_path"
+  if [[ "$DRY_RUN" == "1" ]]; then
+    log "would update OpenCode global gbrain MCP config"
+    return 0
+  fi
+
+  mkdir -p "$config_dir"
+  python3 - "$config_path" "$GBRAIN_BIN" <<'PY'
+from pathlib import Path
+import json
+import re
+import sys
+
+path = Path(sys.argv[1]).expanduser()
+gbrain_bin = sys.argv[2]
+
+# OpenCode's config schema allows JSONC comments/trailing commas, but Python's
+# json module does not. Strip comments outside strings and trailing commas; fail
+# closed on anything that still cannot parse.
+def strip_jsonc(text: str) -> str:
+    out = []
+    i = 0
+    in_string = False
+    quote = ''
+    escape = False
+    while i < len(text):
+        ch = text[i]
+        nxt = text[i + 1] if i + 1 < len(text) else ''
+        if in_string:
+            out.append(ch)
+            if escape:
+                escape = False
+            elif ch == '\\':
+                escape = True
+            elif ch == quote:
+                in_string = False
+            i += 1
+            continue
+        if ch in ('"', "'"):
+            in_string = True
+            quote = ch
+            out.append(ch)
+            i += 1
+            continue
+        if ch == '/' and nxt == '/':
+            i += 2
+            while i < len(text) and text[i] not in '\r\n':
+                i += 1
+            continue
+        if ch == '/' and nxt == '*':
+            i += 2
+            while i + 1 < len(text) and not (text[i] == '*' and text[i + 1] == '/'):
+                i += 1
+            i += 2
+            continue
+        out.append(ch)
+        i += 1
+    return re.sub(r",(\s*[}\]])", r"\1", ''.join(out))
+
+raw = path.read_text(encoding="utf-8") if path.exists() else ""
+stripped = strip_jsonc(raw).strip()
+if stripped:
+    data = json.loads(stripped)
+else:
+    data = {"$schema": "https://opencode.ai/config.json"}
+
+if not isinstance(data, dict):
+    raise SystemExit(f"{path} must contain a JSON object")
+data.setdefault("$schema", "https://opencode.ai/config.json")
+mcp = data.setdefault("mcp", {})
+if not isinstance(mcp, dict):
+    raise SystemExit(f"{path}: top-level mcp must be an object")
+
+mcp["gbrain"] = {
+    "type": "local",
+    "command": [gbrain_bin, "serve"],
+}
+path.write_text(json.dumps(data, indent=2, sort_keys=False) + "\n", encoding="utf-8")
+PY
 }
 
 configure_codex
 configure_claude
 configure_openclaw
 configure_hermes_note
-configure_opencode_note
+configure_opencode
 log "done"

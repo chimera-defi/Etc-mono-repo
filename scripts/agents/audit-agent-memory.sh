@@ -19,10 +19,19 @@ Options:
 USAGE
 }
 
+require_arg() {
+  local flag="$1"
+  if [[ $# -lt 2 || -z "${2:-}" ]]; then
+    echo "missing value for $flag" >&2
+    usage
+    exit 2
+  fi
+}
+
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --root) AGENT_MEMORY_ROOT="$2"; shift 2 ;;
-    --agents) AGENT_MEMORY_AGENTS="$2"; shift 2 ;;
+    --root) require_arg "$@"; AGENT_MEMORY_ROOT="$2"; shift 2 ;;
+    --agents) require_arg "$@"; AGENT_MEMORY_AGENTS="$2"; shift 2 ;;
     --no-gbrain) CHECK_GBRAIN=0; shift ;;
     --no-qmd) CHECK_QMD=0; shift ;;
     -h|--help) usage; exit 0 ;;
@@ -185,7 +194,30 @@ expected = {'agent-shared-public': os.path.join(root, 'shared', 'public')}
 for agent in agents:
     expected[f'agent-{agent}-public'] = os.path.join(root, 'agents', agent, 'public')
     expected[f'agent-{agent}-private'] = os.path.join(root, 'agents', agent, 'private', 'curated')
+
+def is_sensitive_path(value):
+    if not value:
+        return False
+    candidates = [value]
+    try:
+        candidates.append(os.path.realpath(value))
+    except OSError:
+        pass
+    for candidate in candidates:
+        parts = os.path.normpath(candidate).split(os.sep)
+        if 'secrets' in parts:
+            return True
+        for idx, part in enumerate(parts[:-1]):
+            if part == 'private' and parts[idx + 1] == 'live':
+                return True
+    return False
+
 errors = []
+for source in sources:
+    source_id = source.get('id') or '<unknown>'
+    actual = source.get('local_path') or source.get('path') or ''
+    if is_sensitive_path(actual):
+        errors.append(f'GBrain source {source_id} points at non-indexable path {actual!r}')
 for source_id, expected_path in expected.items():
     source = by_id.get(source_id)
     if not source:
@@ -194,13 +226,11 @@ for source_id, expected_path in expected.items():
     actual = source.get('local_path') or source.get('path') or ''
     if actual != expected_path:
         errors.append(f'GBrain source {source_id} path is {actual!r}, expected {expected_path!r}')
-    if '/secrets' in actual or '/private/live' in actual:
-        errors.append(f'GBrain source {source_id} points at non-indexable path {actual!r}')
 if errors:
     for error in errors:
         print('FAIL: ' + error)
     sys.exit(1)
-print('ok: all expected GBrain sources point to public or private/curated paths')
+print('ok: all expected GBrain sources point to public or private/curated paths, and no source points to live/secrets')
 PY
     then
       fail=1
@@ -222,6 +252,36 @@ qmd_collection_path() {
   '
 }
 
+path_is_non_indexable() {
+  local path="$1"
+  python3 - "$path" <<'PY'
+import os
+import sys
+value = sys.argv[1]
+candidates = [value]
+try:
+    candidates.append(os.path.realpath(value))
+except OSError:
+    pass
+for candidate in candidates:
+    parts = os.path.normpath(candidate).split(os.sep)
+    if 'secrets' in parts:
+        sys.exit(0)
+    for idx, part in enumerate(parts[:-1]):
+        if part == 'private' and parts[idx + 1] == 'live':
+            sys.exit(0)
+sys.exit(1)
+PY
+}
+
+qmd_collection_names() {
+  qmd collection list 2>/dev/null | python3 -c 'import re, sys
+for line in sys.stdin:
+    match = re.match(r"^(\S+)\s+\(qmd://", line)
+    if match:
+        print(match.group(1))'
+}
+
 if [[ "$CHECK_QMD" == "1" ]] && command -v qmd >/dev/null 2>&1; then
   printf '\nQMD collections:\n'
   declare -A expected_qmd
@@ -236,12 +296,19 @@ if [[ "$CHECK_QMD" == "1" ]] && command -v qmd >/dev/null 2>&1; then
       err "missing QMD collection $name"
     elif [[ "$actual" != "${expected_qmd[$name]}" ]]; then
       err "QMD collection $name path is $actual, expected ${expected_qmd[$name]}"
-    elif [[ "$actual" == *"/secrets"* || "$actual" == *"/private/live"* ]]; then
+    elif path_is_non_indexable "$actual"; then
       err "QMD collection $name points at non-indexable path $actual"
     else
       ok "QMD collection $name -> $actual"
     fi
   done
+  while IFS= read -r name; do
+    [[ -n "$name" ]] || continue
+    actual="$(qmd_collection_path "$name" || true)"
+    if [[ -n "$actual" ]] && path_is_non_indexable "$actual"; then
+      err "QMD collection $name points at non-indexable path $actual"
+    fi
+  done < <(qmd_collection_names)
 fi
 
 exit "$fail"
