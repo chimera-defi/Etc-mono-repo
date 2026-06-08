@@ -62,12 +62,13 @@ All Devin calls MUST route through the skill wrapper. Direct `devin --print` and
 
 When asked to "create a session for X", "spin up an agent for X", "create a persistent Claude session", "start a remote session", or "schedule a background Claude process":
 
-**Use the `gstack-session-spawn` skill.** It lives at `~/.claude/skills/gstack-session-spawn/SKILL.md` (global, available in every session on this host).
+**Use `/create-session` slash command** (available in every Claude session on this host), or invoke the skill directly: `/gstack-session-spawn`
 
-- `/gstack-session-spawn` — invoke the skill for the full recipe
+- Skill lives at: `~/.claude/skills/gstack-session-spawn/SKILL.md`
+- Source repo: `chimera-defi/claude-remote-session-skill`
 - Naming: `agenthost:<foldername>-<YYYYMMDD>` (tmux uses underscore, remote-control uses hyphen)
 - All sessions **must** use `--dangerously-skip-permissions` — never prompt for tool approval
 - Commit created scripts to `chimera-defi/Etc-mono-repo` under `scripts/agenthost/`
 
-Do **not** search for "gstack-schedule" or try to write scripts from scratch — the skill has the verified working recipe.
+Do **not** search for "gstack-schedule" or write scripts from scratch — the skill has the verified working recipe.
 <!-- session-spawn:end -->

@@ -1,0 +1,16 @@
+[Unit]
+Description=Claude Code Remote - agenthost-server-20260608 (general server session)
+After=network-online.target openclaw-gateway.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/home/agents/.local/bin/agenthost-server-20260608-start.sh
+ExecStop=/usr/bin/tmux kill-session -t agenthost_server-20260608
+Environment=HOME=/home/agents
+Environment=PATH=/home/agents/.local/bin:/home/agents/.npm-global/bin:/home/agents/.bun/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Environment=TMUX_TMPDIR=/tmp
+
+[Install]
+WantedBy=default.target
