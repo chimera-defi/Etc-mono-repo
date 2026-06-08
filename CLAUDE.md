@@ -250,3 +250,14 @@ Right: `kd --task "summarize this"`
 
 The wrapper handles auth, timeouts, fallback, and telemetry automatically.
 <!-- kimi-delegate-claude:end -->
+
+<!-- devin-delegate-claude:begin -->
+## Devin Delegation (enforced)
+
+NEVER write direct `devin --print` / `devin --task` calls. Always use `devin-delegate --task "..."` instead.
+
+Wrong: `devin --print "summarize this"`
+Right: `devin-delegate --task "summarize this"`
+
+The wrapper handles auth checks, timeout scaling, fallback, clarification guidance, and telemetry automatically.
+<!-- devin-delegate-claude:end -->
