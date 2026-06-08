@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Persistent Claude remote session — chimera-openclaw (openclaw MCP wired)
+# Persistent Claude remote session — eth2-quickstart-20260608
 # Dedicated workdir isolates --continue from other /home/agents sessions.
 
-SESSION="claude-remote-b"
-WORKDIR="/home/agents/.sessions/claude-remote-b"
+SESSION="eth2-quickstart-20260608"
+WORKDIR="/home/agents/workspace/eth2-quickstart"
 CLAUDE_BIN="/usr/bin/claude"
 
 export PATH="/home/agents/.local/bin:/home/agents/.npm-global/bin:/home/agents/.bun/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
@@ -20,21 +20,21 @@ log "Starting $SESSION tmux session..."
 tmux new-session -d -s "$SESSION" -x 220 -y 50 -c "$WORKDIR" \
     -e "PATH=$PATH" -e "HOME=$HOME"
 
-tmux send-keys -t "$SESSION" 'SENTINEL="/home/agents/.sessions/claude-remote-b/.init"
+tmux send-keys -t "$SESSION" 'SENTINEL="/home/agents/workspace/eth2-quickstart/.sessions-init"
 while true; do
   START=$(date +%s)
   if [ -f "$SENTINEL" ]; then
-    /usr/bin/claude --dangerously-skip-permissions --remote-control chimera-openclaw --continue
+    /usr/bin/claude --dangerously-skip-permissions --remote-control chimera-eth2qs-20260608 --continue
   else
-    /usr/bin/claude --dangerously-skip-permissions --remote-control chimera-openclaw
+    /usr/bin/claude --dangerously-skip-permissions --remote-control chimera-eth2qs-20260608
     touch "$SENTINEL"
   fi
   RUNTIME=$(( $(date +%s) - START ))
   if [ "$RUNTIME" -lt 30 ]; then
-    echo "[claude-remote-b] Quick exit (${RUNTIME}s) — backing off 300s"
+    echo "[eth2-quickstart-20260608] Quick exit (${RUNTIME}s) — backing off 300s"
     sleep 300
   else
-    echo "[claude-remote-b] Exited after ${RUNTIME}s — restarting in 10s"
+    echo "[eth2-quickstart-20260608] Exited after ${RUNTIME}s — restarting in 10s"
     sleep 10
   fi
 done' Enter
