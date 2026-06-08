@@ -10,6 +10,7 @@ Systemd user services and start scripts for persistent Claude Code remote sessio
 | `claude-remote-b` | `claude-remote-b.service` | `chimera-openclaw` | openclaw MCP wired in |
 | `sharedstake-ui-20260608` | `sharedstake-ui-20260608.service` | `chimera-sharedstake-20260608` | SharedStake-ui workspace |
 | `agenthost_sessions-20260608` | `agenthost-sessions-20260608.service` | `agenthost-sessions-20260608` | session manager (creates/manages other sessions) |
+| `routines` | `routines.service` | `routines` | CCR routine manager (create/update/monitor scheduled routines) |
 
 Connect from Claude Code app: remote sessions → look for the remote-control name.
 

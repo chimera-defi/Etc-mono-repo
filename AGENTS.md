@@ -56,3 +56,18 @@ All Devin calls MUST route through the skill wrapper. Direct `devin --print` and
 - If Devin asks for clarification, use Codex guidance first and Claude second before asking a human.
 - Inspect telemetry regularly (`./skills/devin-delegate/scripts/devin_delegate_telemetry.py summary --days 14`).
 <!-- devin-delegate:end -->
+
+<!-- session-spawn:begin -->
+## Remote Session Creation — use the skill
+
+When asked to "create a session for X", "spin up an agent for X", "create a persistent Claude session", "start a remote session", or "schedule a background Claude process":
+
+**Use the `gstack-session-spawn` skill.** It lives at `~/.claude/skills/gstack-session-spawn/SKILL.md` (global, available in every session on this host).
+
+- `/gstack-session-spawn` — invoke the skill for the full recipe
+- Naming: `agenthost:<foldername>-<YYYYMMDD>` (tmux uses underscore, remote-control uses hyphen)
+- All sessions **must** use `--dangerously-skip-permissions` — never prompt for tool approval
+- Commit created scripts to `chimera-defi/Etc-mono-repo` under `scripts/agenthost/`
+
+Do **not** search for "gstack-schedule" or try to write scripts from scratch — the skill has the verified working recipe.
+<!-- session-spawn:end -->
