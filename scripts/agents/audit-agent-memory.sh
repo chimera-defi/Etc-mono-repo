@@ -6,6 +6,12 @@ AGENT_MEMORY_AGENTS="${AGENT_MEMORY_AGENTS:-hermes codex claude openclaw opencod
 CHECK_GBRAIN=1
 CHECK_QMD=1
 
+# GBrain is often installed by Bun under ~/.bun/bin. Add that directory so both
+# `gbrain` and its `#!/usr/bin/env bun` shebang work in non-interactive shells.
+if [[ -n "${HOME:-}" && -d "$HOME/.bun/bin" ]]; then
+  export PATH="$PATH:$HOME/.bun/bin"
+fi
+
 usage() {
   cat <<'USAGE'
 Usage: audit-agent-memory.sh [options]
@@ -236,7 +242,7 @@ PY
       fail=1
     fi
   else
-    err "could not query GBrain sources"
+    err "could not query GBrain sources; see docs/agents/central-agent-memory.md#recover-local-postgres-backed-gbrain"
   fi
   rm -f "$tmp"
 fi

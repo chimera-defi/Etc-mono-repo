@@ -9,6 +9,12 @@ GBRAIN_BIN="${GBRAIN_BIN:-$HOME/.bun/bin/gbrain}"
 GBRAIN_INCLUDE="${GBRAIN_INCLUDE:-get_brain_identity,search,query,get_page,put_page,list_pages,recall,get_stats,run_doctor}"
 DRY_RUN=0
 
+# GBrain is often installed by Bun under ~/.bun/bin. Add that directory so both
+# `gbrain` and its `#!/usr/bin/env bun` shebang work in non-interactive shells.
+if [[ -n "${HOME:-}" && -d "$HOME/.bun/bin" ]]; then
+  export PATH="$PATH:$HOME/.bun/bin"
+fi
+
 usage() {
   cat <<'USAGE'
 Usage: configure-agent-gbrain-mcp.sh [options]

@@ -15,6 +15,13 @@ LINK_SQLITE=0
 REGISTER_GBRAIN=1
 REGISTER_QMD=1
 SYNC_GBRAIN=0
+RECREATE_GBRAIN_SOURCES="${AGENT_MEMORY_RECREATE_GBRAIN_SOURCES:-0}"
+
+# GBrain is often installed by Bun under ~/.bun/bin. Add that directory so both
+# `gbrain` and its `#!/usr/bin/env bun` shebang work in non-interactive shells.
+if [[ -n "${HOME:-}" && -d "$HOME/.bun/bin" ]]; then
+  export PATH="$PATH:$HOME/.bun/bin"
+fi
 
 usage() {
   cat <<'USAGE'
@@ -33,6 +40,7 @@ Options:
 
 Environment:
   AGENT_MEMORY_ROOT, AGENT_MEMORY_AGENTS, AGENT_MEMORY_BACKUP_STAMP
+  AGENT_MEMORY_RECREATE_GBRAIN_SOURCES=1 to delete/recreate mismatched GBrain sources
 USAGE
 }
 
@@ -506,8 +514,13 @@ register_gbrain_source() {
       log "GBrain source already exists: $id"
       return 0
     fi
-    warn "GBrain source $id points to $existing_path; recreating at $path"
-    run gbrain sources remove "$id"
+    warn "GBrain source $id points to ${existing_path:-<empty>}; expected $path"
+    if [[ "$RECREATE_GBRAIN_SOURCES" != "1" ]]; then
+      warn "leaving $id unchanged; repair source metadata or set AGENT_MEMORY_RECREATE_GBRAIN_SOURCES=1 to delete/recreate it after reviewing docs/agents/central-agent-memory.md#recover-local-postgres-backed-gbrain"
+      return 0
+    fi
+    warn "deleting/recreating GBrain source $id because AGENT_MEMORY_RECREATE_GBRAIN_SOURCES=1"
+    run gbrain sources remove "$id" --confirm-destructive
   fi
   log "registering GBrain source $id -> $path"
   run gbrain sources add "$id" --path "$path"
@@ -522,7 +535,7 @@ register_gbrain() {
   local tmp_json
   tmp_json="$(mktemp)"
   if ! gbrain sources list --timeout=60s --json >"$tmp_json"; then
-    warn "could not list GBrain sources; skipping registration"
+    warn "could not list GBrain sources; skipping registration (see docs/agents/central-agent-memory.md#recover-local-postgres-backed-gbrain)"
     rm -f "$tmp_json"
     return 0
   fi

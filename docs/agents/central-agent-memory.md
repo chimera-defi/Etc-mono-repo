@@ -81,11 +81,145 @@ Audit:
 scripts/agents/audit-agent-memory.sh
 ```
 
+If the audit reports that it cannot query GBrain sources, or that an expected
+source path is empty/wrong, do **not** treat the setup as complete yet. Recover
+GBrain first, then rerun both the setup and audit commands so the expected
+`agent-*` sources are registered against the active brain.
+
 Smoke test in a temporary root without touching live agent configs:
 
 ```bash
 scripts/tests/agent-memory-smoke.sh
 ```
+
+## Recover local Postgres-backed GBrain
+
+Some servers run GBrain on a local Docker Postgres/pgvector container instead of
+the older embedded/PGLite store. If `~/.gbrain/config.json` drifts from the
+running `gbrain-postgres` container, agent memory may look configured while all
+retrieval paths fail.
+
+Symptoms:
+
+- `gbrain stats` fails.
+- `gbrain sources list --timeout=60s --json` fails or times out.
+- `hermes mcp test gbrain` fails.
+- Claude/OpenCode/Codex MCP checks show `gbrain` disconnected or missing tools.
+
+Secret-safe checks:
+
+```bash
+# Check for stale local GBrain MCP processes that can hold locks or old config.
+pgrep -af 'gbrain serve' || true
+
+# Confirm the local Postgres/pgvector container is present and mapped to a host port.
+docker ps --filter name=gbrain-postgres --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
+
+# Print only the non-secret shape of ~/.gbrain/config.json.
+python3 - <<'PY'
+import json
+import urllib.parse
+from pathlib import Path
+
+cfg_path = Path.home() / '.gbrain' / 'config.json'
+cfg = json.loads(cfg_path.read_text(encoding='utf-8'))
+url = cfg.get('database_url', '')
+parts = urllib.parse.urlsplit(url)
+print({
+    'scheme': parts.scheme,
+    'host': parts.hostname,
+    'port': parts.port,
+    'database': (parts.path or '').lstrip('/'),
+    'has_user': bool(parts.username),
+    'password_length': len(parts.password or ''),
+})
+PY
+```
+
+Repair pattern:
+
+1. Stop stale `gbrain serve` processes if they are left over from old MCP
+   clients; active MCP clients will relaunch them when needed.
+2. Do **not** paste database URLs, passwords, or container env output into PRs,
+   logs, or chat. Redact or print only shape metadata.
+3. Do **not** blindly copy `GBRAIN_DATABASE_URL` from the container env. If the
+   password contains reserved URL characters, an unescaped URL can parse
+   incorrectly. Build the URL from `POSTGRES_USER`, `POSTGRES_PASSWORD`,
+   `POSTGRES_DB`, and the Docker host-port mapping, with username/password
+   URL-encoded.
+4. Update only the local server file `~/.gbrain/config.json` and keep it
+   owner-only (`chmod 600`). This file is not committed to the repo.
+
+Example repair command, which reads the Docker env locally but does not print
+the password or final URL:
+
+```bash
+python3 - <<'PY'
+import json
+import subprocess
+import urllib.parse
+from pathlib import Path
+
+raw = subprocess.check_output(['docker', 'inspect', 'gbrain-postgres'], text=True)
+container = json.loads(raw)[0]
+
+env = {}
+for item in container.get('Config', {}).get('Env') or []:
+    if '=' in item:
+        key, value = item.split('=', 1)
+        env[key] = value
+
+ports = container.get('NetworkSettings', {}).get('Ports', {})
+host_port = (ports.get('5432/tcp') or [{}])[0].get('HostPort') or '5432'
+host_ip = (ports.get('5432/tcp') or [{}])[0].get('HostIp') or '127.0.0.1'
+if host_ip in ('0.0.0.0', '::'):
+    host_ip = '127.0.0.1'
+
+user = env.get('POSTGRES_USER', 'gbrain')
+pg_pass = env['POSTGRES_PASSWORD']
+database = env.get('POSTGRES_DB', user)
+url = (
+    'postgresql://' + urllib.parse.quote(user, safe='')
+    + ':' + urllib.parse.quote(pg_pass, safe='')
+    + '@' + host_ip
+    + ':' + host_port
+    + '/' + urllib.parse.quote(database, safe='')
+)
+
+cfg_path = Path.home() / '.gbrain' / 'config.json'
+cfg = json.loads(cfg_path.read_text(encoding='utf-8'))
+cfg['database_url'] = url
+cfg_path.write_text(json.dumps(cfg, indent=2) + '\n', encoding='utf-8')
+cfg_path.chmod(0o600)
+print('updated ~/.gbrain/config.json database_url from gbrain-postgres env; secret URL not printed')
+PY
+```
+
+Then re-register and verify:
+
+```bash
+scripts/agents/setup-central-agent-memory.sh
+scripts/agents/audit-agent-memory.sh --root /home/agents/agent-memory
+gbrain stats
+gbrain sources list --timeout=60s --json >/tmp/gbrain-sources.json
+hermes mcp test gbrain
+```
+
+If `gbrain sources list --json` succeeds but the audit reports `agent-*` source
+paths as empty or wrong, the source metadata has drifted even though the source
+IDs still exist. Do not delete/recreate those sources blindly on a live brain:
+newer GBrain versions warn because removal deletes pages/chunks, and some source
+rows may be referenced by OAuth/client metadata. Prefer repairing source
+metadata under operator review, then rerun the audit. If you intentionally want
+the setup script to delete/recreate mismatched sources after confirming the data
+loss is acceptable, set:
+
+```bash
+AGENT_MEMORY_RECREATE_GBRAIN_SOURCES=1 scripts/agents/setup-central-agent-memory.sh
+```
+
+If the currently running Telegram/Hermes gateway had already opened a stale MCP
+handle, start a new session or restart the gateway after the CLI checks pass.
 
 ## Agent instructions
 
