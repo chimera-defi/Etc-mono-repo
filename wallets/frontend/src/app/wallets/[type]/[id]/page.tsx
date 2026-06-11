@@ -18,6 +18,7 @@ const typeLabels: Record<WalletType, string> = {
   hardware: 'Hardware Wallet',
   cards: 'Crypto Card',
   ramps: 'Crypto Ramp',
+  'qr-payments': 'QR Payment Provider',
 };
 
 const typeDocs: Record<WalletType, { href: string; label: string }> = {
@@ -25,6 +26,7 @@ const typeDocs: Record<WalletType, { href: string; label: string }> = {
   hardware: { href: '/docs/hardware-wallets', label: 'Hardware Wallet Comparison' },
   cards: { href: '/docs/crypto-cards', label: 'Crypto Card Comparison' },
   ramps: { href: '/docs/ramps', label: 'Ramp Provider Comparison' },
+  'qr-payments': { href: '/docs/qr-payments', label: 'QR Payment Provider Comparison' },
 };
 
 const methodologyDocs: Record<WalletType, string> = {
@@ -32,6 +34,7 @@ const methodologyDocs: Record<WalletType, string> = {
   hardware: '/docs/hardware-wallets-details#-scoring-methodology',
   cards: '/docs/crypto-cards-details#scoring-methodology',
   ramps: '/docs/ramps-details#scoring-methodology',
+  'qr-payments': '/docs/qr-payments-details#scoring-methodology',
 };
 
 const typeIcons: Record<WalletType, JSX.Element> = {
@@ -39,16 +42,18 @@ const typeIcons: Record<WalletType, JSX.Element> = {
   hardware: <Cpu className="h-5 w-5" />,
   cards: <CreditCard className="h-5 w-5" />,
   ramps: <ArrowLeftRight className="h-5 w-5" />,
+  'qr-payments': <ArrowLeftRight className="h-5 w-5" />,
 };
 
 export async function generateStaticParams() {
-  const { software, hardware, cards, ramps } = getAllWalletData();
+  const { software, hardware, cards, ramps, qrPayments } = getAllWalletData();
 
   return [
     ...software.map(wallet => ({ type: 'software', id: wallet.id })),
     ...hardware.map(wallet => ({ type: 'hardware', id: wallet.id })),
     ...cards.map(wallet => ({ type: 'cards', id: wallet.id })),
     ...ramps.map(wallet => ({ type: 'ramps', id: wallet.id })),
+    ...qrPayments.map(wallet => ({ type: 'qr-payments', id: wallet.id })),
   ];
 }
 
@@ -184,17 +189,21 @@ function getStructuredData(type: WalletType, wallet: WalletData, pageUrl: string
     }, type, pageUrl);
   }
 
-  // Ramps
-  const ramp = wallet as Ramp;
-  const features: string[] = [];
-  if (ramp.rampType) features.push(`${ramp.rampType} Support`);
-  if (ramp.coverage) features.push(`Coverage: ${ramp.coverage}`);
-  if (ramp.devUx) features.push(`Developer UX: ${ramp.devUx}`);
+  if (type === 'ramps') {
+    const ramp = wallet as Ramp;
+    const features: string[] = [];
+    if (ramp.rampType) features.push(`${ramp.rampType} Support`);
+    if (ramp.coverage) features.push(`Coverage: ${ramp.coverage}`);
+    if (ramp.devUx) features.push(`Developer UX: ${ramp.devUx}`);
 
-  return generateWalletProductSchema({
-    ...schemaData,
-    features,
-  }, type, pageUrl);
+    return generateWalletProductSchema({
+      ...schemaData,
+      features,
+    }, type, pageUrl);
+  }
+
+  // QR Payments - fallback for 'qr-payments' type
+  return generateWalletProductSchema({ ...schemaData }, type, pageUrl);
 }
 
 export async function generateMetadata({ params }: { params: { type: WalletType; id: string } }): Promise<Metadata> {
