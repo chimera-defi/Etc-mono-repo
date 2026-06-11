@@ -2,17 +2,20 @@
 
 Systemd user services and start scripts for persistent Claude Code remote sessions on agenthost.
 
-## Active sessions
+Session scripts (`~/.local/bin/*-start.sh`) and systemd units (`~/.config/systemd/user/*.service`)
+are **local-only** — not tracked in this repo. Use the `gstack-session-spawn` skill to create new
+sessions; see [`gstack-session-spawn/SKILL.md`](gstack-session-spawn/SKILL.md).
 
-| tmux session | service | remote-control name | notes |
-|---|---|---|---|
-| `claude-remote` | `claude-remote.service` | `chimera-server` | original, basic |
-| `claude-remote-b` | `claude-remote-b.service` | `chimera-openclaw` | openclaw MCP wired in |
-| `sharedstake-ui-20260608` | `sharedstake-ui-20260608.service` | `chimera-sharedstake-20260608` | SharedStake-ui workspace (old — superseded) |
-| `agenthost_SharedStake-ui-20260611` | `agenthost-SharedStake-ui-20260611.service` | `agenthost-SharedStake-ui-20260611` | SharedStake-ui workspace |
-| `agenthost_sessions-20260608` | `agenthost-sessions-20260608.service` | `agenthost-sessions-20260608` | session manager (creates/manages other sessions) |
-| `agenthost_routines-20260608` | `agenthost-routines-20260608.service` | `agenthost-routines-20260608` | CCR routine manager (create/update/monitor scheduled routines) |
-| `agenthost_server-health-20260611` | `agenthost-server-health-20260611.service` | `agenthost-server-health-20260611` | server health monitor, model: claude-sonnet-4-6 |
+## Active sessions (reference only — scripts are local)
+
+| remote-control name | workdir | notes |
+|---|---|---|
+| `chimera-server` | `/home/agents` | original basic session |
+| `chimera-openclaw` | `/home/agents` | openclaw MCP wired in |
+| `agenthost-sessions-20260611` | `~/.sessions/agenthost-sessions` | session manager |
+| `agenthost-routines-20260608` | `~/.sessions/routines` | CCR routine manager |
+| `agenthost-SharedStake-ui-20260611` | `/home/agents/workspace/SharedStake-ui` | SharedStake-ui workspace |
+| `agenthost-server-health-20260611` | `~/.sessions/server-health` | server health monitor (Sonnet) |
 
 Connect from Claude Code app: remote sessions → look for the remote-control name.
 
@@ -25,33 +28,20 @@ Each session is:
 
 The `--remote-control <name>` flag registers the session as connectable from the Claude Code app on any device.
 
-## Install on a new host
+## Creating a new session
 
-```bash
-# Copy start scripts
-cp claude-remote-start.sh ~/.local/bin/
-cp claude-remote-b-start.sh ~/.local/bin/
-chmod +x ~/.local/bin/claude-remote*-start.sh
+Use the `gstack-session-spawn` skill — it handles naming, start script, systemd unit, sentinel file,
+trust pre-acceptance, and startup logging. See [`gstack-session-spawn/SKILL.md`](gstack-session-spawn/SKILL.md).
 
-# Install systemd units (user-level)
-mkdir -p ~/.config/systemd/user
-cp claude-remote.service ~/.config/systemd/user/
-cp claude-remote-b.service ~/.config/systemd/user/
-
-# Update paths in scripts/units if HOME != /home/agents
-
-# Enable and start
-systemctl --user daemon-reload
-systemctl --user enable --now claude-remote.service
-systemctl --user enable --now claude-remote-b.service
-
-# Verify
-tmux list-sessions
+```
+# In any Claude Code session:
+/gstack-session-spawn
+# Then follow the recipe with your FOLDERNAME and DATE
 ```
 
 ## openclaw MCP wiring
 
-The `claude-remote-b` session gains access to Telegram/WhatsApp messaging tools via openclaw MCP.
+The `chimera-openclaw` session gains access to Telegram/WhatsApp messaging tools via openclaw MCP.
 Add this to `~/.claude/settings.json` under `mcpServers`:
 
 ```json
@@ -64,6 +54,19 @@ Add this to `~/.claude/settings.json` under `mcpServers`:
 Gateway token is in `~/.openclaw/openclaw.json` → `gateway.auth.token`.
 
 Requires `openclaw-gateway.service` to be running (see openclaw docs for setup).
+
+## Session startup log
+
+Every start script appends to `~/.sessions/session-starts.log` on the host. Format:
+
+```
+[ISO-timestamp] host=<hostname> session=<tmux-name> remote=<remote-control-name> workdir=<path> event=starting|started|already-running
+```
+
+Check it any time to see when and where sessions came up:
+```bash
+cat ~/.sessions/session-starts.log
+```
 
 ## Trust dialog fix
 
