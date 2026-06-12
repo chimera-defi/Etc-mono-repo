@@ -59,7 +59,8 @@ LOG_FILE="\$HOME/.sessions/session-starts.log"
 mkdir -p "\$(dirname "\$LOG_FILE")"
 log() { echo "[\$(date -u +%Y-%m-%dT%H:%M:%SZ)] \$*"; }
 log_start() {
-  local msg="[\$(date -u +%Y-%m-%dT%H:%M:%SZ)] host=\$(hostname) session=\$SESSION remote=\$REMOTE_NAME workdir=\$WORKDIR event=\$1"
+  local _evt="\$1"
+  local msg="[\$(date -u +%Y-%m-%dT%H:%M:%SZ)] host=\$(hostname) session=\$SESSION remote=\$REMOTE_NAME workdir=\$WORKDIR event=\${_evt}"
   echo "\$msg" | tee -a "\$LOG_FILE"
 }
 
