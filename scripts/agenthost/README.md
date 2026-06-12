@@ -14,7 +14,7 @@ sessions; see [`gstack-session-spawn/SKILL.md`](gstack-session-spawn/SKILL.md).
 | `chimera-openclaw` | `/home/agents` | openclaw MCP wired in |
 | `agenthost-sessions-20260611` | `~/.sessions/agenthost-sessions` | session manager |
 | `agenthost-routines-20260608` | `~/.sessions/routines` | CCR routine manager |
-| `agenthost-SharedStake-ui-20260611` | `/home/agents/workspace/SharedStake-ui` | SharedStake-ui workspace |
+| `agenthost-SharedStake-ui-20260612` | `/home/agents/workspace/SharedStake-ui` | SharedStake-ui workspace |
 | `agenthost-server-health-20260611` | `~/.sessions/server-health` | server health monitor (Sonnet) |
 
 Connect from Claude Code app: remote sessions → look for the remote-control name.
