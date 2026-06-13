@@ -107,12 +107,14 @@ Rules:
 
 1. For each repo, read `.claude/pr-response-state.md` from the default branch (create empty skeleton if missing).
 
-2. Find open PRs needing attention:
-   ```bash
-   gh search prs --owner chimera-defi --state open --review changes_requested \
-     --json number,repository,headRefName,updatedAt,reviewDecision,isDraft --limit 30
-   gh pr list --repo SharedStake/SharedStake-ui --state open \
-     --json number,title,reviewDecision,updatedAt,headRefName,isDraft
+2. Find open PRs needing attention using MCP tools (gh CLI is not installed):
+   ```
+   mcp__github__search_pull_requests query="is:open is:pr review:changes-requested org:chimera-defi" perPage=30
+   mcp__github__list_pull_requests owner=SharedStake repo=SharedStake-ui state=open perPage=20
+   ```
+   For each candidate, fetch full details (isDraft, headRefName, reviewDecision, updatedAt) via:
+   ```
+   mcp__github__pull_request_read method=get owner=<org> repo=<repo> pullNumber=<n>
    ```
 
 3. Also find PRs with failing CI: for each open maintenance/dream PR, run `gh pr checks <n> --repo <org/repo>` to detect failures.
@@ -230,8 +232,11 @@ Co-authored-by: Chimera <chimera_defi@protonmail.com>"
    ```
    (walletradar: omit [Agent:] from header)
 
-2. For any PR with attempt_count >= 3:
-   gh issue create --repo <org/repo> --title "PR #<n> needs human: auto-fix blocked after 3 attempts" --body "..."
+2. For any PR with attempt_count >= 3 AND status != "blocked":
+   - Create a GitHub issue via `mcp__github__issue_write method=create`
+     title: "PR #<n> needs human: auto-fix blocked after 3 attempts"
+   - Set status to "blocked" in state so this only fires once per PR, not every run.
+   (Skip entirely if status is already "blocked" — issue was already filed.)
 
 3. Output a brief run summary: repos scanned, PRs found, PRs fixed, PRs skipped, PRs escalated.
 
