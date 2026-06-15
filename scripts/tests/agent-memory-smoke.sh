@@ -194,8 +194,33 @@ AGENT_MEMORY_ROOT="$ROOT" \
 
 PATH="$STUB_BIN:$PATH" \
 AGENT_MEMORY_ROOT="$ROOT" \
+AGENT_MEMORY_SKIP_GBRAIN_DB_PROVENANCE=1 \
   bash "$REPO_ROOT/scripts/agents/audit-agent-memory.sh" \
   --root "$ROOT"
+
+cat > "$STUB_BIN/psql" <<'PY'
+#!/usr/bin/env python3
+print('agent-codex-private,polluted,agents/hermes/private/live/MEMORY.md,')
+PY
+chmod +x "$STUB_BIN/psql"
+set +e
+provenance_output="$(PATH="$STUB_BIN:$PATH" \
+AGENT_MEMORY_ROOT="$ROOT" \
+AGENT_MEMORY_GBRAIN_DB_URL="stub-db" \
+  bash "$REPO_ROOT/scripts/agents/audit-agent-memory.sh" \
+  --root "$ROOT" \
+  --no-qmd 2>&1)"
+provenance_status=$?
+set -e
+[[ "$provenance_status" -eq 1 ]] || {
+  printf 'expected polluted GBrain provenance audit to fail, got %s\n%s\n' "$provenance_status" "$provenance_output" >&2
+  exit 1
+}
+[[ "$provenance_output" == *"GBrain indexed page agent-codex-private:polluted has provenance outside expected path"* ]] || {
+  printf 'expected polluted provenance failure in output:\n%s\n' "$provenance_output" >&2
+  exit 1
+}
+rm -f "$STUB_BIN/psql"
 
 python3 - "$ROOT" <<'PY'
 import json

@@ -210,9 +210,20 @@ paths as empty or wrong, the source metadata has drifted even though the source
 IDs still exist. Do not delete/recreate those sources blindly on a live brain:
 newer GBrain versions warn because removal deletes pages/chunks, and some source
 rows may be referenced by OAuth/client metadata. Prefer repairing source
-metadata under operator review, then rerun the audit. If you intentionally want
-the setup script to delete/recreate mismatched sources after confirming the data
-loss is acceptable, set:
+metadata under operator review, then rerun the audit.
+
+The audit also performs a DB-backed page-provenance check when it can read the
+local `~/.gbrain/config.json` database URL and `psql` is installed. This catches
+the dangerous state where source metadata has been repaired but old pages/chunks
+under that `source_id` still came from the broad memory root, `private/live/`,
+`secrets/`, or another agent namespace. If an intentional purge is approved and
+`gbrain sources remove <id>` fails because OAuth/client rows reference the source,
+keep the source row and purge the source's indexed pages/cache in the database;
+then re-capture or re-sync only files from the expected `private/curated` or
+`public` path. Do not print the database URL or password while doing this.
+
+If you intentionally want the setup script to delete/recreate mismatched sources
+after confirming the data loss is acceptable, set:
 
 ```bash
 AGENT_MEMORY_RECREATE_GBRAIN_SOURCES=1 scripts/agents/setup-central-agent-memory.sh

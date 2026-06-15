@@ -186,9 +186,14 @@ if [[ "$CHECK_GBRAIN" == "1" ]] && command -v gbrain >/dev/null 2>&1; then
   tmp="$(mktemp)"
   if gbrain sources list --timeout=60s --json >"$tmp"; then
     if ! python3 - "$tmp" "$AGENT_MEMORY_ROOT" $AGENT_MEMORY_AGENTS <<'PY'
+import csv
+import io
 import json
 import os
+import shutil
+import subprocess
 import sys
+import urllib.parse
 
 path = sys.argv[1]
 root = sys.argv[2]
@@ -218,6 +223,106 @@ def is_sensitive_path(value):
                 return True
     return False
 
+def candidate_paths(raw, expected_path):
+    if not raw:
+        return []
+    value = raw
+    if '://' in value:
+        parsed = urllib.parse.urlparse(value)
+        if parsed.scheme != 'file':
+            return []
+        value = urllib.parse.unquote(parsed.path)
+    if os.path.isabs(value):
+        return [value]
+    normalized = os.path.normpath(value)
+    first_part = normalized.split(os.sep, 1)[0]
+    if first_part in {'agents', 'shared'}:
+        return [os.path.join(root, normalized)]
+    return [os.path.join(expected_path, normalized)]
+
+def path_is_under(child, parent):
+    try:
+        child_real = os.path.realpath(child)
+        parent_real = os.path.realpath(parent)
+        return os.path.commonpath([child_real, parent_real]) == parent_real
+    except (OSError, ValueError):
+        return False
+
+def provenance_is_expected(slug, source_path, source_uri, expected_path):
+    for raw in (source_path, source_uri):
+        for candidate in candidate_paths(raw, expected_path):
+            if path_is_under(candidate, expected_path):
+                return True
+    if not source_path and not source_uri:
+        slug_parts = os.path.normpath(slug).split(os.sep)
+        if slug_parts and slug_parts[0] in {'agents', 'shared'}:
+            return False
+        if 'secrets' in slug_parts:
+            return False
+        for idx, part in enumerate(slug_parts[:-1]):
+            if part == 'private' and slug_parts[idx + 1] == 'live':
+                return False
+        return True
+    return False
+
+def database_url():
+    explicit = os.environ.get('AGENT_MEMORY_GBRAIN_DB_URL')
+    if explicit:
+        return explicit
+    cfg_path = os.environ.get('GBRAIN_CONFIG_PATH') or os.path.join(os.path.expanduser('~'), '.gbrain', 'config.json')
+    try:
+        with open(cfg_path, encoding='utf-8') as fh:
+            return json.load(fh).get('database_url') or ''
+    except (OSError, json.JSONDecodeError):
+        return ''
+
+def inspect_indexed_page_provenance():
+    if os.environ.get('AGENT_MEMORY_SKIP_GBRAIN_DB_PROVENANCE') == '1':
+        print('WARN: skipped DB-backed GBrain page provenance audit by AGENT_MEMORY_SKIP_GBRAIN_DB_PROVENANCE=1', file=sys.stderr)
+        return []
+    db_url = database_url()
+    if not db_url:
+        print('WARN: could not locate GBrain database_url; skipped DB-backed page provenance audit', file=sys.stderr)
+        return []
+    if not shutil.which('psql'):
+        print('WARN: psql missing; skipped DB-backed GBrain page provenance audit', file=sys.stderr)
+        return []
+    ids = sorted(expected)
+    quoted_ids = ', '.join("'" + item.replace("'", "''") + "'" for item in ids)
+    sql = f"""
+COPY (
+  SELECT source_id, slug, coalesce(source_path, ''), coalesce(source_uri, '')
+  FROM pages
+  WHERE deleted_at IS NULL AND source_id IN ({quoted_ids})
+  ORDER BY source_id, slug
+) TO STDOUT WITH CSV
+"""
+    try:
+        proc = subprocess.run(
+            ['psql', db_url, '-v', 'ON_ERROR_STOP=1', '-Atc', sql],
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=30,
+            check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return [f'could not inspect indexed GBrain page provenance via psql: {exc}']
+    if proc.returncode != 0:
+        return ['could not inspect indexed GBrain page provenance via psql; stderr: ' + proc.stderr.strip()[:500]]
+    page_errors = []
+    for source_id, slug, source_path, source_uri in csv.reader(io.StringIO(proc.stdout)):
+        expected_path = expected.get(source_id)
+        if not expected_path:
+            continue
+        if not provenance_is_expected(slug, source_path, source_uri, expected_path):
+            page_errors.append(
+                'GBrain indexed page '
+                f'{source_id}:{slug} has provenance outside expected path '
+                f'(source_path={source_path!r}, source_uri={source_uri!r}, expected {expected_path!r})'
+            )
+    return page_errors
+
 errors = []
 for source in sources:
     source_id = source.get('id') or '<unknown>'
@@ -232,11 +337,12 @@ for source_id, expected_path in expected.items():
     actual = source.get('local_path') or source.get('path') or ''
     if actual != expected_path:
         errors.append(f'GBrain source {source_id} path is {actual!r}, expected {expected_path!r}')
+errors.extend(inspect_indexed_page_provenance())
 if errors:
     for error in errors:
         print('FAIL: ' + error)
     sys.exit(1)
-print('ok: all expected GBrain sources point to public or private/curated paths, and no source points to live/secrets')
+print('ok: all expected GBrain sources point to public or private/curated paths, no source points to live/secrets, and indexed pages have matching file provenance or safe direct-capture slugs when DB access is available')
 PY
     then
       fail=1
