@@ -20,7 +20,8 @@ Multi-agent orchestration prompt for 6 parallel agents to work simultaneously af
 - 74/74 unit tests passing, 7/7 smoke, 6/6 integration
 - Frontend scaffold: Next.js + Tailwind shell existed at `staking/aztec/frontend`
 
-## Current Status
+## Where Agent Prompts Live Now
 
-See `staking/aztec/HANDOFF.md` for compressed project state.
-See `staking/aztec/docs/FRONTEND_HANDOFF.md` for frontend implementation guidance.
+- **Frontend agent prompts:** `docs/FRONTEND_HANDOFF.md` → §Prompts for Coding Agents (Prompt 1–N)
+- **Bot agent prompts:** `docs/AGENT-PROMPTS-QUICKREF.md` → Agent B1/B2 sections
+- **Project state:** `HANDOFF.md` (compressed, 29 lines)

@@ -31,7 +31,7 @@ IMMEDIATELY PARALLELIZABLE (No Dependencies):
 ├── Agent 5: BD (TASK-007-009)
 └── Agent 8: Marketing
 
-See: /workspace/staking/aztec/PARALLEL_WORK_HANDOFF.md for detailed prompts
+Full prompts for each agent are in this file below and in docs/FRONTEND_HANDOFF.md
 ```
 
 ---
