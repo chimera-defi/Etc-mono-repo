@@ -1,6 +1,15 @@
 # Agent Instructions
 
-Primary repo-wide policies live in `.cursorrules` and `CLAUDE.md`.
+Primary repo-wide policies live in `.cursorrules` and `CLAUDE.md`, except the attribution rule below, which is the current authoritative override and supersedes contradictory older attribution text there until it is synchronized.
+
+## Commit and PR attribution — authoritative
+
+- Git **Author** for AI-assisted repository commits must be `Chimera <chimera_defi@protonmail.com>`.
+- AI participants that materially contributed are credited with `Co-authored-by:` trailers. Credit the actual implementation model/agent and any material orchestrator; do not credit participants that did not contribute.
+- The non-merge commit subject remains `type(scope): concise description [Agent: <actual-model>]` using the actual model that produced the accepted change, including fallback models.
+- Do not use the human `Co-authored-by: Chimera ...` trailer as a substitute for the Author field. The legacy human self-coauthor trailer may be tolerated temporarily for compatibility with older branches/hooks, but it is no longer required attribution truth.
+- PR descriptions identify the human author, actual agent/model participants, original request, summary, changes, and verification.
+- Published history is not rewritten solely to repair older attribution; enforce this contract going forward.
 
 ## Pi Kimi Subagent Recommendation
 
