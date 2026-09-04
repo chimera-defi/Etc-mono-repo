@@ -17,7 +17,7 @@ jobs:
       contents: read
       pull-requests: read
     steps:
-      - name: Validate commit messages in PR
+      - name: Validate commit authors and messages in PR
         uses: actions/github-script@v7
         with:
           script: |
@@ -30,67 +30,64 @@ jobs:
 
             const headerPattern = /^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)\([a-z0-9._/-]+\): [^\s].* \[Agent: .+\]$/;
             const trailerLinePattern = /^[A-Za-z0-9-]+:\s+.+$/;
-            const humanCoauthorPattern =
-              /^Co-authored-by:\s+(Chimera|ChimeraDeFi)\s+<chimera_defi@protonmail\.com>$/i;
-            // Merge commits may use "Merge branch ..." or a custom "merge: ..." subject line.
+            const aiCoauthorPattern = /^Co-authored-by:\s+(.+?)\s+<([^>]+)>$/i;
+            const humanSelfCoauthorPattern = /^Co-authored-by:\s+(Chimera|ChimeraDeFi)\s+<chimera_defi@protonmail\.com>$/i;
             const bypassPattern = /^(Merge |Revert |fixup! |squash! |merge: )/i;
             const errors = [];
 
             function getTrailingTrailers(message) {
               const lines = message.split('\n');
               let index = lines.length - 1;
-              while (index >= 0 && lines[index].trim() === '') {
-                index -= 1;
-              }
-
+              while (index >= 0 && lines[index].trim() === '') index -= 1;
               const trailers = [];
               while (index >= 0 && trailerLinePattern.test(lines[index])) {
                 trailers.push(lines[index]);
                 index -= 1;
               }
-
               return trailers.reverse();
             }
 
             for (const item of commits) {
               const message = item.commit.message || '';
               const [header = ''] = message.split('\n');
+              if (bypassPattern.test(header)) continue;
 
-              if (bypassPattern.test(header)) {
-                continue;
+              const author = item.commit.author || {};
+              if (author.name !== 'Chimera' || author.email !== 'chimera_defi@protonmail.com') {
+                errors.push(`- ${item.sha.slice(0, 7)}: Git Author must be Chimera <chimera_defi@protonmail.com>`);
               }
-
               if (!headerPattern.test(header)) {
                 errors.push(`- ${item.sha.slice(0, 7)}: invalid header \`${header}\``);
                 continue;
               }
 
               const trailers = getTrailingTrailers(message);
-              const hasHumanCoauthorTrailer = trailers.some((line) =>
-                humanCoauthorPattern.test(line.trim())
+              const hasAiCoauthor = trailers.some((line) =>
+                aiCoauthorPattern.test(line.trim()) && !humanSelfCoauthorPattern.test(line.trim())
               );
-              if (!hasHumanCoauthorTrailer) {
-                errors.push(
-                  `- ${item.sha.slice(0, 7)}: missing required trailing human \`Co-authored-by:\` trailer`
-                );
+              if (!hasAiCoauthor) {
+                errors.push(`- ${item.sha.slice(0, 7)}: missing material AI Co-authored-by trailer`);
               }
             }
 
             if (errors.length > 0) {
-              core.setFailed(
-                [
-                  'Commit message validation failed.',
-                  '',
-                  'Required format:',
-                  '  type(scope): subject [Agent: <MODEL NAME>]',
-                  '',
-                  'Required trailer (human):',
-                  '  Co-authored-by: Chimera <chimera_defi@protonmail.com>',
-                  '',
-                  'Violations:',
-                  ...errors
-                ].join('\n')
-              );
+              core.setFailed([
+                'Commit attribution validation failed.',
+                '',
+                'Required Author:',
+                '  Chimera <chimera_defi@protonmail.com>',
+                '',
+                'Required subject:',
+                '  type(scope): subject [Agent: <ACTUAL MODEL NAME>]',
+                '',
+                'Required trailers:',
+                '  Co-authored-by: <material AI participant> <email>',
+                '',
+                'Legacy Chimera self-coauthor trailers may appear on transition branches but are not required.',
+                '',
+                'Violations:',
+                ...errors
+              ].join('\n'));
             } else {
-              core.info(`Validated ${commits.length} commit message(s).`);
+              core.info(`Validated ${commits.length} commit(s).`);
             }
