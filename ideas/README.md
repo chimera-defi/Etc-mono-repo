@@ -301,6 +301,22 @@ DeFi protocol concept for ERC-8004 agent credit with Ethos vouching + reverse-Ke
 
 ---
 
+## Alert Layer
+
+**Concept**: A cross-source personal alert engine that turns natural-language intent into reviewable rules and delivers low-noise notifications to iPhone and Android.
+
+**Status**: Research phase
+
+**Documentation**:
+- [Overview](./alert-layer/README.md)
+- [Product Brief](./alert-layer/PRD.md)
+- [Research and Competitors](./alert-layer/RESEARCH.md)
+- [Architecture](./alert-layer/ARCHITECTURE.md)
+- [Pricing and Cost Model](./alert-layer/PRICING.md)
+- [MVP Plan](./alert-layer/MVP_PLAN.md)
+
+---
+
 ## Tooling to Explore
 
 - **Coolify**: Self-hosted PaaS for VPS management
