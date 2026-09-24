@@ -327,6 +327,20 @@ Adapter outputs must include:
 - sequence/ordering metadata where available (e.g., fill sequence numbers)
 - clear position quantity semantics (contracts vs base qty; signed long/short)
 
+### 10.1 Polymarket Venue Model (Write-Side Draft)
+
+Polymarket support is scoped as a venue adapter and operator-run harness, not a fully autonomous profit bot.
+
+- Polymarket trades conditional outcome tokens against USDC. Treat each raw outcome `token_id` as the OMS `asset` for v1.
+- YES and NO outcome tokens are independent spot assets. Do not model NO exposure as a negative YES position inside the OMS.
+- Maintain a metadata cache so logs and operator summaries can resolve `event_slug`, `market_slug`/`market_id`, `condition_id`, `token_id`, `outcome`, `question`, `end_date`, and market active/closed/archived state.
+- Use Gamma API for discovery/metadata, CLOB API for book/order venue interactions, and Data API where applicable for trades/history. Public APIs are read-only helpers.
+- Authenticated order placement must go through the official beta Python SDK (`polymarket-client`) behind the adapter boundary. Avoid archived legacy SDKs for new implementation work.
+- Order quantity semantics must stay explicit: `qty` is outcome-token shares; `quote_amount` is USDC spend and is only valid for quote-denominated market BUY flows.
+- v1 should prioritize limit orders. Market BUY must be blocked unless a dedicated pre-trade estimator and risk check can bound both max USDC spend and max acquired shares.
+- User trade/fill stream events are the canonical fill source. REST account trades are gap/reconnect backfill; token-balance snapshots are reconciliation input.
+- Never synthesize fills from order acknowledgements alone. SDK status `matched` remains `ACCEPTED_MATCHED_PENDING_FILL` until stream/backfill/reconciliation confirms quantity.
+
 ## 11. Error Taxonomy (Draft)
 
 - `MARKET_DATA_STALE`
@@ -356,6 +370,32 @@ Adapter outputs must include:
 | Max trade size | per-order | config | block |
 | Slippage | per-order | config | block |
 | Cooldown | per-strategy | config | delay |
+
+### 12.1 Polymarket Risk Guardrails
+
+Minimum Polymarket write-side guardrails:
+
+- max USDC notional per order;
+- max USDC notional per market;
+- max shares per outcome token;
+- max open orders per market;
+- max orders and cancels per rolling window;
+- limit-price bounds (`0 < price < 1`) plus configurable min/max price bands;
+- post-only crossing protection;
+- stale book/stream gating before order placement;
+- closed, expired, resolved, archived, or inactive market gating;
+- per-market YES+NO exposure reporting;
+- daily loss/halt threshold;
+- manual kill switch and SAFE-mode recovery procedure.
+
+For each `token_id`, reconciliation computes:
+
+```text
+expected_balance = starting_balance + sum(deduped BUY fills) - sum(deduped SELL fills)
+actual_balance = normalized get_balance_allowance(CONDITIONAL, token_id).balance
+```
+
+A mismatch beyond `share_epsilon` enters SAFE mode for that token and blocks new orders. Unknown decimals, missing balance responses, or unparseable venue payloads fail closed.
 
 ## 13. Audit Report Templates
 
@@ -403,6 +443,28 @@ Follow-up actions:
 - Track schema version bumps in logs + replay snapshots.
 - Validate determinism: REPLAY must match prior runs.
 
+## 15.2 Polymarket LIVE Arming + Wallet Readiness
+
+Polymarket LIVE mode requires all gates:
+
+1. `ATS_MODE=LIVE`
+2. `ATS_ALLOW_LIVE_TRADING=I_UNDERSTAND`
+3. matching one-shot `ATS_ARM_TOKEN` and `ATS_CONFIRM_ARM_TOKEN`
+4. non-empty allowlisted token/market list
+5. wallet, collateral, and allowance readiness check succeeds
+6. stream health is fresh before first order
+7. operator-facing risk summary is printed before arming
+
+Wallet readiness checks should report, without logging secrets:
+
+- wallet address present;
+- USDC balance available;
+- conditional token allowance status;
+- CTF/exchange approval status when exposed by the SDK;
+- whether approval setup is needed.
+
+Approval setup is a separate human-confirmed admin path. Normal order placement must not auto-approve unlimited allowances.
+
 ## 16. Testing Strategy
 
 - Unit: strategy logic, risk checks.
@@ -426,6 +488,21 @@ Follow-up actions:
    - Market data freshness restored.
    - Any incident report drafted.
 5. Human re-arming required for LIVE.
+
+## 16.2 Polymarket Replay Fixtures + Test Matrix
+
+Polymarket write-side work is not build-ready until tests use fake clients/fixtures for:
+
+- accepted limit order response;
+- rejected order responses (`not_enough_balance`, `post_only_would_cross`, FAK/FOK not filled);
+- user trade event normalization;
+- duplicate user trade/fill event dedupe;
+- balance snapshot matching fill-sum state;
+- balance snapshot mismatching fill-sum state;
+- stale market stream gating;
+- LIVE runner fail-closed behavior when any arming gate is absent.
+
+Optional live/metered tests must stay skipped unless explicit environment gates are present and must cancel any placed order in cleanup.
 
 ## 17. Research Notes (TODO)
 
@@ -657,6 +734,7 @@ The system is complete when:
 4. Crypto trading functions as a first-class asset class.
 5. All decisions, intents, orders, and commands are auditable and replayable.
 6. Flip-flop safeguards are enforced (dirty-position gating, reconcile fail-fast, feed health gating, rate limiting, flip-flop detection) and covered by tests/chaos scenarios.
+7. Polymarket write-side support can only place orders through the OMS/risk adapter path, blocks ambiguous market BUY spend semantics, dedupes fill events, reconciles token balances, and fails closed without all LIVE arming gates.
 
 ---
 
