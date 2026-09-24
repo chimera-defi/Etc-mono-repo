@@ -1,0 +1,29 @@
+# Uniswap UNIfication MEV Bot - Python Dependencies
+# Install with: pip install -r requirements.txt
+
+# Core Ethereum interaction
+web3>=6.0.0
+
+# MEV protection via Flashbots
+flashbots>=1.0.0
+
+# HTTP requests for APIs
+requests>=2.28.0
+
+# Environment variable management
+python-dotenv>=1.0.0
+
+# ABI encoding/decoding
+eth-abi>=4.0.0
+
+# Optional: Better async performance
+# aiohttp>=3.8.0
+
+# Optional: Prometheus metrics export
+# prometheus-client>=0.16.0
+
+# Development dependencies
+# pytest>=7.0.0
+# pytest-asyncio>=0.21.0
+# black>=23.0.0
+# mypy>=1.0.0
