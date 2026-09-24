@@ -31,6 +31,8 @@ function walletSummary(wallet: WalletData): string {
       return wallet.bestFor;
     case 'ramp':
       return wallet.bestFor;
+    case 'qr-payment':
+      return wallet.bestFor;
   }
 }
 
