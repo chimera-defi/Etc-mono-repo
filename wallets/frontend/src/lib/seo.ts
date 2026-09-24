@@ -16,6 +16,8 @@ export function getOgImagePath(slug: string): string {
     'crypto-cards-details': '/og-image.svg',
     'ramps': '/og-image.svg',
     'ramps-details': '/og-image.svg',
+    'qr-payments': '/og-image.svg',
+    'qr-payments-details': '/og-image.svg',
     'rabby-vs-metamask': '/og/articles/rabby-vs-metamask.svg',
     'best-wallet-for-ethereum-developers': '/og/articles/best-wallet-for-ethereum-developers.svg',
     'most-secure-hardware-wallet': '/og/articles/most-secure-hardware-wallet.svg',
@@ -199,6 +201,11 @@ export function generateKeywords(
   if (titleLower.includes('ramp') || contentLower.includes('on-ramp') || contentLower.includes('off-ramp')) {
     contentKeywords.push('crypto ramp', 'on-ramp', 'off-ramp', 'fiat on-ramp', 'fiat off-ramp', 'crypto payment gateway');
   }
+
+  // QR Payment detection
+  if (titleLower.includes('qr') || contentLower.includes('qr payment') || contentLower.includes('qr code')) {
+    contentKeywords.push('QR payment', 'crypto QR code', 'merchant crypto', 'crypto POS', 'Bitcoin QR', 'accept crypto');
+  }
   
   // Combine and dedupe
   const allKeywords = [
@@ -216,7 +223,7 @@ export function generateKeywords(
  */
 export function generateWalletKeywords(
   name: string,
-  type: 'software' | 'hardware' | 'cards' | 'ramps'
+  type: 'software' | 'hardware' | 'cards' | 'ramps' | 'qr-payments'
 ): string[] {
   const baseKeywords = [
     name,
@@ -231,6 +238,7 @@ export function generateWalletKeywords(
     hardware: ['hardware wallet', 'cold storage', 'secure element'],
     cards: ['crypto card', 'cashback card', 'crypto credit card', 'crypto debit card'],
     ramps: ['crypto ramp', 'on-ramp', 'off-ramp', 'fiat on-ramp', 'fiat off-ramp'],
+    'qr-payments': ['QR payment', 'crypto QR code', 'merchant crypto', 'crypto POS', 'Bitcoin QR'],
   };
 
   return Array.from(new Set([...baseKeywords, ...typeKeywords[type]])).slice(0, 15);
@@ -490,7 +498,7 @@ interface WalletSchemaData {
  */
 export function generateWalletProductSchema(
   wallet: WalletSchemaData,
-  type: 'software' | 'hardware' | 'cards' | 'ramps',
+  type: 'software' | 'hardware' | 'cards' | 'ramps' | 'qr-payments',
   pageUrl: string
 ) {
   const baseSchema = {
