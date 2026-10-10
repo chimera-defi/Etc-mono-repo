@@ -201,14 +201,14 @@ for i in "${!REPOS[@]}"; do
             echo "Error: GitHub API rate limit exceeded. Set GITHUB_TOKEN." >&2
             exit 1
         fi
-        LAST_COMMIT=$(echo "$RESPONSE" | jq -r '.[0].commit.committer.date // empty' 2>/dev/null)
+        LAST_COMMIT=$(echo "$RESPONSE" | jq -r 'if type=="array" then (.[0].commit.committer.date // empty) else empty end' 2>/dev/null || true)
     else
         ATOM_URL="https://github.com/$REPO/commits/HEAD.atom"
         LAST_COMMIT=$(curl -s "$ATOM_URL" 2>/dev/null | grep -m1 "<updated>" | sed -e 's/.*<updated>//' -e 's/<\/updated>.*//')
         if [ -z "$LAST_COMMIT" ]; then
             API_URL="https://api.github.com/repos/$REPO/commits?per_page=1"
             RESPONSE=$(curl -s "$API_URL" 2>/dev/null)
-            LAST_COMMIT=$(echo "$RESPONSE" | jq -r '.[0].commit.committer.date // empty' 2>/dev/null)
+            LAST_COMMIT=$(echo "$RESPONSE" | jq -r 'if type=="array" then (.[0].commit.committer.date // empty) else empty end' 2>/dev/null || true)
         fi
     fi
     
