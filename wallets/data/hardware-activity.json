@@ -1,0 +1,23 @@
+{
+  "type": "hardware_wallets",
+  "generated": "2026-10-12",
+  "wallets": [
+    {"wallet": "Keystone", "repo": "KeystoneHQ/keystone3-firmware", "lastCommit": "2026-10-10", "daysAgo": 2, "stars": 228, "issues": 126, "ratio": "55.3%", "status": "✅"},
+    {"wallet": "ColdCard", "repo": "Coldcard/firmware", "lastCommit": "2026-10-09", "daysAgo": 3, "stars": 778, "issues": 8, "ratio": "1.0%", "status": "✅"},
+    {"wallet": "Keycard Shell", "repo": "keycard-tech/keycard-shell", "lastCommit": "2026-09-30", "daysAgo": 12, "stars": 84, "issues": 44, "ratio": "52.4%", "status": "✅"},
+    {"wallet": "Foundation Passport", "repo": "Foundation-Devices/passport2", "lastCommit": "2026-10-10", "daysAgo": 2, "stars": 88, "issues": 6, "ratio": "6.8%", "status": "✅"},
+    {"wallet": "Trezor", "repo": "trezor/trezor-firmware", "lastCommit": "2026-10-12", "daysAgo": 0, "stars": 1843, "issues": 738, "ratio": "40.0%", "status": "✅"},
+    {"wallet": "Blockstream Jade", "repo": "Blockstream/Jade", "lastCommit": "2026-09-30", "daysAgo": 12, "stars": 506, "issues": 106, "ratio": "20.9%", "status": "✅"},
+    {"wallet": "BitBox02", "repo": "BitBoxSwiss/bitbox02-firmware", "lastCommit": "2026-10-12", "daysAgo": 0, "stars": 386, "issues": 80, "ratio": "20.7%", "status": "✅"},
+    {"wallet": "Krux", "repo": "selfcustody/krux", "lastCommit": "2026-10-07", "daysAgo": 4, "stars": 375, "issues": 77, "ratio": "20.5%", "status": "✅"},
+    {"wallet": "OneKey", "repo": "OneKeyHQ/firmware", "lastCommit": "2026-05-12", "daysAgo": 153, "stars": 89, "issues": 37, "ratio": "41.6%", "status": "❌"},
+    {"wallet": "SeedSigner", "repo": "SeedSigner/seedsigner", "lastCommit": "2026-10-03", "daysAgo": 8, "stars": 1297, "issues": 297, "ratio": "22.9%", "status": "✅"},
+    {"wallet": "Specter DIY", "repo": "cryptoadvance/specter-diy", "lastCommit": "2026-10-07", "daysAgo": 5, "stars": 587, "issues": 126, "ratio": "21.5%", "status": "✅"},
+    {"wallet": "OneKey", "repo": "OneKeyHQ/firmware-pro", "lastCommit": "2026-06-26", "daysAgo": 108, "stars": 32, "issues": 22, "ratio": "68.8%", "status": "⚠️"},
+    {"wallet": "Cypherock", "repo": "Cypherock/x1_wallet_firmware", "lastCommit": "2026-07-22", "daysAgo": 82, "stars": 46, "issues": 19, "ratio": "41.3%", "status": "⚠️"},
+    {"wallet": "Keycard", "repo": "keycard-tech/status-keycard", "lastCommit": "2026-10-12", "daysAgo": 0, "stars": 263, "issues": 8, "ratio": "3.0%", "status": "✅"},
+    {"wallet": "KeepKey", "repo": "keepkey/keepkey-firmware", "lastCommit": "2026-04-05", "daysAgo": 190, "stars": 163, "issues": 30, "ratio": "18.4%", "status": "❌"},
+    {"wallet": "Bitkey", "repo": "proto-at-block/bitkey", "lastCommit": "2026-10-05", "daysAgo": 6, "stars": 223, "issues": 4, "ratio": "1.8%", "status": "✅"}
+  ],
+  "closed_source_note": "Ledger, NGRAVE, Ellipal, SafePal, SecuX, Tangem, BC Vault, GridPlus have no public firmware repos"
+}
