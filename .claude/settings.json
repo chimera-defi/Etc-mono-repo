@@ -17,7 +17,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "f=\"$CLAUDE_PROJECT_DIR\"/skills/token-reduce/scripts/warn-glob-explosion.py; [ -f \"$f\" ] && python3 \"$f\" >/dev/null 2>&1; exit 0"
+            "command": "f=\"$CLAUDE_PROJECT_DIR\"/skills/token-reduce/scripts/warn-glob-explosion.py; [ -f \"$f\" ] && python3 \"$f\"; exit 0"
           }
         ]
       }
