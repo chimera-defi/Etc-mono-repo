@@ -6,6 +6,8 @@ Primary references:
 
 Additional primers:
 - `OMS_PRIMER.md` (what an OMS is, typical components, why it matters for flip-flop safety)
+- `../2026-05-31_212551-polymarket-write-trading-side.md` (Polymarket authenticated write-side implementation plan)
+- `../2026-06-06_093824-polymarket-spec-iteration-v2.md` (Polymarket spec iteration addendum and PR slicing proposal)
 
 ## Architecture Notes (Current)
 

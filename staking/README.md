@@ -12,7 +12,7 @@ staking/
 │   ├── README.md                          # Aztec project index (START HERE)
 │   ├── PROGRESS.md                        # Current phase status
 │   ├── HANDOFF.md                         # Latest agent handoff
-│   ├── PARALLEL_WORK_HANDOFF.md           # Frontend & bot parallel work specs
+│   ├── PARALLEL_WORK_HANDOFF.md           # Compressed summary (prompts → FRONTEND_HANDOFF + AGENT-PROMPTS-QUICKREF)
 │   ├── AGENT_INDEX.md                     # Quick-start matrix for agents
 │   ├── docs/                              # Research, planning, and guides
 │   │   ├── EXECUTIVE-SUMMARY.md           # 1-page strategic overview

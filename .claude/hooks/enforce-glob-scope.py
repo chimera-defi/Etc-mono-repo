@@ -1,1 +1,0 @@
-../../skills/token-reduce/scripts/enforce-glob-scope.py

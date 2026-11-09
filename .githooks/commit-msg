@@ -17,35 +17,40 @@ case "$header" in
 esac
 
 header_pattern='^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)\([a-z0-9._/-]+\): [^[:space:]].* \[Agent: .+\]$'
-
 if ! printf '%s\n' "$header" | grep -Eq "$header_pattern"; then
   cat >&2 <<'EOF'
 ERROR: Invalid commit header format.
 
 Expected:
-  type(scope): subject [Agent: <MODEL NAME>]
+  type(scope): subject [Agent: <ACTUAL MODEL NAME>]
+EOF
+  exit 1
+fi
 
-Example:
-  chore(repo): normalize commit message checks [Agent: GPT-5]
-
-Allowed types:
-  feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
+# Human ownership is represented by the actual Git Author, not by a human self-coauthor trailer.
+author_ident="$(git var GIT_AUTHOR_IDENT 2>/dev/null || true)"
+if ! printf '%s\n' "$author_ident" | grep -Eq '^Chimera <chimera_defi@protonmail\.com> '; then
+  cat >&2 <<'EOF'
+ERROR: AI-assisted commits must use the canonical human Git Author:
+  Chimera <chimera_defi@protonmail.com>
 EOF
   exit 1
 fi
 
 parsed_trailers="$(git interpret-trailers --parse "$msg_file" || true)"
-if ! printf '%s\n' "$parsed_trailers" | grep -Eiq '^Co-authored-by:\s+(Chimera|ChimeraDeFi)\s+<chimera_defi@protonmail\.com>$'; then
+# Require at least one material AI participant. Legacy Chimera self-coauthor trailers are tolerated
+# temporarily for old branches, but they do not satisfy this requirement and are no longer required.
+ai_coauthors="$(printf '%s\n' "$parsed_trailers" | grep -Ei '^Co-authored-by:\s+.+\s+<[^>]+>$' | grep -Eiv '^Co-authored-by:\s+(Chimera|ChimeraDeFi)\s+<chimera_defi@protonmail\.com>$' || true)"
+if [ -z "$ai_coauthors" ]; then
   cat >&2 <<'EOF'
-ERROR: Missing required Co-authored-by trailer in commit message footer.
+ERROR: Missing AI Co-authored-by attribution.
 
-Add this trailer at the end of your commit message:
-  Co-authored-by: Chimera <chimera_defi@protonmail.com>
+Add one trailer for each material AI participant, for example:
+  Co-authored-by: ChatGPT <repository-local@example.invalid>
 EOF
   exit 1
 fi
 
-# Reminder if hooksPath is not configured; do not block commits.
 hooks_path="$(git config --get core.hooksPath || true)"
 if [ "$hooks_path" != ".githooks" ]; then
   echo "WARNING: Configure git hooks path with: git config core.hooksPath .githooks" >&2
