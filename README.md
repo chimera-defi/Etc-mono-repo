@@ -8,7 +8,7 @@ Research and prototyping workspace for technology evaluation.
 
 | Area | Description | Status |
 |------|-------------|--------|
-| [**wallets/**](./wallets/) | Wallet Radar - crypto wallet comparison platform (100+ wallets) | ✅ Production |
+| [**walletradar**](https://github.com/chimera-defi/walletradar) | Wallet Radar - crypto wallet comparison platform (100+ wallets). Now its own repo | ✅ Production |
 | [**staking/monad/**](./staking/monad/) | Monad validator infrastructure (runbook, monitoring, deployment) | ✅ Operational |
 
 ### In Development
@@ -74,9 +74,6 @@ Research and prototyping workspace for technology evaluation.
 ## Development
 
 ```bash
-# Wallets - Wallet Radar
-cd wallets/frontend && npm run dev
-
 # Staking - Aztec contracts
 cd staking/aztec && aztec-nargo compile
 
@@ -91,16 +88,13 @@ cd Dapps/Hardhat/app && npx hardhat test
 
 # Mobile experiments
 cd mobile_experiments/Capacitor/app && npm run dev
-
-# Refresh wallet data
-cd wallets/scripts && ./refresh-github-data.sh
 ```
 
 ## Structure
 
 ```
 .
-├── wallets/              # Wallet Radar - crypto wallet comparison platform
+├── wallets/              # Stub README: Wallet Radar moved to chimera-defi/walletradar
 ├── staking/              # Staking projects
 │   ├── aztec/            # Aztec liquid staking (Noir contracts)
 │   ├── monad/            # Monad validator infrastructure
