@@ -2,7 +2,7 @@
 
 > **Applies to:** All AI assistants (Cursor, Claude Code, GPT-4, Gemini, etc.)
 >
-> **Project docs:** `CLAUDE.md` (Claude Code), `wallets/AGENTS.md` (wallets), `mobile_experiments/Valdi/AGENTS.md` (Valdi), `staking/AGENTS.md` (staking), `ideas/AGENTS.md` (ideas)
+> **Project docs:** `CLAUDE.md` (Claude Code), `AGENTS.md` in chimera-defi/walletradar (wallets), `mobile_experiments/Valdi/AGENTS.md` (Valdi), `staking/AGENTS.md` (staking), `ideas/AGENTS.md` (ideas)
 
 ---
 
@@ -225,7 +225,7 @@ Rules are organized by domain. Reference by number in code reviews.
 - **#123** Always include clickable website links
 - **#127** Navigation consistency - add to ALL nav locations
 - **#128** OG images for new comparison types
-- **#130** Complete integration checklist for new types (see wallets/CONTRIBUTING.md)
+- **#130** Complete integration checklist for new types (see CONTRIBUTING.md in chimera-defi/walletradar)
 - **#131** Status type mapping - create explicit mapping for different enums
 - **#132** Structured data - update schema.org for new types
 - **#133** Keyword detection - add SEO keywords for new comparison types
@@ -252,7 +252,7 @@ Rules are organized by domain. Reference by number in code reviews.
 
 **Key files:** `SOFTWARE_WALLETS.md`, `HARDWARE_WALLETS.md`, `CRYPTO_CARDS.md`
 
-See `wallets/AGENTS.md` for detailed methodology.
+See `AGENTS.md` in chimera-defi/walletradar for detailed methodology.
 
 ---
 
