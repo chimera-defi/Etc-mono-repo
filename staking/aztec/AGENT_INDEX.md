@@ -9,8 +9,8 @@
 
 | I want to work on... | Go to | Start command |
 |---------------------|-------|---------------|
-| Frontend | `PARALLEL_WORK_HANDOFF.md` §Part 1 | (not yet scaffolded) |
-| Bots | `PARALLEL_WORK_HANDOFF.md` §Part 2 | `cd bots/staking-keeper && npm run dev` |
+| Frontend | `docs/FRONTEND_HANDOFF.md` §Prompts for Coding Agents | (not yet scaffolded) |
+| Bots | `docs/AGENT-PROMPTS-QUICKREF.md` §Agent B1/B2 | `cd bots/staking-keeper && npm run dev` |
 | Security | `docs/AGENT-PROMPTS-QUICKREF.md` Prompt 4 | Read contracts first |
 | Integration Tests | `docs/TASKS.md` TASK-201+ | Needs aztec-nargo |
 | Contracts (review) | `HANDOFF.md` | `nargo test` |
@@ -40,7 +40,7 @@ contracts/
 
 | Document | Purpose |
 |----------|---------|
-| `PARALLEL_WORK_HANDOFF.md` | **START HERE** - Agent prompts for frontend + bots |
+| `PARALLEL_WORK_HANDOFF.md` | Compressed summary of parallel work plan (see FRONTEND_HANDOFF + AGENT-PROMPTS-QUICKREF for live prompts) |
 | `HANDOFF.md` | Contract status and next steps |
 | `archive/HANDOFF_SUMMARY_2025-12-30.md` | Historical contract review results |
 | `docs/TASKS.md` | Task tracking (TASK-XXX references) |

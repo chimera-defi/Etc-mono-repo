@@ -1,37 +1,29 @@
 <!--
-⚠️ REQUIRED: This PR template must be filled out completely.
-If you're an AI agent creating this PR, see .cursorrules "PR Attribution Requirements" section for the complete guide.
+REQUIRED: Fill out attribution and verification. See AGENTS.md for the current human-primary policy.
 -->
 
-**Agent:** <!-- REQUIRED: use the ACTUAL model used (e.g., GPT-5.2, GPT-4o, Claude Opus 4.5) -->
+**Human author:** Chimera <chimera_defi@protonmail.com>
 
-**Co-authored-by:** <!-- REQUIRED: Human co-author. Format: Name <email>. Usually: Chimera <chimera_defi@protonmail.com> -->
+**Agent:** <!-- REQUIRED: actual model used for the accepted change -->
+
+**AI co-authors:** <!-- REQUIRED: material AI participants, e.g. ChatGPT; actual implementation model -->
 
 ## Summary
-<!-- Brief description of what was changed -->
+<!-- Brief description of what changed -->
 
 ## Original Request
 <!-- REQUIRED: Include the user's original prompt/request here -->
 > [Paste original request here]
 
-<!-- For complex requests, create .cursor/artifacts/[pr-number]-original-prompt.md and link it here -->
-
 ## Changes Made
-<!-- List of specific changes -->
-- 
 - 
 
 ## Testing & Verification
-<!-- What was tested/verified -->
-- [ ] Build passes (`npm run build` / equivalent)
-- [ ] Linting passes (`npm run lint` / equivalent)
-- [ ] Type checking passes (`npm run type-check` / equivalent)
-- [ ] Tests pass (`npm test` / equivalent)
-- [ ] Display contract validated (table columns + filter/header parity checks)
-- [ ] Manual testing completed (if applicable)
+- [ ] Relevant build/lint/type/test checks pass
+- [ ] Changed paths and generated artifacts reviewed
+- [ ] Manual or production-path verification completed where applicable
 
 ## Related Issues/PRs
-<!-- Link to related issues or PRs -->
 
 ## Notes
-<!-- Any additional context or concerns -->
+<!-- Additional context, fallback model/provenance, compatibility notes, or known limitations -->

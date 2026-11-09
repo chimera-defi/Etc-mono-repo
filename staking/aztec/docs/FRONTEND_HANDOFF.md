@@ -4,8 +4,6 @@
 **Status:** Scaffolded (Next.js + Tailwind baseline in `staking/aztec/frontend`)
 **Parallel Agents:** 3 agents can work simultaneously
 
-> **For detailed agent prompts, see:** `/workspace/staking/aztec/PARALLEL_WORK_HANDOFF.md`
-
 ## Overview
 This document outlines the design, user journeys, and technical requirements for the Liquid Aztec Staking frontend. It serves as a guide for the next agent to build the UI.
 
@@ -56,8 +54,6 @@ Based on analysis of leading liquid staking protocols (Lido, Rocket Pool, Jito),
 - [ ] Add toast notifications and loading states
 - [ ] Add tests and responsive design
 - [ ] Verify build passes
-
-**Detailed prompts for each agent:** See `PARALLEL_WORK_HANDOFF.md`
 
 ## Prompts for Coding Agents
 

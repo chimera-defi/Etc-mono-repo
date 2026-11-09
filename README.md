@@ -33,6 +33,7 @@ Research and prototyping workspace for technology evaluation.
 | [**ideas/voice-coding-assistant/**](./ideas/voice-coding-assistant/) | Cadence - voice-controlled coding assistant | 🧪 Prototype |
 | [**ideas/birthday-bot/**](./ideas/birthday-bot/) | Unified birthday management across platforms | 📅 Planning |
 | [**ideas/automated-trading-system/**](./ideas/automated-trading-system/) | Automated trading system | 📊 Research |
+| [**ideas/skills-launchpad/**](./ideas/skills-launchpad/) | Launchpad for coding-agent skills, prompts, MCP tools, and install flows | 🧭 Research |
 | [**ai_memory/**](./ai_memory/) | Persistent AI memory backups (Takopi + OpenClaw/Clawdbot) | 🧠 Active |
 
 ## Quick Links
@@ -110,7 +111,8 @@ cd wallets/scripts && ./refresh-github-data.sh
 ├── ideas/                # Future exploration concepts
 │   ├── voice-coding-assistant/  # Cadence - voice coding
 │   ├── birthday-bot/            # Birthday management
-│   └── automated-trading-system/ # Trading system
+│   ├── automated-trading-system/ # Trading system
+│   └── skills-launchpad/        # Skills catalog + install/distribution idea
 ├── ai_memory/            # Persistent AI memory backups for ongoing work
 ├── .github/              # CI workflows + PR templates
 ├── .cursor/              # Agent onboarding & PR attribution guides
