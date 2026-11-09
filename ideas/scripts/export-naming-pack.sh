@@ -8,8 +8,8 @@ Usage:
 
 Example:
   ./ideas/scripts/export-naming-pack.sh \
-    --source wallets/branding \
-    --slug wallet-radar
+    --source ideas/my-project/branding \
+    --slug my-project
 USAGE
 }
 

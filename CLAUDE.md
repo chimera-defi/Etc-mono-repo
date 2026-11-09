@@ -90,25 +90,7 @@ Install hooks path once per clone:
 
 ## Wallets Frontend
 
-```bash
-cd wallets/frontend
-bun install && bun run dev     # Development
-bun run build                  # Production build
-bun run lint                   # ESLint
-bun run type-check             # TypeScript
-bun test                       # Tests
-bun run generate-og            # Regenerate OG images
-bun run validate-cards         # Twitter Card validation
-```
-
-**Key files:**
-- `src/lib/seo.ts` - SEO utilities
-- `src/app/layout.tsx` - Global metadata
-- `scripts/generate-og-images.js` - OG image generator
-
-**OG Image workflow:** Add function to script → Run `bun run generate-og` → Add metadata to page → Commit PNG
-
-**Note:** Use `bun` by default for this project (prefer `bun` over `node`/`npm`).
+Moved to [chimera-defi/walletradar](https://github.com/chimera-defi/walletradar). Commands and docs live there; `wallets/` here is only a stub README.
 
 ## Verification Checklist
 
@@ -145,7 +127,7 @@ Before completing any task:
 
 | Project | Doc |
 |---------|-----|
-| Wallets | `wallets/AGENTS.md` |
+| Wallets | `AGENTS.md` in [walletradar](https://github.com/chimera-defi/walletradar) |
 | Valdi | `mobile_experiments/Valdi/AGENTS.md` |
 | Staking | `staking/AGENTS.md` |
 | Ideas | `ideas/AGENTS.md` |
@@ -179,9 +161,6 @@ Token reduction is always active (see Quick Start + `.cursorrules` Token Efficie
 ```bash
 # Git
 git status && git diff
-
-# Wallet data refresh
-cd wallets/scripts && ./refresh-github-data.sh
 ```
 
 ## Troubleshooting CI Failures
